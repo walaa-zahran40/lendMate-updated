@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CallTypesComponent } from './call-types.component';
+import { NotFoundComponent } from './not-found.component';
 
-describe('CallTypesComponent', () => {
-  let component: CallTypesComponent;
-  let fixture: ComponentFixture<CallTypesComponent>;
+describe('NotFoundComponent', () => {
+  let component: NotFoundComponent;
+  let fixture: ComponentFixture<NotFoundComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CallTypesComponent]
+      declarations: [NotFoundComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CallTypesComponent);
+    fixture = TestBed.createComponent(NotFoundComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

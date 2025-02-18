@@ -1,11 +1,8 @@
 import { Routes } from '@angular/router';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 export default [
-  {
-    path: '',
-    loadChildren: () =>
-      import('./login/login.module').then((m) => m.LoginModule),
-  },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
   {
     path: 'crm',
     loadChildren: () => import('./crm/crm.module').then((m) => m.CrmModule),
@@ -34,5 +31,11 @@ export default [
         (m) => m.CommunicationModule
       ),
   },
+  {
+    path: 'login',
+    loadChildren: () =>
+      import('./login/login.module').then((m) => m.LoginModule),
+  },
+  { path: 'notfound', component: NotFoundComponent },
   { path: '**', redirectTo: '/notfound' },
 ] as Routes;
