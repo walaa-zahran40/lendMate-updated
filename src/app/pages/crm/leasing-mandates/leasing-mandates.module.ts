@@ -4,18 +4,17 @@ import { LeasingMandateDetailsComponent } from './leasing-mandate-details/leasin
 import { AdditionalTermsComponent } from './additional-terms/additional-terms.component';
 import { DownloadLeasingMandateComponent } from './download-leasing-mandate/download-leasing-mandate.component';
 import { FinancialFormComponent } from './financial-form/financial-form.component';
-
-
+import { LeasingMandatesComponent } from './leasing-mandates/leasing-mandates.component';
+import { CrmRoutingModule } from '../crm-routing.module';
 
 @NgModule({
   declarations: [
     LeasingMandateDetailsComponent,
     AdditionalTermsComponent,
     DownloadLeasingMandateComponent,
-    FinancialFormComponent
+    FinancialFormComponent,
+    LeasingMandatesComponent,
   ],
-  imports: [
-    CommonModule
-  ]
+  imports: [CommonModule, CrmRoutingModule],
 })
-export class LeasingMandatesModule { }
+export class LeasingMandatesModule {}

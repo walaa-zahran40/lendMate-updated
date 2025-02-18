@@ -12,8 +12,7 @@ import { DepartmentManagerComponent } from './department-manager/department-mana
 import { RoleClaimsComponent } from './role-claims/role-claims.component';
 import { TeamLeadComponent } from './team-lead/team-lead.component';
 import { TeamMemberComponent } from './team-member/team-member.component';
-
-
+import { OrganizationsRoutingModule } from './organizations-routing.module';
 
 @NgModule({
   declarations: [
@@ -28,10 +27,8 @@ import { TeamMemberComponent } from './team-member/team-member.component';
     DepartmentManagerComponent,
     RoleClaimsComponent,
     TeamLeadComponent,
-    TeamMemberComponent
+    TeamMemberComponent,
   ],
-  imports: [
-    CommonModule
-  ]
+  imports: [CommonModule, OrganizationsRoutingModule],
 })
-export class OrganizationsModule { }
+export class OrganizationsModule {}

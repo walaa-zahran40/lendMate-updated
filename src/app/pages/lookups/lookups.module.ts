@@ -46,6 +46,7 @@ import { ClientStatusActionsComponent } from './client-status-actions/client-sta
 import { CurrenciesExchangeComponent } from './currencies-exchange/currencies-exchange.component';
 import { MandateStatusActionsComponent } from './mandate-status-actions/mandate-status-actions.component';
 import { PaymentPeriodsComponent } from './payment-periods/payment-periods.component';
+import { LookupsRoutingModule } from './lookups-routing.module';
 
 @NgModule({
   declarations: [
@@ -96,6 +97,6 @@ import { PaymentPeriodsComponent } from './payment-periods/payment-periods.compo
     MandateStatusActionsComponent,
     PaymentPeriodsComponent,
   ],
-  imports: [CommonModule],
+  imports: [CommonModule, LookupsRoutingModule],
 })
 export class LookupsModule {}

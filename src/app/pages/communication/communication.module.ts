@@ -10,6 +10,7 @@ import { FollowupPointsComponent } from './followup-points/followup-points.compo
 import { FollowupDetailsComponent } from './followup-details/followup-details.component';
 import { MeetingDetailsComponent } from './meeting-details/meeting-details.component';
 import { MeetingFollowupComponent } from './meeting-followup/meeting-followup.component';
+import { CommunicationRoutingModule } from './communication-routing.module';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,6 @@ import { MeetingFollowupComponent } from './meeting-followup/meeting-followup.co
     MeetingDetailsComponent,
     MeetingFollowupComponent,
   ],
-  imports: [CommonModule],
+  imports: [CommonModule, CommunicationRoutingModule],
 })
 export class CommunicationModule {}
