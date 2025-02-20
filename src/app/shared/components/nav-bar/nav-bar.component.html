@@ -1,0 +1,30 @@
+<p-toolbar
+  [style]="{
+    borderRadius: '0px',
+    padding: '10px 20px'
+  }"
+>
+  <ng-template #start>
+    <div class="name-container">
+      <p-avatar
+        image="/assets/images/shared/toggle.svg"
+        [style]="{ width: '24px', height: '24px', display: 'inline-block' }"
+      />
+      <div>
+        <p class="welcome">Welcome</p>
+        <p class="name">Mohamed Yasser</p>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #end>
+    <div class="flex items-center gap-4">
+      <p-toggleswitch />
+      <p class="language">العربيه</p>
+      <p-avatar
+        image="/assets/images/shared/notification.svg"
+        [style]="{ width: '40px', height: '40px' }"
+      />
+    </div>
+  </ng-template>
+</p-toolbar>

@@ -1,0 +1,54 @@
+/*name*/
+.welcome {
+  color: var(--secondary-color);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 25.6px;
+}
+.name {
+  color: var(--primary-color);
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+}
+.name-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 30px;
+}
+.toggle {
+  display: flex;
+  align-items: center;
+}
+/*language*/
+.language {
+  font-family: "almarai", sans-serif;
+  color: rgba(0, 0, 0, 1);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 17.86px;
+  margin-bottom: 0;
+}
+
+/*dark and light modes*/
+.toggle-btn-container {
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  span {
+    padding: 2px 4px;
+  }
+}
+
+.light {
+  border: 2px solid black;
+  background: white;
+}
+.dark {
+  background: black;
+  border: 2px solid black;
+  color: white;
+}

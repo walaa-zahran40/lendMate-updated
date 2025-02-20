@@ -11,6 +11,7 @@ import { CentralBankComponent } from './central-bank/central-bank.component';
 import { ShareHolderComponent } from './share-holder/share-holder.component';
 import { GuarantorComponent } from './guarantor/guarantor.component';
 import { TmlOfficerVisibleComponent } from './tml-officer/tml-officer.component';
+import { SharedModule } from '../../../../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,19 @@ import { TmlOfficerVisibleComponent } from './tml-officer/tml-officer.component'
     GuarantorComponent,
     TmlOfficerVisibleComponent,
   ],
-  imports: [CommonModule],
+  imports: [CommonModule, SharedModule],
+  exports: [
+    CompaniesComponent,
+    CompanyAddressesComponent,
+    CompanyTurnoverComponent,
+    CompanyPhoneNumbersComponent,
+    ContactPersonsComponent,
+    CrAuthorityOfficeComponent,
+    TaxAuthorityOfficeComponent,
+    CentralBankComponent,
+    ShareHolderComponent,
+    GuarantorComponent,
+    TmlOfficerVisibleComponent,
+  ],
 })
 export class CompaniesModule {}

@@ -1,1 +1,21 @@
-/* You can add global styles to this file, and also import other style files */
+@use "./assets/layout/layout.scss";
+@use "tailwindcss";
+
+@use "bootstrap/scss/bootstrap";
+
+@font-face {
+  font-family: "poppins";
+  src: url(./assets/fonts/Poppins-Regular.ttf);
+}
+@font-face {
+  font-family: "almarai";
+  src: url(./assets/fonts/Almarai-Regular.ttf);
+}
+* {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+body {
+  font-family: "poppins", sans-serif;
+}

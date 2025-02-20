@@ -7,5 +7,6 @@ import { ServicesModule } from './services/services.module';
 @NgModule({
   declarations: [],
   imports: [CommonModule, ComponentsModule, DirectivesModule, ServicesModule],
+  exports: [ComponentsModule],
 })
 export class SharedModule {}

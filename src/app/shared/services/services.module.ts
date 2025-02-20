@@ -79,7 +79,6 @@ import { TaxOfficeService } from './tax-office.service';
 import { TeamLeadService } from './team-lead.service';
 import { TeamOfficerService } from './team-officer.service';
 import { TeamService } from './team.service';
-import { ThemeService } from './theme.service';
 import { TmlOfficerTypeService } from './tml-officer-type.service';
 import { TurnOverService } from './turn-over.service';
 import { TypesService } from './types.service';
@@ -169,7 +168,6 @@ import { TypesService } from './types.service';
     TeamLeadService,
     TeamOfficerService,
     TeamService,
-    ThemeService,
     TmlOfficerTypeService,
     TurnOverService,
     TypesService,
