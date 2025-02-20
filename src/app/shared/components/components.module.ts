@@ -32,6 +32,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { NgbHighlight, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { DeleteModuleComponent } from './delete-module/delete-module.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { NgbHighlight, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
     HeaderComponent,
     SideMenuComponent,
     NavBarComponent,
+    DeleteModuleComponent,
   ],
   imports: [
     CommonModule,
@@ -50,7 +52,6 @@ import { NgbHighlight, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
     AvatarGroupModule,
     SelectModule,
     ButtonModule,
-
     MultiSelectModule,
     DropdownModule,
     ProgressBarModule,
@@ -82,6 +83,7 @@ import { NgbHighlight, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
     SideMenuComponent,
     NavBarComponent,
     ToolbarModule,
+    DeleteModuleComponent,
   ],
 })
 export class ComponentsModule {}
