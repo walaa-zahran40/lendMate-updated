@@ -33,6 +33,7 @@ import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { NgbHighlight, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { DeleteModuleComponent } from './delete-module/delete-module.component';
+import { NotificationComponent } from './notification/notification.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { DeleteModuleComponent } from './delete-module/delete-module.component';
     SideMenuComponent,
     NavBarComponent,
     DeleteModuleComponent,
+    NotificationComponent,
   ],
   imports: [
     CommonModule,
@@ -83,6 +85,7 @@ import { DeleteModuleComponent } from './delete-module/delete-module.component';
     SideMenuComponent,
     NavBarComponent,
     ToolbarModule,
+    NotificationComponent,
     DeleteModuleComponent,
   ],
 })
