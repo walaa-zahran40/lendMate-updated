@@ -34,6 +34,7 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { NgbHighlight, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { DeleteModuleComponent } from './delete-module/delete-module.component';
 import { NotificationComponent } from './notification/notification.component';
+import { DownloadViewComponent } from './download-view/download-view.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { NotificationComponent } from './notification/notification.component';
     NavBarComponent,
     DeleteModuleComponent,
     NotificationComponent,
+    DownloadViewComponent,
   ],
   imports: [
     CommonModule,
@@ -87,6 +89,7 @@ import { NotificationComponent } from './notification/notification.component';
     ToolbarModule,
     NotificationComponent,
     DeleteModuleComponent,
+    DownloadViewComponent,
   ],
 })
 export class ComponentsModule {}
