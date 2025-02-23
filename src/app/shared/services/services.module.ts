@@ -67,7 +67,6 @@ import { PaymentTypeService } from './payment-type.service';
 import { PermissionService } from './permission.service';
 import { PhoneNumberService } from './phone-number.service';
 import { PhoneTypeService } from './phone-type.service';
-import { ProductService } from './product.service';
 import { RentStructureTypeService } from './rent-structure-type.service';
 import { RoleService } from './role.service';
 import { SectorsService } from './sectors.service';
@@ -156,7 +155,6 @@ import { TypesService } from './types.service';
     PermissionService,
     PhoneNumberService,
     PhoneTypeService,
-    ProductService,
     RentStructureTypeService,
     RoleService,
     SectorsService,

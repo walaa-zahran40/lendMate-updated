@@ -7,5 +7,10 @@ import { Component } from '@angular/core';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  title = 'lendMate';
+  sidebarExpanded = true;
+  isSidebarCollapsed = false;
+
+  onSidebarToggle() {
+    this.isSidebarCollapsed = !this.isSidebarCollapsed;
+  }
 }

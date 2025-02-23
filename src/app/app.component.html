@@ -1,8 +1,12 @@
-<!-- <div class="flex flex-row">
-  <div class="basis-2/12"></div>
+<div class="flex flex-row">
+  <div class="basis-2/12">
+    <app-side-menu
+      [isExpanded]="sidebarExpanded"
+      (toggleSidebar)="sidebarExpanded = !sidebarExpanded"
+    ></app-side-menu>
+  </div>
   <div class="basis-10/12">
     <app-nav-bar></app-nav-bar>
     <router-outlet></router-outlet>
   </div>
-</div> -->
-<app-download-view></app-download-view>
+</div>

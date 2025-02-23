@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 @Component({
   selector: 'app-side-menu',
   standalone: false,
@@ -7,10 +6,8 @@ import { Component } from '@angular/core';
   styleUrl: './side-menu.component.scss',
 })
 export class SideMenuComponent {
-  items: any[] = [];
-  ngOnInit() {
-    this.items = [
-      { label: 'Dashboard', icon: 'pi pi-home', routerLink: ['/'] },
-    ];
-  }
+  @Input() isExpanded: boolean = false;
+  @Output() toggleSidebar: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  handleSidebarToggle = () => this.toggleSidebar.emit(!this.isExpanded);
 }
