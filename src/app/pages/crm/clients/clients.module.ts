@@ -5,6 +5,6 @@ import { CrmRoutingModule } from '../crm-routing.module';
 
 @NgModule({
   declarations: [],
-  imports: [CommonModule, CompaniesModule, CrmRoutingModule],
+  imports: [CommonModule, CompaniesModule],
 })
 export class ClientsModule {}

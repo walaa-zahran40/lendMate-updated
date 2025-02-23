@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CompaniesComponent } from './companies/companies.component';
+import { AddClientComponent } from './add-client/add-client.component';
 import { CompanyAddressesComponent } from './company-addresses/company-addresses.component';
 import { CompanyTurnoverComponent } from './company-turnover/company-turnover.component';
 import { CompanyPhoneNumbersComponent } from './company-phone-numbers/company-phone-numbers.component';
@@ -12,10 +12,13 @@ import { ShareHolderComponent } from './share-holder/share-holder.component';
 import { GuarantorComponent } from './guarantor/guarantor.component';
 import { TmlOfficerVisibleComponent } from './tml-officer/tml-officer.component';
 import { SharedModule } from '../../../../shared/shared.module';
+import { ButtonModule } from 'primeng/button';
+import { StepperModule } from 'primeng/stepper';
+import { ComponentsModule } from '../../../../shared/components/components.module';
 
 @NgModule({
   declarations: [
-    CompaniesComponent,
+    AddClientComponent,
     CompanyAddressesComponent,
     CompanyTurnoverComponent,
     CompanyPhoneNumbersComponent,
@@ -27,9 +30,9 @@ import { SharedModule } from '../../../../shared/shared.module';
     GuarantorComponent,
     TmlOfficerVisibleComponent,
   ],
-  imports: [CommonModule, SharedModule],
+  imports: [CommonModule, SharedModule, StepperModule, ButtonModule],
   exports: [
-    CompaniesComponent,
+    AddClientComponent,
     CompanyAddressesComponent,
     CompanyTurnoverComponent,
     CompanyPhoneNumbersComponent,
