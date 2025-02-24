@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TabView } from 'primeng/tabview';
 
 @Component({
@@ -18,7 +18,7 @@ export class FormsComponent {
   selectedSectors!: any[];
   selectedSubSectors!: any[];
   subSectors!: any[];
-
+  @Input() title!: string;
   constructor() {}
   ngOnInit() {
     this.sectors = [

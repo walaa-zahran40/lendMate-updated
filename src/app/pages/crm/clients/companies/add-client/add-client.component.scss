@@ -1,4 +1,14 @@
 :host {
+  --p-tabs-active-bar-background: #0a69bb;
+  --custom-width-20: 20%;
+  --custom-position-auto: auto;
+  --custom-position-30: 30px;
+  --custom-position-center: center;
+  --custom-padding-20: 20px;
+  --custom-width-100: 100%;
+  --custom-position-0: 0px;
+  --custom-font-size-18: 18px;
+  --custom-cursor: pointer;
   &::ng-deep {
     .no-border {
       border: var(--custom-border);
@@ -7,6 +17,7 @@
     .p-tabs {
       padding: var(--custom-padding-right-10);
     }
+
     .p-button {
       flex-direction: var(--custom-flex-direction-row-reverse);
       background: var(--p-tabs-active-bar-background);
@@ -26,74 +37,17 @@
       background-color: var(--p-tabs-active-bar-background);
       border: var(--custom-border);
     }
-    .nextBtn {
-      border-radius: var(--custom-margin-0);
-      margin-top: var(--custom-margin-left-20);
-      padding-top: var(--custom-font-size-14);
-      padding-right: var(--custom-font-size-27);
-      padding-bottom: var(--custom-font-size-14);
-      padding-left: var(--custom-font-size-27);
+    .custom-next {
+      background: var(--p-tabs-active-bar-background);
+      width: var(--custom-width-20);
+      margin-left: var(--custom-position-auto);
+      margin-right: var(--custom-position-30);
+      text-align: var(--custom-position-center);
+      padding: var(--custom-padding-20);
       font-size: var(--custom-font-size-18);
-      float: var(--custom-position-right);
-      font-family: var(--custom-font-family-epilogue);
-      width: var(--custom-width);
-    }
-    .badge-warning {
-      color: var(--custom-color);
-      border: 1px solid var(--custom-color);
-      font-family: var(--custom-font-family-epilogue);
-      font-size: var(--custom-font-size-14);
-      font-weight: var(--custom-font-weight-600);
-      margin-bottom: var(--custom-margin-bottom-5);
-      line-height: var(--custom-line-height-25);
-      border-width: var(--custom-border-width);
-      padding-top: var(--custom-padding-top);
-      padding-right: var(--custom-padding-right-10);
-      padding-bottom: var(--custom-padding-top);
-      padding-left: var(--custom-padding-right-10);
-      border-radius: var(--custom-border-radius-80);
-      margin-left: var(--custom-margin-left-20);
-      margin-bottom: var(--custom-margin-0);
+      cursor: var(--custom-cursor);
     }
 
-    .p-tab {
-      font-family: var(--custom-font-family);
-      font-weight: var(--custom-font-weight-600);
-      font-size: var(--custom-size-16);
-      line-height: var(--custom-line-height-25);
-      color: var(--custom-grey);
-    }
-    .p-tab-active {
-      border-color: var(--p-tabs-active-bar-background);
-      color: var(--p-tabs-active-bar-background);
-    }
-    .p-inputtext {
-      color: var(--custom-grey-bold);
-      margin-bottom: var(--custom-size-16);
-      padding: var(--custom-size-12) var(--custom-size-16);
-      border-radius: var(--custom-margin-0);
-      border: 1px solid var(--custom-color-grey-light);
-    }
-    .p-multiselect {
-      width: var(--custom-size-100);
-      margin-bottom: var(--custom-size-16);
-      padding: var(--custom-size-8);
-      border-radius: var(--custom-margin-0);
-      border: 1px solid var(--custom-color-grey-light);
-    }
-    .p-chip {
-      padding-top: var(--custom-size-4);
-      padding-right: var(--custom-size-4);
-      padding-bottom: var(--custom-size-4);
-      background: var(--custom-color-white);
-      padding-left: var(--custom-size-12);
-      border-radius: var(--custom-margin-0);
-      font-family: var(--custom-font-family-regular);
-      font-weight: var(--custom-font-weight-400);
-      font-size: var(--custom-size-16);
-      line-height: var(--custom-line-height-25);
-      color: var(--p-tabs-active-bar-background);
-    }
     /*responsiveness*/
     @media only screen and (max-width: 600px) {
       .nextBtn {
@@ -111,42 +65,11 @@
       .p-toolbar-start {
         width: var(--custom-size-100);
       }
-    }
-  }
-}
-h2 {
-  font-family: var(--custom-font-family-regular);
-  font-weight: var(--custom-font-weight-600);
-  font-size: var(--custom-size-16);
-  line-height: var(--custom-line-height-25);
-}
-p.client {
-  font-family: var(--custom-font-family);
-  font-weight: var(--custom-font-weight);
-  font-size: var(--custom-font-size-24);
-  line-height: var(--custom-line-height);
-  margin-bottom: var(--custom-margin-0);
-  align-items: var(--custom-position-center);
-  display: var(--custom-display);
-}
-.tab-panel-paragraph {
-  font-family: var(--custom-font-family-regular);
-  font-weight: var(--custom-font-weight-400);
-  font-size: var(--custom-size-16);
-  line-height: var(--custom-line-height-25);
-  color: var(--custom-grey);
-}
-form {
-  display: var(--custom-display);
-  flex-direction: var(--custom-flex-direction);
-  label {
-    font-family: var(--custom-font-family-regular);
-    font-weight: var(--custom-font-weight-600);
-    font-size: var(--custom-size-16);
-    line-height: var(--custom-line-height-25);
-    color: var(--custom-grey-bold);
-    sup {
-      color: var(--custom-red);
+      .custom-next {
+        width: var(--custom-width-100);
+        margin-left: var(--custom-position-0);
+        margin-right: var(--custom-position-0);
+      }
     }
   }
 }
