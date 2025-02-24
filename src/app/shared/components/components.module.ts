@@ -29,6 +29,7 @@ import { TabsModule } from 'primeng/tabs';
 import { InputTextModule } from 'primeng/inputtext';
 import { ChipModule } from 'primeng/chip';
 import { StepperModule } from 'primeng/stepper';
+import { PanelMenuModule } from 'primeng/panelmenu';
 
 import { ClientDetailsDialogComponent } from './client-details-dialog/client-details-dialog.component';
 import { DropdownListsModule } from './dropdown-lists/dropdown-lists.module';
@@ -41,6 +42,7 @@ import { DeleteModuleComponent } from './delete-module/delete-module.component';
 import { NotificationComponent } from './notification/notification.component';
 import { DownloadViewComponent } from './download-view/download-view.component';
 import { FormsComponent } from './forms/forms.component';
+import { SplitButtonModule } from 'primeng/splitbutton';
 
 @NgModule({
   declarations: [
@@ -63,11 +65,13 @@ import { FormsComponent } from './forms/forms.component';
     AvatarGroupModule,
     SelectModule,
     StepperModule,
+    SplitButtonModule,
     ChipModule,
     ButtonModule,
     MultiSelectModule,
     DropdownModule,
     ProgressBarModule,
+    PanelMenuModule,
     AutoCompleteModule,
     InputTextModule,
     MenuModule,
@@ -87,6 +91,7 @@ import { FormsComponent } from './forms/forms.component';
     FileUploadModule,
     RatingModule,
     SliderModule,
+    FormsModule,
   ],
   providers: [DecimalPipe, AsyncPipe],
   exports: [

@@ -1,4 +1,5 @@
 <!--toolbar-->
+
 <p-toolbar styleClass="mb-6 no-border p-3">
   <ng-template #start>
     <p class="client">
@@ -7,11 +8,10 @@
   </ng-template>
 
   <ng-template #end>
-    <p-button
-      label="More Actions"
-      icon="pi pi-arrow-right
-    "
-      severity="primary"
+    <p-splitButton
+      label="Workflow Actions"
+      class="more-actions"
+      [model]="items"
     />
   </ng-template>
 </p-toolbar>
@@ -27,15 +27,14 @@
         <div class="col-sm-3 p-0">
           <h2 class="m-0">{{ title }}</h2>
           <p class="tab-panel-paragraph">
-            Introduce your company core info quickly to users by fill up company
-            details
+            {{ description }}
           </p>
         </div>
         <div class="col-sm-8">
           <div class="flex flex-col md:flex-row gap-8">
             <div class="md:w-2/2">
               <div class="flex flex-col gap-2">
-                <form action="">
+                <form action="" *ngIf="showMain">
                   <label for="nameEnglish"
                     >Name in English<sup class="danger">*</sup></label
                   >
@@ -117,6 +116,99 @@
                     [(ngModel)]="value4"
                     placeholder="GO"
                     name="shortName"
+                  />
+                </form>
+                <form action="" *ngIf="showLegal">
+                  <label for="legalFormLaw">Legal Form Law</label>
+                  <p-multiselect
+                    [options]="legalFormLaw"
+                    [(ngModel)]="selectedLegalFormLaw"
+                    placeholder="Select Legal Form Law"
+                    optionLabel="name"
+                    display="chip"
+                    icon="pi pi-times"
+                    name="legalFormLaw"
+                    styleClass="w-full md:w-80"
+                    [maxSelectedLabels]="999"
+                    chipIcon="pi pi-times"
+                  />
+                  <label for="legalForm">Select Legal Form</label>
+                  <p-multiselect
+                    [options]="legalForm"
+                    [(ngModel)]="selectedLegalForm"
+                    placeholder="Select Legal Forms"
+                    optionLabel="name"
+                    display="chip"
+                    icon="pi pi-times"
+                    name="legalForm"
+                    styleClass="w-full md:w-80"
+                    [maxSelectedLabels]="999"
+                    chipIcon="pi pi-times"
+                  />
+                  <label for="stampDuty">Is Stamp Duty?</label>
+                  <p-select
+                    [options]="stamps"
+                    optionLabel="name"
+                    placeholder="Select Stamp Duty"
+                    class="w-full md:w-56"
+                  />
+                </form>
+                <form action="" *ngIf="showBusiness">
+                  <label for="mainShare">Main Share</label>
+                  <input
+                    pInputText
+                    id="mainShare"
+                    aria-describedby="mainShare-help"
+                    [(ngModel)]="value"
+                    name="mainShare"
+                    placeholder="Main Share"
+                  />
+                  <label for="marketShare">Market Share</label>
+                  <input
+                    pInputText
+                    id="marketShare"
+                    aria-describedby="marketShare-help"
+                    [(ngModel)]="value1"
+                    placeholder="58%"
+                    name="marketShare"
+                  />
+
+                  <label for="establishedYear">Established Year</label>
+                  <input
+                    pInputText
+                    id="establishedYear"
+                    aria-describedby="establishedYear-help"
+                    [(ngModel)]="value2"
+                    name="establishedYear"
+                    placeholder="2014"
+                  />
+                  <label for="website">Website</label>
+
+                  <input
+                    pInputText
+                    id="website"
+                    aria-describedby="website-help"
+                    [(ngModel)]="value3"
+                    name="website"
+                    placeholder="https://www.google.com"
+                  />
+                  <label for="marketSize">Market Size</label>
+                  <input
+                    pInputText
+                    id="marketSize"
+                    aria-describedby="marketSize-help"
+                    [(ngModel)]="value4"
+                    placeholder="50M"
+                    name="marketSize"
+                  />
+                  <label for="noOfEmployees">Number of Employees</label>
+                  <input
+                    pInputText
+                    id="noOfEmployees"
+                    aria-describedby="noOfEmployees-help"
+                    [(ngModel)]="value4"
+                    placeholder="50,000"
+                    name="noOfEmployees"
                   />
                 </form>
               </div>

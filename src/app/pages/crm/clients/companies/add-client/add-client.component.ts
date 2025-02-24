@@ -6,4 +6,8 @@ import { Component } from '@angular/core';
   templateUrl: './add-client.component.html',
   styleUrl: './add-client.component.scss',
 })
-export class AddClientComponent {}
+export class AddClientComponent {
+  saveInfo() {
+    console.log('saved');
+  }
+}

@@ -1,26 +1,32 @@
 :host {
   --p-tabs-active-bar-background: #0a69bb;
+  --custom-color-white: #fff;
   --custom-width-20: 20%;
   --custom-position-auto: auto;
-  --custom-position-30: 30px;
+  --custom-position-28: 28px;
   --custom-position-center: center;
   --custom-padding-20: 20px;
   --custom-width-100: 100%;
   --custom-position-0: 0px;
   --custom-font-size-18: 18px;
+  --custom-weight-700: 700;
+  --custom-font-epilogue: "epilogue";
+  --custom-line-height-28: 28.8px;
+  --custom-height-70: 70vh;
   --custom-cursor: pointer;
+  --custom-width-30: 30%;
+  --custom-width-94: 94%;
+  --custom-background-transparent: transparent;
+
   &::ng-deep {
     .no-border {
       border: var(--custom-border);
       background-color: var(--custom-background-transparent);
     }
-    .p-tabs {
-      padding: var(--custom-padding-right-10);
-    }
 
     .p-button {
       flex-direction: var(--custom-flex-direction-row-reverse);
-      background: var(--p-tabs-active-bar-background);
+      background: var(--custom-background-transparent);
       border-radius: var(--custom-size-8);
       padding-top: var(--custom-size-8);
       padding-right: var(--custom-size-16);
@@ -34,20 +40,52 @@
     }
 
     .p-button:not(:disabled):hover {
-      background-color: var(--p-tabs-active-bar-background);
-      border: var(--custom-border);
+      background: var(--p-tabs-active-bar-background);
+      border: none;
     }
     .custom-next {
       background: var(--p-tabs-active-bar-background);
-      width: var(--custom-width-20);
+      width: var(--custom-width-30);
       margin-left: var(--custom-position-auto);
-      margin-right: var(--custom-position-30);
+      margin-right: var(--custom-position-28);
+      text-align: var(--custom-position-center);
+      padding: var(--custom-padding-20);
+      font-size: var(--custom-font-size-18);
+      cursor: var(--custom-cursor);
+      color: var(--custom-color-white);
+    }
+    .custom-save {
+      background: var(--p-tabs-active-bar-background);
+      width: var(--custom-position-auto);
+      margin-left: var(--custom-position-auto);
+      margin-right: var(--custom-position-28);
+      text-align: var(--custom-position-center);
+      padding: var(--custom-padding-20);
+      font-size: var(--custom-font-size-18);
+      cursor: var(--custom-cursor);
+      color: var(--custom-color-white);
+    }
+
+    .p-button-label {
+      font-weight: var(--custom-weight-700);
+      font-size: var(--custom-font-size-18);
+      font-family: var(--custom-font-epilogue);
+      line-height: var(--custom-line-height-28);
+    }
+    .custom-back .p-button {
+      background: var(--custom-background-transparent);
+      border: 1px solid var(--p-tabs-active-bar-background);
+      color: var(--p-tabs-active-bar-background) !important;
+      width: var(--custom-width-30);
       text-align: var(--custom-position-center);
       padding: var(--custom-padding-20);
       font-size: var(--custom-font-size-18);
       cursor: var(--custom-cursor);
     }
-
+    .custom-back .p-button:not(:disabled):hover {
+      background: var(--custom-color-white) !important;
+      border: 1px solid var(--p-tabs-active-bar-background);
+    }
     /*responsiveness*/
     @media only screen and (max-width: 600px) {
       .nextBtn {
@@ -65,10 +103,18 @@
       .p-toolbar-start {
         width: var(--custom-size-100);
       }
-      .custom-next {
-        width: var(--custom-width-100);
-        margin-left: var(--custom-position-0);
+      .custom-next,
+      .custom-back {
+        width: var(--custom-width-94);
         margin-right: var(--custom-position-0);
+        margin-left: var(--custom-position-auto);
+        margin-bottom: var(--custom-padding-20);
+      }
+      .custom-back .p-button {
+        width: var(--custom-width-100);
+      }
+      .custom-save {
+        width: var(--custom-width-94);
       }
     }
   }

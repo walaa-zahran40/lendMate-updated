@@ -2,34 +2,48 @@
   <p-step-panels>
     <p-step-panel [value]="1">
       <ng-template #content let-activateCallback="activateCallback">
-        <div class="flex flex-col h-48">
-          <app-forms [title]="'Main Information'"></app-forms>
-
-          <p-button
-            class="custom-next"
-            label="Next"
-            (onClick)="activateCallback(2)"
-          />
+        <div class="flex flex-col">
+          <app-forms
+            [title]="'Main Information'"
+            [description]="
+              'Introduce your company core info quickly to users by fill up company
+      details'
+            "
+            [showMain]="true"
+          ></app-forms>
+          <div class="row w-100 justify-end">
+            <div
+              class="col-sm-6 d-flex justify-end m-0"
+              (click)="activateCallback(2)"
+            >
+              <p-button class="custom-next m-0" label="Next" />
+            </div>
+          </div>
         </div>
       </ng-template>
     </p-step-panel>
 
     <p-step-panel [value]="2">
       <ng-template #content let-activateCallback="activateCallback">
-        <div class="flex flex-col h-48">
-          <div class="">
-            <app-forms [title]="'Legal Information'"></app-forms>
-            <p-button
-              label="Back"
-              severity="secondary"
-              icon="pi pi-arrow-left"
-              (onClick)="activateCallback(1)"
-            />
-            <p-button
-              class="custom-next"
-              label="Next"
-              (onClick)="activateCallback(3)"
-            />
+        <div class="flex flex-col">
+          <app-forms
+            [title]="'Legal Information'"
+            [description]="'This information will be displayed publicly'"
+            [showLegal]="true"
+          ></app-forms>
+          <div class="row w-100 align-items-center">
+            <div class="col-sm-6" (click)="activateCallback(1)">
+              <p-button
+                label="Previous"
+                class="custom-back d-flex justify-start"
+              />
+            </div>
+            <div
+              class="col-sm-6 d-flex justify-end m-0"
+              (click)="activateCallback(3)"
+            >
+              <p-button label="Next" class="custom-next m-0" />
+            </div>
           </div>
         </div>
       </ng-template>
@@ -37,20 +51,23 @@
 
     <p-step-panel [value]="3">
       <ng-template #content let-activateCallback="activateCallback">
-        <div class="flex flex-col h-48">
-          <div
-            class="border-2 border-dashed border-surface-200 dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex justify-center items-center font-medium"
-          >
-            Content III
+        <div class="flex flex-col">
+          <app-forms
+            [title]="'Business Information'"
+            [description]="'This information will be displayed publicly'"
+            [showBusiness]="true"
+          ></app-forms>
+          <div class="row w-100 align-items-center">
+            <div class="col-sm-6" (click)="activateCallback(2)">
+              <p-button
+                label="Previous"
+                class="custom-back d-flex justify-start"
+              />
+            </div>
+            <div class="col-sm-6 d-flex justify-end m-0" (click)="saveInfo()">
+              <p-button label="Save Information" class="custom-save m-0" />
+            </div>
           </div>
-        </div>
-        <div class="flex pt-6 justify-start">
-          <p-button
-            label="Back"
-            icon="pi pi-arrow-left"
-            iconPos="right"
-            (onClick)="activateCallback(2)"
-          />
         </div>
       </ng-template>
     </p-step-panel>
