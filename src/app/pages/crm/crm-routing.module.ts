@@ -17,63 +17,63 @@ import { AddTmlOfficerComponent } from './clients/companies/add-tml-officer/add-
 
 const routes: Routes = [
   {
-    path: 'client-onboarding',
+    path: 'clients/client-onboarding',
     component: ClientOnboardingComponent,
   },
   {
-    path: 'add-client',
+    path: 'clients/add-client',
     component: AddClientComponent,
   },
   {
-    path: 'company-view-only',
+    path: 'clients/company-view-only',
     component: CompanyViewOnlyComponent,
   },
   {
-    path: 'add-upload-documents',
+    path: 'clients/add-upload-documents',
     component: UploadDocumentsComponent,
   },
   {
-    path: 'add-address',
+    path: 'clients/add-address',
     component: AddAddressComponent,
   },
   {
-    path: 'add-sales-turnover',
+    path: 'clients/add-sales-turnover',
     component: AddSalesTurnoverComponent,
   },
   {
-    path: 'add-phone-number',
+    path: 'clients/add-phone-number',
     component: AddPhoneNumberComponent,
   },
   {
-    path: 'add-contact-person',
+    path: 'clients/add-contact-person',
     component: AddContactPersonComponent,
   },
   {
-    path: 'contact-person-view-table-data',
+    path: 'clients/contact-person-view-table-data',
     component: ContactPersonViewTableDataComponent,
   },
   {
-    path: 'add-cr-authority-office',
+    path: 'clients/add-cr-authority-office',
     component: AddCrAuthorityOfficeComponent,
   },
   {
-    path: 'add-cr-authority-office',
+    path: 'clients/add-cr-authority-office',
     component: AddCrAuthorityOfficeComponent,
   },
   {
-    path: 'add-tax-authority-office',
+    path: 'clients/add-tax-authority-office',
     component: AddTaxAuthorityOfficeComponent,
   },
   {
-    path: 'add-central-bank-info',
+    path: 'clients/add-central-bank-info',
     component: AddCentralBankInfoComponent,
   },
   {
-    path: 'add-share-holders',
+    path: 'clients/add-share-holders',
     component: AddShareHoldersComponent,
   },
   {
-    path: 'add-tml-officer',
+    path: 'clients/add-tml-officer',
     component: AddTmlOfficerComponent,
   },
 ];
