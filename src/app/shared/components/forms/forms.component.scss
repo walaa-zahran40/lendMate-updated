@@ -210,7 +210,25 @@
       margin-top: 10px;
       width: 100%;
     }
-
+    .custom-view .p-button {
+      padding: 10px;
+      background: transparent;
+      color: var(--p-tabs-active-bar-background);
+      border: 1px solid var(--p-tabs-active-bar-background);
+      font-family: "epilogue";
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 25.6px;
+      text-align: center;
+      flex-direction: row;
+      margin-bottom: 30px !important;
+    }
+    .custom-view .p-button:hover {
+      padding: 10px;
+      background: transparent;
+      color: var(--p-tabs-active-bar-background);
+      border: 1px solid var(--p-tabs-active-bar-background);
+    }
     /*responsiveness*/
     @media only screen and (max-width: 600px) {
       .nextBtn {

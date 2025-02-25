@@ -4,6 +4,13 @@
     <p class="tab-panel-paragraph">
       {{ description }}
     </p>
+    <p-button
+      *ngIf="uploadDocumentsShowMain"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Document Details"
+      class="custom-view m-0 float-right"
+    />
   </div>
   <div class="col-sm-8">
     <div class="flex flex-col md:flex-row gap-8">
