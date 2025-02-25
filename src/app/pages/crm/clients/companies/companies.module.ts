@@ -17,6 +17,7 @@ import { StepperModule } from 'primeng/stepper';
 import { ComponentsModule } from '../../../../shared/components/components.module';
 import { UploadDocumentsComponent } from './upload-documents/upload-documents.component';
 import { TabsModule } from 'primeng/tabs';
+import { ClientOnboardingComponent } from './client-onboarding/client-onboarding.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { TabsModule } from 'primeng/tabs';
     GuarantorComponent,
     TmlOfficerVisibleComponent,
     UploadDocumentsComponent,
+    ClientOnboardingComponent,
   ],
   imports: [
     CommonModule,
@@ -53,6 +55,7 @@ import { TabsModule } from 'primeng/tabs';
     GuarantorComponent,
     TmlOfficerVisibleComponent,
     UploadDocumentsComponent,
+    ClientOnboardingComponent,
   ],
 })
 export class CompaniesModule {}

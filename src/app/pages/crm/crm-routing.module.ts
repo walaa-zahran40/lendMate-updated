@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LeasingMandatesComponent } from './leasing-mandates/leasing-mandates/leasing-mandates.component';
-import { AddClientComponent } from './clients/companies/add-client/add-client.component';
+import { ClientOnboardingComponent } from './clients/companies/client-onboarding/client-onboarding.component';
 
 const routes: Routes = [
   {
@@ -10,7 +10,7 @@ const routes: Routes = [
   },
   {
     path: 'clients',
-    component: AddClientComponent,
+    component: ClientOnboardingComponent,
   },
 ];
 

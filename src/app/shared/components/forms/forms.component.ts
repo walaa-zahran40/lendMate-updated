@@ -30,6 +30,15 @@ export class FormsComponent {
   value20: string | undefined;
   value21: string | undefined;
   value22: string | undefined;
+  value23: string | undefined;
+  value24: string | undefined;
+  value25: string | undefined;
+  value26: string | undefined;
+  value27: string | undefined;
+  value28: string | undefined;
+  value29: string | undefined;
+  value30: string | undefined;
+  value31: string | undefined;
 
   sectors!: any[];
   selectedSectors!: any[];
@@ -52,7 +61,7 @@ export class FormsComponent {
   selectedDocumentTypes!: any[];
   date: Date | undefined;
   date1: Date | undefined;
-
+  date2: Date | undefined;
   stamps!: any[];
   @Input() title!: string;
   @Input() titleIndividual!: string;
@@ -60,10 +69,14 @@ export class FormsComponent {
   @Input() addClient!: boolean;
   @Input() description!: string;
   @Input() addClientShowMain!: boolean;
+  @Input() clientOnboardingCompanyShowMain!: boolean;
+  @Input() clientOnboardingIndividualShowMain!: boolean;
   @Input() addClientShowLegal!: boolean;
   @Input() addClientShowBusiness!: boolean;
   @Input() uploadDocumentsShowUpload!: boolean;
   @Input() addClientShowIndividual!: boolean;
+  @Input() clientOnboarding!: boolean;
+  @Input() clientOnboardingShowIndividual!: boolean;
 
   constructor() {}
   ngOnInit() {

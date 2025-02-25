@@ -77,6 +77,18 @@
       background: var(--custom-color-white) !important;
       border: 1px solid var(--p-tabs-active-bar-background);
     }
+    .p-multiselect,
+    .p-select {
+      color: var(--custom-grey-bold);
+      margin-bottom: var(--custom-size-16);
+      border-radius: var(--custom-margin-0);
+      border: 1px solid var(--custom-color-grey-light);
+      height: 50px;
+      padding: 3px 8px;
+    }
+    .p-multiselect-label:has(.p-chip) {
+      padding: 0;
+    }
     /*responsiveness*/
     @media only screen and (max-width: 600px) {
       .nextBtn {

@@ -377,6 +377,257 @@
               </div>
             </div>
           </form>
+          <form action="" *ngIf="clientOnboardingCompanyShowMain">
+            <label for="clientOnboardingCompanyNameEnglish"
+              >Name in English<sup class="danger">*</sup></label
+            >
+            <input
+              pInputText
+              id="clientOnboardingNameEnglish"
+              aria-describedby="clientOnboardingNameEnglish-help"
+              [(ngModel)]="value22"
+              name="clientOnboardingNameEnglish"
+              placeholder="Google"
+            />
+            <label for="clientOnboardingCompanyNameArabic"
+              >Name in Arabic<sup class="danger">*</sup></label
+            >
+            <input
+              pInputText
+              id="clientOnboardingNameArabic"
+              aria-describedby="clientOnboardingNameArabic-help"
+              [(ngModel)]="value23"
+              placeholder="Google"
+              name="clientOnboardingNameArabic"
+            />
+            <label for="clientOnboardingCompanySectors"
+              >Select Sector<sup class="danger">*</sup></label
+            >
+            <p-multiselect
+              [options]="sectors"
+              [(ngModel)]="selectedSectors"
+              placeholder="Select Sectors"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="clientOnboardingSectors"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="clientOnboardingCompanySubSectors"
+              >Select Sub Sector<sup class="danger">*</sup></label
+            >
+            <p-multiselect
+              [options]="subSectors"
+              [(ngModel)]="selectedSubSectors"
+              placeholder="Select Sub Sectors"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="clientOnboardingCompanySubSectors"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="clientOnboardingCompanyBusinessActivity"
+              >Business Activity<sup class="danger">*</sup></label
+            >
+            <input
+              pInputText
+              id="clientOnboardingCompanyBusinessActivity"
+              aria-describedby="clientOnboardingCompanyBusinessActivity-help"
+              [(ngModel)]="value24"
+              name="clientOnboardingCompanyBusinessActivity"
+              placeholder="Technology Business"
+            />
+            <label for="clientOnbardingCompanyTaxId"
+              >Tax ID<sup class="danger">*</sup></label
+            >
+
+            <input
+              pInputText
+              id="clientOnbardingCompanyTaxId"
+              aria-describedby="clientOnbardingCompanyTaxId-help"
+              [(ngModel)]="value25"
+              name="clientOnbardingCompanyTaxId"
+              placeholder="#101020203030"
+            />
+            <label for="clientOnboardingCompanyshortName">Short Name</label>
+            <input
+              pInputText
+              id="clientOnboardingCompanyshortName"
+              aria-describedby="clientOnboardingCompanyshortName-help"
+              [(ngModel)]="value26"
+              placeholder="GO"
+              name="clientOnboardingCompanyshortName"
+            />
+          </form>
+          <form action="" *ngIf="clientOnboardingIndividualShowMain">
+            <label for="clientOnboardingNameEnglishIndividual"
+              >Name in English<sup class="danger">*</sup></label
+            >
+            <input
+              pInputText
+              id="clientOnboardingNameEnglishIndividual"
+              aria-describedby="clientOnboardingNameEnglishIndividual-help"
+              [(ngModel)]="value27"
+              name="clientOnboardingNameEnglishIndividual"
+              placeholder="Google"
+            />
+            <label for="clientOnboardingNameArabicIndividual"
+              >Name in Arabic<sup class="danger">*</sup></label
+            >
+            <input
+              pInputText
+              id="clientOnboardingNameArabicIndividual"
+              aria-describedby="clientOnboardingNameArabicIndividual-help"
+              [(ngModel)]="value28"
+              placeholder="Google"
+              name="clientOnboardingNameArabicIndividual"
+            />
+            <label for="clientOnboardingBusinessActivityIndividual"
+              >Business Activity<sup class="danger">*</sup></label
+            >
+            <input
+              pInputText
+              id="clientOnboardingBusinessActivityIndividual"
+              aria-describedby="clientOnboardingBusinessActivityIndividual-help"
+              [(ngModel)]="value29"
+              placeholder="Technology Business"
+              name="clientOnboardingBusinessActivityIndividual"
+            />
+            <label for="clientOnboardingSelectSectorIndividual"
+              >Select Sector<sup class="danger">*</sup></label
+            >
+            <p-multiselect
+              [options]="sectorsIndividual"
+              [(ngModel)]="selectedSectorsIndividual"
+              placeholder="Select Sectors"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="clientOnboardingSelectSectorIndividual"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="clientOnboardingSelectSubSectorIndividual"
+              >Select Sub Sector<sup class="danger">*</sup></label
+            >
+            <p-multiselect
+              [options]="subSectorsIndividual"
+              [(ngModel)]="selectedSubSectorsIndividual"
+              placeholder="Select Sub Sectors"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="clientOnboardingSelectSubSectorIndividual"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="clientOnboardingShortNameIndividual">Short Name</label>
+            <input
+              pInputText
+              id="clientOnboardingShortNameIndividual"
+              aria-describedby="clientOnboardingShortNameIndividual-help"
+              [(ngModel)]="value30"
+              placeholder="GO"
+              name="clientOnboardingShortNameIndividual"
+            />
+            <label for="clientOnboardingJobTitleIndividual">Job Title</label>
+            <input
+              pInputText
+              id="clientOnboardingJobTitleIndividual"
+              aria-describedby="clientOnboardingJobTitleIndividual-help"
+              [(ngModel)]="value24"
+              placeholder="Senior UI/UX Designer"
+              name="clientOnboardingJobTitleIndividual"
+            />
+            <label for="clientOnboardingTaxIdIndividual"
+              >Tax ID<sup class="danger">*</sup></label
+            >
+            <input
+              pInputText
+              id="clientOnboardingTaxIdIndividual"
+              aria-describedby="clientOnboardingTaxIdIndividual-help"
+              [(ngModel)]="value25"
+              placeholder="#101020203030"
+              name="clientOnboardingTaxIdIndividual"
+            />
+            <div class="row">
+              <div class="col-sm">
+                <label for="clientOnboardingDateOfBirthIndividual"
+                  >Date of Birth<sup class="danger">*</sup></label
+                >
+                <p-calendar
+                  [(ngModel)]="date2"
+                  [iconDisplay]="'input'"
+                  [showIcon]="true"
+                  placeholder="Date Of Birth"
+                  inputId="icondisplay"
+                  name="clientOnboardingDateOfBirthIndividual"
+                />
+              </div>
+              <div class="col-sm">
+                <label for="clientOnboardingGenderIndividual"
+                  >Gender<sup class="danger">*</sup></label
+                >
+                <p-select
+                  [options]="genders"
+                  [(ngModel)]="selectedGenders"
+                  optionLabel="name"
+                  placeholder="Select a Gender"
+                  class="w-full md:w-56"
+                  name="clientOnboardingGenderIndividual"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm">
+                <label for="identificationNumberIndividual"
+                  >Identification Number<sup class="danger">*</sup></label
+                >
+                <input
+                  pInputText
+                  id="identificationNumberIndividual"
+                  aria-describedby="identificationNumberIndividual-help"
+                  [(ngModel)]="value31"
+                  placeholder="#42352353"
+                  name="identificationNumberIndividual"
+                />
+              </div>
+              <div class="col-sm">
+                <div class="row align-items-center">
+                  <div class="col-sm-10">
+                    <label for="selectIdentityIndividual"
+                      >Select Identity<sup class="danger">*</sup></label
+                    >
+                    <p-multiselect
+                      [options]="identityIndividual"
+                      [(ngModel)]="selectedIdentityIndividual"
+                      placeholder="Select Identity"
+                      optionLabel="name"
+                      display="chip"
+                      icon="pi pi-times"
+                      name="identityIndividual"
+                      styleClass="w-full md:w-80"
+                      [maxSelectedLabels]="999"
+                      chipIcon="pi pi-times"
+                    />
+                  </div>
+                  <div class="col-sm-2 d-flex justify-end">
+                    <p-button
+                      icon="pi pi-plus"
+                      severity="danger"
+                      class="add-btn"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
