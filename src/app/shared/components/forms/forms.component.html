@@ -1,5 +1,5 @@
 <div class="row justify-content-between">
-  <div class="col-sm-3 p-0">
+  <div class="col-sm-3 p-0 d-flex justify-start flex-column">
     <h2 class="m-0">{{ title }}</h2>
     <p class="tab-panel-paragraph">
       {{ description }}
@@ -15,7 +15,14 @@
       *ngIf="addAddressShowMain"
       icon="pi pi-cog"
       iconPos="left"
-      label="View Document Details"
+      label="View Address Details"
+      class="custom-view m-0 float-right"
+    />
+    <p-button
+      *ngIf="addSalesShowMain"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Sales Turnover"
       class="custom-view m-0 float-right"
     />
   </div>
@@ -744,6 +751,28 @@
                 />
               </div>
             </div>
+          </form>
+          <form action="" *ngIf="addSalesShowMain">
+            <label for="amount">Amount <sup class="danger">*</sup></label>
+            <input
+              pInputText
+              id="amount"
+              aria-describedby="amount-help"
+              [(ngModel)]="value34"
+              name="amount"
+              placeholder="Add Amount"
+            />
+            <label for="dateSalesTurnover"
+              >Date<sup class="danger">*</sup></label
+            >
+            <p-calendar
+              [(ngModel)]="date4"
+              [iconDisplay]="'input'"
+              [showIcon]="true"
+              placeholder="Date"
+              inputId="icondisplay"
+              name="dateSalesTurnover"
+            />
           </form>
         </div>
       </div>

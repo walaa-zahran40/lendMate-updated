@@ -4,8 +4,10 @@ import { Component } from '@angular/core';
   selector: 'app-add-sales-turnover',
   standalone: false,
   templateUrl: './add-sales-turnover.component.html',
-  styleUrl: './add-sales-turnover.component.scss'
+  styleUrl: './add-sales-turnover.component.scss',
 })
 export class AddSalesTurnoverComponent {
-
+  addSales() {
+    console.log('added');
+  }
 }

@@ -41,6 +41,7 @@ export class FormsComponent {
   value31: string | undefined;
   value32: string | undefined;
   value33: string | undefined;
+  value34: string | undefined;
 
   sectors!: any[];
   selectedSectors!: any[];
@@ -78,6 +79,7 @@ export class FormsComponent {
   date1: Date | undefined;
   date2: Date | undefined;
   date3: Date | undefined;
+  date4: Date | undefined;
 
   stamps!: any[];
 
@@ -91,6 +93,7 @@ export class FormsComponent {
   @Input() clientOnboardingCompanyShowMain!: boolean;
   @Input() clientOnboardingIndividualShowMain!: boolean;
   @Input() uploadDocumentsShowMain!: boolean;
+  @Input() addSalesShowMain!: boolean;
   @Input() addClientShowLegal!: boolean;
   @Input() addClientShowBusiness!: boolean;
   @Input() addClientShowIndividual!: boolean;
