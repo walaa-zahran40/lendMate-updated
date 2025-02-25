@@ -179,17 +179,28 @@
     .p-splitbutton {
       width: 100%;
       flex-direction: row-reverse;
+      border: 1px solid var(--p-tabs-active-bar-background);
+      border-radius: 0;
     }
     .work-actions {
       width: 100%;
     }
     .work-actions .p-button {
-      background: var(--p-tabs-active-bar-background);
+      background: transparent;
+      color: var(--p-tabs-active-bar-background);
+      border: none;
       border-radius: 0px;
+    }
+    .work-actions .p-button:not(:disabled):hover {
+      background: transparent;
+      color: var(--p-tabs-active-bar-background);
+      border: none;
     }
     .p-splitbutton-button.p-button {
       border-radius: 0;
-      border-bottom: none;
+    }
+    .p-iconwrapper {
+      border-right: none;
     }
     .p-button {
       border-radius: 0;
@@ -200,7 +211,6 @@
     }
     .p-splitbutton-button.p-button {
       border-radius: 0;
-      border-bottom: none;
     }
     /*responsiveness*/
     @media only screen and (max-width: 600px) {
