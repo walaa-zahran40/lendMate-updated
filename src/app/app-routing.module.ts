@@ -39,7 +39,7 @@ const routes: Routes = [
       ),
   },
   { path: 'not-found', component: NotFoundComponent },
-  { path: '**', redirectTo: '/notfound' },
+  { path: '**', redirectTo: '/not-found' },
 ];
 //for tracing purposes
 //  [RouterModule.forRoot(routes, { enableTracing: true })],
