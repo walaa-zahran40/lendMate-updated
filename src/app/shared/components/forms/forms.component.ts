@@ -99,6 +99,7 @@ export class FormsComponent {
   @Input() uploadDocumentsShowMain!: boolean;
   @Input() addSalesShowMain!: boolean;
   @Input() addPhoneNumbersShowMain!: boolean;
+  @Input() addContactPersonShowMain!: boolean;
   @Input() addClientShowLegal!: boolean;
   @Input() addClientShowBusiness!: boolean;
   @Input() addClientShowIndividual!: boolean;

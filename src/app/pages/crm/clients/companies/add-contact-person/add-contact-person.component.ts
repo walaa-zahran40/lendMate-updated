@@ -4,8 +4,10 @@ import { Component } from '@angular/core';
   selector: 'app-add-contact-person',
   standalone: false,
   templateUrl: './add-contact-person.component.html',
-  styleUrl: './add-contact-person.component.scss'
+  styleUrl: './add-contact-person.component.scss',
 })
 export class AddContactPersonComponent {
-
+  addContacts() {
+    console.log('added');
+  }
 }

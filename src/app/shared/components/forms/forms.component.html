@@ -32,6 +32,13 @@
       label="View PhoneNumber"
       class="custom-view m-0 float-right"
     />
+    <p-button
+      *ngIf="addContactPersonShowMain"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Contact Details"
+      class="custom-view m-0 float-right"
+    />
   </div>
   <div class="col-sm-8">
     <div class="flex flex-col md:flex-row gap-8">
@@ -808,6 +815,171 @@
               name="phoneNumber"
               placeholder="Add Phone Number"
             />
+          </form>
+          <form action="" *ngIf="addContactPersonShowMain">
+            <label for="nameEnglishIndividual"
+              >Name in English<sup class="danger">*</sup></label
+            >
+            <input
+              pInputText
+              id="nameEnglishIndividual"
+              aria-describedby="nameEnglishIndividual-help"
+              [(ngModel)]="value11"
+              name="nameEnglishIndividual"
+              placeholder="Google"
+            />
+            <label for="nameArabicIndividual"
+              >Name in Arabic<sup class="danger">*</sup></label
+            >
+            <input
+              pInputText
+              id="nameArabicIndividual"
+              aria-describedby="nameArabicIndividual-help"
+              [(ngModel)]="value12"
+              placeholder="Google"
+              name="nameArabicIndividual"
+            />
+            <label for="businessActivityIndividual"
+              >Business Activity<sup class="danger">*</sup></label
+            >
+            <input
+              pInputText
+              id="businessActivityIndividual"
+              aria-describedby="businessActivityIndividual-help"
+              [(ngModel)]="value13"
+              placeholder="Technology Business"
+              name="businessActivityIndividual"
+            />
+            <label for="selectSectorIndividual"
+              >Select Sector<sup class="danger">*</sup></label
+            >
+            <p-multiselect
+              [options]="sectorsIndividual"
+              [(ngModel)]="selectedSectorsIndividual"
+              placeholder="Select Sectors"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="sectorsIndividual"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="selectSubSectorIndividual"
+              >Select Sub Sector<sup class="danger">*</sup></label
+            >
+            <p-multiselect
+              [options]="subSectorsIndividual"
+              [(ngModel)]="selectedSubSectorsIndividual"
+              placeholder="Select Sub Sectors"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="subSectorsIndividual"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="shortNameIndividual">Short Name</label>
+            <input
+              pInputText
+              id="shortNameIndividual"
+              aria-describedby="shortNameIndividual-help"
+              [(ngModel)]="value16"
+              placeholder="GO"
+              name="shortNameIndividual"
+            />
+            <label for="jobTitleIndividual">Job Title</label>
+            <input
+              pInputText
+              id="jobTitleIndividual"
+              aria-describedby="jobTitleIndividual-help"
+              [(ngModel)]="value17"
+              placeholder="Senior UI/UX Designer"
+              name="jobTitleIndividual"
+            />
+            <label for="taxIdIndividual"
+              >Tax ID<sup class="danger">*</sup></label
+            >
+            <input
+              pInputText
+              id="taxIdIndividual"
+              aria-describedby="taxIdIndividual-help"
+              [(ngModel)]="value18"
+              placeholder="#101020203030"
+              name="taxIdIndividual"
+            />
+            <div class="row">
+              <div class="col-sm">
+                <label for="dateOfBirthIndividual"
+                  >Date of Birth<sup class="danger">*</sup></label
+                >
+                <p-calendar
+                  [(ngModel)]="date1"
+                  [iconDisplay]="'input'"
+                  [showIcon]="true"
+                  placeholder="Date Of Birth"
+                  inputId="icondisplay"
+                  name="dateOfBirthIndividual"
+                />
+              </div>
+              <div class="col-sm">
+                <label for="genderIndividual"
+                  >Gender<sup class="danger">*</sup></label
+                >
+                <p-select
+                  [options]="genders"
+                  [(ngModel)]="selectedGenders"
+                  optionLabel="name"
+                  placeholder="Select a Gender"
+                  class="w-full md:w-56"
+                  name="gender"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm">
+                <label for="identificationNumberIndividual"
+                  >Identification Number<sup class="danger">*</sup></label
+                >
+                <input
+                  pInputText
+                  id="identificationNumberIndividual"
+                  aria-describedby="identificationNumberIndividual-help"
+                  [(ngModel)]="value21"
+                  placeholder="#42352353"
+                  name="identificationNumberIndividual"
+                />
+              </div>
+              <div class="col-sm">
+                <div class="row align-items-center">
+                  <div class="col-sm-10">
+                    <label for="selectIdentityIndividual"
+                      >Select Identity<sup class="danger">*</sup></label
+                    >
+                    <p-multiselect
+                      [options]="identityIndividual"
+                      [(ngModel)]="selectedIdentityIndividual"
+                      placeholder="Select Identity"
+                      optionLabel="name"
+                      display="chip"
+                      icon="pi pi-times"
+                      name="identityIndividual"
+                      styleClass="w-full md:w-80"
+                      [maxSelectedLabels]="999"
+                      chipIcon="pi pi-times"
+                    />
+                  </div>
+                  <div class="col-sm-2 d-flex justify-end">
+                    <p-button
+                      icon="pi pi-plus"
+                      severity="danger"
+                      class="add-btn"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
           </form>
         </div>
       </div>
