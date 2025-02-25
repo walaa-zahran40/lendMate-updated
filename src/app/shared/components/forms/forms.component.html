@@ -1,17 +1,18 @@
 <!--toolbar-->
 
-<p-toolbar styleClass="mb-6 no-border p-3">
+<p-toolbar styleClass="mb-6  p-3">
   <ng-template #start>
     <p class="client">
-      Add a Client <span class="badge badge-warning">Pending</span>
+      <span class="pi pi-angle-left" *ngIf="backExists"></span>{{ header }}
+      <span class="badge badge-warning">Pending</span>
     </p>
   </ng-template>
 
   <ng-template #end>
     <p-splitButton
       label="Workflow Actions"
-      class="more-actions"
       [model]="items"
+      class="work-actions"
     />
   </ng-template>
 </p-toolbar>
@@ -209,6 +210,34 @@
                     [(ngModel)]="value4"
                     placeholder="50,000"
                     name="noOfEmployees"
+                  />
+                </form>
+                <form action="" *ngIf="showUpload">
+                  <label for="documentTypes"
+                    >Document Type<sup class="danger">*</sup></label
+                  >
+                  <p-multiselect
+                    [options]="documentTypes"
+                    [(ngModel)]="selectedDocumentTypes"
+                    placeholder="Select Document Type"
+                    optionLabel="name"
+                    display="chip"
+                    icon="pi pi-times"
+                    name="documentTypes"
+                    styleClass="w-full md:w-80"
+                    [maxSelectedLabels]="999"
+                    chipIcon="pi pi-times"
+                  />
+                  <label for="calendar"
+                    >Expiry Date<sup class="danger">*</sup></label
+                  >
+                  <p-calendar
+                    [(ngModel)]="date2"
+                    [iconDisplay]="'input'"
+                    [showIcon]="true"
+                    placeholder="Expiry Date"
+                    inputId="icondisplay"
+                    name="calendar"
                   />
                 </form>
               </div>

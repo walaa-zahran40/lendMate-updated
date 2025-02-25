@@ -43,6 +43,7 @@ import { NotificationComponent } from './notification/notification.component';
 import { DownloadViewComponent } from './download-view/download-view.component';
 import { FormsComponent } from './forms/forms.component';
 import { SplitButtonModule } from 'primeng/splitbutton';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { SplitButtonModule } from 'primeng/splitbutton';
     AvatarModule,
     AvatarGroupModule,
     SelectModule,
+    CalendarModule,
     StepperModule,
     SplitButtonModule,
     ChipModule,

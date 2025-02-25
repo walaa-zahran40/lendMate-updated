@@ -15,6 +15,7 @@ import { SharedModule } from '../../../../shared/shared.module';
 import { ButtonModule } from 'primeng/button';
 import { StepperModule } from 'primeng/stepper';
 import { ComponentsModule } from '../../../../shared/components/components.module';
+import { UploadDocumentsComponent } from './upload-documents/upload-documents.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { ComponentsModule } from '../../../../shared/components/components.modul
     ShareHolderComponent,
     GuarantorComponent,
     TmlOfficerVisibleComponent,
+    UploadDocumentsComponent,
   ],
   imports: [CommonModule, SharedModule, StepperModule, ButtonModule],
   exports: [
@@ -43,6 +45,7 @@ import { ComponentsModule } from '../../../../shared/components/components.modul
     ShareHolderComponent,
     GuarantorComponent,
     TmlOfficerVisibleComponent,
+    UploadDocumentsComponent,
   ],
 })
 export class CompaniesModule {}

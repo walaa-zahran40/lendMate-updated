@@ -50,10 +50,6 @@
   --custom-justify-content-between: space-between;
   --custom-flex-direction-row-reverse: row-reverse;
   &::ng-deep {
-    .no-border {
-      border: var(--custom-border);
-      background-color: var(--custom-background-transparent);
-    }
     .p-tabs {
       padding: var(--custom-padding-right-10);
     }
@@ -70,46 +66,21 @@
       font-size: var(--custom-font-size-13);
       line-height: var(--custom-font-size-24);
     }
-    .more-actions {
-      border: 1px solid var(--p-tabs-active-bar-background);
+    .p-datepicker {
+      width: 100%;
     }
-    .more-actions .p-button {
-      color: var(--p-tabs-active-bar-background);
-      background: var(--custom-background-transparent) !important;
-      border: none;
-      border-radius: var(--custom-margin-0);
-      font-family: var(--custom-font-family-epilogue);
-      font-weight: var(--custom-font-weight);
-      font-size: var(--custom-size-16);
-      line-height: var(--custom-line-height-25);
-      padding: var(--custom-size-12) var(--custom-size-16);
-      flex-direction: row;
+    .p-datepicker-day-selected {
+      background: var(--p-tabs-active-bar-background);
     }
-    .more-actions .p-button:active {
-      color: var(--p-tabs-active-bar-background);
-      background: var(--custom-background-transparent) !important;
-      border: 1px solid var(--p-tabs-active-bar-background);
+    .p-datepicker-input-icon-container {
+      top: 40%;
     }
-    .more-actions .p-button:not(:disabled):hover {
-      border: none;
-    }
+
     .p-button:not(:disabled):hover {
       background-color: var(--p-tabs-active-bar-background);
       border: var(--custom-border);
     }
-    // .p-splitbutton .p-button-icon-only {
-    //   visibility: hidden;
-    // }
-    .p-splitbutton {
-      flex-direction: row-reverse;
-      align-items: center;
-    }
-    .p-splitbutton .p-button-label:hover {
-      color: var(--p-tabs-active-bar-background);
-    }
-    .more-actions .p-button:not(:disabled):hover {
-      color: var(--p-tabs-active-bar-background);
-    }
+
     .p-tieredmenu {
       width: 100%;
       height: 100px;
@@ -205,6 +176,28 @@
     .p-toolbar {
       padding-right: var(--custom-position-28) !important;
     }
+    .p-splitbutton {
+      width: 100%;
+      flex-direction: row-reverse;
+    }
+    .work-actions {
+      width: 100%;
+    }
+    .p-splitbutton-button.p-button {
+      border-radius: 0;
+      border-bottom: none;
+    }
+    .p-button {
+      border-radius: 0;
+    }
+    .p-tieredmenu {
+      top: 45px !important;
+      position: absolute;
+    }
+    .p-splitbutton-button.p-button {
+      border-radius: 0;
+      border-bottom: none;
+    }
     /*responsiveness*/
     @media only screen and (max-width: 600px) {
       .nextBtn {
@@ -221,6 +214,24 @@
       }
       .p-toolbar-start {
         width: var(--custom-size-100);
+      }
+      .p-splitbutton {
+        width: 100%;
+        flex-direction: column;
+      }
+      .work-actions {
+        width: 100%;
+      }
+      .p-splitbutton-button.p-button {
+        border-radius: 0;
+        border-bottom: none;
+      }
+      .p-button {
+        border-radius: 0;
+      }
+      .p-tieredmenu {
+        position: absolute;
+        top: 75px !important;
       }
     }
   }
@@ -239,6 +250,9 @@ p.client {
   margin-bottom: var(--custom-margin-0);
   align-items: var(--custom-position-center);
   display: var(--custom-display);
+}
+.pi-angle-left {
+  font-size: 30px;
 }
 .tab-panel-paragraph {
   font-family: var(--custom-font-family-regular);

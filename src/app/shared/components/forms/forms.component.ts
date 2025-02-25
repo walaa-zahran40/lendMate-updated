@@ -17,19 +17,24 @@ export class FormsComponent {
   selectedSectors!: any[];
   legalFormLaw!: any[];
   selectedLegalFormLaw!: any[];
-  selectedSubSectors!: any[];
   subSectors!: any[];
+  selectedSubSectors!: any[];
   legalForm!: any[];
   selectedLegalForm!: any[];
+  documentTypes!: any[];
+  selectedDocumentTypes!: any[];
   items!: MenuItem[];
-
+  date2: Date | undefined;
   stamps!: any[];
   @Input() title!: string;
+  @Input() header!: string;
   @Input() description!: string;
   @Input() showMain!: boolean;
   @Input() showLegal!: boolean;
   @Input() showBusiness!: boolean;
-  constructor(private messageService: MessageService) {}
+  @Input() backExists!: boolean;
+  @Input() showUpload!: boolean;
+  constructor() {}
   ngOnInit() {
     this.sectors = [
       { name: 'Technology', code: 'T' },
@@ -45,6 +50,10 @@ export class FormsComponent {
     this.stamps = [
       { name: 'Yes', code: '1' },
       { name: 'No', code: '0' },
+    ];
+    this.documentTypes = [
+      { name: 'PDF', code: 'pdf' },
+      { name: 'Word', code: 'word' },
     ];
     this.items = [
       {
