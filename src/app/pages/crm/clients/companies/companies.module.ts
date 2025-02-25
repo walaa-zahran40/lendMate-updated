@@ -16,6 +16,7 @@ import { ButtonModule } from 'primeng/button';
 import { StepperModule } from 'primeng/stepper';
 import { ComponentsModule } from '../../../../shared/components/components.module';
 import { UploadDocumentsComponent } from './upload-documents/upload-documents.component';
+import { TabsModule } from 'primeng/tabs';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,13 @@ import { UploadDocumentsComponent } from './upload-documents/upload-documents.co
     TmlOfficerVisibleComponent,
     UploadDocumentsComponent,
   ],
-  imports: [CommonModule, SharedModule, StepperModule, ButtonModule],
+  imports: [
+    CommonModule,
+    SharedModule,
+    StepperModule,
+    ButtonModule,
+    TabsModule,
+  ],
   exports: [
     AddClientComponent,
     CompanyAddressesComponent,

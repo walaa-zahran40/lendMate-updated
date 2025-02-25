@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { MenuItem, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-forms',
@@ -13,30 +12,59 @@ export class FormsComponent {
   value2: string | undefined;
   value3: string | undefined;
   value4: string | undefined;
+  value5: string | undefined;
+  value6: string | undefined;
+  value7: string | undefined;
+  value8: string | undefined;
+  value9: string | undefined;
+  value10: string | undefined;
+  value11: string | undefined;
+  value12: string | undefined;
+  value13: string | undefined;
+  value14: string | undefined;
+  value15: string | undefined;
+  value16: string | undefined;
+  value17: string | undefined;
+  value18: string | undefined;
+  value19: string | undefined;
+  value20: string | undefined;
+  value21: string | undefined;
+  value22: string | undefined;
+
   sectors!: any[];
   selectedSectors!: any[];
+  sectorsIndividual!: any[];
+  selectedSectorsIndividual!: any[];
   legalFormLaw!: any[];
   selectedLegalFormLaw!: any[];
   subSectors!: any[];
   selectedSubSectors!: any[];
+  subSectorsIndividual!: any[];
+  selectedSubSectorsIndividual!: any[];
+  identityIndividual!: any[];
+  selectedIdentityIndividual!: any[];
+  genders!: any[];
+  selectedGenders!: any[];
+
   legalForm!: any[];
   selectedLegalForm!: any[];
   documentTypes!: any[];
   selectedDocumentTypes!: any[];
-  items!: MenuItem[];
-  date2: Date | undefined;
+  date: Date | undefined;
+  date1: Date | undefined;
+
   stamps!: any[];
   @Input() title!: string;
   @Input() titleIndividual!: string;
   @Input() descriptionIndividual!: string;
   @Input() addClient!: boolean;
-  @Input() header!: string;
   @Input() description!: string;
-  @Input() showMain!: boolean;
-  @Input() showLegal!: boolean;
-  @Input() showBusiness!: boolean;
-  @Input() backExists!: boolean;
-  @Input() showUpload!: boolean;
+  @Input() addClientShowMain!: boolean;
+  @Input() addClientShowLegal!: boolean;
+  @Input() addClientShowBusiness!: boolean;
+  @Input() uploadDocumentsShowUpload!: boolean;
+  @Input() addClientShowIndividual!: boolean;
+
   constructor() {}
   ngOnInit() {
     this.sectors = [
@@ -44,7 +72,16 @@ export class FormsComponent {
       { name: 'Programming', code: 'P' },
       { name: 'Machine Learning', code: 'ML' },
     ];
+    this.sectorsIndividual = [
+      { name: 'Technology', code: 'T' },
+      { name: 'Programming', code: 'P' },
+      { name: 'Machine Learning', code: 'ML' },
+    ];
     this.subSectors = [
+      { name: 'AI', code: 'AI' },
+      { name: 'Marketing Field', code: 'MF' },
+    ];
+    this.subSectorsIndividual = [
       { name: 'AI', code: 'AI' },
       { name: 'Marketing Field', code: 'MF' },
     ];
@@ -58,15 +95,10 @@ export class FormsComponent {
       { name: 'PDF', code: 'pdf' },
       { name: 'Word', code: 'word' },
     ];
-    this.items = [
-      {
-        label: 'Update',
-        icon: 'pi pi-refresh',
-      },
-      {
-        label: 'Delete',
-        icon: 'pi pi-times',
-      },
+    this.genders = [
+      { name: 'Male', code: 'male' },
+      { name: 'Female', code: 'female' },
     ];
+    this.identityIndividual = [{ name: 'Identity', code: 'identity' }];
   }
 }

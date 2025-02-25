@@ -44,6 +44,7 @@ import { DownloadViewComponent } from './download-view/download-view.component';
 import { FormsComponent } from './forms/forms.component';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { CalendarModule } from 'primeng/calendar';
+import { ToolbarFormComponent } from './toolbar-form/toolbar-form.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { CalendarModule } from 'primeng/calendar';
     NotificationComponent,
     DownloadViewComponent,
     FormsComponent,
+    ToolbarFormComponent,
   ],
   imports: [
     CommonModule,
@@ -100,6 +102,7 @@ import { CalendarModule } from 'primeng/calendar';
     ClientDetailsDialogComponent,
     FileUploaderComponent,
     TableComponent,
+    ToolbarFormComponent,
     HeaderComponent,
     SideMenuComponent,
     NavBarComponent,

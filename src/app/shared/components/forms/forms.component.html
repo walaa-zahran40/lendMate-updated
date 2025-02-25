@@ -1,473 +1,384 @@
-<!--toolbar-->
-
-<p-toolbar styleClass="mb-6  p-3">
-  <ng-template #start>
-    <p class="client">
-      <span class="pi pi-angle-left" *ngIf="backExists"></span>{{ header }}
-      <span class="badge badge-warning">Pending</span>
+<div class="row justify-content-between">
+  <div class="col-sm-3 p-0">
+    <h2 class="m-0">{{ title }}</h2>
+    <p class="tab-panel-paragraph">
+      {{ description }}
     </p>
-  </ng-template>
+  </div>
+  <div class="col-sm-8">
+    <div class="flex flex-col md:flex-row gap-8">
+      <div class="md:w-2/2">
+        <div class="flex flex-col gap-2">
+          <form action="" *ngIf="addClientShowMain">
+            <label for="nameEnglish"
+              >Name in English<sup class="danger">*</sup></label
+            >
+            <input
+              pInputText
+              id="nameEnglish"
+              aria-describedby="nameEnglish-help"
+              [(ngModel)]="value"
+              name="nameEnglish"
+              placeholder="Google"
+            />
+            <label for="nameArabic"
+              >Name in Arabic<sup class="danger">*</sup></label
+            >
+            <input
+              pInputText
+              id="nameArabic"
+              aria-describedby="nameArabic-help"
+              [(ngModel)]="value1"
+              placeholder="Google"
+              name="nameArabic"
+            />
+            <label for="sectors"
+              >Select Sector<sup class="danger">*</sup></label
+            >
+            <p-multiselect
+              [options]="sectors"
+              [(ngModel)]="selectedSectors"
+              placeholder="Select Sectors"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="sectors"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="subSectors"
+              >Select Sub Sector<sup class="danger">*</sup></label
+            >
+            <p-multiselect
+              [options]="subSectors"
+              [(ngModel)]="selectedSubSectors"
+              placeholder="Select Sub Sectors"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="subSectors"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="businessActivity"
+              >Business Activity<sup class="danger">*</sup></label
+            >
+            <input
+              pInputText
+              id="businessActivity"
+              aria-describedby="businessActivity-help"
+              [(ngModel)]="value2"
+              name="businessActivity"
+              placeholder="Technology Business"
+            />
+            <label for="taxId">Tax ID<sup class="danger">*</sup></label>
 
-  <ng-template #end>
-    <p-splitButton
-      label="Workflow Actions"
-      [model]="items"
-      class="work-actions"
-    />
-  </ng-template>
-</p-toolbar>
-<!--tabs and forms-->
-<p-tabs value="0" styleClass="p-3">
-  <p-tablist *ngIf="addClient">
-    <p-tab value="0">Company</p-tab>
-    <p-tab value="1">Individual</p-tab>
-  </p-tablist>
-  <p-tabpanels>
-    <p-tabpanel value="0">
-      <div class="row justify-content-between">
-        <div class="col-sm-3 p-0">
-          <h2 class="m-0">{{ title }}</h2>
-          <p class="tab-panel-paragraph">
-            {{ description }}
-          </p>
-        </div>
-        <div class="col-sm-8">
-          <div class="flex flex-col md:flex-row gap-8">
-            <div class="md:w-2/2">
-              <div class="flex flex-col gap-2">
-                <form action="" *ngIf="showMain">
-                  <label for="nameEnglish"
-                    >Name in English<sup class="danger">*</sup></label
-                  >
-                  <input
-                    pInputText
-                    id="nameEnglish"
-                    aria-describedby="nameEnglish-help"
-                    [(ngModel)]="value"
-                    name="nameEnglish"
-                    placeholder="Google"
-                  />
-                  <label for="nameArabic"
-                    >Name in Arabic<sup class="danger">*</sup></label
-                  >
-                  <input
-                    pInputText
-                    id="nameArabic"
-                    aria-describedby="nameArabic-help"
-                    [(ngModel)]="value1"
-                    placeholder="Google"
-                    name="nameArabic"
-                  />
-                  <label for="sectors"
-                    >Select Sector<sup class="danger">*</sup></label
-                  >
-                  <p-multiselect
-                    [options]="sectors"
-                    [(ngModel)]="selectedSectors"
-                    placeholder="Select Sectors"
-                    optionLabel="name"
-                    display="chip"
-                    icon="pi pi-times"
-                    name="sectors"
-                    styleClass="w-full md:w-80"
-                    [maxSelectedLabels]="999"
-                    chipIcon="pi pi-times"
-                  />
-                  <label for="subSectors"
-                    >Select Sub Sector<sup class="danger">*</sup></label
-                  >
-                  <p-multiselect
-                    [options]="subSectors"
-                    [(ngModel)]="selectedSubSectors"
-                    placeholder="Select Sub Sectors"
-                    optionLabel="name"
-                    display="chip"
-                    icon="pi pi-times"
-                    name="subSectors"
-                    styleClass="w-full md:w-80"
-                    [maxSelectedLabels]="999"
-                    chipIcon="pi pi-times"
-                  />
-                  <label for="businessActivity"
-                    >Business Activity<sup class="danger">*</sup></label
-                  >
-                  <input
-                    pInputText
-                    id="businessActivity"
-                    aria-describedby="businessActivity-help"
-                    [(ngModel)]="value2"
-                    name="businessActivity"
-                    placeholder="Technology Business"
-                  />
-                  <label for="taxId">Tax ID<sup class="danger">*</sup></label>
+            <input
+              pInputText
+              id="taxId"
+              aria-describedby="taxId-help"
+              [(ngModel)]="value3"
+              name="taxId"
+              placeholder="#101020203030"
+            />
+            <label for="shortName">Short Name</label>
+            <input
+              pInputText
+              id="shortName"
+              aria-describedby="shortName-help"
+              [(ngModel)]="value4"
+              placeholder="GO"
+              name="shortName"
+            />
+          </form>
+          <form action="" *ngIf="addClientShowLegal">
+            <label for="legalFormLaw">Legal Form Law</label>
+            <p-multiselect
+              [options]="legalFormLaw"
+              [(ngModel)]="selectedLegalFormLaw"
+              placeholder="Select Legal Form Law"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="legalFormLaw"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="legalForm">Select Legal Form</label>
+            <p-multiselect
+              [options]="legalForm"
+              [(ngModel)]="selectedLegalForm"
+              placeholder="Select Legal Forms"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="legalForm"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="stampDuty">Is Stamp Duty?</label>
+            <p-select
+              [options]="stamps"
+              optionLabel="name"
+              placeholder="Select Stamp Duty"
+              class="w-full md:w-56"
+            />
+          </form>
+          <form action="" *ngIf="addClientShowBusiness">
+            <label for="mainShare">Main Share</label>
+            <input
+              pInputText
+              id="mainShare"
+              aria-describedby="mainShare-help"
+              [(ngModel)]="value5"
+              name="mainShare"
+              placeholder="Main Share"
+            />
+            <label for="marketShare">Market Share</label>
+            <input
+              pInputText
+              id="marketShare"
+              aria-describedby="marketShare-help"
+              [(ngModel)]="value6"
+              placeholder="58%"
+              name="marketShare"
+            />
 
-                  <input
-                    pInputText
-                    id="taxId"
-                    aria-describedby="taxId-help"
-                    [(ngModel)]="value3"
-                    name="taxId"
-                    placeholder="#101020203030"
-                  />
-                  <label for="shortName">Short Name</label>
-                  <input
-                    pInputText
-                    id="shortName"
-                    aria-describedby="shortName-help"
-                    [(ngModel)]="value4"
-                    placeholder="GO"
-                    name="shortName"
-                  />
-                </form>
-                <form action="" *ngIf="showLegal">
-                  <label for="legalFormLaw">Legal Form Law</label>
-                  <p-multiselect
-                    [options]="legalFormLaw"
-                    [(ngModel)]="selectedLegalFormLaw"
-                    placeholder="Select Legal Form Law"
-                    optionLabel="name"
-                    display="chip"
-                    icon="pi pi-times"
-                    name="legalFormLaw"
-                    styleClass="w-full md:w-80"
-                    [maxSelectedLabels]="999"
-                    chipIcon="pi pi-times"
-                  />
-                  <label for="legalForm">Select Legal Form</label>
-                  <p-multiselect
-                    [options]="legalForm"
-                    [(ngModel)]="selectedLegalForm"
-                    placeholder="Select Legal Forms"
-                    optionLabel="name"
-                    display="chip"
-                    icon="pi pi-times"
-                    name="legalForm"
-                    styleClass="w-full md:w-80"
-                    [maxSelectedLabels]="999"
-                    chipIcon="pi pi-times"
-                  />
-                  <label for="stampDuty">Is Stamp Duty?</label>
-                  <p-select
-                    [options]="stamps"
-                    optionLabel="name"
-                    placeholder="Select Stamp Duty"
-                    class="w-full md:w-56"
-                  />
-                </form>
-                <form action="" *ngIf="showBusiness">
-                  <label for="mainShare">Main Share</label>
-                  <input
-                    pInputText
-                    id="mainShare"
-                    aria-describedby="mainShare-help"
-                    [(ngModel)]="value"
-                    name="mainShare"
-                    placeholder="Main Share"
-                  />
-                  <label for="marketShare">Market Share</label>
-                  <input
-                    pInputText
-                    id="marketShare"
-                    aria-describedby="marketShare-help"
-                    [(ngModel)]="value1"
-                    placeholder="58%"
-                    name="marketShare"
-                  />
+            <label for="establishedYear">Established Year</label>
+            <input
+              pInputText
+              id="establishedYear"
+              aria-describedby="establishedYear-help"
+              [(ngModel)]="value7"
+              name="establishedYear"
+              placeholder="2014"
+            />
+            <label for="website">Website</label>
 
-                  <label for="establishedYear">Established Year</label>
-                  <input
-                    pInputText
-                    id="establishedYear"
-                    aria-describedby="establishedYear-help"
-                    [(ngModel)]="value2"
-                    name="establishedYear"
-                    placeholder="2014"
-                  />
-                  <label for="website">Website</label>
-
-                  <input
-                    pInputText
-                    id="website"
-                    aria-describedby="website-help"
-                    [(ngModel)]="value3"
-                    name="website"
-                    placeholder="https://www.google.com"
-                  />
-                  <label for="marketSize">Market Size</label>
-                  <input
-                    pInputText
-                    id="marketSize"
-                    aria-describedby="marketSize-help"
-                    [(ngModel)]="value4"
-                    placeholder="50M"
-                    name="marketSize"
-                  />
-                  <label for="noOfEmployees">Number of Employees</label>
-                  <input
-                    pInputText
-                    id="noOfEmployees"
-                    aria-describedby="noOfEmployees-help"
-                    [(ngModel)]="value4"
-                    placeholder="50,000"
-                    name="noOfEmployees"
-                  />
-                </form>
-                <form action="" *ngIf="showUpload">
-                  <label for="documentTypes"
-                    >Document Type<sup class="danger">*</sup></label
-                  >
-                  <p-multiselect
-                    [options]="documentTypes"
-                    [(ngModel)]="selectedDocumentTypes"
-                    placeholder="Select Document Type"
-                    optionLabel="name"
-                    display="chip"
-                    icon="pi pi-times"
-                    name="documentTypes"
-                    styleClass="w-full md:w-80"
-                    [maxSelectedLabels]="999"
-                    chipIcon="pi pi-times"
-                  />
-                  <label for="calendar"
-                    >Expiry Date<sup class="danger">*</sup></label
-                  >
-                  <p-calendar
-                    [(ngModel)]="date2"
-                    [iconDisplay]="'input'"
-                    [showIcon]="true"
-                    placeholder="Expiry Date"
-                    inputId="icondisplay"
-                    name="calendar"
-                  />
-                </form>
+            <input
+              pInputText
+              id="website"
+              aria-describedby="website-help"
+              [(ngModel)]="value8"
+              name="website"
+              placeholder="https://www.google.com"
+            />
+            <label for="marketSize">Market Size</label>
+            <input
+              pInputText
+              id="marketSize"
+              aria-describedby="marketSize-help"
+              [(ngModel)]="value9"
+              placeholder="50M"
+              name="marketSize"
+            />
+            <label for="noOfEmployees">Number of Employees</label>
+            <input
+              pInputText
+              id="noOfEmployees"
+              aria-describedby="noOfEmployees-help"
+              [(ngModel)]="value10"
+              placeholder="50,000"
+              name="noOfEmployees"
+            />
+          </form>
+          <form action="" *ngIf="uploadDocumentsShowUpload">
+            <label for="documentTypes"
+              >Document Type<sup class="danger">*</sup></label
+            >
+            <p-multiselect
+              [options]="documentTypes"
+              [(ngModel)]="selectedDocumentTypes"
+              placeholder="Select Document Type"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="documentTypes"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="calendar">Expiry Date<sup class="danger">*</sup></label>
+            <p-calendar
+              [(ngModel)]="date"
+              [iconDisplay]="'input'"
+              [showIcon]="true"
+              placeholder="Expiry Date"
+              inputId="icondisplay"
+              name="calendar"
+            />
+          </form>
+          <form action="" *ngIf="addClientShowIndividual">
+            <label for="nameEnglishIndividual"
+              >Name in English<sup class="danger">*</sup></label
+            >
+            <input
+              pInputText
+              id="nameEnglishIndividual"
+              aria-describedby="nameEnglishIndividual-help"
+              [(ngModel)]="value11"
+              name="nameEnglishIndividual"
+              placeholder="Google"
+            />
+            <label for="nameArabicIndividual"
+              >Name in Arabic<sup class="danger">*</sup></label
+            >
+            <input
+              pInputText
+              id="nameArabicIndividual"
+              aria-describedby="nameArabicIndividual-help"
+              [(ngModel)]="value12"
+              placeholder="Google"
+              name="nameArabicIndividual"
+            />
+            <label for="businessActivityIndividual"
+              >Business Activity<sup class="danger">*</sup></label
+            >
+            <input
+              pInputText
+              id="businessActivityIndividual"
+              aria-describedby="businessActivityIndividual-help"
+              [(ngModel)]="value13"
+              placeholder="Technology Business"
+              name="businessActivityIndividual"
+            />
+            <label for="selectSectorIndividual"
+              >Select Sector<sup class="danger">*</sup></label
+            >
+            <p-multiselect
+              [options]="sectorsIndividual"
+              [(ngModel)]="selectedSectorsIndividual"
+              placeholder="Select Sectors"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="sectorsIndividual"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="selectSubSectorIndividual"
+              >Select Sub Sector<sup class="danger">*</sup></label
+            >
+            <p-multiselect
+              [options]="subSectorsIndividual"
+              [(ngModel)]="selectedSubSectorsIndividual"
+              placeholder="Select Sub Sectors"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="subSectorsIndividual"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="shortNameIndividual">Short Name</label>
+            <input
+              pInputText
+              id="shortNameIndividual"
+              aria-describedby="shortNameIndividual-help"
+              [(ngModel)]="value16"
+              placeholder="GO"
+              name="shortNameIndividual"
+            />
+            <label for="jobTitleIndividual">Job Title</label>
+            <input
+              pInputText
+              id="jobTitleIndividual"
+              aria-describedby="jobTitleIndividual-help"
+              [(ngModel)]="value17"
+              placeholder="Senior UI/UX Designer"
+              name="jobTitleIndividual"
+            />
+            <label for="taxIdIndividual"
+              >Tax ID<sup class="danger">*</sup></label
+            >
+            <input
+              pInputText
+              id="taxIdIndividual"
+              aria-describedby="taxIdIndividual-help"
+              [(ngModel)]="value18"
+              placeholder="#101020203030"
+              name="taxIdIndividual"
+            />
+            <div class="row">
+              <div class="col-sm">
+                <label for="dateOfBirthIndividual"
+                  >Date of Birth<sup class="danger">*</sup></label
+                >
+                <p-calendar
+                  [(ngModel)]="date1"
+                  [iconDisplay]="'input'"
+                  [showIcon]="true"
+                  placeholder="Date Of Birth"
+                  inputId="icondisplay"
+                  name="dateOfBirthIndividual"
+                />
+              </div>
+              <div class="col-sm">
+                <label for="genderIndividual"
+                  >Gender<sup class="danger">*</sup></label
+                >
+                <p-select
+                  [options]="genders"
+                  [(ngModel)]="selectedGenders"
+                  optionLabel="name"
+                  placeholder="Select a Gender"
+                  class="w-full md:w-56"
+                  name="gender"
+                />
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </p-tabpanel>
-    <p-tabpanel value="1" *ngIf="addClient">
-      <div class="row justify-content-between">
-        <div class="col-sm-3 p-0">
-          <h2 class="m-0">{{ titleIndividual }}</h2>
-          <p class="tab-panel-paragraph">
-            {{ descriptionIndividual }}
-          </p>
-        </div>
-        <div class="col-sm-8">
-          <div class="flex flex-col md:flex-row gap-8">
-            <div class="md:w-2/2">
-              <div class="flex flex-col gap-2">
-                <form action="" *ngIf="showMain">
-                  <label for="nameEnglish"
-                    >Name in English<sup class="danger">*</sup></label
-                  >
-                  <input
-                    pInputText
-                    id="nameEnglish"
-                    aria-describedby="nameEnglish-help"
-                    [(ngModel)]="value"
-                    name="nameEnglish"
-                    placeholder="Google"
-                  />
-                  <label for="nameArabic"
-                    >Name in Arabic<sup class="danger">*</sup></label
-                  >
-                  <input
-                    pInputText
-                    id="nameArabic"
-                    aria-describedby="nameArabic-help"
-                    [(ngModel)]="value1"
-                    placeholder="Google"
-                    name="nameArabic"
-                  />
-                  <label for="sectors"
-                    >Select Sector<sup class="danger">*</sup></label
-                  >
-                  <p-multiselect
-                    [options]="sectors"
-                    [(ngModel)]="selectedSectors"
-                    placeholder="Select Sectors"
-                    optionLabel="name"
-                    display="chip"
-                    icon="pi pi-times"
-                    name="sectors"
-                    styleClass="w-full md:w-80"
-                    [maxSelectedLabels]="999"
-                    chipIcon="pi pi-times"
-                  />
-                  <label for="subSectors"
-                    >Select Sub Sector<sup class="danger">*</sup></label
-                  >
-                  <p-multiselect
-                    [options]="subSectors"
-                    [(ngModel)]="selectedSubSectors"
-                    placeholder="Select Sub Sectors"
-                    optionLabel="name"
-                    display="chip"
-                    icon="pi pi-times"
-                    name="subSectors"
-                    styleClass="w-full md:w-80"
-                    [maxSelectedLabels]="999"
-                    chipIcon="pi pi-times"
-                  />
-                  <label for="businessActivity"
-                    >Business Activity<sup class="danger">*</sup></label
-                  >
-                  <input
-                    pInputText
-                    id="businessActivity"
-                    aria-describedby="businessActivity-help"
-                    [(ngModel)]="value2"
-                    name="businessActivity"
-                    placeholder="Technology Business"
-                  />
-                  <label for="taxId">Tax ID<sup class="danger">*</sup></label>
-
-                  <input
-                    pInputText
-                    id="taxId"
-                    aria-describedby="taxId-help"
-                    [(ngModel)]="value3"
-                    name="taxId"
-                    placeholder="#101020203030"
-                  />
-                  <label for="shortName">Short Name</label>
-                  <input
-                    pInputText
-                    id="shortName"
-                    aria-describedby="shortName-help"
-                    [(ngModel)]="value4"
-                    placeholder="GO"
-                    name="shortName"
-                  />
-                </form>
-                <form action="" *ngIf="showLegal">
-                  <label for="legalFormLaw">Legal Form Law</label>
-                  <p-multiselect
-                    [options]="legalFormLaw"
-                    [(ngModel)]="selectedLegalFormLaw"
-                    placeholder="Select Legal Form Law"
-                    optionLabel="name"
-                    display="chip"
-                    icon="pi pi-times"
-                    name="legalFormLaw"
-                    styleClass="w-full md:w-80"
-                    [maxSelectedLabels]="999"
-                    chipIcon="pi pi-times"
-                  />
-                  <label for="legalForm">Select Legal Form</label>
-                  <p-multiselect
-                    [options]="legalForm"
-                    [(ngModel)]="selectedLegalForm"
-                    placeholder="Select Legal Forms"
-                    optionLabel="name"
-                    display="chip"
-                    icon="pi pi-times"
-                    name="legalForm"
-                    styleClass="w-full md:w-80"
-                    [maxSelectedLabels]="999"
-                    chipIcon="pi pi-times"
-                  />
-                  <label for="stampDuty">Is Stamp Duty?</label>
-                  <p-select
-                    [options]="stamps"
-                    optionLabel="name"
-                    placeholder="Select Stamp Duty"
-                    class="w-full md:w-56"
-                  />
-                </form>
-                <form action="" *ngIf="showBusiness">
-                  <label for="mainShare">Main Share</label>
-                  <input
-                    pInputText
-                    id="mainShare"
-                    aria-describedby="mainShare-help"
-                    [(ngModel)]="value"
-                    name="mainShare"
-                    placeholder="Main Share"
-                  />
-                  <label for="marketShare">Market Share</label>
-                  <input
-                    pInputText
-                    id="marketShare"
-                    aria-describedby="marketShare-help"
-                    [(ngModel)]="value1"
-                    placeholder="58%"
-                    name="marketShare"
-                  />
-
-                  <label for="establishedYear">Established Year</label>
-                  <input
-                    pInputText
-                    id="establishedYear"
-                    aria-describedby="establishedYear-help"
-                    [(ngModel)]="value2"
-                    name="establishedYear"
-                    placeholder="2014"
-                  />
-                  <label for="website">Website</label>
-
-                  <input
-                    pInputText
-                    id="website"
-                    aria-describedby="website-help"
-                    [(ngModel)]="value3"
-                    name="website"
-                    placeholder="https://www.google.com"
-                  />
-                  <label for="marketSize">Market Size</label>
-                  <input
-                    pInputText
-                    id="marketSize"
-                    aria-describedby="marketSize-help"
-                    [(ngModel)]="value4"
-                    placeholder="50M"
-                    name="marketSize"
-                  />
-                  <label for="noOfEmployees">Number of Employees</label>
-                  <input
-                    pInputText
-                    id="noOfEmployees"
-                    aria-describedby="noOfEmployees-help"
-                    [(ngModel)]="value4"
-                    placeholder="50,000"
-                    name="noOfEmployees"
-                  />
-                </form>
-                <form action="" *ngIf="showUpload">
-                  <label for="documentTypes"
-                    >Document Type<sup class="danger">*</sup></label
-                  >
-                  <p-multiselect
-                    [options]="documentTypes"
-                    [(ngModel)]="selectedDocumentTypes"
-                    placeholder="Select Document Type"
-                    optionLabel="name"
-                    display="chip"
-                    icon="pi pi-times"
-                    name="documentTypes"
-                    styleClass="w-full md:w-80"
-                    [maxSelectedLabels]="999"
-                    chipIcon="pi pi-times"
-                  />
-                  <label for="calendar"
-                    >Expiry Date<sup class="danger">*</sup></label
-                  >
-                  <p-calendar
-                    [(ngModel)]="date2"
-                    [iconDisplay]="'input'"
-                    [showIcon]="true"
-                    placeholder="Expiry Date"
-                    inputId="icondisplay"
-                    name="calendar"
-                  />
-                </form>
+            <div class="row">
+              <div class="col-sm">
+                <label for="identificationNumberIndividual"
+                  >Identification Number<sup class="danger">*</sup></label
+                >
+                <input
+                  pInputText
+                  id="identificationNumberIndividual"
+                  aria-describedby="identificationNumberIndividual-help"
+                  [(ngModel)]="value21"
+                  placeholder="#42352353"
+                  name="identificationNumberIndividual"
+                />
+              </div>
+              <div class="col-sm">
+                <div class="row align-items-center">
+                  <div class="col-sm-10">
+                    <label for="selectIdentityIndividual"
+                      >Select Identity<sup class="danger">*</sup></label
+                    >
+                    <p-multiselect
+                      [options]="identityIndividual"
+                      [(ngModel)]="selectedIdentityIndividual"
+                      placeholder="Select Identity"
+                      optionLabel="name"
+                      display="chip"
+                      icon="pi pi-times"
+                      name="identityIndividual"
+                      styleClass="w-full md:w-80"
+                      [maxSelectedLabels]="999"
+                      chipIcon="pi pi-times"
+                    />
+                  </div>
+                  <div class="col-sm-2 d-flex justify-end">
+                    <p-button
+                      icon="pi pi-plus"
+                      severity="danger"
+                      class="add-btn"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
-    </p-tabpanel>
-  </p-tabpanels>
-</p-tabs>
+    </div>
+  </div>
+</div>

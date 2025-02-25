@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
   styleUrl: './add-client.component.scss',
 })
 export class AddClientComponent {
+  addClient = true;
   saveInfo() {
     console.log('saved');
   }

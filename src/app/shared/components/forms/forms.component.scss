@@ -88,6 +88,7 @@
       align-items: center;
       display: flex;
       border-radius: 0;
+
       border: none;
     }
     .p-tieredmenu-item-label,
@@ -194,10 +195,19 @@
       top: 45px !important;
       position: absolute;
     }
+    #identificationNumberIndividual {
+      width: 100%;
+    }
     .p-splitbutton-button.p-button {
       border-radius: 0;
       border-bottom: none;
     }
+    .add-btn .p-button {
+      height: 60px;
+      margin-top: 8px;
+      width: 100%;
+    }
+
     /*responsiveness*/
     @media only screen and (max-width: 600px) {
       .nextBtn {
@@ -270,6 +280,7 @@ form {
     font-size: var(--custom-size-16);
     line-height: var(--custom-line-height-25);
     color: var(--custom-grey-bold);
+    white-space: nowrap;
     sup {
       color: var(--custom-red);
     }

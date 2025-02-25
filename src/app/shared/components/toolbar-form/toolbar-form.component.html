@@ -1,0 +1,18 @@
+<!--toolbar-->
+
+<p-toolbar styleClass="mb-6  p-3">
+  <ng-template #start>
+    <p class="client">
+      <span class="pi pi-angle-left" *ngIf="backExists"></span>{{ header }}
+      <span class="badge badge-warning">Pending</span>
+    </p>
+  </ng-template>
+
+  <ng-template #end>
+    <p-splitButton
+      label="Workflow Actions"
+      [model]="items"
+      class="work-actions"
+    />
+  </ng-template>
+</p-toolbar>

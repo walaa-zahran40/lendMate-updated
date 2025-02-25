@@ -1,116 +1,5 @@
 :host {
   --p-tabs-active-bar-background: #0a69bb;
-  --custom-color-white: #fff;
-  --custom-width-20: 20%;
-  --custom-position-auto: auto;
-  --custom-position-28: 28px;
-  --custom-position-center: center;
-  --custom-padding-20: 20px;
-  --custom-width-100: 100%;
-  --custom-position-0: 0px;
-  --custom-font-size-18: 18px;
-  --custom-weight-700: 700;
-  --custom-font-epilogue: "epilogue";
-  --custom-line-height-28: 28.8px;
-  --custom-height-70: 70vh;
-  --custom-cursor: pointer;
-  --custom-width-30: 30%;
-  --custom-width-94: 94%;
-  --custom-background-transparent: transparent;
-
-  &::ng-deep {
-    .p-button {
-      flex-direction: var(--custom-flex-direction-row-reverse);
-      background: var(--custom-background-transparent);
-      border-radius: var(--custom-size-8);
-      padding-top: var(--custom-size-8);
-      padding-right: var(--custom-size-16);
-      padding-bottom: var(--custom-size-8);
-      padding-left: var(--custom-size-16);
-      border: var(--custom-border);
-      font-family: var(--custom-font-family-regular);
-      font-weight: var(--custom-font-weight);
-      font-size: var(--custom-font-size-13);
-      line-height: var(--custom-font-size-24);
-    }
-
-    .p-button:not(:disabled):hover {
-      background: var(--p-tabs-active-bar-background);
-      border: none;
-    }
-    .custom-next {
-      background: var(--p-tabs-active-bar-background);
-      text-align: var(--custom-position-center);
-      padding: var(--custom-padding-20);
-      font-size: var(--custom-font-size-18);
-      cursor: var(--custom-cursor);
-      color: var(--custom-color-white);
-    }
-    .custom-save {
-      background: var(--p-tabs-active-bar-background);
-      margin-left: var(--custom-position-auto);
-      margin-right: var(--custom-position-28);
-      text-align: var(--custom-position-center);
-      padding: var(--custom-padding-20);
-      font-size: var(--custom-font-size-18);
-      cursor: var(--custom-cursor);
-      color: var(--custom-color-white);
-    }
-
-    .p-button-label {
-      font-weight: var(--custom-weight-700);
-      font-size: var(--custom-font-size-18);
-      font-family: var(--custom-font-epilogue);
-      line-height: var(--custom-line-height-28);
-    }
-    .custom-back .p-button {
-      background: var(--custom-background-transparent);
-      border: 1px solid var(--p-tabs-active-bar-background);
-      color: var(--p-tabs-active-bar-background) !important;
-      width: var(--custom-width-30);
-      text-align: var(--custom-position-center);
-      padding: var(--custom-padding-20);
-      font-size: var(--custom-font-size-18);
-      cursor: var(--custom-cursor);
-    }
-    .custom-back .p-button:not(:disabled):hover {
-      background: var(--custom-color-white) !important;
-      border: 1px solid var(--p-tabs-active-bar-background);
-    }
-    /*responsiveness*/
-    @media only screen and (max-width: 600px) {
-      .nextBtn {
-        width: var(--custom-size-100);
-      }
-      .custom-save {
-        width: 100%;
-        display: block;
-        margin-top: 10px !important;
-      }
-      .p-toolbar-end {
-        width: var(--custom-size-100);
-      }
-      p.client {
-        width: var(--custom-size-100);
-        justify-content: var(--custom-justify-content-between);
-      }
-      .p-toolbar-start {
-        width: var(--custom-size-100);
-      }
-
-      .custom-back {
-        margin-right: var(--custom-position-0);
-        margin-left: var(--custom-position-auto);
-        margin-bottom: var(--custom-padding-20);
-      }
-      .custom-back .p-button {
-        width: var(--custom-width-100);
-      }
-    }
-  }
-}
-:host {
-  --p-tabs-active-bar-background: #0a69bb;
   --p-chip-remove-icon-color: #0a69bb;
   --custom-color: #ffb836;
   --custom-grey: #7c8493;
@@ -165,6 +54,7 @@
       padding: var(--custom-padding-right-10);
     }
     .p-button {
+      background: var(--p-tabs-active-bar-background);
       border-radius: var(--custom-size-8);
       padding-top: var(--custom-size-8);
       padding-right: var(--custom-size-16);
@@ -284,7 +174,7 @@
       color: var(--p-tabs-active-bar-background);
     }
     .p-toolbar {
-      padding-right: var(--custom-position-28) !important;
+      border: none;
     }
     .p-splitbutton {
       width: 100%;
@@ -293,11 +183,9 @@
     .work-actions {
       width: 100%;
     }
-    .p-steppanels {
-      padding: 0;
-    }
-    .custom-next .p-button {
-      padding-block: 0;
+    .p-splitbutton-button.p-button {
+      border-radius: 0;
+      border-bottom: none;
     }
     .p-button {
       border-radius: 0;
@@ -306,14 +194,18 @@
       top: 45px !important;
       position: absolute;
     }
-
+    .p-splitbutton-button.p-button {
+      border-radius: 0;
+      border-bottom: none;
+    }
     /*responsiveness*/
     @media only screen and (max-width: 600px) {
       .nextBtn {
         width: var(--custom-size-100);
       }
       .p-toolbar-end,
-      p-button {
+      p-button,
+      .p-button {
         width: var(--custom-size-100);
       }
       p.client {
@@ -340,11 +232,6 @@
       .p-tieredmenu {
         position: absolute;
         top: 75px !important;
-      }
-      .custom-next {
-        width: 100%;
-        display: block;
-        margin-top: 10px !important;
       }
     }
   }
