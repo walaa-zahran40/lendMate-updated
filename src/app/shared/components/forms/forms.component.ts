@@ -39,6 +39,8 @@ export class FormsComponent {
   value29: string | undefined;
   value30: string | undefined;
   value31: string | undefined;
+  value32: string | undefined;
+  value33: string | undefined;
 
   sectors!: any[];
   selectedSectors!: any[];
@@ -50,28 +52,42 @@ export class FormsComponent {
   selectedSubSectors!: any[];
   documents!: any[];
   selectedDocuments!: any[];
-
+  areas!: any[];
+  selectedAreas!: any[];
+  governments!: any[];
+  selectedGovernments!: any[];
+  addresses!: any[];
+  selectedAddresses!: any[];
   subSectorsIndividual!: any[];
   selectedSubSectorsIndividual!: any[];
   identityIndividual!: any[];
   selectedIdentityIndividual!: any[];
   genders!: any[];
   selectedGenders!: any[];
-
+  countries!: any[];
+  selectedCountries!: any[];
   legalForm!: any[];
   selectedLegalForm!: any[];
   selectedDocumentTypes!: any[];
+  isMain!: any[];
+  selectedIsMain!: any[];
+  isActive!: any[];
+  selectedIsActive!: any[];
+
   date: Date | undefined;
   date1: Date | undefined;
   date2: Date | undefined;
   date3: Date | undefined;
+
   stamps!: any[];
+
   @Input() title!: string;
   @Input() titleIndividual!: string;
   @Input() descriptionIndividual!: string;
   @Input() addClient!: boolean;
   @Input() description!: string;
   @Input() addClientShowMain!: boolean;
+  @Input() addAddressShowMain!: boolean;
   @Input() clientOnboardingCompanyShowMain!: boolean;
   @Input() clientOnboardingIndividualShowMain!: boolean;
   @Input() uploadDocumentsShowMain!: boolean;
@@ -111,10 +127,31 @@ export class FormsComponent {
       { name: 'PDF', code: 'pdf' },
       { name: 'Word', code: 'word' },
     ];
+    this.areas = [
+      { name: 'Giza', code: 'giza' },
+      { name: 'New Cairo', code: 'nc' },
+    ];
+    this.governments = [
+      { name: 'Haram', code: 'haram' },
+      { name: 'Andalus', code: 'andalus' },
+    ];
     this.genders = [
       { name: 'Male', code: 'male' },
       { name: 'Female', code: 'female' },
     ];
     this.identityIndividual = [{ name: 'Identity', code: 'identity' }];
+    this.addresses = [{ name: 'Address Type', code: 'adType' }];
+    this.countries = [
+      { name: 'Egypt', code: 'egypt' },
+      { name: 'UAE', code: 'uae' },
+    ];
+    this.isActive = [
+      { name: 'Yes', code: 'yes' },
+      { name: 'NO', code: 'no' },
+    ];
+    this.isMain = [
+      { name: 'Yes', code: 'yes' },
+      { name: 'NO', code: 'no' },
+    ];
   }
 }

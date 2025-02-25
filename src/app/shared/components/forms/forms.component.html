@@ -11,6 +11,13 @@
       label="View Document Details"
       class="custom-view m-0 float-right"
     />
+    <p-button
+      *ngIf="addAddressShowMain"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Document Details"
+      class="custom-view m-0 float-right"
+    />
   </div>
   <div class="col-sm-8">
     <div class="flex flex-col md:flex-row gap-8">
@@ -635,6 +642,108 @@
               inputId="icondisplay"
               name="calendar"
             />
+          </form>
+          <form action="" *ngIf="addAddressShowMain">
+            <label for="addresses"
+              >Address Type<sup class="danger">*</sup></label
+            >
+            <p-multiselect
+              [options]="addresses"
+              [(ngModel)]="selectedAddresses"
+              placeholder="Select Address Type"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="addresses"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="countries">Country<sup class="danger">*</sup></label>
+            <p-multiselect
+              [options]="countries"
+              [(ngModel)]="selectedCountries"
+              placeholder="Select Country"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="countries"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="governments"
+              >Government<sup class="danger">*</sup></label
+            >
+            <p-multiselect
+              [options]="governments"
+              [(ngModel)]="selectedGovernments"
+              placeholder="Select Government"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="governments"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="areas">Area<sup class="danger">*</sup></label>
+            <p-multiselect
+              [options]="areas"
+              [(ngModel)]="selectedAreas"
+              placeholder="Select Area"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="areas"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="detailsEnglish">Details English</label>
+            <input
+              pInputText
+              id="detailsEnglish"
+              aria-describedby="detailsEnglish-help"
+              [(ngModel)]="value32"
+              name="detailsEnglish"
+              placeholder="Address Details"
+            />
+            <label for="detailsEnglish">Details Arabic</label>
+            <input
+              pInputText
+              id="detailsArabic"
+              aria-describedby="detailsArabic-help"
+              [(ngModel)]="value33"
+              name="detailsArabic"
+              placeholder="Address Details"
+            />
+            <div class="row">
+              <div class="col-sm">
+                <label for="isMain">isMain<sup class="danger">*</sup></label>
+                <p-select
+                  [options]="isMain"
+                  [(ngModel)]="selectedIsMain"
+                  optionLabel="name"
+                  placeholder="Is main?"
+                  class="w-full md:w-56"
+                  name="isMain"
+                />
+              </div>
+              <div class="col-sm">
+                <label for="isActive"
+                  >isActive<sup class="danger">*</sup></label
+                >
+                <p-select
+                  [options]="isActive"
+                  [(ngModel)]="selectedIsActive"
+                  optionLabel="name"
+                  placeholder="is Active?"
+                  class="w-full md:w-56"
+                  name="isActive"
+                />
+              </div>
+            </div>
           </form>
         </div>
       </div>
