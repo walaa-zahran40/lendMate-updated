@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LeasingMandatesComponent } from './leasing-mandates/leasing-mandates/leasing-mandates.component';
-import { ClientOnboardingComponent } from './clients/companies/client-onboarding/client-onboarding.component';
+import { UploadDocumentsComponent } from './clients/companies/upload-documents/upload-documents.component';
 
 const routes: Routes = [
   {
@@ -10,7 +10,7 @@ const routes: Routes = [
   },
   {
     path: 'clients',
-    component: ClientOnboardingComponent,
+    component: UploadDocumentsComponent,
   },
 ];
 

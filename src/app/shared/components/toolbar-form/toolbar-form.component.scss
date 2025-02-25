@@ -183,6 +183,10 @@
     .work-actions {
       width: 100%;
     }
+    .work-actions .p-button {
+      background: var(--p-tabs-active-bar-background);
+      border-radius: 0px;
+    }
     .p-splitbutton-button.p-button {
       border-radius: 0;
       border-bottom: none;

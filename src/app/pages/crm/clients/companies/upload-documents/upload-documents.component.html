@@ -1,7 +1,52 @@
-<app-forms
-  [title]="'Main Information'"
-  [description]="
-    'Introduce your company core info quickly to users by fill up company details'
-  "
-  [uploadDocumentsShowUpload]="true"
-></app-forms>
+<app-toolbar-form
+  [header]="'Upload Documents'"
+  [backExists]="true"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-forms
+        [title]="'Main Information'"
+        [description]="
+          'Introduce your company core info quickly to users by fill up company
+details'
+        "
+        [uploadDocumentsShowMain]="true"
+      ></app-forms>
+      <hr />
+      <div class="row">
+        <div class="col-sm-3 p-0">
+          <h2 class="m-0">Upload File</h2>
+          <p class="tab-panel-paragraph">
+            This image will be shown publicly as logo.
+          </p>
+        </div>
+        <div class="col-sm-9 fileUploadDiv">
+          <p-fileupload
+            mode="basic"
+            name="demo[]"
+            chooseIcon="pi pi-upload"
+            url="https://www.primefaces.org/cdn/api/upload.php"
+            accept="image/*"
+            maxFileSize="1000000"
+            (onUpload)="onBasicUploadAuto($event)"
+            [auto]="true"
+            chooseLabel="Browse"
+          />
+        </div>
+      </div>
+
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          (click)="addDocument()"
+        >
+          <p-button
+            label="Add a Document"
+            class="custom-save m-0 float-right"
+          />
+        </div>
+      </div>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

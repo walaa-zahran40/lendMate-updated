@@ -14,7 +14,7 @@ import { TmlOfficerVisibleComponent } from './tml-officer/tml-officer.component'
 import { SharedModule } from '../../../../shared/shared.module';
 import { ButtonModule } from 'primeng/button';
 import { StepperModule } from 'primeng/stepper';
-import { ComponentsModule } from '../../../../shared/components/components.module';
+import { FileUploadModule } from 'primeng/fileupload';
 import { UploadDocumentsComponent } from './upload-documents/upload-documents.component';
 import { TabsModule } from 'primeng/tabs';
 import { ClientOnboardingComponent } from './client-onboarding/client-onboarding.component';
@@ -41,6 +41,7 @@ import { ClientOnboardingComponent } from './client-onboarding/client-onboarding
     StepperModule,
     ButtonModule,
     TabsModule,
+    FileUploadModule,
   ],
   exports: [
     AddClientComponent,

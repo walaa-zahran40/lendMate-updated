@@ -186,32 +186,7 @@
               name="noOfEmployees"
             />
           </form>
-          <form action="" *ngIf="uploadDocumentsShowUpload">
-            <label for="documentTypes"
-              >Document Type<sup class="danger">*</sup></label
-            >
-            <p-multiselect
-              [options]="documentTypes"
-              [(ngModel)]="selectedDocumentTypes"
-              placeholder="Select Document Type"
-              optionLabel="name"
-              display="chip"
-              icon="pi pi-times"
-              name="documentTypes"
-              styleClass="w-full md:w-80"
-              [maxSelectedLabels]="999"
-              chipIcon="pi pi-times"
-            />
-            <label for="calendar">Expiry Date<sup class="danger">*</sup></label>
-            <p-calendar
-              [(ngModel)]="date"
-              [iconDisplay]="'input'"
-              [showIcon]="true"
-              placeholder="Expiry Date"
-              inputId="icondisplay"
-              name="calendar"
-            />
-          </form>
+
           <form action="" *ngIf="addClientShowIndividual">
             <label for="nameEnglishIndividual"
               >Name in English<sup class="danger">*</sup></label
@@ -627,6 +602,32 @@
                 </div>
               </div>
             </div>
+          </form>
+          <form action="" *ngIf="uploadDocumentsShowMain">
+            <label for="documents"
+              >Document Type<sup class="danger">*</sup></label
+            >
+            <p-multiselect
+              [options]="documents"
+              [(ngModel)]="selectedDocuments"
+              placeholder="Select Document Type"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="documents"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="calendar">Expiry Date<sup class="danger">*</sup></label>
+            <p-calendar
+              [(ngModel)]="date3"
+              [iconDisplay]="'input'"
+              [showIcon]="true"
+              placeholder="Expiry Date"
+              inputId="icondisplay"
+              name="calendar"
+            />
           </form>
         </div>
       </div>

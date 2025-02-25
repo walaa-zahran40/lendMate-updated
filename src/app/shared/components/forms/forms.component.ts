@@ -48,6 +48,9 @@ export class FormsComponent {
   selectedLegalFormLaw!: any[];
   subSectors!: any[];
   selectedSubSectors!: any[];
+  documents!: any[];
+  selectedDocuments!: any[];
+
   subSectorsIndividual!: any[];
   selectedSubSectorsIndividual!: any[];
   identityIndividual!: any[];
@@ -57,11 +60,11 @@ export class FormsComponent {
 
   legalForm!: any[];
   selectedLegalForm!: any[];
-  documentTypes!: any[];
   selectedDocumentTypes!: any[];
   date: Date | undefined;
   date1: Date | undefined;
   date2: Date | undefined;
+  date3: Date | undefined;
   stamps!: any[];
   @Input() title!: string;
   @Input() titleIndividual!: string;
@@ -71,9 +74,9 @@ export class FormsComponent {
   @Input() addClientShowMain!: boolean;
   @Input() clientOnboardingCompanyShowMain!: boolean;
   @Input() clientOnboardingIndividualShowMain!: boolean;
+  @Input() uploadDocumentsShowMain!: boolean;
   @Input() addClientShowLegal!: boolean;
   @Input() addClientShowBusiness!: boolean;
-  @Input() uploadDocumentsShowUpload!: boolean;
   @Input() addClientShowIndividual!: boolean;
   @Input() clientOnboarding!: boolean;
   @Input() clientOnboardingShowIndividual!: boolean;
@@ -104,7 +107,7 @@ export class FormsComponent {
       { name: 'Yes', code: '1' },
       { name: 'No', code: '0' },
     ];
-    this.documentTypes = [
+    this.documents = [
       { name: 'PDF', code: 'pdf' },
       { name: 'Word', code: 'word' },
     ];
