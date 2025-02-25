@@ -27,6 +27,9 @@ export class FormsComponent {
   date2: Date | undefined;
   stamps!: any[];
   @Input() title!: string;
+  @Input() titleIndividual!: string;
+  @Input() descriptionIndividual!: string;
+  @Input() addClient!: boolean;
   @Input() header!: string;
   @Input() description!: string;
   @Input() showMain!: boolean;
