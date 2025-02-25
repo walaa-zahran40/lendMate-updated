@@ -25,6 +25,13 @@
       label="View Sales Turnover"
       class="custom-view m-0 float-right"
     />
+    <p-button
+      *ngIf="addPhoneNumbersShowMain"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View PhoneNumber"
+      class="custom-view m-0 float-right"
+    />
   </div>
   <div class="col-sm-8">
     <div class="flex flex-col md:flex-row gap-8">
@@ -772,6 +779,34 @@
               placeholder="Date"
               inputId="icondisplay"
               name="dateSalesTurnover"
+            />
+          </form>
+          <form action="" *ngIf="addPhoneNumbersShowMain">
+            <label for="phoneType"
+              >Phone Type <sup class="danger">*</sup></label
+            >
+            <p-multiselect
+              [options]="phoneTypes"
+              [(ngModel)]="selectedPhoneTypes"
+              placeholder="Select Phone Types"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="phoneTypes"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="phoneNumber"
+              >Phone Number <sup class="danger">*</sup></label
+            >
+            <input
+              pInputText
+              id="phoneNumber"
+              aria-describedby="phoneNumber-help"
+              [(ngModel)]="value35"
+              name="phoneNumber"
+              placeholder="Add Phone Number"
             />
           </form>
         </div>

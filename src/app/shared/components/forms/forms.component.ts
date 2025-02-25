@@ -42,6 +42,8 @@ export class FormsComponent {
   value32: string | undefined;
   value33: string | undefined;
   value34: string | undefined;
+  value35: string | undefined;
+  value36: string | undefined;
 
   sectors!: any[];
   selectedSectors!: any[];
@@ -67,6 +69,8 @@ export class FormsComponent {
   selectedGenders!: any[];
   countries!: any[];
   selectedCountries!: any[];
+  phoneTypes!: any[];
+  selectedPhoneTypes!: any[];
   legalForm!: any[];
   selectedLegalForm!: any[];
   selectedDocumentTypes!: any[];
@@ -94,6 +98,7 @@ export class FormsComponent {
   @Input() clientOnboardingIndividualShowMain!: boolean;
   @Input() uploadDocumentsShowMain!: boolean;
   @Input() addSalesShowMain!: boolean;
+  @Input() addPhoneNumbersShowMain!: boolean;
   @Input() addClientShowLegal!: boolean;
   @Input() addClientShowBusiness!: boolean;
   @Input() addClientShowIndividual!: boolean;
@@ -126,6 +131,7 @@ export class FormsComponent {
       { name: 'Yes', code: '1' },
       { name: 'No', code: '0' },
     ];
+    this.phoneTypes = [{ name: 'Phone Type', code: 'pt' }];
     this.documents = [
       { name: 'PDF', code: 'pdf' },
       { name: 'Word', code: 'word' },

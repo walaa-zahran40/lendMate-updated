@@ -4,8 +4,10 @@ import { Component } from '@angular/core';
   selector: 'app-add-phone-number',
   standalone: false,
   templateUrl: './add-phone-number.component.html',
-  styleUrl: './add-phone-number.component.scss'
+  styleUrl: './add-phone-number.component.scss',
 })
 export class AddPhoneNumberComponent {
-
+  addPhoneNumber() {
+    console.log('added');
+  }
 }
