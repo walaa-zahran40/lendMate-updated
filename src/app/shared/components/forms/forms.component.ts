@@ -52,8 +52,10 @@ export class FormsComponent {
   value42: string | undefined;
   value43: string | undefined;
   value44: string | undefined;
+  value45: string | undefined;
 
   sectors!: any[];
+  crAuthorityOffices!: any[];
   selectedSectors!: any[];
   sectorsIndividual!: any[];
   selectedSectorsIndividual!: any[];
@@ -102,6 +104,7 @@ export class FormsComponent {
   date2: Date | undefined;
   date3: Date | undefined;
   date4: Date | undefined;
+  date5: Date | undefined;
 
   stamps!: any[];
 
@@ -114,6 +117,7 @@ export class FormsComponent {
   @Input() addAddressShowMain!: boolean;
   @Input() clientOnboardingCompanyShowMain!: boolean;
   @Input() clientOnboardingIndividualShowMain!: boolean;
+  @Input() addCRAuthorityOfficeShowMain!: boolean;
   @Input() uploadDocumentsShowMain!: boolean;
   @Input() addSalesShowMain!: boolean;
   @Input() addPhoneNumbersShowMain!: boolean;
@@ -180,6 +184,12 @@ export class FormsComponent {
     this.isMain = [
       { name: 'Yes', code: 'yes' },
       { name: 'NO', code: 'no' },
+    ];
+    this.crAuthorityOffices = [
+      {
+        name: 'CENTRAL BANK OF EGYPT - CUSTOMER CODE',
+        code: 'CC',
+      },
     ];
   }
 }

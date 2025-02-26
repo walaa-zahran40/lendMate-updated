@@ -39,6 +39,13 @@
       label="View Contact Details"
       class="custom-view m-0 float-right"
     />
+    <p-button
+      *ngIf="addCRAuthorityOfficeShowMain"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View CR Authority"
+      class="custom-view m-0 float-right"
+    />
   </div>
   <div class="col-sm-8">
     <div class="flex flex-col md:flex-row gap-8">
@@ -1060,6 +1067,39 @@
               placeholder="Is Active?"
               class="w-full md:w-56"
               name="isActive"
+            />
+          </form>
+          <form action="" *ngIf="addCRAuthorityOfficeShowMain">
+            <label for="addCRAuthorityOfficeCRExpiryDate"
+              >CR Expiry Date<sup class="danger">*</sup></label
+            >
+            <p-calendar
+              [(ngModel)]="date5"
+              [iconDisplay]="'input'"
+              [showIcon]="true"
+              placeholder="09/08/1997"
+              inputId="icondisplay"
+              name="addCRAuthorityOfficeCRExpiryDate"
+            />
+            <label for="crNumberAuthorityOffice"
+              >CR Number <sup class="danger">*</sup></label
+            >
+            <input
+              pInputText
+              id="crNumberAuthorityOffice"
+              aria-describedby="crNumberAuthorityOffice-help"
+              [(ngModel)]="value45"
+              name="crNumberAuthorityOffice"
+              placeholder="Add CR Number"
+            />
+            <label for="crNumberAuthorityOffice"
+              >CR Authority Office <sup class="danger">*</sup></label
+            >
+            <p-select
+              [options]="crAuthorityOffices"
+              optionLabel="name"
+              placeholder="Select CR Authority Office"
+              class="w-full md:w-56"
             />
           </form>
         </div>
