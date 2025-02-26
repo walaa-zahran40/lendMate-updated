@@ -7,6 +7,7 @@ import { Component, Input } from '@angular/core';
   styleUrl: './forms.component.scss',
 })
 export class FormsComponent {
+  //ngModel Values
   value: string | undefined;
   value1: string | undefined;
   value2: string | undefined;
@@ -58,7 +59,8 @@ export class FormsComponent {
   value48: string | undefined;
   value49: string | undefined;
   value50: string | undefined;
-
+  value51: string | undefined;
+  //options
   sectors!: any[];
   crAuthorityOffices!: any[];
   selectedSectors!: any[];
@@ -89,7 +91,7 @@ export class FormsComponent {
   addressTypeContactPerson!: any[];
   selectIdentityTypeContactPerson!: any[];
   selectedPhoneTypeContactPerson!: any[];
-
+  shareHolderNames!: any[];
   stamps!: any[];
   genders!: any[];
   selectedGenders!: any[];
@@ -105,7 +107,8 @@ export class FormsComponent {
   isActive!: any[];
   selectedIsActive!: any[];
   companyTypes!: any[];
-
+  shareHolderTypes!: any[];
+  //dates
   date: Date | undefined;
   date1: Date | undefined;
   date2: Date | undefined;
@@ -114,7 +117,7 @@ export class FormsComponent {
   date5: Date | undefined;
   date6: Date | undefined;
   date7: Date | undefined;
-
+  //inputs
   @Input() title!: string;
   @Input() titleIndividual!: string;
   @Input() descriptionIndividual!: string;
@@ -136,6 +139,7 @@ export class FormsComponent {
   @Input() clientOnboardingShowIndividual!: boolean;
   @Input() addTaxAuthorityOfficeShowMain!: boolean;
   @Input() addCentralBankInfoShowMain!: boolean;
+  @Input() addShareHolderShowMain!: boolean;
   constructor() {}
   ngOnInit() {
     this.sectors = [
@@ -198,6 +202,18 @@ export class FormsComponent {
       {
         name: 'CENTRAL BANK OF EGYPT - CUSTOMER CODE',
         code: 'CC',
+      },
+    ];
+    this.shareHolderNames = [
+      {
+        name: 'Name',
+        code: 'name',
+      },
+    ];
+    this.shareHolderTypes = [
+      {
+        name: 'Type',
+        code: 'type',
       },
     ];
   }

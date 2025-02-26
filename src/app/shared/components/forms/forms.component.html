@@ -60,6 +60,13 @@
       label="View Central Bank Info"
       class="custom-view m-0 float-right"
     />
+    <p-button
+      *ngIf="addShareHolderShowMain"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Share Holder"
+      class="custom-view m-0 float-right"
+    />
   </div>
   <div class="col-sm-8">
     <div class="flex flex-col md:flex-row gap-8">
@@ -1213,6 +1220,37 @@
               [(ngModel)]="value50"
               name="cbeCustomerCodeCentralBankInfo"
               placeholder="Add CBE Customer Code"
+            />
+          </form>
+          <form action="" *ngIf="addShareHolderShowMain">
+            <label for="shareHolderName"
+              >Share HolderName <sup class="danger">*</sup></label
+            >
+            <p-select
+              [options]="shareHolderNames"
+              optionLabel="name"
+              placeholder="Select Share Holder Name"
+              class="w-full md:w-56"
+            />
+            <label for="shareHolderType"
+              >Share Holder Type <sup class="danger">*</sup></label
+            >
+            <p-select
+              [options]="shareHolderTypes"
+              optionLabel="name"
+              placeholder="Select Share Holder Type"
+              class="w-full md:w-56"
+            />
+            <label for="shareHolderPercentage"
+              >Share Holder Percentage <sup class="danger">*</sup></label
+            >
+            <input
+              pInputText
+              id="shareHolderPercentage"
+              aria-describedby="shareHolderPercentage-help"
+              [(ngModel)]="value51"
+              name="shareHolderPercentage"
+              placeholder="Add Share Holder Percentage"
             />
           </form>
         </div>
