@@ -44,6 +44,14 @@ export class FormsComponent {
   value34: string | undefined;
   value35: string | undefined;
   value36: string | undefined;
+  value37: string | undefined;
+  value38: string | undefined;
+  value39: string | undefined;
+  value40: string | undefined;
+  value41: string | undefined;
+  value42: string | undefined;
+  value43: string | undefined;
+  value44: string | undefined;
 
   sectors!: any[];
   selectedSectors!: any[];
@@ -65,6 +73,16 @@ export class FormsComponent {
   selectedSubSectorsIndividual!: any[];
   identityIndividual!: any[];
   selectedIdentityIndividual!: any[];
+  selectedIsActiveContactPerson!: any[];
+  areasContactPerson!: any[];
+  governmentContactPerson!: any[];
+  countryContactPerson!: any[];
+  selectedIsMainContactPerson!: any[];
+  selectedGendersContactPerson!: any[];
+  addressTypeContactPerson!: any[];
+  selectIdentityTypeContactPerson!: any[];
+  selectedPhoneTypeContactPerson!: any[];
+
   genders!: any[];
   selectedGenders!: any[];
   countries!: any[];
@@ -138,12 +156,12 @@ export class FormsComponent {
       { name: 'Word', code: 'word' },
     ];
     this.areas = [
-      { name: 'Giza', code: 'giza' },
-      { name: 'New Cairo', code: 'nc' },
-    ];
-    this.governments = [
       { name: 'Haram', code: 'haram' },
       { name: 'Andalus', code: 'andalus' },
+    ];
+    this.governments = [
+      { name: 'Giza', code: 'giza' },
+      { name: 'New Cairo', code: 'nc' },
     ];
     this.genders = [
       { name: 'Male', code: 'male' },

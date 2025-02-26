@@ -229,6 +229,14 @@
       color: var(--p-tabs-active-bar-background);
       border: 1px solid var(--p-tabs-active-bar-background);
     }
+    #emailAddressContactPerson,
+    #phoneNumberContactPerson {
+      display: block;
+      width: 100%;
+    }
+    .p-multiselect-label:has(.p-chip) {
+      padding: 0;
+    }
     /*responsiveness*/
     @media only screen and (max-width: 600px) {
       .nextBtn {

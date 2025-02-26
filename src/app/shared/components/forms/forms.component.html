@@ -817,169 +817,250 @@
             />
           </form>
           <form action="" *ngIf="addContactPersonShowMain">
-            <label for="nameEnglishIndividual"
+            <label for="nameEnglishContactPerson"
               >Name in English<sup class="danger">*</sup></label
             >
             <input
               pInputText
-              id="nameEnglishIndividual"
-              aria-describedby="nameEnglishIndividual-help"
-              [(ngModel)]="value11"
-              name="nameEnglishIndividual"
-              placeholder="Google"
+              id="nameEnglishContactPerson"
+              aria-describedby="nameEnglishContactPerson-help"
+              [(ngModel)]="value36"
+              name="nameEnglishContactPerson"
+              placeholder="Mohamed"
             />
-            <label for="nameArabicIndividual"
+            <label for="nameArabicContactPerson"
               >Name in Arabic<sup class="danger">*</sup></label
             >
             <input
               pInputText
-              id="nameArabicIndividual"
-              aria-describedby="nameArabicIndividual-help"
-              [(ngModel)]="value12"
-              placeholder="Google"
-              name="nameArabicIndividual"
+              id="nameArabicContactPerson"
+              aria-describedby="nameArabicContactPerson-help"
+              [(ngModel)]="value37"
+              placeholder="Yasser"
+              name="nameArabicContactPerson"
             />
-            <label for="businessActivityIndividual"
-              >Business Activity<sup class="danger">*</sup></label
+            <label for="genderContactPerson"
+              >Gender<sup class="danger">*</sup></label
             >
-            <input
-              pInputText
-              id="businessActivityIndividual"
-              aria-describedby="businessActivityIndividual-help"
-              [(ngModel)]="value13"
-              placeholder="Technology Business"
-              name="businessActivityIndividual"
-            />
-            <label for="selectSectorIndividual"
-              >Select Sector<sup class="danger">*</sup></label
-            >
-            <p-multiselect
-              [options]="sectorsIndividual"
-              [(ngModel)]="selectedSectorsIndividual"
-              placeholder="Select Sectors"
+            <p-select
+              [options]="genders"
+              [(ngModel)]="selectedGendersContactPerson"
               optionLabel="name"
-              display="chip"
-              icon="pi pi-times"
-              name="sectorsIndividual"
-              styleClass="w-full md:w-80"
-              [maxSelectedLabels]="999"
-              chipIcon="pi pi-times"
+              placeholder="Select a Gender"
+              class="w-full md:w-56"
+              name="gender"
             />
-            <label for="selectSubSectorIndividual"
-              >Select Sub Sector<sup class="danger">*</sup></label
-            >
-            <p-multiselect
-              [options]="subSectorsIndividual"
-              [(ngModel)]="selectedSubSectorsIndividual"
-              placeholder="Select Sub Sectors"
-              optionLabel="name"
-              display="chip"
-              icon="pi pi-times"
-              name="subSectorsIndividual"
-              styleClass="w-full md:w-80"
-              [maxSelectedLabels]="999"
-              chipIcon="pi pi-times"
-            />
-            <label for="shortNameIndividual">Short Name</label>
+            <label for="TitleInEnglishContactPerson">Title in English</label>
             <input
               pInputText
-              id="shortNameIndividual"
-              aria-describedby="shortNameIndividual-help"
-              [(ngModel)]="value16"
-              placeholder="GO"
-              name="shortNameIndividual"
+              id="TitleInEnglishContactPerson"
+              aria-describedby="TitleInEnglishContactPerson-help"
+              [(ngModel)]="value38"
+              placeholder="Mou Yasser"
+              name="TitleInEnglishContactPerson"
             />
-            <label for="jobTitleIndividual">Job Title</label>
+            <label for="TitleInArabicContactPerson">Title in Arabic</label>
             <input
               pInputText
-              id="jobTitleIndividual"
-              aria-describedby="jobTitleIndividual-help"
-              [(ngModel)]="value17"
-              placeholder="Senior UI/UX Designer"
-              name="jobTitleIndividual"
-            />
-            <label for="taxIdIndividual"
-              >Tax ID<sup class="danger">*</sup></label
-            >
-            <input
-              pInputText
-              id="taxIdIndividual"
-              aria-describedby="taxIdIndividual-help"
-              [(ngModel)]="value18"
-              placeholder="#101020203030"
-              name="taxIdIndividual"
+              id="TitleInArabicContactPerson"
+              aria-describedby="TitleInArabicContactPerson-help"
+              [(ngModel)]="value39"
+              placeholder="Mou Yasser"
+              name="TitleInArabicContactPerson"
             />
             <div class="row">
-              <div class="col-sm">
-                <label for="dateOfBirthIndividual"
-                  >Date of Birth<sup class="danger">*</sup></label
-                >
-                <p-calendar
-                  [(ngModel)]="date1"
-                  [iconDisplay]="'input'"
-                  [showIcon]="true"
-                  placeholder="Date Of Birth"
-                  inputId="icondisplay"
-                  name="dateOfBirthIndividual"
-                />
-              </div>
-              <div class="col-sm">
-                <label for="genderIndividual"
-                  >Gender<sup class="danger">*</sup></label
-                >
-                <p-select
-                  [options]="genders"
-                  [(ngModel)]="selectedGenders"
-                  optionLabel="name"
-                  placeholder="Select a Gender"
-                  class="w-full md:w-56"
-                  name="gender"
-                />
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm">
-                <label for="identificationNumberIndividual"
-                  >Identification Number<sup class="danger">*</sup></label
+              <div class="col-sm-9">
+                <label for="emailAddressContactPerson"
+                  >Email Address<sup>*</sup></label
                 >
                 <input
                   pInputText
-                  id="identificationNumberIndividual"
-                  aria-describedby="identificationNumberIndividual-help"
-                  [(ngModel)]="value21"
-                  placeholder="#42352353"
-                  name="identificationNumberIndividual"
+                  id="emailAddressContactPerson"
+                  aria-describedby="emailAddressContactPerson-help"
+                  [(ngModel)]="value40"
+                  placeholder="walaa.zahran@corplease.com.eg"
+                  name="emailAddressContactPerson"
                 />
               </div>
-              <div class="col-sm">
-                <div class="row align-items-center">
-                  <div class="col-sm-10">
-                    <label for="selectIdentityIndividual"
-                      >Select Identity<sup class="danger">*</sup></label
-                    >
-                    <p-multiselect
-                      [options]="identityIndividual"
-                      [(ngModel)]="selectedIdentityIndividual"
-                      placeholder="Select Identity"
-                      optionLabel="name"
-                      display="chip"
-                      icon="pi pi-times"
-                      name="identityIndividual"
-                      styleClass="w-full md:w-80"
-                      [maxSelectedLabels]="999"
-                      chipIcon="pi pi-times"
-                    />
-                  </div>
-                  <div class="col-sm-2 d-flex justify-end">
-                    <p-button
-                      icon="pi pi-plus"
-                      severity="danger"
-                      class="add-btn"
-                    />
-                  </div>
-                </div>
+              <div class="col-sm-3">
+                <label for="genderContactPerson"
+                  >IsActive<sup class="danger">*</sup></label
+                >
+                <p-select
+                  [options]="isActive"
+                  [(ngModel)]="selectedIsActiveContactPerson"
+                  optionLabel="name"
+                  placeholder="Is Active?"
+                  class="w-full md:w-56"
+                  name="isActive"
+                />
               </div>
             </div>
+            <div class="row align-items-center">
+              <div class="col-sm-10">
+                <label for="phoneNumberContactPerson"
+                  >Phone Number<sup class="danger">*</sup></label
+                >
+                <input
+                  pInputText
+                  id="phoneNumberContactPerson"
+                  aria-describedby="phoneNumberContactPerson-help"
+                  [(ngModel)]="value41"
+                  placeholder="Type"
+                  name="phoneNumberContactPerson"
+                />
+              </div>
+              <div class="col-sm-2">
+                <p-button icon="pi pi-plus" severity="danger" class="add-btn" />
+              </div>
+            </div>
+
+            <label for="phoneTypeContactPerson"
+              >Phone Type<sup class="danger">*</sup></label
+            >
+            <p-select
+              [options]="phoneTypes"
+              [(ngModel)]="selectedPhoneTypeContactPerson"
+              optionLabel="name"
+              placeholder="Phone Type"
+              class="w-full md:w-56"
+              name="phoneTypes"
+            />
+            <div class="row align-items-center">
+              <div class="col-sm-5">
+                <label for="idNumberContactPerson">Identification Number</label>
+                <input
+                  pInputText
+                  id="idNumberContactPerson"
+                  class="w-100"
+                  aria-describedby="idNumberContactPerson-help"
+                  [(ngModel)]="value42"
+                  placeholder="#42352353"
+                  name="idNumberContactPerson"
+                />
+              </div>
+              <div class="col-sm-5">
+                <label for="selectIdentityTypeContactPerson"
+                  >Select Identity Type</label
+                >
+                <p-multiselect
+                  [options]="identityIndividual"
+                  [(ngModel)]="selectIdentityTypeContactPerson"
+                  placeholder="Select Identity"
+                  optionLabel="name"
+                  display="chip"
+                  icon="pi pi-times"
+                  name="selectIdentityTypeContactPerson"
+                  styleClass="w-full md:w-80"
+                  [maxSelectedLabels]="999"
+                  chipIcon="pi pi-times"
+                />
+              </div>
+              <div class="col-sm-2">
+                <p-button icon="pi pi-plus" severity="danger" class="add-btn" />
+              </div>
+            </div>
+
+            <label for="addressTypeContactPerson"
+              >Address Type<sup class="danger">*</sup></label
+            >
+            <p-multiselect
+              [options]="addresses"
+              [(ngModel)]="addressTypeContactPerson"
+              placeholder="Select Address Type"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="addressTypeContactPerson"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="countryContactPerson"
+              >Country<sup class="danger">*</sup></label
+            >
+            <p-multiselect
+              [options]="countries"
+              [(ngModel)]="countryContactPerson"
+              placeholder="Select Country"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="countryContactPerson"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="governmentContactPerson"
+              >Government<sup class="danger">*</sup></label
+            >
+            <p-multiselect
+              [options]="governments"
+              [(ngModel)]="governmentContactPerson"
+              placeholder="Select Government"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="governmentContactPerson"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="areasContactPerson"
+              >Area<sup class="danger">*</sup></label
+            >
+            <p-multiselect
+              [options]="areas"
+              [(ngModel)]="areasContactPerson"
+              placeholder="Select Area"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="areasContactPerson"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="detailsEnglishContactPerson">Details English</label>
+            <input
+              pInputText
+              id="detailsEnglishContactPerson"
+              aria-describedby="detailsEnglishContactPerson-help"
+              [(ngModel)]="value43"
+              placeholder="Address Details"
+              name="detailsEnglishContactPerson"
+            />
+            <label for="detailsArabicContactPerson">Details Arabic</label>
+            <input
+              pInputText
+              id="detailsArabicContactPerson"
+              aria-describedby="detailsArabicContactPerson-help"
+              [(ngModel)]="value44"
+              placeholder="Address Details"
+              name="detailsArabicContactPerson"
+            />
+            <label for="isMainContactPerson"
+              >IsMain<sup class="danger">*</sup></label
+            >
+            <p-select
+              [options]="isMain"
+              [(ngModel)]="selectedIsMainContactPerson"
+              optionLabel="name"
+              placeholder="Is Main?"
+              class="w-full md:w-56"
+              name="isMain"
+            />
+            <label for="isActiveContactPerson"
+              >IsActive<sup class="danger">*</sup></label
+            >
+            <p-select
+              [options]="isActive"
+              [(ngModel)]="selectedIsActiveContactPerson"
+              optionLabel="name"
+              placeholder="Is Active?"
+              class="w-full md:w-56"
+              name="isActive"
+            />
           </form>
         </div>
       </div>
