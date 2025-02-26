@@ -67,6 +67,13 @@
       label="View Share Holder"
       class="custom-view m-0 float-right"
     />
+    <p-button
+      *ngIf="addTMLOfficerShowMain"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View TML Officer"
+      class="custom-view m-0 float-right"
+    />
   </div>
   <div class="col-sm-8">
     <div class="flex flex-col md:flex-row gap-8">
@@ -1224,7 +1231,7 @@
           </form>
           <form action="" *ngIf="addShareHolderShowMain">
             <label for="shareHolderName"
-              >Share HolderName <sup class="danger">*</sup></label
+              >Share Holder Name <sup class="danger">*</sup></label
             >
             <p-select
               [options]="shareHolderNames"
@@ -1251,6 +1258,28 @@
               [(ngModel)]="value51"
               name="shareHolderPercentage"
               placeholder="Add Share Holder Percentage"
+            />
+          </form>
+          <form action="" *ngIf="addTMLOfficerShowMain">
+            <label for="officerName"
+              >Officer Name <sup class="danger">*</sup></label
+            >
+            <p-select
+              [options]="officerNames"
+              optionLabel="name"
+              placeholder="Select Officer Name"
+              class="w-full md:w-56"
+            />
+            <label for="officerType"
+              >Officer Type<sup class="danger">*</sup></label
+            >
+            <input
+              pInputText
+              id="officerType"
+              aria-describedby="officerType-help"
+              [(ngModel)]="value52"
+              name="officerType"
+              placeholder="Add Officer Type"
             />
           </form>
         </div>

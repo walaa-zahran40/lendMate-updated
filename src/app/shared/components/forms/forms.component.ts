@@ -60,6 +60,7 @@ export class FormsComponent {
   value49: string | undefined;
   value50: string | undefined;
   value51: string | undefined;
+  value52: string | undefined;
   //options
   sectors!: any[];
   crAuthorityOffices!: any[];
@@ -108,6 +109,8 @@ export class FormsComponent {
   selectedIsActive!: any[];
   companyTypes!: any[];
   shareHolderTypes!: any[];
+  officerNames!: any[];
+  officerTypes!: any[];
   //dates
   date: Date | undefined;
   date1: Date | undefined;
@@ -140,6 +143,7 @@ export class FormsComponent {
   @Input() addTaxAuthorityOfficeShowMain!: boolean;
   @Input() addCentralBankInfoShowMain!: boolean;
   @Input() addShareHolderShowMain!: boolean;
+  @Input() addTMLOfficerShowMain!: boolean;
   constructor() {}
   ngOnInit() {
     this.sectors = [
@@ -211,6 +215,18 @@ export class FormsComponent {
       },
     ];
     this.shareHolderTypes = [
+      {
+        name: 'Type',
+        code: 'type',
+      },
+    ];
+    this.officerNames = [
+      {
+        name: 'Name',
+        code: 'name',
+      },
+    ];
+    this.officerTypes = [
       {
         name: 'Type',
         code: 'type',

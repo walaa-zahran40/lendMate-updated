@@ -1,1 +1,30 @@
-<p>add-tml-officer works!</p>
+<app-toolbar-form
+  [header]="'TML Officer'"
+  [backExists]="true"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-forms
+        [title]="'Main Information'"
+        [description]="
+          'Introduce your company core info quickly to users by fill up company
+details'
+        "
+        [addTMLOfficerShowMain]="true"
+      ></app-forms>
+
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          (click)="addTMLOfficers()"
+        >
+          <p-button
+            label="Add TML Officer"
+            class="custom-save m-0 float-right"
+          />
+        </div>
+      </div>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>
