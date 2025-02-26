@@ -93,6 +93,11 @@ export class FormsComponent {
   selectIdentityTypeContactPerson!: any[];
   selectedPhoneTypeContactPerson!: any[];
   shareHolderNames!: any[];
+  selectedSectorsShowCompanyOnly!: any[];
+  selectedSubSectorsShowCompanyOnly!: any[];
+  selectedLegalFormLawCompanyViewOnly!: any[];
+  selectedLegalFormCompanyViewOnly!: any[];
+  selectedIsStampCompanyViewOnly!: any[];
   stamps!: any[];
   genders!: any[];
   selectedGenders!: any[];
@@ -144,12 +149,25 @@ export class FormsComponent {
   @Input() addCentralBankInfoShowMain!: boolean;
   @Input() addShareHolderShowMain!: boolean;
   @Input() addTMLOfficerShowMain!: boolean;
+  @Input() addClientCompanyViewShowMain!: boolean;
+  @Input() addClientCompanyViewShowLegal!: boolean;
+  @Input() addClientCompanyViewShowBusiness!: boolean;
+
   constructor() {}
   ngOnInit() {
     this.sectors = [
       { name: 'Technology', code: 'T' },
       { name: 'Programming', code: 'P' },
       { name: 'Machine Learning', code: 'ML' },
+    ];
+    this.selectedSectorsShowCompanyOnly = [
+      { name: 'Technology', code: 'T' },
+      { name: 'Programming', code: 'P' },
+      { name: 'Machine Learning', code: 'ML' },
+    ];
+    this.selectedSubSectorsShowCompanyOnly = [
+      { name: 'AI', code: 'AI' },
+      { name: 'Marketing Field', code: 'MF' },
     ];
     this.sectorsIndividual = [
       { name: 'Technology', code: 'T' },
@@ -160,12 +178,20 @@ export class FormsComponent {
       { name: 'AI', code: 'AI' },
       { name: 'Marketing Field', code: 'MF' },
     ];
+
     this.subSectorsIndividual = [
       { name: 'AI', code: 'AI' },
       { name: 'Marketing Field', code: 'MF' },
     ];
     this.legalFormLaw = [{ name: 'Form Law 206', code: '206' }];
+    this.selectedLegalFormLawCompanyViewOnly = [
+      { name: 'Form Law 206', code: '206' },
+    ];
     this.legalForm = [{ name: 'Form Law 105', code: '105' }];
+    this.selectedLegalFormCompanyViewOnly = [
+      { name: 'Form Law 105', code: '105' },
+    ];
+    this.selectedIsStampCompanyViewOnly = [{ name: 'Yes', code: '1' }];
     this.stamps = [
       { name: 'Yes', code: '1' },
       { name: 'No', code: '0' },

@@ -11,7 +11,7 @@ export class ToolbarFormComponent {
   items!: MenuItem[];
   @Input() header!: string;
   @Input() backExists!: boolean;
-
+  @Input() viewOnly!: boolean;
   ngOnInit() {
     this.items = [
       {

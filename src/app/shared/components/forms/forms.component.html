@@ -1282,6 +1282,194 @@
               placeholder="Add Officer Type"
             />
           </form>
+          <form action="" *ngIf="addClientCompanyViewShowMain">
+            <label for="nameInEnglishCompanyViewOnly"
+              >Name in English <sup class="danger">*</sup></label
+            >
+
+            <input
+              pInputText
+              id="nameInEnglishCompanyViewOnly"
+              aria-describedby="nameInEnglishCompanyViewOnly-help"
+              name="nameInEnglishCompanyViewOnly"
+              placeholder="Google"
+              [disabled]="true"
+            />
+            <label for="nameInArabicCompanyViewOnly"
+              >Name in Arabic <sup class="danger">*</sup></label
+            >
+
+            <input
+              pInputText
+              id="nameInArabicCompanyViewOnly"
+              aria-describedby="nameInArabicCompanyViewOnly-help"
+              name="nameInArabicCompanyViewOnly"
+              placeholder="Google"
+              [disabled]="true"
+            />
+            <label for="selectSectorCompanyViewOnly"
+              >Select Sector <sup class="danger">*</sup></label
+            >
+            <p-multiselect
+              [options]="sectors"
+              [(ngModel)]="selectedSectorsShowCompanyOnly"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="sectors"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+              [disabled]="true"
+            />
+            <label for="selectSubSectorCompanyViewOnly"
+              >Select Sub Sector <sup class="danger">*</sup></label
+            >
+            <p-multiselect
+              [options]="subSectors"
+              [(ngModel)]="selectedSubSectorsShowCompanyOnly"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="subSectors"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+              [disabled]="true"
+            />
+            <label for="businessActivityCompanyViewOnly"
+              >Business Activity <sup class="danger">*</sup></label
+            >
+
+            <input
+              pInputText
+              id="businessActivityCompanyViewOnly"
+              aria-describedby="businessActivityCompanyViewOnly-help"
+              name="businessActivityCompanyViewOnly"
+              placeholder="Technology Business"
+              [disabled]="true"
+            />
+            <label for="taxIdCompanyViewOnly"
+              >Tax ID <sup class="danger">*</sup></label
+            >
+
+            <input
+              pInputText
+              id="taxIdCompanyViewOnly"
+              aria-describedby="taxIdCompanyViewOnly-help"
+              name="taxIdCompanyViewOnly"
+              placeholder="#101020203030"
+              [disabled]="true"
+            />
+            <label for="shortNameCompanyViewOnly">Short Name </label>
+
+            <input
+              pInputText
+              id="shortNameCompanyViewOnly"
+              aria-describedby="shortNameCompanyViewOnly-help"
+              name="shortNameCompanyViewOnly"
+              placeholder="GO"
+              [disabled]="true"
+            />
+          </form>
+          <form action="" *ngIf="addClientCompanyViewShowLegal">
+            <label for="legalFormLawCompanyViewOnly">Legal Form Law</label>
+            <p-multiselect
+              [options]="legalFormLaw"
+              [(ngModel)]="selectedLegalFormLawCompanyViewOnly"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="legalFormLawCompanyViewOnly"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+              [disabled]="true"
+            />
+            <label for="legalFormCompanyViewOnly">Legal Form</label>
+            <p-multiselect
+              [options]="legalForm"
+              [(ngModel)]="selectedLegalFormCompanyViewOnly"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="legalFormCompanyViewOnly"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+              [disabled]="true"
+            />
+            <label for="isStampCompanyViewOnly">is Stamp Duty?</label>
+            <p-select
+              [options]="isMain"
+              [(ngModel)]="selectedIsStampCompanyViewOnly"
+              optionLabel="name"
+              class="w-full md:w-56"
+              name="isStampCompanyViewOnly"
+              [disabled]="true"
+              placeholder="Yes"
+            />
+          </form>
+          <form action="" *ngIf="addClientCompanyViewShowBusiness">
+            <label for="mainShareAddClientViewOnly">Main Share</label>
+            <input
+              pInputText
+              id="mainShareAddClientViewOnly"
+              aria-describedby="mainShareAddClientViewOnly-help"
+              name="mainShareAddClientViewOnly"
+              placeholder="Main Share"
+              [disabled]="true"
+            />
+            <label for="marketShareAddClientViewOnly">Market Share %</label>
+            <input
+              pInputText
+              id="marketShareAddClientViewOnly"
+              aria-describedby="marketShareAddClientViewOnly-help"
+              name="marketShareAddClientViewOnly"
+              placeholder="58%"
+              [disabled]="true"
+            />
+            <label for="establishedYearAddClientViewOnly"
+              >Established Year</label
+            >
+            <input
+              pInputText
+              id="establishedYearAddClientViewOnly"
+              aria-describedby="establishedYearAddClientViewOnly-help"
+              name="establishedYearAddClientViewOnly"
+              placeholder="2014"
+              [disabled]="true"
+            />
+            <label for="websiteAddClientViewOnly">Website</label>
+            <input
+              pInputText
+              id="websiteAddClientViewOnly"
+              aria-describedby="websiteAddClientViewOnly-help"
+              name="websiteAddClientViewOnly"
+              placeholder="https://www.google.com"
+              [disabled]="true"
+            />
+            <label for="marketSizeAddClientViewOnly">Market Size</label>
+            <input
+              pInputText
+              id="marketSizeAddClientViewOnly"
+              aria-describedby="marketSizeAddClientViewOnly-help"
+              name="marketSizeAddClientViewOnly"
+              placeholder="50M"
+              [disabled]="true"
+            />
+            <label for="numberOfEmployeesAddClientViewOnly"
+              >Number of Employees</label
+            >
+            <input
+              pInputText
+              id="numberOfEmployeesAddClientViewOnly"
+              aria-describedby="numberOfEmployeesAddClientViewOnly-help"
+              name="numberOfEmployeesAddClientViewOnly"
+              placeholder="50,000"
+              [disabled]="true"
+            />
+          </form>
         </div>
       </div>
     </div>
