@@ -152,7 +152,8 @@ export class FormsComponent {
   @Input() addClientCompanyViewShowMain!: boolean;
   @Input() addClientCompanyViewShowLegal!: boolean;
   @Input() addClientCompanyViewShowBusiness!: boolean;
-
+  @Input() contactPersonDetailsView!: boolean;
+  @Input() contactPersonDetailsViewShowForm!: boolean;
   constructor() {}
   ngOnInit() {
     this.sectors = [

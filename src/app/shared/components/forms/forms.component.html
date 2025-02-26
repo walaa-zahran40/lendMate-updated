@@ -1,5 +1,8 @@
 <div class="row justify-content-between">
-  <div class="col-sm-3 p-0 d-flex justify-start flex-column">
+  <div
+    class="col-sm-3 p-0 d-flex justify-start flex-column"
+    *ngIf="!contactPersonDetailsView"
+  >
     <h2 class="m-0">{{ title }}</h2>
     <p class="tab-panel-paragraph">
       {{ description }}
@@ -1469,6 +1472,206 @@
               placeholder="50,000"
               [disabled]="true"
             />
+          </form>
+          <form action="" *ngIf="contactPersonDetailsViewShowForm">
+            <label for="nameInEnglishContactPersonDetailsView"
+              >Name in English</label
+            >
+            <input
+              pInputText
+              id="nameInEnglishContactPersonDetailsView"
+              aria-describedby="nameInEnglishContactPersonDetailsView-help"
+              name="nameInEnglishContactPersonDetailsView"
+              placeholder="Mohamed"
+              [disabled]="true"
+            />
+            <label for="contactPersonDetailsNameArabicViewOnly"
+              >Name in Arabic</label
+            >
+            <input
+              pInputText
+              id="contactPersonDetailsNameArabicViewOnly"
+              aria-describedby="contactPersonDetailsNameArabicViewOnly-help"
+              name="contactPersonDetailsNameArabicViewOnly"
+              placeholder="Yasser"
+              [disabled]="true"
+            />
+            <label for="titleInEnglishContactPersonDetailsViewOnly"
+              >Title in English</label
+            >
+            <input
+              pInputText
+              id="titleInEnglishContactPersonDetailsViewOnly"
+              aria-describedby="titleInEnglishContactPersonDetailsViewOnly-help"
+              name="titleInEnglishContactPersonDetailsViewOnly"
+              placeholder="Mou Yasser"
+              [disabled]="true"
+            />
+            <label for="titleInArabicContactPersonDetailsViewOnly"
+              >Title in Arabic</label
+            >
+            <input
+              pInputText
+              id="titleInArabicContactPersonDetailsViewOnly"
+              aria-describedby="titleInArabicContactPersonDetailsViewOnly-help"
+              name="titleInArabicContactPersonDetailsViewOnly"
+              placeholder="Mou Yasser"
+              [disabled]="true"
+            />
+            <label for="GenderIdContactPersonDetailsViewOnly">Gender ID</label>
+            <input
+              pInputText
+              id="GenderIdContactPersonDetailsViewOnly"
+              aria-describedby="GenderIdContactPersonDetailsViewOnly-help"
+              name="GenderIdContactPersonDetailsViewOnly"
+              placeholder="2"
+              [disabled]="true"
+            />
+            <label for="emailAddressContactPersonDetailsViewOnly"
+              >Email Address</label
+            >
+            <input
+              pInputText
+              id="emailAddressContactPersonDetailsViewOnly"
+              aria-describedby="emailAddressContactPersonDetailsViewOnly-help"
+              name="emailAddressContactPersonDetailsViewOnly"
+              placeholder="mohamedyasserrahmed@gmail.com"
+              [disabled]="true"
+            />
+            <label for="phoneNumberContactPersonDetailsViewOnly"
+              >Phone Number</label
+            >
+            <input
+              pInputText
+              id="phoneNumberContactPersonDetailsViewOnly"
+              aria-describedby="phoneNumberContactPersonDetailsViewOnly-help"
+              name="phoneNumberContactPersonDetailsViewOnly"
+              placeholder="Type"
+              [disabled]="true"
+            />
+            <label for="phoneTypeContactPersonDetailsViewOnly"
+              >Phone Type</label
+            >
+            <input
+              pInputText
+              id="phoneTypeContactPersonDetailsViewOnly"
+              aria-describedby="phoneTypeContactPersonDetailsViewOnly-help"
+              name="phoneTypeContactPersonDetailsViewOnly"
+              placeholder="Phone Type"
+              [disabled]="true"
+            />
+            <label for="detailsEnglishContactPersonDetailsViewOnly"
+              >Details English</label
+            >
+            <input
+              pInputText
+              id="detailsEnglishContactPersonDetailsViewOnly"
+              aria-describedby="detailsEnglishContactPersonDetailsViewOnly-help"
+              name="detailsEnglishContactPersonDetailsViewOnly"
+              placeholder="Address Details"
+              [disabled]="true"
+            />
+            <label for="detailsArabicContactPersonDetailsViewOnly"
+              >Details Arabic</label
+            >
+            <input
+              pInputText
+              id="detailsArabicContactPersonDetailsViewOnly"
+              aria-describedby="detailsArabicContactPersonDetailsViewOnly-help"
+              name="detailsArabicContactPersonDetailsViewOnly"
+              placeholder="Address Details"
+              [disabled]="true"
+            />
+            <label for="contactPersonIdContactPersonDetailsViewOnly"
+              >Contact Person ID</label
+            >
+            <input
+              pInputText
+              id="contactPersonIdContactPersonDetailsViewOnly"
+              aria-describedby="contactPersonIdContactPersonDetailsViewOnly-help"
+              name="contactPersonIdContactPersonDetailsViewOnly"
+              placeholder="43"
+              [disabled]="true"
+            />
+            <label for="addressTypeIdContactPersonDetailsViewOnly"
+              >Address Type ID</label
+            >
+            <input
+              pInputText
+              id="addressTypeIdContactPersonDetailsViewOnly"
+              aria-describedby="addressTypeIdContactPersonDetailsViewOnly-help"
+              name="addressTypeIdContactPersonDetailsViewOnly"
+              placeholder="2"
+              [disabled]="true"
+            />
+            <label for="areaIdContactPersonDetailsViewOnly">Area ID</label>
+            <input
+              pInputText
+              id="areaIdContactPersonDetailsViewOnly"
+              aria-describedby="areaIdContactPersonDetailsViewOnly-help"
+              name="areaIdContactPersonDetailsViewOnly"
+              placeholder="Area"
+              [disabled]="true"
+            />
+            <div class="row">
+              <div class="col-sm">
+                <label for="isMainContactPersonDetailsViewOnly">IsMain</label>
+                <input
+                  pInputText
+                  id="isMainContactPersonDetailsViewOnly"
+                  aria-describedby="isMainContactPersonDetailsViewOnly-help"
+                  name="isMainContactPersonDetailsViewOnly"
+                  class="d-block w-100"
+                  placeholder="Yes"
+                  [disabled]="true"
+                />
+              </div>
+              <div class="col-sm">
+                <label for="isFinanceContactPersonDetailsViewOnly"
+                  >IsFinance</label
+                >
+                <input
+                  pInputText
+                  id="isFinanceContactPersonDetailsViewOnly"
+                  aria-describedby="isFinanceContactPersonDetailsViewOnly-help"
+                  name="isFinanceContactPersonDetailsViewOnly"
+                  placeholder="Yes"
+                  [disabled]="true"
+                  class="d-block w-100"
+                />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm">
+                <label for="isAuthorizedSignContactPersonDetailsViewOnly"
+                  >Is Authorized Sign</label
+                >
+                <input
+                  pInputText
+                  id="isAuthorizedSignContactPersonDetailsViewOnly"
+                  aria-describedby="isAuthorizedSignContactPersonDetailsViewOnly-help"
+                  name="isAuthorizedSignContactPersonDetailsViewOnly"
+                  placeholder="Yes"
+                  class="d-block w-100"
+                  [disabled]="true"
+                />
+              </div>
+              <div class="col-sm">
+                <label for="isKeyManagerContactPersonDetailsViewOnly"
+                  >Is Key Manager</label
+                >
+                <input
+                  pInputText
+                  id="isKeyManagerContactPersonDetailsViewOnly"
+                  aria-describedby="isKeyManagerContactPersonDetailsViewOnly-help"
+                  name="isKeyManagerContactPersonDetailsViewOnly"
+                  placeholder="Yes"
+                  [disabled]="true"
+                  class="d-block w-100"
+                />
+              </div>
+            </div>
           </form>
         </div>
       </div>
