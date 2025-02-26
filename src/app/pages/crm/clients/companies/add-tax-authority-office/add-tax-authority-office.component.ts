@@ -4,8 +4,10 @@ import { Component } from '@angular/core';
   selector: 'app-add-tax-authority-office',
   standalone: false,
   templateUrl: './add-tax-authority-office.component.html',
-  styleUrl: './add-tax-authority-office.component.scss'
+  styleUrl: './add-tax-authority-office.component.scss',
 })
 export class AddTaxAuthorityOfficeComponent {
-
+  addTaxes() {
+    console.log('added');
+  }
 }

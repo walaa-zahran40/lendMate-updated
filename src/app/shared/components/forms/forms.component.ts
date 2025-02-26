@@ -53,6 +53,11 @@ export class FormsComponent {
   value43: string | undefined;
   value44: string | undefined;
   value45: string | undefined;
+  value46: string | undefined;
+  value47: string | undefined;
+  value48: string | undefined;
+  value49: string | undefined;
+  value50: string | undefined;
 
   sectors!: any[];
   crAuthorityOffices!: any[];
@@ -85,6 +90,7 @@ export class FormsComponent {
   selectIdentityTypeContactPerson!: any[];
   selectedPhoneTypeContactPerson!: any[];
 
+  stamps!: any[];
   genders!: any[];
   selectedGenders!: any[];
   countries!: any[];
@@ -98,6 +104,7 @@ export class FormsComponent {
   selectedIsMain!: any[];
   isActive!: any[];
   selectedIsActive!: any[];
+  companyTypes!: any[];
 
   date: Date | undefined;
   date1: Date | undefined;
@@ -105,8 +112,8 @@ export class FormsComponent {
   date3: Date | undefined;
   date4: Date | undefined;
   date5: Date | undefined;
-
-  stamps!: any[];
+  date6: Date | undefined;
+  date7: Date | undefined;
 
   @Input() title!: string;
   @Input() titleIndividual!: string;
@@ -127,7 +134,8 @@ export class FormsComponent {
   @Input() addClientShowIndividual!: boolean;
   @Input() clientOnboarding!: boolean;
   @Input() clientOnboardingShowIndividual!: boolean;
-
+  @Input() addTaxAuthorityOfficeShowMain!: boolean;
+  @Input() addCentralBankInfoShowMain!: boolean;
   constructor() {}
   ngOnInit() {
     this.sectors = [
@@ -155,6 +163,7 @@ export class FormsComponent {
       { name: 'No', code: '0' },
     ];
     this.phoneTypes = [{ name: 'Phone Type', code: 'pt' }];
+    this.companyTypes = [{ name: 'Type', code: 'type' }];
     this.documents = [
       { name: 'PDF', code: 'pdf' },
       { name: 'Word', code: 'word' },

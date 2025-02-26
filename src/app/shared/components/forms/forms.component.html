@@ -46,6 +46,20 @@
       label="View CR Authority"
       class="custom-view m-0 float-right"
     />
+    <p-button
+      *ngIf="addTaxAuthorityOfficeShowMain"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Tax Authority"
+      class="custom-view m-0 float-right"
+    />
+    <p-button
+      *ngIf="addCentralBankInfoShowMain"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Central Bank Info"
+      class="custom-view m-0 float-right"
+    />
   </div>
   <div class="col-sm-8">
     <div class="flex flex-col md:flex-row gap-8">
@@ -1100,6 +1114,105 @@
               optionLabel="name"
               placeholder="Select CR Authority Office"
               class="w-full md:w-56"
+            />
+          </form>
+          <form action="" *ngIf="addTaxAuthorityOfficeShowMain">
+            <label for="addTaxAuthorityOfficeCRExpiryDate"
+              >Tax Expiry Date<sup class="danger">*</sup></label
+            >
+            <p-calendar
+              [(ngModel)]="date6"
+              [iconDisplay]="'input'"
+              [showIcon]="true"
+              placeholder="09/08/1997"
+              inputId="icondisplay"
+              name="addTaxAuthorityOfficeCRExpiryDate"
+            />
+            <label for="taxNumberAuthorityOffice"
+              >Tax Number <sup class="danger">*</sup></label
+            >
+            <input
+              pInputText
+              id="taxNumberAuthorityOffice"
+              aria-describedby="taxNumberAuthorityOffice-help"
+              [(ngModel)]="value46"
+              name="taxNumberAuthorityOffice"
+              placeholder="Add Tax Number"
+            />
+            <label for="taxAuthorityOffice"
+              >Tax Authority Office <sup class="danger">*</sup></label
+            >
+            <p-select
+              [options]="crAuthorityOffices"
+              optionLabel="name"
+              placeholder="Select Tax Authority Office"
+              class="w-full md:w-56"
+            />
+          </form>
+          <form action="" *ngIf="addCentralBankInfoShowMain">
+            <label for="balanceSheetDate"
+              >Balance Sheet Date<sup class="danger">*</sup></label
+            >
+            <p-calendar
+              [(ngModel)]="date7"
+              [iconDisplay]="'input'"
+              [showIcon]="true"
+              placeholder="09/08/1997"
+              inputId="icondisplay"
+              name="balanceSheetDate"
+            />
+            <label for="companyType"
+              >Company Type<sup class="danger">*</sup></label
+            >
+            <p-select
+              [options]="companyTypes"
+              optionLabel="name"
+              placeholder="Select Company Type"
+              class="w-full md:w-56"
+            />
+            <label for="capitalCentralBankInfo"
+              >Capital<sup class="danger">*</sup></label
+            >
+            <input
+              pInputText
+              id="capitalCentralBankInfo"
+              aria-describedby="capitalCentralBankInfo-help"
+              [(ngModel)]="value47"
+              name="capitalCentralBankInfo"
+              placeholder="Add Capital"
+            />
+            <label for="iScoreSectorCentralBankInfo"
+              >Iscore Sector<sup class="danger">*</sup></label
+            >
+            <input
+              pInputText
+              id="iScoreSectorCentralBankInfo"
+              aria-describedby="iScoreSectorCentralBankInfo-help"
+              [(ngModel)]="value48"
+              name="iScoreSectorCentralBankInfo"
+              placeholder="Add IScore Sector"
+            />
+            <label for="companyCodeCentralBankInfo"
+              >Company Code<sup class="danger">*</sup></label
+            >
+            <input
+              pInputText
+              id="companyCodeCentralBankInfo"
+              aria-describedby="companyCodeCentralBankInfo-help"
+              [(ngModel)]="value49"
+              name="companyCodeCentralBankInfo"
+              placeholder="Add Company Code"
+            />
+            <label for="cbeCustomerCodeCentralBankInfo"
+              >CBE Customer Code<sup class="danger">*</sup></label
+            >
+            <input
+              pInputText
+              id="cbeCustomerCodeCentralBankInfo"
+              aria-describedby="cbeCustomerCodeCentralBankInfo-help"
+              [(ngModel)]="value50"
+              name="cbeCustomerCodeCentralBankInfo"
+              placeholder="Add CBE Customer Code"
             />
           </form>
         </div>

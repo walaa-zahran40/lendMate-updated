@@ -1,1 +1,30 @@
-<p>add-central-bank-info works!</p>
+<app-toolbar-form
+  [header]="'Central Bank Info'"
+  [backExists]="true"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-forms
+        [title]="'Main Information'"
+        [description]="
+          'Introduce your company core info quickly to users by fill up company
+details'
+        "
+        [addCentralBankInfoShowMain]="true"
+      ></app-forms>
+
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          (click)="addCentralBankInfo()"
+        >
+          <p-button
+            label="Add Central Bank Info"
+            class="custom-save m-0 float-right"
+          />
+        </div>
+      </div>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>
