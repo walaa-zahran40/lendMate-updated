@@ -146,13 +146,25 @@
       padding: var(--custom-size-12) var(--custom-size-16);
       border-radius: var(--custom-margin-0);
       border: 1px solid var(--custom-color-grey-light);
+      width: 100%;
     }
     .p-multiselect {
       width: var(--custom-size-100);
-      margin-bottom: var(--custom-size-16);
+      margin-bottom: 24px;
       padding: var(--custom-size-8);
       border-radius: var(--custom-margin-0);
       border: 1px solid var(--custom-color-grey-light);
+    }
+    #mandateOfficersForm .p-multiselect,
+    #mandateContactPersonsForm .p-multiselect,
+    #mandateAssetTypeForm .p-multiselect {
+      margin-bottom: 16px;
+      padding: 7px;
+    }
+    #mandateOfficersForm .p-multiselect-label.p-placeholder,
+    #mandateContactPersonsForm .p-multiselect-label.p-placeholder,
+    #mandateAssetTypeForm .p-multiselect-label.p-placeholder {
+      padding: 5px;
     }
     .p-select {
       width: var(--custom-size-100);
@@ -160,6 +172,22 @@
       padding: var(--custom-size-8);
       border-radius: var(--custom-margin-0);
       border: 1px solid var(--custom-color-grey-light);
+    }
+    #mandateOfficersForm .add-btn .p-button,
+    #mandateContactPersonsForm .add-btn .p-button,
+    #mandateAssetTypeForm .add-btn .p-button {
+      padding: 14px 27px;
+      margin-left: -16px;
+      margin-top: 15px;
+    }
+    .p-textarea {
+      border-radius: 0;
+      margin-bottom: 24px;
+    }
+    #addMandateShowMoreInformationForm
+      .p-datepicker:has(.p-datepicker-input-icon-container)
+      .p-datepicker-input {
+      margin-bottom: 24px;
     }
     .p-chip {
       padding-top: var(--custom-size-4);
@@ -222,9 +250,9 @@
       text-align: center;
       flex-direction: row;
       margin-bottom: 30px !important;
+      padding: 12px 16px;
     }
     .custom-view .p-button:hover {
-      padding: 10px;
       background: transparent;
       color: var(--p-tabs-active-bar-background);
       border: 1px solid var(--p-tabs-active-bar-background);
@@ -300,6 +328,7 @@ p.client {
   line-height: var(--custom-line-height-25);
   color: var(--custom-grey);
 }
+
 form {
   display: var(--custom-display);
   flex-direction: var(--custom-flex-direction);
@@ -310,6 +339,7 @@ form {
     line-height: var(--custom-line-height-25);
     color: var(--custom-grey-bold);
     white-space: nowrap;
+    padding-bottom: 4px;
     sup {
       color: var(--custom-red);
     }

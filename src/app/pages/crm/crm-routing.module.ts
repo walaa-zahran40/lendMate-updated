@@ -14,8 +14,10 @@ import { AddTaxAuthorityOfficeComponent } from './clients/companies/add-tax-auth
 import { AddCentralBankInfoComponent } from './clients/companies/add-central-bank-info/add-central-bank-info.component';
 import { AddShareHoldersComponent } from './clients/companies/add-share-holders/add-share-holders.component';
 import { AddTmlOfficerComponent } from './clients/companies/add-tml-officer/add-tml-officer.component';
+import { AddMandateComponent } from './leasing-mandates/add-mandate/add-mandate.component';
 
 const routes: Routes = [
+  /*Clients Routing*/
   {
     path: 'clients/client-onboarding',
     component: ClientOnboardingComponent,
@@ -75,6 +77,11 @@ const routes: Routes = [
   {
     path: 'clients/add-tml-officer',
     component: AddTmlOfficerComponent,
+  },
+  /*Leasing Mandates Routing*/
+  {
+    path: 'leasing-mandates/add-mandate',
+    component: AddMandateComponent,
   },
 ];
 

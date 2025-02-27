@@ -116,6 +116,19 @@ export class FormsComponent {
   shareHolderTypes!: any[];
   officerNames!: any[];
   officerTypes!: any[];
+  clientNames!: any[];
+  selectedClientNames!: any[];
+  selectedMandateValidityUnit!: any[];
+  products!: any[];
+  selectedProducts!: any[];
+  insuredBy!: any[];
+  selectedInsuredBy!: any[];
+  leasingTypes!: any[];
+  selectedLeasingTypes!: any[];
+  actions!: any[];
+  selectedActions!: any[];
+  officerTypesMandates!: any[];
+  selectedOfficerTypesMandate!: any[];
   //dates
   date: Date | undefined;
   date1: Date | undefined;
@@ -125,6 +138,7 @@ export class FormsComponent {
   date5: Date | undefined;
   date6: Date | undefined;
   date7: Date | undefined;
+  date8: Date | undefined;
   //inputs
   @Input() title!: string;
   @Input() titleIndividual!: string;
@@ -154,6 +168,11 @@ export class FormsComponent {
   @Input() addClientCompanyViewShowBusiness!: boolean;
   @Input() contactPersonDetailsView!: boolean;
   @Input() contactPersonDetailsViewShowForm!: boolean;
+  @Input() addMandateShowMoreInformationForm!: boolean;
+  @Input() addMandateShowAssetTypeForm!: boolean;
+  @Input() addMandateShowContactPersonsForm!: boolean;
+  @Input() addMandateShowOfficersForm!: boolean;
+  @Input() addMandateShowBasicForm!: boolean;
   constructor() {}
   ngOnInit() {
     this.sectors = [
@@ -259,5 +278,39 @@ export class FormsComponent {
         code: 'type',
       },
     ];
+    this.clientNames = [
+      {
+        name: 'Google.com',
+        code: 'google',
+      },
+    ];
+    this.selectedClientNames = [
+      {
+        name: 'Google.com',
+        code: 'google',
+      },
+    ];
+    this.products = [
+      {
+        name: 'Software',
+        code: 'software',
+      },
+    ];
+    this.selectedProducts = [
+      {
+        name: 'Software',
+        code: 'software',
+      },
+    ];
+    this.selectedMandateValidityUnit = [{ name: 'Technology', code: 'T' }];
+    this.officerTypesMandates = [{ name: 'Officer', code: 'o' }];
+    this.selectedOfficerTypesMandate = [{ name: 'Officer', code: 'o' }];
+    this.actions = [{ name: 'Identity', code: 'id' }];
+    this.selectedActions = [{ name: 'Identity', code: 'id' }];
+
+    this.insuredBy = [{ name: 'Microsoft', code: 'M' }];
+    this.selectedInsuredBy = [{ name: 'Microsoft', code: 'M' }];
+    this.leasingTypes = [{ name: 'LeasingType', code: 'LT' }];
+    this.selectedLeasingTypes = [{ name: 'LeasingType', code: 'LT' }];
   }
 }

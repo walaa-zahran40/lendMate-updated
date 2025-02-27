@@ -45,6 +45,7 @@ import { FormsComponent } from './forms/forms.component';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { CalendarModule } from 'primeng/calendar';
 import { ToolbarFormComponent } from './toolbar-form/toolbar-form.component';
+import { TextareaModule } from 'primeng/textarea';
 
 @NgModule({
   declarations: [
@@ -96,6 +97,7 @@ import { ToolbarFormComponent } from './toolbar-form/toolbar-form.component';
     RatingModule,
     SliderModule,
     FormsModule,
+    TextareaModule,
   ],
   providers: [DecimalPipe, AsyncPipe],
   exports: [

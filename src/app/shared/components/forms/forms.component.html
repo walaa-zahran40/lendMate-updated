@@ -1,4 +1,4 @@
-<div class="row justify-content-between">
+<div class="row justify-content-around row-spacing">
   <div
     class="col-sm-3 p-0 d-flex justify-start flex-column"
     *ngIf="!contactPersonDetailsView"
@@ -77,11 +77,33 @@
       label="View TML Officer"
       class="custom-view m-0 float-right"
     />
+    <p-button
+      *ngIf="addMandateShowOfficersForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Officers"
+      class="custom-view m-0 float-right"
+    />
+    <p-button
+      *ngIf="addMandateShowContactPersonsForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Contact Persons"
+      class="custom-view m-0 float-right"
+    />
+    <p-button
+      *ngIf="addMandateShowAssetTypeForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Assest Type"
+      class="custom-view m-0 float-right"
+    />
   </div>
-  <div class="col-sm-8">
+  <div class="col-sm-8 p-0">
     <div class="flex flex-col md:flex-row gap-8">
       <div class="md:w-2/2">
         <div class="flex flex-col gap-2">
+          <!--Forms Client Journey-->
           <form action="" *ngIf="addClientShowMain">
             <label for="nameEnglish"
               >Name in English<sup class="danger">*</sup></label
@@ -1672,6 +1694,271 @@
                 />
               </div>
             </div>
+          </form>
+          <!--Forms Mandate Journey-->
+          <form action="" *ngIf="addMandateShowBasicForm">
+            <label for="clientNameAddMandateBasic"
+              >Client Name<sup>*</sup></label
+            >
+            <p-multiselect
+              [options]="clientNames"
+              [(ngModel)]="selectedClientNames"
+              placeholder="Select Client Name"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="clientNameAddMandateBasic"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="validityUnitAddMandateBasic"
+              >Mandate Validity Unit<sup>*</sup></label
+            >
+            <p-multiselect
+              [options]="sectors"
+              [(ngModel)]="selectedMandateValidityUnit"
+              placeholder="Select Mandate Validity Unit"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="validityUnitAddMandateBasic"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="productAddMandateBasic">Product<sup>*</sup></label>
+            <p-multiselect
+              [options]="products"
+              [(ngModel)]="selectedProducts"
+              placeholder="Select Phone Types"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="productAddMandateBasic"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="leasingTypesAddMandateBasic"
+              >Leasing Types<sup>*</sup></label
+            >
+            <p-multiselect
+              [options]="leasingTypes"
+              [(ngModel)]="selectedLeasingTypes"
+              placeholder="Select Leasing Types"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="leasingTypesAddMandateBasic"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="insuredByAddMandateBasic">Insured By<sup>*</sup></label>
+            <p-multiselect
+              [options]="insuredBy"
+              [(ngModel)]="selectedInsuredBy"
+              placeholder="Select Insured By"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="insuredByAddMandateBasic"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+          </form>
+          <form
+            action=""
+            *ngIf="addMandateShowOfficersForm"
+            id="mandateOfficersForm"
+          >
+            <label for="officerTypeOfficersForm">Officer Type</label>
+            <p-multiselect
+              [options]="officerTypesMandates"
+              [(ngModel)]="selectedOfficerTypesMandate"
+              placeholder="Select Officer Type"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="officerTypeOfficersForm"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <div class="row align-items-center">
+              <div class="col-sm">
+                <label for="officerNameOfficersForm">Officer Name</label>
+                <input
+                  pInputText
+                  id="officerNameOfficersForm"
+                  aria-describedby="officerNameOfficersForm-help"
+                  name="officerNameOfficersForm"
+                  placeholder="Mohamed Yasser"
+                />
+              </div>
+              <div class="col-sm">
+                <label for="actionsOfficersForm">Actions</label>
+                <p-multiselect
+                  [options]="actions"
+                  [(ngModel)]="selectedActions"
+                  placeholder="Select Actions"
+                  optionLabel="name"
+                  display="chip"
+                  icon="pi pi-times"
+                  name="actionsOfficersForm"
+                  styleClass="w-full md:w-80"
+                  [maxSelectedLabels]="999"
+                  chipIcon="pi pi-times"
+                />
+              </div>
+              <div class="col-sm-1">
+                <p-button icon="pi pi-plus" severity="danger" class="add-btn" />
+              </div>
+            </div>
+          </form>
+          <form
+            action=""
+            *ngIf="addMandateShowContactPersonsForm"
+            id="mandateContactPersonsForm"
+          >
+            <label for="officerTypeOfficersForm">Contact Person Type</label>
+            <p-multiselect
+              [options]="officerTypesMandates"
+              [(ngModel)]="selectedOfficerTypesMandate"
+              placeholder="Select Officer Type"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="officerTypeOfficersForm"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <div class="row align-items-center">
+              <div class="col-sm">
+                <label for="officerNameOfficersForm">Contact Person Name</label>
+                <input
+                  pInputText
+                  id="officerNameOfficersForm"
+                  aria-describedby="officerNameOfficersForm-help"
+                  name="officerNameOfficersForm"
+                  placeholder="Mohamed Yasser"
+                />
+              </div>
+              <div class="col-sm">
+                <label for="actionsOfficersForm">Actions</label>
+                <p-multiselect
+                  [options]="actions"
+                  [(ngModel)]="selectedActions"
+                  placeholder="Select Actions"
+                  optionLabel="name"
+                  display="chip"
+                  icon="pi pi-times"
+                  name="actionsOfficersForm"
+                  styleClass="w-full md:w-80"
+                  [maxSelectedLabels]="999"
+                  chipIcon="pi pi-times"
+                />
+              </div>
+              <div class="col-sm-1">
+                <p-button icon="pi pi-plus" severity="danger" class="add-btn" />
+              </div>
+            </div>
+          </form>
+          <form
+            action=""
+            *ngIf="addMandateShowAssetTypeForm"
+            id="mandateAssetTypeForm"
+          >
+            <label for="officerTypeOfficersForm">Contact Person Type</label>
+            <p-multiselect
+              [options]="officerTypesMandates"
+              [(ngModel)]="selectedOfficerTypesMandate"
+              placeholder="Select Officer Type"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="officerTypeOfficersForm"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <div class="row align-items-center">
+              <div class="col-sm">
+                <label for="officerNameOfficersForm">Contact Person Name</label>
+                <input
+                  pInputText
+                  id="officerNameOfficersForm"
+                  aria-describedby="officerNameOfficersForm-help"
+                  name="officerNameOfficersForm"
+                  placeholder="Mohamed Yasser"
+                />
+              </div>
+              <div class="col-sm">
+                <label for="actionsOfficersForm">Actions</label>
+                <p-multiselect
+                  [options]="actions"
+                  [(ngModel)]="selectedActions"
+                  placeholder="Select Actions"
+                  optionLabel="name"
+                  display="chip"
+                  icon="pi pi-times"
+                  name="actionsOfficersForm"
+                  styleClass="w-full md:w-80"
+                  [maxSelectedLabels]="999"
+                  chipIcon="pi pi-times"
+                />
+              </div>
+              <div class="col-sm-1">
+                <p-button icon="pi pi-plus" severity="danger" class="add-btn" />
+              </div>
+            </div>
+          </form>
+          <form
+            action=""
+            *ngIf="addMandateShowMoreInformationForm"
+            id="addMandateShowMoreInformationForm"
+          >
+            <label for="dateMoreInformationForm">Date <sup>*</sup></label>
+            <p-calendar
+              [(ngModel)]="date8"
+              [iconDisplay]="'input'"
+              [showIcon]="true"
+              placeholder="09/08/1997"
+              inputId="icondisplay"
+              name="dateMoreInformationForm"
+            />
+            <label for="notesMoreInformationForm">Notes</label
+            ><textarea
+              rows="5"
+              cols="30"
+              pTextarea
+              placeholder="Notes"
+              [(ngModel)]="value"
+              name="notesMoreInformationForm"
+            ></textarea>
+
+            <label for="descriptionMoreInformationForm">Description</label
+            ><textarea
+              rows="5"
+              cols="30"
+              pTextarea
+              [(ngModel)]="value"
+              name="descriptionMoreInformationForm"
+              placeholder="Description"
+            ></textarea>
+
+            <label for="validityCountMoreInformationForm">Validity Count</label
+            ><textarea
+              rows="5"
+              cols="30"
+              pTextarea
+              [(ngModel)]="value"
+              name="validityCountMoreInformationForm"
+              placeholder="Validity Count"
+            ></textarea>
           </form>
         </div>
       </div>
