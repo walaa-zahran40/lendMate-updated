@@ -2138,6 +2138,37 @@
               placeholder="Validity Count"
             ></textarea>
           </form>
+          <form
+            action=""
+            *ngIf="addManageMandateTermsForm"
+            id="addManageMandateTermsForm"
+          >
+            <label for="termKeyMandateTermsForm">Term Key</label>
+            <input
+              pInputText
+              id="termKeyMandateTermsForm"
+              aria-describedby="termKeyMandateTermsForm-help"
+              name="termKeyMandateTermsForm"
+              placeholder="Address Details"
+            />
+            <label for="descriptionMandateTermsForm">Description</label
+            ><textarea
+              rows="5"
+              cols="30"
+              pTextarea
+              placeholder="Notes"
+              [(ngModel)]="value"
+              name="descriptionMandateTermsForm"
+            ></textarea>
+            <label for="isActiveMandateTermsForm">IsActive <sup>*</sup></label>
+            <p-select
+              [options]="isActive"
+              [(ngModel)]="selectedIsStampCompanyViewOnly"
+              optionLabel="name"
+              class="w-full md:w-56"
+              name="isActiveMandateTermsForm"
+            />
+          </form>
         </div>
       </div>
     </div>

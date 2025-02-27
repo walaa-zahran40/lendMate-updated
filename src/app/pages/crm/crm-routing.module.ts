@@ -16,6 +16,7 @@ import { AddShareHoldersComponent } from './clients/companies/add-share-holders/
 import { AddTmlOfficerComponent } from './clients/companies/add-tml-officer/add-tml-officer.component';
 import { AddMandateComponent } from './leasing-mandates/add-mandate/add-mandate.component';
 import { AddChildMandateComponent } from './leasing-mandates/add-child-mandate/add-child-mandate.component';
+import { AddManageMandateTermsComponent } from './leasing-mandates/add-manage-mandate-terms/add-manage-mandate-terms.component';
 
 const routes: Routes = [
   /*Clients Routing*/
@@ -87,6 +88,10 @@ const routes: Routes = [
   {
     path: 'leasing-mandates/add-child-mandate',
     component: AddChildMandateComponent,
+  },
+  {
+    path: 'leasing-mandates/add-manage-mandate-terms',
+    component: AddManageMandateTermsComponent,
   },
 ];
 

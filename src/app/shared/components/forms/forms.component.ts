@@ -182,6 +182,7 @@ export class FormsComponent {
   @Input() addChildMandateShowContactPersonsForm!: boolean;
   @Input() addChildMandateShowOfficersForm!: boolean;
   @Input() addChildMandateShowBasicForm!: boolean;
+  @Input() addManageMandateTermsForm!: boolean;
   constructor() {}
   ngOnInit() {
     this.sectors = [
