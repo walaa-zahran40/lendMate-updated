@@ -15,6 +15,7 @@ import { AddCentralBankInfoComponent } from './clients/companies/add-central-ban
 import { AddShareHoldersComponent } from './clients/companies/add-share-holders/add-share-holders.component';
 import { AddTmlOfficerComponent } from './clients/companies/add-tml-officer/add-tml-officer.component';
 import { AddMandateComponent } from './leasing-mandates/add-mandate/add-mandate.component';
+import { AddChildMandateComponent } from './leasing-mandates/add-child-mandate/add-child-mandate.component';
 
 const routes: Routes = [
   /*Clients Routing*/
@@ -82,6 +83,10 @@ const routes: Routes = [
   {
     path: 'leasing-mandates/add-mandate',
     component: AddMandateComponent,
+  },
+  {
+    path: 'leasing-mandates/add-child-mandate',
+    component: AddChildMandateComponent,
   },
 ];
 

@@ -4,8 +4,10 @@ import { Component } from '@angular/core';
   selector: 'app-add-child-mandate',
   standalone: false,
   templateUrl: './add-child-mandate.component.html',
-  styleUrl: './add-child-mandate.component.scss'
+  styleUrl: './add-child-mandate.component.scss',
 })
 export class AddChildMandateComponent {
-
+  saveInfo() {
+    console.log('added');
+  }
 }

@@ -1960,6 +1960,184 @@
               placeholder="Validity Count"
             ></textarea>
           </form>
+          <form action="" *ngIf="addChildMandateShowBasicForm">
+            <label for="clientNameAddChildMandateBasic"
+              >Client Name<sup>*</sup></label
+            >
+            <p-multiselect
+              [options]="clientNames"
+              [(ngModel)]="selectedClientNames"
+              placeholder="Select Client Name"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="clientNameAddChildMandateBasic"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="validityUnitAddChildMandateBasic"
+              >Mandate Validity Unit<sup>*</sup></label
+            >
+            <p-multiselect
+              [options]="sectors"
+              [(ngModel)]="selectedMandateValidityUnit"
+              placeholder="Select Mandate Validity Unit"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="validityUnitAddChildMandateBasic"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="productAddChildMandateBasic">Product<sup>*</sup></label>
+            <p-multiselect
+              [options]="products"
+              [(ngModel)]="selectedProducts"
+              placeholder="Select Phone Types"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="productAddChildMandateBasic"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="leasingTypesAddChildMandateBasic"
+              >Leasing Types<sup>*</sup></label
+            >
+            <p-multiselect
+              [options]="leasingTypes"
+              [(ngModel)]="selectedLeasingTypes"
+              placeholder="Select Leasing Types"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="leasingTypesAddChildMandateBasic"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="insuredByAddChildMandateBasic"
+              >Insured By<sup>*</sup></label
+            >
+            <p-multiselect
+              [options]="insuredBy"
+              [(ngModel)]="selectedInsuredBy"
+              placeholder="Select Insured By"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="insuredByAddChildMandateBasic"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+          </form>
+          <form
+            action=""
+            *ngIf="addChildMandateShowOfficersForm"
+            id="childMandateOfficersForm"
+          >
+            <label for="officerTypeOfficersForm">Officer Type</label>
+            <p-multiselect
+              [options]="officerTypesMandates"
+              [(ngModel)]="selectedOfficerTypesMandate"
+              placeholder="Select Officer Type"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="officerTypeOfficersForm"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+          </form>
+          <form
+            action=""
+            *ngIf="addChildMandateShowContactPersonsForm"
+            id="childMandateContactPersonsForm"
+          >
+            <label for="contactPersonTypeContactPersonsForm"
+              >Contact Person Type</label
+            >
+            <p-multiselect
+              [options]="officerTypesMandates"
+              [(ngModel)]="selectedOfficerTypesMandate"
+              placeholder="Select Contact Person Type"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="contactPersonTypeContactPersonsForm"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+          </form>
+          <form
+            action=""
+            *ngIf="addChildMandateShowAssetTypeForm"
+            id="childMandateAssetTypeForm"
+          >
+            <label for="assestTypeAssestTypeForm">Assest Type</label>
+            <p-multiselect
+              [options]="officerTypesMandates"
+              [(ngModel)]="selectedOfficerTypesMandate"
+              placeholder="Select Assest Type"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="assestTypeAssestTypeForm"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+          </form>
+          <form
+            action=""
+            *ngIf="addChildMandateShowMoreInformationForm"
+            id="addChildMandateShowMoreInformationForm"
+          >
+            <label for="dateMoreInformationForm">Date <sup>*</sup></label>
+            <p-calendar
+              [(ngModel)]="date8"
+              [iconDisplay]="'input'"
+              [showIcon]="true"
+              placeholder="09/08/1997"
+              inputId="icondisplay"
+              name="dateMoreInformationForm"
+            />
+            <label for="notesMoreInformationForm">Notes</label
+            ><textarea
+              rows="5"
+              cols="30"
+              pTextarea
+              placeholder="Notes"
+              [(ngModel)]="value"
+              name="notesMoreInformationForm"
+            ></textarea>
+
+            <label for="descriptionMoreInformationForm">Description</label
+            ><textarea
+              rows="5"
+              cols="30"
+              pTextarea
+              [(ngModel)]="value"
+              name="descriptionMoreInformationForm"
+              placeholder="Description"
+            ></textarea>
+
+            <label for="validityCountMoreInformationForm">Validity Count</label
+            ><textarea
+              rows="5"
+              cols="30"
+              pTextarea
+              [(ngModel)]="value"
+              name="validityCountMoreInformationForm"
+              placeholder="Validity Count"
+            ></textarea>
+          </form>
         </div>
       </div>
     </div>

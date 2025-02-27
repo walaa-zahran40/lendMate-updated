@@ -129,6 +129,10 @@ export class FormsComponent {
   selectedActions!: any[];
   officerTypesMandates!: any[];
   selectedOfficerTypesMandate!: any[];
+  selectedAssestTypesMandate!: any[];
+  assestTypesMandates!: any[];
+  selectedContactPersonTypesMandate!: any[];
+  contactPersonTypesMandates!: any[];
   //dates
   date: Date | undefined;
   date1: Date | undefined;
@@ -173,6 +177,11 @@ export class FormsComponent {
   @Input() addMandateShowContactPersonsForm!: boolean;
   @Input() addMandateShowOfficersForm!: boolean;
   @Input() addMandateShowBasicForm!: boolean;
+  @Input() addChildMandateShowMoreInformationForm!: boolean;
+  @Input() addChildMandateShowAssetTypeForm!: boolean;
+  @Input() addChildMandateShowContactPersonsForm!: boolean;
+  @Input() addChildMandateShowOfficersForm!: boolean;
+  @Input() addChildMandateShowBasicForm!: boolean;
   constructor() {}
   ngOnInit() {
     this.sectors = [
