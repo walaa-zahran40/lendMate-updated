@@ -2169,6 +2169,404 @@
               name="isActiveMandateTermsForm"
             />
           </form>
+          <form
+            action=""
+            *ngIf="leasingFinancialFormShowBasicForm"
+            id="leasingFinancialFormShowBasicForm"
+          >
+            <div class="row">
+              <div class="col-sm">
+                <label for="assestCostLeasingFinancialForm">Assest Cost</label>
+                <input
+                  pInputText
+                  id="assestCost"
+                  aria-describedby="assestCost-help"
+                  [(ngModel)]="value53"
+                  name="assestCost"
+                  placeholder="150,000,000"
+                />
+              </div>
+              <div class="col-sm">
+                <label for="downPaymentLeasingFinancialForm"
+                  >Down Payment</label
+                >
+                <input
+                  pInputText
+                  id="downPayment"
+                  aria-describedby="downPayment-help"
+                  [(ngModel)]="value54"
+                  name="downPayment"
+                  placeholder="1,200,000"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm">
+                <label for="percentOfFinanceFinancialForm"
+                  >Percent of Finance
+                </label>
+                <input
+                  pInputText
+                  id="percentOfFinance"
+                  aria-describedby="percentOfFinance-help"
+                  [(ngModel)]="value55"
+                  name="percentOfFinance"
+                  placeholder="85%"
+                />
+              </div>
+              <div class="col-sm">
+                <label for="NFAFinancialForm">NFA</label>
+                <input
+                  pInputText
+                  id="NFA"
+                  aria-describedby="NFA-help"
+                  [(ngModel)]="value56"
+                  name="NFA"
+                  placeholder="1,200,000"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm">
+                <label for="yearsLeasingFinancialForm">Years</label>
+                <input
+                  pInputText
+                  id="years"
+                  aria-describedby="years-help"
+                  [(ngModel)]="value57"
+                  name="years"
+                  placeholder="6"
+                />
+              </div>
+              <div class="col-sm">
+                <label for="startDateLeasingFinancialForm">Start Date</label>
+                <input
+                  pInputText
+                  id="startDate"
+                  aria-describedby="startDate-help"
+                  [(ngModel)]="value58"
+                  name="startDate"
+                  placeholder="10 May 2025"
+                />
+              </div>
+            </div>
+          </form>
+          <form
+            action=""
+            *ngIf="leasingFinancialFormShowRatesForm"
+            id="leasingFinancialFormShowRatesForm"
+          >
+            <div class="row">
+              <div class="col-sm">
+                <label for="interestRateLeasingFinancialForm"
+                  >Interest Rate</label
+                >
+                <input
+                  pInputText
+                  id="interestRate"
+                  aria-describedby="interestRate-help"
+                  [(ngModel)]="value59"
+                  name="interestRate"
+                  placeholder="25%"
+                />
+              </div>
+              <div class="col-sm">
+                <label for="insuranceRateLeasingFinancialForm"
+                  >Insurance Rate</label
+                >
+                <input
+                  pInputText
+                  id="insuranceRate"
+                  aria-describedby="insuranceRate-help"
+                  [(ngModel)]="value60"
+                  name="insuranceRate"
+                  placeholder="5%"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm">
+                <label for="tenorLeasingFinancialForm">Tenor </label>
+                <input
+                  pInputText
+                  id="tenorLeasing"
+                  aria-describedby="tenorLeasing-help"
+                  [(ngModel)]="value61"
+                  name="tenorLeasing"
+                  placeholder="5"
+                />
+              </div>
+              <div class="col-sm">
+                <label for="paymentPeriodLeasingFinancialForm"
+                  >Payment Period</label
+                >
+                <p-select
+                  [options]="paymentPeriods"
+                  [(ngModel)]="selectedPaymentPeriods"
+                  optionLabel="name"
+                  class="w-full md:w-56"
+                  name="paymentPeriodLeasingFinancialForm"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm">
+                <label for="gracePeriodCountLeasingFinancialForm"
+                  >Grace Period Count</label
+                >
+                <input
+                  pInputText
+                  id="gracePeriodCount"
+                  aria-describedby="gracePeriodCount-help"
+                  [(ngModel)]="value62"
+                  name="gracePeriodCount"
+                  placeholder="6"
+                />
+              </div>
+              <div class="col-sm">
+                <label for="gracePeriodUnitLeasingFinancialForm"
+                  >Grace Period Unit</label
+                >
+                <p-select
+                  [options]="gracePeriodUnits"
+                  [(ngModel)]="selectedGracePeriodUnits"
+                  optionLabel="name"
+                  class="w-full md:w-56"
+                  name="gracePeriodUnitLeasingFinancialForm"
+                />
+              </div>
+            </div>
+          </form>
+          <form
+            action=""
+            *ngIf="leasingFinancialFormShowCurrencyForm"
+            id="addManageMandateTermsForm"
+          >
+            <div class="row">
+              <div class="col-sm">
+                <label for="currencyRateLeasingFinancialForm">Currency</label>
+                <input
+                  pInputText
+                  id="currencyRate"
+                  aria-describedby="currencyRate-help"
+                  [(ngModel)]="value63"
+                  name="currencyRate"
+                  placeholder="5"
+                />
+              </div>
+              <div class="col-sm">
+                <label for="currencyExchangeRateLeasingFinancialForm"
+                  >Currency Exchange Rate</label
+                >
+                <p-select
+                  [options]="currencyExchangeRate"
+                  [(ngModel)]="selectedCurrencyExchangeRate"
+                  optionLabel="name"
+                  class="w-full md:w-56"
+                  name="currencyExchangeRateLeasingFinancialForm"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm">
+                <label for="manualExchangeRateLeasingFinancialForm"
+                  >Manual Exchange Rate
+                </label>
+                <input
+                  pInputText
+                  id="manualExchangeRate"
+                  aria-describedby="manualExchangeRate-help"
+                  [(ngModel)]="value63"
+                  name="manualExchangeRate"
+                  placeholder="25%"
+                />
+              </div>
+              <div class="col-sm">
+                <label for="isManualExchangeRateLeasingFinancialForm"
+                  >IsManual Exchange Rate<sup>*</sup></label
+                >
+                <p-select
+                  [options]="isManualExchangeRates"
+                  [(ngModel)]="selectedIsManualExchangeRates"
+                  optionLabel="name"
+                  class="w-full md:w-56"
+                  name="isManualExchangeRateLeasingFinancialForm"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm">
+                <label for="indicativeRentalsLeasingFinancialForm"
+                  >Indicative Rentals</label
+                >
+                <input
+                  pInputText
+                  id="indicativeRentals"
+                  aria-describedby="indicativeRentals-help"
+                  [(ngModel)]="value63"
+                  name="indicativeRentals"
+                  placeholder="90,000"
+                />
+              </div>
+              <div class="col-sm">
+                <label for="rentLeasingFinancialForm">Rent</label>
+                <input
+                  pInputText
+                  id="rent"
+                  aria-describedby="rent-help"
+                  [(ngModel)]="value64"
+                  name="rent"
+                  placeholder="1,850,000"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm">
+                <label for="rvPercentLeasingFinancialForm">RV Percent</label>
+                <input
+                  pInputText
+                  id="rvPercent"
+                  aria-describedby="rvPercent-help"
+                  [(ngModel)]="value65"
+                  name="rvPercent"
+                  placeholder="50%"
+                />
+              </div>
+              <div class="col-sm">
+                <label for="rvAmountLeasingFinancialForm">RV Amount</label>
+                <input
+                  pInputText
+                  id="rvAmount"
+                  aria-describedby="rvAmount-help"
+                  [(ngModel)]="value66"
+                  name="rvAmount"
+                  placeholder="1,850,000"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm">
+                <label for="reservePaymentCountLeasingFinancialForm"
+                  >Reserve Payment Count
+                </label>
+                <input
+                  pInputText
+                  id="reservePaymentCountLeasing"
+                  aria-describedby="reservePaymentCountLeasing-help"
+                  [(ngModel)]="value67"
+                  name="reservePaymentCountLeasing"
+                  placeholder="50%"
+                />
+              </div>
+              <div class="col-sm">
+                <label for="reservePaymentAmountLeasingFinancialForm"
+                  >Reserve Payment Amount</label
+                >
+                <input
+                  pInputText
+                  id="reservePaymentAmountLeasing"
+                  aria-describedby="reservePaymentAmountLeasing-help"
+                  [(ngModel)]="value68"
+                  name="reservePaymentAmountLeasing"
+                  placeholder="1,850,000"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm">
+                <label for="provisionPercentLeasingFinancialForm"
+                  >Provision Percent</label
+                >
+                <input
+                  pInputText
+                  id="provisionPercent"
+                  aria-describedby="provisionPercent-help"
+                  [(ngModel)]="value69"
+                  name="provisionPercent"
+                  placeholder="50%"
+                />
+              </div>
+              <div class="col-sm">
+                <label for="provisionAmountLeasingFinancialForm"
+                  >Provision Amount</label
+                >
+                <input
+                  pInputText
+                  id="provisionAmount"
+                  aria-describedby="provisionAmount-help"
+                  [(ngModel)]="value70"
+                  name="provisionAmount"
+                  placeholder="1,850,000"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm">
+                <label for="interestRateBenchMarkLeasingFinancialForm"
+                  >Interest Rate Benchmark</label
+                >
+                <p-select
+                  [options]="interestRateBenchMarks"
+                  [(ngModel)]="selectedInterestRateBenchMarks"
+                  optionLabel="name"
+                  class="w-full md:w-56"
+                  name="interestRateBenchMarkLeasingFinancialForm"
+                />
+              </div>
+              <div class="col-sm">
+                <label for="paymentTimeTermLeasingFinancialForm"
+                  >Payment Time Term</label
+                >
+                <p-select
+                  [options]="paymentTimeTerms"
+                  [(ngModel)]="selectedPaymentTimeTerms"
+                  optionLabel="name"
+                  class="w-full md:w-56"
+                  name="paymentTimeTermLeasingFinancialForm"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm">
+                <label for="rentStructureLeasingFinancialForm"
+                  >Rent Structure
+                </label>
+                <p-select
+                  [options]="rentStructures"
+                  [(ngModel)]="selectedRentStructures"
+                  optionLabel="name"
+                  class="w-full md:w-56"
+                  name="rentStructureLeasingFinancialForm"
+                />
+              </div>
+              <div class="col-sm">
+                <label for="paymentMethodsLeasingFinancialForm"
+                  >Payment Method</label
+                >
+                <p-select
+                  [options]="paymentMethods"
+                  [(ngModel)]="selectedPaymentMethods"
+                  optionLabel="name"
+                  class="w-full md:w-56"
+                  name="paymentMethodsLeasingFinancialForm"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <label for="paymentMethodDayLeasingFinancialForm"
+                  >Payment Month Day</label
+                >
+                <p-select
+                  [options]="paymentMonthDays"
+                  [(ngModel)]="selectedPaymentMonthDays"
+                  optionLabel="name"
+                  class="w-full md:w-56"
+                  name="paymentMethodDayLeasingFinancialForm"
+                />
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>

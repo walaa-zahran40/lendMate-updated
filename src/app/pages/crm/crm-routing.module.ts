@@ -17,6 +17,7 @@ import { AddTmlOfficerComponent } from './clients/companies/add-tml-officer/add-
 import { AddMandateComponent } from './leasing-mandates/add-mandate/add-mandate.component';
 import { AddChildMandateComponent } from './leasing-mandates/add-child-mandate/add-child-mandate.component';
 import { AddManageMandateTermsComponent } from './leasing-mandates/add-manage-mandate-terms/add-manage-mandate-terms.component';
+import { LeasingFinancialFormComponent } from './leasing-mandates/leasing-financial-form/leasing-financial-form.component';
 
 const routes: Routes = [
   /*Clients Routing*/
@@ -92,6 +93,10 @@ const routes: Routes = [
   {
     path: 'leasing-mandates/add-manage-mandate-terms',
     component: AddManageMandateTermsComponent,
+  },
+  {
+    path: 'leasing-mandates/leasing-financial-form',
+    component: LeasingFinancialFormComponent,
   },
 ];
 

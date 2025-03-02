@@ -4,8 +4,10 @@ import { Component } from '@angular/core';
   selector: 'app-leasing-financial-form',
   standalone: false,
   templateUrl: './leasing-financial-form.component.html',
-  styleUrl: './leasing-financial-form.component.scss'
+  styleUrl: './leasing-financial-form.component.scss',
 })
 export class LeasingFinancialFormComponent {
-
+  saveInfo() {
+    console.log('added');
+  }
 }

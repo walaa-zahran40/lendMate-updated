@@ -61,6 +61,24 @@ export class FormsComponent {
   value50: string | undefined;
   value51: string | undefined;
   value52: string | undefined;
+  value53: string | undefined;
+  value54: string | undefined;
+  value55: string | undefined;
+  value56: string | undefined;
+  value57: string | undefined;
+  value58: string | undefined;
+  value59: string | undefined;
+  value60: string | undefined;
+  value61: string | undefined;
+  value62: string | undefined;
+  value63: string | undefined;
+  value64: string | undefined;
+  value65: string | undefined;
+  value66: string | undefined;
+  value67: string | undefined;
+  value68: string | undefined;
+  value69: string | undefined;
+  value70: string | undefined;
   //options
   sectors!: any[];
   crAuthorityOffices!: any[];
@@ -133,6 +151,24 @@ export class FormsComponent {
   assestTypesMandates!: any[];
   selectedContactPersonTypesMandate!: any[];
   contactPersonTypesMandates!: any[];
+  gracePeriodUnits!: any[];
+  selectedGracePeriodUnits!: any;
+  paymentPeriods!: any[];
+  selectedPaymentPeriods!: any;
+  currencyExchangeRate!: any[];
+  selectedCurrencyExchangeRate!: any;
+  paymentMonthDays!: any[];
+  selectedPaymentMonthDays!: any;
+  paymentMethods!: any[];
+  selectedPaymentMethods!: any;
+  rentStructures!: any[];
+  selectedRentStructures!: any;
+  paymentTimeTerms!: any[];
+  selectedPaymentTimeTerms!: any;
+  interestRateBenchMarks!: any[];
+  selectedInterestRateBenchMarks!: any;
+  isManualExchangeRates!: any[];
+  selectedIsManualExchangeRates!: any;
   //dates
   date: Date | undefined;
   date1: Date | undefined;
@@ -183,6 +219,9 @@ export class FormsComponent {
   @Input() addChildMandateShowOfficersForm!: boolean;
   @Input() addChildMandateShowBasicForm!: boolean;
   @Input() addManageMandateTermsForm!: boolean;
+  @Input() leasingFinancialFormShowCurrencyForm!: boolean;
+  @Input() leasingFinancialFormShowRatesForm!: boolean;
+  @Input() leasingFinancialFormShowBasicForm!: boolean;
   constructor() {}
   ngOnInit() {
     this.sectors = [
@@ -214,6 +253,32 @@ export class FormsComponent {
       { name: 'Marketing Field', code: 'MF' },
     ];
     this.legalFormLaw = [{ name: 'Form Law 206', code: '206' }];
+    this.currencyExchangeRate = [{ name: 'USD', code: 'USD' }];
+    this.selectedCurrencyExchangeRate = { name: 'USD', code: 'USD' };
+    this.isManualExchangeRates = [{ name: 'YES', code: 'yes' }];
+    this.selectedIsManualExchangeRates = { name: 'YES', code: 'yes' };
+    this.interestRateBenchMarks = [{ name: 'Corridor', code: 'corridor' }];
+    this.selectedInterestRateBenchMarks = {
+      name: 'Corridor',
+      code: 'corridor',
+    };
+    this.paymentTimeTerms = [{ name: 'In Arrear', code: 'inArrear' }];
+    this.selectedPaymentTimeTerms = {
+      name: 'In Arrear',
+      code: 'inArrear',
+    };
+    this.paymentMethods = [{ name: 'BSO', code: 'bso' }];
+    this.selectedPaymentMethods = {
+      name: 'BSO',
+      code: 'bso',
+    };
+    this.rentStructures = [{ name: 'FixedRent', code: 'fixedRent' }];
+    this.selectedRentStructures = {
+      name: 'FixedRent',
+      code: 'fixedRent',
+    };
+    this.paymentMonthDays = [{ name: 'May', code: 'may' }];
+    this.selectedPaymentMonthDays = { name: 'May', code: 'may' };
     this.selectedLegalFormLawCompanyViewOnly = [
       { name: 'Form Law 206', code: '206' },
     ];
@@ -322,5 +387,13 @@ export class FormsComponent {
     this.selectedInsuredBy = [{ name: 'Microsoft', code: 'M' }];
     this.leasingTypes = [{ name: 'LeasingType', code: 'LT' }];
     this.selectedLeasingTypes = [{ name: 'LeasingType', code: 'LT' }];
+    this.selectedGracePeriodUnits = [{ name: '100', code: '100' }];
+    this.gracePeriodUnits = [{ name: '100', code: '100' }];
+    this.paymentPeriods = [{ name: '50', code: '50' }];
+
+    this.selectedPaymentPeriods = { name: '50', code: '50' };
+    this.gracePeriodUnits = [{ name: '100', code: '100' }];
+
+    this.selectedGracePeriodUnits = { name: '100', code: '100' };
   }
 }

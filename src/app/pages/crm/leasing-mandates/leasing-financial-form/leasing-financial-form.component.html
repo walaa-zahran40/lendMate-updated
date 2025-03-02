@@ -1,1 +1,43 @@
-<p>leasing-financial-form works!</p>
+<app-toolbar-form
+  [header]="'Leasing Financial Form'"
+  [backExists]="true"
+  [viewOnly]="true"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-forms
+        [title]="'Basic Finance Information'"
+        [description]="
+          'Introduce your company core info quickly to users by fill up company details'
+        "
+        [leasingFinancialFormShowBasicForm]="true"
+      ></app-forms>
+      <hr />
+      <app-forms
+        [title]="'Rates and Periods'"
+        [description]="
+          'Introduce your company core info quickly to users by fill up company details'
+        "
+        [leasingFinancialFormShowRatesForm]="true"
+      ></app-forms>
+      <hr />
+      <app-forms
+        [title]="'Currency Information'"
+        [description]="
+          'Introduce your company core info quickly to users by fill up company details'
+        "
+        [leasingFinancialFormShowCurrencyForm]="true"
+      ></app-forms>
+
+      <div class="row justify-end gap-4 row-btns">
+        <p-button
+          (click)="saveInfo()"
+          label="Submit"
+          class="custom-submit custom-save m-0"
+        />
+        <p-button label="Calculate" class="custom-calculate custom-save m-0" />
+      </div>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>
