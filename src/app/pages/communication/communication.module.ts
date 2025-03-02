@@ -5,9 +5,15 @@ import { AddMeetingComponent } from './add-meeting/add-meeting.component';
 import { ButtonModule } from 'primeng/button';
 import { TabsModule } from 'primeng/tabs';
 import { SharedModule } from '../../shared/shared.module';
+import { AddFollowUpsComponent } from './add-follow-ups/add-follow-ups.component';
+import { AddFollowUpsPointsComponent } from './add-follow-ups-points/add-follow-ups-points.component';
 
 @NgModule({
-  declarations: [AddMeetingComponent],
+  declarations: [
+    AddMeetingComponent,
+    AddFollowUpsComponent,
+    AddFollowUpsPointsComponent,
+  ],
   imports: [
     CommonModule,
     CommunicationRoutingModule,
@@ -15,6 +21,10 @@ import { SharedModule } from '../../shared/shared.module';
     TabsModule,
     ButtonModule,
   ],
-  exports: [AddMeetingComponent],
+  exports: [
+    AddMeetingComponent,
+    AddFollowUpsComponent,
+    AddFollowUpsPointsComponent,
+  ],
 })
 export class CommunicationModule {}

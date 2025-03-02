@@ -140,6 +140,13 @@
       label="View Assest Type"
       class="custom-view m-0 float-right"
     />
+    <p-button
+      *ngIf="addFollowUpsCommunicationForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Follow Ups"
+      class="custom-view m-0 float-right"
+    />
   </div>
   <div class="col-sm-8 p-0">
     <div class="flex flex-col md:flex-row gap-8">
@@ -2942,6 +2949,26 @@
               placeholder="Details"
               [(ngModel)]="value"
               name="detailsAddMeeting"
+            ></textarea>
+          </form>
+          <form action="" *ngIf="addFollowUpsCommunicationForm">
+            <label for="dateFollowUpsCommunication">Date<sup>*</sup></label>
+            <p-calendar
+              [(ngModel)]="date11"
+              [iconDisplay]="'input'"
+              [showIcon]="true"
+              inputId="icondisplay"
+              name="dateFollowUpsCommunication"
+            />
+
+            <label for="followupDetailsCommunication">Follow Up Details</label
+            ><textarea
+              rows="5"
+              cols="30"
+              pTextarea
+              placeholder="Topic"
+              [(ngModel)]="value"
+              name="followupDetailsCommunication"
             ></textarea>
           </form>
         </div>

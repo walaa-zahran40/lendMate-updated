@@ -228,6 +228,7 @@ export class FormsComponent {
   date8: Date | undefined;
   date9 = '09/08/2025';
   date10 = '09/08/2025';
+  date11 = '09/08/2025';
   //inputs
   @Input() title!: string;
   @Input() titleIndividual!: string;
@@ -279,6 +280,7 @@ export class FormsComponent {
   @Input() addMeetingShowContactPersonsForm!: boolean;
   @Input() addMeetingShowOfficersForm!: boolean;
   @Input() addMeetingShowBasicForm!: boolean;
+  @Input() addFollowUpsCommunicationForm!: boolean;
   constructor() {}
   ngOnInit() {
     this.sectors = [
