@@ -4,8 +4,10 @@ import { Component } from '@angular/core';
   selector: 'app-legal-forms',
   standalone: false,
   templateUrl: './legal-forms.component.html',
-  styleUrl: './legal-forms.component.scss'
+  styleUrl: './legal-forms.component.scss',
 })
 export class LegalFormsComponent {
-
+  addLegalForms() {
+    console.log('added');
+  }
 }

@@ -98,6 +98,20 @@
       label="View Assest Type"
       class="custom-view m-0 float-right"
     />
+    <p-button
+      *ngIf="addLegalsLegalForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Legal Form"
+      class="custom-view m-0 float-right"
+    />
+    <p-button
+      *ngIf="addLegalsLegalFormLaw"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Legal Form Law"
+      class="custom-view m-0 float-right"
+    />
   </div>
   <div class="col-sm-8 p-0">
     <div class="flex flex-col md:flex-row gap-8">
@@ -2566,6 +2580,66 @@
                 />
               </div>
             </div>
+          </form>
+          <form action="" *ngIf="addLegalsLegalForm">
+            <label for="legalLawCode">Legal Law Code<sup>*</sup></label>
+            <input
+              pInputText
+              id="legalLawCode"
+              aria-describedby="legalLawCode-help"
+              name="legalLawCode"
+              placeholder="Type"
+            />
+            <label for="legalLawNameEnglish"
+              >Legal Law Name English<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="legalLawNameEnglish"
+              aria-describedby="legalLawNameEnglish-help"
+              name="legalLawNameEnglish"
+              placeholder="Type"
+            />
+            <label for="legalLawNameArabic"
+              >Legal Law Name Arabic<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="legalLawNameArabic"
+              aria-describedby="legalLawNameArabic-help"
+              name="legalLawNameArabic"
+              placeholder="Type"
+            />
+          </form>
+          <form action="" *ngIf="addLegalsLegalFormLaw">
+            <label for="legalLawCodeLegalLaw">Legal Law Code<sup>*</sup></label>
+            <input
+              pInputText
+              id="legalLawCodeLegalLaw"
+              aria-describedby="legalLawCodeLegalLaw-help"
+              name="legalLawCodeLegalLaw"
+              placeholder="Type"
+            />
+            <label for="legalLawNameEnglishLegalLaw"
+              >Legal Law Name English<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="legalLawNameEnglishLegalLaw"
+              aria-describedby="legalLawNameEnglishLegalLaw-help"
+              name="legalLawNameEnglishLegalLaw"
+              placeholder="Type"
+            />
+            <label for="legalLawNameArabicLegalLaw"
+              >Legal Law Name Arabic<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="legalLawNameArabicLegalLaw"
+              aria-describedby="legalLawNameArabicLegalLaw-help"
+              name="legalLawNameArabicLegalLaw"
+              placeholder="Type"
+            />
           </form>
         </div>
       </div>
