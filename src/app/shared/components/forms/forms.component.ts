@@ -80,95 +80,142 @@ export class FormsComponent {
   value69: string | undefined;
   value70: string | undefined;
   //options
-  sectors!: any[];
-  crAuthorityOffices!: any[];
-  selectedSectors!: any[];
-  sectorsIndividual!: any[];
-  selectedSectorsIndividual!: any[];
-  legalFormLaw!: any[];
-  selectedLegalFormLaw!: any[];
-  subSectors!: any[];
-  selectedSubSectors!: any[];
-  documents!: any[];
-  selectedDocuments!: any[];
-  areas!: any[];
-  selectedAreas!: any[];
-  governments!: any[];
-  selectedGovernments!: any[];
-  addresses!: any[];
-  selectedAddresses!: any[];
-  subSectorsIndividual!: any[];
-  selectedSubSectorsIndividual!: any[];
-  identityIndividual!: any[];
-  selectedIdentityIndividual!: any[];
-  selectedIsActiveContactPerson!: any[];
-  areasContactPerson!: any[];
-  governmentContactPerson!: any[];
-  countryContactPerson!: any[];
-  selectedIsMainContactPerson!: any[];
-  selectedGendersContactPerson!: any[];
-  addressTypeContactPerson!: any[];
-  selectIdentityTypeContactPerson!: any[];
-  selectedPhoneTypeContactPerson!: any[];
-  shareHolderNames!: any[];
-  selectedSectorsShowCompanyOnly!: any[];
-  selectedSubSectorsShowCompanyOnly!: any[];
-  selectedLegalFormLawCompanyViewOnly!: any[];
-  selectedLegalFormCompanyViewOnly!: any[];
-  selectedIsStampCompanyViewOnly!: any[];
-  stamps!: any[];
-  genders!: any[];
-  selectedGenders!: any[];
-  countries!: any[];
-  selectedCountries!: any[];
-  phoneTypes!: any[];
-  selectedPhoneTypes!: any[];
-  legalForm!: any[];
-  selectedLegalForm!: any[];
-  selectedDocumentTypes!: any[];
-  isMain!: any[];
-  selectedIsMain!: any[];
-  isActive!: any[];
-  selectedIsActive!: any[];
-  companyTypes!: any[];
-  shareHolderTypes!: any[];
-  officerNames!: any[];
-  officerTypes!: any[];
-  clientNames!: any[];
-  selectedClientNames!: any[];
-  selectedMandateValidityUnit!: any[];
-  products!: any[];
-  selectedProducts!: any[];
-  insuredBy!: any[];
-  selectedInsuredBy!: any[];
-  leasingTypes!: any[];
-  selectedLeasingTypes!: any[];
-  actions!: any[];
-  selectedActions!: any[];
-  officerTypesMandates!: any[];
-  selectedOfficerTypesMandate!: any[];
-  selectedAssestTypesMandate!: any[];
-  assestTypesMandates!: any[];
-  selectedContactPersonTypesMandate!: any[];
-  contactPersonTypesMandates!: any[];
-  gracePeriodUnits!: any[];
+  sectors!: any;
+  crAuthorityOffices!: any;
+  selectedSectors!: any;
+  sectorsIndividual!: any;
+  selectedSectorsIndividual!: any;
+  legalFormLaw!: any;
+  selectedLegalFormLaw!: any;
+  subSectors!: any;
+  selectedSubSectors!: any;
+  documents!: any;
+  selectedDocuments!: any;
+  areas!: any;
+  selectedAreas!: any;
+  governments!: any;
+  selectedGovernments!: any;
+  addresses!: any;
+  selectedAddresses!: any;
+  subSectorsIndividual!: any;
+  selectedSubSectorsIndividual!: any;
+  identityIndividual!: any;
+  selectedIdentityIndividual!: any;
+  selectedIsActiveContactPerson!: any;
+  areasContactPerson!: any;
+  governmentContactPerson!: any;
+  countryContactPerson!: any;
+  selectedIsMainContactPerson!: any;
+  selectedGendersContactPerson!: any;
+  addressTypeContactPerson!: any;
+  selectIdentityTypeContactPerson!: any;
+  selectedPhoneTypeContactPerson!: any;
+  shareHolderNames!: any;
+  selectedSectorsShowCompanyOnly!: any;
+  selectedSubSectorsShowCompanyOnly!: any;
+  selectedLegalFormLawCompanyViewOnly!: any;
+  selectedLegalFormCompanyViewOnly!: any;
+  selectedIsStampCompanyViewOnly!: any;
+  stamps!: any;
+  genders!: any;
+  selectedGenders!: any;
+  countries!: any;
+  selectedCountries!: any;
+  phoneTypes!: any;
+  selectedPhoneTypes!: any;
+  legalForm!: any;
+  selectedLegalForm!: any;
+  selectedDocumentTypes!: any;
+  isMain!: any;
+  selectedIsMain!: any;
+  isActive!: any;
+  selectedIsActive!: any;
+  companyTypes!: any;
+  shareHolderTypes!: any;
+  officerNames!: any;
+  officerTypes!: any;
+  clientNames!: any;
+  selectedClientNames!: any;
+  selectedMandateValidityUnit!: any;
+  products!: any;
+  selectedProducts!: any;
+  insuredBy!: any;
+  selectedInsuredBy!: any;
+  leasingTypes!: any;
+  selectedLeasingTypes!: any;
+  actions!: any;
+  selectedActions!: any;
+  officerTypesMandates!: any;
+  selectedOfficerTypesMandate!: any;
+  selectedAssestTypesMandate!: any;
+  assestTypesMandates!: any;
+  selectedContactPersonTypesMandate!: any;
+  contactPersonTypesMandates!: any;
+  gracePeriodUnits!: any;
   selectedGracePeriodUnits!: any;
-  paymentPeriods!: any[];
+  paymentPeriods!: any;
   selectedPaymentPeriods!: any;
-  currencyExchangeRate!: any[];
+  currencyExchangeRate!: any;
   selectedCurrencyExchangeRate!: any;
-  paymentMonthDays!: any[];
+  paymentMonthDays!: any;
   selectedPaymentMonthDays!: any;
-  paymentMethods!: any[];
+  paymentMethods!: any;
   selectedPaymentMethods!: any;
-  rentStructures!: any[];
+  rentStructures!: any;
   selectedRentStructures!: any;
-  paymentTimeTerms!: any[];
+  paymentTimeTerms!: any;
   selectedPaymentTimeTerms!: any;
-  interestRateBenchMarks!: any[];
+  interestRateBenchMarks!: any;
   selectedInterestRateBenchMarks!: any;
-  isManualExchangeRates!: any[];
+  isManualExchangeRates!: any;
   selectedIsManualExchangeRates!: any;
+  meetingTypeAddMeeting!: any;
+  selectedMeetingTypeAddMeeting!: any;
+  communicationFlowAddMeeting!: any;
+  selectedCommunicationFlowAddMeeting!: any;
+  countryAddMeeting!: any;
+  selectedCountryAddMeeting!: any;
+  governorateAddMeeting!: any;
+  selectedGovernorateAddMeeting!: any;
+  areaAddMeeting!: any;
+  selectedAreaAddMeeting!: any;
+  officerAddMeeting!: any;
+  selectedOfficerAddMeeting!: any;
+  //checkboxes
+  selectedOfficers: any[] = [];
+  selectedContactPersons = [];
+  selectedAssestTypes = [];
+
+  officers: any[] = [
+    {
+      name: 'Is Responsible',
+      key: 'IR',
+      description:
+        'Is responsible to hold and run the meeting with other team members',
+    },
+    {
+      name: 'Must Attend',
+      key: 'MA',
+      description:
+        'Must attend to hold and run the meeting with other team members',
+    },
+  ];
+  assestTypes: any[] = [
+    {
+      name: 'Is Active',
+      key: 'IA',
+      description:
+        'Must attend to hold and run the meeting with other team members',
+    },
+  ];
+  contactPersons: any[] = [
+    {
+      name: 'Must Attend',
+      key: 'MA',
+      description:
+        'Must attend to hold and run the meeting with other team members',
+    },
+  ];
   //dates
   date: Date | undefined;
   date1: Date | undefined;
@@ -179,6 +226,8 @@ export class FormsComponent {
   date6: Date | undefined;
   date7: Date | undefined;
   date8: Date | undefined;
+  date9 = '09/08/2025';
+  date10 = '09/08/2025';
   //inputs
   @Input() title!: string;
   @Input() titleIndividual!: string;
@@ -225,6 +274,11 @@ export class FormsComponent {
   @Input() addLegalsLegalForm!: boolean;
   @Input() addLegalsLegalFormLaw!: boolean;
   @Input() addCompanyTypesLookupsForm!: boolean;
+  @Input() addMeetingShowBusinessInformationForm!: boolean;
+  @Input() addMeetingShowAssetTypeForm!: boolean;
+  @Input() addMeetingShowContactPersonsForm!: boolean;
+  @Input() addMeetingShowOfficersForm!: boolean;
+  @Input() addMeetingShowBasicForm!: boolean;
   constructor() {}
   ngOnInit() {
     this.sectors = [
@@ -398,5 +452,30 @@ export class FormsComponent {
     this.gracePeriodUnits = [{ name: '100', code: '100' }];
 
     this.selectedGracePeriodUnits = { name: '100', code: '100' };
+    this.meetingTypeAddMeeting = [{ name: 'Business', code: 'Business' }];
+    this.selectedMeetingTypeAddMeeting = [
+      { name: 'Business', code: 'Business' },
+    ];
+    this.communicationFlowAddMeeting = [
+      { name: 'Technology', code: 'Technology' },
+      { name: 'Programming', code: 'Programming' },
+      { name: 'Machine Learning', code: 'MachineLearning' },
+    ];
+    this.selectedCommunicationFlowAddMeeting = [
+      { name: 'Technology', code: 'Technology' },
+      { name: 'Programming', code: 'Programming' },
+      { name: 'Machine Learning', code: 'MachineLearning' },
+    ];
+    this.countryAddMeeting = [{ name: 'Egypt', code: 'Egypt' }];
+    this.selectedCountryAddMeeting = [{ name: 'Egypt', code: 'Egypt' }];
+    this.governorateAddMeeting = [{ name: 'Cairo', code: 'Cairo' }];
+    this.selectedGovernorateAddMeeting = [{ name: 'Cairo', code: 'Cairo' }];
+    this.areaAddMeeting = [{ name: 'New Cairo', code: 'New Cairo' }];
+    this.selectedAreaAddMeeting = [{ name: 'New Cairo', code: 'New Cairo' }];
+    this.officerAddMeeting = [{ name: 'Form Law 206', code: 'Form Law 206' }];
+    this.selectedOfficerAddMeeting = [
+      { name: 'Form Law 206', code: 'Form Law 206' },
+    ];
+    this.selectedOfficers = [this.officers[0]];
   }
 }
