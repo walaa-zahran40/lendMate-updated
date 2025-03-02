@@ -224,6 +224,7 @@ export class FormsComponent {
   @Input() leasingFinancialFormShowBasicForm!: boolean;
   @Input() addLegalsLegalForm!: boolean;
   @Input() addLegalsLegalFormLaw!: boolean;
+  @Input() addCompanyTypesLookupsForm!: boolean;
   constructor() {}
   ngOnInit() {
     this.sectors = [

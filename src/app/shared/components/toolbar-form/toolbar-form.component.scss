@@ -50,6 +50,53 @@
   --custom-flex-direction: column;
   --custom-justify-content-between: space-between;
   --custom-flex-direction-row-reverse: row-reverse;
+  h2 {
+    font-family: var(--custom-font-family-regular);
+    font-weight: var(--custom-font-weight-600);
+    font-size: var(--custom-size-16);
+    line-height: var(--custom-line-height-25);
+  }
+  p.client {
+    font-family: var(--custom-font-family);
+    font-weight: var(--custom-font-weight);
+    font-size: var(--custom-font-size-24);
+    line-height: var(--custom-line-height);
+    margin-bottom: var(--custom-margin-0);
+    align-items: var(--custom-position-center);
+    display: var(--custom-display);
+  }
+  .pi-angle-left {
+    font-size: 30px;
+  }
+  .tab-panel-paragraph {
+    font-family: var(--custom-font-family-regular);
+    font-weight: var(--custom-font-weight-400);
+    font-size: var(--custom-size-16);
+    line-height: var(--custom-line-height-25);
+    color: var(--custom-grey);
+  }
+  form {
+    display: var(--custom-display);
+    flex-direction: var(--custom-flex-direction);
+    label {
+      font-family: var(--custom-font-family-regular);
+      font-weight: var(--custom-font-weight-600);
+      font-size: var(--custom-size-16);
+      line-height: var(--custom-line-height-25);
+      color: var(--custom-grey-bold);
+      sup {
+        color: var(--custom-red);
+      }
+    }
+  }
+  @media only screen and (max-width: 600px) {
+    p.client {
+      font-size: 20px;
+    }
+    .badge-warning {
+      margin-left: 0;
+    }
+  }
   &::ng-deep {
     .p-tabs {
       padding: var(--custom-padding-right-10);
@@ -176,8 +223,8 @@
     }
     .p-toolbar {
       border: none;
-      padding-left: 33px !important;
-      padding-right: 36px !important;
+      padding-left: 10px !important;
+      padding-right: 20px !important;
     }
     .p-splitbutton {
       width: 100%;
@@ -235,6 +282,9 @@
         width: 100%;
         flex-direction: column;
       }
+      .p-tabpanels {
+        padding-right: 0;
+      }
       .work-actions {
         width: 100%;
       }
@@ -249,45 +299,9 @@
         position: absolute;
         top: 75px !important;
       }
-    }
-  }
-}
-h2 {
-  font-family: var(--custom-font-family-regular);
-  font-weight: var(--custom-font-weight-600);
-  font-size: var(--custom-size-16);
-  line-height: var(--custom-line-height-25);
-}
-p.client {
-  font-family: var(--custom-font-family);
-  font-weight: var(--custom-font-weight);
-  font-size: var(--custom-font-size-24);
-  line-height: var(--custom-line-height);
-  margin-bottom: var(--custom-margin-0);
-  align-items: var(--custom-position-center);
-  display: var(--custom-display);
-}
-.pi-angle-left {
-  font-size: 30px;
-}
-.tab-panel-paragraph {
-  font-family: var(--custom-font-family-regular);
-  font-weight: var(--custom-font-weight-400);
-  font-size: var(--custom-size-16);
-  line-height: var(--custom-line-height-25);
-  color: var(--custom-grey);
-}
-form {
-  display: var(--custom-display);
-  flex-direction: var(--custom-flex-direction);
-  label {
-    font-family: var(--custom-font-family-regular);
-    font-weight: var(--custom-font-weight-600);
-    font-size: var(--custom-size-16);
-    line-height: var(--custom-line-height-25);
-    color: var(--custom-grey-bold);
-    sup {
-      color: var(--custom-red);
+      .p-toolbar {
+        padding: 10px !important;
+      }
     }
   }
 }

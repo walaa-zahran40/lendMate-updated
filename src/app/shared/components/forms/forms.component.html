@@ -112,6 +112,13 @@
       label="View Legal Form Law"
       class="custom-view m-0 float-right"
     />
+    <p-button
+      *ngIf="addCompanyTypesLookupsForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Company Types"
+      class="custom-view m-0 float-right"
+    />
   </div>
   <div class="col-sm-8 p-0">
     <div class="flex flex-col md:flex-row gap-8">
@@ -2581,6 +2588,7 @@
               </div>
             </div>
           </form>
+          <!--Legals Forms-->
           <form action="" *ngIf="addLegalsLegalForm">
             <label for="legalLawCode">Legal Law Code<sup>*</sup></label>
             <input
@@ -2638,6 +2646,27 @@
               id="legalLawNameArabicLegalLaw"
               aria-describedby="legalLawNameArabicLegalLaw-help"
               name="legalLawNameArabicLegalLaw"
+              placeholder="Type"
+            />
+          </form>
+          <!--Lookups Forms-->
+          <form action="" *ngIf="addCompanyTypesLookupsForm">
+            <label for="nameInEnglishLookups"
+              >Name in English<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInEnglishLookups"
+              aria-describedby="nameInEnglishLookups-help"
+              name="nameInEnglishLookups"
+              placeholder="Type"
+            />
+            <label for="nameInArabicLookups">Name in Arabic<sup>*</sup></label>
+            <input
+              pInputText
+              id="nameInArabicLookups"
+              aria-describedby="nameInArabicLookups-help"
+              name="nameInArabicLookups"
               placeholder="Type"
             />
           </form>

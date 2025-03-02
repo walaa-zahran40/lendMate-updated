@@ -4,8 +4,10 @@ import { Component } from '@angular/core';
   selector: 'app-company-types',
   standalone: false,
   templateUrl: './company-types.component.html',
-  styleUrl: './company-types.component.scss'
+  styleUrl: './company-types.component.scss',
 })
 export class CompanyTypesComponent {
-
+  addCompanyTypes() {
+    console.log('added');
+  }
 }

@@ -47,6 +47,11 @@ import { CurrenciesExchangeComponent } from './currencies-exchange/currencies-ex
 import { MandateStatusActionsComponent } from './mandate-status-actions/mandate-status-actions.component';
 import { PaymentPeriodsComponent } from './payment-periods/payment-periods.component';
 import { LookupsRoutingModule } from './lookups-routing.module';
+import { ButtonModule } from 'primeng/button';
+import { FileUploadModule } from 'primeng/fileupload';
+import { StepperModule } from 'primeng/stepper';
+import { TabsModule } from 'primeng/tabs';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -97,6 +102,14 @@ import { LookupsRoutingModule } from './lookups-routing.module';
     MandateStatusActionsComponent,
     PaymentPeriodsComponent,
   ],
-  imports: [CommonModule, LookupsRoutingModule],
+  imports: [
+    CommonModule,
+    LookupsRoutingModule,
+    SharedModule,
+    StepperModule,
+    ButtonModule,
+    TabsModule,
+    FileUploadModule,
+  ],
 })
 export class LookupsModule {}
