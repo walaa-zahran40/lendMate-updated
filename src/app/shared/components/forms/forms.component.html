@@ -147,6 +147,13 @@
       label="View Follow Ups"
       class="custom-view m-0 float-right"
     />
+    <p-button
+      *ngIf="addFollowUpsPointsCommunicationForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Follow Ups Point"
+      class="custom-view m-0 float-right"
+    />
   </div>
   <div class="col-sm-8 p-0">
     <div class="flex flex-col md:flex-row gap-8">
@@ -2970,6 +2977,64 @@
               [(ngModel)]="value"
               name="followupDetailsCommunication"
             ></textarea>
+          </form>
+          <form action="" *ngIf="addFollowUpsPointsCommunicationForm">
+            <label for="dueDateFollowUpsPointsCommunication"
+              >Due Date<sup>*</sup></label
+            >
+            <p-calendar
+              [(ngModel)]="date12"
+              [iconDisplay]="'input'"
+              [showIcon]="true"
+              inputId="icondisplay"
+              name="dueDateFollowUpsPointsCommunication"
+            />
+            <label for="actualDateFollowUpsPointsCommunication"
+              >Actual Date<sup>*</sup></label
+            >
+            <p-calendar
+              [(ngModel)]="date13"
+              [iconDisplay]="'input'"
+              [showIcon]="true"
+              inputId="icondisplay"
+              name="actualDateFollowUpsPointsCommunication"
+            />
+            <label for="topicFollowupsPointsCommunication">Topic</label
+            ><textarea
+              rows="5"
+              cols="30"
+              pTextarea
+              placeholder="Topic"
+              [(ngModel)]="value"
+              name="topicFollowupsPointsCommunication"
+            ></textarea>
+            <label for="detailsFollowupsPointsCommunication">Details</label
+            ><textarea
+              rows="5"
+              cols="30"
+              pTextarea
+              placeholder="Details"
+              [(ngModel)]="value"
+              name="detailsFollowupsPointsCommunication"
+            ></textarea>
+            <label for="officerFollowupsPointsCommunication"
+              >Officer<sup>*</sup></label
+            >
+            <p-select
+              [options]="officersFollowupsPoints"
+              optionLabel="name"
+              placeholder="Officer"
+              class="w-full md:w-56"
+            />
+            <label for="contactPersonFollowupsPointsCommunication"
+              >Contact Person<sup>*</sup></label
+            >
+            <p-select
+              [options]="contactPersonsFollowupsPoints"
+              optionLabel="name"
+              placeholder="Officer"
+              class="w-full md:w-56"
+            />
           </form>
         </div>
       </div>

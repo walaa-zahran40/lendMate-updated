@@ -181,6 +181,8 @@ export class FormsComponent {
   selectedAreaAddMeeting!: any;
   officerAddMeeting!: any;
   selectedOfficerAddMeeting!: any;
+  contactPersonsFollowupsPoints!: any;
+  officersFollowupsPoints!: any;
   //checkboxes
   selectedOfficers: any[] = [];
   selectedContactPersons = [];
@@ -229,6 +231,9 @@ export class FormsComponent {
   date9 = '09/08/2025';
   date10 = '09/08/2025';
   date11 = '09/08/2025';
+  date12 = '09/08/2025';
+  date13 = '09/08/2025';
+  date14 = '09/08/2025';
   //inputs
   @Input() title!: string;
   @Input() titleIndividual!: string;
@@ -281,6 +286,7 @@ export class FormsComponent {
   @Input() addMeetingShowOfficersForm!: boolean;
   @Input() addMeetingShowBasicForm!: boolean;
   @Input() addFollowUpsCommunicationForm!: boolean;
+  @Input() addFollowUpsPointsCommunicationForm!: boolean;
   constructor() {}
   ngOnInit() {
     this.sectors = [
@@ -479,5 +485,7 @@ export class FormsComponent {
       { name: 'Form Law 206', code: 'Form Law 206' },
     ];
     this.selectedOfficers = [this.officers[0]];
+    this.contactPersonsFollowupsPoints = [{ name: 'Officer', code: 'Officer' }];
+    this.officersFollowupsPoints = [{ name: 'Officer', code: 'Officer' }];
   }
 }
