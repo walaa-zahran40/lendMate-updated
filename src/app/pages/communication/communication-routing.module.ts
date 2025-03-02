@@ -5,6 +5,8 @@ import { AddFollowUpsComponent } from './add-follow-ups/add-follow-ups.component
 import { AddFollowUpsPointsComponent } from './add-follow-ups-points/add-follow-ups-points.component';
 import { AddMeetingTypesComponent } from './add-meeting-types/add-meeting-types.component';
 import { AddCallComponent } from './add-call/add-call.component';
+import { AddCallTypesComponent } from './add-call-types/add-call-types.component';
+import { AddFollowupTypesComponent } from './add-followup-types/add-followup-types.component';
 
 const routes: Routes = [
   {
@@ -26,6 +28,14 @@ const routes: Routes = [
   {
     path: 'add-call',
     component: AddCallComponent,
+  },
+  {
+    path: 'add-call-types',
+    component: AddCallTypesComponent,
+  },
+  {
+    path: 'add-followup-types',
+    component: AddFollowupTypesComponent,
   },
 ];
 
