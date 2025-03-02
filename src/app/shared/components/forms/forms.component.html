@@ -161,6 +161,20 @@
       label="View Meeting Types"
       class="custom-view m-0 float-right"
     />
+    <p-button
+      *ngIf="addCallShowContactPersonsForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Contact Persons"
+      class="custom-view m-0 float-right"
+    />
+    <p-button
+      *ngIf="addCallShowOfficersForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Officers"
+      class="custom-view m-0 float-right"
+    />
   </div>
   <div class="col-sm-8 p-0">
     <div class="flex flex-col md:flex-row gap-8">
@@ -3074,6 +3088,189 @@
               name="nameInArabicMeetingTypesCommunication"
               placeholder="Type"
             />
+          </form>
+          <form action="" *ngIf="addCallShowBasicForm">
+            <label for="clientNameAddCall">Client Name<sup>*</sup></label>
+            <input
+              pInputText
+              id="clientNameAddCall"
+              aria-describedby="clientNameAddCall-help"
+              name="clientNameAddCall"
+              placeholder="Google"
+            />
+            <label for="callTypeAddCall">Call Type<sup>*</sup></label>
+            <p-multiselect
+              [options]="callTypeAddCall"
+              [(ngModel)]="selectedCallTypeAddCall"
+              placeholder="Select Call Type"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="callTypeAddCall"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="callActionTypeAddCall"
+              >Call Action Type<sup>*</sup></label
+            >
+            <p-multiselect
+              [options]="callActionTypeAddCall"
+              [(ngModel)]="selectedCallActionTypeAddCall"
+              placeholder="Select Call Action Type"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="callActionTypeAddCall"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="communicationFlowAddCall"
+              >Communication Flow<sup>*</sup></label
+            >
+            <p-multiselect
+              [options]="communicationFlowAddCall"
+              [(ngModel)]="selectedCommunicationFlowAddCall"
+              placeholder="Select CommunicationFlow"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="communicationFlowAddCall"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+          </form>
+          <form action="" *ngIf="addCallShowOfficersForm">
+            <div class="row align-items-center">
+              <div class="col-sm-11">
+                <label for="officerAddMeeting">Officer<sup>*</sup></label>
+                <p-multiselect
+                  [options]="officerAddMeeting"
+                  [(ngModel)]="selectedOfficerAddMeeting"
+                  placeholder="Select Officer"
+                  optionLabel="name"
+                  display="chip"
+                  icon="pi pi-times"
+                  name="officerAddMeeting"
+                  styleClass="w-full md:w-80"
+                  [maxSelectedLabels]="999"
+                  chipIcon="pi pi-times"
+                />
+              </div>
+              <div class="col-sm">
+                <p-button icon="pi pi-plus" severity="danger" class="add-btn" />
+              </div>
+            </div>
+            <div
+              *ngFor="let officer of officers"
+              class="flex items-center officers-check"
+            >
+              <div class="row">
+                <div class="col-sm-1">
+                  <p-checkbox
+                    [inputId]="officer.key"
+                    name="group"
+                    [value]="officer"
+                    [(ngModel)]="selectedOfficers"
+                  />
+                </div>
+                <div class="col-sm">
+                  <label [for]="officer.key" class="ml-2">
+                    {{ officer.name }} </label
+                  ><br />
+                  <p class="ml-2">
+                    {{ officer.description }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </form>
+          <form action="" *ngIf="addCallShowContactPersonsForm">
+            <div class="row align-items-center">
+              <div class="col-sm-11">
+                <label for="contactPersonsAddMeeting"
+                  >Contact Person<sup>*</sup></label
+                >
+                <p-multiselect
+                  [options]="officerAddMeeting"
+                  [(ngModel)]="selectedOfficerAddMeeting"
+                  placeholder="Select Contact Person"
+                  optionLabel="name"
+                  display="chip"
+                  icon="pi pi-times"
+                  name="contactPersonsAddMeeting"
+                  styleClass="w-full md:w-80"
+                  [maxSelectedLabels]="999"
+                  chipIcon="pi pi-times"
+                />
+              </div>
+              <div class="col-sm">
+                <p-button icon="pi pi-plus" severity="danger" class="add-btn" />
+              </div>
+            </div>
+            <div
+              *ngFor="let contactPerson of contactPersons"
+              class="flex items-center contactPersons-check"
+            >
+              <div class="row">
+                <div class="col-sm-1">
+                  <p-checkbox
+                    [inputId]="contactPerson.key"
+                    name="group"
+                    [value]="contactPerson"
+                    [(ngModel)]="selectedContactPersons"
+                  />
+                </div>
+                <div class="col-sm">
+                  <label [for]="contactPerson.key" class="ml-2">
+                    {{ contactPerson.name }} </label
+                  ><br />
+                  <p class="ml-2">
+                    {{ contactPerson.description }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </form>
+          <form action="" *ngIf="addCallShowBusinessInformationForm">
+            <label for="crExpiryDateAddCall">CR Expiry Date<sup>*</sup></label>
+            <p-calendar
+              [(ngModel)]="date15"
+              [iconDisplay]="'input'"
+              [showIcon]="true"
+              inputId="icondisplay"
+              name="crExpiryDateAddCall"
+            />
+
+            <label for="topicAddCall">Topic</label
+            ><textarea
+              rows="5"
+              cols="30"
+              pTextarea
+              placeholder="Topic"
+              [(ngModel)]="value"
+              name="topicAddCall"
+            ></textarea>
+            <label for="resultReportsAddCall">Result Reports</label
+            ><textarea
+              rows="5"
+              cols="30"
+              pTextarea
+              placeholder="Topic"
+              [(ngModel)]="value"
+              name="resultReportsAddCall"
+            ></textarea>
+            <label for="detailsAddCall">Details</label
+            ><textarea
+              rows="5"
+              cols="30"
+              pTextarea
+              placeholder="Details"
+              [(ngModel)]="value"
+              name="detailsAddCall"
+            ></textarea>
           </form>
         </div>
       </div>

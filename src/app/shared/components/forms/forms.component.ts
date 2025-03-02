@@ -183,6 +183,12 @@ export class FormsComponent {
   selectedOfficerAddMeeting!: any;
   contactPersonsFollowupsPoints!: any;
   officersFollowupsPoints!: any;
+  communicationFlowAddCall!: any;
+  selectedCommunicationFlowAddCall!: any;
+  callActionTypeAddCall!: any;
+  selectedCallActionTypeAddCall!: any;
+  callTypeAddCall!: any;
+  selectedCallTypeAddCall!: any;
   //checkboxes
   selectedOfficers: any[] = [];
   selectedContactPersons = [];
@@ -234,6 +240,7 @@ export class FormsComponent {
   date12 = '09/08/2025';
   date13 = '09/08/2025';
   date14 = '09/08/2025';
+  date15 = '09/08/2025';
   //inputs
   @Input() title!: string;
   @Input() titleIndividual!: string;
@@ -285,6 +292,10 @@ export class FormsComponent {
   @Input() addMeetingShowContactPersonsForm!: boolean;
   @Input() addMeetingShowOfficersForm!: boolean;
   @Input() addMeetingShowBasicForm!: boolean;
+  @Input() addCallShowBusinessInformationForm!: boolean;
+  @Input() addCallShowContactPersonsForm!: boolean;
+  @Input() addCallShowOfficersForm!: boolean;
+  @Input() addCallShowBasicForm!: boolean;
   @Input() addFollowUpsCommunicationForm!: boolean;
   @Input() addFollowUpsPointsCommunicationForm!: boolean;
   @Input() addMeetingTypesCommunicationForm!: boolean;
@@ -488,5 +499,19 @@ export class FormsComponent {
     this.selectedOfficers = [this.officers[0]];
     this.contactPersonsFollowupsPoints = [{ name: 'Officer', code: 'Officer' }];
     this.officersFollowupsPoints = [{ name: 'Officer', code: 'Officer' }];
+    this.callTypeAddCall = [{ name: 'Business', code: 'Business' }];
+    this.selectedCallTypeAddCall = [{ name: 'Business', code: 'Business' }];
+    this.callActionTypeAddCall = [{ name: 'Egypt', code: 'Egypt' }];
+    this.selectedCallActionTypeAddCall = [{ name: 'Egypt', code: 'Egypt' }];
+    this.communicationFlowAddCall = [
+      { name: 'Technology', code: 'Technology' },
+      { name: 'Programming', code: 'Programming' },
+      { name: 'Machine Learning', code: 'MachineLearning' },
+    ];
+    this.selectedCommunicationFlowAddCall = [
+      { name: 'Technology', code: 'Technology' },
+      { name: 'Programming', code: 'Programming' },
+      { name: 'Machine Learning', code: 'MachineLearning' },
+    ];
   }
 }

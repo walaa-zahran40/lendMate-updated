@@ -8,6 +8,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { AddFollowUpsComponent } from './add-follow-ups/add-follow-ups.component';
 import { AddFollowUpsPointsComponent } from './add-follow-ups-points/add-follow-ups-points.component';
 import { AddMeetingTypesComponent } from './add-meeting-types/add-meeting-types.component';
+import { AddCallComponent } from './add-call/add-call.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { AddMeetingTypesComponent } from './add-meeting-types/add-meeting-types.
     AddFollowUpsComponent,
     AddFollowUpsPointsComponent,
     AddMeetingTypesComponent,
+    AddCallComponent,
   ],
   imports: [
     CommonModule,
@@ -28,6 +30,7 @@ import { AddMeetingTypesComponent } from './add-meeting-types/add-meeting-types.
     AddFollowUpsComponent,
     AddFollowUpsPointsComponent,
     AddMeetingTypesComponent,
+    AddCallComponent,
   ],
 })
 export class CommunicationModule {}
