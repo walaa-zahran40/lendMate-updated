@@ -7,12 +7,14 @@ import { TabsModule } from 'primeng/tabs';
 import { SharedModule } from '../../shared/shared.module';
 import { AddFollowUpsComponent } from './add-follow-ups/add-follow-ups.component';
 import { AddFollowUpsPointsComponent } from './add-follow-ups-points/add-follow-ups-points.component';
+import { AddMeetingTypesComponent } from './add-meeting-types/add-meeting-types.component';
 
 @NgModule({
   declarations: [
     AddMeetingComponent,
     AddFollowUpsComponent,
     AddFollowUpsPointsComponent,
+    AddMeetingTypesComponent,
   ],
   imports: [
     CommonModule,
@@ -25,6 +27,7 @@ import { AddFollowUpsPointsComponent } from './add-follow-ups-points/add-follow-
     AddMeetingComponent,
     AddFollowUpsComponent,
     AddFollowUpsPointsComponent,
+    AddMeetingTypesComponent,
   ],
 })
 export class CommunicationModule {}

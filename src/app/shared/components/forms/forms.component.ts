@@ -287,6 +287,7 @@ export class FormsComponent {
   @Input() addMeetingShowBasicForm!: boolean;
   @Input() addFollowUpsCommunicationForm!: boolean;
   @Input() addFollowUpsPointsCommunicationForm!: boolean;
+  @Input() addMeetingTypesCommunicationForm!: boolean;
   constructor() {}
   ngOnInit() {
     this.sectors = [
