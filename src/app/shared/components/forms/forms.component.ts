@@ -189,6 +189,8 @@ export class FormsComponent {
   selectedCallActionTypeAddCall!: any;
   callTypeAddCall!: any;
   selectedCallTypeAddCall!: any;
+  departments!: any;
+  teams!: any;
   //checkboxes
   selectedOfficers: any[] = [];
   selectedContactPersons = [];
@@ -241,6 +243,8 @@ export class FormsComponent {
   date13 = '09/08/2025';
   date14 = '09/08/2025';
   date15 = '09/08/2025';
+  date16 = '09/08/2025';
+  date17 = '09/08/2025';
   //inputs
   @Input() title!: string;
   @Input() titleIndividual!: string;
@@ -302,6 +306,9 @@ export class FormsComponent {
   @Input() addFollowUpTypesCommunicationForm!: boolean;
   @Input() addCallTypesCommunicationForm!: boolean;
   @Input() addDepartmentsORGForm!: boolean;
+  @Input() addDepartmentManagerORGForm!: boolean;
+  @Input() addTeamORGForm!: boolean;
+  @Input() addTeamLeadORGForm!: boolean;
   constructor() {}
   ngOnInit() {
     this.sectors = [
@@ -516,5 +523,7 @@ export class FormsComponent {
       { name: 'Programming', code: 'Programming' },
       { name: 'Machine Learning', code: 'MachineLearning' },
     ];
+    this.departments = [{ name: 'Department', code: 'Department' }];
+    this.teams = [{ name: 'Team', code: 'Team' }];
   }
 }

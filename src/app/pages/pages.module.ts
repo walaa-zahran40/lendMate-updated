@@ -6,7 +6,6 @@ import { LegalsModule } from './legals/legals.module';
 import { LoginModule } from './login/login.module';
 import { LookupsModule } from './lookups/lookups.module';
 import { OrganizationsModule } from './organizations/organizations.module';
-import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [],

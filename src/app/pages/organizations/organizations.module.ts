@@ -1,37 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AddDepartmentComponent } from './add-department/add-department.component';
-import { RolesComponent } from './roles/roles.component';
-import { PagesComponent } from './pages/pages.component';
-import { OperationsComponent } from './operations/operations.component';
-import { PageOperationsComponent } from './page-operations/page-operations.component';
-import { OfficersComponent } from './officers/officers.component';
-import { TeamsComponent } from './teams/teams.component';
-import { SignatoryOfficersComponent } from './signatory-officers/signatory-officers.component';
-import { DepartmentManagerComponent } from './department-manager/department-manager.component';
-import { RoleClaimsComponent } from './role-claims/role-claims.component';
-import { TeamLeadComponent } from './team-lead/team-lead.component';
-import { TeamMemberComponent } from './team-member/team-member.component';
+import { AddDepartmentManagerComponent } from './add-department-manager/add-department-manager.component';
 import { OrganizationsRoutingModule } from './organizations-routing.module';
 import { ButtonModule } from 'primeng/button';
 import { TabsModule } from 'primeng/tabs';
 import { SharedModule } from '../../shared/shared.module';
+import { AddTeamComponent } from './add-team/add-team.component';
+import { AddTeamLeadComponent } from './add-team-lead/add-team-lead.component';
 
 @NgModule({
-  declarations: [
-    AddDepartmentComponent,
-    RolesComponent,
-    PagesComponent,
-    OperationsComponent,
-    PageOperationsComponent,
-    OfficersComponent,
-    TeamsComponent,
-    SignatoryOfficersComponent,
-    DepartmentManagerComponent,
-    RoleClaimsComponent,
-    TeamLeadComponent,
-    TeamMemberComponent,
-  ],
+  declarations: [AddDepartmentComponent, AddDepartmentManagerComponent, AddTeamComponent, AddTeamLeadComponent],
   imports: [
     CommonModule,
     OrganizationsRoutingModule,
@@ -39,19 +18,6 @@ import { SharedModule } from '../../shared/shared.module';
     TabsModule,
     ButtonModule,
   ],
-  exports: [
-    AddDepartmentComponent,
-    RolesComponent,
-    PagesComponent,
-    OperationsComponent,
-    PageOperationsComponent,
-    OfficersComponent,
-    TeamsComponent,
-    SignatoryOfficersComponent,
-    DepartmentManagerComponent,
-    RoleClaimsComponent,
-    TeamLeadComponent,
-    TeamMemberComponent,
-  ],
+  exports: [AddDepartmentComponent, AddDepartmentManagerComponent],
 })
 export class OrganizationsModule {}

@@ -196,6 +196,27 @@
       label="View Department"
       class="custom-view m-0 float-right"
     />
+    <p-button
+      *ngIf="addDepartmentManagerORGForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Manager"
+      class="custom-view m-0 float-right"
+    />
+    <p-button
+      *ngIf="addTeamORGForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Team"
+      class="custom-view m-0 float-right"
+    />
+    <p-button
+      *ngIf="addTeamLeadORGForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Team Lead"
+      class="custom-view m-0 float-right"
+    />
   </div>
   <div class="col-sm-8 p-0">
     <div class="flex flex-col md:flex-row gap-8">
@@ -3388,6 +3409,85 @@
               aria-describedby="nameInArabicMeetingTypesCommunication-help"
               name="nameInArabicMeetingTypesCommunication"
               placeholder="Type"
+            />
+          </form>
+          <form action="" *ngIf="addDepartmentManagerORGForm">
+            <label for="startDateDepartmentManagerORG"
+              >Start Date<sup>*</sup></label
+            >
+            <p-calendar
+              [(ngModel)]="date16"
+              [iconDisplay]="'input'"
+              [showIcon]="true"
+              inputId="icondisplay"
+              name="startDateDepartmentManagerORG"
+            />
+
+            <label for="selectOfficerDepartmentManagerORG"
+              >Select Officer<sup>*</sup></label
+            >
+            <p-select
+              [options]="officers"
+              optionLabel="name"
+              placeholder="Officer"
+              class="w-full md:w-56"
+            />
+          </form>
+          <form action="" *ngIf="addTeamORGForm">
+            <label for="codeTeamsORG">Code<sup>*</sup></label>
+            <input
+              pInputText
+              id="codeTeamsORG"
+              aria-describedby="codeTeamsORG-help"
+              name="codeTeamsORG"
+              placeholder="325423523"
+            />
+            <label for="nameTeamsORG">Name<sup>*</sup></label>
+            <input
+              pInputText
+              id="nameTeamsORG"
+              aria-describedby="nameTeamsORG-help"
+              name="nameTeamsORG"
+              placeholder="mohamoa"
+            />
+            <label for="arabicNameTeamsORG">Arabic Name<sup>*</sup></label>
+            <input
+              pInputText
+              id="arabicNameTeamsORG"
+              aria-describedby="arabicNameTeamsORG-help"
+              name="arabicNameTeamsORG"
+              placeholder="mohamoa"
+            />
+            <label for="departmentTeamsORG">Department<sup>*</sup></label>
+            <p-select
+              [options]="departments"
+              optionLabel="name"
+              placeholder="Department"
+              class="w-full md:w-56"
+            />
+          </form>
+          <form action="" *ngIf="addTeamLeadORGForm">
+            <label for="startDateTeamLeadORG">Start Date<sup>*</sup></label>
+            <p-calendar
+              [(ngModel)]="date17"
+              [iconDisplay]="'input'"
+              [showIcon]="true"
+              inputId="icondisplay"
+              name="startDateTeamLeadORG"
+            />
+            <label for="officerTeamLeadORG">Select Officer<sup>*</sup></label>
+            <p-select
+              [options]="officerTypesMandates"
+              optionLabel="name"
+              placeholder="Officer"
+              class="w-full md:w-56"
+            />
+            <label for="teamTeamLeadORG">Select Team<sup>*</sup></label>
+            <p-select
+              [options]="teams"
+              optionLabel="name"
+              placeholder="Team"
+              class="w-full md:w-56"
             />
           </form>
         </div>
