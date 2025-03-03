@@ -68,6 +68,10 @@
         line-height: 160%; /* 25.6px */
       }
     }
+    .p-checkbox {
+      vertical-align: middle;
+      display: flex;
+    }
     .p-button {
       background: var(--p-tabs-active-bar-background);
       border-radius: var(--custom-size-8);
@@ -374,5 +378,13 @@ form {
     sup {
       color: var(--custom-red);
     }
+  }
+}
+.roles {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  label {
+    padding-bottom: 0;
   }
 }

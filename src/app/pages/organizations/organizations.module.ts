@@ -9,9 +9,17 @@ import { SharedModule } from '../../shared/shared.module';
 import { AddTeamComponent } from './add-team/add-team.component';
 import { AddTeamLeadComponent } from './add-team-lead/add-team-lead.component';
 import { AddTeamMemberComponent } from './add-team-member/add-team-member.component';
+import { AddRoleComponent } from './add-role/add-role.component';
 
 @NgModule({
-  declarations: [AddDepartmentComponent, AddDepartmentManagerComponent, AddTeamComponent, AddTeamLeadComponent, AddTeamMemberComponent],
+  declarations: [
+    AddDepartmentComponent,
+    AddDepartmentManagerComponent,
+    AddTeamComponent,
+    AddTeamLeadComponent,
+    AddTeamMemberComponent,
+    AddRoleComponent,
+  ],
   imports: [
     CommonModule,
     OrganizationsRoutingModule,
@@ -19,6 +27,13 @@ import { AddTeamMemberComponent } from './add-team-member/add-team-member.compon
     TabsModule,
     ButtonModule,
   ],
-  exports: [AddDepartmentComponent, AddDepartmentManagerComponent],
+  exports: [
+    AddDepartmentComponent,
+    AddDepartmentManagerComponent,
+    AddTeamComponent,
+    AddTeamLeadComponent,
+    AddTeamMemberComponent,
+    AddRoleComponent,
+  ],
 })
 export class OrganizationsModule {}

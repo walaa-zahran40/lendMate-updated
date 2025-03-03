@@ -139,6 +139,7 @@ export class FormsComponent {
   selectedMandateValidityUnit!: any;
   products!: any;
   selectedProducts!: any;
+
   insuredBy!: any;
   selectedInsuredBy!: any;
   leasingTypes!: any;
@@ -195,6 +196,7 @@ export class FormsComponent {
   selectedOfficers: any[] = [];
   selectedContactPersons = [];
   selectedAssestTypes = [];
+  size!: any;
 
   officers: any[] = [
     {
@@ -208,6 +210,18 @@ export class FormsComponent {
       key: 'MA',
       description:
         'Must attend to hold and run the meeting with other team members',
+    },
+  ];
+  roles: any[] = [
+    {
+      name: 'Active',
+      key: 'A',
+    },
+  ];
+  selectedRoles: any[] = [
+    {
+      name: 'Active',
+      key: 'A',
     },
   ];
   assestTypes: any[] = [
@@ -310,6 +324,7 @@ export class FormsComponent {
   @Input() addTeamORGForm!: boolean;
   @Input() addTeamLeadORGForm!: boolean;
   @Input() addTeamMemberORGForm!: boolean;
+  @Input() addRoleORGForm!: boolean;
   constructor() {}
   ngOnInit() {
     this.sectors = [

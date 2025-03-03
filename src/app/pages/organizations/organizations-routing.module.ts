@@ -5,6 +5,7 @@ import { AddDepartmentManagerComponent } from './add-department-manager/add-depa
 import { AddTeamComponent } from './add-team/add-team.component';
 import { AddTeamLeadComponent } from './add-team-lead/add-team-lead.component';
 import { AddTeamMemberComponent } from './add-team-member/add-team-member.component';
+import { AddRoleComponent } from './add-role/add-role.component';
 const routes: Routes = [
   {
     path: 'add-department',
@@ -25,6 +26,10 @@ const routes: Routes = [
   {
     path: 'add-team-member',
     component: AddTeamMemberComponent,
+  },
+  {
+    path: 'add-role',
+    component: AddRoleComponent,
   },
 ];
 

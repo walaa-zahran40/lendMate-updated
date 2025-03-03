@@ -224,6 +224,13 @@
       label="View Team Member"
       class="custom-view m-0 float-right"
     />
+    <p-button
+      *ngIf="addRoleORGForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Role"
+      class="custom-view m-0 float-right"
+    />
   </div>
   <div class="col-sm-8 p-0">
     <div class="flex flex-col md:flex-row gap-8">
@@ -3520,6 +3527,46 @@
               placeholder="Team"
               class="w-full md:w-56"
             />
+          </form>
+          <form action="" *ngIf="addRoleORGForm">
+            <label for="codeRoleORG">Code<sup>*</sup></label>
+            <input
+              pInputText
+              id="codeRoleORG"
+              aria-describedby="codeRoleORG-help"
+              name="codeRoleORG"
+              placeholder="325423523"
+            />
+            <label for="nameRoleORG">Name<sup>*</sup></label>
+            <input
+              pInputText
+              id="nameRoleORG"
+              aria-describedby="nameRoleORG-help"
+              name="nameRoleORG"
+              placeholder="mohamoa"
+            />
+            <label for="normalizedNameRoleORG"
+              >Normalized Name<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="normalizedNameRoleORG"
+              aria-describedby="normalizedNameRoleORG-help"
+              name="normalizedNameRoleORG"
+              placeholder="mohamoa"
+            />
+            <div class="roles" *ngFor="let role of roles">
+              <div class="flex items-center gap-3">
+                <p-checkbox
+                  [(ngModel)]="size"
+                  inputId="size_large"
+                  name="size"
+                  value="Large"
+                  size="large"
+                />
+                <label for="size_large" class="text-lg">Active</label>
+              </div>
+            </div>
           </form>
         </div>
       </div>
