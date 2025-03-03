@@ -11,6 +11,9 @@ import { AddTeamLeadComponent } from './add-team-lead/add-team-lead.component';
 import { AddTeamMemberComponent } from './add-team-member/add-team-member.component';
 import { AddRoleComponent } from './add-role/add-role.component';
 import { AddOperationComponent } from './add-operation/add-operation.component';
+import { AddPageOperationComponent } from './add-page-operation/add-page-operation.component';
+import { AddOfficerComponent } from './add-officer/add-officer.component';
+import { AddSignatoryOfficerComponent } from './add-signatory-officer/add-signatory-officer.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +24,9 @@ import { AddOperationComponent } from './add-operation/add-operation.component';
     AddTeamMemberComponent,
     AddRoleComponent,
     AddOperationComponent,
+    AddPageOperationComponent,
+    AddOfficerComponent,
+    AddSignatoryOfficerComponent,
   ],
   imports: [
     CommonModule,
@@ -37,6 +43,9 @@ import { AddOperationComponent } from './add-operation/add-operation.component';
     AddTeamMemberComponent,
     AddRoleComponent,
     AddOperationComponent,
+    AddPageOperationComponent,
+    AddOfficerComponent,
+    AddSignatoryOfficerComponent,
   ],
 })
 export class OrganizationsModule {}

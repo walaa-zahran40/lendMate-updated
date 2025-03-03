@@ -238,6 +238,13 @@
       label="View Operation"
       class="custom-view m-0 float-right"
     />
+    <p-button
+      *ngIf="addPageOperationORGForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Page Operation"
+      class="custom-view m-0 float-right"
+    />
   </div>
   <div class="col-sm-8 p-0">
     <div class="flex flex-col md:flex-row gap-8">
@@ -3617,6 +3624,24 @@
                 <label for="size_large" class="text-lg">Active</label>
               </div>
             </div>
+          </form>
+          <form action="" *ngIf="addPageOperationORGForm">
+            <label for="operationsPageOperationORG"
+              >Operations<sup>*</sup></label
+            >
+            <p-select
+              [options]="departments"
+              optionLabel="name"
+              placeholder="Department"
+              class="w-full md:w-56"
+            />
+            <label for="operationsPageOperationORG">Page<sup>*</sup></label>
+            <p-select
+              [options]="pages"
+              optionLabel="name"
+              placeholder="Page"
+              class="w-full md:w-56"
+            />
           </form>
         </div>
       </div>

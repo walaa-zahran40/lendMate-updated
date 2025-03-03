@@ -192,6 +192,7 @@ export class FormsComponent {
   selectedCallTypeAddCall!: any;
   departments!: any;
   teams!: any;
+  pages!: any;
   //checkboxes
   selectedOfficers: any[] = [];
   selectedContactPersons = [];
@@ -219,6 +220,7 @@ export class FormsComponent {
       key: 'A',
     },
   ];
+
   selectedRoles: any[] = [
     {
       name: 'Active',
@@ -339,6 +341,7 @@ export class FormsComponent {
   @Input() addTeamMemberORGForm!: boolean;
   @Input() addRoleORGForm!: boolean;
   @Input() addOperationORGForm!: boolean;
+  @Input() addPageOperationORGForm!: boolean;
   constructor() {}
   ngOnInit() {
     this.sectors = [
@@ -556,5 +559,11 @@ export class FormsComponent {
     ];
     this.departments = [{ name: 'Department', code: 'Department' }];
     this.teams = [{ name: 'Team', code: 'Team' }];
+    this.pages = [
+      {
+        name: 'Page',
+        key: 'page',
+      },
+    ];
   }
 }
