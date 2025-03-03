@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
   styleUrl: './add-followup-types.component.scss',
 })
 export class AddFollowupTypesComponent {
-  addMeetingTypes() {
+  addFollowUpTypes() {
     console.log('added');
   }
 }

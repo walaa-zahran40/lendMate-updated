@@ -175,6 +175,20 @@
       label="View Officers"
       class="custom-view m-0 float-right"
     />
+    <p-button
+      *ngIf="addFollowUpTypesCommunicationForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Followup Types"
+      class="custom-view m-0 float-right"
+    />
+    <p-button
+      *ngIf="addCallTypesCommunicationForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Call Types"
+      class="custom-view m-0 float-right"
+    />
   </div>
   <div class="col-sm-8 p-0">
     <div class="flex flex-col md:flex-row gap-8">
@@ -3271,6 +3285,70 @@
               [(ngModel)]="value"
               name="detailsAddCall"
             ></textarea>
+          </form>
+          <form action="" *ngIf="addFollowUpTypesCommunicationForm">
+            <label>Arabic Description<sup>*</sup></label>
+            <br />
+            <label for="codeMeetingTypesCommunication">Code<sup>*</sup></label>
+            <input
+              pInputText
+              id="codeMeetingTypesCommunication"
+              aria-describedby="codeMeetingTypesCommunication-help"
+              name="codeMeetingTypesCommunication"
+              placeholder="342425"
+            />
+            <label for="nameInEnglishMeetingTypesCommunication"
+              >Name in English<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInEnglishMeetingTypesCommunication"
+              aria-describedby="nameInEnglishMeetingTypesCommunication-help"
+              name="nameInEnglishMeetingTypesCommunication"
+              placeholder="Type"
+            />
+            <label for="nameInArabicMeetingTypesCommunication"
+              >Name in Arabic<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInArabicMeetingTypesCommunication"
+              aria-describedby="nameInArabicMeetingTypesCommunication-help"
+              name="nameInArabicMeetingTypesCommunication"
+              placeholder="Type"
+            />
+          </form>
+          <form action="" *ngIf="addCallTypesCommunicationForm">
+            <label>Arabic Description<sup>*</sup></label>
+            <br />
+            <label for="codeMeetingTypesCommunication">Code<sup>*</sup></label>
+            <input
+              pInputText
+              id="codeMeetingTypesCommunication"
+              aria-describedby="codeMeetingTypesCommunication-help"
+              name="codeMeetingTypesCommunication"
+              placeholder="342425"
+            />
+            <label for="nameInEnglishMeetingTypesCommunication"
+              >Name in English<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInEnglishMeetingTypesCommunication"
+              aria-describedby="nameInEnglishMeetingTypesCommunication-help"
+              name="nameInEnglishMeetingTypesCommunication"
+              placeholder="Type"
+            />
+            <label for="nameInArabicMeetingTypesCommunication"
+              >Name in Arabic<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInArabicMeetingTypesCommunication"
+              aria-describedby="nameInArabicMeetingTypesCommunication-help"
+              name="nameInArabicMeetingTypesCommunication"
+              placeholder="Type"
+            />
           </form>
         </div>
       </div>
