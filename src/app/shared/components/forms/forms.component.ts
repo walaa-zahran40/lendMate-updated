@@ -309,6 +309,7 @@ export class FormsComponent {
   @Input() addDepartmentManagerORGForm!: boolean;
   @Input() addTeamORGForm!: boolean;
   @Input() addTeamLeadORGForm!: boolean;
+  @Input() addTeamMemberORGForm!: boolean;
   constructor() {}
   ngOnInit() {
     this.sectors = [

@@ -8,9 +8,10 @@ import { TabsModule } from 'primeng/tabs';
 import { SharedModule } from '../../shared/shared.module';
 import { AddTeamComponent } from './add-team/add-team.component';
 import { AddTeamLeadComponent } from './add-team-lead/add-team-lead.component';
+import { AddTeamMemberComponent } from './add-team-member/add-team-member.component';
 
 @NgModule({
-  declarations: [AddDepartmentComponent, AddDepartmentManagerComponent, AddTeamComponent, AddTeamLeadComponent],
+  declarations: [AddDepartmentComponent, AddDepartmentManagerComponent, AddTeamComponent, AddTeamLeadComponent, AddTeamMemberComponent],
   imports: [
     CommonModule,
     OrganizationsRoutingModule,
