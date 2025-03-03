@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DepartmentsComponent } from './departments/departments.component';
+import { AddDepartmentComponent } from './add-department/add-department.component';
 import { RolesComponent } from './roles/roles.component';
 import { PagesComponent } from './pages/pages.component';
 import { OperationsComponent } from './operations/operations.component';
@@ -13,10 +13,13 @@ import { RoleClaimsComponent } from './role-claims/role-claims.component';
 import { TeamLeadComponent } from './team-lead/team-lead.component';
 import { TeamMemberComponent } from './team-member/team-member.component';
 import { OrganizationsRoutingModule } from './organizations-routing.module';
+import { ButtonModule } from 'primeng/button';
+import { TabsModule } from 'primeng/tabs';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   declarations: [
-    DepartmentsComponent,
+    AddDepartmentComponent,
     RolesComponent,
     PagesComponent,
     OperationsComponent,
@@ -29,6 +32,26 @@ import { OrganizationsRoutingModule } from './organizations-routing.module';
     TeamLeadComponent,
     TeamMemberComponent,
   ],
-  imports: [CommonModule, OrganizationsRoutingModule],
+  imports: [
+    CommonModule,
+    OrganizationsRoutingModule,
+    SharedModule,
+    TabsModule,
+    ButtonModule,
+  ],
+  exports: [
+    AddDepartmentComponent,
+    RolesComponent,
+    PagesComponent,
+    OperationsComponent,
+    PageOperationsComponent,
+    OfficersComponent,
+    TeamsComponent,
+    SignatoryOfficersComponent,
+    DepartmentManagerComponent,
+    RoleClaimsComponent,
+    TeamLeadComponent,
+    TeamMemberComponent,
+  ],
 })
 export class OrganizationsModule {}

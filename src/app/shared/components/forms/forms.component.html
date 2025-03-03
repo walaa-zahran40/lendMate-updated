@@ -189,6 +189,13 @@
       label="View Call Types"
       class="custom-view m-0 float-right"
     />
+    <p-button
+      *ngIf="addDepartmentsORGForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Department"
+      class="custom-view m-0 float-right"
+    />
   </div>
   <div class="col-sm-8 p-0">
     <div class="flex flex-col md:flex-row gap-8">
@@ -3319,6 +3326,39 @@
             />
           </form>
           <form action="" *ngIf="addCallTypesCommunicationForm">
+            <label>Arabic Description<sup>*</sup></label>
+            <br />
+            <label for="codeMeetingTypesCommunication">Code<sup>*</sup></label>
+            <input
+              pInputText
+              id="codeMeetingTypesCommunication"
+              aria-describedby="codeMeetingTypesCommunication-help"
+              name="codeMeetingTypesCommunication"
+              placeholder="342425"
+            />
+            <label for="nameInEnglishMeetingTypesCommunication"
+              >Name in English<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInEnglishMeetingTypesCommunication"
+              aria-describedby="nameInEnglishMeetingTypesCommunication-help"
+              name="nameInEnglishMeetingTypesCommunication"
+              placeholder="Type"
+            />
+            <label for="nameInArabicMeetingTypesCommunication"
+              >Name in Arabic<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInArabicMeetingTypesCommunication"
+              aria-describedby="nameInArabicMeetingTypesCommunication-help"
+              name="nameInArabicMeetingTypesCommunication"
+              placeholder="Type"
+            />
+          </form>
+          <!--ORG Forms-->
+          <form action="" *ngIf="addDepartmentsORGForm">
             <label>Arabic Description<sup>*</sup></label>
             <br />
             <label for="codeMeetingTypesCommunication">Code<sup>*</sup></label>

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DepartmentsComponent } from './departments/departments.component';
+import { AddDepartmentComponent } from './add-department/add-department.component';
 import { RolesComponent } from './roles/roles.component';
 import { PagesComponent } from './pages/pages.component';
 import { OperationsComponent } from './operations/operations.component';
@@ -10,8 +10,8 @@ import { TeamsComponent } from './teams/teams.component';
 import { SignatoryOfficersComponent } from './signatory-officers/signatory-officers.component';
 const routes: Routes = [
   {
-    path: 'departments',
-    component: DepartmentsComponent,
+    path: 'add-department',
+    component: AddDepartmentComponent,
   },
   {
     path: 'roles',

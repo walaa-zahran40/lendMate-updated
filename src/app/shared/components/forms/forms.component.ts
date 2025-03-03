@@ -301,6 +301,7 @@ export class FormsComponent {
   @Input() addMeetingTypesCommunicationForm!: boolean;
   @Input() addFollowUpTypesCommunicationForm!: boolean;
   @Input() addCallTypesCommunicationForm!: boolean;
+  @Input() addDepartmentsORGForm!: boolean;
   constructor() {}
   ngOnInit() {
     this.sectors = [
