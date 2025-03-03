@@ -196,7 +196,8 @@ export class FormsComponent {
   selectedOfficers: any[] = [];
   selectedContactPersons = [];
   selectedAssestTypes = [];
-  size!: any;
+  size: any = true;
+  size1: any = true;
 
   officers: any[] = [
     {
@@ -219,6 +220,18 @@ export class FormsComponent {
     },
   ];
   selectedRoles: any[] = [
+    {
+      name: 'Active',
+      key: 'A',
+    },
+  ];
+  operations: any[] = [
+    {
+      name: 'Active',
+      key: 'A',
+    },
+  ];
+  selectedOperations: any[] = [
     {
       name: 'Active',
       key: 'A',
@@ -325,6 +338,7 @@ export class FormsComponent {
   @Input() addTeamLeadORGForm!: boolean;
   @Input() addTeamMemberORGForm!: boolean;
   @Input() addRoleORGForm!: boolean;
+  @Input() addOperationORGForm!: boolean;
   constructor() {}
   ngOnInit() {
     this.sectors = [
@@ -523,6 +537,7 @@ export class FormsComponent {
       { name: 'Form Law 206', code: 'Form Law 206' },
     ];
     this.selectedOfficers = [this.officers[0]];
+
     this.contactPersonsFollowupsPoints = [{ name: 'Officer', code: 'Officer' }];
     this.officersFollowupsPoints = [{ name: 'Officer', code: 'Officer' }];
     this.callTypeAddCall = [{ name: 'Business', code: 'Business' }];

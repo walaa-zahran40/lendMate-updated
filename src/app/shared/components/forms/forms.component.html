@@ -231,6 +231,13 @@
       label="View Role"
       class="custom-view m-0 float-right"
     />
+    <p-button
+      *ngIf="addOperationORGForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Operation"
+      class="custom-view m-0 float-right"
+    />
   </div>
   <div class="col-sm-8 p-0">
     <div class="flex flex-col md:flex-row gap-8">
@@ -3562,7 +3569,50 @@
                   inputId="size_large"
                   name="size"
                   value="Large"
+                  [binary]="true"
                   size="large"
+                />
+                <label for="size_large" class="text-lg">Active</label>
+              </div>
+            </div>
+          </form>
+          <form action="" *ngIf="addOperationORGForm">
+            <label for="codeOperationORG">Code<sup>*</sup></label>
+            <input
+              pInputText
+              id="codeOperationORG"
+              aria-describedby="codeOperationORG-help"
+              name="codeOperationORG"
+              placeholder="325423523"
+            />
+            <label for="nameOperationORG">Name<sup>*</sup></label>
+            <input
+              pInputText
+              id="nameOperationORG"
+              aria-describedby="nameOperationORG-help"
+              name="nameOperationORG"
+              placeholder="mohamoa"
+            />
+            <label for="normalizedNameOperationORG"
+              >Normalized Name<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="normalizedNameOperationORG"
+              aria-describedby="normalizedNameOperationORG-help"
+              name="normalizedNameOperationORG"
+              placeholder="mohamoa"
+            />
+            <div class="operations">
+              <div class="flex items-center gap-3">
+                <p-checkbox
+                  [(ngModel)]="size1"
+                  [binary]="true"
+                  inputId="size_large"
+                  name="size"
+                  value="Large"
+                  size="large"
+                  checked
                 />
                 <label for="size_large" class="text-lg">Active</label>
               </div>
