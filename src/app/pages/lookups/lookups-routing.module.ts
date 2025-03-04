@@ -20,6 +20,7 @@ import { BranchComponent } from './branch/branch.component';
 import { BusinessLinesComponent } from './business-lines/business-lines.component';
 import { AssetTypesComponent } from './asset-types/asset-types.component';
 import { AddCurrenciesExchangeComponent } from './add-currencies-exchange/add-currencies-exchange.component';
+import { AddClientDocumentTypesComponent } from './add-client-document-types/add-client-document-types.component';
 
 const routes: Routes = [
   {
@@ -87,8 +88,8 @@ const routes: Routes = [
     component: AddMandateValidityUnitComponent,
   },
   {
-    path: 'client-document-types',
-    component: ClientDocumentTypesComponent,
+    path: 'add-client-document-types',
+    component: AddClientDocumentTypesComponent,
   },
   {
     path: 'branch',

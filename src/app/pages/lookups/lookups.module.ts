@@ -25,7 +25,6 @@ import { SectorsComponent } from './sectors/sectors.component';
 import { ClientStatusesComponent } from './client-statuses/client-statuses.component';
 import { SmeClientCodeComponent } from './sme-client-code/sme-client-code.component';
 import { SubSectorsComponent } from './sub-sectors/sub-sectors.component';
-import { ClientTypesComponent } from './add-client-types/add-client-types.component';
 import { AuthorityOfficesComponent } from './authority-offices/authority-offices.component';
 import { PhoneTypesComponent } from './phone-types/phone-types.component';
 import { AddressTypesComponent } from './address-types/address-types.component';
@@ -52,6 +51,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { StepperModule } from 'primeng/stepper';
 import { TabsModule } from 'primeng/tabs';
 import { SharedModule } from '../../shared/shared.module';
+import { AddClientDocumentTypesComponent } from './add-client-document-types/add-client-document-types.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +80,6 @@ import { SharedModule } from '../../shared/shared.module';
     ClientStatusesComponent,
     SmeClientCodeComponent,
     SubSectorsComponent,
-    ClientTypesComponent,
     AuthorityOfficesComponent,
     PhoneTypesComponent,
     AddressTypesComponent,
@@ -101,6 +100,7 @@ import { SharedModule } from '../../shared/shared.module';
     AddCurrenciesExchangeComponent,
     MandateStatusActionsComponent,
     PaymentPeriodsComponent,
+    AddClientDocumentTypesComponent,
   ],
   imports: [
     CommonModule,
@@ -127,7 +127,7 @@ import { SharedModule } from '../../shared/shared.module';
     AddInsuredByComponent,
     AddLeasingTypeComponent,
     AddMandateValidityUnitComponent,
-    ClientDocumentTypesComponent,
+    AddClientDocumentTypesComponent,
     BranchComponent,
     BusinessLinesComponent,
     AssetTypesComponent,
@@ -137,7 +137,6 @@ import { SharedModule } from '../../shared/shared.module';
     ClientStatusesComponent,
     SmeClientCodeComponent,
     SubSectorsComponent,
-    ClientTypesComponent,
     AuthorityOfficesComponent,
     PhoneTypesComponent,
     AddressTypesComponent,
