@@ -385,6 +385,13 @@
       label="View Branch Managers"
       class="custom-view m-0 float-right"
     />
+    <p-button
+      *ngIf="addBusinessLinesLookupsForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Business Lines"
+      class="custom-view m-0 float-right"
+    />
   </div>
   <div class="col-sm-8 p-0">
     <div class="flex flex-col md:flex-row gap-8">
@@ -3611,7 +3618,54 @@
               class="w-full md:w-56"
             />
           </form>
+          <form action="" *ngIf="addBusinessLinesLookupsForm">
+            <label for="codeBusinessLinesLookups">Code<sup>*</sup></label>
+            <p-multiselect
+              [options]="codes"
+              [(ngModel)]="selectedCodes"
+              placeholder="Select Code"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="codeBusinessLinesLookups"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="nameEnglishBusinessLinesLookups"
+              >Name English<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameEnglishBusinessLinesLookups"
+              aria-describedby="nameEnglishBusinessLinesLookups-help"
+              [(ngModel)]="value"
+              name="nameEnglishBusinessLinesLookups"
+              placeholder="Yes"
+            />
 
+            <label for="nameArabicBusinessLinesLookups"
+              >Name Arabic<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameArabicBusinessLinesLookups"
+              aria-describedby="nameArabicBusinessLinesLookups-help"
+              [(ngModel)]="value"
+              name="nameArabicBusinessLinesLookups"
+              placeholder="Yes"
+            />
+
+            <label for="startDateBusinessLinesLookups"
+              >Start Date<sup>*</sup></label
+            ><p-calendar
+              [(ngModel)]="date22"
+              [iconDisplay]="'input'"
+              [showIcon]="true"
+              inputId="icondisplay"
+              name="startDateBusinessLinesLookups"
+            />
+          </form>
           <!--Communication Forms-->
           <form action="" *ngIf="addMeetingShowBasicForm">
             <label for="clientNameAddMeeting">Client Name<sup>*</sup></label>

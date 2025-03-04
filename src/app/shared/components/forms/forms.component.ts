@@ -100,6 +100,8 @@ export class FormsComponent implements AfterViewInit {
   selectedDocuments!: any;
   areas!: any;
   selectedAreas!: any;
+  codes!: any;
+  selectedCodes!: any;
   governments!: any;
   selectedGovernments!: any;
   addresses!: any;
@@ -286,6 +288,7 @@ export class FormsComponent implements AfterViewInit {
   date19 = '09/08/1997';
   date20 = '09/08/1997';
   date21 = '09/08/1997';
+  date22 = '09/08/1997';
   //inputs
   @Input() title!: string;
   @Input() titleIndividual!: string;
@@ -374,6 +377,7 @@ export class FormsComponent implements AfterViewInit {
   @Input() addClientDocumentTypesLookupsForm!: boolean;
   @Input() addBranchLookupsForm!: boolean;
   @Input() addBranchManagersLookupsForm!: boolean;
+  @Input() addBusinessLinesLookupsForm!: boolean;
   constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
@@ -468,6 +472,9 @@ export class FormsComponent implements AfterViewInit {
       { name: 'Egypt', code: 'egypt' },
       { name: 'UAE', code: 'uae' },
     ];
+    this.codes = [{ name: 'Office', code: 'office' }];
+    this.selectedCodes = [{ name: 'Office', code: 'office' }];
+
     this.isActive = [
       { name: 'Yes', code: 'yes' },
       { name: 'NO', code: 'no' },
