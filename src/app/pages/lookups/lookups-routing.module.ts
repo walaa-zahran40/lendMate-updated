@@ -14,7 +14,7 @@ import { AddPaymentMonthDaysComponent } from './add-payment-month-days/add-payme
 import { AddMeetingTypesComponent } from './add-meeting-types/add-meeting-types.component';
 import { AddInsuredByComponent } from './add-insured-by/add-insured-by.component';
 import { AddLeasingTypeComponent } from './add-leasing-type/add-leasing-type.component';
-import { MandateValidityUnitComponent } from './mandate-validity-unit/mandate-validity-unit.component';
+import { AddMandateValidityUnitComponent } from './add-mandate-validity-unit/add-mandate-validity-unit.component';
 import { ClientDocumentTypesComponent } from './client-document-types/client-document-types.component';
 import { BranchComponent } from './branch/branch.component';
 import { BusinessLinesComponent } from './business-lines/business-lines.component';
@@ -83,8 +83,8 @@ const routes: Routes = [
     component: AddLeasingTypeComponent,
   },
   {
-    path: 'mandate-validity-unit',
-    component: MandateValidityUnitComponent,
+    path: 'add-mandate-validity-unit',
+    component: AddMandateValidityUnitComponent,
   },
   {
     path: 'client-document-types',

@@ -14,7 +14,7 @@ import { AddPaymentMonthDaysComponent } from './add-payment-month-days/add-payme
 import { AddMeetingTypesComponent } from './add-meeting-types/add-meeting-types.component';
 import { AddInsuredByComponent } from './add-insured-by/add-insured-by.component';
 import { AddLeasingTypeComponent } from './add-leasing-type/add-leasing-type.component';
-import { MandateValidityUnitComponent } from './mandate-validity-unit/mandate-validity-unit.component';
+import { AddMandateValidityUnitComponent } from './add-mandate-validity-unit/add-mandate-validity-unit.component';
 import { ClientDocumentTypesComponent } from './client-document-types/client-document-types.component';
 import { BranchComponent } from './branch/branch.component';
 import { BusinessLinesComponent } from './business-lines/business-lines.component';
@@ -25,7 +25,7 @@ import { SectorsComponent } from './sectors/sectors.component';
 import { ClientStatusesComponent } from './client-statuses/client-statuses.component';
 import { SmeClientCodeComponent } from './sme-client-code/sme-client-code.component';
 import { SubSectorsComponent } from './sub-sectors/sub-sectors.component';
-import { ClientTypesComponent } from './client-types/client-types.component';
+import { ClientTypesComponent } from './add-client-types/add-client-types.component';
 import { AuthorityOfficesComponent } from './authority-offices/authority-offices.component';
 import { PhoneTypesComponent } from './phone-types/phone-types.component';
 import { AddressTypesComponent } from './address-types/address-types.component';
@@ -69,7 +69,7 @@ import { SharedModule } from '../../shared/shared.module';
     AddMeetingTypesComponent,
     AddInsuredByComponent,
     AddLeasingTypeComponent,
-    MandateValidityUnitComponent,
+    AddMandateValidityUnitComponent,
     ClientDocumentTypesComponent,
     BranchComponent,
     BusinessLinesComponent,
@@ -126,7 +126,7 @@ import { SharedModule } from '../../shared/shared.module';
     AddMeetingTypesComponent,
     AddInsuredByComponent,
     AddLeasingTypeComponent,
-    MandateValidityUnitComponent,
+    AddMandateValidityUnitComponent,
     ClientDocumentTypesComponent,
     BranchComponent,
     BusinessLinesComponent,
