@@ -13,7 +13,7 @@ import { AddPaymentTypesComponent } from './add-payment-types/add-payment-types.
 import { AddPaymentMonthDaysComponent } from './add-payment-month-days/add-payment-month-days.component';
 import { AddMeetingTypesComponent } from './add-meeting-types/add-meeting-types.component';
 import { AddInsuredByComponent } from './add-insured-by/add-insured-by.component';
-import { LeasingTypeComponent } from './leasing-type/leasing-type.component';
+import { AddLeasingTypeComponent } from './add-leasing-type/add-leasing-type.component';
 import { MandateValidityUnitComponent } from './mandate-validity-unit/mandate-validity-unit.component';
 import { ClientDocumentTypesComponent } from './client-document-types/client-document-types.component';
 import { BranchComponent } from './branch/branch.component';
@@ -68,7 +68,7 @@ import { SharedModule } from '../../shared/shared.module';
     AddPaymentMonthDaysComponent,
     AddMeetingTypesComponent,
     AddInsuredByComponent,
-    LeasingTypeComponent,
+    AddLeasingTypeComponent,
     MandateValidityUnitComponent,
     ClientDocumentTypesComponent,
     BranchComponent,
@@ -125,7 +125,7 @@ import { SharedModule } from '../../shared/shared.module';
     AddPaymentMonthDaysComponent,
     AddMeetingTypesComponent,
     AddInsuredByComponent,
-    LeasingTypeComponent,
+    AddLeasingTypeComponent,
     MandateValidityUnitComponent,
     ClientDocumentTypesComponent,
     BranchComponent,

@@ -350,6 +350,13 @@
       label="View Insured By"
       class="custom-view m-0 float-right"
     />
+    <p-button
+      *ngIf="addLeasingTypeLookupsForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Leasing Type"
+      class="custom-view m-0 float-right"
+    />
   </div>
   <div class="col-sm-8 p-0">
     <div class="flex flex-col md:flex-row gap-8">
@@ -3354,6 +3361,37 @@
             />
           </form>
           <form action="" *ngIf="addInsuredByLookupsForm">
+            <label>Arabic Description<sup>*</sup></label>
+            <br />
+            <label for="nameInEnglishInsuredByLookups"
+              >Name in English<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInEnglishInsuredByLookups"
+              aria-describedby="nameInEnglishInsuredByLookups-help"
+              name="nameInEnglishInsuredByLookups"
+              placeholder="Type"
+            />
+            <label for="nameInArabicInsuredByLookups"
+              >Name in Arabic<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInArabicInsuredByLookups"
+              aria-describedby="nameInArabicInsuredByLookups-help"
+              name="nameInArabicInsuredByLookups"
+              placeholder="Type"
+            />
+            <label for="isActiveInsuredByLookups">IsActive<sup>*</sup></label>
+            <p-select
+              [options]="stamps"
+              optionLabel="name"
+              placeholder="Yes"
+              class="w-full md:w-56"
+            />
+          </form>
+          <form action="" *ngIf="addLeasingTypeLookupsForm">
             <label>Arabic Description<sup>*</sup></label>
             <br />
             <label for="nameInEnglishInsuredByLookups"
