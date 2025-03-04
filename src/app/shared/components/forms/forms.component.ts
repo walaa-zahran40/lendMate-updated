@@ -94,6 +94,8 @@ export class FormsComponent implements AfterViewInit {
   selectedLegalFormLaw!: any;
   subSectors!: any;
   selectedSubSectors!: any;
+  currencyExchangeLookups!: any;
+  selectedCurrencyExchangeLookups!: any;
   documents!: any;
   selectedDocuments!: any;
   areas!: any;
@@ -144,7 +146,8 @@ export class FormsComponent implements AfterViewInit {
   selectedMandateValidityUnit!: any;
   products!: any;
   selectedProducts!: any;
-
+  exchangeRateCurrencies!: any;
+  selectedExchangeRateCurrencies!: any;
   insuredBy!: any;
   selectedInsuredBy!: any;
   leasingTypes!: any;
@@ -281,6 +284,7 @@ export class FormsComponent implements AfterViewInit {
   date16 = '09/08/2025';
   date17 = '09/08/2025';
   date18 = '09/08/2025';
+  date19 = '09/08/1997';
   //inputs
   @Input() title!: string;
   @Input() titleIndividual!: string;
@@ -358,6 +362,7 @@ export class FormsComponent implements AfterViewInit {
   @Input() addGracePeriodUnitsLookupsForm!: boolean;
   @Input() addRentStructureTypesLookupsForm!: boolean;
   @Input() addCurrenciesLookupsForm!: boolean;
+  @Input() addCurrenciesExchangeLookupsForm!: boolean;
   constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
@@ -580,6 +585,30 @@ export class FormsComponent implements AfterViewInit {
       {
         name: 'Page',
         key: 'page',
+      },
+    ];
+    this.selectedCurrencyExchangeLookups = [
+      {
+        name: 'EGP',
+        key: 'eGP',
+      },
+    ];
+    this.currencyExchangeLookups = [
+      {
+        name: 'EGP',
+        key: 'eGP',
+      },
+    ];
+    this.exchangeRateCurrencies = [
+      {
+        name: '50%',
+        key: '50%',
+      },
+    ];
+    this.selectedExchangeRateCurrencies = [
+      {
+        name: '50%',
+        key: '50%',
       },
     ];
   }

@@ -19,6 +19,7 @@ import { ClientDocumentTypesComponent } from './client-document-types/client-doc
 import { BranchComponent } from './branch/branch.component';
 import { BusinessLinesComponent } from './business-lines/business-lines.component';
 import { AssetTypesComponent } from './asset-types/asset-types.component';
+import { AddCurrenciesExchangeComponent } from './add-currencies-exchange/add-currencies-exchange.component';
 
 const routes: Routes = [
   {
@@ -52,6 +53,10 @@ const routes: Routes = [
   {
     path: 'add-currencies',
     component: AddCurrenciesComponent,
+  },
+  {
+    path: 'add-currencies-exchange',
+    component: AddCurrenciesExchangeComponent,
   },
   {
     path: 'payment-methods',

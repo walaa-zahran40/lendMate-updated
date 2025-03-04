@@ -308,6 +308,13 @@
       label="View Currencies"
       class="custom-view m-0 float-right"
     />
+    <p-button
+      *ngIf="addCurrenciesExchangeLookupsForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Currency Exchange"
+      class="custom-view m-0 float-right"
+    />
   </div>
   <div class="col-sm-8 p-0">
     <div class="flex flex-col md:flex-row gap-8">
@@ -3144,6 +3151,46 @@
             />
           </form>
 
+          <form action="" *ngIf="addCurrenciesExchangeLookupsForm">
+            <label for="currencyExchangeLookups">Currency<sup>*</sup></label>
+            <p-multiselect
+              [options]="currencyExchangeLookups"
+              [(ngModel)]="selectedCurrencyExchangeLookups"
+              placeholder="Select Currency"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="currencyExchangeLookups"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="expiryDateCurrencyExchangeLookups"
+              >Expiry Date<sup>*</sup></label
+            >
+            <p-calendar
+              [(ngModel)]="date19"
+              [iconDisplay]="'input'"
+              [showIcon]="true"
+              inputId="icondisplay"
+              name="expiryDateCurrencyExchangeLookups"
+            />
+            <label for="exchangeRateCurrencyExchangeLookups"
+              >Exchange Rate<sup>*</sup></label
+            >
+            <p-multiselect
+              [options]="exchangeRateCurrencies"
+              [(ngModel)]="selectedExchangeRateCurrencies"
+              placeholder="Select Exchange Currency"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="exchangeRateCurrencyExchangeLookups"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+          </form>
           <!--Communication Forms-->
           <form action="" *ngIf="addMeetingShowBasicForm">
             <label for="clientNameAddMeeting">Client Name<sup>*</sup></label>

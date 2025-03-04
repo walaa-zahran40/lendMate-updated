@@ -43,7 +43,7 @@ import { BranchManagersComponent } from './branch-managers/branch-managers.compo
 import { BranchOfficersComponent } from './branch-officers/branch-officers.component';
 import { BranchAddressesComponent } from './branch-addresses/branch-addresses.component';
 import { ClientStatusActionsComponent } from './client-status-actions/client-status-actions.component';
-import { CurrenciesExchangeComponent } from './currencies-exchange/currencies-exchange.component';
+import { AddCurrenciesExchangeComponent } from './add-currencies-exchange/add-currencies-exchange.component';
 import { MandateStatusActionsComponent } from './mandate-status-actions/mandate-status-actions.component';
 import { PaymentPeriodsComponent } from './payment-periods/payment-periods.component';
 import { LookupsRoutingModule } from './lookups-routing.module';
@@ -98,7 +98,7 @@ import { SharedModule } from '../../shared/shared.module';
     BranchOfficersComponent,
     BranchAddressesComponent,
     ClientStatusActionsComponent,
-    CurrenciesExchangeComponent,
+    AddCurrenciesExchangeComponent,
     MandateStatusActionsComponent,
     PaymentPeriodsComponent,
   ],
@@ -155,7 +155,7 @@ import { SharedModule } from '../../shared/shared.module';
     BranchOfficersComponent,
     BranchAddressesComponent,
     ClientStatusActionsComponent,
-    CurrenciesExchangeComponent,
+    AddCurrenciesExchangeComponent,
     MandateStatusActionsComponent,
     PaymentPeriodsComponent,
   ],
