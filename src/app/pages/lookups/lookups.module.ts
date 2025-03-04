@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CompanyTypesComponent } from './company-types/company-types.component';
-import { FeeCalculationTypesComponent } from './fee-calculation-types/fee-calculation-types.component';
+import { AddCompanyTypesComponent } from './add-company-types/add-company-types.component';
+import { AddFeeCalculationTypesComponent } from './add-fee-calculation-types/add-fee-calculation-types.component';
 import { MandateStatusesComponent } from './mandate-statuses/mandate-statuses.component';
 import { InterestRateBenchmarksComponent } from './interest-rate-benchmarks/interest-rate-benchmarks.component';
 import { FeeTypesComponent } from './fee-types/fee-types.component';
@@ -55,8 +55,8 @@ import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   declarations: [
-    CompanyTypesComponent,
-    FeeCalculationTypesComponent,
+    AddCompanyTypesComponent,
+    AddFeeCalculationTypesComponent,
     MandateStatusesComponent,
     InterestRateBenchmarksComponent,
     FeeTypesComponent,

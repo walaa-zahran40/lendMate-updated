@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CompanyTypesComponent } from './company-types/company-types.component';
-import { FeeCalculationTypesComponent } from './fee-calculation-types/fee-calculation-types.component';
+import { AddCompanyTypesComponent } from './add-company-types/add-company-types.component';
+import { AddFeeCalculationTypesComponent } from './add-fee-calculation-types/add-fee-calculation-types.component';
 import { MandateStatusesComponent } from './mandate-statuses/mandate-statuses.component';
 import { InterestRateBenchmarksComponent } from './interest-rate-benchmarks/interest-rate-benchmarks.component';
 import { FeeTypesComponent } from './fee-types/fee-types.component';
@@ -22,12 +22,12 @@ import { AssetTypesComponent } from './asset-types/asset-types.component';
 
 const routes: Routes = [
   {
-    path: 'company-types',
-    component: CompanyTypesComponent,
+    path: 'add-company-types',
+    component: AddCompanyTypesComponent,
   },
   {
-    path: 'fee-calculation-types',
-    component: FeeCalculationTypesComponent,
+    path: 'add-fee-calculation-types',
+    component: AddFeeCalculationTypesComponent,
   },
   {
     path: 'mandate-statuses',
