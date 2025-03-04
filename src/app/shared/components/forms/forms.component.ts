@@ -1,4 +1,9 @@
-import { Component, Input } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  Input,
+} from '@angular/core';
 
 @Component({
   selector: 'app-forms',
@@ -6,7 +11,7 @@ import { Component, Input } from '@angular/core';
   templateUrl: './forms.component.html',
   styleUrl: './forms.component.scss',
 })
-export class FormsComponent {
+export class FormsComponent implements AfterViewInit {
   //ngModel Values
   value: string | undefined;
   value1: string | undefined;
@@ -265,6 +270,7 @@ export class FormsComponent {
   date6: Date | undefined;
   date7: Date | undefined;
   date8: Date | undefined;
+
   date9 = '09/08/2025';
   date10 = '09/08/2025';
   date11 = '09/08/2025';
@@ -274,6 +280,7 @@ export class FormsComponent {
   date15 = '09/08/2025';
   date16 = '09/08/2025';
   date17 = '09/08/2025';
+  date18 = '09/08/2025';
   //inputs
   @Input() title!: string;
   @Input() titleIndividual!: string;
@@ -342,7 +349,10 @@ export class FormsComponent {
   @Input() addRoleORGForm!: boolean;
   @Input() addOperationORGForm!: boolean;
   @Input() addPageOperationORGForm!: boolean;
-  constructor() {}
+  @Input() addOfficerORGForm!: boolean;
+  @Input() addSignatoryOfficerORGForm!: boolean;
+  constructor(private cdr: ChangeDetectorRef) {}
+
   ngOnInit() {
     this.sectors = [
       { name: 'Technology', code: 'T' },
@@ -565,5 +575,8 @@ export class FormsComponent {
         key: 'page',
       },
     ];
+  }
+  ngAfterViewInit() {
+    this.cdr.detectChanges();
   }
 }

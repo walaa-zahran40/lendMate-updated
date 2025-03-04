@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
   styleUrl: './add-officer.component.scss',
 })
 export class AddOfficerComponent {
-  addDepartmentManager() {
+  addOfficer() {
     console.log('added');
   }
 }

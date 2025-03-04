@@ -1,5 +1,5 @@
 <app-toolbar-form
-  [header]="'Add Department Manager'"
+  [header]="'Add Officer'"
   [backExists]="true"
   [viewOnly]="false"
 ></app-toolbar-form>
@@ -11,15 +11,15 @@
         [description]="
           'Introduce your company core info quickly to users by fill up company details'
         "
-        [addDepartmentManagerORGForm]="true"
+        [addOfficerORGForm]="true"
       ></app-forms>
 
       <div class="row justify-end">
         <div
           class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 padding-right"
-          (click)="addDepartmentManager()"
+          (click)="addOfficer()"
         >
-          <p-button label="Add Manager" class="custom-save m-0 float-right" />
+          <p-button label="Add Officer" class="custom-save m-0 float-right" />
         </div>
       </div>
     </p-tabpanel>

@@ -245,6 +245,20 @@
       label="View Page Operation"
       class="custom-view m-0 float-right"
     />
+    <p-button
+      *ngIf="addOfficerORGForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Officer"
+      class="custom-view m-0 float-right"
+    />
+    <p-button
+      *ngIf="addSignatoryOfficerORGForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Signatory Officer"
+      class="custom-view m-0 float-right"
+    />
   </div>
   <div class="col-sm-8 p-0">
     <div class="flex flex-col md:flex-row gap-8">
@@ -3636,6 +3650,100 @@
               class="w-full md:w-56"
             />
             <label for="operationsPageOperationORG">Page<sup>*</sup></label>
+            <p-select
+              [options]="pages"
+              optionLabel="name"
+              placeholder="Page"
+              class="w-full md:w-56"
+            />
+          </form>
+          <form action="" *ngIf="addOfficerORGForm">
+            <label for="loginNameOfficerORG">Login Name<sup>*</sup></label>
+            <input
+              pInputText
+              id="loginNameOfficerORG"
+              aria-describedby="loginNameOfficerORG-help"
+              [(ngModel)]="value"
+              name="loginNameOfficerORG"
+              placeholder="Department"
+            />
+            <label for="nameOfficerORG">Name<sup>*</sup></label>
+            <input
+              pInputText
+              id="nameOfficerORG"
+              aria-describedby="nameOfficerORG-help"
+              [(ngModel)]="value"
+              name="nameOfficerORG"
+              placeholder="Department"
+            />
+            <label for="arabicNameOfficerORG">Arabic Name<sup>*</sup></label>
+            <input
+              pInputText
+              id="arabicNameOfficerORG"
+              aria-describedby="arabicNameOfficerORG-help"
+              [(ngModel)]="value"
+              name="arabicNameOfficerORG"
+              placeholder="Department"
+            />
+            <label for="titleOfficerORG">Title<sup>*</sup></label>
+            <input
+              pInputText
+              id="titleOfficerORG"
+              aria-describedby="titleOfficerORG-help"
+              [(ngModel)]="value"
+              name="titleOfficerORG"
+              placeholder="Department"
+            />
+            <label for="arabicTitleOfficerORG">Arabic Title<sup>*</sup></label>
+            <input
+              pInputText
+              id="arabicTitleOfficerORG"
+              aria-describedby="arabicTitleOfficerORG-help"
+              [(ngModel)]="value"
+              name="arabicTitleOfficerORG"
+              placeholder="Department"
+            />
+            <label for="emailOfficerORG">Email<sup>*</sup></label>
+            <input
+              pInputText
+              id="emailOfficerORG"
+              aria-describedby="emailOfficerORG-help"
+              [(ngModel)]="value"
+              name="emailOfficerORG"
+              placeholder="Department"
+            />
+            <label for="phoneNumberOfficerORG">Phone Number<sup>*</sup></label>
+            <input
+              pInputText
+              id="phoneNumberOfficerORG"
+              aria-describedby="phoneNumberOfficerORG-help"
+              [(ngModel)]="value"
+              name="phoneNumberOfficerORG"
+              placeholder="Department"
+            />
+          </form>
+          <form action="" *ngIf="addSignatoryOfficerORGForm">
+            <label for="startDateSignatoryOfficerORG"
+              >Start Date<sup>*</sup></label
+            >
+            <p-calendar
+              [(ngModel)]="date18"
+              [iconDisplay]="'input'"
+              [showIcon]="true"
+              inputId="icondisplay"
+              appendTo="body"
+              name="startDateSignatoryOfficerORG"
+            />
+            <label for="codeSignatoryOfficerORG">Code<sup>*</sup></label>
+            <input
+              pInputText
+              id="codeSignatoryOfficerORG"
+              aria-describedby="codeSignatoryOfficerORG-help"
+              [(ngModel)]="value"
+              name="codeSignatoryOfficerORG"
+              placeholder="Department"
+            />
+            <label for="officerSignatoryOfficerORG">Officer<sup>*</sup></label>
             <p-select
               [options]="pages"
               optionLabel="name"
