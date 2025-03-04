@@ -8,7 +8,7 @@ import { AddFeeTypesComponent } from './add-fee-types/add-fee-types.component';
 import { AddGracePeriodUnitsComponent } from './add-grace-period-units/add-grace-period-units.component';
 import { AddRentStructureTypesComponent } from './add-rent-structure-types/add-rent-structure-types.component';
 import { AddCurrenciesComponent } from './add-currencies/add-currencies.component';
-import { PaymentMethodsComponent } from './payment-methods/payment-methods.component';
+import { AddPaymentMethodsComponent } from './add-payment-methods/add-payment-methods.component';
 import { PaymentTypesComponent } from './payment-types/payment-types.component';
 import { PaymentMonthDaysComponent } from './payment-month-days/payment-month-days.component';
 import { MeetingTypesComponent } from './meeting-types/meeting-types.component';
@@ -59,8 +59,8 @@ const routes: Routes = [
     component: AddCurrenciesExchangeComponent,
   },
   {
-    path: 'payment-methods',
-    component: PaymentMethodsComponent,
+    path: 'add-payment-methods',
+    component: AddPaymentMethodsComponent,
   },
   {
     path: 'payment-types',

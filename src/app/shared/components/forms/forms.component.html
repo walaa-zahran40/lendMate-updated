@@ -315,6 +315,13 @@
       label="View Currency Exchange"
       class="custom-view m-0 float-right"
     />
+    <p-button
+      *ngIf="addPaymentMethodsLookupsForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Payment Method"
+      class="custom-view m-0 float-right"
+    />
   </div>
   <div class="col-sm-8 p-0">
     <div class="flex flex-col md:flex-row gap-8">
@@ -3150,7 +3157,6 @@
               class="w-full md:w-56"
             />
           </form>
-
           <form action="" *ngIf="addCurrenciesExchangeLookupsForm">
             <label for="currencyExchangeLookups">Currency<sup>*</sup></label>
             <p-multiselect
@@ -3189,6 +3195,38 @@
               styleClass="w-full md:w-80"
               [maxSelectedLabels]="999"
               chipIcon="pi pi-times"
+            />
+          </form>
+          <form action="" *ngIf="addPaymentMethodsLookupsForm">
+            <label>Arabic Description<sup>*</sup></label>
+            <br />
+            <label for="codeMeetingTypesCommunication">Code<sup>*</sup></label>
+            <input
+              pInputText
+              id="codeMeetingTypesCommunication"
+              aria-describedby="codeMeetingTypesCommunication-help"
+              name="codeMeetingTypesCommunication"
+              placeholder="342425"
+            />
+            <label for="nameInEnglishMeetingTypesCommunication"
+              >Name in English<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInEnglishMeetingTypesCommunication"
+              aria-describedby="nameInEnglishMeetingTypesCommunication-help"
+              name="nameInEnglishMeetingTypesCommunication"
+              placeholder="Type"
+            />
+            <label for="nameInArabicMeetingTypesCommunication"
+              >Name in Arabic<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInArabicMeetingTypesCommunication"
+              aria-describedby="nameInArabicMeetingTypesCommunication-help"
+              name="nameInArabicMeetingTypesCommunication"
+              placeholder="Type"
             />
           </form>
           <!--Communication Forms-->
