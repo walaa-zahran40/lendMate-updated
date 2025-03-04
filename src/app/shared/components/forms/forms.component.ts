@@ -357,6 +357,7 @@ export class FormsComponent implements AfterViewInit {
   @Input() addFeesTypesLookupsForm!: boolean;
   @Input() addGracePeriodUnitsLookupsForm!: boolean;
   @Input() addRentStructureTypesLookupsForm!: boolean;
+  @Input() addCurrenciesLookupsForm!: boolean;
   constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {

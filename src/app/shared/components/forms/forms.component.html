@@ -301,6 +301,13 @@
       label="View Rent Structure"
       class="custom-view m-0 float-right"
     />
+    <p-button
+      *ngIf="addCurrenciesLookupsForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Currencies"
+      class="custom-view m-0 float-right"
+    />
   </div>
   <div class="col-sm-8 p-0">
     <div class="flex flex-col md:flex-row gap-8">
@@ -3089,6 +3096,54 @@
               placeholder="Type"
             />
           </form>
+          <form action="" *ngIf="addCurrenciesLookupsForm">
+            <label for="codeMeetingTypesCommunication">Code<sup>*</sup></label>
+            <input
+              pInputText
+              id="codeMeetingTypesCommunication"
+              aria-describedby="codeMeetingTypesCommunication-help"
+              name="codeMeetingTypesCommunication"
+              placeholder="342425"
+            />
+            <label for="nameInEnglishMeetingTypesCommunication"
+              >Name in English<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInEnglishMeetingTypesCommunication"
+              aria-describedby="nameInEnglishMeetingTypesCommunication-help"
+              name="nameInEnglishMeetingTypesCommunication"
+              placeholder="Type"
+            />
+            <label for="nameInArabicMeetingTypesCommunication"
+              >Name in Arabic<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInArabicMeetingTypesCommunication"
+              aria-describedby="nameInArabicMeetingTypesCommunication-help"
+              name="nameInArabicMeetingTypesCommunication"
+              placeholder="Type"
+            />
+            <label for="isoCodeCurrenciesLookups">ISO Code<sup>*</sup></label>
+            <input
+              pInputText
+              id="isoCodeCurrenciesLookups"
+              aria-describedby="isoCodeCurrenciesLookups-help"
+              name="isoCodeCurrenciesLookups"
+              placeholder="Type"
+            />
+            <label for="defaultCurrencyCurrenciesLookups"
+              >Default Currency<sup>*</sup></label
+            >
+            <p-select
+              [options]="stamps"
+              optionLabel="name"
+              placeholder="Yes"
+              class="w-full md:w-56"
+            />
+          </form>
+
           <!--Communication Forms-->
           <form action="" *ngIf="addMeetingShowBasicForm">
             <label for="clientNameAddMeeting">Client Name<sup>*</sup></label>
