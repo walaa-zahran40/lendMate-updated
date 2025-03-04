@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddCompanyTypesComponent } from './add-company-types/add-company-types.component';
 import { AddFeeCalculationTypesComponent } from './add-fee-calculation-types/add-fee-calculation-types.component';
-import { MandateStatusesComponent } from './mandate-statuses/mandate-statuses.component';
+import { AddMandateStatusesComponent } from './add-mandate-statuses/add-mandate-statuses.component';
 import { InterestRateBenchmarksComponent } from './interest-rate-benchmarks/interest-rate-benchmarks.component';
 import { FeeTypesComponent } from './fee-types/fee-types.component';
 import { GracePeriodUnitsComponent } from './grace-period-units/grace-period-units.component';
@@ -30,8 +30,8 @@ const routes: Routes = [
     component: AddFeeCalculationTypesComponent,
   },
   {
-    path: 'mandate-statuses',
-    component: MandateStatusesComponent,
+    path: 'add-mandate-statuses',
+    component: AddMandateStatusesComponent,
   },
   {
     path: 'interest-rate-benchmarks',

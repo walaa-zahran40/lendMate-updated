@@ -266,6 +266,13 @@
       label="View Fees Calculation"
       class="custom-view m-0 float-right"
     />
+    <p-button
+      *ngIf="addMandateStatusesLookupsForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Mandate Statuses"
+      class="custom-view m-0 float-right"
+    />
   </div>
   <div class="col-sm-8 p-0">
     <div class="flex flex-col md:flex-row gap-8">
@@ -2845,6 +2852,37 @@
               aria-describedby="nameInArabicMeetingTypesCommunication-help"
               name="nameInArabicMeetingTypesCommunication"
               placeholder="Type"
+            />
+          </form>
+          <form action="" *ngIf="addMandateStatusesLookupsForm">
+            <label for="nameInEnglishAddMandateStatusesLookups"
+              >Name in English<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInEnglishAddMandateStatusesLookups"
+              aria-describedby="nameInEnglishAddMandateStatusesLookups-help"
+              name="nameInEnglishAddMandateStatusesLookups"
+              placeholder="Type"
+            />
+            <label for="nameInArabicAddMandateStatusesLookups"
+              >Name in Arabic<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInArabicAddMandateStatusesLookups"
+              aria-describedby="nameInArabicAddMandateStatusesLookups-help"
+              name="nameInArabicAddMandateStatusesLookups"
+              placeholder="Type"
+            />
+            <label for="isInitialAddMandateStatusesLookups"
+              >IsInitial<sup>*</sup></label
+            >
+            <p-select
+              [options]="isManualExchangeRates"
+              optionLabel="name"
+              placeholder="Yes"
+              class="w-full md:w-56"
             />
           </form>
           <!--Communication Forms-->
