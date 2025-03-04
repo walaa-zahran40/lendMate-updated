@@ -329,6 +329,13 @@
       label="View Payment Method"
       class="custom-view m-0 float-right"
     />
+    <p-button
+      *ngIf="addPaymentMonthDaysLookupsForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Payment Month Days"
+      class="custom-view m-0 float-right"
+    />
   </div>
   <div class="col-sm-8 p-0">
     <div class="flex flex-col md:flex-row gap-8">
@@ -3268,7 +3275,38 @@
               placeholder="Type"
             />
           </form>
-
+          <form action="" *ngIf="addPaymentMonthDaysLookupsForm">
+            <label>Arabic Description<sup>*</sup></label>
+            <br />
+            <label for="codeMeetingTypesCommunication">Code<sup>*</sup></label>
+            <input
+              pInputText
+              id="codeMeetingTypesCommunication"
+              aria-describedby="codeMeetingTypesCommunication-help"
+              name="codeMeetingTypesCommunication"
+              placeholder="342425"
+            />
+            <label for="nameInEnglishMeetingTypesCommunication"
+              >Name in English<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInEnglishMeetingTypesCommunication"
+              aria-describedby="nameInEnglishMeetingTypesCommunication-help"
+              name="nameInEnglishMeetingTypesCommunication"
+              placeholder="Type"
+            />
+            <label for="nameInArabicMeetingTypesCommunication"
+              >Name in Arabic<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInArabicMeetingTypesCommunication"
+              aria-describedby="nameInArabicMeetingTypesCommunication-help"
+              name="nameInArabicMeetingTypesCommunication"
+              placeholder="Type"
+            />
+          </form>
           <!--Communication Forms-->
           <form action="" *ngIf="addMeetingShowBasicForm">
             <label for="clientNameAddMeeting">Client Name<sup>*</sup></label>

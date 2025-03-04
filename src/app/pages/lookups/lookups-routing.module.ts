@@ -10,7 +10,7 @@ import { AddRentStructureTypesComponent } from './add-rent-structure-types/add-r
 import { AddCurrenciesComponent } from './add-currencies/add-currencies.component';
 import { AddPaymentMethodsComponent } from './add-payment-methods/add-payment-methods.component';
 import { AddPaymentTypesComponent } from './add-payment-types/add-payment-types.component';
-import { PaymentMonthDaysComponent } from './payment-month-days/payment-month-days.component';
+import { AddPaymentMonthDaysComponent } from './add-payment-month-days/add-payment-month-days.component';
 import { MeetingTypesComponent } from './meeting-types/meeting-types.component';
 import { InsuredByComponent } from './insured-by/insured-by.component';
 import { LeasingTypeComponent } from './leasing-type/leasing-type.component';
@@ -67,8 +67,8 @@ const routes: Routes = [
     component: AddPaymentTypesComponent,
   },
   {
-    path: 'payment-month-days',
-    component: PaymentMonthDaysComponent,
+    path: 'add-payment-month-days',
+    component: AddPaymentMonthDaysComponent,
   },
   {
     path: 'meeting-types',
