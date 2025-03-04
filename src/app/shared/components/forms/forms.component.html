@@ -280,6 +280,13 @@
       label="View Interest Rate"
       class="custom-view m-0 float-right"
     />
+    <p-button
+      *ngIf="addFeesTypesLookupsForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Fees Types"
+      class="custom-view m-0 float-right"
+    />
   </div>
   <div class="col-sm-8 p-0">
     <div class="flex flex-col md:flex-row gap-8">
@@ -2861,7 +2868,6 @@
               placeholder="Type"
             />
           </form>
-
           <form action="" *ngIf="addMandateStatusesLookupsForm">
             <label for="nameInEnglishAddMandateStatusesLookups"
               >Name in English<sup>*</sup></label
@@ -2921,6 +2927,88 @@
               aria-describedby="nameInArabicMeetingTypesCommunication-help"
               name="nameInArabicMeetingTypesCommunication"
               placeholder="Type"
+            />
+          </form>
+          <form action="" *ngIf="addFeesTypesLookupsForm">
+            <label for="codeFeesTypesLookups">Code<sup>*</sup></label>
+            <input
+              pInputText
+              id="codeFeesTypesLookups"
+              aria-describedby="codeFeesTypesLookups-help"
+              name="codeFeesTypesLookups"
+              placeholder="342425"
+            />
+            <label for="nameInEnglishFeesTypesLookups"
+              >Name in English<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInEnglishFeesTypesLookups"
+              aria-describedby="nameInEnglishFeesTypesLookups-help"
+              name="nameInEnglishFeesTypesLookups"
+              placeholder="Type"
+            />
+            <label for="nameInArabicFeesTypesLookups"
+              >Name in Arabic<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInArabicFeesTypesLookups"
+              aria-describedby="nameInArabicFeesTypesLookups-help"
+              name="nameInArabicFeesTypesLookups"
+              placeholder="Type"
+            />
+            <label for="descriptionFeesTypesLookups"
+              >Description<sup>*</sup></label
+            >
+
+            <textarea
+              rows="5"
+              cols="30"
+              pTextarea
+              placeholder="Description"
+              [(ngModel)]="value"
+              name="descriptionFeesTypesLookups"
+            ></textarea>
+            <label for="arabicDescriptionFeesTypesLookups"
+              >Arabic Description<sup>*</sup></label
+            >
+            <textarea
+              rows="5"
+              cols="30"
+              pTextarea
+              placeholder="Description"
+              [(ngModel)]="value"
+              name="arabicDescriptionFeesTypesLookups"
+            ></textarea>
+            <label for="defaultAmountFeesTypesLookups"
+              >Default Amount<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="defaultAmountFeesTypesLookups"
+              aria-describedby="defaultAmountFeesTypesLookups-help"
+              name="defaultAmountFeesTypesLookups"
+              placeholder="Type"
+            />
+            <label for="defaultPercentageFeesTypesLookups"
+              >Default Percentage<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="defaultPercentageFeesTypesLookups"
+              aria-describedby="defaultPercentageFeesTypesLookups-help"
+              name="defaultPercentageFeesTypesLookups"
+              placeholder="Type"
+            />
+            <label for="isPercentageFeesTypesLookups"
+              >IsPercentage<sup>*</sup></label
+            >
+            <p-select
+              [options]="stamps"
+              optionLabel="name"
+              placeholder="Yes"
+              class="w-full md:w-56"
             />
           </form>
           <!--Communication Forms-->

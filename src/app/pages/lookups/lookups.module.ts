@@ -4,7 +4,7 @@ import { AddCompanyTypesComponent } from './add-company-types/add-company-types.
 import { AddFeeCalculationTypesComponent } from './add-fee-calculation-types/add-fee-calculation-types.component';
 import { AddMandateStatusesComponent } from './add-mandate-statuses/add-mandate-statuses.component';
 import { AddInterestRateBenchmarksComponent } from './add-interest-rate-benchmarks/add-interest-rate-benchmarks.component';
-import { FeeTypesComponent } from './fee-types/fee-types.component';
+import { AddFeeTypesComponent } from './add-fee-types/add-fee-types.component';
 import { GracePeriodUnitsComponent } from './grace-period-units/grace-period-units.component';
 import { RentStructureTypesComponent } from './rent-structure-types/rent-structure-types.component';
 import { CurrenciesComponent } from './currencies/currencies.component';
@@ -59,7 +59,7 @@ import { SharedModule } from '../../shared/shared.module';
     AddFeeCalculationTypesComponent,
     AddMandateStatusesComponent,
     AddInterestRateBenchmarksComponent,
-    FeeTypesComponent,
+    AddFeeTypesComponent,
     GracePeriodUnitsComponent,
     RentStructureTypesComponent,
     CurrenciesComponent,
@@ -110,6 +110,54 @@ import { SharedModule } from '../../shared/shared.module';
     ButtonModule,
     TabsModule,
     FileUploadModule,
+  ],
+  exports: [
+    AddCompanyTypesComponent,
+    AddFeeCalculationTypesComponent,
+    AddMandateStatusesComponent,
+    AddInterestRateBenchmarksComponent,
+    AddFeeTypesComponent,
+    GracePeriodUnitsComponent,
+    RentStructureTypesComponent,
+    CurrenciesComponent,
+    PaymentMethodsComponent,
+    PaymentTypesComponent,
+    PaymentMonthDaysComponent,
+    MeetingTypesComponent,
+    InsuredByComponent,
+    LeasingTypeComponent,
+    MandateValidityUnitComponent,
+    ClientDocumentTypesComponent,
+    BranchComponent,
+    BusinessLinesComponent,
+    AssetTypesComponent,
+    AssetTypeCategoriesComponent,
+    ProductsComponent,
+    SectorsComponent,
+    ClientStatusesComponent,
+    SmeClientCodeComponent,
+    SubSectorsComponent,
+    ClientTypesComponent,
+    AuthorityOfficesComponent,
+    PhoneTypesComponent,
+    AddressTypesComponent,
+    GovernoratesComponent,
+    CountriesComponent,
+    IdentificationTypesComponent,
+    AreasComponent,
+    TaxOfficesComponent,
+    TmlOfficerTypesComponent,
+    CallTypesComponent,
+    CommunicationTypesComponent,
+    CallActionTypesComponent,
+    CommunicationFlowTypesComponent,
+    BranchManagersComponent,
+    BranchOfficersComponent,
+    BranchAddressesComponent,
+    ClientStatusActionsComponent,
+    CurrenciesExchangeComponent,
+    MandateStatusActionsComponent,
+    PaymentPeriodsComponent,
   ],
 })
 export class LookupsModule {}

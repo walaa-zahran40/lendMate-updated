@@ -4,7 +4,7 @@ import { AddCompanyTypesComponent } from './add-company-types/add-company-types.
 import { AddFeeCalculationTypesComponent } from './add-fee-calculation-types/add-fee-calculation-types.component';
 import { AddMandateStatusesComponent } from './add-mandate-statuses/add-mandate-statuses.component';
 import { AddInterestRateBenchmarksComponent } from './add-interest-rate-benchmarks/add-interest-rate-benchmarks.component';
-import { FeeTypesComponent } from './fee-types/fee-types.component';
+import { AddFeeTypesComponent } from './add-fee-types/add-fee-types.component';
 import { GracePeriodUnitsComponent } from './grace-period-units/grace-period-units.component';
 import { RentStructureTypesComponent } from './rent-structure-types/rent-structure-types.component';
 import { CurrenciesComponent } from './currencies/currencies.component';
@@ -38,8 +38,8 @@ const routes: Routes = [
     component: AddInterestRateBenchmarksComponent,
   },
   {
-    path: 'fee-types',
-    component: FeeTypesComponent,
+    path: 'add-fees-types',
+    component: AddFeeTypesComponent,
   },
   {
     path: 'grace-period-units',
