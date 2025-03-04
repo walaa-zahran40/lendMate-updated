@@ -21,6 +21,8 @@ import { AssetTypesComponent } from './asset-types/asset-types.component';
 import { AddCurrenciesExchangeComponent } from './add-currencies-exchange/add-currencies-exchange.component';
 import { AddClientDocumentTypesComponent } from './add-client-document-types/add-client-document-types.component';
 import { AddBranchManagersComponent } from './add-branch-managers/add-branch-managers.component';
+import { AddBranchAddressesComponent } from './add-branch-addresses/add-branch-addresses.component';
+import { AddBranchOfficersComponent } from './add-branch-officers/add-branch-officers.component';
 
 const routes: Routes = [
   {
@@ -95,6 +97,15 @@ const routes: Routes = [
     path: 'add-branch',
     component: AddBranchComponent,
   },
+  {
+    path: 'add-branch-addresses',
+    component: AddBranchAddressesComponent,
+  },
+  {
+    path: 'add-branch-officers',
+    component: AddBranchOfficersComponent,
+  },
+
   {
     path: 'add-branch-managers',
     component: AddBranchManagersComponent,

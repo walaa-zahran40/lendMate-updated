@@ -379,6 +379,20 @@
       class="custom-view m-0 float-right"
     />
     <p-button
+      *ngIf="addBranchAddressesLookupsForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Branch Address"
+      class="custom-view m-0 float-right"
+    />
+    <p-button
+      *ngIf="addBranchOfficersLookupsForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Branch Officers"
+      class="custom-view m-0 float-right"
+    />
+    <p-button
       *ngIf="addBranchManagersLookupsForm"
       icon="pi pi-cog"
       iconPos="left"
@@ -3570,6 +3584,87 @@
               aria-describedby="nameInArabicMeetingTypesCommunication-help"
               name="nameInArabicMeetingTypesCommunication"
               placeholder="Type"
+            />
+          </form>
+          <form action="" *ngIf="addBranchOfficersLookupsForm">
+            <label for="officerBranchOfficersLookups"
+              >Officer<sup>*</sup></label
+            >
+            <p-multiselect
+              [options]="officerTypesMandates"
+              [(ngModel)]="selectedOfficerTypesMandate"
+              placeholder="Select Officers"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="sectors"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="isCurrentBranchOfficersLookups"
+              >IsCurrent<sup>*</sup></label
+            >
+            <p-select
+              [options]="stamps"
+              optionLabel="name"
+              placeholder="Yes"
+              class="w-full md:w-56"
+            />
+          </form>
+          <form action="" *ngIf="addBranchAddressesLookupsForm">
+            <label for="officerBranchOfficersLookups"
+              >Country<sup>*</sup></label
+            >
+            <p-multiselect
+              [options]="countries"
+              [(ngModel)]="selectedCountries"
+              placeholder="Select Countries"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="officerBranchOfficersLookups"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="governorateBranchAddressesLookups"
+              >Governorate<sup>*</sup></label
+            >
+            <p-select
+              [options]="selectedCurrencyExchangeLookups"
+              optionLabel="name"
+              placeholder="EGP"
+              class="w-full md:w-56"
+            />
+            <label for="areaBranchAddressesLookups">Area<sup>*</sup></label>
+            <p-select
+              [options]="selectedAreas"
+              optionLabel="name"
+              placeholder="Giza"
+              class="w-full md:w-56"
+            />
+            <label for="detailsEnglishBranchAddressesLookups"
+              >Details English<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="detailsEnglishBranchAddressesLookups"
+              aria-describedby="detailsEnglishBranchAddressesLookups-help"
+              [(ngModel)]="value"
+              name="detailsEnglishBranchAddressesLookups"
+              placeholder="Giza"
+            />
+            <label for="detailsArabicBranchAddressesLookups"
+              >Details Arabic<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="detailsArabicBranchAddressesLookups"
+              aria-describedby="detailsArabicBranchAddressesLookups-help"
+              [(ngModel)]="value"
+              name="detailsArabicBranchAddressesLookups"
+              placeholder="Giza"
             />
           </form>
           <form action="" *ngIf="addBranchManagersLookupsForm">

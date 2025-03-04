@@ -1,5 +1,5 @@
 <app-toolbar-form
-  [header]="'Branch Addresses'"
+  [header]="'Branch Address'"
   [backExists]="true"
   [viewOnly]="false"
 ></app-toolbar-form>
@@ -11,16 +11,16 @@
         [description]="
           'Introduce your company core info quickly to users by fill up company details'
         "
-        [addBusinessLinesLookupsForm]="true"
+        [addBranchAddressesLookupsForm]="true"
       ></app-forms>
 
       <div class="row justify-end">
         <div
           class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 padding-right"
-          (click)="addBusinessLines()"
+          (click)="addBranchAddresses()"
         >
           <p-button
-            label="Add Business Lines"
+            label="Add Branch Address"
             class="custom-save m-0 float-right"
           />
         </div>

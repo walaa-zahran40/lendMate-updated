@@ -378,6 +378,8 @@ export class FormsComponent implements AfterViewInit {
   @Input() addBranchLookupsForm!: boolean;
   @Input() addBranchManagersLookupsForm!: boolean;
   @Input() addBusinessLinesLookupsForm!: boolean;
+  @Input() addBranchAddressesLookupsForm!: boolean;
+  @Input() addBranchOfficersLookupsForm!: boolean;
   constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
@@ -462,6 +464,7 @@ export class FormsComponent implements AfterViewInit {
       { name: 'Giza', code: 'giza' },
       { name: 'New Cairo', code: 'nc' },
     ];
+    this.selectedAreas = [{ name: 'Giza', code: 'giza' }];
     this.genders = [
       { name: 'Male', code: 'male' },
       { name: 'Female', code: 'female' },
@@ -472,6 +475,7 @@ export class FormsComponent implements AfterViewInit {
       { name: 'Egypt', code: 'egypt' },
       { name: 'UAE', code: 'uae' },
     ];
+    this.selectedCountries = [{ name: 'Egypt', code: 'egypt' }];
     this.codes = [{ name: 'Office', code: 'office' }];
     this.selectedCodes = [{ name: 'Office', code: 'office' }];
 
