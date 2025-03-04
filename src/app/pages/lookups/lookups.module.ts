@@ -5,7 +5,7 @@ import { AddFeeCalculationTypesComponent } from './add-fee-calculation-types/add
 import { AddMandateStatusesComponent } from './add-mandate-statuses/add-mandate-statuses.component';
 import { AddInterestRateBenchmarksComponent } from './add-interest-rate-benchmarks/add-interest-rate-benchmarks.component';
 import { AddFeeTypesComponent } from './add-fee-types/add-fee-types.component';
-import { GracePeriodUnitsComponent } from './grace-period-units/grace-period-units.component';
+import { AddGracePeriodUnitsComponent } from './add-grace-period-units/add-grace-period-units.component';
 import { RentStructureTypesComponent } from './rent-structure-types/rent-structure-types.component';
 import { CurrenciesComponent } from './currencies/currencies.component';
 import { PaymentMethodsComponent } from './payment-methods/payment-methods.component';
@@ -60,7 +60,7 @@ import { SharedModule } from '../../shared/shared.module';
     AddMandateStatusesComponent,
     AddInterestRateBenchmarksComponent,
     AddFeeTypesComponent,
-    GracePeriodUnitsComponent,
+    AddGracePeriodUnitsComponent,
     RentStructureTypesComponent,
     CurrenciesComponent,
     PaymentMethodsComponent,
@@ -117,7 +117,7 @@ import { SharedModule } from '../../shared/shared.module';
     AddMandateStatusesComponent,
     AddInterestRateBenchmarksComponent,
     AddFeeTypesComponent,
-    GracePeriodUnitsComponent,
+    AddGracePeriodUnitsComponent,
     RentStructureTypesComponent,
     CurrenciesComponent,
     PaymentMethodsComponent,
