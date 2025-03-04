@@ -1,39 +1,10 @@
 import { Component } from '@angular/core';
-import { DecimalPipe } from '@angular/common';
 
-interface Country {
-  name: string;
-  flag: string;
-  area: number;
-  population: number;
+interface People {
+  firstname?: string;
+  lastname?: string;
+  age?: string;
 }
-
-const COUNTRIES: Country[] = [
-  {
-    name: 'Russia',
-    flag: 'f/f3/Flag_of_Russia.svg',
-    area: 17075200,
-    population: 146989754,
-  },
-  {
-    name: 'Canada',
-    flag: 'c/cf/Flag_of_Canada.svg',
-    area: 9976140,
-    population: 36624199,
-  },
-  {
-    name: 'United States',
-    flag: 'a/a4/Flag_of_the_United_States.svg',
-    area: 9629091,
-    population: 324459463,
-  },
-  {
-    name: 'China',
-    flag: 'f/fa/Flag_of_the_People%27s_Republic_of_China.svg',
-    area: 9596960,
-    population: 1409517397,
-  },
-];
 @Component({
   selector: 'app-table',
   standalone: false,
@@ -41,7 +12,42 @@ const COUNTRIES: Country[] = [
   styleUrl: './table.component.scss',
 })
 export class TableComponent {
-  countries = COUNTRIES;
+  tableData: People[] = [];
+  cols: any[] = [];
+  constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.cols = [
+      { field: 'firstname', header: 'First Name' },
+      { field: 'lastname', header: 'Last Name' },
+      { field: 'age', header: 'Age' },
+    ];
+    this.tableData = [
+      {
+        firstname: 'David',
+        lastname: 'ace',
+        age: '40',
+      },
+      {
+        firstname: 'AJne',
+        lastname: 'west',
+        age: '40',
+      },
+      {
+        firstname: 'Mak',
+        lastname: 'Lame',
+        age: '40',
+      },
+      {
+        firstname: 'Peter',
+        lastname: 'raw',
+        age: '40',
+      },
+      {
+        firstname: 'Kane',
+        lastname: 'James',
+        age: '40',
+      },
+    ];
+  }
 }

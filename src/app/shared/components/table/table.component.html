@@ -28,3 +28,39 @@
     }
   </tbody>
 </table> -->
+<div class="page-content" style="height: calc(100vh - 149px)">
+  <h2 style="color: green">GeeksforGeeks</h2>
+  <h4>Angular PrimeNG Table Responsive</h4>
+
+  <p-table responsiveLayout="stack" [value]="tableData" scrollHeight="flex">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Age</th>
+      </tr>
+    </ng-template>
+
+    <ng-template
+      pTemplate="body"
+      let-rowData="rowData"
+      let-people
+      sortMode="multiple"
+    >
+      <tr>
+        <td>
+          <span class="p-column-title"> First Name </span>
+          {{ people.firstname }}
+        </td>
+        <td>
+          <span class="p-column-title"> last Name </span>
+          {{ people.lastname }}
+        </td>
+        <td>
+          <span class="p-column-title"> Age </span>
+          {{ people.age }}
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
