@@ -273,6 +273,13 @@
       label="View Mandate Statuses"
       class="custom-view m-0 float-right"
     />
+    <p-button
+      *ngIf="addInterestRateBenchmarksLookupsForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Interest Rate"
+      class="custom-view m-0 float-right"
+    />
   </div>
   <div class="col-sm-8 p-0">
     <div class="flex flex-col md:flex-row gap-8">
@@ -2854,6 +2861,7 @@
               placeholder="Type"
             />
           </form>
+
           <form action="" *ngIf="addMandateStatusesLookupsForm">
             <label for="nameInEnglishAddMandateStatusesLookups"
               >Name in English<sup>*</sup></label
@@ -2883,6 +2891,36 @@
               optionLabel="name"
               placeholder="Yes"
               class="w-full md:w-56"
+            />
+          </form>
+          <form action="" *ngIf="addInterestRateBenchmarksLookupsForm">
+            <label for="codeMeetingTypesCommunication">Code<sup>*</sup></label>
+            <input
+              pInputText
+              id="codeMeetingTypesCommunication"
+              aria-describedby="codeMeetingTypesCommunication-help"
+              name="codeMeetingTypesCommunication"
+              placeholder="342425"
+            />
+            <label for="nameInEnglishMeetingTypesCommunication"
+              >Name in English<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInEnglishMeetingTypesCommunication"
+              aria-describedby="nameInEnglishMeetingTypesCommunication-help"
+              name="nameInEnglishMeetingTypesCommunication"
+              placeholder="Type"
+            />
+            <label for="nameInArabicMeetingTypesCommunication"
+              >Name in Arabic<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInArabicMeetingTypesCommunication"
+              aria-describedby="nameInArabicMeetingTypesCommunication-help"
+              name="nameInArabicMeetingTypesCommunication"
+              placeholder="Type"
             />
           </form>
           <!--Communication Forms-->
