@@ -273,7 +273,6 @@ export class FormsComponent implements AfterViewInit {
   date6: Date | undefined;
   date7: Date | undefined;
   date8: Date | undefined;
-
   date9 = '09/08/2025';
   date10 = '09/08/2025';
   date11 = '09/08/2025';
@@ -285,6 +284,8 @@ export class FormsComponent implements AfterViewInit {
   date17 = '09/08/2025';
   date18 = '09/08/2025';
   date19 = '09/08/1997';
+  date20 = '09/08/1997';
+  date21 = '09/08/1997';
   //inputs
   @Input() title!: string;
   @Input() titleIndividual!: string;
@@ -372,6 +373,7 @@ export class FormsComponent implements AfterViewInit {
   @Input() addMandateValidityUnitLookupsForm!: boolean;
   @Input() addClientDocumentTypesLookupsForm!: boolean;
   @Input() addBranchLookupsForm!: boolean;
+  @Input() addBranchManagersLookupsForm!: boolean;
   constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {

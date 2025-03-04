@@ -38,7 +38,7 @@ import { CallTypesComponent } from './call-types/call-types.component';
 import { CommunicationTypesComponent } from './communication-types/communication-types.component';
 import { CallActionTypesComponent } from './call-action-types/call-action-types.component';
 import { CommunicationFlowTypesComponent } from './communication-flow-types/communication-flow-types.component';
-import { BranchManagersComponent } from './branch-managers/branch-managers.component';
+import { AddBranchManagersComponent } from './add-branch-managers/add-branch-managers.component';
 import { BranchOfficersComponent } from './branch-officers/branch-officers.component';
 import { BranchAddressesComponent } from './branch-addresses/branch-addresses.component';
 import { ClientStatusActionsComponent } from './client-status-actions/client-status-actions.component';
@@ -93,7 +93,7 @@ import { AddClientDocumentTypesComponent } from './add-client-document-types/add
     CommunicationTypesComponent,
     CallActionTypesComponent,
     CommunicationFlowTypesComponent,
-    BranchManagersComponent,
+    AddBranchManagersComponent,
     BranchOfficersComponent,
     BranchAddressesComponent,
     ClientStatusActionsComponent,
@@ -150,7 +150,7 @@ import { AddClientDocumentTypesComponent } from './add-client-document-types/add
     CommunicationTypesComponent,
     CallActionTypesComponent,
     CommunicationFlowTypesComponent,
-    BranchManagersComponent,
+    AddBranchManagersComponent,
     BranchOfficersComponent,
     BranchAddressesComponent,
     ClientStatusActionsComponent,

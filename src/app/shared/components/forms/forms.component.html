@@ -378,6 +378,13 @@
       label="View Branch"
       class="custom-view m-0 float-right"
     />
+    <p-button
+      *ngIf="addBranchManagersLookupsForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Branch Managers"
+      class="custom-view m-0 float-right"
+    />
   </div>
   <div class="col-sm-8 p-0">
     <div class="flex flex-col md:flex-row gap-8">
@@ -3558,6 +3565,53 @@
               placeholder="Type"
             />
           </form>
+          <form action="" *ngIf="addBranchManagersLookupsForm">
+            <label for="startDateBranchManagerLookups"
+              >Start Date<sup>*</sup></label
+            >
+            <p-calendar
+              [(ngModel)]="date20"
+              [iconDisplay]="'input'"
+              [showIcon]="true"
+              placeholder="Date"
+              inputId="icondisplay"
+              name="startDateBranchManagerLookups"
+            />
+            <label for="endDateBranchManagerLookups"
+              >End Date<sup>*</sup></label
+            >
+            <p-calendar
+              [(ngModel)]="date21"
+              [iconDisplay]="'input'"
+              [showIcon]="true"
+              placeholder="Date"
+              inputId="icondisplay"
+              name="endDateBranchManagerLookups"
+            />
+            <label for="officerBranchManagerLookups">Officer<sup>*</sup></label>
+            <p-multiselect
+              [options]="officerTypesMandates"
+              [(ngModel)]="officerTypesMandates"
+              placeholder="Select Exchange Currency"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="officerBranchManagerLookups"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="isCurrentBranchManagerLookups"
+              >IsCurrent<sup>*</sup></label
+            >
+            <p-select
+              [options]="stamps"
+              optionLabel="name"
+              placeholder="Yes"
+              class="w-full md:w-56"
+            />
+          </form>
+
           <!--Communication Forms-->
           <form action="" *ngIf="addMeetingShowBasicForm">
             <label for="clientNameAddMeeting">Client Name<sup>*</sup></label>
