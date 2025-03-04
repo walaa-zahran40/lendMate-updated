@@ -11,8 +11,8 @@ import { AddCurrenciesComponent } from './add-currencies/add-currencies.componen
 import { AddPaymentMethodsComponent } from './add-payment-methods/add-payment-methods.component';
 import { AddPaymentTypesComponent } from './add-payment-types/add-payment-types.component';
 import { AddPaymentMonthDaysComponent } from './add-payment-month-days/add-payment-month-days.component';
-import { MeetingTypesComponent } from './meeting-types/meeting-types.component';
-import { InsuredByComponent } from './insured-by/insured-by.component';
+import { AddMeetingTypesComponent } from './add-meeting-types/add-meeting-types.component';
+import { AddInsuredByComponent } from './add-insured-by/add-insured-by.component';
 import { LeasingTypeComponent } from './leasing-type/leasing-type.component';
 import { MandateValidityUnitComponent } from './mandate-validity-unit/mandate-validity-unit.component';
 import { ClientDocumentTypesComponent } from './client-document-types/client-document-types.component';
@@ -66,8 +66,8 @@ import { SharedModule } from '../../shared/shared.module';
     AddPaymentMethodsComponent,
     AddPaymentTypesComponent,
     AddPaymentMonthDaysComponent,
-    MeetingTypesComponent,
-    InsuredByComponent,
+    AddMeetingTypesComponent,
+    AddInsuredByComponent,
     LeasingTypeComponent,
     MandateValidityUnitComponent,
     ClientDocumentTypesComponent,
@@ -123,8 +123,8 @@ import { SharedModule } from '../../shared/shared.module';
     AddPaymentMethodsComponent,
     AddPaymentTypesComponent,
     AddPaymentMonthDaysComponent,
-    MeetingTypesComponent,
-    InsuredByComponent,
+    AddMeetingTypesComponent,
+    AddInsuredByComponent,
     LeasingTypeComponent,
     MandateValidityUnitComponent,
     ClientDocumentTypesComponent,

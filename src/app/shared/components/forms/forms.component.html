@@ -336,6 +336,20 @@
       label="View Payment Month Days"
       class="custom-view m-0 float-right"
     />
+    <p-button
+      *ngIf="addMeetingTypesLookupsForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Meeting Types"
+      class="custom-view m-0 float-right"
+    />
+    <p-button
+      *ngIf="addInsuredByLookupsForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Insured By"
+      class="custom-view m-0 float-right"
+    />
   </div>
   <div class="col-sm-8 p-0">
     <div class="flex flex-col md:flex-row gap-8">
@@ -3307,6 +3321,70 @@
               placeholder="Type"
             />
           </form>
+          <form action="" *ngIf="addMeetingTypesLookupsForm">
+            <label>Arabic Description<sup>*</sup></label>
+            <br />
+            <label for="codeMeetingTypesCommunication">Code<sup>*</sup></label>
+            <input
+              pInputText
+              id="codeMeetingTypesCommunication"
+              aria-describedby="codeMeetingTypesCommunication-help"
+              name="codeMeetingTypesCommunication"
+              placeholder="342425"
+            />
+            <label for="nameInEnglishMeetingTypesCommunication"
+              >Name in English<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInEnglishMeetingTypesCommunication"
+              aria-describedby="nameInEnglishMeetingTypesCommunication-help"
+              name="nameInEnglishMeetingTypesCommunication"
+              placeholder="Type"
+            />
+            <label for="nameInArabicMeetingTypesCommunication"
+              >Name in Arabic<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInArabicMeetingTypesCommunication"
+              aria-describedby="nameInArabicMeetingTypesCommunication-help"
+              name="nameInArabicMeetingTypesCommunication"
+              placeholder="Type"
+            />
+          </form>
+          <form action="" *ngIf="addInsuredByLookupsForm">
+            <label>Arabic Description<sup>*</sup></label>
+            <br />
+            <label for="nameInEnglishInsuredByLookups"
+              >Name in English<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInEnglishInsuredByLookups"
+              aria-describedby="nameInEnglishInsuredByLookups-help"
+              name="nameInEnglishInsuredByLookups"
+              placeholder="Type"
+            />
+            <label for="nameInArabicInsuredByLookups"
+              >Name in Arabic<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInArabicInsuredByLookups"
+              aria-describedby="nameInArabicInsuredByLookups-help"
+              name="nameInArabicInsuredByLookups"
+              placeholder="Type"
+            />
+            <label for="isActiveInsuredByLookups">IsActive<sup>*</sup></label>
+            <p-select
+              [options]="stamps"
+              optionLabel="name"
+              placeholder="Yes"
+              class="w-full md:w-56"
+            />
+          </form>
+
           <!--Communication Forms-->
           <form action="" *ngIf="addMeetingShowBasicForm">
             <label for="clientNameAddMeeting">Client Name<sup>*</sup></label>

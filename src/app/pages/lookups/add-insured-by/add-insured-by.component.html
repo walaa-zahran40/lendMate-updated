@@ -1,0 +1,30 @@
+<app-toolbar-form
+  [header]="'Insured By'"
+  [backExists]="true"
+  [viewOnly]="false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-forms
+        [title]="'Main Information'"
+        [description]="
+          'Introduce your company core info quickly to users by fill up company details'
+        "
+        [addInsuredByLookupsForm]="true"
+      ></app-forms>
+
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 padding-right"
+          (click)="addInsuredBy()"
+        >
+          <p-button
+            label="Add Insured By"
+            class="custom-save m-0 float-right"
+          />
+        </div>
+      </div>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>
