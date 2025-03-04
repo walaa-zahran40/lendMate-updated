@@ -15,6 +15,13 @@
       class="custom-view m-0 float-right"
     />
     <p-button
+      *ngIf="addPaymentTypesLookupsForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Payment Types"
+      class="custom-view m-0 float-right"
+    />
+    <p-button
       *ngIf="addAddressShowMain"
       icon="pi pi-cog"
       iconPos="left"
@@ -3229,6 +3236,39 @@
               placeholder="Type"
             />
           </form>
+          <form action="" *ngIf="addPaymentTypesLookupsForm">
+            <label>Arabic Description<sup>*</sup></label>
+            <br />
+            <label for="codeMeetingTypesCommunication">Code<sup>*</sup></label>
+            <input
+              pInputText
+              id="codeMeetingTypesCommunication"
+              aria-describedby="codeMeetingTypesCommunication-help"
+              name="codeMeetingTypesCommunication"
+              placeholder="342425"
+            />
+            <label for="nameInEnglishMeetingTypesCommunication"
+              >Name in English<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInEnglishMeetingTypesCommunication"
+              aria-describedby="nameInEnglishMeetingTypesCommunication-help"
+              name="nameInEnglishMeetingTypesCommunication"
+              placeholder="Type"
+            />
+            <label for="nameInArabicMeetingTypesCommunication"
+              >Name in Arabic<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInArabicMeetingTypesCommunication"
+              aria-describedby="nameInArabicMeetingTypesCommunication-help"
+              name="nameInArabicMeetingTypesCommunication"
+              placeholder="Type"
+            />
+          </form>
+
           <!--Communication Forms-->
           <form action="" *ngIf="addMeetingShowBasicForm">
             <label for="clientNameAddMeeting">Client Name<sup>*</sup></label>

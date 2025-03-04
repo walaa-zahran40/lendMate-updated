@@ -9,7 +9,7 @@ import { AddGracePeriodUnitsComponent } from './add-grace-period-units/add-grace
 import { AddRentStructureTypesComponent } from './add-rent-structure-types/add-rent-structure-types.component';
 import { AddCurrenciesComponent } from './add-currencies/add-currencies.component';
 import { AddPaymentMethodsComponent } from './add-payment-methods/add-payment-methods.component';
-import { PaymentTypesComponent } from './payment-types/payment-types.component';
+import { AddPaymentTypesComponent } from './add-payment-types/add-payment-types.component';
 import { PaymentMonthDaysComponent } from './payment-month-days/payment-month-days.component';
 import { MeetingTypesComponent } from './meeting-types/meeting-types.component';
 import { InsuredByComponent } from './insured-by/insured-by.component';
@@ -64,7 +64,7 @@ import { SharedModule } from '../../shared/shared.module';
     AddRentStructureTypesComponent,
     AddCurrenciesComponent,
     AddPaymentMethodsComponent,
-    PaymentTypesComponent,
+    AddPaymentTypesComponent,
     PaymentMonthDaysComponent,
     MeetingTypesComponent,
     InsuredByComponent,
@@ -121,7 +121,7 @@ import { SharedModule } from '../../shared/shared.module';
     AddRentStructureTypesComponent,
     AddCurrenciesComponent,
     AddPaymentMethodsComponent,
-    PaymentTypesComponent,
+    AddPaymentTypesComponent,
     PaymentMonthDaysComponent,
     MeetingTypesComponent,
     InsuredByComponent,
