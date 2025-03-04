@@ -279,8 +279,13 @@
         width: var(--custom-size-100);
       }
       .p-splitbutton {
-        width: 100%;
-        flex-direction: column;
+        width: 70%;
+        flex-direction: row-reverse;
+        margin: 0 auto;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+        display: flex;
       }
       .p-tabpanels {
         padding-right: 0;
