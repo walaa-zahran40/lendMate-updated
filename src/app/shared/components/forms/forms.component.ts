@@ -371,6 +371,7 @@ export class FormsComponent implements AfterViewInit {
   @Input() addLeasingTypeLookupsForm!: boolean;
   @Input() addMandateValidityUnitLookupsForm!: boolean;
   @Input() addClientDocumentTypesLookupsForm!: boolean;
+  @Input() addBranchLookupsForm!: boolean;
   constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {

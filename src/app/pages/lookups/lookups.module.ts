@@ -16,7 +16,7 @@ import { AddInsuredByComponent } from './add-insured-by/add-insured-by.component
 import { AddLeasingTypeComponent } from './add-leasing-type/add-leasing-type.component';
 import { AddMandateValidityUnitComponent } from './add-mandate-validity-unit/add-mandate-validity-unit.component';
 import { ClientDocumentTypesComponent } from './client-document-types/client-document-types.component';
-import { BranchComponent } from './branch/branch.component';
+import { AddBranchComponent } from './add-branch/add-branch.component';
 import { BusinessLinesComponent } from './business-lines/business-lines.component';
 import { AssetTypesComponent } from './asset-types/asset-types.component';
 import { AssetTypeCategoriesComponent } from './asset-type-categories/asset-type-categories.component';
@@ -71,7 +71,7 @@ import { AddClientDocumentTypesComponent } from './add-client-document-types/add
     AddLeasingTypeComponent,
     AddMandateValidityUnitComponent,
     ClientDocumentTypesComponent,
-    BranchComponent,
+    AddBranchComponent,
     BusinessLinesComponent,
     AssetTypesComponent,
     AssetTypeCategoriesComponent,
@@ -128,7 +128,7 @@ import { AddClientDocumentTypesComponent } from './add-client-document-types/add
     AddLeasingTypeComponent,
     AddMandateValidityUnitComponent,
     AddClientDocumentTypesComponent,
-    BranchComponent,
+    AddBranchComponent,
     BusinessLinesComponent,
     AssetTypesComponent,
     AssetTypeCategoriesComponent,

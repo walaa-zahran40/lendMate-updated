@@ -15,8 +15,7 @@ import { AddMeetingTypesComponent } from './add-meeting-types/add-meeting-types.
 import { AddInsuredByComponent } from './add-insured-by/add-insured-by.component';
 import { AddLeasingTypeComponent } from './add-leasing-type/add-leasing-type.component';
 import { AddMandateValidityUnitComponent } from './add-mandate-validity-unit/add-mandate-validity-unit.component';
-import { ClientDocumentTypesComponent } from './client-document-types/client-document-types.component';
-import { BranchComponent } from './branch/branch.component';
+import { AddBranchComponent } from './add-branch/add-branch.component';
 import { BusinessLinesComponent } from './business-lines/business-lines.component';
 import { AssetTypesComponent } from './asset-types/asset-types.component';
 import { AddCurrenciesExchangeComponent } from './add-currencies-exchange/add-currencies-exchange.component';
@@ -92,8 +91,8 @@ const routes: Routes = [
     component: AddClientDocumentTypesComponent,
   },
   {
-    path: 'branch',
-    component: BranchComponent,
+    path: 'add-branch',
+    component: AddBranchComponent,
   },
   {
     path: 'business-lines',
