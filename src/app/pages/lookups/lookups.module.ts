@@ -1,5 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ButtonModule } from 'primeng/button';
+import { FileUploadModule } from 'primeng/fileupload';
+import { StepperModule } from 'primeng/stepper';
+import { TabsModule } from 'primeng/tabs';
 import { AddCompanyTypesComponent } from './add-company-types/add-company-types.component';
 import { AddFeeCalculationTypesComponent } from './add-fee-calculation-types/add-fee-calculation-types.component';
 import { AddMandateStatusesComponent } from './add-mandate-statuses/add-mandate-statuses.component';
@@ -21,7 +25,7 @@ import { AddBusinessLinesComponent } from './add-business-lines/add-business-lin
 import { AddAssetTypesComponent } from './add-asset-types/add-asset-types.component';
 import { AddAssestTypeCategoriesComponent } from './add-assest-type-categories/add-assest-type-categories.component';
 import { AddProductsComponent } from './add-products/add-products.component';
-import { SectorsComponent } from './sectors/sectors.component';
+import { AddSectorsComponent } from './add-sectors/add-sectors.component';
 import { ClientStatusesComponent } from './client-statuses/client-statuses.component';
 import { SmeClientCodeComponent } from './sme-client-code/sme-client-code.component';
 import { SubSectorsComponent } from './sub-sectors/sub-sectors.component';
@@ -46,10 +50,6 @@ import { AddCurrenciesExchangeComponent } from './add-currencies-exchange/add-cu
 import { MandateStatusActionsComponent } from './mandate-status-actions/mandate-status-actions.component';
 import { PaymentPeriodsComponent } from './payment-periods/payment-periods.component';
 import { LookupsRoutingModule } from './lookups-routing.module';
-import { ButtonModule } from 'primeng/button';
-import { FileUploadModule } from 'primeng/fileupload';
-import { StepperModule } from 'primeng/stepper';
-import { TabsModule } from 'primeng/tabs';
 import { SharedModule } from '../../shared/shared.module';
 import { AddClientDocumentTypesComponent } from './add-client-document-types/add-client-document-types.component';
 
@@ -76,7 +76,7 @@ import { AddClientDocumentTypesComponent } from './add-client-document-types/add
     AddAssetTypesComponent,
     AddAssestTypeCategoriesComponent,
     AddProductsComponent,
-    SectorsComponent,
+    AddSectorsComponent,
     ClientStatusesComponent,
     SmeClientCodeComponent,
     SubSectorsComponent,
@@ -133,7 +133,7 @@ import { AddClientDocumentTypesComponent } from './add-client-document-types/add
     AddAssetTypesComponent,
     AddAssestTypeCategoriesComponent,
     AddProductsComponent,
-    SectorsComponent,
+    AddSectorsComponent,
     ClientStatusesComponent,
     SmeClientCodeComponent,
     SubSectorsComponent,
