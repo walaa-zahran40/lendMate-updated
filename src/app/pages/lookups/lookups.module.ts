@@ -36,7 +36,7 @@ import { AddGovernoratesComponent } from './add-governorates/add-governorates.co
 import { AddCountriesComponent } from './add-countries/add-countries.component';
 import { AddIdentificationTypesComponent } from './add-identification-types/add-identification-types.component';
 import { AddAreasComponent } from './add-areas/add-areas.component';
-import { TaxOfficesComponent } from './tax-offices/tax-offices.component';
+import { AddTaxOfficesComponent } from './add-tax-offices/add-tax-offices.component';
 import { TmlOfficerTypesComponent } from './tml-officer-types/tml-officer-types.component';
 import { CallTypesComponent } from './call-types/call-types.component';
 import { CommunicationTypesComponent } from './communication-types/communication-types.component';
@@ -88,7 +88,7 @@ import { AddClientTypesComponent } from './add-client-types/add-client-types.com
     AddCountriesComponent,
     AddIdentificationTypesComponent,
     AddAreasComponent,
-    TaxOfficesComponent,
+    AddTaxOfficesComponent,
     TmlOfficerTypesComponent,
     CallTypesComponent,
     CommunicationTypesComponent,
@@ -147,7 +147,7 @@ import { AddClientTypesComponent } from './add-client-types/add-client-types.com
     AddCountriesComponent,
     AddIdentificationTypesComponent,
     AddAreasComponent,
-    TaxOfficesComponent,
+    AddTaxOfficesComponent,
     TmlOfficerTypesComponent,
     CallTypesComponent,
     CommunicationTypesComponent,

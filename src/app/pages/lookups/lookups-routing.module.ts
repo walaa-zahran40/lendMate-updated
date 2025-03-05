@@ -38,6 +38,7 @@ import { AddGovernoratesComponent } from './add-governorates/add-governorates.co
 import { AddCountriesComponent } from './add-countries/add-countries.component';
 import { AddIdentificationTypesComponent } from './add-identification-types/add-identification-types.component';
 import { AddAreasComponent } from './add-areas/add-areas.component';
+import { AddTaxOfficesComponent } from './add-tax-offices/add-tax-offices.component';
 
 const routes: Routes = [
   {
@@ -192,6 +193,10 @@ const routes: Routes = [
   {
     path: 'add-areas',
     component: AddAreasComponent,
+  },
+  {
+    path: 'add-areas',
+    component: AddTaxOfficesComponent,
   },
 ];
 

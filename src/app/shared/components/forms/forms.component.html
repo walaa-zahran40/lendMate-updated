@@ -9,6 +9,13 @@
     </p>
 
     <p-button
+      *ngIf="addTaxOfficesLookupsForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Tax Offices"
+      class="custom-view m-0 float-right"
+    />
+    <p-button
       *ngIf="addAreasLookupsForm"
       icon="pi pi-cog"
       iconPos="left"
@@ -3051,6 +3058,52 @@
           </form>
           <!--Lookups Forms-->
 
+          <form action="" *ngIf="addTaxOfficesLookupsForm">
+            <label for="codeTaxOfficesLookups">Code<sup>*</sup></label>
+            <input
+              pInputText
+              id="codeTaxOfficesLookups"
+              aria-describedby="codeTaxOfficesLookups-help"
+              name="codeTaxOfficesLookups"
+              placeholder="342425"
+            />
+            <label for="nameInEnglishLookups"
+              >Name in English<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInEnglishLookups"
+              aria-describedby="nameInEnglishLookups-help"
+              name="nameInEnglishLookups"
+              placeholder="Type"
+            />
+            <label for="nameInArabicLookups">Name in Arabic<sup>*</sup></label>
+            <input
+              pInputText
+              id="nameInArabicLookups"
+              aria-describedby="nameInArabicLookups-help"
+              name="nameInArabicLookups"
+              placeholder="Type"
+            />
+            <label for="governorateIDTaxOfficesLookups"
+              >Governorate ID<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="governorateIDTaxOfficesLookups"
+              aria-describedby="governorateIDTaxOfficesLookups-help"
+              name="governorateIDTaxOfficesLookups"
+              placeholder="Type"
+            />
+            <label for="addressTaxOfficesLookups">Address<sup>*</sup></label>
+            <input
+              pInputText
+              id="addressTaxOfficesLookups"
+              aria-describedby="addressTaxOfficesLookups-help"
+              name="addressTaxOfficesLookups"
+              placeholder="Type"
+            />
+          </form>
           <form action="" *ngIf="addAreasLookupsForm">
             <label for="areaNameAreasLookups">Area Name<sup>*</sup></label>
             <input
