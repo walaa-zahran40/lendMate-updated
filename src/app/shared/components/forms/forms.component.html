@@ -7,6 +7,14 @@
     <p class="tab-panel-paragraph">
       {{ description }}
     </p>
+
+    <p-button
+      *ngIf="addSMEClientCodeLookupsForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View SME Client Code"
+      class="custom-view m-0 float-right"
+    />
     <p-button
       *ngIf="addStatusActionsLookupsForm"
       icon="pi pi-cog"
@@ -2979,6 +2987,57 @@
             />
           </form>
           <!--Lookups Forms-->
+
+          <form action="" *ngIf="addSMEClientCodeLookupsForm">
+            <label for="codeAssestTypesLookups">Code<sup>*</sup></label>
+            <input
+              pInputText
+              id="codeAssestTypesLookups"
+              aria-describedby="codeAssestTypesLookups-help"
+              name="codeAssestTypesLookups"
+              placeholder="Yes"
+            />
+            <label for="nameInEnglishAssestTypesLookups"
+              >Name in English<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInEnglishAssestTypesLookups"
+              aria-describedby="nameInEnglishAssestTypesLookups-help"
+              name="nameInEnglishAssestTypesLookups"
+              placeholder="Type"
+            />
+            <label for="nameInArabicAssestTypesLookups"
+              >Name in Arabic<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInArabicAssestTypesLookups"
+              aria-describedby="nameInArabicAssestTypesLookups-help"
+              name="nameInArabicAssestTypesLookups"
+              placeholder="Type"
+            />
+            <label for="upperLimitSMEClientCodeLookups"
+              >Upper Limit<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="upperLimitSMEClientCodeLookups"
+              aria-describedby="upperLimitSMEClientCodeLookups-help"
+              name="upperLimitSMEClientCodeLookups"
+              placeholder="Type"
+            />
+            <label for="underLimitSMEClientCodeLookups"
+              >Under Limit<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="underLimitSMEClientCodeLookups"
+              aria-describedby="underLimitSMEClientCodeLookups-help"
+              name="underLimitSMEClientCodeLookups"
+              placeholder="Type"
+            />
+          </form>
           <form action="" *ngIf="addStatusActionsLookupsForm">
             <label for="codeAssestTypesLookups">Code<sup>*</sup></label>
             <input

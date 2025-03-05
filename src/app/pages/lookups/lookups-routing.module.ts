@@ -28,6 +28,7 @@ import { AddProductsComponent } from './add-products/add-products.component';
 import { AddSectorsComponent } from './add-sectors/add-sectors.component';
 import { AddClientStatusesComponent } from './add-client-statuses/add-client-statuses.component';
 import { AddClientStatusActionsComponent } from './add-client-status-actions/add-client-status-actions.component';
+import { AddSmeClientCodeComponent } from './add-sme-client-code/add-sme-client-code.component';
 
 const routes: Routes = [
   {
@@ -142,6 +143,10 @@ const routes: Routes = [
   {
     path: 'add-client-status-actions',
     component: AddClientStatusActionsComponent,
+  },
+  {
+    path: 'add-sme-client-code',
+    component: AddSmeClientCodeComponent,
   },
 ];
 
