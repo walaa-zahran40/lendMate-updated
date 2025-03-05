@@ -383,6 +383,7 @@ export class FormsComponent implements AfterViewInit {
   @Input() addBranchOfficersLookupsForm!: boolean;
   @Input() addAssestTypesLookupsForm!: boolean;
   @Input() addAssestTypeCategoriesLookupsForm!: boolean;
+  @Input() addProductsLookupsForm!: boolean;
   constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {

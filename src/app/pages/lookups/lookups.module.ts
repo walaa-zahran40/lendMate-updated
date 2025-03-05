@@ -20,7 +20,7 @@ import { AddBranchComponent } from './add-branch/add-branch.component';
 import { AddBusinessLinesComponent } from './add-business-lines/add-business-lines.component';
 import { AddAssetTypesComponent } from './add-asset-types/add-asset-types.component';
 import { AddAssestTypeCategoriesComponent } from './add-assest-type-categories/add-assest-type-categories.component';
-import { ProductsComponent } from './products/products.component';
+import { AddProductsComponent } from './add-products/add-products.component';
 import { SectorsComponent } from './sectors/sectors.component';
 import { ClientStatusesComponent } from './client-statuses/client-statuses.component';
 import { SmeClientCodeComponent } from './sme-client-code/sme-client-code.component';
@@ -75,7 +75,7 @@ import { AddClientDocumentTypesComponent } from './add-client-document-types/add
     AddBusinessLinesComponent,
     AddAssetTypesComponent,
     AddAssestTypeCategoriesComponent,
-    ProductsComponent,
+    AddProductsComponent,
     SectorsComponent,
     ClientStatusesComponent,
     SmeClientCodeComponent,
@@ -132,7 +132,7 @@ import { AddClientDocumentTypesComponent } from './add-client-document-types/add
     AddBusinessLinesComponent,
     AddAssetTypesComponent,
     AddAssestTypeCategoriesComponent,
-    ProductsComponent,
+    AddProductsComponent,
     SectorsComponent,
     ClientStatusesComponent,
     SmeClientCodeComponent,

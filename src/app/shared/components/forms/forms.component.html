@@ -9,6 +9,13 @@
     </p>
 
     <p-button
+      *ngIf="addProductsLookupsForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Products"
+      class="custom-view m-0 float-right"
+    />
+    <p-button
       *ngIf="addAssestTypeCategoriesLookupsForm"
       icon="pi pi-cog"
       iconPos="left"
@@ -2953,6 +2960,46 @@
           </form>
           <!--Lookups Forms-->
 
+          <form action="" *ngIf="addProductsLookupsForm">
+            <label for="codeAssestTypesLookups">Code<sup>*</sup></label>
+            <input
+              pInputText
+              id="codeAssestTypesLookups"
+              aria-describedby="codeAssestTypesLookups-help"
+              name="codeAssestTypesLookups"
+              placeholder="Yes"
+            />
+            <label for="nameInEnglishAssestTypesLookups"
+              >Name in English<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInEnglishAssestTypesLookups"
+              aria-describedby="nameInEnglishAssestTypesLookups-help"
+              name="nameInEnglishAssestTypesLookups"
+              placeholder="Type"
+            />
+            <label for="nameInArabicAssestTypesLookups"
+              >Name in Arabic<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInArabicAssestTypesLookups"
+              aria-describedby="nameInArabicAssestTypesLookups-help"
+              name="nameInArabicAssestTypesLookups"
+              placeholder="Type"
+            />
+            <label for="businessLineProductsLookups"
+              >Business Line<sup>*</sup></label
+            >
+            <p-select
+              [options]="stamps"
+              [(ngModel)]="selectedStamps"
+              optionLabel="name"
+              class="w-full md:w-56"
+              name="businessLineProductsLookups"
+            />
+          </form>
           <form action="" *ngIf="addAssestTypeCategoriesLookupsForm">
             <label for="codeAssestTypesLookups">Code<sup>*</sup></label>
             <p-multiselect
