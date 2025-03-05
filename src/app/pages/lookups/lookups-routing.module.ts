@@ -32,6 +32,7 @@ import { AddSmeClientCodeComponent } from './add-sme-client-code/add-sme-client-
 import { AddSubSectorsComponent } from './add-sub-sectors/add-sub-sectors.component';
 import { AddClientTypesComponent } from './add-client-types/add-client-types.component';
 import { AddAuthorityOfficesComponent } from './add-authority-offices/add-authority-offices.component';
+import { AddPhoneTypesComponent } from './add-phone-types/add-phone-types.component';
 
 const routes: Routes = [
   {
@@ -162,6 +163,10 @@ const routes: Routes = [
   {
     path: 'add-authority-offices',
     component: AddAuthorityOfficesComponent,
+  },
+  {
+    path: 'add-phone-types',
+    component: AddPhoneTypesComponent,
   },
 ];
 
