@@ -33,6 +33,7 @@ import { AddSubSectorsComponent } from './add-sub-sectors/add-sub-sectors.compon
 import { AddClientTypesComponent } from './add-client-types/add-client-types.component';
 import { AddAuthorityOfficesComponent } from './add-authority-offices/add-authority-offices.component';
 import { AddPhoneTypesComponent } from './add-phone-types/add-phone-types.component';
+import { AddAddressTypesComponent } from './add-address-types/add-address-types.component';
 
 const routes: Routes = [
   {
@@ -167,6 +168,10 @@ const routes: Routes = [
   {
     path: 'add-phone-types',
     component: AddPhoneTypesComponent,
+  },
+  {
+    path: 'add-address-types',
+    component: AddAddressTypesComponent,
   },
 ];
 

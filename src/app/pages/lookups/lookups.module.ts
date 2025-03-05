@@ -31,7 +31,7 @@ import { AddSmeClientCodeComponent } from './add-sme-client-code/add-sme-client-
 import { AddSubSectorsComponent } from './add-sub-sectors/add-sub-sectors.component';
 import { AddAuthorityOfficesComponent } from './add-authority-offices/add-authority-offices.component';
 import { AddPhoneTypesComponent } from './add-phone-types/add-phone-types.component';
-import { AddressTypesComponent } from './address-types/address-types.component';
+import { AddAddressTypesComponent } from './add-address-types/add-address-types.component';
 import { GovernoratesComponent } from './governorates/governorates.component';
 import { CountriesComponent } from './countries/countries.component';
 import { IdentificationTypesComponent } from './identification-types/identification-types.component';
@@ -83,7 +83,7 @@ import { AddClientTypesComponent } from './add-client-types/add-client-types.com
     AddSubSectorsComponent,
     AddAuthorityOfficesComponent,
     AddPhoneTypesComponent,
-    AddressTypesComponent,
+    AddAddressTypesComponent,
     GovernoratesComponent,
     CountriesComponent,
     IdentificationTypesComponent,
@@ -142,7 +142,7 @@ import { AddClientTypesComponent } from './add-client-types/add-client-types.com
     AddSubSectorsComponent,
     AddAuthorityOfficesComponent,
     AddPhoneTypesComponent,
-    AddressTypesComponent,
+    AddAddressTypesComponent,
     GovernoratesComponent,
     CountriesComponent,
     IdentificationTypesComponent,

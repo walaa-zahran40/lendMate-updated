@@ -32,7 +32,6 @@ import { StepperModule } from 'primeng/stepper';
 import { PanelMenuModule } from 'primeng/panelmenu';
 
 import { ClientDetailsDialogComponent } from './client-details-dialog/client-details-dialog.component';
-import { DropdownListsModule } from './dropdown-lists/dropdown-lists.module';
 import { FileUploaderComponent } from './file-uploader/file-uploader.component';
 import { TableComponent } from './table/table.component';
 import { HeaderComponent } from './header/header.component';
@@ -64,7 +63,6 @@ import { CheckboxModule } from 'primeng/checkbox';
   ],
   imports: [
     CommonModule,
-    DropdownListsModule,
     ToolbarModule,
     AvatarModule,
     AvatarGroupModule,

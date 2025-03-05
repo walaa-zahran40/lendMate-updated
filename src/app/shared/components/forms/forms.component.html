@@ -9,6 +9,13 @@
     </p>
 
     <p-button
+      *ngIf="addAddressTypesLookupsForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Address Types"
+      class="custom-view m-0 float-right"
+    />
+    <p-button
       *ngIf="addPhoneTypesLookupsForm"
       icon="pi pi-cog"
       iconPos="left"
@@ -3016,6 +3023,36 @@
           </form>
           <!--Lookups Forms-->
 
+          <form action="" *ngIf="addAddressTypesLookupsForm">
+            <label for="codeAssestTypesLookups">Code<sup>*</sup></label>
+            <input
+              pInputText
+              id="codeAssestTypesLookups"
+              aria-describedby="codeAssestTypesLookups-help"
+              name="codeAssestTypesLookups"
+              placeholder="342425"
+            />
+            <label for="nameInEnglishAssestTypesLookups"
+              >Name in English<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInEnglishAssestTypesLookups"
+              aria-describedby="nameInEnglishAssestTypesLookups-help"
+              name="nameInEnglishAssestTypesLookups"
+              placeholder="Type"
+            />
+            <label for="nameInArabicAssestTypesLookups"
+              >Name in Arabic<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInArabicAssestTypesLookups"
+              aria-describedby="nameInArabicAssestTypesLookups-help"
+              name="nameInArabicAssestTypesLookups"
+              placeholder="Type"
+            />
+          </form>
           <form action="" *ngIf="addPhoneTypesLookupsForm">
             <label for="codeAssestTypesLookups">Code<sup>*</sup></label>
             <input
