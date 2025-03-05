@@ -41,6 +41,7 @@ import { AddAreasComponent } from './add-areas/add-areas.component';
 import { AddTaxOfficesComponent } from './add-tax-offices/add-tax-offices.component';
 import { AddTmlOfficerTypesComponent } from './add-tml-officer-types/add-tml-officer-types.component';
 import { AddCallTypesComponent } from './add-call-types/add-call-types.component';
+import { AddCommunicationTypesComponent } from './add-communication-types/add-communication-types.component';
 
 const routes: Routes = [
   {
@@ -207,6 +208,10 @@ const routes: Routes = [
   {
     path: 'add-call-types',
     component: AddCallTypesComponent,
+  },
+  {
+    path: 'add-communication-types',
+    component: AddCommunicationTypesComponent,
   },
 ];
 

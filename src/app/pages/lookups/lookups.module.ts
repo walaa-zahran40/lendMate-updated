@@ -39,7 +39,7 @@ import { AddAreasComponent } from './add-areas/add-areas.component';
 import { AddTaxOfficesComponent } from './add-tax-offices/add-tax-offices.component';
 import { AddTmlOfficerTypesComponent } from './add-tml-officer-types/add-tml-officer-types.component';
 import { AddCallTypesComponent } from './add-call-types/add-call-types.component';
-import { CommunicationTypesComponent } from './communication-types/communication-types.component';
+import { AddCommunicationTypesComponent } from './add-communication-types/add-communication-types.component';
 import { CallActionTypesComponent } from './call-action-types/call-action-types.component';
 import { CommunicationFlowTypesComponent } from './communication-flow-types/communication-flow-types.component';
 import { AddBranchManagersComponent } from './add-branch-managers/add-branch-managers.component';
@@ -91,7 +91,7 @@ import { AddClientTypesComponent } from './add-client-types/add-client-types.com
     AddAreasComponent,
     AddTaxOfficesComponent,
     AddCallTypesComponent,
-    CommunicationTypesComponent,
+    AddCommunicationTypesComponent,
     CallActionTypesComponent,
     CommunicationFlowTypesComponent,
     AddBranchManagersComponent,
@@ -150,7 +150,7 @@ import { AddClientTypesComponent } from './add-client-types/add-client-types.com
     AddAreasComponent,
     AddTaxOfficesComponent,
     AddCallTypesComponent,
-    CommunicationTypesComponent,
+    AddCommunicationTypesComponent,
     CallActionTypesComponent,
     CommunicationFlowTypesComponent,
     AddBranchManagersComponent,
