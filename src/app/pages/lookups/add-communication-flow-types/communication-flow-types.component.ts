@@ -6,4 +6,8 @@ import { Component } from '@angular/core';
   templateUrl: './communication-flow-types.component.html',
   styleUrl: './communication-flow-types.component.scss',
 })
-export class CommunicationFlowTypesComponent {}
+export class AddCommunicationFlowTypesComponent {
+  addCommunicationFlowType() {
+    console.log('added');
+  }
+}

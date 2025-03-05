@@ -9,6 +9,13 @@
     </p>
 
     <p-button
+      *ngIf="addCommunicationFlowTypeLookupsForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Communication Flow Type"
+      class="custom-view m-0 float-right"
+    />
+    <p-button
       *ngIf="addCallActionTypeLookupsForm"
       icon="pi pi-cog"
       iconPos="left"
@@ -3086,6 +3093,34 @@
           </form>
           <!--Lookups Forms-->
 
+          <form action="" *ngIf="addCommunicationFlowTypeLookupsForm">
+            <label for="codeTaxOfficesLookups">Code<sup>*</sup></label>
+            <input
+              pInputText
+              id="codeTaxOfficesLookups"
+              aria-describedby="codeTaxOfficesLookups-help"
+              name="codeTaxOfficesLookups"
+              placeholder="342425"
+            />
+            <label for="nameInEnglishLookups"
+              >Name in English<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInEnglishLookups"
+              aria-describedby="nameInEnglishLookups-help"
+              name="nameInEnglishLookups"
+              placeholder="Type"
+            />
+            <label for="nameInArabicLookups">Name in Arabic<sup>*</sup></label>
+            <input
+              pInputText
+              id="nameInArabicLookups"
+              aria-describedby="nameInArabicLookups-help"
+              name="nameInArabicLookups"
+              placeholder="Type"
+            />
+          </form>
           <form action="" *ngIf="addCallActionTypeLookupsForm">
             <label for="codeTaxOfficesLookups">Code<sup>*</sup></label>
             <input

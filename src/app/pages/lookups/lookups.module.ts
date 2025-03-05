@@ -19,7 +19,6 @@ import { AddMeetingTypesComponent } from './add-meeting-types/add-meeting-types.
 import { AddInsuredByComponent } from './add-insured-by/add-insured-by.component';
 import { AddLeasingTypeComponent } from './add-leasing-type/add-leasing-type.component';
 import { AddMandateValidityUnitComponent } from './add-mandate-validity-unit/add-mandate-validity-unit.component';
-import { ClientDocumentTypesComponent } from './client-document-types/client-document-types.component';
 import { AddBranchComponent } from './add-branch/add-branch.component';
 import { AddBusinessLinesComponent } from './add-business-lines/add-business-lines.component';
 import { AddAssetTypesComponent } from './add-asset-types/add-asset-types.component';
@@ -41,14 +40,12 @@ import { AddTmlOfficerTypesComponent } from './add-tml-officer-types/add-tml-off
 import { AddCallTypesComponent } from './add-call-types/add-call-types.component';
 import { AddCommunicationTypesComponent } from './add-communication-types/add-communication-types.component';
 import { AddCallActionTypesComponent } from './add-call-action-types/add-call-action-types.component';
-import { CommunicationFlowTypesComponent } from './communication-flow-types/communication-flow-types.component';
+import { AddCommunicationFlowTypesComponent } from './add-communication-flow-types/communication-flow-types.component';
 import { AddBranchManagersComponent } from './add-branch-managers/add-branch-managers.component';
 import { AddBranchOfficersComponent } from './add-branch-officers/add-branch-officers.component';
 import { AddBranchAddressesComponent } from './add-branch-addresses/add-branch-addresses.component';
 import { AddClientStatusActionsComponent } from './add-client-status-actions/add-client-status-actions.component';
 import { AddCurrenciesExchangeComponent } from './add-currencies-exchange/add-currencies-exchange.component';
-import { MandateStatusActionsComponent } from './mandate-status-actions/mandate-status-actions.component';
-import { PaymentPeriodsComponent } from './payment-periods/payment-periods.component';
 import { LookupsRoutingModule } from './lookups-routing.module';
 import { SharedModule } from '../../shared/shared.module';
 import { AddClientDocumentTypesComponent } from './add-client-document-types/add-client-document-types.component';
@@ -72,7 +69,6 @@ import { AddClientTypesComponent } from './add-client-types/add-client-types.com
     AddInsuredByComponent,
     AddLeasingTypeComponent,
     AddMandateValidityUnitComponent,
-    ClientDocumentTypesComponent,
     AddBranchComponent,
     AddBusinessLinesComponent,
     AddAssetTypesComponent,
@@ -93,14 +89,12 @@ import { AddClientTypesComponent } from './add-client-types/add-client-types.com
     AddCallTypesComponent,
     AddCommunicationTypesComponent,
     AddCallActionTypesComponent,
-    CommunicationFlowTypesComponent,
+    AddCommunicationFlowTypesComponent,
     AddBranchManagersComponent,
     AddBranchOfficersComponent,
     AddBranchAddressesComponent,
     AddClientStatusActionsComponent,
     AddCurrenciesExchangeComponent,
-    MandateStatusActionsComponent,
-    PaymentPeriodsComponent,
     AddClientDocumentTypesComponent,
     AddClientTypesComponent,
   ],
@@ -152,14 +146,12 @@ import { AddClientTypesComponent } from './add-client-types/add-client-types.com
     AddCallTypesComponent,
     AddCommunicationTypesComponent,
     AddCallActionTypesComponent,
-    CommunicationFlowTypesComponent,
+    AddCommunicationFlowTypesComponent,
     AddBranchManagersComponent,
     AddBranchOfficersComponent,
     AddBranchAddressesComponent,
     AddClientStatusActionsComponent,
     AddCurrenciesExchangeComponent,
-    MandateStatusActionsComponent,
-    PaymentPeriodsComponent,
   ],
 })
 export class LookupsModule {}

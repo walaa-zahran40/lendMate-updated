@@ -43,6 +43,7 @@ import { AddTmlOfficerTypesComponent } from './add-tml-officer-types/add-tml-off
 import { AddCallTypesComponent } from './add-call-types/add-call-types.component';
 import { AddCommunicationTypesComponent } from './add-communication-types/add-communication-types.component';
 import { AddCallActionTypesComponent } from './add-call-action-types/add-call-action-types.component';
+import { AddCommunicationFlowTypesComponent } from './add-communication-flow-types/communication-flow-types.component';
 
 const routes: Routes = [
   {
@@ -217,6 +218,10 @@ const routes: Routes = [
   {
     path: 'add-call-action-types',
     component: AddCallActionTypesComponent,
+  },
+  {
+    path: 'add-communication-flow-type',
+    component: AddCommunicationFlowTypesComponent,
   },
 ];
 
