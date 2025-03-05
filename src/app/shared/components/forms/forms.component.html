@@ -9,6 +9,13 @@
     </p>
 
     <p-button
+      *ngIf="addClientStatusesLookupsForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Client Statuses"
+      class="custom-view m-0 float-right"
+    />
+    <p-button
       *ngIf="addSectorsLookupsForm"
       icon="pi pi-cog"
       iconPos="left"
@@ -2967,6 +2974,54 @@
           </form>
           <!--Lookups Forms-->
 
+          <form action="" *ngIf="addClientStatusesLookupsForm">
+            <label for="codeAssestTypesLookups">Code<sup>*</sup></label>
+            <input
+              pInputText
+              id="codeAssestTypesLookups"
+              aria-describedby="codeAssestTypesLookups-help"
+              name="codeAssestTypesLookups"
+              placeholder="Yes"
+            />
+            <label for="nameInEnglishAssestTypesLookups"
+              >Name in English<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInEnglishAssestTypesLookups"
+              aria-describedby="nameInEnglishAssestTypesLookups-help"
+              name="nameInEnglishAssestTypesLookups"
+              placeholder="Type"
+            />
+            <label for="nameInArabicAssestTypesLookups"
+              >Name in Arabic<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInArabicAssestTypesLookups"
+              aria-describedby="nameInArabicAssestTypesLookups-help"
+              name="nameInArabicAssestTypesLookups"
+              placeholder="Type"
+            />
+            <label for="initialClientStatusesLookups"
+              >Initial<sup>*</sup></label
+            >
+            <p-select
+              [options]="stamps"
+              [(ngModel)]="selectedStamps"
+              optionLabel="name"
+              class="w-full md:w-56"
+              name="initialClientStatusesLookups"
+            />
+            <label for="activeClientStatusesLookups">Active<sup>*</sup></label>
+            <p-select
+              [options]="stamps"
+              [(ngModel)]="selectedStamps"
+              optionLabel="name"
+              class="w-full md:w-56"
+              name="activeClientStatusesLookups"
+            />
+          </form>
           <form action="" *ngIf="addSectorsLookupsForm">
             <label for="codeAssestTypesLookups">Code<sup>*</sup></label>
             <input

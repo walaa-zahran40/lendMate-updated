@@ -26,6 +26,7 @@ import { AddBranchOfficersComponent } from './add-branch-officers/add-branch-off
 import { AddAssestTypeCategoriesComponent } from './add-assest-type-categories/add-assest-type-categories.component';
 import { AddProductsComponent } from './add-products/add-products.component';
 import { AddSectorsComponent } from './add-sectors/add-sectors.component';
+import { AddClientStatusesComponent } from './add-client-statuses/add-client-statuses.component';
 
 const routes: Routes = [
   {
@@ -132,6 +133,10 @@ const routes: Routes = [
   {
     path: 'add-sectors',
     component: AddSectorsComponent,
+  },
+  {
+    path: 'add-client-statuses',
+    component: AddClientStatusesComponent,
   },
 ];
 
