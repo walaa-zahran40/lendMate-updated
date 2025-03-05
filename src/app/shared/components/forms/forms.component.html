@@ -9,6 +9,13 @@
     </p>
 
     <p-button
+      *ngIf="addAssestTypeCategoriesLookupsForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Assest Type Categories"
+      class="custom-view m-0 float-right"
+    />
+    <p-button
       *ngIf="addAssestTypesLookupsForm"
       icon="pi pi-cog"
       iconPos="left"
@@ -2946,6 +2953,51 @@
           </form>
           <!--Lookups Forms-->
 
+          <form action="" *ngIf="addAssestTypeCategoriesLookupsForm">
+            <label for="codeAssestTypesLookups">Code<sup>*</sup></label>
+            <p-multiselect
+              [options]="officerTypesMandates"
+              [(ngModel)]="officerTypesMandates"
+              placeholder="Select Code"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="codeAssestTypesLookups"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="nameInEnglishAssestTypesLookups"
+              >Name in English<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInEnglishAssestTypesLookups"
+              aria-describedby="nameInEnglishAssestTypesLookups-help"
+              name="nameInEnglishAssestTypesLookups"
+              placeholder="Yes"
+            />
+            <label for="nameInArabicAssestTypesLookups"
+              >Name in Arabic<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInArabicAssestTypesLookups"
+              aria-describedby="nameInArabicAssestTypesLookups-help"
+              name="nameInArabicAssestTypesLookups"
+              placeholder="Yes"
+            />
+            <label for="limitAssestTypeCategoriesLookups"
+              >Limit<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="limitAssestTypeCategoriesLookups"
+              aria-describedby="limitAssestTypeCategoriesLookups-help"
+              name="limitAssestTypeCategoriesLookups"
+              placeholder="Yes"
+            />
+          </form>
           <form action="" *ngIf="addAssestTypesLookupsForm">
             <label for="codeAssestTypesLookups">Code<sup>*</sup></label>
             <p-multiselect

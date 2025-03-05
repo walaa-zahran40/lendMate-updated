@@ -19,7 +19,7 @@ import { ClientDocumentTypesComponent } from './client-document-types/client-doc
 import { AddBranchComponent } from './add-branch/add-branch.component';
 import { AddBusinessLinesComponent } from './add-business-lines/add-business-lines.component';
 import { AddAssetTypesComponent } from './add-asset-types/add-asset-types.component';
-import { AssetTypeCategoriesComponent } from './asset-type-categories/asset-type-categories.component';
+import { AddAssestTypeCategoriesComponent } from './add-assest-type-categories/add-assest-type-categories.component';
 import { ProductsComponent } from './products/products.component';
 import { SectorsComponent } from './sectors/sectors.component';
 import { ClientStatusesComponent } from './client-statuses/client-statuses.component';
@@ -74,7 +74,7 @@ import { AddClientDocumentTypesComponent } from './add-client-document-types/add
     AddBranchComponent,
     AddBusinessLinesComponent,
     AddAssetTypesComponent,
-    AssetTypeCategoriesComponent,
+    AddAssestTypeCategoriesComponent,
     ProductsComponent,
     SectorsComponent,
     ClientStatusesComponent,
@@ -131,7 +131,7 @@ import { AddClientDocumentTypesComponent } from './add-client-document-types/add
     AddBranchComponent,
     AddBusinessLinesComponent,
     AddAssetTypesComponent,
-    AssetTypeCategoriesComponent,
+    AddAssestTypeCategoriesComponent,
     ProductsComponent,
     SectorsComponent,
     ClientStatusesComponent,
