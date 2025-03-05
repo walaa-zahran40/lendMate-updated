@@ -390,6 +390,7 @@ export class FormsComponent implements AfterViewInit {
   @Input() addSMEClientCodeLookupsForm!: boolean;
   @Input() addSubSectorsLookupsForm!: boolean;
   @Input() addClientTypesLookupsForm!: boolean;
+  @Input() addAuthorityOfficesLookupsForm!: boolean;
   constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
