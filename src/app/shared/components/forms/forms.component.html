@@ -9,6 +9,13 @@
     </p>
 
     <p-button
+      *ngIf="addAreasLookupsForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Areas"
+      class="custom-view m-0 float-right"
+    />
+    <p-button
       *ngIf="addIdentificationTypesLookupsForm"
       icon="pi pi-cog"
       iconPos="left"
@@ -3044,6 +3051,32 @@
           </form>
           <!--Lookups Forms-->
 
+          <form action="" *ngIf="addAreasLookupsForm">
+            <label for="areaNameAreasLookups">Area Name<sup>*</sup></label>
+            <input
+              pInputText
+              id="areaNameAreasLookups"
+              aria-describedby="areaNameAreasLookups-help"
+              name="areaNameAreasLookups"
+              placeholder="342425"
+            />
+            <label for="arabicNameAreasLookups">Arabic Name<sup>*</sup></label>
+            <input
+              pInputText
+              id="arabicNameAreasLookups"
+              aria-describedby="arabicNameAreasLookups-help"
+              name="arabicNameAreasLookups"
+              placeholder="Type"
+            />
+            <label for="governorateIDLookups">Governorate ID<sup>*</sup></label>
+            <input
+              pInputText
+              id="governorateIDLookups"
+              aria-describedby="governorateIDLookups-help"
+              name="governorateIDLookups"
+              placeholder="Type"
+            />
+          </form>
           <form action="" *ngIf="addIdentificationTypesLookupsForm">
             <label for="codeIdentificationTypesLookups">Code<sup>*</sup></label>
             <input
