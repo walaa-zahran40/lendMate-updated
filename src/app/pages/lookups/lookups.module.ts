@@ -45,7 +45,7 @@ import { CommunicationFlowTypesComponent } from './communication-flow-types/comm
 import { AddBranchManagersComponent } from './add-branch-managers/add-branch-managers.component';
 import { AddBranchOfficersComponent } from './add-branch-officers/add-branch-officers.component';
 import { AddBranchAddressesComponent } from './add-branch-addresses/add-branch-addresses.component';
-import { ClientStatusActionsComponent } from './client-status-actions/client-status-actions.component';
+import { AddClientStatusActionsComponent } from './add-client-status-actions/add-client-status-actions.component';
 import { AddCurrenciesExchangeComponent } from './add-currencies-exchange/add-currencies-exchange.component';
 import { MandateStatusActionsComponent } from './mandate-status-actions/mandate-status-actions.component';
 import { PaymentPeriodsComponent } from './payment-periods/payment-periods.component';
@@ -96,7 +96,7 @@ import { AddClientDocumentTypesComponent } from './add-client-document-types/add
     AddBranchManagersComponent,
     AddBranchOfficersComponent,
     AddBranchAddressesComponent,
-    ClientStatusActionsComponent,
+    AddClientStatusActionsComponent,
     AddCurrenciesExchangeComponent,
     MandateStatusActionsComponent,
     PaymentPeriodsComponent,
@@ -153,7 +153,7 @@ import { AddClientDocumentTypesComponent } from './add-client-document-types/add
     AddBranchManagersComponent,
     AddBranchOfficersComponent,
     AddBranchAddressesComponent,
-    ClientStatusActionsComponent,
+    AddClientStatusActionsComponent,
     AddCurrenciesExchangeComponent,
     MandateStatusActionsComponent,
     PaymentPeriodsComponent,

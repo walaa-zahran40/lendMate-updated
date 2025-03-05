@@ -7,7 +7,13 @@
     <p class="tab-panel-paragraph">
       {{ description }}
     </p>
-
+    <p-button
+      *ngIf="addStatusActionsLookupsForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Client Status Actions"
+      class="custom-view m-0 float-right"
+    />
     <p-button
       *ngIf="addClientStatusesLookupsForm"
       icon="pi pi-cog"
@@ -2973,7 +2979,61 @@
             />
           </form>
           <!--Lookups Forms-->
-
+          <form action="" *ngIf="addStatusActionsLookupsForm">
+            <label for="codeAssestTypesLookups">Code<sup>*</sup></label>
+            <input
+              pInputText
+              id="codeAssestTypesLookups"
+              aria-describedby="codeAssestTypesLookups-help"
+              name="codeAssestTypesLookups"
+              placeholder="Yes"
+            />
+            <label for="nameInEnglishAssestTypesLookups"
+              >Name in English<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInEnglishAssestTypesLookups"
+              aria-describedby="nameInEnglishAssestTypesLookups-help"
+              name="nameInEnglishAssestTypesLookups"
+              placeholder="Type"
+            />
+            <label for="nameInArabicAssestTypesLookups"
+              >Name in Arabic<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInArabicAssestTypesLookups"
+              aria-describedby="nameInArabicAssestTypesLookups-help"
+              name="nameInArabicAssestTypesLookups"
+              placeholder="Type"
+            />
+            <label for="initialClientStatusesLookups"
+              >Status in ID<sup>*</sup></label
+            >
+            <p-multiselect
+              [options]="officerTypesMandates"
+              [(ngModel)]="officerTypesMandates"
+              placeholder="Select Status in ID"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="initialClientStatusesLookups"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="activeClientStatusesLookups"
+              >Status Out ID<sup>*</sup></label
+            >
+            <p-select
+              [options]="stamps"
+              [(ngModel)]="selectedStamps"
+              optionLabel="name"
+              class="w-full md:w-56"
+              name="activeClientStatusesLookups"
+            />
+          </form>
           <form action="" *ngIf="addClientStatusesLookupsForm">
             <label for="codeAssestTypesLookups">Code<sup>*</sup></label>
             <input

@@ -27,6 +27,7 @@ import { AddAssestTypeCategoriesComponent } from './add-assest-type-categories/a
 import { AddProductsComponent } from './add-products/add-products.component';
 import { AddSectorsComponent } from './add-sectors/add-sectors.component';
 import { AddClientStatusesComponent } from './add-client-statuses/add-client-statuses.component';
+import { AddClientStatusActionsComponent } from './add-client-status-actions/add-client-status-actions.component';
 
 const routes: Routes = [
   {
@@ -137,6 +138,10 @@ const routes: Routes = [
   {
     path: 'add-client-statuses',
     component: AddClientStatusesComponent,
+  },
+  {
+    path: 'add-client-status-actions',
+    component: AddClientStatusActionsComponent,
   },
 ];
 
