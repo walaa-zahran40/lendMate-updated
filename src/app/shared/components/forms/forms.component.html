@@ -9,6 +9,13 @@
     </p>
 
     <p-button
+      *ngIf="addCountriesLookupsForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Countries"
+      class="custom-view m-0 float-right"
+    />
+    <p-button
       *ngIf="addGovernoratesLookupsForm"
       icon="pi pi-cog"
       iconPos="left"
@@ -3030,6 +3037,44 @@
           </form>
           <!--Lookups Forms-->
 
+          <form action="" *ngIf="addCountriesLookupsForm">
+            <label for="countryNameCountriesLookups"
+              >Country Name<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="countryNameCountriesLookups"
+              aria-describedby="countryNameCountriesLookups-help"
+              name="countryNameCountriesLookups"
+              placeholder="Type"
+            />
+            <label for="arabicNameCountriesLookups"
+              >Arabic Name<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="arabicNameCountriesLookups"
+              aria-describedby="arabicNameCountriesLookups-help"
+              name="arabicNameCountriesLookups"
+              placeholder="Type"
+            />
+            <label for="code2CountriesLookups">Code2<sup>*</sup></label>
+            <input
+              pInputText
+              id="code2CountriesLookups"
+              aria-describedby="code2CountriesLookups-help"
+              name="code2CountriesLookups"
+              placeholder="Type"
+            />
+            <label for="code3CountriesLookups">Code3<sup>*</sup></label>
+            <input
+              pInputText
+              id="code3CountriesLookups"
+              aria-describedby="code3CountriesLookups-help"
+              name="code3CountriesLookups"
+              placeholder="Type"
+            />
+          </form>
           <form action="" *ngIf="addGovernoratesLookupsForm">
             <label for="countryIDGovernoratesLookups"
               >Country ID<sup>*</sup></label

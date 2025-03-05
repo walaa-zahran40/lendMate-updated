@@ -394,6 +394,7 @@ export class FormsComponent implements AfterViewInit {
   @Input() addPhoneTypesLookupsForm!: boolean;
   @Input() addAddressTypesLookupsForm!: boolean;
   @Input() addGovernoratesLookupsForm!: boolean;
+  @Input() addCountriesLookupsForm!: boolean;
   constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
