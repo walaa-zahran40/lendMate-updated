@@ -28,7 +28,7 @@ import { AddProductsComponent } from './add-products/add-products.component';
 import { AddSectorsComponent } from './add-sectors/add-sectors.component';
 import { AddClientStatusesComponent } from './add-client-statuses/add-client-statuses.component';
 import { AddSmeClientCodeComponent } from './add-sme-client-code/add-sme-client-code.component';
-import { SubSectorsComponent } from './sub-sectors/sub-sectors.component';
+import { AddSubSectorsComponent } from './add-sub-sectors/add-sub-sectors.component';
 import { AuthorityOfficesComponent } from './authority-offices/authority-offices.component';
 import { PhoneTypesComponent } from './phone-types/phone-types.component';
 import { AddressTypesComponent } from './address-types/address-types.component';
@@ -79,7 +79,7 @@ import { AddClientDocumentTypesComponent } from './add-client-document-types/add
     AddSectorsComponent,
     AddClientStatusesComponent,
     AddSmeClientCodeComponent,
-    SubSectorsComponent,
+    AddSubSectorsComponent,
     AuthorityOfficesComponent,
     PhoneTypesComponent,
     AddressTypesComponent,
@@ -136,7 +136,7 @@ import { AddClientDocumentTypesComponent } from './add-client-document-types/add
     AddSectorsComponent,
     AddClientStatusesComponent,
     AddSmeClientCodeComponent,
-    SubSectorsComponent,
+    AddSubSectorsComponent,
     AuthorityOfficesComponent,
     PhoneTypesComponent,
     AddressTypesComponent,
