@@ -18,7 +18,7 @@ import { AddMandateValidityUnitComponent } from './add-mandate-validity-unit/add
 import { ClientDocumentTypesComponent } from './client-document-types/client-document-types.component';
 import { AddBranchComponent } from './add-branch/add-branch.component';
 import { AddBusinessLinesComponent } from './add-business-lines/add-business-lines.component';
-import { AssetTypesComponent } from './asset-types/asset-types.component';
+import { AddAssetTypesComponent } from './add-asset-types/add-asset-types.component';
 import { AssetTypeCategoriesComponent } from './asset-type-categories/asset-type-categories.component';
 import { ProductsComponent } from './products/products.component';
 import { SectorsComponent } from './sectors/sectors.component';
@@ -73,7 +73,7 @@ import { AddClientDocumentTypesComponent } from './add-client-document-types/add
     ClientDocumentTypesComponent,
     AddBranchComponent,
     AddBusinessLinesComponent,
-    AssetTypesComponent,
+    AddAssetTypesComponent,
     AssetTypeCategoriesComponent,
     ProductsComponent,
     SectorsComponent,
@@ -130,7 +130,7 @@ import { AddClientDocumentTypesComponent } from './add-client-document-types/add
     AddClientDocumentTypesComponent,
     AddBranchComponent,
     AddBusinessLinesComponent,
-    AssetTypesComponent,
+    AddAssetTypesComponent,
     AssetTypeCategoriesComponent,
     ProductsComponent,
     SectorsComponent,

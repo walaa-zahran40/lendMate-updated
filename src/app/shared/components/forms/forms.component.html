@@ -7,6 +7,14 @@
     <p class="tab-panel-paragraph">
       {{ description }}
     </p>
+
+    <p-button
+      *ngIf="addAssestTypesLookupsForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Assest Types"
+      class="custom-view m-0 float-right"
+    />
     <p-button
       *ngIf="uploadDocumentsShowMain"
       icon="pi pi-cog"
@@ -2937,6 +2945,62 @@
             />
           </form>
           <!--Lookups Forms-->
+
+          <form action="" *ngIf="addAssestTypesLookupsForm">
+            <label for="codeAssestTypesLookups">Code<sup>*</sup></label>
+            <p-multiselect
+              [options]="officerTypesMandates"
+              [(ngModel)]="officerTypesMandates"
+              placeholder="Select Code"
+              optionLabel="name"
+              display="chip"
+              icon="pi pi-times"
+              name="codeAssestTypesLookups"
+              styleClass="w-full md:w-80"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+            />
+            <label for="nameInEnglishAssestTypesLookups"
+              >Name in English<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInEnglishAssestTypesLookups"
+              aria-describedby="nameInEnglishAssestTypesLookups-help"
+              name="nameInEnglishAssestTypesLookups"
+              placeholder="Yes"
+            />
+            <label for="nameInArabicAssestTypesLookups"
+              >Name in Arabic<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInArabicAssestTypesLookups"
+              aria-describedby="nameInArabicAssestTypesLookups-help"
+              name="nameInArabicAssestTypesLookups"
+              placeholder="Yes"
+            />
+            <label for="assestTypeCategoryAssestTypesLookups"
+              >Assest Type Category<sup>*</sup></label
+            >
+            <p-select
+              [options]="stamps"
+              [(ngModel)]="selectedStamps"
+              optionLabel="name"
+              class="w-full md:w-56"
+              name="assestTypeCategoryAssestTypesLookups"
+            />
+            <label for="parentAssestTypeAssestTypesLookups"
+              >Parent Assest Type<sup>*</sup></label
+            >
+            <p-select
+              [options]="stamps"
+              [(ngModel)]="selectedStamps"
+              optionLabel="name"
+              class="w-full md:w-56"
+              name="parentAssestTypeAssestTypesLookups"
+            />
+          </form>
           <form action="" *ngIf="addCompanyTypesLookupsForm">
             <label for="nameInEnglishLookups"
               >Name in English<sup>*</sup></label

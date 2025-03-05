@@ -203,6 +203,7 @@ export class FormsComponent implements AfterViewInit {
   departments!: any;
   teams!: any;
   pages!: any;
+  selectedStamps!: any;
   //checkboxes
   selectedOfficers: any[] = [];
   selectedContactPersons = [];
@@ -380,6 +381,7 @@ export class FormsComponent implements AfterViewInit {
   @Input() addBusinessLinesLookupsForm!: boolean;
   @Input() addBranchAddressesLookupsForm!: boolean;
   @Input() addBranchOfficersLookupsForm!: boolean;
+  @Input() addAssestTypesLookupsForm!: boolean;
   constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
@@ -450,6 +452,7 @@ export class FormsComponent implements AfterViewInit {
       { name: 'Yes', code: '1' },
       { name: 'No', code: '0' },
     ];
+    this.selectedStamps = { name: 'Yes', code: '1' };
     this.phoneTypes = [{ name: 'Phone Type', code: 'pt' }];
     this.companyTypes = [{ name: 'Type', code: 'type' }];
     this.documents = [

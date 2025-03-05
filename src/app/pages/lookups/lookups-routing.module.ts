@@ -17,7 +17,7 @@ import { AddLeasingTypeComponent } from './add-leasing-type/add-leasing-type.com
 import { AddMandateValidityUnitComponent } from './add-mandate-validity-unit/add-mandate-validity-unit.component';
 import { AddBranchComponent } from './add-branch/add-branch.component';
 import { AddBusinessLinesComponent } from './add-business-lines/add-business-lines.component';
-import { AssetTypesComponent } from './asset-types/asset-types.component';
+import { AddAssetTypesComponent } from './add-asset-types/add-asset-types.component';
 import { AddCurrenciesExchangeComponent } from './add-currencies-exchange/add-currencies-exchange.component';
 import { AddClientDocumentTypesComponent } from './add-client-document-types/add-client-document-types.component';
 import { AddBranchManagersComponent } from './add-branch-managers/add-branch-managers.component';
@@ -115,8 +115,8 @@ const routes: Routes = [
     component: AddBusinessLinesComponent,
   },
   {
-    path: 'asset-types',
-    component: AssetTypesComponent,
+    path: 'add-assest-types',
+    component: AddAssetTypesComponent,
   },
 ];
 
