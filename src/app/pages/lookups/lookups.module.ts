@@ -38,7 +38,7 @@ import { AddIdentificationTypesComponent } from './add-identification-types/add-
 import { AddAreasComponent } from './add-areas/add-areas.component';
 import { AddTaxOfficesComponent } from './add-tax-offices/add-tax-offices.component';
 import { AddTmlOfficerTypesComponent } from './add-tml-officer-types/add-tml-officer-types.component';
-import { CallTypesComponent } from './call-types/call-types.component';
+import { AddCallTypesComponent } from './add-call-types/add-call-types.component';
 import { CommunicationTypesComponent } from './communication-types/communication-types.component';
 import { CallActionTypesComponent } from './call-action-types/call-action-types.component';
 import { CommunicationFlowTypesComponent } from './communication-flow-types/communication-flow-types.component';
@@ -90,7 +90,7 @@ import { AddClientTypesComponent } from './add-client-types/add-client-types.com
     AddIdentificationTypesComponent,
     AddAreasComponent,
     AddTaxOfficesComponent,
-    CallTypesComponent,
+    AddCallTypesComponent,
     CommunicationTypesComponent,
     CallActionTypesComponent,
     CommunicationFlowTypesComponent,
@@ -149,7 +149,7 @@ import { AddClientTypesComponent } from './add-client-types/add-client-types.com
     AddIdentificationTypesComponent,
     AddAreasComponent,
     AddTaxOfficesComponent,
-    CallTypesComponent,
+    AddCallTypesComponent,
     CommunicationTypesComponent,
     CallActionTypesComponent,
     CommunicationFlowTypesComponent,
