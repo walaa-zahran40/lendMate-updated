@@ -401,6 +401,7 @@ export class FormsComponent implements AfterViewInit {
   @Input() addTmlOfficerTypeLookupsForm!: boolean;
   @Input() addcallTypesLookupsForm!: boolean;
   @Input() addCommunicationTypesLookupsForm!: boolean;
+  @Input() addCallActionTypeLookupsForm!: boolean;
   constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
