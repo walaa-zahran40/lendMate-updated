@@ -9,6 +9,13 @@
     </p>
 
     <p-button
+      *ngIf="addGovernoratesLookupsForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Governorates"
+      class="custom-view m-0 float-right"
+    />
+    <p-button
       *ngIf="addAddressTypesLookupsForm"
       icon="pi pi-cog"
       iconPos="left"
@@ -3023,6 +3030,46 @@
           </form>
           <!--Lookups Forms-->
 
+          <form action="" *ngIf="addGovernoratesLookupsForm">
+            <label for="countryIDGovernoratesLookups"
+              >Country ID<sup>*</sup></label
+            >
+            <p-select
+              [options]="stamps"
+              [(ngModel)]="selectedStamps"
+              optionLabel="name"
+              class="w-full md:w-56"
+              name="countryIDGovernoratesLookups"
+            />
+            <label for="governorateEnglishGovernoratesLookups"
+              >Governorate Name English<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="governorateEnglishGovernoratesLookups"
+              aria-describedby="governorateEnglishGovernoratesLookups-help"
+              name="governorateEnglishGovernoratesLookups"
+              placeholder="Type"
+            />
+            <label for="governorateArabicGovernoratesLookups"
+              >Governorate Name Arabic<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="governorateArabicGovernoratesLookups"
+              aria-describedby="governorateArabicGovernoratesLookups-help"
+              name="governorateArabicGovernoratesLookups"
+              placeholder="Type"
+            />
+            <label for="aramixGovernoratesLookups">Aramix<sup>*</sup></label>
+            <input
+              pInputText
+              id="aramixGovernoratesLookups"
+              aria-describedby="aramixGovernoratesLookups-help"
+              name="aramixGovernoratesLookups"
+              placeholder="Type"
+            />
+          </form>
           <form action="" *ngIf="addAddressTypesLookupsForm">
             <label for="codeAssestTypesLookups">Code<sup>*</sup></label>
             <input

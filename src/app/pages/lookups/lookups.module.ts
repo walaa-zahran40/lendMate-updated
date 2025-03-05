@@ -32,7 +32,7 @@ import { AddSubSectorsComponent } from './add-sub-sectors/add-sub-sectors.compon
 import { AddAuthorityOfficesComponent } from './add-authority-offices/add-authority-offices.component';
 import { AddPhoneTypesComponent } from './add-phone-types/add-phone-types.component';
 import { AddAddressTypesComponent } from './add-address-types/add-address-types.component';
-import { GovernoratesComponent } from './governorates/governorates.component';
+import { AddGovernoratesComponent } from './add-governorates/add-governorates.component';
 import { CountriesComponent } from './countries/countries.component';
 import { IdentificationTypesComponent } from './identification-types/identification-types.component';
 import { AreasComponent } from './areas/areas.component';
@@ -84,7 +84,7 @@ import { AddClientTypesComponent } from './add-client-types/add-client-types.com
     AddAuthorityOfficesComponent,
     AddPhoneTypesComponent,
     AddAddressTypesComponent,
-    GovernoratesComponent,
+    AddGovernoratesComponent,
     CountriesComponent,
     IdentificationTypesComponent,
     AreasComponent,
@@ -143,7 +143,7 @@ import { AddClientTypesComponent } from './add-client-types/add-client-types.com
     AddAuthorityOfficesComponent,
     AddPhoneTypesComponent,
     AddAddressTypesComponent,
-    GovernoratesComponent,
+    AddGovernoratesComponent,
     CountriesComponent,
     IdentificationTypesComponent,
     AreasComponent,
