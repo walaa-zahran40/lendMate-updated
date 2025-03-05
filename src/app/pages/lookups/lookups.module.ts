@@ -37,7 +37,7 @@ import { AddCountriesComponent } from './add-countries/add-countries.component';
 import { AddIdentificationTypesComponent } from './add-identification-types/add-identification-types.component';
 import { AddAreasComponent } from './add-areas/add-areas.component';
 import { AddTaxOfficesComponent } from './add-tax-offices/add-tax-offices.component';
-import { TmlOfficerTypesComponent } from './tml-officer-types/tml-officer-types.component';
+import { AddTmlOfficerTypesComponent } from './add-tml-officer-types/add-tml-officer-types.component';
 import { CallTypesComponent } from './call-types/call-types.component';
 import { CommunicationTypesComponent } from './communication-types/communication-types.component';
 import { CallActionTypesComponent } from './call-action-types/call-action-types.component';
@@ -56,6 +56,7 @@ import { AddClientTypesComponent } from './add-client-types/add-client-types.com
 
 @NgModule({
   declarations: [
+    AddTmlOfficerTypesComponent,
     AddCompanyTypesComponent,
     AddFeeCalculationTypesComponent,
     AddMandateStatusesComponent,
@@ -89,7 +90,6 @@ import { AddClientTypesComponent } from './add-client-types/add-client-types.com
     AddIdentificationTypesComponent,
     AddAreasComponent,
     AddTaxOfficesComponent,
-    TmlOfficerTypesComponent,
     CallTypesComponent,
     CommunicationTypesComponent,
     CallActionTypesComponent,
@@ -114,6 +114,7 @@ import { AddClientTypesComponent } from './add-client-types/add-client-types.com
     FileUploadModule,
   ],
   exports: [
+    AddTmlOfficerTypesComponent,
     AddCompanyTypesComponent,
     AddFeeCalculationTypesComponent,
     AddMandateStatusesComponent,
@@ -148,7 +149,6 @@ import { AddClientTypesComponent } from './add-client-types/add-client-types.com
     AddIdentificationTypesComponent,
     AddAreasComponent,
     AddTaxOfficesComponent,
-    TmlOfficerTypesComponent,
     CallTypesComponent,
     CommunicationTypesComponent,
     CallActionTypesComponent,

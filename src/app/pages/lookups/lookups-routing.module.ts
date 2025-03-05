@@ -39,6 +39,7 @@ import { AddCountriesComponent } from './add-countries/add-countries.component';
 import { AddIdentificationTypesComponent } from './add-identification-types/add-identification-types.component';
 import { AddAreasComponent } from './add-areas/add-areas.component';
 import { AddTaxOfficesComponent } from './add-tax-offices/add-tax-offices.component';
+import { AddTmlOfficerTypesComponent } from './add-tml-officer-types/add-tml-officer-types.component';
 
 const routes: Routes = [
   {
@@ -197,6 +198,10 @@ const routes: Routes = [
   {
     path: 'add-tax-officers',
     component: AddTaxOfficesComponent,
+  },
+  {
+    path: 'add-tml-officer-types',
+    component: AddTmlOfficerTypesComponent,
   },
 ];
 

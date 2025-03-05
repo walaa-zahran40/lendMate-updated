@@ -9,6 +9,13 @@
     </p>
 
     <p-button
+      *ngIf="addTmlOfficerTypeLookupsForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View TML Officer Type"
+      class="custom-view m-0 float-right"
+    />
+    <p-button
       *ngIf="addTaxOfficesLookupsForm"
       icon="pi pi-cog"
       iconPos="left"
@@ -3058,6 +3065,34 @@
           </form>
           <!--Lookups Forms-->
 
+          <form action="" *ngIf="addTmlOfficerTypeLookupsForm">
+            <label for="codeTaxOfficesLookups">Code<sup>*</sup></label>
+            <input
+              pInputText
+              id="codeTaxOfficesLookups"
+              aria-describedby="codeTaxOfficesLookups-help"
+              name="codeTaxOfficesLookups"
+              placeholder="342425"
+            />
+            <label for="nameInEnglishLookups"
+              >Name in English<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInEnglishLookups"
+              aria-describedby="nameInEnglishLookups-help"
+              name="nameInEnglishLookups"
+              placeholder="Type"
+            />
+            <label for="nameInArabicLookups">Name in Arabic<sup>*</sup></label>
+            <input
+              pInputText
+              id="nameInArabicLookups"
+              aria-describedby="nameInArabicLookups-help"
+              name="nameInArabicLookups"
+              placeholder="Type"
+            />
+          </form>
           <form action="" *ngIf="addTaxOfficesLookupsForm">
             <label for="codeTaxOfficesLookups">Code<sup>*</sup></label>
             <input
