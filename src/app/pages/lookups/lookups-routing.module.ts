@@ -195,7 +195,7 @@ const routes: Routes = [
     component: AddAreasComponent,
   },
   {
-    path: 'add-areas',
+    path: 'add-tax-officers',
     component: AddTaxOfficesComponent,
   },
 ];
