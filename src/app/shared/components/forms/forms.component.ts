@@ -389,6 +389,7 @@ export class FormsComponent implements AfterViewInit {
   @Input() addStatusActionsLookupsForm!: boolean;
   @Input() addSMEClientCodeLookupsForm!: boolean;
   @Input() addSubSectorsLookupsForm!: boolean;
+  @Input() addClientTypesLookupsForm!: boolean;
   constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {

@@ -52,6 +52,7 @@ import { PaymentPeriodsComponent } from './payment-periods/payment-periods.compo
 import { LookupsRoutingModule } from './lookups-routing.module';
 import { SharedModule } from '../../shared/shared.module';
 import { AddClientDocumentTypesComponent } from './add-client-document-types/add-client-document-types.component';
+import { AddClientTypesComponent } from './add-client-types/add-client-types.component';
 
 @NgModule({
   declarations: [
@@ -101,6 +102,7 @@ import { AddClientDocumentTypesComponent } from './add-client-document-types/add
     MandateStatusActionsComponent,
     PaymentPeriodsComponent,
     AddClientDocumentTypesComponent,
+    AddClientTypesComponent,
   ],
   imports: [
     CommonModule,
@@ -123,6 +125,7 @@ import { AddClientDocumentTypesComponent } from './add-client-document-types/add
     AddPaymentMethodsComponent,
     AddPaymentTypesComponent,
     AddPaymentMonthDaysComponent,
+    AddClientTypesComponent,
     AddMeetingTypesComponent,
     AddInsuredByComponent,
     AddLeasingTypeComponent,
