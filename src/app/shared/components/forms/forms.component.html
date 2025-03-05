@@ -9,6 +9,13 @@
     </p>
 
     <p-button
+      *ngIf="addIdentificationTypesLookupsForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Identification Types"
+      class="custom-view m-0 float-right"
+    />
+    <p-button
       *ngIf="addCountriesLookupsForm"
       icon="pi pi-cog"
       iconPos="left"
@@ -3037,6 +3044,36 @@
           </form>
           <!--Lookups Forms-->
 
+          <form action="" *ngIf="addIdentificationTypesLookupsForm">
+            <label for="codeIdentificationTypesLookups">Code<sup>*</sup></label>
+            <input
+              pInputText
+              id="codeIdentificationTypesLookups"
+              aria-describedby="codeIdentificationTypesLookups-help"
+              name="codeIdentificationTypesLookups"
+              placeholder="342425"
+            />
+            <label for="nameInEnglishIdentificationTypesLookups"
+              >Name in English<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInEnglishIdentificationTypesLookups"
+              aria-describedby="nameInEnglishIdentificationTypesLookups-help"
+              name="nameInEnglishIdentificationTypesLookups"
+              placeholder="Type"
+            />
+            <label for="nameInArabicIdentificationTypesLookups"
+              >Name in Arabic<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="nameInArabicIdentificationTypesLookups"
+              aria-describedby="nameInArabicIdentificationTypesLookups-help"
+              name="nameInArabicIdentificationTypesLookups"
+              placeholder="Type"
+            />
+          </form>
           <form action="" *ngIf="addCountriesLookupsForm">
             <label for="countryNameCountriesLookups"
               >Country Name<sup>*</sup></label

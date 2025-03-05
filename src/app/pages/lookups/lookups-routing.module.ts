@@ -36,6 +36,7 @@ import { AddPhoneTypesComponent } from './add-phone-types/add-phone-types.compon
 import { AddAddressTypesComponent } from './add-address-types/add-address-types.component';
 import { AddGovernoratesComponent } from './add-governorates/add-governorates.component';
 import { AddCountriesComponent } from './add-countries/add-countries.component';
+import { AddIdentificationTypesComponent } from './add-identification-types/add-identification-types.component';
 
 const routes: Routes = [
   {
@@ -182,6 +183,10 @@ const routes: Routes = [
   {
     path: 'add-countries',
     component: AddCountriesComponent,
+  },
+  {
+    path: 'add-identification-types',
+    component: AddIdentificationTypesComponent,
   },
 ];
 
