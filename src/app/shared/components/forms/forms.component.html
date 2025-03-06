@@ -4870,24 +4870,29 @@
         inputId="icondisplay"
         name="actualDateFollowUpsPointsCommunication"
       />
-      <label for="topicFollowupsPointsCommunication">Topic</label
-      ><textarea
-        rows="5"
-        cols="30"
-        pTextarea
-        placeholder="Topic"
-        [(ngModel)]="value"
-        name="topicFollowupsPointsCommunication"
-      ></textarea>
-      <label for="detailsFollowupsPointsCommunication">Details</label
-      ><textarea
-        rows="5"
-        cols="30"
-        pTextarea
-        placeholder="Details"
-        [(ngModel)]="value"
-        name="detailsFollowupsPointsCommunication"
-      ></textarea>
+      <div class="d-flex flex-column">
+        <label for="topicFollowupsPointsCommunication">Topic</label
+        ><textarea
+          rows="5"
+          cols="30"
+          pTextarea
+          placeholder="Topic"
+          [(ngModel)]="value"
+          name="topicFollowupsPointsCommunication"
+        ></textarea>
+      </div>
+      <div class="flex-column d-flex">
+        <label for="detailsFollowupsPointsCommunication">Details</label
+        ><textarea
+          rows="5"
+          cols="30"
+          pTextarea
+          placeholder="Details"
+          [(ngModel)]="value"
+          name="detailsFollowupsPointsCommunication"
+        ></textarea>
+      </div>
+
       <label for="officerFollowupsPointsCommunication"
         >Officer<sup>*</sup></label
       >
