@@ -204,6 +204,7 @@ export class FormsComponent implements AfterViewInit {
   teams!: any;
   pages!: any;
   selectedStamps!: any;
+  selectedCompanyTypes!: any;
   //checkboxes
   selectedOfficers: any[] = [];
   selectedContactPersons = [];
@@ -476,6 +477,7 @@ export class FormsComponent implements AfterViewInit {
     this.selectedStamps = { name: 'Yes', code: '1' };
     this.phoneTypes = [{ name: 'Phone Type', code: 'pt' }];
     this.companyTypes = [{ name: 'Type', code: 'type' }];
+    this.selectedCompanyTypes = { name: 'Type', code: 'type' };
     this.documents = [
       { name: 'PDF', code: 'pdf' },
       { name: 'Word', code: 'word' },
