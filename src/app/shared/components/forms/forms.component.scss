@@ -65,12 +65,20 @@
         font-size: 16px;
         font-style: normal;
         font-weight: 400;
-        line-height: 160%; /* 25.6px */
+        line-height: 160%;
+        margin-bottom: 0;
       }
     }
+    .custom-icon {
+      background-image: url("/assets/images/shared/forms/plus.svg");
+      background-size: cover;
+      background-repeat: no-repeat;
+      display: inline-block;
+      width: 26px;
+      height: 26px;
+    }
     .p-checkbox {
-      vertical-align: middle;
-      display: flex;
+      top: 23px;
     }
     .p-button {
       background: var(--p-tabs-active-bar-background);
@@ -101,6 +109,7 @@
     }
     .row-spacing {
       gap: 60px;
+      width: 100%;
     }
     .p-tieredmenu {
       width: 100%;
@@ -163,7 +172,7 @@
     }
     .p-inputtext {
       color: var(--custom-grey-bold);
-      margin-bottom: var(--custom-size-16);
+      margin-bottom: 0;
       padding: var(--custom-size-12) var(--custom-size-16);
       border-radius: var(--custom-margin-0);
       border: 1px solid var(--custom-color-grey-light);
@@ -171,7 +180,6 @@
     }
     .p-multiselect {
       width: var(--custom-size-100);
-      margin-bottom: 24px;
       padding: var(--custom-size-8);
       border-radius: var(--custom-margin-0);
       border: 1px solid var(--custom-color-grey-light);
@@ -203,7 +211,7 @@
     }
     .p-textarea {
       border-radius: 0;
-      margin-bottom: 24px;
+      margin-bottom: 0;
     }
     #addMandateShowMoreInformationForm
       .p-datepicker:has(.p-datepicker-input-icon-container)
@@ -259,8 +267,8 @@
     }
 
     .add-btn .p-button {
-      height: 50px;
-      margin-top: 5px;
+      height: 52px;
+      padding-top: 5px;
       width: 100%;
     }
     .custom-view .p-button {
@@ -277,6 +285,7 @@
       margin-bottom: 30px !important;
       padding: 12px 16px;
       border-radius: 0;
+      width: 26vw;
     }
     .custom-view .p-button:hover {
       background: transparent;
@@ -342,7 +351,19 @@ h2 {
   font-family: var(--custom-font-family-regular);
   font-weight: var(--custom-font-weight-600);
   font-size: var(--custom-size-16);
-  line-height: var(--custom-line-height-25);
+}
+
+.parent {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(1, 1fr);
+  gap: 119px;
+}
+.div1 {
+  padding-top: 24px;
+}
+.div2 {
+  grid-column: span 2 / span 2;
 }
 p.client {
   font-family: var(--custom-font-family);
@@ -371,19 +392,26 @@ p.client {
 }
 
 form {
-  display: var(--custom-display);
-  flex-direction: var(--custom-flex-direction);
   label {
     font-family: var(--custom-font-family-regular);
     font-weight: var(--custom-font-weight-600);
     font-size: var(--custom-size-16);
-    line-height: var(--custom-line-height-25);
     color: var(--custom-grey-bold);
     white-space: nowrap;
     padding-bottom: 4px;
+    padding-top: 24px;
     sup {
       color: var(--custom-red);
     }
+  }
+  .divInput {
+    width: 89%;
+    margin-right: 13px;
+  }
+  .divPlus {
+    width: 9%;
+    position: relative;
+    top: 6px;
   }
 }
 .roles {
@@ -392,5 +420,29 @@ form {
   gap: 16px;
   label {
     padding-bottom: 0;
+  }
+}
+.parent1 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(1, 1fr);
+  gap: 13px;
+}
+
+.divParent1_1 {
+  grid-column: span 3 / span 3;
+}
+
+.divParent1_2 {
+  grid-column-start: 4;
+}
+@media only screen and (max-width: 700px) {
+  .parent {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .div2 {
+    grid-column: span 1 / span 1;
   }
 }
