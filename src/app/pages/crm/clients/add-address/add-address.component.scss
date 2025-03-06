@@ -58,7 +58,7 @@
       margin-left: var(--custom-position-auto);
       margin-right: var(--custom-position-28);
       text-align: var(--custom-position-center);
-      padding: var(--custom-padding-20);
+      padding: 14px 58px;
       font-size: var(--custom-font-size-18);
       cursor: var(--custom-cursor);
       color: var(--custom-color-white);
@@ -157,4 +157,8 @@ p {
   font-size: 16px;
   line-height: 25.6px;
   color: #7c8493;
+}
+.margin-top {
+  margin-top: 32px;
+  margin-bottom: 32px;
 }

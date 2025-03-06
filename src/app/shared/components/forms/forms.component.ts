@@ -488,13 +488,15 @@ export class FormsComponent implements AfterViewInit {
       { name: 'Giza', code: 'giza' },
       { name: 'New Cairo', code: 'nc' },
     ];
-    this.selectedAreas = [{ name: 'Giza', code: 'giza' }];
+    this.selectedGovernments = [{ name: 'Giza', code: 'giza' }];
+    this.selectedAreas = [{ name: 'Haram', code: 'haram' }];
     this.genders = [
       { name: 'Male', code: 'male' },
       { name: 'Female', code: 'female' },
     ];
     this.identityIndividual = [{ name: 'Identity', code: 'identity' }];
     this.addresses = [{ name: 'Address Type', code: 'adType' }];
+    this.selectedAddresses = [{ name: 'Address Type', code: 'adType' }];
     this.countries = [
       { name: 'Egypt', code: 'egypt' },
       { name: 'UAE', code: 'uae' },
