@@ -4657,8 +4657,8 @@
       />
     </form>
     <form action="" *ngIf="addMeetingShowOfficersForm">
-      <div class="row align-items-center">
-        <div class="col-sm-11">
+      <div class="d-block">
+        <div class="d-inline-block divInput">
           <label for="officerAddMeeting">Officer<sup>*</sup></label>
           <p-multiselect
             [options]="officerAddMeeting"
@@ -4673,10 +4673,12 @@
             chipIcon="pi pi-times"
           />
         </div>
-        <div class="col-sm">
-          <p-button icon="pi pi-plus" severity="danger" class="add-btn" />
+
+        <div class="d-inline-block divPlus">
+          <p-button icon="custom-icon" severity="danger" class="add-btn" />
         </div>
       </div>
+
       <div
         *ngFor="let officer of officers"
         class="flex items-center officers-check"
@@ -4701,8 +4703,8 @@
       </div>
     </form>
     <form action="" *ngIf="addMeetingShowContactPersonsForm">
-      <div class="row align-items-center">
-        <div class="col-sm-11">
+      <div class="d-block">
+        <div class="d-inline-block divInput">
           <label for="contactPersonsAddMeeting"
             >Contact Person<sup>*</sup></label
           >
@@ -4719,10 +4721,12 @@
             chipIcon="pi pi-times"
           />
         </div>
-        <div class="col-sm">
-          <p-button icon="pi pi-plus" severity="danger" class="add-btn" />
+
+        <div class="d-inline-block divPlus">
+          <p-button icon="custom-icon" severity="danger" class="add-btn" />
         </div>
       </div>
+
       <div
         *ngFor="let contactPerson of contactPersons"
         class="flex items-center contactPersons-check"
@@ -4748,8 +4752,8 @@
       </div>
     </form>
     <form action="" *ngIf="addMeetingShowAssetTypeForm">
-      <div class="row align-items-center">
-        <div class="col-sm-11">
+      <div class="d-block">
+        <div class="d-inline-block divInput">
           <label for="assestTypesAddMeeting">Contact Person<sup>*</sup></label>
           <p-multiselect
             [options]="officerAddMeeting"
@@ -4764,10 +4768,12 @@
             chipIcon="pi pi-times"
           />
         </div>
-        <div class="col-sm">
-          <p-button icon="pi pi-plus" severity="danger" class="add-btn" />
+
+        <div class="d-inline-block divPlus">
+          <p-button icon="custom-icon" severity="danger" class="add-btn" />
         </div>
       </div>
+
       <div
         *ngFor="let assestType of assestTypes"
         class="flex items-center assestTypes-check"
@@ -4809,24 +4815,28 @@
         inputId="icondisplay"
         name="endDateAddMeeting"
       />
-      <label for="topicAddMeeting">Topic</label
-      ><textarea
-        rows="5"
-        cols="30"
-        pTextarea
-        placeholder="Topic"
-        [(ngModel)]="value"
-        name="topicAddMeeting"
-      ></textarea>
-      <label for="detailsAddMeeting">Details</label
-      ><textarea
-        rows="5"
-        cols="30"
-        pTextarea
-        placeholder="Details"
-        [(ngModel)]="value"
-        name="detailsAddMeeting"
-      ></textarea>
+      <div class="d-flex flex-column">
+        <label for="topicAddMeeting">Topic</label>
+        <textarea
+          rows="5"
+          cols="30"
+          pTextarea
+          placeholder="Topic"
+          [(ngModel)]="value"
+          name="topicAddMeeting"
+        ></textarea>
+      </div>
+      <div class="flex-column d-flex">
+        <label for="detailsAddMeeting">Details</label
+        ><textarea
+          rows="5"
+          cols="30"
+          pTextarea
+          placeholder="Details"
+          [(ngModel)]="value"
+          name="detailsAddMeeting"
+        ></textarea>
+      </div>
     </form>
     <form action="" *ngIf="addFollowUpsCommunicationForm">
       <label for="dateFollowUpsCommunication">Date<sup>*</sup></label>
