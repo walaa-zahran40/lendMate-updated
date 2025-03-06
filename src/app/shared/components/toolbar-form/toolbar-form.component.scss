@@ -175,7 +175,13 @@
       margin-left: 75px;
       margin-bottom: var(--custom-margin-0);
     }
-
+    .pi-angle-left:before {
+      content: url("/assets/images/shared/forms/back.svg");
+      position: relative;
+      top: -7px;
+      right: 0px;
+      margin-right: 16px;
+    }
     .p-tab {
       font-family: var(--custom-font-family);
       font-weight: var(--custom-font-weight-600);

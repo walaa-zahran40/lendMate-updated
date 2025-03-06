@@ -62,9 +62,7 @@
       cursor: var(--custom-cursor);
       color: var(--custom-color-white);
     }
-    .padding-right {
-      padding-right: 15px;
-    }
+
     .p-tabpanels {
       padding-bottom: 116px;
     }
@@ -170,4 +168,8 @@ hr {
   margin: 0;
   margin-bottom: 24px;
   margin-top: 8px;
+}
+.margin-top {
+  margin-top: 32px;
+  margin-bottom: 32px;
 }
