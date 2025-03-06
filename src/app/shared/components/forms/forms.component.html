@@ -4837,16 +4837,17 @@
         inputId="icondisplay"
         name="dateFollowUpsCommunication"
       />
-
-      <label for="followupDetailsCommunication">Follow Up Details</label
-      ><textarea
-        rows="5"
-        cols="30"
-        pTextarea
-        placeholder="Topic"
-        [(ngModel)]="value"
-        name="followupDetailsCommunication"
-      ></textarea>
+      <div class="d-flex flex-column">
+        <label for="followupDetailsCommunication">Follow Up Details</label
+        ><textarea
+          rows="5"
+          cols="30"
+          pTextarea
+          placeholder="Topic"
+          [(ngModel)]="value"
+          name="followupDetailsCommunication"
+        ></textarea>
+      </div>
     </form>
     <form action="" *ngIf="addFollowUpsPointsCommunicationForm">
       <label for="dueDateFollowUpsPointsCommunication"
