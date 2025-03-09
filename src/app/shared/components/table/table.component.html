@@ -28,39 +28,133 @@
     }
   </tbody>
 </table> -->
-<div class="page-content" style="height: calc(100vh - 149px)">
-  <h2 style="color: green">GeeksforGeeks</h2>
-  <h4>Angular PrimeNG Table Responsive</h4>
+<div class="page-content">
+  <!--Toolbar-->
+  <p-toolbar>
+    <p class="title">Clients</p>
 
-  <p-table responsiveLayout="stack" [value]="tableData" scrollHeight="flex">
+    <p-iconfield iconPosition="left">
+      <p-inputicon styleClass="pi pi-search" />
+      <input type="text" pInputText placeholder="Search Keyword" />
+    </p-iconfield>
+    <p-button icon="custom-icon" label="Filter By" styleClass="filter" />
+    <img src="/assets/images/shared/table/divider.svg" alt="divider" />
+    <p-button
+      label="Export as"
+      icon="excel-icon"
+      iconPos="right"
+      styleClass="excel-icon-btn"
+    />
+    <p-button
+      label="Export as"
+      icon="pdf-icon"
+      iconPos="right"
+      styleClass="pdf-icon-btn"
+    />
+    <p-button
+      label="Add Client"
+      icon="plus-icon"
+      iconPos="left"
+      styleClass="add-client"
+    />
+  </p-toolbar>
+  <!--table-->
+  <p-table
+    responsiveLayout="stack"
+    [value]="tableData"
+    scrollHeight="flex"
+    [paginator]="true"
+    [rows]="10"
+    [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[5, 10, 15, 20]"
+  >
     <ng-template pTemplate="header">
-      <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Age</th>
+      <tr class="border-1">
+        <th><p-checkbox [binary]="true" /></th>
+        <th>
+          Name EN
+          <img
+            src="/assets/images/shared/table/sort.svg"
+            alt="sort"
+            class="d-inline-block mx-1 my-2"
+          />
+        </th>
+        <th>
+          Business Activity
+          <img
+            src="/assets/images/shared/table/sort.svg"
+            alt="sort"
+            class="d-inline-block mx-1 my-2"
+          />
+        </th>
+        <th>
+          islscore
+          <img
+            src="/assets/images/shared/table/sort.svg"
+            alt="sort"
+            class="d-inline-block mx-1 my-2"
+          />
+        </th>
+        <th>
+          TaxId
+          <img
+            src="/assets/images/shared/table/sort.svg"
+            alt="sort"
+            class="d-inline-block mx-1 my-2"
+          />
+        </th>
+        <th></th>
       </tr>
     </ng-template>
 
     <ng-template
       pTemplate="body"
       let-rowData="rowData"
-      let-people
+      let-client
       sortMode="multiple"
     >
       <tr>
+        <td><p-checkbox [binary]="true" /></td>
         <td>
-          <span class="p-column-title"> First Name </span>
-          {{ people.firstname }}
+          <span class="p-column-title"> Name EN </span>
+          {{ client.nameEn }}
         </td>
         <td>
-          <span class="p-column-title"> last Name </span>
-          {{ people.lastname }}
+          <span class="p-column-title">Business Activity </span>
+
+          {{ client.businessActivity }}
         </td>
         <td>
-          <span class="p-column-title"> Age </span>
-          {{ people.age }}
+          <span class="p-column-title"> isIscore </span>
+
+          <span class="uppercase">{{ client.isIscore }}</span>
+        </td>
+        <td>
+          <span class="p-column-title"> Tax ID </span>
+
+          {{ client.taxId }}
+        </td>
+        <td class="imgs">
+          <img
+            src="/assets/images/shared/table/edit.svg"
+            alt="edit"
+            class="d-inline-block mx-1 my-2"
+          /><img
+            src="/assets/images/shared/table/delete.svg"
+            class="d-inline-block mx-1 my-2"
+            alt="delete"
+          /><img
+            src="/assets/images/shared/table/side.svg"
+            alt="side"
+            class="d-inline-block mx-1 my-2"
+          />
         </td>
       </tr>
+    </ng-template>
+    <ng-template pTemplate="paginatorleft">
+      <div class="p-paginator-left">
+        <span>View Applicants per page</span>
+      </div>
     </ng-template>
   </p-table>
 </div>

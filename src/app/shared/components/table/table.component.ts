@@ -1,10 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Client } from '../../interfaces/client.interface';
+import { PageEvent } from '../../interfaces/page-event.interface';
+import { PaginatorState } from 'primeng/paginator';
 
-interface People {
-  firstname?: string;
-  lastname?: string;
-  age?: string;
-}
 @Component({
   selector: 'app-table',
   standalone: false,
@@ -12,42 +10,33 @@ interface People {
   styleUrl: './table.component.scss',
 })
 export class TableComponent {
-  tableData: People[] = [];
-  cols: any[] = [];
+  @Input() tableData: Client[] = [];
+  @Input() cols: any[] = [];
+  checked: boolean = false;
+  first2: number = 0;
+
+  rows2: number = 10;
+  options = [
+    { label: 5, value: 5 },
+    { label: 10, value: 10 },
+    { label: 20, value: 20 },
+    { label: 120, value: 120 },
+  ];
+  rowsPerPageOptions = [5, 10, 15, 20];
+  rows = 10;
+  currentPage = 0; // Page index starts from 0
+  totalRecords: any;
   constructor() {}
 
   ngOnInit() {
-    this.cols = [
-      { field: 'firstname', header: 'First Name' },
-      { field: 'lastname', header: 'Last Name' },
-      { field: 'age', header: 'Age' },
-    ];
-    this.tableData = [
-      {
-        firstname: 'David',
-        lastname: 'ace',
-        age: '40',
-      },
-      {
-        firstname: 'AJne',
-        lastname: 'west',
-        age: '40',
-      },
-      {
-        firstname: 'Mak',
-        lastname: 'Lame',
-        age: '40',
-      },
-      {
-        firstname: 'Peter',
-        lastname: 'raw',
-        age: '40',
-      },
-      {
-        firstname: 'Kane',
-        lastname: 'James',
-        age: '40',
-      },
-    ];
+    this.totalRecords = this.tableData.length;
+  }
+  get totalPages(): number {
+    return Math.ceil(this.totalRecords / this.rows);
+  }
+  // Handle pagination event
+  onPageChange(event: any) {
+    this.currentPage = event.first / event.rows; // Calculate page index
+    this.rows = event.rows; // Update rows per page
   }
 }

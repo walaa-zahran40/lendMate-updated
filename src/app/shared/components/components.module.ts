@@ -46,6 +46,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { ToolbarFormComponent } from './toolbar-form/toolbar-form.component';
 import { TextareaModule } from 'primeng/textarea';
 import { CheckboxModule } from 'primeng/checkbox';
+import { PaginatorModule } from 'primeng/paginator';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { CheckboxModule } from 'primeng/checkbox';
     AvatarGroupModule,
     SelectModule,
     CalendarModule,
+    PaginatorModule,
     StepperModule,
     CheckboxModule,
     SplitButtonModule,

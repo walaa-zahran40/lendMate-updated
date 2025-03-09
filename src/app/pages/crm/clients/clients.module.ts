@@ -19,6 +19,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { StepperModule } from 'primeng/stepper';
 import { TabsModule } from 'primeng/tabs';
 import { SharedModule } from '../../../shared/shared.module';
+import { ViewClientsComponent } from './view-clients/view-clients.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { SharedModule } from '../../../shared/shared.module';
     AddTmlOfficerComponent,
     ContactPersonViewTableDataComponent,
     CompanyViewOnlyComponent,
+    ViewClientsComponent,
   ],
   imports: [
     CommonModule,
