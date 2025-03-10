@@ -30,6 +30,7 @@ export class TableComponent {
   @Input() viewPhoneNumberTable!: boolean;
   @Input() viewContactPersonTable!: boolean;
   @Input() viewCRAuthorityOfficeTable!: boolean;
+  @Input() viewTaxAuthorityOfficeTable!: boolean;
   checked: boolean = false;
   first2: number = 0;
 

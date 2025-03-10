@@ -25,6 +25,7 @@ import { ViewSalesTurnoverComponent } from './clients/view-sales-turnover/view-s
 import { ViewPhoneNumberComponent } from './clients/view-phone-number/view-phone-number.component';
 import { ViewContactPersonComponent } from './clients/view-contact-person/view-contact-person.component';
 import { ViewCrAuthorityOfficeComponent } from './clients/view-cr-authority-office/view-cr-authority-office.component';
+import { ViewTaxAuthorityOfficeComponent } from './clients/view-tax-authority-office/view-tax-authority-office.component';
 
 const routes: Routes = [
   /*Clients Routing*/
@@ -115,6 +116,10 @@ const routes: Routes = [
   {
     path: 'clients/cr-authority-office',
     component: ViewCrAuthorityOfficeComponent,
+  },
+  {
+    path: 'clients/tax-authority-office',
+    component: ViewTaxAuthorityOfficeComponent,
   },
   /*Leasing Mandates Routing*/
   {

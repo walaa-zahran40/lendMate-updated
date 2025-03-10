@@ -28,6 +28,7 @@ import { ViewSalesTurnoverComponent } from './view-sales-turnover/view-sales-tur
 import { ViewPhoneNumberComponent } from './view-phone-number/view-phone-number.component';
 import { ViewContactPersonComponent } from './view-contact-person/view-contact-person.component';
 import { ViewCrAuthorityOfficeComponent } from './view-cr-authority-office/view-cr-authority-office.component';
+import { ViewTaxAuthorityOfficeComponent } from './view-tax-authority-office/view-tax-authority-office.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { ViewCrAuthorityOfficeComponent } from './view-cr-authority-office/view-
     ViewPhoneNumberComponent,
     ViewContactPersonComponent,
     ViewCrAuthorityOfficeComponent,
+    ViewTaxAuthorityOfficeComponent,
   ],
   imports: [
     CommonModule,
