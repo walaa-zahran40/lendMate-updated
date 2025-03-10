@@ -302,11 +302,20 @@
       .row-spacing {
         gap: 0;
       }
+      .custom-view .p-button {
+        width: 100%;
+      }
+      .margin-btm {
+        margin: 10px 0px;
+      }
     }
 
     @media only screen and (max-width: 600px) {
       .nextBtn {
         width: var(--custom-size-100);
+      }
+      .margin-btm {
+        margin: 10px 0px;
       }
       .p-toolbar-end,
       p-button,
@@ -340,6 +349,9 @@
       }
       .row-spacing {
         gap: 0px;
+      }
+      .custom-view .p-button {
+        width: 100%;
       }
     }
   }
