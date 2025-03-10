@@ -1,17 +1,12 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  Input,
-} from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-forms',
+  selector: 'app-form',
   standalone: false,
-  templateUrl: './forms.component.html',
-  styleUrl: './forms.component.scss',
+  templateUrl: './form.component.html',
+  styleUrl: './form.component.scss',
 })
-export class FormsComponent implements AfterViewInit {
+export class FormComponent {
   //ngModel Values
   value: string | undefined;
   value1: string | undefined;
@@ -404,7 +399,7 @@ export class FormsComponent implements AfterViewInit {
   @Input() addCommunicationTypesLookupsForm!: boolean;
   @Input() addCallActionTypeLookupsForm!: boolean;
   @Input() addCommunicationFlowTypeLookupsForm!: boolean;
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor() {}
 
   ngOnInit() {
     this.sectors = [
@@ -661,8 +656,5 @@ export class FormsComponent implements AfterViewInit {
         key: '50%',
       },
     ];
-  }
-  ngAfterViewInit() {
-    this.cdr.detectChanges();
   }
 }

@@ -11,7 +11,7 @@
           <p-step-panel [value]="1">
             <ng-template #content let-activateCallback="activateCallback">
               <div class="flex flex-col">
-                <app-forms
+                <app-form
                   [title]="'Main Information'"
                   [description]="
                     'Introduce your company core info quickly to users by fill up company
@@ -19,7 +19,7 @@
                   "
                   [addClientShowMain]="true"
                   [addClient]="true"
-                ></app-forms>
+                ></app-form>
                 <div class="">
                   <div
                     class="col-sm-6 d-flex justify-end float-right margin-top p-0 w-100"
@@ -35,12 +35,12 @@
           <p-step-panel [value]="2">
             <ng-template #content let-activateCallback="activateCallback">
               <div class="flex flex-col">
-                <app-forms
+                <app-form
                   [title]="'Legal Information'"
                   [description]="'This information will be displayed publicly'"
                   [addClientShowLegal]="true"
                   [addClient]="true"
-                ></app-forms>
+                ></app-form>
                 <div class="row two-buttons margin-top">
                   <div class="col-sm-6" (click)="activateCallback(1)">
                     <p-button label="Previous" class="custom-back" />
@@ -59,12 +59,12 @@
           <p-step-panel [value]="3">
             <ng-template #content let-activateCallback="activateCallback">
               <div class="flex flex-col">
-                <app-forms
+                <app-form
                   [title]="'Business Information'"
                   [description]="'This information will be displayed publicly'"
                   [addClientShowBusiness]="true"
                   [addClient]="true"
-                ></app-forms>
+                ></app-form>
                 <div class="row two-buttons margin-top">
                   <div class="col-sm-6" (click)="activateCallback(2)">
                     <p-button
@@ -86,7 +86,7 @@
       </p-stepper>
     </p-tabpanel>
     <p-tabpanel value="1">
-      <app-forms
+      <app-form
         [title]="'Main Information'"
         [description]="
           'Introduce your company core info quickly to users by fill up company
@@ -94,7 +94,7 @@ details'
         "
         [addClientShowIndividual]="true"
         [addClient]="true"
-      ></app-forms>
+      ></app-form>
       <div class="row justify-end">
         <div
           class="col-sm-12 col-md-6 d-flex justify-end margin-top"

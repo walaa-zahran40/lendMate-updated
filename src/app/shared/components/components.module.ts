@@ -37,7 +37,7 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { DeleteModuleComponent } from './delete-module/delete-module.component';
 import { NotificationComponent } from './notification/notification.component';
 import { DownloadViewComponent } from './download-view/download-view.component';
-import { FormsComponent } from './forms/forms.component';
+import { FormComponent } from './form/form.component';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { CalendarModule } from 'primeng/calendar';
 import { ToolbarFormComponent } from './toolbar-form/toolbar-form.component';
@@ -54,7 +54,7 @@ import { ToolbarTableComponent } from './toolbar-table/toolbar-table.component';
     DeleteModuleComponent,
     NotificationComponent,
     DownloadViewComponent,
-    FormsComponent,
+    FormComponent,
     ToolbarFormComponent,
     ToolbarTableComponent,
   ],
@@ -106,7 +106,7 @@ import { ToolbarTableComponent } from './toolbar-table/toolbar-table.component';
     NotificationComponent,
     DeleteModuleComponent,
     DownloadViewComponent,
-    FormsComponent,
+    FormComponent,
     ToolbarTableComponent,
   ],
 })
