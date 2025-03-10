@@ -1,29 +1,47 @@
 <p-toolbar>
-  <p-button
-    icon="{{ backIcon }}"
-    styleClass="backIcon"
-    *ngIf="backExists"
-  ></p-button>
-  <p class="title">{{ title }}</p>
+  <p class="title">
+    <p-button
+      icon="{{ backIcon }}"
+      styleClass="backIcon"
+      *ngIf="backExists"
+    ></p-button
+    >{{ title }}
+  </p>
 
-  <p-iconfield iconPosition="left" styleClass=" {{ customSpacing }}">
+  <p-iconfield
+    iconPosition="left"
+    styleClass=" {{ customSpacing }}"
+    *ngIf="exports"
+  >
     <p-inputicon styleClass="pi pi-search" />
     <input type="text" pInputText placeholder="Search Keyword" />
   </p-iconfield>
-  <p-button icon="custom-icon" label="Filter By" styleClass="filter" />
-  <img src="/assets/images/shared/table/divider.svg" alt="divider" />
   <p-button
+    icon="custom-icon"
+    label="Filter By"
+    styleClass="filter"
+    *ngIf="exports"
+  />
+  <img
+    src="/assets/images/shared/table/divider.svg"
+    alt="divider"
+    *ngIf="exports"
+  />
+  <p-button
+    *ngIf="exports"
     label="Export as"
     icon="excel-icon"
     iconPos="right"
     styleClass="excel-icon-btn"
   />
   <p-button
+    *ngIf="exports"
     label="Export as"
     icon="pdf-icon"
     iconPos="right"
     styleClass="pdf-icon-btn"
   />
+
   <p-button
     label="{{ labelBtn }}"
     icon="{{ iconBtn }}"

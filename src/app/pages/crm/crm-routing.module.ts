@@ -21,6 +21,7 @@ import { LeasingFinancialFormComponent } from './leasing-mandates/leasing-financ
 import { ViewClientsComponent } from './clients/view-clients/view-clients.component';
 import { ViewUploadDocumentsComponent } from './clients/view-upload-documents/view-upload-documents.component';
 import { ViewAddressComponent } from './clients/view-address/view-address.component';
+import { ViewSalesTurnoverComponent } from './clients/view-sales-turnover/view-sales-turnover.component';
 
 const routes: Routes = [
   /*Clients Routing*/
@@ -95,6 +96,10 @@ const routes: Routes = [
   {
     path: 'clients/view-address',
     component: ViewAddressComponent,
+  },
+  {
+    path: 'clients/view-sales-turnover',
+    component: ViewSalesTurnoverComponent,
   },
   /*Leasing Mandates Routing*/
   {

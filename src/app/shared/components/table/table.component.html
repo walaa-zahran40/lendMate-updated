@@ -10,40 +10,36 @@
   <ng-template pTemplate="header">
     <tr class="border-1">
       <th><p-checkbox [binary]="true" *ngIf="checkBox" /></th>
-      <th>
+      <th *ngIf="col1Name">
         {{ col1Name }}
         <img
           src="/assets/images/shared/table/sort.svg"
           alt="sort"
           class="d-inline-block mx-1 my-2"
-          *ngIf="col1Name"
         />
       </th>
-      <th>
+      <th *ngIf="col2Name">
         {{ col2Name }}
         <img
           src="/assets/images/shared/table/sort.svg"
           alt="sort"
           class="d-inline-block mx-1 my-2"
-          *ngIf="col2Name"
         />
       </th>
-      <th>
+      <th *ngIf="col3Name">
         {{ col3Name }}
         <img
           src="/assets/images/shared/table/sort.svg"
           alt="sort"
           class="d-inline-block mx-1 my-2"
-          *ngIf="col3Name"
         />
       </th>
-      <th>
+      <th *ngIf="col4Name">
         {{ col4Name }}
         <img
           src="/assets/images/shared/table/sort.svg"
           alt="sort"
           class="d-inline-block mx-1 my-2"
-          *ngIf="col4Name"
         />
       </th>
       <th *ngIf="col5Name">
@@ -198,6 +194,46 @@
 
         <span class="{{ uppercase }}">{{ address.isActive }}</span>
       </td>
+      <td class="imgs">
+        <img
+          src="/assets/images/shared/table/edit.svg"
+          alt="edit"
+          class="d-inline-block mx-1 my-2"
+          *ngIf="edit"
+        /><img
+          src="/assets/images/shared/table/delete.svg"
+          class="d-inline-block mx-1 my-2"
+          alt="delete"
+          *ngIf="delete"
+        /><img
+          src="/assets/images/shared/table/side.svg"
+          alt="side"
+          class="d-inline-block mx-1 my-2"
+          *ngIf="side"
+        />
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template
+    pTemplate="body"
+    let-rowData="rowData"
+    let-turnover
+    sortMode="multiple"
+    *ngIf="viewTurnOverTable"
+  >
+    <tr>
+      <td><p-checkbox [binary]="true" *ngIf="checkBox" /></td>
+      <td>
+        <span class="p-column-title"> {{ col1Name }}</span>
+        {{ turnover.amount }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col2Name }} </span>
+
+        {{ turnover.date | date : "MM/dd/yyyy" }}
+      </td>
+
       <td class="imgs">
         <img
           src="/assets/images/shared/table/edit.svg"

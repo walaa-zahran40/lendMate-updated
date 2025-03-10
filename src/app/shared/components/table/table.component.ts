@@ -26,6 +26,7 @@ export class TableComponent {
   @Input() viewClientTable!: boolean;
   @Input() viewUploadDocumentsTable!: boolean;
   @Input() viewAddressTable!: boolean;
+  @Input() viewTurnOverTable!: boolean;
   checked: boolean = false;
   first2: number = 0;
 

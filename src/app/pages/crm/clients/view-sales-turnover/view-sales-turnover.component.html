@@ -1,0 +1,21 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Sales Turnover'"
+    [labelBtn]="'Add Sales'"
+    [iconBtn]="''"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [exports]="false"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'Amount'"
+    [col2Name]="'Date'"
+    [edit]="true"
+    [delete]="true"
+    [side]="false"
+    [checkBox]="true"
+    [viewTurnOverTable]="true"
+  ></app-table>
+</div>

@@ -24,6 +24,7 @@ import { ViewUploadDocumentsComponent } from './view-upload-documents/view-uploa
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
 import { ViewAddressComponent } from './view-address/view-address.component';
+import { ViewSalesTurnoverComponent } from './view-sales-turnover/view-sales-turnover.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { ViewAddressComponent } from './view-address/view-address.component';
     ViewClientsComponent,
     ViewUploadDocumentsComponent,
     ViewAddressComponent,
+    ViewSalesTurnoverComponent,
   ],
   imports: [
     CommonModule,
