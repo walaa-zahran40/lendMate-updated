@@ -1,0 +1,26 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Central Bank Info'"
+    [labelBtn]="'Add Central Bank Info'"
+    [iconBtn]="''"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [exports]="true"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'Date'"
+    [col2Name]="'Client ID'"
+    [col3Name]="'Company Code ID'"
+    [col4Name]="'Company Type'"
+    [col5Name]="'CBE Code'"
+    [col6Name]="'IsActive'"
+    [edit]="true"
+    [delete]="true"
+    [side]="false"
+    [checkBox]="true"
+    [uppercase]="'uppercase'"
+    [viewCentralBankInfoTable]="true"
+  ></app-table>
+</div>

@@ -26,6 +26,7 @@ import { ViewPhoneNumberComponent } from './clients/view-phone-number/view-phone
 import { ViewContactPersonComponent } from './clients/view-contact-person/view-contact-person.component';
 import { ViewCrAuthorityOfficeComponent } from './clients/view-cr-authority-office/view-cr-authority-office.component';
 import { ViewTaxAuthorityOfficeComponent } from './clients/view-tax-authority-office/view-tax-authority-office.component';
+import { ViewCentralBankInfoComponent } from './clients/view-central-bank-info/view-central-bank-info.component';
 
 const routes: Routes = [
   /*Clients Routing*/
@@ -114,12 +115,16 @@ const routes: Routes = [
     component: ViewContactPersonComponent,
   },
   {
-    path: 'clients/cr-authority-office',
+    path: 'clients/view-cr-authority-office',
     component: ViewCrAuthorityOfficeComponent,
   },
   {
-    path: 'clients/tax-authority-office',
+    path: 'clients/view-tax-authority-office',
     component: ViewTaxAuthorityOfficeComponent,
+  },
+  {
+    path: 'clients/view-central-bank-info',
+    component: ViewCentralBankInfoComponent,
   },
   /*Leasing Mandates Routing*/
   {

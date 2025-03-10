@@ -29,6 +29,7 @@ import { ViewPhoneNumberComponent } from './view-phone-number/view-phone-number.
 import { ViewContactPersonComponent } from './view-contact-person/view-contact-person.component';
 import { ViewCrAuthorityOfficeComponent } from './view-cr-authority-office/view-cr-authority-office.component';
 import { ViewTaxAuthorityOfficeComponent } from './view-tax-authority-office/view-tax-authority-office.component';
+import { ViewCentralBankInfoComponent } from './view-central-bank-info/view-central-bank-info.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { ViewTaxAuthorityOfficeComponent } from './view-tax-authority-office/vie
     ViewContactPersonComponent,
     ViewCrAuthorityOfficeComponent,
     ViewTaxAuthorityOfficeComponent,
+    ViewCentralBankInfoComponent,
   ],
   imports: [
     CommonModule,
