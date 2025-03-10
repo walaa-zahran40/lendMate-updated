@@ -1,0 +1,33 @@
+:host {
+  &::ng-deep {
+    .p-card {
+      border-radius: 4px;
+      border: 1px solid #d6ddeb;
+      padding: 16px;
+    }
+    .p-card-header {
+      display: flex;
+      justify-content: space-between;
+    }
+    .p-card-title {
+      color: #0a69bb;
+      font-family: "poppins", sans-serif;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 120%; /* 24px */
+    }
+    .p-card-body {
+      padding: 0;
+      padding-top: 24px;
+    }
+    .p-card-content {
+      color: #7c8493;
+      font-family: "epilogue", sans-serif;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 160%; /* 25.6px */
+    }
+  }
+}

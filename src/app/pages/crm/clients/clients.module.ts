@@ -32,6 +32,7 @@ import { ViewTaxAuthorityOfficeComponent } from './view-tax-authority-office/vie
 import { ViewCentralBankInfoComponent } from './view-central-bank-info/view-central-bank-info.component';
 import { ViewShareHolderComponent } from './view-share-holder/view-share-holder.component';
 import { ViewTmlOfficerComponent } from './view-tml-officer/view-tml-officer.component';
+import { ClientActivityWizardComponent } from './client-activity-wizard/client-activity-wizard.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { ViewTmlOfficerComponent } from './view-tml-officer/view-tml-officer.com
     ViewCentralBankInfoComponent,
     ViewShareHolderComponent,
     ViewTmlOfficerComponent,
+    ClientActivityWizardComponent,
   ],
   imports: [
     CommonModule,

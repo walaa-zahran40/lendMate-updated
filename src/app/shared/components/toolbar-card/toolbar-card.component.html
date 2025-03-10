@@ -1,0 +1,16 @@
+<p-toolbar>
+  <p class="title">
+    <p-button
+      icon="{{ backIcon }}"
+      styleClass="backIcon"
+      *ngIf="backExists"
+    ></p-button
+    >{{ title }}
+  </p>
+
+  <p-iconfield iconPosition="left">
+    <p-inputicon styleClass="pi pi-search" />
+    <input type="text" pInputText placeholder="Search Keyword" />&nbsp;&nbsp;
+    <p-button label="{{ labelBtn }}" styleClass="btn" />
+  </p-iconfield>
+</p-toolbar>

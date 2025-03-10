@@ -45,6 +45,9 @@ import { TextareaModule } from 'primeng/textarea';
 import { CheckboxModule } from 'primeng/checkbox';
 import { PaginatorModule } from 'primeng/paginator';
 import { ToolbarTableComponent } from './toolbar-table/toolbar-table.component';
+import { CardComponent } from './card/card.component';
+import { CardModule } from 'primeng/card';
+import { ToolbarCardComponent } from './toolbar-card/toolbar-card.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +60,8 @@ import { ToolbarTableComponent } from './toolbar-table/toolbar-table.component';
     FormComponent,
     ToolbarFormComponent,
     ToolbarTableComponent,
+    CardComponent,
+    ToolbarCardComponent,
   ],
   imports: [
     CommonModule,
@@ -68,6 +73,7 @@ import { ToolbarTableComponent } from './toolbar-table/toolbar-table.component';
     PaginatorModule,
     StepperModule,
     CheckboxModule,
+    CardModule,
     SplitButtonModule,
     ChipModule,
     ButtonModule,
@@ -108,6 +114,8 @@ import { ToolbarTableComponent } from './toolbar-table/toolbar-table.component';
     DownloadViewComponent,
     FormComponent,
     ToolbarTableComponent,
+    CardComponent,
+    ToolbarCardComponent,
   ],
 })
 export class ComponentsModule {}
