@@ -496,6 +496,50 @@
       </td>
     </tr>
   </ng-template>
+  <ng-template
+    pTemplate="body"
+    let-rowData="rowData"
+    let-shareHolder
+    sortMode="multiple"
+    *ngIf="viewShareHolderTable"
+  >
+    <tr>
+      <td><p-checkbox [binary]="true" *ngIf="checkBox" /></td>
+      <td>
+        <span class="p-column-title"> {{ col1Name }}</span>
+        {{ shareHolder.shareHolderId }}
+      </td>
+      <td class="{{ shareHolder.cssStyle }}">
+        <span class="p-column-title">{{ col2Name }} </span>
+
+        {{ shareHolder.percentage }}%
+      </td>
+      <td>
+        <span class="p-column-title">{{ col3Name }} </span>
+
+        <span class="{{ uppercase }}">{{ shareHolder.isActive }}</span>
+      </td>
+
+      <td class="imgs">
+        <img
+          src="/assets/images/shared/table/edit.svg"
+          alt="edit"
+          class="d-inline-block mx-1 my-2"
+          *ngIf="edit"
+        /><img
+          src="/assets/images/shared/table/delete.svg"
+          class="d-inline-block mx-1 my-2"
+          alt="delete"
+          *ngIf="delete"
+        /><img
+          src="/assets/images/shared/table/side.svg"
+          alt="side"
+          class="d-inline-block mx-1 my-2"
+          *ngIf="side"
+        />
+      </td>
+    </tr>
+  </ng-template>
   <ng-template pTemplate="paginatorleft">
     <div class="p-paginator-left">
       <span>View Applicants per page</span>

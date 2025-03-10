@@ -30,6 +30,7 @@ import { ViewContactPersonComponent } from './view-contact-person/view-contact-p
 import { ViewCrAuthorityOfficeComponent } from './view-cr-authority-office/view-cr-authority-office.component';
 import { ViewTaxAuthorityOfficeComponent } from './view-tax-authority-office/view-tax-authority-office.component';
 import { ViewCentralBankInfoComponent } from './view-central-bank-info/view-central-bank-info.component';
+import { ViewShareHolderComponent } from './view-share-holder/view-share-holder.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { ViewCentralBankInfoComponent } from './view-central-bank-info/view-cent
     ViewCrAuthorityOfficeComponent,
     ViewTaxAuthorityOfficeComponent,
     ViewCentralBankInfoComponent,
+    ViewShareHolderComponent,
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,23 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Share Holder'"
+    [labelBtn]="'Add Share Holder'"
+    [iconBtn]="''"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [exports]="true"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'Share Holder ID'"
+    [col2Name]="'Percentage'"
+    [col3Name]="'Is Active'"
+    [edit]="true"
+    [delete]="true"
+    [side]="false"
+    [checkBox]="true"
+    [uppercase]="'uppercase'"
+    [viewShareHolderTable]="true"
+  ></app-table>
+</div>

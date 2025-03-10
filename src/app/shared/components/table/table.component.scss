@@ -18,7 +18,18 @@
       padding: 20px;
       border-collapse: collapse;
     }
-
+    .p-datatable-tbody > tr > td.grey {
+      color: #838383;
+    }
+    .p-datatable-tbody > tr > td.orange {
+      color: #d99b37;
+    }
+    .p-datatable-tbody > tr > td.green {
+      color: #33bd9d;
+    }
+    .p-datatable-tbody > tr > td.blue {
+      color: #195ee1;
+    }
     .p-datatable-thead {
       border: 1px solid #d6ddeb;
     }
@@ -130,6 +141,7 @@
       line-height: 160%;
       text-align: center;
     }
+
     .p-datatable-tbody > tr > td > .uppercase {
       text-transform: capitalize;
       color: #3cb091;
