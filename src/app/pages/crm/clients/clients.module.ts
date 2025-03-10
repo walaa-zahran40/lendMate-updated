@@ -23,6 +23,7 @@ import { ViewClientsComponent } from './view-clients/view-clients.component';
 import { ViewUploadDocumentsComponent } from './view-upload-documents/view-upload-documents.component';
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
+import { ViewAddressComponent } from './view-address/view-address.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { InputIcon } from 'primeng/inputicon';
     CompanyViewOnlyComponent,
     ViewClientsComponent,
     ViewUploadDocumentsComponent,
+    ViewAddressComponent,
   ],
   imports: [
     CommonModule,

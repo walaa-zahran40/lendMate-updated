@@ -46,6 +46,23 @@
           *ngIf="col4Name"
         />
       </th>
+      <th *ngIf="col5Name">
+        {{ col5Name }}
+        <img
+          src="/assets/images/shared/table/sort.svg"
+          alt="sort"
+          class="d-inline-block mx-1 my-2"
+        />
+      </th>
+      <th *ngIf="col6Name">
+        {{ col6Name }}
+        <img
+          src="/assets/images/shared/table/sort.svg"
+          alt="sort"
+          class="d-inline-block mx-1 my-2"
+        />
+      </th>
+
       <th *ngIf="side"></th>
     </tr>
   </ng-template>
@@ -124,6 +141,63 @@
         }}</span>
       </td>
 
+      <td class="imgs">
+        <img
+          src="/assets/images/shared/table/edit.svg"
+          alt="edit"
+          class="d-inline-block mx-1 my-2"
+          *ngIf="edit"
+        /><img
+          src="/assets/images/shared/table/delete.svg"
+          class="d-inline-block mx-1 my-2"
+          alt="delete"
+          *ngIf="delete"
+        /><img
+          src="/assets/images/shared/table/side.svg"
+          alt="side"
+          class="d-inline-block mx-1 my-2"
+          *ngIf="side"
+        />
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template
+    pTemplate="body"
+    let-rowData="rowData"
+    let-address
+    sortMode="multiple"
+    *ngIf="viewAddressTable"
+  >
+    <tr>
+      <td><p-checkbox [binary]="true" *ngIf="checkBox" /></td>
+      <td>
+        <span class="p-column-title"> {{ col1Name }}</span>
+        {{ address.detailsEn }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col2Name }} </span>
+
+        {{ address.detailsAr }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col3Name }} </span>
+        {{ address.addressTypeId }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col4Name }} </span>
+
+        {{ address.areaId }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col5Name }} </span>
+
+        <span class="{{ uppercase }}">{{ address.isMain }}</span>
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col6Name }} </span>
+
+        <span class="{{ uppercase }}">{{ address.isActive }}</span>
+      </td>
       <td class="imgs">
         <img
           src="/assets/images/shared/table/edit.svg"

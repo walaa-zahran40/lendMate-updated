@@ -1,0 +1,26 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Address'"
+    [labelBtn]="'Add Address'"
+    [iconBtn]="''"
+    [backIcon]="'back-icon'"
+    [customSpacing]="'custom-spacing'"
+    [backExists]="true"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'Details English'"
+    [col2Name]="'Details AR'"
+    [col3Name]="'Address Type ID'"
+    [col4Name]="'Area ID'"
+    [col5Name]="'IsMain'"
+    [col6Name]="'IsActive'"
+    [edit]="true"
+    [delete]="true"
+    [side]="false"
+    [checkBox]="true"
+    [uppercase]="'uppercase'"
+    [viewAddressTable]="true"
+  ></app-table>
+</div>

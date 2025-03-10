@@ -16,6 +16,8 @@ export class TableComponent {
   @Input() col2Name!: string;
   @Input() col3Name!: string;
   @Input() col4Name!: string;
+  @Input() col5Name!: string;
+  @Input() col6Name!: string;
   @Input() edit!: boolean;
   @Input() delete!: boolean;
   @Input() side!: boolean;
@@ -23,6 +25,7 @@ export class TableComponent {
   @Input() uppercase!: string;
   @Input() viewClientTable!: boolean;
   @Input() viewUploadDocumentsTable!: boolean;
+  @Input() viewAddressTable!: boolean;
   checked: boolean = false;
   first2: number = 0;
 

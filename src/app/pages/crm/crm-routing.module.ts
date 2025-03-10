@@ -20,6 +20,7 @@ import { AddManageMandateTermsComponent } from './leasing-mandates/add-manage-ma
 import { LeasingFinancialFormComponent } from './leasing-mandates/leasing-financial-form/leasing-financial-form.component';
 import { ViewClientsComponent } from './clients/view-clients/view-clients.component';
 import { ViewUploadDocumentsComponent } from './clients/view-upload-documents/view-upload-documents.component';
+import { ViewAddressComponent } from './clients/view-address/view-address.component';
 
 const routes: Routes = [
   /*Clients Routing*/
@@ -90,6 +91,10 @@ const routes: Routes = [
   {
     path: 'clients/view-upload-documents',
     component: ViewUploadDocumentsComponent,
+  },
+  {
+    path: 'clients/view-address',
+    component: ViewAddressComponent,
   },
   /*Leasing Mandates Routing*/
   {
