@@ -1,12 +1,14 @@
-<div class="flex flex-row">
+<div class="row">
   <!-- <div class="basis-2/12">
     <app-side-menu
       [isExpanded]="sidebarExpanded"
       (toggleSidebar)="sidebarExpanded = !sidebarExpanded"
     ></app-side-menu> 
   </div> -->
-  <div style="width: 36%" class="side">side menu</div>
-  <div>
+  <div class="col-sm-2">
+    <div style="width: 2rem" class="side">side menu</div>
+  </div>
+  <div class="col-sm-10">
     <app-nav-bar></app-nav-bar>
     <router-outlet></router-outlet>
   </div>

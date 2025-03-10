@@ -4,6 +4,7 @@
       border: 0;
       padding: 0;
       margin-bottom: 51px;
+      justify-content: space-between;
       .title {
         color: #25324b;
         font-family: "poppins-bold";
@@ -60,7 +61,7 @@
         content: url("/assets/images/shared/table/filter.svg");
       }
       .p-button {
-        padding: 12px 29px;
+        padding: 12px 16px;
         border-radius: 0;
         border: none;
         background-color: #f6f6f6;
@@ -84,7 +85,7 @@
         border: 1px solid #d6ddeb;
       }
       .add-client:not(:disabled):hover {
-        padding: 12px 29px;
+        padding: 12px 16px;
         border-radius: 0;
         border: none;
         background-color: #f6f6f6;
