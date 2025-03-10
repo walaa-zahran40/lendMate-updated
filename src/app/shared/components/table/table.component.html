@@ -214,7 +214,6 @@
       </td>
     </tr>
   </ng-template>
-
   <ng-template
     pTemplate="body"
     let-rowData="rowData"
@@ -232,6 +231,45 @@
         <span class="p-column-title">{{ col2Name }} </span>
 
         {{ turnover.date | date : "MM/dd/yyyy" }}
+      </td>
+
+      <td class="imgs">
+        <img
+          src="/assets/images/shared/table/edit.svg"
+          alt="edit"
+          class="d-inline-block mx-1 my-2"
+          *ngIf="edit"
+        /><img
+          src="/assets/images/shared/table/delete.svg"
+          class="d-inline-block mx-1 my-2"
+          alt="delete"
+          *ngIf="delete"
+        /><img
+          src="/assets/images/shared/table/side.svg"
+          alt="side"
+          class="d-inline-block mx-1 my-2"
+          *ngIf="side"
+        />
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template
+    pTemplate="body"
+    let-rowData="rowData"
+    let-phoneNumber
+    sortMode="multiple"
+    *ngIf="viewPhoneNumberTable"
+  >
+    <tr>
+      <td><p-checkbox [binary]="true" *ngIf="checkBox" /></td>
+      <td>
+        <span class="p-column-title"> {{ col1Name }}</span>
+        {{ phoneNumber.phoneType }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col2Name }} </span>
+
+        +20-{{ phoneNumber.phoneNumber }}
       </td>
 
       <td class="imgs">

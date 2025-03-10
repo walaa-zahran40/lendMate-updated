@@ -25,6 +25,7 @@ import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
 import { ViewAddressComponent } from './view-address/view-address.component';
 import { ViewSalesTurnoverComponent } from './view-sales-turnover/view-sales-turnover.component';
+import { ViewPhoneNumberComponent } from './view-phone-number/view-phone-number.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { ViewSalesTurnoverComponent } from './view-sales-turnover/view-sales-tur
     ViewUploadDocumentsComponent,
     ViewAddressComponent,
     ViewSalesTurnoverComponent,
+    ViewPhoneNumberComponent,
   ],
   imports: [
     CommonModule,

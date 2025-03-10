@@ -27,6 +27,7 @@ export class TableComponent {
   @Input() viewUploadDocumentsTable!: boolean;
   @Input() viewAddressTable!: boolean;
   @Input() viewTurnOverTable!: boolean;
+  @Input() viewPhoneNumberTable!: boolean;
   checked: boolean = false;
   first2: number = 0;
 

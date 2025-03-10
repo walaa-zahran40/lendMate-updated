@@ -5,7 +5,6 @@ import { DirectivesModule } from './directives/directives.module';
 import { ServicesModule } from './services/services.module';
 
 @NgModule({
-  declarations: [],
   imports: [CommonModule, ComponentsModule, DirectivesModule, ServicesModule],
   exports: [ComponentsModule, DirectivesModule, ServicesModule],
 })

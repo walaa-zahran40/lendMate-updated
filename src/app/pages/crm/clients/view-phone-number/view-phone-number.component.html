@@ -1,0 +1,21 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Phone Numbers'"
+    [labelBtn]="'Add Phone Number'"
+    [iconBtn]="''"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [exports]="false"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'Phone Type'"
+    [col2Name]="'Phone Number'"
+    [edit]="true"
+    [delete]="true"
+    [side]="false"
+    [checkBox]="true"
+    [viewPhoneNumberTable]="true"
+  ></app-table>
+</div>
