@@ -31,10 +31,7 @@ import { ChipModule } from 'primeng/chip';
 import { StepperModule } from 'primeng/stepper';
 import { PanelMenuModule } from 'primeng/panelmenu';
 
-import { ClientDetailsDialogComponent } from './client-details-dialog/client-details-dialog.component';
-import { FileUploaderComponent } from './file-uploader/file-uploader.component';
 import { TableComponent } from './table/table.component';
-import { HeaderComponent } from './header/header.component';
 import { SideMenuComponent } from './side-menu/side-menu.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { DeleteModuleComponent } from './delete-module/delete-module.component';
@@ -51,10 +48,7 @@ import { ToolbarTableComponent } from './toolbar-table/toolbar-table.component';
 
 @NgModule({
   declarations: [
-    ClientDetailsDialogComponent,
-    FileUploaderComponent,
     TableComponent,
-    HeaderComponent,
     SideMenuComponent,
     NavBarComponent,
     DeleteModuleComponent,
@@ -105,11 +99,8 @@ import { ToolbarTableComponent } from './toolbar-table/toolbar-table.component';
   ],
   providers: [DecimalPipe, AsyncPipe],
   exports: [
-    ClientDetailsDialogComponent,
-    FileUploaderComponent,
     TableComponent,
     ToolbarFormComponent,
-    HeaderComponent,
     SideMenuComponent,
     NavBarComponent,
     NotificationComponent,
