@@ -18,3 +18,8 @@ hr {
   margin-top: 32px;
   margin-bottom: 32px;
 }
+@media only screen and (max-width: 600px) {
+  .side {
+    display: none;
+  }
+}
