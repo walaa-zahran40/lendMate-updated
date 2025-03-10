@@ -28,6 +28,7 @@ export class TableComponent {
   @Input() viewAddressTable!: boolean;
   @Input() viewTurnOverTable!: boolean;
   @Input() viewPhoneNumberTable!: boolean;
+  @Input() viewContactPersonTable!: boolean;
   checked: boolean = false;
   first2: number = 0;
 

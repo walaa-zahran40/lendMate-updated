@@ -23,6 +23,7 @@ import { ViewUploadDocumentsComponent } from './clients/view-upload-documents/vi
 import { ViewAddressComponent } from './clients/view-address/view-address.component';
 import { ViewSalesTurnoverComponent } from './clients/view-sales-turnover/view-sales-turnover.component';
 import { ViewPhoneNumberComponent } from './clients/view-phone-number/view-phone-number.component';
+import { ViewContactPersonComponent } from './clients/view-contact-person/view-contact-person.component';
 
 const routes: Routes = [
   /*Clients Routing*/
@@ -105,6 +106,10 @@ const routes: Routes = [
   {
     path: 'clients/view-phone-number',
     component: ViewPhoneNumberComponent,
+  },
+  {
+    path: 'clients/view-contact-person',
+    component: ViewContactPersonComponent,
   },
   /*Leasing Mandates Routing*/
   {

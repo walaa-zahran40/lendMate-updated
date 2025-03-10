@@ -26,6 +26,7 @@ import { InputIcon } from 'primeng/inputicon';
 import { ViewAddressComponent } from './view-address/view-address.component';
 import { ViewSalesTurnoverComponent } from './view-sales-turnover/view-sales-turnover.component';
 import { ViewPhoneNumberComponent } from './view-phone-number/view-phone-number.component';
+import { ViewContactPersonComponent } from './view-contact-person/view-contact-person.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { ViewPhoneNumberComponent } from './view-phone-number/view-phone-number.
     ViewAddressComponent,
     ViewSalesTurnoverComponent,
     ViewPhoneNumberComponent,
+    ViewContactPersonComponent,
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,24 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Contact Person'"
+    [labelBtn]="'Add Contact'"
+    [iconBtn]="''"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [exports]="true"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'Name EN'"
+    [col2Name]="'Contact ID'"
+    [col3Name]="'IsAuthorized Sign'"
+    [col4Name]="'GenderID'"
+    [edit]="true"
+    [delete]="true"
+    [side]="true"
+    [checkBox]="true"
+    [uppercase]="'uppercase'"
+    [viewContactPersonTable]="true"
+  ></app-table>
+</div>
