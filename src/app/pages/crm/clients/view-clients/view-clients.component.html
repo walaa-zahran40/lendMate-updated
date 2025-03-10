@@ -1,1 +1,8 @@
-<app-table [cols]="colsInside" [tableData]="tableDataInside"></app-table>
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Clients'"
+    [labelBtn]="'Add Client'"
+    [iconBtn]="'plus-icon'"
+  ></app-toolbar-table>
+  <app-table [cols]="colsInside" [tableData]="tableDataInside"></app-table>
+</div>

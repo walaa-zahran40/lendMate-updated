@@ -1,0 +1,29 @@
+<p-toolbar>
+  <p-button icon="{{ backIcon }}" styleClass="backIcon"></p-button>
+  <p class="title">{{ title }}</p>
+
+  <p-iconfield iconPosition="left">
+    <p-inputicon styleClass="pi pi-search" />
+    <input type="text" pInputText placeholder="Search Keyword" />
+  </p-iconfield>
+  <p-button icon="custom-icon" label="Filter By" styleClass="filter" />
+  <img src="/assets/images/shared/table/divider.svg" alt="divider" />
+  <p-button
+    label="Export as"
+    icon="excel-icon"
+    iconPos="right"
+    styleClass="excel-icon-btn"
+  />
+  <p-button
+    label="Export as"
+    icon="pdf-icon"
+    iconPos="right"
+    styleClass="pdf-icon-btn"
+  />
+  <p-button
+    label="{{ labelBtn }}"
+    icon="{{ iconBtn }}"
+    iconPos="left"
+    styleClass="add-client"
+  />
+</p-toolbar>

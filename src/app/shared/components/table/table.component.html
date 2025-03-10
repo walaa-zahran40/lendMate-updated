@@ -1,160 +1,98 @@
-<!-- <table class="table table-striped">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Country</th>
-      <th scope="col">Area</th>
-      <th scope="col">Population</th>
-    </tr>
-  </thead>
-  <tbody>
-    @for (country of countries; track country.name; let i = $index) {
-    <tr>
-      <th scope="row">{{ i + 1 }}</th>
-      <td>
+<p-table
+  responsiveLayout="stack"
+  [value]="tableData"
+  scrollHeight="flex"
+  [paginator]="true"
+  [rows]="10"
+  [showCurrentPageReport]="true"
+  [rowsPerPageOptions]="[5, 10, 15, 20]"
+>
+  <ng-template pTemplate="header">
+    <tr class="border-1">
+      <th><p-checkbox [binary]="true" /></th>
+      <th>
+        Name EN
         <img
-          [src]="
-            'https://upload.wikimedia.org/wikipedia/commons/' + country.flag
-          "
-          [alt]="'The flag of ' + country.name"
-          class="me-2"
-          style="width: 20px"
+          src="/assets/images/shared/table/sort.svg"
+          alt="sort"
+          class="d-inline-block mx-1 my-2"
         />
-        {{ country.name }}
-      </td>
-      <td>{{ country.area | number }}</td>
-      <td>{{ country.population | number }}</td>
+      </th>
+      <th>
+        Business Activity
+        <img
+          src="/assets/images/shared/table/sort.svg"
+          alt="sort"
+          class="d-inline-block mx-1 my-2"
+        />
+      </th>
+      <th>
+        islscore
+        <img
+          src="/assets/images/shared/table/sort.svg"
+          alt="sort"
+          class="d-inline-block mx-1 my-2"
+        />
+      </th>
+      <th>
+        TaxId
+        <img
+          src="/assets/images/shared/table/sort.svg"
+          alt="sort"
+          class="d-inline-block mx-1 my-2"
+        />
+      </th>
+      <th></th>
     </tr>
-    }
-  </tbody>
-</table> -->
-<div class="page-content">
-  <!--Toolbar-->
-  <p-toolbar>
-    <p class="title">Clients</p>
+  </ng-template>
 
-    <p-iconfield iconPosition="left">
-      <p-inputicon styleClass="pi pi-search" />
-      <input type="text" pInputText placeholder="Search Keyword" />
-    </p-iconfield>
-    <p-button icon="custom-icon" label="Filter By" styleClass="filter" />
-    <img src="/assets/images/shared/table/divider.svg" alt="divider" />
-    <p-button
-      label="Export as"
-      icon="excel-icon"
-      iconPos="right"
-      styleClass="excel-icon-btn"
-    />
-    <p-button
-      label="Export as"
-      icon="pdf-icon"
-      iconPos="right"
-      styleClass="pdf-icon-btn"
-    />
-    <p-button
-      label="Add Client"
-      icon="plus-icon"
-      iconPos="left"
-      styleClass="add-client"
-    />
-  </p-toolbar>
-  <!--table-->
-  <p-table
-    responsiveLayout="stack"
-    [value]="tableData"
-    scrollHeight="flex"
-    [paginator]="true"
-    [rows]="10"
-    [showCurrentPageReport]="true"
-    [rowsPerPageOptions]="[5, 10, 15, 20]"
+  <ng-template
+    pTemplate="body"
+    let-rowData="rowData"
+    let-client
+    sortMode="multiple"
   >
-    <ng-template pTemplate="header">
-      <tr class="border-1">
-        <th><p-checkbox [binary]="true" /></th>
-        <th>
-          Name EN
-          <img
-            src="/assets/images/shared/table/sort.svg"
-            alt="sort"
-            class="d-inline-block mx-1 my-2"
-          />
-        </th>
-        <th>
-          Business Activity
-          <img
-            src="/assets/images/shared/table/sort.svg"
-            alt="sort"
-            class="d-inline-block mx-1 my-2"
-          />
-        </th>
-        <th>
-          islscore
-          <img
-            src="/assets/images/shared/table/sort.svg"
-            alt="sort"
-            class="d-inline-block mx-1 my-2"
-          />
-        </th>
-        <th>
-          TaxId
-          <img
-            src="/assets/images/shared/table/sort.svg"
-            alt="sort"
-            class="d-inline-block mx-1 my-2"
-          />
-        </th>
-        <th></th>
-      </tr>
-    </ng-template>
+    <tr>
+      <td><p-checkbox [binary]="true" /></td>
+      <td>
+        <span class="p-column-title"> Name EN </span>
+        {{ client.nameEn }}
+      </td>
+      <td>
+        <span class="p-column-title">Business Activity </span>
 
-    <ng-template
-      pTemplate="body"
-      let-rowData="rowData"
-      let-client
-      sortMode="multiple"
-    >
-      <tr>
-        <td><p-checkbox [binary]="true" /></td>
-        <td>
-          <span class="p-column-title"> Name EN </span>
-          {{ client.nameEn }}
-        </td>
-        <td>
-          <span class="p-column-title">Business Activity </span>
+        {{ client.businessActivity }}
+      </td>
+      <td>
+        <span class="p-column-title"> isIscore </span>
 
-          {{ client.businessActivity }}
-        </td>
-        <td>
-          <span class="p-column-title"> isIscore </span>
+        <span class="uppercase">{{ client.isIscore }}</span>
+      </td>
+      <td>
+        <span class="p-column-title"> Tax ID </span>
 
-          <span class="uppercase">{{ client.isIscore }}</span>
-        </td>
-        <td>
-          <span class="p-column-title"> Tax ID </span>
-
-          {{ client.taxId }}
-        </td>
-        <td class="imgs">
-          <img
-            src="/assets/images/shared/table/edit.svg"
-            alt="edit"
-            class="d-inline-block mx-1 my-2"
-          /><img
-            src="/assets/images/shared/table/delete.svg"
-            class="d-inline-block mx-1 my-2"
-            alt="delete"
-          /><img
-            src="/assets/images/shared/table/side.svg"
-            alt="side"
-            class="d-inline-block mx-1 my-2"
-          />
-        </td>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="paginatorleft">
-      <div class="p-paginator-left">
-        <span>View Applicants per page</span>
-      </div>
-    </ng-template>
-  </p-table>
-</div>
+        {{ client.taxId }}
+      </td>
+      <td class="imgs">
+        <img
+          src="/assets/images/shared/table/edit.svg"
+          alt="edit"
+          class="d-inline-block mx-1 my-2"
+        /><img
+          src="/assets/images/shared/table/delete.svg"
+          class="d-inline-block mx-1 my-2"
+          alt="delete"
+        /><img
+          src="/assets/images/shared/table/side.svg"
+          alt="side"
+          class="d-inline-block mx-1 my-2"
+        />
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="paginatorleft">
+    <div class="p-paginator-left">
+      <span>View Applicants per page</span>
+    </div>
+  </ng-template>
+</p-table>

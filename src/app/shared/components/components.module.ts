@@ -47,6 +47,7 @@ import { ToolbarFormComponent } from './toolbar-form/toolbar-form.component';
 import { TextareaModule } from 'primeng/textarea';
 import { CheckboxModule } from 'primeng/checkbox';
 import { PaginatorModule } from 'primeng/paginator';
+import { ToolbarTableComponent } from './toolbar-table/toolbar-table.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { PaginatorModule } from 'primeng/paginator';
     DownloadViewComponent,
     FormsComponent,
     ToolbarFormComponent,
+    ToolbarTableComponent,
   ],
   imports: [
     CommonModule,
@@ -114,6 +116,7 @@ import { PaginatorModule } from 'primeng/paginator';
     DeleteModuleComponent,
     DownloadViewComponent,
     FormsComponent,
+    ToolbarTableComponent,
   ],
 })
 export class ComponentsModule {}
