@@ -1,0 +1,23 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'CR Authority Office'"
+    [labelBtn]="'Add CR'"
+    [iconBtn]="''"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [exports]="true"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'CR Number'"
+    [col2Name]="'Expiry Date'"
+    [col3Name]="'Client ID'"
+    [col4Name]="'CR Authority Office ID'"
+    [edit]="true"
+    [delete]="true"
+    [side]="false"
+    [checkBox]="true"
+    [viewCRAuthorityOfficeTable]="true"
+  ></app-table>
+</div>
