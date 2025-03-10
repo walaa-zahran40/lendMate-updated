@@ -31,6 +31,7 @@ import { ViewCrAuthorityOfficeComponent } from './view-cr-authority-office/view-
 import { ViewTaxAuthorityOfficeComponent } from './view-tax-authority-office/view-tax-authority-office.component';
 import { ViewCentralBankInfoComponent } from './view-central-bank-info/view-central-bank-info.component';
 import { ViewShareHolderComponent } from './view-share-holder/view-share-holder.component';
+import { ViewTmlOfficerComponent } from './view-tml-officer/view-tml-officer.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { ViewShareHolderComponent } from './view-share-holder/view-share-holder.
     ViewTaxAuthorityOfficeComponent,
     ViewCentralBankInfoComponent,
     ViewShareHolderComponent,
+    ViewTmlOfficerComponent,
   ],
   imports: [
     CommonModule,

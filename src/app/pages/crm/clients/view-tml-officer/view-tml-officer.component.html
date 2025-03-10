@@ -1,0 +1,21 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'TML Officer'"
+    [labelBtn]="'Add TML Officer'"
+    [iconBtn]="''"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [exports]="true"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'Officer Name'"
+    [col2Name]="'Officer Type'"
+    [edit]="true"
+    [delete]="true"
+    [side]="false"
+    [checkBox]="true"
+    [viewTMLOfficerTable]="true"
+  ></app-table>
+</div>

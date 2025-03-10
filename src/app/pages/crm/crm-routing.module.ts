@@ -28,6 +28,7 @@ import { ViewCrAuthorityOfficeComponent } from './clients/view-cr-authority-offi
 import { ViewTaxAuthorityOfficeComponent } from './clients/view-tax-authority-office/view-tax-authority-office.component';
 import { ViewCentralBankInfoComponent } from './clients/view-central-bank-info/view-central-bank-info.component';
 import { ViewShareHolderComponent } from './clients/view-share-holder/view-share-holder.component';
+import { ViewTmlOfficerComponent } from './clients/view-tml-officer/view-tml-officer.component';
 
 const routes: Routes = [
   /*Clients Routing*/
@@ -131,7 +132,10 @@ const routes: Routes = [
     path: 'clients/view-share-holder',
     component: ViewShareHolderComponent,
   },
-
+  {
+    path: 'clients/view-tml-officer',
+    component: ViewTmlOfficerComponent,
+  },
   /*Leasing Mandates Routing*/
   {
     path: 'leasing-mandates/add-mandate',
