@@ -11,4 +11,6 @@ export class ToolbarTableComponent {
   @Input() labelBtn!: string;
   @Input() iconBtn!: string;
   @Input() backIcon!: string;
+  @Input() customSpacing!: string;
+  @Input() backExists!: boolean;
 }

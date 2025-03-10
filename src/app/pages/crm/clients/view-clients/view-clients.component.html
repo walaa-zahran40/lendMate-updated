@@ -3,6 +3,21 @@
     [title]="'Clients'"
     [labelBtn]="'Add Client'"
     [iconBtn]="'plus-icon'"
+    [backIcon]="''"
+    [customSpacing]="'custom-spacing'"
   ></app-toolbar-table>
-  <app-table [cols]="colsInside" [tableData]="tableDataInside"></app-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'Name EN'"
+    [col2Name]="'Business Activity'"
+    [col3Name]="'isIscore'"
+    [col4Name]="'Tax ID'"
+    [edit]="true"
+    [delete]="true"
+    [side]="true"
+    [checkBox]="true"
+    [uppercase]="'uppercase'"
+    [viewClientTable]="true"
+  ></app-table>
 </div>

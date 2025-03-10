@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ClientsModule } from './clients/clients.module';
 import { LeasingMandatesModule } from './leasing-mandates/leasing-mandates.module';
 import { CrmRoutingModule } from './crm-routing.module';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   declarations: [],
@@ -11,6 +12,7 @@ import { CrmRoutingModule } from './crm-routing.module';
     ClientsModule,
     LeasingMandatesModule,
     CrmRoutingModule,
+    SharedModule,
   ],
 })
 export class CrmModule {}

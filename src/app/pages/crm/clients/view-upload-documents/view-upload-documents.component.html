@@ -1,0 +1,29 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Upload Documents'"
+    [labelBtn]="'Add a Document'"
+    [iconBtn]="''"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+  ></app-toolbar-table>
+  <div class="d-flex">
+    <p-iconfield iconPosition="left" styleClass="custom-search">
+      <p-inputicon styleClass="pi pi-search" />
+      <input type="text" pInputText placeholder="Search for a document" />
+    </p-iconfield>
+    <p-button icon="custom-icon" label="Document Filter" styleClass="filter" />
+  </div>
+
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'Document Name'"
+    [col2Name]="'Document Type'"
+    [col3Name]="'Expiry Date'"
+    [edit]="true"
+    [delete]="true"
+    [side]="false"
+    [checkBox]="true"
+    [viewUploadDocumentsTable]="true"
+  ></app-table>
+</div>

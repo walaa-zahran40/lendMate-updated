@@ -9,40 +9,44 @@
 >
   <ng-template pTemplate="header">
     <tr class="border-1">
-      <th><p-checkbox [binary]="true" /></th>
+      <th><p-checkbox [binary]="true" *ngIf="checkBox" /></th>
       <th>
-        Name EN
+        {{ col1Name }}
         <img
           src="/assets/images/shared/table/sort.svg"
           alt="sort"
           class="d-inline-block mx-1 my-2"
+          *ngIf="col1Name"
         />
       </th>
       <th>
-        Business Activity
+        {{ col2Name }}
         <img
           src="/assets/images/shared/table/sort.svg"
           alt="sort"
           class="d-inline-block mx-1 my-2"
+          *ngIf="col2Name"
         />
       </th>
       <th>
-        islscore
+        {{ col3Name }}
         <img
           src="/assets/images/shared/table/sort.svg"
           alt="sort"
           class="d-inline-block mx-1 my-2"
+          *ngIf="col3Name"
         />
       </th>
       <th>
-        TaxId
+        {{ col4Name }}
         <img
           src="/assets/images/shared/table/sort.svg"
           alt="sort"
           class="d-inline-block mx-1 my-2"
+          *ngIf="col4Name"
         />
       </th>
-      <th></th>
+      <th *ngIf="side"></th>
     </tr>
   </ng-template>
 
@@ -51,25 +55,26 @@
     let-rowData="rowData"
     let-client
     sortMode="multiple"
+    *ngIf="viewClientTable"
   >
     <tr>
-      <td><p-checkbox [binary]="true" /></td>
+      <td><p-checkbox [binary]="true" *ngIf="checkBox" /></td>
       <td>
-        <span class="p-column-title"> Name EN </span>
+        <span class="p-column-title"> {{ col1Name }}</span>
         {{ client.nameEn }}
       </td>
       <td>
-        <span class="p-column-title">Business Activity </span>
+        <span class="p-column-title">{{ col2Name }} </span>
 
         {{ client.businessActivity }}
       </td>
       <td>
-        <span class="p-column-title"> isIscore </span>
+        <span class="p-column-title"> {{ col3Name }} </span>
 
-        <span class="uppercase">{{ client.isIscore }}</span>
+        <span class="{{ uppercase }}">{{ client.isIscore }}</span>
       </td>
       <td>
-        <span class="p-column-title"> Tax ID </span>
+        <span class="p-column-title"> {{ col4Name }} </span>
 
         {{ client.taxId }}
       </td>
@@ -78,14 +83,63 @@
           src="/assets/images/shared/table/edit.svg"
           alt="edit"
           class="d-inline-block mx-1 my-2"
+          *ngIf="edit"
         /><img
           src="/assets/images/shared/table/delete.svg"
           class="d-inline-block mx-1 my-2"
           alt="delete"
+          *ngIf="delete"
         /><img
           src="/assets/images/shared/table/side.svg"
           alt="side"
           class="d-inline-block mx-1 my-2"
+          *ngIf="side"
+        />
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template
+    pTemplate="body"
+    let-rowData="rowData"
+    let-document
+    sortMode="multiple"
+    *ngIf="viewUploadDocumentsTable"
+  >
+    <tr>
+      <td><p-checkbox [binary]="true" *ngIf="checkBox" /></td>
+      <td>
+        <span class="p-column-title"> {{ col1Name }}</span>
+        {{ document.documentName }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col2Name }} </span>
+
+        {{ document.documentType }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col3Name }} </span>
+
+        <span class="{{ uppercase }}">{{
+          document.expiryDate | date : "MM/dd/yyyy"
+        }}</span>
+      </td>
+
+      <td class="imgs">
+        <img
+          src="/assets/images/shared/table/edit.svg"
+          alt="edit"
+          class="d-inline-block mx-1 my-2"
+          *ngIf="edit"
+        /><img
+          src="/assets/images/shared/table/delete.svg"
+          class="d-inline-block mx-1 my-2"
+          alt="delete"
+          *ngIf="delete"
+        /><img
+          src="/assets/images/shared/table/side.svg"
+          alt="side"
+          class="d-inline-block mx-1 my-2"
+          *ngIf="side"
         />
       </td>
     </tr>

@@ -10,8 +10,19 @@ import { PaginatorState } from 'primeng/paginator';
   styleUrl: './table.component.scss',
 })
 export class TableComponent {
-  @Input() tableData: Client[] = [];
+  @Input() tableData: any[] = [];
   @Input() cols: any[] = [];
+  @Input() col1Name!: string;
+  @Input() col2Name!: string;
+  @Input() col3Name!: string;
+  @Input() col4Name!: string;
+  @Input() edit!: boolean;
+  @Input() delete!: boolean;
+  @Input() side!: boolean;
+  @Input() checkBox!: boolean;
+  @Input() uppercase!: string;
+  @Input() viewClientTable!: boolean;
+  @Input() viewUploadDocumentsTable!: boolean;
   checked: boolean = false;
   first2: number = 0;
 

@@ -1,0 +1,41 @@
+:host {
+  &::ng-deep {
+    .p-button-label {
+      font-weight: 700;
+    }
+    .custom-icon {
+      content: url("/assets/images/shared/table/filter.svg");
+    }
+    .p-button {
+      padding: 12px 29px;
+      border-radius: 0;
+      border: none;
+      background-color: #f6f6f6;
+      color: #0a69bb;
+      font-family: "poppins-bold";
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 160%; /* 25.6px */
+    }
+    .filter,
+    .p-button:not(:disabled):hover {
+      color: #25324b;
+      font-family: "poppins-bold";
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 160%; /* 25.6px */
+      background-color: transparent;
+      border-radius: 0px;
+      border: 1px solid #d6ddeb;
+      padding: 12px 16px;
+    }
+    .custom-search {
+      padding: 12px 44px;
+      border: 1px solid #d6ddeb;
+      margin-right: 8px;
+      margin-bottom: 24px;
+    }
+  }
+}

@@ -20,6 +20,9 @@ import { StepperModule } from 'primeng/stepper';
 import { TabsModule } from 'primeng/tabs';
 import { SharedModule } from '../../../shared/shared.module';
 import { ViewClientsComponent } from './view-clients/view-clients.component';
+import { ViewUploadDocumentsComponent } from './view-upload-documents/view-upload-documents.component';
+import { IconField } from 'primeng/iconfield';
+import { InputIcon } from 'primeng/inputicon';
 
 @NgModule({
   declarations: [
@@ -38,6 +41,7 @@ import { ViewClientsComponent } from './view-clients/view-clients.component';
     ContactPersonViewTableDataComponent,
     CompanyViewOnlyComponent,
     ViewClientsComponent,
+    ViewUploadDocumentsComponent,
   ],
   imports: [
     CommonModule,
@@ -46,6 +50,8 @@ import { ViewClientsComponent } from './view-clients/view-clients.component';
     ButtonModule,
     TabsModule,
     FileUploadModule,
+    IconField,
+    InputIcon,
   ],
 })
 export class ClientsModule {}
