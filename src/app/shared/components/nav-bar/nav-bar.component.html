@@ -1,30 +1,31 @@
-<p-toolbar
-  [style]="{
-    borderRadius: '0px',
-    padding: '10px 20px'
-  }"
->
+<p-toolbar>
   <ng-template #start>
     <div class="name-container">
-      <p-avatar
-        image="/assets/images/shared/toggle.svg"
-        [style]="{ width: '24px', height: '24px', display: 'inline-block' }"
-      />
+      <p-avatar image="/assets/images/shared/navbar/toggle.svg" />
       <div>
         <p class="welcome">Welcome</p>
-        <p class="name">Mohamed Yasser</p>
+        <p class="name">
+          <span>Mohamed Yasser</span>
+          <img
+            src="/assets/images/shared/navbar/arrow-bottom.svg"
+            alt="arrow-bottom"
+            class="d-inline-block"
+          />
+        </p>
       </div>
     </div>
   </ng-template>
 
   <ng-template #end>
     <div class="flex items-center gap-4">
-      <p-toggleswitch />
-      <p class="language">العربيه</p>
-      <p-avatar
-        image="/assets/images/shared/notification.svg"
-        [style]="{ width: '40px', height: '40px' }"
-      />
+      <p-toggleswitch>
+        <ng-template #handle let-checked="checked">
+          <i [ngClass]="['!text-xs', 'pi', checked ? 'moon' : 'sun']"></i>
+          <span class="text-toggle">{{ checked ? " Dark" : " Light" }}</span>
+        </ng-template>
+      </p-toggleswitch>
     </div>
+    <p class="language">العربيه</p>
+    <p-avatar image="/assets/images/shared/navbar/notification-selected.svg" />
   </ng-template>
 </p-toolbar>

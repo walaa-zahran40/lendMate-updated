@@ -4,6 +4,7 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 25.6px;
+  margin-bottom: 0px;
 }
 .name {
   color: var(--primary-color);
@@ -51,4 +52,59 @@
   background: black;
   border: 2px solid black;
   color: white;
+}
+:host {
+  &::ng-deep {
+    .p-toolbar {
+      border: none;
+      border-bottom: 1px solid #d6ddeb;
+    }
+    .p-toggleswitch {
+      position: relative;
+      width: 243px;
+      margin-right: 30px;
+    }
+    .p-toggleswitch-handle {
+      width: 116px;
+      border-radius: 27px;
+      height: 26px;
+    }
+    .p-toggleswitch:not(.p-disabled):has(
+        .p-toggleswitch-input:hover
+      ).p-toggleswitch-checked
+      .p-toggleswitch-slider {
+      background: #f4f4f4 !important;
+    }
+    .p-toggleswitch:not(.p-disabled):has(.p-toggleswitch-input:hover)
+      .p-toggleswitch-slider {
+      background: #f4f4f4 !important;
+    }
+    .p-toggleswitch-slider {
+      height: 33px;
+      background: #f4f4f4 !important;
+    }
+    .p-toggleswitch.p-toggleswitch-checked .p-toggleswitch-handle {
+      inset-inline-start: 124px;
+    }
+    .sun {
+      content: url("/assets/images/shared/navbar/sun.svg");
+    }
+    .moon {
+      content: url("/assets/images/shared/navbar/moon.svg");
+    }
+    .text-toggle {
+      color: #1a1d1f;
+      font-family: "inter", sans-serif;
+      font-size: 12.483px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 19.973px; /* 160% */
+      letter-spacing: -0.125px;
+    }
+    @media only screen and (max-width: 600px) {
+      .p-toolbar-end {
+        margin: 0 auto;
+      }
+    }
+  }
 }
