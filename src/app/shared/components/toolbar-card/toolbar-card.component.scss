@@ -3,6 +3,12 @@
     .p-toolbar {
       border: 0;
       padding: 22px 0px 17px 0px;
+      .search-padding {
+        padding: 12px 50px;
+        border: 1px solid #d6ddeb;
+        background: #fff;
+        border-radius: 0;
+      }
       .title {
         color: #25324b;
         font-family: "poppins-bold";
