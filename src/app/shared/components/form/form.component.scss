@@ -453,6 +453,10 @@ h2 {
 .div2 {
   grid-column: span 2 / span 2;
 }
+#addChildMandateShowMoreInformationForm {
+  display: flex;
+  flex-direction: column;
+}
 p.client {
   font-family: var(--custom-font-family);
   font-weight: var(--custom-font-weight);
