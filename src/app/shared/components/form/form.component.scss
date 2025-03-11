@@ -203,7 +203,6 @@
     #mandateContactPersonsForm .add-btn .p-button,
     #mandateAssetTypeForm .add-btn .p-button {
       padding: 14px 27px;
-      margin-left: -16px;
       margin-top: 15px;
     }
     .p-textarea {
@@ -214,6 +213,10 @@
       .p-datepicker:has(.p-datepicker-input-icon-container)
       .p-datepicker-input {
       margin-bottom: 24px;
+    }
+    #addMandateShowMoreInformationForm {
+      display: flex;
+      flex-direction: column;
     }
     #addManageMandateTermsForm {
       display: flex;

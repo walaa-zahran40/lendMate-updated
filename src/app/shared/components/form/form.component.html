@@ -2176,8 +2176,8 @@
         [maxSelectedLabels]="999"
         chipIcon="pi pi-times"
       />
-      <div class="row align-items-center">
-        <div class="col-sm">
+      <div class="parent-individual">
+        <div class="div4-individual">
           <label for="officerNameOfficersForm">Officer Name</label>
           <input
             pInputText
@@ -2187,7 +2187,7 @@
             placeholder="Mohamed Yasser"
           />
         </div>
-        <div class="col-sm">
+        <div class="div2-individual">
           <label for="actionsOfficersForm">Actions</label>
           <p-multiselect
             [options]="actions"
@@ -2202,8 +2202,8 @@
             chipIcon="pi pi-times"
           />
         </div>
-        <div class="col-sm-1">
-          <p-button icon="pi pi-plus" severity="danger" class="add-btn" />
+        <div class="div3-individual">
+          <p-button icon="custom-icon" severity="danger" class="add-btn" />
         </div>
       </div>
     </form>
@@ -2225,8 +2225,8 @@
         [maxSelectedLabels]="999"
         chipIcon="pi pi-times"
       />
-      <div class="row align-items-center">
-        <div class="col-sm">
+      <div class="parent-individual">
+        <div class="div4-individual">
           <label for="officerNameOfficersForm">Contact Person Name</label>
           <input
             pInputText
@@ -2236,7 +2236,7 @@
             placeholder="Mohamed Yasser"
           />
         </div>
-        <div class="col-sm">
+        <div class="div2-individual">
           <label for="actionsOfficersForm">Actions</label>
           <p-multiselect
             [options]="actions"
@@ -2251,8 +2251,8 @@
             chipIcon="pi pi-times"
           />
         </div>
-        <div class="col-sm-1">
-          <p-button icon="pi pi-plus" severity="danger" class="add-btn" />
+        <div class="div3-individual">
+          <p-button icon="custom-icon" severity="danger" class="add-btn" />
         </div>
       </div>
     </form>
@@ -2261,7 +2261,7 @@
       *ngIf="addMandateShowAssetTypeForm"
       id="mandateAssetTypeForm"
     >
-      <label for="officerTypeOfficersForm">Contact Person Type</label>
+      <label for="officerTypeOfficersForm">Assest Type</label>
       <p-multiselect
         [options]="officerTypesMandates"
         [(ngModel)]="selectedOfficerTypesMandate"
@@ -2274,9 +2274,9 @@
         [maxSelectedLabels]="999"
         chipIcon="pi pi-times"
       />
-      <div class="row align-items-center">
-        <div class="col-sm">
-          <label for="officerNameOfficersForm">Contact Person Name</label>
+      <div class="parent-individual">
+        <div class="div4-individual">
+          <label for="officerNameOfficersForm">Assest Type Name</label>
           <input
             pInputText
             id="officerNameOfficersForm"
@@ -2285,7 +2285,7 @@
             placeholder="Mohamed Yasser"
           />
         </div>
-        <div class="col-sm">
+        <div class="div2-individual">
           <label for="actionsOfficersForm">Actions</label>
           <p-multiselect
             [options]="actions"
@@ -2300,8 +2300,8 @@
             chipIcon="pi pi-times"
           />
         </div>
-        <div class="col-sm-1">
-          <p-button icon="pi pi-plus" severity="danger" class="add-btn" />
+        <div class="div3-individual">
+          <p-button icon="custom-icon" severity="danger" class="add-btn" />
         </div>
       </div>
     </form>
