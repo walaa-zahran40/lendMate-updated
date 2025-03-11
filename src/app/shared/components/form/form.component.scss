@@ -215,6 +215,10 @@
       .p-datepicker-input {
       margin-bottom: 24px;
     }
+    #addManageMandateTermsForm {
+      display: flex;
+      flex-direction: column;
+    }
     #leasing {
       padding: 6px;
     }
