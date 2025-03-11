@@ -80,9 +80,8 @@
       background: var(--custom-background-transparent);
       border: 1px solid var(--p-tabs-active-bar-background);
       color: var(--p-tabs-active-bar-background) !important;
-      width: var(--custom-width-30);
       text-align: var(--custom-position-center);
-      padding: 22px 44px;
+      padding: 21px 69px;
       font-size: var(--custom-font-size-18);
       cursor: var(--custom-cursor);
     }
@@ -103,7 +102,36 @@
       padding: 0;
     }
     /*responsiveness*/
+    @media only screen and (max-width: 981px) {
+      .two-buttons {
+        width: 100%;
+        margin-left: 0;
+        gap: 20px;
+        div {
+          width: 100%;
+          padding: 0;
+          .custom-save {
+            margin-top: 0px !important;
+            width: 100%;
+          }
+          .custom-back .p-button {
+            width: 100%;
+          }
+          .custom-save2 {
+            width: 100%;
+          }
+        }
+      }
+      .custom-save {
+        width: 100%;
+      }
+    }
     @media only screen and (max-width: 600px) {
+      .two-buttons {
+        width: 100%;
+        margin-left: 0;
+        gap: 20px;
+      }
       .nextBtn {
         width: var(--custom-size-100);
       }
@@ -126,7 +154,7 @@
       .custom-back {
         margin-right: var(--custom-position-0);
         margin-left: var(--custom-position-auto);
-        margin-bottom: var(--custom-padding-20);
+        margin-bottom: 0;
       }
       .custom-back .p-button {
         width: var(--custom-width-100);
