@@ -281,13 +281,26 @@
       align-self: flex-end;
       margin-bottom: 15px;
     }
-
+    .div3-contact {
+      grid-column-start: 7;
+      grid-row-start: 1;
+      align-self: flex-end;
+      margin-bottom: 0;
+    }
     .div4-individual {
       grid-column: span 3 / span 3;
       grid-column-start: 1;
       grid-row-start: 1;
     }
-
+    .div-contact-person {
+      width: 90%;
+      margin-right: 14px;
+    }
+    .div2-contact-person {
+      width: 8%;
+      position: relative;
+      top: 5px;
+    }
     .add-btn .p-button {
       height: 52px;
       padding-top: 5px;
@@ -322,13 +335,35 @@
     .p-multiselect-label:has(.p-chip) {
       padding: 0;
     }
+    .p-multiselect-label {
+      padding: 5px;
+    }
     /*responsiveness*/
+    @media only screen and (max-width: 1541px) and (min-width: 981px) {
+      .div-contact-person {
+        width: 88%;
+        margin-right: 14px;
+      }
+      .div2-contact-person {
+        width: 8%;
+      }
+      .parent-individual {
+        display: block;
+      }
+      .div3-contact {
+        margin-top: 15px;
+      }
+    }
+
     @media only screen and (max-width: 981px) {
       .parent-individual {
         display: flex;
         flex-direction: column;
       }
       .div3-individual {
+        width: 100%;
+      }
+      .div3-contact {
         width: 100%;
       }
     }
@@ -387,6 +422,9 @@
       .custom-view .p-button {
         width: 100%;
       }
+      .parent {
+        display: block !important;
+      }
     }
   }
 }
@@ -402,6 +440,13 @@ h2 {
   grid-template-rows: repeat(1, 1fr);
   gap: 119px;
 }
+.parent-phone {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(1, 1fr);
+  gap: 24px;
+}
+
 .div1 {
   padding-top: 24px;
 }
@@ -479,10 +524,23 @@ form {
 .divParent1_2 {
   grid-column-start: 4;
 }
+.div-phone {
+  grid-column: span 3;
+}
+
+.div2-phone {
+  grid-column-start: 4;
+  align-self: end;
+}
+@media only screen and (max-width: 1000px) {
+  .parent {
+    gap: 24px;
+  }
+}
 @media only screen and (max-width: 700px) {
   .parent {
-    grid-template-columns: 1fr;
-    gap: 20px;
+    display: flex;
+    flex-direction: column;
   }
 
   .div2 {
