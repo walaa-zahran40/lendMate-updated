@@ -478,7 +478,11 @@ p.client {
   line-height: var(--custom-line-height-25);
   color: var(--custom-grey);
 }
-
+.p-inputtext:disabled,
+.p-multiselect.p-disabled,
+.p-select.p-disabled {
+  background: #f8f8fd;
+}
 form {
   label {
     font-family: var(--custom-font-family-regular);
