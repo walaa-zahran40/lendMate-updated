@@ -21,6 +21,7 @@ export class TableComponent {
   @Input() edit!: boolean;
   @Input() delete!: boolean;
   @Input() side!: boolean;
+  @Input() download!: boolean;
   @Input() checkBox!: boolean;
   @Input() uppercase!: string;
   @Input() viewClientTable!: boolean;
@@ -34,6 +35,7 @@ export class TableComponent {
   @Input() viewCentralBankInfoTable!: boolean;
   @Input() viewShareHolderTable!: boolean;
   @Input() viewTMLOfficerTable!: boolean;
+  @Input() viewLeasingMandatesTable!: boolean;
   checked: boolean = false;
   first2: number = 0;
 

@@ -8,6 +8,7 @@ import { LeasingFinancialFormComponent } from './leasing-financial-form/leasing-
 import { SharedModule } from '../../../shared/shared.module';
 import { TabsModule } from 'primeng/tabs';
 import { ButtonModule } from 'primeng/button';
+import { ViewMandateComponent } from './view-mandate/view-mandate.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { ButtonModule } from 'primeng/button';
     AddChildMandateComponent,
     AddManageMandateTermsComponent,
     LeasingFinancialFormComponent,
+    ViewMandateComponent,
   ],
   imports: [
     CommonModule,

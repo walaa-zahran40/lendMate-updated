@@ -1,0 +1,24 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Leasing Mandates'"
+    [labelBtn]="'Add Mandate'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="''"
+    [backExists]="false"
+    [exports]="false"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'Code'"
+    [col2Name]="'Description'"
+    [col3Name]="'Client Name'"
+    [col4Name]="'Start Date'"
+    [edit]="true"
+    [delete]="true"
+    [side]="true"
+    [download]="true"
+    [checkBox]="true"
+    [viewLeasingMandatesTable]="true"
+  ></app-table>
+</div>

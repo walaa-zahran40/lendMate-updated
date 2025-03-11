@@ -30,6 +30,7 @@ import { ViewCentralBankInfoComponent } from './clients/view-central-bank-info/v
 import { ViewShareHolderComponent } from './clients/view-share-holder/view-share-holder.component';
 import { ViewTmlOfficerComponent } from './clients/view-tml-officer/view-tml-officer.component';
 import { ClientActivityWizardComponent } from './clients/client-activity-wizard/client-activity-wizard.component';
+import { ViewMandateComponent } from './leasing-mandates/view-mandate/view-mandate.component';
 
 const routes: Routes = [
   /*Clients Routing*/
@@ -157,6 +158,10 @@ const routes: Routes = [
   {
     path: 'leasing-mandates/leasing-financial-form',
     component: LeasingFinancialFormComponent,
+  },
+  {
+    path: 'leasing-mandates/view-mandate',
+    component: ViewMandateComponent,
   },
 ];
 
