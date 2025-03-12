@@ -104,6 +104,7 @@
     @media only screen and (max-width: 600px) {
       .p-toolbar-end {
         margin: 0 auto;
+        flex-direction: column;
       }
     }
   }

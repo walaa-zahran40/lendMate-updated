@@ -18,6 +18,7 @@
       font-weight: 700;
       line-height: 160%; /* 25.6px */
     }
+
     .filter,
     .p-button:not(:disabled):hover {
       color: #25324b;
@@ -36,6 +37,13 @@
       border: 1px solid #d6ddeb;
       margin-right: 8px;
       margin-bottom: 24px;
+    }
+    @media screen and (max-width: 600px) {
+      .d-flex {
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 10px;
+      }
     }
   }
 }
