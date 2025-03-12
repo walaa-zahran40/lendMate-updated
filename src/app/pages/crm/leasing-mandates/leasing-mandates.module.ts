@@ -10,6 +10,7 @@ import { TabsModule } from 'primeng/tabs';
 import { ButtonModule } from 'primeng/button';
 import { ViewMandateComponent } from './view-mandate/view-mandate.component';
 import { ViewOfficersComponent } from './view-officers/view-officers.component';
+import { ViewContactPersonsComponent } from './view-contact-persons/view-contact-persons.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { ViewOfficersComponent } from './view-officers/view-officers.component';
     LeasingFinancialFormComponent,
     ViewMandateComponent,
     ViewOfficersComponent,
+    ViewContactPersonsComponent,
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,22 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Contact Persons'"
+    [labelBtn]="'Add Contact Person'"
+    [iconBtn]="''"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [exports]="true"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'Contact Person Name'"
+    [col2Name]="'Contact Person Type'"
+    [edit]="true"
+    [delete]="true"
+    [side]="false"
+    [download]="false"
+    [checkBox]="true"
+    [viewContactPersonsTable]="true"
+  ></app-table>
+</div>
