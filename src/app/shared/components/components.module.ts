@@ -47,6 +47,7 @@ import { ToolbarTableComponent } from './toolbar-table/toolbar-table.component';
 import { CardComponent } from './card/card.component';
 import { CardModule } from 'primeng/card';
 import { ToolbarCardComponent } from './toolbar-card/toolbar-card.component';
+import { DownloadPopupComponent } from './download-popup/download-popup.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { ToolbarCardComponent } from './toolbar-card/toolbar-card.component';
     ToolbarTableComponent,
     CardComponent,
     ToolbarCardComponent,
+    DownloadPopupComponent,
   ],
   imports: [
     CommonModule,
@@ -113,6 +115,7 @@ import { ToolbarCardComponent } from './toolbar-card/toolbar-card.component';
     ToolbarTableComponent,
     CardComponent,
     ToolbarCardComponent,
+    DownloadPopupComponent,
   ],
 })
 export class ComponentsModule {}

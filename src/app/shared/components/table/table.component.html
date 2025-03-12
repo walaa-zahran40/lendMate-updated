@@ -614,7 +614,9 @@
           alt="download"
           class="d-inline-block mx-1 my-2"
           *ngIf="download"
+          (click)="openPopup()"
         />
+
         <img
           src="/assets/images/shared/table/edit.svg"
           alt="edit"

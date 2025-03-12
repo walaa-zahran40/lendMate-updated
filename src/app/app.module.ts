@@ -12,6 +12,10 @@ import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SelectModule } from 'primeng/select';
+import { FormsModule } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -20,6 +24,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     SharedModule,
     PagesModule,
     NgbModule,
+    SelectModule,
+    FormsModule,
+    ButtonModule,
   ],
   providers: [
     provideHttpClient(),

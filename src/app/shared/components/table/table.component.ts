@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Client } from '../../interfaces/client.interface';
 import { PageEvent } from '../../interfaces/page-event.interface';
 import { PaginatorState } from 'primeng/paginator';
+import { SharedService } from '../../services/shared.service';
 
 @Component({
   selector: 'app-table',
@@ -50,10 +51,14 @@ export class TableComponent {
   rows = 10;
   currentPage = 0; // Page index starts from 0
   totalRecords: any;
-  constructor() {}
+  showDownload = false;
+  constructor(private sharedService: SharedService) {}
 
   ngOnInit() {
     this.totalRecords = this.tableData.length;
+  }
+  openPopup() {
+    this.sharedService.showPopup();
   }
   get totalPages(): number {
     return Math.ceil(this.totalRecords / this.rows);
