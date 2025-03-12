@@ -75,13 +75,13 @@ hr {
       line-height: 24px; /* 171.429% */
       letter-spacing: -0.14px;
     }
-    .p-button {
+    .download-btn {
       background: #0a69bb;
       border-radius: 0;
       float: right;
       padding: 12px 20px;
     }
-    .p-button:not(:disabled):hover {
+    .download-btn:not(:disabled):hover {
       background: #0a69bb;
       border: none;
     }
@@ -93,5 +93,10 @@ hr {
   }
   .popup-content {
     width: 100% !important;
+  }
+  #breaker {
+    padding: 0px !important;
+    border-top: 1px solid;
+    margin: 24px 0;
   }
 }

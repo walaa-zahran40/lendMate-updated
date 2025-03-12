@@ -37,6 +37,7 @@ export class TableComponent {
   @Input() viewShareHolderTable!: boolean;
   @Input() viewTMLOfficerTable!: boolean;
   @Input() viewLeasingMandatesTable!: boolean;
+  @Input() viewOfficersTable!: boolean;
   checked: boolean = false;
   first2: number = 0;
 

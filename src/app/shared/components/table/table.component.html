@@ -636,6 +636,40 @@
       </td>
     </tr>
   </ng-template>
+  <ng-template
+    pTemplate="body"
+    let-rowData="rowData"
+    let-officer
+    sortMode="multiple"
+    *ngIf="viewOfficersTable"
+  >
+    <tr>
+      <td><p-checkbox [binary]="true" *ngIf="checkBox" /></td>
+      <td>
+        <span class="p-column-title"> {{ col1Name }}</span>
+        {{ officer.officerName }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col2Name }} </span>
+
+        {{ officer.officerType }}
+      </td>
+
+      <td class="imgs">
+        <img
+          src="/assets/images/shared/table/edit.svg"
+          alt="edit"
+          class="d-inline-block mx-1 my-2"
+          *ngIf="edit"
+        /><img
+          src="/assets/images/shared/table/delete.svg"
+          class="d-inline-block mx-1 my-2"
+          alt="delete"
+          *ngIf="delete"
+        />
+      </td>
+    </tr>
+  </ng-template>
 
   <ng-template pTemplate="paginatorleft">
     <div class="p-paginator-left">

@@ -31,6 +31,7 @@ import { ViewShareHolderComponent } from './clients/view-share-holder/view-share
 import { ViewTmlOfficerComponent } from './clients/view-tml-officer/view-tml-officer.component';
 import { ClientActivityWizardComponent } from './clients/client-activity-wizard/client-activity-wizard.component';
 import { ViewMandateComponent } from './leasing-mandates/view-mandate/view-mandate.component';
+import { ViewOfficersComponent } from './leasing-mandates/view-officers/view-officers.component';
 
 const routes: Routes = [
   /*Clients Routing*/
@@ -162,6 +163,10 @@ const routes: Routes = [
   {
     path: 'leasing-mandates/view-mandate',
     component: ViewMandateComponent,
+  },
+  {
+    path: 'leasing-mandates/view-officers',
+    component: ViewOfficersComponent,
   },
 ];
 

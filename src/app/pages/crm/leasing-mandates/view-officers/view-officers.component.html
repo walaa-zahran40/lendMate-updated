@@ -1,0 +1,22 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Officers'"
+    [labelBtn]="'Add Mandate'"
+    [iconBtn]="''"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [exports]="true"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'Officer Name'"
+    [col2Name]="'Officer Type'"
+    [edit]="true"
+    [delete]="true"
+    [side]="false"
+    [download]="false"
+    [checkBox]="true"
+    [viewOfficersTable]="true"
+  ></app-table>
+</div>

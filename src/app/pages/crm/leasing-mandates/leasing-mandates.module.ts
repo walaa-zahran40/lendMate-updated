@@ -9,6 +9,7 @@ import { SharedModule } from '../../../shared/shared.module';
 import { TabsModule } from 'primeng/tabs';
 import { ButtonModule } from 'primeng/button';
 import { ViewMandateComponent } from './view-mandate/view-mandate.component';
+import { ViewOfficersComponent } from './view-officers/view-officers.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { ViewMandateComponent } from './view-mandate/view-mandate.component';
     AddManageMandateTermsComponent,
     LeasingFinancialFormComponent,
     ViewMandateComponent,
+    ViewOfficersComponent,
   ],
   imports: [
     CommonModule,
