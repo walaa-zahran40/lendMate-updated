@@ -39,6 +39,7 @@ export class TableComponent {
   @Input() viewLeasingMandatesTable!: boolean;
   @Input() viewOfficersTable!: boolean;
   @Input() viewContactPersonsTable!: boolean;
+  @Input() viewAssestTypeTable!: boolean;
   checked: boolean = false;
   first2: number = 0;
 

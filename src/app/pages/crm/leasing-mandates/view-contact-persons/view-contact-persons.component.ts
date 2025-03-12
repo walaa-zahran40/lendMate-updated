@@ -13,8 +13,8 @@ export class ViewContactPersonsComponent {
   colsInside: any[] = [];
   ngOnInit() {
     this.colsInside = [
-      { field: 'officerName', header: 'OfName' },
-      { field: 'officerType', header: 'ofType' },
+      { field: 'contactPersonName', header: 'cName' },
+      { field: 'contactPersonType', header: 'cType' },
     ];
     this.tableDataInside = [
       {
