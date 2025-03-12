@@ -12,6 +12,7 @@ import { ViewMandateComponent } from './view-mandate/view-mandate.component';
 import { ViewOfficersComponent } from './view-officers/view-officers.component';
 import { ViewContactPersonsComponent } from './view-contact-persons/view-contact-persons.component';
 import { ViewAssestTypeComponent } from './view-assest-type/view-assest-type.component';
+import { WizardComponent } from './wizard/wizard.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { ViewAssestTypeComponent } from './view-assest-type/view-assest-type.com
     ViewOfficersComponent,
     ViewContactPersonsComponent,
     ViewAssestTypeComponent,
+    WizardComponent,
   ],
   imports: [
     CommonModule,

@@ -34,6 +34,7 @@ import { ViewMandateComponent } from './leasing-mandates/view-mandate/view-manda
 import { ViewOfficersComponent } from './leasing-mandates/view-officers/view-officers.component';
 import { ViewContactPersonsComponent } from './leasing-mandates/view-contact-persons/view-contact-persons.component';
 import { ViewAssestTypeComponent } from './leasing-mandates/view-assest-type/view-assest-type.component';
+import { WizardComponent } from './leasing-mandates/wizard/wizard.component';
 
 const routes: Routes = [
   /*Clients Routing*/
@@ -177,6 +178,10 @@ const routes: Routes = [
   {
     path: 'leasing-mandates/view-assest-type',
     component: ViewAssestTypeComponent,
+  },
+  {
+    path: 'leasing-mandates/wizard',
+    component: WizardComponent,
   },
 ];
 

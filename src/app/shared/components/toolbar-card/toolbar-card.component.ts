@@ -11,4 +11,5 @@ export class ToolbarCardComponent {
   @Input() labelBtn!: string;
   @Input() backIcon!: string;
   @Input() backExists!: boolean;
+  @Input() btnExists = true;
 }
