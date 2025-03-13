@@ -8,9 +8,11 @@ import { ButtonModule } from 'primeng/button';
 import { FileUploadModule } from 'primeng/fileupload';
 import { StepperModule } from 'primeng/stepper';
 import { TabsModule } from 'primeng/tabs';
+import { ViewLegalFormComponent } from './view-legal-form/view-legal-form.component';
+import { ViewLegalFormLawComponent } from './view-legal-form-law/view-legal-form-law.component';
 
 @NgModule({
-  declarations: [LegalFormsComponent, LegalFormsLawComponent],
+  declarations: [LegalFormsComponent, LegalFormsLawComponent, ViewLegalFormComponent, ViewLegalFormLawComponent],
   imports: [
     CommonModule,
     LegalsRoutingModule,

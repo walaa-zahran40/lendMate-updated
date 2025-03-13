@@ -1,0 +1,23 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Legal Forms'"
+    [labelBtn]="'Add Legal Form'"
+    [iconBtn]="'plus-icon'"
+    [backExists]="false"
+    [exports]="true"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'ID'"
+    [col2Name]="'Legal Form Code'"
+    [col3Name]="'Name in English'"
+    [col4Name]="'Name in Arabic'"
+    [edit]="true"
+    [delete]="true"
+    [side]="false"
+    [download]="false"
+    [checkBox]="true"
+    [viewLegalFormTable]="true"
+  ></app-table>
+</div>
