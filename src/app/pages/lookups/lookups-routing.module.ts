@@ -48,6 +48,7 @@ import { ViewCompanyTypesComponent } from './view-company-types/view-company-typ
 import { ViewFeesCalculationTypesComponent } from './view-fees-calculation-types/view-fees-calculation-types.component';
 import { ViewMandateStatusesComponent } from './view-mandate-statuses/view-mandate-statuses.component';
 import { ViewInterestRateBenchmarksComponent } from './view-interest-rate-benchmarks/view-interest-rate-benchmarks.component';
+import { ViewFeelTypesComponent } from './view-feel-types/view-feel-types.component';
 
 const routes: Routes = [
   {
@@ -242,6 +243,10 @@ const routes: Routes = [
   {
     path: 'view-interest-rate-benchmarks',
     component: ViewInterestRateBenchmarksComponent,
+  },
+  {
+    path: 'view-feel-types',
+    component: ViewFeelTypesComponent,
   },
 ];
 

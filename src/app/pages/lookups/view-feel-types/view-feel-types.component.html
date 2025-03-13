@@ -1,0 +1,28 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Feel Types'"
+    [labelBtn]="'Add Feel Types'"
+    [backExists]="true"
+    [exports]="true"
+    [backIcon]="'back-icon'"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'ID'"
+    [col2Name]="'Code'"
+    [col3Name]="'Name'"
+    [col4Name]="'Arabic Name'"
+    [col5Name]="'Amount '"
+    [col6Name]="'Percentage'"
+    [col7Name]="'IsPercentage'"
+    [col8Name]="'Active'"
+    [edit]="true"
+    [delete]="true"
+    [side]="false"
+    [download]="false"
+    [checkBox]="true"
+    [viewFeelTypesTable]="true"
+    [uppercase]="'uppercase'"
+  ></app-table>
+</div>

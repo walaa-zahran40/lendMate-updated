@@ -49,6 +49,7 @@ export class TableComponent {
   @Input() viewLegalFormLawTable!: boolean;
   @Input() viewCompanyTypesTable!: boolean;
   @Input() viewMandateStatusesTypesTable!: boolean;
+  @Input() viewFeelTypesTable!: boolean;
   checked: boolean = false;
   first2: number = 0;
 
