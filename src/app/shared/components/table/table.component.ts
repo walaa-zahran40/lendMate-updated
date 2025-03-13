@@ -47,6 +47,7 @@ export class TableComponent {
   @Input() viewManageMandateTermsTable!: boolean;
   @Input() viewLegalFormTable!: boolean;
   @Input() viewLegalFormLawTable!: boolean;
+  @Input() viewCompanyTypesTable!: boolean;
   checked: boolean = false;
   first2: number = 0;
 
@@ -66,7 +67,6 @@ export class TableComponent {
 
   ngOnInit() {
     this.totalRecords = this.tableData.length;
-    console.log(this.tableData[0]);
   }
   openPopup() {
     this.sharedService.showPopup();

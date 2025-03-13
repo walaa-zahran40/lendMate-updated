@@ -50,6 +50,7 @@ import { LookupsRoutingModule } from './lookups-routing.module';
 import { SharedModule } from '../../shared/shared.module';
 import { AddClientDocumentTypesComponent } from './add-client-document-types/add-client-document-types.component';
 import { AddClientTypesComponent } from './add-client-types/add-client-types.component';
+import { ViewCompanyTypesComponent } from './view-company-types/view-company-types.component';
 
 @NgModule({
   declarations: [
@@ -97,6 +98,7 @@ import { AddClientTypesComponent } from './add-client-types/add-client-types.com
     AddCurrenciesExchangeComponent,
     AddClientDocumentTypesComponent,
     AddClientTypesComponent,
+    ViewCompanyTypesComponent,
   ],
   imports: [
     CommonModule,

@@ -44,6 +44,7 @@ import { AddCallTypesComponent } from './add-call-types/add-call-types.component
 import { AddCommunicationTypesComponent } from './add-communication-types/add-communication-types.component';
 import { AddCallActionTypesComponent } from './add-call-action-types/add-call-action-types.component';
 import { AddCommunicationFlowTypesComponent } from './add-communication-flow-types/communication-flow-types.component';
+import { ViewCompanyTypesComponent } from './view-company-types/view-company-types.component';
 
 const routes: Routes = [
   {
@@ -222,6 +223,10 @@ const routes: Routes = [
   {
     path: 'add-communication-flow-type',
     component: AddCommunicationFlowTypesComponent,
+  },
+  {
+    path: 'view-company-types',
+    component: ViewCompanyTypesComponent,
   },
 ];
 
