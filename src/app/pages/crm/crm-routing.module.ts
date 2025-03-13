@@ -36,6 +36,7 @@ import { ViewContactPersonsComponent } from './leasing-mandates/view-contact-per
 import { ViewAssestTypeComponent } from './leasing-mandates/view-assest-type/view-assest-type.component';
 import { WizardComponent } from './leasing-mandates/wizard/wizard.component';
 import { ViewCalculationsComponent } from './leasing-mandates/view-calculations/view-calculations.component';
+import { ViewManageMandateTermsComponent } from './leasing-mandates/view-manage-mandate-terms/view-manage-mandate-terms.component';
 
 const routes: Routes = [
   /*Clients Routing*/
@@ -187,6 +188,10 @@ const routes: Routes = [
   {
     path: 'leasing-mandates/view-calculations',
     component: ViewCalculationsComponent,
+  },
+  {
+    path: 'leasing-mandates/view-manage-mandate-terms',
+    component: ViewManageMandateTermsComponent,
   },
 ];
 

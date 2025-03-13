@@ -1,0 +1,23 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Manage Mandate Terms'"
+    [labelBtn]="'Add Term'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [exports]="true"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'Term Key'"
+    [col2Name]="'Description'"
+    [col3Name]="'IsActive'"
+    [edit]="true"
+    [delete]="true"
+    [side]="false"
+    [download]="false"
+    [checkBox]="true"
+    [uppercase]="'uppercase'"
+    [viewManageMandateTermsTable]="true"
+  ></app-table>
+</div>

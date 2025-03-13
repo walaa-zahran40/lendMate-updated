@@ -44,6 +44,7 @@ export class TableComponent {
   @Input() viewContactPersonsTable!: boolean;
   @Input() viewAssestTypeTable!: boolean;
   @Input() viewCalculationsTable!: boolean;
+  @Input() viewManageMandateTermsTable!: boolean;
   checked: boolean = false;
   first2: number = 0;
 

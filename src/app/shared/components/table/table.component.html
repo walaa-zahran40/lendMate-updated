@@ -817,7 +817,43 @@
       </td>
     </tr>
   </ng-template>
+  <ng-template
+    pTemplate="body"
+    let-rowData="rowData"
+    let-manageMandate
+    sortMode="multiple"
+    *ngIf="viewManageMandateTermsTable"
+  >
+    <tr>
+      <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+      <td>
+        <span class="p-column-title"> {{ col1Name }}</span>
+        {{ manageMandate.termKey }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col2Name }} </span>
+        {{ manageMandate.description }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col3Name }} </span>
+        <span class="{{ uppercase }}"> {{ manageMandate.isActive }}</span>
+      </td>
 
+      <td class="imgs">
+        <img
+          src="/assets/images/shared/table/edit.svg"
+          alt="edit"
+          class="d-inline-block mx-1 my-2"
+          *ngIf="edit"
+        /><img
+          src="/assets/images/shared/table/delete.svg"
+          class="d-inline-block mx-1 my-2"
+          alt="delete"
+          *ngIf="delete"
+        />
+      </td>
+    </tr>
+  </ng-template>
   <ng-template pTemplate="paginatorleft">
     <div class="p-paginator-left">
       <span>View Applicants per page</span>
