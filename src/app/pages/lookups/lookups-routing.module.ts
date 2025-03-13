@@ -45,6 +45,7 @@ import { AddCommunicationTypesComponent } from './add-communication-types/add-co
 import { AddCallActionTypesComponent } from './add-call-action-types/add-call-action-types.component';
 import { AddCommunicationFlowTypesComponent } from './add-communication-flow-types/communication-flow-types.component';
 import { ViewCompanyTypesComponent } from './view-company-types/view-company-types.component';
+import { ViewFeesCalculationTypesComponent } from './view-fees-calculation-types/view-fees-calculation-types.component';
 
 const routes: Routes = [
   {
@@ -227,6 +228,10 @@ const routes: Routes = [
   {
     path: 'view-company-types',
     component: ViewCompanyTypesComponent,
+  },
+  {
+    path: 'view-fees-calculation-types',
+    component: ViewFeesCalculationTypesComponent,
   },
 ];
 

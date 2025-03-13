@@ -51,6 +51,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { AddClientDocumentTypesComponent } from './add-client-document-types/add-client-document-types.component';
 import { AddClientTypesComponent } from './add-client-types/add-client-types.component';
 import { ViewCompanyTypesComponent } from './view-company-types/view-company-types.component';
+import { ViewFeesCalculationTypesComponent } from './view-fees-calculation-types/view-fees-calculation-types.component';
 
 @NgModule({
   declarations: [
@@ -99,6 +100,7 @@ import { ViewCompanyTypesComponent } from './view-company-types/view-company-typ
     AddClientDocumentTypesComponent,
     AddClientTypesComponent,
     ViewCompanyTypesComponent,
+    ViewFeesCalculationTypesComponent,
   ],
   imports: [
     CommonModule,
