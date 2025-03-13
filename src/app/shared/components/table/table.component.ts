@@ -46,6 +46,7 @@ export class TableComponent {
   @Input() viewCalculationsTable!: boolean;
   @Input() viewManageMandateTermsTable!: boolean;
   @Input() viewLegalFormTable!: boolean;
+  @Input() viewLegalFormLawTable!: boolean;
   checked: boolean = false;
   first2: number = 0;
 

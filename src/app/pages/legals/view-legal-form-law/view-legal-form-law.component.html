@@ -1,1 +1,25 @@
-<p>view-legal-form-law works!</p>
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Legal Form Laws'"
+    [labelBtn]="'Add Legal Form Law'"
+    [iconBtn]="'plus-icon'"
+    [backExists]="false"
+    [exports]="true"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'ID'"
+    [col2Name]="'Legal Form Code'"
+    [col3Name]="'Name in English'"
+    [col4Name]="'Name in Arabic'"
+    [col5Name]="'Active'"
+    [edit]="true"
+    [delete]="true"
+    [side]="false"
+    [download]="false"
+    [checkBox]="true"
+    [viewLegalFormLawTable]="true"
+    [uppercase]="'uppercase'"
+  ></app-table>
+</div>
