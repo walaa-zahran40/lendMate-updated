@@ -7,11 +7,11 @@ import { ViewLegalFormLawComponent } from './view-legal-form-law/view-legal-form
 
 const routes: Routes = [
   {
-    path: 'legal-forms',
+    path: 'add-legal-forms',
     component: LegalFormsComponent,
   },
   {
-    path: 'legal-forms-law',
+    path: 'add-legal-forms-law',
     component: LegalFormsLawComponent,
   },
   {
