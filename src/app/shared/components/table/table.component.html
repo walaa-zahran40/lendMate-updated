@@ -9,12 +9,13 @@
 >
   <ng-template pTemplate="header">
     <tr class="border-1">
-      <th><p-checkbox [binary]="true" *ngIf="checkBox" /></th>
+      <th *ngIf="checkBox"><p-checkbox [binary]="true" /></th>
       <th *ngIf="col1Name">
         {{ col1Name }}
         <img
           src="/assets/images/shared/table/sort.svg"
           alt="sort"
+          *ngIf="filters"
           class="d-inline-block mx-1 my-2"
         />
       </th>
@@ -23,6 +24,7 @@
         <img
           src="/assets/images/shared/table/sort.svg"
           alt="sort"
+          *ngIf="filters"
           class="d-inline-block mx-1 my-2"
         />
       </th>
@@ -31,6 +33,7 @@
         <img
           src="/assets/images/shared/table/sort.svg"
           alt="sort"
+          *ngIf="filters"
           class="d-inline-block mx-1 my-2"
         />
       </th>
@@ -39,6 +42,7 @@
         <img
           src="/assets/images/shared/table/sort.svg"
           alt="sort"
+          *ngIf="filters"
           class="d-inline-block mx-1 my-2"
         />
       </th>
@@ -47,6 +51,7 @@
         <img
           src="/assets/images/shared/table/sort.svg"
           alt="sort"
+          *ngIf="filters"
           class="d-inline-block mx-1 my-2"
         />
       </th>
@@ -55,10 +60,28 @@
         <img
           src="/assets/images/shared/table/sort.svg"
           alt="sort"
+          *ngIf="filters"
           class="d-inline-block mx-1 my-2"
         />
       </th>
-
+      <th *ngIf="col7Name">
+        {{ col7Name }}
+        <img
+          src="/assets/images/shared/table/sort.svg"
+          alt="sort"
+          *ngIf="filters"
+          class="d-inline-block mx-1 my-2"
+        />
+      </th>
+      <th *ngIf="col8Name">
+        {{ col8Name }}
+        <img
+          src="/assets/images/shared/table/sort.svg"
+          alt="sort"
+          *ngIf="filters"
+          class="d-inline-block mx-1 my-2"
+        />
+      </th>
       <th *ngIf="side"></th>
     </tr>
   </ng-template>
@@ -723,6 +746,62 @@
         {{ assestType.assestType }}
       </td>
 
+      <td class="imgs">
+        <img
+          src="/assets/images/shared/table/edit.svg"
+          alt="edit"
+          class="d-inline-block mx-1 my-2"
+          *ngIf="edit"
+        /><img
+          src="/assets/images/shared/table/delete.svg"
+          class="d-inline-block mx-1 my-2"
+          alt="delete"
+          *ngIf="delete"
+        />
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template
+    pTemplate="body"
+    let-rowData="rowData"
+    let-calculation
+    sortMode="multiple"
+    *ngIf="viewCalculationsTable"
+  >
+    <tr [ngClass]="{ 'first-row-calculations': tableData[0] }">
+      <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+      <td>
+        <span class="p-column-title"> {{ col1Name }}</span>
+        {{ calculation.paymentNumber }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col2Name }} </span>
+        {{ calculation.dueDate | date : "dd-MMM-yyyy" }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col3Name }} </span>
+        {{ calculation.balanceBefore }} EGP
+      </td>
+      <td>
+        <span class="p-column-title">{{ col4Name }} </span>
+        {{ calculation.balanceAfter }} EGP
+      </td>
+      <td>
+        <span class="p-column-title">{{ col5Name }} </span>
+        {{ calculation.insuranceOutcome }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col6Name }} </span>
+        {{ calculation.principal }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col7Name }} </span>
+        {{ calculation.installment }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col8Name }} </span>
+        {{ calculation.interest }}
+      </td>
       <td class="imgs">
         <img
           src="/assets/images/shared/table/edit.svg"

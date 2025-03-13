@@ -14,4 +14,5 @@ export class ToolbarTableComponent {
   @Input() customSpacing!: string;
   @Input() backExists!: boolean;
   @Input() exports!: boolean;
+  @Input() btnAdd: boolean = true;
 }

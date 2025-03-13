@@ -19,11 +19,14 @@ export class TableComponent {
   @Input() col4Name!: string;
   @Input() col5Name!: string;
   @Input() col6Name!: string;
+  @Input() col7Name!: string;
+  @Input() col8Name!: string;
   @Input() edit!: boolean;
   @Input() delete!: boolean;
   @Input() side!: boolean;
   @Input() download!: boolean;
   @Input() checkBox!: boolean;
+  @Input() filters: boolean = true;
   @Input() uppercase!: string;
   @Input() viewClientTable!: boolean;
   @Input() viewUploadDocumentsTable!: boolean;
@@ -40,6 +43,7 @@ export class TableComponent {
   @Input() viewOfficersTable!: boolean;
   @Input() viewContactPersonsTable!: boolean;
   @Input() viewAssestTypeTable!: boolean;
+  @Input() viewCalculationsTable!: boolean;
   checked: boolean = false;
   first2: number = 0;
 
@@ -59,6 +63,7 @@ export class TableComponent {
 
   ngOnInit() {
     this.totalRecords = this.tableData.length;
+    console.log(this.tableData[0]);
   }
   openPopup() {
     this.sharedService.showPopup();

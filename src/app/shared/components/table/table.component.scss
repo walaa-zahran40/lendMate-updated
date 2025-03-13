@@ -36,10 +36,18 @@
     .p-datatable-tbody > tr > .imgs {
       text-align: end;
     }
+
+    .p-datatable-tbody > .first-row-calculations:nth-child(1) {
+      background: #0056b3 !important;
+      td {
+        color: #fff;
+      }
+    }
     .p-datatable-tbody > tr:nth-child(odd) {
       background: #f8f8fd;
       border: 1px solid #d6ddeb;
     }
+
     .p-datatable-tbody {
       position: relative;
       top: 16px;
@@ -52,7 +60,7 @@
       font-style: normal;
       font-weight: 400;
       line-height: 160%;
-      text-align: center;
+      text-align: start;
     }
     .p-paginator {
       display: flex;
@@ -139,7 +147,7 @@
       font-style: normal;
       font-weight: 500;
       line-height: 160%;
-      text-align: center;
+      text-align: start;
     }
 
     .p-datatable-tbody > tr > td > .uppercase {
