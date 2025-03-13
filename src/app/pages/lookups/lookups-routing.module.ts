@@ -47,6 +47,7 @@ import { AddCommunicationFlowTypesComponent } from './add-communication-flow-typ
 import { ViewCompanyTypesComponent } from './view-company-types/view-company-types.component';
 import { ViewFeesCalculationTypesComponent } from './view-fees-calculation-types/view-fees-calculation-types.component';
 import { ViewMandateStatusesComponent } from './view-mandate-statuses/view-mandate-statuses.component';
+import { ViewInterestRateBenchmarksComponent } from './view-interest-rate-benchmarks/view-interest-rate-benchmarks.component';
 
 const routes: Routes = [
   {
@@ -237,6 +238,10 @@ const routes: Routes = [
   {
     path: 'view-mandate-statuses',
     component: ViewMandateStatusesComponent,
+  },
+  {
+    path: 'view-interest-rate-benchmarks',
+    component: ViewInterestRateBenchmarksComponent,
   },
 ];
 
