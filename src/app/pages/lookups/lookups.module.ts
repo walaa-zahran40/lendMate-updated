@@ -52,6 +52,7 @@ import { AddClientDocumentTypesComponent } from './add-client-document-types/add
 import { AddClientTypesComponent } from './add-client-types/add-client-types.component';
 import { ViewCompanyTypesComponent } from './view-company-types/view-company-types.component';
 import { ViewFeesCalculationTypesComponent } from './view-fees-calculation-types/view-fees-calculation-types.component';
+import { ViewMandateStatusesComponent } from './view-mandate-statuses/view-mandate-statuses.component';
 
 @NgModule({
   declarations: [
@@ -101,6 +102,7 @@ import { ViewFeesCalculationTypesComponent } from './view-fees-calculation-types
     AddClientTypesComponent,
     ViewCompanyTypesComponent,
     ViewFeesCalculationTypesComponent,
+    ViewMandateStatusesComponent,
   ],
   imports: [
     CommonModule,
