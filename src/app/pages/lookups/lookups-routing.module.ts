@@ -55,6 +55,7 @@ import { ViewCurrenciesComponent } from './view-currencies/view-currencies.compo
 import { WizardCurrenciesComponent } from './wizard-currencies/wizard-currencies.component';
 import { ViewCurrencyExchangeComponent } from './view-currency-exchange/view-currency-exchange.component';
 import { ViewPaymentMethodsComponent } from './view-payment-methods/view-payment-methods.component';
+import { ViewPaymentTypesComponent } from './view-payment-types/view-payment-types.component';
 
 const routes: Routes = [
   {
@@ -273,6 +274,10 @@ const routes: Routes = [
   {
     path: 'view-payment-methods',
     component: ViewPaymentMethodsComponent,
+  },
+  {
+    path: 'view-payment-types',
+    component: ViewPaymentTypesComponent,
   },
   {
     path: 'wizard-currencies',
