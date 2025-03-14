@@ -65,6 +65,7 @@ import { ViewInsuredByComponent } from './view-insured-by/view-insured-by.compon
 import { ViewLeasingTypeComponent } from './view-leasing-type/view-leasing-type.component';
 import { ViewMandateValidityUnitComponent } from './view-mandate-validity-unit/view-mandate-validity-unit.component';
 import { ViewClientDocumentTypesComponent } from './view-client-document-types/view-client-document-types.component';
+import { ViewBranchComponent } from './view-branch/view-branch.component';
 
 @NgModule({
   declarations: [
@@ -127,6 +128,7 @@ import { ViewClientDocumentTypesComponent } from './view-client-document-types/v
     ViewLeasingTypeComponent,
     ViewMandateValidityUnitComponent,
     ViewClientDocumentTypesComponent,
+    ViewBranchComponent,
   ],
   imports: [
     CommonModule,
