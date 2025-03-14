@@ -51,6 +51,7 @@ import { ViewInterestRateBenchmarksComponent } from './view-interest-rate-benchm
 import { ViewFeelTypesComponent } from './view-feel-types/view-feel-types.component';
 import { ViewGracePeriodUnitsComponent } from './view-grace-period-units/view-grace-period-units.component';
 import { ViewRentStructureTypesComponent } from './view-rent-structure-types/view-rent-structure-types.component';
+import { ViewCurrenciesComponent } from './view-currencies/view-currencies.component';
 
 const routes: Routes = [
   {
@@ -257,6 +258,10 @@ const routes: Routes = [
   {
     path: 'view-rent-structure-types',
     component: ViewRentStructureTypesComponent,
+  },
+  {
+    path: 'view-currencies',
+    component: ViewCurrenciesComponent,
   },
 ];
 

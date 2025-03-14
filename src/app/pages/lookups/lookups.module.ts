@@ -57,6 +57,7 @@ import { ViewInterestRateBenchmarksComponent } from './view-interest-rate-benchm
 import { ViewFeelTypesComponent } from './view-feel-types/view-feel-types.component';
 import { ViewGracePeriodUnitsComponent } from './view-grace-period-units/view-grace-period-units.component';
 import { ViewRentStructureTypesComponent } from './view-rent-structure-types/view-rent-structure-types.component';
+import { ViewCurrenciesComponent } from './view-currencies/view-currencies.component';
 
 @NgModule({
   declarations: [
@@ -111,6 +112,7 @@ import { ViewRentStructureTypesComponent } from './view-rent-structure-types/vie
     ViewFeelTypesComponent,
     ViewGracePeriodUnitsComponent,
     ViewRentStructureTypesComponent,
+    ViewCurrenciesComponent,
   ],
   imports: [
     CommonModule,

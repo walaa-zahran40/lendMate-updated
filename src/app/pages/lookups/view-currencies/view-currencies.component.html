@@ -1,0 +1,26 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Currencies'"
+    [labelBtn]="'Add Currencies'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [exports]="true"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'ID'"
+    [col2Name]="'Code'"
+    [col3Name]="'Name'"
+    [col4Name]="'Arabic Name'"
+    [col5Name]="'ISO'"
+    [col6Name]="'Currency'"
+    [edit]="true"
+    [delete]="true"
+    [side]="true"
+    [download]="false"
+    [checkBox]="true"
+    [viewCurrenciesTable]="true"
+    [uppercase]="'uppercase'"
+  ></app-table>
+</div>

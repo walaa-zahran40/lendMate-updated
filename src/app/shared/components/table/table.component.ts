@@ -50,6 +50,7 @@ export class TableComponent {
   @Input() viewCompanyTypesTable!: boolean;
   @Input() viewMandateStatusesTypesTable!: boolean;
   @Input() viewFeelTypesTable!: boolean;
+  @Input() viewCurrenciesTable!: boolean;
   checked: boolean = false;
   first2: number = 0;
 
