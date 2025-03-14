@@ -1,0 +1,27 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Assest Types'"
+    [labelBtn]="'Add Assest Types'"
+    [backExists]="true"
+    [exports]="true"
+    [backIcon]="'back-icon'"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'ID'"
+    [col2Name]="'Code'"
+    [col3Name]="'Name EN'"
+    [col4Name]="'Name AR'"
+    [col5Name]="'Category'"
+    [col6Name]="'Parent'"
+    [col7Name]="'Active'"
+    [edit]="true"
+    [delete]="true"
+    [side]="false"
+    [download]="false"
+    [checkBox]="true"
+    [viewAssestTypesTable]="true"
+    [uppercase]="'uppercase'"
+  ></app-table>
+</div>
