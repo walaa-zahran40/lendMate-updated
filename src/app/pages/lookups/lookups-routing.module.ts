@@ -50,6 +50,7 @@ import { ViewMandateStatusesComponent } from './view-mandate-statuses/view-manda
 import { ViewInterestRateBenchmarksComponent } from './view-interest-rate-benchmarks/view-interest-rate-benchmarks.component';
 import { ViewFeelTypesComponent } from './view-feel-types/view-feel-types.component';
 import { ViewGracePeriodUnitsComponent } from './view-grace-period-units/view-grace-period-units.component';
+import { ViewRentStructureTypesComponent } from './view-rent-structure-types/view-rent-structure-types.component';
 
 const routes: Routes = [
   {
@@ -252,6 +253,10 @@ const routes: Routes = [
   {
     path: 'view-grace-period-units',
     component: ViewGracePeriodUnitsComponent,
+  },
+  {
+    path: 'view-rent-structure-types',
+    component: ViewRentStructureTypesComponent,
   },
 ];
 
