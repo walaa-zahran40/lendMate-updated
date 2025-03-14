@@ -70,6 +70,7 @@ import { ViewBranchAddressesComponent } from './view-branch-addresses/view-branc
 import { ViewBusinessLinesComponent } from './view-business-lines/view-business-lines.component';
 import { ViewAssestTypesComponent } from './view-assest-types/view-assest-types.component';
 import { ViewAssestTypeCategoriesComponent } from './view-assest-type-categories/view-assest-type-categories.component';
+import { ViewProductsComponent } from './view-products/view-products.component';
 
 const routes: Routes = [
   {
@@ -344,6 +345,10 @@ const routes: Routes = [
   {
     path: 'view-assest-type-categories',
     component: ViewAssestTypeCategoriesComponent,
+  },
+  {
+    path: 'view-products',
+    component: ViewProductsComponent,
   },
   {
     path: 'wizard-currencies',

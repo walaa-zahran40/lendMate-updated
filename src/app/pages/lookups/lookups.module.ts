@@ -73,6 +73,7 @@ import { ViewBranchAddressesComponent } from './view-branch-addresses/view-branc
 import { ViewBusinessLinesComponent } from './view-business-lines/view-business-lines.component';
 import { ViewAssestTypesComponent } from './view-assest-types/view-assest-types.component';
 import { ViewAssestTypeCategoriesComponent } from './view-assest-type-categories/view-assest-type-categories.component';
+import { ViewProductsComponent } from './view-products/view-products.component';
 
 @NgModule({
   declarations: [
@@ -143,6 +144,7 @@ import { ViewAssestTypeCategoriesComponent } from './view-assest-type-categories
     ViewBusinessLinesComponent,
     ViewAssestTypesComponent,
     ViewAssestTypeCategoriesComponent,
+    ViewProductsComponent,
   ],
   imports: [
     CommonModule,
