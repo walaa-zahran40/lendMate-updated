@@ -74,6 +74,7 @@ import { ViewBusinessLinesComponent } from './view-business-lines/view-business-
 import { ViewAssestTypesComponent } from './view-assest-types/view-assest-types.component';
 import { ViewAssestTypeCategoriesComponent } from './view-assest-type-categories/view-assest-type-categories.component';
 import { ViewProductsComponent } from './view-products/view-products.component';
+import { ViewSectorsComponent } from './view-sectors/view-sectors.component';
 
 @NgModule({
   declarations: [
@@ -145,6 +146,7 @@ import { ViewProductsComponent } from './view-products/view-products.component';
     ViewAssestTypesComponent,
     ViewAssestTypeCategoriesComponent,
     ViewProductsComponent,
+    ViewSectorsComponent,
   ],
   imports: [
     CommonModule,

@@ -60,6 +60,7 @@ export class TableComponent {
   @Input() viewBusinessLinesTable!: boolean;
   @Input() viewAssestTypesTable!: boolean;
   @Input() viewAssestTypeCategoriesTable!: boolean;
+  @Input() viewSectorsTable!: boolean;
   checked: boolean = false;
   first2: number = 0;
 
