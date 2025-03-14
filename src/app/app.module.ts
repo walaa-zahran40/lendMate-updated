@@ -17,12 +17,14 @@ import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { ViewPaymentTypesComponent } from './pages/lookups/view-payment-types/view-payment-types.component';
 import { ViewPaymentMonthDaysComponent } from './pages/lookups/view-payment-month-days/view-payment-month-days.component';
+import { ViewMeetingTypesComponent } from './pages/lookups/view-meeting-types/view-meeting-types.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ViewPaymentTypesComponent,
     ViewPaymentMonthDaysComponent,
+    ViewMeetingTypesComponent,
   ],
   imports: [
     BrowserModule,
