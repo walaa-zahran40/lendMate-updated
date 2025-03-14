@@ -58,6 +58,7 @@ import { ViewPaymentMethodsComponent } from './view-payment-methods/view-payment
 import { ViewPaymentTypesComponent } from './view-payment-types/view-payment-types.component';
 import { ViewPaymentMonthDaysComponent } from './view-payment-month-days/view-payment-month-days.component';
 import { ViewMeetingTypesComponent } from './view-meeting-types/view-meeting-types.component';
+import { ViewInsuredByComponent } from './view-insured-by/view-insured-by.component';
 
 const routes: Routes = [
   {
@@ -288,6 +289,10 @@ const routes: Routes = [
   {
     path: 'view-meeting-types',
     component: ViewMeetingTypesComponent,
+  },
+  {
+    path: 'view-insured-by',
+    component: ViewInsuredByComponent,
   },
   {
     path: 'wizard-currencies',
