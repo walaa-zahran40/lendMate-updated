@@ -54,6 +54,7 @@ import { ViewRentStructureTypesComponent } from './view-rent-structure-types/vie
 import { ViewCurrenciesComponent } from './view-currencies/view-currencies.component';
 import { WizardCurrenciesComponent } from './wizard-currencies/wizard-currencies.component';
 import { ViewCurrencyExchangeComponent } from './view-currency-exchange/view-currency-exchange.component';
+import { ViewPaymentMethodsComponent } from './view-payment-methods/view-payment-methods.component';
 
 const routes: Routes = [
   {
@@ -268,6 +269,10 @@ const routes: Routes = [
   {
     path: 'view-currency-exchange-rate',
     component: ViewCurrencyExchangeComponent,
+  },
+  {
+    path: 'view-payment-methods',
+    component: ViewPaymentMethodsComponent,
   },
   {
     path: 'wizard-currencies',

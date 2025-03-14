@@ -52,6 +52,7 @@ export class TableComponent {
   @Input() viewFeelTypesTable!: boolean;
   @Input() viewCurrenciesTable!: boolean;
   @Input() viewCurrencyExchangeTable!: boolean;
+  @Input() viewPaymentMethodsTable!: boolean;
   checked: boolean = false;
   first2: number = 0;
 

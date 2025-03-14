@@ -60,6 +60,7 @@ import { ViewRentStructureTypesComponent } from './view-rent-structure-types/vie
 import { ViewCurrenciesComponent } from './view-currencies/view-currencies.component';
 import { WizardCurrenciesComponent } from './wizard-currencies/wizard-currencies.component';
 import { ViewCurrencyExchangeComponent } from './view-currency-exchange/view-currency-exchange.component';
+import { ViewPaymentMethodsComponent } from './view-payment-methods/view-payment-methods.component';
 
 @NgModule({
   declarations: [
@@ -117,6 +118,7 @@ import { ViewCurrencyExchangeComponent } from './view-currency-exchange/view-cur
     ViewCurrenciesComponent,
     WizardCurrenciesComponent,
     ViewCurrencyExchangeComponent,
+    ViewPaymentMethodsComponent,
   ],
   imports: [
     CommonModule,

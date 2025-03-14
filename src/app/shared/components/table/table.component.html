@@ -1175,6 +1175,50 @@
       </td>
     </tr>
   </ng-template>
+  <ng-template
+    pTemplate="body"
+    let-rowData="rowData"
+    let-paymentMethod
+    sortMode="multiple"
+    *ngIf="viewPaymentMethodsTable"
+  >
+    <tr>
+      <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+      <td>
+        <span class="p-column-title"> {{ col1Name }}</span>
+        {{ paymentMethod.id }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col2Name }} </span>
+        {{ paymentMethod.code }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col3Name }} </span>
+        {{ paymentMethod.name }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col4Name }} </span>
+        {{ paymentMethod.arabicName }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col5Name }} </span>
+        <span class="{{ uppercase }}">{{ paymentMethod.active }}</span>
+      </td>
+      <td class="imgs">
+        <img
+          src="/assets/images/shared/table/edit.svg"
+          alt="edit"
+          class="d-inline-block mx-1 my-2"
+          *ngIf="edit"
+        /><img
+          src="/assets/images/shared/table/delete.svg"
+          class="d-inline-block mx-1 my-2"
+          alt="delete"
+          *ngIf="delete"
+        />
+      </td>
+    </tr>
+  </ng-template>
 
   <ng-template pTemplate="paginatorleft">
     <div class="p-paginator-left">
