@@ -57,6 +57,7 @@ export class TableComponent {
   @Input() viewBranchTable!: boolean;
   @Input() viewBranchManagersTable!: boolean;
   @Input() viewBranchAddressesTable!: boolean;
+  @Input() viewBusinessLinesTable!: boolean;
   checked: boolean = false;
   first2: number = 0;
 

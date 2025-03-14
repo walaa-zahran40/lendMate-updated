@@ -67,6 +67,7 @@ import { WizardBranchComponent } from './wizard-branch/wizard-branch.component';
 import { ViewBranchManagersComponent } from './view-branch-managers/view-branch-managers.component';
 import { ViewBranchOfficersComponent } from './view-branch-officers/view-branch-officers.component';
 import { ViewBranchAddressesComponent } from './view-branch-addresses/view-branch-addresses.component';
+import { ViewBusinessLinesComponent } from './view-business-lines/view-business-lines.component';
 
 const routes: Routes = [
   {
@@ -329,6 +330,10 @@ const routes: Routes = [
   {
     path: 'view-branch-addresses',
     component: ViewBranchAddressesComponent,
+  },
+  {
+    path: 'view-business-lines',
+    component: ViewBusinessLinesComponent,
   },
   {
     path: 'wizard-currencies',

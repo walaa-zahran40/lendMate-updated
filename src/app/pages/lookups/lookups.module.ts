@@ -70,6 +70,7 @@ import { WizardBranchComponent } from './wizard-branch/wizard-branch.component';
 import { ViewBranchManagersComponent } from './view-branch-managers/view-branch-managers.component';
 import { ViewBranchOfficersComponent } from './view-branch-officers/view-branch-officers.component';
 import { ViewBranchAddressesComponent } from './view-branch-addresses/view-branch-addresses.component';
+import { ViewBusinessLinesComponent } from './view-business-lines/view-business-lines.component';
 
 @NgModule({
   declarations: [
@@ -137,6 +138,7 @@ import { ViewBranchAddressesComponent } from './view-branch-addresses/view-branc
     ViewBranchManagersComponent,
     ViewBranchOfficersComponent,
     ViewBranchAddressesComponent,
+    ViewBusinessLinesComponent,
   ],
   imports: [
     CommonModule,
