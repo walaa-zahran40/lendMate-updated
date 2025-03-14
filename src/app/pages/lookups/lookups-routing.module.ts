@@ -53,6 +53,7 @@ import { ViewGracePeriodUnitsComponent } from './view-grace-period-units/view-gr
 import { ViewRentStructureTypesComponent } from './view-rent-structure-types/view-rent-structure-types.component';
 import { ViewCurrenciesComponent } from './view-currencies/view-currencies.component';
 import { WizardCurrenciesComponent } from './wizard-currencies/wizard-currencies.component';
+import { ViewCurrencyExchangeComponent } from './view-currency-exchange/view-currency-exchange.component';
 
 const routes: Routes = [
   {
@@ -263,6 +264,10 @@ const routes: Routes = [
   {
     path: 'view-currencies',
     component: ViewCurrenciesComponent,
+  },
+  {
+    path: 'view-currency-exchange-rate',
+    component: ViewCurrencyExchangeComponent,
   },
   {
     path: 'wizard-currencies',

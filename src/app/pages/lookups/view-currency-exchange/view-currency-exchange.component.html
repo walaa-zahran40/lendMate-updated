@@ -1,0 +1,21 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Currency Exchange'"
+    [labelBtn]="'Add a Currency'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [exports]="true"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'Exchange Date'"
+    [col2Name]="'Exchange Rate'"
+    [edit]="true"
+    [delete]="true"
+    [side]="false"
+    [download]="false"
+    [checkBox]="true"
+    [viewCurrencyExchangeTable]="true"
+  ></app-table>
+</div>

@@ -59,6 +59,7 @@ import { ViewGracePeriodUnitsComponent } from './view-grace-period-units/view-gr
 import { ViewRentStructureTypesComponent } from './view-rent-structure-types/view-rent-structure-types.component';
 import { ViewCurrenciesComponent } from './view-currencies/view-currencies.component';
 import { WizardCurrenciesComponent } from './wizard-currencies/wizard-currencies.component';
+import { ViewCurrencyExchangeComponent } from './view-currency-exchange/view-currency-exchange.component';
 
 @NgModule({
   declarations: [
@@ -115,6 +116,7 @@ import { WizardCurrenciesComponent } from './wizard-currencies/wizard-currencies
     ViewRentStructureTypesComponent,
     ViewCurrenciesComponent,
     WizardCurrenciesComponent,
+    ViewCurrencyExchangeComponent,
   ],
   imports: [
     CommonModule,
