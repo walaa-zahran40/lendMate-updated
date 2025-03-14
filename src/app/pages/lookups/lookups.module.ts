@@ -63,6 +63,7 @@ import { ViewCurrencyExchangeComponent } from './view-currency-exchange/view-cur
 import { ViewPaymentMethodsComponent } from './view-payment-methods/view-payment-methods.component';
 import { ViewInsuredByComponent } from './view-insured-by/view-insured-by.component';
 import { ViewLeasingTypeComponent } from './view-leasing-type/view-leasing-type.component';
+import { ViewMandateValidityUnitComponent } from './view-mandate-validity-unit/view-mandate-validity-unit.component';
 
 @NgModule({
   declarations: [
@@ -123,6 +124,7 @@ import { ViewLeasingTypeComponent } from './view-leasing-type/view-leasing-type.
     ViewPaymentMethodsComponent,
     ViewInsuredByComponent,
     ViewLeasingTypeComponent,
+    ViewMandateValidityUnitComponent,
   ],
   imports: [
     CommonModule,

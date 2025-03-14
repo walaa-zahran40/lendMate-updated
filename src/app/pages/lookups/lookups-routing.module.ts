@@ -60,6 +60,7 @@ import { ViewPaymentMonthDaysComponent } from './view-payment-month-days/view-pa
 import { ViewMeetingTypesComponent } from './view-meeting-types/view-meeting-types.component';
 import { ViewInsuredByComponent } from './view-insured-by/view-insured-by.component';
 import { ViewLeasingTypeComponent } from './view-leasing-type/view-leasing-type.component';
+import { ViewMandateValidityUnitComponent } from './view-mandate-validity-unit/view-mandate-validity-unit.component';
 
 const routes: Routes = [
   {
@@ -298,6 +299,10 @@ const routes: Routes = [
   {
     path: 'view-leasing-type',
     component: ViewLeasingTypeComponent,
+  },
+  {
+    path: 'view-mandate-validity-unit',
+    component: ViewMandateValidityUnitComponent,
   },
   {
     path: 'wizard-currencies',
