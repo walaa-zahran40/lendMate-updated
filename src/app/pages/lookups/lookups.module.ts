@@ -64,6 +64,7 @@ import { ViewPaymentMethodsComponent } from './view-payment-methods/view-payment
 import { ViewInsuredByComponent } from './view-insured-by/view-insured-by.component';
 import { ViewLeasingTypeComponent } from './view-leasing-type/view-leasing-type.component';
 import { ViewMandateValidityUnitComponent } from './view-mandate-validity-unit/view-mandate-validity-unit.component';
+import { ViewClientDocumentTypesComponent } from './view-client-document-types/view-client-document-types.component';
 
 @NgModule({
   declarations: [
@@ -125,6 +126,7 @@ import { ViewMandateValidityUnitComponent } from './view-mandate-validity-unit/v
     ViewInsuredByComponent,
     ViewLeasingTypeComponent,
     ViewMandateValidityUnitComponent,
+    ViewClientDocumentTypesComponent,
   ],
   imports: [
     CommonModule,
