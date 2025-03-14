@@ -55,6 +55,7 @@ export class TableComponent {
   @Input() viewPaymentMethodsTable!: boolean;
   @Input() viewMandateValidityUnitTable!: boolean;
   @Input() viewBranchTable!: boolean;
+  @Input() viewBranchManagersTable!: boolean;
   checked: boolean = false;
   first2: number = 0;
 

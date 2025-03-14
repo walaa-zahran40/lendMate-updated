@@ -67,6 +67,7 @@ import { ViewMandateValidityUnitComponent } from './view-mandate-validity-unit/v
 import { ViewClientDocumentTypesComponent } from './view-client-document-types/view-client-document-types.component';
 import { ViewBranchComponent } from './view-branch/view-branch.component';
 import { WizardBranchComponent } from './wizard-branch/wizard-branch.component';
+import { ViewBranchManagersComponent } from './view-branch-managers/view-branch-managers.component';
 
 @NgModule({
   declarations: [
@@ -131,6 +132,7 @@ import { WizardBranchComponent } from './wizard-branch/wizard-branch.component';
     ViewClientDocumentTypesComponent,
     ViewBranchComponent,
     WizardBranchComponent,
+    ViewBranchManagersComponent,
   ],
   imports: [
     CommonModule,
