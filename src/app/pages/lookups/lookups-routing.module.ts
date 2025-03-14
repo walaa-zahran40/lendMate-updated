@@ -52,6 +52,7 @@ import { ViewFeelTypesComponent } from './view-feel-types/view-feel-types.compon
 import { ViewGracePeriodUnitsComponent } from './view-grace-period-units/view-grace-period-units.component';
 import { ViewRentStructureTypesComponent } from './view-rent-structure-types/view-rent-structure-types.component';
 import { ViewCurrenciesComponent } from './view-currencies/view-currencies.component';
+import { WizardCurrenciesComponent } from './wizard-currencies/wizard-currencies.component';
 
 const routes: Routes = [
   {
@@ -262,6 +263,10 @@ const routes: Routes = [
   {
     path: 'view-currencies',
     component: ViewCurrenciesComponent,
+  },
+  {
+    path: 'wizard-currencies',
+    component: WizardCurrenciesComponent,
   },
 ];
 
