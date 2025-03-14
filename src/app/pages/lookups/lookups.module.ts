@@ -72,6 +72,7 @@ import { ViewBranchOfficersComponent } from './view-branch-officers/view-branch-
 import { ViewBranchAddressesComponent } from './view-branch-addresses/view-branch-addresses.component';
 import { ViewBusinessLinesComponent } from './view-business-lines/view-business-lines.component';
 import { ViewAssestTypesComponent } from './view-assest-types/view-assest-types.component';
+import { ViewAssestTypeCategoriesComponent } from './view-assest-type-categories/view-assest-type-categories.component';
 
 @NgModule({
   declarations: [
@@ -141,6 +142,7 @@ import { ViewAssestTypesComponent } from './view-assest-types/view-assest-types.
     ViewBranchAddressesComponent,
     ViewBusinessLinesComponent,
     ViewAssestTypesComponent,
+    ViewAssestTypeCategoriesComponent,
   ],
   imports: [
     CommonModule,
