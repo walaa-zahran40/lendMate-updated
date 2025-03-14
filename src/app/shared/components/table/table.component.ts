@@ -56,6 +56,7 @@ export class TableComponent {
   @Input() viewMandateValidityUnitTable!: boolean;
   @Input() viewBranchTable!: boolean;
   @Input() viewBranchManagersTable!: boolean;
+  @Input() viewBranchAddressesTable!: boolean;
   checked: boolean = false;
   first2: number = 0;
 

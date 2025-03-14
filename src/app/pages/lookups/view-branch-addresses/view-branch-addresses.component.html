@@ -1,0 +1,23 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Branch Address'"
+    [labelBtn]="'Add Branch Address'"
+    [backExists]="true"
+    [exports]="true"
+    [backIcon]="'back-icon'"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'Area'"
+    [col2Name]="'Details EN'"
+    [col3Name]="'Details AR'"
+    [edit]="true"
+    [delete]="true"
+    [side]="false"
+    [download]="false"
+    [checkBox]="true"
+    [viewBranchAddressesTable]="true"
+    [uppercase]="'uppercase'"
+  ></app-table>
+</div>

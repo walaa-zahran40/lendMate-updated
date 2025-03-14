@@ -69,6 +69,7 @@ import { ViewBranchComponent } from './view-branch/view-branch.component';
 import { WizardBranchComponent } from './wizard-branch/wizard-branch.component';
 import { ViewBranchManagersComponent } from './view-branch-managers/view-branch-managers.component';
 import { ViewBranchOfficersComponent } from './view-branch-officers/view-branch-officers.component';
+import { ViewBranchAddressesComponent } from './view-branch-addresses/view-branch-addresses.component';
 
 @NgModule({
   declarations: [
@@ -135,6 +136,7 @@ import { ViewBranchOfficersComponent } from './view-branch-officers/view-branch-
     WizardBranchComponent,
     ViewBranchManagersComponent,
     ViewBranchOfficersComponent,
+    ViewBranchAddressesComponent,
   ],
   imports: [
     CommonModule,
