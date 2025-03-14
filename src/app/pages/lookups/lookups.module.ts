@@ -68,6 +68,7 @@ import { ViewClientDocumentTypesComponent } from './view-client-document-types/v
 import { ViewBranchComponent } from './view-branch/view-branch.component';
 import { WizardBranchComponent } from './wizard-branch/wizard-branch.component';
 import { ViewBranchManagersComponent } from './view-branch-managers/view-branch-managers.component';
+import { ViewBranchOfficersComponent } from './view-branch-officers/view-branch-officers.component';
 
 @NgModule({
   declarations: [
@@ -133,6 +134,7 @@ import { ViewBranchManagersComponent } from './view-branch-managers/view-branch-
     ViewBranchComponent,
     WizardBranchComponent,
     ViewBranchManagersComponent,
+    ViewBranchOfficersComponent,
   ],
   imports: [
     CommonModule,

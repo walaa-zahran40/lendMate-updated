@@ -1,0 +1,21 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Branch Officers'"
+    [labelBtn]="'Add Branch Officers'"
+    [backExists]="true"
+    [exports]="true"
+    [backIcon]="'back-icon'"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'Details'"
+    [edit]="true"
+    [delete]="true"
+    [side]="false"
+    [download]="false"
+    [checkBox]="true"
+    [viewBranchManagersTable]="true"
+    [uppercase]="'uppercase'"
+  ></app-table>
+</div>

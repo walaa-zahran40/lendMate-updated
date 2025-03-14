@@ -65,6 +65,7 @@ import { ViewClientDocumentTypesComponent } from './view-client-document-types/v
 import { ViewBranchComponent } from './view-branch/view-branch.component';
 import { WizardBranchComponent } from './wizard-branch/wizard-branch.component';
 import { ViewBranchManagersComponent } from './view-branch-managers/view-branch-managers.component';
+import { ViewBranchOfficersComponent } from './view-branch-officers/view-branch-officers.component';
 
 const routes: Routes = [
   {
@@ -319,6 +320,10 @@ const routes: Routes = [
   {
     path: 'view-branch-managers',
     component: ViewBranchManagersComponent,
+  },
+  {
+    path: 'view-branch-officers',
+    component: ViewBranchOfficersComponent,
   },
   {
     path: 'wizard-currencies',
