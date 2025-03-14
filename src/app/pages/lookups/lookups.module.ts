@@ -66,6 +66,7 @@ import { ViewLeasingTypeComponent } from './view-leasing-type/view-leasing-type.
 import { ViewMandateValidityUnitComponent } from './view-mandate-validity-unit/view-mandate-validity-unit.component';
 import { ViewClientDocumentTypesComponent } from './view-client-document-types/view-client-document-types.component';
 import { ViewBranchComponent } from './view-branch/view-branch.component';
+import { WizardBranchComponent } from './wizard-branch/wizard-branch.component';
 
 @NgModule({
   declarations: [
@@ -129,6 +130,7 @@ import { ViewBranchComponent } from './view-branch/view-branch.component';
     ViewMandateValidityUnitComponent,
     ViewClientDocumentTypesComponent,
     ViewBranchComponent,
+    WizardBranchComponent,
   ],
   imports: [
     CommonModule,
