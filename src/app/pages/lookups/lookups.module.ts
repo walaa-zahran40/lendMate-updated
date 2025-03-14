@@ -62,6 +62,7 @@ import { WizardCurrenciesComponent } from './wizard-currencies/wizard-currencies
 import { ViewCurrencyExchangeComponent } from './view-currency-exchange/view-currency-exchange.component';
 import { ViewPaymentMethodsComponent } from './view-payment-methods/view-payment-methods.component';
 import { ViewInsuredByComponent } from './view-insured-by/view-insured-by.component';
+import { ViewLeasingTypeComponent } from './view-leasing-type/view-leasing-type.component';
 
 @NgModule({
   declarations: [
@@ -121,6 +122,7 @@ import { ViewInsuredByComponent } from './view-insured-by/view-insured-by.compon
     ViewCurrencyExchangeComponent,
     ViewPaymentMethodsComponent,
     ViewInsuredByComponent,
+    ViewLeasingTypeComponent,
   ],
   imports: [
     CommonModule,
