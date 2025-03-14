@@ -1,0 +1,25 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Grace Period Units'"
+    [labelBtn]="'Add Grace Period '"
+    [backExists]="true"
+    [exports]="true"
+    [backIcon]="'back-icon'"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'ID'"
+    [col2Name]="'Code'"
+    [col3Name]="'Name'"
+    [col4Name]="'Arabic Name'"
+    [col5Name]="'Active'"
+    [edit]="true"
+    [delete]="true"
+    [side]="false"
+    [download]="false"
+    [checkBox]="true"
+    [viewCompanyTypesTable]="true"
+    [uppercase]="'uppercase'"
+  ></app-table>
+</div>

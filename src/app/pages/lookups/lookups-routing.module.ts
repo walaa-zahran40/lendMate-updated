@@ -49,6 +49,7 @@ import { ViewFeesCalculationTypesComponent } from './view-fees-calculation-types
 import { ViewMandateStatusesComponent } from './view-mandate-statuses/view-mandate-statuses.component';
 import { ViewInterestRateBenchmarksComponent } from './view-interest-rate-benchmarks/view-interest-rate-benchmarks.component';
 import { ViewFeelTypesComponent } from './view-feel-types/view-feel-types.component';
+import { ViewGracePeriodUnitsComponent } from './view-grace-period-units/view-grace-period-units.component';
 
 const routes: Routes = [
   {
@@ -247,6 +248,10 @@ const routes: Routes = [
   {
     path: 'view-feel-types',
     component: ViewFeelTypesComponent,
+  },
+  {
+    path: 'view-grace-period-units',
+    component: ViewGracePeriodUnitsComponent,
   },
 ];
 
