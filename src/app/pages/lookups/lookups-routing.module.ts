@@ -83,6 +83,7 @@ import { ViewPhoneTypesComponent } from './view-phone-types/view-phone-types.com
 import { ViewAddressTypesComponent } from './view-address-types/view-address-types.component';
 import { ViewGovernoratesComponent } from './view-governorates/view-governorates.component';
 import { ViewCountriesComponent } from './view-countries/view-countries.component';
+import { ViewIdentificationTypesComponent } from './view-identification-types/view-identification-types.component';
 
 const routes: Routes = [
   {
@@ -405,6 +406,10 @@ const routes: Routes = [
   {
     path: 'view-countries',
     component: ViewCountriesComponent,
+  },
+  {
+    path: 'view-identification-types',
+    component: ViewIdentificationTypesComponent,
   },
   {
     path: 'wizard-currencies',

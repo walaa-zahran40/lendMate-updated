@@ -86,6 +86,7 @@ import { ViewPhoneTypesComponent } from './view-phone-types/view-phone-types.com
 import { ViewAddressTypesComponent } from './view-address-types/view-address-types.component';
 import { ViewGovernoratesComponent } from './view-governorates/view-governorates.component';
 import { ViewCountriesComponent } from './view-countries/view-countries.component';
+import { ViewIdentificationTypesComponent } from './view-identification-types/view-identification-types.component';
 
 @NgModule({
   declarations: [
@@ -169,6 +170,7 @@ import { ViewCountriesComponent } from './view-countries/view-countries.componen
     ViewAddressTypesComponent,
     ViewGovernoratesComponent,
     ViewCountriesComponent,
+    ViewIdentificationTypesComponent,
   ],
   imports: [
     CommonModule,
