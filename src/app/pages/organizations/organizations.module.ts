@@ -20,6 +20,7 @@ import { ViewDepartmentManagerComponent } from './view-department-manager/view-d
 import { ViewTeamsComponent } from './view-teams/view-teams.component';
 import { WizardTeamsComponent } from './wizard-teams/wizard-teams.component';
 import { ViewTeamLeadComponent } from './view-team-lead/view-team-lead.component';
+import { ViewRolesComponent } from './view-roles/view-roles.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { ViewTeamLeadComponent } from './view-team-lead/view-team-lead.component
     ViewTeamsComponent,
     WizardTeamsComponent,
     ViewTeamLeadComponent,
+    ViewRolesComponent,
   ],
   imports: [
     CommonModule,
