@@ -89,6 +89,7 @@ import { ViewCountriesComponent } from './view-countries/view-countries.componen
 import { ViewIdentificationTypesComponent } from './view-identification-types/view-identification-types.component';
 import { ViewAreasComponent } from './view-areas/view-areas.component';
 import { ViewTaxOfficesComponent } from './view-tax-offices/view-tax-offices.component';
+import { ViewTmlOfficerTypesComponent } from './view-tml-officer-types/view-tml-officer-types.component';
 
 @NgModule({
   declarations: [
@@ -175,6 +176,7 @@ import { ViewTaxOfficesComponent } from './view-tax-offices/view-tax-offices.com
     ViewIdentificationTypesComponent,
     ViewAreasComponent,
     ViewTaxOfficesComponent,
+    ViewTmlOfficerTypesComponent,
   ],
   imports: [
     CommonModule,

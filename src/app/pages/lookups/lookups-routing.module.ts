@@ -86,6 +86,7 @@ import { ViewCountriesComponent } from './view-countries/view-countries.componen
 import { ViewIdentificationTypesComponent } from './view-identification-types/view-identification-types.component';
 import { ViewAreasComponent } from './view-areas/view-areas.component';
 import { ViewTaxOfficesComponent } from './view-tax-offices/view-tax-offices.component';
+import { ViewTmlOfficerTypesComponent } from './view-tml-officer-types/view-tml-officer-types.component';
 
 const routes: Routes = [
   {
@@ -420,6 +421,10 @@ const routes: Routes = [
   {
     path: 'view-tax-offices',
     component: ViewTaxOfficesComponent,
+  },
+  {
+    path: 'view-tml-officer-types',
+    component: ViewTmlOfficerTypesComponent,
   },
   {
     path: 'wizard-currencies',
