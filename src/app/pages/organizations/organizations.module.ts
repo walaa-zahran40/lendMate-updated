@@ -14,6 +14,7 @@ import { AddOperationComponent } from './add-operation/add-operation.component';
 import { AddPageOperationComponent } from './add-page-operation/add-page-operation.component';
 import { AddOfficerComponent } from './add-officer/add-officer.component';
 import { AddSignatoryOfficerComponent } from './add-signatory-officer/add-signatory-officer.component';
+import { ViewDepartmentsComponent } from './view-departments/view-departments.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { AddSignatoryOfficerComponent } from './add-signatory-officer/add-signat
     AddPageOperationComponent,
     AddOfficerComponent,
     AddSignatoryOfficerComponent,
+    ViewDepartmentsComponent,
   ],
   imports: [
     CommonModule,
