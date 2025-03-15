@@ -100,3 +100,21 @@ hr {
     margin: 24px 0;
   }
 }
+::ng-deep .mainContainer {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+::ng-deep .side-menu {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 85px;
+  padding: 150px 0px 10px 10px;
+  background: #F8F8FD;
+}
+::ng-deep .content {
+  overflow: auto;
+}

@@ -48,8 +48,8 @@ import { CardComponent } from './card/card.component';
 import { CardModule } from 'primeng/card';
 import { ToolbarCardComponent } from './toolbar-card/toolbar-card.component';
 import { DownloadPopupComponent } from './download-popup/download-popup.component';
-
-@NgModule({
+import { TieredMenuModule } from 'primeng/tieredmenu';
+ @NgModule({
   declarations: [
     TableComponent,
     SideMenuComponent,
@@ -102,6 +102,8 @@ import { DownloadPopupComponent } from './download-popup/download-popup.componen
     SliderModule,
     FormsModule,
     TextareaModule,
+    TieredMenuModule,
+    PanelMenuModule 
   ],
   providers: [DecimalPipe, AsyncPipe],
   exports: [
