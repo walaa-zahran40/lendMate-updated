@@ -1,0 +1,26 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Teams'"
+    [backExists]="true"
+    [btnAdd]="false"
+    [exports]="true"
+    [backIcon]="'back-icon'"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'ID'"
+    [col2Name]="'Code'"
+    [col3Name]="'Name'"
+    [col4Name]="'Arabic Name'"
+    [col5Name]="'Active'"
+    [col6Name]="'Department'"
+    [edit]="true"
+    [delete]="true"
+    [side]="true"
+    [download]="false"
+    [checkBox]="true"
+    [viewTeamTable]="true"
+    [uppercase]="'uppercase'"
+  ></app-table>
+</div>

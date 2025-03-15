@@ -17,6 +17,7 @@ import { AddSignatoryOfficerComponent } from './add-signatory-officer/add-signat
 import { ViewDepartmentsComponent } from './view-departments/view-departments.component';
 import { WizardDepartmentComponent } from './wizard-department/wizard-department.component';
 import { ViewDepartmentManagerComponent } from './view-department-manager/view-department-manager.component';
+import { ViewTeamsComponent } from './view-teams/view-teams.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { ViewDepartmentManagerComponent } from './view-department-manager/view-d
     ViewDepartmentsComponent,
     WizardDepartmentComponent,
     ViewDepartmentManagerComponent,
+    ViewTeamsComponent,
   ],
   imports: [
     CommonModule,

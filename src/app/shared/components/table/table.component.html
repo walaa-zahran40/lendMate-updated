@@ -2073,6 +2073,60 @@
       </td>
     </tr>
   </ng-template>
+  <ng-template
+    pTemplate="body"
+    let-rowData="rowData"
+    let-team
+    sortMode="multiple"
+    *ngIf="viewTeamTable"
+  >
+    <tr>
+      <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+      <td>
+        <span class="p-column-title"> {{ col1Name }}</span>
+        {{ team.id }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col2Name }} </span>
+        {{ team.code }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col3Name }} </span>
+        {{ team.name }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col4Name }} </span>
+        {{ team.arabicName }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col5Name }} </span>
+        <span class="{{ uppercase }}">{{ team.active }}</span>
+      </td>
+      <td>
+        <span class="p-column-title">{{ col6Name }} </span>
+        {{ team.department }}
+      </td>
+      <td class="imgs">
+        <img
+          src="/assets/images/shared/table/edit.svg"
+          alt="edit"
+          class="d-inline-block mx-2 my-2"
+          *ngIf="edit"
+        /><img
+          src="/assets/images/shared/table/delete.svg"
+          class="d-inline-block mx-2 my-2"
+          alt="delete"
+          *ngIf="delete"
+        />
+        <img
+          src="/assets/images/shared/table/side.svg"
+          class="d-inline-block mx-2 my-2"
+          alt="side"
+          *ngIf="side"
+        />
+      </td>
+    </tr>
+  </ng-template>
   <ng-template pTemplate="paginatorleft">
     <div class="p-paginator-left">
       <span>View Applicants per page</span>
