@@ -80,6 +80,7 @@ import { WizardClientStatusComponent } from './wizard-client-status/wizard-clien
 import { ViewClientStatusComponent } from './view-client-status/view-client-status.component';
 import { ViewSmeClientCodeComponent } from './view-sme-client-code/view-sme-client-code.component';
 import { ViewSubSectorComponent } from './view-sub-sector/view-sub-sector.component';
+import { ViewClientTypesComponent } from './view-client-types/view-client-types.component';
 
 @NgModule({
   declarations: [
@@ -157,6 +158,7 @@ import { ViewSubSectorComponent } from './view-sub-sector/view-sub-sector.compon
     ViewClientStatusComponent,
     ViewSmeClientCodeComponent,
     ViewSubSectorComponent,
+    ViewClientTypesComponent,
   ],
   imports: [
     CommonModule,
