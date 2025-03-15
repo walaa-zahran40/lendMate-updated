@@ -25,6 +25,7 @@ import { ViewTeamMemberComponent } from './view-team-member/view-team-member.com
 import { ViewOperationsComponent } from './view-operations/view-operations.component';
 import { ViewPageOperationsComponent } from './view-page-operations/view-page-operations.component';
 import { ViewOfficersComponent } from './view-officers/view-officers.component';
+import { ViewSignatoryOfficersComponent } from './view-signatory-officers/view-signatory-officers.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { ViewOfficersComponent } from './view-officers/view-officers.component';
     ViewOperationsComponent,
     ViewPageOperationsComponent,
     ViewOfficersComponent,
+    ViewSignatoryOfficersComponent,
   ],
   imports: [
     CommonModule,
