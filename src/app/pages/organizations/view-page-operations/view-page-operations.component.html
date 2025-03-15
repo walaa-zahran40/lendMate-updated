@@ -1,0 +1,25 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Page Operations'"
+    [labelBtn]="'Add Page Operation'"
+    [backExists]="true"
+    [exports]="true"
+    [backIcon]="'back-icon'"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'ID'"
+    [col2Name]="'Code'"
+    [col3Name]="'Page ID'"
+    [col4Name]="'Operation ID'"
+    [col5Name]="'Active'"
+    [edit]="true"
+    [delete]="true"
+    [side]="false"
+    [download]="false"
+    [checkBox]="true"
+    [viewPageOperationsTable]="true"
+    [uppercase]="'uppercase'"
+  ></app-table>
+</div>

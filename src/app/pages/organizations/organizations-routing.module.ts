@@ -19,6 +19,7 @@ import { ViewTeamLeadComponent } from './view-team-lead/view-team-lead.component
 import { ViewRolesComponent } from './view-roles/view-roles.component';
 import { ViewTeamMemberComponent } from './view-team-member/view-team-member.component';
 import { ViewOperationsComponent } from './view-operations/view-operations.component';
+import { ViewPageOperationsComponent } from './view-page-operations/view-page-operations.component';
 const routes: Routes = [
   {
     path: 'add-department',
@@ -87,6 +88,10 @@ const routes: Routes = [
   {
     path: 'view-operations',
     component: ViewOperationsComponent,
+  },
+  {
+    path: 'view-page-operations',
+    component: ViewPageOperationsComponent,
   },
   {
     path: 'wizard-teams',
