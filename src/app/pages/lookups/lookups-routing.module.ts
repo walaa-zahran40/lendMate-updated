@@ -90,6 +90,7 @@ import { ViewTmlOfficerTypesComponent } from './view-tml-officer-types/view-tml-
 import { ViewCallTypesComponent } from './view-call-types/view-call-types.component';
 import { ViewCommunicationTypesComponent } from './view-communication-types/view-communication-types.component';
 import { ViewCallActionTypesComponent } from './view-call-action-types/view-call-action-types.component';
+import { ViewCommunicationFlowTypeComponent } from './view-communication-flow-type/view-communication-flow-type.component';
 
 const routes: Routes = [
   {
@@ -440,6 +441,10 @@ const routes: Routes = [
   {
     path: 'view-call-action-type',
     component: ViewCallActionTypesComponent,
+  },
+  {
+    path: 'view-communication-flow-type',
+    component: ViewCommunicationFlowTypeComponent,
   },
   {
     path: 'wizard-currencies',

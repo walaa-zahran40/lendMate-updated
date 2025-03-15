@@ -93,6 +93,7 @@ import { ViewTmlOfficerTypesComponent } from './view-tml-officer-types/view-tml-
 import { ViewCallTypesComponent } from './view-call-types/view-call-types.component';
 import { ViewCommunicationTypesComponent } from './view-communication-types/view-communication-types.component';
 import { ViewCallActionTypesComponent } from './view-call-action-types/view-call-action-types.component';
+import { ViewCommunicationFlowTypeComponent } from './view-communication-flow-type/view-communication-flow-type.component';
 
 @NgModule({
   declarations: [
@@ -183,6 +184,7 @@ import { ViewCallActionTypesComponent } from './view-call-action-types/view-call
     ViewCallTypesComponent,
     ViewCommunicationTypesComponent,
     ViewCallActionTypesComponent,
+    ViewCommunicationFlowTypeComponent,
   ],
   imports: [
     CommonModule,
