@@ -92,6 +92,7 @@ import { ViewTaxOfficesComponent } from './view-tax-offices/view-tax-offices.com
 import { ViewTmlOfficerTypesComponent } from './view-tml-officer-types/view-tml-officer-types.component';
 import { ViewCallTypesComponent } from './view-call-types/view-call-types.component';
 import { ViewCommunicationTypesComponent } from './view-communication-types/view-communication-types.component';
+import { ViewCallActionTypesComponent } from './view-call-action-types/view-call-action-types.component';
 
 @NgModule({
   declarations: [
@@ -181,6 +182,7 @@ import { ViewCommunicationTypesComponent } from './view-communication-types/view
     ViewTmlOfficerTypesComponent,
     ViewCallTypesComponent,
     ViewCommunicationTypesComponent,
+    ViewCallActionTypesComponent,
   ],
   imports: [
     CommonModule,
