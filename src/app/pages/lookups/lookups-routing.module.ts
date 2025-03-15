@@ -81,6 +81,7 @@ import { ViewClientTypesComponent } from './view-client-types/view-client-types.
 import { ViewAuthorityOfficesComponent } from './view-authority-offices/view-authority-offices.component';
 import { ViewPhoneTypesComponent } from './view-phone-types/view-phone-types.component';
 import { ViewAddressTypesComponent } from './view-address-types/view-address-types.component';
+import { ViewGovernoratesComponent } from './view-governorates/view-governorates.component';
 
 const routes: Routes = [
   {
@@ -395,6 +396,10 @@ const routes: Routes = [
   {
     path: 'view-address-types',
     component: ViewAddressTypesComponent,
+  },
+  {
+    path: 'view-governorates',
+    component: ViewGovernoratesComponent,
   },
   {
     path: 'wizard-currencies',

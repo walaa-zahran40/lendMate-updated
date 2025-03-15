@@ -1,0 +1,26 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Governorates'"
+    [labelBtn]="'Add Governorates'"
+    [backExists]="true"
+    [exports]="true"
+    [backIcon]="'back-icon'"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'ID'"
+    [col2Name]="'Name EN'"
+    [col3Name]="'Name AR'"
+    [col4Name]="'Aramix'"
+    [col5Name]="'Active'"
+    [col6Name]="'Country ID'"
+    [edit]="true"
+    [delete]="true"
+    [side]="false"
+    [download]="false"
+    [checkBox]="true"
+    [viewGovernerateTable]="true"
+    [uppercase]="'uppercase'"
+  ></app-table>
+</div>
