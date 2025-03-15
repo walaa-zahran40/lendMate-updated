@@ -76,6 +76,7 @@ import { ViewAssestTypeCategoriesComponent } from './view-assest-type-categories
 import { ViewProductsComponent } from './view-products/view-products.component';
 import { ViewSectorsComponent } from './view-sectors/view-sectors.component';
 import { ViewClientStatusesComponent } from './view-client-statuses/view-client-statuses.component';
+import { WizardClientStatusComponent } from './wizard-client-status/wizard-client-status.component';
 
 @NgModule({
   declarations: [
@@ -149,6 +150,7 @@ import { ViewClientStatusesComponent } from './view-client-statuses/view-client-
     ViewProductsComponent,
     ViewSectorsComponent,
     ViewClientStatusesComponent,
+    WizardClientStatusComponent,
   ],
   imports: [
     CommonModule,
