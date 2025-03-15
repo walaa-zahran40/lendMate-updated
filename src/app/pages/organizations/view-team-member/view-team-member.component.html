@@ -1,0 +1,22 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Team Member'"
+    [backExists]="true"
+    [btnAdd]="false"
+    [exports]="true"
+    [backIcon]="'back-icon'"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'Team'"
+    [col2Name]="'Officer'"
+    [col3Name]="'Start Date'"
+    [edit]="true"
+    [delete]="true"
+    [side]="false"
+    [download]="false"
+    [checkBox]="true"
+    [viewTeamMemberTable]="true"
+  ></app-table>
+</div>
