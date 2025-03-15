@@ -79,6 +79,7 @@ import { ViewSmeClientCodeComponent } from './view-sme-client-code/view-sme-clie
 import { ViewSubSectorComponent } from './view-sub-sector/view-sub-sector.component';
 import { ViewClientTypesComponent } from './view-client-types/view-client-types.component';
 import { ViewAuthorityOfficesComponent } from './view-authority-offices/view-authority-offices.component';
+import { ViewPhoneTypesComponent } from './view-phone-types/view-phone-types.component';
 
 const routes: Routes = [
   {
@@ -385,6 +386,10 @@ const routes: Routes = [
   {
     path: 'view-authority-offices',
     component: ViewAuthorityOfficesComponent,
+  },
+  {
+    path: 'view-phone-types',
+    component: ViewPhoneTypesComponent,
   },
   {
     path: 'wizard-currencies',
