@@ -1,1 +1,24 @@
-<p>view-client-status works!</p>
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Client Statues Actions'"
+    [labelBtn]="'Add Client Statues'"
+    [backExists]="true"
+    [exports]="true"
+    [backIcon]="'back-icon'"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'Code'"
+    [col2Name]="'Name EN'"
+    [col3Name]="'Name AR'"
+    [col4Name]="'Status In'"
+    [col5Name]="'Status Out'"
+    [edit]="true"
+    [delete]="true"
+    [side]="false"
+    [download]="false"
+    [checkBox]="true"
+    [viewClientStatusTable]="true"
+  ></app-table>
+</div>

@@ -74,6 +74,7 @@ import { ViewProductsComponent } from './view-products/view-products.component';
 import { ViewSectorsComponent } from './view-sectors/view-sectors.component';
 import { ViewClientStatusesComponent } from './view-client-statuses/view-client-statuses.component';
 import { WizardClientStatusComponent } from './wizard-client-status/wizard-client-status.component';
+import { ViewClientStatusComponent } from './view-client-status/view-client-status.component';
 
 const routes: Routes = [
   {
@@ -360,6 +361,10 @@ const routes: Routes = [
   {
     path: 'view-client-statuses',
     component: ViewClientStatusesComponent,
+  },
+  {
+    path: 'view-client-status',
+    component: ViewClientStatusComponent,
   },
   {
     path: 'wizard-currencies',
