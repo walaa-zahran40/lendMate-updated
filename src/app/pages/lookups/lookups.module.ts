@@ -77,6 +77,7 @@ import { ViewProductsComponent } from './view-products/view-products.component';
 import { ViewSectorsComponent } from './view-sectors/view-sectors.component';
 import { ViewClientStatusesComponent } from './view-client-statuses/view-client-statuses.component';
 import { WizardClientStatusComponent } from './wizard-client-status/wizard-client-status.component';
+import { ViewClientStatusComponent } from './view-client-status/view-client-status.component';
 
 @NgModule({
   declarations: [
@@ -151,6 +152,7 @@ import { WizardClientStatusComponent } from './wizard-client-status/wizard-clien
     ViewSectorsComponent,
     ViewClientStatusesComponent,
     WizardClientStatusComponent,
+    ViewClientStatusComponent,
   ],
   imports: [
     CommonModule,
