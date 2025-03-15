@@ -18,6 +18,7 @@ import { ViewDepartmentsComponent } from './view-departments/view-departments.co
 import { WizardDepartmentComponent } from './wizard-department/wizard-department.component';
 import { ViewDepartmentManagerComponent } from './view-department-manager/view-department-manager.component';
 import { ViewTeamsComponent } from './view-teams/view-teams.component';
+import { WizardTeamsComponent } from './wizard-teams/wizard-teams.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { ViewTeamsComponent } from './view-teams/view-teams.component';
     WizardDepartmentComponent,
     ViewDepartmentManagerComponent,
     ViewTeamsComponent,
+    WizardTeamsComponent,
   ],
   imports: [
     CommonModule,
