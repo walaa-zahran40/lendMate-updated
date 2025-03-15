@@ -12,6 +12,7 @@ import { AddOfficerComponent } from './add-officer/add-officer.component';
 import { AddSignatoryOfficerComponent } from './add-signatory-officer/add-signatory-officer.component';
 import { ViewDepartmentsComponent } from './view-departments/view-departments.component';
 import { WizardDepartmentComponent } from './wizard-department/wizard-department.component';
+import { ViewDepartmentManagerComponent } from './view-department-manager/view-department-manager.component';
 const routes: Routes = [
   {
     path: 'add-department',
@@ -56,6 +57,10 @@ const routes: Routes = [
   {
     path: 'view-departments',
     component: ViewDepartmentsComponent,
+  },
+  {
+    path: 'view-department-manager',
+    component: ViewDepartmentManagerComponent,
   },
   {
     path: 'wizard-department',

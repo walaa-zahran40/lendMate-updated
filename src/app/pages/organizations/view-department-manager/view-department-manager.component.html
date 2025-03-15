@@ -1,0 +1,24 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Add Department Manager'"
+    [labelBtn]="'Add Department'"
+    [backExists]="true"
+    [exports]="true"
+    [btnAdd]="false"
+    [backIcon]="'back-icon'"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'Department'"
+    [col2Name]="'Officer'"
+    [col3Name]="'Start Date'"
+    [edit]="true"
+    [delete]="true"
+    [side]="false"
+    [download]="false"
+    [checkBox]="true"
+    [viewAddDepartmentManagerTable]="true"
+    [uppercase]="'uppercase'"
+  ></app-table>
+</div>
