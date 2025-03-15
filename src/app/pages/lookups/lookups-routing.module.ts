@@ -85,6 +85,7 @@ import { ViewGovernoratesComponent } from './view-governorates/view-governorates
 import { ViewCountriesComponent } from './view-countries/view-countries.component';
 import { ViewIdentificationTypesComponent } from './view-identification-types/view-identification-types.component';
 import { ViewAreasComponent } from './view-areas/view-areas.component';
+import { ViewTaxOfficesComponent } from './view-tax-offices/view-tax-offices.component';
 
 const routes: Routes = [
   {
@@ -415,6 +416,10 @@ const routes: Routes = [
   {
     path: 'view-areas',
     component: ViewAreasComponent,
+  },
+  {
+    path: 'view-tax-offices',
+    component: ViewTaxOfficesComponent,
   },
   {
     path: 'wizard-currencies',
