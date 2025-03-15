@@ -64,6 +64,8 @@ export class TableComponent {
   @Input() viewClientStatusesTable!: boolean;
   @Input() viewClientStatusTable!: boolean;
   @Input() viewSMEClientCodeTable!: boolean;
+  @Input() viewSubSectorTable!: boolean;
+
   checked: boolean = false;
   first2: number = 0;
 

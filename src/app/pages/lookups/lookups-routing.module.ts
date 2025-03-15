@@ -76,6 +76,7 @@ import { ViewClientStatusesComponent } from './view-client-statuses/view-client-
 import { WizardClientStatusComponent } from './wizard-client-status/wizard-client-status.component';
 import { ViewClientStatusComponent } from './view-client-status/view-client-status.component';
 import { ViewSmeClientCodeComponent } from './view-sme-client-code/view-sme-client-code.component';
+import { ViewSubSectorComponent } from './view-sub-sector/view-sub-sector.component';
 
 const routes: Routes = [
   {
@@ -370,6 +371,10 @@ const routes: Routes = [
   {
     path: 'view-sme-client-code',
     component: ViewSmeClientCodeComponent,
+  },
+  {
+    path: 'view-sub-sector',
+    component: ViewSubSectorComponent,
   },
   {
     path: 'wizard-currencies',
