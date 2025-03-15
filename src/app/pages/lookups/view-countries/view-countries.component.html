@@ -1,0 +1,26 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Countries'"
+    [labelBtn]="'Add Countries'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [exports]="true"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'ID'"
+    [col2Name]="'Country Name'"
+    [col3Name]="'Name AR'"
+    [col4Name]="'Code2'"
+    [col5Name]="'Code3'"
+    [col6Name]="'Active'"
+    [edit]="true"
+    [delete]="true"
+    [side]="false"
+    [download]="false"
+    [checkBox]="true"
+    [viewCountriesTable]="true"
+    [uppercase]="'uppercase'"
+  ></app-table>
+</div>
