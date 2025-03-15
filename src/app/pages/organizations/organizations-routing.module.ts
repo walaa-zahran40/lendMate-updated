@@ -15,6 +15,7 @@ import { WizardDepartmentComponent } from './wizard-department/wizard-department
 import { ViewDepartmentManagerComponent } from './view-department-manager/view-department-manager.component';
 import { ViewTeamsComponent } from './view-teams/view-teams.component';
 import { WizardTeamsComponent } from './wizard-teams/wizard-teams.component';
+import { ViewTeamLeadComponent } from './view-team-lead/view-team-lead.component';
 const routes: Routes = [
   {
     path: 'add-department',
@@ -67,6 +68,10 @@ const routes: Routes = [
   {
     path: 'view-teams',
     component: ViewTeamsComponent,
+  },
+  {
+    path: 'view-team-lead',
+    component: ViewTeamLeadComponent,
   },
   {
     path: 'wizard-teams',

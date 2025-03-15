@@ -71,6 +71,7 @@ export class TableComponent {
   @Input() viewTaxOfficeTable!: boolean;
   @Input() viewAddDepartmentManagerTable!: boolean;
   @Input() viewTeamTable!: boolean;
+  @Input() viewTeamLeadTable!: boolean;
   checked: boolean = false;
   first2: number = 0;
 
