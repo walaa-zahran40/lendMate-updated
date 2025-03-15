@@ -1,0 +1,27 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Operations'"
+    [labelBtn]="'Add Operation'"
+    [backExists]="true"
+    [exports]="true"
+    [backIcon]="'back-icon'"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'ID'"
+    [col2Name]="'Code'"
+    [col3Name]="'Name'"
+    [col4Name]="'Arabic Name'"
+    [col5Name]="'URL'"
+    [col6Name]="'Description'"
+    [col7Name]="'Active'"
+    [edit]="true"
+    [delete]="true"
+    [side]="false"
+    [download]="false"
+    [checkBox]="true"
+    [viewOperationsTable]="true"
+    [uppercase]="'uppercase'"
+  ></app-table>
+</div>

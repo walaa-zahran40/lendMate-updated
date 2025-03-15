@@ -2265,6 +2265,64 @@
       </td>
     </tr>
   </ng-template>
+  <ng-template
+    pTemplate="body"
+    let-rowData="rowData"
+    let-operation
+    sortMode="multiple"
+    *ngIf="viewOperationsTable"
+  >
+    <tr>
+      <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+      <td>
+        <span class="p-column-title"> {{ col1Name }}</span>
+        {{ operation.id }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col2Name }} </span>
+        {{ operation.code }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col3Name }} </span>
+        {{ operation.name }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col4Name }} </span>
+        {{ operation.arabicName }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col5Name }} </span>
+        {{ operation.url }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col6Name }} </span>
+        {{ operation.description }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col7Name }} </span>
+        <span class="{{ uppercase }}">{{ operation.active }}</span>
+      </td>
+      <td class="imgs">
+        <img
+          src="/assets/images/shared/table/edit.svg"
+          alt="edit"
+          class="d-inline-block mx-2 my-2"
+          *ngIf="edit"
+        /><img
+          src="/assets/images/shared/table/delete.svg"
+          class="d-inline-block mx-2 my-2"
+          alt="delete"
+          *ngIf="delete"
+        />
+        <img
+          src="/assets/images/shared/table/side.svg"
+          class="d-inline-block mx-2 my-2"
+          alt="side"
+          *ngIf="side"
+        />
+      </td>
+    </tr>
+  </ng-template>
   <ng-template pTemplate="paginatorleft">
     <div class="p-paginator-left">
       <span>View Applicants per page</span>

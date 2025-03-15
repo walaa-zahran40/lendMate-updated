@@ -18,6 +18,7 @@ import { WizardTeamsComponent } from './wizard-teams/wizard-teams.component';
 import { ViewTeamLeadComponent } from './view-team-lead/view-team-lead.component';
 import { ViewRolesComponent } from './view-roles/view-roles.component';
 import { ViewTeamMemberComponent } from './view-team-member/view-team-member.component';
+import { ViewOperationsComponent } from './view-operations/view-operations.component';
 const routes: Routes = [
   {
     path: 'add-department',
@@ -82,6 +83,10 @@ const routes: Routes = [
   {
     path: 'view-team-member',
     component: ViewTeamMemberComponent,
+  },
+  {
+    path: 'view-operations',
+    component: ViewOperationsComponent,
   },
   {
     path: 'wizard-teams',

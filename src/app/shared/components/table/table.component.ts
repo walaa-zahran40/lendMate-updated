@@ -74,6 +74,7 @@ export class TableComponent {
   @Input() viewTeamLeadTable!: boolean;
   @Input() viewRolesTable!: boolean;
   @Input() viewTeamMemberTable!: boolean;
+  @Input() viewOperationsTable!: boolean;
   checked: boolean = false;
   first2: number = 0;
 
