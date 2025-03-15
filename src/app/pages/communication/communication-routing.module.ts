@@ -7,6 +7,7 @@ import { AddMeetingTypesComponent } from './add-meeting-types/add-meeting-types.
 import { AddCallComponent } from './add-call/add-call.component';
 import { AddCallTypesComponent } from './add-call-types/add-call-types.component';
 import { AddFollowupTypesComponent } from './add-followup-types/add-followup-types.component';
+import { ViewMeetingsComponent } from './view-meetings/view-meetings.component';
 
 const routes: Routes = [
   {
@@ -36,6 +37,10 @@ const routes: Routes = [
   {
     path: 'add-followup-types',
     component: AddFollowupTypesComponent,
+  },
+  {
+    path: 'view-meetings',
+    component: ViewMeetingsComponent,
   },
 ];
 

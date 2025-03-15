@@ -1,0 +1,24 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Meetings'"
+    [labelBtn]="'Add Meeting'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [exports]="true"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'ID'"
+    [col2Name]="'Topic'"
+    [col3Name]="'Client ID'"
+    [col4Name]="'Start Date'"
+    [col5Name]="'End Date'"
+    [edit]="true"
+    [delete]="true"
+    [side]="true"
+    [checkBox]="true"
+    [viewMeetingsTable]="true"
+  ></app-table>
+</div>
