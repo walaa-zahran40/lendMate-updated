@@ -72,6 +72,7 @@ import { ViewAssestTypesComponent } from './view-assest-types/view-assest-types.
 import { ViewAssestTypeCategoriesComponent } from './view-assest-type-categories/view-assest-type-categories.component';
 import { ViewProductsComponent } from './view-products/view-products.component';
 import { ViewSectorsComponent } from './view-sectors/view-sectors.component';
+import { ViewClientStatusesComponent } from './view-client-statuses/view-client-statuses.component';
 
 const routes: Routes = [
   {
@@ -354,6 +355,10 @@ const routes: Routes = [
   {
     path: 'view-sectors',
     component: ViewSectorsComponent,
+  },
+  {
+    path: 'view-client-statuses',
+    component: ViewClientStatusesComponent,
   },
   {
     path: 'wizard-currencies',
