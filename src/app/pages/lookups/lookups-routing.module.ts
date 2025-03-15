@@ -80,6 +80,7 @@ import { ViewSubSectorComponent } from './view-sub-sector/view-sub-sector.compon
 import { ViewClientTypesComponent } from './view-client-types/view-client-types.component';
 import { ViewAuthorityOfficesComponent } from './view-authority-offices/view-authority-offices.component';
 import { ViewPhoneTypesComponent } from './view-phone-types/view-phone-types.component';
+import { ViewAddressTypesComponent } from './view-address-types/view-address-types.component';
 
 const routes: Routes = [
   {
@@ -390,6 +391,10 @@ const routes: Routes = [
   {
     path: 'view-phone-types',
     component: ViewPhoneTypesComponent,
+  },
+  {
+    path: 'view-address-types',
+    component: ViewAddressTypesComponent,
   },
   {
     path: 'wizard-currencies',
