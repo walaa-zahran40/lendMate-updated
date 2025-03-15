@@ -87,6 +87,7 @@ import { ViewAddressTypesComponent } from './view-address-types/view-address-typ
 import { ViewGovernoratesComponent } from './view-governorates/view-governorates.component';
 import { ViewCountriesComponent } from './view-countries/view-countries.component';
 import { ViewIdentificationTypesComponent } from './view-identification-types/view-identification-types.component';
+import { ViewAreasComponent } from './view-areas/view-areas.component';
 
 @NgModule({
   declarations: [
@@ -171,6 +172,7 @@ import { ViewIdentificationTypesComponent } from './view-identification-types/vi
     ViewGovernoratesComponent,
     ViewCountriesComponent,
     ViewIdentificationTypesComponent,
+    ViewAreasComponent,
   ],
   imports: [
     CommonModule,

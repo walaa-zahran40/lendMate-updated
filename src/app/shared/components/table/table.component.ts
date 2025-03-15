@@ -67,6 +67,7 @@ export class TableComponent {
   @Input() viewSubSectorTable!: boolean;
   @Input() viewGovernerateTable!: boolean;
   @Input() viewCountriesTable!: boolean;
+  @Input() viewAreasTable!: boolean;
   checked: boolean = false;
   first2: number = 0;
 
