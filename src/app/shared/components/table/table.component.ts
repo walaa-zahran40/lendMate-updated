@@ -80,6 +80,8 @@ export class TableComponent {
   @Input() viewSignatoryOfficersTable!: boolean;
   @Input() viewMeetingsTable!: boolean;
   @Input() viewOfficersCommunicationTable!: boolean;
+  @Input() viewContactPersonCommunicationTable!: boolean;
+  @Input() viewAssestTypeCommunicationTable!: boolean;
   checked: boolean = false;
   first2: number = 0;
 

@@ -1,0 +1,21 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Contact Person'"
+    [backIcon]="'back-icon'"
+    [btnAdd]="false"
+    [backExists]="true"
+    [exports]="true"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'Contact Person'"
+    [col2Name]="'Must Attend'"
+    [edit]="true"
+    [delete]="true"
+    [side]="false"
+    [checkBox]="true"
+    [uppercase]="'uppercase'"
+    [viewContactPersonCommunicationTable]="true"
+  ></app-table>
+</div>

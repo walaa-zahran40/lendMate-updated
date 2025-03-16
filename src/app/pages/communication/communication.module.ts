@@ -14,6 +14,8 @@ import { AddFollowupTypesComponent } from './add-followup-types/add-followup-typ
 import { ViewMeetingsComponent } from './view-meetings/view-meetings.component';
 import { WizardComponent } from './wizard/wizard.component';
 import { ViewOfficersComponent } from './view-officers/view-officers.component';
+import { ViewContactPersonsComponent } from './view-contact-persons/view-contact-persons.component';
+import { ViewAssestTypeComponent } from './view-assest-type/view-assest-type.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,8 @@ import { ViewOfficersComponent } from './view-officers/view-officers.component';
     ViewMeetingsComponent,
     WizardComponent,
     ViewOfficersComponent,
+    ViewContactPersonsComponent,
+    ViewAssestTypeComponent,
   ],
   imports: [
     CommonModule,
