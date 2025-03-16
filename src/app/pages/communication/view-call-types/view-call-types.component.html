@@ -1,0 +1,26 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Call Types'"
+    [labelBtn]="'Add Call Type'"
+    [backIcon]="'back-icon'"
+    [btnAdd]="true"
+    [iconBtn]="'plus-icon'"
+    [backExists]="false"
+    [exports]="true"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'ID'"
+    [col2Name]="'Code'"
+    [col3Name]="'Name'"
+    [col4Name]="'Arabic Name'"
+    [col5Name]="'Active'"
+    [edit]="true"
+    [delete]="true"
+    [side]="false"
+    [checkBox]="true"
+    [uppercase]="'uppercase'"
+    [viewMeetingTypesCommunicationTable]="true"
+  ></app-table>
+</div>
