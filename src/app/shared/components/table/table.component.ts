@@ -84,6 +84,7 @@ export class TableComponent {
   @Input() viewAssestTypeCommunicationTable!: boolean;
   @Input() viewFollowUpsCommunicationTable!: boolean;
   @Input() viewFollowUpPointsCommunicationTable!: boolean;
+  @Input() viewMeetingTypesCommunicationTable!: boolean;
   checked: boolean = false;
   first2: number = 0;
 
