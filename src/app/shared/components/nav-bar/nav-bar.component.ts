@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MenuToggleService } from '../../services/menu-toggle.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -9,6 +10,7 @@ import { Component } from '@angular/core';
 export class NavBarComponent {
   checked = true;
   darkMode: boolean = false;
+  constructor(private menuToggleService: MenuToggleService) {}
 
   toggleDarkMode() {
     this.darkMode = !this.darkMode;
@@ -17,5 +19,9 @@ export class NavBarComponent {
     } else {
       document.body.classList.remove('dark-mode');
     }
+  }
+
+  toggleMenu() {
+    this.menuToggleService.toggleMenu();
   }
 }

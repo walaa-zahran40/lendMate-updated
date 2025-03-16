@@ -1,16 +1,35 @@
-<div class="side-menu-container">
+<div class="side-menu-container" *ngIf="isVisible">
   <div class="side-menu">
-    <img class="logoS" src="/assets/logoS.svg"/>
-    <button class="menuItem" *ngFor="let item of menuItems" pButton icon="{{ item.icon }}" class="menu-button"
-      (click)="toggleMenu(item)" [ngClass]="{ 'active': activeMenu === item.id }">
-    </button>
+    <img class="logoS" src="/assets/logoS.svg" />
+    <button
+      class="menuItem"
+      *ngFor="let item of menuItems"
+      pButton
+      icon="{{ item.icon }}"
+      class="menu-button"
+      (click)="toggleMenu(item)"
+      [ngClass]="{ active: activeMenu === item.id }"
+    ></button>
   </div>
   <div class="toggle-menu" *ngIf="activeMenu">
-    <img class="logo" src="/assets/logo.svg"/>
+    <img class="logo" src="/assets/logo.svg" />
     <p-iconfield>
       <p-inputicon styleClass="pi pi-search" />
-      <input type="text" pInputText placeholder="Search" [(ngModel)]="searchTerm" (input)="filterMenuItems()" class="search-input"/>
-    </p-iconfield> 
-    <p-panelmenu [model]="filteredMenuItems.length > 0 ? filteredMenuItems : getActiveMenuItems()" [multiple]="false" (onNodeSelect)="setActiveMenuItem($event)"></p-panelmenu>
+      <input
+        type="text"
+        pInputText
+        placeholder="Search"
+        [(ngModel)]="searchTerm"
+        (input)="filterMenuItems()"
+        class="search-input"
+      />
+    </p-iconfield>
+    <p-panelmenu
+      [model]="
+        filteredMenuItems.length > 0 ? filteredMenuItems : getActiveMenuItems()
+      "
+      [multiple]="false"
+      (onNodeSelect)="setActiveMenuItem($event)"
+    ></p-panelmenu>
   </div>
 </div>
