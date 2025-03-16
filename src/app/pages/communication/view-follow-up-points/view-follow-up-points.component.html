@@ -1,0 +1,22 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Follow Ups Point'"
+    [backIcon]="'back-icon'"
+    [btnAdd]="false"
+    [backExists]="true"
+    [exports]="true"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'Topic'"
+    [col2Name]="'Details'"
+    [col3Name]="'Due Date'"
+    [col4Name]="'Actual Date'"
+    [edit]="true"
+    [delete]="true"
+    [side]="false"
+    [checkBox]="true"
+    [viewFollowUpPointsCommunicationTable]="true"
+  ></app-table>
+</div>

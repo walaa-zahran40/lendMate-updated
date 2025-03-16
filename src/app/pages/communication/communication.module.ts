@@ -17,6 +17,7 @@ import { ViewOfficersComponent } from './view-officers/view-officers.component';
 import { ViewContactPersonsComponent } from './view-contact-persons/view-contact-persons.component';
 import { ViewAssestTypeComponent } from './view-assest-type/view-assest-type.component';
 import { ViewFollowUpsComponent } from './view-follow-ups/view-follow-ups.component';
+import { ViewFollowUpPointsComponent } from './view-follow-up-points/view-follow-up-points.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { ViewFollowUpsComponent } from './view-follow-ups/view-follow-ups.compon
     ViewContactPersonsComponent,
     ViewAssestTypeComponent,
     ViewFollowUpsComponent,
+    ViewFollowUpPointsComponent,
   ],
   imports: [
     CommonModule,
