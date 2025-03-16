@@ -2654,6 +2654,46 @@
       </td>
     </tr>
   </ng-template>
+  <ng-template
+    pTemplate="body"
+    let-rowData="rowData"
+    let-followup
+    sortMode="multiple"
+    *ngIf="viewFollowUpsCommunicationTable"
+  >
+    <tr>
+      <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+      <td>
+        <span class="p-column-title"> {{ col1Name }}</span>
+        {{ followup.details }}
+      </td>
+
+      <td>
+        <span class="p-column-title">{{ col2Name }} </span>
+        <span>{{ followup.date | date : "dd MMM, yyyy" }}</span>
+      </td>
+
+      <td class="imgs">
+        <img
+          src="/assets/images/shared/table/edit.svg"
+          alt="edit"
+          class="d-inline-block mx-2 my-2"
+          *ngIf="edit"
+        /><img
+          src="/assets/images/shared/table/delete.svg"
+          class="d-inline-block mx-2 my-2"
+          alt="delete"
+          *ngIf="delete"
+        />
+        <img
+          src="/assets/images/shared/table/side.svg"
+          class="d-inline-block mx-2 my-2"
+          alt="side"
+          *ngIf="side"
+        />
+      </td>
+    </tr>
+  </ng-template>
   <ng-template pTemplate="paginatorleft">
     <div class="p-paginator-left">
       <span>View Applicants per page</span>

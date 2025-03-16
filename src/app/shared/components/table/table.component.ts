@@ -82,6 +82,7 @@ export class TableComponent {
   @Input() viewOfficersCommunicationTable!: boolean;
   @Input() viewContactPersonCommunicationTable!: boolean;
   @Input() viewAssestTypeCommunicationTable!: boolean;
+  @Input() viewFollowUpsCommunicationTable!: boolean;
   checked: boolean = false;
   first2: number = 0;
 

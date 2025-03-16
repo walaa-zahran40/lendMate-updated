@@ -1,0 +1,20 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Follow Ups'"
+    [backIcon]="'back-icon'"
+    [btnAdd]="false"
+    [backExists]="true"
+    [exports]="true"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'Details'"
+    [col2Name]="'Date'"
+    [edit]="true"
+    [delete]="true"
+    [side]="true"
+    [checkBox]="true"
+    [viewFollowUpsCommunicationTable]="true"
+  ></app-table>
+</div>
