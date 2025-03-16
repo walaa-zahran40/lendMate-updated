@@ -1,0 +1,16 @@
+.gap-60 {
+  gap: 60px;
+  margin: 0 auto;
+  margin-bottom: 32px;
+}
+.container-fluid {
+  padding: 22px 32px;
+}
+.width-auto {
+  width: 33.33333333%;
+}
+@media only screen and (max-width: 800px) {
+  .width-auto {
+    width: auto;
+  }
+}

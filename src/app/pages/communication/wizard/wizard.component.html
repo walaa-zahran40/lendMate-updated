@@ -1,0 +1,19 @@
+<div class="container-fluid">
+  <app-toolbar-card
+    [title]="'Meeting Activity'"
+    [backExists]="true"
+    [btnExists]="false"
+    [backIcon]="'back-icon'"
+    [labelBtn]="'View Basic Information'"
+  ></app-toolbar-card>
+  <div class="row w-100 gap-60" *ngFor="let row of cards">
+    <div class="col-sm p-0 width-auto" *ngFor="let card of row">
+      <app-card
+        [imgUrl]="card.imgUrl"
+        [imgAlt]="card.imgAlt"
+        [title]="card.title"
+        [content]="card.content"
+      ></app-card>
+    </div>
+  </div>
+</div>
