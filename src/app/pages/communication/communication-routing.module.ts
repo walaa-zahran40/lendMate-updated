@@ -15,6 +15,7 @@ import { ViewAssestTypeComponent } from './view-assest-type/view-assest-type.com
 import { ViewFollowUpsComponent } from './view-follow-ups/view-follow-ups.component';
 import { ViewFollowUpPointsComponent } from './view-follow-up-points/view-follow-up-points.component';
 import { ViewMeetingTypesComponent } from './view-meeting-types/view-meeting-types.component';
+import { ViewCallComponent } from './view-call/view-call.component';
 
 const routes: Routes = [
   {
@@ -72,6 +73,10 @@ const routes: Routes = [
   {
     path: 'view-meeting-types',
     component: ViewMeetingTypesComponent,
+  },
+  {
+    path: 'view-call',
+    component: ViewCallComponent,
   },
   {
     path: 'wizard',

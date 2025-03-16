@@ -1,0 +1,23 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Calls'"
+    [backIcon]="'back-icon'"
+    [btnAdd]="false"
+    [backExists]="false"
+    [exports]="true"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'ID'"
+    [col2Name]="'Topic'"
+    [col3Name]="'Client ID'"
+    [col4Name]="'Call Type'"
+    [col5Name]="'Date'"
+    [edit]="true"
+    [delete]="true"
+    [side]="true"
+    [checkBox]="true"
+    [viewCallsCommunicationTable]="true"
+  ></app-table>
+</div>
