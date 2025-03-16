@@ -13,6 +13,7 @@ import { AddCallTypesComponent } from './add-call-types/add-call-types.component
 import { AddFollowupTypesComponent } from './add-followup-types/add-followup-types.component';
 import { ViewMeetingsComponent } from './view-meetings/view-meetings.component';
 import { WizardComponent } from './wizard/wizard.component';
+import { ViewOfficersComponent } from './view-officers/view-officers.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { WizardComponent } from './wizard/wizard.component';
     AddFollowupTypesComponent,
     ViewMeetingsComponent,
     WizardComponent,
+    ViewOfficersComponent,
   ],
   imports: [
     CommonModule,

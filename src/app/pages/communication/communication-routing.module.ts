@@ -9,6 +9,7 @@ import { AddCallTypesComponent } from './add-call-types/add-call-types.component
 import { AddFollowupTypesComponent } from './add-followup-types/add-followup-types.component';
 import { ViewMeetingsComponent } from './view-meetings/view-meetings.component';
 import { WizardComponent } from './wizard/wizard.component';
+import { ViewOfficersComponent } from './view-officers/view-officers.component';
 
 const routes: Routes = [
   {
@@ -42,6 +43,10 @@ const routes: Routes = [
   {
     path: 'view-meetings',
     component: ViewMeetingsComponent,
+  },
+  {
+    path: 'view-officers',
+    component: ViewOfficersComponent,
   },
   {
     path: 'wizard',

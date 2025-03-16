@@ -1,0 +1,22 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Officer'"
+    [backIcon]="'back-icon'"
+    [btnAdd]="false"
+    [backExists]="true"
+    [exports]="true"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'Officer'"
+    [col2Name]="'Is Responsible'"
+    [col3Name]="'Must Attend'"
+    [edit]="true"
+    [delete]="true"
+    [side]="false"
+    [checkBox]="true"
+    [uppercase]="'uppercase'"
+    [viewOfficersCommunicationTable]="true"
+  ></app-table>
+</div>

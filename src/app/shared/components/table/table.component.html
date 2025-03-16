@@ -2531,6 +2531,49 @@
       </td>
     </tr>
   </ng-template>
+  <ng-template
+    pTemplate="body"
+    let-rowData="rowData"
+    let-officer
+    sortMode="multiple"
+    *ngIf="viewOfficersCommunicationTable"
+  >
+    <tr>
+      <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+      <td>
+        <span class="p-column-title"> {{ col1Name }}</span>
+        {{ officer.officer }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col2Name }} </span>
+        <span class="{{ uppercase }}">{{ officer.isResponsible }}</span>
+      </td>
+      <td>
+        <span class="p-column-title">{{ col3Name }} </span>
+        <span class="{{ uppercase }}">{{ officer.mustAttend }}</span>
+      </td>
+
+      <td class="imgs">
+        <img
+          src="/assets/images/shared/table/edit.svg"
+          alt="edit"
+          class="d-inline-block mx-2 my-2"
+          *ngIf="edit"
+        /><img
+          src="/assets/images/shared/table/delete.svg"
+          class="d-inline-block mx-2 my-2"
+          alt="delete"
+          *ngIf="delete"
+        />
+        <img
+          src="/assets/images/shared/table/side.svg"
+          class="d-inline-block mx-2 my-2"
+          alt="side"
+          *ngIf="side"
+        />
+      </td>
+    </tr>
+  </ng-template>
   <ng-template pTemplate="paginatorleft">
     <div class="p-paginator-left">
       <span>View Applicants per page</span>

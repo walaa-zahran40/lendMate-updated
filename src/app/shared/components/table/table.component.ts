@@ -79,6 +79,7 @@ export class TableComponent {
   @Input() viewOfficersLookupsTable!: boolean;
   @Input() viewSignatoryOfficersTable!: boolean;
   @Input() viewMeetingsTable!: boolean;
+  @Input() viewOfficersCommunicationTable!: boolean;
   checked: boolean = false;
   first2: number = 0;
 
