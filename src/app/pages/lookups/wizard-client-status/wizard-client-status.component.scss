@@ -1,0 +1,8 @@
+.width-auto {
+  width: 33.33333333%;
+}
+@media only screen and (max-width: 800px) {
+  .width-auto {
+    width: auto;
+  }
+}

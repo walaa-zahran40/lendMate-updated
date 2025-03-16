@@ -13,7 +13,7 @@
     *ngFor="let row of cards"
   >
     <div
-      class="col-sm p-0"
+      class="col-sm p-0 width-auto"
       *ngFor="let card of row"
       [ngClass]="{
             'col-sm-4': row.length === 1||row.length === 2,

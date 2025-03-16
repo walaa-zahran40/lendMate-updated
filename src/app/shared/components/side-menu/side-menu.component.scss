@@ -1,46 +1,46 @@
-::ng-deep .pi-ico1:before{
+::ng-deep .pi-ico1:before {
   content: url(/assets/icons/Ico1.svg);
 }
-::ng-deep .pi-ico2:before{
+::ng-deep .pi-ico2:before {
   content: url(/assets/icons/Ico2.svg);
 }
-::ng-deep .pi-ico3:before{
+::ng-deep .pi-ico3:before {
   content: url(/assets/icons/Ico3.svg);
 }
-::ng-deep .pi-ico4:before{
+::ng-deep .pi-ico4:before {
   content: url(/assets/icons/Ico4.svg);
 }
-::ng-deep .pi-ico5:before{
+::ng-deep .pi-ico5:before {
   content: url(/assets/icons/Ico5.svg);
 }
-::ng-deep .pi-ico6:before{
+::ng-deep .pi-ico6:before {
   content: url(/assets/icons/Ico6.svg);
 }
-::ng-deep .pi-settings:before{
+::ng-deep .pi-settings:before {
   content: url(/assets/icons/settings.svg);
 }
-::ng-deep .pi-helpCenter:before{
+::ng-deep .pi-helpCenter:before {
   content: url(/assets/icons/helpCenter.svg);
 }
-::ng-deep .pi-clients:before{
+::ng-deep .pi-clients:before {
   content: url(/assets/icons/clients.svg);
 }
-::ng-deep .pi-leasingMandates:before{
+::ng-deep .pi-leasingMandates:before {
   content: url(/assets/icons/leasingMandates.svg);
 }
-::ng-deep .pi-lookUps:before{
+::ng-deep .pi-lookUps:before {
   content: url(/assets/icons/lookUps.svg);
 }
-::ng-deep .pi-organizations:before{
+::ng-deep .pi-organizations:before {
   content: url(/assets/icons/organizations.svg);
 }
-::ng-deep .pi-legals:before{
+::ng-deep .pi-legals:before {
   content: url(/assets/icons/legals.svg);
 }
-::ng-deep .pi-communications:before{
+::ng-deep .pi-communications:before {
   content: url(/assets/icons/communications.svg);
 }
-::ng-deep .side-menu-container{
+::ng-deep .side-menu-container {
   display: flex;
   height: 100vh;
 }
@@ -55,7 +55,7 @@
   top: 30px;
   position: absolute;
 }
-::ng-deep .side-menu button.menu-button{
+::ng-deep .side-menu button.menu-button {
   background: transparent;
   border: 0;
   width: 100%;
@@ -66,44 +66,45 @@
   overflow: visible;
   border-radius: 0%;
 }
-::ng-deep button.menu-button.p-button.p-component.p-button-icon-only.active
-{
-  background-color: #E9EBFD;
+::ng-deep button.menu-button.p-button.p-component.p-button-icon-only.active {
+  background-color: #e9ebfd;
 }
 ::ng-deep .toggle-menu {
-  background:  #F0F0F2;
+  background: #f0f0f2;
   width: fit-content;
   position: relative;
   z-index: 99;
   min-width: 300px;
 }
- 
+
 ::ng-deep .p-panelmenu-panel {
-     border: 0 !important;
-    width: 100%;
-    z-index: 10;
-    min-width: max-content;
-    border-radius: 0 !important;
-    background: transparent !important;
-    color: #7C8493 !important;
+  border: 0 !important;
+  width: 100%;
+  z-index: 10;
+  min-width: max-content;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: #7c8493 !important;
 }
 ::ng-deep .p-button:not(:disabled):hover {
-  background: #E9EBFD !important;
+  background: #e9ebfd !important;
   border: 0 !important;
   color: inherit;
 }
-::ng-deep button.menu-button.p-button.p-component.p-button-icon-only.active::before
-{
+::ng-deep
+  button.menu-button.p-button.p-component.p-button-icon-only.active::before {
   content: "";
-  border-left: 4px solid #0A69BB;
+  border-left: 4px solid #0a69bb;
   position: absolute;
   left: -9.7px;
   height: 50px;
   z-index: 9999;
 }
-::ng-deep button.menu-button.p-button.p-component.p-button-icon-only.active span.p-button-icon.pi::after{
+::ng-deep
+  button.menu-button.p-button.p-component.p-button-icon-only.active
+  span.p-button-icon.pi::after {
   content: "\e930";
-  color: #0A69BB;
+  color: #0a69bb;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -119,16 +120,15 @@ img.logo {
   padding: 30px 0;
 }
 input.p-inputtext.p-component.search-input {
-  background: #E6E6E6;
+  background: #e6e6e6;
   border: 0;
   border-radius: 12px;
 }
-.p-iconfield { 
+.p-iconfield {
   margin: auto;
   width: fit-content;
   display: flex;
- margin-bottom: 15px;
-
+  margin-bottom: 15px;
 }
 ::ng-deep .p-panelmenu-header-link {
   flex-direction: row-reverse;
@@ -146,7 +146,7 @@ input.p-inputtext.p-component.search-input {
 }
 ::ng-deep .p-component.p-panelmenu-header.p-panelmenu-header-active::before {
   content: "";
-  border-left: 4px solid #0A69BB;
+  border-left: 4px solid #0a69bb;
   position: absolute;
   z-index: 999;
   left: 0;
@@ -154,16 +154,16 @@ input.p-inputtext.p-component.search-input {
 }
 ::ng-deep .p-panelmenu-submenu::before {
   content: "";
-  border-left: 1px solid #D8D8D8;
+  border-left: 1px solid #d8d8d8;
   position: absolute;
   z-index: 999;
-   height: 75%;
+  height: 75%;
 }
-::ng-deep .p-panelmenu-submenu { 
+::ng-deep .p-panelmenu-submenu {
   position: relative;
   margin: 0 0 0 20px !important;
 }
-::ng-deep .p-panelmenu-content-container .p-panelmenu-submenu-icon::before{
+::ng-deep .p-panelmenu-content-container .p-panelmenu-submenu-icon::before {
   content: url(/assets/icons/curved.svg);
   position: relative;
   top: -5px;
@@ -179,7 +179,7 @@ input.p-inputtext.p-component.search-input {
   line-height: 1;
   padding: 10px;
 }
-::ng-deep .p-panelmenu-submenu-icon::before{
+::ng-deep .p-panelmenu-submenu-icon::before {
   position: absolute;
   left: 0;
   top: 0;
@@ -187,13 +187,20 @@ input.p-inputtext.p-component.search-input {
   margin: auto;
   height: fit-content;
 }
-::ng-deep .p-panelmenu-header:not(.p-disabled) .p-panelmenu-header-content:hover {
-    background: none !important;
+::ng-deep
+  .p-panelmenu-header:not(.p-disabled)
+  .p-panelmenu-header-content:hover {
+  background: none !important;
+}
+::ng-deep span.p-panelmenu-header-label {
+  margin: 0 10px;
+}
+::ng-deep .p-panelmenu-item-link .p-component.p-iconwrapper {
+  position: absolute;
+  right: 20px;
+}
+@media only screen and (max-width: 600px) {
+  .side-menu-container {
+    height: 100%;
   }
-  ::ng-deep span.p-panelmenu-header-label {
-    margin: 0 10px;
-  }
-  ::ng-deep .p-panelmenu-item-link .p-component.p-iconwrapper {
-    position: absolute;
-    right: 20px;
 }
