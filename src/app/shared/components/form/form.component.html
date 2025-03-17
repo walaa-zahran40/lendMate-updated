@@ -559,7 +559,7 @@
       class="custom-view m-0 float-right"
     />
   </div>
-  <div class="div2">
+  <div class="div2" [ngClass]="{ span: applyReusable }">
     <form action="" *ngIf="addClientShowMain">
       <label for="nameEnglish"
         >Name in English<sup class="danger">*</sup></label

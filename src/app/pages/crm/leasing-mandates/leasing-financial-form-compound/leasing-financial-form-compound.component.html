@@ -1,0 +1,70 @@
+<app-toolbar-form
+  [backExists]="true"
+  [viewOnly]="true"
+  [header]="'Leasing Financial Form'"
+></app-toolbar-form>
+<app-toolbar-compound></app-toolbar-compound>
+<div class="parent">
+  <div class="div1">
+    <div class="first-form">
+      <app-form
+        [title]="'Basic Finance Information'"
+        [description]="
+          'Introduce your company core info quickly to users by fill up company details'
+        "
+        [leasingFinancialFormShowBasicForm]="true"
+      ></app-form>
+    </div>
+    <div class="second-form">
+      <app-form
+        [title]="'Rates and Periods'"
+        [description]="
+          'Introduce your company core info quickly to users by fill up company details'
+        "
+        [leasingFinancialFormShowRatesForm]="true"
+      ></app-form>
+    </div>
+    <div class="third-form">
+      <app-toolbar-table [exports]="true" [btnAdd]="false"></app-toolbar-table>
+      <app-table
+        [cols]="colsInside"
+        [tableData]="tableDataInside"
+        [col1Name]="'Payment Number'"
+        [col2Name]="'Due Date'"
+        [col3Name]="'Balance Before'"
+        [col4Name]="'Balance After'"
+        [col5Name]="'Insurance Outcome'"
+        [col6Name]="'Principal'"
+        [col7Name]="'Installment'"
+        [col8Name]="'Interest'"
+        [edit]="false"
+        [delete]="false"
+        [side]="false"
+        [download]="false"
+        [checkBox]="false"
+        [filters]="false"
+        [viewCalculationsTable]="true"
+        [paginator]="false"
+      ></app-table>
+    </div>
+  </div>
+  <div class="div2">
+    <h2>Currency Information</h2>
+    <p>
+      Introduce your company core info quickly to users by fill up company
+      details
+    </p>
+    <app-form
+      [contactPersonDetailsView]="true"
+      [leasingFinancialFormShowCurrencyForm]="true"
+      [applyReusable]="true"
+    ></app-form>
+    <div
+      class="row justify-content-between w-100 gap-4"
+      style="padding: 32px 10px"
+    >
+      <p-button label="Submit" class="custom-submit custom-save m-0" />
+      <p-button label="Calculate" class="custom-calculate custom-save m-0" />
+    </div>
+  </div>
+</div>

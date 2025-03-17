@@ -2,7 +2,7 @@
   responsiveLayout="stack"
   [value]="tableData"
   scrollHeight="flex"
-  [paginator]="true"
+  [paginator]="paginator"
   [rows]="10"
   [showCurrentPageReport]="true"
   [rowsPerPageOptions]="[5, 10, 15, 20]"
@@ -800,7 +800,7 @@
       </td>
       <td>
         <span class="p-column-title">{{ col8Name }} </span>
-        {{ calculation.interest }}
+        {{ calculation.interest }}%
       </td>
       <td class="imgs">
         <img
@@ -2840,7 +2840,7 @@
       </td>
     </tr>
   </ng-template>
-  <ng-template pTemplate="paginatorleft">
+  <ng-template pTemplate="paginatorleft" *ngIf="paginator">
     <div class="p-paginator-left">
       <span>View Applicants per page</span>
     </div>

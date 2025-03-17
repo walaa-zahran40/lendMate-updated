@@ -7,6 +7,8 @@ import { Component, Input } from '@angular/core';
   styleUrl: './form.component.scss',
 })
 export class FormComponent {
+  @Input() applyReusable: boolean = false;
+
   //ngModel Values
   value: string | undefined;
   value1: string | undefined;

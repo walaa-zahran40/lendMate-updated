@@ -37,6 +37,7 @@ import { ViewAssestTypeComponent } from './leasing-mandates/view-assest-type/vie
 import { WizardComponent } from './leasing-mandates/wizard/wizard.component';
 import { ViewCalculationsComponent } from './leasing-mandates/view-calculations/view-calculations.component';
 import { ViewManageMandateTermsComponent } from './leasing-mandates/view-manage-mandate-terms/view-manage-mandate-terms.component';
+import { LeasingFinancialFormCompoundComponent } from './leasing-mandates/leasing-financial-form-compound/leasing-financial-form-compound.component';
 
 const routes: Routes = [
   /*Clients Routing*/
@@ -192,6 +193,10 @@ const routes: Routes = [
   {
     path: 'leasing-mandates/view-manage-mandate-terms',
     component: ViewManageMandateTermsComponent,
+  },
+  {
+    path: 'leasing-mandates/leasing-financial-form-compound',
+    component: LeasingFinancialFormCompoundComponent,
   },
 ];
 

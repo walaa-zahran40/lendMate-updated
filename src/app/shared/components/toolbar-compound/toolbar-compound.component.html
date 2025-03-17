@@ -1,0 +1,37 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm">
+      <p class="purple">
+        <strong>76</strong> <span>Total Installments</span>
+        <img src="/assets/images/shared/toolbar-compound/side.svg" alt="side" />
+      </p>
+    </div>
+    <div class="col-sm">
+      <p class="green">
+        <strong>3</strong>
+        <span>Total Interest </span>
+        <img src="/assets/images/shared/toolbar-compound/side.svg" alt="side" />
+      </p>
+    </div>
+    <div class="col-sm">
+      <p class="blue">
+        <strong>24</strong> <span>Total Rent</span>
+        <img src="/assets/images/shared/toolbar-compound/side.svg" alt="side" />
+      </p>
+    </div>
+    <div class="col-sm-5 d-flex justify-content-end">
+      <p-floatlabel variant="in">
+        <p-datepicker
+          [(ngModel)]="dateRange"
+          inputId="dateRange"
+          selectionMode="range"
+          showIcon
+          iconDisplay="input"
+          dateFormat="M dd"
+          (onSelect)="updateLabel()"
+        ></p-datepicker>
+        <label for="dateRange">{{ dateRangeLabel }}</label>
+      </p-floatlabel>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,116 @@
+.container-fluid {
+  padding: 0 33px;
+  margin-top: 50px;
+  margin-bottom: 48px;
+  .row {
+    align-items: center;
+  }
+  .purple {
+    background: var(--Brands-Primary, #4640de);
+    display: flex;
+    align-items: center;
+    padding: 24px;
+    justify-content: flex-start;
+    gap: 13px;
+
+    strong {
+      font-family: "epilogue", sans-serif;
+      font-size: 45px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 100%;
+      color: #fff;
+    }
+    span {
+      color: #fff;
+      font-family: "epilogue", sans-serif;
+      font-size: 15px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 160%;
+    }
+    img {
+      margin-left: auto;
+    }
+  }
+  .green {
+    background: var(--Accents-Green, #56cdad);
+    display: flex;
+    align-items: center;
+    padding: 24px;
+    justify-content: flex-start;
+    gap: 13px;
+
+    strong {
+      font-family: "epilogue", sans-serif;
+      font-size: 45px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 100%;
+      color: #fff;
+    }
+    span {
+      color: #fff;
+      font-family: "epilogue", sans-serif;
+      font-size: 15px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 160%;
+    }
+    img {
+      margin-left: auto;
+    }
+  }
+  .blue {
+    background: var(--Accents-Blue, #26a4ff);
+    display: flex;
+    align-items: center;
+    padding: 24px;
+    justify-content: flex-start;
+    gap: 13px;
+
+    strong {
+      font-family: "epilogue", sans-serif;
+      font-size: 45px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 100%;
+      color: #fff;
+    }
+    span {
+      color: #fff;
+      font-family: "epilogue", sans-serif;
+      font-size: 15px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 160%;
+    }
+    img {
+      margin-left: auto;
+    }
+  }
+}
+
+:host {
+  &::ng-deep {
+    .p-floatlabel {
+      color: var(--Neutrals-100, #25324b);
+      font-family: Epilogue;
+      font-size: 21.76px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 160%; /* 34.816px */
+    }
+    .p-floatlabel-in .p-inputtext,
+    .p-floatlabel-in .p-textarea,
+    .p-floatlabel-in .p-select-label,
+    .p-floatlabel-in .p-multiselect-label-container,
+    .p-floatlabel-in .p-autocomplete-input-multiple,
+    .p-floatlabel-in .p-cascadeselect-label,
+    .p-floatlabel-in .p-treeselect-label {
+      padding: 13px 16px;
+      font-family: "epilogue", sans-serif;
+      font-size: 22px;
+    }
+  }
+}

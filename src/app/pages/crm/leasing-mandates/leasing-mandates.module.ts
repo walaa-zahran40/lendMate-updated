@@ -15,6 +15,7 @@ import { ViewAssestTypeComponent } from './view-assest-type/view-assest-type.com
 import { WizardComponent } from './wizard/wizard.component';
 import { ViewCalculationsComponent } from './view-calculations/view-calculations.component';
 import { ViewManageMandateTermsComponent } from './view-manage-mandate-terms/view-manage-mandate-terms.component';
+import { LeasingFinancialFormCompoundComponent } from './leasing-financial-form-compound/leasing-financial-form-compound.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { ViewManageMandateTermsComponent } from './view-manage-mandate-terms/vie
     WizardComponent,
     ViewCalculationsComponent,
     ViewManageMandateTermsComponent,
+    LeasingFinancialFormCompoundComponent,
   ],
   imports: [
     CommonModule,

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { AsyncPipe, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgbHighlight, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
@@ -49,7 +49,11 @@ import { CardModule } from 'primeng/card';
 import { ToolbarCardComponent } from './toolbar-card/toolbar-card.component';
 import { DownloadPopupComponent } from './download-popup/download-popup.component';
 import { TieredMenuModule } from 'primeng/tieredmenu';
- @NgModule({
+import { ToolbarCompoundComponent } from './toolbar-compound/toolbar-compound.component';
+import { DatePickerModule } from 'primeng/datepicker';
+import { FloatLabelModule } from 'primeng/floatlabel';
+
+@NgModule({
   declarations: [
     TableComponent,
     SideMenuComponent,
@@ -62,6 +66,7 @@ import { TieredMenuModule } from 'primeng/tieredmenu';
     CardComponent,
     ToolbarCardComponent,
     DownloadPopupComponent,
+    ToolbarCompoundComponent,
   ],
   imports: [
     CommonModule,
@@ -72,6 +77,7 @@ import { TieredMenuModule } from 'primeng/tieredmenu';
     CalendarModule,
     PaginatorModule,
     StepperModule,
+    DatePickerModule,
     CheckboxModule,
     CardModule,
     SplitButtonModule,
@@ -87,6 +93,7 @@ import { TieredMenuModule } from 'primeng/tieredmenu';
     ToggleSwitchModule,
     NgbHighlight,
     FormsModule,
+    FloatLabelModule,
     ConfirmDialogModule,
     TabsModule,
     InputGroupModule,
@@ -103,9 +110,9 @@ import { TieredMenuModule } from 'primeng/tieredmenu';
     FormsModule,
     TextareaModule,
     TieredMenuModule,
-    PanelMenuModule 
+    PanelMenuModule,
   ],
-  providers: [DecimalPipe, AsyncPipe],
+  providers: [DatePipe, AsyncPipe],
   exports: [
     TableComponent,
     ToolbarFormComponent,
@@ -118,6 +125,7 @@ import { TieredMenuModule } from 'primeng/tieredmenu';
     CardComponent,
     ToolbarCardComponent,
     DownloadPopupComponent,
+    ToolbarCompoundComponent,
   ],
 })
 export class ComponentsModule {}

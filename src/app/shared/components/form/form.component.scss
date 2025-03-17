@@ -53,6 +53,7 @@
     .p-tabs {
       padding: var(--custom-padding-right-10);
     }
+
     .officers-check {
       color: #25324b;
       font-family: "epilogue";
@@ -502,7 +503,7 @@ form {
     color: var(--custom-grey-bold);
     white-space: nowrap;
     padding-bottom: 4px;
-    padding-top: 24px;
+    padding-top: 32px;
     sup {
       color: var(--custom-red);
     }
@@ -546,6 +547,9 @@ form {
 .div2-phone {
   grid-column-start: 4;
   align-self: end;
+}
+.span {
+  grid-column: span 6 / span 6;
 }
 @media only screen and (max-width: 1000px) {
   .parent {
