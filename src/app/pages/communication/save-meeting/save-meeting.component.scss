@@ -45,6 +45,52 @@
     padding-bottom: 24px;
   }
 }
+.meeting-type {
+  margin-top: 24px;
+  h5 {
+    color: #000;
+    font-family: "epilogue", sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 160%; /* 25.6px */
+    margin-bottom: 28px;
+  }
+  label {
+    color: var(--Neutrals-80, #515b6f);
+    font-family: "epilogue", sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 160%;
+    margin-bottom: 22px;
+    margin-left: 16px;
+  }
+}
+.button {
+  margin-bottom: 1rem;
+}
+
+.calendar {
+  display: flex;
+  justify-content: center;
+}
+.left-col {
+  border: 1px solid var(--Lights-Border, #d6ddeb);
+  padding: 24px;
+}
+.btn-row {
+  color: #0a69bb;
+  text-align: center;
+  font-family: "poppins", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 160%; /* 25.6px */
+  border: 1px solid var(--Brands-Secondary, #ccccf5);
+  padding: 12px 16px;
+  cursor: pointer;
+}
 :host {
   &::ng-deep {
     .fc-scroller {
@@ -70,7 +116,7 @@
       color: var(--Neutrals-100, #25324b);
       text-align: right;
       font-family: "epilogue-bold", sans-serif;
-      font-size: 12px;
+      font-size: 14px;
       font-style: normal;
       font-weight: 700;
       line-height: 160%;
@@ -83,6 +129,7 @@
       font-style: normal;
       font-weight: 400;
       line-height: 160%; /* 22.4px */
+      text-transform: uppercase;
     }
     .fc-timegrid-axis {
       border-bottom: 1px solid #ddd !important; /* Ensure only one border */
@@ -90,6 +137,115 @@
 
     .fc-timegrid-axis-frame {
       border-bottom: none !important; /* Remove extra border */
+    }
+    .fc-day-name {
+      color: var(--Neutrals-100, #25324b);
+      text-align: center;
+      font-family: "epilogue", sans-serif;
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 600;
+      border-radius: 50%;
+      width: 44px;
+      line-height: 160%;
+      height: 44px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .fc .fc-col-header-cell-cushion {
+      text-decoration: none;
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+    }
+    .fc-day-number {
+      color: var(--Neutrals-60, #7c8493);
+      text-transform: uppercase;
+    }
+
+    .fc-day-today .fc-day-name {
+      background-color: #0a69bb;
+      color: #fff;
+    }
+    .fc .fc-timegrid-divider {
+      display: none;
+    }
+    .fc .fc-daygrid-day.fc-day-today {
+      background: transparent;
+    }
+    .fc-col-today,
+    .fc-timegrid-col.fc-day-today {
+      background-color: transparent !important;
+    }
+    .fc-timegrid-axis-cushion {
+      width: 100px !important;
+      min-width: 100px !important;
+      max-width: 100px !important;
+      flex: 0 0 100px !important;
+    }
+    .fc-timegrid-axis .fc-timegrid-slot {
+      border-bottom: none !important;
+    }
+
+    /* Sometimes FullCalendar uses these classes; include as needed: */
+    .fc-timegrid-axis .fc-timegrid-slot-lane {
+      border-bottom: none !important;
+    }
+    .fc-timegrid-axis .fc-timegrid-slot-frame {
+      border-bottom: none !important;
+    }
+    .fc-event-today {
+      background-color: #0a69bb !important;
+    }
+    .fc-event-future {
+      background-color: #56cdad;
+      color: var(--Neutrals-0, #fff);
+      font-family: "epilogue", sans-serif;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 130%; /* 18.2px */
+    }
+    .fc-theme-standard th {
+      border: none;
+      border-bottom: 1px solid #d6ddeb;
+    }
+    thead .fc-scroller-harness {
+      margin-top: 57px;
+    }
+    .p-datepicker {
+      position: relative;
+      left: 0;
+      z-index: -999;
+      margin: 0 auto;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      height: 35vh;
+      margin: 0;
+      overflow-x: auto;
+    }
+    .fc .fc-scrollgrid {
+      border-left: none;
+    }
+    .holiday-day {
+      background-color: #ffe6e6 !important; /* light red */
+    }
+    .fc-holiday-label {
+      color: var(--Neutrals-0, #fff);
+      text-align: center;
+      font-family: "epilogue", sans-serif;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 160%;
+      background: var(--Accents-Red, #ff6550);
+      width: 95%;
+      text-transform: capitalize;
+    }
+    .custom-event-time {
+      padding-bottom: 10px;
     }
   }
 }

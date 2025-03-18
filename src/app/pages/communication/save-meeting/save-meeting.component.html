@@ -38,57 +38,49 @@
     </button>
   </div>
 </div>
-<div class="row">
-  <div class="col-sm">
-    <!-- <div class="button">
-        <p-button label="Add Meeting" icon="plus-icon" class="btn btn-Add" />
+<div class="container-fluid">
+  <div class="row">
+    <!-- LEFT COLUMN: date picker + add button -->
+    <div class="col-12 col-xl-3 mb-3 left-col">
+      <div
+        class="mb-3 d-flex justify-content-center align-items-center btn-row w-100"
+      >
+        <img src="/assets/images/calendar/add.svg" alt="add" />
+        <button (click)="onAddMeeting()">Add Meeting</button>
       </div>
-      <div class="calendar">
-        <p-calendar
-          class="max-w-full d-flex justify-content-center"
-          [(ngModel)]="date"
-          [inline]="true"
-          [showWeek]="false"
-        />
-      </div> -->
 
-    <!-- <div class="meeting-type">
-        <p>Meeting Type</p>
-        <form class="flex align-items-center gap-1">
-          <label class="custom-checkbox">
-            <input type="checkbox" />
-            <span class="checkmark"></span>
-            Your checkbox label
+      <!-- Make sure to have a wrapping element that can resize -->
+      <p-calendar
+        [(ngModel)]="selectedDateForCalendar"
+        [inline]="true"
+        [showWeek]="false"
+        (onSelect)="onDateSelect($event)"
+      ></p-calendar>
+      <hr />
+      <div class="meeting-type">
+        <h5>Meeting Type</h5>
+        <!-- We iterate over an array of checkbox options in the component -->
+        <div
+          class="form-check mb-2"
+          *ngFor="let type of meetingTypeOptions; let i = index"
+        >
+          <input
+            class="form-check-input"
+            type="checkbox"
+            [id]="type.value"
+            [(ngModel)]="type.checked"
+            name="meetingTypes"
+          />
+          <label class="form-check-label" [for]="type.value">
+            {{ type.label }}
           </label>
-          <label class="custom-checkbox">
-            <input type="checkbox" />
-            <span class="checkmark"></span>
-            Your checkbox label
-          </label>
-          <label class="custom-checkbox">
-            <input type="checkbox" />
-            <span class="checkmark"></span>
-            Your checkbox label
-          </label>
-          <label class="custom-checkbox">
-            <input type="checkbox" />
-            <span class="checkmark"></span>
-            Your checkbox label
-          </label>
-          <label class="custom-checkbox">
-            <input type="checkbox" />
-            <span class="checkmark"></span>
-            Your checkbox label
-          </label>
-          <label class="custom-checkbox">
-            <input type="checkbox" />
-            <span class="checkmark"></span>
-            Your checkbox label
-          </label>
-        </form>
-      </div> -->
-  </div>
-  <div class="col-sm-9">
-    <full-calendar #calendar [options]="calendarOptions"></full-calendar>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: FullCalendar -->
+    <div class="col-12 col-xl-9">
+      <full-calendar #calendar [options]="calendarOptions"></full-calendar>
+    </div>
   </div>
 </div>
