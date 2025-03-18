@@ -1,0 +1,95 @@
+.row-toolbar {
+  padding: 30px 5px 0px 20px;
+  border-bottom: 1px solid #d6ddeb;
+  .back-col {
+    gap: 16px;
+    .meeting-details {
+      color: var(--Neutrals-100, #25324b);
+      font-family: "poppins-bold", sans-serif;
+      font-size: 24px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 120%; /* 28.8px */
+    }
+  }
+  .current-month {
+    color: #000;
+    font-family: "epilogue", sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 160%;
+    text-align: center;
+  }
+  .btn-primary {
+    background: transparent;
+    border: none;
+  }
+  .view {
+    color: var(--Neutrals-60, #7c8493);
+    font-family: "epilogue", sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 160%;
+    padding: 0 20px;
+  }
+  .selected {
+    color: var(--Neutrals-100, #25324b);
+    font-family: "epilogue", sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 160%; /* 25.6px */
+    border-bottom: 4px solid #4640de;
+    padding-bottom: 24px;
+  }
+}
+:host {
+  &::ng-deep {
+    .fc-scroller {
+      overflow-y: hidden !important;
+    }
+
+    .fc-scroller-liquid-absolute {
+      overflow-y: hidden !important;
+      padding-right: 0 !important;
+    }
+
+    .fc-scroller {
+      overflow-y: hidden !important;
+    }
+    .fc-timegrid-slot {
+      height: 80px !important;
+    }
+
+    .fc-scroller {
+      overflow-y: auto !important;
+    }
+    .fc .fc-timegrid-axis-cushion {
+      color: var(--Neutrals-100, #25324b);
+      text-align: right;
+      font-family: "epilogue-bold", sans-serif;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 160%;
+    }
+    .fc .fc-timegrid-slot-label-cushion {
+      color: var(--Neutrals-80, #515b6f);
+      text-align: right;
+      font-family: "epilogue-bold", sans-serif;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 160%; /* 22.4px */
+    }
+    .fc-timegrid-axis {
+      border-bottom: 1px solid #ddd !important; /* Ensure only one border */
+    }
+
+    .fc-timegrid-axis-frame {
+      border-bottom: none !important; /* Remove extra border */
+    }
+  }
+}

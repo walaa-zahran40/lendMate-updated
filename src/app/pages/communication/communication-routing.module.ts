@@ -17,6 +17,7 @@ import { ViewFollowUpPointsComponent } from './view-follow-up-points/view-follow
 import { ViewMeetingTypesComponent } from './view-meeting-types/view-meeting-types.component';
 import { ViewCallComponent } from './view-call/view-call.component';
 import { ViewCallTypesComponent } from './view-call-types/view-call-types.component';
+import { SaveMeetingComponent } from './save-meeting/save-meeting.component';
 
 const routes: Routes = [
   {
@@ -86,6 +87,10 @@ const routes: Routes = [
   {
     path: 'wizard',
     component: WizardComponent,
+  },
+  {
+    path: 'save-meeting',
+    component: SaveMeetingComponent,
   },
 ];
 

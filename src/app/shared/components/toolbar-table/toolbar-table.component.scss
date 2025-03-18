@@ -110,10 +110,14 @@
       .p-toolbar {
         justify-content: center;
       }
+      .p-toolbar .p-inputtext {
+        padding: 12px 28px;
+      }
     }
     @media screen and (max-width: 900px) {
       .gap-2 {
         flex-wrap: wrap;
+        justify-content: center;
       }
     }
   }

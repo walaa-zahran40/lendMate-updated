@@ -86,8 +86,11 @@
       cursor: var(--custom-cursor);
     }
     .custom-back .p-button:not(:disabled):hover {
-      background: var(--custom-color-white) !important;
-      border: 1px solid var(--p-tabs-active-bar-background);
+      background: white !important;
+      border: 1px solid var(--p-tabs-active-bar-background) !important;
+    }
+    .custom-next .p-button:not(:disabled):hover {
+      background: #fff !important;
     }
     .p-multiselect,
     .p-select {

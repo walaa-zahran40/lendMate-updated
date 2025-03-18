@@ -1,13 +1,13 @@
 <div class="mainContainer">
-  <div  class="side">
+  <div class="side">
     <app-side-menu></app-side-menu>
   </div>
-   <div class="content">
+  <div class="main">
     <app-nav-bar></app-nav-bar>
     <router-outlet></router-outlet>
   </div>
 </div>
- <!-- Download Popup -->
+<!-- Download Popup -->
 <div *ngIf="popupVisible" class="popup-overlay">
   <div class="popup-content">
     <div class="row align-items-center">

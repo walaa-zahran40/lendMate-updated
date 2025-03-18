@@ -1,0 +1,94 @@
+<div class="row row-toolbar">
+  <div class="col-sm align-items-center d-flex back-col">
+    <img src="/assets/images/shared/table/back.svg" alt="back" />
+    <span class="meeting-details">Meeting Details</span>
+  </div>
+  <div class="col-sm">
+    <h3 class="current-month">
+      <button class="btn" (click)="goPrev()">
+        <img src="/assets/images/calendar/prev.svg" alt="prev" />
+      </button>
+      {{ currentMonth }}
+      <button class="btn" (click)="goNext()">
+        <img src="/assets/images/calendar/next.svg" alt="next" />
+      </button>
+    </h3>
+  </div>
+  <div class="col-sm text-right">
+    <button
+      class="view"
+      (click)="changeView('day')"
+      [ngClass]="selectedView === 'day' ? 'selected' : 'view'"
+    >
+      Day
+    </button>
+    <button
+      class="view default"
+      (click)="changeView('week')"
+      [ngClass]="selectedView === 'week' ? 'selected' : 'view'"
+    >
+      Week
+    </button>
+    <button
+      class="view"
+      (click)="changeView('month')"
+      [ngClass]="selectedView === 'month' ? 'selected' : 'view'"
+    >
+      Month
+    </button>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm">
+    <!-- <div class="button">
+        <p-button label="Add Meeting" icon="plus-icon" class="btn btn-Add" />
+      </div>
+      <div class="calendar">
+        <p-calendar
+          class="max-w-full d-flex justify-content-center"
+          [(ngModel)]="date"
+          [inline]="true"
+          [showWeek]="false"
+        />
+      </div> -->
+
+    <!-- <div class="meeting-type">
+        <p>Meeting Type</p>
+        <form class="flex align-items-center gap-1">
+          <label class="custom-checkbox">
+            <input type="checkbox" />
+            <span class="checkmark"></span>
+            Your checkbox label
+          </label>
+          <label class="custom-checkbox">
+            <input type="checkbox" />
+            <span class="checkmark"></span>
+            Your checkbox label
+          </label>
+          <label class="custom-checkbox">
+            <input type="checkbox" />
+            <span class="checkmark"></span>
+            Your checkbox label
+          </label>
+          <label class="custom-checkbox">
+            <input type="checkbox" />
+            <span class="checkmark"></span>
+            Your checkbox label
+          </label>
+          <label class="custom-checkbox">
+            <input type="checkbox" />
+            <span class="checkmark"></span>
+            Your checkbox label
+          </label>
+          <label class="custom-checkbox">
+            <input type="checkbox" />
+            <span class="checkmark"></span>
+            Your checkbox label
+          </label>
+        </form>
+      </div> -->
+  </div>
+  <div class="col-sm-9">
+    <full-calendar #calendar [options]="calendarOptions"></full-calendar>
+  </div>
+</div>

@@ -42,7 +42,7 @@
 }
 ::ng-deep .side-menu-container {
   display: flex;
-  height: 100lvh;
+  height: 100%;
 }
 ::ng-deep .toggle-menu h2 {
   display: none;
@@ -201,6 +201,6 @@ input.p-inputtext.p-component.search-input {
 }
 @media only screen and (max-width: 600px) {
   .side-menu-container {
-    height: 100%;
+    height: 100lvh;
   }
 }

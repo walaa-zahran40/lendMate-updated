@@ -109,6 +109,13 @@
         margin: 0 auto;
         flex-direction: column;
       }
+      .p-toggleswitch {
+        width: 200px;
+        margin-right: 0;
+      }
+      .p-toggleswitch.p-toggleswitch-checked .p-toggleswitch-handle {
+        inset-inline-start: 78px;
+      }
     }
   }
 }

@@ -21,6 +21,11 @@ import { ViewFollowUpPointsComponent } from './view-follow-up-points/view-follow
 import { ViewMeetingTypesComponent } from './view-meeting-types/view-meeting-types.component';
 import { ViewCallComponent } from './view-call/view-call.component';
 import { ViewCallTypesComponent } from './view-call-types/view-call-types.component';
+import { SaveMeetingComponent } from './save-meeting/save-meeting.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { CalendarModule } from 'primeng/calendar';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @NgModule({
   declarations: [
@@ -41,6 +46,7 @@ import { ViewCallTypesComponent } from './view-call-types/view-call-types.compon
     ViewMeetingTypesComponent,
     ViewCallComponent,
     ViewCallTypesComponent,
+    SaveMeetingComponent,
   ],
   imports: [
     CommonModule,
@@ -48,6 +54,11 @@ import { ViewCallTypesComponent } from './view-call-types/view-call-types.compon
     SharedModule,
     TabsModule,
     ButtonModule,
+    FullCalendarModule,
+    CheckboxModule,
+    CalendarModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   exports: [
     AddMeetingComponent,
