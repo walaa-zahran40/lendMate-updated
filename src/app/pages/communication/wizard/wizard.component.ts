@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
 })
 export class WizardComponent {
   cards: any[] = [];
+  displayPopup = false;
 
   ngOnInit(): void {
     this.cards = [
@@ -35,5 +36,17 @@ export class WizardComponent {
         },
       ],
     ];
+  }
+  showDialog() {
+    this.displayPopup = true;
+  }
+  onCardClick(index: number): void {
+    if (index === 0) {
+      console.log('showed');
+      this.showDialog();
+    }
+  }
+  hideDialog() {
+    this.displayPopup = false;
   }
 }

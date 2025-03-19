@@ -24,9 +24,9 @@ import { ViewCallTypesComponent } from './view-call-types/view-call-types.compon
 import { SaveMeetingComponent } from './save-meeting/save-meeting.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarModule } from 'primeng/calendar';
-import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CheckboxModule } from 'primeng/checkbox';
-import { MeetingDetailsComponent } from './meeting-details/meeting-details.component';
+import { DialogModule } from 'primeng/dialog';
 
 @NgModule({
   declarations: [
@@ -48,7 +48,6 @@ import { MeetingDetailsComponent } from './meeting-details/meeting-details.compo
     ViewCallComponent,
     ViewCallTypesComponent,
     SaveMeetingComponent,
-    MeetingDetailsComponent,
   ],
   imports: [
     CommonModule,
@@ -61,6 +60,7 @@ import { MeetingDetailsComponent } from './meeting-details/meeting-details.compo
     CalendarModule,
     FormsModule,
     ReactiveFormsModule,
+    DialogModule,
   ],
   exports: [
     AddMeetingComponent,
