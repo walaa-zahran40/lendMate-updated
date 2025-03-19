@@ -10,6 +10,8 @@ import { MenuToggleService } from '../../services/menu-toggle.service';
 export class NavBarComponent {
   checked = true;
   darkMode: boolean = false;
+  displayPopup = false;
+
   constructor(private menuToggleService: MenuToggleService) {}
 
   toggleDarkMode() {
@@ -23,5 +25,18 @@ export class NavBarComponent {
 
   toggleMenu() {
     this.menuToggleService.toggleMenu();
+  }
+
+  showDialog() {
+    this.displayPopup = true;
+  }
+  onCardClick(index: number): void {
+    if (index === 0) {
+      console.log('showed');
+      this.showDialog();
+    }
+  }
+  hideDialog() {
+    this.displayPopup = false;
   }
 }

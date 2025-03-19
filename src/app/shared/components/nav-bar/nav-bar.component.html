@@ -29,6 +29,19 @@
       </p-toggleswitch>
     </div>
     <p class="language">العربيه</p>
-    <p-avatar image="/assets/images/shared/navbar/notification-selected.svg" />
+    <p-avatar
+      image="/assets/images/shared/navbar/notification-selected.svg"
+      (click)="showDialog()"
+    />
+    <p-dialog
+      [(visible)]="displayPopup"
+      [modal]="true"
+      [closable]="true"
+      [draggable]="false"
+      [resizable]="false"
+      (onHide)="hideDialog()"
+    >
+      <app-notification></app-notification>
+    </p-dialog>
   </ng-template>
 </p-toolbar>

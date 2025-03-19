@@ -59,6 +59,13 @@
       border: none;
       border-bottom: 1px solid #d6ddeb;
     }
+    .p-dialog-content {
+      z-index: 999;
+    }
+    .p-dialog-header {
+      padding: 10px;
+      background-color: transparent;
+    }
     .p-avatar {
       cursor: pointer;
     }
