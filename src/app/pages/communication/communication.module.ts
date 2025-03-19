@@ -26,6 +26,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarModule } from 'primeng/calendar';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CheckboxModule } from 'primeng/checkbox';
+import { MeetingDetailsComponent } from './meeting-details/meeting-details.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { CheckboxModule } from 'primeng/checkbox';
     ViewCallComponent,
     ViewCallTypesComponent,
     SaveMeetingComponent,
+    MeetingDetailsComponent,
   ],
   imports: [
     CommonModule,
