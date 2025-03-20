@@ -1,7 +1,11 @@
 <p-card>
   <ng-template pTemplate="header">
     <img src="{{ imgUrl }}" alt="{{ imgAlt }}" />
-    <img alt="arrow" src="/assets/images/shared/card/arrow.svg" />
+    <img
+      alt="arrow"
+      src="/assets/images/shared/card/arrow.svg"
+      (click)="navigation.emit()"
+    />
   </ng-template>
 
   <ng-template pTemplate="title"> {{ title }} </ng-template>

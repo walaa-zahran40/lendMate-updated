@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-client-activity-wizard',
@@ -8,7 +9,7 @@ import { Component } from '@angular/core';
 })
 export class ClientActivityWizardComponent {
   cards: any[] = [];
-
+  constructor(private router: Router) {}
   ngOnInit(): void {
     this.cards = [
       [
@@ -18,6 +19,7 @@ export class ClientActivityWizardComponent {
           title: 'Upload Documents',
           content:
             'Introduce your company core info quickly to users by fill up company details',
+          link: '/crm/clients/add-upload-documents',
         },
         {
           imgUrl: '/assets/images/shared/card/add.svg',
@@ -25,6 +27,7 @@ export class ClientActivityWizardComponent {
           title: 'Add Address',
           content:
             'Introduce your company core info quickly to users by fill up company details',
+          link: '/crm/clients/add-address',
         },
         {
           imgUrl: '/assets/images/shared/card/sales.svg',
@@ -32,6 +35,7 @@ export class ClientActivityWizardComponent {
           title: 'Sales Turnover',
           content:
             'Introduce your company core info quickly to users by fill up company details',
+          link: '/crm/clients/add-sales-turnover',
         },
       ],
       [
@@ -41,6 +45,7 @@ export class ClientActivityWizardComponent {
           title: 'Phone Number',
           content:
             'Introduce your company core info quickly to users by fill up company details',
+          link: '/crm/clients/add-phone-number',
         },
         {
           imgUrl: '/assets/images/shared/card/contact.svg',
@@ -48,6 +53,7 @@ export class ClientActivityWizardComponent {
           title: 'Contact Person',
           content:
             'Introduce your company core info quickly to users by fill up company details',
+          link: '/crm/clients/add-contact-person',
         },
         {
           imgUrl: '/assets/images/shared/card/cr.svg',
@@ -55,6 +61,7 @@ export class ClientActivityWizardComponent {
           title: 'CR Authority Office',
           content:
             'Introduce your company core info quickly to users by fill up company details',
+          link: '/crm/clients/add-cr-authority-office',
         },
       ],
       [
@@ -64,6 +71,7 @@ export class ClientActivityWizardComponent {
           title: 'TAX Authority Office',
           content:
             'Introduce your company core info quickly to users by fill up company details',
+          link: '/crm/clients/add-tax-authority-office',
         },
         {
           imgUrl: '/assets/images/shared/card/central.svg',
@@ -71,6 +79,7 @@ export class ClientActivityWizardComponent {
           title: 'Central Bank Info',
           content:
             'Introduce your company core info quickly to users by fill up company details',
+          link: '/crm/clients/add-central-bank-info',
         },
         {
           imgUrl: '/assets/images/shared/card/share.svg',
@@ -78,6 +87,7 @@ export class ClientActivityWizardComponent {
           title: 'Share Holders',
           content:
             'Introduce your company core info quickly to users by fill up company details',
+          link: '/crm/clients/add-share-holders',
         },
       ],
       [
@@ -87,6 +97,7 @@ export class ClientActivityWizardComponent {
           title: 'TML Officer',
           content:
             'Introduce your company core info quickly to users by fill up company details',
+          link: '/crm/clients/add-tml-officer',
         },
         {
           imgUrl: '/assets/images/shared/card/meeting.svg',
@@ -94,6 +105,7 @@ export class ClientActivityWizardComponent {
           title: 'Meeting',
           content:
             'Introduce your company core info quickly to users by fill up company details',
+          link: '/communication/add-meeting',
         },
         {
           imgUrl: '/assets/images/shared/card/mandate.svg',
@@ -101,8 +113,12 @@ export class ClientActivityWizardComponent {
           title: 'Mandate',
           content:
             'Introduce your company core info quickly to users by fill up company details',
+          link: '/crm/leasing-mandates/add-mandate',
         },
       ],
     ];
+  }
+  navigateTo(link: string) {
+    this.router.navigate([link]);
   }
 }

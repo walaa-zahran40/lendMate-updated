@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Client } from '../../../../shared/interfaces/client.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-clients',
@@ -10,6 +11,8 @@ import { Client } from '../../../../shared/interfaces/client.interface';
 export class ViewClientsComponent {
   tableDataInside: Client[] = [];
   colsInside: any[] = [];
+  constructor(private router: Router) {}
+
   ngOnInit() {
     this.colsInside = [
       { field: 'nameEn', header: 'Name EN' },
@@ -79,5 +82,12 @@ export class ViewClientsComponent {
         taxId: 12345,
       },
     ];
+  }
+
+  onAddClient() {
+    this.router.navigate(['/crm/clients/add-client']);
+  }
+  onAddSide() {
+    this.router.navigate(['/crm/clients/client-activity-wizard']);
   }
 }

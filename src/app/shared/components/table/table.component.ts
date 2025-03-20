@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Client } from '../../interfaces/client.interface';
 import { PageEvent } from '../../interfaces/page-event.interface';
 import { PaginatorState } from 'primeng/paginator';
@@ -87,6 +87,8 @@ export class TableComponent {
   @Input() viewMeetingTypesCommunicationTable!: boolean;
   @Input() viewCallsCommunicationTable!: boolean;
   @Input() paginator: boolean = true;
+  @Output() wizardBtn = new EventEmitter<void>();
+
   checked: boolean = false;
   first2: number = 0;
 

@@ -41,6 +41,9 @@
       background: var(--p-tabs-active-bar-background) !important;
       border: none;
     }
+    .p-fileupload-choose-button:not(:disabled):hover {
+      background: transparent !important;
+    }
     .custom-next {
       background: var(--p-tabs-active-bar-background);
       width: var(--custom-width-30);

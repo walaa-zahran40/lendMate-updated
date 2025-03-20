@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/crm/clients/add-client', pathMatch: 'full' },
+  { path: '', redirectTo: '/crm/clients/view-clients', pathMatch: 'full' },
   {
     path: 'login',
     loadChildren: () =>

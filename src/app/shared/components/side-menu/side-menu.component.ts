@@ -1,16 +1,8 @@
 import { Component } from '@angular/core';
 import { MenuToggleService } from '../../services/menu-toggle.service';
 import { Subscription } from 'rxjs';
-interface MenuItem {
-  label: string;
-  icon?: string;
-  items?: {
-    label: string;
-    icon: string;
-    active?: boolean;
-    items?: { label: string; icon: string; active?: boolean }[];
-  }[];
-}
+import { MenuItem } from '../../interfaces/menu-item.interface';
+
 @Component({
   selector: 'app-side-menu',
   standalone: false,
@@ -33,7 +25,11 @@ export class SideMenuComponent {
         icon: 'pi pi-users',
         items: [
           { label: 'Quick Onboarding', icon: 'pi pi-user-plus' },
-          { label: 'Clients', icon: 'pi pi-user-plus' },
+          {
+            label: 'Clients',
+            icon: 'pi pi-user-plus',
+            routerLink: '/crm/clients/view-clients',
+          },
           { label: 'Client Address', icon: 'pi pi-user-plus' },
           { label: 'ClientCentralBank', icon: 'pi pi-user-plus' },
           { label: 'ClientCompanyBusinessDetails', icon: 'pi pi-user-plus' },

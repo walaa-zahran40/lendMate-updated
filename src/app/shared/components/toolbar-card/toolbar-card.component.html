@@ -4,6 +4,7 @@
       icon="{{ backIcon }}"
       styleClass="backIcon"
       *ngIf="backExists"
+      (click)="goBack()"
     ></p-button
     >{{ title }}
   </p>

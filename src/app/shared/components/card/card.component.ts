@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-card',
@@ -11,4 +11,5 @@ export class CardComponent {
   @Input() imgAlt!: string;
   @Input() title!: string;
   @Input() content!: string;
+  @Output() navigation = new EventEmitter<void>();
 }

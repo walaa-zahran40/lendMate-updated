@@ -46,7 +46,7 @@
       .plus-icon {
         content: url("/assets/images/shared/table/plus.svg");
       }
-      .add-client {
+      .add {
         color: #fff !important;
         padding: 12px 24px;
         background-color: #0a69bb !important;
@@ -81,7 +81,7 @@
         border-radius: 0px;
         border: 1px solid #d6ddeb;
       }
-      .add-client:not(:disabled):hover {
+      .add:not(:disabled):hover {
         padding: 12px 16px;
         border-radius: 0;
         border: none;

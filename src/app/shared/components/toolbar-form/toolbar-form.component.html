@@ -3,7 +3,12 @@
 <p-toolbar styleClass="mb-6  p-3">
   <ng-template #start>
     <p class="client">
-      <span class="pi pi-angle-left" *ngIf="backExists"></span>{{ header }}
+      <span
+        class="pi pi-angle-left"
+        *ngIf="backExists"
+        (click)="goBack()"
+      ></span
+      >{{ header }}
       <span class="badge badge-warning" *ngIf="!viewOnly">Pending</span>
     </p>
   </ng-template>

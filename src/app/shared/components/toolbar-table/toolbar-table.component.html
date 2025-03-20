@@ -4,6 +4,7 @@
       icon="{{ backIcon }}"
       styleClass="backIcon"
       *ngIf="backExists"
+      (click)="goBack()"
     ></p-button
     >{{ title }}
   </p>
@@ -43,7 +44,8 @@
       icon="{{ iconBtn }}"
       iconPos="left"
       *ngIf="btnAdd"
-      styleClass="add-client"
+      styleClass="add"
+      (click)="addBtn.emit()"
     />
   </div>
 </p-toolbar>

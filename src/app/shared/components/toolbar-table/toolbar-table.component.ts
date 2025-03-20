@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Location } from '@angular/common';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-toolbar-table',
@@ -15,4 +16,9 @@ export class ToolbarTableComponent {
   @Input() backExists!: boolean;
   @Input() exports!: boolean;
   @Input() btnAdd: boolean = true;
+  @Output() addBtn = new EventEmitter<void>();
+  constructor(private location: Location) {}
+  goBack() {
+    this.location.back();
+  }
 }

@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-toolbar-card',
@@ -12,4 +13,9 @@ export class ToolbarCardComponent {
   @Input() backIcon!: string;
   @Input() backExists!: boolean;
   @Input() btnExists = true;
+  constructor(private location: Location) {}
+
+  goBack() {
+    this.location.back();
+  }
 }

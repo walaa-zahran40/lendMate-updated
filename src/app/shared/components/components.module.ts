@@ -47,7 +47,6 @@ import { ToolbarTableComponent } from './toolbar-table/toolbar-table.component';
 import { CardComponent } from './card/card.component';
 import { CardModule } from 'primeng/card';
 import { ToolbarCardComponent } from './toolbar-card/toolbar-card.component';
-import { DownloadPopupComponent } from './download-popup/download-popup.component';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { ToolbarCompoundComponent } from './toolbar-compound/toolbar-compound.component';
 import { DatePickerModule } from 'primeng/datepicker';
@@ -65,7 +64,6 @@ import { FloatLabelModule } from 'primeng/floatlabel';
     ToolbarTableComponent,
     CardComponent,
     ToolbarCardComponent,
-    DownloadPopupComponent,
     ToolbarCompoundComponent,
   ],
   imports: [
@@ -124,7 +122,6 @@ import { FloatLabelModule } from 'primeng/floatlabel';
     ToolbarTableComponent,
     CardComponent,
     ToolbarCardComponent,
-    DownloadPopupComponent,
     ToolbarCompoundComponent,
   ],
 })

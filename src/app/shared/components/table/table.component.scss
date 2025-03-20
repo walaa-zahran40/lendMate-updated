@@ -4,6 +4,7 @@
 .page-content {
   padding: 20px;
 }
+
 @media only screen and (max-width: 961px) {
   .page-content {
     padding: 0;
@@ -14,6 +15,11 @@
 }
 :host {
   &::ng-deep {
+    img[alt="side"],
+    img[alt="delete"],
+    img[alt="edit"] {
+      cursor: pointer;
+    }
     .p-datatable-table {
       padding: 20px;
       border-collapse: collapse;

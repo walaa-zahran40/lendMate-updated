@@ -247,7 +247,7 @@
       border-radius: 0px;
     }
     .work-actions .p-button:not(:disabled):hover {
-      background: transparent;
+      background: transparent !important;
       color: var(--p-tabs-active-bar-background);
       border: none;
     }

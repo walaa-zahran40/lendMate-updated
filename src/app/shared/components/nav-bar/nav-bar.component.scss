@@ -69,6 +69,10 @@
     .p-avatar {
       cursor: pointer;
     }
+    .p-overlay-mask {
+      justify-content: end !important;
+      align-items: start !important;
+    }
     .p-toggleswitch {
       position: relative;
       width: 243px;

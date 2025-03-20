@@ -104,8 +104,8 @@
 
     .p-button:not(:disabled):hover {
       background-color: var(--p-tabs-active-bar-background);
-      border: var(--custom-border);
-      background: var(--p-tabs-active-bar-background) !important;
+      border: var(--p-tabs-active-bar-background) !important;
+      background: transparent !important;
     }
     .row-spacing {
       gap: 60px;
@@ -334,7 +334,7 @@
     .custom-view .p-button:hover {
       background: transparent;
       color: var(--p-tabs-active-bar-background);
-      border: 1px solid var(--p-tabs-active-bar-background);
+      border: 1px solid var(--p-tabs-active-bar-background) !important;
     }
     #emailAddressContactPerson,
     #phoneNumberContactPerson {
@@ -346,6 +346,9 @@
     }
     .p-multiselect-label {
       padding: 5px;
+    }
+    .add-btn .p-button:not(:disabled):hover {
+      background: var(--p-tabs-active-bar-background) !important;
     }
     /*responsiveness*/
     @media only screen and (max-width: 1541px) and (min-width: 981px) {
@@ -514,9 +517,9 @@ form {
     margin-right: 13px;
   }
   .divPlus {
-    width: 9%;
     position: relative;
     top: 6px;
+    margin-bottom: 15px;
   }
 }
 .roles {

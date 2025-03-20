@@ -1,3 +1,6 @@
+img[alt="arrow"] {
+  cursor: pointer;
+}
 :host {
   &::ng-deep {
     .p-card {

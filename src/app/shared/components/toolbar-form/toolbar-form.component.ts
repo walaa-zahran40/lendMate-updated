@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-toolbar-form',
@@ -12,6 +13,7 @@ export class ToolbarFormComponent {
   @Input() header!: string;
   @Input() backExists!: boolean;
   @Input() viewOnly!: boolean;
+  constructor(private location: Location) {}
   ngOnInit() {
     this.items = [
       {
@@ -23,5 +25,8 @@ export class ToolbarFormComponent {
         icon: 'pi pi-times',
       },
     ];
+  }
+  goBack() {
+    this.location.back();
   }
 }
