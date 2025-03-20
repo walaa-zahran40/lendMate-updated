@@ -44,5 +44,10 @@
       />
     </div>
   </form>
-  <p-button *ngIf="btnExists" label="{{ labelBtn }}" styleClass="btn" />
+  <p-button
+    *ngIf="btnExists"
+    label="{{ labelBtn }}"
+    styleClass="btn"
+    (click)="viewBtn.emit()"
+  />
 </p-toolbar>

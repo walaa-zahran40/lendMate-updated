@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Location } from '@angular/common';
 
 @Component({
@@ -13,6 +13,7 @@ export class ToolbarCardComponent {
   @Input() backIcon!: string;
   @Input() backExists!: boolean;
   @Input() btnExists = true;
+  @Output() viewBtn = new EventEmitter<void>();
   constructor(private location: Location) {}
 
   goBack() {

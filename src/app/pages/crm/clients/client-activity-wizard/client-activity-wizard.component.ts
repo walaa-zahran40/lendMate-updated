@@ -121,4 +121,7 @@ export class ClientActivityWizardComponent {
   navigateTo(link: string) {
     this.router.navigate([link]);
   }
+  navigateToInfo() {
+    this.router.navigate(['/crm/clients/company-view-only']);
+  }
 }
