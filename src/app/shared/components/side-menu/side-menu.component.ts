@@ -211,8 +211,16 @@ export class SideMenuComponent {
         label: 'Legal',
         icon: 'pi pi-users',
         items: [
-          { label: 'LegalForm', icon: 'pi pi-user-plus' },
-          { label: 'LegalFormLaw', icon: 'pi pi-user-plus' },
+          {
+            label: 'LegalForm',
+            icon: 'pi pi-user-plus',
+            routerLink: '/legals/view-legal-form',
+          },
+          {
+            label: 'LegalFormLaw',
+            icon: 'pi pi-user-plus',
+            routerLink: '/legals/view-legal-form-law',
+          },
           { label: 'CRAuthorityOffice', icon: 'pi pi-user-plus' },
           { label: 'TaxOffice', icon: 'pi pi-user-plus' },
           { label: 'SMEClientCode', icon: 'pi pi-user-plus' },
