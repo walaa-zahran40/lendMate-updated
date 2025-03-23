@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CRAuthorityOffice } from '../../../../shared/interfaces/cr-authority-office.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-cr-authority-office',
@@ -10,6 +11,7 @@ import { CRAuthorityOffice } from '../../../../shared/interfaces/cr-authority-of
 export class ViewCrAuthorityOfficeComponent {
   tableDataInside: CRAuthorityOffice[] = [];
   colsInside: any[] = [];
+  constructor(private router: Router) {}
   ngOnInit() {
     this.colsInside = [
       { field: 'crNumber', header: 'CR Number' },
@@ -79,5 +81,8 @@ export class ViewCrAuthorityOfficeComponent {
         crAuthorityOfficeId: 12345,
       },
     ];
+  }
+  addCR() {
+    this.router.navigate(['/crm/clients/add-cr-authority-office']);
   }
 }

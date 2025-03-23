@@ -178,6 +178,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Address Details"
+      (click)="viewAddress()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -207,6 +208,7 @@
       iconPos="left"
       label="View CR Authority"
       class="custom-view m-0 float-right"
+      (click)="viewCRAuthority()"
     />
     <p-button
       *ngIf="addTaxAuthorityOfficeShowMain"
@@ -220,6 +222,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Central Bank Info"
+      (click)="viewCentralBankInfo()"
       class="custom-view m-0 float-right"
     />
     <p-button

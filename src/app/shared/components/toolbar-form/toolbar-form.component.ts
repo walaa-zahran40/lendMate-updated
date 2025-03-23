@@ -13,6 +13,8 @@ export class ToolbarFormComponent {
   @Input() header!: string;
   @Input() backExists!: boolean;
   @Input() viewOnly!: boolean;
+  @Input() backIcon!: string;
+
   constructor(private location: Location) {}
   ngOnInit() {
     this.items = [

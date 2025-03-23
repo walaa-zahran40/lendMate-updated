@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-form',
@@ -401,7 +402,7 @@ export class FormComponent {
   @Input() addCommunicationTypesLookupsForm!: boolean;
   @Input() addCallActionTypeLookupsForm!: boolean;
   @Input() addCommunicationFlowTypeLookupsForm!: boolean;
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit() {
     this.sectors = [
@@ -658,5 +659,14 @@ export class FormComponent {
         key: '50%',
       },
     ];
+  }
+  viewAddress() {
+    this.router.navigate(['/crm/clients/view-address']);
+  }
+  viewCentralBankInfo() {
+    this.router.navigate(['/crm/clients/view-central-bank-info']);
+  }
+  viewCRAuthority() {
+    this.router.navigate(['/crm/clients/view-cr-authority-office']);
   }
 }

@@ -181,6 +181,21 @@
       right: 0px;
       margin-right: 16px;
     }
+    .backIcon {
+      border: none !important;
+    }
+    .backIcon {
+      border-radius: 0 !important;
+      border: none !important;
+      background-color: transparent !important;
+      padding: 0 !important;
+    }
+    .back-icon {
+      content: url("/assets/images/shared/table/back.svg");
+    }
+    .p-button:not(:disabled):hover {
+      background-color: var(--bg-transparent) !important;
+    }
     .p-tab {
       font-family: var(--custom-font-family);
       font-weight: var(--custom-font-weight-600);

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Address } from '../../../../shared/interfaces/address.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-address',
@@ -10,6 +11,7 @@ import { Address } from '../../../../shared/interfaces/address.interface';
 export class ViewAddressComponent {
   tableDataInside: Address[] = [];
   colsInside: any[] = [];
+  constructor(private router: Router) {}
   ngOnInit() {
     this.colsInside = [
       { field: 'detailsEn', header: 'Details EN' },
@@ -53,5 +55,8 @@ export class ViewAddressComponent {
         isActive: true,
       },
     ];
+  }
+  onAddAddress() {
+    this.router.navigate(['/crm/clients/add-address']);
   }
 }

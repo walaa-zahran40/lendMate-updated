@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CentralBankInfo } from '../../../../shared/interfaces/central-bank-info.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-central-bank-info',
@@ -10,6 +11,7 @@ import { CentralBankInfo } from '../../../../shared/interfaces/central-bank-info
 export class ViewCentralBankInfoComponent {
   tableDataInside: CentralBankInfo[] = [];
   colsInside: any[] = [];
+  constructor(private router: Router) {}
   ngOnInit() {
     this.colsInside = [
       { field: 'date', header: 'Date' },
@@ -101,5 +103,8 @@ export class ViewCentralBankInfoComponent {
         isActive: true,
       },
     ];
+  }
+  onAddCentralBankInfo() {
+    this.router.navigate(['/crm/clients/add-central-bank-info']);
   }
 }

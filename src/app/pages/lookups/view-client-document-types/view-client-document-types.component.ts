@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { PaymentMethods } from '../../../shared/interfaces/payment-methods.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-client-document-types',
@@ -10,7 +11,7 @@ import { PaymentMethods } from '../../../shared/interfaces/payment-methods.inter
 export class ViewClientDocumentTypesComponent {
   tableDataInside: PaymentMethods[] = [];
   colsInside: any[] = [];
-
+  constructor(private router: Router) {}
   ngOnInit() {
     this.colsInside = [
       { field: 'id', header: 'ID' },
@@ -84,5 +85,8 @@ export class ViewClientDocumentTypesComponent {
         active: true,
       },
     ];
+  }
+  addClient() {
+    this.router.navigate(['/lookups/add-client-document-types']);
   }
 }
