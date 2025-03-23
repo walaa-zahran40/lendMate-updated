@@ -67,6 +67,7 @@
       font-weight: 400;
       line-height: 160%;
       text-align: start;
+      background: var(--bg-transparent);
     }
     .p-paginator {
       display: flex;
@@ -155,7 +156,12 @@
       line-height: 160%;
       text-align: start;
     }
-
+    .p-datatable-table > tr {
+      background: var(--bg-transparent);
+    }
+    .p-paginator {
+      background-color: var(--bg-transparent);
+    }
     .p-datatable-tbody > tr > td > .uppercase {
       text-transform: capitalize;
       color: #3cb091;
@@ -170,13 +176,15 @@
     }
     /* Style the paginator container */
     .p-paginator {
-      background-color: #ffffff;
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 10px;
       border-radius: 0px 0px 8px 8px;
       width: 100%;
+    }
+    .p-datatable-tbody > tr {
+      background: var(--bg-transparent);
     }
     .p-paginator-left span {
       color: #7c8493;
