@@ -40,6 +40,7 @@
     .p-button:not(:disabled):hover {
       background: var(--p-tabs-active-bar-background) !important;
       border: none;
+      color: var(--filter-text);
     }
     .custom-next {
       background: var(--p-tabs-active-bar-background);
