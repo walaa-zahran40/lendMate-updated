@@ -37,6 +37,10 @@
   box-sizing: border-box;
   border: none;
 }
+:root {
+  --p-content-background: #ffffff;
+  --p-toolbar-background: #ffffff;
+}
 body {
   font-family: "poppins", sans-serif;
 }
