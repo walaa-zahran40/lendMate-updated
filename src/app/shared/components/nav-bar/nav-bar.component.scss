@@ -32,7 +32,7 @@
   margin-bottom: 0;
 }
 .language {
-  color: var(--text-color);
+  color: var(--filter-text);
   padding-right: 20px;
 }
 
@@ -96,15 +96,17 @@
         .p-toggleswitch-input:hover
       ).p-toggleswitch-checked
       .p-toggleswitch-slider {
-      background: #f4f4f4 !important;
+      // background: #f4f4f4 !important;
     }
     .p-toggleswitch:not(.p-disabled):has(.p-toggleswitch-input:hover)
       .p-toggleswitch-slider {
-      background: #f4f4f4 !important;
+      background: var(--bg-light-grey) !important;
+      border: 1px solid var(--p-toggleswitch-checked-border-color);
     }
     .p-toggleswitch-slider {
       height: 33px;
-      background: #f4f4f4 !important;
+      background: var(--bg-light-grey) !important;
+      border: 1px solid var(--p-toggleswitch-checked-border-color);
     }
     .p-toggleswitch.p-toggleswitch-checked .p-toggleswitch-handle {
       inset-inline-start: 124px;

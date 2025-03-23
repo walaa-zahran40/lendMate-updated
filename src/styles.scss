@@ -58,13 +58,15 @@ body {
   --filter-text: #25324b;
   --bg-transparent: transparent;
   --bg-grey: #f6f6f6;
+  --bg-light-grey: #f4f4f4;
   --bg-blue: #0a69bb;
   --bg-tab: #fff;
   --custom-grey-bold: #515b6f;
+  --border-white: #fff;
+  --p-toggleswitch-checked-border-color: #fff;
 }
 
 .dark-theme {
-  --text-color: #fff;
   --p-content-background: #000;
   --p-toolbar-background: #000;
   --secondary-color: #fff;
@@ -73,7 +75,10 @@ body {
   --filter-text: #fff;
   --bg-transparent: transparent;
   --bg-grey: transparent;
+  --bg-light-grey: transparent;
   --bg-blue: transparent;
   --bg-tab: #000;
   --custom-grey-bold: #fff;
+  --border-white: #fff;
+  --p-toggleswitch-checked-border-color: #fff;
 }
