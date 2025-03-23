@@ -4,7 +4,7 @@
   .back-col {
     gap: 16px;
     .meeting-details {
-      color: var(--Neutrals-100, #25324b);
+      color: var(--filter-text);
       font-family: "poppins-bold", sans-serif;
       font-size: 24px;
       font-style: normal;
@@ -13,7 +13,7 @@
     }
   }
   .current-month {
-    color: #000;
+    color: var(--secondary-color);
     font-family: "epilogue", sans-serif;
     font-size: 16px;
     font-style: normal;
@@ -35,7 +35,7 @@
     padding: 0 20px;
   }
   .selected {
-    color: var(--Neutrals-100, #25324b);
+    color: var(--secondary-color);
     font-family: "epilogue", sans-serif;
     font-size: 16px;
     font-style: normal;
@@ -57,7 +57,7 @@
     margin-bottom: 28px;
   }
   label {
-    color: var(--Neutrals-80, #515b6f);
+    color: var(--filter-text);
     font-family: "epilogue", sans-serif;
     font-size: 16px;
     font-style: normal;
@@ -210,6 +210,13 @@
     .fc-theme-standard th {
       border: none;
       border-bottom: 1px solid #d6ddeb;
+      background: var(--bg-tab);
+    }
+    .p-datepicker-panel {
+      background: var(--bg-tab);
+    }
+    .p-datepicker-header {
+      background: var(--bg-tab);
     }
     thead .fc-scroller-harness {
       margin-top: 57px;
@@ -217,7 +224,6 @@
     .p-datepicker {
       position: relative;
       left: 0;
-      z-index: -999;
       margin: 0 auto;
       text-align: center;
       display: flex;

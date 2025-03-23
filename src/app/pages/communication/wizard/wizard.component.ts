@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-wizard',
@@ -9,7 +10,7 @@ import { Component } from '@angular/core';
 export class WizardComponent {
   cards: any[] = [];
   displayPopup = false;
-
+  constructor(private router: Router) {}
   ngOnInit(): void {
     this.cards = [
       [
@@ -26,6 +27,7 @@ export class WizardComponent {
           title: 'Follow Ups',
           content:
             'Introduce your company core info quickly to users by fill up company details',
+          link: '/communication/add-follow-up',
         },
         {
           imgUrl: '/assets/images/shared/card/followup.svg',
@@ -33,6 +35,7 @@ export class WizardComponent {
           title: 'Follow Ups Points',
           content:
             'Introduce your company core info quickly to users by fill up company details',
+          link: '/communication/add-follow-ups-points',
         },
       ],
     ];
@@ -48,5 +51,8 @@ export class WizardComponent {
   }
   hideDialog() {
     this.displayPopup = false;
+  }
+  navigateTo(link: string) {
+    this.router.navigate([link]);
   }
 }

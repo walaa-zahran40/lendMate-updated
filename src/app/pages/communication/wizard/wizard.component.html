@@ -15,6 +15,7 @@
         [content]="card.content"
         (click)="onCardClick(i)"
         style="cursor: pointer"
+        (navigation)="navigateTo(card.link)"
       ></app-card>
     </div>
   </div>
