@@ -1,4 +1,5 @@
 /*name*/
+
 .welcome {
   color: var(--secondary-color);
   font-weight: 400;
@@ -30,6 +31,10 @@
   line-height: 17.86px;
   margin-bottom: 0;
 }
+.language {
+  color: var(--text-color);
+  padding-right: 20px;
+}
 
 /*dark and light modes*/
 .toggle-btn-container {
@@ -53,11 +58,15 @@
   border: 2px solid black;
   color: white;
 }
+.dark-theme .language {
+  color: #fff;
+}
+
 :host {
   &::ng-deep {
     .p-toolbar {
       border: none;
-      border-bottom: 1px solid #d6ddeb;
+      border-bottom: 1px solid var(--p-content-background);
     }
     .p-dialog-content {
       z-index: 999;

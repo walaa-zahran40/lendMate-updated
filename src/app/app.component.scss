@@ -8,6 +8,7 @@
   &::ng-deep {
     .p-tabpanels {
       padding: 0 33px !important;
+      background: var(--bg-transparent);
     }
     .pi-angle-left {
       cursor: pointer;

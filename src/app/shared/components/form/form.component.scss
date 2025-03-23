@@ -3,7 +3,6 @@
   --p-chip-remove-icon-color: #0a69bb;
   --custom-color: #ffb836;
   --custom-grey: #7c8493;
-  --custom-grey-bold: #515b6f;
   --custom-red: #fc1e1e;
   --custom-color-white: #f8f8fd;
   --custom-color-grey-light: #d6ddeb;
@@ -180,6 +179,7 @@
     }
     .p-multiselect {
       width: var(--custom-size-100);
+      background: var(--bg-transparent);
       padding: var(--custom-size-8);
       border-radius: var(--custom-margin-0);
       border: 1px solid var(--custom-color-grey-light);
@@ -249,6 +249,7 @@
     }
     .p-select-label {
       padding-top: 4px;
+      color: var(--filter-text);
     }
     .work-actions {
       width: 100%;
@@ -314,6 +315,9 @@
       height: 52px;
       padding-top: 5px;
       width: 100%;
+    }
+    .title {
+      color: var(--filter-text);
     }
     .custom-view .p-button {
       padding: 10px;

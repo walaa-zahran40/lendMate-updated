@@ -33,7 +33,9 @@
       font-size: var(--custom-font-size-13);
       line-height: var(--custom-font-size-24);
     }
-
+    .p-tablist-tab-list {
+      background: var(--bg-transparent);
+    }
     .p-button:not(:disabled):hover {
       background: var(--p-tabs-active-bar-background) !important;
       border: none;
@@ -170,7 +172,6 @@
   --p-chip-remove-icon-color: #0a69bb;
   --custom-color: #ffb836;
   --custom-grey: #7c8493;
-  --custom-grey-bold: #515b6f;
   --custom-red: #fc1e1e;
   --custom-color-white: #f8f8fd;
   --custom-color-grey-light: #d6ddeb;

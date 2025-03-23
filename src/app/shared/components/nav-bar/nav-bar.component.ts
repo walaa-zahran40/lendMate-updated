@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MenuToggleService } from '../../services/menu-toggle.service';
 
 @Component({
@@ -7,22 +7,15 @@ import { MenuToggleService } from '../../services/menu-toggle.service';
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.scss',
 })
-export class NavBarComponent {
+export class NavBarComponent implements OnInit {
   checked = true;
   darkMode: boolean = false;
   displayPopup = false;
 
   constructor(private menuToggleService: MenuToggleService) {}
-
-  toggleDarkMode() {
-    this.darkMode = !this.darkMode;
-    if (this.darkMode) {
-      document.body.classList.add('dark-mode');
-    } else {
-      document.body.classList.remove('dark-mode');
-    }
+  ngOnInit() {
+    this.darkMode = false;
   }
-
   toggleMenu() {
     this.menuToggleService.toggleMenu();
   }
@@ -38,5 +31,11 @@ export class NavBarComponent {
   }
   hideDialog() {
     this.displayPopup = false;
+  }
+
+  toggleTheme(isDark: boolean) {
+    this.darkMode = isDark;
+
+    document.body.classList.toggle('dark-theme', isDark);
   }
 }

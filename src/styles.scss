@@ -37,10 +37,6 @@
   box-sizing: border-box;
   border: none;
 }
-:root {
-  --p-content-background: #ffffff;
-  --p-toolbar-background: #ffffff;
-}
 body {
   font-family: "poppins", sans-serif;
 }
@@ -49,6 +45,35 @@ body {
 }
 html,
 body {
-  background-color: #ffffff !important;
-  color: #000000 !important;
+  background-color: var(--p-content-background) !important;
+  color: var(--text-color) !important;
+}
+
+:root {
+  --p-content-background: #ffffff;
+  --p-toolbar-background: #ffffff;
+  --secondary-color: #515b6f;
+  --p-select-background: #fff;
+  --p-inputtext-background: #fff;
+  --filter-text: #25324b;
+  --bg-transparent: transparent;
+  --bg-grey: #f6f6f6;
+  --bg-blue: #0a69bb;
+  --bg-tab: #fff;
+  --custom-grey-bold: #515b6f;
+}
+
+.dark-theme {
+  --text-color: #fff;
+  --p-content-background: #000;
+  --p-toolbar-background: #000;
+  --secondary-color: #fff;
+  --p-select-background: #000;
+  --p-inputtext-background: #000;
+  --filter-text: #fff;
+  --bg-transparent: transparent;
+  --bg-grey: transparent;
+  --bg-blue: transparent;
+  --bg-tab: #000;
+  --custom-grey-bold: #fff;
 }

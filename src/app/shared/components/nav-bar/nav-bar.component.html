@@ -21,10 +21,13 @@
 
   <ng-template #end>
     <div class="flex items-center gap-4">
-      <p-toggleswitch>
+      <p-toggleswitch
+        [(ngModel)]="darkMode"
+        (onChange)="toggleTheme($event.checked)"
+      >
         <ng-template #handle let-checked="checked">
           <i [ngClass]="['!text-xs', 'pi', checked ? 'moon' : 'sun']"></i>
-          <span class="text-toggle">{{ checked ? " Dark" : " Light" }}</span>
+          <span class="text-toggle">{{ checked ? "Dark" : "Light" }}</span>
         </ng-template>
       </p-toggleswitch>
     </div>
