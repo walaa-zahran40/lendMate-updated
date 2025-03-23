@@ -43,5 +43,8 @@ body {
 .page-content {
   padding: 20px;
 }
-@media (prefers-color-scheme: dark) {
+html,
+body {
+  background-color: #ffffff !important;
+  color: #000000 !important;
 }
