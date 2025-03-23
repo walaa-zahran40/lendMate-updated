@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-wizard-department',
@@ -8,7 +9,7 @@ import { Component } from '@angular/core';
 })
 export class WizardDepartmentComponent {
   cards: any[] = [];
-
+  constructor(private router: Router) {}
   ngOnInit(): void {
     this.cards = [
       [
@@ -18,6 +19,7 @@ export class WizardDepartmentComponent {
           title: 'Department Manager',
           content:
             'Introduce your company core info quickly to users by fill up company details',
+          link: '/organizations/add-department-manager',
         },
         {
           imgUrl: '/assets/images/shared/card/team.svg',
@@ -25,8 +27,12 @@ export class WizardDepartmentComponent {
           title: 'Teams',
           content:
             'Introduce your company core info quickly to users by fill up company details',
+          link: '/organizations/add-team',
         },
       ],
     ];
+  }
+  navigateTo(link: string) {
+    this.router.navigate([link]);
   }
 }

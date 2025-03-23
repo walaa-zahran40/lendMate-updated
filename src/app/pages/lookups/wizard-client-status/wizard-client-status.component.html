@@ -23,6 +23,7 @@
         [imgUrl]="card.imgUrl"
         [imgAlt]="card.imgAlt"
         [title]="card.title"
+        (navigation)="navigateTo(card.link)"
         [content]="card.content"
       ></app-card>
     </div>
