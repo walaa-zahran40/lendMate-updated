@@ -6,10 +6,19 @@
     </p>
 
     <p-button
+      *ngIf="addClientGuarantorsShowIndividual"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Client Guarantors"
+      (click)="viewClientGuarantors()"
+      class="custom-view m-0 float-right"
+    />
+    <p-button
       *ngIf="addCommunicationFlowTypeLookupsForm"
       icon="pi pi-cog"
       iconPos="left"
       label="View Communication Flow Type"
+      (click)="viewCommunicationFlowType()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -17,6 +26,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Call Action Type"
+      (click)="viewCallActionType()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -24,6 +34,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Communication Types"
+      (click)="viewCommunicationTypes()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -31,6 +42,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Call Types"
+      (click)="viewCallTypes()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -38,6 +50,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View TML Officer Type"
+      (click)="viewTMLOfficerType()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -45,6 +58,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Tax Offices"
+      (click)="viewTaxOffices()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -52,6 +66,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Areas"
+      (click)="viewAreas()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -59,6 +74,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Identification Types"
+      (click)="viewIdentificationTypes()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -66,6 +82,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Countries"
+      (click)="viewCountries()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -73,6 +90,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Governorates"
+      (click)="viewGovernorates()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -80,6 +98,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Address Types"
+      (click)="viewAddressTypes()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -87,6 +106,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Phone Types"
+      (click)="viewPhoneTypes()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -94,6 +114,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Authority Offices"
+      (click)="viewAuthorityOffices()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -101,6 +122,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Client Types"
+      (click)="viewClientTypes()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -108,6 +130,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Sub Sectors"
+      (click)="viewSubSectors()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -115,6 +138,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View SME Client Code"
+      (click)="viewSMEClientCode()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -122,6 +146,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Client Status Actions"
+      (click)="viewClientStatusActions()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -129,6 +154,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Client Statuses"
+      (click)="viewClientStatuses()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -136,6 +162,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Sectors"
+      (click)="viewSectors()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -143,6 +170,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Products"
+      (click)="viewProducts()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -150,6 +178,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Assest Type Categories"
+      (click)="viewAssestTypeCategories()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -157,6 +186,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Assest Types"
+      (click)="viewAssestTypes()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -164,6 +194,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Document Details"
+      (click)="viewDocumentDetails()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -171,6 +202,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Payment Types"
+      (click)="viewPaymentTypes()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -178,7 +210,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Address Details"
-      (click)="viewAddress()"
+      (click)="viewAddressDetails()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -186,6 +218,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Sales Turnover"
+      (click)="viewSalesTurnover()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -193,6 +226,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View PhoneNumber"
+      (click)="viewPhoneNumber()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -200,6 +234,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Contact Details"
+      (click)="viewContactDetails()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -215,6 +250,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Tax Authority"
+      (click)="viewTaxAuthority()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -230,6 +266,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Share Holder"
+      (click)="viewShareHolder()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -237,6 +274,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View TML Officer"
+      (click)="viewTMLOfficer()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -244,6 +282,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Officers"
+      (click)="viewOfficers()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -251,6 +290,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Contact Persons"
+      (click)="viewContactPersons()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -258,6 +298,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Assest Type"
+      (click)="viewAssestType()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -265,6 +306,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Legal Form"
+      (click)="viewLegalForm()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -272,6 +314,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Legal Form Law"
+      (click)="viewLegalFormLaw()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -279,6 +322,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Company Types"
+      (click)="viewCompanyTypes()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -286,6 +330,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Officers"
+      (click)="viewCompanyTypes()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -293,6 +338,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Contact Persons"
+      (click)="viewContactPersons()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -300,6 +346,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Assest Type"
+      (click)="viewAssestType()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -307,6 +354,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Follow Ups"
+      (click)="viewFollowUps()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -314,6 +362,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Follow Ups Point"
+      (click)="viewFollowUpsPoint()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -321,6 +370,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Meeting Types"
+      (click)="viewMeetingTypes()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -328,6 +378,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Contact Persons"
+      (click)="viewContactPersons()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -335,6 +386,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Officers"
+      (click)="viewOfficers()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -342,6 +394,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Followup Types"
+      (click)="viewFollowupTypes()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -349,6 +402,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Call Types"
+      (click)="viewCallTypes()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -356,6 +410,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Department"
+      (click)="viewDepartment()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -363,6 +418,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Manager"
+      (click)="viewManager()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -370,6 +426,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Team"
+      (click)="viewTeam()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -377,6 +434,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Team Lead"
+      (click)="viewTeamLead()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -384,6 +442,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Team Member"
+      (click)="viewTeamMember()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -391,6 +450,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Role"
+      (click)="viewRole()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -398,6 +458,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Operation"
+      (click)="viewOperation()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -405,6 +466,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Page Operation"
+      (click)="viewPageOperation()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -412,6 +474,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Officer"
+      (click)="viewOfficer()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -419,6 +482,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Signatory Officer"
+      (click)="viewSignatoryOfficer()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -426,6 +490,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Fees Calculation"
+      (click)="viewFeesCalculation()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -433,6 +498,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Mandate Statuses"
+      (click)="viewMandateStatuses()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -440,6 +506,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Interest Rate"
+      (click)="viewInterestRate()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -447,6 +514,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Fees Types"
+      (click)="viewFeesTypes()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -454,6 +522,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Grace Period"
+      (click)="viewGracePeriod()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -461,6 +530,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Rent Structure"
+      (click)="viewRentStructure()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -468,6 +538,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Currencies"
+      (click)="viewCurrencies()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -475,6 +546,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Currency Exchange"
+      (click)="viewCurrencyExchange()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -482,6 +554,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Payment Method"
+      (click)="viewPaymentMethod()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -489,6 +562,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Payment Month Days"
+      (click)="viewPaymentMonthDays()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -496,6 +570,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Meeting Types"
+      (click)="viewMeetingTypes()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -503,6 +578,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Insured By"
+      (click)="viewInsuredBy()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -510,6 +586,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Leasing Type"
+      (click)="viewLeasingType()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -517,6 +594,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Mandate Validity"
+      (click)="viewMandateValidity()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -524,6 +602,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Client Document"
+      (click)="viewClientDocument()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -531,6 +610,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Branch"
+      (click)="viewBranch()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -539,6 +619,7 @@
       iconPos="left"
       label="View Branch Address"
       class="custom-view m-0 float-right"
+      (click)="viewBranchAddress()"
     />
     <p-button
       *ngIf="addBranchOfficersLookupsForm"
@@ -546,6 +627,7 @@
       iconPos="left"
       label="View Branch Officers"
       class="custom-view m-0 float-right"
+      (click)="viewBranchOfficers()"
     />
     <p-button
       *ngIf="addBranchManagersLookupsForm"
@@ -553,6 +635,7 @@
       iconPos="left"
       label="View Branch Managers"
       class="custom-view m-0 float-right"
+      (click)="viewBranchManagers()"
     />
     <p-button
       *ngIf="addBusinessLinesLookupsForm"
@@ -560,6 +643,7 @@
       iconPos="left"
       label="View Business Lines"
       class="custom-view m-0 float-right"
+      (click)="viewBusinessLines()"
     />
   </div>
   <div class="div2" [ngClass]="{ span: applyReusable }">
@@ -737,6 +821,162 @@
       />
     </form>
 
+    <form action="" *ngIf="addClientGuarantorsShowIndividual">
+      <label for="nameEnglishIndividual"
+        >Name in English<sup class="danger">*</sup></label
+      >
+      <input
+        pInputText
+        id="nameEnglishIndividual"
+        aria-describedby="nameEnglishIndividual-help"
+        [(ngModel)]="value11"
+        name="nameEnglishIndividual"
+        placeholder="Google"
+      />
+      <label for="nameArabicIndividual"
+        >Name in Arabic<sup class="danger">*</sup></label
+      >
+      <input
+        pInputText
+        id="nameArabicIndividual"
+        aria-describedby="nameArabicIndividual-help"
+        [(ngModel)]="value12"
+        placeholder="Google"
+        name="nameArabicIndividual"
+      />
+      <label for="businessActivityIndividual"
+        >Business Activity<sup class="danger">*</sup></label
+      >
+      <input
+        pInputText
+        id="businessActivityIndividual"
+        aria-describedby="businessActivityIndividual-help"
+        [(ngModel)]="value13"
+        placeholder="Technology Business"
+        name="businessActivityIndividual"
+      />
+      <label for="selectSectorIndividual"
+        >Select Sector<sup class="danger">*</sup></label
+      >
+      <p-multiselect
+        [options]="sectorsIndividual"
+        [(ngModel)]="selectedSectorsIndividual"
+        placeholder="Select Sectors"
+        optionLabel="name"
+        display="chip"
+        icon="pi pi-times"
+        name="sectorsIndividual"
+        styleClass="w-full md:w-80"
+        [maxSelectedLabels]="999"
+        chipIcon="pi pi-times"
+      />
+      <label for="selectSubSectorIndividual"
+        >Select Sub Sector<sup class="danger">*</sup></label
+      >
+      <p-multiselect
+        [options]="subSectorsIndividual"
+        [(ngModel)]="selectedSubSectorsIndividual"
+        placeholder="Select Sub Sectors"
+        optionLabel="name"
+        display="chip"
+        icon="pi pi-times"
+        name="subSectorsIndividual"
+        styleClass="w-full md:w-80"
+        [maxSelectedLabels]="999"
+        chipIcon="pi pi-times"
+      />
+      <label for="shortNameIndividual">Short Name</label>
+      <input
+        pInputText
+        id="shortNameIndividual"
+        aria-describedby="shortNameIndividual-help"
+        [(ngModel)]="value16"
+        placeholder="GO"
+        name="shortNameIndividual"
+      />
+      <label for="jobTitleIndividual">Job Title</label>
+      <input
+        pInputText
+        id="jobTitleIndividual"
+        aria-describedby="jobTitleIndividual-help"
+        [(ngModel)]="value17"
+        placeholder="Senior UI/UX Designer"
+        name="jobTitleIndividual"
+      />
+      <label for="taxIdIndividual">Tax ID<sup class="danger">*</sup></label>
+      <input
+        pInputText
+        id="taxIdIndividual"
+        aria-describedby="taxIdIndividual-help"
+        [(ngModel)]="value18"
+        placeholder="#101020203030"
+        name="taxIdIndividual"
+      />
+      <div class="row">
+        <div class="col-sm">
+          <label for="dateOfBirthIndividual"
+            >Date of Birth<sup class="danger">*</sup></label
+          >
+          <p-calendar
+            [(ngModel)]="date1"
+            [iconDisplay]="'input'"
+            [showIcon]="true"
+            placeholder="Date Of Birth"
+            inputId="icondisplay"
+            name="dateOfBirthIndividual"
+          />
+        </div>
+        <div class="col-sm">
+          <label for="genderIndividual"
+            >Gender<sup class="danger">*</sup></label
+          >
+          <p-select
+            [options]="genders"
+            [(ngModel)]="selectedGenders"
+            optionLabel="name"
+            placeholder="Select a Gender"
+            class="w-full md:w-56"
+            name="gender"
+          />
+        </div>
+      </div>
+
+      <div class="parent-individual">
+        <div class="div4-individual">
+          <label for="identificationNumberIndividual"
+            >Identification Number<sup class="danger">*</sup></label
+          >
+          <input
+            pInputText
+            id="identificationNumberIndividual"
+            aria-describedby="identificationNumberIndividual-help"
+            [(ngModel)]="value21"
+            placeholder="#42352353"
+            name="identificationNumberIndividual"
+          />
+        </div>
+        <div class="div2-individual">
+          <label for="selectIdentityIndividual"
+            >Select Identity<sup class="danger">*</sup></label
+          >
+          <p-multiselect
+            [options]="identityIndividual"
+            [(ngModel)]="selectedIdentityIndividual"
+            placeholder="Select Identity"
+            optionLabel="name"
+            display="chip"
+            icon="pi pi-times"
+            name="identityIndividual"
+            styleClass="w-full md:w-80"
+            [maxSelectedLabels]="999"
+            chipIcon="pi pi-times"
+          />
+        </div>
+        <div class="div3-individual">
+          <p-button icon="custom-icon" severity="danger" class="add-btn" />
+        </div>
+      </div>
+    </form>
     <form action="" *ngIf="addClientShowIndividual">
       <label for="nameEnglishIndividual"
         >Name in English<sup class="danger">*</sup></label

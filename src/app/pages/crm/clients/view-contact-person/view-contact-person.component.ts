@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ContactPerson } from '../../../../shared/interfaces/contact-person.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-contact-person',
@@ -10,6 +11,7 @@ import { ContactPerson } from '../../../../shared/interfaces/contact-person.inte
 export class ViewContactPersonComponent {
   tableDataInside: ContactPerson[] = [];
   colsInside: any[] = [];
+  constructor(private router: Router) {}
   ngOnInit() {
     this.colsInside = [
       { field: 'nameEn', header: 'Name EN' },
@@ -79,5 +81,8 @@ export class ViewContactPersonComponent {
         genderId: 12345,
       },
     ];
+  }
+  addContactPerson() {
+    this.router.navigate(['/crm/clients/add-contact-person']);
   }
 }

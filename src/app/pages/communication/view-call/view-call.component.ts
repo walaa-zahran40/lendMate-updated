@@ -14,7 +14,7 @@ export class ViewCallComponent {
     this.colsInside = [
       { field: 'id', header: 'ID' },
       { field: 'topic', header: 'Topic' },
-      { field: 'clientId', header: 'Client ID' },
+      { field: 'clientId', header: 'Client Name' },
       { field: 'callType', header: 'Call Type' },
       { field: 'date', header: 'Date' },
     ];

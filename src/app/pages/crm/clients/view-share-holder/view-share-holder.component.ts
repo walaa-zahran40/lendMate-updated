@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ShareHolder } from '../../../../shared/interfaces/share-holder.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-share-holder',
@@ -10,6 +11,7 @@ import { ShareHolder } from '../../../../shared/interfaces/share-holder.interfac
 export class ViewShareHolderComponent {
   tableDataInside: ShareHolder[] = [];
   colsInside: any[] = [];
+  constructor(private router: Router) {}
   ngOnInit() {
     this.colsInside = [
       { field: 'shareHolderId', header: 'Share Holder ID' },
@@ -66,5 +68,8 @@ export class ViewShareHolderComponent {
         cssStyle: 'blue',
       },
     ];
+  }
+  addShareHolder() {
+    this.router.navigate(['/crm/clients/add-share-holders']);
   }
 }

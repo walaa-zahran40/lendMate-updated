@@ -402,6 +402,7 @@ export class FormComponent {
   @Input() addCommunicationTypesLookupsForm!: boolean;
   @Input() addCallActionTypeLookupsForm!: boolean;
   @Input() addCommunicationFlowTypeLookupsForm!: boolean;
+  @Input() addClientGuarantorsShowIndividual!: boolean;
   constructor(private router: Router) {}
 
   ngOnInit() {
@@ -668,5 +669,218 @@ export class FormComponent {
   }
   viewCRAuthority() {
     this.router.navigate(['/crm/clients/view-cr-authority-office']);
+  }
+  viewBusinessLines() {
+    this.router.navigate(['/crm/clients/view-business-lines']);
+  }
+  viewBranchManagers() {
+    this.router.navigate(['/crm/clients/view-branch-managers']);
+  }
+  viewBranchOfficers() {
+    this.router.navigate(['/crm/clients/view-branch-officers']);
+  }
+  viewBranchAddress() {
+    this.router.navigate(['/crm/clients/view-branch-address']);
+  }
+  viewBranch() {
+    this.router.navigate(['/crm/clients/view-branch']);
+  }
+  viewClientDocument() {
+    this.router.navigate(['/lookups/view-client-document-types']);
+  }
+  viewMandateValidity() {
+    this.router.navigate(['/crm/clients/view-mandate-validity']);
+  }
+  viewLeasingType() {
+    this.router.navigate(['/crm/clients/view-leasing-type']);
+  }
+  viewInsuredBy() {
+    this.router.navigate(['/crm/clients/view-insured-by']);
+  }
+  viewMeetingTypes() {
+    this.router.navigate(['/crm/clients/view-meeting-types']);
+  }
+  viewPaymentMonthDays() {
+    this.router.navigate(['/crm/clients/view-payment-month-days']);
+  }
+  viewPaymentMethod() {
+    this.router.navigate(['/crm/clients/view-payment-method']);
+  }
+  viewCurrencyExchange() {
+    this.router.navigate(['/crm/clients/view-currency-exchange']);
+  }
+  viewCurrencies() {
+    this.router.navigate(['/crm/clients/view-currencies']);
+  }
+  viewRentStructure() {
+    this.router.navigate(['/crm/clients/view-rent-structure']);
+  }
+  viewGracePeriod() {
+    this.router.navigate(['/crm/clients/view-grace-period']);
+  }
+  viewFeesTypes() {
+    this.router.navigate(['/crm/clients/view-fees-types']);
+  }
+  viewInterestRate() {
+    this.router.navigate(['/crm/clients/view-interest-rate']);
+  }
+  viewMandateStatuses() {
+    this.router.navigate(['/crm/clients/view-mandate-statuses']);
+  }
+  viewFeesCalculation() {
+    this.router.navigate(['/crm/clients/view-fee-calculation']);
+  }
+  viewSignatoryOfficer() {
+    this.router.navigate(['/crm/clients/view-signatory-officer']);
+  }
+  viewOfficer() {
+    this.router.navigate(['/crm/clients/view-officer']);
+  }
+  viewPageOperation() {
+    this.router.navigate(['/crm/clients/view-page-operation']);
+  }
+  viewOperation() {
+    this.router.navigate(['/crm/clients/view-operation']);
+  }
+  viewRole() {
+    this.router.navigate(['/crm/clients/view-role']);
+  }
+  viewTeamMember() {
+    this.router.navigate(['/crm/clients/view-team-member']);
+  }
+  viewTeamLead() {
+    this.router.navigate(['/crm/clients/view-team-lead']);
+  }
+  viewTeam() {
+    this.router.navigate(['/crm/clients/view-team']);
+  }
+  viewManager() {
+    this.router.navigate(['/crm/clients/view-manager']);
+  }
+  viewDepartment() {
+    this.router.navigate(['/crm/clients/view-department']);
+  }
+  viewCallTypes() {
+    this.router.navigate(['/crm/clients/view-call-types']);
+  }
+  viewFollowupTypes() {
+    this.router.navigate(['/crm/clients/view-followup-types']);
+  }
+  viewOfficers() {
+    this.router.navigate(['/crm/clients/view-officers']);
+  }
+  viewContactPersons() {
+    this.router.navigate(['/crm/clients/view-contact-person']);
+  }
+  viewFollowUpsPoint() {
+    this.router.navigate(['/crm/clients/view-follow-ups-point']);
+  }
+  viewFollowUps() {
+    this.router.navigate(['/crm/clients/view-follow-ups']);
+  }
+  viewAssestType() {
+    this.router.navigate(['/crm/clients/view-assest-type']);
+  }
+  viewCompanyTypes() {
+    this.router.navigate(['/crm/clients/view-company-types']);
+  }
+  viewLegalFormLaw() {
+    this.router.navigate(['/crm/clients/view-legal-form-law']);
+  }
+  viewLegalForm() {
+    this.router.navigate(['/crm/clients/view-legal-form']);
+  }
+  viewTMLOfficer() {
+    this.router.navigate(['/crm/clients/view-tml-officer']);
+  }
+  viewShareHolder() {
+    this.router.navigate(['/crm/clients/view-share-holder']);
+  }
+  viewTaxAuthority() {
+    this.router.navigate(['/crm/clients/view-tax-authority-office']);
+  }
+  viewContactDetails() {
+    this.router.navigate(['/crm/clients/view-contact-person']);
+  }
+  viewPhoneNumber() {
+    this.router.navigate(['/crm/clients/view-phone-number']);
+  }
+  viewSalesTurnover() {
+    this.router.navigate(['/crm/clients/view-sales-turnover']);
+  }
+  viewAddressDetails() {
+    this.router.navigate(['/crm/clients/view-address']);
+  }
+  viewPaymentTypes() {
+    this.router.navigate(['/crm/clients/view-payment-types']);
+  }
+  viewDocumentDetails() {
+    this.router.navigate(['/crm/clients/view-document-details']);
+  }
+  viewAssestTypes() {
+    this.router.navigate(['/crm/clients/view-assest-types']);
+  }
+  viewAssestTypeCategories() {
+    this.router.navigate(['/crm/clients/view-assest-type-categories']);
+  }
+  viewProducts() {
+    this.router.navigate(['/crm/clients/view-products']);
+  }
+  viewSectors() {
+    this.router.navigate(['/crm/clients/view-sectors']);
+  }
+  viewClientStatuses() {
+    this.router.navigate(['/crm/clients/view-client-statuses']);
+  }
+  viewClientStatusActions() {
+    this.router.navigate(['/crm/clients/view-client-status-actions']);
+  }
+  viewSMEClientCode() {
+    this.router.navigate(['/crm/clients/view-sme-client-code']);
+  }
+  viewSubSectors() {
+    this.router.navigate(['/crm/clients/view-sub-sectors']);
+  }
+  viewClientTypes() {
+    this.router.navigate(['/crm/clients/view-client-types']);
+  }
+  viewAuthorityOffices() {
+    this.router.navigate(['/crm/clients/view-authority-offices']);
+  }
+  viewPhoneTypes() {
+    this.router.navigate(['/crm/clients/view-phone-types']);
+  }
+  viewAddressTypes() {
+    this.router.navigate(['/crm/clients/view-address-types']);
+  }
+  viewGovernorates() {
+    this.router.navigate(['/crm/clients/view-governorates']);
+  }
+  viewCountries() {
+    this.router.navigate(['/crm/clients/view-countries']);
+  }
+  viewIdentificationTypes() {
+    this.router.navigate(['/crm/clients/view-identification-types']);
+  }
+  viewAreas() {
+    this.router.navigate(['/crm/clients/view-areas']);
+  }
+  viewTaxOffices() {
+    this.router.navigate(['/crm/clients/view-tax-offices']);
+  }
+  viewTMLOfficerType() {
+    this.router.navigate(['/crm/clients/view-tml-officer-type']);
+  }
+  viewCommunicationTypes() {
+    this.router.navigate(['/crm/clients/view-communication-types']);
+  }
+  viewCallActionType() {
+    this.router.navigate(['/crm/clients/view-call-action-type']);
+  }
+  viewCommunicationFlowType() {
+    this.router.navigate(['/crm/clients/view-communication-flow-type']);
+  }
+  viewClientGuarantors() {
+    this.router.navigate(['/crm/clients/view-client-guarantor']);
   }
 }

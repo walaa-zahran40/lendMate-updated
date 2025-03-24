@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { TaxAuthorityOffice } from '../../../../shared/interfaces/tax-authority-office.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-tax-authority-office',
@@ -10,6 +11,7 @@ import { TaxAuthorityOffice } from '../../../../shared/interfaces/tax-authority-
 export class ViewTaxAuthorityOfficeComponent {
   tableDataInside: TaxAuthorityOffice[] = [];
   colsInside: any[] = [];
+  constructor(private router: Router) {}
   ngOnInit() {
     this.colsInside = [
       { field: 'amount', header: 'Amount' },
@@ -77,5 +79,8 @@ export class ViewTaxAuthorityOfficeComponent {
         taxAuthorityOfficeId: 12345,
       },
     ];
+  }
+  addTaxAuthorityOffice() {
+    this.router.navigate(['/crm/clients/add-tax-authority-office']);
   }
 }

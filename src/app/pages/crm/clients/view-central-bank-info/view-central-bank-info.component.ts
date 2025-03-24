@@ -15,7 +15,7 @@ export class ViewCentralBankInfoComponent {
   ngOnInit() {
     this.colsInside = [
       { field: 'date', header: 'Date' },
-      { field: 'clientId', header: 'Client ID' },
+      { field: 'clientId', header: 'Client Name' },
       { field: 'companyCodeId', header: 'Company Code ID' },
       { field: 'companyType', header: 'Company Type' },
       { field: 'cbeCode', header: 'CBE Code' },

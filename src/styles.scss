@@ -65,7 +65,8 @@ body {
   --border-white: #fff;
   --p-toggleswitch-checked-border-color: #fff;
   --p-tabs-tablist-background: transparent;
-  // --fc-page-bg-color: transparent;
+  --text-color: #7c8493;
+  --black-color: #1a1d1f;
 }
 
 .dark-theme {
@@ -84,5 +85,25 @@ body {
   --border-white: #fff;
   --p-toggleswitch-checked-border-color: #fff;
   --p-tabs-tablist-background: transparent;
-  // --fc-page-bg-color: transparent;
+  --text-color: #7c8493;
+  --black-color: #1a1d1f;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --p-content-background: #ffffff;
+    --p-toolbar-background: #ffffff;
+    --secondary-color: #515b6f;
+    --p-select-background: #fff;
+    --p-inputtext-background: #fff;
+    --filter-text: #25324b;
+    --bg-transparent: transparent;
+    --bg-grey: #f6f6f6;
+    --bg-light-grey: #f4f4f4;
+    --bg-blue: #0a69bb;
+    --bg-tab: #fff;
+    --custom-grey-bold: #515b6f;
+    --border-white: #fff;
+    --p-toggleswitch-checked-border-color: #fff;
+    --p-tabs-tablist-background: transparent;
+  }
 }

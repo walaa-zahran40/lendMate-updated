@@ -33,6 +33,8 @@ import { ViewCentralBankInfoComponent } from './view-central-bank-info/view-cent
 import { ViewShareHolderComponent } from './view-share-holder/view-share-holder.component';
 import { ViewTmlOfficerComponent } from './view-tml-officer/view-tml-officer.component';
 import { ClientActivityWizardComponent } from './client-activity-wizard/client-activity-wizard.component';
+import { ViewClientGuarantorComponent } from './view-client-guarantor/view-client-guarantor.component';
+import { AddClientGuarantorComponent } from './add-client-guarantor/add-client-guarantor.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +64,8 @@ import { ClientActivityWizardComponent } from './client-activity-wizard/client-a
     ViewShareHolderComponent,
     ViewTmlOfficerComponent,
     ClientActivityWizardComponent,
+    ViewClientGuarantorComponent,
+    AddClientGuarantorComponent,
   ],
   imports: [
     CommonModule,

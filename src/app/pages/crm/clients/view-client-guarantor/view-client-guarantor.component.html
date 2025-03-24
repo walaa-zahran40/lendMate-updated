@@ -1,0 +1,26 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Client Guarantors'"
+    [labelBtn]="'Add Client Guarantor'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="''"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddClientGuarantor()"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'Name EN'"
+    [col2Name]="'Business Activity'"
+    [col3Name]="'isIscore'"
+    [col4Name]="'Tax ID'"
+    [edit]="true"
+    [delete]="true"
+    [side]="true"
+    [checkBox]="true"
+    [uppercase]="'uppercase'"
+    [viewClientGuarantorTable]="true"
+    (wizardBtn)="onAddSide()"
+  ></app-table>
+</div>

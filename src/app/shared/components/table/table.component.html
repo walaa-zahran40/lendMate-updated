@@ -138,6 +138,55 @@
   <ng-template
     pTemplate="body"
     let-rowData="rowData"
+    let-client
+    sortMode="multiple"
+    *ngIf="viewClientGuarantorTable"
+  >
+    <tr>
+      <td><p-checkbox [binary]="true" *ngIf="checkBox" /></td>
+      <td>
+        <span class="p-column-title"> {{ col1Name }}</span>
+        {{ client.nameEn }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col2Name }} </span>
+
+        {{ client.businessActivity }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col3Name }} </span>
+
+        <span class="{{ uppercase }}">{{ client.isIscore }}</span>
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col4Name }} </span>
+
+        {{ client.taxId }}
+      </td>
+      <td class="imgs">
+        <img
+          src="/assets/images/shared/table/edit.svg"
+          alt="edit"
+          class="d-inline-block mx-2 my-2"
+          *ngIf="edit"
+        /><img
+          src="/assets/images/shared/table/delete.svg"
+          class="d-inline-block mx-2 my-2"
+          alt="delete"
+          *ngIf="delete"
+        /><img
+          src="/assets/images/shared/table/side.svg"
+          alt="side"
+          class="d-inline-block mx-2 my-2"
+          *ngIf="side"
+          (click)="wizardBtn.emit()"
+        />
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template
+    pTemplate="body"
+    let-rowData="rowData"
     let-document
     sortMode="multiple"
     *ngIf="viewUploadDocumentsTable"

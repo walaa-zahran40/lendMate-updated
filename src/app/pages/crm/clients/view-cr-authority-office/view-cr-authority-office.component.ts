@@ -16,7 +16,7 @@ export class ViewCrAuthorityOfficeComponent {
     this.colsInside = [
       { field: 'crNumber', header: 'CR Number' },
       { field: 'expiryDate', header: 'Expiry Date' },
-      { field: 'clientId', header: 'Client ID' },
+      { field: 'clientId', header: 'Client Name' },
       { field: 'crAuthorityOfficeId', header: 'CR Authority Office ID' },
     ];
     this.tableDataInside = [

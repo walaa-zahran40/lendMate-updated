@@ -14,7 +14,7 @@ export class ViewMeetingsComponent {
     this.colsInside = [
       { field: 'id', header: 'ID' },
       { field: 'topic', header: 'Topic' },
-      { field: 'clientId', header: 'Client ID' },
+      { field: 'clientId', header: 'Client Name' },
       { field: 'startDate', header: 'Start Date' },
       { field: 'endDate', header: 'End Date' },
     ];

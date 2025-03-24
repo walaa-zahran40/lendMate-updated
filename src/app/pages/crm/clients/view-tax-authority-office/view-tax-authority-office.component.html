@@ -1,18 +1,19 @@
 <div class="page-content">
   <app-toolbar-table
     [title]="'Tax Authority Office'"
-    [labelBtn]="'Add CR'"
+    [labelBtn]="'Add Tax Authority Office'"
     [iconBtn]="''"
     [backIcon]="'back-icon'"
     [backExists]="true"
     [exports]="true"
+    (addBtn)="addTaxAuthorityOffice()"
   ></app-toolbar-table>
   <app-table
     [cols]="colsInside"
     [tableData]="tableDataInside"
     [col1Name]="'Tax Number'"
     [col2Name]="'Expiry Date'"
-    [col3Name]="'Client ID'"
+    [col3Name]="'Client Name'"
     [col4Name]="'Tax Authority Office ID'"
     [edit]="true"
     [delete]="true"

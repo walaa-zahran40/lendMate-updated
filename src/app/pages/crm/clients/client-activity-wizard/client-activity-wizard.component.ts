@@ -116,6 +116,58 @@ export class ClientActivityWizardComponent {
           link: '/crm/leasing-mandates/add-mandate',
         },
       ],
+      [
+        {
+          imgUrl: '/assets/images/shared/card/mandate.svg',
+          imgAlt: 'guarantor',
+          title: 'Guarantor',
+          content:
+            'Introduce your company core info quickly to users by fill up company details',
+          link: '/crm/clients/view-client-guarantor',
+        },
+        {
+          imgUrl: '/assets/images/shared/card/mandate.svg',
+          imgAlt: 'Identity',
+          title: 'Identity',
+          content:
+            'Introduce your company core info quickly to users by fill up company details',
+          link: '/crm/clients/view-client-identity',
+        },
+        {
+          imgUrl: '/assets/images/shared/card/mandate.svg',
+          imgAlt: 'Legal',
+          title: 'Legal',
+          content:
+            'Introduce your company core info quickly to users by fill up company details',
+          link: '/crm/clients/view-client-legal',
+        },
+      ],
+      [
+        {
+          imgUrl: '/assets/images/shared/card/mandate.svg',
+          imgAlt: 'officer',
+          title: 'Officer',
+          content:
+            'Introduce your company core info quickly to users by fill up company details',
+          link: '/crm/clients/view-client-officer',
+        },
+        {
+          imgUrl: '/assets/images/shared/card/mandate.svg',
+          imgAlt: 'Identity',
+          title: 'Identity',
+          content:
+            'Introduce your company core info quickly to users by fill up company details',
+          link: '/crm/clients/view-client-identity',
+        },
+        {
+          imgUrl: '/assets/images/shared/card/mandate.svg',
+          imgAlt: 'Legal',
+          title: 'Legal',
+          content:
+            'Introduce your company core info quickly to users by fill up company details',
+          link: '/crm/clients/view-client-legal',
+        },
+      ],
     ];
   }
   navigateTo(link: string) {

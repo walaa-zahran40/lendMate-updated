@@ -44,21 +44,17 @@ export class SideMenuComponent {
             icon: 'pi pi-user-plus',
             routerLink: '/crm/clients/view-central-bank-info',
           },
-          {
-            label: 'ClientCompanyBusinessDetails',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/company-view-only',
-          },
+          // {
+          //   label: 'ClientCompanyBusinessDetails',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/crm/clients/company-view-only',
+          // },
           {
             label: 'ClientCRAuthorityOffice',
             icon: 'pi pi-user-plus',
             routerLink: '/crm/clients/view-cr-authority-office',
           },
-          {
-            label: 'ClientDocumentType',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-client-document-types',
-          },
+
           {
             label: 'ClientGuarantor',
             icon: 'pi pi-user-plus',
@@ -69,11 +65,11 @@ export class SideMenuComponent {
             icon: 'pi pi-user-plus',
             routerLink: '/crm/clients/view-client-identity',
           },
-          {
-            label: 'ClientIndividualBusinessDetail',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-client-individual-business-detail',
-          },
+          // {
+          //   label: 'ClientIndividualBusinessDetail',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/crm/clients/view-client-individual-business-detail',
+          // },
           {
             label: 'ClientLegal',
             icon: 'pi pi-user-plus',
@@ -84,13 +80,41 @@ export class SideMenuComponent {
             icon: 'pi pi-user-plus',
             routerLink: '/crm/clients/view-client-officer',
           },
-          { label: 'ClientPhoneNumber', icon: 'pi pi-user-plus' },
-          { label: 'ClientSalesTurnovers', icon: 'pi pi-user-plus' },
-          { label: 'ClientShareHolder', icon: 'pi pi-user-plus' },
-          { label: 'ClientFile', icon: 'pi pi-user-plus' },
-          { label: 'ClientTaxOffice', icon: 'pi pi-user-plus' },
-          { label: 'ClientTMLOfficer', icon: 'pi pi-user-plus' },
-          { label: 'ContactPerson', icon: 'pi pi-user-plus' },
+          {
+            label: 'ClientPhoneNumber',
+            icon: 'pi pi-user-plus',
+            routerLink: '/crm/clients/view-phone-number',
+          },
+          {
+            label: 'ClientSalesTurnovers',
+            icon: 'pi pi-user-plus',
+            routerLink: '/crm/clients/view-sales-turnover',
+          },
+          {
+            label: 'ClientShareHolder',
+            icon: 'pi pi-user-plus',
+            routerLink: '/crm/clients/view-share-holder',
+          },
+          {
+            label: 'ClientFile',
+            icon: 'pi pi-user-plus',
+            routerLink: '/crm/clients/view-client-file',
+          },
+          {
+            label: 'ClientTaxOffice',
+            icon: 'pi pi-user-plus',
+            routerLink: '/crm/clients/view-tax-authority-office',
+          },
+          {
+            label: 'ClientTMLOfficer',
+            icon: 'pi pi-user-plus',
+            routerLink: '/crm/clients/view-tml-officer',
+          },
+          {
+            label: 'ContactPerson',
+            icon: 'pi pi-user-plus',
+            routerLink: '/crm/clients/view-contact-person',
+          },
         ],
       },
       {
@@ -293,6 +317,11 @@ export class SideMenuComponent {
         icon: 'pi pi-users',
         items: [
           { label: 'ClientOfficerType', icon: 'pi pi-user-plus' },
+          {
+            label: 'ClientDocumentType',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-client-document-types',
+          },
           { label: 'MandatePaymentSetting', icon: 'pi pi-user-plus' },
           { label: 'AddressType', icon: 'pi pi-user-plus' },
           { label: 'Area', icon: 'pi pi-user-plus' },

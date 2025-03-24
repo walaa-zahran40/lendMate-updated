@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { SalesTurnover } from '../../../../shared/interfaces/sales-turnover.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-sales-turnover',
@@ -10,6 +11,7 @@ import { SalesTurnover } from '../../../../shared/interfaces/sales-turnover.inte
 export class ViewSalesTurnoverComponent {
   tableDataInside: SalesTurnover[] = [];
   colsInside: any[] = [];
+  constructor(private router: Router) {}
   ngOnInit() {
     this.colsInside = [
       { field: 'amount', header: 'Amount' },
@@ -33,5 +35,8 @@ export class ViewSalesTurnoverComponent {
         date: new Date('10/10/2024'),
       },
     ];
+  }
+  addSales() {
+    this.router.navigate(['/crm/clients/add-sales-turnover']);
   }
 }

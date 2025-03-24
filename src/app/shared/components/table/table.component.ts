@@ -86,6 +86,7 @@ export class TableComponent {
   @Input() viewFollowUpPointsCommunicationTable!: boolean;
   @Input() viewMeetingTypesCommunicationTable!: boolean;
   @Input() viewCallsCommunicationTable!: boolean;
+  @Input() viewClientGuarantorTable!: boolean;
   @Input() paginator: boolean = true;
   @Output() wizardBtn = new EventEmitter<void>();
 
