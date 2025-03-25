@@ -67,6 +67,7 @@
     .p-toolbar {
       border: none;
       border-bottom: 1px solid var(--p-content-background);
+      background: var(--nav-background);
     }
     .p-dialog-content {
       z-index: 999;
@@ -92,16 +93,18 @@
       border-radius: 27px;
       height: 26px;
     }
-    .p-toggleswitch:not(.p-disabled):has(
-        .p-toggleswitch-input:hover
-      ).p-toggleswitch-checked
+    .p-toggleswitch:not(.p-disabled):has(.p-toggleswitch-input)
       .p-toggleswitch-slider {
-      // background: #f4f4f4 !important;
+      background: var(--toggle-background) !important;
+
+      border: none;
     }
+
     .p-toggleswitch:not(.p-disabled):has(.p-toggleswitch-input:hover)
       .p-toggleswitch-slider {
-      background: var(--bg-light-grey) !important;
-      border: 1px solid var(--p-toggleswitch-checked-border-color);
+      background: var(--toggle-background) !important;
+
+      border: none;
     }
     .p-toggleswitch-slider {
       height: 33px;
@@ -110,6 +113,7 @@
     }
     .p-toggleswitch.p-toggleswitch-checked .p-toggleswitch-handle {
       inset-inline-start: 124px;
+      background-color: var(--toggle-active) !important;
     }
     .sun {
       content: url("/assets/images/shared/navbar/sun.svg");
@@ -118,7 +122,7 @@
       content: url("/assets/images/shared/navbar/moon.svg");
     }
     .text-toggle {
-      color: var(--black-color);
+      color: var(--toggle-active-text);
       font-family: "inter", sans-serif;
       font-size: 12.483px;
       font-style: normal;

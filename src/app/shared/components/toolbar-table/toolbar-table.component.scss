@@ -49,6 +49,7 @@
       .add {
         color: #fff !important;
         padding: 12px 24px;
+        border: none;
         background-color: var(--bg-blue) !important;
       }
       .p-button-label {
@@ -89,7 +90,7 @@
       }
       .filter,
       .p-button:not(:disabled):hover {
-        color: var(--filter-text);
+        color: var(--btn-text);
         font-family: "poppins-bold";
         font-size: 16px;
         font-style: normal;
@@ -101,10 +102,12 @@
 
         border: 1px solid #d6ddeb;
       }
+
+      .add:not(:disabled),
       .add:not(:disabled):hover {
         padding: 12px 16px;
         border-radius: 0;
-        border: none;
+        border: none !important;
         background-color: var(--bg-blue) !important;
         color: #0a69bb;
         font-family: "poppins-bold";
@@ -116,9 +119,9 @@
       .excel-icon-btn:not(:disabled),
       .pdf-icon-btn:not(:disabled) {
         border-radius: 0;
-        border: none;
+        border: none !important;
         background-color: var(--bg-grey) !important;
-        color: #0a69bb;
+        color: var(--export-text);
         font-family: "poppins-bold";
         font-size: 16px;
         font-style: normal;
@@ -128,15 +131,19 @@
       .excel-icon-btn:not(:disabled):hover,
       .pdf-icon-btn:not(:disabled):hover {
         border-radius: 0;
-        border: none;
+        border: none !important;
         background-color: var(--bg-grey) !important;
-        color: #0a69bb;
+        color: var(--export-text);
         font-family: "poppins-bold";
         font-size: 16px;
         font-style: normal;
         font-weight: 700;
         line-height: 160%;
       }
+    }
+    .search-bar {
+      background-color: var(--search-table);
+      border: 1px solid var(--search-border);
     }
     @media screen and (max-width: 600px) {
       .p-toolbar {

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Meetings } from '../../../shared/interfaces/meetings.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-meetings',
@@ -10,6 +11,7 @@ import { Meetings } from '../../../shared/interfaces/meetings.interface';
 export class ViewMeetingsComponent {
   tableDataInside: Meetings[] = [];
   colsInside: any[] = [];
+  constructor(private router: Router) {}
   ngOnInit() {
     this.colsInside = [
       { field: 'id', header: 'ID' },
@@ -48,5 +50,8 @@ export class ViewMeetingsComponent {
         endDate: new Date('10-10-2023'),
       },
     ];
+  }
+  onAddMeeting() {
+    this.router.navigate(['/communication/add-meeting']);
   }
 }

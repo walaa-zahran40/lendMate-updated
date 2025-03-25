@@ -121,12 +121,36 @@ export class SideMenuComponent {
         label: 'Communication',
         icon: 'pi pi-users',
         items: [
-          { label: 'Call', icon: 'pi pi-user-plus' },
-          { label: 'Meeting', icon: 'pi pi-user-plus' },
-          { label: 'FollowUp', icon: 'pi pi-user-plus' },
-          { label: 'FollowUpPoints', icon: 'pi pi-user-plus' },
-          { label: 'CommunicationFollowUp', icon: 'pi pi-user-plus' },
-          { label: 'MonitorFollowUps', icon: 'pi pi-user-plus' },
+          {
+            label: 'Call',
+            icon: 'pi pi-user-plus',
+            routerLink: '/communication/view-call',
+          },
+          {
+            label: 'Meeting',
+            icon: 'pi pi-user-plus',
+            routerLink: '/communication/view-meetings',
+          },
+          {
+            label: 'FollowUp',
+            icon: 'pi pi-user-plus',
+            routerLink: '/communication/view-call',
+          },
+          {
+            label: 'FollowUpPoints',
+            icon: 'pi pi-user-plus',
+            routerLink: '/communication/view-call',
+          },
+          {
+            label: 'CommunicationFollowUp',
+            icon: 'pi pi-user-plus',
+            routerLink: '/communication/view-call',
+          },
+          {
+            label: 'MonitorFollowUps',
+            icon: 'pi pi-user-plus',
+            routerLink: '/communication/view-call',
+          },
         ],
       },
       {
