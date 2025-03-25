@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { LegalFormLaw } from '../../../shared/interfaces/legal-form-law.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-legal-form-law',
@@ -10,6 +11,7 @@ import { LegalFormLaw } from '../../../shared/interfaces/legal-form-law.interfac
 export class ViewLegalFormLawComponent {
   tableDataInside: LegalFormLaw[] = [];
   colsInside: any[] = [];
+  constructor(private router: Router) {}
 
   ngOnInit() {
     this.colsInside = [
@@ -91,5 +93,8 @@ export class ViewLegalFormLawComponent {
         active: true,
       },
     ];
+  }
+  addLegalFormLaw() {
+    this.router.navigate(['/legals/add-legal-forms-law']);
   }
 }

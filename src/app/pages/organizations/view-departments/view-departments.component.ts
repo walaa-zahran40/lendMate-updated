@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { SubSector } from '../../../shared/interfaces/sub-sector.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-departments',
@@ -10,6 +11,7 @@ import { SubSector } from '../../../shared/interfaces/sub-sector.interface';
 export class ViewDepartmentsComponent {
   tableDataInside: SubSector[] = [];
   colsInside: any[] = [];
+  constructor(private router: Router) {}
 
   ngOnInit() {
     this.colsInside = [
@@ -84,5 +86,8 @@ export class ViewDepartmentsComponent {
         active: true,
       },
     ];
+  }
+  onAdd() {
+    this.router.navigate(['/organizations/add-department']);
   }
 }

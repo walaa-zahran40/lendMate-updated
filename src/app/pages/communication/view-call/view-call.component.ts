@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Calls } from '../../../shared/interfaces/calls.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-call',
@@ -10,6 +11,8 @@ import { Calls } from '../../../shared/interfaces/calls.interface';
 export class ViewCallComponent {
   tableDataInside: Calls[] = [];
   colsInside: any[] = [];
+  constructor(private router: Router) {}
+
   ngOnInit() {
     this.colsInside = [
       { field: 'id', header: 'ID' },
@@ -41,5 +44,8 @@ export class ViewCallComponent {
         date: new Date('12-22-2024'),
       },
     ];
+  }
+  onAddSide() {
+    this.router.navigate(['/communication/wizard']);
   }
 }

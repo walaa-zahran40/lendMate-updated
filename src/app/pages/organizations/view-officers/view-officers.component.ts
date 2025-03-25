@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Officers } from '../../../shared/interfaces/officers.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-officers',
@@ -10,7 +11,7 @@ import { Officers } from '../../../shared/interfaces/officers.interface';
 export class ViewOfficersComponent {
   tableDataInside: Officers[] = [];
   colsInside: any[] = [];
-
+  constructor(private router: Router) {}
   ngOnInit() {
     this.colsInside = [
       { field: 'id', header: 'ID' },
@@ -94,5 +95,8 @@ export class ViewOfficersComponent {
         active: true,
       },
     ];
+  }
+  onAddOfficer() {
+    this.router.navigate(['/organizations/add-officer']);
   }
 }

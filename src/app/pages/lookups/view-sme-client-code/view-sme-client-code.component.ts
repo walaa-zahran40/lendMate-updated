@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { SMEClientCode } from '../../../shared/interfaces/sme-client-code.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-sme-client-code',
@@ -10,6 +11,7 @@ import { SMEClientCode } from '../../../shared/interfaces/sme-client-code.interf
 export class ViewSmeClientCodeComponent {
   tableDataInside: SMEClientCode[] = [];
   colsInside: any[] = [];
+  constructor(private router: Router) {}
 
   ngOnInit() {
     this.colsInside = [
@@ -104,5 +106,8 @@ export class ViewSmeClientCodeComponent {
         active: true,
       },
     ];
+  }
+  onAdd() {
+    this.router.navigate(['/lookups/add-sme-client-code']);
   }
 }

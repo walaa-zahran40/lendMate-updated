@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Mandate } from '../../../../shared/interfaces/mandate.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-mandate',
@@ -10,6 +11,8 @@ import { Mandate } from '../../../../shared/interfaces/mandate.interface';
 export class ViewMandateComponent {
   tableDataInside: Mandate[] = [];
   colsInside: any[] = [];
+  constructor(private router: Router) {}
+
   ngOnInit() {
     this.colsInside = [
       { field: 'code', header: 'Code' },
@@ -79,5 +82,11 @@ export class ViewMandateComponent {
         startDate: new Date('01/01/2025'),
       },
     ];
+  }
+  addMandate() {
+    this.router.navigate(['/crm/leasing-mandates/add-mandate']);
+  }
+  onAddSide() {
+    this.router.navigate(['/crm/leasing-mandates/wizard']);
   }
 }

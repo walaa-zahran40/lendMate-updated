@@ -671,19 +671,19 @@ export class FormComponent {
     this.router.navigate(['/crm/clients/view-cr-authority-office']);
   }
   viewBusinessLines() {
-    this.router.navigate(['/crm/clients/view-business-lines']);
+    this.router.navigate(['/lookups/view-business-lines']);
   }
   viewBranchManagers() {
-    this.router.navigate(['/crm/clients/view-branch-managers']);
+    this.router.navigate(['/lookups/view-branch-managers']);
   }
   viewBranchOfficers() {
-    this.router.navigate(['/crm/clients/view-branch-officers']);
+    this.router.navigate(['/lookups/view-branch-officers']);
   }
   viewBranchAddress() {
     this.router.navigate(['/crm/clients/view-branch-address']);
   }
   viewBranch() {
-    this.router.navigate(['/crm/clients/view-branch']);
+    this.router.navigate(['/lookups/view-branch']);
   }
   viewClientDocument() {
     this.router.navigate(['/lookups/view-client-document-types']);
@@ -713,7 +713,7 @@ export class FormComponent {
     this.router.navigate(['/crm/clients/view-currencies']);
   }
   viewRentStructure() {
-    this.router.navigate(['/crm/clients/view-rent-structure']);
+    this.router.navigate(['/lookups/view-rent-structure-types']);
   }
   viewGracePeriod() {
     this.router.navigate(['/crm/clients/view-grace-period']);
@@ -725,19 +725,19 @@ export class FormComponent {
     this.router.navigate(['/crm/clients/view-interest-rate']);
   }
   viewMandateStatuses() {
-    this.router.navigate(['/crm/clients/view-mandate-statuses']);
+    this.router.navigate(['/lookups/view-mandate-statuses']);
   }
   viewFeesCalculation() {
     this.router.navigate(['/crm/clients/view-fee-calculation']);
   }
   viewSignatoryOfficer() {
-    this.router.navigate(['/crm/clients/view-signatory-officer']);
+    this.router.navigate(['/organizations/view-signatory-officers']);
   }
   viewOfficer() {
-    this.router.navigate(['/crm/clients/view-officer']);
+    this.router.navigate(['/organizations/view-officers']);
   }
   viewPageOperation() {
-    this.router.navigate(['/crm/clients/view-page-operation']);
+    this.router.navigate(['/organizations/view-page-operations']);
   }
   viewOperation() {
     this.router.navigate(['/crm/clients/view-operation']);
@@ -758,7 +758,7 @@ export class FormComponent {
     this.router.navigate(['/crm/clients/view-manager']);
   }
   viewDepartment() {
-    this.router.navigate(['/crm/clients/view-department']);
+    this.router.navigate(['/organizations/view-departments']);
   }
   viewCallTypes() {
     this.router.navigate(['/crm/clients/view-call-types']);
@@ -773,10 +773,10 @@ export class FormComponent {
     this.router.navigate(['/crm/clients/view-contact-person']);
   }
   viewFollowUpsPoint() {
-    this.router.navigate(['/crm/clients/view-follow-ups-point']);
+    this.router.navigate(['/communication/view-followup-points']);
   }
   viewFollowUps() {
-    this.router.navigate(['/crm/clients/view-follow-ups']);
+    this.router.navigate(['/communication/view-followups']);
   }
   viewAssestType() {
     this.router.navigate(['/crm/clients/view-assest-type']);
@@ -785,10 +785,10 @@ export class FormComponent {
     this.router.navigate(['/crm/clients/view-company-types']);
   }
   viewLegalFormLaw() {
-    this.router.navigate(['/crm/clients/view-legal-form-law']);
+    this.router.navigate(['/legals/view-legal-form-law']);
   }
   viewLegalForm() {
-    this.router.navigate(['/crm/clients/view-legal-form']);
+    this.router.navigate(['/legals/view-legal-form']);
   }
   viewTMLOfficer() {
     this.router.navigate(['/crm/clients/view-tml-officer']);
@@ -812,7 +812,7 @@ export class FormComponent {
     this.router.navigate(['/crm/clients/view-address']);
   }
   viewPaymentTypes() {
-    this.router.navigate(['/crm/clients/view-payment-types']);
+    this.router.navigate(['/lookups/view-payment-types']);
   }
   viewDocumentDetails() {
     this.router.navigate(['/crm/clients/view-document-details']);
@@ -824,22 +824,25 @@ export class FormComponent {
     this.router.navigate(['/crm/clients/view-assest-type-categories']);
   }
   viewProducts() {
-    this.router.navigate(['/crm/clients/view-products']);
+    this.router.navigate(['/lookups/view-products']);
+  }
+  viewOfficerORG() {
+    this.router.navigate(['/organizations/view-officer']);
   }
   viewSectors() {
-    this.router.navigate(['/crm/clients/view-sectors']);
+    this.router.navigate(['/lookups/view-sectors']);
   }
   viewClientStatuses() {
-    this.router.navigate(['/crm/clients/view-client-statuses']);
+    this.router.navigate(['/lookups/view-client-statuses']);
   }
   viewClientStatusActions() {
     this.router.navigate(['/crm/clients/view-client-status-actions']);
   }
   viewSMEClientCode() {
-    this.router.navigate(['/crm/clients/view-sme-client-code']);
+    this.router.navigate(['/lookups/view-sme-client-code']);
   }
   viewSubSectors() {
-    this.router.navigate(['/crm/clients/view-sub-sectors']);
+    this.router.navigate(['/lookups/view-sub-sector']);
   }
   viewClientTypes() {
     this.router.navigate(['/crm/clients/view-client-types']);
@@ -848,7 +851,7 @@ export class FormComponent {
     this.router.navigate(['/crm/clients/view-authority-offices']);
   }
   viewPhoneTypes() {
-    this.router.navigate(['/crm/clients/view-phone-types']);
+    this.router.navigate(['/lookups/view-phone-types']);
   }
   viewAddressTypes() {
     this.router.navigate(['/crm/clients/view-address-types']);
@@ -869,7 +872,7 @@ export class FormComponent {
     this.router.navigate(['/crm/clients/view-tax-offices']);
   }
   viewTMLOfficerType() {
-    this.router.navigate(['/crm/clients/view-tml-officer-type']);
+    this.router.navigate(['/lookups/view-tml-officer-types']);
   }
   viewCommunicationTypes() {
     this.router.navigate(['/crm/clients/view-communication-types']);

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MandateStatuses } from '../../../shared/interfaces/mandate-statuses.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-mandate-statuses',
@@ -10,7 +11,7 @@ import { MandateStatuses } from '../../../shared/interfaces/mandate-statuses.int
 export class ViewMandateStatusesComponent {
   tableDataInside: MandateStatuses[] = [];
   colsInside: any[] = [];
-
+  constructor(private router: Router) {}
   ngOnInit() {
     this.colsInside = [
       { field: 'id', header: 'ID' },
@@ -94,5 +95,8 @@ export class ViewMandateStatusesComponent {
         active: true,
       },
     ];
+  }
+  onAdd() {
+    this.router.navigate(['/lookups/add-mandate-statuses']);
   }
 }

@@ -6,6 +6,7 @@
     [backIcon]="''"
     [backExists]="false"
     [exports]="false"
+    (addBtn)="addMandate()"
   ></app-toolbar-table>
   <app-table
     [cols]="colsInside"
@@ -20,5 +21,6 @@
     [download]="true"
     [checkBox]="true"
     [viewLeasingMandatesTable]="true"
+    (wizardBtn)="onAddSide()"
   ></app-table>
 </div>

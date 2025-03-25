@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { SignatoryOfficers } from '../../../shared/interfaces/signatory-officers.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-signatory-officers',
@@ -10,6 +11,7 @@ import { SignatoryOfficers } from '../../../shared/interfaces/signatory-officers
 export class ViewSignatoryOfficersComponent {
   tableDataInside: SignatoryOfficers[] = [];
   colsInside: any[] = [];
+  constructor(private router: Router) {}
 
   ngOnInit() {
     this.colsInside = [
@@ -84,5 +86,8 @@ export class ViewSignatoryOfficersComponent {
         active: true,
       },
     ];
+  }
+  onAdd() {
+    this.router.navigate(['/organizations/add-signatory-officer']);
   }
 }

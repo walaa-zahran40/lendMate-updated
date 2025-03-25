@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { BranchManagers } from '../../../shared/interfaces/branch-managers.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-branch-managers',
@@ -10,7 +11,7 @@ import { BranchManagers } from '../../../shared/interfaces/branch-managers.inter
 export class ViewBranchManagersComponent {
   tableDataInside: BranchManagers[] = [];
   colsInside: any[] = [];
-
+  constructor(private router: Router) {}
   ngOnInit() {
     this.colsInside = [
       { field: 'details', header: 'Details' },
@@ -64,5 +65,8 @@ export class ViewBranchManagersComponent {
         endDate: new Date('12-15-2025'),
       },
     ];
+  }
+  onAdd() {
+    this.router.navigate(['/lookups/add-branch-managers']);
   }
 }

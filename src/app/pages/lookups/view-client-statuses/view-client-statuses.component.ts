@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ClientStatuses } from '../../../shared/interfaces/client-statuses.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-client-statuses',
@@ -10,6 +11,7 @@ import { ClientStatuses } from '../../../shared/interfaces/client-statuses.inter
 export class ViewClientStatusesComponent {
   tableDataInside: ClientStatuses[] = [];
   colsInside: any[] = [];
+  constructor(private router: Router) {}
 
   ngOnInit() {
     this.colsInside = [
@@ -62,5 +64,8 @@ export class ViewClientStatusesComponent {
         active: true,
       },
     ];
+  }
+  addClient() {
+    this.router.navigate(['/lookups/add-client-statuses']);
   }
 }

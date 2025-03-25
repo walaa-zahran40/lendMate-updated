@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { GracePeriod } from '../../../shared/interfaces/grace-period.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-rent-structure-types',
@@ -10,6 +11,7 @@ import { GracePeriod } from '../../../shared/interfaces/grace-period.interface';
 export class ViewRentStructureTypesComponent {
   tableDataInside: GracePeriod[] = [];
   colsInside: any[] = [];
+  constructor(private router: Router) {}
 
   ngOnInit() {
     this.colsInside = [
@@ -84,5 +86,8 @@ export class ViewRentStructureTypesComponent {
         active: true,
       },
     ];
+  }
+  onAdd() {
+    this.router.navigate(['/lookups/add-rent-structure-types']);
   }
 }

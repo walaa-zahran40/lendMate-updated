@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ManageMandate } from '../../../../shared/interfaces/manage-mandate.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-manage-mandate-terms',
@@ -9,6 +10,7 @@ import { ManageMandate } from '../../../../shared/interfaces/manage-mandate.inte
 })
 export class ViewManageMandateTermsComponent {
   tableDataInside: ManageMandate[] = [];
+  constructor(private router: Router) {}
   colsInside: any[] = [];
   ngOnInit() {
     this.colsInside = [
@@ -68,5 +70,8 @@ export class ViewManageMandateTermsComponent {
         isActive: true,
       },
     ];
+  }
+  addMandate() {
+    this.router.navigate(['/crm/leasing-mandates/add-manage-mandate-terms']);
   }
 }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { LegalForm } from '../../../shared/interfaces/legal-form.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-legal-form',
@@ -10,7 +11,7 @@ import { LegalForm } from '../../../shared/interfaces/legal-form.interface';
 export class ViewLegalFormComponent {
   tableDataInside: LegalForm[] = [];
   colsInside: any[] = [];
-
+  constructor(private router: Router) {}
   ngOnInit() {
     this.colsInside = [
       { field: 'id', header: 'ID' },
@@ -80,5 +81,8 @@ export class ViewLegalFormComponent {
         nameInArabic: 'Name in Arabic',
       },
     ];
+  }
+  addLegalForm() {
+    this.router.navigate(['/legals/add-legal-forms']);
   }
 }

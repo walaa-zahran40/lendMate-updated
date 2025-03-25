@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FollowUps } from '../../../shared/interfaces/follow-ups.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-follow-ups',
@@ -10,6 +11,7 @@ import { FollowUps } from '../../../shared/interfaces/follow-ups.interface';
 export class ViewFollowUpsComponent {
   tableDataInside: FollowUps[] = [];
   colsInside: any[] = [];
+  constructor(private router: Router) {}
   ngOnInit() {
     this.colsInside = [
       { field: 'details', header: 'Details' },
@@ -26,5 +28,8 @@ export class ViewFollowUpsComponent {
       },
       { details: 122, date: new Date('12-10-2025') },
     ];
+  }
+  onAddSide() {
+    this.router.navigate(['/communication/wizard']);
   }
 }

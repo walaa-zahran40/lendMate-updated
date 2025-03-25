@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { PageOperations } from '../../../shared/interfaces/page-operations.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-page-operations',
@@ -10,6 +11,7 @@ import { PageOperations } from '../../../shared/interfaces/page-operations.inter
 export class ViewPageOperationsComponent {
   tableDataInside: PageOperations[] = [];
   colsInside: any[] = [];
+  constructor(private router: Router) {}
 
   ngOnInit() {
     this.colsInside = [
@@ -84,5 +86,8 @@ export class ViewPageOperationsComponent {
         active: true,
       },
     ];
+  }
+  onAdd() {
+    this.router.navigate(['/organizations/add-page-operation']);
   }
 }

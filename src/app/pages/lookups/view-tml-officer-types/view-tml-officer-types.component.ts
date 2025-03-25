@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { SubSector } from '../../../shared/interfaces/sub-sector.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-tml-officer-types',
@@ -10,7 +11,7 @@ import { SubSector } from '../../../shared/interfaces/sub-sector.interface';
 export class ViewTmlOfficerTypesComponent {
   tableDataInside: SubSector[] = [];
   colsInside: any[] = [];
-
+  constructor(private router: Router) {}
   ngOnInit() {
     this.colsInside = [
       { field: 'id', header: 'ID' },
@@ -84,5 +85,8 @@ export class ViewTmlOfficerTypesComponent {
         active: true,
       },
     ];
+  }
+  onAdd() {
+    this.router.navigate(['/lookups/add-tml-officer-types']);
   }
 }

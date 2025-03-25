@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Sectors } from '../../../shared/interfaces/sectors.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-sectors',
@@ -10,7 +11,7 @@ import { Sectors } from '../../../shared/interfaces/sectors.interface';
 export class ViewSectorsComponent {
   tableDataInside: Sectors[] = [];
   colsInside: any[] = [];
-
+  constructor(private router: Router) {}
   ngOnInit() {
     this.colsInside = [
       { field: 'id', header: 'ID' },
@@ -94,5 +95,8 @@ export class ViewSectorsComponent {
         active: true,
       },
     ];
+  }
+  addSectors() {
+    this.router.navigate(['/lookups/add-sectors']);
   }
 }

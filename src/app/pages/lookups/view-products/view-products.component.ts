@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Products } from '../../../shared/interfaces/products.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-products',
@@ -10,7 +11,7 @@ import { Products } from '../../../shared/interfaces/products.interface';
 export class ViewProductsComponent {
   tableDataInside: Products[] = [];
   colsInside: any[] = [];
-
+  constructor(private router: Router) {}
   ngOnInit() {
     this.colsInside = [
       { field: 'id', header: 'ID' },
@@ -84,5 +85,8 @@ export class ViewProductsComponent {
         active: true,
       },
     ];
+  }
+  addProducts() {
+    this.router.navigate(['/lookups/add-products']);
   }
 }

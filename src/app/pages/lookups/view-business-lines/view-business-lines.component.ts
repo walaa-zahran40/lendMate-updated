@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { BusinessLines } from '../../../shared/interfaces/business-lines.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-business-lines',
@@ -10,7 +11,7 @@ import { BusinessLines } from '../../../shared/interfaces/business-lines.interfa
 export class ViewBusinessLinesComponent {
   tableDataInside: BusinessLines[] = [];
   colsInside: any[] = [];
-
+  constructor(private router: Router) {}
   ngOnInit() {
     this.colsInside = [{ field: 'details', header: 'Details' }];
     this.tableDataInside = [
@@ -87,5 +88,8 @@ export class ViewBusinessLinesComponent {
         active: true,
       },
     ];
+  }
+  onAddBusiness() {
+    this.router.navigate(['/lookups/add-business-lines']);
   }
 }

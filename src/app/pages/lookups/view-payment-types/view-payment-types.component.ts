@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { PaymentMethods } from '../../../shared/interfaces/payment-methods.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-payment-types',
@@ -10,6 +11,7 @@ import { PaymentMethods } from '../../../shared/interfaces/payment-methods.inter
 export class ViewPaymentTypesComponent {
   tableDataInside: PaymentMethods[] = [];
   colsInside: any[] = [];
+  constructor(private router: Router) {}
 
   ngOnInit() {
     this.colsInside = [
@@ -84,5 +86,9 @@ export class ViewPaymentTypesComponent {
         active: true,
       },
     ];
+  }
+
+  onAdd() {
+    this.router.navigate(['/lookups/add-payment-types']);
   }
 }
