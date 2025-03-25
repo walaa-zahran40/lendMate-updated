@@ -23,6 +23,7 @@
     .p-datatable-table {
       padding: 20px;
       border-collapse: collapse;
+      margin-top: 30px;
     }
     .p-datatable-tbody > tr > td.grey {
       color: #838383;
@@ -70,7 +71,6 @@
       line-height: 160%;
       text-align: start;
       background: var(--bg-transparent);
-      border: 1px solid var(--border-table);
     }
     .p-paginator {
       display: flex;
@@ -158,7 +158,6 @@
       font-weight: 500;
       line-height: 160%;
       text-align: start;
-      border: 1px solid var(--border-table);
     }
     .p-datatable-table > tr {
       background: var(--bg-transparent);
