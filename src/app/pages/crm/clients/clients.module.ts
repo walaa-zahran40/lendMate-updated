@@ -35,6 +35,11 @@ import { ViewTmlOfficerComponent } from './view-tml-officer/view-tml-officer.com
 import { ClientActivityWizardComponent } from './client-activity-wizard/client-activity-wizard.component';
 import { ViewClientGuarantorComponent } from './view-client-guarantor/view-client-guarantor.component';
 import { AddClientGuarantorComponent } from './add-client-guarantor/add-client-guarantor.component';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { ClientsEffects } from './state/clients/clients.effects';
+import { clientsReducer } from './state/clients/clients.reducer';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -76,6 +81,9 @@ import { AddClientGuarantorComponent } from './add-client-guarantor/add-client-g
     FileUploadModule,
     IconField,
     InputIcon,
+    ReactiveFormsModule,
+    StoreModule.forFeature('clients', clientsReducer),
+EffectsModule.forFeature([ClientsEffects])
   ],
 })
 export class ClientsModule {}

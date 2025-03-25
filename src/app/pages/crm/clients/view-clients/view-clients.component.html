@@ -8,7 +8,7 @@
     [exports]="true"
     (addBtn)="onAddClient()"
   ></app-toolbar-table>
-  <app-table
+  <!-- <app-table
     [cols]="colsInside"
     [tableData]="tableDataInside"
     [col1Name]="'Name EN'"
@@ -22,5 +22,17 @@
     [uppercase]="'uppercase'"
     [viewClientTable]="true"
     (wizardBtn)="onAddSide()"
-  ></app-table>
+  ></app-table> -->
+  <app-table
+  [cols]="colsInside"
+  [tableData]="tableDataInside"
+  [edit]="true"
+  [delete]="true"
+  [side]="true"
+  [checkBox]="true"
+  [uppercase]="'uppercase'"
+  [viewClientTable]="true"
+  (wizardBtn)="onAddSide()"
+></app-table>
+
 </div>

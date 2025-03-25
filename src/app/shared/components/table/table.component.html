@@ -1,4 +1,4 @@
-<p-table
+<!-- <p-table
   responsiveLayout="stack"
   [value]="tableData"
   scrollHeight="flex"
@@ -2954,6 +2954,71 @@
       <td></td>
     </tr>
   </ng-template>
+  <ng-template pTemplate="paginatorleft" *ngIf="paginator">
+    <div class="p-paginator-left">
+      <span>View Applicants per page</span>
+    </div>
+  </ng-template>
+</p-table> -->
+<p-table
+  responsiveLayout="stack"
+  [value]="tableData"
+  scrollHeight="flex"
+  [paginator]="paginator"
+  [rows]="10"
+  [showCurrentPageReport]="true"
+  [rowsPerPageOptions]="[5, 10, 15, 20]"
+>
+  <ng-template pTemplate="header">
+    <tr class="border-1">
+      <th *ngIf="checkBox"><p-checkbox [binary]="true" /></th>
+      <th *ngFor="let col of cols">
+        {{ col.header }}
+        <img
+          src="/assets/images/shared/table/sort.svg"
+          alt="sort"
+          *ngIf="filters"
+          class="d-inline-block mx-2 my-2"
+        />
+      </th>
+      <th></th>
+      <th *ngIf="side"></th>
+      <td></td>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-rowData>
+    <tr>
+      <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+      <td *ngFor="let col of cols">
+        <span class="p-column-title">{{ col.header }}</span>
+        <span >{{ rowData[col.field] }}</span>
+      </td>
+      <td class="imgs">
+        <img
+          src="/assets/images/shared/table/edit.svg"
+          alt="edit"
+          class="d-inline-block mx-2 my-2"
+          *ngIf="edit"
+        />
+        <img
+          src="/assets/images/shared/table/delete.svg"
+          class="d-inline-block mx-2 my-2"
+          alt="delete"
+          *ngIf="delete"
+        />
+        <img
+          src="/assets/images/shared/table/side.svg"
+          alt="side"
+          class="d-inline-block mx-2 my-2"
+          *ngIf="side"
+          (click)="wizardBtn.emit()"
+        />
+      </td>
+      <td></td>
+    </tr>
+  </ng-template>
+
   <ng-template pTemplate="paginatorleft" *ngIf="paginator">
     <div class="p-paginator-left">
       <span>View Applicants per page</span>

@@ -51,6 +51,7 @@ import { TieredMenuModule } from 'primeng/tieredmenu';
 import { ToolbarCompoundComponent } from './toolbar-compound/toolbar-compound.component';
 import { DatePickerModule } from 'primeng/datepicker';
 import { FloatLabelModule } from 'primeng/floatlabel';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -109,6 +110,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
     TextareaModule,
     TieredMenuModule,
     PanelMenuModule,
+    ReactiveFormsModule
   ],
   providers: [DatePipe, AsyncPipe],
   exports: [

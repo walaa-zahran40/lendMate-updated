@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Client } from '../../../../shared/interfaces/client.interface';
 import { Router } from '@angular/router';
+import { ClientsFacade } from '../state/clients/clients.facade';
 
 @Component({
   selector: 'app-view-clients',
@@ -11,79 +12,89 @@ import { Router } from '@angular/router';
 export class ViewClientsComponent {
   tableDataInside: Client[] = [];
   colsInside: any[] = [];
-  constructor(private router: Router) {}
+  constructor(private router: Router, private facade: ClientsFacade) {}
 
   ngOnInit() {
     this.colsInside = [
-      { field: 'nameEn', header: 'Name EN' },
+      { field: 'name', header: 'Name EN' },
       { field: 'businessActivity', header: 'Business Activity' },
-      { field: 'isIscore', header: 'isIscore' },
+      { field: 'isIscore', header: 'Iscore' },
       { field: 'taxId', header: 'Tax ID' },
+      { field: 'code', header: 'Client Code' },
+      { field: 'clientTypeCode', header: 'Type Code' },
+      { field: 'shortName', header: 'Short Name' },
+      { field: 'isActive', header: 'Active' },
     ];
+    
     this.tableDataInside = [
-      {
-        nameEn: 'Hamdy Bank',
-        businessActivity: 'Food',
-        isIscore: true,
-        taxId: 12345,
-      },
-      {
-        nameEn: 'Hamdy Bank',
-        businessActivity: 'Food',
-        isIscore: true,
-        taxId: 12345,
-      },
-      {
-        nameEn: 'Hamdy Bank',
-        businessActivity: 'Food',
-        isIscore: true,
-        taxId: 12345,
-      },
-      {
-        nameEn: 'Hamdy Bank',
-        businessActivity: 'Food',
-        isIscore: true,
-        taxId: 12345,
-      },
-      {
-        nameEn: 'Hamdy Bank',
-        businessActivity: 'Food',
-        isIscore: true,
-        taxId: 12345,
-      },
-      {
-        nameEn: 'Hamdy Bank',
-        businessActivity: 'Food',
-        isIscore: true,
-        taxId: 12345,
-      },
-      {
-        nameEn: 'Hamdy Bank',
-        businessActivity: 'Food',
-        isIscore: true,
-        taxId: 12345,
-      },
-      {
-        nameEn: 'Hamdy Bank',
-        businessActivity: 'Food',
-        isIscore: true,
-        taxId: 12345,
-      },
-      {
-        nameEn: 'Hamdy Bank',
-        businessActivity: 'Food',
-        isIscore: true,
-        taxId: 12345,
-      },
-      {
-        nameEn: 'Hamdy Bank',
-        businessActivity: 'Food',
-        isIscore: true,
-        taxId: 12345,
-      },
+      // {
+      //   nameEn: 'Hamdy Bank',
+      //   businessActivity: 'Food',
+      //   isIscore: true,
+      //   taxId: 12345,
+      // },
+      // {
+      //   nameEn: 'Hamdy Bank',
+      //   businessActivity: 'Food',
+      //   isIscore: true,
+      //   taxId: 12345,
+      // },
+      // {
+      //   nameEn: 'Hamdy Bank',
+      //   businessActivity: 'Food',
+      //   isIscore: true,
+      //   taxId: 12345,
+      // },
+      // {
+      //   nameEn: 'Hamdy Bank',
+      //   businessActivity: 'Food',
+      //   isIscore: true,
+      //   taxId: 12345,
+      // },
+      // {
+      //   nameEn: 'Hamdy Bank',
+      //   businessActivity: 'Food',
+      //   isIscore: true,
+      //   taxId: 12345,
+      // },
+      // {
+      //   nameEn: 'Hamdy Bank',
+      //   businessActivity: 'Food',
+      //   isIscore: true,
+      //   taxId: 12345,
+      // },
+      // {
+      //   nameEn: 'Hamdy Bank',
+      //   businessActivity: 'Food',
+      //   isIscore: true,
+      //   taxId: 12345,
+      // },
+      // {
+      //   nameEn: 'Hamdy Bank',
+      //   businessActivity: 'Food',
+      //   isIscore: true,
+      //   taxId: 12345,
+      // },
+      // {
+      //   nameEn: 'Hamdy Bank',
+      //   businessActivity: 'Food',
+      //   isIscore: true,
+      //   taxId: 12345,
+      // },
+      // {
+      //   nameEn: 'Hamdy Bank',
+      //   businessActivity: 'Food',
+      //   isIscore: true,
+      //   taxId: 12345,
+      // },
     ];
-  }
+    this.facade.clients$.subscribe((clients) => {
+      this.tableDataInside = clients;
+    });
 
+    this.facade.loadClients();
+  }
+ 
   onAddClient() {
     this.router.navigate(['/crm/clients/add-client']);
   }

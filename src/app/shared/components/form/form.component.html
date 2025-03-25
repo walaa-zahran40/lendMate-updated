@@ -1,4 +1,7 @@
+
+
 <div class="parent">
+
   <div *ngIf="!contactPersonDetailsView" class="div1">
     <h2 class="m-0 title">{{ title }}</h2>
     <p class="tab-panel-paragraph">
@@ -646,8 +649,44 @@
       (click)="viewBusinessLines()"
     />
   </div>
+  <!-- <form class="div2" [ngClass]="{ span: applyReusable }" [formGroup]="formGroup">
+
+     <ng-container *ngIf="addClientShowMain">
+      <label for="name">Name in English <sup class="danger">*</sup></label>
+      <input pInputText id="name" formControlName="name" placeholder="Google" />
+  
+      <label for="nameAR">Name in Arabic <sup class="danger">*</sup></label>
+      <input pInputText id="nameAR" formControlName="nameAR" placeholder="جوجل" />
+  
+      <label for="businessActivity">Business Activity <sup class="danger">*</sup></label>
+      <input pInputText id="businessActivity" formControlName="businessActivity" placeholder="Tech" />
+  
+      <label for="taxId">Tax ID <sup class="danger">*</sup></label>
+      <input pInputText id="taxId" formControlName="taxId" placeholder="#101020203030" />
+  
+      <label for="shortName">Short Name</label>
+      <input pInputText id="shortName" formControlName="shortName" placeholder="GO" />
+    </ng-container>
+  
+     <ng-container *ngIf="addClientShowLegal">
+       <label for="clientTypeCode">Client Type Code <sup class="danger">*</sup></label>
+      <input pInputText id="clientTypeCode" formControlName="clientTypeCode" placeholder="CORP" />
+  
+      <label for="isIscore">Is Iscore?</label>
+      <p-checkbox binary="true" formControlName="isIscore"></p-checkbox>
+    </ng-container>
+  
+     <ng-container *ngIf="addClientShowBusiness">
+      <label for="employeesNo">Number of Employees <sup class="danger">*</sup></label>
+      <input pInputText id="employeesNo" formControlName="employeesNo" placeholder="500" />
+  
+      <label for="code">Code <sup class="danger">*</sup></label>
+      <input pInputText id="code" formControlName="code" placeholder="CL001" />
+    </ng-container>
+  </form> -->
+  
   <div class="div2" [ngClass]="{ span: applyReusable }">
-    <form action="" *ngIf="addClientShowMain">
+    <!-- <form action="" *ngIf="addClientShowMain">
       <label for="nameEnglish"
         >Name in English<sup class="danger">*</sup></label
       >
@@ -819,8 +858,54 @@
         placeholder="50,000"
         name="noOfEmployees"
       />
-    </form>
-
+    </form> -->
+    <form
+    class="div2"
+    [ngClass]="{ span: applyReusable }"
+    [formGroup]="formGroup"
+  >
+    <!-- Title + Description if provided -->
+    <div *ngIf="title || description" class="mb-4">
+      <h2 class="text-xl font-bold">{{ title }}</h2>
+      <p class="text-sm text-gray-500">{{ description }}</p>
+    </div>
+  
+    <!-- Main Info -->
+    <ng-container *ngIf="addClientShowMain">
+      <label for="name">Name in English <sup class="danger">*</sup></label>
+      <input pInputText id="name" formControlName="name" placeholder="Google" />
+  
+      <label for="nameAR">Name in Arabic <sup class="danger">*</sup></label>
+      <input pInputText id="nameAR" formControlName="nameAR" placeholder="جوجل" />
+  
+      <label for="businessActivity">Business Activity <sup class="danger">*</sup></label>
+      <input pInputText id="businessActivity" formControlName="businessActivity" placeholder="Tech" />
+  
+      <label for="taxId">Tax ID <sup class="danger">*</sup></label>
+      <input pInputText id="taxId" formControlName="taxId" placeholder="#101020203030" />
+  
+      <label for="shortName">Short Name</label>
+      <input pInputText id="shortName" formControlName="shortName" placeholder="GO" />
+    </ng-container>
+  
+    <!-- Legal Info -->
+    <ng-container *ngIf="addClientShowLegal">
+      <label for="clientTypeCode">Client Type Code <sup class="danger">*</sup></label>
+      <input pInputText id="clientTypeCode" formControlName="clientTypeCode" placeholder="CORP" />
+  
+      <label for="isIscore">Is Iscore?</label>
+      <p-checkbox binary="true" formControlName="isIscore"></p-checkbox>
+    </ng-container>
+  
+    <!-- Business Info -->
+    <ng-container *ngIf="addClientShowBusiness">
+      <label for="employeesNo">Number of Employees <sup class="danger">*</sup></label>
+      <input pInputText id="employeesNo" formControlName="employeesNo" placeholder="500" />
+  
+      <label for="code">Code <sup class="danger">*</sup></label>
+      <input pInputText id="code" formControlName="code" placeholder="CL001" />
+    </ng-container>
+  </form>
     <form action="" *ngIf="addClientGuarantorsShowIndividual">
       <label for="nameEnglishIndividual"
         >Name in English<sup class="danger">*</sup></label

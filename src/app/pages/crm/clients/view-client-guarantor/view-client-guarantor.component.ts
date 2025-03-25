@@ -21,66 +21,66 @@ export class ViewClientGuarantorComponent {
       { field: 'taxId', header: 'Tax ID' },
     ];
     this.tableDataInside = [
-      {
-        nameEn: 'Hamdy Bank',
-        businessActivity: 'Food',
-        isIscore: true,
-        taxId: 12345,
-      },
-      {
-        nameEn: 'Hamdy Bank',
-        businessActivity: 'Food',
-        isIscore: true,
-        taxId: 12345,
-      },
-      {
-        nameEn: 'Hamdy Bank',
-        businessActivity: 'Food',
-        isIscore: true,
-        taxId: 12345,
-      },
-      {
-        nameEn: 'Hamdy Bank',
-        businessActivity: 'Food',
-        isIscore: true,
-        taxId: 12345,
-      },
-      {
-        nameEn: 'Hamdy Bank',
-        businessActivity: 'Food',
-        isIscore: true,
-        taxId: 12345,
-      },
-      {
-        nameEn: 'Hamdy Bank',
-        businessActivity: 'Food',
-        isIscore: true,
-        taxId: 12345,
-      },
-      {
-        nameEn: 'Hamdy Bank',
-        businessActivity: 'Food',
-        isIscore: true,
-        taxId: 12345,
-      },
-      {
-        nameEn: 'Hamdy Bank',
-        businessActivity: 'Food',
-        isIscore: true,
-        taxId: 12345,
-      },
-      {
-        nameEn: 'Hamdy Bank',
-        businessActivity: 'Food',
-        isIscore: true,
-        taxId: 12345,
-      },
-      {
-        nameEn: 'Hamdy Bank',
-        businessActivity: 'Food',
-        isIscore: true,
-        taxId: 12345,
-      },
+      // {
+      //   nameEn: 'Hamdy Bank',
+      //   businessActivity: 'Food',
+      //   isIscore: true,
+      //   taxId: 12345,
+      // },
+      // {
+      //   nameEn: 'Hamdy Bank',
+      //   businessActivity: 'Food',
+      //   isIscore: true,
+      //   taxId: 12345,
+      // },
+      // {
+      //   nameEn: 'Hamdy Bank',
+      //   businessActivity: 'Food',
+      //   isIscore: true,
+      //   taxId: 12345,
+      // },
+      // {
+      //   nameEn: 'Hamdy Bank',
+      //   businessActivity: 'Food',
+      //   isIscore: true,
+      //   taxId: 12345,
+      // },
+      // {
+      //   nameEn: 'Hamdy Bank',
+      //   businessActivity: 'Food',
+      //   isIscore: true,
+      //   taxId: 12345,
+      // },
+      // {
+      //   nameEn: 'Hamdy Bank',
+      //   businessActivity: 'Food',
+      //   isIscore: true,
+      //   taxId: 12345,
+      // },
+      // {
+      //   nameEn: 'Hamdy Bank',
+      //   businessActivity: 'Food',
+      //   isIscore: true,
+      //   taxId: 12345,
+      // },
+      // {
+      //   nameEn: 'Hamdy Bank',
+      //   businessActivity: 'Food',
+      //   isIscore: true,
+      //   taxId: 12345,
+      // },
+      // {
+      //   nameEn: 'Hamdy Bank',
+      //   businessActivity: 'Food',
+      //   isIscore: true,
+      //   taxId: 12345,
+      // },
+      // {
+      //   nameEn: 'Hamdy Bank',
+      //   businessActivity: 'Food',
+      //   isIscore: true,
+      //   taxId: 12345,
+      // },
     ];
   }
 

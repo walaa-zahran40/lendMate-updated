@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -8,8 +9,16 @@ import { Router } from '@angular/router';
   styleUrl: './form.component.scss',
 })
 export class FormComponent {
-  @Input() applyReusable: boolean = false;
+  @Input() formGroup!: FormGroup;
 
+  @Input() applyReusable: boolean = false;
+  @Input() title: string = '';
+  @Input() description: string = '';
+  @Input() addClientShowMain?: boolean;
+  @Input() addClientShowLegal?: boolean;
+  @Input() addClientShowBusiness?: boolean;
+  @Input() addClientShowIndividual?: boolean;
+  @Input() addClient?: boolean;
   //ngModel Values
   value: string | undefined;
   value1: string | undefined;
@@ -290,12 +299,12 @@ export class FormComponent {
   date21 = '09/08/1997';
   date22 = '09/08/1997';
   //inputs
-  @Input() title!: string;
+  // @Input() title!: string;
   @Input() titleIndividual!: string;
   @Input() descriptionIndividual!: string;
-  @Input() addClient!: boolean;
-  @Input() description!: string;
-  @Input() addClientShowMain!: boolean;
+  // @Input() addClient!: boolean;
+  // @Input() description!: string;
+  // @Input() addClientShowMain!: boolean;
   @Input() addAddressShowMain!: boolean;
   @Input() clientOnboardingCompanyShowMain!: boolean;
   @Input() clientOnboardingIndividualShowMain!: boolean;
@@ -304,9 +313,9 @@ export class FormComponent {
   @Input() addSalesShowMain!: boolean;
   @Input() addPhoneNumbersShowMain!: boolean;
   @Input() addContactPersonShowMain!: boolean;
-  @Input() addClientShowLegal!: boolean;
-  @Input() addClientShowBusiness!: boolean;
-  @Input() addClientShowIndividual!: boolean;
+  // @Input() addClientShowLegal!: boolean;
+  // @Input() addClientShowBusiness!: boolean;
+  // @Input() addClientShowIndividual!: boolean;
   @Input() clientOnboarding!: boolean;
   @Input() clientOnboardingShowIndividual!: boolean;
   @Input() addTaxAuthorityOfficeShowMain!: boolean;
