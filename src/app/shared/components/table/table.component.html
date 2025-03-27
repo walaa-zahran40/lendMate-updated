@@ -82,6 +82,24 @@
           class="d-inline-block mx-2 my-2"
         />
       </th>
+      <th *ngIf="col9Name">
+        {{ col9Name }}
+        <img
+          src="/assets/images/shared/table/sort.svg"
+          alt="sort"
+          *ngIf="filters"
+          class="d-inline-block mx-2 my-2"
+        />
+      </th>
+      <th *ngIf="col10Name">
+        {{ col10Name }}
+        <img
+          src="/assets/images/shared/table/sort.svg"
+          alt="sort"
+          *ngIf="filters"
+          class="d-inline-block mx-2 my-2"
+        />
+      </th>
       <th></th>
       <th *ngIf="side"></th>
       <td></td>
@@ -764,11 +782,15 @@
       <td>
         <span class="p-column-title">{{ col3Name }} </span>
 
-        {{ mandate.clientName }}
+        {{ mandate.nameEN }}
       </td>
-
       <td>
         <span class="p-column-title">{{ col4Name }} </span>
+
+        {{ mandate.nameAR }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col5Name }} </span>
 
         {{ mandate.startDate | date : "MM/dd/yyyy" }}
       </td>
@@ -813,10 +835,14 @@
       <td><p-checkbox [binary]="true" *ngIf="checkBox" /></td>
       <td>
         <span class="p-column-title"> {{ col1Name }}</span>
-        {{ officer.officerName }}
+        {{ officer.nameEN }}
       </td>
       <td>
-        <span class="p-column-title">{{ col2Name }} </span>
+        <span class="p-column-title"> {{ col2Name }}</span>
+        {{ officer.nameAR }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col3Name }} </span>
 
         {{ officer.officerType }}
       </td>
@@ -848,7 +874,11 @@
       <td><p-checkbox [binary]="true" *ngIf="checkBox" /></td>
       <td>
         <span class="p-column-title"> {{ col1Name }}</span>
-        {{ contactPerson.contactPersonName }}
+        {{ contactPerson.nameEN }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col2Name }}</span>
+        {{ contactPerson.nameAR }}
       </td>
       <td>
         <span class="p-column-title">{{ col2Name }} </span>
@@ -881,6 +911,14 @@
   >
     <tr>
       <td><p-checkbox [binary]="true" *ngIf="checkBox" /></td>
+      <td>
+        <span class="p-column-title"> {{ col1Name }}</span>
+        {{ assestType.assestName }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col1Name }}</span>
+        {{ assestType.assestName }}
+      </td>
       <td>
         <span class="p-column-title"> {{ col1Name }}</span>
         {{ assestType.assestName }}
@@ -948,6 +986,14 @@
         <span class="p-column-title">{{ col8Name }} </span>
         {{ calculation.interest }}%
       </td>
+      <td>
+        <span class="p-column-title">{{ col9Name }} </span>
+        {{ calculation.nameEN }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col10Name }} </span>
+        {{ calculation.nameAR }}
+      </td>
       <td class="imgs">
         <img
           src="/assets/images/shared/table/edit.svg"
@@ -985,7 +1031,14 @@
         <span class="p-column-title">{{ col3Name }} </span>
         <span class="{{ uppercase }}"> {{ manageMandate.isActive }}</span>
       </td>
-
+      <td>
+        <span class="p-column-title">{{ col4Name }} </span>
+        {{ manageMandate.nameEN }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col5Name }} </span>
+        {{ manageMandate.nameAR }}
+      </td>
       <td class="imgs">
         <img
           src="/assets/images/shared/table/edit.svg"

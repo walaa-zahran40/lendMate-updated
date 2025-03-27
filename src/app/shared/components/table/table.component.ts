@@ -21,6 +21,8 @@ export class TableComponent {
   @Input() col6Name!: string;
   @Input() col7Name!: string;
   @Input() col8Name!: string;
+  @Input() col9Name!: string;
+  @Input() col10Name!: string;
   @Input() edit!: boolean;
   @Input() delete!: boolean;
   @Input() side!: boolean;
