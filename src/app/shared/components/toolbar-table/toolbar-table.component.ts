@@ -17,8 +17,15 @@ export class ToolbarTableComponent {
   @Input() exports!: boolean;
   @Input() btnAdd: boolean = true;
   @Output() addBtn = new EventEmitter<void>();
+  @Output() searchChange = new EventEmitter<string>();
+  searchValue: string = '';
+
   constructor(private location: Location) {}
   goBack() {
     this.location.back();
+  }
+  onSearchInput(value: string) {
+    this.searchValue = value;
+    this.searchChange.emit(this.searchValue);
   }
 }

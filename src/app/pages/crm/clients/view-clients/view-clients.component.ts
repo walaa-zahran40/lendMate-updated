@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
 export class ViewClientsComponent {
   tableDataInside: Client[] = [];
   colsInside: any[] = [];
+  filteredTableData: Client[] = [];
+
   constructor(private router: Router) {}
 
   ngOnInit() {
@@ -32,9 +34,9 @@ export class ViewClientsComponent {
       {
         nameEN: 'Hamdy Bank',
         nameAR: 'Hamdy Bank',
-        businessActivity: 'Food',
+        businessActivity: 'Foods',
         isIscore: true,
-        taxName: '12345',
+        taxName: '123453',
       },
       {
         nameEN: 'Hamdy Bank',
@@ -51,7 +53,7 @@ export class ViewClientsComponent {
         taxName: '12345',
       },
       {
-        nameEN: 'Hamdy Bank',
+        nameEN: 'Hamdy bbank',
         nameAR: 'Hamdy Bank',
         businessActivity: 'Food',
         isIscore: true,
@@ -93,6 +95,7 @@ export class ViewClientsComponent {
         taxName: '12345',
       },
     ];
+    this.filteredTableData = [...this.tableDataInside];
   }
 
   onAddClient() {
@@ -100,5 +103,18 @@ export class ViewClientsComponent {
   }
   onAddSide() {
     this.router.navigate(['/crm/clients/client-activity-wizard']);
+  }
+  filterClients(searchText: string) {
+    const keyword = searchText.toLowerCase();
+    this.filteredTableData = this.tableDataInside.filter((client) => {
+      return (
+        client.nameEN.toLowerCase().includes(keyword) ||
+        client.nameAR.toLowerCase().includes(keyword) ||
+        client.businessActivity?.toLowerCase().includes(keyword) ||
+        // Convert boolean to string so "true"/"false" can also match
+        String(client.isIscore).toLowerCase().includes(keyword) ||
+        client.taxName?.toLowerCase().includes(keyword)
+      );
+    });
   }
 }

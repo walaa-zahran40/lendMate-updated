@@ -7,10 +7,11 @@
     [customSpacing]="'custom-spacing'"
     [exports]="true"
     (addBtn)="onAddClient()"
+    (searchChange)="filterClients($event)"
   ></app-toolbar-table>
   <app-table
     [cols]="colsInside"
-    [tableData]="tableDataInside"
+    [tableData]="filteredTableData"
     [col1Name]="'Name EN'"
     [col2Name]="'Name AR'"
     [col3Name]="'Business Activity'"
