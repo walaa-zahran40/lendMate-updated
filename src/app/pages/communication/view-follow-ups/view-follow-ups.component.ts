@@ -16,17 +16,28 @@ export class ViewFollowUpsComponent {
     this.colsInside = [
       { field: 'details', header: 'Details' },
       { field: 'date', header: 'Date' },
+      { field: 'nameEN', header: 'Name EN' },
+      { field: 'nameAR', header: 'Name AR' },
     ];
     this.tableDataInside = [
       {
         details: 122,
         date: new Date('12-10-2025'),
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
       {
         details: 122,
         date: new Date('12-10-2025'),
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
-      { details: 122, date: new Date('12-10-2025') },
+      {
+        details: 122,
+        date: new Date('12-10-2025'),
+        nameEN: 'name en',
+        nameAR: 'name ar',
+      },
     ];
   }
   onAddSide() {

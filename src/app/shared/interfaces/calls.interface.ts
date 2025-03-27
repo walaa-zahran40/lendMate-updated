@@ -1,7 +1,8 @@
 export interface Calls {
-  id: number;
+  code: number;
   topic: string;
-  clientId: string;
   callType: number;
   date: Date;
+  nameEN: string;
+  nameAR: string;
 }

@@ -5,14 +5,15 @@
     [iconBtn]="''"
     [backIcon]="'back-icon'"
     [backExists]="true"
-    [exports]="false"
+    [exports]="true"
     (addBtn)="addPhone()"
   ></app-toolbar-table>
   <app-table
     [cols]="colsInside"
     [tableData]="tableDataInside"
-    [col1Name]="'Phone Type'"
-    [col2Name]="'Phone Number'"
+    [col1Name]="'Client Name'"
+    [col2Name]="'Phone Type'"
+    [col3Name]="'Phone Number'"
     [edit]="true"
     [delete]="true"
     [side]="false"

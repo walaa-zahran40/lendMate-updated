@@ -1,8 +1,8 @@
 export interface Governorates {
-  id: number;
+  code: number;
   nameEN: string;
   nameAR: string;
   aramix: string;
   active: boolean;
-  countryId?: number;
+  countryName?: string;
 }

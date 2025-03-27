@@ -3,4 +3,6 @@ export interface FollowUpPoints {
   details: string;
   dueDate: Date;
   actualDate: Date;
+  nameEN: string;
+  nameAR: string;
 }

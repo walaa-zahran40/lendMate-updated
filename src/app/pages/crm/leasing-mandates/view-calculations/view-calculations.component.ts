@@ -10,8 +10,10 @@ import { Calculation } from '../../../../shared/interfaces/calculations.interfac
 export class ViewCalculationsComponent {
   tableDataInside: Calculation[] = [];
   colsInside: any[] = [];
+
   ngOnInit() {
     this.colsInside = [
+      { field: 'code', header: 'Code' },
       { field: 'paymentNumber', header: 'Payment Number' },
       { field: 'dueDate', header: 'Due Date' },
       { field: 'balanceBefore', header: 'Balance Before' },
@@ -20,10 +22,12 @@ export class ViewCalculationsComponent {
       { field: 'principal', header: 'Principal' },
       { field: 'installment', header: 'Installment' },
       { field: 'interest', header: 'Interest' },
+      { field: 'nameEN', header: 'Name EN' },
+      { field: 'nameAR', header: 'Name AR' },
     ];
     this.tableDataInside = [
       {
-        id: 1,
+        code: 1,
         paymentNumber: 1,
         dueDate: new Date('01/10/2025'),
         balanceBefore: 50000,
@@ -32,9 +36,11 @@ export class ViewCalculationsComponent {
         principal: 7948,
         installment: 18000,
         interest: 7,
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
       {
-        id: 2,
+        code: 1,
         paymentNumber: 1,
         dueDate: new Date('01/10/2025'),
         balanceBefore: 50000,
@@ -43,9 +49,11 @@ export class ViewCalculationsComponent {
         principal: 7948,
         installment: 18000,
         interest: 7,
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
       {
-        id: 3,
+        code: 1,
         paymentNumber: 1,
         dueDate: new Date('01/10/2025'),
         balanceBefore: 50000,
@@ -54,9 +62,11 @@ export class ViewCalculationsComponent {
         principal: 7948,
         installment: 18000,
         interest: 7,
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
       {
-        id: 4,
+        code: 1,
         paymentNumber: 1,
         dueDate: new Date('01/10/2025'),
         balanceBefore: 50000,
@@ -65,9 +75,11 @@ export class ViewCalculationsComponent {
         principal: 7948,
         installment: 18000,
         interest: 7,
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
       {
-        id: 5,
+        code: 1,
         paymentNumber: 1,
         dueDate: new Date('01/10/2025'),
         balanceBefore: 50000,
@@ -76,9 +88,11 @@ export class ViewCalculationsComponent {
         principal: 7948,
         installment: 18000,
         interest: 7,
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
       {
-        id: 6,
+        code: 1,
         paymentNumber: 1,
         dueDate: new Date('01/10/2025'),
         balanceBefore: 50000,
@@ -87,9 +101,11 @@ export class ViewCalculationsComponent {
         principal: 7948,
         installment: 18000,
         interest: 7,
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
       {
-        id: 7,
+        code: 1,
         paymentNumber: 1,
         dueDate: new Date('01/10/2025'),
         balanceBefore: 50000,
@@ -98,9 +114,11 @@ export class ViewCalculationsComponent {
         principal: 7948,
         installment: 18000,
         interest: 7,
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
       {
-        id: 8,
+        code: 1,
         paymentNumber: 1,
         dueDate: new Date('01/10/2025'),
         balanceBefore: 50000,
@@ -109,9 +127,11 @@ export class ViewCalculationsComponent {
         principal: 7948,
         installment: 18000,
         interest: 7,
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
       {
-        id: 9,
+        code: 1,
         paymentNumber: 1,
         dueDate: new Date('01/10/2025'),
         balanceBefore: 50000,
@@ -120,9 +140,11 @@ export class ViewCalculationsComponent {
         principal: 7948,
         installment: 18000,
         interest: 7,
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
       {
-        id: 10,
+        code: 1,
         paymentNumber: 1,
         dueDate: new Date('01/10/2025'),
         balanceBefore: 50000,
@@ -131,9 +153,11 @@ export class ViewCalculationsComponent {
         principal: 7948,
         installment: 18000,
         interest: 7,
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
       {
-        id: 11,
+        code: 1,
         paymentNumber: 1,
         dueDate: new Date('01/10/2025'),
         balanceBefore: 50000,
@@ -142,9 +166,11 @@ export class ViewCalculationsComponent {
         principal: 7948,
         installment: 18000,
         interest: 7,
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
       {
-        id: 12,
+        code: 1,
         paymentNumber: 1,
         dueDate: new Date('01/10/2025'),
         balanceBefore: 50000,
@@ -153,9 +179,11 @@ export class ViewCalculationsComponent {
         principal: 7948,
         installment: 18000,
         interest: 7,
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
       {
-        id: 13,
+        code: 1,
         paymentNumber: 1,
         dueDate: new Date('01/10/2025'),
         balanceBefore: 50000,
@@ -164,6 +192,8 @@ export class ViewCalculationsComponent {
         principal: 7948,
         installment: 18000,
         interest: 7,
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
     ];
   }

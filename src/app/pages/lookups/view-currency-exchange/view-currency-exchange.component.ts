@@ -20,38 +20,56 @@ export class ViewCurrencyExchangeComponent {
       {
         exchangeDate: new Date('2021-01-01'),
         exchangeRate: 50,
+        nameEN: 'sss',
+        nameAR: 'ssss',
       },
       {
         exchangeDate: new Date('2021-01-01'),
         exchangeRate: 50,
+        nameEN: 'sss',
+        nameAR: 'ssss',
       },
       {
         exchangeDate: new Date('2021-01-01'),
         exchangeRate: 50,
+        nameEN: 'sss',
+        nameAR: 'ssss',
       },
       {
         exchangeDate: new Date('2021-01-01'),
         exchangeRate: 50,
+        nameEN: 'sss',
+        nameAR: 'ssss',
       },
       {
         exchangeDate: new Date('2021-01-01'),
         exchangeRate: 50,
+        nameEN: 'sss',
+        nameAR: 'ssss',
       },
       {
         exchangeDate: new Date('2021-01-01'),
         exchangeRate: 50,
+        nameEN: 'sss',
+        nameAR: 'ssss',
       },
       {
         exchangeDate: new Date('2021-01-01'),
         exchangeRate: 50,
+        nameEN: 'sss',
+        nameAR: 'ssss',
       },
       {
         exchangeDate: new Date('2021-01-01'),
         exchangeRate: 50,
+        nameEN: 'sss',
+        nameAR: 'ssss',
       },
       {
         exchangeDate: new Date('2021-01-01'),
         exchangeRate: 50,
+        nameEN: 'sss',
+        nameAR: 'ssss',
       },
     ];
   }

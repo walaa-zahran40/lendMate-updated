@@ -1,9 +1,8 @@
 export interface TaxOffice {
-  id: number;
   code: number;
-  name: string;
-  arabicName: string;
-  governorateId: number;
+  nameEN: string;
+  nameAR: string;
+  governorateName: string;
   address: number;
   active: boolean;
 }

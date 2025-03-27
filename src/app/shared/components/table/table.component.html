@@ -246,29 +246,38 @@
       <td><p-checkbox [binary]="true" *ngIf="checkBox" /></td>
       <td>
         <span class="p-column-title"> {{ col1Name }}</span>
-        {{ address.detailsEn }}
+        {{ address.clientNameEN }}
       </td>
       <td>
         <span class="p-column-title">{{ col2Name }} </span>
 
-        {{ address.detailsAr }}
+        {{ address.clientNameAR }}
       </td>
       <td>
         <span class="p-column-title"> {{ col3Name }} </span>
-        {{ address.addressTypeId }}
+        {{ address.detailsEn }}
       </td>
       <td>
         <span class="p-column-title"> {{ col4Name }} </span>
-
-        {{ address.areaId }}
+        {{ address.detailsAr }}
       </td>
       <td>
         <span class="p-column-title"> {{ col5Name }} </span>
 
-        <span class="{{ uppercase }}">{{ address.isMain }}</span>
+        {{ address.addressTypeId }}
       </td>
       <td>
         <span class="p-column-title"> {{ col6Name }} </span>
+
+        {{ address.areaId }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col7Name }} </span>
+
+        <span class="{{ uppercase }}">{{ address.isMain }}</span>
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col8Name }} </span>
 
         <span class="{{ uppercase }}">{{ address.isActive }}</span>
       </td>
@@ -302,6 +311,10 @@
   >
     <tr>
       <td><p-checkbox [binary]="true" *ngIf="checkBox" /></td>
+      <td>
+        <span class="p-column-title"> {{ col1Name }}</span>
+        {{ turnover.clientName }}
+      </td>
       <td>
         <span class="p-column-title"> {{ col1Name }}</span>
         {{ turnover.amount }}
@@ -344,10 +357,14 @@
       <td><p-checkbox [binary]="true" *ngIf="checkBox" /></td>
       <td>
         <span class="p-column-title"> {{ col1Name }}</span>
+        {{ phoneNumber.clientName }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col2Name }}</span>
         {{ phoneNumber.phoneType }}
       </td>
       <td>
-        <span class="p-column-title">{{ col2Name }} </span>
+        <span class="p-column-title">{{ col3Name }} </span>
 
         +20-{{ phoneNumber.phoneNumber }}
       </td>
@@ -2739,7 +2756,14 @@
         <span class="p-column-title">{{ col2Name }} </span>
         <span class="{{ uppercase }}">{{ assest.isActive }}</span>
       </td>
-
+      <td>
+        <span class="p-column-title"> {{ col3Name }}</span>
+        {{ assest.nameEN }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col4Name }}</span>
+        {{ assest.nameAR }}
+      </td>
       <td class="imgs">
         <img
           src="/assets/images/shared/table/edit.svg"
@@ -2862,19 +2886,15 @@
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
       <td>
         <span class="p-column-title"> {{ col1Name }}</span>
-        {{ meeting.id }}
-      </td>
-      <td>
-        <span class="p-column-title"> {{ col2Name }}</span>
         {{ meeting.code }}
       </td>
       <td>
-        <span class="p-column-title">{{ col3Name }} </span>
-        <span>{{ meeting.name }}</span>
+        <span class="p-column-title"> {{ col2Name }}</span>
+        {{ meeting.nameEN }}
       </td>
       <td>
-        <span class="p-column-title">{{ col4Name }} </span>
-        <span>{{ meeting.arabicName }}</span>
+        <span class="p-column-title">{{ col3Name }} </span>
+        <span>{{ meeting.nameAR }}</span>
       </td>
       <td>
         <span class="p-column-title">{{ col4Name }} </span>
@@ -2913,22 +2933,27 @@
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
       <td>
         <span class="p-column-title"> {{ col1Name }}</span>
-        {{ call.id }}
+        {{ call.code }}
       </td>
       <td>
         <span class="p-column-title"> {{ col2Name }}</span>
+        {{ call.nameEN }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col3Name }}</span>
+        {{ call.nameAR }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col4Name }}</span>
         {{ call.topic }}
       </td>
+
       <td>
-        <span class="p-column-title">{{ col3Name }} </span>
-        <span>{{ call.clientId }}</span>
-      </td>
-      <td>
-        <span class="p-column-title">{{ col4Name }} </span>
+        <span class="p-column-title">{{ col5Name }} </span>
         <span>{{ call.callType }}</span>
       </td>
       <td>
-        <span class="p-column-title">{{ col4Name }} </span>
+        <span class="p-column-title">{{ col6Name }} </span>
         <span>{{ call.date | date : "dd/MM/yyy hh:ss a" }}</span>
       </td>
       <td class="imgs">

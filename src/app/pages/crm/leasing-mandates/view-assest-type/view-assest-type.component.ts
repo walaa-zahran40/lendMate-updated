@@ -10,33 +10,48 @@ import { AssestType } from '../../../../shared/interfaces/assest-type.interface'
 export class ViewAssestTypeComponent {
   tableDataInside: AssestType[] = [];
   colsInside: any[] = [];
+
   ngOnInit() {
     this.colsInside = [
-      { field: 'assestName', header: 'aName' },
-      { field: 'assestType', header: 'aType' },
+      { field: 'nameEN', header: 'Name EN' },
+      { field: 'nameAR', header: 'Name AR' },
+      { field: 'assestName', header: 'Assest Name' },
+      { field: 'assestType', header: 'Assest Type' },
     ];
     this.tableDataInside = [
       {
+        nameEN: 'name en',
+        nameAR: 'name ar',
         assestName: 'Name',
         assestType: 'Type',
       },
       {
+        nameEN: 'name en',
+        nameAR: 'name ar',
         assestName: 'Name',
         assestType: 'Type',
       },
       {
+        nameEN: 'name en',
+        nameAR: 'name ar',
         assestName: 'Name',
         assestType: 'Type',
       },
       {
+        nameEN: 'name en',
+        nameAR: 'name ar',
         assestName: 'Name',
         assestType: 'Type',
       },
       {
+        nameEN: 'name en',
+        nameAR: 'name ar',
         assestName: 'Name',
         assestType: 'Type',
       },
       {
+        nameEN: 'name en',
+        nameAR: 'name ar',
         assestName: 'Name',
         assestType: 'Type',
       },

@@ -1,7 +1,7 @@
 export interface Roles {
-  id: number;
   code: number;
-  name: string;
+  nameEN: string;
+  nameAR: string;
   normalizedName: string;
   active: boolean;
 }

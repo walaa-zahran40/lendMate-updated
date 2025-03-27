@@ -14,34 +14,65 @@ export class ViewBranchOfficersComponent {
   constructor(private router: Router) {}
 
   ngOnInit() {
-    this.colsInside = [{ field: 'details', header: 'Details' }];
+    this.colsInside = [
+      {
+        field: 'details',
+        header: 'Details',
+      },
+      {
+        field: 'nameEN',
+        header: 'Name EN',
+      },
+      {
+        field: 'nameAR',
+        header: 'Name AR',
+      },
+    ];
     this.tableDataInside = [
       {
         details: 'Document Name',
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
       {
         details: 'Document Name',
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
       {
         details: 'Document Name',
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
       {
         details: 'Document Name',
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
       {
         details: 'Document Name',
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
       {
         details: 'Document Name',
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
       {
         details: 'Document Name',
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
       {
         details: 'Document Name',
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
       {
         details: 'Document Name',
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
     ];
   }

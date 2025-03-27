@@ -11,46 +11,57 @@ import { Contact } from '../../../../shared/interfaces/contact.interface';
 export class ViewContactPersonsComponent {
   tableDataInside: Contact[] = [];
   colsInside: any[] = [];
+
   ngOnInit() {
     this.colsInside = [
-      { field: 'contactPersonName', header: 'cName' },
+      { field: 'nameEN', header: 'Name EN' },
+      { field: 'nameAR', header: 'Name AR' },
       { field: 'contactPersonType', header: 'cType' },
     ];
     this.tableDataInside = [
       {
-        contactPersonName: 'Name',
+        nameEN: 'Name EN',
+        nameAR: 'Name AR',
         contactPersonType: 'Type',
       },
       {
-        contactPersonName: 'Name',
+        nameEN: 'Name EN',
+        nameAR: 'Name AR',
         contactPersonType: 'Type',
       },
       {
-        contactPersonName: 'Name',
+        nameEN: 'Name EN',
+        nameAR: 'Name AR',
         contactPersonType: 'Type',
       },
       {
-        contactPersonName: 'Name',
+        nameEN: 'Name EN',
+        nameAR: 'Name AR',
         contactPersonType: 'Type',
       },
       {
-        contactPersonName: 'Name',
+        nameEN: 'Name EN',
+        nameAR: 'Name AR',
         contactPersonType: 'Type',
       },
       {
-        contactPersonName: 'Name',
+        nameEN: 'Name EN',
+        nameAR: 'Name AR',
         contactPersonType: 'Type',
       },
       {
-        contactPersonName: 'Name',
+        nameEN: 'Name EN',
+        nameAR: 'Name AR',
         contactPersonType: 'Type',
       },
       {
-        contactPersonName: 'Name',
+        nameEN: 'Name EN',
+        nameAR: 'Name AR',
         contactPersonType: 'Type',
       },
       {
-        contactPersonName: 'Name',
+        nameEN: 'Name EN',
+        nameAR: 'Name AR',
         contactPersonType: 'Type',
       },
     ];

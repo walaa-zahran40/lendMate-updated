@@ -16,6 +16,8 @@ export class ViewFollowUpPointsComponent {
       { field: 'details', header: 'Details' },
       { field: 'dueDate', header: 'Due Date' },
       { field: 'actualDate', header: 'Actual Date' },
+      { field: 'nameEN', header: 'Name EN' },
+      { field: 'nameAR', header: 'Name AR' },
     ];
     this.tableDataInside = [
       {
@@ -23,18 +25,24 @@ export class ViewFollowUpPointsComponent {
         details: 'Mohamed',
         dueDate: new Date('12-10-2025'),
         actualDate: new Date('12-10-2025'),
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
       {
         topic: 454536,
         details: 'Mohamed',
         dueDate: new Date('12-10-2025'),
         actualDate: new Date('12-10-2025'),
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
       {
         topic: 454536,
         details: 'Mohamed',
         dueDate: new Date('12-10-2025'),
         actualDate: new Date('12-10-2025'),
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
     ];
   }

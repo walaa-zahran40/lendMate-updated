@@ -15,33 +15,37 @@ export class ViewCallComponent {
 
   ngOnInit() {
     this.colsInside = [
-      { field: 'id', header: 'ID' },
+      { field: 'code', header: 'Code' },
       { field: 'topic', header: 'Topic' },
-      { field: 'clientId', header: 'Client Name' },
       { field: 'callType', header: 'Call Type' },
       { field: 'date', header: 'Date' },
+      { field: 'nameEN', header: 'Name EN' },
+      { field: 'nameAR', header: 'Name AR' },
     ];
     this.tableDataInside = [
       {
-        id: 122,
+        code: 122,
         topic: 'Test',
-        clientId: 'Walaa',
         callType: 1,
         date: new Date('12-22-2024'),
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
       {
-        id: 122,
+        code: 122,
         topic: 'Test',
-        clientId: 'Walaa',
         callType: 1,
         date: new Date('12-22-2024'),
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
       {
-        id: 122,
+        code: 122,
         topic: 'Test',
-        clientId: 'Walaa',
         callType: 1,
         date: new Date('12-22-2024'),
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
     ];
   }

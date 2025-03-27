@@ -12,59 +12,78 @@ export class ViewShareHolderComponent {
   tableDataInside: ShareHolder[] = [];
   colsInside: any[] = [];
   constructor(private router: Router) {}
+
   ngOnInit() {
     this.colsInside = [
       { field: 'shareHolderId', header: 'Share Holder ID' },
       { field: 'percentage', header: 'Percentage' },
       { field: 'isActive', header: 'Is Active' },
+      { field: 'nameEN', header: 'Name EN' },
+      { field: 'nameAR', header: 'Name AR' },
     ];
     this.tableDataInside = [
       {
-        shareHolderId: 432532532532,
+        shareHolderName: '432532532532',
         percentage: 10,
         isActive: true,
         cssStyle: 'grey',
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
       {
-        shareHolderId: 432532532532,
-        percentage: 30,
+        shareHolderName: '432532532532',
+        percentage: 10,
         isActive: true,
+        nameEN: 'name en',
+        nameAR: 'name ar',
         cssStyle: 'orange',
       },
       {
-        shareHolderId: 432532532532,
-        percentage: 50,
+        shareHolderName: '432532532532',
+        percentage: 10,
         isActive: true,
+        nameEN: 'name en',
+        nameAR: 'name ar',
         cssStyle: 'orange',
       },
       {
-        shareHolderId: 432532532532,
-        percentage: 60,
+        shareHolderName: '432532532532',
+        percentage: 10,
         isActive: true,
+        nameEN: 'name en',
+        nameAR: 'name ar',
         cssStyle: 'green',
       },
       {
-        shareHolderId: 432532532532,
-        percentage: 70,
+        shareHolderName: '432532532532',
+        percentage: 10,
         isActive: true,
+        nameEN: 'name en',
+        nameAR: 'name ar',
         cssStyle: 'green',
       },
       {
-        shareHolderId: 432532532532,
-        percentage: 80,
+        shareHolderName: '432532532532',
+        percentage: 10,
         isActive: true,
+        nameEN: 'name en',
+        nameAR: 'name ar',
         cssStyle: 'green',
       },
       {
-        shareHolderId: 432532532532,
-        percentage: 90,
+        shareHolderName: '432532532532',
+        percentage: 10,
         isActive: true,
+        nameEN: 'name en',
+        nameAR: 'name ar',
         cssStyle: 'blue',
       },
       {
-        shareHolderId: 432532532532,
-        percentage: 100,
+        shareHolderName: '432532532532',
+        percentage: 10,
         isActive: true,
+        nameEN: 'name en',
+        nameAR: 'name ar',
         cssStyle: 'blue',
       },
     ];

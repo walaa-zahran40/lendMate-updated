@@ -16,52 +16,72 @@ export class ViewDepartmentManagerComponent {
       { field: 'department', header: 'Department' },
       { field: 'officer', header: 'Officer' },
       { field: 'startDate', header: 'Start Date' },
+      { field: 'nameEN', header: 'Name EN' },
+      { field: 'nameAR', header: 'Name AR' },
     ];
     this.tableDataInside = [
       {
         department: 501,
         officer: 'Mohamed',
         startDate: new Date('2025-12-01'),
+        nameEN: 'dddd',
+        nameAR: 'aaaa',
       },
       {
         department: 501,
         officer: 'Mohamed',
         startDate: new Date('2025-12-01'),
+        nameEN: 'dddd',
+        nameAR: 'aaaa',
       },
       {
         department: 501,
         officer: 'Mohamed',
         startDate: new Date('2025-12-01'),
+        nameEN: 'dddd',
+        nameAR: 'aaaa',
       },
       {
         department: 501,
         officer: 'Mohamed',
         startDate: new Date('2025-12-01'),
+        nameEN: 'dddd',
+        nameAR: 'aaaa',
       },
       {
         department: 501,
         officer: 'Mohamed',
         startDate: new Date('2025-12-01'),
+        nameEN: 'dddd',
+        nameAR: 'aaaa',
       },
       {
         department: 501,
         officer: 'Mohamed',
         startDate: new Date('2025-12-01'),
+        nameEN: 'dddd',
+        nameAR: 'aaaa',
       },
       {
         department: 501,
         officer: 'Mohamed',
         startDate: new Date('2025-12-01'),
+        nameEN: 'dddd',
+        nameAR: 'aaaa',
       },
       {
         department: 501,
         officer: 'Mohamed',
         startDate: new Date('2025-12-01'),
+        nameEN: 'dddd',
+        nameAR: 'aaaa',
       },
       {
         department: 501,
         officer: 'Mohamed',
         startDate: new Date('2025-12-01'),
+        nameEN: 'dddd',
+        nameAR: 'aaaa',
       },
     ];
   }

@@ -306,11 +306,11 @@ export class SideMenuComponent {
             icon: 'pi pi-user-plus',
             routerLink: '/crm/leasing-mandates/view-mandate',
           },
-          {
-            label: 'MandateAdditionalTerm',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/leasing-mandates/view-manage-mandate-terms',
-          },
+          // {
+          //   label: 'MandateAdditionalTerm',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/crm/leasing-mandates/view-manage-mandate-terms',
+          // },
           {
             label: 'MandateFees',
             icon: 'pi pi-user-plus',
@@ -319,7 +319,7 @@ export class SideMenuComponent {
           {
             label: 'MandateFinancialActivity',
             icon: 'pi pi-user-plus',
-            routerLink: '/crm/leasing-mandates/leasing-financial-form',
+            routerLink: '/crm/leasing-mandates/leasing-financial-form-compound',
           },
         ],
       },

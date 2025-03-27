@@ -1,6 +1,7 @@
 export interface Client {
-  nameEn?: string;
+  nameEN: string;
+  nameAR: string;
   businessActivity?: string;
   isIscore?: boolean;
-  taxId?: number;
+  taxName?: string;
 }

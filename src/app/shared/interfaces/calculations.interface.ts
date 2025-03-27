@@ -1,5 +1,5 @@
 export interface Calculation {
-  id: number;
+  code: number;
   paymentNumber?: number;
   dueDate?: Date;
   balanceBefore?: number;
@@ -8,4 +8,6 @@ export interface Calculation {
   principal?: number;
   installment?: number;
   interest?: number;
+  nameEN: string;
+  nameAR: string;
 }

@@ -12,32 +12,28 @@ export class ViewCallTypesComponent {
   colsInside: any[] = [];
   ngOnInit() {
     this.colsInside = [
-      { field: 'id', header: 'ID' },
       { field: 'code', header: 'Code' },
-      { field: 'name', header: 'Name' },
-      { field: 'arabicName', header: 'Arabic Name' },
+      { field: 'nameEN', header: 'Name EN' },
+      { field: 'nameAR', header: 'Name AR' },
       { field: 'active', header: 'Active' },
     ];
     this.tableDataInside = [
       {
-        id: 454536,
         code: 421421421,
-        name: 'Mohamed',
-        arabicName: 'Type',
+        nameEN: 'Mohamed',
+        nameAR: 'Type',
         active: true,
       },
       {
-        id: 454536,
         code: 421421421,
-        name: 'Mohamed',
-        arabicName: 'Type',
+        nameEN: 'Mohamed',
+        nameAR: 'Type',
         active: true,
       },
       {
-        id: 454536,
         code: 421421421,
-        name: 'Mohamed',
-        arabicName: 'Type',
+        nameEN: 'Mohamed',
+        nameAR: 'Type',
         active: true,
       },
     ];

@@ -23,7 +23,6 @@ export class ViewAssestTypesComponent {
     ];
     this.tableDataInside = [
       {
-        id: 501,
         code: 344535,
         nameEN: 'Name',
         nameAR: 'Name in Arabic',
@@ -32,7 +31,6 @@ export class ViewAssestTypesComponent {
         active: true,
       },
       {
-        id: 501,
         code: 344535,
         nameEN: 'Name',
         nameAR: 'Name in Arabic',
@@ -41,7 +39,6 @@ export class ViewAssestTypesComponent {
         active: true,
       },
       {
-        id: 501,
         code: 344535,
         nameEN: 'Name',
         nameAR: 'Name in Arabic',
@@ -50,7 +47,6 @@ export class ViewAssestTypesComponent {
         active: true,
       },
       {
-        id: 501,
         code: 344535,
         nameEN: 'Name',
         nameAR: 'Name in Arabic',
@@ -59,7 +55,6 @@ export class ViewAssestTypesComponent {
         active: true,
       },
       {
-        id: 501,
         code: 344535,
         nameEN: 'Name',
         nameAR: 'Name in Arabic',
@@ -68,7 +63,6 @@ export class ViewAssestTypesComponent {
         active: true,
       },
       {
-        id: 501,
         code: 344535,
         nameEN: 'Name',
         nameAR: 'Name in Arabic',
@@ -77,7 +71,6 @@ export class ViewAssestTypesComponent {
         active: true,
       },
       {
-        id: 501,
         code: 344535,
         nameEN: 'Name',
         nameAR: 'Name in Arabic',
@@ -86,7 +79,6 @@ export class ViewAssestTypesComponent {
         active: true,
       },
       {
-        id: 501,
         code: 344535,
         nameEN: 'Name',
         nameAR: 'Name in Arabic',
@@ -95,7 +87,6 @@ export class ViewAssestTypesComponent {
         active: true,
       },
       {
-        id: 501,
         code: 344535,
         nameEN: 'Name',
         nameAR: 'Name in Arabic',
