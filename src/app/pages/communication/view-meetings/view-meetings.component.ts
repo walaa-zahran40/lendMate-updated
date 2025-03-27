@@ -23,7 +23,7 @@ export class ViewMeetingsComponent {
     ];
     this.tableDataInside = [
       {
-        id: 122,
+        code: 122,
         topic: 'topic',
         nameEN: '134',
         nameAR: 'name ar',
@@ -31,7 +31,7 @@ export class ViewMeetingsComponent {
         endDate: new Date('10-10-2023'),
       },
       {
-        id: 122,
+        code: 122,
         topic: 'topic',
         nameEN: '134',
         nameAR: 'name ar',
@@ -39,7 +39,7 @@ export class ViewMeetingsComponent {
         endDate: new Date('10-10-2023'),
       },
       {
-        id: 122,
+        code: 122,
         topic: 'topic',
         nameEN: '134',
         nameAR: 'name ar',
@@ -47,7 +47,7 @@ export class ViewMeetingsComponent {
         endDate: new Date('10-10-2023'),
       },
       {
-        id: 122,
+        code: 122,
         topic: 'topic',
         nameEN: '134',
         nameAR: 'name ar',

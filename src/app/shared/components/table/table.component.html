@@ -2612,7 +2612,7 @@
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
       <td>
         <span class="p-column-title"> {{ col1Name }}</span>
-        {{ meeting.id }}
+        {{ meeting.code }}
       </td>
       <td>
         <span class="p-column-title">{{ col2Name }} </span>
@@ -2620,15 +2620,19 @@
       </td>
       <td>
         <span class="p-column-title">{{ col3Name }} </span>
-        {{ meeting.clientId }}
+        {{ meeting.nameEN }}
       </td>
       <td>
         <span class="p-column-title">{{ col4Name }} </span>
+        {{ meeting.nameAR }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col5Name }} </span>
         {{ meeting.startDate | date : "short" }}
       </td>
 
       <td>
-        <span class="p-column-title">{{ col5Name }} </span>
+        <span class="p-column-title">{{ col6Name }} </span>
         {{ meeting.endDate | date : "short" }}
       </td>
       <td class="imgs">
@@ -2674,7 +2678,14 @@
         <span class="p-column-title">{{ col3Name }} </span>
         <span class="{{ uppercase }}">{{ officer.mustAttend }}</span>
       </td>
-
+      <td>
+        <span class="p-column-title"> {{ col4Name }}</span>
+        {{ officer.nameEN }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col5Name }}</span>
+        {{ officer.nameAR }}
+      </td>
       <td class="imgs">
         <img
           src="/assets/images/shared/table/edit.svg"
@@ -2706,16 +2717,19 @@
   >
     <tr>
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
-      <td>
-        <span class="p-column-title"> {{ col1Name }}</span>
-        {{ contact.contactPerson }}
-      </td>
 
       <td>
-        <span class="p-column-title">{{ col2Name }} </span>
+        <span class="p-column-title">{{ col1Name }} </span>
         <span class="{{ uppercase }}">{{ contact.mustAttend }}</span>
       </td>
-
+      <td>
+        <span class="p-column-title"> {{ col2Name }}</span>
+        {{ contact.nameEN }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col3Name }}</span>
+        {{ contact.nameAR }}
+      </td>
       <td class="imgs">
         <img
           src="/assets/images/shared/table/edit.svg"
@@ -2804,7 +2818,14 @@
         <span class="p-column-title">{{ col2Name }} </span>
         <span>{{ followup.date | date : "dd MMM, yyyy" }}</span>
       </td>
-
+      <td>
+        <span class="p-column-title"> {{ col3Name }}</span>
+        {{ followup.nameEN }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col4Name }}</span>
+        {{ followup.nameAR }}
+      </td>
       <td class="imgs">
         <img
           src="/assets/images/shared/table/edit.svg"
@@ -2852,6 +2873,14 @@
       <td>
         <span class="p-column-title">{{ col4Name }} </span>
         <span>{{ followup.actualDate | date : "dd MMM, yyyy" }}</span>
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col5Name }}</span>
+        {{ followup.nameEN }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col6Name }}</span>
+        {{ followup.nameAR }}
       </td>
       <td class="imgs">
         <img
