@@ -51,6 +51,7 @@ import { TieredMenuModule } from 'primeng/tieredmenu';
 import { ToolbarCompoundComponent } from './toolbar-compound/toolbar-compound.component';
 import { DatePickerModule } from 'primeng/datepicker';
 import { FloatLabelModule } from 'primeng/floatlabel';
+import { TooltipModule } from 'primeng/tooltip';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
   imports: [
     CommonModule,
     ToolbarModule,
+    TooltipModule,
     AvatarModule,
     AvatarGroupModule,
     SelectModule,
