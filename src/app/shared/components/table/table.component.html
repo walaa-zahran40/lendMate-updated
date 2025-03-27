@@ -2290,7 +2290,14 @@
         <span class="p-column-title">{{ col3Name }} </span>
         {{ department.startDate | date : "dd MMM,yyyy" }}
       </td>
-
+      <td>
+        <span class="p-column-title">{{ col4Name }} </span>
+        {{ department.nameEN }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col5Name }} </span>
+        {{ department.nameAR }}
+      </td>
       <td class="imgs">
         <img
           src="/assets/images/shared/table/edit.svg"
@@ -2322,28 +2329,25 @@
   >
     <tr>
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+
       <td>
-        <span class="p-column-title"> {{ col1Name }}</span>
-        {{ team.id }}
-      </td>
-      <td>
-        <span class="p-column-title">{{ col2Name }} </span>
+        <span class="p-column-title">{{ col1Name }} </span>
         {{ team.code }}
       </td>
       <td>
+        <span class="p-column-title">{{ col2Name }} </span>
+        {{ team.nameEN }}
+      </td>
+      <td>
         <span class="p-column-title">{{ col3Name }} </span>
-        {{ team.name }}
+        {{ team.nameAR }}
       </td>
       <td>
         <span class="p-column-title">{{ col4Name }} </span>
-        {{ team.arabicName }}
-      </td>
-      <td>
-        <span class="p-column-title">{{ col5Name }} </span>
         <span class="{{ uppercase }}">{{ team.active }}</span>
       </td>
       <td>
-        <span class="p-column-title">{{ col6Name }} </span>
+        <span class="p-column-title">{{ col5Name }} </span>
         {{ team.department }}
       </td>
       <td class="imgs">
@@ -2389,7 +2393,14 @@
         <span class="p-column-title">{{ col3Name }} </span>
         {{ teamLead.startDate | date : "dd MMM,yyyy" }}
       </td>
-
+      <td>
+        <span class="p-column-title">{{ col4Name }} </span>
+        {{ teamLead.nameEN }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col5Name }} </span>
+        {{ teamLead.nameAR }}
+      </td>
       <td class="imgs">
         <img
           src="/assets/images/shared/table/edit.svg"
@@ -2422,17 +2433,18 @@
   >
     <tr>
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+
       <td>
-        <span class="p-column-title"> {{ col1Name }}</span>
-        {{ role.id }}
-      </td>
-      <td>
-        <span class="p-column-title">{{ col2Name }} </span>
+        <span class="p-column-title">{{ col1Name }} </span>
         {{ role.code }}
       </td>
       <td>
+        <span class="p-column-title">{{ col2Name }} </span>
+        {{ role.nameEN }}
+      </td>
+      <td>
         <span class="p-column-title">{{ col3Name }} </span>
-        {{ role.name }}
+        {{ role.nameAR }}
       </td>
       <td>
         <span class="p-column-title">{{ col4Name }} </span>
@@ -2482,11 +2494,19 @@
         <span class="p-column-title">{{ col2Name }} </span>
         {{ teamMember.officer }}
       </td>
+
       <td>
         <span class="p-column-title">{{ col3Name }} </span>
         {{ teamMember.startDate | date : "dd MMM,yyyy" }}
       </td>
-
+      <td>
+        <span class="p-column-title">{{ col4Name }} </span>
+        {{ teamMember.nameEN }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col5Name }} </span>
+        {{ teamMember.nameAR }}
+      </td>
       <td class="imgs">
         <img
           src="/assets/images/shared/table/edit.svg"
@@ -2518,32 +2538,29 @@
   >
     <tr>
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+
       <td>
-        <span class="p-column-title"> {{ col1Name }}</span>
-        {{ operation.id }}
-      </td>
-      <td>
-        <span class="p-column-title">{{ col2Name }} </span>
+        <span class="p-column-title">{{ col1Name }} </span>
         {{ operation.code }}
       </td>
       <td>
+        <span class="p-column-title">{{ col2Name }} </span>
+        {{ operation.nameEN }}
+      </td>
+      <td>
         <span class="p-column-title">{{ col3Name }} </span>
-        {{ operation.name }}
+        {{ operation.nameAR }}
       </td>
       <td>
         <span class="p-column-title">{{ col4Name }} </span>
-        {{ operation.arabicName }}
-      </td>
-      <td>
-        <span class="p-column-title">{{ col5Name }} </span>
         {{ operation.url }}
       </td>
       <td>
-        <span class="p-column-title">{{ col6Name }} </span>
+        <span class="p-column-title">{{ col5Name }} </span>
         {{ operation.description }}
       </td>
       <td>
-        <span class="p-column-title">{{ col7Name }} </span>
+        <span class="p-column-title">{{ col6Name }} </span>
         <span class="{{ uppercase }}">{{ operation.active }}</span>
       </td>
       <td class="imgs">
@@ -2577,26 +2594,31 @@
   >
     <tr>
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+
       <td>
-        <span class="p-column-title"> {{ col1Name }}</span>
-        {{ operation.id }}
-      </td>
-      <td>
-        <span class="p-column-title">{{ col2Name }} </span>
+        <span class="p-column-title">{{ col1Name }} </span>
         {{ operation.code }}
       </td>
       <td>
-        <span class="p-column-title">{{ col3Name }} </span>
-        {{ operation.pageId }}
+        <span class="p-column-title">{{ col2Name }} </span>
+        {{ operation.pageName }}
       </td>
       <td>
-        <span class="p-column-title">{{ col4Name }} </span>
-        {{ operation.operationId }}
+        <span class="p-column-title">{{ col3Name }} </span>
+        {{ operation.operationName }}
       </td>
 
       <td>
-        <span class="p-column-title">{{ col5Name }} </span>
+        <span class="p-column-title">{{ col4Name }} </span>
         <span class="{{ uppercase }}">{{ operation.active }}</span>
+      </td>
+      <td>
+        <span class="p-column-title">{{ col5Name }} </span>
+        {{ operation.nameEN }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col6Name }} </span>
+        {{ operation.nameAR }}
       </td>
       <td class="imgs">
         <img
@@ -2629,30 +2651,35 @@
   >
     <tr>
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+
       <td>
-        <span class="p-column-title"> {{ col1Name }}</span>
-        {{ officer.id }}
-      </td>
-      <td>
-        <span class="p-column-title">{{ col2Name }} </span>
+        <span class="p-column-title">{{ col1Name }} </span>
         {{ officer.code }}
       </td>
       <td>
-        <span class="p-column-title">{{ col3Name }} </span>
+        <span class="p-column-title">{{ col2Name }} </span>
         {{ officer.loginName }}
       </td>
       <td>
-        <span class="p-column-title">{{ col4Name }} </span>
+        <span class="p-column-title">{{ col3Name }} </span>
         {{ officer.phoneNumber }}
       </td>
 
       <td>
-        <span class="p-column-title">{{ col5Name }} </span>
+        <span class="p-column-title">{{ col4Name }} </span>
         <span>{{ officer.email }}</span>
       </td>
       <td>
-        <span class="p-column-title">{{ col6Name }} </span>
+        <span class="p-column-title">{{ col5Name }} </span>
         <span class="{{ uppercase }}">{{ officer.active }}</span>
+      </td>
+      <td>
+        <span class="p-column-title">{{ col6Name }} </span>
+        <span>{{ officer.nameEN }}</span>
+      </td>
+      <td>
+        <span class="p-column-title">{{ col7Name }} </span>
+        <span>{{ officer.nameAR }}</span>
       </td>
       <td class="imgs">
         <img
@@ -2685,17 +2712,18 @@
   >
     <tr>
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+
       <td>
-        <span class="p-column-title"> {{ col1Name }}</span>
-        {{ officer.id }}
-      </td>
-      <td>
-        <span class="p-column-title">{{ col2Name }} </span>
+        <span class="p-column-title">{{ col1Name }} </span>
         {{ officer.code }}
       </td>
       <td>
+        <span class="p-column-title">{{ col2Name }} </span>
+        {{ officer.nameEN }}
+      </td>
+      <td>
         <span class="p-column-title">{{ col3Name }} </span>
-        {{ officer.officerName }}
+        {{ officer.nameAR }}
       </td>
       <td>
         <span class="p-column-title">{{ col4Name }} </span>
