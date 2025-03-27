@@ -13,7 +13,6 @@ export class ViewAssestTypesComponent {
 
   ngOnInit() {
     this.colsInside = [
-      { field: 'id', header: 'ID' },
       { field: 'code', header: 'Code' },
       { field: 'nameEN', header: 'Name EN' },
       { field: 'nameAR', header: 'Name AR' },
