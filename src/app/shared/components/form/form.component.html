@@ -647,7 +647,8 @@
     />
   </div>
   <div class="div2" [ngClass]="{ span: applyReusable }">
-    <form action="" *ngIf="addClientShowMain">
+    <!--add-client component-->
+    <form action="" *ngIf="addClientShowMain" [formGroup]="formGroup">
       <label for="nameEnglish"
         >Name in English<sup class="danger">*</sup></label
       >
@@ -655,43 +656,63 @@
         pInputText
         id="nameEnglish"
         aria-describedby="nameEnglish-help"
-        [(ngModel)]="value"
+        formControlName="nameEnglish"
         name="nameEnglish"
-        placeholder="Google"
+        placeholder="Name In English"
       />
+      <div
+        class="danger"
+        *ngIf="
+          formGroup.get('nameEnglish')?.invalid &&
+          formGroup.get('nameEnglish')?.touched
+        "
+      >
+        Name in English is required
+      </div>
       <label for="nameArabic">Name in Arabic<sup class="danger">*</sup></label>
       <input
         pInputText
         id="nameArabic"
+        formControlName="nameArabic"
         aria-describedby="nameArabic-help"
-        [(ngModel)]="value1"
-        placeholder="Google"
+        placeholder="Name In Arabic"
         name="nameArabic"
       />
+      <div
+        class="danger"
+        *ngIf="
+          formGroup.get('nameArabic')?.invalid &&
+          formGroup.get('nameArabic')?.touched
+        "
+      >
+        Name in Arabic is required
+      </div>
       <label for="sectors">Select Sector<sup class="danger">*</sup></label>
       <p-multiselect
         [options]="sectors"
-        [(ngModel)]="selectedSectors"
         placeholder="Select Sectors"
         optionLabel="name"
         display="chip"
+        formControlName="selectedSectors"
         icon="pi pi-times"
         name="sectors"
         styleClass="w-full md:w-80"
         [maxSelectedLabels]="999"
         chipIcon="pi pi-times"
+        id="sectors"
       />
       <label for="subSectors"
         >Select Sub Sector<sup class="danger">*</sup></label
       >
       <p-multiselect
         [options]="subSectors"
-        [(ngModel)]="selectedSubSectors"
         placeholder="Select Sub Sectors"
         optionLabel="name"
         display="chip"
+        formControlName="selectedSubSectors"
         icon="pi pi-times"
         name="subSectors"
+        id="subSectors"
         styleClass="w-full md:w-80"
         [maxSelectedLabels]="999"
         chipIcon="pi pi-times"
@@ -703,9 +724,9 @@
         pInputText
         id="businessActivity"
         aria-describedby="businessActivity-help"
-        [(ngModel)]="value2"
         name="businessActivity"
         placeholder="Technology Business"
+        formControlName="businessActivity"
       />
       <label for="taxId">Tax ID<sup class="danger">*</sup></label>
 
@@ -713,8 +734,8 @@
         pInputText
         id="taxId"
         aria-describedby="taxId-help"
-        [(ngModel)]="value3"
         name="taxId"
+        formControlName="taxId"
         placeholder="#101020203030"
       />
       <label for="shortName">Short Name</label>
@@ -722,54 +743,60 @@
         pInputText
         id="shortName"
         aria-describedby="shortName-help"
-        [(ngModel)]="value4"
         placeholder="GO"
+        formControlName="shortName"
         name="shortName"
       />
     </form>
-    <form action="" *ngIf="addClientShowLegal">
+    <form action="" *ngIf="addClientShowLegal" [formGroup]="formGroup">
       <label for="legalFormLaw">Legal Form Law</label>
       <p-multiselect
         [options]="legalFormLaw"
-        [(ngModel)]="selectedLegalFormLaw"
         placeholder="Select Legal Form Law"
         optionLabel="name"
         display="chip"
+        formControlName="selectedLegalFormLaw"
         icon="pi pi-times"
-        name="legalFormLaw"
+        name="selectedLegalFormLaw"
         styleClass="w-full md:w-80"
+        id="legalFormLaw"
         [maxSelectedLabels]="999"
         chipIcon="pi pi-times"
       />
       <label for="legalForm">Select Legal Form</label>
       <p-multiselect
         [options]="legalForm"
-        [(ngModel)]="selectedLegalForm"
         placeholder="Select Legal Forms"
         optionLabel="name"
         display="chip"
+        formControlName="selectedLegalForm"
         icon="pi pi-times"
-        name="legalForm"
+        name="selectedLegalForm"
         styleClass="w-full md:w-80"
         [maxSelectedLabels]="999"
+        id="legalForm"
         chipIcon="pi pi-times"
       />
       <label for="stampDuty">Is Stamp Duty?</label>
       <p-select
         [options]="stamps"
         optionLabel="name"
+        formControlName="stampDuty"
+        optionValue="code"
+        name="stampDuty"
+        id="stampDuty"
         placeholder="Select Stamp Duty"
         class="w-full md:w-56"
       />
     </form>
-    <form action="" *ngIf="addClientShowBusiness">
+    <form action="" *ngIf="addClientShowBusiness" [formGroup]="formGroup">
       <label for="mainShare">Main Share</label>
       <input
         pInputText
         id="mainShare"
         aria-describedby="mainShare-help"
-        [(ngModel)]="value5"
         name="mainShare"
+        formControlName="mainShare"
         placeholder="Main Share"
       />
       <label for="marketShare">Market Share</label>
@@ -777,9 +804,9 @@
         pInputText
         id="marketShare"
         aria-describedby="marketShare-help"
-        [(ngModel)]="value6"
         placeholder="58%"
         name="marketShare"
+        formControlName="marketShare"
       />
 
       <label for="establishedYear">Established Year</label>
@@ -787,9 +814,9 @@
         pInputText
         id="establishedYear"
         aria-describedby="establishedYear-help"
-        [(ngModel)]="value7"
         name="establishedYear"
         placeholder="2014"
+        formControlName="establishedYear"
       />
       <label for="website">Website</label>
 
@@ -797,8 +824,8 @@
         pInputText
         id="website"
         aria-describedby="website-help"
-        [(ngModel)]="value8"
         name="website"
+        formControlName="website"
         placeholder="https://www.google.com"
       />
       <label for="marketSize">Market Size</label>
@@ -806,21 +833,181 @@
         pInputText
         id="marketSize"
         aria-describedby="marketSize-help"
-        [(ngModel)]="value9"
         placeholder="50M"
         name="marketSize"
+        formControlName="marketSize"
       />
       <label for="noOfEmployees">Number of Employees</label>
       <input
         pInputText
         id="noOfEmployees"
         aria-describedby="noOfEmployees-help"
-        [(ngModel)]="value10"
         placeholder="50,000"
+        formControlName="noOfEmployees"
         name="noOfEmployees"
       />
     </form>
+    <form action="" *ngIf="addClientShowIndividual" [formGroup]="formGroup">
+      <label for="nameEnglishIndividual"
+        >Name in English<sup class="danger">*</sup></label
+      >
+      <input
+        pInputText
+        id="nameEnglishIndividual"
+        aria-describedby="nameEnglishIndividual-help"
+        name="nameEnglishIndividual"
+        placeholder="Google"
+        formControlName="nameEnglish"
+      />
+      <label for="nameArabicIndividual"
+        >Name in Arabic<sup class="danger">*</sup></label
+      >
+      <input
+        pInputText
+        id="nameArabicIndividual"
+        aria-describedby="nameArabicIndividual-help"
+        placeholder="Google"
+        name="nameArabicIndividual"
+        formControlName="nameArabic"
+      />
+      <label for="businessActivityIndividual"
+        >Business Activity<sup class="danger">*</sup></label
+      >
+      <input
+        pInputText
+        id="businessActivityIndividual"
+        aria-describedby="businessActivityIndividual-help"
+        placeholder="Technology Business"
+        name="businessActivityIndividual"
+        formControlName="businessActivity"
+      />
+      <label for="selectSectorIndividual"
+        >Select Sector<sup class="danger">*</sup></label
+      >
+      <p-multiselect
+        [options]="sectorsIndividual"
+        placeholder="Select Sectors"
+        optionLabel="name"
+        display="chip"
+        id="selectSectorIndividual"
+        icon="pi pi-times"
+        name="selectSectorIndividual"
+        styleClass="w-full md:w-80"
+        [maxSelectedLabels]="999"
+        chipIcon="pi pi-times"
+        formControlName="selectedSectors"
+      />
+      <label for="selectSubSectorIndividual"
+        >Select Sub Sector<sup class="danger">*</sup></label
+      >
+      <p-multiselect
+        [options]="subSectorsIndividual"
+        placeholder="Select Sub Sectors"
+        optionLabel="name"
+        display="chip"
+        icon="pi pi-times"
+        name="selectSubSectorIndividual"
+        id="selectSubSectorIndividual"
+        styleClass="w-full md:w-80"
+        [maxSelectedLabels]="999"
+        chipIcon="pi pi-times"
+        formControlName="selectedSubSectors"
+      />
+      <label for="shortNameIndividual">Short Name</label>
+      <input
+        pInputText
+        id="shortNameIndividual"
+        aria-describedby="shortNameIndividual-help"
+        placeholder="GO"
+        name="shortNameIndividual"
+        formControlName="shortName"
+      />
+      <label for="jobTitleIndividual">Job Title</label>
+      <input
+        pInputText
+        id="jobTitleIndividual"
+        aria-describedby="jobTitleIndividual-help"
+        placeholder="Senior UI/UX Designer"
+        name="jobTitleIndividual"
+        formControlName="jobTitle"
+      />
+      <label for="taxIdIndividual">Tax ID<sup class="danger">*</sup></label>
+      <input
+        pInputText
+        id="taxIdIndividual"
+        aria-describedby="taxIdIndividual-help"
+        placeholder="#101020203030"
+        name="taxIdIndividual"
+        formControlName="taxId"
+      />
+      <div class="row">
+        <div class="col-sm">
+          <label for="dateOfBirthIndividual"
+            >Date of Birth<sup class="danger">*</sup></label
+          >
+          <p-calendar
+            [iconDisplay]="'input'"
+            [showIcon]="true"
+            placeholder="Date Of Birth"
+            inputId="icondisplay"
+            id="dateOfBirthIndividual"
+            name="dateOfBirthIndividual"
+            formControlName="dateOfBirth"
+          />
+        </div>
+        <div class="col-sm">
+          <label for="genderIndividual"
+            >Gender<sup class="danger">*</sup></label
+          >
+          <p-select
+            [options]="genders"
+            optionLabel="name"
+            placeholder="Select a Gender"
+            class="w-full md:w-56"
+            name="genderIndividual"
+            formControlName="gender"
+            id="genderIndividual"
+          />
+        </div>
+      </div>
 
+      <div class="parent-individual">
+        <div class="div4-individual">
+          <label for="identificationNumberIndividual"
+            >Identification Number<sup class="danger">*</sup></label
+          >
+          <input
+            pInputText
+            id="identificationNumberIndividual"
+            aria-describedby="identificationNumberIndividual-help"
+            placeholder="#42352353"
+            name="identificationNumberIndividual"
+            formControlName="identificationNumber"
+          />
+        </div>
+        <div class="div2-individual">
+          <label for="selectIdentityIndividual"
+            >Select Identity<sup class="danger">*</sup></label
+          >
+          <p-multiselect
+            [options]="identityIndividual"
+            placeholder="Select Identity"
+            optionLabel="name"
+            display="chip"
+            icon="pi pi-times"
+            name="selectIdentityIndividual"
+            styleClass="w-full md:w-80"
+            [maxSelectedLabels]="999"
+            chipIcon="pi pi-times"
+            formControlName="selectedIdentity"
+            id="selectIdentityIndividual"
+          />
+        </div>
+        <div class="div3-individual">
+          <p-button icon="custom-icon" severity="danger" class="add-btn" />
+        </div>
+      </div>
+    </form>
     <form action="" *ngIf="addClientGuarantorsShowIndividual">
       <label for="nameEnglishIndividual"
         >Name in English<sup class="danger">*</sup></label
@@ -866,6 +1053,7 @@
         display="chip"
         icon="pi pi-times"
         name="sectorsIndividual"
+        id="selectSectorIndividual"
         styleClass="w-full md:w-80"
         [maxSelectedLabels]="999"
         chipIcon="pi pi-times"
@@ -880,6 +1068,7 @@
         optionLabel="name"
         display="chip"
         icon="pi pi-times"
+        id="selectSubSectorIndividual"
         name="subSectorsIndividual"
         styleClass="w-full md:w-80"
         [maxSelectedLabels]="999"
@@ -977,162 +1166,7 @@
         </div>
       </div>
     </form>
-    <form action="" *ngIf="addClientShowIndividual">
-      <label for="nameEnglishIndividual"
-        >Name in English<sup class="danger">*</sup></label
-      >
-      <input
-        pInputText
-        id="nameEnglishIndividual"
-        aria-describedby="nameEnglishIndividual-help"
-        [(ngModel)]="value11"
-        name="nameEnglishIndividual"
-        placeholder="Google"
-      />
-      <label for="nameArabicIndividual"
-        >Name in Arabic<sup class="danger">*</sup></label
-      >
-      <input
-        pInputText
-        id="nameArabicIndividual"
-        aria-describedby="nameArabicIndividual-help"
-        [(ngModel)]="value12"
-        placeholder="Google"
-        name="nameArabicIndividual"
-      />
-      <label for="businessActivityIndividual"
-        >Business Activity<sup class="danger">*</sup></label
-      >
-      <input
-        pInputText
-        id="businessActivityIndividual"
-        aria-describedby="businessActivityIndividual-help"
-        [(ngModel)]="value13"
-        placeholder="Technology Business"
-        name="businessActivityIndividual"
-      />
-      <label for="selectSectorIndividual"
-        >Select Sector<sup class="danger">*</sup></label
-      >
-      <p-multiselect
-        [options]="sectorsIndividual"
-        [(ngModel)]="selectedSectorsIndividual"
-        placeholder="Select Sectors"
-        optionLabel="name"
-        display="chip"
-        icon="pi pi-times"
-        name="sectorsIndividual"
-        styleClass="w-full md:w-80"
-        [maxSelectedLabels]="999"
-        chipIcon="pi pi-times"
-      />
-      <label for="selectSubSectorIndividual"
-        >Select Sub Sector<sup class="danger">*</sup></label
-      >
-      <p-multiselect
-        [options]="subSectorsIndividual"
-        [(ngModel)]="selectedSubSectorsIndividual"
-        placeholder="Select Sub Sectors"
-        optionLabel="name"
-        display="chip"
-        icon="pi pi-times"
-        name="subSectorsIndividual"
-        styleClass="w-full md:w-80"
-        [maxSelectedLabels]="999"
-        chipIcon="pi pi-times"
-      />
-      <label for="shortNameIndividual">Short Name</label>
-      <input
-        pInputText
-        id="shortNameIndividual"
-        aria-describedby="shortNameIndividual-help"
-        [(ngModel)]="value16"
-        placeholder="GO"
-        name="shortNameIndividual"
-      />
-      <label for="jobTitleIndividual">Job Title</label>
-      <input
-        pInputText
-        id="jobTitleIndividual"
-        aria-describedby="jobTitleIndividual-help"
-        [(ngModel)]="value17"
-        placeholder="Senior UI/UX Designer"
-        name="jobTitleIndividual"
-      />
-      <label for="taxIdIndividual">Tax ID<sup class="danger">*</sup></label>
-      <input
-        pInputText
-        id="taxIdIndividual"
-        aria-describedby="taxIdIndividual-help"
-        [(ngModel)]="value18"
-        placeholder="#101020203030"
-        name="taxIdIndividual"
-      />
-      <div class="row">
-        <div class="col-sm">
-          <label for="dateOfBirthIndividual"
-            >Date of Birth<sup class="danger">*</sup></label
-          >
-          <p-calendar
-            [(ngModel)]="date1"
-            [iconDisplay]="'input'"
-            [showIcon]="true"
-            placeholder="Date Of Birth"
-            inputId="icondisplay"
-            name="dateOfBirthIndividual"
-          />
-        </div>
-        <div class="col-sm">
-          <label for="genderIndividual"
-            >Gender<sup class="danger">*</sup></label
-          >
-          <p-select
-            [options]="genders"
-            [(ngModel)]="selectedGenders"
-            optionLabel="name"
-            placeholder="Select a Gender"
-            class="w-full md:w-56"
-            name="gender"
-          />
-        </div>
-      </div>
 
-      <div class="parent-individual">
-        <div class="div4-individual">
-          <label for="identificationNumberIndividual"
-            >Identification Number<sup class="danger">*</sup></label
-          >
-          <input
-            pInputText
-            id="identificationNumberIndividual"
-            aria-describedby="identificationNumberIndividual-help"
-            [(ngModel)]="value21"
-            placeholder="#42352353"
-            name="identificationNumberIndividual"
-          />
-        </div>
-        <div class="div2-individual">
-          <label for="selectIdentityIndividual"
-            >Select Identity<sup class="danger">*</sup></label
-          >
-          <p-multiselect
-            [options]="identityIndividual"
-            [(ngModel)]="selectedIdentityIndividual"
-            placeholder="Select Identity"
-            optionLabel="name"
-            display="chip"
-            icon="pi pi-times"
-            name="identityIndividual"
-            styleClass="w-full md:w-80"
-            [maxSelectedLabels]="999"
-            chipIcon="pi pi-times"
-          />
-        </div>
-        <div class="div3-individual">
-          <p-button icon="custom-icon" severity="danger" class="add-btn" />
-        </div>
-      </div>
-    </form>
     <form action="" *ngIf="clientOnboardingCompanyShowMain">
       <label for="clientOnboardingCompanyNameEnglish"
         >Name in English<sup class="danger">*</sup></label
@@ -1166,6 +1200,7 @@
         optionLabel="name"
         display="chip"
         icon="pi pi-times"
+        id="clientOnboardingCompanySectors"
         name="clientOnboardingSectors"
         styleClass="w-full md:w-80"
         [maxSelectedLabels]="999"

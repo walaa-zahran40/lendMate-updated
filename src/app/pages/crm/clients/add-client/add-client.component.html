@@ -1,6 +1,6 @@
 <app-toolbar-form [header]="'Add a Client'"></app-toolbar-form>
 <p-tabs value="0" styleClass="p-3">
-  <p-tablist *ngIf="addClient">
+  <p-tablist>
     <p-tab value="0">Company</p-tab>
     <p-tab value="1">Individual</p-tab>
   </p-tablist>
@@ -19,11 +19,16 @@
                   "
                   [addClientShowMain]="true"
                   [addClient]="true"
+                  [formGroup]="companyMainForm"
                 ></app-form>
                 <div class="">
                   <div
                     class="col-sm-6 d-flex justify-end float-right margin-top p-0 w-100"
-                    (click)="activateCallback(2)"
+                    (click)="
+                      companyMainForm.valid
+                        ? activateCallback(2)
+                        : companyMainForm.markAllAsTouched()
+                    "
                   >
                     <p-button class="custom-save m-0" label="Next" />
                   </div>
@@ -40,6 +45,7 @@
                   [description]="'This information will be displayed publicly'"
                   [addClientShowLegal]="true"
                   [addClient]="true"
+                  [formGroup]="companyLegalForm"
                 ></app-form>
                 <div class="row two-buttons margin-top">
                   <div class="col-sm-6" (click)="activateCallback(1)">
@@ -49,6 +55,11 @@
                     <p-button
                       label="Next"
                       class="custom-save m-0 float-right"
+                      (click)="
+                        companyLegalForm.valid
+                          ? activateCallback(3)
+                          : companyLegalForm.markAllAsTouched()
+                      "
                     />
                   </div>
                 </div>
@@ -64,6 +75,7 @@
                   [description]="'This information will be displayed publicly'"
                   [addClientShowBusiness]="true"
                   [addClient]="true"
+                  [formGroup]="companyBusinessForm"
                 ></app-form>
                 <div class="row two-buttons margin-top">
                   <div class="col-sm-6" (click)="activateCallback(2)">
@@ -72,10 +84,15 @@
                       class="custom-back d-flex justify-start"
                     />
                   </div>
-                  <div class="col-sm-6 m-0" (click)="saveInfo()">
+                  <div class="col-sm-6 m-0">
                     <p-button
                       label="Save Information"
                       class="custom-save2 m-0 float-right"
+                      (click)="
+                        companyBusinessForm.valid
+                          ? saveCompany()
+                          : companyBusinessForm.markAllAsTouched()
+                      "
                     />
                   </div>
                 </div>
@@ -94,15 +111,18 @@ details'
         "
         [addClientShowIndividual]="true"
         [addClient]="true"
+        [formGroup]="individualForm"
       ></app-form>
       <div class="row justify-end">
-        <div
-          class="col-sm-12 col-md-6 d-flex justify-end margin-top"
-          (click)="saveInfo()"
-        >
+        <div class="col-sm-12 col-md-6 d-flex justify-end margin-top">
           <p-button
             label="Save Information"
             class="custom-save m-0 float-right"
+            (click)="
+              individualForm.valid
+                ? saveIndividual()
+                : individualForm.markAllAsTouched()
+            "
           />
         </div>
       </div>

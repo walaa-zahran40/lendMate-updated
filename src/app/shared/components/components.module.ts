@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { AsyncPipe, DecimalPipe } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbHighlight, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToolbarModule } from 'primeng/toolbar';
 import { AvatarModule } from 'primeng/avatar';
@@ -75,6 +75,7 @@ import { TooltipModule } from 'primeng/tooltip';
     AvatarGroupModule,
     SelectModule,
     CalendarModule,
+    ReactiveFormsModule,
     PaginatorModule,
     StepperModule,
     DatePickerModule,

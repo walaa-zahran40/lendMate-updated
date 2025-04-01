@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { AddClientFormService } from '../../services/add-client-form.service';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-form',
@@ -9,7 +11,12 @@ import { Router } from '@angular/router';
 })
 export class FormComponent {
   @Input() applyReusable: boolean = false;
-
+  /* Add Client  */
+  @Input() addClientShowMain = false;
+  @Input() addClientShowLegal = false;
+  @Input() addClientShowBusiness = false;
+  @Input() addClientShowIndividual = false;
+  @Input() formGroup!: FormGroup;
   //ngModel Values
   value: string | undefined;
   value1: string | undefined;
@@ -123,7 +130,10 @@ export class FormComponent {
   selectedLegalFormLawCompanyViewOnly!: any;
   selectedLegalFormCompanyViewOnly!: any;
   selectedIsStampCompanyViewOnly!: any;
-  stamps!: any;
+  stamps = [
+    { name: 'Yes', code: 'Y' },
+    { name: 'No', code: 'N' },
+  ];
   genders!: any;
   selectedGenders!: any;
   countries!: any;
@@ -295,7 +305,6 @@ export class FormComponent {
   @Input() descriptionIndividual!: string;
   @Input() addClient!: boolean;
   @Input() description!: string;
-  @Input() addClientShowMain!: boolean;
   @Input() addAddressShowMain!: boolean;
   @Input() clientOnboardingCompanyShowMain!: boolean;
   @Input() clientOnboardingIndividualShowMain!: boolean;
@@ -304,9 +313,6 @@ export class FormComponent {
   @Input() addSalesShowMain!: boolean;
   @Input() addPhoneNumbersShowMain!: boolean;
   @Input() addContactPersonShowMain!: boolean;
-  @Input() addClientShowLegal!: boolean;
-  @Input() addClientShowBusiness!: boolean;
-  @Input() addClientShowIndividual!: boolean;
   @Input() clientOnboarding!: boolean;
   @Input() clientOnboardingShowIndividual!: boolean;
   @Input() addTaxAuthorityOfficeShowMain!: boolean;
@@ -403,7 +409,10 @@ export class FormComponent {
   @Input() addCallActionTypeLookupsForm!: boolean;
   @Input() addCommunicationFlowTypeLookupsForm!: boolean;
   @Input() addClientGuarantorsShowIndividual!: boolean;
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    public formService: AddClientFormService
+  ) {}
 
   ngOnInit() {
     this.sectors = [
