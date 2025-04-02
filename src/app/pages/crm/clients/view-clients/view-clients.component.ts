@@ -38,6 +38,40 @@ export class ViewClientsComponent {
   onAddSide() {
     this.router.navigate(['/crm/clients/client-activity-wizard']);
   }
+  onEditClient(client: Client) {
+    this.router.navigate(['/crm/clients/add-client', client.id]);
+  }
+  onDeleteClient(client: Client) {
+    // Show a confirmation popup
+    this.showDeleteConfirmation(client);
+  }
+  showDeleteConfirmation(client: Client) {
+    const isConfirmed = window.confirm(
+      `Are you sure to delete "${client.nameEN}"?`
+    );
+    if (isConfirmed) {
+      this.deleteClient(client);
+    }
+  }
+  deleteClient(client: Client) {
+    // 1) Get array from localStorage
+    const storedClients = localStorage.getItem('allClients');
+    if (!storedClients) return;
+
+    let clientArray: Client[] = JSON.parse(storedClients);
+
+    // 2) Filter out the client we want to delete
+    clientArray = clientArray.filter((c) => c.id !== client.id);
+
+    // 3) Save updated array
+    localStorage.setItem('allClients', JSON.stringify(clientArray));
+
+    // 4) Update tableData
+    this.tableDataInside = this.tableDataInside.filter(
+      (c) => c.id !== client.id
+    );
+    this.filteredTableData = [...this.tableDataInside];
+  }
   filterClients(searchText: string) {
     const keyword = searchText.toLowerCase();
     this.filteredTableData = this.tableDataInside.filter((client) => {

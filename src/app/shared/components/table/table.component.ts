@@ -12,6 +12,9 @@ import { SharedService } from '../../services/shared.service';
 })
 export class TableComponent {
   @Input() tableData: any[] = [];
+  @Output() editBtn = new EventEmitter<Client>();
+  @Output() deleteBtn = new EventEmitter<Client>();
+
   @Input() cols: any[] = [];
   @Input() col1Name!: string;
   @Input() col2Name!: string;
@@ -123,5 +126,11 @@ export class TableComponent {
   onPageChange(event: any) {
     this.currentPage = event.first / event.rows; // Calculate page index
     this.rows = event.rows; // Update rows per page
+  }
+  onEditClicked(rowData: Client) {
+    this.editBtn.emit(rowData);
+  }
+  onDeleteClicked(rowData: Client) {
+    this.deleteBtn.emit(rowData);
   }
 }

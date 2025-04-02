@@ -144,11 +144,13 @@
           alt="edit"
           class="d-inline-block mx-2 my-2"
           *ngIf="edit"
+          (click)="onEditClicked(client)"
         /><img
           src="/assets/images/shared/table/delete.svg"
           class="d-inline-block mx-2 my-2"
           alt="delete"
           *ngIf="delete"
+          (click)="onDeleteClicked(client)"
         /><img
           src="/assets/images/shared/table/side.svg"
           alt="side"

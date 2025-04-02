@@ -1,4 +1,5 @@
 export interface Client {
+  id?: string;
   nameEN: string;
   nameAR: string;
   businessActivity?: string;
