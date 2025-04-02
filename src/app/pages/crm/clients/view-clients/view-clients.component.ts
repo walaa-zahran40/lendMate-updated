@@ -23,78 +23,12 @@ export class ViewClientsComponent {
       { field: 'isIscore', header: 'isIscore' },
       { field: 'taxName', header: 'Tax Name' },
     ];
-    this.tableDataInside = [
-      {
-        nameEN: 'Hamdy Bank',
-        nameAR: 'Hamdy Bank',
-        businessActivity: 'Food',
-        isIscore: true,
-        taxName: '12345',
-      },
-      {
-        nameEN: 'Hamdy Bank',
-        nameAR: 'Hamdy Bank',
-        businessActivity: 'Foods',
-        isIscore: true,
-        taxName: '123453',
-      },
-      {
-        nameEN: 'Hamdy Bank',
-        nameAR: 'Hamdy Bank',
-        businessActivity: 'Food',
-        isIscore: true,
-        taxName: '12345',
-      },
-      {
-        nameEN: 'Hamdy Bank',
-        nameAR: 'Hamdy Bank',
-        businessActivity: 'Food',
-        isIscore: true,
-        taxName: '12345',
-      },
-      {
-        nameEN: 'Hamdy bbank',
-        nameAR: 'Hamdy Bank',
-        businessActivity: 'Food',
-        isIscore: true,
-        taxName: '12345',
-      },
-      {
-        nameEN: 'Hamdy Bank',
-        nameAR: 'Hamdy Bank',
-        businessActivity: 'Food',
-        isIscore: true,
-        taxName: '12345',
-      },
-      {
-        nameEN: 'Hamdy Bank',
-        nameAR: 'Hamdy Bank',
-        businessActivity: 'Food',
-        isIscore: true,
-        taxName: '12345',
-      },
-      {
-        nameEN: 'Hamdy Bank',
-        nameAR: 'Hamdy Bank',
-        businessActivity: 'Food',
-        isIscore: true,
-        taxName: '12345',
-      },
-      {
-        nameEN: 'Hamdy Bank',
-        nameAR: 'Hamdy Bank',
-        businessActivity: 'Food',
-        isIscore: true,
-        taxName: '12345',
-      },
-      {
-        nameEN: 'Hamdy Bank',
-        nameAR: 'Hamdy Bank',
-        businessActivity: 'Food',
-        isIscore: true,
-        taxName: '12345',
-      },
-    ];
+    const storedClients = localStorage.getItem('allClients');
+    if (storedClients) {
+      const clientArray = JSON.parse(storedClients);
+      // Merge all locally-stored clients with your existing tableData
+      this.tableDataInside = this.tableDataInside.concat(clientArray);
+    }
     this.filteredTableData = [...this.tableDataInside];
   }
 

@@ -690,7 +690,7 @@
       <label for="sectors">Select Sector<sup class="danger">*</sup></label>
       <p-multiselect
         [options]="sectors"
-        placeholder="Select Sectors"
+        placeholder="Select Sector"
         optionLabel="name"
         display="chip"
         formControlName="selectedSectors"
@@ -701,12 +701,21 @@
         chipIcon="pi pi-times"
         id="sectors"
       />
+      <div
+        class="danger"
+        *ngIf="
+          formGroup.get('selectedSectors')?.invalid &&
+          formGroup.get('selectedSectors')?.touched
+        "
+      >
+        Sector is required
+      </div>
       <label for="subSectors"
         >Select Sub Sector<sup class="danger">*</sup></label
       >
       <p-multiselect
         [options]="subSectors"
-        placeholder="Select Sub Sectors"
+        placeholder="Select Sub Sector"
         optionLabel="name"
         display="chip"
         formControlName="selectedSubSectors"
@@ -717,6 +726,15 @@
         [maxSelectedLabels]="999"
         chipIcon="pi pi-times"
       />
+      <div
+        class="danger"
+        *ngIf="
+          formGroup.get('selectedSubSectors')?.invalid &&
+          formGroup.get('selectedSubSectors')?.touched
+        "
+      >
+        Sub Sector is required
+      </div>
       <label for="businessActivity"
         >Business Activity<sup class="danger">*</sup></label
       >
@@ -728,6 +746,15 @@
         placeholder="Technology Business"
         formControlName="businessActivity"
       />
+      <div
+        class="danger"
+        *ngIf="
+          formGroup.get('businessActivity')?.invalid &&
+          formGroup.get('businessActivity')?.touched
+        "
+      >
+        Business Activity is required
+      </div>
       <label for="taxId">Tax ID<sup class="danger">*</sup></label>
 
       <input
@@ -738,6 +765,14 @@
         formControlName="taxId"
         placeholder="#101020203030"
       />
+      <div
+        class="danger"
+        *ngIf="
+          formGroup.get('taxId')?.invalid && formGroup.get('taxId')?.touched
+        "
+      >
+        Tax ID is required
+      </div>
       <label for="shortName">Short Name</label>
       <input
         pInputText
@@ -859,6 +894,15 @@
         placeholder="Google"
         formControlName="nameEnglish"
       />
+      <div
+        class="danger"
+        *ngIf="
+          formGroup.get('nameEnglish')?.invalid &&
+          formGroup.get('nameEnglish')?.touched
+        "
+      >
+        Name in English is required
+      </div>
       <label for="nameArabicIndividual"
         >Name in Arabic<sup class="danger">*</sup></label
       >
@@ -870,6 +914,15 @@
         name="nameArabicIndividual"
         formControlName="nameArabic"
       />
+      <div
+        class="danger"
+        *ngIf="
+          formGroup.get('nameArabic')?.invalid &&
+          formGroup.get('nameArabic')?.touched
+        "
+      >
+        Name in Arabic is required
+      </div>
       <label for="businessActivityIndividual"
         >Business Activity<sup class="danger">*</sup></label
       >
@@ -881,6 +934,15 @@
         name="businessActivityIndividual"
         formControlName="businessActivity"
       />
+      <div
+        class="danger"
+        *ngIf="
+          formGroup.get('businessActivity')?.invalid &&
+          formGroup.get('businessActivity')?.touched
+        "
+      >
+        Business Activity is required
+      </div>
       <label for="selectSectorIndividual"
         >Select Sector<sup class="danger">*</sup></label
       >
@@ -897,6 +959,15 @@
         chipIcon="pi pi-times"
         formControlName="selectedSectors"
       />
+      <div
+        class="danger"
+        *ngIf="
+          formGroup.get('selectedSectors')?.invalid &&
+          formGroup.get('selectedSectors')?.touched
+        "
+      >
+        Selected Sectors is required
+      </div>
       <label for="selectSubSectorIndividual"
         >Select Sub Sector<sup class="danger">*</sup></label
       >
@@ -913,6 +984,15 @@
         chipIcon="pi pi-times"
         formControlName="selectedSubSectors"
       />
+      <div
+        class="danger"
+        *ngIf="
+          formGroup.get('selectedSubSectors')?.invalid &&
+          formGroup.get('selectedSubSectors')?.touched
+        "
+      >
+        Selected Sub Sectors is required
+      </div>
       <label for="shortNameIndividual">Short Name</label>
       <input
         pInputText
@@ -940,6 +1020,14 @@
         name="taxIdIndividual"
         formControlName="taxId"
       />
+      <div
+        class="danger"
+        *ngIf="
+          formGroup.get('taxId')?.invalid && formGroup.get('taxId')?.touched
+        "
+      >
+        Tax ID is required
+      </div>
       <div class="row">
         <div class="col-sm">
           <label for="dateOfBirthIndividual"
@@ -954,6 +1042,15 @@
             name="dateOfBirthIndividual"
             formControlName="dateOfBirth"
           />
+          <div
+            class="danger"
+            *ngIf="
+              formGroup.get('dateOfBirth')?.invalid &&
+              formGroup.get('dateOfBirth')?.touched
+            "
+          >
+            Date of Birth is required
+          </div>
         </div>
         <div class="col-sm">
           <label for="genderIndividual"
@@ -968,6 +1065,15 @@
             formControlName="gender"
             id="genderIndividual"
           />
+          <div
+            class="danger"
+            *ngIf="
+              formGroup.get('gender')?.invalid &&
+              formGroup.get('gender')?.touched
+            "
+          >
+            Gender is required
+          </div>
         </div>
       </div>
 
@@ -984,6 +1090,15 @@
             name="identificationNumberIndividual"
             formControlName="identificationNumber"
           />
+          <div
+            class="danger"
+            *ngIf="
+              formGroup.get('identificationNumber')?.invalid &&
+              formGroup.get('identificationNumber')?.touched
+            "
+          >
+            identification Number is required
+          </div>
         </div>
         <div class="div2-individual">
           <label for="selectIdentityIndividual"
@@ -1002,6 +1117,15 @@
             formControlName="selectedIdentity"
             id="selectIdentityIndividual"
           />
+          <div
+            class="danger"
+            *ngIf="
+              formGroup.get('selectedIdentity')?.invalid &&
+              formGroup.get('selectedIdentity')?.touched
+            "
+          >
+            Identity is required
+          </div>
         </div>
         <div class="div3-individual">
           <p-button icon="custom-icon" severity="danger" class="add-btn" />

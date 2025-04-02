@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AddClientFormService } from '../../../../shared/services/add-client-form.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-client',
@@ -16,10 +16,7 @@ export class AddClientComponent {
 
   // INDIVIDUAL: 1 step => 1 form group
   individualForm!: FormGroup;
-  constructor(
-    private fb: FormBuilder,
-    private formService: AddClientFormService
-  ) {}
+  constructor(private fb: FormBuilder, private router: Router) {}
   ngOnInit() {
     this.buildForms();
   }
@@ -70,8 +67,8 @@ export class AddClientComponent {
       shortName: [''],
       jobTitle: [''],
       taxId: ['', [Validators.required]],
-      dateOfBirth: [''],
-      gender: [''],
+      dateOfBirth: ['', [Validators.required]],
+      gender: ['', [Validators.required]],
       identificationNumber: ['', [Validators.required]],
       selectedIdentity: [[], [Validators.required]],
     });
@@ -87,19 +84,35 @@ export class AddClientComponent {
       ...companyLegalData,
       ...companyBusinessData,
     };
+    const clientTableData = {
+      nameEN: combinedCompanyData.nameEnglish,
+      nameAR: combinedCompanyData.nameArabic,
+      businessActivity: combinedCompanyData.businessActivity,
+      isIscore: true,
+      taxName: combinedCompanyData.taxId,
+    };
 
-    // Example: Store to localStorage
-    localStorage.setItem('companyData', JSON.stringify(combinedCompanyData));
+    const storedClients = localStorage.getItem('allClients');
+    let clientArray = storedClients ? JSON.parse(storedClients) : [];
+    clientArray.push(clientTableData);
+    localStorage.setItem('allClients', JSON.stringify(clientArray));
 
-    // Or pass it to your fake-backend service
-    // this.myService.saveCompanyData(combinedCompanyData);
-
-    console.log('Saved Company Data =>', combinedCompanyData);
+    this.router.navigate(['/crm/clients/view-clients']);
   }
 
   saveIndividual() {
     const individualData = this.individualForm.value;
-    localStorage.setItem('individualData', JSON.stringify(individualData));
-    console.log('Saved Individual Data =>', individualData);
+    const clientTableData = {
+      nameEN: individualData.nameEnglish,
+      nameAR: individualData.nameArabic,
+      businessActivity: individualData.businessActivity,
+      isIscore: true,
+      taxName: individualData.taxId,
+    };
+    const storedClients = localStorage.getItem('allClients');
+    let clientArray = storedClients ? JSON.parse(storedClients) : [];
+    clientArray.push(clientTableData);
+    localStorage.setItem('allClients', JSON.stringify(clientArray));
+    this.router.navigate(['/crm/clients/view-clients']);
   }
 }
