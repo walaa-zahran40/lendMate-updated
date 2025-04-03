@@ -5,16 +5,27 @@
         image="/assets/images/shared/navbar/toggle.svg"
         (click)="toggleMenu()"
       />
-      <div>
+      <div *ngIf="userName">
         <p class="welcome">Welcome</p>
         <p class="name">
-          <span>Mohamed Yasser</span>
-          <img
+          <span>{{ userName }}</span>
+          <!-- <img
             src="/assets/images/shared/navbar/arrow-bottom.svg"
             alt="arrow-bottom"
             class="d-inline-block"
-          />
+          /> -->
+          <button
+            pButton
+            type="button"
+            icon="pi pi-power-off"
+            class="logout-btn"
+            (click)="onLogout()"
+            title="Logout"
+          ></button>
         </p>
+      </div>
+      <div *ngIf="!user">
+        <p>You are not logged in. <a routerLink="/login">Login here</a>.</p>
       </div>
     </div>
   </ng-template>

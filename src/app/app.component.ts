@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { SharedService } from './shared/services/shared.service';
+import { AuthService } from './shared/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,12 @@ export class AppComponent {
   selectedLanguages!: any;
   selectedTmlOfficers!: any;
   selectedOffices!: any;
-  constructor(private sharedService: SharedService) {}
+  loggedInUser: string | null = null;
+
+  constructor(
+    private sharedService: SharedService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
     this.sharedService.popupVisible$.subscribe((visible) => {
@@ -31,6 +37,9 @@ export class AppComponent {
     this.selectedLanguages = [{ name: 'Office', code: 'office' }];
     this.selectedTmlOfficers = [{ name: '4.0 and up', code: '4aup' }];
     this.selectedOffices = [{ name: '4.0 and up', code: '4aup' }];
+    this.authService.currentUser$.subscribe((userName) => {
+      this.loggedInUser = userName;
+    });
   }
 
   closePopup() {

@@ -1,9 +1,9 @@
 <div class="mainContainer">
-  <div class="side">
+  <div class="side" *ngIf="loggedInUser">
     <app-side-menu></app-side-menu>
   </div>
   <div class="main">
-    <app-nav-bar></app-nav-bar>
+    <app-nav-bar *ngIf="loggedInUser" [userName]="loggedInUser"></app-nav-bar>
     <router-outlet></router-outlet>
   </div>
 </div>

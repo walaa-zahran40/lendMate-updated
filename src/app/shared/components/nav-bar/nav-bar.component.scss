@@ -61,7 +61,17 @@
 .dark-theme .language {
   color: #fff;
 }
+.logout-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: var(--secondary-color);
+}
 
+.logout-btn:hover {
+  background: transparent !important;
+}
 :host {
   &::ng-deep {
     .p-toolbar {
