@@ -403,6 +403,7 @@ export class FormComponent {
   @Input() addCallActionTypeLookupsForm!: boolean;
   @Input() addCommunicationFlowTypeLookupsForm!: boolean;
   @Input() addClientGuarantorsShowIndividual!: boolean;
+  @Input() addClientIdentitiesShowIndividual!: boolean;
   constructor(private router: Router) {}
 
   ngOnInit() {

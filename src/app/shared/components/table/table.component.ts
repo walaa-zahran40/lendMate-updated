@@ -30,6 +30,7 @@ export class TableComponent {
   @Input() checkBox!: boolean;
   @Input() filters: boolean = true;
   @Input() uppercase!: string;
+  @Input() viewClientIdentityTable!: boolean;
   @Input() viewClientTable!: boolean;
   @Input() viewUploadDocumentsTable!: boolean;
   @Input() viewAddressTable!: boolean;
