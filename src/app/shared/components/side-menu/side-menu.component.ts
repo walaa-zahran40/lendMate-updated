@@ -144,7 +144,7 @@ export class SideMenuComponent {
           {
             label: 'CommunicationFollowUp',
             icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
+            routerLink: '/communication/view-followups',
           },
           // {
           //   label: 'MonitorFollowUps',
