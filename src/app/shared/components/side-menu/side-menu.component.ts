@@ -70,16 +70,16 @@ export class SideMenuComponent {
           //   icon: 'pi pi-user-plus',
           //   routerLink: '/crm/clients/view-client-individual-business-detail',
           // },
-          {
-            label: 'ClientLegal',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-client-legal',
-          },
-          {
-            label: 'ClientOfficer',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-client-officer',
-          },
+          // {
+          //   label: 'ClientLegal',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/crm/clients/view-client-legal',
+          // },
+          // {
+          //   label: 'ClientOfficer',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/crm/clients/view-client-officer',
+          // },
           {
             label: 'ClientPhoneNumber',
             icon: 'pi pi-user-plus',
@@ -98,7 +98,7 @@ export class SideMenuComponent {
           {
             label: 'ClientFile',
             icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-client-file',
+            routerLink: '/crm/clients/view-upload-documents',
           },
           {
             label: 'ClientTaxOffice',
@@ -146,11 +146,11 @@ export class SideMenuComponent {
             icon: 'pi pi-user-plus',
             routerLink: '/communication/view-callss',
           },
-          {
-            label: 'MonitorFollowUps',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
+          // {
+          //   label: 'MonitorFollowUps',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/communication/view-callss',
+          // },
         ],
       },
       {
@@ -627,8 +627,16 @@ export class SideMenuComponent {
         icon: 'pi pi-users',
         items: [
           { label: 'FeesRange', icon: 'pi pi-user-plus' },
-          { label: 'FeeCalculationType', icon: 'pi pi-user-plus' },
-          { label: 'FeeType', icon: 'pi pi-user-plus' },
+          {
+            label: 'FeeCalculationType',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-fees-calculation-types',
+          },
+          {
+            label: 'FeeType',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-feel-types',
+          },
         ],
       },
       {
