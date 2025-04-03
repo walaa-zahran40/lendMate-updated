@@ -52,6 +52,8 @@ import { ToolbarCompoundComponent } from './toolbar-compound/toolbar-compound.co
 import { DatePickerModule } from 'primeng/datepicker';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SectorDropdownComponent } from './dropdowns/sector-dropdown/sector-dropdown.component';
+import { SubSectorDropdownComponent } from './dropdowns/sub-sector-dropdown/sub-sector-dropdown.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +68,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     CardComponent,
     ToolbarCardComponent,
     ToolbarCompoundComponent,
+    SectorDropdownComponent,
+    SubSectorDropdownComponent,
   ],
   imports: [
     CommonModule,
@@ -125,6 +129,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     CardComponent,
     ToolbarCardComponent,
     ToolbarCompoundComponent,
+    SectorDropdownComponent,
+    SubSectorDropdownComponent,
   ],
 })
 export class ComponentsModule {}
