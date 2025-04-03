@@ -626,7 +626,11 @@ export class SideMenuComponent {
         label: 'Fees',
         icon: 'pi pi-users',
         items: [
-          { label: 'FeesRange', icon: 'pi pi-user-plus' },
+          {
+            label: 'FeesRange',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-fees-range',
+          },
           {
             label: 'FeeCalculationType',
             icon: 'pi pi-user-plus',

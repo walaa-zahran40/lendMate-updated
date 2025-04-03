@@ -78,6 +78,7 @@ export class TableComponent {
   @Input() viewTeamLeadTable!: boolean;
   @Input() viewRolesTable!: boolean;
   @Input() viewTeamMemberTable!: boolean;
+  @Input() viewFeesRangeTable!: boolean;
   @Input() viewOperationsTable!: boolean;
   @Input() viewPageOperationsTable!: boolean;
   @Input() viewOfficersLookupsTable!: boolean;

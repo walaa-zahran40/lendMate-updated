@@ -3009,6 +3009,62 @@
   <ng-template
     pTemplate="body"
     let-rowData="rowData"
+    let-fee
+    sortMode="multiple"
+    *ngIf="viewFeesRangeTable"
+  >
+    <tr>
+      <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+      <td>
+        <span class="p-column-title"> {{ col1Name }}</span>
+        {{ fee.feeTypeName }}
+      </td>
+
+      <td>
+        <span class="p-column-title">{{ col2Name }} </span>
+        <span>{{ fee.lowerBound }}</span>
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col3Name }}</span>
+        {{ fee.upperBound }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col4Name }}</span>
+        {{ fee.defaultAmount }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col5Name }}</span>
+        {{ fee.defaultPercentage }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col6Name }}</span>
+        {{ fee.criteriaField }}
+      </td>
+      <td class="imgs">
+        <img
+          src="/assets/images/shared/table/edit.svg"
+          alt="edit"
+          class="d-inline-block mx-2 my-2"
+          *ngIf="edit"
+        /><img
+          src="/assets/images/shared/table/delete.svg"
+          class="d-inline-block mx-2 my-2"
+          alt="delete"
+          *ngIf="delete"
+        />
+        <img
+          src="/assets/images/shared/table/side.svg"
+          class="d-inline-block mx-2 my-2"
+          alt="side"
+          *ngIf="side"
+        />
+      </td>
+      <td></td>
+    </tr>
+  </ng-template>
+  <ng-template
+    pTemplate="body"
+    let-rowData="rowData"
     let-followup
     sortMode="multiple"
     *ngIf="viewFollowUpsCommunicationTable"
