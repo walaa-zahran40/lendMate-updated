@@ -94,6 +94,8 @@ import { ViewCallTypesComponent } from './view-call-types/view-call-types.compon
 import { ViewCommunicationTypesComponent } from './view-communication-types/view-communication-types.component';
 import { ViewCallActionTypesComponent } from './view-call-action-types/view-call-action-types.component';
 import { ViewCommunicationFlowTypeComponent } from './view-communication-flow-type/view-communication-flow-type.component';
+import { ViewFeesRangeComponent } from './view-fees-range/view-fees-range.component';
+import { AddFeesRangeComponent } from './add-fees-range/add-fees-range.component';
 
 @NgModule({
   declarations: [
@@ -185,6 +187,8 @@ import { ViewCommunicationFlowTypeComponent } from './view-communication-flow-ty
     ViewCommunicationTypesComponent,
     ViewCallActionTypesComponent,
     ViewCommunicationFlowTypeComponent,
+    ViewFeesRangeComponent,
+    AddFeesRangeComponent,
   ],
   imports: [
     CommonModule,

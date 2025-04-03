@@ -33,6 +33,7 @@ export class TableComponent {
   @Input() checkBox!: boolean;
   @Input() filters: boolean = true;
   @Input() uppercase!: string;
+  @Input() viewClientIdentityTable!: boolean;
   @Input() viewClientTable!: boolean;
   @Input() viewUploadDocumentsTable!: boolean;
   @Input() viewAddressTable!: boolean;
@@ -80,6 +81,7 @@ export class TableComponent {
   @Input() viewTeamLeadTable!: boolean;
   @Input() viewRolesTable!: boolean;
   @Input() viewTeamMemberTable!: boolean;
+  @Input() viewFeesRangeTable!: boolean;
   @Input() viewOperationsTable!: boolean;
   @Input() viewPageOperationsTable!: boolean;
   @Input() viewOfficersLookupsTable!: boolean;

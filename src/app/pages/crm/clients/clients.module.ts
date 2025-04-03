@@ -35,6 +35,8 @@ import { ViewTmlOfficerComponent } from './view-tml-officer/view-tml-officer.com
 import { ClientActivityWizardComponent } from './client-activity-wizard/client-activity-wizard.component';
 import { ViewClientGuarantorComponent } from './view-client-guarantor/view-client-guarantor.component';
 import { AddClientGuarantorComponent } from './add-client-guarantor/add-client-guarantor.component';
+import { ViewClientIdentityComponent } from './view-client-identity/view-client-identity.component';
+import { AddClientIdentityComponent } from './add-client-identity/add-client-identity.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +68,8 @@ import { AddClientGuarantorComponent } from './add-client-guarantor/add-client-g
     ClientActivityWizardComponent,
     ViewClientGuarantorComponent,
     AddClientGuarantorComponent,
+    ViewClientIdentityComponent,
+    AddClientIdentityComponent,
   ],
   imports: [
     CommonModule,

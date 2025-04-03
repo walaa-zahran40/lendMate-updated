@@ -14,6 +14,13 @@
       class="custom-view m-0 float-right"
     />
     <p-button
+      *ngIf="addClientIdentitiesShowIndividual"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Client Identities"
+      class="custom-view m-0 float-right"
+    />
+    <p-button
       *ngIf="addCommunicationFlowTypeLookupsForm"
       icon="pi pi-cog"
       iconPos="left"
@@ -882,7 +889,8 @@
         name="noOfEmployees"
       />
     </form>
-    <form action="" *ngIf="addClientShowIndividual" [formGroup]="formGroup">
+
+    <form action="" *ngIf="addClientGuarantorsShowIndividual">
       <label for="nameEnglishIndividual"
         >Name in English<sup class="danger">*</sup></label
       >
@@ -890,19 +898,10 @@
         pInputText
         id="nameEnglishIndividual"
         aria-describedby="nameEnglishIndividual-help"
+        [(ngModel)]="value11"
         name="nameEnglishIndividual"
         placeholder="Google"
-        formControlName="nameEnglish"
       />
-      <div
-        class="danger"
-        *ngIf="
-          formGroup.get('nameEnglish')?.invalid &&
-          formGroup.get('nameEnglish')?.touched
-        "
-      >
-        Name in English is required
-      </div>
       <label for="nameArabicIndividual"
         >Name in Arabic<sup class="danger">*</sup></label
       >
@@ -910,19 +909,10 @@
         pInputText
         id="nameArabicIndividual"
         aria-describedby="nameArabicIndividual-help"
+        [(ngModel)]="value12"
         placeholder="Google"
         name="nameArabicIndividual"
-        formControlName="nameArabic"
       />
-      <div
-        class="danger"
-        *ngIf="
-          formGroup.get('nameArabic')?.invalid &&
-          formGroup.get('nameArabic')?.touched
-        "
-      >
-        Name in Arabic is required
-      </div>
       <label for="businessActivityIndividual"
         >Business Activity<sup class="danger">*</sup></label
       >
@@ -930,104 +920,67 @@
         pInputText
         id="businessActivityIndividual"
         aria-describedby="businessActivityIndividual-help"
+        [(ngModel)]="value13"
         placeholder="Technology Business"
         name="businessActivityIndividual"
-        formControlName="businessActivity"
       />
-      <div
-        class="danger"
-        *ngIf="
-          formGroup.get('businessActivity')?.invalid &&
-          formGroup.get('businessActivity')?.touched
-        "
-      >
-        Business Activity is required
-      </div>
       <label for="selectSectorIndividual"
         >Select Sector<sup class="danger">*</sup></label
       >
       <p-multiselect
         [options]="sectorsIndividual"
+        [(ngModel)]="selectedSectorsIndividual"
         placeholder="Select Sectors"
         optionLabel="name"
         display="chip"
-        id="selectSectorIndividual"
         icon="pi pi-times"
-        name="selectSectorIndividual"
+        name="sectorsIndividual"
         styleClass="w-full md:w-80"
         [maxSelectedLabels]="999"
         chipIcon="pi pi-times"
-        formControlName="selectedSectors"
       />
-      <div
-        class="danger"
-        *ngIf="
-          formGroup.get('selectedSectors')?.invalid &&
-          formGroup.get('selectedSectors')?.touched
-        "
-      >
-        Selected Sectors is required
-      </div>
       <label for="selectSubSectorIndividual"
         >Select Sub Sector<sup class="danger">*</sup></label
       >
       <p-multiselect
         [options]="subSectorsIndividual"
+        [(ngModel)]="selectedSubSectorsIndividual"
         placeholder="Select Sub Sectors"
         optionLabel="name"
         display="chip"
         icon="pi pi-times"
-        name="selectSubSectorIndividual"
-        id="selectSubSectorIndividual"
+        name="subSectorsIndividual"
         styleClass="w-full md:w-80"
         [maxSelectedLabels]="999"
         chipIcon="pi pi-times"
-        formControlName="selectedSubSectors"
       />
-      <div
-        class="danger"
-        *ngIf="
-          formGroup.get('selectedSubSectors')?.invalid &&
-          formGroup.get('selectedSubSectors')?.touched
-        "
-      >
-        Selected Sub Sectors is required
-      </div>
       <label for="shortNameIndividual">Short Name</label>
       <input
         pInputText
         id="shortNameIndividual"
         aria-describedby="shortNameIndividual-help"
+        [(ngModel)]="value16"
         placeholder="GO"
         name="shortNameIndividual"
-        formControlName="shortName"
       />
       <label for="jobTitleIndividual">Job Title</label>
       <input
         pInputText
         id="jobTitleIndividual"
         aria-describedby="jobTitleIndividual-help"
+        [(ngModel)]="value17"
         placeholder="Senior UI/UX Designer"
         name="jobTitleIndividual"
-        formControlName="jobTitle"
       />
       <label for="taxIdIndividual">Tax ID<sup class="danger">*</sup></label>
       <input
         pInputText
         id="taxIdIndividual"
         aria-describedby="taxIdIndividual-help"
+        [(ngModel)]="value18"
         placeholder="#101020203030"
         name="taxIdIndividual"
-        formControlName="taxId"
       />
-      <div
-        class="danger"
-        *ngIf="
-          formGroup.get('taxId')?.invalid && formGroup.get('taxId')?.touched
-        "
-      >
-        Tax ID is required
-      </div>
       <div class="row">
         <div class="col-sm">
           <label for="dateOfBirthIndividual"
@@ -1039,19 +992,8 @@
             [showIcon]="true"
             placeholder="Date Of Birth"
             inputId="icondisplay"
-            id="dateOfBirthIndividual"
             name="dateOfBirthIndividual"
-            formControlName="dateOfBirth"
           />
-          <div
-            class="danger"
-            *ngIf="
-              formGroup.get('dateOfBirth')?.invalid &&
-              formGroup.get('dateOfBirth')?.touched
-            "
-          >
-            Date of Birth is required
-          </div>
         </div>
         <div class="col-sm">
           <label for="genderIndividual"
@@ -1059,22 +1001,13 @@
           >
           <p-select
             [options]="genders"
+            [(ngModel)]="selectedGenders"
             optionLabel="name"
             placeholder="Select a Gender"
             class="w-full md:w-56"
-            name="genderIndividual"
-            formControlName="gender"
-            id="genderIndividual"
+            name="gender"
           />
-          <div
-            class="danger"
-            *ngIf="
-              formGroup.get('gender')?.invalid &&
-              formGroup.get('gender')?.touched
-            "
-          >
-            Gender is required
-          </div>
+          >>>>>>> origin/ui+integration
         </div>
       </div>
 
@@ -1087,19 +1020,10 @@
             pInputText
             id="identificationNumberIndividual"
             aria-describedby="identificationNumberIndividual-help"
+            [(ngModel)]="value21"
             placeholder="#42352353"
             name="identificationNumberIndividual"
-            formControlName="identificationNumber"
           />
-          <div
-            class="danger"
-            *ngIf="
-              formGroup.get('identificationNumber')?.invalid &&
-              formGroup.get('identificationNumber')?.touched
-            "
-          >
-            identification Number is required
-          </div>
         </div>
         <div class="div2-individual">
           <label for="selectIdentityIndividual"
@@ -1107,33 +1031,23 @@
           >
           <p-multiselect
             [options]="identityIndividual"
+            [(ngModel)]="selectedIdentityIndividual"
             placeholder="Select Identity"
             optionLabel="name"
             display="chip"
             icon="pi pi-times"
-            name="selectIdentityIndividual"
+            name="identityIndividual"
             styleClass="w-full md:w-80"
             [maxSelectedLabels]="999"
             chipIcon="pi pi-times"
-            formControlName="selectedIdentity"
-            id="selectIdentityIndividual"
           />
-          <div
-            class="danger"
-            *ngIf="
-              formGroup.get('selectedIdentity')?.invalid &&
-              formGroup.get('selectedIdentity')?.touched
-            "
-          >
-            Identity is required
-          </div>
         </div>
         <div class="div3-individual">
           <p-button icon="custom-icon" severity="danger" class="add-btn" />
         </div>
       </div>
     </form>
-    <form action="" *ngIf="addClientGuarantorsShowIndividual">
+    <form action="" *ngIf="addClientShowIndividual">
       <label for="nameEnglishIndividual"
         >Name in English<sup class="danger">*</sup></label
       >
@@ -4188,6 +4102,36 @@
       />
     </form>
     <form action="" *ngIf="addFeeCalculationTypesLookupsForm">
+      <label for="codeMeetingTypesCommunication">Code<sup>*</sup></label>
+      <input
+        pInputText
+        id="codeMeetingTypesCommunication"
+        aria-describedby="codeMeetingTypesCommunication-help"
+        name="codeMeetingTypesCommunication"
+        placeholder="342425"
+      />
+      <label for="nameInEnglishMeetingTypesCommunication"
+        >Name in English<sup>*</sup></label
+      >
+      <input
+        pInputText
+        id="nameInEnglishMeetingTypesCommunication"
+        aria-describedby="nameInEnglishMeetingTypesCommunication-help"
+        name="nameInEnglishMeetingTypesCommunication"
+        placeholder="Type"
+      />
+      <label for="nameInArabicMeetingTypesCommunication"
+        >Name in Arabic<sup>*</sup></label
+      >
+      <input
+        pInputText
+        id="nameInArabicMeetingTypesCommunication"
+        aria-describedby="nameInArabicMeetingTypesCommunication-help"
+        name="nameInArabicMeetingTypesCommunication"
+        placeholder="Type"
+      />
+    </form>
+    <form action="" *ngIf="addFeesRangesLookupsForm">
       <label for="codeMeetingTypesCommunication">Code<sup>*</sup></label>
       <input
         pInputText
