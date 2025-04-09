@@ -7,31 +7,19 @@ import {
   FormControl,
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { createClient } from '../state/clients/clients.actions';
+import {
+  createClient,
+  updateSubSectorList,
+} from '../state/clients/clients.actions';
 import {
   selectAllSectors,
   selectSelectedSubSectorIds,
 } from '../../../../../app/shared/components/dropdowns/store/sector.selectors';
-import { delay, Observable, of } from 'rxjs';
-import { TypeService } from '../../../../shared/services/types.service';
+import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-interface Sector {
-  loading?: boolean;
-  nameAR?: any;
-  subSectors?: any;
-  selected?: any;
-  id?: any;
-  code?: string;
-  name?: string;
-  description?: string;
-  price?: number;
-  quantity?: number;
-  inventoryStatus?: string;
-  category?: string;
-  image?: string;
-  rating?: number;
-  isActive?: boolean;
-}
+import { ClientTypesFacade } from '../state/client-types/client-types.facade';
+import { selectSubSectorList } from '../state/clients/clients.selectors';
+
 @Component({
   selector: 'app-add-client',
   standalone: false,
@@ -41,24 +29,29 @@ interface Sector {
 export class AddClientComponent implements OnInit {
   addClientForm!: FormGroup;
   addClient = true;
-  selectedSubSectorIds$: Observable<number[]>;
   selectedSectorId: number = 0;
   allSectors: any[] = [];
   sectorsList: any[] = [];
   selectedClientType = null;
-  dropdownClientTypeItems: Sector[] = [{}];
+  dropdownClientTypeItems: any[] = [];
+  subSectorList$ = this.store.select(selectSubSectorList);
 
   constructor(
     private fb: FormBuilder,
     private store: Store,
-    private typeService: TypeService,
-    private router: Router
-  ) {
-    this.selectedSubSectorIds$ = this.store.select(selectSelectedSubSectorIds);
-  }
+    private router: Router,
+    private clientTypesFacade: ClientTypesFacade
+  ) {}
 
   ngOnInit() {
-    this.fetchClientTypes();
+    this.clientTypesFacade.loadClientTypes();
+    this.clientTypesFacade.types$.subscribe((types) => {
+      this.dropdownClientTypeItems = [
+        { id: null, name: 'Select a Client Type', nameAR: 'اختر نوع العميل' },
+        ...types,
+      ];
+      this.selectedClientType = this.dropdownClientTypeItems[1]?.id;
+    });
 
     this.addClientForm = this.fb.group({
       sectorId: this.fb.control<number[]>([], Validators.required),
@@ -75,29 +68,30 @@ export class AddClientComponent implements OnInit {
       isActive: [true],
       subSectorList: this.fb.array<number>([]),
     });
+
     this.store.select(selectAllSectors).subscribe((sectors) => {
       this.sectorsList = sectors || [];
     });
-    this.selectedSubSectorIds$.subscribe((ids) => {
-      this.setSubSectorList(ids);
+
+    // Dynamically update the form control from NgRx state
+    this.subSectorList$.subscribe((ids) => {
+      const formArray = this.fb.array([]);
+      ids.forEach((id) => formArray.push(this.fb.control(id)));
+      this.addClientForm.setControl('subSectorList', formArray);
     });
   }
+
   get sectorIdControl(): FormControl {
     return this.addClientForm.get('sectorId') as FormControl;
   }
+
   get subSectorList(): FormArray {
     return this.addClientForm.get('subSectorList') as FormArray;
   }
 
-  setSubSectorList(ids: number[]) {
-    const formArray = this.fb.array([]);
-    ids.forEach((id) => {
-      formArray.push(this.fb.control(id));
-    });
-    this.addClientForm.setControl('subSectorList', formArray);
-  }
   saveInfo() {
     const formValue = this.addClientForm.value;
+
     const payload = {
       name: formValue.name,
       nameAR: formValue.nameAR,
@@ -106,15 +100,12 @@ export class AddClientComponent implements OnInit {
       isIscore: formValue.isIscore,
       taxId: formValue.taxId,
       clientTypeId: this.selectedClientType,
-      subSectorIdList: formValue.subSectorList.map((s: any) => s.id),
+      subSectorIdList: formValue.subSectorList.map((id: any) => id),
     };
+
     this.store.dispatch(createClient({ payload }));
-    of(null)
-      .pipe(delay(500))
-      .subscribe(() => {
-        this.router.navigate(['/crm/clients/view-clients']);
-      });
   }
+
   onClientTypeChange(event: any) {
     if (event && event.value) {
       this.selectedClientType = event;
@@ -122,27 +113,9 @@ export class AddClientComponent implements OnInit {
       console.error('Invalid Company Type selected:', event);
     }
   }
+
   onSectorChanged(sectorId: number) {
     this.selectedSectorId = sectorId;
     console.log('Selected sectorId:', sectorId);
-  }
-  fetchClientTypes(): void {
-    this.typeService.getAllTypes().subscribe(
-      (response: any) => {
-        this.dropdownClientTypeItems = [
-          ...response.items.map((item: any) => ({
-            id: item.id,
-            name: item.name,
-            nameAR: item.nameAR,
-          })),
-        ];
-        this.selectedClientType = this.dropdownClientTypeItems[1].id;
-      },
-      (error) => {
-        const apiErrorMessage =
-          error?.error?.message || 'An unexpected error occurred';
-        console.error('Error fetching client types:', error);
-      }
-    );
   }
 }

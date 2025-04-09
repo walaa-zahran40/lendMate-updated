@@ -28,5 +28,9 @@ export const clientsReducer = createReducer(
     ...state,
     error,
     loading: false,
+  })),
+  on(ClientsActions.updateSubSectorList, (state, { subSectorIds }) => ({
+    ...state,
+    subSectorList: subSectorIds,
   }))
 );

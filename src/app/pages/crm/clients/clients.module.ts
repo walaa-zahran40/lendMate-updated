@@ -42,6 +42,8 @@ import { clientsReducer } from './state/clients/clients.reducer';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ViewClientIdentityComponent } from './view-client-identity/view-client-identity.component';
 import { AddClientIdentityComponent } from './add-client-identity/add-client-identity.component';
+import { ClientTypesEffects } from './state/client-types/client-types.effects';
+import { clientTypesReducer } from './state/client-types/client-types.reducer';
 
 @NgModule({
   declarations: [
@@ -87,7 +89,9 @@ import { AddClientIdentityComponent } from './add-client-identity/add-client-ide
     InputIcon,
     ReactiveFormsModule,
     StoreModule.forFeature('clients', clientsReducer),
+    StoreModule.forFeature('clientTypes', clientTypesReducer),
     EffectsModule.forFeature([ClientsEffects]),
+    EffectsModule.forFeature([ClientTypesEffects]),
   ],
 })
 export class ClientsModule {}

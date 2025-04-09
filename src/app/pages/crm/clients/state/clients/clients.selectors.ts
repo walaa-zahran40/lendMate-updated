@@ -13,3 +13,7 @@ export const selectClientsLoading = createSelector(
   selectClientsState,
   (state: ClientsState) => state.loading
 );
+export const selectSubSectorList = createSelector(
+  selectClientsState,
+  (state) => state.subSectorList
+);
