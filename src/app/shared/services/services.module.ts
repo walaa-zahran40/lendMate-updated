@@ -80,7 +80,7 @@ import { TeamOfficerService } from './team-officer.service';
 import { TeamService } from './team.service';
 import { TmlOfficerTypeService } from './tml-officer-type.service';
 import { TurnOverService } from './turn-over.service';
-import { TypesService } from './types.service';
+import { TypeService } from './types.service';
 
 @NgModule({
   declarations: [],
@@ -168,7 +168,7 @@ import { TypesService } from './types.service';
     TeamService,
     TmlOfficerTypeService,
     TurnOverService,
-    TypesService,
+    TypeService,
   ],
 })
 export class ServicesModule {}

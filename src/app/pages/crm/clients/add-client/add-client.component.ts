@@ -2,7 +2,7 @@
 // import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 // import { Store } from '@ngrx/store';
 // import { createClient } from '../state/clients/clients.actions';
- 
+
 // @Component({
 //   selector: 'app-add-client',
 //   standalone: false,
@@ -51,7 +51,7 @@
 
 //   saveInfo() {
 //     const formValue = this.addClientForm.value;
-  
+
 //     const payload = {
 //       name: formValue.name,
 //       nameAR: formValue.nameAR,
@@ -62,18 +62,44 @@
 //       clientTypeId: formValue.clientTypeCode, // assuming clientTypeCode = clientTypeId
 //       subSectorIdList: formValue.subSectorList.map((s: any) => s.sectorId)
 //     };
-  
+
 //     this.store.dispatch(createClient({ payload }));
 //   }
-  
+
 // }
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormArray,
+  Validators,
+  FormControl,
+} from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { createClient } from '../state/clients/clients.actions';
-import { selectAllSectors, selectSelectedSubSectorIds } from '../../../../../app/shared/components/dropdowns/store/sector.selectors';
+import {
+  selectAllSectors,
+  selectSelectedSubSectorIds,
+} from '../../../../../app/shared/components/dropdowns/store/sector.selectors';
 import { Observable } from 'rxjs';
-
+import { TypeService } from '../../../../shared/services/types.service';
+interface Sector {
+  loading?: boolean;
+  nameAR?: any;
+  subSectors?: any;
+  selected?: any;
+  id?: any;
+  code?: string;
+  name?: string;
+  description?: string;
+  price?: number;
+  quantity?: number;
+  inventoryStatus?: string;
+  category?: string;
+  image?: string;
+  rating?: number;
+  isActive?: boolean;
+}
 @Component({
   selector: 'app-add-client',
   standalone: false,
@@ -85,15 +111,22 @@ export class AddClientComponent implements OnInit {
   addClient = true;
   selectedSubSectorIds$: Observable<number[]>;
   selectedSectorId: number = 0;
-   allSectors: any[] = [];
-   sectorsList: any[] = [];
+  allSectors: any[] = [];
+  sectorsList: any[] = [];
+  selectedClientType = null;
+  dropdownClientTypeItems: Sector[] = [{}];
 
-
-  constructor(private fb: FormBuilder, private store: Store) {
+  constructor(
+    private fb: FormBuilder,
+    private store: Store,
+    private typeService: TypeService
+  ) {
     this.selectedSubSectorIds$ = this.store.select(selectSelectedSubSectorIds);
   }
 
   ngOnInit() {
+    this.fetchClientTypes();
+
     this.addClientForm = this.fb.group({
       sectorId: this.fb.control<number[]>([], Validators.required),
       subSectorIdList: [[], Validators.required],
@@ -111,7 +144,7 @@ export class AddClientComponent implements OnInit {
     });
     this.store.select(selectAllSectors).subscribe((sectors) => {
       this.sectorsList = sectors || [];
-    }); 
+    });
     this.selectedSubSectorIds$.subscribe((ids) => {
       this.setSubSectorList(ids);
     });
@@ -138,13 +171,42 @@ export class AddClientComponent implements OnInit {
       businessActivity: formValue.businessActivity,
       isIscore: formValue.isIscore,
       taxId: formValue.taxId,
-      clientTypeId: formValue.clientTypeCode,
-      subSectorIdList: formValue.subSectorList.map((s: any) => s.sectorId),
+      clientTypeId: this.selectedClientType,
+      subSectorIdList: formValue.subSectorList.map((s: any) => s.id),
     };
     this.store.dispatch(createClient({ payload }));
+  }
+  onClientTypeChange(event: any) {
+    if (event && event.value) {
+      this.selectedClientType = event;
+      // this.centralBankDetails.companyTypeId = event;
+      // this.companyType = event;
+    } else {
+      console.error('Invalid Company Type selected:', event);
+    }
   }
   onSectorChanged(sectorId: number) {
     this.selectedSectorId = sectorId;
     console.log('Selected sectorId:', sectorId);
+  }
+  fetchClientTypes(): void {
+    this.typeService.getAllTypes().subscribe(
+      (response: any) => {
+        this.dropdownClientTypeItems = [
+          { id: null, name: 'Select a Client Type', nameAR: 'اختر نوع العميل' },
+          ...response.items.map((item: any) => ({
+            id: item.id,
+            name: item.name,
+            nameAR: item.nameAR,
+          })),
+        ];
+        this.selectedClientType = this.dropdownClientTypeItems[1].id;
+      },
+      (error) => {
+        const apiErrorMessage =
+          error?.error?.message || 'An unexpected error occurred';
+        console.error('Error fetching client types:', error);
+      }
+    );
   }
 }

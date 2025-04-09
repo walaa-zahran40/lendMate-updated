@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ClientService {
-  private baseUrl = 'https://192.168.10.67:446/api/Clients';
+  private baseUrl = 'https://192.168.10.67:7070/api/Clients';
 
   constructor(private http: HttpClient) {}
 

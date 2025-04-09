@@ -13,10 +13,18 @@ export class SectorEffects {
     this.actions$.pipe(
       ofType(SectorActions.loadSectors),
       switchMap(() =>
-        this.http.get<{ items: any[] }>('https://192.168.10.67:7070/api/Sectors/GetAllSectors').pipe(
-          map(response => SectorActions.loadSectorsSuccess({ sectors: response.items })),
-          catchError(error => of(SectorActions.loadSectorsFailure({ error })))
-        )
+        this.http
+          .get<{ items: any[] }>(
+            'https://192.168.10.67:7070/api/Sectors/GetAllSectors'
+          )
+          .pipe(
+            map((response) =>
+              SectorActions.loadSectorsSuccess({ sectors: response.items })
+            ),
+            catchError((error) =>
+              of(SectorActions.loadSectorsFailure({ error }))
+            )
+          )
       )
     )
   );
