@@ -7,19 +7,20 @@
     [customSpacing]="'custom-spacing'"
     [exports]="true"
     (addBtn)="onAddClient()"
-    (searchChange)="filterClients($event)"
   ></app-toolbar-table>
 
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [edit]="true"
-    [delete]="true"
-    [side]="true"
-    [first]="first2"
-    [checkBox]="true"
-    [uppercase]="'uppercase'"
-    [viewClientTable]="true"
-    (wizardBtn)="onAddSide()"
-  ></app-table>
+  <ng-container *ngIf="clients$ | async as clients">
+    <app-table
+      [cols]="colsInside"
+      [tableData]="clients"
+      [edit]="true"
+      [delete]="true"
+      [side]="true"
+      [first]="first2"
+      [checkBox]="true"
+      [uppercase]="'uppercase'"
+      [viewClientTable]="true"
+      (wizardBtn)="onAddSide()"
+    ></app-table>
+  </ng-container>
 </div>

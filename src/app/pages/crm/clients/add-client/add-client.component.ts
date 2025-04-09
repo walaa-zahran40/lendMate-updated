@@ -118,8 +118,6 @@ export class AddClientComponent implements OnInit {
   onClientTypeChange(event: any) {
     if (event && event.value) {
       this.selectedClientType = event;
-      // this.centralBankDetails.companyTypeId = event;
-      // this.companyType = event;
     } else {
       console.error('Invalid Company Type selected:', event);
     }
@@ -132,7 +130,6 @@ export class AddClientComponent implements OnInit {
     this.typeService.getAllTypes().subscribe(
       (response: any) => {
         this.dropdownClientTypeItems = [
-          { id: null, name: 'Select a Client Type', nameAR: 'اختر نوع العميل' },
           ...response.items.map((item: any) => ({
             id: item.id,
             name: item.name,

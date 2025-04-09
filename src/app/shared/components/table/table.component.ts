@@ -11,7 +11,7 @@ import { SharedService } from '../../services/shared.service';
   styleUrl: './table.component.scss',
 })
 export class TableComponent {
-  @Input() tableData: any[] = [];
+  @Input() tableData: any;
   @Input() cols: any[] = [];
   @Input() col1Name!: string;
   @Input() col2Name!: string;

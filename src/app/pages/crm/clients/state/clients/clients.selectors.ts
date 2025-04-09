@@ -1,14 +1,15 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { ClientsState } from './clients.state';
 
-export const selectClientsState = createFeatureSelector<ClientsState>('clients');
+export const selectClientsState =
+  createFeatureSelector<ClientsState>('clients');
 
 export const selectAllClients = createSelector(
   selectClientsState,
-  (state: { clients: any; }) => state.clients
+  (state: ClientsState) => state.clients ?? [] // ✅ fallback to []
 );
 
 export const selectClientsLoading = createSelector(
   selectClientsState,
-  (state: { loading: any; }) => state.loading
+  (state: ClientsState) => state.loading
 );

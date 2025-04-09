@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, mergeMap, of, switchMap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import * as ClientsActions from './clients.actions';
 import { Client } from '../../../../../shared/interfaces/client.interface';
 import { ClientService } from '../../../../../shared/services/client.service';
+import { Router } from '@angular/router';
 @Injectable()
 export class ClientsEffects {
   constructor(
     private actions$: Actions, // ✅ This MUST be private + injected
     private http: HttpClient,
-    private clientService: ClientService
+    private clientService: ClientService,
+    private router: Router
   ) {}
   createClient$ = createEffect(() =>
     this.actions$.pipe(
@@ -47,5 +49,13 @@ export class ClientsEffects {
           )
       )
     )
+  );
+  createClientSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ClientsActions.createClientSuccess),
+        tap(() => this.router.navigate(['/crm/clients/view-clients']))
+      ),
+    { dispatch: false }
   );
 }

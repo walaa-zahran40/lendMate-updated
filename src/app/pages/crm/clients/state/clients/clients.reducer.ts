@@ -16,8 +16,7 @@ export const clientsReducer = createReducer(
   })),
   on(ClientsActions.createClientSuccess, (state: any, { client }: any) => ({
     ...state,
-    // Appends the newly created client to the existing list
-    clients: [...state.clients, client],
+    clients: [...(state.clients ?? []), client],
     loading: false,
   })),
   on(ClientsActions.createClientFailure, (state: any, { error }: any) => ({
