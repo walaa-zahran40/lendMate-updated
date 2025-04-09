@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { LegalFormService } from '../../../services/legal-form.service';
+import { LegalFormFacade } from '../../../../pages/crm/clients/state/legal-forms/legal-form.facade';
 
 @Component({
   selector: 'app-legal-form-dropdown',
@@ -29,11 +30,12 @@ export class LegalFormDropdownComponent
   selectedLegalForm: any;
   @Output() selectionChanged = new EventEmitter<any>();
   selectedItem: any;
+  legalForms$ = this.facade.legalForms$;
 
-  constructor(private legalFormService: LegalFormService) {}
+  constructor(private facade: LegalFormFacade) {}
 
   ngOnInit(): void {
-    this.fetchLegalForms();
+    this.facade.loadLegalForms();
   }
 
   updateValue(value: any): void {
@@ -47,16 +49,6 @@ export class LegalFormDropdownComponent
       this.selectedItem = changes['selectedItem'].currentValue;
       this.onSelectionChange();
     }
-  }
-  fetchLegalForms() {
-    this.legalFormService.getAllLegalForms().subscribe((response: any) => {
-      this.LegalForms = response.items.map((item: any) => ({
-        id: item.id,
-        name: item.name,
-        nameAR: item.nameAR,
-        legalFormId: item.legalFormId,
-      }));
-    });
   }
 
   onSelectionChange() {

@@ -44,6 +44,10 @@ import { ViewClientIdentityComponent } from './view-client-identity/view-client-
 import { AddClientIdentityComponent } from './add-client-identity/add-client-identity.component';
 import { ClientTypesEffects } from './state/client-types/client-types.effects';
 import { clientTypesReducer } from './state/client-types/client-types.reducer';
+import { legalFormLawReducer } from './state/legal-form-law/legal-form-law.reducer';
+import { legalFormReducer } from './state/legal-forms/legal-form.reducer';
+import { LegalFormEffects } from './state/legal-forms/legal-form.effects';
+import { LegalFormLawEffects } from './state/legal-form-law/legal-form-law.effects';
 
 @NgModule({
   declarations: [
@@ -89,9 +93,13 @@ import { clientTypesReducer } from './state/client-types/client-types.reducer';
     InputIcon,
     ReactiveFormsModule,
     StoreModule.forFeature('clients', clientsReducer),
-    StoreModule.forFeature('clientTypes', clientTypesReducer),
     EffectsModule.forFeature([ClientsEffects]),
+    StoreModule.forFeature('clientTypes', clientTypesReducer),
     EffectsModule.forFeature([ClientTypesEffects]),
+    StoreModule.forFeature('legalFormLaw', legalFormLawReducer),
+    EffectsModule.forFeature([LegalFormLawEffects]),
+    StoreModule.forFeature('legalForm', legalFormReducer),
+    EffectsModule.forFeature([LegalFormEffects]),
   ],
 })
 export class ClientsModule {}

@@ -57,6 +57,10 @@ import { SubSectorDropdownComponent } from './dropdowns/sub-sector-dropdown/sub-
 import { TooltipModule } from 'primeng/tooltip';
 import { LegalFormDropdownComponent } from './dropdowns/legal-form-dropdown/legal-form-dropdown.component';
 import { LegalFormLawDropdownComponent } from './dropdowns/legal-form-law-dropdown/legal-form-law-dropdown.component';
+import { StoreModule } from '@ngrx/store';
+import { legalFormReducer } from '../../pages/crm/clients/state/legal-forms/legal-form.reducer';
+import { LegalFormEffects } from '../../pages/crm/clients/state/legal-forms/legal-form.effects';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [
@@ -120,6 +124,8 @@ import { LegalFormLawDropdownComponent } from './dropdowns/legal-form-law-dropdo
     TextareaModule,
     TieredMenuModule,
     PanelMenuModule,
+    StoreModule.forFeature('legalForm', legalFormReducer),
+    EffectsModule.forFeature([LegalFormEffects]),
     ReactiveFormsModule,
   ],
   providers: [DatePipe, AsyncPipe],

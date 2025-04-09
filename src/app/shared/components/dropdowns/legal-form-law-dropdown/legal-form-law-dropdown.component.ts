@@ -4,16 +4,16 @@ import {
   forwardRef,
   OnInit,
   Output,
-  SimpleChanges,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { LegalFormLawService } from '../../../services/legal-form-law.service';
+import { Observable } from 'rxjs';
+import { LegalFormLawFacade } from '../../../../pages/crm/clients/state/legal-form-law/legal-form-law.facade';
+import { LegalFormLaw } from '../../../interfaces/legal-form-law.interface';
 
 @Component({
   selector: 'app-legal-form-law-dropdown',
   templateUrl: './legal-form-law-dropdown.component.html',
-  styleUrl: './legal-form-law-dropdown.component.scss',
-  standalone: false,
+  styleUrls: ['./legal-form-law-dropdown.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -21,55 +21,32 @@ import { LegalFormLawService } from '../../../services/legal-form-law.service';
       multi: true,
     },
   ],
+  standalone: false,
 })
 export class LegalFormLawDropdownComponent
   implements OnInit, ControlValueAccessor
 {
-  LegalFormLaws: any[] = [];
-  selectedLegalFormLaw: any;
-  @Output() selectionChanged = new EventEmitter<any>();
-  selectedItem: any;
+  @Output() selectionChanged = new EventEmitter<LegalFormLaw>();
 
-  constructor(private legalFormlawService: LegalFormLawService) {}
+  legalFormLaws$: Observable<LegalFormLaw[]> = this.facade.legalFormLaws$;
+  selectedLegalFormLaw: LegalFormLaw | null = null;
+
+  constructor(private facade: LegalFormLawFacade) {}
 
   ngOnInit(): void {
-    this.fetchLegalFormLaws();
+    this.facade.loadLegalFormLaws(); // trigger state-based load
   }
-  updateValue(value: any): void {
+
+  updateValue(value: LegalFormLaw): void {
     this.selectedLegalFormLaw = value;
     this.onChange(value);
     this.onTouched();
-    this.selectionChanged.emit(value); // Optional
+    this.selectionChanged.emit(value);
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['selectedItem']) {
-      this.selectedItem = changes['selectedItem'].currentValue;
-      this.onSelectionChange();
-    }
-  }
-
-  fetchLegalFormLaws() {
-    this.legalFormlawService
-      .getAllLegalFormLaws()
-      .subscribe((response: any) => {
-        this.LegalFormLaws = response.items.map((item: any) => ({
-          id: item.id,
-          name: item.name,
-          nameAR: item.nameAR,
-          legalFormLawId: item.legalFormLawId,
-        }));
-      });
-  }
-
-  onSelectionChange() {
-    this.selectionChanged.emit(this.selectedLegalFormLaw);
-  }
-
-  writeValue(value: any): void {
+  // ControlValueAccessor implementation
+  writeValue(value: LegalFormLaw): void {
     this.selectedLegalFormLaw = value;
-    this.onChange(value);
-    this.onSelectionChange();
   }
 
   registerOnChange(fn: any): void {
@@ -80,6 +57,6 @@ export class LegalFormLawDropdownComponent
     this.onTouched = fn;
   }
 
-  onChange = (value: any) => {};
-  onTouched = () => {};
+  onChange: (value: any) => void = () => {};
+  onTouched: () => void = () => {};
 }
