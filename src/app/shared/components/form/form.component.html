@@ -718,7 +718,6 @@
           Only Arabic characters are allowed.
         </small>
         <br />
-        <br />
 
         <!-- Business Activity -->
         <label for="businessActivity"
@@ -767,7 +766,7 @@
         >
           Tax ID is required.
         </small>
-        <br />
+
         <small
           class="p-error"
           *ngIf="
@@ -784,7 +783,7 @@
           pInputText
           id="shortName"
           formControlName="shortName"
-          placeholder="GO"
+          placeholder="Short Name"
           [ngClass]="{
             'ng-invalid ng-dirty':
               formGroup.get('shortName')?.invalid &&
@@ -837,23 +836,180 @@
 
       <!-- Business Info -->
       <ng-container *ngIf="addClientShowBusiness">
+        <!-- Main Share -->
+        <label for="mainShare">Main Share <sup class="danger">*</sup></label>
+        <input
+          pInputText
+          id="mainShare"
+          formControlName="mainShare"
+          placeholder="Main Share"
+          appNoNegative
+        />
+        <div
+          *ngIf="
+            formGroup.get('mainShare')?.touched &&
+            formGroup.get('mainShare')?.invalid
+          "
+          class="error-msg"
+        >
+          <small
+            class="p-error"
+            *ngIf="formGroup.get('mainShare')?.errors?.['required']"
+            >Main Share is required.</small
+          >
+          <small
+            class="p-error"
+            *ngIf="formGroup.get('mainShare')?.errors?.['min']"
+            >Value cannot be negative.</small
+          >
+        </div>
+
+        <!-- Established Year -->
+        <label for="establishedYear"
+          >Established Year <sup class="danger">*</sup></label
+        >
+        <input
+          pInputText
+          id="establishedYear"
+          formControlName="establishedYear"
+          placeholder="Established Year"
+          appNoNegative
+        />
+        <div
+          *ngIf="
+            formGroup.get('establishedYear')?.touched &&
+            formGroup.get('establishedYear')?.invalid
+          "
+          class="error-msg"
+        >
+          <small
+            class="p-error"
+            *ngIf="formGroup.get('establishedYear')?.errors?.['required']"
+            >Established year is required.</small
+          >
+          <small
+            class="p-error"
+            *ngIf="formGroup.get('establishedYear')?.errors?.['pattern']"
+            >Enter a valid year (e.g. 2005).</small
+          >
+        </div>
+
+        <!-- Website -->
+        <label for="website">Website</label>
+        <input
+          pInputText
+          type="url"
+          id="website"
+          formControlName="website"
+          placeholder="Website"
+        />
+        <div
+          *ngIf="
+            formGroup.get('website')?.touched &&
+            formGroup.get('website')?.invalid
+          "
+          class="error-msg"
+        >
+          <small
+            class="p-error"
+            *ngIf="formGroup.get('website')?.errors?.['pattern']"
+            >Enter a valid website URL.</small
+          >
+        </div>
+
+        <!-- Market Share -->
+        <label for="marketShare"
+          >Market Share %<sup class="danger">*</sup></label
+        >
+        <input
+          pInputText
+          min="0"
+          type="number"
+          id="marketShare"
+          formControlName="marketShare"
+          placeholder="Market Share"
+          appNoNegative
+        />
+        <div
+          *ngIf="
+            formGroup.get('marketShare')?.touched &&
+            formGroup.get('marketShare')?.invalid
+          "
+          class="error-msg"
+        >
+          <small
+            class="p-error"
+            *ngIf="formGroup.get('marketShare')?.errors?.['required']"
+            >Market share is required.</small
+          >
+          <small
+            class="p-error"
+            *ngIf="formGroup.get('marketShare')?.errors?.['min']"
+            >Cannot be negative.</small
+          >
+          <small
+            class="p-error"
+            *ngIf="formGroup.get('marketShare')?.errors?.['max']"
+            >Cannot exceed 100%.</small
+          >
+        </div>
+
+        <!-- Market Size -->
+        <label for="marketSize">Market Size</label>
+        <input
+          pInputText
+          min="0"
+          type="number"
+          id="marketSize"
+          formControlName="marketSize"
+          placeholder="Market Size"
+          appNoNegative
+        />
+        <div
+          *ngIf="
+            formGroup.get('marketSize')?.touched &&
+            formGroup.get('marketSize')?.invalid
+          "
+          class="error-msg"
+        >
+          <small
+            class="p-error"
+            *ngIf="formGroup.get('marketSize')?.errors?.['min']"
+            >Market size cannot be negative.</small
+          >
+        </div>
+
+        <!-- Number of Employees -->
         <label for="employeesNo"
           >Number of Employees <sup class="danger">*</sup></label
         >
         <input
           pInputText
+          min="0"
+          type="number"
           id="employeesNo"
           formControlName="employeesNo"
-          placeholder="500"
+          placeholder="Number of Employees"
+          appNoNegative
         />
-
-        <label for="code">Code <sup class="danger">*</sup></label>
-        <input
-          pInputText
-          id="code"
-          formControlName="code"
-          placeholder="CL001"
-        />
+        <div
+          *ngIf="
+            formGroup.get('employeesNo')?.touched &&
+            formGroup.get('employeesNo')?.invalid
+          "
+          class="error-msg"
+        >
+          <small
+            class="p-error"
+            *ngIf="formGroup.get('employeesNo')?.errors?.['required']"
+            >Number of employees is required.</small
+          >
+          <small
+            class="p-error"
+            *ngIf="formGroup.get('employeesNo')?.errors?.['min']"
+            >Value cannot be negative.</small
+          >
+        </div>
       </ng-container>
     </form>
     <form action="" *ngIf="addClientGuarantorsShowIndividual">
