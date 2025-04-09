@@ -116,6 +116,5 @@ export class AddClientComponent implements OnInit {
 
   onSectorChanged(sectorId: number) {
     this.selectedSectorId = sectorId;
-    console.log('Selected sectorId:', sectorId);
   }
 }
