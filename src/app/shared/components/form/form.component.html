@@ -702,6 +702,20 @@
           formControlName="shortName"
           placeholder="GO"
         />
+        <label for="sectorDropdown">Select Sector</label>
+
+        <app-sector-dropdown
+          [formControl]="sectorIdControl"
+          (sectorChanged)="sectorChanged.emit($event)"
+        >
+        </app-sector-dropdown>
+        <label for="sectorDropdown">Select Sub Sector</label>
+
+        <app-sub-sector-dropdown
+          [sectorId]="selectedSectorId"
+          [allSectors]="sectorsList"
+          [formControl]="sectorIdControl"
+        ></app-sub-sector-dropdown>
       </ng-container>
 
       <!-- Legal Info -->

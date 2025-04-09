@@ -2,6 +2,6 @@
   [options]="filteredSubSectors"
   optionLabel="name"
   placeholder="Select Sub Sector"
-  [formControl]="formControl"
->
-</p-select>
+  [(ngModel)]="value"
+  (ngModelChange)="updateValue($event)"
+></p-select>

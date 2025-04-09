@@ -22,19 +22,10 @@
                   "
                   [addClientShowMain]="true"
                   [addClient]="true"
-                ></app-form>
-
-                <!-- Listen to selected sectorId -->
-                <app-sector-dropdown
-                  [formControl]="sectorIdControl"
+                  [sectorsList]="sectorsList"
+                  [selectedSectorId]="selectedSectorId"
                   (sectorChanged)="onSectorChanged($event)"
-                ></app-sector-dropdown>
-
-                <!-- Pass sectorId and all sectors to subsector dropdown -->
-                <app-sub-sector-dropdown
-                  [sectorId]="selectedSectorId"
-                  [allSectors]="sectorsList"
-                ></app-sub-sector-dropdown>
+                ></app-form>
 
                 <div
                   class="col-sm-6 d-flex justify-end float-right margin-top p-0 w-100"

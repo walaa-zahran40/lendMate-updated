@@ -86,6 +86,7 @@ export class AddClientComponent implements OnInit {
   get subSectorList(): FormArray {
     return this.addClientForm.get('subSectorList') as FormArray;
   }
+
   setSubSectorList(ids: number[]) {
     const formArray = this.fb.array([]);
     ids.forEach((id) => {

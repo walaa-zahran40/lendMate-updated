@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -19,6 +19,13 @@ export class FormComponent {
   @Input() addClientShowBusiness?: boolean;
   @Input() addClientShowIndividual?: boolean;
   @Input() addClient?: boolean;
+  @Input() sectorsList: any[] = [];
+  @Input() selectedSectorId: number | null = null;
+  @Output() sectorChanged = new EventEmitter<number>();
+  get sectorIdControl(): FormControl {
+    return this.formGroup.get('sectorId') as FormControl;
+  }
+
   //ngModel Values
   value: string | undefined;
   value1: string | undefined;
