@@ -1,22 +1,33 @@
 import { createReducer, on } from '@ngrx/store';
-import { initialClientsState } from './clients.state';
 import * as ClientsActions from './clients.actions';
+import { initialClientsState } from './clients.state';
 
 export const clientsReducer = createReducer(
   initialClientsState,
   on(ClientsActions.loadClients, (state: any) => ({
     ...state,
     loading: true,
-    error: null
+    error: null,
   })),
   on(ClientsActions.loadClientsSuccess, (state: any, { clients }: any) => ({
     ...state,
     clients,
-    loading: false
+    loading: false,
+  })),
+  on(ClientsActions.createClientSuccess, (state: any, { client }: any) => ({
+    ...state,
+    // Appends the newly created client to the existing list
+    clients: [...state.clients, client],
+    loading: false,
+  })),
+  on(ClientsActions.createClientFailure, (state: any, { error }: any) => ({
+    ...state,
+    error,
+    loading: false,
   })),
   on(ClientsActions.loadClientsFailure, (state: any, { error }: any) => ({
     ...state,
     error,
-    loading: false
+    loading: false,
   }))
 );

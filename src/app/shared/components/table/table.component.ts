@@ -28,6 +28,8 @@ export class TableComponent {
   @Input() side!: boolean;
   @Input() download!: boolean;
   @Input() checkBox!: boolean;
+  @Input() first: number = 0;
+
   @Input() filters: boolean = true;
   @Input() uppercase!: string;
   @Input() viewClientIdentityTable!: boolean;

@@ -9,32 +9,17 @@
     (addBtn)="onAddClient()"
     (searchChange)="filterClients($event)"
   ></app-toolbar-table>
-  <!-- <app-table
+
+  <app-table
     [cols]="colsInside"
-    [tableData]="filteredTableData"
-    [col1Name]="'Name EN'"
-    [col2Name]="'Name AR'"
-    [col3Name]="'Business Activity'"
-    [col4Name]="'isIscore'"
-    [col5Name]="'Tax Name'"
+    [tableData]="tableDataInside"
     [edit]="true"
     [delete]="true"
     [side]="true"
+    [first]="first2"
     [checkBox]="true"
     [uppercase]="'uppercase'"
     [viewClientTable]="true"
     (wizardBtn)="onAddSide()"
-  ></app-table> -->
-  <app-table
-  [cols]="colsInside"
-  [tableData]="tableDataInside"
-  [edit]="true"
-  [delete]="true"
-  [side]="true"
-  [checkBox]="true"
-  [uppercase]="'uppercase'"
-  [viewClientTable]="true"
-  (wizardBtn)="onAddSide()"
-></app-table>
-
+  ></app-table>
 </div>

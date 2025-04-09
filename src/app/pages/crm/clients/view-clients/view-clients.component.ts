@@ -12,8 +12,9 @@ import { ClientsFacade } from '../state/clients/clients.facade';
 export class ViewClientsComponent {
   tableDataInside: Client[] = [];
   colsInside: any[] = [];
+  first2: number = 0;
+  rows: number = 10;
   constructor(private router: Router, private facade: ClientsFacade) {}
-
   ngOnInit() {
     this.colsInside = [
       { field: 'name', header: 'Name EN' },
@@ -26,70 +27,17 @@ export class ViewClientsComponent {
       { field: 'isActive', header: 'Active' },
     ];
 
-    this.tableDataInside = [
-      // {
-      //   nameEn: 'Hamdy Bank',
-      //   businessActivity: 'Food',
-      //   isIscore: true,
-      //   taxId: 12345,
-      // },
-      // {
-      //   nameEn: 'Hamdy Bank',
-      //   businessActivity: 'Food',
-      //   isIscore: true,
-      //   taxId: 12345,
-      // },
-      // {
-      //   nameEn: 'Hamdy Bank',
-      //   businessActivity: 'Food',
-      //   isIscore: true,
-      //   taxId: 12345,
-      // },
-      // {
-      //   nameEn: 'Hamdy Bank',
-      //   businessActivity: 'Food',
-      //   isIscore: true,
-      //   taxId: 12345,
-      // },
-      // {
-      //   nameEn: 'Hamdy Bank',
-      //   businessActivity: 'Food',
-      //   isIscore: true,
-      //   taxId: 12345,
-      // },
-      // {
-      //   nameEn: 'Hamdy Bank',
-      //   businessActivity: 'Food',
-      //   isIscore: true,
-      //   taxId: 12345,
-      // },
-      // {
-      //   nameEn: 'Hamdy Bank',
-      //   businessActivity: 'Food',
-      //   isIscore: true,
-      //   taxId: 12345,
-      // },
-      // {
-      //   nameEn: 'Hamdy Bank',
-      //   businessActivity: 'Food',
-      //   isIscore: true,
-      //   taxId: 12345,
-      // },
-      // {
-      //   nameEn: 'Hamdy Bank',
-      //   businessActivity: 'Food',
-      //   isIscore: true,
-      //   taxId: 12345,
-      // },
-      // {
-      //   nameEn: 'Hamdy Bank',
-      //   businessActivity: 'Food',
-      //   isIscore: true,
-      //   taxId: 12345,
-      // },
-    ];
+    this.tableDataInside = [];
     this.facade.clients$.subscribe((clients) => {
       this.tableDataInside = clients;
+      const totalRecords = clients.length;
+
+      // Assume the new client is appended at the end:
+      if (totalRecords > 0) {
+        const newClientIndex = totalRecords - 1;
+        const pageNumber = Math.floor(newClientIndex / this.rows);
+        this.first2 = pageNumber * this.rows;
+      }
     });
 
     this.facade.loadClients();

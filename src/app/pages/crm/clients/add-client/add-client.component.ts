@@ -12,8 +12,9 @@ import {
   selectAllSectors,
   selectSelectedSubSectorIds,
 } from '../../../../../app/shared/components/dropdowns/store/sector.selectors';
-import { Observable } from 'rxjs';
+import { delay, Observable, of } from 'rxjs';
 import { TypeService } from '../../../../shared/services/types.service';
+import { Router } from '@angular/router';
 interface Sector {
   loading?: boolean;
   nameAR?: any;
@@ -50,7 +51,8 @@ export class AddClientComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private store: Store,
-    private typeService: TypeService
+    private typeService: TypeService,
+    private router: Router
   ) {
     this.selectedSubSectorIds$ = this.store.select(selectSelectedSubSectorIds);
   }
@@ -107,6 +109,11 @@ export class AddClientComponent implements OnInit {
       subSectorIdList: formValue.subSectorList.map((s: any) => s.id),
     };
     this.store.dispatch(createClient({ payload }));
+    of(null)
+      .pipe(delay(500))
+      .subscribe(() => {
+        this.router.navigate(['/crm/clients/view-clients']);
+      });
   }
   onClientTypeChange(event: any) {
     if (event && event.value) {
