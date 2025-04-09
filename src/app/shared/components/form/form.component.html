@@ -661,22 +661,66 @@
     >
       <!-- Main Info -->
       <ng-container *ngIf="addClientShowMain">
+        <!-- Name in English -->
         <label for="name">Name in English <sup class="danger">*</sup></label>
         <input
           pInputText
           id="name"
           formControlName="name"
-          placeholder="Google"
+          placeholder="Name in English"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              formGroup.get('name')?.invalid && formGroup.get('name')?.touched
+          }"
         />
 
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('name')?.hasError('required') &&
+            formGroup.get('name')?.touched
+          "
+        >
+          Name in English is required.
+        </small>
+        <br />
+
+        <!-- Name in Arabic -->
         <label for="nameAR">Name in Arabic <sup class="danger">*</sup></label>
         <input
           pInputText
           id="nameAR"
           formControlName="nameAR"
-          placeholder="جوجل"
+          placeholder="Name in Arabic"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              formGroup.get('nameAR')?.invalid &&
+              formGroup.get('nameAR')?.touched
+          }"
+          appOnlyArabic
         />
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('nameAR')?.hasError('required') &&
+            formGroup.get('nameAR')?.touched
+          "
+        >
+          Name in Arabic is required.
+        </small>
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('nameAR')?.hasError('nonArabic') &&
+            formGroup.get('nameAR')?.touched
+          "
+        >
+          Only Arabic characters are allowed.
+        </small>
+        <br />
+        <br />
 
+        <!-- Business Activity -->
         <label for="businessActivity"
           >Business Activity <sup class="danger">*</sup></label
         >
@@ -684,33 +728,89 @@
           pInputText
           id="businessActivity"
           formControlName="businessActivity"
-          placeholder="Tech"
+          placeholder="Business Activity"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              formGroup.get('businessActivity')?.invalid &&
+              formGroup.get('businessActivity')?.touched
+          }"
         />
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('businessActivity')?.hasError('required') &&
+            formGroup.get('businessActivity')?.touched
+          "
+        >
+          Business Activity is required.
+        </small>
+        <br />
 
+        <!-- Tax ID -->
         <label for="taxId">Tax ID <sup class="danger">*</sup></label>
         <input
           pInputText
           id="taxId"
           formControlName="taxId"
-          placeholder="#101020203030"
+          placeholder="Tax ID"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              formGroup.get('taxId')?.invalid && formGroup.get('taxId')?.touched
+          }"
         />
-
-        <label for="shortName">Short Name</label>
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('taxId')?.hasError('required') &&
+            formGroup.get('taxId')?.touched
+          "
+        >
+          Tax ID is required.
+        </small>
+        <br />
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('taxId')?.hasError('nonPositiveNumeric') &&
+            formGroup.get('taxId')?.touched
+          "
+        >
+          Only positive numeric characters are allowed.
+        </small>
+        <br />
+        <!-- Short Name -->
+        <label for="shortName">Short Name <sup class="danger">*</sup></label>
         <input
           pInputText
           id="shortName"
           formControlName="shortName"
           placeholder="GO"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              formGroup.get('shortName')?.invalid &&
+              formGroup.get('shortName')?.touched
+          }"
         />
-        <label for="sectorDropdown">Select Sector</label>
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('shortName')?.hasError('required') &&
+            formGroup.get('shortName')?.touched
+          "
+        >
+          Short Name is required.
+        </small>
+        <br />
 
+        <!-- Sector Dropdown -->
+        <label for="sectorDropdown">Select Sector</label>
         <app-sector-dropdown
           [formControl]="sectorIdControl"
           (sectorChanged)="sectorChanged.emit($event)"
-        >
-        </app-sector-dropdown>
-        <label for="sectorDropdown">Select Sub Sector</label>
+        ></app-sector-dropdown>
 
+        <!-- Sub Sector Dropdown -->
+        <label for="subSectorDropdown">Select Sub Sector</label>
         <app-sub-sector-dropdown
           [sectorId]="selectedSectorId"
           [allSectors]="sectorsList"

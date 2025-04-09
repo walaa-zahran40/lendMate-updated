@@ -19,6 +19,8 @@ import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { ClientTypesFacade } from '../state/client-types/client-types.facade';
 import { selectSubSectorList } from '../state/clients/clients.selectors';
+import { arabicOnlyValidator } from '../../../../shared/validators/arabic-only.validator';
+import { positiveNumberValidator } from '../../../../shared/validators/positive-only.validator';
 
 @Component({
   selector: 'app-add-client',
@@ -54,14 +56,14 @@ export class AddClientComponent implements OnInit {
     });
 
     this.addClientForm = this.fb.group({
+      name: ['', Validators.required],
+      nameAR: ['', [Validators.required, arabicOnlyValidator()]],
+      businessActivity: ['', Validators.required],
+      taxId: ['', [Validators.required, positiveNumberValidator()]],
+      shortName: ['', Validators.required],
       sectorId: this.fb.control<number[]>([], Validators.required),
       subSectorIdList: [[], Validators.required],
-      name: ['', Validators.required],
-      nameAR: ['', Validators.required],
-      shortName: ['', Validators.required],
-      businessActivity: ['', Validators.required],
       isIscore: [false, Validators.required],
-      taxId: ['', Validators.required],
       clientTypeCode: ['', Validators.required],
       code: ['', Validators.required],
       employeesNo: [0, Validators.required],

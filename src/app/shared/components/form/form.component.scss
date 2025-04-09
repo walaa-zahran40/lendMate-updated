@@ -52,6 +52,18 @@
     .p-tabs {
       padding: var(--custom-padding-right-10);
     }
+    .p-multiselect-chip-item {
+      background-color: #f8f8fd;
+      width: max-content;
+      color: #0a69bb;
+    }
+    .p-multiselect-label.p-placeholder {
+      background: var(--bg-transparent);
+      color: inherit;
+    }
+    .p-multiselect-chip-item {
+      margin-left: 10px;
+    }
     .desc {
       color: var(--secondary-color);
     }
@@ -468,7 +480,9 @@ h2 {
   grid-template-rows: repeat(1, 1fr);
   gap: 24px;
 }
-
+.p-error {
+  color: var(--custom-red);
+}
 .div1 {
   padding-top: 24px;
 }

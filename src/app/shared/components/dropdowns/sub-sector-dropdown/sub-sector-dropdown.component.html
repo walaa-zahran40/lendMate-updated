@@ -1,7 +1,10 @@
-<p-select
+<p-multi-select
   [options]="filteredSubSectors"
   optionLabel="name"
   placeholder="Select Sub Sector"
   [(ngModel)]="value"
   (ngModelChange)="updateValue($event)"
-></p-select>
+  display="chip"
+  icon="pi pi-times"
+  chipIcon="pi pi-times"
+></p-multi-select>

@@ -6,7 +6,13 @@ import { ServicesModule } from './services/services.module';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  imports: [CommonModule, ComponentsModule, DirectivesModule, ServicesModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    ComponentsModule,
+    DirectivesModule,
+    ServicesModule,
+    ReactiveFormsModule,
+  ],
   exports: [ComponentsModule, DirectivesModule, ServicesModule],
 })
 export class SharedModule {}

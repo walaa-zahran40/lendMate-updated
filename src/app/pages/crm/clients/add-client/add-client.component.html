@@ -29,9 +29,12 @@
 
                 <div
                   class="col-sm-6 d-flex justify-end float-right margin-top p-0 w-100"
-                  (click)="activateCallback(2)"
                 >
-                  <p-button class="custom-save m-0" label="Next"></p-button>
+                  <p-button
+                    class="custom-save m-0"
+                    label="Next"
+                    (click)="activateCallback(2)"
+                  ></p-button>
                 </div>
               </div>
             </ng-template>
@@ -50,12 +53,17 @@
                 ></app-form>
 
                 <div class="row two-buttons margin-top">
-                  <div class="col-sm-6" (click)="activateCallback(1)">
-                    <p-button label="Previous" class="custom-back"></p-button>
+                  <div class="col-sm-6">
+                    <p-button
+                      label="Previous"
+                      class="custom-back"
+                      (click)="activateCallback(1)"
+                    ></p-button>
                   </div>
-                  <div class="col-sm-6 m-0" (click)="activateCallback(3)">
+                  <div class="col-sm-6 m-0">
                     <p-button
                       label="Next"
+                      (click)="activateCallback(3)"
                       class="custom-save m-0 float-right"
                     ></p-button>
                   </div>
@@ -77,15 +85,17 @@
                 ></app-form>
 
                 <div class="row two-buttons margin-top">
-                  <div class="col-sm-6" (click)="activateCallback(2)">
+                  <div class="col-sm-6">
                     <p-button
                       label="Previous"
+                      (click)="activateCallback(2)"
                       class="custom-back d-flex justify-start"
                     ></p-button>
                   </div>
-                  <div class="col-sm-6 m-0" (click)="saveInfo()">
+                  <div class="col-sm-6 m-0">
                     <p-button
                       label="Save Information"
+                      (click)="saveInfo()"
                       class="custom-save2 m-0 float-right"
                     ></p-button>
                   </div>

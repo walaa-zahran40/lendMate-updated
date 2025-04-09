@@ -12,7 +12,12 @@ import { ViewLegalFormComponent } from './view-legal-form/view-legal-form.compon
 import { ViewLegalFormLawComponent } from './view-legal-form-law/view-legal-form-law.component';
 
 @NgModule({
-  declarations: [LegalFormsComponent, LegalFormsLawComponent, ViewLegalFormComponent, ViewLegalFormLawComponent],
+  declarations: [
+    LegalFormsComponent,
+    LegalFormsLawComponent,
+    ViewLegalFormComponent,
+    ViewLegalFormLawComponent,
+  ],
   imports: [
     CommonModule,
     LegalsRoutingModule,

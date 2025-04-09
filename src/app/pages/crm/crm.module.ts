@@ -18,7 +18,7 @@ import { sectorReducer } from '../../shared/components/dropdowns/store/sector.re
     CrmRoutingModule,
     SharedModule,
     StoreModule.forFeature('sector', sectorReducer),
-    EffectsModule.forFeature([SectorEffects])
+    EffectsModule.forFeature([SectorEffects]),
   ],
 })
 export class CrmModule {}
