@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CompanyLegalDetails } from '../../interfaces/company-legal-details.interface';
 
 @Component({
   selector: 'app-form',
@@ -10,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class FormComponent {
   @Input() formGroup!: FormGroup;
+  companyLegalDetail: CompanyLegalDetails = {};
 
   @Input() applyReusable: boolean = false;
   @Input() title: string = '';
@@ -25,7 +27,12 @@ export class FormComponent {
   get sectorIdControl(): FormControl {
     return this.formGroup.get('sectorId') as FormControl;
   }
-
+  get subSectorList(): FormControl {
+    return this.formGroup.get('subSectorIdList') as FormControl;
+  }
+  get legalFormLawList(): FormControl {
+    return this.formGroup.get('legalFormLaw') as FormControl;
+  }
   //ngModel Values
   value: string | undefined;
   value1: string | undefined;
@@ -678,6 +685,15 @@ export class FormComponent {
         key: '50%',
       },
     ];
+  }
+  onLegalFormLawSelectionChange(event: any): void {
+    this.companyLegalDetail.legalFormLawId = event?.id;
+    console.log('Legal Form Law selected:', event?.id);
+  }
+
+  onLegalFormSelectionChange(event: any): void {
+    this.companyLegalDetail.legalFormId = event?.id;
+    console.log('Legal Form selected:', event?.id);
   }
   viewAddress() {
     this.router.navigate(['/crm/clients/view-address']);

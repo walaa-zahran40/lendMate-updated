@@ -55,6 +55,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SectorDropdownComponent } from './dropdowns/sector-dropdown/sector-dropdown.component';
 import { SubSectorDropdownComponent } from './dropdowns/sub-sector-dropdown/sub-sector-dropdown.component';
 import { TooltipModule } from 'primeng/tooltip';
+import { LegalFormDropdownComponent } from './dropdowns/legal-form-dropdown/legal-form-dropdown.component';
+import { LegalFormLawDropdownComponent } from './dropdowns/legal-form-law-dropdown/legal-form-law-dropdown.component';
 
 @NgModule({
   declarations: [
@@ -71,6 +73,8 @@ import { TooltipModule } from 'primeng/tooltip';
     ToolbarCompoundComponent,
     SectorDropdownComponent,
     SubSectorDropdownComponent,
+    LegalFormDropdownComponent,
+    LegalFormLawDropdownComponent,
   ],
   imports: [
     CommonModule,
@@ -133,6 +137,8 @@ import { TooltipModule } from 'primeng/tooltip';
     ToolbarCompoundComponent,
     SectorDropdownComponent,
     SubSectorDropdownComponent,
+    LegalFormDropdownComponent,
+    LegalFormLawDropdownComponent,
   ],
 })
 export class ComponentsModule {}

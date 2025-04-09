@@ -814,24 +814,25 @@
         <app-sub-sector-dropdown
           [sectorId]="selectedSectorId"
           [allSectors]="sectorsList"
-          [formControl]="sectorIdControl"
+          formControlName="subSectorIdList"
         ></app-sub-sector-dropdown>
       </ng-container>
 
       <!-- Legal Info -->
       <ng-container *ngIf="addClientShowLegal">
-        <label for="clientTypeCode"
-          >Client Type Code <sup class="danger">*</sup></label
-        >
-        <input
-          pInputText
-          id="clientTypeCode"
-          formControlName="clientTypeCode"
-          placeholder="CORP"
-        />
+        <label for="legalFormLawId">Legal Form Law</label>
+        <app-legal-form-law-dropdown
+          formControlName="legalFormLawId"
+          (selectionChanged)="onLegalFormLawSelectionChange($event)"
+        ></app-legal-form-law-dropdown>
 
-        <label for="isIscore">Is Iscore?</label>
-        <p-checkbox binary="true" formControlName="isIscore"></p-checkbox>
+        <label for="legalFormId">Legal Form</label>
+        <app-legal-form-dropdown
+          formControlName="legalFormId"
+          (selectionChanged)="onLegalFormSelectionChange($event)"
+        ></app-legal-form-dropdown>
+        <p-toggleswitch formControlName="isStampDuty" />&nbsp;
+        <label for="isStampDuty">Is Stamp Duty</label>
       </ng-container>
 
       <!-- Business Info -->

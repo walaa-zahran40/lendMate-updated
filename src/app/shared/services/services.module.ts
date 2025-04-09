@@ -45,7 +45,7 @@ import { InsuredByService } from './insured-by.service';
 import { InterestRateBenchmarkService } from './interest-rate-benchmark.service';
 import { LeasingMandateService } from './leasing-mandate.service';
 import { LeasingTypeService } from './leasing-type.service';
-import { LegalFormAwService } from './legal-form-aw.service';
+import { LegalFormLawService } from './legal-form-law.service';
 import { LegalFormService } from './legal-form.service';
 import { MandateAdditionalTermService } from './mandate-additional-term.service';
 import { MandateStatusActionsService } from './mandate-status-actions.service';
@@ -133,7 +133,7 @@ import { TypeService } from './types.service';
     InterestRateBenchmarkService,
     LeasingMandateService,
     LeasingTypeService,
-    LegalFormAwService,
+    LegalFormLawService,
     LegalFormService,
     MandateAdditionalTermService,
     MandateStatusActionsService,

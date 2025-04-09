@@ -21,6 +21,9 @@ import { ClientTypesFacade } from '../state/client-types/client-types.facade';
 import { selectSubSectorList } from '../state/clients/clients.selectors';
 import { arabicOnlyValidator } from '../../../../shared/validators/arabic-only.validator';
 import { positiveNumberValidator } from '../../../../shared/validators/positive-only.validator';
+import { LegalFormService } from '../../../../shared/services/legal-form.service';
+import { Sector } from '../../../../shared/interfaces/sector.interface';
+import { LegalFormLawService } from '../../../../shared/services/legal-form-law.service';
 
 @Component({
   selector: 'app-add-client',
@@ -37,12 +40,15 @@ export class AddClientComponent implements OnInit {
   selectedClientType = null;
   dropdownClientTypeItems: any[] = [];
   subSectorList$ = this.store.select(selectSubSectorList);
-
+  dropdownlegalLawItems: Sector[] = [];
+  dropdownlegalFormLawItems: Sector[] = [];
   constructor(
     private fb: FormBuilder,
     private store: Store,
     private router: Router,
-    private clientTypesFacade: ClientTypesFacade
+    private clientTypesFacade: ClientTypesFacade,
+    private legalFormService: LegalFormService,
+    private legalFormlawService: LegalFormLawService
   ) {}
 
   ngOnInit() {
@@ -67,6 +73,9 @@ export class AddClientComponent implements OnInit {
       clientTypeCode: ['', Validators.required],
       code: ['', Validators.required],
       employeesNo: [0, Validators.required],
+      legalFormLawId: [null],
+      legalFormId: [null],
+      isStampDuty: [false],
       isActive: [true],
       subSectorList: this.fb.array<number>([]),
     });
@@ -82,13 +91,48 @@ export class AddClientComponent implements OnInit {
       this.addClientForm.setControl('subSectorList', formArray);
     });
   }
-
+  fetchLegalForms(): void {
+    this.legalFormService.getAllLegalForms().subscribe(
+      (response: any) => {
+        this.dropdownlegalLawItems = [
+          ...response.items.map((item: any) => ({
+            id: item.id,
+            name: item.name,
+            nameAR: item.nameAR,
+          })),
+        ];
+      },
+      (error) => {
+        const apiErrorMessage =
+          error?.error?.message || 'An unexpected error occurred';
+        console.error('Error fetching legal forms:', apiErrorMessage);
+      }
+    );
+  }
+  fetchLegalFormLaws(): void {
+    this.legalFormlawService.getAllLegalFormLaws().subscribe(
+      (response: any) => {
+        this.dropdownlegalFormLawItems = [
+          ...response.items.map((item: any) => ({
+            id: item.id,
+            name: item.name,
+            nameAR: item.nameAR,
+          })),
+        ];
+      },
+      (error) => {
+        const apiErrorMessage =
+          error?.error?.message || 'An unexpected error occurred';
+        console.error('Error fetching legal form laws:', apiErrorMessage);
+      }
+    );
+  }
   get sectorIdControl(): FormControl {
     return this.addClientForm.get('sectorId') as FormControl;
   }
 
   get subSectorList(): FormArray {
-    return this.addClientForm.get('subSectorList') as FormArray;
+    return this.addClientForm.get('subSectorIdList') as FormArray;
   }
 
   saveInfo() {
@@ -101,8 +145,11 @@ export class AddClientComponent implements OnInit {
       businessActivity: formValue.businessActivity,
       isIscore: formValue.isIscore,
       taxId: formValue.taxId,
+      legalFormId: formValue.legalFormId,
+      legalFormLawId: formValue.legalFormLawId,
+      isStampDuty: formValue.isStampDuty,
       clientTypeId: this.selectedClientType,
-      subSectorIdList: formValue.subSectorList.map((id: any) => id),
+      subSectorIdList: formValue.subSectorIdList,
     };
 
     this.store.dispatch(createClient({ payload }));
@@ -118,5 +165,16 @@ export class AddClientComponent implements OnInit {
 
   onSectorChanged(sectorId: number) {
     this.selectedSectorId = sectorId;
+    const subSectorArray = this.addClientForm.get('subSectorList') as FormArray;
+    if (subSectorArray && subSectorArray.length) {
+      while (subSectorArray.length !== 0) {
+        subSectorArray.removeAt(0);
+      }
+    }
+
+    // ✅ Optionally reset subSectorIdList too, if used for flat values
+    this.addClientForm.patchValue({
+      subSectorIdList: [],
+    });
   }
 }

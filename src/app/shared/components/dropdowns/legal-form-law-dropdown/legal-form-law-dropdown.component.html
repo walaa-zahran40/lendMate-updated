@@ -1,0 +1,8 @@
+<p-select
+  [options]="LegalFormLaws"
+  [ngModel]="selectedLegalFormLaw"
+  [optionLabel]="'name'"
+  placeholder="Select a LegalForm"
+  (ngModelChange)="updateValue($event)"
+>
+</p-select>

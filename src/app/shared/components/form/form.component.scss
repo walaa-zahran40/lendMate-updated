@@ -64,6 +64,12 @@
     .p-multiselect-chip-item {
       margin-left: 10px;
     }
+    .p-toggleswitch {
+      top: 7px;
+    }
+    .p-toggleswitch.p-toggleswitch-checked .p-toggleswitch-slider {
+      background: var(--p-tabs-active-bar-background);
+    }
     .desc {
       color: var(--secondary-color);
     }
