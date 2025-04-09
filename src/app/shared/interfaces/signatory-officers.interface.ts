@@ -1,7 +1,7 @@
 export interface SignatoryOfficers {
-  id: number;
   code: number;
-  officerName: string;
+  nameEN: string;
+  nameAR: string;
   startDate: Date;
   active: boolean;
 }

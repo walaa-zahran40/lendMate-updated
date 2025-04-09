@@ -3,4 +3,6 @@ export interface PageEvent {
   rows: number;
   page: number;
   pageCount: number;
+  nameEN: string;
+  nameAR: string;
 }

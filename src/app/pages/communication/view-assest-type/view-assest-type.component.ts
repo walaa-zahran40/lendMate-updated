@@ -10,21 +10,33 @@ import { AssestTypeCommunication } from '../../../shared/interfaces/assest-type-
 export class ViewAssestTypeComponent {
   tableDataInside: AssestTypeCommunication[] = [];
   colsInside: any[] = [];
+
   ngOnInit() {
     this.colsInside = [
-      { field: 'contactPerson', header: 'Contact Person' },
-      { field: 'mustAttend', header: 'Must Attend' },
+      { field: 'nameEN', header: 'Name EN' },
+      { field: 'nameAR', header: 'Name AR' },
+      { field: 'assestType', header: 'Assest Type' },
+      { field: 'isActive', header: 'isActive' },
     ];
     this.tableDataInside = [
       {
+        nameEN: 'name en',
+        nameAR: 'name ar',
         assestType: 122,
         isActive: true,
       },
       {
+        nameEN: 'name en',
+        nameAR: 'name ar',
         assestType: 122,
         isActive: true,
       },
-      { assestType: 122, isActive: true },
+      {
+        nameEN: 'name en',
+        nameAR: 'name ar',
+        assestType: 122,
+        isActive: true,
+      },
     ];
   }
 }

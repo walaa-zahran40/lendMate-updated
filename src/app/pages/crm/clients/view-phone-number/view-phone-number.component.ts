@@ -14,15 +14,21 @@ export class ViewPhoneNumberComponent {
   constructor(private router: Router) {}
   ngOnInit() {
     this.colsInside = [
+      { field: 'nameEN', header: 'Name EN' },
+      { field: 'nameEN', header: 'Name EN' },
       { field: 'phoneType', header: 'Phone Type' },
       { field: 'phoneNumber', header: 'Phone Number' },
     ];
     this.tableDataInside = [
       {
+        nameEN: 'client name',
+        nameAR: 'name ar',
         phoneType: 'Type',
         phoneNumber: 1148000512,
       },
       {
+        nameEN: 'client name',
+        nameAR: 'name ar',
         phoneType: 'Type',
         phoneNumber: 1148000512,
       },

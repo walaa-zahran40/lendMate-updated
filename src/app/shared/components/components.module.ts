@@ -54,6 +54,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SectorDropdownComponent } from './dropdowns/sector-dropdown/sector-dropdown.component';
 import { SubSectorDropdownComponent } from './dropdowns/sub-sector-dropdown/sub-sector-dropdown.component';
+import { TooltipModule } from 'primeng/tooltip';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { SubSectorDropdownComponent } from './dropdowns/sub-sector-dropdown/sub-
   imports: [
     CommonModule,
     ToolbarModule,
+    TooltipModule,
     AvatarModule,
     AvatarGroupModule,
     SelectModule,
@@ -114,7 +116,7 @@ import { SubSectorDropdownComponent } from './dropdowns/sub-sector-dropdown/sub-
     TextareaModule,
     TieredMenuModule,
     PanelMenuModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [DatePipe, AsyncPipe],
   exports: [

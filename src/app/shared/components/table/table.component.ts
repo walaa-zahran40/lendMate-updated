@@ -21,6 +21,8 @@ export class TableComponent {
   @Input() col6Name!: string;
   @Input() col7Name!: string;
   @Input() col8Name!: string;
+  @Input() col9Name!: string;
+  @Input() col10Name!: string;
   @Input() edit!: boolean;
   @Input() delete!: boolean;
   @Input() side!: boolean;
@@ -28,6 +30,7 @@ export class TableComponent {
   @Input() checkBox!: boolean;
   @Input() filters: boolean = true;
   @Input() uppercase!: string;
+  @Input() viewClientIdentityTable!: boolean;
   @Input() viewClientTable!: boolean;
   @Input() viewUploadDocumentsTable!: boolean;
   @Input() viewAddressTable!: boolean;
@@ -47,6 +50,7 @@ export class TableComponent {
   @Input() viewManageMandateTermsTable!: boolean;
   @Input() viewLegalFormTable!: boolean;
   @Input() viewLegalFormLawTable!: boolean;
+  @Input() viewBranchOfficersTable!: boolean;
   @Input() viewCompanyTypesTable!: boolean;
   @Input() viewMandateStatusesTypesTable!: boolean;
   @Input() viewFeelTypesTable!: boolean;
@@ -74,6 +78,7 @@ export class TableComponent {
   @Input() viewTeamLeadTable!: boolean;
   @Input() viewRolesTable!: boolean;
   @Input() viewTeamMemberTable!: boolean;
+  @Input() viewFeesRangeTable!: boolean;
   @Input() viewOperationsTable!: boolean;
   @Input() viewPageOperationsTable!: boolean;
   @Input() viewOfficersLookupsTable!: boolean;

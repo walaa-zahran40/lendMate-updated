@@ -50,12 +50,7 @@
       </div>
 
       <!-- Make sure to have a wrapping element that can resize -->
-      <p-calendar
-        [(ngModel)]="selectedDateForCalendar"
-        [inline]="true"
-        [showWeek]="false"
-        (onSelect)="onDateSelect($event)"
-      ></p-calendar>
+      <p-datepicker [(ngModel)]="selectedDateForCalendar"></p-datepicker>
       <hr />
       <div class="meeting-type">
         <h5>Meeting Type</h5>

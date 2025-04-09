@@ -40,6 +40,8 @@ import { ViewManageMandateTermsComponent } from './leasing-mandates/view-manage-
 import { LeasingFinancialFormCompoundComponent } from './leasing-mandates/leasing-financial-form-compound/leasing-financial-form-compound.component';
 import { ViewClientGuarantorComponent } from './clients/view-client-guarantor/view-client-guarantor.component';
 import { AddClientGuarantorComponent } from './clients/add-client-guarantor/add-client-guarantor.component';
+import { ViewClientIdentityComponent } from './clients/view-client-identity/view-client-identity.component';
+import { AddClientIdentityComponent } from './clients/add-client-identity/add-client-identity.component';
 
 const routes: Routes = [
   /*Clients Routing*/
@@ -54,6 +56,10 @@ const routes: Routes = [
   {
     path: 'clients/add-client-guarantor',
     component: AddClientGuarantorComponent,
+  },
+  {
+    path: 'clients/add-client-identity',
+    component: AddClientIdentityComponent,
   },
   {
     path: 'clients/company-view-only',
@@ -114,6 +120,10 @@ const routes: Routes = [
   {
     path: 'clients/view-client-guarantor',
     component: ViewClientGuarantorComponent,
+  },
+  {
+    path: 'clients/view-client-identity',
+    component: ViewClientIdentityComponent,
   },
   {
     path: 'clients/view-upload-documents',

@@ -14,38 +14,43 @@ export class ViewMeetingsComponent {
   constructor(private router: Router) {}
   ngOnInit() {
     this.colsInside = [
-      { field: 'id', header: 'ID' },
+      { field: 'code', header: 'Code' },
       { field: 'topic', header: 'Topic' },
-      { field: 'clientId', header: 'Client Name' },
+      { field: 'nameEN', header: 'Name EN' },
+      { field: 'nameAR', header: 'Name AR' },
       { field: 'startDate', header: 'Start Date' },
       { field: 'endDate', header: 'End Date' },
     ];
     this.tableDataInside = [
       {
-        id: 122,
+        code: 122,
         topic: 'topic',
-        clientId: 134,
+        nameEN: '134',
+        nameAR: 'name ar',
         startDate: new Date('10-2-2023'),
         endDate: new Date('10-10-2023'),
       },
       {
-        id: 122,
+        code: 122,
         topic: 'topic',
-        clientId: 134,
+        nameEN: '134',
+        nameAR: 'name ar',
         startDate: new Date('10-2-2023'),
         endDate: new Date('10-10-2023'),
       },
       {
-        id: 122,
+        code: 122,
         topic: 'topic',
-        clientId: 134,
+        nameEN: '134',
+        nameAR: 'name ar',
         startDate: new Date('10-2-2023'),
         endDate: new Date('10-10-2023'),
       },
       {
-        id: 122,
+        code: 122,
         topic: 'topic',
-        clientId: 134,
+        nameEN: '134',
+        nameAR: 'name ar',
         startDate: new Date('10-2-2023'),
         endDate: new Date('10-10-2023'),
       },

@@ -15,10 +15,11 @@ export class ViewClientGuarantorComponent {
 
   ngOnInit() {
     this.colsInside = [
-      { field: 'nameEn', header: 'Name EN' },
+      { field: 'nameEN', header: 'Name EN' },
+      { field: 'nameAR', header: 'Name AR' },
       { field: 'businessActivity', header: 'Business Activity' },
       { field: 'isIscore', header: 'isIscore' },
-      { field: 'taxId', header: 'Tax ID' },
+      { field: 'taxName', header: 'Tax Name' },
     ];
     this.tableDataInside = [
       // {

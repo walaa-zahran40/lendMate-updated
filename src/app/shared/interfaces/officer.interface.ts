@@ -1,4 +1,5 @@
 export interface Officer {
-  officerName: string;
   officerType: string;
+  nameEN: string;
+  nameAR: string;
 }

@@ -82,6 +82,24 @@
           class="d-inline-block mx-2 my-2"
         />
       </th>
+      <th *ngIf="col9Name">
+        {{ col9Name }}
+        <img
+          src="/assets/images/shared/table/sort.svg"
+          alt="sort"
+          *ngIf="filters"
+          class="d-inline-block mx-2 my-2"
+        />
+      </th>
+      <th *ngIf="col10Name">
+        {{ col10Name }}
+        <img
+          src="/assets/images/shared/table/sort.svg"
+          alt="sort"
+          *ngIf="filters"
+          class="d-inline-block mx-2 my-2"
+        />
+      </th>
       <th></th>
       <th *ngIf="side"></th>
       <td></td>
@@ -99,22 +117,26 @@
       <td><p-checkbox [binary]="true" *ngIf="checkBox" /></td>
       <td>
         <span class="p-column-title"> {{ col1Name }}</span>
-        {{ client.nameEn }}
+        {{ client.nameEN }}
       </td>
       <td>
-        <span class="p-column-title">{{ col2Name }} </span>
+        <span class="p-column-title"> {{ col2Name }}</span>
+        {{ client.nameAR }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col3Name }} </span>
 
         {{ client.businessActivity }}
       </td>
       <td>
-        <span class="p-column-title"> {{ col3Name }} </span>
+        <span class="p-column-title"> {{ col4Name }} </span>
 
         <span class="{{ uppercase }}">{{ client.isIscore }}</span>
       </td>
       <td>
-        <span class="p-column-title"> {{ col4Name }} </span>
+        <span class="p-column-title"> {{ col5Name }} </span>
 
-        {{ client.taxId }}
+        {{ client.taxName }}
       </td>
       <td class="imgs">
         <img
@@ -149,23 +171,79 @@
       <td><p-checkbox [binary]="true" *ngIf="checkBox" /></td>
       <td>
         <span class="p-column-title"> {{ col1Name }}</span>
-        {{ client.nameEn }}
+        {{ client.nameEN }}
       </td>
       <td>
         <span class="p-column-title">{{ col2Name }} </span>
 
-        {{ client.businessActivity }}
+        {{ client.nameAR }}
       </td>
       <td>
-        <span class="p-column-title"> {{ col3Name }} </span>
+        <span class="p-column-title">{{ col3Name }} </span>
 
-        <span class="{{ uppercase }}">{{ client.isIscore }}</span>
+        {{ client.businessActivity }}
       </td>
       <td>
         <span class="p-column-title"> {{ col4Name }} </span>
 
-        {{ client.taxId }}
+        <span class="{{ uppercase }}">{{ client.isIscore }}</span>
       </td>
+      <td>
+        <span class="p-column-title"> {{ col5Name }} </span>
+
+        {{ client.taxName }}
+      </td>
+      <td class="imgs">
+        <img
+          src="/assets/images/shared/table/edit.svg"
+          alt="edit"
+          class="d-inline-block mx-2 my-2"
+          *ngIf="edit"
+        /><img
+          src="/assets/images/shared/table/delete.svg"
+          class="d-inline-block mx-2 my-2"
+          alt="delete"
+          *ngIf="delete"
+        /><img
+          src="/assets/images/shared/table/side.svg"
+          alt="side"
+          class="d-inline-block mx-2 my-2"
+          *ngIf="side"
+          (click)="wizardBtn.emit()"
+        />
+      </td>
+      <td></td>
+    </tr>
+  </ng-template>
+  <ng-template
+    pTemplate="body"
+    let-rowData="rowData"
+    let-client
+    sortMode="multiple"
+    *ngIf="viewClientIdentityTable"
+  >
+    <tr>
+      <td><p-checkbox [binary]="true" *ngIf="checkBox" /></td>
+      <td>
+        <span class="p-column-title"> {{ col1Name }}</span>
+        {{ client.idNumber }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col2Name }} </span>
+
+        {{ client.idTypeName }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col3Name }} </span>
+
+        {{ client.clientName }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col4Name }} </span>
+
+        <span class="{{ uppercase }}">{{ client.isMain }}</span>
+      </td>
+
       <td class="imgs">
         <img
           src="/assets/images/shared/table/edit.svg"
@@ -213,7 +291,16 @@
           document.expiryDate | date : "MM/dd/yyyy"
         }}</span>
       </td>
+      <td>
+        <span class="p-column-title">{{ col4Name }} </span>
 
+        {{ document.nameEN }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col5Name }} </span>
+
+        {{ document.nameAR }}
+      </td>
       <td class="imgs">
         <img
           src="/assets/images/shared/table/edit.svg"
@@ -246,29 +333,38 @@
       <td><p-checkbox [binary]="true" *ngIf="checkBox" /></td>
       <td>
         <span class="p-column-title"> {{ col1Name }}</span>
-        {{ address.detailsEn }}
+        {{ address.clientNameEN }}
       </td>
       <td>
         <span class="p-column-title">{{ col2Name }} </span>
 
-        {{ address.detailsAr }}
+        {{ address.clientNameAR }}
       </td>
       <td>
         <span class="p-column-title"> {{ col3Name }} </span>
-        {{ address.addressTypeId }}
+        {{ address.detailsEn }}
       </td>
       <td>
         <span class="p-column-title"> {{ col4Name }} </span>
-
-        {{ address.areaId }}
+        {{ address.detailsAr }}
       </td>
       <td>
         <span class="p-column-title"> {{ col5Name }} </span>
 
-        <span class="{{ uppercase }}">{{ address.isMain }}</span>
+        {{ address.addressTypeName }}
       </td>
       <td>
         <span class="p-column-title"> {{ col6Name }} </span>
+
+        {{ address.areaName }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col7Name }} </span>
+
+        <span class="{{ uppercase }}">{{ address.isMain }}</span>
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col8Name }} </span>
 
         <span class="{{ uppercase }}">{{ address.isActive }}</span>
       </td>
@@ -304,10 +400,18 @@
       <td><p-checkbox [binary]="true" *ngIf="checkBox" /></td>
       <td>
         <span class="p-column-title"> {{ col1Name }}</span>
+        {{ turnover.nameEN }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col2Name }}</span>
+        {{ turnover.nameAR }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col3Name }}</span>
         {{ turnover.amount }}
       </td>
       <td>
-        <span class="p-column-title">{{ col2Name }} </span>
+        <span class="p-column-title">{{ col4Name }} </span>
 
         {{ turnover.date | date : "MM/dd/yyyy" }}
       </td>
@@ -344,10 +448,18 @@
       <td><p-checkbox [binary]="true" *ngIf="checkBox" /></td>
       <td>
         <span class="p-column-title"> {{ col1Name }}</span>
+        {{ phoneNumber.nameEN }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col1Name }}</span>
+        {{ phoneNumber.nameAR }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col3Name }}</span>
         {{ phoneNumber.phoneType }}
       </td>
       <td>
-        <span class="p-column-title">{{ col2Name }} </span>
+        <span class="p-column-title">{{ col4Name }} </span>
 
         +20-{{ phoneNumber.phoneNumber }}
       </td>
@@ -384,12 +496,12 @@
       <td><p-checkbox [binary]="true" *ngIf="checkBox" /></td>
       <td>
         <span class="p-column-title"> {{ col1Name }}</span>
-        {{ contactPerson.nameEn }}
+        {{ contactPerson.nameEN }}
       </td>
       <td>
         <span class="p-column-title">{{ col2Name }} </span>
 
-        {{ contactPerson.contactId }}
+        {{ contactPerson.nameAR }}
       </td>
       <td>
         <span class="p-column-title">{{ col3Name }} </span>
@@ -401,7 +513,7 @@
       <td>
         <span class="p-column-title">{{ col4Name }} </span>
 
-        {{ contactPerson.genderId }}
+        {{ contactPerson.gender }}
       </td>
       <td class="imgs">
         <img
@@ -445,12 +557,22 @@
       <td>
         <span class="p-column-title">{{ col3Name }} </span>
 
-        <span>{{ crAuthorityOffice.clientId }}</span>
+        <span>{{ crAuthorityOffice.clientCode }}</span>
       </td>
       <td>
         <span class="p-column-title">{{ col4Name }} </span>
 
-        {{ crAuthorityOffice.crAuthorityOfficeId }}
+        {{ crAuthorityOffice.crAuthorityOfficeName }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col5Name }} </span>
+
+        {{ crAuthorityOffice.nameEN }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col6Name }} </span>
+
+        {{ crAuthorityOffice.nameAR }}
       </td>
       <td class="imgs">
         <img
@@ -494,12 +616,17 @@
       <td>
         <span class="p-column-title">{{ col3Name }} </span>
 
-        <span>{{ taxAuthorityOffice.clientId }}</span>
+        <span>{{ taxAuthorityOffice.nameEN }}</span>
       </td>
       <td>
         <span class="p-column-title">{{ col4Name }} </span>
 
-        {{ taxAuthorityOffice.taxAuthorityOfficeId }}
+        <span>{{ taxAuthorityOffice.nameAR }}</span>
+      </td>
+      <td>
+        <span class="p-column-title">{{ col5Name }} </span>
+
+        {{ taxAuthorityOffice.taxAuthorityOfficeName }}
       </td>
       <td class="imgs">
         <img
@@ -538,27 +665,33 @@
       <td>
         <span class="p-column-title">{{ col2Name }} </span>
 
-        {{ centralBankInfo.clientId }}
+        {{ centralBankInfo.companyName }}
       </td>
       <td>
         <span class="p-column-title">{{ col3Name }} </span>
 
-        <span>{{ centralBankInfo.companyCodeId }}</span>
+        <span>{{ centralBankInfo.companyType }}</span>
       </td>
       <td>
         <span class="p-column-title">{{ col4Name }} </span>
 
-        {{ centralBankInfo.companyType }}
+        {{ centralBankInfo.cbeCode }}
       </td>
+
       <td>
         <span class="p-column-title">{{ col5Name }} </span>
 
-        {{ centralBankInfo.cbeCode }}
+        <span class="{{ uppercase }}">{{ centralBankInfo.isActive }}</span>
       </td>
       <td>
         <span class="p-column-title">{{ col6Name }} </span>
 
-        <span class="{{ uppercase }}">{{ centralBankInfo.isActive }}</span>
+        {{ centralBankInfo.nameEN }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col7Name }} </span>
+
+        {{ centralBankInfo.nameAR }}
       </td>
       <td class="imgs">
         <img
@@ -592,7 +725,7 @@
       <td><p-checkbox [binary]="true" *ngIf="checkBox" /></td>
       <td>
         <span class="p-column-title"> {{ col1Name }}</span>
-        {{ shareHolder.shareHolderId }}
+        {{ shareHolder.shareHolderName }}
       </td>
       <td class="{{ shareHolder.cssStyle }}">
         <span class="p-column-title">{{ col2Name }} </span>
@@ -604,7 +737,16 @@
 
         <span class="{{ uppercase }}">{{ shareHolder.isActive }}</span>
       </td>
+      <td>
+        <span class="p-column-title">{{ col4Name }} </span>
 
+        {{ shareHolder.nameEN }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col5Name }} </span>
+
+        {{ shareHolder.nameAR }}
+      </td>
       <td class="imgs">
         <img
           src="/assets/images/shared/table/edit.svg"
@@ -637,14 +779,18 @@
       <td><p-checkbox [binary]="true" *ngIf="checkBox" /></td>
       <td>
         <span class="p-column-title"> {{ col1Name }}</span>
-        {{ tmlOfficer.officerName }}
+        {{ tmlOfficer.officerType }}
       </td>
       <td>
         <span class="p-column-title">{{ col2Name }} </span>
 
-        {{ tmlOfficer.officerType }}
+        {{ tmlOfficer.nameEN }}
       </td>
+      <td>
+        <span class="p-column-title">{{ col3Name }} </span>
 
+        {{ tmlOfficer.nameAR }}
+      </td>
       <td class="imgs">
         <img
           src="/assets/images/shared/table/edit.svg"
@@ -687,11 +833,15 @@
       <td>
         <span class="p-column-title">{{ col3Name }} </span>
 
-        {{ mandate.clientName }}
+        {{ mandate.nameEN }}
       </td>
-
       <td>
         <span class="p-column-title">{{ col4Name }} </span>
+
+        {{ mandate.nameAR }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col5Name }} </span>
 
         {{ mandate.startDate | date : "MM/dd/yyyy" }}
       </td>
@@ -736,10 +886,14 @@
       <td><p-checkbox [binary]="true" *ngIf="checkBox" /></td>
       <td>
         <span class="p-column-title"> {{ col1Name }}</span>
-        {{ officer.officerName }}
+        {{ officer.nameEN }}
       </td>
       <td>
-        <span class="p-column-title">{{ col2Name }} </span>
+        <span class="p-column-title"> {{ col2Name }}</span>
+        {{ officer.nameAR }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col3Name }} </span>
 
         {{ officer.officerType }}
       </td>
@@ -771,7 +925,11 @@
       <td><p-checkbox [binary]="true" *ngIf="checkBox" /></td>
       <td>
         <span class="p-column-title"> {{ col1Name }}</span>
-        {{ contactPerson.contactPersonName }}
+        {{ contactPerson.nameEN }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col2Name }}</span>
+        {{ contactPerson.nameAR }}
       </td>
       <td>
         <span class="p-column-title">{{ col2Name }} </span>
@@ -804,6 +962,14 @@
   >
     <tr>
       <td><p-checkbox [binary]="true" *ngIf="checkBox" /></td>
+      <td>
+        <span class="p-column-title"> {{ col1Name }}</span>
+        {{ assestType.assestName }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col1Name }}</span>
+        {{ assestType.assestName }}
+      </td>
       <td>
         <span class="p-column-title"> {{ col1Name }}</span>
         {{ assestType.assestName }}
@@ -871,6 +1037,14 @@
         <span class="p-column-title">{{ col8Name }} </span>
         {{ calculation.interest }}%
       </td>
+      <td>
+        <span class="p-column-title">{{ col9Name }} </span>
+        {{ calculation.nameEN }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col10Name }} </span>
+        {{ calculation.nameAR }}
+      </td>
       <td class="imgs">
         <img
           src="/assets/images/shared/table/edit.svg"
@@ -908,7 +1082,14 @@
         <span class="p-column-title">{{ col3Name }} </span>
         <span class="{{ uppercase }}"> {{ manageMandate.isActive }}</span>
       </td>
-
+      <td>
+        <span class="p-column-title">{{ col4Name }} </span>
+        {{ manageMandate.nameEN }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col5Name }} </span>
+        {{ manageMandate.nameAR }}
+      </td>
       <td class="imgs">
         <img
           src="/assets/images/shared/table/edit.svg"
@@ -936,7 +1117,7 @@
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
       <td>
         <span class="p-column-title"> {{ col1Name }}</span>
-        {{ legalForm.id }}
+        {{ legalForm.code }}
       </td>
       <td>
         <span class="p-column-title">{{ col2Name }} </span>
@@ -944,11 +1125,11 @@
       </td>
       <td>
         <span class="p-column-title">{{ col3Name }} </span>
-        <span> {{ legalForm.nameInEnglish }}</span>
+        <span> {{ legalForm.nameEN }}</span>
       </td>
       <td>
         <span class="p-column-title">{{ col4Name }} </span>
-        <span> {{ legalForm.nameInArabic }}</span>
+        <span> {{ legalForm.nameAR }}</span>
       </td>
 
       <td class="imgs">
@@ -978,7 +1159,7 @@
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
       <td>
         <span class="p-column-title"> {{ col1Name }}</span>
-        {{ legalFormLaw.id }}
+        {{ legalFormLaw.code }}
       </td>
       <td>
         <span class="p-column-title">{{ col2Name }} </span>
@@ -986,11 +1167,11 @@
       </td>
       <td>
         <span class="p-column-title">{{ col3Name }} </span>
-        <span> {{ legalFormLaw.nameInEnglish }}</span>
+        <span> {{ legalFormLaw.nameEN }}</span>
       </td>
       <td>
         <span class="p-column-title">{{ col4Name }} </span>
-        <span> {{ legalFormLaw.nameInArabic }}</span>
+        <span> {{ legalFormLaw.nameAR }}</span>
       </td>
       <td>
         <span class="p-column-title">{{ col5Name }} </span>
@@ -1021,24 +1202,21 @@
   >
     <tr>
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+
       <td>
-        <span class="p-column-title"> {{ col1Name }}</span>
-        {{ companyType.id }}
-      </td>
-      <td>
-        <span class="p-column-title">{{ col2Name }} </span>
+        <span class="p-column-title">{{ col1Name }} </span>
         {{ companyType.code }}
       </td>
       <td>
+        <span class="p-column-title">{{ col2Name }} </span>
+        <span> {{ companyType.nameEN }}</span>
+      </td>
+      <td>
         <span class="p-column-title">{{ col3Name }} </span>
-        <span> {{ companyType.name }}</span>
+        <span> {{ companyType.nameAR }}</span>
       </td>
       <td>
         <span class="p-column-title">{{ col4Name }} </span>
-        <span> {{ companyType.arabicName }}</span>
-      </td>
-      <td>
-        <span class="p-column-title">{{ col5Name }} </span>
         <span class="{{ uppercase }}"> {{ companyType.active }}</span>
       </td>
       <td class="imgs">
@@ -1066,28 +1244,25 @@
   >
     <tr>
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+
       <td>
-        <span class="p-column-title"> {{ col1Name }}</span>
-        {{ mandateStatus.id }}
-      </td>
-      <td>
-        <span class="p-column-title">{{ col2Name }} </span>
+        <span class="p-column-title">{{ col1Name }} </span>
         {{ mandateStatus.code }}
       </td>
       <td>
+        <span class="p-column-title">{{ col2Name }} </span>
+        <span> {{ mandateStatus.nameEN }}</span>
+      </td>
+      <td>
         <span class="p-column-title">{{ col3Name }} </span>
-        <span> {{ mandateStatus.name }}</span>
+        <span> {{ mandateStatus.nameAR }}</span>
       </td>
       <td>
         <span class="p-column-title">{{ col4Name }} </span>
-        <span> {{ mandateStatus.arabicName }}</span>
-      </td>
-      <td>
-        <span class="p-column-title">{{ col5Name }} </span>
         <span class="{{ uppercase }}"> {{ mandateStatus.isInitial }}</span>
       </td>
       <td>
-        <span class="p-column-title">{{ col6Name }} </span>
+        <span class="p-column-title">{{ col5Name }} </span>
         <span class="{{ uppercase }}"> {{ mandateStatus.active }}</span>
       </td>
       <td class="imgs">
@@ -1115,36 +1290,33 @@
   >
     <tr>
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+
       <td>
-        <span class="p-column-title"> {{ col1Name }}</span>
-        {{ feelType.id }}
-      </td>
-      <td>
-        <span class="p-column-title">{{ col2Name }} </span>
+        <span class="p-column-title">{{ col1Name }} </span>
         {{ feelType.code }}
       </td>
       <td>
+        <span class="p-column-title">{{ col2Name }} </span>
+        <span> {{ feelType.nameEN }}</span>
+      </td>
+      <td>
         <span class="p-column-title">{{ col3Name }} </span>
-        <span> {{ feelType.name }}</span>
+        <span> {{ feelType.nameAR }}</span>
       </td>
       <td>
         <span class="p-column-title">{{ col4Name }} </span>
-        <span> {{ feelType.arabicName }}</span>
-      </td>
-      <td>
-        <span class="p-column-title">{{ col5Name }} </span>
         <span> {{ feelType.amount }}</span>
       </td>
       <td>
-        <span class="p-column-title">{{ col6Name }} </span>
+        <span class="p-column-title">{{ col5Name }} </span>
         <span> {{ feelType.percentage }}%</span>
       </td>
       <td>
-        <span class="p-column-title">{{ col7Name }} </span>
+        <span class="p-column-title">{{ col6Name }} </span>
         <span class="{{ uppercase }}"> {{ feelType.isPercentage }}</span>
       </td>
       <td>
-        <span class="p-column-title">{{ col8Name }} </span>
+        <span class="p-column-title">{{ col7Name }} </span>
         <span class="{{ uppercase }}"> {{ feelType.active }}</span>
       </td>
       <td class="imgs">
@@ -1172,28 +1344,25 @@
   >
     <tr>
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+
       <td>
-        <span class="p-column-title"> {{ col1Name }}</span>
-        {{ currency.id }}
-      </td>
-      <td>
-        <span class="p-column-title">{{ col2Name }} </span>
+        <span class="p-column-title">{{ col1Name }} </span>
         {{ currency.code }}
       </td>
       <td>
+        <span class="p-column-title">{{ col2Name }} </span>
+        <span> {{ currency.nameEN }}</span>
+      </td>
+      <td>
         <span class="p-column-title">{{ col3Name }} </span>
-        <span> {{ currency.name }}</span>
+        <span> {{ currency.nameAR }}</span>
       </td>
       <td>
         <span class="p-column-title">{{ col4Name }} </span>
-        <span> {{ currency.arabicName }}</span>
-      </td>
-      <td>
-        <span class="p-column-title">{{ col5Name }} </span>
         <span> {{ currency.iso }}</span>
       </td>
       <td>
-        <span class="p-column-title">{{ col6Name }} </span>
+        <span class="p-column-title">{{ col5Name }} </span>
         <span class="{{ uppercase }}"> {{ currency.currency }}</span>
       </td>
 
@@ -1236,7 +1405,14 @@
         <span class="p-column-title">{{ col2Name }} </span>
         {{ currency.exchangeRate }}%
       </td>
-
+      <td>
+        <span class="p-column-title">{{ col3Name }} </span>
+        {{ currency.nameEN }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col4Name }} </span>
+        {{ currency.nameAR }}
+      </td>
       <td class="imgs">
         <img
           src="/assets/images/shared/table/edit.svg"
@@ -1262,24 +1438,21 @@
   >
     <tr>
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+
       <td>
-        <span class="p-column-title"> {{ col1Name }}</span>
-        {{ paymentMethod.id }}
-      </td>
-      <td>
-        <span class="p-column-title">{{ col2Name }} </span>
+        <span class="p-column-title">{{ col1Name }} </span>
         {{ paymentMethod.code }}
       </td>
       <td>
+        <span class="p-column-title">{{ col2Name }} </span>
+        {{ paymentMethod.nameEN }}
+      </td>
+      <td>
         <span class="p-column-title">{{ col3Name }} </span>
-        {{ paymentMethod.name }}
+        {{ paymentMethod.nameAR }}
       </td>
       <td>
         <span class="p-column-title">{{ col4Name }} </span>
-        {{ paymentMethod.arabicName }}
-      </td>
-      <td>
-        <span class="p-column-title">{{ col5Name }} </span>
         <span class="{{ uppercase }}">{{ paymentMethod.active }}</span>
       </td>
       <td class="imgs">
@@ -1307,32 +1480,29 @@
   >
     <tr>
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+
       <td>
-        <span class="p-column-title"> {{ col1Name }}</span>
-        {{ mandateValidityUnit.id }}
-      </td>
-      <td>
-        <span class="p-column-title">{{ col2Name }} </span>
+        <span class="p-column-title">{{ col1Name }} </span>
         {{ mandateValidityUnit.code }}
       </td>
       <td>
+        <span class="p-column-title">{{ col2Name }} </span>
+        {{ mandateValidityUnit.nameEN }}
+      </td>
+      <td>
         <span class="p-column-title">{{ col3Name }} </span>
-        {{ mandateValidityUnit.name }}
+        {{ mandateValidityUnit.nameAR }}
       </td>
       <td>
         <span class="p-column-title">{{ col4Name }} </span>
-        {{ mandateValidityUnit.arabicName }}
-      </td>
-      <td>
-        <span class="p-column-title">{{ col5Name }} </span>
         {{ mandateValidityUnit.validationMin }}
       </td>
       <td>
-        <span class="p-column-title">{{ col6Name }} </span>
+        <span class="p-column-title">{{ col5Name }} </span>
         {{ mandateValidityUnit.validationMax }}
       </td>
       <td>
-        <span class="p-column-title">{{ col7Name }} </span>
+        <span class="p-column-title">{{ col6Name }} </span>
         <span class="{{ uppercase }}">{{ mandateValidityUnit.active }}</span>
       </td>
       <td class="imgs">
@@ -1360,25 +1530,22 @@
   >
     <tr>
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+
       <td>
-        <span class="p-column-title"> {{ col1Name }}</span>
-        {{ branch.id }}
-      </td>
-      <td>
-        <span class="p-column-title">{{ col2Name }} </span>
+        <span class="p-column-title">{{ col1Name }} </span>
         {{ branch.code }}
       </td>
       <td>
-        <span class="p-column-title">{{ col3Name }} </span>
-        {{ branch.name }}
+        <span class="p-column-title">{{ col2Name }} </span>
+        {{ branch.nameEN }}
       </td>
       <td>
-        <span class="p-column-title">{{ col4Name }} </span>
-        {{ branch.arabicName }}
+        <span class="p-column-title">{{ col3Name }} </span>
+        {{ branch.nameAR }}
       </td>
 
       <td>
-        <span class="p-column-title">{{ col5Name }} </span>
+        <span class="p-column-title">{{ col4Name }} </span>
         <span class="{{ uppercase }}">{{ branch.active }}</span>
       </td>
       <td class="imgs">
@@ -1424,7 +1591,51 @@
         <span class="p-column-title">{{ col3Name }} </span>
         {{ branchManager.endDate | date : "dd MMM yyyy" }}
       </td>
-
+      <td>
+        <span class="p-column-title"> {{ col4Name }}</span>
+        {{ branchManager.nameEN }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col5Name }}</span>
+        {{ branchManager.nameAR }}
+      </td>
+      <td class="imgs">
+        <img
+          src="/assets/images/shared/table/edit.svg"
+          alt="edit"
+          class="d-inline-block mx-2 my-2"
+          *ngIf="edit"
+        /><img
+          src="/assets/images/shared/table/delete.svg"
+          class="d-inline-block mx-2 my-2"
+          alt="delete"
+          *ngIf="delete"
+        />
+      </td>
+      <td></td>
+    </tr>
+  </ng-template>
+  <ng-template
+    pTemplate="body"
+    let-rowData="rowData"
+    let-branchManager
+    sortMode="multiple"
+    *ngIf="viewBranchOfficersTable"
+  >
+    <tr>
+      <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+      <td>
+        <span class="p-column-title"> {{ col1Name }}</span>
+        {{ branchManager.details }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col2Name }}</span>
+        {{ branchManager.nameEN }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col3Name }}</span>
+        {{ branchManager.nameAR }}
+      </td>
       <td class="imgs">
         <img
           src="/assets/images/shared/table/edit.svg"
@@ -1462,7 +1673,14 @@
         <span class="p-column-title">{{ col3Name }} </span>
         {{ branchAddress.detailsAR }}
       </td>
-
+      <td>
+        <span class="p-column-title">{{ col4Name }} </span>
+        {{ branchAddress.nameEN }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col5Name }} </span>
+        {{ branchAddress.nameAR }}
+      </td>
       <td class="imgs">
         <img
           src="/assets/images/shared/table/edit.svg"
@@ -1488,28 +1706,25 @@
   >
     <tr>
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+
       <td>
-        <span class="p-column-title"> {{ col1Name }}</span>
-        {{ businessLine.id }}
-      </td>
-      <td>
-        <span class="p-column-title">{{ col2Name }} </span>
+        <span class="p-column-title">{{ col1Name }} </span>
         {{ businessLine.code }}
       </td>
       <td>
+        <span class="p-column-title">{{ col2Name }} </span>
+        {{ businessLine.nameEN }}
+      </td>
+      <td>
         <span class="p-column-title">{{ col3Name }} </span>
-        {{ businessLine.name }}
+        {{ businessLine.nameAR }}
       </td>
       <td>
         <span class="p-column-title">{{ col4Name }} </span>
-        {{ businessLine.arabicName }}
-      </td>
-      <td>
-        <span class="p-column-title">{{ col5Name }} </span>
         {{ businessLine.licenseDate | date : "dd MMM , yyyy" }}
       </td>
       <td>
-        <span class="p-column-title">{{ col6Name }} </span>
+        <span class="p-column-title">{{ col5Name }} </span>
         <span class="{{ uppercase }}">{{ businessLine.active }}</span>
       </td>
       <td class="imgs">
@@ -1537,32 +1752,29 @@
   >
     <tr>
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+
       <td>
-        <span class="p-column-title"> {{ col1Name }}</span>
-        {{ assestType.id }}
-      </td>
-      <td>
-        <span class="p-column-title">{{ col2Name }} </span>
+        <span class="p-column-title">{{ col1Name }} </span>
         {{ assestType.code }}
       </td>
       <td>
-        <span class="p-column-title">{{ col3Name }} </span>
+        <span class="p-column-title">{{ col2Name }} </span>
         {{ assestType.nameEN }}
       </td>
       <td>
-        <span class="p-column-title">{{ col4Name }} </span>
+        <span class="p-column-title">{{ col3Name }} </span>
         {{ assestType.nameAR }}
       </td>
       <td>
-        <span class="p-column-title">{{ col5Name }} </span>
+        <span class="p-column-title">{{ col4Name }} </span>
         {{ assestType.category }}
       </td>
       <td>
-        <span class="p-column-title">{{ col6Name }} </span>
+        <span class="p-column-title">{{ col5Name }} </span>
         {{ assestType.parent }}
       </td>
       <td>
-        <span class="p-column-title">{{ col7Name }} </span>
+        <span class="p-column-title">{{ col6Name }} </span>
         <span class="{{ uppercase }}">{{ assestType.active }}</span>
       </td>
       <td class="imgs">
@@ -1590,29 +1802,26 @@
   >
     <tr>
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+
       <td>
-        <span class="p-column-title"> {{ col1Name }}</span>
-        {{ assestTypeCategory.id }}
-      </td>
-      <td>
-        <span class="p-column-title">{{ col2Name }} </span>
+        <span class="p-column-title">{{ col1Name }} </span>
         {{ assestTypeCategory.code }}
       </td>
       <td>
-        <span class="p-column-title">{{ col3Name }} </span>
+        <span class="p-column-title">{{ col2Name }} </span>
         {{ assestTypeCategory.nameEN }}
       </td>
       <td>
-        <span class="p-column-title">{{ col4Name }} </span>
+        <span class="p-column-title">{{ col3Name }} </span>
         {{ assestTypeCategory.nameAR }}
       </td>
       <td>
-        <span class="p-column-title">{{ col5Name }} </span>
+        <span class="p-column-title">{{ col4Name }} </span>
         {{ assestTypeCategory.limit }}
       </td>
 
       <td>
-        <span class="p-column-title">{{ col6Name }} </span>
+        <span class="p-column-title">{{ col5Name }} </span>
         <span class="{{ uppercase }}">{{ assestTypeCategory.active }}</span>
       </td>
       <td class="imgs">
@@ -1640,29 +1849,26 @@
   >
     <tr>
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+
       <td>
-        <span class="p-column-title"> {{ col1Name }}</span>
-        {{ sector.id }}
-      </td>
-      <td>
-        <span class="p-column-title">{{ col2Name }} </span>
+        <span class="p-column-title">{{ col1Name }} </span>
         {{ sector.code }}
       </td>
       <td>
-        <span class="p-column-title">{{ col3Name }} </span>
+        <span class="p-column-title">{{ col2Name }} </span>
         {{ sector.nameEN }}
       </td>
       <td>
-        <span class="p-column-title">{{ col4Name }} </span>
+        <span class="p-column-title">{{ col3Name }} </span>
         {{ sector.nameAR }}
       </td>
       <td>
-        <span class="p-column-title">{{ col5Name }} </span>
+        <span class="p-column-title">{{ col4Name }} </span>
         {{ sector.subSectors }}
       </td>
 
       <td>
-        <span class="p-column-title">{{ col6Name }} </span>
+        <span class="p-column-title">{{ col5Name }} </span>
         <span class="{{ uppercase }}">{{ sector.active }}</span>
       </td>
       <td class="imgs">
@@ -1690,29 +1896,26 @@
   >
     <tr>
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+
       <td>
-        <span class="p-column-title"> {{ col1Name }}</span>
-        {{ client.id }}
-      </td>
-      <td>
-        <span class="p-column-title">{{ col2Name }} </span>
+        <span class="p-column-title">{{ col1Name }} </span>
         {{ client.code }}
       </td>
       <td>
-        <span class="p-column-title">{{ col3Name }} </span>
+        <span class="p-column-title">{{ col2Name }} </span>
         {{ client.nameEN }}
       </td>
       <td>
-        <span class="p-column-title">{{ col4Name }} </span>
+        <span class="p-column-title">{{ col3Name }} </span>
         {{ client.nameAR }}
       </td>
       <td>
-        <span class="p-column-title">{{ col5Name }} </span>
+        <span class="p-column-title">{{ col4Name }} </span>
         {{ client.initial }}
       </td>
 
       <td>
-        <span class="p-column-title">{{ col6Name }} </span>
+        <span class="p-column-title">{{ col5Name }} </span>
         <span class="{{ uppercase }}">{{ client.active }}</span>
       </td>
       <td class="imgs">
@@ -1798,32 +2001,29 @@
   >
     <tr>
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+
       <td>
-        <span class="p-column-title"> {{ col1Name }}</span>
-        {{ client.id }}
-      </td>
-      <td>
-        <span class="p-column-title">{{ col2Name }} </span>
+        <span class="p-column-title">{{ col1Name }} </span>
         {{ client.code }}
       </td>
       <td>
+        <span class="p-column-title">{{ col2Name }} </span>
+        {{ client.nameEN }}
+      </td>
+      <td>
         <span class="p-column-title">{{ col3Name }} </span>
-        {{ client.name }}
+        {{ client.nameAR }}
       </td>
       <td>
         <span class="p-column-title">{{ col4Name }} </span>
-        {{ client.arabicName }}
-      </td>
-      <td>
-        <span class="p-column-title">{{ col5Name }} </span>
         {{ client.upperLimit }}
       </td>
       <td>
-        <span class="p-column-title">{{ col6Name }} </span>
+        <span class="p-column-title">{{ col5Name }} </span>
         {{ client.lowerLimit }}
       </td>
       <td>
-        <span class="p-column-title">{{ col7Name }} </span>
+        <span class="p-column-title">{{ col6Name }} </span>
         <span class="{{ uppercase }}">{{ client.active }}</span>
       </td>
       <td class="imgs">
@@ -1857,25 +2057,22 @@
   >
     <tr>
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+
       <td>
-        <span class="p-column-title"> {{ col1Name }}</span>
-        {{ client.id }}
-      </td>
-      <td>
-        <span class="p-column-title">{{ col2Name }} </span>
+        <span class="p-column-title">{{ col1Name }} </span>
         {{ client.code }}
       </td>
       <td>
-        <span class="p-column-title">{{ col3Name }} </span>
-        {{ client.name }}
+        <span class="p-column-title">{{ col2Name }} </span>
+        {{ client.nameEN }}
       </td>
       <td>
-        <span class="p-column-title">{{ col4Name }} </span>
-        {{ client.arabicName }}
+        <span class="p-column-title">{{ col3Name }} </span>
+        {{ client.nameAR }}
       </td>
 
       <td>
-        <span class="p-column-title">{{ col5Name }} </span>
+        <span class="p-column-title">{{ col4Name }} </span>
         <span class="{{ uppercase }}">{{ client.active }}</span>
       </td>
       <td class="imgs">
@@ -1911,7 +2108,7 @@
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
       <td>
         <span class="p-column-title"> {{ col1Name }}</span>
-        {{ governorate.id }}
+        {{ governorate.code }}
       </td>
       <td>
         <span class="p-column-title">{{ col2Name }} </span>
@@ -1932,7 +2129,7 @@
       </td>
       <td>
         <span class="p-column-title">{{ col6Name }} </span>
-        {{ governorate.countryId }}
+        {{ governorate.countryName }}
       </td>
       <td class="imgs">
         <img
@@ -1967,7 +2164,7 @@
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
       <td>
         <span class="p-column-title"> {{ col1Name }}</span>
-        {{ country.id }}
+        {{ country.code }}
       </td>
       <td>
         <span class="p-column-title">{{ col2Name }} </span>
@@ -1975,18 +2172,15 @@
       </td>
       <td>
         <span class="p-column-title">{{ col3Name }} </span>
-        {{ country.nameAR }}
+        {{ country.nameEN }}
       </td>
       <td>
         <span class="p-column-title">{{ col4Name }} </span>
-        {{ country.code2 }}
+        {{ country.nameAR }}
       </td>
+
       <td>
         <span class="p-column-title">{{ col5Name }} </span>
-        {{ country.code3 }}
-      </td>
-      <td>
-        <span class="p-column-title">{{ col6Name }} </span>
         <span class="{{ uppercase }}">{{ country.active }}</span>
       </td>
 
@@ -2023,7 +2217,7 @@
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
       <td>
         <span class="p-column-title"> {{ col1Name }}</span>
-        {{ area.id }}
+        {{ area.code }}
       </td>
       <td>
         <span class="p-column-title">{{ col2Name }} </span>
@@ -2034,8 +2228,12 @@
         {{ area.arabicName }}
       </td>
       <td>
+        <span class="p-column-title">{{ col3Name }} </span>
+        {{ area.englishName }}
+      </td>
+      <td>
         <span class="p-column-title">{{ col4Name }} </span>
-        {{ area.governorateId }}
+        {{ area.governorateName }}
       </td>
 
       <td>
@@ -2074,32 +2272,29 @@
   >
     <tr>
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+
       <td>
-        <span class="p-column-title"> {{ col1Name }}</span>
-        {{ tax.id }}
-      </td>
-      <td>
-        <span class="p-column-title">{{ col2Name }} </span>
+        <span class="p-column-title">{{ col1Name }} </span>
         {{ tax.code }}
       </td>
       <td>
+        <span class="p-column-title">{{ col2Name }} </span>
+        {{ tax.nameEN }}
+      </td>
+      <td>
         <span class="p-column-title">{{ col3Name }} </span>
-        {{ tax.name }}
+        {{ tax.nameAR }}
       </td>
       <td>
         <span class="p-column-title">{{ col4Name }} </span>
-        {{ tax.arabicName }}
+        {{ tax.governorateName }}
       </td>
       <td>
         <span class="p-column-title">{{ col5Name }} </span>
-        {{ tax.governorateId }}
-      </td>
-      <td>
-        <span class="p-column-title">{{ col6Name }} </span>
         {{ tax.address }}
       </td>
       <td>
-        <span class="p-column-title">{{ col5Name }} </span>
+        <span class="p-column-title">{{ col6Name }} </span>
         <span class="{{ uppercase }}">{{ tax.active }}</span>
       </td>
 
@@ -2146,7 +2341,14 @@
         <span class="p-column-title">{{ col3Name }} </span>
         {{ department.startDate | date : "dd MMM,yyyy" }}
       </td>
-
+      <td>
+        <span class="p-column-title">{{ col4Name }} </span>
+        {{ department.nameEN }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col5Name }} </span>
+        {{ department.nameAR }}
+      </td>
       <td class="imgs">
         <img
           src="/assets/images/shared/table/edit.svg"
@@ -2178,28 +2380,25 @@
   >
     <tr>
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+
       <td>
-        <span class="p-column-title"> {{ col1Name }}</span>
-        {{ team.id }}
-      </td>
-      <td>
-        <span class="p-column-title">{{ col2Name }} </span>
+        <span class="p-column-title">{{ col1Name }} </span>
         {{ team.code }}
       </td>
       <td>
+        <span class="p-column-title">{{ col2Name }} </span>
+        {{ team.nameEN }}
+      </td>
+      <td>
         <span class="p-column-title">{{ col3Name }} </span>
-        {{ team.name }}
+        {{ team.nameAR }}
       </td>
       <td>
         <span class="p-column-title">{{ col4Name }} </span>
-        {{ team.arabicName }}
-      </td>
-      <td>
-        <span class="p-column-title">{{ col5Name }} </span>
         <span class="{{ uppercase }}">{{ team.active }}</span>
       </td>
       <td>
-        <span class="p-column-title">{{ col6Name }} </span>
+        <span class="p-column-title">{{ col5Name }} </span>
         {{ team.department }}
       </td>
       <td class="imgs">
@@ -2245,7 +2444,14 @@
         <span class="p-column-title">{{ col3Name }} </span>
         {{ teamLead.startDate | date : "dd MMM,yyyy" }}
       </td>
-
+      <td>
+        <span class="p-column-title">{{ col4Name }} </span>
+        {{ teamLead.nameEN }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col5Name }} </span>
+        {{ teamLead.nameAR }}
+      </td>
       <td class="imgs">
         <img
           src="/assets/images/shared/table/edit.svg"
@@ -2278,17 +2484,18 @@
   >
     <tr>
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+
       <td>
-        <span class="p-column-title"> {{ col1Name }}</span>
-        {{ role.id }}
-      </td>
-      <td>
-        <span class="p-column-title">{{ col2Name }} </span>
+        <span class="p-column-title">{{ col1Name }} </span>
         {{ role.code }}
       </td>
       <td>
+        <span class="p-column-title">{{ col2Name }} </span>
+        {{ role.nameEN }}
+      </td>
+      <td>
         <span class="p-column-title">{{ col3Name }} </span>
-        {{ role.name }}
+        {{ role.nameAR }}
       </td>
       <td>
         <span class="p-column-title">{{ col4Name }} </span>
@@ -2338,11 +2545,19 @@
         <span class="p-column-title">{{ col2Name }} </span>
         {{ teamMember.officer }}
       </td>
+
       <td>
         <span class="p-column-title">{{ col3Name }} </span>
         {{ teamMember.startDate | date : "dd MMM,yyyy" }}
       </td>
-
+      <td>
+        <span class="p-column-title">{{ col4Name }} </span>
+        {{ teamMember.nameEN }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col5Name }} </span>
+        {{ teamMember.nameAR }}
+      </td>
       <td class="imgs">
         <img
           src="/assets/images/shared/table/edit.svg"
@@ -2374,32 +2589,29 @@
   >
     <tr>
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+
       <td>
-        <span class="p-column-title"> {{ col1Name }}</span>
-        {{ operation.id }}
-      </td>
-      <td>
-        <span class="p-column-title">{{ col2Name }} </span>
+        <span class="p-column-title">{{ col1Name }} </span>
         {{ operation.code }}
       </td>
       <td>
+        <span class="p-column-title">{{ col2Name }} </span>
+        {{ operation.nameEN }}
+      </td>
+      <td>
         <span class="p-column-title">{{ col3Name }} </span>
-        {{ operation.name }}
+        {{ operation.nameAR }}
       </td>
       <td>
         <span class="p-column-title">{{ col4Name }} </span>
-        {{ operation.arabicName }}
-      </td>
-      <td>
-        <span class="p-column-title">{{ col5Name }} </span>
         {{ operation.url }}
       </td>
       <td>
-        <span class="p-column-title">{{ col6Name }} </span>
+        <span class="p-column-title">{{ col5Name }} </span>
         {{ operation.description }}
       </td>
       <td>
-        <span class="p-column-title">{{ col7Name }} </span>
+        <span class="p-column-title">{{ col6Name }} </span>
         <span class="{{ uppercase }}">{{ operation.active }}</span>
       </td>
       <td class="imgs">
@@ -2433,26 +2645,31 @@
   >
     <tr>
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+
       <td>
-        <span class="p-column-title"> {{ col1Name }}</span>
-        {{ operation.id }}
-      </td>
-      <td>
-        <span class="p-column-title">{{ col2Name }} </span>
+        <span class="p-column-title">{{ col1Name }} </span>
         {{ operation.code }}
       </td>
       <td>
-        <span class="p-column-title">{{ col3Name }} </span>
-        {{ operation.pageId }}
+        <span class="p-column-title">{{ col2Name }} </span>
+        {{ operation.pageName }}
       </td>
       <td>
-        <span class="p-column-title">{{ col4Name }} </span>
-        {{ operation.operationId }}
+        <span class="p-column-title">{{ col3Name }} </span>
+        {{ operation.operationName }}
       </td>
 
       <td>
-        <span class="p-column-title">{{ col5Name }} </span>
+        <span class="p-column-title">{{ col4Name }} </span>
         <span class="{{ uppercase }}">{{ operation.active }}</span>
+      </td>
+      <td>
+        <span class="p-column-title">{{ col5Name }} </span>
+        {{ operation.nameEN }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col6Name }} </span>
+        {{ operation.nameAR }}
       </td>
       <td class="imgs">
         <img
@@ -2485,30 +2702,35 @@
   >
     <tr>
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+
       <td>
-        <span class="p-column-title"> {{ col1Name }}</span>
-        {{ officer.id }}
-      </td>
-      <td>
-        <span class="p-column-title">{{ col2Name }} </span>
+        <span class="p-column-title">{{ col1Name }} </span>
         {{ officer.code }}
       </td>
       <td>
-        <span class="p-column-title">{{ col3Name }} </span>
+        <span class="p-column-title">{{ col2Name }} </span>
         {{ officer.loginName }}
       </td>
       <td>
-        <span class="p-column-title">{{ col4Name }} </span>
+        <span class="p-column-title">{{ col3Name }} </span>
         {{ officer.phoneNumber }}
       </td>
 
       <td>
-        <span class="p-column-title">{{ col5Name }} </span>
+        <span class="p-column-title">{{ col4Name }} </span>
         <span>{{ officer.email }}</span>
       </td>
       <td>
-        <span class="p-column-title">{{ col6Name }} </span>
+        <span class="p-column-title">{{ col5Name }} </span>
         <span class="{{ uppercase }}">{{ officer.active }}</span>
+      </td>
+      <td>
+        <span class="p-column-title">{{ col6Name }} </span>
+        <span>{{ officer.nameEN }}</span>
+      </td>
+      <td>
+        <span class="p-column-title">{{ col7Name }} </span>
+        <span>{{ officer.nameAR }}</span>
       </td>
       <td class="imgs">
         <img
@@ -2541,17 +2763,18 @@
   >
     <tr>
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+
       <td>
-        <span class="p-column-title"> {{ col1Name }}</span>
-        {{ officer.id }}
-      </td>
-      <td>
-        <span class="p-column-title">{{ col2Name }} </span>
+        <span class="p-column-title">{{ col1Name }} </span>
         {{ officer.code }}
       </td>
       <td>
+        <span class="p-column-title">{{ col2Name }} </span>
+        {{ officer.nameEN }}
+      </td>
+      <td>
         <span class="p-column-title">{{ col3Name }} </span>
-        {{ officer.officerName }}
+        {{ officer.nameAR }}
       </td>
       <td>
         <span class="p-column-title">{{ col4Name }} </span>
@@ -2595,7 +2818,7 @@
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
       <td>
         <span class="p-column-title"> {{ col1Name }}</span>
-        {{ meeting.id }}
+        {{ meeting.code }}
       </td>
       <td>
         <span class="p-column-title">{{ col2Name }} </span>
@@ -2603,15 +2826,19 @@
       </td>
       <td>
         <span class="p-column-title">{{ col3Name }} </span>
-        {{ meeting.clientId }}
+        {{ meeting.nameEN }}
       </td>
       <td>
         <span class="p-column-title">{{ col4Name }} </span>
+        {{ meeting.nameAR }}
+      </td>
+      <td>
+        <span class="p-column-title">{{ col5Name }} </span>
         {{ meeting.startDate | date : "short" }}
       </td>
 
       <td>
-        <span class="p-column-title">{{ col5Name }} </span>
+        <span class="p-column-title">{{ col6Name }} </span>
         {{ meeting.endDate | date : "short" }}
       </td>
       <td class="imgs">
@@ -2657,7 +2884,14 @@
         <span class="p-column-title">{{ col3Name }} </span>
         <span class="{{ uppercase }}">{{ officer.mustAttend }}</span>
       </td>
-
+      <td>
+        <span class="p-column-title"> {{ col4Name }}</span>
+        {{ officer.nameEN }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col5Name }}</span>
+        {{ officer.nameAR }}
+      </td>
       <td class="imgs">
         <img
           src="/assets/images/shared/table/edit.svg"
@@ -2689,16 +2923,19 @@
   >
     <tr>
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
-      <td>
-        <span class="p-column-title"> {{ col1Name }}</span>
-        {{ contact.contactPerson }}
-      </td>
 
       <td>
-        <span class="p-column-title">{{ col2Name }} </span>
+        <span class="p-column-title">{{ col1Name }} </span>
         <span class="{{ uppercase }}">{{ contact.mustAttend }}</span>
       </td>
-
+      <td>
+        <span class="p-column-title"> {{ col2Name }}</span>
+        {{ contact.nameEN }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col3Name }}</span>
+        {{ contact.nameAR }}
+      </td>
       <td class="imgs">
         <img
           src="/assets/images/shared/table/edit.svg"
@@ -2739,7 +2976,70 @@
         <span class="p-column-title">{{ col2Name }} </span>
         <span class="{{ uppercase }}">{{ assest.isActive }}</span>
       </td>
+      <td>
+        <span class="p-column-title"> {{ col3Name }}</span>
+        {{ assest.nameEN }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col4Name }}</span>
+        {{ assest.nameAR }}
+      </td>
+      <td class="imgs">
+        <img
+          src="/assets/images/shared/table/edit.svg"
+          alt="edit"
+          class="d-inline-block mx-2 my-2"
+          *ngIf="edit"
+        /><img
+          src="/assets/images/shared/table/delete.svg"
+          class="d-inline-block mx-2 my-2"
+          alt="delete"
+          *ngIf="delete"
+        />
+        <img
+          src="/assets/images/shared/table/side.svg"
+          class="d-inline-block mx-2 my-2"
+          alt="side"
+          *ngIf="side"
+        />
+      </td>
+      <td></td>
+    </tr>
+  </ng-template>
+  <ng-template
+    pTemplate="body"
+    let-rowData="rowData"
+    let-fee
+    sortMode="multiple"
+    *ngIf="viewFeesRangeTable"
+  >
+    <tr>
+      <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+      <td>
+        <span class="p-column-title"> {{ col1Name }}</span>
+        {{ fee.feeTypeName }}
+      </td>
 
+      <td>
+        <span class="p-column-title">{{ col2Name }} </span>
+        <span>{{ fee.lowerBound }}</span>
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col3Name }}</span>
+        {{ fee.upperBound }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col4Name }}</span>
+        {{ fee.defaultAmount }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col5Name }}</span>
+        {{ fee.defaultPercentage }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col6Name }}</span>
+        {{ fee.criteriaField }}
+      </td>
       <td class="imgs">
         <img
           src="/assets/images/shared/table/edit.svg"
@@ -2779,6 +3079,10 @@
       <td>
         <span class="p-column-title">{{ col2Name }} </span>
         <span>{{ followup.date | date : "dd MMM, yyyy" }}</span>
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col3Name }}</span>
+        {{ followup.communicationType }}
       </td>
 
       <td class="imgs">
@@ -2829,6 +3133,14 @@
         <span class="p-column-title">{{ col4Name }} </span>
         <span>{{ followup.actualDate | date : "dd MMM, yyyy" }}</span>
       </td>
+      <td>
+        <span class="p-column-title"> {{ col5Name }}</span>
+        {{ followup.nameEN }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col6Name }}</span>
+        {{ followup.nameAR }}
+      </td>
       <td class="imgs">
         <img
           src="/assets/images/shared/table/edit.svg"
@@ -2862,19 +3174,15 @@
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
       <td>
         <span class="p-column-title"> {{ col1Name }}</span>
-        {{ meeting.id }}
-      </td>
-      <td>
-        <span class="p-column-title"> {{ col2Name }}</span>
         {{ meeting.code }}
       </td>
       <td>
-        <span class="p-column-title">{{ col3Name }} </span>
-        <span>{{ meeting.name }}</span>
+        <span class="p-column-title"> {{ col2Name }}</span>
+        {{ meeting.nameEN }}
       </td>
       <td>
-        <span class="p-column-title">{{ col4Name }} </span>
-        <span>{{ meeting.arabicName }}</span>
+        <span class="p-column-title">{{ col3Name }} </span>
+        <span>{{ meeting.nameAR }}</span>
       </td>
       <td>
         <span class="p-column-title">{{ col4Name }} </span>
@@ -2913,22 +3221,27 @@
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
       <td>
         <span class="p-column-title"> {{ col1Name }}</span>
-        {{ call.id }}
+        {{ call.code }}
       </td>
       <td>
         <span class="p-column-title"> {{ col2Name }}</span>
+        {{ call.nameEN }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col3Name }}</span>
+        {{ call.nameAR }}
+      </td>
+      <td>
+        <span class="p-column-title"> {{ col4Name }}</span>
         {{ call.topic }}
       </td>
+
       <td>
-        <span class="p-column-title">{{ col3Name }} </span>
-        <span>{{ call.clientId }}</span>
-      </td>
-      <td>
-        <span class="p-column-title">{{ col4Name }} </span>
+        <span class="p-column-title">{{ col5Name }} </span>
         <span>{{ call.callType }}</span>
       </td>
       <td>
-        <span class="p-column-title">{{ col4Name }} </span>
+        <span class="p-column-title">{{ col6Name }} </span>
         <span>{{ call.date | date : "dd/MM/yyy hh:ss a" }}</span>
       </td>
       <td class="imgs">

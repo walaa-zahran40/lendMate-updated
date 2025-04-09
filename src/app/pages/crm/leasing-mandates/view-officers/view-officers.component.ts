@@ -9,36 +9,44 @@ import { Officer } from '../../../../shared/interfaces/officer.interface';
 })
 export class ViewOfficersComponent {
   tableDataInside: Officer[] = [];
+
   colsInside: any[] = [];
   ngOnInit() {
     this.colsInside = [
-      { field: 'officerName', header: 'OfName' },
-      { field: 'officerType', header: 'ofType' },
+      { field: 'officerType', header: 'officerType' },
+      { field: 'nameEN', header: 'Name EN' },
+      { field: 'nameAR', header: 'Name AR' },
     ];
     this.tableDataInside = [
       {
-        officerName: 'Name',
         officerType: 'Type',
+        nameEN: 'Type',
+        nameAR: 'Type',
       },
       {
-        officerName: 'Name',
         officerType: 'Type',
+        nameEN: 'Type',
+        nameAR: 'Type',
       },
       {
-        officerName: 'Name',
         officerType: 'Type',
+        nameEN: 'Type',
+        nameAR: 'Type',
       },
       {
-        officerName: 'Name',
         officerType: 'Type',
+        nameEN: 'Type',
+        nameAR: 'Type',
       },
       {
-        officerName: 'Name',
         officerType: 'Type',
+        nameEN: 'Type',
+        nameAR: 'Type',
       },
       {
-        officerName: 'Name',
         officerType: 'Type',
+        nameEN: 'Type',
+        nameAR: 'Type',
       },
     ];
   }

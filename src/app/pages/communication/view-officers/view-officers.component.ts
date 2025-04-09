@@ -16,19 +16,32 @@ export class ViewOfficersComponent {
       { field: 'officer', header: 'Officer' },
       { field: 'isResponsible', header: 'Is Responsible' },
       { field: 'mustAttend', header: 'Must Attend' },
+      { field: 'nameEN', header: 'Name EN' },
+      { field: 'nameAR', header: 'Name AR' },
     ];
     this.tableDataInside = [
       {
         officer: 122,
         isResponsible: true,
         mustAttend: true,
+
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
       {
         officer: 122,
         isResponsible: true,
         mustAttend: true,
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
-      { officer: 122, isResponsible: true, mustAttend: true },
+      {
+        officer: 122,
+        isResponsible: true,
+        mustAttend: true,
+        nameEN: 'name en',
+        nameAR: 'name ar',
+      },
     ];
   }
 }

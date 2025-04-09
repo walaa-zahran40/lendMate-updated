@@ -91,6 +91,8 @@ import { ViewCallTypesComponent } from './view-call-types/view-call-types.compon
 import { ViewCommunicationTypesComponent } from './view-communication-types/view-communication-types.component';
 import { ViewCallActionTypesComponent } from './view-call-action-types/view-call-action-types.component';
 import { ViewCommunicationFlowTypeComponent } from './view-communication-flow-type/view-communication-flow-type.component';
+import { ViewFeesRangeComponent } from './view-fees-range/view-fees-range.component';
+import { AddFeesRangeComponent } from './add-fees-range/add-fees-range.component';
 
 const routes: Routes = [
   {
@@ -239,6 +241,10 @@ const routes: Routes = [
     component: AddCountriesComponent,
   },
   {
+    path: 'add-fees-range',
+    component: AddFeesRangeComponent,
+  },
+  {
     path: 'add-identification-types',
     component: AddIdentificationTypesComponent,
   },
@@ -289,6 +295,10 @@ const routes: Routes = [
   {
     path: 'view-feel-types',
     component: ViewFeelTypesComponent,
+  },
+  {
+    path: 'view-fees-range',
+    component: ViewFeesRangeComponent,
   },
   {
     path: 'view-grace-period-units',

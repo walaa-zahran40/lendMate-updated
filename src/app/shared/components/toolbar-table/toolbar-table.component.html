@@ -16,6 +16,8 @@
         pInputText
         placeholder="Search Keyword"
         class="search-bar"
+        [(ngModel)]="searchValue"
+        (ngModelChange)="onSearchInput($event)"
       />
     </p-iconfield>
     <p-button

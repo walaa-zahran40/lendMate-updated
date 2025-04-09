@@ -1,4 +1,5 @@
 export interface ContactPersons {
-  contactPerson: number;
   mustAttend: boolean;
+  nameEN: string;
+  nameAR: string;
 }

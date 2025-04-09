@@ -1,7 +1,8 @@
 export interface Areas {
-  id: number;
-  areaName: number;
+  code: number;
+  areaName: string;
   arabicName: string;
-  governorateId: string;
+  englishName: string;
+  governorateName: string;
   active: boolean;
 }

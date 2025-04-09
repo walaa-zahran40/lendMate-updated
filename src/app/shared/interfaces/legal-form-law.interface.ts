@@ -1,7 +1,7 @@
 export interface LegalFormLaw {
-  id: number;
+  code: number;
   legalFormCode: number;
-  nameInEnglish: string;
-  nameInArabic: string;
+  nameEN: string;
+  nameAR: string;
   active: boolean;
 }

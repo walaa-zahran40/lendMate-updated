@@ -16,52 +16,72 @@ export class ViewTeamLeadComponent {
       { field: 'team', header: 'Team' },
       { field: 'officer', header: 'Officer' },
       { field: 'startDate', header: 'Start Date' },
+      { field: 'nameEN', header: 'Name EN' },
+      { field: 'nameAR', header: 'Name AR' },
     ];
     this.tableDataInside = [
       {
         team: 501,
         officer: 'Mohamed',
         startDate: new Date('10-12-2025'),
+        nameEN: 'ahmed',
+        nameAR: 'أحمد',
       },
       {
         team: 501,
         officer: 'Mohamed',
         startDate: new Date('10-12-2025'),
+        nameEN: 'ahmed',
+        nameAR: 'أحمد',
       },
       {
         team: 501,
         officer: 'Mohamed',
         startDate: new Date('10-12-2025'),
+        nameEN: 'ahmed',
+        nameAR: 'أحمد',
       },
       {
         team: 501,
         officer: 'Mohamed',
         startDate: new Date('10-12-2025'),
+        nameEN: 'ahmed',
+        nameAR: 'أحمد',
       },
       {
         team: 501,
         officer: 'Mohamed',
         startDate: new Date('10-12-2025'),
+        nameEN: 'ahmed',
+        nameAR: 'أحمد',
       },
       {
         team: 501,
         officer: 'Mohamed',
         startDate: new Date('10-12-2025'),
+        nameEN: 'ahmed',
+        nameAR: 'أحمد',
       },
       {
         team: 501,
         officer: 'Mohamed',
         startDate: new Date('10-12-2025'),
+        nameEN: 'ahmed',
+        nameAR: 'أحمد',
       },
       {
         team: 501,
         officer: 'Mohamed',
         startDate: new Date('10-12-2025'),
+        nameEN: 'ahmed',
+        nameAR: 'أحمد',
       },
       {
         team: 501,
         officer: 'Mohamed',
         startDate: new Date('10-12-2025'),
+        nameEN: 'ahmed',
+        nameAR: 'أحمد',
       },
     ];
   }

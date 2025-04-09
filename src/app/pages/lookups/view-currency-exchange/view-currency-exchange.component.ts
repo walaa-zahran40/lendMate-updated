@@ -15,43 +15,63 @@ export class ViewCurrencyExchangeComponent {
     this.colsInside = [
       { field: 'exchangeDate', header: 'Exchange Date' },
       { field: 'exchangeRate', header: 'Exchange Rate' },
+      { field: 'nameEN', header: 'Name EN' },
+      { field: 'nameAR', header: 'Name AR' },
     ];
     this.tableDataInside = [
       {
         exchangeDate: new Date('2021-01-01'),
         exchangeRate: 50,
+        nameEN: 'sss',
+        nameAR: 'ssss',
       },
       {
         exchangeDate: new Date('2021-01-01'),
         exchangeRate: 50,
+        nameEN: 'sss',
+        nameAR: 'ssss',
       },
       {
         exchangeDate: new Date('2021-01-01'),
         exchangeRate: 50,
+        nameEN: 'sss',
+        nameAR: 'ssss',
       },
       {
         exchangeDate: new Date('2021-01-01'),
         exchangeRate: 50,
+        nameEN: 'sss',
+        nameAR: 'ssss',
       },
       {
         exchangeDate: new Date('2021-01-01'),
         exchangeRate: 50,
+        nameEN: 'sss',
+        nameAR: 'ssss',
       },
       {
         exchangeDate: new Date('2021-01-01'),
         exchangeRate: 50,
+        nameEN: 'sss',
+        nameAR: 'ssss',
       },
       {
         exchangeDate: new Date('2021-01-01'),
         exchangeRate: 50,
+        nameEN: 'sss',
+        nameAR: 'ssss',
       },
       {
         exchangeDate: new Date('2021-01-01'),
         exchangeRate: 50,
+        nameEN: 'sss',
+        nameAR: 'ssss',
       },
       {
         exchangeDate: new Date('2021-01-01'),
         exchangeRate: 50,
+        nameEN: 'sss',
+        nameAR: 'ssss',
       },
     ];
   }

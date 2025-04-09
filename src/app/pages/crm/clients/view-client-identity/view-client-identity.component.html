@@ -1,0 +1,26 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Client Identities'"
+    [labelBtn]="'Add Client Identity'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="''"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddClientIdentity()"
+  ></app-toolbar-table>
+  <app-table
+    [cols]="colsInside"
+    [tableData]="tableDataInside"
+    [col1Name]="'Identification Number'"
+    [col2Name]="'Identification Type Name'"
+    [col3Name]="'Client Name'"
+    [col4Name]="'isMain'"
+    [edit]="true"
+    [delete]="true"
+    [side]="true"
+    [checkBox]="true"
+    [uppercase]="'uppercase'"
+    [viewClientIdentityTable]="true"
+    (wizardBtn)="onAddSide()"
+  ></app-table>
+</div>

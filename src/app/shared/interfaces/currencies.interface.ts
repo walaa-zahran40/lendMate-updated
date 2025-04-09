@@ -1,8 +1,7 @@
 export interface Currencies {
-  id: number;
   code: number;
-  name: string;
-  arabicName: string;
+  nameEN: string;
+  nameAR: string;
   iso: string;
   currency: boolean;
 }

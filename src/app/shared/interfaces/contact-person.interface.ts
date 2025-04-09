@@ -1,6 +1,6 @@
 export interface ContactPerson {
-  nameEn?: string;
-  contactId?: number;
+  nameEN: string;
+  nameAR: string;
   isAuthorizedSign?: boolean;
-  genderId?: number;
+  gender?: string;
 }

@@ -12,19 +12,26 @@ export class ViewContactPersonsComponent {
   colsInside: any[] = [];
   ngOnInit() {
     this.colsInside = [
-      { field: 'contactPerson', header: 'Contact Person' },
       { field: 'mustAttend', header: 'Must Attend' },
+      { field: 'nameEN', header: 'Name EN' },
+      { field: 'nameAR', header: 'Name AR' },
     ];
     this.tableDataInside = [
       {
-        contactPerson: 122,
         mustAttend: true,
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
       {
-        contactPerson: 122,
         mustAttend: true,
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
-      { contactPerson: 122, mustAttend: true },
+      {
+        mustAttend: true,
+        nameEN: 'name en',
+        nameAR: 'name ar',
+      },
     ];
   }
 }

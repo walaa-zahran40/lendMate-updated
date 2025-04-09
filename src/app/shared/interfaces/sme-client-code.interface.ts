@@ -1,8 +1,7 @@
 export interface SMEClientCode {
-  id: number;
   code: number;
-  name: string;
-  arabicName: string;
+  nameEN: string;
+  nameAR: string;
   upperLimit: number;
   lowerLimit: number;
   active: boolean;

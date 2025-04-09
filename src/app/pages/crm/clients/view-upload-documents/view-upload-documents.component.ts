@@ -15,37 +15,51 @@ export class ViewUploadDocumentsComponent {
       { field: 'documentName', header: 'Document Name' },
       { field: 'documentType', header: 'Document Type' },
       { field: 'expiryDate', header: 'Expiry Date' },
+      { field: 'nameEN', header: 'Name EN' },
+      { field: 'nameAR', header: 'Name AR' },
     ];
     this.tableDataInside = [
       {
         documentName: 'Document Name',
         documentType: 'PDF',
         expiryDate: new Date('10/10/2024'),
-      },
-      {
-        documentName: 'Document Name',
-        documentType: 'Word',
-        expiryDate: new Date('10/10/2024'),
-      },
-      {
-        documentName: 'Document Name',
-        documentType: 'Excel',
-        expiryDate: new Date('10/10/2024'),
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
       {
         documentName: 'Document Name',
         documentType: 'PDF',
         expiryDate: new Date('10/10/2024'),
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
       {
         documentName: 'Document Name',
-        documentType: 'Excel',
+        documentType: 'PDF',
         expiryDate: new Date('10/10/2024'),
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
       {
         documentName: 'Document Name',
-        documentType: 'Word',
+        documentType: 'PDF',
         expiryDate: new Date('10/10/2024'),
+        nameEN: 'name en',
+        nameAR: 'name ar',
+      },
+      {
+        documentName: 'Document Name',
+        documentType: 'PDF',
+        expiryDate: new Date('10/10/2024'),
+        nameEN: 'name en',
+        nameAR: 'name ar',
+      },
+      {
+        documentName: 'Document Name',
+        documentType: 'PDF',
+        expiryDate: new Date('10/10/2024'),
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
     ];
   }

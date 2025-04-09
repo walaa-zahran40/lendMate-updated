@@ -25,7 +25,7 @@ export class ViewClientsComponent {
       { field: 'shortName', header: 'Short Name' },
       { field: 'isActive', header: 'Active' },
     ];
-    
+
     this.tableDataInside = [
       // {
       //   nameEn: 'Hamdy Bank',
@@ -94,11 +94,24 @@ export class ViewClientsComponent {
 
     this.facade.loadClients();
   }
- 
+
   onAddClient() {
     this.router.navigate(['/crm/clients/add-client']);
   }
   onAddSide() {
     this.router.navigate(['/crm/clients/client-activity-wizard']);
+  }
+  filterClients(searchText: string) {
+    // const keyword = searchText.toLowerCase();
+    // this.filteredTableData = this.tableDataInside.filter((client) => {
+    //   return (
+    //     client.nameEN.toLowerCase().includes(keyword) ||
+    //     client.nameAR.toLowerCase().includes(keyword) ||
+    //     client.businessActivity?.toLowerCase().includes(keyword) ||
+    //     // Convert boolean to string so "true"/"false" can also match
+    //     String(client.isIscore).toLowerCase().includes(keyword) ||
+    //     client.taxName?.toLowerCase().includes(keyword)
+    //   );
+    // });
   }
 }

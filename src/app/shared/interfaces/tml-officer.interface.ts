@@ -1,4 +1,5 @@
 export interface TMLOfficer {
-  officerName?: string;
   officerType?: string;
+  nameEN: string;
+  nameAR: string;
 }

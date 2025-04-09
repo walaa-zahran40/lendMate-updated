@@ -1,8 +1,9 @@
 export interface CentralBankInfo {
   date?: Date;
-  clientId?: number;
-  companyCodeId?: number;
+  companyName?: string;
   companyType?: string;
   cbeCode?: number;
   isActive?: boolean;
+  nameEN: string;
+  nameAR: string;
 }

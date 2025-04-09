@@ -1,8 +1,10 @@
 export interface Address {
+  clientNameEN?: string;
+  clientNameAR?: string;
   detailsEn?: string;
   detailsAr?: string;
-  addressTypeId?: number;
-  areaId?: number;
+  addressTypeName?: string;
+  areaName?: string;
   isMain?: boolean;
   isActive?: boolean;
 }

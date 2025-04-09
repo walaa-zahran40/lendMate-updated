@@ -10,6 +10,8 @@
       class="menu-button"
       (click)="toggleMenu(item)"
       [ngClass]="{ active: activeMenu === item.id }"
+      [pTooltip]="item.label"
+      tooltipPosition="right"
     ></button>
   </div>
   <div class="toggle-menu" *ngIf="activeMenu">

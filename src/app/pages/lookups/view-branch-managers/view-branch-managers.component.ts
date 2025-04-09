@@ -11,58 +11,79 @@ import { Router } from '@angular/router';
 export class ViewBranchManagersComponent {
   tableDataInside: BranchManagers[] = [];
   colsInside: any[] = [];
+
   constructor(private router: Router) {}
   ngOnInit() {
     this.colsInside = [
       { field: 'details', header: 'Details' },
       { field: 'startDate', header: 'Start Date' },
       { field: 'endDate', header: 'End Date' },
+      { field: 'nameEN', header: 'Name EN' },
+      { field: 'nameAR', header: 'Name AR' },
     ];
     this.tableDataInside = [
       {
         details: 'Document Name',
         startDate: new Date('12-10-2025'),
         endDate: new Date('12-15-2025'),
+        nameEN: 'string',
+        nameAR: 'string',
       },
       {
         details: 'Document Name',
         startDate: new Date('12-10-2025'),
         endDate: new Date('12-15-2025'),
+        nameEN: 'string',
+        nameAR: 'string',
       },
       {
         details: 'Document Name',
         startDate: new Date('12-10-2025'),
         endDate: new Date('12-15-2025'),
+        nameEN: 'string',
+        nameAR: 'string',
       },
       {
         details: 'Document Name',
         startDate: new Date('12-10-2025'),
         endDate: new Date('12-15-2025'),
+        nameEN: 'string',
+        nameAR: 'string',
       },
       {
         details: 'Document Name',
         startDate: new Date('12-10-2025'),
         endDate: new Date('12-15-2025'),
+        nameEN: 'string',
+        nameAR: 'string',
       },
       {
         details: 'Document Name',
         startDate: new Date('12-10-2025'),
         endDate: new Date('12-15-2025'),
+        nameEN: 'string',
+        nameAR: 'string',
       },
       {
         details: 'Document Name',
         startDate: new Date('12-10-2025'),
         endDate: new Date('12-15-2025'),
+        nameEN: 'string',
+        nameAR: 'string',
       },
       {
         details: 'Document Name',
         startDate: new Date('12-10-2025'),
         endDate: new Date('12-15-2025'),
+        nameEN: 'string',
+        nameAR: 'string',
       },
       {
         details: 'Document Name',
         startDate: new Date('12-10-2025'),
         endDate: new Date('12-15-2025'),
+        nameEN: 'string',
+        nameAR: 'string',
       },
     ];
   }

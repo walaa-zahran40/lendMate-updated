@@ -14,37 +14,45 @@ export class ViewTmlOfficerComponent {
   constructor(private router: Router) {}
   ngOnInit() {
     this.colsInside = [
-      { field: 'officerName', header: 'Officer Name' },
       { field: 'officerType', header: 'Officer Type' },
+      { field: 'nameEN', header: 'Name EN' },
+      { field: 'nameAR', header: 'Name AR' },
     ];
     this.tableDataInside = [
       {
-        officerName: 'Name',
         officerType: 'Type',
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
       {
-        officerName: 'Name',
         officerType: 'Type',
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
       {
-        officerName: 'Name',
         officerType: 'Type',
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
       {
-        officerName: 'Name',
         officerType: 'Type',
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
       {
-        officerName: 'Name',
         officerType: 'Type',
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
       {
-        officerName: 'Name',
         officerType: 'Type',
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
       {
-        officerName: 'Name',
         officerType: 'Type',
+        nameEN: 'name en',
+        nameAR: 'name ar',
       },
     ];
   }

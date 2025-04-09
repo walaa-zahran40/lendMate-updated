@@ -1,4 +1,5 @@
 export interface Contact {
-  contactPersonName?: string;
+  nameEN: string;
+  nameAR: string;
   contactPersonType?: string;
 }

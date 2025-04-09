@@ -1,7 +1,6 @@
 export interface MeetingTypes {
-  id: number;
   code: number;
-  name: string;
-  arabicName: string;
+  nameEN: string;
+  nameAR: string;
   active: boolean;
 }

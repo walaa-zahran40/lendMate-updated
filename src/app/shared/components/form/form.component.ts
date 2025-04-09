@@ -326,6 +326,7 @@ export class FormComponent {
   @Input() addClientCompanyViewShowLegal!: boolean;
   @Input() addClientCompanyViewShowBusiness!: boolean;
   @Input() contactPersonDetailsView!: boolean;
+  @Input() addFeesRangesLookupsForm!: boolean;
   @Input() contactPersonDetailsViewShowForm!: boolean;
   @Input() addMandateShowMoreInformationForm!: boolean;
   @Input() addMandateShowAssetTypeForm!: boolean;
@@ -412,6 +413,7 @@ export class FormComponent {
   @Input() addCallActionTypeLookupsForm!: boolean;
   @Input() addCommunicationFlowTypeLookupsForm!: boolean;
   @Input() addClientGuarantorsShowIndividual!: boolean;
+  @Input() addClientIdentitiesShowIndividual!: boolean;
   constructor(private router: Router) {}
 
   ngOnInit() {

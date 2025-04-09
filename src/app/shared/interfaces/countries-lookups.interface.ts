@@ -1,8 +1,7 @@
 export interface CountriesLookups {
-  id: number;
-  countryName: number;
-  nameAR: string;
-  code2: string;
-  code3: string;
+  code: number;
+  countryName: string;
   active: boolean;
+  nameEN: string;
+  nameAR: string;
 }

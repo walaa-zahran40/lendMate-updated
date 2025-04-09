@@ -179,14 +179,14 @@ export class SaveMeetingComponent implements AfterViewInit {
     //   end: new Date(new Date().setHours(new Date().getHours() + 1)),
     // });
   }
-  onDateSelect(date: Date) {
-    console.log('User picked date: ', date);
-    // If you want the calendar to jump to that date:
-    const calendarApi = this.calendarComponent.getApi();
-    calendarApi.gotoDate(date);
-    // Optionally switch to a day view if you want:
-    // calendarApi.changeView('timeGridDay', date);
-  }
+  // onDateSelect(date: Event) {
+  //   console.log('User picked date: ', date);
+  //   // If you want the calendar to jump to that date:
+  //   const calendarApi = this.calendarComponent.getApi();
+  //   calendarApi.gotoDate(date);
+  //   // Optionally switch to a day view if you want:
+  //   // calendarApi.changeView('timeGridDay', date);
+  // }
   goNext() {
     const calendarApi = this.calendarComponent.getApi();
     calendarApi.next();

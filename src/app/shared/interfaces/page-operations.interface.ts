@@ -1,7 +1,8 @@
 export interface PageOperations {
-  id: number;
   code: number;
-  pageId: string;
-  operationId: number;
+  pageName: string;
+  operationName: string;
   active: boolean;
+  nameEN: string;
+  nameAR: string;
 }

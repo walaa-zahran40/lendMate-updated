@@ -1,8 +1,7 @@
 export interface BusinessLines {
-  id: number;
   code: number;
-  name: string;
-  arabicName: string;
+  nameEN: string;
+  nameAR: string;
   licenseDate: Date;
   active: boolean;
 }
