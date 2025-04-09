@@ -1,28 +1,10 @@
-// import { Component, Input } from '@angular/core';
-
-// @Component({
-//   selector: 'app-sub-sector-dropdown',
-//   standalone: false,
-//   templateUrl: './sub-sector-dropdown.component.html',
-//   styleUrl: './sub-sector-dropdown.component.scss'
-// })
-// export class SubSectorDropdownComponent {
-
-// }
 import { Component, Input, OnChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-sub-sector-dropdown',
   standalone: false,
-  template: `
-    <p-dropdown
-      [options]="filteredSubSectors"
-      optionLabel="name"
-      placeholder="Select Sub Sector"
-      [formControl]="formControl">
-    </p-dropdown>
-  `
+  templateUrl: './sub-sector-dropdown.component.html',
 })
 export class SubSectorDropdownComponent implements OnChanges {
   @Input() sectorId!: number;
@@ -32,7 +14,7 @@ export class SubSectorDropdownComponent implements OnChanges {
   filteredSubSectors: any[] = [];
 
   ngOnChanges() {
-    const sector = this.allSectors.find(sec => sec.id === this.sectorId);
+    const sector = this.allSectors.find((sec) => sec.id === this.sectorId);
     this.filteredSubSectors = sector?.subSectors || [];
   }
 }

@@ -20,18 +20,7 @@ import { Sectors } from '../../../interfaces/sectors.interface';
 @Component({
   selector: 'app-sector-dropdown',
   standalone: false,
-  template: `
-<ng-container *ngIf="sectorsSafe$ | async as sectors">
-  <p-dropdown
-    [options]="sectors"
-    optionLabel="name"
-    placeholder="Select Sector"
-    [formControl]="formControl"
-    (onChange)="onSectorChange($event)">
-  </p-dropdown>
-</ng-container>
-
-  `
+  templateUrl: './sector-dropdown.component.html',
 })
 export class SectorDropdownComponent implements OnInit {
   @Input() formControl!: FormControl;
@@ -50,9 +39,7 @@ export class SectorDropdownComponent implements OnInit {
   onSectorChange(event: any) {
     const selected = event?.value;
     if (selected?.id) {
-      this.sectorChanged.emit(selected.id);  
+      this.sectorChanged.emit(selected.id);
     }
   }
-  
-  
 }

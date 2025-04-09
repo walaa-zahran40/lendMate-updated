@@ -1,7 +1,4 @@
-
-
 <div class="parent">
-
   <div *ngIf="!contactPersonDetailsView" class="div1">
     <h2 class="m-0 title">{{ title }}</h2>
     <p class="tab-panel-paragraph">
@@ -656,263 +653,94 @@
       (click)="viewBusinessLines()"
     />
   </div>
-  <!-- <form class="div2" [ngClass]="{ span: applyReusable }" [formGroup]="formGroup">
-
-     <ng-container *ngIf="addClientShowMain">
-      <label for="name">Name in English <sup class="danger">*</sup></label>
-      <input pInputText id="name" formControlName="name" placeholder="Google" />
-  
-      <label for="nameAR">Name in Arabic <sup class="danger">*</sup></label>
-      <input pInputText id="nameAR" formControlName="nameAR" placeholder="جوجل" />
-  
-      <label for="businessActivity">Business Activity <sup class="danger">*</sup></label>
-      <input pInputText id="businessActivity" formControlName="businessActivity" placeholder="Tech" />
-  
-      <label for="taxId">Tax ID <sup class="danger">*</sup></label>
-      <input pInputText id="taxId" formControlName="taxId" placeholder="#101020203030" />
-  
-      <label for="shortName">Short Name</label>
-      <input pInputText id="shortName" formControlName="shortName" placeholder="GO" />
-    </ng-container>
-  
-     <ng-container *ngIf="addClientShowLegal">
-       <label for="clientTypeCode">Client Type Code <sup class="danger">*</sup></label>
-      <input pInputText id="clientTypeCode" formControlName="clientTypeCode" placeholder="CORP" />
-  
-      <label for="isIscore">Is Iscore?</label>
-      <p-checkbox binary="true" formControlName="isIscore"></p-checkbox>
-    </ng-container>
-  
-     <ng-container *ngIf="addClientShowBusiness">
-      <label for="employeesNo">Number of Employees <sup class="danger">*</sup></label>
-      <input pInputText id="employeesNo" formControlName="employeesNo" placeholder="500" />
-  
-      <label for="code">Code <sup class="danger">*</sup></label>
-      <input pInputText id="code" formControlName="code" placeholder="CL001" />
-    </ng-container>
-  </form> -->
-  
   <div class="div2" [ngClass]="{ span: applyReusable }">
-    <!-- <form action="" *ngIf="addClientShowMain">
-      <label for="nameEnglish"
-        >Name in English<sup class="danger">*</sup></label
-      >
-      <input
-        pInputText
-        id="nameEnglish"
-        aria-describedby="nameEnglish-help"
-        [(ngModel)]="value"
-        name="nameEnglish"
-        placeholder="Google"
-      />
-      <label for="nameArabic">Name in Arabic<sup class="danger">*</sup></label>
-      <input
-        pInputText
-        id="nameArabic"
-        aria-describedby="nameArabic-help"
-        [(ngModel)]="value1"
-        placeholder="Google"
-        name="nameArabic"
-      />
-      <label for="sectors">Select Sector<sup class="danger">*</sup></label>
-      <p-multiselect
-        [options]="sectors"
-        [(ngModel)]="selectedSectors"
-        placeholder="Select Sectors"
-        optionLabel="name"
-        display="chip"
-        icon="pi pi-times"
-        name="sectors"
-        styleClass="w-full md:w-80"
-        [maxSelectedLabels]="999"
-        chipIcon="pi pi-times"
-      />
-      <label for="subSectors"
-        >Select Sub Sector<sup class="danger">*</sup></label
-      >
-      <p-multiselect
-        [options]="subSectors"
-        [(ngModel)]="selectedSubSectors"
-        placeholder="Select Sub Sectors"
-        optionLabel="name"
-        display="chip"
-        icon="pi pi-times"
-        name="subSectors"
-        styleClass="w-full md:w-80"
-        [maxSelectedLabels]="999"
-        chipIcon="pi pi-times"
-      />
-      <label for="businessActivity"
-        >Business Activity<sup class="danger">*</sup></label
-      >
-      <input
-        pInputText
-        id="businessActivity"
-        aria-describedby="businessActivity-help"
-        [(ngModel)]="value2"
-        name="businessActivity"
-        placeholder="Technology Business"
-      />
-      <label for="taxId">Tax ID<sup class="danger">*</sup></label>
-
-      <input
-        pInputText
-        id="taxId"
-        aria-describedby="taxId-help"
-        [(ngModel)]="value3"
-        name="taxId"
-        placeholder="#101020203030"
-      />
-      <label for="shortName">Short Name</label>
-      <input
-        pInputText
-        id="shortName"
-        aria-describedby="shortName-help"
-        [(ngModel)]="value4"
-        placeholder="GO"
-        name="shortName"
-      />
-    </form>
-    <form action="" *ngIf="addClientShowLegal">
-      <label for="legalFormLaw">Legal Form Law</label>
-      <p-multiselect
-        [options]="legalFormLaw"
-        [(ngModel)]="selectedLegalFormLaw"
-        placeholder="Select Legal Form Law"
-        optionLabel="name"
-        display="chip"
-        icon="pi pi-times"
-        name="legalFormLaw"
-        styleClass="w-full md:w-80"
-        [maxSelectedLabels]="999"
-        chipIcon="pi pi-times"
-      />
-      <label for="legalForm">Select Legal Form</label>
-      <p-multiselect
-        [options]="legalForm"
-        [(ngModel)]="selectedLegalForm"
-        placeholder="Select Legal Forms"
-        optionLabel="name"
-        display="chip"
-        icon="pi pi-times"
-        name="legalForm"
-        styleClass="w-full md:w-80"
-        [maxSelectedLabels]="999"
-        chipIcon="pi pi-times"
-      />
-      <label for="stampDuty">Is Stamp Duty?</label>
-      <p-select
-        [options]="stamps"
-        optionLabel="name"
-        placeholder="Select Stamp Duty"
-        class="w-full md:w-56"
-      />
-    </form>
-    <form action="" *ngIf="addClientShowBusiness">
-      <label for="mainShare">Main Share</label>
-      <input
-        pInputText
-        id="mainShare"
-        aria-describedby="mainShare-help"
-        [(ngModel)]="value5"
-        name="mainShare"
-        placeholder="Main Share"
-      />
-      <label for="marketShare">Market Share</label>
-      <input
-        pInputText
-        id="marketShare"
-        aria-describedby="marketShare-help"
-        [(ngModel)]="value6"
-        placeholder="58%"
-        name="marketShare"
-      />
-
-      <label for="establishedYear">Established Year</label>
-      <input
-        pInputText
-        id="establishedYear"
-        aria-describedby="establishedYear-help"
-        [(ngModel)]="value7"
-        name="establishedYear"
-        placeholder="2014"
-      />
-      <label for="website">Website</label>
-
-      <input
-        pInputText
-        id="website"
-        aria-describedby="website-help"
-        [(ngModel)]="value8"
-        name="website"
-        placeholder="https://www.google.com"
-      />
-      <label for="marketSize">Market Size</label>
-      <input
-        pInputText
-        id="marketSize"
-        aria-describedby="marketSize-help"
-        [(ngModel)]="value9"
-        placeholder="50M"
-        name="marketSize"
-      />
-      <label for="noOfEmployees">Number of Employees</label>
-      <input
-        pInputText
-        id="noOfEmployees"
-        aria-describedby="noOfEmployees-help"
-        [(ngModel)]="value10"
-        placeholder="50,000"
-        name="noOfEmployees"
-      />
-    </form> -->
     <form
-    class="div2"
-    [ngClass]="{ span: applyReusable }"
-    [formGroup]="formGroup"
-  >
-    <!-- Title + Description if provided -->
-    <div *ngIf="title || description" class="mb-4">
-      <h2 class="text-xl font-bold">{{ title }}</h2>
-      <p class="text-sm text-gray-500">{{ description }}</p>
-    </div>
-  
-    <!-- Main Info -->
-    <ng-container *ngIf="addClientShowMain">
-      <label for="name">Name in English <sup class="danger">*</sup></label>
-      <input pInputText id="name" formControlName="name" placeholder="Google" />
-  
-      <label for="nameAR">Name in Arabic <sup class="danger">*</sup></label>
-      <input pInputText id="nameAR" formControlName="nameAR" placeholder="جوجل" />
-  
-      <label for="businessActivity">Business Activity <sup class="danger">*</sup></label>
-      <input pInputText id="businessActivity" formControlName="businessActivity" placeholder="Tech" />
-  
-      <label for="taxId">Tax ID <sup class="danger">*</sup></label>
-      <input pInputText id="taxId" formControlName="taxId" placeholder="#101020203030" />
-  
-      <label for="shortName">Short Name</label>
-      <input pInputText id="shortName" formControlName="shortName" placeholder="GO" />
-    </ng-container>
-  
-    <!-- Legal Info -->
-    <ng-container *ngIf="addClientShowLegal">
-      <label for="clientTypeCode">Client Type Code <sup class="danger">*</sup></label>
-      <input pInputText id="clientTypeCode" formControlName="clientTypeCode" placeholder="CORP" />
-  
-      <label for="isIscore">Is Iscore?</label>
-      <p-checkbox binary="true" formControlName="isIscore"></p-checkbox>
-    </ng-container>
-  
-    <!-- Business Info -->
-    <ng-container *ngIf="addClientShowBusiness">
-      <label for="employeesNo">Number of Employees <sup class="danger">*</sup></label>
-      <input pInputText id="employeesNo" formControlName="employeesNo" placeholder="500" />
-  
-      <label for="code">Code <sup class="danger">*</sup></label>
-      <input pInputText id="code" formControlName="code" placeholder="CL001" />
-    </ng-container>
-  </form>
+      class="div2"
+      [ngClass]="{ span: applyReusable }"
+      [formGroup]="formGroup"
+    >
+      <!-- Main Info -->
+      <ng-container *ngIf="addClientShowMain">
+        <label for="name">Name in English <sup class="danger">*</sup></label>
+        <input
+          pInputText
+          id="name"
+          formControlName="name"
+          placeholder="Google"
+        />
+
+        <label for="nameAR">Name in Arabic <sup class="danger">*</sup></label>
+        <input
+          pInputText
+          id="nameAR"
+          formControlName="nameAR"
+          placeholder="جوجل"
+        />
+
+        <label for="businessActivity"
+          >Business Activity <sup class="danger">*</sup></label
+        >
+        <input
+          pInputText
+          id="businessActivity"
+          formControlName="businessActivity"
+          placeholder="Tech"
+        />
+
+        <label for="taxId">Tax ID <sup class="danger">*</sup></label>
+        <input
+          pInputText
+          id="taxId"
+          formControlName="taxId"
+          placeholder="#101020203030"
+        />
+
+        <label for="shortName">Short Name</label>
+        <input
+          pInputText
+          id="shortName"
+          formControlName="shortName"
+          placeholder="GO"
+        />
+      </ng-container>
+
+      <!-- Legal Info -->
+      <ng-container *ngIf="addClientShowLegal">
+        <label for="clientTypeCode"
+          >Client Type Code <sup class="danger">*</sup></label
+        >
+        <input
+          pInputText
+          id="clientTypeCode"
+          formControlName="clientTypeCode"
+          placeholder="CORP"
+        />
+
+        <label for="isIscore">Is Iscore?</label>
+        <p-checkbox binary="true" formControlName="isIscore"></p-checkbox>
+      </ng-container>
+
+      <!-- Business Info -->
+      <ng-container *ngIf="addClientShowBusiness">
+        <label for="employeesNo"
+          >Number of Employees <sup class="danger">*</sup></label
+        >
+        <input
+          pInputText
+          id="employeesNo"
+          formControlName="employeesNo"
+          placeholder="500"
+        />
+
+        <label for="code">Code <sup class="danger">*</sup></label>
+        <input
+          pInputText
+          id="code"
+          formControlName="code"
+          placeholder="CL001"
+        />
+      </ng-container>
+    </form>
     <form action="" *ngIf="addClientGuarantorsShowIndividual">
       <label for="nameEnglishIndividual"
         >Name in English<sup class="danger">*</sup></label
