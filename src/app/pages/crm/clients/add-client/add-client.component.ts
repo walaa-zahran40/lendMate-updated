@@ -182,8 +182,8 @@ export class AddClientComponent implements OnInit {
       shortName: formValue.shortName,
       businessActivity: formValue.businessActivity,
       taxId: formValue.taxId,
-      legalFormId: formValue.legalFormId,
-      legalFormLawId: formValue.legalFormLawId,
+      legalFormId: Number(formValue.legalFormId?.id),
+      legalFormLawId: Number(formValue.legalFormLawId?.id),
       isStampDuty: formValue.isStampDuty,
       clientTypeId: this.selectedClientType,
       subSectorIdList: formValue.subSectorIdList.map(

@@ -11,7 +11,10 @@ export class ClientService {
   constructor(private http: HttpClient) {}
 
   createClient(payload: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/CreateClient`, payload);
+    return this.http.post(
+      `${this.baseUrl}/CreateClientGeneralSettings`,
+      payload
+    );
   }
   deleteClient(id: number): Observable<any> {
     console.log('clicked');
