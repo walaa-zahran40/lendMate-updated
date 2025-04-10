@@ -32,7 +32,6 @@ export class ViewClientsComponent {
   filteredClients: Client[] = [];
 
   constructor(private router: Router, private facade: ClientsFacade) {}
-
   ngOnInit() {
     this.facade.loadClients();
 
