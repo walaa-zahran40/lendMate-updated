@@ -32,5 +32,9 @@ export const clientsReducer = createReducer(
   on(ClientsActions.updateSubSectorList, (state, { subSectorIds }) => ({
     ...state,
     subSectorList: subSectorIds,
+  })),
+  on(ClientsActions.deleteClientSuccess, (state, { clientId }) => ({
+    ...state,
+    clients: state.clients.filter((client) => client.id !== clientId),
   }))
 );

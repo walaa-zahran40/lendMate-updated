@@ -13,6 +13,8 @@ import { SharedService } from '../../services/shared.service';
 export class TableComponent {
   @Input() tableData: any;
   @Input() cols: any[] = [];
+  @Output() deleteClient = new EventEmitter<number>();
+
   @Input() col1Name!: string;
   @Input() col2Name!: string;
   @Input() col3Name!: string;
@@ -122,6 +124,10 @@ export class TableComponent {
   }
   get totalPages(): number {
     return Math.ceil(this.totalRecords / this.rows);
+  }
+  logAndDelete(id: number) {
+    console.log('Delete clicked with ID:', id);
+    this.deleteClient.emit(id);
   }
   // Handle pagination event
   onPageChange(event: any) {

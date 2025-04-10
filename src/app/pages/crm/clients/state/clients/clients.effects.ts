@@ -58,4 +58,19 @@ export class ClientsEffects {
       ),
     { dispatch: false }
   );
+  deleteClient$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClientsActions.deleteClient),
+      tap(({ clientId }) => console.log('Deleting client ID:', clientId)),
+      switchMap(({ clientId }) =>
+        this.clientService.deleteClient(clientId).pipe(
+          map(() => ClientsActions.deleteClientSuccess({ clientId })),
+          catchError((error) => {
+            console.error('Delete failed:', error);
+            return of(ClientsActions.deleteClientFailure({ error }));
+          })
+        )
+      )
+    )
+  );
 }

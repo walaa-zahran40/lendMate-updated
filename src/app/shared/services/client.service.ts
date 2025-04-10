@@ -13,4 +13,8 @@ export class ClientService {
   createClient(payload: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/CreateClient`, payload);
   }
+  deleteClient(id: number): Observable<any> {
+    console.log('clicked');
+    return this.http.delete(`${this.baseUrl}/${id}`);
+  }
 }

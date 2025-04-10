@@ -16,4 +16,7 @@ export class ClientsFacade {
   loadClients() {
     this.store.dispatch(ClientsActions.loadClients());
   }
+  deleteClient(clientId: number): void {
+    this.store.dispatch(ClientsActions.deleteClient({ clientId }));
+  }
 }

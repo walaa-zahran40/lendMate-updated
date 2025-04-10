@@ -45,6 +45,7 @@
           class="d-inline-block mx-2 my-2"
           alt="delete"
           *ngIf="delete"
+          (click)="logAndDelete(rowData.id)"
         />
         <img
           src="/assets/images/shared/table/side.svg"

@@ -44,4 +44,10 @@ export class ViewClientsComponent {
     this.destroy$.next();
     this.destroy$.complete();
   }
+  onDeleteClient(clientId: number): void {
+    console.log('clientid', clientId);
+    if (confirm('Are you sure you want to delete this client?')) {
+      this.facade.deleteClient(clientId);
+    }
+  }
 }

@@ -30,3 +30,17 @@ export const updateSubSectorList = createAction(
   '[Client Form] Update SubSector List',
   props<{ subSectorIds: number[] }>()
 );
+export const deleteClient = createAction(
+  '[Clients] Delete Client',
+  props<{ clientId: number }>()
+);
+
+export const deleteClientSuccess = createAction(
+  '[Clients] Delete Client Success',
+  props<{ clientId: number }>()
+);
+
+export const deleteClientFailure = createAction(
+  '[Clients] Delete Client Failure',
+  props<{ error: any }>()
+);
