@@ -26,6 +26,8 @@ export class ViewClientsComponent {
     { field: 'shortName', header: 'Short Name' },
     { field: 'isActive', header: 'Active' },
   ];
+  showDeleteModal: boolean = false;
+  selectedClientId: number | null = null;
 
   constructor(private router: Router, private facade: ClientsFacade) {}
 
@@ -45,9 +47,23 @@ export class ViewClientsComponent {
     this.destroy$.complete();
   }
   onDeleteClient(clientId: number): void {
-    console.log('clientid', clientId);
-    if (confirm('Are you sure you want to delete this client?')) {
-      this.facade.deleteClient(clientId);
+    this.selectedClientId = clientId;
+    this.showDeleteModal = true;
+  }
+
+  confirmDelete() {
+    if (this.selectedClientId !== null) {
+      this.facade.deleteClient(this.selectedClientId);
     }
+    this.resetDeleteModal();
+  }
+
+  cancelDelete() {
+    this.resetDeleteModal();
+  }
+
+  resetDeleteModal() {
+    this.showDeleteModal = false;
+    this.selectedClientId = null;
   }
 }

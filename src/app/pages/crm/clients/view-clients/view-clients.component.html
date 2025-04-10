@@ -23,5 +23,10 @@
       (wizardBtn)="onAddSide()"
       (deleteClient)="onDeleteClient($event)"
     ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
   </ng-container>
 </div>

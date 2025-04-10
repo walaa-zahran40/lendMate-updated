@@ -1,15 +1,25 @@
-<section class="delete-module">
-  <div class="container">
-    <header>
-      <img src="/assets/images/shared/delete-module/close.svg" alt="close" />
-    </header>
-    <article>
-      <img src="/assets/images/shared/delete-module/delete.svg" alt="delete" />
-      <p>Are you sure to delete?</p>
-    </article>
-    <footer class="row">
-      <button class="btn btn-danger col-sm">Yes</button>
-      <button class="btn btn-secondary col-sm">No</button>
-    </footer>
-  </div>
-</section>
+<p-dialog [(visible)]="visible" [modal]="true" [closable]="false">
+  <ng-template #header>
+    <img
+      src="/assets/images/shared/delete-module/close.svg"
+      alt="close"
+      (click)="onCancel()"
+    /><br />
+    <img src="/assets/images/shared/delete-module/delete.svg" alt="delete" />
+  </ng-template>
+  <p>Are you sure to delete?</p>
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      label="Yes"
+      class="p-button-danger"
+      (click)="onConfirm()"
+    ></button>
+    <button
+      pButton
+      label="No"
+      class="p-button-success"
+      (click)="onCancel()"
+    ></button>
+  </ng-template>
+</p-dialog>
