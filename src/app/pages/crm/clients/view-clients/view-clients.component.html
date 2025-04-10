@@ -7,12 +7,13 @@
     [customSpacing]="'custom-spacing'"
     [exports]="true"
     (addBtn)="onAddClient()"
+    (searchChange)="onSearch($event)"
   ></app-toolbar-table>
 
   <ng-container *ngIf="clients$ | async as clients">
     <app-table
       [cols]="colsInside"
-      [tableData]="clients"
+      [tableData]="filteredClients"
       [edit]="true"
       [delete]="true"
       [side]="true"

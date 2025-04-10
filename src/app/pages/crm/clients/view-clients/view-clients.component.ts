@@ -28,11 +28,18 @@ export class ViewClientsComponent {
   ];
   showDeleteModal: boolean = false;
   selectedClientId: number | null = null;
+  originalClients: Client[] = [];
+  filteredClients: Client[] = [];
 
   constructor(private router: Router, private facade: ClientsFacade) {}
 
   ngOnInit() {
     this.facade.loadClients();
+
+    this.clients$.pipe(takeUntil(this.destroy$)).subscribe((clients) => {
+      this.originalClients = clients;
+      this.filteredClients = [...clients]; // default to all
+    });
   }
 
   onAddClient() {
@@ -65,5 +72,13 @@ export class ViewClientsComponent {
   resetDeleteModal() {
     this.showDeleteModal = false;
     this.selectedClientId = null;
+  }
+  onSearch(keyword: string) {
+    const lower = keyword.toLowerCase();
+    this.filteredClients = this.originalClients.filter((client) =>
+      Object.values(client).some((val) =>
+        val?.toString().toLowerCase().includes(lower)
+      )
+    );
   }
 }
