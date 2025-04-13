@@ -31,7 +31,12 @@
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
       <td *ngFor="let col of cols">
         <span class="p-column-title">{{ col.header }}</span>
-        <span>{{ rowData[col.field] }}</span>
+        <span
+          [ngClass]="{
+            uppercase: col.field === 'isActive'
+          }"
+          >{{ rowData[col.field] }}</span
+        >
       </td>
       <td class="imgs">
         <img

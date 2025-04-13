@@ -67,11 +67,12 @@ export class AddClientComponent implements OnInit {
       businessActivity: ['', Validators.required],
       taxId: ['', [Validators.required, positiveNumberValidator()]],
       shortName: ['', Validators.required],
-      sectorId: [0],
-      subSectorIdList: [[]],
-      legalFormLawId: [null],
-      legalFormId: [null],
-      isStampDuty: [false],
+      sectorId: [0, Validators.required],
+      subSectorIdList: [[], Validators.required],
+      legalFormLawId: [null, Validators.required],
+      legalFormId: [null, Validators.required],
+      isStampDuty: [false, Validators.required],
+      isIscore: [false, Validators.required],
       mainShare: [null, [Validators.required, Validators.min(0)]],
       establishedYear: [
         null,
@@ -86,17 +87,15 @@ export class AddClientComponent implements OnInit {
           Validators.pattern(
             /^(https?:\/\/)?([\w\-]+\.)+[\w\-]{2,}(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/
           ),
+          Validators.required,
         ],
       ],
       marketShare: [
         null,
         [Validators.required, Validators.min(0), Validators.max(100)],
       ],
-      marketSize: [null, [Validators.min(0)]],
+      marketSize: [null, [Validators.min(0), Validators.required]],
       employeesNo: [null, [Validators.required, Validators.min(0)]],
-
-      isActive: [true],
-      subSectorList: [],
     });
 
     this.store.select(selectAllSectors).subscribe((sectors) => {
@@ -185,6 +184,7 @@ export class AddClientComponent implements OnInit {
       legalFormId: Number(formValue.legalFormId?.id),
       legalFormLawId: Number(formValue.legalFormLawId?.id),
       isStampDuty: formValue.isStampDuty,
+      isIscore: formValue.isIscore,
       clientTypeId: this.selectedClientType,
       subSectorIdList: formValue.subSectorIdList.map(
         (item: any) => item.sectorId

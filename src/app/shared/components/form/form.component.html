@@ -802,36 +802,101 @@
         <br />
 
         <!-- Sector Dropdown -->
-        <label for="sectorDropdown">Select Sector</label>
+        <label for="sectorDropdown"
+          >Select Sector<sup class="danger">*</sup></label
+        >
         <app-sector-dropdown
           [formControl]="sectorIdControl"
           (sectorChanged)="sectorChanged.emit($event)"
         ></app-sector-dropdown>
-
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('sectorDropdown')?.hasError('required') &&
+            formGroup.get('sectorDropdown')?.touched
+          "
+        >
+          Sector is required.
+        </small>
+        <br />
         <!-- Sub Sector Dropdown -->
-        <label for="subSectorDropdown">Select Sub Sector</label>
+        <label for="subSectorDropdown"
+          >Select Sub Sector<sup class="danger">*</sup></label
+        >
         <app-sub-sector-dropdown
           [sectorId]="selectedSectorId"
           [allSectors]="sectorsList"
           formControlName="subSectorIdList"
         ></app-sub-sector-dropdown>
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('subSectorDropdown')?.hasError('required') &&
+            formGroup.get('subSectorDropdown')?.touched
+          "
+        >
+          Sub Sector is required.
+        </small>
+        <br />
+        <p-toggleswitch formControlName="isIscore" />&nbsp;
+        <label for="isIscore">Is Iscore<sup class="danger">*</sup></label>
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('isIscore')?.hasError('required') &&
+            formGroup.get('isIscore')?.touched
+          "
+        >
+          is Iscore is required.
+        </small>
       </ng-container>
 
       <!-- Legal Info -->
       <ng-container *ngIf="addClientShowLegal">
-        <label for="legalFormLawId">Legal Form Law</label>
+        <label for="legalFormLawId"
+          >Legal Form Law<sup class="danger">*</sup></label
+        >
         <app-legal-form-law-dropdown
           formControlName="legalFormLawId"
           (selectionChanged)="onLegalFormLawSelectionChange($event)"
         ></app-legal-form-law-dropdown>
-
-        <label for="legalFormId">Legal Form</label>
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('legalFormLawId')?.hasError('required') &&
+            formGroup.get('legalFormLawId')?.touched
+          "
+        >
+          Legal Form Law is required. </small
+        ><br />
+        <label for="legalFormId">Legal Form<sup class="danger">*</sup></label>
         <app-legal-form-dropdown
           formControlName="legalFormId"
           (selectionChanged)="onLegalFormSelectionChange($event)"
         ></app-legal-form-dropdown>
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('legalFormId')?.hasError('required') &&
+            formGroup.get('legalFormId')?.touched
+          "
+        >
+          Legal Form is required.
+        </small>
         <p-toggleswitch formControlName="isStampDuty" />&nbsp;
-        <label for="isStampDuty">Is Stamp Duty</label>
+        <label for="isStampDuty"
+          >Is Stamp Duty<sup class="danger">*</sup></label
+        >
+        <br />
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('isStampDuty')?.hasError('required') &&
+            formGroup.get('isStampDuty')?.touched
+          "
+        >
+          is Stamp Duty is required.
+        </small>
       </ng-container>
 
       <!-- Business Info -->
@@ -844,6 +909,7 @@
           formControlName="mainShare"
           placeholder="Main Share"
           appNoNegative
+          type="number"
         />
         <div
           *ngIf="
@@ -895,7 +961,7 @@
         </div>
 
         <!-- Website -->
-        <label for="website">Website</label>
+        <label for="website">Website <sup class="danger">*</sup></label>
         <input
           pInputText
           type="url"
@@ -903,6 +969,19 @@
           formControlName="website"
           placeholder="Website"
         />
+        <div
+          *ngIf="
+            formGroup.get('website')?.touched &&
+            formGroup.get('website')?.invalid
+          "
+          class="error-msg"
+        >
+          <small
+            class="p-error"
+            *ngIf="formGroup.get('website')?.errors?.['required']"
+            >Website is required</small
+          >
+        </div>
         <div
           *ngIf="
             formGroup.get('website')?.touched &&
@@ -976,6 +1055,11 @@
             class="p-error"
             *ngIf="formGroup.get('marketSize')?.errors?.['min']"
             >Market size cannot be negative.</small
+          ><br />
+          <small
+            class="p-error"
+            *ngIf="formGroup.get('marketSize')?.errors?.['required']"
+            >Market size is required.</small
           >
         </div>
 
@@ -1007,7 +1091,7 @@
           <small
             class="p-error"
             *ngIf="formGroup.get('employeesNo')?.errors?.['min']"
-            >Value cannot be negative.</small
+            >Number of employees cannot be negative.</small
           >
         </div>
       </ng-container>
