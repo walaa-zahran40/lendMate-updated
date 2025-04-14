@@ -22,8 +22,8 @@
       [checkBox]="true"
       [uppercase]="'uppercase'"
       [viewClientTable]="true"
-      (wizardBtn)="onAddSide()"
       (deleteClient)="onDeleteClient($event)"
+      (wizardBtn)="onAddSide($event)"
     ></app-table>
     <app-delete-module
       [visible]="showDeleteModal"

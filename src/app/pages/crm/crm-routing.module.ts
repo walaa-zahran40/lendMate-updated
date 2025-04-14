@@ -74,6 +74,10 @@ const routes: Routes = [
     component: AddAddressComponent,
   },
   {
+    path: 'clients/add-address/:clientId',
+    component: AddAddressComponent,
+  },
+  {
     path: 'clients/add-sales-turnover',
     component: AddSalesTurnoverComponent,
   },
@@ -169,6 +173,11 @@ const routes: Routes = [
     path: 'clients/client-activity-wizard',
     component: ClientActivityWizardComponent,
   },
+  {
+    path: 'clients/client-activity-wizard/:clientId',
+    component: ClientActivityWizardComponent,
+  },
+
   /*Leasing Mandates Routing*/
   {
     path: 'leasing-mandates/add-mandate',

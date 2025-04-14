@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-client-activity-wizard',
@@ -9,8 +9,12 @@ import { Router } from '@angular/router';
 })
 export class ClientActivityWizardComponent {
   cards: any[] = [];
-  constructor(private router: Router) {}
+  clientId!: number;
+
+  constructor(private router: Router, private route: ActivatedRoute) {}
   ngOnInit(): void {
+    this.clientId = +this.route.snapshot.paramMap.get('clientId')!;
+    console.log('Loaded clientId:', this.clientId);
     this.cards = [
       [
         {
@@ -171,7 +175,7 @@ export class ClientActivityWizardComponent {
     ];
   }
   navigateTo(link: string) {
-    this.router.navigate([link]);
+    this.router.navigate([link, this.clientId]);
   }
   navigateToInfo() {
     this.router.navigate(['/crm/clients/company-view-only']);
