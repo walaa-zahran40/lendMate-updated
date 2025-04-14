@@ -216,7 +216,7 @@ export class AddClientComponent implements OnInit {
       nameAR: formValue.nameAR,
       shortName: formValue.shortName,
       businessActivity: formValue.businessActivity,
-      taxId: formValue.taxId,
+      taxId: String(formValue.taxId),
       legalFormId: Number(formValue.legalFormId?.id),
       legalFormLawId: Number(formValue.legalFormLawId?.id),
       isStampDuty: formValue.isStampDuty,
