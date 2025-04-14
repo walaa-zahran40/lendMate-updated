@@ -243,9 +243,11 @@
       color: var(--p-tabs-active-bar-background);
     }
     .p-toolbar {
+      margin-top: 10px;
       border: none;
       padding: 0px 33px 0px 26px !important;
       zoom: 70%;
+      background: var(--bg-transparent);
     }
     .p-splitbutton {
       width: 100%;

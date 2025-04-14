@@ -757,26 +757,33 @@
               formGroup.get('taxId')?.invalid && formGroup.get('taxId')?.touched
           }"
         />
-        <small
-          class="p-error"
+        <div
           *ngIf="
-            formGroup.get('taxId')?.hasError('required') &&
-            formGroup.get('taxId')?.touched
+            formGroup.get('taxId')?.invalid && formGroup.get('taxId')?.touched
           "
         >
-          Tax ID is required.
-        </small>
-        <br />
-        <small
-          class="p-error"
-          *ngIf="
-            formGroup.get('taxId')?.hasError('nonPositiveNumeric') &&
-            formGroup.get('taxId')?.touched
-          "
-        >
-          Only positive numeric characters are allowed.
-        </small>
-        <br />
+          <small
+            class="p-error"
+            *ngIf="
+              formGroup.get('taxId')?.hasError('required') &&
+              formGroup.get('taxId')?.touched
+            "
+          >
+            Tax ID is required.
+          </small>
+          <br />
+          <small
+            class="p-error"
+            *ngIf="
+              formGroup.get('taxId')?.hasError('nonPositiveNumeric') &&
+              formGroup.get('taxId')?.touched
+            "
+          >
+            Only positive numeric characters are allowed.
+          </small>
+          <br />
+        </div>
+
         <!-- Short Name -->
         <label for="shortName">Short Name <sup class="danger">*</sup></label>
         <input
@@ -809,7 +816,7 @@
           [formControl]="sectorIdControl"
           (sectorChanged)="sectorChanged.emit($event)"
         ></app-sector-dropdown>
-       
+
         <br />
         <!-- Sub Sector Dropdown -->
         <label for="subSectorDropdown"

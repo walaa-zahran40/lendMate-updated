@@ -67,8 +67,18 @@
     .p-toggleswitch {
       top: 7px;
     }
-    .p-toggleswitch.p-toggleswitch-checked .p-toggleswitch-slider {
+    .p-toggleswitch.p-toggleswitch-checked .p-toggleswitch-slider,
+    .p-toggleswitch.p-toggleswitch-checked .p-toggleswitch-slider:hover,
+    .p-toggleswitch:not(.p-disabled):has(
+        .p-toggleswitch-input:hover
+      ).p-toggleswitch-checked
+      .p-toggleswitch-slider {
       background: var(--p-tabs-active-bar-background);
+      border: none;
+    }
+    .p-toggleswitch-slider {
+      background: var(--bg-transparent);
+      border: 1px solid var(--custom-color-grey-light);
     }
     .desc {
       color: var(--secondary-color);
@@ -200,6 +210,10 @@
       border-radius: var(--custom-margin-0);
       border: 1px solid var(--custom-color-grey-light);
       width: 100%;
+      background: var(--bg-transparent);
+    }
+    .p-toggleswitch-input {
+      background: var(--bg-transparent);
     }
     .p-multiselect {
       width: var(--custom-size-100);
@@ -224,6 +238,7 @@
       padding: var(--custom-size-8);
       border-radius: var(--custom-margin-0);
       border: 1px solid var(--custom-color-grey-light);
+      background: var(--bg-transparent);
     }
     #mandateOfficersForm .add-btn .p-button,
     #mandateContactPersonsForm .add-btn .p-button,
