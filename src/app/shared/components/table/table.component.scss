@@ -25,6 +25,7 @@
       padding: 20px;
       border-collapse: collapse;
       margin-top: 30px;
+      zoom: 70%;
     }
     .p-datatable-tbody > tr > td.grey {
       color: #838383;
@@ -203,6 +204,7 @@
       padding: 10px;
       border-radius: 0px 0px 8px 8px;
       width: 100%;
+      zoom: 70%;
     }
     .p-datatable-tbody > tr {
       background: var(--bg-transparent);
@@ -309,4 +311,11 @@
       }
     }
   }
+}
+::ng-deep .p-paginator .p-paginator-page.p-highlight {
+  background-color: #007ad9 !important; /* Example: Corplease blue */
+  color: white !important;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: background-color 0.3s;
 }

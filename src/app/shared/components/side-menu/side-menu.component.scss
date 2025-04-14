@@ -75,7 +75,8 @@
     z-index: 99;
     min-width: 300px;
     overflow-y: auto;
-    height: 100vh;
+    height: 100%;
+    zoom: 70%;
   }
 
   .p-panelmenu-panel {
