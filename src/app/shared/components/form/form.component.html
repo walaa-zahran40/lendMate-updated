@@ -752,6 +752,7 @@
           id="taxId"
           formControlName="taxId"
           placeholder="Tax ID"
+          type="number"
           [ngClass]="{
             'ng-invalid ng-dirty':
               formGroup.get('taxId')?.invalid && formGroup.get('taxId')?.touched
@@ -880,8 +881,8 @@
             formGroup.get('legalFormId')?.touched
           "
         >
-          Legal Form is required.
-        </small>
+          Legal Form is required. </small
+        ><br />
         <p-toggleswitch formControlName="isStampDuty" />&nbsp;
         <label for="isStampDuty"
           >Is Stamp Duty<sup class="danger">*</sup></label
@@ -939,6 +940,7 @@
           formControlName="establishedYear"
           placeholder="Established Year"
           appNoNegative
+          type="number"
         />
         <div
           *ngIf="
@@ -1052,13 +1054,14 @@
         >
           <small
             class="p-error"
-            *ngIf="formGroup.get('marketSize')?.errors?.['min']"
-            >Market size cannot be negative.</small
-          ><br />
-          <small
-            class="p-error"
             *ngIf="formGroup.get('marketSize')?.errors?.['required']"
             >Market size is required.</small
+          >
+          <br />
+          <small
+            class="p-error"
+            *ngIf="formGroup.get('marketSize')?.errors?.['min']"
+            >Market size cannot be negative.</small
           >
         </div>
 
@@ -2311,6 +2314,7 @@
         name="taxIdCompanyViewOnly"
         placeholder="#101020203030"
         [disabled]="true"
+        type="number"
       />
       <label for="shortNameCompanyViewOnly">Short Name </label>
 
