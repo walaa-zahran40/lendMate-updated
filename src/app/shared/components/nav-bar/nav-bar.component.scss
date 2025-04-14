@@ -66,7 +66,7 @@
   &::ng-deep {
     .p-toolbar {
       border: none;
-      border-bottom: 1px solid var(--p-content-background);
+      border-bottom: none;
       background: var(--nav-background);
       zoom: 70%;
       border-radius: 0;
