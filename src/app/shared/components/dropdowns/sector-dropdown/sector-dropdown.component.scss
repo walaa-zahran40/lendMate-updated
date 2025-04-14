@@ -1,3 +1,13 @@
 .p-error {
   color: var(--custom-red);
 }
+:host {
+  &::ng-deep {
+    .p-select {
+      position: relative;
+    }
+    .p-select-overlay {
+      left: revert-layer !important;
+    }
+  }
+}
