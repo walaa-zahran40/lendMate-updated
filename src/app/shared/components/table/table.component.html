@@ -33,7 +33,12 @@
         <span class="p-column-title">{{ col.header }}</span>
         <span
           [ngClass]="{
-            uppercase: col.field === 'isActive'
+            'text-success':
+              (col.field === 'isActive' || col.field === 'isIscore') &&
+              rowData[col.field] === true,
+            'text-danger':
+              (col.field === 'isActive' || col.field === 'isIscore') &&
+              rowData[col.field] === false
           }"
           >{{ rowData[col.field] }}</span
         >

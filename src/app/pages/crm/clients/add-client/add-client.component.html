@@ -1,4 +1,8 @@
-<app-toolbar-form [header]="'Add a Client'"></app-toolbar-form>
+<app-toolbar-form
+  [header]="'Add a Client'"
+  [backIcon]="'back-icon'"
+  [backExists]="true"
+></app-toolbar-form>
 
 <p-tabs value="0" styleClass="p-3">
   <p-tablist *ngIf="addClient">

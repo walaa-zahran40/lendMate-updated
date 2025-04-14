@@ -14,6 +14,7 @@
   }
 }
 :host {
+  --custom-red: #fc1e1e;
   &::ng-deep {
     img[alt="side"],
     img[alt="delete"],
@@ -170,7 +171,7 @@
     .p-paginator {
       background-color: var(--bg-transparent);
     }
-    .p-datatable-tbody > tr > td > .uppercase {
+    .p-datatable-tbody > tr > td > .text-success {
       text-transform: capitalize;
       color: #3cb091;
       font-family: "poppins", sans-serif;
@@ -180,6 +181,18 @@
       line-height: 160%;
       border-radius: 80px;
       border: 1px solid #3cb091;
+      padding: 6px 10px;
+    }
+    .p-datatable-tbody > tr > td > .text-danger {
+      text-transform: capitalize;
+      color: var(--custom-red);
+      font-family: "poppins", sans-serif;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 160%;
+      border-radius: 80px;
+      border: 1px solid var(--custom-red);
       padding: 6px 10px;
     }
     /* Style the paginator container */
