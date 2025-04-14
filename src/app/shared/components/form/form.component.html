@@ -766,7 +766,7 @@
         >
           Tax ID is required.
         </small>
-
+        <br />
         <small
           class="p-error"
           *ngIf="
@@ -809,15 +809,7 @@
           [formControl]="sectorIdControl"
           (sectorChanged)="sectorChanged.emit($event)"
         ></app-sector-dropdown>
-        <small
-          class="p-error"
-          *ngIf="
-            formGroup.get('sectorDropdown')?.hasError('required') &&
-            formGroup.get('sectorDropdown')?.touched
-          "
-        >
-          Sector is required.
-        </small>
+       
         <br />
         <!-- Sub Sector Dropdown -->
         <label for="subSectorDropdown"

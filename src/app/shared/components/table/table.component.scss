@@ -31,13 +31,19 @@
       padding: 20px;
       border-collapse: collapse;
       margin-top: 30px;
-      zoom: 70%;
+      zoom: 73%;
+    }
+    .p-paginator .p-select {
+      background-color: var(--p-content-background);
+    }
+    .p-paginator .p-select-label {
+      color: var(--filter-text);
     }
     .p-datatable-tbody > tr > td.grey {
       color: #838383;
     }
     .p-checkbox-input {
-      background: var(--white-color);
+      background: var(--white-color-add);
     }
     .p-datatable-tbody > tr > td.orange {
       color: #d99b37;

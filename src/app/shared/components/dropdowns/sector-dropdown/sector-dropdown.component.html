@@ -5,6 +5,13 @@
     placeholder="Select Sector"
     [formControl]="formControl"
     (onChange)="onSectorChange($event)"
+    required="true"
   >
   </p-select>
+  <small
+    class="p-error"
+    *ngIf="formControl.invalid && (formControl.dirty || formControl.touched)"
+  >
+    Sector is required.
+  </small>
 </ng-container>

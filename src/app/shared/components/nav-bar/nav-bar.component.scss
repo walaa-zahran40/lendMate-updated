@@ -93,6 +93,7 @@
       width: 116px;
       border-radius: 27px;
       height: 26px;
+      background: var(--toggle-active-bg);
     }
     .p-toggleswitch:not(.p-disabled):has(.p-toggleswitch-input)
       .p-toggleswitch-slider {
