@@ -665,7 +665,7 @@
         <label for="name">Name in English <sup class="danger">*</sup></label>
         <input
           pInputText
-          id="name"
+          name="name"
           formControlName="name"
           placeholder="Name in English"
           [ngClass]="{
@@ -689,7 +689,7 @@
         <label for="nameAR">Name in Arabic <sup class="danger">*</sup></label>
         <input
           pInputText
-          id="nameAR"
+          name="nameAR"
           formControlName="nameAR"
           placeholder="Name in Arabic"
           [ngClass]="{
@@ -725,7 +725,7 @@
         >
         <input
           pInputText
-          id="businessActivity"
+          name="businessActivity"
           formControlName="businessActivity"
           placeholder="Business Activity"
           [ngClass]="{
@@ -749,7 +749,7 @@
         <label for="taxId">Tax ID <sup class="danger">*</sup></label>
         <input
           pInputText
-          id="taxId"
+          name="taxId"
           formControlName="taxId"
           placeholder="Tax ID"
           type="number"
@@ -789,7 +789,7 @@
         <label for="shortName">Short Name <sup class="danger">*</sup></label>
         <input
           pInputText
-          id="shortName"
+          name="shortName"
           formControlName="shortName"
           placeholder="Short Name"
           [ngClass]="{
@@ -816,6 +816,7 @@
         <app-sector-dropdown
           [formControl]="sectorIdControl"
           (sectorChanged)="sectorChanged.emit($event)"
+          name="sectorDropdown"
         ></app-sector-dropdown>
 
         <br />
@@ -826,8 +827,11 @@
         <app-sub-sector-dropdown
           [sectorId]="selectedSectorId"
           [allSectors]="sectorsList"
+          [formControl]="subSectorList"
           formControlName="subSectorIdList"
+          name="subSectorDropdown"
         ></app-sub-sector-dropdown>
+
         <small
           class="p-error"
           *ngIf="
@@ -838,8 +842,9 @@
           Sub Sector is required.
         </small>
         <br />
-        <p-toggleswitch formControlName="isIscore" />&nbsp;
-        <label for="isIscore">Is Iscore<sup class="danger">*</sup></label>
+        <p-toggleswitch formControlName="isIscore" name="isIscore" />&nbsp;
+        <label for="isIscore">Is Iscore?<sup class="danger">*</sup></label
+        ><br />
         <small
           class="p-error"
           *ngIf="
@@ -847,7 +852,7 @@
             formGroup.get('isIscore')?.touched
           "
         >
-          is Iscore is required.
+          Iscore is required.
         </small>
       </ng-container>
 
@@ -883,7 +888,10 @@
         >
           Legal Form is required. </small
         ><br />
-        <p-toggleswitch formControlName="isStampDuty" />&nbsp;
+        <p-toggleswitch
+          formControlName="isStampDuty"
+          name="isStampDuty"
+        />&nbsp;
         <label for="isStampDuty"
           >Is Stamp Duty<sup class="danger">*</sup></label
         >
@@ -895,7 +903,7 @@
             formGroup.get('isStampDuty')?.touched
           "
         >
-          is Stamp Duty is required.
+          Stamp Duty is required.
         </small>
       </ng-container>
 
@@ -1035,7 +1043,7 @@
         </div>
 
         <!-- Market Size -->
-        <label for="marketSize">Market Size</label>
+        <label for="marketSize">Market Size<sup class="danger">*</sup></label>
         <input
           pInputText
           min="0"
@@ -1254,126 +1262,175 @@
         </div>
       </div>
     </form>
-    <form action="" *ngIf="addClientShowIndividual">
+    <form #clientForm="ngForm" *ngIf="addClientShowIndividual">
+      <!-- Name in English -->
       <label for="nameEnglishIndividual"
         >Name in English<sup class="danger">*</sup></label
       >
       <input
         pInputText
-        id="nameEnglishIndividual"
-        aria-describedby="nameEnglishIndividual-help"
-        [(ngModel)]="value11"
         name="nameEnglishIndividual"
-        placeholder="Google"
+        required
+        [(ngModel)]="value11"
+        #nameEnglishIndividual="ngModel"
+        placeholder="Name in English"
       />
+      <small
+        class="p-error"
+        *ngIf="nameEnglishIndividual.invalid && nameEnglishIndividual.touched"
+      >
+        Name in English is required.
+      </small>
+      <br />
+      <!-- Name in Arabic -->
       <label for="nameArabicIndividual"
         >Name in Arabic<sup class="danger">*</sup></label
       >
       <input
         pInputText
-        id="nameArabicIndividual"
-        aria-describedby="nameArabicIndividual-help"
-        [(ngModel)]="value12"
-        placeholder="Google"
         name="nameArabicIndividual"
+        required
+        [(ngModel)]="value12"
+        #nameArabicIndividual="ngModel"
+        placeholder="Name in Arabic"
       />
+      <small
+        class="p-error"
+        *ngIf="nameArabicIndividual.invalid && nameArabicIndividual.touched"
+      >
+        Name in Arabic is required.
+      </small>
+      <br />
+      <!-- Business Activity -->
       <label for="businessActivityIndividual"
         >Business Activity<sup class="danger">*</sup></label
       >
       <input
         pInputText
-        id="businessActivityIndividual"
-        aria-describedby="businessActivityIndividual-help"
-        [(ngModel)]="value13"
-        placeholder="Technology Business"
         name="businessActivityIndividual"
+        required
+        [(ngModel)]="value13"
+        #businessActivityIndividual="ngModel"
+        placeholder="Business Activity"
       />
+      <small
+        class="p-error"
+        *ngIf="
+          businessActivityIndividual.invalid &&
+          businessActivityIndividual.touched
+        "
+      >
+        Business Activity is required.
+      </small>
+      <br />
+      <!-- Sector MultiSelect -->
       <label for="selectSectorIndividual"
         >Select Sector<sup class="danger">*</sup></label
       >
       <p-multiselect
         [options]="sectorsIndividual"
         [(ngModel)]="selectedSectorsIndividual"
+        name="selectSectorIndividual"
+        required
+        #selectSectorIndividual="ngModel"
         placeholder="Select Sectors"
         optionLabel="name"
         display="chip"
-        icon="pi pi-times"
-        name="sectorsIndividual"
-        styleClass="w-full md:w-80"
         [maxSelectedLabels]="999"
         chipIcon="pi pi-times"
-      />
+        styleClass="w-full md:w-80"
+      ></p-multiselect>
+      <small
+        class="p-error"
+        *ngIf="selectSectorIndividual.invalid && selectSectorIndividual.touched"
+      >
+        Select Sector is required.
+      </small>
+      <br />
+      <!-- Sub Sector -->
       <label for="selectSubSectorIndividual"
         >Select Sub Sector<sup class="danger">*</sup></label
       >
       <p-multiselect
         [options]="subSectorsIndividual"
         [(ngModel)]="selectedSubSectorsIndividual"
+        name="selectSubSectorIndividual"
+        required
+        #selectSubSectorIndividual="ngModel"
         placeholder="Select Sub Sectors"
         optionLabel="name"
         display="chip"
-        icon="pi pi-times"
-        name="subSectorsIndividual"
-        styleClass="w-full md:w-80"
         [maxSelectedLabels]="999"
         chipIcon="pi pi-times"
-      />
-      <label for="shortNameIndividual">Short Name</label>
-      <input
-        pInputText
-        id="shortNameIndividual"
-        aria-describedby="shortNameIndividual-help"
-        [(ngModel)]="value16"
-        placeholder="GO"
-        name="shortNameIndividual"
-      />
-      <label for="jobTitleIndividual">Job Title</label>
-      <input
-        pInputText
-        id="jobTitleIndividual"
-        aria-describedby="jobTitleIndividual-help"
-        [(ngModel)]="value17"
-        placeholder="Senior UI/UX Designer"
-        name="jobTitleIndividual"
-      />
+        styleClass="w-full md:w-80"
+      ></p-multiselect>
+      <small
+        class="p-error"
+        *ngIf="
+          selectSubSectorIndividual.invalid && selectSubSectorIndividual.touched
+        "
+      >
+        Select Sub Sector is required.
+      </small>
+      <br />
+      <!-- Tax ID -->
       <label for="taxIdIndividual">Tax ID<sup class="danger">*</sup></label>
       <input
         pInputText
-        id="taxIdIndividual"
-        aria-describedby="taxIdIndividual-help"
-        [(ngModel)]="value18"
-        placeholder="#101020203030"
         name="taxIdIndividual"
+        required
+        [(ngModel)]="value18"
+        #taxIdIndividual="ngModel"
+        placeholder="Tax ID"
       />
-      <div class="row">
-        <div class="col-sm">
-          <label for="dateOfBirthIndividual"
-            >Date of Birth<sup class="danger">*</sup></label
-          >
-          <p-datepicker
-            [(ngModel)]="date1"
-            [iconDisplay]="'input'"
-            [showIcon]="true"
-            placeholder="Date Of Birth"
-            inputId="icondisplay"
-            name="dateOfBirthIndividual"
-          />
-        </div>
-        <div class="col-sm">
-          <label for="genderIndividual"
-            >Gender<sup class="danger">*</sup></label
-          >
-          <p-select
-            [options]="genders"
-            [(ngModel)]="selectedGenders"
-            optionLabel="name"
-            placeholder="Select a Gender"
-            class="w-full md:w-56"
-            name="gender"
-          />
-        </div>
-      </div>
-
+      <small
+        class="p-error"
+        *ngIf="taxIdIndividual.invalid && taxIdIndividual.touched"
+      >
+        Tax ID is required.
+      </small>
+      <br />
+      <!-- Date of Birth -->
+      <label for="dateOfBirthIndividual"
+        >Date of Birth<sup class="danger">*</sup></label
+      >
+      <p-datepicker
+        [(ngModel)]="date1"
+        name="dateOfBirthIndividual"
+        required
+        #dateOfBirthIndividual="ngModel"
+        placeholder="Date Of Birth"
+        inputId="icondisplay"
+        [showIcon]="true"
+        [iconDisplay]="'input'"
+      ></p-datepicker>
+      <small
+        class="p-error"
+        *ngIf="dateOfBirthIndividual.invalid && dateOfBirthIndividual.touched"
+      >
+        Date of Birth is required.
+      </small>
+      <br />
+      <!-- Gender -->
+      <label for="genderIndividual">Gender<sup class="danger">*</sup></label>
+      <p-select
+        [options]="genders"
+        [(ngModel)]="selectedGenders"
+        name="genderIndividual"
+        required
+        #genderIndividual="ngModel"
+        optionLabel="name"
+        placeholder="Select a Gender"
+        class="w-full md:w-56"
+      ></p-select>
+      <small
+        class="p-error"
+        *ngIf="genderIndividual.invalid && genderIndividual.touched"
+      >
+        Gender is required.
+      </small>
+      <br />
+      <!-- Identification Number -->
       <div class="parent-individual">
         <div class="div4-individual">
           <label for="identificationNumberIndividual"
@@ -1384,7 +1441,7 @@
             id="identificationNumberIndividual"
             aria-describedby="identificationNumberIndividual-help"
             [(ngModel)]="value21"
-            placeholder="#42352353"
+            placeholder="Identification Number"
             name="identificationNumberIndividual"
           />
         </div>
@@ -1410,6 +1467,7 @@
         </div>
       </div>
     </form>
+
     <form action="" *ngIf="clientOnboardingCompanyShowMain">
       <label for="clientOnboardingCompanyNameEnglish"
         >Name in English<sup class="danger">*</sup></label

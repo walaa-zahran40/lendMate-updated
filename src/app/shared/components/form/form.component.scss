@@ -319,8 +319,7 @@
     }
 
     .div2-individual {
-      grid-column: span 2 / span 3;
-      grid-column-start: 4;
+      grid-column: span 3 / span 6;
       grid-row-start: 1;
     }
 
@@ -403,7 +402,7 @@
         width: 8%;
       }
       .parent-individual {
-        display: block;
+        display: grid;
       }
       .div3-contact {
         margin-top: 15px;
@@ -613,5 +612,27 @@ form {
 
   .div2 {
     grid-column: span 1 / span 1;
+  }
+}
+::ng-deep {
+  .identity-row {
+    display: grid;
+    gap: 18px;
+    margin-top: 8px;
+  }
+
+  .div2-individual {
+    flex: 1; // this makes the multiselect take full width
+  }
+
+  .div3-individual {
+    flex: 0 0 auto;
+    margin-bottom: 0;
+  }
+
+  .add-btn .p-button {
+    height: 42px;
+    width: 42px;
+    padding: 0;
   }
 }

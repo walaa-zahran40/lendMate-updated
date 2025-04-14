@@ -3,14 +3,21 @@
     [options]="sectors"
     optionLabel="name"
     placeholder="Select Sector"
-    [formControl]="formControl"
+    [(ngModel)]="value"
     (onChange)="onSectorChange($event)"
-    required="true"
+    required
+    [ngClass]="{
+      'ng-invalid':
+        formControl.invalid && (formControl.dirty || formControl.touched)
+    }"
   >
   </p-select>
+
+  <!-- Validation message -->
   <small
     class="p-error"
-    *ngIf="formControl.invalid && (formControl.dirty || formControl.touched)"
+    style="color: var(--custom-red)"
+    *ngIf="formControl?.invalid && (formControl?.dirty || formControl?.touched)"
   >
     Sector is required.
   </small>

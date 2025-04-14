@@ -27,6 +27,7 @@ export class FormComponent {
   get sectorIdControl(): FormControl {
     return this.formGroup.get('sectorId') as FormControl;
   }
+
   get subSectorList(): FormControl {
     return this.formGroup.get('subSectorIdList') as FormControl;
   }
@@ -690,7 +691,10 @@ export class FormComponent {
     this.companyLegalDetail.legalFormLawId = event?.id;
     console.log('Legal Form Law selected:', event?.id);
   }
-
+  onSubSectorDropdown(event: any): void {
+    this.companyLegalDetail.legalFormLawId = event?.id;
+    console.log('Sub Sector selected:', event?.id);
+  }
   onLegalFormSelectionChange(event: any): void {
     this.companyLegalDetail.legalFormId = event?.id;
     console.log('Legal Form selected:', event?.id);

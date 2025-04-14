@@ -33,6 +33,7 @@ import { LegalFormLawService } from '../../../../shared/services/legal-form-law.
 })
 export class AddClientComponent implements OnInit {
   addClientForm!: FormGroup;
+  addClientFormIndividual!: FormGroup;
   addClient = true;
   selectedSectorId: number = 0;
   allSectors: any[] = [];
@@ -67,12 +68,12 @@ export class AddClientComponent implements OnInit {
       businessActivity: ['', Validators.required],
       taxId: ['', [Validators.required, positiveNumberValidator()]],
       shortName: ['', Validators.required],
-      sectorId: [0, Validators.required],
+      sectorId: [[], Validators.required],
       subSectorIdList: [[], Validators.required],
       legalFormLawId: [null, Validators.required],
       legalFormId: [null, Validators.required],
-      isStampDuty: [false, Validators.required],
-      isIscore: [false, Validators.required],
+      isStampDuty: [null, Validators.required],
+      isIscore: [null, Validators.required],
       mainShare: [null, [Validators.required, Validators.min(0)]],
       establishedYear: [
         null,
@@ -97,7 +98,42 @@ export class AddClientComponent implements OnInit {
       marketSize: [null, [Validators.min(0), Validators.required]],
       employeesNo: [null, [Validators.required, Validators.min(0)]],
     });
-
+    this.addClientFormIndividual = this.fb.group({
+      nameEnglishIndividual: ['', Validators.required],
+      nameAR: ['', [Validators.required, arabicOnlyValidator()]],
+      businessActivity: ['', Validators.required],
+      taxId: ['', [Validators.required, positiveNumberValidator()]],
+      shortName: ['', Validators.required],
+      sectorId: [[], Validators.required],
+      subSectorIdList: [[], Validators.required],
+      legalFormLawId: [null, Validators.required],
+      legalFormId: [null, Validators.required],
+      isStampDuty: [null, Validators.required],
+      isIscore: [null, Validators.required],
+      mainShare: [null, [Validators.required, Validators.min(0)]],
+      establishedYear: [
+        null,
+        [
+          Validators.required,
+          Validators.pattern(/^(19|20)\d{2}$/), // Valid years: 1900–2099
+        ],
+      ],
+      website: [
+        null,
+        [
+          Validators.pattern(
+            /^(https?:\/\/)?([\w\-]+\.)+[\w\-]{2,}(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/
+          ),
+          Validators.required,
+        ],
+      ],
+      marketShare: [
+        null,
+        [Validators.required, Validators.min(0), Validators.max(100)],
+      ],
+      marketSize: [null, [Validators.min(0), Validators.required]],
+      employeesNo: [null, [Validators.required, Validators.min(0)]],
+    });
     this.store.select(selectAllSectors).subscribe((sectors) => {
       this.sectorsList = sectors || [];
     });
@@ -199,7 +235,52 @@ export class AddClientComponent implements OnInit {
 
     this.store.dispatch(createClient({ payload }));
   }
+  saveInfoIndividual() {
+    console.log('Form Valid:', this.addClientForm.valid);
+    console.log('Form Status:', this.addClientForm.status);
+    console.log('Form Errors:', this.addClientForm.errors);
+    console.log('Form Value:', this.addClientForm.value);
 
+    Object.keys(this.addClientForm.controls).forEach((key) => {
+      const control = this.addClientForm.get(key);
+      console.log(
+        `Control: ${key}, Valid: ${control?.valid}, Errors:`,
+        control?.errors
+      );
+    });
+
+    if (this.addClientForm.invalid) {
+      this.addClientForm.markAllAsTouched();
+      console.log(this.addClientForm.errors);
+      return;
+    }
+    const formValue = this.addClientForm.value;
+    console.log(formValue);
+
+    const payload = {
+      name: formValue.name,
+      nameAR: formValue.nameAR,
+      shortName: formValue.shortName,
+      businessActivity: formValue.businessActivity,
+      taxId: formValue.taxId,
+      legalFormId: Number(formValue.legalFormId?.id),
+      legalFormLawId: Number(formValue.legalFormLawId?.id),
+      isStampDuty: formValue.isStampDuty,
+      isIscore: formValue.isIscore,
+      clientTypeId: this.selectedClientType,
+      subSectorIdList: formValue.subSectorIdList.map(
+        (item: any) => item.sectorId
+      ),
+      mainShare: formValue.mainShare,
+      establishedYear: formValue.establishedYear,
+      website: formValue.website,
+      marketShare: formValue.marketShare,
+      marketSize: formValue.marketSize,
+      employeesNo: formValue.employeesNo,
+    };
+
+    this.store.dispatch(createClient({ payload }));
+  }
   onClientTypeChange(event: any) {
     if (event && event.value) {
       this.selectedClientType = event;

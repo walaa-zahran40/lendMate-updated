@@ -5,6 +5,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   selector: 'app-sub-sector-dropdown',
   standalone: false,
   templateUrl: './sub-sector-dropdown.component.html',
+  styleUrls: ['./sub-sector-dropdown.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -18,6 +19,7 @@ export class SubSectorDropdownComponent
 {
   @Input() sectorId: number | null = null;
   @Input() allSectors: any[] = [];
+  @Input() formControl!: any;
 
   value: any;
 

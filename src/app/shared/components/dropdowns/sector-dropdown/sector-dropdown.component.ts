@@ -28,6 +28,7 @@ import { Sectors } from '../../../interfaces/sectors.interface';
   selector: 'app-sector-dropdown',
   standalone: false,
   templateUrl: './sector-dropdown.component.html',
+  styleUrls: ['./sector-dropdown.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -40,12 +41,11 @@ export class SectorDropdownComponent implements OnInit {
   @Input() formControl!: FormControl;
   @Output() sectorChanged = new EventEmitter<number>();
   value: any;
-
-  // These functions will be set by Angular
   onChange: (value: any) => void = () => {};
   onTouched: () => void = () => {};
+  @Output() selectionChanged = new EventEmitter<any>();
 
-  sectorsSafe$!: Observable<Sectors[]>; // ✅ strict and clean
+  sectorsSafe$!: Observable<Sectors[]>;
 
   constructor(private store: Store) {}
 
@@ -57,8 +57,12 @@ export class SectorDropdownComponent implements OnInit {
   // Called when external value is set
   writeValue(value: any): void {
     this.value = value;
+    this.onChange(value);
+    this.onSelectionChange();
   }
-
+  onSelectionChange() {
+    this.selectionChanged.emit(this.value);
+  }
   // Angular registers a function to call when the control’s value changes
   registerOnChange(fn: any): void {
     this.onChange = fn;
@@ -81,9 +85,14 @@ export class SectorDropdownComponent implements OnInit {
     this.onTouched();
   }
   onSectorChange(event: any) {
-    const selected = event?.value;
-    if (selected?.id) {
-      this.sectorChanged.emit(selected.id);
+    this.value = event.value;
+    this.onChange(this.value);
+    this.onTouched();
+
+    this.selectionChanged.emit(this.value);
+
+    if (this.value?.id) {
+      this.sectorChanged.emit(this.value.id);
     }
   }
 }
