@@ -21,6 +21,13 @@
     img[alt="edit"] {
       cursor: pointer;
     }
+    .p-paginator-page.p-paginator-page-selected {
+      background-color: #007ad9 !important; /* Example: Corplease blue */
+      color: white !important;
+      border-radius: 4px;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
     .p-datatable-table {
       padding: 20px;
       border-collapse: collapse;
@@ -311,11 +318,4 @@
       }
     }
   }
-}
-::ng-deep .p-paginator .p-paginator-page.p-highlight {
-  background-color: #007ad9 !important; /* Example: Corplease blue */
-  color: white !important;
-  border-radius: 4px;
-  font-weight: bold;
-  transition: background-color 0.3s;
 }
