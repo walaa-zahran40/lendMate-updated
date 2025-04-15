@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { ClientTypesState } from './client-types.reducer';
+import { ClientTypesState } from './client-types.state';
 
 export const selectClientTypesState =
   createFeatureSelector<ClientTypesState>('clientTypes');

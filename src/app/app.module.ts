@@ -6,11 +6,7 @@ import { AppComponent } from './app.component';
 import { PagesModule } from './pages/pages.module';
 import { SharedModule } from './shared/shared.module';
 import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
-import {
-  HTTP_INTERCEPTORS,
-  HttpClientModule,
-  provideHttpClient,
-} from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
@@ -24,9 +20,6 @@ import { ViewPaymentMonthDaysComponent } from './pages/lookups/view-payment-mont
 import { ViewMeetingTypesComponent } from './pages/lookups/view-meeting-types/view-meeting-types.component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { ClientsEffects } from './pages/crm/clients/state/clients/clients.effects';
-import { clientsReducer } from './pages/crm/clients/state/clients/clients.reducer';
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +36,6 @@ import { clientsReducer } from './pages/crm/clients/state/clients/clients.reduce
     SelectModule,
     FormsModule,
     ButtonModule,
-    HttpClientModule,
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
   ],

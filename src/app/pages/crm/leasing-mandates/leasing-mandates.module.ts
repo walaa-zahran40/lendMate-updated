@@ -1,21 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CrmRoutingModule } from '../crm-routing.module';
-import { AddMandateComponent } from './add-mandate/add-mandate.component';
-import { AddChildMandateComponent } from './add-child-mandate/add-child-mandate.component';
-import { AddManageMandateTermsComponent } from './add-manage-mandate-terms/add-manage-mandate-terms.component';
-import { LeasingFinancialFormComponent } from './leasing-financial-form/leasing-financial-form.component';
+import { AddMandateComponent } from './components/add-mandate/add-mandate.component';
+import { AddChildMandateComponent } from './components/add-child-mandate/add-child-mandate.component';
+import { AddManageMandateTermsComponent } from './components/add-manage-mandate-terms/add-manage-mandate-terms.component';
+import { LeasingFinancialFormComponent } from './components/leasing-financial-form/leasing-financial-form.component';
 import { SharedModule } from '../../../shared/shared.module';
 import { TabsModule } from 'primeng/tabs';
 import { ButtonModule } from 'primeng/button';
-import { ViewMandateComponent } from './view-mandate/view-mandate.component';
-import { ViewOfficersComponent } from './view-officers/view-officers.component';
-import { ViewContactPersonsComponent } from './view-contact-persons/view-contact-persons.component';
-import { ViewAssestTypeComponent } from './view-assest-type/view-assest-type.component';
-import { WizardComponent } from './wizard/wizard.component';
-import { ViewCalculationsComponent } from './view-calculations/view-calculations.component';
-import { ViewManageMandateTermsComponent } from './view-manage-mandate-terms/view-manage-mandate-terms.component';
-import { LeasingFinancialFormCompoundComponent } from './leasing-financial-form-compound/leasing-financial-form-compound.component';
+import { ViewMandateComponent } from './components/view-mandate/view-mandate.component';
+import { ViewOfficersComponent } from './components/view-officers/view-officers.component';
+import { ViewContactPersonsComponent } from './components/view-contact-persons/view-contact-persons.component';
+import { ViewAssestTypeComponent } from './components/view-assest-type/view-assest-type.component';
+import { WizardComponent } from './components/wizard/wizard.component';
+import { ViewManageMandateTermsComponent } from './components/view-manage-mandate-terms/view-manage-mandate-terms.component';
+import { LeasingFinancialFormCompoundComponent } from './components/leasing-financial-form-compound/leasing-financial-form-compound.component';
+import { ViewCalculationsComponent } from './components/view-calculations/view-calculations.component';
 
 @NgModule({
   declarations: [

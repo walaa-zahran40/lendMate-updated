@@ -1,17 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import * as ClientTypeActions from './client-types.actions';
-
-export interface ClientTypesState {
-  types: any[];
-  loading: boolean;
-  error: any;
-}
-
-export const initialClientTypesState: ClientTypesState = {
-  types: [],
-  loading: false,
-  error: null,
-};
+import { initialClientTypesState } from './client-types.state';
 
 export const clientTypesReducer = createReducer(
   initialClientTypesState,
