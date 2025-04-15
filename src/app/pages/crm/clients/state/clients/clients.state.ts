@@ -5,6 +5,7 @@ export interface ClientsState {
   loading: boolean;
   error: any;
   subSectorList: number[];
+  selectedClient: Client | null;
 }
 
 export const initialClientsState: ClientsState = {
@@ -12,4 +13,5 @@ export const initialClientsState: ClientsState = {
   clients: [],
   loading: false,
   error: null,
+  selectedClient: null,
 };

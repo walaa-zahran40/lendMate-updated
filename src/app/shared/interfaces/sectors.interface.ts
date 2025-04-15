@@ -4,4 +4,5 @@ export interface Sectors {
   nameAR: string;
   subSectors: string;
   active: boolean;
+  id?: number;
 }

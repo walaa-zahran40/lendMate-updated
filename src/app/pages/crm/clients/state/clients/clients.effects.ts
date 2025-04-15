@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 @Injectable()
 export class ClientsEffects {
   constructor(
-    private actions$: Actions, // ✅ This MUST be private + injected
+    private actions$: Actions,
     private http: HttpClient,
     private clientService: ClientService,
     private router: Router
@@ -30,7 +30,6 @@ export class ClientsEffects {
     )
   );
 
-  // ✅ createEffect is a *function call*, NOT just a variable assignment
   loadClients$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ClientsActions.loadClients),
@@ -47,6 +46,34 @@ export class ClientsEffects {
               of(ClientsActions.loadClientsFailure({ error }))
             )
           )
+      )
+    )
+  );
+  // Effect to load client for editing
+  loadClient$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClientsActions.loadClient),
+      mergeMap((action) =>
+        this.clientService.getClientById(action.clientId).pipe(
+          map((client) => ClientsActions.loadClientSuccess({ client })),
+          catchError((error) => of(ClientsActions.loadClientFailure({ error })))
+        )
+      )
+    )
+  );
+  // Effect to update the client
+  updateClient$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClientsActions.updateClient),
+      mergeMap((action) =>
+        this.clientService.updateClient(action.client).pipe(
+          map((updatedClient) =>
+            ClientsActions.updateClientSuccess({ client: updatedClient })
+          ),
+          catchError((error) =>
+            of(ClientsActions.updateClientFailure({ error }))
+          )
+        )
       )
     )
   );

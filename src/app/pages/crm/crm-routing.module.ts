@@ -54,6 +54,10 @@ const routes: Routes = [
     component: AddClientComponent,
   },
   {
+    path: 'clients/add-client/:id',
+    component: AddClientComponent,
+  },
+  {
     path: 'clients/add-client-guarantor',
     component: AddClientGuarantorComponent,
   },

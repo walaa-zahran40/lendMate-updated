@@ -9,21 +9,22 @@ import {
 import { Store } from '@ngrx/store';
 import {
   createClient,
-  updateSubSectorList,
+  loadClient,
+  updateClient,
 } from '../../state/clients/clients.actions';
-import {
-  selectAllSectors,
-  selectSelectedSubSectorIds,
-} from '../../../../../shared/components/dropdowns/store/sector.selectors';
-import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
+import { selectAllSectors } from '../../../../../shared/components/dropdowns/store/sector.selectors';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ClientTypesFacade } from '../../state/client-types/client-types.facade';
-import { selectSubSectorList } from '../../state/clients/clients.selectors';
+import {
+  selectSelectedClient,
+  selectSubSectorList,
+} from '../../state/clients/clients.selectors';
 import { arabicOnlyValidator } from '../../../../../shared/validators/arabic-only.validator';
 import { positiveNumberValidator } from '../../../../../shared/validators/positive-only.validator';
 import { LegalFormService } from '../../../../../shared/services/legal-form.service';
 import { Sector } from '../../../../../shared/interfaces/sector.interface';
 import { LegalFormLawService } from '../../../../../shared/services/legal-form-law.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-add-client',
@@ -43,13 +44,17 @@ export class AddClientComponent implements OnInit {
   subSectorList$ = this.store.select(selectSubSectorList);
   dropdownlegalLawItems: Sector[] = [];
   dropdownlegalFormLawItems: Sector[] = [];
+  selectedClient$!: Observable<any>;
+  public editMode: boolean = false;
+  public clientId: number | null = null;
+
   constructor(
     private fb: FormBuilder,
     private store: Store,
-    private router: Router,
     private clientTypesFacade: ClientTypesFacade,
     private legalFormService: LegalFormService,
-    private legalFormlawService: LegalFormLawService
+    private legalFormlawService: LegalFormLawService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -144,7 +149,80 @@ export class AddClientComponent implements OnInit {
       ids.forEach((id) => formArray.push(this.fb.control(id)));
       this.addClientForm.setControl('subSectorList', formArray);
     });
+    // Initialize your form here (or call a separate method)
+    this.buildForm();
+    // Check for an 'id' parameter to determine if we are in edit mode
+    const idParam = this.route.snapshot.paramMap.get('id');
+    if (idParam) {
+      this.editMode = true;
+      this.clientId = +idParam;
+      // Dispatch an action to load the client data for editing
+      this.store.dispatch(loadClient({ clientId: this.clientId }));
+
+      // Subscribe to the store to patch the form when data is loaded
+      this.selectedClient$ = this.store.select(selectSelectedClient);
+      this.selectedClient$.subscribe((client) => {
+        if (client) {
+          this.patchForm(client);
+        }
+      });
+    }
   }
+  buildForm(): void {
+    this.addClientForm = this.fb.group({
+      name: ['', Validators.required],
+      nameAR: ['', Validators.required],
+      businessActivity: ['', Validators.required],
+      taxId: ['', Validators.required],
+      shortName: ['', Validators.required],
+      sectorId: [[], Validators.required],
+      subSectorIdList: [[], Validators.required],
+      legalFormLawId: [null, Validators.required],
+      legalFormId: [null, Validators.required],
+      isStampDuty: [null, Validators.required],
+      isIscore: [null, Validators.required],
+      mainShare: [null, [Validators.required, Validators.min(0)]],
+      establishedYear: [
+        null,
+        [Validators.required, Validators.pattern(/^(19|20)\d{2}$/)],
+      ],
+      website: [
+        null,
+        [
+          Validators.required,
+          Validators.pattern(
+            /^(https?:\/\/)?([\w\-]+\.)+[\w\-]{2,}(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/
+          ),
+        ],
+      ],
+      marketShare: [null, Validators.required],
+      marketSize: [null, Validators.required],
+      employeesNo: [null, Validators.required],
+    });
+  }
+  patchForm(client: any): void {
+    // Patch the form with client data; adjust the mapping according to your Client interface
+    this.addClientForm.patchValue({
+      name: client.name,
+      nameAR: client.nameAR,
+      businessActivity: client.businessActivity,
+      taxId: client.taxId,
+      shortName: client.shortName,
+      sectorId: client.sectorId,
+      subSectorIdList: client.subSectorIdList,
+      legalFormLawId: client.legalFormLawId,
+      legalFormId: client.legalFormId,
+      isStampDuty: client.isStampDuty,
+      isIscore: client.isIscore,
+      mainShare: client.mainShare,
+      establishedYear: client.establishedYear,
+      website: client.website,
+      marketShare: client.marketShare,
+      marketSize: client.marketSize,
+      employeesNo: client.employeesNo,
+    });
+  }
+
   fetchLegalForms(): void {
     this.legalFormService.getAllLegalForms().subscribe(
       (response: any) => {
@@ -233,7 +311,17 @@ export class AddClientComponent implements OnInit {
       employeesNo: formValue.employeesNo,
     };
 
-    this.store.dispatch(createClient({ payload }));
+    if (this.editMode) {
+      // For editing, include the client's ID and dispatch the update action.
+      const updatedClient = {
+        ...formValue,
+        id: this.clientId,
+      };
+      this.store.dispatch(updateClient({ client: updatedClient }));
+    } else {
+      // For adding a new client
+      this.store.dispatch(createClient({ payload: formValue }));
+    }
   }
   saveInfoIndividual() {
     console.log('Form Valid:', this.addClientForm.valid);

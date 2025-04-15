@@ -17,3 +17,9 @@ export const selectSubSectorList = createSelector(
   selectClientsState,
   (state) => state.subSectorList
 );
+export const selectClientsFeature = (state: any) => state.clients;
+
+export const selectSelectedClient = createSelector(
+  selectClientsFeature,
+  (state: ClientsState) => state.selectedClient
+);

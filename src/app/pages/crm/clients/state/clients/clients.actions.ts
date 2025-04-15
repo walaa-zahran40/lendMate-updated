@@ -44,3 +44,34 @@ export const deleteClientFailure = createAction(
   '[Clients] Delete Client Failure',
   props<{ error: any }>()
 );
+// Action to load a client for editing using GET API.
+export const loadClient = createAction(
+  '[Clients] Load Client',
+  props<{ clientId: number }>()
+);
+
+export const loadClientSuccess = createAction(
+  '[Clients] Load Client Success',
+  props<{ client: Client }>()
+);
+
+export const loadClientFailure = createAction(
+  '[Clients] Load Client Failure',
+  props<{ error: any }>()
+);
+
+// Action to update the client using PUT API.
+export const updateClient = createAction(
+  '[Clients] Update Client',
+  props<{ client: Client }>()
+);
+
+export const updateClientSuccess = createAction(
+  '[Clients] Update Client Success',
+  props<{ client: Client }>()
+);
+
+export const updateClientFailure = createAction(
+  '[Clients] Update Client Failure',
+  props<{ error: any }>()
+);

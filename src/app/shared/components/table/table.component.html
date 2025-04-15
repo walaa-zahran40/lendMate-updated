@@ -49,6 +49,7 @@
           alt="edit"
           class="d-inline-block mx-2 my-2"
           *ngIf="edit"
+          (click)="onEditClient(rowData.id)"
         />
         <img
           src="/assets/images/shared/table/delete.svg"

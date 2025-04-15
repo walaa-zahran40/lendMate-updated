@@ -3,6 +3,7 @@ import { Client } from '../../interfaces/client.interface';
 import { PageEvent } from '../../interfaces/page-event.interface';
 import { PaginatorState } from 'primeng/paginator';
 import { SharedService } from '../../services/shared.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-table',
@@ -114,7 +115,7 @@ export class TableComponent {
   currentPage = 0; // Page index starts from 0
   totalRecords: any;
   showDownload = false;
-  constructor(private sharedService: SharedService) {}
+  constructor(private sharedService: SharedService, private router: Router) {}
 
   ngOnInit() {
     this.totalRecords = this.tableData.length;
@@ -133,5 +134,8 @@ export class TableComponent {
   onPageChange(event: any) {
     this.currentPage = event.first / event.rows; // Calculate page index
     this.rows = event.rows; // Update rows per page
+  }
+  onEditClient(clientId: number) {
+    this.router.navigate(['/crm/clients/add-client', clientId]);
   }
 }
