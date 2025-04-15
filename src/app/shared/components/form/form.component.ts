@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CompanyLegalDetails } from '../../interfaces/company-legal-details.interface';
+import { LegalFormFacade } from '../../../pages/crm/clients/state/legal-forms/legal-form.facade';
 
 @Component({
   selector: 'app-form',
@@ -23,6 +24,10 @@ export class FormComponent {
   @Input() addClient?: boolean;
   @Input() sectorsList: any[] = [];
   @Input() selectedSectorId: number | null = null;
+  @Input() legalFormLawIdControl!: number;
+  selectedLegalFormLawId: number | null = null;
+  @Input() legalFormId: number | null = null;
+  selectedLegalForm: any;
   @Output() sectorChanged = new EventEmitter<number>();
   get sectorIdControl(): FormControl {
     return this.formGroup.get('sectorId') as FormControl;
@@ -31,8 +36,11 @@ export class FormComponent {
   get subSectorList(): FormControl {
     return this.formGroup.get('subSectorIdList') as FormControl;
   }
-  get legalFormLawList(): FormControl {
-    return this.formGroup.get('legalFormLaw') as FormControl;
+  get legalFormIdControl(): FormControl {
+    return this.formGroup.get('legalFormLawId') as FormControl;
+  }
+  get legalFormList(): FormControl {
+    return this.formGroup.get('legalFormId') as FormControl;
   }
   //ngModel Values
   value: string | undefined;
@@ -155,7 +163,6 @@ export class FormComponent {
   phoneTypes!: any;
   selectedPhoneTypes!: any;
   legalForm!: any;
-  selectedLegalForm!: any;
   selectedDocumentTypes!: any;
   isMain!: any;
   selectedIsMain!: any;
@@ -429,7 +436,10 @@ export class FormComponent {
   @Input() addCommunicationFlowTypeLookupsForm!: boolean;
   @Input() addClientGuarantorsShowIndividual!: boolean;
   @Input() addClientIdentitiesShowIndividual!: boolean;
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private legalFormFacade: LegalFormFacade
+  ) {}
 
   ngOnInit() {
     this.sectors = [
@@ -687,10 +697,13 @@ export class FormComponent {
       },
     ];
   }
-  onLegalFormLawSelectionChange(event: any): void {
-    this.companyLegalDetail.legalFormLawId = event?.id;
-    console.log('Legal Form Law selected:', event?.id);
+  onLegalFormLawSelectionChange(law: any) {
+    this.selectedLegalFormLawId = law?.id || null;
+
+    // Optional: reset the legal form dropdown when law changes
+    this.formGroup.get('legalFormId')?.reset();
   }
+
   onSubSectorDropdown(event: any): void {
     this.companyLegalDetail.legalFormLawId = event?.id;
     console.log('Sub Sector selected:', event?.id);

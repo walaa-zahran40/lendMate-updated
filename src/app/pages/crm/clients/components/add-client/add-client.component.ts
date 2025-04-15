@@ -47,7 +47,8 @@ export class AddClientComponent implements OnInit {
   selectedClient$!: Observable<any>;
   public editMode: boolean = false;
   public clientId: number | null = null;
-
+  selectedLegalFormLawId: number | null = null;
+  selectedLegalFormId: any;
   constructor(
     private fb: FormBuilder,
     private store: Store,
@@ -60,10 +61,7 @@ export class AddClientComponent implements OnInit {
   ngOnInit() {
     this.clientTypesFacade.loadClientTypes();
     this.clientTypesFacade.types$.subscribe((types) => {
-      this.dropdownClientTypeItems = [
-        { id: null, name: 'Select a Client Type', nameAR: 'اختر نوع العميل' },
-        ...types,
-      ];
+      this.dropdownClientTypeItems = [...types];
       this.selectedClientType = this.dropdownClientTypeItems[1]?.id;
     });
 
@@ -147,7 +145,7 @@ export class AddClientComponent implements OnInit {
     this.subSectorList$.subscribe((ids) => {
       const formArray = this.fb.array([]);
       ids.forEach((id) => formArray.push(this.fb.control(id)));
-      this.addClientForm.setControl('subSectorList', formArray);
+      this.addClientForm.setControl('subSectorIdList', formArray);
     });
     // Initialize your form here (or call a separate method)
     this.buildForm();
@@ -201,6 +199,10 @@ export class AddClientComponent implements OnInit {
     });
   }
   patchForm(client: any): void {
+    console.log('client.subSectorIdList:', client.subSectorIdList);
+    console.log('client.sectorId:', client.sectorId);
+    console.log('client.legalFormId:', client.legalFormId);
+    console.log('client.legalFormLawId:', client.legalFormLawId);
     // Patch the form with client data; adjust the mapping according to your Client interface
     this.addClientForm.patchValue({
       name: client.name,
@@ -208,10 +210,10 @@ export class AddClientComponent implements OnInit {
       businessActivity: client.businessActivity,
       taxId: client.taxId,
       shortName: client.shortName,
-      sectorId: client.sectorId,
+      // sectorId: client.sectorId,
       subSectorIdList: client.subSectorIdList,
       legalFormLawId: client.legalFormLawId,
-      legalFormId: client.legalFormId,
+      legalFormId: client.legalFormId?.id || client.legalFormId,
       isStampDuty: client.isStampDuty,
       isIscore: client.isIscore,
       mainShare: client.mainShare,
@@ -221,6 +223,9 @@ export class AddClientComponent implements OnInit {
       marketSize: client.marketSize,
       employeesNo: client.employeesNo,
     });
+    this.selectedLegalFormId = client.legalFormId?.id || client.legalFormId;
+    this.selectedLegalFormLawId =
+      client.legalFormLawId?.id || client.legalFormLawId;
   }
 
   fetchLegalForms(): void {
@@ -266,63 +271,62 @@ export class AddClientComponent implements OnInit {
   get subSectorList(): FormArray {
     return this.addClientForm.get('subSectorIdList') as FormArray;
   }
+  get legalFormList(): FormArray {
+    return this.addClientForm.get('legalFormId') as FormArray;
+  }
+
+  get legalFormLawList(): FormArray {
+    return this.addClientForm.get('legalFormLawId') as FormArray;
+  }
 
   saveInfo() {
-    console.log('Form Valid:', this.addClientForm.valid);
-    console.log('Form Status:', this.addClientForm.status);
-    console.log('Form Errors:', this.addClientForm.errors);
-    console.log('Form Value:', this.addClientForm.value);
-
-    Object.keys(this.addClientForm.controls).forEach((key) => {
-      const control = this.addClientForm.get(key);
-      console.log(
-        `Control: ${key}, Valid: ${control?.valid}, Errors:`,
-        control?.errors
-      );
-    });
-
     if (this.addClientForm.invalid) {
       this.addClientForm.markAllAsTouched();
-      console.log(this.addClientForm.errors);
       return;
     }
-    const formValue = this.addClientForm.value;
-    console.log(formValue);
 
-    const payload = {
-      name: formValue.name,
-      nameAR: formValue.nameAR,
-      shortName: formValue.shortName,
-      businessActivity: formValue.businessActivity,
-      taxId: String(formValue.taxId),
-      legalFormId: Number(formValue.legalFormId?.id),
-      legalFormLawId: Number(formValue.legalFormLawId?.id),
-      isStampDuty: formValue.isStampDuty,
-      isIscore: formValue.isIscore,
-      clientTypeId: this.selectedClientType,
-      subSectorIdList: formValue.subSectorIdList.map(
-        (item: any) => item.sectorId
-      ),
-      mainShare: formValue.mainShare,
-      establishedYear: formValue.establishedYear,
-      website: formValue.website,
-      marketShare: formValue.marketShare,
-      marketSize: formValue.marketSize,
-      employeesNo: formValue.employeesNo,
-    };
+    const formValue = this.addClientForm.value;
 
     if (this.editMode) {
-      // For editing, include the client's ID and dispatch the update action.
+      // Remove sectorId when editing
       const updatedClient = {
         ...formValue,
         id: this.clientId,
+        clientTypeId: this.selectedClientType,
+        subSectorIdList: formValue.subSectorIdList.map((sub: any) => sub.id),
+        legalFormLawId: formValue.legalFormLawId.id,
+        legalFormId: formValue.legalFormId.id,
       };
+      delete updatedClient.sectorId;
+
       this.store.dispatch(updateClient({ client: updatedClient }));
     } else {
-      // For adding a new client
-      this.store.dispatch(createClient({ payload: formValue }));
+      const payload = {
+        id: this.clientId,
+        name: formValue.name,
+        nameAR: formValue.nameAR,
+        shortName: formValue.shortName,
+        businessActivity: formValue.businessActivity,
+        isIscore: formValue.isIscore,
+        taxId: String(formValue.taxId),
+        clientTypeId: this.selectedClientType,
+        sectorId: formValue.sectorId,
+        subSectorIdList: formValue.subSectorIdList.map((sub: any) => sub.id),
+        isStampDuty: formValue.isStampDuty,
+        legalFormLawId: formValue.legalFormLawId.id,
+        legalFormId: formValue.legalFormId.id,
+        mainShare: formValue.mainShare,
+        marketShare: formValue.marketShare,
+        establishedYear: formValue.establishedYear,
+        website: formValue.website,
+        employeesNo: formValue.employeesNo,
+        marketSize: formValue.marketSize,
+      };
+
+      this.store.dispatch(createClient({ payload }));
     }
   }
+
   saveInfoIndividual() {
     console.log('Form Valid:', this.addClientForm.valid);
     console.log('Form Status:', this.addClientForm.status);
@@ -368,6 +372,10 @@ export class AddClientComponent implements OnInit {
     };
 
     this.store.dispatch(createClient({ payload }));
+  }
+  onLegalFormLawSelectionChange(selectedLaw: any) {
+    this.selectedLegalFormLawId = selectedLaw?.id || null;
+    this.addClientForm.get('legalFormId')?.reset(); // reset legal form
   }
   onClientTypeChange(event: any) {
     if (event && event.value) {

@@ -3,4 +3,5 @@ export interface LegalForm {
   legalFormCode: number;
   nameEN: string;
   nameAR: string;
+  legalFormLawId?: number;
 }

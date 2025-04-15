@@ -74,7 +74,8 @@ export class ClientsEffects {
             of(ClientsActions.updateClientFailure({ error }))
           )
         )
-      )
+      ),
+      tap(() => this.router.navigate(['/crm/clients/view-clients']))
     )
   );
   createClientSuccess$ = createEffect(
