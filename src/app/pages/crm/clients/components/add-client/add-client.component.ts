@@ -7,7 +7,6 @@ import {
   FormControl,
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { selectAllSectors } from '../../../../../shared/components/dropdowns/store/sector.selectors';
 import { ActivatedRoute, Router } from '@angular/router';
 import { arabicOnlyValidator } from '../../../../../shared/validators/arabic-only.validator';
 import { positiveNumberValidator } from '../../../../../shared/validators/positive-only.validator';
@@ -25,6 +24,7 @@ import {
   selectSubSectorList,
   selectSelectedClient,
 } from '../../store/clients/clients.selectors';
+import { selectAllSectors } from '../../../../../shared/components/dropdowns/sector-dropdown/store/sector.selectors';
 
 @Component({
   selector: 'app-add-client',

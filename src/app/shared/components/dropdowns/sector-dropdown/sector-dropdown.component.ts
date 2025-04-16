@@ -8,10 +8,10 @@ import {
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { loadSectors } from '../store/sector.actions';
-import { selectAllSectors } from '../store/sector.selectors';
 import { Observable, map } from 'rxjs';
 import { Sectors } from '../../../interfaces/sectors.interface';
+import { loadSectors } from './store/sector.actions';
+import { selectAllSectors } from './store/sector.selectors';
 
 @Component({
   selector: 'app-sector-dropdown',
