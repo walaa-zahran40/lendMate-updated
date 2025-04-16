@@ -7,8 +7,8 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { LegalFormLawFacade } from '../../../../pages/crm/clients/state/legal-form-law/legal-form-law.facade';
 import { LegalFormLaw } from '../../../interfaces/legal-form-law.interface';
+import { LegalFormLawFacade } from '../../../../pages/crm/clients/store/legal-form-law/legal-form-law.facade';
 
 @Component({
   selector: 'app-legal-form-law-dropdown',

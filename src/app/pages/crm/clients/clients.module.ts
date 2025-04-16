@@ -37,17 +37,17 @@ import { ViewClientGuarantorComponent } from './components/view-client-guarantor
 import { AddClientGuarantorComponent } from './components/add-client-guarantor/add-client-guarantor.component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { ClientsEffects } from './state/clients/clients.effects';
-import { clientsReducer } from './state/clients/clients.reducer';
+import { ClientsEffects } from './store/clients/clients.effects';
+import { clientsReducer } from './store/clients/clients.reducer';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ViewClientIdentityComponent } from './components/view-client-identity/view-client-identity.component';
 import { AddClientIdentityComponent } from './components/add-client-identity/add-client-identity.component';
-import { ClientTypesEffects } from './state/client-types/client-types.effects';
-import { clientTypesReducer } from './state/client-types/client-types.reducer';
-import { legalFormLawReducer } from './state/legal-form-law/legal-form-law.reducer';
-import { legalFormReducer } from './state/legal-forms/legal-form.reducer';
-import { LegalFormEffects } from './state/legal-forms/legal-form.effects';
-import { LegalFormLawEffects } from './state/legal-form-law/legal-form-law.effects';
+import { ClientTypesEffects } from './store/client-types/client-types.effects';
+import { clientTypesReducer } from './store/client-types/client-types.reducer';
+import { legalFormLawReducer } from './store/legal-form-law/legal-form-law.reducer';
+import { legalFormReducer } from './store/legal-forms/legal-form.reducer';
+import { LegalFormEffects } from './store/legal-forms/legal-form.effects';
+import { LegalFormLawEffects } from './store/legal-form-law/legal-form-law.effects';
 
 @NgModule({
   declarations: [

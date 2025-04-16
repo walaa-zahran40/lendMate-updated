@@ -7,24 +7,24 @@ import {
   FormControl,
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import {
-  createClient,
-  loadClient,
-  updateClient,
-} from '../../state/clients/clients.actions';
 import { selectAllSectors } from '../../../../../shared/components/dropdowns/store/sector.selectors';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ClientTypesFacade } from '../../state/client-types/client-types.facade';
-import {
-  selectSelectedClient,
-  selectSubSectorList,
-} from '../../state/clients/clients.selectors';
 import { arabicOnlyValidator } from '../../../../../shared/validators/arabic-only.validator';
 import { positiveNumberValidator } from '../../../../../shared/validators/positive-only.validator';
 import { LegalFormService } from '../../../../../shared/services/legal-form.service';
 import { Sector } from '../../../../../shared/interfaces/sector.interface';
 import { LegalFormLawService } from '../../../../../shared/services/legal-form-law.service';
 import { Observable } from 'rxjs';
+import { ClientTypesFacade } from '../../store/client-types/client-types.facade';
+import {
+  loadClient,
+  updateClient,
+  createClient,
+} from '../../store/clients/clients.actions';
+import {
+  selectSubSectorList,
+  selectSelectedClient,
+} from '../../store/clients/clients.selectors';
 
 @Component({
   selector: 'app-add-client',

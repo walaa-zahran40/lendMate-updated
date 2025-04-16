@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Client } from '../../../../../shared/interfaces/client.interface';
 import { Router } from '@angular/router';
-import { ClientsFacade } from '../../state/clients/clients.facade';
 import { Subject, takeUntil } from 'rxjs';
+import { ClientsFacade } from '../../store/clients/clients.facade';
 
 @Component({
   selector: 'app-view-clients',

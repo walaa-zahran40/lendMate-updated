@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CompanyLegalDetails } from '../../interfaces/company-legal-details.interface';
-import { LegalFormFacade } from '../../../pages/crm/clients/state/legal-forms/legal-form.facade';
 
 @Component({
   selector: 'app-form',
@@ -436,10 +435,7 @@ export class FormComponent {
   @Input() addCommunicationFlowTypeLookupsForm!: boolean;
   @Input() addClientGuarantorsShowIndividual!: boolean;
   @Input() addClientIdentitiesShowIndividual!: boolean;
-  constructor(
-    private router: Router,
-    private legalFormFacade: LegalFormFacade
-  ) {}
+  constructor(private router: Router) {}
 
   ngOnInit() {
     this.sectors = [
