@@ -23,5 +23,14 @@ export const sectorReducer = createReducer(
   on(SectorActions.loadSectorsFailure, (state, { error }) => ({
     ...state,
     error,
+  })),
+  on(SectorActions.loadSectorByIdSuccess, (state, { sector }) => ({
+    ...state,
+    selectedSector: sector,
+  })),
+
+  on(SectorActions.loadSectorByIdFailure, (state, { error }) => ({
+    ...state,
+    error,
   }))
 );

@@ -24,7 +24,11 @@ import {
   selectSubSectorList,
   selectSelectedClient,
 } from '../../store/clients/clients.selectors';
-import { selectAllSectors } from '../../../../../shared/components/dropdowns/sector-dropdown/store/sector.selectors';
+import {
+  selectAllSectors,
+  selectSelectedSector,
+} from '../../../../../shared/components/dropdowns/sector-dropdown/store/sector.selectors';
+import { loadSectorById } from '../../../../../shared/components/dropdowns/sector-dropdown/store/sector.actions';
 
 @Component({
   selector: 'app-add-client',
@@ -45,6 +49,7 @@ export class AddClientComponent implements OnInit {
   dropdownlegalLawItems: Sector[] = [];
   dropdownlegalFormLawItems: Sector[] = [];
   selectedClient$!: Observable<any>;
+  sectorById$!: Observable<any>;
   public editMode: boolean = false;
   public clientId: number | null = null;
   selectedLegalFormLawId: number | null = null;
@@ -199,10 +204,15 @@ export class AddClientComponent implements OnInit {
     });
   }
   patchForm(client: any): void {
-    console.log('client.subSectorIdList:', client.subSectorIdList);
+    console.log('client', client);
+    console.log('client.subSectorId:', client.subSectorList[0]?.id);
     console.log('client.sectorId:', client.sectorId);
     console.log('client.legalFormId:', client.legalFormId);
     console.log('client.legalFormLawId:', client.legalFormLawId);
+    this.store.dispatch(
+      loadSectorById({ id: client.subSectorList[0]?.sectorId })
+    );
+    this.sectorById$ = this.store.select(selectSelectedSector);
     // Patch the form with client data; adjust the mapping according to your Client interface
     this.addClientForm.patchValue({
       name: client.name,

@@ -1,13 +1,14 @@
-import { Sectors } from '../../../../../interfaces/sectors.interface';
-
+import { Sectors } from '../../../../interfaces/sectors.interface';
 export interface SectorState {
   sectors: Sectors[];
-  loading: boolean;
+  selectedSubSectorIds: number[];
+  selectedSector: Sectors | null;
   error: any;
 }
 
-export const initialSectorState: SectorState = {
+export const initialState: SectorState = {
   sectors: [],
-  loading: false,
+  selectedSubSectorIds: [],
+  selectedSector: null,
   error: null,
 };
