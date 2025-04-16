@@ -225,17 +225,12 @@ export class AddClientComponent implements OnInit {
       // 2. Patch sector object once available in store
       this.sectorById$ = this.store.select(selectSelectedSector);
 
-      this.sectorById$
-        .pipe(
-          filter((sector): sector is Sectors => !!sector),
-          take(1)
-        )
-        .subscribe((sector) => {
-          this.addClientForm.patchValue({
-            sectorId: sector.id, // ✅ patch full object
-          });
-          console.log('🟢 Patched sector object into form:', sector.id);
+      this.sectorById$.subscribe((sector) => {
+        this.addClientForm.patchValue({
+          sectorId: sector.id, // ✅ patch full object
         });
+        console.log('🟢 Patched sector object into form:', sector.id);
+      });
     }
 
     // 3. Continue patching the rest of the form
