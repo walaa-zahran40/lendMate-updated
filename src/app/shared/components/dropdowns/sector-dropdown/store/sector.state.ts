@@ -1,8 +1,8 @@
-import { Sectors } from '../../../../interfaces/sectors.interface';
+import { Sector } from '../../../../interfaces/sector.interface';
 export interface SectorState {
-  sectors: Sectors[];
+  sectors: Sector[];
   selectedSubSectorIds: number[];
-  selectedSector: Sectors | null;
+  selectedSector: Sector | null;
   error: any;
 }
 

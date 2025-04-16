@@ -13,7 +13,7 @@ import { positiveNumberValidator } from '../../../../../shared/validators/positi
 import { LegalFormService } from '../../../../../shared/services/legal-form.service';
 import { Sector } from '../../../../../shared/interfaces/sector.interface';
 import { LegalFormLawService } from '../../../../../shared/services/legal-form-law.service';
-import { Observable } from 'rxjs';
+import { filter, Observable, take } from 'rxjs';
 import { ClientTypesFacade } from '../../store/client-types/client-types.facade';
 import {
   loadClient,
@@ -29,6 +29,7 @@ import {
   selectSelectedSector,
 } from '../../../../../shared/components/dropdowns/sector-dropdown/store/sector.selectors';
 import { loadSectorById } from '../../../../../shared/components/dropdowns/sector-dropdown/store/sector.actions';
+import { Sectors } from '../../../../../shared/interfaces/sectors.interface';
 
 @Component({
   selector: 'app-add-client',
@@ -206,21 +207,44 @@ export class AddClientComponent implements OnInit {
   patchForm(client: any): void {
     console.log('client', client);
     console.log('client.subSectorId:', client.subSectorList[0]?.id);
-    console.log('client.sectorId:', client.sectorId);
+    console.log('client.sectorId:', client.subSectorList[0]?.sectorId);
     console.log('client.legalFormId:', client.legalFormId);
     console.log('client.legalFormLawId:', client.legalFormLawId);
-    this.store.dispatch(
-      loadSectorById({ id: client.subSectorList[0]?.sectorId })
+
+    const sectorId = client.subSectorList[0]?.sectorId;
+    console.log(
+      '🟡 Extracted sectorId from client.subSectorList[0]:',
+      sectorId
     );
-    this.sectorById$ = this.store.select(selectSelectedSector);
-    // Patch the form with client data; adjust the mapping according to your Client interface
+
+    if (sectorId) {
+      // 1. Dispatch sector load action
+      this.store.dispatch(loadSectorById({ id: sectorId }));
+      console.log('🟢 Dispatched loadSectorById for ID:', sectorId);
+
+      // 2. Patch sector object once available in store
+      this.sectorById$ = this.store.select(selectSelectedSector);
+
+      this.sectorById$
+        .pipe(
+          filter((sector): sector is Sectors => !!sector),
+          take(1)
+        )
+        .subscribe((sector) => {
+          this.addClientForm.patchValue({
+            sectorId: sector.id, // ✅ patch full object
+          });
+          console.log('🟢 Patched sector object into form:', sector.id);
+        });
+    }
+
+    // 3. Continue patching the rest of the form
     this.addClientForm.patchValue({
       name: client.name,
       nameAR: client.nameAR,
       businessActivity: client.businessActivity,
       taxId: client.taxId,
       shortName: client.shortName,
-      // sectorId: client.sectorId,
       subSectorIdList: client.subSectorIdList,
       legalFormLawId: client.legalFormLawId,
       legalFormId: client.legalFormId?.id || client.legalFormId,
@@ -233,9 +257,12 @@ export class AddClientComponent implements OnInit {
       marketSize: client.marketSize,
       employeesNo: client.employeesNo,
     });
+
     this.selectedLegalFormId = client.legalFormId?.id || client.legalFormId;
     this.selectedLegalFormLawId =
       client.legalFormLawId?.id || client.legalFormLawId;
+
+    console.log('🧾 Final patched form value:', this.addClientForm.value);
   }
 
   fetchLegalForms(): void {
@@ -305,6 +332,7 @@ export class AddClientComponent implements OnInit {
         subSectorIdList: formValue.subSectorIdList.map((sub: any) => sub.id),
         legalFormLawId: formValue.legalFormLawId.id,
         legalFormId: formValue.legalFormId.id,
+        sectorId: formValue.sectorId,
       };
       // delete updatedClient.sectorId;
 

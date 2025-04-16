@@ -3,7 +3,8 @@
     [options]="sectors"
     optionLabel="name"
     placeholder="Select Sector"
-    [(ngModel)]="value"
+    [formControl]="formControl"
+    optionValue="id"
     (onChange)="onSectorChange($event)"
     required
     [ngClass]="{
