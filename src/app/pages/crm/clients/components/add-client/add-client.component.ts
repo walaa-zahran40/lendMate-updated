@@ -288,7 +288,6 @@ export class AddClientComponent implements OnInit {
     const formValue = this.addClientForm.value;
 
     if (this.editMode) {
-      // Remove sectorId when editing
       const updatedClient = {
         ...formValue,
         id: this.clientId,
@@ -297,7 +296,7 @@ export class AddClientComponent implements OnInit {
         legalFormLawId: formValue.legalFormLawId.id,
         legalFormId: formValue.legalFormId.id,
       };
-      delete updatedClient.sectorId;
+      // delete updatedClient.sectorId;
 
       this.store.dispatch(updateClient({ client: updatedClient }));
     } else {
