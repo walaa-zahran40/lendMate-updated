@@ -203,6 +203,7 @@ export class AddClientComponent implements OnInit {
       marketSize: [null, Validators.required],
       employeesNo: [null, Validators.required],
     });
+    console.log('Form initialized:', this.addClientForm);
   }
   patchForm(client: any): void {
     console.log('client', client);
@@ -224,12 +225,16 @@ export class AddClientComponent implements OnInit {
 
       // 2. Patch sector object once available in store
       this.sectorById$ = this.store.select(selectSelectedSector);
-
       this.sectorById$.subscribe((sector) => {
-        this.addClientForm.patchValue({
-          sectorId: sector.id, // ✅ patch full object
-        });
-        console.log('🟢 Patched sector object into form:', sector.id);
+        if (sector) {
+          console.log('🟢 Not Patched sector object into form:', sector.id);
+
+          this.addClientForm.patchValue({
+            sectorId: sector.id,
+          });
+
+          console.log('🟢 Patched sector object into form:', sector.id);
+        }
       });
     }
 

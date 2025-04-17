@@ -37,27 +37,8 @@ export class SectorDropdownComponent implements OnInit {
   constructor(private store: Store) {}
 
   ngOnInit() {
-    console.log('📦 <app-sector-dropdown> initialized');
-
     this.store.dispatch(loadSectors());
-
     this.sectorsSafe$ = this.store.select(selectAllSectors);
-    this.sectorsSafe$.subscribe((sectors) => {
-      console.log('📋 All sectors in dropdown:', sectors);
-      const currentValue = this.formControl?.value;
-      console.log('sectors', sectors);
-      console.log('currentValue', currentValue);
-      const matched = sectors.find((s) => s.id === currentValue);
-      console.log('🔍 Matched sector in options:', matched);
-
-      if (!matched) {
-        console.warn(
-          `⚠️ Sector with value ${currentValue} not found in dropdown options`
-        );
-      }
-    });
-
-    console.log('🧲 formControl initial value:', this.formControl?.value);
   }
   compareWithFn = (option: any, value: any): boolean => {
     return option?.id === value?.id;
@@ -85,10 +66,6 @@ export class SectorDropdownComponent implements OnInit {
     this.onTouched = fn;
   }
 
-  setDisabledState?(isDisabled: boolean): void {
-    // Optionally handle disable state
-  }
-
   updateValue(newValue: any): void {
     this.value = newValue;
     this.onChange(newValue);
@@ -96,11 +73,8 @@ export class SectorDropdownComponent implements OnInit {
   }
 
   onSectorChange(event: any) {
-    console.log('🟠 onSectorChange fired with event:', event);
-
     const selectedId = event.value;
     let selectedSector: Sectors | undefined;
-
     this.sectorsSafe$
       .pipe(map((sectors) => sectors.find((s) => s.id === selectedId)))
       .subscribe((sector) => {
@@ -108,7 +82,6 @@ export class SectorDropdownComponent implements OnInit {
         this.value = selectedSector;
         this.onChange(this.value);
         this.onTouched();
-
         this.selectionChanged.emit(selectedSector);
         if (selectedId) {
           this.sectorChanged.emit(selectedId);
