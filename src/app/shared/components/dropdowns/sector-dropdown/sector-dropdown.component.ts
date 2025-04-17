@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Observable, map } from 'rxjs';
+import { Observable, filter, map, take } from 'rxjs';
 import { Sectors } from '../../../interfaces/sectors.interface';
 import { loadSectors } from './store/sector.actions';
 import { selectAllSectors } from './store/sector.selectors';
@@ -74,18 +74,18 @@ export class SectorDropdownComponent implements OnInit {
 
   onSectorChange(event: any) {
     const selectedId = event.value;
-    let selectedSector: Sectors | undefined;
     this.sectorsSafe$
-      .pipe(map((sectors) => sectors.find((s) => s.id === selectedId)))
+      .pipe(
+        take(1),
+        map((sectors) => sectors.find((s) => s.id === selectedId)),
+        filter((sector): sector is Sectors => !!sector)
+      )
       .subscribe((sector) => {
-        selectedSector = sector;
-        this.value = selectedSector;
+        this.value = selectedId;
         this.onChange(this.value);
         this.onTouched();
-        this.selectionChanged.emit(selectedSector);
-        if (selectedId) {
-          this.sectorChanged.emit(selectedId);
-        }
+        this.selectionChanged.emit(sector);
+        this.sectorChanged.emit(selectedId);
       });
   }
 }

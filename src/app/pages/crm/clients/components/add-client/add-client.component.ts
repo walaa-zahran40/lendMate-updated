@@ -179,7 +179,7 @@ export class AddClientComponent implements OnInit {
       businessActivity: ['', Validators.required],
       taxId: ['', Validators.required],
       shortName: ['', Validators.required],
-      sectorId: [[], Validators.required],
+      sectorId: [null, Validators.required],
       subSectorIdList: [[], Validators.required],
       legalFormLawId: [null, Validators.required],
       legalFormId: [null, Validators.required],
