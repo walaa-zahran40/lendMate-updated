@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { SubSector } from '../../../shared/interfaces/sub-sector.interface';
 
 @Component({
   selector: 'app-view-communication-flow-type',
@@ -8,7 +7,7 @@ import { SubSector } from '../../../shared/interfaces/sub-sector.interface';
   styleUrl: './view-communication-flow-type.component.scss',
 })
 export class ViewCommunicationFlowTypeComponent {
-  tableDataInside: SubSector[] = [];
+  tableDataInside: any;
   colsInside: any[] = [];
 
   ngOnInit() {

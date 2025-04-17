@@ -876,7 +876,7 @@
         ><br />
         <label for="legalFormId">Legal Form<sup class="danger">*</sup></label>
         <app-legal-form-dropdown
-          formControlName="legalFormId"
+          [formControl]="legalFormIdControl"
           (selectionChanged)="onLegalFormSelectionChange($event)"
         ></app-legal-form-dropdown>
         <small

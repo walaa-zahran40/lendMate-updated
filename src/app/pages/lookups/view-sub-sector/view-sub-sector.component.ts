@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SubSector } from '../../../shared/interfaces/sub-sector.interface';
+import { SubSectors } from '../../../shared/interfaces/sub-sector.interface';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   styleUrl: './view-sub-sector.component.scss',
 })
 export class ViewSubSectorComponent {
-  tableDataInside: SubSector[] = [];
+  tableDataInside: any;
   colsInside: any[] = [];
   constructor(private router: Router) {}
 

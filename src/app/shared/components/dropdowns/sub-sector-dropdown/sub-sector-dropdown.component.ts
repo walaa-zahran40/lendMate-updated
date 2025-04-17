@@ -1,5 +1,21 @@
-import { Component, Input, OnChanges, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  forwardRef,
+} from '@angular/core';
+import {
+  ControlValueAccessor,
+  FormControl,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
+import { SubSectors } from '../../../interfaces/sub-sector.interface';
+import { map, Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { selectAllSubSectors } from './store/sub-sector.selectors';
+import { loadSubSectors } from './store/sub-sector.actions';
 
 @Component({
   selector: 'app-sub-sector-dropdown',
@@ -15,50 +31,68 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   ],
 })
 export class SubSectorDropdownComponent
-  implements ControlValueAccessor, OnChanges
+  implements OnInit, ControlValueAccessor
 {
-  @Input() sectorId: number | null = null;
-  @Input() allSectors: any[] = [];
   @Input() formControl!: any;
+  @Output() subSectorChanged = new EventEmitter<number[]>();
+  @Output() selectionChanged = new EventEmitter<any[]>();
+  @Input() allSectors: any[] = [];
+  subSectors: any;
+  subSectorsSafe$!: Observable<SubSectors[]>;
+  value: number[] = [];
+  @Input() sectorId!: any;
 
-  value: any;
+  constructor(private store: Store) {}
 
-  // The filtered list based on the selected sector
-  filteredSubSectors: any[] = [];
+  ngOnInit() {
+    console.log(
+      '📦 SubSectorDropdown initialized with sectorId:',
+      this.sectorId
+    );
+    this.store.dispatch(loadSubSectors());
 
-  // Callbacks that Angular provides
+    this.subSectorsSafe$ = this.store
+      .select(selectAllSubSectors)
+      .pipe(map((subs) => subs.filter((s) => s.sectorId === this.sectorId)));
+  }
+
+  // Called when user selects/deselects sub-sectors
+  updateValue(event: any): void {
+    const selectedIds: number[] = event.value;
+    this.value = selectedIds;
+
+    this.onChange(selectedIds);
+    this.onTouched();
+
+    this.selectionChanged.emit(selectedIds); // emits array of selected IDs
+    this.subSectorChanged.emit(selectedIds); // same here for consistency
+  }
+
+  // ControlValueAccessor implementation
   onChange: (value: any) => void = () => {};
   onTouched: () => void = () => {};
 
-  // Called when the model changes, write the value into your component
-  writeValue(obj: any): void {
-    this.value = obj;
+  writeValue(value: number[]): void {
+    this.value = value || [];
   }
 
-  // Save the callback function to call when the value changes
   registerOnChange(fn: any): void {
     this.onChange = fn;
   }
 
-  // Save the callback function to call when the component is touched
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
 
-  // Optionally implement setDisabledState if needed
   setDisabledState?(isDisabled: boolean): void {
-    // Handle the disabled state if necessary
+    // Optionally implement this
   }
-
-  // Called from the template when the user makes a selection
-  updateValue(newValue: any): void {
-    this.value = newValue;
-    this.onChange(newValue);
-    this.onTouched();
-  }
-
-  ngOnChanges() {
-    const sector = this.allSectors.find((sec) => sec.id === this.sectorId);
-    this.filteredSubSectors = sector?.subSectors || [];
+  ngOnChanges(): void {
+    if (this.sectorId !== undefined && this.sectorId !== 0) {
+      console.log('🔁 sectorId changed:', this.sectorId);
+      this.subSectorsSafe$ = this.store
+        .select(selectAllSubSectors)
+        .pipe(map((subs) => subs.filter((s) => s.sectorId === this.sectorId)));
+    }
   }
 }

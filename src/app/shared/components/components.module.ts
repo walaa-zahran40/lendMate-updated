@@ -61,6 +61,8 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { LegalFormEffects } from '../../pages/crm/clients/store/legal-forms/legal-form.effects';
 import { legalFormReducer } from '../../pages/crm/clients/store/legal-forms/legal-form.reducer';
+import { SubSectorEffects } from './dropdowns/sub-sector-dropdown/store/sub-sector.effects';
+import { subSectorReducer } from './dropdowns/sub-sector-dropdown/store/sub-sector.reducer';
 
 @NgModule({
   declarations: [
@@ -126,6 +128,8 @@ import { legalFormReducer } from '../../pages/crm/clients/store/legal-forms/lega
     PanelMenuModule,
     StoreModule.forFeature('legalForm', legalFormReducer),
     EffectsModule.forFeature([LegalFormEffects]),
+    StoreModule.forFeature('subSector', subSectorReducer),
+    EffectsModule.forFeature([SubSectorEffects]),
     ReactiveFormsModule,
   ],
   providers: [DatePipe, AsyncPipe],

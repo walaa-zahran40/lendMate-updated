@@ -424,6 +424,7 @@ export class AddClientComponent implements OnInit {
 
   onSectorChanged(sectorId: number) {
     this.selectedSectorId = sectorId;
+    console.log('✅ Sector changed in parent. New ID:', this.selectedSectorId);
     const subSectorArray = this.addClientForm.get('subSectorList') as FormArray;
     if (subSectorArray && subSectorArray.length) {
       while (subSectorArray.length !== 0) {

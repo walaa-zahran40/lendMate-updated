@@ -1,22 +1,22 @@
-<p-multi-select
-  [options]="filteredSubSectors"
-  optionLabel="name"
-  placeholder="Select Sub Sector"
-  [(ngModel)]="value"
-  (ngModelChange)="updateValue($event)"
-  display="chip"
-  icon="pi pi-times"
-  chipIcon="pi pi-times"
-  [ngClass]="{
-    'ng-invalid':
-      formControl?.invalid && (formControl?.touched || formControl?.dirty)
-  }"
->
-</p-multi-select>
+<ng-container *ngIf="subSectorsSafe$ | async as subSectors">
+  <p-multi-select
+    [options]="subSectors ?? []"
+    [formControl]="formControl"
+    optionLabel="name"
+    optionValue="id"
+    placeholder="Select Sub Sector"
+    display="chip"
+    icon="pi pi-times"
+    chipIcon="pi pi-times"
+    (onChange)="updateValue($event)"
+  >
+  </p-multi-select>
 
-<div
-  class="p-error"
-  *ngIf="formControl?.invalid && (formControl?.touched || formControl?.dirty)"
->
-  Sub Sector is required.
-</div>
+  <div
+    class="p-error"
+    style="color: var(--custom-red)"
+    *ngIf="formControl?.invalid && (formControl?.touched || formControl?.dirty)"
+  >
+    Sub Sector is required.
+  </div>
+</ng-container>

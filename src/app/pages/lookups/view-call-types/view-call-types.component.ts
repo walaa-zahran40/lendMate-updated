@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { SubSector } from '../../../shared/interfaces/sub-sector.interface';
 
 @Component({
   selector: 'app-view-call-types',
@@ -8,7 +7,7 @@ import { SubSector } from '../../../shared/interfaces/sub-sector.interface';
   styleUrl: './view-call-types.component.scss',
 })
 export class ViewCallTypesComponent {
-  tableDataInside: SubSector[] = [];
+  tableDataInside: any;
   colsInside: any[] = [];
 
   ngOnInit() {

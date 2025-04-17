@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { SubSector } from '../../../shared/interfaces/sub-sector.interface';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,7 +8,7 @@ import { Router } from '@angular/router';
   styleUrl: './view-phone-types.component.scss',
 })
 export class ViewPhoneTypesComponent {
-  tableDataInside: SubSector[] = [];
+  tableDataInside: any;
   colsInside: any[] = [];
   constructor(private router: Router) {}
 

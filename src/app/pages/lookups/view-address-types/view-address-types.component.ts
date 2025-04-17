@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { SubSector } from '../../../shared/interfaces/sub-sector.interface';
 
 @Component({
   selector: 'app-view-address-types',
@@ -8,7 +7,7 @@ import { SubSector } from '../../../shared/interfaces/sub-sector.interface';
   styleUrl: './view-address-types.component.scss',
 })
 export class ViewAddressTypesComponent {
-  tableDataInside: SubSector[] = [];
+  tableDataInside: any;
   colsInside: any[] = [];
 
   ngOnInit() {
