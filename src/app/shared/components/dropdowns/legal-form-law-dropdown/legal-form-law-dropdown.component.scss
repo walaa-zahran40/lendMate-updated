@@ -1,0 +1,13 @@
+:host {
+  &::ng-deep {
+    .p-select {
+      position: relative;
+    }
+    .p-select-overlay {
+      left: revert-layer !important;
+    }
+    .p-overlay {
+      left: 0px !important;
+    }
+  }
+}
