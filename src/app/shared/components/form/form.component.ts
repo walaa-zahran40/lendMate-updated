@@ -22,6 +22,8 @@ export class FormComponent {
   @Input() addClientShowIndividual?: boolean;
   @Input() addClient?: boolean;
   @Input() sectorsList: any[] = [];
+  @Input() subSectorsList: any[] = [];
+
   @Input() selectedSectorId: number | null = null;
   @Input() legalFormLawIdControl!: number;
   selectedLegalFormLawId: number | null = null;

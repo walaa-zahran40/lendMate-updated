@@ -30,6 +30,7 @@ import {
 } from '../../../../../shared/components/dropdowns/sector-dropdown/store/sector.selectors';
 import { loadSectorById } from '../../../../../shared/components/dropdowns/sector-dropdown/store/sector.actions';
 import { Sectors } from '../../../../../shared/interfaces/sectors.interface';
+import { selectAllSubSectors } from '../../../../../shared/components/dropdowns/sub-sector-dropdown/store/sub-sector.selectors';
 
 @Component({
   selector: 'app-add-client',
@@ -44,6 +45,7 @@ export class AddClientComponent implements OnInit {
   selectedSectorId: number = 0;
   allSectors: any[] = [];
   sectorsList: any[] = [];
+  subSectorsList: any[] = [];
   selectedClientType = null;
   dropdownClientTypeItems: any[] = [];
   subSectorList$ = this.store.select(selectSubSectorList);
@@ -145,6 +147,9 @@ export class AddClientComponent implements OnInit {
     });
     this.store.select(selectAllSectors).subscribe((sectors) => {
       this.sectorsList = sectors || [];
+    });
+    this.store.select(selectAllSubSectors).subscribe((subSectors) => {
+      this.subSectorsList = subSectors || [];
     });
 
     // Dynamically update the form control from NgRx state

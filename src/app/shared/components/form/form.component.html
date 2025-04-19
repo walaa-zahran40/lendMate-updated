@@ -828,7 +828,7 @@
           [sectorId]="selectedSectorId"
           [allSectors]="sectorsList"
           [formControl]="subSectorList"
-          formControlName="subSectorIdList"
+          formControlName="sectorsList"
           name="subSectorDropdown"
         ></app-sub-sector-dropdown>
 
@@ -876,7 +876,7 @@
         ><br />
         <label for="legalFormId">Legal Form<sup class="danger">*</sup></label>
         <app-legal-form-dropdown
-          [formControl]="legalFormIdControl"
+          formControlName="legalFormId"
           (selectionChanged)="onLegalFormSelectionChange($event)"
         ></app-legal-form-dropdown>
         <small
