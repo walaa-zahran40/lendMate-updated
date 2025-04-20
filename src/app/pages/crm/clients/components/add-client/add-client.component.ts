@@ -117,9 +117,14 @@ export class AddClientComponent implements OnInit {
     this.store.select(selectAllSectors).subscribe((sectors) => {
       this.sectorsList = sectors || [];
     });
-    this.store.select(selectAllSubSectors).subscribe((subSectors) => {
-      this.subSectorsList = subSectors || [];
-    });
+    this.store
+      .select(selectAllSubSectors)
+      .pipe(take(1))
+      .subscribe((subs) => {
+        if (!subs || subs.length === 0) {
+          this.store.dispatch(loadSubSectors());
+        }
+      });
 
     // Check for an 'id' parameter to determine if we are in edit mode
     const idParam = this.route.snapshot.paramMap.get('id');
@@ -197,70 +202,42 @@ export class AddClientComponent implements OnInit {
     console.log('Form initialized:', this.addClientForm);
   }
   patchForm(client: any): void {
-    console.log('client', client);
-
     const sectorId = client.subSectorList?.[0]?.sectorId;
     if (!sectorId) return;
 
     this.store.dispatch(loadSectorById({ id: sectorId }));
-    this.store.dispatch(loadSubSectors());
 
-    this.sectorById$ = this.store.select(selectSelectedSector);
-
-    // Wait until all sub-sectors are loaded and filtered before patching
     this.store
       .select(selectAllSubSectors)
       .pipe(
-        filter((subs) => subs.length > 0), // ⛔ skip empty loads
+        filter((subs) => subs.length > 0),
         take(1),
         map((subs) => {
-          console.log('🧪 All subs before filter:', subs);
-          return subs.filter((s) => s.sectorId === sectorId);
+          const sectorSubs = subs.filter((s) => s.sectorId === sectorId);
+          const selectedIds = client.subSectorList.map((s: any) => s.id);
+
+          // Add any missing selected subs (edge case where they don't exist in filtered list)
+          const extraSelectedSubs = client.subSectorList.filter(
+            (s: any) => !sectorSubs.some((sub) => sub.id === s.id)
+          );
+
+          return [...sectorSubs, ...extraSelectedSubs];
         })
       )
-      .subscribe((allSubSectors) => {
-        const sectorId = client.subSectorList?.[0]?.sectorId;
+      .subscribe((finalSubs) => {
+        this.subSectorsList = finalSubs;
 
-        const filteredSubs = allSubSectors.filter(
-          (s) => s.sectorId === sectorId
-        );
-
-        const missingSubs =
-          client.subSectorList?.filter(
-            (clientSub: { id: number }) =>
-              !filteredSubs.some((s) => s.id === clientSub.id)
-          ) || [];
-
-        // ✅ Final list: combine sector's subs + any missing ones used in client
-        this.subSectorsList = [...filteredSubs, ...missingSubs];
-
-        const selectedIds = client.subSectorList?.map((s: any) => s.id) || [];
-
-        console.log('✅ Updated subSectorsList:', this.subSectorsList);
-        console.log('✅ Filtered selected IDs:', selectedIds);
-
+        // Then patch the form after options are available
         this.addClientForm.patchValue({
-          name: client.name,
-          nameAR: client.nameAR,
-          businessActivity: client.businessActivity,
-          taxId: client.taxId,
-          shortName: client.shortName,
-          sectorId: sectorId,
-          subSectorIdList: selectedIds,
-          legalFormLawId: client.legalFormLawId,
+          ...client,
+          sectorId,
+          subSectorIdList: client.subSectorList.map((s: any) => s.id),
           legalFormId: client.legalFormId?.id || client.legalFormId,
-          isStampDuty: client.isStampDuty,
-          isIscore: client.isIscore,
-          mainShare: client.mainShare,
-          establishedYear: client.establishedYear,
-          website: client.website,
-          marketShare: client.marketShare,
-          marketSize: client.marketSize,
-          employeesNo: client.employeesNo,
+          legalFormLawId: client.legalFormLawId?.id || client.legalFormLawId,
         });
 
         console.log(
-          '🟢 Patched subSectorIdList:',
+          '✅ Final patched subSectorIdList:',
           this.addClientForm.get('subSectorIdList')?.value
         );
       });
