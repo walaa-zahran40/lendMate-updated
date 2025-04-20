@@ -1,30 +1,54 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import * as ClientsActions from './clients.actions';
 import { Client } from '../../../../../shared/interfaces/client.interface';
 import { ClientService } from '../../../../../shared/services/client.service';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 @Injectable()
 export class ClientsEffects {
   constructor(
     private actions$: Actions,
     private http: HttpClient,
     private clientService: ClientService,
-    private router: Router
+    private router: Router,
+    private messageService: MessageService
   ) {}
   createClient$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ClientsActions.createClient),
       switchMap(({ payload }) =>
         this.clientService.createClient(payload).pipe(
+          tap((response) => {
+            console.log('✅ Client Created Successfully:', response);
+          }),
           map((response) =>
             ClientsActions.createClientSuccess({ client: response })
           ),
-          catchError((error) =>
-            of(ClientsActions.createClientFailure({ error }))
-          )
+          catchError((error: HttpErrorResponse) => {
+            const validationErrors = error?.error?.errors;
+
+            if (validationErrors) {
+              Object.entries(validationErrors).forEach(
+                ([key, value]: [string, any]) => {
+                  const trimmedPath = key
+                    .replace(/\[\d+\]$/, '')
+                    .replace(/^\$\./, '');
+
+                  this.messageService.add({
+                    severity: 'error',
+                    summary: `Validation: ${trimmedPath}`,
+                    detail: '',
+                    life: 4000, // popup disappears after 4 seconds
+                  });
+                }
+              );
+            }
+
+            return of(ClientsActions.createClientFailure({ error }));
+          })
         )
       )
     )

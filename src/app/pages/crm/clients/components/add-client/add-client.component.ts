@@ -67,48 +67,14 @@ export class AddClientComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    // Initialize your form here (or call a separate method)
+    this.buildForm();
     this.clientTypesFacade.loadClientTypes();
     this.clientTypesFacade.types$.subscribe((types) => {
       this.dropdownClientTypeItems = [...types];
       this.selectedClientType = this.dropdownClientTypeItems[1]?.id;
     });
 
-    this.addClientForm = this.fb.group({
-      name: ['', Validators.required],
-      nameAR: ['', [Validators.required, arabicOnlyValidator()]],
-      businessActivity: ['', Validators.required],
-      taxId: ['', [Validators.required, positiveNumberValidator()]],
-      shortName: ['', Validators.required],
-      sectorId: [[], Validators.required],
-      subSectorIdList: [[], Validators.required],
-      legalFormLawId: [null, Validators.required],
-      legalFormId: [null, Validators.required],
-      isStampDuty: [null, Validators.required],
-      isIscore: [null, Validators.required],
-      mainShare: [null, [Validators.required, Validators.min(0)]],
-      establishedYear: [
-        null,
-        [
-          Validators.required,
-          Validators.pattern(/^(19|20)\d{2}$/), // Valid years: 1900–2099
-        ],
-      ],
-      website: [
-        null,
-        [
-          Validators.pattern(
-            /^(https?:\/\/)?([\w\-]+\.)+[\w\-]{2,}(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/
-          ),
-          Validators.required,
-        ],
-      ],
-      marketShare: [
-        null,
-        [Validators.required, Validators.min(0), Validators.max(100)],
-      ],
-      marketSize: [null, [Validators.min(0), Validators.required]],
-      employeesNo: [null, [Validators.required, Validators.min(0)]],
-    });
     this.addClientFormIndividual = this.fb.group({
       nameEnglishIndividual: ['', Validators.required],
       nameAR: ['', [Validators.required, arabicOnlyValidator()]],
@@ -149,17 +115,10 @@ export class AddClientComponent implements OnInit {
       this.sectorsList = sectors || [];
     });
     this.store.select(selectAllSubSectors).subscribe((subSectors) => {
+      console.log('subSectors', subSectors);
       this.subSectorsList = subSectors || [];
     });
 
-    // Dynamically update the form control from NgRx state
-    this.subSectorList$.subscribe((ids) => {
-      const formArray = this.fb.array([]);
-      ids.forEach((id) => formArray.push(this.fb.control(id)));
-      this.addClientForm.setControl('subSectorIdList', formArray);
-    });
-    // Initialize your form here (or call a separate method)
-    this.buildForm();
     // Check for an 'id' parameter to determine if we are in edit mode
     const idParam = this.route.snapshot.paramMap.get('id');
     if (idParam) {
@@ -180,11 +139,11 @@ export class AddClientComponent implements OnInit {
   buildForm(): void {
     this.addClientForm = this.fb.group({
       name: ['', Validators.required],
-      nameAR: ['', Validators.required],
+      nameAR: ['', [Validators.required, arabicOnlyValidator()]],
       businessActivity: ['', Validators.required],
-      taxId: ['', Validators.required],
+      taxId: ['', [Validators.required, positiveNumberValidator()]],
       shortName: ['', Validators.required],
-      sectorId: [null, Validators.required],
+      sectorId: [[], Validators.required],
       subSectorIdList: [[], Validators.required],
       legalFormLawId: [null, Validators.required],
       legalFormId: [null, Validators.required],
@@ -193,21 +152,28 @@ export class AddClientComponent implements OnInit {
       mainShare: [null, [Validators.required, Validators.min(0)]],
       establishedYear: [
         null,
-        [Validators.required, Validators.pattern(/^(19|20)\d{2}$/)],
+        [
+          Validators.required,
+          Validators.pattern(/^(19|20)\d{2}$/), // Valid years: 1900–2099
+        ],
       ],
       website: [
         null,
         [
-          Validators.required,
           Validators.pattern(
             /^(https?:\/\/)?([\w\-]+\.)+[\w\-]{2,}(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/
           ),
+          Validators.required,
         ],
       ],
-      marketShare: [null, Validators.required],
-      marketSize: [null, Validators.required],
-      employeesNo: [null, Validators.required],
+      marketShare: [
+        null,
+        [Validators.required, Validators.min(0), Validators.max(100)],
+      ],
+      marketSize: [null, [Validators.min(0), Validators.required]],
+      employeesNo: [null, [Validators.required, Validators.min(0)]],
     });
+
     console.log('Form initialized:', this.addClientForm);
   }
   patchForm(client: any): void {
@@ -328,13 +294,13 @@ export class AddClientComponent implements OnInit {
     }
 
     const formValue = this.addClientForm.value;
-
+    console.log('Form Value:', formValue);
     if (this.editMode) {
       const updatedClient = {
         ...formValue,
         id: this.clientId,
         clientTypeId: this.selectedClientType,
-        subSectorIdList: formValue.subSectorIdList.map((sub: any) => sub.id),
+        subSectorIdList: formValue.subSectorIdList,
         legalFormLawId: formValue.legalFormLawId.id,
         legalFormId: formValue.legalFormId.id,
         sectorId: formValue.sectorId,
@@ -353,7 +319,7 @@ export class AddClientComponent implements OnInit {
         taxId: String(formValue.taxId),
         clientTypeId: this.selectedClientType,
         sectorId: formValue.sectorId,
-        subSectorIdList: formValue.subSectorIdList.map((sub: any) => sub.id),
+        subSectorIdList: formValue.subSectorIdList,
         isStampDuty: formValue.isStampDuty,
         legalFormLawId: formValue.legalFormLawId.id,
         legalFormId: formValue.legalFormId.id,
@@ -364,7 +330,7 @@ export class AddClientComponent implements OnInit {
         employeesNo: formValue.employeesNo,
         marketSize: formValue.marketSize,
       };
-
+      console.log('form', formValue);
       this.store.dispatch(createClient({ payload }));
     }
   }

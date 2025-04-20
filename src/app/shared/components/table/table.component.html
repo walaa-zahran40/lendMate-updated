@@ -1,6 +1,7 @@
 <p-table
   responsiveLayout="stack"
   [value]="tableData"
+  *ngIf="tableData?.length > 0"
   scrollHeight="flex"
   [paginator]="paginator"
   [rows]="20"
@@ -8,7 +9,7 @@
   [rowsPerPageOptions]="[5, 10, 15, 20]"
   [first]="first"
 >
-  <ng-template pTemplate="header">
+  <ng-template pTemplate="header" *ngIf="cols.length > 0">
     <tr class="border-1">
       <th *ngIf="checkBox"><p-checkbox [binary]="true" /></th>
       <th *ngFor="let col of cols">
@@ -26,7 +27,7 @@
     </tr>
   </ng-template>
 
-  <ng-template pTemplate="body" let-rowData>
+  <ng-template pTemplate="body" let-rowData *ngIf="cols.length > 0">
     <tr>
       <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
       <td *ngFor="let col of cols">
@@ -74,3 +75,18 @@
     <div class="p-paginator-left"></div>
   </ng-template>
 </p-table>
+<div
+  *ngIf="tableData?.length === 0 || !tableData"
+  class="flex justify-content-center align-items-center"
+  style="height: 200px; text-align: center"
+>
+  <div>
+    <img
+      src="/assets/images/shared/table/notfound.jpg"
+      alt="no data"
+      width="30%"
+      style="margin: 260px auto 0px auto"
+    />
+    <h4 style="margin: 0">No Data Found</h4>
+  </div>
+</div>

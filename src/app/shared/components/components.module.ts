@@ -63,6 +63,8 @@ import { LegalFormEffects } from '../../pages/crm/clients/store/legal-forms/lega
 import { legalFormReducer } from '../../pages/crm/clients/store/legal-forms/legal-form.reducer';
 import { SubSectorEffects } from './dropdowns/sub-sector-dropdown/store/sub-sector.effects';
 import { subSectorReducer } from './dropdowns/sub-sector-dropdown/store/sub-sector.reducer';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -123,6 +125,7 @@ import { subSectorReducer } from './dropdowns/sub-sector-dropdown/store/sub-sect
     RatingModule,
     SliderModule,
     FormsModule,
+    ToastModule,
     TextareaModule,
     TieredMenuModule,
     PanelMenuModule,
@@ -132,7 +135,7 @@ import { subSectorReducer } from './dropdowns/sub-sector-dropdown/store/sub-sect
     EffectsModule.forFeature([SubSectorEffects]),
     ReactiveFormsModule,
   ],
-  providers: [DatePipe, AsyncPipe],
+  providers: [DatePipe, AsyncPipe, MessageService],
   exports: [
     TableComponent,
     ToolbarFormComponent,
@@ -143,6 +146,7 @@ import { subSectorReducer } from './dropdowns/sub-sector-dropdown/store/sub-sect
     FormComponent,
     ToolbarTableComponent,
     CardComponent,
+    ToastModule,
     ToolbarCardComponent,
     ToolbarCompoundComponent,
     SectorDropdownComponent,
