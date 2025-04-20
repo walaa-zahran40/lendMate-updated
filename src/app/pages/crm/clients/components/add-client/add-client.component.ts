@@ -421,27 +421,11 @@ export class AddClientComponent implements OnInit {
   onSectorChanged(sectorId: number) {
     this.selectedSectorId = sectorId;
     console.log('✅ Sector changed in parent. New ID:', this.selectedSectorId);
-
-    // Dispatch sub-sector loading if not already done
-    this.store.dispatch(loadSubSectors());
-
-    // Filter and update sub-sector options based on new sector
-    this.store
-      .select(selectAllSubSectors)
-      .pipe(
-        filter((subs) => subs.length > 0),
-        take(1),
-        map((subs) => subs.filter((s) => s.sectorId === sectorId))
-      )
-      .subscribe((filteredSubs) => {
-        this.subSectorsList = filteredSubs;
-
-        console.log('✅ Updated SubSectors for selected sector:', filteredSubs);
-
-        // Optional: clear selected sub-sectors (depends on UX needs)
-        this.addClientForm.patchValue({
-          subSectorIdList: [],
-        });
-      });
+    const subSectorArray = this.addClientForm.get('subSectorList') as FormArray;
+    if (subSectorArray && subSectorArray.length) {
+      while (subSectorArray.length !== 0) {
+        subSectorArray.removeAt(0);
+      }
+    }
   }
 }
