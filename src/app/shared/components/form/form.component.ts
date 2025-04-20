@@ -484,8 +484,8 @@ export class FormComponent {
   constructor(private router: Router, private store: Store) {}
 
   ngOnInit() {
-    this.store.dispatch(loadSectors());
-    this.store.dispatch(loadSubSectors());
+    // this.store.dispatch(loadSectors());
+    // this.store.dispatch(loadSubSectors());
 
     this.sectorsSafe$ = this.store.select(selectAllSectors);
     // Combine sectorId changes with all sub-sectors

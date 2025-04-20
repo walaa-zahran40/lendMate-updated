@@ -1,7 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
+import {
+  catchError,
+  exhaustMap,
+  map,
+  mergeMap,
+  of,
+  switchMap,
+  tap,
+} from 'rxjs';
 import * as ClientsActions from './clients.actions';
 import { Client } from '../../../../../shared/interfaces/client.interface';
 import { ClientService } from '../../../../../shared/services/client.service';
@@ -74,17 +82,19 @@ export class ClientsEffects {
     )
   );
   // Effect to load client for editing
+  // Better:
   loadClient$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ClientsActions.loadClient),
-      mergeMap((action) =>
-        this.clientService.getClientById(action.clientId).pipe(
+      exhaustMap(({ clientId }) =>
+        this.clientService.getClientById(clientId).pipe(
           map((client) => ClientsActions.loadClientSuccess({ client })),
           catchError((error) => of(ClientsActions.loadClientFailure({ error })))
         )
       )
     )
   );
+
   // Effect to update the client
   updateClient$ = createEffect(() =>
     this.actions$.pipe(

@@ -28,7 +28,10 @@ import {
   selectAllSectors,
   selectSelectedSector,
 } from '../../../../../shared/components/form/store/sector-drop-down/sector.selectors';
-import { loadSectorById } from '../../../../../shared/components/form/store/sector-drop-down/sector.actions';
+import {
+  loadSectorById,
+  loadSectors,
+} from '../../../../../shared/components/form/store/sector-drop-down/sector.actions';
 import { SubSectors } from '../../../../../shared/interfaces/sub-sector.interface';
 import { selectAllSubSectors } from '../../../../../shared/components/form/store/sub-sector-drop-down/sub-sector.selectors';
 import { loadSubSectors } from '../../../../../shared/components/form/store/sub-sector-drop-down/sub-sector.actions';
@@ -117,14 +120,14 @@ export class AddClientComponent implements OnInit {
     this.store.select(selectAllSectors).subscribe((sectors) => {
       this.sectorsList = sectors || [];
     });
-    this.store
-      .select(selectAllSubSectors)
-      .pipe(take(1))
-      .subscribe((subs) => {
-        if (!subs || subs.length === 0) {
-          this.store.dispatch(loadSubSectors());
-        }
-      });
+    // this.store
+    //   .select(selectAllSubSectors)
+    //   .pipe(take(1))
+    //   .subscribe((subs) => {
+    //     if (!subs || subs.length === 0) {
+    //       this.store.dispatch(loadSubSectors());
+    //     }
+    //   });
 
     // Check for an 'id' parameter to determine if we are in edit mode
     const idParam = this.route.snapshot.paramMap.get('id');
@@ -133,7 +136,10 @@ export class AddClientComponent implements OnInit {
       this.editMode = true;
       this.clientId = +idParam;
       // Dispatch an action to load the client data for editing
-      console.log('📤 Dispatching loadClient for ID:', this.clientId);
+      this.store.dispatch(loadSectors());
+      this.store.dispatch(loadSubSectors());
+
+      // ✅ Now fetch the client
       this.store.dispatch(loadClient({ clientId: this.clientId }));
 
       // Subscribe to the store to patch the form when data is loaded
