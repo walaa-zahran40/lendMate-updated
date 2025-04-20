@@ -808,24 +808,50 @@
           Short Name is required.
         </small>
         <br />
+        <ng-container *ngIf="sectorsSafe$ | async as sectors">
+          <!-- Sector Dropdown -->
+          <label for="sectorDropdown"
+            >Select Sector<sup class="danger">*</sup></label
+          >
 
-        <!-- Sector Dropdown -->
-        <label for="sectorDropdown"
-          >Select Sector<sup class="danger">*</sup></label
-        >
-        <app-sector-dropdown
-          [formControl]="sectorIdControl"
-          (sectorChanged)="sectorChanged.emit($event)"
-          name="sectorDropdown"
-        ></app-sector-dropdown>
+          <p-select
+            [options]="sectors"
+            optionLabel="name"
+            placeholder="Select Sector"
+            formControlName="sectorId"
+            optionValue="id"
+            (onChange)="onSectorChange($event)"
+            required
+            [ngClass]="{
+              'ng-invalid':
+                formGroup.get('sectorId')?.invalid &&
+                (formGroup.get('sectorId')?.dirty ||
+                  formGroup.get('sectorId')?.touched)
+            }"
+          >
+          </p-select>
 
+          <!-- Validation message -->
+          <small
+            class="p-error"
+            style="color: var(--custom-red)"
+            *ngIf="
+              formGroup.get('sectorId')?.invalid &&
+              (formGroup.get('sectorId')?.dirty ||
+                formGroup.get('sectorId')?.touched)
+            "
+          >
+            Sector is required.
+          </small>
+        </ng-container>
         <br />
         <!-- Sub Sector Dropdown -->
         <label for="subSectorDropdown"
           >Select Sub Sector<sup class="danger">*</sup></label
         >
         <app-sub-sector-dropdown
-          [sectorId]="selectedSectorId"
+          *ngIf="formGroup.get('sectorId')?.value"
+          [sectorId]="formGroup.get('sectorId')?.value"
           [allSectors]="sectorsList"
           [formControl]="subSectorList"
           formControlName="subSectorIdList"

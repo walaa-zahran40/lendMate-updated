@@ -52,7 +52,6 @@ import { ToolbarCompoundComponent } from './toolbar-compound/toolbar-compound.co
 import { DatePickerModule } from 'primeng/datepicker';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { ReactiveFormsModule } from '@angular/forms';
-import { SectorDropdownComponent } from './dropdowns/sector-dropdown/sector-dropdown.component';
 import { SubSectorDropdownComponent } from './dropdowns/sub-sector-dropdown/sub-sector-dropdown.component';
 import { TooltipModule } from 'primeng/tooltip';
 import { LegalFormDropdownComponent } from './dropdowns/legal-form-dropdown/legal-form-dropdown.component';
@@ -79,7 +78,6 @@ import { MessageService } from 'primeng/api';
     CardComponent,
     ToolbarCardComponent,
     ToolbarCompoundComponent,
-    SectorDropdownComponent,
     SubSectorDropdownComponent,
     LegalFormDropdownComponent,
     LegalFormLawDropdownComponent,
@@ -149,7 +147,6 @@ import { MessageService } from 'primeng/api';
     ToastModule,
     ToolbarCardComponent,
     ToolbarCompoundComponent,
-    SectorDropdownComponent,
     SubSectorDropdownComponent,
     LegalFormDropdownComponent,
     LegalFormLawDropdownComponent,

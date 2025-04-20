@@ -27,10 +27,11 @@ import {
 import {
   selectAllSectors,
   selectSelectedSector,
-} from '../../../../../shared/components/dropdowns/sector-dropdown/store/sector.selectors';
-import { loadSectorById } from '../../../../../shared/components/dropdowns/sector-dropdown/store/sector.actions';
+} from '../../../../../shared/components/form/store/sector-drop-down/sector.selectors';
+import { loadSectorById } from '../../../../../shared/components/form/store/sector-drop-down/sector.actions';
 import { Sectors } from '../../../../../shared/interfaces/sectors.interface';
 import { selectAllSubSectors } from '../../../../../shared/components/dropdowns/sub-sector-dropdown/store/sub-sector.selectors';
+import { SubSectors } from '../../../../../shared/interfaces/sub-sector.interface';
 
 @Component({
   selector: 'app-add-client',
@@ -46,6 +47,7 @@ export class AddClientComponent implements OnInit {
   allSectors: any[] = [];
   sectorsList: any[] = [];
   subSectorsList: any[] = [];
+  subSectorsSafe$!: Observable<SubSectors[]>;
   selectedClientType = null;
   dropdownClientTypeItems: any[] = [];
   subSectorList$ = this.store.select(selectSubSectorList);
@@ -57,6 +59,7 @@ export class AddClientComponent implements OnInit {
   public clientId: number | null = null;
   selectedLegalFormLawId: number | null = null;
   selectedLegalFormId: any;
+  selectedSubSectorId: any;
   constructor(
     private fb: FormBuilder,
     private store: Store,
@@ -115,25 +118,42 @@ export class AddClientComponent implements OnInit {
       this.sectorsList = sectors || [];
     });
     this.store.select(selectAllSubSectors).subscribe((subSectors) => {
-      console.log('subSectors', subSectors);
       this.subSectorsList = subSectors || [];
     });
 
     // Check for an 'id' parameter to determine if we are in edit mode
     const idParam = this.route.snapshot.paramMap.get('id');
+    console.log('📌 Route Param ID:', idParam);
     if (idParam) {
       this.editMode = true;
       this.clientId = +idParam;
       // Dispatch an action to load the client data for editing
+      console.log('📤 Dispatching loadClient for ID:', this.clientId);
       this.store.dispatch(loadClient({ clientId: this.clientId }));
 
       // Subscribe to the store to patch the form when data is loaded
       this.selectedClient$ = this.store.select(selectSelectedClient);
       this.selectedClient$.subscribe((client) => {
+        console.log('📥 Fetched client from store:', client);
         if (client) {
+          if (!client.subSectorList) {
+            console.warn('⚠️ client.subSectorList is undefined');
+          } else if (client.subSectorList.length === 0) {
+            console.warn('⚠️ client.subSectorList is empty');
+          } else {
+            console.log(
+              '✅ subSectorList[0].sectorId:',
+              client.subSectorList[0]?.sectorId
+            );
+          }
+
           this.patchForm(client);
+        } else {
+          console.warn('⚠️ No client data available yet');
         }
       });
+    } else {
+      console.warn('⚠️ No ID param found in route');
     }
   }
   buildForm(): void {
@@ -178,16 +198,18 @@ export class AddClientComponent implements OnInit {
   }
   patchForm(client: any): void {
     console.log('client', client);
-    console.log('client.subSectorId:', client.subSectorList[0]?.id);
-    console.log('client.sectorId:', client.subSectorList[0]?.sectorId);
     console.log('client.legalFormId:', client.legalFormId);
     console.log('client.legalFormLawId:', client.legalFormLawId);
 
-    const sectorId = client.subSectorList[0]?.sectorId;
+    const sectorId =
+      client.subSectorList && client.subSectorList.length > 0
+        ? client.subSectorList[0].sectorId
+        : null;
     console.log(
       '🟡 Extracted sectorId from client.subSectorList[0]:',
       sectorId
     );
+    console.log('🧠 client.subSectorList:', client.subSectorList);
 
     if (sectorId) {
       // 1. Dispatch sector load action
@@ -208,7 +230,6 @@ export class AddClientComponent implements OnInit {
         }
       });
     }
-
     // 3. Continue patching the rest of the form
     this.addClientForm.patchValue({
       name: client.name,
@@ -216,7 +237,8 @@ export class AddClientComponent implements OnInit {
       businessActivity: client.businessActivity,
       taxId: client.taxId,
       shortName: client.shortName,
-      subSectorIdList: client.subSectorIdList,
+      sectorId: sectorId,
+      subSectorIdList: client.subSectorList?.map((s: any) => s.id),
       legalFormLawId: client.legalFormLawId,
       legalFormId: client.legalFormId?.id || client.legalFormId,
       isStampDuty: client.isStampDuty,
@@ -228,7 +250,10 @@ export class AddClientComponent implements OnInit {
       marketSize: client.marketSize,
       employeesNo: client.employeesNo,
     });
+    console.log('sec', client.subSectorList);
 
+    this.selectedSubSectorId =
+      client.subSectorIdList?.id || client.subSectorIdList;
     this.selectedLegalFormId = client.legalFormId?.id || client.legalFormId;
     this.selectedLegalFormLawId =
       client.legalFormLawId?.id || client.legalFormLawId;
@@ -368,9 +393,7 @@ export class AddClientComponent implements OnInit {
       isStampDuty: formValue.isStampDuty,
       isIscore: formValue.isIscore,
       clientTypeId: this.selectedClientType,
-      subSectorIdList: formValue.subSectorIdList.map(
-        (item: any) => item.sectorId
-      ),
+      subSectorIdList: formValue.subSectorIdList.map((item: any) => item.id),
       mainShare: formValue.mainShare,
       establishedYear: formValue.establishedYear,
       website: formValue.website,

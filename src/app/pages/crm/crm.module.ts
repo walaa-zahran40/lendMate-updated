@@ -6,8 +6,8 @@ import { CrmRoutingModule } from './crm-routing.module';
 import { SharedModule } from '../../shared/shared.module';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { SectorEffects } from '../../shared/components/dropdowns/sector-dropdown/store/sector.effects';
-import { sectorReducer } from '../../shared/components/dropdowns/sector-dropdown/store/sector.reducer';
+import { SectorEffects } from '../../shared/components/form/store/sector-drop-down/sector.effects';
+import { sectorReducer } from '../../shared/components/form/store/sector-drop-down/sector.reducer';
 
 @NgModule({
   declarations: [],

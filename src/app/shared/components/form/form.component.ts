@@ -2,6 +2,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CompanyLegalDetails } from '../../interfaces/company-legal-details.interface';
+import { take, map, filter, Observable } from 'rxjs';
+import { Sectors } from '../../interfaces/sectors.interface';
+import { Store } from '@ngrx/store';
+import { selectAllSectors } from './store/sector-drop-down/sector.selectors';
 
 @Component({
   selector: 'app-form',
@@ -46,8 +50,26 @@ export class FormComponent {
   removeIdentity(index: number) {
     this.identities.splice(index, 1);
   }
-  get sectorIdControl(): FormControl {
-    return this.formGroup.get('sectorId') as FormControl;
+  sectorsSafe$!: Observable<Sectors[]>;
+  onChange: (value: any) => void = () => {};
+  onTouched: () => void = () => {};
+  @Output() selectionChanged = new EventEmitter<any>();
+
+  onSectorChange(event: any) {
+    const selectedId = event.value;
+    this.sectorsSafe$
+      .pipe(
+        take(1),
+        map((sectors) => sectors.find((s) => s.id === selectedId)),
+        filter((sector): sector is Sectors => !!sector)
+      )
+      .subscribe((sector) => {
+        this.value = selectedId;
+        this.onChange(this.value);
+        this.onTouched();
+        this.selectionChanged.emit(sector);
+        this.sectorChanged.emit(selectedId);
+      });
   }
 
   get subSectorList(): FormControl {
@@ -453,14 +475,10 @@ export class FormComponent {
   @Input() addCommunicationFlowTypeLookupsForm!: boolean;
   @Input() addClientGuarantorsShowIndividual!: boolean;
   @Input() addClientIdentitiesShowIndividual!: boolean;
-  constructor(private router: Router) {}
+  constructor(private router: Router, private store: Store) {}
 
   ngOnInit() {
-    this.sectors = [
-      { name: 'Technology', code: 'T' },
-      { name: 'Programming', code: 'P' },
-      { name: 'Machine Learning', code: 'ML' },
-    ];
+    this.sectorsSafe$ = this.store.select(selectAllSectors);
     this.selectedSectorsShowCompanyOnly = [
       { name: 'Technology', code: 'T' },
       { name: 'Programming', code: 'P' },
