@@ -2,10 +2,14 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CompanyLegalDetails } from '../../interfaces/company-legal-details.interface';
-import { take, map, filter, Observable } from 'rxjs';
+import { take, map, filter, Observable, combineLatest, startWith } from 'rxjs';
 import { Sectors } from '../../interfaces/sectors.interface';
 import { Store } from '@ngrx/store';
 import { selectAllSectors } from './store/sector-drop-down/sector.selectors';
+import { SubSectors } from '../../interfaces/sub-sector.interface';
+import { loadSectors } from './store/sector-drop-down/sector.actions';
+import { loadSubSectors } from './store/sub-sector-drop-down/sub-sector.actions';
+import { selectAllSubSectors } from './store/sub-sector-drop-down/sub-sector.selectors';
 
 @Component({
   selector: 'app-form',
@@ -475,10 +479,26 @@ export class FormComponent {
   @Input() addCommunicationFlowTypeLookupsForm!: boolean;
   @Input() addClientGuarantorsShowIndividual!: boolean;
   @Input() addClientIdentitiesShowIndividual!: boolean;
+  filteredSubSectors$!: Observable<SubSectors[]>;
+
   constructor(private router: Router, private store: Store) {}
 
   ngOnInit() {
+    this.store.dispatch(loadSectors());
+    this.store.dispatch(loadSubSectors());
+
     this.sectorsSafe$ = this.store.select(selectAllSectors);
+    // Combine sectorId changes with all sub-sectors
+    this.filteredSubSectors$ = combineLatest([
+      this.formGroup
+        .get('sectorId')!
+        .valueChanges.pipe(startWith(this.formGroup.get('sectorId')!.value)),
+      this.store.select(selectAllSubSectors),
+    ]).pipe(
+      map(([sectorId, subSectors]) =>
+        subSectors.filter((s) => s.sectorId === sectorId)
+      )
+    );
     this.selectedSectorsShowCompanyOnly = [
       { name: 'Technology', code: 'T' },
       { name: 'Programming', code: 'P' },
@@ -968,5 +988,10 @@ export class FormComponent {
   }
   viewClientGuarantors() {
     this.router.navigate(['/crm/clients/view-client-guarantor']);
+  }
+  onSubSectorChange(event: any): void {
+    const selectedIds: number[] = event.value;
+    this.subSectorList.setValue(selectedIds);
+    this.subSectorList.markAsTouched();
   }
 }

@@ -29,9 +29,8 @@ import {
   selectSelectedSector,
 } from '../../../../../shared/components/form/store/sector-drop-down/sector.selectors';
 import { loadSectorById } from '../../../../../shared/components/form/store/sector-drop-down/sector.actions';
-import { Sectors } from '../../../../../shared/interfaces/sectors.interface';
-import { selectAllSubSectors } from '../../../../../shared/components/dropdowns/sub-sector-dropdown/store/sub-sector.selectors';
 import { SubSectors } from '../../../../../shared/interfaces/sub-sector.interface';
+import { selectAllSubSectors } from '../../../../../shared/components/form/store/sub-sector-drop-down/sub-sector.selectors';
 
 @Component({
   selector: 'app-add-client',

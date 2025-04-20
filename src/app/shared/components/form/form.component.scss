@@ -649,3 +649,19 @@ form {
     }
   }
 }
+.p-error {
+  color: var(--custom-red);
+}
+:host {
+  &::ng-deep {
+    .p-multiselect {
+      position: relative;
+    }
+    .p-select-overlay {
+      left: revert-layer !important;
+    }
+    .p-overlay {
+      left: 0px !important;
+    }
+  }
+}

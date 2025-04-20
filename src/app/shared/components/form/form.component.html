@@ -849,24 +849,29 @@
         <label for="subSectorDropdown"
           >Select Sub Sector<sup class="danger">*</sup></label
         >
-        <app-sub-sector-dropdown
-          *ngIf="formGroup.get('sectorId')?.value"
-          [sectorId]="formGroup.get('sectorId')?.value"
-          [allSectors]="sectorsList"
-          [formControl]="subSectorList"
-          formControlName="subSectorIdList"
-          name="subSectorDropdown"
-        ></app-sub-sector-dropdown>
+        <ng-container *ngIf="filteredSubSectors$ | async as subSectors">
+          <p-multiSelect
+            [options]="subSectors"
+            [formControl]="subSectorList"
+            optionLabel="name"
+            optionValue="id"
+            placeholder="Select Sub Sector"
+            display="chip"
+            (onChange)="onSubSectorChange($event)"
+          ></p-multiSelect>
 
-        <small
-          class="p-error"
-          *ngIf="
-            formGroup.get('subSectorDropdown')?.hasError('required') &&
-            formGroup.get('subSectorDropdown')?.touched
-          "
-        >
-          Sub Sector is required.
-        </small>
+          <div
+            class="p-error"
+            style="color: var(--custom-red)"
+            *ngIf="
+              subSectorList?.invalid &&
+              (subSectorList?.touched || subSectorList?.dirty)
+            "
+          >
+            Sub Sector is required.
+          </div>
+        </ng-container>
+
         <br />
         <p-toggleswitch formControlName="isIscore" name="isIscore" />&nbsp;
         <label for="isIscore">Is Iscore?<sup class="danger">*</sup></label

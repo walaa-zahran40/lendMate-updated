@@ -52,7 +52,6 @@ import { ToolbarCompoundComponent } from './toolbar-compound/toolbar-compound.co
 import { DatePickerModule } from 'primeng/datepicker';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { ReactiveFormsModule } from '@angular/forms';
-import { SubSectorDropdownComponent } from './dropdowns/sub-sector-dropdown/sub-sector-dropdown.component';
 import { TooltipModule } from 'primeng/tooltip';
 import { LegalFormDropdownComponent } from './dropdowns/legal-form-dropdown/legal-form-dropdown.component';
 import { LegalFormLawDropdownComponent } from './dropdowns/legal-form-law-dropdown/legal-form-law-dropdown.component';
@@ -60,10 +59,10 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { LegalFormEffects } from '../../pages/crm/clients/store/legal-forms/legal-form.effects';
 import { legalFormReducer } from '../../pages/crm/clients/store/legal-forms/legal-form.reducer';
-import { SubSectorEffects } from './dropdowns/sub-sector-dropdown/store/sub-sector.effects';
-import { subSectorReducer } from './dropdowns/sub-sector-dropdown/store/sub-sector.reducer';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { SubSectorEffects } from './form/store/sub-sector-drop-down/sub-sector.effects';
+import { subSectorReducer } from './form/store/sub-sector-drop-down/sub-sector.reducer';
 
 @NgModule({
   declarations: [
@@ -78,7 +77,6 @@ import { MessageService } from 'primeng/api';
     CardComponent,
     ToolbarCardComponent,
     ToolbarCompoundComponent,
-    SubSectorDropdownComponent,
     LegalFormDropdownComponent,
     LegalFormLawDropdownComponent,
   ],
@@ -147,7 +145,6 @@ import { MessageService } from 'primeng/api';
     ToastModule,
     ToolbarCardComponent,
     ToolbarCompoundComponent,
-    SubSectorDropdownComponent,
     LegalFormDropdownComponent,
     LegalFormLawDropdownComponent,
   ],
