@@ -48,6 +48,8 @@ import { legalFormLawReducer } from './store/legal-form-law/legal-form-law.reduc
 import { legalFormReducer } from './store/legal-forms/legal-form.reducer';
 import { LegalFormEffects } from './store/legal-forms/legal-form.effects';
 import { LegalFormLawEffects } from './store/legal-form-law/legal-form-law.effects';
+import { individualReducer } from './store/individual/individual.reducer';
+import { IndividualEffects } from './store/individual/individual.effects';
 
 @NgModule({
   declarations: [
@@ -100,6 +102,8 @@ import { LegalFormLawEffects } from './store/legal-form-law/legal-form-law.effec
     EffectsModule.forFeature([LegalFormLawEffects]),
     StoreModule.forFeature('legalForm', legalFormReducer),
     EffectsModule.forFeature([LegalFormEffects]),
+    StoreModule.forFeature('individual', individualReducer),
+    EffectsModule.forFeature([IndividualEffects]),
   ],
 })
 export class ClientsModule {}
