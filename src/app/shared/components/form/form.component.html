@@ -851,8 +851,8 @@
         >
         <ng-container *ngIf="filteredSubSectors$ | async as subSectors">
           <p-multiSelect
-            [options]="subSectors"
-            [formControl]="subSectorList"
+            [options]="subSectorsList"
+            formControlName="subSectorIdList"
             optionLabel="name"
             optionValue="id"
             placeholder="Select Sub Sector"

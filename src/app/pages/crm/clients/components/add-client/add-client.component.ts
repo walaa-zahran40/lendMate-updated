@@ -13,7 +13,7 @@ import { positiveNumberValidator } from '../../../../../shared/validators/positi
 import { LegalFormService } from '../../../../../shared/services/legal-form.service';
 import { Sector } from '../../../../../shared/interfaces/sector.interface';
 import { LegalFormLawService } from '../../../../../shared/services/legal-form-law.service';
-import { filter, Observable, take } from 'rxjs';
+import { filter, map, Observable, take } from 'rxjs';
 import { ClientTypesFacade } from '../../store/client-types/client-types.facade';
 import {
   loadClient,
@@ -31,6 +31,7 @@ import {
 import { loadSectorById } from '../../../../../shared/components/form/store/sector-drop-down/sector.actions';
 import { SubSectors } from '../../../../../shared/interfaces/sub-sector.interface';
 import { selectAllSubSectors } from '../../../../../shared/components/form/store/sub-sector-drop-down/sub-sector.selectors';
+import { loadSubSectors } from '../../../../../shared/components/form/store/sub-sector-drop-down/sub-sector.actions';
 
 @Component({
   selector: 'app-add-client',
@@ -197,67 +198,69 @@ export class AddClientComponent implements OnInit {
   }
   patchForm(client: any): void {
     console.log('client', client);
-    console.log('client.legalFormId:', client.legalFormId);
-    console.log('client.legalFormLawId:', client.legalFormLawId);
 
-    const sectorId =
-      client.subSectorList && client.subSectorList.length > 0
-        ? client.subSectorList[0].sectorId
-        : null;
-    console.log(
-      '🟡 Extracted sectorId from client.subSectorList[0]:',
-      sectorId
-    );
-    console.log('🧠 client.subSectorList:', client.subSectorList);
+    const sectorId = client.subSectorList?.[0]?.sectorId;
+    if (!sectorId) return;
 
-    if (sectorId) {
-      // 1. Dispatch sector load action
-      this.store.dispatch(loadSectorById({ id: sectorId }));
-      console.log('🟢 Dispatched loadSectorById for ID:', sectorId);
+    this.store.dispatch(loadSectorById({ id: sectorId }));
+    this.store.dispatch(loadSubSectors());
 
-      // 2. Patch sector object once available in store
-      this.sectorById$ = this.store.select(selectSelectedSector);
-      this.sectorById$.subscribe((sector) => {
-        if (sector) {
-          console.log('🟢 Not Patched sector object into form:', sector.id);
+    this.sectorById$ = this.store.select(selectSelectedSector);
 
-          this.addClientForm.patchValue({
-            sectorId: sector.id,
-          });
+    // Wait until all sub-sectors are loaded and filtered before patching
+    this.store
+      .select(selectAllSubSectors)
+      .pipe(
+        filter((subs) => subs.length > 0), // ⛔ skip empty loads
+        take(1),
+        map((subs) => {
+          console.log('🧪 All subs before filter:', subs);
+          return subs.filter((s) => s.sectorId === sectorId);
+        })
+      )
+      .subscribe((filteredSubs) => {
+        this.subSectorsList = [
+          ...filteredSubs,
+          ...client.subSectorList.filter(
+            (clientSub: { id: number | undefined }) =>
+              !filteredSubs.some((s) => s.id === clientSub.id)
+          ),
+        ];
+        console.log('✅ SubSectorsList:', this.subSectorsList);
+        console.log(
+          '📌 client.subSectorList.map(s => s.id):',
+          client.subSectorList?.map((s: { id: any }) => s.id)
+        );
+        console.log(
+          '📌 subSectorsList.map(s => s.id):',
+          this.subSectorsList.map((s) => s.id)
+        );
 
-          console.log('🟢 Patched sector object into form:', sector.id);
-        }
+        this.addClientForm.patchValue({
+          name: client.name,
+          nameAR: client.nameAR,
+          businessActivity: client.businessActivity,
+          taxId: client.taxId,
+          shortName: client.shortName,
+          sectorId: sectorId,
+          subSectorIdList: client.subSectorList?.map((s: any) => s.id) || [],
+          legalFormLawId: client.legalFormLawId,
+          legalFormId: client.legalFormId?.id || client.legalFormId,
+          isStampDuty: client.isStampDuty,
+          isIscore: client.isIscore,
+          mainShare: client.mainShare,
+          establishedYear: client.establishedYear,
+          website: client.website,
+          marketShare: client.marketShare,
+          marketSize: client.marketSize,
+          employeesNo: client.employeesNo,
+        });
+
+        console.log(
+          '🟢 Patched subSectorIdList:',
+          this.addClientForm.get('subSectorIdList')?.value
+        );
       });
-    }
-    // 3. Continue patching the rest of the form
-    this.addClientForm.patchValue({
-      name: client.name,
-      nameAR: client.nameAR,
-      businessActivity: client.businessActivity,
-      taxId: client.taxId,
-      shortName: client.shortName,
-      sectorId: sectorId,
-      subSectorIdList: client.subSectorList?.map((s: any) => s.id),
-      legalFormLawId: client.legalFormLawId,
-      legalFormId: client.legalFormId?.id || client.legalFormId,
-      isStampDuty: client.isStampDuty,
-      isIscore: client.isIscore,
-      mainShare: client.mainShare,
-      establishedYear: client.establishedYear,
-      website: client.website,
-      marketShare: client.marketShare,
-      marketSize: client.marketSize,
-      employeesNo: client.employeesNo,
-    });
-    console.log('sec', client.subSectorList);
-
-    this.selectedSubSectorId =
-      client.subSectorIdList?.id || client.subSectorIdList;
-    this.selectedLegalFormId = client.legalFormId?.id || client.legalFormId;
-    this.selectedLegalFormLawId =
-      client.legalFormLawId?.id || client.legalFormLawId;
-
-    console.log('🧾 Final patched form value:', this.addClientForm.value);
   }
 
   fetchLegalForms(): void {
@@ -418,11 +421,27 @@ export class AddClientComponent implements OnInit {
   onSectorChanged(sectorId: number) {
     this.selectedSectorId = sectorId;
     console.log('✅ Sector changed in parent. New ID:', this.selectedSectorId);
-    const subSectorArray = this.addClientForm.get('subSectorList') as FormArray;
-    if (subSectorArray && subSectorArray.length) {
-      while (subSectorArray.length !== 0) {
-        subSectorArray.removeAt(0);
-      }
-    }
+
+    // Dispatch sub-sector loading if not already done
+    this.store.dispatch(loadSubSectors());
+
+    // Filter and update sub-sector options based on new sector
+    this.store
+      .select(selectAllSubSectors)
+      .pipe(
+        filter((subs) => subs.length > 0),
+        take(1),
+        map((subs) => subs.filter((s) => s.sectorId === sectorId))
+      )
+      .subscribe((filteredSubs) => {
+        this.subSectorsList = filteredSubs;
+
+        console.log('✅ Updated SubSectors for selected sector:', filteredSubs);
+
+        // Optional: clear selected sub-sectors (depends on UX needs)
+        this.addClientForm.patchValue({
+          subSectorIdList: [],
+        });
+      });
   }
 }
