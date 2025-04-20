@@ -218,23 +218,26 @@ export class AddClientComponent implements OnInit {
           return subs.filter((s) => s.sectorId === sectorId);
         })
       )
-      .subscribe((filteredSubs) => {
-        this.subSectorsList = [
-          ...filteredSubs,
-          ...client.subSectorList.filter(
-            (clientSub: { id: number | undefined }) =>
+      .subscribe((allSubSectors) => {
+        const sectorId = client.subSectorList?.[0]?.sectorId;
+
+        const filteredSubs = allSubSectors.filter(
+          (s) => s.sectorId === sectorId
+        );
+
+        const missingSubs =
+          client.subSectorList?.filter(
+            (clientSub: { id: number }) =>
               !filteredSubs.some((s) => s.id === clientSub.id)
-          ),
-        ];
-        console.log('✅ SubSectorsList:', this.subSectorsList);
-        console.log(
-          '📌 client.subSectorList.map(s => s.id):',
-          client.subSectorList?.map((s: { id: any }) => s.id)
-        );
-        console.log(
-          '📌 subSectorsList.map(s => s.id):',
-          this.subSectorsList.map((s) => s.id)
-        );
+          ) || [];
+
+        // ✅ Final list: combine sector's subs + any missing ones used in client
+        this.subSectorsList = [...filteredSubs, ...missingSubs];
+
+        const selectedIds = client.subSectorList?.map((s: any) => s.id) || [];
+
+        console.log('✅ Updated subSectorsList:', this.subSectorsList);
+        console.log('✅ Filtered selected IDs:', selectedIds);
 
         this.addClientForm.patchValue({
           name: client.name,
@@ -243,7 +246,7 @@ export class AddClientComponent implements OnInit {
           taxId: client.taxId,
           shortName: client.shortName,
           sectorId: sectorId,
-          subSectorIdList: client.subSectorList?.map((s: any) => s.id) || [],
+          subSectorIdList: selectedIds,
           legalFormLawId: client.legalFormLawId,
           legalFormId: client.legalFormId?.id || client.legalFormId,
           isStampDuty: client.isStampDuty,
@@ -420,12 +423,20 @@ export class AddClientComponent implements OnInit {
 
   onSectorChanged(sectorId: number) {
     this.selectedSectorId = sectorId;
-    console.log('✅ Sector changed in parent. New ID:', this.selectedSectorId);
-    const subSectorArray = this.addClientForm.get('subSectorList') as FormArray;
-    if (subSectorArray && subSectorArray.length) {
-      while (subSectorArray.length !== 0) {
-        subSectorArray.removeAt(0);
-      }
-    }
+    console.log('✅ Sector changed in parent. New ID:', sectorId);
+
+    this.store
+      .select(selectAllSubSectors)
+      .pipe(
+        take(1),
+        map((subSectors) => subSectors.filter((s) => s.sectorId === sectorId))
+      )
+      .subscribe((filtered) => {
+        this.subSectorsList = filtered;
+        console.log('✅ Sub-sectors updated after sector change:', filtered);
+
+        // Clear selected sub-sectors to prevent stale values
+        this.addClientForm.patchValue({ subSectorIdList: [] });
+      });
   }
 }
