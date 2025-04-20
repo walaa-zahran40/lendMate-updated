@@ -1276,38 +1276,75 @@
       <br />
       <!-- Identification Number -->
       <div class="parent-individual">
-        <div class="div4-individual">
-          <label for="identificationNumberIndividual"
-            >Identification Number<sup class="danger">*</sup></label
-          >
-          <input
-            pInputText
-            id="identificationNumberIndividual"
-            aria-describedby="identificationNumberIndividual-help"
-            [(ngModel)]="value21"
-            placeholder="Identification Number"
-            name="identificationNumberIndividual"
-          />
-        </div>
-        <div class="div2-individual">
-          <label for="selectIdentityIndividual"
-            >Select Identity<sup class="danger">*</sup></label
-          >
-          <p-multiselect
-            [options]="identityIndividual"
-            [(ngModel)]="selectedIdentityIndividual"
-            placeholder="Select Identity"
-            optionLabel="name"
-            display="chip"
-            icon="pi pi-times"
-            name="identityIndividual"
-            styleClass="w-full md:w-80"
-            [maxSelectedLabels]="999"
-            chipIcon="pi pi-times"
-          />
-        </div>
-        <div class="div3-individual">
-          <p-button icon="custom-icon" severity="danger" class="add-btn" />
+        <!-- Dynamic Identification Entries -->
+        <div
+          *ngFor="let identity of identities; let i = index"
+          class="parent-individual mt-2"
+        >
+          <div class="div4-individual">
+            <label for="identificationNumber{{ i }}"
+              >Identification Number<sup class="danger">*</sup></label
+            >
+            <input
+              pInputText
+              [(ngModel)]="identity.identificationNumber"
+              name="identificationNumber{{ i }}"
+              required
+              placeholder="Identification Number"
+              #identificationNumberRef="ngModel"
+            />
+            <small
+              class="p-error"
+              *ngIf="
+                identificationNumberRef.invalid &&
+                identificationNumberRef.touched
+              "
+            >
+              Identification Number is required.
+            </small>
+          </div>
+
+          <div class="div2-individual">
+            <label for="identityType{{ i }}"
+              >Select Identity<sup class="danger">*</sup></label
+            >
+            <p-multiselect
+              [options]="identityIndividual"
+              [(ngModel)]="identity.selectedIdentities"
+              name="identityType{{ i }}"
+              placeholder="Select Identity"
+              optionLabel="name"
+              display="chip"
+              [maxSelectedLabels]="999"
+              chipIcon="pi pi-times"
+              required
+              #identityTypeRef="ngModel"
+            ></p-multiselect>
+            <small
+              class="p-error"
+              *ngIf="identityTypeRef.invalid && identityTypeRef.touched"
+            >
+              Identity is required.
+            </small>
+          </div>
+
+          <div class="div3-individual">
+            <button
+              pButton
+              icon="pi pi-trash"
+              class="p-button-danger"
+              (click)="removeIdentity(i)"
+              *ngIf="identities.length > 1"
+            ></button>
+          </div>
+          <!-- Add Another Identity Button -->
+          <button
+            pButton
+            type="button"
+            icon="pi pi-plus"
+            (click)="addIdentity()"
+            class="p-button-outlined p-button-sm"
+          ></button>
         </div>
       </div>
     </form>

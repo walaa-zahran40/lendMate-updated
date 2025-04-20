@@ -30,6 +30,22 @@ export class FormComponent {
   @Input() legalFormId: number | null = null;
   selectedLegalForm: any;
   @Output() sectorChanged = new EventEmitter<number>();
+  identities = [
+    {
+      identificationNumber: '',
+      selectedIdentities: [],
+    },
+  ];
+  addIdentity() {
+    this.identities.push({
+      identificationNumber: '',
+      selectedIdentities: [],
+    });
+    console.log(this.identities);
+  }
+  removeIdentity(index: number) {
+    this.identities.splice(index, 1);
+  }
   get sectorIdControl(): FormControl {
     return this.formGroup.get('sectorId') as FormControl;
   }
