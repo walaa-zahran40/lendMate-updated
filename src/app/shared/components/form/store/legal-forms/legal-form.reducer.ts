@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import * as LegalFormActions from './legal-form.actions';
-import { LegalForm } from '../../../../../shared/interfaces/legal-form.interface';
+import { LegalForm } from '../../../../interfaces/legal-form.interface';
 
 // State interface
 export interface LegalFormState {

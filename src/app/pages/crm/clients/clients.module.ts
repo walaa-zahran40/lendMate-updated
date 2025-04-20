@@ -44,10 +44,10 @@ import { ViewClientIdentityComponent } from './components/view-client-identity/v
 import { AddClientIdentityComponent } from './components/add-client-identity/add-client-identity.component';
 import { ClientTypesEffects } from './store/client-types/client-types.effects';
 import { clientTypesReducer } from './store/client-types/client-types.reducer';
-import { legalFormLawReducer } from './store/legal-form-law/legal-form-law.reducer';
-import { legalFormReducer } from './store/legal-forms/legal-form.reducer';
-import { LegalFormEffects } from './store/legal-forms/legal-form.effects';
-import { LegalFormLawEffects } from './store/legal-form-law/legal-form-law.effects';
+import { legalFormLawReducer } from '../../../shared/components/form/store/legal-form-law/legal-form-law.reducer';
+import { legalFormReducer } from '../../../shared/components/form/store/legal-forms/legal-form.reducer';
+import { LegalFormEffects } from '../../../shared/components/form/store/legal-forms/legal-form.effects';
+import { LegalFormLawEffects } from '../../../shared/components/form/store/legal-form-law/legal-form-law.effects';
 import { individualReducer } from './store/individual/individual.reducer';
 import { IndividualEffects } from './store/individual/individual.effects';
 

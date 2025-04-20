@@ -7,7 +7,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { LegalFormFacade } from '../../../../pages/crm/clients/store/legal-forms/legal-form.facade';
+import { LegalFormFacade } from '../../form/store/legal-forms/legal-form.facade';
 
 @Component({
   selector: 'app-legal-form-dropdown',

@@ -57,8 +57,8 @@ import { LegalFormDropdownComponent } from './dropdowns/legal-form-dropdown/lega
 import { LegalFormLawDropdownComponent } from './dropdowns/legal-form-law-dropdown/legal-form-law-dropdown.component';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { LegalFormEffects } from '../../pages/crm/clients/store/legal-forms/legal-form.effects';
-import { legalFormReducer } from '../../pages/crm/clients/store/legal-forms/legal-form.reducer';
+import { LegalFormEffects } from './form/store/legal-forms/legal-form.effects';
+import { legalFormReducer } from './form/store/legal-forms/legal-form.reducer';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { SubSectorEffects } from './form/store/sub-sector-drop-down/sub-sector.effects';

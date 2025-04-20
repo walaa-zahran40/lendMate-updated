@@ -7,7 +7,7 @@ import {
 } from './legal-form.actions';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { LegalFormService } from '../../../../../shared/services/legal-form.service';
+import { LegalFormService } from '../../../../services/legal-form.service';
 
 @Injectable()
 export class LegalFormEffects {
