@@ -1,7 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Client } from '../../interfaces/client.interface';
-import { PageEvent } from '../../interfaces/page-event.interface';
-import { PaginatorState } from 'primeng/paginator';
 import { SharedService } from '../../services/shared.service';
 import { Router } from '@angular/router';
 
@@ -115,9 +112,15 @@ export class TableComponent {
   currentPage = 0; // Page index starts from 0
   totalRecords: any;
   showDownload = false;
+  event: any;
+  globalFilterFields: string[] = [];
+
   constructor(private sharedService: SharedService, private router: Router) {}
 
   ngOnInit() {
+    if (this.cols?.length) {
+      this.globalFilterFields = this.cols.map((c) => c.field);
+    }
     this.totalRecords = this.tableData.length;
   }
   openPopup() {

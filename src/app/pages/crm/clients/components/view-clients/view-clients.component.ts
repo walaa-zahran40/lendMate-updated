@@ -16,15 +16,15 @@ export class ViewClientsComponent {
   private destroy$ = new Subject<void>();
   clients$ = this.facade.clients$;
   rows: number = 10;
+  showFilters: boolean = false;
+
   readonly colsInside = [
     { field: 'name', header: 'Name EN' },
+    { field: 'nameAR', header: 'Name AR' },
+    { field: 'shortName', header: 'Short Name' },
     { field: 'businessActivity', header: 'Business Activity' },
     { field: 'isIscore', header: 'Iscore' },
     { field: 'taxId', header: 'Tax ID' },
-    { field: 'code', header: 'Client Code' },
-    { field: 'clientTypeCode', header: 'Type Code' },
-    { field: 'shortName', header: 'Short Name' },
-    { field: 'isActive', header: 'Active' },
   ];
   showDeleteModal: boolean = false;
   selectedClientId: number | null = null;
@@ -79,5 +79,8 @@ export class ViewClientsComponent {
         val?.toString().toLowerCase().includes(lower)
       )
     );
+  }
+  onToggleFilters(value: boolean) {
+    this.showFilters = value;
   }
 }

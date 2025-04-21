@@ -8,18 +8,21 @@
   [showCurrentPageReport]="true"
   [rowsPerPageOptions]="[5, 10, 15, 20]"
   [first]="first"
+  filterMode="menu"
+  [globalFilterFields]="globalFilterFields"
+  #dt
 >
   <ng-template pTemplate="header" *ngIf="cols.length > 0">
     <tr class="border-1">
       <th *ngIf="checkBox"><p-checkbox [binary]="true" /></th>
       <th *ngFor="let col of cols">
         {{ col.header }}
-        <img
-          src="/assets/images/shared/table/sort.svg"
-          alt="sort"
+        <p-columnFilter
+          [field]="col.field"
+          display="menu"
+          [matchMode]="'contains'"
           *ngIf="filters"
-          class="d-inline-block mx-2 my-2"
-        />
+        ></p-columnFilter>
       </th>
       <th></th>
       <th *ngIf="side"></th>

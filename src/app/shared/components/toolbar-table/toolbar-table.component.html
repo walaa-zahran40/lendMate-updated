@@ -22,8 +22,9 @@
     </p-iconfield>
     <p-button
       icon="custom-icon"
-      label="Filter By"
+      label="Show Filters"
       styleClass="filter"
+      (click)="toggleFilters()"
       *ngIf="exports"
     />
     <img

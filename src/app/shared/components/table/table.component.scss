@@ -20,6 +20,9 @@
     img[alt="edit"] {
       cursor: pointer;
     }
+    .p-datatable-popover-filter {
+      background: transparent;
+    }
     .p-paginator-page.p-paginator-page-selected {
       background-color: #007ad9 !important; /* Example: Corplease blue */
       color: white !important;
@@ -138,10 +141,13 @@
       font-style: normal;
       font-weight: 700;
       line-height: 160%; /* 25.6px */
-      background-color: transparent;
+      background-color: transparent !important;
       border-radius: 0px;
       border: 1px solid #d6ddeb;
       padding: 12px 16px;
+    }
+    .p-button:not(:disabled) {
+      background-color: transparent !important;
     }
     .add-client:not(:disabled):hover {
       padding: 12px 16px;

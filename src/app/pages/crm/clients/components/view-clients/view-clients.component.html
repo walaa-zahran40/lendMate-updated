@@ -9,6 +9,7 @@
     [exports]="true"
     (addBtn)="onAddClient()"
     (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
   ></app-toolbar-table>
 
   <ng-container *ngIf="clients$ | async as clients">
@@ -20,6 +21,7 @@
       [side]="true"
       [first]="first2"
       [checkBox]="true"
+      [filters]="showFilters"
       [uppercase]="'uppercase'"
       [viewClientTable]="true"
       (deleteClient)="onDeleteClient($event)"
