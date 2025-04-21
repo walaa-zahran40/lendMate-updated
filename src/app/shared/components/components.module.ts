@@ -53,8 +53,6 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TooltipModule } from 'primeng/tooltip';
-import { LegalFormDropdownComponent } from './dropdowns/legal-form-dropdown/legal-form-dropdown.component';
-import { LegalFormLawDropdownComponent } from './dropdowns/legal-form-law-dropdown/legal-form-law-dropdown.component';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { LegalFormEffects } from './form/store/legal-forms/legal-form.effects';
@@ -77,8 +75,6 @@ import { subSectorReducer } from './form/store/sub-sector-drop-down/sub-sector.r
     CardComponent,
     ToolbarCardComponent,
     ToolbarCompoundComponent,
-    LegalFormDropdownComponent,
-    LegalFormLawDropdownComponent,
   ],
   imports: [
     CommonModule,
@@ -145,8 +141,6 @@ import { subSectorReducer } from './form/store/sub-sector-drop-down/sub-sector.r
     ToastModule,
     ToolbarCardComponent,
     ToolbarCompoundComponent,
-    LegalFormDropdownComponent,
-    LegalFormLawDropdownComponent,
   ],
 })
 export class ComponentsModule {}

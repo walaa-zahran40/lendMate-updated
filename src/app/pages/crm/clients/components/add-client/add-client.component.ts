@@ -53,6 +53,7 @@ export class AddClientComponent implements OnInit {
   subSectorsSafe$!: Observable<SubSectors[]>;
   selectedClientType = null;
   dropdownClientTypeItems: any[] = [];
+  company = false;
   subSectorList$ = this.store.select(selectSubSectorList);
   dropdownlegalLawItems: Sector[] = [];
   dropdownlegalFormLawItems: Sector[] = [];
@@ -135,6 +136,7 @@ export class AddClientComponent implements OnInit {
     if (idParam) {
       this.editMode = true;
       this.clientId = +idParam;
+      this.company = true;
       // Dispatch an action to load the client data for editing
       this.store.dispatch(loadSectors());
       this.store.dispatch(loadSubSectors());
@@ -314,8 +316,8 @@ export class AddClientComponent implements OnInit {
         id: this.clientId,
         clientTypeId: this.selectedClientType,
         subSectorIdList: formValue.subSectorIdList,
-        legalFormLawId: formValue.legalFormLawId.id,
-        legalFormId: formValue.legalFormId.id,
+        legalFormLawId: formValue.legalFormLawId,
+        legalFormId: formValue.legalFormId,
         sectorId: formValue.sectorId,
       };
       // delete updatedClient.sectorId;
@@ -334,8 +336,8 @@ export class AddClientComponent implements OnInit {
         sectorId: formValue.sectorId,
         subSectorIdList: formValue.subSectorIdList,
         isStampDuty: formValue.isStampDuty,
-        legalFormLawId: formValue.legalFormLawId.id,
-        legalFormId: formValue.legalFormId.id,
+        legalFormLawId: formValue.legalFormLawId,
+        legalFormId: formValue.legalFormId,
         mainShare: formValue.mainShare,
         marketShare: formValue.marketShare,
         establishedYear: formValue.establishedYear,

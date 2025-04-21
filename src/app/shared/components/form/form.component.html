@@ -892,10 +892,16 @@
         <label for="legalFormLawId"
           >Legal Form Law<sup class="danger">*</sup></label
         >
-        <app-legal-form-law-dropdown
+
+        <p-select
+          [options]="(legalFormLaws$ | async) || []"
           formControlName="legalFormLawId"
-          (selectionChanged)="onLegalFormLawSelectionChange($event)"
-        ></app-legal-form-law-dropdown>
+          (ngModelChange)="updateValue($event, $event)"
+          optionLabel="name"
+          optionValue="id"
+          placeholder="Select Legal Form Law"
+        ></p-select>
+
         <small
           class="p-error"
           *ngIf="
@@ -906,10 +912,16 @@
           Legal Form Law is required. </small
         ><br />
         <label for="legalFormId">Legal Form<sup class="danger">*</sup></label>
-        <app-legal-form-dropdown
+
+        <p-select
+          [options]="(legalForms$ | async) || []"
+          (ngModelChange)="updateValue($event, $event)"
+          optionLabel="name"
+          optionValue="id"
           formControlName="legalFormId"
-          (selectionChanged)="onLegalFormSelectionChange($event)"
-        ></app-legal-form-dropdown>
+          placeholder="Select a LegalForm"
+        ></p-select>
+
         <small
           class="p-error"
           *ngIf="

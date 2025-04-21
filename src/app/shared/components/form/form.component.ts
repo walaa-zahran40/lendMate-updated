@@ -7,10 +7,15 @@ import { Sectors } from '../../interfaces/sectors.interface';
 import { Store } from '@ngrx/store';
 import { selectAllSectors } from './store/sector-drop-down/sector.selectors';
 import { SubSectors } from '../../interfaces/sub-sector.interface';
-import { loadSectors } from './store/sector-drop-down/sector.actions';
-import { loadSubSectors } from './store/sub-sector-drop-down/sub-sector.actions';
 import { selectAllSubSectors } from './store/sub-sector-drop-down/sub-sector.selectors';
-
+import { LegalFormLaw } from '../../interfaces/legal-form-law.interface';
+import { LegalFormLawFacade } from './store/legal-form-law/legal-form-law.facade';
+import { LegalFormFacade } from './store/legal-forms/legal-form.facade';
+import { LegalForm } from '../../interfaces/legal-form.interface';
+import { SectorEffects } from './store/sector-drop-down/sector.effects';
+import { SubSectorEffects } from './store/sub-sector-drop-down/sub-sector.effects';
+import * as sectorsActions from './store/sector-drop-down/sector.actions';
+import * as subSectorsActions from './store/sub-sector-drop-down/sub-sector.actions';
 @Component({
   selector: 'app-form',
   standalone: false,
@@ -480,8 +485,16 @@ export class FormComponent {
   @Input() addClientGuarantorsShowIndividual!: boolean;
   @Input() addClientIdentitiesShowIndividual!: boolean;
   filteredSubSectors$!: Observable<SubSectors[]>;
-
-  constructor(private router: Router, private store: Store) {}
+  legalFormLaws$: Observable<LegalFormLaw[]> = this.facade.legalFormLaws$;
+  legalForms$ = this.facadeLegalForms.legalForms$;
+  constructor(
+    private router: Router,
+    private store: Store,
+    private facade: LegalFormLawFacade,
+    private facadeLegalForms: LegalFormFacade,
+    private sector: SectorEffects,
+    private subSector: SubSectorEffects
+  ) {}
 
   ngOnInit() {
     // this.store.dispatch(loadSectors());
@@ -499,6 +512,7 @@ export class FormComponent {
         subSectors.filter((s) => s.sectorId === sectorId)
       )
     );
+
     this.selectedSectorsShowCompanyOnly = [
       { name: 'Technology', code: 'T' },
       { name: 'Programming', code: 'P' },
@@ -748,6 +762,14 @@ export class FormComponent {
         key: '50%',
       },
     ];
+    if (this.addClientShowMain) {
+      this.store.dispatch(sectorsActions.loadSectors());
+      this.store.dispatch(subSectorsActions.loadSubSectors());
+    }
+    if (this.addClientShowLegal) {
+      this.facade.loadLegalFormLaws();
+      this.facadeLegalForms.loadLegalForms();
+    }
   }
   onLegalFormLawSelectionChange(law: any) {
     this.selectedLegalFormLawId = law?.id || null;
@@ -993,5 +1015,12 @@ export class FormComponent {
     const selectedIds: number[] = event.value;
     this.subSectorList.setValue(selectedIds);
     this.subSectorList.markAsTouched();
+  }
+  updateValue(value: LegalFormLaw, value1: LegalForm): void {
+    this.selectedLegalFormLaw = value;
+    this.selectedLegalForm = value1;
+    this.onChange(value);
+    this.onTouched();
+    this.selectionChanged.emit(value);
   }
 }

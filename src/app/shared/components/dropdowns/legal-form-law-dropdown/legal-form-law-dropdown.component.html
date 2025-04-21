@@ -1,7 +1,0 @@
-<p-select
-  [options]="(legalFormLaws$ | async) || []"
-  [ngModel]="selectedLegalFormLaw"
-  (ngModelChange)="updateValue($event)"
-  optionLabel="name"
-  placeholder="Select Legal Form Law"
-></p-select>
