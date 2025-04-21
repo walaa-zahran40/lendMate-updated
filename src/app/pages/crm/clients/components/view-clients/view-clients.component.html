@@ -10,10 +10,12 @@
     (addBtn)="onAddClient()"
     (searchChange)="onSearch($event)"
     (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
   ></app-toolbar-table>
 
   <ng-container *ngIf="clients$ | async as clients">
     <app-table
+      #tableRef
       [cols]="colsInside"
       [tableData]="filteredClients"
       [edit]="true"

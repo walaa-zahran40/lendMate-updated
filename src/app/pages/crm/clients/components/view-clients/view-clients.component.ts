@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Client } from '../../../../../shared/interfaces/client.interface';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { ClientsFacade } from '../../store/clients/clients.facade';
+import { TableComponent } from '../../../../../shared/components/table/table.component';
 
 @Component({
   selector: 'app-view-clients',
@@ -17,6 +18,7 @@ export class ViewClientsComponent {
   clients$ = this.facade.clients$;
   rows: number = 10;
   showFilters: boolean = false;
+  @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
     { field: 'name', header: 'Name EN' },

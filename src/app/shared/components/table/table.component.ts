@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SharedService } from '../../services/shared.service';
 import { Router } from '@angular/router';
+import * as XLSX from 'xlsx';
+import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-table',
@@ -132,6 +134,30 @@ export class TableComponent {
   logAndDelete(id: number) {
     console.log('Delete clicked with ID:', id);
     this.deleteClient.emit(id);
+  }
+  exportToExcel(): void {
+    const dataToExport = this.tableData.map((row: { [x: string]: any }) =>
+      Object.fromEntries(this.cols.map((col) => [col.header, row[col.field]]))
+    );
+
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(dataToExport);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { data: worksheet },
+      SheetNames: ['data'],
+    };
+
+    const excelBuffer: any = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array',
+    });
+
+    this.saveAsExcelFile(excelBuffer, 'ExportedData');
+  }
+  private saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8',
+    });
+    FileSaver.saveAs(data, `${fileName}_${new Date().getTime()}.xlsx`);
   }
   // Handle pagination event
   onPageChange(event: any) {

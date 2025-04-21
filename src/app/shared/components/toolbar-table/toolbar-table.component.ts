@@ -17,7 +17,7 @@ export class ToolbarTableComponent {
   @Input() btnAdd: boolean = true;
   @Output() toggleFiltersEvent = new EventEmitter<boolean>();
   showFilters = false;
-
+  @Output() exportExcel = new EventEmitter<void>();
   @Output() addBtn = new EventEmitter<void>();
   @Output() searchChange = new EventEmitter<string>();
   searchValue: string = '';
@@ -32,5 +32,8 @@ export class ToolbarTableComponent {
   toggleFilters(): void {
     this.showFilters = !this.showFilters;
     this.toggleFiltersEvent.emit(this.showFilters);
+  }
+  onExportExcel() {
+    this.exportExcel.emit();
   }
 }
