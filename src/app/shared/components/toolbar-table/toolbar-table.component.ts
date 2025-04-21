@@ -14,6 +14,7 @@ export class ToolbarTableComponent {
   @Input() customSpacing!: string;
   @Input() backExists!: boolean;
   @Input() exports!: boolean;
+  @Output() exportPDF = new EventEmitter<void>();
   @Input() btnAdd: boolean = true;
   @Output() toggleFiltersEvent = new EventEmitter<boolean>();
   showFilters = false;
@@ -35,5 +36,9 @@ export class ToolbarTableComponent {
   }
   onExportExcel() {
     this.exportExcel.emit();
+  }
+
+  onExportPDF() {
+    this.exportPDF.emit();
   }
 }

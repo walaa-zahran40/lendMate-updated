@@ -3,7 +3,8 @@ import { SharedService } from '../../services/shared.service';
 import { Router } from '@angular/router';
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
-
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 @Component({
   selector: 'app-table',
   standalone: false,
@@ -134,6 +135,33 @@ export class TableComponent {
   logAndDelete(id: number) {
     console.log('Delete clicked with ID:', id);
     this.deleteClient.emit(id);
+  }
+  exportToPDF(): void {
+    const doc = new jsPDF();
+
+    const exportColumns = this.cols.map((col) => ({
+      title: col.header,
+      dataKey: col.field,
+    }));
+    const exportData = this.tableData.map((row: { [x: string]: any }) =>
+      this.cols.reduce((acc, col) => {
+        acc[col.field] = row[col.field];
+        return acc;
+      }, {} as any)
+    );
+
+    autoTable(doc, {
+      columns: exportColumns,
+      body: exportData,
+      styles: { fontSize: 10 },
+      headStyles: { fillColor: [41, 128, 185] }, // optional styling
+      margin: { top: 20 },
+      didDrawPage: (data) => {
+        doc.text('Exported Table Data', 14, 15);
+      },
+    });
+
+    doc.save(`exported_data_${new Date().getTime()}.pdf`);
   }
   exportToExcel(): void {
     const dataToExport = this.tableData.map((row: { [x: string]: any }) =>
