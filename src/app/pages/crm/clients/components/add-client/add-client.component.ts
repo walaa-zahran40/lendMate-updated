@@ -53,7 +53,8 @@ export class AddClientComponent implements OnInit {
   subSectorsSafe$!: Observable<SubSectors[]>;
   selectedClientType = null;
   dropdownClientTypeItems: any[] = [];
-  company = false;
+  company: boolean = false;
+  individual: boolean = false;
   subSectorList$ = this.store.select(selectSubSectorList);
   dropdownlegalLawItems: Sector[] = [];
   dropdownlegalFormLawItems: Sector[] = [];
@@ -137,6 +138,7 @@ export class AddClientComponent implements OnInit {
       this.editMode = true;
       this.clientId = +idParam;
       this.company = true;
+      this.individual = false;
       // Dispatch an action to load the client data for editing
       this.store.dispatch(loadSectors());
       this.store.dispatch(loadSubSectors());
