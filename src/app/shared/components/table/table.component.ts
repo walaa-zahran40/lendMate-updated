@@ -3,8 +3,19 @@ import { SharedService } from '../../services/shared.service';
 import { Router } from '@angular/router';
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
-import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
+import pdfMake from 'pdfmake/build/pdfmake';
+import type { ContentText, TDocumentDefinitions } from 'pdfmake/interfaces';
+import { pdfMakeVfs } from '../../../pdfmake-vfs';
+// Attach the VFS and font definitions
+(pdfMake as any).vfs = pdfMakeVfs;
+(pdfMake as any).fonts = {
+  Amiri: {
+    normal: 'Amiri-Regular.ttf',
+    bold: 'Amiri-Bold.ttf',
+    italics: 'Amiri-Regular.ttf',
+    bolditalics: 'Amiri-Bold.ttf',
+  },
+};
 @Component({
   selector: 'app-table',
   standalone: false,
@@ -136,33 +147,69 @@ export class TableComponent {
     console.log('Delete clicked with ID:', id);
     this.deleteClient.emit(id);
   }
-  exportToPDF(): void {
-    const doc = new jsPDF();
+  generatePdf() {
+    if (!this.tableData?.length) {
+      console.warn('No data to export');
+      return;
+    }
 
-    const exportColumns = this.cols.map((col) => ({
-      title: col.header,
-      dataKey: col.field,
-    }));
-    const exportData = this.tableData.map((row: { [x: string]: any }) =>
-      this.cols.reduce((acc, col) => {
-        acc[col.field] = row[col.field];
-        return acc;
-      }, {} as any)
-    );
+    // 1) Figure out your column definitions
+    //    If tableColumns is an array of { field, header }, use it;
+    //    otherwise, fall back to Object.keys on your first row.
+    const colDefs: { field: string; header: string }[] =
+      Array.isArray(this.cols) &&
+      this.cols.length &&
+      typeof this.cols[0] === 'object' &&
+      'field' in this.cols[0]
+        ? (this.cols as any)
+        : Object.keys(this.tableData[0]).map((key) => ({
+            field: key,
+            header: key,
+          }));
 
-    autoTable(doc, {
-      columns: exportColumns,
-      body: exportData,
-      styles: { fontSize: 10 },
-      headStyles: { fillColor: [41, 128, 185] }, // optional styling
-      margin: { top: 20 },
-      didDrawPage: (data) => {
-        doc.text('Exported Table Data', 14, 15);
+    // 2) Extract the header labels and the actual field names
+    const headerLabels = colDefs.map((c) => c.header);
+    const fields = colDefs.map((c) => c.field);
+
+    // 3) Build the 2D body array for pdfMake
+    const body = [
+      // first row: bold headers
+      headerLabels.map((lbl) => ({ text: lbl, bold: true })),
+      // one row per data object
+      ...this.tableData.map((row: { [x: string]: any }) =>
+        fields.map((fld) => {
+          const cell = row[fld];
+          return cell !== null && cell !== undefined ? cell.toString() : '';
+        })
+      ),
+    ];
+
+    // 4) Create your document definition
+    const docDefinition: TDocumentDefinitions = {
+      // @ts-ignore: pdfMake supports rtl even though TS defs don’t
+      rtl: true,
+      defaultStyle: { font: 'Amiri', alignment: 'center' },
+      content: [
+        { text: ' العملاء تقرير', style: 'header' },
+        {
+          table: {
+            headerRows: 1,
+            widths: Array(fields.length).fill('*'),
+            body,
+          },
+        },
+      ],
+      styles: {
+        header: { fontSize: 18, bold: true, margin: [0, 0, 0, 10] },
       },
-    });
+      pageSize: 'A4',
+      pageMargins: [40, 60, 40, 60],
+    };
 
-    doc.save(`exported_data_${new Date().getTime()}.pdf`);
+    // 5) Generate and download
+    pdfMake.createPdf(docDefinition).download('clients-report.pdf');
   }
+
   exportToExcel(): void {
     const dataToExport = this.tableData.map((row: { [x: string]: any }) =>
       Object.fromEntries(this.cols.map((col) => [col.header, row[col.field]]))

@@ -11,7 +11,7 @@
     (searchChange)="onSearch($event)"
     (toggleFiltersEvent)="onToggleFilters($event)"
     (exportExcel)="tableRef.exportToExcel()"
-    (exportPDF)="tableRef.exportToPDF()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
 
   <ng-container *ngIf="clients$ | async as clients">
