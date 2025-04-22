@@ -1,15 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, mergeMap, of, switchMap } from 'rxjs';
 import * as IndividualActions from './individual.actions';
-import { CompanyService } from '../../../../../shared/services/company.service';
 
 @Injectable()
 export class IndividualEffects {
-  constructor(
-    private actions$: Actions,
-    private companyService: CompanyService
-  ) {}
+  constructor(private actions$: Actions) {}
 
   loadIndividual$ = createEffect(() =>
     this.actions$.pipe(

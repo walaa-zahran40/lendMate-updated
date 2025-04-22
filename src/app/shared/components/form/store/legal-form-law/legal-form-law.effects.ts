@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as LegalFormLawActions from './legal-form-law.actions';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { LegalFormLawService } from '../../../../services/legal-form-law.service';
+import { LegalFormLawService } from '../../../../../pages/crm/clients/services/legal-form-law.service';
 
 @Injectable()
 export class LegalFormLawEffects {

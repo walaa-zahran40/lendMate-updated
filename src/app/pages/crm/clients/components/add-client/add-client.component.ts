@@ -10,9 +10,9 @@ import { Store } from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
 import { arabicOnlyValidator } from '../../../../../shared/validators/arabic-only.validator';
 import { positiveNumberValidator } from '../../../../../shared/validators/positive-only.validator';
-import { LegalFormService } from '../../../../../shared/services/legal-form.service';
+import { LegalFormService } from '../../services/legal-form.service';
 import { Sector } from '../../../../../shared/interfaces/sector.interface';
-import { LegalFormLawService } from '../../../../../shared/services/legal-form-law.service';
+import { LegalFormLawService } from '../../services/legal-form-law.service';
 import { filter, map, Observable, take } from 'rxjs';
 import { ClientTypesFacade } from '../../store/client-types/client-types.facade';
 import {

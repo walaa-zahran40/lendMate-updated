@@ -304,6 +304,9 @@
       line-height: var(--custom-line-height-25);
       color: var(--custom-grey);
     }
+    .p-tab:not(.p-tab-active):not(.p-disabled):hover {
+      color: var(--custom-grey);
+    }
     .p-tab-active {
       border-color: var(--p-tabs-active-bar-background);
       color: var(--p-tabs-active-bar-background);

@@ -12,7 +12,7 @@ import {
 } from 'rxjs';
 import * as ClientsActions from './clients.actions';
 import { Client } from '../../../../../shared/interfaces/client.interface';
-import { ClientService } from '../../../../../shared/services/client.service';
+import { ClientService } from '../../services/client.service';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 @Injectable()

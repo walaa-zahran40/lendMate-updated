@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as ClientTypeActions from './client-types.actions';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { TypeService } from '../../../../../shared/services/types.service';
+import { TypeService } from '../../services/types.service';
 
 @Injectable()
 export class ClientTypesEffects {
