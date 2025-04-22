@@ -13,6 +13,14 @@
     .pi-angle-left {
       cursor: pointer;
     }
+    input:-internal-autofill-selected {
+      background-color: var(--bg-transparent) !important;
+    }
+    .p-multiselect-overlay,
+    .p-select-overlay,
+    .p-datatable-filter-overlay-popover {
+      background: var(--white-color-add);
+    }
   }
 }
 hr {

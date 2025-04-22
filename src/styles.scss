@@ -212,3 +212,15 @@ body {
 .p-dialog .p-dialog-content {
   flex-direction: column;
 }
+.p-datatable-filter-overlay-popover,
+.p-select:not(.p-disabled) {
+  background: var(--white-color-add) !important;
+  color: var(--black-color) !important;
+}
+.p-check-box,
+.p-inputtext,
+.p-select:not(.p-disabled),
+.p-paginator .p-select-label {
+  background: var(--white-color-add) !important;
+  color: var(--black-color) !important;
+}
