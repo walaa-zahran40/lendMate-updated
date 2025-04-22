@@ -5,7 +5,7 @@ import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
 import pdfMake from 'pdfmake/build/pdfmake';
 import type { ContentText, TDocumentDefinitions } from 'pdfmake/interfaces';
-import { pdfMakeVfs } from '../../../pdfmake-vfs';
+import { pdfMakeVfs } from '../../../../../scripts/pdfmake-vfs';
 // Attach the VFS and font definitions
 (pdfMake as any).vfs = pdfMakeVfs;
 (pdfMake as any).fonts = {

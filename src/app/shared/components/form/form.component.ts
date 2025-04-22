@@ -1,8 +1,24 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CompanyLegalDetails } from '../../interfaces/company-legal-details.interface';
-import { take, map, filter, Observable, combineLatest, startWith } from 'rxjs';
+import {
+  take,
+  map,
+  filter,
+  Observable,
+  combineLatest,
+  startWith,
+  Subscription,
+  debounceTime,
+} from 'rxjs';
 import { Sectors } from '../../interfaces/sectors.interface';
 import { Store } from '@ngrx/store';
 import { selectAllSectors } from './store/sector-drop-down/sector.selectors';
@@ -12,17 +28,16 @@ import { LegalFormLaw } from '../../interfaces/legal-form-law.interface';
 import { LegalFormLawFacade } from './store/legal-form-law/legal-form-law.facade';
 import { LegalFormFacade } from './store/legal-forms/legal-form.facade';
 import { LegalForm } from '../../interfaces/legal-form.interface';
-import { SectorEffects } from './store/sector-drop-down/sector.effects';
-import { SubSectorEffects } from './store/sub-sector-drop-down/sub-sector.effects';
 import * as sectorsActions from './store/sector-drop-down/sector.actions';
 import * as subSectorsActions from './store/sub-sector-drop-down/sub-sector.actions';
+import { setFormDirty } from '../../../pages/crm/clients/store/client-form/client-form.actions';
 @Component({
   selector: 'app-form',
   standalone: false,
   templateUrl: './form.component.html',
   styleUrl: './form.component.scss',
 })
-export class FormComponent {
+export class FormComponent implements OnInit, OnDestroy {
   @Input() formGroup!: FormGroup;
   companyLegalDetail: CompanyLegalDetails = {};
 
@@ -369,12 +384,8 @@ export class FormComponent {
   date21 = '09/08/1997';
   date22 = '09/08/1997';
   //inputs
-  // @Input() title!: string;
   @Input() titleIndividual!: string;
   @Input() descriptionIndividual!: string;
-  // @Input() addClient!: boolean;
-  // @Input() description!: string;
-  // @Input() addClientShowMain!: boolean;
   @Input() addAddressShowMain!: boolean;
   @Input() clientOnboardingCompanyShowMain!: boolean;
   @Input() clientOnboardingIndividualShowMain!: boolean;
@@ -383,9 +394,6 @@ export class FormComponent {
   @Input() addSalesShowMain!: boolean;
   @Input() addPhoneNumbersShowMain!: boolean;
   @Input() addContactPersonShowMain!: boolean;
-  // @Input() addClientShowLegal!: boolean;
-  // @Input() addClientShowBusiness!: boolean;
-  // @Input() addClientShowIndividual!: boolean;
   @Input() clientOnboarding!: boolean;
   @Input() clientOnboardingShowIndividual!: boolean;
   @Input() addTaxAuthorityOfficeShowMain!: boolean;
@@ -487,18 +495,21 @@ export class FormComponent {
   filteredSubSectors$!: Observable<SubSectors[]>;
   legalFormLaws$: Observable<LegalFormLaw[]> = this.facade.legalFormLaws$;
   legalForms$ = this.facadeLegalForms.legalForms$;
+  private sub!: Subscription;
+
   constructor(
     private router: Router,
     private store: Store,
     private facade: LegalFormLawFacade,
-    private facadeLegalForms: LegalFormFacade,
-    private sector: SectorEffects,
-    private subSector: SubSectorEffects
+    private facadeLegalForms: LegalFormFacade
   ) {}
 
   ngOnInit() {
-    // this.store.dispatch(loadSectors());
-    // this.store.dispatch(loadSubSectors());
+    this.sub = this.formGroup.valueChanges
+      .pipe(debounceTime(300))
+      .subscribe(() => {
+        this.store.dispatch(setFormDirty({ dirty: this.formGroup.dirty }));
+      });
 
     this.sectorsSafe$ = this.store.select(selectAllSectors);
     // Combine sectorId changes with all sub-sectors
@@ -770,6 +781,9 @@ export class FormComponent {
       this.facade.loadLegalFormLaws();
       this.facadeLegalForms.loadLegalForms();
     }
+  }
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
   onLegalFormLawSelectionChange(law: any) {
     this.selectedLegalFormLawId = law?.id || null;

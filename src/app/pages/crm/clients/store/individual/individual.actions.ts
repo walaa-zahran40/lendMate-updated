@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Individual } from '../../../../../shared/app.state';
+import { Individual } from './individual.state';
 
 // 🟡 Load individual for editing
 export const loadIndividual = createAction(

@@ -194,6 +194,12 @@
     .back-icon {
       content: url("/assets/images/shared/table/back.svg");
     }
+    .close-icon {
+      content: url("/assets/images/shared/download-popup/close.svg");
+    }
+    .closeIcon {
+      background: transparent !important;
+    }
     .p-button:not(:disabled):hover {
       background-color: var(--bg-transparent) !important;
     }

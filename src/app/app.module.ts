@@ -20,6 +20,7 @@ import { ViewPaymentMonthDaysComponent } from './pages/lookups/view-payment-mont
 import { ViewMeetingTypesComponent } from './pages/lookups/view-meeting-types/view-meeting-types.component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,8 +36,9 @@ import { StoreModule } from '@ngrx/store';
     NgbModule,
     SelectModule,
     FormsModule,
+    ConfirmDialogModule,
     ButtonModule,
-    StoreModule.forRoot({}),
+    StoreModule.forRoot({}, {}),
     EffectsModule.forRoot([]),
   ],
   providers: [

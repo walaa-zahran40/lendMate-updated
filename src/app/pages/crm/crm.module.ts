@@ -4,10 +4,6 @@ import { ClientsModule } from './clients/clients.module';
 import { LeasingMandatesModule } from './leasing-mandates/leasing-mandates.module';
 import { CrmRoutingModule } from './crm-routing.module';
 import { SharedModule } from '../../shared/shared.module';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
-import { SectorEffects } from '../../shared/components/form/store/sector-drop-down/sector.effects';
-import { sectorReducer } from '../../shared/components/form/store/sector-drop-down/sector.reducer';
 
 @NgModule({
   declarations: [],
@@ -17,8 +13,7 @@ import { sectorReducer } from '../../shared/components/form/store/sector-drop-do
     LeasingMandatesModule,
     CrmRoutingModule,
     SharedModule,
-    StoreModule.forFeature('sector', sectorReducer),
-    EffectsModule.forFeature([SectorEffects]),
   ],
+  providers: [],
 })
 export class CrmModule {}

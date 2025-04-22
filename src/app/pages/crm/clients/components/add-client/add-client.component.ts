@@ -133,7 +133,6 @@ export class AddClientComponent implements OnInit {
 
     // Check for an 'id' parameter to determine if we are in edit mode
     const idParam = this.route.snapshot.paramMap.get('id');
-    console.log('📌 Route Param ID:', idParam);
     if (idParam) {
       this.editMode = true;
       this.clientId = +idParam;
@@ -149,26 +148,17 @@ export class AddClientComponent implements OnInit {
       // Subscribe to the store to patch the form when data is loaded
       this.selectedClient$ = this.store.select(selectSelectedClient);
       this.selectedClient$.subscribe((client) => {
-        console.log('📥 Fetched client from store:', client);
         if (client) {
           if (!client.subSectorList) {
-            console.warn('⚠️ client.subSectorList is undefined');
           } else if (client.subSectorList.length === 0) {
-            console.warn('⚠️ client.subSectorList is empty');
           } else {
-            console.log(
-              '✅ subSectorList[0].sectorId:',
-              client.subSectorList[0]?.sectorId
-            );
           }
 
           this.patchForm(client);
         } else {
-          console.warn('⚠️ No client data available yet');
         }
       });
     } else {
-      console.warn('⚠️ No ID param found in route');
     }
   }
   buildForm(): void {
@@ -208,8 +198,6 @@ export class AddClientComponent implements OnInit {
       marketSize: [null, [Validators.min(0), Validators.required]],
       employeesNo: [null, [Validators.required, Validators.min(0)]],
     });
-
-    console.log('Form initialized:', this.addClientForm);
   }
   patchForm(client: any): void {
     const sectorId = client.subSectorList?.[0]?.sectorId;
@@ -245,11 +233,6 @@ export class AddClientComponent implements OnInit {
           legalFormId: client.legalFormId?.id || client.legalFormId,
           legalFormLawId: client.legalFormLawId?.id || client.legalFormLawId,
         });
-
-        console.log(
-          '✅ Final patched subSectorIdList:',
-          this.addClientForm.get('subSectorIdList')?.value
-        );
       });
   }
 
@@ -267,7 +250,6 @@ export class AddClientComponent implements OnInit {
       (error) => {
         const apiErrorMessage =
           error?.error?.message || 'An unexpected error occurred';
-        console.error('Error fetching legal forms:', apiErrorMessage);
       }
     );
   }
@@ -285,7 +267,6 @@ export class AddClientComponent implements OnInit {
       (error) => {
         const apiErrorMessage =
           error?.error?.message || 'An unexpected error occurred';
-        console.error('Error fetching legal form laws:', apiErrorMessage);
       }
     );
   }
@@ -311,7 +292,6 @@ export class AddClientComponent implements OnInit {
     }
 
     const formValue = this.addClientForm.value;
-    console.log('Form Value:', formValue);
     if (this.editMode) {
       const updatedClient = {
         ...formValue,
@@ -347,32 +327,20 @@ export class AddClientComponent implements OnInit {
         employeesNo: formValue.employeesNo,
         marketSize: formValue.marketSize,
       };
-      console.log('form', formValue);
       this.store.dispatch(createClient({ payload }));
     }
   }
 
   saveInfoIndividual() {
-    console.log('Form Valid:', this.addClientForm.valid);
-    console.log('Form Status:', this.addClientForm.status);
-    console.log('Form Errors:', this.addClientForm.errors);
-    console.log('Form Value:', this.addClientForm.value);
-
     Object.keys(this.addClientForm.controls).forEach((key) => {
       const control = this.addClientForm.get(key);
-      console.log(
-        `Control: ${key}, Valid: ${control?.valid}, Errors:`,
-        control?.errors
-      );
     });
 
     if (this.addClientForm.invalid) {
       this.addClientForm.markAllAsTouched();
-      console.log(this.addClientForm.errors);
       return;
     }
     const formValue = this.addClientForm.value;
-    console.log(formValue);
 
     const payload = {
       name: formValue.name,
@@ -404,13 +372,11 @@ export class AddClientComponent implements OnInit {
     if (event && event.value) {
       this.selectedClientType = event;
     } else {
-      console.error('Invalid Company Type selected:', event);
     }
   }
 
   onSectorChanged(sectorId: number) {
     this.selectedSectorId = sectorId;
-    console.log('✅ Sector changed in parent. New ID:', sectorId);
 
     this.store
       .select(selectAllSubSectors)
@@ -420,7 +386,6 @@ export class AddClientComponent implements OnInit {
       )
       .subscribe((filtered) => {
         this.subSectorsList = filtered;
-        console.log('✅ Sub-sectors updated after sector change:', filtered);
 
         // Clear selected sub-sectors to prevent stale values
         this.addClientForm.patchValue({ subSectorIdList: [] });

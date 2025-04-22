@@ -53,14 +53,8 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TooltipModule } from 'primeng/tooltip';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-import { LegalFormEffects } from './form/store/legal-forms/legal-form.effects';
-import { legalFormReducer } from './form/store/legal-forms/legal-form.reducer';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-import { SubSectorEffects } from './form/store/sub-sector-drop-down/sub-sector.effects';
-import { subSectorReducer } from './form/store/sub-sector-drop-down/sub-sector.reducer';
 
 @NgModule({
   declarations: [
@@ -121,10 +115,6 @@ import { subSectorReducer } from './form/store/sub-sector-drop-down/sub-sector.r
     TextareaModule,
     TieredMenuModule,
     PanelMenuModule,
-    StoreModule.forFeature('legalForm', legalFormReducer),
-    EffectsModule.forFeature([LegalFormEffects]),
-    StoreModule.forFeature('subSector', subSectorReducer),
-    EffectsModule.forFeature([SubSectorEffects]),
     ReactiveFormsModule,
   ],
   providers: [DatePipe, AsyncPipe, MessageService],

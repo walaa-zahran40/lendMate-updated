@@ -8,8 +8,14 @@
         styleClass="backIcon"
         *ngIf="backExists"
         (click)="goBack()"
-      ></p-button
-      >{{ header }}
+      ></p-button>
+      <p-button
+        icon="{{ closeIcon }}"
+        styleClass="closeIcon"
+        *ngIf="closeExists"
+        (click)="onCloseClick()"
+      ></p-button>
+      {{ header }}
       <span class="badge badge-warning" *ngIf="!viewOnly">Pending</span>
     </p>
   </ng-template>

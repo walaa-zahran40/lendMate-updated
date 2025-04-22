@@ -1,6 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { Location } from '@angular/common';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { confirmLeave } from '../../../pages/crm/clients/store/client-form/client-form.actions';
 
 @Component({
   selector: 'app-toolbar-form',
@@ -10,12 +13,18 @@ import { Location } from '@angular/common';
 })
 export class ToolbarFormComponent {
   items!: MenuItem[];
-  @Input() header!: string;
+  @Input() header!: string | boolean;
   @Input() backExists!: boolean;
   @Input() viewOnly!: boolean;
   @Input() backIcon!: string;
+  @Input() closeIcon!: string;
+  @Input() closeExists!: boolean;
 
-  constructor(private location: Location) {}
+  constructor(
+    private location: Location,
+    private router: Router,
+    private store: Store
+  ) {}
   ngOnInit() {
     this.items = [
       {
@@ -30,5 +39,9 @@ export class ToolbarFormComponent {
   }
   goBack() {
     this.location.back();
+  }
+
+  onCloseClick() {
+    this.store.dispatch(confirmLeave());
   }
 }

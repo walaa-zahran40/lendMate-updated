@@ -50,6 +50,13 @@ import { LegalFormEffects } from '../../../shared/components/form/store/legal-fo
 import { LegalFormLawEffects } from '../../../shared/components/form/store/legal-form-law/legal-form-law.effects';
 import { individualReducer } from './store/individual/individual.reducer';
 import { IndividualEffects } from './store/individual/individual.effects';
+import { LeaveEffects } from './store/client-form/client-form.effects';
+import { clientFormReducer } from './store/client-form/client-form.reducer';
+import { SectorEffects } from '../../../shared/components/form/store/sector-drop-down/sector.effects';
+import { sectorReducer } from '../../../shared/components/form/store/sector-drop-down/sector.reducer';
+import { SubSectorEffects } from '../../../shared/components/form/store/sub-sector-drop-down/sub-sector.effects';
+import { subSectorReducer } from '../../../shared/components/form/store/sub-sector-drop-down/sub-sector.reducer';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @NgModule({
   declarations: [
@@ -90,6 +97,7 @@ import { IndividualEffects } from './store/individual/individual.effects';
     StepperModule,
     ButtonModule,
     TabsModule,
+    ConfirmDialogModule,
     FileUploadModule,
     IconField,
     InputIcon,
@@ -104,6 +112,12 @@ import { IndividualEffects } from './store/individual/individual.effects';
     EffectsModule.forFeature([LegalFormEffects]),
     StoreModule.forFeature('individual', individualReducer),
     EffectsModule.forFeature([IndividualEffects]),
+    StoreModule.forFeature('clientForm', clientFormReducer),
+    EffectsModule.forFeature([LeaveEffects]),
+    StoreModule.forFeature('sector', sectorReducer),
+    EffectsModule.forFeature([SectorEffects]),
+    StoreModule.forFeature('subSector', subSectorReducer),
+    EffectsModule.forFeature([SubSectorEffects]),
   ],
 })
 export class ClientsModule {}

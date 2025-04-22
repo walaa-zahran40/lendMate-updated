@@ -1,7 +1,9 @@
 <app-toolbar-form
-  [header]="'Add a Client'"
-  [backIcon]="'back-icon'"
-  [backExists]="true"
+  [header]="editMode ? 'Edit Client' : 'Add Client'"
+  [backExists]="false"
+  [closeExists]="true"
+  [closeIcon]="'close-icon'"
+  [viewOnly]="editMode ? true : false"
 ></app-toolbar-form>
 
 <p-tabs value="0" styleClass="p-3">

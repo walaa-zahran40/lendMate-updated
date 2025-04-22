@@ -191,3 +191,24 @@ body {
     --side-menu: #f8f8fd;
   }
 }
+:host {
+  &::ng-deep {
+    .p-dialog-content {
+      flex-direction: column;
+    }
+  }
+}
+
+.p-dialog * {
+  width: 100%;
+}
+.p-dialog .p-dialog-close-button {
+  float: right;
+}
+.p-dialog .p-confirmdialog-accept-button:not(:disabled):hover,
+.p-dialog .p-confirmdialog-reject-button:not(:disabled):hover {
+  background: var(--p-button-primary-background) !important;
+}
+.p-dialog .p-dialog-content {
+  flex-direction: column;
+}
