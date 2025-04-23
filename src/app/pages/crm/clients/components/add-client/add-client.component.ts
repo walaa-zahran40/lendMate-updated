@@ -7,7 +7,7 @@ import {
   FormControl,
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { arabicOnlyValidator } from '../../../../../shared/validators/arabic-only.validator';
 import { positiveNumberValidator } from '../../../../../shared/validators/positive-only.validator';
 import { LegalFormService } from '../../services/legal-form.service';
@@ -35,6 +35,11 @@ import {
 import { SubSectors } from '../../../../../shared/interfaces/sub-sector.interface';
 import { selectAllSubSectors } from '../../../../../shared/components/form/store/sub-sector-drop-down/sub-sector.selectors';
 import { loadSubSectors } from '../../../../../shared/components/form/store/sub-sector-drop-down/sub-sector.actions';
+import {
+  createIndividual,
+  updateIndividual,
+} from '../../store/individual/individual.actions';
+import { IndividualFacade } from '../../store/individual/individual.facade';
 
 @Component({
   selector: 'app-add-client',
@@ -54,14 +59,14 @@ export class AddClientComponent implements OnInit {
   selectedClientType = null;
   dropdownClientTypeItems: any[] = [];
   company: boolean = false;
-  individual: boolean = false;
+  individual: any = false;
   subSectorList$ = this.store.select(selectSubSectorList);
   dropdownlegalLawItems: Sector[] = [];
   dropdownlegalFormLawItems: Sector[] = [];
   selectedClient$!: Observable<any>;
   sectorById$!: Observable<any>;
   public editMode: boolean = false;
-  public clientId: number | null = null;
+  public clientId: any = null;
   selectedLegalFormLawId: number | null = null;
   selectedLegalFormId: any;
   selectedSubSectorId: any;
@@ -73,7 +78,8 @@ export class AddClientComponent implements OnInit {
     private clientTypesFacade: ClientTypesFacade,
     private legalFormService: LegalFormService,
     private legalFormlawService: LegalFormLawService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private individualFacade: IndividualFacade
   ) {}
 
   ngOnInit() {
@@ -106,15 +112,11 @@ export class AddClientComponent implements OnInit {
       this.selectedClient$ = this.store.select(selectSelectedClient);
       this.selectedClient$.subscribe((client) => {
         if (client) {
-          if (!client.subSectorList) {
-          } else if (client.subSectorList.length === 0) {
-          } else {
-          }
-
           this.patchForm(client);
-        } else {
         }
       });
+      this.individualFacade.load(this.clientId);
+      this.individualFacade.selected$.subscribe((ind) => this.patchForm(ind));
     } else {
     }
   }
@@ -136,9 +138,18 @@ export class AddClientComponent implements OnInit {
     });
   }
   get identities(): FormArray {
-    return this.formGroup.get('identities') as FormArray;
+    return this.addClientFormIndividual.get('identities') as FormArray;
   }
-  private createIdentityGroup(): FormGroup {
+  addIdentity() {
+    this.identities.push(this.createIdentityGroup());
+  }
+
+  removeIdentity(i: number) {
+    if (this.identities.length > 1) {
+      this.identities.removeAt(i);
+    }
+  }
+  createIdentityGroup(): FormGroup {
     return this.fb.group({
       identificationNumber: ['', Validators.required],
       selectedIdentities: [[], Validators.required],
@@ -308,33 +319,44 @@ export class AddClientComponent implements OnInit {
   }
 
   saveInfoIndividual() {
-    if (this.addClientForm.invalid) {
-      this.addClientForm.markAllAsTouched();
+    if (this.addClientFormIndividual.invalid) {
+      this.addClientFormIndividual.markAllAsTouched();
       return;
     }
-    const formValue = this.addClientForm.value;
 
-    const payload = {
-      name: formValue.name,
-      nameAR: formValue.nameAR,
-      shortName: formValue.shortName,
-      businessActivity: formValue.businessActivity,
-      taxId: formValue.taxId,
-      legalFormId: Number(formValue.legalFormId?.id),
-      legalFormLawId: Number(formValue.legalFormLawId?.id),
-      isStampDuty: formValue.isStampDuty,
-      isIscore: formValue.isIscore,
-      clientTypeId: this.selectedClientType,
-      subSectorIdList: formValue.subSectorIdList.map((item: any) => item.id),
-      mainShare: formValue.mainShare,
-      establishedYear: formValue.establishedYear,
-      website: formValue.website,
-      marketShare: formValue.marketShare,
-      marketSize: formValue.marketSize,
-      employeesNo: formValue.employeesNo,
-    };
+    const formValue = this.addClientFormIndividual.value;
+    console.log('form Value individual', formValue);
 
-    this.store.dispatch(createClient({ payload }));
+    if (this.editMode) {
+      const updatedClient = {
+        ...formValue,
+        id: this.clientId,
+        clientTypeId: this.selectedClientType,
+        subSectorIdList: formValue.subSectorIdList,
+        sectorId: formValue.sectorId,
+      };
+      // delete updatedClient.sectorId;
+
+      this.individualFacade.update(this.individual, updatedClient);
+    } else {
+      console.log('form Value individual', formValue);
+      const payload = {
+        id: this.clientId,
+        name: formValue.nameEnglishIndividual,
+        nameAR: formValue.nameArabicIndividual,
+        shortName: formValue.shortNameIndividual,
+        businessActivity: formValue.businessActivityIndividual,
+        clientTypeId: this.selectedClientType,
+        sectorId: formValue.sectorId,
+        subSectorIdList: formValue.subSectorIdList,
+        emailIndividual: formValue.emailIndividual,
+        jobTitleIndividual: formValue.jobTitleIndividual,
+        dateOfBirthIndividual: formValue.dateOfBirthIndividual,
+        genderIndividual: formValue.genderIndividual,
+        identities: formValue.identities,
+      };
+      this.individualFacade.create(this.individual);
+    }
   }
   onLegalFormLawSelectionChange(selectedLaw: any) {
     this.selectedLegalFormLawId = selectedLaw?.id || null;

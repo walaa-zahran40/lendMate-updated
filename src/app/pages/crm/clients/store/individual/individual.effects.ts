@@ -1,49 +1,92 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as IndividualActions from './individual.actions';
+import { mergeMap, map, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { IndividualService } from '../../services/individual.service';
 
 @Injectable()
 export class IndividualEffects {
-  constructor(private actions$: Actions) {}
+  constructor(private actions$: Actions, private api: IndividualService) {}
 
-  loadIndividual$ = createEffect(() =>
+  loadIndividuals$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(IndividualActions.loadIndividual)
-      // switchMap(({ id }) =>
-      //   this.companyService.getIndividual(id).pipe(
-      //     map((individual) =>
-      //       IndividualActions.loadIndividualSuccess({ individual })
-      //     ),
-      //     catchError((error) =>
-      //       of(IndividualActions.loadIndividualFailure({ error }))
-      //     )
-      //   )
-      // )
+      ofType(IndividualActions.loadIndividuals),
+      mergeMap(({}) =>
+        this.api.getAll().pipe(
+          map((response) =>
+            IndividualActions.loadIndividualsSuccess({
+              items: response.items,
+              totalCount: response.totalCount,
+            })
+          ),
+          catchError((error) =>
+            of(IndividualActions.loadIndividualsFailure({ error }))
+          )
+        )
+      )
     )
   );
 
-  saveIndividual$ = createEffect(() =>
+  loadIndividual$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(IndividualActions.saveIndividual)
-      // mergeMap(({ individual }) => {
-      //   const request$ = individual.id
-      //     ? this.companyService.updateClientIndividualBusinessDetails(
-      //         individual.id,
-      //         individual
-      //       )
-      //     : this.companyService.createClientIndividualBusinessDetails(
-      //         individual
-      //       );
+      ofType(IndividualActions.loadIndividual),
+      mergeMap(({ id }) =>
+        this.api.getById(id).pipe(
+          map((individual) =>
+            IndividualActions.loadIndividualSuccess({ individual })
+          ),
+          catchError((error) =>
+            of(IndividualActions.loadIndividualFailure({ error }))
+          )
+        )
+      )
+    )
+  );
 
-      //   return request$.pipe(
-      //     map((saved) =>
-      //       IndividualActions.saveIndividualSuccess({ individual: saved })
-      //     ),
-      //     catchError((error) =>
-      //       of(IndividualActions.saveIndividualFailure({ error }))
-      //     )
-      //   );
-      // })
+  createIndividual$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(IndividualActions.createIndividual),
+      mergeMap(({ payload }) =>
+        this.api.create(payload).pipe(
+          map((individual) =>
+            IndividualActions.createIndividualSuccess({ individual })
+          ),
+          catchError((error) =>
+            of(IndividualActions.createIndividualFailure({ error }))
+          )
+        )
+      )
+    )
+  );
+
+  updateIndividual$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(IndividualActions.updateIndividual),
+      mergeMap(({ id, changes }) =>
+        this.api.update(id, changes).pipe(
+          map((individual) =>
+            IndividualActions.updateIndividualSuccess({ individual })
+          ),
+          catchError((error) =>
+            of(IndividualActions.updateIndividualFailure({ error }))
+          )
+        )
+      )
+    )
+  );
+
+  deleteIndividual$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(IndividualActions.deleteIndividual),
+      mergeMap(({ id }) =>
+        this.api.delete(id).pipe(
+          map(() => IndividualActions.deleteIndividualSuccess({ id })),
+          catchError((error) =>
+            of(IndividualActions.deleteIndividualFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

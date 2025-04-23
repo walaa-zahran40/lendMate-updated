@@ -124,6 +124,12 @@
         "
         [addClientShowIndividual]="true"
         [addClient]="true"
+        [sectorsList]="sectorsList"
+        [subSectorsList]="subSectorsList"
+        [selectedSectorId]="selectedSectorId"
+        (sectorChanged)="onSectorChanged($event)"
+        (removeIdentity)="removeIdentity($event)"
+        (addIdentity)="addIdentity()"
       ></app-form>
 
       <div class="row justify-end">

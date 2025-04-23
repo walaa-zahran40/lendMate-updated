@@ -110,14 +110,14 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     EffectsModule.forFeature([LegalFormLawEffects]),
     StoreModule.forFeature('legalForm', legalFormReducer),
     EffectsModule.forFeature([LegalFormEffects]),
-    StoreModule.forFeature('individual', individualReducer),
-    EffectsModule.forFeature([IndividualEffects]),
     StoreModule.forFeature('clientForm', clientFormReducer),
     EffectsModule.forFeature([LeaveEffects]),
     StoreModule.forFeature('sector', sectorReducer),
     EffectsModule.forFeature([SectorEffects]),
     StoreModule.forFeature('subSector', subSectorReducer),
     EffectsModule.forFeature([SubSectorEffects]),
+    StoreModule.forFeature('individual', individualReducer),
+    EffectsModule.forFeature([IndividualEffects]),
   ],
 })
 export class ClientsModule {}

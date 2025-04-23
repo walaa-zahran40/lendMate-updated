@@ -4,16 +4,26 @@ import { IndividualState } from './individual.state';
 export const selectIndividualState =
   createFeatureSelector<IndividualState>('individual');
 
-export const selectIndividual = createSelector(
+export const selectAllIndividuals = createSelector(
   selectIndividualState,
-  (state: IndividualState) => state.selectedIndividual
+  (state) => state.individuals
 );
-export const selectIsLoading = createSelector(
+export const selectTotalCount = createSelector(
+  selectIndividualState,
+  (state) => state.totalCount
+);
+
+export const selectSelectedIndividual = createSelector(
+  selectIndividualState,
+  (state) => state.selectedIndividual
+);
+
+export const selectLoading = createSelector(
   selectIndividualState,
   (state) => state.loading
 );
 
-export const selectIndividualError = createSelector(
+export const selectError = createSelector(
   selectIndividualState,
   (state) => state.error
 );

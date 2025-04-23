@@ -1,9 +1,3 @@
-export interface IndividualState {
-  selectedIndividual: Individual | null;
-  individuals: Individual[];
-  loading: boolean;
-  error: string | null;
-}
 export interface Individual {
   id: number;
   name: string;
@@ -15,11 +9,32 @@ export interface Individual {
   jobTitle: string;
   genderId: number;
   clientTypeId: number;
-  subSectorIdList: number[];
+  subSectorList: {
+    id: number;
+    name: string;
+    nameAR: string;
+    sectorId: number;
+  }[];
   clientIdentities: {
     id?: number;
     identificationNumber: string;
-    clientIdentityTypeId: number | null;
+    clientIdentityTypeId: number;
     isMain: boolean;
   }[];
 }
+
+export interface IndividualState {
+  individuals: Individual[];
+  totalCount: number;
+  selectedIndividual: Individual | null;
+  loading: boolean;
+  error: any;
+}
+
+export const initialIndividualState: IndividualState = {
+  individuals: [],
+  totalCount: 0,
+  selectedIndividual: null,
+  loading: false,
+  error: null,
+};

@@ -6,7 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CompanyLegalDetails } from '../../interfaces/company-legal-details.interface';
 import {
@@ -45,6 +45,8 @@ export interface IdentityEntry {
 export class FormComponent implements OnInit, OnDestroy {
   @Input() formGroup!: FormGroup;
   companyLegalDetail: CompanyLegalDetails = {};
+  @Output() addIdentity = new EventEmitter<void>();
+  @Output() removeIdentity = new EventEmitter<number>();
 
   @Input() applyReusable: boolean = false;
   @Input() title: string = '';
@@ -63,7 +65,6 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() legalFormId: number | null = null;
   selectedLegalForm: any;
   @Output() sectorChanged = new EventEmitter<number>();
-  public identities: any;
 
   sectorsSafe$!: Observable<Sectors[]>;
   onChange: (value: any) => void = () => {};
@@ -569,8 +570,8 @@ export class FormComponent implements OnInit, OnDestroy {
     this.selectedGovernments = [{ name: 'Giza', code: 'giza' }];
     this.selectedAreas = [{ name: 'Haram', code: 'haram' }];
     this.genders = [
-      { name: 'Male', code: 'male' },
-      { name: 'Female', code: 'female' },
+      { name: 'Male', id: 'male' },
+      { name: 'Female', id: 'female' },
     ];
     this.identityIndividual = [{ name: 'Identity', code: 'identity' }];
     this.addresses = [{ name: 'Address Type', code: 'adType' }];
@@ -749,19 +750,11 @@ export class FormComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
-  addIdentity() {
-    this.identities.push({
-      identificationNumber: '',
-      selectedIdentities: [],
-      isMain: false,
-    });
+
+  get identities(): FormArray {
+    return this.formGroup.get('identities') as FormArray;
   }
 
-  removeIdentity(i: number) {
-    if (this.identities.length > 1) {
-      this.identities.splice(i, 1);
-    }
-  }
   onSectorChange(event: any) {
     const selectedId = event.value;
     this.sectorsSafe$

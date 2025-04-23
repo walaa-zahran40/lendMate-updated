@@ -1252,24 +1252,43 @@
         Short Name is required.
       </small>
       <br />
-      <!-- Sector MultiSelect -->
-      <label for="sectorId">Select Sector<sup class="danger">*</sup></label>
-      <p-select
-        [options]="sectors"
-        optionLabel="name"
-        placeholder="Select Sector"
-        formControlName="sectorId"
-        optionValue="id"
-        (onChange)="onSectorChange($event)"
-        required
-        [ngClass]="{
-          'ng-invalid':
+      <!-- Sector  -->
+      <ng-container *ngIf="sectorsSafe$ | async as sectors">
+        <!-- Sector Dropdown -->
+        <label for="sectorDropdown"
+          >Select Sector<sup class="danger">*</sup></label
+        >
+
+        <p-select
+          [options]="sectors"
+          optionLabel="name"
+          placeholder="Select Sector"
+          formControlName="sectorId"
+          optionValue="id"
+          (onChange)="onSectorChange($event)"
+          required
+          [ngClass]="{
+            'ng-invalid':
+              formGroup.get('sectorId')?.invalid &&
+              (formGroup.get('sectorId')?.dirty ||
+                formGroup.get('sectorId')?.touched)
+          }"
+        >
+        </p-select>
+
+        <!-- Validation message -->
+        <small
+          class="p-error"
+          style="color: var(--custom-red)"
+          *ngIf="
             formGroup.get('sectorId')?.invalid &&
             (formGroup.get('sectorId')?.dirty ||
               formGroup.get('sectorId')?.touched)
-        }"
-      >
-      </p-select>
+          "
+        >
+          Sector is required.
+        </small>
+      </ng-container>
       <small
         class="p-error"
         *ngIf="
@@ -1432,15 +1451,15 @@
               placeholder="Identification Number"
               [ngClass]="{
                 'ng-invalid ng-dirty':
-                  formGroup.get('identificationNumber')?.invalid &&
-                  formGroup.get('identificationNumber')?.touched
+                  group.get('identificationNumber')?.invalid &&
+                  group.get('identificationNumber')?.touched
               }"
             />
             <small
               class="p-error d-block"
               *ngIf="
-                formGroup.get('identificationNumber')?.invalid &&
-                formGroup.get('identificationNumber')?.touched
+                group.get('identificationNumber')?.invalid &&
+                group.get('identificationNumber')?.touched
               "
             >
               Identification Number is required.
@@ -1466,15 +1485,15 @@
               class="m-0"
               [ngClass]="{
                 'ng-invalid ng-dirty':
-                  formGroup.get('identityIndividual')?.invalid &&
-                  formGroup.get('identityIndividual')?.touched
+                  group.get('selectedIdentities')?.invalid &&
+                  group.get('selectedIdentities')?.touched
               }"
             ></p-multiselect>
             <small
               class="p-error d-block"
               *ngIf="
-                formGroup.get('identityIndividual')?.invalid &&
-                formGroup.get('identityIndividual')?.touched
+                group.get('selectedIdentities')?.invalid &&
+                group.get('selectedIdentities')?.touched
               "
             >
               Identity is required.
@@ -1487,25 +1506,23 @@
             class="div-main flex items-center flex-column"
             style="margin-top: 25px"
           >
-            <label for="isMainIndividual" class="p-0">
+            <label for="isMain" class="p-0">
               Is Main<sup class="danger">*</sup>
             </label>
             <p-toggleswitch
-              formControlName="identity.isMain"
-              name="isMainIndividual"
+              formControlName="isMain"
+              name="isMain"
               required
               [ngClass]="{
                 'ng-invalid ng-dirty':
-                  formGroup.get('isMainIndividual')?.invalid &&
-                  formGroup.get('isMainIndividual')?.touched
+                  group.get('isMain')?.invalid && group.get('isMain')?.touched
               }"
             ></p-toggleswitch
             ><br />
             <small
               class="p-error"
               *ngIf="
-                formGroup.get('isMainIndividual')?.invalid &&
-                formGroup.get('isMainIndividual')?.touched
+                group.get('isMain')?.invalid && group.get('isMain')?.touched
               "
             >
               You must choose if this is main.
@@ -1519,7 +1536,7 @@
             type="button"
             icon="pi pi-plus"
             class="p-button-outlined p-button-sm"
-            (click)="addIdentity()"
+            (click)="addIdentity.emit()"
           ></button>
 
           <!-- 5) Remove this identity -->
@@ -1529,7 +1546,7 @@
             type="button"
             icon="pi pi-trash"
             class="p-button-danger p-button-sm"
-            (click)="removeIdentity(i)"
+            (click)="removeIdentity.emit(i)"
             *ngIf="identities.length > 1"
           ></button>
         </div>
