@@ -63,9 +63,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() legalFormId: number | null = null;
   selectedLegalForm: any;
   @Output() sectorChanged = new EventEmitter<number>();
-  public identities: IdentityEntry[] = [
-    { identificationNumber: '', selectedIdentities: [], isMain: false },
-  ];
+  public identities: any;
 
   sectorsSafe$!: Observable<Sectors[]>;
   onChange: (value: any) => void = () => {};
@@ -91,7 +89,6 @@ export class FormComponent implements OnInit, OnDestroy {
   value15: string | undefined;
   value16: string | undefined;
   value17: string | undefined;
-  value18: string | undefined;
   value19: string | undefined;
   value20: string | undefined;
   value21: string | undefined;
@@ -472,7 +469,7 @@ export class FormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.sub = this.formGroup.valueChanges
+    this.sub = this.formGroup?.valueChanges
       .pipe(debounceTime(300))
       .subscribe(() => {
         this.store.dispatch(setFormDirty({ dirty: this.formGroup.dirty }));
@@ -482,7 +479,7 @@ export class FormComponent implements OnInit, OnDestroy {
     // Combine sectorId changes with all sub-sectors
     this.filteredSubSectors$ = combineLatest([
       this.formGroup
-        .get('sectorId')!
+        ?.get('sectorId')!
         .valueChanges.pipe(startWith(this.formGroup.get('sectorId')!.value)),
       this.store.select(selectAllSubSectors),
     ]).pipe(
