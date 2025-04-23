@@ -1,11 +1,14 @@
 <p-table
+  selectionMode="checkbox"
   responsiveLayout="stack"
   [value]="tableData"
   *ngIf="tableData?.length > 0"
   scrollHeight="flex"
   [paginator]="paginator"
+  dataKey="id"
   [rows]="20"
   [showCurrentPageReport]="true"
+  [(selection)]="selectedRows"
   [rowsPerPageOptions]="[5, 10, 15, 20]"
   [first]="first"
   filterMode="menu"
@@ -14,7 +17,7 @@
 >
   <ng-template pTemplate="header" *ngIf="cols.length > 0">
     <tr class="border-1">
-      <th *ngIf="checkBox"><p-checkbox [binary]="true" /></th>
+      <th *ngIf="checkBox"><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
       <th *ngFor="let col of cols">
         {{ col.header }}
         <p-columnFilter
@@ -32,7 +35,9 @@
 
   <ng-template pTemplate="body" let-rowData *ngIf="cols.length > 0">
     <tr>
-      <td *ngIf="checkBox"><p-checkbox [binary]="true" /></td>
+      <td *ngIf="checkBox">
+        <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+      </td>
       <td *ngFor="let col of cols">
         <span class="p-column-title">{{ col.header }}</span>
         <span

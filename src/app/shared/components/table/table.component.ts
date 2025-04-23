@@ -26,7 +26,7 @@ export class TableComponent {
   @Input() tableData: any;
   @Input() cols: any[] = [];
   @Output() deleteClient = new EventEmitter<number>();
-
+  public selectedRows: any[] = [];
   @Input() col1Name!: string;
   @Input() col2Name!: string;
   @Input() col3Name!: string;
