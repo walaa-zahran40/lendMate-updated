@@ -94,12 +94,11 @@ export class AddClientComponent implements OnInit {
       legalFormLawId: [null, Validators.required],
       legalFormId: [null, Validators.required],
       isStampDuty: [null, Validators.required],
-      isIscore: [null, Validators.required],
-      mainShare: [null, [Validators.required, Validators.min(0)]],
+      isIscore: [null],
+      mainShare: [null, [Validators.min(0)]],
       establishedYear: [
         null,
         [
-          Validators.required,
           Validators.pattern(/^(19|20)\d{2}$/), // Valid years: 1900–2099
         ],
       ],
@@ -109,15 +108,11 @@ export class AddClientComponent implements OnInit {
           Validators.pattern(
             /^(https?:\/\/)?([\w\-]+\.)+[\w\-]{2,}(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/
           ),
-          Validators.required,
         ],
       ],
-      marketShare: [
-        null,
-        [Validators.required, Validators.min(0), Validators.max(100)],
-      ],
-      marketSize: [null, [Validators.min(0), Validators.required]],
-      employeesNo: [null, [Validators.required, Validators.min(0)]],
+      marketShare: [null, [Validators.min(0), Validators.max(100)]],
+      marketSize: [null, [Validators.min(0)]],
+      employeesNo: [null, [Validators.min(0)]],
     });
     this.store.select(selectAllSectors).subscribe((sectors) => {
       this.sectorsList = sectors || [];
@@ -170,15 +165,14 @@ export class AddClientComponent implements OnInit {
       shortName: ['', Validators.required],
       sectorId: [[], Validators.required],
       subSectorIdList: [[], Validators.required],
-      legalFormLawId: [null, Validators.required],
-      legalFormId: [null, Validators.required],
-      isStampDuty: [null, Validators.required],
-      isIscore: [null, Validators.required],
-      mainShare: [null, [Validators.required, Validators.min(0)]],
+      legalFormLawId: [null],
+      legalFormId: [null],
+      isStampDuty: [null],
+      isIscore: [null],
+      mainShare: [null, [Validators.min(0)]],
       establishedYear: [
         null,
         [
-          Validators.required,
           Validators.pattern(/^(19|20)\d{2}$/), // Valid years: 1900–2099
         ],
       ],
@@ -188,15 +182,11 @@ export class AddClientComponent implements OnInit {
           Validators.pattern(
             /^(https?:\/\/)?([\w\-]+\.)+[\w\-]{2,}(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/
           ),
-          Validators.required,
         ],
       ],
-      marketShare: [
-        null,
-        [Validators.required, Validators.min(0), Validators.max(100)],
-      ],
-      marketSize: [null, [Validators.min(0), Validators.required]],
-      employeesNo: [null, [Validators.required, Validators.min(0)]],
+      marketShare: [null, [Validators.min(0), Validators.max(100)]],
+      marketSize: [null, [Validators.min(0)]],
+      employeesNo: [null, [Validators.min(0)]],
     });
   }
   patchForm(client: any): void {

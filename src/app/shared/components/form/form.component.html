@@ -874,24 +874,12 @@
 
         <br />
         <p-toggleswitch formControlName="isIscore" name="isIscore" />&nbsp;
-        <label for="isIscore">Is Iscore?<sup class="danger">*</sup></label
-        ><br />
-        <small
-          class="p-error"
-          *ngIf="
-            formGroup.get('isIscore')?.hasError('required') &&
-            formGroup.get('isIscore')?.touched
-          "
-        >
-          Iscore is required.
-        </small>
+        <label for="isIscore">Is Iscore?</label><br />
       </ng-container>
 
       <!-- Legal Info -->
       <ng-container *ngIf="addClientShowLegal">
-        <label for="legalFormLawId"
-          >Legal Form Law<sup class="danger">*</sup></label
-        >
+        <label for="legalFormLawId">Legal Form Law</label>
 
         <p-select
           [options]="(legalFormLaws$ | async) || []"
@@ -902,16 +890,8 @@
           placeholder="Select Legal Form Law"
         ></p-select>
 
-        <small
-          class="p-error"
-          *ngIf="
-            formGroup.get('legalFormLawId')?.hasError('required') &&
-            formGroup.get('legalFormLawId')?.touched
-          "
-        >
-          Legal Form Law is required. </small
-        ><br />
-        <label for="legalFormId">Legal Form<sup class="danger">*</sup></label>
+        <br />
+        <label for="legalFormId">Legal Form</label>
 
         <p-select
           [options]="(legalForms$ | async) || []"
@@ -922,38 +902,19 @@
           placeholder="Select a LegalForm"
         ></p-select>
 
-        <small
-          class="p-error"
-          *ngIf="
-            formGroup.get('legalFormId')?.hasError('required') &&
-            formGroup.get('legalFormId')?.touched
-          "
-        >
-          Legal Form is required. </small
-        ><br />
+        <br />
         <p-toggleswitch
           formControlName="isStampDuty"
           name="isStampDuty"
         />&nbsp;
-        <label for="isStampDuty"
-          >Is Stamp Duty<sup class="danger">*</sup></label
-        >
+        <label for="isStampDuty">Is Stamp Duty</label>
         <br />
-        <small
-          class="p-error"
-          *ngIf="
-            formGroup.get('isStampDuty')?.hasError('required') &&
-            formGroup.get('isStampDuty')?.touched
-          "
-        >
-          Stamp Duty is required.
-        </small>
       </ng-container>
 
       <!-- Business Info -->
       <ng-container *ngIf="addClientShowBusiness">
         <!-- Main Share -->
-        <label for="mainShare">Main Share <sup class="danger">*</sup></label>
+        <label for="mainShare">Main Share </label>
         <input
           pInputText
           id="mainShare"
@@ -971,20 +932,13 @@
         >
           <small
             class="p-error"
-            *ngIf="formGroup.get('mainShare')?.errors?.['required']"
-            >Main Share is required.</small
-          >
-          <small
-            class="p-error"
             *ngIf="formGroup.get('mainShare')?.errors?.['min']"
             >Value cannot be negative.</small
           >
         </div>
 
         <!-- Established Year -->
-        <label for="establishedYear"
-          >Established Year <sup class="danger">*</sup></label
-        >
+        <label for="establishedYear">Established Year </label>
         <input
           pInputText
           id="establishedYear"
@@ -1002,18 +956,13 @@
         >
           <small
             class="p-error"
-            *ngIf="formGroup.get('establishedYear')?.errors?.['required']"
-            >Established year is required.</small
-          >
-          <small
-            class="p-error"
             *ngIf="formGroup.get('establishedYear')?.errors?.['pattern']"
             >Enter a valid year (e.g. 2005).</small
           >
         </div>
 
         <!-- Website -->
-        <label for="website">Website <sup class="danger">*</sup></label>
+        <label for="website">Website </label>
         <input
           pInputText
           type="url"
@@ -1021,19 +970,7 @@
           formControlName="website"
           placeholder="Website"
         />
-        <div
-          *ngIf="
-            formGroup.get('website')?.touched &&
-            formGroup.get('website')?.invalid
-          "
-          class="error-msg"
-        >
-          <small
-            class="p-error"
-            *ngIf="formGroup.get('website')?.errors?.['required']"
-            >Website is required</small
-          >
-        </div>
+
         <div
           *ngIf="
             formGroup.get('website')?.touched &&
@@ -1049,9 +986,7 @@
         </div>
 
         <!-- Market Share -->
-        <label for="marketShare"
-          >Market Share %<sup class="danger">*</sup></label
-        >
+        <label for="marketShare">Market Share %</label>
         <input
           pInputText
           min="0"
@@ -1070,11 +1005,6 @@
         >
           <small
             class="p-error"
-            *ngIf="formGroup.get('marketShare')?.errors?.['required']"
-            >Market share is required.</small
-          >
-          <small
-            class="p-error"
             *ngIf="formGroup.get('marketShare')?.errors?.['min']"
             >Cannot be negative.</small
           >
@@ -1086,7 +1016,7 @@
         </div>
 
         <!-- Market Size -->
-        <label for="marketSize">Market Size<sup class="danger">*</sup></label>
+        <label for="marketSize">Market Size</label>
         <input
           pInputText
           min="0"
@@ -1105,21 +1035,13 @@
         >
           <small
             class="p-error"
-            *ngIf="formGroup.get('marketSize')?.errors?.['required']"
-            >Market size is required.</small
-          >
-          <br />
-          <small
-            class="p-error"
             *ngIf="formGroup.get('marketSize')?.errors?.['min']"
             >Market size cannot be negative.</small
           >
         </div>
 
         <!-- Number of Employees -->
-        <label for="employeesNo"
-          >Number of Employees <sup class="danger">*</sup></label
-        >
+        <label for="employeesNo">Number of Employees </label>
         <input
           pInputText
           min="0"
@@ -1136,11 +1058,6 @@
           "
           class="error-msg"
         >
-          <small
-            class="p-error"
-            *ngIf="formGroup.get('employeesNo')?.errors?.['required']"
-            >Number of employees is required.</small
-          >
           <small
             class="p-error"
             *ngIf="formGroup.get('employeesNo')?.errors?.['min']"
