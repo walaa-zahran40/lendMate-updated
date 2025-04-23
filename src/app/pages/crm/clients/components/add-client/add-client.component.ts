@@ -24,10 +24,7 @@ import {
   selectSubSectorList,
   selectSelectedClient,
 } from '../../store/clients/clients.selectors';
-import {
-  selectAllSectors,
-  selectSelectedSector,
-} from '../../../../../shared/components/form/store/sector-drop-down/sector.selectors';
+import { selectAllSectors } from '../../../../../shared/components/form/store/sector-drop-down/sector.selectors';
 import {
   loadSectorById,
   loadSectors,
@@ -35,11 +32,8 @@ import {
 import { SubSectors } from '../../../../../shared/interfaces/sub-sector.interface';
 import { selectAllSubSectors } from '../../../../../shared/components/form/store/sub-sector-drop-down/sub-sector.selectors';
 import { loadSubSectors } from '../../../../../shared/components/form/store/sub-sector-drop-down/sub-sector.actions';
-import {
-  createIndividual,
-  updateIndividual,
-} from '../../store/individual/individual.actions';
 import { IndividualFacade } from '../../store/individual/individual.facade';
+import { IdentityFacade } from '../../store/identity/identity.facade';
 
 @Component({
   selector: 'app-add-client',
@@ -71,6 +65,12 @@ export class AddClientComponent implements OnInit {
   selectedLegalFormId: any;
   selectedSubSectorId: any;
   formGroup!: FormGroup;
+  identityOptions: {
+    id: number;
+    name: string;
+    nameAR: string;
+    isActive: boolean;
+  }[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -79,7 +79,8 @@ export class AddClientComponent implements OnInit {
     private legalFormService: LegalFormService,
     private legalFormlawService: LegalFormLawService,
     private route: ActivatedRoute,
-    private individualFacade: IndividualFacade
+    private individualFacade: IndividualFacade,
+    private identityFacade: IdentityFacade
   ) {}
 
   ngOnInit() {
@@ -119,6 +120,10 @@ export class AddClientComponent implements OnInit {
       this.individualFacade.selected$.subscribe((ind) => this.patchForm(ind));
     } else {
     }
+    this.identityFacade.loadAll();
+    this.identityFacade.identityTypes$.subscribe((list) => {
+      this.identityOptions = list;
+    });
   }
   buildFormIndividual() {
     this.addClientFormIndividual = this.fb.group({
@@ -197,7 +202,12 @@ export class AddClientComponent implements OnInit {
     });
   }
   patchForm(client: any): void {
-    const sectorId = client.subSectorList?.[0]?.sectorId;
+    console.log('🛠️ patchForm got:', client);
+    if (!client?.subSectorList?.length) {
+      console.warn('⚠️ no subSectorList to patch––skipping');
+      return;
+    }
+    const sectorId = client.subSectorList[0].sectorId;
     if (!sectorId) return;
 
     this.store.dispatch(loadSectorById({ id: sectorId }));
@@ -209,11 +219,10 @@ export class AddClientComponent implements OnInit {
         take(1),
         map((subs) => {
           const sectorSubs = subs.filter((s) => s.sectorId === sectorId);
-          const selectedIds = client.subSectorList.map((s: any) => s.id);
 
           // Add any missing selected subs (edge case where they don't exist in filtered list)
           const extraSelectedSubs = client.subSectorList.filter(
-            (s: any) => !sectorSubs.some((sub) => sub.id === s.id)
+            (s: any) => !sectorSubs.some((sub) => sub.id === s.sectorId)
           );
 
           return [...sectorSubs, ...extraSelectedSubs];
@@ -226,13 +235,52 @@ export class AddClientComponent implements OnInit {
         this.addClientForm.patchValue({
           ...client,
           sectorId,
-          subSectorIdList: client.subSectorList.map((s: any) => s.id),
+          subSectorIdList: client.subSectorList.map((s: any) => s.sectorId),
           legalFormId: client.legalFormId?.id || client.legalFormId,
           legalFormLawId: client.legalFormLawId?.id || client.legalFormLawId,
         });
       });
   }
+  // patchFormIndividual(client: any): void {
+  //   console.log('🛠️ patchForm got:', client);
+  //   if (!client?.subSectorList?.length) {
+  //     console.warn('⚠️ no subSectorList to patch––skipping');
+  //     return;
+  //   }
+  //   const sectorId = client.subSectorList[0].sectorId;
+  //   if (!sectorId) return;
 
+  //   this.store.dispatch(loadSectorById({ id: sectorId }));
+
+  //   this.store
+  //     .select(selectAllSubSectors)
+  //     .pipe(
+  //       filter((subs) => subs.length > 0),
+  //       take(1),
+  //       map((subs) => {
+  //         const sectorSubs = subs.filter((s) => s.sectorId === sectorId);
+
+  //         // Add any missing selected subs (edge case where they don't exist in filtered list)
+  //         const extraSelectedSubs = client.subSectorList.filter(
+  //           (s: any) => !sectorSubs.some((sub) => sub.id === s.sectorId)
+  //         );
+
+  //         return [...sectorSubs, ...extraSelectedSubs];
+  //       })
+  //     )
+  //     .subscribe((finalSubs) => {
+  //       this.subSectorsList = finalSubs;
+
+  //       // Then patch the form after options are available
+  //       this.addClientForm.patchValue({
+  //         ...client,
+  //         sectorId,
+  //         subSectorIdList: client.subSectorList.map((s: any) => s.sectorId),
+  //         legalFormId: client.legalFormId?.id || client.legalFormId,
+  //         legalFormLawId: client.legalFormLawId?.id || client.legalFormLawId,
+  //       });
+  //     });
+  // }
   fetchLegalForms(): void {
     this.legalFormService.getAllLegalForms().subscribe((response: any) => {
       this.dropdownlegalLawItems = [
@@ -341,21 +389,25 @@ export class AddClientComponent implements OnInit {
     } else {
       console.log('form Value individual', formValue);
       const payload = {
-        id: this.clientId,
         name: formValue.nameEnglishIndividual,
         nameAR: formValue.nameArabicIndividual,
         shortName: formValue.shortNameIndividual,
         businessActivity: formValue.businessActivityIndividual,
-        clientTypeId: this.selectedClientType,
+        clientTypeId: this.selectedClientType!,
         sectorId: formValue.sectorId,
         subSectorIdList: formValue.subSectorIdList,
-        emailIndividual: formValue.emailIndividual,
-        jobTitleIndividual: formValue.jobTitleIndividual,
-        dateOfBirthIndividual: formValue.dateOfBirthIndividual,
-        genderIndividual: formValue.genderIndividual,
-        identities: formValue.identities,
+        email: formValue.emailIndividual,
+        jobTitle: formValue.jobTitleIndividual,
+        birthDate: (formValue.dateOfBirthIndividual as Date).toISOString(),
+        genderId: formValue.genderIndividual,
+        clientIdentities: formValue.identities.map((i: any) => ({
+          id: i.id,
+          identificationNumber: i.identificationNumber,
+          clientIdentityTypeId: i.selectedIdentities[0], // or map all if multiple
+          isMain: i.isMain,
+        })),
       };
-      this.individualFacade.create(this.individual);
+      this.individualFacade.create(payload);
     }
   }
   onLegalFormLawSelectionChange(selectedLaw: any) {

@@ -1,5 +1,6 @@
+// individual.state.ts
 export interface Individual {
-  id: number;
+  id?: number;
   name: string;
   nameAR: string;
   shortName: string;
@@ -10,9 +11,9 @@ export interface Individual {
   genderId: number;
   clientTypeId: number;
   subSectorList: {
-    id: number;
-    name: string;
-    nameAR: string;
+    id?: number;
+    name?: string;
+    nameAR?: string;
     sectorId: number;
   }[];
   clientIdentities: {

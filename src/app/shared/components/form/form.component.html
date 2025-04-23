@@ -1289,15 +1289,7 @@
           Sector is required.
         </small>
       </ng-container>
-      <small
-        class="p-error"
-        *ngIf="
-          formGroup.get('sectorId')?.invalid &&
-          formGroup.get('sectorId')?.touched
-        "
-      >
-        Select Sector is required.
-      </small>
+
       <br />
       <!-- Sub Sector -->
       <label for="subSectorIdList"
@@ -1410,6 +1402,7 @@
       <p-select
         [options]="genders"
         name="genderIndividual"
+        formControlName="genderIndividual"
         required
         optionLabel="name"
         optionValue="id"

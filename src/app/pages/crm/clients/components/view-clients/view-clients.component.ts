@@ -38,8 +38,10 @@ export class ViewClientsComponent {
     this.facade.loadClients();
 
     this.clients$.pipe(takeUntil(this.destroy$)).subscribe((clients) => {
-      this.originalClients = clients;
-      this.filteredClients = [...clients]; // default to all
+      const sorted = [...clients].sort((a, b) => b?.id! - a?.id!); // replace with b.createdAt - a.createdAt if you have timestamps
+
+      this.originalClients = sorted;
+      this.filteredClients = [...sorted]; // default to all
     });
   }
 

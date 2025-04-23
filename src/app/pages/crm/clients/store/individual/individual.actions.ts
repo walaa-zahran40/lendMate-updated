@@ -1,7 +1,8 @@
+// individual.actions.ts
 import { createAction, props } from '@ngrx/store';
 import { Individual } from './individual.state';
 
-// ▶ Load all individuals (pagination if you like)
+// ▶ Load all individuals
 export const loadIndividuals = createAction(
   '[Individual/API] Load Individuals'
 );

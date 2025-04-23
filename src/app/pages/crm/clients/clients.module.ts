@@ -57,6 +57,8 @@ import { sectorReducer } from '../../../shared/components/form/store/sector-drop
 import { SubSectorEffects } from '../../../shared/components/form/store/sub-sector-drop-down/sub-sector.effects';
 import { subSectorReducer } from '../../../shared/components/form/store/sub-sector-drop-down/sub-sector.reducer';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { IdentityEffects } from './store/identity/identity.effects';
+import { identityReducer } from './store/identity/identity.reducer';
 
 @NgModule({
   declarations: [
@@ -118,6 +120,8 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     EffectsModule.forFeature([SubSectorEffects]),
     StoreModule.forFeature('individual', individualReducer),
     EffectsModule.forFeature([IndividualEffects]),
+    StoreModule.forFeature('identityTypes', identityReducer),
+    EffectsModule.forFeature([IdentityEffects]),
   ],
 })
 export class ClientsModule {}

@@ -20,7 +20,7 @@ export class IndividualFacade {
   load(id: number) {
     this.store.dispatch(IndividualActions.loadIndividual({ id }));
   }
-  create(payload: Individual) {
+  create(payload: any) {
     this.store.dispatch(IndividualActions.createIndividual({ payload }));
   }
   update(id: number, changes: Partial<Individual>) {

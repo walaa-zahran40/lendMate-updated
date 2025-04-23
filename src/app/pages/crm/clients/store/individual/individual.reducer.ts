@@ -1,3 +1,4 @@
+// individual.reducer.ts
 import { createReducer, on, Action } from '@ngrx/store';
 import * as IndividualActions from './individual.actions';
 import { IndividualState, initialIndividualState } from './individual.state';
@@ -52,7 +53,7 @@ const _individualReducer = createReducer(
   on(IndividualActions.createIndividualSuccess, (state, { individual }) => ({
     ...state,
     loading: false,
-    individuals: [...state.individuals, individual],
+    individuals: [individual, ...state.individuals],
     totalCount: state.totalCount + 1,
   })),
   on(IndividualActions.createIndividualFailure, (state, { error }) => ({

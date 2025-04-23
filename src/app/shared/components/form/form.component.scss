@@ -61,6 +61,9 @@
       background: var(--bg-transparent);
       color: inherit;
     }
+    .p-datepicker .p-datepicker-panel {
+      left: 0 !important;
+    }
     .p-multiselect-chip-item {
       margin-left: 10px;
     }

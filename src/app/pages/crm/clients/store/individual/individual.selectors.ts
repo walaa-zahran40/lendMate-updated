@@ -1,3 +1,4 @@
+// individual.selectors.ts
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { IndividualState } from './individual.state';
 
@@ -8,6 +9,7 @@ export const selectAllIndividuals = createSelector(
   selectIndividualState,
   (state) => state.individuals
 );
+
 export const selectTotalCount = createSelector(
   selectIndividualState,
   (state) => state.totalCount

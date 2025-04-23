@@ -1,18 +1,24 @@
+// individual.effects.ts
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as IndividualActions from './individual.actions';
-import { mergeMap, map, catchError } from 'rxjs/operators';
+import { mergeMap, map, catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { IndividualService } from '../../services/individual.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class IndividualEffects {
-  constructor(private actions$: Actions, private api: IndividualService) {}
+  constructor(
+    private actions$: Actions,
+    private api: IndividualService,
+    private router: Router
+  ) {}
 
   loadIndividuals$ = createEffect(() =>
     this.actions$.pipe(
       ofType(IndividualActions.loadIndividuals),
-      mergeMap(({}) =>
+      mergeMap(() =>
         this.api.getAll().pipe(
           map((response) =>
             IndividualActions.loadIndividualsSuccess({
@@ -56,7 +62,8 @@ export class IndividualEffects {
             of(IndividualActions.createIndividualFailure({ error }))
           )
         )
-      )
+      ),
+      tap(() => this.router.navigate(['/crm/clients/view-clients']))
     )
   );
 
@@ -72,7 +79,8 @@ export class IndividualEffects {
             of(IndividualActions.updateIndividualFailure({ error }))
           )
         )
-      )
+      ),
+      tap(() => this.router.navigate(['/crm/clients/view-clients']))
     )
   );
 

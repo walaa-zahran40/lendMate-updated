@@ -166,7 +166,6 @@ export class FormComponent implements OnInit, OnDestroy {
   selectedAddresses!: any;
   subSectorsIndividual!: any;
   selectedSubSectorsIndividual!: any;
-  identityIndividual!: any;
   selectedIdentityIndividual!: any;
   selectedIsActiveContactPerson!: any;
   areasContactPerson!: any;
@@ -461,6 +460,12 @@ export class FormComponent implements OnInit, OnDestroy {
   legalFormLaws$: Observable<LegalFormLaw[]> = this.facade.legalFormLaws$;
   legalForms$ = this.facadeLegalForms.legalForms$;
   private sub!: Subscription;
+  @Input() identityIndividual: {
+    id: number;
+    name: string;
+    nameAR: string;
+    isActive: boolean;
+  }[] = [];
 
   constructor(
     private router: Router,
@@ -570,10 +575,9 @@ export class FormComponent implements OnInit, OnDestroy {
     this.selectedGovernments = [{ name: 'Giza', code: 'giza' }];
     this.selectedAreas = [{ name: 'Haram', code: 'haram' }];
     this.genders = [
-      { name: 'Male', id: 'male' },
-      { name: 'Female', id: 'female' },
+      { name: 'Male', id: 1 },
+      { name: 'Female', id: 2 },
     ];
-    this.identityIndividual = [{ name: 'Identity', code: 'identity' }];
     this.addresses = [{ name: 'Address Type', code: 'adType' }];
     this.selectedAddresses = [{ name: 'Address Type', code: 'adType' }];
     this.countries = [
