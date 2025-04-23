@@ -1464,16 +1464,13 @@
             <label for="identityType" class="p-0">
               Select Identity<sup class="danger">*</sup>
             </label>
-            <p-multiselect
+            <p-select
               [options]="identityIndividual"
               formControlName="selectedIdentities"
               name="identityType"
               placeholder="Select Identity"
               optionLabel="name"
               optionValue="id"
-              display="chip"
-              [maxSelectedLabels]="999"
-              chipIcon="pi pi-times"
               required
               class="m-0"
               [ngClass]="{
@@ -1481,7 +1478,7 @@
                   group.get('selectedIdentities')?.invalid &&
                   group.get('selectedIdentities')?.touched
               }"
-            ></p-multiselect>
+            ></p-select>
             <small
               class="p-error d-block"
               *ngIf="

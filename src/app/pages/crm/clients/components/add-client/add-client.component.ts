@@ -403,7 +403,7 @@ export class AddClientComponent implements OnInit {
         clientIdentities: formValue.identities.map((i: any) => ({
           id: i.id,
           identificationNumber: i.identificationNumber,
-          clientIdentityTypeId: i.selectedIdentities[0], // or map all if multiple
+          clientIdentityTypeId: i.selectedIdentities,
           isMain: i.isMain,
         })),
       };
