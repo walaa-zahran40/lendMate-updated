@@ -1209,6 +1209,31 @@
         Business Activity is required.
       </small>
       <br />
+      <!--Short Name-->
+      <label for="shortNameIndividual"
+        >Short Name <sup class="danger">*</sup></label
+      >
+      <input
+        pInputText
+        name="shortNameIndividual"
+        formControlName="shortNameIndividual"
+        placeholder="Short Name"
+        [ngClass]="{
+          'ng-invalid ng-dirty':
+            formGroup.get('shortNameIndividual')?.invalid &&
+            formGroup.get('shortNameIndividual')?.touched
+        }"
+      />
+      <small
+        class="p-error"
+        *ngIf="
+          formGroup.get('shortNameIndividual')?.hasError('required') &&
+          formGroup.get('shortNameIndividual')?.touched
+        "
+      >
+        Short Name is required.
+      </small>
+      <br />
       <!-- Sector MultiSelect -->
       <label for="selectSectorIndividual"
         >Select Sector<sup class="danger">*</sup></label
@@ -1259,21 +1284,40 @@
         Select Sub Sector is required.
       </small>
       <br />
-      <!-- Tax ID -->
-      <label for="taxIdIndividual">Tax ID<sup class="danger">*</sup></label>
+      <!-- Email -->
+      <label for="emailIndividual">Email<sup class="danger">*</sup></label>
       <input
         pInputText
-        name="taxIdIndividual"
+        name="emailIndividual"
         required
         [(ngModel)]="value18"
-        #taxIdIndividual="ngModel"
+        #emailIndividual="ngModel"
         placeholder="Tax ID"
       />
       <small
         class="p-error"
-        *ngIf="taxIdIndividual.invalid && taxIdIndividual.touched"
+        *ngIf="emailIndividual.invalid && emailIndividual.touched"
       >
-        Tax ID is required.
+        Email is required.
+      </small>
+      <br />
+      <!--Job Title-->
+      <label for="jobTitleIndividual"
+        >Job Title<sup class="danger">*</sup></label
+      >
+      <input
+        pInputText
+        name="jobTitleIndividual"
+        required
+        [(ngModel)]="value18"
+        #jobTitleIndividual="ngModel"
+        placeholder="Tax ID"
+      />
+      <small
+        class="p-error"
+        *ngIf="jobTitleIndividual.invalid && jobTitleIndividual.touched"
+      >
+        Job Title is required.
       </small>
       <br />
       <!-- Date of Birth -->
@@ -1317,77 +1361,101 @@
       </small>
       <br />
       <!-- Identification Number -->
-      <div class="parent-individual">
-        <!-- Dynamic Identification Entries -->
-        <div
-          *ngFor="let identity of identities; let i = index"
-          class="parent-individual mt-2"
-        >
-          <div class="div4-individual">
-            <label for="identificationNumber{{ i }}"
-              >Identification Number<sup class="danger">*</sup></label
-            >
-            <input
-              pInputText
-              [(ngModel)]="identity.identificationNumber"
-              name="identificationNumber{{ i }}"
-              required
-              placeholder="Identification Number"
-              #identificationNumberRef="ngModel"
-            />
-            <small
-              class="p-error"
-              *ngIf="
-                identificationNumberRef.invalid &&
-                identificationNumberRef.touched
-              "
-            >
-              Identification Number is required.
-            </small>
-          </div>
-
-          <div class="div2-individual">
-            <label for="identityType{{ i }}"
-              >Select Identity<sup class="danger">*</sup></label
-            >
-            <p-multiselect
-              [options]="identityIndividual"
-              [(ngModel)]="identity.selectedIdentities"
-              name="identityType{{ i }}"
-              placeholder="Select Identity"
-              optionLabel="name"
-              display="chip"
-              [maxSelectedLabels]="999"
-              chipIcon="pi pi-times"
-              required
-              #identityTypeRef="ngModel"
-            ></p-multiselect>
-            <small
-              class="p-error"
-              *ngIf="identityTypeRef.invalid && identityTypeRef.touched"
-            >
-              Identity is required.
-            </small>
-          </div>
-
-          <div class="div3-individual">
-            <button
-              pButton
-              icon="pi pi-trash"
-              class="p-button-danger"
-              (click)="removeIdentity(i)"
-              *ngIf="identities.length > 1"
-            ></button>
-          </div>
-          <!-- Add Another Identity Button -->
-          <button
-            pButton
-            type="button"
-            icon="pi pi-plus"
-            (click)="addIdentity()"
-            class="p-button-outlined p-button-sm"
-          ></button>
+      <!-- Dynamic Identification Entries -->
+      <div
+        *ngFor="let identity of identities; let i = index"
+        class="parent2-individual2 mt-2 flex items-start gap-4 align-items-center flex-wrap"
+      >
+        <!-- 1) Identification Number -->
+        <div class="div-number flex-1 min-w-0">
+          <label for="identificationNumber{{ i }}" class="p-0">
+            Identification Number<sup class="danger">*</sup>
+          </label>
+          <input
+            pInputText
+            [(ngModel)]="identity.identificationNumber"
+            name="identificationNumber{{ i }}"
+            required
+            placeholder="Identification Number"
+            #identificationNumberRef="ngModel"
+          />
+          <small
+            class="p-error d-block"
+            *ngIf="
+              identificationNumberRef.invalid && identificationNumberRef.touched
+            "
+          >
+            Identification Number is required.
+          </small>
         </div>
+
+        <!-- 2) Select Identity -->
+        <div class="div-select flex-1 min-w-0">
+          <label for="identityType{{ i }}" class="p-0">
+            Select Identity<sup class="danger">*</sup>
+          </label>
+          <p-multiselect
+            [options]="identityIndividual"
+            [(ngModel)]="identity.selectedIdentities"
+            name="identityType{{ i }}"
+            placeholder="Select Identity"
+            optionLabel="name"
+            display="chip"
+            [maxSelectedLabels]="999"
+            chipIcon="pi pi-times"
+            required
+            #identityTypeRef="ngModel"
+            class="m-0"
+          ></p-multiselect>
+          <small
+            class="p-error d-block"
+            *ngIf="identityTypeRef.invalid && identityTypeRef.touched"
+          >
+            Identity is required.
+          </small>
+        </div>
+
+        <!-- 3) Is Main toggle -->
+        <!-- 3) Is Main toggle -->
+        <div
+          class="div-main flex items-center flex-column"
+          style="margin-top: 25px"
+        >
+          <label for="isMainIndividual{{ i }}" class="p-0">
+            Is Main<sup class="danger">*</sup>
+          </label>
+          <p-toggleswitch
+            [(ngModel)]="identity.isMain"
+            name="isMainIndividual{{ i }}"
+            #isMainRef="ngModel"
+            required
+          ></p-toggleswitch
+          ><br />
+          <small class="p-error" *ngIf="isMainRef.invalid && isMainRef.touched">
+            You must choose if this is main.
+          </small>
+        </div>
+
+        <!-- 4) Add another identity -->
+        <button
+          style="margin-top: 25px"
+          pButton
+          type="button"
+          icon="pi pi-plus"
+          class="p-button-outlined p-button-sm"
+          (click)="addIdentity()"
+        ></button>
+
+        <!-- 5) Remove this identity -->
+        <button
+          pButton
+          style="margin-top: 25px"
+          type="button"
+          icon="pi pi-trash"
+          class="p-button-danger p-button-sm"
+          (click)="removeIdentity(i)"
+          *ngIf="identities.length > 1"
+        ></button>
       </div>
     </form>
     <form action="" *ngIf="addClientGuarantorsShowIndividual">

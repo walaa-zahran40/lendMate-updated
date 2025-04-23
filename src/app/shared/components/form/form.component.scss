@@ -351,6 +351,7 @@
       padding-top: 5px;
       width: 100%;
     }
+
     .title {
       color: var(--filter-text);
     }
@@ -427,6 +428,14 @@
       }
       .margin-btm {
         margin: 10px 0px;
+      }
+      .parent2-individual2 {
+        flex-direction: column;
+        width: 100%;
+      }
+      .div-select,
+      .div-number {
+        width: 100%;
       }
     }
 

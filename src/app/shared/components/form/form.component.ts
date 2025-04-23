@@ -31,6 +31,11 @@ import { LegalForm } from '../../interfaces/legal-form.interface';
 import * as sectorsActions from './store/sector-drop-down/sector.actions';
 import * as subSectorsActions from './store/sub-sector-drop-down/sub-sector.actions';
 import { setFormDirty } from '../../../pages/crm/clients/store/client-form/client-form.actions';
+export interface IdentityEntry {
+  identificationNumber: string;
+  selectedIdentities: any[];
+  isMain: boolean;
+}
 @Component({
   selector: 'app-form',
   standalone: false,
@@ -58,53 +63,15 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() legalFormId: number | null = null;
   selectedLegalForm: any;
   @Output() sectorChanged = new EventEmitter<number>();
-  identities = [
-    {
-      identificationNumber: '',
-      selectedIdentities: [],
-    },
+  public identities: IdentityEntry[] = [
+    { identificationNumber: '', selectedIdentities: [], isMain: false },
   ];
-  addIdentity() {
-    this.identities.push({
-      identificationNumber: '',
-      selectedIdentities: [],
-    });
-    console.log(this.identities);
-  }
-  removeIdentity(index: number) {
-    this.identities.splice(index, 1);
-  }
+
   sectorsSafe$!: Observable<Sectors[]>;
   onChange: (value: any) => void = () => {};
   onTouched: () => void = () => {};
   @Output() selectionChanged = new EventEmitter<any>();
 
-  onSectorChange(event: any) {
-    const selectedId = event.value;
-    this.sectorsSafe$
-      .pipe(
-        take(1),
-        map((sectors) => sectors.find((s) => s.id === selectedId)),
-        filter((sector): sector is Sectors => !!sector)
-      )
-      .subscribe((sector) => {
-        this.value = selectedId;
-        this.onChange(this.value);
-        this.onTouched();
-        this.selectionChanged.emit(sector);
-        this.sectorChanged.emit(selectedId);
-      });
-  }
-
-  get subSectorList(): FormControl {
-    return this.formGroup.get('subSectorIdList') as FormControl;
-  }
-  get legalFormIdControl(): FormControl {
-    return this.formGroup.get('legalFormLawId') as FormControl;
-  }
-  get legalFormList(): FormControl {
-    return this.formGroup.get('legalFormId') as FormControl;
-  }
   //ngModel Values
   value: string | undefined;
   value1: string | undefined;
@@ -784,6 +751,45 @@ export class FormComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     this.sub.unsubscribe();
+  }
+  addIdentity() {
+    this.identities.push({
+      identificationNumber: '',
+      selectedIdentities: [],
+      isMain: false,
+    });
+  }
+
+  removeIdentity(i: number) {
+    if (this.identities.length > 1) {
+      this.identities.splice(i, 1);
+    }
+  }
+  onSectorChange(event: any) {
+    const selectedId = event.value;
+    this.sectorsSafe$
+      .pipe(
+        take(1),
+        map((sectors) => sectors.find((s) => s.id === selectedId)),
+        filter((sector): sector is Sectors => !!sector)
+      )
+      .subscribe((sector) => {
+        this.value = selectedId;
+        this.onChange(this.value);
+        this.onTouched();
+        this.selectionChanged.emit(sector);
+        this.sectorChanged.emit(selectedId);
+      });
+  }
+
+  get subSectorList(): FormControl {
+    return this.formGroup.get('subSectorIdList') as FormControl;
+  }
+  get legalFormIdControl(): FormControl {
+    return this.formGroup.get('legalFormLawId') as FormControl;
+  }
+  get legalFormList(): FormControl {
+    return this.formGroup.get('legalFormId') as FormControl;
   }
   onLegalFormLawSelectionChange(law: any) {
     this.selectedLegalFormLawId = law?.id || null;
