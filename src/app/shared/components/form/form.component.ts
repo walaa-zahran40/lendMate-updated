@@ -466,6 +466,7 @@ export class FormComponent implements OnInit, OnDestroy {
     nameAR: string;
     isActive: boolean;
   }[] = [];
+  @Input() maxDateOfBirth: Date = new Date(2006, 11, 31);
 
   constructor(
     private router: Router,

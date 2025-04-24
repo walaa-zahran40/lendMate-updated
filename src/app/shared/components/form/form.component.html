@@ -1298,17 +1298,21 @@
       <p-datepicker
         formControlName="dateOfBirthIndividual"
         name="dateOfBirthIndividual"
-        required
         placeholder="Date Of Birth"
         inputId="icondisplay"
         [showIcon]="true"
         [iconDisplay]="'input'"
+        [maxDate]="maxDateOfBirth"
+        [defaultDate]="maxDateOfBirth"
+        [readonlyInput]="true"
+        [yearNavigator]="true"
+        yearRange="1900:2006"
         [ngClass]="{
           'ng-invalid ng-dirty':
             formGroup.get('dateOfBirthIndividual')?.invalid &&
             formGroup.get('dateOfBirthIndividual')?.touched
         }"
-      ></p-datepicker>
+      />
       <small
         class="p-error"
         *ngIf="
@@ -1559,13 +1563,31 @@
             >Date of Birth<sup class="danger">*</sup></label
           >
           <p-datepicker
-            [(ngModel)]="date1"
-            [iconDisplay]="'input'"
-            [showIcon]="true"
+            formControlName="dateOfBirthIndividual"
+            name="dateOfBirthIndividual"
             placeholder="Date Of Birth"
             inputId="icondisplay"
-            name="dateOfBirthIndividual"
+            [showIcon]="true"
+            [iconDisplay]="'input'"
+            [maxDate]="maxDateOfBirth"
+            [readonlyInput]="true"
+            [yearNavigator]="true"
+            yearRange="1900:2006"
+            [ngClass]="{
+              'ng-invalid ng-dirty':
+                formGroup.get('dateOfBirthIndividual')?.invalid &&
+                formGroup.get('dateOfBirthIndividual')?.touched
+            }"
           />
+          <small
+            class="p-error"
+            *ngIf="
+              formGroup.get('dateOfBirthIndividual')?.invalid &&
+              formGroup.get('dateOfBirthIndividual')?.touched
+            "
+          >
+            Date of Birth is required.
+          </small>
         </div>
         <div class="col-sm">
           <label for="genderIndividual"
