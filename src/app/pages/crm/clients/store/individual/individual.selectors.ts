@@ -1,4 +1,3 @@
-// individual.selectors.ts
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { IndividualState } from './individual.state';
 

@@ -1,4 +1,3 @@
-// individual.state.ts
 export interface Individual {
   id?: number;
   name: string;

@@ -1,4 +1,3 @@
-// individual.actions.ts
 import { createAction, props } from '@ngrx/store';
 import { Individual } from './individual.state';
 

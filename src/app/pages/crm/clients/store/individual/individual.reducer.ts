@@ -1,4 +1,3 @@
-// individual.reducer.ts
 import { createReducer, on, Action } from '@ngrx/store';
 import * as IndividualActions from './individual.actions';
 import { IndividualState, initialIndividualState } from './individual.state';

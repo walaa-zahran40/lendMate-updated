@@ -170,11 +170,11 @@ export class AddClientComponent implements OnInit {
       shortName: ['', Validators.required],
       sectorId: [[], Validators.required],
       subSectorIdList: [[], Validators.required],
-      legalFormLawId: [0],
-      legalFormId: [0],
-      isStampDuty: [false],
-      isIscore: [false],
-      mainShare: [0, [Validators.min(0)]],
+      legalFormLawId: [null],
+      legalFormId: [null],
+      isStampDuty: [null],
+      isIscore: [null],
+      mainShare: [null, [Validators.min(0)]],
 
       establishedYear: [
         2000,
@@ -184,16 +184,16 @@ export class AddClientComponent implements OnInit {
         ],
       ],
       website: [
-        'https://walaazahran.com',
+        'mansor.com',
         [
           Validators.pattern(
             /^(https?:\/\/)?([\w\-]+\.)+[\w\-]{2,}(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/
           ),
         ],
       ],
-      marketShare: [0, [Validators.min(0), Validators.max(100)]],
-      marketSize: [0, [Validators.min(0)]],
-      employeesNo: [0, [Validators.min(0)]],
+      marketShare: [null, [Validators.min(0), Validators.max(100)]],
+      marketSize: [null, [Validators.min(0)]],
+      employeesNo: [null, [Validators.min(0)]],
     });
   }
   patchForm(client: any): void {
@@ -236,46 +236,7 @@ export class AddClientComponent implements OnInit {
         });
       });
   }
-  // patchFormIndividual(client: any): void {
-  //   console.log('🛠️ patchForm got:', client);
-  //   if (!client?.subSectorList?.length) {
-  //     console.warn('⚠️ no subSectorList to patch––skipping');
-  //     return;
-  //   }
-  //   const sectorId = client.subSectorList[0].sectorId;
-  //   if (!sectorId) return;
 
-  //   this.store.dispatch(loadSectorById({ id: sectorId }));
-
-  //   this.store
-  //     .select(selectAllSubSectors)
-  //     .pipe(
-  //       filter((subs) => subs.length > 0),
-  //       take(1),
-  //       map((subs) => {
-  //         const sectorSubs = subs.filter((s) => s.sectorId === sectorId);
-
-  //         // Add any missing selected subs (edge case where they don't exist in filtered list)
-  //         const extraSelectedSubs = client.subSectorList.filter(
-  //           (s: any) => !sectorSubs.some((sub) => sub.id === s.sectorId)
-  //         );
-
-  //         return [...sectorSubs, ...extraSelectedSubs];
-  //       })
-  //     )
-  //     .subscribe((finalSubs) => {
-  //       this.subSectorsList = finalSubs;
-
-  //       // Then patch the form after options are available
-  //       this.addClientForm.patchValue({
-  //         ...client,
-  //         sectorId,
-  //         subSectorIdList: client.subSectorList.map((s: any) => s.sectorId),
-  //         legalFormId: client.legalFormId?.id || client.legalFormId,
-  //         legalFormLawId: client.legalFormLawId?.id || client.legalFormLawId,
-  //       });
-  //     });
-  // }
   fetchLegalForms(): void {
     this.legalFormService.getAllLegalForms().subscribe((response: any) => {
       this.dropdownlegalLawItems = [
