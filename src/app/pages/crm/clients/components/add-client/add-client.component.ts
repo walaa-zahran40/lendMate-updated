@@ -170,35 +170,30 @@ export class AddClientComponent implements OnInit {
       shortName: ['', Validators.required],
       sectorId: [[], Validators.required],
       subSectorIdList: [[], Validators.required],
-      legalFormLawId: [null, Validators.required],
-      legalFormId: [null, Validators.required],
-      isStampDuty: [null, Validators.required],
-      isIscore: [null, Validators.required],
-      mainShare: [null, [Validators.required, Validators.min(0)]],
+      legalFormLawId: [0],
+      legalFormId: [0],
+      isStampDuty: [false],
+      isIscore: [false],
+      mainShare: [0, [Validators.min(0)]],
 
       establishedYear: [
-        null,
+        2000,
         [
-          Validators.required,
           Validators.pattern(/^(19|20)\d{2}$/), // Valid years: 1900–2099
           Validators.min(0),
         ],
       ],
       website: [
-        null,
+        'https://walaazahran.com',
         [
-          Validators.required,
           Validators.pattern(
             /^(https?:\/\/)?([\w\-]+\.)+[\w\-]{2,}(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/
           ),
         ],
       ],
-      marketShare: [
-        null,
-        [Validators.required, Validators.min(0), Validators.max(100)],
-      ],
-      marketSize: [null, [Validators.min(0), Validators.required]],
-      employeesNo: [null, [Validators.required, Validators.min(0)]],
+      marketShare: [0, [Validators.min(0), Validators.max(100)]],
+      marketSize: [0, [Validators.min(0)]],
+      employeesNo: [0, [Validators.min(0)]],
     });
   }
   patchForm(client: any): void {
