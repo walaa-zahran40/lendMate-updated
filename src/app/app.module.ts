@@ -6,8 +6,12 @@ import { AppComponent } from './app.component';
 import { PagesModule } from './pages/pages.module';
 import { SharedModule } from './shared/shared.module';
 import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
-import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import {
+  HTTP_INTERCEPTORS,
+  HttpClientModule,
+  provideHttpClient,
+} from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -21,6 +25,7 @@ import { ViewMeetingTypesComponent } from './pages/lookups/view-meeting-types/vi
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { LoaderInterceptor } from './shared/interceptors/loader.interceptor';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,19 +41,19 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     NgbModule,
     SelectModule,
     FormsModule,
+    HttpClientModule, // ← add this
+    BrowserAnimationsModule, // ← and this
     ConfirmDialogModule,
     ButtonModule,
     StoreModule.forRoot({}, {}),
     EffectsModule.forRoot([]),
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
+
     provideHttpClient(),
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true,
-    },
-    provideAnimationsAsync(),
+
     providePrimeNG({
       theme: {
         preset: Aura,

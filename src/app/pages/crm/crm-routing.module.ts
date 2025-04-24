@@ -142,6 +142,10 @@ const routes: Routes = [
     component: ViewUploadDocumentsComponent,
   },
   {
+    path: 'clients/view-upload-documents/:id',
+    component: ViewUploadDocumentsComponent,
+  },
+  {
     path: 'clients/view-address',
     component: ViewAddressComponent,
   },

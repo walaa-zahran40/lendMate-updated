@@ -1,32 +1,40 @@
 <div class="page-content">
   <app-toolbar-table
-    [title]="'Upload Documents'"
-    [labelBtn]="'Add a Document'"
-    [iconBtn]="''"
+    [title]="'Documents'"
+    [labelBtn]="'Add Document'"
+    [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
     [backExists]="true"
+    [customSpacing]="'custom-spacing'"
     [exports]="true"
+    (addBtn)="onAddDocument()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <div class="d-flex">
-    <p-iconfield iconPosition="left" styleClass="custom-search">
-      <p-inputicon styleClass="pi pi-search" />
-      <input type="text" pInputText placeholder="Search for a document" />
-    </p-iconfield>
-    <p-button icon="custom-icon" label="Document Filter" styleClass="filter" />
-  </div>
 
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col1Name]="'Document Name'"
-    [col2Name]="'Document Type'"
-    [col3Name]="'Expiry Date'"
-    [col4Name]="'Name EN'"
-    [col5Name]="'Name AR'"
-    [edit]="true"
-    [delete]="true"
-    [side]="false"
-    [checkBox]="true"
-    [viewUploadDocumentsTable]="true"
-  ></app-table>
+  <ng-container *ngIf="documents$ | async as documents">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredDocuments"
+      [edit]="true"
+      [delete]="true"
+      [side]="true"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewClientTable]="true"
+      (deleteClient)="onDeleteDocument($event)"
+      (editClient)="onEditDocument($event)"
+      (wizardBtn)="onAddSide($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
 </div>

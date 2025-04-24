@@ -30,7 +30,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ChipModule } from 'primeng/chip';
 import { StepperModule } from 'primeng/stepper';
 import { PanelMenuModule } from 'primeng/panelmenu';
-
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TableComponent } from './table/table.component';
 import { SideMenuComponent } from './side-menu/side-menu.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
@@ -55,6 +55,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TooltipModule } from 'primeng/tooltip';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { GlobalSpinnerComponent } from './global-spinner/global-spinner.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { MessageService } from 'primeng/api';
     CardComponent,
     ToolbarCardComponent,
     ToolbarCompoundComponent,
+    GlobalSpinnerComponent,
   ],
   imports: [
     CommonModule,
@@ -112,6 +114,7 @@ import { MessageService } from 'primeng/api';
     SliderModule,
     FormsModule,
     ToastModule,
+    ProgressSpinnerModule,
     TextareaModule,
     TieredMenuModule,
     PanelMenuModule,
@@ -129,6 +132,8 @@ import { MessageService } from 'primeng/api';
     ToolbarTableComponent,
     CardComponent,
     ToastModule,
+    GlobalSpinnerComponent,
+
     ToolbarCardComponent,
     ToolbarCompoundComponent,
   ],

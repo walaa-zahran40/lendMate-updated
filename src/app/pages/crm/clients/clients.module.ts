@@ -59,6 +59,8 @@ import { subSectorReducer } from '../../../shared/components/form/store/sub-sect
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { IdentityEffects } from './store/identity/identity.effects';
 import { identityReducer } from './store/identity/identity.reducer';
+import { clientFileReducer } from './store/client-file/client-file.reducer';
+import { ClientFileEffects } from './store/client-file/client-file.effects';
 
 @NgModule({
   declarations: [
@@ -122,6 +124,8 @@ import { identityReducer } from './store/identity/identity.reducer';
     EffectsModule.forFeature([IndividualEffects]),
     StoreModule.forFeature('identityTypes', identityReducer),
     EffectsModule.forFeature([IdentityEffects]),
+    StoreModule.forFeature('clientFile', clientFileReducer),
+    EffectsModule.forFeature([ClientFileEffects]),
   ],
 })
 export class ClientsModule {}
