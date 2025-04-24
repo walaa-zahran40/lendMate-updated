@@ -34,6 +34,7 @@ import { selectAllSubSectors } from '../../../../../shared/components/form/store
 import { loadSubSectors } from '../../../../../shared/components/form/store/sub-sector-drop-down/sub-sector.actions';
 import { IndividualFacade } from '../../store/individual/individual.facade';
 import { IdentityFacade } from '../../store/identity/identity.facade';
+import { Individual } from '../../store/individual/individual.state';
 
 @Component({
   selector: 'app-add-client',
@@ -71,7 +72,12 @@ export class AddClientComponent implements OnInit {
     nameAR: string;
     isActive: boolean;
   }[] = [];
-
+  public activeTabIndex = 0; // 0 = company, 1 = individual
+  public disableCompanyTab = false;
+  public disableIndividualTab = false;
+  individualCode!: string;
+  // You’ll look up the “Individual” type’s ID at runtime:
+  individualTypeId!: number;
   constructor(
     private fb: FormBuilder,
     private store: Store,
@@ -84,47 +90,119 @@ export class AddClientComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.buildFormIndividual();
+    // 0) reset everything
+    this.editMode = false;
+    this.activeTabIndex = 0;
+    this.disableCompanyTab = false;
+    this.disableIndividualTab = false;
+
+    // 1) build forms
     this.buildFormCompany();
+    this.buildFormIndividual();
+
+    // 2) grab the “Individual” code
     this.clientTypesFacade.loadClientTypes();
-    this.clientTypesFacade.types$.subscribe((types) => {
-      this.dropdownClientTypeItems = [...types];
-      this.selectedClientType = this.dropdownClientTypeItems[1]?.id;
-    });
+    this.clientTypesFacade.types$
+      .pipe(
+        filter((t) => t.length > 0),
+        take(1)
+      )
+      .subscribe((types) => {
+        const indivType = types.find(
+          (x) => x.name.toLowerCase() === 'individual'
+        )!;
+        this.individualCode = indivType.code;
+        this.selectedClientType = indivType.id;
 
-    this.store.select(selectAllSectors).subscribe((sectors) => {
-      this.sectorsList = sectors || [];
-    });
+        const idParam = this.route.snapshot.paramMap.get('id');
+        if (!idParam) {
+          // — add mode: company tab by default, **both tabs enabled**
+          this.activeTabIndex = 0;
+          this.disableCompanyTab = false;
+          this.disableIndividualTab = false;
+          return;
+        }
 
-    const idParam = this.route.snapshot.paramMap.get('id');
-    if (idParam) {
-      this.editMode = true;
-      this.clientId = +idParam;
-      this.company = true;
-      this.individual = false;
-      // Dispatch an action to load the client data for editing
-      this.store.dispatch(loadSectors());
-      this.store.dispatch(loadSubSectors());
+        // — edit mode:
+        this.editMode = true;
+        this.clientId = +idParam;
+        const typeParam = this.route.snapshot.queryParamMap.get('type') ?? '';
+        const isIndEdit = typeParam === this.individualCode;
 
-      // ✅ Now fetch the client
-      this.store.dispatch(loadClient({ clientId: this.clientId }));
+        if (isIndEdit) {
+          // ─── editing an individual ───
+          this.activeTabIndex = 1;
+          this.disableCompanyTab = true;
+          this.disableIndividualTab = false;
 
-      // Subscribe to the store to patch the form when data is loaded
-      this.selectedClient$ = this.store.select(selectSelectedClient);
-      this.selectedClient$.subscribe((client) => {
-        if (client) {
-          this.patchForm(client);
+          this.individualFacade.load(this.clientId);
+          this.individualFacade.selected$
+            .pipe(filter((i) => !!i))
+            .subscribe((ind) => this.patchFormIndividual(ind!));
+        } else {
+          // ─── editing a company ───
+          this.activeTabIndex = 0;
+          this.disableCompanyTab = false;
+          this.disableIndividualTab = true;
+
+          this.store.dispatch(loadClient({ clientId: this.clientId }));
+          this.store
+            .select(selectSelectedClient)
+            .pipe(filter((c) => !!c))
+            .subscribe((c) => this.patchForm(c!));
         }
       });
-      this.individualFacade.load(this.clientId);
-      this.individualFacade.selected$.subscribe((ind) => this.patchForm(ind));
-    } else {
-    }
+
+    // 3) kick off your other lookups...
+    this.store.dispatch(loadSectors());
+    this.store.dispatch(loadSubSectors());
     this.identityFacade.loadAll();
-    this.identityFacade.identityTypes$.subscribe((list) => {
-      this.identityOptions = list;
+    this.store
+      .select(selectAllSectors)
+      .subscribe((s) => (this.sectorsList = s));
+    this.identityFacade.identityTypes$.subscribe(
+      (l) => (this.identityOptions = l)
+    );
+  }
+
+  private patchFormIndividual(ind: Individual) {
+    // mirror what you do for patchForm, but target addClientFormIndividual…
+    this.subSectorsList = ind.subSectorList.map((s) => ({
+      id: s.id,
+      name: s.name,
+      nameAR: s.nameAR,
+      sectorId: s.sectorId,
+    }));
+    // Clear & rebuild the FormArray
+    const arr = this.addClientFormIndividual.get('identities') as FormArray;
+    arr.clear();
+
+    ind.clientIdentities.forEach((ci) =>
+      arr.push(
+        this.fb.group({
+          identificationNumber: [ci.identificationNumber, Validators.required],
+          // <-- scalar initial value
+          selectedIdentities: [ci.clientIdentityTypeId, Validators.required],
+          isMain: [ci.isMain, Validators.required],
+        })
+      )
+    );
+
+    this.addClientFormIndividual.patchValue({
+      nameEnglishIndividual: ind.name,
+      nameArabicIndividual: ind.nameAR,
+      businessActivityIndividual: ind.businessActivity,
+      shortNameIndividual: ind.shortName,
+      sectorId: ind.subSectorList[0]?.sectorId,
+      subSectorIdList: ind.subSectorList.map((s) => s.sectorId),
+      emailIndividual: ind.email,
+      jobTitleIndividual: ind.jobTitle,
+      dateOfBirthIndividual: new Date(ind.birthDate),
+      genderIndividual: ind.genderId,
+      // for the identities FormArray, you may need to clear out and recreate:
     });
   }
+
   buildFormIndividual() {
     this.addClientFormIndividual = this.fb.group({
       nameEnglishIndividual: ['', Validators.required],
@@ -172,8 +250,8 @@ export class AddClientComponent implements OnInit {
       subSectorIdList: [[], Validators.required],
       legalFormLawId: [null],
       legalFormId: [null],
-      isStampDuty: [null],
-      isIscore: [null],
+      isStampDuty: [false],
+      isIscore: [false],
       mainShare: [null, [Validators.min(0)]],
 
       establishedYear: [
@@ -332,16 +410,26 @@ export class AddClientComponent implements OnInit {
     console.log('form Value individual', formValue);
 
     if (this.editMode) {
-      const updatedClient = {
-        ...formValue,
-        id: this.clientId,
-        clientTypeId: this.selectedClientType,
-        subSectorIdList: formValue.subSectorIdList,
-        sectorId: formValue.sectorId,
+      const changes: Partial<Individual> = {
+        name: formValue.nameEnglishIndividual,
+        nameAR: formValue.nameArabicIndividual,
+        shortName: formValue.shortNameIndividual,
+        businessActivity: formValue.businessActivityIndividual,
+        email: formValue.emailIndividual,
+        jobTitle: formValue.jobTitleIndividual,
+        birthDate: (formValue.dateOfBirthIndividual as Date).toISOString(),
+        genderId: formValue.genderIndividual,
+        subSectorList: formValue.subSectorIdList.map((id: number) => ({
+          sectorId: id,
+        })),
+        clientIdentities: formValue.identities.map((i: any) => ({
+          identificationNumber: i.identificationNumber,
+          clientIdentityTypeId: i.selectedIdentities,
+          isMain: i.isMain,
+        })),
       };
-      // delete updatedClient.sectorId;
-
-      this.individualFacade.update(this.individual, updatedClient);
+      // pass the numeric clientId, not the whole object
+      this.individualFacade.update(this.clientId, changes);
     } else {
       console.log('form Value individual', formValue);
       const payload = {

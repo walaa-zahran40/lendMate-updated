@@ -21,7 +21,7 @@
   &::ng-deep {
     .p-button {
       flex-direction: var(--custom-flex-direction-row-reverse);
-      background: var(--custom-background-transparent);
+      background: var(--p-tabs-active-bar-background);
       border-radius: var(--custom-size-8);
       padding-top: var(--custom-size-8);
       padding-right: var(--custom-size-16);

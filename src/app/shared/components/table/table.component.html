@@ -40,25 +40,26 @@
       </td>
       <td *ngFor="let col of cols">
         <span class="p-column-title">{{ col.header }}</span>
-        <span
-          [ngClass]="{
-            'text-success':
-              (col.field === 'isActive' || col.field === 'isIscore') &&
-              rowData[col.field] === true,
-            'text-danger':
-              (col.field === 'isActive' || col.field === 'isIscore') &&
-              rowData[col.field] === false
-          }"
-          >{{ rowData[col.field] }}</span
-        >
+        <ng-container [ngSwitch]="col.field">
+          <!-- when it's your “Type” column, call getTypeLabel() -->
+          <span *ngSwitchCase="'clientTypeCode'">
+            {{ getTypeLabel(rowData.clientTypeCode) }}
+          </span>
+          <!-- otherwise just print the raw value -->
+          <span *ngSwitchDefault>
+            {{ rowData[col.field] }}
+          </span>
+        </ng-container>
       </td>
+      <!-- <td>{{ getTypeLabel(rowData.clientTypeCode) }}</td> -->
+
       <td class="imgs">
         <img
           src="/assets/images/shared/table/edit.svg"
           alt="edit"
           class="d-inline-block mx-2 my-2"
           *ngIf="edit"
-          (click)="onEditClient(rowData.id)"
+          (click)="editClient.emit(rowData)"
         />
         <img
           src="/assets/images/shared/table/delete.svg"

@@ -27,6 +27,7 @@ export class ViewClientsComponent {
     { field: 'businessActivity', header: 'Business Activity' },
     { field: 'isIscore', header: 'Iscore' },
     { field: 'taxId', header: 'Tax ID' },
+    { field: 'clientTypeCode', header: 'Type' },
   ];
   showDeleteModal: boolean = false;
   selectedClientId: number | null = null;
@@ -86,5 +87,10 @@ export class ViewClientsComponent {
   }
   onToggleFilters(value: boolean) {
     this.showFilters = value;
+  }
+  onEditClient(client: Client) {
+    this.router.navigate(['/crm/clients/add-client', client.id], {
+      queryParams: { type: client.clientTypeCode },
+    });
   }
 }

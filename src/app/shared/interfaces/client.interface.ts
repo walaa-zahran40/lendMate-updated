@@ -7,7 +7,9 @@ export interface Client {
   businessActivity?: string;
   code?: string;
   isIscore?: boolean;
+  clientTypeName?: string;
   clientTypeCode?: string;
+  clientTypeId?: number;
   shortName?: string;
   taxId?: number;
   isActive?: boolean;

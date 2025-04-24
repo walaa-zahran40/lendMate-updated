@@ -6,6 +6,7 @@ import * as FileSaver from 'file-saver';
 import pdfMake from 'pdfmake/build/pdfmake';
 import type { ContentText, TDocumentDefinitions } from 'pdfmake/interfaces';
 import { pdfMakeVfs } from '../../../../../scripts/pdfmake-vfs';
+import { Client } from '../../interfaces/client.interface';
 // Attach the VFS and font definitions
 (pdfMake as any).vfs = pdfMakeVfs;
 (pdfMake as any).fonts = {
@@ -110,6 +111,7 @@ export class TableComponent {
   @Input() viewClientGuarantorTable!: boolean;
   @Input() paginator: boolean = true;
   @Output() wizardBtn = new EventEmitter<void>();
+  @Output() editClient = new EventEmitter<Client>();
 
   checked: boolean = false;
   first2: number = 0;
@@ -239,7 +241,15 @@ export class TableComponent {
     this.currentPage = event.first / event.rows; // Calculate page index
     this.rows = event.rows; // Update rows per page
   }
-  onEditClient(clientId: number) {
-    this.router.navigate(['/crm/clients/add-client', clientId]);
+
+  getTypeLabel(code: string) {
+    switch (code) {
+      case 'CT-1':
+        return 'Company';
+      case 'CT-2':
+        return 'Individual';
+      default:
+        return code;
+    }
   }
 }

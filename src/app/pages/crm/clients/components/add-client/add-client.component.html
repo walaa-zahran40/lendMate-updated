@@ -7,9 +7,9 @@
 ></app-toolbar-form>
 
 <p-tabs value="0" styleClass="p-3">
-  <p-tablist *ngIf="addClient">
-    <p-tab value="0" [disabled]="individual">Company</p-tab>
-    <p-tab value="1" [disabled]="company">Individual</p-tab>
+  <p-tablist>
+    <p-tab value="0" [disabled]="disableCompanyTab">Company</p-tab>
+    <p-tab value="1" [disabled]="disableIndividualTab">Individual</p-tab>
   </p-tablist>
 
   <p-tabpanels>
@@ -134,11 +134,9 @@
       ></app-form>
 
       <div class="row justify-end">
-        <div
-          class="col-sm-12 col-md-6 d-flex justify-end margin-top"
-          (click)="saveInfoIndividual()"
-        >
+        <div class="col-sm-12 col-md-6 d-flex justify-end margin-top">
           <p-button
+            (click)="saveInfoIndividual()"
             label="Save Information"
             class="custom-save m-0 float-right"
           ></p-button>

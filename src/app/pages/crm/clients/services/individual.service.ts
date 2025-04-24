@@ -11,7 +11,8 @@ export interface Paginated<T> {
   providedIn: 'root',
 })
 export class IndividualService {
-  private baseUrl = 'https://192.168.10.67:7070/api';
+  private baseUrl =
+    'https://192.168.10.67:7070/api/ClientIndividualBusinessDetails';
 
   constructor(private http: HttpClient) {}
 
@@ -20,22 +21,17 @@ export class IndividualService {
       `${this.baseUrl}/ClientIndividualBusinessDetails/GetAllClientIndividualBusinessDetails`
     );
   }
-  getById(id: number) {
-    return this.http.get<Individual>(
-      `${this.baseUrl}/ClientIndividualBusinessDetails/${id}`
-    );
+  getById(id: number): Observable<Individual> {
+    return this.http.get<Individual>(`${this.baseUrl}/${id}`);
   }
-  create(body: Individual) {
+  create(body: Partial<Individual>) {
     return this.http.post<Individual>(
-      `${this.baseUrl}/ClientIndividualBusinessDetails/CreateClientIndividualBusinessDetails`,
+      `${this.baseUrl}/CreateClientIndividualBusinessDetails`,
       body
     );
   }
-  update(id: number, body: Partial<Individual>) {
-    return this.http.put<Individual>(
-      `${this.baseUrl}/ClientIndividualBusinessDetails/${id}`,
-      body
-    );
+  update(id: number, body: Partial<Individual>): Observable<Individual> {
+    return this.http.put<Individual>(`${this.baseUrl}/${id}`, body);
   }
   delete(id: number) {
     return this.http.delete<void>(
