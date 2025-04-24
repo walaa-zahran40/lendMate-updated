@@ -74,6 +74,10 @@ const routes: Routes = [
     component: UploadDocumentsComponent,
   },
   {
+    path: 'clients/add-upload-documents/:id',
+    component: UploadDocumentsComponent,
+  },
+  {
     path: 'clients/add-address',
     component: AddAddressComponent,
   },
