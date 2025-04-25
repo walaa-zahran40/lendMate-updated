@@ -13,7 +13,14 @@
     (exportExcel)="tableRef.exportToExcel()"
     (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-
+  <!-- [col1Name]="'Client Name EN'"
+  [col2Name]="'Client Name AR'"
+  [col3Name]="'Details English'"
+  [col4Name]="'Details AR'"
+  [col5Name]="'Address Type '"
+  [col6Name]="'Area '"
+  [col7Name]="'IsMain'"
+  [col8Name]="'IsActive'" -->
   <ng-container *ngIf="addresses$ | async as addresses">
     <app-table
       #tableRef
