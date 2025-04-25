@@ -4,6 +4,8 @@ import { ClientFileState, initialClientFileState } from './client-file.state';
 
 export const clientFileReducer = createReducer(
   initialClientFileState,
+
+  // — loading all files unchanged —
   on(ClientFileActions.loadClientFiles, (state) => ({
     ...state,
     loading: true,
@@ -19,6 +21,8 @@ export const clientFileReducer = createReducer(
     loading: false,
     error,
   })),
+
+  // — loading by clientId unchanged —
   on(ClientFileActions.loadClientFilesByClientId, (state) => ({
     ...state,
     loading: true,
@@ -41,15 +45,18 @@ export const clientFileReducer = createReducer(
     })
   ),
 
+  // — upload start sets uploading flag —
   on(ClientFileActions.uploadClientFile, (state) => ({
     ...state,
     uploading: true,
     error: null,
   })),
-  on(ClientFileActions.uploadClientFileSuccess, (state, { response }) => ({
+  // ◀️ upload success now receives { document, clientId }
+  on(ClientFileActions.uploadClientFileSuccess, (state, { document }) => ({
     ...state,
     uploading: false,
-    response,
+    // append the new document into the list
+    documents: [...state.documents, document],
   })),
   on(ClientFileActions.uploadClientFileFailure, (state, { error }) => ({
     ...state,
@@ -57,11 +64,13 @@ export const clientFileReducer = createReducer(
     error,
   })),
 
+  // — delete start sets deleting flag —
   on(ClientFileActions.deleteClientFile, (state) => ({
     ...state,
     deleting: true,
     error: null,
   })),
+  // ◀️ delete success receives { id, clientId }
   on(ClientFileActions.deleteClientFileSuccess, (state, { id }) => ({
     ...state,
     deleting: false,

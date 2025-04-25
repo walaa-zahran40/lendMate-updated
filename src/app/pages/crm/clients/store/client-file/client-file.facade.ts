@@ -32,11 +32,12 @@ export class ClientFileFacade {
     );
   }
 
-  uploadClientFile(formData: FormData): void {
-    this.store.dispatch(ClientFileActions.uploadClientFile({ formData }));
+  uploadClientFile(formData: FormData, clientId: number): void {
+    this.store.dispatch(
+      ClientFileActions.uploadClientFile({ formData, clientId })
+    );
   }
-
-  deleteClientFile(id: number): void {
-    this.store.dispatch(ClientFileActions.deleteClientFile({ id }));
+  deleteClientFile(id: number, clientId: number): void {
+    this.store.dispatch(ClientFileActions.deleteClientFile({ id, clientId }));
   }
 }

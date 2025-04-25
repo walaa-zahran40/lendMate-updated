@@ -74,7 +74,7 @@ const routes: Routes = [
     component: UploadDocumentsComponent,
   },
   {
-    path: 'clients/add-upload-documents/:id',
+    path: 'clients/add-upload-documents/:clientId',
     component: UploadDocumentsComponent,
   },
   {
@@ -142,7 +142,7 @@ const routes: Routes = [
     component: ViewUploadDocumentsComponent,
   },
   {
-    path: 'clients/view-upload-documents/:id',
+    path: 'clients/view-upload-documents/:clientId',
     component: ViewUploadDocumentsComponent,
   },
   {

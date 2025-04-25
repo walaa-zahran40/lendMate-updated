@@ -7,28 +7,20 @@ import { of } from 'rxjs';
 
 @Injectable()
 export class ClientFileEffects {
-  loadClientFiles$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ClientFileActions.loadClientFiles),
-      mergeMap(() =>
-        this.documentsService.getAllClientFiles().pipe(
-          map((documents) =>
-            ClientFileActions.loadClientFilesSuccess({ documents })
-          ),
-          catchError((error) =>
-            of(ClientFileActions.loadClientFilesFailure({ error }))
-          )
-        )
-      )
-    )
-  );
-  loadClientFilesByClientId$ = createEffect(() =>
+  constructor(
+    private actions$: Actions,
+    private documentsService: DocumentsService
+  ) {}
+
+  loadByClient$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ClientFileActions.loadClientFilesByClientId),
       mergeMap(({ clientId }) =>
         this.documentsService.getClientFilesByClientId(clientId).pipe(
-          map((documents) =>
-            ClientFileActions.loadClientFilesByClientIdSuccess({ documents })
+          map((docs) =>
+            ClientFileActions.loadClientFilesByClientIdSuccess({
+              documents: docs,
+            })
           ),
           catchError((error) =>
             of(ClientFileActions.loadClientFilesByClientIdFailure({ error }))
@@ -38,13 +30,17 @@ export class ClientFileEffects {
     )
   );
 
-  uploadClientFile$ = createEffect(() =>
+  uploadFile$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ClientFileActions.uploadClientFile),
-      mergeMap(({ formData }) =>
+      mergeMap(({ formData, clientId }) =>
         this.documentsService.uploadClientFile(formData).pipe(
-          map((response) =>
-            ClientFileActions.uploadClientFileSuccess({ response })
+          map((doc: any) =>
+            // assume backend returns the created Document
+            ClientFileActions.uploadClientFileSuccess({
+              document: doc,
+              clientId,
+            })
           ),
           catchError((error) =>
             of(ClientFileActions.uploadClientFileFailure({ error }))
@@ -54,12 +50,24 @@ export class ClientFileEffects {
     )
   );
 
-  deleteClientFile$ = createEffect(() =>
+  // whenever upload succeeds, reload
+  reloadAfterUpload$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClientFileActions.uploadClientFileSuccess),
+      map(({ clientId }) =>
+        ClientFileActions.loadClientFilesByClientId({ clientId })
+      )
+    )
+  );
+
+  deleteFile$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ClientFileActions.deleteClientFile),
-      mergeMap(({ id }) =>
+      mergeMap(({ id, clientId }) =>
         this.documentsService.deleteClientFile(id).pipe(
-          map(() => ClientFileActions.deleteClientFileSuccess({ id })),
+          map(() =>
+            ClientFileActions.deleteClientFileSuccess({ id, clientId })
+          ),
           catchError((error) =>
             of(ClientFileActions.deleteClientFileFailure({ error }))
           )
@@ -68,8 +76,13 @@ export class ClientFileEffects {
     )
   );
 
-  constructor(
-    private actions$: Actions,
-    private documentsService: DocumentsService
-  ) {}
+  // whenever delete succeeds, reload
+  reloadAfterDelete$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClientFileActions.deleteClientFileSuccess),
+      map(({ clientId }) =>
+        ClientFileActions.loadClientFilesByClientId({ clientId })
+      )
+    )
+  );
 }

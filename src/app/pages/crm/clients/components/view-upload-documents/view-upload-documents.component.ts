@@ -1,5 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { ClientFileFacade } from '../../store/client-file/client-file.facade';
@@ -10,60 +10,82 @@ import { Document } from '../../../../../shared/interfaces/document.interface';
   templateUrl: './view-upload-documents.component.html',
   styleUrl: './view-upload-documents.component.scss',
 })
-export class ViewUploadDocumentsComponent {
-  tableDataInside: Document[] = [];
-  first2: number = 0;
-  private destroy$ = new Subject<void>();
-  documents$ = this.facade.documents$;
-  rows: number = 10;
-  showFilters: boolean = false;
+export class ViewUploadDocumentsComponent implements OnInit, OnDestroy {
   @ViewChild('tableRef') tableRef!: TableComponent;
+  documents$ = this.facade.documents$;
+  private destroy$ = new Subject<void>();
+  clientId!: number;
+  originalDocuments: Document[] = [];
+  filteredDocuments: Document[] = [];
+  first2 = 0;
+  showFilters = false;
+  showDeleteModal: boolean = false;
+  selectedDocumentId: number | null = null;
 
   readonly colsInside = [
     { field: 'fileName', header: 'File Name' },
     { field: 'fileType', header: 'File Type' },
     { field: 'expiryDate', header: 'Expiry Date' },
   ];
-  showDeleteModal: boolean = false;
-  selectedDocumentId: number | null = null;
-  originalDocuments: Document[] = [];
-  filteredDocuments: Document[] = [];
 
-  constructor(private router: Router, private facade: ClientFileFacade) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private facade: ClientFileFacade
+  ) {}
 
   ngOnInit(): void {
-    // 1) trigger the load-all-documents action
-    this.facade.loadClientFiles();
+    this.clientId = +this.route.snapshot.paramMap.get('clientId')!;
+    // ▶️ only load this client’s files
+    this.facade.loadClientFilesByClientId(this.clientId);
 
-    // 2) subscribe to the documents$ slice of state
-    this.documents$.pipe(takeUntil(this.destroy$)).subscribe((documents) => {
-      console.log('raw documents payload:', documents);
-      // keep newest-first
-      const sorted = [...documents].sort((a, b) => b.id! - a.id!);
+    this.documents$.pipe(takeUntil(this.destroy$)).subscribe((docs) => {
+      const sorted = [...docs].sort((a, b) => b.id! - a.id!);
       this.originalDocuments = sorted;
       this.filteredDocuments = [...sorted];
     });
   }
 
-  ngOnDestroy(): void {
+  onAddDocument() {
+    this.router.navigate(['/crm/clients/add-upload-documents', this.clientId]);
+  }
+
+  // ViewUploadDocumentsComponent
+  onDeleteDocument(documentId: number): void {
+    this.facade.deleteClientFile(documentId, this.clientId);
+  }
+
+  onEditDocument(doc: any) {
+    this.router.navigate(['../add-upload-documents', this.clientId, doc.id], {
+      relativeTo: this.route,
+    });
+  }
+
+  onSearch(keyword: string) {
+    const lower = keyword.toLowerCase();
+    this.filteredDocuments = this.originalDocuments.filter((d) =>
+      Object.values(d).some((v) => v?.toString().toLowerCase().includes(lower))
+    );
+  }
+
+  onToggleFilters(val: boolean) {
+    this.showFilters = val;
+  }
+
+  ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
   }
-  onAddDocument() {
-    this.router.navigate(['/crm/clients/add-upload-documents']);
+  onAddSide(_documentId: any) {
+    // re-open the client wizard, passing the clientId
+    this.router.navigate([
+      '/crm/clients/client-activity-wizard',
+      this.clientId,
+    ]);
   }
-  onAddSide(clientId: any) {
-    this.router.navigate(['/crm/clients/client-activity-wizard', clientId]);
-  }
-
-  onDeleteDocument(documentId: number): void {
-    this.selectedDocumentId = documentId;
-    this.showDeleteModal = true;
-  }
-
   confirmDelete() {
     if (this.selectedDocumentId !== null) {
-      this.facade.deleteClientFile(this.selectedDocumentId);
+      this.facade.deleteClientFile(this.selectedDocumentId, this.clientId);
     }
     this.resetDeleteModal();
   }
@@ -75,21 +97,5 @@ export class ViewUploadDocumentsComponent {
   resetDeleteModal() {
     this.showDeleteModal = false;
     this.selectedDocumentId = null;
-  }
-  onSearch(keyword: string) {
-    const lower = keyword.toLowerCase();
-    this.filteredDocuments = this.originalDocuments.filter((document) =>
-      Object.values(document).some((val) =>
-        val?.toString().toLowerCase().includes(lower)
-      )
-    );
-  }
-  onToggleFilters(value: boolean) {
-    this.showFilters = value;
-  }
-  onEditDocument(document: any) {
-    this.router.navigate(['/crm/clients/add-upload-documents', document.id], {
-      queryParams: { type: document.fileId },
-    });
   }
 }

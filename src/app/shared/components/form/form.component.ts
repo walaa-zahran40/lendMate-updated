@@ -184,6 +184,7 @@ export class FormComponent implements OnInit, OnDestroy {
   selectedIsStampCompanyViewOnly!: any;
   stamps!: any;
   genders!: any;
+  expiryDate!: Date;
   selectedGenders!: any;
   countries!: any;
   selectedCountries!: any;
@@ -467,6 +468,15 @@ export class FormComponent implements OnInit, OnDestroy {
     isActive: boolean;
   }[] = [];
   @Input() maxDateOfBirth: Date = new Date(2006, 11, 31);
+  @Output() submitDocument = new EventEmitter<{
+    expiryDate: Date;
+    documentTypeIds: number[];
+    file: File;
+  }>();
+  @Output() onFileSelect = new EventEmitter<any>();
+  @Output() submitForm = new EventEmitter<void>();
+
+  selectedFile!: File;
 
   constructor(
     private router: Router,
@@ -484,16 +494,19 @@ export class FormComponent implements OnInit, OnDestroy {
 
     this.sectorsSafe$ = this.store.select(selectAllSectors);
     // Combine sectorId changes with all sub-sectors
-    this.filteredSubSectors$ = combineLatest([
-      this.formGroup
-        ?.get('sectorId')!
-        .valueChanges.pipe(startWith(this.formGroup.get('sectorId')!.value)),
-      this.store.select(selectAllSubSectors),
-    ]).pipe(
-      map(([sectorId, subSectors]) =>
-        subSectors.filter((s) => s.sectorId === sectorId)
-      )
-    );
+    const sectorCtrl = this.formGroup.get('sectorId');
+    if (sectorCtrl) {
+      this.filteredSubSectors$ = combineLatest([
+        this.formGroup
+          ?.get('sectorId')!
+          .valueChanges.pipe(startWith(this.formGroup.get('sectorId')!.value)),
+        this.store.select(selectAllSubSectors),
+      ]).pipe(
+        map(([sectorId, subSectors]) =>
+          subSectors.filter((s) => s.sectorId === sectorId)
+        )
+      );
+    }
 
     this.selectedSectorsShowCompanyOnly = [
       { name: 'Technology', code: 'T' },
@@ -1037,5 +1050,22 @@ export class FormComponent implements OnInit, OnDestroy {
     this.onChange(value);
     this.onTouched();
     this.selectionChanged.emit(value);
+  }
+  onFileSelected(event: any) {
+    this.selectedFile = event.files[0]; // or however you pull the File from PrimeNG
+  }
+  onAddClick() {
+    if (
+      !this.expiryDate ||
+      !this.selectedDocuments.length ||
+      !this.selectedFile
+    ) {
+      return;
+    }
+    this.submitDocument.emit({
+      expiryDate: this.expiryDate,
+      documentTypeIds: this.selectedDocuments.map((d: { id: any }) => d.id),
+      file: this.selectedFile,
+    });
   }
 }

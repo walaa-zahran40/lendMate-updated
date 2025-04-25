@@ -24,28 +24,30 @@ export const loadClientFilesByClientIdFailure = createAction(
   '[Documents] Load Client Files By Client Failure',
   props<{ error: any }>()
 );
-// Upload a single file
+// upload with clientId
 export const uploadClientFile = createAction(
   '[Documents] Upload Client File',
-  props<{ formData: FormData }>()
+  props<{ formData: FormData; clientId: number }>()
 );
+
 export const uploadClientFileSuccess = createAction(
   '[Documents] Upload Client File Success',
-  props<{ response: any }>()
+  props<{ document: Document; clientId: number }>()
 );
 export const uploadClientFileFailure = createAction(
   '[Documents] Upload Client File Failure',
   props<{ error: any }>()
 );
 
-// Delete a file
+// delete with clientId
 export const deleteClientFile = createAction(
   '[Documents] Delete Client File',
-  props<{ id: number }>()
+  props<{ id: number; clientId: number }>()
 );
+
 export const deleteClientFileSuccess = createAction(
   '[Documents] Delete Client File Success',
-  props<{ id: number }>()
+  props<{ id: number; clientId: number }>()
 );
 export const deleteClientFileFailure = createAction(
   '[Documents] Delete Client File Failure',
