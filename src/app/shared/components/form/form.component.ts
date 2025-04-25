@@ -5,9 +5,11 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  ViewChild,
+  viewChild,
 } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CompanyLegalDetails } from '../../interfaces/company-legal-details.interface';
 import {
   take,
@@ -31,6 +33,7 @@ import { LegalForm } from '../../interfaces/legal-form.interface';
 import * as sectorsActions from './store/sector-drop-down/sector.actions';
 import * as subSectorsActions from './store/sub-sector-drop-down/sub-sector.actions';
 import { setFormDirty } from '../../../pages/crm/clients/store/client-form/client-form.actions';
+import { FileUpload } from 'primeng/fileupload';
 export interface IdentityEntry {
   identificationNumber: string;
   selectedIdentities: any[];
@@ -47,7 +50,7 @@ export class FormComponent implements OnInit, OnDestroy {
   companyLegalDetail: CompanyLegalDetails = {};
   @Output() addIdentity = new EventEmitter<void>();
   @Output() removeIdentity = new EventEmitter<number>();
-
+  id!: string;
   @Input() applyReusable: boolean = false;
   @Input() title: string = '';
   @Input() description: string = '';
@@ -156,6 +159,7 @@ export class FormComponent implements OnInit, OnDestroy {
   selectedCurrencyExchangeLookups!: any;
   selectedDocuments!: any;
   @Input() documents: any[] = [];
+  @ViewChild('fileUploader') fileUploader!: FileUpload;
 
   areas!: any;
   selectedAreas!: any;
@@ -483,10 +487,13 @@ export class FormComponent implements OnInit, OnDestroy {
     private router: Router,
     private store: Store,
     private facade: LegalFormLawFacade,
-    private facadeLegalForms: LegalFormFacade
+    private facadeLegalForms: LegalFormFacade,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
+    this.id = this.route.snapshot.paramMap.get('clientId')!;
+    console.log('Extracted ID:', this.id); // 🔍 debug
     this.sub = this.formGroup?.valueChanges
       .pipe(debounceTime(300))
       .subscribe(() => {
@@ -965,8 +972,10 @@ export class FormComponent implements OnInit, OnDestroy {
   viewPaymentTypes() {
     this.router.navigate(['/lookups/view-payment-types']);
   }
-  viewDocumentDetails() {
-    this.router.navigate(['/crm/clients/view-document-details']);
+  viewDocumentDetails(): void {
+    this.router.navigate(['/crm/clients/view-upload-documents'], {
+      queryParams: { id: this.id },
+    });
   }
   viewAssestTypes() {
     this.router.navigate(['/crm/clients/view-assest-types']);

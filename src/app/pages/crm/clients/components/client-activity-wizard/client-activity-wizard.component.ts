@@ -175,7 +175,9 @@ export class ClientActivityWizardComponent {
     ];
   }
   navigateTo(link: string) {
-    this.router.navigate([link, this.clientId]);
+    this.router.navigate([link], {
+      queryParams: { id: this.clientId },
+    });
   }
   navigateToInfo() {
     this.router.navigate(['/crm/clients/company-view-only']);

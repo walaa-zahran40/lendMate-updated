@@ -52,10 +52,26 @@
     .p-tabs {
       padding: var(--custom-padding-right-10);
     }
+    // .upload-form .p-button {
+    //   background: transparent !important;
+    // }
     .p-multiselect-chip-item {
       background-color: #f8f8fd;
       width: max-content;
       color: #0a69bb;
+    }
+    // .p-fileupload-header {
+    //   background: url(/assets/images/shared/forms/Logo.svg) !important;
+    //   background-repeat: no-repeat !important;
+    //   background-position: center center;
+    //   height: 50vh;
+    // }
+
+    .p-fileupload-choose-button {
+      visibility: hidden;
+    }
+    .p-fileupload-advanced {
+      border: none !important;
     }
     .p-multiselect-label.p-placeholder {
       background: var(--bg-transparent);
@@ -491,6 +507,28 @@
       }
     }
   }
+}
+.upload-div {
+  padding: 40px 10px;
+}
+.upload-file-div {
+  position: relative;
+}
+
+.custom-upload-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  border: 2px dashed var(--custom-color-grey-light);
+  background: transparent;
+  text-align: center;
 }
 h2 {
   font-family: var(--custom-font-family-regular);

@@ -35,9 +35,18 @@ export class ViewUploadDocumentsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.clientId = +this.route.snapshot.paramMap.get('clientId')!;
-    // ▶️ only load this client’s files
-    this.facade.loadClientFilesByClientId(this.clientId);
+    this.route.queryParams
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((params) => {
+        this.clientId = +params['id'];
+        if (!this.clientId || this.clientId === 0) {
+          console.error('Missing or invalid clientId in query params');
+          return;
+        }
+
+        // ▶️ only load this client’s files
+        this.facade.loadClientFilesByClientId(this.clientId);
+      });
 
     this.documents$.pipe(takeUntil(this.destroy$)).subscribe((docs) => {
       const sorted = [...docs].sort((a, b) => b.id! - a.id!);

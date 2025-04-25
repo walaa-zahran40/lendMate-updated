@@ -1884,7 +1884,11 @@
         </div>
       </div>
     </form>
-    <form [formGroup]="formGroup" *ngIf="uploadDocumentsShowMain">
+    <form
+      [formGroup]="formGroup"
+      *ngIf="uploadDocumentsShowMain"
+      class="upload-form"
+    >
       <label>Document Type<sup>*</sup></label>
       <p-select
         [options]="documents"
@@ -1895,17 +1899,22 @@
       >
       </p-select>
       <label>Expiry Date<sup>*</sup></label>
-      <p-datepicker formControlName="expiryDate" name="expiry"></p-datepicker>
-      <hr />
-      <div class="row">
+      <p-datepicker
+        formControlName="expiryDate"
+        name="expiry"
+        placeholder="Expiry Date"
+        inputId="icondisplay"
+        [showIcon]="true"
+        [iconDisplay]="'input'"
+      ></p-datepicker>
+
+      <div class="row upload-div">
         <div class="col-sm-3 p-0">
           <h2 class="m-0">Upload File</h2>
-          <p class="tab-panel-paragraph">
-            This image will be shown publicly as logo.
-          </p>
         </div>
-        <div class="col-sm-9 fileUploadDiv">
+        <div class="col-sm-9 upload-file-div">
           <p-fileUpload
+            #fileUploader
             name="file"
             [auto]="true"
             customUpload="true"
@@ -1913,7 +1922,13 @@
             [showUploadButton]="false"
             [showCancelButton]="false"
             accept=".pdf,.docx,.jpg"
-          />
+          ></p-fileUpload>
+
+          <!-- Add this custom div on top -->
+          <div class="custom-upload-overlay" (click)="fileUploader.choose()">
+            <span class="custom-icon"></span>
+            <span>Click or drag file to upload</span>
+          </div>
         </div>
       </div>
 

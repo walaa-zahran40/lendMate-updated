@@ -124,10 +124,9 @@ export class UploadDocumentsComponent implements OnInit {
           summary: 'Uploaded',
           detail: 'Document uploaded successfully',
         });
-        this.router.navigate([
-          `/crm/clients/view-upload-documents`,
-          this.clientId,
-        ]);
+        this.router.navigate(['/crm/clients/view-upload-documents'], {
+          queryParams: { id: this.clientId },
+        });
       });
   }
 }
