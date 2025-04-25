@@ -50,9 +50,7 @@ export class ClientFileFacade {
     );
   }
 
-  updateClientFile(id: number, formData: FormData, clientId: number) {
-    this.store.dispatch(
-      ClientFileActions.updateClientFile({ id, formData, clientId })
-    );
+  updateClientFile(id: number, payload: any) {
+    this.store.dispatch(ClientFileActions.updateClientFile({ id, payload }));
   }
 }

@@ -7,4 +7,5 @@ export interface Document {
   fileName: string;
   fileType?: any;
   fileTypeId?: any;
+  documentTypeName?: any;
 }

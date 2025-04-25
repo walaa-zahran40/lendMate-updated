@@ -42,7 +42,7 @@ export class DocumentsService {
   deleteClientFile(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}${id}`);
   }
-  updateClientFile(id: number, formData: FormData): Observable<any> {
-    return this.http.put(`${this.baseUrl}${id}`, formData);
+  updateClientFile(id: number, payload: FormData): Observable<any> {
+    return this.http.put(`${this.baseUrl}${id}`, payload);
   }
 }

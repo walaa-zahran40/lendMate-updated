@@ -91,7 +91,7 @@ export class ViewUploadDocumentsComponent implements OnInit, OnDestroy {
 
           return {
             ...doc,
-            fileType: this.getFileTypeName(fileTypeId),
+            fileType: doc.documentTypeName, // ✅ USE THIS, NOT getFileTypeName()
             expiryDate: doc.expiryDate
               ? new Date(doc.expiryDate).toLocaleDateString('en-GB')
               : '',
@@ -123,7 +123,23 @@ export class ViewUploadDocumentsComponent implements OnInit, OnDestroy {
 
   // ViewUploadDocumentsComponent
   onDeleteDocument(documentId: number): void {
-    this.facade.deleteClientFile(documentId, this.clientId);
+    this.selectedDocumentId = documentId;
+    this.showDeleteModal = true;
+  }
+  confirmDelete() {
+    if (this.selectedDocumentId !== null) {
+      this.facade.deleteClientFile(this.selectedDocumentId, this.clientId);
+    }
+    this.resetDeleteModal();
+  }
+
+  cancelDelete() {
+    this.resetDeleteModal();
+  }
+
+  resetDeleteModal() {
+    this.showDeleteModal = false;
+    this.selectedDocumentId = null;
   }
   onEditDocument(doc: any) {
     this.router.navigate([
@@ -154,20 +170,5 @@ export class ViewUploadDocumentsComponent implements OnInit, OnDestroy {
       '/crm/clients/client-activity-wizard',
       this.clientId,
     ]);
-  }
-  confirmDelete() {
-    if (this.selectedDocumentId !== null) {
-      this.facade.deleteClientFile(this.selectedDocumentId, this.clientId);
-    }
-    this.resetDeleteModal();
-  }
-
-  cancelDelete() {
-    this.resetDeleteModal();
-  }
-
-  resetDeleteModal() {
-    this.showDeleteModal = false;
-    this.selectedDocumentId = null;
   }
 }

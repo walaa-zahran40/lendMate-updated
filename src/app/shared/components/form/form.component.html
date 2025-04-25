@@ -1894,6 +1894,7 @@
         [options]="documents"
         optionLabel="name"
         optionValue="id"
+        [disabled]="editMode"
         formControlName="documentTypeIds"
         placeholder="Select document type"
       >
@@ -1916,6 +1917,7 @@
           <p-fileUpload
             #fileUploader
             name="file"
+            class="upload-delete"
             [auto]="true"
             customUpload="true"
             (onSelect)="onFileSelected($event)"
@@ -1923,17 +1925,18 @@
             [showCancelButton]="false"
             accept=".pdf,.docx,.jpg"
           ></p-fileUpload>
-          <div
-            *ngIf="!formGroup.get('file')?.value && selectedFile?.name"
-            class="mt-2"
-          >
+          <div *ngIf="editMode" class="mt-2">
             <span class="text-muted">
               Previously uploaded file:
               <strong>{{ selectedFile.name }}</strong>
             </span>
           </div>
           <!-- Add this custom div on top -->
-          <div class="custom-upload-overlay" (click)="fileUploader.choose()">
+          <div
+            class="custom-upload-overlay"
+            (click)="fileUploader.choose()"
+            *ngIf="!editMode"
+          >
             <span class="custom-icon"></span>
             <span>Click or drag file to upload</span>
           </div>

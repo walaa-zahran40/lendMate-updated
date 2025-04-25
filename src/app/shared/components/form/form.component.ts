@@ -481,6 +481,7 @@ export class FormComponent implements OnInit, OnDestroy {
   }>();
   @Output() onFileSelect = new EventEmitter<any>();
   @Output() submitForm = new EventEmitter<void>();
+  @Input() editMode: boolean = false;
 
   constructor(
     private router: Router,

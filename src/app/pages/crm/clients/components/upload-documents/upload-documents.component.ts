@@ -57,9 +57,11 @@ export class UploadDocumentsComponent implements OnInit {
       );
       this.documentTypes = items;
     });
+    this.uploadForm.get('documentTypeIds')?.enable();
 
     if (this.editMode) {
       this.facade.loadClientFileById(this.documentId!); // ✅ correct call
+      this.uploadForm.get('documentTypeIds')?.disable();
 
       this.facade.selectedDocument$
         .pipe(
@@ -100,41 +102,57 @@ export class UploadDocumentsComponent implements OnInit {
       this.uploadForm.markAllAsTouched();
       return;
     }
+    this.uploadForm.get('documentTypeIds')?.enable();
 
     const { documentTypeIds, expiryDate, file } = this.uploadForm.value;
     console.log('Form values:', { documentTypeIds, expiryDate, file });
 
-    const formData = new FormData();
-    formData.append('clientId', this.clientId.toString());
-    formData.append('expiryDate', (expiryDate as Date).toISOString());
-
+    // Normalize the documentTypeId field
     const docTypeId =
       typeof documentTypeIds === 'object'
         ? documentTypeIds.id
         : documentTypeIds;
-    formData.append('documentTypeId', docTypeId.toString());
 
-    if (file) {
-      formData.append('file', file);
-    } else if (!this.editMode) {
-      console.error('No file selected for upload.');
-      return;
-    }
-
-    console.log('Calling facade upload or update...');
     if (this.editMode) {
-      this.facade.updateClientFile(this.documentId!, formData, this.clientId);
+      // 🎯 EDIT MODE: Send JSON body, not FormData
+      this.uploadForm.get('documentTypeIds')?.disable();
+      const updatePayload = {
+        id: this.documentId!, // required
+        clientId: this.clientId, // required
+        fileId: docTypeId, // map documentTypeIds -> fileId
+        expiryDate: (expiryDate as Date).toISOString(), // required
+      };
+
+      console.log('[Edit Mode] Sending update payload:', updatePayload);
+
+      this.facade.updateClientFile(this.documentId!, updatePayload);
+
       this.messageService.add({
         severity: 'success',
-        summary: 'Uploaded',
-        detail: 'Document uploaded successfully',
+        summary: 'Updated',
+        detail: 'Document updated successfully',
       });
 
       this.router.navigate(['/crm/clients/view-upload-documents'], {
         queryParams: { id: this.clientId },
       });
     } else {
+      // 🎯 ADD MODE: Upload new file with FormData
+      if (!file) {
+        console.error('No file selected for upload.');
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('clientId', this.clientId.toString());
+      formData.append('expiryDate', (expiryDate as Date).toISOString());
+      formData.append('documentTypeId', docTypeId.toString());
+      formData.append('file', file);
+
+      console.log('[Add Mode] Sending FormData upload...');
+
       this.facade.uploadClientFile(formData, this.clientId);
+
       this.messageService.add({
         severity: 'success',
         summary: 'Uploaded',

@@ -46,14 +46,15 @@ export const loadClientFileByIdFailure = createAction(
   props<{ error: any }>()
 );
 export const updateClientFile = createAction(
-  '[Documents] Update Client File',
-  props<{ id: number; formData: FormData; clientId: number }>()
+  '[Client File] Update Client File',
+  props<{ id: number; payload: any }>() // <-- no FormData, no clientId
 );
 
 export const uploadClientFileSuccess = createAction(
   '[Documents] Upload Client File Success',
   props<{ document: Document; clientId: number }>()
 );
+
 export const uploadClientFileFailure = createAction(
   '[Documents] Upload Client File Failure',
   props<{ error: any }>()

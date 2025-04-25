@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { DocumentsService } from '../../services/documents.service';
 import * as ClientFileActions from './client-file.actions';
-import { mergeMap, map, catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { mergeMap, map, catchError, switchMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { Action } from '@ngrx/store';
 
 @Injectable()
 export class ClientFileEffects {
@@ -100,22 +101,25 @@ export class ClientFileEffects {
       )
     )
   );
-  updateFile$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ClientFileActions.updateClientFile),
-      mergeMap(({ id, formData, clientId }) =>
-        this.documentsService.updateClientFile(id, formData).pipe(
-          map((doc) =>
-            ClientFileActions.uploadClientFileSuccess({
-              document: doc,
-              clientId,
-            })
-          ),
-          catchError((error) =>
-            of(ClientFileActions.uploadClientFileFailure({ error }))
-          )
+  updateClientFile$ = createEffect(
+    (): Observable<Action> =>
+      this.actions$.pipe(
+        ofType(ClientFileActions.updateClientFile),
+        switchMap((action: { id: number; payload: any }) =>
+          this.documentsService
+            .updateClientFile(action.id, action.payload)
+            .pipe(
+              map((document: any) =>
+                ClientFileActions.uploadClientFileSuccess({
+                  document,
+                  clientId: action.payload.clientId,
+                })
+              ),
+              catchError((error) =>
+                of(ClientFileActions.uploadClientFileFailure({ error }))
+              )
+            )
         )
       )
-    )
   );
 }
