@@ -362,6 +362,7 @@ export class AddClientComponent implements OnInit {
 
     const formValue = this.addClientForm.value;
     if (this.editMode) {
+      console.log('form value company ', formValue);
       const updatedClient = {
         ...formValue,
         id: this.clientId,
@@ -407,23 +408,24 @@ export class AddClientComponent implements OnInit {
     }
 
     const formValue = this.addClientFormIndividual.value;
-    console.log('form Value individual', formValue);
 
     if (this.editMode) {
-      const changes: Partial<Individual> = {
+      console.log('form value individual ', formValue);
+      const changes: any = {
+        id: this.clientId,
         name: formValue.nameEnglishIndividual,
         nameAR: formValue.nameArabicIndividual,
         shortName: formValue.shortNameIndividual,
         clientTypeId: 2,
+        clientId: this.clientId,
         businessActivity: formValue.businessActivityIndividual,
         email: formValue.emailIndividual,
         jobTitle: formValue.jobTitleIndividual,
         birthDate: (formValue.dateOfBirthIndividual as Date).toISOString(),
         genderId: formValue.genderIndividual,
-        subSectorList: formValue.subSectorIdList.map((id: number) => ({
-          sectorId: id,
-        })),
+        subSectorIdList: formValue.subSectorIdList,
         clientIdentities: formValue.identities.map((i: any) => ({
+          id: i.id,
           identificationNumber: i.identificationNumber,
           clientIdentityTypeId: i.selectedIdentities,
           isMain: i.isMain,

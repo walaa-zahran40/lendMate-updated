@@ -61,6 +61,8 @@ import { IdentityEffects } from './store/identity/identity.effects';
 import { identityReducer } from './store/identity/identity.reducer';
 import { clientFileReducer } from './store/client-file/client-file.reducer';
 import { ClientFileEffects } from './store/client-file/client-file.effects';
+import { documentTypeReducer } from './store/document-type/document-type.reducer';
+import { DocumentTypeEffects } from './store/document-type/document-type.effects';
 
 @NgModule({
   declarations: [
@@ -126,6 +128,8 @@ import { ClientFileEffects } from './store/client-file/client-file.effects';
     EffectsModule.forFeature([IdentityEffects]),
     StoreModule.forFeature('clientFile', clientFileReducer),
     EffectsModule.forFeature([ClientFileEffects]),
+    StoreModule.forFeature('documentTypes', documentTypeReducer),
+    EffectsModule.forFeature([DocumentTypeEffects]),
   ],
 })
 export class ClientsModule {}

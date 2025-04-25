@@ -154,8 +154,9 @@ export class FormComponent implements OnInit, OnDestroy {
   selectedSubSectors!: any;
   currencyExchangeLookups!: any;
   selectedCurrencyExchangeLookups!: any;
-  documents!: any;
   selectedDocuments!: any;
+  @Input() documents: any[] = [];
+
   areas!: any;
   selectedAreas!: any;
   codes!: any;
@@ -574,10 +575,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.phoneTypes = [{ name: 'Phone Type', code: 'pt' }];
     this.companyTypes = [{ name: 'Type', code: 'type' }];
     this.selectedCompanyTypes = { name: 'Type', code: 'type' };
-    this.documents = [
-      { name: 'PDF', code: 'pdf' },
-      { name: 'Word', code: 'word' },
-    ];
+
     this.areas = [
       { name: 'Haram', code: 'haram' },
       { name: 'Andalus', code: 'andalus' },
@@ -1051,8 +1049,13 @@ export class FormComponent implements OnInit, OnDestroy {
     this.onTouched();
     this.selectionChanged.emit(value);
   }
-  onFileSelected(event: any) {
-    this.selectedFile = event.files[0]; // or however you pull the File from PrimeNG
+  onFileSelected(event: any): void {
+    const file = event.files?.[0];
+    if (file) {
+      console.log('[FormComponent] File selected:', file);
+      this.formGroup.patchValue({ file });
+      this.formGroup.get('file')?.updateValueAndValidity();
+    }
   }
   onAddClick() {
     if (

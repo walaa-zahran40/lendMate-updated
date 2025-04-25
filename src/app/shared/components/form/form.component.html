@@ -1886,13 +1886,14 @@
     </form>
     <form [formGroup]="formGroup" *ngIf="uploadDocumentsShowMain">
       <label>Document Type<sup>*</sup></label>
-      <p-multiselect
+      <p-select
         [options]="documents"
-        formControlName="documentTypeIds"
         optionLabel="name"
-        display="chip"
-        name="documents"
-      ></p-multiselect>
+        optionValue="id"
+        formControlName="documentTypeIds"
+        placeholder="Select document type"
+      >
+      </p-select>
       <label>Expiry Date<sup>*</sup></label>
       <p-datepicker formControlName="expiryDate" name="expiry"></p-datepicker>
       <hr />
@@ -1904,11 +1905,15 @@
           </p>
         </div>
         <div class="col-sm-9 fileUploadDiv">
-          <p-fileupload
-            mode="advanced"
-            [auto]="false"
-            (onSelect)="onFileSelect.emit($event)"
-          ></p-fileupload>
+          <p-fileUpload
+            name="file"
+            [auto]="true"
+            customUpload="true"
+            (onSelect)="onFileSelected($event)"
+            [showUploadButton]="false"
+            [showCancelButton]="false"
+            accept=".pdf,.docx,.jpg"
+          />
         </div>
       </div>
 
