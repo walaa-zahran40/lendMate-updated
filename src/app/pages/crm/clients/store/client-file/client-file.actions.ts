@@ -25,9 +25,29 @@ export const loadClientFilesByClientIdFailure = createAction(
   props<{ error: any }>()
 );
 // upload with clientId
+
 export const uploadClientFile = createAction(
   '[Documents] Upload Client File',
   props<{ formData: FormData; clientId: number }>()
+);
+
+export const loadClientFileById = createAction(
+  '[Documents] Load Client File By ID',
+  props<{ id: number }>()
+);
+
+export const loadClientFileByIdSuccess = createAction(
+  '[Documents] Load Client File By ID Success',
+  props<{ document: any }>()
+);
+
+export const loadClientFileByIdFailure = createAction(
+  '[Documents] Load Client File By ID Failure',
+  props<{ error: any }>()
+);
+export const updateClientFile = createAction(
+  '[Documents] Update Client File',
+  props<{ id: number; formData: FormData; clientId: number }>()
 );
 
 export const uploadClientFileSuccess = createAction(

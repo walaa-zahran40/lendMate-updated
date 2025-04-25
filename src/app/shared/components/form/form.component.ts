@@ -52,6 +52,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Output() removeIdentity = new EventEmitter<number>();
   id!: string;
   @Input() applyReusable: boolean = false;
+  @Input() selectedFile!: File;
   @Input() title: string = '';
   @Input() description: string = '';
   @Input() addClientShowMain?: boolean;
@@ -480,8 +481,6 @@ export class FormComponent implements OnInit, OnDestroy {
   }>();
   @Output() onFileSelect = new EventEmitter<any>();
   @Output() submitForm = new EventEmitter<void>();
-
-  selectedFile!: File;
 
   constructor(
     private router: Router,

@@ -4,6 +4,7 @@ import * as ClientFileActions from './client-file.actions';
 import * as ClientFileSelectors from './client-file.selectors';
 import { Observable } from 'rxjs';
 import { Document } from '../../../../../shared/interfaces/document.interface';
+import { selectSelectedDocument } from './client-file.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class ClientFileFacade {
@@ -20,11 +21,19 @@ export class ClientFileFacade {
     ClientFileSelectors.selectDeleting
   );
   error$: Observable<any> = this.store.select(ClientFileSelectors.selectError);
+  clientFile$ = this.store.select(selectSelectedDocument);
+  selectedDocument$ = this.store.select(
+    ClientFileSelectors.selectSelectedDocument
+  );
 
   constructor(private store: Store) {}
 
   loadClientFiles(): void {
     this.store.dispatch(ClientFileActions.loadClientFiles());
+  }
+
+  loadClientFileById(id: number) {
+    this.store.dispatch(ClientFileActions.loadClientFileById({ id }));
   }
   loadClientFilesByClientId(clientId: number): void {
     this.store.dispatch(
@@ -32,12 +41,18 @@ export class ClientFileFacade {
     );
   }
 
-  uploadClientFile(formData: FormData, clientId: number): void {
+  deleteClientFile(id: number, clientId: number): void {
+    this.store.dispatch(ClientFileActions.deleteClientFile({ id, clientId }));
+  }
+  uploadClientFile(formData: FormData, clientId: number) {
     this.store.dispatch(
       ClientFileActions.uploadClientFile({ formData, clientId })
     );
   }
-  deleteClientFile(id: number, clientId: number): void {
-    this.store.dispatch(ClientFileActions.deleteClientFile({ id, clientId }));
+
+  updateClientFile(id: number, formData: FormData, clientId: number) {
+    this.store.dispatch(
+      ClientFileActions.updateClientFile({ id, formData, clientId })
+    );
   }
 }

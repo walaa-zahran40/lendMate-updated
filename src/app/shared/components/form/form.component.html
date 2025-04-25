@@ -1923,7 +1923,15 @@
             [showCancelButton]="false"
             accept=".pdf,.docx,.jpg"
           ></p-fileUpload>
-
+          <div
+            *ngIf="!formGroup.get('file')?.value && selectedFile?.name"
+            class="mt-2"
+          >
+            <span class="text-muted">
+              Previously uploaded file:
+              <strong>{{ selectedFile.name }}</strong>
+            </span>
+          </div>
           <!-- Add this custom div on top -->
           <div class="custom-upload-overlay" (click)="fileUploader.choose()">
             <span class="custom-icon"></span>
@@ -1931,7 +1939,11 @@
           </div>
         </div>
       </div>
-
+      <!-- <div *ngIf="formGroup.get('file')?.value == null && selectedFile?.name">
+        <span class="text-muted"
+          >Previously uploaded file: {{ selectedFile.name }}</span
+        >
+      </div> -->
       <div class="row justify-end">
         <div
           class="col-sm-12 mt-0 p-0 col-md-6 d-flex justify-end m-0"

@@ -11,7 +11,22 @@ export class ClientFileEffects {
     private actions$: Actions,
     private documentsService: DocumentsService
   ) {}
-
+  loadClientFileById$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClientFileActions.loadClientFileById),
+      mergeMap(({ id }) =>
+        this.documentsService.getClientFileById(id).pipe(
+          // ✅ FIXED HERE
+          map((document) =>
+            ClientFileActions.loadClientFileByIdSuccess({ document })
+          ),
+          catchError((error) =>
+            of(ClientFileActions.loadClientFileByIdFailure({ error }))
+          )
+        )
+      )
+    )
+  );
   loadByClient$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ClientFileActions.loadClientFilesByClientId),

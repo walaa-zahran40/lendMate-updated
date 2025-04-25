@@ -80,5 +80,9 @@ export const clientFileReducer = createReducer(
     ...state,
     deleting: false,
     error,
+  })),
+  on(ClientFileActions.loadClientFileByIdSuccess, (state, { document }) => ({
+    ...state,
+    selectedDocument: document,
   }))
 );

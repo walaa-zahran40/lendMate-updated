@@ -1,9 +1,12 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
+import { combineLatest, Subject, takeUntil } from 'rxjs';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { ClientFileFacade } from '../../store/client-file/client-file.facade';
 import { Document } from '../../../../../shared/interfaces/document.interface';
+import { DocumentTypeService } from '../../services/document-type.service';
+import { DocumentTypeFacade } from '../../store/document-type/document-type.facade';
+import { DocumentType } from '../../../../../shared/interfaces/document-type.interface';
 @Component({
   selector: 'app-view-upload-documents',
   standalone: false,
@@ -24,14 +27,16 @@ export class ViewUploadDocumentsComponent implements OnInit, OnDestroy {
 
   readonly colsInside = [
     { field: 'fileName', header: 'File Name' },
-    { field: 'fileType', header: 'File Type' },
-    { field: 'expiryDate', header: 'Expiry Date' },
+    // { field: 'fileType', header: 'File Type' },
+    { field: 'expiryDate', header: 'Expiry Date', pipe: 'date' },
   ];
+  documentTypes: DocumentType[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private facade: ClientFileFacade
+    private facade: ClientFileFacade,
+    private documentTypeFacade: DocumentTypeFacade
   ) {}
 
   ngOnInit(): void {
@@ -47,12 +52,69 @@ export class ViewUploadDocumentsComponent implements OnInit, OnDestroy {
         // ▶️ only load this client’s files
         this.facade.loadClientFilesByClientId(this.clientId);
       });
+    this.documentTypeFacade.loadDocumentTypes(); // 🟢 Load once on init
 
-    this.documents$.pipe(takeUntil(this.destroy$)).subscribe((docs) => {
-      const sorted = [...docs].sort((a, b) => b.id! - a.id!);
-      this.originalDocuments = sorted;
-      this.filteredDocuments = [...sorted];
-    });
+    this.documentTypeFacade.documentTypes$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((types) => {
+        this.documentTypes = types;
+      });
+
+    this.route.queryParams
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((params) => {
+        this.clientId = +params['id'];
+        if (!this.clientId || this.clientId === 0) {
+          console.error('Missing or invalid clientId in query params');
+          return;
+        }
+
+        this.facade.loadClientFilesByClientId(this.clientId);
+      });
+
+    combineLatest([this.documents$, this.documentTypeFacade.documentTypes$])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(([docs, types]) => {
+        this.documentTypes = types;
+
+        const sorted = [...docs].sort((a, b) => b.id! - a.id!);
+
+        // 🔍 Add this log
+        console.log('[ViewUploadDocumentsComponent] Incoming docs:', sorted);
+
+        this.filteredDocuments = sorted.map((doc) => {
+          const fileTypeId = doc.fileId;
+          console.log('[ViewUploadDocumentsComponent] Mapping doc:', {
+            id: doc.id,
+            fileTypeId,
+          });
+
+          return {
+            ...doc,
+            fileType: this.getFileTypeName(fileTypeId),
+            expiryDate: doc.expiryDate
+              ? new Date(doc.expiryDate).toLocaleDateString('en-GB')
+              : '',
+          };
+        });
+
+        this.originalDocuments = [...this.filteredDocuments];
+      });
+  }
+  getFileTypeName(fileTypeId: number): string {
+    const matchedType = this.documentTypes.find((t) => t.id === fileTypeId);
+
+    if (matchedType) {
+      console.log(
+        `[getFileTypeName] Found document type: ${matchedType.name} for ID: ${fileTypeId}`
+      );
+      return matchedType.name;
+    } else {
+      console.warn(
+        `[getFileTypeName] No matching document type found for ID: ${fileTypeId}`
+      );
+      return 'N/A';
+    }
   }
 
   onAddDocument() {
@@ -63,11 +125,12 @@ export class ViewUploadDocumentsComponent implements OnInit, OnDestroy {
   onDeleteDocument(documentId: number): void {
     this.facade.deleteClientFile(documentId, this.clientId);
   }
-
   onEditDocument(doc: any) {
-    this.router.navigate(['../add-upload-documents', this.clientId, doc.id], {
-      relativeTo: this.route,
-    });
+    this.router.navigate([
+      '/crm/clients/add-upload-documents',
+      this.clientId,
+      doc.id,
+    ]);
   }
 
   onSearch(keyword: string) {

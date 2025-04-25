@@ -5,4 +5,6 @@ export interface Document {
   filePath: string;
   expiryDate: string;
   fileName: string;
+  fileType?: any;
+  fileTypeId?: any;
 }

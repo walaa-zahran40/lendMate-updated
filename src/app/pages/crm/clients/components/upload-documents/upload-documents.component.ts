@@ -17,6 +17,8 @@ export class UploadDocumentsComponent implements OnInit {
   selectedFile!: File;
   selectedDocuments: any[] = [];
   expiryDate!: Date;
+  documentId!: number | null;
+  editMode: boolean = false;
   uploadForm!: FormGroup;
   documentTypes: any[] = [];
 
@@ -30,7 +32,23 @@ export class UploadDocumentsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    console.log('[Route Snapshot] Full Params:', this.route.snapshot.paramMap);
+
     this.clientId = +this.route.snapshot.paramMap.get('clientId')!;
+    const fileIdParam = this.route.snapshot.paramMap.get('documentId');
+    this.documentId = fileIdParam ? +fileIdParam : null;
+    this.editMode = !!this.documentId;
+
+    console.log('[Init] clientId:', this.clientId);
+    console.log('[Init] documentId:', this.documentId);
+    console.log('[Init] editMode:', this.editMode);
+
+    this.uploadForm = this.fb.group({
+      documentTypeIds: [null, Validators.required],
+      expiryDate: [null, Validators.required],
+      file: [null, this.editMode ? [] : Validators.required],
+    });
+
     this.facadeDocumentTypes.loadDocumentTypes();
     this.facadeDocumentTypes.documentTypes$.subscribe((items) => {
       console.log(
@@ -39,11 +57,23 @@ export class UploadDocumentsComponent implements OnInit {
       );
       this.documentTypes = items;
     });
-    this.uploadForm = this.fb.group({
-      documentTypeIds: [null, Validators.required],
-      expiryDate: [null, Validators.required],
-      file: [null, Validators.required],
-    });
+
+    if (this.editMode) {
+      this.facade.loadClientFileById(this.documentId!); // ✅ correct call
+
+      this.facade.selectedDocument$
+        .pipe(
+          filter((doc) => !!doc),
+          take(1)
+        )
+        .subscribe((doc) => {
+          this.uploadForm.patchValue({
+            documentTypeIds: doc.fileTypeId,
+            expiryDate: new Date(doc.expiryDate),
+          });
+          this.selectedFile = { name: doc.fileName } as File;
+        });
+    }
   }
 
   onFileSelected(event: any) {
@@ -102,11 +132,14 @@ export class UploadDocumentsComponent implements OnInit {
       typeof documentTypeIds === 'object'
         ? documentTypeIds.id
         : documentTypeIds;
-    formData.append('documentTypeId', documentTypeIds.toString());
+    formData.append('documentTypeId', docTypeId.toString());
 
     console.log('Calling facade.uploadClientFile...');
-    this.facade.uploadClientFile(formData, this.clientId);
-
+    if (this.editMode) {
+      this.facade.updateClientFile(this.documentId!, formData, this.clientId); // You’ll implement this
+    } else {
+      this.facade.uploadClientFile(formData, this.clientId);
+    }
     this.facade.uploading$
       .pipe(
         filter((u) => {

@@ -9,6 +9,7 @@ export interface ClientFileState {
   loading: boolean;
   response: any | null;
   error: any | null;
+  selectedDocument: any; // ✅ Add this line
 }
 
 export const initialClientFileState: ClientFileState = {
@@ -18,4 +19,5 @@ export const initialClientFileState: ClientFileState = {
   loading: false,
   response: null,
   error: null,
+  selectedDocument: null, // ✅ Add this line
 };

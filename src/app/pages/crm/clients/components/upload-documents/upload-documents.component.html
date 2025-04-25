@@ -1,5 +1,5 @@
 <app-toolbar-form
-  [header]="'Upload Documents'"
+  [header]="editMode ? 'Edit Document' : 'Upload Document'"
   [backExists]="true"
 ></app-toolbar-form>
 <p-tabs value="0" styleClass="p-3">
@@ -8,11 +8,10 @@
       <app-form
         *ngIf="uploadForm"
         [title]="'Main Information'"
+        [selectedFile]="selectedFile"
         [formGroup]="uploadForm"
         [documents]="documentTypes"
-        [description]="
-          'Introduce your company core info quickly to users by fill up company details'
-        "
+        [description]="'Fill in document details'"
         [uploadDocumentsShowMain]="true"
         (submitForm)="addDocument()"
         (onFileSelect)="onFileSelected($event)"

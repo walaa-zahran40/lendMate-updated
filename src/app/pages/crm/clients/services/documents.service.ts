@@ -21,6 +21,11 @@ export class DocumentsService {
         map((response) => response.items)
       );
   }
+  getClientFileById(id: number): Observable<Document> {
+    const params = new HttpParams().set('id', id.toString());
+    return this.http.get<Document>(`${this.baseUrl}ClientFileId`, { params });
+  }
+
   getClientFilesByClientId(clientId: number): Observable<Document[]> {
     const params = new HttpParams().set('clientId', clientId.toString());
     return this.http
