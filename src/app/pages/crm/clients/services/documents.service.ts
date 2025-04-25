@@ -35,6 +35,6 @@ export class DocumentsService {
   }
 
   deleteClientFile(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}DeleteClientFile/${id}`);
+    return this.http.delete<void>(`${this.baseUrl}${id}`);
   }
 }
