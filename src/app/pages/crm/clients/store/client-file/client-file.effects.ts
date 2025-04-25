@@ -100,4 +100,22 @@ export class ClientFileEffects {
       )
     )
   );
+  updateFile$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClientFileActions.updateClientFile),
+      mergeMap(({ id, formData, clientId }) =>
+        this.documentsService.updateClientFile(id, formData).pipe(
+          map((doc) =>
+            ClientFileActions.uploadClientFileSuccess({
+              document: doc,
+              clientId,
+            })
+          ),
+          catchError((error) =>
+            of(ClientFileActions.uploadClientFileFailure({ error }))
+          )
+        )
+      )
+    )
+  );
 }

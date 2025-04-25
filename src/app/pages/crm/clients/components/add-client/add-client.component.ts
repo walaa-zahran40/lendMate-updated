@@ -134,7 +134,15 @@ export class AddClientComponent implements OnInit {
           this.activeTabIndex = 1;
           this.disableCompanyTab = true;
           this.disableIndividualTab = false;
+          this.individualFacade.load(this.clientId); // or loadById()
 
+          this.individualFacade.selected$.subscribe((data) => {
+            if (data) {
+              this.individualBusinessId = data.id; // ✅ ← this is the internal detail ID (like 22)
+              // this.clientId = data.clientId;       // ✅ ← this is the external client ID (like 3108)
+              this.patchForm(data); // ✅ ← patch the form with the fetched data
+            }
+          });
           this.individualFacade.load(this.clientId);
           this.individualFacade.selected$
             .pipe(filter((i) => !!i))
@@ -401,40 +409,43 @@ export class AddClientComponent implements OnInit {
     }
   }
 
+  individualBusinessId!: any; // Add this at class level to store ID 22
+
   saveInfoIndividual() {
     if (this.addClientFormIndividual.invalid) {
+      console.warn('[Validation] Individual form is invalid');
       this.addClientFormIndividual.markAllAsTouched();
       return;
     }
 
     const formValue = this.addClientFormIndividual.value;
+    console.log('[Form Raw Value]', formValue);
 
     if (this.editMode) {
-      console.log('form value individual ', formValue);
       const changes: any = {
-        id: this.clientId,
+        id: this.individualBusinessId, // ✅ Use actual business detail ID, not clientId
         name: formValue.nameEnglishIndividual,
         nameAR: formValue.nameArabicIndividual,
         shortName: formValue.shortNameIndividual,
         clientTypeId: 2,
-        clientId: this.clientId,
+        clientId: this.clientId, // ✅ Keep clientId in payload
         businessActivity: formValue.businessActivityIndividual,
         email: formValue.emailIndividual,
         jobTitle: formValue.jobTitleIndividual,
-        birthDate: (formValue.dateOfBirthIndividual as Date).toISOString(),
+        birthDate: (formValue.dateOfBirthIndividual as Date)?.toISOString(),
         genderId: formValue.genderIndividual,
         subSectorIdList: formValue.subSectorIdList,
-        clientIdentities: formValue.identities.map((i: any) => ({
+        clientIdentities: formValue.identities?.map((i: any) => ({
           id: i.id,
           identificationNumber: i.identificationNumber,
           clientIdentityTypeId: i.selectedIdentities,
           isMain: i.isMain,
         })),
       };
-      // pass the numeric clientId, not the whole object
-      this.individualFacade.update(this.clientId, changes);
+
+      console.log('[Edit Mode] PATCH Payload:', changes);
+      this.individualFacade.update(this.individualBusinessId, changes); // ✅ Correct ID
     } else {
-      console.log('form Value individual', formValue);
       const payload = {
         name: formValue.nameEnglishIndividual,
         nameAR: formValue.nameArabicIndividual,
@@ -445,18 +456,21 @@ export class AddClientComponent implements OnInit {
         subSectorIdList: formValue.subSectorIdList,
         email: formValue.emailIndividual,
         jobTitle: formValue.jobTitleIndividual,
-        birthDate: (formValue.dateOfBirthIndividual as Date).toISOString(),
+        birthDate: (formValue.dateOfBirthIndividual as Date)?.toISOString(),
         genderId: formValue.genderIndividual,
-        clientIdentities: formValue.identities.map((i: any) => ({
+        clientIdentities: formValue.identities?.map((i: any) => ({
           id: i.id,
           identificationNumber: i.identificationNumber,
           clientIdentityTypeId: i.selectedIdentities,
           isMain: i.isMain,
         })),
       };
+
+      console.log('[Create Mode] POST Payload:', payload);
       this.individualFacade.create(payload);
     }
   }
+
   onLegalFormLawSelectionChange(selectedLaw: any) {
     this.selectedLegalFormLawId = selectedLaw?.id || null;
     this.addClientForm.get('legalFormId')?.reset(); // reset legal form

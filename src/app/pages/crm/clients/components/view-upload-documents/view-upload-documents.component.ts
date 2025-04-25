@@ -27,7 +27,7 @@ export class ViewUploadDocumentsComponent implements OnInit, OnDestroy {
 
   readonly colsInside = [
     { field: 'fileName', header: 'File Name' },
-    // { field: 'fileType', header: 'File Type' },
+    { field: 'fileType', header: 'File Type' },
     { field: 'expiryDate', header: 'Expiry Date', pipe: 'date' },
   ];
   documentTypes: DocumentType[] = [];
