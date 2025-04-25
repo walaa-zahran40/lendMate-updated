@@ -28,7 +28,7 @@ export class ViewUploadDocumentsComponent implements OnInit, OnDestroy {
   readonly colsInside = [
     { field: 'fileName', header: 'File Name' },
     { field: 'fileType', header: 'File Type' },
-    { field: 'expiryDate', header: 'Expiry Date', pipe: 'date' },
+    { field: 'expiryDate', header: 'Expiry Date', pipe: 'date:"YYYY-MM-DD"' },
   ];
   documentTypes: DocumentType[] = [];
 
@@ -92,9 +92,7 @@ export class ViewUploadDocumentsComponent implements OnInit, OnDestroy {
           return {
             ...doc,
             fileType: doc.documentTypeName, // ✅ USE THIS, NOT getFileTypeName()
-            expiryDate: doc.expiryDate
-              ? new Date(doc.expiryDate).toLocaleDateString('en-GB')
-              : '',
+            expiryDate: doc.expiryDate ?? '',
           };
         });
 

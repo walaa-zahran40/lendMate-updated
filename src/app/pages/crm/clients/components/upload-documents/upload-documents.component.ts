@@ -120,7 +120,7 @@ export class UploadDocumentsComponent implements OnInit {
         id: this.documentId!, // required
         clientId: this.clientId, // required
         fileId: docTypeId, // map documentTypeIds -> fileId
-        expiryDate: (expiryDate as Date).toISOString(), // required
+        expiryDate: this.formatDateWithoutTime(expiryDate),
       };
 
       console.log('[Edit Mode] Sending update payload:', updatePayload);
@@ -145,7 +145,7 @@ export class UploadDocumentsComponent implements OnInit {
 
       const formData = new FormData();
       formData.append('clientId', this.clientId.toString());
-      formData.append('expiryDate', (expiryDate as Date).toISOString());
+      formData.append('expiryDate', this.formatDateWithoutTime(expiryDate));
       formData.append('documentTypeId', docTypeId.toString());
       formData.append('file', file);
 
@@ -163,5 +163,11 @@ export class UploadDocumentsComponent implements OnInit {
         queryParams: { id: this.clientId },
       });
     }
+  }
+  private formatDateWithoutTime(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // month is 0-indexed
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 }

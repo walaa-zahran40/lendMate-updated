@@ -52,7 +52,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Output() removeIdentity = new EventEmitter<number>();
   id!: string;
   @Input() applyReusable: boolean = false;
-  @Input() selectedFile!: File;
+  @Input() selectedFile!: any;
   @Input() title: string = '';
   @Input() description: string = '';
   @Input() addClientShowMain?: boolean;

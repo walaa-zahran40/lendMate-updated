@@ -49,6 +49,9 @@
           <span *ngSwitchDefault>
             {{ rowData[col.field] }}
           </span>
+          <span *ngSwitchCase="'expiryDate'">
+            {{ rowData[col.field] | date : "yyyy-MM-dd" }}
+          </span>
         </ng-container>
       </td>
       <!-- <td>{{ getTypeLabel(rowData.clientTypeCode) }}</td> -->
