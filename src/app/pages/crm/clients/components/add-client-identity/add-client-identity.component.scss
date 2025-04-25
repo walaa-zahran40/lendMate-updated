@@ -19,6 +19,10 @@
   --custom-background-transparent: transparent;
 
   &::ng-deep {
+    .p-tabs {
+      padding: var(--custom-padding-right-10);
+      zoom: 80%;
+    }
     .p-button {
       flex-direction: var(--custom-flex-direction-row-reverse);
       background: var(--custom-background-transparent);

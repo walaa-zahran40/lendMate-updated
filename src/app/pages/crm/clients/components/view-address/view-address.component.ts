@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Address } from '../../../../../shared/interfaces/address.interface';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subject, takeUntil, combineLatest } from 'rxjs';
+import { TableComponent } from '../../../../../shared/components/table/table.component';
+import { ClientsAddressesFacade } from '../../store/address/client-addresses.facade';
 
 @Component({
   selector: 'app-view-address',
@@ -9,65 +12,109 @@ import { Router } from '@angular/router';
   styleUrl: './view-address.component.scss',
 })
 export class ViewAddressComponent {
-  tableDataInside: Address[] = [];
-  colsInside: any[] = [];
-  constructor(private router: Router) {}
+  @ViewChild('tableRef') tableRef!: TableComponent;
+  addresses$ = this.facade.items$;
+  private destroy$ = new Subject<void>();
+  clientId!: number;
+  originalAddresses: Address[] = [];
+  filteredAddresses: Address[] = [];
+  first2 = 0;
+  showFilters = false;
+  showDeleteModal: boolean = false;
+  selectedAddressId: number | null = null;
 
-  ngOnInit() {
-    this.colsInside = [
-      { field: 'clientNameEN', header: 'Client Name EN' },
-      { field: 'clientNameAR', header: 'Client Name AR' },
-      { field: 'detailsEn', header: 'Details EN' },
-      { field: 'detailsAr', header: 'Details AR' },
-      { field: 'addressTypeName', header: 'Address Type Name' },
-      { field: 'areaName', header: 'Area Name' },
-      { field: 'isMain', header: 'IsMain' },
-      { field: 'isActive', header: 'IsActive' },
-    ];
-    this.tableDataInside = [
-      {
-        clientNameEN: 'clientNameEN',
-        clientNameAR: 'clientNameAR',
-        detailsEn: 'Address English',
-        detailsAr: 'Address Arabic',
-        addressTypeName: '1345',
-        areaName: '2020',
-        isMain: true,
-        isActive: true,
-      },
-      {
-        clientNameEN: 'clientNameEN',
-        clientNameAR: 'clientNameAR',
-        detailsEn: 'Address English',
-        detailsAr: 'Address Arabic',
-        addressTypeName: '1345',
-        areaName: '2020',
-        isMain: true,
-        isActive: true,
-      },
-      {
-        clientNameEN: 'clientNameEN',
-        clientNameAR: 'clientNameAR',
-        detailsEn: 'Address English',
-        detailsAr: 'Address Arabic',
-        addressTypeName: '1345',
-        areaName: '2020',
-        isMain: true,
-        isActive: true,
-      },
-      {
-        clientNameEN: 'clientNameEN',
-        clientNameAR: 'clientNameAR',
-        detailsEn: 'Address English',
-        detailsAr: 'Address Arabic',
-        addressTypeName: '1345',
-        areaName: '2020',
-        isMain: true,
-        isActive: true,
-      },
-    ];
+  readonly colsInside = [
+    { field: 'fileName', header: 'File Name' },
+    { field: 'fileType', header: 'File Type' },
+    { field: 'expiryDate', header: 'Expiry Date', pipe: 'date:"YYYY-MM-DD"' },
+  ];
+  // addressTypes: AddressType[] = [];
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private facade: ClientsAddressesFacade
+  ) {}
+
+  ngOnInit(): void {
+    this.route.queryParams
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((params) => {
+        this.clientId = +params['id'];
+        if (!this.clientId || this.clientId === 0) {
+          console.error('Missing or invalid clientId in query params');
+          return;
+        }
+
+        // ▶️ only load this client’s files
+        this.facade.loadByClient(this.clientId);
+      });
+
+    this.route.queryParams
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((params) => {
+        this.clientId = +params['id'];
+        if (!this.clientId || this.clientId === 0) {
+          console.error('Missing or invalid clientId in query params');
+          return;
+        }
+
+        this.facade.loadByClient(this.clientId);
+      });
   }
+
   onAddAddress() {
-    this.router.navigate(['/crm/clients/add-address']);
+    this.router.navigate(['/crm/clients/add-address', this.clientId]);
+  }
+
+  // ViewUploadAddressesComponent
+  onDeleteAddress(addressId: any): void {
+    this.selectedAddressId = addressId;
+    this.showDeleteModal = true;
+  }
+  confirmDelete() {
+    if (this.clientId !== null) {
+      this.facade.delete(this.clientId);
+    }
+    this.resetDeleteModal();
+  }
+
+  cancelDelete() {
+    this.resetDeleteModal();
+  }
+
+  resetDeleteModal() {
+    this.showDeleteModal = false;
+    this.selectedAddressId = null;
+  }
+  onEditAddress(doc: any) {
+    this.router.navigate([
+      '/crm/clients/add-upload-addresses',
+      this.clientId,
+      doc.id,
+    ]);
+  }
+
+  onSearch(keyword: string) {
+    const lower = keyword.toLowerCase();
+    this.filteredAddresses = this.originalAddresses.filter((d) =>
+      Object.values(d).some((v) => v?.toString().toLowerCase().includes(lower))
+    );
+  }
+
+  onToggleFilters(val: boolean) {
+    this.showFilters = val;
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+  onAddSide(_addressId: any) {
+    // re-open the client wizard, passing the clientId
+    this.router.navigate([
+      '/crm/clients/client-activity-wizard',
+      this.clientId,
+    ]);
   }
 }

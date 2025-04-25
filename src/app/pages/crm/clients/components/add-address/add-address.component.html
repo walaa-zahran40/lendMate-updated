@@ -1,5 +1,5 @@
 <app-toolbar-form
-  [header]="'Address'"
+  [header]="editMode ? 'Edit Address' : 'Add Address'"
   [backExists]="true"
   [backIcon]="'back-icon'"
 ></app-toolbar-form>
@@ -7,21 +7,14 @@
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
+        *ngIf="addAddressForm"
         [title]="'Main Information'"
-        [description]="
-          'Introduce your company core info quickly to users by fill up company details'
-        "
+        [formGroup]="addAddressForm"
+        [editMode]="editMode"
+        [description]="'Fill in document details'"
         [addAddressShowMain]="true"
+        (submitForm)="addAddress()"
       ></app-form>
-
-      <div class="row justify-end">
-        <div
-          class="col-sm-12 col-md-6 d-flex justify-end margin-top"
-          (click)="addAddress()"
-        >
-          <p-button label="Add Address" class="custom-save m-0 float-right" />
-        </div>
-      </div>
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>

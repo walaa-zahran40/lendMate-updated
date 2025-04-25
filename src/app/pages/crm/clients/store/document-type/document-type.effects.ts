@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as DocumentTypeActions from './document-type.actions';
-import { DocumentTypeService } from '../../services/document-type.service';
+import { DocumentTypeService } from './document-type.service';
 import { catchError, map, mergeMap, of } from 'rxjs';
 
 @Injectable()

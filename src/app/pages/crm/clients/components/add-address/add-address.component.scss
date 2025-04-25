@@ -37,12 +37,12 @@
       line-height: var(--custom-font-size-24);
     }
 
-    .p-button:not(:disabled):hover {
-      background: var(--p-tabs-active-bar-background) !important;
-      border: none;
-    }
     .p-tabpanels {
       background: var(--bg-tab);
+    }
+    .p-tabs {
+      padding: var(--custom-padding-right-10);
+      zoom: 80%;
     }
     .custom-next {
       background: var(--p-tabs-active-bar-background);

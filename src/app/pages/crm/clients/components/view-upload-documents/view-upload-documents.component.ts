@@ -4,7 +4,7 @@ import { combineLatest, Subject, takeUntil } from 'rxjs';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { ClientFileFacade } from '../../store/client-file/client-file.facade';
 import { Document } from '../../../../../shared/interfaces/document.interface';
-import { DocumentTypeService } from '../../services/document-type.service';
+import { DocumentTypeService } from '../../store/document-type/document-type.service';
 import { DocumentTypeFacade } from '../../store/document-type/document-type.facade';
 import { DocumentType } from '../../../../../shared/interfaces/document-type.interface';
 @Component({

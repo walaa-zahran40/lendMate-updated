@@ -1,30 +1,39 @@
 <div class="page-content">
   <app-toolbar-table
-    [title]="'Address'"
+    [title]="'Addresses'"
     [labelBtn]="'Add Address'"
-    [iconBtn]="''"
+    [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
-    [customSpacing]="'custom-spacing'"
     [backExists]="true"
+    [customSpacing]="'custom-spacing'"
     [exports]="true"
     (addBtn)="onAddAddress()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col1Name]="'Client Name EN'"
-    [col2Name]="'Client Name AR'"
-    [col3Name]="'Details English'"
-    [col4Name]="'Details AR'"
-    [col5Name]="'Address Type '"
-    [col6Name]="'Area '"
-    [col7Name]="'IsMain'"
-    [col8Name]="'IsActive'"
-    [edit]="true"
-    [delete]="true"
-    [side]="false"
-    [checkBox]="true"
-    [uppercase]="'uppercase'"
-    [viewAddressTable]="true"
-  ></app-table>
+
+  <ng-container *ngIf="addresses$ | async as addresses">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredAddresses"
+      [edit]="true"
+      [delete]="true"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewAddressTable]="true"
+      (deleteAddress)="onDeleteAddress($event)"
+      (editAddress)="onEditAddress($event)"
+      (wizardBtn)="onAddSide($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
 </div>

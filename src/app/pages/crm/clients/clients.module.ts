@@ -13,7 +13,7 @@ import { AddTmlOfficerComponent } from './components/add-tml-officer/add-tml-off
 import { ClientOnboardingComponent } from './components/client-onboarding/client-onboarding.component';
 import { CompanyViewOnlyComponent } from './components/company-view-only/company-view-only.component';
 import { ContactPersonViewTableDataComponent } from './components/contact-person-view-table-data/contact-person-view-table-data.component';
-import { UploadDocumentsComponent } from './components/upload-documents/upload-documents.component';
+import { UploadDocumentsComponent } from './components/add-upload-documents/upload-documents.component';
 import { ButtonModule } from 'primeng/button';
 import { FileUploadModule } from 'primeng/fileupload';
 import { StepperModule } from 'primeng/stepper';

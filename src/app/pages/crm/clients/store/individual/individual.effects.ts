@@ -3,8 +3,8 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as IndividualActions from './individual.actions';
 import { mergeMap, map, catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { IndividualService } from '../../services/individual.service';
 import { Router } from '@angular/router';
+import { IndividualService } from './individual.service';
 
 @Injectable()
 export class IndividualEffects {

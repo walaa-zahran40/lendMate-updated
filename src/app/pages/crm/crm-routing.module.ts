@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ClientOnboardingComponent } from './clients/components/client-onboarding/client-onboarding.component';
 import { AddClientComponent } from './clients/components/add-client/add-client.component';
 import { CompanyViewOnlyComponent } from './clients/components/company-view-only/company-view-only.component';
-import { UploadDocumentsComponent } from './clients/components/upload-documents/upload-documents.component';
+import { UploadDocumentsComponent } from './clients/components/add-upload-documents/upload-documents.component';
 import { AddAddressComponent } from './clients/components/add-address/add-address.component';
 import { AddSalesTurnoverComponent } from './clients/components/add-sales-turnover/add-sales-turnover.component';
 import { AddPhoneNumberComponent } from './clients/components/add-phone-number/add-phone-number.component';

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Individual } from '../store/individual/individual.state';
+import { Individual } from './individual.state';
 export interface Paginated<T> {
   items: T[];
   totalCount: number;
