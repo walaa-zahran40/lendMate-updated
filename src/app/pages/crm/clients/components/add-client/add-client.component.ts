@@ -172,7 +172,9 @@ export class AddClientComponent implements OnInit {
       (l) => (this.identityOptions = l)
     );
   }
-
+  get tabValue(): number {
+    return this.disableCompanyTab ? 1 : 0;
+  }
   private patchFormIndividual(ind: Individual) {
     // mirror what you do for patchForm, but target addClientFormIndividual…
     this.subSectorsList = ind.subSectorList.map((s) => ({

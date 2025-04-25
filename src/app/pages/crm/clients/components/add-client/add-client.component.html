@@ -6,14 +6,14 @@
   [viewOnly]="editMode ? true : false"
 ></app-toolbar-form>
 
-<p-tabs value="0" styleClass="p-3">
+<p-tabs [value]="tabValue" styleClass="p-3">
   <p-tablist>
-    <p-tab value="0" [disabled]="disableCompanyTab">Company</p-tab>
-    <p-tab value="1" [disabled]="disableIndividualTab">Individual</p-tab>
+    <p-tab [value]="0" [disabled]="disableCompanyTab">Company</p-tab>
+    <p-tab [value]="1" [disabled]="disableIndividualTab">Individual</p-tab>
   </p-tablist>
 
   <p-tabpanels>
-    <p-tabpanel value="0">
+    <p-tabpanel [value]="0">
       <p-stepper [value]="1" class="basis-[50rem] mb-2">
         <p-step-panels>
           <!-- Step 1: Main Info -->
@@ -115,7 +115,7 @@
     </p-tabpanel>
 
     <!-- Individual Tab -->
-    <p-tabpanel value="1">
+    <p-tabpanel [value]="1">
       <app-form
         [formGroup]="addClientFormIndividual"
         [title]="'Main Information'"
