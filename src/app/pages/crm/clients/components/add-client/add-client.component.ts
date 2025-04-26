@@ -158,6 +158,13 @@ export class AddClientComponent implements OnInit {
             .select(selectSelectedClient)
             .pipe(filter((c) => !!c))
             .subscribe((c) => this.patchForm(c!));
+          this.individualFacade.selected$.subscribe((data) => {
+            if (data) {
+              this.individualBusinessId = data.id; // ✅ ← this is the internal detail ID (like 22)
+              // this.clientId = data.clientId;       // ✅ ← this is the external client ID (like 3108)
+              this.patchForm(data); // ✅ ← patch the form with the fetched data
+            }
+          });
         }
       });
 
@@ -380,9 +387,8 @@ export class AddClientComponent implements OnInit {
         subSectorIdList: formValue.subSectorIdList,
         legalFormLawId: formValue.legalFormLawId,
         legalFormId: formValue.legalFormId,
-        sectorId: formValue.sectorId,
       };
-      // delete updatedClient.sectorId;
+      delete updatedClient.sectorId;
 
       this.store.dispatch(updateClient({ client: updatedClient }));
     } else {
