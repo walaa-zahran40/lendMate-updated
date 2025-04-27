@@ -199,17 +199,11 @@ export class AddClientComponent implements OnInit {
     return this.disableCompanyTab ? 1 : 0;
   }
   private patchFormIndividual(ind: Individual) {
-    // mirror what you do for patchForm, but target addClientFormIndividual…
-    this.subSectorsList = ind.subSectorList.map((s) => ({
-      id: s.id,
-      name: s.name,
-      nameAR: s.nameAR,
-      sectorId: s.sectorId,
-    }));
-    // Clear & rebuild the FormArray
+    // …your existing subSectorList logic…
+
     const arr = this.addClientFormIndividual.get('identities') as FormArray;
     arr.clear();
-    console.log('identities', ind);
+
     ind.clientIdentities.forEach((ci) => {
       // 1) log the raw object
       console.log('[patchFormIndividual] incoming identity', ci);
@@ -227,17 +221,7 @@ export class AddClientComponent implements OnInit {
       console.log('[patchFormIndividual] pushed FormGroup value:', fg.value);
     });
 
-    ind.clientIdentities.forEach((ci) =>
-      arr.push(
-        this.fb.group({
-          identificationNumber: [ci.identificationNumber, Validators.required],
-          id: [ci.id], // <<–– include the id
-          selectedIdentities: [ci.clientIdentityTypeId, Validators.required],
-          isMain: [ci.isMain, Validators.required],
-        })
-      )
-    );
-
+    // now patch the rest of the form
     this.addClientFormIndividual.patchValue({
       nameEnglishIndividual: ind.name,
       nameArabicIndividual: ind.nameAR,
@@ -249,8 +233,13 @@ export class AddClientComponent implements OnInit {
       jobTitleIndividual: ind.jobTitle,
       dateOfBirthIndividual: new Date(ind.birthDate),
       genderIndividual: ind.genderId,
-      // for the identities FormArray, you may need to clear out and recreate:
     });
+
+    // final log to see the full form state
+    console.log(
+      '[patchFormIndividual] complete form value:',
+      this.addClientFormIndividual.getRawValue()
+    );
   }
 
   buildFormIndividual() {
@@ -452,7 +441,6 @@ export class AddClientComponent implements OnInit {
   }
 
   individualBusinessId!: any; // Add this at class level to store ID 22
-
   saveInfoIndividual() {
     if (this.addClientFormIndividual.invalid) {
       console.warn('[Validation] Individual form is invalid');
@@ -460,33 +448,46 @@ export class AddClientComponent implements OnInit {
       return;
     }
 
-    const formValue = this.addClientFormIndividual.value;
-    console.log('[Form Raw Value]', formValue);
+    // 1) grab absolutely everything, even disabled fields
+    const formValue = this.addClientFormIndividual.getRawValue();
+    console.log('[Form Raw getRawValue]', formValue);
+
+    // 2) inspect the identities array
+    console.log('[Form Raw identities array]', formValue.identities);
+    formValue.identities?.forEach((i: any, idx: number) => {
+      console.log(`[FormRaw identities][${idx}].id =`, i.id);
+    });
+
+    // 3) build payload
+    const clientIdentitiesPayload = formValue.identities?.map((i: any) => {
+      console.log('[Mapping identity item]', i);
+      return {
+        id: i.id, // you should now see it
+        identificationNumber: i.identificationNumber,
+        clientIdentityTypeId: i.selectedIdentities,
+        isMain: i.isMain,
+      };
+    });
 
     if (this.editMode) {
       const changes: any = {
-        id: this.individualBusinessId, // ✅ Use actual business detail ID, not clientId
+        id: this.individualBusinessId,
         name: formValue.nameEnglishIndividual,
         nameAR: formValue.nameArabicIndividual,
         shortName: formValue.shortNameIndividual,
         clientTypeId: 2,
-        clientId: this.clientId, // ✅ Keep clientId in payload
+        clientId: this.clientId,
         businessActivity: formValue.businessActivityIndividual,
         email: formValue.emailIndividual,
         jobTitle: formValue.jobTitleIndividual,
         birthDate: (formValue.dateOfBirthIndividual as Date)?.toISOString(),
         genderId: formValue.genderIndividual,
         subSectorIdList: formValue.subSectorIdList,
-        clientIdentities: formValue.identities?.map((i: any) => ({
-          id: i.id,
-          identificationNumber: i.identificationNumber,
-          clientIdentityTypeId: i.selectedIdentities,
-          isMain: i.isMain,
-        })),
+        clientIdentities: clientIdentitiesPayload,
       };
 
       console.log('[Edit Mode] PATCH Payload:', changes);
-      this.individualFacade.update(this.individualBusinessId, changes); // ✅ Correct ID
+      this.individualFacade.update(this.individualBusinessId, changes);
     } else {
       const payload = {
         name: formValue.nameEnglishIndividual,
@@ -500,12 +501,7 @@ export class AddClientComponent implements OnInit {
         jobTitle: formValue.jobTitleIndividual,
         birthDate: (formValue.dateOfBirthIndividual as Date)?.toISOString(),
         genderId: formValue.genderIndividual,
-        clientIdentities: formValue.identities?.map((i: any) => ({
-          id: i.id,
-          identificationNumber: i.identificationNumber,
-          clientIdentityTypeId: i.selectedIdentities,
-          isMain: i.isMain,
-        })),
+        clientIdentities: clientIdentitiesPayload,
       };
 
       console.log('[Create Mode] POST Payload:', payload);
