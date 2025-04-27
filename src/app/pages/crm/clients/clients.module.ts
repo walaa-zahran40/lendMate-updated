@@ -82,6 +82,10 @@ import { ClientCentralBankEffects } from './store/client-central-bank-info/clien
 import { clientCentralBankFeatureKey } from './store/client-central-bank-info/client-central-bank.state';
 import { ClientShareholdersEffects } from './store/client-share-holders/client-share-holders.effects';
 import { clientShareholdersReducer } from './store/client-share-holders/client-share-holders.reducer';
+import { ClientGuarantorsEffects } from './store/client-guarantors/client-guarantors.effects';
+import { clientGuarantorsReducer } from './store/client-guarantors/client-guarantors.reducer';
+import { ClientTMLOfficersEffects } from './store/client-tml-officers/client-tml-officers.effects';
+import { clientTMLOfficersReducer } from './store/client-tml-officers/client-tml-officers.reducer';
 
 @NgModule({
   declarations: [
@@ -162,6 +166,10 @@ import { clientShareholdersReducer } from './store/client-share-holders/client-s
     EffectsModule.forFeature([ClientCentralBankEffects]),
     StoreModule.forFeature('clientShareholders', clientShareholdersReducer),
     EffectsModule.forFeature([ClientShareholdersEffects]),
+    StoreModule.forFeature('clientGuarantors', clientGuarantorsReducer),
+    EffectsModule.forFeature([ClientGuarantorsEffects]),
+    StoreModule.forFeature('clientTMLOfficers', clientTMLOfficersReducer),
+    EffectsModule.forFeature([ClientTMLOfficersEffects]),
   ],
 })
 export class ClientsModule {}
