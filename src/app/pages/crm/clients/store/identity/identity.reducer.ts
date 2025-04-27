@@ -1,8 +1,10 @@
 import { createReducer, on } from '@ngrx/store';
 import * as IdentityActions from './identity.actions';
+import { ClientIdentity } from '../../../../../shared/interfaces/client-identity.interface';
 
 export interface IdentityState {
   items: IdentityActions.IdentityType[];
+  current?: ClientIdentity;
   loading: boolean;
   error: any;
 }
@@ -22,10 +24,10 @@ export const identityReducer = createReducer(
     error: null,
   })),
 
-  on(IdentityActions.loadClientIdentitiesSuccess, (state, { items }) => ({
+  on(IdentityActions.loadClientIdentitySuccess, (state, { identity }) => ({
     ...state,
     loading: false,
-    items,
+    current: identity,
   })),
 
   on(IdentityActions.loadClientIdentitiesFailure, (state, { error }) => ({

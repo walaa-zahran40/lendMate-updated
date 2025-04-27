@@ -90,6 +90,23 @@ export class AddClientComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    const clientId = +this.route.snapshot.paramMap.get('clientId')!;
+    this.identityFacade.loadIdentity(clientId);
+    this.identityFacade.currentIdentity$
+      .pipe(filter((i) => !!i))
+      .subscribe((i) => {
+        this.addClientFormIndividual.setControl(
+          'identities',
+          this.fb.array([
+            this.fb.group({
+              id: i.id,
+              identificationNumber: i.identificationNumber,
+              selectedIdentities: i.clientIdentityTypeId,
+              isMain: i.isMain,
+            }),
+          ])
+        );
+      });
     // 0) reset everything
     this.editMode = false;
     this.activeTabIndex = 0;
@@ -171,7 +188,6 @@ export class AddClientComponent implements OnInit {
     // 3) kick off your other lookups...
     this.store.dispatch(loadSectors());
     this.store.dispatch(loadSubSectors());
-    this.identityFacade.loadAll();
     this.store
       .select(selectAllSectors)
       .subscribe((s) => (this.sectorsList = s));
@@ -193,12 +209,29 @@ export class AddClientComponent implements OnInit {
     // Clear & rebuild the FormArray
     const arr = this.addClientFormIndividual.get('identities') as FormArray;
     arr.clear();
+    console.log('identities', ind);
+    ind.clientIdentities.forEach((ci) => {
+      // 1) log the raw object
+      console.log('[patchFormIndividual] incoming identity', ci);
+
+      // 2) push a FormGroup that *includes* the id
+      const fg = this.fb.group({
+        id: [ci.id], // <<–– include the id
+        identificationNumber: [ci.identificationNumber, Validators.required],
+        selectedIdentities: [ci.clientIdentityTypeId, Validators.required],
+        isMain: [ci.isMain, Validators.required],
+      });
+      arr.push(fg);
+
+      // 3) log the group you just built
+      console.log('[patchFormIndividual] pushed FormGroup value:', fg.value);
+    });
 
     ind.clientIdentities.forEach((ci) =>
       arr.push(
         this.fb.group({
           identificationNumber: [ci.identificationNumber, Validators.required],
-          // <-- scalar initial value
+          id: [ci.id], // <<–– include the id
           selectedIdentities: [ci.clientIdentityTypeId, Validators.required],
           isMain: [ci.isMain, Validators.required],
         })

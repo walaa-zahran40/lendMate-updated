@@ -6,13 +6,19 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class IdentityFacade {
-  identityTypes$: Observable<IdentityActions.IdentityType[]> =
-    this.store.select(IdentitySelectors.selectAllClientIdentities);
+  identityTypes$ = this.store.select(
+    IdentitySelectors.selectAllClientIdentities
+  );
+  currentIdentity$ = this.store.select(
+    IdentitySelectors.selectCurrentClientIdentity
+  );
   loading$ = this.store.select(IdentitySelectors.selectClientIdentitiesLoading);
-
   constructor(private store: Store) {}
 
-  loadAll() {
-    this.store.dispatch(IdentityActions.loadClientIdentities());
+  loadTypes() {
+    this.store.dispatch(IdentityActions.loadClientIdentities()); // existing
+  }
+  loadIdentity(clientId: number) {
+    this.store.dispatch(IdentityActions.loadClientIdentity({ clientId }));
   }
 }

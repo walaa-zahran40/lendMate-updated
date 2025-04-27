@@ -13,3 +13,7 @@ export const selectClientIdentitiesLoading = createSelector(
   selectIdentityState,
   (state) => state.loading
 );
+export const selectCurrentClientIdentity = createSelector(
+  selectIdentityState,
+  (state) => state.current
+);

@@ -18,4 +18,9 @@ export class ClientIdentityService {
       `${this.apiUrl}/GetAllClientIdentityTypes`
     );
   }
+  getByClientId(clientId: number): Observable<ClientIdentity> {
+    return this.http.get<ClientIdentity>(
+      `${this.apiUrl}/GetByClientId/${clientId}`
+    );
+  }
 }
