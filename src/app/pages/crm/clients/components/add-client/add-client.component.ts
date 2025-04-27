@@ -387,6 +387,7 @@ export class AddClientComponent implements OnInit {
         subSectorIdList: formValue.subSectorIdList,
         legalFormLawId: formValue.legalFormLawId,
         legalFormId: formValue.legalFormId,
+        taxId: String(formValue.taxId),
       };
       delete updatedClient.sectorId;
 

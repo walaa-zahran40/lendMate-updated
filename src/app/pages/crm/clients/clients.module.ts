@@ -8,6 +8,10 @@ import { AddCrAuthorityOfficeComponent } from './components/add-cr-authority-off
 import { AddPhoneNumberComponent } from './components/add-phone-number/add-phone-number.component';
 import { AddSalesTurnoverComponent } from './components/add-sales-turnover/add-sales-turnover.component';
 import { AddShareHoldersComponent } from './components/add-share-holders/add-share-holders.component';
+import {
+  reducer as clientCRAuthorityOfficesReducer,
+  clientCRAuthorityOfficesFeatureKey,
+} from './store/client-cr-authority-office/client-cr-authority-office.reducer';
 import { AddTaxAuthorityOfficeComponent } from './components/add-tax-authority-office/add-tax-authority-office.component';
 import { AddTmlOfficerComponent } from './components/add-tml-officer/add-tml-officer.component';
 import { ClientOnboardingComponent } from './components/client-onboarding/client-onboarding.component';
@@ -63,6 +67,21 @@ import { clientFileReducer } from './store/client-file/client-file.reducer';
 import { ClientFileEffects } from './store/client-file/client-file.effects';
 import { documentTypeReducer } from './store/document-type/document-type.reducer';
 import { DocumentTypeEffects } from './store/document-type/document-type.effects';
+import { ClientSalesTurnoversEffects } from './store/turnover/client-sales-turnovers.effects';
+import {
+  clientSalesTurnoversFeatureKey,
+  reducer,
+} from './store/turnover/client-sales-turnovers.reducer';
+import { ContactPersonEffects } from './store/contact-person/contact-person.effects';
+import {
+  contactPersonsFeatureKey,
+  contactPersonsReducer,
+} from './store/contact-person/contact-person.reducer';
+import { ClientCRAuthorityOfficeEffects } from './store/client-cr-authority-office/client-cr-authority-office.effects';
+import { ClientCentralBankEffects } from './store/client-central-bank-info/client-central-bank.effects';
+import { clientCentralBankFeatureKey } from './store/client-central-bank-info/client-central-bank.state';
+import { ClientShareholdersEffects } from './store/client-share-holders/client-share-holders.effects';
+import { clientShareholdersReducer } from './store/client-share-holders/client-share-holders.reducer';
 
 @NgModule({
   declarations: [
@@ -130,6 +149,19 @@ import { DocumentTypeEffects } from './store/document-type/document-type.effects
     EffectsModule.forFeature([ClientFileEffects]),
     StoreModule.forFeature('documentTypes', documentTypeReducer),
     EffectsModule.forFeature([DocumentTypeEffects]),
+    StoreModule.forFeature(clientSalesTurnoversFeatureKey, reducer),
+    EffectsModule.forFeature([ClientSalesTurnoversEffects]),
+    StoreModule.forFeature(contactPersonsFeatureKey, contactPersonsReducer),
+    EffectsModule.forFeature([ContactPersonEffects]),
+    StoreModule.forFeature(
+      clientCRAuthorityOfficesFeatureKey,
+      clientCRAuthorityOfficesReducer
+    ),
+    EffectsModule.forFeature([ClientCRAuthorityOfficeEffects]),
+    StoreModule.forFeature(clientCentralBankFeatureKey, reducer),
+    EffectsModule.forFeature([ClientCentralBankEffects]),
+    StoreModule.forFeature('clientShareholders', clientShareholdersReducer),
+    EffectsModule.forFeature([ClientShareholdersEffects]),
   ],
 })
 export class ClientsModule {}

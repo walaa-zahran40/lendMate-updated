@@ -10,4 +10,6 @@ export class AddSalesTurnoverComponent {
   addSales() {
     console.log('added');
   }
+  //   this.turnoverFacade.loadAll(1);
+  // this.turnoverFacade.all$.subscribe(data => …);
 }
