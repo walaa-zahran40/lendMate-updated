@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { Sectors } from '../../../../interfaces/sectors.interface';
+import { Sectors } from '../../interfaces/sectors.interface';
 
 export interface SectorState {
   sectors: Sectors[];

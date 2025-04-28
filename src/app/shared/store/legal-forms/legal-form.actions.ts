@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { LegalForm } from '../../../../interfaces/legal-form.interface';
+import { LegalForm } from '../../interfaces/legal-form.interface';
 
 export const loadLegalForms = createAction('[LegalForm] Load');
 export const loadLegalFormsSuccess = createAction(

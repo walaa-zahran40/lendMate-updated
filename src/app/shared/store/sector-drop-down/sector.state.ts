@@ -1,4 +1,4 @@
-import { Sector } from '../../../../interfaces/sector.interface';
+import { Sector } from '../../interfaces/sector.interface';
 export interface SectorState {
   sectors: Sector[];
   selectedSubSectorIds: number[];

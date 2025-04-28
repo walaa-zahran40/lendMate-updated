@@ -23,17 +23,17 @@ import {
 } from 'rxjs';
 import { Sectors } from '../../interfaces/sectors.interface';
 import { Store } from '@ngrx/store';
-import { selectAllSectors } from './store/sector-drop-down/sector.selectors';
+import { selectAllSectors } from '../../store/sector-drop-down/sector.selectors';
 import { SubSectors } from '../../interfaces/sub-sector.interface';
-import { selectAllSubSectors } from './store/sub-sector-drop-down/sub-sector.selectors';
+import { selectAllSubSectors } from '../../store/sub-sector-drop-down/sub-sector.selectors';
 import { LegalFormLaw } from '../../interfaces/legal-form-law.interface';
-import { LegalFormLawFacade } from './store/legal-form-law/legal-form-law.facade';
-import { LegalFormFacade } from './store/legal-forms/legal-form.facade';
+import { LegalFormFacade } from '../../store/legal-forms/legal-form.facade';
 import { LegalForm } from '../../interfaces/legal-form.interface';
-import * as sectorsActions from './store/sector-drop-down/sector.actions';
-import * as subSectorsActions from './store/sub-sector-drop-down/sub-sector.actions';
+import * as sectorsActions from '../../store/sector-drop-down/sector.actions';
+import * as subSectorsActions from '../../store/sub-sector-drop-down/sub-sector.actions';
 import { setFormDirty } from '../../../pages/crm/clients/store/client-form/client-form.actions';
 import { FileUpload } from 'primeng/fileupload';
+import { LegalFormLawFacade } from '../../../pages/crm/clients/store/legal-form-law/legal-form-law.facade';
 export interface IdentityEntry {
   identificationNumber: string;
   selectedIdentities: any[];

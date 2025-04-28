@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { map, Observable } from 'rxjs';
 import * as LegalFormActions from './legal-form.actions';
 import * as LegalFormSelectors from './legal-form.selectors';
-import { LegalForm } from '../../../../interfaces/legal-form.interface';
+import { LegalForm } from '../../interfaces/legal-form.interface';
 
 @Injectable({
   providedIn: 'root',

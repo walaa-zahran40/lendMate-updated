@@ -24,14 +24,14 @@ import {
   selectSubSectorList,
   selectSelectedClient,
 } from '../../store/clients/clients.selectors';
-import { selectAllSectors } from '../../../../../shared/components/form/store/sector-drop-down/sector.selectors';
+import { selectAllSectors } from '../../../../../shared/store/sector-drop-down/sector.selectors';
 import {
   loadSectorById,
   loadSectors,
-} from '../../../../../shared/components/form/store/sector-drop-down/sector.actions';
+} from '../../../../../shared/store/sector-drop-down/sector.actions';
 import { SubSectors } from '../../../../../shared/interfaces/sub-sector.interface';
-import { selectAllSubSectors } from '../../../../../shared/components/form/store/sub-sector-drop-down/sub-sector.selectors';
-import { loadSubSectors } from '../../../../../shared/components/form/store/sub-sector-drop-down/sub-sector.actions';
+import { selectAllSubSectors } from '../../../../../shared/store/sub-sector-drop-down/sub-sector.selectors';
+import { loadSubSectors } from '../../../../../shared/store/sub-sector-drop-down/sub-sector.actions';
 import { IndividualFacade } from '../../store/individual/individual.facade';
 import { IdentityFacade } from '../../store/identity/identity.facade';
 import { Individual } from '../../store/individual/individual.state';

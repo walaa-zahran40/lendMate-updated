@@ -48,18 +48,16 @@ import { ViewClientIdentityComponent } from './components/view-client-identity/v
 import { AddClientIdentityComponent } from './components/add-client-identity/add-client-identity.component';
 import { ClientTypesEffects } from './store/client-types/client-types.effects';
 import { clientTypesReducer } from './store/client-types/client-types.reducer';
-import { legalFormLawReducer } from '../../../shared/components/form/store/legal-form-law/legal-form-law.reducer';
-import { legalFormReducer } from '../../../shared/components/form/store/legal-forms/legal-form.reducer';
-import { LegalFormEffects } from '../../../shared/components/form/store/legal-forms/legal-form.effects';
-import { LegalFormLawEffects } from '../../../shared/components/form/store/legal-form-law/legal-form-law.effects';
+import { legalFormReducer } from '../../../shared/store/legal-forms/legal-form.reducer';
+import { LegalFormEffects } from '../../../shared/store/legal-forms/legal-form.effects';
 import { individualReducer } from './store/individual/individual.reducer';
 import { IndividualEffects } from './store/individual/individual.effects';
 import { LeaveEffects } from './store/client-form/client-form.effects';
 import { clientFormReducer } from './store/client-form/client-form.reducer';
-import { SectorEffects } from '../../../shared/components/form/store/sector-drop-down/sector.effects';
-import { sectorReducer } from '../../../shared/components/form/store/sector-drop-down/sector.reducer';
-import { SubSectorEffects } from '../../../shared/components/form/store/sub-sector-drop-down/sub-sector.effects';
-import { subSectorReducer } from '../../../shared/components/form/store/sub-sector-drop-down/sub-sector.reducer';
+import { SectorEffects } from '../../../shared/store/sector-drop-down/sector.effects';
+import { sectorReducer } from '../../../shared/store/sector-drop-down/sector.reducer';
+import { SubSectorEffects } from '../../../shared/store/sub-sector-drop-down/sub-sector.effects';
+import { subSectorReducer } from '../../../shared/store/sub-sector-drop-down/sub-sector.reducer';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { IdentityEffects } from './store/identity/identity.effects';
 import { identityReducer } from './store/identity/identity.reducer';
@@ -86,6 +84,8 @@ import { ClientGuarantorsEffects } from './store/client-guarantors/client-guaran
 import { clientGuarantorsReducer } from './store/client-guarantors/client-guarantors.reducer';
 import { ClientTMLOfficersEffects } from './store/client-tml-officers/client-tml-officers.effects';
 import { clientTMLOfficersReducer } from './store/client-tml-officers/client-tml-officers.reducer';
+import { LegalFormLawEffects } from './store/legal-form-law/legal-form-law.effects';
+import { legalFormLawReducer } from './store/legal-form-law/legal-form-law.reducer';
 
 @NgModule({
   declarations: [
