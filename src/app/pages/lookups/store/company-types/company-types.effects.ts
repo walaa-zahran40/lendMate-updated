@@ -106,6 +106,16 @@ export class CompanyTypesEffects {
     )
   );
 
+  refreshList$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        CompanyActions.createCompanyTypeSuccess,
+        CompanyActions.updateCompanyTypeSuccess,
+        CompanyActions.deleteCompanyTypeSuccess
+      ),
+      map(() => CompanyActions.loadCompanyTypes())
+    )
+  );
   constructor(
     private actions$: Actions,
     private service: CompanyTypesService

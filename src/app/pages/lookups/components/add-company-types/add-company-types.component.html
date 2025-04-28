@@ -8,25 +8,16 @@
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
+        *ngIf="addCompanyTypesLookupsForm"
         [title]="'Main Information'"
         [description]="
-          'Introduce your company core info quickly to users by fill up company
-details'
+          'Introduce your company core info quickly to users by fill up company details'
         "
+        [formGroup]="addCompanyTypesLookupsForm"
         [addCompanyTypesLookupsForm]="true"
+        [editMode]="editMode"
+        (submitForm)="addOrEditCompanyTypes()"
       ></app-form>
-
-      <div class="row justify-end">
-        <div
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
-          (click)="addCompanyTypes()"
-        >
-          <p-button
-            label="Add Company Type"
-            class="custom-save m-0 float-right"
-          />
-        </div>
-      </div>
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>

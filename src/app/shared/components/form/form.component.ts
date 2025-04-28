@@ -5,6 +5,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  SimpleChanges,
   ViewChild,
   viewChild,
 } from '@angular/core';
@@ -47,6 +48,7 @@ export interface IdentityEntry {
 })
 export class FormComponent implements OnInit, OnDestroy {
   @Input() formGroup!: FormGroup;
+  @Input() viewOnly = false;
   companyLegalDetail: CompanyLegalDetails = {};
   @Output() addIdentity = new EventEmitter<void>();
   @Output() removeIdentity = new EventEmitter<number>();
@@ -949,7 +951,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/crm/clients/view-assest-type']);
   }
   viewCompanyTypes() {
-    this.router.navigate(['/crm/clients/view-company-types']);
+    this.router.navigate(['/lookups/view-company-types']);
   }
   viewLegalFormLaw() {
     this.router.navigate(['/legals/view-legal-form-law']);
@@ -1090,5 +1092,23 @@ export class FormComponent implements OnInit, OnDestroy {
       documentTypeIds: this.selectedDocuments.map((d: { id: any }) => d.id),
       file: this.selectedFile,
     });
+  }
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['viewOnly']) {
+      if (this.viewOnly) {
+        this.formGroup.disable();
+      } else {
+        this.formGroup.enable();
+      }
+    }
+  }
+  onSubmit(): void {
+    if (this.formGroup.invalid) {
+      // mark everything so the errors become visible
+      this.formGroup.markAllAsTouched();
+      return;
+    }
+    // bubble up to the parent
+    this.submitForm.emit();
   }
 }

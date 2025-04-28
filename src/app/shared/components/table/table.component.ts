@@ -44,7 +44,8 @@ export class TableComponent {
   @Input() download!: boolean;
   @Input() checkBox!: boolean;
   @Input() first: number = 0;
-
+  @Input() view = false;
+  @Output() viewForm = new EventEmitter<any>();
   @Input() filters: boolean = true;
   @Input() uppercase!: string;
   @Input() viewClientIdentityTable!: boolean;
@@ -111,7 +112,7 @@ export class TableComponent {
   @Input() viewClientGuarantorTable!: boolean;
   @Input() paginator: boolean = true;
   @Output() wizardBtn = new EventEmitter<void>();
-  @Output() editClient = new EventEmitter<Client>();
+  @Output() editClient = new EventEmitter<any>();
 
   checked: boolean = false;
   first2: number = 0;
@@ -148,6 +149,12 @@ export class TableComponent {
   logAndDelete(id: number) {
     console.log('Delete clicked with ID:', id);
     this.deleteClient.emit(id);
+  }
+  onView(rowData: any) {
+    // go to the form parent’s route, passing id + mode=view
+    this.router.navigate(['/crm/clients/add-company-types'], {
+      queryParams: { id: rowData.id, mode: 'view' },
+    });
   }
   generatePdf() {
     if (!this.tableData?.length) {

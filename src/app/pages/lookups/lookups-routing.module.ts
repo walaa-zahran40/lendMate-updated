@@ -100,6 +100,10 @@ const routes: Routes = [
     component: AddCompanyTypesComponent,
   },
   {
+    path: 'add-company-types/:id',
+    component: AddCompanyTypesComponent,
+  },
+  {
     path: 'add-fee-calculation-types',
     component: AddFeeCalculationTypesComponent,
   },

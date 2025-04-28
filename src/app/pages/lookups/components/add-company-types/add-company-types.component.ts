@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
 import { CompanyTypesFacade } from '../../store/company-types/company-types.facade';
+import { filter, take } from 'rxjs';
+import { arabicOnlyValidator } from '../../../../shared/validators/arabic-only.validator';
+import { CompanyType } from '../../store/company-types/company-type.model';
 
 @Component({
   selector: 'app-add-company-types',
@@ -11,73 +13,120 @@ import { CompanyTypesFacade } from '../../store/company-types/company-types.faca
   styleUrl: './add-company-types.component.scss',
 })
 export class AddCompanyTypesComponent {
-  clientId!: number;
   editMode: boolean = false;
-  companyTypesForm!: FormGroup;
+  viewOnly = false;
+  addCompanyTypesLookupsForm!: FormGroup;
+  clientId: any;
+
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private facade: CompanyTypesFacade,
-    private router: Router,
-    private messageService: MessageService
+    private router: Router
   ) {}
 
   ngOnInit() {
-    console.log('[Route Snapshot] Full Params:', this.route.snapshot.paramMap);
+    this.addCompanyTypesLookupsForm = this.fb.group({
+      id: [null], // ← new hidden control
+      name: [
+        '',
+        [Validators.required], // 2nd slot (sync)
+      ],
+      nameAR: ['', [Validators.required, arabicOnlyValidator]],
+      isActive: [true], // ← new hidden control
+    });
 
-    this.clientId = +this.route.snapshot.paramMap.get('clientId')!;
+    this.route.paramMap.subscribe((params) => {
+      const id = params.get('id');
+      if (id) {
+        // we have an id → edit mode
+        this.editMode = true;
+        this.clientId = +id;
 
-    console.log('[Init] clientId:', this.clientId);
-    console.log('[Init] editMode:', this.editMode);
+        // disable if it’s view mode via ?mode=view
+        this.viewOnly = this.route.snapshot.queryParams['mode'] === 'view';
+        if (this.viewOnly) {
+          this.addCompanyTypesLookupsForm.disable();
+        }
 
-    this.companyTypesForm = this.fb.group({});
-
-    if (this.editMode) {
-      // this.facade.loadClientFileById(this.documentId!); // ✅ correct call
-    }
+        // 3. load the existing record & patch the form
+        this.facade.loadOne(this.clientId);
+        this.facade.current$
+          .pipe(
+            filter((ct) => !!ct),
+            take(1)
+          )
+          .subscribe((ct) => {
+            this.addCompanyTypesLookupsForm.patchValue({
+              id: ct!.id,
+              name: ct!.name,
+              nameAR: ct!.nameAR,
+              isActive: ct!.isActive,
+            });
+          });
+      } else {
+        // no id → add mode: still check if ?mode=view
+        this.viewOnly = this.route.snapshot.queryParams['mode'] === 'view';
+        if (this.viewOnly) {
+          this.addCompanyTypesLookupsForm.disable();
+        }
+      }
+    });
   }
 
-  addCompanyTypes() {
-    console.log('Entered addCompanyTypes method');
+  addOrEditCompanyTypes() {
+    console.log('💥 addCompanyTypes() called');
+    console.log('  viewOnly:', this.viewOnly);
+    console.log('  editMode:', this.editMode);
+    console.log('  form valid:', this.addCompanyTypesLookupsForm.valid);
+    console.log('  form touched:', this.addCompanyTypesLookupsForm.touched);
+    console.log(
+      '  form raw value:',
+      this.addCompanyTypesLookupsForm.getRawValue()
+    );
 
-    if (this.companyTypesForm.invalid) {
-      this.companyTypesForm.markAllAsTouched();
+    // Print individual control errors
+    const nameCtrl = this.addCompanyTypesLookupsForm.get('name');
+    const nameARCtrl = this.addCompanyTypesLookupsForm.get('nameAR');
+    console.log('  name.errors:', nameCtrl?.errors);
+    console.log('  nameAR.errors:', nameARCtrl?.errors);
+
+    if (this.viewOnly) {
+      console.log('⚠️ viewOnly mode — aborting add');
       return;
     }
 
-    if (this.editMode) {
-      // 🎯 EDIT MODE: Send JSON body, not FormData
-      const updatePayload = {};
-
-      console.log('[Edit Mode] Sending update payload:', updatePayload);
-
-      // this.facade.update(
-      //    this.documentId!,
-      //    updatePayload);
-
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Updated',
-        detail: 'Document updated successfully',
-      });
-
-      this.router.navigate(['/crm/clients/view-upload-documents'], {
-        queryParams: { id: this.clientId },
-      });
-    } else {
-      // 🎯 ADD MODE
-
-      const formData = new FormData();
-      formData.append('clientId', this.clientId.toString());
-      // formData.append('expiryDate', this.formatDateWithoutTime(expiryDate));
-      // formData.append('documentTypeId', docTypeId.toString());
-      // formData.append('file', file);
-
-      // this.facade.uploadClientFile(formData, this.clientId);
-
-      this.router.navigate(['/lookups/view-company-types'], {
-        queryParams: { id: this.clientId },
-      });
+    if (this.addCompanyTypesLookupsForm.invalid) {
+      console.warn('❌ Form is invalid — marking touched and aborting');
+      this.addCompanyTypesLookupsForm.markAllAsTouched();
+      return;
     }
+
+    const { name, nameAR, isActive } = this.addCompanyTypesLookupsForm.value;
+    const payload: Partial<CompanyType> = { name, nameAR, isActive };
+    console.log('  → payload object:', payload);
+
+    // Double-check your route param
+    const routeId = this.route.snapshot.paramMap.get('id');
+    console.log('  route.snapshot.paramMap.get(clientId):', routeId);
+
+    if (this.editMode) {
+      const { id, name, nameAR, isActive } =
+        this.addCompanyTypesLookupsForm.value;
+      const payload: CompanyType = { id, name, nameAR, isActive };
+      console.log(
+        '🔄 Dispatching UPDATE id=',
+        this.clientId,
+        ' payload=',
+        payload
+      );
+      this.facade.update(id, payload);
+    } else {
+      console.log('➕ Dispatching CREATE payload=', payload);
+      this.facade.create(payload);
+    }
+
+    console.log('🧭 Navigating away to view-company-types');
+    this.router.navigate(['/lookups/view-company-types']);
   }
 }

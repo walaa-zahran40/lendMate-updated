@@ -52,9 +52,7 @@
     .p-tabs {
       padding: var(--custom-padding-right-10);
     }
-    // .upload-form .p-button {
-    //   background: transparent !important;
-    // }
+
     .p-multiselect-chip-item {
       background-color: #f8f8fd;
       width: max-content;
@@ -510,6 +508,9 @@
       }
     }
   }
+}
+.div1 .custom-view {
+  float: left;
 }
 .upload-div {
   padding: 40px 10px;

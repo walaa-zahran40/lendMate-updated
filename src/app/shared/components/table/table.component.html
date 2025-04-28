@@ -65,6 +65,13 @@
           (click)="editClient.emit(rowData)"
         />
         <img
+          src="/assets/images/shared/table/view.svg"
+          alt="view"
+          class="d-inline-block mx-2 my-2"
+          *ngIf="view"
+          (click)="onView(rowData)"
+        />
+        <img
           src="/assets/images/shared/table/delete.svg"
           class="d-inline-block mx-2 my-2"
           alt="delete"

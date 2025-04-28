@@ -40,7 +40,7 @@ export class CompanyTypesFacade {
   create(data: Partial<CompanyType>) {
     this.store.dispatch(Actions.createCompanyType({ data }));
   }
-  update(id: number, data: Partial<CompanyType>) {
+  update(id: any, data: Partial<CompanyType>) {
     this.store.dispatch(Actions.updateCompanyType({ id, data }));
   }
   delete(id: number) {
