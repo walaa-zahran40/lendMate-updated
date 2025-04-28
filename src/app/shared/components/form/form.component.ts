@@ -500,21 +500,38 @@ export class FormComponent implements OnInit, OnDestroy {
         this.store.dispatch(setFormDirty({ dirty: this.formGroup.dirty }));
       });
 
-    this.sectorsSafe$ = this.store.select(selectAllSectors);
-    // Combine sectorId changes with all sub-sectors
-    const sectorCtrl = this.formGroup.get('sectorId');
-    if (sectorCtrl) {
-      this.filteredSubSectors$ = combineLatest([
-        this.formGroup
-          ?.get('sectorId')!
-          .valueChanges.pipe(startWith(this.formGroup.get('sectorId')!.value)),
-        this.store.select(selectAllSubSectors),
-      ]).pipe(
-        map(([sectorId, subSectors]) =>
-          subSectors.filter((s) => s.sectorId === sectorId)
-        )
-      );
+    if (
+      this.addClientShowMain ||
+      this.addClientShowBusiness ||
+      this.addClientShowLegal ||
+      this.addClientShowIndividual
+    ) {
+      this.sectorsSafe$ = this.store.select(selectAllSectors);
+      const sectorCtrl = this.formGroup.get('sectorId');
+      if (sectorCtrl) {
+        this.filteredSubSectors$ = combineLatest([
+          this.formGroup
+            ?.get('sectorId')!
+            .valueChanges.pipe(
+              startWith(this.formGroup.get('sectorId')!.value)
+            ),
+          this.store.select(selectAllSubSectors),
+        ]).pipe(
+          map(([sectorId, subSectors]) =>
+            subSectors.filter((s) => s.sectorId === sectorId)
+          )
+        );
+      }
+      if (this.addClientShowMain) {
+        this.store.dispatch(sectorsActions.loadSectors());
+        this.store.dispatch(subSectorsActions.loadSubSectors());
+      }
+      if (this.addClientShowLegal) {
+        this.facade.loadLegalFormLaws();
+        this.facadeLegalForms.loadLegalForms();
+      }
     }
+    // Combine sectorId changes with all sub-sectors
 
     this.selectedSectorsShowCompanyOnly = [
       { name: 'Technology', code: 'T' },
@@ -761,14 +778,6 @@ export class FormComponent implements OnInit, OnDestroy {
         key: '50%',
       },
     ];
-    if (this.addClientShowMain) {
-      this.store.dispatch(sectorsActions.loadSectors());
-      this.store.dispatch(subSectorsActions.loadSubSectors());
-    }
-    if (this.addClientShowLegal) {
-      this.facade.loadLegalFormLaws();
-      this.facadeLegalForms.loadLegalForms();
-    }
   }
   ngOnDestroy() {
     this.sub.unsubscribe();
