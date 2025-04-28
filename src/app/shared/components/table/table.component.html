@@ -62,13 +62,15 @@
           alt="edit"
           class="d-inline-block mx-2 my-2"
           *ngIf="edit"
-          (click)="editClient.emit(rowData)"
+          (click)="onEdit.emit(rowData)"
         />
         <img
           src="/assets/images/shared/table/view.svg"
           alt="view"
           class="d-inline-block mx-2 my-2"
           *ngIf="view"
+          width="37px"
+          height="28px"
           (click)="onView(rowData)"
         />
         <img

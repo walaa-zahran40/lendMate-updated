@@ -100,7 +100,7 @@ const routes: Routes = [
     component: AddCompanyTypesComponent,
   },
   {
-    path: 'add-company-types/:id',
+    path: 'edit-company-types/:id',
     component: AddCompanyTypesComponent,
   },
   {

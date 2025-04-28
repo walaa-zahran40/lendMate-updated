@@ -486,11 +486,11 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() editMode: boolean = false;
 
   constructor(
-    private router: Router,
     private store: Store,
     private facade: LegalFormLawFacade,
     private facadeLegalForms: LegalFormFacade,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public router: Router
   ) {}
 
   ngOnInit() {

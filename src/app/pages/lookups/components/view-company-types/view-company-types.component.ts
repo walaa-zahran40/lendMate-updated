@@ -99,8 +99,13 @@ export class ViewCompanyTypesComponent {
     this.showFilters = value;
   }
   onEditCompanyType(companyType: CompanyType) {
-    this.router.navigate(['/lookups/add-company-types', companyType.id], {
+    this.router.navigate(['/lookups/edit-company-types', companyType.id], {
       queryParams: { mode: 'edit' },
+    });
+  }
+  onViewCompanyType(ct: CompanyType) {
+    this.router.navigate(['/lookups/edit-company-types', ct.id], {
+      queryParams: { mode: 'view' },
     });
   }
 }

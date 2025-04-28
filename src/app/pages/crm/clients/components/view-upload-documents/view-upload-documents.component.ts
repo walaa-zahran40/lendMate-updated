@@ -141,7 +141,7 @@ export class ViewUploadDocumentsComponent implements OnInit, OnDestroy {
   }
   onEditDocument(doc: any) {
     this.router.navigate([
-      '/crm/clients/add-upload-documents',
+      '/crm/clients/edit-upload-documents',
       this.clientId,
       doc.id,
     ]);

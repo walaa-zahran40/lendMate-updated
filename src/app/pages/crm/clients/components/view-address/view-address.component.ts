@@ -88,11 +88,7 @@ export class ViewAddressComponent {
     this.selectedAddressId = null;
   }
   onEditAddress(doc: any) {
-    this.router.navigate([
-      '/crm/clients/add-upload-addresses',
-      this.clientId,
-      doc.id,
-    ]);
+    this.router.navigate(['/crm/clients/edit-address', this.clientId, doc.id]);
   }
 
   onSearch(keyword: string) {

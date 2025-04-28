@@ -89,7 +89,7 @@ export class ViewClientsComponent {
     this.showFilters = value;
   }
   onEditClient(client: Client) {
-    this.router.navigate(['/crm/clients/add-client', client.id], {
+    this.router.navigate(['/crm/clients/edit-client', client.id], {
       queryParams: { type: client.clientTypeCode },
     });
   }

@@ -26,8 +26,8 @@
       [filters]="showFilters"
       [uppercase]="'uppercase'"
       [viewUploadDocumentsTable]="true"
-      (deleteClient)="onDeleteDocument($event)"
-      (editClient)="onEditDocument($event)"
+      (onDelete)="onDeleteDocument($event)"
+      (onEdit)="onEditDocument($event)"
       (wizardBtn)="onAddSide($event)"
     ></app-table>
     <app-delete-module

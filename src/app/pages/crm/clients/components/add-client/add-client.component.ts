@@ -78,6 +78,8 @@ export class AddClientComponent implements OnInit {
   individualCode!: string;
   // You’ll look up the “Individual” type’s ID at runtime:
   individualTypeId!: number;
+  viewOnly = false;
+
   constructor(
     private fb: FormBuilder,
     private store: Store,

@@ -26,7 +26,6 @@ import { Client } from '../../interfaces/client.interface';
 export class TableComponent {
   @Input() tableData: any;
   @Input() cols: any[] = [];
-  @Output() deleteClient = new EventEmitter<number>();
   public selectedRows: any[] = [];
   @Input() col1Name!: string;
   @Input() col2Name!: string;
@@ -112,7 +111,8 @@ export class TableComponent {
   @Input() viewClientGuarantorTable!: boolean;
   @Input() paginator: boolean = true;
   @Output() wizardBtn = new EventEmitter<void>();
-  @Output() editClient = new EventEmitter<any>();
+  @Output() onEdit = new EventEmitter<any>();
+  @Output() onDelete = new EventEmitter<number>();
 
   checked: boolean = false;
   first2: number = 0;
@@ -146,16 +146,12 @@ export class TableComponent {
   get totalPages(): number {
     return Math.ceil(this.totalRecords / this.rows);
   }
+  /*Delete*/
   logAndDelete(id: number) {
     console.log('Delete clicked with ID:', id);
-    this.deleteClient.emit(id);
+    this.onDelete.emit(id);
   }
-  onView(rowData: any) {
-    // go to the form parent’s route, passing id + mode=view
-    this.router.navigate(['/crm/clients/add-company-types'], {
-      queryParams: { id: rowData.id, mode: 'view' },
-    });
-  }
+  /*Export Pdf*/
   generatePdf() {
     if (!this.tableData?.length) {
       console.warn('No data to export');
@@ -218,7 +214,7 @@ export class TableComponent {
     // 5) Generate and download
     pdfMake.createPdf(docDefinition).download('clients-report.pdf');
   }
-
+  /*Export Excel*/
   exportToExcel(): void {
     const dataToExport = this.tableData.map((row: { [x: string]: any }) =>
       Object.fromEntries(this.cols.map((col) => [col.header, row[col.field]]))
@@ -258,5 +254,9 @@ export class TableComponent {
       default:
         return code;
     }
+  }
+  /*View*/
+  onView(rowData: any) {
+    this.viewForm.emit(rowData);
   }
 }
