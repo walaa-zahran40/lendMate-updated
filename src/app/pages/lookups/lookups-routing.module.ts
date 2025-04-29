@@ -95,6 +95,7 @@ import { ViewFeesRangeComponent } from './components/view-fees-range/view-fees-r
 import { AddFeesRangeComponent } from './components/add-fees-range/add-fees-range.component';
 
 const routes: Routes = [
+  //Company Types
   {
     path: 'add-company-types',
     component: AddCompanyTypesComponent,
@@ -104,9 +105,23 @@ const routes: Routes = [
     component: AddCompanyTypesComponent,
   },
   {
+    path: 'view-company-types',
+    component: ViewCompanyTypesComponent,
+  },
+  //Fee Calculation Types
+  {
     path: 'add-fee-calculation-types',
     component: AddFeeCalculationTypesComponent,
   },
+  {
+    path: 'edit-fee-calculation-types/:id',
+    component: AddFeeCalculationTypesComponent,
+  },
+  {
+    path: 'view-fee-calculation-types',
+    component: ViewFeesCalculationTypesComponent,
+  },
+  //----
   {
     path: 'add-mandate-statuses',
     component: AddMandateStatusesComponent,
@@ -280,14 +295,7 @@ const routes: Routes = [
     path: 'add-communication-flow-type',
     component: AddCommunicationFlowTypesComponent,
   },
-  {
-    path: 'view-company-types',
-    component: ViewCompanyTypesComponent,
-  },
-  {
-    path: 'view-fees-calculation-types',
-    component: ViewFeesCalculationTypesComponent,
-  },
+
   {
     path: 'view-mandate-statuses',
     component: ViewMandateStatusesComponent,
