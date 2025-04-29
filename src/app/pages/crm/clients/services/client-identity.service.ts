@@ -9,7 +9,7 @@ import { ClientIdentity } from '../../../../shared/interfaces/client-identity.in
 export class ClientIdentityService {
   private baseUrl = 'https://192.168.10.67:7070/api';
 
-  private apiUrl = this.baseUrl + '/ClientIdentityTypes';
+  private apiUrl = this.baseUrl + '/ClientIdentities';
 
   constructor(private http: HttpClient) {}
 
