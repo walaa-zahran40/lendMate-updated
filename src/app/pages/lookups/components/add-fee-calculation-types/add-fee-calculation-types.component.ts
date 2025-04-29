@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, take } from 'rxjs';
-import { arabicOnlyValidator } from '../../../../shared/validators/arabic-only.validator';
 import { CompanyType } from '../../store/company-types/company-type.model';
 import { CompanyTypesFacade } from '../../store/company-types/company-types.facade';
 

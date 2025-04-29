@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as IdentityActions from './identity.actions';
 import * as IdentitySelectors from './identity.selectors';
-import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class IdentityFacade {

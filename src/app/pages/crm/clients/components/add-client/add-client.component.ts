@@ -78,8 +78,6 @@ export class AddClientComponent implements OnInit {
   individualCode!: string;
   // You’ll look up the “Individual” type’s ID at runtime:
   individualTypeId!: number;
-  viewOnly = false;
-
   constructor(
     private fb: FormBuilder,
     private store: Store,
@@ -92,8 +90,9 @@ export class AddClientComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const clientId = +this.route.snapshot.paramMap.get('clientId')!;
+    const clientId = +this.route.snapshot.paramMap.get('id')!;
     this.identityFacade.loadIdentity(clientId);
+
     this.identityFacade.currentIdentity$
       .pipe(filter((i) => !!i))
       .subscribe((i) => {
@@ -144,7 +143,7 @@ export class AddClientComponent implements OnInit {
 
         // — edit mode:
         this.editMode = true;
-        this.clientId = +idParam;
+        this.clientId = clientId;
         const typeParam = this.route.snapshot.queryParamMap.get('type') ?? '';
         const isIndEdit = typeParam === this.individualCode;
 
