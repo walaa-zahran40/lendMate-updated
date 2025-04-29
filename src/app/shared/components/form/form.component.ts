@@ -7,7 +7,6 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
-  viewChild,
 } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';

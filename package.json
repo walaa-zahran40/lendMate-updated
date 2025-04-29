@@ -34,16 +34,12 @@
     "@ngrx/store-devtools": "^19.0.1",
     "@popperjs/core": "^2.11.8",
     "@primeng/themes": "^19.0.6",
-    "@tailwindcss/postcss": "^4.0.6",
-    "@tailwindcss/vite": "^4.0.6",
     "bootstrap": "^5.3.3",
     "file-saver": "^2.0.5",
     "jspdf": "^3.0.1",
     "jspdf-autotable": "^5.0.2",
-    "mdb-angular-ui-kit": "^7.1.0",
     "ngx-cookie-service": "^19.1.0",
     "pdfmake": "^0.2.18",
-    "postcss": "^8.5.2",
     "primeicons": "^7.0.0",
     "primeng": "^19.0.6",
     "rxjs": "~7.8.0",
@@ -67,6 +63,9 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~5.7.2"
+    "typescript": "~5.7.2",
+    "postcss": "^8.5.2",
+    "@tailwindcss/postcss": "^4.0.6",
+    "@tailwindcss/vite": "^4.0.6"
   }
 }
