@@ -35,10 +35,10 @@
 
   <ng-template pTemplate="body" let-rowData *ngIf="cols.length > 0">
     <tr>
-      <td *ngIf="checkBox">
+      <td *ngIf="checkBox" class="pt-0">
         <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
       </td>
-      <td *ngFor="let col of cols">
+      <td *ngFor="let col of cols" class="pt-0">
         <span class="p-column-title">{{ col.header }}</span>
         <ng-container [ngSwitch]="col.field">
           <!-- when it's your “Type” column, call getTypeLabel() -->
@@ -56,7 +56,7 @@
       </td>
       <!-- <td>{{ getTypeLabel(rowData.clientTypeCode) }}</td> -->
 
-      <td class="imgs">
+      <td class="imgs pt-0">
         <img
           src="/assets/images/shared/table/edit.svg"
           alt="edit"
@@ -67,10 +67,10 @@
         <img
           src="/assets/images/shared/table/view.svg"
           alt="view"
-          class="d-inline-block mx-2 my-2"
+          class="d-inline-block m-0"
           *ngIf="view"
-          width="37px"
-          height="28px"
+          width="30px"
+          height="20px"
           (click)="onView(rowData)"
         />
         <img
