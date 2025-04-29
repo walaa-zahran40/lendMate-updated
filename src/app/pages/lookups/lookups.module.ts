@@ -54,7 +54,7 @@ import { ViewCompanyTypesComponent } from './components/view-company-types/view-
 import { ViewFeesCalculationTypesComponent } from './components/view-fees-calculation-types/view-fees-calculation-types.component';
 import { ViewMandateStatusesComponent } from './components/view-mandate-statuses/view-mandate-statuses.component';
 import { ViewInterestRateBenchmarksComponent } from './components/view-interest-rate-benchmarks/view-interest-rate-benchmarks.component';
-import { ViewFeelTypesComponent } from './components/view-feel-types/view-feel-types.component';
+import { ViewFeeTypesComponent } from './components/view-fee-types/view-fee-types.component';
 import { ViewGracePeriodUnitsComponent } from './components/view-grace-period-units/view-grace-period-units.component';
 import { ViewRentStructureTypesComponent } from './components/view-rent-structure-types/view-rent-structure-types.component';
 import { ViewCurrenciesComponent } from './components/view-currencies/view-currencies.component';
@@ -151,7 +151,7 @@ import { companyTypesReducer } from './store/company-types/company-types.reducer
     ViewFeesCalculationTypesComponent,
     ViewMandateStatusesComponent,
     ViewInterestRateBenchmarksComponent,
-    ViewFeelTypesComponent,
+    ViewFeeTypesComponent,
     ViewGracePeriodUnitsComponent,
     ViewRentStructureTypesComponent,
     ViewCurrenciesComponent,

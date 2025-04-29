@@ -59,8 +59,6 @@ import { sectorReducer } from '../../../shared/store/sector-drop-down/sector.red
 import { SubSectorEffects } from '../../../shared/store/sub-sector-drop-down/sub-sector.effects';
 import { subSectorReducer } from '../../../shared/store/sub-sector-drop-down/sub-sector.reducer';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { IdentityEffects } from './store/identity/identity.effects';
-import { identityReducer } from './store/identity/identity.reducer';
 import { clientFileReducer } from './store/client-file/client-file.reducer';
 import { ClientFileEffects } from './store/client-file/client-file.effects';
 import { documentTypeReducer } from './store/document-type/document-type.reducer';
@@ -86,6 +84,13 @@ import { ClientTMLOfficersEffects } from './store/client-tml-officers/client-tml
 import { clientTMLOfficersReducer } from './store/client-tml-officers/client-tml-officers.reducer';
 import { LegalFormLawEffects } from './store/legal-form-law/legal-form-law.effects';
 import { legalFormLawReducer } from './store/legal-form-law/legal-form-law.reducer';
+import { ClientIdentitiesEffects } from './store/client-identities/client-identities.effects';
+import { clientIdentitiesReducer } from './store/client-identities/client-identities.reducer';
+import {
+  CLIENT_IDENTITY_TYPES_FEATURE_KEY,
+  clientIdentityTypesReducer,
+} from './store/client-identity-types/client-identity-types.reducer';
+import { ClientIdentityTypesEffects } from './store/client-identity-types/client-identity-types.effects';
 
 @NgModule({
   declarations: [
@@ -147,8 +152,6 @@ import { legalFormLawReducer } from './store/legal-form-law/legal-form-law.reduc
     EffectsModule.forFeature([SubSectorEffects]),
     StoreModule.forFeature('individual', individualReducer),
     EffectsModule.forFeature([IndividualEffects]),
-    StoreModule.forFeature('identityTypes', identityReducer),
-    EffectsModule.forFeature([IdentityEffects]),
     StoreModule.forFeature('clientFile', clientFileReducer),
     EffectsModule.forFeature([ClientFileEffects]),
     StoreModule.forFeature('documentTypes', documentTypeReducer),
@@ -170,6 +173,13 @@ import { legalFormLawReducer } from './store/legal-form-law/legal-form-law.reduc
     EffectsModule.forFeature([ClientGuarantorsEffects]),
     StoreModule.forFeature('clientTMLOfficers', clientTMLOfficersReducer),
     EffectsModule.forFeature([ClientTMLOfficersEffects]),
+    StoreModule.forFeature('clientIdentities', clientIdentitiesReducer),
+    EffectsModule.forFeature([ClientIdentitiesEffects]),
+    StoreModule.forFeature(
+      CLIENT_IDENTITY_TYPES_FEATURE_KEY,
+      clientIdentityTypesReducer
+    ),
+    EffectsModule.forFeature([ClientIdentityTypesEffects]),
   ],
 })
 export class ClientsModule {}

@@ -13,7 +13,7 @@ import { positiveNumberValidator } from '../../../../../shared/validators/positi
 import { LegalFormService } from '../../services/legal-form.service';
 import { Sector } from '../../../../../shared/interfaces/sector.interface';
 import { LegalFormLawService } from '../../services/legal-form-law.service';
-import { filter, map, Observable, take } from 'rxjs';
+import { combineLatest, filter, map, Observable, take } from 'rxjs';
 import { ClientTypesFacade } from '../../store/client-types/client-types.facade';
 import {
   loadClient,
@@ -33,8 +33,9 @@ import { SubSectors } from '../../../../../shared/interfaces/sub-sector.interfac
 import { selectAllSubSectors } from '../../../../../shared/store/sub-sector-drop-down/sub-sector.selectors';
 import { loadSubSectors } from '../../../../../shared/store/sub-sector-drop-down/sub-sector.actions';
 import { IndividualFacade } from '../../store/individual/individual.facade';
-import { IdentityFacade } from '../../store/identity/identity.facade';
 import { Individual } from '../../store/individual/individual.state';
+import { ClientIdentitiesFacade } from '../../store/client-identities/client-identities.facade';
+import { ClientIdentityTypesFacade } from '../../store/client-identity-types/client-identity-types.facade';
 
 @Component({
   selector: 'app-add-client',
@@ -66,12 +67,7 @@ export class AddClientComponent implements OnInit {
   selectedLegalFormId: any;
   selectedSubSectorId: any;
   formGroup!: FormGroup;
-  identityOptions: {
-    id: number;
-    name: string;
-    nameAR: string;
-    isActive: boolean;
-  }[] = [];
+  identityOptions: any;
   public activeTabIndex = 0; // 0 = company, 1 = individual
   public disableCompanyTab = false;
   public disableIndividualTab = false;
@@ -86,157 +82,198 @@ export class AddClientComponent implements OnInit {
     private legalFormlawService: LegalFormLawService,
     private route: ActivatedRoute,
     private individualFacade: IndividualFacade,
-    private identityFacade: IdentityFacade
+    private identityFacade: ClientIdentitiesFacade,
+    private identityTypeFacade: ClientIdentityTypesFacade
   ) {}
 
-  ngOnInit() {
-    const clientId = +this.route.snapshot.paramMap.get('id')!;
-    this.identityFacade.loadIdentity(clientId);
+  ngOnInit(): void {
+    // 0) grab the real route param (not “id” → “clientId”)
+    const raw = this.route.snapshot.paramMap.get('clientId');
+    if (!raw) {
+      console.warn('No clientId in route, skipping identity load');
+    }
+    const clientId = +raw!;
 
-    this.identityFacade.currentIdentity$
-      .pipe(filter((i) => !!i))
-      .subscribe((i) => {
-        this.addClientFormIndividual.setControl(
-          'identities',
-          this.fb.array([
-            this.fb.group({
-              id: i.id,
-              identificationNumber: i.identificationNumber,
-              selectedIdentities: i.clientIdentityTypeId,
-              isMain: i.isMain,
-            }),
-          ])
-        );
-      });
-    // 0) reset everything
-    this.editMode = false;
-    this.activeTabIndex = 0;
-    this.disableCompanyTab = false;
-    this.disableIndividualTab = false;
+    // 1) kick off the lookup of *all* ClientIdentityTypes
+    this.identityTypeFacade.loadAll();
+    // 2) load just this client’s identities
+    this.identityFacade.loadAll();
 
-    // 1) build forms
+    // 3) once both have arrived, map them into your form + dropdown options
+    combineLatest({
+      identities: this.identityFacade.all$.pipe(
+        filter((arr) => arr.length > 0), // wait until store is populated
+        take(1)
+      ),
+      types: this.identityTypeFacade.all$.pipe(
+        filter((arr) => arr.length > 0),
+        take(1)
+      ),
+    }).subscribe(({ identities, types }) => {
+      // 👇 filter the master list of types down to only the ones this client uses
+      const usedTypeIds = [
+        ...new Set(identities.map((i) => i.identificationTypeId)),
+      ];
+      this.identityOptions = types.filter((t) => usedTypeIds.includes(t.id));
+
+      console.log('🔍 clientIdentities:', identities);
+      console.log('🔍 identityOptions for dropdown:', this.identityOptions);
+
+      // 👇 build the FormArray
+      const groups = identities.map((ci) =>
+        this.fb.group({
+          id: [ci.id],
+          identificationNumber: [ci.identificationNumber, Validators.required],
+          selectedIdentities: [ci.identificationTypeId, Validators.required],
+          isMain: [ci.isMain, Validators.required],
+        })
+      );
+      this.addClientFormIndividual.setControl(
+        'identities',
+        this.fb.array(groups)
+      );
+    });
+
+    // 4) the rest of your init…
     this.buildFormCompany();
     this.buildFormIndividual();
 
-    // 2) grab the “Individual” code
+    // 4) Load client-types to decide tabs
+    console.log('⏳ Loading clientTypes');
     this.clientTypesFacade.loadClientTypes();
     this.clientTypesFacade.types$
       .pipe(
-        filter((t) => t.length > 0),
+        filter((arr) => arr.length > 0),
         take(1)
       )
       .subscribe((types) => {
+        console.log('✅ clientTypes loaded:', types);
         const indivType = types.find(
-          (x) => x.name.toLowerCase() === 'individual'
+          (t) => t.name.toLowerCase() === 'individual'
         )!;
         this.individualCode = indivType.code;
         this.selectedClientType = indivType.id;
+        console.log(
+          '🎯 individualCode=',
+          this.individualCode,
+          'selectedClientType=',
+          this.selectedClientType
+        );
 
         const idParam = this.route.snapshot.paramMap.get('id');
         if (!idParam) {
-          // — add mode: company tab by default, **both tabs enabled**
+          console.log('➕ Add-mode: enabling both tabs');
           this.activeTabIndex = 0;
           this.disableCompanyTab = false;
           this.disableIndividualTab = false;
           return;
         }
 
-        // — edit mode:
+        console.log('✏️ Edit-mode detected');
         this.editMode = true;
-        this.clientId = clientId;
         const typeParam = this.route.snapshot.queryParamMap.get('type') ?? '';
+        console.log('🔎 queryParam type=', typeParam);
         const isIndEdit = typeParam === this.individualCode;
 
         if (isIndEdit) {
-          // ─── editing an individual ───
+          console.log('↪️ Editing individual branch');
           this.activeTabIndex = 1;
           this.disableCompanyTab = true;
           this.disableIndividualTab = false;
-          this.individualFacade.load(this.clientId); // or loadById()
-
-          this.individualFacade.selected$.subscribe((data) => {
-            if (data) {
-              this.individualBusinessId = data.id; // ✅ ← this is the internal detail ID (like 22)
-              // this.clientId = data.clientId;       // ✅ ← this is the external client ID (like 3108)
-              this.patchForm(data); // ✅ ← patch the form with the fetched data
-            }
-          });
-          this.individualFacade.load(this.clientId);
+          console.log(`sss`, this.route.snapshot);
+          console.log(`⏳ Dispatching individualFacade.load(${clientId})`);
+          this.individualFacade.load(this.route.snapshot.params['id']);
           this.individualFacade.selected$
             .pipe(filter((i) => !!i))
-            .subscribe((ind) => this.patchFormIndividual(ind!));
+            .subscribe((data) => {
+              console.log('✅ individual data loaded:', data);
+              this.individualBusinessId = data.id;
+              this.patchFormIndividual(data);
+            });
         } else {
-          // ─── editing a company ───
+          console.log('↪️ Editing company branch');
           this.activeTabIndex = 0;
           this.disableCompanyTab = false;
           this.disableIndividualTab = true;
 
+          console.log(
+            `⏳ Dispatching loadClient({ clientId: ${this.clientId} })`
+          );
           this.store.dispatch(loadClient({ clientId: this.clientId }));
           this.store
             .select(selectSelectedClient)
             .pipe(filter((c) => !!c))
-            .subscribe((c) => this.patchForm(c!));
-          this.individualFacade.selected$.subscribe((data) => {
-            if (data) {
-              this.individualBusinessId = data.id; // ✅ ← this is the internal detail ID (like 22)
-              // this.clientId = data.clientId;       // ✅ ← this is the external client ID (like 3108)
-              this.patchForm(data); // ✅ ← patch the form with the fetched data
-            }
-          });
+            .subscribe((c) => {
+              console.log('✅ company data loaded:', c);
+              this.patchForm(c!);
+            });
         }
       });
 
-    // 3) kick off your other lookups...
+    // 5) Load sectors & sub-sectors
+    console.log('⏳ Dispatching loadSectors() and loadSubSectors()');
     this.store.dispatch(loadSectors());
     this.store.dispatch(loadSubSectors());
-    this.store
-      .select(selectAllSectors)
-      .subscribe((s) => (this.sectorsList = s));
-    this.identityFacade.identityTypes$.subscribe(
-      (l) => (this.identityOptions = l)
-    );
+    this.store.select(selectAllSectors).subscribe((secs) => {
+      console.log('✅ sectors list updated:', secs);
+      this.sectorsList = secs;
+    });
   }
+
   get tabValue(): number {
     return this.disableCompanyTab ? 1 : 0;
   }
-  private patchFormIndividual(ind: Individual) {
-    // …your existing subSectorList logic…
 
+  private patchFormIndividual(ind: Individual) {
+    // ── load + filter sub-sectors for the individual’s sector ──
+    const firstSectorId = ind.subSectorList[0]?.sectorId;
+    if (firstSectorId) {
+      // tell NgRx to fetch (or ensure loaded) the sub-sectors for that sector
+      this.store.dispatch(loadSectorById({ id: firstSectorId }));
+      this.store
+        .select(selectAllSubSectors)
+        .pipe(
+          filter((subs) => subs.length > 0), // wait until they’re in the store
+          take(1),
+          map((subs) => subs.filter((s) => s.sectorId === firstSectorId))
+        )
+        .subscribe((filtered) => {
+          this.subSectorsList = filtered;
+
+          // now patch just the two controls that matter:
+          this.addClientFormIndividual.patchValue({
+            sectorId: firstSectorId,
+            subSectorIdList: ind.subSectorList.map((s) => s.sectorId),
+            clientId: this.route.snapshot.params['id'],
+          });
+        });
+    }
+
+    // ── identities array ──
     const arr = this.addClientFormIndividual.get('identities') as FormArray;
     arr.clear();
-
     ind.clientIdentities.forEach((ci) => {
-      // 1) log the raw object
-      console.log('[patchFormIndividual] incoming identity', ci);
-
-      // 2) push a FormGroup that *includes* the id
       const fg = this.fb.group({
-        id: [ci.id], // <<–– include the id
+        id: [ci.id],
         identificationNumber: [ci.identificationNumber, Validators.required],
         selectedIdentities: [ci.clientIdentityTypeId, Validators.required],
         isMain: [ci.isMain, Validators.required],
       });
       arr.push(fg);
-
-      // 3) log the group you just built
-      console.log('[patchFormIndividual] pushed FormGroup value:', fg.value);
     });
 
-    // now patch the rest of the form
+    // ── the rest of the form ──
     this.addClientFormIndividual.patchValue({
       nameEnglishIndividual: ind.name,
       nameArabicIndividual: ind.nameAR,
       businessActivityIndividual: ind.businessActivity,
       shortNameIndividual: ind.shortName,
-      sectorId: ind.subSectorList[0]?.sectorId,
-      subSectorIdList: ind.subSectorList.map((s) => s.sectorId),
       emailIndividual: ind.email,
       jobTitleIndividual: ind.jobTitle,
       dateOfBirthIndividual: new Date(ind.birthDate),
       genderIndividual: ind.genderId,
     });
 
-    // final log to see the full form state
     console.log(
       '[patchFormIndividual] complete form value:',
       this.addClientFormIndividual.getRawValue()
@@ -477,7 +514,6 @@ export class AddClientComponent implements OnInit {
         nameAR: formValue.nameArabicIndividual,
         shortName: formValue.shortNameIndividual,
         clientTypeId: 2,
-        clientId: this.clientId,
         businessActivity: formValue.businessActivityIndividual,
         email: formValue.emailIndividual,
         jobTitle: formValue.jobTitleIndividual,
@@ -485,6 +521,7 @@ export class AddClientComponent implements OnInit {
         genderId: formValue.genderIndividual,
         subSectorIdList: formValue.subSectorIdList,
         clientIdentities: clientIdentitiesPayload,
+        clientId: this.route.snapshot.params['id'],
       };
 
       console.log('[Edit Mode] PATCH Payload:', changes);

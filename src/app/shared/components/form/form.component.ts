@@ -802,6 +802,13 @@ export class FormComponent implements OnInit, OnDestroy {
         this.onTouched();
         this.selectionChanged.emit(sector);
         this.sectorChanged.emit(selectedId);
+        // ← add this block to clear sub-sector selections:
+        const subCtrl = this.formGroup.get('subSectorIdList');
+        if (subCtrl) {
+          subCtrl.setValue([]); // remove all IDs
+          subCtrl.markAsUntouched(); // reset touched state if you like
+          subCtrl.updateValueAndValidity();
+        }
       });
   }
 

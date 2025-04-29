@@ -8,16 +8,12 @@ export class LoaderService {
   loading$ = this.loadingSubject.asObservable();
 
   show() {
-    console.log('LoaderService.show()'); // <— should appear on every HTTP start
-
     if (++this.count === 1) {
       this.loadingSubject.next(true);
     }
   }
 
   hide() {
-    console.log('LoaderService.hide()'); // <— should appear on every HTTP finish
-
     if (this.count === 0 || --this.count === 0) {
       this.loadingSubject.next(false);
     }

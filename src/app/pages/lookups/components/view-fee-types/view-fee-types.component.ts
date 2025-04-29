@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { FeelTypes } from '../../../../shared/interfaces/feel-types.interface';
 
 @Component({
-  selector: 'app-view-feel-types',
+  selector: 'app-view-fee-types',
   standalone: false,
-  templateUrl: './view-feel-types.component.html',
-  styleUrl: './view-feel-types.component.scss',
+  templateUrl: './view-fee-types.component.html',
+  styleUrl: './view-fee-types.component.scss',
 })
-export class ViewFeelTypesComponent {
+export class ViewFeeTypesComponent {
   tableDataInside: FeelTypes[] = [];
   colsInside: any[] = [];
 
