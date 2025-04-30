@@ -1,30 +1,24 @@
 <app-toolbar-form
-  [header]="'Authority Offices'"
+  [header]="editMode ? 'Edit Authority Office' : 'Add Authority Office'"
   [backExists]="true"
-  [viewOnly]="false"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
 ></app-toolbar-form>
 <p-tabs value="0" styleClass="p-3">
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
+        *ngIf="addAuthorityOfficesLookupsForm"
         [title]="'Main Information'"
         [description]="
-          'Introduce your company core info quickly to users by fill up company details'
+          'Introduce your authority office core info quickly to users by fill up authority office details'
         "
+        [formGroup]="addAuthorityOfficesLookupsForm"
         [addAuthorityOfficesLookupsForm]="true"
+        [editMode]="editMode"
+        (submitForm)="addOrEditAuthorityOffice()"
+        [viewOnly]="viewOnly"
       ></app-form>
-
-      <div class="row justify-end">
-        <div
-          class="p-0 col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 padding-right"
-          (click)="addAuthorityOffices()"
-        >
-          <p-button
-            label="Add Authority Offices"
-            class="custom-save m-0 float-right"
-          />
-        </div>
-      </div>
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>

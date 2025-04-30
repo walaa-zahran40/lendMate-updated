@@ -130,7 +130,16 @@ const routes: Routes = [
     path: 'edit-address-types/:id',
     component: AddAddressTypesComponent,
   },
-  //-----
+  //Authority Offices
+  {
+    path: 'add-authority-offices',
+    component: AddAuthorityOfficesComponent,
+  },
+  {
+    path: 'edit-authority-offices/:id',
+    component: AddAuthorityOfficesComponent,
+  },
+  //---
   {
     path: 'add-mandate-statuses',
     component: AddMandateStatusesComponent,
@@ -248,10 +257,7 @@ const routes: Routes = [
     path: 'add-client-types',
     component: AddClientTypesComponent,
   },
-  {
-    path: 'add-authority-offices',
-    component: AddAuthorityOfficesComponent,
-  },
+
   {
     path: 'add-phone-types',
     component: AddPhoneTypesComponent,

@@ -1544,7 +1544,12 @@
       (ngSubmit)="onSubmit()"
     >
       <label for="name">Name in English<sup>*</sup></label>
-      <input pInputText id="name" formControlName="name" placeholder="Type" />
+      <input
+        pInputText
+        id="name"
+        formControlName="name"
+        placeholder="Enter Name"
+      />
       <div
         *ngIf="
           formGroup.get('name')?.hasError('required') &&
@@ -1560,7 +1565,7 @@
         pInputText
         id="nameAR"
         formControlName="nameAR"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <div
         *ngIf="
@@ -1629,7 +1634,12 @@
       (ngSubmit)="onSubmit()"
     >
       <label for="name">Name in English<sup>*</sup></label>
-      <input pInputText id="name" formControlName="name" placeholder="Type" />
+      <input
+        pInputText
+        id="name"
+        formControlName="name"
+        placeholder="Enter Name"
+      />
       <div
         *ngIf="
           formGroup.get('name')?.hasError('required') &&
@@ -1645,7 +1655,7 @@
         pInputText
         id="nameAR"
         formControlName="nameAR"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <div
         *ngIf="
@@ -1714,7 +1724,12 @@
       (ngSubmit)="onSubmit()"
     >
       <label for="name">Name in English<sup>*</sup></label>
-      <input pInputText id="name" formControlName="name" placeholder="Type" />
+      <input
+        pInputText
+        id="name"
+        formControlName="name"
+        placeholder="Enter Name"
+      />
       <div
         *ngIf="
           formGroup.get('name')?.hasError('required') &&
@@ -1730,7 +1745,7 @@
         pInputText
         id="nameAR"
         formControlName="nameAR"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <div
         *ngIf="
@@ -1793,6 +1808,95 @@
       </div>
     </form>
 
+    <form
+      [formGroup]="formGroup"
+      *ngIf="addAuthorityOfficesLookupsForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="name">Name in English<sup>*</sup></label>
+      <input
+        pInputText
+        id="name"
+        formControlName="name"
+        placeholder="Enter Name"
+      />
+      <div
+        *ngIf="
+          formGroup.get('name')?.hasError('required') &&
+          formGroup.get('name')?.touched
+        "
+        class="p-error"
+      >
+        Name in English is required.
+      </div>
+
+      <label for="nameAR">Name in Arabic<sup>*</sup></label>
+      <input
+        pInputText
+        id="nameAR"
+        formControlName="nameAR"
+        placeholder="Enter Name"
+      />
+      <div
+        *ngIf="
+          formGroup.get('nameAR')?.hasError('required') &&
+          formGroup.get('nameAR')?.touched
+        "
+        class="p-error"
+      >
+        Name in Arabic is required.
+      </div>
+      <div
+        *ngIf="
+          formGroup.get('nameAR')?.hasError('pattern') &&
+          formGroup.get('nameAR')?.touched
+        "
+        class="p-error"
+      >
+        Please enter only Arabic letters.
+      </div>
+      <div class="p-field" *ngIf="editMode">
+        <p-toggleSwitch
+          id="isActive"
+          formControlName="isActive"
+          label="is Active"
+        ></p-toggleSwitch>
+        <label for="isActive"> Active</label>
+      </div>
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 authorityOfficesDiv"
+          *ngIf="!editMode"
+        >
+          <p-button
+            type="submit"
+            label="Add Authority Office"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 authorityOfficesDiv"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Authority Office"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 authorityOfficesDiv"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate(['/lookups/view-authority-offices'])"
+          />
+        </div>
+      </div>
+    </form>
     <form action="" *ngIf="addClientGuarantorsShowIndividual">
       <label for="nameEnglishIndividual"
         >Name in English<sup class="danger">*</sup></label
@@ -2439,7 +2543,7 @@
             id="phoneNumberContactPerson"
             aria-describedby="phoneNumberContactPerson-help"
             [(ngModel)]="value41"
-            placeholder="Type"
+            placeholder="Enter Name"
             name="phoneNumberContactPerson"
           />
         </div>
@@ -3025,7 +3129,7 @@
         id="phoneNumberContactPersonDetailsViewOnly"
         aria-describedby="phoneNumberContactPersonDetailsViewOnly-help"
         name="phoneNumberContactPersonDetailsViewOnly"
-        placeholder="Type"
+        placeholder="Enter Name"
         [disabled]="true"
       />
       <label for="phoneTypeContactPersonDetailsViewOnly">Phone Type</label>
@@ -4004,7 +4108,7 @@
         id="legalLawCode"
         aria-describedby="legalLawCode-help"
         name="legalLawCode"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="legalLawNameEnglish"
         >Legal Law Name English<sup>*</sup></label
@@ -4014,7 +4118,7 @@
         id="legalLawNameEnglish"
         aria-describedby="legalLawNameEnglish-help"
         name="legalLawNameEnglish"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="legalLawNameArabic">Legal Law Name Arabic<sup>*</sup></label>
       <input
@@ -4022,7 +4126,7 @@
         id="legalLawNameArabic"
         aria-describedby="legalLawNameArabic-help"
         name="legalLawNameArabic"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
     </form>
     <form action="" *ngIf="addLegalsLegalFormLaw">
@@ -4032,7 +4136,7 @@
         id="legalLawCodeLegalLaw"
         aria-describedby="legalLawCodeLegalLaw-help"
         name="legalLawCodeLegalLaw"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="legalLawNameEnglishLegalLaw"
         >Legal Law Name English<sup>*</sup></label
@@ -4042,7 +4146,7 @@
         id="legalLawNameEnglishLegalLaw"
         aria-describedby="legalLawNameEnglishLegalLaw-help"
         name="legalLawNameEnglishLegalLaw"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="legalLawNameArabicLegalLaw"
         >Legal Law Name Arabic<sup>*</sup></label
@@ -4052,7 +4156,7 @@
         id="legalLawNameArabicLegalLaw"
         aria-describedby="legalLawNameArabicLegalLaw-help"
         name="legalLawNameArabicLegalLaw"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
     </form>
     <!--Lookups Forms-->
@@ -4072,7 +4176,7 @@
         id="nameInEnglishLookups"
         aria-describedby="nameInEnglishLookups-help"
         name="nameInEnglishLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="nameInArabicLookups">Name in Arabic<sup>*</sup></label>
       <input
@@ -4080,7 +4184,7 @@
         id="nameInArabicLookups"
         aria-describedby="nameInArabicLookups-help"
         name="nameInArabicLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
     </form>
     <form action="" *ngIf="addCallActionTypeLookupsForm">
@@ -4098,7 +4202,7 @@
         id="nameInEnglishLookups"
         aria-describedby="nameInEnglishLookups-help"
         name="nameInEnglishLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="nameInArabicLookups">Name in Arabic<sup>*</sup></label>
       <input
@@ -4106,7 +4210,7 @@
         id="nameInArabicLookups"
         aria-describedby="nameInArabicLookups-help"
         name="nameInArabicLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
     </form>
     <form action="" *ngIf="addCommunicationTypesLookupsForm">
@@ -4124,7 +4228,7 @@
         id="nameInEnglishLookups"
         aria-describedby="nameInEnglishLookups-help"
         name="nameInEnglishLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="nameInArabicLookups">Name in Arabic<sup>*</sup></label>
       <input
@@ -4132,7 +4236,7 @@
         id="nameInArabicLookups"
         aria-describedby="nameInArabicLookups-help"
         name="nameInArabicLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
     </form>
     <form action="" *ngIf="addcallTypesLookupsForm">
@@ -4150,7 +4254,7 @@
         id="nameInEnglishLookups"
         aria-describedby="nameInEnglishLookups-help"
         name="nameInEnglishLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="nameInArabicLookups">Name in Arabic<sup>*</sup></label>
       <input
@@ -4158,7 +4262,7 @@
         id="nameInArabicLookups"
         aria-describedby="nameInArabicLookups-help"
         name="nameInArabicLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
     </form>
     <form action="" *ngIf="addTmlOfficerTypeLookupsForm">
@@ -4176,7 +4280,7 @@
         id="nameInEnglishLookups"
         aria-describedby="nameInEnglishLookups-help"
         name="nameInEnglishLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="nameInArabicLookups">Name in Arabic<sup>*</sup></label>
       <input
@@ -4184,7 +4288,7 @@
         id="nameInArabicLookups"
         aria-describedby="nameInArabicLookups-help"
         name="nameInArabicLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
     </form>
     <form action="" *ngIf="addTaxOfficesLookupsForm">
@@ -4202,7 +4306,7 @@
         id="nameInEnglishLookups"
         aria-describedby="nameInEnglishLookups-help"
         name="nameInEnglishLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="nameInArabicLookups">Name in Arabic<sup>*</sup></label>
       <input
@@ -4210,7 +4314,7 @@
         id="nameInArabicLookups"
         aria-describedby="nameInArabicLookups-help"
         name="nameInArabicLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="governorateIDTaxOfficesLookups"
         >Governorate ID<sup>*</sup></label
@@ -4220,7 +4324,7 @@
         id="governorateIDTaxOfficesLookups"
         aria-describedby="governorateIDTaxOfficesLookups-help"
         name="governorateIDTaxOfficesLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="addressTaxOfficesLookups">Address<sup>*</sup></label>
       <input
@@ -4228,7 +4332,7 @@
         id="addressTaxOfficesLookups"
         aria-describedby="addressTaxOfficesLookups-help"
         name="addressTaxOfficesLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
     </form>
     <form action="" *ngIf="addAreasLookupsForm">
@@ -4246,7 +4350,7 @@
         id="arabicNameAreasLookups"
         aria-describedby="arabicNameAreasLookups-help"
         name="arabicNameAreasLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="governorateIDLookups">Governorate ID<sup>*</sup></label>
       <input
@@ -4254,7 +4358,7 @@
         id="governorateIDLookups"
         aria-describedby="governorateIDLookups-help"
         name="governorateIDLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
     </form>
     <form action="" *ngIf="addIdentificationTypesLookupsForm">
@@ -4274,7 +4378,7 @@
         id="nameInEnglishIdentificationTypesLookups"
         aria-describedby="nameInEnglishIdentificationTypesLookups-help"
         name="nameInEnglishIdentificationTypesLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="nameInArabicIdentificationTypesLookups"
         >Name in Arabic<sup>*</sup></label
@@ -4284,7 +4388,7 @@
         id="nameInArabicIdentificationTypesLookups"
         aria-describedby="nameInArabicIdentificationTypesLookups-help"
         name="nameInArabicIdentificationTypesLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
     </form>
     <form action="" *ngIf="addCountriesLookupsForm">
@@ -4294,7 +4398,7 @@
         id="countryNameCountriesLookups"
         aria-describedby="countryNameCountriesLookups-help"
         name="countryNameCountriesLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="arabicNameCountriesLookups">Arabic Name<sup>*</sup></label>
       <input
@@ -4302,7 +4406,7 @@
         id="arabicNameCountriesLookups"
         aria-describedby="arabicNameCountriesLookups-help"
         name="arabicNameCountriesLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="code2CountriesLookups">Code2<sup>*</sup></label>
       <input
@@ -4310,7 +4414,7 @@
         id="code2CountriesLookups"
         aria-describedby="code2CountriesLookups-help"
         name="code2CountriesLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="code3CountriesLookups">Code3<sup>*</sup></label>
       <input
@@ -4318,7 +4422,7 @@
         id="code3CountriesLookups"
         aria-describedby="code3CountriesLookups-help"
         name="code3CountriesLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
     </form>
     <form action="" *ngIf="addGovernoratesLookupsForm">
@@ -4338,7 +4442,7 @@
         id="governorateEnglishGovernoratesLookups"
         aria-describedby="governorateEnglishGovernoratesLookups-help"
         name="governorateEnglishGovernoratesLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="governorateArabicGovernoratesLookups"
         >Governorate Name Arabic<sup>*</sup></label
@@ -4348,7 +4452,7 @@
         id="governorateArabicGovernoratesLookups"
         aria-describedby="governorateArabicGovernoratesLookups-help"
         name="governorateArabicGovernoratesLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="aramixGovernoratesLookups">Aramix<sup>*</sup></label>
       <input
@@ -4356,7 +4460,7 @@
         id="aramixGovernoratesLookups"
         aria-describedby="aramixGovernoratesLookups-help"
         name="aramixGovernoratesLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
     </form>
 
@@ -4377,7 +4481,7 @@
         id="nameInEnglishAssestTypesLookups"
         aria-describedby="nameInEnglishAssestTypesLookups-help"
         name="nameInEnglishAssestTypesLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="nameInArabicAssestTypesLookups"
         >Name in Arabic<sup>*</sup></label
@@ -4387,39 +4491,10 @@
         id="nameInArabicAssestTypesLookups"
         aria-describedby="nameInArabicAssestTypesLookups-help"
         name="nameInArabicAssestTypesLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
     </form>
-    <form action="" *ngIf="addAuthorityOfficesLookupsForm">
-      <label for="codeAssestTypesLookups">Code<sup>*</sup></label>
-      <input
-        pInputText
-        id="codeAssestTypesLookups"
-        aria-describedby="codeAssestTypesLookups-help"
-        name="codeAssestTypesLookups"
-        placeholder="342425"
-      />
-      <label for="nameInEnglishAssestTypesLookups"
-        >Name in English<sup>*</sup></label
-      >
-      <input
-        pInputText
-        id="nameInEnglishAssestTypesLookups"
-        aria-describedby="nameInEnglishAssestTypesLookups-help"
-        name="nameInEnglishAssestTypesLookups"
-        placeholder="Type"
-      />
-      <label for="nameInArabicAssestTypesLookups"
-        >Name in Arabic<sup>*</sup></label
-      >
-      <input
-        pInputText
-        id="nameInArabicAssestTypesLookups"
-        aria-describedby="nameInArabicAssestTypesLookups-help"
-        name="nameInArabicAssestTypesLookups"
-        placeholder="Type"
-      />
-    </form>
+
     <form action="" *ngIf="addClientTypesLookupsForm">
       <label for="codeAssestTypesLookups">Code<sup>*</sup></label>
       <input
@@ -4437,7 +4512,7 @@
         id="nameInEnglishAssestTypesLookups"
         aria-describedby="nameInEnglishAssestTypesLookups-help"
         name="nameInEnglishAssestTypesLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="nameInArabicAssestTypesLookups"
         >Name in Arabic<sup>*</sup></label
@@ -4447,7 +4522,7 @@
         id="nameInArabicAssestTypesLookups"
         aria-describedby="nameInArabicAssestTypesLookups-help"
         name="nameInArabicAssestTypesLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
     </form>
     <form action="" *ngIf="addSubSectorsLookupsForm">
@@ -4467,7 +4542,7 @@
         id="nameInEnglishAssestTypesLookups"
         aria-describedby="nameInEnglishAssestTypesLookups-help"
         name="nameInEnglishAssestTypesLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="nameInArabicAssestTypesLookups"
         >Name in Arabic<sup>*</sup></label
@@ -4477,7 +4552,7 @@
         id="nameInArabicAssestTypesLookups"
         aria-describedby="nameInArabicAssestTypesLookups-help"
         name="nameInArabicAssestTypesLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
     </form>
     <form action="" *ngIf="addSMEClientCodeLookupsForm">
@@ -4497,7 +4572,7 @@
         id="nameInEnglishAssestTypesLookups"
         aria-describedby="nameInEnglishAssestTypesLookups-help"
         name="nameInEnglishAssestTypesLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="nameInArabicAssestTypesLookups"
         >Name in Arabic<sup>*</sup></label
@@ -4507,7 +4582,7 @@
         id="nameInArabicAssestTypesLookups"
         aria-describedby="nameInArabicAssestTypesLookups-help"
         name="nameInArabicAssestTypesLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="upperLimitSMEClientCodeLookups"
         >Upper Limit<sup>*</sup></label
@@ -4517,7 +4592,7 @@
         id="upperLimitSMEClientCodeLookups"
         aria-describedby="upperLimitSMEClientCodeLookups-help"
         name="upperLimitSMEClientCodeLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="underLimitSMEClientCodeLookups"
         >Under Limit<sup>*</sup></label
@@ -4527,7 +4602,7 @@
         id="underLimitSMEClientCodeLookups"
         aria-describedby="underLimitSMEClientCodeLookups-help"
         name="underLimitSMEClientCodeLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
     </form>
     <form action="" *ngIf="addStatusActionsLookupsForm">
@@ -4547,7 +4622,7 @@
         id="nameInEnglishAssestTypesLookups"
         aria-describedby="nameInEnglishAssestTypesLookups-help"
         name="nameInEnglishAssestTypesLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="nameInArabicAssestTypesLookups"
         >Name in Arabic<sup>*</sup></label
@@ -4557,7 +4632,7 @@
         id="nameInArabicAssestTypesLookups"
         aria-describedby="nameInArabicAssestTypesLookups-help"
         name="nameInArabicAssestTypesLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="initialClientStatusesLookups">Status in ID<sup>*</sup></label>
       <p-multiselect
@@ -4598,7 +4673,7 @@
         id="nameInEnglishAssestTypesLookups"
         aria-describedby="nameInEnglishAssestTypesLookups-help"
         name="nameInEnglishAssestTypesLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="nameInArabicAssestTypesLookups"
         >Name in Arabic<sup>*</sup></label
@@ -4608,7 +4683,7 @@
         id="nameInArabicAssestTypesLookups"
         aria-describedby="nameInArabicAssestTypesLookups-help"
         name="nameInArabicAssestTypesLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="initialClientStatusesLookups">Initial<sup>*</sup></label>
       <p-select
@@ -4644,7 +4719,7 @@
         id="nameInEnglishAssestTypesLookups"
         aria-describedby="nameInEnglishAssestTypesLookups-help"
         name="nameInEnglishAssestTypesLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="nameInArabicAssestTypesLookups"
         >Name in Arabic<sup>*</sup></label
@@ -4654,7 +4729,7 @@
         id="nameInArabicAssestTypesLookups"
         aria-describedby="nameInArabicAssestTypesLookups-help"
         name="nameInArabicAssestTypesLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
     </form>
     <form action="" *ngIf="addProductsLookupsForm">
@@ -4674,7 +4749,7 @@
         id="nameInEnglishAssestTypesLookups"
         aria-describedby="nameInEnglishAssestTypesLookups-help"
         name="nameInEnglishAssestTypesLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="nameInArabicAssestTypesLookups"
         >Name in Arabic<sup>*</sup></label
@@ -4684,7 +4759,7 @@
         id="nameInArabicAssestTypesLookups"
         aria-describedby="nameInArabicAssestTypesLookups-help"
         name="nameInArabicAssestTypesLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="businessLineProductsLookups">Business Line<sup>*</sup></label>
       <p-select
@@ -4811,7 +4886,7 @@
         id="nameInEnglishMeetingTypesCommunication"
         aria-describedby="nameInEnglishMeetingTypesCommunication-help"
         name="nameInEnglishMeetingTypesCommunication"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="nameInArabicMeetingTypesCommunication"
         >Name in Arabic<sup>*</sup></label
@@ -4821,7 +4896,7 @@
         id="nameInArabicMeetingTypesCommunication"
         aria-describedby="nameInArabicMeetingTypesCommunication-help"
         name="nameInArabicMeetingTypesCommunication"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
     </form>
     <form action="" *ngIf="addMandateStatusesLookupsForm">
@@ -4833,7 +4908,7 @@
         id="nameInEnglishAddMandateStatusesLookups"
         aria-describedby="nameInEnglishAddMandateStatusesLookups-help"
         name="nameInEnglishAddMandateStatusesLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="nameInArabicAddMandateStatusesLookups"
         >Name in Arabic<sup>*</sup></label
@@ -4843,7 +4918,7 @@
         id="nameInArabicAddMandateStatusesLookups"
         aria-describedby="nameInArabicAddMandateStatusesLookups-help"
         name="nameInArabicAddMandateStatusesLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="isInitialAddMandateStatusesLookups"
         >IsInitial<sup>*</sup></label
@@ -4872,7 +4947,7 @@
         id="nameInEnglishMeetingTypesCommunication"
         aria-describedby="nameInEnglishMeetingTypesCommunication-help"
         name="nameInEnglishMeetingTypesCommunication"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="nameInArabicMeetingTypesCommunication"
         >Name in Arabic<sup>*</sup></label
@@ -4882,7 +4957,7 @@
         id="nameInArabicMeetingTypesCommunication"
         aria-describedby="nameInArabicMeetingTypesCommunication-help"
         name="nameInArabicMeetingTypesCommunication"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
     </form>
     <form action="" *ngIf="addFeesTypesLookupsForm">
@@ -4902,7 +4977,7 @@
         id="nameInEnglishFeesTypesLookups"
         aria-describedby="nameInEnglishFeesTypesLookups-help"
         name="nameInEnglishFeesTypesLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="nameInArabicFeesTypesLookups"
         >Name in Arabic<sup>*</sup></label
@@ -4912,7 +4987,7 @@
         id="nameInArabicFeesTypesLookups"
         aria-describedby="nameInArabicFeesTypesLookups-help"
         name="nameInArabicFeesTypesLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="descriptionFeesTypesLookups">Description<sup>*</sup></label>
 
@@ -4943,7 +5018,7 @@
         id="defaultAmountFeesTypesLookups"
         aria-describedby="defaultAmountFeesTypesLookups-help"
         name="defaultAmountFeesTypesLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="defaultPercentageFeesTypesLookups"
         >Default Percentage<sup>*</sup></label
@@ -4953,7 +5028,7 @@
         id="defaultPercentageFeesTypesLookups"
         aria-describedby="defaultPercentageFeesTypesLookups-help"
         name="defaultPercentageFeesTypesLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="isPercentageFeesTypesLookups">IsPercentage<sup>*</sup></label>
       <p-select
@@ -4982,7 +5057,7 @@
         id="nameInEnglishMeetingTypesCommunication"
         aria-describedby="nameInEnglishMeetingTypesCommunication-help"
         name="nameInEnglishMeetingTypesCommunication"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="nameInArabicMeetingTypesCommunication"
         >Name in Arabic<sup>*</sup></label
@@ -4992,7 +5067,7 @@
         id="nameInArabicMeetingTypesCommunication"
         aria-describedby="nameInArabicMeetingTypesCommunication-help"
         name="nameInArabicMeetingTypesCommunication"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
     </form>
     <form action="" *ngIf="addRentStructureTypesLookupsForm">
@@ -5014,7 +5089,7 @@
         id="nameInEnglishMeetingTypesCommunication"
         aria-describedby="nameInEnglishMeetingTypesCommunication-help"
         name="nameInEnglishMeetingTypesCommunication"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="nameInArabicMeetingTypesCommunication"
         >Name in Arabic<sup>*</sup></label
@@ -5024,7 +5099,7 @@
         id="nameInArabicMeetingTypesCommunication"
         aria-describedby="nameInArabicMeetingTypesCommunication-help"
         name="nameInArabicMeetingTypesCommunication"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
     </form>
     <form action="" *ngIf="addCurrenciesLookupsForm">
@@ -5044,7 +5119,7 @@
         id="nameInEnglishMeetingTypesCommunication"
         aria-describedby="nameInEnglishMeetingTypesCommunication-help"
         name="nameInEnglishMeetingTypesCommunication"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="nameInArabicMeetingTypesCommunication"
         >Name in Arabic<sup>*</sup></label
@@ -5054,7 +5129,7 @@
         id="nameInArabicMeetingTypesCommunication"
         aria-describedby="nameInArabicMeetingTypesCommunication-help"
         name="nameInArabicMeetingTypesCommunication"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="isoCodeCurrenciesLookups">ISO Code<sup>*</sup></label>
       <input
@@ -5062,7 +5137,7 @@
         id="isoCodeCurrenciesLookups"
         aria-describedby="isoCodeCurrenciesLookups-help"
         name="isoCodeCurrenciesLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="defaultCurrencyCurrenciesLookups"
         >Default Currency<sup>*</sup></label
@@ -5133,7 +5208,7 @@
         id="nameInEnglishMeetingTypesCommunication"
         aria-describedby="nameInEnglishMeetingTypesCommunication-help"
         name="nameInEnglishMeetingTypesCommunication"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="nameInArabicMeetingTypesCommunication"
         >Name in Arabic<sup>*</sup></label
@@ -5143,7 +5218,7 @@
         id="nameInArabicMeetingTypesCommunication"
         aria-describedby="nameInArabicMeetingTypesCommunication-help"
         name="nameInArabicMeetingTypesCommunication"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
     </form>
     <form action="" *ngIf="addPaymentTypesLookupsForm">
@@ -5165,7 +5240,7 @@
         id="nameInEnglishMeetingTypesCommunication"
         aria-describedby="nameInEnglishMeetingTypesCommunication-help"
         name="nameInEnglishMeetingTypesCommunication"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="nameInArabicMeetingTypesCommunication"
         >Name in Arabic<sup>*</sup></label
@@ -5175,7 +5250,7 @@
         id="nameInArabicMeetingTypesCommunication"
         aria-describedby="nameInArabicMeetingTypesCommunication-help"
         name="nameInArabicMeetingTypesCommunication"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
     </form>
     <form action="" *ngIf="addPaymentMonthDaysLookupsForm">
@@ -5197,7 +5272,7 @@
         id="nameInEnglishMeetingTypesCommunication"
         aria-describedby="nameInEnglishMeetingTypesCommunication-help"
         name="nameInEnglishMeetingTypesCommunication"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="nameInArabicMeetingTypesCommunication"
         >Name in Arabic<sup>*</sup></label
@@ -5207,7 +5282,7 @@
         id="nameInArabicMeetingTypesCommunication"
         aria-describedby="nameInArabicMeetingTypesCommunication-help"
         name="nameInArabicMeetingTypesCommunication"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
     </form>
     <form action="" *ngIf="addMeetingTypesLookupsForm">
@@ -5229,7 +5304,7 @@
         id="nameInEnglishMeetingTypesCommunication"
         aria-describedby="nameInEnglishMeetingTypesCommunication-help"
         name="nameInEnglishMeetingTypesCommunication"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="nameInArabicMeetingTypesCommunication"
         >Name in Arabic<sup>*</sup></label
@@ -5239,7 +5314,7 @@
         id="nameInArabicMeetingTypesCommunication"
         aria-describedby="nameInArabicMeetingTypesCommunication-help"
         name="nameInArabicMeetingTypesCommunication"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
     </form>
     <form action="" *ngIf="addInsuredByLookupsForm">
@@ -5253,7 +5328,7 @@
         id="nameInEnglishInsuredByLookups"
         aria-describedby="nameInEnglishInsuredByLookups-help"
         name="nameInEnglishInsuredByLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="nameInArabicInsuredByLookups"
         >Name in Arabic<sup>*</sup></label
@@ -5263,7 +5338,7 @@
         id="nameInArabicInsuredByLookups"
         aria-describedby="nameInArabicInsuredByLookups-help"
         name="nameInArabicInsuredByLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="isActiveInsuredByLookups">IsActive<sup>*</sup></label>
       <p-select
@@ -5284,7 +5359,7 @@
         id="nameInEnglishInsuredByLookups"
         aria-describedby="nameInEnglishInsuredByLookups-help"
         name="nameInEnglishInsuredByLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="nameInArabicInsuredByLookups"
         >Name in Arabic<sup>*</sup></label
@@ -5294,7 +5369,7 @@
         id="nameInArabicInsuredByLookups"
         aria-describedby="nameInArabicInsuredByLookups-help"
         name="nameInArabicInsuredByLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="isActiveInsuredByLookups">IsActive<sup>*</sup></label>
       <p-select
@@ -5315,7 +5390,7 @@
         id="nameInEnglishInsuredByLookups"
         aria-describedby="nameInEnglishInsuredByLookups-help"
         name="nameInEnglishInsuredByLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="nameInArabicInsuredByLookups"
         >Name in Arabic<sup>*</sup></label
@@ -5325,7 +5400,7 @@
         id="nameInArabicInsuredByLookups"
         aria-describedby="nameInArabicInsuredByLookups-help"
         name="nameInArabicInsuredByLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="validityMinMandateValidityLookups"
         >Validity Min<sup>*</sup></label
@@ -5335,7 +5410,7 @@
         id="validityMinMandateValidityLookups"
         aria-describedby="validityMinMandateValidityLookups-help"
         name="validityMinMandateValidityLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="validityMaxMandateValidityLookups"
         >Validity Max<sup>*</sup></label
@@ -5345,7 +5420,7 @@
         id="validityMaxMandateValidityLookups"
         aria-describedby="validityMaxMandateValidityLookups-help"
         name="validityMaxMandateValidityLookups"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="isActiveInsuredByLookups">IsActive<sup>*</sup></label>
       <p-select
@@ -5374,7 +5449,7 @@
         id="nameInEnglishMeetingTypesCommunication"
         aria-describedby="nameInEnglishMeetingTypesCommunication-help"
         name="nameInEnglishMeetingTypesCommunication"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="nameInArabicMeetingTypesCommunication"
         >Name in Arabic<sup>*</sup></label
@@ -5384,7 +5459,7 @@
         id="nameInArabicMeetingTypesCommunication"
         aria-describedby="nameInArabicMeetingTypesCommunication-help"
         name="nameInArabicMeetingTypesCommunication"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
     </form>
     <form action="" *ngIf="addBranchLookupsForm">
@@ -5406,7 +5481,7 @@
         id="nameInEnglishMeetingTypesCommunication"
         aria-describedby="nameInEnglishMeetingTypesCommunication-help"
         name="nameInEnglishMeetingTypesCommunication"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="nameInArabicMeetingTypesCommunication"
         >Name in Arabic<sup>*</sup></label
@@ -5416,7 +5491,7 @@
         id="nameInArabicMeetingTypesCommunication"
         aria-describedby="nameInArabicMeetingTypesCommunication-help"
         name="nameInArabicMeetingTypesCommunication"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
     </form>
     <form action="" *ngIf="addBranchOfficersLookupsForm">
@@ -5944,7 +6019,7 @@
         id="nameInEnglishMeetingTypesCommunication"
         aria-describedby="nameInEnglishMeetingTypesCommunication-help"
         name="nameInEnglishMeetingTypesCommunication"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="nameInArabicMeetingTypesCommunication"
         >Name in Arabic<sup>*</sup></label
@@ -5954,7 +6029,7 @@
         id="nameInArabicMeetingTypesCommunication"
         aria-describedby="nameInArabicMeetingTypesCommunication-help"
         name="nameInArabicMeetingTypesCommunication"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
     </form>
     <form action="" *ngIf="addCallShowBasicForm">
@@ -6165,7 +6240,7 @@
         id="nameInEnglishMeetingTypesCommunication"
         aria-describedby="nameInEnglishMeetingTypesCommunication-help"
         name="nameInEnglishMeetingTypesCommunication"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="nameInArabicMeetingTypesCommunication"
         >Name in Arabic<sup>*</sup></label
@@ -6175,7 +6250,7 @@
         id="nameInArabicMeetingTypesCommunication"
         aria-describedby="nameInArabicMeetingTypesCommunication-help"
         name="nameInArabicMeetingTypesCommunication"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
     </form>
     <form action="" *ngIf="addCallTypesCommunicationForm">
@@ -6197,7 +6272,7 @@
         id="nameInEnglishMeetingTypesCommunication"
         aria-describedby="nameInEnglishMeetingTypesCommunication-help"
         name="nameInEnglishMeetingTypesCommunication"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="nameInArabicMeetingTypesCommunication"
         >Name in Arabic<sup>*</sup></label
@@ -6207,7 +6282,7 @@
         id="nameInArabicMeetingTypesCommunication"
         aria-describedby="nameInArabicMeetingTypesCommunication-help"
         name="nameInArabicMeetingTypesCommunication"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
     </form>
     <!--ORG Forms-->
@@ -6230,7 +6305,7 @@
         id="nameInEnglishMeetingTypesCommunication"
         aria-describedby="nameInEnglishMeetingTypesCommunication-help"
         name="nameInEnglishMeetingTypesCommunication"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
       <label for="nameInArabicMeetingTypesCommunication"
         >Name in Arabic<sup>*</sup></label
@@ -6240,7 +6315,7 @@
         id="nameInArabicMeetingTypesCommunication"
         aria-describedby="nameInArabicMeetingTypesCommunication-help"
         name="nameInArabicMeetingTypesCommunication"
-        placeholder="Type"
+        placeholder="Enter Name"
       />
     </form>
     <form action="" *ngIf="addDepartmentManagerORGForm">

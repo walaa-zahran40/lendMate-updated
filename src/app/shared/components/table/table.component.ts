@@ -57,6 +57,7 @@ export class TableComponent {
   @Input() viewContactPersonTable!: boolean;
   @Input() viewCRAuthorityOfficeTable!: boolean;
   @Input() viewTaxAuthorityOfficeTable!: boolean;
+  @Input() viewAuthorityOfficesTable!: boolean;
   @Input() viewCentralBankInfoTable!: boolean;
   @Input() viewShareHolderTable!: boolean;
   @Input() viewTMLOfficerTable!: boolean;
@@ -90,6 +91,7 @@ export class TableComponent {
   @Input() viewSMEClientCodeTable!: boolean;
   @Input() viewSubSectorTable!: boolean;
   @Input() viewGovernerateTable!: boolean;
+
   @Input() viewCountriesTable!: boolean;
   @Input() viewAreasTable!: boolean;
   @Input() viewTaxOfficeTable!: boolean;

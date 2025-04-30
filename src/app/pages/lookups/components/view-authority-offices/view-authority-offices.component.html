@@ -1,24 +1,41 @@
 <div class="page-content">
   <app-toolbar-table
     [title]="'Authority Offices'"
-    [labelBtn]="'Add Authority Offices'"
-    [backExists]="true"
-    [exports]="true"
+    [labelBtn]="'Add Authority Office'"
+    [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddAuthorityOffice()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col1Name]="'Code'"
-    [col2Name]="'Name EN'"
-    [col3Name]="'Name AR'"
-    [col4Name]="'Active'"
-    [edit]="true"
-    [delete]="true"
-    [side]="false"
-    [download]="false"
-    [checkBox]="true"
-    [viewSubSectorTable]="true"
-    [uppercase]="'uppercase'"
-  ></app-table>
+
+  <ng-container *ngIf="authorityOffices$ | async as authorityOffices">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredAuthorityOffices"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewAuthorityOfficesTable]="true"
+      (onDelete)="onDeleteAuthorityOfficeId($event)"
+      (onEdit)="onEditAuthorityOffice($event)"
+      (viewForm)="onViewAuthorityOffice($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
 </div>
