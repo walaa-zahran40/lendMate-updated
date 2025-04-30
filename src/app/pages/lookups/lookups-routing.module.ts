@@ -23,7 +23,7 @@ import { AddClientDocumentTypesComponent } from './components/add-client-documen
 import { AddBranchManagersComponent } from './components/add-branch-managers/add-branch-managers.component';
 import { AddBranchAddressesComponent } from './components/add-branch-addresses/add-branch-addresses.component';
 import { AddBranchOfficersComponent } from './components/add-branch-officers/add-branch-officers.component';
-import { AddAssestTypeCategoriesComponent } from './components/add-assest-type-categories/add-assest-type-categories.component';
+import { AddAssetTypeCategoriesComponent } from './components/add-asset-type-categories/add-asset-type-categories.component';
 import { AddProductsComponent } from './components/add-products/add-products.component';
 import { AddSectorsComponent } from './components/add-sectors/add-sectors.component';
 import { AddClientStatusesComponent } from './components/add-client-statuses/add-client-statuses.component';
@@ -69,7 +69,7 @@ import { ViewBranchOfficersComponent } from './components/view-branch-officers/v
 import { ViewBranchAddressesComponent } from './components/view-branch-addresses/view-branch-addresses.component';
 import { ViewBusinessLinesComponent } from './components/view-business-lines/view-business-lines.component';
 import { ViewAssestTypesComponent } from './components/view-assest-types/view-assest-types.component';
-import { ViewAssestTypeCategoriesComponent } from './components/view-assest-type-categories/view-assest-type-categories.component';
+import { ViewAssetTypeCategoriesComponent } from './components/view-asset-type-categories/view-asset-type-categories.component';
 import { ViewProductsComponent } from './components/view-products/view-products.component';
 import { ViewSectorsComponent } from './components/view-sectors/view-sectors.component';
 import { ViewClientStatusesComponent } from './components/view-client-statuses/view-client-statuses.component';
@@ -218,7 +218,7 @@ const routes: Routes = [
   },
   {
     path: 'add-assest-type-categories',
-    component: AddAssestTypeCategoriesComponent,
+    component: AddAssetTypeCategoriesComponent,
   },
   {
     path: 'add-products',
@@ -392,7 +392,7 @@ const routes: Routes = [
   },
   {
     path: 'view-assest-type-categories',
-    component: ViewAssestTypeCategoriesComponent,
+    component: ViewAssetTypeCategoriesComponent,
   },
   {
     path: 'view-products',

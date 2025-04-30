@@ -22,7 +22,7 @@ import { AddMandateValidityUnitComponent } from './components/add-mandate-validi
 import { AddBranchComponent } from './components/add-branch/add-branch.component';
 import { AddBusinessLinesComponent } from './components/add-business-lines/add-business-lines.component';
 import { AddAssetTypesComponent } from './components/add-asset-types/add-asset-types.component';
-import { AddAssestTypeCategoriesComponent } from './components/add-assest-type-categories/add-assest-type-categories.component';
+import { AddAssetTypeCategoriesComponent } from './components/add-asset-type-categories/add-asset-type-categories.component';
 import { AddProductsComponent } from './components/add-products/add-products.component';
 import { AddSectorsComponent } from './components/add-sectors/add-sectors.component';
 import { AddClientStatusesComponent } from './components/add-client-statuses/add-client-statuses.component';
@@ -72,7 +72,7 @@ import { ViewBranchOfficersComponent } from './components/view-branch-officers/v
 import { ViewBranchAddressesComponent } from './components/view-branch-addresses/view-branch-addresses.component';
 import { ViewBusinessLinesComponent } from './components/view-business-lines/view-business-lines.component';
 import { ViewAssestTypesComponent } from './components/view-assest-types/view-assest-types.component';
-import { ViewAssestTypeCategoriesComponent } from './components/view-assest-type-categories/view-assest-type-categories.component';
+import { ViewAssetTypeCategoriesComponent } from './components/view-asset-type-categories/view-asset-type-categories.component';
 import { ViewProductsComponent } from './components/view-products/view-products.component';
 import { ViewSectorsComponent } from './components/view-sectors/view-sectors.component';
 import { ViewClientStatusesComponent } from './components/view-client-statuses/view-client-statuses.component';
@@ -126,7 +126,7 @@ import { AddressTypesEffects } from './store/address-types/address-types.effects
     AddBranchComponent,
     AddBusinessLinesComponent,
     AddAssetTypesComponent,
-    AddAssestTypeCategoriesComponent,
+    AddAssetTypeCategoriesComponent,
     AddProductsComponent,
     AddSectorsComponent,
     AddClientStatusesComponent,
@@ -173,7 +173,7 @@ import { AddressTypesEffects } from './store/address-types/address-types.effects
     ViewBranchAddressesComponent,
     ViewBusinessLinesComponent,
     ViewAssestTypesComponent,
-    ViewAssestTypeCategoriesComponent,
+    ViewAssetTypeCategoriesComponent,
     ViewProductsComponent,
     ViewSectorsComponent,
     ViewClientStatusesComponent,
@@ -235,7 +235,7 @@ import { AddressTypesEffects } from './store/address-types/address-types.effects
     AddBranchComponent,
     AddBusinessLinesComponent,
     AddAssetTypesComponent,
-    AddAssestTypeCategoriesComponent,
+    AddAssetTypeCategoriesComponent,
     AddProductsComponent,
     AddSectorsComponent,
     AddClientStatusesComponent,

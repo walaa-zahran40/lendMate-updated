@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { AssetsTypeCategories } from '../../../../shared/interfaces/assest-type-categories.interface';
 
 @Component({
-  selector: 'app-view-assest-type-categories',
+  selector: 'app-view-asset-type-categories',
   standalone: false,
-  templateUrl: './view-assest-type-categories.component.html',
-  styleUrl: './view-assest-type-categories.component.scss',
+  templateUrl: './view-asset-type-categories.component.html',
+  styleUrl: './view-asset-type-categories.component.scss',
 })
-export class ViewAssestTypeCategoriesComponent {
+export class ViewAssetTypeCategoriesComponent {
   tableDataInside: AssetsTypeCategories[] = [];
   colsInside: any[] = [];
 
