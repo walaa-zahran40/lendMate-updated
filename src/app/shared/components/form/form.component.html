@@ -1897,6 +1897,7 @@
         </div>
       </div>
     </form>
+
     <form
       [formGroup]="formGroup"
       *ngIf="addBranchLookupsForm"
@@ -1982,6 +1983,96 @@
             label="Close"
             class="custom-save m-0 float-right"
             (click)="router.navigate(['/lookups/view-branches'])"
+          />
+        </div>
+      </div>
+    </form>
+
+    <form
+      [formGroup]="formGroup"
+      *ngIf="addCallActionTypeLookupsForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="name">Name in English<sup>*</sup></label>
+      <input
+        pInputText
+        id="name"
+        formControlName="name"
+        placeholder="Enter Name"
+      />
+      <div
+        *ngIf="
+          formGroup.get('name')?.hasError('required') &&
+          formGroup.get('name')?.touched
+        "
+        class="p-error"
+      >
+        Name in English is required.
+      </div>
+
+      <label for="nameAR">Name in Arabic<sup>*</sup></label>
+      <input
+        pInputText
+        id="nameAR"
+        formControlName="nameAR"
+        placeholder="Enter Name"
+      />
+      <div
+        *ngIf="
+          formGroup.get('nameAR')?.hasError('required') &&
+          formGroup.get('nameAR')?.touched
+        "
+        class="p-error"
+      >
+        Name in Arabic is required.
+      </div>
+      <div
+        *ngIf="
+          formGroup.get('nameAR')?.hasError('pattern') &&
+          formGroup.get('nameAR')?.touched
+        "
+        class="p-error"
+      >
+        Please enter only Arabic letters.
+      </div>
+      <div class="p-field" *ngIf="editMode">
+        <p-toggleSwitch
+          id="isActive"
+          formControlName="isActive"
+          label="is Active"
+        ></p-toggleSwitch>
+        <label for="isActive"> Active</label>
+      </div>
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 callActionTypesDiv"
+          *ngIf="!editMode"
+        >
+          <p-button
+            type="submit"
+            label="Add Call Action Type"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 callActionTypesDiv"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Call Action Type"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 callActionTypesDiv"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate(['/lookups/view-call-action-types'])"
           />
         </div>
       </div>
@@ -4251,32 +4342,6 @@
     <!--Lookups Forms-->
 
     <form action="" *ngIf="addCommunicationFlowTypeLookupsForm">
-      <label for="codeTaxOfficesLookups">Code<sup>*</sup></label>
-      <input
-        pInputText
-        id="codeTaxOfficesLookups"
-        aria-describedby="codeTaxOfficesLookups-help"
-        name="codeTaxOfficesLookups"
-        placeholder="342425"
-      />
-      <label for="nameInEnglishLookups">Name in English<sup>*</sup></label>
-      <input
-        pInputText
-        id="nameInEnglishLookups"
-        aria-describedby="nameInEnglishLookups-help"
-        name="nameInEnglishLookups"
-        placeholder="Enter Name"
-      />
-      <label for="nameInArabicLookups">Name in Arabic<sup>*</sup></label>
-      <input
-        pInputText
-        id="nameInArabicLookups"
-        aria-describedby="nameInArabicLookups-help"
-        name="nameInArabicLookups"
-        placeholder="Enter Name"
-      />
-    </form>
-    <form action="" *ngIf="addCallActionTypeLookupsForm">
       <label for="codeTaxOfficesLookups">Code<sup>*</sup></label>
       <input
         pInputText

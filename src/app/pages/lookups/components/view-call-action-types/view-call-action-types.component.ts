@@ -1,4 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subject, Observable, takeUntil } from 'rxjs';
+import { TableComponent } from '../../../../shared/components/table/table.component';
+import { CallActionType } from '../../store/call-action-types/call-action-type.model';
+import { CallActionTypesFacade } from '../../store/call-action-types/call-action-types.facade';
 
 @Component({
   selector: 'app-view-call-action-types',
@@ -7,71 +12,102 @@ import { Component } from '@angular/core';
   styleUrl: './view-call-action-types.component.scss',
 })
 export class ViewCallActionTypesComponent {
-  tableDataInside: any;
-  colsInside: any[] = [];
+  tableDataInside: CallActionType[] = [];
+  first2: number = 0;
+  private destroy$ = new Subject<void>();
+  rows: number = 10;
+  showFilters: boolean = false;
+  @ViewChild('tableRef') tableRef!: TableComponent;
 
+  readonly colsInside = [
+    { field: 'name', header: 'Name EN' },
+    { field: 'nameAR', header: 'Name AR' },
+  ];
+  showDeleteModal: boolean = false;
+  selectedCallActionTypeId: number | null = null;
+  originalCallActionTypes: CallActionType[] = [];
+  filteredCallActionTypes: CallActionType[] = [];
+  callActionTypes$!: Observable<CallActionType[]>;
+
+  constructor(private router: Router, private facade: CallActionTypesFacade) {}
   ngOnInit() {
-    this.colsInside = [
-      { field: 'code', header: 'Code' },
-      { field: 'nameEN', header: 'Name EN' },
-      { field: 'nameAR', header: 'Arabic Name' },
-      { field: 'active', header: 'Active' },
-    ];
-    this.tableDataInside = [
+    this.facade.loadAll();
+    this.callActionTypes$ = this.facade.all$;
+
+    this.callActionTypes$
+      ?.pipe(takeUntil(this.destroy$))
+      .subscribe((callActionTypes) => {
+        // callActionTypes is now CompanyType[], not any
+        const sorted = [...callActionTypes].sort((a, b) => b.id - a.id);
+        this.originalCallActionTypes = sorted;
+        this.filteredCallActionTypes = [...sorted];
+      });
+  }
+
+  onAddCallActionType() {
+    console.log('🔍 [Component] onAddCallActionType');
+    this.router.navigate(['/lookups/add-call-action-types']);
+  }
+
+  ngOnDestroy() {
+    console.log('🔍 [Component] ngOnDestroy - cleaning up');
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+  onDeleteCallActionTypeId(callActionTypeId: any): void {
+    console.log(
+      '[View] onDeleteCallActionType() – opening modal for id=',
+      callActionTypeId
+    );
+    this.selectedCallActionTypeId = callActionTypeId;
+    this.showDeleteModal = true;
+  }
+
+  confirmDelete() {
+    console.log(
+      '[View] confirmDelete() – about to dispatch delete for id=',
+      this.selectedCallActionTypeId
+    );
+    if (this.selectedCallActionTypeId !== null) {
+      this.facade.delete(this.selectedCallActionTypeId);
+      console.log('[View] confirmDelete() – facade.delete() called');
+    } else {
+      console.warn('[View] confirmDelete() – no id to delete');
+    }
+    this.resetDeleteModal();
+  }
+  cancelDelete() {
+    this.resetDeleteModal();
+  }
+
+  resetDeleteModal() {
+    console.log('[View] resetDeleteModal() – closing modal and clearing id');
+    this.showDeleteModal = false;
+    this.selectedCallActionTypeId = null;
+  }
+  onSearch(keyword: string) {
+    const lower = keyword.toLowerCase();
+    this.filteredCallActionTypes = this.originalCallActionTypes.filter(
+      (callActionType) =>
+        Object.values(callActionType).some((val) =>
+          val?.toString().toLowerCase().includes(lower)
+        )
+    );
+  }
+  onToggleFilters(value: boolean) {
+    this.showFilters = value;
+  }
+  onEditCallActionType(callActionType: CallActionType) {
+    this.router.navigate(
+      ['/lookups/edit-call-action-types', callActionType.id],
       {
-        code: 344535,
-        nameEN: 'Name',
-        nameAR: 'Name in Arabic',
-        active: true,
-      },
-      {
-        code: 344535,
-        nameEN: 'Name',
-        nameAR: 'Name in Arabic',
-        active: true,
-      },
-      {
-        code: 344535,
-        nameEN: 'Name',
-        nameAR: 'Name in Arabic',
-        active: true,
-      },
-      {
-        code: 344535,
-        nameEN: 'Name',
-        nameAR: 'Name in Arabic',
-        active: true,
-      },
-      {
-        code: 344535,
-        nameEN: 'Name',
-        nameAR: 'Name in Arabic',
-        active: true,
-      },
-      {
-        code: 344535,
-        nameEN: 'Name',
-        nameAR: 'Name in Arabic',
-        active: true,
-      },
-      {
-        code: 344535,
-        nameEN: 'Name',
-        nameAR: 'Name in Arabic',
-        active: true,
-      },
-      {
-        code: 344535,
-        nameEN: 'Name',
-        nameAR: 'Name in Arabic',
-        active: true,
-      },
-      {
-        code: 344535,
-        nameEN: 'Name',
-        nameAR: 'Name in Arabic',
-        active: true,
-      },
-    ];
+        queryParams: { mode: 'edit' },
+      }
+    );
+  }
+  onViewCallActionType(ct: CallActionType) {
+    this.router.navigate(['/lookups/edit-call-action-types', ct.id], {
+      queryParams: { mode: 'view' },
+    });
   }
 }

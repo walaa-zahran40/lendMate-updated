@@ -160,7 +160,20 @@ const routes: Routes = [
     path: 'view-branches',
     component: ViewBranchComponent,
   },
-  //-----
+  //Call Action Types
+  {
+    path: 'add-call-action-types',
+    component: AddCallActionTypesComponent,
+  },
+  {
+    path: 'edit-call-action-types/:id',
+    component: AddCallActionTypesComponent,
+  },
+  {
+    path: 'view-call-action-types',
+    component: ViewCallActionTypesComponent,
+  },
+  //----
   {
     path: 'add-mandate-statuses',
     component: AddMandateStatusesComponent,
@@ -320,10 +333,7 @@ const routes: Routes = [
     path: 'add-communication-types',
     component: AddCommunicationTypesComponent,
   },
-  {
-    path: 'add-call-action-types',
-    component: AddCallActionTypesComponent,
-  },
+
   {
     path: 'add-communication-flow-type',
     component: AddCommunicationFlowTypesComponent,
@@ -484,10 +494,7 @@ const routes: Routes = [
     path: 'view-communication-types',
     component: ViewCommunicationTypesComponent,
   },
-  {
-    path: 'view-call-action-type',
-    component: ViewCallActionTypesComponent,
-  },
+
   {
     path: 'view-communication-flow-type',
     component: ViewCommunicationFlowTypeComponent,

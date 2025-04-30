@@ -108,6 +108,8 @@ import { reducer as authorityOfficeReducer } from './store/authority-offices/aut
 import { AuthorityOfficesEffects } from './store/authority-offices/authority-offices.effects';
 import { BranchesEffects } from './store/branches/branches.effects';
 import { branchesReducer } from './store/branches/branches.reducer';
+import { reducer as callActionTypesReducer } from './store/call-action-types/call-action-types.reducer';
+import { CallActionTypesEffects } from './store/call-action-types/call-action-types.effects';
 
 @NgModule({
   declarations: [
@@ -220,6 +222,8 @@ import { branchesReducer } from './store/branches/branches.reducer';
     EffectsModule.forFeature([AuthorityOfficesEffects]),
     StoreModule.forFeature('branches', branchesReducer),
     EffectsModule.forFeature([BranchesEffects]),
+    StoreModule.forFeature('callActionTypes', callActionTypesReducer),
+    EffectsModule.forFeature([CallActionTypesEffects]),
   ],
   exports: [
     AddTmlOfficerTypesComponent,
