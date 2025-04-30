@@ -593,8 +593,8 @@ export class FormComponent implements OnInit, OnDestroy {
     ];
     this.selectedIsStampCompanyViewOnly = [{ name: 'Yes', code: '1' }];
     this.stamps = [
-      { name: 'Yes', code: '1' },
-      { name: 'No', code: '0' },
+      { name: 'Yes', id: true },
+      { name: 'No', id: false },
     ];
     this.selectedStamps = { name: 'Yes', code: '1' };
     this.phoneTypes = [{ name: 'Phone Type', code: 'pt' }];

@@ -30,9 +30,9 @@ export const loadCurrency = createAction(
   '[Currencies] Load One',
   props<{ id: number }>()
 );
-export const loadCurrenciesuccess = createAction(
+export const loadCurrencySuccess = createAction(
   '[Currencies] Load One Success',
-  props<{ Currency: Currency }>()
+  props<{ currency: Currency }>()
 );
 export const loadCurrencyFailure = createAction(
   '[Currencies] Load One Failure',
@@ -44,9 +44,9 @@ export const createCurrency = createAction(
   '[Currencies] Create',
   props<{ data: Partial<Currency> }>()
 );
-export const createCurrenciesuccess = createAction(
+export const createCurrencySuccess = createAction(
   '[Currencies] Create Success',
-  props<{ Currency: Currency }>()
+  props<{ currency: Currency }>()
 );
 export const createCurrencyFailure = createAction(
   '[Currencies] Create Failure',
@@ -58,9 +58,9 @@ export const updateCurrency = createAction(
   '[Currencies] Update',
   props<{ id: number; data: Partial<Currency> }>()
 );
-export const updateCurrenciesuccess = createAction(
+export const updateCurrencySuccess = createAction(
   '[Currencies] Update Success',
-  props<{ Currency: Currency }>()
+  props<{ currency: Currency }>()
 );
 export const updateCurrencyFailure = createAction(
   '[Currencies] Update Failure',
@@ -72,7 +72,7 @@ export const deleteCurrency = createAction(
   '[Currencies] Delete',
   props<{ id: number }>()
 );
-export const deleteCurrenciesuccess = createAction(
+export const deleteCurrencySuccess = createAction(
   '[Currencies] Delete Success',
   props<{ id: number }>()
 );

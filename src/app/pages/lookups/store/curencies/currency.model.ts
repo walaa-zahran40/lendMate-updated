@@ -1,10 +1,10 @@
-// currency.model.ts
+// src/app/store/currencies/currency.model.ts
 export interface Currency {
   id: number;
-  code: string;
+  code?: string;
   name: string;
   nameAR: string;
   iso: string;
   isDefault: boolean;
-  isActive : boolean;
+  isActive: boolean;
 }

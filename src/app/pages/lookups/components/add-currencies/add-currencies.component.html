@@ -8,19 +8,14 @@
 details'
         "
         [addCurrenciesLookupsForm]="true"
+        [formGroup]="addCurrenciesLookupsForm" 
+        (submitForm)="addOrEditCurrency()"  
+        [editMode]="editMode"
+        [viewOnly]="viewOnly"
+
       ></app-form>
 
-      <div class="row justify-end">
-        <div
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 CurrenciesDiv"
-          (click)="addOrEditCurrency()"
-        >
-          <p-button
-            label="Add Currencies"
-            class="custom-save m-0 float-right"
-          />
-        </div>
-      </div>
+      
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>

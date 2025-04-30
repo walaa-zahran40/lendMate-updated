@@ -2,7 +2,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { CurrenciesState } from './currencies.state';
 
 export const selectCurrenciesState =
-  createFeatureSelector<CurrenciesState>('Currencies');
+  createFeatureSelector<CurrenciesState>('currencies');
 export const selectCurrencies = createSelector(
   selectCurrenciesState,
   (state) => state.items
@@ -27,7 +27,4 @@ export const selectCurrenciesError = createSelector(
   selectCurrenciesState,
   (state) => state.error
 );
-export function selectCurrentCurrency(selectCurrentCurrency: any): import("rxjs").Observable<import("./currency.model").Currency | undefined> {
-  throw new Error('Function not implemented.');
-}
 

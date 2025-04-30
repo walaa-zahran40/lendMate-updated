@@ -19,6 +19,7 @@ export class CurrenciesFacade {
   current$: Observable<Currency | undefined> = this.store.select(
     Selectors.selectCurrentCurrencyy
   );
+  
   loading$: Observable<boolean> = this.store.select(
     Selectors.selectCurrenciesLoading
   );

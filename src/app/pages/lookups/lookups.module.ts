@@ -206,7 +206,7 @@ import { CurrenciesEffects } from './store/curencies/currencies.effects';
     FileUploadModule,
     StoreModule.forFeature('companyTypes', companyTypesReducer),
     EffectsModule.forFeature([CompanyTypesEffects]),
-    StoreModule.forFeature('curreinces', currenciesReducer),
+    StoreModule.forFeature('currencies', currenciesReducer),
     EffectsModule.forFeature([CurrenciesEffects]),
   ],
   exports: [

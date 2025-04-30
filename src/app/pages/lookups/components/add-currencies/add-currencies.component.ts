@@ -27,29 +27,39 @@ export class AddCurrenciesComponent {
 
   ngOnInit() {
     this.addCurrenciesLookupsForm = this.fb.group({
-      id: [null], // ← new hidden control
+      id: [null],
       name: [
         '',
-        [Validators.required], // 2nd slot (sync)
+        [Validators.required], 
       ],
       nameAR: ['', [Validators.required, arabicOnlyValidator]],
-      isActive: [true], // ← new hidden control
+      iso: [
+        '',
+        [Validators.required], 
+      ],
+      isDefault: [
+        false,
+        [Validators.required], 
+      ],
+      isActive: [true],
     });
 
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
       if (id) {
-        // we have an id → edit mode
+      console.log("Arwaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" ,{id});
+
         this.editMode = true;
         this.clientId = +id;
 
-        // disable if it’s view mode via ?mode=view
+
+        console.log(this.viewOnly);
+
         this.viewOnly = this.route.snapshot.queryParams['mode'] === 'view';
         if (this.viewOnly) {
           this.addCurrenciesLookupsForm.disable();
         }
 
-        // 3. load the existing record & patch the form
         this.facade.loadOne(this.clientId);
         this.facade.current$
           .pipe(
@@ -61,11 +71,12 @@ export class AddCurrenciesComponent {
               id: ct!.id,
               name: ct!.name,
               nameAR: ct!.nameAR,
+              iso:ct!.iso,
+              isDefault:ct!.isDefault,
               isActive: ct!.isActive,
             });
           });
       } else {
-        // no id → add mode: still check if ?mode=view
         this.viewOnly = this.route.snapshot.queryParams['mode'] === 'view';
         if (this.viewOnly) {
           this.addCurrenciesLookupsForm.disable();
@@ -85,12 +96,6 @@ export class AddCurrenciesComponent {
       this.addCurrenciesLookupsForm.getRawValue()
     );
 
-    // Print individual control errors
-    const nameCtrl = this.addCurrenciesLookupsForm.get('name');
-    const nameARCtrl = this.addCurrenciesLookupsForm.get('nameAR');
-    console.log('  name.errors:', nameCtrl?.errors);
-    console.log('  nameAR.errors:', nameARCtrl?.errors);
-
     if (this.viewOnly) {
       console.log('⚠️ viewOnly mode — aborting add');
       return;
@@ -102,8 +107,8 @@ export class AddCurrenciesComponent {
       return;
     }
 
-    const { name, nameAR, iso , isDefault , isActive } = this.addCurrenciesLookupsForm.value;
-    const payload: Partial<Currency> = { name, nameAR, iso , isDefault , isActive };
+    const { name, nameAR, iso , isDefault  } = this.addCurrenciesLookupsForm.value;
+    const payload: Partial<Currency> = { name, nameAR, iso , isDefault  };
     console.log('  → payload object:', payload);
 
     // Double-check your route param
@@ -111,7 +116,7 @@ export class AddCurrenciesComponent {
     console.log('  route.snapshot.paramMap.get(clientId):', routeId);
 
     if (this.editMode) {
-      const { id, name, nameAR, isActive } =
+      const { id, name, nameAR, iso, isDefault, isActive } =
         this.addCurrenciesLookupsForm.value;
       const payload: Currency = {
         id, name, nameAR, iso, isDefault, isActive,
@@ -130,6 +135,6 @@ export class AddCurrenciesComponent {
     }
 
     console.log('🧭 Navigating away to view-company-types');
-    this.router.navigate(['/lookups/view-Currencies']);
+    this.router.navigate(['/lookups/view-currencies']);
   }
 }

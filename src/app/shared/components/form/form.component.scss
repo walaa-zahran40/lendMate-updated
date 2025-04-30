@@ -52,7 +52,9 @@
     .p-tabs {
       padding: var(--custom-padding-right-10);
     }
-
+.custom-save .p-button{
+  padding:0!important;
+}
     .p-multiselect-chip-item {
       background-color: #f8f8fd;
       width: max-content;

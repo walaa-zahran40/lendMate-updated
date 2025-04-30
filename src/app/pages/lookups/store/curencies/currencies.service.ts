@@ -3,7 +3,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Currency } from './currency.model';
 
-
 interface PagedResponse<T> {
   items: T[];
   totalCount: number;
@@ -11,44 +10,40 @@ interface PagedResponse<T> {
 
 @Injectable({ providedIn: 'root' })
 export class CurrenciesService {
-  private baseUrl = 'https://192.168.10.67:7070/api';
-
-  private apiUrl = this.baseUrl + '/Currencies';
+  private api = 'https://192.168.10.67:7070/api/Currencies';
 
   constructor(private http: HttpClient) {}
 
   getAll(pageNumber?: number): Observable<PagedResponse<Currency>> {
     let params = new HttpParams();
-    if (pageNumber != null)
+    if (pageNumber != null) {
       params = params.set('pageNumber', pageNumber.toString());
+    }
     return this.http.get<PagedResponse<Currency>>(
-      `${this.apiUrl}/GetAllCurrencies`,
+      `${this.api}/GetAllCurrencies`,
       { params }
     );
   }
 
   getHistory(): Observable<PagedResponse<Currency>> {
     return this.http.get<PagedResponse<Currency>>(
-      `${this.apiUrl}/GetAllCurrenciesHistory`
+      `${this.api}/GetAllCurrenciesHistory`
     );
   }
 
   getById(id: number): Observable<Currency> {
-    return this.http.get<Currency>(`${this.apiUrl}/Currency?id=${id}`);
+    return this.http.get<Currency>(`${this.api}/CurrencyId?id=${id}`);
   }
 
   create(data: Partial<Currency>): Observable<Currency> {
-    return this.http.post<Currency>(
-      `${this.apiUrl}/CreateCompanyType`,
-      data
-    );
+    return this.http.post<Currency>(`${this.api}/CreateCurrency`, data);
   }
 
   update(id: number, data: Partial<Currency>): Observable<Currency> {
-    return this.http.put<Currency>(`${this.apiUrl}/${id}`, data);
+    return this.http.put<Currency>(`${this.api}/${id}`, data);
   }
 
   delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.api}/${id}`);
   }
 }

@@ -34,9 +34,9 @@ export const currenciesReducer = createReducer(
   })),
 
   on(Actions.loadCurrency, (state) => ({ ...state, loading: true })),
-  on(Actions.loadCurrenciesuccess, (state, { Currency }) => ({
+  on(Actions.loadCurrencySuccess, (state, { currency }) => ({
     ...state,
-    current: Currency,
+    current: currency,
     loading: false,
   })),
   on(Actions.loadCurrencyFailure, (state, { error }) => ({
@@ -46,9 +46,9 @@ export const currenciesReducer = createReducer(
   })),
 
   on(Actions.createCurrency, (state) => ({ ...state, loading: true })),
-  on(Actions.createCurrenciesuccess, (state, { Currency }) => ({
+  on(Actions.createCurrencySuccess, (state, { currency }) => ({
     ...state,
-    items: [...state.items, Currency],
+    items: [...state.items, currency],
     loading: false,
   })),
   on(Actions.createCurrencyFailure, (state, { error }) => ({
@@ -58,10 +58,10 @@ export const currenciesReducer = createReducer(
   })),
 
   on(Actions.updateCurrency, (state) => ({ ...state, loading: true })),
-  on(Actions.updateCurrenciesuccess, (state, { Currency }) => ({
+  on(Actions.updateCurrencySuccess, (state, { currency }) => ({
     ...state,
     items: state.items.map((ct) =>
-      ct.id === Currency.id ? Currency : ct
+      ct.id === currency.id ? currency : ct
     ),
     loading: false,
   })),
@@ -72,7 +72,7 @@ export const currenciesReducer = createReducer(
   })),
 
   on(Actions.deleteCurrency, (state) => ({ ...state, loading: true })),
-  on(Actions.deleteCurrenciesuccess, (state, { id }) => ({
+  on(Actions.deleteCurrencySuccess, (state, { id }) => ({
     ...state,
     items: state.items.filter((ct) => ct.id !== id),
     loading: false,

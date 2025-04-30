@@ -1,4 +1,3 @@
-// currencies.state.ts
 import { Currency } from './currency.model';
 
 export interface CurrenciesState {

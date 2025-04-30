@@ -142,10 +142,23 @@ const routes: Routes = [
     path: 'add-rent-structure-types',
     component: AddRentStructureTypesComponent,
   },
-  {
-    path: 'add-currencies',
-    component: AddCurrenciesComponent,
-  },
+
+
+    //Currencies 
+    {
+      path: 'add-currencies',
+      component: AddCurrenciesComponent,
+    },
+    {
+      path: 'edit-currencies/:id',
+      component: AddCurrenciesComponent,
+    },
+    {
+      path: 'view-curriences',
+      component: ViewCurrenciesComponent,
+    },
+
+
   {
     path: 'add-currencies-exchange',
     component: AddCurrenciesExchangeComponent,

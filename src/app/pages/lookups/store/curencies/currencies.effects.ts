@@ -2,24 +2,24 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { mergeMap, map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
-import * as CompanyActions from './currencies.actions';
+import * as CurrencyActions from './currencies.actions';
 import { CurrenciesService } from './currencies.service';
 
 @Injectable()
 export class CurrenciesEffects {
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(CompanyActions.loadCurrencies),
+      ofType(CurrencyActions.loadCurrencies),
       mergeMap(() =>
         this.service.getAll().pipe(
           map((resp) =>
-            CompanyActions.loadCurrenciesSuccess({
+            CurrencyActions.loadCurrenciesSuccess({
               items: resp.items,
               totalCount: resp.totalCount,
             })
           ),
           catchError((error) =>
-            of(CompanyActions.loadCurrenciesFailure({ error }))
+            of(CurrencyActions.loadCurrenciesFailure({ error }))
           )
         )
       )
@@ -28,16 +28,16 @@ export class CurrenciesEffects {
 
   loadHistory$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(CompanyActions.loadCurrenciesHistory),
+      ofType(CurrencyActions.loadCurrenciesHistory),
       mergeMap(() =>
         this.service.getHistory().pipe(
           map((resp) =>
-            CompanyActions.loadCurrenciesHistorySuccess({
+            CurrencyActions.loadCurrenciesHistorySuccess({
               history: resp.items,
             })
           ),
           catchError((error) =>
-            of(CompanyActions.loadCurrenciesHistoryFailure({ error }))
+            of(CurrencyActions.loadCurrenciesHistoryFailure({ error }))
           )
         )
       )
@@ -46,14 +46,14 @@ export class CurrenciesEffects {
 
   loadOne$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(CompanyActions.loadCurrency),
+      ofType(CurrencyActions.loadCurrency),
       mergeMap(({ id }) =>
         this.service.getById(id).pipe(
-          map((Currency) =>
-            CompanyActions.loadCurrenciesuccess({ Currency })
+          map((currency) =>
+            CurrencyActions.loadCurrencySuccess({ currency })
           ),
           catchError((error) =>
-            of(CompanyActions.loadCurrencyFailure({ error }))
+            of(CurrencyActions.loadCurrencyFailure({ error }))
           )
         )
       )
@@ -62,14 +62,14 @@ export class CurrenciesEffects {
 
   create$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(CompanyActions.createCurrency),
+      ofType(CurrencyActions.createCurrency),
       mergeMap(({ data }) =>
         this.service.create(data).pipe(
-          map((Currency) =>
-            CompanyActions.createCurrenciesuccess({ Currency })
+          map((currency) =>
+            CurrencyActions.createCurrencySuccess({ currency })
           ),
           catchError((error) =>
-            of(CompanyActions.createCurrencyFailure({ error }))
+            of(CurrencyActions.createCurrencyFailure({ error }))
           )
         )
       )
@@ -78,14 +78,14 @@ export class CurrenciesEffects {
 
   update$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(CompanyActions.updateCurrency),
+      ofType(CurrencyActions.updateCurrency),
       mergeMap(({ id, data }) =>
         this.service.update(id, data).pipe(
-          map((Currency) =>
-            CompanyActions.updateCurrenciesuccess({ Currency })
+          map((currency) =>
+            CurrencyActions.updateCurrencySuccess({ currency })
           ),
           catchError((error) =>
-            of(CompanyActions.updateCurrencyFailure({ error }))
+            of(CurrencyActions.updateCurrencyFailure({ error }))
           )
         )
       )
@@ -94,12 +94,12 @@ export class CurrenciesEffects {
 
   delete$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(CompanyActions.deleteCurrency),
+      ofType(CurrencyActions.deleteCurrency),
       mergeMap(({ id }) =>
         this.service.delete(id).pipe(
-          map(() => CompanyActions.deleteCurrenciesuccess({ id })),
+          map(() => CurrencyActions.deleteCurrencySuccess({ id })),
           catchError((error) =>
-            of(CompanyActions.deleteCurrencyFailure({ error }))
+            of(CurrencyActions.deleteCurrencyFailure({ error }))
           )
         )
       )
@@ -109,11 +109,11 @@ export class CurrenciesEffects {
   refreshList$ = createEffect(() =>
     this.actions$.pipe(
       ofType(
-        CompanyActions.createCurrenciesuccess,
-        CompanyActions.updateCurrenciesuccess,
-        CompanyActions.deleteCurrenciesuccess
+        CurrencyActions.createCurrencySuccess,
+        CurrencyActions.updateCurrencySuccess,
+        CurrencyActions.deleteCurrencySuccess
       ),
-      map(() => CompanyActions.loadCurrencies())
+      map(() => CurrencyActions.loadCurrencies())
     )
   );
   constructor(
