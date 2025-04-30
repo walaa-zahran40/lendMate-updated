@@ -1,30 +1,24 @@
 <app-toolbar-form
-  [header]="'Address Types'"
+  [header]="editMode ? 'Edit Company Type' : 'Add Company Type'"
   [backExists]="true"
-  [viewOnly]="false"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
 ></app-toolbar-form>
 <p-tabs value="0" styleClass="p-3">
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
+        *ngIf="addCompanyTypesLookupsForm"
         [title]="'Main Information'"
         [description]="
           'Introduce your company core info quickly to users by fill up company details'
         "
-        [addAddressTypesLookupsForm]="true"
+        [formGroup]="addCompanyTypesLookupsForm"
+        [addCompanyTypesLookupsForm]="true"
+        [editMode]="editMode"
+        (submitForm)="addOrEditCompanyTypes()"
+        [viewOnly]="viewOnly"
       ></app-form>
-
-      <div class="row justify-end">
-        <div
-          class="p-0 col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 padding-right"
-          (click)="addAddressTypes()"
-        >
-          <p-button
-            label="Add Address Types"
-            class="custom-save m-0 float-right"
-          />
-        </div>
-      </div>
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>

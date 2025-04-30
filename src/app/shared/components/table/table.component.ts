@@ -52,6 +52,7 @@ export class TableComponent {
   @Input() viewUploadDocumentsTable!: boolean;
   @Input() viewAddressTable!: boolean;
   @Input() viewTurnOverTable!: boolean;
+  @Input() viewAddressTypesTable!: boolean;
   @Input() viewPhoneNumberTable!: boolean;
   @Input() viewContactPersonTable!: boolean;
   @Input() viewCRAuthorityOfficeTable!: boolean;
@@ -71,6 +72,7 @@ export class TableComponent {
   @Input() viewCompanyTypesTable!: boolean;
   @Input() viewMandateStatusesTypesTable!: boolean;
   @Input() viewFeelTypesTable!: boolean;
+
   @Input() viewFeeCalculationTypesTable!: boolean;
   @Input() viewCurrenciesTable!: boolean;
   @Input() viewCurrencyExchangeTable!: boolean;

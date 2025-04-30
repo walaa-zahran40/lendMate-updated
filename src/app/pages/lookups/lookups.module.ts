@@ -102,6 +102,8 @@ import { CompanyTypesEffects } from './store/company-types/company-types.effects
 import { companyTypesReducer } from './store/company-types/company-types.reducer';
 import { reducer as feeCalcReducer } from './store/fee-calculation-types/fee-calculation-types.reducer';
 import { FeeCalculationTypesEffects } from './store/fee-calculation-types/fee-calculation-types.effects';
+import { reducer as addressTypeReducer } from './store/address-types/address-types.reducer';
+import { AddressTypesEffects } from './store/address-types/address-types.effects';
 
 @NgModule({
   declarations: [
@@ -208,6 +210,8 @@ import { FeeCalculationTypesEffects } from './store/fee-calculation-types/fee-ca
     EffectsModule.forFeature([CompanyTypesEffects]),
     StoreModule.forFeature('feeCalculationTypes', feeCalcReducer),
     EffectsModule.forFeature([FeeCalculationTypesEffects]),
+    StoreModule.forFeature('addressTypes', addressTypeReducer),
+    EffectsModule.forFeature([AddressTypesEffects]),
   ],
   exports: [
     AddTmlOfficerTypesComponent,
