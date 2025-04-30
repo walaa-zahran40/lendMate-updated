@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { FeeCalculationTypesService } from './fee-calculation-types.service';
 import * as ActionsList from './fee-calculation-types.actions';
-import { catchError, map, mergeMap, of } from 'rxjs';
+import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { loadAll } from '../../../crm/clients/store/client-central-bank-info/client-central-bank.actions';
+import { FeeCalculationType } from './fee-calculation-types.model';
 
 @Injectable()
 export class FeeCalculationTypesEffects {
@@ -14,10 +16,15 @@ export class FeeCalculationTypesEffects {
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActionsList.loadAll),
-      mergeMap(({}) =>
+      tap(() => console.log('✨ Effect: loadAll action caught')),
+      mergeMap(() =>
         this.svc.getAll().pipe(
-          map((result) => ActionsList.loadAllSuccess({ result })),
-          catchError((error) => of(ActionsList.loadAllFailure({ error })))
+          tap((items) => console.log('✨ Service returned items:', items)),
+          map((items) => ActionsList.loadAllSuccess({ result: items })),
+          catchError((err) => {
+            console.error('⚠️ Error loading feeCalculationTypes', err);
+            return of(ActionsList.loadAllFailure({ error: err }));
+          })
         )
       )
     )
@@ -26,24 +33,46 @@ export class FeeCalculationTypesEffects {
   loadById$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActionsList.loadById),
+      tap(({ id }) =>
+        console.log('🔄 Effect: loadById action caught for id=', id)
+      ),
       mergeMap(({ id }) =>
         this.svc.getById(id).pipe(
+          tap((entity) => console.log('🔄 Service.getById returned:', entity)),
           map((entity) => ActionsList.loadByIdSuccess({ entity })),
-          catchError((error) => of(ActionsList.loadByIdFailure({ error })))
+          catchError((error) => {
+            console.error('❌ Service.getById error:', error);
+            return of(ActionsList.loadByIdFailure({ error }));
+          })
         )
       )
     )
   );
 
+  loadByIdSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ActionsList.loadByIdSuccess),
+        tap(({ entity }) =>
+          console.log(
+            '✨ Effect: loadByIdSuccess action caught, entity:',
+            entity
+          )
+        )
+      ),
+    { dispatch: false }
+  );
   create$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActionsList.createEntity),
-      mergeMap(({ payload }) =>
-        this.svc.create(payload).pipe(
+      mergeMap(({ payload }) => {
+        // payload is Partial<Omit<FeeCalculationType,'id'>>, but our service needs the full DTO shape
+        const dto = payload as Omit<FeeCalculationType, 'id'>;
+        return this.svc.create(dto).pipe(
           map((entity) => ActionsList.createEntitySuccess({ entity })),
           catchError((error) => of(ActionsList.createEntityFailure({ error })))
-        )
-      )
+        );
+      })
     )
   );
 

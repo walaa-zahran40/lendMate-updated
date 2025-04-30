@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { filter, take } from 'rxjs';
-import { CompanyType } from '../../store/company-types/company-type.model';
-import { FeeCalculationTypesFacade } from '../../store/fee-calculation-types/fee-calculation-types.facade';
+import { filter, take, tap } from 'rxjs';
+import { arabicOnlyValidator } from '../../../../shared/validators/arabic-only.validator';
 import { FeeCalculationType } from '../../store/fee-calculation-types/fee-calculation-types.model';
+import { FeeCalculationTypesFacade } from '../../store/fee-calculation-types/fee-calculation-types.facade';
 
 @Component({
   selector: 'app-add-fee-calculation-types',
@@ -25,59 +25,83 @@ export class AddFeeCalculationTypesComponent {
     private router: Router
   ) {}
 
-  ngOnInit(): void {
-    // 1) build the form
+  ngOnInit() {
+    console.log('🔵 ngOnInit: start');
+
+    // 1. Build the form
     this.addFeeCalculationTypesLookupsForm = this.fb.group({
-      id: [null],
+      id: [null], // ← new hidden control
       name: ['', [Validators.required]],
-      nameAR: [
-        '',
-        [Validators.required, Validators.pattern('^[\\u0621-\\u064A ]+$')],
-      ],
-      isActive: [true],
+      nameAR: ['', [Validators.required, arabicOnlyValidator]],
+      isActive: [true], // ← new hidden control
     });
+    console.log(
+      '🔵 Form initialized with default values:',
+      this.addFeeCalculationTypesLookupsForm.value
+    );
 
-    // 2) read ID + mode=view once
-    const idParam = this.route.snapshot.paramMap.get('id');
-    this.viewOnly = this.route.snapshot.queryParamMap.get('mode') === 'view';
+    // 2. Watch route params
+    this.route.paramMap.subscribe((params) => {
+      console.log('🔵 Route paramMap:', params);
+      const idParam = params.get('id');
+      console.log('🔵 Retrieved id param:', idParam);
 
-    // disable entire form if we're just viewing
-    if (this.viewOnly) {
-      this.addFeeCalculationTypesLookupsForm.disable();
-    }
+      if (idParam) {
+        // edit mode
+        this.editMode = true;
+        this.clientId = +idParam;
+        console.log('🔵 Entering EDIT mode for id =', this.clientId);
 
-    if (idParam) {
-      // — edit mode
-      this.editMode = true;
-      const id = +idParam;
+        // view-only?
+        this.viewOnly = this.route.snapshot.queryParams['mode'] === 'view';
+        console.log('🔵 viewOnly flag:', this.viewOnly);
+        if (this.viewOnly) {
+          this.addFeeCalculationTypesLookupsForm.disable();
+          console.log('🔵 Form disabled for view-only');
+        }
 
-      console.log('✏️ Edit mode, loading FeeCalculationType id=', id);
-      this.facade.loadById(id);
+        // load & patch
+        console.log('🔵 Dispatching loadById for', this.clientId);
+        this.facade.loadById(this.clientId);
 
-      // wait for it to arrive in the store, then patch
-      this.facade.selected$
-        .pipe(
-          filter((entity) => !!entity && entity.id === id),
-          take(1)
-        )
-        .subscribe((entity) => {
-          console.log('✅ Loaded for edit:', entity);
-          this.addFeeCalculationTypesLookupsForm.patchValue({
-            id: entity?.id,
-            name: entity?.name,
-            nameAR: entity?.nameAR,
-            isActive: entity?.isActive,
+        this.facade.selected$
+          .pipe(
+            tap((ct) => console.log('🔵 selected$ emission:', ct)),
+            filter((ct) => !!ct),
+            tap((ct) =>
+              console.log('🔵 selected$ passed filter, patching form with:', ct)
+            ),
+            take(1)
+          )
+          .subscribe((ct) => {
+            this.addFeeCalculationTypesLookupsForm.patchValue({
+              id: ct!.id,
+              name: ct!.name,
+              nameAR: ct!.nameAR,
+              isActive: ct!.isActive,
+            });
+            console.log(
+              '🔵 Form after patchValue:',
+              this.addFeeCalculationTypesLookupsForm.value
+            );
           });
-        });
-    } else {
-      // — add mode
-      console.log('➕ Add mode (no id in route)');
-      // form is already built with defaults
-    }
+      } else {
+        // add mode
+        this.editMode = false;
+        console.log('🔵 Entering ADD mode');
+
+        this.viewOnly = this.route.snapshot.queryParams['mode'] === 'view';
+        console.log('🔵 viewOnly flag (add mode):', this.viewOnly);
+        if (this.viewOnly) {
+          this.addFeeCalculationTypesLookupsForm.disable();
+          console.log('🔵 Form disabled for view-only in add mode');
+        }
+      }
+    });
   }
 
   addOrEditFeeCalculationTypes() {
-    console.log('💥 addCompanyTypes() called');
+    console.log('💥 addOrEditFeeCalculationTypes() called');
     console.log('  viewOnly:', this.viewOnly);
     console.log('  editMode:', this.editMode);
     console.log('  form valid:', this.addFeeCalculationTypesLookupsForm.valid);
@@ -109,7 +133,7 @@ export class AddFeeCalculationTypesComponent {
 
     const { name, nameAR, isActive } =
       this.addFeeCalculationTypesLookupsForm.value;
-    const payload: Partial<CompanyType> = { name, nameAR, isActive };
+    const payload: Partial<FeeCalculationType> = { name, nameAR, isActive };
     console.log('  → payload object:', payload);
 
     // Double-check your route param
@@ -119,7 +143,7 @@ export class AddFeeCalculationTypesComponent {
     if (this.editMode) {
       const { id, name, nameAR, isActive } =
         this.addFeeCalculationTypesLookupsForm.value;
-      const payload: CompanyType = { id, name, nameAR, isActive };
+      const payload: FeeCalculationType = { id, name, nameAR, isActive };
       console.log(
         '🔄 Dispatching UPDATE id=',
         this.clientId,
@@ -128,21 +152,11 @@ export class AddFeeCalculationTypesComponent {
       );
       this.facade.update(id, payload);
     } else {
-      const { name, nameAR, isActive } =
-        this.addFeeCalculationTypesLookupsForm.value;
-
-      // 2. assert that name & nameAR are non-null (your form is valid at this point)
-      const payload: Omit<FeeCalculationType, 'id'> = {
-        name: name!, // the `!` tells TS “I know it’s non-undefined here”
-        nameAR: nameAR!,
-        isActive, // boolean is always defined
-      };
-
-      // 3. dispatch
+      console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
 
-    console.log('🧭 Navigating away to view-company-types');
-    this.router.navigate(['/lookups/view-company-types']);
+    console.log('🧭 Navigating away to view-fee-calculation-types');
+    this.router.navigate(['/lookups/view-fee-calculation-types']);
   }
 }

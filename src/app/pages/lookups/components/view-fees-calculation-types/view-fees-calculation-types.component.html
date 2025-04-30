@@ -1,24 +1,24 @@
 <div class="page-content">
   <app-toolbar-table
-    [title]="'Company Types'"
-    [labelBtn]="'Add Company Type'"
+    [title]="'Fee Calculation Types'"
+    [labelBtn]="'Add Fee Calculation Type'"
     [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
     [backExists]="true"
     [customSpacing]="'custom-spacing'"
     [exports]="true"
-    (addBtn)="onAddCompanyType()"
+    (addBtn)="onAddFeeCalculationType()"
     (searchChange)="onSearch($event)"
     (toggleFiltersEvent)="onToggleFilters($event)"
     (exportExcel)="tableRef.exportToExcel()"
     (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
 
-  <ng-container *ngIf="companyTypes$ | async as companyTypes">
+  <ng-container *ngIf="feeCalculationTypes$ | async as feeCalculationTypes">
     <app-table
       #tableRef
       [cols]="colsInside"
-      [tableData]="filteredCompanyTypes"
+      [tableData]="filteredFeeCalculationType"
       [edit]="true"
       [delete]="true"
       [side]="false"
@@ -27,10 +27,10 @@
       [view]="true"
       [filters]="showFilters"
       [uppercase]="'uppercase'"
-      [viewCompanyTypesTable]="true"
-      (onDelete)="onDeleteCompanyType($event)"
-      (onEdit)="onEditCompanyType($event)"
-      (viewForm)="onViewCompanyType($event)"
+      [viewFeeCalculationTypesTable]="true"
+      (onDelete)="onDeleteFeeCalculationType($event)"
+      (onEdit)="onEditFeeCalculationType($event)"
+      (viewForm)="onViewFeeCalculationType($event)"
     ></app-table>
     <app-delete-module
       [visible]="showDeleteModal"

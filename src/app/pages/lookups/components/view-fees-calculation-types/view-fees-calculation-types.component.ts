@@ -1,10 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
-import { CompanyTypes } from '../../../../shared/interfaces/company-types.interface';
 import { Router } from '@angular/router';
-import { Subject, Observable, takeUntil } from 'rxjs';
+import { Subject, Observable, takeUntil, take } from 'rxjs';
 import { TableComponent } from '../../../../shared/components/table/table.component';
-import { CompanyType } from '../../store/company-types/company-type.model';
-import { CompanyTypesFacade } from '../../store/company-types/company-types.facade';
+import { FeeCalculationType } from '../../store/fee-calculation-types/fee-calculation-types.model';
+import { FeeCalculationTypesFacade } from '../../store/fee-calculation-types/fee-calculation-types.facade';
 
 @Component({
   selector: 'app-view-fees-calculation-types',
@@ -13,7 +12,7 @@ import { CompanyTypesFacade } from '../../store/company-types/company-types.faca
   styleUrl: './view-fees-calculation-types.component.scss',
 })
 export class ViewFeesCalculationTypesComponent {
-  tableDataInside: CompanyTypes[] = [];
+  tableDataInside: FeeCalculationType[] = [];
   first2: number = 0;
   private destroy$ = new Subject<void>();
   rows: number = 10;
@@ -25,50 +24,75 @@ export class ViewFeesCalculationTypesComponent {
     { field: 'nameAR', header: 'Name AR' },
   ];
   showDeleteModal: boolean = false;
-  selectedCompanyTypeId: number | null = null;
-  originalCompanyTypes: CompanyType[] = [];
-  filteredCompanyTypes: CompanyType[] = [];
-  companyTypes$!: Observable<CompanyType[]>;
+  selectedFeeCalculationTypeId: number | null = null;
+  originalFeeCalculationType: FeeCalculationType[] = [];
+  filteredFeeCalculationType: FeeCalculationType[] = [];
+  feeCalculationTypes$!: Observable<FeeCalculationType[]>;
 
-  constructor(private router: Router, private facade: CompanyTypesFacade) {}
+  constructor(
+    private router: Router,
+    private facade: FeeCalculationTypesFacade
+  ) {}
   ngOnInit() {
+    console.log('🟢 ngOnInit: start');
+    this.feeCalculationTypes$ = this.facade.all$;
+    console.log('🟢 before loadAll, current store value:');
+    this.feeCalculationTypes$
+      .pipe(take(1))
+      .subscribe((v) => console.log('   store currently has:', v));
+    console.log('🟢 Calling loadAll() to fetch feeCalculationTypes');
     this.facade.loadAll();
-    this.companyTypes$ = this.facade.items$;
 
-    this.companyTypes$
+    this.feeCalculationTypes$
       ?.pipe(takeUntil(this.destroy$))
-      .subscribe((companyTypes) => {
-        // companyTypes is now CompanyType[], not any
-        const sorted = [...companyTypes].sort((a, b) => b.id - a.id);
-        this.originalCompanyTypes = sorted;
-        this.filteredCompanyTypes = [...sorted];
+      .subscribe((feeCalculationTypes) => {
+        console.log(
+          '🟢 subscribe: received feeCalculationTypes array:',
+          feeCalculationTypes
+        );
+
+        // preserve immutability, then sort by id descending
+        const sorted = [...feeCalculationTypes].sort((a, b) => b.id - a.id);
+        console.log('🟢 sorted (by id desc):', sorted);
+
+        this.originalFeeCalculationType = sorted;
+        console.log(
+          '🟢 originalFeeCalculationType set to:',
+          this.originalFeeCalculationType
+        );
+
+        this.filteredFeeCalculationType = [...sorted];
+        console.log(
+          '🟢 filteredFeeCalculationType set to:',
+          this.filteredFeeCalculationType
+        );
       });
   }
 
-  onAddCompanyType() {
-    this.router.navigate(['/lookups/add-company-types']);
+  onAddFeeCalculationType() {
+    this.router.navigate(['/lookups/add-fee-calculation-types']);
   }
 
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
   }
-  onDeleteCompanyType(companyTypeId: any): void {
+  onDeleteFeeCalculationType(feeCalculationTypeId: any): void {
     console.log(
-      '[View] onDeleteCompanyType() – opening modal for id=',
-      companyTypeId
+      '[View] onDeleteFeeCalculationType() – opening modal for id=',
+      feeCalculationTypeId
     );
-    this.selectedCompanyTypeId = companyTypeId;
+    this.selectedFeeCalculationTypeId = feeCalculationTypeId;
     this.showDeleteModal = true;
   }
 
   confirmDelete() {
     console.log(
       '[View] confirmDelete() – about to dispatch delete for id=',
-      this.selectedCompanyTypeId
+      this.selectedFeeCalculationTypeId
     );
-    if (this.selectedCompanyTypeId !== null) {
-      this.facade.delete(this.selectedCompanyTypeId);
+    if (this.selectedFeeCalculationTypeId !== null) {
+      this.facade.delete(this.selectedFeeCalculationTypeId);
       console.log('[View] confirmDelete() – facade.delete() called');
     } else {
       console.warn('[View] confirmDelete() – no id to delete');
@@ -82,13 +106,13 @@ export class ViewFeesCalculationTypesComponent {
   resetDeleteModal() {
     console.log('[View] resetDeleteModal() – closing modal and clearing id');
     this.showDeleteModal = false;
-    this.selectedCompanyTypeId = null;
+    this.selectedFeeCalculationTypeId = null;
   }
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
-    this.filteredCompanyTypes = this.originalCompanyTypes.filter(
-      (companyType) =>
-        Object.values(companyType).some((val) =>
+    this.filteredFeeCalculationType = this.originalFeeCalculationType.filter(
+      (feeCalculationTypes) =>
+        Object.values(feeCalculationTypes).some((val) =>
           val?.toString().toLowerCase().includes(lower)
         )
     );
@@ -96,13 +120,16 @@ export class ViewFeesCalculationTypesComponent {
   onToggleFilters(value: boolean) {
     this.showFilters = value;
   }
-  onEditCompanyType(companyType: CompanyType) {
-    this.router.navigate(['/lookups/edit-company-types', companyType.id], {
-      queryParams: { mode: 'edit' },
-    });
+  onEditFeeCalculationType(feeCalculationType: FeeCalculationType) {
+    this.router.navigate(
+      ['/lookups/edit-fee-calculation-types', feeCalculationType.id],
+      {
+        queryParams: { mode: 'edit' },
+      }
+    );
   }
-  onViewCompanyType(ct: CompanyType) {
-    this.router.navigate(['/lookups/edit-company-types', ct.id], {
+  onViewFeeCalculationType(ct: FeeCalculationType) {
+    this.router.navigate(['/lookups/edit-fee-calculation-types', ct.id], {
       queryParams: { mode: 'view' },
     });
   }

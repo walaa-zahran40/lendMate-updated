@@ -5,25 +5,23 @@ import { adapter, initialState, State } from './fee-calculation-types.state';
 export const reducer = createReducer(
   initialState,
 
-  // when you start loading by id
-  on(FeeActions.loadById, (state, { id }) => ({
+  // when you dispatch loadAll()
+  on(FeeActions.loadAll, (state) => ({
     ...state,
     loading: true,
-    loadedId: null, // clear out any previous
     error: null,
   })),
 
-  // on success, add/update the entity and record its id
-  on(FeeActions.loadByIdSuccess, (state, { entity }) =>
-    adapter.upsertOne(entity, {
+  // when your effect dispatches loadAllSuccess({ result })
+  on(FeeActions.loadAllSuccess, (state, { result }) =>
+    adapter.setAll(result, {
       ...state,
       loading: false,
-      loadedId: entity.id, // ← record the loaded id
+      error: null,
     })
   ),
-
-  // handle failure
-  on(FeeActions.loadByIdFailure, (state, { error }) => ({
+  // on failure
+  on(FeeActions.loadAllFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
@@ -71,7 +69,27 @@ export const reducer = createReducer(
     ...state,
     loading: false,
     error,
-  }))
+  })),
+  // fee-calculation-types.reducer.ts
+  on(FeeActions.loadByIdSuccess, (state, { entity }) => {
+    console.log('🗄️ Reducer: loadByIdSuccess, before:', {
+      loadedId: state.loadedId,
+      entities: state.entities,
+    });
+
+    const newState = adapter.upsertOne(entity, {
+      ...state,
+      loading: false,
+      loadedId: entity.id,
+    });
+
+    console.log('🗄️ Reducer: loadByIdSuccess, after:', {
+      loadedId: newState.loadedId,
+      entities: newState.entities,
+    });
+
+    return newState;
+  })
 );
 
 export const { selectAll, selectEntities, selectIds, selectTotal } =

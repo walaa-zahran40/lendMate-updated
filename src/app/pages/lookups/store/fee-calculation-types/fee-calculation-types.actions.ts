@@ -7,8 +7,9 @@ export const loadAll = createAction(
 );
 export const loadAllSuccess = createAction(
   '[FeeCalculationTypes] Load All Success',
-  props<{ result: FeeCalculationType }>()
+  props<{ result: FeeCalculationType[] }>()
 );
+
 export const loadAllFailure = createAction(
   '[FeeCalculationTypes] Load All Failure',
   props<{ error: any }>()
@@ -29,7 +30,8 @@ export const loadByIdFailure = createAction(
 
 export const createEntity = createAction(
   '[FeeCalculationTypes] Create',
-  props<{ payload: Omit<FeeCalculationType, 'id'> }>()
+  // allow all fields except id, but all optional
+  props<{ payload: Partial<Omit<FeeCalculationType, 'id'>> }>()
 );
 export const createEntitySuccess = createAction(
   '[FeeCalculationTypes] Create Success',

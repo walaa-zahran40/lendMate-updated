@@ -1,24 +1,34 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, map, Observable, tap, throwError } from 'rxjs';
 import { FeeCalculationType } from './fee-calculation-types.model';
 
 @Injectable({ providedIn: 'root' })
 export class FeeCalculationTypesService {
-  private baseUrl = '/api/FeeCalculationTypes';
+  private baseUrl = 'https://192.168.10.67:7070/api/FeeCalculationTypes';
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<FeeCalculationType> {
-    return this.http.get<FeeCalculationType>(
-      `${this.baseUrl}/GetAllFeeCalculationTypes`
-    );
+  getAll(): Observable<FeeCalculationType[]> {
+    console.log('🚀 Service: calling GET …');
+    return this.http
+      .get<{ items: FeeCalculationType[]; totalCount: number }>(
+        `${this.baseUrl}/GetAllFeeCalculationTypes`
+      )
+      .pipe(
+        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
+        map((resp) => resp.items), // ← pull off the `items` array here
+        tap((items) => console.log('🚀 Mapped items:', items)),
+        catchError((err) => {
+          console.error('🚀 HTTP error fetching FeeCalculationTypes:', err);
+          return throwError(() => err);
+        })
+      );
   }
 
   getById(id: number): Observable<FeeCalculationType> {
     return this.http.get<FeeCalculationType>(
-      `${this.baseUrl}/FeeCalculationTypeId`,
-      { params: new HttpParams().set('FeeCalculationTypeId', id.toString()) }
+      `${this.baseUrl}/FeeCalculationTypeId?id=${id}`
     );
   }
 

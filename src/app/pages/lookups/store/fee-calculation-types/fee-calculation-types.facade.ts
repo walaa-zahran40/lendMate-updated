@@ -28,7 +28,7 @@ export class FeeCalculationTypesFacade {
     this.store.dispatch(Actions.loadById({ id }));
   }
 
-  create(payload: Omit<FeeCalculationType, 'id'>) {
+  create(payload: Partial<Omit<FeeCalculationType, 'id'>>) {
     this.store.dispatch(Actions.createEntity({ payload }));
   }
 

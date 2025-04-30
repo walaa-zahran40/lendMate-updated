@@ -71,6 +71,7 @@ export class TableComponent {
   @Input() viewCompanyTypesTable!: boolean;
   @Input() viewMandateStatusesTypesTable!: boolean;
   @Input() viewFeelTypesTable!: boolean;
+  @Input() viewFeeCalculationTypesTable!: boolean;
   @Input() viewCurrenciesTable!: boolean;
   @Input() viewCurrencyExchangeTable!: boolean;
   @Input() viewPaymentMethodsTable!: boolean;

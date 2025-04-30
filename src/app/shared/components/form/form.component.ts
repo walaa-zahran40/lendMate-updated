@@ -494,7 +494,6 @@ export class FormComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('clientId')!;
-    console.log('Extracted ID:', this.id); // 🔍 debug
     this.sub = this.formGroup?.valueChanges
       .pipe(debounceTime(300))
       .subscribe(() => {
@@ -902,8 +901,8 @@ export class FormComponent implements OnInit, OnDestroy {
   viewMandateStatuses() {
     this.router.navigate(['/lookups/view-mandate-statuses']);
   }
-  viewFeesCalculation() {
-    this.router.navigate(['/crm/clients/view-fee-calculation']);
+  viewFeesCalculationType() {
+    this.router.navigate(['/lookups/view-fee-calculation-types']);
   }
   viewSignatoryOfficer() {
     this.router.navigate(['/organizations/view-signatory-officers']);
