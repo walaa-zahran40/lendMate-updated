@@ -1,5 +1,5 @@
 <app-toolbar-form
-  [header]="editMode ? 'Edit Company Type' : 'Add Company Type'"
+  [header]="editMode ? 'Edit Address Type' : 'Add Address Type'"
   [backExists]="true"
   [backIcon]="'back-icon'"
   [viewOnly]="editMode ? true : false"
@@ -8,15 +8,15 @@
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
-        *ngIf="addCompanyTypesLookupsForm"
+        *ngIf="addAddressTypesLookupsForm"
         [title]="'Main Information'"
         [description]="
-          'Introduce your company core info quickly to users by fill up company details'
+          'Introduce your address core info quickly to users by fill up address details'
         "
-        [formGroup]="addCompanyTypesLookupsForm"
-        [addCompanyTypesLookupsForm]="true"
+        [formGroup]="addAddressTypesLookupsForm"
+        [addAddressTypesLookupsForm]="true"
         [editMode]="editMode"
-        (submitForm)="addOrEditCompanyTypes()"
+        (submitForm)="addOrEditAddressType()"
         [viewOnly]="viewOnly"
       ></app-form>
     </p-tabpanel>

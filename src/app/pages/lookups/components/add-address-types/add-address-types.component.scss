@@ -42,7 +42,10 @@
     color: #7c8493;
   }
   @media only screen and (max-width: 600px) {
-    .companyTypesDiv {
+    .companyTypesDiv,
+    .feeCalculationTypesDiv,
+    .addressTypesDiv,
+    .currenciesDiv {
       padding-right: 0;
       padding-left: 0;
     }

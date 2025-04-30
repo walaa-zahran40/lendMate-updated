@@ -121,7 +121,16 @@ const routes: Routes = [
     path: 'view-fee-calculation-types',
     component: ViewFeesCalculationTypesComponent,
   },
-  //----
+  //Address Types
+  {
+    path: 'add-address-types',
+    component: AddAddressTypesComponent,
+  },
+  {
+    path: 'edit-address-types/:id',
+    component: AddAddressTypesComponent,
+  },
+  //-----
   {
     path: 'add-mandate-statuses',
     component: AddMandateStatusesComponent,
@@ -247,10 +256,7 @@ const routes: Routes = [
     path: 'add-phone-types',
     component: AddPhoneTypesComponent,
   },
-  {
-    path: 'add-address-types',
-    component: AddAddressTypesComponent,
-  },
+
   {
     path: 'add-governorates',
     component: AddGovernoratesComponent,

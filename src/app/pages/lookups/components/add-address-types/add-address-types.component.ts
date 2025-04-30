@@ -3,8 +3,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, take } from 'rxjs';
 import { arabicOnlyValidator } from '../../../../shared/validators/arabic-only.validator';
-import { CompanyType } from '../../store/company-types/company-type.model';
-import { CompanyTypesFacade } from '../../store/company-types/company-types.facade';
+import { AddressType } from '../../store/address-types/address-types.model';
+import { AddressTypesFacade } from '../../store/address-types/address-types.facade';
 
 @Component({
   selector: 'app-add-address-types',
@@ -15,18 +15,18 @@ import { CompanyTypesFacade } from '../../store/company-types/company-types.faca
 export class AddAddressTypesComponent {
   editMode: boolean = false;
   viewOnly = false;
-  addCompanyTypesLookupsForm!: FormGroup;
+  addAddressTypesLookupsForm!: FormGroup;
   clientId: any;
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private facade: CompanyTypesFacade,
+    private facade: AddressTypesFacade,
     private router: Router
   ) {}
 
   ngOnInit() {
-    this.addCompanyTypesLookupsForm = this.fb.group({
+    this.addAddressTypesLookupsForm = this.fb.group({
       id: [null], // ← new hidden control
       name: [
         '',
@@ -46,18 +46,18 @@ export class AddAddressTypesComponent {
         // disable if it’s view mode via ?mode=view
         this.viewOnly = this.route.snapshot.queryParams['mode'] === 'view';
         if (this.viewOnly) {
-          this.addCompanyTypesLookupsForm.disable();
+          this.addAddressTypesLookupsForm.disable();
         }
 
         // 3. load the existing record & patch the form
-        this.facade.loadOne(this.clientId);
-        this.facade.current$
+        this.facade.loadById(this.clientId);
+        this.facade.selected$
           .pipe(
             filter((ct) => !!ct),
             take(1)
           )
           .subscribe((ct) => {
-            this.addCompanyTypesLookupsForm.patchValue({
+            this.addAddressTypesLookupsForm.patchValue({
               id: ct!.id,
               name: ct!.name,
               nameAR: ct!.nameAR,
@@ -68,26 +68,26 @@ export class AddAddressTypesComponent {
         // no id → add mode: still check if ?mode=view
         this.viewOnly = this.route.snapshot.queryParams['mode'] === 'view';
         if (this.viewOnly) {
-          this.addCompanyTypesLookupsForm.disable();
+          this.addAddressTypesLookupsForm.disable();
         }
       }
     });
   }
 
-  addOrEditCompanyTypes() {
-    console.log('💥 addCompanyTypes() called');
+  addOrEditAddressType() {
+    console.log('💥 addAddressTypes() called');
     console.log('  viewOnly:', this.viewOnly);
     console.log('  editMode:', this.editMode);
-    console.log('  form valid:', this.addCompanyTypesLookupsForm.valid);
-    console.log('  form touched:', this.addCompanyTypesLookupsForm.touched);
+    console.log('  form valid:', this.addAddressTypesLookupsForm.valid);
+    console.log('  form touched:', this.addAddressTypesLookupsForm.touched);
     console.log(
       '  form raw value:',
-      this.addCompanyTypesLookupsForm.getRawValue()
+      this.addAddressTypesLookupsForm.getRawValue()
     );
 
     // Print individual control errors
-    const nameCtrl = this.addCompanyTypesLookupsForm.get('name');
-    const nameARCtrl = this.addCompanyTypesLookupsForm.get('nameAR');
+    const nameCtrl = this.addAddressTypesLookupsForm.get('name');
+    const nameARCtrl = this.addAddressTypesLookupsForm.get('nameAR');
     console.log('  name.errors:', nameCtrl?.errors);
     console.log('  nameAR.errors:', nameARCtrl?.errors);
 
@@ -96,14 +96,14 @@ export class AddAddressTypesComponent {
       return;
     }
 
-    if (this.addCompanyTypesLookupsForm.invalid) {
+    if (this.addAddressTypesLookupsForm.invalid) {
       console.warn('❌ Form is invalid — marking touched and aborting');
-      this.addCompanyTypesLookupsForm.markAllAsTouched();
+      this.addAddressTypesLookupsForm.markAllAsTouched();
       return;
     }
 
-    const { name, nameAR, isActive } = this.addCompanyTypesLookupsForm.value;
-    const payload: Partial<CompanyType> = { name, nameAR, isActive };
+    const { name, nameAR, isActive } = this.addAddressTypesLookupsForm.value;
+    const payload: Partial<AddressType> = { name, nameAR, isActive };
     console.log('  → payload object:', payload);
 
     // Double-check your route param
@@ -112,8 +112,8 @@ export class AddAddressTypesComponent {
 
     if (this.editMode) {
       const { id, name, nameAR, isActive } =
-        this.addCompanyTypesLookupsForm.value;
-      const payload: CompanyType = { id, name, nameAR, isActive };
+        this.addAddressTypesLookupsForm.value;
+      const payload: AddressType = { id, name, nameAR, isActive };
       console.log(
         '🔄 Dispatching UPDATE id=',
         this.clientId,
@@ -126,7 +126,7 @@ export class AddAddressTypesComponent {
       this.facade.create(payload);
     }
 
-    console.log('🧭 Navigating away to view-company-types');
-    this.router.navigate(['/lookups/view-company-types']);
+    console.log('🧭 Navigating away to view-address-types');
+    this.router.navigate(['/lookups/view-address-types']);
   }
 }
