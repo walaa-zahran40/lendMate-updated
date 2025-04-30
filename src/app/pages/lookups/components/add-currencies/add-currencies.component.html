@@ -1,7 +1,3 @@
-<app-toolbar-form
-  [header]="'Currencies'"
-  [backExists]="true"
-></app-toolbar-form>
 <p-tabs value="0" styleClass="p-3">
   <p-tabpanels>
     <p-tabpanel value="0">
@@ -16,8 +12,8 @@ details'
 
       <div class="row justify-end">
         <div
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
-          (click)="addCurrencies()"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 CurrenciesDiv"
+          (click)="addOrEditCurrency()"
         >
           <p-button
             label="Add Currencies"

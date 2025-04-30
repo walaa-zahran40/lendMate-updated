@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Currencies } from '../../../../shared/interfaces/currencies.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-currencies',
@@ -10,6 +11,7 @@ import { Currencies } from '../../../../shared/interfaces/currencies.interface';
 export class ViewCurrenciesComponent {
   tableDataInside: Currencies[] = [];
   colsInside: any[] = [];
+  constructor(private router: Router) {}
   ngOnInit() {
     this.colsInside = [
       { field: 'code', header: 'Code' },
@@ -83,5 +85,8 @@ export class ViewCurrenciesComponent {
         currency: true,
       },
     ];
+  }
+  onAddCurrency() {
+    this.router.navigate(['/lookups/add-currencies']);
   }
 }
