@@ -130,6 +130,10 @@ const routes: Routes = [
     path: 'edit-address-types/:id',
     component: AddAddressTypesComponent,
   },
+  {
+    path: 'view-address-types',
+    component: ViewAddressTypesComponent,
+  },
   //Authority Offices
   {
     path: 'add-authority-offices',
@@ -139,7 +143,24 @@ const routes: Routes = [
     path: 'edit-authority-offices/:id',
     component: AddAuthorityOfficesComponent,
   },
-  //---
+  {
+    path: 'view-authority-offices',
+    component: ViewAuthorityOfficesComponent,
+  },
+  //Branch
+  {
+    path: 'add-branch',
+    component: AddBranchComponent,
+  },
+  {
+    path: 'edit-branch/:id',
+    component: AddBranchComponent,
+  },
+  {
+    path: 'view-branches',
+    component: ViewBranchComponent,
+  },
+  //-----
   {
     path: 'add-mandate-statuses',
     component: AddMandateStatusesComponent,
@@ -372,10 +393,7 @@ const routes: Routes = [
     path: 'view-client-document-types',
     component: ViewClientDocumentTypesComponent,
   },
-  {
-    path: 'view-branch',
-    component: ViewBranchComponent,
-  },
+
   {
     path: 'view-branch-managers',
     component: ViewBranchManagersComponent,
@@ -428,18 +446,12 @@ const routes: Routes = [
     path: 'view-client-types',
     component: ViewClientTypesComponent,
   },
-  {
-    path: 'view-authority-offices',
-    component: ViewAuthorityOfficesComponent,
-  },
+
   {
     path: 'view-phone-types',
     component: ViewPhoneTypesComponent,
   },
-  {
-    path: 'view-address-types',
-    component: ViewAddressTypesComponent,
-  },
+
   {
     path: 'view-governorates',
     component: ViewGovernoratesComponent,

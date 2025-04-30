@@ -4,9 +4,8 @@ import { Router } from '@angular/router';
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
 import pdfMake from 'pdfmake/build/pdfmake';
-import type { ContentText, TDocumentDefinitions } from 'pdfmake/interfaces';
+import type { TDocumentDefinitions } from 'pdfmake/interfaces';
 import { pdfMakeVfs } from '../../../../../scripts/pdfmake-vfs';
-import { Client } from '../../interfaces/client.interface';
 // Attach the VFS and font definitions
 (pdfMake as any).vfs = pdfMakeVfs;
 (pdfMake as any).fonts = {
@@ -79,7 +78,7 @@ export class TableComponent {
   @Input() viewCurrencyExchangeTable!: boolean;
   @Input() viewPaymentMethodsTable!: boolean;
   @Input() viewMandateValidityUnitTable!: boolean;
-  @Input() viewBranchTable!: boolean;
+  @Input() viewBranchesTable!: boolean;
   @Input() viewBranchManagersTable!: boolean;
   @Input() viewBranchAddressesTable!: boolean;
   @Input() viewBusinessLinesTable!: boolean;

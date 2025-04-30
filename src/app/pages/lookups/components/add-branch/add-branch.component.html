@@ -1,27 +1,24 @@
 <app-toolbar-form
-  [header]="'Branch'"
+  [header]="editMode ? 'Edit Branch' : 'Add Branch'"
   [backExists]="true"
-  [viewOnly]="false"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
 ></app-toolbar-form>
 <p-tabs value="0" styleClass="p-3">
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
+        *ngIf="addBranchLookupsForm"
         [title]="'Main Information'"
         [description]="
-          'Introduce your company core info quickly to users by fill up company details'
+          'Introduce your branch core info quickly to users by fill up branch details'
         "
+        [formGroup]="addBranchLookupsForm"
         [addBranchLookupsForm]="true"
+        [editMode]="editMode"
+        (submitForm)="addOrEditBranch()"
+        [viewOnly]="viewOnly"
       ></app-form>
-
-      <div class="row justify-end">
-        <div
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 padding-right"
-          (click)="addBranches()"
-        >
-          <p-button label="Add Branch" class="custom-save m-0 float-right" />
-        </div>
-      </div>
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>

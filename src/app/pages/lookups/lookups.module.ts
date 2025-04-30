@@ -106,6 +106,8 @@ import { reducer as addressTypeReducer } from './store/address-types/address-typ
 import { AddressTypesEffects } from './store/address-types/address-types.effects';
 import { reducer as authorityOfficeReducer } from './store/authority-offices/authority-offices.reducer';
 import { AuthorityOfficesEffects } from './store/authority-offices/authority-offices.effects';
+import { BranchesEffects } from './store/branches/branches.effects';
+import { branchesReducer } from './store/branches/branches.reducer';
 
 @NgModule({
   declarations: [
@@ -216,6 +218,8 @@ import { AuthorityOfficesEffects } from './store/authority-offices/authority-off
     EffectsModule.forFeature([AddressTypesEffects]),
     StoreModule.forFeature('authorityOffices', authorityOfficeReducer),
     EffectsModule.forFeature([AuthorityOfficesEffects]),
+    StoreModule.forFeature('branches', branchesReducer),
+    EffectsModule.forFeature([BranchesEffects]),
   ],
   exports: [
     AddTmlOfficerTypesComponent,
@@ -262,6 +266,7 @@ import { AuthorityOfficesEffects } from './store/authority-offices/authority-off
     AddBranchAddressesComponent,
     AddClientStatusActionsComponent,
     AddCurrenciesExchangeComponent,
+    ViewBranchComponent,
   ],
 })
 export class LookupsModule {}

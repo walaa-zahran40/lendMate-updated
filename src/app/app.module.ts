@@ -23,6 +23,9 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { LoaderInterceptor } from './shared/interceptors/loader.interceptor';
+import { BranchesEffects } from './pages/lookups/store/branches/branches.effects';
+import { branchesReducer } from './pages/lookups/store/branches/branches.reducer';
+import { actionLogger } from './pages/lookups/store/branches/logger.metareducer';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -37,7 +40,7 @@ import { LoaderInterceptor } from './shared/interceptors/loader.interceptor';
     BrowserAnimationsModule,
     ConfirmDialogModule,
     ButtonModule,
-    StoreModule.forRoot({}, {}),
+    StoreModule.forRoot({}, { metaReducers: [actionLogger] }),
     EffectsModule.forRoot([]),
   ],
   providers: [

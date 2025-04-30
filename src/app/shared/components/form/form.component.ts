@@ -857,7 +857,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/crm/clients/view-branch-address']);
   }
   viewBranch() {
-    this.router.navigate(['/lookups/view-branch']);
+    this.router.navigate(['/lookups/view-branches']);
   }
   viewClientDocument() {
     this.router.navigate(['/lookups/view-client-document-types']);
