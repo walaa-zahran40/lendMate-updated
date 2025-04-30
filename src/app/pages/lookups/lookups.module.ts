@@ -110,6 +110,8 @@ import { BranchesEffects } from './store/branches/branches.effects';
 import { branchesReducer } from './store/branches/branches.reducer';
 import { reducer as callActionTypesReducer } from './store/call-action-types/call-action-types.reducer';
 import { CallActionTypesEffects } from './store/call-action-types/call-action-types.effects';
+import { CurrenciesEffects } from './store/currencies/currencies.effects';
+import { currenciesReducer as currenciesReducer } from './store/currencies/currencies.reducer';
 
 @NgModule({
   declarations: [
@@ -222,6 +224,8 @@ import { CallActionTypesEffects } from './store/call-action-types/call-action-ty
     EffectsModule.forFeature([AuthorityOfficesEffects]),
     StoreModule.forFeature('branches', branchesReducer),
     EffectsModule.forFeature([BranchesEffects]),
+    StoreModule.forFeature('currencies', currenciesReducer),
+    EffectsModule.forFeature([CurrenciesEffects]),
     StoreModule.forFeature('callActionTypes', callActionTypesReducer),
     EffectsModule.forFeature([CallActionTypesEffects]),
   ],

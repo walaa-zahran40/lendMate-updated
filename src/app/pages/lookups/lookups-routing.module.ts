@@ -173,6 +173,19 @@ const routes: Routes = [
     path: 'view-call-action-types',
     component: ViewCallActionTypesComponent,
   },
+  //Currencies
+  {
+    path: 'add-currencies',
+    component: AddCurrenciesComponent,
+  },
+  {
+    path: 'edit-currencies/:id',
+    component: AddCurrenciesComponent,
+  },
+  {
+    path: 'view-currencies',
+    component: ViewCurrenciesComponent,
+  },
   //----
   {
     path: 'add-mandate-statuses',
@@ -197,6 +210,14 @@ const routes: Routes = [
   {
     path: 'add-currencies',
     component: AddCurrenciesComponent,
+  },
+  {
+    path: 'edit-currencies/:id',
+    component: AddCurrenciesComponent,
+  },
+  {
+    path: 'view-currencies',
+    component: ViewCurrenciesComponent,
   },
   {
     path: 'add-currencies-exchange',
@@ -363,10 +384,7 @@ const routes: Routes = [
     path: 'view-rent-structure-types',
     component: ViewRentStructureTypesComponent,
   },
-  {
-    path: 'view-currencies',
-    component: ViewCurrenciesComponent,
-  },
+
   {
     path: 'view-currency-exchange-rate',
     component: ViewCurrencyExchangeComponent,

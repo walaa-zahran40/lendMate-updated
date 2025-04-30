@@ -593,8 +593,8 @@ export class FormComponent implements OnInit, OnDestroy {
     ];
     this.selectedIsStampCompanyViewOnly = [{ name: 'Yes', code: '1' }];
     this.stamps = [
-      { name: 'Yes', code: '1' },
-      { name: 'No', code: '0' },
+      { name: 'Yes', id: true },
+      { name: 'No', id: false },
     ];
     this.selectedStamps = { name: 'Yes', code: '1' };
     this.phoneTypes = [{ name: 'Phone Type', code: 'pt' }];
@@ -885,7 +885,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/crm/clients/view-currency-exchange']);
   }
   viewCurrencies() {
-    this.router.navigate(['/crm/clients/view-currencies']);
+    this.router.navigate(['/lookups/view-currencies']);
   }
   viewRentStructure() {
     this.router.navigate(['/lookups/view-rent-structure-types']);
