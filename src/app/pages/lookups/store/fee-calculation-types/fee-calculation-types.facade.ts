@@ -1,49 +1,42 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { createSelector, Store } from '@ngrx/store';
 import * as Actions from './fee-calculation-types.actions';
 import * as Selectors from './fee-calculation-types.selectors';
-import { Observable } from 'rxjs';
-import { CompanyType } from './fee-calculation-types.model';
+import { FeeCalculationType } from './fee-calculation-types.model';
 
 @Injectable({ providedIn: 'root' })
-export class CompanyTypesFacade {
-  items$: Observable<CompanyType[]> = this.store.select(
-    Selectors.selectCompanyTypes
+export class FeeCalculationTypesFacade {
+  all$ = this.store.select(Selectors.selectAllFeeCalculationTypes);
+  loading$ = this.store.select(Selectors.selectFeeCalculationTypesLoading);
+  error$ = this.store.select(Selectors.selectFeeCalculationTypesError);
+  totalCount$ = this.store.select(
+    Selectors.selectFeeCalculationTypesTotalCount
   );
-  total$: Observable<number> = this.store.select(
-    Selectors.selectCompanyTypesTotal
+  selected$ = this.store.select(
+    createSelector(
+      Selectors.selectFeature,
+      (state) => state.entities[state.loadedId!] // or however you track it
+    )
   );
-  history$: Observable<CompanyType[]> = this.store.select(
-    Selectors.selectCompanyTypesHistory
-  );
-  current$: Observable<CompanyType | undefined> = this.store.select(
-    Selectors.selectCurrentCompanyType
-  );
-  loading$: Observable<boolean> = this.store.select(
-    Selectors.selectCompanyTypesLoading
-  );
-  error$: Observable<any> = this.store.select(
-    Selectors.selectCompanyTypesError
-  );
-
   constructor(private store: Store) {}
 
-  loadAll() {
-    this.store.dispatch(Actions.loadCompanyTypes());
+  loadAll(pageNumber?: number) {
+    this.store.dispatch(Actions.loadAll({ pageNumber }));
   }
-  loadHistory() {
-    this.store.dispatch(Actions.loadCompanyTypesHistory());
+
+  loadById(id: number) {
+    this.store.dispatch(Actions.loadById({ id }));
   }
-  loadOne(id: number) {
-    this.store.dispatch(Actions.loadCompanyType({ id }));
+
+  create(payload: Omit<FeeCalculationType, 'id'>) {
+    this.store.dispatch(Actions.createEntity({ payload }));
   }
-  create(data: Partial<CompanyType>) {
-    this.store.dispatch(Actions.createCompanyType({ data }));
+
+  update(id: number, changes: Partial<FeeCalculationType>) {
+    this.store.dispatch(Actions.updateEntity({ id, changes }));
   }
-  update(id: any, data: Partial<CompanyType>) {
-    this.store.dispatch(Actions.updateCompanyType({ id, data }));
-  }
+
   delete(id: number) {
-    this.store.dispatch(Actions.deleteCompanyType({ id }));
+    this.store.dispatch(Actions.deleteEntity({ id }));
   }
 }

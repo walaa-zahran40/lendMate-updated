@@ -1,85 +1,78 @@
 import { createReducer, on } from '@ngrx/store';
-import * as Actions from './fee-calculation-types.actions';
-import { initialCompanyTypesState } from './fee-calculation-types.state';
+import * as FeeActions from './fee-calculation-types.actions';
+import { adapter, initialState, State } from './fee-calculation-types.state';
 
-export const companyTypesReducer = createReducer(
-  initialCompanyTypesState,
-  on(Actions.loadCompanyTypes, (state) => ({
+export const reducer = createReducer(
+  initialState,
+
+  // when you start loading by id
+  on(FeeActions.loadById, (state, { id }) => ({
+    ...state,
+    loading: true,
+    loadedId: null, // clear out any previous
+    error: null,
+  })),
+
+  // on success, add/update the entity and record its id
+  on(FeeActions.loadByIdSuccess, (state, { entity }) =>
+    adapter.upsertOne(entity, {
+      ...state,
+      loading: false,
+      loadedId: entity.id, // ← record the loaded id
+    })
+  ),
+
+  // handle failure
+  on(FeeActions.loadByIdFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
+  })),
+  // create
+  on(FeeActions.createEntity, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
-  on(Actions.loadCompanyTypesSuccess, (state, { items, totalCount }) => ({
+  on(FeeActions.createEntitySuccess, (state, { entity }) =>
+    adapter.addOne(entity, { ...state, loading: false })
+  ),
+  on(FeeActions.createEntityFailure, (state, { error }) => ({
     ...state,
-    items,
-    totalCount,
     loading: false,
-  })),
-  on(Actions.loadCompanyTypesFailure, (state, { error }) => ({
-    ...state,
     error,
-    loading: false,
   })),
 
-  on(Actions.loadCompanyTypesHistory, (state) => ({ ...state, loading: true })),
-  on(Actions.loadCompanyTypesHistorySuccess, (state, { history }) => ({
+  // update
+  on(FeeActions.updateEntity, (state) => ({
     ...state,
-    history,
-    loading: false,
+    loading: true,
+    error: null,
   })),
-  on(Actions.loadCompanyTypesHistoryFailure, (state, { error }) => ({
+  on(FeeActions.updateEntitySuccess, (state, { id, changes }) =>
+    adapter.updateOne({ id, changes }, { ...state, loading: false })
+  ),
+  on(FeeActions.updateEntityFailure, (state, { error }) => ({
     ...state,
-    error,
     loading: false,
+    error,
   })),
 
-  on(Actions.loadCompanyType, (state) => ({ ...state, loading: true })),
-  on(Actions.loadCompanyTypeSuccess, (state, { companyType }) => ({
+  // delete
+  on(FeeActions.deleteEntity, (state) => ({
     ...state,
-    current: companyType,
-    loading: false,
+    loading: true,
+    error: null,
   })),
-  on(Actions.loadCompanyTypeFailure, (state, { error }) => ({
+  on(FeeActions.deleteEntitySuccess, (state, { id }) =>
+    adapter.removeOne(id, { ...state, loading: false })
+  ),
+  on(FeeActions.deleteEntityFailure, (state, { error }) => ({
     ...state,
+    loading: false,
     error,
-    loading: false,
-  })),
-
-  on(Actions.createCompanyType, (state) => ({ ...state, loading: true })),
-  on(Actions.createCompanyTypeSuccess, (state, { companyType }) => ({
-    ...state,
-    items: [...state.items, companyType],
-    loading: false,
-  })),
-  on(Actions.createCompanyTypeFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
-  })),
-
-  on(Actions.updateCompanyType, (state) => ({ ...state, loading: true })),
-  on(Actions.updateCompanyTypeSuccess, (state, { companyType }) => ({
-    ...state,
-    items: state.items.map((ct) =>
-      ct.id === companyType.id ? companyType : ct
-    ),
-    loading: false,
-  })),
-  on(Actions.updateCompanyTypeFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
-  })),
-
-  on(Actions.deleteCompanyType, (state) => ({ ...state, loading: true })),
-  on(Actions.deleteCompanyTypeSuccess, (state, { id }) => ({
-    ...state,
-    items: state.items.filter((ct) => ct.id !== id),
-    loading: false,
-  })),
-  on(Actions.deleteCompanyTypeFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
   }))
 );
+
+export const { selectAll, selectEntities, selectIds, selectTotal } =
+  adapter.getSelectors();

@@ -1,60 +1,35 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { mergeMap, map, catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
-import * as CompanyActions from './fee-calculation-types.actions';
-import { CompanyTypesService } from './fee-calculation-types.service';
+import { FeeCalculationTypesService } from './fee-calculation-types.service';
+import * as ActionsList from './fee-calculation-types.actions';
+import { catchError, map, mergeMap, of } from 'rxjs';
 
 @Injectable()
-export class CompanyTypesEffects {
+export class FeeCalculationTypesEffects {
+  constructor(
+    private actions$: Actions,
+    private svc: FeeCalculationTypesService
+  ) {}
+
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(CompanyActions.loadCompanyTypes),
-      mergeMap(() =>
-        this.service.getAll().pipe(
-          map((resp) =>
-            CompanyActions.loadCompanyTypesSuccess({
-              items: resp.items,
-              totalCount: resp.totalCount,
-            })
-          ),
-          catchError((error) =>
-            of(CompanyActions.loadCompanyTypesFailure({ error }))
-          )
+      ofType(ActionsList.loadAll),
+      mergeMap(({}) =>
+        this.svc.getAll().pipe(
+          map((result) => ActionsList.loadAllSuccess({ result })),
+          catchError((error) => of(ActionsList.loadAllFailure({ error })))
         )
       )
     )
   );
 
-  loadHistory$ = createEffect(() =>
+  loadById$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(CompanyActions.loadCompanyTypesHistory),
-      mergeMap(() =>
-        this.service.getHistory().pipe(
-          map((resp) =>
-            CompanyActions.loadCompanyTypesHistorySuccess({
-              history: resp.items,
-            })
-          ),
-          catchError((error) =>
-            of(CompanyActions.loadCompanyTypesHistoryFailure({ error }))
-          )
-        )
-      )
-    )
-  );
-
-  loadOne$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(CompanyActions.loadCompanyType),
+      ofType(ActionsList.loadById),
       mergeMap(({ id }) =>
-        this.service.getById(id).pipe(
-          map((companyType) =>
-            CompanyActions.loadCompanyTypeSuccess({ companyType })
-          ),
-          catchError((error) =>
-            of(CompanyActions.loadCompanyTypeFailure({ error }))
-          )
+        this.svc.getById(id).pipe(
+          map((entity) => ActionsList.loadByIdSuccess({ entity })),
+          catchError((error) => of(ActionsList.loadByIdFailure({ error })))
         )
       )
     )
@@ -62,15 +37,11 @@ export class CompanyTypesEffects {
 
   create$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(CompanyActions.createCompanyType),
-      mergeMap(({ data }) =>
-        this.service.create(data).pipe(
-          map((companyType) =>
-            CompanyActions.createCompanyTypeSuccess({ companyType })
-          ),
-          catchError((error) =>
-            of(CompanyActions.createCompanyTypeFailure({ error }))
-          )
+      ofType(ActionsList.createEntity),
+      mergeMap(({ payload }) =>
+        this.svc.create(payload).pipe(
+          map((entity) => ActionsList.createEntitySuccess({ entity })),
+          catchError((error) => of(ActionsList.createEntityFailure({ error })))
         )
       )
     )
@@ -78,15 +49,11 @@ export class CompanyTypesEffects {
 
   update$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(CompanyActions.updateCompanyType),
-      mergeMap(({ id, data }) =>
-        this.service.update(id, data).pipe(
-          map((companyType) =>
-            CompanyActions.updateCompanyTypeSuccess({ companyType })
-          ),
-          catchError((error) =>
-            of(CompanyActions.updateCompanyTypeFailure({ error }))
-          )
+      ofType(ActionsList.updateEntity),
+      mergeMap(({ id, changes }) =>
+        this.svc.update(id, changes).pipe(
+          map(() => ActionsList.updateEntitySuccess({ id, changes })),
+          catchError((error) => of(ActionsList.updateEntityFailure({ error })))
         )
       )
     )
@@ -94,30 +61,13 @@ export class CompanyTypesEffects {
 
   delete$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(CompanyActions.deleteCompanyType),
+      ofType(ActionsList.deleteEntity),
       mergeMap(({ id }) =>
-        this.service.delete(id).pipe(
-          map(() => CompanyActions.deleteCompanyTypeSuccess({ id })),
-          catchError((error) =>
-            of(CompanyActions.deleteCompanyTypeFailure({ error }))
-          )
+        this.svc.delete(id).pipe(
+          map(() => ActionsList.deleteEntitySuccess({ id })),
+          catchError((error) => of(ActionsList.deleteEntityFailure({ error })))
         )
       )
     )
   );
-
-  refreshList$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(
-        CompanyActions.createCompanyTypeSuccess,
-        CompanyActions.updateCompanyTypeSuccess,
-        CompanyActions.deleteCompanyTypeSuccess
-      ),
-      map(() => CompanyActions.loadCompanyTypes())
-    )
-  );
-  constructor(
-    private actions$: Actions,
-    private service: CompanyTypesService
-  ) {}
 }
