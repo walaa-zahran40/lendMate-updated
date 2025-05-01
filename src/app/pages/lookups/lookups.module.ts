@@ -102,6 +102,8 @@ import { CompanyTypesEffects } from './store/company-types/company-types.effects
 import { companyTypesReducer } from './store/company-types/company-types.reducer';
 import { currenciesReducer } from './store/curencies/currencies.reducer';
 import { CurrenciesEffects } from './store/curencies/currencies.effects';
+import { businessLinesReducer } from './store/businessLines/businessLines.reducer';
+import { BusinessLinesEffects } from './store/businessLines/businessLines.effects';
 
 @NgModule({
   declarations: [
@@ -208,6 +210,8 @@ import { CurrenciesEffects } from './store/curencies/currencies.effects';
     EffectsModule.forFeature([CompanyTypesEffects]),
     StoreModule.forFeature('currencies', currenciesReducer),
     EffectsModule.forFeature([CurrenciesEffects]),
+    StoreModule.forFeature('businessLines', businessLinesReducer),
+    EffectsModule.forFeature([BusinessLinesEffects]),
   ],
   exports: [
     AddTmlOfficerTypesComponent,

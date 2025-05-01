@@ -158,6 +158,19 @@ const routes: Routes = [
       component: ViewCurrenciesComponent,
     },
 
+    //BusinessLine 
+    {
+      path: 'add-business-lines',
+      component: AddBusinessLinesComponent,
+    },
+    {
+      path: 'edit-business-lines/:id',
+      component: AddBusinessLinesComponent,
+    },
+    {
+      path: 'view-business-lines',
+      component: ViewBusinessLinesComponent,
+    },
 
   {
     path: 'add-currencies-exchange',
