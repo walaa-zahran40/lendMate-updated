@@ -110,10 +110,12 @@ import { BranchesEffects } from './store/branches/branches.effects';
 import { branchesReducer } from './store/branches/branches.reducer';
 import { reducer as callActionTypesReducer } from './store/call-action-types/call-action-types.reducer';
 import { CallActionTypesEffects } from './store/call-action-types/call-action-types.effects';
-import { CurrenciesEffects } from './store/currencies/currencies.effects';
 import { currenciesReducer as currenciesReducer } from './store/currencies/currencies.reducer';
 import { reducer as callTypesReducer } from './store/call-types/call-types.reducer';
 import { CallTypesEffects } from './store/call-types/call-types.effects';
+import { CurrenciesEffects } from './store/currencies/currencies.effects';
+import { businessLinesReducer } from './store/businessLines/businessLines.reducer';
+import { BusinessLinesEffects } from './store/businessLines/businessLines.effects';
 
 @NgModule({
   declarations: [
@@ -232,6 +234,8 @@ import { CallTypesEffects } from './store/call-types/call-types.effects';
     EffectsModule.forFeature([CallActionTypesEffects]),
     StoreModule.forFeature('callTypes', callTypesReducer),
     EffectsModule.forFeature([CallTypesEffects]),
+    StoreModule.forFeature('businessLines', businessLinesReducer),
+    EffectsModule.forFeature([BusinessLinesEffects]),
   ],
   exports: [
     AddTmlOfficerTypesComponent,

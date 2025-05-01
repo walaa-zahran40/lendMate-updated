@@ -1,26 +1,42 @@
 <div class="page-content">
   <app-toolbar-table
     [title]="'Business Lines'"
-    [labelBtn]="'Add Business Lines'"
-    [backExists]="true"
-    [exports]="true"
+    [labelBtn]="'Add Business Line'"
+    [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
-    (addBtn)="onAddBusiness()"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddBusinessLine()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col1Name]="'Code'"
-    [col2Name]="'Name EN'"
-    [col3Name]="'Name AR'"
-    [col4Name]="'License Date'"
-    [col5Name]="'Active'"
-    [edit]="true"
-    [delete]="true"
-    [side]="false"
-    [download]="false"
-    [checkBox]="true"
-    [viewBusinessLinesTable]="true"
-    [uppercase]="'uppercase'"
-  ></app-table>
+
+  <ng-container *ngIf="businessLines$ | async as businessLines">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredBusinessLines"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewBusinessLinesTable]="true"
+      (onDelete)="onDeleteBusinessLine($event)"
+      (onEdit)="onEditBusinessLine($event)"
+      (viewForm)="onViewBusinessLine($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
 </div>
+

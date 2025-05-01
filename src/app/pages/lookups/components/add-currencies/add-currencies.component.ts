@@ -7,7 +7,7 @@ import { CurrenciesFacade } from '../../store/currencies/currencies.facade';
 import { Currency } from '../../store/currencies/currency.model';
 
 @Component({
-  selector: 'app-add-company-types',
+  selector: 'app-add-currencies',
   standalone: false,
   templateUrl: './add-currencies.component.html',
   styleUrl: './add-currencies.component.scss',
