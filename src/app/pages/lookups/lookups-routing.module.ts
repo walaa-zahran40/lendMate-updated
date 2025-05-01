@@ -265,7 +265,20 @@ const routes: Routes = [
     path: 'view-grace-period-units',
     component: ViewGracePeriodUnitsComponent,
   },
-  //====
+  //Identification Types
+  {
+    path: 'add-identification-types',
+    component: AddIdentificationTypesComponent,
+  },
+  {
+    path: 'edit-identification-types/:id',
+    component: AddIdentificationTypesComponent,
+  },
+  {
+    path: 'view-identification-types',
+    component: ViewIdentificationTypesComponent,
+  },
+  //-----
   {
     path: 'add-mandate-statuses',
     component: AddMandateStatusesComponent,
@@ -391,10 +404,7 @@ const routes: Routes = [
     path: 'add-fees-range',
     component: AddFeesRangeComponent,
   },
-  {
-    path: 'add-identification-types',
-    component: AddIdentificationTypesComponent,
-  },
+
   {
     path: 'add-areas',
     component: AddAreasComponent,
@@ -532,10 +542,7 @@ const routes: Routes = [
     path: 'view-countries',
     component: ViewCountriesComponent,
   },
-  {
-    path: 'view-identification-types',
-    component: ViewIdentificationTypesComponent,
-  },
+
   {
     path: 'view-areas',
     component: ViewAreasComponent,

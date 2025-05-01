@@ -124,6 +124,8 @@ import { reducer as communicationTypesReducer } from './store/communication-type
 import { CommunicationTypesEffects } from './store/communication-types/communication-types.effects';
 import { reducer as gracePeriodUnitsReducer } from './store/grace-period-units/grace-period-units.reducer';
 import { GracePeriodUnitsEffects } from './store/grace-period-units/grace-period-units.effects';
+import { reducer as IdentificationTypesReducer } from './store/identification-types/identification-types.reducer';
+import { IdentificationTypesEffects } from './store/identification-types/identification-types.effects';
 
 @NgModule({
   declarations: [
@@ -255,6 +257,8 @@ import { GracePeriodUnitsEffects } from './store/grace-period-units/grace-period
     EffectsModule.forFeature([CommunicationTypesEffects]),
     StoreModule.forFeature('gracePeriodUnits', gracePeriodUnitsReducer),
     EffectsModule.forFeature([GracePeriodUnitsEffects]),
+    StoreModule.forFeature('identificationTypes', IdentificationTypesReducer),
+    EffectsModule.forFeature([IdentificationTypesEffects]),
   ],
   exports: [
     AddTmlOfficerTypesComponent,

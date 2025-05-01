@@ -112,6 +112,7 @@ export class TableComponent {
   @Input() viewOfficersCommunicationTable!: boolean;
   @Input() viewContactPersonCommunicationTable!: boolean;
   @Input() viewAssestTypeCommunicationTable!: boolean;
+  @Input() viewIdentificationTypesTable!: boolean;
   @Input() viewFollowUpsCommunicationTable!: boolean;
   @Input() viewGracePeriodUnitsTable!: boolean;
   @Input() viewFollowUpPointsCommunicationTable!: boolean;

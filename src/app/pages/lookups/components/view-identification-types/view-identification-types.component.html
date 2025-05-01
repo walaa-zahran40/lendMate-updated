@@ -1,24 +1,41 @@
 <div class="page-content">
   <app-toolbar-table
     [title]="'Identification Types'"
-    [labelBtn]="'Add Identification Types'"
-    [backExists]="true"
-    [exports]="true"
+    [labelBtn]="'Add Identification Type'"
+    [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddIdentificationType()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col1Name]="'Code'"
-    [col2Name]="'Name EN'"
-    [col3Name]="'Name AR'"
-    [col4Name]="'Active'"
-    [edit]="true"
-    [delete]="true"
-    [side]="false"
-    [download]="false"
-    [checkBox]="true"
-    [viewSubSectorTable]="true"
-    [uppercase]="'uppercase'"
-  ></app-table>
+
+  <ng-container *ngIf="IdentificationTypes$ | async as IdentificationTypes">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredIdentificationType"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewIdentificationTypesTable]="true"
+      (onDelete)="onDeleteIdentificationType($event)"
+      (onEdit)="onEditIdentificationType($event)"
+      (viewForm)="onViewIdentificationType($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
 </div>
