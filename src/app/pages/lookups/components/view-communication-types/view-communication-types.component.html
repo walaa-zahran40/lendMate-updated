@@ -1,24 +1,43 @@
 <div class="page-content">
   <app-toolbar-table
     [title]="'Communication Types'"
-    [labelBtn]="'Add Communication Types'"
-    [backExists]="true"
-    [exports]="true"
+    [labelBtn]="'Add Communication Type'"
+    [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddCommunicationType()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col1Name]="'Code'"
-    [col2Name]="'Name'"
-    [col3Name]="'Arabic Name'"
-    [col4Name]="'Active'"
-    [edit]="true"
-    [delete]="true"
-    [side]="false"
-    [download]="false"
-    [checkBox]="true"
-    [viewSubSectorTable]="true"
-    [uppercase]="'uppercase'"
-  ></app-table>
+
+  <!-- subscribe once to communicationTypes$ -->
+  <ng-container *ngIf="communicationTypes$ | async as communicationTypes">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredCommunicationTypes"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewCommunicationTypesTable]="true"
+      (onDelete)="onDeleteCommunicationTypeId($event)"
+      (onEdit)="onEditCommunicationType($event)"
+      (viewForm)="onViewCommunicationType($event)"
+    ></app-table>
+
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
 </div>

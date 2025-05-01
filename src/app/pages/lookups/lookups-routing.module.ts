@@ -239,7 +239,20 @@ const routes: Routes = [
     path: 'view-communication-flow-types',
     component: ViewCommunicationFlowTypeComponent,
   },
-  //---
+  //Communication Types
+  {
+    path: 'add-communication-types',
+    component: AddCommunicationTypesComponent,
+  },
+  {
+    path: 'edit-communication-types/:id',
+    component: AddCommunicationTypesComponent,
+  },
+  {
+    path: 'view-communication-types',
+    component: ViewCommunicationTypesComponent,
+  },
+  //====
   {
     path: 'add-mandate-statuses',
     component: AddMandateStatusesComponent,
@@ -386,11 +399,6 @@ const routes: Routes = [
   },
 
   {
-    path: 'add-communication-types',
-    component: AddCommunicationTypesComponent,
-  },
-
-  {
     path: 'view-mandate-statuses',
     component: ViewMandateStatusesComponent,
   },
@@ -529,11 +537,6 @@ const routes: Routes = [
   {
     path: 'view-tml-officer-types',
     component: ViewTmlOfficerTypesComponent,
-  },
-
-  {
-    path: 'view-communication-types',
-    component: ViewCommunicationTypesComponent,
   },
 
   {

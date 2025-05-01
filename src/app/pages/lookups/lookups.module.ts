@@ -120,6 +120,8 @@ import { reducer as clientTypesReducer } from './store/client-types/client-types
 import { ClientTypesEffects } from './store/client-types/client-types.effects';
 import { reducer as communicationFlowTypesReducer } from './store/communication-flow-types/communication-flow-types.reducer';
 import { CommunicationFlowTypesEffects } from './store/communication-flow-types/communication-flow-types.effects';
+import { reducer as communicationTypesReducer } from './store/communication-types/communication-types.reducer';
+import { CommunicationTypesEffects } from './store/communication-types/communication-types.effects';
 
 @NgModule({
   declarations: [
@@ -247,6 +249,8 @@ import { CommunicationFlowTypesEffects } from './store/communication-flow-types/
       communicationFlowTypesReducer
     ),
     EffectsModule.forFeature([CommunicationFlowTypesEffects]),
+    StoreModule.forFeature('communicationTypes', communicationTypesReducer),
+    EffectsModule.forFeature([CommunicationTypesEffects]),
   ],
   exports: [
     AddTmlOfficerTypesComponent,

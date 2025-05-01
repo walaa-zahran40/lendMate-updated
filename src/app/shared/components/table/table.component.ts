@@ -52,6 +52,7 @@ export class TableComponent {
   @Input() viewAddressTable!: boolean;
   @Input() viewTurnOverTable!: boolean;
   @Input() viewCommunicationFlowTypesTable!: boolean;
+  @Input() viewCommunicationTypesTable!: boolean;
   @Input() viewAddressTypesTable!: boolean;
   @Input() viewPhoneNumberTable!: boolean;
   @Input() viewContactPersonTable!: boolean;

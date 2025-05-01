@@ -1054,7 +1054,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-tml-officer-types']);
   }
   viewCommunicationTypes() {
-    this.router.navigate(['/crm/clients/view-communication-types']);
+    this.router.navigate(['/lookups/view-communication-types']);
   }
   viewCallActionType() {
     this.router.navigate(['/crm/clients/view-call-action-type']);
