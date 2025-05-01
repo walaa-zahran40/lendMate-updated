@@ -278,7 +278,20 @@ const routes: Routes = [
     path: 'view-identification-types',
     component: ViewIdentificationTypesComponent,
   },
-  //-----
+  //Insured By
+  {
+    path: 'add-insured-by',
+    component: AddInsuredByComponent,
+  },
+  {
+    path: 'edit-insured-by/:id',
+    component: AddInsuredByComponent,
+  },
+  {
+    path: 'view-insured-by',
+    component: ViewInsuredByComponent,
+  },
+  //----
   {
     path: 'add-mandate-statuses',
     component: AddMandateStatusesComponent,
@@ -317,10 +330,7 @@ const routes: Routes = [
     path: 'add-meeting-types',
     component: AddMeetingTypesComponent,
   },
-  {
-    path: 'add-insured-by',
-    component: AddInsuredByComponent,
-  },
+
   {
     path: 'add-leasing-type',
     component: AddLeasingTypeComponent,
@@ -463,10 +473,7 @@ const routes: Routes = [
     path: 'view-meeting-types',
     component: ViewMeetingTypesComponent,
   },
-  {
-    path: 'view-insured-by',
-    component: ViewInsuredByComponent,
-  },
+
   {
     path: 'view-leasing-type',
     component: ViewLeasingTypeComponent,

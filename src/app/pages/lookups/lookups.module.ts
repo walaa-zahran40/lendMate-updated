@@ -126,6 +126,8 @@ import { reducer as gracePeriodUnitsReducer } from './store/grace-period-units/g
 import { GracePeriodUnitsEffects } from './store/grace-period-units/grace-period-units.effects';
 import { reducer as IdentificationTypesReducer } from './store/identification-types/identification-types.reducer';
 import { IdentificationTypesEffects } from './store/identification-types/identification-types.effects';
+import { reducer as InsuredByReducer } from './store/insured-by/insured-by.reducer';
+import { InsuredByEffects } from './store/insured-by/insured-by.effects';
 
 @NgModule({
   declarations: [
@@ -259,6 +261,8 @@ import { IdentificationTypesEffects } from './store/identification-types/identif
     EffectsModule.forFeature([GracePeriodUnitsEffects]),
     StoreModule.forFeature('identificationTypes', IdentificationTypesReducer),
     EffectsModule.forFeature([IdentificationTypesEffects]),
+    StoreModule.forFeature('insuredBy', InsuredByReducer),
+    EffectsModule.forFeature([InsuredByEffects]),
   ],
   exports: [
     AddTmlOfficerTypesComponent,
