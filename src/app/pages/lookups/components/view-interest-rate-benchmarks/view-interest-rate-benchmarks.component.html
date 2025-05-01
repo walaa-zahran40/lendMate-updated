@@ -1,24 +1,43 @@
 <div class="page-content">
   <app-toolbar-table
-    [title]="'Interest Rate Benchmarks '"
-    [labelBtn]="'Add Interest Rate'"
-    [backExists]="true"
-    [exports]="true"
+    [title]="'Interest Rate Benchmarks'"
+    [labelBtn]="'Add Interest Rate Benchmark'"
+    [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddInterestRateBenchmark()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col1Name]="'Code'"
-    [col2Name]="'Name EN'"
-    [col3Name]="'Name AR'"
-    [col4Name]="'Active'"
-    [edit]="true"
-    [delete]="true"
-    [side]="false"
-    [download]="false"
-    [checkBox]="true"
-    [viewCompanyTypesTable]="true"
-    [uppercase]="'uppercase'"
-  ></app-table>
+
+  <ng-container
+    *ngIf="InterestRateBenchmarks$ | async as InterestRateBenchmarks"
+  >
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredInterestRateBenchmarks"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [ViewInterestRateBenchmarksTable]="true"
+      (onDelete)="onDeleteInterestRateBenchmark($event)"
+      (onEdit)="onEditInterestRateBenchmark($event)"
+      (viewForm)="onViewInterestRateBenchmark($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
 </div>

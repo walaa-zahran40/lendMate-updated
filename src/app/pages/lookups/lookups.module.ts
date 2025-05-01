@@ -128,6 +128,8 @@ import { reducer as IdentificationTypesReducer } from './store/identification-ty
 import { IdentificationTypesEffects } from './store/identification-types/identification-types.effects';
 import { reducer as InsuredByReducer } from './store/insured-by/insured-by.reducer';
 import { InsuredByEffects } from './store/insured-by/insured-by.effects';
+import { reducer as InterestRateBenchmarksReducer } from './store/interest-rate-benchmarks/interest-rate-benchmarks.reducer';
+import { InterestRateBenchMarksEffects } from './store/interest-rate-benchmarks/interest-rate-benchmarks.effects';
 
 @NgModule({
   declarations: [
@@ -263,6 +265,11 @@ import { InsuredByEffects } from './store/insured-by/insured-by.effects';
     EffectsModule.forFeature([IdentificationTypesEffects]),
     StoreModule.forFeature('insuredBy', InsuredByReducer),
     EffectsModule.forFeature([InsuredByEffects]),
+    StoreModule.forFeature(
+      'interestRateBenchmarks',
+      InterestRateBenchmarksReducer
+    ),
+    EffectsModule.forFeature([InterestRateBenchMarksEffects]),
   ],
   exports: [
     AddTmlOfficerTypesComponent,

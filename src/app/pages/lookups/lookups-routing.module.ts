@@ -291,15 +291,25 @@ const routes: Routes = [
     path: 'view-insured-by',
     component: ViewInsuredByComponent,
   },
-  //----
-  {
-    path: 'add-mandate-statuses',
-    component: AddMandateStatusesComponent,
-  },
+  //Interest Rate Benchmark
   {
     path: 'add-interest-rate-benchmarks',
     component: AddInterestRateBenchmarksComponent,
   },
+  {
+    path: 'edit-interest-rate-benchmarks/:id',
+    component: AddInterestRateBenchmarksComponent,
+  },
+  {
+    path: 'view-interest-rate-benchmarks',
+    component: ViewInterestRateBenchmarksComponent,
+  },
+  //-----
+  {
+    path: 'add-mandate-statuses',
+    component: AddMandateStatusesComponent,
+  },
+
   {
     path: 'add-fees-types',
     component: AddFeeTypesComponent,
@@ -432,10 +442,7 @@ const routes: Routes = [
     path: 'view-mandate-statuses',
     component: ViewMandateStatusesComponent,
   },
-  {
-    path: 'view-interest-rate-benchmarks',
-    component: ViewInterestRateBenchmarksComponent,
-  },
+
   {
     path: 'view-fee-types',
     component: ViewFeeTypesComponent,
