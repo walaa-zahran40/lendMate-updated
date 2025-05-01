@@ -122,6 +122,8 @@ import { reducer as communicationFlowTypesReducer } from './store/communication-
 import { CommunicationFlowTypesEffects } from './store/communication-flow-types/communication-flow-types.effects';
 import { reducer as communicationTypesReducer } from './store/communication-types/communication-types.reducer';
 import { CommunicationTypesEffects } from './store/communication-types/communication-types.effects';
+import { reducer as gracePeriodUnitsReducer } from './store/grace-period-units/grace-period-units.reducer';
+import { GracePeriodUnitsEffects } from './store/grace-period-units/grace-period-units.effects';
 
 @NgModule({
   declarations: [
@@ -251,6 +253,8 @@ import { CommunicationTypesEffects } from './store/communication-types/communica
     EffectsModule.forFeature([CommunicationFlowTypesEffects]),
     StoreModule.forFeature('communicationTypes', communicationTypesReducer),
     EffectsModule.forFeature([CommunicationTypesEffects]),
+    StoreModule.forFeature('gracePeriodUnits', gracePeriodUnitsReducer),
+    EffectsModule.forFeature([GracePeriodUnitsEffects]),
   ],
   exports: [
     AddTmlOfficerTypesComponent,

@@ -113,6 +113,7 @@ export class TableComponent {
   @Input() viewContactPersonCommunicationTable!: boolean;
   @Input() viewAssestTypeCommunicationTable!: boolean;
   @Input() viewFollowUpsCommunicationTable!: boolean;
+  @Input() viewGracePeriodUnitsTable!: boolean;
   @Input() viewFollowUpPointsCommunicationTable!: boolean;
   @Input() viewMeetingTypesCommunicationTable!: boolean;
   @Input() viewCallsCommunicationTable!: boolean;

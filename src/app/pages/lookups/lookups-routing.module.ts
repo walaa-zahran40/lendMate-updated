@@ -252,6 +252,19 @@ const routes: Routes = [
     path: 'view-communication-types',
     component: ViewCommunicationTypesComponent,
   },
+  //Grace period units
+  {
+    path: 'add-grace-period-units',
+    component: AddGracePeriodUnitsComponent,
+  },
+  {
+    path: 'edit-grace-period-units/:id',
+    component: AddGracePeriodUnitsComponent,
+  },
+  {
+    path: 'view-grace-period-units',
+    component: ViewGracePeriodUnitsComponent,
+  },
   //====
   {
     path: 'add-mandate-statuses',
@@ -265,10 +278,7 @@ const routes: Routes = [
     path: 'add-fees-types',
     component: AddFeeTypesComponent,
   },
-  {
-    path: 'add-grace-period-units',
-    component: AddGracePeriodUnitsComponent,
-  },
+
   {
     path: 'add-rent-structure-types',
     component: AddRentStructureTypesComponent,
