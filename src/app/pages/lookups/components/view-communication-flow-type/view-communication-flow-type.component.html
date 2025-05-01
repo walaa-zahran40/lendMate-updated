@@ -1,24 +1,45 @@
 <div class="page-content">
   <app-toolbar-table
     [title]="'Communication Flow Types'"
-    [labelBtn]="'Add Flow Type'"
-    [backExists]="true"
-    [exports]="true"
+    [labelBtn]="'Add Communication Flow Type'"
+    [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddCommunicationFlowType()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col1Name]="'Code'"
-    [col2Name]="'Name EN'"
-    [col3Name]="'Name AR'"
-    [col4Name]="'Active'"
-    [edit]="true"
-    [delete]="true"
-    [side]="false"
-    [download]="false"
-    [checkBox]="true"
-    [viewSubSectorTable]="true"
-    [uppercase]="'uppercase'"
-  ></app-table>
+
+  <!-- subscribe once to communicationFlowTypes$ -->
+  <ng-container
+    *ngIf="communicationFlowTypes$ | async as communicationFlowTypes"
+  >
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredCommunicationFlowTypes"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewCommunicationFlowTypesTable]="true"
+      (onDelete)="onDeleteCommunicationFlowTypeId($event)"
+      (onEdit)="onEditCommunicationFlowType($event)"
+      (viewForm)="onViewCommunicationFlowType($event)"
+    ></app-table>
+
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
 </div>

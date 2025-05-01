@@ -226,7 +226,20 @@ const routes: Routes = [
     path: 'view-client-types',
     component: ViewClientTypesComponent,
   },
-
+  //Communication Flow Types
+  {
+    path: 'add-communication-flow-types',
+    component: AddCommunicationFlowTypesComponent,
+  },
+  {
+    path: 'edit-communication-flow-types/:id',
+    component: AddCommunicationFlowTypesComponent,
+  },
+  {
+    path: 'view-communication-flow-types',
+    component: ViewCommunicationFlowTypeComponent,
+  },
+  //---
   {
     path: 'add-mandate-statuses',
     component: AddMandateStatusesComponent,
@@ -378,11 +391,6 @@ const routes: Routes = [
   },
 
   {
-    path: 'add-communication-flow-type',
-    component: AddCommunicationFlowTypesComponent,
-  },
-
-  {
     path: 'view-mandate-statuses',
     component: ViewMandateStatusesComponent,
   },
@@ -528,10 +536,6 @@ const routes: Routes = [
     component: ViewCommunicationTypesComponent,
   },
 
-  {
-    path: 'view-communication-flow-type',
-    component: ViewCommunicationFlowTypeComponent,
-  },
   {
     path: 'wizard-currencies',
     component: WizardCurrenciesComponent,

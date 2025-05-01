@@ -414,6 +414,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addDepartmentManagerORGForm!: boolean;
   @Input() addTeamORGForm!: boolean;
   @Input() addTeamLeadORGForm!: boolean;
+  @Input() addCommunicationFlowTypesLookupsForm!: boolean;
   @Input() addTeamMemberORGForm!: boolean;
   @Input() addRoleORGForm!: boolean;
   @Input() addOperationORGForm!: boolean;
@@ -462,7 +463,6 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addcallTypesLookupsForm!: boolean;
   @Input() addCommunicationTypesLookupsForm!: boolean;
   @Input() addCallActionTypeLookupsForm!: boolean;
-  @Input() addCommunicationFlowTypeLookupsForm!: boolean;
   @Input() addClientGuarantorsShowIndividual!: boolean;
   @Input() addClientIdentitiesShowIndividual!: boolean;
   filteredSubSectors$!: Observable<SubSectors[]>;
@@ -1060,7 +1060,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/crm/clients/view-call-action-type']);
   }
   viewCommunicationFlowType() {
-    this.router.navigate(['/crm/clients/view-communication-flow-type']);
+    this.router.navigate(['/lookups/view-communication-flow-types']);
   }
   viewClientGuarantors() {
     this.router.navigate(['/crm/clients/view-client-guarantor']);
