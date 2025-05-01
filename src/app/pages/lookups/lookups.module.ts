@@ -116,6 +116,8 @@ import { CallTypesEffects } from './store/call-types/call-types.effects';
 import { CurrenciesEffects } from './store/currencies/currencies.effects';
 import { businessLinesReducer } from './store/businessLines/businessLines.reducer';
 import { BusinessLinesEffects } from './store/businessLines/businessLines.effects';
+import { reducer as clientTypesReducer } from './store/client-types/client-types.reducer';
+import { ClientTypesEffects } from './store/client-types/client-types.effects';
 
 @NgModule({
   declarations: [
@@ -236,6 +238,8 @@ import { BusinessLinesEffects } from './store/businessLines/businessLines.effect
     EffectsModule.forFeature([CallTypesEffects]),
     StoreModule.forFeature('businessLines', businessLinesReducer),
     EffectsModule.forFeature([BusinessLinesEffects]),
+    StoreModule.forFeature('clientTypes', clientTypesReducer),
+    EffectsModule.forFeature([ClientTypesEffects]),
   ],
   exports: [
     AddTmlOfficerTypesComponent,

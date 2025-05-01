@@ -199,7 +199,34 @@ const routes: Routes = [
     path: 'view-call-types',
     component: ViewCallTypesComponent,
   },
-  //---
+
+  //Business Line
+  {
+    path: 'add-business-lines',
+    component: AddBusinessLinesComponent,
+  },
+  {
+    path: 'edit-business-lines/:id',
+    component: AddBusinessLinesComponent,
+  },
+  {
+    path: 'view-business-lines',
+    component: ViewBusinessLinesComponent,
+  },
+  //Client Types
+  {
+    path: 'add-client-types',
+    component: AddClientTypesComponent,
+  },
+  {
+    path: 'edit-client-types/:id',
+    component: AddClientTypesComponent,
+  },
+  {
+    path: 'view-client-types',
+    component: ViewClientTypesComponent,
+  },
+
   {
     path: 'add-mandate-statuses',
     component: AddMandateStatusesComponent,
@@ -219,34 +246,6 @@ const routes: Routes = [
   {
     path: 'add-rent-structure-types',
     component: AddRentStructureTypesComponent,
-  },
-
-  //Currencies
-  {
-    path: 'add-currencies',
-    component: AddCurrenciesComponent,
-  },
-  {
-    path: 'edit-currencies/:id',
-    component: AddCurrenciesComponent,
-  },
-  {
-    path: 'view-curriences',
-    component: ViewCurrenciesComponent,
-  },
-
-  //BusinessLine
-  {
-    path: 'add-business-lines',
-    component: AddBusinessLinesComponent,
-  },
-  {
-    path: 'edit-business-lines/:id',
-    component: AddBusinessLinesComponent,
-  },
-  {
-    path: 'view-business-lines',
-    component: ViewBusinessLinesComponent,
   },
 
   {
@@ -337,10 +336,6 @@ const routes: Routes = [
   {
     path: 'add-sub-sectors',
     component: AddSubSectorsComponent,
-  },
-  {
-    path: 'add-client-types',
-    component: AddClientTypesComponent,
   },
 
   {
@@ -496,10 +491,6 @@ const routes: Routes = [
   {
     path: 'view-sub-sector',
     component: ViewSubSectorComponent,
-  },
-  {
-    path: 'view-client-types',
-    component: ViewClientTypesComponent,
   },
 
   {

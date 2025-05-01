@@ -1,30 +1,24 @@
 <app-toolbar-form
-  [header]="'Client Types'"
+  [header]="editMode ? 'Edit Client Type' : 'Add Client Type'"
   [backExists]="true"
-  [viewOnly]="false"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
 ></app-toolbar-form>
 <p-tabs value="0" styleClass="p-3">
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
+        *ngIf="addClientTypeForm"
         [title]="'Main Information'"
         [description]="
-          'Introduce your company core info quickly to users by fill up company details'
+          'Introduce your client  Type core info quickly to users by fill up client  Type details'
         "
+        [formGroup]="addClientTypeForm"
         [addClientTypesLookupsForm]="true"
+        [editMode]="editMode"
+        (submitForm)="addOrEditClientType()"
+        [viewOnly]="viewOnly"
       ></app-form>
-
-      <div class="row justify-end">
-        <div
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 padding-right"
-          (click)="addClientTypes()"
-        >
-          <p-button
-            label="Add Client Types"
-            class="custom-save m-0 float-right"
-          />
-        </div>
-      </div>
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>
