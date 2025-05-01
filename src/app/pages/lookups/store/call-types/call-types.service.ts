@@ -1,0 +1,44 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { catchError, map, Observable, tap, throwError } from 'rxjs';
+import { CallType } from './call-type.model';
+
+@Injectable({ providedIn: 'root' })
+export class CallTypesService {
+  private baseUrl = 'https://192.168.10.67:7070/api/CallTypes';
+
+  constructor(private http: HttpClient) {}
+
+  getAll(): Observable<CallType[]> {
+    console.log('🚀 Service: calling GET …');
+    return this.http
+      .get<{ items: CallType[]; totalCount: number }>(
+        `${this.baseUrl}/GetAllCallTypes`
+      )
+      .pipe(
+        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
+        map((resp) => resp.items), // ← pull off the `items` array here
+        tap((items) => console.log('🚀 Mapped items:', items)),
+        catchError((err) => {
+          console.error('🚀 HTTP error fetching CallTypes:', err);
+          return throwError(() => err);
+        })
+      );
+  }
+
+  getById(id: number): Observable<CallType> {
+    return this.http.get<CallType>(`${this.baseUrl}/CallTypeId?id=${id}`);
+  }
+
+  create(payload: Omit<CallType, 'id'>): Observable<CallType> {
+    return this.http.post<CallType>(`${this.baseUrl}/CreateCallType`, payload);
+  }
+
+  update(id: number, changes: Partial<CallType>): Observable<void> {
+    return this.http.put<void>(`${this.baseUrl}/${id}`, changes);
+  }
+
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+}

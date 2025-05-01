@@ -1,24 +1,43 @@
 <div class="page-content">
   <app-toolbar-table
     [title]="'Call Types'"
-    [labelBtn]="'Add Call Types'"
-    [backExists]="true"
-    [exports]="true"
+    [labelBtn]="'Add Call Type'"
+    [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddCallType()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col1Name]="'Code'"
-    [col2Name]="'Name EN'"
-    [col3Name]="'Name AR'"
-    [col4Name]="'Active'"
-    [edit]="true"
-    [delete]="true"
-    [side]="false"
-    [download]="false"
-    [checkBox]="true"
-    [viewSubSectorTable]="true"
-    [uppercase]="'uppercase'"
-  ></app-table>
+
+  <!-- subscribe once to callTypes$ -->
+  <ng-container *ngIf="callTypes$ | async as callTypes">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredCallTypes"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewCallTypesTable]="true"
+      (onDelete)="onDeleteCallTypeId($event)"
+      (onEdit)="onEditCallType($event)"
+      (viewForm)="onViewCallType($event)"
+    ></app-table>
+
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
 </div>

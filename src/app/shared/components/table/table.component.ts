@@ -105,6 +105,7 @@ export class TableComponent {
   @Input() viewOfficersLookupsTable!: boolean;
   @Input() viewSignatoryOfficersTable!: boolean;
   @Input() viewMeetingsTable!: boolean;
+  @Input() viewCallTypesTable!: boolean;
   @Input() viewOfficersCommunicationTable!: boolean;
   @Input() viewContactPersonCommunicationTable!: boolean;
   @Input() viewAssestTypeCommunicationTable!: boolean;

@@ -186,7 +186,20 @@ const routes: Routes = [
     path: 'view-currencies',
     component: ViewCurrenciesComponent,
   },
-  //----
+  //Call Types
+  {
+    path: 'add-call-types',
+    component: AddCallTypesComponent,
+  },
+  {
+    path: 'edit-call-types/:id',
+    component: AddCallTypesComponent,
+  },
+  {
+    path: 'view-call-types',
+    component: ViewCallTypesComponent,
+  },
+  //---
   {
     path: 'add-mandate-statuses',
     component: AddMandateStatusesComponent,
@@ -346,10 +359,7 @@ const routes: Routes = [
     path: 'add-tml-officer-types',
     component: AddTmlOfficerTypesComponent,
   },
-  {
-    path: 'add-call-types',
-    component: AddCallTypesComponent,
-  },
+
   {
     path: 'add-communication-types',
     component: AddCommunicationTypesComponent,
@@ -504,10 +514,7 @@ const routes: Routes = [
     path: 'view-tml-officer-types',
     component: ViewTmlOfficerTypesComponent,
   },
-  {
-    path: 'view-call-types',
-    component: ViewCallTypesComponent,
-  },
+
   {
     path: 'view-communication-types',
     component: ViewCommunicationTypesComponent,

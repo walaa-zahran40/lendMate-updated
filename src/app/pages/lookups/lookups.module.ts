@@ -112,6 +112,8 @@ import { reducer as callActionTypesReducer } from './store/call-action-types/cal
 import { CallActionTypesEffects } from './store/call-action-types/call-action-types.effects';
 import { CurrenciesEffects } from './store/currencies/currencies.effects';
 import { currenciesReducer as currenciesReducer } from './store/currencies/currencies.reducer';
+import { reducer as callTypesReducer } from './store/call-types/call-types.reducer';
+import { CallTypesEffects } from './store/call-types/call-types.effects';
 
 @NgModule({
   declarations: [
@@ -228,6 +230,8 @@ import { currenciesReducer as currenciesReducer } from './store/currencies/curre
     EffectsModule.forFeature([CurrenciesEffects]),
     StoreModule.forFeature('callActionTypes', callActionTypesReducer),
     EffectsModule.forFeature([CallActionTypesEffects]),
+    StoreModule.forFeature('callTypes', callTypesReducer),
+    EffectsModule.forFeature([CallTypesEffects]),
   ],
   exports: [
     AddTmlOfficerTypesComponent,
