@@ -94,6 +94,7 @@ import { ViewCommunicationFlowTypeComponent } from './components/view-communicat
 import { ViewFeesRangeComponent } from './components/view-fees-range/view-fees-range.component';
 import { AddFeesRangeComponent } from './components/add-fees-range/add-fees-range.component';
 
+
 const routes: Routes = [
   //Company Types
   {
@@ -186,6 +187,22 @@ const routes: Routes = [
     path: 'view-currencies',
     component: ViewCurrenciesComponent,
   },
+
+  //Asset Type categories
+  {
+    path: 'add-asset-type-categories',
+    component: AddAssetTypeCategoriesComponent,
+  },
+  {
+    path: 'edit-asset-type-categories/:id',
+    component: AddAssetTypeCategoriesComponent,
+  },
+
+  {
+    path: 'view-asset-type-categories',
+    component: ViewAssetTypeCategoriesComponent,
+  },
+
   //Call Types
   {
     path: 'add-call-types',
@@ -307,11 +324,11 @@ const routes: Routes = [
     component: AddBusinessLinesComponent,
   },
   {
-    path: 'add-assest-types',
+    path: 'add-asset-types',
     component: AddAssetTypesComponent,
   },
   {
-    path: 'add-assest-type-categories',
+    path: 'add-asset-type-categories',
     component: AddAssetTypeCategoriesComponent,
   },
   {
@@ -466,11 +483,11 @@ const routes: Routes = [
     component: ViewBusinessLinesComponent,
   },
   {
-    path: 'view-assest-types',
+    path: 'view-asset-types',
     component: ViewAssestTypesComponent,
   },
   {
-    path: 'view-assest-type-categories',
+    path: 'view-asset-type-categories',
     component: ViewAssetTypeCategoriesComponent,
   },
   {

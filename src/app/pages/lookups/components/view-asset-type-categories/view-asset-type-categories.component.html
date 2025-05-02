@@ -1,25 +1,41 @@
 <div class="page-content">
   <app-toolbar-table
-    [title]="'Assest Type Categories'"
+    [title]="'Asset Type Categories'"
     [labelBtn]="'Add Assest Type Categories'"
-    [backExists]="true"
-    [exports]="true"
+    [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddAssetTypeCategory()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col1Name]="'Code'"
-    [col2Name]="'Name EN'"
-    [col3Name]="'Name AR'"
-    [col4Name]="'Limit'"
-    [col5Name]="'Active'"
-    [edit]="true"
-    [delete]="true"
-    [side]="false"
-    [download]="false"
-    [checkBox]="true"
-    [viewAssestTypeCategoriesTable]="true"
-    [uppercase]="'uppercase'"
-  ></app-table>
+
+  <ng-container *ngIf="assetTypeCategories$ | async as assetTypeCategories">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredAssetTypeCategories"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewAssetTypeCategoriesTable]="true"
+      (onDelete)="onDeleteAssetTypeCategory($event)"
+      (onEdit)="onEditAssetTypeCategory($event)"
+      (viewForm)="onViewAssetTypeCategory($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
 </div>

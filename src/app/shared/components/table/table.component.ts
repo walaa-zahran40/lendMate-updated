@@ -83,7 +83,7 @@ export class TableComponent {
   @Input() viewBranchAddressesTable!: boolean;
   @Input() viewBusinessLinesTable!: boolean;
   @Input() viewAssestTypesTable!: boolean;
-  @Input() viewAssestTypeCategoriesTable!: boolean;
+  @Input() viewAssetTypeCategoriesTable!: boolean;
   @Input() viewSectorsTable!: boolean;
   @Input() viewClientStatusesTable!: boolean;
   @Input() viewClientStatusTable!: boolean;
