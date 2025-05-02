@@ -879,7 +879,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/crm/clients/view-payment-month-days']);
   }
   viewPaymentMethod() {
-    this.router.navigate(['/crm/clients/view-payment-method']);
+    this.router.navigate(['/lookups/view-payment-methods']);
   }
   viewCurrencyExchange() {
     this.router.navigate(['/crm/clients/view-currency-exchange']);

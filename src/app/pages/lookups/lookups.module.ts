@@ -135,6 +135,8 @@ import { LeasingTypesEffects } from './store/leasing-types/leasing-types.effects
 import { reducer as MeetingTypesReducer } from './store/meeting-types/meeting-types.reducer';
 import { MeetingTypesEffects } from './store/meeting-types/meeting-types.effects';
 import { ViewMeetingTypesComponent } from './components/view-meeting-types/view-meeting-types.component';
+import { reducer as PaymentMethodsReducer } from './store/payment-methods/payment-methods.reducer';
+import { PaymentMethodsEffects } from './store/payment-methods/payment-methods.effects';
 
 @NgModule({
   declarations: [
@@ -280,6 +282,8 @@ import { ViewMeetingTypesComponent } from './components/view-meeting-types/view-
     EffectsModule.forFeature([LeasingTypesEffects]),
     StoreModule.forFeature('meetingTypes', MeetingTypesReducer),
     EffectsModule.forFeature([MeetingTypesEffects]),
+    StoreModule.forFeature('paymentMethods', PaymentMethodsReducer),
+    EffectsModule.forFeature([PaymentMethodsEffects]),
   ],
   exports: [
     AddTmlOfficerTypesComponent,

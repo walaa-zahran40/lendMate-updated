@@ -330,6 +330,19 @@ const routes: Routes = [
     path: 'view-meeting-types',
     component: ViewMeetingTypesComponent,
   },
+  //Payment Methods
+  {
+    path: 'add-payment-methods',
+    component: AddPaymentMethodsComponent,
+  },
+  {
+    path: 'edit-payment-methods/:id',
+    component: AddPaymentMethodsComponent,
+  },
+  {
+    path: 'view-payment-methods',
+    component: ViewPaymentMethodsComponent,
+  },
   //----
   {
     path: 'add-mandate-statuses',
@@ -350,10 +363,7 @@ const routes: Routes = [
     path: 'add-currencies-exchange',
     component: AddCurrenciesExchangeComponent,
   },
-  {
-    path: 'add-payment-methods',
-    component: AddPaymentMethodsComponent,
-  },
+
   {
     path: 'add-payment-types',
     component: AddPaymentTypesComponent,
@@ -482,10 +492,7 @@ const routes: Routes = [
     path: 'view-currency-exchange-rate',
     component: ViewCurrencyExchangeComponent,
   },
-  {
-    path: 'view-payment-methods',
-    component: ViewPaymentMethodsComponent,
-  },
+
   {
     path: 'view-payment-types',
     component: ViewPaymentTypesComponent,
