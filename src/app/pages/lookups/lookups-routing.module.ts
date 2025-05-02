@@ -304,6 +304,19 @@ const routes: Routes = [
     path: 'view-interest-rate-benchmarks',
     component: ViewInterestRateBenchmarksComponent,
   },
+  //Leasing Types
+  {
+    path: 'add-leasing-types',
+    component: AddLeasingTypeComponent,
+  },
+  {
+    path: 'edit-leasing-types/:id',
+    component: AddLeasingTypeComponent,
+  },
+  {
+    path: 'view-leasing-types',
+    component: ViewLeasingTypeComponent,
+  },
   //-----
   {
     path: 'add-mandate-statuses',
@@ -341,10 +354,6 @@ const routes: Routes = [
     component: AddMeetingTypesComponent,
   },
 
-  {
-    path: 'add-leasing-type',
-    component: AddLeasingTypeComponent,
-  },
   {
     path: 'add-mandate-validity-unit',
     component: AddMandateValidityUnitComponent,
@@ -481,10 +490,6 @@ const routes: Routes = [
     component: ViewMeetingTypesComponent,
   },
 
-  {
-    path: 'view-leasing-type',
-    component: ViewLeasingTypeComponent,
-  },
   {
     path: 'view-mandate-validity-unit',
     component: ViewMandateValidityUnitComponent,

@@ -130,6 +130,8 @@ import { reducer as InsuredByReducer } from './store/insured-by/insured-by.reduc
 import { InsuredByEffects } from './store/insured-by/insured-by.effects';
 import { reducer as InterestRateBenchmarksReducer } from './store/interest-rate-benchmarks/interest-rate-benchmarks.reducer';
 import { InterestRateBenchMarksEffects } from './store/interest-rate-benchmarks/interest-rate-benchmarks.effects';
+import { reducer as LeasingTypesReducer } from './store/leasing-types/leasing-types.reducer';
+import { LeasingTypesEffects } from './store/leasing-types/leasing-types.effects';
 
 @NgModule({
   declarations: [
@@ -270,6 +272,8 @@ import { InterestRateBenchMarksEffects } from './store/interest-rate-benchmarks/
       InterestRateBenchmarksReducer
     ),
     EffectsModule.forFeature([InterestRateBenchMarksEffects]),
+    StoreModule.forFeature('leasingTypes', LeasingTypesReducer),
+    EffectsModule.forFeature([LeasingTypesEffects]),
   ],
   exports: [
     AddTmlOfficerTypesComponent,

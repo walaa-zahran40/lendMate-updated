@@ -434,7 +434,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addPaymentMonthDaysLookupsForm!: boolean;
   @Input() addMeetingTypesLookupsForm!: boolean;
   @Input() addInsuredByLookupsForm!: boolean;
-  @Input() addLeasingTypeLookupsForm!: boolean;
+  @Input() addLeasingTypesLookupsForm!: boolean;
   @Input() addMandateValidityUnitLookupsForm!: boolean;
   @Input() addClientDocumentTypesLookupsForm!: boolean;
   @Input() addBranchLookupsForm!: boolean;
@@ -867,7 +867,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/crm/clients/view-mandate-validity']);
   }
   viewLeasingType() {
-    this.router.navigate(['/crm/clients/view-leasing-type']);
+    this.router.navigate(['/lookups/view-leasing-types']);
   }
   viewInsuredBy() {
     this.router.navigate(['/lookups/view-insured-by']);

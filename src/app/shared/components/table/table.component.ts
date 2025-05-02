@@ -63,6 +63,7 @@ export class TableComponent {
   @Input() viewShareHolderTable!: boolean;
   @Input() viewTMLOfficerTable!: boolean;
   @Input() viewLeasingMandatesTable!: boolean;
+  @Input() viewLeasingTypesLookupTable!: boolean;
   @Input() viewOfficersTable!: boolean;
   @Input() viewContactPersonsTable!: boolean;
   @Input() viewAssestTypeTable!: boolean;
