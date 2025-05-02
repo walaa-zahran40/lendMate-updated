@@ -873,7 +873,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-insured-by']);
   }
   viewMeetingTypes() {
-    this.router.navigate(['/crm/clients/view-meeting-types']);
+    this.router.navigate(['/lookups/view-meeting-types']);
   }
   viewPaymentMonthDays() {
     this.router.navigate(['/crm/clients/view-payment-month-days']);

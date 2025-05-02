@@ -132,6 +132,9 @@ import { reducer as InterestRateBenchmarksReducer } from './store/interest-rate-
 import { InterestRateBenchMarksEffects } from './store/interest-rate-benchmarks/interest-rate-benchmarks.effects';
 import { reducer as LeasingTypesReducer } from './store/leasing-types/leasing-types.reducer';
 import { LeasingTypesEffects } from './store/leasing-types/leasing-types.effects';
+import { reducer as MeetingTypesReducer } from './store/meeting-types/meeting-types.reducer';
+import { MeetingTypesEffects } from './store/meeting-types/meeting-types.effects';
+import { ViewMeetingTypesComponent } from './components/view-meeting-types/view-meeting-types.component';
 
 @NgModule({
   declarations: [
@@ -182,6 +185,7 @@ import { LeasingTypesEffects } from './store/leasing-types/leasing-types.effects
     ViewCompanyTypesComponent,
     ViewFeesCalculationTypesComponent,
     ViewMandateStatusesComponent,
+    ViewMeetingTypesComponent,
     ViewInterestRateBenchmarksComponent,
     ViewFeeTypesComponent,
     ViewGracePeriodUnitsComponent,
@@ -274,6 +278,8 @@ import { LeasingTypesEffects } from './store/leasing-types/leasing-types.effects
     EffectsModule.forFeature([InterestRateBenchMarksEffects]),
     StoreModule.forFeature('leasingTypes', LeasingTypesReducer),
     EffectsModule.forFeature([LeasingTypesEffects]),
+    StoreModule.forFeature('meetingTypes', MeetingTypesReducer),
+    EffectsModule.forFeature([MeetingTypesEffects]),
   ],
   exports: [
     AddTmlOfficerTypesComponent,

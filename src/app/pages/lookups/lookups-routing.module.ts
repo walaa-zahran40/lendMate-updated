@@ -317,7 +317,20 @@ const routes: Routes = [
     path: 'view-leasing-types',
     component: ViewLeasingTypeComponent,
   },
-  //-----
+  //Meeting Types
+  {
+    path: 'add-meeting-types',
+    component: AddMeetingTypesComponent,
+  },
+  {
+    path: 'edit-meeting-types/:id',
+    component: AddMeetingTypesComponent,
+  },
+  {
+    path: 'view-meeting-types',
+    component: ViewMeetingTypesComponent,
+  },
+  //----
   {
     path: 'add-mandate-statuses',
     component: AddMandateStatusesComponent,
@@ -348,10 +361,6 @@ const routes: Routes = [
   {
     path: 'add-payment-month-days',
     component: AddPaymentMonthDaysComponent,
-  },
-  {
-    path: 'add-meeting-types',
-    component: AddMeetingTypesComponent,
   },
 
   {
@@ -484,10 +493,6 @@ const routes: Routes = [
   {
     path: 'view-payment-month-days',
     component: ViewPaymentMonthDaysComponent,
-  },
-  {
-    path: 'view-meeting-types',
-    component: ViewMeetingTypesComponent,
   },
 
   {

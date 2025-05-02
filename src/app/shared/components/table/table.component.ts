@@ -119,6 +119,7 @@ export class TableComponent {
   @Input() viewGracePeriodUnitsTable!: boolean;
   @Input() viewFollowUpPointsCommunicationTable!: boolean;
   @Input() viewMeetingTypesCommunicationTable!: boolean;
+  @Input() viewMeetingTypesLookupTable!: boolean;
   @Input() viewCallsCommunicationTable!: boolean;
   @Input() viewClientGuarantorTable!: boolean;
   @Input() paginator: boolean = true;
