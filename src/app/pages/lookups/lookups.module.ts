@@ -118,6 +118,8 @@ import { businessLinesReducer } from './store/businessLines/businessLines.reduce
 import { BusinessLinesEffects } from './store/businessLines/businessLines.effects';
 import { AssetTypeCategoriesEffects } from './store/asset-type-categories/asset-type-categories.effects';
 import { assetTypeCategoriesReducer } from './store/asset-type-categories/asset-type-categories.reducer';
+import { AssetTypesEffects } from './store/asset-types/asset-types.effects';
+import { assetTypesReducer } from './store/asset-types/asset-types.reducer';
 
 @NgModule({
   declarations: [
@@ -240,6 +242,8 @@ import { assetTypeCategoriesReducer } from './store/asset-type-categories/asset-
     EffectsModule.forFeature([BusinessLinesEffects]),
     StoreModule.forFeature('assetTypeCategories', assetTypeCategoriesReducer),
     EffectsModule.forFeature([AssetTypeCategoriesEffects]),
+    StoreModule.forFeature('assetTypes', assetTypesReducer),
+    EffectsModule.forFeature([AssetTypesEffects]),
   ],
   exports: [
     AddTmlOfficerTypesComponent,

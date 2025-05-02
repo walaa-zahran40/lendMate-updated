@@ -58,11 +58,13 @@ export class AddAssetTypesComponent {
               id: ct!.id,
               name: ct!.name,
               nameAR: ct!.nameAR,
-              limit: ct!.limit,
+              category: ct!.category,
+              parent: ct!.parent,
               isActive: ct!.isActive,
             });
           });
       } else {
+
         this.viewOnly = this.route.snapshot.queryParams['mode'] === 'view';
         if (this.viewOnly) {
           this.addAssetTypesLookupsForm.disable();
@@ -93,9 +95,9 @@ export class AddAssetTypesComponent {
       return;
     }
 
-    const { name, nameAR, limit } =
+    const { name, nameAR, category , parent } =
       this.addAssetTypesLookupsForm.value;
-    const payload: Partial<AssetType> = { name, nameAR, limit };
+    const payload: Partial<AssetType> = { name, nameAR, category , parent };
     console.log('  → payload object:', payload);
 
     // Double-check your route param
@@ -103,13 +105,14 @@ export class AddAssetTypesComponent {
     console.log('  route.snapshot.paramMap.get(clientId):', routeId);
 
     if (this.editMode) {
-      const { id, name, nameAR, limit, isActive } =
+      const { id, name, nameAR, category, parent , isActive } =
         this.addAssetTypesLookupsForm.value;
       const payload: AssetType = {
         id,
         name,
         nameAR,
-        limit,
+        category,
+        parent,
         isActive,
         code: '',
       };

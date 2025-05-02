@@ -441,7 +441,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addBusinessLinesLookupsForm!: boolean;
   @Input() addBranchAddressesLookupsForm!: boolean;
   @Input() addBranchOfficersLookupsForm!: boolean;
-  @Input() addAssestTypesLookupsForm!: boolean;
+  @Input() addAssetTypesLookupsForm!: boolean;
   @Input() addAssetTypeCategoriesLookupsForm!: boolean;
   @Input() addProductsLookupsForm!: boolean;
   @Input() addSectorsLookupsForm!: boolean;

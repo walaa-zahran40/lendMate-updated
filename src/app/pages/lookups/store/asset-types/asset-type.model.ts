@@ -3,6 +3,7 @@ export interface AssetType {
   code?: string;
   name: string;
   nameAR: string;
-  limit: number;
+  category: number;
+  parent: number;
   isActive: boolean;
 }

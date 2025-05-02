@@ -23,7 +23,7 @@ export class ViewAssetTypesComponent {
   
   readonly colsInside = [
     { field: 'code', header: 'Code' },
-    { field: 'nameEN', header: 'Name EN' },
+    { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
     { field: 'category', header: 'Category' },
     { field: 'parent', header: 'Parent' },

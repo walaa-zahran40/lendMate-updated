@@ -2,7 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import * as Actions from './asset-types.actions';
 import { initialAssetTypesState } from './asset-types.state';
 
-export const assetTypeCategoriesReducer = createReducer(
+export const assetTypesReducer = createReducer(
   initialAssetTypesState,
   on(Actions.loadAssetTypes, (state) => ({
     ...state,

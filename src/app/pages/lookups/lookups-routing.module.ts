@@ -343,10 +343,6 @@ const routes: Routes = [
     component: AddAssetTypesComponent,
   },
   {
-    path: 'add-asset-type-categories',
-    component: AddAssetTypeCategoriesComponent,
-  },
-  {
     path: 'add-products',
     component: AddProductsComponent,
   },
@@ -500,10 +496,6 @@ const routes: Routes = [
   {
     path: 'view-asset-types',
     component: ViewAssetTypesComponent,
-  },
-  {
-    path: 'view-asset-type-categories',
-    component: ViewAssetTypeCategoriesComponent,
   },
   {
     path: 'view-products',

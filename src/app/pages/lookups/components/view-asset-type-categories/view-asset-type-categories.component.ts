@@ -109,7 +109,7 @@ export class ViewAssetTypeCategoriesComponent {
   }
 
   onViewAssetTypeCategory(assetTypeCategories: AssetTypeCategory) {
-    this.router.navigate(['/lookups/view-asset-type-categories', assetTypeCategories.id], {
+    this.router.navigate(['/lookups/edit-asset-type-categories', assetTypeCategories.id], {
       queryParams: { mode: 'view' },
     });
   }
