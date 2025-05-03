@@ -204,15 +204,15 @@
       class="custom-view m-0 float-right"
     />
     <p-button
-      *ngIf="addAssestTypeCategoriesLookupsForm"
+      *ngIf="addAssetTypeCategoriesLookupsForm"
       icon="pi pi-cog"
       iconPos="left"
       label="View Assest Type Categories"
-      (click)="viewAssestTypeCategories()"
+      (click)="viewAssetTypeCategories()"
       class="custom-view m-0 float-right"
     />
     <p-button
-      *ngIf="addAssestTypesLookupsForm"
+      *ngIf="addAssetTypesLookupsForm"
       icon="pi pi-cog"
       iconPos="left"
       label="View Assest Types"
@@ -4892,7 +4892,7 @@
       *ngIf="addChildMandateShowAssetTypeForm"
       id="childMandateAssetTypeForm"
     >
-      <label for="assestTypeAssestTypeForm">Assest Type</label>
+      <label for="assetTypeAssestTypeForm">Assest Type</label>
       <p-multiselect
         [options]="officerTypesMandates"
         [(ngModel)]="selectedOfficerTypesMandate"
@@ -4988,11 +4988,11 @@
     >
       <div class="row w-100">
         <div class="col-sm">
-          <label for="assestCostLeasingFinancialForm">Assest Cost</label>
+          <label for="assetCostLeasingFinancialForm">Assest Cost</label>
           <input
             pInputText
-            id="assestCost"
-            aria-describedby="assestCost-help"
+            id="assetCost"
+            aria-describedby="assetCost-help"
             [(ngModel)]="value53"
             name="assestCost"
             placeholder="150,000,000"
@@ -5842,7 +5842,106 @@
         name="businessLineProductsLookups"
       />
     </form>
-    <form action="" *ngIf="addAssestTypeCategoriesLookupsForm">
+
+    <form action=""
+    [formGroup]="formGroup"
+    *ngIf="addAssetTypeCategoriesLookupsForm"
+    (ngSubmit)="onSubmit()"
+  >
+    <label for="name">Name in English<sup>*</sup></label>
+    <input pInputText id="name" formControlName="name" placeholder="name" />
+    <div
+      *ngIf="
+        formGroup.get('name')?.hasError('required') &&
+        formGroup.get('name')?.touched
+      "
+      class="p-error"
+    >
+      Name in English is required.
+    </div>
+
+    <label for="nameAR">Name in Arabic<sup>*</sup></label>
+    <input
+      pInputText
+      id="nameAR"
+      formControlName="nameAR"
+      placeholder="arabic name"
+    />
+    <div
+      *ngIf="
+        formGroup.get('nameAR')?.hasError('required') &&
+        formGroup.get('nameAR')?.touched
+      "
+      class="p-error"
+    >
+      Name in Arabic is required.
+    </div>
+    <div
+      *ngIf="
+        formGroup.get('nameAR')?.hasError('pattern') &&
+        formGroup.get('nameAR')?.touched
+      "
+      class="p-error"
+    >
+      Please enter only Arabic letters.
+    </div>
+
+    <label for="limit">Limit<sup>*</sup></label>
+    <input
+  pInputText
+  id="limit"
+  aria-describedby="limit-help"
+  name="limit"
+  placeholder="0"
+  type="number"
+  formControlName="limit"
+/>
+
+    <div class="p-field" for="isActive" *ngIf="editMode">
+      <p-toggleSwitch
+        id="isActive"
+        formControlName="isActive"
+        label="is Active"
+      ></p-toggleSwitch>
+      <label for="isActive"> Active</label>
+    </div>
+    <div class="row justify-end">
+      <div
+        class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 currenciesDiv"
+        *ngIf="!editMode"
+      >
+        <p-button
+          type="submit"
+          label="Add Asset Type Category"
+          [disabled]="formGroup.invalid"
+          class="custom-save m-0 float-right"
+        ></p-button>
+      </div>
+      <div
+        class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+        *ngIf="editMode && !viewOnly"
+      >
+        <p-button
+          type="submit"
+          label="Edit Asset Type Category"
+          class="custom-save m-0 float-right"
+        ></p-button>
+      </div>
+      <div
+        *ngIf="viewOnly"
+        class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+      >
+        <p-button
+          label="Close"
+          class="custom-save m-0 float-right"
+          (click)="router.navigate(['/lookups/view-asset-type-categories'])"
+        />
+      </div>
+    </div>
+
+  </form>
+
+    <form action="" *ngIf="addAssetTypesLookupsForm">
       <label for="codeAssestTypesLookups">Code<sup>*</sup></label>
       <p-multiselect
         [options]="officerTypesMandates"
@@ -5876,50 +5975,7 @@
         name="nameInArabicAssestTypesLookups"
         placeholder="Yes"
       />
-      <label for="limitAssestTypeCategoriesLookups">Limit<sup>*</sup></label>
-      <input
-        pInputText
-        id="limitAssestTypeCategoriesLookups"
-        aria-describedby="limitAssestTypeCategoriesLookups-help"
-        name="limitAssestTypeCategoriesLookups"
-        placeholder="Yes"
-      />
-    </form>
-    <form action="" *ngIf="addAssestTypesLookupsForm">
-      <label for="codeAssestTypesLookups">Code<sup>*</sup></label>
-      <p-multiselect
-        [options]="officerTypesMandates"
-        [(ngModel)]="officerTypesMandates"
-        placeholder="Select Code"
-        optionLabel="name"
-        display="chip"
-        icon="pi pi-times"
-        name="codeAssestTypesLookups"
-        styleClass="w-full md:w-80"
-        [maxSelectedLabels]="999"
-        chipIcon="pi pi-times"
-      />
-      <label for="nameInEnglishAssestTypesLookups"
-        >Name in English<sup>*</sup></label
-      >
-      <input
-        pInputText
-        id="nameInEnglishAssestTypesLookups"
-        aria-describedby="nameInEnglishAssestTypesLookups-help"
-        name="nameInEnglishAssestTypesLookups"
-        placeholder="Yes"
-      />
-      <label for="nameInArabicAssestTypesLookups"
-        >Name in Arabic<sup>*</sup></label
-      >
-      <input
-        pInputText
-        id="nameInArabicAssestTypesLookups"
-        aria-describedby="nameInArabicAssestTypesLookups-help"
-        name="nameInArabicAssestTypesLookups"
-        placeholder="Yes"
-      />
-      <label for="assestTypeCategoryAssestTypesLookups"
+      <label for="assetTypeCategoryAssestTypesLookups"
         >Assest Type Category<sup>*</sup></label
       >
       <p-select
@@ -5927,7 +5983,7 @@
         [(ngModel)]="selectedStamps"
         optionLabel="name"
         class="w-full md:w-56"
-        name="assestTypeCategoryAssestTypesLookups"
+        name="assetTypeCategoryAssestTypesLookups"
       />
       <label for="parentAssestTypeAssestTypesLookups"
         >Parent Assest Type<sup>*</sup></label

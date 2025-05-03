@@ -1,24 +1,24 @@
 <div class="page-content">
   <app-toolbar-table
-    [title]="'Asset Type Categories'"
-    [labelBtn]="'Add Assest Type Categories'"
+    [title]="'Asset Types'"
+    [labelBtn]="'Add Assest Types'"
     [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
     [backExists]="true"
     [customSpacing]="'custom-spacing'"
     [exports]="true"
-    (addBtn)="onAddAssetTypeCategory()"
+    (addBtn)="onAddAssetType()"
     (searchChange)="onSearch($event)"
     (toggleFiltersEvent)="onToggleFilters($event)"
     (exportExcel)="tableRef.exportToExcel()"
     (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
 
-  <ng-container *ngIf="assetTypeCategories$ | async as assetTypeCategories">
+  <ng-container *ngIf="assetTypes$ | async as assetTypes">
     <app-table
       #tableRef
       [cols]="colsInside"
-      [tableData]="filteredAssetTypeCategories"
+      [tableData]="filteredAssetTypes"
       [edit]="true"
       [delete]="true"
       [side]="false"
@@ -27,10 +27,10 @@
       [view]="true"
       [filters]="showFilters"
       [uppercase]="'uppercase'"
-      [viewAssetTypeCategoriesTable]="true"
-      (onDelete)="onDeleteAssetTypeCategory($event)"
-      (onEdit)="onEditAssetTypeCategory($event)"
-      (viewForm)="onViewAssetTypeCategory($event)"
+      [viewAssetTypesTable]="true"
+      (onDelete)="onDeleteAssetType($event)"
+      (onEdit)="onEditAssetType($event)"
+      (viewForm)="onViewAssetType($event)"
     ></app-table>
     <app-delete-module
       [visible]="showDeleteModal"

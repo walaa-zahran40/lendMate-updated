@@ -675,17 +675,17 @@ export class SideMenuComponent {
           {
             label: 'AssetType',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-assest-types',
+            routerLink: '/lookups/view-asset-types',
           },
           {
             label: 'AssetTypeCategory',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-assest-type-categories',
+            routerLink: '/lookups/view-asset-type-categories',
           },
           {
             label: 'AuthorizationGroup',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-assest-type-categoriesss',
+            routerLink: '/lookups/view-asset-type-categories',
           },
           {
             label: 'CallActionType',

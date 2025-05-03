@@ -18,6 +18,7 @@ import { ViewMeetingTypesComponent } from './view-meeting-types/view-meeting-typ
 import { ViewCallComponent } from './view-call/view-call.component';
 import { ViewCallTypesComponent } from './view-call-types/view-call-types.component';
 import { SaveMeetingComponent } from './save-meeting/save-meeting.component';
+import { ViewAssetTypeCategoriesComponent } from '../lookups/components/view-asset-type-categories/view-asset-type-categories.component';
 
 const routes: Routes = [
   {
@@ -61,8 +62,12 @@ const routes: Routes = [
     component: ViewContactPersonsComponent,
   },
   {
-    path: 'view-assest-type',
+    path: 'view-asset-type',
     component: ViewAssestTypeComponent,
+  },
+  {
+    path: 'view-asset-type-categories',
+    component: ViewAssetTypeCategoriesComponent,
   },
   {
     path: 'view-followups',

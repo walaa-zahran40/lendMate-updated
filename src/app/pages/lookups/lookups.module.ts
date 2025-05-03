@@ -71,7 +71,7 @@ import { ViewBranchManagersComponent } from './components/view-branch-managers/v
 import { ViewBranchOfficersComponent } from './components/view-branch-officers/view-branch-officers.component';
 import { ViewBranchAddressesComponent } from './components/view-branch-addresses/view-branch-addresses.component';
 import { ViewBusinessLinesComponent } from './components/view-business-lines/view-business-lines.component';
-import { ViewAssestTypesComponent } from './components/view-assest-types/view-assest-types.component';
+import { ViewAssetTypesComponent } from './components/view-asset-types/view-asset-types.component';
 import { ViewAssetTypeCategoriesComponent } from './components/view-asset-type-categories/view-asset-type-categories.component';
 import { ViewProductsComponent } from './components/view-products/view-products.component';
 import { ViewSectorsComponent } from './components/view-sectors/view-sectors.component';
@@ -140,7 +140,10 @@ import { PaymentMethodsEffects } from './store/payment-methods/payment-methods.e
 import { ViewPaymentTypesComponent } from './components/view-payment-types/view-payment-types.component';
 import { reducer as PaymentTypesReducer } from './store/payment-types/payment-types.reducer';
 import { PaymentTypesEffects } from './store/payment-types/payment-types.effects';
-
+import { AssetTypeCategoriesEffects } from './store/asset-type-categories/asset-type-categories.effects';
+import { assetTypeCategoriesReducer } from './store/asset-type-categories/asset-type-categories.reducer';
+import { AssetTypesEffects } from './store/asset-types/asset-types.effects';
+import { assetTypesReducer } from './store/asset-types/asset-types.reducer';
 @NgModule({
   declarations: [
     AddTmlOfficerTypesComponent,
@@ -210,7 +213,7 @@ import { PaymentTypesEffects } from './store/payment-types/payment-types.effects
     ViewBranchOfficersComponent,
     ViewBranchAddressesComponent,
     ViewBusinessLinesComponent,
-    ViewAssestTypesComponent,
+    ViewAssetTypesComponent,
     ViewAssetTypeCategoriesComponent,
     ViewProductsComponent,
     ViewSectorsComponent,
@@ -290,6 +293,10 @@ import { PaymentTypesEffects } from './store/payment-types/payment-types.effects
     EffectsModule.forFeature([PaymentMethodsEffects]),
     StoreModule.forFeature('paymentTypes', PaymentTypesReducer),
     EffectsModule.forFeature([PaymentTypesEffects]),
+    StoreModule.forFeature('assetTypeCategories', assetTypeCategoriesReducer),
+    EffectsModule.forFeature([AssetTypeCategoriesEffects]),
+    StoreModule.forFeature('assetTypes', assetTypesReducer),
+    EffectsModule.forFeature([AssetTypesEffects]),
   ],
   exports: [
     AddTmlOfficerTypesComponent,

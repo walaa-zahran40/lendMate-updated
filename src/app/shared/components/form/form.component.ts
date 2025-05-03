@@ -442,8 +442,8 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addBusinessLinesLookupsForm!: boolean;
   @Input() addBranchAddressesLookupsForm!: boolean;
   @Input() addBranchOfficersLookupsForm!: boolean;
-  @Input() addAssestTypesLookupsForm!: boolean;
-  @Input() addAssestTypeCategoriesLookupsForm!: boolean;
+  @Input() addAssetTypesLookupsForm!: boolean;
+  @Input() addAssetTypeCategoriesLookupsForm!: boolean;
   @Input() addProductsLookupsForm!: boolean;
   @Input() addSectorsLookupsForm!: boolean;
   @Input() addClientStatusesLookupsForm!: boolean;
@@ -1000,8 +1000,8 @@ export class FormComponent implements OnInit, OnDestroy {
   viewAssestTypes() {
     this.router.navigate(['/crm/clients/view-assest-types']);
   }
-  viewAssestTypeCategories() {
-    this.router.navigate(['/crm/clients/view-assest-type-categories']);
+  viewAssetTypeCategories() {
+    this.router.navigate(['/lookups/view-asset-type-categories']);
   }
   viewProducts() {
     this.router.navigate(['/lookups/view-products']);

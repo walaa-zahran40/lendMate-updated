@@ -68,7 +68,7 @@ import { ViewBranchManagersComponent } from './components/view-branch-managers/v
 import { ViewBranchOfficersComponent } from './components/view-branch-officers/view-branch-officers.component';
 import { ViewBranchAddressesComponent } from './components/view-branch-addresses/view-branch-addresses.component';
 import { ViewBusinessLinesComponent } from './components/view-business-lines/view-business-lines.component';
-import { ViewAssestTypesComponent } from './components/view-assest-types/view-assest-types.component';
+import { ViewAssetTypesComponent } from './components/view-asset-types/view-asset-types.component';
 import { ViewAssetTypeCategoriesComponent } from './components/view-asset-type-categories/view-asset-type-categories.component';
 import { ViewProductsComponent } from './components/view-products/view-products.component';
 import { ViewSectorsComponent } from './components/view-sectors/view-sectors.component';
@@ -93,6 +93,7 @@ import { ViewCallActionTypesComponent } from './components/view-call-action-type
 import { ViewCommunicationFlowTypeComponent } from './components/view-communication-flow-type/view-communication-flow-type.component';
 import { ViewFeesRangeComponent } from './components/view-fees-range/view-fees-range.component';
 import { AddFeesRangeComponent } from './components/add-fees-range/add-fees-range.component';
+
 
 const routes: Routes = [
   //Company Types
@@ -186,6 +187,37 @@ const routes: Routes = [
     path: 'view-currencies',
     component: ViewCurrenciesComponent,
   },
+
+  //Asset Type categories
+  {
+    path: 'add-asset-type-categories',
+    component: AddAssetTypeCategoriesComponent,
+  },
+  {
+    path: 'edit-asset-type-categories/:id',
+    component: AddAssetTypeCategoriesComponent,
+  },
+
+  {
+    path: 'view-asset-type-categories',
+    component: ViewAssetTypeCategoriesComponent,
+  },
+
+    //Asset Type 
+    {
+      path: 'add-asset-types',
+      component: AddAssetTypesComponent,
+    },
+    {
+      path: 'edit-asset-types/:id',
+      component: AddAssetTypesComponent,
+    },
+  
+    {
+      path: 'view-asset-types',
+      component: ViewAssetTypesComponent,
+    },
+
   //Call Types
   {
     path: 'add-call-types',
@@ -412,12 +444,8 @@ const routes: Routes = [
     component: AddBusinessLinesComponent,
   },
   {
-    path: 'add-assest-types',
+    path: 'add-asset-types',
     component: AddAssetTypesComponent,
-  },
-  {
-    path: 'add-assest-type-categories',
-    component: AddAssetTypeCategoriesComponent,
   },
   {
     path: 'add-products',
@@ -533,12 +561,8 @@ const routes: Routes = [
     component: ViewBusinessLinesComponent,
   },
   {
-    path: 'view-assest-types',
-    component: ViewAssestTypesComponent,
-  },
-  {
-    path: 'view-assest-type-categories',
-    component: ViewAssetTypeCategoriesComponent,
+    path: 'view-asset-types',
+    component: ViewAssetTypesComponent,
   },
   {
     path: 'view-products',
