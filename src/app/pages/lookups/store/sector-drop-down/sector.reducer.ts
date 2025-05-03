@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import * as SectorActions from './sector.actions';
-import { Sectors } from '../../interfaces/sectors.interface';
+import { Sectors } from '../../../../shared/interfaces/sectors.interface';
 
 export interface SectorState {
   sectors: Sectors[];

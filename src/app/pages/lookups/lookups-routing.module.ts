@@ -343,7 +343,20 @@ const routes: Routes = [
     path: 'view-payment-methods',
     component: ViewPaymentMethodsComponent,
   },
-  //----
+  //Payment Types
+  {
+    path: 'add-payment-types',
+    component: AddPaymentTypesComponent,
+  },
+  {
+    path: 'edit-payment-types/:id',
+    component: AddPaymentTypesComponent,
+  },
+  {
+    path: 'view-payment-types',
+    component: ViewPaymentTypesComponent,
+  },
+  //------
   {
     path: 'add-mandate-statuses',
     component: AddMandateStatusesComponent,
@@ -364,10 +377,6 @@ const routes: Routes = [
     component: AddCurrenciesExchangeComponent,
   },
 
-  {
-    path: 'add-payment-types',
-    component: AddPaymentTypesComponent,
-  },
   {
     path: 'add-payment-month-days',
     component: AddPaymentMonthDaysComponent,
@@ -493,10 +502,6 @@ const routes: Routes = [
     component: ViewCurrencyExchangeComponent,
   },
 
-  {
-    path: 'view-payment-types',
-    component: ViewPaymentTypesComponent,
-  },
   {
     path: 'view-payment-month-days',
     component: ViewPaymentMonthDaysComponent,

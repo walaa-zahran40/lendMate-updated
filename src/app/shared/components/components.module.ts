@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { AsyncPipe, DecimalPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgbHighlight, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToolbarModule } from 'primeng/toolbar';

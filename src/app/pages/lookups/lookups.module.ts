@@ -137,6 +137,9 @@ import { MeetingTypesEffects } from './store/meeting-types/meeting-types.effects
 import { ViewMeetingTypesComponent } from './components/view-meeting-types/view-meeting-types.component';
 import { reducer as PaymentMethodsReducer } from './store/payment-methods/payment-methods.reducer';
 import { PaymentMethodsEffects } from './store/payment-methods/payment-methods.effects';
+import { ViewPaymentTypesComponent } from './components/view-payment-types/view-payment-types.component';
+import { reducer as PaymentTypesReducer } from './store/payment-types/payment-types.reducer';
+import { PaymentTypesEffects } from './store/payment-types/payment-types.effects';
 
 @NgModule({
   declarations: [
@@ -198,6 +201,7 @@ import { PaymentMethodsEffects } from './store/payment-methods/payment-methods.e
     ViewPaymentMethodsComponent,
     ViewInsuredByComponent,
     ViewLeasingTypeComponent,
+    ViewPaymentTypesComponent,
     ViewMandateValidityUnitComponent,
     ViewClientDocumentTypesComponent,
     ViewBranchComponent,
@@ -284,6 +288,8 @@ import { PaymentMethodsEffects } from './store/payment-methods/payment-methods.e
     EffectsModule.forFeature([MeetingTypesEffects]),
     StoreModule.forFeature('paymentMethods', PaymentMethodsReducer),
     EffectsModule.forFeature([PaymentMethodsEffects]),
+    StoreModule.forFeature('paymentTypes', PaymentTypesReducer),
+    EffectsModule.forFeature([PaymentTypesEffects]),
   ],
   exports: [
     AddTmlOfficerTypesComponent,
