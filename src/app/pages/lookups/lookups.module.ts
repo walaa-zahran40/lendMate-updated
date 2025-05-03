@@ -146,6 +146,8 @@ import { AssetTypesEffects } from './store/asset-types/asset-types.effects';
 import { assetTypesReducer } from './store/asset-types/asset-types.reducer';
 import { reducer as PhoneTypesReducer } from './store/phone-types/phone-types.reducer';
 import { PhoneTypesEffects } from './store/phone-types/phone-types.effects';
+import { reducer as RentStructureTypesReducer } from './store/rent-structure-types/rent-structure-types.reducer';
+import { RentStructureTypesEffects } from './store/rent-structure-types/rent-structure-types.effects';
 
 @NgModule({
   declarations: [
@@ -302,6 +304,8 @@ import { PhoneTypesEffects } from './store/phone-types/phone-types.effects';
     EffectsModule.forFeature([AssetTypesEffects]),
     StoreModule.forFeature('phoneTypes', PhoneTypesReducer),
     EffectsModule.forFeature([PhoneTypesEffects]),
+    StoreModule.forFeature('rentStructureTypes', RentStructureTypesReducer),
+    EffectsModule.forFeature([RentStructureTypesEffects]),
   ],
   exports: [
     AddTmlOfficerTypesComponent,

@@ -96,6 +96,7 @@ export class TableComponent {
   @Input() viewSMEClientCodeTable!: boolean;
   @Input() viewSubSectorTable!: boolean;
   @Input() viewGovernerateTable!: boolean;
+  @Input() viewRentStructureTypesTable!: boolean;
   @Input() viewCallActionTypesTable!: boolean;
   @Input() viewCountriesTable!: boolean;
   @Input() viewAreasTable!: boolean;

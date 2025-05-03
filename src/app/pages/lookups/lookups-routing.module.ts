@@ -400,7 +400,20 @@ const routes: Routes = [
     path: 'view-phone-types',
     component: ViewPhoneTypesComponent,
   },
-  //------
+  //Rent Structure Types
+  {
+    path: 'add-rent-structure-types',
+    component: AddRentStructureTypesComponent,
+  },
+  {
+    path: 'edit-rent-structure-types/:id',
+    component: AddRentStructureTypesComponent,
+  },
+  {
+    path: 'view-rent-structure-types',
+    component: ViewRentStructureTypesComponent,
+  },
+  //----
   {
     path: 'add-mandate-statuses',
     component: AddMandateStatusesComponent,
@@ -409,11 +422,6 @@ const routes: Routes = [
   {
     path: 'add-fees-types',
     component: AddFeeTypesComponent,
-  },
-
-  {
-    path: 'add-rent-structure-types',
-    component: AddRentStructureTypesComponent,
   },
 
   {
@@ -526,10 +534,6 @@ const routes: Routes = [
   {
     path: 'view-grace-period-units',
     component: ViewGracePeriodUnitsComponent,
-  },
-  {
-    path: 'view-rent-structure-types',
-    component: ViewRentStructureTypesComponent,
   },
 
   {
