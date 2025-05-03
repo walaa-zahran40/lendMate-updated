@@ -1,5 +1,4 @@
 import { Component, ViewChild } from '@angular/core';
-import { GracePeriod } from '../../../../shared/interfaces/grace-period.interface';
 import { Router } from '@angular/router';
 import { Subject, Observable, take, takeUntil } from 'rxjs';
 import { TableComponent } from '../../../../shared/components/table/table.component';

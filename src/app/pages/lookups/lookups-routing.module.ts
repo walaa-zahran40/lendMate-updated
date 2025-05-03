@@ -94,7 +94,6 @@ import { ViewCommunicationFlowTypeComponent } from './components/view-communicat
 import { ViewFeesRangeComponent } from './components/view-fees-range/view-fees-range.component';
 import { AddFeesRangeComponent } from './components/add-fees-range/add-fees-range.component';
 
-
 const routes: Routes = [
   //Company Types
   {
@@ -203,20 +202,20 @@ const routes: Routes = [
     component: ViewAssetTypeCategoriesComponent,
   },
 
-    //Asset Type 
-    {
-      path: 'add-asset-types',
-      component: AddAssetTypesComponent,
-    },
-    {
-      path: 'edit-asset-types/:id',
-      component: AddAssetTypesComponent,
-    },
-  
-    {
-      path: 'view-asset-types',
-      component: ViewAssetTypesComponent,
-    },
+  //Asset Types
+  {
+    path: 'add-asset-types',
+    component: AddAssetTypesComponent,
+  },
+  {
+    path: 'edit-asset-types/:id',
+    component: AddAssetTypesComponent,
+  },
+
+  {
+    path: 'view-asset-types',
+    component: ViewAssetTypesComponent,
+  },
 
   //Call Types
   {
@@ -232,7 +231,7 @@ const routes: Routes = [
     component: ViewCallTypesComponent,
   },
 
-  //Business Line
+  //Business Lines
   {
     path: 'add-business-lines',
     component: AddBusinessLinesComponent,
@@ -388,6 +387,19 @@ const routes: Routes = [
     path: 'view-payment-types',
     component: ViewPaymentTypesComponent,
   },
+  //Phone Types
+  {
+    path: 'add-phone-types',
+    component: AddPhoneTypesComponent,
+  },
+  {
+    path: 'edit-phone-types/:id',
+    component: AddPhoneTypesComponent,
+  },
+  {
+    path: 'view-phone-types',
+    component: ViewPhoneTypesComponent,
+  },
   //------
   {
     path: 'add-mandate-statuses',
@@ -470,11 +482,6 @@ const routes: Routes = [
   {
     path: 'add-sub-sectors',
     component: AddSubSectorsComponent,
-  },
-
-  {
-    path: 'add-phone-types',
-    component: AddPhoneTypesComponent,
   },
 
   {
@@ -587,11 +594,6 @@ const routes: Routes = [
   {
     path: 'view-sub-sector',
     component: ViewSubSectorComponent,
-  },
-
-  {
-    path: 'view-phone-types',
-    component: ViewPhoneTypesComponent,
   },
 
   {

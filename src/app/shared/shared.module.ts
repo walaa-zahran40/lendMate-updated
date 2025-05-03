@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ComponentsModule } from './components/components.module';
-import { DirectivesModule } from './directives/directives.module';
 import { ServicesModule } from './services/services.module';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -9,11 +8,9 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     ComponentsModule,
-    DirectivesModule,
     ServicesModule,
-
     ReactiveFormsModule,
   ],
-  exports: [ComponentsModule, DirectivesModule, ServicesModule],
+  exports: [ComponentsModule, ServicesModule],
 })
 export class SharedModule {}

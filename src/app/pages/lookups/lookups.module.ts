@@ -144,6 +144,9 @@ import { AssetTypeCategoriesEffects } from './store/asset-type-categories/asset-
 import { assetTypeCategoriesReducer } from './store/asset-type-categories/asset-type-categories.reducer';
 import { AssetTypesEffects } from './store/asset-types/asset-types.effects';
 import { assetTypesReducer } from './store/asset-types/asset-types.reducer';
+import { reducer as PhoneTypesReducer } from './store/phone-types/phone-types.reducer';
+import { PhoneTypesEffects } from './store/phone-types/phone-types.effects';
+
 @NgModule({
   declarations: [
     AddTmlOfficerTypesComponent,
@@ -297,6 +300,8 @@ import { assetTypesReducer } from './store/asset-types/asset-types.reducer';
     EffectsModule.forFeature([AssetTypeCategoriesEffects]),
     StoreModule.forFeature('assetTypes', assetTypesReducer),
     EffectsModule.forFeature([AssetTypesEffects]),
+    StoreModule.forFeature('phoneTypes', PhoneTypesReducer),
+    EffectsModule.forFeature([PhoneTypesEffects]),
   ],
   exports: [
     AddTmlOfficerTypesComponent,
