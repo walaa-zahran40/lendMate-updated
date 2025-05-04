@@ -74,7 +74,7 @@ import { ViewProductsComponent } from './components/view-products/view-products.
 import { ViewSectorsComponent } from './components/view-sectors/view-sectors.component';
 import { ViewClientStatusesComponent } from './components/view-client-statuses/view-client-statuses.component';
 import { WizardClientStatusComponent } from './components/wizard-client-status/wizard-client-status.component';
-import { ViewClientStatusComponent } from './components/view-client-status/view-client-status.component';
+import { ViewClientStatusComponent } from './components/view-client-status-actions/view-client-status.component';
 import { ViewSmeClientCodeComponent } from './components/view-sme-client-code/view-sme-client-code.component';
 import { ViewSubSectorComponent } from './components/view-sub-sector/view-sub-sector.component';
 import { ViewClientTypesComponent } from './components/view-client-types/view-client-types.component';
@@ -229,7 +229,10 @@ const routes: Routes = [
     path: 'view-currencies',
     component: ViewCurrenciesComponent,
   },
-
+  {
+    path: 'wizard-currencies/:currencyId',
+    component: WizardCurrenciesComponent,
+  },
   //Asset Type categories
   {
     path: 'add-asset-type-categories',
@@ -577,7 +580,7 @@ const routes: Routes = [
   },
 
   {
-    path: 'view-currency-exchange-rate',
+    path: 'view-currencies-exchange/:currencyId',
     component: ViewCurrencyExchangeComponent,
   },
 
@@ -657,11 +660,6 @@ const routes: Routes = [
   {
     path: 'view-tml-officer-types',
     component: ViewTmlOfficerTypesComponent,
-  },
-
-  {
-    path: 'wizard-currencies',
-    component: WizardCurrenciesComponent,
   },
 
   {

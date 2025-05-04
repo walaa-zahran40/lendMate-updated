@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-wizard-currencies',
@@ -9,9 +9,11 @@ import { Router } from '@angular/router';
 })
 export class WizardCurrenciesComponent {
   cards: any[] = [];
-  constructor(private router: Router) {}
+  constructor(private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
+    const currencyId = this.route.snapshot.paramMap.get('currencyId');
+
     this.cards = [
       [
         {
@@ -20,15 +22,7 @@ export class WizardCurrenciesComponent {
           title: 'Currency Exchange',
           content:
             'Introduce your company core info quickly to users by fill up company details',
-          link: '/lookups/add-currencies-exchange',
-        },
-        {
-          imgUrl: '/assets/images/shared/card/currency.svg',
-          imgAlt: 'currency Exchange',
-          title: 'Currency Exchange',
-          content:
-            'Introduce your company core info quickly to users by fill up company details',
-          link: '/lookups/add-currencies',
+          link: `/lookups/view-currencies-exchange/${currencyId}`,
         },
       ],
     ];
