@@ -1,30 +1,26 @@
 <app-toolbar-form
-  [header]="'Interest Rate Benchmarks'"
+  [header]="
+    editMode ? 'Edit Interest Rate Benchmark' : 'Add Interest Rate Benchmark'
+  "
   [backExists]="true"
-  [viewOnly]="false"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
 ></app-toolbar-form>
 <p-tabs value="0" styleClass="p-3">
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
+        *ngIf="addInterestRateBenchmarkLookupsForm"
         [title]="'Main Information'"
         [description]="
-          'Introduce your company core info quickly to users by fill up company details'
+          'Introduce your interest Rate Benchmark core info quickly to users by fill up interest Rate Benchmark details'
         "
+        [formGroup]="addInterestRateBenchmarkLookupsForm"
         [addInterestRateBenchmarksLookupsForm]="true"
+        [editMode]="editMode"
+        (submitForm)="addOrEditInterestRateBenchmark()"
+        [viewOnly]="viewOnly"
       ></app-form>
-
-      <div class="row justify-end">
-        <div
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 padding-right"
-          (click)="addInterestRate()"
-        >
-          <p-button
-            label="Add Interest Rate"
-            class="custom-save m-0 float-right"
-          />
-        </div>
-      </div>
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>

@@ -23,14 +23,14 @@ import {
 } from 'rxjs';
 import { Sectors } from '../../interfaces/sectors.interface';
 import { Store } from '@ngrx/store';
-import { selectAllSectors } from '../../store/sector-drop-down/sector.selectors';
+import { selectAllSectors } from '../../../pages/lookups/store/sector-drop-down/sector.selectors';
 import { SubSectors } from '../../interfaces/sub-sector.interface';
-import { selectAllSubSectors } from '../../store/sub-sector-drop-down/sub-sector.selectors';
+import { selectAllSubSectors } from '../../../pages/lookups/store/sub-sector-drop-down/sub-sector.selectors';
 import { LegalFormLaw } from '../../interfaces/legal-form-law.interface';
-import { LegalFormFacade } from '../../store/legal-forms/legal-form.facade';
+import { LegalFormFacade } from '../../../pages/lookups/store/legal-forms/legal-form.facade';
 import { LegalForm } from '../../interfaces/legal-form.interface';
-import * as sectorsActions from '../../store/sector-drop-down/sector.actions';
-import * as subSectorsActions from '../../store/sub-sector-drop-down/sub-sector.actions';
+import * as sectorsActions from '../../../pages/lookups/store/sector-drop-down/sector.actions';
+import * as subSectorsActions from '../../../pages/lookups/store/sub-sector-drop-down/sub-sector.actions';
 import { setFormDirty } from '../../../pages/crm/clients/store/client-form/client-form.actions';
 import { FileUpload } from 'primeng/fileupload';
 import { LegalFormLawFacade } from '../../../pages/crm/clients/store/legal-form-law/legal-form-law.facade';
@@ -414,6 +414,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addDepartmentManagerORGForm!: boolean;
   @Input() addTeamORGForm!: boolean;
   @Input() addTeamLeadORGForm!: boolean;
+  @Input() addCommunicationFlowTypesLookupsForm!: boolean;
   @Input() addTeamMemberORGForm!: boolean;
   @Input() addRoleORGForm!: boolean;
   @Input() addOperationORGForm!: boolean;
@@ -433,7 +434,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addPaymentMonthDaysLookupsForm!: boolean;
   @Input() addMeetingTypesLookupsForm!: boolean;
   @Input() addInsuredByLookupsForm!: boolean;
-  @Input() addLeasingTypeLookupsForm!: boolean;
+  @Input() addLeasingTypesLookupsForm!: boolean;
   @Input() addMandateValidityUnitLookupsForm!: boolean;
   @Input() addClientDocumentTypesLookupsForm!: boolean;
   @Input() addBranchLookupsForm!: boolean;
@@ -462,7 +463,6 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addcallTypesLookupsForm!: boolean;
   @Input() addCommunicationTypesLookupsForm!: boolean;
   @Input() addCallActionTypeLookupsForm!: boolean;
-  @Input() addCommunicationFlowTypeLookupsForm!: boolean;
   @Input() addClientGuarantorsShowIndividual!: boolean;
   @Input() addClientIdentitiesShowIndividual!: boolean;
   filteredSubSectors$!: Observable<SubSectors[]>;
@@ -867,20 +867,21 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/crm/clients/view-mandate-validity']);
   }
   viewLeasingType() {
-    this.router.navigate(['/crm/clients/view-leasing-type']);
+    this.router.navigate(['/lookups/view-leasing-types']);
   }
   viewInsuredBy() {
-    this.router.navigate(['/crm/clients/view-insured-by']);
+    this.router.navigate(['/lookups/view-insured-by']);
   }
   viewMeetingTypes() {
-    this.router.navigate(['/crm/clients/view-meeting-types']);
+    this.router.navigate(['/lookups/view-meeting-types']);
   }
   viewPaymentMonthDays() {
     this.router.navigate(['/crm/clients/view-payment-month-days']);
   }
   viewPaymentMethod() {
-    this.router.navigate(['/crm/clients/view-payment-method']);
+    this.router.navigate(['/lookups/view-payment-methods']);
   }
+
   viewCurrencyExchange() {
     this.router.navigate(['/crm/clients/view-currency-exchange']);
   }
@@ -891,7 +892,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-rent-structure-types']);
   }
   viewGracePeriod() {
-    this.router.navigate(['/crm/clients/view-grace-period']);
+    this.router.navigate(['/crm/clients/view-grace-period-units']);
   }
   viewFeesTypes() {
     this.router.navigate(['/crm/clients/view-fees-types']);
@@ -1024,7 +1025,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-sub-sector']);
   }
   viewClientTypes() {
-    this.router.navigate(['/crm/clients/view-client-types']);
+    this.router.navigate(['/lookups/view-client-types']);
   }
   viewAuthorityOffices() {
     this.router.navigate(['/crm/clients/view-authority-offices']);
@@ -1042,7 +1043,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/crm/clients/view-countries']);
   }
   viewIdentificationTypes() {
-    this.router.navigate(['/crm/clients/view-identification-types']);
+    this.router.navigate(['/lookups/view-identification-types']);
   }
   viewAreas() {
     this.router.navigate(['/crm/clients/view-areas']);
@@ -1054,13 +1055,13 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-tml-officer-types']);
   }
   viewCommunicationTypes() {
-    this.router.navigate(['/crm/clients/view-communication-types']);
+    this.router.navigate(['/lookups/view-communication-types']);
   }
   viewCallActionType() {
     this.router.navigate(['/crm/clients/view-call-action-type']);
   }
   viewCommunicationFlowType() {
-    this.router.navigate(['/crm/clients/view-communication-flow-type']);
+    this.router.navigate(['/lookups/view-communication-flow-types']);
   }
   viewClientGuarantors() {
     this.router.navigate(['/crm/clients/view-client-guarantor']);

@@ -1,25 +1,41 @@
-<!-- <div class="page-content">
+<div class="page-content">
   <app-toolbar-table
     [title]="'Payment Types'"
-    [labelBtn]="'Add Payment Types'"
-    [backExists]="true"
-    [exports]="true"
+    [labelBtn]="'Add Payment Type'"
+    [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
-    (addBtn)="onAdd()"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddPaymentType()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col1Name]="'Code'"
-    [col2Name]="'Name EN'"
-    [col3Name]="'Name AR'"
-    [col4Name]="'Active'"
-    [edit]="true"
-    [delete]="true"
-    [side]="false"
-    [download]="false"
-    [checkBox]="true"
-    [viewPaymentMethodsTable]="true"
-    [uppercase]="'uppercase'"
-  ></app-table>
-</div> -->
+
+  <ng-container *ngIf="PaymentTypes$ | async as PaymentTypes">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredPaymentType"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewPaymentTypesTable]="true"
+      (onDelete)="onDeletePaymentType($event)"
+      (onEdit)="onEditPaymentType($event)"
+      (viewForm)="onViewPaymentType($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

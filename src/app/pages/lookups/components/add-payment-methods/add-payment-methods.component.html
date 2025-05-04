@@ -1,30 +1,24 @@
 <app-toolbar-form
-  [header]="'Payment Methods'"
+  [header]="editMode ? 'Edit Payment Method' : 'Add Payment Method'"
   [backExists]="true"
-  [viewOnly]="false"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
 ></app-toolbar-form>
 <p-tabs value="0" styleClass="p-3">
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
+        *ngIf="addPaymentMethodsLookupsForm"
         [title]="'Main Information'"
         [description]="
-          'Introduce your company core info quickly to users by fill up company details'
+          'Introduce your payment Method core info quickly to users by fill up payment Method details'
         "
+        [formGroup]="addPaymentMethodsLookupsForm"
         [addPaymentMethodsLookupsForm]="true"
+        [editMode]="editMode"
+        (submitForm)="addOrEditPaymentMethods()"
+        [viewOnly]="viewOnly"
       ></app-form>
-
-      <div class="row justify-end">
-        <div
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 padding-right"
-          (click)="addPaymentMethods()"
-        >
-          <p-button
-            label="Add Payment Method"
-            class="custom-save m-0 float-right"
-          />
-        </div>
-      </div>
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>

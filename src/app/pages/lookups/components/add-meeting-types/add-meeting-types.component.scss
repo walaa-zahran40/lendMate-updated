@@ -74,6 +74,10 @@
       font-family: var(--custom-font-epilogue);
       line-height: var(--custom-line-height-28);
     }
+    .p-tabs {
+      padding: var(--custom-padding-right-10);
+      zoom: 80%;
+    }
     .custom-back .p-button {
       background: var(--custom-background-transparent);
       border: 1px solid var(--p-tabs-active-bar-background);

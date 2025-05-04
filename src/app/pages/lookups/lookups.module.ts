@@ -116,10 +116,38 @@ import { CallTypesEffects } from './store/call-types/call-types.effects';
 import { CurrenciesEffects } from './store/currencies/currencies.effects';
 import { businessLinesReducer } from './store/businessLines/businessLines.reducer';
 import { BusinessLinesEffects } from './store/businessLines/businessLines.effects';
+import { reducer as clientTypesReducer } from './store/client-types/client-types.reducer';
+import { ClientTypesEffects } from './store/client-types/client-types.effects';
+import { reducer as communicationFlowTypesReducer } from './store/communication-flow-types/communication-flow-types.reducer';
+import { CommunicationFlowTypesEffects } from './store/communication-flow-types/communication-flow-types.effects';
+import { reducer as communicationTypesReducer } from './store/communication-types/communication-types.reducer';
+import { CommunicationTypesEffects } from './store/communication-types/communication-types.effects';
+import { reducer as gracePeriodUnitsReducer } from './store/grace-period-units/grace-period-units.reducer';
+import { GracePeriodUnitsEffects } from './store/grace-period-units/grace-period-units.effects';
+import { reducer as IdentificationTypesReducer } from './store/identification-types/identification-types.reducer';
+import { IdentificationTypesEffects } from './store/identification-types/identification-types.effects';
+import { reducer as InsuredByReducer } from './store/insured-by/insured-by.reducer';
+import { InsuredByEffects } from './store/insured-by/insured-by.effects';
+import { reducer as InterestRateBenchmarksReducer } from './store/interest-rate-benchmarks/interest-rate-benchmarks.reducer';
+import { InterestRateBenchMarksEffects } from './store/interest-rate-benchmarks/interest-rate-benchmarks.effects';
+import { reducer as LeasingTypesReducer } from './store/leasing-types/leasing-types.reducer';
+import { LeasingTypesEffects } from './store/leasing-types/leasing-types.effects';
+import { reducer as MeetingTypesReducer } from './store/meeting-types/meeting-types.reducer';
+import { MeetingTypesEffects } from './store/meeting-types/meeting-types.effects';
+import { ViewMeetingTypesComponent } from './components/view-meeting-types/view-meeting-types.component';
+import { reducer as PaymentMethodsReducer } from './store/payment-methods/payment-methods.reducer';
+import { PaymentMethodsEffects } from './store/payment-methods/payment-methods.effects';
+import { ViewPaymentTypesComponent } from './components/view-payment-types/view-payment-types.component';
+import { reducer as PaymentTypesReducer } from './store/payment-types/payment-types.reducer';
+import { PaymentTypesEffects } from './store/payment-types/payment-types.effects';
 import { AssetTypeCategoriesEffects } from './store/asset-type-categories/asset-type-categories.effects';
 import { assetTypeCategoriesReducer } from './store/asset-type-categories/asset-type-categories.reducer';
 import { AssetTypesEffects } from './store/asset-types/asset-types.effects';
 import { assetTypesReducer } from './store/asset-types/asset-types.reducer';
+import { reducer as PhoneTypesReducer } from './store/phone-types/phone-types.reducer';
+import { PhoneTypesEffects } from './store/phone-types/phone-types.effects';
+import { reducer as RentStructureTypesReducer } from './store/rent-structure-types/rent-structure-types.reducer';
+import { RentStructureTypesEffects } from './store/rent-structure-types/rent-structure-types.effects';
 
 @NgModule({
   declarations: [
@@ -170,6 +198,7 @@ import { assetTypesReducer } from './store/asset-types/asset-types.reducer';
     ViewCompanyTypesComponent,
     ViewFeesCalculationTypesComponent,
     ViewMandateStatusesComponent,
+    ViewMeetingTypesComponent,
     ViewInterestRateBenchmarksComponent,
     ViewFeeTypesComponent,
     ViewGracePeriodUnitsComponent,
@@ -180,6 +209,7 @@ import { assetTypesReducer } from './store/asset-types/asset-types.reducer';
     ViewPaymentMethodsComponent,
     ViewInsuredByComponent,
     ViewLeasingTypeComponent,
+    ViewPaymentTypesComponent,
     ViewMandateValidityUnitComponent,
     ViewClientDocumentTypesComponent,
     ViewBranchComponent,
@@ -240,10 +270,42 @@ import { assetTypesReducer } from './store/asset-types/asset-types.reducer';
     EffectsModule.forFeature([CallTypesEffects]),
     StoreModule.forFeature('businessLines', businessLinesReducer),
     EffectsModule.forFeature([BusinessLinesEffects]),
+    StoreModule.forFeature('clientTypes', clientTypesReducer),
+    EffectsModule.forFeature([ClientTypesEffects]),
+    StoreModule.forFeature(
+      'communicationFlowTypes',
+      communicationFlowTypesReducer
+    ),
+    EffectsModule.forFeature([CommunicationFlowTypesEffects]),
+    StoreModule.forFeature('communicationTypes', communicationTypesReducer),
+    EffectsModule.forFeature([CommunicationTypesEffects]),
+    StoreModule.forFeature('gracePeriodUnits', gracePeriodUnitsReducer),
+    EffectsModule.forFeature([GracePeriodUnitsEffects]),
+    StoreModule.forFeature('identificationTypes', IdentificationTypesReducer),
+    EffectsModule.forFeature([IdentificationTypesEffects]),
+    StoreModule.forFeature('insuredBy', InsuredByReducer),
+    EffectsModule.forFeature([InsuredByEffects]),
+    StoreModule.forFeature(
+      'interestRateBenchmarks',
+      InterestRateBenchmarksReducer
+    ),
+    EffectsModule.forFeature([InterestRateBenchMarksEffects]),
+    StoreModule.forFeature('leasingTypes', LeasingTypesReducer),
+    EffectsModule.forFeature([LeasingTypesEffects]),
+    StoreModule.forFeature('meetingTypes', MeetingTypesReducer),
+    EffectsModule.forFeature([MeetingTypesEffects]),
+    StoreModule.forFeature('paymentMethods', PaymentMethodsReducer),
+    EffectsModule.forFeature([PaymentMethodsEffects]),
+    StoreModule.forFeature('paymentTypes', PaymentTypesReducer),
+    EffectsModule.forFeature([PaymentTypesEffects]),
     StoreModule.forFeature('assetTypeCategories', assetTypeCategoriesReducer),
     EffectsModule.forFeature([AssetTypeCategoriesEffects]),
     StoreModule.forFeature('assetTypes', assetTypesReducer),
     EffectsModule.forFeature([AssetTypesEffects]),
+    StoreModule.forFeature('phoneTypes', PhoneTypesReducer),
+    EffectsModule.forFeature([PhoneTypesEffects]),
+    StoreModule.forFeature('rentStructureTypes', RentStructureTypesReducer),
+    EffectsModule.forFeature([RentStructureTypesEffects]),
   ],
   exports: [
     AddTmlOfficerTypesComponent,

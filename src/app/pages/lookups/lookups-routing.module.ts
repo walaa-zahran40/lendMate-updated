@@ -94,7 +94,6 @@ import { ViewCommunicationFlowTypeComponent } from './components/view-communicat
 import { ViewFeesRangeComponent } from './components/view-fees-range/view-fees-range.component';
 import { AddFeesRangeComponent } from './components/add-fees-range/add-fees-range.component';
 
-
 const routes: Routes = [
   //Company Types
   {
@@ -203,20 +202,20 @@ const routes: Routes = [
     component: ViewAssetTypeCategoriesComponent,
   },
 
-    //Asset Type 
-    {
-      path: 'add-asset-types',
-      component: AddAssetTypesComponent,
-    },
-    {
-      path: 'edit-asset-types/:id',
-      component: AddAssetTypesComponent,
-    },
-  
-    {
-      path: 'view-asset-types',
-      component: ViewAssetTypesComponent,
-    },
+  //Asset Types
+  {
+    path: 'add-asset-types',
+    component: AddAssetTypesComponent,
+  },
+  {
+    path: 'edit-asset-types/:id',
+    component: AddAssetTypesComponent,
+  },
+
+  {
+    path: 'view-asset-types',
+    component: ViewAssetTypesComponent,
+  },
 
   //Call Types
   {
@@ -231,43 +230,8 @@ const routes: Routes = [
     path: 'view-call-types',
     component: ViewCallTypesComponent,
   },
-  //---
-  {
-    path: 'add-mandate-statuses',
-    component: AddMandateStatusesComponent,
-  },
-  {
-    path: 'add-interest-rate-benchmarks',
-    component: AddInterestRateBenchmarksComponent,
-  },
-  {
-    path: 'add-fees-types',
-    component: AddFeeTypesComponent,
-  },
-  {
-    path: 'add-grace-period-units',
-    component: AddGracePeriodUnitsComponent,
-  },
-  {
-    path: 'add-rent-structure-types',
-    component: AddRentStructureTypesComponent,
-  },
 
-  //Currencies
-  {
-    path: 'add-currencies',
-    component: AddCurrenciesComponent,
-  },
-  {
-    path: 'edit-currencies/:id',
-    component: AddCurrenciesComponent,
-  },
-  {
-    path: 'view-curriences',
-    component: ViewCurrenciesComponent,
-  },
-
-  //BusinessLine
+  //Business Lines
   {
     path: 'add-business-lines',
     component: AddBusinessLinesComponent,
@@ -280,35 +244,196 @@ const routes: Routes = [
     path: 'view-business-lines',
     component: ViewBusinessLinesComponent,
   },
-
+  //Client Types
   {
-    path: 'add-currencies-exchange',
-    component: AddCurrenciesExchangeComponent,
+    path: 'add-client-types',
+    component: AddClientTypesComponent,
   },
   {
-    path: 'add-payment-methods',
-    component: AddPaymentMethodsComponent,
+    path: 'edit-client-types/:id',
+    component: AddClientTypesComponent,
   },
   {
-    path: 'add-payment-types',
-    component: AddPaymentTypesComponent,
+    path: 'view-client-types',
+    component: ViewClientTypesComponent,
+  },
+  //Communication Flow Types
+  {
+    path: 'add-communication-flow-types',
+    component: AddCommunicationFlowTypesComponent,
   },
   {
-    path: 'add-payment-month-days',
-    component: AddPaymentMonthDaysComponent,
+    path: 'edit-communication-flow-types/:id',
+    component: AddCommunicationFlowTypesComponent,
   },
   {
-    path: 'add-meeting-types',
-    component: AddMeetingTypesComponent,
+    path: 'view-communication-flow-types',
+    component: ViewCommunicationFlowTypeComponent,
   },
+  //Communication Types
+  {
+    path: 'add-communication-types',
+    component: AddCommunicationTypesComponent,
+  },
+  {
+    path: 'edit-communication-types/:id',
+    component: AddCommunicationTypesComponent,
+  },
+  {
+    path: 'view-communication-types',
+    component: ViewCommunicationTypesComponent,
+  },
+  //Grace period units
+  {
+    path: 'add-grace-period-units',
+    component: AddGracePeriodUnitsComponent,
+  },
+  {
+    path: 'edit-grace-period-units/:id',
+    component: AddGracePeriodUnitsComponent,
+  },
+  {
+    path: 'view-grace-period-units',
+    component: ViewGracePeriodUnitsComponent,
+  },
+  //Identification Types
+  {
+    path: 'add-identification-types',
+    component: AddIdentificationTypesComponent,
+  },
+  {
+    path: 'edit-identification-types/:id',
+    component: AddIdentificationTypesComponent,
+  },
+  {
+    path: 'view-identification-types',
+    component: ViewIdentificationTypesComponent,
+  },
+  //Insured By
   {
     path: 'add-insured-by',
     component: AddInsuredByComponent,
   },
   {
-    path: 'add-leasing-type',
+    path: 'edit-insured-by/:id',
+    component: AddInsuredByComponent,
+  },
+  {
+    path: 'view-insured-by',
+    component: ViewInsuredByComponent,
+  },
+  //Interest Rate Benchmark
+  {
+    path: 'add-interest-rate-benchmarks',
+    component: AddInterestRateBenchmarksComponent,
+  },
+  {
+    path: 'edit-interest-rate-benchmarks/:id',
+    component: AddInterestRateBenchmarksComponent,
+  },
+  {
+    path: 'view-interest-rate-benchmarks',
+    component: ViewInterestRateBenchmarksComponent,
+  },
+  //Leasing Types
+  {
+    path: 'add-leasing-types',
     component: AddLeasingTypeComponent,
   },
+  {
+    path: 'edit-leasing-types/:id',
+    component: AddLeasingTypeComponent,
+  },
+  {
+    path: 'view-leasing-types',
+    component: ViewLeasingTypeComponent,
+  },
+  //Meeting Types
+  {
+    path: 'add-meeting-types',
+    component: AddMeetingTypesComponent,
+  },
+  {
+    path: 'edit-meeting-types/:id',
+    component: AddMeetingTypesComponent,
+  },
+  {
+    path: 'view-meeting-types',
+    component: ViewMeetingTypesComponent,
+  },
+  //Payment Methods
+  {
+    path: 'add-payment-methods',
+    component: AddPaymentMethodsComponent,
+  },
+  {
+    path: 'edit-payment-methods/:id',
+    component: AddPaymentMethodsComponent,
+  },
+  {
+    path: 'view-payment-methods',
+    component: ViewPaymentMethodsComponent,
+  },
+  //Payment Types
+  {
+    path: 'add-payment-types',
+    component: AddPaymentTypesComponent,
+  },
+  {
+    path: 'edit-payment-types/:id',
+    component: AddPaymentTypesComponent,
+  },
+  {
+    path: 'view-payment-types',
+    component: ViewPaymentTypesComponent,
+  },
+  //Phone Types
+  {
+    path: 'add-phone-types',
+    component: AddPhoneTypesComponent,
+  },
+  {
+    path: 'edit-phone-types/:id',
+    component: AddPhoneTypesComponent,
+  },
+  {
+    path: 'view-phone-types',
+    component: ViewPhoneTypesComponent,
+  },
+  //Rent Structure Types
+  {
+    path: 'add-rent-structure-types',
+    component: AddRentStructureTypesComponent,
+  },
+  {
+    path: 'edit-rent-structure-types/:id',
+    component: AddRentStructureTypesComponent,
+  },
+  {
+    path: 'view-rent-structure-types',
+    component: ViewRentStructureTypesComponent,
+  },
+  //----
+  {
+    path: 'add-mandate-statuses',
+    component: AddMandateStatusesComponent,
+  },
+
+  {
+    path: 'add-fees-types',
+    component: AddFeeTypesComponent,
+  },
+
+  {
+    path: 'add-currencies-exchange',
+    component: AddCurrenciesExchangeComponent,
+  },
+
+  {
+    path: 'add-payment-month-days',
+    component: AddPaymentMonthDaysComponent,
+  },
+
   {
     path: 'add-mandate-validity-unit',
     component: AddMandateValidityUnitComponent,
@@ -366,15 +491,6 @@ const routes: Routes = [
     path: 'add-sub-sectors',
     component: AddSubSectorsComponent,
   },
-  {
-    path: 'add-client-types',
-    component: AddClientTypesComponent,
-  },
-
-  {
-    path: 'add-phone-types',
-    component: AddPhoneTypesComponent,
-  },
 
   {
     path: 'add-governorates',
@@ -388,10 +504,7 @@ const routes: Routes = [
     path: 'add-fees-range',
     component: AddFeesRangeComponent,
   },
-  {
-    path: 'add-identification-types',
-    component: AddIdentificationTypesComponent,
-  },
+
   {
     path: 'add-areas',
     component: AddAreasComponent,
@@ -406,23 +519,10 @@ const routes: Routes = [
   },
 
   {
-    path: 'add-communication-types',
-    component: AddCommunicationTypesComponent,
-  },
-
-  {
-    path: 'add-communication-flow-type',
-    component: AddCommunicationFlowTypesComponent,
-  },
-
-  {
     path: 'view-mandate-statuses',
     component: ViewMandateStatusesComponent,
   },
-  {
-    path: 'view-interest-rate-benchmarks',
-    component: ViewInterestRateBenchmarksComponent,
-  },
+
   {
     path: 'view-fee-types',
     component: ViewFeeTypesComponent,
@@ -435,39 +535,17 @@ const routes: Routes = [
     path: 'view-grace-period-units',
     component: ViewGracePeriodUnitsComponent,
   },
-  {
-    path: 'view-rent-structure-types',
-    component: ViewRentStructureTypesComponent,
-  },
 
   {
     path: 'view-currency-exchange-rate',
     component: ViewCurrencyExchangeComponent,
   },
-  {
-    path: 'view-payment-methods',
-    component: ViewPaymentMethodsComponent,
-  },
-  {
-    path: 'view-payment-types',
-    component: ViewPaymentTypesComponent,
-  },
+
   {
     path: 'view-payment-month-days',
     component: ViewPaymentMonthDaysComponent,
   },
-  {
-    path: 'view-meeting-types',
-    component: ViewMeetingTypesComponent,
-  },
-  {
-    path: 'view-insured-by',
-    component: ViewInsuredByComponent,
-  },
-  {
-    path: 'view-leasing-type',
-    component: ViewLeasingTypeComponent,
-  },
+
   {
     path: 'view-mandate-validity-unit',
     component: ViewMandateValidityUnitComponent,
@@ -521,15 +599,6 @@ const routes: Routes = [
     path: 'view-sub-sector',
     component: ViewSubSectorComponent,
   },
-  {
-    path: 'view-client-types',
-    component: ViewClientTypesComponent,
-  },
-
-  {
-    path: 'view-phone-types',
-    component: ViewPhoneTypesComponent,
-  },
 
   {
     path: 'view-governorates',
@@ -539,10 +608,7 @@ const routes: Routes = [
     path: 'view-countries',
     component: ViewCountriesComponent,
   },
-  {
-    path: 'view-identification-types',
-    component: ViewIdentificationTypesComponent,
-  },
+
   {
     path: 'view-areas',
     component: ViewAreasComponent,
@@ -556,15 +622,6 @@ const routes: Routes = [
     component: ViewTmlOfficerTypesComponent,
   },
 
-  {
-    path: 'view-communication-types',
-    component: ViewCommunicationTypesComponent,
-  },
-
-  {
-    path: 'view-communication-flow-type',
-    component: ViewCommunicationFlowTypeComponent,
-  },
   {
     path: 'wizard-currencies',
     component: WizardCurrenciesComponent,

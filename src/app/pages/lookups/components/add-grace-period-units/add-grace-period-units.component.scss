@@ -152,6 +152,10 @@
       }
     }
   }
+  .p-tabs {
+    padding: var(--custom-padding-right-10);
+    zoom: 80%;
+  }
 }
 h2 {
   font-family: var(--custom-font-epilogue-regular);

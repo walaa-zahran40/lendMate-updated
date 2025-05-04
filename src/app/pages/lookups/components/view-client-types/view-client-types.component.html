@@ -1,24 +1,43 @@
 <div class="page-content">
   <app-toolbar-table
     [title]="'Client Types'"
-    [labelBtn]="'Add Client Types'"
-    [backExists]="true"
-    [exports]="true"
+    [labelBtn]="'Add Client Type'"
+    [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddClientType()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col1Name]="'Code'"
-    [col2Name]="'English Name'"
-    [col3Name]="'Arabic Name'"
-    [col4Name]="'Active'"
-    [edit]="true"
-    [delete]="true"
-    [side]="false"
-    [download]="false"
-    [checkBox]="true"
-    [viewSubSectorTable]="true"
-    [uppercase]="'uppercase'"
-  ></app-table>
+
+  <!-- subscribe once to clientTypes$ -->
+  <ng-container *ngIf="clientTypes$ | async as clientTypes">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredClientTypes"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewClientTypesTable]="true"
+      (onDelete)="onDeleteClientTypeId($event)"
+      (onEdit)="onEditClientType($event)"
+      (viewForm)="onViewClientType($event)"
+    ></app-table>
+
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
 </div>
