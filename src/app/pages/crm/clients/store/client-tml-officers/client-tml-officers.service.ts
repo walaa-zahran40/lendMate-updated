@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ClientTMLOfficersService {
-  private apiUrl = 'https://192.168.10.67:7070/api/ClientTMLOfficer';
+  private apiUrl = `${environment.apiUrl}ClientTMLOfficer`;
 
   constructor(private http: HttpClient) {}
 

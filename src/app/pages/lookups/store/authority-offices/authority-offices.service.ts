@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
 import { AuthorityOffice } from './authority-offices.model';
+import { environment } from '../../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthorityOfficesService {
-  private baseUrl = 'https://192.168.10.67:7070/api/CRAuthorityOffices';
+  private baseUrl = `${environment.apiUrl}CRAuthorityOffices`;
 
   constructor(private http: HttpClient) {}
 

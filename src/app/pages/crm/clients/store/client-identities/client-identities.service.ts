@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../../../../environments/environment';
 
 export interface ClientIdentity {
   id: number;
@@ -18,7 +19,7 @@ export interface PagedResult<T> {
 
 @Injectable({ providedIn: 'root' })
 export class ClientIdentitiesService {
-  private baseUrl = 'https://192.168.10.67:7070/api/ClientIdentities';
+  private baseUrl = `${environment.apiUrl}ClientIdentities`;
 
   constructor(private http: HttpClient) {}
 

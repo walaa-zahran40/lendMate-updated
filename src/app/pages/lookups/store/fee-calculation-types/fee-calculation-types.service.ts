@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
 import { FeeCalculationType } from './fee-calculation-types.model';
+import { environment } from '../../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class FeeCalculationTypesService {
-  private baseUrl = 'https://192.168.10.67:7070/api/FeeCalculationTypes';
+  private baseUrl = `${environment.apiUrl}FeeCalculationTypes`;
 
   constructor(private http: HttpClient) {}
 

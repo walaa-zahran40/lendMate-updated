@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
 import { RentStructureType } from './rent-structure-type.model';
+import { environment } from '../../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class RentStructureTypesService {
-  private baseUrl = 'https://192.168.10.67:7070/api/RentStructureTypes';
+  private baseUrl = `${environment.apiUrl}RentStructureTypes`;
 
   constructor(private http: HttpClient) {}
 

@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Shareholder } from './client-share-holders.model';
+import { environment } from '../../../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ClientShareholdersService {
-  private baseUrl = 'https://192.168.10.67:7070/api/ClientShareHolders';
+  private baseUrl = `${environment.apiUrl}ClientShareHolders`;
 
   constructor(private http: HttpClient) {}
   getAllShareholders(): Observable<Shareholder[]> {

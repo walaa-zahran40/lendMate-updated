@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
 import { MeetingType } from './meeting-type.model';
+import { environment } from '../../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class MeetingTypesService {
-  private baseUrl = 'https://192.168.10.67:7070/api/MeetingTypes';
+  private baseUrl = `${environment.apiUrl}MeetingTypes`;
 
   constructor(private http: HttpClient) {}
 

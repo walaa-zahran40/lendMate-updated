@@ -3,12 +3,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ClientGuarantorsService {
-  private apiUrl = 'https://192.168.10.67:7070/api/ClientGuarantors';
+  private apiUrl = `${environment.apiUrl}ClientGuarantors`;
 
   constructor(private http: HttpClient) {}
 

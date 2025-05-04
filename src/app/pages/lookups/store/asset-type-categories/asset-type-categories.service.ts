@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AssetTypeCategory } from './asset-type-category.model';
+import { environment } from '../../../../../environments/environment';
 
 interface PagedResponse<T> {
   items: T[];
@@ -10,7 +11,7 @@ interface PagedResponse<T> {
 
 @Injectable({ providedIn: 'root' })
 export class AssetTypeCategoriesService {
-  private api = 'https://192.168.10.67:7070/api/AssetTypeCategories';
+  private api = `${environment.apiUrl}AssetTypeCategories`;
 
   constructor(private http: HttpClient) {}
 
@@ -32,14 +33,22 @@ export class AssetTypeCategoriesService {
   }
 
   getById(id: number): Observable<AssetTypeCategory> {
-    return this.http.get<AssetTypeCategory>(`${this.api}/AssetTypeCategoryId?id=${id}`);
+    return this.http.get<AssetTypeCategory>(
+      `${this.api}/AssetTypeCategoryId?id=${id}`
+    );
   }
 
   create(data: Partial<AssetTypeCategory>): Observable<AssetTypeCategory> {
-    return this.http.post<AssetTypeCategory>(`${this.api}/CreateAssetTypeCategory`, data);
+    return this.http.post<AssetTypeCategory>(
+      `${this.api}/CreateAssetTypeCategory`,
+      data
+    );
   }
 
-  update(id: number, data: Partial<AssetTypeCategory>): Observable<AssetTypeCategory> {
+  update(
+    id: number,
+    data: Partial<AssetTypeCategory>
+  ): Observable<AssetTypeCategory> {
     return this.http.put<AssetTypeCategory>(`${this.api}/${id}`, data);
   }
 

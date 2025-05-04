@@ -2,12 +2,13 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { Document } from '../../../../../shared/interfaces/document.interface';
+import { environment } from '../../../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DocumentsService {
-  private baseUrl = 'https://192.168.10.67:7070/api/ClientFiles/';
+  private baseUrl = `${environment.apiUrl}ClientFiles/`;
 
   constructor(private http: HttpClient) {}
 

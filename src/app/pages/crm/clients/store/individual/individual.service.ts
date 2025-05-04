@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Individual } from './individual.state';
+import { environment } from '../../../../../../environments/environment';
 export interface Paginated<T> {
   items: T[];
   totalCount: number;
@@ -11,8 +12,7 @@ export interface Paginated<T> {
   providedIn: 'root',
 })
 export class IndividualService {
-  private baseUrl =
-    'https://192.168.10.67:7070/api/ClientIndividualBusinessDetails';
+  private baseUrl = `${environment.apiUrl}ClientIndividualBusinessDetails`;
 
   constructor(private http: HttpClient) {}
 

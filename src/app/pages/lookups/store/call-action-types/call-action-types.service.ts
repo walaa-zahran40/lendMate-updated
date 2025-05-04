@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
 import { CallActionType } from './call-action-type.model';
+import { environment } from '../../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class CallActionTypesService {
-  private baseUrl = 'https://192.168.10.67:7070/api/CallActionTypes';
+  private baseUrl = `${environment.apiUrl}CallActionTypes`;
 
   constructor(private http: HttpClient) {}
 

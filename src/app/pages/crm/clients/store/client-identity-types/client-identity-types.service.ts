@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ClientIdentityType } from './client-identity-type.model';
+import { environment } from '../../../../../../environments/environment';
 
 interface PagedResult<T> {
   items: T[];
@@ -10,7 +11,7 @@ interface PagedResult<T> {
 
 @Injectable({ providedIn: 'root' })
 export class ClientIdentityTypesService {
-  private base = 'https://192.168.10.67:7070/api/ClientIdentityTypes';
+  private base = `${environment.apiUrl}ClientIdentityTypes`;
 
   constructor(private http: HttpClient) {}
 

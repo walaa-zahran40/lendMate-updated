@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AssetType } from './asset-type.model';
+import { environment } from '../../../../../environments/environment';
 
 interface PagedResponse<T> {
   items: T[];
@@ -10,7 +11,7 @@ interface PagedResponse<T> {
 
 @Injectable({ providedIn: 'root' })
 export class AssetTypesService {
-  private api = 'https://192.168.10.67:7070/api/AssetTypes';
+  private api = `${environment.apiUrl}AssetTypes`;
 
   constructor(private http: HttpClient) {}
 

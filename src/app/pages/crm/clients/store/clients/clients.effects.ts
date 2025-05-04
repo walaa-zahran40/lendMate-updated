@@ -15,6 +15,7 @@ import { Client } from '../../../../../shared/interfaces/client.interface';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ClientService } from './client.service';
+import { environment } from '../../../../../../environments/environment';
 @Injectable()
 export class ClientsEffects {
   constructor(
@@ -68,7 +69,7 @@ export class ClientsEffects {
       mergeMap(() =>
         this.http
           .get<{ items: Client[] }>(
-            'https://192.168.10.67:7070/api/Clients/GetAllClients'
+            `${environment.apiUrl}Clients/GetAllClients`
           )
           .pipe(
             map((response) =>
