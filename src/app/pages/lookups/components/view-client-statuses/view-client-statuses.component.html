@@ -20,7 +20,7 @@
       [tableData]="filteredClientStatuses"
       [edit]="true"
       [delete]="true"
-      [side]="false"
+      [side]="true"
       [first]="first2"
       [checkBox]="true"
       [view]="true"
@@ -29,6 +29,7 @@
       [viewClientStatusesTable]="true"
       (onDelete)="onDeleteClientStatus($event)"
       (onEdit)="onEditClientStatus($event)"
+      (wizardBtn)="onAddSide($event)"
       (viewForm)="onViewClientStatus($event)"
     ></app-table>
     <app-delete-module

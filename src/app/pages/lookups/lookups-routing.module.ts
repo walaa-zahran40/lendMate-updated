@@ -532,10 +532,6 @@ const routes: Routes = [
   },
 
   {
-    path: 'add-client-statuses',
-    component: AddClientStatusesComponent,
-  },
-  {
     path: 'add-client-status-actions',
     component: AddClientStatusActionsComponent,
   },
@@ -633,10 +629,6 @@ const routes: Routes = [
   },
 
   {
-    path: 'view-client-statuses',
-    component: ViewClientStatusesComponent,
-  },
-  {
     path: 'view-client-status',
     component: ViewClientStatusComponent,
   },
@@ -667,15 +659,14 @@ const routes: Routes = [
     component: ViewTmlOfficerTypesComponent,
   },
 
-  {
-    path: 'wizard-client-status',
-    component: WizardClientStatusComponent,
-  },
-
   //Client status
   {
     path: 'add-client-statuses',
     component: AddClientStatusesComponent,
+  },
+  {
+    path: 'view-client-status-actions/:clientStatusId',
+    component: ViewClientStatusComponent,
   },
   {
     path: 'edit-client-statuses/:id',
@@ -684,6 +675,10 @@ const routes: Routes = [
   {
     path: 'view-client-statuses',
     component: ViewClientStatusesComponent,
+  },
+  {
+    path: 'wizard-client-status/:clientStatusId',
+    component: WizardClientStatusComponent,
   },
 ];
 
