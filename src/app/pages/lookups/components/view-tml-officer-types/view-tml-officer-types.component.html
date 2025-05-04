@@ -1,25 +1,41 @@
 <div class="page-content">
   <app-toolbar-table
-    [title]="'TML Officer Type'"
-    [labelBtn]="'Add TML Officer Type'"
-    [backExists]="true"
-    [exports]="true"
+    [title]="'Tml Officer Types'"
+    [labelBtn]="'Add Tml Officer Type'"
+    [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
-    (addBtn)="onAdd()"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddTmlOfficerType()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col1Name]="'Code'"
-    [col2Name]="'Name EN'"
-    [col3Name]="'Name AR'"
-    [col4Name]="'Active'"
-    [edit]="true"
-    [delete]="true"
-    [side]="false"
-    [download]="false"
-    [checkBox]="true"
-    [viewSubSectorTable]="true"
-    [uppercase]="'uppercase'"
-  ></app-table>
+
+  <ng-container *ngIf="TmlOfficerTypes$ | async as TmlOfficerTypes">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredTmlOfficerType"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewTMLOfficerTypeLookupsTable]="true"
+      (onDelete)="onDeleteTmlOfficerType($event)"
+      (onEdit)="onEditTmlOfficerType($event)"
+      (viewForm)="onViewTmlOfficerType($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
 </div>

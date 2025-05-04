@@ -152,6 +152,8 @@ import { CountriesEffects } from './store/countries/countries.effects';
 import { countriesReducer } from './store/countries/countries.reducer';
 import { reducer as SectorsReducer } from './store/sectors/sectors.reducer';
 import { SectorsEffects } from './store/sectors/sectors.effects';
+import { reducer as TmlOfficerTypesReducer } from './store/tml-officer-types/tml-officer-types.reducer';
+import { TmlOfficerTypesEffects } from './store/tml-officer-types/tml-officer-types.effects';
 
 @NgModule({
   declarations: [
@@ -314,6 +316,8 @@ import { SectorsEffects } from './store/sectors/sectors.effects';
     EffectsModule.forFeature([CountriesEffects]),
     StoreModule.forFeature('sectors', SectorsReducer),
     EffectsModule.forFeature([SectorsEffects]),
+    StoreModule.forFeature('tmlOfficerTypes', TmlOfficerTypesReducer),
+    EffectsModule.forFeature([TmlOfficerTypesEffects]),
   ],
   exports: [
     AddTmlOfficerTypesComponent,

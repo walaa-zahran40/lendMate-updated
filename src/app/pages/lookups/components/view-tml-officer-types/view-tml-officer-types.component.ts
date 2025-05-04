@@ -1,5 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subject, Observable, take, takeUntil } from 'rxjs';
+import { TableComponent } from '../../../../shared/components/table/table.component';
+import { TmlOfficerType } from '../../store/tml-officer-types/tml-officer-type.model';
+import { TmlOfficerTypesFacade } from '../../store/tml-officer-types/tml-officer-types.facade';
 
 @Component({
   selector: 'app-view-tml-officer-types',
@@ -8,74 +12,122 @@ import { Router } from '@angular/router';
   styleUrl: './view-tml-officer-types.component.scss',
 })
 export class ViewTmlOfficerTypesComponent {
-  tableDataInside: any;
-  colsInside: any[] = [];
-  constructor(private router: Router) {}
+  tableDataInside: TmlOfficerType[] = [];
+  first2: number = 0;
+  private destroy$ = new Subject<void>();
+  rows: number = 10;
+  showFilters: boolean = false;
+  @ViewChild('tableRef') tableRef!: TableComponent;
+
+  readonly colsInside = [
+    { field: 'name', header: 'Name EN' },
+    { field: 'nameAR', header: 'Name AR' },
+  ];
+  showDeleteModal: boolean = false;
+  selectedTmlOfficerTypeId: number | null = null;
+  originalTmlOfficerType: TmlOfficerType[] = [];
+  filteredTmlOfficerType: TmlOfficerType[] = [];
+  TmlOfficerTypes$!: Observable<TmlOfficerType[]>;
+
+  constructor(private router: Router, private facade: TmlOfficerTypesFacade) {}
   ngOnInit() {
-    this.colsInside = [
-      { field: 'code', header: 'Code' },
-      { field: 'nameEN', header: 'Name EN' },
-      { field: 'nameAR', header: 'Name AR' },
-      { field: 'active', header: 'Active' },
-    ];
-    this.tableDataInside = [
-      {
-        code: 344535,
-        nameEN: 'Name',
-        nameAR: 'Name in Arabic',
-        active: true,
-      },
-      {
-        code: 344535,
-        nameEN: 'Name',
-        nameAR: 'Name in Arabic',
-        active: true,
-      },
-      {
-        code: 344535,
-        nameEN: 'Name',
-        nameAR: 'Name in Arabic',
-        active: true,
-      },
-      {
-        code: 344535,
-        nameEN: 'Name',
-        nameAR: 'Name in Arabic',
-        active: true,
-      },
-      {
-        code: 344535,
-        nameEN: 'Name',
-        nameAR: 'Name in Arabic',
-        active: true,
-      },
-      {
-        code: 344535,
-        nameEN: 'Name',
-        nameAR: 'Name in Arabic',
-        active: true,
-      },
-      {
-        code: 344535,
-        nameEN: 'Name',
-        nameAR: 'Name in Arabic',
-        active: true,
-      },
-      {
-        code: 344535,
-        nameEN: 'Name',
-        nameAR: 'Name in Arabic',
-        active: true,
-      },
-      {
-        code: 344535,
-        nameEN: 'Name',
-        nameAR: 'Name in Arabic',
-        active: true,
-      },
-    ];
+    console.log('🟢 ngOnInit: start');
+    this.TmlOfficerTypes$ = this.facade.all$;
+    console.log('🟢 before loadAll, current store value:');
+    this.TmlOfficerTypes$.pipe(take(1)).subscribe((v) =>
+      console.log('   store currently has:', v)
+    );
+    console.log('🟢 Calling loadAll() to fetch TmlOfficerTypes');
+    this.facade.loadAll();
+
+    this.TmlOfficerTypes$?.pipe(takeUntil(this.destroy$)).subscribe(
+      (TmlOfficerTypes) => {
+        console.log(
+          '🟢 subscribe: received TmlOfficerTypes array:',
+          TmlOfficerTypes
+        );
+
+        // preserve immutability, then sort by id descending
+        const sorted = [...TmlOfficerTypes].sort((a, b) => b.id - a.id);
+        console.log('🟢 sorted (by id desc):', sorted);
+
+        this.originalTmlOfficerType = sorted;
+        console.log(
+          '🟢 originalTmlOfficerType set to:',
+          this.originalTmlOfficerType
+        );
+
+        this.filteredTmlOfficerType = [...sorted];
+        console.log(
+          '🟢 filteredTmlOfficerType set to:',
+          this.filteredTmlOfficerType
+        );
+      }
+    );
   }
-  onAdd() {
+
+  onAddTmlOfficerType() {
     this.router.navigate(['/lookups/add-tml-officer-types']);
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+  onDeleteTmlOfficerType(TmlOfficerTypeId: any): void {
+    console.log(
+      '[View] onDeleteTmlOfficerType() – opening modal for id=',
+      TmlOfficerTypeId
+    );
+    this.selectedTmlOfficerTypeId = TmlOfficerTypeId;
+    this.showDeleteModal = true;
+  }
+
+  confirmDelete() {
+    console.log(
+      '[View] confirmDelete() – about to dispatch delete for id=',
+      this.selectedTmlOfficerTypeId
+    );
+    if (this.selectedTmlOfficerTypeId !== null) {
+      this.facade.delete(this.selectedTmlOfficerTypeId);
+      console.log('[View] confirmDelete() – facade.delete() called');
+    } else {
+      console.warn('[View] confirmDelete() – no id to delete');
+    }
+    this.resetDeleteModal();
+  }
+  cancelDelete() {
+    this.resetDeleteModal();
+  }
+
+  resetDeleteModal() {
+    console.log('[View] resetDeleteModal() – closing modal and clearing id');
+    this.showDeleteModal = false;
+    this.selectedTmlOfficerTypeId = null;
+  }
+  onSearch(keyword: string) {
+    const lower = keyword.toLowerCase();
+    this.filteredTmlOfficerType = this.originalTmlOfficerType.filter(
+      (TmlOfficerTypes) =>
+        Object.values(TmlOfficerTypes).some((val) =>
+          val?.toString().toLowerCase().includes(lower)
+        )
+    );
+  }
+  onToggleFilters(value: boolean) {
+    this.showFilters = value;
+  }
+  onEditTmlOfficerType(TmlOfficerType: TmlOfficerType) {
+    this.router.navigate(
+      ['/lookups/edit-tml-officer-types', TmlOfficerType.id],
+      {
+        queryParams: { mode: 'edit' },
+      }
+    );
+  }
+  onViewTmlOfficerType(ct: TmlOfficerType) {
+    this.router.navigate(['/lookups/edit-tml-officer-types', ct.id], {
+      queryParams: { mode: 'view' },
+    });
   }
 }

@@ -186,6 +186,19 @@ const routes: Routes = [
     path: 'view-sectors',
     component: ViewSectorsComponent,
   },
+  //tml officers
+  {
+    path: 'add-tml-officer-types',
+    component: AddTmlOfficerTypesComponent,
+  },
+  {
+    path: 'edit-tml-officer-types/:id',
+    component: AddTmlOfficerTypesComponent,
+  },
+  {
+    path: 'view-tml-officer-types',
+    component: ViewTmlOfficerTypesComponent,
+  },
   //Call Action Types
   {
     path: 'add-call-action-types',
