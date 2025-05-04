@@ -12,7 +12,7 @@ import { OrganizationsModule } from './organizations/organizations.module';
   imports: [
     CommonModule,
     CommunicationModule,
-    CrmModule,
+    // CrmModule,
     LegalsModule,
     LoginModule,
     LookupsModule,

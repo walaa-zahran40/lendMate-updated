@@ -48,7 +48,7 @@ import { AddClientStatusActionsComponent } from './components/add-client-status-
 import { AddCurrenciesExchangeComponent } from './components/add-currencies-exchange/add-currencies-exchange.component';
 import { LookupsRoutingModule } from './lookups-routing.module';
 import { SharedModule } from '../../shared/shared.module';
-import { AddClientDocumentTypesComponent } from './components/add-client-document-types/add-client-document-types.component';
+import { AddDocumentTypesComponent } from './components/add-document-types/add-document-types.component';
 import { AddClientTypesComponent } from './components/add-client-types/add-client-types.component';
 import { ViewCompanyTypesComponent } from './components/view-company-types/view-company-types.component';
 import { ViewFeesCalculationTypesComponent } from './components/view-fees-calculation-types/view-fees-calculation-types.component';
@@ -64,7 +64,7 @@ import { ViewPaymentMethodsComponent } from './components/view-payment-methods/v
 import { ViewInsuredByComponent } from './components/view-insured-by/view-insured-by.component';
 import { ViewLeasingTypeComponent } from './components/view-leasing-type/view-leasing-type.component';
 import { ViewMandateValidityUnitComponent } from './components/view-mandate-validity-unit/view-mandate-validity-unit.component';
-import { ViewClientDocumentTypesComponent } from './components/view-client-document-types/view-client-document-types.component';
+import { ViewDocumentTypesComponent } from './components/view-document-types/view-document-types.component';
 import { ViewBranchComponent } from './components/view-branch/view-branch.component';
 import { WizardBranchComponent } from './components/wizard-branch/wizard-branch.component';
 import { ViewBranchManagersComponent } from './components/view-branch-managers/view-branch-managers.component';
@@ -154,6 +154,8 @@ import { reducer as SectorsReducer } from './store/sectors/sectors.reducer';
 import { SectorsEffects } from './store/sectors/sectors.effects';
 import { reducer as TmlOfficerTypesReducer } from './store/tml-officer-types/tml-officer-types.reducer';
 import { TmlOfficerTypesEffects } from './store/tml-officer-types/tml-officer-types.effects';
+import { documentTypeReducer } from './store/document-types/document-types.reducer';
+import { DocumentTypesEffects } from './store/document-types/document-types.effects';
 
 @NgModule({
   declarations: [
@@ -199,7 +201,7 @@ import { TmlOfficerTypesEffects } from './store/tml-officer-types/tml-officer-ty
     AddBranchAddressesComponent,
     AddClientStatusActionsComponent,
     AddCurrenciesExchangeComponent,
-    AddClientDocumentTypesComponent,
+    AddDocumentTypesComponent,
     AddClientTypesComponent,
     ViewCompanyTypesComponent,
     ViewFeesCalculationTypesComponent,
@@ -217,7 +219,7 @@ import { TmlOfficerTypesEffects } from './store/tml-officer-types/tml-officer-ty
     ViewLeasingTypeComponent,
     ViewPaymentTypesComponent,
     ViewMandateValidityUnitComponent,
-    ViewClientDocumentTypesComponent,
+    ViewDocumentTypesComponent,
     ViewBranchComponent,
     WizardBranchComponent,
     ViewBranchManagersComponent,
@@ -318,6 +320,8 @@ import { TmlOfficerTypesEffects } from './store/tml-officer-types/tml-officer-ty
     EffectsModule.forFeature([SectorsEffects]),
     StoreModule.forFeature('tmlOfficerTypes', TmlOfficerTypesReducer),
     EffectsModule.forFeature([TmlOfficerTypesEffects]),
+    StoreModule.forFeature('documentTypes', documentTypeReducer),
+    EffectsModule.forFeature([DocumentTypesEffects]),
   ],
   exports: [
     AddTmlOfficerTypesComponent,
@@ -337,7 +341,7 @@ import { TmlOfficerTypesEffects } from './store/tml-officer-types/tml-officer-ty
     AddInsuredByComponent,
     AddLeasingTypeComponent,
     AddMandateValidityUnitComponent,
-    AddClientDocumentTypesComponent,
+    AddDocumentTypesComponent,
     AddBranchComponent,
     AddBusinessLinesComponent,
     AddAssetTypesComponent,

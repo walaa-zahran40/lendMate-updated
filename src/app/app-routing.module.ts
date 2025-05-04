@@ -9,11 +9,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/login/login.module').then((m) => m.LoginModule),
   },
-  {
-    path: 'crm',
-    loadChildren: () =>
-      import('./pages/crm/crm.module').then((m) => m.CrmModule),
-  },
+  // {
+  //   path: 'crm',
+  //   loadChildren: () =>
+  //     import('./pages/crm/crm.module').then((m) => m.CrmModule),
+  // },
   {
     path: 'lookups',
     loadChildren: () =>

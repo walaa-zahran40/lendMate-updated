@@ -1,0 +1,41 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'DocumentTypes'"
+    [labelBtn]="'Add DocumentType'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddDocumentType()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="documentTypes$ | async as documentTypes">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredDocumentTypes"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewDocumentTypesTable]="true"
+      (onDelete)="onDeleteDocumentType($event)"
+      (onEdit)="onEditDocumentType($event)"
+      (viewForm)="onViewDocumentType($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>
