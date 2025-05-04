@@ -150,6 +150,8 @@ import { reducer as RentStructureTypesReducer } from './store/rent-structure-typ
 import { RentStructureTypesEffects } from './store/rent-structure-types/rent-structure-types.effects';
 import { CountriesEffects } from './store/countries/countries.effects';
 import { countriesReducer } from './store/countries/countries.reducer';
+import { clientStatusesReducer } from './store/client-statuses/client-statuses.reducer';
+import { ClientStatusesEffects } from './store/client-statuses/client-statuses.effects';
 @NgModule({
   declarations: [
     AddTmlOfficerTypesComponent,
@@ -309,6 +311,8 @@ import { countriesReducer } from './store/countries/countries.reducer';
     EffectsModule.forFeature([RentStructureTypesEffects]),
     StoreModule.forFeature('countries', countriesReducer),
     EffectsModule.forFeature([CountriesEffects]),
+    StoreModule.forFeature('clientStatuses', clientStatusesReducer),
+    EffectsModule.forFeature([ClientStatusesEffects]),
   ],
   exports: [
     AddTmlOfficerTypesComponent,
