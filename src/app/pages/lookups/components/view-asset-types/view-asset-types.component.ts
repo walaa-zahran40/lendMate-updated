@@ -111,7 +111,7 @@ export class ViewAssetTypesComponent {
   }
 
   onViewAssetType(assetTypes: AssetType) {
-    this.router.navigate(['/lookups/view-asset-types', assetTypes.id], {
+    this.router.navigate(['/lookups/edit-asset-types', assetTypes.id], {
       queryParams: { mode: 'view' },
     });
   }
