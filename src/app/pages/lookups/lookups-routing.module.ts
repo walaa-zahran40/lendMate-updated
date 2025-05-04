@@ -671,6 +671,20 @@ const routes: Routes = [
     path: 'wizard-client-status',
     component: WizardClientStatusComponent,
   },
+
+  //Client status
+  {
+    path: 'add-client-statuses',
+    component: AddClientStatusesComponent,
+  },
+  {
+    path: 'edit-client-statuses/:id',
+    component: AddClientStatusesComponent,
+  },
+  {
+    path: 'view-client-statuses',
+    component: ViewClientStatusesComponent,
+  },
 ];
 
 @NgModule({

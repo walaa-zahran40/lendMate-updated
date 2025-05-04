@@ -157,6 +157,8 @@ import { TmlOfficerTypesEffects } from './store/tml-officer-types/tml-officer-ty
 import { reducer as SubSectorsReducer } from './store/sub-sectors/sub-sectors.reducer';
 import { SubSectorsEffects } from './store/sub-sectors/sub-sectors.effects';
 
+import { clientStatusesReducer } from './store/client-statuses/client-statuses.reducer';
+import { ClientStatusesEffects } from './store/client-statuses/client-statuses.effects';
 @NgModule({
   declarations: [
     AddTmlOfficerTypesComponent,
@@ -318,13 +320,13 @@ import { SubSectorsEffects } from './store/sub-sectors/sub-sectors.effects';
     EffectsModule.forFeature([CountriesEffects]),
     StoreModule.forFeature('sectors', SectorsReducer),
     EffectsModule.forFeature([SectorsEffects]),
-    StoreModule.forFeature('tmlOfficerTypes', TmlOfficerTypesReducer),
     EffectsModule.forFeature([TmlOfficerTypesEffects]),
     StoreModule.forFeature('subSectors', SubSectorsReducer),
     EffectsModule.forFeature([SubSectorsEffects]),
+    StoreModule.forFeature('clientStatuses', clientStatusesReducer),
+    EffectsModule.forFeature([ClientStatusesEffects]),
   ],
   exports: [
-    AddTmlOfficerTypesComponent,
     AddCompanyTypesComponent,
     AddFeeCalculationTypesComponent,
     AddMandateStatusesComponent,
