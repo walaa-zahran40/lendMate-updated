@@ -100,6 +100,10 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { CompanyTypesEffects } from './store/company-types/company-types.effects';
 import { companyTypesReducer } from './store/company-types/company-types.reducer';
+import { GovernoratesEffects } from './store/governorates/governorates.effects';
+import { governoratesReducer } from './store/governorates/governorates.reducer';
+import { CountriesEffects } from './store/countries/countries.effects';
+import { countriesReducer } from './store/countries/countries.reducer';
 
 @NgModule({
   declarations: [
@@ -204,6 +208,10 @@ import { companyTypesReducer } from './store/company-types/company-types.reducer
     FileUploadModule,
     StoreModule.forFeature('companyTypes', companyTypesReducer),
     EffectsModule.forFeature([CompanyTypesEffects]),
+    StoreModule.forFeature('governorates', governoratesReducer),
+    EffectsModule.forFeature([GovernoratesEffects]),
+    StoreModule.forFeature('countries', countriesReducer),
+    EffectsModule.forFeature([CountriesEffects]),
   ],
   exports: [
     AddTmlOfficerTypesComponent,

@@ -95,6 +95,19 @@ import { ViewFeesRangeComponent } from './components/view-fees-range/view-fees-r
 import { AddFeesRangeComponent } from './components/add-fees-range/add-fees-range.component';
 
 const routes: Routes = [
+   //countries
+   {
+    path: 'add-countries',
+    component: AddCountriesComponent,
+  },
+  {
+    path: 'edit-countries/:id',
+    component: AddCountriesComponent,
+  },
+  {
+    path: 'view-countries',
+    component: ViewCountriesComponent,
+  },
   //Company Types
   {
     path: 'add-company-types',

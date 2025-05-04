@@ -32,7 +32,7 @@ export const loadGovernorate = createAction(
 );
 export const loadGovernorateSuccess = createAction(
   '[Governorates] Load One Success',
-  props<{ Governorate: Governorate }>()
+  props<{ governorate: Governorate }>()
 );
 export const loadGovernorateFailure = createAction(
   '[Governorates] Load One Failure',
@@ -46,7 +46,7 @@ export const createGovernorate = createAction(
 );
 export const createGovernorateSuccess = createAction(
   '[Governorates] Create Success',
-  props<{ Governorate: Governorate }>()
+  props<{ governorate: Governorate }>()
 );
 export const createGovernorateFailure = createAction(
   '[Governorates] Create Failure',
@@ -60,7 +60,7 @@ export const updateGovernorate = createAction(
 );
 export const updateGovernorateSuccess = createAction(
   '[Governorates] Update Success',
-  props<{ Governorate: Governorate }>()
+  props<{ governorate: Governorate }>()
 );
 export const updateGovernorateFailure = createAction(
   '[Governorates] Update Failure',

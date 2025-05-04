@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, take } from 'rxjs';
 import { arabicOnlyValidator } from '../../../../shared/validators/arabic-only.validator';
-import { CompanyType } from '../../store/governorates/governorate.model';
-import { GovernorateFacade } from '../../store/governorates/governorate.facade';
+import { Governorate } from '../../store/governorates/governorate.model';
+import { GovernorateFacade } from '../../store/governorates/governorates.facade';
+import { loadCountries, loadCountry } from '../../store/countries/countries.actions';
 
 @Component({
   selector: 'app-add-governorates',
@@ -12,14 +14,16 @@ import { GovernorateFacade } from '../../store/governorates/governorate.facade';
   templateUrl: './add-governorates.component.html',
   styleUrl: './add-governorates.component.scss',
 })
-export class AddGovernoratesComponent {
+export class AddGovernoratesComponent implements OnInit{
   editMode: boolean = false;
   viewOnly = false;
   addGovernoratesLookupsForm!: FormGroup;
+  countriesList: any[] = [];
   retrivedId: any;
 
   constructor(
     private fb: FormBuilder,
+    private store: Store,
     private route: ActivatedRoute,
     private facade: GovernorateFacade,
     private router: Router
@@ -33,6 +37,8 @@ export class AddGovernoratesComponent {
         [Validators.required], // 2nd slot (sync)
       ],
       nameAR: ['', [Validators.required, arabicOnlyValidator]],
+      aramix: ['', [Validators.required]],
+      countryId: ['', [Validators.required]],
       isActive: [true], // ← new hidden control
     });
 
@@ -61,6 +67,8 @@ export class AddGovernoratesComponent {
               id: ct!.id,
               name: ct!.name,
               nameAR: ct!.nameAR,
+              aramix:ct!.aramex,
+              countryId:ct!.countryId,
               isActive: ct!.isActive,
             });
           });
@@ -72,6 +80,9 @@ export class AddGovernoratesComponent {
         }
       }
     });
+
+    this.store.dispatch(loadCountries());
+  
   }
 
   addOrEditGovernorates() {
@@ -103,7 +114,7 @@ export class AddGovernoratesComponent {
     }
 
     const { name, nameAR, isActive } = this.addGovernoratesLookupsForm.value;
-    const payload: Partial<CompanyType> = { name, nameAR, isActive };
+    const payload: Partial<Governorate> = { name, nameAR, isActive };
     console.log('  → payload object:', payload);
 
     // Double-check your route param
@@ -113,7 +124,7 @@ export class AddGovernoratesComponent {
     if (this.editMode) {
       const { id, name, nameAR, isActive } =
         this.addGovernoratesLookupsForm.value;
-      const payload: CompanyType = { id, name, nameAR, isActive };
+      const payload: Governorate = { id, name, nameAR, isActive };
       console.log(
         '🔄 Dispatching UPDATE id=',
         this.retrivedId,
@@ -126,7 +137,7 @@ export class AddGovernoratesComponent {
       this.facade.create(payload);
     }
 
-    console.log('🧭 Navigating away to view-company-types');
-    this.router.navigate(['/lookups/view-company-types']);
+    console.log('🧭 Navigating away to view-governorates');
+    this.router.navigate(['/lookups/view-governorates']);
   }
 }

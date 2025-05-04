@@ -71,6 +71,8 @@ export class FormComponent implements OnInit, OnDestroy {
   selectedLegalForm: any;
   @Output() sectorChanged = new EventEmitter<number>();
 
+  @Input() countriesList: any[] = [];
+
   sectorsSafe$!: Observable<Sectors[]>;
   onChange: (value: any) => void = () => {};
   onTouched: () => void = () => {};
@@ -493,6 +495,7 @@ export class FormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    //Client Form
     this.id = this.route.snapshot.paramMap.get('clientId')!;
     console.log('Extracted ID:', this.id); // 🔍 debug
     this.sub = this.formGroup?.valueChanges

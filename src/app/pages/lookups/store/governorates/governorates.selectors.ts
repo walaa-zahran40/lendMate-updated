@@ -2,7 +2,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { GovernoratesState } from './governorates.state';
 
 export const selectGovernoratesState =
-  createFeatureSelector<GovernoratesState>('companyTypes');
+  createFeatureSelector<GovernoratesState>('governorates');
 export const selectGovernorates = createSelector(
   selectGovernoratesState,
   (state) => state.items

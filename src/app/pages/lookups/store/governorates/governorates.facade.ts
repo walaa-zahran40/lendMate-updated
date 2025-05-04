@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { Governorate } from './governorate.model';
 
 @Injectable({ providedIn: 'root' })
-export class GovernoratesFacade {
+export class GovernorateFacade {
   items$: Observable<Governorate[]> = this.store.select(
     Selectors.selectGovernorates
   );
