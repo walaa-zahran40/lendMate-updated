@@ -655,7 +655,7 @@ export class SideMenuComponent {
           {
             label: 'ClientDocumentType',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-client-document-types',
+            routerLink: '/lookups/view-document-types',
           },
           {
             label: 'MandatePaymentSetting',
