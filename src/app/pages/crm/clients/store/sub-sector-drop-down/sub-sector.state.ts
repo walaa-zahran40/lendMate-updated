@@ -1,4 +1,4 @@
-import { SubSectors } from '../../../../shared/interfaces/sub-sector.interface';
+import { SubSectors } from '../../../../../shared/interfaces/sub-sector.interface';
 export interface SubSectorState {
   subSectors: SubSectors[];
   selectedSubSectorIds: number[];

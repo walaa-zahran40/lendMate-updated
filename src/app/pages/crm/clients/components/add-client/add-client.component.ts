@@ -24,14 +24,14 @@ import {
   selectSubSectorList,
   selectSelectedClient,
 } from '../../store/clients/clients.selectors';
-import { selectAllSectors } from '../../../../lookups/store/sector-drop-down/sector.selectors';
+import { selectAllSectors } from '../../store/sector-drop-down/sector.selectors';
 import {
   loadSectorById,
   loadSectors,
-} from '../../../../lookups/store/sector-drop-down/sector.actions';
+} from '../../store/sector-drop-down/sector.actions';
 import { SubSectors } from '../../../../../shared/interfaces/sub-sector.interface';
-import { selectAllSubSectors } from '../../../../lookups/store/sub-sector-drop-down/sub-sector.selectors';
-import { loadSubSectors } from '../../../../lookups/store/sub-sector-drop-down/sub-sector.actions';
+import { selectAllSubSectors } from '../../store/sub-sector-drop-down/sub-sector.selectors';
+import { loadSubSectors } from '../../store/sub-sector-drop-down/sub-sector.actions';
 import { IndividualFacade } from '../../store/individual/individual.facade';
 import { Individual } from '../../store/individual/individual.state';
 import { ClientIdentitiesFacade } from '../../store/client-identities/client-identities.facade';

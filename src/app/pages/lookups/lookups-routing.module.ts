@@ -173,6 +173,19 @@ const routes: Routes = [
     path: 'view-countries',
     component: ViewCountriesComponent,
   },
+  //sectors
+  {
+    path: 'add-sectors',
+    component: AddSectorsComponent,
+  },
+  {
+    path: 'edit-sectors/:id',
+    component: AddSectorsComponent,
+  },
+  {
+    path: 'view-sectors',
+    component: ViewSectorsComponent,
+  },
   //Call Action Types
   {
     path: 'add-call-action-types',
@@ -484,10 +497,7 @@ const routes: Routes = [
     path: 'add-products',
     component: AddProductsComponent,
   },
-  {
-    path: 'add-sectors',
-    component: AddSectorsComponent,
-  },
+
   {
     path: 'add-client-statuses',
     component: AddClientStatusesComponent,
@@ -592,10 +602,7 @@ const routes: Routes = [
     path: 'view-products',
     component: ViewProductsComponent,
   },
-  {
-    path: 'view-sectors',
-    component: ViewSectorsComponent,
-  },
+
   {
     path: 'view-client-statuses',
     component: ViewClientStatusesComponent,

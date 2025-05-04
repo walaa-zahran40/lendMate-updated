@@ -1,5 +1,4 @@
 import { Component, ViewChild } from '@angular/core';
-import { CompanyTypes } from '../../../../shared/interfaces/company-types.interface';
 import { InterestRateBenchMark } from '../../store/interest-rate-benchmarks/interest-rate-benchmark.model';
 import { Router } from '@angular/router';
 import { Subject, Observable, take, takeUntil } from 'rxjs';

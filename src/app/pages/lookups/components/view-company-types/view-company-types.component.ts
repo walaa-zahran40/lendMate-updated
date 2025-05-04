@@ -1,10 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
-import { CompanyTypes } from '../../../../shared/interfaces/company-types.interface';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
 import { TableComponent } from '../../../../shared/components/table/table.component';
-import { Client } from '../../../../shared/interfaces/client.interface';
-import { ClientsFacade } from '../../../crm/clients/store/clients/clients.facade';
 import { CompanyType } from '../../store/company-types/company-type.model';
 import { CompanyTypesFacade } from '../../store/company-types/company-types.facade';
 
@@ -15,7 +12,7 @@ import { CompanyTypesFacade } from '../../store/company-types/company-types.faca
   styleUrl: './view-company-types.component.scss',
 })
 export class ViewCompanyTypesComponent {
-  tableDataInside: CompanyTypes[] = [];
+  tableDataInside: CompanyType[] = [];
   first2: number = 0;
   private destroy$ = new Subject<void>();
   rows: number = 10;
