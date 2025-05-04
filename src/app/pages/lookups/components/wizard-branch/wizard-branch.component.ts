@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-wizard-branch',
@@ -9,8 +9,9 @@ import { Router } from '@angular/router';
 })
 export class WizardBranchComponent {
   cards: any[] = [];
-  constructor(private router: Router) {}
+  constructor(private router: Router, private route: ActivatedRoute) {}
   ngOnInit(): void {
+    const branchId = this.route.snapshot.paramMap.get('branchId');
     this.cards = [
       [
         {
@@ -19,7 +20,7 @@ export class WizardBranchComponent {
           title: 'Branch Managers',
           content:
             'Introduce your company core info quickly to users by fill up company details',
-          link: '/lookups/add-branch-managers',
+          link: `/lookups/view-branch-managers/${branchId}`,
         },
         {
           imgUrl: '/assets/images/shared/card/branch.svg',
@@ -27,7 +28,7 @@ export class WizardBranchComponent {
           title: 'Branch Officers',
           content:
             'Introduce your company core info quickly to users by fill up company details',
-          link: '/lookups/add-branch-officers',
+          link: `/lookups/view-branch-officers/${branchId}`,
         },
         {
           imgUrl: '/assets/images/shared/card/address.svg',
@@ -35,7 +36,7 @@ export class WizardBranchComponent {
           title: 'Branch Address',
           content:
             'Introduce your company core info quickly to users by fill up company details',
-          link: '/lookups/add-branch-addresses',
+          link: `/lookups/view-branch-addresses/${branchId}`,
         },
       ],
     ];

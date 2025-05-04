@@ -160,6 +160,10 @@ const routes: Routes = [
     path: 'view-branches',
     component: ViewBranchComponent,
   },
+  {
+    path: 'wizard-branch/:branchId',
+    component: WizardBranchComponent,
+  },
   //countries
   {
     path: 'add-countries',
@@ -592,15 +596,15 @@ const routes: Routes = [
   },
 
   {
-    path: 'view-branch-managers',
+    path: 'view-branch-managers/:branchId',
     component: ViewBranchManagersComponent,
   },
   {
-    path: 'view-branch-officers',
+    path: 'view-branch-officers/:branchId',
     component: ViewBranchOfficersComponent,
   },
   {
-    path: 'view-branch-addresses',
+    path: 'view-branch-addresses/:branchId',
     component: ViewBranchAddressesComponent,
   },
   {
@@ -659,10 +663,7 @@ const routes: Routes = [
     path: 'wizard-currencies',
     component: WizardCurrenciesComponent,
   },
-  {
-    path: 'wizard-branch',
-    component: WizardBranchComponent,
-  },
+
   {
     path: 'wizard-client-status',
     component: WizardClientStatusComponent,

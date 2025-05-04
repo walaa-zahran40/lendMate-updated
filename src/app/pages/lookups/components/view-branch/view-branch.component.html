@@ -22,7 +22,7 @@
       [tableData]="filteredBranches"
       [edit]="true"
       [delete]="true"
-      [side]="false"
+      [side]="true"
       [first]="first2"
       [checkBox]="true"
       [view]="true"
@@ -32,6 +32,7 @@
       (onDelete)="onDeleteBranchId($event)"
       (onEdit)="onEditBranch($event)"
       (viewForm)="onViewBranch($event)"
+      (wizardBtn)="onAddSide($event)"
     ></app-table>
 
     <app-delete-module

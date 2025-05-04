@@ -102,4 +102,7 @@ export class ViewBranchComponent {
       queryParams: { mode: 'view' },
     });
   }
+  onAddSide(branchId: any) {
+    this.router.navigate(['/lookups/wizard-branch', branchId]);
+  }
 }
