@@ -76,7 +76,7 @@ import { ViewClientStatusesComponent } from './components/view-client-statuses/v
 import { WizardClientStatusComponent } from './components/wizard-client-status/wizard-client-status.component';
 import { ViewClientStatusComponent } from './components/view-client-status-actions/view-client-status.component';
 import { ViewSmeClientCodeComponent } from './components/view-sme-client-code/view-sme-client-code.component';
-import { ViewSubSectorComponent } from './components/view-sub-sector/view-sub-sector.component';
+import { ViewSubSectorsComponent } from './components/view-sub-sectors/view-sub-sectors.component';
 import { ViewClientTypesComponent } from './components/view-client-types/view-client-types.component';
 import { ViewAuthorityOfficesComponent } from './components/view-authority-offices/view-authority-offices.component';
 import { ViewPhoneTypesComponent } from './components/view-phone-types/view-phone-types.component';
@@ -189,6 +189,19 @@ const routes: Routes = [
   {
     path: 'view-sectors',
     component: ViewSectorsComponent,
+  },
+  //sub sectors
+  {
+    path: 'add-sub-sectors',
+    component: AddSubSectorsComponent,
+  },
+  {
+    path: 'edit-sub-sectors/:id',
+    component: AddSubSectorsComponent,
+  },
+  {
+    path: 'view-sub-sectors',
+    component: ViewSubSectorsComponent,
   },
   //tml officers
   {
@@ -530,10 +543,6 @@ const routes: Routes = [
     path: 'add-sme-client-code',
     component: AddSmeClientCodeComponent,
   },
-  {
-    path: 'add-sub-sectors',
-    component: AddSubSectorsComponent,
-  },
 
   {
     path: 'add-governorates',
@@ -634,10 +643,6 @@ const routes: Routes = [
   {
     path: 'view-sme-client-code',
     component: ViewSmeClientCodeComponent,
-  },
-  {
-    path: 'view-sub-sector',
-    component: ViewSubSectorComponent,
   },
 
   {

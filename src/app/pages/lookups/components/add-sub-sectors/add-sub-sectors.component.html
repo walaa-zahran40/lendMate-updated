@@ -1,30 +1,25 @@
 <app-toolbar-form
-  [header]="'Sub Sectors'"
+  [header]="editMode ? 'Edit Sub Sector' : 'Add Sub Sector'"
   [backExists]="true"
-  [viewOnly]="false"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
 ></app-toolbar-form>
 <p-tabs value="0" styleClass="p-3">
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
+        *ngIf="addSubSectorsLookupsForm"
         [title]="'Main Information'"
         [description]="
-          'Introduce your company core info quickly to users by fill up company details'
+          'Introduce your sub Sector core info quickly to users by fill up sub Sector details'
         "
+        [formGroup]="addSubSectorsLookupsForm"
         [addSubSectorsLookupsForm]="true"
+        [editMode]="editMode"
+        [sectorsList]="sectorsList$ | async"
+        (submitForm)="addOrEditSectors()"
+        [viewOnly]="viewOnly"
       ></app-form>
-
-      <div class="row justify-end">
-        <div
-          class="p-0 col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 padding-right"
-          (click)="addSubSectors()"
-        >
-          <p-button
-            label="Add Sub Sectors"
-            class="custom-save m-0 float-right"
-          />
-        </div>
-      </div>
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>

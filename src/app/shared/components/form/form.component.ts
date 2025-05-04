@@ -61,7 +61,9 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addClientShowBusiness?: boolean;
   @Input() addClientShowIndividual?: boolean;
   @Input() addClient?: boolean;
-  @Input() sectorsList: any[] = [];
+  //Select Box
+  @Input() sectorsList: any;
+
   @Input() subSectorsList: any[] = [];
 
   @Input() selectedSectorId: number | null = null;
@@ -789,27 +791,27 @@ export class FormComponent implements OnInit, OnDestroy {
   }
 
   onSectorChange(event: any) {
-    const selectedId = event.value;
-    this.sectorsSafe$
-      .pipe(
-        take(1),
-        map((sectors) => sectors.find((s) => s.id === selectedId)),
-        filter((sector): sector is Sectors => !!sector)
-      )
-      .subscribe((sector) => {
-        this.value = selectedId;
-        this.onChange(this.value);
-        this.onTouched();
-        this.selectionChanged.emit(sector);
-        this.sectorChanged.emit(selectedId);
-        // ← add this block to clear sub-sector selections:
-        const subCtrl = this.formGroup.get('subSectorIdList');
-        if (subCtrl) {
-          subCtrl.setValue([]); // remove all IDs
-          subCtrl.markAsUntouched(); // reset touched state if you like
-          subCtrl.updateValueAndValidity();
-        }
-      });
+    // const selectedId = event.value;
+    // this.sectorsSafe$
+    //   .pipe(
+    //     take(1),
+    //     map((sectors) => sectors.find((s) => s.id === selectedId)),
+    //     filter((sector): sector is Sectors => !!sector)
+    //   )
+    //   .subscribe((sector) => {
+    //     this.value = selectedId;
+    //     this.onChange(this.value);
+    //     this.onTouched();
+    //     this.selectionChanged.emit(sector);
+    //     this.sectorChanged.emit(selectedId);
+    //     // ← add this block to clear sub-sector selections:
+    //     const subCtrl = this.formGroup.get('subSectorIdList');
+    //     if (subCtrl) {
+    //       subCtrl.setValue([]); // remove all IDs
+    //       subCtrl.markAsUntouched(); // reset touched state if you like
+    //       subCtrl.updateValueAndValidity();
+    //     }
+    //   });
   }
 
   get subSectorList(): FormControl {
@@ -1022,7 +1024,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-sme-client-code']);
   }
   viewSubSectors() {
-    this.router.navigate(['/lookups/view-sub-sector']);
+    this.router.navigate(['/lookups/view-sub-sectors']);
   }
   viewClientTypes() {
     this.router.navigate(['/lookups/view-client-types']);

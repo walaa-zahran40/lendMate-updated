@@ -4,6 +4,8 @@ import { ButtonModule } from 'primeng/button';
 import { FileUploadModule } from 'primeng/fileupload';
 import { StepperModule } from 'primeng/stepper';
 import { TabsModule } from 'primeng/tabs';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 import { AddCompanyTypesComponent } from './components/add-company-types/add-company-types.component';
 import { AddFeeCalculationTypesComponent } from './components/add-fee-calculation-types/add-fee-calculation-types.component';
 import { AddMandateStatusesComponent } from './components/add-mandate-statuses/add-mandate-statuses.component';
@@ -79,7 +81,7 @@ import { ViewClientStatusesComponent } from './components/view-client-statuses/v
 import { WizardClientStatusComponent } from './components/wizard-client-status/wizard-client-status.component';
 import { ViewClientStatusComponent } from './components/view-client-status-actions/view-client-status.component';
 import { ViewSmeClientCodeComponent } from './components/view-sme-client-code/view-sme-client-code.component';
-import { ViewSubSectorComponent } from './components/view-sub-sector/view-sub-sector.component';
+import { ViewSubSectorsComponent } from './components/view-sub-sectors/view-sub-sectors.component';
 import { ViewClientTypesComponent } from './components/view-client-types/view-client-types.component';
 import { ViewAuthorityOfficesComponent } from './components/view-authority-offices/view-authority-offices.component';
 import { ViewPhoneTypesComponent } from './components/view-phone-types/view-phone-types.component';
@@ -96,8 +98,6 @@ import { ViewCallActionTypesComponent } from './components/view-call-action-type
 import { ViewCommunicationFlowTypeComponent } from './components/view-communication-flow-type/view-communication-flow-type.component';
 import { ViewFeesRangeComponent } from './components/view-fees-range/view-fees-range.component';
 import { AddFeesRangeComponent } from './components/add-fees-range/add-fees-range.component';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
 import { CompanyTypesEffects } from './store/company-types/company-types.effects';
 import { companyTypesReducer } from './store/company-types/company-types.reducer';
 import { reducer as feeCalcReducer } from './store/fee-calculation-types/fee-calculation-types.reducer';
@@ -154,6 +154,8 @@ import { reducer as SectorsReducer } from './store/sectors/sectors.reducer';
 import { SectorsEffects } from './store/sectors/sectors.effects';
 import { reducer as TmlOfficerTypesReducer } from './store/tml-officer-types/tml-officer-types.reducer';
 import { TmlOfficerTypesEffects } from './store/tml-officer-types/tml-officer-types.effects';
+import { reducer as SubSectorsReducer } from './store/sub-sectors/sub-sectors.reducer';
+import { SubSectorsEffects } from './store/sub-sectors/sub-sectors.effects';
 
 @NgModule({
   declarations: [
@@ -232,7 +234,7 @@ import { TmlOfficerTypesEffects } from './store/tml-officer-types/tml-officer-ty
     WizardClientStatusComponent,
     ViewClientStatusComponent,
     ViewSmeClientCodeComponent,
-    ViewSubSectorComponent,
+    ViewSubSectorsComponent,
     ViewClientTypesComponent,
     ViewAuthorityOfficesComponent,
     ViewPhoneTypesComponent,
@@ -318,6 +320,8 @@ import { TmlOfficerTypesEffects } from './store/tml-officer-types/tml-officer-ty
     EffectsModule.forFeature([SectorsEffects]),
     StoreModule.forFeature('tmlOfficerTypes', TmlOfficerTypesReducer),
     EffectsModule.forFeature([TmlOfficerTypesEffects]),
+    StoreModule.forFeature('subSectors', SubSectorsReducer),
+    EffectsModule.forFeature([SubSectorsEffects]),
   ],
   exports: [
     AddTmlOfficerTypesComponent,

@@ -6,6 +6,9 @@ import * as FileSaver from 'file-saver';
 import pdfMake from 'pdfmake/build/pdfmake';
 import type { TDocumentDefinitions } from 'pdfmake/interfaces';
 import { pdfMakeVfs } from '../../../../../scripts/pdfmake-vfs';
+import { Store } from '@ngrx/store';
+import { loadAll } from '../../../pages/lookups/store/sectors/sectors.actions';
+import { selectAllSectors } from '../../../pages/lookups/store/sectors/sectors.selectors';
 // Attach the VFS and font definitions
 (pdfMake as any).vfs = pdfMakeVfs;
 (pdfMake as any).fonts = {
@@ -57,6 +60,7 @@ export class TableComponent {
   @Input() viewPhoneTypesTable!: boolean;
   @Input() viewPhoneNumberTable!: boolean;
   @Input() viewContactPersonTable!: boolean;
+  @Input() viewSubSectorsLookupsTable!: boolean;
   @Input() viewCRAuthorityOfficeTable!: boolean;
   @Input() viewTaxAuthorityOfficeTable!: boolean;
   @Input() viewAuthorityOfficesTable!: boolean;
@@ -148,14 +152,26 @@ export class TableComponent {
   showDownload = false;
   event: any;
   globalFilterFields: string[] = [];
+  allSectors: any;
 
-  constructor(private sharedService: SharedService, private router: Router) {}
+  constructor(
+    private sharedService: SharedService,
+    private router: Router,
+    private store: Store
+  ) {}
 
   ngOnInit() {
+    this.store.dispatch(loadAll({}));
+    this.allSectors = this.store.select(selectAllSectors);
+
     if (this.cols?.length) {
       this.globalFilterFields = this.cols.map((c) => c.field);
     }
     this.totalRecords = this.tableData.length;
+  }
+  getSectorName(sectorId: number): string {
+    const sector = this.allSectors.find((s: any) => s.id === sectorId);
+    return sector ? sector.name : 'Unknown Sector';
   }
   openPopup() {
     this.sharedService.showPopup();
@@ -250,6 +266,7 @@ export class TableComponent {
 
     this.saveAsExcelFile(excelBuffer, 'ExportedData');
   }
+
   private saveAsExcelFile(buffer: any, fileName: string): void {
     const data: Blob = new Blob([buffer], {
       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8',

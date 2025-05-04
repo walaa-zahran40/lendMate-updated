@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { tap, filter, take } from 'rxjs';
+import { tap, filter, take, Observable } from 'rxjs';
 import { Sector } from '../../store/sectors/sector.model';
 import { SectorsFacade } from '../../store/sectors/sectors.facade';
+import { Store } from '@ngrx/store';
+import { loadAll } from '../../store/sectors/sectors.actions';
+import { selectAllSectors } from '../../store/sectors/sectors.selectors';
 
 @Component({
   selector: 'app-add-sectors',
@@ -16,17 +19,19 @@ export class AddSectorsComponent {
   viewOnly = false;
   addSectorsLookupsForm!: FormGroup;
   clientId: any;
-
+  sectorsList$!: Observable<Sector[]>;
+  sectorsList: any[] = [];
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private facade: SectorsFacade,
-    private router: Router
+    private router: Router,
+    private store: Store
   ) {}
 
   ngOnInit() {
     console.log('🔵 ngOnInit: start');
-
+    this.store.dispatch(loadAll({}));
     // 1. Build the form
     this.addSectorsLookupsForm = this.fb.group({
       id: [null], // ← new hidden control
