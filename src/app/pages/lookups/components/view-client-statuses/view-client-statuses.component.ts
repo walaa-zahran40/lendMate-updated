@@ -6,14 +6,12 @@ import { TableComponent } from '../../../../shared/components/table/table.compon
 import { ClientStatus } from '../../store/client-statuses/client-status.model';
 import { ClientStatusesFacade } from '../../store/client-statuses/client-statuses.facade';
 
-
 @Component({
   selector: 'app-view-client-status',
   standalone: false,
   templateUrl: './view-client-statuses.component.html',
   styleUrl: './view-client-statuses.component.scss',
 })
-
 export class ViewClientStatusesComponent {
   tableDataInside: ClientStatus[] = [];
   first2: number = 0;
@@ -26,7 +24,6 @@ export class ViewClientStatusesComponent {
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
     { field: 'isInitial', header: 'Is Initial' },
-
   ];
   showDeleteModal: boolean = false;
   selectedClientStatusId: number | null = null;
@@ -52,7 +49,9 @@ export class ViewClientStatusesComponent {
   onAddClientStatus() {
     this.router.navigate(['/lookups/add-client-statuses']);
   }
-
+  onAddSide(clientStatusId: any) {
+    this.router.navigate(['/lookups/wizard-client-status', clientStatusId]);
+  }
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
