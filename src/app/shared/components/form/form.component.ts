@@ -892,7 +892,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-rent-structure-types']);
   }
   viewGracePeriod() {
-    this.router.navigate(['/lookups/view-grace-period-units']);
+    this.router.navigate(['/lookups/view-period-units']);
   }
   viewFeesTypes() {
     this.router.navigate(['/crm/clients/view-fees-types']);

@@ -5,7 +5,7 @@ import { AddFeeCalculationTypesComponent } from './components/add-fee-calculatio
 import { AddMandateStatusesComponent } from './components/add-mandate-statuses/add-mandate-statuses.component';
 import { AddInterestRateBenchmarksComponent } from './components/add-interest-rate-benchmarks/add-interest-rate-benchmarks.component';
 import { AddFeeTypesComponent } from './components/add-fee-types/add-fee-types.component';
-import { AddGracePeriodUnitsComponent } from './components/add-grace-period-units/add-grace-period-units.component';
+import { AddPeriodUnitsComponent } from './components/add-period-units/add-period-units.component';
 import { AddRentStructureTypesComponent } from './components/add-rent-structure-types/add-rent-structure-types.component';
 import { AddCurrenciesComponent } from './components/add-currencies/add-currencies.component';
 import { AddPaymentMethodsComponent } from './components/add-payment-methods/add-payment-methods.component';
@@ -49,7 +49,7 @@ import { ViewFeesCalculationTypesComponent } from './components/view-fees-calcul
 import { ViewMandateStatusesComponent } from './components/view-mandate-statuses/view-mandate-statuses.component';
 import { ViewInterestRateBenchmarksComponent } from './components/view-interest-rate-benchmarks/view-interest-rate-benchmarks.component';
 import { ViewFeeTypesComponent } from './components/view-fee-types/view-fee-types.component';
-import { ViewGracePeriodUnitsComponent } from './components/view-grace-period-units/view-grace-period-units.component';
+import { ViewPeriodUnitsComponent } from './components/view-period-units/view-period-units.component';
 import { ViewRentStructureTypesComponent } from './components/view-rent-structure-types/view-rent-structure-types.component';
 import { ViewCurrenciesComponent } from './components/view-currencies/view-currencies.component';
 import { WizardCurrenciesComponent } from './components/wizard-currencies/wizard-currencies.component';
@@ -328,16 +328,16 @@ const routes: Routes = [
   },
   //Grace period units
   {
-    path: 'add-grace-period-units',
-    component: AddGracePeriodUnitsComponent,
+    path: 'add-period-units',
+    component: AddPeriodUnitsComponent,
   },
   {
-    path: 'edit-grace-period-units/:id',
-    component: AddGracePeriodUnitsComponent,
+    path: 'edit-period-units/:id',
+    component: AddPeriodUnitsComponent,
   },
   {
-    path: 'view-grace-period-units',
-    component: ViewGracePeriodUnitsComponent,
+    path: 'view-period-units',
+    component: ViewPeriodUnitsComponent,
   },
   //Identification Types
   {
@@ -572,8 +572,8 @@ const routes: Routes = [
     component: ViewFeesRangeComponent,
   },
   {
-    path: 'view-grace-period-units',
-    component: ViewGracePeriodUnitsComponent,
+    path: 'view-period-units',
+    component: ViewPeriodUnitsComponent,
   },
 
   {

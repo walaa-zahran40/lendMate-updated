@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import * as fromSlice from './grace-period-units.reducer';
-import { adapter, State } from './grace-period-units.state';
+import * as fromSlice from './period-units.reducer';
+import { adapter, State } from './period-units.state';
 
 export const selectFeature = createFeatureSelector<State>('gracePeriodUnits');
 export const selectGracePeriodUnitsFeature =

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { GracePeriodUnitsService } from './grace-period-units.service';
-import * as ActionsList from './grace-period-units.actions';
+import { GracePeriodUnitsService } from './period-units.service';
+import * as ActionsList from './period-units.actions';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
 import { loadAll } from '../../../crm/clients/store/client-central-bank-info/client-central-bank.actions';
-import { GracePeriodUnit } from './grace-period-unit.model';
+import { PeriodUnit } from './period-unit.model';
 
 @Injectable()
 export class GracePeriodUnitsEffects {
@@ -66,8 +66,8 @@ export class GracePeriodUnitsEffects {
     this.actions$.pipe(
       ofType(ActionsList.createEntity),
       mergeMap(({ payload }) => {
-        // payload is Partial<Omit<GracePeriodUnit,'id'>>, but our service needs the full DTO shape
-        const dto = payload as Omit<GracePeriodUnit, 'id'>;
+        // payload is Partial<Omit<PeriodUnit,'id'>>, but our service needs the full DTO shape
+        const dto = payload as Omit<PeriodUnit, 'id'>;
         return this.svc.create(dto).pipe(
           map((entity) => ActionsList.createEntitySuccess({ entity })),
           catchError((error) => of(ActionsList.createEntityFailure({ error })))

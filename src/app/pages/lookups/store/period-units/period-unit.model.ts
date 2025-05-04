@@ -1,4 +1,4 @@
-export interface GracePeriodUnit {
+export interface PeriodUnit {
   id: number;
   code?: string;
   name: string;

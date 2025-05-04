@@ -758,9 +758,9 @@ export class SideMenuComponent {
             routerLink: '/lookups/view-governorates',
           },
           {
-            label: 'GracePeriodUnit',
+            label: 'PeriodUnit',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-grace-period-units',
+            routerLink: '/lookups/view-period-units',
           },
           {
             label: 'IdentificationType',

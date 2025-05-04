@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
-import { GracePeriodUnit } from './grace-period-unit.model';
+import { PeriodUnit } from './period-unit.model';
 import { environment } from '../../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
@@ -10,10 +10,10 @@ export class GracePeriodUnitsService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<GracePeriodUnit[]> {
+  getAll(): Observable<PeriodUnit[]> {
     console.log('🚀 Service: calling GET …');
     return this.http
-      .get<{ items: GracePeriodUnit[]; totalCount: number }>(
+      .get<{ items: PeriodUnit[]; totalCount: number }>(
         `${this.baseUrl}/GetAllPeriodUnits`
       )
       .pipe(
@@ -27,20 +27,18 @@ export class GracePeriodUnitsService {
       );
   }
 
-  getById(id: number): Observable<GracePeriodUnit> {
-    return this.http.get<GracePeriodUnit>(
-      `${this.baseUrl}/PeriodUnitId?id=${id}`
-    );
+  getById(id: number): Observable<PeriodUnit> {
+    return this.http.get<PeriodUnit>(`${this.baseUrl}/PeriodUnitId?id=${id}`);
   }
 
-  create(payload: Omit<GracePeriodUnit, 'id'>): Observable<GracePeriodUnit> {
-    return this.http.post<GracePeriodUnit>(
+  create(payload: Omit<PeriodUnit, 'id'>): Observable<PeriodUnit> {
+    return this.http.post<PeriodUnit>(
       `${this.baseUrl}/CreatePeriodUnit`,
       payload
     );
   }
 
-  update(id: number, changes: Partial<GracePeriodUnit>): Observable<void> {
+  update(id: number, changes: Partial<PeriodUnit>): Observable<void> {
     return this.http.put<void>(`${this.baseUrl}/${id}`, changes);
   }
 

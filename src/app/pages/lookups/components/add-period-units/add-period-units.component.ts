@@ -2,16 +2,16 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { tap, filter, take } from 'rxjs';
-import { GracePeriodUnitsFacade } from '../../store/grace-period-units/grace-period-units.facade';
-import { GracePeriodUnit } from '../../store/grace-period-units/grace-period-unit.model';
+import { GracePeriodUnitsFacade } from '../../store/period-units/period-units.facade';
+import { PeriodUnit } from '../../store/period-units/period-unit.model';
 
 @Component({
-  selector: 'app-add-grace-period-units',
+  selector: 'app-add-period-units',
   standalone: false,
-  templateUrl: './add-grace-period-units.component.html',
-  styleUrl: './add-grace-period-units.component.scss',
+  templateUrl: './add-period-units.component.html',
+  styleUrl: './add-period-units.component.scss',
 })
-export class AddGracePeriodUnitsComponent {
+export class AddPeriodUnitsComponent {
   editMode: boolean = false;
   viewOnly = false;
   addGracePeriodUnitsLookupsForm!: FormGroup;
@@ -132,7 +132,7 @@ export class AddGracePeriodUnitsComponent {
 
     const { name, nameAR, isActive } =
       this.addGracePeriodUnitsLookupsForm.value;
-    const payload: Partial<GracePeriodUnit> = { name, nameAR, isActive };
+    const payload: Partial<PeriodUnit> = { name, nameAR, isActive };
     console.log('  → payload object:', payload);
 
     // Double-check your route param
@@ -142,7 +142,7 @@ export class AddGracePeriodUnitsComponent {
     if (this.editMode) {
       const { id, name, nameAR, isActive } =
         this.addGracePeriodUnitsLookupsForm.value;
-      const payload: GracePeriodUnit = { id, name, nameAR, isActive };
+      const payload: PeriodUnit = { id, name, nameAR, isActive };
       console.log(
         '🔄 Dispatching UPDATE id=',
         this.clientId,
@@ -156,6 +156,6 @@ export class AddGracePeriodUnitsComponent {
     }
 
     console.log('🧭 Navigating away to view-grace-periods');
-    this.router.navigate(['/lookups/view-grace-period-units']);
+    this.router.navigate(['/lookups/view-period-units']);
   }
 }

@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { GracePeriodUnit } from './grace-period-unit.model';
+import { PeriodUnit } from './period-unit.model';
 
 export const loadAll = createAction(
   '[GracePeriodUnits] Load All',
@@ -7,7 +7,7 @@ export const loadAll = createAction(
 );
 export const loadAllSuccess = createAction(
   '[GracePeriodUnits] Load All Success',
-  props<{ result: GracePeriodUnit[] }>()
+  props<{ result: PeriodUnit[] }>()
 );
 
 export const loadAllFailure = createAction(
@@ -21,7 +21,7 @@ export const loadById = createAction(
 );
 export const loadByIdSuccess = createAction(
   '[GracePeriodUnits] Load By Id Success',
-  props<{ entity: GracePeriodUnit }>()
+  props<{ entity: PeriodUnit }>()
 );
 export const loadByIdFailure = createAction(
   '[GracePeriodUnits] Load By Id Failure',
@@ -31,11 +31,11 @@ export const loadByIdFailure = createAction(
 export const createEntity = createAction(
   '[GracePeriodUnits] Create',
   // allow all fields except id, but all optional
-  props<{ payload: Partial<Omit<GracePeriodUnit, 'id'>> }>()
+  props<{ payload: Partial<Omit<PeriodUnit, 'id'>> }>()
 );
 export const createEntitySuccess = createAction(
   '[GracePeriodUnits] Create Success',
-  props<{ entity: GracePeriodUnit }>()
+  props<{ entity: PeriodUnit }>()
 );
 export const createEntityFailure = createAction(
   '[GracePeriodUnits] Create Failure',
@@ -44,11 +44,11 @@ export const createEntityFailure = createAction(
 
 export const updateEntity = createAction(
   '[GracePeriodUnits] Update',
-  props<{ id: number; changes: Partial<GracePeriodUnit> }>()
+  props<{ id: number; changes: Partial<PeriodUnit> }>()
 );
 export const updateEntitySuccess = createAction(
   '[GracePeriodUnits] Update Success',
-  props<{ id: number; changes: Partial<GracePeriodUnit> }>()
+  props<{ id: number; changes: Partial<PeriodUnit> }>()
 );
 export const updateEntityFailure = createAction(
   '[GracePeriodUnits] Update Failure',

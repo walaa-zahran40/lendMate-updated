@@ -2,17 +2,17 @@ import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject, Observable, take, takeUntil } from 'rxjs';
 import { TableComponent } from '../../../../shared/components/table/table.component';
-import { GracePeriodUnitsFacade } from '../../store/grace-period-units/grace-period-units.facade';
-import { GracePeriodUnit } from '../../store/grace-period-units/grace-period-unit.model';
+import { GracePeriodUnitsFacade } from '../../store/period-units/period-units.facade';
+import { PeriodUnit } from '../../store/period-units/period-unit.model';
 
 @Component({
-  selector: 'app-view-grace-period-units',
+  selector: 'app-view-period-units',
   standalone: false,
-  templateUrl: './view-grace-period-units.component.html',
-  styleUrl: './view-grace-period-units.component.scss',
+  templateUrl: './view-period-units.component.html',
+  styleUrl: './view-period-units.component.scss',
 })
-export class ViewGracePeriodUnitsComponent {
-  tableDataInside: GracePeriodUnit[] = [];
+export class ViewPeriodUnitsComponent {
+  tableDataInside: PeriodUnit[] = [];
   first2: number = 0;
   private destroy$ = new Subject<void>();
   rows: number = 10;
@@ -25,9 +25,9 @@ export class ViewGracePeriodUnitsComponent {
   ];
   showDeleteModal: boolean = false;
   selectedGracePeriodUnitId: number | null = null;
-  originalGracePeriodUnit: GracePeriodUnit[] = [];
-  filteredGracePeriodUnit: GracePeriodUnit[] = [];
-  gracePeriodUnits$!: Observable<GracePeriodUnit[]>;
+  originalGracePeriodUnit: PeriodUnit[] = [];
+  filteredGracePeriodUnit: PeriodUnit[] = [];
+  gracePeriodUnits$!: Observable<PeriodUnit[]>;
 
   constructor(private router: Router, private facade: GracePeriodUnitsFacade) {}
   ngOnInit() {
@@ -67,7 +67,7 @@ export class ViewGracePeriodUnitsComponent {
   }
 
   onAddGracePeriodUnit() {
-    this.router.navigate(['/lookups/add-grace-period-units']);
+    this.router.navigate(['/lookups/add-period-units']);
   }
 
   ngOnDestroy() {
@@ -117,16 +117,13 @@ export class ViewGracePeriodUnitsComponent {
   onToggleFilters(value: boolean) {
     this.showFilters = value;
   }
-  onEditGracePeriodUnit(gracePeriodUnit: GracePeriodUnit) {
-    this.router.navigate(
-      ['/lookups/edit-grace-period-units', gracePeriodUnit.id],
-      {
-        queryParams: { mode: 'edit' },
-      }
-    );
+  onEditGracePeriodUnit(periodUnit: PeriodUnit) {
+    this.router.navigate(['/lookups/edit-period-units', periodUnit.id], {
+      queryParams: { mode: 'edit' },
+    });
   }
-  onViewGracePeriodUnit(ct: GracePeriodUnit) {
-    this.router.navigate(['/lookups/edit-grace-period-units', ct.id], {
+  onViewGracePeriodUnit(ct: PeriodUnit) {
+    this.router.navigate(['/lookups/edit-period-units', ct.id], {
       queryParams: { mode: 'view' },
     });
   }

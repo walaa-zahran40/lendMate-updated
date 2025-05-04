@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
-import * as GracePeriodUnitActions from './grace-period-units.actions';
-import { adapter, initialState } from './grace-period-units.state';
+import * as GracePeriodUnitActions from './period-units.actions';
+import { adapter, initialState } from './period-units.state';
 
 export const reducer = createReducer(
   initialState,
@@ -70,7 +70,7 @@ export const reducer = createReducer(
     loading: false,
     error,
   })),
-  // gracePeriodUnit-calculation-types.reducer.ts
+  // periodUnit-calculation-types.reducer.ts
   on(GracePeriodUnitActions.loadByIdSuccess, (state, { entity }) => {
     console.log('🗄️ Reducer: loadByIdSuccess, before:', {
       loadedId: state.loadedId,

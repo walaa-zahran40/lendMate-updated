@@ -9,7 +9,7 @@ import { AddFeeCalculationTypesComponent } from './components/add-fee-calculatio
 import { AddMandateStatusesComponent } from './components/add-mandate-statuses/add-mandate-statuses.component';
 import { AddInterestRateBenchmarksComponent } from './components/add-interest-rate-benchmarks/add-interest-rate-benchmarks.component';
 import { AddFeeTypesComponent } from './components/add-fee-types/add-fee-types.component';
-import { AddGracePeriodUnitsComponent } from './components/add-grace-period-units/add-grace-period-units.component';
+import { AddPeriodUnitsComponent } from './components/add-period-units/add-period-units.component';
 import { AddRentStructureTypesComponent } from './components/add-rent-structure-types/add-rent-structure-types.component';
 import { AddCurrenciesComponent } from './components/add-currencies/add-currencies.component';
 import { AddPaymentMethodsComponent } from './components/add-payment-methods/add-payment-methods.component';
@@ -55,7 +55,7 @@ import { ViewFeesCalculationTypesComponent } from './components/view-fees-calcul
 import { ViewMandateStatusesComponent } from './components/view-mandate-statuses/view-mandate-statuses.component';
 import { ViewInterestRateBenchmarksComponent } from './components/view-interest-rate-benchmarks/view-interest-rate-benchmarks.component';
 import { ViewFeeTypesComponent } from './components/view-fee-types/view-fee-types.component';
-import { ViewGracePeriodUnitsComponent } from './components/view-grace-period-units/view-grace-period-units.component';
+import { ViewPeriodUnitsComponent } from './components/view-period-units/view-period-units.component';
 import { ViewRentStructureTypesComponent } from './components/view-rent-structure-types/view-rent-structure-types.component';
 import { ViewCurrenciesComponent } from './components/view-currencies/view-currencies.component';
 import { WizardCurrenciesComponent } from './components/wizard-currencies/wizard-currencies.component';
@@ -122,8 +122,8 @@ import { reducer as communicationFlowTypesReducer } from './store/communication-
 import { CommunicationFlowTypesEffects } from './store/communication-flow-types/communication-flow-types.effects';
 import { reducer as communicationTypesReducer } from './store/communication-types/communication-types.reducer';
 import { CommunicationTypesEffects } from './store/communication-types/communication-types.effects';
-import { reducer as gracePeriodUnitsReducer } from './store/grace-period-units/grace-period-units.reducer';
-import { GracePeriodUnitsEffects } from './store/grace-period-units/grace-period-units.effects';
+import { reducer as gracePeriodUnitsReducer } from './store/period-units/period-units.reducer';
+import { GracePeriodUnitsEffects } from './store/period-units/period-units.effects';
 import { reducer as IdentificationTypesReducer } from './store/identification-types/identification-types.reducer';
 import { IdentificationTypesEffects } from './store/identification-types/identification-types.effects';
 import { reducer as InsuredByReducer } from './store/insured-by/insured-by.reducer';
@@ -163,7 +163,7 @@ import { TmlOfficerTypesEffects } from './store/tml-officer-types/tml-officer-ty
     AddMandateStatusesComponent,
     AddInterestRateBenchmarksComponent,
     AddFeeTypesComponent,
-    AddGracePeriodUnitsComponent,
+    AddPeriodUnitsComponent,
     AddRentStructureTypesComponent,
     AddCurrenciesComponent,
     AddPaymentMethodsComponent,
@@ -207,7 +207,7 @@ import { TmlOfficerTypesEffects } from './store/tml-officer-types/tml-officer-ty
     ViewMeetingTypesComponent,
     ViewInterestRateBenchmarksComponent,
     ViewFeeTypesComponent,
-    ViewGracePeriodUnitsComponent,
+    ViewPeriodUnitsComponent,
     ViewRentStructureTypesComponent,
     ViewCurrenciesComponent,
     WizardCurrenciesComponent,
@@ -326,7 +326,7 @@ import { TmlOfficerTypesEffects } from './store/tml-officer-types/tml-officer-ty
     AddMandateStatusesComponent,
     AddInterestRateBenchmarksComponent,
     AddFeeTypesComponent,
-    AddGracePeriodUnitsComponent,
+    AddPeriodUnitsComponent,
     AddRentStructureTypesComponent,
     AddCurrenciesComponent,
     AddPaymentMethodsComponent,

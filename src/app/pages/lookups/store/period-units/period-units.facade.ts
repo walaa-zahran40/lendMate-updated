@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { createSelector, Store } from '@ngrx/store';
-import * as Actions from './grace-period-units.actions';
-import * as Selectors from './grace-period-units.selectors';
-import { GracePeriodUnit } from './grace-period-unit.model';
+import * as Actions from './period-units.actions';
+import * as Selectors from './period-units.selectors';
+import { PeriodUnit } from './period-unit.model';
 
 @Injectable({ providedIn: 'root' })
 export class GracePeriodUnitsFacade {
@@ -26,11 +26,11 @@ export class GracePeriodUnitsFacade {
     this.store.dispatch(Actions.loadById({ id }));
   }
 
-  create(payload: Partial<Omit<GracePeriodUnit, 'id'>>) {
+  create(payload: Partial<Omit<PeriodUnit, 'id'>>) {
     this.store.dispatch(Actions.createEntity({ payload }));
   }
 
-  update(id: number, changes: Partial<GracePeriodUnit>) {
+  update(id: number, changes: Partial<PeriodUnit>) {
     this.store.dispatch(Actions.updateEntity({ id, changes }));
   }
 
