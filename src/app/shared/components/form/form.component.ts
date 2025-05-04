@@ -892,13 +892,13 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-rent-structure-types']);
   }
   viewGracePeriod() {
-    this.router.navigate(['/crm/clients/view-grace-period-units']);
+    this.router.navigate(['/lookups/view-grace-period-units']);
   }
   viewFeesTypes() {
     this.router.navigate(['/crm/clients/view-fees-types']);
   }
   viewInterestRate() {
-    this.router.navigate(['/crm/clients/view-interest-rate']);
+    this.router.navigate(['/lookups/view-interest-rate-benchmarks']);
   }
   viewMandateStatuses() {
     this.router.navigate(['/lookups/view-mandate-statuses']);
@@ -1028,19 +1028,19 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-client-types']);
   }
   viewAuthorityOffices() {
-    this.router.navigate(['/crm/clients/view-authority-offices']);
+    this.router.navigate(['/lookups/view-authority-offices']);
   }
   viewPhoneTypes() {
     this.router.navigate(['/lookups/view-phone-types']);
   }
   viewAddressTypes() {
-    this.router.navigate(['/crm/clients/view-address-types']);
+    this.router.navigate(['/lookups/view-address-types']);
   }
   viewGovernorates() {
     this.router.navigate(['/crm/clients/view-governorates']);
   }
   viewCountries() {
-    this.router.navigate(['/crm/clients/view-countries']);
+    this.router.navigate(['/lookups/view-countries']);
   }
   viewIdentificationTypes() {
     this.router.navigate(['/lookups/view-identification-types']);
@@ -1058,7 +1058,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-communication-types']);
   }
   viewCallActionType() {
-    this.router.navigate(['/crm/clients/view-call-action-type']);
+    this.router.navigate(['/lookups/view-call-action-types']);
   }
   viewCommunicationFlowType() {
     this.router.navigate(['/lookups/view-communication-flow-types']);

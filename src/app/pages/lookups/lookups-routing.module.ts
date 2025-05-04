@@ -160,6 +160,19 @@ const routes: Routes = [
     path: 'view-branches',
     component: ViewBranchComponent,
   },
+  //countries
+  {
+    path: 'add-countries',
+    component: AddCountriesComponent,
+  },
+  {
+    path: 'edit-countries/:id',
+    component: AddCountriesComponent,
+  },
+  {
+    path: 'view-countries',
+    component: ViewCountriesComponent,
+  },
   //Call Action Types
   {
     path: 'add-call-action-types',

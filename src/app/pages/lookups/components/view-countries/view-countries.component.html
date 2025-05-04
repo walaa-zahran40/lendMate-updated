@@ -1,25 +1,40 @@
 <div class="page-content">
   <app-toolbar-table
     [title]="'Countries'"
-    [labelBtn]="'Add Countries'"
+    [labelBtn]="'Add Country'"
+    [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
     [backExists]="true"
+    [customSpacing]="'custom-spacing'"
     [exports]="true"
+    (addBtn)="onAddCountry()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col1Name]="'Code'"
-    [col2Name]="'Country Name'"
-    [col3Name]="'Name EN'"
-    [col4Name]="'Name AR'"
-    [col5Name]="'Active'"
-    [edit]="true"
-    [delete]="true"
-    [side]="false"
-    [download]="false"
-    [checkBox]="true"
-    [viewCountriesTable]="true"
-    [uppercase]="'uppercase'"
-  ></app-table>
+  <ng-container *ngIf="countries$ | async as countries">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredCountries"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewCountriesTable]="true"
+      (onDelete)="onDeleteCountry($event)"
+      (onEdit)="onEditCountry($event)"
+      (viewForm)="onViewCountry($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
 </div>
