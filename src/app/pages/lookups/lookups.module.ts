@@ -163,6 +163,8 @@ import { countriesReducer } from './store/countries/countries.reducer';
 import { reducer as AreasReducer } from './store/areas/areas.reducer';
 import { AreasEffects } from './store/areas/areas.effects';
 
+import { reducer as MandateValidityUnitsReducer } from './store/mandate-validity-units/mandate-validity-units.reducer';
+import { MandateValidityUnitsEffects } from './store/mandate-validity-units/mandate-validity-units.effects';
 @NgModule({
   declarations: [
     AddTmlOfficerTypesComponent,
@@ -332,11 +334,11 @@ import { AreasEffects } from './store/areas/areas.effects';
     EffectsModule.forFeature([ClientStatusesEffects]),
     StoreModule.forFeature('docTypes', docTypesReducer),
     EffectsModule.forFeature([DocTypesEffects]),
-    StoreModule.forFeature('areas', AreasReducer),
     EffectsModule.forFeature([AreasEffects]),
+    StoreModule.forFeature('mandateValidityUnits', MandateValidityUnitsReducer),
+    EffectsModule.forFeature([MandateValidityUnitsEffects]),
   ],
   exports: [
-    AddCompanyTypesComponent,
     AddFeeCalculationTypesComponent,
     AddMandateStatusesComponent,
     AddInterestRateBenchmarksComponent,

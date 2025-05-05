@@ -513,6 +513,11 @@ const routes: Routes = [
   },
 
   {
+    path: 'edit-mandate-validity-unit/:id',
+    component: AddMandateValidityUnitComponent,
+  },
+
+  {
     path: 'add-branch',
     component: AddBranchComponent,
   },

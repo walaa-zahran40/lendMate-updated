@@ -868,7 +868,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-client-document-types']);
   }
   viewMandateValidity() {
-    this.router.navigate(['/crm/clients/view-mandate-validity']);
+    this.router.navigate(['/lookups/view-mandate-validity-unit']);
   }
   viewLeasingType() {
     this.router.navigate(['/lookups/view-leasing-types']);
