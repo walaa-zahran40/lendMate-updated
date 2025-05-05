@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { combineLatest, map, Observable, Subject, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
 
 import { TableComponent } from '../../../../shared/components/table/table.component';
@@ -19,14 +19,14 @@ export class ViewAssetTypesComponent {
   showFilters = false;
   private destroy$ = new Subject<void>();
 
+
   @ViewChild('tableRef') tableRef!: TableComponent;
   
   readonly colsInside = [
     { field: 'code', header: 'Code' },
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
-    { field: 'category', header: 'Category' },
-    { field: 'parent', header: 'Parent' },
+    { field: 'assetTypeCategory', header: 'Category' },
   ];
 
   showDeleteModal = false;
@@ -38,16 +38,50 @@ export class ViewAssetTypesComponent {
   constructor(private router: Router, private facade: AssetTypesFacade) {}
 
   ngOnInit() {
-    console.log('🟢 ngOnInit: start loading assetTypes');
     this.facade.loadAll();
     this.assetTypes$ = this.facade.items$;
-
+    console.log('asasasd',this.assetTypes$)
     this.assetTypes$.pipe(takeUntil(this.destroy$)).subscribe((assetTypes) => {
+      console.log('asseyyu[e',assetTypes)
       const sorted = [...assetTypes].sort((a, b) => b.id - a.id);
-      console.log('🟢 sorted assetTypes:', sorted);
       this.originalAssetTypes = sorted;
       this.filteredAssetTypes = [...sorted];
     });
+
+    combineLatest([this.assetTypes$])
+      .pipe(
+        map(([assetTypes]) => {
+          console.log('assettypessss',assetTypes)
+          const mapped = assetTypes.map((ss) => {
+            const assetTypeCategory = ss.assetTypeCategory?.name || '—';
+            console.log(
+              `🔍 Mapping Area ID ${ss.id} → Governorate Name: ${assetTypeCategory}`
+            );
+            return {
+              ...ss,
+              assetTypeCategory: assetTypeCategory, // or call it `categoryName` if more accurate
+            };
+          });
+ 
+          const sorted = mapped.sort((a, b) => b.id - a.id);
+          console.log('✅ Sorted mapped assetTypes:', sorted);
+          return sorted;
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(
+        (normalizedAssetTypes) => {
+          console.log(
+            '🟢 Final normalizedAssetTypes emitted to view:',
+            normalizedAssetTypes
+          );
+          this.filteredAssetTypes = normalizedAssetTypes;
+          this.originalAssetTypes = normalizedAssetTypes;
+        },
+        (error) => {
+          console.error('❌ Error in combineLatest subscription:', error);
+        }
+      );
   }
 
   onAddAssetType() {
@@ -111,7 +145,7 @@ export class ViewAssetTypesComponent {
   }
 
   onViewAssetType(assetTypes: AssetType) {
-    this.router.navigate(['/lookups/view-asset-types', assetTypes.id], {
+    this.router.navigate(['/lookups/edit-asset-types', assetTypes.id], {
       queryParams: { mode: 'view' },
     });
   }
