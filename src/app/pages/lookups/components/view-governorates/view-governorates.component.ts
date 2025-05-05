@@ -1,9 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { combineLatest, map, Observable, pipe, Subject, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
 import { TableComponent } from '../../../../shared/components/table/table.component';
 import { Governorate } from '../../store/governorates/governorate.model';
 import { GovernorateFacade } from '../../store/governorates/governorates.facade';
+import { Country } from '../../store/countries/country.model';
+import { Store } from '@ngrx/store';
+import { selectCountries } from '../../store/countries/countries.selectors';
 
 @Component({
   selector: 'app-view-governorates',
@@ -22,26 +25,50 @@ export class ViewGovernoratesComponent {
   readonly colsInside = [
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
+    { field: 'aramex', header: 'Aramex' },
+    { field: 'countryName', header: 'Country Name' },
   ];
   showDeleteModal: boolean = false;
   selectedGovernorateId: number | null = null;
   originalGovernorates: Governorate[] = [];
   filteredGovernorates: Governorate[] = [];
   governorates$!: Observable<Governorate[]>;
+  countriesList$!: Observable<Country[]>;
 
-  constructor(private router: Router, private facade: GovernorateFacade) {}
+  constructor(private router: Router, private facade: GovernorateFacade,  private store: Store) {}
   ngOnInit() {
-    this.facade.loadAll();
     this.governorates$ = this.facade.items$;
-    
-    this.governorates$
-      ?.pipe(takeUntil(this.destroy$))
-      .subscribe((governorates) => {
-        // governorates is now Governorate[], not any
-        const sorted = [...governorates].sort((a, b) => b.id - a.id);
-        this.originalGovernorates = sorted;
-        this.filteredGovernorates = [...sorted];
-      });
+    this.countriesList$ = this.store.select(selectCountries); // Add this line
+    this.facade.loadAll();
+    this.store.dispatch({ type: '[Countries] Load All' }); 
+
+    combineLatest([this.governorates$, this.countriesList$])
+          .pipe(
+            map(([governorates, countries]) =>
+              governorates
+                .map((ss) => ({
+                  ...ss,
+                  countryName:
+                  countries.find((s) => s.id === ss.countryId)?.name || '—',
+                }))
+                .sort((a, b) => b.id - a.id)
+            ),
+            takeUntil(this.destroy$)
+          )
+          .subscribe((normalizedSubSectors) => {
+            console.log('🟢 Normalized SubSectors:', normalizedSubSectors);
+            this.originalGovernorates = normalizedSubSectors;
+            this.filteredGovernorates = normalizedSubSectors;
+          });
+          
+    // this.governorates$
+    //   ?.pipe(takeUntil(this.destroy$))
+    //   .subscribe((governorates) => {
+    //     // governorates is now Governorate[], not any
+    //     const sorted = [...governorates].sort((a, b) => b.id - a.id);
+    //     this.originalGovernorates = sorted;
+    //     this.filteredGovernorates = [...sorted];
+    //   });
   }
 
   onAddGovernorate() {
