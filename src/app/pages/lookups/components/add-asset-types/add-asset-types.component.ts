@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { filter, take } from 'rxjs';
+import { filter, Observable, take } from 'rxjs';
 import { arabicOnlyValidator } from '../../../../shared/validators/arabic-only.validator';
 import { AssetTypesFacade } from '../../store/asset-types/asset-types.facade';
 import { AssetType } from '../../store/asset-types/asset-type.model';
+import { selectAssetTypeCategories } from '../../store/asset-type-categories/asset-type-categories.selectors';
+import { Store } from '@ngrx/store';
+import { loadAssetTypeCategories } from '../../store/asset-type-categories/asset-type-categories.actions';
 
 @Component({
   selector: 'app-add-asset-type-s',
@@ -17,20 +20,32 @@ export class AddAssetTypesComponent {
   viewOnly = false;
   addAssetTypesLookupsForm!: FormGroup;
   clientId: any;
+  assetTypeCategories$!: any;
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private facade: AssetTypesFacade,
-    private router: Router
+    private router: Router,
+        private store: Store
   ) {}
 
   ngOnInit() {
+    //Select Box
+        console.log('🔵 ngOnInit: start');
+        this.store.dispatch(loadAssetTypeCategories());
+        this.assetTypeCategories$ = this.store.select(selectAssetTypeCategories);
+        console.log('assetTypeCategories list', this.assetTypeCategories$);
+        this.assetTypeCategories$.subscribe((data: any) =>
+          console.log('🧪 assetTypeCategories$ from store:', data)
+        );
+
     this.addAssetTypesLookupsForm = this.fb.group({
       id: [null],
       name: ['', [Validators.required]],
       nameAR: ['', [Validators.required, arabicOnlyValidator]],
-      limit: [ null , [Validators.required]],
+      assetTypeCategoryId: [null, [Validators.required]],
+      parentAssetTypeId: [null],
       isActive: [true],
     });
 
@@ -58,7 +73,7 @@ export class AddAssetTypesComponent {
               id: ct!.id,
               name: ct!.name,
               nameAR: ct!.nameAR,
-              category: ct!.category,
+              assetTypeCategoryId: ct!.assetTypeCategoryId,
               parent: ct!.parent,
               isActive: ct!.isActive,
             });
@@ -95,9 +110,9 @@ export class AddAssetTypesComponent {
       return;
     }
 
-    const { name, nameAR, category , parent } =
+    const { name, nameAR, assetTypeCategoryId , parent } =
       this.addAssetTypesLookupsForm.value;
-    const payload: Partial<AssetType> = { name, nameAR, category , parent };
+    const payload: Partial<AssetType> = { name, nameAR, assetTypeCategoryId , parent };
     console.log('  → payload object:', payload);
 
     // Double-check your route param
@@ -105,13 +120,13 @@ export class AddAssetTypesComponent {
     console.log('  route.snapshot.paramMap.get(clientId):', routeId);
 
     if (this.editMode) {
-      const { id, name, nameAR, category, parent , isActive } =
+      const { id, name, nameAR, assetTypeCategoryId, parent , isActive } =
         this.addAssetTypesLookupsForm.value;
       const payload: AssetType = {
         id,
         name,
         nameAR,
-        category,
+        assetTypeCategoryId,
         parent,
         isActive,
         code: '',
@@ -131,3 +146,5 @@ export class AddAssetTypesComponent {
     this.router.navigate(['/lookups/view-asset-types']);
   }
 }
+
+

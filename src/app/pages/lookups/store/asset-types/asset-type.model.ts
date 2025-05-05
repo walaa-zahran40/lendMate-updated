@@ -3,7 +3,8 @@ export interface AssetType {
   code?: string;
   name: string;
   nameAR: string;
-  category: number;
+  assetTypeCategoryId: number;
+  assetTypeCategory? : any;
   parent: number;
   isActive: boolean;
 }
