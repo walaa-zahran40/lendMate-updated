@@ -41,13 +41,6 @@ export class ViewSubSectorsComponent {
     private store: Store
   ) {}
   ngOnInit() {
-    if (!localStorage.getItem('areaPageRefreshed')) {
-      localStorage.setItem('areaPageRefreshed', 'true');
-      window.location.reload();
-    } else {
-      localStorage.removeItem('areaPageRefreshed');
-    }
-
     console.log('🟢 ngOnInit: start');
     this.SubSectors$ = this.facade.all$;
     this.sectorsList$ = this.store.select(selectAllSectors); // Add this line
