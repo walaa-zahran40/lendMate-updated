@@ -1002,8 +1002,8 @@ export class FormComponent implements OnInit, OnDestroy {
       queryParams: { id: this.id },
     });
   }
-  viewAssestTypes() {
-    this.router.navigate(['/crm/clients/view-assest-types']);
+  viewAssetTypes() {
+    this.router.navigate(['/lookups/view-asset-types']);
   }
   viewAssetTypeCategories() {
     this.router.navigate(['/lookups/view-asset-type-categories']);
