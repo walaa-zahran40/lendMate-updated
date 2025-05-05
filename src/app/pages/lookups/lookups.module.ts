@@ -337,6 +337,8 @@ import { MandateValidityUnitsEffects } from './store/mandate-validity-units/mand
     EffectsModule.forFeature([AreasEffects]),
     StoreModule.forFeature('mandateValidityUnits', MandateValidityUnitsReducer),
     EffectsModule.forFeature([MandateValidityUnitsEffects]),
+    StoreModule.forFeature('areas', AreasReducer),
+    EffectsModule.forFeature([AreasEffects]),
   ],
   exports: [
     AddFeeCalculationTypesComponent,
