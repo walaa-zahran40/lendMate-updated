@@ -158,12 +158,6 @@ export class TableComponent {
   constructor(private sharedService: SharedService, private store: Store) {}
 
   ngOnInit() {
-    //select box sectors
-    if (this.viewSubSectorTable) {
-      this.store.dispatch(loadAll({}));
-      this.allSectors = this.store.select(selectAllSectors);
-    }
-
     if (this.cols?.length) {
       this.globalFilterFields = this.cols.map((c) => c.field);
     }
