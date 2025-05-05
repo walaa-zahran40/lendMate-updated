@@ -17,17 +17,8 @@ export class InactiveInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     // If we’re coming back from a reload, clear the flag on the first GET
     if (req.method === 'GET' && localStorage.getItem('areaPageRefreshed')) {
-      console.log(
-        `[InactiveInterceptor] Clearing reload flag on first GET after reload`
-      );
       localStorage.removeItem('areaPageRefreshed');
     }
-
-    console.log(
-      `[InactiveInterceptor] → ${req.method} ${req.urlWithParams}`,
-      'body=',
-      req.body
-    );
 
     return next.handle(req).pipe(
       tap((event) => {
@@ -55,15 +46,8 @@ export class InactiveInterceptor implements HttpInterceptor {
 
         // Log what we saw
         if (items.length) {
-          items.forEach((item) => {
-            console.log(
-              `[InactiveInterceptor] ← item id=${item.id}, isActive=${item.isActive}`
-            );
-          });
+          items.forEach((item) => {});
         } else {
-          console.log(
-            `[InactiveInterceptor] ← no isActive in response payload, items=[]`
-          );
         }
 
         const hasInactiveResponse = items.some((i) => i.isActive === false);
@@ -72,27 +56,14 @@ export class InactiveInterceptor implements HttpInterceptor {
         const isUpdateCall = req.method === 'PUT' || req.method === 'PATCH';
         const sentInactive = req.body && req.body.isActive === false;
         if (isUpdateCall) {
-          console.log(
-            `[InactiveInterceptor] ← update call detected, sent isActive=${req.body?.isActive}`
-          );
         }
 
         // If either path sees an inactive flag, reload once
         if (hasInactiveResponse || (isUpdateCall && sentInactive)) {
-          console.log(
-            `[InactiveInterceptor] ▶ inactive detected (resp? ${hasInactiveResponse}, req? ${sentInactive}) — checking reload flag…`
-          );
           if (!localStorage.getItem('areaPageRefreshed')) {
-            console.log(
-              `[InactiveInterceptor] ▶ setting flag & reloading page.`
-            );
             localStorage.setItem('areaPageRefreshed', 'true');
             window.location.reload();
           } else {
-            console.log(
-              `[InactiveInterceptor] ▶ flag already set — skipping reload.`
-            );
-            // we leave the flag in place until the next GET clears it
           }
         }
       })
