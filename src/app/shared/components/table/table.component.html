@@ -58,6 +58,9 @@
           <span *ngSwitchCase="'sectorId'">
             {{ getSectorName(rowData.sectorId) }}
           </span>
+          <span *ngSwitchCase="'governorateId'">
+            {{ getCountryName(rowData.governorateId) }}
+          </span>
         </ng-container>
       </td>
       <!-- <td>{{ getTypeLabel(rowData.clientTypeCode) }}</td> -->

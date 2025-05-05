@@ -153,7 +153,7 @@ export class TableComponent {
   event: any;
   globalFilterFields: string[] = [];
   allSectors: any;
-
+  allCountries: any;
   constructor(private sharedService: SharedService, private store: Store) {}
 
   ngOnInit() {
@@ -171,6 +171,10 @@ export class TableComponent {
   getSectorName(sectorId: number): string {
     const sector = this.allSectors.find((s: any) => s.id === sectorId);
     return sector ? sector.name : 'Unknown Sector';
+  }
+  getCountryName(id: number): string {
+    const country = this.allCountries.find((s: any) => s.id === id);
+    return country ? country.name : 'Unknown Country';
   }
   openPopup() {
     this.sharedService.showPopup();

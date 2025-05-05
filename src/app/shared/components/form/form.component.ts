@@ -65,6 +65,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() sectorsList: any;
 
   @Input() subSectorsList: any[] = [];
+  @Input() countriesList: any;
 
   @Input() selectedSectorId: number | null = null;
   @Input() legalFormLawIdControl!: number;
@@ -1049,7 +1050,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-identification-types']);
   }
   viewAreas() {
-    this.router.navigate(['/crm/clients/view-areas']);
+    this.router.navigate(['/lookups/view-areas']);
   }
   viewTaxOffices() {
     this.router.navigate(['/crm/clients/view-tax-offices']);
@@ -1077,6 +1078,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.subSectorList.setValue(selectedIds);
     this.subSectorList.markAsTouched();
   }
+
   updateValue(value: LegalFormLaw, value1: LegalForm): void {
     this.selectedLegalFormLaw = value;
     this.selectedLegalForm = value1;

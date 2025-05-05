@@ -148,8 +148,6 @@ import { reducer as PhoneTypesReducer } from './store/phone-types/phone-types.re
 import { PhoneTypesEffects } from './store/phone-types/phone-types.effects';
 import { reducer as RentStructureTypesReducer } from './store/rent-structure-types/rent-structure-types.reducer';
 import { RentStructureTypesEffects } from './store/rent-structure-types/rent-structure-types.effects';
-import { CountriesEffects } from './store/countries/countries.effects';
-import { countriesReducer } from './store/countries/countries.reducer';
 import { reducer as SectorsReducer } from './store/sectors/sectors.reducer';
 import { SectorsEffects } from './store/sectors/sectors.effects';
 import { reducer as TmlOfficerTypesReducer } from './store/tml-officer-types/tml-officer-types.reducer';
@@ -160,6 +158,10 @@ import { clientStatusesReducer } from './store/client-statuses/client-statuses.r
 import { ClientStatusesEffects } from './store/client-statuses/client-statuses.effects';
 import { reducer as docTypesReducer } from './store/doc-types/doc-types.reducer';
 import { DocTypesEffects } from './store/doc-types/doc-types.effects';
+import { CountriesEffects } from './store/countries/countries.effects';
+import { countriesReducer } from './store/countries/countries.reducer';
+import { reducer as AreasReducer } from './store/areas/areas.reducer';
+import { AreasEffects } from './store/areas/areas.effects';
 
 @NgModule({
   declarations: [
@@ -330,6 +332,8 @@ import { DocTypesEffects } from './store/doc-types/doc-types.effects';
     EffectsModule.forFeature([ClientStatusesEffects]),
     StoreModule.forFeature('docTypes', docTypesReducer),
     EffectsModule.forFeature([DocTypesEffects]),
+    StoreModule.forFeature('areas', AreasReducer),
+    EffectsModule.forFeature([AreasEffects]),
   ],
   exports: [
     AddCompanyTypesComponent,
