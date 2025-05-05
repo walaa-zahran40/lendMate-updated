@@ -96,8 +96,6 @@ import { ViewCallTypesComponent } from './components/view-call-types/view-call-t
 import { ViewCommunicationTypesComponent } from './components/view-communication-types/view-communication-types.component';
 import { ViewCallActionTypesComponent } from './components/view-call-action-types/view-call-action-types.component';
 import { ViewCommunicationFlowTypeComponent } from './components/view-communication-flow-type/view-communication-flow-type.component';
-import { ViewFeesRangeComponent } from './components/view-fees-range/view-fees-range.component';
-import { AddFeesRangeComponent } from './components/add-fees-range/add-fees-range.component';
 import { CompanyTypesEffects } from './store/company-types/company-types.effects';
 import { companyTypesReducer } from './store/company-types/company-types.reducer';
 import { reducer as feeCalcReducer } from './store/fee-calculation-types/fee-calculation-types.reducer';
@@ -259,8 +257,6 @@ import { MandateValidityUnitsEffects } from './store/mandate-validity-units/mand
     ViewCommunicationTypesComponent,
     ViewCallActionTypesComponent,
     ViewCommunicationFlowTypeComponent,
-    ViewFeesRangeComponent,
-    AddFeesRangeComponent,
   ],
   imports: [
     CommonModule,

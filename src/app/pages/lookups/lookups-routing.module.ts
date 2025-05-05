@@ -89,8 +89,6 @@ import { ViewCallTypesComponent } from './components/view-call-types/view-call-t
 import { ViewCommunicationTypesComponent } from './components/view-communication-types/view-communication-types.component';
 import { ViewCallActionTypesComponent } from './components/view-call-action-types/view-call-action-types.component';
 import { ViewCommunicationFlowTypeComponent } from './components/view-communication-flow-type/view-communication-flow-type.component';
-import { ViewFeesRangeComponent } from './components/view-fees-range/view-fees-range.component';
-import { AddFeesRangeComponent } from './components/add-fees-range/add-fees-range.component';
 import { AddDocTypesComponent } from './components/add-doc-types/add-doc-types.component';
 import { ViewDocTypesComponent } from './components/view-doc-types/view-doc-types.component';
 
@@ -262,7 +260,6 @@ const routes: Routes = [
     component: ViewAssetTypeCategoriesComponent,
   },
 
-  
   //Asset mandate status
   {
     path: 'add-mandate-statuses',
@@ -580,10 +577,6 @@ const routes: Routes = [
     path: 'add-countries',
     component: AddCountriesComponent,
   },
-  {
-    path: 'add-fees-range',
-    component: AddFeesRangeComponent,
-  },
 
   {
     path: 'add-areas',
@@ -598,15 +591,11 @@ const routes: Routes = [
     component: AddTmlOfficerTypesComponent,
   },
 
-
   {
     path: 'view-fee-types',
     component: ViewFeeTypesComponent,
   },
-  {
-    path: 'view-fees-range',
-    component: ViewFeesRangeComponent,
-  },
+
   {
     path: 'view-period-units',
     component: ViewPeriodUnitsComponent,
