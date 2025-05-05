@@ -19,7 +19,6 @@ import { AddBranchComponent } from './components/add-branch/add-branch.component
 import { AddBusinessLinesComponent } from './components/add-business-lines/add-business-lines.component';
 import { AddAssetTypesComponent } from './components/add-asset-types/add-asset-types.component';
 import { AddCurrenciesExchangeComponent } from './components/add-currencies-exchange/add-currencies-exchange.component';
-import { AddClientDocumentTypesComponent } from './components/add-client-document-types/add-client-document-types.component';
 import { AddBranchManagersComponent } from './components/add-branch-managers/add-branch-managers.component';
 import { AddBranchAddressesComponent } from './components/add-branch-addresses/add-branch-addresses.component';
 import { AddBranchOfficersComponent } from './components/add-branch-officers/add-branch-officers.component';
@@ -61,7 +60,6 @@ import { ViewMeetingTypesComponent } from './components/view-meeting-types/view-
 import { ViewInsuredByComponent } from './components/view-insured-by/view-insured-by.component';
 import { ViewLeasingTypeComponent } from './components/view-leasing-type/view-leasing-type.component';
 import { ViewMandateValidityUnitComponent } from './components/view-mandate-validity-unit/view-mandate-validity-unit.component';
-import { ViewClientDocumentTypesComponent } from './components/view-client-document-types/view-client-document-types.component';
 import { ViewBranchComponent } from './components/view-branch/view-branch.component';
 import { WizardBranchComponent } from './components/wizard-branch/wizard-branch.component';
 import { ViewBranchManagersComponent } from './components/view-branch-managers/view-branch-managers.component';
@@ -93,8 +91,11 @@ import { ViewCallActionTypesComponent } from './components/view-call-action-type
 import { ViewCommunicationFlowTypeComponent } from './components/view-communication-flow-type/view-communication-flow-type.component';
 import { ViewFeesRangeComponent } from './components/view-fees-range/view-fees-range.component';
 import { AddFeesRangeComponent } from './components/add-fees-range/add-fees-range.component';
+import { AddDocTypesComponent } from './components/add-doc-types/add-doc-types.component';
+import { ViewDocTypesComponent } from './components/view-doc-types/view-doc-types.component';
 
 const routes: Routes = [
+  /**Lookup Module */
   //Company Types
   {
     path: 'add-company-types',
@@ -472,7 +473,20 @@ const routes: Routes = [
     path: 'view-rent-structure-types',
     component: ViewRentStructureTypesComponent,
   },
-  //----
+  //Doc Types
+  {
+    path: 'add-document-types',
+    component: AddDocTypesComponent,
+  },
+  {
+    path: 'edit-document-types/:id',
+    component: AddDocTypesComponent,
+  },
+  {
+    path: 'view-document-types',
+    component: ViewDocTypesComponent,
+  },
+
   {
     path: 'add-mandate-statuses',
     component: AddMandateStatusesComponent,
@@ -497,10 +511,7 @@ const routes: Routes = [
     path: 'add-mandate-validity-unit',
     component: AddMandateValidityUnitComponent,
   },
-  {
-    path: 'add-client-document-types',
-    component: AddClientDocumentTypesComponent,
-  },
+
   {
     path: 'add-branch',
     component: AddBranchComponent,
@@ -597,10 +608,6 @@ const routes: Routes = [
   {
     path: 'view-mandate-validity-unit',
     component: ViewMandateValidityUnitComponent,
-  },
-  {
-    path: 'view-client-document-types',
-    component: ViewClientDocumentTypesComponent,
   },
 
   {

@@ -5,6 +5,14 @@
       {{ description }}
     </p>
     <p-button
+      *ngIf="addDocTypesForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Document Types"
+      (click)="viewDocTypes()"
+      class="custom-view m-0 float-right"
+    />
+    <p-button
       *ngIf="uploadDocumentsShowMain"
       icon="pi pi-cog"
       iconPos="left"
@@ -3639,6 +3647,113 @@
         </div>
       </div>
     </form>
+
+    <form
+      [formGroup]="formGroup"
+      *ngIf="addDocTypesForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="relatedFilesPath">Related File Path<sup>*</sup></label>
+      <input
+        pInputText
+        id="relatedFilesPath"
+        formControlName="relatedFilesPath"
+        placeholder="Related File Path"
+      />
+      <div
+        *ngIf="
+          formGroup.get('relatedFilesPath')?.hasError('required') &&
+          formGroup.get('relatedFilesPath')?.touched
+        "
+        class="p-error"
+      >
+        Related File Path is required.
+      </div>
+      <label for="name">Name in English<sup>*</sup></label>
+      <input
+        pInputText
+        id="name"
+        formControlName="name"
+        placeholder="Name in English"
+      />
+      <div
+        *ngIf="
+          formGroup.get('name')?.hasError('required') &&
+          formGroup.get('name')?.touched
+        "
+        class="p-error"
+      >
+        Name in English is required.
+      </div>
+
+      <label for="nameAR">Name in Arabic<sup>*</sup></label>
+      <input
+        pInputText
+        id="nameAR"
+        formControlName="nameAR"
+        placeholder="Name in Arabic"
+      />
+      <div
+        *ngIf="
+          formGroup.get('nameAR')?.hasError('required') &&
+          formGroup.get('nameAR')?.touched
+        "
+        class="p-error"
+      >
+        Name in Arabic is required.
+      </div>
+      <div
+        *ngIf="
+          formGroup.get('nameAR')?.hasError('pattern') &&
+          formGroup.get('nameAR')?.touched
+        "
+        class="p-error"
+      >
+        Please enter only Arabic letters.
+      </div>
+      <div class="p-field" *ngIf="editMode">
+        <p-toggleSwitch
+          id="isActive"
+          formControlName="isActive"
+          label="is Active"
+        ></p-toggleSwitch>
+        <label for="isActive"> Active</label>
+      </div>
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 docTypeDiv"
+          *ngIf="!editMode"
+        >
+          <p-button
+            type="submit"
+            label="Add Document Type"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 docTypeDiv"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Document Type"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 docTypeDiv"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate(['/lookups/view-document-types'])"
+          />
+        </div>
+      </div>
+    </form>
+
     <form action="" *ngIf="addClientGuarantorsShowIndividual">
       <label for="nameEnglishIndividual"
         >Name in English<sup class="danger">*</sup></label
@@ -6226,7 +6341,7 @@
         name="activeClientStatusesLookups"
       />
     </form>
-    <form 
+    <form
       [formGroup]="formGroup"
       *ngIf="addClientStatusesLookupsForm"
       (ngSubmit)="onSubmit()"
@@ -6273,11 +6388,11 @@
         Please enter only Arabic letters.
       </div>
       <p-toggleSwitch
-          id="isInitial"
-          formControlName="isInitial"
-          label="is Initial"
-        ></p-toggleSwitch>
-        <label for="isInitial"> Initial</label>
+        id="isInitial"
+        formControlName="isInitial"
+        label="is Initial"
+      ></p-toggleSwitch>
+      <label for="isInitial"> Initial</label>
 
       <div class="p-field" *ngIf="editMode">
         <p-toggleSwitch
@@ -6320,7 +6435,6 @@
           />
         </div>
       </div>
-     
     </form>
 
     <form action="" *ngIf="addProductsLookupsForm">

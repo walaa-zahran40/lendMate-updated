@@ -129,6 +129,7 @@ export class TableComponent {
   @Input() viewMeetingTypesLookupTable!: boolean;
   @Input() viewCallsCommunicationTable!: boolean;
   @Input() viewClientGuarantorTable!: boolean;
+  @Input() viewDocTypesTable!: boolean;
   @Input() paginator: boolean = true;
   @Output() wizardBtn = new EventEmitter<void>();
   @Output() onEdit = new EventEmitter<any>();

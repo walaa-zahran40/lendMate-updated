@@ -413,6 +413,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addFollowUpTypesCommunicationForm!: boolean;
   @Input() addCallTypesCommunicationForm!: boolean;
   @Input() addDepartmentsORGForm!: boolean;
+  @Input() addDocTypesForm!: boolean;
   @Input() addDepartmentManagerORGForm!: boolean;
   @Input() addTeamORGForm!: boolean;
   @Input() addTeamLeadORGForm!: boolean;
@@ -1052,6 +1053,9 @@ export class FormComponent implements OnInit, OnDestroy {
   }
   viewTaxOffices() {
     this.router.navigate(['/crm/clients/view-tax-offices']);
+  }
+  viewDocTypes() {
+    this.router.navigate(['/lookups/view-document-types']);
   }
   viewTMLOfficerType() {
     this.router.navigate(['/lookups/view-tml-officer-types']);

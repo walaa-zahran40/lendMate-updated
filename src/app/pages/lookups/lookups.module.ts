@@ -50,7 +50,7 @@ import { AddClientStatusActionsComponent } from './components/add-client-status-
 import { AddCurrenciesExchangeComponent } from './components/add-currencies-exchange/add-currencies-exchange.component';
 import { LookupsRoutingModule } from './lookups-routing.module';
 import { SharedModule } from '../../shared/shared.module';
-import { AddClientDocumentTypesComponent } from './components/add-client-document-types/add-client-document-types.component';
+import { AddDocTypesComponent } from './components/add-doc-types/add-doc-types.component';
 import { AddClientTypesComponent } from './components/add-client-types/add-client-types.component';
 import { ViewCompanyTypesComponent } from './components/view-company-types/view-company-types.component';
 import { ViewFeesCalculationTypesComponent } from './components/view-fees-calculation-types/view-fees-calculation-types.component';
@@ -66,7 +66,7 @@ import { ViewPaymentMethodsComponent } from './components/view-payment-methods/v
 import { ViewInsuredByComponent } from './components/view-insured-by/view-insured-by.component';
 import { ViewLeasingTypeComponent } from './components/view-leasing-type/view-leasing-type.component';
 import { ViewMandateValidityUnitComponent } from './components/view-mandate-validity-unit/view-mandate-validity-unit.component';
-import { ViewClientDocumentTypesComponent } from './components/view-client-document-types/view-client-document-types.component';
+import { ViewDocTypesComponent } from './components/view-doc-types/view-doc-types.component';
 import { ViewBranchComponent } from './components/view-branch/view-branch.component';
 import { WizardBranchComponent } from './components/wizard-branch/wizard-branch.component';
 import { ViewBranchManagersComponent } from './components/view-branch-managers/view-branch-managers.component';
@@ -156,9 +156,11 @@ import { reducer as TmlOfficerTypesReducer } from './store/tml-officer-types/tml
 import { TmlOfficerTypesEffects } from './store/tml-officer-types/tml-officer-types.effects';
 import { reducer as SubSectorsReducer } from './store/sub-sectors/sub-sectors.reducer';
 import { SubSectorsEffects } from './store/sub-sectors/sub-sectors.effects';
-
 import { clientStatusesReducer } from './store/client-statuses/client-statuses.reducer';
 import { ClientStatusesEffects } from './store/client-statuses/client-statuses.effects';
+import { reducer as docTypesReducer } from './store/doc-types/doc-types.reducer';
+import { DocTypesEffects } from './store/doc-types/doc-types.effects';
+
 @NgModule({
   declarations: [
     AddTmlOfficerTypesComponent,
@@ -203,7 +205,7 @@ import { ClientStatusesEffects } from './store/client-statuses/client-statuses.e
     AddBranchAddressesComponent,
     AddClientStatusActionsComponent,
     AddCurrenciesExchangeComponent,
-    AddClientDocumentTypesComponent,
+    AddDocTypesComponent,
     AddClientTypesComponent,
     ViewCompanyTypesComponent,
     ViewFeesCalculationTypesComponent,
@@ -221,7 +223,7 @@ import { ClientStatusesEffects } from './store/client-statuses/client-statuses.e
     ViewLeasingTypeComponent,
     ViewPaymentTypesComponent,
     ViewMandateValidityUnitComponent,
-    ViewClientDocumentTypesComponent,
+    ViewDocTypesComponent,
     ViewBranchComponent,
     WizardBranchComponent,
     ViewBranchManagersComponent,
@@ -320,11 +322,14 @@ import { ClientStatusesEffects } from './store/client-statuses/client-statuses.e
     EffectsModule.forFeature([CountriesEffects]),
     StoreModule.forFeature('sectors', SectorsReducer),
     EffectsModule.forFeature([SectorsEffects]),
+    StoreModule.forFeature('tmlOfficerTypes', TmlOfficerTypesReducer),
     EffectsModule.forFeature([TmlOfficerTypesEffects]),
     StoreModule.forFeature('subSectors', SubSectorsReducer),
     EffectsModule.forFeature([SubSectorsEffects]),
     StoreModule.forFeature('clientStatuses', clientStatusesReducer),
     EffectsModule.forFeature([ClientStatusesEffects]),
+    StoreModule.forFeature('docTypes', docTypesReducer),
+    EffectsModule.forFeature([DocTypesEffects]),
   ],
   exports: [
     AddCompanyTypesComponent,
@@ -343,7 +348,7 @@ import { ClientStatusesEffects } from './store/client-statuses/client-statuses.e
     AddInsuredByComponent,
     AddLeasingTypeComponent,
     AddMandateValidityUnitComponent,
-    AddClientDocumentTypesComponent,
+    AddDocTypesComponent,
     AddBranchComponent,
     AddBusinessLinesComponent,
     AddAssetTypesComponent,
