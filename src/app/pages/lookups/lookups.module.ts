@@ -165,6 +165,8 @@ import { AreasEffects } from './store/areas/areas.effects';
 
 import { reducer as MandateValidityUnitsReducer } from './store/mandate-validity-units/mandate-validity-units.reducer';
 import { MandateValidityUnitsEffects } from './store/mandate-validity-units/mandate-validity-units.effects';
+import { governoratesReducer } from './store/governorates/governorates.reducer';
+import { GovernoratesEffects } from './store/governorates/governorates.effects';
 @NgModule({
   declarations: [
     AddTmlOfficerTypesComponent,
@@ -339,6 +341,8 @@ import { MandateValidityUnitsEffects } from './store/mandate-validity-units/mand
     EffectsModule.forFeature([MandateValidityUnitsEffects]),
     StoreModule.forFeature('areas', AreasReducer),
     EffectsModule.forFeature([AreasEffects]),
+    StoreModule.forFeature('governorates', governoratesReducer),
+    EffectsModule.forFeature([GovernoratesEffects]),
   ],
   exports: [
     AddFeeCalculationTypesComponent,

@@ -1,26 +1,41 @@
 <div class="page-content">
   <app-toolbar-table
     [title]="'Governorates'"
-    [labelBtn]="'Add Governorates'"
-    [backExists]="true"
-    [exports]="true"
+    [labelBtn]="'Add Governorate'"
+    [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddGovernorate()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col1Name]="'Code'"
-    [col2Name]="'Name EN'"
-    [col3Name]="'Name AR'"
-    [col4Name]="'Aramix'"
-    [col5Name]="'Active'"
-    [col6Name]="'Country Name'"
-    [edit]="true"
-    [delete]="true"
-    [side]="false"
-    [download]="false"
-    [checkBox]="true"
-    [viewGovernerateTable]="true"
-    [uppercase]="'uppercase'"
-  ></app-table>
+
+  <ng-container *ngIf="governorates$ | async as governorates">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredGovernorates"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewGovernerateTable]="true"
+      (onDelete)="onDeleteGovernorate($event)"
+      (onEdit)="onEditGovernorate($event)"
+      (viewForm)="onViewGovernorate($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
 </div>

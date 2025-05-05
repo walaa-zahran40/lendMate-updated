@@ -6319,44 +6319,114 @@
       </div>
     </form>
 
-    <form action="" *ngIf="addGovernoratesLookupsForm">
-      <label for="countryIDGovernoratesLookups">Country ID<sup>*</sup></label>
-      <p-select
-        [options]="stamps"
-        [(ngModel)]="selectedStamps"
-        optionLabel="name"
-        class="w-full md:w-56"
-        name="countryIDGovernoratesLookups"
-      />
-      <label for="governorateEnglishGovernoratesLookups"
-        >Governorate Name English<sup>*</sup></label
+    <form 
+    [formGroup]="formGroup"
+    *ngIf="addGovernoratesLookupsForm"
+    (ngSubmit)="onSubmit()"
+  >
+    <label for="countryId">Country ID<sup>*</sup></label>
+    <p-select
+      [options]="countriesList"
+      optionLabel="name"
+      placeholder="Select Country"
+      formControlName="countryId"
+      optionValue="id"
+      (onChange)="onSectorChange($event)"
+      required
+      [ngClass]="{
+        'ng-invalid':
+          formGroup.get('countryId')?.invalid &&
+          (formGroup.get('countryId')?.dirty ||
+            formGroup.get('countryId')?.touched)
+      }"
+    />
+    <label for="name">Name in English<sup>*</sup></label>
+    <input pInputText id="name" formControlName="name" placeholder="Type" />
+    <div
+      *ngIf="
+        formGroup.get('name')?.hasError('required') &&
+        formGroup.get('name')?.touched
+      "
+      class="p-error"
+    >
+         Name in English is required.
+    </div>
+    <label for="nameAR">Name in Arabic<sup>*</sup></label>
+    <input
+      pInputText
+      id="nameAR"
+      formControlName="nameAR"
+      placeholder="Type"
+    />
+    <div
+      *ngIf="
+        formGroup.get('nameAR')?.hasError('required') &&
+        formGroup.get('nameAR')?.touched
+      "
+      class="p-error"
+    >
+      Name in Arabic is required.
+    </div>
+    <div
+      *ngIf="
+        formGroup.get('nameAR')?.hasError('pattern') &&
+        formGroup.get('nameAR')?.touched
+      "
+      class="p-error"
+    >
+      Please enter only Arabic letters.
+    </div>
+    
+    <label for="aramex">Aramix<sup>*</sup></label>
+    <input
+      pInputText
+      id="aramex"
+      formControlName="aramex"
+      placeholder="Type"
+    />
+    <div
+      *ngIf="
+        formGroup.get('aramex')?.hasError('required') &&
+        formGroup.get('aramex')?.touched
+      "
+      class="p-error"
+    >
+      Aramex in English is required.
+    </div>
+    <div class="row justify-end">
+      <div
+        class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
+        *ngIf="!editMode"
       >
-      <input
-        pInputText
-        id="governorateEnglishGovernoratesLookups"
-        aria-describedby="governorateEnglishGovernoratesLookups-help"
-        name="governorateEnglishGovernoratesLookups"
-        placeholder="Enter Name"
-      />
-      <label for="governorateArabicGovernoratesLookups"
-        >Governorate Name Arabic<sup>*</sup></label
+        <p-button
+          type="submit"
+          label="Add Governorate"
+          [disabled]="formGroup.invalid"
+          class="custom-save m-0 float-right"
+        ></p-button>
+      </div>
+      <div
+        class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
+        *ngIf="editMode && !viewOnly"
       >
-      <input
-        pInputText
-        id="governorateArabicGovernoratesLookups"
-        aria-describedby="governorateArabicGovernoratesLookups-help"
-        name="governorateArabicGovernoratesLookups"
-        placeholder="Enter Name"
-      />
-      <label for="aramixGovernoratesLookups">Aramix<sup>*</sup></label>
-      <input
-        pInputText
-        id="aramixGovernoratesLookups"
-        aria-describedby="aramixGovernoratesLookups-help"
-        name="aramixGovernoratesLookups"
-        placeholder="Enter Name"
-      />
-    </form>
+        <p-button
+          type="submit"
+          label="Edit Governorate"
+          class="custom-save m-0 float-right"
+        ></p-button>
+      </div>
+      <div
+        *ngIf="viewOnly"
+        class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
+      >
+        <p-button
+          label="Close"
+          class="custom-save m-0 float-right"
+          (click)="router.navigate(['/lookups/view-governorates'])"
+        />
+      </div>
+    </div>
+  </form>
 
     <form action="" *ngIf="addSMEClientCodeLookupsForm">
       <label for="codeAssestTypesLookups">Code<sup>*</sup></label>
