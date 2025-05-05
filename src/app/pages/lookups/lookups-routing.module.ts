@@ -587,7 +587,11 @@ const routes: Routes = [
     component: AddAreasComponent,
   },
   {
-    path: 'add-tax-officers',
+    path: 'add-tax-offices',
+    component: AddTaxOfficesComponent,
+  },
+  {
+    path: 'edit-tax-offices/:id',
     component: AddTaxOfficesComponent,
   },
   {

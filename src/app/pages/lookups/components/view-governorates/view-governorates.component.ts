@@ -60,15 +60,7 @@ export class ViewGovernoratesComponent {
             this.originalGovernorates = normalizedSubSectors;
             this.filteredGovernorates = normalizedSubSectors;
           });
-          
-    // this.governorates$
-    //   ?.pipe(takeUntil(this.destroy$))
-    //   .subscribe((governorates) => {
-    //     // governorates is now Governorate[], not any
-    //     const sorted = [...governorates].sort((a, b) => b.id - a.id);
-    //     this.originalGovernorates = sorted;
-    //     this.filteredGovernorates = [...sorted];
-    //   });
+   
   }
 
   onAddGovernorate() {

@@ -67,6 +67,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() subSectorsList: any[] = [];
   @Input() countriesList: any;
   @Input() assetTypeCategories: any;
+  @Input() governoratesList: any;
 
   @Input() selectedSectorId: number | null = null;
   @Input() legalFormLawIdControl!: number;
@@ -1054,7 +1055,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-areas']);
   }
   viewTaxOffices() {
-    this.router.navigate(['/crm/clients/view-tax-offices']);
+    this.router.navigate(['/lookups/view-tax-offices']);
   }
   viewDocTypes() {
     this.router.navigate(['/lookups/view-document-types']);
