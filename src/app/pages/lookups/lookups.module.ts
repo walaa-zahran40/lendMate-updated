@@ -152,6 +152,8 @@ import { reducer as SectorsReducer } from './store/sectors/sectors.reducer';
 import { SectorsEffects } from './store/sectors/sectors.effects';
 import { reducer as TmlOfficerTypesReducer } from './store/tml-officer-types/tml-officer-types.reducer';
 import { TmlOfficerTypesEffects } from './store/tml-officer-types/tml-officer-types.effects';
+import { MandateStatusesEffects } from './store/mandate-statuses/mandate-statuses.effects';
+import { mandateStatusesReducer } from './store/mandate-statuses/mandate-statuses.reducer';
 import { reducer as SubSectorsReducer } from './store/sub-sectors/sub-sectors.reducer';
 import { SubSectorsEffects } from './store/sub-sectors/sub-sectors.effects';
 import { clientStatusesReducer } from './store/client-statuses/client-statuses.reducer';
@@ -328,6 +330,8 @@ import { MandateValidityUnitsEffects } from './store/mandate-validity-units/mand
     EffectsModule.forFeature([SectorsEffects]),
     StoreModule.forFeature('tmlOfficerTypes', TmlOfficerTypesReducer),
     EffectsModule.forFeature([TmlOfficerTypesEffects]),
+    StoreModule.forFeature('mandateStatuses', mandateStatusesReducer),
+    EffectsModule.forFeature([MandateStatusesEffects]),
     StoreModule.forFeature('subSectors', SubSectorsReducer),
     EffectsModule.forFeature([SubSectorsEffects]),
     StoreModule.forFeature('clientStatuses', clientStatusesReducer),
