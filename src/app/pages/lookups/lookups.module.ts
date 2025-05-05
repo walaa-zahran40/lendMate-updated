@@ -154,6 +154,8 @@ import { reducer as SectorsReducer } from './store/sectors/sectors.reducer';
 import { SectorsEffects } from './store/sectors/sectors.effects';
 import { reducer as TmlOfficerTypesReducer } from './store/tml-officer-types/tml-officer-types.reducer';
 import { TmlOfficerTypesEffects } from './store/tml-officer-types/tml-officer-types.effects';
+import { MandateStatusesEffects } from './store/mandate-statuses/mandate-statuses.effects';
+import { mandateStatusesReducer } from './store/mandate-statuses/mandate-statuses.reducer';
 
 @NgModule({
   declarations: [
@@ -318,6 +320,8 @@ import { TmlOfficerTypesEffects } from './store/tml-officer-types/tml-officer-ty
     EffectsModule.forFeature([SectorsEffects]),
     StoreModule.forFeature('tmlOfficerTypes', TmlOfficerTypesReducer),
     EffectsModule.forFeature([TmlOfficerTypesEffects]),
+    StoreModule.forFeature('mandateStatuses', mandateStatusesReducer),
+    EffectsModule.forFeature([MandateStatusesEffects]),
   ],
   exports: [
     AddTmlOfficerTypesComponent,

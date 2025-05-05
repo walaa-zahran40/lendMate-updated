@@ -245,6 +245,22 @@ const routes: Routes = [
     component: ViewAssetTypeCategoriesComponent,
   },
 
+  
+  //Asset mandate status
+  {
+    path: 'add-mandate-statuses',
+    component: AddMandateStatusesComponent,
+  },
+  {
+    path: 'edit-mandate-statuses/:id',
+    component: AddMandateStatusesComponent,
+  },
+
+  {
+    path: 'view-mandate-statuses',
+    component: ViewMandateStatusesComponent,
+  },
+
   //Asset Types
   {
     path: 'add-asset-types',
@@ -558,10 +574,6 @@ const routes: Routes = [
     component: AddTmlOfficerTypesComponent,
   },
 
-  {
-    path: 'view-mandate-statuses',
-    component: ViewMandateStatusesComponent,
-  },
 
   {
     path: 'view-fee-types',

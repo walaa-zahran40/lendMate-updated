@@ -6379,37 +6379,100 @@
         placeholder="Enter Name"
       />
     </form>
-    <form action="" *ngIf="addMandateStatusesLookupsForm">
-      <label for="nameInEnglishAddMandateStatusesLookups"
-        >Name in English<sup>*</sup></label
+    <form
+    [formGroup]="formGroup"
+    *ngIf="addMandateStatusesLookupsForm"
+    (ngSubmit)="onSubmit()"
+  >
+    <label for="name">Name in English<sup>*</sup></label>
+    <input pInputText id="name" formControlName="name" placeholder="Type" />
+    <div
+      *ngIf="
+        formGroup.get('name')?.hasError('required') &&
+        formGroup.get('name')?.touched
+      "
+      class="p-error"
+    >
+      Name in English is required.
+    </div>
+
+    <label for="nameAR">Name in Arabic<sup>*</sup></label>
+    <input
+      pInputText
+      id="nameAR"
+      formControlName="nameAR"
+      placeholder="Type"
+    />
+    <div
+      *ngIf="
+        formGroup.get('nameAR')?.hasError('required') &&
+        formGroup.get('nameAR')?.touched
+      "
+      class="p-error"
+    >
+      Name in Arabic is required.
+    </div>
+    <div
+      *ngIf="
+        formGroup.get('nameAR')?.hasError('pattern') &&
+        formGroup.get('nameAR')?.touched
+      "
+      class="p-error"
+    >
+      Please enter only Arabic letters.
+    </div>
+   
+    <label for="isInitial">is nitial<sup>*</sup></label>
+    <p-select
+      [options]="stamps"
+      optionLabel="name"
+      optionValue="id"
+      placeholder="is Initial"
+      formControlName="isInitial"
+      class="w-full md:w-56"
+    />
+    <div class="p-field" for="isActive" *ngIf="editMode">
+      <p-toggleSwitch
+        id="isActive"
+        formControlName="isActive"
+        label="is Active"
+      ></p-toggleSwitch>
+      <label for="isActive"> Active</label>
+    </div>
+    <div class="row justify-end">
+      <div
+        class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 currenciesDiv"
+        *ngIf="!editMode"
       >
-      <input
-        pInputText
-        id="nameInEnglishAddMandateStatusesLookups"
-        aria-describedby="nameInEnglishAddMandateStatusesLookups-help"
-        name="nameInEnglishAddMandateStatusesLookups"
-        placeholder="Enter Name"
-      />
-      <label for="nameInArabicAddMandateStatusesLookups"
-        >Name in Arabic<sup>*</sup></label
+        <p-button
+          type="submit"
+          label="Add Mandate status"
+          [disabled]="formGroup.invalid"
+          class="custom-save m-0 float-right"
+        ></p-button>
+      </div>
+      <div
+        class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+        *ngIf="editMode && !viewOnly"
       >
-      <input
-        pInputText
-        id="nameInArabicAddMandateStatusesLookups"
-        aria-describedby="nameInArabicAddMandateStatusesLookups-help"
-        name="nameInArabicAddMandateStatusesLookups"
-        placeholder="Enter Name"
-      />
-      <label for="isInitialAddMandateStatusesLookups"
-        >IsInitial<sup>*</sup></label
+        <p-button
+          type="submit"
+          label="Edit Mandate Status"
+          class="custom-save m-0 float-right"
+        ></p-button>
+      </div>
+      <div
+        *ngIf="viewOnly"
+        class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
       >
-      <p-select
-        [options]="isManualExchangeRates"
-        optionLabel="name"
-        placeholder="Yes"
-        class="w-full md:w-56"
-      />
-    </form>
+        <p-button
+          label="Close"
+          class="custom-save m-0 float-right"
+          (click)="router.navigate(['/lookups/view-mandate-statuses'])"
+        />
+      </div>
+    </div>
+  </form>
 
     <form action="" *ngIf="addFeesTypesLookupsForm">
       <label for="codeFeesTypesLookups">Code<sup>*</sup></label>

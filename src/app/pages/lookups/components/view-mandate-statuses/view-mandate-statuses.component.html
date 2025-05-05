@@ -1,26 +1,41 @@
 <div class="page-content">
   <app-toolbar-table
-    [title]="'Mandate Statuses Types'"
-    [labelBtn]="'Add Mandate Statuses'"
-    [backExists]="true"
-    [exports]="true"
+    [title]="'MandateStatuses'"
+    [labelBtn]="'Add Mandate Status'"
+    [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
-    (addBtn)="onAdd()"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddMandateStatus()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col1Name]="'Code'"
-    [col2Name]="'Name EN'"
-    [col3Name]="'Name AR'"
-    [col4Name]="'IsInitial'"
-    [col5Name]="'Active'"
-    [edit]="true"
-    [delete]="true"
-    [side]="false"
-    [download]="false"
-    [checkBox]="true"
-    [viewMandateStatusesTypesTable]="true"
-    [uppercase]="'uppercase'"
-  ></app-table>
+
+  <ng-container *ngIf="mandateStatuses$ | async as mandateStatuses">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredMandateStatuses"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewMandateStatusesTable]="true"
+      (onDelete)="onDeleteMandateStatus($event)"
+      (onEdit)="onEditMandateStatus($event)"
+      (viewForm)="onViewMandateStatus($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
 </div>
