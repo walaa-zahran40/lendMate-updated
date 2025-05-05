@@ -90,7 +90,9 @@ export class ViewCurrenciesComponent {
     this.showDeleteModal = false;
     this.selectedCurrencyId = null;
   }
-
+  onAddSide(currencyId: any) {
+    this.router.navigate(['/lookups/wizard-currencies', currencyId]);
+  }
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
     this.filteredCurrencies = this.originalCurrencies.filter((currency) =>

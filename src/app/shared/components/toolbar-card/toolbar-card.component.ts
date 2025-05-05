@@ -14,9 +14,15 @@ export class ToolbarCardComponent {
   @Input() backExists!: boolean;
   @Input() btnExists = true;
   @Output() viewBtn = new EventEmitter<void>();
+  @Output() searchKeyword = new EventEmitter<string>();
+
   constructor(private location: Location) {}
 
   goBack() {
     this.location.back();
+  }
+  onSearchInput(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    this.searchKeyword.emit(value);
   }
 }

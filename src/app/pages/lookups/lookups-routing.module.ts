@@ -19,7 +19,6 @@ import { AddBranchComponent } from './components/add-branch/add-branch.component
 import { AddBusinessLinesComponent } from './components/add-business-lines/add-business-lines.component';
 import { AddAssetTypesComponent } from './components/add-asset-types/add-asset-types.component';
 import { AddCurrenciesExchangeComponent } from './components/add-currencies-exchange/add-currencies-exchange.component';
-import { AddClientDocumentTypesComponent } from './components/add-client-document-types/add-client-document-types.component';
 import { AddBranchManagersComponent } from './components/add-branch-managers/add-branch-managers.component';
 import { AddBranchAddressesComponent } from './components/add-branch-addresses/add-branch-addresses.component';
 import { AddBranchOfficersComponent } from './components/add-branch-officers/add-branch-officers.component';
@@ -61,7 +60,6 @@ import { ViewMeetingTypesComponent } from './components/view-meeting-types/view-
 import { ViewInsuredByComponent } from './components/view-insured-by/view-insured-by.component';
 import { ViewLeasingTypeComponent } from './components/view-leasing-type/view-leasing-type.component';
 import { ViewMandateValidityUnitComponent } from './components/view-mandate-validity-unit/view-mandate-validity-unit.component';
-import { ViewClientDocumentTypesComponent } from './components/view-client-document-types/view-client-document-types.component';
 import { ViewBranchComponent } from './components/view-branch/view-branch.component';
 import { WizardBranchComponent } from './components/wizard-branch/wizard-branch.component';
 import { ViewBranchManagersComponent } from './components/view-branch-managers/view-branch-managers.component';
@@ -74,9 +72,9 @@ import { ViewProductsComponent } from './components/view-products/view-products.
 import { ViewSectorsComponent } from './components/view-sectors/view-sectors.component';
 import { ViewClientStatusesComponent } from './components/view-client-statuses/view-client-statuses.component';
 import { WizardClientStatusComponent } from './components/wizard-client-status/wizard-client-status.component';
-import { ViewClientStatusComponent } from './components/view-client-status/view-client-status.component';
+import { ViewClientStatusComponent } from './components/view-client-status-actions/view-client-status.component';
 import { ViewSmeClientCodeComponent } from './components/view-sme-client-code/view-sme-client-code.component';
-import { ViewSubSectorComponent } from './components/view-sub-sector/view-sub-sector.component';
+import { ViewSubSectorsComponent } from './components/view-sub-sectors/view-sub-sectors.component';
 import { ViewClientTypesComponent } from './components/view-client-types/view-client-types.component';
 import { ViewAuthorityOfficesComponent } from './components/view-authority-offices/view-authority-offices.component';
 import { ViewPhoneTypesComponent } from './components/view-phone-types/view-phone-types.component';
@@ -93,8 +91,11 @@ import { ViewCallActionTypesComponent } from './components/view-call-action-type
 import { ViewCommunicationFlowTypeComponent } from './components/view-communication-flow-type/view-communication-flow-type.component';
 import { ViewFeesRangeComponent } from './components/view-fees-range/view-fees-range.component';
 import { AddFeesRangeComponent } from './components/add-fees-range/add-fees-range.component';
+import { AddDocTypesComponent } from './components/add-doc-types/add-doc-types.component';
+import { ViewDocTypesComponent } from './components/view-doc-types/view-doc-types.component';
 
 const routes: Routes = [
+  /**Lookup Module */
   //Company Types
   {
     path: 'add-company-types',
@@ -190,6 +191,19 @@ const routes: Routes = [
     path: 'view-sectors',
     component: ViewSectorsComponent,
   },
+  //sub sectors
+  {
+    path: 'add-sub-sectors',
+    component: AddSubSectorsComponent,
+  },
+  {
+    path: 'edit-sub-sectors/:id',
+    component: AddSubSectorsComponent,
+  },
+  {
+    path: 'view-sub-sectors',
+    component: ViewSubSectorsComponent,
+  },
   //tml officers
   {
     path: 'add-tml-officer-types',
@@ -229,7 +243,10 @@ const routes: Routes = [
     path: 'view-currencies',
     component: ViewCurrenciesComponent,
   },
-
+  {
+    path: 'wizard-currencies/:currencyId',
+    component: WizardCurrenciesComponent,
+  },
   //Asset Type categories
   {
     path: 'add-asset-type-categories',
@@ -472,7 +489,20 @@ const routes: Routes = [
     path: 'view-rent-structure-types',
     component: ViewRentStructureTypesComponent,
   },
-  //----
+  //Doc Types
+  {
+    path: 'add-document-types',
+    component: AddDocTypesComponent,
+  },
+  {
+    path: 'edit-document-types/:id',
+    component: AddDocTypesComponent,
+  },
+  {
+    path: 'view-document-types',
+    component: ViewDocTypesComponent,
+  },
+
   {
     path: 'add-mandate-statuses',
     component: AddMandateStatusesComponent,
@@ -497,10 +527,7 @@ const routes: Routes = [
     path: 'add-mandate-validity-unit',
     component: AddMandateValidityUnitComponent,
   },
-  {
-    path: 'add-client-document-types',
-    component: AddClientDocumentTypesComponent,
-  },
+
   {
     path: 'add-branch',
     component: AddBranchComponent,
@@ -532,20 +559,12 @@ const routes: Routes = [
   },
 
   {
-    path: 'add-client-statuses',
-    component: AddClientStatusesComponent,
-  },
-  {
     path: 'add-client-status-actions',
     component: AddClientStatusActionsComponent,
   },
   {
     path: 'add-sme-client-code',
     component: AddSmeClientCodeComponent,
-  },
-  {
-    path: 'add-sub-sectors',
-    component: AddSubSectorsComponent,
   },
 
   {
@@ -589,7 +608,7 @@ const routes: Routes = [
   },
 
   {
-    path: 'view-currency-exchange-rate',
+    path: 'view-currencies-exchange/:currencyId',
     component: ViewCurrencyExchangeComponent,
   },
 
@@ -601,10 +620,6 @@ const routes: Routes = [
   {
     path: 'view-mandate-validity-unit',
     component: ViewMandateValidityUnitComponent,
-  },
-  {
-    path: 'view-client-document-types',
-    component: ViewClientDocumentTypesComponent,
   },
 
   {
@@ -633,20 +648,12 @@ const routes: Routes = [
   },
 
   {
-    path: 'view-client-statuses',
-    component: ViewClientStatusesComponent,
-  },
-  {
     path: 'view-client-status',
     component: ViewClientStatusComponent,
   },
   {
     path: 'view-sme-client-code',
     component: ViewSmeClientCodeComponent,
-  },
-  {
-    path: 'view-sub-sector',
-    component: ViewSubSectorComponent,
   },
 
   {
@@ -671,13 +678,25 @@ const routes: Routes = [
     component: ViewTmlOfficerTypesComponent,
   },
 
+  //Client status
   {
-    path: 'wizard-currencies',
-    component: WizardCurrenciesComponent,
+    path: 'add-client-statuses',
+    component: AddClientStatusesComponent,
   },
-
   {
-    path: 'wizard-client-status',
+    path: 'view-client-status-actions/:clientStatusId',
+    component: ViewClientStatusComponent,
+  },
+  {
+    path: 'edit-client-statuses/:id',
+    component: AddClientStatusesComponent,
+  },
+  {
+    path: 'view-client-statuses',
+    component: ViewClientStatusesComponent,
+  },
+  {
+    path: 'wizard-client-status/:clientStatusId',
     component: WizardClientStatusComponent,
   },
 ];

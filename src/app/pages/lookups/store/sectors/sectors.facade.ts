@@ -18,8 +18,8 @@ export class SectorsFacade {
   );
   constructor(private store: Store) {}
 
-  loadAll(pageNumber?: number) {
-    this.store.dispatch(Actions.loadAll({ pageNumber }));
+  loadAll() {
+    this.store.dispatch(Actions.loadAll({}));
   }
 
   loadById(id: number) {

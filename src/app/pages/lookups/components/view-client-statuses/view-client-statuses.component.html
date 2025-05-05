@@ -1,26 +1,41 @@
 <div class="page-content">
   <app-toolbar-table
     [title]="'Client Statuses'"
-    [labelBtn]="'Add Client Statuses'"
-    [backExists]="true"
-    [exports]="true"
+    [labelBtn]="'Add Client Status'"
+    [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
-    (addBtn)="addClient()"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddClientStatus()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col1Name]="'Code'"
-    [col2Name]="'Name EN'"
-    [col3Name]="'Name AR'"
-    [col4Name]="'Initial'"
-    [col5Name]="'Active'"
-    [edit]="true"
-    [delete]="true"
-    [side]="true"
-    [download]="false"
-    [checkBox]="true"
-    [viewClientStatusesTable]="true"
-    [uppercase]="'uppercase'"
-  ></app-table>
+  <ng-container *ngIf="clientStatuses$ | async as clientStatuses">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredClientStatuses"
+      [edit]="true"
+      [delete]="true"
+      [side]="true"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewClientStatusesTable]="true"
+      (onDelete)="onDeleteClientStatus($event)"
+      (onEdit)="onEditClientStatus($event)"
+      (wizardBtn)="onAddSide($event)"
+      (viewForm)="onViewClientStatus($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
 </div>

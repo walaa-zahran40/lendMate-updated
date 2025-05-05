@@ -4,6 +4,8 @@ import { ButtonModule } from 'primeng/button';
 import { FileUploadModule } from 'primeng/fileupload';
 import { StepperModule } from 'primeng/stepper';
 import { TabsModule } from 'primeng/tabs';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 import { AddCompanyTypesComponent } from './components/add-company-types/add-company-types.component';
 import { AddFeeCalculationTypesComponent } from './components/add-fee-calculation-types/add-fee-calculation-types.component';
 import { AddMandateStatusesComponent } from './components/add-mandate-statuses/add-mandate-statuses.component';
@@ -48,7 +50,7 @@ import { AddClientStatusActionsComponent } from './components/add-client-status-
 import { AddCurrenciesExchangeComponent } from './components/add-currencies-exchange/add-currencies-exchange.component';
 import { LookupsRoutingModule } from './lookups-routing.module';
 import { SharedModule } from '../../shared/shared.module';
-import { AddClientDocumentTypesComponent } from './components/add-client-document-types/add-client-document-types.component';
+import { AddDocTypesComponent } from './components/add-doc-types/add-doc-types.component';
 import { AddClientTypesComponent } from './components/add-client-types/add-client-types.component';
 import { ViewCompanyTypesComponent } from './components/view-company-types/view-company-types.component';
 import { ViewFeesCalculationTypesComponent } from './components/view-fees-calculation-types/view-fees-calculation-types.component';
@@ -64,7 +66,7 @@ import { ViewPaymentMethodsComponent } from './components/view-payment-methods/v
 import { ViewInsuredByComponent } from './components/view-insured-by/view-insured-by.component';
 import { ViewLeasingTypeComponent } from './components/view-leasing-type/view-leasing-type.component';
 import { ViewMandateValidityUnitComponent } from './components/view-mandate-validity-unit/view-mandate-validity-unit.component';
-import { ViewClientDocumentTypesComponent } from './components/view-client-document-types/view-client-document-types.component';
+import { ViewDocTypesComponent } from './components/view-doc-types/view-doc-types.component';
 import { ViewBranchComponent } from './components/view-branch/view-branch.component';
 import { WizardBranchComponent } from './components/wizard-branch/wizard-branch.component';
 import { ViewBranchManagersComponent } from './components/view-branch-managers/view-branch-managers.component';
@@ -77,9 +79,9 @@ import { ViewProductsComponent } from './components/view-products/view-products.
 import { ViewSectorsComponent } from './components/view-sectors/view-sectors.component';
 import { ViewClientStatusesComponent } from './components/view-client-statuses/view-client-statuses.component';
 import { WizardClientStatusComponent } from './components/wizard-client-status/wizard-client-status.component';
-import { ViewClientStatusComponent } from './components/view-client-status/view-client-status.component';
+import { ViewClientStatusComponent } from './components/view-client-status-actions/view-client-status.component';
 import { ViewSmeClientCodeComponent } from './components/view-sme-client-code/view-sme-client-code.component';
-import { ViewSubSectorComponent } from './components/view-sub-sector/view-sub-sector.component';
+import { ViewSubSectorsComponent } from './components/view-sub-sectors/view-sub-sectors.component';
 import { ViewClientTypesComponent } from './components/view-client-types/view-client-types.component';
 import { ViewAuthorityOfficesComponent } from './components/view-authority-offices/view-authority-offices.component';
 import { ViewPhoneTypesComponent } from './components/view-phone-types/view-phone-types.component';
@@ -96,8 +98,6 @@ import { ViewCallActionTypesComponent } from './components/view-call-action-type
 import { ViewCommunicationFlowTypeComponent } from './components/view-communication-flow-type/view-communication-flow-type.component';
 import { ViewFeesRangeComponent } from './components/view-fees-range/view-fees-range.component';
 import { AddFeesRangeComponent } from './components/add-fees-range/add-fees-range.component';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
 import { CompanyTypesEffects } from './store/company-types/company-types.effects';
 import { companyTypesReducer } from './store/company-types/company-types.reducer';
 import { reducer as feeCalcReducer } from './store/fee-calculation-types/fee-calculation-types.reducer';
@@ -156,6 +156,12 @@ import { reducer as TmlOfficerTypesReducer } from './store/tml-officer-types/tml
 import { TmlOfficerTypesEffects } from './store/tml-officer-types/tml-officer-types.effects';
 import { MandateStatusesEffects } from './store/mandate-statuses/mandate-statuses.effects';
 import { mandateStatusesReducer } from './store/mandate-statuses/mandate-statuses.reducer';
+import { reducer as SubSectorsReducer } from './store/sub-sectors/sub-sectors.reducer';
+import { SubSectorsEffects } from './store/sub-sectors/sub-sectors.effects';
+import { clientStatusesReducer } from './store/client-statuses/client-statuses.reducer';
+import { ClientStatusesEffects } from './store/client-statuses/client-statuses.effects';
+import { reducer as docTypesReducer } from './store/doc-types/doc-types.reducer';
+import { DocTypesEffects } from './store/doc-types/doc-types.effects';
 
 @NgModule({
   declarations: [
@@ -201,7 +207,7 @@ import { mandateStatusesReducer } from './store/mandate-statuses/mandate-statuse
     AddBranchAddressesComponent,
     AddClientStatusActionsComponent,
     AddCurrenciesExchangeComponent,
-    AddClientDocumentTypesComponent,
+    AddDocTypesComponent,
     AddClientTypesComponent,
     ViewCompanyTypesComponent,
     ViewFeesCalculationTypesComponent,
@@ -219,7 +225,7 @@ import { mandateStatusesReducer } from './store/mandate-statuses/mandate-statuse
     ViewLeasingTypeComponent,
     ViewPaymentTypesComponent,
     ViewMandateValidityUnitComponent,
-    ViewClientDocumentTypesComponent,
+    ViewDocTypesComponent,
     ViewBranchComponent,
     WizardBranchComponent,
     ViewBranchManagersComponent,
@@ -234,7 +240,7 @@ import { mandateStatusesReducer } from './store/mandate-statuses/mandate-statuse
     WizardClientStatusComponent,
     ViewClientStatusComponent,
     ViewSmeClientCodeComponent,
-    ViewSubSectorComponent,
+    ViewSubSectorsComponent,
     ViewClientTypesComponent,
     ViewAuthorityOfficesComponent,
     ViewPhoneTypesComponent,
@@ -322,9 +328,14 @@ import { mandateStatusesReducer } from './store/mandate-statuses/mandate-statuse
     EffectsModule.forFeature([TmlOfficerTypesEffects]),
     StoreModule.forFeature('mandateStatuses', mandateStatusesReducer),
     EffectsModule.forFeature([MandateStatusesEffects]),
+    StoreModule.forFeature('subSectors', SubSectorsReducer),
+    EffectsModule.forFeature([SubSectorsEffects]),
+    StoreModule.forFeature('clientStatuses', clientStatusesReducer),
+    EffectsModule.forFeature([ClientStatusesEffects]),
+    StoreModule.forFeature('docTypes', docTypesReducer),
+    EffectsModule.forFeature([DocTypesEffects]),
   ],
   exports: [
-    AddTmlOfficerTypesComponent,
     AddCompanyTypesComponent,
     AddFeeCalculationTypesComponent,
     AddMandateStatusesComponent,
@@ -341,7 +352,7 @@ import { mandateStatusesReducer } from './store/mandate-statuses/mandate-statuse
     AddInsuredByComponent,
     AddLeasingTypeComponent,
     AddMandateValidityUnitComponent,
-    AddClientDocumentTypesComponent,
+    AddDocTypesComponent,
     AddBranchComponent,
     AddBusinessLinesComponent,
     AddAssetTypesComponent,
