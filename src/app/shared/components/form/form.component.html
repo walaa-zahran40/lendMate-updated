@@ -6135,7 +6135,7 @@
       />
     </form>
 
-    <form 
+    <form
       [formGroup]="formGroup"
       *ngIf="addTaxOfficesLookupsForm"
       (ngSubmit)="onSubmit()"
@@ -6181,7 +6181,7 @@
       >
         Please enter only Arabic letters.
       </div>
-      <label for="governorateId">Governorate ID<sup>*</sup></label>
+      <label for="governorateId">Governorate<sup>*</sup></label>
       <p-select
         [options]="governoratesList"
         optionLabel="name"
@@ -6211,7 +6211,7 @@
         "
         class="p-error"
       >
-       Address is required.
+        Address is required.
       </div>
       <div class="p-field" *ngIf="editMode">
         <p-toggleSwitch
@@ -6395,122 +6395,122 @@
       </div>
     </form>
 
-    <form 
-    [formGroup]="formGroup"
-    *ngIf="addGovernoratesLookupsForm"
-    (ngSubmit)="onSubmit()"
-  >
-    <label for="countryId">Country ID<sup>*</sup></label>
-    <p-select
-      [options]="countriesList"
-      optionLabel="name"
-      placeholder="Select Country"
-      formControlName="countryId"
-      optionValue="id"
-      (onChange)="onSectorChange($event)"
-      required
-      [ngClass]="{
-        'ng-invalid':
-          formGroup.get('countryId')?.invalid &&
-          (formGroup.get('countryId')?.dirty ||
-            formGroup.get('countryId')?.touched)
-      }"
-    />
-    <label for="name">Name in English<sup>*</sup></label>
-    <input pInputText id="name" formControlName="name" placeholder="Type" />
-    <div
-      *ngIf="
-        formGroup.get('name')?.hasError('required') &&
-        formGroup.get('name')?.touched
-      "
-      class="p-error"
+    <form
+      [formGroup]="formGroup"
+      *ngIf="addGovernoratesLookupsForm"
+      (ngSubmit)="onSubmit()"
     >
-         Name in English is required.
-    </div>
-    <label for="nameAR">Name in Arabic<sup>*</sup></label>
-    <input
-      pInputText
-      id="nameAR"
-      formControlName="nameAR"
-      placeholder="Type"
-    />
-    <div
-      *ngIf="
-        formGroup.get('nameAR')?.hasError('required') &&
-        formGroup.get('nameAR')?.touched
-      "
-      class="p-error"
-    >
-      Name in Arabic is required.
-    </div>
-    <div
-      *ngIf="
-        formGroup.get('nameAR')?.hasError('pattern') &&
-        formGroup.get('nameAR')?.touched
-      "
-      class="p-error"
-    >
-      Please enter only Arabic letters.
-    </div>
-    
-    <label for="aramex">Aramix<sup>*</sup></label>
-    <input
-      pInputText
-      id="aramex"
-      formControlName="aramex"
-      placeholder="Type"
-    />
-    <div
-      *ngIf="
-        formGroup.get('aramex')?.hasError('required') &&
-        formGroup.get('aramex')?.touched
-      "
-      class="p-error"
-    >
-      Aramex in English is required.
-    </div>
-    <div class="p-field" *ngIf="editMode">
-      <p-toggleSwitch
-        id="isActive"
-        formControlName="isActive"
-        label="is Active"
-      ></p-toggleSwitch>
-      <label for="isActive"> Active</label>
-    </div>
-    <div class="row justify-end">
+      <label for="countryId">Country ID<sup>*</sup></label>
+      <p-select
+        [options]="countriesList"
+        optionLabel="name"
+        placeholder="Select Country"
+        formControlName="countryId"
+        optionValue="id"
+        (onChange)="onSectorChange($event)"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('countryId')?.invalid &&
+            (formGroup.get('countryId')?.dirty ||
+              formGroup.get('countryId')?.touched)
+        }"
+      />
+      <label for="name">Name in English<sup>*</sup></label>
+      <input pInputText id="name" formControlName="name" placeholder="Type" />
       <div
-        class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
-        *ngIf="!editMode"
+        *ngIf="
+          formGroup.get('name')?.hasError('required') &&
+          formGroup.get('name')?.touched
+        "
+        class="p-error"
       >
-        <p-button
-          type="submit"
-          label="Add Governorate"
-          [disabled]="formGroup.invalid"
-          class="custom-save m-0 float-right"
-        ></p-button>
+        Name in English is required.
+      </div>
+      <label for="nameAR">Name in Arabic<sup>*</sup></label>
+      <input
+        pInputText
+        id="nameAR"
+        formControlName="nameAR"
+        placeholder="Type"
+      />
+      <div
+        *ngIf="
+          formGroup.get('nameAR')?.hasError('required') &&
+          formGroup.get('nameAR')?.touched
+        "
+        class="p-error"
+      >
+        Name in Arabic is required.
       </div>
       <div
-        class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
-        *ngIf="editMode && !viewOnly"
+        *ngIf="
+          formGroup.get('nameAR')?.hasError('pattern') &&
+          formGroup.get('nameAR')?.touched
+        "
+        class="p-error"
       >
-        <p-button
-          type="submit"
-          label="Edit Governorate"
-          class="custom-save m-0 float-right"
-        ></p-button>
+        Please enter only Arabic letters.
       </div>
+
+      <label for="aramex">Aramix<sup>*</sup></label>
+      <input
+        pInputText
+        id="aramex"
+        formControlName="aramex"
+        placeholder="Type"
+      />
       <div
-        *ngIf="viewOnly"
-        class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
+        *ngIf="
+          formGroup.get('aramex')?.hasError('required') &&
+          formGroup.get('aramex')?.touched
+        "
+        class="p-error"
       >
-        <p-button
-          label="Close"
-          class="custom-save m-0 float-right"
-          (click)="router.navigate(['/lookups/view-governorates'])"
-        />
+        Aramex in English is required.
       </div>
-    </div>
-  </form>
+      <div class="p-field" *ngIf="editMode">
+        <p-toggleSwitch
+          id="isActive"
+          formControlName="isActive"
+          label="is Active"
+        ></p-toggleSwitch>
+        <label for="isActive"> Active</label>
+      </div>
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
+          *ngIf="!editMode"
+        >
+          <p-button
+            type="submit"
+            label="Add Governorate"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Governorate"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate(['/lookups/view-governorates'])"
+          />
+        </div>
+      </div>
+    </form>
 
     <form action="" *ngIf="addSMEClientCodeLookupsForm">
       <label for="codeAssestTypesLookups">Code<sup>*</sup></label>
@@ -6847,125 +6847,125 @@
     </form>
 
     <form
-    [formGroup]="formGroup"
-    *ngIf="addAssetTypesLookupsForm"
-    (ngSubmit)="onSubmit()"
-  >
-   
-   
-    <label for="name">Name in English<sup>*</sup></label>
-    <input
-      pInputText
-      id="name"
-      formControlName="name"
-      placeholder="Name in English"
-    />
-    <div
-      *ngIf="
-        formGroup.get('name')?.hasError('required') &&
-        formGroup.get('name')?.touched
-      "
-      class="p-error"
+      [formGroup]="formGroup"
+      *ngIf="addAssetTypesLookupsForm"
+      (ngSubmit)="onSubmit()"
     >
-      Name in English is required.
-    </div>
-
-    <label for="nameAR">Name in Arabic<sup>*</sup></label>
-    <input
-      pInputText
-      id="nameAR"
-      formControlName="nameAR"
-      placeholder="Name in Arabic"
-    />
-    <div
-      *ngIf="
-        formGroup.get('nameAR')?.hasError('required') &&
-        formGroup.get('nameAR')?.touched
-      "
-      class="p-error"
-    >
-      Name in Arabic is required.
-    </div>
-
-    <div
-      *ngIf="
-        formGroup.get('nameAR')?.hasError('pattern') &&
-        formGroup.get('nameAR')?.touched
-      "
-      class="p-error"
-    >
-      Please enter only Arabic letters.
-    </div>
-    <label for="assetTypeCategoryId">Select Asset Type Category<sup class="danger">*</sup></label>
-     <!--Select Box-->
-     <p-select
-     [options]="assetTypeCategories"
-     optionLabel="name"
-     placeholder="Select Asset Category"
-     formControlName="assetTypeCategoryId"
-     optionValue="id"
-     required
-     [ngClass]="{
-       'ng-invalid':
-         formGroup.get('assetTypeCategoryId')?.invalid &&
-         (formGroup.get('assetTypeCategoryId')?.dirty ||
-           formGroup.get('assetTypeCategoryId')?.touched)
-     }"
-   >
-   </p-select>
-
-   <div
-     *ngIf="
-       formGroup.get('assetTypeCategoryId')?.hasError('required') &&
-       formGroup.get('assetTypeCategoryId')?.touched
-     "
-     class="p-error"
-   >
-     Sector Id is required.
-   </div>
-
-    <div class="p-field" *ngIf="editMode">
-      <p-toggleSwitch
-        id="isActive"
-        formControlName="isActive"
-        label="is Active"
-      ></p-toggleSwitch>
-      <label for="isActive"> Active</label>
-    </div>
-    <div class="row justify-end">
+      <label for="name">Name in English<sup>*</sup></label>
+      <input
+        pInputText
+        id="name"
+        formControlName="name"
+        placeholder="Name in English"
+      />
       <div
-        class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 subSectorsDiv"
-        *ngIf="!editMode"
+        *ngIf="
+          formGroup.get('name')?.hasError('required') &&
+          formGroup.get('name')?.touched
+        "
+        class="p-error"
       >
-        <p-button
-          type="submit"
-          label="Add Asset Type"
-          [disabled]="formGroup.invalid"
-          class="custom-save m-0 float-right"
-        ></p-button>
+        Name in English is required.
       </div>
+
+      <label for="nameAR">Name in Arabic<sup>*</sup></label>
+      <input
+        pInputText
+        id="nameAR"
+        formControlName="nameAR"
+        placeholder="Name in Arabic"
+      />
       <div
-        class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 subSectorsDiv"
-        *ngIf="editMode && !viewOnly"
+        *ngIf="
+          formGroup.get('nameAR')?.hasError('required') &&
+          formGroup.get('nameAR')?.touched
+        "
+        class="p-error"
       >
-        <p-button
-          type="submit"
-          label="Edit Asset Type"
-          class="custom-save m-0 float-right"
-        ></p-button>
+        Name in Arabic is required.
       </div>
+
       <div
-        *ngIf="viewOnly"
-        class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 sectorsDiv"
+        *ngIf="
+          formGroup.get('nameAR')?.hasError('pattern') &&
+          formGroup.get('nameAR')?.touched
+        "
+        class="p-error"
       >
-        <p-button
-          label="Close"
-          class="custom-save m-0 float-right"
-          (click)="router.navigate(['/lookups/view-asset-types'])"
-        />
+        Please enter only Arabic letters.
       </div>
-    </div>
-  </form>
+      <label for="assetTypeCategoryId"
+        >Select Asset Type Category<sup class="danger">*</sup></label
+      >
+      <!--Select Box-->
+      <p-select
+        [options]="assetTypeCategories"
+        optionLabel="name"
+        placeholder="Select Asset Category"
+        formControlName="assetTypeCategoryId"
+        optionValue="id"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('assetTypeCategoryId')?.invalid &&
+            (formGroup.get('assetTypeCategoryId')?.dirty ||
+              formGroup.get('assetTypeCategoryId')?.touched)
+        }"
+      >
+      </p-select>
+
+      <div
+        *ngIf="
+          formGroup.get('assetTypeCategoryId')?.hasError('required') &&
+          formGroup.get('assetTypeCategoryId')?.touched
+        "
+        class="p-error"
+      >
+        Sector Id is required.
+      </div>
+
+      <div class="p-field" *ngIf="editMode">
+        <p-toggleSwitch
+          id="isActive"
+          formControlName="isActive"
+          label="is Active"
+        ></p-toggleSwitch>
+        <label for="isActive"> Active</label>
+      </div>
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 subSectorsDiv"
+          *ngIf="!editMode"
+        >
+          <p-button
+            type="submit"
+            label="Add Asset Type"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 subSectorsDiv"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Asset Type"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 sectorsDiv"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate(['/lookups/view-asset-types'])"
+          />
+        </div>
+      </div>
+    </form>
 
     <form action="" *ngIf="addFeesRangesLookupsForm">
       <label for="codeMeetingTypesCommunication">Code<sup>*</sup></label>
