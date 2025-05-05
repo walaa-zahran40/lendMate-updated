@@ -1,30 +1,26 @@
 <app-toolbar-form
-  [header]="'Governorates'"
+  [header]="editMode ? 'Edit Governorates' : 'Add Governorates'"
   [backExists]="true"
-  [viewOnly]="false"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
 ></app-toolbar-form>
 <p-tabs value="0" styleClass="p-3">
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
+        *ngIf="addGovernoratesLookupsForm"
         [title]="'Main Information'"
         [description]="
-          'Introduce your company core info quickly to users by fill up company details'
+          'Introduce Governorate info quickly to users by fill up Governorate details'
         "
+        [formGroup]="addGovernoratesLookupsForm"
         [addGovernoratesLookupsForm]="true"
+        [editMode]="editMode"
+        (submitForm)="addOrEditGovernorates()"
+        [viewOnly]="viewOnly"
+        [countriesList]="countriesList$ | async"
+ 
       ></app-form>
-
-      <div class="row justify-end">
-        <div
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 padding-right"
-          (click)="addGovernorates()"
-        >
-          <p-button
-            label="Add Governorates"
-            class="custom-save m-0 float-right"
-          />
-        </div>
-      </div>
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>

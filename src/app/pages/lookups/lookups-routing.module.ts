@@ -577,6 +577,10 @@ const routes: Routes = [
     component: AddGovernoratesComponent,
   },
   {
+    path: 'edit-governorates/:id',
+    component: AddGovernoratesComponent,
+  },
+  {
     path: 'add-countries',
     component: AddCountriesComponent,
   },
