@@ -158,12 +158,6 @@ export class TableComponent {
   constructor(private sharedService: SharedService, private store: Store) {}
 
   ngOnInit() {
-    if (!localStorage.getItem('areaPageRefreshed')) {
-      localStorage.setItem('areaPageRefreshed', 'true');
-      window.location.reload();
-    } else {
-      localStorage.removeItem('areaPageRefreshed');
-    }
     if (this.cols?.length) {
       this.globalFilterFields = this.cols.map((c) => c.field);
     }
