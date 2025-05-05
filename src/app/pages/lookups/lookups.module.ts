@@ -152,6 +152,8 @@ import { CountriesEffects } from './store/countries/countries.effects';
 import { countriesReducer } from './store/countries/countries.reducer';
 import { clientStatusesReducer } from './store/client-statuses/client-statuses.reducer';
 import { ClientStatusesEffects } from './store/client-statuses/client-statuses.effects';
+import { reducer as MandateValidityUnitsReducer} from './store/mandate-validity-units/mandate-validity-units.reducer';
+import { MandateValidityUnitsEffects } from './store/mandate-validity-units/mandate-validity-units.effects';
 @NgModule({
   declarations: [
     AddTmlOfficerTypesComponent,
@@ -313,6 +315,8 @@ import { ClientStatusesEffects } from './store/client-statuses/client-statuses.e
     EffectsModule.forFeature([CountriesEffects]),
     StoreModule.forFeature('clientStatuses', clientStatusesReducer),
     EffectsModule.forFeature([ClientStatusesEffects]),
+    StoreModule.forFeature('mandateValidityUnits', MandateValidityUnitsReducer),
+    EffectsModule.forFeature([MandateValidityUnitsEffects]),
   ],
   exports: [
     AddTmlOfficerTypesComponent,

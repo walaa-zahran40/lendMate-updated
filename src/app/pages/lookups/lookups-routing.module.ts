@@ -452,6 +452,10 @@ const routes: Routes = [
     component: AddMandateValidityUnitComponent,
   },
   {
+    path: 'edit-mandate-validity-unit/:id',
+    component: AddMandateValidityUnitComponent,
+  },
+  {
     path: 'add-client-document-types',
     component: AddClientDocumentTypesComponent,
   },
