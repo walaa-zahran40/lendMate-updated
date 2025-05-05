@@ -8,6 +8,9 @@ import { Area } from '../../store/areas/area.model';
 import { AreasFacade } from '../../store/areas/areas.facade';
 import { Country } from '../../store/countries/country.model';
 import { selectCountries } from '../../store/countries/countries.selectors';
+import { selectGovernorates } from '../../store/governorates/governorates.selectors';
+import { Governorate } from '../../store/governorates/governorate.model';
+import { loadGovernorates } from '../../store/governorates/governorates.actions';
 
 @Component({
   selector: 'app-add-areas',
@@ -20,7 +23,7 @@ export class AddAreasComponent {
   viewOnly = false;
   addAreasLookupsForm!: FormGroup;
   clientId: any;
-  countriesList$!: Observable<Country[]>;
+  governoratesList$!: Observable<Governorate[]>;
 
   constructor(
     private fb: FormBuilder,
@@ -33,11 +36,11 @@ export class AddAreasComponent {
   ngOnInit() {
     //Select Box
     console.log('🔵 ngOnInit: start');
-    this.store.dispatch(loadAll({}));
-    this.countriesList$ = this.store.select(selectCountries);
-    console.log('sectors list', this.countriesList$);
-    this.countriesList$.subscribe((data) =>
-      console.log('🧪 sectorsList$ from store:', data)
+    this.store.dispatch(loadGovernorates());
+    this.governoratesList$ = this.store.select(selectGovernorates);
+    console.log('governorates list', this.governoratesList$);
+    this.governoratesList$.subscribe((data) =>
+      console.log('🧪 governoratesList$ from store:', data)
     );
 
     // 1. Build the form
@@ -94,7 +97,7 @@ export class AddAreasComponent {
               id: ct!.id,
               name: ct!.name,
               nameAR: ct!.nameAR,
-              governorate: ct!.governorate,
+              governorateId: ct!.governorateId,
               isActive: ct!.isActive,
             });
             console.log(
@@ -142,9 +145,9 @@ export class AddAreasComponent {
       return;
     }
 
-    const { name, nameAR, isActive, governorate } =
+    const { name, nameAR, isActive, governorateId } =
       this.addAreasLookupsForm.value;
-    const payload: Partial<Area> = { name, nameAR, isActive, governorate };
+    const payload: Partial<Area> = { name, nameAR, isActive, governorateId };
     console.log('  → payload object:', payload);
 
     // Double-check your route param
@@ -152,9 +155,16 @@ export class AddAreasComponent {
     console.log('  route.snapshot.paramMap.get(clientId):', routeId);
 
     if (this.editMode) {
-      const { id, name, nameAR, isActive, governorate } =
+      const { id, name, nameAR, isActive, governorate, governorateId } =
         this.addAreasLookupsForm.value;
-      const payload: Area = { id, name, nameAR, isActive, governorate };
+      const payload: Area = {
+        id,
+        name,
+        nameAR,
+        isActive,
+        governorate,
+        governorateId,
+      };
       console.log(
         '🔄 Dispatching UPDATE id=',
         this.clientId,

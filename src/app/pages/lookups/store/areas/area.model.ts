@@ -4,5 +4,6 @@ export interface Area {
   name: string;
   nameAR: string;
   governorate: any;
+  governorateId: number;
   isActive: boolean;
 }

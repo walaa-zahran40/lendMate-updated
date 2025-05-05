@@ -26,7 +26,7 @@ export class AreasService {
   }
 
   getById(id: number): Observable<Area> {
-    return this.http.get<Area>(`${this.baseUrl}/id?id=${id}`);
+    return this.http.get<Area>(`${this.baseUrl}/AreaId?id=${id}`);
   }
 
   create(payload: Omit<Area, 'id'>): Observable<Area> {

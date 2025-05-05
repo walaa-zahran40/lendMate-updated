@@ -5,9 +5,9 @@ import { Subject, Observable, combineLatest, map, takeUntil } from 'rxjs';
 import { TableComponent } from '../../../../shared/components/table/table.component';
 import { Area } from '../../store/areas/area.model';
 import { AreasFacade } from '../../store/areas/areas.facade';
-import { selectCountries } from '../../store/countries/countries.selectors';
-import { Country } from '../../store/countries/country.model';
-import { CountriesFacade } from '../../store/countries/countries.facade';
+import { GovernorateFacade } from '../../store/governorates/governorates.facade';
+import { selectGovernorates } from '../../store/governorates/governorates.selectors';
+import { Governorate } from '../../store/governorates/governorate.model';
 
 @Component({
   selector: 'app-view-areas',
@@ -33,12 +33,12 @@ export class ViewAreasComponent {
   originalArea: Area[] = [];
   filteredArea: Area[] = [];
   Areas$!: Observable<Area[]>;
-  countriesList$!: Observable<Country[]>;
+  governorateList$!: Observable<Governorate[]>;
 
   constructor(
     private router: Router,
     private facade: AreasFacade,
-    private countriesFacade: CountriesFacade,
+    private governorateFacade: GovernorateFacade,
     private store: Store
   ) {}
   ngOnInit() {
@@ -46,50 +46,74 @@ export class ViewAreasComponent {
 
     // Step 1: Assign observables
     this.Areas$ = this.facade.all$;
+    this.governorateList$ = this.governorateFacade.items$;
     console.log('📦 Assigned Areas$ from facade.all$', this.Areas$);
 
-    this.countriesList$ = this.store.select(selectCountries);
+    this.governorateList$ = this.store.select(selectGovernorates);
     console.log(
-      '📦 Assigned countriesList$ from selectCountries',
-      this.countriesList$
+      '📦 Assigned governorateList$ from selectCountries',
+      this.governorateList$
     );
 
     // Step 2: Dispatch load actions
     this.facade.loadAll();
     console.log('🚀 Dispatched facade.loadAll() for Areas');
 
-    this.countriesFacade.loadAll();
-    console.log('🚀 Dispatched countriesFacade.loadAll()');
+    this.governorateFacade.loadAll();
+    console.log('🚀 Dispatched governorateFacade.loadAll()');
 
     // Step 3: Combine and normalize
-    combineLatest([this.Areas$])
+    combineLatest([this.Areas$, this.governorateList$])
       .pipe(
-        map(([areas]) => {
-          const mapped = areas.map((ss) => {
-            const governorateName = ss.governorate?.name || '—';
-            console.log(
-              `🔍 Mapping Area ID ${ss.id} → Governorate Name: ${governorateName}`
-            );
+        map(([areas, governorates]) => {
+          console.group('🔄 Mapping Areas with Governorates');
+          console.log('📦 Received areas:', areas);
+          console.log('📦 Received governorates:', governorates);
+
+          const mapped = areas.map((area) => {
+            const govId = area.governorate?.id ?? area.governorateId;
+
+            if (!govId) {
+              console.warn(
+                `⚠️ Area ${area.id} has no governorateId or embedded governorate.`
+              );
+            }
+
+            const matchedGovernorate = governorates.find((g) => g.id === govId);
+
+            if (!matchedGovernorate) {
+              console.warn(
+                `⚠️ Governorate not found for area.id=${area.id} — missing match for governorateId=${govId}`
+              );
+            } else {
+              console.log(
+                `✅ Match found: Area ${area.id} → Governorate "${matchedGovernorate.name}"`
+              );
+            }
+
             return {
-              ...ss,
-              governorateName: governorateName, // or call it `governorateName` if more accurate
+              ...area,
+              governorateName: matchedGovernorate?.name || '—',
             };
           });
 
           const sorted = mapped.sort((a, b) => b.id - a.id);
-          console.log('✅ Sorted mapped areas:', sorted);
+          console.log('✅ Sorted result:', sorted);
+          console.groupEnd();
+
           return sorted;
         }),
         takeUntil(this.destroy$)
       )
       .subscribe(
         (normalizedAreas) => {
-          console.log(
-            '🟢 Final normalizedAreas emitted to view:',
-            normalizedAreas
-          );
+          console.group('📤 Final Output to View');
+          console.log('✅ normalizedAreas:', normalizedAreas);
           this.filteredArea = normalizedAreas;
           this.originalArea = normalizedAreas;
+          console.log('📊 filteredArea:', this.filteredArea);
+          console.log('📊 originalArea:', this.originalArea);
+          console.groupEnd();
         },
         (error) => {
           console.error('❌ Error in combineLatest subscription:', error);

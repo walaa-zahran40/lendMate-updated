@@ -55,12 +55,12 @@
           <span *ngSwitchCase="'lisenceStartDate'">
             {{ rowData[col.field] | date : "yyyy-MM-dd" }}
           </span>
-          <span *ngSwitchCase="'sectorId'">
+          <!-- <span *ngSwitchCase="'sectorId'">
             {{ getSectorName(rowData.sectorId) }}
-          </span>
-          <span *ngSwitchCase="'governorateId'">
+          </span> -->
+          <!-- <span *ngSwitchCase="'governorateId'">
             {{ getGovernorateName(rowData.governorateId) }}
-          </span>
+          </span> -->
         </ng-container>
       </td>
 

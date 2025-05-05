@@ -228,6 +228,19 @@ const routes: Routes = [
     path: 'view-call-action-types',
     component: ViewCallActionTypesComponent,
   },
+  //Areas
+  {
+    path: 'add-areas',
+    component: AddAreasComponent,
+  },
+  {
+    path: 'edit-areas/:id',
+    component: AddAreasComponent,
+  },
+  {
+    path: 'view-areas',
+    component: ViewAreasComponent,
+  },
   //Currencies
   {
     path: 'add-currencies',
@@ -583,10 +596,6 @@ const routes: Routes = [
   },
 
   {
-    path: 'add-areas',
-    component: AddAreasComponent,
-  },
-  {
     path: 'add-tax-offices',
     component: AddTaxOfficesComponent,
   },
@@ -667,10 +676,6 @@ const routes: Routes = [
     component: ViewCountriesComponent,
   },
 
-  {
-    path: 'view-areas',
-    component: ViewAreasComponent,
-  },
   {
     path: 'view-tax-offices',
     component: ViewTaxOfficesComponent,
