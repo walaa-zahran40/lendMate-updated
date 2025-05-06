@@ -124,7 +124,7 @@ export class AddFeeTypesComponent {
         feeCalculationTypeId,
         defaultAmount: 0,
         defaultPrecentage: 0,
-        isActive: false
+        isActive
       };
       
       this.facade.update(id, payload);
