@@ -12,7 +12,6 @@ import { TableComponent } from '../../../../shared/components/table/table.compon
   templateUrl: './view-mandate-statuses.component.html',
   styleUrl: './view-mandate-statuses.component.scss',
 })
-
 export class ViewMandateStatusesComponent {
   tableDataInside: MandateStatus[] = [];
   first2 = 0;
@@ -23,7 +22,6 @@ export class ViewMandateStatusesComponent {
   @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
-    { field: 'code', header: 'Code' },
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
     { field: 'isinitial', header: 'Is Initial' },
@@ -42,12 +40,14 @@ export class ViewMandateStatusesComponent {
     this.facade.loadAll();
     this.mandateStatuses$ = this.facade.items$;
 
-    this.mandateStatuses$.pipe(takeUntil(this.destroy$)).subscribe((mandateStatuses) => {
-      const sorted = [...mandateStatuses].sort((a, b) => b.id - a.id);
-      console.log('🟢 sorted mandateStatuses:', sorted);
-      this.originalMandateStatuses = sorted;
-      this.filteredMandateStatuses = [...sorted];
-    });
+    this.mandateStatuses$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((mandateStatuses) => {
+        const sorted = [...mandateStatuses].sort((a, b) => b.id - a.id);
+        console.log('🟢 sorted mandateStatuses:', sorted);
+        this.originalMandateStatuses = sorted;
+        this.filteredMandateStatuses = [...sorted];
+      });
   }
 
   onAddMandateStatus() {
@@ -94,10 +94,11 @@ export class ViewMandateStatusesComponent {
 
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
-    this.filteredMandateStatuses = this.originalMandateStatuses.filter((mandateStatus) =>
-      Object.values(mandateStatus).some((val) =>
-        val?.toString().toLowerCase().includes(lower)
-      )
+    this.filteredMandateStatuses = this.originalMandateStatuses.filter(
+      (mandateStatus) =>
+        Object.values(mandateStatus).some((val) =>
+          val?.toString().toLowerCase().includes(lower)
+        )
     );
   }
 
