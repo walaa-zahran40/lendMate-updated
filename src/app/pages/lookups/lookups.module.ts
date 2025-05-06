@@ -162,6 +162,9 @@ import { clientStatusesReducer } from './store/client-statuses/client-statuses.r
 import { ClientStatusesEffects } from './store/client-statuses/client-statuses.effects';
 import { reducer as docTypesReducer } from './store/doc-types/doc-types.reducer';
 import { DocTypesEffects } from './store/doc-types/doc-types.effects';
+import { CurrencyExchangeRatesEffects } from './store/currency-exchange-rates/currency-exchange-rates.effects';
+import { currencyExchangeRatesReducer } from './store/currency-exchange-rates/currency-exchange-rates.reducer';
+
 
 @NgModule({
   declarations: [
@@ -334,6 +337,8 @@ import { DocTypesEffects } from './store/doc-types/doc-types.effects';
     EffectsModule.forFeature([ClientStatusesEffects]),
     StoreModule.forFeature('docTypes', docTypesReducer),
     EffectsModule.forFeature([DocTypesEffects]),
+    StoreModule.forFeature('currencyExchangeRates', currencyExchangeRatesReducer),
+    EffectsModule.forFeature([CurrencyExchangeRatesEffects]),
   ],
   exports: [
     AddCompanyTypesComponent,

@@ -162,5 +162,9 @@
         width: var(--custom-width-100);
       }
     }
+      .p-tabs {
+        padding: var(--custom-padding-right-10);
+        zoom: 80%;
+      }
   }
 }

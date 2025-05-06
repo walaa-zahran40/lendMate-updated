@@ -6624,28 +6624,29 @@
     >
       Please enter only Arabic letters.
     </div>
-    <label for="assetTypeCategoryId">Select Asset Type Category<sup class="danger">*</sup></label>
+    <label for="assetCategoryId">Select Asset Type Category<sup class="danger">*</sup></label>
      <!--Select Box-->
      <p-select
-     [options]="assetTypeCategories"
+     [options]="sectorsList"
      optionLabel="name"
      placeholder="Select Asset Category"
-     formControlName="assetTypeCategoryId"
+     formControlName="assetCategoryId"
      optionValue="id"
+     (onChange)="onSectorChange($event)"
      required
      [ngClass]="{
        'ng-invalid':
-         formGroup.get('assetTypeCategoryId')?.invalid &&
-         (formGroup.get('assetTypeCategoryId')?.dirty ||
-           formGroup.get('assetTypeCategoryId')?.touched)
+         formGroup.get('assetCategoryId')?.invalid &&
+         (formGroup.get('assetCategoryId')?.dirty ||
+           formGroup.get('assetCategoryId')?.touched)
      }"
    >
    </p-select>
 
    <div
      *ngIf="
-       formGroup.get('assetTypeCategoryId')?.hasError('required') &&
-       formGroup.get('assetTypeCategoryId')?.touched
+       formGroup.get('assetCategoryId')?.hasError('required') &&
+       formGroup.get('assetCategoryId')?.touched
      "
      class="p-error"
    >
@@ -7001,46 +7002,108 @@
         </div>
       </div>
     </form>
-    <form action="" *ngIf="addCurrenciesExchangeLookupsForm">
-      <label for="currencyExchangeLookups">Currency<sup>*</sup></label>
-      <p-multiselect
-        [options]="currencyExchangeLookups"
-        [(ngModel)]="selectedCurrencyExchangeLookups"
-        placeholder="Select Currency"
-        optionLabel="name"
-        display="chip"
-        icon="pi pi-times"
-        name="currencyExchangeLookups"
-        styleClass="w-full md:w-80"
-        [maxSelectedLabels]="999"
-        chipIcon="pi pi-times"
-      />
-      <label for="expiryDateCurrencyExchangeLookups"
-        >Expiry Date<sup>*</sup></label
+    <form
+    [formGroup]="formGroup"
+    *ngIf="addCurrenciesExchangeLookupsForm"
+    (ngSubmit)="onSubmit()"
+  >
+    <label for="currencyId">Currency<sup class="danger">*</sup></label>
+    <!-- Select Box -->
+    <p-select
+      [options]="currencies"
+      optionLabel="name"
+      placeholder="Select Currency"
+      formControlName="currencyId"
+      optionValue="id"
+      required
+      [ngClass]="{
+        'ng-invalid':
+          formGroup.get('currencyId')?.invalid &&
+          (formGroup.get('currencyId')?.dirty ||
+           formGroup.get('currencyId')?.touched)
+      }"
+    ></p-select>
+  
+    <div
+      *ngIf="
+        formGroup.get('currencyId')?.hasError('required') &&
+        formGroup.get('currencyId')?.touched
+      "
+      class="p-error"
+    >
+      Currency id is required.
+    </div>
+  
+    <!-- Date picker -->
+    <label for="exchangeDate">Exchange Date<sup class="danger">*</sup></label>
+    <p-datepicker
+      [(ngModel)]="date19"
+      [iconDisplay]="'input'"
+      [showIcon]="true"
+      inputId="icondisplay"
+      name="exchangeDate"
+      formControlName="exchangeDate"
+    ></p-datepicker>
+  
+    <label for="exchangeRate">Exchange Rate<sup class="danger">*</sup></label>
+    <input
+      pInputText
+      name="exchangeRate"
+      formControlName="exchangeRate"
+      placeholder="Exchange Rate"
+      type="number"
+      [ngClass]="{
+        'ng-invalid ng-dirty':
+          formGroup.get('exchangeRate')?.invalid &&
+          formGroup.get('exchangeRate')?.touched
+      }"
+    />
+  
+    <div
+      *ngIf="
+        formGroup.get('exchangeRate')?.invalid &&
+        formGroup.get('exchangeRate')?.touched
+      "
+      class="p-error"
+    >
+      Exchange Rate is required.
+    </div>
+  
+    <div class="row justify-end">
+      <div
+        class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 subSectorsDiv"
+        *ngIf="!editMode"
       >
-      <p-datepicker
-        [(ngModel)]="date19"
-        [iconDisplay]="'input'"
-        [showIcon]="true"
-        inputId="icondisplay"
-        name="expiryDateCurrencyExchangeLookups"
-      />
-      <label for="exchangeRateCurrencyExchangeLookups"
-        >Exchange Rate<sup>*</sup></label
+        <p-button
+          type="submit"
+          label="Add Currecny Exchange Rate"
+          [disabled]="formGroup.invalid"
+          class="custom-save m-0 float-right"
+        ></p-button>
+      </div>
+      <div
+        class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 subSectorsDiv"
+        *ngIf="editMode && !viewOnly"
       >
-      <p-multiselect
-        [options]="exchangeRateCurrencies"
-        [(ngModel)]="selectedExchangeRateCurrencies"
-        placeholder="Select Exchange Currency"
-        optionLabel="name"
-        display="chip"
-        icon="pi pi-times"
-        name="exchangeRateCurrencyExchangeLookups"
-        styleClass="w-full md:w-80"
-        [maxSelectedLabels]="999"
-        chipIcon="pi pi-times"
-      />
-    </form>
+        <p-button
+          type="submit"
+          label="Edit Currecny Exchange Rate"
+          class="custom-save m-0 float-right"
+        ></p-button>
+      </div>
+      <div
+        *ngIf="viewOnly"
+        class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 sectorsDiv"
+      >
+        <p-button
+          label="Close"
+          class="custom-save m-0 float-right"
+          (click)="router.navigate(['/lookups/view-currency-exchange-rates'])"
+        ></p-button>
+      </div>
+    </div>
+  </form>
+  
 
     <form action="" *ngIf="addPaymentMonthDaysLookupsForm">
       <label>Arabic Description<sup>*</sup></label>

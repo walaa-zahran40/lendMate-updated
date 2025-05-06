@@ -7,7 +7,7 @@
           'Asset Types'
         "
         [addAssetTypesLookupsForm]="true"
-        [assetTypeCategories]="assetTypeCategories$ | async"
+        [assetTypeCategories]="(assetTypeCategories$ | async) || []"    
         [formGroup]="addAssetTypesLookupsForm"
         (submitForm)="addOrEditAssetType()"
         [editMode]="editMode"
