@@ -369,6 +369,8 @@ import { ViewPaymentMonthDaysComponent } from './components/view-payment-month-d
     EffectsModule.forFeature([CurrencyExchangeRatesEffects]),
     StoreModule.forFeature('paymentMonthDays', paymentMonthDaysReducer),
     EffectsModule.forFeature([PaymentMonthDaysEffects]),
+    StoreModule.forFeature('paymentMonthDays', paymentMonthDaysReducer),
+    EffectsModule.forFeature([PaymentMonthDaysEffects]),
   ],
   exports: [
     AddFeeCalculationTypesComponent,

@@ -55,6 +55,9 @@
           <span *ngSwitchCase="'lisenceStartDate'">
             {{ rowData[col.field] | date : "yyyy-MM-dd" }}
           </span>
+          <span *ngSwitchCase="'exchangeDate'">
+            {{ rowData[col.field] | date : "yyyy-MM-dd" }}
+          </span>
         </ng-container>
       </td>
 
