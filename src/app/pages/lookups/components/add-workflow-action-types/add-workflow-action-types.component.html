@@ -1,5 +1,5 @@
 <app-toolbar-form
-  [header]="editMode ? 'Edit TML Officer Type' : 'Add TML Officer Type'"
+  [header]="editMode ? 'Edit Workflow Action Type' : 'Add Workflow Action Type'"
   [backExists]="true"
   [backIcon]="'back-icon'"
   [viewOnly]="editMode ? true : false"
@@ -8,15 +8,15 @@
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
-        *ngIf="addTmlOfficerTypesLookupsForm"
+        *ngIf="addWorkFlowActionTypesLookupsForm"
         [title]="'Main Information'"
         [description]="
-          'Introduce your tML Officer Type core info quickly to users by fill up tML Officer Type details'
+          'Introduce your workflow Action Type core info quickly to users by fill up workflow Action Type details'
         "
-        [formGroup]="addTmlOfficerTypesLookupsForm"
-        [addTmlOfficerTypeLookupsForm]="true"
+        [formGroup]="addWorkFlowActionTypesLookupsForm"
+        [addWorkFlowActionTypesLookupsForm]="true"
         [editMode]="editMode"
-        (submitForm)="addOrEditTmlOfficerTypes()"
+        (submitForm)="addOrEditWorkflowActionTypes()"
         [viewOnly]="viewOnly"
       ></app-form>
     </p-tabpanel>

@@ -130,6 +130,7 @@ export class TableComponent {
   @Input() viewMeetingTypesLookupTable!: boolean;
   @Input() viewCallsCommunicationTable!: boolean;
   @Input() viewClientGuarantorTable!: boolean;
+  @Input() viewWorkFlowActionTypesLookupsTable!: boolean;
   @Input() viewDocTypesTable!: boolean;
   @Input() paginator: boolean = true;
   @Output() wizardBtn = new EventEmitter<void>();

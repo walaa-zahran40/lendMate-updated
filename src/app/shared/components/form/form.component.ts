@@ -471,6 +471,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addCallActionTypeLookupsForm!: boolean;
   @Input() addClientGuarantorsShowIndividual!: boolean;
   @Input() addClientIdentitiesShowIndividual!: boolean;
+  @Input() addWorkFlowActionTypesLookupsForm!: boolean;
   filteredSubSectors$!: Observable<SubSectors[]>;
   legalFormLaws$: Observable<LegalFormLaw[]> = this.facade.legalFormLaws$;
   legalForms$ = this.facadeLegalForms.legalForms$;
@@ -1071,6 +1072,9 @@ export class FormComponent implements OnInit, OnDestroy {
   }
   viewCommunicationFlowType() {
     this.router.navigate(['/lookups/view-communication-flow-types']);
+  }
+  viewWorkFlowActionTypes() {
+    this.router.navigate(['/lookups/view-workflow-action-types']);
   }
   viewClientGuarantors() {
     this.router.navigate(['/crm/clients/view-client-guarantor']);

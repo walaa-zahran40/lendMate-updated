@@ -162,13 +162,17 @@ import { CountriesEffects } from './store/countries/countries.effects';
 import { countriesReducer } from './store/countries/countries.reducer';
 import { reducer as AreasReducer } from './store/areas/areas.reducer';
 import { AreasEffects } from './store/areas/areas.effects';
-
 import { reducer as MandateValidityUnitsReducer } from './store/mandate-validity-units/mandate-validity-units.reducer';
 import { MandateValidityUnitsEffects } from './store/mandate-validity-units/mandate-validity-units.effects';
+import { reducer as WorkflowActionTypesReducer } from './store/workflow-action-types/workflow-action-types.reducer';
+import { WorkflowActionTypesEffects } from './store/workflow-action-types/workflow-action-types.effects';
+
 import { governoratesReducer } from './store/governorates/governorates.reducer';
 import { GovernoratesEffects } from './store/governorates/governorates.effects';
 import { TaxOfficesEffects } from './store/tax_offices/tax_offices.effects';
-import { reducer as  taxOfficesReducer} from './store/tax_offices/tax_offices.reducer';
+import { reducer as taxOfficesReducer } from './store/tax_offices/tax_offices.reducer';
+import { AddWorkFlowActionTypesComponent } from './components/add-workflow-action-types/add-workflow-action-types.component';
+import { ViewWorkFlowActionTypesComponent } from './components/view-workflow-action-types/view-workflow-action-types.component';
 
 @NgModule({
   declarations: [
@@ -182,6 +186,7 @@ import { reducer as  taxOfficesReducer} from './store/tax_offices/tax_offices.re
     AddRentStructureTypesComponent,
     AddCurrenciesComponent,
     AddPaymentMethodsComponent,
+    AddWorkFlowActionTypesComponent,
     AddPaymentTypesComponent,
     AddPaymentMonthDaysComponent,
     AddMeetingTypesComponent,
@@ -262,6 +267,7 @@ import { reducer as  taxOfficesReducer} from './store/tax_offices/tax_offices.re
     ViewCommunicationTypesComponent,
     ViewCallActionTypesComponent,
     ViewCommunicationFlowTypeComponent,
+    ViewWorkFlowActionTypesComponent,
   ],
   imports: [
     CommonModule,
@@ -348,6 +354,8 @@ import { reducer as  taxOfficesReducer} from './store/tax_offices/tax_offices.re
     EffectsModule.forFeature([GovernoratesEffects]),
     StoreModule.forFeature('taxOffices', taxOfficesReducer),
     EffectsModule.forFeature([TaxOfficesEffects]),
+    StoreModule.forFeature('workflowActionTypes', WorkflowActionTypesReducer),
+    EffectsModule.forFeature([WorkflowActionTypesEffects]),
   ],
   exports: [
     AddFeeCalculationTypesComponent,

@@ -91,6 +91,8 @@ import { ViewCallActionTypesComponent } from './components/view-call-action-type
 import { ViewCommunicationFlowTypeComponent } from './components/view-communication-flow-type/view-communication-flow-type.component';
 import { AddDocTypesComponent } from './components/add-doc-types/add-doc-types.component';
 import { ViewDocTypesComponent } from './components/view-doc-types/view-doc-types.component';
+import { AddWorkFlowActionTypesComponent } from './components/add-workflow-action-types/add-workflow-action-types.component';
+import { ViewWorkFlowActionTypesComponent } from './components/view-workflow-action-types/view-workflow-action-types.component';
 
 const routes: Routes = [
   /**Lookup Module */
@@ -106,6 +108,19 @@ const routes: Routes = [
   {
     path: 'view-company-types',
     component: ViewCompanyTypesComponent,
+  },
+  //Workflow Action Types
+  {
+    path: 'add-workflow-action-types',
+    component: AddWorkFlowActionTypesComponent,
+  },
+  {
+    path: 'edit-workflow-action-types/:id',
+    component: AddWorkFlowActionTypesComponent,
+  },
+  {
+    path: 'view-workflow-action-types',
+    component: ViewWorkFlowActionTypesComponent,
   },
   //Fee Calculation Types
   {
