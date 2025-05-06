@@ -1,23 +1,41 @@
 <div class="page-content">
   <app-toolbar-table
-    [title]="'Currency Exchange'"
-    [labelBtn]="'Add a Currency'"
+    [title]="'Currency Exchange Rate'"
+    [labelBtn]="'Add Currency Exchange Rate'"
+    [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
     [backExists]="true"
+    [customSpacing]="'custom-spacing'"
     [exports]="true"
+    (addBtn)="onAddCurrencyExchangeRate()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col1Name]="'Exchange Date'"
-    [col2Name]="'Exchange Rate'"
-    [col3Name]="'Name EN'"
-    [col4Name]="'Name AR'"
-    [edit]="true"
-    [delete]="true"
-    [side]="false"
-    [download]="false"
-    [checkBox]="true"
-    [viewCurrencyExchangeTable]="true"
-  ></app-table>
+
+  <ng-container *ngIf="currencyExchangeRates$ | async as currencyExchangeRates">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredCurrencyExchangeRates"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewCurrencyExchangeTable]="true"
+      (onDelete)="onDeleteCurrencyExchangeRate($event)"
+      (onEdit)="onEditCurrencyExchangeRate($event)"
+      (viewForm)="onViewCurrencyExchangeRate($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
 </div>

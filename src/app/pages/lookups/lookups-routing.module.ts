@@ -288,6 +288,19 @@ const routes: Routes = [
     component: ViewAssetTypeCategoriesComponent,
   },
 
+  //Currencies Exchange
+  {
+    path: 'add-currency-exchange-rates',
+    component: AddCurrenciesExchangeComponent,
+  },
+  {
+    path: 'edit-currency-exchange-rates/:id',
+    component: AddCurrenciesExchangeComponent,
+  },
+  {
+    path: 'view-currency-exchange-rates',
+    component: ViewCurrenciesComponent,
+  },
   //Asset mandate status
   {
     path: 'add-mandate-statuses',

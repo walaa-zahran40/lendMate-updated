@@ -173,6 +173,8 @@ import { TaxOfficesEffects } from './store/tax_offices/tax_offices.effects';
 import { reducer as taxOfficesReducer } from './store/tax_offices/tax_offices.reducer';
 import { AddWorkFlowActionTypesComponent } from './components/add-workflow-action-types/add-workflow-action-types.component';
 import { ViewWorkFlowActionTypesComponent } from './components/view-workflow-action-types/view-workflow-action-types.component';
+import { CurrencyExchangeRatesEffects } from './store/currency-exchange-rates/currency-exchange-rates.effects';
+import { currencyExchangeRatesReducer } from './store/currency-exchange-rates/currency-exchange-rates.reducer';
 
 @NgModule({
   declarations: [
@@ -356,6 +358,11 @@ import { ViewWorkFlowActionTypesComponent } from './components/view-workflow-act
     EffectsModule.forFeature([TaxOfficesEffects]),
     StoreModule.forFeature('workflowActionTypes', WorkflowActionTypesReducer),
     EffectsModule.forFeature([WorkflowActionTypesEffects]),
+    StoreModule.forFeature(
+      'currencyExchangeRates',
+      currencyExchangeRatesReducer
+    ),
+    EffectsModule.forFeature([CurrencyExchangeRatesEffects]),
   ],
   exports: [
     AddFeeCalculationTypesComponent,
