@@ -28,7 +28,7 @@ import { AddAssetTypeCategoriesComponent } from './components/add-asset-type-cat
 import { AddProductsComponent } from './components/add-products/add-products.component';
 import { AddSectorsComponent } from './components/add-sectors/add-sectors.component';
 import { AddClientStatusesComponent } from './components/add-client-statuses/add-client-statuses.component';
-import { AddSmeClientCodeComponent } from './components/add-sme-client-code/add-sme-client-code.component';
+import { AddSMEClientCodesComponent } from './components/add-sme-client-code/add-sme-client-code.component';
 import { AddSubSectorsComponent } from './components/add-sub-sectors/add-sub-sectors.component';
 import { AddAuthorityOfficesComponent } from './components/add-authority-offices/add-authority-offices.component';
 import { AddPhoneTypesComponent } from './components/add-phone-types/add-phone-types.component';
@@ -80,7 +80,7 @@ import { ViewSectorsComponent } from './components/view-sectors/view-sectors.com
 import { ViewClientStatusesComponent } from './components/view-client-statuses/view-client-statuses.component';
 import { WizardClientStatusComponent } from './components/wizard-client-status/wizard-client-status.component';
 import { ViewClientStatusComponent } from './components/view-client-status-actions/view-client-status.component';
-import { ViewSmeClientCodeComponent } from './components/view-sme-client-code/view-sme-client-code.component';
+import { ViewSMEClientCodesComponent } from './components/view-sme-client-code/view-sme-client-code.component';
 import { ViewSubSectorsComponent } from './components/view-sub-sectors/view-sub-sectors.component';
 import { ViewClientTypesComponent } from './components/view-client-types/view-client-types.component';
 import { ViewAuthorityOfficesComponent } from './components/view-authority-offices/view-authority-offices.component';
@@ -179,6 +179,8 @@ import { PaymentMonthDaysEffects } from './store/payment-month-days/payment-mont
 import { ViewPaymentMonthDaysComponent } from './components/view-payment-month-days/view-payment-month-days.component';
 import { ProductsEffects } from './store/products/products.effects';
 import { reducer as productsReducer } from './store/products/products.reducer';
+import { reducer as smeClientCodesReducer } from './store/sme-client-codes/sme-client-codes.reducer';
+import { SMEClientCodesEffects } from './store/sme-client-codes/sme-client-codes.effects';
 
 
 @NgModule({
@@ -207,7 +209,7 @@ import { reducer as productsReducer } from './store/products/products.reducer';
     AddProductsComponent,
     AddSectorsComponent,
     AddClientStatusesComponent,
-    AddSmeClientCodeComponent,
+    AddSMEClientCodesComponent,
     AddSubSectorsComponent,
     AddAuthorityOfficesComponent,
     AddPhoneTypesComponent,
@@ -260,7 +262,7 @@ import { reducer as productsReducer } from './store/products/products.reducer';
     ViewClientStatusesComponent,
     WizardClientStatusComponent,
     ViewClientStatusComponent,
-    ViewSmeClientCodeComponent,
+    ViewSMEClientCodesComponent,
     ViewSubSectorsComponent,
     ViewClientTypesComponent,
     ViewAuthorityOfficesComponent,
@@ -377,6 +379,8 @@ import { reducer as productsReducer } from './store/products/products.reducer';
     EffectsModule.forFeature([PaymentMonthDaysEffects]),
     StoreModule.forFeature('products', productsReducer),
     EffectsModule.forFeature([ProductsEffects]),
+    StoreModule.forFeature('smeClientCode', smeClientCodesReducer),
+    EffectsModule.forFeature([SMEClientCodesEffects]),
   ],
   exports: [
     AddFeeCalculationTypesComponent,
@@ -402,7 +406,7 @@ import { reducer as productsReducer } from './store/products/products.reducer';
     AddProductsComponent,
     AddSectorsComponent,
     AddClientStatusesComponent,
-    AddSmeClientCodeComponent,
+    AddSMEClientCodesComponent,
     AddSubSectorsComponent,
     AddAuthorityOfficesComponent,
     AddPhoneTypesComponent,
@@ -422,6 +426,7 @@ import { reducer as productsReducer } from './store/products/products.reducer';
     AddClientStatusActionsComponent,
     AddCurrenciesExchangeComponent,
     ViewBranchComponent,
+    ViewSMEClientCodesComponent
   ],
 })
 export class LookupsModule {}
