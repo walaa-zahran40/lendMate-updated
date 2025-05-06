@@ -87,6 +87,7 @@ export class TableComponent {
   @Input() viewCurrencyExchangeTable!: boolean;
   @Input() viewMandateStatusesTable!: boolean;
   @Input() viewPaymentMethodsTable!: boolean;
+  @Input() viewPaymentMonthDaysTable!: boolean;
   @Input() viewPaymentTypesTable!: boolean;
   @Input() viewMandateValidityUnitTable!: boolean;
   @Input() viewBranchesTable!: boolean;
@@ -130,6 +131,7 @@ export class TableComponent {
   @Input() viewMeetingTypesLookupTable!: boolean;
   @Input() viewCallsCommunicationTable!: boolean;
   @Input() viewClientGuarantorTable!: boolean;
+  @Input() viewWorkFlowActionTypesLookupsTable!: boolean;
   @Input() viewDocTypesTable!: boolean;
   @Input() paginator: boolean = true;
   @Output() wizardBtn = new EventEmitter<void>();
@@ -154,16 +156,10 @@ export class TableComponent {
   event: any;
   globalFilterFields: string[] = [];
   allSectors: any;
-
+  allGovernorates: any;
   constructor(private sharedService: SharedService, private store: Store) {}
 
   ngOnInit() {
-    //select box sectors
-    if (this.viewSubSectorTable) {
-      this.store.dispatch(loadAll({}));
-      this.allSectors = this.store.select(selectAllSectors);
-    }
-
     if (this.cols?.length) {
       this.globalFilterFields = this.cols.map((c) => c.field);
     }
@@ -172,6 +168,10 @@ export class TableComponent {
   getSectorName(sectorId: number): string {
     const sector = this.allSectors.find((s: any) => s.id === sectorId);
     return sector ? sector.name : 'Unknown Sector';
+  }
+  getGovernorateName(id: number): string {
+    const governorate = this.allGovernorates.find((s: any) => s.id === id);
+    return governorate ? governorate.name : 'Unknown Governorate';
   }
   openPopup() {
     this.sharedService.showPopup();

@@ -1,5 +1,5 @@
 <app-toolbar-form
-  [header]="editMode ? 'Edit Rent Structure Type' : 'Add Rent Structure Type'"
+  [header]="editMode ? 'Edit TML Officer Type' : 'Add TML Officer Type'"
   [backExists]="true"
   [backIcon]="'back-icon'"
   [viewOnly]="editMode ? true : false"
@@ -11,7 +11,7 @@
         *ngIf="addTmlOfficerTypesLookupsForm"
         [title]="'Main Information'"
         [description]="
-          'Introduce your rent Structure Type core info quickly to users by fill up rent Structure Type details'
+          'Introduce your tML Officer Type core info quickly to users by fill up tML Officer Type details'
         "
         [formGroup]="addTmlOfficerTypesLookupsForm"
         [addTmlOfficerTypeLookupsForm]="true"

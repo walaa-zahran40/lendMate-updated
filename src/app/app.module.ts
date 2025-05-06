@@ -23,9 +23,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { LoaderInterceptor } from './shared/interceptors/loader.interceptor';
-import { BranchesEffects } from './pages/lookups/store/branches/branches.effects';
-import { branchesReducer } from './pages/lookups/store/branches/branches.reducer';
 import { actionLogger } from './pages/lookups/store/branches/logger.metareducer';
+import { InactiveInterceptor } from './shared/interceptors/inactive.interceptor';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -46,6 +45,7 @@ import { actionLogger } from './pages/lookups/store/branches/logger.metareducer'
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: InactiveInterceptor, multi: true },
 
     provideHttpClient(),
 

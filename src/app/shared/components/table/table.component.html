@@ -55,12 +55,8 @@
           <span *ngSwitchCase="'lisenceStartDate'">
             {{ rowData[col.field] | date : "yyyy-MM-dd" }}
           </span>
-          <span *ngSwitchCase="'sectorId'">
-            {{ getSectorName(rowData.sectorId) }}
-          </span>
         </ng-container>
       </td>
-      <!-- <td>{{ getTypeLabel(rowData.clientTypeCode) }}</td> -->
 
       <td class="imgs pt-0">
         <img

@@ -67,6 +67,8 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() subSectorsList: any[] = [];
   @Input() assetTypeCategories: any[] = [];
   @Input() currencies: any[] = [];
+  @Input() countriesList: any;
+  @Input() governoratesList: any;
 
   @Input() selectedSectorId: number | null = null;
   @Input() legalFormLawIdControl!: number;
@@ -470,6 +472,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addCallActionTypeLookupsForm!: boolean;
   @Input() addClientGuarantorsShowIndividual!: boolean;
   @Input() addClientIdentitiesShowIndividual!: boolean;
+  @Input() addWorkFlowActionTypesLookupsForm!: boolean;
   filteredSubSectors$!: Observable<SubSectors[]>;
   legalFormLaws$: Observable<LegalFormLaw[]> = this.facade.legalFormLaws$;
   legalForms$ = this.facadeLegalForms.legalForms$;
@@ -869,7 +872,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-client-document-types']);
   }
   viewMandateValidity() {
-    this.router.navigate(['/crm/clients/view-mandate-validity']);
+    this.router.navigate(['/lookups/view-mandate-validity-unit']);
   }
   viewLeasingType() {
     this.router.navigate(['/lookups/view-leasing-types']);
@@ -1002,8 +1005,8 @@ export class FormComponent implements OnInit, OnDestroy {
       queryParams: { id: this.id },
     });
   }
-  viewAssestTypes() {
-    this.router.navigate(['/crm/clients/view-assest-types']);
+  viewAssetTypes() {
+    this.router.navigate(['/lookups/view-asset-types']);
   }
   viewAssetTypeCategories() {
     this.router.navigate(['/lookups/view-asset-type-categories']);
@@ -1042,7 +1045,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-address-types']);
   }
   viewGovernorates() {
-    this.router.navigate(['/crm/clients/view-governorates']);
+    this.router.navigate(['/lookups/view-governorates']);
   }
   viewCountries() {
     this.router.navigate(['/lookups/view-countries']);
@@ -1051,10 +1054,10 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-identification-types']);
   }
   viewAreas() {
-    this.router.navigate(['/crm/clients/view-areas']);
+    this.router.navigate(['/lookups/view-areas']);
   }
   viewTaxOffices() {
-    this.router.navigate(['/crm/clients/view-tax-offices']);
+    this.router.navigate(['/lookups/view-tax-offices']);
   }
   viewDocTypes() {
     this.router.navigate(['/lookups/view-document-types']);
@@ -1071,6 +1074,9 @@ export class FormComponent implements OnInit, OnDestroy {
   viewCommunicationFlowType() {
     this.router.navigate(['/lookups/view-communication-flow-types']);
   }
+  viewWorkFlowActionTypes() {
+    this.router.navigate(['/lookups/view-workflow-action-types']);
+  }
   viewClientGuarantors() {
     this.router.navigate(['/crm/clients/view-client-guarantor']);
   }
@@ -1079,6 +1085,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.subSectorList.setValue(selectedIds);
     this.subSectorList.markAsTouched();
   }
+
   updateValue(value: LegalFormLaw, value1: LegalForm): void {
     this.selectedLegalFormLaw = value;
     this.selectedLegalForm = value1;

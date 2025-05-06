@@ -19,11 +19,9 @@ export class ViewAssetTypesComponent {
   showFilters = false;
   private destroy$ = new Subject<void>();
 
-
   @ViewChild('tableRef') tableRef!: TableComponent;
-  
+
   readonly colsInside = [
-    { field: 'code', header: 'Code' },
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
     { field: 'assetTypeCategory', header: 'Category' },
@@ -40,9 +38,9 @@ export class ViewAssetTypesComponent {
   ngOnInit() {
     this.facade.loadAll();
     this.assetTypes$ = this.facade.items$;
-    console.log('asasasd',this.assetTypes$)
+    console.log('asasasd', this.assetTypes$);
     this.assetTypes$.pipe(takeUntil(this.destroy$)).subscribe((assetTypes) => {
-      console.log('asseyyu[e',assetTypes)
+      console.log('asseyyu[e', assetTypes);
       const sorted = [...assetTypes].sort((a, b) => b.id - a.id);
       this.originalAssetTypes = sorted;
       this.filteredAssetTypes = [...sorted];
@@ -51,7 +49,7 @@ export class ViewAssetTypesComponent {
     combineLatest([this.assetTypes$])
       .pipe(
         map(([assetTypes]) => {
-          console.log('assettypessss',assetTypes)
+          console.log('assettypessss', assetTypes);
           const mapped = assetTypes.map((ss) => {
             const assetTypeCategory = ss.assetTypeCategory?.name || '—';
             console.log(
@@ -62,7 +60,7 @@ export class ViewAssetTypesComponent {
               assetTypeCategory: assetTypeCategory, // or call it `categoryName` if more accurate
             };
           });
- 
+
           const sorted = mapped.sort((a, b) => b.id - a.id);
           console.log('✅ Sorted mapped assetTypes:', sorted);
           return sorted;

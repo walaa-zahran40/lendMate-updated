@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject, Observable, take, takeUntil } from 'rxjs';
+import { Subject, Observable, take, takeUntil, filter } from 'rxjs';
 import { TableComponent } from '../../../../shared/components/table/table.component';
 import { SubSector } from '../../store/sub-sectors/sub-sector.model';
 import { SubSectorsFacade } from '../../store/sub-sectors/sub-sectors.facade';
@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import { selectAllSectors } from '../../store/sectors/sectors.selectors';
 import { Sector } from '../../store/sectors/sector.model';
 import { map, combineLatest } from 'rxjs';
+import { SectorsFacade } from '../../store/sectors/sectors.facade';
 
 @Component({
   selector: 'app-view-sub-sectors',
@@ -38,19 +39,23 @@ export class ViewSubSectorsComponent {
   constructor(
     private router: Router,
     private facade: SubSectorsFacade,
-    private store: Store
+    private sectorFacade: SectorsFacade
   ) {}
   ngOnInit() {
-    console.log('🟢 ngOnInit: start');
+    // SubSectors
     this.SubSectors$ = this.facade.all$;
-    this.sectorsList$ = this.store.select(selectAllSectors); // Add this line
-    this.facade.loadAll(); // Ensure sub-sectors load
-    this.store.dispatch({ type: '[Sectors API] Load All Sectors' }); // Make sure to dispatch sector loading
-    //Select Box
+    this.facade.loadAll();
+
+    // Sectors
+    this.sectorsList$ = this.sectorFacade.all$;
+    this.sectorFacade.loadAll();
+
     combineLatest([this.SubSectors$, this.sectorsList$])
+      // optional: skip until sectors loaded
       .pipe(
-        map(([subSectors, sectors]) =>
-          subSectors
+        filter(([, sectors]) => sectors.length > 0),
+        map(([subs, sectors]) =>
+          subs
             .map((ss) => ({
               ...ss,
               sectorName:
@@ -60,10 +65,10 @@ export class ViewSubSectorsComponent {
         ),
         takeUntil(this.destroy$)
       )
-      .subscribe((normalizedSubSectors) => {
-        console.log('🟢 Normalized SubSectors:', normalizedSubSectors);
-        this.filteredSubSector = normalizedSubSectors;
-        this.originalSubSector = normalizedSubSectors;
+      .subscribe((normalized) => {
+        console.log('🟢 Normalized SubSectors:', normalized);
+        this.filteredSubSector = normalized;
+        this.originalSubSector = normalized;
       });
   }
 

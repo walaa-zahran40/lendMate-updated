@@ -96,8 +96,6 @@ import { ViewCallTypesComponent } from './components/view-call-types/view-call-t
 import { ViewCommunicationTypesComponent } from './components/view-communication-types/view-communication-types.component';
 import { ViewCallActionTypesComponent } from './components/view-call-action-types/view-call-action-types.component';
 import { ViewCommunicationFlowTypeComponent } from './components/view-communication-flow-type/view-communication-flow-type.component';
-import { ViewFeesRangeComponent } from './components/view-fees-range/view-fees-range.component';
-import { AddFeesRangeComponent } from './components/add-fees-range/add-fees-range.component';
 import { CompanyTypesEffects } from './store/company-types/company-types.effects';
 import { companyTypesReducer } from './store/company-types/company-types.reducer';
 import { reducer as feeCalcReducer } from './store/fee-calculation-types/fee-calculation-types.reducer';
@@ -148,8 +146,6 @@ import { reducer as PhoneTypesReducer } from './store/phone-types/phone-types.re
 import { PhoneTypesEffects } from './store/phone-types/phone-types.effects';
 import { reducer as RentStructureTypesReducer } from './store/rent-structure-types/rent-structure-types.reducer';
 import { RentStructureTypesEffects } from './store/rent-structure-types/rent-structure-types.effects';
-import { CountriesEffects } from './store/countries/countries.effects';
-import { countriesReducer } from './store/countries/countries.reducer';
 import { reducer as SectorsReducer } from './store/sectors/sectors.reducer';
 import { SectorsEffects } from './store/sectors/sectors.effects';
 import { reducer as TmlOfficerTypesReducer } from './store/tml-officer-types/tml-officer-types.reducer';
@@ -165,6 +161,21 @@ import { DocTypesEffects } from './store/doc-types/doc-types.effects';
 import { CurrencyExchangeRatesEffects } from './store/currency-exchange-rates/currency-exchange-rates.effects';
 import { currencyExchangeRatesReducer } from './store/currency-exchange-rates/currency-exchange-rates.reducer';
 
+import { CountriesEffects } from './store/countries/countries.effects';
+import { countriesReducer } from './store/countries/countries.reducer';
+import { reducer as AreasReducer } from './store/areas/areas.reducer';
+import { AreasEffects } from './store/areas/areas.effects';
+import { reducer as MandateValidityUnitsReducer } from './store/mandate-validity-units/mandate-validity-units.reducer';
+import { MandateValidityUnitsEffects } from './store/mandate-validity-units/mandate-validity-units.effects';
+import { reducer as WorkflowActionTypesReducer } from './store/workflow-action-types/workflow-action-types.reducer';
+import { WorkflowActionTypesEffects } from './store/workflow-action-types/workflow-action-types.effects';
+
+import { governoratesReducer } from './store/governorates/governorates.reducer';
+import { GovernoratesEffects } from './store/governorates/governorates.effects';
+import { TaxOfficesEffects } from './store/tax_offices/tax_offices.effects';
+import { reducer as taxOfficesReducer } from './store/tax_offices/tax_offices.reducer';
+import { AddWorkFlowActionTypesComponent } from './components/add-workflow-action-types/add-workflow-action-types.component';
+import { ViewWorkFlowActionTypesComponent } from './components/view-workflow-action-types/view-workflow-action-types.component';
 
 @NgModule({
   declarations: [
@@ -178,6 +189,7 @@ import { currencyExchangeRatesReducer } from './store/currency-exchange-rates/cu
     AddRentStructureTypesComponent,
     AddCurrenciesComponent,
     AddPaymentMethodsComponent,
+    AddWorkFlowActionTypesComponent,
     AddPaymentTypesComponent,
     AddPaymentMonthDaysComponent,
     AddMeetingTypesComponent,
@@ -258,8 +270,7 @@ import { currencyExchangeRatesReducer } from './store/currency-exchange-rates/cu
     ViewCommunicationTypesComponent,
     ViewCallActionTypesComponent,
     ViewCommunicationFlowTypeComponent,
-    ViewFeesRangeComponent,
-    AddFeesRangeComponent,
+    ViewWorkFlowActionTypesComponent,
   ],
   imports: [
     CommonModule,
@@ -339,9 +350,19 @@ import { currencyExchangeRatesReducer } from './store/currency-exchange-rates/cu
     EffectsModule.forFeature([DocTypesEffects]),
     StoreModule.forFeature('currencyExchangeRates', currencyExchangeRatesReducer),
     EffectsModule.forFeature([CurrencyExchangeRatesEffects]),
+    EffectsModule.forFeature([AreasEffects]),
+    StoreModule.forFeature('mandateValidityUnits', MandateValidityUnitsReducer),
+    EffectsModule.forFeature([MandateValidityUnitsEffects]),
+    StoreModule.forFeature('areas', AreasReducer),
+    EffectsModule.forFeature([AreasEffects]),
+    StoreModule.forFeature('governorates', governoratesReducer),
+    EffectsModule.forFeature([GovernoratesEffects]),
+    StoreModule.forFeature('taxOffices', taxOfficesReducer),
+    EffectsModule.forFeature([TaxOfficesEffects]),
+    StoreModule.forFeature('workflowActionTypes', WorkflowActionTypesReducer),
+    EffectsModule.forFeature([WorkflowActionTypesEffects]),
   ],
   exports: [
-    AddCompanyTypesComponent,
     AddFeeCalculationTypesComponent,
     AddMandateStatusesComponent,
     AddInterestRateBenchmarksComponent,

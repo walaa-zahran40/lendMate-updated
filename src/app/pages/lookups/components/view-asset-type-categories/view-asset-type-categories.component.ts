@@ -19,12 +19,11 @@ export class ViewAssetTypeCategoriesComponent {
   private destroy$ = new Subject<void>();
 
   @ViewChild('tableRef') tableRef!: TableComponent;
-  
+
   readonly colsInside = [
-    { field: 'code', header: 'Code' },
-      { field: 'name', header: 'Name EN' },
-      { field: 'nameAR', header: 'Name AR' },
-      { field: 'limit', header: 'Limit' },
+    { field: 'name', header: 'Name EN' },
+    { field: 'nameAR', header: 'Name AR' },
+    { field: 'limit', header: 'Limit' },
   ];
 
   showDeleteModal = false;
@@ -33,19 +32,24 @@ export class ViewAssetTypeCategoriesComponent {
   filteredAssetTypeCategories: AssetTypeCategory[] = [];
   assetTypeCategories$!: Observable<AssetTypeCategory[]>;
 
-  constructor(private router: Router, private facade: AssetTypeCategoriesFacade) {}
+  constructor(
+    private router: Router,
+    private facade: AssetTypeCategoriesFacade
+  ) {}
 
   ngOnInit() {
     console.log('🟢 ngOnInit: start loading assetTypeCategories');
     this.facade.loadAll();
     this.assetTypeCategories$ = this.facade.items$;
 
-    this.assetTypeCategories$.pipe(takeUntil(this.destroy$)).subscribe((assetTypeCategories) => {
-      const sorted = [...assetTypeCategories].sort((a, b) => b.id - a.id);
-      console.log('🟢 sorted assetTypeCategories:', sorted);
-      this.originalAssetTypeCategories = sorted;
-      this.filteredAssetTypeCategories = [...sorted];
-    });
+    this.assetTypeCategories$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((assetTypeCategories) => {
+        const sorted = [...assetTypeCategories].sort((a, b) => b.id - a.id);
+        console.log('🟢 sorted assetTypeCategories:', sorted);
+        this.originalAssetTypeCategories = sorted;
+        this.filteredAssetTypeCategories = [...sorted];
+      });
   }
 
   onAddAssetTypeCategory() {
@@ -91,10 +95,11 @@ export class ViewAssetTypeCategoriesComponent {
 
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
-    this.filteredAssetTypeCategories = this.originalAssetTypeCategories.filter((assetTypeCategories) =>
-      Object.values(assetTypeCategories).some((val) =>
-        val?.toString().toLowerCase().includes(lower)
-      )
+    this.filteredAssetTypeCategories = this.originalAssetTypeCategories.filter(
+      (assetTypeCategories) =>
+        Object.values(assetTypeCategories).some((val) =>
+          val?.toString().toLowerCase().includes(lower)
+        )
     );
   }
 
@@ -103,14 +108,20 @@ export class ViewAssetTypeCategoriesComponent {
   }
 
   onEditAssetTypeCategory(assetTypeCategories: AssetTypeCategory) {
-    this.router.navigate(['/lookups/edit-asset-type-categories', assetTypeCategories.id], {
-      queryParams: { mode: 'edit' },
-    });
+    this.router.navigate(
+      ['/lookups/edit-asset-type-categories', assetTypeCategories.id],
+      {
+        queryParams: { mode: 'edit' },
+      }
+    );
   }
 
   onViewAssetTypeCategory(assetTypeCategories: AssetTypeCategory) {
-    this.router.navigate(['/lookups/edit-asset-type-categories', assetTypeCategories.id], {
-      queryParams: { mode: 'view' },
-    });
+    this.router.navigate(
+      ['/lookups/edit-asset-type-categories', assetTypeCategories.id],
+      {
+        queryParams: { mode: 'view' },
+      }
+    );
   }
 }

@@ -89,10 +89,10 @@ import { ViewCallTypesComponent } from './components/view-call-types/view-call-t
 import { ViewCommunicationTypesComponent } from './components/view-communication-types/view-communication-types.component';
 import { ViewCallActionTypesComponent } from './components/view-call-action-types/view-call-action-types.component';
 import { ViewCommunicationFlowTypeComponent } from './components/view-communication-flow-type/view-communication-flow-type.component';
-import { ViewFeesRangeComponent } from './components/view-fees-range/view-fees-range.component';
-import { AddFeesRangeComponent } from './components/add-fees-range/add-fees-range.component';
 import { AddDocTypesComponent } from './components/add-doc-types/add-doc-types.component';
 import { ViewDocTypesComponent } from './components/view-doc-types/view-doc-types.component';
+import { AddWorkFlowActionTypesComponent } from './components/add-workflow-action-types/add-workflow-action-types.component';
+import { ViewWorkFlowActionTypesComponent } from './components/view-workflow-action-types/view-workflow-action-types.component';
 
 const routes: Routes = [
   /**Lookup Module */
@@ -108,6 +108,19 @@ const routes: Routes = [
   {
     path: 'view-company-types',
     component: ViewCompanyTypesComponent,
+  },
+  //Workflow Action Types
+  {
+    path: 'add-workflow-action-types',
+    component: AddWorkFlowActionTypesComponent,
+  },
+  {
+    path: 'edit-workflow-action-types/:id',
+    component: AddWorkFlowActionTypesComponent,
+  },
+  {
+    path: 'view-workflow-action-types',
+    component: ViewWorkFlowActionTypesComponent,
   },
   //Fee Calculation Types
   {
@@ -229,6 +242,19 @@ const routes: Routes = [
   {
     path: 'view-call-action-types',
     component: ViewCallActionTypesComponent,
+  },
+  //Areas
+  {
+    path: 'add-areas',
+    component: AddAreasComponent,
+  },
+  {
+    path: 'edit-areas/:id',
+    component: AddAreasComponent,
+  },
+  {
+    path: 'view-areas',
+    component: ViewAreasComponent,
   },
   //Currencies
   {
@@ -541,6 +567,11 @@ const routes: Routes = [
   },
 
   {
+    path: 'edit-mandate-validity-unit/:id',
+    component: AddMandateValidityUnitComponent,
+  },
+
+  {
     path: 'add-branch',
     component: AddBranchComponent,
   },
@@ -584,20 +615,20 @@ const routes: Routes = [
     component: AddGovernoratesComponent,
   },
   {
+    path: 'edit-governorates/:id',
+    component: AddGovernoratesComponent,
+  },
+  {
     path: 'add-countries',
     component: AddCountriesComponent,
   },
-  {
-    path: 'add-fees-range',
-    component: AddFeesRangeComponent,
-  },
 
   {
-    path: 'add-areas',
-    component: AddAreasComponent,
+    path: 'add-tax-offices',
+    component: AddTaxOfficesComponent,
   },
   {
-    path: 'add-tax-officers',
+    path: 'edit-tax-offices/:id',
     component: AddTaxOfficesComponent,
   },
   {
@@ -605,15 +636,11 @@ const routes: Routes = [
     component: AddTmlOfficerTypesComponent,
   },
 
-
   {
     path: 'view-fee-types',
     component: ViewFeeTypesComponent,
   },
-  {
-    path: 'view-fees-range',
-    component: ViewFeesRangeComponent,
-  },
+
   {
     path: 'view-period-units',
     component: ViewPeriodUnitsComponent,
@@ -677,10 +704,6 @@ const routes: Routes = [
     component: ViewCountriesComponent,
   },
 
-  {
-    path: 'view-areas',
-    component: ViewAreasComponent,
-  },
   {
     path: 'view-tax-offices',
     component: ViewTaxOfficesComponent,

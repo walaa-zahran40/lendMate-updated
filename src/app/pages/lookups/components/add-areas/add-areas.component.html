@@ -1,27 +1,25 @@
 <app-toolbar-form
-  [header]="'Areas'"
+  [header]="editMode ? 'Edit Area' : 'Add Area'"
   [backExists]="true"
-  [viewOnly]="false"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
 ></app-toolbar-form>
 <p-tabs value="0" styleClass="p-3">
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
+        *ngIf="addAreasLookupsForm"
         [title]="'Main Information'"
         [description]="
-          'Introduce your company core info quickly to users by fill up company details'
+          'Introduce your area core info quickly to users by fill up area details'
         "
+        [formGroup]="addAreasLookupsForm"
         [addAreasLookupsForm]="true"
+        [editMode]="editMode"
+        [governoratesList]="governoratesList$ | async"
+        (submitForm)="addOrEditAreas()"
+        [viewOnly]="viewOnly"
       ></app-form>
-
-      <div class="row justify-end">
-        <div
-          class="p-0 col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 padding-right"
-          (click)="addAreasAddressTypes()"
-        >
-          <p-button label="Add Areas" class="custom-save m-0 float-right" />
-        </div>
-      </div>
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>

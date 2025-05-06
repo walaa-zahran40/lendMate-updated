@@ -1,26 +1,41 @@
 <div class="page-content">
   <app-toolbar-table
     [title]="'Areas'"
-    [labelBtn]="'Add Areas'"
-    [backExists]="true"
-    [exports]="true"
+    [labelBtn]="'Add Area'"
+    [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddArea()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col1Name]="'Code'"
-    [col2Name]="'Area Name'"
-    [col3Name]="'Arabic Name'"
-    [col4Name]="'English Name'"
-    [col5Name]="'Governorate Code'"
-    [col6Name]="'Active'"
-    [edit]="true"
-    [delete]="true"
-    [side]="false"
-    [download]="false"
-    [checkBox]="true"
-    [viewAreasTable]="true"
-    [uppercase]="'uppercase'"
-  ></app-table>
+
+  <ng-container *ngIf="Areas$ | async as Areas">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredArea"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewAreasTable]="true"
+      (onDelete)="onDeleteArea($event)"
+      (onEdit)="onEditArea($event)"
+      (viewForm)="onViewArea($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
 </div>

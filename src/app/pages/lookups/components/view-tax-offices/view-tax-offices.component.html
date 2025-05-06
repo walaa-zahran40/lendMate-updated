@@ -1,26 +1,41 @@
 <div class="page-content">
   <app-toolbar-table
     [title]="'Tax Offices'"
-    [labelBtn]="'Add Tax Offices'"
-    [backExists]="true"
-    [exports]="true"
+    [labelBtn]="'Add Tax Office'"
+    [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddTaxOffice()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col1Name]="'Code'"
-    [col2Name]="'Name EN'"
-    [col3Name]="'Name AR'"
-    [col4Name]="'Governorate Name'"
-    [col5Name]="'Address'"
-    [col6Name]="'Active'"
-    [edit]="true"
-    [delete]="true"
-    [side]="false"
-    [download]="false"
-    [checkBox]="true"
-    [viewTaxOfficeTable]="true"
-    [uppercase]="'uppercase'"
-  ></app-table>
+
+  <ng-container *ngIf="taxOffices$ | async as taxOffices">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredTaxOffices"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewTaxOfficeTable]="true"
+      (onDelete)="onDeleteTaxOffice($event)"
+      (onEdit)="onEditTaxOffice($event)"
+      (viewForm)="onViewTaxOffice($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
 </div>

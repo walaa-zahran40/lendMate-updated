@@ -5,7 +5,6 @@ import { TableComponent } from '../../../../shared/components/table/table.compon
 import { BusinessLine } from '../../store/businessLines/businessLine.model';
 import { BusinessLinesFacade } from '../../store/businessLines/businessLines.facade';
 
-
 @Component({
   selector: 'app-view-businessLines',
   standalone: false,
@@ -22,10 +21,9 @@ export class ViewBusinessLinesComponent {
   @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
-            { field: 'code', header: 'Code' },
-            { field: 'name', header: 'Name EN' },
-            { field: 'nameAR', header: 'Name AR' },
-            { field: 'lisenceStartDate', header: 'Lisence Start Date'},
+    { field: 'name', header: 'Name EN' },
+    { field: 'nameAR', header: 'Name AR' },
+    { field: 'lisenceStartDate', header: 'Lisence Start Date' },
   ];
 
   showDeleteModal = false;
@@ -34,10 +32,7 @@ export class ViewBusinessLinesComponent {
   filteredBusinessLines: BusinessLine[] = [];
   businessLines$!: Observable<BusinessLine[]>;
 
-  constructor(
-    private router: Router,
-    private facade: BusinessLinesFacade
-  ) {}
+  constructor(private router: Router, private facade: BusinessLinesFacade) {}
 
   ngOnInit() {
     console.log('🟢 ngOnInit: start loading businessLines');
@@ -98,10 +93,11 @@ export class ViewBusinessLinesComponent {
 
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
-    this.filteredBusinessLines = this.originalBusinessLines.filter((businessLine) =>
-      Object.values(businessLine).some((val) =>
-        val?.toString().toLowerCase().includes(lower)
-      )
+    this.filteredBusinessLines = this.originalBusinessLines.filter(
+      (businessLine) =>
+        Object.values(businessLine).some((val) =>
+          val?.toString().toLowerCase().includes(lower)
+        )
     );
   }
 

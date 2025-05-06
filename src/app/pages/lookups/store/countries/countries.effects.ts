@@ -49,9 +49,7 @@ export class CountriesEffects {
       ofType(CountryActions.loadCountry),
       mergeMap(({ id }) =>
         this.service.getById(id).pipe(
-          map((country) =>
-            CountryActions.loadCountrySuccess({ country })
-          ),
+          map((country) => CountryActions.loadCountrySuccess({ country })),
           catchError((error) =>
             of(CountryActions.loadCountryFailure({ error }))
           )
@@ -65,9 +63,7 @@ export class CountriesEffects {
       ofType(CountryActions.createCountry),
       mergeMap(({ data }) =>
         this.service.create(data).pipe(
-          map((country) =>
-            CountryActions.createCountrySuccess({ country })
-          ),
+          map((country) => CountryActions.createCountrySuccess({ country })),
           catchError((error) =>
             of(CountryActions.createCountryFailure({ error }))
           )
@@ -81,9 +77,7 @@ export class CountriesEffects {
       ofType(CountryActions.updateCountry),
       mergeMap(({ id, data }) =>
         this.service.update(id, data).pipe(
-          map((country) =>
-            CountryActions.updateCountrySuccess({ country })
-          ),
+          map((country) => CountryActions.updateCountrySuccess({ country })),
           catchError((error) =>
             of(CountryActions.updateCountryFailure({ error }))
           )
@@ -116,8 +110,5 @@ export class CountriesEffects {
       map(() => CountryActions.loadCountries())
     )
   );
-  constructor(
-    private actions$: Actions,
-    private service: CountriesService
-  ) {}
+  constructor(private actions$: Actions, private service: CountriesService) {}
 }

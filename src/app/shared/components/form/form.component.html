@@ -124,6 +124,14 @@
       class="custom-view m-0 float-right"
     />
     <p-button
+      *ngIf="addWorkFlowActionTypesLookupsForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View WorkFlow Action Types"
+      (click)="viewWorkFlowActionTypes()"
+      class="custom-view m-0 float-right"
+    />
+    <p-button
       *ngIf="addGovernoratesLookupsForm"
       icon="pi pi-cog"
       iconPos="left"
@@ -223,8 +231,8 @@
       *ngIf="addAssetTypesLookupsForm"
       icon="pi pi-cog"
       iconPos="left"
-      label="View Assest Types"
-      (click)="viewAssestTypes()"
+      label="View Asset Types"
+      (click)="viewAssetTypes()"
       class="custom-view m-0 float-right"
     />
 
@@ -1631,6 +1639,186 @@
             label="Close"
             class="custom-save m-0 float-right"
             (click)="router.navigate(['/lookups/view-company-types'])"
+          />
+        </div>
+      </div>
+    </form>
+
+    <form
+      [formGroup]="formGroup"
+      *ngIf="addPaymentMonthDaysLookupsForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="name">Name in English<sup>*</sup></label>
+      <input
+        pInputText
+        id="name"
+        formControlName="name"
+        placeholder="Enter Name"
+      />
+      <div
+        *ngIf="
+          formGroup.get('name')?.hasError('required') &&
+          formGroup.get('name')?.touched
+        "
+        class="p-error"
+      >
+        Name in English is required.
+      </div>
+
+      <label for="nameAR">Name in Arabic<sup>*</sup></label>
+      <input
+        pInputText
+        id="nameAR"
+        formControlName="nameAR"
+        placeholder="Enter Name"
+      />
+      <div
+        *ngIf="
+          formGroup.get('nameAR')?.hasError('required') &&
+          formGroup.get('nameAR')?.touched
+        "
+        class="p-error"
+      >
+        Name in Arabic is required.
+      </div>
+      <div
+        *ngIf="
+          formGroup.get('nameAR')?.hasError('pattern') &&
+          formGroup.get('nameAR')?.touched
+        "
+        class="p-error"
+      >
+        Please enter only Arabic letters.
+      </div>
+      <div class="p-field" *ngIf="editMode">
+        <p-toggleSwitch
+          id="isActive"
+          formControlName="isActive"
+          label="is Active"
+        ></p-toggleSwitch>
+        <label for="isActive"> Active</label>
+      </div>
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 paymentMonthDaysDiv"
+          *ngIf="!editMode"
+        >
+          <p-button
+            type="submit"
+            label="Add Payment Month Day"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 paymentMonthDaysDiv"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Payment Month Day"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 paymentMonthDaysDiv"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate(['/lookups/view-payment-month-days'])"
+          />
+        </div>
+      </div>
+    </form>
+
+    <form
+      [formGroup]="formGroup"
+      *ngIf="addWorkFlowActionTypesLookupsForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="name">Name in English<sup>*</sup></label>
+      <input
+        pInputText
+        id="name"
+        formControlName="name"
+        placeholder="Enter Name"
+      />
+      <div
+        *ngIf="
+          formGroup.get('name')?.hasError('required') &&
+          formGroup.get('name')?.touched
+        "
+        class="p-error"
+      >
+        Name in English is required.
+      </div>
+
+      <label for="nameAR">Name in Arabic<sup>*</sup></label>
+      <input
+        pInputText
+        id="nameAR"
+        formControlName="nameAR"
+        placeholder="Enter Name"
+      />
+      <div
+        *ngIf="
+          formGroup.get('nameAR')?.hasError('required') &&
+          formGroup.get('nameAR')?.touched
+        "
+        class="p-error"
+      >
+        Name in Arabic is required.
+      </div>
+      <div
+        *ngIf="
+          formGroup.get('nameAR')?.hasError('pattern') &&
+          formGroup.get('nameAR')?.touched
+        "
+        class="p-error"
+      >
+        Please enter only Arabic letters.
+      </div>
+      <div class="p-field" *ngIf="editMode">
+        <p-toggleSwitch
+          id="isActive"
+          formControlName="isActive"
+          label="is Active"
+        ></p-toggleSwitch>
+        <label for="isActive"> Active</label>
+      </div>
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 workflowActionTypesDiv"
+          *ngIf="!editMode"
+        >
+          <p-button
+            type="submit"
+            label="Add Workflow Action Type"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 workflowActionTypesDiv"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Workflow Action Type"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 workflowActionTypesDiv"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate(['/lookups/view-workflow-action-types'])"
           />
         </div>
       </div>
@@ -3543,7 +3731,6 @@
         placeholder="Select Sector"
         formControlName="sectorId"
         optionValue="id"
-        (onChange)="onSectorChange($event)"
         required
         [ngClass]="{
           'ng-invalid':
@@ -3643,6 +3830,125 @@
             label="Close"
             class="custom-save m-0 float-right"
             (click)="router.navigate(['/lookups/view-sub-sectors'])"
+          />
+        </div>
+      </div>
+    </form>
+
+    <form
+      [formGroup]="formGroup"
+      *ngIf="addAreasLookupsForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="governorateId"
+        >Select Governorate<sup class="danger">*</sup></label
+      >
+      <!--Select Box-->
+      <p-select
+        [options]="governoratesList"
+        optionLabel="name"
+        placeholder="Select Governorate"
+        formControlName="governorateId"
+        optionValue="id"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('governorateId')?.invalid &&
+            (formGroup.get('governorateId')?.dirty ||
+              formGroup.get('governorateId')?.touched)
+        }"
+      >
+      </p-select>
+
+      <div
+        *ngIf="
+          formGroup.get('governorateId')?.hasError('required') &&
+          formGroup.get('governorateId')?.touched
+        "
+        class="p-error"
+      >
+        Governorate is required.
+      </div>
+      <label for="name">Name in English<sup>*</sup></label>
+      <input
+        pInputText
+        id="name"
+        formControlName="name"
+        placeholder="Name in English"
+      />
+      <div
+        *ngIf="
+          formGroup.get('name')?.hasError('required') &&
+          formGroup.get('name')?.touched
+        "
+        class="p-error"
+      >
+        Name in English is required.
+      </div>
+
+      <label for="nameAR">Name in Arabic<sup>*</sup></label>
+      <input
+        pInputText
+        id="nameAR"
+        formControlName="nameAR"
+        placeholder="Name in Arabic"
+      />
+      <div
+        *ngIf="
+          formGroup.get('nameAR')?.hasError('required') &&
+          formGroup.get('nameAR')?.touched
+        "
+        class="p-error"
+      >
+        Name in Arabic is required.
+      </div>
+      <div
+        *ngIf="
+          formGroup.get('nameAR')?.hasError('pattern') &&
+          formGroup.get('nameAR')?.touched
+        "
+        class="p-error"
+      >
+        Please enter only Arabic letters.
+      </div>
+      <div class="p-field" *ngIf="editMode">
+        <p-toggleSwitch
+          id="isActive"
+          formControlName="isActive"
+          label="is Active"
+        ></p-toggleSwitch>
+        <label for="isActive"> Active</label>
+      </div>
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 governoratesDiv"
+          *ngIf="!editMode"
+        >
+          <p-button
+            type="submit"
+            label="Add Area"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 governoratesDiv"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Area"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 governoratesDiv"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate(['/lookups/view-areas'])"
           />
         </div>
       </div>
@@ -6017,75 +6323,125 @@
       />
     </form>
 
-    <form action="" *ngIf="addTaxOfficesLookupsForm">
-      <label for="codeTaxOfficesLookups">Code<sup>*</sup></label>
+    <form
+      [formGroup]="formGroup"
+      *ngIf="addTaxOfficesLookupsForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="name">Name in English<sup>*</sup></label>
       <input
         pInputText
-        id="codeTaxOfficesLookups"
-        aria-describedby="codeTaxOfficesLookups-help"
-        name="codeTaxOfficesLookups"
-        placeholder="342425"
+        id="name"
+        formControlName="name"
+        placeholder="Name in English"
       />
-      <label for="nameInEnglishLookups">Name in English<sup>*</sup></label>
-      <input
-        pInputText
-        id="nameInEnglishLookups"
-        aria-describedby="nameInEnglishLookups-help"
-        name="nameInEnglishLookups"
-        placeholder="Enter Name"
-      />
-      <label for="nameInArabicLookups">Name in Arabic<sup>*</sup></label>
-      <input
-        pInputText
-        id="nameInArabicLookups"
-        aria-describedby="nameInArabicLookups-help"
-        name="nameInArabicLookups"
-        placeholder="Enter Name"
-      />
-      <label for="governorateIDTaxOfficesLookups"
-        >Governorate ID<sup>*</sup></label
+      <div
+        *ngIf="
+          formGroup.get('name')?.hasError('required') &&
+          formGroup.get('name')?.touched
+        "
+        class="p-error"
       >
+        Name in English is required.
+      </div>
+      <label for="nameAR">Name in Arabic<sup>*</sup></label>
       <input
         pInputText
-        id="governorateIDTaxOfficesLookups"
-        aria-describedby="governorateIDTaxOfficesLookups-help"
-        name="governorateIDTaxOfficesLookups"
-        placeholder="Enter Name"
+        id="nameAR"
+        formControlName="nameAR"
+        placeholder="Name in Arabic"
       />
-      <label for="addressTaxOfficesLookups">Address<sup>*</sup></label>
+      <div
+        *ngIf="
+          formGroup.get('nameAR')?.hasError('required') &&
+          formGroup.get('nameAR')?.touched
+        "
+        class="p-error"
+      >
+        Name in Arabic is required.
+      </div>
+      <div
+        *ngIf="
+          formGroup.get('nameAR')?.hasError('pattern') &&
+          formGroup.get('nameAR')?.touched
+        "
+        class="p-error"
+      >
+        Please enter only Arabic letters.
+      </div>
+      <label for="governorateId">Governorate<sup>*</sup></label>
+      <p-select
+        [options]="governoratesList"
+        optionLabel="name"
+        placeholder="Select Governorate"
+        formControlName="governorateId"
+        optionValue="id"
+        (onChange)="onSectorChange($event)"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('governorateId')?.invalid &&
+            (formGroup.get('governorateId')?.dirty ||
+              formGroup.get('governorateId')?.touched)
+        }"
+      />
+      <label for="address">Address<sup>*</sup></label>
       <input
         pInputText
-        id="addressTaxOfficesLookups"
-        aria-describedby="addressTaxOfficesLookups-help"
-        name="addressTaxOfficesLookups"
-        placeholder="Enter Name"
+        id="address"
+        formControlName="address"
+        placeholder="Address"
       />
-    </form>
-    <form action="" *ngIf="addAreasLookupsForm">
-      <label for="areaNameAreasLookups">Area Name<sup>*</sup></label>
-      <input
-        pInputText
-        id="areaNameAreasLookups"
-        aria-describedby="areaNameAreasLookups-help"
-        name="areaNameAreasLookups"
-        placeholder="342425"
-      />
-      <label for="arabicNameAreasLookups">Arabic Name<sup>*</sup></label>
-      <input
-        pInputText
-        id="arabicNameAreasLookups"
-        aria-describedby="arabicNameAreasLookups-help"
-        name="arabicNameAreasLookups"
-        placeholder="Enter Name"
-      />
-      <label for="governorateIDLookups">Governorate ID<sup>*</sup></label>
-      <input
-        pInputText
-        id="governorateIDLookups"
-        aria-describedby="governorateIDLookups-help"
-        name="governorateIDLookups"
-        placeholder="Enter Name"
-      />
+      <div
+        *ngIf="
+          formGroup.get('address')?.hasError('required') &&
+          formGroup.get('address')?.touched
+        "
+        class="p-error"
+      >
+        Address is required.
+      </div>
+      <div class="p-field" *ngIf="editMode">
+        <p-toggleSwitch
+          id="isActive"
+          formControlName="isActive"
+          label="is Active"
+        ></p-toggleSwitch>
+        <label for="isActive"> Active</label>
+      </div>
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
+          *ngIf="!editMode"
+        >
+          <p-button
+            type="submit"
+            label="Add Tax Office"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Tax Office"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate(['/lookups/view-tax-offices'])"
+          />
+        </div>
+      </div>
     </form>
 
     <form
@@ -6166,6 +6522,14 @@
       >
         code3 in Arabic is required.
       </div>
+      <div class="p-field" *ngIf="editMode">
+        <p-toggleSwitch
+          id="isActive"
+          formControlName="isActive"
+          label="is Active"
+        ></p-toggleSwitch>
+        <label for="isActive"> Active</label>
+      </div>
       <div class="row justify-end">
         <div
           class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
@@ -6201,43 +6565,121 @@
       </div>
     </form>
 
-    <form action="" *ngIf="addGovernoratesLookupsForm">
-      <label for="countryIDGovernoratesLookups">Country ID<sup>*</sup></label>
+    <form
+      [formGroup]="formGroup"
+      *ngIf="addGovernoratesLookupsForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="countryId">Country ID<sup>*</sup></label>
       <p-select
-        [options]="stamps"
-        [(ngModel)]="selectedStamps"
+        [options]="countriesList"
         optionLabel="name"
-        class="w-full md:w-56"
-        name="countryIDGovernoratesLookups"
+        placeholder="Select Country"
+        formControlName="countryId"
+        optionValue="id"
+        (onChange)="onSectorChange($event)"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('countryId')?.invalid &&
+            (formGroup.get('countryId')?.dirty ||
+              formGroup.get('countryId')?.touched)
+        }"
       />
-      <label for="governorateEnglishGovernoratesLookups"
-        >Governorate Name English<sup>*</sup></label
+      <label for="name">Name in English<sup>*</sup></label>
+      <input pInputText id="name" formControlName="name" placeholder="Type" />
+      <div
+        *ngIf="
+          formGroup.get('name')?.hasError('required') &&
+          formGroup.get('name')?.touched
+        "
+        class="p-error"
       >
+        Name in English is required.
+      </div>
+      <label for="nameAR">Name in Arabic<sup>*</sup></label>
       <input
         pInputText
-        id="governorateEnglishGovernoratesLookups"
-        aria-describedby="governorateEnglishGovernoratesLookups-help"
-        name="governorateEnglishGovernoratesLookups"
-        placeholder="Enter Name"
+        id="nameAR"
+        formControlName="nameAR"
+        placeholder="Type"
       />
-      <label for="governorateArabicGovernoratesLookups"
-        >Governorate Name Arabic<sup>*</sup></label
+      <div
+        *ngIf="
+          formGroup.get('nameAR')?.hasError('required') &&
+          formGroup.get('nameAR')?.touched
+        "
+        class="p-error"
       >
+        Name in Arabic is required.
+      </div>
+      <div
+        *ngIf="
+          formGroup.get('nameAR')?.hasError('pattern') &&
+          formGroup.get('nameAR')?.touched
+        "
+        class="p-error"
+      >
+        Please enter only Arabic letters.
+      </div>
+
+      <label for="aramex">Aramix<sup>*</sup></label>
       <input
         pInputText
-        id="governorateArabicGovernoratesLookups"
-        aria-describedby="governorateArabicGovernoratesLookups-help"
-        name="governorateArabicGovernoratesLookups"
-        placeholder="Enter Name"
+        id="aramex"
+        formControlName="aramex"
+        placeholder="Type"
       />
-      <label for="aramixGovernoratesLookups">Aramix<sup>*</sup></label>
-      <input
-        pInputText
-        id="aramixGovernoratesLookups"
-        aria-describedby="aramixGovernoratesLookups-help"
-        name="aramixGovernoratesLookups"
-        placeholder="Enter Name"
-      />
+      <div
+        *ngIf="
+          formGroup.get('aramex')?.hasError('required') &&
+          formGroup.get('aramex')?.touched
+        "
+        class="p-error"
+      >
+        Aramex in English is required.
+      </div>
+      <div class="p-field" *ngIf="editMode">
+        <p-toggleSwitch
+          id="isActive"
+          formControlName="isActive"
+          label="is Active"
+        ></p-toggleSwitch>
+        <label for="isActive"> Active</label>
+      </div>
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
+          *ngIf="!editMode"
+        >
+          <p-button
+            type="submit"
+            label="Add Governorate"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Governorate"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate(['/lookups/view-governorates'])"
+          />
+        </div>
+      </div>
     </form>
 
     <form action="" *ngIf="addSMEClientCodeLookupsForm">
@@ -6575,25 +7017,9 @@
     </form>
 
     <form
-    [formGroup]="formGroup"
-    *ngIf="addAssetTypesLookupsForm"
-    (ngSubmit)="onSubmit()"
-  >
-   
-   
-    <label for="name">Name in English<sup>*</sup></label>
-    <input
-      pInputText
-      id="name"
-      formControlName="name"
-      placeholder="Name in English"
-    />
-    <div
-      *ngIf="
-        formGroup.get('name')?.hasError('required') &&
-        formGroup.get('name')?.touched
-      "
-      class="p-error"
+      [formGroup]="formGroup"
+      *ngIf="addAssetTypesLookupsForm"
+      (ngSubmit)="onSubmit()"
     >
       Name in English is required.
     </div>
@@ -6662,39 +7088,121 @@
       <label for="isActive"> Active</label>
     </div>
     <div class="row justify-end">
+      <label for="name">Name in English<sup>*</sup></label>
+      <input
+        pInputText
+        id="name"
+        formControlName="name"
+        placeholder="Name in English"
+      />
       <div
-        class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 subSectorsDiv"
-        *ngIf="!editMode"
+        *ngIf="
+          formGroup.get('name')?.hasError('required') &&
+          formGroup.get('name')?.touched
+        "
+        class="p-error"
       >
-        <p-button
-          type="submit"
-          label="Add Asset Type"
-          [disabled]="formGroup.invalid"
-          class="custom-save m-0 float-right"
-        ></p-button>
+        Name in English is required.
       </div>
+
+      <label for="nameAR">Name in Arabic<sup>*</sup></label>
+      <input
+        pInputText
+        id="nameAR"
+        formControlName="nameAR"
+        placeholder="Name in Arabic"
+      />
       <div
-        class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 subSectorsDiv"
-        *ngIf="editMode && !viewOnly"
+        *ngIf="
+          formGroup.get('nameAR')?.hasError('required') &&
+          formGroup.get('nameAR')?.touched
+        "
+        class="p-error"
       >
-        <p-button
-          type="submit"
-          label="Edit Asset Type"
-          class="custom-save m-0 float-right"
-        ></p-button>
+        Name in Arabic is required.
       </div>
+
       <div
-        *ngIf="viewOnly"
-        class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 sectorsDiv"
+        *ngIf="
+          formGroup.get('nameAR')?.hasError('pattern') &&
+          formGroup.get('nameAR')?.touched
+        "
+        class="p-error"
       >
-        <p-button
-          label="Close"
-          class="custom-save m-0 float-right"
-          (click)="router.navigate(['/lookups/view-asset-types'])"
-        />
+        Please enter only Arabic letters.
       </div>
-    </div>
-  </form>
+      <label for="assetTypeCategoryId"
+        >Select Asset Type Category<sup class="danger">*</sup></label
+      >
+      <!--Select Box-->
+      <p-select
+        [options]="assetTypeCategories"
+        optionLabel="name"
+        placeholder="Select Asset Category"
+        formControlName="assetTypeCategoryId"
+        optionValue="id"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('assetTypeCategoryId')?.invalid &&
+            (formGroup.get('assetTypeCategoryId')?.dirty ||
+              formGroup.get('assetTypeCategoryId')?.touched)
+        }"
+      >
+      </p-select>
+
+      <div
+        *ngIf="
+          formGroup.get('assetTypeCategoryId')?.hasError('required') &&
+          formGroup.get('assetTypeCategoryId')?.touched
+        "
+        class="p-error"
+      >
+        Sector Id is required.
+      </div>
+
+      <div class="p-field" *ngIf="editMode">
+        <p-toggleSwitch
+          id="isActive"
+          formControlName="isActive"
+          label="is Active"
+        ></p-toggleSwitch>
+        <label for="isActive"> Active</label>
+      </div>
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 subSectorsDiv"
+          *ngIf="!editMode"
+        >
+          <p-button
+            type="submit"
+            label="Add Asset Type"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 subSectorsDiv"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Asset Type"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 sectorsDiv"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate(['/lookups/view-asset-types'])"
+          />
+        </div>
+      </div>
+    </form>
 
     <form action="" *ngIf="addFeesRangesLookupsForm">
       <label for="codeMeetingTypesCommunication">Code<sup>*</sup></label>
@@ -6727,99 +7235,99 @@
       />
     </form>
     <form
-    [formGroup]="formGroup"
-    *ngIf="addMandateStatusesLookupsForm"
-    (ngSubmit)="onSubmit()"
-  >
-    <label for="name">Name in English<sup>*</sup></label>
-    <input pInputText id="name" formControlName="name" placeholder="Type" />
-    <div
-      *ngIf="
-        formGroup.get('name')?.hasError('required') &&
-        formGroup.get('name')?.touched
-      "
-      class="p-error"
+      [formGroup]="formGroup"
+      *ngIf="addMandateStatusesLookupsForm"
+      (ngSubmit)="onSubmit()"
     >
-      Name in English is required.
-    </div>
+      <label for="name">Name in English<sup>*</sup></label>
+      <input pInputText id="name" formControlName="name" placeholder="Type" />
+      <div
+        *ngIf="
+          formGroup.get('name')?.hasError('required') &&
+          formGroup.get('name')?.touched
+        "
+        class="p-error"
+      >
+        Name in English is required.
+      </div>
 
-    <label for="nameAR">Name in Arabic<sup>*</sup></label>
-    <input
-      pInputText
-      id="nameAR"
-      formControlName="nameAR"
-      placeholder="Type"
-    />
-    <div
-      *ngIf="
-        formGroup.get('nameAR')?.hasError('required') &&
-        formGroup.get('nameAR')?.touched
-      "
-      class="p-error"
-    >
-      Name in Arabic is required.
-    </div>
-    <div
-      *ngIf="
-        formGroup.get('nameAR')?.hasError('pattern') &&
-        formGroup.get('nameAR')?.touched
-      "
-      class="p-error"
-    >
-      Please enter only Arabic letters.
-    </div>
-   
-    <label for="isInitial">is nitial<sup>*</sup></label>
-    <p-select
-      [options]="stamps"
-      optionLabel="name"
-      optionValue="id"
-      placeholder="is Initial"
-      formControlName="isInitial"
-      class="w-full md:w-56"
-    />
-    <div class="p-field" for="isActive" *ngIf="editMode">
-      <p-toggleSwitch
-        id="isActive"
-        formControlName="isActive"
-        label="is Active"
-      ></p-toggleSwitch>
-      <label for="isActive"> Active</label>
-    </div>
-    <div class="row justify-end">
+      <label for="nameAR">Name in Arabic<sup>*</sup></label>
+      <input
+        pInputText
+        id="nameAR"
+        formControlName="nameAR"
+        placeholder="Type"
+      />
       <div
-        class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 currenciesDiv"
-        *ngIf="!editMode"
+        *ngIf="
+          formGroup.get('nameAR')?.hasError('required') &&
+          formGroup.get('nameAR')?.touched
+        "
+        class="p-error"
       >
-        <p-button
-          type="submit"
-          label="Add Mandate status"
-          [disabled]="formGroup.invalid"
-          class="custom-save m-0 float-right"
-        ></p-button>
+        Name in Arabic is required.
       </div>
       <div
-        class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
-        *ngIf="editMode && !viewOnly"
+        *ngIf="
+          formGroup.get('nameAR')?.hasError('pattern') &&
+          formGroup.get('nameAR')?.touched
+        "
+        class="p-error"
       >
-        <p-button
-          type="submit"
-          label="Edit Mandate Status"
-          class="custom-save m-0 float-right"
-        ></p-button>
+        Please enter only Arabic letters.
       </div>
-      <div
-        *ngIf="viewOnly"
-        class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
-      >
-        <p-button
-          label="Close"
-          class="custom-save m-0 float-right"
-          (click)="router.navigate(['/lookups/view-mandate-statuses'])"
-        />
+
+      <label for="isInitial">is initial<sup>*</sup></label>
+      <p-select
+        [options]="stamps"
+        optionLabel="name"
+        optionValue="id"
+        placeholder="is Initial"
+        formControlName="isInitial"
+        class="w-full md:w-56"
+      />
+      <div class="p-field" for="isActive" *ngIf="editMode">
+        <p-toggleSwitch
+          id="isActive"
+          formControlName="isActive"
+          label="is Active"
+        ></p-toggleSwitch>
+        <label for="isActive"> Active</label>
       </div>
-    </div>
-  </form>
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 currenciesDiv"
+          *ngIf="!editMode"
+        >
+          <p-button
+            type="submit"
+            label="Add Mandate status"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Mandate Status"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate(['/lookups/view-mandate-statuses'])"
+          />
+        </div>
+      </div>
+    </form>
 
     <form action="" *ngIf="addFeesTypesLookupsForm">
       <label for="codeFeesTypesLookups">Code<sup>*</sup></label>
@@ -7105,89 +7613,137 @@
   </form>
   
 
-    <form action="" *ngIf="addPaymentMonthDaysLookupsForm">
-      <label>Arabic Description<sup>*</sup></label>
-      <br />
-      <label for="codeMeetingTypesCommunication">Code<sup>*</sup></label>
+    <form
+      [formGroup]="formGroup"
+      *ngIf="addMandateValidityUnitLookupsForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="name">Name in English<sup>*</sup></label>
       <input
         pInputText
-        id="codeMeetingTypesCommunication"
-        aria-describedby="codeMeetingTypesCommunication-help"
-        name="codeMeetingTypesCommunication"
-        placeholder="342425"
-      />
-      <label for="nameInEnglishMeetingTypesCommunication"
-        >Name in English<sup>*</sup></label
-      >
-      <input
-        pInputText
-        id="nameInEnglishMeetingTypesCommunication"
-        aria-describedby="nameInEnglishMeetingTypesCommunication-help"
-        name="nameInEnglishMeetingTypesCommunication"
+        id="name"
+        formControlName="name"
         placeholder="Enter Name"
       />
-      <label for="nameInArabicMeetingTypesCommunication"
-        >Name in Arabic<sup>*</sup></label
+      <div
+        *ngIf="
+          formGroup.get('name')?.hasError('required') &&
+          formGroup.get('name')?.touched
+        "
+        class="p-error"
       >
-      <input
-        pInputText
-        id="nameInArabicMeetingTypesCommunication"
-        aria-describedby="nameInArabicMeetingTypesCommunication-help"
-        name="nameInArabicMeetingTypesCommunication"
-        placeholder="Enter Name"
-      />
-    </form>
+        Name in English is required.
+      </div>
 
-    <form action="" *ngIf="addMandateValidityUnitLookupsForm">
-      <label>Arabic Description<sup>*</sup></label>
-      <br />
-      <label for="nameInEnglishInsuredByLookups"
-        >Name in English<sup>*</sup></label
-      >
+      <label for="nameAR">Name in Arabic<sup>*</sup></label>
       <input
         pInputText
-        id="nameInEnglishInsuredByLookups"
-        aria-describedby="nameInEnglishInsuredByLookups-help"
-        name="nameInEnglishInsuredByLookups"
+        id="nameAR"
+        formControlName="nameAR"
         placeholder="Enter Name"
       />
-      <label for="nameInArabicInsuredByLookups"
-        >Name in Arabic<sup>*</sup></label
+      <div
+        *ngIf="
+          formGroup.get('nameAR')?.hasError('required') &&
+          formGroup.get('nameAR')?.touched
+        "
+        class="p-error"
       >
+        Name in Arabic is required.
+      </div>
+      <div
+        *ngIf="
+          formGroup.get('nameAR')?.hasError('pattern') &&
+          formGroup.get('nameAR')?.touched
+        "
+        class="p-error"
+      >
+        Please enter only Arabic letters.
+      </div>
+
+      <label for="validationMinValue">Validation Min Value<sup>*</sup></label>
       <input
         pInputText
-        id="nameInArabicInsuredByLookups"
-        aria-describedby="nameInArabicInsuredByLookups-help"
-        name="nameInArabicInsuredByLookups"
-        placeholder="Enter Name"
+        id="validationMinValue"
+        formControlName="validationMinValue"
+        placeholder="Enter Validation Min Value"
+        type="number"
       />
-      <label for="validityMinMandateValidityLookups"
-        >Validity Min<sup>*</sup></label
+      <div
+        *ngIf="
+          formGroup.get('validationMinValue')?.hasError('required') &&
+          formGroup.get('validationMinValue')?.touched
+        "
+        class="p-error"
       >
+        Validation Min Value is required.
+      </div>
+
+      <label for="validationMaxValue">Validation Max Value<sup>*</sup></label>
       <input
         pInputText
-        id="validityMinMandateValidityLookups"
-        aria-describedby="validityMinMandateValidityLookups-help"
-        name="validityMinMandateValidityLookups"
-        placeholder="Enter Name"
+        id="validationMaxValue"
+        formControlName="validationMaxValue"
+        placeholder="Enter Validation Max Value"
+        type="number"
       />
-      <label for="validityMaxMandateValidityLookups"
-        >Validity Max<sup>*</sup></label
+      <div
+        *ngIf="
+          formGroup.get('validationMaxValue')?.hasError('required') &&
+          formGroup.get('validationMaxValue')?.touched
+        "
+        class="p-error"
       >
-      <input
-        pInputText
-        id="validityMaxMandateValidityLookups"
-        aria-describedby="validityMaxMandateValidityLookups-help"
-        name="validityMaxMandateValidityLookups"
-        placeholder="Enter Name"
-      />
-      <label for="isActiveInsuredByLookups">IsActive<sup>*</sup></label>
-      <p-select
-        [options]="stamps"
-        optionLabel="name"
-        placeholder="Yes"
-        class="w-full md:w-56"
-      />
+        Validation Max Value is required.
+      </div>
+      <div
+        *ngIf="formGroup.get('validationMaxValue')?.errors?.['min']"
+        class="p-error"
+      >
+        Minimum value is {{ formGroup.get("validationMinValue")?.value }}
+      </div>
+
+      <div class="p-field" *ngIf="editMode">
+        <p-toggleSwitch
+          id="isActive"
+          formControlName="isActive"
+          label="is Active"
+        ></p-toggleSwitch>
+        <label for="isActive"> Active</label>
+      </div>
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
+          *ngIf="!editMode"
+        >
+          <p-button
+            type="submit"
+            label="Add Mandate Validity Unit"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Mandate Validity Unit"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate(['/lookups/view-mandate-validity-unit'])"
+          />
+        </div>
+      </div>
     </form>
     <form action="" *ngIf="addClientDocumentTypesLookupsForm">
       <label>Arabic Description<sup>*</sup></label>

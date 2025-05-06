@@ -60,9 +60,7 @@ export const countriesReducer = createReducer(
   on(Actions.updateCountry, (state) => ({ ...state, loading: true })),
   on(Actions.updateCountrySuccess, (state, { country }) => ({
     ...state,
-    items: state.items.map((ct) =>
-      ct.id === country.id ? country : ct
-    ),
+    items: state.items.map((ct) => (ct.id === country.id ? country : ct)),
     loading: false,
   })),
   on(Actions.updateCountryFailure, (state, { error }) => ({

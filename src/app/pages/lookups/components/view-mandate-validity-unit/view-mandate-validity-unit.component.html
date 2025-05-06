@@ -1,26 +1,41 @@
 <div class="page-content">
   <app-toolbar-table
-    [title]="'Mandate Validity Unit'"
-    [labelBtn]="'Add Mandate Validity'"
-    [backExists]="true"
-    [exports]="true"
+    [title]="'Mandate Validity Units'"
+    [labelBtn]="'Add Mandate Validity Unit'"
+    [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddMandateValidityUnit()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col1Name]="'Code'"
-    [col2Name]="'Name EN'"
-    [col3Name]="'Name AR'"
-    [col4Name]="'Validation Min'"
-    [col5Name]="'Validation Max'"
-    [col6Name]="'Active'"
-    [edit]="true"
-    [delete]="true"
-    [side]="false"
-    [download]="false"
-    [checkBox]="true"
-    [viewMandateValidityUnitTable]="true"
-    [uppercase]="'uppercase'"
-  ></app-table>
+
+  <ng-container *ngIf="mandateValidityUnits$ | async as mandateValidityUnits">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredMandateValidityUnits"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewMandateValidityUnitTable]="true"
+      (onDelete)="onDeleteMandateValidityUnit($event)"
+      (onEdit)="onEditMandateValidityUnit($event)"
+      (viewForm)="onViewMandateValidityUnit($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
 </div>
