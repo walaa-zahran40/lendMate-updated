@@ -99,7 +99,7 @@ export class TableComponent {
   @Input() viewSectorsTable!: boolean;
   @Input() viewClientStatusesTable!: boolean;
   @Input() viewClientStatusTable!: boolean;
-  @Input() viewSMEClientCodeTable!: boolean;
+  @Input() viewSMEClientCodesTable!: boolean;
   @Input() viewSubSectorTable!: boolean;
   @Input() viewGovernerateTable!: boolean;
   @Input() viewRentStructureTypesTable!: boolean;
@@ -133,6 +133,7 @@ export class TableComponent {
   @Input() viewClientGuarantorTable!: boolean;
   @Input() viewWorkFlowActionTypesLookupsTable!: boolean;
   @Input() viewDocTypesTable!: boolean;
+  @Input() viewProductsTable!: boolean;
   @Input() paginator: boolean = true;
   @Output() wizardBtn = new EventEmitter<void>();
   @Output() onEdit = new EventEmitter<any>();

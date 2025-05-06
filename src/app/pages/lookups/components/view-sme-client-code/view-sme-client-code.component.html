@@ -1,28 +1,41 @@
 <div class="page-content">
   <app-toolbar-table
-    [title]="'SME Client Code'"
+    [title]="'SME Client Codes'"
     [labelBtn]="'Add SME Client Code'"
-    [backExists]="true"
-    [exports]="true"
+    [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
-    (addBtn)="onAdd()"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddSMEClientCode()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col1Name]="'Code'"
-    [col2Name]="'Name EN'"
-    [col3Name]="'Name AR'"
-    [col4Name]="'Upper Limit'"
-    [col5Name]="'Lower Limit'"
-    [col6Name]="'Active'"
-    [edit]="true"
-    [delete]="true"
-    [side]="false"
-    [download]="false"
-    [checkBox]="true"
-    [viewSMEClientCodeTable]="true"
-    [uppercase]="'uppercase'"
-  ></app-table>
+
+  <ng-container *ngIf="sMEClientCodes$ | async as sMEClientCodes">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredSMEClientCodes"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewSMEClientCodesTable]="true"
+      (onDelete)="onDeleteSMEClientCode($event)"
+      (onEdit)="onEditSMEClientCode($event)"
+      (viewForm)="onViewSMEClientCode($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
 </div>
-viewSMEClientCodeTable

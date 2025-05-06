@@ -27,7 +27,7 @@ import { AddProductsComponent } from './components/add-products/add-products.com
 import { AddSectorsComponent } from './components/add-sectors/add-sectors.component';
 import { AddClientStatusesComponent } from './components/add-client-statuses/add-client-statuses.component';
 import { AddClientStatusActionsComponent } from './components/add-client-status-actions/add-client-status-actions.component';
-import { AddSmeClientCodeComponent } from './components/add-sme-client-code/add-sme-client-code.component';
+import { AddSMEClientCodesComponent } from './components/add-sme-client-code/add-sme-client-code.component';
 import { AddSubSectorsComponent } from './components/add-sub-sectors/add-sub-sectors.component';
 import { AddClientTypesComponent } from './components/add-client-types/add-client-types.component';
 import { AddAuthorityOfficesComponent } from './components/add-authority-offices/add-authority-offices.component';
@@ -73,7 +73,7 @@ import { ViewSectorsComponent } from './components/view-sectors/view-sectors.com
 import { ViewClientStatusesComponent } from './components/view-client-statuses/view-client-statuses.component';
 import { WizardClientStatusComponent } from './components/wizard-client-status/wizard-client-status.component';
 import { ViewClientStatusComponent } from './components/view-client-status-actions/view-client-status.component';
-import { ViewSmeClientCodeComponent } from './components/view-sme-client-code/view-sme-client-code.component';
+import { ViewSMEClientCodesComponent } from './components/view-sme-client-code/view-sme-client-code.component';
 import { ViewSubSectorsComponent } from './components/view-sub-sectors/view-sub-sectors.component';
 import { ViewClientTypesComponent } from './components/view-client-types/view-client-types.component';
 import { ViewAuthorityOfficesComponent } from './components/view-authority-offices/view-authority-offices.component';
@@ -627,14 +627,17 @@ const routes: Routes = [
     path: 'add-products',
     component: AddProductsComponent,
   },
-
+  {
+    path: 'edit-products/:id',
+    component: AddProductsComponent,
+  },
   {
     path: 'add-client-status-actions',
     component: AddClientStatusActionsComponent,
   },
   {
     path: 'add-sme-client-code',
-    component: AddSmeClientCodeComponent,
+    component: AddSMEClientCodesComponent,
   },
 
   {
@@ -709,7 +712,7 @@ const routes: Routes = [
   },
   {
     path: 'view-sme-client-code',
-    component: ViewSmeClientCodeComponent,
+    component: ViewSMEClientCodesComponent,
   },
 
   {
