@@ -1,6 +1,4 @@
-console.log('🐛 [branches.reducer] module loaded');
-
-import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
+import { Action, createReducer, on } from '@ngrx/store';
 import * as BranchActions from './branches.actions';
 import { adapter, initialState, State } from './branches.state';
 
@@ -18,10 +16,6 @@ const branchesInternalReducer = createReducer(
 
   // Load all branches
   on(BranchActions.loadBranches, (state) => {
-    console.log(
-      '🗄️ [branches.reducer] loadBranches handler ran, prev state:',
-      state
-    );
     return { ...state, loading: true, error: null };
   }),
 
@@ -37,19 +31,11 @@ const branchesInternalReducer = createReducer(
   }),
 
   on(BranchActions.loadBranchesFailure, (state, { error }) => {
-    console.error(
-      '🗄️ [branches.reducer] loadBranchesFailure handler ran, error:',
-      error
-    );
     return { ...state, loading: false, error };
   }),
 
   // Load one branch
   on(BranchActions.loadBranchSuccess, (state, { branch }) => {
-    console.log(
-      '🗄️ [branches.reducer] loadBranchSuccess handler ran, payload:',
-      branch
-    );
     return adapter.upsertOne(branch, {
       ...state,
       loadedId: branch.id,
@@ -59,28 +45,16 @@ const branchesInternalReducer = createReducer(
 
   // Create a new branch
   on(BranchActions.createBranchSuccess, (state, { branch }) => {
-    console.log(
-      '🗄️ [branches.reducer] createBranchSuccess handler ran, payload:',
-      branch
-    );
     return adapter.addOne(branch, state);
   }),
 
   // Update an existing branch
   on(BranchActions.updateBranchSuccess, (state, { branch }) => {
-    console.log(
-      '🗄️ [branches.reducer] updateBranchSuccess handler ran, payload:',
-      branch
-    );
     return adapter.updateOne({ id: branch.id, changes: branch }, state);
   }),
 
   // Delete a branch
   on(BranchActions.deleteBranchSuccess, (state, { id }) => {
-    console.log(
-      '🗄️ [branches.reducer] deleteBranchSuccess handler ran, id:',
-      id
-    );
     return adapter.removeOne(id, state);
   })
 );

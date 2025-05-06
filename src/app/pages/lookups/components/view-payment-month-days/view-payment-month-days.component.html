@@ -1,24 +1,41 @@
-<!-- <div class="page-content">
+<div class="page-content">
   <app-toolbar-table
     [title]="'Payment Month Days'"
-    [labelBtn]="'Add Payment Month Days'"
-    [backExists]="true"
-    [exports]="true"
+    [labelBtn]="'Add Payment Month Day'"
+    [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddPaymentMonthDay()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col1Name]="'Code'"
-    [col2Name]="'Name'"
-    [col3Name]="'Arabic Name'"
-    [col4Name]="'Active'"
-    [edit]="true"
-    [delete]="true"
-    [side]="false"
-    [download]="false"
-    [checkBox]="true"
-    [viewPaymentMethodsTable]="true"
-    [uppercase]="'uppercase'"
-  ></app-table>
-</div> -->
+
+  <ng-container *ngIf="PaymentMonthDays$ | async as PaymentMonthDays">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredPaymentMonthDay"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewPaymentMonthDaysTable]="true"
+      (onDelete)="onDeletePaymentMonthDay($event)"
+      (onEdit)="onEditPaymentMonthDay($event)"
+      (viewForm)="onViewPaymentMonthDay($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

@@ -501,6 +501,19 @@ const routes: Routes = [
     path: 'view-payment-types',
     component: ViewPaymentTypesComponent,
   },
+  //payment month days
+  {
+    path: 'add-payment-month-day',
+    component: AddPaymentMonthDaysComponent,
+  },
+  {
+    path: 'edit-payment-month-day/:id',
+    component: AddPaymentMonthDaysComponent,
+  },
+  {
+    path: 'view-payment-month-days',
+    component: ViewPaymentMonthDaysComponent,
+  },
   //Phone Types
   {
     path: 'add-phone-types',
@@ -554,11 +567,6 @@ const routes: Routes = [
   {
     path: 'add-currencies-exchange',
     component: AddCurrenciesExchangeComponent,
-  },
-
-  {
-    path: 'add-payment-month-days',
-    component: AddPaymentMonthDaysComponent,
   },
 
   {
@@ -649,11 +657,6 @@ const routes: Routes = [
   {
     path: 'view-currencies-exchange/:currencyId',
     component: ViewCurrencyExchangeComponent,
-  },
-
-  {
-    path: 'view-payment-month-days',
-    component: ViewPaymentMonthDaysComponent,
   },
 
   {

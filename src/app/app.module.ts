@@ -23,7 +23,6 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { LoaderInterceptor } from './shared/interceptors/loader.interceptor';
-import { actionLogger } from './pages/lookups/store/branches/logger.metareducer';
 import { InactiveInterceptor } from './shared/interceptors/inactive.interceptor';
 @NgModule({
   declarations: [AppComponent],
@@ -39,7 +38,7 @@ import { InactiveInterceptor } from './shared/interceptors/inactive.interceptor'
     BrowserAnimationsModule,
     ConfirmDialogModule,
     ButtonModule,
-    StoreModule.forRoot({}, { metaReducers: [actionLogger] }),
+    StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
   ],
   providers: [

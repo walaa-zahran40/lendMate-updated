@@ -1682,14 +1682,25 @@
       >
         Name in Arabic is required.
       </div>
+
+      <label for="value">Value<sup>*</sup></label>
+      <input
+        pInputText
+        id="value"
+        formControlName="value"
+        type="number"
+        max="31"
+        min="1"
+        placeholder="Enter a value between 1 and 31"
+      />
       <div
         *ngIf="
-          formGroup.get('nameAR')?.hasError('pattern') &&
-          formGroup.get('nameAR')?.touched
+          formGroup.get('value')?.hasError('required') &&
+          formGroup.get('value')?.touched
         "
         class="p-error"
       >
-        Please enter only Arabic letters.
+        Value is required.
       </div>
       <div class="p-field" *ngIf="editMode">
         <p-toggleSwitch

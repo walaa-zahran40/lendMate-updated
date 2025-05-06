@@ -166,7 +166,6 @@ import { reducer as MandateValidityUnitsReducer } from './store/mandate-validity
 import { MandateValidityUnitsEffects } from './store/mandate-validity-units/mandate-validity-units.effects';
 import { reducer as WorkflowActionTypesReducer } from './store/workflow-action-types/workflow-action-types.reducer';
 import { WorkflowActionTypesEffects } from './store/workflow-action-types/workflow-action-types.effects';
-
 import { governoratesReducer } from './store/governorates/governorates.reducer';
 import { GovernoratesEffects } from './store/governorates/governorates.effects';
 import { TaxOfficesEffects } from './store/tax_offices/tax_offices.effects';
@@ -175,6 +174,9 @@ import { AddWorkFlowActionTypesComponent } from './components/add-workflow-actio
 import { ViewWorkFlowActionTypesComponent } from './components/view-workflow-action-types/view-workflow-action-types.component';
 import { CurrencyExchangeRatesEffects } from './store/currency-exchange-rates/currency-exchange-rates.effects';
 import { currencyExchangeRatesReducer } from './store/currency-exchange-rates/currency-exchange-rates.reducer';
+import { reducer as paymentMonthDaysReducer } from './store/payment-month-days/payment-month-days.reducer';
+import { PaymentMonthDaysEffects } from './store/payment-month-days/payment-month-days.effects';
+import { ViewPaymentMonthDaysComponent } from './components/view-payment-month-days/view-payment-month-days.component';
 
 @NgModule({
   declarations: [
@@ -233,6 +235,8 @@ import { currencyExchangeRatesReducer } from './store/currency-exchange-rates/cu
     ViewRentStructureTypesComponent,
     ViewCurrenciesComponent,
     WizardCurrenciesComponent,
+    ViewPaymentMonthDaysComponent,
+    AddPaymentMonthDaysComponent,
     ViewCurrencyExchangeComponent,
     ViewPaymentMethodsComponent,
     ViewInsuredByComponent,
@@ -363,6 +367,8 @@ import { currencyExchangeRatesReducer } from './store/currency-exchange-rates/cu
       currencyExchangeRatesReducer
     ),
     EffectsModule.forFeature([CurrencyExchangeRatesEffects]),
+    StoreModule.forFeature('paymentMonthDays', paymentMonthDaysReducer),
+    EffectsModule.forFeature([PaymentMonthDaysEffects]),
   ],
   exports: [
     AddFeeCalculationTypesComponent,
