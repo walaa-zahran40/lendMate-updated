@@ -340,6 +340,21 @@ const routes: Routes = [
     component: ViewAssetTypesComponent,
   },
 
+  //Asset Types
+  {
+    path: 'add-fee-types',
+    component: AddFeeTypesComponent,
+  },
+  {
+    path: 'edit-fee-types/:id',
+    component: AddFeeTypesComponent,
+  },
+
+  {
+    path: 'view-fee-types',
+    component: ViewFeeTypesComponent,
+  },
+
   //Call Types
   {
     path: 'add-call-types',

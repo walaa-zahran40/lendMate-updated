@@ -639,7 +639,7 @@ export class SideMenuComponent {
           {
             label: 'FeeType',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-feel-types',
+            routerLink: '/lookups/view-fee-types',
           },
         ],
       },

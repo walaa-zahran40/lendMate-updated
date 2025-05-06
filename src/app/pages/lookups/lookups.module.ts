@@ -177,6 +177,8 @@ import { currencyExchangeRatesReducer } from './store/currency-exchange-rates/cu
 import { reducer as paymentMonthDaysReducer } from './store/payment-month-days/payment-month-days.reducer';
 import { PaymentMonthDaysEffects } from './store/payment-month-days/payment-month-days.effects';
 import { ViewPaymentMonthDaysComponent } from './components/view-payment-month-days/view-payment-month-days.component';
+import { feeTypesReducer } from './store/fee-types/fee-types.reducer';
+import { FeeTypesEffects } from './store/fee-types/fee-types.effects';
 
 @NgModule({
   declarations: [
@@ -371,6 +373,8 @@ import { ViewPaymentMonthDaysComponent } from './components/view-payment-month-d
     EffectsModule.forFeature([PaymentMonthDaysEffects]),
     StoreModule.forFeature('paymentMonthDays', paymentMonthDaysReducer),
     EffectsModule.forFeature([PaymentMonthDaysEffects]),
+    StoreModule.forFeature('feeTypes', feeTypesReducer),
+    EffectsModule.forFeature([FeeTypesEffects]),
   ],
   exports: [
     AddFeeCalculationTypesComponent,
