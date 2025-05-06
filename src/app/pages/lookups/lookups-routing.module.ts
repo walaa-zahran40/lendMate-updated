@@ -608,7 +608,10 @@ const routes: Routes = [
     path: 'add-products',
     component: AddProductsComponent,
   },
-
+  {
+    path: 'edit-products/:id',
+    component: AddProductsComponent,
+  },
   {
     path: 'add-client-status-actions',
     component: AddClientStatusActionsComponent,

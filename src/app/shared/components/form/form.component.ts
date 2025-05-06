@@ -63,7 +63,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addClient?: boolean;
   //Select Box
   @Input() sectorsList: any;
-
+  @Input() businessLinesList: any;
   @Input() subSectorsList: any[] = [];
   @Input() countriesList: any;
   @Input() assetTypeCategories: any;
