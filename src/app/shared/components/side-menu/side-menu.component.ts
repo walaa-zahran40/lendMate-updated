@@ -634,12 +634,12 @@ export class SideMenuComponent {
           {
             label: 'FeeCalculationType',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-fees-calculation-types',
+            routerLink: '/lookups/view-fee-calculation-types',
           },
           {
             label: 'FeeType',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-feel-types',
+            routerLink: '/lookups/view-fee-types',
           },
         ],
       },

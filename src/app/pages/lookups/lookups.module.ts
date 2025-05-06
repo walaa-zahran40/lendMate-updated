@@ -175,6 +175,8 @@ import { AddWorkFlowActionTypesComponent } from './components/add-workflow-actio
 import { ViewWorkFlowActionTypesComponent } from './components/view-workflow-action-types/view-workflow-action-types.component';
 import { CurrencyExchangeRatesEffects } from './store/currency-exchange-rates/currency-exchange-rates.effects';
 import { currencyExchangeRatesReducer } from './store/currency-exchange-rates/currency-exchange-rates.reducer';
+import { feeTypesReducer } from './store/fee-types/fee-types.reducer';
+import { FeeTypesEffects } from './store/fee-types/fee-types.effects';
 
 @NgModule({
   declarations: [
@@ -363,6 +365,8 @@ import { currencyExchangeRatesReducer } from './store/currency-exchange-rates/cu
       currencyExchangeRatesReducer
     ),
     EffectsModule.forFeature([CurrencyExchangeRatesEffects]),
+    StoreModule.forFeature('feeTypes', feeTypesReducer),
+    EffectsModule.forFeature([FeeTypesEffects]),
   ],
   exports: [
     AddFeeCalculationTypesComponent,

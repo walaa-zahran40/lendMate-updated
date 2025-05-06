@@ -1,27 +1,41 @@
-<!-- <div class="page-content">
+<div class="page-content">
   <app-toolbar-table
-    [title]="'Feel Types'"
-    [labelBtn]="'Add Feel Types'"
-    [backExists]="true"
-    [exports]="true"
+    [title]="'FeeTypes'"
+    [labelBtn]="'Add FeeType'"
+    [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddFeeType()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col1Name]="'Code'"
-    [col2Name]="'Name EN'"
-    [col3Name]="'Name AR'"
-    [col4Name]="'Amount '"
-    [col5Name]="'Percentage'"
-    [col6Name]="'IsPercentage'"
-    [col7Name]="'Active'"
-    [edit]="true"
-    [delete]="true"
-    [side]="false"
-    [download]="false"
-    [checkBox]="true"
-    [viewFeelTypesTable]="true"
-    [uppercase]="'uppercase'"
-  ></app-table>
-</div> -->
+
+  <ng-container *ngIf="feeTypes$ | async as feeTypes">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredFeeTypes"
+      [edit]="true"
+      [delete]="true"
+      [side]="true"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewFeelTypesTable]="true"
+      (onDelete)="onDeleteFeeType($event)"
+      (onEdit)="onEditFeeType($event)"
+      (viewForm)="onViewFeeType($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>
