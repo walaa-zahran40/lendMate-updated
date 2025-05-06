@@ -564,6 +564,19 @@ const routes: Routes = [
     path: 'view-rent-structure-types',
     component: ViewRentStructureTypesComponent,
   },
+  //SME Client Code
+  {
+    path: 'add-sme-client-code',
+    component: AddSMEClientCodesComponent,
+  },
+  {
+    path: 'edit-sme-client-code/:id',
+    component: AddSMEClientCodesComponent,
+  },
+  {
+    path: 'view-sme-client-codes',
+    component: ViewSMEClientCodesComponent,
+  },
   //Doc Types
   {
     path: 'add-document-types',
@@ -577,7 +590,6 @@ const routes: Routes = [
     path: 'view-document-types',
     component: ViewDocTypesComponent,
   },
-
   {
     path: 'add-mandate-statuses',
     component: AddMandateStatusesComponent,
@@ -634,10 +646,6 @@ const routes: Routes = [
   {
     path: 'add-client-status-actions',
     component: AddClientStatusActionsComponent,
-  },
-  {
-    path: 'add-sme-client-code',
-    component: AddSMEClientCodesComponent,
   },
 
   {
@@ -709,10 +717,6 @@ const routes: Routes = [
   {
     path: 'view-client-status',
     component: ViewClientStatusComponent,
-  },
-  {
-    path: 'view-sme-client-code',
-    component: ViewSMEClientCodesComponent,
   },
 
   {

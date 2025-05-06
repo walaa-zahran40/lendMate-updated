@@ -382,6 +382,7 @@ import { SMEClientCodesEffects } from './store/sme-client-codes/sme-client-codes
     EffectsModule.forFeature([FeeTypesEffects]),
     StoreModule.forFeature('products', productsReducer),
     EffectsModule.forFeature([ProductsEffects]),
+    StoreModule.forFeature('sMEClientCodes', smeClientCodesReducer),
     EffectsModule.forFeature([SMEClientCodesEffects]),
   ],
   exports: [

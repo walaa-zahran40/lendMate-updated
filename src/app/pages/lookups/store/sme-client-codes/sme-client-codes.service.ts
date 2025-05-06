@@ -28,7 +28,9 @@ export class SMEClientCodesService {
   }
 
   getById(id: number): Observable<SMEClientCode> {
-    return this.http.get<SMEClientCode>(`${this.baseUrl}/SMEClientCodeId?id=${id}`);
+    return this.http.get<SMEClientCode>(
+      `${this.baseUrl}/SMEClientCodeId?sMEClientCodeId=${id}`
+    );
   }
 
   create(payload: Omit<SMEClientCode, 'id'>): Observable<SMEClientCode> {

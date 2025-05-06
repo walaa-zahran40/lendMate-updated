@@ -106,8 +106,15 @@ export class AddSMEClientCodesComponent {
       return;
     }
 
-    const { name, nameAR,lowerLimit,upperLimit, isActive } = this.addSMEClientCodesLookupsForm.value;
-    const payload: Partial<SMEClientCode> = { name, nameAR,lowerLimit,upperLimit, isActive };
+    const { name, nameAR, lowerLimit, upperLimit, isActive } =
+      this.addSMEClientCodesLookupsForm.value;
+    const payload: Partial<SMEClientCode> = {
+      name,
+      nameAR,
+      lowerLimit,
+      upperLimit,
+      isActive,
+    };
     console.log('  → payload object:', payload);
 
     // Double-check your route param
@@ -115,9 +122,16 @@ export class AddSMEClientCodesComponent {
     console.log('  route.snapshot.paramMap.get(clientId):', routeId);
 
     if (this.editMode) {
-      const { id, name, nameAR,lowerLimit,upperLimit, isActive } =
+      const { id, name, nameAR, lowerLimit, upperLimit, isActive } =
         this.addSMEClientCodesLookupsForm.value;
-      const payload: SMEClientCode = { id, name, nameAR,lowerLimit,upperLimit, isActive };
+      const payload: SMEClientCode = {
+        id,
+        name,
+        nameAR,
+        lowerLimit,
+        upperLimit,
+        isActive,
+      };
       console.log(
         '🔄 Dispatching UPDATE id=',
         this.clientId,
@@ -131,7 +145,6 @@ export class AddSMEClientCodesComponent {
     }
 
     console.log('🧭 Navigating away to view-sme-client-code');
-    this.router.navigate(['/lookups/view-sme-client-code']);
+    this.router.navigate(['/lookups/view-sme-client-codes']);
   }
 }
-
