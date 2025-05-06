@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { mergeMap, map, catchError } from 'rxjs/operators';
+import { mergeMap, map, catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as CurrencyExchangeRateActions from './currency-exchange-rates.actions';
 import { CurrencyExchangeRatesService } from './currency-exchange-rates.service';
@@ -19,7 +19,11 @@ export class CurrencyExchangeRatesEffects {
             })
           ),
           catchError((error) =>
-            of(CurrencyExchangeRateActions.loadCurrencyExchangeRatesFailure({ error }))
+            of(
+              CurrencyExchangeRateActions.loadCurrencyExchangeRatesFailure({
+                error,
+              })
+            )
           )
         )
       )
@@ -32,12 +36,18 @@ export class CurrencyExchangeRatesEffects {
       mergeMap(() =>
         this.service.getHistory().pipe(
           map((resp) =>
-            CurrencyExchangeRateActions.loadCurrencyExchangeRatesHistorySuccess({
-              history: resp.items,
-            })
+            CurrencyExchangeRateActions.loadCurrencyExchangeRatesHistorySuccess(
+              {
+                history: resp.items,
+              }
+            )
           ),
           catchError((error) =>
-            of(CurrencyExchangeRateActions.loadCurrencyExchangeRatesHistoryFailure({ error }))
+            of(
+              CurrencyExchangeRateActions.loadCurrencyExchangeRatesHistoryFailure(
+                { error }
+              )
+            )
           )
         )
       )
@@ -50,10 +60,16 @@ export class CurrencyExchangeRatesEffects {
       mergeMap(({ id }) =>
         this.service.getById(id).pipe(
           map((currency) =>
-            CurrencyExchangeRateActions.loadCurrencyExchangeRateSuccess({ currency })
+            CurrencyExchangeRateActions.loadCurrencyExchangeRateSuccess({
+              currency,
+            })
           ),
           catchError((error) =>
-            of(CurrencyExchangeRateActions.loadCurrencyExchangeRateFailure({ error }))
+            of(
+              CurrencyExchangeRateActions.loadCurrencyExchangeRateFailure({
+                error,
+              })
+            )
           )
         )
       )
@@ -66,10 +82,16 @@ export class CurrencyExchangeRatesEffects {
       mergeMap(({ data }) =>
         this.service.create(data).pipe(
           map((currency) =>
-            CurrencyExchangeRateActions.createCurrencyExchangeRateSuccess({ currency })
+            CurrencyExchangeRateActions.createCurrencyExchangeRateSuccess({
+              currency,
+            })
           ),
           catchError((error) =>
-            of(CurrencyExchangeRateActions.createCurrencyExchangeRateFailure({ error }))
+            of(
+              CurrencyExchangeRateActions.createCurrencyExchangeRateFailure({
+                error,
+              })
+            )
           )
         )
       )
@@ -82,10 +104,16 @@ export class CurrencyExchangeRatesEffects {
       mergeMap(({ id, data }) =>
         this.service.update(id, data).pipe(
           map((currency) =>
-            CurrencyExchangeRateActions.updateCurrencyExchangeRateSuccess({ currency })
+            CurrencyExchangeRateActions.updateCurrencyExchangeRateSuccess({
+              currency,
+            })
           ),
           catchError((error) =>
-            of(CurrencyExchangeRateActions.updateCurrencyExchangeRateFailure({ error }))
+            of(
+              CurrencyExchangeRateActions.updateCurrencyExchangeRateFailure({
+                error,
+              })
+            )
           )
         )
       )
@@ -97,9 +125,17 @@ export class CurrencyExchangeRatesEffects {
       ofType(CurrencyExchangeRateActions.deleteCurrencyExchangeRate),
       mergeMap(({ id }) =>
         this.service.delete(id).pipe(
-          map(() => CurrencyExchangeRateActions.deleteCurrencyExchangeRateSuccess({ id })),
+          map(() =>
+            CurrencyExchangeRateActions.deleteCurrencyExchangeRateSuccess({
+              id,
+            })
+          ),
           catchError((error) =>
-            of(CurrencyExchangeRateActions.deleteCurrencyExchangeRateFailure({ error }))
+            of(
+              CurrencyExchangeRateActions.deleteCurrencyExchangeRateFailure({
+                error,
+              })
+            )
           )
         )
       )
@@ -110,12 +146,66 @@ export class CurrencyExchangeRatesEffects {
     this.actions$.pipe(
       ofType(
         CurrencyExchangeRateActions.createCurrencyExchangeRateSuccess,
-        CurrencyExchangeRateActions.updateCurrencyExchangeRateSuccess,
-        CurrencyExchangeRateActions.deleteCurrencyExchangeRateSuccess
+        CurrencyExchangeRateActions.updateCurrencyExchangeRateSuccess
       ),
-      map(() => CurrencyExchangeRateActions.loadCurrencyExchangeRates())
+
+      // 🔍 Log the raw success action
+      tap((action) =>
+        console.log('[Effect][refreshList$] success action payload:', action)
+      ),
+
+      map(({ currency }) => {
+        // extract the nested id
+        const parentId = currency.currency?.currencyId;
+        console.log('[Effect][refreshList$] derived currencyId:', parentId);
+
+        return CurrencyExchangeRateActions.loadCurrencyExchangeRatesByCurrencyId(
+          {
+            currencyId: parentId,
+          }
+        );
+      })
     )
   );
+
+  loadByCurrencyId$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CurrencyExchangeRateActions.loadCurrencyExchangeRatesByCurrencyId),
+
+      // log the incoming action
+      tap(({ currencyId }) =>
+        console.log(
+          '[Effect] loadCurrencyExchangeRatesByCurrencyId → currencyId=',
+          currencyId
+        )
+      ),
+
+      mergeMap(({ currencyId }) =>
+        this.service.getByCurrencyId(currencyId).pipe(
+          // log the raw HTTP response
+          tap((items) =>
+            console.log('[Effect] getByCurrencyId response items=', items)
+          ),
+
+          map((items) =>
+            CurrencyExchangeRateActions.loadCurrencyExchangeRatesByCurrencyIdSuccess(
+              { items }
+            )
+          ),
+
+          catchError((error) => {
+            console.error('[Effect] getByCurrencyId ERROR', error);
+            return of(
+              CurrencyExchangeRateActions.loadCurrencyExchangeRatesByCurrencyIdFailure(
+                { error }
+              )
+            );
+          })
+        )
+      )
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private service: CurrencyExchangeRatesService

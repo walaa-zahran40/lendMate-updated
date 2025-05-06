@@ -68,7 +68,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() countriesList: any;
   @Input() assetTypeCategories: any;
   @Input() governoratesList: any;
-  @Input() currencies: any[] = [];
+  @Input() currencies: { id: number; name: string }[] = [];
   @Input() selectedSectorId: number | null = null;
   @Input() legalFormLawIdControl!: number;
   selectedLegalFormLawId: number | null = null;
@@ -436,6 +436,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addCurrenciesLookupsForm!: boolean;
   @Input() addCurrenciesExchangeLookupsForm!: boolean;
   @Input() addPaymentMethodsLookupsForm!: boolean;
+  currencyIdParam: any;
   @Input() addPaymentTypesLookupsForm!: boolean;
   @Input() addPaymentMonthDaysLookupsForm!: boolean;
   @Input() addMeetingTypesLookupsForm!: boolean;
@@ -502,6 +503,8 @@ export class FormComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('clientId')!;
+    this.currencyIdParam = this.route.snapshot.paramMap.get('currencyId')!;
+
     this.sub = this.formGroup?.valueChanges
       .pipe(debounceTime(300))
       .subscribe(() => {
@@ -890,7 +893,7 @@ export class FormComponent implements OnInit, OnDestroy {
   }
 
   viewCurrencyExchange() {
-    this.router.navigate(['/crm/clients/view-currency-exchange']);
+    this.router.navigate(['/lookups/view-currency-exchange-rates']);
   }
   viewCurrencies() {
     this.router.navigate(['/lookups/view-currencies']);

@@ -3,9 +3,8 @@ import { CurrencyExchange } from '../../../../shared/interfaces/currency-exchang
 import { CurrencyExchangeRate } from '../../store/currency-exchange-rates/currency-exchange-rate.model';
 import { TableComponent } from '../../../../shared/components/table/table.component';
 import { combineLatest, map, Observable, Subject, takeUntil } from 'rxjs';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CurrencyExchangeRatesFacade } from '../../store/currency-exchange-rates/currency-exchange-rates.facade';
-
 
 @Component({
   selector: 'app-view-currency-exchange',
@@ -19,14 +18,14 @@ export class ViewCurrencyExchangeComponent {
   rows = 10;
   showFilters = false;
   private destroy$ = new Subject<void>();
-
+  currencyIdParam!: number;
 
   @ViewChild('tableRef') tableRef!: TableComponent;
-  
+
   readonly colsInside = [
     { field: 'currency', header: 'Currency' },
     { field: 'exchangeDate', header: 'Exchange Date' },
-    { field: 'exchangeRate', header: 'Exchange Rate' }
+    { field: 'exchangeRate', header: 'Exchange Rate' },
   ];
 
   showDeleteModal = false;
@@ -35,51 +34,46 @@ export class ViewCurrencyExchangeComponent {
   filteredCurrencyExchangeRates: CurrencyExchangeRate[] = [];
   currencyExchangeRates$!: Observable<CurrencyExchangeRate[]>;
 
-  constructor(private router: Router, private facade: CurrencyExchangeRatesFacade) {}
+  constructor(
+    private router: Router,
+    private facade: CurrencyExchangeRatesFacade,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
-    this.facade.loadAll();
+    // 1) grab the param
+    this.currencyIdParam = Number(
+      this.route.snapshot.paramMap.get('currencyId')
+    );
+
+    // 2) kick off the load
+    // 3) point your Observable at the facade
+
+    this.facade.loadByCurrencyId(this.currencyIdParam);
     this.currencyExchangeRates$ = this.facade.items$;
-    this.currencyExchangeRates$.pipe(takeUntil(this.destroy$)).subscribe((currencyExchangeRates) => {
-      const sorted = [...currencyExchangeRates].sort((a, b) => b.id - a.id);
-      this.originalCurrencyExchangeRates = sorted;
-      this.filteredCurrencyExchangeRates = [...sorted];
-    });
 
-    combineLatest([this.currencyExchangeRates$])
+    // 4) now pipe + filter + subscribe
+    this.currencyExchangeRates$
       .pipe(
-        map(([currencyExchangeRates]) => {
-          const mapped = currencyExchangeRates.map((ss) => {
-            const currency = ss.currency?.name || '—';
-            return {
-              ...ss,
-              currency: currency,
-            };
-          });
-
-          const sorted = mapped.sort((a, b) => b.id - a.id);
-          console.log('✅ Sorted mapped currencyExchangeRates:', sorted);
-          return sorted;
-        }),
-        takeUntil(this.destroy$)
+        takeUntil(this.destroy$),
+        map((list) =>
+          list
+            .map((r) => ({ ...r, currency: r.currency?.name || '—' }))
+            .sort((a, b) => b.id - a.id)
+        )
       )
-      .subscribe(
-        (normalizedCurrencyExchangeRates) => {
-          console.log(
-            '🟢 Final normalizedCurrencyExchangeRates emitted to view:',
-            normalizedCurrencyExchangeRates
-          );
-          this.filteredCurrencyExchangeRates = normalizedCurrencyExchangeRates;
-          this.originalCurrencyExchangeRates = normalizedCurrencyExchangeRates;
-        },
-        (error) => {
-          console.error('❌ Error in combineLatest subscription:', error);
-        }
-      );
+      .subscribe((formatted) => {
+        this.filteredCurrencyExchangeRates = formatted;
+        this.originalCurrencyExchangeRates = formatted;
+      });
   }
 
   onAddCurrencyExchangeRate() {
-    this.router.navigate(['/lookups/add-currency-exchange-rates']);
+    const currencyIdParam = this.route.snapshot.paramMap.get('currencyId');
+
+    this.router.navigate(['/lookups/add-currency-exchange-rates'], {
+      queryParams: { mode: 'add', currencyId: currencyIdParam },
+    });
   }
 
   ngOnDestroy() {
@@ -121,26 +115,40 @@ export class ViewCurrencyExchangeComponent {
 
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
-    this.filteredCurrencyExchangeRates = this.originalCurrencyExchangeRates.filter((currencyExchangeRate) =>
-      Object.values(currencyExchangeRate).some((val) =>
-        val?.toString().toLowerCase().includes(lower)
-      )
-    );
+    this.filteredCurrencyExchangeRates =
+      this.originalCurrencyExchangeRates.filter((currencyExchangeRate) =>
+        Object.values(currencyExchangeRate).some((val) =>
+          val?.toString().toLowerCase().includes(lower)
+        )
+      );
   }
 
   onToggleFilters(value: boolean) {
     this.showFilters = value;
   }
 
-  onEditCurrencyExchangeRate(currencyExchangeRate: CurrencyExchangeRate) {
-    this.router.navigate(['/lookups/edit-currency-exchange-rates', currencyExchangeRate.id], {
-      queryParams: { mode: 'edit' },
-    });
+  onEditCurrencyExchangeRate(exchange: CurrencyExchangeRate) {
+    console.log('edioyt', this.currencyIdParam);
+    this.router.navigate(
+      ['/lookups/edit-currency-exchange-rates', exchange.id],
+      {
+        queryParams: {
+          mode: 'edit',
+          currencyId: this.currencyIdParam, // <-- use "currencyId" here
+        },
+      }
+    );
   }
 
-  onViewCurrencyExchangeRate(currencyExchangeRate: CurrencyExchangeRate) {
-    this.router.navigate(['/lookups/edit-currency-exchange-rates', currencyExchangeRate.id], {
-      queryParams: { mode: 'view' },
-    });
+  onViewCurrencyExchangeRate(exchange: CurrencyExchangeRate) {
+    this.router.navigate(
+      ['/lookups/edit-currency-exchange-rates', exchange.id],
+      {
+        queryParams: {
+          mode: 'view',
+          currencyId: this.currencyIdParam, // <-- and here
+        },
+      }
+    );
   }
 }

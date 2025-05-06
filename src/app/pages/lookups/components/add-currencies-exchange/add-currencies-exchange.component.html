@@ -3,12 +3,10 @@
     <p-tabpanel value="0">
       <app-form
         [title]="'Main Information'"
-        [description]="
-          'Add Currency Exchange'
-        "
+        [description]="'Currency Exchange'"
         [addCurrenciesExchangeLookupsForm]="true"
-        [currencies]="(currencies$ | async) || []"
-        [formGroup]="addCurrenciesExchangeLookupsForm"
+        [currencies]="currencies"
+        [formGroup]="addCurrenciesExchangeForm"
         (submitForm)="addOrEditCurrencyExchangeRate()"
         [editMode]="editMode"
         [viewOnly]="viewOnly"

@@ -23,7 +23,7 @@ export class WizardCurrenciesComponent {
         title: 'Currency Exchange',
         content:
           'Introduce your company core info quickly to users by fill up company details',
-        link: `/lookups/view-currencies-exchange/${currencyId}`,
+        link: `/lookups/view-currency-exchange-rates/${currencyId}`,
       },
     ];
     this.cards = this.chunkArray(this.originalCards, 3);

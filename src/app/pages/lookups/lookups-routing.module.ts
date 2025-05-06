@@ -294,12 +294,21 @@ const routes: Routes = [
     component: AddCurrenciesExchangeComponent,
   },
   {
+    path: 'add-currency-exchange-rates/:currencyId',
+    component: AddCurrenciesExchangeComponent,
+  },
+
+  {
     path: 'edit-currency-exchange-rates/:id',
     component: AddCurrenciesExchangeComponent,
   },
   {
     path: 'view-currency-exchange-rates',
-    component: ViewCurrenciesComponent,
+    component: ViewCurrencyExchangeComponent,
+  },
+  {
+    path: 'view-currency-exchange-rates/:currencyId',
+    component: ViewCurrencyExchangeComponent,
   },
   //Asset mandate status
   {
@@ -565,11 +574,6 @@ const routes: Routes = [
   },
 
   {
-    path: 'add-currencies-exchange',
-    component: AddCurrenciesExchangeComponent,
-  },
-
-  {
     path: 'add-mandate-validity-unit',
     component: AddMandateValidityUnitComponent,
   },
@@ -652,11 +656,6 @@ const routes: Routes = [
   {
     path: 'view-period-units',
     component: ViewPeriodUnitsComponent,
-  },
-
-  {
-    path: 'view-currencies-exchange/:currencyId',
-    component: ViewCurrencyExchangeComponent,
   },
 
   {

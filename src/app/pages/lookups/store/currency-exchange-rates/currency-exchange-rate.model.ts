@@ -4,4 +4,6 @@ export interface CurrencyExchangeRate {
   currency?: any;
   exchangeRate: number;
   exchangeDate: Date;
+  isCurrent?: boolean;
+  isActive?: boolean;
 }

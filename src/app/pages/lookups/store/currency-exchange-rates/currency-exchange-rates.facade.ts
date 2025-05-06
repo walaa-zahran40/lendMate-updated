@@ -19,7 +19,7 @@ export class CurrencyExchangeRatesFacade {
   current$: Observable<CurrencyExchangeRate | undefined> = this.store.select(
     Selectors.selectCurrentCurrencyExchangeRate
   );
-  
+
   loading$: Observable<boolean> = this.store.select(
     Selectors.selectCurrencyExchangeRatesLoading
   );
@@ -46,5 +46,10 @@ export class CurrencyExchangeRatesFacade {
   }
   delete(id: number) {
     this.store.dispatch(Actions.deleteCurrencyExchangeRate({ id }));
+  }
+  loadByCurrencyId(currencyId: number) {
+    this.store.dispatch(
+      Actions.loadCurrencyExchangeRatesByCurrencyId({ currencyId })
+    );
   }
 }

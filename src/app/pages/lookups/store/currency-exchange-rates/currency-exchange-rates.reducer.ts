@@ -9,19 +9,25 @@ export const currencyExchangeRatesReducer = createReducer(
     loading: true,
     error: null,
   })),
-  on(Actions.loadCurrencyExchangeRatesSuccess, (state, { items, totalCount }) => ({
-    ...state,
-    items,
-    totalCount,
-    loading: false,
-  })),
+  on(
+    Actions.loadCurrencyExchangeRatesSuccess,
+    (state, { items, totalCount }) => ({
+      ...state,
+      items,
+      totalCount,
+      loading: false,
+    })
+  ),
   on(Actions.loadCurrencyExchangeRatesFailure, (state, { error }) => ({
     ...state,
     error,
     loading: false,
   })),
 
-  on(Actions.loadCurrencyExchangeRatesHistory, (state) => ({ ...state, loading: true })),
+  on(Actions.loadCurrencyExchangeRatesHistory, (state) => ({
+    ...state,
+    loading: true,
+  })),
   on(Actions.loadCurrencyExchangeRatesHistorySuccess, (state, { history }) => ({
     ...state,
     history,
@@ -33,7 +39,10 @@ export const currencyExchangeRatesReducer = createReducer(
     loading: false,
   })),
 
-  on(Actions.loadCurrencyExchangeRate, (state) => ({ ...state, loading: true })),
+  on(Actions.loadCurrencyExchangeRate, (state) => ({
+    ...state,
+    loading: true,
+  })),
   on(Actions.loadCurrencyExchangeRateSuccess, (state, { currency }) => ({
     ...state,
     current: currency,
@@ -45,7 +54,10 @@ export const currencyExchangeRatesReducer = createReducer(
     loading: false,
   })),
 
-  on(Actions.createCurrencyExchangeRate, (state) => ({ ...state, loading: true })),
+  on(Actions.createCurrencyExchangeRate, (state) => ({
+    ...state,
+    loading: true,
+  })),
   on(Actions.createCurrencyExchangeRateSuccess, (state, { currency }) => ({
     ...state,
     items: [...state.items, currency],
@@ -57,12 +69,13 @@ export const currencyExchangeRatesReducer = createReducer(
     loading: false,
   })),
 
-  on(Actions.updateCurrencyExchangeRate, (state) => ({ ...state, loading: true })),
+  on(Actions.updateCurrencyExchangeRate, (state) => ({
+    ...state,
+    loading: true,
+  })),
   on(Actions.updateCurrencyExchangeRateSuccess, (state, { currency }) => ({
     ...state,
-    items: state.items.map((ct) =>
-      ct.id === currency.id ? currency : ct
-    ),
+    items: state.items.map((ct) => (ct.id === currency.id ? currency : ct)),
     loading: false,
   })),
   on(Actions.updateCurrencyExchangeRateFailure, (state, { error }) => ({
@@ -71,7 +84,10 @@ export const currencyExchangeRatesReducer = createReducer(
     loading: false,
   })),
 
-  on(Actions.deleteCurrencyExchangeRate, (state) => ({ ...state, loading: true })),
+  on(Actions.deleteCurrencyExchangeRate, (state) => ({
+    ...state,
+    loading: true,
+  })),
   on(Actions.deleteCurrencyExchangeRateSuccess, (state, { id }) => ({
     ...state,
     items: state.items.filter((ct) => ct.id !== id),
@@ -81,5 +97,26 @@ export const currencyExchangeRatesReducer = createReducer(
     ...state,
     error,
     loading: false,
-  }))
+  })),
+  on(Actions.loadCurrencyExchangeRatesByCurrencyId, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
+  on(
+    Actions.loadCurrencyExchangeRatesByCurrencyIdSuccess,
+    (state, { items }) => ({
+      ...state,
+      items, // replace with just these rates
+      loading: false,
+    })
+  ),
+  on(
+    Actions.loadCurrencyExchangeRatesByCurrencyIdFailure,
+    (state, { error }) => ({
+      ...state,
+      error,
+      loading: false,
+    })
+  )
 );

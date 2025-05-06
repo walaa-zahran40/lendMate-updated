@@ -21,7 +21,6 @@ export class ViewCurrenciesComponent {
   @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
-    { field: 'code', header: 'Code' },
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
     { field: 'iso', header: 'ISO' },

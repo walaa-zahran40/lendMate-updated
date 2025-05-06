@@ -1,145 +1,128 @@
-import { Component } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { Store } from "@ngrx/store";
-import { filter, take } from "rxjs";
-import { arabicOnlyValidator } from "../../../../shared/validators/arabic-only.validator";
-import { selectCurrencies } from '../../store/currencies/currencies.selectors';
-import { CurrencyExchangeRate } from "../../store/currency-exchange-rates/currency-exchange-rate.model";
-import { CurrencyExchangeRatesFacade } from "../../store/currency-exchange-rates/currency-exchange-rates.facade";
-import { loadCurrencies } from "../../store/currencies/currencies.actions";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { filter, Subject, takeUntil } from 'rxjs';
+import { CurrencyExchangeRate } from '../../store/currency-exchange-rates/currency-exchange-rate.model';
+import { CurrencyExchangeRatesFacade } from '../../store/currency-exchange-rates/currency-exchange-rates.facade';
+import { Currency } from '../../store/currencies/currency.model';
+import { CurrenciesFacade } from '../../store/currencies/currencies.facade';
 
 @Component({
   selector: 'app-add-currencies-exchange',
   standalone: false,
   templateUrl: './add-currencies-exchange.component.html',
-  styleUrl: './add-currencies-exchange.component.scss',
+  styleUrls: ['./add-currencies-exchange.component.scss'],
 })
-export class AddCurrenciesExchangeComponent {
-  editMode: boolean = false;
+export class AddCurrenciesExchangeComponent implements OnInit, OnDestroy {
+  // Flags driven by mode
+  editMode = false;
   viewOnly = false;
-  addCurrenciesExchangeLookupsForm!: FormGroup;
-  clientId: any;
-  currencies$!: any;
+
+  // Reactive form
+  addCurrenciesExchangeForm!: FormGroup;
+
+  // Lists and IDs
+  currencies: Currency[] = [];
+  mode!: 'add' | 'edit' | 'view';
+  parentCurrencyId!: number;
+  recordId!: number;
+
+  private destroy$ = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private facade: CurrencyExchangeRatesFacade,
-    private router: Router,
-        private store: Store
+    private exchangeFacade: CurrencyExchangeRatesFacade,
+    private currencyFacade: CurrenciesFacade,
+    private router: Router
   ) {}
 
   ngOnInit() {
-    //Select Box
-        console.log('🔵 ngOnInit: start');
-        this.store.dispatch(loadCurrencies());
-        this.currencies$ = this.store.select(selectCurrencies);
-        console.log('currencies list', this.currencies$);
-        this.currencies$.subscribe((data: any) =>
-          console.log('🧪 currencies$ from store:', data)
-        );
+    // Read mode and set flags
+    this.mode = (this.route.snapshot.queryParamMap.get('mode') as any) ?? 'add';
+    this.editMode = this.mode === 'edit';
+    this.viewOnly = this.mode === 'view';
 
-    this.addCurrenciesExchangeLookupsForm = this.fb.group({
+    // Read IDs
+    this.parentCurrencyId = Number(
+      this.route.snapshot.queryParamMap.get('currencyId')
+    );
+    if (this.editMode || this.viewOnly) {
+      this.recordId = Number(this.route.snapshot.paramMap.get('id'));
+      this.exchangeFacade.loadOne(this.recordId);
+    }
+
+    // Build form with currencyId
+    this.addCurrenciesExchangeForm = this.fb.group({
       id: [null],
-      exchangeDate: ['', [Validators.required]],
-      exchangeRate: [1, [Validators.required, arabicOnlyValidator]],
-      currencyId: [null, [Validators.required]],
-      parentCurrencyExchangeRateId: [null],
+      currencyId: [null, Validators.required],
+      exchangeDate: [null, Validators.required],
+      exchangeRate: [null, [Validators.required, Validators.min(0)]],
       isActive: [true],
+      isCurrent: [true],
     });
 
-    this.route.paramMap.subscribe((params) => {
-      const id = params.get('id');
-      if (id) {
-        this.editMode = true;
-        this.clientId = +id;
+    // Load currency dropdown
+    this.currencyFacade.loadAll();
+    this.currencyFacade.items$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((list) => (this.currencies = list));
 
-        console.log(this.viewOnly);
+    // Patch for add mode
+    if (this.mode === 'add') {
+      this.addCurrenciesExchangeForm.patchValue({
+        currencyId: this.parentCurrencyId,
+      });
+    }
 
-        this.viewOnly = this.route.snapshot.queryParams['mode'] === 'view';
-        if (this.viewOnly) {
-          this.addCurrenciesExchangeLookupsForm.disable();
-        }
-
-        this.facade.loadOne(this.clientId);
-        this.facade.current$
-          .pipe(
-            filter((ct) => !!ct),
-            take(1)
-          )
-          .subscribe((ct) => {
-            this.addCurrenciesExchangeLookupsForm.patchValue({
-              id: ct!.id,
-              exchangeDate: ct!.exchangeDate,
-              exchangeRate: ct!.exchangeRate,
-              currencyId: ct!.currencyId
-            });
+    // Patch for edit/view mode
+    if (this.editMode || this.viewOnly) {
+      this.exchangeFacade.current$
+        .pipe(
+          takeUntil(this.destroy$),
+          filter((rec) => !!rec)
+        )
+        .subscribe((rec) => {
+          this.addCurrenciesExchangeForm.patchValue({
+            id: rec.id,
+            currencyId: this.parentCurrencyId,
+            exchangeDate: new Date(rec.exchangeDate),
+            exchangeRate: rec.exchangeRate,
+            isActive: rec!.isActive,
+            isCurrent: rec!.isCurrent,
           });
-      } else {
-
-        this.viewOnly = this.route.snapshot.queryParams['mode'] === 'view';
-        if (this.viewOnly) {
-          this.addCurrenciesExchangeLookupsForm.disable();
-        }
-      }
-    });
+        });
+    }
   }
 
   addOrEditCurrencyExchangeRate() {
-    console.log('💥 addCurrencyExchangeRate() called');
-    console.log('  viewOnly:', this.viewOnly);
-    console.log('  editMode:', this.editMode);
-    console.log('  form valid:', this.addCurrenciesExchangeLookupsForm.valid);
-    console.log('  form touched:', this.addCurrenciesExchangeLookupsForm.touched);
-    console.log(
-      '  form raw value:',
-      this.addCurrenciesExchangeLookupsForm.getRawValue()
-    );
-
+    console.log('route', this.route.snapshot);
+    const idParam = this.route.snapshot.params['id'];
     if (this.viewOnly) {
-      console.log('⚠️ viewOnly mode — aborting add');
+      return;
+    }
+    if (this.addCurrenciesExchangeForm.invalid) {
+      this.addCurrenciesExchangeForm.markAllAsTouched();
       return;
     }
 
-    if (this.addCurrenciesExchangeLookupsForm.invalid) {
-      console.warn('❌ Form is invalid — marking touched and aborting');
-      this.addCurrenciesExchangeLookupsForm.markAllAsTouched();
-      return;
-    }
+    const data = this.addCurrenciesExchangeForm
+      .value as Partial<CurrencyExchangeRate>;
 
-    const { exchangeDate, exchangeRate, currencyId } =
-      this.addCurrenciesExchangeLookupsForm.value;
-    const payload: Partial<CurrencyExchangeRate> = { exchangeDate, exchangeRate, currencyId };
-    console.log('  → payload object:', payload);
-
-    // Double-check your route param
-    const routeId = this.route.snapshot.paramMap.get('id');
-    console.log('  route.snapshot.paramMap.get(clientId):', routeId);
-
-    if (this.editMode) {
-      const { id, exchangeDate, exchangeRate, currencyId } =
-        this.addCurrenciesExchangeLookupsForm.value;
-      const payload: CurrencyExchangeRate = {
-        id,
-        exchangeDate,
-        exchangeRate,
-        currencyId
-      };
-      console.log(
-        '🔄 Dispatching UPDATE id=',
-        this.clientId,
-        ' payload=',
-        payload
-      );
-      this.facade.update(id, payload);
+    if (this.mode === 'add') {
+      this.exchangeFacade.create(data);
     } else {
-      console.log('➕ Dispatching CREATE payload=', payload);
-      this.facade.create(payload);
+      this.exchangeFacade.update(idParam!, data);
     }
 
-    this.router.navigate(['/lookups/view-currency-exchange-rates']);
+    // Navigate back
+    this.router.navigate([
+      `/lookups/view-currency-exchange-rates/${this.parentCurrencyId}`,
+    ]);
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
-
-

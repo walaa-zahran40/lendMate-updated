@@ -33,18 +33,33 @@ export class CurrencyExchangeRatesService {
   }
 
   getById(id: number): Observable<CurrencyExchangeRate> {
-    return this.http.get<CurrencyExchangeRate>(`${this.api}/CurrencyExchangeRateId?id=${id}`);
+    return this.http.get<CurrencyExchangeRate>(
+      `${this.api}/CurrencyExchangeRateId?id=${id}`
+    );
   }
 
-  create(data: Partial<CurrencyExchangeRate>): Observable<CurrencyExchangeRate> {
-    return this.http.post<CurrencyExchangeRate>(`${this.api}/CreateCurrencyExchangeRate`, data);
+  create(
+    data: Partial<CurrencyExchangeRate>
+  ): Observable<CurrencyExchangeRate> {
+    return this.http.post<CurrencyExchangeRate>(
+      `${this.api}/CreateCurrencyExchangeRate`,
+      data
+    );
   }
 
-  update(id: number, data: Partial<CurrencyExchangeRate>): Observable<CurrencyExchangeRate> {
+  update(
+    id: number,
+    data: Partial<CurrencyExchangeRate>
+  ): Observable<CurrencyExchangeRate> {
     return this.http.put<CurrencyExchangeRate>(`${this.api}/${id}`, data);
   }
 
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.api}/${id}`);
+  }
+  getByCurrencyId(currencyId: number): Observable<CurrencyExchangeRate[]> {
+    return this.http.get<CurrencyExchangeRate[]>(
+      `${this.api}/GetByCurrencyId/${currencyId}`
+    );
   }
 }

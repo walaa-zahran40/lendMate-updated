@@ -7411,37 +7411,9 @@
       *ngIf="addCurrenciesExchangeLookupsForm"
       (ngSubmit)="onSubmit()"
     >
-      <label for="currencyId">Currency<sup class="danger">*</sup></label>
-      <!-- Select Box -->
-      <p-select
-        [options]="currencies"
-        optionLabel="name"
-        placeholder="Select Currency"
-        formControlName="currencyId"
-        optionValue="id"
-        required
-        [ngClass]="{
-          'ng-invalid':
-            formGroup.get('currencyId')?.invalid &&
-            (formGroup.get('currencyId')?.dirty ||
-              formGroup.get('currencyId')?.touched)
-        }"
-      ></p-select>
-
-      <div
-        *ngIf="
-          formGroup.get('currencyId')?.hasError('required') &&
-          formGroup.get('currencyId')?.touched
-        "
-        class="p-error"
-      >
-        Currency id is required.
-      </div>
-
       <!-- Date picker -->
       <label for="exchangeDate">Exchange Date<sup class="danger">*</sup></label>
       <p-datepicker
-        [(ngModel)]="date19"
         [iconDisplay]="'input'"
         [showIcon]="true"
         inputId="icondisplay"
@@ -7472,15 +7444,30 @@
       >
         Exchange Rate is required.
       </div>
-
+      <div class="p-field" for="isCurrent" *ngIf="editMode">
+        <p-toggleSwitch
+          id="isCurrent"
+          formControlName="isCurrent"
+          label="is Active"
+        ></p-toggleSwitch>
+        <label for="isCurrent"> Current</label>
+      </div>
+      <div class="p-field" for="isActive" *ngIf="editMode">
+        <p-toggleSwitch
+          id="isActive"
+          formControlName="isActive"
+          label="is Active"
+        ></p-toggleSwitch>
+        <label for="isActive"> Active</label>
+      </div>
       <div class="row justify-end">
         <div
           class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 subSectorsDiv"
-          *ngIf="!editMode"
+          *ngIf="!editMode && !viewOnly"
         >
           <p-button
             type="submit"
-            label="Add Currecny Exchange Rate"
+            label="Add Currency Exchange Rate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -7491,7 +7478,7 @@
         >
           <p-button
             type="submit"
-            label="Edit Currecny Exchange Rate"
+            label="Edit Currency Exchange Rate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -7502,7 +7489,7 @@
           <p-button
             label="Close"
             class="custom-save m-0 float-right"
-            (click)="router.navigate(['/lookups/view-currency-exchange-rates'])"
+            (click)="router.navigate([`/lookups/view-currency-exchange-rates/${this.currencyIdParam}`])"
           ></p-button>
         </div>
       </div>

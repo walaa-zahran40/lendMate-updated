@@ -2,7 +2,9 @@ import { createAction, props } from '@ngrx/store';
 import { CurrencyExchangeRate } from './currency-exchange-rate.model';
 
 // Load all
-export const loadCurrencyExchangeRates = createAction('[CurrencyExchangeRates] Load All');
+export const loadCurrencyExchangeRates = createAction(
+  '[CurrencyExchangeRates] Load All'
+);
 export const loadCurrencyExchangeRatesSuccess = createAction(
   '[CurrencyExchangeRates] Load All Success',
   props<{ items: CurrencyExchangeRate[]; totalCount: number }>()
@@ -78,5 +80,18 @@ export const deleteCurrencyExchangeRateSuccess = createAction(
 );
 export const deleteCurrencyExchangeRateFailure = createAction(
   '[CurrencyExchangeRates] Delete Failure',
+  props<{ error: any }>()
+);
+// Load by CurrencyId
+export const loadCurrencyExchangeRatesByCurrencyId = createAction(
+  '[CurrencyExchangeRates] Load By CurrencyId',
+  props<{ currencyId: number }>()
+);
+export const loadCurrencyExchangeRatesByCurrencyIdSuccess = createAction(
+  '[CurrencyExchangeRates] Load By CurrencyId Success',
+  props<{ items: CurrencyExchangeRate[] }>()
+);
+export const loadCurrencyExchangeRatesByCurrencyIdFailure = createAction(
+  '[CurrencyExchangeRates] Load By CurrencyId Failure',
   props<{ error: any }>()
 );
