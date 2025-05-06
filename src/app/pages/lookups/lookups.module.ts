@@ -277,6 +277,7 @@ import { reducer as productsReducer } from './store/products/products.reducer';
     ViewCallActionTypesComponent,
     ViewCommunicationFlowTypeComponent,
     ViewWorkFlowActionTypesComponent,
+    ViewProductsComponent
   ],
   imports: [
     CommonModule,

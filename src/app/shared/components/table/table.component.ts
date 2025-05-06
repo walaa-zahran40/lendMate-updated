@@ -133,6 +133,7 @@ export class TableComponent {
   @Input() viewClientGuarantorTable!: boolean;
   @Input() viewWorkFlowActionTypesLookupsTable!: boolean;
   @Input() viewDocTypesTable!: boolean;
+  @Input() viewProductsTable!: boolean;
   @Input() paginator: boolean = true;
   @Output() wizardBtn = new EventEmitter<void>();
   @Output() onEdit = new EventEmitter<any>();
