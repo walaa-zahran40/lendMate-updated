@@ -122,8 +122,8 @@ export class AddFeeTypesComponent {
         description,
         descriptionAR,
         feeCalculationTypeId,
-        defaultAmount: 0,
-        defaultPrecentage: 0,
+        defaultAmount,
+        defaultPrecentage,
         isActive
       };
       
