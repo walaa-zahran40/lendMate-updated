@@ -733,7 +733,7 @@ export class SideMenuComponent {
           {
             label: 'Governorates',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-governorates',
+            routerLink: '/lookups/view-Governorates',
           },
           {
             label: 'Identification Types',
