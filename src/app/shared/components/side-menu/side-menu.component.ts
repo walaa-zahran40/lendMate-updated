@@ -60,11 +60,11 @@ export class SideMenuComponent {
             icon: 'pi pi-user-plus',
             routerLink: '/crm/clients/view-client-guarantor',
           },
-          {
-            label: 'ClientIdentity',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-client-identity',
-          },
+          // {
+          //   label: 'ClientIdentity',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/crm/clients/view-client-identity-types',
+          // },
           // {
           //   label: 'ClientIndividualBusinessDetail',
           //   icon: 'pi pi-user-plus',
@@ -393,7 +393,7 @@ export class SideMenuComponent {
           {
             label: 'SubSector',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-sub-sector',
+            routerLink: '/lookups/view-sub-sectors',
           },
           {
             label: 'Tenants CRUD',
@@ -653,15 +653,15 @@ export class SideMenuComponent {
             routerLink: '/lookups/view-client-types',
           },
           {
-            label: 'ClientDocumentType',
+            label: 'DocumentType',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-client-document-types',
+            routerLink: '/lookups/view-document-types',
           },
-          {
-            label: 'MandatePaymentSetting',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-client-typess',
-          },
+          // {
+          //   label: 'MandatePaymentSetting',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/lookups/view-mandate-payment-settings',
+          // },
           {
             label: 'AddressType',
             icon: 'pi pi-user-plus',
@@ -682,26 +682,26 @@ export class SideMenuComponent {
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-asset-type-categories',
           },
-          {
-            label: 'AuthorizationGroup',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-asset-type-categories',
-          },
+          // {
+          //   label: 'AuthorizationGroup',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/lookups/view-authorization-group',
+          // },
           {
             label: 'CallActionType',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-call-action-type',
+            routerLink: '/lookups/view-call-action-types',
           },
           {
             label: 'CallType',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-call-types',
           },
-          {
-            label: 'ClientIdentityType',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-calls-types',
-          },
+          // {
+          //   label: 'ClientIdentityType',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/lookups/view-calls-types',
+          // },
           {
             label: 'ClientType',
             icon: 'pi pi-user-plus',
@@ -710,7 +710,7 @@ export class SideMenuComponent {
           {
             label: 'CommunicationFlowType',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-communication-flow-type',
+            routerLink: '/lookups/view-communication-flow-types',
           },
           {
             label: 'CommunicationType',
@@ -722,16 +722,16 @@ export class SideMenuComponent {
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-company-types',
           },
-          {
-            label: 'Condition',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-commsunication-types',
-          },
-          {
-            label: 'ConditionExpression',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-commsunication-types',
-          },
+          // {
+          //   label: 'Condition',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/lookups/view-commsunication-types',
+          // },
+          // {
+          //   label: 'ConditionExpression',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/lookups/view-commsunication-types',
+          // },
           {
             label: 'Country',
             icon: 'pi pi-user-plus',
@@ -745,7 +745,7 @@ export class SideMenuComponent {
           {
             label: 'CurrencyExchangeRate',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-currency-exchange-rate',
+            routerLink: '/lookups/view-currency-exchange-rates',
           },
           {
             label: 'FollowUpType',
@@ -781,7 +781,7 @@ export class SideMenuComponent {
           {
             label: 'LeasingType',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-leasing-type',
+            routerLink: '/lookups/view-leasing-types',
           },
           {
             label: 'MandateValidityUnit',
@@ -793,11 +793,11 @@ export class SideMenuComponent {
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-meeting-types',
           },
-          {
-            label: 'NotificationGroup',
-            icon: 'pi pi-user-plus',
-            routerLink: '/ssss',
-          },
+          // {
+          //   label: 'NotificationGroup',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/ssss',
+          // },
           {
             label: 'PaymentMethod',
             icon: 'pi pi-user-plus',
@@ -808,11 +808,11 @@ export class SideMenuComponent {
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-payment-month-days',
           },
-          {
-            label: 'PaymentPeriod',
-            icon: 'pi pi-user-plus',
-            routerLink: '/ssss',
-          },
+          // {
+          //   label: 'PaymentPeriod',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/lookups/view-payment-periods',
+          // },
           {
             label: 'PaymentTimingTerm',
             icon: 'pi pi-user-plus',
@@ -828,16 +828,16 @@ export class SideMenuComponent {
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-phone-types',
           },
-          {
-            label: 'Property',
-            icon: 'pi pi-user-plus',
-            routerLink: '/sssssss',
-          },
-          {
-            label: 'PropertyType',
-            icon: 'pi pi-user-plus',
-            routerLink: '/sssss',
-          },
+          // {
+          //   label: 'Property',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/sssssss',
+          // },
+          // {
+          //   label: 'PropertyType',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/sssss',
+          // },
           {
             label: 'RentStructureType',
             icon: 'pi pi-user-plus',
