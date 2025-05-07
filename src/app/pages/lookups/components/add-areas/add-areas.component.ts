@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, tap, filter, take } from 'rxjs';
+import { Observable, tap, filter, take, distinctUntilChanged } from 'rxjs';
 import { loadAll } from '../../store/sectors/sectors.actions';
 import { Area } from '../../store/areas/area.model';
 import { AreasFacade } from '../../store/areas/areas.facade';
@@ -90,7 +90,7 @@ export class AddAreasComponent {
             tap((ct) =>
               console.log('🔵 selected$ passed filter, patching form with:', ct)
             ),
-            take(1)
+            distinctUntilChanged((prev, curr) => prev.id === curr.id)
           )
           .subscribe((ct) => {
             this.addAreasLookupsForm.patchValue({
@@ -178,6 +178,8 @@ export class AddAreasComponent {
     }
 
     console.log('🧭 Navigating away to view-grace-periods');
-    this.router.navigate(['/lookups/view-areas']);
+    setTimeout(() => {
+      this.router.navigate(['/lookups/view-areas']);
+    }, 1000);
   }
 }

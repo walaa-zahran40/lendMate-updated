@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { filter, take } from 'rxjs';
+import { distinctUntilChanged, filter, take } from 'rxjs';
 import { arabicOnlyValidator } from '../../../../shared/validators/arabic-only.validator';
 import { AddressType } from '../../store/address-types/address-types.model';
 import { AddressTypesFacade } from '../../store/address-types/address-types.facade';
@@ -50,13 +50,17 @@ export class AddAddressTypesComponent {
         }
 
         // 3. load the existing record & patch the form
+        // this.facade.loadById(this.clientId);
         this.facade.loadById(this.clientId);
+        // setTimeout(() => {
+        // }, 2000);
         this.facade.selected$
           .pipe(
             filter((ct) => !!ct),
-            take(1)
+            distinctUntilChanged((prev, curr) => prev.id === curr.id)
           )
           .subscribe((ct) => {
+            console.log(ct);
             this.addAddressTypesLookupsForm.patchValue({
               id: ct!.id,
               name: ct!.name,
@@ -125,8 +129,10 @@ export class AddAddressTypesComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
-
+    this.addAddressTypesLookupsForm.reset;
+    setTimeout(() => {
+      this.router.navigate(['/lookups/view-address-types']);
+    }, 1000);
     console.log('🧭 Navigating away to view-address-types');
-    this.router.navigate(['/lookups/view-address-types']);
   }
 }
