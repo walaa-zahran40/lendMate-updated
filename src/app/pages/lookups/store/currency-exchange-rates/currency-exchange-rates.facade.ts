@@ -44,8 +44,16 @@ export class CurrencyExchangeRatesFacade {
   update(id: any, data: Partial<CurrencyExchangeRate>) {
     this.store.dispatch(Actions.updateCurrencyExchangeRate({ id, data }));
   }
-  delete(id: number) {
-    this.store.dispatch(Actions.deleteCurrencyExchangeRate({ id }));
+  /** NEW: dispatch the by-currencyId loader */
+  loadCurrencyExchangeRatesByCurrencyId(currencyId: any) {
+    this.store.dispatch(
+      Actions.loadCurrencyExchangeRatesByCurrencyId({ currencyId })
+    );
+  }
+
+  /** UPDATED: now expects both id & parent currencyId */
+  delete(id: number, currencyId: number) {
+    this.store.dispatch(Actions.deleteCurrencyExchangeRate({ id, currencyId }));
   }
   loadByCurrencyId(currencyId: number) {
     this.store.dispatch(

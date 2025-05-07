@@ -69,19 +69,6 @@ export const updateCurrencyExchangeRateFailure = createAction(
   props<{ error: any }>()
 );
 
-// Delete
-export const deleteCurrencyExchangeRate = createAction(
-  '[CurrencyExchangeRates] Delete',
-  props<{ id: number }>()
-);
-export const deleteCurrencyExchangeRateSuccess = createAction(
-  '[CurrencyExchangeRates] Delete Success',
-  props<{ id: number }>()
-);
-export const deleteCurrencyExchangeRateFailure = createAction(
-  '[CurrencyExchangeRates] Delete Failure',
-  props<{ error: any }>()
-);
 // Load by CurrencyId
 export const loadCurrencyExchangeRatesByCurrencyId = createAction(
   '[CurrencyExchangeRates] Load By CurrencyId',
@@ -93,5 +80,18 @@ export const loadCurrencyExchangeRatesByCurrencyIdSuccess = createAction(
 );
 export const loadCurrencyExchangeRatesByCurrencyIdFailure = createAction(
   '[CurrencyExchangeRates] Load By CurrencyId Failure',
+  props<{ error: any }>()
+);
+//Delete
+export const deleteCurrencyExchangeRate = createAction(
+  '[CurrencyExchangeRates] Delete',
+  props<{ id: number; currencyId: number }>()
+);
+export const deleteCurrencyExchangeRateSuccess = createAction(
+  '[CurrencyExchangeRates] Delete Success',
+  props<{ id: number; currencyId: number }>()
+);
+export const deleteCurrencyExchangeRateFailure = createAction(
+  '[CurrencyExchangeRates] Delete Failure',
   props<{ error: any }>()
 );

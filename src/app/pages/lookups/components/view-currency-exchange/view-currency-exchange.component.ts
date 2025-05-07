@@ -1,8 +1,8 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CurrencyExchange } from '../../../../shared/interfaces/currency-exchange.interface';
 import { CurrencyExchangeRate } from '../../store/currency-exchange-rates/currency-exchange-rate.model';
 import { TableComponent } from '../../../../shared/components/table/table.component';
-import { combineLatest, map, Observable, Subject, takeUntil } from 'rxjs';
+import { combineLatest, map, Observable, Subject, takeUntil, tap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CurrencyExchangeRatesFacade } from '../../store/currency-exchange-rates/currency-exchange-rates.facade';
 
@@ -12,13 +12,13 @@ import { CurrencyExchangeRatesFacade } from '../../store/currency-exchange-rates
   templateUrl: './view-currency-exchange.component.html',
   styleUrl: './view-currency-exchange.component.scss',
 })
-export class ViewCurrencyExchangeComponent {
+export class ViewCurrencyExchangeComponent implements OnInit, OnDestroy {
   tableDataInside: CurrencyExchangeRate[] = [];
   first2 = 0;
   rows = 10;
   showFilters = false;
   private destroy$ = new Subject<void>();
-  currencyIdParam!: number;
+  currencyIdParam!: any;
 
   @ViewChild('tableRef') tableRef!: TableComponent;
 
@@ -45,26 +45,43 @@ export class ViewCurrencyExchangeComponent {
     this.currencyIdParam = Number(
       this.route.snapshot.paramMap.get('currencyId')
     );
+    console.log('[View] ngOnInit → currencyIdParam =', this.currencyIdParam);
 
-    // 2) kick off the load
-    // 3) point your Observable at the facade
-
-    this.facade.loadByCurrencyId(this.currencyIdParam);
+    // 2) dispatch the load
+    this.facade.loadCurrencyExchangeRatesByCurrencyId({
+      currencyId: this.currencyIdParam,
+    });
+    // 3) hook up the stream
     this.currencyExchangeRates$ = this.facade.items$;
 
-    // 4) now pipe + filter + subscribe
     this.currencyExchangeRates$
       .pipe(
         takeUntil(this.destroy$),
+
+        // log raw array coming from the facade
+        tap((rawList) =>
+          console.log('[View] facade.items$ rawList =', rawList)
+        ),
+
+        // your transform
         map((list) =>
           list
             .map((r) => ({ ...r, currency: r.currency?.name || '—' }))
             .sort((a, b) => b.id - a.id)
+        ),
+
+        // log after mapping + sorting
+        tap((formatted) =>
+          console.log('[View] after map+sort formatted =', formatted)
         )
       )
       .subscribe((formatted) => {
         this.filteredCurrencyExchangeRates = formatted;
         this.originalCurrencyExchangeRates = formatted;
+        console.log(
+          '[View] subscribe → filteredCurrencyExchangeRates =',
+          this.filteredCurrencyExchangeRates
+        );
       });
   }
 
@@ -91,15 +108,11 @@ export class ViewCurrencyExchangeComponent {
   }
 
   confirmDelete() {
-    console.log(
-      '[View] confirmDelete() – about to dispatch delete for id=',
-      this.selectedCurrencyExchangeRateId
-    );
-    if (this.selectedCurrencyExchangeRateId !== null) {
-      this.facade.delete(this.selectedCurrencyExchangeRateId);
-      console.log('[View] confirmDelete() – facade.delete() called');
-    } else {
-      console.warn('[View] confirmDelete() – no id to delete');
+    if (this.selectedCurrencyExchangeRateId != null) {
+      this.facade.delete(
+        this.selectedCurrencyExchangeRateId,
+        this.currencyIdParam
+      );
     }
     this.resetDeleteModal();
   }

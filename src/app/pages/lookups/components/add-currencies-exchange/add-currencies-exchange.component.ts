@@ -83,6 +83,7 @@ export class AddCurrenciesExchangeComponent implements OnInit, OnDestroy {
           filter((rec) => !!rec)
         )
         .subscribe((rec) => {
+          console.log('red', rec);
           this.addCurrenciesExchangeForm.patchValue({
             id: rec.id,
             currencyId: this.parentCurrencyId,
@@ -98,6 +99,8 @@ export class AddCurrenciesExchangeComponent implements OnInit, OnDestroy {
   addOrEditCurrencyExchangeRate() {
     console.log('route', this.route.snapshot);
     const idParam = this.route.snapshot.params['id'];
+    const currencyParam = this.route.snapshot.queryParams['currencyId'];
+    console.log('currency param ', currencyParam, 'id param', idParam);
     if (this.viewOnly) {
       return;
     }
@@ -108,16 +111,16 @@ export class AddCurrenciesExchangeComponent implements OnInit, OnDestroy {
 
     const data = this.addCurrenciesExchangeForm
       .value as Partial<CurrencyExchangeRate>;
-
+    console.log('data', data);
     if (this.mode === 'add') {
       this.exchangeFacade.create(data);
     } else {
-      this.exchangeFacade.update(idParam!, data);
+      this.exchangeFacade.update(data.id!, data);
     }
 
     // Navigate back
     this.router.navigate([
-      `/lookups/view-currency-exchange-rates/${this.parentCurrencyId}`,
+      `/lookups/view-currency-exchange-rates/${currencyParam}`,
     ]);
   }
 

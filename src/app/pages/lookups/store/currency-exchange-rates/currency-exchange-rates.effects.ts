@@ -4,6 +4,7 @@ import { mergeMap, map, catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as CurrencyExchangeRateActions from './currency-exchange-rates.actions';
 import { CurrencyExchangeRatesService } from './currency-exchange-rates.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Injectable()
 export class CurrencyExchangeRatesEffects {
@@ -123,11 +124,12 @@ export class CurrencyExchangeRatesEffects {
   delete$ = createEffect(() =>
     this.actions$.pipe(
       ofType(CurrencyExchangeRateActions.deleteCurrencyExchangeRate),
-      mergeMap(({ id }) =>
+      mergeMap(({ id, currencyId }) =>
         this.service.delete(id).pipe(
           map(() =>
             CurrencyExchangeRateActions.deleteCurrencyExchangeRateSuccess({
               id,
+              currencyId,
             })
           ),
           catchError((error) =>
@@ -142,65 +144,53 @@ export class CurrencyExchangeRatesEffects {
     )
   );
 
+  // After any create/update/delete success: reload by currencyId
   refreshList$ = createEffect(() =>
     this.actions$.pipe(
       ofType(
         CurrencyExchangeRateActions.createCurrencyExchangeRateSuccess,
-        CurrencyExchangeRateActions.updateCurrencyExchangeRateSuccess
+        CurrencyExchangeRateActions.updateCurrencyExchangeRateSuccess,
+        CurrencyExchangeRateActions.deleteCurrencyExchangeRateSuccess
       ),
-
-      // 🔍 Log the raw success action
-      tap((action) =>
-        console.log('[Effect][refreshList$] success action payload:', action)
-      ),
-
-      map(({ currency }) => {
-        // extract the nested id
-        const parentId = currency.currency?.currencyId;
-        console.log('[Effect][refreshList$] derived currencyId:', parentId);
-
+      map((action) => {
+        // action is one of:
+        //  - { currency: CurrencyExchangeRate }  (create/update)
+        //  - { id: number; currencyId: number }  (delete)
+        const currencyId =
+          'currency' in action
+            ? action.currency.currencyId!
+            : action.currencyId;
         return CurrencyExchangeRateActions.loadCurrencyExchangeRatesByCurrencyId(
-          {
-            currencyId: parentId,
-          }
+          { currencyId }
         );
       })
     )
   );
 
+  // The “by-currencyId” loader
   loadByCurrencyId$ = createEffect(() =>
     this.actions$.pipe(
       ofType(CurrencyExchangeRateActions.loadCurrencyExchangeRatesByCurrencyId),
-
-      // log the incoming action
       tap(({ currencyId }) =>
-        console.log(
-          '[Effect] loadCurrencyExchangeRatesByCurrencyId → currencyId=',
-          currencyId
-        )
+        console.log('[Effect] loadByCurrencyId →', currencyId)
       ),
-
       mergeMap(({ currencyId }) =>
         this.service.getByCurrencyId(currencyId).pipe(
-          // log the raw HTTP response
           tap((items) =>
-            console.log('[Effect] getByCurrencyId response items=', items)
+            console.log('[Effect] getByCurrencyId response:', items)
           ),
-
           map((items) =>
             CurrencyExchangeRateActions.loadCurrencyExchangeRatesByCurrencyIdSuccess(
               { items }
             )
           ),
-
-          catchError((error) => {
-            console.error('[Effect] getByCurrencyId ERROR', error);
-            return of(
+          catchError((error) =>
+            of(
               CurrencyExchangeRateActions.loadCurrencyExchangeRatesByCurrencyIdFailure(
                 { error }
               )
-            );
-          })
+            )
+          )
         )
       )
     )
