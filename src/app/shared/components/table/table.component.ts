@@ -75,8 +75,8 @@ export class TableComponent {
   @Input() viewCalculationsTable!: boolean;
   @Input() viewManageMandateTermsTable!: boolean;
   @Input() viewClientTypesTable!: boolean;
-  @Input() viewLegalFormTable!: boolean;
-  @Input() viewLegalFormLawTable!: boolean;
+  @Input() viewLegalFormLawsTable!: boolean;
+  @Input() viewLegalFormsTable!: boolean;
   @Input() viewFeeCalculationTypesTable!: boolean;
   @Input() viewBranchOfficersTable!: boolean;
   @Input() viewCompanyTypesTable!: boolean;

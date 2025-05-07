@@ -341,7 +341,7 @@
       class="custom-view m-0 float-right"
     />
     <p-button
-      *ngIf="addLegalsLegalForm"
+      *ngIf="addLegalFormsForm"
       icon="pi pi-cog"
       iconPos="left"
       label="View Legal Form"
@@ -349,7 +349,7 @@
       class="custom-view m-0 float-right"
     />
     <p-button
-      *ngIf="addLegalsLegalFormLaw"
+      *ngIf="addLegalFormLawsForm"
       icon="pi pi-cog"
       iconPos="left"
       label="View Legal Form Law"
@@ -6275,64 +6275,179 @@
       </div>
     </form>
     <!--Legals Forms-->
-    <form action="" *ngIf="addLegalsLegalForm">
-      <label for="legalLawCode">Legal Law Code<sup>*</sup></label>
-      <input
-        pInputText
-        id="legalLawCode"
-        aria-describedby="legalLawCode-help"
-        name="legalLawCode"
-        placeholder="Enter Name"
-      />
-      <label for="legalLawNameEnglish"
-        >Legal Law Name English<sup>*</sup></label
+    <form
+    [formGroup]="formGroup"
+    *ngIf="addLegalFormsForm"
+    (ngSubmit)="onSubmit()"
+  >
+    <label for="name">Name in English<sup>*</sup></label>
+    <input pInputText id="name" formControlName="name" placeholder="Type" />
+    <div
+      *ngIf="
+        formGroup.get('name')?.hasError('required') &&
+        formGroup.get('name')?.touched
+      "
+      class="p-error"
+    >
+      Name in English is required.
+    </div>
+
+    <label for="nameAR">Name in Arabic<sup>*</sup></label>
+    <input
+      pInputText
+      id="nameAR"
+      formControlName="nameAR"
+      placeholder="Type"
+    />
+    <div
+      *ngIf="
+        formGroup.get('nameAR')?.hasError('required') &&
+        formGroup.get('nameAR')?.touched
+      "
+      class="p-error"
+    >
+      Name in Arabic is required.
+    </div>
+    <div
+      *ngIf="
+        formGroup.get('nameAR')?.hasError('pattern') &&
+        formGroup.get('nameAR')?.touched
+      "
+      class="p-error"
+    >
+      Please enter only Arabic letters.
+    </div>
+ 
+    
+    <div class="p-field" for="isActive" *ngIf="editMode">
+      <p-toggleSwitch
+        id="isActive"
+        formControlName="isActive"
+        label="is Active"
+      ></p-toggleSwitch>
+      <label for="isActive"> Active</label>
+    </div>
+    <div class="row justify-end">
+      <div
+        class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 currenciesDiv"
+        *ngIf="!editMode"
       >
-      <input
-        pInputText
-        id="legalLawNameEnglish"
-        aria-describedby="legalLawNameEnglish-help"
-        name="legalLawNameEnglish"
-        placeholder="Enter Name"
-      />
-      <label for="legalLawNameArabic">Legal Law Name Arabic<sup>*</sup></label>
-      <input
-        pInputText
-        id="legalLawNameArabic"
-        aria-describedby="legalLawNameArabic-help"
-        name="legalLawNameArabic"
-        placeholder="Enter Name"
-      />
-    </form>
-    <form action="" *ngIf="addLegalsLegalFormLaw">
-      <label for="legalLawCodeLegalLaw">Legal Law Code<sup>*</sup></label>
-      <input
-        pInputText
-        id="legalLawCodeLegalLaw"
-        aria-describedby="legalLawCodeLegalLaw-help"
-        name="legalLawCodeLegalLaw"
-        placeholder="Enter Name"
-      />
-      <label for="legalLawNameEnglishLegalLaw"
-        >Legal Law Name English<sup>*</sup></label
+        <p-button
+          type="submit"
+          label="Add Legal Form"
+          [disabled]="formGroup.invalid"
+          class="custom-save m-0 float-right"
+        ></p-button>
+      </div>
+      <div
+        class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+        *ngIf="editMode && !viewOnly"
       >
-      <input
-        pInputText
-        id="legalLawNameEnglishLegalLaw"
-        aria-describedby="legalLawNameEnglishLegalLaw-help"
-        name="legalLawNameEnglishLegalLaw"
-        placeholder="Enter Name"
-      />
-      <label for="legalLawNameArabicLegalLaw"
-        >Legal Law Name Arabic<sup>*</sup></label
+        <p-button
+          type="submit"
+          label="Edit Legal Form"
+          class="custom-save m-0 float-right"
+        ></p-button>
+      </div>
+      <div
+        *ngIf="viewOnly"
+        class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
       >
-      <input
-        pInputText
-        id="legalLawNameArabicLegalLaw"
-        aria-describedby="legalLawNameArabicLegalLaw-help"
-        name="legalLawNameArabicLegalLaw"
-        placeholder="Enter Name"
-      />
-    </form>
+        <p-button
+          label="Close"
+          class="custom-save m-0 float-right"
+          (click)="router.navigate(['/legals/view-legal-forms'])"
+        />
+      </div>
+    </div>
+  </form>
+
+    <form
+    [formGroup]="formGroup"
+    *ngIf="addLegalFormLawsForm"
+    (ngSubmit)="onSubmit()"
+  >
+    <label for="name">Name in English<sup>*</sup></label>
+    <input pInputText id="name" formControlName="name" placeholder="Type" />
+    <div
+      *ngIf="
+        formGroup.get('name')?.hasError('required') &&
+        formGroup.get('name')?.touched
+      "
+      class="p-error"
+    >
+      Name in English is required.
+    </div>
+
+    <label for="nameAR">Name in Arabic<sup>*</sup></label>
+    <input
+      pInputText
+      id="nameAR"
+      formControlName="nameAR"
+      placeholder="Type"
+    />
+    <div
+      *ngIf="
+        formGroup.get('nameAR')?.hasError('required') &&
+        formGroup.get('nameAR')?.touched
+      "
+      class="p-error"
+    >
+      Name in Arabic is required.
+    </div>
+    <div
+      *ngIf="
+        formGroup.get('nameAR')?.hasError('pattern') &&
+        formGroup.get('nameAR')?.touched
+      "
+      class="p-error"
+    >
+      Please enter only Arabic letters.
+    </div>
+ 
+    
+    <div class="p-field" for="isActive" *ngIf="editMode">
+      <p-toggleSwitch
+        id="isActive"
+        formControlName="isActive"
+        label="is Active"
+      ></p-toggleSwitch>
+      <label for="isActive"> Active</label>
+    </div>
+    <div class="row justify-end">
+      <div
+        class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 currenciesDiv"
+        *ngIf="!editMode"
+      >
+        <p-button
+          type="submit"
+          label="Add Legal Form Law"
+          [disabled]="formGroup.invalid"
+          class="custom-save m-0 float-right"
+        ></p-button>
+      </div>
+      <div
+        class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+        *ngIf="editMode && !viewOnly"
+      >
+        <p-button
+          type="submit"
+          label="Edit Legal Form law"
+          class="custom-save m-0 float-right"
+        ></p-button>
+      </div>
+      <div
+        *ngIf="viewOnly"
+        class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+      >
+        <p-button
+          label="Close"
+          class="custom-save m-0 float-right"
+          (click)="router.navigate(['/legals/view-legal-form-laws'])"
+        />
+      </div>
+    </div>
+  </form>
 
     <form
       [formGroup]="formGroup"

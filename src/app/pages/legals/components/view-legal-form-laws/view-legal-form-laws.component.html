@@ -1,0 +1,41 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Legal Form Laws'"
+    [labelBtn]="'Add Legal Form Law'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddLegalFormLaw()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="legalFormLaws$ | async as legalFormLaws">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredLegalFormLaws"
+      [edit]="true"
+      [delete]="true"
+      [side]="true"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewLegalFormLawsTable]="true"
+      (onDelete)="onDeleteLegalFormLaw($event)"
+      (onEdit)="onEditLegalFormLaw($event)"
+      (viewForm)="onViewLegalFormLaw($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

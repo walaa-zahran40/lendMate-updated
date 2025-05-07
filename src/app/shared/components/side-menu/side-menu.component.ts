@@ -465,12 +465,12 @@ export class SideMenuComponent {
           {
             label: 'LegalForm',
             icon: 'pi pi-user-plus',
-            routerLink: '/legals/view-legal-form',
+            routerLink: '/legals/view-legal-forms',
           },
           {
             label: 'LegalFormLaw',
             icon: 'pi pi-user-plus',
-            routerLink: '/legals/view-legal-form-law',
+            routerLink: '/legals/view-legal-form-laws',
           },
           {
             label: 'CRAuthorityOffice',
