@@ -302,7 +302,10 @@ const routes: Routes = [
     path: 'edit-currency-exchange-rates/:id',
     component: AddCurrenciesExchangeComponent,
   },
-
+  {
+    path: 'view-currency-exchange-rates',
+    component: ViewCurrencyExchangeComponent,
+  },
   {
     path: 'view-currency-exchange-rates/:currencyId',
     component: ViewCurrencyExchangeComponent,
@@ -647,11 +650,11 @@ const routes: Routes = [
   },
 
   {
-    path: 'add-governorates',
+    path: 'add-Governorates',
     component: AddGovernoratesComponent,
   },
   {
-    path: 'edit-governorates/:id',
+    path: 'edit-Governorates/:id',
     component: AddGovernoratesComponent,
   },
   {
@@ -718,7 +721,7 @@ const routes: Routes = [
   },
 
   {
-    path: 'view-governorates',
+    path: 'view-Governorates',
     component: ViewGovernoratesComponent,
   },
   {
