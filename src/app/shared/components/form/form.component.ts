@@ -503,8 +503,9 @@ export class FormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    console.log('currency', this.route.snapshot);
     this.id = this.route.snapshot.paramMap.get('clientId')!;
-    this.currencyIdParam = this.route.snapshot.paramMap.get('currencyId')!;
+    this.currencyIdParam = this.route.snapshot.queryParams['currencyId'];
 
     this.sub = this.formGroup?.valueChanges
       .pipe(debounceTime(300))
@@ -894,7 +895,9 @@ export class FormComponent implements OnInit, OnDestroy {
   }
 
   viewCurrencyExchange() {
-    this.router.navigate(['/lookups/view-currency-exchange-rates']);
+    this.router.navigate([
+      `/lookups/view-currency-exchange-rates/${this.currencyIdParam}`,
+    ]);
   }
   viewCurrencies() {
     this.router.navigate(['/lookups/view-currencies']);

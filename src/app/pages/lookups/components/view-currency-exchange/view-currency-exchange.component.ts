@@ -42,15 +42,18 @@ export class ViewCurrencyExchangeComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // 1) grab the param
-    this.currencyIdParam = Number(
-      this.route.snapshot.paramMap.get('currencyId')
-    );
+    const raw = this.route.snapshot.paramMap.get('currencyId');
+    this.currencyIdParam = raw !== null ? Number(raw) : undefined;
     console.log('[View] ngOnInit → currencyIdParam =', this.currencyIdParam);
-
-    // 2) dispatch the load
-    this.facade.loadCurrencyExchangeRatesByCurrencyId({
-      currencyId: this.currencyIdParam,
-    });
+    // 2) guard: if missing or NaN, error out
+    if (this.currencyIdParam == null || isNaN(this.currencyIdParam)) {
+      console.error(
+        '❌ Missing or invalid currencyIdParam! Cannot load exchange rates.'
+      );
+      return;
+    }
+    // 2) dispatch the load (CORRECT: pass the number directly)
+    this.facade.loadCurrencyExchangeRatesByCurrencyId(this.currencyIdParam);
     // 3) hook up the stream
     this.currencyExchangeRates$ = this.facade.items$;
 

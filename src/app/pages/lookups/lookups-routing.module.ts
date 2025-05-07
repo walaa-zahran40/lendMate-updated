@@ -302,14 +302,12 @@ const routes: Routes = [
     path: 'edit-currency-exchange-rates/:id',
     component: AddCurrenciesExchangeComponent,
   },
-  {
-    path: 'view-currency-exchange-rates',
-    component: ViewCurrencyExchangeComponent,
-  },
+
   {
     path: 'view-currency-exchange-rates/:currencyId',
     component: ViewCurrencyExchangeComponent,
   },
+
   //Asset mandate status
   {
     path: 'add-mandate-statuses',

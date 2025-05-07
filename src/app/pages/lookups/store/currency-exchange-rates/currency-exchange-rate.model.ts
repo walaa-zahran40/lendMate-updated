@@ -6,4 +6,5 @@ export interface CurrencyExchangeRate {
   exchangeDate: Date;
   isCurrent?: boolean;
   isActive?: boolean;
+  currencyExchangeRates?: boolean;
 }

@@ -45,7 +45,14 @@ export class CurrencyExchangeRatesFacade {
     this.store.dispatch(Actions.updateCurrencyExchangeRate({ id, data }));
   }
   /** NEW: dispatch the by-currencyId loader */
-  loadCurrencyExchangeRatesByCurrencyId(currencyId: any) {
+  loadCurrencyExchangeRatesByCurrencyId(currencyId?: number) {
+    if (currencyId == null || isNaN(currencyId)) {
+      console.error(
+        '❌ Facade.loadCurrencyExchangeRatesByCurrencyId called with invalid id:',
+        currencyId
+      );
+      return;
+    }
     this.store.dispatch(
       Actions.loadCurrencyExchangeRatesByCurrencyId({ currencyId })
     );

@@ -97,31 +97,65 @@ export class AddCurrenciesExchangeComponent implements OnInit, OnDestroy {
   }
 
   addOrEditCurrencyExchangeRate() {
-    console.log('route', this.route.snapshot);
-    const idParam = this.route.snapshot.params['id'];
-    const currencyParam = this.route.snapshot.queryParams['currencyId'];
-    console.log('currency param ', currencyParam, 'id param', idParam);
+    // 1) Log the full ActivatedRoute snapshot
+    console.log('🛣️ Route snapshot:', this.route.snapshot);
+
+    // 2) Extract both paramMap and queryParamMap in parallel
+    const idParam = this.route.snapshot.paramMap.get('id');
+    const currencyParamQP = this.route.snapshot.queryParamMap.get('currencyId');
+
+    console.log(`🔍 QueryParams → currencyId = ${currencyParamQP}`);
+
+    // 3) Log the component’s mode flags
+    console.log(
+      `⚙️ mode = ${this.mode}, editMode = ${this.editMode}, viewOnly = ${this.viewOnly}`
+    );
+
+    // 4) Early return in view-only
     if (this.viewOnly) {
+      console.warn('🚫 viewOnly mode — aborting submit');
       return;
     }
+
+    // 5) Form validity
     if (this.addCurrenciesExchangeForm.invalid) {
+      console.warn('❌ Form is invalid → marking all touched');
       this.addCurrenciesExchangeForm.markAllAsTouched();
       return;
     }
 
+    // 6) The actual payload
     const data = this.addCurrenciesExchangeForm
       .value as Partial<CurrencyExchangeRate>;
-    console.log('data', data);
+    console.log('📦 Payload going to facade:', data);
+
+    // 7) Create vs. update
     if (this.mode === 'add') {
+      console.log('➕ Dispatching CREATE');
       this.exchangeFacade.create(data);
     } else {
+      console.log('✏️ Dispatching UPDATE id=', data.id);
       this.exchangeFacade.update(data.id!, data);
     }
 
-    // Navigate back
-    this.router.navigate([
-      `/lookups/view-currency-exchange-rates/${currencyParam}`,
-    ]);
+    // 8) Navigate back: try both query-param and path-param approaches
+    if (currencyParamQP) {
+      console.log('➡️ Navigating back with PATH param:', currencyParamQP);
+      this.router.navigate([
+        '/lookups/view-currency-exchange-rates',
+        currencyParamQP,
+      ]);
+    } else if (currencyParamQP) {
+      console.log(
+        '➡️ Navigating back with QUERY param fallback:',
+        currencyParamQP
+      );
+      this.router.navigate([
+        `/lookups/view-currency-exchange-rates/${currencyParamQP}`,
+      ]);
+    } else {
+      console.error('❌ Cannot navigate back: currencyId is missing!');
+    }
   }
 
   ngOnDestroy() {
