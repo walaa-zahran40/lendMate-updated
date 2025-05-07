@@ -662,21 +662,7 @@ export class SideMenuComponent {
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-branches',
           },
-          {
-            label: 'Branch Addresses',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-branch-addresses',
-          },
-          {
-            label: 'Branch Managers',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-branch-managers',
-          },
-          {
-            label: 'Branch Officers',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-branch-officers',
-          },
+
           {
             label: 'Business Lines',
             icon: 'pi pi-user-plus',
@@ -697,11 +683,7 @@ export class SideMenuComponent {
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-client-statuses',
           },
-          {
-            label: 'Client Status Actions',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-client-status-actions',
-          },
+
           {
             label: 'Client Types',
             icon: 'pi pi-user-plus',
@@ -732,11 +714,7 @@ export class SideMenuComponent {
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-currencies',
           },
-          {
-            label: 'Currency Exchange',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-currency-exchange-rates',
-          },
+
           {
             label: 'Document Types',
             icon: 'pi pi-user-plus',
