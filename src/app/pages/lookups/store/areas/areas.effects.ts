@@ -4,6 +4,7 @@ import { AreasService } from './areas.service';
 import * as ActionsList from './areas.actions';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
 import { Area } from './area.model';
+import { EntityNames } from '../../../../shared/constants/entity-names';
 
 @Injectable()
 export class AreasEffects {
@@ -62,10 +63,15 @@ export class AreasEffects {
     this.actions$.pipe(
       ofType(ActionsList.createEntity),
       mergeMap(({ payload }) => {
-        // payload is Partial<Omit<Area,'id'>>, but our service needs the full DTO shape
         const dto = payload as Omit<Area, 'id'>;
         return this.svc.create(dto).pipe(
-          map((entity) => ActionsList.createEntitySuccess({ entity })),
+          mergeMap((entity) => [
+            ActionsList.createEntitySuccess({ entity }),
+            ActionsList.entityOperationSuccess({
+              entity: EntityNames.Area,
+              operation: 'create',
+            }),
+          ]),
           catchError((error) => of(ActionsList.createEntityFailure({ error })))
         );
       })
@@ -77,7 +83,13 @@ export class AreasEffects {
       ofType(ActionsList.updateEntity),
       mergeMap(({ id, changes }) =>
         this.svc.update(id, changes).pipe(
-          map(() => ActionsList.updateEntitySuccess({ id, changes })),
+          mergeMap(() => [
+            ActionsList.updateEntitySuccess({ id, changes }),
+            ActionsList.entityOperationSuccess({
+              entity: EntityNames.Area,
+              operation: 'update',
+            }),
+          ]),
           catchError((error) => of(ActionsList.updateEntityFailure({ error })))
         )
       )

@@ -1,81 +1,73 @@
 import { createAction, props } from '@ngrx/store';
 import { Branch } from './branch.model';
 
-// Load all
-export const loadBranches = createAction('[Branches] Load Branches');
-
-export const loadBranchesSuccess = createAction(
-  '[Branches] Load Branches Success',
-  props<{ branches: Branch[] }>()
+export const loadAll = createAction(
+  '[Branches] Load All',
+  props<{ pageNumber?: number }>()
+);
+export const loadAllSuccess = createAction(
+  '[Branches] Load All Success',
+  props<{ result: Branch[] }>()
 );
 
-export const loadBranchesFailure = createAction(
-  '[Branches] Load Branches Failure',
-  props<{ error: any }>()
-);
-// Load history
-export const loadBranchesHistory = createAction('[Branches] Load History');
-export const loadBranchesHistorySuccess = createAction(
-  '[Branches] Load History Success',
-  props<{ history: Branch[] }>()
-);
-export const loadBranchesHistoryFailure = createAction(
-  '[Branches] Load History Failure',
+export const loadAllFailure = createAction(
+  '[Branches] Load All Failure',
   props<{ error: any }>()
 );
 
-// Load by ID
-export const loadBranch = createAction(
-  '[Branches] Load One',
+export const loadById = createAction(
+  '[Branches] Load By Id',
   props<{ id: number }>()
 );
-export const loadBranchSuccess = createAction(
-  '[Branches] Load One Success',
-  props<{ branch: Branch }>()
+export const loadByIdSuccess = createAction(
+  '[Branches] Load By Id Success',
+  props<{ entity: Branch }>()
 );
-export const loadBranchFailure = createAction(
-  '[Branches] Load One Failure',
+export const loadByIdFailure = createAction(
+  '[Branches] Load By Id Failure',
   props<{ error: any }>()
 );
 
-// Create
-export const createBranch = createAction(
+export const createEntity = createAction(
   '[Branches] Create',
-  props<{ data: Partial<Branch> }>()
+  // allow all fields except id, but all optional
+  props<{ payload: Partial<Omit<Branch, 'id'>> }>()
 );
-export const createBranchSuccess = createAction(
+export const createEntitySuccess = createAction(
   '[Branches] Create Success',
-  props<{ branch: Branch }>()
+  props<{ entity: Branch }>()
 );
-export const createBranchFailure = createAction(
+export const createEntityFailure = createAction(
   '[Branches] Create Failure',
   props<{ error: any }>()
 );
 
-// Update
-export const updateBranch = createAction(
+export const updateEntity = createAction(
   '[Branches] Update',
-  props<{ id: number; data: Partial<Branch> }>()
+  props<{ id: number; changes: Partial<Branch> }>()
 );
-export const updateBranchSuccess = createAction(
+export const updateEntitySuccess = createAction(
   '[Branches] Update Success',
-  props<{ branch: Branch }>()
+  props<{ id: number; changes: Partial<Branch> }>()
 );
-export const updateBranchFailure = createAction(
+export const updateEntityFailure = createAction(
   '[Branches] Update Failure',
   props<{ error: any }>()
 );
 
-// Delete
-export const deleteBranch = createAction(
+export const deleteEntity = createAction(
   '[Branches] Delete',
   props<{ id: number }>()
 );
-export const deleteBranchSuccess = createAction(
+export const deleteEntitySuccess = createAction(
   '[Branches] Delete Success',
   props<{ id: number }>()
 );
-export const deleteBranchFailure = createAction(
+export const deleteEntityFailure = createAction(
   '[Branches] Delete Failure',
   props<{ error: any }>()
+);
+export const entityOperationSuccess = createAction(
+  '[Entity] Operation Success',
+  props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
 );

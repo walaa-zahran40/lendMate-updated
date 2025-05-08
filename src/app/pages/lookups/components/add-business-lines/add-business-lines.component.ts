@@ -2,9 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, take } from 'rxjs';
-import { arabicOnlyValidator } from '../../../../shared/validators/arabic-only.validator';
-import { BusinessLine } from '../../store/businessLines/businessLine.model';
-import { BusinessLinesFacade } from '../../store/businessLines/businessLines.facade';
+import { BusinessLinesFacade } from '../../store/business-lines/business-lines.facade';
+import { BusinessLine } from '../../store/business-lines/business-line.model';
 
 @Component({
   selector: 'app-add-businessLines',
@@ -28,15 +27,12 @@ export class AddBusinessLinesComponent {
   ngOnInit() {
     this.addBusinessLinesLookupsForm = this.fb.group({
       id: [null],
-      name: [
+      name: ['', [Validators.required]],
+      nameAR: [
         '',
-        [Validators.required], 
+        [Validators.required, , Validators.pattern(/^[\u0600-\u06FF\s]+$/)],
       ],
-      nameAR: ['', [Validators.required, arabicOnlyValidator]],
-      lisenceStartDate: [
-         null,
-        [Validators.required], 
-      ],
+      lisenceStartDate: [null, [Validators.required]],
       isActive: [true],
     });
 
@@ -51,10 +47,10 @@ export class AddBusinessLinesComponent {
           this.addBusinessLinesLookupsForm.disable();
         }
 
-        this.facade.loadOne(this.clientId);
-        this.facade.current$
+        this.facade.loadById(this.clientId);
+        this.facade.selected$
           .pipe(
-            filter((ct) => !!ct),
+            filter((ct): ct is BusinessLine => !!ct && ct.id === this.clientId),
             take(1)
           )
           .subscribe((ct) => {
@@ -62,7 +58,7 @@ export class AddBusinessLinesComponent {
               id: ct!.id,
               name: ct!.name,
               nameAR: ct!.nameAR,
-              lisenceStartDate:new Date(ct!.lisenceStartDate),
+              lisenceStartDate: new Date(ct!.lisenceStartDate),
               isActive: ct!.isActive,
             });
           });
@@ -97,21 +93,25 @@ export class AddBusinessLinesComponent {
       return;
     }
 
-    const { name, nameAR, lisenceStartDate   } = this.addBusinessLinesLookupsForm.value;
-    const payload: Partial<BusinessLine> = { name, nameAR, lisenceStartDate  };
+    const { name, nameAR, lisenceStartDate } =
+      this.addBusinessLinesLookupsForm.value;
+    const payload: Partial<BusinessLine> = { name, nameAR, lisenceStartDate };
     console.log('  → payload object:', payload);
 
     // Double-check your route param
     const routeId = this.route.snapshot.paramMap.get('id');
     console.log('  route.snapshot.paramMap.get(clientId):', routeId);
 
-   
     if (this.editMode) {
       const { id, name, nameAR, lisenceStartDate, isActive } =
         this.addBusinessLinesLookupsForm.value;
       const payload: BusinessLine = {
-        id, name, nameAR, lisenceStartDate:this.formatDateWithoutTime(lisenceStartDate), isActive,
-        code: ''
+        id,
+        name,
+        nameAR,
+        lisenceStartDate: new Date(lisenceStartDate),
+        isActive,
+        code: '',
       };
       console.log(
         '🔄 Dispatching UPDATE id=',
@@ -126,13 +126,5 @@ export class AddBusinessLinesComponent {
     }
 
     this.router.navigate(['/lookups/view-business-lines']);
-  }
-  
-  
-  private formatDateWithoutTime(date: Date): string {
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // month is 0-indexed
-    const day = date.getDate().toString().padStart(2, '0');
-    return `${year}-${month}-${day}`;
   }
 }

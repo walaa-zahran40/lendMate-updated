@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject, Observable, takeUntil, take } from 'rxjs';
 import { TableComponent } from '../../../../shared/components/table/table.component';
-import { FeeCalculationType } from '../../store/fee-calculation-types/fee-calculation-types.model';
+import { FeeCalculationType } from '../../store/fee-calculation-types/fee-calculation-type.model';
 import { FeeCalculationTypesFacade } from '../../store/fee-calculation-types/fee-calculation-types.facade';
 
 @Component({

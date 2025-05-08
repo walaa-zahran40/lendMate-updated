@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { FeeCalculationType } from './fee-calculation-types.model';
+import { FeeCalculationType } from './fee-calculation-type.model';
 
 export const loadAll = createAction(
   '[FeeCalculationTypes] Load All',
@@ -66,4 +66,8 @@ export const deleteEntitySuccess = createAction(
 export const deleteEntityFailure = createAction(
   '[FeeCalculationTypes] Delete Failure',
   props<{ error: any }>()
+);
+export const entityOperationSuccess = createAction(
+  '[Entity] Operation Success',
+  props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
 );

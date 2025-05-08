@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject, Observable, takeUntil } from 'rxjs';
 import { TableComponent } from '../../../../shared/components/table/table.component';
-import { AuthorityOffice } from '../../store/authority-offices/authority-offices.model';
+import { AuthorityOffice } from '../../store/authority-offices/authority-office.model';
 import { AuthorityOfficesFacade } from '../../store/authority-offices/authority-offices.facade';
 
 @Component({

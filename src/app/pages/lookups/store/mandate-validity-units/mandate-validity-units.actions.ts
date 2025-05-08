@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { MandateValidityUnit } from './mandate-validity-units.model';
+import { MandateValidityUnit } from './mandate-validity-unit.model';
 
 export const loadAll = createAction(
   '[MandateValidityUnits] Load All',
@@ -66,4 +66,8 @@ export const deleteEntitySuccess = createAction(
 export const deleteEntityFailure = createAction(
   '[MandateValidityUnits] Delete Failure',
   props<{ error: any }>()
+);
+export const entityOperationSuccess = createAction(
+  '[Entity] Operation Success',
+  props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
 );

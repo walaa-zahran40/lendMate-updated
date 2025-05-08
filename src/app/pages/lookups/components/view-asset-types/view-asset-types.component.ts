@@ -1,5 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
-import { combineLatest, map, Observable, Subject, takeUntil } from 'rxjs';
+import {
+  combineLatest,
+  filter,
+  map,
+  Observable,
+  Subject,
+  takeUntil,
+} from 'rxjs';
 import { Router } from '@angular/router';
 
 import { TableComponent } from '../../../../shared/components/table/table.component';
@@ -37,8 +44,15 @@ export class ViewAssetTypesComponent {
 
   ngOnInit() {
     this.facade.loadAll();
-    this.assetTypes$ = this.facade.items$;
-    console.log('asasasd', this.assetTypes$);
+    this.assetTypes$ = this.facade.all$;
+    this.facade.operationSuccess$
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((success) => success?.entity === 'AssetType')
+      )
+      .subscribe(() => {
+        this.facade.loadAll(); // refresh after any create/update/delete
+      });
     this.assetTypes$.pipe(takeUntil(this.destroy$)).subscribe((assetTypes) => {
       console.log('asseyyu[e', assetTypes);
       const sorted = [...assetTypes].sort((a, b) => b.id - a.id);

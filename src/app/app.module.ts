@@ -23,6 +23,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { LoaderInterceptor } from './shared/interceptors/loader.interceptor';
+import { uiReducer } from './shared/store/ui-state.reducer';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -39,6 +40,7 @@ import { LoaderInterceptor } from './shared/interceptors/loader.interceptor';
     ButtonModule,
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
+    StoreModule.forFeature('ui', uiReducer),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

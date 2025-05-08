@@ -3,14 +3,11 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ProductsService } from './products.service';
 import * as ActionsList from './products.actions';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
-import { Product } from './products.model';
+import { Product } from './product.model';
 
 @Injectable()
 export class ProductsEffects {
-  constructor(
-    private actions$: Actions,
-    private service: ProductsService
-  ) {}
+  constructor(private actions$: Actions, private service: ProductsService) {}
 
   loadAll$ = createEffect(() =>
     this.actions$.pipe(

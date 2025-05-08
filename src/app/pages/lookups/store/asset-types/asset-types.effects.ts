@@ -1,92 +1,97 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { mergeMap, map, catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
-import * as AssetTypeActions from './asset-types.actions';
 import { AssetTypesService } from './asset-types.service';
+import * as ActionsList from './asset-types.actions';
+import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { AssetType } from './asset-type.model';
+import { EntityNames } from '../../../../shared/constants/entity-names';
 
 @Injectable()
 export class AssetTypesEffects {
+  constructor(private actions$: Actions, private svc: AssetTypesService) {}
+
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AssetTypeActions.loadAssetTypes),
+      ofType(ActionsList.loadAll),
+      tap(() => console.log('✨ Effect: loadAll action caught')),
       mergeMap(() =>
-        this.service.getAll().pipe(
-          map((resp) =>
-            AssetTypeActions.loadAssetTypesSuccess({
-              items: resp.items,
-              totalCount: resp.totalCount,
-            })
-          ),
-          catchError((error) =>
-            of(AssetTypeActions.loadAssetTypesFailure({ error }))
-          )
+        this.svc.getAll().pipe(
+          tap((items) => console.log('✨ Service returned items:', items)),
+          map((items) => ActionsList.loadAllSuccess({ result: items })),
+          catchError((err) => {
+            console.error('⚠️ Error loading assetTypes', err);
+            return of(ActionsList.loadAllFailure({ error: err }));
+          })
         )
       )
     )
   );
 
-  loadHistory$ = createEffect(() =>
+  loadById$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AssetTypeActions.loadAssetTypesHistory),
-      mergeMap(() =>
-        this.service.getHistory().pipe(
-          map((resp) =>
-            AssetTypeActions.loadAssetTypesHistorySuccess({
-              history: resp.items,
-            })
-          ),
-          catchError((error) =>
-            of(AssetTypeActions.loadAssetTypesHistoryFailure({ error }))
-          )
-        )
-      )
-    )
-  );
-
-  loadOne$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AssetTypeActions.loadAssetType),
+      ofType(ActionsList.loadById),
+      tap(({ id }) =>
+        console.log('🔄 Effect: loadById action caught for id=', id)
+      ),
       mergeMap(({ id }) =>
-        this.service.getById(id).pipe(
-          map((currency) =>
-            AssetTypeActions.loadAssetTypeSuccess({ currency })
-          ),
-          catchError((error) =>
-            of(AssetTypeActions.loadAssetTypeFailure({ error }))
-          )
+        this.svc.getById(id).pipe(
+          tap((entity) => console.log('🔄 Service.getById returned:', entity)),
+          map((entity) => ActionsList.loadByIdSuccess({ entity })),
+          catchError((error) => {
+            console.error('❌ Service.getById error:', error);
+            return of(ActionsList.loadByIdFailure({ error }));
+          })
         )
       )
     )
   );
 
+  loadByIdSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ActionsList.loadByIdSuccess),
+        tap(({ entity }) =>
+          console.log(
+            '✨ Effect: loadByIdSuccess action caught, entity:',
+            entity
+          )
+        )
+      ),
+    { dispatch: false }
+  );
   create$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AssetTypeActions.createAssetType),
-      mergeMap(({ data }) =>
-        this.service.create(data).pipe(
-          map((currency) =>
-            AssetTypeActions.createAssetTypeSuccess({ currency })
-          ),
-          catchError((error) =>
-            of(AssetTypeActions.createAssetTypeFailure({ error }))
-          )
-        )
-      )
+      ofType(ActionsList.createEntity),
+      mergeMap(({ payload }) => {
+        const dto = payload as Omit<AssetType, 'id'>;
+        return this.svc.create(dto).pipe(
+          mergeMap((entity) => [
+            ActionsList.createEntitySuccess({ entity }),
+            ActionsList.entityOperationSuccess({
+              entity: EntityNames.AssetType,
+              operation: 'create',
+            }),
+          ]),
+          catchError((error) => of(ActionsList.createEntityFailure({ error })))
+        );
+      })
     )
   );
 
   update$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AssetTypeActions.updateAssetType),
-      mergeMap(({ id, data }) =>
-        this.service.update(id, data).pipe(
-          map((currency) =>
-            AssetTypeActions.updateAssetTypeSuccess({ currency })
-          ),
-          catchError((error) =>
-            of(AssetTypeActions.updateAssetTypeFailure({ error }))
-          )
+      ofType(ActionsList.updateEntity),
+      mergeMap(({ id, changes }) =>
+        this.svc.update(id, changes).pipe(
+          mergeMap(() => [
+            ActionsList.updateEntitySuccess({ id, changes }),
+            ActionsList.loadAll({}), // 👈 this is crucial
+            ActionsList.entityOperationSuccess({
+              entity: EntityNames.AssetType,
+              operation: 'update',
+            }),
+          ]),
+          catchError((error) => of(ActionsList.updateEntityFailure({ error })))
         )
       )
     )
@@ -94,30 +99,13 @@ export class AssetTypesEffects {
 
   delete$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AssetTypeActions.deleteAssetType),
+      ofType(ActionsList.deleteEntity),
       mergeMap(({ id }) =>
-        this.service.delete(id).pipe(
-          map(() => AssetTypeActions.deleteAssetTypeSuccess({ id })),
-          catchError((error) =>
-            of(AssetTypeActions.deleteAssetTypeFailure({ error }))
-          )
+        this.svc.delete(id).pipe(
+          map(() => ActionsList.deleteEntitySuccess({ id })),
+          catchError((error) => of(ActionsList.deleteEntityFailure({ error })))
         )
       )
     )
   );
-
-  refreshList$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(
-        AssetTypeActions.createAssetTypeSuccess,
-        AssetTypeActions.updateAssetTypeSuccess,
-        AssetTypeActions.deleteAssetTypeSuccess
-      ),
-      map(() => AssetTypeActions.loadAssetTypes())
-    )
-  );
-  constructor(
-    private actions$: Actions,
-    private service: AssetTypesService
-  ) {}
 }

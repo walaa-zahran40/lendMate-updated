@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { MandateValidityUnitsService } from './mandate-validity-units.service';
 import * as ActionsList from './mandate-validity-units.actions';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
-import { MandateValidityUnit } from './mandate-validity-units.model';
+import { MandateValidityUnit } from './mandate-validity-unit.model';
 
 @Injectable()
 export class MandateValidityUnitsEffects {

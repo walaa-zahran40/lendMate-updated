@@ -13,9 +13,7 @@ export const loadFeeTypesFailure = createAction(
 );
 
 // Load history
-export const loadFeeTypesHistory = createAction(
-  '[FeeTypes] Load History'
-);
+export const loadFeeTypesHistory = createAction('[FeeTypes] Load History');
 export const loadFeeTypesHistorySuccess = createAction(
   '[FeeTypes] Load History Success',
   props<{ history: FeeType[] }>()
@@ -79,4 +77,8 @@ export const deleteFeeTypeSuccess = createAction(
 export const deleteFeeTypeFailure = createAction(
   '[FeeTypes] Delete Failure',
   props<{ error: any }>()
+);
+export const entityOperationSuccess = createAction(
+  '[Entity] Operation Success',
+  props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
 );

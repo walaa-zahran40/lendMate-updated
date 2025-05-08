@@ -1,85 +1,96 @@
 import { createReducer, on } from '@ngrx/store';
-import * as Actions from './asset-types.actions';
-import { initialAssetTypesState } from './asset-types.state';
+import * as AssetTypeActions from './asset-types.actions';
+import { adapter, initialState } from './asset-types.state';
 
-export const assetTypesReducer = createReducer(
-  initialAssetTypesState,
-  on(Actions.loadAssetTypes, (state) => ({
+export const reducer = createReducer(
+  initialState,
+
+  // when you dispatch loadAll()
+  on(AssetTypeActions.loadAll, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
-  on(Actions.loadAssetTypesSuccess, (state, { items, totalCount }) => ({
+
+  // when your effect dispatches loadAllSuccess({ result })
+  on(AssetTypeActions.loadAllSuccess, (state, { result }) =>
+    adapter.upsertMany(result, {
+      ...state,
+      loading: false,
+      error: null,
+    })
+  ),
+  // on failure
+  on(AssetTypeActions.loadAllFailure, (state, { error }) => ({
     ...state,
-    items,
-    totalCount,
     loading: false,
-  })),
-  on(Actions.loadAssetTypesFailure, (state, { error }) => ({
-    ...state,
     error,
+  })),
+  // create
+  on(AssetTypeActions.createEntity, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
+  on(AssetTypeActions.createEntitySuccess, (state, { entity }) =>
+    adapter.addOne(entity, { ...state, loading: false })
+  ),
+  on(AssetTypeActions.createEntityFailure, (state, { error }) => ({
+    ...state,
     loading: false,
+    error,
   })),
 
-  on(Actions.loadAssetTypesHistory, (state) => ({ ...state, loading: true })),
-  on(Actions.loadAssetTypesHistorySuccess, (state, { history }) => ({
+  // update
+  on(AssetTypeActions.updateEntity, (state) => ({
     ...state,
-    history,
-    loading: false,
+    loading: true,
+    error: null,
   })),
-  on(Actions.loadAssetTypesHistoryFailure, (state, { error }) => ({
+  on(AssetTypeActions.updateEntitySuccess, (state, { id, changes }) =>
+    adapter.updateOne({ id, changes }, { ...state, loading: false })
+  ),
+  on(AssetTypeActions.updateEntityFailure, (state, { error }) => ({
     ...state,
-    error,
     loading: false,
+    error,
   })),
 
-  on(Actions.loadAssetType, (state) => ({ ...state, loading: true })),
-  on(Actions.loadAssetTypeSuccess, (state, { currency }) => ({
+  // delete
+  on(AssetTypeActions.deleteEntity, (state) => ({
     ...state,
-    current: currency,
-    loading: false,
+    loading: true,
+    error: null,
   })),
-  on(Actions.loadAssetTypeFailure, (state, { error }) => ({
+  on(AssetTypeActions.deleteEntitySuccess, (state, { id }) =>
+    adapter.removeOne(id, { ...state, loading: false })
+  ),
+  on(AssetTypeActions.deleteEntityFailure, (state, { error }) => ({
     ...state,
+    loading: false,
     error,
-    loading: false,
   })),
+  // identAssetType-calculation-types.reducer.ts
+  on(AssetTypeActions.loadByIdSuccess, (state, { entity }) => {
+    console.log('🗄️ Reducer: loadByIdSuccess, before:', {
+      loadedId: state.loadedId,
+      entities: state.entities,
+    });
 
-  on(Actions.createAssetType, (state) => ({ ...state, loading: true })),
-  on(Actions.createAssetTypeSuccess, (state, { currency }) => ({
-    ...state,
-    items: [...state.items, currency],
-    loading: false,
-  })),
-  on(Actions.createAssetTypeFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
-  })),
+    const newState = adapter.upsertOne(entity, {
+      ...state,
+      loading: false,
+      loadedId: entity.id,
+    });
 
-  on(Actions.updateAssetType, (state) => ({ ...state, loading: true })),
-  on(Actions.updateAssetTypeSuccess, (state, { currency }) => ({
-    ...state,
-    items: state.items.map((ct) =>
-      ct.id === currency.id ? currency : ct
-    ),
-    loading: false,
-  })),
-  on(Actions.updateAssetTypeFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
-  })),
+    console.log('🗄️ Reducer: loadByIdSuccess, after:', {
+      loadedId: newState.loadedId,
+      entities: newState.entities,
+    });
 
-  on(Actions.deleteAssetType, (state) => ({ ...state, loading: true })),
-  on(Actions.deleteAssetTypeSuccess, (state, { id }) => ({
-    ...state,
-    items: state.items.filter((ct) => ct.id !== id),
-    loading: false,
-  })),
-  on(Actions.deleteAssetTypeFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
-  }))
+    return newState;
+  })
 );
+
+export const { selectAll, selectEntities, selectIds, selectTotal } =
+  adapter.getSelectors();

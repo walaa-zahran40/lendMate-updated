@@ -1,5 +1,5 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { AuthorityOffice } from './authority-offices.model';
+import { AuthorityOffice } from './authority-office.model';
 
 export interface State extends EntityState<AuthorityOffice> {
   loadedId: number | null; // ← add this

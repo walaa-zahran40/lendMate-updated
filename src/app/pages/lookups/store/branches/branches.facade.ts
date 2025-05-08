@@ -1,65 +1,42 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import * as BranchActions from './branches.actions';
-import * as BranchSelectors from './branches.selectors';
+import { createSelector, Store } from '@ngrx/store';
+import * as Actions from './branches.actions';
+import * as Selectors from './branches.selectors';
 import { Branch } from './branch.model';
+import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class BranchesFacade {
-  /** Stream of all branches as an array */
-  all$: Observable<Branch[]> = this.store.select(
-    BranchSelectors.selectAllBranches
+  all$ = this.store.select(Selectors.selectAllBranches);
+  loading$ = this.store.select(Selectors.selectBranchesLoading);
+  error$ = this.store.select(Selectors.selectBranchesError);
+  totalCount$ = this.store.select(Selectors.selectBranchesTotalCount);
+  selected$ = this.store.select(
+    createSelector(
+      Selectors.selectFeature,
+      (state) => state.entities[state.loadedId!] // or however you track it
+    )
   );
-
-  /** Loading indicator */
-  loading$: Observable<boolean> = this.store.select(
-    BranchSelectors.selectBranchesLoading
-  );
-
-  /** Error state */
-  error$: Observable<any> = this.store.select(
-    BranchSelectors.selectBranchesError
-  );
-
-  /** Currently selected branch (by loadedId), coerced to null if undefined */
-  selectedBranch$: Observable<Branch | null> = this.store
-    .select(BranchSelectors.selectCurrentBranch)
-    .pipe(map((branch) => branch ?? null));
-
-  /** Total count of branches */
-  totalCount$: Observable<number> = this.store.select(
-    BranchSelectors.selectBranchesCount
-  );
-
+  operationSuccess$ = this.store.select(selectLastOperationSuccess);
   constructor(private store: Store) {}
 
-  /** Load all branches */
-  // branches.facade.ts
-  loadAll(): void {
-    console.log('🐛 [Facade] dispatching loadBranches');
-    this.store.dispatch(BranchActions.loadBranches());
-  }
-  /** Load a single branch by ID */
-  loadOne(id: number): void {
-    this.store.dispatch(BranchActions.loadBranch({ id }));
+  loadAll(pageNumber?: number) {
+    this.store.dispatch(Actions.loadAll({ pageNumber }));
   }
 
-  /** Create a new branch */
-  create(branch: Omit<Branch, 'id'>): void {
-    this.store.dispatch(BranchActions.createBranch({ data: branch }));
+  loadById(id: number) {
+    this.store.dispatch(Actions.loadById({ id }));
   }
 
-  /** Update an existing branch */
-  update(id: number, changes: Partial<Branch>): void {
-    this.store.dispatch(BranchActions.updateBranch({ id, data: changes }));
+  create(payload: Partial<Omit<Branch, 'id'>>) {
+    this.store.dispatch(Actions.createEntity({ payload }));
   }
 
-  /** Delete a branch */
-  delete(id: number): void {
-    this.store.dispatch(BranchActions.deleteBranch({ id }));
+  update(id: number, changes: Partial<Branch>) {
+    this.store.dispatch(Actions.updateEntity({ id, changes }));
+  }
+
+  delete(id: number) {
+    this.store.dispatch(Actions.deleteEntity({ id }));
   }
 }

@@ -3,6 +3,7 @@ import { createSelector, Store } from '@ngrx/store';
 import * as Actions from './communication-types.actions';
 import * as Selectors from './communication-types.selectors';
 import { CommunicationType } from './communication-type.model';
+import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class CommunicationTypesFacade {
@@ -16,6 +17,8 @@ export class CommunicationTypesFacade {
       (state) => state.entities[state.loadedId!] // or however you track it
     )
   );
+  operationSuccess$ = this.store.select(selectLastOperationSuccess);
+
   constructor(private store: Store) {}
 
   loadAll(pageNumber?: number) {

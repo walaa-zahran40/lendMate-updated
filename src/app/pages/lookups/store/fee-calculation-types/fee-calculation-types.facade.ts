@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { createSelector, Store } from '@ngrx/store';
 import * as Actions from './fee-calculation-types.actions';
 import * as Selectors from './fee-calculation-types.selectors';
-import { FeeCalculationType } from './fee-calculation-types.model';
+import { FeeCalculationType } from './fee-calculation-type.model';
+import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class FeeCalculationTypesFacade {
@@ -18,6 +19,8 @@ export class FeeCalculationTypesFacade {
       (state) => state.entities[state.loadedId!] // or however you track it
     )
   );
+  operationSuccess$ = this.store.select(selectLastOperationSuccess);
+
   constructor(private store: Store) {}
 
   loadAll(pageNumber?: number) {

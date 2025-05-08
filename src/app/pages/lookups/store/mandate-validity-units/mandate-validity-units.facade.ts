@@ -2,20 +2,25 @@ import { Injectable } from '@angular/core';
 import { createSelector, Store } from '@ngrx/store';
 import * as Actions from './mandate-validity-units.actions';
 import * as Selectors from './mandate-validity-units.selectors';
-import { MandateValidityUnit } from './mandate-validity-units.model';
+import { MandateValidityUnit } from './mandate-validity-unit.model';
+import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class MandateValidityUnitsFacade {
   all$ = this.store.select(Selectors.selectAllMandateValidityUnits);
   loading$ = this.store.select(Selectors.selectMandateValidityUnitsLoading);
   error$ = this.store.select(Selectors.selectMandateValidityUnitsError);
-  totalCount$ = this.store.select(Selectors.selectMandateValidityUnitsTotalCount);
+  totalCount$ = this.store.select(
+    Selectors.selectMandateValidityUnitsTotalCount
+  );
   selected$ = this.store.select(
     createSelector(
       Selectors.selectFeature,
       (state) => state.entities[state.loadedId!] // or however you track it
     )
   );
+  operationSuccess$ = this.store.select(selectLastOperationSuccess);
+
   constructor(private store: Store) {}
 
   loadAll(pageNumber?: number) {

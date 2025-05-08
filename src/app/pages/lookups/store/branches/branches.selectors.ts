@@ -1,36 +1,41 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import * as fromSlice from './branches.reducer';
 import { adapter, State } from './branches.state';
-import { branchFeatureKey } from './branches.reducer';
 
-// 1) Feature selector
-export const selectBranchesFeature =
-  createFeatureSelector<State>(branchFeatureKey);
+export const selectFeature = createFeatureSelector<State>('branches');
+export const selectBranchesFeature = createFeatureSelector<State>('branches');
 
-// 2) Entity selectors bound to the feature slice
-const { selectAll, selectEntities, selectIds, selectTotal } =
-  adapter.getSelectors(selectBranchesFeature);
+// these come from your EntityAdapter
+const { selectEntities } = adapter.getSelectors(selectBranchesFeature);
 
-// 3) Export the array selector and others
-export const selectAllBranches = selectAll; // Branch[]
-export const selectBranchEntities = selectEntities; // { [id: string]: Branch }
-export const selectBranchIds = selectIds; // (string | number)[]
-export const selectBranchesCount = selectTotal; // number
-
-// 4) Additional UI‐focused selectors
+export const selectAllBranches = createSelector(
+  selectFeature,
+  fromSlice.selectAll
+);
+export const selectAreaEntities = createSelector(
+  selectFeature,
+  fromSlice.selectEntities
+);
 export const selectBranchesLoading = createSelector(
-  selectBranchesFeature,
+  selectFeature,
   (state) => state.loading
 );
 export const selectBranchesError = createSelector(
-  selectBranchesFeature,
+  selectFeature,
   (state) => state.error
 );
-export const selectLoadedBranchId = createSelector(
-  selectBranchesFeature,
+
+export const selectLoadedId = createSelector(
+  selectFeature,
   (state) => state.loadedId
 );
-export const selectCurrentBranch = createSelector(
-  selectBranchEntities,
-  selectLoadedBranchId,
+
+export const selectCurrent = createSelector(
+  selectEntities,
+  selectLoadedId,
   (entities, id) => (id != null ? entities[id] : null)
+);
+export const selectBranchesTotalCount = createSelector(
+  selectBranchesFeature,
+  (state) => state
 );

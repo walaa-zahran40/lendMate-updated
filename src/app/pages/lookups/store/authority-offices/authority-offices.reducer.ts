@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import * as AuthorityOfficeActions from './authority-offices.actions';
-import { adapter, initialState, State } from './authority-offices.state';
+import { adapter, initialState } from './authority-offices.state';
 
 export const reducer = createReducer(
   initialState,
@@ -14,7 +14,7 @@ export const reducer = createReducer(
 
   // when your effect dispatches loadAllSuccess({ result })
   on(AuthorityOfficeActions.loadAllSuccess, (state, { result }) =>
-    adapter.setAll(result, {
+    adapter.upsertMany(result, {
       ...state,
       loading: false,
       error: null,
@@ -70,7 +70,7 @@ export const reducer = createReducer(
     loading: false,
     error,
   })),
-  // fee-calculation-types.reducer.ts
+  // identAuthorityOffice-calculation-types.reducer.ts
   on(AuthorityOfficeActions.loadByIdSuccess, (state, { entity }) => {
     console.log('🗄️ Reducer: loadByIdSuccess, before:', {
       loadedId: state.loadedId,

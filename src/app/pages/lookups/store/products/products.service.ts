@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
-import { Product } from './products.model';
+import { Product } from './product.model';
 import { environment } from '../../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
@@ -32,10 +32,7 @@ export class ProductsService {
   }
 
   create(payload: Omit<Product, 'id'>): Observable<Product> {
-    return this.http.post<Product>(
-      `${this.baseUrl}/CreateProduct`,
-      payload
-    );
+    return this.http.post<Product>(`${this.baseUrl}/CreateProduct`, payload);
   }
 
   update(id: number, changes: Partial<Product>): Observable<void> {

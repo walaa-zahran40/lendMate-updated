@@ -1,82 +1,73 @@
 import { createAction, props } from '@ngrx/store';
 import { AssetType } from './asset-type.model';
 
-// Load all
-export const loadAssetTypes = createAction('[AssetTypes] Load All');
-export const loadAssetTypesSuccess = createAction(
-  '[AssetTypes] Load All Success',
-  props<{ items: AssetType[]; totalCount: number }>()
+export const loadAll = createAction(
+  '[AssetTypes] Load All',
+  props<{ pageNumber?: number }>()
 );
-export const loadAssetTypesFailure = createAction(
+export const loadAllSuccess = createAction(
+  '[AssetTypes] Load All Success',
+  props<{ result: AssetType[] }>()
+);
+
+export const loadAllFailure = createAction(
   '[AssetTypes] Load All Failure',
   props<{ error: any }>()
 );
 
-// Load history
-export const loadAssetTypesHistory = createAction(
-  '[AssetTypes] Load History'
-);
-export const loadAssetTypesHistorySuccess = createAction(
-  '[AssetTypes] Load History Success',
-  props<{ history: AssetType[] }>()
-);
-export const loadAssetTypesHistoryFailure = createAction(
-  '[AssetTypes] Load History Failure',
-  props<{ error: any }>()
-);
-
-// Load by ID
-export const loadAssetType = createAction(
-  '[AssetTypes] Load One',
+export const loadById = createAction(
+  '[AssetTypes] Load By Id',
   props<{ id: number }>()
 );
-export const loadAssetTypeSuccess = createAction(
-  '[AssetTypes] Load One Success',
-  props<{ currency: AssetType }>()
+export const loadByIdSuccess = createAction(
+  '[AssetTypes] Load By Id Success',
+  props<{ entity: AssetType }>()
 );
-export const loadAssetTypeFailure = createAction(
-  '[AssetTypes] Load One Failure',
+export const loadByIdFailure = createAction(
+  '[AssetTypes] Load By Id Failure',
   props<{ error: any }>()
 );
 
-// Create
-export const createAssetType = createAction(
+export const createEntity = createAction(
   '[AssetTypes] Create',
-  props<{ data: Partial<AssetType> }>()
+  // allow all fields except id, but all optional
+  props<{ payload: Partial<Omit<AssetType, 'id'>> }>()
 );
-export const createAssetTypeSuccess = createAction(
+export const createEntitySuccess = createAction(
   '[AssetTypes] Create Success',
-  props<{ currency: AssetType }>()
+  props<{ entity: AssetType }>()
 );
-export const createAssetTypeFailure = createAction(
+export const createEntityFailure = createAction(
   '[AssetTypes] Create Failure',
   props<{ error: any }>()
 );
 
-// Update
-export const updateAssetType = createAction(
+export const updateEntity = createAction(
   '[AssetTypes] Update',
-  props<{ id: number; data: Partial<AssetType> }>()
+  props<{ id: number; changes: Partial<AssetType> }>()
 );
-export const updateAssetTypeSuccess = createAction(
+export const updateEntitySuccess = createAction(
   '[AssetTypes] Update Success',
-  props<{ currency: AssetType }>()
+  props<{ id: number; changes: Partial<AssetType> }>()
 );
-export const updateAssetTypeFailure = createAction(
+export const updateEntityFailure = createAction(
   '[AssetTypes] Update Failure',
   props<{ error: any }>()
 );
 
-// Delete
-export const deleteAssetType = createAction(
+export const deleteEntity = createAction(
   '[AssetTypes] Delete',
   props<{ id: number }>()
 );
-export const deleteAssetTypeSuccess = createAction(
+export const deleteEntitySuccess = createAction(
   '[AssetTypes] Delete Success',
   props<{ id: number }>()
 );
-export const deleteAssetTypeFailure = createAction(
+export const deleteEntityFailure = createAction(
   '[AssetTypes] Delete Failure',
   props<{ error: any }>()
+);
+export const entityOperationSuccess = createAction(
+  '[Entity] Operation Success',
+  props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
 );

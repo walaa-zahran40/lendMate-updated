@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
-import { MandateValidityUnit } from './mandate-validity-units.model';
+import { MandateValidityUnit } from './mandate-validity-unit.model';
 import { environment } from '../../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
@@ -28,10 +28,14 @@ export class MandateValidityUnitsService {
   }
 
   getById(id: number): Observable<MandateValidityUnit> {
-    return this.http.get<MandateValidityUnit>(`${this.baseUrl}/ValidityUnitId?id=${id}`);
+    return this.http.get<MandateValidityUnit>(
+      `${this.baseUrl}/ValidityUnitId?id=${id}`
+    );
   }
 
-  create(payload: Omit<MandateValidityUnit, 'id'>): Observable<MandateValidityUnit> {
+  create(
+    payload: Omit<MandateValidityUnit, 'id'>
+  ): Observable<MandateValidityUnit> {
     return this.http.post<MandateValidityUnit>(
       `${this.baseUrl}/CreateValidityUnit`,
       payload

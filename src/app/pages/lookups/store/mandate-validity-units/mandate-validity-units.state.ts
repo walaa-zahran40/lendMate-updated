@@ -1,5 +1,5 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { MandateValidityUnit } from './mandate-validity-units.model';
+import { MandateValidityUnit } from './mandate-validity-unit.model';
 
 export interface State extends EntityState<MandateValidityUnit> {
   loadedId: number | null; // ← add this

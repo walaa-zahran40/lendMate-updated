@@ -13,7 +13,7 @@ export const selectAllAuthorityOffices = createSelector(
   selectFeature,
   fromSlice.selectAll
 );
-export const selectFeeCalculationTypeEntities = createSelector(
+export const selectAreaEntities = createSelector(
   selectFeature,
   fromSlice.selectEntities
 );

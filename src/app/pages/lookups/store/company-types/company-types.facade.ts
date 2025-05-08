@@ -4,6 +4,7 @@ import * as Actions from './company-types.actions';
 import * as Selectors from './company-types.selectors';
 import { Observable } from 'rxjs';
 import { CompanyType } from './company-type.model';
+import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class CompanyTypesFacade {
@@ -25,6 +26,7 @@ export class CompanyTypesFacade {
   error$: Observable<any> = this.store.select(
     Selectors.selectCompanyTypesError
   );
+  operationSuccess$ = this.store.select(selectLastOperationSuccess);
 
   constructor(private store: Store) {}
 

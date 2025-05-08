@@ -177,9 +177,8 @@ export class AddAreasComponent {
       this.facade.create(payload);
     }
 
-    console.log('🧭 Navigating away to view-grace-periods');
-    setTimeout(() => {
-      this.router.navigate(['/lookups/view-areas']);
-    }, 1000);
+    console.log('🧭 Navigating away to view-areas');
+
+    this.router.navigate(['/lookups/view-areas']);
   }
 }

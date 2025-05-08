@@ -1,50 +1,42 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { createSelector, Store } from '@ngrx/store';
 import * as Actions from './asset-types.actions';
 import * as Selectors from './asset-types.selectors';
-import { Observable } from 'rxjs';
 import { AssetType } from './asset-type.model';
+import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class AssetTypesFacade {
-  items$: Observable<AssetType[]> = this.store.select(
-    Selectors.selectAssetTypes
+  all$ = this.store.select(Selectors.selectAllAssetTypes);
+  loading$ = this.store.select(Selectors.selectAssetTypesLoading);
+  error$ = this.store.select(Selectors.selectAssetTypesError);
+  totalCount$ = this.store.select(Selectors.selectAssetTypesTotalCount);
+  selected$ = this.store.select(
+    createSelector(
+      Selectors.selectFeature,
+      (state) => state.entities[state.loadedId!] // or however you track it
+    )
   );
-  total$: Observable<number> = this.store.select(
-    Selectors.selectAssetTypesTotal
-  );
-  history$: Observable<AssetType[]> = this.store.select(
-    Selectors.selectAssetTypesHistory
-  );
-  current$: Observable<AssetType | undefined> = this.store.select(
-    Selectors.selectCurrentAssetType
-  );
-  
-  loading$: Observable<boolean> = this.store.select(
-    Selectors.selectAssetTypesLoading
-  );
-  error$: Observable<any> = this.store.select(
-    Selectors.selectAssetTypesError
-  );
-
+  operationSuccess$ = this.store.select(selectLastOperationSuccess);
   constructor(private store: Store) {}
 
-  loadAll() {
-    this.store.dispatch(Actions.loadAssetTypes());
+  loadAll(pageNumber?: number) {
+    this.store.dispatch(Actions.loadAll({ pageNumber }));
   }
-  loadHistory() {
-    this.store.dispatch(Actions.loadAssetTypesHistory());
+
+  loadById(id: number) {
+    this.store.dispatch(Actions.loadById({ id }));
   }
-  loadOne(id: number) {
-    this.store.dispatch(Actions.loadAssetType({ id }));
+
+  create(payload: Partial<Omit<AssetType, 'id'>>) {
+    this.store.dispatch(Actions.createEntity({ payload }));
   }
-  create(data: Partial<AssetType>) {
-    this.store.dispatch(Actions.createAssetType({ data }));
+
+  update(id: number, changes: Partial<AssetType>) {
+    this.store.dispatch(Actions.updateEntity({ id, changes }));
   }
-  update(id: any, data: Partial<AssetType>) {
-    this.store.dispatch(Actions.updateAssetType({ id, data }));
-  }
+
   delete(id: number) {
-    this.store.dispatch(Actions.deleteAssetType({ id }));
+    this.store.dispatch(Actions.deleteEntity({ id }));
   }
 }

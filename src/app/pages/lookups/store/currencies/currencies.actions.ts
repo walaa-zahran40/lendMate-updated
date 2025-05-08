@@ -13,9 +13,7 @@ export const loadCurrenciesFailure = createAction(
 );
 
 // Load history
-export const loadCurrenciesHistory = createAction(
-  '[Currencies] Load History'
-);
+export const loadCurrenciesHistory = createAction('[Currencies] Load History');
 export const loadCurrenciesHistorySuccess = createAction(
   '[Currencies] Load History Success',
   props<{ history: Currency[] }>()
@@ -79,4 +77,8 @@ export const deleteCurrencySuccess = createAction(
 export const deleteCurrencyFailure = createAction(
   '[Currencies] Delete Failure',
   props<{ error: any }>()
+);
+export const entityOperationSuccess = createAction(
+  '[Entity] Operation Success',
+  props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
 );

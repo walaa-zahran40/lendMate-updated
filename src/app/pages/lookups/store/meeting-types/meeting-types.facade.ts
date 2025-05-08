@@ -3,6 +3,7 @@ import { createSelector, Store } from '@ngrx/store';
 import * as Actions from './meeting-types.actions';
 import * as Selectors from './meeting-types.selectors';
 import { MeetingType } from './meeting-type.model';
+import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class MeetingTypesFacade {
@@ -16,6 +17,8 @@ export class MeetingTypesFacade {
       (state) => state.entities[state.loadedId!] // or however you track it
     )
   );
+  operationSuccess$ = this.store.select(selectLastOperationSuccess);
+
   constructor(private store: Store) {}
 
   loadAll(pageNumber?: number) {

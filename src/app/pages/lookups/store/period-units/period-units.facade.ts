@@ -3,6 +3,7 @@ import { createSelector, Store } from '@ngrx/store';
 import * as Actions from './period-units.actions';
 import * as Selectors from './period-units.selectors';
 import { PeriodUnit } from './period-unit.model';
+import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class GracePeriodUnitsFacade {
@@ -16,6 +17,8 @@ export class GracePeriodUnitsFacade {
       (state) => state.entities[state.loadedId!] // or however you track it
     )
   );
+  operationSuccess$ = this.store.select(selectLastOperationSuccess);
+
   constructor(private store: Store) {}
 
   loadAll(pageNumber?: number) {

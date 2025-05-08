@@ -3,8 +3,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { distinctUntilChanged, filter, take } from 'rxjs';
 import { arabicOnlyValidator } from '../../../../shared/validators/arabic-only.validator';
-import { AddressType } from '../../store/address-types/address-types.model';
 import { AddressTypesFacade } from '../../store/address-types/address-types.facade';
+import { AddressType } from '../../store/address-types/address-types.model';
 
 @Component({
   selector: 'app-add-address-types',
@@ -32,7 +32,10 @@ export class AddAddressTypesComponent {
         '',
         [Validators.required], // 2nd slot (sync)
       ],
-      nameAR: ['', [Validators.required, arabicOnlyValidator]],
+      nameAR: [
+        '',
+        [Validators.required, , Validators.pattern(/^[\u0600-\u06FF\s]+$/)],
+      ],
       isActive: [true], // ← new hidden control
     });
 
@@ -129,10 +132,8 @@ export class AddAddressTypesComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
-    this.addAddressTypesLookupsForm.reset;
-    setTimeout(() => {
-      this.router.navigate(['/lookups/view-address-types']);
-    }, 1000);
     console.log('🧭 Navigating away to view-address-types');
+
+    this.router.navigate(['/lookups/view-address-types']);
   }
 }

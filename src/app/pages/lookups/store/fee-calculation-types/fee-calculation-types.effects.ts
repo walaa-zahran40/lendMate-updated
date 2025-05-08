@@ -4,7 +4,7 @@ import { FeeCalculationTypesService } from './fee-calculation-types.service';
 import * as ActionsList from './fee-calculation-types.actions';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
 import { loadAll } from '../../../crm/clients/store/client-central-bank-info/client-central-bank.actions';
-import { FeeCalculationType } from './fee-calculation-types.model';
+import { FeeCalculationType } from './fee-calculation-type.model';
 
 @Injectable()
 export class FeeCalculationTypesEffects {

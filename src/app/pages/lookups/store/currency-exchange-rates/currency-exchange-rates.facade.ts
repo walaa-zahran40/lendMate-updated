@@ -4,6 +4,7 @@ import * as Actions from './currency-exchange-rates.actions';
 import * as Selectors from './currency-exchange-rates.selectors';
 import { Observable } from 'rxjs';
 import { CurrencyExchangeRate } from './currency-exchange-rate.model';
+import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class CurrencyExchangeRatesFacade {
@@ -26,6 +27,7 @@ export class CurrencyExchangeRatesFacade {
   error$: Observable<any> = this.store.select(
     Selectors.selectCurrencyExchangeRatesError
   );
+  operationSuccess$ = this.store.select(selectLastOperationSuccess);
 
   constructor(private store: Store) {}
 

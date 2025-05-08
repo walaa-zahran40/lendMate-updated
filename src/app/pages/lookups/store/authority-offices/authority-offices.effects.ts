@@ -3,13 +3,14 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AuthorityOfficesService } from './authority-offices.service';
 import * as ActionsList from './authority-offices.actions';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
-import { AuthorityOffice } from './authority-offices.model';
+import { AuthorityOffice } from './authority-office.model';
+import { EntityNames } from '../../../../shared/constants/entity-names';
 
 @Injectable()
 export class AuthorityOfficesEffects {
   constructor(
     private actions$: Actions,
-    private service: AuthorityOfficesService
+    private svc: AuthorityOfficesService
   ) {}
 
   loadAll$ = createEffect(() =>
@@ -17,7 +18,7 @@ export class AuthorityOfficesEffects {
       ofType(ActionsList.loadAll),
       tap(() => console.log('✨ Effect: loadAll action caught')),
       mergeMap(() =>
-        this.service.getAll().pipe(
+        this.svc.getAll().pipe(
           tap((items) => console.log('✨ Service returned items:', items)),
           map((items) => ActionsList.loadAllSuccess({ result: items })),
           catchError((err) => {
@@ -36,7 +37,7 @@ export class AuthorityOfficesEffects {
         console.log('🔄 Effect: loadById action caught for id=', id)
       ),
       mergeMap(({ id }) =>
-        this.service.getById(id).pipe(
+        this.svc.getById(id).pipe(
           tap((entity) => console.log('🔄 Service.getById returned:', entity)),
           map((entity) => ActionsList.loadByIdSuccess({ entity })),
           catchError((error) => {
@@ -65,10 +66,15 @@ export class AuthorityOfficesEffects {
     this.actions$.pipe(
       ofType(ActionsList.createEntity),
       mergeMap(({ payload }) => {
-        // payload is Partial<Omit<AuthorityOffice,'id'>>, but our service needs the full DTO shape
         const dto = payload as Omit<AuthorityOffice, 'id'>;
-        return this.service.create(dto).pipe(
-          map((entity) => ActionsList.createEntitySuccess({ entity })),
+        return this.svc.create(dto).pipe(
+          mergeMap((entity) => [
+            ActionsList.createEntitySuccess({ entity }),
+            ActionsList.entityOperationSuccess({
+              entity: EntityNames.AuthorityOffice,
+              operation: 'create',
+            }),
+          ]),
           catchError((error) => of(ActionsList.createEntityFailure({ error })))
         );
       })
@@ -79,8 +85,15 @@ export class AuthorityOfficesEffects {
     this.actions$.pipe(
       ofType(ActionsList.updateEntity),
       mergeMap(({ id, changes }) =>
-        this.service.update(id, changes).pipe(
-          map(() => ActionsList.updateEntitySuccess({ id, changes })),
+        this.svc.update(id, changes).pipe(
+          mergeMap(() => [
+            ActionsList.updateEntitySuccess({ id, changes }),
+            ActionsList.loadAll({}), // 👈 this is crucial
+            ActionsList.entityOperationSuccess({
+              entity: EntityNames.AuthorityOffice,
+              operation: 'update',
+            }),
+          ]),
           catchError((error) => of(ActionsList.updateEntityFailure({ error })))
         )
       )
@@ -91,7 +104,7 @@ export class AuthorityOfficesEffects {
     this.actions$.pipe(
       ofType(ActionsList.deleteEntity),
       mergeMap(({ id }) =>
-        this.service.delete(id).pipe(
+        this.svc.delete(id).pipe(
           map(() => ActionsList.deleteEntitySuccess({ id })),
           catchError((error) => of(ActionsList.deleteEntityFailure({ error })))
         )

@@ -3,6 +3,7 @@ import { createSelector, Store } from '@ngrx/store';
 import * as Actions from './client-types.actions';
 import * as Selectors from './client-types.selectors';
 import { ClientType } from './client-type.model';
+import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class ClientTypesFacade {
@@ -16,6 +17,8 @@ export class ClientTypesFacade {
       (state) => state.entities[state.loadedId!] // or however you track it
     )
   );
+  operationSuccess$ = this.store.select(selectLastOperationSuccess);
+
   constructor(private store: Store) {}
 
   loadAll(pageNumber?: number) {

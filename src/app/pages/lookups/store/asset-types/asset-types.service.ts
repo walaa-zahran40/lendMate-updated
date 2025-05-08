@@ -1,50 +1,48 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { catchError, map, Observable, tap, throwError } from 'rxjs';
 import { AssetType } from './asset-type.model';
 import { environment } from '../../../../../environments/environment';
 
-interface PagedResponse<T> {
-  items: T[];
-  totalCount: number;
-}
-
 @Injectable({ providedIn: 'root' })
 export class AssetTypesService {
-  private api = `${environment.apiUrl}AssetTypes`;
+  private baseUrl = `${environment.apiUrl}AssetTypes`;
 
   constructor(private http: HttpClient) {}
 
-  getAll(pageNumber?: number): Observable<PagedResponse<AssetType>> {
-    let params = new HttpParams();
-    if (pageNumber != null) {
-      params = params.set('pageNumber', pageNumber.toString());
-    }
-    return this.http.get<PagedResponse<AssetType>>(
-      `${this.api}/GetAllAssetTypes`,
-      { params }
-    );
-  }
-
-  getHistory(): Observable<PagedResponse<AssetType>> {
-    return this.http.get<PagedResponse<AssetType>>(
-      `${this.api}/GetAllAssetTypesHistory`
-    );
+  getAll(): Observable<AssetType[]> {
+    console.log('🚀 Service: calling GET …');
+    return this.http
+      .get<{ items: AssetType[]; totalCount: number }>(
+        `${this.baseUrl}/GetAllAssetTypes`
+      )
+      .pipe(
+        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
+        map((resp) => resp.items), // ← pull off the `items` array here
+        tap((items) => console.log('🚀 Mapped items:', items)),
+        catchError((err) => {
+          console.error('🚀 HTTP error fetching AssetTypes:', err);
+          return throwError(() => err);
+        })
+      );
   }
 
   getById(id: number): Observable<AssetType> {
-    return this.http.get<AssetType>(`${this.api}/AssetTypeId?id=${id}`);
+    return this.http.get<AssetType>(`${this.baseUrl}/AssetTypeId?id=${id}`);
   }
 
-  create(data: Partial<AssetType>): Observable<AssetType> {
-    return this.http.post<AssetType>(`${this.api}/CreateAssetType`, data);
+  create(payload: Omit<AssetType, 'id'>): Observable<AssetType> {
+    return this.http.post<AssetType>(
+      `${this.baseUrl}/CreateAssetType`,
+      payload
+    );
   }
 
-  update(id: number, data: Partial<AssetType>): Observable<AssetType> {
-    return this.http.put<AssetType>(`${this.api}/${id}`, data);
+  update(id: number, changes: Partial<AssetType>): Observable<void> {
+    return this.http.put<void>(`${this.baseUrl}/${id}`, changes);
   }
 
   delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.api}/${id}`);
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 }

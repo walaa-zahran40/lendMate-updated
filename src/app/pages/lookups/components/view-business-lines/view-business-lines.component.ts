@@ -2,8 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
 import { TableComponent } from '../../../../shared/components/table/table.component';
-import { BusinessLine } from '../../store/businessLines/businessLine.model';
-import { BusinessLinesFacade } from '../../store/businessLines/businessLines.facade';
+import { BusinessLine } from '../../store/business-lines/business-line.model';
+import { BusinessLinesFacade } from '../../store/business-lines/business-lines.facade';
 
 @Component({
   selector: 'app-view-businessLines',
@@ -37,7 +37,7 @@ export class ViewBusinessLinesComponent {
   ngOnInit() {
     console.log('🟢 ngOnInit: start loading businessLines');
     this.facade.loadAll();
-    this.businessLines$ = this.facade.items$;
+    this.businessLines$ = this.facade.all$;
 
     this.businessLines$
       .pipe(takeUntil(this.destroy$))

@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { filter, take } from 'rxjs';
 import { arabicOnlyValidator } from '../../../../shared/validators/arabic-only.validator';
 import { AuthorityOfficesFacade } from '../../store/authority-offices/authority-offices.facade';
-import { AuthorityOffice } from '../../store/authority-offices/authority-offices.model';
+import { AuthorityOffice } from '../../store/authority-offices/authority-office.model';
 
 @Component({
   selector: 'app-add-authority-offices',
@@ -32,10 +32,7 @@ export class AddAuthorityOfficesComponent {
         '',
         [Validators.required], // 2nd slot (sync)
       ],
-      nameAR: [
-        '',
-        [Validators.required, Validators.pattern(/^[\u0600-\u06FF\s]+$/)],
-      ],
+      nameAR: ['', [Validators.required]],
       isActive: [true], // ← new hidden control
     });
 
@@ -56,7 +53,9 @@ export class AddAuthorityOfficesComponent {
         this.facade.loadById(this.clientId);
         this.facade.selected$
           .pipe(
-            filter((ct) => !!ct),
+            filter(
+              (ct): ct is AuthorityOffice => !!ct && ct.id === this.clientId
+            ),
             take(1)
           )
           .subscribe((ct) => {

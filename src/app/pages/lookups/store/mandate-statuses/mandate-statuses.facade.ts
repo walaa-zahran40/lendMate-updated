@@ -4,6 +4,7 @@ import * as Actions from './mandate-statuses.actions';
 import * as Selectors from './mandate-statuses.selectors';
 import { Observable } from 'rxjs';
 import { MandateStatus } from './mandate-status.model';
+import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class MandateStatusesFacade {
@@ -19,13 +20,14 @@ export class MandateStatusesFacade {
   current$: Observable<MandateStatus | undefined> = this.store.select(
     Selectors.selectCurrentMandateStatus
   );
-  
+
   loading$: Observable<boolean> = this.store.select(
     Selectors.selectMandateStatusesLoading
   );
   error$: Observable<any> = this.store.select(
     Selectors.selectMandateStatusesError
   );
+  operationSuccess$ = this.store.select(selectLastOperationSuccess);
 
   constructor(private store: Store) {}
 

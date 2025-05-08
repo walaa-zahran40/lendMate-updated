@@ -4,6 +4,7 @@ import { AddressTypesService } from './address-types.service';
 import * as ActionsList from './address-types.actions';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
 import { AddressType } from './address-types.model';
+import { EntityNames } from '../../../../shared/constants/entity-names';
 
 @Injectable()
 export class AddressTypesEffects {
@@ -61,14 +62,20 @@ export class AddressTypesEffects {
       ),
     { dispatch: false }
   );
+
   create$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActionsList.createEntity),
       mergeMap(({ payload }) => {
-        // payload is Partial<Omit<AddressType,'id'>>, but our service needs the full DTO shape
         const dto = payload as Omit<AddressType, 'id'>;
         return this.service.create(dto).pipe(
-          map((entity) => ActionsList.createEntitySuccess({ entity })),
+          mergeMap((entity) => [
+            ActionsList.createEntitySuccess({ entity }),
+            ActionsList.entityOperationSuccess({
+              entity: EntityNames.AddressType,
+              operation: 'create',
+            }),
+          ]),
           catchError((error) => of(ActionsList.createEntityFailure({ error })))
         );
       })
@@ -80,7 +87,13 @@ export class AddressTypesEffects {
       ofType(ActionsList.updateEntity),
       mergeMap(({ id, changes }) =>
         this.service.update(id, changes).pipe(
-          map(() => ActionsList.updateEntitySuccess({ id, changes })),
+          mergeMap(() => [
+            ActionsList.updateEntitySuccess({ id, changes }),
+            ActionsList.entityOperationSuccess({
+              entity: EntityNames.AddressType,
+              operation: 'update',
+            }),
+          ]),
           catchError((error) => of(ActionsList.updateEntityFailure({ error })))
         )
       )

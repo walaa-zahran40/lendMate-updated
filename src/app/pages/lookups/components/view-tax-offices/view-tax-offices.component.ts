@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Subject, Observable, takeUntil, combineLatest, map } from 'rxjs';
 import { TableComponent } from '../../../../shared/components/table/table.component';
 import { TaxOfficesFacade } from '../../store/tax_offices/tax_offices.facade';
-import { TaxOffice } from '../../store/tax_offices/tax_offices.model';
+import { TaxOffice } from '../../store/tax_offices/tax_office.model';
 import { Governorate } from '../../store/governorates/governorate.model';
 import { Store } from '@ngrx/store';
 import { selectGovernorates } from '../../store/governorates/governorates.selectors';
@@ -35,30 +35,35 @@ export class ViewTaxOfficesComponent {
   taxOffices$!: Observable<TaxOffice[]>;
   governoratesList$!: Observable<Governorate[]>;
 
-  constructor(private router: Router, private facade: TaxOfficesFacade,private store: Store) {}
+  constructor(
+    private router: Router,
+    private facade: TaxOfficesFacade,
+    private store: Store
+  ) {}
   ngOnInit() {
     this.taxOffices$ = this.facade.all$;
     this.governoratesList$ = this.store.select(selectGovernorates); // Add this line
     this.facade.loadAll();
-    this.store.dispatch({ type: '[Governorates] Load All' }); 
+    this.store.dispatch({ type: '[Governorates] Load All' });
 
-   combineLatest([this.taxOffices$, this.governoratesList$])
-             .pipe(
-               map(([taxOffices, governorates]) =>
-                taxOffices
-                   .map((ss) => ({
-                     ...ss,
-                     governorateName:
-                     governorates.find((s) => s.id === ss.governorateId)?.name || '—',
-                   }))
-                   .sort((a, b) => b.id - a.id)
-               ),
-               takeUntil(this.destroy$)
-             )
-             .subscribe((normalizedSubSectors) => {
-               this.filteredTaxOffices = normalizedSubSectors;
-               this.originalTaxOffices = normalizedSubSectors;
-             });
+    combineLatest([this.taxOffices$, this.governoratesList$])
+      .pipe(
+        map(([taxOffices, governorates]) =>
+          taxOffices
+            .map((ss) => ({
+              ...ss,
+              governorateName:
+                governorates.find((s) => s.id === ss.governorateId)?.name ||
+                '—',
+            }))
+            .sort((a, b) => b.id - a.id)
+        ),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((normalizedSubSectors) => {
+        this.filteredTaxOffices = normalizedSubSectors;
+        this.originalTaxOffices = normalizedSubSectors;
+      });
   }
 
   onAddTaxOffice() {
@@ -102,11 +107,10 @@ export class ViewTaxOfficesComponent {
   }
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
-    this.filteredTaxOffices = this.originalTaxOffices.filter(
-      (taxOffice) =>
-        Object.values(taxOffice).some((val) =>
-          val?.toString().toLowerCase().includes(lower)
-        )
+    this.filteredTaxOffices = this.originalTaxOffices.filter((taxOffice) =>
+      Object.values(taxOffice).some((val) =>
+        val?.toString().toLowerCase().includes(lower)
+      )
     );
   }
   onToggleFilters(value: boolean) {

@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { createSelector, Store } from '@ngrx/store';
 import * as Actions from './tax_offices.actions';
 import * as Selectors from './tax_offices.selectors';
-import { TaxOffice } from './tax_offices.model';
+import { TaxOffice } from './tax_office.model';
+import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class TaxOfficesFacade {
@@ -16,6 +17,8 @@ export class TaxOfficesFacade {
       (state) => state.entities[state.loadedId!] // or however you track it
     )
   );
+  operationSuccess$ = this.store.select(selectLastOperationSuccess);
+
   constructor(private store: Store) {}
 
   loadAll(pageNumber?: number) {

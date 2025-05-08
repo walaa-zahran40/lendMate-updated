@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Subject, Observable, takeUntil } from 'rxjs';
 import { TableComponent } from '../../../../shared/components/table/table.component';
 import { MandateValidityUnitsFacade } from '../../store/mandate-validity-units/mandate-validity-units.facade';
-import { MandateValidityUnit } from '../../store/mandate-validity-units/mandate-validity-units.model';
+import { MandateValidityUnit } from '../../store/mandate-validity-units/mandate-validity-unit.model';
 
 @Component({
   selector: 'app-view-mandate-validity-unit',
@@ -31,7 +31,10 @@ export class ViewMandateValidityUnitComponent {
   filteredMandateValidityUnits: MandateValidityUnit[] = [];
   mandateValidityUnits$!: Observable<MandateValidityUnit[]>;
 
-  constructor(private router: Router, private facade: MandateValidityUnitsFacade) {}
+  constructor(
+    private router: Router,
+    private facade: MandateValidityUnitsFacade
+  ) {}
   ngOnInit() {
     this.facade.loadAll();
     this.mandateValidityUnits$ = this.facade.all$;
@@ -87,20 +90,23 @@ export class ViewMandateValidityUnitComponent {
   }
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
-    this.filteredMandateValidityUnits = this.originalMandateValidityUnits.filter(
-      (mandateValidityUnit) =>
+    this.filteredMandateValidityUnits =
+      this.originalMandateValidityUnits.filter((mandateValidityUnit) =>
         Object.values(mandateValidityUnit).some((val) =>
           val?.toString().toLowerCase().includes(lower)
         )
-    );
+      );
   }
   onToggleFilters(value: boolean) {
     this.showFilters = value;
   }
   onEditMandateValidityUnit(mandateValidityUnit: MandateValidityUnit) {
-    this.router.navigate(['/lookups/edit-mandate-validity-unit', mandateValidityUnit.id], {
-      queryParams: { mode: 'edit' },
-    });
+    this.router.navigate(
+      ['/lookups/edit-mandate-validity-unit', mandateValidityUnit.id],
+      {
+        queryParams: { mode: 'edit' },
+      }
+    );
   }
   onViewMandateValidityUnit(ct: MandateValidityUnit) {
     this.router.navigate(['/lookups/edit-mandate-validity-unit', ct.id], {
@@ -108,4 +114,3 @@ export class ViewMandateValidityUnitComponent {
     });
   }
 }
-

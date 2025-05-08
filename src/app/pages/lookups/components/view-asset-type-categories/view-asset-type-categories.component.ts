@@ -40,7 +40,7 @@ export class ViewAssetTypeCategoriesComponent {
   ngOnInit() {
     console.log('🟢 ngOnInit: start loading assetTypeCategories');
     this.facade.loadAll();
-    this.assetTypeCategories$ = this.facade.items$;
+    this.assetTypeCategories$ = this.facade.all$;
 
     this.assetTypeCategories$
       .pipe(takeUntil(this.destroy$))

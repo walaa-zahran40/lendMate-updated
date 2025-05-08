@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TaxOfficesFacade } from '../../store/tax_offices/tax_offices.facade';
 import { filter, Observable, take } from 'rxjs';
 import { arabicOnlyValidator } from '../../../../shared/validators/arabic-only.validator';
-import { TaxOffice } from '../../store/tax_offices/tax_offices.model';
+import { TaxOffice } from '../../store/tax_offices/tax_office.model';
 import { Governorate } from '../../store/governorates/governorate.model';
 import { Store } from '@ngrx/store';
 import { loadGovernorates } from '../../store/governorates/governorates.actions';
@@ -35,7 +35,7 @@ export class AddTaxOfficesComponent {
     this.store.dispatch(loadGovernorates());
     this.governoratesList$ = this.store.select(selectGovernorates);
     this.governoratesList$.subscribe((data) =>
-        console.log('🧪 governoratesList$ from store:', data)
+      console.log('🧪 governoratesList$ from store:', data)
     );
 
     this.addTaxOfficesLookupsForm = this.fb.group({
@@ -45,7 +45,7 @@ export class AddTaxOfficesComponent {
         [Validators.required], // 2nd slot (sync)
       ],
       nameAR: ['', [Validators.required, arabicOnlyValidator]],
-      governorateId:  [null, [Validators.required]],
+      governorateId: [null, [Validators.required]],
       address: ['', [Validators.required]],
       isActive: [true], // ← new hidden control
     });
@@ -118,8 +118,15 @@ export class AddTaxOfficesComponent {
       return;
     }
 
-    const { name, nameAR,governorateId,address, isActive } = this.addTaxOfficesLookupsForm.value;
-    const payload: Partial<TaxOffice> = { name, nameAR, governorateId,address, isActive };
+    const { name, nameAR, governorateId, address, isActive } =
+      this.addTaxOfficesLookupsForm.value;
+    const payload: Partial<TaxOffice> = {
+      name,
+      nameAR,
+      governorateId,
+      address,
+      isActive,
+    };
     console.log('  → payload object:', payload);
 
     // Double-check your route param
@@ -127,9 +134,16 @@ export class AddTaxOfficesComponent {
     console.log('  route.snapshot.paramMap.get(clientId):', routeId);
 
     if (this.editMode) {
-      const { id, name, nameAR,governorateId,address, isActive } =
+      const { id, name, nameAR, governorateId, address, isActive } =
         this.addTaxOfficesLookupsForm.value;
-      const payload: TaxOffice = { id, name, nameAR,governorateId,address, isActive };
+      const payload: TaxOffice = {
+        id,
+        name,
+        nameAR,
+        governorateId,
+        address,
+        isActive,
+      };
       console.log(
         '🔄 Dispatching UPDATE id=',
         this.clientId,

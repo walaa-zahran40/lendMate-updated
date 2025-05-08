@@ -67,3 +67,7 @@ export const deleteEntityFailure = createAction(
   '[LeasingTypes] Delete Failure',
   props<{ error: any }>()
 );
+export const entityOperationSuccess = createAction(
+  '[Entity] Operation Success',
+  props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
+);

@@ -48,8 +48,6 @@ import { ViewClientIdentityComponent } from './components/view-client-identity/v
 import { AddClientIdentityComponent } from './components/add-client-identity/add-client-identity.component';
 import { ClientTypesEffects } from './store/client-types/client-types.effects';
 import { clientTypesReducer } from './store/client-types/client-types.reducer';
-import { legalFormReducer } from '../../lookups/store/legal-forms/legal-form.reducer';
-import { LegalFormEffects } from '../../lookups/store/legal-forms/legal-form.effects';
 import { individualReducer } from './store/individual/individual.reducer';
 import { IndividualEffects } from './store/individual/individual.effects';
 import { LeaveEffects } from './store/client-form/client-form.effects';
@@ -142,8 +140,6 @@ import { ClientIdentityTypesEffects } from './store/client-identity-types/client
     EffectsModule.forFeature([ClientTypesEffects]),
     StoreModule.forFeature('legalFormLaw', legalFormLawReducer),
     EffectsModule.forFeature([LegalFormLawEffects]),
-    StoreModule.forFeature('legalForm', legalFormReducer),
-    EffectsModule.forFeature([LegalFormEffects]),
     StoreModule.forFeature('clientForm', clientFormReducer),
     EffectsModule.forFeature([LeaveEffects]),
     StoreModule.forFeature('sector', sectorReducer),

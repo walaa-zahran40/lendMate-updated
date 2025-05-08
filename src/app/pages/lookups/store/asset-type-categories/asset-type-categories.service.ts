@@ -1,58 +1,52 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { catchError, map, Observable, tap, throwError } from 'rxjs';
 import { AssetTypeCategory } from './asset-type-category.model';
 import { environment } from '../../../../../environments/environment';
 
-interface PagedResponse<T> {
-  items: T[];
-  totalCount: number;
-}
-
 @Injectable({ providedIn: 'root' })
 export class AssetTypeCategoriesService {
-  private api = `${environment.apiUrl}AssetTypeCategories`;
+  private baseUrl = `${environment.apiUrl}AssetTypeCategories`;
 
   constructor(private http: HttpClient) {}
 
-  getAll(pageNumber?: number): Observable<PagedResponse<AssetTypeCategory>> {
-    let params = new HttpParams();
-    if (pageNumber != null) {
-      params = params.set('pageNumber', pageNumber.toString());
-    }
-    return this.http.get<PagedResponse<AssetTypeCategory>>(
-      `${this.api}/GetAllAssetTypeCategories`,
-      { params }
-    );
-  }
-
-  getHistory(): Observable<PagedResponse<AssetTypeCategory>> {
-    return this.http.get<PagedResponse<AssetTypeCategory>>(
-      `${this.api}/GetAllAssetTypeCategoriesHistory`
-    );
+  getAll(): Observable<AssetTypeCategory[]> {
+    console.log('🚀 Service: calling GET …');
+    return this.http
+      .get<{ items: AssetTypeCategory[]; totalCount: number }>(
+        `${this.baseUrl}/GetAllAssetTypeCategories`
+      )
+      .pipe(
+        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
+        map((resp) => resp.items), // ← pull off the `items` array here
+        tap((items) => console.log('🚀 Mapped items:', items)),
+        catchError((err) => {
+          console.error('🚀 HTTP error fetching AssetTypeCategories:', err);
+          return throwError(() => err);
+        })
+      );
   }
 
   getById(id: number): Observable<AssetTypeCategory> {
     return this.http.get<AssetTypeCategory>(
-      `${this.api}/AssetTypeCategoryId?id=${id}`
+      `${this.baseUrl}/AssetTypeCategoryId?id=${id}`
     );
   }
 
-  create(data: Partial<AssetTypeCategory>): Observable<AssetTypeCategory> {
-    return this.http.post<AssetTypeCategory>(
-      `${this.api}/CreateAssetTypeCategory`,
-      data
-    );
-  }
-
-  update(
-    id: number,
-    data: Partial<AssetTypeCategory>
+  create(
+    payload: Omit<AssetTypeCategory, 'id'>
   ): Observable<AssetTypeCategory> {
-    return this.http.put<AssetTypeCategory>(`${this.api}/${id}`, data);
+    return this.http.post<AssetTypeCategory>(
+      `${this.baseUrl}/CreateAssetTypeCategory`,
+      payload
+    );
+  }
+
+  update(id: number, changes: Partial<AssetTypeCategory>): Observable<void> {
+    return this.http.put<void>(`${this.baseUrl}/${id}`, changes);
   }
 
   delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.api}/${id}`);
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 }

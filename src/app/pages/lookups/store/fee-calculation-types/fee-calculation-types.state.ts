@@ -1,5 +1,5 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { FeeCalculationType } from './fee-calculation-types.model';
+import { FeeCalculationType } from './fee-calculation-type.model';
 
 export interface State extends EntityState<FeeCalculationType> {
   loadedId: number | null; // ← add this

@@ -4,6 +4,7 @@ import * as Actions from './currencies.actions';
 import * as Selectors from './currencies.selectors';
 import { Observable } from 'rxjs';
 import { Currency } from './currency.model';
+import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class CurrenciesFacade {
@@ -19,13 +20,12 @@ export class CurrenciesFacade {
   current$: Observable<Currency | undefined> = this.store.select(
     Selectors.selectCurrentCurrencyy
   );
-  
+
   loading$: Observable<boolean> = this.store.select(
     Selectors.selectCurrenciesLoading
   );
-  error$: Observable<any> = this.store.select(
-    Selectors.selectCurrenciesError
-  );
+  error$: Observable<any> = this.store.select(Selectors.selectCurrenciesError);
+  operationSuccess$ = this.store.select(selectLastOperationSuccess);
 
   constructor(private store: Store) {}
 

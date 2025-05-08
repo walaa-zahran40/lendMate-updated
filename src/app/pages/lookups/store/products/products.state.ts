@@ -1,5 +1,5 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { Product } from './products.model';
+import { Product } from './product.model';
 
 export interface State extends EntityState<Product> {
   loadedId: number | null; // ← add this
@@ -7,8 +7,7 @@ export interface State extends EntityState<Product> {
   error: string | null;
 }
 
-export const adapter: EntityAdapter<Product> =
-  createEntityAdapter<Product>();
+export const adapter: EntityAdapter<Product> = createEntityAdapter<Product>();
 
 export const initialState: State = adapter.getInitialState({
   loadedId: null, // ← and set your initial value here

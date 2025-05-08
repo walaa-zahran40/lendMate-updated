@@ -1,30 +1,47 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { AssetTypeCategoriesState } from './asset-type-categories.state';
+import * as fromSlice from './asset-type-categories.reducer';
+import { adapter, State } from './asset-type-categories.state';
 
-export const selectAssetTypeCategoriesState =
-  createFeatureSelector<AssetTypeCategoriesState>('assetTypeCategories');
-export const selectAssetTypeCategories = createSelector(
-  selectAssetTypeCategoriesState,
-  (state) => state.items
+export const selectFeature = createFeatureSelector<State>(
+  'assetTypeCategories'
 );
-export const selectAssetTypeCategoriesTotal = createSelector(
-  selectAssetTypeCategoriesState,
-  (state) => state.totalCount
+export const selectAssetTypeCategoriesFeature = createFeatureSelector<State>(
+  'assetTypeCategories'
 );
-export const selectAssetTypeCategoriesHistory = createSelector(
-  selectAssetTypeCategoriesState,
-  (state) => state.history
+
+// these come from your EntityAdapter
+const { selectEntities } = adapter.getSelectors(
+  selectAssetTypeCategoriesFeature
 );
-export const selectCurrentAssetTypeCategory = createSelector(
-  selectAssetTypeCategoriesState,
-  (state) => state.current
+
+export const selectAllAssetTypeCategories = createSelector(
+  selectFeature,
+  fromSlice.selectAll
+);
+export const selectAreaEntities = createSelector(
+  selectFeature,
+  fromSlice.selectEntities
 );
 export const selectAssetTypeCategoriesLoading = createSelector(
-  selectAssetTypeCategoriesState,
+  selectFeature,
   (state) => state.loading
 );
 export const selectAssetTypeCategoriesError = createSelector(
-  selectAssetTypeCategoriesState,
+  selectFeature,
   (state) => state.error
 );
 
+export const selectLoadedId = createSelector(
+  selectFeature,
+  (state) => state.loadedId
+);
+
+export const selectCurrent = createSelector(
+  selectEntities,
+  selectLoadedId,
+  (entities, id) => (id != null ? entities[id] : null)
+);
+export const selectAssetTypeCategoriesTotalCount = createSelector(
+  selectAssetTypeCategoriesFeature,
+  (state) => state
+);

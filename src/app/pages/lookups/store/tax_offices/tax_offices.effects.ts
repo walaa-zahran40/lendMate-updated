@@ -3,14 +3,11 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { TaxOfficesService } from './tax_offices.service';
 import * as ActionsList from './tax_offices.actions';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
-import { TaxOffice } from './tax_offices.model';
+import { TaxOffice } from './tax_office.model';
 
 @Injectable()
 export class TaxOfficesEffects {
-  constructor(
-    private actions$: Actions,
-    private service: TaxOfficesService
-  ) {}
+  constructor(private actions$: Actions, private service: TaxOfficesService) {}
 
   loadAll$ = createEffect(() =>
     this.actions$.pipe(

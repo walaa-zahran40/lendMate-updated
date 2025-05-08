@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, take, tap } from 'rxjs';
 import { arabicOnlyValidator } from '../../../../shared/validators/arabic-only.validator';
-import { FeeCalculationType } from '../../store/fee-calculation-types/fee-calculation-types.model';
+import { FeeCalculationType } from '../../store/fee-calculation-types/fee-calculation-type.model';
 import { FeeCalculationTypesFacade } from '../../store/fee-calculation-types/fee-calculation-types.facade';
 
 @Component({

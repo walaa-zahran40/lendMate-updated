@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { TaxOffice } from './tax_offices.model';
+import { TaxOffice } from './tax_office.model';
 
 export const loadAll = createAction(
   '[TaxOffices] Load All',
@@ -66,4 +66,8 @@ export const deleteEntitySuccess = createAction(
 export const deleteEntityFailure = createAction(
   '[TaxOffices] Delete Failure',
   props<{ error: any }>()
+);
+export const entityOperationSuccess = createAction(
+  '[Entity] Operation Success',
+  props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
 );

@@ -1,82 +1,73 @@
 import { createAction, props } from '@ngrx/store';
 import { AssetTypeCategory } from './asset-type-category.model';
 
-// Load all
-export const loadAssetTypeCategories = createAction('[AssetTypeCategories] Load All');
-export const loadAssetTypeCategoriesSuccess = createAction(
-  '[AssetTypeCategories] Load All Success',
-  props<{ items: AssetTypeCategory[]; totalCount: number }>()
+export const loadAll = createAction(
+  '[AssetTypeCategories] Load All',
+  props<{ pageNumber?: number }>()
 );
-export const loadAssetTypeCategoriesFailure = createAction(
+export const loadAllSuccess = createAction(
+  '[AssetTypeCategories] Load All Success',
+  props<{ result: AssetTypeCategory[] }>()
+);
+
+export const loadAllFailure = createAction(
   '[AssetTypeCategories] Load All Failure',
   props<{ error: any }>()
 );
 
-// Load history
-export const loadAssetTypeCategoriesHistory = createAction(
-  '[AssetTypeCategories] Load History'
-);
-export const loadAssetTypeCategoriesHistorySuccess = createAction(
-  '[AssetTypeCategories] Load History Success',
-  props<{ history: AssetTypeCategory[] }>()
-);
-export const loadAssetTypeCategoriesHistoryFailure = createAction(
-  '[AssetTypeCategories] Load History Failure',
-  props<{ error: any }>()
-);
-
-// Load by ID
-export const loadAssetTypeCategory = createAction(
-  '[AssetTypeCategories] Load One',
+export const loadById = createAction(
+  '[AssetTypeCategories] Load By Id',
   props<{ id: number }>()
 );
-export const loadAssetTypeCategorySuccess = createAction(
-  '[AssetTypeCategories] Load One Success',
-  props<{ currency: AssetTypeCategory }>()
+export const loadByIdSuccess = createAction(
+  '[AssetTypeCategories] Load By Id Success',
+  props<{ entity: AssetTypeCategory }>()
 );
-export const loadAssetTypeCategoryFailure = createAction(
-  '[AssetTypeCategories] Load One Failure',
+export const loadByIdFailure = createAction(
+  '[AssetTypeCategories] Load By Id Failure',
   props<{ error: any }>()
 );
 
-// Create
-export const createAssetTypeCategory = createAction(
+export const createEntity = createAction(
   '[AssetTypeCategories] Create',
-  props<{ data: Partial<AssetTypeCategory> }>()
+  // allow all fields except id, but all optional
+  props<{ payload: Partial<Omit<AssetTypeCategory, 'id'>> }>()
 );
-export const createAssetTypeCategorySuccess = createAction(
+export const createEntitySuccess = createAction(
   '[AssetTypeCategories] Create Success',
-  props<{ currency: AssetTypeCategory }>()
+  props<{ entity: AssetTypeCategory }>()
 );
-export const createAssetTypeCategoryFailure = createAction(
+export const createEntityFailure = createAction(
   '[AssetTypeCategories] Create Failure',
   props<{ error: any }>()
 );
 
-// Update
-export const updateAssetTypeCategory = createAction(
+export const updateEntity = createAction(
   '[AssetTypeCategories] Update',
-  props<{ id: number; data: Partial<AssetTypeCategory> }>()
+  props<{ id: number; changes: Partial<AssetTypeCategory> }>()
 );
-export const updateAssetTypeCategorySuccess = createAction(
+export const updateEntitySuccess = createAction(
   '[AssetTypeCategories] Update Success',
-  props<{ currency: AssetTypeCategory }>()
+  props<{ id: number; changes: Partial<AssetTypeCategory> }>()
 );
-export const updateAssetTypeCategoryFailure = createAction(
+export const updateEntityFailure = createAction(
   '[AssetTypeCategories] Update Failure',
   props<{ error: any }>()
 );
 
-// Delete
-export const deleteAssetTypeCategory = createAction(
+export const deleteEntity = createAction(
   '[AssetTypeCategories] Delete',
   props<{ id: number }>()
 );
-export const deleteAssetTypeCategorySuccess = createAction(
+export const deleteEntitySuccess = createAction(
   '[AssetTypeCategories] Delete Success',
   props<{ id: number }>()
 );
-export const deleteAssetTypeCategoryFailure = createAction(
+export const deleteEntityFailure = createAction(
   '[AssetTypeCategories] Delete Failure',
   props<{ error: any }>()
+);
+export const entityOperationSuccess = createAction(
+  '[Entity] Operation Success',
+  props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
 );

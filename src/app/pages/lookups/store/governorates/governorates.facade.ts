@@ -4,6 +4,7 @@ import * as Actions from './governorates.actions';
 import * as Selectors from './governorates.selectors';
 import { Observable } from 'rxjs';
 import { Governorate } from './governorate.model';
+import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class GovernorateFacade {
@@ -25,6 +26,7 @@ export class GovernorateFacade {
   error$: Observable<any> = this.store.select(
     Selectors.selectGovernoratesError
   );
+  operationSuccess$ = this.store.select(selectLastOperationSuccess);
 
   constructor(private store: Store) {}
 

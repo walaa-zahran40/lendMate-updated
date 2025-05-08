@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, take } from 'rxjs';
-import { arabicOnlyValidator } from '../../../../shared/validators/arabic-only.validator';
 import { AssetTypeCategoriesFacade } from '../../store/asset-type-categories/asset-type-categories.facade';
 import { AssetTypeCategory } from '../../store/asset-type-categories/asset-type-category.model';
 
@@ -29,8 +28,11 @@ export class AddAssetTypeCategoriesComponent {
     this.addAssetTypeCategoriesLookupsForm = this.fb.group({
       id: [null],
       name: ['', [Validators.required]],
-      nameAR: ['', [Validators.required, arabicOnlyValidator]],
-      limit: [ null , [Validators.required]],
+      nameAR: [
+        '',
+        [Validators.required, , Validators.pattern(/^[\u0600-\u06FF\s]+$/)],
+      ],
+      limit: [null, [Validators.required]],
       isActive: [true],
     });
 
@@ -47,10 +49,12 @@ export class AddAssetTypeCategoriesComponent {
           this.addAssetTypeCategoriesLookupsForm.disable();
         }
 
-        this.facade.loadOne(this.clientId);
-        this.facade.current$
+        this.facade.loadById(this.clientId);
+        this.facade.selected$
           .pipe(
-            filter((ct) => !!ct),
+            filter(
+              (ct): ct is AssetTypeCategory => !!ct && ct.id === this.clientId
+            ),
             take(1)
           )
           .subscribe((ct) => {
@@ -76,7 +80,10 @@ export class AddAssetTypeCategoriesComponent {
     console.log('  viewOnly:', this.viewOnly);
     console.log('  editMode:', this.editMode);
     console.log('  form valid:', this.addAssetTypeCategoriesLookupsForm.valid);
-    console.log('  form touched:', this.addAssetTypeCategoriesLookupsForm.touched);
+    console.log(
+      '  form touched:',
+      this.addAssetTypeCategoriesLookupsForm.touched
+    );
     console.log(
       '  form raw value:',
       this.addAssetTypeCategoriesLookupsForm.getRawValue()

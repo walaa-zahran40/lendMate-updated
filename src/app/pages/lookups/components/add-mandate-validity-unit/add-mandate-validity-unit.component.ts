@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, take } from 'rxjs';
 import { arabicOnlyValidator } from '../../../../shared/validators/arabic-only.validator';
-import { MandateValidityUnit } from '../../store/mandate-validity-units/mandate-validity-units.model';
+import { MandateValidityUnit } from '../../store/mandate-validity-units/mandate-validity-unit.model';
 import { MandateValidityUnitsFacade } from '../../store/mandate-validity-units/mandate-validity-units.facade';
 
 @Component({
@@ -38,14 +38,17 @@ export class AddMandateValidityUnitComponent {
       isActive: [true], // ← new hidden control
     });
 
-    this.addMandateValidityUnitLookupsForm.get('validationMinValue')?.valueChanges.subscribe(minValue => {
-      const amountControl = this.addMandateValidityUnitLookupsForm.get('validationMaxValue');
-     
-      if (amountControl) {
-        amountControl.setValidators([Validators.min(minValue)]);
-        amountControl.updateValueAndValidity();
-      }
-    });
+    this.addMandateValidityUnitLookupsForm
+      .get('validationMinValue')
+      ?.valueChanges.subscribe((minValue) => {
+        const amountControl =
+          this.addMandateValidityUnitLookupsForm.get('validationMaxValue');
+
+        if (amountControl) {
+          amountControl.setValidators([Validators.min(minValue)]);
+          amountControl.updateValueAndValidity();
+        }
+      });
 
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
@@ -92,7 +95,10 @@ export class AddMandateValidityUnitComponent {
     console.log('  viewOnly:', this.viewOnly);
     console.log('  editMode:', this.editMode);
     console.log('  form valid:', this.addMandateValidityUnitLookupsForm.valid);
-    console.log('  form touched:', this.addMandateValidityUnitLookupsForm.touched);
+    console.log(
+      '  form touched:',
+      this.addMandateValidityUnitLookupsForm.touched
+    );
     console.log(
       '  form raw value:',
       this.addMandateValidityUnitLookupsForm.getRawValue()
@@ -115,8 +121,15 @@ export class AddMandateValidityUnitComponent {
       return;
     }
 
-    const { name, nameAR, validationMinValue,validationMaxValue,isActive } = this.addMandateValidityUnitLookupsForm.value;
-    const payload: Partial<MandateValidityUnit> = { name, nameAR, validationMinValue,validationMaxValue, isActive };
+    const { name, nameAR, validationMinValue, validationMaxValue, isActive } =
+      this.addMandateValidityUnitLookupsForm.value;
+    const payload: Partial<MandateValidityUnit> = {
+      name,
+      nameAR,
+      validationMinValue,
+      validationMaxValue,
+      isActive,
+    };
     console.log('  → payload object:', payload);
 
     // Double-check your route param
@@ -124,9 +137,22 @@ export class AddMandateValidityUnitComponent {
     console.log('  route.snapshot.paramMap.get(clientId):', routeId);
 
     if (this.editMode) {
-      const { id, name, nameAR, validationMinValue,validationMaxValue, isActive } =
-        this.addMandateValidityUnitLookupsForm.value;
-      const payload: MandateValidityUnit = { id, name, nameAR, validationMinValue,validationMaxValue, isActive };
+      const {
+        id,
+        name,
+        nameAR,
+        validationMinValue,
+        validationMaxValue,
+        isActive,
+      } = this.addMandateValidityUnitLookupsForm.value;
+      const payload: MandateValidityUnit = {
+        id,
+        name,
+        nameAR,
+        validationMinValue,
+        validationMaxValue,
+        isActive,
+      };
       console.log(
         '🔄 Dispatching UPDATE id=',
         this.clientId,

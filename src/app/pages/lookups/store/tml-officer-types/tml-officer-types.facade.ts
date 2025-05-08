@@ -3,6 +3,7 @@ import { createSelector, Store } from '@ngrx/store';
 import * as Actions from './tml-officer-types.actions';
 import * as Selectors from './tml-officer-types.selectors';
 import { TmlOfficerType } from './tml-officer-type.model';
+import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class TmlOfficerTypesFacade {
@@ -16,6 +17,8 @@ export class TmlOfficerTypesFacade {
       (state) => state.entities[state.loadedId!] // or however you track it
     )
   );
+  operationSuccess$ = this.store.select(selectLastOperationSuccess);
+
   constructor(private store: Store) {}
 
   loadAll(pageNumber?: number) {

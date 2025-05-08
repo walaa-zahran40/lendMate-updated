@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Product } from './products.model';
+import { Product } from './product.model';
 
 export const loadAll = createAction(
   '[Products] Load All',
@@ -66,4 +66,8 @@ export const deleteEntitySuccess = createAction(
 export const deleteEntityFailure = createAction(
   '[Products] Delete Failure',
   props<{ error: any }>()
+);
+export const entityOperationSuccess = createAction(
+  '[Entity] Operation Success',
+  props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
 );

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
-import { TaxOffice } from './tax_offices.model';
+import { TaxOffice } from './tax_office.model';
 import { environment } from '../../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
@@ -28,7 +28,9 @@ export class TaxOfficesService {
   }
 
   getById(id: number): Observable<TaxOffice> {
-    return this.http.get<TaxOffice>(`${this.baseUrl}/TaxOfficeId?taxOfficeId=${id}`);
+    return this.http.get<TaxOffice>(
+      `${this.baseUrl}/TaxOfficeId?taxOfficeId=${id}`
+    );
   }
 
   create(payload: Omit<TaxOffice, 'id'>): Observable<TaxOffice> {

@@ -27,8 +27,6 @@ import { selectAllSectors } from '../../../pages/crm/clients/store/sector-drop-d
 import { SubSectors } from '../../interfaces/sub-sector.interface';
 import { selectAllSubSectors } from '../../../pages/crm/clients/store/sub-sector-drop-down/sub-sector.selectors';
 import { LegalFormLaw } from '../../interfaces/legal-form-law.interface';
-import { LegalFormFacade } from '../../../pages/lookups/store/legal-forms/legal-form.facade';
-import { LegalForm } from '../../interfaces/legal-form.interface';
 import * as sectorsActions from '../../../pages/crm/clients/store/sector-drop-down/sector.actions';
 import * as subSectorsActions from '../../../pages/crm/clients/store/sub-sector-drop-down/sub-sector.actions';
 import { setFormDirty } from '../../../pages/crm/clients/store/client-form/client-form.actions';
@@ -476,7 +474,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addWorkFlowActionTypesLookupsForm!: boolean;
   filteredSubSectors$!: Observable<SubSectors[]>;
   legalFormLaws$: Observable<LegalFormLaw[]> = this.facade.legalFormLaws$;
-  legalForms$ = this.facadeLegalForms.legalForms$;
+  // legalForms$ = this.facadeLegalForms.legalForms$;
   private sub!: Subscription;
   @Input() identityIndividual: {
     id: number;
@@ -497,7 +495,7 @@ export class FormComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store,
     private facade: LegalFormLawFacade,
-    private facadeLegalForms: LegalFormFacade,
+    // private facadeLegalForms: LegalFormFacade,
     private route: ActivatedRoute,
     public router: Router
   ) {}
@@ -541,7 +539,7 @@ export class FormComponent implements OnInit, OnDestroy {
       }
       if (this.addClientShowLegal) {
         this.facade.loadLegalFormLaws();
-        this.facadeLegalForms.loadLegalForms();
+        // this.facadeLegalForms.loadLegalForms();
       }
     }
     // Combine sectorId changes with all sub-sectors
@@ -1092,13 +1090,13 @@ export class FormComponent implements OnInit, OnDestroy {
     this.subSectorList.markAsTouched();
   }
 
-  updateValue(value: LegalFormLaw, value1: LegalForm): void {
-    this.selectedLegalFormLaw = value;
-    this.selectedLegalForm = value1;
-    this.onChange(value);
-    this.onTouched();
-    this.selectionChanged.emit(value);
-  }
+  // updateValue(value: LegalFormLaw, value1: LegalForm): void {
+  //   this.selectedLegalFormLaw = value;
+  //   this.selectedLegalForm = value1;
+  //   this.onChange(value);
+  //   this.onTouched();
+  //   this.selectionChanged.emit(value);
+  // }
   onFileSelected(event: any): void {
     const file = event.files?.[0];
     if (file) {

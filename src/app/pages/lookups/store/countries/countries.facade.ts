@@ -4,12 +4,11 @@ import * as Actions from './countries.actions';
 import * as Selectors from './countries.selectors';
 import { Observable } from 'rxjs';
 import { Country } from './country.model';
+import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class CountriesFacade {
-  items$: Observable<Country[]> = this.store.select(
-    Selectors.selectCountries
-  );
+  items$: Observable<Country[]> = this.store.select(Selectors.selectCountries);
   total$: Observable<number> = this.store.select(
     Selectors.selectCountriesTotal
   );
@@ -22,9 +21,8 @@ export class CountriesFacade {
   loading$: Observable<boolean> = this.store.select(
     Selectors.selectCountriesLoading
   );
-  error$: Observable<any> = this.store.select(
-    Selectors.selectCountriesError
-  );
+  error$: Observable<any> = this.store.select(Selectors.selectCountriesError);
+  operationSuccess$ = this.store.select(selectLastOperationSuccess);
 
   constructor(private store: Store) {}
 

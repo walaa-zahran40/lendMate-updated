@@ -3,11 +3,10 @@ import { Router } from '@angular/router';
 import { Subject, Observable, takeUntil, combineLatest, map } from 'rxjs';
 import { TableComponent } from '../../../../shared/components/table/table.component';
 import { ProductsFacade } from '../../store/products/products.facade';
-import { Product } from '../../store/products/products.model';
-import { BusinessLine } from '../../store/businessLines/businessLine.model';
+import { Product } from '../../store/products/product.model';
+import { BusinessLine } from '../../store/business-lines/business-line.model';
 import { Store } from '@ngrx/store';
-import { selectBusinessLines } from '../../store/businessLines/businessLines.selectors';
-import { BusinessLinesFacade } from '../../store/businessLines/businessLines.facade';
+import { BusinessLinesFacade } from '../../store/business-lines/business-lines.facade';
 
 @Component({
   selector: 'app-view-products',
@@ -28,7 +27,6 @@ export class ViewProductsComponent {
     { field: 'nameAR', header: 'Name AR' },
     { field: 'lisenceStartDate', header: 'Lisence Start Date' },
     { field: 'businessLineName', header: 'business Line' },
-
   ];
   showDeleteModal: boolean = false;
   selectedProductId: number | null = null;
@@ -37,22 +35,27 @@ export class ViewProductsComponent {
   products$!: Observable<Product[]>;
   businessLinesList$!: Observable<BusinessLine[]>;
 
-  constructor(private router: Router, private facade: ProductsFacade, private businessLineFacade:BusinessLinesFacade, private store: Store) {}
+  constructor(
+    private router: Router,
+    private facade: ProductsFacade,
+    private businessLineFacade: BusinessLinesFacade,
+    private store: Store
+  ) {}
   ngOnInit() {
-
     this.products$ = this.facade.all$;
-    this.businessLinesList$ = this.businessLineFacade.items$; // Add this line
+    this.businessLinesList$ = this.businessLineFacade.all$; // Add this line
     this.facade.loadAll();
     this.businessLineFacade.loadAll();
 
-     combineLatest([this.products$, this.businessLinesList$])
+    combineLatest([this.products$, this.businessLinesList$])
       .pipe(
         map(([products, businessLines]) =>
           products
             .map((ss) => ({
               ...ss,
               businessLineName:
-              businessLines.find((s) => s.id === ss.businessLineId)?.name || '—',
+                businessLines.find((s) => s.id === ss.businessLineId)?.name ||
+                '—',
             }))
             .sort((a, b) => b.id - a.id)
         ),
@@ -74,10 +77,7 @@ export class ViewProductsComponent {
     this.destroy$.complete();
   }
   onDeleteProduct(productId: any): void {
-    console.log(
-      '[View] onDeleteProduct() – opening modal for id=',
-      productId
-    );
+    console.log('[View] onDeleteProduct() – opening modal for id=', productId);
     this.selectedProductId = productId;
     this.showDeleteModal = true;
   }
@@ -106,11 +106,10 @@ export class ViewProductsComponent {
   }
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
-    this.filteredProducts = this.originalProducts.filter(
-      (product) =>
-        Object.values(product).some((val) =>
-          val?.toString().toLowerCase().includes(lower)
-        )
+    this.filteredProducts = this.originalProducts.filter((product) =>
+      Object.values(product).some((val) =>
+        val?.toString().toLowerCase().includes(lower)
+      )
     );
   }
   onToggleFilters(value: boolean) {

@@ -3,13 +3,12 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, Observable, take } from 'rxjs';
 import { arabicOnlyValidator } from '../../../../shared/validators/arabic-only.validator';
-import { Product } from '../../store/products/products.model';
+import { Product } from '../../store/products/product.model';
 import { ProductsFacade } from '../../store/products/products.facade';
-import { BusinessLine } from '../../store/businessLines/businessLine.model';
+import { BusinessLine } from '../../store/business-lines/business-line.model';
 import { Store } from '@ngrx/store';
-import { loadBusinessLine, loadBusinessLines } from '../../store/businessLines/businessLines.actions';
-import { loadAll } from '../../store/sectors/sectors.actions';
-import { selectBusinessLines } from '../../store/businessLines/businessLines.selectors';
+import { loadAll } from '../../store/business-lines/business-lines.actions';
+import { selectAllBusinessLines } from '../../store/business-lines/business-lines.selectors';
 
 @Component({
   selector: 'app-add-products',
@@ -29,15 +28,15 @@ export class AddProductsComponent {
     private route: ActivatedRoute,
     private facade: ProductsFacade,
     private router: Router,
-    private store: Store,
+    private store: Store
   ) {}
 
   ngOnInit() {
-      this.store.dispatch(loadBusinessLines());
-      this.businessLinesList$ = this.store.select(selectBusinessLines);
-      this.businessLinesList$.subscribe((data) =>
-        console.log('🧪 businessLinesList$ from store:', data)
-      );
+    this.store.dispatch(loadAll({}));
+    this.businessLinesList$ = this.store.select(selectAllBusinessLines);
+    this.businessLinesList$.subscribe((data) =>
+      console.log('🧪 businessLinesList$ from store:', data)
+    );
 
     this.addProductsLookupsForm = this.fb.group({
       id: [null], // ← new hidden control
@@ -47,7 +46,7 @@ export class AddProductsComponent {
       ],
       nameAR: ['', [Validators.required, arabicOnlyValidator]],
       lisenceStartDate: [null],
-      businessLineId:[null,[Validators.required]],
+      businessLineId: [null, [Validators.required]],
       isActive: [true], // ← new hidden control
     });
 
@@ -97,10 +96,7 @@ export class AddProductsComponent {
     console.log('  editMode:', this.editMode);
     console.log('  form valid:', this.addProductsLookupsForm.valid);
     console.log('  form touched:', this.addProductsLookupsForm.touched);
-    console.log(
-      '  form raw value:',
-      this.addProductsLookupsForm.getRawValue()
-    );
+    console.log('  form raw value:', this.addProductsLookupsForm.getRawValue());
 
     // Print individual control errors
     const nameCtrl = this.addProductsLookupsForm.get('name');
@@ -119,8 +115,15 @@ export class AddProductsComponent {
       return;
     }
 
-    const { name, nameAR,lisenceStartDate,businessLineId, isActive } = this.addProductsLookupsForm.value;
-    const payload: Partial<Product> = { name, nameAR, lisenceStartDate,businessLineId,isActive };
+    const { name, nameAR, lisenceStartDate, businessLineId, isActive } =
+      this.addProductsLookupsForm.value;
+    const payload: Partial<Product> = {
+      name,
+      nameAR,
+      lisenceStartDate,
+      businessLineId,
+      isActive,
+    };
     console.log('  → payload object:', payload);
 
     // Double-check your route param
@@ -128,9 +131,16 @@ export class AddProductsComponent {
     console.log('  route.snapshot.paramMap.get(clientId):', routeId);
 
     if (this.editMode) {
-      const { id, name, nameAR,lisenceStartDate,businessLineId, isActive } =
+      const { id, name, nameAR, lisenceStartDate, businessLineId, isActive } =
         this.addProductsLookupsForm.value;
-      const payload: Product = { id, name, nameAR,lisenceStartDate,businessLineId, isActive };
+      const payload: Product = {
+        id,
+        name,
+        nameAR,
+        lisenceStartDate,
+        businessLineId,
+        isActive,
+      };
       console.log(
         '🔄 Dispatching UPDATE id=',
         this.clientId,
