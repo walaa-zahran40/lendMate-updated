@@ -27,11 +27,13 @@ import { selectAllSectors } from '../../../pages/crm/clients/store/sector-drop-d
 import { SubSectors } from '../../interfaces/sub-sector.interface';
 import { selectAllSubSectors } from '../../../pages/crm/clients/store/sub-sector-drop-down/sub-sector.selectors';
 import { LegalFormLaw } from '../../interfaces/legal-form-law.interface';
+import { LegalForm } from '../../interfaces/legal-form.interface';
 import * as sectorsActions from '../../../pages/crm/clients/store/sector-drop-down/sector.actions';
 import * as subSectorsActions from '../../../pages/crm/clients/store/sub-sector-drop-down/sub-sector.actions';
 import { setFormDirty } from '../../../pages/crm/clients/store/client-form/client-form.actions';
 import { FileUpload } from 'primeng/fileupload';
 import { LegalFormLawFacade } from '../../../pages/crm/clients/store/legal-form-law/legal-form-law.facade';
+import { LegalFormsFacade } from '../../../pages/lookups/store/legal-forms/legal-forms.facade';
 export interface IdentityEntry {
   identificationNumber: string;
   selectedIdentities: any[];
@@ -397,8 +399,6 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() leasingFinancialFormShowCurrencyForm!: boolean;
   @Input() leasingFinancialFormShowRatesForm!: boolean;
   @Input() leasingFinancialFormShowBasicForm!: boolean;
-  @Input() addLegalsLegalForm!: boolean;
-  @Input() addLegalsLegalFormLaw!: boolean;
   @Input() addCompanyTypesLookupsForm!: boolean;
   @Input() addMeetingShowBusinessInformationForm!: boolean;
   @Input() addMeetingShowAssetTypeForm!: boolean;
@@ -472,12 +472,12 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addClientGuarantorsShowIndividual!: boolean;
   @Input() addClientIdentitiesShowIndividual!: boolean;
   @Input() addWorkFlowActionTypesLookupsForm!: boolean;
+  @Input() addLegalFormLawsForm!: boolean;
+  @Input() addLegalFormsForm!: boolean;
   filteredSubSectors$!: Observable<SubSectors[]>;
   legalFormLaws$: Observable<LegalFormLaw[]> = this.facade.legalFormLaws$;
   // legalForms$ = this.facadeLegalForms.legalForms$;
-  private sub!: Subscription;
   @Input() identityIndividual: {
-    id: number;
     name: string;
     nameAR: string;
     isActive: boolean;
@@ -491,11 +491,12 @@ export class FormComponent implements OnInit, OnDestroy {
   @Output() onFileSelect = new EventEmitter<any>();
   @Output() submitForm = new EventEmitter<void>();
   @Input() editMode: boolean = false;
+  private sub!: Subscription;
 
   constructor(
     private store: Store,
     private facade: LegalFormLawFacade,
-    // private facadeLegalForms: LegalFormFacade,
+    private facadeLegalForms: LegalFormsFacade,
     private route: ActivatedRoute,
     public router: Router
   ) {}
@@ -539,7 +540,7 @@ export class FormComponent implements OnInit, OnDestroy {
       }
       if (this.addClientShowLegal) {
         this.facade.loadLegalFormLaws();
-        // this.facadeLegalForms.loadLegalForms();
+        this.facadeLegalForms.loadAll();
       }
     }
     // Combine sectorId changes with all sub-sectors

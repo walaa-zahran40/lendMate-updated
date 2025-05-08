@@ -1,27 +1,40 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { LegalFormsComponent } from './legal-forms/legal-forms.component';
-import { LegalFormsLawComponent } from './legal-forms-law/legal-forms-law.component';
-import { ViewLegalFormComponent } from './view-legal-form/view-legal-form.component';
-import { ViewLegalFormLawComponent } from './view-legal-form-law/view-legal-form-law.component';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { ViewLegalFormLawsComponent } from "./components/view-legal-form-laws/view-legal-form-laws.component";
+import { AddLegalFormLawsComponent } from "./components/add-legal-form-laws/add-legal-form-laws.component";
+import { AddLegalFormsComponent } from "./components/add-legal-forms/add-legal-forms.component";
+import { ViewLegalFormsComponent } from "./components/view-legal-forms/view-legal-forms.component";
 
 const routes: Routes = [
+// Legal form law
   {
-    path: 'add-legal-forms',
-    component: LegalFormsComponent,
+    path: 'add-legal-form-law',
+    component: AddLegalFormLawsComponent,
   },
   {
-    path: 'add-legal-forms-law',
-    component: LegalFormsLawComponent,
+    path: 'edit-legal-form-law/:id',
+    component: AddLegalFormLawsComponent,
+  },
+{
+    path: 'view-legal-form-laws',
+    component: ViewLegalFormLawsComponent,
+  },
+
+
+  // Legal form
+  {
+    path: 'add-legal-form',
+    component: AddLegalFormsComponent,
   },
   {
-    path: 'view-legal-form',
-    component: ViewLegalFormComponent,
+    path: 'edit-legal-form/:id',
+    component: AddLegalFormsComponent,
   },
-  {
-    path: 'view-legal-form-law',
-    component: ViewLegalFormLawComponent,
+{
+    path: 'view-legal-forms',
+    component: ViewLegalFormsComponent,
   },
+
 ];
 
 @NgModule({
