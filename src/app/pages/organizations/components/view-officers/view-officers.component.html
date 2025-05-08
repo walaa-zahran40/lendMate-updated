@@ -1,28 +1,41 @@
 <div class="page-content">
   <app-toolbar-table
     [title]="'Officers'"
-    [labelBtn]="'Add Officers'"
-    [backExists]="true"
-    [exports]="true"
+    [labelBtn]="'Add Officer'"
+    [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
     (addBtn)="onAddOfficer()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col1Name]="'Code'"
-    [col2Name]="'Login Name'"
-    [col3Name]="'Phone Number'"
-    [col4Name]="'Email Address'"
-    [col5Name]="'Active'"
-    [col6Name]="'Name EN'"
-    [col7Name]="'Name AR'"
-    [edit]="true"
-    [delete]="true"
-    [side]="false"
-    [download]="false"
-    [checkBox]="true"
-    [viewOfficersLookupsTable]="true"
-    [uppercase]="'uppercase'"
-  ></app-table>
+
+  <ng-container *ngIf="officers$ | async as officers">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredOfficers"
+      [edit]="true"
+      [delete]="true"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewOfficersTable]="true"
+      (onDelete)="onDeleteOfficer($event)"
+      (onEdit)="onEditOfficer($event)"
+      (viewForm)="onViewOfficer($event)"
+
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
 </div>

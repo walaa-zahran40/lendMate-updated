@@ -92,7 +92,7 @@ export class AddDepartmentComponent {
     console.log('  route.snapshot.paramMap.get(clientId):', routeId);
 
     if (this.editMode) {
-      const { id, name, nameAR, iso, isActive } =
+      const { id, name, nameAR, isActive } =
         this.addDepartmentsForm.value;
       const payload: Department = {
         id,

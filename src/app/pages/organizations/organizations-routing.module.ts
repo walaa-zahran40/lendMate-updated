@@ -32,6 +32,21 @@ import { ViewBranchAddressesComponent } from './components/view-branch-addresses
 import { ViewBranchManagersComponent } from './components/view-branch-managers/view-branch-managers.component';
 import { ViewBranchOfficersComponent } from './components/view-branch-officers/view-branch-officers.component';
 const routes: Routes = [
+  //Officers
+
+   {
+    path: 'add-officer',
+    component: AddOfficerComponent,
+  },
+  {
+    path: 'edit-officer/:id',
+    component: AddOfficerComponent,
+  },
+  {
+    path: 'view-officers',
+    component: ViewOfficersComponent,
+  },
+
   //Branches
   {
     path: 'add-branch',
