@@ -974,10 +974,10 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-company-types']);
   }
   viewLegalFormLaw() {
-    this.router.navigate(['/legals/view-legal-form-law']);
+    this.router.navigate(['/legals/view-legal-form-laws']);
   }
   viewLegalForm() {
-    this.router.navigate(['/legals/view-legal-form']);
+    this.router.navigate(['/legals/view-legal-forms']);
   }
   viewTMLOfficer() {
     this.router.navigate(['/crm/clients/view-tml-officer']);
