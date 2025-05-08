@@ -78,9 +78,13 @@ const routes: Routes = [
     path: 'view-branch-addresses/:branchId',
     component: ViewBranchAddressesComponent,
   },
-  //----
+  //Department 
   {
     path: 'add-department',
+    component: AddDepartmentComponent,
+  },
+  {
+    path: 'edit-department/:id',
     component: AddDepartmentComponent,
   },
   {

@@ -474,6 +474,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addWorkFlowActionTypesLookupsForm!: boolean;
   @Input() addLegalFormLawsForm!: boolean;
   @Input() addLegalFormsForm!: boolean;
+  @Input() addDepartmentsForm!: boolean;
   filteredSubSectors$!: Observable<SubSectors[]>;
   legalFormLaws$: Observable<LegalFormLaw[]> = this.facade.legalFormLaws$;
   // legalForms$ = this.facadeLegalForms.legalForms$;

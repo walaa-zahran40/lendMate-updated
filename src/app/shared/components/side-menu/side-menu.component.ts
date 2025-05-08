@@ -402,62 +402,62 @@ export class SideMenuComponent {
       //     },
       //   ],
       // },
-      // {
-      //   label: 'Organization',
-      //   icon: 'pi pi-users',
-      //   items: [
-      //     {
-      //       label: 'Officer',
-      //       icon: 'pi pi-user-plus',
-      //       routerLink: '/organizations/view-officers',
-      //     },
-      //     {
-      //       label: 'BranchesManagers',
-      //       icon: 'pi pi-user-plus',
-      //       routerLink: '/lookups/view-branch-managers',
-      //     },
-      //     {
-      //       label: 'BranchesOfficers',
-      //       icon: 'pi pi-user-plus',
-      //       routerLink: '/lookups/view-branch-officers',
-      //     },
-      //     {
-      //       label: 'DepartmentManager',
-      //       icon: 'pi pi-user-plus',
-      //       routerLink: '/organizations/view-department-manager',
-      //     },
-      //     {
-      //       label: 'SignatoryOfficer',
-      //       icon: 'pi pi-user-plus',
-      //       routerLink: '/organizations/view-signatory-officers',
-      //     },
-      //     {
-      //       label: 'TeamLeadOfficer',
-      //       icon: 'pi pi-user-plus',
-      //       routerLink: '/organizations/view-team-lead',
-      //     },
-      //     {
-      //       label: 'TeamOfficer',
-      //       icon: 'pi pi-user-plus',
-      //       routerLink: '/organizations/view-team-member',
-      //     },
-      //     {
-      //       label: 'Department',
-      //       icon: 'pi pi-user-plus',
-      //       routerLink: '/organizations/view-departments',
-      //     },
-      //     {
-      //       label: 'Team',
-      //       icon: 'pi pi-user-plus',
-      //       routerLink: '/organizations/view-teams',
-      //     },
-      //     {
-      //       label: 'Branch',
-      //       icon: 'pi pi-user-plus',
-      //       routerLink: '/lookups/view-branch',
-      //     },
-      //   ],
-      // },
+      {
+        label: 'Organization',
+        icon: 'pi pi-users',
+        items: [
+          {
+            label: 'Officer',
+            icon: 'pi pi-user-plus',
+            routerLink: '/organizations/view-officers',
+          },
+          {
+            label: 'BranchesManagers',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-branch-managers',
+          },
+          {
+            label: 'BranchesOfficers',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-branch-officers',
+          },
+          {
+            label: 'DepartmentManager',
+            icon: 'pi pi-user-plus',
+            routerLink: '/organizations/view-department-manager',
+          },
+          {
+            label: 'SignatoryOfficer',
+            icon: 'pi pi-user-plus',
+            routerLink: '/organizations/view-signatory-officers',
+          },
+          {
+            label: 'TeamLeadOfficer',
+            icon: 'pi pi-user-plus',
+            routerLink: '/organizations/view-team-lead',
+          },
+          {
+            label: 'TeamOfficer',
+            icon: 'pi pi-user-plus',
+            routerLink: '/organizations/view-team-member',
+          },
+          {
+            label: 'Department',
+            icon: 'pi pi-user-plus',
+            routerLink: '/organizations/view-departments',
+          },
+          {
+            label: 'Team',
+            icon: 'pi pi-user-plus',
+            routerLink: '/organizations/view-teams',
+          },
+          {
+            label: 'Branch',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-branch',
+          },
+        ],
+      },
       {
         label: 'Legal',
         icon: 'pi pi-users',
