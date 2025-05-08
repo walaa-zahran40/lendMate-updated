@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SubSectors } from '../../../shared/interfaces/sub-sector.interface';
+import { SubSectors } from '../../../../shared/interfaces/sub-sector.interface';
 import { Router } from '@angular/router';
 
 @Component({

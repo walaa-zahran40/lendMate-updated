@@ -42,6 +42,10 @@ import { AddClientGuarantorComponent } from './clients/components/add-client-gua
 import { ViewClientIdentityComponent } from './clients/components/view-client-identity/view-client-identity.component';
 import { AddClientIdentityComponent } from './clients/components/add-client-identity/add-client-identity.component';
 import { ViewCalculationsComponent } from './leasing-mandates/components/view-calculations/view-calculations.component';
+import { ViewClientStatusComponent } from './clients/components/view-client-status-actions/view-client-status.component';
+import { ViewClientStatusesComponent } from './clients/components/view-client-statuses/view-client-statuses.component';
+import { WizardClientStatusComponent } from './clients/components/wizard-client-status/wizard-client-status.component';
+import { AddClientStatusesComponent } from './clients/components/add-client-statuses/add-client-statuses.component';
 
 const routes: Routes = [
   /*Clients Routing*/
@@ -242,6 +246,27 @@ const routes: Routes = [
   {
     path: 'leasing-mandates/leasing-financial-form-compound',
     component: LeasingFinancialFormCompoundComponent,
+  },
+  //Client Statuses
+  {
+    path: 'add-client-statuses',
+    component: AddClientStatusesComponent,
+  },
+  {
+    path: 'view-client-status-actions/:clientStatusId',
+    component: ViewClientStatusComponent,
+  },
+  {
+    path: 'edit-client-statuses/:id',
+    component: AddClientStatusesComponent,
+  },
+  {
+    path: 'view-client-statuses',
+    component: ViewClientStatusesComponent,
+  },
+  {
+    path: 'wizard-client-status/:clientStatusId',
+    component: WizardClientStatusComponent,
   },
 ];
 

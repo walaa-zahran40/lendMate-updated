@@ -15,18 +15,12 @@ import { AddMeetingTypesComponent } from './components/add-meeting-types/add-mee
 import { AddInsuredByComponent } from './components/add-insured-by/add-insured-by.component';
 import { AddLeasingTypeComponent } from './components/add-leasing-type/add-leasing-type.component';
 import { AddMandateValidityUnitComponent } from './components/add-mandate-validity-unit/add-mandate-validity-unit.component';
-import { AddBranchComponent } from './components/add-branch/add-branch.component';
 import { AddBusinessLinesComponent } from './components/add-business-lines/add-business-lines.component';
 import { AddAssetTypesComponent } from './components/add-asset-types/add-asset-types.component';
 import { AddCurrenciesExchangeComponent } from './components/add-currencies-exchange/add-currencies-exchange.component';
-import { AddBranchManagersComponent } from './components/add-branch-managers/add-branch-managers.component';
-import { AddBranchAddressesComponent } from './components/add-branch-addresses/add-branch-addresses.component';
-import { AddBranchOfficersComponent } from './components/add-branch-officers/add-branch-officers.component';
 import { AddAssetTypeCategoriesComponent } from './components/add-asset-type-categories/add-asset-type-categories.component';
 import { AddProductsComponent } from './components/add-products/add-products.component';
 import { AddSectorsComponent } from './components/add-sectors/add-sectors.component';
-import { AddClientStatusesComponent } from './components/add-client-statuses/add-client-statuses.component';
-import { AddClientStatusActionsComponent } from './components/add-client-status-actions/add-client-status-actions.component';
 import { AddSMEClientCodesComponent } from './components/add-sme-client-code/add-sme-client-code.component';
 import { AddSubSectorsComponent } from './components/add-sub-sectors/add-sub-sectors.component';
 import { AddClientTypesComponent } from './components/add-client-types/add-client-types.component';
@@ -60,19 +54,11 @@ import { ViewMeetingTypesComponent } from './components/view-meeting-types/view-
 import { ViewInsuredByComponent } from './components/view-insured-by/view-insured-by.component';
 import { ViewLeasingTypeComponent } from './components/view-leasing-type/view-leasing-type.component';
 import { ViewMandateValidityUnitComponent } from './components/view-mandate-validity-unit/view-mandate-validity-unit.component';
-import { ViewBranchComponent } from './components/view-branch/view-branch.component';
-import { WizardBranchComponent } from './components/wizard-branch/wizard-branch.component';
-import { ViewBranchManagersComponent } from './components/view-branch-managers/view-branch-managers.component';
-import { ViewBranchOfficersComponent } from './components/view-branch-officers/view-branch-officers.component';
-import { ViewBranchAddressesComponent } from './components/view-branch-addresses/view-branch-addresses.component';
 import { ViewBusinessLinesComponent } from './components/view-business-lines/view-business-lines.component';
 import { ViewAssetTypesComponent } from './components/view-asset-types/view-asset-types.component';
 import { ViewAssetTypeCategoriesComponent } from './components/view-asset-type-categories/view-asset-type-categories.component';
 import { ViewProductsComponent } from './components/view-products/view-products.component';
 import { ViewSectorsComponent } from './components/view-sectors/view-sectors.component';
-import { ViewClientStatusesComponent } from './components/view-client-statuses/view-client-statuses.component';
-import { WizardClientStatusComponent } from './components/wizard-client-status/wizard-client-status.component';
-import { ViewClientStatusComponent } from './components/view-client-status-actions/view-client-status.component';
 import { ViewSMEClientCodesComponent } from './components/view-sme-client-code/view-sme-client-code.component';
 import { ViewSubSectorsComponent } from './components/view-sub-sectors/view-sub-sectors.component';
 import { ViewClientTypesComponent } from './components/view-client-types/view-client-types.component';
@@ -161,23 +147,7 @@ const routes: Routes = [
     path: 'view-authority-offices',
     component: ViewAuthorityOfficesComponent,
   },
-  //Branch
-  {
-    path: 'add-branch',
-    component: AddBranchComponent,
-  },
-  {
-    path: 'edit-branch/:id',
-    component: AddBranchComponent,
-  },
-  {
-    path: 'view-branches',
-    component: ViewBranchComponent,
-  },
-  {
-    path: 'wizard-branch/:branchId',
-    component: WizardBranchComponent,
-  },
+
   //countries
   {
     path: 'add-countries',
@@ -612,23 +582,6 @@ const routes: Routes = [
   },
 
   {
-    path: 'add-branch',
-    component: AddBranchComponent,
-  },
-  {
-    path: 'add-branch-addresses',
-    component: AddBranchAddressesComponent,
-  },
-  {
-    path: 'add-branch-officers',
-    component: AddBranchOfficersComponent,
-  },
-
-  {
-    path: 'add-branch-managers',
-    component: AddBranchManagersComponent,
-  },
-  {
     path: 'add-business-lines',
     component: AddBusinessLinesComponent,
   },
@@ -643,10 +596,6 @@ const routes: Routes = [
   {
     path: 'edit-products/:id',
     component: AddProductsComponent,
-  },
-  {
-    path: 'add-client-status-actions',
-    component: AddClientStatusActionsComponent,
   },
 
   {
@@ -691,18 +640,6 @@ const routes: Routes = [
   },
 
   {
-    path: 'view-branch-managers/:branchId',
-    component: ViewBranchManagersComponent,
-  },
-  {
-    path: 'view-branch-officers/:branchId',
-    component: ViewBranchOfficersComponent,
-  },
-  {
-    path: 'view-branch-addresses/:branchId',
-    component: ViewBranchAddressesComponent,
-  },
-  {
     path: 'view-business-lines',
     component: ViewBusinessLinesComponent,
   },
@@ -713,11 +650,6 @@ const routes: Routes = [
   {
     path: 'view-products',
     component: ViewProductsComponent,
-  },
-
-  {
-    path: 'view-client-status',
-    component: ViewClientStatusComponent,
   },
 
   {
@@ -736,28 +668,6 @@ const routes: Routes = [
   {
     path: 'view-tml-officer-types',
     component: ViewTmlOfficerTypesComponent,
-  },
-
-  //Client status
-  {
-    path: 'add-client-statuses',
-    component: AddClientStatusesComponent,
-  },
-  {
-    path: 'view-client-status-actions/:clientStatusId',
-    component: ViewClientStatusComponent,
-  },
-  {
-    path: 'edit-client-statuses/:id',
-    component: AddClientStatusesComponent,
-  },
-  {
-    path: 'view-client-statuses',
-    component: ViewClientStatusesComponent,
-  },
-  {
-    path: 'wizard-client-status/:clientStatusId',
-    component: WizardClientStatusComponent,
   },
 ];
 

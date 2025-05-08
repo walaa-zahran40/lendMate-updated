@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SignatoryOfficers } from '../../../shared/interfaces/signatory-officers.interface';
+import { SignatoryOfficers } from '../../../../shared/interfaces/signatory-officers.interface';
 import { Router } from '@angular/router';
 
 @Component({

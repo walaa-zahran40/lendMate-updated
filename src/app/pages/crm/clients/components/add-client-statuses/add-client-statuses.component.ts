@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ClientStatusesFacade } from '../../store/client-statuses/client-statuses.facade';
+import { ClientStatusesFacade } from '../../../../lookups/store/client-statuses/client-statuses.facade';
 import { filter, take } from 'rxjs';
-import { arabicOnlyValidator } from '../../../../shared/validators/arabic-only.validator';
-import { ClientStatus } from '../../store/client-statuses/client-status.model';
+import { arabicOnlyValidator } from '../../../../../shared/validators/arabic-only.validator';
+import { ClientStatus } from '../../../../lookups/store/client-statuses/client-status.model';
 
 @Component({
   selector: 'app-add-client-statuses',
@@ -34,7 +34,7 @@ export class AddClientStatusesComponent {
       ],
       nameAR: ['', [Validators.required, arabicOnlyValidator]],
       isActive: [true], // ← new hidden control
-      isInitial: [false]
+      isInitial: [false],
     });
 
     this.route.paramMap.subscribe((params) => {
@@ -63,7 +63,7 @@ export class AddClientStatusesComponent {
               name: ct!.name,
               nameAR: ct!.nameAR,
               isActive: ct!.isActive,
-              isInitial:ct!.isInitial
+              isInitial: ct!.isInitial,
             });
           });
       } else {
@@ -104,8 +104,14 @@ export class AddClientStatusesComponent {
       return;
     }
 
-    const { name, nameAR, isActive,isInitial } = this.addClientStatusesLookupsForm.value;
-    const payload: Partial<ClientStatus> = { name, nameAR, isActive,isInitial };
+    const { name, nameAR, isActive, isInitial } =
+      this.addClientStatusesLookupsForm.value;
+    const payload: Partial<ClientStatus> = {
+      name,
+      nameAR,
+      isActive,
+      isInitial,
+    };
     console.log('  → payload object:', payload);
 
     // Double-check your route param
@@ -113,9 +119,9 @@ export class AddClientStatusesComponent {
     console.log('  route.snapshot.paramMap.get(clientId):', routeId);
 
     if (this.editMode) {
-      const { id, name, nameAR, isActive ,isInitial} =
+      const { id, name, nameAR, isActive, isInitial } =
         this.addClientStatusesLookupsForm.value;
-      const payload: ClientStatus = { id, name, nameAR, isActive,isInitial };
+      const payload: ClientStatus = { id, name, nameAR, isActive, isInitial };
       console.log(
         '🔄 Dispatching UPDATE id=',
         this.clientId,

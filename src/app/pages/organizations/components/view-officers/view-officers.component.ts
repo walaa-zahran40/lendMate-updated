@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Officers } from '../../../shared/interfaces/officers.interface';
+import { Officers } from '../../../../shared/interfaces/officers.interface';
 import { Router } from '@angular/router';
 
 @Component({

@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
-import { TeamLead } from '../../../shared/interfaces/team-lead.interface';
+import { TeamMember } from '../../../../shared/interfaces/team-member.interface';
 
 @Component({
-  selector: 'app-view-team-lead',
+  selector: 'app-view-team-member',
   standalone: false,
-  templateUrl: './view-team-lead.component.html',
-  styleUrl: './view-team-lead.component.scss',
+  templateUrl: './view-team-member.component.html',
+  styleUrl: './view-team-member.component.scss',
 })
-export class ViewTeamLeadComponent {
-  tableDataInside: TeamLead[] = [];
+export class ViewTeamMemberComponent {
+  tableDataInside: TeamMember[] = [];
   colsInside: any[] = [];
 
   ngOnInit() {

@@ -1,87 +1,87 @@
 import { Component } from '@angular/core';
-import { Team } from '../../../shared/interfaces/teams.interface';
+import { Roles } from '../../../../shared/interfaces/roles.interface';
 
 @Component({
-  selector: 'app-view-teams',
+  selector: 'app-view-roles',
   standalone: false,
-  templateUrl: './view-teams.component.html',
-  styleUrl: './view-teams.component.scss',
+  templateUrl: './view-roles.component.html',
+  styleUrl: './view-roles.component.scss',
 })
-export class ViewTeamsComponent {
-  tableDataInside: Team[] = [];
+export class ViewRolesComponent {
+  tableDataInside: Roles[] = [];
   colsInside: any[] = [];
 
   ngOnInit() {
     this.colsInside = [
       { field: 'code', header: 'Code' },
-      { field: 'nameEN', header: 'Name EN' },
-      { field: 'nameAR', header: 'Name AR' },
+      { field: 'nameEN', header: 'English Name' },
+      { field: 'nameAR', header: 'Arabic Name' },
+      { field: 'normalizedName', header: 'Normalized Name' },
       { field: 'active', header: 'Active' },
-      { field: 'department', header: 'Department' },
     ];
     this.tableDataInside = [
       {
         code: 344535,
         nameEN: 'Name',
-        nameAR: 'Name in Arabic',
+        nameAR: 'Name',
+        normalizedName: 'Name in Arabic',
         active: true,
-        department: 'Department',
       },
       {
         code: 344535,
         nameEN: 'Name',
-        nameAR: 'Name in Arabic',
+        nameAR: 'Name',
+        normalizedName: 'Name in Arabic',
         active: true,
-        department: 'Department',
       },
       {
         code: 344535,
         nameEN: 'Name',
-        nameAR: 'Name in Arabic',
+        nameAR: 'Name',
+        normalizedName: 'Name in Arabic',
         active: true,
-        department: 'Department',
       },
       {
         code: 344535,
         nameEN: 'Name',
-        nameAR: 'Name in Arabic',
+        nameAR: 'Name',
+        normalizedName: 'Name in Arabic',
         active: true,
-        department: 'Department',
       },
       {
         code: 344535,
         nameEN: 'Name',
-        nameAR: 'Name in Arabic',
+        nameAR: 'Name',
+        normalizedName: 'Name in Arabic',
         active: true,
-        department: 'Department',
       },
       {
         code: 344535,
         nameEN: 'Name',
-        nameAR: 'Name in Arabic',
+        nameAR: 'Name',
+        normalizedName: 'Name in Arabic',
         active: true,
-        department: 'Department',
       },
       {
         code: 344535,
         nameEN: 'Name',
-        nameAR: 'Name in Arabic',
+        nameAR: 'Name',
+        normalizedName: 'Name in Arabic',
         active: true,
-        department: 'Department',
       },
       {
         code: 344535,
         nameEN: 'Name',
-        nameAR: 'Name in Arabic',
+        nameAR: 'Name',
+        normalizedName: 'Name in Arabic',
         active: true,
-        department: 'Department',
       },
       {
         code: 344535,
         nameEN: 'Name',
-        nameAR: 'Name in Arabic',
+        nameAR: 'Name',
+        normalizedName: 'Name in Arabic',
         active: true,
-        department: 'Department',
       },
     ];
   }

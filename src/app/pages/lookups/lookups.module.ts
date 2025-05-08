@@ -21,13 +21,11 @@ import { AddMeetingTypesComponent } from './components/add-meeting-types/add-mee
 import { AddInsuredByComponent } from './components/add-insured-by/add-insured-by.component';
 import { AddLeasingTypeComponent } from './components/add-leasing-type/add-leasing-type.component';
 import { AddMandateValidityUnitComponent } from './components/add-mandate-validity-unit/add-mandate-validity-unit.component';
-import { AddBranchComponent } from './components/add-branch/add-branch.component';
 import { AddBusinessLinesComponent } from './components/add-business-lines/add-business-lines.component';
 import { AddAssetTypesComponent } from './components/add-asset-types/add-asset-types.component';
 import { AddAssetTypeCategoriesComponent } from './components/add-asset-type-categories/add-asset-type-categories.component';
 import { AddProductsComponent } from './components/add-products/add-products.component';
 import { AddSectorsComponent } from './components/add-sectors/add-sectors.component';
-import { AddClientStatusesComponent } from './components/add-client-statuses/add-client-statuses.component';
 import { AddSMEClientCodesComponent } from './components/add-sme-client-code/add-sme-client-code.component';
 import { AddSubSectorsComponent } from './components/add-sub-sectors/add-sub-sectors.component';
 import { AddAuthorityOfficesComponent } from './components/add-authority-offices/add-authority-offices.component';
@@ -43,10 +41,6 @@ import { AddCallTypesComponent } from './components/add-call-types/add-call-type
 import { AddCommunicationTypesComponent } from './components/add-communication-types/add-communication-types.component';
 import { AddCallActionTypesComponent } from './components/add-call-action-types/add-call-action-types.component';
 import { AddCommunicationFlowTypesComponent } from './components/add-communication-flow-types/communication-flow-types.component';
-import { AddBranchManagersComponent } from './components/add-branch-managers/add-branch-managers.component';
-import { AddBranchOfficersComponent } from './components/add-branch-officers/add-branch-officers.component';
-import { AddBranchAddressesComponent } from './components/add-branch-addresses/add-branch-addresses.component';
-import { AddClientStatusActionsComponent } from './components/add-client-status-actions/add-client-status-actions.component';
 import { AddCurrenciesExchangeComponent } from './components/add-currencies-exchange/add-currencies-exchange.component';
 import { LookupsRoutingModule } from './lookups-routing.module';
 import { SharedModule } from '../../shared/shared.module';
@@ -67,19 +61,11 @@ import { ViewInsuredByComponent } from './components/view-insured-by/view-insure
 import { ViewLeasingTypeComponent } from './components/view-leasing-type/view-leasing-type.component';
 import { ViewMandateValidityUnitComponent } from './components/view-mandate-validity-unit/view-mandate-validity-unit.component';
 import { ViewDocTypesComponent } from './components/view-doc-types/view-doc-types.component';
-import { ViewBranchComponent } from './components/view-branch/view-branch.component';
-import { WizardBranchComponent } from './components/wizard-branch/wizard-branch.component';
-import { ViewBranchManagersComponent } from './components/view-branch-managers/view-branch-managers.component';
-import { ViewBranchOfficersComponent } from './components/view-branch-officers/view-branch-officers.component';
-import { ViewBranchAddressesComponent } from './components/view-branch-addresses/view-branch-addresses.component';
 import { ViewBusinessLinesComponent } from './components/view-business-lines/view-business-lines.component';
 import { ViewAssetTypesComponent } from './components/view-asset-types/view-asset-types.component';
 import { ViewAssetTypeCategoriesComponent } from './components/view-asset-type-categories/view-asset-type-categories.component';
 import { ViewProductsComponent } from './components/view-products/view-products.component';
 import { ViewSectorsComponent } from './components/view-sectors/view-sectors.component';
-import { ViewClientStatusesComponent } from './components/view-client-statuses/view-client-statuses.component';
-import { WizardClientStatusComponent } from './components/wizard-client-status/wizard-client-status.component';
-import { ViewClientStatusComponent } from './components/view-client-status-actions/view-client-status.component';
 import { ViewSMEClientCodesComponent } from './components/view-sme-client-code/view-sme-client-code.component';
 import { ViewSubSectorsComponent } from './components/view-sub-sectors/view-sub-sectors.component';
 import { ViewClientTypesComponent } from './components/view-client-types/view-client-types.component';
@@ -104,8 +90,6 @@ import { reducer as addressTypeReducer } from './store/address-types/address-typ
 import { AddressTypesEffects } from './store/address-types/address-types.effects';
 import { reducer as authorityOfficeReducer } from './store/authority-offices/authority-offices.reducer';
 import { AuthorityOfficesEffects } from './store/authority-offices/authority-offices.effects';
-import { BranchesEffects } from './store/branches/branches.effects';
-import { reducer as branchesReducer } from './store/branches/branches.reducer';
 import { reducer as callActionTypesReducer } from './store/call-action-types/call-action-types.reducer';
 import { CallActionTypesEffects } from './store/call-action-types/call-action-types.effects';
 import { currenciesReducer as currenciesReducer } from './store/currencies/currencies.reducer';
@@ -203,13 +187,11 @@ import { SMEClientCodesEffects } from './store/sme-client-codes/sme-client-codes
     AddInsuredByComponent,
     AddLeasingTypeComponent,
     AddMandateValidityUnitComponent,
-    AddBranchComponent,
     AddBusinessLinesComponent,
     AddAssetTypesComponent,
     AddAssetTypeCategoriesComponent,
     AddProductsComponent,
     AddSectorsComponent,
-    AddClientStatusesComponent,
     AddSMEClientCodesComponent,
     AddSubSectorsComponent,
     AddAuthorityOfficesComponent,
@@ -224,10 +206,6 @@ import { SMEClientCodesEffects } from './store/sme-client-codes/sme-client-codes
     AddCommunicationTypesComponent,
     AddCallActionTypesComponent,
     AddCommunicationFlowTypesComponent,
-    AddBranchManagersComponent,
-    AddBranchOfficersComponent,
-    AddBranchAddressesComponent,
-    AddClientStatusActionsComponent,
     AddCurrenciesExchangeComponent,
     AddDocTypesComponent,
     AddClientTypesComponent,
@@ -250,19 +228,11 @@ import { SMEClientCodesEffects } from './store/sme-client-codes/sme-client-codes
     ViewPaymentTypesComponent,
     ViewMandateValidityUnitComponent,
     ViewDocTypesComponent,
-    ViewBranchComponent,
-    WizardBranchComponent,
-    ViewBranchManagersComponent,
-    ViewBranchOfficersComponent,
-    ViewBranchAddressesComponent,
     ViewBusinessLinesComponent,
     ViewAssetTypesComponent,
     ViewAssetTypeCategoriesComponent,
     ViewProductsComponent,
     ViewSectorsComponent,
-    ViewClientStatusesComponent,
-    WizardClientStatusComponent,
-    ViewClientStatusComponent,
     ViewSMEClientCodesComponent,
     ViewSubSectorsComponent,
     ViewClientTypesComponent,
@@ -298,8 +268,6 @@ import { SMEClientCodesEffects } from './store/sme-client-codes/sme-client-codes
     EffectsModule.forFeature([AddressTypesEffects]),
     StoreModule.forFeature('authorityOffices', authorityOfficeReducer),
     EffectsModule.forFeature([AuthorityOfficesEffects]),
-    StoreModule.forFeature('branches', branchesReducer),
-    EffectsModule.forFeature([BranchesEffects]),
     StoreModule.forFeature('currencies', currenciesReducer),
     EffectsModule.forFeature([CurrenciesEffects]),
     StoreModule.forFeature('callActionTypes', callActionTypesReducer),
@@ -401,13 +369,11 @@ import { SMEClientCodesEffects } from './store/sme-client-codes/sme-client-codes
     AddLeasingTypeComponent,
     AddMandateValidityUnitComponent,
     AddDocTypesComponent,
-    AddBranchComponent,
     AddBusinessLinesComponent,
     AddAssetTypesComponent,
     AddAssetTypeCategoriesComponent,
     AddProductsComponent,
     AddSectorsComponent,
-    AddClientStatusesComponent,
     AddSMEClientCodesComponent,
     AddSubSectorsComponent,
     AddAuthorityOfficesComponent,
@@ -422,12 +388,7 @@ import { SMEClientCodesEffects } from './store/sme-client-codes/sme-client-codes
     AddCommunicationTypesComponent,
     AddCallActionTypesComponent,
     AddCommunicationFlowTypesComponent,
-    AddBranchManagersComponent,
-    AddBranchOfficersComponent,
-    AddBranchAddressesComponent,
-    AddClientStatusActionsComponent,
     AddCurrenciesExchangeComponent,
-    ViewBranchComponent,
     ViewSMEClientCodesComponent,
   ],
 })

@@ -92,6 +92,11 @@ import {
 import { ClientIdentityTypesEffects } from './store/client-identity-types/client-identity-types.effects';
 import { legalFormsReducer } from '../../lookups/store/legal-forms/legal-forms.reducer';
 import { LegalFormsEffects } from '../../lookups/store/legal-forms/legal-forms.effects';
+import { AddClientStatusActionsComponent } from './components/add-client-status-actions/add-client-status-actions.component';
+import { ViewClientStatusesComponent } from './components/view-client-statuses/view-client-statuses.component';
+import { ViewClientStatusComponent } from './components/view-client-status-actions/view-client-status.component';
+import { AddClientStatusesComponent } from './components/add-client-statuses/add-client-statuses.component';
+import { WizardClientStatusComponent } from './components/wizard-client-status/wizard-client-status.component';
 
 @NgModule({
   declarations: [
@@ -115,6 +120,7 @@ import { LegalFormsEffects } from '../../lookups/store/legal-forms/legal-forms.e
     ViewSalesTurnoverComponent,
     ViewPhoneNumberComponent,
     ViewContactPersonComponent,
+    WizardClientStatusComponent,
     ViewCrAuthorityOfficeComponent,
     ViewTaxAuthorityOfficeComponent,
     ViewCentralBankInfoComponent,
@@ -125,6 +131,10 @@ import { LegalFormsEffects } from '../../lookups/store/legal-forms/legal-forms.e
     AddClientGuarantorComponent,
     ViewClientIdentityComponent,
     AddClientIdentityComponent,
+    AddClientStatusActionsComponent,
+    ViewClientStatusesComponent,
+    ViewClientStatusComponent,
+    AddClientStatusesComponent,
   ],
   imports: [
     CommonModule,
