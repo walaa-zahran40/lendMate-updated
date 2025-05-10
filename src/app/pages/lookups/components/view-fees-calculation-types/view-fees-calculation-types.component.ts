@@ -45,27 +45,12 @@ export class ViewFeesCalculationTypesComponent {
 
     this.feeCalculationTypes$
       ?.pipe(takeUntil(this.destroy$))
-      .subscribe((feeCalculationTypes) => {
-        console.log(
-          '🟢 subscribe: received feeCalculationTypes array:',
-          feeCalculationTypes
-        );
-
-        // preserve immutability, then sort by id descending
-        const sorted = [...feeCalculationTypes].sort((a, b) => b.id - a.id);
-        console.log('🟢 sorted (by id desc):', sorted);
-
+      ?.subscribe((fee) => {
+        // fee is now fee[], not any
+        const activeCodes = fee.filter((code) => code.isActive);
+        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
         this.originalFeeCalculationType = sorted;
-        console.log(
-          '🟢 originalFeeCalculationType set to:',
-          this.originalFeeCalculationType
-        );
-
         this.filteredFeeCalculationType = [...sorted];
-        console.log(
-          '🟢 filteredFeeCalculationType set to:',
-          this.filteredFeeCalculationType
-        );
       });
   }
 

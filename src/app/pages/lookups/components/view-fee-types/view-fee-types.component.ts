@@ -4,6 +4,7 @@ import {
   filter,
   map,
   Observable,
+  of,
   Subject,
   takeUntil,
 } from 'rxjs';
@@ -11,6 +12,7 @@ import { Router } from '@angular/router';
 import { TableComponent } from '../../../../shared/components/table/table.component';
 import { FeeType } from '../../store/fee-types/fee-type.model';
 import { FeeTypesFacade } from '../../store/fee-types/fee-types.facade';
+import { FeeCalculationTypesFacade } from '../../store/fee-calculation-types/fee-calculation-types.facade';
 
 @Component({
   selector: 'app-view-fee-types',
@@ -42,62 +44,62 @@ export class ViewFeeTypesComponent {
   selectedFeeTypeId: number | null = null;
   originalFeeTypes: FeeType[] = [];
   filteredFeeTypes: FeeType[] = [];
-  feeTypes$!: Observable<FeeType[]>;
-
-  constructor(private router: Router, private facade: FeeTypesFacade) {}
+  feeTypes$!: any;
+  feeCalcList$: any;
+  constructor(
+    private router: Router,
+    private facade: FeeTypesFacade,
+    private feecalcFacade: FeeCalculationTypesFacade
+  ) {}
 
   ngOnInit() {
-    this.facade.loadAll();
+    // Initialize observables
     this.feeTypes$ = this.facade.all$;
-    this.facade.operationSuccess$
-      .pipe(
-        takeUntil(this.destroy$),
-        filter((success) => success?.entity === 'AssetType')
-      )
-      .subscribe(() => {
-        this.facade.loadAll(); // refresh after any create/update/delete
-      });
-    this.feeTypes$.pipe(takeUntil(this.destroy$)).subscribe((feeTypes) => {
-      console.log('asseyyu[e', feeTypes);
-      const sorted = [...feeTypes].sort((a, b) => b.id - a.id);
-      this.originalFeeTypes = sorted;
-      this.filteredFeeTypes = [...sorted];
-    });
+    this.feeCalcList$ = this.feecalcFacade.all$;
 
-    combineLatest([this.feeTypes$])
-      .pipe(
-        map(([feeTypes]) => {
-          console.log('assettypessss', feeTypes);
-          const mapped = feeTypes.map((ss) => {
-            const feeCalculationType = ss.feeCalculationType?.name || '—';
-            console.log(
-              `🔍 Mapping Area ID ${ss.id} → Governorate Name: ${feeCalculationType}`
-            );
-            return {
-              ...ss,
-              feeCalculationType: feeCalculationType, // or call it `categoryName` if more accurate
-            };
-          });
+    // Trigger loading
+    this.facade.loadAll();
+    this.feecalcFacade.loadAll();
 
-          const sorted = mapped.sort((a, b) => b.id - a.id);
-          console.log('✅ Sorted mapped assetTypes:', sorted);
-          return sorted;
+    // Combine fee types with their corresponding calculation type names
+    combineLatest<[FeeType[], any[]]>([
+      this.feeTypes$ ?? of([]),
+      this.feeCalcList$ ?? of([]),
+    ])
+      .pipe(
+        map(([feeTypes, feeCalcTypes]) => {
+          console.log('📦 Raw feeTypes:', feeTypes);
+          console.log('📦 Raw feeCalcTypes:', feeCalcTypes);
+
+          return feeTypes
+            .map((ss) => {
+              console.log('ss', ss);
+              const match = feeCalcTypes.find(
+                (s) => s.id === ss.feeCalculationTypeId
+              );
+
+              console.log(
+                `🔍 Matching calc type for feeType ID ${ss.id} (feeCalculationTypeId: ${ss.feeCalculationTypeId}):`,
+                match
+              );
+
+              return {
+                ...ss,
+                feeCalculationType:
+                  feeCalcTypes.find((s) => s.id === ss.feeCalculationTypeId)
+                    ?.name || '—',
+              };
+            })
+            .filter((ft) => ft.isActive)
+            .sort((a, b) => b.id - a.id);
         }),
         takeUntil(this.destroy$)
       )
-      .subscribe(
-        (normalizedFeeTypes) => {
-          console.log(
-            '🟢 Final normalizedFeeTypes emitted to view:',
-            normalizedFeeTypes
-          );
-          this.filteredFeeTypes = normalizedFeeTypes;
-          this.originalFeeTypes = normalizedFeeTypes;
-        },
-        (error) => {
-          console.error('❌ Error in combineLatest subscription:', error);
-        }
-      );
+      .subscribe((result) => {
+        console.log('result', result);
+        this.filteredFeeTypes = result;
+        this.originalFeeTypes = result;
+      });
   }
 
   onAddFeeType() {

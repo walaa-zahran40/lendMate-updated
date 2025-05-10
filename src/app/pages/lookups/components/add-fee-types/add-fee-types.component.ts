@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import { FeeType } from '../../store/fee-types/fee-type.model';
 import { loadAll } from '../../store/fee-calculation-types/fee-calculation-types.actions';
 import { selectAllFeeCalculationTypes } from '../../store/fee-calculation-types/fee-calculation-types.selectors';
+import { FeeCalculationTypesFacade } from '../../store/fee-calculation-types/fee-calculation-types.facade';
 
 @Component({
   selector: 'app-add-fee-types',
@@ -27,13 +28,14 @@ export class AddFeeTypesComponent {
     private route: ActivatedRoute,
     private facade: FeeTypesFacade,
     private router: Router,
-    private store: Store
+    private store: Store,
+    private facadeCalc: FeeCalculationTypesFacade
   ) {}
 
   ngOnInit() {
     //Select Box
     this.store.dispatch(loadAll({}));
-
+    this.feeCalculationTypes$ = this.store.select(selectAllFeeCalculationTypes);
     this.addFeesTypesLookupsForm = this.fb.group({
       id: [null],
       name: ['', [Validators.required]],
