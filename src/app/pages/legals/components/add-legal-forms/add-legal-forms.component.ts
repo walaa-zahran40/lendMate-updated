@@ -6,8 +6,6 @@ import { filter, take } from 'rxjs';
 import { LegalFormsFacade } from '../../../lookups/store/legal-forms/legal-forms.facade';
 import { LegalForm } from '../../../lookups/store/legal-forms/legal-form.model';
 
-
-
 @Component({
   selector: 'app-add-legal-forms',
   standalone: false,
@@ -51,7 +49,7 @@ export class AddLegalFormsComponent {
         this.facade.loadOne(this.clientId);
         this.facade.current$
           .pipe(
-            filter((ct) => !!ct),
+            filter((ct): ct is LegalForm => !!ct && ct.id === this.clientId),
             take(1)
           )
           .subscribe((ct) => {
@@ -81,14 +79,12 @@ export class AddLegalFormsComponent {
       return;
     }
 
-    const { name, nameAR} =
-      this.addLegalFormsForm.value;
-    const payload: Partial<LegalForm> = { name, nameAR};
+    const { name, nameAR } = this.addLegalFormsForm.value;
+    const payload: Partial<LegalForm> = { name, nameAR };
     console.log('  → payload object:', payload);
 
     if (this.editMode) {
-      const { id, name, nameAR, isActive } =
-        this.addLegalFormsForm.value;
+      const { id, name, nameAR, isActive } = this.addLegalFormsForm.value;
       const payload: LegalForm = {
         id,
         name,
@@ -96,7 +92,7 @@ export class AddLegalFormsComponent {
         isActive,
         code: '',
       };
-     
+
       this.facade.update(id, payload);
     } else {
       this.facade.create(payload);
