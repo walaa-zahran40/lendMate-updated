@@ -1,5 +1,4 @@
 import { Component, ViewChild } from '@angular/core';
-import { MandateStatuses } from '../../../../shared/interfaces/mandate-statuses.interface';
 import { Router } from '@angular/router';
 import { MandateStatus } from '../../store/mandate-statuses/mandate-status.model';
 import { MandateStatusesFacade } from '../../store/mandate-statuses/mandate-statuses.facade';

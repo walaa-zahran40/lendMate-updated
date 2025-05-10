@@ -6,7 +6,6 @@ import { arabicOnlyValidator } from '../../../../shared/validators/arabic-only.v
 import { MandateStatusesFacade } from '../../store/mandate-statuses/mandate-statuses.facade';
 import { MandateStatus } from '../../store/mandate-statuses/mandate-status.model';
 
-
 @Component({
   selector: 'app-add-mandate-statuses',
   standalone: false,
@@ -38,7 +37,6 @@ export class AddMandateStatusesComponent {
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
       if (id) {
-
         this.editMode = true;
         this.clientId = +id;
 
@@ -52,7 +50,9 @@ export class AddMandateStatusesComponent {
         this.facade.loadOne(this.clientId);
         this.facade.current$
           .pipe(
-            filter((ct) => !!ct),
+            filter(
+              (ct): ct is MandateStatus => !!ct && ct.id === this.clientId
+            ),
             take(1)
           )
           .subscribe((ct) => {
