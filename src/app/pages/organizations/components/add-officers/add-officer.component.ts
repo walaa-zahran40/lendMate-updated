@@ -35,7 +35,7 @@ export class AddOfficerComponent {
       title: ['', [Validators.required]],
       titleAr: ['', [Validators.required, arabicOnlyValidator]],
       email: ['', [Validators.required]],
-      phoneNumber : ['', [Validators.required]],
+      phoneNumber: ['', [Validators.required]],
       isActive: [true],
     });
 
@@ -55,7 +55,7 @@ export class AddOfficerComponent {
         this.facade.loadOne(this.clientId);
         this.facade.current$
           .pipe(
-            filter((ct) => !!ct),
+            filter((ct): ct is Officer => !!ct && ct.id === this.clientId),
             take(1)
           )
           .subscribe((ct) => {
@@ -81,7 +81,6 @@ export class AddOfficerComponent {
   }
 
   addOrEditOfficer() {
-
     if (this.viewOnly) {
       console.log('⚠️ viewOnly mode — aborting add');
       return;
@@ -93,9 +92,17 @@ export class AddOfficerComponent {
       return;
     }
 
-    const { name, nameAR, loginName , title , titleAr , email , phoneNumber} =
+    const { name, nameAR, loginName, title, titleAr, email, phoneNumber } =
       this.addOfficersForm.value;
-    const payload: Partial<Officer> = {name, nameAR, loginName , title , titleAr , email , phoneNumber };
+    const payload: Partial<Officer> = {
+      name,
+      nameAR,
+      loginName,
+      title,
+      titleAr,
+      email,
+      phoneNumber,
+    };
     console.log('  → payload object:', payload);
 
     // Double-check your route param
@@ -103,8 +110,17 @@ export class AddOfficerComponent {
     console.log('  route.snapshot.paramMap.get(clientId):', routeId);
 
     if (this.editMode) {
-      const { id, name, nameAR, loginName , title , titleAr , email , phoneNumber,  isActive } =
-        this.addOfficersForm.value;
+      const {
+        id,
+        name,
+        nameAR,
+        loginName,
+        title,
+        titleAr,
+        email,
+        phoneNumber,
+        isActive,
+      } = this.addOfficersForm.value;
       const payload: Officer = {
         id,
         name,
