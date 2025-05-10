@@ -1,77 +1,77 @@
 import { createReducer, on } from '@ngrx/store';
-import * as FeeActions from './fee-calculation-types.actions';
-import { adapter, initialState, State } from './fee-calculation-types.state';
+import * as FeeCalculationTypeActions from './fee-calculation-types.actions';
+import { adapter, initialState } from './fee-calculation-types.state';
 
 export const reducer = createReducer(
   initialState,
 
   // when you dispatch loadAll()
-  on(FeeActions.loadAll, (state) => ({
+  on(FeeCalculationTypeActions.loadAll, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
 
   // when your effect dispatches loadAllSuccess({ result })
-  on(FeeActions.loadAllSuccess, (state, { result }) =>
-    adapter.setAll(result, {
+  on(FeeCalculationTypeActions.loadAllSuccess, (state, { result }) =>
+    adapter.upsertMany(result, {
       ...state,
       loading: false,
       error: null,
     })
   ),
   // on failure
-  on(FeeActions.loadAllFailure, (state, { error }) => ({
+  on(FeeCalculationTypeActions.loadAllFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
   // create
-  on(FeeActions.createEntity, (state) => ({
+  on(FeeCalculationTypeActions.createEntity, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
-  on(FeeActions.createEntitySuccess, (state, { entity }) =>
+  on(FeeCalculationTypeActions.createEntitySuccess, (state, { entity }) =>
     adapter.addOne(entity, { ...state, loading: false })
   ),
-  on(FeeActions.createEntityFailure, (state, { error }) => ({
+  on(FeeCalculationTypeActions.createEntityFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
 
   // update
-  on(FeeActions.updateEntity, (state) => ({
+  on(FeeCalculationTypeActions.updateEntity, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
-  on(FeeActions.updateEntitySuccess, (state, { id, changes }) =>
+  on(FeeCalculationTypeActions.updateEntitySuccess, (state, { id, changes }) =>
     adapter.updateOne({ id, changes }, { ...state, loading: false })
   ),
-  on(FeeActions.updateEntityFailure, (state, { error }) => ({
+  on(FeeCalculationTypeActions.updateEntityFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
 
   // delete
-  on(FeeActions.deleteEntity, (state) => ({
+  on(FeeCalculationTypeActions.deleteEntity, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
-  on(FeeActions.deleteEntitySuccess, (state, { id }) =>
+  on(FeeCalculationTypeActions.deleteEntitySuccess, (state, { id }) =>
     adapter.removeOne(id, { ...state, loading: false })
   ),
-  on(FeeActions.deleteEntityFailure, (state, { error }) => ({
+  on(FeeCalculationTypeActions.deleteEntityFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
-  // fee-calculation-types.reducer.ts
-  on(FeeActions.loadByIdSuccess, (state, { entity }) => {
+  // identCompanyActionType-calculation-types.reducer.ts
+  on(FeeCalculationTypeActions.loadByIdSuccess, (state, { entity }) => {
     console.log('🗄️ Reducer: loadByIdSuccess, before:', {
       loadedId: state.loadedId,
       entities: state.entities,

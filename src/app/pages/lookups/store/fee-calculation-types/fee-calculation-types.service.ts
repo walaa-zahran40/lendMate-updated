@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
 import { FeeCalculationType } from './fee-calculation-type.model';
 import { environment } from '../../../../../environments/environment';
@@ -11,7 +11,7 @@ export class FeeCalculationTypesService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<FeeCalculationType[]> {
-    console.log('🚀 Service: calling GET …');
+    console.log('🚀 Service: GET …');
     return this.http
       .get<{ items: FeeCalculationType[]; totalCount: number }>(
         `${this.baseUrl}/GetAllFeeCalculationTypes`

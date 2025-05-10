@@ -32,13 +32,13 @@ export class AddFeeTypesComponent {
 
   ngOnInit() {
     //Select Box
-        console.log('🔵 ngOnInit: start');
-        this.store.dispatch(loadAll({pageNumber : 1}));
-        this.feeCalculationTypes$ = this.store.select(selectAllFeeCalculationTypes);
+    console.log('🔵 ngOnInit: start');
+    this.store.dispatch(loadAll({ pageNumber: 1 }));
+    this.feeCalculationTypes$ = this.store.select(selectAllFeeCalculationTypes);
 
-        this.feeCalculationTypes$.subscribe((data: any) =>
-          console.log('🧪 selectFeeCalculationTypes$ from store:', data)
-        );
+    this.feeCalculationTypes$.subscribe((data: any) =>
+      console.log('🧪 selectFeeCalculationTypes$ from store:', data)
+    );
 
     this.addFeesTypesLookupsForm = this.fb.group({
       id: [null],
@@ -51,7 +51,7 @@ export class AddFeeTypesComponent {
       defaultPrecentage: [0],
       defaultAmount: [0],
       isDefault: [true],
-      isActive : [true],
+      isActive: [true],
     });
 
     this.route.paramMap.subscribe((params) => {
@@ -70,7 +70,7 @@ export class AddFeeTypesComponent {
         this.facade.loadOne(this.clientId);
         this.facade.current$
           .pipe(
-            filter((ct) => !!ct),
+            filter((ct): ct is FeeType => !!ct && ct.id === this.clientId),
             take(1)
           )
           .subscribe((ct) => {
@@ -87,7 +87,6 @@ export class AddFeeTypesComponent {
             });
           });
       } else {
-
         this.viewOnly = this.route.snapshot.queryParams['mode'] === 'view';
         if (this.viewOnly) {
           this.addFeesTypesLookupsForm.disable();
@@ -106,15 +105,38 @@ export class AddFeeTypesComponent {
       return;
     }
 
-    const { name, nameAR, description , descriptionAR ,feeCalculationTypeId,
-      defaultAmount, defaultPrecentage } =
-      this.addFeesTypesLookupsForm.value;
-    const payload: Partial<FeeType> = { name, nameAR, description , descriptionAR , feeCalculationTypeId, defaultAmount , defaultPrecentage };
+    const {
+      name,
+      nameAR,
+      description,
+      descriptionAR,
+      feeCalculationTypeId,
+      defaultAmount,
+      defaultPrecentage,
+    } = this.addFeesTypesLookupsForm.value;
+    const payload: Partial<FeeType> = {
+      name,
+      nameAR,
+      description,
+      descriptionAR,
+      feeCalculationTypeId,
+      defaultAmount,
+      defaultPrecentage,
+    };
     const routeId = this.route.snapshot.paramMap.get('id');
 
     if (this.editMode) {
-      const { id, name, nameAR, description , descriptionAR ,feeCalculationTypeId, defaultAmount, defaultPrecentage , isActive } =
-        this.addFeesTypesLookupsForm.value;
+      const {
+        id,
+        name,
+        nameAR,
+        description,
+        descriptionAR,
+        feeCalculationTypeId,
+        defaultAmount,
+        defaultPrecentage,
+        isActive,
+      } = this.addFeesTypesLookupsForm.value;
       const payload: FeeType = {
         id,
         name,
@@ -124,9 +146,9 @@ export class AddFeeTypesComponent {
         feeCalculationTypeId,
         defaultAmount,
         defaultPrecentage,
-        isActive
+        isActive,
       };
-      
+
       this.facade.update(id, payload);
     } else {
       this.facade.create(payload);

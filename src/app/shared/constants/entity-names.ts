@@ -15,4 +15,6 @@ export enum EntityNames {
   Country = 'Country',
   Currency = 'Currency',
   DocType = 'DocType',
+  FeeCalculationType = 'FeeCalculationType',
+  FeeType = 'FeeType',
 }

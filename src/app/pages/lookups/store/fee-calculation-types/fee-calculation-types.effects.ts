@@ -3,8 +3,8 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { FeeCalculationTypesService } from './fee-calculation-types.service';
 import * as ActionsList from './fee-calculation-types.actions';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
-import { loadAll } from '../../../crm/clients/store/client-central-bank-info/client-central-bank.actions';
 import { FeeCalculationType } from './fee-calculation-type.model';
+import { EntityNames } from '../../../../shared/constants/entity-names';
 
 @Injectable()
 export class FeeCalculationTypesEffects {
@@ -22,7 +22,7 @@ export class FeeCalculationTypesEffects {
           tap((items) => console.log('✨ Service returned items:', items)),
           map((items) => ActionsList.loadAllSuccess({ result: items })),
           catchError((err) => {
-            console.error('⚠️ Error loading feeCalculationTypes', err);
+            console.error('⚠️ Error loading company-action-types', err);
             return of(ActionsList.loadAllFailure({ error: err }));
           })
         )
@@ -66,10 +66,15 @@ export class FeeCalculationTypesEffects {
     this.actions$.pipe(
       ofType(ActionsList.createEntity),
       mergeMap(({ payload }) => {
-        // payload is Partial<Omit<FeeCalculationType,'id'>>, but our service needs the full DTO shape
         const dto = payload as Omit<FeeCalculationType, 'id'>;
         return this.svc.create(dto).pipe(
-          map((entity) => ActionsList.createEntitySuccess({ entity })),
+          mergeMap((entity) => [
+            ActionsList.createEntitySuccess({ entity }),
+            ActionsList.entityOperationSuccess({
+              entity: EntityNames.FeeCalculationType,
+              operation: 'create',
+            }),
+          ]),
           catchError((error) => of(ActionsList.createEntityFailure({ error })))
         );
       })
@@ -81,7 +86,14 @@ export class FeeCalculationTypesEffects {
       ofType(ActionsList.updateEntity),
       mergeMap(({ id, changes }) =>
         this.svc.update(id, changes).pipe(
-          map(() => ActionsList.updateEntitySuccess({ id, changes })),
+          mergeMap(() => [
+            ActionsList.updateEntitySuccess({ id, changes }),
+            ActionsList.loadAll({}), // 👈 this is crucial
+            ActionsList.entityOperationSuccess({
+              entity: EntityNames.FeeCalculationType,
+              operation: 'update',
+            }),
+          ]),
           catchError((error) => of(ActionsList.updateEntityFailure({ error })))
         )
       )
