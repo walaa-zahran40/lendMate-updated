@@ -41,9 +41,10 @@ export class ViewMandateValidityUnitComponent {
 
     this.mandateValidityUnits$
       ?.pipe(takeUntil(this.destroy$))
-      .subscribe((mandateValidityUnits) => {
-        // mandateValidityUnits is now MandateValidityUnit[], not any
-        const sorted = [...mandateValidityUnits].sort((a, b) => b?.id - a?.id);
+      ?.subscribe((mandate) => {
+        // products is now rentStructureType[], not any
+        const activeCodes = mandate.filter((code) => code.isActive);
+        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
         this.originalMandateValidityUnits = sorted;
         this.filteredMandateValidityUnits = [...sorted];
       });

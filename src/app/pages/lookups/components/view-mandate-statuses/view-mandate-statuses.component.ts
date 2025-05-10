@@ -40,10 +40,11 @@ export class ViewMandateStatusesComponent {
     this.mandateStatuses$ = this.facade.items$;
 
     this.mandateStatuses$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((mandateStatuses) => {
-        const sorted = [...mandateStatuses].sort((a, b) => b.id - a.id);
-        console.log('🟢 sorted mandateStatuses:', sorted);
+      ?.pipe(takeUntil(this.destroy$))
+      ?.subscribe((mandate) => {
+        // products is now rentStructureType[], not any
+        const activeCodes = mandate.filter((code) => code.isActive);
+        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
         this.originalMandateStatuses = sorted;
         this.filteredMandateStatuses = [...sorted];
       });

@@ -40,21 +40,13 @@ export class ViewMeetingTypesComponent {
     console.log('🟢 Calling loadAll() to fetch MeetingTypes');
     this.facade.loadAll();
 
-    this.MeetingTypes$?.pipe(takeUntil(this.destroy$)).subscribe(
-      (MeetingTypes) => {
-        console.log('🟢 subscribe: received MeetingTypes array:', MeetingTypes);
-
-        // preserve immutability, then sort by id descending
-        const sorted = [...MeetingTypes].sort((a, b) => b.id - a.id);
-        console.log('🟢 sorted (by id desc):', sorted);
-
-        this.originalMeetingType = sorted;
-        console.log('🟢 originalMeetingType set to:', this.originalMeetingType);
-
-        this.filteredMeetingType = [...sorted];
-        console.log('🟢 filteredMeetingType set to:', this.filteredMeetingType);
-      }
-    );
+    this.MeetingTypes$?.pipe(takeUntil(this.destroy$))?.subscribe((meeting) => {
+      // products is now rentStructureType[], not any
+      const activeCodes = meeting.filter((code) => code.isActive);
+      const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
+      this.originalMeetingType = sorted;
+      this.filteredMeetingType = [...sorted];
+    });
   }
 
   onAddMeetingType() {
