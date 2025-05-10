@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { BranchManagers } from '../../../../shared/interfaces/branch-managers.interface';
+import { BranchManagers } from '../../../../../shared/interfaces/branch-managers.interface';
 import { Router } from '@angular/router';
 
 @Component({

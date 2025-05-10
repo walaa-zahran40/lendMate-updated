@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DepartmentManager } from '../../../../shared/interfaces/department-manager.interface';
+import { DepartmentManager } from '../../../../../shared/interfaces/department-manager.interface';
 
 @Component({
   selector: 'app-view-department-manager',

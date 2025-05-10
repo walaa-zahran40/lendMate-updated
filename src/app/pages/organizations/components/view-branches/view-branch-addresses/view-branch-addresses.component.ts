@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { BranchAddresses } from '../../../../shared/interfaces/branch-addresses.interface';
+import { BranchAddresses } from '../../../../../shared/interfaces/branch-addresses.interface';
 
 @Component({
   selector: 'app-view-branch-addresses',
