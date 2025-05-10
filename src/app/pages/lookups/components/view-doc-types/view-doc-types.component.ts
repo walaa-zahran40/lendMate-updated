@@ -41,18 +41,12 @@ export class ViewDocTypesComponent {
     console.log('🟢 Calling loadAll() to fetch docTypes');
     this.facade.loadAll();
 
-    this.docTypes$?.pipe(takeUntil(this.destroy$)).subscribe((docTypes) => {
-      console.log('🟢 subscribe: received docTypes array:', docTypes);
-
-      // preserve immutability, then sort by id descending
-      const sorted = [...docTypes].sort((a, b) => b.id - a.id);
-      console.log('🟢 sorted (by id desc):', sorted);
-
+    this.docTypes$?.pipe(takeUntil(this.destroy$))?.subscribe((doc) => {
+      // doc is now doc[], not any
+      const activeCodes = doc.filter((code) => code.isActive);
+      const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
       this.originalDocType = sorted;
-      console.log('🟢 originalDocType set to:', this.originalDocType);
-
       this.filteredDocType = [...sorted];
-      console.log('🟢 filteredDocType set to:', this.filteredDocType);
     });
   }
 
