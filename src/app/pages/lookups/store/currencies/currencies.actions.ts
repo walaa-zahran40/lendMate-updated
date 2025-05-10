@@ -1,80 +1,69 @@
 import { createAction, props } from '@ngrx/store';
 import { Currency } from './currency.model';
 
-// Load all
-export const loadCurrencies = createAction('[Currencies] Load All');
-export const loadCurrenciesSuccess = createAction(
-  '[Currencies] Load All Success',
-  props<{ items: Currency[]; totalCount: number }>()
+export const loadAll = createAction(
+  '[Currencies] Load All',
+  props<{ pageNumber?: number }>()
 );
-export const loadCurrenciesFailure = createAction(
+export const loadAllSuccess = createAction(
+  '[Currencies] Load All Success',
+  props<{ result: Currency[] }>()
+);
+
+export const loadAllFailure = createAction(
   '[Currencies] Load All Failure',
   props<{ error: any }>()
 );
 
-// Load history
-export const loadCurrenciesHistory = createAction('[Currencies] Load History');
-export const loadCurrenciesHistorySuccess = createAction(
-  '[Currencies] Load History Success',
-  props<{ history: Currency[] }>()
-);
-export const loadCurrenciesHistoryFailure = createAction(
-  '[Currencies] Load History Failure',
-  props<{ error: any }>()
-);
-
-// Load by ID
-export const loadCurrency = createAction(
-  '[Currencies] Load One',
+export const loadById = createAction(
+  '[Currencies] Load By Id',
   props<{ id: number }>()
 );
-export const loadCurrencySuccess = createAction(
-  '[Currencies] Load One Success',
-  props<{ currency: Currency }>()
+export const loadByIdSuccess = createAction(
+  '[Currencies] Load By Id Success',
+  props<{ entity: Currency }>()
 );
-export const loadCurrencyFailure = createAction(
-  '[Currencies] Load One Failure',
+export const loadByIdFailure = createAction(
+  '[Currencies] Load By Id Failure',
   props<{ error: any }>()
 );
 
-// Create
-export const createCurrency = createAction(
+export const createEntity = createAction(
   '[Currencies] Create',
-  props<{ data: Partial<Currency> }>()
+  // allow all fields except id, but all optional
+  props<{ payload: Partial<Omit<Currency, 'id'>> }>()
 );
-export const createCurrencySuccess = createAction(
+export const createEntitySuccess = createAction(
   '[Currencies] Create Success',
-  props<{ currency: Currency }>()
+  props<{ entity: Currency }>()
 );
-export const createCurrencyFailure = createAction(
+export const createEntityFailure = createAction(
   '[Currencies] Create Failure',
   props<{ error: any }>()
 );
 
-// Update
-export const updateCurrency = createAction(
+export const updateEntity = createAction(
   '[Currencies] Update',
-  props<{ id: number; data: Partial<Currency> }>()
+  props<{ id: number; changes: Partial<Currency> }>()
 );
-export const updateCurrencySuccess = createAction(
+export const updateEntitySuccess = createAction(
   '[Currencies] Update Success',
-  props<{ currency: Currency }>()
+  props<{ id: number; changes: Partial<Currency> }>()
 );
-export const updateCurrencyFailure = createAction(
+export const updateEntityFailure = createAction(
   '[Currencies] Update Failure',
   props<{ error: any }>()
 );
 
-// Delete
-export const deleteCurrency = createAction(
+export const deleteEntity = createAction(
   '[Currencies] Delete',
   props<{ id: number }>()
 );
-export const deleteCurrencySuccess = createAction(
+export const deleteEntitySuccess = createAction(
   '[Currencies] Delete Success',
   props<{ id: number }>()
 );
-export const deleteCurrencyFailure = createAction(
+export const deleteEntityFailure = createAction(
   '[Currencies] Delete Failure',
   props<{ error: any }>()
 );

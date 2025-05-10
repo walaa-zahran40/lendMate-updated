@@ -18,7 +18,7 @@ export const selectAllCommunicationFlowTypes = createSelector(
   selectFeature,
   fromSlice.selectAll
 );
-export const selectCommunicationFlowTypeEntities = createSelector(
+export const selectAreaEntities = createSelector(
   selectFeature,
   fromSlice.selectEntities
 );

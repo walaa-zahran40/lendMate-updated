@@ -1,85 +1,96 @@
 import { createReducer, on } from '@ngrx/store';
-import * as Actions from './currencies.actions';
-import { initialCurrenciesState } from './currencies.state';
+import * as CurrencyActions from './currencies.actions';
+import { adapter, initialState } from './currencies.state';
 
-export const currenciesReducer = createReducer(
-  initialCurrenciesState,
-  on(Actions.loadCurrencies, (state) => ({
+export const reducer = createReducer(
+  initialState,
+
+  // when you dispatch loadAll()
+  on(CurrencyActions.loadAll, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
-  on(Actions.loadCurrenciesSuccess, (state, { items, totalCount }) => ({
+
+  // when your effect dispatches loadAllSuccess({ result })
+  on(CurrencyActions.loadAllSuccess, (state, { result }) =>
+    adapter.upsertMany(result, {
+      ...state,
+      loading: false,
+      error: null,
+    })
+  ),
+  // on failure
+  on(CurrencyActions.loadAllFailure, (state, { error }) => ({
     ...state,
-    items,
-    totalCount,
     loading: false,
-  })),
-  on(Actions.loadCurrenciesFailure, (state, { error }) => ({
-    ...state,
     error,
+  })),
+  // create
+  on(CurrencyActions.createEntity, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
+  on(CurrencyActions.createEntitySuccess, (state, { entity }) =>
+    adapter.addOne(entity, { ...state, loading: false })
+  ),
+  on(CurrencyActions.createEntityFailure, (state, { error }) => ({
+    ...state,
     loading: false,
+    error,
   })),
 
-  on(Actions.loadCurrenciesHistory, (state) => ({ ...state, loading: true })),
-  on(Actions.loadCurrenciesHistorySuccess, (state, { history }) => ({
+  // update
+  on(CurrencyActions.updateEntity, (state) => ({
     ...state,
-    history,
-    loading: false,
+    loading: true,
+    error: null,
   })),
-  on(Actions.loadCurrenciesHistoryFailure, (state, { error }) => ({
+  on(CurrencyActions.updateEntitySuccess, (state, { id, changes }) =>
+    adapter.updateOne({ id, changes }, { ...state, loading: false })
+  ),
+  on(CurrencyActions.updateEntityFailure, (state, { error }) => ({
     ...state,
-    error,
     loading: false,
+    error,
   })),
 
-  on(Actions.loadCurrency, (state) => ({ ...state, loading: true })),
-  on(Actions.loadCurrencySuccess, (state, { currency }) => ({
+  // delete
+  on(CurrencyActions.deleteEntity, (state) => ({
     ...state,
-    current: currency,
-    loading: false,
+    loading: true,
+    error: null,
   })),
-  on(Actions.loadCurrencyFailure, (state, { error }) => ({
+  on(CurrencyActions.deleteEntitySuccess, (state, { id }) =>
+    adapter.removeOne(id, { ...state, loading: false })
+  ),
+  on(CurrencyActions.deleteEntityFailure, (state, { error }) => ({
     ...state,
+    loading: false,
     error,
-    loading: false,
   })),
+  // identCompanyActionType-calculation-types.reducer.ts
+  on(CurrencyActions.loadByIdSuccess, (state, { entity }) => {
+    console.log('🗄️ Reducer: loadByIdSuccess, before:', {
+      loadedId: state.loadedId,
+      entities: state.entities,
+    });
 
-  on(Actions.createCurrency, (state) => ({ ...state, loading: true })),
-  on(Actions.createCurrencySuccess, (state, { currency }) => ({
-    ...state,
-    items: [...state.items, currency],
-    loading: false,
-  })),
-  on(Actions.createCurrencyFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
-  })),
+    const newState = adapter.upsertOne(entity, {
+      ...state,
+      loading: false,
+      loadedId: entity.id,
+    });
 
-  on(Actions.updateCurrency, (state) => ({ ...state, loading: true })),
-  on(Actions.updateCurrencySuccess, (state, { currency }) => ({
-    ...state,
-    items: state.items.map((ct) =>
-      ct.id === currency.id ? currency : ct
-    ),
-    loading: false,
-  })),
-  on(Actions.updateCurrencyFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
-  })),
+    console.log('🗄️ Reducer: loadByIdSuccess, after:', {
+      loadedId: newState.loadedId,
+      entities: newState.entities,
+    });
 
-  on(Actions.deleteCurrency, (state) => ({ ...state, loading: true })),
-  on(Actions.deleteCurrencySuccess, (state, { id }) => ({
-    ...state,
-    items: state.items.filter((ct) => ct.id !== id),
-    loading: false,
-  })),
-  on(Actions.deleteCurrencyFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
-  }))
+    return newState;
+  })
 );
+
+export const { selectAll, selectEntities, selectIds, selectTotal } =
+  adapter.getSelectors();

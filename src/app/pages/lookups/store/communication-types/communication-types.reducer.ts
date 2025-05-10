@@ -14,7 +14,7 @@ export const reducer = createReducer(
 
   // when your effect dispatches loadAllSuccess({ result })
   on(CommunicationTypeActions.loadAllSuccess, (state, { result }) =>
-    adapter.setAll(result, {
+    adapter.upsertMany(result, {
       ...state,
       loading: false,
       error: null,
@@ -70,7 +70,7 @@ export const reducer = createReducer(
     loading: false,
     error,
   })),
-  // fee-calculation-types.reducer.ts
+  // identCommunicationActionType-calculation-types.reducer.ts
   on(CommunicationTypeActions.loadByIdSuccess, (state, { entity }) => {
     console.log('🗄️ Reducer: loadByIdSuccess, before:', {
       loadedId: state.loadedId,

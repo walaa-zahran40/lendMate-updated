@@ -1,30 +1,42 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { CurrenciesState } from './currencies.state';
+import * as fromSlice from './currencies.reducer';
+import { adapter, State } from './currencies.state';
 
-export const selectCurrenciesState =
-  createFeatureSelector<CurrenciesState>('currencies');
-export const selectCurrencies = createSelector(
-  selectCurrenciesState,
-  (state) => state.items
+export const selectFeature = createFeatureSelector<State>('currencies');
+export const selectCurrenciesFeature =
+  createFeatureSelector<State>('currencies');
+
+// these come from your EntityAdapter
+const { selectEntities } = adapter.getSelectors(selectCurrenciesFeature);
+
+export const selectAllCurrencies = createSelector(
+  selectFeature,
+  fromSlice.selectAll
 );
-export const selectCurrenciesTotal = createSelector(
-  selectCurrenciesState,
-  (state) => state.totalCount
-);
-export const selectCurrenciesHistory = createSelector(
-  selectCurrenciesState,
-  (state) => state.history
-);
-export const selectCurrentCurrencyy = createSelector(
-  selectCurrenciesState,
-  (state) => state.current
+export const selectAreaEntities = createSelector(
+  selectFeature,
+  fromSlice.selectEntities
 );
 export const selectCurrenciesLoading = createSelector(
-  selectCurrenciesState,
+  selectFeature,
   (state) => state.loading
 );
 export const selectCurrenciesError = createSelector(
-  selectCurrenciesState,
+  selectFeature,
   (state) => state.error
 );
 
+export const selectLoadedId = createSelector(
+  selectFeature,
+  (state) => state.loadedId
+);
+
+export const selectCurrent = createSelector(
+  selectEntities,
+  selectLoadedId,
+  (entities, id) => (id != null ? entities[id] : null)
+);
+export const selectCurrenciesTotalCount = createSelector(
+  selectCurrenciesFeature,
+  (state) => state
+);

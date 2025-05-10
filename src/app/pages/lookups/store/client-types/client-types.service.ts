@@ -11,7 +11,7 @@ export class ClientTypesService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<ClientType[]> {
-    console.log('🚀 Service: client GET …');
+    console.log('🚀 Service: clienting GET …');
     return this.http
       .get<{ items: ClientType[]; totalCount: number }>(
         `${this.baseUrl}/GetAllClientTypes`

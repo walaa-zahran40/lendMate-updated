@@ -1,85 +1,96 @@
 import { createReducer, on } from '@ngrx/store';
-import * as Actions from './company-types.actions';
-import { initialCompanyTypesState } from './company-types.state';
+import * as CompanyTypeActions from './company-types.actions';
+import { adapter, initialState } from './company-types.state';
 
-export const companyTypesReducer = createReducer(
-  initialCompanyTypesState,
-  on(Actions.loadCompanyTypes, (state) => ({
+export const reducer = createReducer(
+  initialState,
+
+  // when you dispatch loadAll()
+  on(CompanyTypeActions.loadAll, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
-  on(Actions.loadCompanyTypesSuccess, (state, { items, totalCount }) => ({
+
+  // when your effect dispatches loadAllSuccess({ result })
+  on(CompanyTypeActions.loadAllSuccess, (state, { result }) =>
+    adapter.upsertMany(result, {
+      ...state,
+      loading: false,
+      error: null,
+    })
+  ),
+  // on failure
+  on(CompanyTypeActions.loadAllFailure, (state, { error }) => ({
     ...state,
-    items,
-    totalCount,
     loading: false,
-  })),
-  on(Actions.loadCompanyTypesFailure, (state, { error }) => ({
-    ...state,
     error,
+  })),
+  // create
+  on(CompanyTypeActions.createEntity, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
+  on(CompanyTypeActions.createEntitySuccess, (state, { entity }) =>
+    adapter.addOne(entity, { ...state, loading: false })
+  ),
+  on(CompanyTypeActions.createEntityFailure, (state, { error }) => ({
+    ...state,
     loading: false,
+    error,
   })),
 
-  on(Actions.loadCompanyTypesHistory, (state) => ({ ...state, loading: true })),
-  on(Actions.loadCompanyTypesHistorySuccess, (state, { history }) => ({
+  // update
+  on(CompanyTypeActions.updateEntity, (state) => ({
     ...state,
-    history,
-    loading: false,
+    loading: true,
+    error: null,
   })),
-  on(Actions.loadCompanyTypesHistoryFailure, (state, { error }) => ({
+  on(CompanyTypeActions.updateEntitySuccess, (state, { id, changes }) =>
+    adapter.updateOne({ id, changes }, { ...state, loading: false })
+  ),
+  on(CompanyTypeActions.updateEntityFailure, (state, { error }) => ({
     ...state,
-    error,
     loading: false,
+    error,
   })),
 
-  on(Actions.loadCompanyType, (state) => ({ ...state, loading: true })),
-  on(Actions.loadCompanyTypeSuccess, (state, { companyType }) => ({
+  // delete
+  on(CompanyTypeActions.deleteEntity, (state) => ({
     ...state,
-    current: companyType,
-    loading: false,
+    loading: true,
+    error: null,
   })),
-  on(Actions.loadCompanyTypeFailure, (state, { error }) => ({
+  on(CompanyTypeActions.deleteEntitySuccess, (state, { id }) =>
+    adapter.removeOne(id, { ...state, loading: false })
+  ),
+  on(CompanyTypeActions.deleteEntityFailure, (state, { error }) => ({
     ...state,
+    loading: false,
     error,
-    loading: false,
   })),
+  // identCompanyActionType-calculation-types.reducer.ts
+  on(CompanyTypeActions.loadByIdSuccess, (state, { entity }) => {
+    console.log('🗄️ Reducer: loadByIdSuccess, before:', {
+      loadedId: state.loadedId,
+      entities: state.entities,
+    });
 
-  on(Actions.createCompanyType, (state) => ({ ...state, loading: true })),
-  on(Actions.createCompanyTypeSuccess, (state, { companyType }) => ({
-    ...state,
-    items: [...state.items, companyType],
-    loading: false,
-  })),
-  on(Actions.createCompanyTypeFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
-  })),
+    const newState = adapter.upsertOne(entity, {
+      ...state,
+      loading: false,
+      loadedId: entity.id,
+    });
 
-  on(Actions.updateCompanyType, (state) => ({ ...state, loading: true })),
-  on(Actions.updateCompanyTypeSuccess, (state, { companyType }) => ({
-    ...state,
-    items: state.items.map((ct) =>
-      ct.id === companyType.id ? companyType : ct
-    ),
-    loading: false,
-  })),
-  on(Actions.updateCompanyTypeFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
-  })),
+    console.log('🗄️ Reducer: loadByIdSuccess, after:', {
+      loadedId: newState.loadedId,
+      entities: newState.entities,
+    });
 
-  on(Actions.deleteCompanyType, (state) => ({ ...state, loading: true })),
-  on(Actions.deleteCompanyTypeSuccess, (state, { id }) => ({
-    ...state,
-    items: state.items.filter((ct) => ct.id !== id),
-    loading: false,
-  })),
-  on(Actions.deleteCompanyTypeFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
-  }))
+    return newState;
+  })
 );
+
+export const { selectAll, selectEntities, selectIds, selectTotal } =
+  adapter.getSelectors();

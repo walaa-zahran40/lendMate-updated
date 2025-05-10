@@ -6,14 +6,13 @@ export const selectFeature = createFeatureSelector<State>('callTypes');
 export const selectCallTypesFeature = createFeatureSelector<State>('callTypes');
 
 // these come from your EntityAdapter
-const { selectAll, selectEntities, selectIds, selectTotal } =
-  adapter.getSelectors(selectCallTypesFeature);
+const { selectEntities } = adapter.getSelectors(selectCallTypesFeature);
 
 export const selectAllCallTypes = createSelector(
   selectFeature,
   fromSlice.selectAll
 );
-export const selectCallTypeEntities = createSelector(
+export const selectAreaEntities = createSelector(
   selectFeature,
   fromSlice.selectEntities
 );

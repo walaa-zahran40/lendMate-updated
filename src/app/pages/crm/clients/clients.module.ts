@@ -46,8 +46,6 @@ import { clientsReducer } from './store/clients/clients.reducer';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ViewClientIdentityComponent } from './components/view-client-identity/view-client-identity.component';
 import { AddClientIdentityComponent } from './components/add-client-identity/add-client-identity.component';
-import { ClientTypesEffects } from './store/client-types/client-types.effects';
-import { clientTypesReducer } from './store/client-types/client-types.reducer';
 
 import { individualReducer } from './store/individual/individual.reducer';
 import { IndividualEffects } from './store/individual/individual.effects';
@@ -149,8 +147,6 @@ import { WizardClientStatusComponent } from './components/wizard-client-status/w
     ReactiveFormsModule,
     StoreModule.forFeature('clients', clientsReducer),
     EffectsModule.forFeature([ClientsEffects]),
-    StoreModule.forFeature('clientTypes', clientTypesReducer),
-    EffectsModule.forFeature([ClientTypesEffects]),
     StoreModule.forFeature('legalFormLaw', legalFormLawReducer),
     EffectsModule.forFeature([LegalFormLawEffects]),
     StoreModule.forFeature('legalForm', legalFormsReducer),

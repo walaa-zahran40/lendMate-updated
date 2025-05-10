@@ -18,7 +18,6 @@ export class CallTypesFacade {
     )
   );
   operationSuccess$ = this.store.select(selectLastOperationSuccess);
-
   constructor(private store: Store) {}
 
   loadAll(pageNumber?: number) {

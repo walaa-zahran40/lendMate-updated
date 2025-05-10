@@ -10,6 +10,7 @@
   },
   "private": true,
   "dependencies": {
+    "@analogjs/vite-plugin-angular": "^1.16.0",
     "@angular/animations": "^19.1.0",
     "@angular/common": "^19.1.0",
     "@angular/compiler": "^19.1.0",
@@ -54,6 +55,8 @@
     "@angular/cli": "^19.1.6",
     "@angular/compiler-cli": "^19.1.0",
     "@angular/localize": "^19.1.0",
+    "@tailwindcss/postcss": "^4.0.6",
+    "@tailwindcss/vite": "^4.0.6",
     "@types/file-saver": "^2.0.7",
     "@types/jasmine": "~5.1.0",
     "@types/pdfmake": "^0.2.11",
@@ -63,9 +66,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~5.7.2",
     "postcss": "^8.5.2",
-    "@tailwindcss/postcss": "^4.0.6",
-    "@tailwindcss/vite": "^4.0.6"
+    "typescript": "~5.7.2"
   }
 }

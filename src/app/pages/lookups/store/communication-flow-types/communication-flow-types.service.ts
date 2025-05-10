@@ -11,10 +11,10 @@ export class CommunicationFlowTypesService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<CommunicationFlowType[]> {
-    console.log('🚀 Service: client GET …');
+    console.log('🚀 Service: GET …');
     return this.http
       .get<{ items: CommunicationFlowType[]; totalCount: number }>(
-        `${this.baseUrl}/GetCommunicationFlawTypes`
+        `${this.baseUrl}/GetCommunicationFlowTypes`
       )
       .pipe(
         tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
@@ -29,7 +29,7 @@ export class CommunicationFlowTypesService {
 
   getById(id: number): Observable<CommunicationFlowType> {
     return this.http.get<CommunicationFlowType>(
-      `${this.baseUrl}/CommunicationFlawTypeId?id=${id}`
+      `${this.baseUrl}/CommunicationFlowTypeId?id=${id}`
     );
   }
 
@@ -37,7 +37,7 @@ export class CommunicationFlowTypesService {
     payload: Omit<CommunicationFlowType, 'id'>
   ): Observable<CommunicationFlowType> {
     return this.http.post<CommunicationFlowType>(
-      `${this.baseUrl}/CreateCommunicationFlawType`,
+      `${this.baseUrl}/CreateCommunicationFlowType`,
       payload
     );
   }

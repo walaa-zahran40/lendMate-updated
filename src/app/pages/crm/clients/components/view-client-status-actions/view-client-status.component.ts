@@ -5,8 +5,8 @@ import { Router } from '@angular/router';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { Client } from '../../../../../shared/interfaces/client.interface';
 import { ClientsFacade } from '../../store/clients/clients.facade';
-import { ClientStatus } from '../../../../lookups/store/client-statuses/client-status.model';
-import { ClientStatusesFacade } from '../../../../lookups/store/client-statuses/client-statuses.facade';
+import { ClientStatus } from '../../store/client-statuses/client-status.model';
+import { ClientStatusesFacade } from '../../store/client-statuses/client-statuses.facade';
 
 @Component({
   selector: 'app-view-client-status',

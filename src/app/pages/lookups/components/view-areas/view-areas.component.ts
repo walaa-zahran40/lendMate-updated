@@ -24,9 +24,9 @@ export class ViewAreasComponent {
   @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
+    { field: 'governorateName', header: 'Governorate Name' },
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
-    { field: 'governorateName', header: 'Governorate Name' },
   ];
   showDeleteModal: boolean = false;
   selectedAreaId: number | null = null;

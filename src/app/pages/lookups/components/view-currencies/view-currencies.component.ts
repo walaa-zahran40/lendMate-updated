@@ -38,7 +38,7 @@ export class ViewCurrenciesComponent {
   ngOnInit() {
     console.log('🟢 ngOnInit: start loading currencies');
     this.facade.loadAll();
-    this.currencies$ = this.facade.items$;
+    this.currencies$ = this.facade.all$;
 
     this.currencies$.pipe(takeUntil(this.destroy$)).subscribe((currencies) => {
       const sorted = [...currencies].sort((a, b) => b.id - a.id);

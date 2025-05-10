@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import * as CallActionTypeActions from './call-action-types.actions';
-import { adapter, initialState, State } from './call-action-types.state';
+import { adapter, initialState } from './call-action-types.state';
 
 export const reducer = createReducer(
   initialState,
@@ -14,7 +14,7 @@ export const reducer = createReducer(
 
   // when your effect dispatches loadAllSuccess({ result })
   on(CallActionTypeActions.loadAllSuccess, (state, { result }) =>
-    adapter.setAll(result, {
+    adapter.upsertMany(result, {
       ...state,
       loading: false,
       error: null,
@@ -70,7 +70,7 @@ export const reducer = createReducer(
     loading: false,
     error,
   })),
-  // fee-calculation-types.reducer.ts
+  // identCallActionType-calculation-types.reducer.ts
   on(CallActionTypeActions.loadByIdSuccess, (state, { entity }) => {
     console.log('🗄️ Reducer: loadByIdSuccess, before:', {
       loadedId: state.loadedId,

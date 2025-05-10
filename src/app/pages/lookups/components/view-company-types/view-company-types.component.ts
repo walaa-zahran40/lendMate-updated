@@ -32,7 +32,7 @@ export class ViewCompanyTypesComponent {
   constructor(private router: Router, private facade: CompanyTypesFacade) {}
   ngOnInit() {
     this.facade.loadAll();
-    this.companyTypes$ = this.facade.items$;
+    this.companyTypes$ = this.facade.all$;
 
     this.companyTypes$
       ?.pipe(takeUntil(this.destroy$))

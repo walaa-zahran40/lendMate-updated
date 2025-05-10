@@ -1,83 +1,96 @@
 import { createReducer, on } from '@ngrx/store';
-import * as Actions from './countries.actions';
-import { initialCountriesState } from './countries.state';
+import * as CountryActions from './countries.actions';
+import { adapter, initialState } from './countries.state';
 
-export const countriesReducer = createReducer(
-  initialCountriesState,
-  on(Actions.loadCountries, (state) => ({
+export const reducer = createReducer(
+  initialState,
+
+  // when you dispatch loadAll()
+  on(CountryActions.loadAll, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
-  on(Actions.loadCountriesSuccess, (state, { items, totalCount }) => ({
+
+  // when your effect dispatches loadAllSuccess({ result })
+  on(CountryActions.loadAllSuccess, (state, { result }) =>
+    adapter.upsertMany(result, {
+      ...state,
+      loading: false,
+      error: null,
+    })
+  ),
+  // on failure
+  on(CountryActions.loadAllFailure, (state, { error }) => ({
     ...state,
-    items,
-    totalCount,
     loading: false,
-  })),
-  on(Actions.loadCountriesFailure, (state, { error }) => ({
-    ...state,
     error,
+  })),
+  // create
+  on(CountryActions.createEntity, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
+  on(CountryActions.createEntitySuccess, (state, { entity }) =>
+    adapter.addOne(entity, { ...state, loading: false })
+  ),
+  on(CountryActions.createEntityFailure, (state, { error }) => ({
+    ...state,
     loading: false,
+    error,
   })),
 
-  on(Actions.loadCountriesHistory, (state) => ({ ...state, loading: true })),
-  on(Actions.loadCountriesHistorySuccess, (state, { history }) => ({
+  // update
+  on(CountryActions.updateEntity, (state) => ({
     ...state,
-    history,
-    loading: false,
+    loading: true,
+    error: null,
   })),
-  on(Actions.loadCountriesHistoryFailure, (state, { error }) => ({
+  on(CountryActions.updateEntitySuccess, (state, { id, changes }) =>
+    adapter.updateOne({ id, changes }, { ...state, loading: false })
+  ),
+  on(CountryActions.updateEntityFailure, (state, { error }) => ({
     ...state,
-    error,
     loading: false,
+    error,
   })),
 
-  on(Actions.loadCountry, (state) => ({ ...state, loading: true })),
-  on(Actions.loadCountrySuccess, (state, { country }) => ({
+  // delete
+  on(CountryActions.deleteEntity, (state) => ({
     ...state,
-    current: country,
-    loading: false,
+    loading: true,
+    error: null,
   })),
-  on(Actions.loadCountryFailure, (state, { error }) => ({
+  on(CountryActions.deleteEntitySuccess, (state, { id }) =>
+    adapter.removeOne(id, { ...state, loading: false })
+  ),
+  on(CountryActions.deleteEntityFailure, (state, { error }) => ({
     ...state,
+    loading: false,
     error,
-    loading: false,
   })),
+  // identCompanyActionType-calculation-types.reducer.ts
+  on(CountryActions.loadByIdSuccess, (state, { entity }) => {
+    console.log('🗄️ Reducer: loadByIdSuccess, before:', {
+      loadedId: state.loadedId,
+      entities: state.entities,
+    });
 
-  on(Actions.createCountry, (state) => ({ ...state, loading: true })),
-  on(Actions.createCountrySuccess, (state, { country }) => ({
-    ...state,
-    items: [...state.items, country],
-    loading: false,
-  })),
-  on(Actions.createCountryFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
-  })),
+    const newState = adapter.upsertOne(entity, {
+      ...state,
+      loading: false,
+      loadedId: entity.id,
+    });
 
-  on(Actions.updateCountry, (state) => ({ ...state, loading: true })),
-  on(Actions.updateCountrySuccess, (state, { country }) => ({
-    ...state,
-    items: state.items.map((ct) => (ct.id === country.id ? country : ct)),
-    loading: false,
-  })),
-  on(Actions.updateCountryFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
-  })),
+    console.log('🗄️ Reducer: loadByIdSuccess, after:', {
+      loadedId: newState.loadedId,
+      entities: newState.entities,
+    });
 
-  on(Actions.deleteCountry, (state) => ({ ...state, loading: true })),
-  on(Actions.deleteCountrySuccess, (state, { id }) => ({
-    ...state,
-    items: state.items.filter((ct) => ct.id !== id),
-    loading: false,
-  })),
-  on(Actions.deleteCountryFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
-  }))
+    return newState;
+  })
 );
+
+export const { selectAll, selectEntities, selectIds, selectTotal } =
+  adapter.getSelectors();

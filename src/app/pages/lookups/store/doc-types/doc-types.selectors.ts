@@ -12,7 +12,7 @@ export const selectAllDocTypes = createSelector(
   selectFeature,
   fromSlice.selectAll
 );
-export const selectDocTypeEntities = createSelector(
+export const selectAreaEntities = createSelector(
   selectFeature,
   fromSlice.selectEntities
 );

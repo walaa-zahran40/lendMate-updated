@@ -1,50 +1,42 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { createSelector, Store } from '@ngrx/store';
 import * as Actions from './currencies.actions';
 import * as Selectors from './currencies.selectors';
-import { Observable } from 'rxjs';
 import { Currency } from './currency.model';
 import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class CurrenciesFacade {
-  items$: Observable<Currency[]> = this.store.select(
-    Selectors.selectCurrencies
+  all$ = this.store.select(Selectors.selectAllCurrencies);
+  loading$ = this.store.select(Selectors.selectCurrenciesLoading);
+  error$ = this.store.select(Selectors.selectCurrenciesError);
+  totalCount$ = this.store.select(Selectors.selectCurrenciesTotalCount);
+  selected$ = this.store.select(
+    createSelector(
+      Selectors.selectFeature,
+      (state) => state.entities[state.loadedId!] // or however you track it
+    )
   );
-  total$: Observable<number> = this.store.select(
-    Selectors.selectCurrenciesTotal
-  );
-  history$: Observable<Currency[]> = this.store.select(
-    Selectors.selectCurrenciesHistory
-  );
-  current$: Observable<Currency | undefined> = this.store.select(
-    Selectors.selectCurrentCurrencyy
-  );
-
-  loading$: Observable<boolean> = this.store.select(
-    Selectors.selectCurrenciesLoading
-  );
-  error$: Observable<any> = this.store.select(Selectors.selectCurrenciesError);
   operationSuccess$ = this.store.select(selectLastOperationSuccess);
-
   constructor(private store: Store) {}
 
-  loadAll() {
-    this.store.dispatch(Actions.loadCurrencies());
+  loadAll(pageNumber?: number) {
+    this.store.dispatch(Actions.loadAll({ pageNumber }));
   }
-  loadHistory() {
-    this.store.dispatch(Actions.loadCurrenciesHistory());
+
+  loadById(id: number) {
+    this.store.dispatch(Actions.loadById({ id }));
   }
-  loadOne(id: number) {
-    this.store.dispatch(Actions.loadCurrency({ id }));
+
+  create(payload: Partial<Omit<Currency, 'id'>>) {
+    this.store.dispatch(Actions.createEntity({ payload }));
   }
-  create(data: Partial<Currency>) {
-    this.store.dispatch(Actions.createCurrency({ data }));
+
+  update(id: number, changes: Partial<Currency>) {
+    this.store.dispatch(Actions.updateEntity({ id, changes }));
   }
-  update(id: any, data: Partial<Currency>) {
-    this.store.dispatch(Actions.updateCurrency({ id, data }));
-  }
+
   delete(id: number) {
-    this.store.dispatch(Actions.deleteCurrency({ id }));
+    this.store.dispatch(Actions.deleteEntity({ id }));
   }
 }

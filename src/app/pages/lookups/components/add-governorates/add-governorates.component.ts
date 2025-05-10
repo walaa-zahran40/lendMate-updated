@@ -6,9 +6,9 @@ import { filter, Observable, take } from 'rxjs';
 import { arabicOnlyValidator } from '../../../../shared/validators/arabic-only.validator';
 import { Governorate } from '../../store/governorates/governorate.model';
 import { GovernorateFacade } from '../../store/governorates/governorates.facade';
-import { loadCountries } from '../../store/countries/countries.actions';
-import { selectCountries } from '../../store/countries/countries.selectors';
 import { Country } from '../../store/countries/country.model';
+import { loadAll } from '../../store/countries/countries.actions';
+import { selectAllCountries } from '../../store/countries/countries.selectors';
 
 @Component({
   selector: 'app-add-governorates',
@@ -16,7 +16,7 @@ import { Country } from '../../store/countries/country.model';
   templateUrl: './add-governorates.component.html',
   styleUrl: './add-governorates.component.scss',
 })
-export class AddGovernoratesComponent implements OnInit{
+export class AddGovernoratesComponent implements OnInit {
   editMode: boolean = false;
   viewOnly = false;
   addGovernoratesLookupsForm!: FormGroup;
@@ -32,8 +32,8 @@ export class AddGovernoratesComponent implements OnInit{
   ) {}
 
   ngOnInit() {
-    this.store.dispatch(loadCountries());
-    this.countriesList$ = this.store.select(selectCountries);
+    this.store.dispatch(loadAll({}));
+    this.countriesList$ = this.store.select(selectAllCountries);
     this.countriesList$.subscribe((data) =>
       console.log('🧪 countriesList$ from store:', data)
     );
@@ -75,8 +75,8 @@ export class AddGovernoratesComponent implements OnInit{
               id: ct!.id,
               name: ct!.name,
               nameAR: ct!.nameAR,
-              aramex:ct!.aramex,
-              countryId:ct!.countryId,
+              aramex: ct!.aramex,
+              countryId: ct!.countryId,
               isActive: ct!.isActive,
             });
           });
@@ -88,7 +88,6 @@ export class AddGovernoratesComponent implements OnInit{
         }
       }
     });
-  
   }
 
   addOrEditGovernorates() {
@@ -119,8 +118,15 @@ export class AddGovernoratesComponent implements OnInit{
       return;
     }
 
-    const { name, nameAR,aramex,countryId, isActive } = this.addGovernoratesLookupsForm.value;
-    const payload: Partial<Governorate> = { name, nameAR,aramex,countryId, isActive };
+    const { name, nameAR, aramex, countryId, isActive } =
+      this.addGovernoratesLookupsForm.value;
+    const payload: Partial<Governorate> = {
+      name,
+      nameAR,
+      aramex,
+      countryId,
+      isActive,
+    };
     console.log('  → payload object:', payload);
 
     // Double-check your route param
@@ -128,9 +134,16 @@ export class AddGovernoratesComponent implements OnInit{
     console.log('  route.snapshot.paramMap.get(clientId):', routeId);
 
     if (this.editMode) {
-      const { id, name, nameAR,aramex,countryId, isActive } =
+      const { id, name, nameAR, aramex, countryId, isActive } =
         this.addGovernoratesLookupsForm.value;
-      const payload: Governorate = { id, name, nameAR,aramex,countryId, isActive };
+      const payload: Governorate = {
+        id,
+        name,
+        nameAR,
+        aramex,
+        countryId,
+        isActive,
+      };
       console.log(
         '🔄 Dispatching UPDATE id=',
         this.retrivedId,

@@ -52,10 +52,10 @@ export class AddCountriesComponent {
         }
 
         // 3. load the existing record & patch the form
-        this.facade.loadOne(this.clientId);
-        this.facade.current$
+        this.facade.loadById(this.clientId);
+        this.facade.selected$
           .pipe(
-            filter((ct) => !!ct),
+            filter((ct): ct is Country => !!ct && ct.id === this.clientId),
             take(1)
           )
           .subscribe((ct) => {

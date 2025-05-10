@@ -1,86 +1,97 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { mergeMap, map, catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
-import * as CountryActions from './countries.actions';
 import { CountriesService } from './countries.service';
+import * as ActionsList from './countries.actions';
+import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { Country } from './country.model';
+import { EntityNames } from '../../../../shared/constants/entity-names';
 
 @Injectable()
 export class CountriesEffects {
+  constructor(private actions$: Actions, private svc: CountriesService) {}
+
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(CountryActions.loadCountries),
+      ofType(ActionsList.loadAll),
+      tap(() => console.log('✨ Effect: loadAll action caught')),
       mergeMap(() =>
-        this.service.getAll().pipe(
-          map((resp) =>
-            CountryActions.loadCountriesSuccess({
-              items: resp.items,
-              totalCount: resp.totalCount,
-            })
-          ),
-          catchError((error) =>
-            of(CountryActions.loadCountriesFailure({ error }))
-          )
+        this.svc.getAll().pipe(
+          tap((items) => console.log('✨ Service returned items:', items)),
+          map((items) => ActionsList.loadAllSuccess({ result: items })),
+          catchError((err) => {
+            console.error('⚠️ Error loading company-action-types', err);
+            return of(ActionsList.loadAllFailure({ error: err }));
+          })
         )
       )
     )
   );
 
-  loadHistory$ = createEffect(() =>
+  loadById$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(CountryActions.loadCountriesHistory),
-      mergeMap(() =>
-        this.service.getHistory().pipe(
-          map((resp) =>
-            CountryActions.loadCountriesHistorySuccess({
-              history: resp.items,
-            })
-          ),
-          catchError((error) =>
-            of(CountryActions.loadCountriesHistoryFailure({ error }))
-          )
-        )
-      )
-    )
-  );
-
-  loadOne$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(CountryActions.loadCountry),
+      ofType(ActionsList.loadById),
+      tap(({ id }) =>
+        console.log('🔄 Effect: loadById action caught for id=', id)
+      ),
       mergeMap(({ id }) =>
-        this.service.getById(id).pipe(
-          map((country) => CountryActions.loadCountrySuccess({ country })),
-          catchError((error) =>
-            of(CountryActions.loadCountryFailure({ error }))
-          )
+        this.svc.getById(id).pipe(
+          tap((entity) => console.log('🔄 Service.getById returned:', entity)),
+          map((entity) => ActionsList.loadByIdSuccess({ entity })),
+          catchError((error) => {
+            console.error('❌ Service.getById error:', error);
+            return of(ActionsList.loadByIdFailure({ error }));
+          })
         )
       )
     )
   );
 
+  loadByIdSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ActionsList.loadByIdSuccess),
+        tap(({ entity }) =>
+          console.log(
+            '✨ Effect: loadByIdSuccess action caught, entity:',
+            entity
+          )
+        )
+      ),
+    { dispatch: false }
+  );
   create$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(CountryActions.createCountry),
-      mergeMap(({ data }) =>
-        this.service.create(data).pipe(
-          map((country) => CountryActions.createCountrySuccess({ country })),
-          catchError((error) =>
-            of(CountryActions.createCountryFailure({ error }))
-          )
-        )
-      )
+      ofType(ActionsList.createEntity),
+      mergeMap(({ payload }) => {
+        const dto = payload as Omit<Country, 'id'>;
+        return this.svc.create(dto).pipe(
+          mergeMap((entity) => [
+            ActionsList.createEntitySuccess({ entity }),
+            ActionsList.entityOperationSuccess({
+              entity: EntityNames.Country,
+              operation: 'create',
+            }),
+          ]),
+          catchError((error) => of(ActionsList.createEntityFailure({ error })))
+        );
+      })
     )
   );
 
   update$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(CountryActions.updateCountry),
-      mergeMap(({ id, data }) =>
-        this.service.update(id, data).pipe(
-          map((country) => CountryActions.updateCountrySuccess({ country })),
-          catchError((error) =>
-            of(CountryActions.updateCountryFailure({ error }))
-          )
+      ofType(ActionsList.updateEntity),
+      mergeMap(({ id, changes }) =>
+        this.svc.update(id, changes).pipe(
+          mergeMap(() => [
+            ActionsList.updateEntitySuccess({ id, changes }),
+            ActionsList.loadAll({}), // 👈 this is crucial
+            ActionsList.entityOperationSuccess({
+              entity: EntityNames.Country,
+              operation: 'update',
+            }),
+          ]),
+          catchError((error) => of(ActionsList.updateEntityFailure({ error })))
         )
       )
     )
@@ -88,27 +99,13 @@ export class CountriesEffects {
 
   delete$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(CountryActions.deleteCountry),
+      ofType(ActionsList.deleteEntity),
       mergeMap(({ id }) =>
-        this.service.delete(id).pipe(
-          map(() => CountryActions.deleteCountrySuccess({ id })),
-          catchError((error) =>
-            of(CountryActions.deleteCountryFailure({ error }))
-          )
+        this.svc.delete(id).pipe(
+          map(() => ActionsList.deleteEntitySuccess({ id })),
+          catchError((error) => of(ActionsList.deleteEntityFailure({ error })))
         )
       )
     )
   );
-
-  refreshList$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(
-        CountryActions.createCountrySuccess,
-        CountryActions.updateCountrySuccess,
-        CountryActions.deleteCountrySuccess
-      ),
-      map(() => CountryActions.loadCountries())
-    )
-  );
-  constructor(private actions$: Actions, private service: CountriesService) {}
 }

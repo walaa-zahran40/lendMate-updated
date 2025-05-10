@@ -7,14 +7,13 @@ export const selectClientTypesFeature =
   createFeatureSelector<State>('clientTypes');
 
 // these come from your EntityAdapter
-const { selectAll, selectEntities, selectIds, selectTotal } =
-  adapter.getSelectors(selectClientTypesFeature);
+const { selectEntities } = adapter.getSelectors(selectClientTypesFeature);
 
 export const selectAllClientTypes = createSelector(
   selectFeature,
   fromSlice.selectAll
 );
-export const selectClientTypeEntities = createSelector(
+export const selectAreaEntities = createSelector(
   selectFeature,
   fromSlice.selectEntities
 );

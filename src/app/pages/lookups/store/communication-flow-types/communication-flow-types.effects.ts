@@ -4,6 +4,7 @@ import { CommunicationFlowTypesService } from './communication-flow-types.servic
 import * as ActionsList from './communication-flow-types.actions';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
 import { CommunicationFlowType } from './communication-flow-type.model';
+import { EntityNames } from '../../../../shared/constants/entity-names';
 
 @Injectable()
 export class CommunicationFlowTypesEffects {
@@ -21,7 +22,10 @@ export class CommunicationFlowTypesEffects {
           tap((items) => console.log('✨ Service returned items:', items)),
           map((items) => ActionsList.loadAllSuccess({ result: items })),
           catchError((err) => {
-            console.error('⚠️ Error loading communicationFlowTypes', err);
+            console.error(
+              '⚠️ Error loading communicationFlow-action-types',
+              err
+            );
             return of(ActionsList.loadAllFailure({ error: err }));
           })
         )
@@ -65,10 +69,15 @@ export class CommunicationFlowTypesEffects {
     this.actions$.pipe(
       ofType(ActionsList.createEntity),
       mergeMap(({ payload }) => {
-        // payload is Partial<Omit<CommunicationFlowType,'id'>>, but our service needs the full DTO shape
         const dto = payload as Omit<CommunicationFlowType, 'id'>;
         return this.svc.create(dto).pipe(
-          map((entity) => ActionsList.createEntitySuccess({ entity })),
+          mergeMap((entity) => [
+            ActionsList.createEntitySuccess({ entity }),
+            ActionsList.entityOperationSuccess({
+              entity: EntityNames.CommunicationFlowType,
+              operation: 'create',
+            }),
+          ]),
           catchError((error) => of(ActionsList.createEntityFailure({ error })))
         );
       })
@@ -80,7 +89,14 @@ export class CommunicationFlowTypesEffects {
       ofType(ActionsList.updateEntity),
       mergeMap(({ id, changes }) =>
         this.svc.update(id, changes).pipe(
-          map(() => ActionsList.updateEntitySuccess({ id, changes })),
+          mergeMap(() => [
+            ActionsList.updateEntitySuccess({ id, changes }),
+            ActionsList.loadAll({}), // 👈 this is crucial
+            ActionsList.entityOperationSuccess({
+              entity: EntityNames.CommunicationFlowType,
+              operation: 'update',
+            }),
+          ]),
           catchError((error) => of(ActionsList.updateEntityFailure({ error })))
         )
       )

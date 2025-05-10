@@ -4,21 +4,22 @@ import { DocTypesService } from './doc-types.service';
 import * as ActionsList from './doc-types.actions';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
 import { DocType } from './doc-type.model';
+import { EntityNames } from '../../../../shared/constants/entity-names';
 
 @Injectable()
 export class DocTypesEffects {
-  constructor(private actions$: Actions, private service: DocTypesService) {}
+  constructor(private actions$: Actions, private svc: DocTypesService) {}
 
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActionsList.loadAll),
       tap(() => console.log('✨ Effect: loadAll action caught')),
       mergeMap(() =>
-        this.service.getAll().pipe(
+        this.svc.getAll().pipe(
           tap((items) => console.log('✨ Service returned items:', items)),
           map((items) => ActionsList.loadAllSuccess({ result: items })),
           catchError((err) => {
-            console.error('⚠️ Error loading docTypes', err);
+            console.error('⚠️ Error loading company-action-types', err);
             return of(ActionsList.loadAllFailure({ error: err }));
           })
         )
@@ -33,7 +34,7 @@ export class DocTypesEffects {
         console.log('🔄 Effect: loadById action caught for id=', id)
       ),
       mergeMap(({ id }) =>
-        this.service.getById(id).pipe(
+        this.svc.getById(id).pipe(
           tap((entity) => console.log('🔄 Service.getById returned:', entity)),
           map((entity) => ActionsList.loadByIdSuccess({ entity })),
           catchError((error) => {
@@ -62,10 +63,15 @@ export class DocTypesEffects {
     this.actions$.pipe(
       ofType(ActionsList.createEntity),
       mergeMap(({ payload }) => {
-        // payload is Partial<Omit<DocType,'id'>>, but our service needs the full DTO shape
         const dto = payload as Omit<DocType, 'id'>;
-        return this.service.create(dto).pipe(
-          map((entity) => ActionsList.createEntitySuccess({ entity })),
+        return this.svc.create(dto).pipe(
+          mergeMap((entity) => [
+            ActionsList.createEntitySuccess({ entity }),
+            ActionsList.entityOperationSuccess({
+              entity: EntityNames.DocType,
+              operation: 'create',
+            }),
+          ]),
           catchError((error) => of(ActionsList.createEntityFailure({ error })))
         );
       })
@@ -76,8 +82,15 @@ export class DocTypesEffects {
     this.actions$.pipe(
       ofType(ActionsList.updateEntity),
       mergeMap(({ id, changes }) =>
-        this.service.update(id, changes).pipe(
-          map(() => ActionsList.updateEntitySuccess({ id, changes })),
+        this.svc.update(id, changes).pipe(
+          mergeMap(() => [
+            ActionsList.updateEntitySuccess({ id, changes }),
+            ActionsList.loadAll({}), // 👈 this is crucial
+            ActionsList.entityOperationSuccess({
+              entity: EntityNames.DocType,
+              operation: 'update',
+            }),
+          ]),
           catchError((error) => of(ActionsList.updateEntityFailure({ error })))
         )
       )
@@ -88,7 +101,7 @@ export class DocTypesEffects {
     this.actions$.pipe(
       ofType(ActionsList.deleteEntity),
       mergeMap(({ id }) =>
-        this.service.delete(id).pipe(
+        this.svc.delete(id).pipe(
           map(() => ActionsList.deleteEntitySuccess({ id })),
           catchError((error) => of(ActionsList.deleteEntityFailure({ error })))
         )

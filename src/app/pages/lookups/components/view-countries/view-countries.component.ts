@@ -33,7 +33,7 @@ export class ViewCountriesComponent {
   constructor(private router: Router, private facade: CountriesFacade) {}
   ngOnInit() {
     this.facade.loadAll();
-    this.countries$ = this.facade.items$;
+    this.countries$ = this.facade.all$;
 
     this.countries$?.pipe(takeUntil(this.destroy$)).subscribe((countries) => {
       // countries is now Country[], not any

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
 import { DocType } from './doc-type.model';
 import { environment } from '../../../../../environments/environment';
@@ -11,7 +11,7 @@ export class DocTypesService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<DocType[]> {
-    console.log('🚀 Service: calling GET …');
+    console.log('🚀 Service: GET …');
     return this.http
       .get<{ items: DocType[]; totalCount: number }>(
         `${this.baseUrl}/GetAllDocumentTypes`

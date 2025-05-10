@@ -83,7 +83,7 @@ import { ViewCommunicationTypesComponent } from './components/view-communication
 import { ViewCallActionTypesComponent } from './components/view-call-action-types/view-call-action-types.component';
 import { ViewCommunicationFlowTypeComponent } from './components/view-communication-flow-type/view-communication-flow-type.component';
 import { CompanyTypesEffects } from './store/company-types/company-types.effects';
-import { companyTypesReducer } from './store/company-types/company-types.reducer';
+import { reducer as companyTypesReducer } from './store/company-types/company-types.reducer';
 import { reducer as feeCalcReducer } from './store/fee-calculation-types/fee-calculation-types.reducer';
 import { FeeCalculationTypesEffects } from './store/fee-calculation-types/fee-calculation-types.effects';
 import { reducer as addressTypeReducer } from './store/address-types/address-types.reducer';
@@ -92,7 +92,7 @@ import { reducer as authorityOfficeReducer } from './store/authority-offices/aut
 import { AuthorityOfficesEffects } from './store/authority-offices/authority-offices.effects';
 import { reducer as callActionTypesReducer } from './store/call-action-types/call-action-types.reducer';
 import { CallActionTypesEffects } from './store/call-action-types/call-action-types.effects';
-import { currenciesReducer as currenciesReducer } from './store/currencies/currencies.reducer';
+import { reducer as currenciesReducer } from './store/currencies/currencies.reducer';
 import { reducer as callTypesReducer } from './store/call-types/call-types.reducer';
 import { CallTypesEffects } from './store/call-types/call-types.effects';
 import { CurrenciesEffects } from './store/currencies/currencies.effects';
@@ -138,12 +138,12 @@ import { MandateStatusesEffects } from './store/mandate-statuses/mandate-statuse
 import { mandateStatusesReducer } from './store/mandate-statuses/mandate-statuses.reducer';
 import { reducer as SubSectorsReducer } from './store/sub-sectors/sub-sectors.reducer';
 import { SubSectorsEffects } from './store/sub-sectors/sub-sectors.effects';
-import { clientStatusesReducer } from './store/client-statuses/client-statuses.reducer';
-import { ClientStatusesEffects } from './store/client-statuses/client-statuses.effects';
+import { clientStatusesReducer } from '../crm/clients/store/client-statuses/client-statuses.reducer';
+import { ClientStatusesEffects } from '../crm/clients/store/client-statuses/client-statuses.effects';
 import { reducer as docTypesReducer } from './store/doc-types/doc-types.reducer';
 import { DocTypesEffects } from './store/doc-types/doc-types.effects';
 import { CountriesEffects } from './store/countries/countries.effects';
-import { countriesReducer } from './store/countries/countries.reducer';
+import { reducer as countriesReducer } from './store/countries/countries.reducer';
 import { reducer as AreasReducer } from './store/areas/areas.reducer';
 import { AreasEffects } from './store/areas/areas.effects';
 import { reducer as MandateValidityUnitsReducer } from './store/mandate-validity-units/mandate-validity-units.reducer';

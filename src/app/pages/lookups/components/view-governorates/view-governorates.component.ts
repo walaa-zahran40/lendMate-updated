@@ -6,7 +6,7 @@ import { Governorate } from '../../store/governorates/governorate.model';
 import { GovernorateFacade } from '../../store/governorates/governorates.facade';
 import { Country } from '../../store/countries/country.model';
 import { Store } from '@ngrx/store';
-import { selectCountries } from '../../store/countries/countries.selectors';
+import { selectAllCountries } from '../../store/countries/countries.selectors';
 
 @Component({
   selector: 'app-view-governorates',
@@ -35,32 +35,35 @@ export class ViewGovernoratesComponent {
   governorates$!: Observable<Governorate[]>;
   countriesList$!: Observable<Country[]>;
 
-  constructor(private router: Router, private facade: GovernorateFacade,  private store: Store) {}
+  constructor(
+    private router: Router,
+    private facade: GovernorateFacade,
+    private store: Store
+  ) {}
   ngOnInit() {
     this.governorates$ = this.facade.items$;
-    this.countriesList$ = this.store.select(selectCountries); // Add this line
+    this.countriesList$ = this.store.select(selectAllCountries); // Add this line
     this.facade.loadAll();
-    this.store.dispatch({ type: '[Countries] Load All' }); 
+    this.store.dispatch({ type: '[Countries] Load All' });
 
     combineLatest([this.governorates$, this.countriesList$])
-          .pipe(
-            map(([governorates, countries]) =>
-              governorates
-                .map((ss) => ({
-                  ...ss,
-                  countryName:
-                  countries.find((s) => s.id === ss.countryId)?.name || '—',
-                }))
-                .sort((a, b) => b.id - a.id)
-            ),
-            takeUntil(this.destroy$)
-          )
-          .subscribe((normalizedSubSectors) => {
-            console.log('🟢 Normalized SubSectors:', normalizedSubSectors);
-            this.originalGovernorates = normalizedSubSectors;
-            this.filteredGovernorates = normalizedSubSectors;
-          });
-   
+      .pipe(
+        map(([governorates, countries]) =>
+          governorates
+            .map((ss) => ({
+              ...ss,
+              countryName:
+                countries.find((s) => s.id === ss.countryId)?.name || '—',
+            }))
+            .sort((a, b) => b.id - a.id)
+        ),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((normalizedSubSectors) => {
+        console.log('🟢 Normalized SubSectors:', normalizedSubSectors);
+        this.originalGovernorates = normalizedSubSectors;
+        this.filteredGovernorates = normalizedSubSectors;
+      });
   }
 
   onAddGovernorate() {

@@ -14,7 +14,6 @@ import { LegalFormService } from '../../services/legal-form.service';
 import { Sector } from '../../../../../shared/interfaces/sector.interface';
 import { LegalFormLawService } from '../../services/legal-form-law.service';
 import { combineLatest, filter, map, Observable, take } from 'rxjs';
-import { ClientTypesFacade } from '../../store/client-types/client-types.facade';
 import {
   loadClient,
   updateClient,
@@ -36,6 +35,7 @@ import { IndividualFacade } from '../../store/individual/individual.facade';
 import { Individual } from '../../store/individual/individual.state';
 import { ClientIdentitiesFacade } from '../../store/client-identities/client-identities.facade';
 import { ClientIdentityTypesFacade } from '../../store/client-identity-types/client-identity-types.facade';
+import { ClientTypesFacade } from '../../../../lookups/store/client-types/client-types.facade';
 
 @Component({
   selector: 'app-add-client',
@@ -52,7 +52,7 @@ export class AddClientComponent implements OnInit {
   sectorsList: any[] = [];
   subSectorsList: any[] = [];
   subSectorsSafe$!: Observable<SubSectors[]>;
-  selectedClientType = null;
+  selectedClientType: any;
   dropdownClientTypeItems: any[] = [];
   company: boolean = false;
   individual: any = false;
@@ -71,7 +71,7 @@ export class AddClientComponent implements OnInit {
   public activeTabIndex = 0; // 0 = company, 1 = individual
   public disableCompanyTab = false;
   public disableIndividualTab = false;
-  individualCode!: string;
+  individualCode!: any;
   // You’ll look up the “Individual” type’s ID at runtime:
   individualTypeId!: number;
   constructor(
@@ -140,8 +140,8 @@ export class AddClientComponent implements OnInit {
 
     // 4) Load client-types to decide tabs
     console.log('⏳ Loading clientTypes');
-    this.clientTypesFacade.loadClientTypes();
-    this.clientTypesFacade.types$
+    this.clientTypesFacade.loadAll();
+    this.clientTypesFacade.all$
       .pipe(
         filter((arr) => arr.length > 0),
         take(1)

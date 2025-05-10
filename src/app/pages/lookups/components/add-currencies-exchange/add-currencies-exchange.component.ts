@@ -64,7 +64,7 @@ export class AddCurrenciesExchangeComponent implements OnInit, OnDestroy {
 
     // Load currency dropdown
     this.currencyFacade.loadAll();
-    this.currencyFacade.items$
+    this.currencyFacade.all$
       .pipe(takeUntil(this.destroy$))
       .subscribe((list) => (this.currencies = list));
 

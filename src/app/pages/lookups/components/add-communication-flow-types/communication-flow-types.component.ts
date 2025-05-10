@@ -55,7 +55,10 @@ export class AddCommunicationFlowTypesComponent {
         this.facade.loadById(this.communicationFlowId);
         this.facade.selected$
           .pipe(
-            filter((ct) => !!ct),
+            filter(
+              (ct): ct is CommunicationFlowType =>
+                !!ct && ct.id === this.communicationFlowId
+            ),
             take(1)
           )
           .subscribe((ct) => {

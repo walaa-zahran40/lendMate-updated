@@ -6,4 +6,13 @@ export enum EntityNames {
   AuthorityOffice = 'AuthorityOffice',
   Branch = 'Branch',
   BusinessLine = 'BusinessLine',
+  CallActionType = 'CallActionType',
+  CallType = 'CallType',
+  ClientType = 'ClientType',
+  CommunicationFlowType = 'CommunicationFlowType',
+  CommunicationType = 'CommunicationType',
+  CompanyType = 'CompanyType',
+  Country = 'Country',
+  Currency = 'Currency',
+  DocType = 'DocType',
 }

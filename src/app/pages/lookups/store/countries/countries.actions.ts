@@ -1,80 +1,69 @@
 import { createAction, props } from '@ngrx/store';
 import { Country } from './country.model';
 
-// Load all
-export const loadCountries = createAction('[Countries] Load All');
-export const loadCountriesSuccess = createAction(
-  '[Countries] Load All Success',
-  props<{ items: Country[]; totalCount: number }>()
+export const loadAll = createAction(
+  '[Countries] Load All',
+  props<{ pageNumber?: number }>()
 );
-export const loadCountriesFailure = createAction(
+export const loadAllSuccess = createAction(
+  '[Countries] Load All Success',
+  props<{ result: Country[] }>()
+);
+
+export const loadAllFailure = createAction(
   '[Countries] Load All Failure',
   props<{ error: any }>()
 );
 
-// Load history
-export const loadCountriesHistory = createAction('[Countries] Load History');
-export const loadCountriesHistorySuccess = createAction(
-  '[Countries] Load History Success',
-  props<{ history: Country[] }>()
-);
-export const loadCountriesHistoryFailure = createAction(
-  '[Countries] Load History Failure',
-  props<{ error: any }>()
-);
-
-// Load by ID
-export const loadCountry = createAction(
-  '[Countries] Load One',
+export const loadById = createAction(
+  '[Countries] Load By Id',
   props<{ id: number }>()
 );
-export const loadCountrySuccess = createAction(
-  '[Countries] Load One Success',
-  props<{ country: Country }>()
+export const loadByIdSuccess = createAction(
+  '[Countries] Load By Id Success',
+  props<{ entity: Country }>()
 );
-export const loadCountryFailure = createAction(
-  '[Countries] Load One Failure',
+export const loadByIdFailure = createAction(
+  '[Countries] Load By Id Failure',
   props<{ error: any }>()
 );
 
-// Create
-export const createCountry = createAction(
+export const createEntity = createAction(
   '[Countries] Create',
-  props<{ data: Partial<Country> }>()
+  // allow all fields except id, but all optional
+  props<{ payload: Partial<Omit<Country, 'id'>> }>()
 );
-export const createCountrySuccess = createAction(
+export const createEntitySuccess = createAction(
   '[Countries] Create Success',
-  props<{ country: Country }>()
+  props<{ entity: Country }>()
 );
-export const createCountryFailure = createAction(
+export const createEntityFailure = createAction(
   '[Countries] Create Failure',
   props<{ error: any }>()
 );
 
-// Update
-export const updateCountry = createAction(
+export const updateEntity = createAction(
   '[Countries] Update',
-  props<{ id: number; data: Partial<Country> }>()
+  props<{ id: number; changes: Partial<Country> }>()
 );
-export const updateCountrySuccess = createAction(
+export const updateEntitySuccess = createAction(
   '[Countries] Update Success',
-  props<{ country: Country }>()
+  props<{ id: number; changes: Partial<Country> }>()
 );
-export const updateCountryFailure = createAction(
+export const updateEntityFailure = createAction(
   '[Countries] Update Failure',
   props<{ error: any }>()
 );
 
-// Delete
-export const deleteCountry = createAction(
+export const deleteEntity = createAction(
   '[Countries] Delete',
   props<{ id: number }>()
 );
-export const deleteCountrySuccess = createAction(
+export const deleteEntitySuccess = createAction(
   '[Countries] Delete Success',
   props<{ id: number }>()
 );
-export const deleteCountryFailure = createAction(
+export const deleteEntityFailure = createAction(
   '[Countries] Delete Failure',
   props<{ error: any }>()
 );

@@ -11,7 +11,7 @@ export class CommunicationTypesService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<CommunicationType[]> {
-    console.log('🚀 Service: client GET …');
+    console.log('🚀 Service: GET …');
     return this.http
       .get<{ items: CommunicationType[]; totalCount: number }>(
         `${this.baseUrl}/GetCommunicationTypes`
@@ -37,7 +37,7 @@ export class CommunicationTypesService {
     payload: Omit<CommunicationType, 'id'>
   ): Observable<CommunicationType> {
     return this.http.post<CommunicationType>(
-      `${this.baseUrl}/CreateCommunicationFlowType`,
+      `${this.baseUrl}/CreateCommunicationType`,
       payload
     );
   }

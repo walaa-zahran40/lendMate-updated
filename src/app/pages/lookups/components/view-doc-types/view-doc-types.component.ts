@@ -20,9 +20,9 @@ export class ViewDocTypesComponent {
   @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
+    { field: 'relatedFilesPath', header: 'Related File Path' },
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
-    { field: 'relatedFilesPath', header: 'Related File Path' },
   ];
   showDeleteModal: boolean = false;
   selectedDocTypeId: number | null = null;
