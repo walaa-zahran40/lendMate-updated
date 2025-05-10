@@ -407,7 +407,12 @@ export class SideMenuComponent {
         icon: 'pi pi-users',
         items: [
           {
-            label: 'Officer',
+            label: 'Departments',
+            icon: 'pi pi-user-plus',
+            routerLink: '/organizations/view-departments',
+          },
+          {
+            label: 'Officers',
             icon: 'pi pi-user-plus',
             routerLink: '/organizations/view-officers',
           },
@@ -416,11 +421,7 @@ export class SideMenuComponent {
             icon: 'pi pi-user-plus',
             routerLink: '/organizations/view-branches',
           },
-          {
-            label: 'DepartmentManager',
-            icon: 'pi pi-user-plus',
-            routerLink: '/organizations/view-department-manager',
-          },
+
           {
             label: 'SignatoryOfficer',
             icon: 'pi pi-user-plus',
@@ -436,13 +437,9 @@ export class SideMenuComponent {
             icon: 'pi pi-user-plus',
             routerLink: '/organizations/view-team-member',
           },
+
           {
-            label: 'Department',
-            icon: 'pi pi-user-plus',
-            routerLink: '/organizations/view-departments',
-          },
-          {
-            label: 'Team',
+            label: 'Teams',
             icon: 'pi pi-user-plus',
             routerLink: '/organizations/view-teams',
           },
