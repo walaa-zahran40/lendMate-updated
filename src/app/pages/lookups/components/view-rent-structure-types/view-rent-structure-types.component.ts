@@ -43,28 +43,13 @@ export class ViewRentStructureTypesComponent {
     console.log('🟢 Calling loadAll() to fetch RentStructureTypes');
     this.facade.loadAll();
 
-    this.RentStructureTypes$?.pipe(takeUntil(this.destroy$)).subscribe(
-      (RentStructureTypes) => {
-        console.log(
-          '🟢 subscribe: received RentStructureTypes array:',
-          RentStructureTypes
-        );
-
-        // preserve immutability, then sort by id descending
-        const sorted = [...RentStructureTypes].sort((a, b) => b.id - a.id);
-        console.log('🟢 sorted (by id desc):', sorted);
-
+    this.RentStructureTypes$?.pipe(takeUntil(this.destroy$))?.subscribe(
+      (rentStructureTypes) => {
+        // rentStructureTypes is now rentStructureType[], not any
+        const activeCodes = rentStructureTypes.filter((code) => code.isActive);
+        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
         this.originalRentStructureType = sorted;
-        console.log(
-          '🟢 originalRentStructureType set to:',
-          this.originalRentStructureType
-        );
-
         this.filteredRentStructureType = [...sorted];
-        console.log(
-          '🟢 filteredRentStructureType set to:',
-          this.filteredRentStructureType
-        );
       }
     );
   }
