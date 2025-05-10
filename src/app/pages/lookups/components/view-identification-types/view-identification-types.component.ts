@@ -43,28 +43,13 @@ export class ViewIdentificationTypesComponent {
     console.log('🟢 Calling loadAll() to fetch IdentificationTypes');
     this.facade.loadAll();
 
-    this.IdentificationTypes$?.pipe(takeUntil(this.destroy$)).subscribe(
-      (IdentificationTypes) => {
-        console.log(
-          '🟢 subscribe: received IdentificationTypes array:',
-          IdentificationTypes
-        );
-
-        // preserve immutability, then sort by id descending
-        const sorted = [...IdentificationTypes].sort((a, b) => b.id - a.id);
-        console.log('🟢 sorted (by id desc):', sorted);
-
+    this.IdentificationTypes$?.pipe(takeUntil(this.destroy$))?.subscribe(
+      (id) => {
+        // products is now rentStructureType[], not any
+        const activeCodes = id.filter((code) => code.isActive);
+        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
         this.originalIdentificationType = sorted;
-        console.log(
-          '🟢 originalIdentificationType set to:',
-          this.originalIdentificationType
-        );
-
         this.filteredIdentificationType = [...sorted];
-        console.log(
-          '🟢 filteredIdentificationType set to:',
-          this.filteredIdentificationType
-        );
       }
     );
   }

@@ -43,28 +43,13 @@ export class ViewInterestRateBenchmarksComponent {
     console.log('🟢 Calling loadAll() to fetch InterestRateBenchMarks');
     this.facade.loadAll();
 
-    this.InterestRateBenchmarks$?.pipe(takeUntil(this.destroy$)).subscribe(
-      (InterestRateBenchmarks) => {
-        console.log(
-          '🟢 subscribe: received InterestRateBenchMarks array:',
-          InterestRateBenchmarks
-        );
-
-        // preserve immutability, then sort by id descending
-        const sorted = [...InterestRateBenchmarks].sort((a, b) => b.id - a.id);
-        console.log('🟢 sorted (by id desc):', sorted);
-
+    this.InterestRateBenchmarks$?.pipe(takeUntil(this.destroy$))?.subscribe(
+      (interest) => {
+        // interest is now interest[], not any
+        const activeCodes = interest.filter((code) => code.isActive);
+        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
         this.originalInterestRateBenchMark = sorted;
-        console.log(
-          '🟢 originalInterestRateBenchMark set to:',
-          this.originalInterestRateBenchMark
-        );
-
         this.filteredInterestRateBenchmarks = [...sorted];
-        console.log(
-          '🟢 filteredInterestRateBenchmarks set to:',
-          this.filteredInterestRateBenchmarks
-        );
       }
     );
   }

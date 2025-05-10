@@ -40,18 +40,12 @@ export class ViewInsuredByComponent {
     console.log('🟢 Calling loadAll() to fetch InsuredBy');
     this.facade.loadAll();
 
-    this.InsuredBy$?.pipe(takeUntil(this.destroy$)).subscribe((InsuredBy) => {
-      console.log('🟢 subscribe: received InsuredBy array:', InsuredBy);
-
-      // preserve immutability, then sort by id descending
-      const sorted = [...InsuredBy].sort((a, b) => b.id - a.id);
-      console.log('🟢 sorted (by id desc):', sorted);
-
+    this.InsuredBy$?.pipe(takeUntil(this.destroy$))?.subscribe((insured) => {
+      // insured is now insured[], not any
+      const activeCodes = insured.filter((code) => code.isActive);
+      const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
       this.originalInsuredBy = sorted;
-      console.log('🟢 originalInsuredBy set to:', this.originalInsuredBy);
-
       this.filteredInsuredBy = [...sorted];
-      console.log('🟢 filteredInsuredBy set to:', this.filteredInsuredBy);
     });
   }
 
