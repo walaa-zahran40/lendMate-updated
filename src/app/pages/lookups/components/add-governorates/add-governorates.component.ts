@@ -159,6 +159,6 @@ export class AddGovernoratesComponent implements OnInit {
     }
 
     console.log('🧭 Navigating away to view-governorates');
-    this.router.navigate(['/lookups/view-Governorates']);
+    this.router.navigate(['/lookups/view-governorates']);
   }
 }

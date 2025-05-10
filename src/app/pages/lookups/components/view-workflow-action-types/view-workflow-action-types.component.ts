@@ -43,28 +43,14 @@ export class ViewWorkFlowActionTypesComponent {
     console.log('🟢 Calling loadAll() to fetch WorkflowActionTypes');
     this.facade.loadAll();
 
-    this.WorkflowActionTypes$?.pipe(takeUntil(this.destroy$)).subscribe(
-      (WorkflowActionTypes) => {
-        console.log(
-          '🟢 subscribe: received WorkflowActionTypes array:',
-          WorkflowActionTypes
-        );
-
-        // preserve immutability, then sort by id descending
-        const sorted = [...WorkflowActionTypes].sort((a, b) => b.id - a.id);
-        console.log('🟢 sorted (by id desc):', sorted);
-
+    this.WorkflowActionTypes$?.pipe(takeUntil(this.destroy$))?.subscribe(
+      (workflowActionTypes) => {
+        console.log('workfls', workflowActionTypes);
+        // workflowActionTypes is now SMEClientCode[], not any
+        const activeCodes = workflowActionTypes.filter((code) => code.isActive);
+        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
         this.originalWorkflowActionType = sorted;
-        console.log(
-          '🟢 originalWorkflowActionType set to:',
-          this.originalWorkflowActionType
-        );
-
         this.filteredWorkflowActionType = [...sorted];
-        console.log(
-          '🟢 filteredWorkflowActionType set to:',
-          this.filteredWorkflowActionType
-        );
       }
     );
   }

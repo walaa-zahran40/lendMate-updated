@@ -42,26 +42,10 @@ export class ViewTmlOfficerTypesComponent {
 
     this.TmlOfficerTypes$?.pipe(takeUntil(this.destroy$)).subscribe(
       (TmlOfficerTypes) => {
-        console.log(
-          '🟢 subscribe: received TmlOfficerTypes array:',
-          TmlOfficerTypes
-        );
-
-        // preserve immutability, then sort by id descending
-        const sorted = [...TmlOfficerTypes].sort((a, b) => b.id - a.id);
-        console.log('🟢 sorted (by id desc):', sorted);
-
+        const activeCodes = TmlOfficerTypes.filter((code) => code.isActive);
+        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
         this.originalTmlOfficerType = sorted;
-        console.log(
-          '🟢 originalTmlOfficerType set to:',
-          this.originalTmlOfficerType
-        );
-
         this.filteredTmlOfficerType = [...sorted];
-        console.log(
-          '🟢 filteredTmlOfficerType set to:',
-          this.filteredTmlOfficerType
-        );
       }
     );
   }

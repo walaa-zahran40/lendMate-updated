@@ -40,18 +40,12 @@ export class ViewSectorsComponent {
     console.log('🟢 Calling loadAll() to fetch Sectors');
     this.facade.loadAll();
 
-    this.Sectors$?.pipe(takeUntil(this.destroy$)).subscribe((Sectors) => {
-      console.log('🟢 subscribe: received Sectors array:', Sectors);
-
-      // preserve immutability, then sort by id descending
-      const sorted = [...Sectors].sort((a, b) => b.id - a.id);
-      console.log('🟢 sorted (by id desc):', sorted);
-
+    this.Sectors$?.pipe(takeUntil(this.destroy$))?.subscribe((sectors) => {
+      // sMEClientCodes is now SMEClientCode[], not any
+      const activeCodes = sectors.filter((code) => code.isActive);
+      const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
       this.originalSector = sorted;
-      console.log('🟢 originalSector set to:', this.originalSector);
-
       this.filteredSector = [...sorted];
-      console.log('🟢 filteredSector set to:', this.filteredSector);
     });
   }
 

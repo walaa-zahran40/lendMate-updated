@@ -46,24 +46,25 @@ export class ViewTaxOfficesComponent {
     this.facade.loadAll();
     this.store.dispatch({ type: '[Governorates] Load All' });
 
-    combineLatest([this.taxOffices$, this.governoratesList$])
-      .pipe(
-        map(([taxOffices, governorates]) =>
-          taxOffices
-            .map((ss) => ({
-              ...ss,
-              governorateName:
-                governorates.find((s) => s.id === ss.governorateId)?.name ||
-                '—',
-            }))
-            .sort((a, b) => b.id - a.id)
-        ),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((normalizedSubSectors) => {
-        this.filteredTaxOffices = normalizedSubSectors;
-        this.originalTaxOffices = normalizedSubSectors;
-      });
+    combineLatest([this.taxOffices$, this.governoratesList$]).pipe(
+      map(([taxOffices, governorates]) =>
+        taxOffices
+          .map((ss) => ({
+            ...ss,
+            governorateName:
+              governorates.find((s) => s.id === ss.governorateId)?.name || '—',
+          }))
+          .sort((a, b) => b.id - a.id)
+      ),
+      takeUntil(this.destroy$)
+    );
+
+    this.taxOffices$?.pipe(takeUntil(this.destroy$)).subscribe((TaxOffices) => {
+      const activeCodes = TaxOffices.filter((code) => code.isActive);
+      const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
+      this.originalTaxOffices = sorted;
+      this.filteredTaxOffices = [...sorted];
+    });
   }
 
   onAddTaxOffice() {

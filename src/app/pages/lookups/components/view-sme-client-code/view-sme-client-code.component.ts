@@ -40,7 +40,8 @@ export class ViewSMEClientCodesComponent {
       ?.pipe(takeUntil(this.destroy$))
       ?.subscribe((sMEClientCodes) => {
         // sMEClientCodes is now SMEClientCode[], not any
-        const sorted = [...sMEClientCodes].sort((a, b) => b?.id - a?.id);
+        const activeCodes = sMEClientCodes.filter((code) => code.isActive);
+        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
         this.originalSMEClientCodes = sorted;
         this.filteredSMEClientCodes = [...sorted];
       });
@@ -108,4 +109,3 @@ export class ViewSMEClientCodesComponent {
     });
   }
 }
-

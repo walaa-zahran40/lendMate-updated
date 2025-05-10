@@ -599,11 +599,11 @@ const routes: Routes = [
   },
 
   {
-    path: 'add-Governorates',
+    path: 'add-governorate',
     component: AddGovernoratesComponent,
   },
   {
-    path: 'edit-Governorates/:id',
+    path: 'edit-governorate/:id',
     component: AddGovernoratesComponent,
   },
   {
@@ -653,7 +653,7 @@ const routes: Routes = [
   },
 
   {
-    path: 'view-Governorates',
+    path: 'view-governorates',
     component: ViewGovernoratesComponent,
   },
   {

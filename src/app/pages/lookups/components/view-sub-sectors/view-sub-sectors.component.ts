@@ -64,12 +64,13 @@ export class ViewSubSectorsComponent {
             .sort((a, b) => b.id - a.id)
         ),
         takeUntil(this.destroy$)
-      )
-      .subscribe((normalized) => {
-        console.log('🟢 Normalized SubSectors:', normalized);
-        this.filteredSubSector = normalized;
-        this.originalSubSector = normalized;
-      });
+      );
+    this.SubSectors$?.pipe(takeUntil(this.destroy$)).subscribe((SubSectors) => {
+      const activeCodes = SubSectors.filter((code) => code.isActive);
+      const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
+      this.originalSubSector = sorted;
+      this.filteredSubSector = [...sorted];
+    });
   }
 
   onAddSubSector() {

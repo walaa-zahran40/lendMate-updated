@@ -67,7 +67,7 @@ export class ViewGovernoratesComponent {
   }
 
   onAddGovernorate() {
-    this.router.navigate(['/lookups/add-Governorates']);
+    this.router.navigate(['/lookups/add-governorate']);
   }
 
   ngOnDestroy() {
@@ -118,12 +118,12 @@ export class ViewGovernoratesComponent {
     this.showFilters = value;
   }
   onEditGovernorate(governorate: Governorate) {
-    this.router.navigate(['/lookups/edit-Governorates', governorate.id], {
+    this.router.navigate(['/lookups/edit-governorate', governorate.id], {
       queryParams: { mode: 'edit' },
     });
   }
   onViewGovernorate(ct: Governorate) {
-    this.router.navigate(['/lookups/edit-Governorates', ct.id], {
+    this.router.navigate(['/lookups/edit-governorate', ct.id], {
       queryParams: { mode: 'view' },
     });
   }
