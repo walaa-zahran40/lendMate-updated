@@ -32,13 +32,7 @@ export class AddFeeTypesComponent {
 
   ngOnInit() {
     //Select Box
-    console.log('🔵 ngOnInit: start');
-    this.store.dispatch(loadAll({ pageNumber: 1 }));
-    this.feeCalculationTypes$ = this.store.select(selectAllFeeCalculationTypes);
-
-    this.feeCalculationTypes$.subscribe((data: any) =>
-      console.log('🧪 selectFeeCalculationTypes$ from store:', data)
-    );
+    this.store.dispatch(loadAll({}));
 
     this.addFeesTypesLookupsForm = this.fb.group({
       id: [null],
@@ -56,13 +50,11 @@ export class AddFeeTypesComponent {
 
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
+      this.viewOnly = this.route.snapshot.queryParams['mode'] === 'view';
       if (id) {
         this.editMode = true;
         this.clientId = +id;
 
-        console.log(this.viewOnly);
-
-        this.viewOnly = this.route.snapshot.queryParams['mode'] === 'view';
         if (this.viewOnly) {
           this.addFeesTypesLookupsForm.disable();
         }
@@ -70,7 +62,7 @@ export class AddFeeTypesComponent {
         this.facade.loadById(this.clientId);
         this.facade.selected$
           .pipe(
-            filter((ct): ct is FeeType => !!ct && ct.id === this.clientId),
+            filter((ct) => !!ct),
             take(1)
           )
           .subscribe((ct) => {

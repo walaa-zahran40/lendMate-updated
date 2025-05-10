@@ -1,5 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
-import { combineLatest, map, Observable, Subject, takeUntil } from 'rxjs';
+import {
+  combineLatest,
+  filter,
+  map,
+  Observable,
+  Subject,
+  takeUntil,
+} from 'rxjs';
 import { Router } from '@angular/router';
 import { TableComponent } from '../../../../shared/components/table/table.component';
 import { FeeType } from '../../store/fee-types/fee-type.model';
@@ -42,7 +49,16 @@ export class ViewFeeTypesComponent {
   ngOnInit() {
     this.facade.loadAll();
     this.feeTypes$ = this.facade.all$;
+    this.facade.operationSuccess$
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((success) => success?.entity === 'AssetType')
+      )
+      .subscribe(() => {
+        this.facade.loadAll(); // refresh after any create/update/delete
+      });
     this.feeTypes$.pipe(takeUntil(this.destroy$)).subscribe((feeTypes) => {
+      console.log('asseyyu[e', feeTypes);
       const sorted = [...feeTypes].sort((a, b) => b.id - a.id);
       this.originalFeeTypes = sorted;
       this.filteredFeeTypes = [...sorted];
@@ -51,9 +67,12 @@ export class ViewFeeTypesComponent {
     combineLatest([this.feeTypes$])
       .pipe(
         map(([feeTypes]) => {
+          console.log('assettypessss', feeTypes);
           const mapped = feeTypes.map((ss) => {
             const feeCalculationType = ss.feeCalculationType?.name || '—';
-
+            console.log(
+              `🔍 Mapping Area ID ${ss.id} → Governorate Name: ${feeCalculationType}`
+            );
             return {
               ...ss,
               feeCalculationType: feeCalculationType, // or call it `categoryName` if more accurate
@@ -61,6 +80,7 @@ export class ViewFeeTypesComponent {
           });
 
           const sorted = mapped.sort((a, b) => b.id - a.id);
+          console.log('✅ Sorted mapped assetTypes:', sorted);
           return sorted;
         }),
         takeUntil(this.destroy$)
