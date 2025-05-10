@@ -47,25 +47,26 @@ export class ViewProductsComponent {
     this.facade.loadAll();
     this.businessLineFacade.loadAll();
 
-    combineLatest([this.products$, this.businessLinesList$])
-      .pipe(
-        map(([products, businessLines]) =>
-          products
-            .map((ss) => ({
-              ...ss,
-              businessLineName:
-                businessLines.find((s) => s.id === ss.businessLineId)?.name ||
-                '—',
-            }))
-            .sort((a, b) => b.id - a.id)
-        ),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((normalizedProducts) => {
-        console.log('🟢 Normalized products:', normalizedProducts);
-        this.originalProducts = normalizedProducts;
-        this.filteredProducts = normalizedProducts;
-      });
+    combineLatest([this.products$, this.businessLinesList$]).pipe(
+      map(([products, businessLines]) =>
+        products
+          .map((ss) => ({
+            ...ss,
+            businessLineName:
+              businessLines.find((s) => s.id === ss.businessLineId)?.name ||
+              '—',
+          }))
+          .sort((a, b) => b.id - a.id)
+      ),
+      takeUntil(this.destroy$)
+    );
+    this.products$?.pipe(takeUntil(this.destroy$))?.subscribe((products) => {
+      // products is now rentStructureType[], not any
+      const activeCodes = products.filter((code) => code.isActive);
+      const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
+      this.originalProducts = sorted;
+      this.filteredProducts = [...sorted];
+    });
   }
 
   onAddProduct() {

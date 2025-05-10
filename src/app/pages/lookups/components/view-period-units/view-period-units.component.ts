@@ -42,27 +42,12 @@ export class ViewPeriodUnitsComponent {
 
     this.gracePeriodUnits$
       ?.pipe(takeUntil(this.destroy$))
-      .subscribe((gracePeriodUnits) => {
-        console.log(
-          '🟢 subscribe: received gracePeriodUnits array:',
-          gracePeriodUnits
-        );
-
-        // preserve immutability, then sort by id descending
-        const sorted = [...gracePeriodUnits].sort((a, b) => b.id - a.id);
-        console.log('🟢 sorted (by id desc):', sorted);
-
+      ?.subscribe((periodUnits) => {
+        // periodUnits is now rentStructureType[], not any
+        const activeCodes = periodUnits.filter((code) => code.isActive);
+        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
         this.originalGracePeriodUnit = sorted;
-        console.log(
-          '🟢 originalGracePeriodUnit set to:',
-          this.originalGracePeriodUnit
-        );
-
         this.filteredGracePeriodUnit = [...sorted];
-        console.log(
-          '🟢 filteredGracePeriodUnit set to:',
-          this.filteredGracePeriodUnit
-        );
       });
   }
 

@@ -40,19 +40,15 @@ export class ViewPhoneTypesComponent {
     console.log('🟢 Calling loadAll() to fetch PhoneTypes');
     this.facade.loadAll();
 
-    this.PhoneTypes$?.pipe(takeUntil(this.destroy$)).subscribe((PhoneTypes) => {
-      console.log('🟢 subscribe: received PhoneTypes array:', PhoneTypes);
-
-      // preserve immutability, then sort by id descending
-      const sorted = [...PhoneTypes].sort((a, b) => b.id - a.id);
-      console.log('🟢 sorted (by id desc):', sorted);
-
-      this.originalPhoneType = sorted;
-      console.log('🟢 originalPhoneType set to:', this.originalPhoneType);
-
-      this.filteredPhoneType = [...sorted];
-      console.log('🟢 filteredPhoneType set to:', this.filteredPhoneType);
-    });
+    this.PhoneTypes$?.pipe(takeUntil(this.destroy$))?.subscribe(
+      (PhoneTypes) => {
+        // PhoneTypes is now rentStructureType[], not any
+        const activeCodes = PhoneTypes.filter((code) => code.isActive);
+        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
+        this.originalPhoneType = sorted;
+        this.filteredPhoneType = [...sorted];
+      }
+    );
   }
 
   onAddPhoneType() {

@@ -40,21 +40,13 @@ export class ViewPaymentTypesComponent {
     console.log('🟢 Calling loadAll() to fetch PaymentTypes');
     this.facade.loadAll();
 
-    this.PaymentTypes$?.pipe(takeUntil(this.destroy$)).subscribe(
-      (PaymentTypes) => {
-        console.log('🟢 subscribe: received PaymentTypes array:', PaymentTypes);
-
-        // preserve immutability, then sort by id descending
-        const sorted = [...PaymentTypes].sort((a, b) => b.id - a.id);
-        console.log('🟢 sorted (by id desc):', sorted);
-
-        this.originalPaymentType = sorted;
-        console.log('🟢 originalPaymentType set to:', this.originalPaymentType);
-
-        this.filteredPaymentType = [...sorted];
-        console.log('🟢 filteredPaymentType set to:', this.filteredPaymentType);
-      }
-    );
+    this.PaymentTypes$?.pipe(takeUntil(this.destroy$))?.subscribe((payment) => {
+      // products is now rentStructureType[], not any
+      const activeCodes = payment.filter((code) => code.isActive);
+      const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
+      this.originalPaymentType = sorted;
+      this.filteredPaymentType = [...sorted];
+    });
   }
 
   onAddPaymentType() {

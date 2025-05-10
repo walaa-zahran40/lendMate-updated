@@ -41,28 +41,13 @@ export class ViewPaymentMonthDaysComponent {
     console.log('🟢 Calling loadAll() to fetch PaymentMonthDays');
     this.facade.loadAll();
 
-    this.PaymentMonthDays$?.pipe(takeUntil(this.destroy$)).subscribe(
-      (PaymentMonthDays) => {
-        console.log(
-          '🟢 subscribe: received PaymentMonthDays array:',
-          PaymentMonthDays
-        );
-
-        // preserve immutability, then sort by id descending
-        const sorted = [...PaymentMonthDays].sort((a, b) => b.id - a.id);
-        console.log('🟢 sorted (by id desc):', sorted);
-
+    this.PaymentMonthDays$?.pipe(takeUntil(this.destroy$))?.subscribe(
+      (payment) => {
+        // products is now rentStructureType[], not any
+        const activeCodes = payment.filter((code) => code.isActive);
+        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
         this.originalPaymentMonthDay = sorted;
-        console.log(
-          '🟢 originalPaymentMonthDay set to:',
-          this.originalPaymentMonthDay
-        );
-
         this.filteredPaymentMonthDay = [...sorted];
-        console.log(
-          '🟢 filteredPaymentMonthDay set to:',
-          this.filteredPaymentMonthDay
-        );
       }
     );
   }
