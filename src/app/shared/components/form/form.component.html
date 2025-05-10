@@ -8268,8 +8268,9 @@
       >
         Upper Limit is required.
       </div>
+
       <div *ngIf="formGroup.get('upperLimit')?.errors?.['min']" class="p-error">
-        Minimum value is {{ formGroup.get("upperLimit")?.value }}
+        Minimum value is {{ formGroup.get("lowerLimit")?.value }}
       </div>
 
       <div class="p-field" *ngIf="editMode">

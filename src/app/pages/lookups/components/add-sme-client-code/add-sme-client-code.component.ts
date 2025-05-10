@@ -37,7 +37,17 @@ export class AddSMEClientCodesComponent {
       upperLimit: [null, [Validators.required]],
       isActive: [true], // ← new hidden control
     });
+    this.addSMEClientCodesLookupsForm
+      .get('lowerLimit')
+      ?.valueChanges.subscribe((lowerLimit) => {
+        const amountControl =
+          this.addSMEClientCodesLookupsForm.get('upperLimit');
 
+        if (amountControl) {
+          amountControl.setValidators([Validators.min(lowerLimit)]);
+          amountControl.updateValueAndValidity();
+        }
+      });
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
       if (id) {
@@ -55,7 +65,9 @@ export class AddSMEClientCodesComponent {
         this.facade.loadById(this.clientId);
         this.facade.selected$
           .pipe(
-            filter((ct) => !!ct),
+            filter(
+              (ct): ct is SMEClientCode => !!ct && ct.id === this.clientId
+            ),
             take(1)
           )
           .subscribe((ct) => {
