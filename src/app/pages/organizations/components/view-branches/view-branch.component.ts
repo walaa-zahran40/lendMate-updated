@@ -45,7 +45,7 @@ export class ViewBranchComponent {
 
   onAddBranch() {
     console.log('🔍 [Component] onAddBranch');
-    this.router.navigate(['/lookups/add-branch']);
+    this.router.navigate(['/organizations/add-branch']);
   }
 
   ngOnDestroy() {
@@ -93,16 +93,16 @@ export class ViewBranchComponent {
     this.showFilters = value;
   }
   onEditBranch(branch: Branch) {
-    this.router.navigate(['/lookups/edit-branch', branch.id], {
+    this.router.navigate(['/organizations/edit-branch', branch.id], {
       queryParams: { mode: 'edit' },
     });
   }
   onViewBranch(ct: Branch) {
-    this.router.navigate(['/lookups/edit-branch', ct.id], {
+    this.router.navigate(['/organizations/edit-branch', ct.id], {
       queryParams: { mode: 'view' },
     });
   }
   onAddSide(branchId: any) {
-    this.router.navigate(['/lookups/wizard-branch', branchId]);
+    this.router.navigate(['/organizations/wizard-branch', branchId]);
   }
 }

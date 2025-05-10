@@ -407,6 +407,11 @@ export class SideMenuComponent {
         icon: 'pi pi-users',
         items: [
           {
+            label: 'Branches',
+            icon: 'pi pi-user-plus',
+            routerLink: '/organizations/view-branches',
+          },
+          {
             label: 'Departments',
             icon: 'pi pi-user-plus',
             routerLink: '/organizations/view-departments',
@@ -415,11 +420,6 @@ export class SideMenuComponent {
             label: 'Officers',
             icon: 'pi pi-user-plus',
             routerLink: '/organizations/view-officers',
-          },
-          {
-            label: 'Branches',
-            icon: 'pi pi-user-plus',
-            routerLink: '/organizations/view-branches',
           },
 
           {

@@ -125,6 +125,6 @@ export class AddBranchComponent {
     }
 
     console.log('🧭 Navigating away to view-branches');
-    this.router.navigate(['/lookups/view-branches']);
+    this.router.navigate(['/organizations/view-branches']);
   }
 }
