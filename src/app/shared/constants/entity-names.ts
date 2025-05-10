@@ -1,4 +1,5 @@
 export enum EntityNames {
+  //Lookups
   AssetType = 'AssetType',
   AssetTypeCategory = 'AssetTypeCategory',
   Area = 'Area',
@@ -18,4 +19,18 @@ export enum EntityNames {
   FeeCalculationType = 'FeeCalculationType',
   FeeType = 'FeeType',
   Governorate = 'Governorate',
+  IdentificationType = 'IdentificationType',
+  InsuredBy = 'InsuredBy',
+  InterestRateBenchmark = 'InterestRateBenchmark',
+  LeasingType = 'LeasingType',
+  MandateStatus = 'MandateStatus',
+  MandateValidityUnit = 'MandateValidityUnit',
+  MeetingType = 'MeetingType',
+  PaymentMethod = 'PaymentMethod',
+  PaymentMonthDay = 'PaymentMonthDay',
+  PaymentType = 'PaymentType',
+  PeriodUnit = 'PeriodUnit',
+  PhoneType = 'PhoneType',
+  Product = 'Product',
+  RentStructureType = 'RentStructureType',
 }
