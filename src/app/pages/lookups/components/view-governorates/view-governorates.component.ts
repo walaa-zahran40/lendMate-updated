@@ -46,23 +46,26 @@ export class ViewGovernoratesComponent {
     this.facade.loadAll();
     this.store.dispatch({ type: '[Countries] Load All' });
 
-    combineLatest([this.governorates$, this.countriesList$])
-      .pipe(
-        map(([governorates, countries]) =>
-          governorates
-            .map((ss) => ({
-              ...ss,
-              countryName:
-                countries.find((s) => s.id === ss.countryId)?.name || '—',
-            }))
-            .sort((a, b) => b.id - a.id)
-        ),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((normalizedSubSectors) => {
-        console.log('🟢 Normalized SubSectors:', normalizedSubSectors);
-        this.originalGovernorates = normalizedSubSectors;
-        this.filteredGovernorates = normalizedSubSectors;
+    combineLatest([this.governorates$, this.countriesList$]).pipe(
+      map(([governorates, countries]) =>
+        governorates
+          .map((ss) => ({
+            ...ss,
+            countryName:
+              countries.find((s) => s.id === ss.countryId)?.name || '—',
+          }))
+          .sort((a, b) => b.id - a.id)
+      ),
+      takeUntil(this.destroy$)
+    );
+    this.governorates$
+      ?.pipe(takeUntil(this.destroy$))
+      ?.subscribe((governorate) => {
+        // governorate is now governorate[], not any
+        const activeCodes = governorate.filter((code) => code.isActive);
+        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
+        this.originalGovernorates = sorted;
+        this.filteredGovernorates = [...sorted];
       });
   }
 
