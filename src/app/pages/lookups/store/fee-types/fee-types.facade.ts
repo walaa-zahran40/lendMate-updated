@@ -1,46 +1,42 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { createSelector, Store } from '@ngrx/store';
 import * as Actions from './fee-types.actions';
 import * as Selectors from './fee-types.selectors';
-import { Observable } from 'rxjs';
 import { FeeType } from './fee-type.model';
 import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class FeeTypesFacade {
-  items$: Observable<FeeType[]> = this.store.select(Selectors.selectFeeTypes);
-  total$: Observable<number> = this.store.select(Selectors.selectFeeTypesTotal);
-  history$: Observable<FeeType[]> = this.store.select(
-    Selectors.selectFeeTypesHistory
+  all$ = this.store.select(Selectors.selectAllFeeTypes);
+  loading$ = this.store.select(Selectors.selectFeeTypesLoading);
+  error$ = this.store.select(Selectors.selectFeeTypesError);
+  totalCount$ = this.store.select(Selectors.selectFeeTypesTotalCount);
+  selected$ = this.store.select(
+    createSelector(
+      Selectors.selectFeature,
+      (state) => state.entities[state.loadedId!] // or however you track it
+    )
   );
-  current$: Observable<FeeType | undefined> = this.store.select(
-    Selectors.selectCurrentFeeType
-  );
-
-  loading$: Observable<boolean> = this.store.select(
-    Selectors.selectFeeTypesLoading
-  );
-  error$: Observable<any> = this.store.select(Selectors.selectFeeTypesError);
   operationSuccess$ = this.store.select(selectLastOperationSuccess);
-
   constructor(private store: Store) {}
 
-  loadAll() {
-    this.store.dispatch(Actions.loadFeeTypes());
+  loadAll(pageNumber?: number) {
+    this.store.dispatch(Actions.loadAll({ pageNumber }));
   }
-  loadHistory() {
-    this.store.dispatch(Actions.loadFeeTypesHistory());
+
+  loadById(id: number) {
+    this.store.dispatch(Actions.loadById({ id }));
   }
-  loadOne(id: number) {
-    this.store.dispatch(Actions.loadFeeType({ id }));
+
+  create(payload: Partial<Omit<FeeType, 'id'>>) {
+    this.store.dispatch(Actions.createEntity({ payload }));
   }
-  create(data: Partial<FeeType>) {
-    this.store.dispatch(Actions.createFeeType({ data }));
+
+  update(id: number, changes: Partial<FeeType>) {
+    this.store.dispatch(Actions.updateEntity({ id, changes }));
   }
-  update(id: any, data: Partial<FeeType>) {
-    this.store.dispatch(Actions.updateFeeType({ id, data }));
-  }
+
   delete(id: number) {
-    this.store.dispatch(Actions.deleteFeeType({ id }));
+    this.store.dispatch(Actions.deleteEntity({ id }));
   }
 }

@@ -1,19 +1,16 @@
+import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { FeeType } from './fee-type.model';
 
-export interface FeeTypesState {
-  items: FeeType[];
-  history: FeeType[];
-  current?: FeeType;
+export interface State extends EntityState<FeeType> {
+  loadedId: number | null; // ← add this
   loading: boolean;
-  error: any;
-  totalCount: number;
+  error: string | null;
 }
 
-export const initialFeeTypesState: FeeTypesState = {
-  items: [],
-  history: [],
-  current: undefined,
+export const adapter: EntityAdapter<FeeType> = createEntityAdapter<FeeType>();
+
+export const initialState: State = adapter.getInitialState({
+  loadedId: null, // ← and set your initial value here
   loading: false,
   error: null,
-  totalCount: 0,
-};
+});

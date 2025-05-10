@@ -161,7 +161,7 @@ import { currencyExchangeRatesReducer } from './store/currency-exchange-rates/cu
 import { reducer as paymentMonthDaysReducer } from './store/payment-month-days/payment-month-days.reducer';
 import { PaymentMonthDaysEffects } from './store/payment-month-days/payment-month-days.effects';
 import { ViewPaymentMonthDaysComponent } from './components/view-payment-month-days/view-payment-month-days.component';
-import { feeTypesReducer } from './store/fee-types/fee-types.reducer';
+import { reducer as feeTypesReducer } from './store/fee-types/fee-types.reducer';
 import { FeeTypesEffects } from './store/fee-types/fee-types.effects';
 import { ProductsEffects } from './store/products/products.effects';
 import { reducer as productsReducer } from './store/products/products.reducer';

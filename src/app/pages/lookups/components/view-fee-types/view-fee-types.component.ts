@@ -4,34 +4,34 @@ import { Router } from '@angular/router';
 import { TableComponent } from '../../../../shared/components/table/table.component';
 import { FeeType } from '../../store/fee-types/fee-type.model';
 import { FeeTypesFacade } from '../../store/fee-types/fee-types.facade';
-  
-  @Component({
-    selector: 'app-view-fee-types',
-    standalone: false,
-    templateUrl: './view-fee-types.component.html',
-    styleUrl: './view-fee-types.component.scss',
-  })
-  export class ViewFeeTypesComponent {
-    tableDataInside: FeeType[] = [];
-    first2 = 0;
-    rows = 10;
-    showFilters = false;
-    private destroy$ = new Subject<void>();
-  
-    @ViewChild('tableRef') tableRef!: TableComponent;
-  
-    readonly colsInside = [
-      { field: 'code', header: 'Code' },
-      { field: 'name', header: 'Name EN' },
-      { field: 'nameAR', header: 'Name AR' },
-      { field: 'description', header: 'Description' },
-      { field: 'descriptionAR', header: 'Description AR' },
-      { field: 'feeCalculationType', header: 'Fee Calculation Type' },
-      { field: 'defaultPrecentage', header: 'defaultPrecentage' },
-      { field: 'defaultAmount', header: 'defaultAmount' }
-    ];
 
-showDeleteModal = false;
+@Component({
+  selector: 'app-view-fee-types',
+  standalone: false,
+  templateUrl: './view-fee-types.component.html',
+  styleUrl: './view-fee-types.component.scss',
+})
+export class ViewFeeTypesComponent {
+  tableDataInside: FeeType[] = [];
+  first2 = 0;
+  rows = 10;
+  showFilters = false;
+  private destroy$ = new Subject<void>();
+
+  @ViewChild('tableRef') tableRef!: TableComponent;
+
+  readonly colsInside = [
+    { field: 'code', header: 'Code' },
+    { field: 'name', header: 'Name EN' },
+    { field: 'nameAR', header: 'Name AR' },
+    { field: 'description', header: 'Description' },
+    { field: 'descriptionAR', header: 'Description AR' },
+    { field: 'feeCalculationType', header: 'Fee Calculation Type' },
+    { field: 'defaultPrecentage', header: 'defaultPrecentage' },
+    { field: 'defaultAmount', header: 'defaultAmount' },
+  ];
+
+  showDeleteModal = false;
   selectedFeeTypeId: number | null = null;
   originalFeeTypes: FeeType[] = [];
   filteredFeeTypes: FeeType[] = [];
@@ -41,9 +41,8 @@ showDeleteModal = false;
 
   ngOnInit() {
     this.facade.loadAll();
-    this.feeTypes$ = this.facade.items$;
+    this.feeTypes$ = this.facade.all$;
     this.feeTypes$.pipe(takeUntil(this.destroy$)).subscribe((feeTypes) => {
-
       const sorted = [...feeTypes].sort((a, b) => b.id - a.id);
       this.originalFeeTypes = sorted;
       this.filteredFeeTypes = [...sorted];
@@ -54,7 +53,7 @@ showDeleteModal = false;
         map(([feeTypes]) => {
           const mapped = feeTypes.map((ss) => {
             const feeCalculationType = ss.feeCalculationType?.name || '—';
-        
+
             return {
               ...ss,
               feeCalculationType: feeCalculationType, // or call it `categoryName` if more accurate
@@ -138,5 +137,4 @@ showDeleteModal = false;
       queryParams: { mode: 'view' },
     });
   }
-
-  }
+}

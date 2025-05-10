@@ -1,80 +1,69 @@
 import { createAction, props } from '@ngrx/store';
 import { FeeType } from './fee-type.model';
 
-// Load all
-export const loadFeeTypes = createAction('[FeeTypes] Load All');
-export const loadFeeTypesSuccess = createAction(
-  '[FeeTypes] Load All Success',
-  props<{ items: FeeType[]; totalCount: number }>()
+export const loadAll = createAction(
+  '[FeeTypes] Load All',
+  props<{ pageNumber?: number }>()
 );
-export const loadFeeTypesFailure = createAction(
+export const loadAllSuccess = createAction(
+  '[FeeTypes] Load All Success',
+  props<{ result: FeeType[] }>()
+);
+
+export const loadAllFailure = createAction(
   '[FeeTypes] Load All Failure',
   props<{ error: any }>()
 );
 
-// Load history
-export const loadFeeTypesHistory = createAction('[FeeTypes] Load History');
-export const loadFeeTypesHistorySuccess = createAction(
-  '[FeeTypes] Load History Success',
-  props<{ history: FeeType[] }>()
-);
-export const loadFeeTypesHistoryFailure = createAction(
-  '[FeeTypes] Load History Failure',
-  props<{ error: any }>()
-);
-
-// Load by ID
-export const loadFeeType = createAction(
-  '[FeeTypes] Load One',
+export const loadById = createAction(
+  '[FeeTypes] Load By Id',
   props<{ id: number }>()
 );
-export const loadFeeTypeSuccess = createAction(
-  '[FeeTypes] Load One Success',
-  props<{ feeType: FeeType }>()
+export const loadByIdSuccess = createAction(
+  '[FeeTypes] Load By Id Success',
+  props<{ entity: FeeType }>()
 );
-export const loadFeeTypeFailure = createAction(
-  '[FeeTypes] Load One Failure',
+export const loadByIdFailure = createAction(
+  '[FeeTypes] Load By Id Failure',
   props<{ error: any }>()
 );
 
-// Create
-export const createFeeType = createAction(
+export const createEntity = createAction(
   '[FeeTypes] Create',
-  props<{ data: Partial<FeeType> }>()
+  // allow all fields except id, but all optional
+  props<{ payload: Partial<Omit<FeeType, 'id'>> }>()
 );
-export const createFeeTypeSuccess = createAction(
+export const createEntitySuccess = createAction(
   '[FeeTypes] Create Success',
-  props<{ feeType: FeeType }>()
+  props<{ entity: FeeType }>()
 );
-export const createFeeTypeFailure = createAction(
+export const createEntityFailure = createAction(
   '[FeeTypes] Create Failure',
   props<{ error: any }>()
 );
 
-// Update
-export const updateFeeType = createAction(
+export const updateEntity = createAction(
   '[FeeTypes] Update',
-  props<{ id: number; data: Partial<FeeType> }>()
+  props<{ id: number; changes: Partial<FeeType> }>()
 );
-export const updateFeeTypeSuccess = createAction(
+export const updateEntitySuccess = createAction(
   '[FeeTypes] Update Success',
-  props<{ feeType: FeeType }>()
+  props<{ id: number; changes: Partial<FeeType> }>()
 );
-export const updateFeeTypeFailure = createAction(
+export const updateEntityFailure = createAction(
   '[FeeTypes] Update Failure',
   props<{ error: any }>()
 );
 
-// Delete
-export const deleteFeeType = createAction(
+export const deleteEntity = createAction(
   '[FeeTypes] Delete',
   props<{ id: number }>()
 );
-export const deleteFeeTypeSuccess = createAction(
+export const deleteEntitySuccess = createAction(
   '[FeeTypes] Delete Success',
   props<{ id: number }>()
 );
-export const deleteFeeTypeFailure = createAction(
+export const deleteEntityFailure = createAction(
   '[FeeTypes] Delete Failure',
   props<{ error: any }>()
 );

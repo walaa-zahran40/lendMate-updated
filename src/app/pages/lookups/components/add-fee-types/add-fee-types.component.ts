@@ -67,8 +67,8 @@ export class AddFeeTypesComponent {
           this.addFeesTypesLookupsForm.disable();
         }
 
-        this.facade.loadOne(this.clientId);
-        this.facade.current$
+        this.facade.loadById(this.clientId);
+        this.facade.selected$
           .pipe(
             filter((ct): ct is FeeType => !!ct && ct.id === this.clientId),
             take(1)

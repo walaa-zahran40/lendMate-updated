@@ -1,92 +1,97 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { mergeMap, map, catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
-import * as FeeTypeActions from './fee-types.actions';
 import { FeeTypesService } from './fee-types.service';
+import * as ActionsList from './fee-types.actions';
+import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { FeeType } from './fee-type.model';
+import { EntityNames } from '../../../../shared/constants/entity-names';
 
 @Injectable()
 export class FeeTypesEffects {
+  constructor(private actions$: Actions, private svc: FeeTypesService) {}
+
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(FeeTypeActions.loadFeeTypes),
+      ofType(ActionsList.loadAll),
+      tap(() => console.log('✨ Effect: loadAll action caught')),
       mergeMap(() =>
-        this.service.getAll().pipe(
-          map((resp) =>
-            FeeTypeActions.loadFeeTypesSuccess({
-              items: resp.items,
-              totalCount: resp.totalCount,
-            })
-          ),
-          catchError((error) =>
-            of(FeeTypeActions.loadFeeTypesFailure({ error }))
-          )
+        this.svc.getAll().pipe(
+          tap((items) => console.log('✨ Service returned items:', items)),
+          map((items) => ActionsList.loadAllSuccess({ result: items })),
+          catchError((err) => {
+            console.error('⚠️ Error loading company-action-types', err);
+            return of(ActionsList.loadAllFailure({ error: err }));
+          })
         )
       )
     )
   );
 
-  loadHistory$ = createEffect(() =>
+  loadById$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(FeeTypeActions.loadFeeTypesHistory),
-      mergeMap(() =>
-        this.service.getHistory().pipe(
-          map((resp) =>
-            FeeTypeActions.loadFeeTypesHistorySuccess({
-              history: resp.items,
-            })
-          ),
-          catchError((error) =>
-            of(FeeTypeActions.loadFeeTypesHistoryFailure({ error }))
-          )
-        )
-      )
-    )
-  );
-
-  loadOne$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(FeeTypeActions.loadFeeType),
+      ofType(ActionsList.loadById),
+      tap(({ id }) =>
+        console.log('🔄 Effect: loadById action caught for id=', id)
+      ),
       mergeMap(({ id }) =>
-        this.service.getById(id).pipe(
-          map((feeType) =>
-            FeeTypeActions.loadFeeTypeSuccess({ feeType })
-          ),
-          catchError((error) =>
-            of(FeeTypeActions.loadFeeTypeFailure({ error }))
-          )
+        this.svc.getById(id).pipe(
+          tap((entity) => console.log('🔄 Service.getById returned:', entity)),
+          map((entity) => ActionsList.loadByIdSuccess({ entity })),
+          catchError((error) => {
+            console.error('❌ Service.getById error:', error);
+            return of(ActionsList.loadByIdFailure({ error }));
+          })
         )
       )
     )
   );
 
+  loadByIdSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ActionsList.loadByIdSuccess),
+        tap(({ entity }) =>
+          console.log(
+            '✨ Effect: loadByIdSuccess action caught, entity:',
+            entity
+          )
+        )
+      ),
+    { dispatch: false }
+  );
   create$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(FeeTypeActions.createFeeType),
-      mergeMap(({ data }) =>
-        this.service.create(data).pipe(
-          map((feeType) =>
-            FeeTypeActions.createFeeTypeSuccess({ feeType })
-          ),
-          catchError((error) =>
-            of(FeeTypeActions.createFeeTypeFailure({ error }))
-          )
-        )
-      )
+      ofType(ActionsList.createEntity),
+      mergeMap(({ payload }) => {
+        const dto = payload as Omit<FeeType, 'id'>;
+        return this.svc.create(dto).pipe(
+          mergeMap((entity) => [
+            ActionsList.createEntitySuccess({ entity }),
+            ActionsList.entityOperationSuccess({
+              entity: EntityNames.FeeType,
+              operation: 'create',
+            }),
+          ]),
+          catchError((error) => of(ActionsList.createEntityFailure({ error })))
+        );
+      })
     )
   );
 
   update$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(FeeTypeActions.updateFeeType),
-      mergeMap(({ id, data }) =>
-        this.service.update(id, data).pipe(
-          map((feeType) =>
-            FeeTypeActions.updateFeeTypeSuccess({ feeType })
-          ),
-          catchError((error) =>
-            of(FeeTypeActions.updateFeeTypeFailure({ error }))
-          )
+      ofType(ActionsList.updateEntity),
+      mergeMap(({ id, changes }) =>
+        this.svc.update(id, changes).pipe(
+          mergeMap(() => [
+            ActionsList.updateEntitySuccess({ id, changes }),
+            ActionsList.loadAll({}), // 👈 this is crucial
+            ActionsList.entityOperationSuccess({
+              entity: EntityNames.FeeType,
+              operation: 'update',
+            }),
+          ]),
+          catchError((error) => of(ActionsList.updateEntityFailure({ error })))
         )
       )
     )
@@ -94,30 +99,13 @@ export class FeeTypesEffects {
 
   delete$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(FeeTypeActions.deleteFeeType),
+      ofType(ActionsList.deleteEntity),
       mergeMap(({ id }) =>
-        this.service.delete(id).pipe(
-          map(() => FeeTypeActions.deleteFeeTypeSuccess({ id })),
-          catchError((error) =>
-            of(FeeTypeActions.deleteFeeTypeFailure({ error }))
-          )
+        this.svc.delete(id).pipe(
+          map(() => ActionsList.deleteEntitySuccess({ id })),
+          catchError((error) => of(ActionsList.deleteEntityFailure({ error })))
         )
       )
     )
   );
-
-  refreshList$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(
-        FeeTypeActions.createFeeTypeSuccess,
-        FeeTypeActions.updateFeeTypeSuccess,
-        FeeTypeActions.deleteFeeTypeSuccess
-      ),
-      map(() => FeeTypeActions.loadFeeTypes())
-    )
-  );
-  constructor(
-    private actions$: Actions,
-    private service: FeeTypesService
-  ) {}
 }
