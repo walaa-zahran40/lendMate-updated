@@ -24,13 +24,13 @@
       [first]="first2"
       [checkBox]="true"
       [view]="true"
+      [side]="true"
       [filters]="showFilters"
       [uppercase]="'uppercase'"
       [viewDepartmentsTable]="true"
       (onDelete)="onDeleteDepartment($event)"
       (onEdit)="onEditDepartment($event)"
       (viewForm)="onViewDepartment($event)"
-
     ></app-table>
     <app-delete-module
       [visible]="showDeleteModal"
