@@ -69,7 +69,9 @@ export class AddTmlOfficerTypesComponent {
         this.facade.selected$
           .pipe(
             tap((ct) => console.log('🔵 selected$ emission:', ct)),
-            filter((ct) => !!ct),
+            filter(
+              (ct): ct is TmlOfficerType => !!ct && ct.id === this.clientId
+            ),
             tap((ct) =>
               console.log('🔵 selected$ passed filter, patching form with:', ct)
             ),
