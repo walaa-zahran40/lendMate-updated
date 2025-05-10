@@ -2,10 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, Subject, takeUntil } from 'rxjs';
-import { CurrencyExchangeRate } from '../../store/currency-exchange-rates/currency-exchange-rate.model';
-import { CurrencyExchangeRatesFacade } from '../../store/currency-exchange-rates/currency-exchange-rates.facade';
-import { Currency } from '../../store/currencies/currency.model';
-import { CurrenciesFacade } from '../../store/currencies/currencies.facade';
+import { CurrencyExchangeRate } from '../../../store/currency-exchange-rates/currency-exchange-rate.model';
+import { CurrencyExchangeRatesFacade } from '../../../store/currency-exchange-rates/currency-exchange-rates.facade';
+import { Currency } from '../../../store/currencies/currency.model';
+import { CurrenciesFacade } from '../../../store/currencies/currencies.facade';
 
 @Component({
   selector: 'app-add-currencies-exchange',

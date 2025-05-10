@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { CurrencyExchange } from '../../../../shared/interfaces/currency-exchange.interface';
-import { CurrencyExchangeRate } from '../../store/currency-exchange-rates/currency-exchange-rate.model';
-import { TableComponent } from '../../../../shared/components/table/table.component';
+import { CurrencyExchange } from '../../../../../shared/interfaces/currency-exchange.interface';
+import { CurrencyExchangeRate } from '../../../store/currency-exchange-rates/currency-exchange-rate.model';
+import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { combineLatest, map, Observable, Subject, takeUntil, tap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CurrencyExchangeRatesFacade } from '../../store/currency-exchange-rates/currency-exchange-rates.facade';
+import { CurrencyExchangeRatesFacade } from '../../../store/currency-exchange-rates/currency-exchange-rates.facade';
 
 @Component({
   selector: 'app-view-currency-exchange',

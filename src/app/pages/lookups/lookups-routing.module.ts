@@ -17,7 +17,7 @@ import { AddLeasingTypeComponent } from './components/add-leasing-type/add-leasi
 import { AddMandateValidityUnitComponent } from './components/add-mandate-validity-unit/add-mandate-validity-unit.component';
 import { AddBusinessLinesComponent } from './components/add-business-lines/add-business-lines.component';
 import { AddAssetTypesComponent } from './components/add-asset-types/add-asset-types.component';
-import { AddCurrenciesExchangeComponent } from './components/add-currencies-exchange/add-currencies-exchange.component';
+import { AddCurrenciesExchangeComponent } from './components/add-currencies/add-currencies-exchange/add-currencies-exchange.component';
 import { AddAssetTypeCategoriesComponent } from './components/add-asset-type-categories/add-asset-type-categories.component';
 import { AddProductsComponent } from './components/add-products/add-products.component';
 import { AddSectorsComponent } from './components/add-sectors/add-sectors.component';
@@ -46,7 +46,7 @@ import { ViewPeriodUnitsComponent } from './components/view-period-units/view-pe
 import { ViewRentStructureTypesComponent } from './components/view-rent-structure-types/view-rent-structure-types.component';
 import { ViewCurrenciesComponent } from './components/view-currencies/view-currencies.component';
 import { WizardCurrenciesComponent } from './components/wizard-currencies/wizard-currencies.component';
-import { ViewCurrencyExchangeComponent } from './components/view-currency-exchange/view-currency-exchange.component';
+import { ViewCurrencyExchangeComponent } from './components/view-currencies/view-currency-exchange/view-currency-exchange.component';
 import { ViewPaymentMethodsComponent } from './components/view-payment-methods/view-payment-methods.component';
 import { ViewPaymentTypesComponent } from './components/view-payment-types/view-payment-types.component';
 import { ViewPaymentMonthDaysComponent } from './components/view-payment-month-days/view-payment-month-days.component';
