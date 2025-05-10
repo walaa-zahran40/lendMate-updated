@@ -67,7 +67,7 @@ export class AddProductsComponent {
         this.facade.loadById(this.clientId);
         this.facade.selected$
           .pipe(
-            filter((ct) => !!ct),
+            filter((ct): ct is Product => !!ct && ct.id === this.clientId),
             take(1)
           )
           .subscribe((ct) => {
