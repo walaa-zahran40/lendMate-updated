@@ -35,6 +35,12 @@ import { AddBranchOfficersComponent } from './components/add-branch-officers/add
 import { ViewBranchOfficersComponent } from './components/view-branch-officers/view-branch-officers.component';
 import { WizardBranchComponent } from './components/wizard-branch/wizard-branch.component';
 import { ViewBranchComponent } from './components/view-branch/view-branch.component';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { DepartmentsEffects } from './store/departments/departments.effects';
+import { DepartmentsReducer } from './store/departments/departments.reducer';
+import { OfficersReducer } from './store/officers/officers.reducer';
+import { OfficersEffects } from './store/officers/officers.effects';
 
 @NgModule({
   declarations: [
@@ -77,9 +83,14 @@ import { ViewBranchComponent } from './components/view-branch/view-branch.compon
     SharedModule,
     TabsModule,
     ButtonModule,
+    StoreModule.forFeature('departments', DepartmentsReducer),
+    EffectsModule.forFeature([DepartmentsEffects]),
+    StoreModule.forFeature('officers', OfficersReducer),
+    EffectsModule.forFeature([OfficersEffects]),
   ],
   exports: [
     AddDepartmentComponent,
+    AddOfficerComponent,
     AddDepartmentManagerComponent,
     AddTeamComponent,
     AddTeamLeadComponent,

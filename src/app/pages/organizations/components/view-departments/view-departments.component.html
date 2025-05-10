@@ -2,25 +2,40 @@
   <app-toolbar-table
     [title]="'Departments'"
     [labelBtn]="'Add Department'"
-    [backExists]="true"
-    [exports]="true"
     [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
-    (addBtn)="onAdd()"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddDepartment()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col2Name]="'Code'"
-    [col3Name]="'Name EN'"
-    [col4Name]="'Name AR'"
-    [col5Name]="'Active'"
-    [edit]="true"
-    [delete]="true"
-    [side]="true"
-    [download]="false"
-    [checkBox]="true"
-    [viewSubSectorTable]="true"
-    [uppercase]="'uppercase'"
-  ></app-table>
+
+  <ng-container *ngIf="departments$ | async as departments">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredDepartments"
+      [edit]="true"
+      [delete]="true"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewDepartmentsTable]="true"
+      (onDelete)="onDeleteDepartment($event)"
+      (onEdit)="onEditDepartment($event)"
+      (viewForm)="onViewDepartment($event)"
+
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
 </div>

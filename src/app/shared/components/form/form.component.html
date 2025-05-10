@@ -356,6 +356,24 @@
       (click)="viewLegalFormLaw()"
       class="custom-view m-0 float-right"
     />
+    <p-button
+    *ngIf="addOfficersForm"
+    icon="pi pi-cog"
+    iconPos="left"
+    label="View Officer"
+    (click)="viewOfficer()"
+    class="custom-view m-0 float-right"
+  />
+
+
+    <p-button
+    *ngIf="addDepartmentsForm"
+    icon="pi pi-cog"
+    iconPos="left"
+    label="View Department"
+    (click)="viewDepartment()"
+    class="custom-view m-0 float-right"
+  />
 
     <p-button
       *ngIf="addMeetingShowOfficersForm"
@@ -437,14 +455,14 @@
       (click)="viewCallTypes()"
       class="custom-view m-0 float-right"
     />
-    <p-button
+    <!-- <p-button
       *ngIf="addDepartmentsORGForm"
       icon="pi pi-cog"
       iconPos="left"
       label="View Department"
       (click)="viewDepartment()"
       class="custom-view m-0 float-right"
-    />
+    /> -->
     <p-button
       *ngIf="addDepartmentManagerORGForm"
       icon="pi pi-cog"
@@ -6448,6 +6466,248 @@
       </div>
     </div>
   </form>
+
+
+  
+  <form
+  [formGroup]="formGroup"
+  *ngIf="addDepartmentsForm"
+  (ngSubmit)="onSubmit()"
+>
+  <label for="name">Name in English<sup>*</sup></label>
+  <input pInputText id="name" formControlName="name" placeholder="Type" />
+  <div
+    *ngIf="
+      formGroup.get('name')?.hasError('required') &&
+      formGroup.get('name')?.touched
+    "
+    class="p-error"
+  >
+    Name in English is required.
+  </div>
+
+  <label for="nameAR">Name in Arabic<sup>*</sup></label>
+  <input
+    pInputText
+    id="nameAR"
+    formControlName="nameAR"
+    placeholder="Type"
+  />
+  <div
+    *ngIf="
+      formGroup.get('nameAR')?.hasError('required') &&
+      formGroup.get('nameAR')?.touched
+    "
+    class="p-error"
+  >
+    Name in Arabic is required.
+  </div>
+  <div
+    *ngIf="
+      formGroup.get('nameAR')?.hasError('pattern') &&
+      formGroup.get('nameAR')?.touched
+    "
+    class="p-error"
+  >
+    Please enter only Arabic letters.
+  </div>
+
+  
+  <div class="p-field" for="isActive" *ngIf="editMode">
+    <p-toggleSwitch
+      id="isActive"
+      formControlName="isActive"
+      label="is Active"
+    ></p-toggleSwitch>
+    <label for="isActive"> Active</label>
+  </div>
+  <div class="row justify-end">
+    <div
+      class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 currenciesDiv"
+      *ngIf="!editMode"
+    >
+      <p-button
+        type="submit"
+        label="Add Department"
+        [disabled]="formGroup.invalid"
+        class="custom-save m-0 float-right"
+      ></p-button>
+    </div>
+    <div
+      class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+      *ngIf="editMode && !viewOnly"
+    >
+      <p-button
+        type="submit"
+        label="Edit Department"
+        class="custom-save m-0 float-right"
+      ></p-button>
+    </div>
+    <div
+      *ngIf="viewOnly"
+      class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+    >
+      <p-button
+        label="Close"
+        class="custom-save m-0 float-right"
+        (click)="router.navigate(['/organizations/view-departments'])"
+      />
+    </div>
+  </div>
+</form>
+
+
+<form
+[formGroup]="formGroup"
+*ngIf="addOfficersForm"
+(ngSubmit)="onSubmit()"
+>
+<label for="name">Name in English<sup>*</sup></label>
+<input pInputText id="name" formControlName="name" placeholder="Type" />
+<div
+  *ngIf="
+    formGroup.get('name')?.hasError('required') &&
+    formGroup.get('name')?.touched
+  "
+  class="p-error"
+>
+  Name in English is required.
+</div>
+
+<label for="nameAR">Name in Arabic<sup>*</sup></label>
+<input
+  pInputText
+  id="nameAR"
+  formControlName="nameAR"
+  placeholder="Type"
+/>
+<div
+  *ngIf="
+    formGroup.get('nameAR')?.hasError('required') &&
+    formGroup.get('nameAR')?.touched
+  "
+  class="p-error"
+>
+  Name in Arabic is required.
+</div>
+<div
+  *ngIf="
+    formGroup.get('nameAR')?.hasError('pattern') &&
+    formGroup.get('nameAR')?.touched
+  "
+  class="p-error"
+>
+  Please enter only Arabic letters.
+</div>
+
+
+<label for="loginName">Login Name<sup>*</sup></label>
+<input pInputText id="loginName" formControlName="loginName" placeholder="Login Name" />
+<div
+  *ngIf="
+    formGroup.get('loginName')?.hasError('required') &&
+    formGroup.get('loginName')?.touched
+  "
+  class="p-error"
+>
+ Login Name is required.
+</div>
+
+
+<label for="title">Title<sup>*</sup></label>
+<input pInputText id="title" formControlName="title" placeholder="title" />
+<div
+  *ngIf="
+    formGroup.get('title')?.hasError('required') &&
+    formGroup.get('title')?.touched
+  "
+  class="p-error"
+>
+ Title is required.
+</div>
+
+<label for="titleAr">Title Ar<sup>*</sup></label>
+<input pInputText id="titleAr" formControlName="titleAr" placeholder="titleAr" />
+<div
+  *ngIf="
+    formGroup.get('titleAr')?.hasError('required') &&
+    formGroup.get('titleAr')?.touched
+  "
+  class="p-error"
+>
+ Title Ar is required.
+</div>
+
+<label for="phoneNumber">Phone Number<sup>*</sup></label>
+<input pInputText id="phoneNumber" formControlName="phoneNumber" placeholder="phoneNumber" />
+<div
+  *ngIf="
+    formGroup.get('phoneNumber')?.hasError('required') &&
+    formGroup.get('phoneNumber')?.touched
+  "
+  class="p-error"
+>
+Phone Number is required.
+</div>
+
+
+<label for="email">Email<sup>*</sup></label>
+<input pInputText id="email" formControlName="email" placeholder="email" />
+<div
+  *ngIf="
+    formGroup.get('email')?.hasError('required') &&
+    formGroup.get('email')?.touched
+  "
+  class="p-error"
+>
+Email is required.
+</div>
+
+
+
+<div class="p-field" for="isActive" *ngIf="editMode">
+  <p-toggleSwitch
+    id="isActive"
+    formControlName="isActive"
+    label="is Active"
+  ></p-toggleSwitch>
+  <label for="isActive"> Active</label>
+</div>
+<div class="row justify-end">
+  <div
+    class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 currenciesDiv"
+    *ngIf="!editMode"
+  >
+    <p-button
+      type="submit"
+      label="Add Officer"
+      [disabled]="formGroup.invalid"
+      class="custom-save m-0 float-right"
+    ></p-button>
+  </div>
+  <div
+    class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+    *ngIf="editMode && !viewOnly"
+  >
+    <p-button
+      type="submit"
+      label="Edit Officer"
+      class="custom-save m-0 float-right"
+    ></p-button>
+  </div>
+  <div
+    *ngIf="viewOnly"
+    class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+  >
+    <p-button
+      label="Close"
+      class="custom-save m-0 float-right"
+      (click)="router.navigate(['/organizations/view-officers'])"
+    />
+  </div>
+</div>
+</form>
+
 
     <form
       [formGroup]="formGroup"
