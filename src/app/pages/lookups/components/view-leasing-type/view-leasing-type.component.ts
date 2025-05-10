@@ -40,21 +40,13 @@ export class ViewLeasingTypeComponent {
     console.log('🟢 Calling loadAll() to fetch LeasingTypes');
     this.facade.loadAll();
 
-    this.LeasingTypes$?.pipe(takeUntil(this.destroy$)).subscribe(
-      (LeasingTypes) => {
-        console.log('🟢 subscribe: received LeasingTypes array:', LeasingTypes);
-
-        // preserve immutability, then sort by id descending
-        const sorted = [...LeasingTypes].sort((a, b) => b.id - a.id);
-        console.log('🟢 sorted (by id desc):', sorted);
-
-        this.originalLeasingType = sorted;
-        console.log('🟢 originalLeasingType set to:', this.originalLeasingType);
-
-        this.filteredLeasingType = [...sorted];
-        console.log('🟢 filteredLeasingType set to:', this.filteredLeasingType);
-      }
-    );
+    this.LeasingTypes$?.pipe(takeUntil(this.destroy$))?.subscribe((leasing) => {
+      // products is now rentStructureType[], not any
+      const activeCodes = leasing.filter((code) => code.isActive);
+      const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
+      this.originalLeasingType = sorted;
+      this.filteredLeasingType = [...sorted];
+    });
   }
 
   onAddLeasingType() {
