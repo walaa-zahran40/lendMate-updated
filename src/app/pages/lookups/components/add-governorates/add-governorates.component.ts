@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { filter, Observable, take } from 'rxjs';
 import { arabicOnlyValidator } from '../../../../shared/validators/arabic-only.validator';
 import { Governorate } from '../../store/governorates/governorate.model';
-import { GovernorateFacade } from '../../store/governorates/governorates.facade';
+import { GovernoratesFacade } from '../../store/governorates/governorates.facade';
 import { Country } from '../../store/countries/country.model';
 import { loadAll } from '../../store/countries/countries.actions';
 import { selectAllCountries } from '../../store/countries/countries.selectors';
@@ -27,7 +27,7 @@ export class AddGovernoratesComponent implements OnInit {
     private fb: FormBuilder,
     private store: Store,
     private route: ActivatedRoute,
-    private facade: GovernorateFacade,
+    private facade: GovernoratesFacade,
     private router: Router
   ) {}
 
@@ -64,10 +64,12 @@ export class AddGovernoratesComponent implements OnInit {
         }
 
         // 3. load the existing record & patch the form
-        this.facade.loadOne(this.retrivedId);
-        this.facade.current$
+        this.facade.loadById(this.retrivedId);
+        this.facade.selected$
           .pipe(
-            filter((ct) => !!ct),
+            filter(
+              (ct): ct is Governorate => !!ct && ct.id === this.retrivedId
+            ),
             take(1)
           )
           .subscribe((ct) => {
@@ -157,6 +159,6 @@ export class AddGovernoratesComponent implements OnInit {
     }
 
     console.log('🧭 Navigating away to view-governorates');
-    this.router.navigate(['/lookups/view-governorates']);
+    this.router.navigate(['/lookups/view-Governorates']);
   }
 }

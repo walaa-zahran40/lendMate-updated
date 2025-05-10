@@ -1,51 +1,42 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { createSelector, Store } from '@ngrx/store';
 import * as Actions from './governorates.actions';
 import * as Selectors from './governorates.selectors';
-import { Observable } from 'rxjs';
 import { Governorate } from './governorate.model';
 import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
 
 @Injectable({ providedIn: 'root' })
-export class GovernorateFacade {
-  items$: Observable<Governorate[]> = this.store.select(
-    Selectors.selectGovernorates
-  );
-  total$: Observable<number> = this.store.select(
-    Selectors.selectGovernoratesTotal
-  );
-  history$: Observable<Governorate[]> = this.store.select(
-    Selectors.selectGovernoratesHistory
-  );
-  current$: Observable<Governorate | undefined> = this.store.select(
-    Selectors.selectCurrentGovernorate
-  );
-  loading$: Observable<boolean> = this.store.select(
-    Selectors.selectGovernoratesLoading
-  );
-  error$: Observable<any> = this.store.select(
-    Selectors.selectGovernoratesError
+export class GovernoratesFacade {
+  all$ = this.store.select(Selectors.selectAllGovernorates);
+  loading$ = this.store.select(Selectors.selectGovernoratesLoading);
+  error$ = this.store.select(Selectors.selectGovernoratesError);
+  totalCount$ = this.store.select(Selectors.selectGovernoratesTotalCount);
+  selected$ = this.store.select(
+    createSelector(
+      Selectors.selectFeature,
+      (state) => state.entities[state.loadedId!] // or however you track it
+    )
   );
   operationSuccess$ = this.store.select(selectLastOperationSuccess);
-
   constructor(private store: Store) {}
 
-  loadAll() {
-    this.store.dispatch(Actions.loadGovernorates());
+  loadAll(pageNumber?: number) {
+    this.store.dispatch(Actions.loadAll({ pageNumber }));
   }
-  loadHistory() {
-    this.store.dispatch(Actions.loadGovernoratesHistory());
+
+  loadById(id: number) {
+    this.store.dispatch(Actions.loadById({ id }));
   }
-  loadOne(id: number) {
-    this.store.dispatch(Actions.loadGovernorate({ id }));
+
+  create(payload: Partial<Omit<Governorate, 'id'>>) {
+    this.store.dispatch(Actions.createEntity({ payload }));
   }
-  create(data: Partial<Governorate>) {
-    this.store.dispatch(Actions.createGovernorate({ data }));
+
+  update(id: number, changes: Partial<Governorate>) {
+    this.store.dispatch(Actions.updateEntity({ id, changes }));
   }
-  update(id: any, data: Partial<Governorate>) {
-    this.store.dispatch(Actions.updateGovernorate({ id, data }));
-  }
+
   delete(id: number) {
-    this.store.dispatch(Actions.deleteGovernorate({ id }));
+    this.store.dispatch(Actions.deleteEntity({ id }));
   }
 }

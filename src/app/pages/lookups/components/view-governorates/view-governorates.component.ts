@@ -3,7 +3,7 @@ import { combineLatest, map, Observable, pipe, Subject, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
 import { TableComponent } from '../../../../shared/components/table/table.component';
 import { Governorate } from '../../store/governorates/governorate.model';
-import { GovernorateFacade } from '../../store/governorates/governorates.facade';
+import { GovernoratesFacade } from '../../store/governorates/governorates.facade';
 import { Country } from '../../store/countries/country.model';
 import { Store } from '@ngrx/store';
 import { selectAllCountries } from '../../store/countries/countries.selectors';
@@ -37,11 +37,11 @@ export class ViewGovernoratesComponent {
 
   constructor(
     private router: Router,
-    private facade: GovernorateFacade,
+    private facade: GovernoratesFacade,
     private store: Store
   ) {}
   ngOnInit() {
-    this.governorates$ = this.facade.items$;
+    this.governorates$ = this.facade.all$;
     this.countriesList$ = this.store.select(selectAllCountries); // Add this line
     this.facade.loadAll();
     this.store.dispatch({ type: '[Countries] Load All' });
@@ -67,7 +67,7 @@ export class ViewGovernoratesComponent {
   }
 
   onAddGovernorate() {
-    this.router.navigate(['/lookups/add-governorates']);
+    this.router.navigate(['/lookups/add-Governorates']);
   }
 
   ngOnDestroy() {
@@ -118,12 +118,12 @@ export class ViewGovernoratesComponent {
     this.showFilters = value;
   }
   onEditGovernorate(governorate: Governorate) {
-    this.router.navigate(['/lookups/edit-governorates', governorate.id], {
+    this.router.navigate(['/lookups/edit-Governorates', governorate.id], {
       queryParams: { mode: 'edit' },
     });
   }
   onViewGovernorate(ct: Governorate) {
-    this.router.navigate(['/lookups/edit-governorates', ct.id], {
+    this.router.navigate(['/lookups/edit-Governorates', ct.id], {
       queryParams: { mode: 'view' },
     });
   }

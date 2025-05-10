@@ -6,7 +6,7 @@ import { TaxOfficesFacade } from '../../store/tax_offices/tax_offices.facade';
 import { TaxOffice } from '../../store/tax_offices/tax_office.model';
 import { Governorate } from '../../store/governorates/governorate.model';
 import { Store } from '@ngrx/store';
-import { selectGovernorates } from '../../store/governorates/governorates.selectors';
+import { selectAllGovernorates } from '../../store/governorates/governorates.selectors';
 
 @Component({
   selector: 'app-view-tax-offices',
@@ -42,7 +42,7 @@ export class ViewTaxOfficesComponent {
   ) {}
   ngOnInit() {
     this.taxOffices$ = this.facade.all$;
-    this.governoratesList$ = this.store.select(selectGovernorates); // Add this line
+    this.governoratesList$ = this.store.select(selectAllGovernorates); // Add this line
     this.facade.loadAll();
     this.store.dispatch({ type: '[Governorates] Load All' });
 

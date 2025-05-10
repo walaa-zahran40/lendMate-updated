@@ -5,8 +5,8 @@ import { Subject, Observable, combineLatest, map, takeUntil } from 'rxjs';
 import { TableComponent } from '../../../../shared/components/table/table.component';
 import { Area } from '../../store/areas/area.model';
 import { AreasFacade } from '../../store/areas/areas.facade';
-import { GovernorateFacade } from '../../store/governorates/governorates.facade';
-import { selectGovernorates } from '../../store/governorates/governorates.selectors';
+import { GovernoratesFacade } from '../../store/governorates/governorates.facade';
+import { selectAllGovernorates } from '../../store/governorates/governorates.selectors';
 import { Governorate } from '../../store/governorates/governorate.model';
 
 @Component({
@@ -38,7 +38,7 @@ export class ViewAreasComponent {
   constructor(
     private router: Router,
     private facade: AreasFacade,
-    private governorateFacade: GovernorateFacade,
+    private governoratesFacade: GovernoratesFacade,
     private store: Store
   ) {}
   ngOnInit() {
@@ -46,10 +46,10 @@ export class ViewAreasComponent {
 
     // Step 1: Assign observables
     this.Areas$ = this.facade.all$;
-    this.governorateList$ = this.governorateFacade.items$;
+    this.governorateList$ = this.governoratesFacade.all$;
     console.log('📦 Assigned Areas$ from facade.all$', this.Areas$);
 
-    this.governorateList$ = this.store.select(selectGovernorates);
+    this.governorateList$ = this.store.select(selectAllGovernorates);
     console.log(
       '📦 Assigned governorateList$ from selectCountries',
       this.governorateList$
@@ -59,7 +59,7 @@ export class ViewAreasComponent {
     this.facade.loadAll();
     console.log('🚀 Dispatched facade.loadAll() for Areas');
 
-    this.governorateFacade.loadAll();
+    this.governoratesFacade.loadAll();
     console.log('🚀 Dispatched governorateFacade.loadAll()');
 
     // Step 3: Combine and normalize

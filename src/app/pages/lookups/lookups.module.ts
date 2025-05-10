@@ -150,7 +150,7 @@ import { reducer as MandateValidityUnitsReducer } from './store/mandate-validity
 import { MandateValidityUnitsEffects } from './store/mandate-validity-units/mandate-validity-units.effects';
 import { reducer as WorkflowActionTypesReducer } from './store/workflow-action-types/workflow-action-types.reducer';
 import { WorkflowActionTypesEffects } from './store/workflow-action-types/workflow-action-types.effects';
-import { governoratesReducer } from './store/governorates/governorates.reducer';
+import { reducer as governoratesReducer } from './store/governorates/governorates.reducer';
 import { GovernoratesEffects } from './store/governorates/governorates.effects';
 import { TaxOfficesEffects } from './store/tax_offices/tax_offices.effects';
 import { reducer as taxOfficesReducer } from './store/tax_offices/tax_offices.reducer';

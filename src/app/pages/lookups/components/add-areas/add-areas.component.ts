@@ -5,9 +5,9 @@ import { Store } from '@ngrx/store';
 import { Observable, tap, filter, take, distinctUntilChanged } from 'rxjs';
 import { Area } from '../../store/areas/area.model';
 import { AreasFacade } from '../../store/areas/areas.facade';
-import { selectGovernorates } from '../../store/governorates/governorates.selectors';
+import { selectAllGovernorates } from '../../store/governorates/governorates.selectors';
 import { Governorate } from '../../store/governorates/governorate.model';
-import { loadGovernorates } from '../../store/governorates/governorates.actions';
+import { loadAll } from '../../store/governorates/governorates.actions';
 
 @Component({
   selector: 'app-add-areas',
@@ -33,8 +33,8 @@ export class AddAreasComponent {
   ngOnInit() {
     //Select Box
     console.log('🔵 ngOnInit: start');
-    this.store.dispatch(loadGovernorates());
-    this.governoratesList$ = this.store.select(selectGovernorates);
+    this.store.dispatch(loadAll({}));
+    this.governoratesList$ = this.store.select(selectAllGovernorates);
     console.log('governorates list', this.governoratesList$);
     this.governoratesList$.subscribe((data) =>
       console.log('🧪 governoratesList$ from store:', data)

@@ -7,8 +7,8 @@ import { arabicOnlyValidator } from '../../../../shared/validators/arabic-only.v
 import { TaxOffice } from '../../store/tax_offices/tax_office.model';
 import { Governorate } from '../../store/governorates/governorate.model';
 import { Store } from '@ngrx/store';
-import { loadGovernorates } from '../../store/governorates/governorates.actions';
-import { selectGovernorates } from '../../store/governorates/governorates.selectors';
+import { loadAll } from '../../store/governorates/governorates.actions';
+import { selectAllGovernorates } from '../../store/governorates/governorates.selectors';
 
 @Component({
   selector: 'app-add-tax-offices',
@@ -32,8 +32,8 @@ export class AddTaxOfficesComponent {
   ) {}
 
   ngOnInit() {
-    this.store.dispatch(loadGovernorates());
-    this.governoratesList$ = this.store.select(selectGovernorates);
+    this.store.dispatch(loadAll({}));
+    this.governoratesList$ = this.store.select(selectAllGovernorates);
     this.governoratesList$.subscribe((data) =>
       console.log('🧪 governoratesList$ from store:', data)
     );
