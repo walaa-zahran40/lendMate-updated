@@ -49,7 +49,7 @@ export class AddDepartmentComponent {
         this.facade.loadOne(this.clientId);
         this.facade.current$
           .pipe(
-            filter((ct) => !!ct),
+            filter((ct): ct is Department => !!ct && ct.id === this.clientId),
             take(1)
           )
           .subscribe((ct) => {
@@ -70,7 +70,6 @@ export class AddDepartmentComponent {
   }
 
   addOrEditDepartment() {
-
     if (this.viewOnly) {
       console.log('⚠️ viewOnly mode — aborting add');
       return;
@@ -82,8 +81,7 @@ export class AddDepartmentComponent {
       return;
     }
 
-    const { name, nameAR} =
-      this.addDepartmentsForm.value;
+    const { name, nameAR } = this.addDepartmentsForm.value;
     const payload: Partial<Department> = { name, nameAR };
     console.log('  → payload object:', payload);
 
@@ -92,8 +90,7 @@ export class AddDepartmentComponent {
     console.log('  route.snapshot.paramMap.get(clientId):', routeId);
 
     if (this.editMode) {
-      const { id, name, nameAR, isActive } =
-        this.addDepartmentsForm.value;
+      const { id, name, nameAR, isActive } = this.addDepartmentsForm.value;
       const payload: Department = {
         id,
         name,
