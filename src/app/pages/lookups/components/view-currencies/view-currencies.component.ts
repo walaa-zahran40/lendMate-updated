@@ -37,15 +37,28 @@ export class ViewCurrenciesComponent {
 
   ngOnInit() {
     console.log('🟢 ngOnInit: start loading currencies');
-    this.facade.loadAll();
     this.currencies$ = this.facade.all$;
+    this.facade.loadAll();
 
     this.currencies$.pipe(takeUntil(this.destroy$)).subscribe((currencies) => {
+      if (currencies.filter((code) => code.isActive)) {
+        const activeCodes = currencies.filter((code) => code.isActive);
+        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
+        this.originalCurrencies = sorted;
+        this.filteredCurrencies = [...sorted];
+      }
       const sorted = [...currencies].sort((a, b) => b.id - a.id);
       console.log('🟢 sorted currencies:', sorted);
       this.originalCurrencies = sorted;
       this.filteredCurrencies = [...sorted];
     });
+    // this.docTypes$?.pipe(takeUntil(this.destroy$))?.subscribe((doc) => {
+    //   // doc is now doc[], not any
+    //   const activeCodes = doc.filter((code) => code.isActive);
+    //   const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
+    //   this.originalDocType = sorted;
+    //   this.filteredDocType = [...sorted];
+    // });
   }
 
   onAddCurrency() {

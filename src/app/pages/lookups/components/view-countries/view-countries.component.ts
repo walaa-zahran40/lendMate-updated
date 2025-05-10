@@ -35,9 +35,10 @@ export class ViewCountriesComponent {
     this.facade.loadAll();
     this.countries$ = this.facade.all$;
 
-    this.countries$?.pipe(takeUntil(this.destroy$)).subscribe((countries) => {
-      // countries is now Country[], not any
-      const sorted = [...countries].sort((a, b) => b.id - a.id);
+    this.countries$?.pipe(takeUntil(this.destroy$))?.subscribe((curr) => {
+      // curr is now curr[], not any
+      const activeCodes = curr.filter((code) => code.isActive);
+      const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
       this.originalCountries = sorted;
       this.filteredCountries = [...sorted];
     });

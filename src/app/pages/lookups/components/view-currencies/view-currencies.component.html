@@ -13,30 +13,28 @@
     (exportExcel)="tableRef.exportToExcel()"
     (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
+  <app-table
+    #tableRef
+    [cols]="colsInside"
+    [tableData]="filteredCurrencies"
+    [edit]="true"
+    [delete]="true"
+    [side]="true"
+    [first]="first2"
+    [checkBox]="true"
+    [view]="true"
+    [filters]="showFilters"
+    [uppercase]="'uppercase'"
+    [viewCurrenciesTable]="true"
+    (onDelete)="onDeleteCurrency($event)"
+    (onEdit)="onEditCurrency($event)"
+    (viewForm)="onViewCurrency($event)"
+    (wizardBtn)="onAddSide($event)"
+  ></app-table>
 
-  <ng-container *ngIf="currencies$ | async as currencies">
-    <app-table
-      #tableRef
-      [cols]="colsInside"
-      [tableData]="filteredCurrencies"
-      [edit]="true"
-      [delete]="true"
-      [side]="true"
-      [first]="first2"
-      [checkBox]="true"
-      [view]="true"
-      [filters]="showFilters"
-      [uppercase]="'uppercase'"
-      [viewCurrenciesTable]="true"
-      (onDelete)="onDeleteCurrency($event)"
-      (onEdit)="onEditCurrency($event)"
-      (viewForm)="onViewCurrency($event)"
-      (wizardBtn)="onAddSide($event)"
-    ></app-table>
-    <app-delete-module
-      [visible]="showDeleteModal"
-      (confirm)="confirmDelete()"
-      (cancel)="cancelDelete()"
-    ></app-delete-module>
-  </ng-container>
+  <app-delete-module
+    [visible]="showDeleteModal"
+    (confirm)="confirmDelete()"
+    (cancel)="cancelDelete()"
+  />
 </div>
