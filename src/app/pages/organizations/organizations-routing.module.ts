@@ -10,7 +10,7 @@ import { AddOperationComponent } from './components/add-operation/add-operation.
 import { AddPageOperationComponent } from './components/add-page-operation/add-page-operation.component';
 import { AddOfficerComponent } from './components/add-officers/add-officer.component';
 import { AddSignatoryOfficerComponent } from './components/add-signatory-officer/add-signatory-officer.component';
-import { WizardDepartmentComponent } from './components/departments/wizard-departments/wizard-department.component';
+import { WizardDepartmentComponent } from './components/departments/wizard-department/wizard-department.component';
 import { ViewDepartmentManagerComponent } from './components/departments/view-department-managers/view-department-manager.component';
 import { ViewTeamsComponent } from './components/view-teams/view-teams.component';
 import { WizardTeamsComponent } from './components/wizard-teams/wizard-teams.component';
@@ -103,7 +103,19 @@ const routes: Routes = [
     component: AddDepartmentComponent,
   },
   {
-    path: 'add-department-manager',
+    path: 'wizard-department/:deptId',
+    component: WizardDepartmentComponent,
+  },
+  {
+    path: 'view-departments',
+    component: ViewDepartmentsComponent,
+  },
+  {
+    path: 'view-department-managers/:deptId',
+    component: ViewDepartmentManagerComponent,
+  },
+  {
+    path: 'add-department-manager/:deptId',
     component: AddDepartmentManagerComponent,
   },
   {
@@ -138,14 +150,7 @@ const routes: Routes = [
     path: 'add-signatory-officer',
     component: AddSignatoryOfficerComponent,
   },
-  {
-    path: 'view-departments',
-    component: ViewDepartmentsComponent,
-  },
-  {
-    path: 'view-department-manager',
-    component: ViewDepartmentManagerComponent,
-  },
+
   {
     path: 'view-teams',
     component: ViewTeamsComponent,
@@ -181,10 +186,6 @@ const routes: Routes = [
   {
     path: 'wizard-teams',
     component: WizardTeamsComponent,
-  },
-  {
-    path: 'wizard-department',
-    component: WizardDepartmentComponent,
   },
 ];
 

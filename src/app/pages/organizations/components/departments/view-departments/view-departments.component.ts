@@ -114,4 +114,7 @@ export class ViewDepartmentsComponent {
       queryParams: { mode: 'view' },
     });
   }
+  onAddSide(deptId: any) {
+    this.router.navigate(['/organizations/wizard-department', deptId]);
+  }
 }

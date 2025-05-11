@@ -14,7 +14,7 @@ import { AddOperationComponent } from './components/add-operation/add-operation.
 import { AddPageOperationComponent } from './components/add-page-operation/add-page-operation.component';
 import { AddOfficerComponent } from './components/add-officers/add-officer.component';
 import { AddSignatoryOfficerComponent } from './components/add-signatory-officer/add-signatory-officer.component';
-import { WizardDepartmentComponent } from './components/departments/wizard-departments/wizard-department.component';
+import { WizardDepartmentComponent } from './components/departments/wizard-department/wizard-department.component';
 import { ViewDepartmentManagerComponent } from './components/departments/view-department-managers/view-department-manager.component';
 import { ViewTeamsComponent } from './components/view-teams/view-teams.component';
 import { WizardTeamsComponent } from './components/wizard-teams/wizard-teams.component';

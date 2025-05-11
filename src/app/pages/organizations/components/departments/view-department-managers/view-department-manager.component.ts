@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { DepartmentManager } from '../../../../../shared/interfaces/department-manager.interface';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-department-manager',
@@ -10,7 +11,8 @@ import { DepartmentManager } from '../../../../../shared/interfaces/department-m
 export class ViewDepartmentManagerComponent {
   tableDataInside: DepartmentManager[] = [];
   colsInside: any[] = [];
-
+  deptId = +this.route.snapshot.paramMap.get('deptId')!;
+  constructor(private router: Router, private route: ActivatedRoute) {}
   ngOnInit() {
     this.colsInside = [
       { field: 'department', header: 'Department' },
@@ -84,5 +86,10 @@ export class ViewDepartmentManagerComponent {
         nameAR: 'aaaa',
       },
     ];
+  }
+  onAddDepartmentManager() {
+    this.router.navigate([
+      `organizations/add-department-manager/${this.deptId}`,
+    ]);
   }
 }

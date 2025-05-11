@@ -1,11 +1,12 @@
 <div class="page-content">
   <app-toolbar-table
-    [title]="'Add Department Manager'"
-    [labelBtn]="'Add Department'"
+    [title]="'View Department Managers'"
+    [labelBtn]="'Add Department Manager'"
     [backExists]="true"
     [exports]="true"
-    [btnAdd]="false"
+    [btnAdd]="true"
     [backIcon]="'back-icon'"
+    (addBtn)="onAddDepartmentManager()"
   ></app-toolbar-table>
   <app-table
     [cols]="colsInside"
