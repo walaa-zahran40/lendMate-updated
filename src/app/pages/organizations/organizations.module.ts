@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AddDepartmentComponent } from './components/add-departments/add-department.component';
-import { AddDepartmentManagerComponent } from './components/add-departments/add-department-managers/add-department-manager.component';
+import { AddDepartmentComponent } from './components/departments/add-departments/add-department.component';
+import { AddDepartmentManagerComponent } from './components/departments/add-department-managers/add-department-manager.component';
 import { OrganizationsRoutingModule } from './organizations-routing.module';
 import { ButtonModule } from 'primeng/button';
 import { TabsModule } from 'primeng/tabs';
@@ -14,9 +14,8 @@ import { AddOperationComponent } from './components/add-operation/add-operation.
 import { AddPageOperationComponent } from './components/add-page-operation/add-page-operation.component';
 import { AddOfficerComponent } from './components/add-officers/add-officer.component';
 import { AddSignatoryOfficerComponent } from './components/add-signatory-officer/add-signatory-officer.component';
-import { ViewDepartmentsComponent } from './components/view-departments/view-departments.component';
-import { WizardDepartmentComponent } from './components/wizard-departments/wizard-department.component';
-import { ViewDepartmentManagerComponent } from './components/view-departments/view-department-managers/view-department-manager.component';
+import { WizardDepartmentComponent } from './components/departments/wizard-departments/wizard-department.component';
+import { ViewDepartmentManagerComponent } from './components/departments/view-department-managers/view-department-manager.component';
 import { ViewTeamsComponent } from './components/view-teams/view-teams.component';
 import { WizardTeamsComponent } from './components/wizard-teams/wizard-teams.component';
 import { ViewTeamLeadComponent } from './components/view-team-leads/view-team-lead.component';
@@ -43,6 +42,7 @@ import { OfficersReducer } from './store/officers/officers.reducer';
 import { OfficersEffects } from './store/officers/officers.effects';
 import { reducer as BranchesReducer } from './store/branches/branches.reducer';
 import { BranchesEffects } from './store/branches/branches.effects';
+import { ViewDepartmentsComponent } from './components/departments/view-departments/view-departments.component';
 @NgModule({
   declarations: [
     AddDepartmentComponent,

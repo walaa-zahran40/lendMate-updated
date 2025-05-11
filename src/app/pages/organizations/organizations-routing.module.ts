@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AddDepartmentComponent } from './components/add-departments/add-department.component';
-import { AddDepartmentManagerComponent } from './components/add-departments/add-department-managers/add-department-manager.component';
+import { AddDepartmentComponent } from './components/departments/add-departments/add-department.component';
+import { AddDepartmentManagerComponent } from './components/departments/add-department-managers/add-department-manager.component';
 import { AddTeamComponent } from './components/add-team/add-team.component';
 import { AddTeamLeadComponent } from './components/add-team-lead/add-team-lead.component';
 import { AddTeamMemberComponent } from './components/add-team-member/add-team-member.component';
@@ -10,9 +10,8 @@ import { AddOperationComponent } from './components/add-operation/add-operation.
 import { AddPageOperationComponent } from './components/add-page-operation/add-page-operation.component';
 import { AddOfficerComponent } from './components/add-officers/add-officer.component';
 import { AddSignatoryOfficerComponent } from './components/add-signatory-officer/add-signatory-officer.component';
-import { ViewDepartmentsComponent } from './components/view-departments/view-departments.component';
-import { WizardDepartmentComponent } from './components/wizard-departments/wizard-department.component';
-import { ViewDepartmentManagerComponent } from './components/view-departments/view-department-managers/view-department-manager.component';
+import { WizardDepartmentComponent } from './components/departments/wizard-departments/wizard-department.component';
+import { ViewDepartmentManagerComponent } from './components/departments/view-department-managers/view-department-manager.component';
 import { ViewTeamsComponent } from './components/view-teams/view-teams.component';
 import { WizardTeamsComponent } from './components/wizard-teams/wizard-teams.component';
 import { ViewTeamLeadComponent } from './components/view-team-leads/view-team-lead.component';
@@ -31,6 +30,7 @@ import { AddBranchOfficersComponent } from './components/add-branches/add-branch
 import { ViewBranchAddressesComponent } from './components/view-branches/view-branch-addresses/view-branch-addresses.component';
 import { ViewBranchManagersComponent } from './components/view-branches/view-branch-managers/view-branch-managers.component';
 import { ViewBranchOfficersComponent } from './components/view-branches/view-branch-officers/view-branch-officers.component';
+import { ViewDepartmentsComponent } from './components/departments/view-departments/view-departments.component';
 const routes: Routes = [
   //Officers
 

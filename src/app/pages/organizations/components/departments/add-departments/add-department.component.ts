@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, take } from 'rxjs';
-import { arabicOnlyValidator } from '../../../../shared/validators/arabic-only.validator';
-import { DepartmentsFacade } from '../../store/departments/departments.facade';
-import { Department } from '../../store/departments/department.model';
+import { arabicOnlyValidator } from '../../../../../shared/validators/arabic-only.validator';
+import { DepartmentsFacade } from '../../../store/departments/departments.facade';
+import { Department } from '../../../store/departments/department.model';
 
 @Component({
   selector: 'app-add-department',
