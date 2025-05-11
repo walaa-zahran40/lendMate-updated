@@ -43,6 +43,9 @@ import { OfficersEffects } from './store/officers/officers.effects';
 import { reducer as BranchesReducer } from './store/branches/branches.reducer';
 import { BranchesEffects } from './store/branches/branches.effects';
 import { ViewDepartmentsComponent } from './components/departments/view-departments/view-departments.component';
+import { BranchManagersEffects } from './store/branch-managers/branch-managers.effects';
+import { branchManagersReducer } from './store/branch-managers/branch-managers.reducer';
+
 @NgModule({
   declarations: [
     AddDepartmentComponent,
@@ -90,6 +93,8 @@ import { ViewDepartmentsComponent } from './components/departments/view-departme
     EffectsModule.forFeature([OfficersEffects]),
     StoreModule.forFeature('branches', BranchesReducer),
     EffectsModule.forFeature([BranchesEffects]),
+     StoreModule.forFeature('branchManagers', branchManagersReducer),
+    EffectsModule.forFeature([BranchManagersEffects]),
   ],
   exports: [
     AddDepartmentComponent,
@@ -106,3 +111,4 @@ import { ViewDepartmentsComponent } from './components/departments/view-departme
   ],
 })
 export class OrganizationsModule {}
+
