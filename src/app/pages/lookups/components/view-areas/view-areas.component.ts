@@ -1,7 +1,14 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Subject, Observable, combineLatest, map, takeUntil } from 'rxjs';
+import {
+  Subject,
+  Observable,
+  combineLatest,
+  map,
+  takeUntil,
+  filter,
+} from 'rxjs';
 import { TableComponent } from '../../../../shared/components/table/table.component';
 import { Area } from '../../store/areas/area.model';
 import { AreasFacade } from '../../store/areas/areas.facade';
@@ -65,60 +72,41 @@ export class ViewAreasComponent {
     // Step 3: Combine and normalize
     combineLatest([this.Areas$, this.governorateList$])
       .pipe(
-        map(([areas, governorates]) => {
-          console.group('🔄 Mapping Areas with Governorates');
-          console.log('📦 Received areas:', areas);
-          console.log('📦 Received governorates:', governorates);
+        map(([areas, govs]) =>
+          areas
+            .filter((a) => a.isActive)
 
-          const mapped = areas.map((area) => {
-            const govId = area.governorate?.id ?? area.governorateId;
-
-            if (!govId) {
-              console.warn(
-                `⚠️ Area ${area.id} has no governorateId or embedded governorate.`
-              );
-            }
-
-            const matchedGovernorate = governorates.find((g) => g.id === govId);
-
-            if (!matchedGovernorate) {
-              console.warn(
-                `⚠️ Governorate not found for area.id=${area.id} — missing match for governorateId=${govId}`
-              );
-            } else {
-              console.log(
-                `✅ Match found: Area ${area.id} → Governorate "${matchedGovernorate.name}"`
-              );
-            }
-
-            return {
-              ...area,
-              governorateName: matchedGovernorate?.name || '—',
-            };
-          });
-
-          const sorted = mapped.sort((a, b) => b.id - a.id);
-          console.log('✅ Sorted result:', sorted);
-          console.groupEnd();
-
-          return sorted;
-        }),
+            // if you later add isActive to Area, filter here:
+            // .filter(a => a.isActive)
+            .map((area) => {
+              const govId = area.governorate?.id ?? area.governorateId;
+              const gov = govs.find((g) => g.id === govId);
+              return {
+                ...area,
+                governorateName: gov?.name || '—',
+              };
+            })
+            .sort((a, b) => b.id - a.id)
+        ),
         takeUntil(this.destroy$)
       )
-      .subscribe(
-        (normalizedAreas) => {
-          console.group('📤 Final Output to View');
-          console.log('✅ normalizedAreas:', normalizedAreas);
-          this.filteredArea = normalizedAreas;
-          this.originalArea = normalizedAreas;
-          console.log('📊 filteredArea:', this.filteredArea);
-          console.log('📊 originalArea:', this.originalArea);
-          console.groupEnd();
-        },
-        (error) => {
-          console.error('❌ Error in combineLatest subscription:', error);
-        }
-      );
+      .subscribe((normalized) => {
+        this.originalArea = normalized;
+        this.filteredArea = [...normalized];
+      });
+    this.facade.operationSuccess$
+      .pipe(
+        filter(
+          (op) =>
+            op?.entity === 'Area' &&
+            ['create', 'update', 'delete'].includes(op.operation)
+        ),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        console.log('⚡️ Area CRUD happened, reloading all Areas');
+        this.facade.loadAll();
+      });
   }
 
   onAddArea() {

@@ -34,14 +34,13 @@ export class ViewAddressTypesComponent {
     this.facade.loadAll();
     this.addressTypes$ = this.facade.all$;
 
-    this.addressTypes$
-      ?.pipe(takeUntil(this.destroy$))
-      .subscribe((addressTypes) => {
-        // addressTypes is now AddressType[], not any
-        const sorted = [...addressTypes].sort((a, b) => b?.id - a?.id);
-        this.originalAddressTypes = sorted;
-        this.filteredAddressTypes = [...sorted];
-      });
+    this.addressTypes$?.pipe(takeUntil(this.destroy$))?.subscribe((address) => {
+      // products is now rentStructureType[], not any
+      const activeCodes = address.filter((code) => code.isActive);
+      const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
+      this.originalAddressTypes = sorted;
+      this.filteredAddressTypes = [...sorted];
+    });
   }
 
   onAddAddressType() {
