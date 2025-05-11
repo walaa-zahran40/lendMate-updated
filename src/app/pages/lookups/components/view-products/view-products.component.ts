@@ -1,6 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject, Observable, takeUntil, combineLatest, map } from 'rxjs';
+import {
+  Subject,
+  Observable,
+  takeUntil,
+  combineLatest,
+  map,
+  filter,
+} from 'rxjs';
 import { TableComponent } from '../../../../shared/components/table/table.component';
 import { ProductsFacade } from '../../store/products/products.facade';
 import { Product } from '../../store/products/product.model';
@@ -42,31 +49,37 @@ export class ViewProductsComponent {
     private store: Store
   ) {}
   ngOnInit() {
-    this.products$ = this.facade.all$;
-    this.businessLinesList$ = this.businessLineFacade.all$; // Add this line
+    // 1️⃣ kick off loads
     this.facade.loadAll();
     this.businessLineFacade.loadAll();
 
-    combineLatest([this.products$, this.businessLinesList$]).pipe(
-      map(([products, businessLines]) =>
-        products
-          .map((ss) => ({
-            ...ss,
+    // 2️⃣ pull raw streams
+    const products$ = this.facade.all$;
+    const businessLines$ = this.businessLineFacade.all$;
+
+    // 3️⃣ combine, enrich, filter, sort, subscribe
+    combineLatest([products$, businessLines$])
+      .pipe(
+        // wait until business lines arrive
+        filter(([, bls]) => bls.length > 0),
+        // attach businessLineName
+        map(([prods, bls]) =>
+          prods.map((p) => ({
+            ...p,
             businessLineName:
-              businessLines.find((s) => s.id === ss.businessLineId)?.name ||
-              '—',
+              bls.find((b) => b.id === p.businessLineId)?.name ?? '—',
           }))
-          .sort((a, b) => b.id - a.id)
-      ),
-      takeUntil(this.destroy$)
-    );
-    this.products$?.pipe(takeUntil(this.destroy$))?.subscribe((products) => {
-      // products is now rentStructureType[], not any
-      const activeCodes = products.filter((code) => code.isActive);
-      const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
-      this.originalProducts = sorted;
-      this.filteredProducts = [...sorted];
-    });
+        ),
+        // only active
+        map((list) => list.filter((p) => p.isActive)),
+        // newest first
+        map((list) => [...list].sort((a, b) => b.id - a.id)),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((enriched) => {
+        this.originalProducts = enriched;
+        this.filteredProducts = [...enriched];
+      });
   }
 
   onAddProduct() {
