@@ -40,10 +40,11 @@ export class ViewBusinessLinesComponent {
     this.businessLines$ = this.facade.all$;
 
     this.businessLines$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((businessLines) => {
-        const sorted = [...businessLines].sort((a, b) => b.id - a.id);
-        console.log('🟢 sorted businessLines:', sorted);
+      ?.pipe(takeUntil(this.destroy$))
+      ?.subscribe((business) => {
+        // products is now rentStructureType[], not any
+        const activeCodes = business.filter((code) => code.isActive);
+        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
         this.originalBusinessLines = sorted;
         this.filteredBusinessLines = [...sorted];
       });
