@@ -8097,58 +8097,122 @@
         class="w-full md:w-56"
       />
     </form>
-    <form action="" *ngIf="addBranchAddressesLookupsForm">
-      <label for="officerBranchOfficersLookups">Country<sup>*</sup></label>
-      <p-multiselect
-        [options]="countries"
-        [(ngModel)]="selectedCountries"
-        placeholder="Select Countries"
-        optionLabel="name"
-        display="chip"
-        icon="pi pi-times"
-        name="officerBranchOfficersLookups"
-        styleClass="w-full md:w-80"
-        [maxSelectedLabels]="999"
-        chipIcon="pi pi-times"
-      />
-      <label for="governorateBranchAddressesLookups"
-        >Governorate<sup>*</sup></label
+    <form 
+    [formGroup]="formGroup"
+    *ngIf="addBranchAddressesLookupsForm"
+    (ngSubmit)="onSubmit()"
+  >
+    <label for="countryId">Country<sup>*</sup></label>
+    <p-select
+      [options]="countriesList"
+      optionLabel="name"
+      placeholder="Select Country"
+      formControlName="countryId"
+      optionValue="id"
+      (onChange)="onSectorChange($event)"
+      required
+      [ngClass]="{
+        'ng-invalid':
+          formGroup.get('countryId')?.invalid &&
+          (formGroup.get('countryId')?.dirty ||
+            formGroup.get('countryId')?.touched)
+      }"
+    />
+    <label for="governorateId">Governorate<sup>*</sup></label>
+    <p-select
+      [options]="governoratesList"
+      optionLabel="name"
+      placeholder="Select governorate"
+      formControlName="governorateId"
+      optionValue="id"
+      (onChange)="onSectorChange($event)"
+      required
+      [ngClass]="{
+        'ng-invalid':
+          formGroup.get('governorateId')?.invalid &&
+          (formGroup.get('governorateId')?.dirty ||
+            formGroup.get('governorateId')?.touched)
+      }"
+    />
+    <label for="areaId">Area<sup>*</sup></label>
+    <p-select
+      [options]="areasList"
+      optionLabel="name"
+      placeholder="Select Area"
+      formControlName="areaId"
+      optionValue="id"
+      (onChange)="onSectorChange($event)"
+      required
+      [ngClass]="{
+        'ng-invalid':
+          formGroup.get('areaId')?.invalid &&
+          (formGroup.get('areaId')?.dirty ||
+            formGroup.get('areaId')?.touched)
+      }"
+    />
+    <label for="details">Details in English<sup>*</sup></label>
+    <input pInputText id="details" formControlName="details" placeholder="Type" />
+    <div
+      *ngIf="
+        formGroup.get('details')?.hasError('required') &&
+        formGroup.get('details')?.touched
+      "
+      class="p-error"
+    >
+      Details in English is required.
+    </div>
+    <label for="detailsAR">DetailsAr in Arabic<sup>*</sup></label>
+    <input pInputText id="detailsAR" formControlName="detailsAR" placeholder="Type" />
+    <div
+      *ngIf="
+        formGroup.get('detailsAR')?.hasError('required') &&
+        formGroup.get('detailsAR')?.touched
+      "
+      class="p-error"
+    >
+      Details in Arabic is required.
+    </div>
+    <div class="p-field" *ngIf="editMode">
+      <p-toggleSwitch
+        id="isActive"
+        formControlName="isActive"
+        label="is Active"
+      ></p-toggleSwitch>
+      <label for="isActive"> Active</label>
+    </div>
+    <div class="row justify-end">
+      <div
+        class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
+        *ngIf="!editMode"
       >
-      <p-select
-        [options]="selectedCurrencyExchangeLookups"
-        optionLabel="name"
-        placeholder="EGP"
-        class="w-full md:w-56"
-      />
-      <label for="areaBranchAddressesLookups">Area<sup>*</sup></label>
-      <p-select
-        [options]="selectedAreas"
-        optionLabel="name"
-        placeholder="Giza"
-        class="w-full md:w-56"
-      />
-      <label for="detailsEnglishBranchAddressesLookups"
-        >Details English<sup>*</sup></label
+        <p-button
+          type="submit"
+          label="Add Branch Addresses"
+          [disabled]="formGroup.invalid"
+          class="custom-save m-0 float-right"
+        ></p-button>
+      </div>
+      <div
+        class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
+        *ngIf="editMode && !viewOnly"
       >
-      <input
-        pInputText
-        id="detailsEnglishBranchAddressesLookups"
-        aria-describedby="detailsEnglishBranchAddressesLookups-help"
-        [(ngModel)]="value"
-        name="detailsEnglishBranchAddressesLookups"
-        placeholder="Giza"
-      />
-      <label for="detailsArabicBranchAddressesLookups"
-        >Details Arabic<sup>*</sup></label
+        <p-button
+          type="submit"
+          label="Edit Branch Addresses"
+          class="custom-save m-0 float-right"
+        ></p-button>
+      </div>
+      <div
+        *ngIf="viewOnly"
+        class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
       >
-      <input
-        pInputText
-        id="detailsArabicBranchAddressesLookups"
-        aria-describedby="detailsArabicBranchAddressesLookups-help"
-        [(ngModel)]="value"
-        name="detailsArabicBranchAddressesLookups"
-        placeholder="Giza"
-      />
+        <p-button
+          label="Close"
+          class="custom-save m-0 float-right"
+          (click)="router.navigate(['/lookups/view-branch-addresses'])"
+        />
+      </div>
+    </div>
     </form>
     <form action="" *ngIf="addBranchManagersLookupsForm">
       <label for="startDateBranchManagerLookups">Start Date<sup>*</sup></label>

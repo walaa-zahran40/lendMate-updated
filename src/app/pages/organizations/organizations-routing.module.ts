@@ -58,6 +58,14 @@ const routes: Routes = [
     component: AddBranchAddressesComponent,
   },
   {
+    path: 'add-branch-addresses/:branchId',
+    component: AddBranchAddressesComponent,
+  },
+  {
+    path: 'edit-branch-addresses/:id',
+    component: AddBranchAddressesComponent,
+  },
+  {
     path: 'add-branch-officers',
     component: AddBranchOfficersComponent,
   },

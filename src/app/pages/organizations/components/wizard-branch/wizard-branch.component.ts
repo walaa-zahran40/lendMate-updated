@@ -20,7 +20,7 @@ export class WizardBranchComponent {
         title: 'Branch Managers',
         content:
           'Introduce your company core info quickly to users by fill up company details',
-        link: `/lookups/view-branch-managers/${branchId}`,
+        link: `/organizations/view-branch-managers/${branchId}`,
       },
       {
         imgUrl: '/assets/images/shared/card/branch.svg',
@@ -28,7 +28,7 @@ export class WizardBranchComponent {
         title: 'Branch Officers',
         content:
           'Introduce your company core info quickly to users by fill up company details',
-        link: `/lookups/view-branch-officers/${branchId}`,
+        link: `/organizations/view-branch-officers/${branchId}`,
       },
       {
         imgUrl: '/assets/images/shared/card/address.svg',
@@ -36,7 +36,7 @@ export class WizardBranchComponent {
         title: 'Branch Address',
         content:
           'Introduce your company core info quickly to users by fill up company details',
-        link: `/lookups/view-branch-addresses/${branchId}`,
+        link: `/organizations/view-branch-addresses/${branchId}`,
       },
     ];
     this.cards = this.chunkArray(this.originalCards, 3);

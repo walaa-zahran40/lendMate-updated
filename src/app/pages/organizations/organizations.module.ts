@@ -35,6 +35,13 @@ import { AddBranchOfficersComponent } from './components/add-branch-officers/add
 import { ViewBranchOfficersComponent } from './components/view-branch-officers/view-branch-officers.component';
 import { WizardBranchComponent } from './components/wizard-branch/wizard-branch.component';
 import { ViewBranchComponent } from './components/view-branch/view-branch.component';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { branchAddressesReducer } from './store/branch-addresses/branch-addresses.reducer';
+import { BranchAddressesEffects } from './store/branch-addresses/branch-addresses.effects';
+import { BranchesEffects } from './store/branches/branches.effects';
+import { reducer as  branchReducer} from './store/branches/branches.reducer';
+
 
 @NgModule({
   declarations: [
@@ -77,6 +84,10 @@ import { ViewBranchComponent } from './components/view-branch/view-branch.compon
     SharedModule,
     TabsModule,
     ButtonModule,
+    StoreModule.forFeature('branches',branchReducer ),
+    EffectsModule.forFeature([BranchesEffects]),
+    StoreModule.forFeature('branchAddresses', branchAddressesReducer),
+    EffectsModule.forFeature([BranchAddressesEffects]),
   ],
   exports: [
     AddDepartmentComponent,
