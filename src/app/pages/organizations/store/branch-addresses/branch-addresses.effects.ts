@@ -149,7 +149,6 @@ export class BranchAddressesEffects {
     )
   );
 
-  // After any create/update/delete success: reload by branchId
   refreshList$ = createEffect(() =>
     this.actions$.pipe(
       ofType(
@@ -157,21 +156,20 @@ export class BranchAddressesEffects {
         BranchAddressActions.updateBranchAddressSuccess,
         BranchAddressActions.deleteBranchAddressSuccess
       ),
-
-      tap((action) =>
-        console.log('[RefreshList] triggered by action:', action)
-      ),
-
-      // pull out the right number
-      map((action) => {
-        const branchId = 'branch' in action ? action.branch : action.branchId;
-        console.log('[RefreshList] extracted branchId →', branchId);
-        return branchId;
-      }),
-
+ 
+      map(action => {
+      if ('branchId' in action) {
+        // for create/update you returned `{ branch: BranchAddress }`,
+        // so dig into that object’s branchId
+        return action.branchId;
+      } else {
+        // for delete you returned `{ id, branchId }`
+        return action.branch.branchId;
+      }
+    }),
+ 
       // only continue if it’s a number
-      filter((branchId): branchId is number => typeof branchId === 'number'),
-
+ 
       map((branchId) =>
         BranchAddressActions.loadBranchAddressesByBranchId({
           branchId,
@@ -179,7 +177,6 @@ export class BranchAddressesEffects {
       )
     )
   );
-
   /**
    * The “by‐branchId” loader
    */

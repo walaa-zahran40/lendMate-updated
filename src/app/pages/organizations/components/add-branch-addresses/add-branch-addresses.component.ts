@@ -49,127 +49,249 @@ export class AddBranchAddressesComponent {
   ) {}
 
   ngOnInit(): void {
-    // Read route parameters
-    this.branchId = Number(this.route.snapshot.paramMap.get('branchId'));
-    this.mode =
-      (this.route.snapshot.queryParamMap.get('mode') as
-        | 'add'
-        | 'edit'
-        | 'view') ?? 'add';
+    console.log('🟢 ngOnInit start');
+    // 1️⃣ Read route parameters
+    console.log(this.route.snapshot,'route')
+    this.branchId = Number(this.route.snapshot.queryParams['branchId']);
+
+    this.mode = (
+      this.route.snapshot.queryParamMap.get('mode') as 'add' | 'edit' | 'view'
+    ) ?? 'add';
     this.editMode = this.mode === 'edit';
     this.viewOnly = this.mode === 'view';
-
-    // Dispatch actions to load lookup data
+    console.log(
+      '🔍 Params:',
+      { branchId: this.branchId, mode: this.mode, editMode: this.editMode, viewOnly: this.viewOnly }
+    );
+   
+    // 2️⃣ Dispatch actions to load lookup data
+    console.log('🚀 Dispatching lookup loads');
     this.store.dispatch(loadCountries());
     this.store.dispatch(loadGovernorates());
     this.store.dispatch(loadAreas({}));
-
-    // Select lookup data from the store
-    this.countriesList$ = this.store.select(selectCountries);
+   
+    // 3️⃣ Grab lookup streams
+    this.countriesList$    = this.store.select(selectCountries);
     this.governoratesList$ = this.store.select(selectGovernorates);
-    this.areasList$ = this.store.select(selectAllAreas);
-    console.log(
-      'c,g,a',
-      this.countriesList$,
-      this.governoratesList$,
-      this.areasList$
-    );
-    // Subscribe to lookup data and initialize form
+    this.areasList$        = this.store.select(selectAllAreas);
+   
+    // 4️⃣ Wait for all lookups to arrive
     forkJoin({
-      countries: this.countriesList$.pipe(
-        filter((list) => list.length > 0),
-        take(1)
-      ),
-      governorates: this.governoratesList$.pipe(
-        filter((list) => list.length > 0),
-        take(1)
-      ),
-      areas: this.areasList$.pipe(
-        filter((list) => list.length > 0),
-        take(1)
-      ),
+      countries:    this.countriesList$.pipe(filter(l => l.length > 0), take(1)),
+      governorates: this.governoratesList$.pipe(filter(l => l.length > 0), take(1)),
+      areas:        this.areasList$.pipe(filter(l => l.length > 0), take(1)),
     }).subscribe(({ countries, governorates, areas }) => {
-      this.countriesList = countries;
+      console.log(
+        '✅ Lookups loaded:',
+        countries.length, 'countries,',
+        governorates.length, 'governorates,',
+        areas.length, 'areas'
+      );
+      this.countriesList    = countries;
       this.governoratesList = governorates;
-      this.areasList = areas;
-
-      // Initialize the form
+      this.areasList        = areas;
+   
+      // 5️⃣ Build the form
       this.addBranchAddressesLookupsForm = this.fb.group({
-        id: [null],
-        details: ['', [Validators.required]],
-        detailsAR: ['', [Validators.required, arabicOnlyValidator]],
-        areaId: [null, [Validators.required]],
+        id:            [null],
+        details:       ['', [Validators.required]],
+        detailsAR:     ['', [Validators.required, arabicOnlyValidator]],
+        areaId:        [null, [Validators.required]],
         governorateId: [null, [Validators.required]],
-        countryId: [null, [Validators.required]],
-        branchId: [null, [Validators.required]],
-        isActive: [true],
+        countryId:     [null, [Validators.required]],
+        branchId:      [null, [Validators.required]],
+        isActive:      [true],
       });
-
-      // Set default branchId if in add mode
+      console.log('🛠️ Form initialized with defaults:', this.addBranchAddressesLookupsForm.value);
+   
+      // 6️⃣ If add mode, seed branchId
       if (this.mode === 'add') {
-        this.addBranchAddressesLookupsForm.patchValue({
-          branchId: this.branchId,
-        });
+        this.addBranchAddressesLookupsForm.patchValue({ branchId: this.branchId });
+        console.log('✏️ Add mode → patched branchId:', this.branchId);
       }
-
-      // Set up cascading dropdowns
+   
+      // 7️⃣ Set up cascading dropdowns
       this.setupCascadingDropdowns();
-
-      // If in edit or view mode, load and patch existing record
+   
+      // 8️⃣ If editing or viewing, load & patch
       if (this.editMode || this.viewOnly) {
+        console.log('edit ',this.editMode,'route',this.route.snapshot)
         this.recordId = Number(this.route.snapshot.paramMap.get('id'));
+        console.log('🔄 Loading existing record id=', this.recordId);
         this.facade.loadOne(this.recordId);
-
+   
         this.facade.current$
           .pipe(
-            filter((ct) => !!ct),
+            filter(ct => !!ct && ct.id === this.recordId),
             take(1)
           )
-          .subscribe((ct: BranchAddress) => {
-            // Derive governorateId and countryId from areaId
-            console.log('selected areaid', ct.areaId);
-            const selectedArea = this.areasList.find((a) => a.id === ct.areaId);
-            console.log('selected area', selectedArea);
-
-            const governorateId = selectedArea?.governorate.id ?? null;
-            console.log('selected governorateId', governorateId);
-
-            const selectedGovernorate = this.governoratesList.find(
-              (g) => g.id === governorateId
-            );
-            const countryId = selectedGovernorate?.countryId ?? null;
-
-            // Patch the form with existing record data
+          .subscribe(ct => {
+            console.log('🛰️ facade.current$ emitted:', ct);
+   
+            // derive gov & country from area
+            const selArea = this.areasList.find(a => a.id === ct?.areaId);
+            console.log('🏷️ selectedArea:', selArea);
+            const governorateId = selArea?.governorate.id ?? null;
+            const selGov = this.governoratesList.find(g => g.id === governorateId);
+            const countryId = selGov?.countryId ?? null;
+            console.log('🌐 derived governorateId:', governorateId, 'countryId:', countryId);
+   
+            // patch form
             this.addBranchAddressesLookupsForm.patchValue({
-              id: ct.id,
-              details: ct.details,
-              detailsAR: ct.detailsAR,
-              areaId: ct.areaId,
-              governorateId,
-              countryId,
-              branchId: this.branchId,
-              isActive: ct.isActive,
+              id:            ct?.id,
+              details:       ct?.details,
+              detailsAR:     ct?.detailsAR,
+              areaId:        ct?.areaId,
+              governorateId: governorateId,
+              countryId:     countryId,
+              branchId:      this.branchId,
+              isActive:      ct?.isActive,
             });
-
-            // Set the filtered lists
-            this.filteredGovernorates = this.governoratesList.filter(
-              (g) => g.countryId === countryId
+            console.log('📝 Form after patchValue:', this.addBranchAddressesLookupsForm.value);
+   
+            // filtered dropdown lists
+            this.filteredGovernorates = this.governoratesList.filter(g => g.countryId === countryId);
+            this.filteredAreas        = this.areasList.filter(a => a.governorate.id === governorateId);
+            console.log(
+              '🔢 filteredGovernorates:', this.filteredGovernorates.length,
+              'filteredAreas:', this.filteredAreas.length
             );
-            this.filteredAreas = this.areasList.filter(
-              (a) => a.governorate.id === governorateId
-            );
-
-            // Disable form if in view-only mode
+   
+            // view-only?
             if (this.viewOnly) {
+              console.log('🔐 viewOnly → disabling form');
               this.addBranchAddressesLookupsForm.disable();
             }
           });
-      } else if (this.viewOnly) {
-        // Disable form if in view-only mode without a record ID
+      } 
+      else if (this.viewOnly) {
+        console.log('🔐 viewOnly (no id) → disabling form');
         this.addBranchAddressesLookupsForm.disable();
       }
     });
   }
+  // ngOnInit(): void {
+  //   // Read route parameters
+  //   this.branchId = Number(this.route.snapshot.paramMap.get('branchId'));
+  //   this.mode =
+  //     (this.route.snapshot.queryParamMap.get('mode') as
+  //       | 'add'
+  //       | 'edit'
+  //       | 'view') ?? 'add';
+  //   this.editMode = this.mode === 'edit';
+  //   this.viewOnly = this.mode === 'view';
+
+  //   // Dispatch actions to load lookup data
+  //   this.store.dispatch(loadCountries());
+  //   this.store.dispatch(loadGovernorates());
+  //   this.store.dispatch(loadAreas({}));
+
+  //   // Select lookup data from the store
+  //   this.countriesList$ = this.store.select(selectCountries);
+  //   this.governoratesList$ = this.store.select(selectGovernorates);
+  //   this.areasList$ = this.store.select(selectAllAreas);
+  //   console.log(
+  //     'c,g,a',
+  //     this.countriesList$,
+  //     this.governoratesList$,
+  //     this.areasList$
+  //   );
+  //   // Subscribe to lookup data and initialize form
+  //   forkJoin({
+  //     countries: this.countriesList$.pipe(
+  //       filter((list) => list.length > 0),
+  //       take(1)
+  //     ),
+  //     governorates: this.governoratesList$.pipe(
+  //       filter((list) => list.length > 0),
+  //       take(1)
+  //     ),
+  //     areas: this.areasList$.pipe(
+  //       filter((list) => list.length > 0),
+  //       take(1)
+  //     ),
+  //   }).subscribe(({ countries, governorates, areas }) => {
+  //     this.countriesList = countries;
+  //     this.governoratesList = governorates;
+  //     this.areasList = areas;
+
+  //     // Initialize the form
+  //     this.addBranchAddressesLookupsForm = this.fb.group({
+  //       id: [null],
+  //       details: ['', [Validators.required]],
+  //       detailsAR: ['', [Validators.required, arabicOnlyValidator]],
+  //       areaId: [null, [Validators.required]],
+  //       governorateId: [null, [Validators.required]],
+  //       countryId: [null, [Validators.required]],
+  //       branchId: [null, [Validators.required]],
+  //       isActive: [true],
+  //     });
+
+  //     // Set default branchId if in add mode
+  //     if (this.mode === 'add') {
+  //       this.addBranchAddressesLookupsForm.patchValue({
+  //         branchId: this.branchId,
+  //       });
+  //     }
+
+  //     // Set up cascading dropdowns
+  //     this.setupCascadingDropdowns();
+
+  //     // If in edit or view mode, load and patch existing record
+  //     if (this.editMode || this.viewOnly) {
+  //       this.recordId = Number(this.route.snapshot.paramMap.get('id'));
+  //       this.facade.loadOne(this.recordId);
+  //       console.log("client IDDDDDDDDDDDDDDD", this.recordId);
+  //       this.facade.current$
+  //         .pipe(
+  //           filter((ct): ct is BranchAddress => !!ct && ct.id === this.recordId),
+  //           take(1)
+  //         )
+  //         .subscribe((ct: BranchAddress) => {
+  //           // Derive governorateId and countryId from areaId
+  //           console.log('selected areaid', ct.areaId);
+  //           const selectedArea = this.areasList.find((a) => a.id === ct.areaId);
+  //           console.log('selected area', selectedArea);
+
+  //           const governorateId = selectedArea?.governorate.id ?? null;
+  //           console.log('selected governorateId', governorateId);
+
+  //           const selectedGovernorate = this.governoratesList.find(
+  //             (g) => g.id === governorateId
+  //           );
+  //           const countryId = selectedGovernorate?.countryId ?? null;
+
+  //           // Patch the form with existing record data
+  //           this.addBranchAddressesLookupsForm.patchValue({
+  //             id: ct.id,
+  //             details: ct.details,
+  //             detailsAR: ct.detailsAR,
+  //             areaId: ct.areaId,
+  //             governorateId,
+  //             countryId,
+  //             branchId: this.branchId,
+  //             isActive: ct.isActive,
+  //           });
+
+  //           // Set the filtered lists
+  //           this.filteredGovernorates = this.governoratesList.filter(
+  //             (g) => g.countryId === countryId
+  //           );
+  //           this.filteredAreas = this.areasList.filter(
+  //             (a) => a.governorate.id === governorateId
+  //           );
+
+  //           // Disable form if in view-only mode
+  //           if (this.viewOnly) {
+  //             this.addBranchAddressesLookupsForm.disable();
+  //           }
+  //         });
+  //     } else if (this.viewOnly) {
+  //       // Disable form if in view-only mode without a record ID
+  //       this.addBranchAddressesLookupsForm.disable();
+  //     }
+  //   });
+  // }
 
   private setupCascadingDropdowns(): void {
     // When country changes, filter governorates

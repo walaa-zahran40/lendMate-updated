@@ -40,7 +40,7 @@ export class BranchAddressesService {
 
   create(data: Partial<BranchAddress>): Observable<BranchAddress> {
     return this.http.post<BranchAddress>(
-      `${this.api}/CreateBranchAddress`,
+      `${this.api}/CreateBranchesAddress`,
       data
     );
   }
