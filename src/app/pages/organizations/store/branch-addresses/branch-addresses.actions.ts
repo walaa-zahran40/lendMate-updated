@@ -11,7 +11,6 @@ export const loadBranchAddressesFailure = createAction(
   '[BranchAddresses] Load All Failure',
   props<{ error: any }>()
 );
-
 // Load history
 export const loadBranchAddressesHistory = createAction(
   '[BranchAddresses] Load History'
