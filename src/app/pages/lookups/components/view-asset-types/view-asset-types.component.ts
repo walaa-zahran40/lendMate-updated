@@ -6,6 +6,7 @@ import {
   Observable,
   Subject,
   takeUntil,
+  tap,
 } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -43,57 +44,46 @@ export class ViewAssetTypesComponent {
   constructor(private router: Router, private facade: AssetTypesFacade) {}
 
   ngOnInit() {
+    // 1) kick off load + auto-reload on any AssetType create/update/delete
     this.facade.loadAll();
-    this.assetTypes$ = this.facade.all$;
     this.facade.operationSuccess$
       .pipe(
-        takeUntil(this.destroy$),
-        filter((success) => success?.entity === 'AssetType')
-      )
-      .subscribe(() => {
-        this.facade.loadAll(); // refresh after any create/update/delete
-      });
-    this.assetTypes$.pipe(takeUntil(this.destroy$)).subscribe((assetTypes) => {
-      console.log('asseyyu[e', assetTypes);
-      const sorted = [...assetTypes].sort((a, b) => b.id - a.id);
-      this.originalAssetTypes = sorted;
-      this.filteredAssetTypes = [...sorted];
-    });
-
-    combineLatest([this.assetTypes$])
-      .pipe(
-        map(([assetTypes]) => {
-          console.log('assettypessss', assetTypes);
-          const mapped = assetTypes.map((ss) => {
-            const assetTypeCategory = ss.assetTypeCategory?.name || '—';
-            console.log(
-              `🔍 Mapping Area ID ${ss.id} → Governorate Name: ${assetTypeCategory}`
-            );
-            return {
-              ...ss,
-              assetTypeCategory: assetTypeCategory, // or call it `categoryName` if more accurate
-            };
-          });
-
-          const sorted = mapped.sort((a, b) => b.id - a.id);
-          console.log('✅ Sorted mapped assetTypes:', sorted);
-          return sorted;
-        }),
+        filter((op) => op?.entity === 'AssetType'),
+        tap(() => this.facade.loadAll()),
         takeUntil(this.destroy$)
       )
-      .subscribe(
-        (normalizedAssetTypes) => {
-          console.log(
-            '🟢 Final normalizedAssetTypes emitted to view:',
-            normalizedAssetTypes
-          );
-          this.filteredAssetTypes = normalizedAssetTypes;
-          this.originalAssetTypes = normalizedAssetTypes;
-        },
-        (error) => {
-          console.error('❌ Error in combineLatest subscription:', error);
-        }
-      );
+      .subscribe();
+
+    // 2) single, ordered pipeline:
+    this.facade.all$
+      .pipe(
+        takeUntil(this.destroy$),
+
+        // (a) log the raw stream
+        tap((raw) => console.log('1️⃣ raw assetTypes$', raw)),
+
+        // (b) keep only `isActive`
+        map((arr) => arr.filter((a) => a.isActive)),
+        tap((active) => console.log('2️⃣ after filter:', active)),
+
+        // (c) inject the category name
+        map((active) =>
+          active.map((a) => ({
+            ...a,
+            assetTypeCategory: a.assetTypeCategory?.name ?? '—',
+          }))
+        ),
+        tap((mapped) => console.log('3️⃣ after map:', mapped)),
+
+        // (d) sort newest first
+        map((mapped) => [...mapped].sort((a, b) => b.id - a.id)),
+        tap((sorted) => console.log('4️⃣ after sort:', sorted))
+      )
+      .subscribe((final) => {
+        this.originalAssetTypes = final;
+        this.filteredAssetTypes = [...final];
+        console.log('✅ final to table:', final);
+      });
   }
 
   onAddAssetType() {

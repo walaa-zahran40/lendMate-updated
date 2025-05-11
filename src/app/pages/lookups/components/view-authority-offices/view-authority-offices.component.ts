@@ -36,9 +36,10 @@ export class ViewAuthorityOfficesComponent {
 
     this.authorityOffices$
       ?.pipe(takeUntil(this.destroy$))
-      .subscribe((authorityOffices) => {
-        // authorityOffices is now AuthorityOffice[], not any
-        const sorted = [...authorityOffices].sort((a, b) => b?.id - a?.id);
+      ?.subscribe((office) => {
+        // products is now rentStructureType[], not any
+        const activeCodes = office.filter((code) => code.isActive);
+        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
         this.originalAuthorityOffices = sorted;
         this.filteredAuthorityOffices = [...sorted];
       });

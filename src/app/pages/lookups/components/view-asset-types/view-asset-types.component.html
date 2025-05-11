@@ -1,7 +1,7 @@
 <div class="page-content">
   <app-toolbar-table
     [title]="'Asset Types'"
-    [labelBtn]="'Add Assest Types'"
+    [labelBtn]="'Add Asset Types'"
     [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
     [backExists]="true"
@@ -14,28 +14,26 @@
     (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
 
-  <ng-container *ngIf="assetTypes$ | async as assetTypes">
-    <app-table
-      #tableRef
-      [cols]="colsInside"
-      [tableData]="filteredAssetTypes"
-      [edit]="true"
-      [delete]="true"
-      [side]="false"
-      [first]="first2"
-      [checkBox]="true"
-      [view]="true"
-      [filters]="showFilters"
-      [uppercase]="'uppercase'"
-      [viewAssetTypesTable]="true"
-      (onDelete)="onDeleteAssetType($event)"
-      (onEdit)="onEditAssetType($event)"
-      (viewForm)="onViewAssetType($event)"
-    ></app-table>
-    <app-delete-module
-      [visible]="showDeleteModal"
-      (confirm)="confirmDelete()"
-      (cancel)="cancelDelete()"
-    ></app-delete-module>
-  </ng-container>
+  <app-table
+    #tableRef
+    [cols]="colsInside"
+    [tableData]="filteredAssetTypes"
+    [edit]="true"
+    [delete]="true"
+    [side]="false"
+    [first]="first2"
+    [checkBox]="true"
+    [view]="true"
+    [filters]="showFilters"
+    [uppercase]="'uppercase'"
+    [viewAssetTypesTable]="true"
+    (onDelete)="onDeleteAssetType($event)"
+    (onEdit)="onEditAssetType($event)"
+    (viewForm)="onViewAssetType($event)"
+  ></app-table>
+  <app-delete-module
+    [visible]="showDeleteModal"
+    (confirm)="confirmDelete()"
+    (cancel)="cancelDelete()"
+  ></app-delete-module>
 </div>
