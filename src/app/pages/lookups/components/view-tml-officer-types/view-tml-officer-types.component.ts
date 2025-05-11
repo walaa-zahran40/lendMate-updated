@@ -32,22 +32,14 @@ export class ViewTmlOfficerTypesComponent {
   constructor(private router: Router, private facade: TmlOfficerTypesFacade) {}
   ngOnInit() {
     console.log('🟢 ngOnInit: start');
-    this.TmlOfficerTypes$ = this.facade.all$;
-    console.log('🟢 before loadAll, current store value:');
-    this.TmlOfficerTypes$.pipe(take(1)).subscribe((v) =>
-      console.log('   store currently has:', v)
-    );
-    console.log('🟢 Calling loadAll() to fetch TmlOfficerTypes');
+    this.TmlOfficerTypes$ = this.facade.all$ as Observable<TmlOfficerType[]>;
     this.facade.loadAll();
 
-    this.TmlOfficerTypes$?.pipe(takeUntil(this.destroy$)).subscribe(
-      (TmlOfficerTypes) => {
-        const activeCodes = TmlOfficerTypes.filter((code) => code.isActive);
-        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
-        this.originalTmlOfficerType = sorted;
-        this.filteredTmlOfficerType = [...sorted];
-      }
-    );
+    this.TmlOfficerTypes$.pipe(takeUntil(this.destroy$)).subscribe((list) => {
+      const active = list.filter((i) => i.isActive);
+      this.originalTmlOfficerType = [...active].sort((a, b) => b.id - a.id);
+      this.filteredTmlOfficerType = [...this.originalTmlOfficerType];
+    });
   }
 
   onAddTmlOfficerType() {

@@ -1,6 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject, Observable, takeUntil, combineLatest, map } from 'rxjs';
+import {
+  Subject,
+  Observable,
+  takeUntil,
+  combineLatest,
+  map,
+  filter,
+} from 'rxjs';
 import { TableComponent } from '../../../../shared/components/table/table.component';
 import { TaxOfficesFacade } from '../../store/tax_offices/tax_offices.facade';
 import { TaxOffice } from '../../store/tax_offices/tax_office.model';
@@ -41,30 +48,37 @@ export class ViewTaxOfficesComponent {
     private store: Store
   ) {}
   ngOnInit() {
+    // 1️⃣ grab both streams
     this.taxOffices$ = this.facade.all$;
-    this.governoratesList$ = this.store.select(selectAllGovernorates); // Add this line
+    this.governoratesList$ = this.store.select(selectAllGovernorates);
+
+    // 2️⃣ kick off the loads
     this.facade.loadAll();
     this.store.dispatch({ type: '[Governorates] Load All' });
 
-    combineLatest([this.taxOffices$, this.governoratesList$]).pipe(
-      map(([taxOffices, governorates]) =>
-        taxOffices
-          .map((ss) => ({
-            ...ss,
-            governorateName:
-              governorates.find((s) => s.id === ss.governorateId)?.name || '—',
-          }))
-          .sort((a, b) => b.id - a.id)
-      ),
-      takeUntil(this.destroy$)
-    );
-
-    this.taxOffices$?.pipe(takeUntil(this.destroy$)).subscribe((TaxOffices) => {
-      const activeCodes = TaxOffices.filter((code) => code.isActive);
-      const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
-      this.originalTaxOffices = sorted;
-      this.filteredTaxOffices = [...sorted];
-    });
+    // 3️⃣ combine, enrich, sort, and subscribe
+    combineLatest([this.taxOffices$, this.governoratesList$])
+      .pipe(
+        // only proceed when both have emitted at least once
+        filter(([tos, govs]) => tos.length > 0 && govs.length > 0),
+        map(
+          ([taxOffices, governorates]) =>
+            taxOffices
+              .map((to) => ({
+                ...to,
+                governorateName:
+                  governorates.find((g) => g.id === to.governorateId)?.name ||
+                  '—',
+              }))
+              .filter((to) => to.isActive) // keep only active
+              .sort((a, b) => b.id - a.id) // newest first
+        ),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((enrichedAndSorted) => {
+        this.originalTaxOffices = enrichedAndSorted;
+        this.filteredTaxOffices = [...enrichedAndSorted];
+      });
   }
 
   onAddTaxOffice() {

@@ -4,10 +4,13 @@ import * as Actions from './tml-officer-types.actions';
 import * as Selectors from './tml-officer-types.selectors';
 import { TmlOfficerType } from './tml-officer-type.model';
 import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TmlOfficerTypesFacade {
-  all$ = this.store.select(Selectors.selectAllTmlOfficerTypes);
+  all$: Observable<TmlOfficerType[]> = this.store.select(
+    Selectors.selectAllTmlOfficerTypes
+  );
   loading$ = this.store.select(Selectors.selectTmlOfficerTypesLoading);
   error$ = this.store.select(Selectors.selectTmlOfficerTypesError);
   totalCount$ = this.store.select(Selectors.selectTmlOfficerTypesTotalCount);
