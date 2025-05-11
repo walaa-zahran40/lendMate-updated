@@ -2,7 +2,16 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, tap, filter, take, distinctUntilChanged } from 'rxjs';
+import {
+  Observable,
+  tap,
+  filter,
+  take,
+  distinctUntilChanged,
+  combineLatest,
+  takeUntil,
+  Subject,
+} from 'rxjs';
 import { Area } from '../../store/areas/area.model';
 import { AreasFacade } from '../../store/areas/areas.facade';
 import { selectAllGovernorates } from '../../store/governorates/governorates.selectors';
@@ -21,6 +30,7 @@ export class AddAreasComponent {
   addAreasLookupsForm!: FormGroup;
   clientId: any;
   governoratesList$!: Observable<Governorate[]>;
+  private destroy$ = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
@@ -31,88 +41,64 @@ export class AddAreasComponent {
   ) {}
 
   ngOnInit() {
-    //Select Box
-    console.log('🔵 ngOnInit: start');
+    // 1️⃣ Always dispatch the lookup load
     this.store.dispatch(loadAll({}));
-    this.governoratesList$ = this.store.select(selectAllGovernorates);
-    console.log('governorates list', this.governoratesList$);
-    this.governoratesList$.subscribe((data) =>
-      console.log('🧪 governoratesList$ from store:', data)
-    );
 
-    // 1. Build the form
+    // 2️⃣ Initialize the select‐options observable
+    this.governoratesList$ = this.store.select(selectAllGovernorates);
+
+    // 3️⃣ Build the reactive form
     this.addAreasLookupsForm = this.fb.group({
-      id: [null], // ← new hidden control
-      name: ['', [Validators.required]],
+      id: [null],
+      name: ['', Validators.required],
       nameAR: [
         '',
         [Validators.required, Validators.pattern(/^[\u0600-\u06FF\s]+$/)],
       ],
-      governorateId: [null, [Validators.required]],
-      isActive: [true], // ← new hidden control
+      governorateId: [null, Validators.required],
+      isActive: [true],
     });
-    console.log(
-      '🔵 Form initialized with default values:',
-      this.addAreasLookupsForm.value
-    );
 
-    // 2. Watch route params
-    this.route.paramMap.subscribe((params) => {
-      console.log('🔵 Route paramMap:', params);
+    // 4️⃣ Read the :id param to enter edit mode (or remain in add mode)
+    this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe((params) => {
       const idParam = params.get('id');
-      console.log('🔵 Retrieved id param:', idParam);
+      this.editMode = !!idParam;
+      this.viewOnly = this.route.snapshot.queryParams['mode'] === 'view';
 
-      if (idParam) {
-        // edit mode
-        this.editMode = true;
-        this.clientId = +idParam;
-        console.log('🔵 Entering EDIT mode for id =', this.clientId);
+      if (this.viewOnly) {
+        this.addAreasLookupsForm.disable();
+      }
 
-        // view-only?
-        this.viewOnly = this.route.snapshot.queryParams['mode'] === 'view';
-        console.log('🔵 viewOnly flag:', this.viewOnly);
-        if (this.viewOnly) {
-          this.addAreasLookupsForm.disable();
-          console.log('🔵 Form disabled for view-only');
-        }
-
-        // load & patch
-        console.log('🔵 Dispatching loadById for', this.clientId);
+      if (this.editMode) {
+        // dispatch loadById
+        this.clientId = +idParam!;
         this.facade.loadById(this.clientId);
 
-        this.facade.selected$
-          .pipe(
-            tap((ct) => console.log('🔵 selected$ emission:', ct)),
-            filter((ct) => !!ct),
-            tap((ct) =>
-              console.log('🔵 selected$ passed filter, patching form with:', ct)
-            ),
-            distinctUntilChanged((prev, curr) => prev.id === curr.id)
-          )
-          .subscribe((ct) => {
+        // 5️⃣ Wait for BOTH the record and the lookup list before patching
+        combineLatest([
+          this.facade.selected$.pipe(
+            filter((ct) => !!ct && ct.id === this.clientId),
+            take(1)
+          ),
+          this.governoratesList$.pipe(
+            filter((list) => list.length > 0),
+            take(1)
+          ),
+        ])
+          .pipe(takeUntil(this.destroy$))
+          .subscribe(([ct, govs]) => {
             this.addAreasLookupsForm.patchValue({
-              id: ct!.id,
-              name: ct!.name,
-              nameAR: ct!.nameAR,
-              governorateId: ct!.governorateId,
-              isActive: ct!.isActive,
+              id: ct?.id,
+              name: ct?.name,
+              nameAR: ct?.nameAR,
+              governorateId: ct?.governorateId,
+              isActive: ct?.isActive,
             });
             console.log(
               '🔵 Form after patchValue:',
               this.addAreasLookupsForm.value
             );
           });
-      } else {
-        // add mode
-        this.editMode = false;
-        console.log('🔵 Entering ADD mode');
-
-        this.viewOnly = this.route.snapshot.queryParams['mode'] === 'view';
-        console.log('🔵 viewOnly flag (add mode):', this.viewOnly);
-        if (this.viewOnly) {
-          this.addAreasLookupsForm.disable();
-          console.log('🔵 Form disabled for view-only in add mode');
-        }
       }
     });
   }

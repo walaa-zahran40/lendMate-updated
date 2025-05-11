@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject, Observable, takeUntil } from 'rxjs';
+import { Subject, Observable, takeUntil, filter } from 'rxjs';
 import { TableComponent } from '../../../../shared/components/table/table.component';
 import { AddressTypesFacade } from '../../store/address-types/address-types.facade';
 import { AddressType } from '../../store/address-types/address-types.model';
@@ -32,6 +32,12 @@ export class ViewAddressTypesComponent {
   constructor(private router: Router, private facade: AddressTypesFacade) {}
   ngOnInit() {
     this.facade.loadAll();
+    this.facade.operationSuccess$
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((op) => op?.entity === 'AddressType')
+      )
+      .subscribe(() => this.facade.loadAll());
     this.addressTypes$ = this.facade.all$;
 
     this.addressTypes$?.pipe(takeUntil(this.destroy$))?.subscribe((address) => {

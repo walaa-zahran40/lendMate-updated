@@ -14,28 +14,26 @@
     (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
 
-  <ng-container *ngIf="Areas$ | async as Areas">
-    <app-table
-      #tableRef
-      [cols]="colsInside"
-      [tableData]="filteredArea"
-      [edit]="true"
-      [delete]="true"
-      [side]="false"
-      [first]="first2"
-      [checkBox]="true"
-      [view]="true"
-      [filters]="showFilters"
-      [uppercase]="'uppercase'"
-      [viewAreasTable]="true"
-      (onDelete)="onDeleteArea($event)"
-      (onEdit)="onEditArea($event)"
-      (viewForm)="onViewArea($event)"
-    ></app-table>
-    <app-delete-module
-      [visible]="showDeleteModal"
-      (confirm)="confirmDelete()"
-      (cancel)="cancelDelete()"
-    ></app-delete-module>
-  </ng-container>
+  <app-table
+    #tableRef
+    [cols]="colsInside"
+    [tableData]="filteredArea"
+    [edit]="true"
+    [delete]="true"
+    [side]="false"
+    [checkBox]="true"
+    [view]="true"
+    [filters]="showFilters"
+    [uppercase]="'uppercase'"
+    [viewAreasTable]="true"
+    (onDelete)="onDeleteArea($event)"
+    (onEdit)="onEditArea($event)"
+    (viewForm)="onViewArea($event)"
+  ></app-table>
+
+  <app-delete-module
+    [visible]="showDeleteModal"
+    (confirm)="confirmDelete()"
+    (cancel)="cancelDelete()"
+  ></app-delete-module>
 </div>

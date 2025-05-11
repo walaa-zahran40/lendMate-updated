@@ -34,14 +34,13 @@ export class ViewCallActionTypesComponent {
     this.facade.loadAll();
     this.callActionTypes$ = this.facade.all$;
 
-    this.callActionTypes$
-      ?.pipe(takeUntil(this.destroy$))
-      .subscribe((callActionTypes) => {
-        // callActionTypes is now CompanyType[], not any
-        const sorted = [...callActionTypes].sort((a, b) => b.id - a.id);
-        this.originalCallActionTypes = sorted;
-        this.filteredCallActionTypes = [...sorted];
-      });
+    this.callActionTypes$?.pipe(takeUntil(this.destroy$))?.subscribe((call) => {
+      // callActionTypes is now callActionTypes[], not any
+      const activeCodes = call.filter((code) => code.isActive);
+      const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
+      this.originalCallActionTypes = sorted;
+      this.filteredCallActionTypes = [...sorted];
+    });
   }
 
   onAddCallActionType() {
