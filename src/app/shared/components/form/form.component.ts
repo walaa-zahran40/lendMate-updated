@@ -33,7 +33,7 @@ import * as subSectorsActions from '../../../pages/crm/clients/store/sub-sector-
 import { setFormDirty } from '../../../pages/crm/clients/store/client-form/client-form.actions';
 import { FileUpload } from 'primeng/fileupload';
 import { LegalFormLawFacade } from '../../../pages/crm/clients/store/legal-form-law/legal-form-law.facade';
-import { LegalFormsFacade } from '../../../pages/lookups/store/legal-forms/legal-forms.facade';
+import { LegalFormsFacade } from '../../../pages/legals/store/legal-forms/legal-forms.facade';
 export interface IdentityEntry {
   identificationNumber: string;
   selectedIdentities: any[];

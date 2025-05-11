@@ -58,6 +58,9 @@
           <span *ngSwitchCase="'exchangeDate'">
             {{ rowData[col.field] | date : "yyyy-MM-dd" }}
           </span>
+          <span *ngSwitchCase="'isinitial'">
+            {{ rowData.isInitial ? "Yes" : "No" }}
+          </span>
         </ng-container>
       </td>
 

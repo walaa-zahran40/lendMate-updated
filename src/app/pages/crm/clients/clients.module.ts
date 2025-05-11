@@ -88,8 +88,8 @@ import {
   clientIdentityTypesReducer,
 } from './store/client-identity-types/client-identity-types.reducer';
 import { ClientIdentityTypesEffects } from './store/client-identity-types/client-identity-types.effects';
-import { legalFormsReducer } from '../../lookups/store/legal-forms/legal-forms.reducer';
-import { LegalFormsEffects } from '../../lookups/store/legal-forms/legal-forms.effects';
+import { legalFormsReducer } from '../../legals/store/legal-forms/legal-forms.reducer';
+import { LegalFormsEffects } from '../../legals/store/legal-forms/legal-forms.effects';
 import { AddClientStatusActionsComponent } from './components/add-client-status-actions/add-client-status-actions.component';
 import { ViewClientStatusesComponent } from './components/view-client-statuses/view-client-statuses.component';
 import { ViewClientStatusComponent } from './components/view-client-status-actions/view-client-status.component';

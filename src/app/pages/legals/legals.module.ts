@@ -13,13 +13,13 @@ import { StoreModule } from '@ngrx/store';
 import { legalFormLawsReducer } from './store/legal-form-laws/legal-form-laws.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { LegalFormLawsEffects } from './store/legal-form-laws/legal-form-laws.effects';
-import { legalFormsReducer } from '../lookups/store/legal-forms/legal-forms.reducer';
-import { LegalFormsEffects } from '../lookups/store/legal-forms/legal-forms.effects';
+import { legalFormsReducer } from './store/legal-forms/legal-forms.reducer';
+import { LegalFormsEffects } from './store/legal-forms/legal-forms.effects';
 import { ViewLegalFormsComponent } from './components/view-legal-forms/view-legal-forms.component';
 
 @NgModule({
   declarations: [
-   AddLegalFormsComponent,
+    AddLegalFormsComponent,
     AddLegalFormLawsComponent,
     ViewLegalFormLawsComponent,
     ViewLegalFormsComponent,
@@ -32,10 +32,10 @@ import { ViewLegalFormsComponent } from './components/view-legal-forms/view-lega
     ButtonModule,
     TabsModule,
     FileUploadModule,
-        StoreModule.forFeature('legalFormLaws', legalFormLawsReducer),
-        EffectsModule.forFeature([LegalFormLawsEffects]),
-        StoreModule.forFeature('legalForms', legalFormsReducer),
-        EffectsModule.forFeature([LegalFormsEffects]),
+    StoreModule.forFeature('legalFormLaws', legalFormLawsReducer),
+    EffectsModule.forFeature([LegalFormLawsEffects]),
+    StoreModule.forFeature('legalForms', legalFormsReducer),
+    EffectsModule.forFeature([LegalFormsEffects]),
   ],
 })
 export class LegalsModule {}

@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { arabicOnlyValidator } from '../../../../shared/validators/arabic-only.validator';
 import { filter, take } from 'rxjs';
-import { LegalFormsFacade } from '../../../lookups/store/legal-forms/legal-forms.facade';
-import { LegalForm } from '../../../lookups/store/legal-forms/legal-form.model';
+import { LegalFormsFacade } from '../../store/legal-forms/legal-forms.facade';
+import { LegalForm } from '../../store/legal-forms/legal-form.model';
 
 @Component({
   selector: 'app-add-legal-forms',
