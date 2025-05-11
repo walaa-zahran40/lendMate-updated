@@ -42,30 +42,27 @@ export class ViewGovernoratesComponent {
   ) {}
   ngOnInit() {
     this.governorates$ = this.facade.all$;
-    this.countriesList$ = this.store.select(selectAllCountries); // Add this line
+    this.countriesList$ = this.store.select(selectAllCountries);
     this.facade.loadAll();
     this.store.dispatch({ type: '[Countries] Load All' });
 
-    combineLatest([this.governorates$, this.countriesList$]).pipe(
-      map(([governorates, countries]) =>
-        governorates
-          .map((ss) => ({
-            ...ss,
-            countryName:
-              countries.find((s) => s.id === ss.countryId)?.name || '—',
-          }))
-          .sort((a, b) => b.id - a.id)
-      ),
-      takeUntil(this.destroy$)
-    );
-    this.governorates$
-      ?.pipe(takeUntil(this.destroy$))
-      ?.subscribe((governorate) => {
-        // governorate is now governorate[], not any
-        const activeCodes = governorate.filter((code) => code.isActive);
-        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
-        this.originalGovernorates = sorted;
-        this.filteredGovernorates = [...sorted];
+    combineLatest([this.governorates$, this.countriesList$])
+      .pipe(
+        map(([governorates, countries]) =>
+          governorates
+            .map((gov) => ({
+              ...gov,
+              countryName:
+                countries.find((c) => c.id === gov.countryId)?.name || '—',
+            }))
+            .filter((gov) => gov.isActive)
+            .sort((a, b) => b.id - a.id)
+        ),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((enriched) => {
+        this.originalGovernorates = enriched;
+        this.filteredGovernorates = [...enriched];
       });
   }
 
