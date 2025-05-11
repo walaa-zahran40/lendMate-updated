@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { BranchAddress } from './branch-addresses.model';
+import { BranchAddress } from './branch-address.model';
 
 // Load all
 export const loadBranchAddresses = createAction('[BranchAddresses] Load All');
@@ -11,19 +11,7 @@ export const loadBranchAddressesFailure = createAction(
   '[BranchAddresses] Load All Failure',
   props<{ error: any }>()
 );
-//Load all by branch Id
-export const loadBranchAddressesByBranchId = createAction(
-  '[BranchAddressesByBranchId] Load All',
-  props<{ id: number }>()
-);
-export const loadBranchAddressesByBranchIdSuccess = createAction(
-  '[BranchAddressesByBranchId] Load All Success',
-  props<{ items: BranchAddress[]; totalCount: number }>()
-);
-export const loadBranchAddressesByBranchIdFailure = createAction(
-  '[BranchAddressesByBranchId] Load All Failure',
-  props<{ error: any }>()
-);
+
 // Load history
 export const loadBranchAddressesHistory = createAction(
   '[BranchAddresses] Load History'
@@ -44,7 +32,7 @@ export const loadBranchAddress = createAction(
 );
 export const loadBranchAddressSuccess = createAction(
   '[BranchAddresses] Load One Success',
-  props<{ branchAddress: BranchAddress }>()
+  props<{ branch: BranchAddress }>()
 );
 export const loadBranchAddressFailure = createAction(
   '[BranchAddresses] Load One Failure',
@@ -58,7 +46,7 @@ export const createBranchAddress = createAction(
 );
 export const createBranchAddressSuccess = createAction(
   '[BranchAddresses] Create Success',
-  props<{ branchAddress: BranchAddress }>()
+  props<{ branch: BranchAddress }>()
 );
 export const createBranchAddressFailure = createAction(
   '[BranchAddresses] Create Failure',
@@ -72,23 +60,40 @@ export const updateBranchAddress = createAction(
 );
 export const updateBranchAddressSuccess = createAction(
   '[BranchAddresses] Update Success',
-  props<{ branchAddress: BranchAddress }>()
+  props<{ branch: BranchAddress }>()
 );
 export const updateBranchAddressFailure = createAction(
   '[BranchAddresses] Update Failure',
   props<{ error: any }>()
 );
 
-// Delete
+// Load by BranchId
+export const loadBranchAddressesByBranchId = createAction(
+  '[BranchAddresses] Load By BranchId',
+  props<{ branchId: number }>()
+);
+export const loadBranchAddressesByBranchIdSuccess = createAction(
+  '[BranchAddresses] Load By BranchId Success',
+  props<{ items: any }>()
+);
+export const loadBranchAddressesByBranchIdFailure = createAction(
+  '[BranchAddresses] Load By BranchId Failure',
+  props<{ error: any }>()
+);
+//Delete
 export const deleteBranchAddress = createAction(
   '[BranchAddresses] Delete',
-  props<{ id: number }>()
+  props<{ id: number; branchId: number }>()
 );
 export const deleteBranchAddressSuccess = createAction(
   '[BranchAddresses] Delete Success',
-  props<{ id: number }>()
+  props<{ id: number; branchId: number }>()
 );
 export const deleteBranchAddressFailure = createAction(
   '[BranchAddresses] Delete Failure',
   props<{ error: any }>()
+);
+export const entityOperationSuccess = createAction(
+  '[Entity] Operation Success',
+  props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
 );

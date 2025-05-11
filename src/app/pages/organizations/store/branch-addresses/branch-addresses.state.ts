@@ -1,4 +1,4 @@
-import { BranchAddress } from './branch-addresses.model';
+import { BranchAddress } from './branch-address.model';
 
 export interface BranchAddressesState {
   items: BranchAddress[];

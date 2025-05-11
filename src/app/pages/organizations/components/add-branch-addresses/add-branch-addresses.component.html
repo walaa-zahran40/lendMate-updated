@@ -20,7 +20,7 @@
         [editMode]="editMode"
         (submitForm)="addOrEditBranchAddresses()"
         [viewOnly]="viewOnly"
-        [countriesList]="countriesList"
+        [countriesList]="countriesList$ | async"
         [governoratesList]="filteredGovernorates"
         [areasList]="filteredAreas"
       ></app-form>

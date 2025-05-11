@@ -45,7 +45,7 @@ export class ViewBranchComponent {
 
   onAddBranch() {
     console.log('🔍 [Component] onAddBranch');
-    this.router.navigate(['/lookups/add-branch']);
+    this.router.navigate(['/organizations/add-branch']);
   }
 
   ngOnDestroy() {

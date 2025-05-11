@@ -40,8 +40,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { branchAddressesReducer } from './store/branch-addresses/branch-addresses.reducer';
 import { BranchAddressesEffects } from './store/branch-addresses/branch-addresses.effects';
 import { BranchesEffects } from './store/branches/branches.effects';
-import { reducer as  branchReducer} from './store/branches/branches.reducer';
-
+import { reducer as branchReducer } from './store/branches/branches.reducer';
 
 @NgModule({
   declarations: [
@@ -84,7 +83,7 @@ import { reducer as  branchReducer} from './store/branches/branches.reducer';
     SharedModule,
     TabsModule,
     ButtonModule,
-    StoreModule.forFeature('branches',branchReducer ),
+    StoreModule.forFeature('branches', branchReducer),
     EffectsModule.forFeature([BranchesEffects]),
     StoreModule.forFeature('branchAddresses', branchAddressesReducer),
     EffectsModule.forFeature([BranchAddressesEffects]),

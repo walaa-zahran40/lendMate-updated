@@ -3,7 +3,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, forkJoin, Observable, Subject, take } from 'rxjs';
 import { BranchAddressesFacade } from '../../store/branch-addresses/branch-addresses.facade';
-import { BranchAddress } from '../../store/branch-addresses/branch-addresses.model';
 import { Store } from '@ngrx/store';
 import { Country } from '../../../lookups/store/countries/country.model';
 import { Governorate } from '../../../lookups/store/governorates/governorate.model';
@@ -13,8 +12,9 @@ import { selectCountries } from '../../../lookups/store/countries/countries.sele
 import { loadGovernorates } from '../../../lookups/store/governorates/governorates.actions';
 import { selectGovernorates } from '../../../lookups/store/governorates/governorates.selectors';
 import { selectAllAreas } from '../../../lookups/store/areas/areas.selectors';
-import {  loadAll as loadAreas  } from '../../../lookups/store/areas/areas.actions';
+import { loadAll as loadAreas } from '../../../lookups/store/areas/areas.actions';
 import { arabicOnlyValidator } from '../../../../shared/validators/arabic-only.validator';
+import { BranchAddress } from '../../store/branch-addresses/branch-address.model';
 
 @Component({
   selector: 'app-add-branch-addresses',
@@ -36,23 +36,26 @@ export class AddBranchAddressesComponent {
   private destroy$ = new Subject<void>();
   countriesList: Country[] = [];
   governoratesList: Governorate[] = [];
-  areasList: Area[] = [];  
+  areasList: Area[] = [];
   filteredGovernorates: Governorate[] = [];
   filteredAreas: Area[] = [];
-  
+
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private facade: BranchAddressesFacade,
     private router: Router,
-    private store: Store,
-    
+    private store: Store
   ) {}
 
   ngOnInit(): void {
     // Read route parameters
     this.branchId = Number(this.route.snapshot.paramMap.get('branchId'));
-    this.mode = (this.route.snapshot.queryParamMap.get('mode') as 'add' | 'edit' | 'view') ?? 'add';
+    this.mode =
+      (this.route.snapshot.queryParamMap.get('mode') as
+        | 'add'
+        | 'edit'
+        | 'view') ?? 'add';
     this.editMode = this.mode === 'edit';
     this.viewOnly = this.mode === 'view';
 
@@ -65,12 +68,26 @@ export class AddBranchAddressesComponent {
     this.countriesList$ = this.store.select(selectCountries);
     this.governoratesList$ = this.store.select(selectGovernorates);
     this.areasList$ = this.store.select(selectAllAreas);
-console.log('c,g,a',this.countriesList$,this.governoratesList$,this.areasList$)
+    console.log(
+      'c,g,a',
+      this.countriesList$,
+      this.governoratesList$,
+      this.areasList$
+    );
     // Subscribe to lookup data and initialize form
     forkJoin({
-      countries: this.countriesList$.pipe(take(1)),
-      governorates: this.governoratesList$.pipe(take(1)),
-      areas: this.areasList$.pipe(take(1)),
+      countries: this.countriesList$.pipe(
+        filter((list) => list.length > 0),
+        take(1)
+      ),
+      governorates: this.governoratesList$.pipe(
+        filter((list) => list.length > 0),
+        take(1)
+      ),
+      areas: this.areasList$.pipe(
+        filter((list) => list.length > 0),
+        take(1)
+      ),
     }).subscribe(({ countries, governorates, areas }) => {
       this.countriesList = countries;
       this.governoratesList = governorates;
@@ -110,15 +127,15 @@ console.log('c,g,a',this.countriesList$,this.governoratesList$,this.areasList$)
           )
           .subscribe((ct: BranchAddress) => {
             // Derive governorateId and countryId from areaId
-            console.log("selected areaid",ct.areaId);
-            const selectedArea = this.areasList.find(a => a.id === ct.areaId);
-            console.log("selected area",selectedArea);
+            console.log('selected areaid', ct.areaId);
+            const selectedArea = this.areasList.find((a) => a.id === ct.areaId);
+            console.log('selected area', selectedArea);
 
             const governorateId = selectedArea?.governorate.id ?? null;
-            console.log("selected governorateId",governorateId);
+            console.log('selected governorateId', governorateId);
 
             const selectedGovernorate = this.governoratesList.find(
-              g => g.id === governorateId
+              (g) => g.id === governorateId
             );
             const countryId = selectedGovernorate?.countryId ?? null;
 
@@ -130,13 +147,17 @@ console.log('c,g,a',this.countriesList$,this.governoratesList$,this.areasList$)
               areaId: ct.areaId,
               governorateId,
               countryId,
-              branchId:this.branchId,
+              branchId: this.branchId,
               isActive: ct.isActive,
             });
 
             // Set the filtered lists
-            this.filteredGovernorates = this.governoratesList.filter(g => g.countryId === countryId);
-            this.filteredAreas = this.areasList.filter(a => a.governorate.id === governorateId);
+            this.filteredGovernorates = this.governoratesList.filter(
+              (g) => g.countryId === countryId
+            );
+            this.filteredAreas = this.areasList.filter(
+              (a) => a.governorate.id === governorateId
+            );
 
             // Disable form if in view-only mode
             if (this.viewOnly) {
@@ -149,38 +170,51 @@ console.log('c,g,a',this.countriesList$,this.governoratesList$,this.areasList$)
       }
     });
   }
-  
+
   private setupCascadingDropdowns(): void {
     // When country changes, filter governorates
-    this.addBranchAddressesLookupsForm.get('countryId')?.valueChanges.subscribe(countryId => {
-      this.filteredGovernorates = this.governoratesList.filter(g => g.countryId === countryId);
-  
-      const currentGovernorateId = this.addBranchAddressesLookupsForm.get('governorateId')?.value;
-      const isGovernorateValid = this.filteredGovernorates.some(g => g.id === currentGovernorateId);
-  
-      if (!isGovernorateValid) {
-        this.addBranchAddressesLookupsForm.get('governorateId')?.reset();
-      }
-  
-      // Reset and clear areas
-      // this.filteredAreas = [];
-      // this.addBranchAddressesLookupsForm.get('areaId')?.reset();
-    });
-  
+    this.addBranchAddressesLookupsForm
+      .get('countryId')
+      ?.valueChanges.subscribe((countryId) => {
+        this.filteredGovernorates = this.governoratesList.filter(
+          (g) => g.countryId === countryId
+        );
+
+        const currentGovernorateId =
+          this.addBranchAddressesLookupsForm.get('governorateId')?.value;
+        const isGovernorateValid = this.filteredGovernorates.some(
+          (g) => g.id === currentGovernorateId
+        );
+
+        if (!isGovernorateValid) {
+          this.addBranchAddressesLookupsForm.get('governorateId')?.reset();
+        }
+
+        // Reset and clear areas
+        // this.filteredAreas = [];
+        // this.addBranchAddressesLookupsForm.get('areaId')?.reset();
+      });
+
     // When governorate changes, filter areas
-    this.addBranchAddressesLookupsForm.get('governorateId')?.valueChanges.subscribe(governorateId => {
-      this.filteredAreas = this.areasList.filter(a => a.governorate.id === governorateId);
-  
-      const currentAreaId = this.addBranchAddressesLookupsForm.get('areaId')?.value;
-      console.log("currentAreaId",currentAreaId);
-      const isAreaValid = this.filteredAreas.some(a => a.id === currentAreaId);
-  
-      if (!isAreaValid) {
-        this.addBranchAddressesLookupsForm.get('areaId')?.reset();
-      }
-    });
+    this.addBranchAddressesLookupsForm
+      .get('governorateId')
+      ?.valueChanges.subscribe((governorateId) => {
+        this.filteredAreas = this.areasList.filter(
+          (a) => a.governorate.id === governorateId
+        );
+
+        const currentAreaId =
+          this.addBranchAddressesLookupsForm.get('areaId')?.value;
+        console.log('currentAreaId', currentAreaId);
+        const isAreaValid = this.filteredAreas.some(
+          (a) => a.id === currentAreaId
+        );
+
+        if (!isAreaValid) {
+          this.addBranchAddressesLookupsForm.get('areaId')?.reset();
+        }
+      });
   }
-  
 
   addOrEditBranchAddresses() {
     const branchParamQP = this.route.snapshot.queryParamMap.get('branchId');
@@ -204,28 +238,35 @@ console.log('c,g,a',this.countriesList$,this.governoratesList$,this.areasList$)
     this.addBranchAddressesLookupsForm.patchValue({
       branchId: branchParamQP,
     });
-    
-    const { details, detailsAR,areaId,branchId, isActive } = this.addBranchAddressesLookupsForm.value;
-    const payload: Partial<BranchAddress> = { details, detailsAR,areaId,branchId, isActive };
+
+    const { details, detailsAR, areaId, branchId, isActive } =
+      this.addBranchAddressesLookupsForm.value;
+    const payload: Partial<BranchAddress> = {
+      details,
+      detailsAR,
+      areaId,
+      branchId,
+      isActive,
+    };
     console.log('  → payload object:', payload);
 
-     const data = this.addBranchAddressesLookupsForm
-          .value as Partial<BranchAddress>;
-        console.log('📦 Payload going to facade:', data);
+    const data = this.addBranchAddressesLookupsForm
+      .value as Partial<BranchAddress>;
+    console.log('📦 Payload going to facade:', data);
 
     // Double-check your route param
     const routeId = this.route.snapshot.paramMap.get('id');
     console.log('  route.snapshot.paramMap.get(clientId):', routeId);
 
-     // 7) Create vs. update
-     if (this.mode === 'add') {
+    // 7) Create vs. update
+    if (this.mode === 'add') {
       console.log('➕ Dispatching CREATE');
       this.facade.create(payload);
     } else {
       console.log('✏️ Dispatching UPDATE id=', data.id);
       this.facade.update(data.id!, data);
     }
-   
+
     if (branchParamQP) {
       console.log('➡️ Navigating back with PATH param:', branchParamQP);
       this.router.navigate([

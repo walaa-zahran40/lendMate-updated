@@ -4,6 +4,7 @@ import { mergeMap, map, catchError, tap, filter } from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as BranchAddressActions from './branch-addresses.actions';
 import { BranchAddressesService } from './branch-addresses.service';
+import { BranchAddress } from './branch-address.model';
 
 @Injectable()
 export class BranchAddressesEffects {
@@ -19,44 +20,17 @@ export class BranchAddressesEffects {
             })
           ),
           catchError((error) =>
-            of(BranchAddressActions.loadBranchAddressesFailure({ error }))
-          )
-        )
-      )
-    )
-  );
-  loadAllByBranchId$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(BranchAddressActions.loadBranchAddressesByBranchId),
-
-      tap((action) =>
-        console.log('[Effect:loadAllByBranchId] full action →', action)
-      ),
-      tap(({ branchId }) =>
-        console.log('[Effect:loadAllByBranchId] currencyId →', branchId)
-      ),
-
-      mergeMap(({ branchId }) =>
-        this.service.getAllByBranchId(branchId).pipe(
-          tap((items) =>
-            console.log('[Effect:loadAllByBranchId] response →', items)
-          ),
-          map((items) =>
-            BranchAddressActions.loadBranchAddressesByBranchIdSuccess(
-              {items }
-            )
-          ),
-          catchError((error) =>
             of(
-              BranchAddressActions.loadBranchAddressesByBranchIdFailure(
-                { error }
-              )
+              BranchAddressActions.loadBranchAddressesFailure({
+                error,
+              })
             )
           )
         )
       )
     )
   );
+
   loadHistory$ = createEffect(() =>
     this.actions$.pipe(
       ofType(BranchAddressActions.loadBranchAddressesHistory),
@@ -68,7 +42,9 @@ export class BranchAddressesEffects {
             })
           ),
           catchError((error) =>
-            of(BranchAddressActions.loadBranchAddressesHistoryFailure({ error }))
+            of(
+              BranchAddressActions.loadBranchAddressesHistoryFailure({ error })
+            )
           )
         )
       )
@@ -80,11 +56,17 @@ export class BranchAddressesEffects {
       ofType(BranchAddressActions.loadBranchAddress),
       mergeMap(({ id }) =>
         this.service.getById(id).pipe(
-          map((branchAddress) =>
-            BranchAddressActions.loadBranchAddressSuccess({ branchAddress })
+          map((branch) =>
+            BranchAddressActions.loadBranchAddressSuccess({
+              branch,
+            })
           ),
           catchError((error) =>
-            of(BranchAddressActions.loadBranchAddressFailure({ error }))
+            of(
+              BranchAddressActions.loadBranchAddressFailure({
+                error,
+              })
+            )
           )
         )
       )
@@ -96,11 +78,17 @@ export class BranchAddressesEffects {
       ofType(BranchAddressActions.createBranchAddress),
       mergeMap(({ data }) =>
         this.service.create(data).pipe(
-          map((branchAddress) =>
-            BranchAddressActions.createBranchAddressSuccess({ branchAddress })
+          map((branch) =>
+            BranchAddressActions.createBranchAddressSuccess({
+              branch,
+            })
           ),
           catchError((error) =>
-            of(BranchAddressActions.createBranchAddressFailure({ error }))
+            of(
+              BranchAddressActions.createBranchAddressFailure({
+                error,
+              })
+            )
           )
         )
       )
@@ -110,13 +98,28 @@ export class BranchAddressesEffects {
   update$ = createEffect(() =>
     this.actions$.pipe(
       ofType(BranchAddressActions.updateBranchAddress),
+      tap(({ id, data }) =>
+        console.log('[Effect:update] called with id=', id, 'data=', data)
+      ),
       mergeMap(({ id, data }) =>
         this.service.update(id, data).pipe(
-          map((branchAddress) =>
-            BranchAddressActions.updateBranchAddressSuccess({ branchAddress })
-          ),
+          map((serverReturned) => {
+            // force-inject branchId if missing
+            const enriched: BranchAddress = {
+              ...serverReturned,
+              branchId: data.branchId!,
+            };
+            console.log('[Effect:update] enriched branch →', enriched);
+            return BranchAddressActions.updateBranchAddressSuccess({
+              branch: enriched,
+            });
+          }),
           catchError((error) =>
-            of(BranchAddressActions.updateBranchAddressFailure({ error }))
+            of(
+              BranchAddressActions.updateBranchAddressFailure({
+                error,
+              })
+            )
           )
         )
       )
@@ -126,61 +129,90 @@ export class BranchAddressesEffects {
   delete$ = createEffect(() =>
     this.actions$.pipe(
       ofType(BranchAddressActions.deleteBranchAddress),
-      mergeMap(({ id }) =>
+      mergeMap(({ id, branchId }) =>
         this.service.delete(id).pipe(
-          map(() => BranchAddressActions.deleteBranchAddressSuccess({ id })),
+          map(() =>
+            BranchAddressActions.deleteBranchAddressSuccess({
+              id,
+              branchId,
+            })
+          ),
           catchError((error) =>
-            of(BranchAddressActions.deleteBranchAddressFailure({ error }))
+            of(
+              BranchAddressActions.deleteBranchAddressFailure({
+                error,
+              })
+            )
           )
         )
       )
     )
   );
 
-  // refreshList$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(
-  //       BranchAddressActions.createBranchAddressSuccess,
-  //       BranchAddressActions.updateBranchAddressSuccess,
-  //       BranchAddressActions.deleteBranchAddressSuccess
-  //     ),
-  //     map(() => BranchAddressActions.loadBranchAddresses())
-  //   )
-  // );
-
-
+  // After any create/update/delete success: reload by branchId
   refreshList$ = createEffect(() =>
-      this.actions$.pipe(
-        ofType(
-          BranchAddressActions.createBranchAddressSuccess,
-          BranchAddressActions.updateBranchAddressSuccess,
-          BranchAddressActions.deleteBranchAddressSuccess
-        ),
-  
-        tap((action) =>
-          console.log('[RefreshList] triggered by action:', action)
-        ),
-  
-        // pull out the right number
-        map((action) => {
-          const branchId =
-            'branch' in action ? action.branch. : action.branchId;
-          console.log('[RefreshList] extracted branchId →', branchId);
-          return branchId;
-        }),
-  
-        // only continue if it’s a number
-        filter(
-          (branchId): branchId is number => typeof branchId === 'number'
-        ),
-  
-        map((branchId) =>
-          BranchAddressActions.loadBranchAddressesByBranchId({
-            branchId,
-          })
+    this.actions$.pipe(
+      ofType(
+        BranchAddressActions.createBranchAddressSuccess,
+        BranchAddressActions.updateBranchAddressSuccess,
+        BranchAddressActions.deleteBranchAddressSuccess
+      ),
+
+      tap((action) =>
+        console.log('[RefreshList] triggered by action:', action)
+      ),
+
+      // pull out the right number
+      map((action) => {
+        const branchId = 'branch' in action ? action.branch : action.branchId;
+        console.log('[RefreshList] extracted branchId →', branchId);
+        return branchId;
+      }),
+
+      // only continue if it’s a number
+      filter((branchId): branchId is number => typeof branchId === 'number'),
+
+      map((branchId) =>
+        BranchAddressActions.loadBranchAddressesByBranchId({
+          branchId,
+        })
+      )
+    )
+  );
+
+  /**
+   * The “by‐branchId” loader
+   */
+  loadByBranchId$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(BranchAddressActions.loadBranchAddressesByBranchId),
+
+      tap((action) =>
+        console.log('[Effect:loadByBranchId] full action →', action)
+      ),
+      tap(({ branchId }) =>
+        console.log('[Effect:loadByBranchId] branchId →', branchId)
+      ),
+
+      mergeMap(({ branchId }) =>
+        this.service.getByBranchId(branchId).pipe(
+          tap((items) =>
+            console.log('[Effect:loadByBranchId] response →', items)
+          ),
+          map((items) =>
+            BranchAddressActions.loadBranchAddressesByBranchIdSuccess({ items })
+          ),
+          catchError((error) =>
+            of(
+              BranchAddressActions.loadBranchAddressesByBranchIdFailure({
+                error,
+              })
+            )
+          )
         )
       )
-    );
+    )
+  );
 
   constructor(
     private actions$: Actions,

@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, Observable, takeUntil, tap, map } from 'rxjs';
 import { TableComponent } from '../../../../shared/components/table/table.component';
 import { BranchAddressesFacade } from '../../store/branch-addresses/branch-addresses.facade';
-import { BranchAddress } from '../../store/branch-addresses/branch-addresses.model';
+import { BranchAddress } from '../../store/branch-addresses/branch-address.model';
 
 @Component({
   selector: 'app-view-branch-addresses',
@@ -24,7 +24,6 @@ export class ViewBranchAddressesComponent {
     { field: 'details', header: 'Details' },
     { field: 'detailsAR', header: 'Details AR' },
     { field: 'branch', header: 'Branch' },
-
   ];
   showDeleteModal: boolean = false;
   selectedBranchAddressId: number | null = null;
@@ -33,7 +32,7 @@ export class ViewBranchAddressesComponent {
   branchAddresses$!: Observable<BranchAddress[]>;
 
   constructor(
-    private router: Router, 
+    private router: Router,
     private facade: BranchAddressesFacade,
     private route: ActivatedRoute
   ) {}
@@ -41,39 +40,38 @@ export class ViewBranchAddressesComponent {
   ngOnInit() {
     const raw = this.route.snapshot.paramMap.get('branchId');
     this.branchIdParam = raw !== null ? Number(raw) : undefined;
-    this.facade.loadAllByBranchId(this.branchIdParam);
+    this.facade.loadBranchAddressesByBranchId(this.branchIdParam);
     this.branchAddresses$ = this.facade.items$;
 
     this.branchAddresses$
-         .pipe(
-                takeUntil(this.destroy$),
-        
-                // log raw array coming from the facade
-                tap((rawList) =>
-                  console.log('[View] facade.items$ rawList =', rawList)
-                ),
-        
-                // your transform
-                map((list) =>
+      .pipe(
+        takeUntil(this.destroy$),
 
-                  (list ?? [])
-                    .map((r) => ({ ...r, branch: r.branch?.name || '—' }))
-                    .sort((a, b) => b.id - a.id)
-                ),
-        
-           // log after mapping + sorting
-           tap((formatted) =>
-             console.log('[View] after map+sort formatted =', formatted)
-           )
-         )
-         .subscribe((formatted) => {
-           this.filteredBranchAddresses = formatted;
-           this.originalBranchAddresses = formatted;
-           console.log(
-             '[View] subscribe → filteredCurrencyExchangeRates =',
-             this.filteredBranchAddresses
-           );
-         });
+        // log raw array coming from the facade
+        tap((rawList) =>
+          console.log('[View] facade.items$ rawList =', rawList)
+        ),
+
+        // your transform
+        map((list) =>
+          (list ?? [])
+            .map((r) => ({ ...r, branch: r.branch?.name || '—' }))
+            .sort((a, b) => b.id - a.id)
+        ),
+
+        // log after mapping + sorting
+        tap((formatted) =>
+          console.log('[View] after map+sort formatted =', formatted)
+        )
+      )
+      .subscribe((formatted) => {
+        this.filteredBranchAddresses = formatted;
+        this.originalBranchAddresses = formatted;
+        console.log(
+          '[View] subscribe → filteredCurrencyExchangeRates =',
+          this.filteredBranchAddresses
+        );
+      });
   }
 
   onAddBranchAddress() {
@@ -82,7 +80,6 @@ export class ViewBranchAddressesComponent {
     this.router.navigate(['/organizations/add-branch-addresses'], {
       queryParams: { mode: 'add', branchId: branchIdParam },
     });
-
   }
 
   ngOnDestroy() {
@@ -104,7 +101,7 @@ export class ViewBranchAddressesComponent {
       this.selectedBranchAddressId
     );
     if (this.selectedBranchAddressId !== null) {
-      this.facade.delete(this.selectedBranchAddressId);
+      this.facade.delete(this.selectedBranchAddressId, this.branchIdParam);
       console.log('[View] confirmDelete() – facade.delete() called');
     } else {
       console.warn('[View] confirmDelete() – no id to delete');
@@ -133,11 +130,15 @@ export class ViewBranchAddressesComponent {
     this.showFilters = value;
   }
   onEditBranchAddress(branchAddress: BranchAddress) {
-    this.router.navigate(['/organizations/edit-branch-addresses', branchAddress.id], {
-      queryParams: {
-        mode: 'edit',
-        branchId: this.branchIdParam, // <-- use "currencyId" here
-      },    });
+    this.router.navigate(
+      ['/organizations/edit-branch-addresses', branchAddress.id],
+      {
+        queryParams: {
+          mode: 'edit',
+          branchId: this.branchIdParam, // <-- use "currencyId" here
+        },
+      }
+    );
   }
   onViewBranchAddress(ct: BranchAddress) {
     this.router.navigate(['/organizations/edit-branch-addresses', ct.id], {
@@ -145,6 +146,6 @@ export class ViewBranchAddressesComponent {
         mode: 'view',
         branchId: this.branchIdParam, // <-- use "currencyId" here
       },
-      });
+    });
   }
 }
