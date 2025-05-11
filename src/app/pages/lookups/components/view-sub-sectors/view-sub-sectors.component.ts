@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject, Observable, take, takeUntil, filter } from 'rxjs';
+import { Subject, Observable, take, takeUntil, filter, tap } from 'rxjs';
 import { TableComponent } from '../../../../shared/components/table/table.component';
 import { SubSector } from '../../store/sub-sectors/sub-sector.model';
 import { SubSectorsFacade } from '../../store/sub-sectors/sub-sectors.facade';
@@ -42,37 +42,47 @@ export class ViewSubSectorsComponent {
     private sectorFacade: SectorsFacade
   ) {}
   ngOnInit() {
-    // SubSectors
-    this.SubSectors$ = this.facade.all$;
+    // 1) kick off both loads
     this.facade.loadAll();
-
-    // Sectors
-    this.sectorsList$ = this.sectorFacade.all$;
     this.sectorFacade.loadAll();
 
+    // 2) pull the raw streams
+    this.SubSectors$ = this.facade.all$;
+    this.sectorsList$ = this.sectorFacade.all$;
+
+    // 3) whenever either list changes, rebuild your display list
     combineLatest([this.SubSectors$, this.sectorsList$])
-      // optional: skip until sectors loaded
       .pipe(
-        filter(([, sectors]) => sectors.length > 0),
+        // wait until the sectors are actually loaded
+        filter(([subs, sectors]) => sectors.length > 0),
         map(([subs, sectors]) =>
           subs
+            .filter((ss) => ss.isActive)
             .map((ss) => ({
               ...ss,
               sectorName:
-                sectors.find((s) => s.id === ss.sectorId)?.name || '—',
+                sectors.find((s) => s.id === ss.sectorId)?.name ?? '—',
             }))
             .sort((a, b) => b.id - a.id)
         ),
         takeUntil(this.destroy$)
-      );
-    this.SubSectors$?.pipe(takeUntil(this.destroy$)).subscribe((SubSectors) => {
-      const activeCodes = SubSectors.filter((code) => code.isActive);
-      const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
-      this.originalSubSector = sorted;
-      this.filteredSubSector = [...sorted];
-    });
-  }
+      )
+      .subscribe((list) => {
+        this.originalSubSector = list;
+        this.filteredSubSector = [...list];
+      });
 
+    // 4) after any create/update/delete, re-load
+    this.facade.operationSuccess$
+      .pipe(
+        // only react to the SubSector entity
+        filter((op) => op?.entity === 'SubSector'),
+        // you could further narrow to op.operation === 'create' if you like
+        tap(() => this.facade.loadAll()),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
   onAddSubSector() {
     this.router.navigate(['/lookups/add-sub-sectors']);
   }
