@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { WorkflowActionType } from '../../store/workflow-action-types/workflow-action-type.model';
-import { Observable, Subject, take, takeUntil } from 'rxjs';
+import { map, Observable, Subject, take, takeUntil, tap } from 'rxjs';
 import { WorkflowActionTypesFacade } from '../../store/workflow-action-types/workflow-action-types.facade';
 import { Router } from '@angular/router';
 import { TableComponent } from '../../../../shared/components/table/table.component';
@@ -33,25 +33,22 @@ export class ViewWorkFlowActionTypesComponent {
     private router: Router,
     private facade: WorkflowActionTypesFacade
   ) {}
-  ngOnInit() {
-    console.log('🟢 ngOnInit: start');
-    this.WorkflowActionTypes$ = this.facade.all$;
-    console.log('🟢 before loadAll, current store value:');
-    this.WorkflowActionTypes$.pipe(take(1)).subscribe((v) =>
-      console.log('   store currently has:', v)
-    );
-    console.log('🟢 Calling loadAll() to fetch WorkflowActionTypes');
+  ngOnInit(): void {
+    console.log('🟢 ngOnInit: loading all…');
+    // 1) dispatch the load
     this.facade.loadAll();
 
-    this.WorkflowActionTypes$?.pipe(takeUntil(this.destroy$))?.subscribe(
-      (workflowActionTypes) => {
-        console.log('workfls', workflowActionTypes);
-        // workflowActionTypes is now SMEClientCode[], not any
-        const activeCodes = workflowActionTypes.filter((code) => code.isActive);
-        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
-        this.originalWorkflowActionType = sorted;
-        this.filteredWorkflowActionType = [...sorted];
-      }
+    // 2) derive a single stream: filter by isActive, sort descending by id
+    this.WorkflowActionTypes$ = (
+      this.facade.all$ as Observable<WorkflowActionType[]>
+    ).pipe(
+      takeUntil(this.destroy$),
+      tap((list) => console.log('🔄 raw list from store:', list)),
+      // if you want to keep the “active” filter but default undefined→true:
+      map((list) => list.filter((i) => i.isActive ?? true)),
+      tap((filtered) => console.log('🔄 after filter:', filtered)),
+      map((list) => [...list].sort((a, b) => b.id - a.id)),
+      tap((sorted) => console.log('🔄 sorted descending:', sorted))
     );
   }
 

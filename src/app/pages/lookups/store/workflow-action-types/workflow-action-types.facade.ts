@@ -4,10 +4,13 @@ import * as Actions from './workflow-action-types.actions';
 import * as Selectors from './workflow-action-types.selectors';
 import { WorkflowActionType } from './workflow-action-type.model';
 import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class WorkflowActionTypesFacade {
-  all$ = this.store.select(Selectors.selectAllWorkflowActionTypes);
+  all$: Observable<WorkflowActionType[]> = this.store.select(
+    Selectors.selectAllWorkflowActionTypes
+  );
   loading$ = this.store.select(Selectors.selectWorkflowActionTypesLoading);
   error$ = this.store.select(Selectors.selectWorkflowActionTypesError);
   totalCount$ = this.store.select(

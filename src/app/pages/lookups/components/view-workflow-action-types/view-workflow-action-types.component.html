@@ -18,11 +18,9 @@
     <app-table
       #tableRef
       [cols]="colsInside"
-      [tableData]="filteredWorkflowActionType"
+      [tableData]="WorkflowActionTypes$ | async"
       [edit]="true"
       [delete]="true"
-      [side]="false"
-      [first]="first2"
       [checkBox]="true"
       [view]="true"
       [filters]="showFilters"
@@ -32,6 +30,7 @@
       (onEdit)="onEditWorkflowActionType($event)"
       (viewForm)="onViewWorkflowActionType($event)"
     ></app-table>
+
     <app-delete-module
       [visible]="showDeleteModal"
       (confirm)="confirmDelete()"
