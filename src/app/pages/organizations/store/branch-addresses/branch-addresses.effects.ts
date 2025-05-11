@@ -164,7 +164,7 @@ export class BranchAddressesEffects {
         // pull out the right number
         map((action) => {
           const branchId =
-            'branch' in action ? action.branch. : action.branchId;
+            'branch' in action ? action.br : action.branchId;
           console.log('[RefreshList] extracted branchId →', branchId);
           return branchId;
         }),

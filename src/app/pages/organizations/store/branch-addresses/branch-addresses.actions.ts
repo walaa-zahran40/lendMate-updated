@@ -13,15 +13,15 @@ export const loadBranchAddressesFailure = createAction(
 );
 //Load all by branch Id
 export const loadBranchAddressesByBranchId = createAction(
-  '[BranchAddressesByBranchId] Load All',
-  props<{ id: number }>()
+  '[BranchAddresses] Load By BranchId',
+  props<{ branchId: number }>()
 );
 export const loadBranchAddressesByBranchIdSuccess = createAction(
-  '[BranchAddressesByBranchId] Load All Success',
-  props<{ items: BranchAddress[]; totalCount: number }>()
+  '[BranchAddresses] Load By BranchId Success',
+  props<{ items: BranchAddress[] }>()
 );
 export const loadBranchAddressesByBranchIdFailure = createAction(
-  '[BranchAddressesByBranchId] Load All Failure',
+  '[BranchAddresses] Load By BranchId Failure',
   props<{ error: any }>()
 );
 // Load history
@@ -92,3 +92,4 @@ export const deleteBranchAddressFailure = createAction(
   '[BranchAddresses] Delete Failure',
   props<{ error: any }>()
 );
+

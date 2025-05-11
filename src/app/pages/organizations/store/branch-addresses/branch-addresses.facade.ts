@@ -34,8 +34,8 @@ export class BranchAddressesFacade {
   loadHistory() {
     this.store.dispatch(Actions.loadBranchAddressesHistory());
   }
-  loadAllByBranchId(id: number) {
-    this.store.dispatch(Actions.loadBranchAddressesByBranchId({id}));
+  loadAllByBranchId(branchId: number) {
+    this.store.dispatch(Actions.loadBranchAddressesByBranchId({branchId}));
   }
   loadOne(id: number) {
     this.store.dispatch(Actions.loadBranchAddress({ id }));
