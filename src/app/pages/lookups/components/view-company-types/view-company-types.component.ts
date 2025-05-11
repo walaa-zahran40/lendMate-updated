@@ -37,8 +37,8 @@ export class ViewCompanyTypesComponent {
     this.companyTypes$
       ?.pipe(takeUntil(this.destroy$))
       .subscribe((companyTypes) => {
-        // companyTypes is now CompanyType[], not any
-        const sorted = [...companyTypes].sort((a, b) => b.id - a.id);
+        const activeOnly = companyTypes.filter((ct) => ct.isActive); // 👈 filter here
+        const sorted = [...activeOnly].sort((a, b) => b.id - a.id);
         this.originalCompanyTypes = sorted;
         this.filteredCompanyTypes = [...sorted];
       });

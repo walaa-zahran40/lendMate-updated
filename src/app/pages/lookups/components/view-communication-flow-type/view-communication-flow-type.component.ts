@@ -40,8 +40,8 @@ export class ViewCommunicationFlowTypeComponent {
     this.communicationFlowTypes$
       ?.pipe(takeUntil(this.destroy$))
       .subscribe((communicationFlowTypes) => {
-        // communicationFlowTypes is now communicationFlowType[], not any
-        const sorted = [...communicationFlowTypes].sort((a, b) => b.id - a.id);
+        const activeOnly = communicationFlowTypes.filter((ct) => ct.isActive); // 👈 filter here
+        const sorted = [...activeOnly].sort((a, b) => b.id - a.id);
         this.originalCommunicationFlowTypes = sorted;
         this.filteredCommunicationFlowTypes = [...sorted];
       });

@@ -34,9 +34,9 @@ export class ViewCallTypesComponent {
     this.facade.loadAll();
     this.callTypes$ = this.facade.all$;
 
-    this.callTypes$?.pipe(takeUntil(this.destroy$)).subscribe((callTypes) => {
-      // callTypes is now CompanyType[], not any
-      const sorted = [...callTypes].sort((a, b) => b.id - a.id);
+    this.callTypes$.pipe(takeUntil(this.destroy$)).subscribe((callTypes) => {
+      const activeOnly = callTypes.filter((ct) => ct.isActive); // 👈 filter here
+      const sorted = [...activeOnly].sort((a, b) => b.id - a.id);
       this.originalCallTypes = sorted;
       this.filteredCallTypes = [...sorted];
     });

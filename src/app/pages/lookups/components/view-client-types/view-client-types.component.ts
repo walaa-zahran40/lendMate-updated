@@ -38,7 +38,8 @@ export class ViewClientTypesComponent {
       ?.pipe(takeUntil(this.destroy$))
       .subscribe((clientTypes) => {
         // clientTypes is now clientType[], not any
-        const sorted = [...clientTypes].sort((a, b) => b.id - a.id);
+        const activeOnly = clientTypes.filter((ct) => ct.isActive); // 👈 filter here
+        const sorted = [...activeOnly].sort((a, b) => b.id - a.id);
         this.originalClientTypes = sorted;
         this.filteredClientTypes = [...sorted];
       });

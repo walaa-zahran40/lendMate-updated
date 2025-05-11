@@ -108,4 +108,14 @@ export class CurrenciesEffects {
       )
     )
   );
+  refreshList$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        ActionsList.createEntitySuccess,
+        ActionsList.updateEntitySuccess,
+        ActionsList.deleteEntitySuccess
+      ),
+      map(() => ActionsList.loadAll({}))
+    )
+  );
 }
