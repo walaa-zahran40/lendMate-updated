@@ -43,10 +43,11 @@ export class ViewAssetTypeCategoriesComponent {
     this.assetTypeCategories$ = this.facade.all$;
 
     this.assetTypeCategories$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((assetTypeCategories) => {
-        const sorted = [...assetTypeCategories].sort((a, b) => b.id - a.id);
-        console.log('🟢 sorted assetTypeCategories:', sorted);
+      ?.pipe(takeUntil(this.destroy$))
+      ?.subscribe((assetTypeCategories) => {
+        // products is now rentStructureType[], not any
+        const activeCodes = assetTypeCategories.filter((code) => code.isActive);
+        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
         this.originalAssetTypeCategories = sorted;
         this.filteredAssetTypeCategories = [...sorted];
       });
