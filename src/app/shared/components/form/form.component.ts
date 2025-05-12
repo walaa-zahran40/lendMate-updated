@@ -74,6 +74,9 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() legalFormLawIdControl!: number;
   selectedLegalFormLawId: number | null = null;
   @Input() legalFormId: number | null = null;
+  @Input() officersList: any;
+  @Input() areasList: any;
+
   selectedLegalForm: any;
   @Output() sectorChanged = new EventEmitter<number>();
 
@@ -436,6 +439,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addCurrenciesExchangeLookupsForm!: boolean;
   @Input() addPaymentMethodsLookupsForm!: boolean;
   currencyIdParam: any;
+  branchIdParam: any;
   @Input() addPaymentTypesLookupsForm!: boolean;
   @Input() addPaymentMonthDaysLookupsForm!: boolean;
   @Input() addMeetingTypesLookupsForm!: boolean;
@@ -507,6 +511,7 @@ export class FormComponent implements OnInit, OnDestroy {
     console.log('currency', this.route.snapshot);
     this.id = this.route.snapshot.paramMap.get('clientId')!;
     this.currencyIdParam = this.route.snapshot.queryParams['currencyId'];
+    this.branchIdParam = this.route.snapshot.queryParams['branchId'];
 
     this.sub = this.formGroup?.valueChanges
       .pipe(debounceTime(300))
@@ -862,7 +867,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-business-lines']);
   }
   viewBranchManagers() {
-    this.router.navigate(['/lookups/view-branch-managers']);
+    this.router.navigate([`/organizations/view-branch-managers/${this.branchIdParam}`]);
   }
   viewBranchOfficers() {
     this.router.navigate(['/lookups/view-branch-officers']);

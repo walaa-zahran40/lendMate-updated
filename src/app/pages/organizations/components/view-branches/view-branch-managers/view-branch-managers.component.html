@@ -1,26 +1,41 @@
 <div class="page-content">
   <app-toolbar-table
-    [title]="'Branch Managers'"
+    [title]="'Branch Manager'"
     [labelBtn]="'Add Branch Manager'"
-    [backExists]="true"
-    [exports]="true"
+    [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
-    (addBtn)="onAdd()"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddBranchManager()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col1Name]="'Details'"
-    [col2Name]="'Start Date'"
-    [col3Name]="'End Date'"
-    [col4Name]="'Name EN'"
-    [col5Name]="'Name AR'"
-    [edit]="true"
-    [delete]="true"
-    [side]="false"
-    [download]="false"
-    [checkBox]="true"
-    [viewBranchManagersTable]="true"
-    [uppercase]="'uppercase'"
-  ></app-table>
+
+  <ng-container *ngIf="branchManagers$ | async as branchManagers">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredBranchManagers"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewCurrencyExchangeTable]="true"
+      (onDelete)="onDeleteBranchManager($event)"
+      (onEdit)="onEditBranchManager($event)"
+      (viewForm)="onViewBranchManager($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
 </div>

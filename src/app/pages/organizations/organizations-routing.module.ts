@@ -82,6 +82,10 @@ const routes: Routes = [
     component: AddBranchManagersComponent,
   },
   {
+    path: 'edit-branch-managers/:id',
+    component: AddBranchManagersComponent,
+  },
+  {
     path: 'view-branch-managers/:branchId',
     component: ViewBranchManagersComponent,
   },
