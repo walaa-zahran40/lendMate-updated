@@ -47,6 +47,8 @@ import { ViewBranchManagersComponent } from './components/branches/view-branch-m
 import { ViewBranchOfficersComponent } from './components/branches/view-branch-officers/view-branch-officers.component';
 import { ViewBranchComponent } from './components/branches/view-branches/view-branch.component';
 import { ViewDepartmentsComponent } from './components/departments/view-departments/view-departments.component';
+import { reducer as RolesReducer } from './store/roles/roles.reducer';
+import { RolesEffects } from './store/roles/roles.effects';
 
 @NgModule({
   declarations: [
@@ -101,6 +103,8 @@ import { ViewDepartmentsComponent } from './components/departments/view-departme
     EffectsModule.forFeature([BranchesEffects]),
     StoreModule.forFeature('branchAddresses', branchAddressesReducer),
     EffectsModule.forFeature([BranchAddressesEffects]),
+    StoreModule.forFeature('roles', RolesReducer),
+    EffectsModule.forFeature([RolesEffects]),
   ],
   exports: [
     AddDepartmentComponent,

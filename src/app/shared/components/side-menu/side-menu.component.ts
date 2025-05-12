@@ -486,14 +486,14 @@ export class SideMenuComponent {
         icon: 'pi pi-users',
         items: [
           {
-            label: 'ApplicationRole',
+            label: 'Application Roles',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-sme-client-codes',
+            routerLink: '/organizations/view-roles',
           },
           {
-            label: 'ApplicationRoleClaim',
+            label: 'Application Role Claims',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-sme-client-codes',
+            routerLink: '/organizations/view-role-claims',
           },
           {
             label: 'ApplicationUserRole',

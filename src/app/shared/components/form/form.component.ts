@@ -943,8 +943,8 @@ export class FormComponent implements OnInit, OnDestroy {
   viewOperation() {
     this.router.navigate(['/crm/clients/view-operation']);
   }
-  viewRole() {
-    this.router.navigate(['/crm/clients/view-role']);
+  viewRoles() {
+    this.router.navigate(['/organizations/view-roles']);
   }
   viewTeamMember() {
     this.router.navigate(['/crm/clients/view-team-member']);

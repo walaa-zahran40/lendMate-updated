@@ -130,6 +130,20 @@ const routes: Routes = [
     path: 'add-department-manager/:deptId',
     component: AddDepartmentManagerComponent,
   },
+  //roles
+  {
+    path: 'view-roles',
+    component: ViewRolesComponent,
+  },
+  {
+    path: 'add-role',
+    component: AddRoleComponent,
+  },
+  {
+    path: 'edit-role/:id',
+    component: AddRoleComponent,
+  },
+  //----
   {
     path: 'add-team',
     component: AddTeamComponent,
@@ -142,10 +156,7 @@ const routes: Routes = [
     path: 'add-team-member',
     component: AddTeamMemberComponent,
   },
-  {
-    path: 'add-role',
-    component: AddRoleComponent,
-  },
+
   {
     path: 'add-operation',
     component: AddOperationComponent,
@@ -171,10 +182,7 @@ const routes: Routes = [
     path: 'view-team-lead',
     component: ViewTeamLeadComponent,
   },
-  {
-    path: 'view-roles',
-    component: ViewRolesComponent,
-  },
+
   {
     path: 'view-team-member',
     component: ViewTeamMemberComponent,

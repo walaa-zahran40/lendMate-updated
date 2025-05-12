@@ -481,8 +481,8 @@
       *ngIf="addRoleORGForm"
       icon="pi pi-cog"
       iconPos="left"
-      label="View Role"
-      (click)="viewRole()"
+      label="View Roles"
+      (click)="viewRoles()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -4070,7 +4070,88 @@
         </div>
       </div>
     </form>
+    <!--Organizations forms-->
+    <form
+      [formGroup]="formGroup"
+      *ngIf="addRoleORGForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="name">Name in English<sup>*</sup></label>
+      <input
+        pInputText
+        id="name"
+        formControlName="name"
+        placeholder="Enter Name in English"
+      />
+      <div
+        *ngIf="
+          formGroup.get('name')?.hasError('required') &&
+          formGroup.get('name')?.touched
+        "
+        class="p-error"
+      >
+        Name in English is required.
+      </div>
 
+      <label for="normalizedName">Normalized Name<sup>*</sup></label>
+      <input
+        pInputText
+        id="normalizedName"
+        formControlName="normalizedName"
+        placeholder="Enter Normalized Name"
+      />
+      <div
+        *ngIf="
+          formGroup.get('normalizedName')?.hasError('required') &&
+          formGroup.get('normalizedName')?.touched
+        "
+        class="p-error"
+      >
+        Normalized Name is required.
+      </div>
+
+      <div class="p-field" *ngIf="editMode">
+        <p-toggleSwitch
+          id="isActive"
+          formControlName="isActive"
+          label="is Active"
+        ></p-toggleSwitch>
+        <label for="isActive"> Active</label>
+      </div>
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 addressTypesDiv"
+          *ngIf="!editMode"
+        >
+          <p-button
+            type="submit"
+            label="Add Role"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 addressTypesDiv"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Role"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 addressTypesDiv"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate(['/organizations/view-roles'])"
+          />
+        </div>
+      </div>
+    </form>
     <form action="" *ngIf="addClientGuarantorsShowIndividual">
       <label for="nameEnglishIndividual"
         >Name in English<sup class="danger">*</sup></label
@@ -9149,45 +9230,7 @@
         class="w-full md:w-56"
       />
     </form>
-    <form action="" *ngIf="addRoleORGForm">
-      <label for="codeRoleORG">Code<sup>*</sup></label>
-      <input
-        pInputText
-        id="codeRoleORG"
-        aria-describedby="codeRoleORG-help"
-        name="codeRoleORG"
-        placeholder="325423523"
-      />
-      <label for="nameRoleORG">Name<sup>*</sup></label>
-      <input
-        pInputText
-        id="nameRoleORG"
-        aria-describedby="nameRoleORG-help"
-        name="nameRoleORG"
-        placeholder="mohamoa"
-      />
-      <label for="normalizedNameRoleORG">Normalized Name<sup>*</sup></label>
-      <input
-        pInputText
-        id="normalizedNameRoleORG"
-        aria-describedby="normalizedNameRoleORG-help"
-        name="normalizedNameRoleORG"
-        placeholder="mohamoa"
-      />
-      <div class="roles" *ngFor="let role of roles">
-        <div class="flex items-center gap-3">
-          <p-checkbox
-            [(ngModel)]="size"
-            inputId="size_large"
-            name="size"
-            value="Large"
-            [binary]="true"
-            size="large"
-          />
-          <label for="size_large" class="text-lg">Active</label>
-        </div>
-      </div>
-    </form>
+
     <form action="" *ngIf="addOperationORGForm">
       <label for="codeOperationORG">Code<sup>*</sup></label>
       <input

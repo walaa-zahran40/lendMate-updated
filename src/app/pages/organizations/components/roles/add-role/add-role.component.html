@@ -1,27 +1,24 @@
 <app-toolbar-form
-  [header]="'Add a Role'"
+  [header]="editMode ? 'Edit Address Type' : 'Add Address Type'"
   [backExists]="true"
-  [viewOnly]="false"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
 ></app-toolbar-form>
 <p-tabs value="0" styleClass="p-3">
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
+        *ngIf="addRoleORGForm"
         [title]="'Main Information'"
         [description]="
-          'Introduce your company core info quickly to users by fill up company details'
+          'Introduce your address core info quickly to users by fill up address details'
         "
+        [formGroup]="addRoleORGForm"
         [addRoleORGForm]="true"
+        [editMode]="editMode"
+        (submitForm)="addOrEditRole()"
+        [viewOnly]="viewOnly"
       ></app-form>
-
-      <div class="row justify-end">
-        <div
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 padding-right"
-          (click)="addRole()"
-        >
-          <p-button label="Add a Role" class="custom-save m-0 float-right" />
-        </div>
-      </div>
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>

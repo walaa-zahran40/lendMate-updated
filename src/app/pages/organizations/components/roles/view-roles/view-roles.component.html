@@ -2,25 +2,40 @@
   <app-toolbar-table
     [title]="'Roles'"
     [labelBtn]="'Add Role'"
-    [backExists]="true"
-    [exports]="true"
     [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddRole()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col1Name]="'Code'"
-    [col2Name]="'Name EN'"
-    [col3Name]="'Name AR'"
-    [col4Name]="'Normalized Name'"
-    [col5Name]="'Active'"
-    [edit]="true"
-    [delete]="true"
-    [side]="true"
-    [download]="false"
-    [checkBox]="true"
-    [viewRolesTable]="true"
-    [uppercase]="'uppercase'"
-  ></app-table>
+
+  <ng-container *ngIf="roles$ | async as roles">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredRoles"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewRolesTable]="true"
+      (onDelete)="onDeleteRole($event)"
+      (onEdit)="onEditRole($event)"
+      (viewForm)="onViewRole($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
 </div>

@@ -33,4 +33,5 @@ export enum EntityNames {
   PhoneType = 'PhoneType',
   Product = 'Product',
   RentStructureType = 'RentStructureType',
+  Role = 'Role',
 }
