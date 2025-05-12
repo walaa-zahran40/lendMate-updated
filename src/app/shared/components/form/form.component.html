@@ -8285,27 +8285,68 @@
       />
     </form>
 
-    <form action="" *ngIf="addBranchOfficersLookupsForm">
-      <label for="officerBranchOfficersLookups">Officer<sup>*</sup></label>
-      <p-multiselect
-        [options]="officerTypesMandates"
-        [(ngModel)]="selectedOfficerTypesMandate"
-        placeholder="Select Officers"
-        optionLabel="name"
-        display="chip"
-        icon="pi pi-times"
-        name="sectors"
-        styleClass="w-full md:w-80"
-        [maxSelectedLabels]="999"
-        chipIcon="pi pi-times"
-      />
-      <label for="isCurrentBranchOfficersLookups">IsCurrent<sup>*</sup></label>
+      <form
+      [formGroup]="formGroup"
+      *ngIf="addBranchOfficersLookupsForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="officerId">Officer<sup>*</sup></label>
       <p-select
-        [options]="stamps"
+        [options]="officersList"
         optionLabel="name"
-        placeholder="Yes"
-        class="w-full md:w-56"
+        placeholder="Select officer"
+        formControlName="officerId"
+        optionValue="id"
+        (onChange)="onSectorChange($event)"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('uId')?.invalid &&
+            (formGroup.get('officerId')?.dirty ||
+              formGroup.get('officerId')?.touched)
+        }"
       />
+      <div class="p-field" for="isCurrent" *ngIf="editMode">
+        <p-toggleSwitch
+          id="isCurrent"
+          formControlName="isCurrent"
+          label="is Active"
+        ></p-toggleSwitch>
+        <label for="isCurrent"> Current</label>
+      </div>
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 subSectorsDiv"
+          *ngIf="!editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Add Branch Officer"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 subSectorsDiv"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Branch Officer"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 sectorsDiv"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate([`/organizations/view-branch-officers/${this.branchIdParam}`])"
+          ></p-button>
+        </div>
+      </div>
     </form>
     <form
       [formGroup]="formGroup"
@@ -9485,32 +9526,77 @@
         placeholder="Department"
       />
     </form>
-    <form action="" *ngIf="addSignatoryOfficerORGForm">
-      <label for="startDateSignatoryOfficerORG">Start Date<sup>*</sup></label>
+     <form
+      [formGroup]="formGroup"
+      *ngIf="addSignatoryOfficerORGForm"
+      (ngSubmit)="onSubmit()"
+    >
+     <label for="startDate">Start Date<sup class="danger">*</sup></label>
       <p-datepicker
-        [(ngModel)]="date18"
         [iconDisplay]="'input'"
         [showIcon]="true"
         inputId="icondisplay"
-        appendTo="body"
-        name="startDateSignatoryOfficerORG"
-      />
-      <label for="codeSignatoryOfficerORG">Code<sup>*</sup></label>
-      <input
-        pInputText
-        id="codeSignatoryOfficerORG"
-        aria-describedby="codeSignatoryOfficerORG-help"
-        [(ngModel)]="value"
-        name="codeSignatoryOfficerORG"
-        placeholder="Department"
-      />
-      <label for="officerSignatoryOfficerORG">Officer<sup>*</sup></label>
+        name="startDate"
+        formControlName="startDate"
+      ></p-datepicker>
+
+      <label for="officerId">Officer<sup>*</sup></label>
       <p-select
-        [options]="pages"
+        [options]="officersList"
         optionLabel="name"
-        placeholder="Page"
-        class="w-full md:w-56"
+        placeholder="Select officer"
+        formControlName="officerId"
+        optionValue="id"
+        (onChange)="onSectorChange($event)"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('uId')?.invalid &&
+            (formGroup.get('officerId')?.dirty ||
+              formGroup.get('officerId')?.touched)
+        }"
       />
+      <div class="p-field" for="isActive" *ngIf="editMode">
+        <p-toggleSwitch
+          id="isActive"
+          formControlName="isActive"
+          label="is Active"
+        ></p-toggleSwitch>
+        <label for="isActive"> Current</label>
+      </div>
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 subSectorsDiv"
+          *ngIf="!editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Add Signatory Officer"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 subSectorsDiv"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Signatory Officer"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 sectorsDiv"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate(['/organizations/view-signatory-officers'])"
+          ></p-button>
+        </div>
+      </div>
     </form>
   </div>
 </div>

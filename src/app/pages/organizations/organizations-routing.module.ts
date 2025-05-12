@@ -86,7 +86,10 @@ const routes: Routes = [
     path: 'add-branch-officers',
     component: AddBranchOfficersComponent,
   },
-
+  {
+    path: 'edit-branch-officers/:id',
+    component: AddBranchOfficersComponent,
+  },
   {
     path: 'add-branch-managers',
     component: AddBranchManagersComponent,
@@ -188,7 +191,10 @@ const routes: Routes = [
     path: 'add-signatory-officer',
     component: AddSignatoryOfficerComponent,
   },
-
+  {
+    path: 'edit-signatory-officer/:id',
+    component: AddSignatoryOfficerComponent,
+  },
   {
     path: 'view-teams',
     component: ViewTeamsComponent,

@@ -1,27 +1,43 @@
 <div class="page-content">
   <app-toolbar-table
     [title]="'Signatory Officers'"
-    [labelBtn]="'Add Signatory Officers'"
-    [backExists]="true"
-    [exports]="true"
+    [labelBtn]="'Add Signatory Officer'"
     [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
-    (addBtn)="onAdd()"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddSignatoryOfficer()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col1Name]="'Code'"
-    [col2Name]="'Name EN'"
-    [col3Name]="'Name AR'"
-    [col4Name]="'Start Date'"
-    [col5Name]="'Active'"
-    [edit]="true"
-    [delete]="true"
-    [side]="false"
-    [download]="false"
-    [checkBox]="true"
-    [viewSignatoryOfficersTable]="true"
-    [uppercase]="'uppercase'"
-  ></app-table>
+
+  <!-- subscribe once to branches$ -->
+  <ng-container *ngIf="signatoryOfficers$ | async as signatoryOfficers">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredSignatoryOfficers"
+      [edit]="true"
+      [delete]="true"
+      [side]="true"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewSignatoryOfficersTable]="true"
+      (onDelete)="onDeleteSignatoryOfficerId($event)"
+      (onEdit)="onEditSignatoryOfficer($event)"
+      (viewForm)="onViewSignatoryOfficer($event)"
+    ></app-table>
+
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
 </div>

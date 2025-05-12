@@ -35,4 +35,5 @@ export enum EntityNames {
   RentStructureType = 'RentStructureType',
   Role = 'Role',
   Page = 'Page',
+  SignatoryOfficer='SignatoryOfficer'
 }

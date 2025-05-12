@@ -55,6 +55,11 @@ import { reducer as PagesReducer } from './store/pages/pages.reducer';
 import { PagesEffects } from './store/pages/pages.effects';
 import { PreloadAllModules, RouterModule } from '@angular/router';
 import { routes } from '../../app-routing.module';
+import { BranchOfficersEffects } from './store/branch-officers/branch-officers.effects';
+import { branchOfficersReducer } from './store/branch-officers/branch-officers.reducer';
+import { SignatoryOfficersEffects } from './store/signatory-officers/signatory-officers.effects';
+import { reducer as signatoryOfficersReducer} from './store/signatory-officers/signatory-officers.reducer';
+
 
 @NgModule({
   declarations: [
@@ -115,6 +120,10 @@ import { routes } from '../../app-routing.module';
     EffectsModule.forFeature([RolesEffects]),
     StoreModule.forFeature('pages', PagesReducer),
     EffectsModule.forFeature([PagesEffects]),
+    StoreModule.forFeature('branchOfficers', branchOfficersReducer),
+    EffectsModule.forFeature([BranchOfficersEffects]),
+    StoreModule.forFeature('signatoryOfficers', signatoryOfficersReducer),
+    EffectsModule.forFeature([SignatoryOfficersEffects]),
   ],
   exports: [
     AddDepartmentComponent,

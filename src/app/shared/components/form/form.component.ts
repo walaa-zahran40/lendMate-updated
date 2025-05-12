@@ -626,8 +626,10 @@ export class FormComponent implements OnInit, OnDestroy {
       `/organizations/view-branch-managers/${this.branchIdParam}`,
     ]);
   }
-  viewBranchOfficers() {
-    this.router.navigate(['/lookups/view-branch-officers']);
+    viewBranchOfficers() {
+      this.router.navigate([
+      `/organizations/view-branch-officers/${this.branchIdParam}`,
+    ]);
   }
   viewBranchAddress() {
     console.log('rrrrr', this.branchIdParam);

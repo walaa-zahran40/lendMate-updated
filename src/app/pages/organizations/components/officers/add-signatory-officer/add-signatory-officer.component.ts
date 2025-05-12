@@ -1,4 +1,11 @@
 import { Component } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { filter, Subject, take, takeUntil } from 'rxjs';
+import { Officer } from '../../../store/officers/officer.model';
+import { OfficersFacade } from '../../../store/officers/officers.facade';
+import { SignatoryOfficer } from '../../../store/signatory-officers/signatory-officer.model';
+import { SignatoryOfficersFacade } from '../../../store/signatory-officers/signatory-officers.facade';
 
 @Component({
   selector: 'app-add-signatory-officer',
@@ -7,7 +14,124 @@ import { Component } from '@angular/core';
   styleUrl: './add-signatory-officer.component.scss',
 })
 export class AddSignatoryOfficerComponent {
-  addSignatoryOfficer() {
-    console.log('added');
+  editMode: boolean = false;
+  viewOnly = false;
+  addSignatoryOfficersLookupsForm!: FormGroup;
+  clientId: any;
+  officers:Officer[]=[];
+  
+  private destroy$ = new Subject<void>();
+
+  constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private facade: SignatoryOfficersFacade,
+    private router: Router,
+    private officersFacade: OfficersFacade,
+  ) {}
+
+  ngOnInit() {
+      this.addSignatoryOfficersLookupsForm = this.fb.group({
+      id: [null],
+      officerId: [null, Validators.required],
+      startDate: [null, Validators.required],
+      isActive: [true],
+    });
+
+    // Load officer dropdown
+    this.officersFacade.loadAll();
+    this.officersFacade.items$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((list) => (this.officers = list));
+    
+    this.route.paramMap.subscribe((params) => {
+      const id = params.get('id');
+      if (id) {
+        // we have an id → edit mode
+        this.editMode = true;
+        this.clientId = +id;
+
+        // disable if it’s view mode via ?mode=view
+        this.viewOnly = this.route.snapshot.queryParams['mode'] === 'view';
+        if (this.viewOnly) {
+          this.addSignatoryOfficersLookupsForm.disable();
+        }
+
+        // 3. load the existing record & patch the form
+        this.facade.loadById(this.clientId);
+        this.facade.selected$
+          .pipe(
+            filter((ct): ct is SignatoryOfficer => !!ct && ct.id === this.clientId),
+            take(1)
+          )
+          .subscribe((ct) => {
+            this.addSignatoryOfficersLookupsForm.patchValue({
+              id: ct!.id,
+              officerId: ct!.officerId,
+              startDate:new Date(ct!.startDate),
+              isActive: ct!.isActive,
+            });
+          });
+      } else {
+        // no id → add mode: still check if ?mode=view
+        this.viewOnly = this.route.snapshot.queryParams['mode'] === 'view';
+        if (this.viewOnly) {
+          this.addSignatoryOfficersLookupsForm.disable();
+        }
+      }
+    });
+  }
+
+  addOrEditSignatoryOfficer() {
+    console.log('💥 addSignatoryOfficers() called');
+    console.log('  viewOnly:', this.viewOnly);
+    console.log('  editMode:', this.editMode);
+    console.log('  form valid:', this.addSignatoryOfficersLookupsForm.valid);
+    console.log('  form touched:', this.addSignatoryOfficersLookupsForm.touched);
+    console.log('  form raw value:', this.addSignatoryOfficersLookupsForm.getRawValue());
+
+    // Print individual control errors
+    const nameCtrl = this.addSignatoryOfficersLookupsForm.get('name');
+    const nameARCtrl = this.addSignatoryOfficersLookupsForm.get('nameAR');
+    console.log('  name.errors:', nameCtrl?.errors);
+    console.log('  nameAR.errors:', nameARCtrl?.errors);
+
+    if (this.viewOnly) {
+      console.log('⚠️ viewOnly mode — aborting add');
+      return;
+    }
+
+    if (this.addSignatoryOfficersLookupsForm.invalid) {
+      console.warn('❌ Form is invalid — marking touched and aborting');
+      this.addSignatoryOfficersLookupsForm.markAllAsTouched();
+      return;
+    }
+
+    const { officerId, startDate } = this.addSignatoryOfficersLookupsForm.value;
+    const payload: Partial<SignatoryOfficer> = { officerId, startDate };
+    console.log('  → payload object:', payload);
+
+    // Double-check your route param
+    const routeId = this.route.snapshot.paramMap.get('id');
+    console.log('  route.snapshot.paramMap.get(clientId):', routeId);
+
+    if (this.editMode) {
+      const { id, officerId, startDate } = this.addSignatoryOfficersLookupsForm.value;
+      const payload: SignatoryOfficer = { id, officerId, startDate };
+      console.log(
+        '🔄 Dispatching UPDATE id=',
+        this.clientId,
+        ' payload=',
+        payload
+      );
+      this.facade.update(id, payload);
+    } else {
+      console.log('➕ Dispatching CREATE payload=', payload);
+      this.facade.create(payload);
+    }
+
+    console.log('🧭 Navigating away to view-signatory-officers');
+    this.router.navigate(['/organizations/view-signatory-officers']);
   }
 }
+
