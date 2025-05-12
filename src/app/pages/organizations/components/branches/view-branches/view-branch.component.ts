@@ -1,10 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject, Observable, takeUntil, tap } from 'rxjs';
-import { TableComponent } from '../../../../shared/components/table/table.component';
-import { BranchesFacade } from '../../store/branches/branches.facade';
-import { Branch } from '../../store/branches/branch.model';
-import { selectAllBranches } from '../../store/branches/branches.selectors';
+import { TableComponent } from '../../../../../shared/components/table/table.component';
+import { BranchesFacade } from '../../../store/branches/branches.facade';
+import { Branch } from '../../../store/branches/branch.model';
+import { selectAllBranches } from '../../../store/branches/branches.selectors';
 
 @Component({
   selector: 'app-view-branch',

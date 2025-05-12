@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, take } from 'rxjs';
-import { BranchesFacade } from '../../store/branches/branches.facade';
-import { Branch } from '../../store/branches/branch.model';
+import { BranchesFacade } from '../../../store/branches/branches.facade';
+import { Branch } from '../../../store/branches/branch.model';
 
 @Component({
   selector: 'app-add-branch',

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Team } from '../../../../shared/interfaces/teams.interface';
+import { Team } from '../../../../../shared/interfaces/teams.interface';
 
 @Component({
   selector: 'app-view-teams',

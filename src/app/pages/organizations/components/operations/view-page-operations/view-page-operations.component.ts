@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PageOperations } from '../../../../shared/interfaces/page-operations.interface';
+import { PageOperations } from '../../../../../shared/interfaces/page-operations.interface';
 import { Router } from '@angular/router';
 
 @Component({

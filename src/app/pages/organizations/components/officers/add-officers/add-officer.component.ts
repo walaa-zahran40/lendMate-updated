@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, take } from 'rxjs';
-import { arabicOnlyValidator } from '../../../../shared/validators/arabic-only.validator';
-import { OfficersFacade } from '../../store/officers/officers.facade';
-import { Officer } from '../../store/officers/officer.model';
+import { arabicOnlyValidator } from '../../../../../shared/validators/arabic-only.validator';
+import { OfficersFacade } from '../../../store/officers/officers.facade';
+import { Officer } from '../../../store/officers/officer.model';
 import { Title } from '@angular/platform-browser';
 
 @Component({

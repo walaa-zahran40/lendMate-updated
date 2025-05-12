@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TeamLead } from '../../../../shared/interfaces/team-lead.interface';
+import { TeamLead } from '../../../../../shared/interfaces/team-lead.interface';
 
 @Component({
   selector: 'app-view-team-lead',

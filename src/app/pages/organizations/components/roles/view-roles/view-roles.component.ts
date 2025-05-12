@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Roles } from '../../../../shared/interfaces/roles.interface';
+import { Roles } from '../../../../../shared/interfaces/roles.interface';
 
 @Component({
   selector: 'app-view-roles',

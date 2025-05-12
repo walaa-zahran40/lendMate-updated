@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Operations } from '../../../../shared/interfaces/operations.interface';
+import { Operations } from '../../../../../shared/interfaces/operations.interface';
 
 @Component({
   selector: 'app-view-operations',
