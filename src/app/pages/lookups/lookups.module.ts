@@ -13,7 +13,7 @@ import { AddInterestRateBenchmarksComponent } from './components/add-interest-ra
 import { AddFeeTypesComponent } from './components/add-fee-types/add-fee-types.component';
 import { AddPeriodUnitsComponent } from './components/add-period-units/add-period-units.component';
 import { AddRentStructureTypesComponent } from './components/add-rent-structure-types/add-rent-structure-types.component';
-import { AddCurrenciesComponent } from './components/add-currencies/add-currencies.component';
+import { AddCurrenciesComponent } from './components/currencies/add-currencies/add-currencies.component';
 import { AddPaymentMethodsComponent } from './components/add-payment-methods/add-payment-methods.component';
 import { AddPaymentTypesComponent } from './components/add-payment-types/add-payment-types.component';
 import { AddPaymentMonthDaysComponent } from './components/add-payment-month-days/add-payment-month-days.component';
@@ -41,7 +41,7 @@ import { AddCallTypesComponent } from './components/add-call-types/add-call-type
 import { AddCommunicationTypesComponent } from './components/add-communication-types/add-communication-types.component';
 import { AddCallActionTypesComponent } from './components/add-call-action-types/add-call-action-types.component';
 import { AddCommunicationFlowTypesComponent } from './components/add-communication-flow-types/communication-flow-types.component';
-import { AddCurrenciesExchangeComponent } from './components/add-currencies/add-currencies-exchange/add-currencies-exchange.component';
+import { AddCurrenciesExchangeComponent } from './components/currencies/add-currencies-exchange/add-currencies-exchange.component';
 import { LookupsRoutingModule } from './lookups-routing.module';
 import { SharedModule } from '../../shared/shared.module';
 import { AddDocTypesComponent } from './components/add-doc-types/add-doc-types.component';
@@ -53,9 +53,9 @@ import { ViewInterestRateBenchmarksComponent } from './components/view-interest-
 import { ViewFeeTypesComponent } from './components/view-fee-types/view-fee-types.component';
 import { ViewPeriodUnitsComponent } from './components/view-period-units/view-period-units.component';
 import { ViewRentStructureTypesComponent } from './components/view-rent-structure-types/view-rent-structure-types.component';
-import { ViewCurrenciesComponent } from './components/view-currencies/view-currencies.component';
-import { WizardCurrenciesComponent } from './components/wizard-currencies/wizard-currencies.component';
-import { ViewCurrencyExchangeComponent } from './components/view-currencies/view-currency-exchange/view-currency-exchange.component';
+import { ViewCurrenciesComponent } from './components/currencies/view-currencies/view-currencies.component';
+import { WizardCurrenciesComponent } from './components/currencies/wizard-currencies/wizard-currencies.component';
+import { ViewCurrencyExchangeComponent } from './components/currencies/view-currency-exchange/view-currency-exchange.component';
 import { ViewPaymentMethodsComponent } from './components/view-payment-methods/view-payment-methods.component';
 import { ViewInsuredByComponent } from './components/view-insured-by/view-insured-by.component';
 import { ViewLeasingTypeComponent } from './components/view-leasing-type/view-leasing-type.component';

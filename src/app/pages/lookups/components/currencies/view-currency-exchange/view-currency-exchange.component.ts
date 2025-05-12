@@ -60,31 +60,17 @@ export class ViewCurrencyExchangeComponent implements OnInit, OnDestroy {
     this.currencyExchangeRates$
       .pipe(
         takeUntil(this.destroy$),
-
-        // log raw array coming from the facade
-        tap((rawList) =>
-          console.log('[View] facade.items$ rawList =', rawList)
-        ),
-
-        // your transform
         map((list) =>
           list
             .map((r) => ({ ...r, currency: r.currency?.name || '—' }))
             .sort((a, b) => b.id - a.id)
-        ),
-
-        // log after mapping + sorting
-        tap((formatted) =>
-          console.log('[View] after map+sort formatted =', formatted)
         )
       )
-      .subscribe((formatted) => {
-        this.filteredCurrencyExchangeRates = formatted;
-        this.originalCurrencyExchangeRates = formatted;
-        console.log(
-          '[View] subscribe → filteredCurrencyExchangeRates =',
-          this.filteredCurrencyExchangeRates
-        );
+      .subscribe((currencies) => {
+        const activeCodes = currencies.filter((code) => code.isActive);
+        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
+        this.originalCurrencyExchangeRates = sorted;
+        this.filteredCurrencyExchangeRates = [...sorted];
       });
   }
 

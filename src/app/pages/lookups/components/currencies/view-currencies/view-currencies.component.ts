@@ -1,9 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
-import { TableComponent } from '../../../../shared/components/table/table.component';
-import { Currency } from '../../store/currencies/currency.model';
-import { CurrenciesFacade } from '../../store/currencies/currencies.facade';
+import { TableComponent } from '../../../../../shared/components/table/table.component';
+import { Currency } from '../../../store/currencies/currency.model';
+import { CurrenciesFacade } from '../../../store/currencies/currencies.facade';
 
 @Component({
   selector: 'app-view-currencies',
@@ -41,24 +41,11 @@ export class ViewCurrenciesComponent {
     this.facade.loadAll();
 
     this.currencies$.pipe(takeUntil(this.destroy$)).subscribe((currencies) => {
-      if (currencies.filter((code) => code.isActive)) {
-        const activeCodes = currencies.filter((code) => code.isActive);
-        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
-        this.originalCurrencies = sorted;
-        this.filteredCurrencies = [...sorted];
-      }
-      const sorted = [...currencies].sort((a, b) => b.id - a.id);
-      console.log('🟢 sorted currencies:', sorted);
+      const activeCodes = currencies.filter((code) => code.isActive);
+      const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
       this.originalCurrencies = sorted;
       this.filteredCurrencies = [...sorted];
     });
-    // this.docTypes$?.pipe(takeUntil(this.destroy$))?.subscribe((doc) => {
-    //   // doc is now doc[], not any
-    //   const activeCodes = doc.filter((code) => code.isActive);
-    //   const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
-    //   this.originalDocType = sorted;
-    //   this.filteredDocType = [...sorted];
-    // });
   }
 
   onAddCurrency() {

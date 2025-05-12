@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, take } from 'rxjs';
-import { arabicOnlyValidator } from '../../../../shared/validators/arabic-only.validator';
-import { CurrenciesFacade } from '../../store/currencies/currencies.facade';
-import { Currency } from '../../store/currencies/currency.model';
+import { arabicOnlyValidator } from '../../../../../shared/validators/arabic-only.validator';
+import { CurrenciesFacade } from '../../../store/currencies/currencies.facade';
+import { Currency } from '../../../store/currencies/currency.model';
 
 @Component({
   selector: 'app-add-currencies',
@@ -38,8 +38,6 @@ export class AddCurrenciesComponent {
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
       if (id) {
-        console.log('Arwaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', { id });
-
         this.editMode = true;
         this.clientId = +id;
 
