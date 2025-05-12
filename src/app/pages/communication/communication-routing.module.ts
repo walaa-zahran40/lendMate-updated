@@ -18,7 +18,7 @@ import { ViewMeetingTypesComponent } from './view-meeting-types/view-meeting-typ
 import { ViewCallComponent } from './view-call/view-call.component';
 import { ViewCallTypesComponent } from './view-call-types/view-call-types.component';
 import { SaveMeetingComponent } from './save-meeting/save-meeting.component';
-import { ViewAssetTypeCategoriesComponent } from '../lookups/components/view-asset-type-categories/view-asset-type-categories.component';
+import { ViewAssetTypeCategoriesComponent } from '../lookups/components/asset-type-categories/view-asset-type-categories/view-asset-type-categories.component';
 
 const routes: Routes = [
   {
