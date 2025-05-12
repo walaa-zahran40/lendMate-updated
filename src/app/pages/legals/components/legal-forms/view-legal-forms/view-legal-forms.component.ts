@@ -1,9 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
-import { TableComponent } from '../../../../shared/components/table/table.component';
-import { LegalForm } from '../../store/legal-forms/legal-form.model';
-import { LegalFormsFacade } from '../../store/legal-forms/legal-forms.facade';
+import { TableComponent } from '../../../../../shared/components/table/table.component';
+import { LegalForm } from '../../../store/legal-forms/legal-form.model';
+import { LegalFormsFacade } from '../../../store/legal-forms/legal-forms.facade';
 
 @Component({
   selector: 'app-view-legal-forms',
@@ -36,10 +36,9 @@ export class ViewLegalFormsComponent {
   ngOnInit() {
     this.facade.loadAll();
     this.legalForms$ = this.facade.items$;
-
-    this.legalForms$.pipe(takeUntil(this.destroy$)).subscribe((legalForms) => {
-      const sorted = [...legalForms].sort((a, b) => b.id - a.id);
-      console.log('🟢 sorted legalForms:', sorted);
+    this.legalForms$?.pipe(takeUntil(this.destroy$))?.subscribe((legal) => {
+      const activeCodes = legal.filter((code) => code.isActive);
+      const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
       this.originalLegalForms = sorted;
       this.filteredLegalForms = [...sorted];
     });

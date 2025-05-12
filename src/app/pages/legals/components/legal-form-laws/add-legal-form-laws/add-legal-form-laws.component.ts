@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { arabicOnlyValidator } from '../../../../shared/validators/arabic-only.validator';
+import { arabicOnlyValidator } from '../../../../../shared/validators/arabic-only.validator';
 import { filter, take } from 'rxjs';
-import { LegalFormLawsFacade } from '../../store/legal-form-laws/legal-form-laws.facade';
-import { LegalFormLaw } from '../../store/legal-form-laws/legal-form-law.model';
+import { LegalFormLawsFacade } from '../../../store/legal-form-laws/legal-form-laws.facade';
+import { LegalFormLaw } from '../../../store/legal-form-laws/legal-form-law.model';
 
 @Component({
   selector: 'app-add-legal-forms-laws',
