@@ -34,4 +34,5 @@ export enum EntityNames {
   Product = 'Product',
   RentStructureType = 'RentStructureType',
   Role = 'Role',
+  Page = 'Page',
 }

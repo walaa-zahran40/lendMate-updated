@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule, routes } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PagesModule } from './pages/pages.module';
 import { SharedModule } from './shared/shared.module';
@@ -23,6 +23,7 @@ import { StoreModule } from '@ngrx/store';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { LoaderInterceptor } from './shared/interceptors/loader.interceptor';
 import { uiReducer } from './shared/store/ui-state.reducer';
+import { PreloadAllModules, RouterModule } from '@angular/router';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -37,6 +38,9 @@ import { uiReducer } from './shared/store/ui-state.reducer';
     BrowserAnimationsModule,
     ConfirmDialogModule,
     ButtonModule,
+    RouterModule.forRoot(routes, {
+      preloadingStrategy: PreloadAllModules,
+    }),
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
     StoreModule.forFeature('ui', uiReducer),
@@ -53,6 +57,7 @@ import { uiReducer } from './shared/store/ui-state.reducer';
       },
     }),
     MessageService,
+
     ConfirmationService,
   ],
   bootstrap: [AppComponent],

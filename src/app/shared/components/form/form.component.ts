@@ -9,11 +9,12 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { CompanyLegalDetails } from '../../interfaces/company-legal-details.interface';
 import {
   take,
   map,
+  tap,
   filter,
   Observable,
   combineLatest,
@@ -318,6 +319,7 @@ export class FormComponent implements OnInit, OnDestroy {
       key: 'A',
     },
   ];
+  @Input() pagesList: any;
   selectedOperations: any[] = [
     {
       name: 'Active',
@@ -438,6 +440,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addCurrenciesLookupsForm!: boolean;
   @Input() addCurrenciesExchangeLookupsForm!: boolean;
   @Input() addPaymentMethodsLookupsForm!: boolean;
+  @Input() addPageORGForm!: boolean;
   currencyIdParam: any;
   branchIdParam: any;
   @Input() addPaymentTypesLookupsForm!: boolean;
@@ -512,7 +515,6 @@ export class FormComponent implements OnInit, OnDestroy {
     this.id = this.route.snapshot.paramMap.get('clientId')!;
     this.currencyIdParam = this.route.snapshot.queryParams['currencyId'];
     this.branchIdParam = this.route.snapshot.queryParams['branchId'];
-
     this.sub = this.formGroup?.valueChanges
       .pipe(debounceTime(300))
       .subscribe(() => {
@@ -551,252 +553,6 @@ export class FormComponent implements OnInit, OnDestroy {
       }
     }
     // Combine sectorId changes with all sub-sectors
-
-    this.selectedSectorsShowCompanyOnly = [
-      { name: 'Technology', code: 'T' },
-      { name: 'Programming', code: 'P' },
-      { name: 'Machine Learning', code: 'ML' },
-    ];
-    this.selectedSubSectorsShowCompanyOnly = [
-      { name: 'AI', code: 'AI' },
-      { name: 'Marketing Field', code: 'MF' },
-    ];
-    this.sectorsIndividual = [
-      { name: 'Technology', code: 'T' },
-      { name: 'Programming', code: 'P' },
-      { name: 'Machine Learning', code: 'ML' },
-    ];
-    this.subSectors = [
-      { name: 'AI', code: 'AI' },
-      { name: 'Marketing Field', code: 'MF' },
-    ];
-
-    this.subSectorsIndividual = [
-      { name: 'AI', code: 'AI' },
-      { name: 'Marketing Field', code: 'MF' },
-    ];
-    this.legalFormLaw = [{ name: 'Form Law 206', code: '206' }];
-    this.currencyExchangeRate = [{ name: 'USD', code: 'USD' }];
-    this.selectedCurrencyExchangeRate = { name: 'USD', code: 'USD' };
-    this.isManualExchangeRates = [{ name: 'YES', code: 'yes' }];
-    this.selectedIsManualExchangeRates = { name: 'YES', code: 'yes' };
-    this.interestRateBenchMarks = [{ name: 'Corridor', code: 'corridor' }];
-    this.selectedInterestRateBenchMarks = {
-      name: 'Corridor',
-      code: 'corridor',
-    };
-    this.paymentTimeTerms = [{ name: 'In Arrear', code: 'inArrear' }];
-    this.selectedPaymentTimeTerms = {
-      name: 'In Arrear',
-      code: 'inArrear',
-    };
-    this.paymentMethods = [{ name: 'BSO', code: 'bso' }];
-    this.selectedPaymentMethods = {
-      name: 'BSO',
-      code: 'bso',
-    };
-    this.rentStructures = [{ name: 'FixedRent', code: 'fixedRent' }];
-    this.selectedRentStructures = {
-      name: 'FixedRent',
-      code: 'fixedRent',
-    };
-    this.paymentMonthDays = [{ name: 'May', code: 'may' }];
-    this.selectedPaymentMonthDays = { name: 'May', code: 'may' };
-    this.selectedLegalFormLawCompanyViewOnly = [
-      { name: 'Form Law 206', code: '206' },
-    ];
-    this.legalForm = [{ name: 'Form Law 105', code: '105' }];
-    this.selectedLegalFormCompanyViewOnly = [
-      { name: 'Form Law 105', code: '105' },
-    ];
-    this.selectedIsStampCompanyViewOnly = [{ name: 'Yes', code: '1' }];
-    this.stamps = [
-      { name: 'Yes', id: true },
-      { name: 'No', id: false },
-    ];
-    this.selectedStamps = { name: 'Yes', code: '1' };
-    this.phoneTypes = [{ name: 'Phone Type', code: 'pt' }];
-    this.companyTypes = [{ name: 'Type', code: 'type' }];
-    this.selectedCompanyTypes = { name: 'Type', code: 'type' };
-
-    this.areas = [
-      { name: 'Haram', code: 'haram' },
-      { name: 'Andalus', code: 'andalus' },
-    ];
-    this.governments = [
-      { name: 'Giza', code: 'giza' },
-      { name: 'New Cairo', code: 'nc' },
-    ];
-    this.selectedGovernments = [{ name: 'Giza', code: 'giza' }];
-    this.selectedAreas = [{ name: 'Haram', code: 'haram' }];
-    this.genders = [
-      { name: 'Male', id: 1 },
-      { name: 'Female', id: 2 },
-    ];
-    this.addresses = [{ name: 'Address Type', code: 'adType' }];
-    this.selectedAddresses = [{ name: 'Address Type', code: 'adType' }];
-    this.countries = [
-      { name: 'Egypt', code: 'egypt' },
-      { name: 'UAE', code: 'uae' },
-    ];
-    this.selectedCountries = [{ name: 'Egypt', code: 'egypt' }];
-    this.codes = [{ name: 'Office', code: 'office' }];
-    this.selectedCodes = [{ name: 'Office', code: 'office' }];
-
-    this.isActive = [
-      { name: 'Yes', code: 'yes' },
-      { name: 'NO', code: 'no' },
-    ];
-    this.isMain = [
-      { name: 'Yes', code: 'yes' },
-      { name: 'NO', code: 'no' },
-    ];
-    this.crAuthorityOffices = [
-      {
-        name: 'CENTRAL BANK OF EGYPT - CUSTOMER CODE',
-        code: 'CC',
-      },
-    ];
-    this.shareHolderNames = [
-      {
-        name: 'Name',
-        code: 'name',
-      },
-    ];
-    this.shareHolderTypes = [
-      {
-        name: 'Type',
-        code: 'type',
-      },
-    ];
-    this.officerNames = [
-      {
-        name: 'Name',
-        code: 'name',
-      },
-    ];
-    this.officerTypes = [
-      {
-        name: 'Type',
-        code: 'type',
-      },
-    ];
-    this.clientNames = [
-      {
-        name: 'Google.com',
-        code: 'google',
-      },
-    ];
-    this.selectedClientNames = [
-      {
-        name: 'Google.com',
-        code: 'google',
-      },
-    ];
-    this.products = [
-      {
-        name: 'Software',
-        code: 'software',
-      },
-    ];
-    this.selectedProducts = [
-      {
-        name: 'Software',
-        code: 'software',
-      },
-    ];
-    this.selectedMandateValidityUnit = [{ name: 'Technology', code: 'T' }];
-    this.officerTypesMandates = [{ name: 'Officer', code: 'o' }];
-    this.selectedOfficerTypesMandate = [{ name: 'Officer', code: 'o' }];
-    this.actions = [{ name: 'Identity', code: 'id' }];
-    this.selectedActions = [{ name: 'Identity', code: 'id' }];
-
-    this.insuredBy = [{ name: 'Microsoft', code: 'M' }];
-    this.selectedInsuredBy = [{ name: 'Microsoft', code: 'M' }];
-    this.leasingTypes = [{ name: 'LeasingType', code: 'LT' }];
-    this.selectedLeasingTypes = [{ name: 'LeasingType', code: 'LT' }];
-    this.selectedGracePeriodUnits = [{ name: '100', code: '100' }];
-    this.gracePeriodUnits = [{ name: '100', code: '100' }];
-    this.paymentPeriods = [{ name: '50', code: '50' }];
-
-    this.selectedPaymentPeriods = { name: '50', code: '50' };
-    this.gracePeriodUnits = [{ name: '100', code: '100' }];
-
-    this.selectedGracePeriodUnits = { name: '100', code: '100' };
-    this.meetingTypeAddMeeting = [{ name: 'Business', code: 'Business' }];
-    this.selectedMeetingTypeAddMeeting = [
-      { name: 'Business', code: 'Business' },
-    ];
-    this.communicationFlowAddMeeting = [
-      { name: 'Technology', code: 'Technology' },
-      { name: 'Programming', code: 'Programming' },
-      { name: 'Machine Learning', code: 'MachineLearning' },
-    ];
-    this.selectedCommunicationFlowAddMeeting = [
-      { name: 'Technology', code: 'Technology' },
-      { name: 'Programming', code: 'Programming' },
-      { name: 'Machine Learning', code: 'MachineLearning' },
-    ];
-    this.countryAddMeeting = [{ name: 'Egypt', code: 'Egypt' }];
-    this.selectedCountryAddMeeting = [{ name: 'Egypt', code: 'Egypt' }];
-    this.governorateAddMeeting = [{ name: 'Cairo', code: 'Cairo' }];
-    this.selectedGovernorateAddMeeting = [{ name: 'Cairo', code: 'Cairo' }];
-    this.areaAddMeeting = [{ name: 'New Cairo', code: 'New Cairo' }];
-    this.selectedAreaAddMeeting = [{ name: 'New Cairo', code: 'New Cairo' }];
-    this.officerAddMeeting = [{ name: 'Form Law 206', code: 'Form Law 206' }];
-    this.selectedOfficerAddMeeting = [
-      { name: 'Form Law 206', code: 'Form Law 206' },
-    ];
-    this.selectedOfficers = [this.officers[0]];
-
-    this.contactPersonsFollowupsPoints = [{ name: 'Officer', code: 'Officer' }];
-    this.officersFollowupsPoints = [{ name: 'Officer', code: 'Officer' }];
-    this.callTypeAddCall = [{ name: 'Business', code: 'Business' }];
-    this.selectedCallTypeAddCall = [{ name: 'Business', code: 'Business' }];
-    this.callActionTypeAddCall = [{ name: 'Egypt', code: 'Egypt' }];
-    this.selectedCallActionTypeAddCall = [{ name: 'Egypt', code: 'Egypt' }];
-    this.communicationFlowAddCall = [
-      { name: 'Technology', code: 'Technology' },
-      { name: 'Programming', code: 'Programming' },
-      { name: 'Machine Learning', code: 'MachineLearning' },
-    ];
-    this.selectedCommunicationFlowAddCall = [
-      { name: 'Technology', code: 'Technology' },
-      { name: 'Programming', code: 'Programming' },
-      { name: 'Machine Learning', code: 'MachineLearning' },
-    ];
-    this.departments = [{ name: 'Department', code: 'Department' }];
-    this.teams = [{ name: 'Team', code: 'Team' }];
-    this.pages = [
-      {
-        name: 'Page',
-        key: 'page',
-      },
-    ];
-    this.selectedCurrencyExchangeLookups = [
-      {
-        name: 'EGP',
-        key: 'eGP',
-      },
-    ];
-    this.currencyExchangeLookups = [
-      {
-        name: 'EGP',
-        key: 'eGP',
-      },
-    ];
-    this.exchangeRateCurrencies = [
-      {
-        name: '50%',
-        key: '50%',
-      },
-    ];
-    this.selectedExchangeRateCurrencies = [
-      {
-        name: '50%',
-        key: '50%',
-      },
-    ];
   }
   ngOnDestroy() {
     this.sub.unsubscribe();

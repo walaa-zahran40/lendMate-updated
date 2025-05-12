@@ -401,7 +401,7 @@ export class SideMenuComponent {
             routerLink: '/lookups/view-sub-sectors',
           },
           {
-            label: 'Tenants CRUD',
+            label: 'Tenants ',
             icon: 'pi pi-user-plus',
             routerLink: '/crm/leasing-mandates/view-manage-mandate-termss',
           },
@@ -511,14 +511,14 @@ export class SideMenuComponent {
             routerLink: '/lookups/view-page-operations',
           },
           {
-            label: 'Operations CRUD',
+            label: 'Operations ',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-sme-client-codes',
           },
           {
-            label: 'Pages CRUD',
+            label: 'Pages',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-sme-client-codes',
+            routerLink: '/organizations/view-pages',
           },
         ],
       },

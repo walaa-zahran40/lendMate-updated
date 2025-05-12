@@ -31,6 +31,8 @@ import { ViewBranchAddressesComponent } from './components/branches/view-branch-
 import { ViewBranchManagersComponent } from './components/branches/view-branch-managers/view-branch-managers.component';
 import { ViewBranchComponent } from './components/branches/view-branches/view-branch.component';
 import { WizardBranchComponent } from './components/branches/wizard-branches/wizard-branch.component';
+import { AddPageComponent } from './components/pages/add-page/add-page.component';
+import { ViewPagesComponent } from './components/pages/view-pages/view-pages.component';
 const routes: Routes = [
   //Officers
 
@@ -142,6 +144,15 @@ const routes: Routes = [
   {
     path: 'edit-role/:id',
     component: AddRoleComponent,
+  },
+  //pages
+  {
+    path: 'add-page',
+    component: AddPageComponent,
+  },
+  {
+    path: 'view-pages',
+    component: ViewPagesComponent,
   },
   //----
   {

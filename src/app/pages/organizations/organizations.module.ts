@@ -49,6 +49,10 @@ import { ViewBranchComponent } from './components/branches/view-branches/view-br
 import { ViewDepartmentsComponent } from './components/departments/view-departments/view-departments.component';
 import { reducer as RolesReducer } from './store/roles/roles.reducer';
 import { RolesEffects } from './store/roles/roles.effects';
+import { AddPageComponent } from './components/pages/add-page/add-page.component';
+import { ViewPagesComponent } from './components/pages/view-pages/view-pages.component';
+import { reducer as PagesReducer } from './store/pages/pages.reducer';
+import { PagesEffects } from './store/pages/pages.effects';
 
 @NgModule({
   declarations: [
@@ -84,6 +88,8 @@ import { RolesEffects } from './store/roles/roles.effects';
     ViewPageOperationsComponent,
     ViewOfficersComponent,
     ViewSignatoryOfficersComponent,
+    AddPageComponent,
+    ViewPagesComponent,
   ],
   imports: [
     CommonModule,
@@ -105,6 +111,8 @@ import { RolesEffects } from './store/roles/roles.effects';
     EffectsModule.forFeature([BranchAddressesEffects]),
     StoreModule.forFeature('roles', RolesReducer),
     EffectsModule.forFeature([RolesEffects]),
+    StoreModule.forFeature('pages', PagesReducer),
+    EffectsModule.forFeature([PagesEffects]),
   ],
   exports: [
     AddDepartmentComponent,
