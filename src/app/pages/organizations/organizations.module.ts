@@ -25,26 +25,28 @@ import { ViewOperationsComponent } from './components/view-operations/view-opera
 import { ViewPageOperationsComponent } from './components/view-page-operations/view-page-operations.component';
 import { ViewOfficersComponent } from './components/view-officers/view-officers.component';
 import { ViewSignatoryOfficersComponent } from './components/view-signatory-officers/view-signatory-officers.component';
-import { AddBranchComponent } from './components/add-branches/add-branch.component';
-import { ViewBranchAddressesComponent } from './components/view-branches/view-branch-addresses/view-branch-addresses.component';
-import { AddBranchAddressesComponent } from './components/add-branches/add-branch-addresses/add-branch-addresses.component';
-import { ViewBranchManagersComponent } from './components/view-branches/view-branch-managers/view-branch-managers.component';
-import { AddBranchManagersComponent } from './components/add-branches/add-branch-managers/add-branch-managers.component';
-import { AddBranchOfficersComponent } from './components/add-branches/add-branch-officers/add-branch-officers.component';
-import { ViewBranchOfficersComponent } from './components/view-branches/view-branch-officers/view-branch-officers.component';
-import { WizardBranchComponent } from './components/wizard-branches/wizard-branch.component';
-import { ViewBranchComponent } from './components/view-branches/view-branch.component';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { DepartmentsEffects } from './store/departments/departments.effects';
-import { DepartmentsReducer } from './store/departments/departments.reducer';
-import { OfficersReducer } from './store/officers/officers.reducer';
-import { OfficersEffects } from './store/officers/officers.effects';
-import { reducer as BranchesReducer } from './store/branches/branches.reducer';
+import { branchAddressesReducer } from './store/branch-addresses/branch-addresses.reducer';
+import { BranchAddressesEffects } from './store/branch-addresses/branch-addresses.effects';
 import { BranchesEffects } from './store/branches/branches.effects';
+import { reducer as branchReducer } from './store/branches/branches.reducer';
+import { AddBranchAddressesComponent } from './components/add-branches/add-branch-addresses/add-branch-addresses.component';
+import { AddBranchManagersComponent } from './components/add-branches/add-branch-managers/add-branch-managers.component';
+import { AddBranchOfficersComponent } from './components/add-branches/add-branch-officers/add-branch-officers.component';
+import { AddBranchComponent } from './components/add-branches/add-branch.component';
 import { ViewDepartmentsComponent } from './components/departments/view-departments/view-departments.component';
+import { ViewBranchAddressesComponent } from './components/view-branches/view-branch-addresses/view-branch-addresses.component';
+import { ViewBranchManagersComponent } from './components/view-branches/view-branch-managers/view-branch-managers.component';
+import { ViewBranchOfficersComponent } from './components/view-branches/view-branch-officers/view-branch-officers.component';
+import { ViewBranchComponent } from './components/view-branches/view-branch.component';
+import { WizardBranchComponent } from './components/wizard-branches/wizard-branch.component';
 import { BranchManagersEffects } from './store/branch-managers/branch-managers.effects';
 import { branchManagersReducer } from './store/branch-managers/branch-managers.reducer';
+import { DepartmentsEffects } from './store/departments/departments.effects';
+import { DepartmentsReducer } from './store/departments/departments.reducer';
+import { OfficersEffects } from './store/officers/officers.effects';
+import { OfficersReducer } from './store/officers/officers.reducer';
 
 @NgModule({
   declarations: [
@@ -91,10 +93,14 @@ import { branchManagersReducer } from './store/branch-managers/branch-managers.r
     EffectsModule.forFeature([DepartmentsEffects]),
     StoreModule.forFeature('officers', OfficersReducer),
     EffectsModule.forFeature([OfficersEffects]),
-    StoreModule.forFeature('branches', BranchesReducer),
+    StoreModule.forFeature('branches', branchReducer),
     EffectsModule.forFeature([BranchesEffects]),
-     StoreModule.forFeature('branchManagers', branchManagersReducer),
+    StoreModule.forFeature('branchManagers', branchManagersReducer),
     EffectsModule.forFeature([BranchManagersEffects]),
+    StoreModule.forFeature('branches', branchReducer),
+    EffectsModule.forFeature([BranchesEffects]),
+    StoreModule.forFeature('branchAddresses', branchAddressesReducer),
+    EffectsModule.forFeature([BranchAddressesEffects]),
   ],
   exports: [
     AddDepartmentComponent,
@@ -111,4 +117,3 @@ import { branchManagersReducer } from './store/branch-managers/branch-managers.r
   ],
 })
 export class OrganizationsModule {}
-

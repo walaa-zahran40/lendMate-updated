@@ -1,10 +1,18 @@
+<app-toolbar-form
+  [header]="'Currenies'"
+  [header]="editMode ? 'Edit Currency' : 'Add Currency'"
+  [backExists]="true"
+  [viewOnly]="false"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form>
 <p-tabs value="0" styleClass="p-3">
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
         [title]="'Main Information'"
         [description]="
-          'Introduce your company core info quickly to users by fill up company
+          'Introduce your Currency core info quickly to users by fill up Currency
 details'
         "
         [addCurrenciesLookupsForm]="true"

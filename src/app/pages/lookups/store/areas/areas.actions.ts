@@ -5,6 +5,10 @@ export const loadAll = createAction(
   '[Areas] Load All',
   props<{ pageNumber?: number }>()
 );
+export const loadAreas = createAction(
+  '[Areas] Load All',
+  props<{ pageNumber?: number }>()
+);
 export const loadAllSuccess = createAction(
   '[Areas] Load All Success',
   props<{ result: Area[] }>()

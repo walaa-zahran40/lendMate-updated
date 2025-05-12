@@ -5,6 +5,10 @@ export const loadAll = createAction(
   '[Governorates] Load All',
   props<{ pageNumber?: number }>()
 );
+export const loadGovernorates = createAction(
+  '[Governorates] Load All',
+  props<{ pageNumber?: number }>()
+);
 export const loadAllSuccess = createAction(
   '[Governorates] Load All Success',
   props<{ result: Governorate[] }>()

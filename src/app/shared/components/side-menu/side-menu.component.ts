@@ -488,7 +488,7 @@ export class SideMenuComponent {
       //     {
       //       label: 'PageOperations',
       //       icon: 'pi pi-user-plus',
-      //       routerLink: '/organizations/view-page-operations',
+      //       routerLink: '/lookups/view-page-operations',
       //     },
       //     {
       //       label: 'Operations CRUD',

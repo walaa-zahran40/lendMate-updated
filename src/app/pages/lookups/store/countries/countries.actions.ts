@@ -5,6 +5,10 @@ export const loadAll = createAction(
   '[Countries] Load All',
   props<{ pageNumber?: number }>()
 );
+export const loadCountries = createAction(
+  '[Countries] Load All',
+  props<{ pageNumber?: number }>()
+);
 export const loadAllSuccess = createAction(
   '[Countries] Load All Success',
   props<{ result: Country[] }>()

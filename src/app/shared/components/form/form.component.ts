@@ -69,13 +69,13 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() assetTypeCategories: any;
   @Input() feeCalculationTypes: any;
   @Input() governoratesList: any;
+  @Input() areasList: any;
   @Input() currencies: { id: number; name: string }[] = [];
   @Input() selectedSectorId: number | null = null;
   @Input() legalFormLawIdControl!: number;
   selectedLegalFormLawId: number | null = null;
   @Input() legalFormId: number | null = null;
   @Input() officersList: any;
-  @Input() areasList: any;
 
   selectedLegalForm: any;
   @Output() sectorChanged = new EventEmitter<number>();
@@ -867,13 +867,18 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-business-lines']);
   }
   viewBranchManagers() {
-    this.router.navigate([`/organizations/view-branch-managers/${this.branchIdParam}`]);
+    this.router.navigate([
+      `/organizations/view-branch-managers/${this.branchIdParam}`,
+    ]);
   }
   viewBranchOfficers() {
     this.router.navigate(['/lookups/view-branch-officers']);
   }
   viewBranchAddress() {
-    this.router.navigate(['/crm/clients/view-branch-address']);
+    console.log('rrrrr', this.branchIdParam);
+    this.router.navigate([
+      `/organizations/view-branch-addresses/${this.branchIdParam}`,
+    ]);
   }
   viewBranch() {
     this.router.navigate(['/lookups/view-branches']);

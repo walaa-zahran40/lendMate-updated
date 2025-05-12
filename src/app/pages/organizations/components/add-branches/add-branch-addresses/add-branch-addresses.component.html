@@ -1,30 +1,29 @@
 <app-toolbar-form
   [header]="'Branch Address'"
+  [header]="editMode ? 'Edit Branch Address' : 'Add Branch Address'"
   [backExists]="true"
   [viewOnly]="false"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
 ></app-toolbar-form>
 <p-tabs value="0" styleClass="p-3">
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
-        [title]="'Main Information'"
+        *ngIf="addBranchAddressesLookupsForm"
+        [title]="'Branch Address'"
         [description]="
-          'Introduce your company core info quickly to users by fill up company details'
+          'Introduce your Branch Address core info quickly to users by fill up branch details'
         "
+        [formGroup]="addBranchAddressesLookupsForm"
         [addBranchAddressesLookupsForm]="true"
+        [editMode]="editMode"
+        (submitForm)="addOrEditBranchAddresses()"
+        [viewOnly]="viewOnly"
+        [countriesList]="countriesList$ | async"
+        [governoratesList]="filteredGovernorates"
+        [areasList]="filteredAreas"
       ></app-form>
-
-      <div class="row justify-end">
-        <div
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 padding-right"
-          (click)="addBranchAddresses()"
-        >
-          <p-button
-            label="Add Branch Address"
-            class="custom-save m-0 float-right"
-          />
-        </div>
-      </div>
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>

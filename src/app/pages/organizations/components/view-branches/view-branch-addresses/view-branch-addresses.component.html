@@ -2,24 +2,39 @@
   <app-toolbar-table
     [title]="'Branch Address'"
     [labelBtn]="'Add Branch Address'"
-    [backExists]="true"
-    [exports]="true"
+    [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddBranchAddress()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col1Name]="'Area'"
-    [col2Name]="'Details EN'"
-    [col3Name]="'Details AR'"
-    [col4Name]="'Name EN'"
-    [col5Name]="'Name AR'"
-    [edit]="true"
-    [delete]="true"
-    [side]="false"
-    [download]="false"
-    [checkBox]="true"
-    [viewBranchAddressesTable]="true"
-    [uppercase]="'uppercase'"
-  ></app-table>
+  <ng-container *ngIf="branchAddresses$ | async as branchAddresses">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredBranchAddresses"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewBranchAddressesTable]="true"
+      (onDelete)="onDeleteBranchAddress($event)"
+      (onEdit)="onEditBranchAddress($event)"
+      (viewForm)="onViewBranchAddress($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
 </div>
