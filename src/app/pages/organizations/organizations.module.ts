@@ -53,6 +53,8 @@ import { AddPageComponent } from './components/pages/add-page/add-page.component
 import { ViewPagesComponent } from './components/pages/view-pages/view-pages.component';
 import { reducer as PagesReducer } from './store/pages/pages.reducer';
 import { PagesEffects } from './store/pages/pages.effects';
+import { PreloadAllModules, RouterModule } from '@angular/router';
+import { routes } from '../../app-routing.module';
 
 @NgModule({
   declarations: [

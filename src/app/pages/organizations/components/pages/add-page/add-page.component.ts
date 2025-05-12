@@ -1,9 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { filter, distinctUntilChanged } from 'rxjs';
-import { AddressTypesFacade } from '../../../../lookups/store/address-types/address-types.facade';
-import { AddressType } from '../../../../lookups/store/address-types/address-types.model';
+import {
+  filter,
+  distinctUntilChanged,
+  take,
+  takeUntil,
+  Subject,
+  map,
+  tap,
+  switchMap,
+} from 'rxjs';
+import { PagesFacade } from '../../../../organizations/store/pages/pages.facade';
+import { Page } from '../../../../organizations/store/pages/page.model';
 import { NavigationService } from '../../../../../shared/services/navigation.service';
 
 @Component({
@@ -12,79 +21,119 @@ import { NavigationService } from '../../../../../shared/services/navigation.ser
   templateUrl: './add-page.component.html',
   styleUrl: './add-page.component.scss',
 })
-export class AddPageComponent {
+export class AddPageComponent implements OnDestroy, OnInit {
   editMode: boolean = false;
   viewOnly = false;
   addPageORGForm!: FormGroup;
   clientId: any;
   pagesList: any;
+  public destroy$ = new Subject<void>();
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private facade: AddressTypesFacade,
+    private facade: PagesFacade,
     private router: Router,
     private nav: NavigationService
   ) {}
 
   ngOnInit() {
-    const paths = this.nav.getAllNestedPaths();
-    this.pagesList = paths.map((p) => ({ label: p, value: p }));
+    // 1) Build your form
     this.addPageORGForm = this.fb.group({
-      id: [null], // ← new hidden control
-      name: ['', [Validators.required]],
+      id: [null],
+      page: ['', Validators.required],
+      name: ['', Validators.required],
       nameAR: [
         '',
-        [Validators.required, , Validators.pattern(/^[\u0600-\u06FF\s]+$/)],
+        [Validators.required, Validators.pattern(/^[\u0600-\u06FF\s]+$/)],
       ],
-      url: ['', [Validators.required]],
-      page: ['', [Validators.required]],
-      isActive: [true], // ← new hidden control
+      url: ['', Validators.required],
+      isActive: [true],
     });
 
-    this.route.paramMap.subscribe((params) => {
-      const id = params.get('id');
-      if (id) {
-        // we have an id → edit mode
-        this.editMode = true;
-        this.clientId = +id;
+    const pageCtrl = this.addPageORGForm.get('page')!;
+    const nameCtrl = this.addPageORGForm.get('name')!;
+    const urlCtrl = this.addPageORGForm.get('url')!;
 
-        // disable if it’s view mode via ?mode=view
-        this.viewOnly = this.route.snapshot.queryParams['mode'] === 'view';
-        if (this.viewOnly) {
-          this.addPageORGForm.disable();
-        }
+    // 2) Wire your dropdown → name & url logic
+    pageCtrl.valueChanges
+      .pipe(
+        filter((v) => typeof v === 'string'),
+        distinctUntilChanged(),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((v) => {
+        const lastSegment = v.split('/').pop()!;
+        nameCtrl.setValue(lastSegment, { emitEvent: false });
+        urlCtrl.setValue(`/${v}`, { emitEvent: false });
+      });
 
-        // 3. load the existing record & patch the form
-        // this.facade.loadById(this.clientId);
-        this.facade.loadById(this.clientId);
-        // setTimeout(() => {
-        // }, 2000);
-        this.facade.selected$
-          .pipe(
-            filter((ct) => !!ct),
-            distinctUntilChanged((prev, curr) => prev.id === curr.id)
-          )
-          .subscribe((ct) => {
-            console.log(ct);
-            this.addPageORGForm.patchValue({
-              id: ct!.id,
-              name: ct!.name,
-              nameAR: ct!.nameAR,
-              isActive: ct!.isActive,
-            });
+    // 3) Now listen for paramMap, reset & load accordingly
+    this.route.paramMap
+      .pipe(
+        map((pm) => pm.get('id')), // read the “id” param
+        distinctUntilChanged(), // only when it really changes
+        tap((idStr) => {
+          // ⭐ reset the form to its pristine defaults
+          this.addPageORGForm.reset({
+            id: null,
+            page: '',
+            name: '',
+            nameAR: '',
+            url: '',
+            isActive: true,
           });
-      } else {
-        // no id → add mode: still check if ?mode=view
-        this.viewOnly = this.route.snapshot.queryParams['mode'] === 'view';
-        if (this.viewOnly) {
-          this.addPageORGForm.disable();
-        }
-      }
-    });
+
+          // mode flags
+          this.editMode = !!idStr;
+          this.viewOnly = this.route.snapshot.queryParams['mode'] === 'view';
+
+          if (this.viewOnly) {
+            this.addPageORGForm.disable();
+          } else {
+            this.addPageORGForm.enable();
+          }
+
+          // if we have an id, *kick off* the load
+          if (idStr) {
+            this.facade.loadById(+idStr);
+          }
+        }),
+        filter((idStr) => !!idStr), // only continue if editing
+        switchMap((idStr) =>
+          this.facade.selected$.pipe(
+            filter((ct) => !!ct && ct.id === +idStr!), // wait for the matching record
+            take(1)
+          )
+        )
+      )
+      .subscribe((ct) => {
+        // derive your “page” from the API’s URL
+        const rawUrl = ct?.url || '';
+        const pagePath = rawUrl.startsWith('/') ? rawUrl.slice(1) : rawUrl;
+
+        // patch the page dropdown *first*, silently
+        pageCtrl.setValue(pagePath, { emitEvent: false });
+
+        // then patch the rest, still silently
+        this.addPageORGForm.patchValue(
+          {
+            id: ct?.id,
+            name: ct?.name,
+            nameAR: ct?.nameAR,
+            url: ct?.url,
+            isActive: ct?.isActive,
+          },
+          { emitEvent: false }
+        );
+      });
+
+    // 4) (optional) pre‐populate your pagesList for the <p-select>
+    const paths = this.nav.getAllNestedPaths().filter((p) => !p.includes('/:')); // drop paramized ones
+    this.pagesList = paths.map((p) => ({ label: p, value: p }));
   }
 
-  addOrEditAddressType() {
-    console.log('💥 addAddressTypes() called');
+  addOrEditPage() {
+    console.log('💥 addPages() called');
     console.log('  viewOnly:', this.viewOnly);
     console.log('  editMode:', this.editMode);
     console.log('  form valid:', this.addPageORGForm.valid);
@@ -108,8 +157,8 @@ export class AddPageComponent {
       return;
     }
 
-    const { name, nameAR, isActive } = this.addPageORGForm.value;
-    const payload: Partial<AddressType> = { name, nameAR, isActive };
+    const { name, nameAR, isActive, url, page } = this.addPageORGForm.value;
+    const payload: Partial<Page> = { name, nameAR, isActive, url, page };
     console.log('  → payload object:', payload);
 
     // Double-check your route param
@@ -117,8 +166,9 @@ export class AddPageComponent {
     console.log('  route.snapshot.paramMap.get(clientId):', routeId);
 
     if (this.editMode) {
-      const { id, name, nameAR, isActive } = this.addPageORGForm.value;
-      const payload: AddressType = { id, name, nameAR, isActive };
+      const { id, name, nameAR, isActive, url, page } =
+        this.addPageORGForm.value;
+      const payload: Page = { id, name, nameAR, isActive, url, page };
       console.log(
         '🔄 Dispatching UPDATE id=',
         this.clientId,
@@ -130,8 +180,12 @@ export class AddPageComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
-    console.log('🧭 Navigating away to view-address-types');
+    console.log('🧭 Navigating away to view-pages');
 
-    this.router.navigate(['/lookups/view-address-types']);
+    this.router.navigate(['/organizations/view-pages']);
+  }
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

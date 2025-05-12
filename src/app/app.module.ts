@@ -38,9 +38,7 @@ import { PreloadAllModules, RouterModule } from '@angular/router';
     BrowserAnimationsModule,
     ConfirmDialogModule,
     ButtonModule,
-    RouterModule.forRoot(routes, {
-      preloadingStrategy: PreloadAllModules,
-    }),
+
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
     StoreModule.forFeature('ui', uiReducer),

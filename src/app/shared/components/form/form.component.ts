@@ -28,7 +28,6 @@ import { selectAllSectors } from '../../../pages/crm/clients/store/sector-drop-d
 import { SubSectors } from '../../interfaces/sub-sector.interface';
 import { selectAllSubSectors } from '../../../pages/crm/clients/store/sub-sector-drop-down/sub-sector.selectors';
 import { LegalFormLaw } from '../../interfaces/legal-form-law.interface';
-import { LegalForm } from '../../interfaces/legal-form.interface';
 import * as sectorsActions from '../../../pages/crm/clients/store/sector-drop-down/sector.actions';
 import * as subSectorsActions from '../../../pages/crm/clients/store/sub-sector-drop-down/sub-sector.actions';
 import { setFormDirty } from '../../../pages/crm/clients/store/client-form/client-form.actions';
@@ -831,6 +830,9 @@ export class FormComponent implements OnInit, OnDestroy {
   }
   viewTaxOffices() {
     this.router.navigate(['/lookups/view-tax-offices']);
+  }
+  viewPageDetails() {
+    this.router.navigate(['/organizations/view-pages']);
   }
   viewDocTypes() {
     this.router.navigate(['/lookups/view-document-types']);

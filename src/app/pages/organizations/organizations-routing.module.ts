@@ -151,6 +151,10 @@ const routes: Routes = [
     component: AddPageComponent,
   },
   {
+    path: 'edit-page/:id',
+    component: AddPageComponent,
+  },
+  {
     path: 'view-pages',
     component: ViewPagesComponent,
   },

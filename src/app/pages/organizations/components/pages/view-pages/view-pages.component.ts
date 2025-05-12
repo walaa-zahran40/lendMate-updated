@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject, Observable, takeUntil, filter } from 'rxjs';
+import { Subject, Observable, takeUntil, filter, take, tap } from 'rxjs';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { Page } from '../../../../organizations/store/pages/page.model';
 import { PagesFacade } from '../../../store/pages/pages.facade';
@@ -32,7 +32,15 @@ export class ViewPagesComponent {
 
   constructor(private router: Router, private facade: PagesFacade) {}
   ngOnInit() {
-    this.facade.loadAll();
+    // 1️⃣ Only dispatch loadAll() if we don’t already have any pages
+    this.facade.all$
+      .pipe(
+        take(1), // take the very first emission…
+        filter((pages) => pages.length === 0), // …and only if the list is empty
+        tap(() => this.facade.loadAll()), // then fire loadAll()
+        takeUntil(this.destroy$) // clean up on destroy
+      )
+      .subscribe();
     this.facade.operationSuccess$
       .pipe(
         takeUntil(this.destroy$),
@@ -42,7 +50,6 @@ export class ViewPagesComponent {
     this.pages$ = this.facade.all$;
 
     this.pages$?.pipe(takeUntil(this.destroy$))?.subscribe((address) => {
-      // products is now rentStructureType[], not any
       const activeCodes = address.filter((code) => code.isActive);
       const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
       this.originalPages = sorted;
@@ -98,12 +105,12 @@ export class ViewPagesComponent {
     this.showFilters = value;
   }
   onEditPage(page: Page) {
-    this.router.navigate(['/lookups/edit-pages', page.id], {
+    this.router.navigate(['/organizations/edit-page', page.id], {
       queryParams: { mode: 'edit' },
     });
   }
   onViewPage(ct: Page) {
-    this.router.navigate(['/lookups/edit-pages', ct.id], {
+    this.router.navigate(['/organizations/edit-page', ct.id], {
       queryParams: { mode: 'view' },
     });
   }
