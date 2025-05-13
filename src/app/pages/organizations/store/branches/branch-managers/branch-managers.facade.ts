@@ -4,7 +4,7 @@ import * as Actions from './branch-managers.actions';
 import * as Selectors from './branch-managers.selectors';
 import { Observable } from 'rxjs';
 import { BranchManager } from './branch-manager.model';
-import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
+import { selectLastOperationSuccess } from '../../../../../shared/store/ui.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class BranchManagersFacade {
@@ -55,9 +55,7 @@ export class BranchManagersFacade {
       );
       return;
     }
-    this.store.dispatch(
-      Actions.loadBranchManagersByBranchId({ branchId })
-    );
+    this.store.dispatch(Actions.loadBranchManagersByBranchId({ branchId }));
   }
 
   /** UPDATED: now expects both id & parent branchId */
@@ -65,8 +63,6 @@ export class BranchManagersFacade {
     this.store.dispatch(Actions.deleteBranchManager({ id, branchId }));
   }
   loadByBranchId(branchId: number) {
-    this.store.dispatch(
-      Actions.loadBranchManagersByBranchId({ branchId })
-    );
+    this.store.dispatch(Actions.loadBranchManagersByBranchId({ branchId }));
   }
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BranchOfficer } from './branch-officer.model';
-import { environment } from '../../../../../environments/environment';
+import { environment } from '../../../../../../environments/environment';
 
 interface PagedResponse<T> {
   items: T[];
@@ -38,19 +38,14 @@ export class BranchOfficersService {
     );
   }
 
-  create(
-    data: Partial<BranchOfficer>
-  ): Observable<BranchOfficer> {
+  create(data: Partial<BranchOfficer>): Observable<BranchOfficer> {
     return this.http.post<BranchOfficer>(
       `${this.api}/CreateBranchesOfficer`,
       data
     );
   }
 
-  update(
-    id: number,
-    data: Partial<BranchOfficer>
-  ): Observable<BranchOfficer> {
+  update(id: number, data: Partial<BranchOfficer>): Observable<BranchOfficer> {
     return this.http.put<BranchOfficer>(`${this.api}/${id}`, data);
   }
 

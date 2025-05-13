@@ -6,9 +6,8 @@ import { OfficersFacade } from '../../../store/officers/officers.facade';
 import { Officer } from '../../../store/officers/officer.model';
 import { Store } from '@ngrx/store';
 import { selectOfficers } from '../../../store/officers/officers.selectors';
-import { BranchOfficer } from '../../../store/branch-officers/branch-officer.model';
-import { BranchOfficersFacade } from '../../../store/branch-officers/branch-officers.facade';
-
+import { BranchOfficer } from '../../../store/branches/branch-officers/branch-officer.model';
+import { BranchOfficersFacade } from '../../../store/branches/branch-officers/branch-officers.facade';
 
 @Component({
   selector: 'app-view-branch-officers',
@@ -28,7 +27,7 @@ export class ViewBranchOfficersComponent implements OnInit, OnDestroy {
 
   readonly colsInside = [
     { field: 'officerName', header: 'Officer' },
-   { field: 'isCurrent', header: 'Is Current' },
+    { field: 'isCurrent', header: 'Is Current' },
   ];
 
   showDeleteModal = false;
@@ -60,13 +59,13 @@ export class ViewBranchOfficersComponent implements OnInit, OnDestroy {
     }
     this.officersList$ = this.store.select(selectOfficers);
     this.officersFacade.loadAll();
- 
+
     // 2) dispatch the load (CORRECT: pass the number directly)
     this.facade.loadBranchOfficersByBranchId(this.branchIdParam);
     // 3) hook up the stream
     this.branchOfficers$ = this.facade.items$;
 
-     combineLatest([this.branchOfficers$, this.officersList$])
+    combineLatest([this.branchOfficers$, this.officersList$])
       .pipe(
         map(([branchOfficers, officers]) =>
           branchOfficers
@@ -109,10 +108,7 @@ export class ViewBranchOfficersComponent implements OnInit, OnDestroy {
 
   confirmDelete() {
     if (this.selectedBranchOfficerId != null) {
-      this.facade.delete(
-        this.selectedBranchOfficerId,
-        this.branchIdParam
-      );
+      this.facade.delete(this.selectedBranchOfficerId, this.branchIdParam);
     }
     this.resetDeleteModal();
   }
@@ -128,12 +124,12 @@ export class ViewBranchOfficersComponent implements OnInit, OnDestroy {
 
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
-    this.filteredBranchOfficers =
-      this.originalBranchOfficers.filter((branchOfficer) =>
+    this.filteredBranchOfficers = this.originalBranchOfficers.filter(
+      (branchOfficer) =>
         Object.values(branchOfficer).some((val) =>
           val?.toString().toLowerCase().includes(lower)
         )
-      );
+    );
   }
 
   onToggleFilters(value: boolean) {

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BranchManager } from './branch-manager.model';
-import { environment } from '../../../../../environments/environment';
+import { environment } from '../../../../../../environments/environment';
 
 interface PagedResponse<T> {
   items: T[];
@@ -38,19 +38,14 @@ export class BranchManagersService {
     );
   }
 
-  create(
-    data: Partial<BranchManager>
-  ): Observable<BranchManager> {
+  create(data: Partial<BranchManager>): Observable<BranchManager> {
     return this.http.post<BranchManager>(
       `${this.api}/CreateBranchesManager`,
       data
     );
   }
 
-  update(
-    id: number,
-    data: Partial<BranchManager>
-  ): Observable<BranchManager> {
+  update(id: number, data: Partial<BranchManager>): Observable<BranchManager> {
     return this.http.put<BranchManager>(`${this.api}/${id}`, data);
   }
 

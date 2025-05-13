@@ -161,6 +161,19 @@ const routes: Routes = [
     path: 'view-pages',
     component: ViewPagesComponent,
   },
+  //operations
+  {
+    path: 'add-operation',
+    component: AddOperationComponent,
+  },
+  {
+    path: 'edit-operation/:id',
+    component: AddOperationComponent,
+  },
+  {
+    path: 'view-operations',
+    component: ViewOperationsComponent,
+  },
   //----
   {
     path: 'add-team',
@@ -175,10 +188,6 @@ const routes: Routes = [
     component: AddTeamMemberComponent,
   },
 
-  {
-    path: 'add-operation',
-    component: AddOperationComponent,
-  },
   {
     path: 'add-page-operation',
     component: AddPageOperationComponent,
@@ -208,10 +217,7 @@ const routes: Routes = [
     path: 'view-team-member',
     component: ViewTeamMemberComponent,
   },
-  {
-    path: 'view-operations',
-    component: ViewOperationsComponent,
-  },
+
   {
     path: 'view-page-operations',
     component: ViewPageOperationsComponent,

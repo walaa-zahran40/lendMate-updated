@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { combineLatest, map, Observable, Subject, takeUntil, tap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BranchManager } from '../../../store/branch-managers/branch-manager.model';
-import { BranchManagersFacade } from '../../../store/branch-managers/branch-managers.facade';
+import { BranchManager } from '../../../store/branches/branch-managers/branch-manager.model';
+import { BranchManagersFacade } from '../../../store/branches/branch-managers/branch-managers.facade';
 import { OfficersFacade } from '../../../store/officers/officers.facade';
 import { Officer } from '../../../store/officers/officer.model';
 import { Store } from '@ngrx/store';
@@ -28,7 +28,7 @@ export class ViewBranchManagersComponent implements OnInit, OnDestroy {
   readonly colsInside = [
     { field: 'managerName', header: 'Manager' },
     { field: 'startDate', header: 'Start Date' },
-   { field: 'isCurrent', header: 'Is Current' },
+    { field: 'isCurrent', header: 'Is Current' },
   ];
 
   showDeleteModal = false;
@@ -60,13 +60,13 @@ export class ViewBranchManagersComponent implements OnInit, OnDestroy {
     }
     this.officersList$ = this.store.select(selectOfficers);
     this.officersFacade.loadAll();
- 
+
     // 2) dispatch the load (CORRECT: pass the number directly)
     this.facade.loadBranchManagersByBranchId(this.branchIdParam);
     // 3) hook up the stream
     this.branchManagers$ = this.facade.items$;
 
-     combineLatest([this.branchManagers$, this.officersList$])
+    combineLatest([this.branchManagers$, this.officersList$])
       .pipe(
         map(([branchManagers, officers]) =>
           branchManagers
@@ -109,10 +109,7 @@ export class ViewBranchManagersComponent implements OnInit, OnDestroy {
 
   confirmDelete() {
     if (this.selectedBranchManagerId != null) {
-      this.facade.delete(
-        this.selectedBranchManagerId,
-        this.branchIdParam
-      );
+      this.facade.delete(this.selectedBranchManagerId, this.branchIdParam);
     }
     this.resetDeleteModal();
   }
@@ -128,12 +125,12 @@ export class ViewBranchManagersComponent implements OnInit, OnDestroy {
 
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
-    this.filteredBranchManagers =
-      this.originalBranchManagers.filter((branchManager) =>
+    this.filteredBranchManagers = this.originalBranchManagers.filter(
+      (branchManager) =>
         Object.values(branchManager).some((val) =>
           val?.toString().toLowerCase().includes(lower)
         )
-      );
+    );
   }
 
   onToggleFilters(value: boolean) {

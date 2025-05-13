@@ -1,27 +1,24 @@
 <app-toolbar-form
-  [header]="'Add an Operation'"
+  [header]="editMode ? 'Edit Operation' : 'Add Operation'"
   [backExists]="true"
-  [viewOnly]="false"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
 ></app-toolbar-form>
 <p-tabs value="0" styleClass="p-3">
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
+        *ngIf="addOperationsORGForm"
         [title]="'Main Information'"
         [description]="
-          'Introduce your company core info quickly to users by fill up company details'
+          'Introduce your operation core info quickly to users by fill up operation details'
         "
-        [addOperationORGForm]="true"
+        [formGroup]="addOperationsORGForm"
+        [addOperationsORGForm]="true"
+        [editMode]="editMode"
+        (submitForm)="addOrEditOperation()"
+        [viewOnly]="viewOnly"
       ></app-form>
-
-      <div class="row justify-end">
-        <div
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 padding-right"
-          (click)="addOperation()"
-        >
-          <p-button label="Add Operation" class="custom-save m-0 float-right" />
-        </div>
-      </div>
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>

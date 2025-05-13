@@ -6,8 +6,8 @@ import { Branch } from '../../../store/branches/branch.model';
 import { BranchesFacade } from '../../../store/branches/branches.facade';
 import { Officer } from '../../../store/officers/officer.model';
 import { OfficersFacade } from '../../../store/officers/officers.facade';
-import { BranchOfficersFacade } from '../../../store/branch-officers/branch-officers.facade';
-import { BranchOfficer } from '../../../store/branch-officers/branch-officer.model';
+import { BranchOfficersFacade } from '../../../store/branches/branch-officers/branch-officers.facade';
+import { BranchOfficer } from '../../../store/branches/branch-officers/branch-officer.model';
 
 @Component({
   selector: 'app-add-branch-officers',
@@ -28,10 +28,10 @@ export class AddBranchOfficersComponent implements OnInit, OnDestroy {
   mode!: 'add' | 'edit' | 'view';
   parentBranchId!: number;
   recordId!: number;
-  officers:Officer[]=[];
+  officers: Officer[] = [];
 
   private destroy$ = new Subject<void>();
-  
+
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -125,8 +125,7 @@ export class AddBranchOfficersComponent implements OnInit, OnDestroy {
     }
 
     // 6) The actual payload
-    const data = this.addBranchOfficerForm
-      .value as Partial<BranchOfficer>;
+    const data = this.addBranchOfficerForm.value as Partial<BranchOfficer>;
     console.log('📦 Payload going to facade:', data);
 
     // 7) Create vs. update

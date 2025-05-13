@@ -4,7 +4,7 @@ import * as Actions from './branch-officers.actions';
 import * as Selectors from './branch-officers.selectors';
 import { Observable } from 'rxjs';
 import { BranchOfficer } from './branch-officer.model';
-import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
+import { selectLastOperationSuccess } from '../../../../../shared/store/ui.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class BranchOfficersFacade {
@@ -55,9 +55,7 @@ export class BranchOfficersFacade {
       );
       return;
     }
-    this.store.dispatch(
-      Actions.loadBranchOfficersByBranchId({ branchId })
-    );
+    this.store.dispatch(Actions.loadBranchOfficersByBranchId({ branchId }));
   }
 
   /** UPDATED: now expects both id & parent branchId */
@@ -65,8 +63,6 @@ export class BranchOfficersFacade {
     this.store.dispatch(Actions.deleteBranchOfficer({ id, branchId }));
   }
   loadByBranchId(branchId: number) {
-    this.store.dispatch(
-      Actions.loadBranchOfficersByBranchId({ branchId })
-    );
+    this.store.dispatch(Actions.loadBranchOfficersByBranchId({ branchId }));
   }
 }

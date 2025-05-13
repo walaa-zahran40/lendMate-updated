@@ -426,7 +426,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addCommunicationFlowTypesLookupsForm!: boolean;
   @Input() addTeamMemberORGForm!: boolean;
   @Input() addRoleORGForm!: boolean;
-  @Input() addOperationORGForm!: boolean;
+  @Input() addOperationsORGForm!: boolean;
   @Input() addPageOperationORGForm!: boolean;
   @Input() addOfficerORGForm!: boolean;
   @Input() addSignatoryOfficerORGForm!: boolean;
@@ -697,8 +697,8 @@ export class FormComponent implements OnInit, OnDestroy {
   viewPageOperation() {
     this.router.navigate(['/organizations/view-page-operations']);
   }
-  viewOperation() {
-    this.router.navigate(['/crm/clients/view-operation']);
+  viewOperations() {
+    this.router.navigate(['/organizations/view-operations']);
   }
   viewRoles() {
     this.router.navigate(['/organizations/view-roles']);

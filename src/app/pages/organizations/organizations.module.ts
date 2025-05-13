@@ -27,13 +27,13 @@ import { ViewOfficersComponent } from './components/officers/view-officers/view-
 import { ViewSignatoryOfficersComponent } from './components/officers/view-signatory-officers/view-signatory-officers.component';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { branchAddressesReducer } from './store/branch-addresses/branch-addresses.reducer';
-import { BranchAddressesEffects } from './store/branch-addresses/branch-addresses.effects';
+import { branchAddressesReducer } from './store/branches/branch-addresses/branch-addresses.reducer';
+import { BranchAddressesEffects } from './store/branches/branch-addresses/branch-addresses.effects';
 import { BranchesEffects } from './store/branches/branches.effects';
 import { reducer as branchReducer } from './store/branches/branches.reducer';
 import { WizardBranchComponent } from './components/branches/wizard-branches/wizard-branch.component';
-import { BranchManagersEffects } from './store/branch-managers/branch-managers.effects';
-import { branchManagersReducer } from './store/branch-managers/branch-managers.reducer';
+import { BranchManagersEffects } from './store/branches/branch-managers/branch-managers.effects';
+import { branchManagersReducer } from './store/branches/branch-managers/branch-managers.reducer';
 import { DepartmentsEffects } from './store/departments/departments.effects';
 import { DepartmentsReducer } from './store/departments/departments.reducer';
 import { OfficersEffects } from './store/officers/officers.effects';
@@ -53,13 +53,12 @@ import { AddPageComponent } from './components/pages/add-page/add-page.component
 import { ViewPagesComponent } from './components/pages/view-pages/view-pages.component';
 import { reducer as PagesReducer } from './store/pages/pages.reducer';
 import { PagesEffects } from './store/pages/pages.effects';
-import { PreloadAllModules, RouterModule } from '@angular/router';
-import { routes } from '../../app-routing.module';
-import { BranchOfficersEffects } from './store/branch-officers/branch-officers.effects';
-import { branchOfficersReducer } from './store/branch-officers/branch-officers.reducer';
+import { BranchOfficersEffects } from './store/branches/branch-officers/branch-officers.effects';
+import { branchOfficersReducer } from './store/branches/branch-officers/branch-officers.reducer';
 import { SignatoryOfficersEffects } from './store/signatory-officers/signatory-officers.effects';
-import { reducer as signatoryOfficersReducer} from './store/signatory-officers/signatory-officers.reducer';
-
+import { reducer as signatoryOfficersReducer } from './store/signatory-officers/signatory-officers.reducer';
+import { OperationsEffects } from './store/operations/operations.effects';
+import { reducer as operationsReducer } from './store/operations/operations.reducer';
 
 @NgModule({
   declarations: [
@@ -124,6 +123,8 @@ import { reducer as signatoryOfficersReducer} from './store/signatory-officers/s
     EffectsModule.forFeature([BranchOfficersEffects]),
     StoreModule.forFeature('signatoryOfficers', signatoryOfficersReducer),
     EffectsModule.forFeature([SignatoryOfficersEffects]),
+    StoreModule.forFeature('operations', operationsReducer),
+    EffectsModule.forFeature([OperationsEffects]),
   ],
   exports: [
     AddDepartmentComponent,
