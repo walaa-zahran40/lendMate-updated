@@ -642,7 +642,7 @@
       *ngIf="addBranchLookupsForm"
       icon="pi pi-cog"
       iconPos="left"
-      label="View Branch"
+      label="View Branches"
       (click)="viewBranch()"
       class="custom-view m-0 float-right"
     />
@@ -650,7 +650,7 @@
       *ngIf="addBranchAddressesLookupsForm"
       icon="pi pi-cog"
       iconPos="left"
-      label="View Branch Address"
+      label="View Branch Addresses"
       class="custom-view m-0 float-right"
       (click)="viewBranchAddress()"
     />
@@ -8285,7 +8285,7 @@
       />
     </form>
 
-      <form
+    <form
       [formGroup]="formGroup"
       *ngIf="addBranchOfficersLookupsForm"
       (ngSubmit)="onSubmit()"
@@ -9526,12 +9526,12 @@
         placeholder="Department"
       />
     </form>
-     <form
+    <form
       [formGroup]="formGroup"
       *ngIf="addSignatoryOfficerORGForm"
       (ngSubmit)="onSubmit()"
     >
-     <label for="startDate">Start Date<sup class="danger">*</sup></label>
+      <label for="startDate">Start Date<sup class="danger">*</sup></label>
       <p-datepicker
         [iconDisplay]="'input'"
         [showIcon]="true"
@@ -9593,7 +9593,9 @@
           <p-button
             label="Close"
             class="custom-save m-0 float-right"
-            (click)="router.navigate(['/organizations/view-signatory-officers'])"
+            (click)="
+              router.navigate(['/organizations/view-signatory-officers'])
+            "
           ></p-button>
         </div>
       </div>

@@ -626,8 +626,8 @@ export class FormComponent implements OnInit, OnDestroy {
       `/organizations/view-branch-managers/${this.branchIdParam}`,
     ]);
   }
-    viewBranchOfficers() {
-      this.router.navigate([
+  viewBranchOfficers() {
+    this.router.navigate([
       `/organizations/view-branch-officers/${this.branchIdParam}`,
     ]);
   }
@@ -638,7 +638,7 @@ export class FormComponent implements OnInit, OnDestroy {
     ]);
   }
   viewBranch() {
-    this.router.navigate(['/lookups/view-branches']);
+    this.router.navigate(['/organizations/view-branches']);
   }
   viewClientDocument() {
     this.router.navigate(['/lookups/view-client-document-types']);
