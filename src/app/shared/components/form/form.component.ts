@@ -911,6 +911,15 @@ export class FormComponent implements OnInit, OnDestroy {
         this.formGroup.enable();
       }
     }
+
+    // editMode => disable just the officerId control
+    if (changes['editMode']) {
+      if (this.editMode) {
+        this.formGroup.get('officerId')?.disable();
+      } else {
+        this.formGroup.get('officerId')?.enable();
+      }
+    }
   }
   onSubmit(): void {
     if (this.formGroup.invalid) {
