@@ -83,14 +83,17 @@ export class AddTeamLeadComponent implements OnInit, OnDestroy {
         )
         .subscribe((rec) => {
           console.log('red', rec);
+          console.log(this.route.snapshot.queryParamMap.get('teamId'));
           this.addTeamLeadORGForm.patchValue({
             id: rec.id,
             teamId: this.parentTeamId,
-            officerId : rec.managerId,
+            officerId : rec.officerId,
             startDate: new Date(rec.startDate)
           });
+          
         });
     }
+
   }
 
   addOrEditTeamLeadOfficer() {
@@ -122,12 +125,28 @@ export class AddTeamLeadComponent implements OnInit, OnDestroy {
     // 6) The actual payload
     const data = this.addTeamLeadORGForm.value as Partial<TeamLeadOfficer>;
 
-    // 7) Create vs. update
     if (this.mode === 'add') {
-      this.teamLeadFacade.create(data);
-    } else {
-      this.teamLeadFacade.update(data.id!, data);
-    }
+  this.teamLeadFacade.create(data);
+} else {
+  const formValue = this.addTeamLeadORGForm.value;
+
+  const updateData: TeamLeadOfficer = {
+    id: this.recordId,
+    teamId: formValue.teamId,
+    officerId: formValue.officerId,
+    startDate: formValue.startDate
+  };
+
+  console.log(
+    '🔄 Dispatching UPDATE id=',
+    this.recordId,
+    ' UPDATED payload=',
+    updateData
+  );
+
+  this.teamLeadFacade.update(this.recordId, updateData);
+}
+
 
     // 8) Navigate back: try both query-param and path-param approaches
     if (teamIdParam) {
