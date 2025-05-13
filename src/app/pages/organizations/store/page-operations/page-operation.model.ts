@@ -1,8 +1,18 @@
 export interface PageOperation {
   id: number;
   code?: string;
-  name: string;
-  url: string;
-  description: string;
-  isActive: boolean;
+  pageId?: number;
+  operationId?: number;
+  page?: {
+    id: number;
+    name: string;
+    nameAR: string;
+    url: string;
+  };
+  operation?: {
+    id: number;
+    name: string;
+    url: string;
+  };
+  isActive?: boolean;
 }

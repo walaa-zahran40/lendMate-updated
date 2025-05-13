@@ -321,6 +321,8 @@ export class FormComponent implements OnInit, OnDestroy {
     },
   ];
   @Input() pagesList: any;
+  @Input() operationsList: any;
+
   selectedOperations: any[] = [
     {
       name: 'Active',

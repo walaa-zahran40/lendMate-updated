@@ -20,14 +20,13 @@ export class ViewPageOperationsComponent {
   @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
-    { field: 'name', header: 'Name EN' },
-    { field: 'url', header: 'URL' },
-    { field: 'description', header: 'Description' },
+    { field: 'operationName', header: 'Operation' },
+    { field: 'pageName', header: 'Page' },
   ];
   showDeleteModal: boolean = false;
   selectedPageOperationsId: number | null = null;
-  originalPageOperations: PageOperation[] = [];
-  filteredPageOperations: PageOperation[] = [];
+  originalPageOperations: any;
+  filteredPageOperations: any;
   pageOperations$!: Observable<PageOperation[]>;
 
   constructor(private router: Router, private facade: PageOperationsFacade) {}
@@ -49,6 +48,15 @@ export class ViewPageOperationsComponent {
         const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
         this.originalPageOperations = sorted;
         this.filteredPageOperations = [...sorted];
+        const flat = sorted.map((po) => ({
+          id: po.id,
+          operationName: po.operation?.name,
+          pageName: po.page?.name,
+          isActive: po.isActive,
+        }));
+
+        this.originalPageOperations = flat;
+        this.filteredPageOperations = [...flat];
       });
   }
 
@@ -94,7 +102,7 @@ export class ViewPageOperationsComponent {
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
     this.filteredPageOperations = this.originalPageOperations.filter(
-      (pageOperations) =>
+      (pageOperations: { [s: string]: unknown } | ArrayLike<unknown>) =>
         Object.values(pageOperations).some((val) =>
           val?.toString().toLowerCase().includes(lower)
         )

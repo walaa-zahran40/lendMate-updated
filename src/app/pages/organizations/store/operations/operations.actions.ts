@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { Operation } from './operation.model';
 
-export const loadAll = createAction(
+export const loadAllOperations = createAction(
   '[Operations] Load All',
   props<{ pageNumber?: number }>()
 );

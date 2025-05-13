@@ -174,6 +174,19 @@ const routes: Routes = [
     path: 'view-operations',
     component: ViewOperationsComponent,
   },
+  //page operations
+  {
+    path: 'add-page-operation',
+    component: AddPageOperationComponent,
+  },
+  {
+    path: 'edit-page-operation/:id',
+    component: AddPageOperationComponent,
+  },
+  {
+    path: 'view-page-operations',
+    component: ViewPageOperationsComponent,
+  },
   //----
   {
     path: 'add-team',
@@ -188,10 +201,6 @@ const routes: Routes = [
     component: AddTeamMemberComponent,
   },
 
-  {
-    path: 'add-page-operation',
-    component: AddPageOperationComponent,
-  },
   {
     path: 'add-officer',
     component: AddOfficerComponent,
@@ -218,10 +227,6 @@ const routes: Routes = [
     component: ViewTeamMemberComponent,
   },
 
-  {
-    path: 'view-page-operations',
-    component: ViewPageOperationsComponent,
-  },
   {
     path: 'view-officers',
     component: ViewOfficersComponent,
@@ -260,8 +265,6 @@ const routes: Routes = [
   //   path: 'add-department-manager/:deptId',
   //   component: AddDepartmentManagerComponent,
   // },
-
-
 ];
 
 @NgModule({

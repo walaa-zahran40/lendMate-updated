@@ -12,7 +12,7 @@ export class PagesEffects {
 
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ActionsList.loadAll),
+      ofType(ActionsList.loadAllPages),
       tap(() => console.log('✨ Effect: loadAll action caught')),
       mergeMap(() =>
         this.service.getAll().pipe(
@@ -115,7 +115,7 @@ export class PagesEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadAllPages({}))
     )
   );
 }

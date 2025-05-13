@@ -6,7 +6,7 @@ export const reducer = createReducer(
   initialState,
 
   // when you dispatch loadAll()
-  on(PageActions.loadAll, (state) => ({
+  on(PageActions.loadAllPages, (state) => ({
     ...state,
     loading: true,
     error: null,

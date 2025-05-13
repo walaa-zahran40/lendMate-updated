@@ -127,7 +127,6 @@ export class AddPageComponent implements OnDestroy, OnInit {
         );
       });
 
-    // 4) (optional) pre‐populate your pagesList for the <p-select>
     const paths = this.nav.getAllNestedPaths().filter((p) => !p.includes('/:')); // drop paramized ones
     this.pagesList = paths.map((p) => ({ label: p, value: p }));
   }

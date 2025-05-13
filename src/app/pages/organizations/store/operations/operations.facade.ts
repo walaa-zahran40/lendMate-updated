@@ -21,7 +21,7 @@ export class OperationsFacade {
   constructor(private store: Store) {}
 
   loadAll(pageNumber?: number) {
-    this.store.dispatch(Actions.loadAll({ pageNumber }));
+    this.store.dispatch(Actions.loadAllOperations({ pageNumber }));
   }
 
   loadById(id: number) {

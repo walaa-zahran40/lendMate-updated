@@ -12,7 +12,7 @@ export class OperationsEffects {
 
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ActionsList.loadAll),
+      ofType(ActionsList.loadAllOperations),
       tap(() => console.log('✨ Effect: loadAll action caught')),
       mergeMap(() =>
         this.service.getAll().pipe(
@@ -115,7 +115,7 @@ export class OperationsEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadAllOperations({}))
     )
   );
 }
