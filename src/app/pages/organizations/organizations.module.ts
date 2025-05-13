@@ -68,6 +68,8 @@ import { TeamsReducer } from './store/teams/teams.reducer';
 import { WizardRolesComponent } from './components/roles/wizard-roles/wizard-roles.component';
 import { ViewRoleClaimsComponent } from './components/roles/view-role-claims/view-role-claims.component';
 import { AddRoleClaimComponent } from './components/roles/add-role-claim/add-role-claim.component';
+import { teamLeadOfficersReducer } from './store/teams/team-lead-officers/team-lead-officers.reducer';
+import { TeamLeadOfficersEffects } from './store/teams/team-lead-officers/team-lead-officers.effects';
 
 @NgModule({
   declarations: [
@@ -137,6 +139,8 @@ import { AddRoleClaimComponent } from './components/roles/add-role-claim/add-rol
     EffectsModule.forFeature([DepartmentManagersEffects]),
     StoreModule.forFeature('branchOfficers', branchOfficersReducer),
     EffectsModule.forFeature([BranchOfficersEffects]),
+    StoreModule.forFeature('teamLeadOfficers', teamLeadOfficersReducer),
+    EffectsModule.forFeature([TeamLeadOfficersEffects]),
     StoreModule.forFeature('signatoryOfficers', signatoryOfficersReducer),
     EffectsModule.forFeature([SignatoryOfficersEffects]),
     StoreModule.forFeature('operations', operationsReducer),

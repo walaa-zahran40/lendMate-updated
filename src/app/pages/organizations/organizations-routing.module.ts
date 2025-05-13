@@ -284,6 +284,20 @@ const routes: Routes = [
     path: 'view-teams',
     component: ViewTeamsComponent,
   },
+
+  // team lead officer 
+  {
+    path: 'add-team-lead-officer',
+    component: AddTeamLeadComponent,
+  },
+  {
+    path: 'edit-team-lead-officer/:id',
+    component: AddTeamLeadComponent,
+  },
+  {
+    path: 'view-team-lead-officers/:teamId',
+    component: ViewTeamLeadComponent,
+  },
   // {
   //   path: 'view-department-managers/:deptId',
   //   component: ViewDepartmentManagerComponent,

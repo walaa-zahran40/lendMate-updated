@@ -447,6 +447,7 @@ export class FormComponent implements OnInit, OnDestroy {
   currencyIdParam: any;
   branchIdParam: any;
   departmentIdParam: any;
+  teamIdParam: any;
   @Input() addPaymentTypesLookupsForm!: boolean;
   @Input() addPaymentMonthDaysLookupsForm!: boolean;
   @Input() addMeetingTypesLookupsForm!: boolean;
@@ -520,6 +521,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.currencyIdParam = this.route.snapshot.queryParams['currencyId'];
     this.branchIdParam = this.route.snapshot.queryParams['branchId'];
     this.departmentIdParam = this.route.snapshot.queryParams['departmentId'];
+    this.teamIdParam = this.route.snapshot.queryParams['teamId'];
     this.sub = this.formGroup?.valueChanges
       .pipe(debounceTime(300))
       .subscribe(() => {
@@ -633,14 +635,17 @@ export class FormComponent implements OnInit, OnDestroy {
     ]);
   }
   viewDepartmentManager() {
+    this.router.navigate([]);
+  }
+
+  viewTeamLeadOfficers() {
     this.router.navigate([
-      `/organizations/view-department-managers/${this.departmentIdParam}`,
+      `/organizations/view-team-lead-officers/${this.teamIdParam}`,
     ]);
   }
+
   viewBranchOfficers() {
-    this.router.navigate([
-      `/organizations/view-branch-officers/${this.branchIdParam}`,
-    ]);
+    this.router.navigate([]);
   }
   viewBranchAddress() {
     console.log('rrrrr', this.branchIdParam);

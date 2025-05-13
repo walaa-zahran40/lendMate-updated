@@ -1,24 +1,41 @@
 <div class="page-content">
   <app-toolbar-table
-    [title]="'Add a Team Lead'"
-    [backExists]="true"
-    [btnAdd]="false"
-    [exports]="true"
+    [title]="'Team Lead Officer'"
+    [labelBtn]="'Add Team Lead Officer'"
+    [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddTeamLeadOfficer()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col1Name]="'Team'"
-    [col2Name]="'Officer'"
-    [col3Name]="'Start Date'"
-    [col4Name]="'Name EN'"
-    [col5Name]="'Name AR'"
-    [edit]="true"
-    [delete]="true"
-    [side]="false"
-    [download]="false"
-    [checkBox]="true"
-    [viewTeamLeadTable]="true"
-  ></app-table>
+
+  <ng-container *ngIf="teamLeadOfficers$ | async as teamLeadOfficers">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredTeamLeadOfficers"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewTeamLeadTable]="true"
+      (onDelete)="onDeleteTeamLeadOfficer($event)"
+      (onEdit)="onEditTeamLeadOfficer($event)"
+      (viewForm)="onViewTeamLeadOfficer($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
 </div>
