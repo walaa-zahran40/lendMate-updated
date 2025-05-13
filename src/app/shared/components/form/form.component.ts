@@ -34,6 +34,8 @@ import { setFormDirty } from '../../../pages/crm/clients/store/client-form/clien
 import { FileUpload } from 'primeng/fileupload';
 import { LegalFormLawFacade } from '../../../pages/crm/clients/store/legal-form-law/legal-form-law.facade';
 import { LegalFormsFacade } from '../../../pages/lookups/store/legal-forms/legal-forms.facade';
+import { Department } from '../../../pages/organizations/store/departments/department.model';
+import { Officer } from '../../interfaces/officer.interface';
 export interface IdentityEntry {
   identificationNumber: string;
   selectedIdentities: any[];
@@ -68,8 +70,11 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() countriesList: any;
   @Input() assetTypeCategories: any;
   @Input() feeCalculationTypes: any;
+
   @Input() governoratesList: any;
+  @Input() departmentOfficers: any;
   @Input() currencies: { id: number; name: string }[] = [];
+  @Input() departments : Department[] = [];
   @Input() selectedSectorId: number | null = null;
   @Input() legalFormLawIdControl!: number;
   selectedLegalFormLawId: number | null = null;
@@ -270,7 +275,6 @@ export class FormComponent implements OnInit, OnDestroy {
   selectedCallActionTypeAddCall!: any;
   callTypeAddCall!: any;
   selectedCallTypeAddCall!: any;
-  departments!: any;
   teams!: any;
   pages!: any;
   selectedStamps!: any;
@@ -436,6 +440,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addCurrenciesExchangeLookupsForm!: boolean;
   @Input() addPaymentMethodsLookupsForm!: boolean;
   currencyIdParam: any;
+  departmentIdParam: any;
   @Input() addPaymentTypesLookupsForm!: boolean;
   @Input() addPaymentMonthDaysLookupsForm!: boolean;
   @Input() addMeetingTypesLookupsForm!: boolean;
@@ -507,6 +512,7 @@ export class FormComponent implements OnInit, OnDestroy {
     console.log('currency', this.route.snapshot);
     this.id = this.route.snapshot.paramMap.get('clientId')!;
     this.currencyIdParam = this.route.snapshot.queryParams['currencyId'];
+    this.departmentIdParam = this.route.snapshot.queryParams['departmentId'];
 
     this.sub = this.formGroup?.valueChanges
       .pipe(debounceTime(300))
@@ -760,7 +766,7 @@ export class FormComponent implements OnInit, OnDestroy {
       { name: 'Programming', code: 'Programming' },
       { name: 'Machine Learning', code: 'MachineLearning' },
     ];
-    this.departments = [{ name: 'Department', code: 'Department' }];
+
     this.teams = [{ name: 'Team', code: 'Team' }];
     this.pages = [
       {
@@ -900,6 +906,8 @@ export class FormComponent implements OnInit, OnDestroy {
       `/lookups/view-currency-exchange-rates/${this.currencyIdParam}`,
     ]);
   }
+
+
   viewCurrencies() {
     this.router.navigate(['/lookups/view-currencies']);
   }
@@ -951,6 +959,13 @@ export class FormComponent implements OnInit, OnDestroy {
   viewDepartment() {
     this.router.navigate(['/organizations/view-departments']);
   }
+
+  ViewDepartmentManagers() {
+    this.router.navigate([
+      `/lookups/view-department-managers/${this.departmentIdParam}`,
+    ]);
+  }
+
   viewCallTypes() {
     this.router.navigate(['/lookups/view-call-types']);
   }

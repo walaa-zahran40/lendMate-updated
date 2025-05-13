@@ -22,6 +22,8 @@ export class ToolbarTableComponent {
   @Output() addBtn = new EventEmitter<void>();
   @Output() searchChange = new EventEmitter<string>();
   searchValue: string = '';
+    @Input() addDisabled=false;
+
   constructor(private location: Location) {}
   goBack() {
     this.location.back();

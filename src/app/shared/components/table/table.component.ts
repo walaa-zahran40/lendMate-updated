@@ -87,6 +87,7 @@ export class TableComponent {
   @Input() viewCurrenciesTable!: boolean;
   @Input() viewDepartmentsTable!: boolean;
   @Input() viewCurrencyExchangeTable!: boolean;
+  @Input() viewDepartmentManagersTable!: boolean;
   @Input() viewMandateStatusesTable!: boolean;
   @Input() viewPaymentMethodsTable!: boolean;
   @Input() viewPaymentMonthDaysTable!: boolean;
@@ -173,6 +174,9 @@ export class TableComponent {
       this.globalFilterFields = this.cols.map((c) => c.field);
     }
     this.totalRecords = this.tableData.length;
+    if(this.cols.length>0){
+    //  this.departmentManager=true;
+    }
   }
   getSectorName(sectorId: number): string {
     const sector = this.allSectors.find((s: any) => s.id === sectorId);

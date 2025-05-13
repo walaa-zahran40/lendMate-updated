@@ -55,6 +55,7 @@
       iconPos="left"
       *ngIf="btnAdd"
       styleClass="add"
+      [disabled]="addDisabled"
       (click)="addBtn.emit()"
     />
   </div>

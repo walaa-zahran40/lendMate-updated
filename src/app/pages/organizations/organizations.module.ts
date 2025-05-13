@@ -15,7 +15,6 @@ import { AddPageOperationComponent } from './components/add-page-operation/add-p
 import { AddOfficerComponent } from './components/add-officers/add-officer.component';
 import { AddSignatoryOfficerComponent } from './components/add-signatory-officer/add-signatory-officer.component';
 import { WizardDepartmentComponent } from './components/departments/wizard-department/wizard-department.component';
-import { ViewDepartmentManagerComponent } from './components/departments/view-department-managers/view-department-manager.component';
 import { ViewTeamsComponent } from './components/view-teams/view-teams.component';
 import { WizardTeamsComponent } from './components/wizard-teams/wizard-teams.component';
 import { ViewTeamLeadComponent } from './components/view-team-leads/view-team-lead.component';
@@ -43,6 +42,8 @@ import { OfficersEffects } from './store/officers/officers.effects';
 import { reducer as BranchesReducer } from './store/branches/branches.reducer';
 import { BranchesEffects } from './store/branches/branches.effects';
 import { ViewDepartmentsComponent } from './components/departments/view-departments/view-departments.component';
+import { DepartmentManagersEffects } from './store/department-managers/department-managers.effects';
+import { departmentManagersReducer } from './store/department-managers/department-managers.reducer';
 @NgModule({
   declarations: [
     AddDepartmentComponent,
@@ -57,7 +58,7 @@ import { ViewDepartmentsComponent } from './components/departments/view-departme
     AddSignatoryOfficerComponent,
     ViewDepartmentsComponent,
     WizardDepartmentComponent,
-    ViewDepartmentManagerComponent,
+
     ViewTeamsComponent,
     WizardTeamsComponent,
     ViewTeamLeadComponent,
@@ -90,6 +91,8 @@ import { ViewDepartmentsComponent } from './components/departments/view-departme
     EffectsModule.forFeature([OfficersEffects]),
     StoreModule.forFeature('branches', BranchesReducer),
     EffectsModule.forFeature([BranchesEffects]),
+    StoreModule.forFeature('departmentManagers', departmentManagersReducer),
+    EffectsModule.forFeature([DepartmentManagersEffects]),
   ],
   exports: [
     AddDepartmentComponent,

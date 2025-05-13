@@ -58,6 +58,12 @@
           <span *ngSwitchCase="'exchangeDate'">
             {{ rowData[col.field] | date : "yyyy-MM-dd" }}
           </span>
+           <span *ngSwitchCase="'startDate'">
+            {{ rowData[col.field] | date : "yyyy-MM-dd" }}
+          </span>
+            <span *ngSwitchCase="'endDate'">
+            {{ rowData[col.field] | date : "yyyy-MM-dd" }}
+          </span>
         </ng-container>
       </td>
 
