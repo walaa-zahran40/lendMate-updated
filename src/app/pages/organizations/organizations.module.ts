@@ -55,6 +55,8 @@ import { reducer as PagesReducer } from './store/pages/pages.reducer';
 import { PagesEffects } from './store/pages/pages.effects';
 import { PreloadAllModules, RouterModule } from '@angular/router';
 import { routes } from '../../app-routing.module';
+import { TeamsEffects } from './store/teams/teams.effects';
+import { TeamsReducer } from './store/teams/teams.reducer';
 
 @NgModule({
   declarations: [
@@ -110,6 +112,8 @@ import { routes } from '../../app-routing.module';
     StoreModule.forFeature('branches', branchReducer),
     EffectsModule.forFeature([BranchesEffects]),
     StoreModule.forFeature('branchAddresses', branchAddressesReducer),
+    EffectsModule.forFeature([TeamsEffects]),
+    StoreModule.forFeature('teams', TeamsReducer),
     EffectsModule.forFeature([BranchAddressesEffects]),
     StoreModule.forFeature('roles', RolesReducer),
     EffectsModule.forFeature([RolesEffects]),

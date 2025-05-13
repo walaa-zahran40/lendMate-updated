@@ -9280,39 +9280,127 @@
         class="w-full md:w-56"
       />
     </form>
-    <form action="" *ngIf="addTeamORGForm">
-      <label for="codeTeamsORG">Code<sup>*</sup></label>
+    
+
+    
+     <form
+      [formGroup]="formGroup"
+      *ngIf="addTeamORGForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <!-- Name in English -->
+      <label for="name">Name in English<sup>*</sup></label>
       <input
         pInputText
-        id="codeTeamsORG"
-        aria-describedby="codeTeamsORG-help"
-        name="codeTeamsORG"
-        placeholder="325423523"
+        id="name"
+        formControlName="name"
+        placeholder="Enter Name in English"
       />
-      <label for="nameTeamsORG">Name<sup>*</sup></label>
+      <div
+        *ngIf="
+          formGroup.get('name')?.hasError('required') &&
+          formGroup.get('name')?.touched
+        "
+        class="p-error"
+      >
+        Name in English is required.
+      </div>
+
+      <!-- Name in Arabic -->
+      <label for="nameAR">Name in Arabic<sup>*</sup></label>
       <input
         pInputText
-        id="nameTeamsORG"
-        aria-describedby="nameTeamsORG-help"
-        name="nameTeamsORG"
-        placeholder="mohamoa"
+        id="nameAR"
+        formControlName="nameAR"
+        placeholder="Enter Name in Arabic"
       />
-      <label for="arabicNameTeamsORG">Arabic Name<sup>*</sup></label>
-      <input
-        pInputText
-        id="arabicNameTeamsORG"
-        aria-describedby="arabicNameTeamsORG-help"
-        name="arabicNameTeamsORG"
-        placeholder="mohamoa"
-      />
-      <label for="departmentTeamsORG">Department<sup>*</sup></label>
+      <div
+        *ngIf="
+          formGroup.get('nameAR')?.hasError('required') &&
+          formGroup.get('nameAR')?.touched
+        "
+        class="p-error"
+      >
+        Name in Arabic is required.
+      </div>
+      
+
+      <label for="departmentId"
+        >Select department<sup class="danger">*</sup></label
+      >
+      <!--Select Box-->
       <p-select
         [options]="departments"
         optionLabel="name"
-        placeholder="Department"
-        class="w-full md:w-56"
-      />
+        placeholder="Select Department"
+        formControlName="departmentId"
+        optionValue="id"
+        (onChange)="onSectorChange($event)"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('departmentId')?.invalid &&
+            (formGroup.get('departmentId')?.dirty ||
+              formGroup.get('departmentId')?.touched)
+        }"
+      >
+      </p-select>
+
+      <div
+        *ngIf="
+          formGroup.get('departmentId')?.hasError('required') &&
+          formGroup.get('departmentId')?.touched
+        "
+        class="p-error"
+      >
+        Department is required.
+      </div>
+
+    
+
+      <div class="p-field" for="isActive" *ngIf="editMode">
+        <p-toggleSwitch
+          id="isActive"
+          formControlName="isActive"
+          label="is Active"
+        ></p-toggleSwitch>
+        <label for="isActive"> Active</label>
+      </div>
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 businesslineDiv"
+          *ngIf="!editMode"
+        >
+          <p-button
+            type="submit"
+            label="Add Team"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Team"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate(['/organizations/view-teams'])"
+          />
+        </div>
+      </div>
     </form>
+
     <form action="" *ngIf="addTeamLeadORGForm">
       <label for="startDateTeamLeadORG">Start Date<sup>*</sup></label>
       <p-datepicker

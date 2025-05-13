@@ -1,6 +1,8 @@
 export enum EntityNames {
   //Lookups
   AssetType = 'AssetType',
+  Team = 'Team',
+
   AssetTypeCategory = 'AssetTypeCategory',
   Area = 'Area',
   AddressType = 'AddressType',
