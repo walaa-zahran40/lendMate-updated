@@ -15,8 +15,8 @@ export class WizardTeamsComponent {
       [
         {
           imgUrl: '/assets/images/shared/card/department.svg',
-          imgAlt: 'team Lead',
-          title: 'Team Lead',
+          imgAlt: 'team Leads',
+          title: 'Team Leads',
           content:
             'Introduce your company core info quickly to users by fill up company details',
         },

@@ -55,6 +55,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() applyReusable: boolean = false;
   @Input() selectedFile!: any;
   @Input() title: string = '';
+
   @Input() description: string = '';
   @Input() addClientShowMain?: boolean;
   @Input() addClientShowLegal?: boolean;
@@ -64,10 +65,12 @@ export class FormComponent implements OnInit, OnDestroy {
   //Select Box
   @Input() sectorsList: any;
   @Input() businessLinesList: any;
+  @Input() departments: any;
   @Input() subSectorsList: any[] = [];
   @Input() countriesList: any;
   @Input() assetTypeCategories: any;
   @Input() feeCalculationTypes: any;
+  @Input() teamDepartments: any;
   @Input() governoratesList: any;
   @Input() areasList: any;
   @Input() currencies: { id: number; name: string }[] = [];
@@ -273,7 +276,6 @@ export class FormComponent implements OnInit, OnDestroy {
   selectedCallActionTypeAddCall!: any;
   callTypeAddCall!: any;
   selectedCallTypeAddCall!: any;
-  departments!: any;
   teams!: any;
   pages!: any;
   selectedStamps!: any;
@@ -709,8 +711,8 @@ export class FormComponent implements OnInit, OnDestroy {
   viewTeamLead() {
     this.router.navigate(['/crm/clients/view-team-lead']);
   }
-  viewTeam() {
-    this.router.navigate(['/crm/clients/view-team']);
+  viewTeams() {
+    this.router.navigate(['organizations/view-teams']);
   }
   viewManager() {
     this.router.navigate(['/crm/clients/view-manager']);

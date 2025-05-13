@@ -234,6 +234,34 @@ const routes: Routes = [
     path: 'wizard-teams',
     component: WizardTeamsComponent,
   },
+
+  //Teams
+  {
+    path: 'add-team',
+    component: AddTeamComponent,
+  },
+  {
+    path: 'edit-team/:id',
+    component: AddTeamComponent,
+  },
+  {
+    path: 'wizard-teams/:teamId',
+    component: WizardTeamsComponent,
+  },
+  {
+    path: 'view-teams',
+    component: ViewTeamsComponent,
+  },
+  // {
+  //   path: 'view-department-managers/:deptId',
+  //   component: ViewDepartmentManagerComponent,
+  // },
+  // {
+  //   path: 'add-department-manager/:deptId',
+  //   component: AddDepartmentManagerComponent,
+  // },
+
+
 ];
 
 @NgModule({
