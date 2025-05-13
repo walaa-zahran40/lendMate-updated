@@ -61,10 +61,11 @@ import { OperationsEffects } from './store/operations/operations.effects';
 import { reducer as operationsReducer } from './store/operations/operations.reducer';
 import { PageOperationsEffects } from './store/page-operations/page-operations.effects';
 import { reducer as pageOperationsReducer } from './store/page-operations/page-operations.reducer';
-import { PreloadAllModules, RouterModule } from '@angular/router';
-import { routes } from '../../app-routing.module';
 import { TeamsEffects } from './store/teams/teams.effects';
 import { TeamsReducer } from './store/teams/teams.reducer';
+import { WizardRolesComponent } from './components/roles/wizard-roles/wizard-roles.component';
+import { ViewRoleClaimsComponent } from './components/roles/view-role-claims/view-role-claims.component';
+import { AddRoleClaimComponent } from './components/roles/add-role-claim/add-role-claim.component';
 
 @NgModule({
   declarations: [
@@ -102,6 +103,9 @@ import { TeamsReducer } from './store/teams/teams.reducer';
     ViewSignatoryOfficersComponent,
     AddPageComponent,
     ViewPagesComponent,
+    WizardRolesComponent,
+    ViewRoleClaimsComponent,
+    AddRoleClaimComponent,
   ],
   imports: [
     CommonModule,

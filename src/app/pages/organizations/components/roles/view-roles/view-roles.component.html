@@ -21,7 +21,7 @@
       [tableData]="filteredRoles"
       [edit]="true"
       [delete]="true"
-      [side]="false"
+      [side]="true"
       [first]="first2"
       [checkBox]="true"
       [view]="true"
@@ -31,6 +31,7 @@
       (onDelete)="onDeleteRole($event)"
       (onEdit)="onEditRole($event)"
       (viewForm)="onViewRole($event)"
+      (wizardBtn)="onAddSide($event)"
     ></app-table>
     <app-delete-module
       [visible]="showDeleteModal"

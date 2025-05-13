@@ -33,6 +33,9 @@ import { ViewBranchComponent } from './components/branches/view-branches/view-br
 import { WizardBranchComponent } from './components/branches/wizard-branches/wizard-branch.component';
 import { AddPageComponent } from './components/pages/add-page/add-page.component';
 import { ViewPagesComponent } from './components/pages/view-pages/view-pages.component';
+import { WizardRolesComponent } from './components/roles/wizard-roles/wizard-roles.component';
+import { ViewRoleClaimsComponent } from './components/roles/view-role-claims/view-role-claims.component';
+import { AddRoleClaimComponent } from './components/roles/add-role-claim/add-role-claim.component';
 const routes: Routes = [
   //Officers
 
@@ -139,6 +142,22 @@ const routes: Routes = [
   {
     path: 'view-roles',
     component: ViewRolesComponent,
+  },
+  {
+    path: 'view-role-claims/:roleId',
+    component: ViewRoleClaimsComponent,
+  },
+  {
+    path: 'add-role-claim/:roleId',
+    component: AddRoleClaimComponent,
+  },
+  {
+    path: 'edit-role-claim/:roleId',
+    component: AddRoleClaimComponent,
+  },
+  {
+    path: 'wizard-roles/:roleId',
+    component: WizardRolesComponent,
   },
   {
     path: 'add-role',

@@ -107,4 +107,7 @@ export class ViewRolesComponent {
       queryParams: { mode: 'view' },
     });
   }
+  onAddSide(roleId: any) {
+    this.router.navigate(['/organizations/wizard-roles', roleId]);
+  }
 }
