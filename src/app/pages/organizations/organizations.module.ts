@@ -59,6 +59,8 @@ import { SignatoryOfficersEffects } from './store/signatory-officers/signatory-o
 import { reducer as signatoryOfficersReducer } from './store/signatory-officers/signatory-officers.reducer';
 import { OperationsEffects } from './store/operations/operations.effects';
 import { reducer as operationsReducer } from './store/operations/operations.reducer';
+import { PageOperationsEffects } from './store/page-operations/page-operations.effects';
+import { reducer as pageOperationsReducer } from './store/page-operations/page-operations.reducer';
 
 @NgModule({
   declarations: [
@@ -125,6 +127,8 @@ import { reducer as operationsReducer } from './store/operations/operations.redu
     EffectsModule.forFeature([SignatoryOfficersEffects]),
     StoreModule.forFeature('operations', operationsReducer),
     EffectsModule.forFeature([OperationsEffects]),
+    StoreModule.forFeature('pageOperations', pageOperationsReducer),
+    EffectsModule.forFeature([PageOperationsEffects]),
   ],
   exports: [
     AddDepartmentComponent,

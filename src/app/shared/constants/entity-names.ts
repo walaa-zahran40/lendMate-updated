@@ -37,4 +37,5 @@ export enum EntityNames {
   Page = 'Page',
   SignatoryOfficer = 'SignatoryOfficer',
   Operation = 'Operation',
+  PageOperation = 'PageOperation',
 }
