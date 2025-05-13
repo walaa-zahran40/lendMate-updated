@@ -1,24 +1,41 @@
 <div class="page-content">
   <app-toolbar-table
-    [title]="'Branch Officers'"
-    [labelBtn]="'Add Branch Officers'"
-    [backExists]="true"
-    [exports]="true"
+    [title]="'Branch Officer'"
+    [labelBtn]="'Add Branch Officer'"
+    [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
-    (addBtn)="onAdd()"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddBranchOfficer()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col1Name]="'Details'"
-    [col2Name]="'Name EN'"
-    [col3Name]="'Name AR'"
-    [edit]="true"
-    [delete]="true"
-    [side]="false"
-    [download]="false"
-    [checkBox]="true"
-    [viewBranchOfficersTable]="true"
-    [uppercase]="'uppercase'"
-  ></app-table>
+
+  <ng-container *ngIf="branchOfficers$ | async as branchOfficers">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredBranchOfficers"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewCurrencyExchangeTable]="true"
+      (onDelete)="onDeleteBranchOfficer($event)"
+      (onEdit)="onEditBranchOfficer($event)"
+      (viewForm)="onViewBranchOfficer($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
 </div>

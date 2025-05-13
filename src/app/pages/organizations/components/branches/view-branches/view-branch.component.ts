@@ -34,10 +34,9 @@ export class ViewBranchComponent {
   ngOnInit() {
     this.facade.loadAll();
     this.branches$ = this.facade.all$;
-
-    this.branches$?.pipe(takeUntil(this.destroy$)).subscribe((branches) => {
-      // branches is now CompanyType[], not any
-      const sorted = [...branches].sort((a, b) => b.id - a.id);
+    this.branches$?.pipe(takeUntil(this.destroy$))?.subscribe((branch) => {
+      const activeCodes = branch.filter((code) => code.isActive);
+      const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
       this.originalBranches = sorted;
       this.filteredBranches = [...sorted];
     });

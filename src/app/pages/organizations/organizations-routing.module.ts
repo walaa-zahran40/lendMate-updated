@@ -86,7 +86,10 @@ const routes: Routes = [
     path: 'add-branch-officers',
     component: AddBranchOfficersComponent,
   },
-
+  {
+    path: 'edit-branch-officers/:id',
+    component: AddBranchOfficersComponent,
+  },
   {
     path: 'add-branch-managers',
     component: AddBranchManagersComponent,
@@ -166,6 +169,32 @@ const routes: Routes = [
     path: 'view-pages',
     component: ViewPagesComponent,
   },
+  //operations
+  {
+    path: 'add-operation',
+    component: AddOperationComponent,
+  },
+  {
+    path: 'edit-operation/:id',
+    component: AddOperationComponent,
+  },
+  {
+    path: 'view-operations',
+    component: ViewOperationsComponent,
+  },
+  //page operations
+  {
+    path: 'add-page-operation',
+    component: AddPageOperationComponent,
+  },
+  {
+    path: 'edit-page-operation/:id',
+    component: AddPageOperationComponent,
+  },
+  {
+    path: 'view-page-operations',
+    component: ViewPageOperationsComponent,
+  },
   //----
   {
     path: 'add-team',
@@ -181,14 +210,6 @@ const routes: Routes = [
   },
 
   {
-    path: 'add-operation',
-    component: AddOperationComponent,
-  },
-  {
-    path: 'add-page-operation',
-    component: AddPageOperationComponent,
-  },
-  {
     path: 'add-officer',
     component: AddOfficerComponent,
   },
@@ -196,7 +217,10 @@ const routes: Routes = [
     path: 'add-signatory-officer',
     component: AddSignatoryOfficerComponent,
   },
-
+  {
+    path: 'edit-signatory-officer/:id',
+    component: AddSignatoryOfficerComponent,
+  },
   {
     path: 'view-teams',
     component: ViewTeamsComponent,
@@ -210,14 +234,7 @@ const routes: Routes = [
     path: 'view-team-member',
     component: ViewTeamMemberComponent,
   },
-  {
-    path: 'view-operations',
-    component: ViewOperationsComponent,
-  },
-  {
-    path: 'view-page-operations',
-    component: ViewPageOperationsComponent,
-  },
+
   {
     path: 'view-officers',
     component: ViewOfficersComponent,
@@ -230,6 +247,32 @@ const routes: Routes = [
     path: 'wizard-teams',
     component: WizardTeamsComponent,
   },
+
+  //Teams
+  {
+    path: 'add-team',
+    component: AddTeamComponent,
+  },
+  {
+    path: 'edit-team/:id',
+    component: AddTeamComponent,
+  },
+  {
+    path: 'wizard-teams/:teamId',
+    component: WizardTeamsComponent,
+  },
+  {
+    path: 'view-teams',
+    component: ViewTeamsComponent,
+  },
+  // {
+  //   path: 'view-department-managers/:deptId',
+  //   component: ViewDepartmentManagerComponent,
+  // },
+  // {
+  //   path: 'add-department-manager/:deptId',
+  //   component: AddDepartmentManagerComponent,
+  // },
 ];
 
 @NgModule({

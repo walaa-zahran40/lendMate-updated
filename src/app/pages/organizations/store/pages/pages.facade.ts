@@ -21,7 +21,7 @@ export class PagesFacade {
   constructor(private store: Store) {}
 
   loadAll(pageNumber?: number) {
-    this.store.dispatch(Actions.loadAll({ pageNumber }));
+    this.store.dispatch(Actions.loadAllPages({ pageNumber }));
   }
 
   loadById(id: number) {

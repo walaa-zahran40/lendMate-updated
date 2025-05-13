@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, Subject, takeUntil } from 'rxjs';
-import { BranchManagersFacade } from '../../../store/branch-managers/branch-managers.facade';
-import { BranchManager } from '../../../store/branch-managers/branch-manager.model';
+import { BranchManagersFacade } from '../../../store/branches/branch-managers/branch-managers.facade';
+import { BranchManager } from '../../../store/branches/branch-managers/branch-manager.model';
 import { Branch } from '../../../store/branches/branch.model';
 import { BranchesFacade } from '../../../store/branches/branches.facade';
 import { Officer } from '../../../store/officers/officer.model';
@@ -28,10 +28,10 @@ export class AddBranchManagersComponent implements OnInit, OnDestroy {
   mode!: 'add' | 'edit' | 'view';
   parentBranchId!: number;
   recordId!: number;
-  officers:Officer[]=[];
+  officers: Officer[] = [];
 
   private destroy$ = new Subject<void>();
-  
+
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -91,7 +91,7 @@ export class AddBranchManagersComponent implements OnInit, OnDestroy {
             id: rec.id,
             branchId: this.parentBranchId,
             managerId: rec.managerId,
-            startDate:new Date(rec.startDate),
+            startDate: new Date(rec.startDate),
             isCurrent: rec!.isCurrent,
           });
         });
@@ -127,8 +127,7 @@ export class AddBranchManagersComponent implements OnInit, OnDestroy {
     }
 
     // 6) The actual payload
-    const data = this.addBranchManagerForm
-      .value as Partial<BranchManager>;
+    const data = this.addBranchManagerForm.value as Partial<BranchManager>;
     console.log('📦 Payload going to facade:', data);
 
     // 7) Create vs. update
@@ -165,4 +164,3 @@ export class AddBranchManagersComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 }
-

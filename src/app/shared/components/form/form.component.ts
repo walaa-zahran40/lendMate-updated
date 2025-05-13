@@ -55,6 +55,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() applyReusable: boolean = false;
   @Input() selectedFile!: any;
   @Input() title: string = '';
+
   @Input() description: string = '';
   @Input() addClientShowMain?: boolean;
   @Input() addClientShowLegal?: boolean;
@@ -64,10 +65,12 @@ export class FormComponent implements OnInit, OnDestroy {
   //Select Box
   @Input() sectorsList: any;
   @Input() businessLinesList: any;
+  @Input() departments: any;
   @Input() subSectorsList: any[] = [];
   @Input() countriesList: any;
   @Input() assetTypeCategories: any;
   @Input() feeCalculationTypes: any;
+  @Input() teamDepartments: any;
   @Input() governoratesList: any;
   @Input() areasList: any;
   @Input() currencies: { id: number; name: string }[] = [];
@@ -273,7 +276,6 @@ export class FormComponent implements OnInit, OnDestroy {
   selectedCallActionTypeAddCall!: any;
   callTypeAddCall!: any;
   selectedCallTypeAddCall!: any;
-  departments!: any;
   teams!: any;
   pages!: any;
   selectedStamps!: any;
@@ -319,6 +321,8 @@ export class FormComponent implements OnInit, OnDestroy {
     },
   ];
   @Input() pagesList: any;
+  @Input() operationsList: any;
+
   selectedOperations: any[] = [
     {
       name: 'Active',
@@ -426,7 +430,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addCommunicationFlowTypesLookupsForm!: boolean;
   @Input() addTeamMemberORGForm!: boolean;
   @Input() addRoleORGForm!: boolean;
-  @Input() addOperationORGForm!: boolean;
+  @Input() addOperationsORGForm!: boolean;
   @Input() addPageOperationORGForm!: boolean;
   @Input() addOfficerORGForm!: boolean;
   @Input() addSignatoryOfficerORGForm!: boolean;
@@ -634,7 +638,9 @@ export class FormComponent implements OnInit, OnDestroy {
     ]);
   }
   viewBranchOfficers() {
-    this.router.navigate(['/lookups/view-branch-officers']);
+    this.router.navigate([
+      `/organizations/view-branch-officers/${this.branchIdParam}`,
+    ]);
   }
   viewBranchAddress() {
     console.log('rrrrr', this.branchIdParam);
@@ -643,7 +649,7 @@ export class FormComponent implements OnInit, OnDestroy {
     ]);
   }
   viewBranch() {
-    this.router.navigate(['/lookups/view-branches']);
+    this.router.navigate(['/organizations/view-branches']);
   }
   viewClientDocument() {
     this.router.navigate(['/lookups/view-client-document-types']);
@@ -702,8 +708,8 @@ export class FormComponent implements OnInit, OnDestroy {
   viewPageOperation() {
     this.router.navigate(['/organizations/view-page-operations']);
   }
-  viewOperation() {
-    this.router.navigate(['/crm/clients/view-operation']);
+  viewOperations() {
+    this.router.navigate(['/organizations/view-operations']);
   }
   viewRoles() {
     this.router.navigate(['/organizations/view-roles']);
@@ -714,8 +720,8 @@ export class FormComponent implements OnInit, OnDestroy {
   viewTeamLead() {
     this.router.navigate(['/crm/clients/view-team-lead']);
   }
-  viewTeam() {
-    this.router.navigate(['/crm/clients/view-team']);
+  viewTeams() {
+    this.router.navigate(['organizations/view-teams']);
   }
   viewManager() {
     this.router.navigate(['/crm/clients/view-manager']);

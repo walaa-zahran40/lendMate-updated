@@ -2,8 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, Observable, takeUntil, tap, map } from 'rxjs';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
-import { BranchAddress } from '../../../store/branch-addresses/branch-address.model';
-import { BranchAddressesFacade } from '../../../store/branch-addresses/branch-addresses.facade';
+import { BranchAddress } from '../../../store/branches/branch-addresses/branch-address.model';
+import { BranchAddressesFacade } from '../../../store/branches/branch-addresses/branch-addresses.facade';
 
 @Component({
   selector: 'app-view-branch-addresses',

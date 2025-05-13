@@ -41,7 +41,6 @@ export class ViewAddressTypesComponent {
     this.addressTypes$ = this.facade.all$;
 
     this.addressTypes$?.pipe(takeUntil(this.destroy$))?.subscribe((address) => {
-      // products is now rentStructureType[], not any
       const activeCodes = address.filter((code) => code.isActive);
       const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
       this.originalAddressTypes = sorted;

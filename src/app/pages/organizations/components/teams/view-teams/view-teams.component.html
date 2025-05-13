@@ -1,25 +1,40 @@
 <div class="page-content">
   <app-toolbar-table
     [title]="'Teams'"
-    [backExists]="true"
-    [btnAdd]="false"
-    [exports]="true"
+    [labelBtn]="'Add Team'"
+    [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddTeam()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
   <app-table
+    #tableRef
     [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col1Name]="'Code'"
-    [col2Name]="'Name EN'"
-    [col3Name]="'Name AR'"
-    [col4Name]="'Active'"
-    [col5Name]="'Department'"
+    [tableData]="filteredTeams"
     [edit]="true"
     [delete]="true"
     [side]="true"
-    [download]="false"
+    [first]="first2"
     [checkBox]="true"
-    [viewTeamTable]="true"
+    [view]="true"
+    [filters]="showFilters"
     [uppercase]="'uppercase'"
+    [viewTeamsTable]="true"
+    (onDelete)="onDeleteTeam($event)"
+    (onEdit)="onEditTeam($event)"
+    (viewForm)="onViewTeam($event)"
+    (wizardBtn)="onAddSide($event)"
   ></app-table>
+
+  <app-delete-module
+    [visible]="showDeleteModal"
+    (confirm)="confirmDelete()"
+    (cancel)="cancelDelete()"
+  />
 </div>

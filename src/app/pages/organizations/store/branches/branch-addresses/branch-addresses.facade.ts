@@ -4,7 +4,7 @@ import * as Actions from './branch-addresses.actions';
 import * as Selectors from './branch-addresses.selectors';
 import { Observable } from 'rxjs';
 import { BranchAddress } from './branch-address.model';
-import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
+import { selectLastOperationSuccess } from '../../../../../shared/store/ui.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class BranchAddressesFacade {

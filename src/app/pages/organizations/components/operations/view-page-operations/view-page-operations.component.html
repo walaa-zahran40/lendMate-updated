@@ -2,26 +2,40 @@
   <app-toolbar-table
     [title]="'Page Operations'"
     [labelBtn]="'Add Page Operation'"
-    [backExists]="true"
-    [exports]="true"
+    [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
-    (addBtn)="onAdd()"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddPageOperation()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col1Name]="'Code'"
-    [col2Name]="'Page Name'"
-    [col3Name]="'Operation Name'"
-    [col4Name]="'Active'"
-    [col5Name]="'Name EN'"
-    [col6Name]="'Name AR'"
-    [edit]="true"
-    [delete]="true"
-    [side]="false"
-    [download]="false"
-    [checkBox]="true"
-    [viewPageOperationsTable]="true"
-    [uppercase]="'uppercase'"
-  ></app-table>
+
+  <ng-container *ngIf="pageOperations$ | async as pageOperations">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredPageOperations"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewPageOperationsTable]="true"
+      (onDelete)="onDeletePageOperation($event)"
+      (onEdit)="onEditPageOperation($event)"
+      (viewForm)="onViewPageOperations($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
 </div>
