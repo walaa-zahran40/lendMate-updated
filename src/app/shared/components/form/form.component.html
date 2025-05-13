@@ -458,7 +458,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Manager"
-      (click)="viewManager()"
+      (click)="viewDepartmentManager()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -9228,57 +9228,162 @@
       />
     </form>
     <!--ORG Forms-->
-    <form action="" *ngIf="addDepartmentsORGForm">
-      <label>Arabic Description<sup>*</sup></label>
-      <br />
-      <label for="codeMeetingTypesCommunication">Code<sup>*</sup></label>
-      <input
-        pInputText
-        id="codeMeetingTypesCommunication"
-        aria-describedby="codeMeetingTypesCommunication-help"
-        name="codeMeetingTypesCommunication"
-        placeholder="342425"
-      />
-      <label for="nameInEnglishMeetingTypesCommunication"
-        >Name in English<sup>*</sup></label
+    <form
+      [formGroup]="formGroup"
+      *ngIf="addDepartmentsORGForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="name">Name in English<sup>*</sup></label>
+      <input pInputText id="name" formControlName="name" placeholder="Type" />
+      <div
+        *ngIf="
+          formGroup.get('name')?.hasError('required') &&
+          formGroup.get('name')?.touched
+        "
+        class="p-error"
       >
+        Name in English is required.
+      </div>
+
+      <label for="nameAR">Name in Arabic<sup>*</sup></label>
       <input
         pInputText
-        id="nameInEnglishMeetingTypesCommunication"
-        aria-describedby="nameInEnglishMeetingTypesCommunication-help"
-        name="nameInEnglishMeetingTypesCommunication"
-        placeholder="Enter Name"
+        id="nameAR"
+        formControlName="nameAR"
+        placeholder="Type"
       />
-      <label for="nameInArabicMeetingTypesCommunication"
-        >Name in Arabic<sup>*</sup></label
+      <div
+        *ngIf="
+          formGroup.get('nameAR')?.hasError('required') &&
+          formGroup.get('nameAR')?.touched
+        "
+        class="p-error"
       >
-      <input
-        pInputText
-        id="nameInArabicMeetingTypesCommunication"
-        aria-describedby="nameInArabicMeetingTypesCommunication-help"
-        name="nameInArabicMeetingTypesCommunication"
-        placeholder="Enter Name"
-      />
+        Name in Arabic is required.
+      </div>
+      <div
+        *ngIf="
+          formGroup.get('nameAR')?.hasError('pattern') &&
+          formGroup.get('nameAR')?.touched
+        "
+        class="p-error"
+      >
+        Please enter only Arabic letters.
+      </div>
+
+      <div class="p-field" for="isActive" *ngIf="editMode">
+        <p-toggleSwitch
+          id="isActive"
+          formControlName="isActive"
+          label="is Active"
+        ></p-toggleSwitch>
+        <label for="isActive"> Active</label>
+      </div>
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 currenciesDiv"
+          *ngIf="!editMode"
+        >
+          <p-button
+            type="submit"
+            label="Add Department"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Department"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate(['/organizations/view-departments'])"
+          />
+        </div>
+      </div>
     </form>
-    <form action="" *ngIf="addDepartmentManagerORGForm">
-      <label for="startDateDepartmentManagerORG">Start Date<sup>*</sup></label>
+       <form
+      [formGroup]="formGroup"
+      *ngIf="addDepartmentManagerORGForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="startDate">Start Date<sup class="danger">*</sup></label>
       <p-datepicker
-        [(ngModel)]="date16"
         [iconDisplay]="'input'"
         [showIcon]="true"
         inputId="icondisplay"
-        name="startDateDepartmentManagerORG"
-      />
+        name="startDate"
+        formControlName="startDate"
+      ></p-datepicker>
 
-      <label for="selectOfficerDepartmentManagerORG"
-        >Select Officer<sup>*</sup></label
-      >
+      <label for="officerId">Manager<sup>*</sup></label>
       <p-select
-        [options]="officers"
+        [options]="officersList"
         optionLabel="name"
-        placeholder="Officer"
-        class="w-full md:w-56"
+        placeholder="Select Manager"
+        formControlName="officerId"
+        optionValue="id"
+        (onChange)="onSectorChange($event)"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('uId')?.invalid &&
+            (formGroup.get('officerId')?.dirty ||
+              formGroup.get('officerId')?.touched)
+        }"
       />
+      <div class="p-field" for="isCurrent" *ngIf="editMode">
+        <p-toggleSwitch
+          id="isCurrent"
+          formControlName="isCurrent"
+          label="is Active"
+        ></p-toggleSwitch>
+        <label for="isCurrent"> Current</label>
+      </div>
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 subSectorsDiv"
+          *ngIf="!editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Add Department Manager"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 subSectorsDiv"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Department Manager"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 sectorsDiv"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate([`/organizations/view-department-managers/${this.departmentIdParam}`])"
+          ></p-button>
+        </div>
+      </div>
     </form>
     <form action="" *ngIf="addTeamORGForm">
       <label for="codeTeamsORG">Code<sup>*</sup></label>

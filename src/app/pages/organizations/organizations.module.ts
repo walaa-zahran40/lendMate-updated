@@ -55,6 +55,8 @@ import { reducer as PagesReducer } from './store/pages/pages.reducer';
 import { PagesEffects } from './store/pages/pages.effects';
 import { PreloadAllModules, RouterModule } from '@angular/router';
 import { routes } from '../../app-routing.module';
+import { DepartmentManagersEffects } from './store/department-managers/department-managers.effects';
+import { departmentManagersReducer } from './store/department-managers/department-managers.reducer';
 
 @NgModule({
   declarations: [
@@ -115,6 +117,8 @@ import { routes } from '../../app-routing.module';
     EffectsModule.forFeature([RolesEffects]),
     StoreModule.forFeature('pages', PagesReducer),
     EffectsModule.forFeature([PagesEffects]),
+     StoreModule.forFeature('departmentManagers', departmentManagersReducer),
+    EffectsModule.forFeature([DepartmentManagersEffects]),
   ],
   exports: [
     AddDepartmentComponent,
@@ -128,6 +132,7 @@ import { routes } from '../../app-routing.module';
     AddPageOperationComponent,
     AddOfficerComponent,
     AddSignatoryOfficerComponent,
+    ViewDepartmentManagerComponent
   ],
 })
 export class OrganizationsModule {}

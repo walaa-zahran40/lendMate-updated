@@ -1,27 +1,41 @@
 <div class="page-content">
   <app-toolbar-table
-    [title]="'View Department Managers'"
+    [title]="'Department Manager'"
     [labelBtn]="'Add Department Manager'"
-    [backExists]="true"
-    [exports]="true"
-    [btnAdd]="true"
+    [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
     (addBtn)="onAddDepartmentManager()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col1Name]="'Department'"
-    [col2Name]="'Officer'"
-    [col3Name]="'Start Date'"
-    [col4Name]="'Name EN'"
-    [col5Name]="'Name AR'"
-    [edit]="true"
-    [delete]="true"
-    [side]="false"
-    [download]="false"
-    [checkBox]="true"
-    [viewAddDepartmentManagerTable]="true"
-    [uppercase]="'uppercase'"
-  ></app-table>
+
+  <ng-container *ngIf="departmentManagers$ | async as departmentManagers">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredDepartmentManagers"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewCurrencyExchangeTable]="true"
+      (onDelete)="onDeleteDepartmentManager($event)"
+      (onEdit)="onEditDepartmentManager($event)"
+      (viewForm)="onViewDepartmentManager($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
 </div>
