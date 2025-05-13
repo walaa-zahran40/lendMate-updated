@@ -123,7 +123,7 @@ const routes: Routes = [
     component: AddDepartmentComponent,
   },
   {
-    path: 'wizard-department/:deptId',
+    path: 'wizard-department/:departmentId',
     component: WizardDepartmentComponent,
   },
   {
@@ -131,11 +131,19 @@ const routes: Routes = [
     component: ViewDepartmentsComponent,
   },
   {
-    path: 'view-department-managers/:deptId',
+    path: 'view-department-managers/:departmentId',
     component: ViewDepartmentManagerComponent,
   },
   {
-    path: 'add-department-manager/:deptId',
+    path: 'add-department-managers',
+    component: AddDepartmentManagerComponent,
+  },
+  {
+    path: 'add-department-managers/:departmentId',
+    component: AddDepartmentManagerComponent,
+  },
+  {
+    path: 'edit-department-managers/:id',
     component: AddDepartmentManagerComponent,
   },
   //roles

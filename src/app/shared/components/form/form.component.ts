@@ -446,6 +446,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addPageORGForm!: boolean;
   currencyIdParam: any;
   branchIdParam: any;
+  departmentIdParam: any;
   @Input() addPaymentTypesLookupsForm!: boolean;
   @Input() addPaymentMonthDaysLookupsForm!: boolean;
   @Input() addMeetingTypesLookupsForm!: boolean;
@@ -518,6 +519,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.id = this.route.snapshot.paramMap.get('clientId')!;
     this.currencyIdParam = this.route.snapshot.queryParams['currencyId'];
     this.branchIdParam = this.route.snapshot.queryParams['branchId'];
+    this.departmentIdParam = this.route.snapshot.queryParams['departmentId'];
     this.sub = this.formGroup?.valueChanges
       .pipe(debounceTime(300))
       .subscribe(() => {
@@ -628,6 +630,11 @@ export class FormComponent implements OnInit, OnDestroy {
   viewBranchManagers() {
     this.router.navigate([
       `/organizations/view-branch-managers/${this.branchIdParam}`,
+    ]);
+  }
+  viewDepartmentManager() {
+    this.router.navigate([
+      `/organizations/view-department-managers/${this.departmentIdParam}`,
     ]);
   }
   viewBranchOfficers() {

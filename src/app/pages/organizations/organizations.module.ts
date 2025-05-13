@@ -61,6 +61,8 @@ import { OperationsEffects } from './store/operations/operations.effects';
 import { reducer as operationsReducer } from './store/operations/operations.reducer';
 import { PageOperationsEffects } from './store/page-operations/page-operations.effects';
 import { reducer as pageOperationsReducer } from './store/page-operations/page-operations.reducer';
+import { DepartmentManagersEffects } from './store/department-managers/department-managers.effects';
+import { departmentManagersReducer } from './store/department-managers/department-managers.reducer';
 import { TeamsEffects } from './store/teams/teams.effects';
 import { TeamsReducer } from './store/teams/teams.reducer';
 import { WizardRolesComponent } from './components/roles/wizard-roles/wizard-roles.component';
@@ -131,6 +133,8 @@ import { AddRoleClaimComponent } from './components/roles/add-role-claim/add-rol
     EffectsModule.forFeature([RolesEffects]),
     StoreModule.forFeature('pages', PagesReducer),
     EffectsModule.forFeature([PagesEffects]),
+    StoreModule.forFeature('departmentManagers', departmentManagersReducer),
+    EffectsModule.forFeature([DepartmentManagersEffects]),
     StoreModule.forFeature('branchOfficers', branchOfficersReducer),
     EffectsModule.forFeature([BranchOfficersEffects]),
     StoreModule.forFeature('signatoryOfficers', signatoryOfficersReducer),
@@ -152,6 +156,7 @@ import { AddRoleClaimComponent } from './components/roles/add-role-claim/add-rol
     AddPageOperationComponent,
     AddOfficerComponent,
     AddSignatoryOfficerComponent,
+    ViewDepartmentManagerComponent,
   ],
 })
 export class OrganizationsModule {}

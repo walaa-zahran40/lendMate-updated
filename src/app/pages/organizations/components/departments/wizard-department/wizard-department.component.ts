@@ -8,7 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrl: './wizard-department.component.scss',
 })
 export class WizardDepartmentComponent {
-  deptId = +this.route.snapshot.paramMap.get('deptId')!;
+  departmentId = +this.route.snapshot.paramMap.get('departmentId')!;
   cards: any[] = [];
   constructor(private router: Router, private route: ActivatedRoute) {}
   ngOnInit(): void {
@@ -20,7 +20,7 @@ export class WizardDepartmentComponent {
           title: 'Department Manager',
           content:
             'Introduce your company core info quickly to users by fill up company details',
-          link: `/organizations/view-department-managers/${this.deptId}`,
+          link: `/organizations/view-department-managers/${this.departmentId}`,
         },
         {
           imgUrl: '/assets/images/shared/card/team.svg',
