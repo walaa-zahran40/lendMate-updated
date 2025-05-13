@@ -1,1 +1,40 @@
-<p>view-role-claims works!</p>
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Branch Address'"
+    [labelBtn]="'Add Branch Address'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddBranchAddress()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+  <ng-container *ngIf="branchAddresses$ | async as branchAddresses">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredBranchAddresses"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewBranchAddressesTable]="true"
+      (onDelete)="onDeleteBranchAddress($event)"
+      (onEdit)="onEditBranchAddress($event)"
+      (viewForm)="onViewBranchAddress($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

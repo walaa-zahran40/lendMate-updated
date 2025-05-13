@@ -16,10 +16,10 @@ export class WizardRolesComponent {
     this.originalCards = [
       {
         imgUrl: '/assets/images/shared/card/branch.svg',
-        imgAlt: 'branch Managers',
-        title: 'Branch Managers',
+        imgAlt: 'role Claims',
+        title: 'Role Claims',
         content:
-          'Introduce your company core info quickly to users by fill up company details',
+          'Introduce your role core info quickly to users by fill up role details',
         link: `/organizations/view-role-claims/${roleId}`,
       },
     ];

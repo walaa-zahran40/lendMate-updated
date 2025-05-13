@@ -16,19 +16,11 @@ export class WizardDepartmentComponent {
       [
         {
           imgUrl: '/assets/images/shared/card/department.svg',
-          imgAlt: 'department Manager',
-          title: 'Department Manager',
+          imgAlt: 'department Managers',
+          title: 'Department Managers',
           content:
             'Introduce your company core info quickly to users by fill up company details',
           link: `/organizations/view-department-managers/${this.departmentId}`,
-        },
-        {
-          imgUrl: '/assets/images/shared/card/team.svg',
-          imgAlt: 'teams',
-          title: 'Teams',
-          content:
-            'Introduce your company core info quickly to users by fill up company details',
-          link: '/organizations/add-team',
         },
       ],
     ];
