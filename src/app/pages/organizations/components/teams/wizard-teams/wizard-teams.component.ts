@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-wizard-teams',
@@ -9,8 +9,10 @@ import { Router } from '@angular/router';
 })
 export class WizardTeamsComponent {
   cards: any[] = [];
-  constructor(private router: Router) {}
+  constructor(private router: Router, private route: ActivatedRoute) {}
+
   ngOnInit(): void {
+    const teamId = this.route.snapshot.paramMap.get('teamId');
     this.cards = [
       [
         {
@@ -19,6 +21,7 @@ export class WizardTeamsComponent {
           title: 'Team Leads',
           content:
             'Introduce your company core info quickly to users by fill up company details',
+          link: `/organizations/view-team-lead-officers/${teamId}`,
         },
         {
           imgUrl: '/assets/images/shared/card/team.svg',
