@@ -506,14 +506,14 @@ export class SideMenuComponent {
             routerLink: '/lookups/view-sme-client-codes',
           },
           {
-            label: 'PageOperations',
+            label: 'Page Operations',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-page-operations',
+            routerLink: '/organizations/view-page-operations',
           },
           {
             label: 'Operations ',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-sme-client-codes',
+            routerLink: '/organizations/view-operations',
           },
           {
             label: 'Pages',
