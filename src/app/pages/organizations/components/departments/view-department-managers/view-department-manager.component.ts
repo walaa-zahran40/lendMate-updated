@@ -83,40 +83,36 @@ export class ViewDepartmentManagerComponent implements OnInit, OnDestroy {
     startWith({ items: [], totalCount: 0 }),
     tap(response => console.log('[Debug] items$ inside combineLatest →', response))
   ),
-  this.officersList$.pipe(startWith([]))
+  this.officersList$.pipe(
+    startWith([]),
+    tap(officers => console.log('[Debug] officersList$ inside combineLatest →', officers))
+  )
 ])
 .pipe(
-  filter(([response, officers]) => {
+  map(([response, officers]) => {
     const departmentManagers = Array.isArray(response)
       ? response
       : response.items ?? [];
-    return departmentManagers.length > 0;
-  }),
-  map(([raw, officers]) => {
-    const departmentManagers = Array.isArray(raw)
-      ? raw
-      : raw.items ?? [];
+    const enriched = departmentManagers.map(dm => ({
+      ...dm,
+      managerName: officers.find(officer => officer.id === dm.officerId)?.name || '—',
+    })).sort((a, b) => b.id - a.id);
 
-    return departmentManagers
-      .map(gov => ({
-        ...gov,
-        managerName: officers.find(c => c.id === gov.officerId)?.name || '—',
-      }))
-      .sort((a, b) => b.id - a.id);
+    console.log('[View] enriched departmentManagers →', enriched);
+    return enriched;
   }),
   takeUntil(this.destroy$)
 )
 .subscribe({
   next: enriched => {
-    console.log('[View] enriched departmentManagers →', enriched);
+    console.log('[Subscribe] setting managers →', enriched);
     this.originalDepartmentManagers = enriched;
     this.filteredDepartmentManagers = [...enriched];
   },
   error: err => {
-    console.error('[View] combineLatest subscription error →', err);
+    console.error('[Error] combineLatest failed →', err);
   }
 });
-
 
 }
   onAddDepartmentManager() {

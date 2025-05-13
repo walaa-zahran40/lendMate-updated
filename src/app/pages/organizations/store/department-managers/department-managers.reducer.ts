@@ -92,7 +92,9 @@ export const departmentManagersReducer = createReducer(
   })),
   on(Actions.deleteDepartmentManagerSuccess, (state, { id }) => ({
     ...state,
-    items: state.items.filter((ct) => ct.id !== id),
+    items: Array.isArray(state.items)
+        ? state.items.filter((ct) => ct.id !== id)
+        : [],    
     loading: false,
   })),
   on(Actions.deleteDepartmentManagerFailure, (state, { error }) => ({
