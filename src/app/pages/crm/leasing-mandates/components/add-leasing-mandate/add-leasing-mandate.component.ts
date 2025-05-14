@@ -208,7 +208,7 @@ export class AddLeasingMandateComponent {
       this.facade.create(payload);
     }
 
-    this.router.navigate(['/crm/leasing-mandatesview-leasing-mandates']);
+    this.router.navigate(['/crm/leasing-mandates-view-leasing-mandates']);
   }
 
   ngOnDestroy(): void {

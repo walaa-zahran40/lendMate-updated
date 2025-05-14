@@ -5957,15 +5957,14 @@
     Insurer is required.
   </div>
 
-  <!-- Notes -->
-  <label for="notes">Notes</label>
-  <textarea
-    pInputTextarea
+  <label for="notes">Notes <sup>*</sup></label>
+  <input
+    pInputText
     id="notes"
     formControlName="notes"
-    rows="4"
-    placeholder="Enter notes"
-  ></textarea>
+    placeholder="notes"
+  />
+
 
 
  <div class="p-field" for="isActive" *ngIf="editMode">
