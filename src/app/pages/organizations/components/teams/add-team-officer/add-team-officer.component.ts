@@ -2,7 +2,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { filter, Subject, takeUntil } from 'rxjs';
+import { filter, Subject, take, takeUntil } from 'rxjs';
 import { Officer } from '../../../store/officers/officer.model';
 import { OfficersFacade } from '../../../store/officers/officers.facade';
 import { TeamOfficersFacade } from '../../../store/teams/team-officers/team-officers.facade';
@@ -78,8 +78,8 @@ export class AddTeamOfficerComponent implements OnInit, OnDestroy {
     if (this.editMode || this.viewOnly) {
       this.teamFacade.current$
         .pipe(
-          takeUntil(this.destroy$),
-          filter((rec) => !!rec)
+          filter((rec) => !!rec),
+          take(1)
         )
         .subscribe((rec) => {
           console.log('red', rec);

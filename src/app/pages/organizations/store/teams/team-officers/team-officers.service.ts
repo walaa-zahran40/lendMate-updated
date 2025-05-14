@@ -54,7 +54,7 @@ export class TeamOfficersService {
   }
   getByTeamId(teamId: number): Observable<TeamOfficer[]> {
     return this.http.get<TeamOfficer[]>(
-      `${this.api}/GetOfficersByTeamId?teamId=${teamId}`
+      `${this.api}/GetTeamOfficersByTeamId?teamId=${teamId}`
     );
   }
 }

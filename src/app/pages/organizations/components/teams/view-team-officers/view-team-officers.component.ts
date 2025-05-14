@@ -1,6 +1,6 @@
 
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { combineLatest, map, Observable, Subject, takeUntil } from 'rxjs';
+import { combineLatest, map, Observable, Subject, takeUntil, tap } from 'rxjs';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OfficersFacade } from '../../../store/officers/officers.facade';
@@ -48,41 +48,90 @@ export class ViewTeamOfficersComponent implements OnInit, OnDestroy {
     private store: Store
   ) {}
 
-  ngOnInit() {
-    // 1) grab the param
-    const raw = this.route.snapshot.paramMap.get('teamId');
-    this.teamIdParam = raw !== null ? Number(raw) : undefined;
-    console.log('[View] ngOnInit → teamIdParam =', this.teamIdParam);
-   
-    if (this.teamIdParam == null || isNaN(this.teamIdParam)) {
-      console.error(
-        '❌ Missing or invalid teamIdParam! Cannot load exchange rates.'
-      );
-      return;
-    }
-    this.officersList$ = this.store.select(selectOfficers);
-    this.officersFacade.loadAll();
-    this.teamOfficers$ = this.facade.items$;
-
-    this.facade.loadTeamOfficersByTeamId(this.teamIdParam);
-
-    combineLatest([this.teamOfficers$, this.officersList$])
-      .pipe(
-        map(([teamOfficers, officers]) =>
-          teamOfficers
-            .map((gov) => ({
-  ...gov,
-  officerName : gov.officer?.name || '—',
-}))
-            .sort((a, b) => b.id - a.id)
-        ),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((enriched) => {
-        this.originalTeamOfficers = enriched;
-        this.filteredTeamOfficers = [...enriched];
-      });
+ ngOnInit() {
+  // 1) grab and validate the param
+  const raw = this.route.snapshot.paramMap.get('teamId');
+  this.teamIdParam = raw !== null ? Number(raw) : undefined;
+  console.log('[ViewTeamOfficers] ngOnInit → teamIdParam =', this.teamIdParam);
+ 
+  if (this.teamIdParam == null || isNaN(this.teamIdParam)) {
+    console.error(
+      '❌ Missing or invalid teamIdParam! Cannot load team officers.'
+    );
+    return;
   }
+ 
+  // 2) kick off loads
+  console.log('[ViewTeamOfficers] loading all officers from store');
+  this.officersList$ = this.store.select(selectOfficers);
+  this.officersFacade.loadAll();
+ 
+  console.log('[ViewTeamOfficers] loading team officers for teamId', this.teamIdParam);
+  this.facade.loadTeamOfficersByTeamId(this.teamIdParam);
+  this.teamOfficers$ = this.facade.items$;
+ 
+  combineLatest([
+    // 1) tap the raw wrapper
+    this.teamOfficers$.pipe(
+      tap(raw =>
+        console.log('[teamOfficers wrapper]', raw)
+      ),
+      // 2) pluck the items array
+      map(raw => 
+      {
+        if(typeof raw ==='string'){
+          console.warn('expected',raw);
+          return [] as TeamOfficer[];
+        }
+        if(Array.isArray(raw)){
+          return raw;
+        }
+        if('items' in raw && Array.isArray((raw as any).items)){
+          return (raw as any).items;
+        }
+        console.error('unexpected',raw);
+        return [] as TeamOfficer[];
+      }
+      )
+    ),
+    // 3) tap the officers list
+    this.officersList$.pipe(
+      tap(list =>
+        console.log('[officersList]', list)
+      )
+    )
+  ])
+  .pipe(
+    // 4) now both are arrays
+    tap(([ teamOfficersArr, officersArr ]) =>
+      console.log('[combineLatest] arrays →', {
+        teamOfficersArr,
+        officersArr
+      })
+    ),
+ 
+    // 5) enrich and sort
+    map(([ teamOfficersArr, officersArr ]) =>
+      teamOfficersArr
+        .map((gov: { officerId: number; })=>({
+        ...gov,
+          officerName:officersArr.find(o=>o.id===gov.officerId)?.name||'-'}))
+        .sort((a: { id: number; }, b: { id: number; }) => b.id - a.id)
+    ),
+ 
+    // 6) final log before subscribe
+    tap(enriched =>
+      console.log('[after map+sort] enrichedTeamOfficers →', enriched)
+    ),
+ 
+    takeUntil(this.destroy$)
+  )
+  .subscribe(enriched => {
+    console.log('[subscribe] writing to component state', enriched);
+    this.originalTeamOfficers  = enriched;
+    this.filteredTeamOfficers  = [...enriched];
+  });
+}
 
   onAddTeamOfficer() {
     const teamIdParam = this.route.snapshot.paramMap.get('teamId');
@@ -125,8 +174,8 @@ export class ViewTeamOfficersComponent implements OnInit, OnDestroy {
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
     this.filteredTeamOfficers = this.originalTeamOfficers.filter(
-      (branchManager) =>
-        Object.values(branchManager).some((val) =>
+      (teamOfficer) =>
+        Object.values(teamOfficer).some((val) =>
           val?.toString().toLowerCase().includes(lower)
         )
     );
@@ -136,10 +185,10 @@ export class ViewTeamOfficersComponent implements OnInit, OnDestroy {
     this.showFilters = value;
   }
 
-  onEditTeamOfficer(branchManager: TeamOfficer) {
+  onEditTeamOfficer(teamOfficer: TeamOfficer) {
     console.log('edioyt', this.teamIdParam);
     this.router.navigate(
-      ['/organizations/edit-team-officer', branchManager.id],
+      ['/organizations/edit-team-officer', teamOfficer.id],
       {
         queryParams: {
           mode: 'edit',
@@ -149,9 +198,9 @@ export class ViewTeamOfficersComponent implements OnInit, OnDestroy {
     );
   }
 
-  onViewTeamOfficer(branchManager: TeamOfficer) {
+  onViewTeamOfficer(teamOfficer: TeamOfficer) {
     this.router.navigate(
-      ['/organizations/edit-team-officer', branchManager.id],
+      ['/organizations/edit-team-officer', teamOfficer.id],
       {
         queryParams: {
           mode: 'view',

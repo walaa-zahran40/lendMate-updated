@@ -4,5 +4,6 @@ export interface TeamOfficer {
   team?: any;
   officerId: number;
   officer?: any;
-  startDate: Date
+  startDate: Date;
+  items?:any;
 }

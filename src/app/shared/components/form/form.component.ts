@@ -637,6 +637,13 @@ export class FormComponent implements OnInit, OnDestroy {
     ]);
   }
 
+
+   viewTeamOfficers() {
+    this.router.navigate([
+      `/organizations/view-team-officers/${this.teamIdParam}`,
+    ]);
+  }
+
   viewBranchOfficers() {
     this.router.navigate([
       `/organizations/view-branch-officers/${this.branchIdParam}`,
