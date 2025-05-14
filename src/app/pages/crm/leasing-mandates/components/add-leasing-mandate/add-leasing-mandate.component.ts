@@ -140,6 +140,7 @@ export class AddLeasingMandateComponent {
 
     if (this.addLeasingMandateForm.invalid) {
       this.addLeasingMandateForm.markAllAsTouched();
+      console.log("hello from add");
       return;
     }
 
@@ -147,7 +148,6 @@ export class AddLeasingMandateComponent {
       description,
       date,
       validityCount,
-      parentMandateId,
       indicativeRentals,
       clientId,
       validityUnitId, 
@@ -160,7 +160,6 @@ export class AddLeasingMandateComponent {
       description,
       date,
       validityCount,
-      parentMandateId,
       indicativeRentals,
       clientId,
       validityUnitId,
@@ -169,7 +168,6 @@ export class AddLeasingMandateComponent {
       insuredById,
       notes,
     };
-    const routeId = this.route.snapshot.paramMap.get('id');
 
     if (this.editMode) {
       const {
@@ -203,12 +201,13 @@ export class AddLeasingMandateComponent {
         isActive,
       };
 
+      console.log("arwa payload : " , payload) ;
       this.facade.update(id, payload);
     } else {
       this.facade.create(payload);
     }
 
-    this.router.navigate(['/crm/leasing-mandates-view-leasing-mandates']);
+    this.router.navigate(['/crm/leasing-mandates/view-leasing-mandates']);
   }
 
   ngOnDestroy(): void {

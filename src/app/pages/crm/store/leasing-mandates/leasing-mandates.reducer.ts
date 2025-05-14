@@ -2,7 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import * as LeasingMandateActions from './leasing-mandates.actions';
 import { adapter, initialState } from './leasing-mandates.state';
 
-export const reducer = createReducer(
+export const leasingMandatesreducer = createReducer(
   initialState,
 
   // when you dispatch loadAll()
