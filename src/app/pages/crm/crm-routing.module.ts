@@ -14,7 +14,7 @@ import { AddTaxAuthorityOfficeComponent } from './clients/components/add-tax-aut
 import { AddCentralBankInfoComponent } from './clients/components/add-central-bank-info/add-central-bank-info.component';
 import { AddShareHoldersComponent } from './clients/components/add-share-holders/add-share-holders.component';
 import { AddTmlOfficerComponent } from './clients/components/add-tml-officer/add-tml-officer.component';
-import { AddMandateComponent } from './leasing-mandates/components/add-mandate/add-mandate.component';
+import { AddLeasingMandateComponent } from './leasing-mandates/components/add-leasing-mandate/add-leasing-mandate.component';
 import { AddChildMandateComponent } from './leasing-mandates/components/add-child-mandate/add-child-mandate.component';
 import { AddManageMandateTermsComponent } from './leasing-mandates/components/add-manage-mandate-terms/add-manage-mandate-terms.component';
 import { LeasingFinancialFormComponent } from './leasing-mandates/components/leasing-financial-form/leasing-financial-form.component';
@@ -30,7 +30,7 @@ import { ViewCentralBankInfoComponent } from './clients/components/view-central-
 import { ViewShareHolderComponent } from './clients/components/view-share-holder/view-share-holder.component';
 import { ViewTmlOfficerComponent } from './clients/components/view-tml-officer/view-tml-officer.component';
 import { ClientActivityWizardComponent } from './clients/components/client-activity-wizard/client-activity-wizard.component';
-import { ViewMandateComponent } from './leasing-mandates/components/view-mandate/view-mandate.component';
+import { ViewLeasingMandatesComponent } from './leasing-mandates/components/view-leasing-mandates/view-leasing-mandates.component';
 import { ViewOfficersComponent } from './leasing-mandates/components/view-officers/view-officers.component';
 import { ViewContactPersonsComponent } from './leasing-mandates/components/view-contact-persons/view-contact-persons.component';
 import { ViewAssestTypeComponent } from './leasing-mandates/components/view-assest-type/view-assest-type.component';
@@ -200,9 +200,16 @@ const routes: Routes = [
 
   /*Leasing Mandates Routing*/
   {
-    path: 'leasing-mandates/add-mandate',
-    component: AddMandateComponent,
+    path: 'leasing-mandates/add-leasing-mandate',
+    component: AddLeasingMandateComponent,
   },
+
+   {
+    path: 'leasing-mandates/view-leasing-mandates',
+    component: ViewLeasingMandatesComponent,
+  },
+
+
   {
     path: 'leasing-mandates/add-child-mandate',
     component: AddChildMandateComponent,
@@ -216,8 +223,8 @@ const routes: Routes = [
     component: LeasingFinancialFormComponent,
   },
   {
-    path: 'leasing-mandates/view-mandate',
-    component: ViewMandateComponent,
+    path: 'leasing-mandates/view-mandates',
+    component: ViewLeasingMandatesComponent,
   },
   {
     path: 'leasing-mandates/view-officers',

@@ -1,0 +1,21 @@
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-form
+        [title]="'Main Information'"
+        [description]="
+          'Leasing Mandates'"
+        [addLeasingMandateForm]="true"
+        [products]="products$ | async"    
+        [clients]="clients$ | async"    S
+        [validityUnits]="validityUnits$ | async"    
+        [leasingTypes]="leasingTypes$ | async"     
+        [insuredByList]="insuredByList$ | async"     
+        [formGroup]="addLeasingMandateForm"
+        (submitForm)="addOrEditLeasingMandate()"
+        [editMode]="editMode"
+        [viewOnly]="viewOnly"
+      ></app-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

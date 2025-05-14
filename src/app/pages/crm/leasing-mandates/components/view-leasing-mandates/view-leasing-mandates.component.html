@@ -1,0 +1,42 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Leasing Mandates'"
+    [labelBtn]="'Add Leasing Mandate'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddLeasingMandate()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="leasingMandates$ | async as leasingMandates">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredLeasingMandates"
+      [edit]="true"
+      [delete]="true"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [side]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewLeasingMandatesTable]="true"
+      (onDelete)="onDeleteLeasingMandate($event)"
+      (onEdit)="onEditLeasingMandate($event)"
+      (viewForm)="onViewLeasingMandate($event)"
+      (wizardBtn)="onAddSide($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

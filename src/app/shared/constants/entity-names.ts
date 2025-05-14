@@ -2,7 +2,7 @@ export enum EntityNames {
   //Lookups
   AssetType = 'AssetType',
   Team = 'Team',
-
+  LeasingMandate = 'LeasingMandate',
   AssetTypeCategory = 'AssetTypeCategory',
   Area = 'Area',
   AddressType = 'AddressType',

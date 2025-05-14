@@ -5835,7 +5835,185 @@
       </div>
     </form>
     <!--Forms Mandate Journey-->
-    <form action="" *ngIf="addMandateShowBasicForm">
+     <form
+  [formGroup]="formGroup"
+  *ngIf="addLeasingMandateForm"
+  (ngSubmit)="onSubmit()"
+>
+  <!-- Mandate Description -->
+  <label for="description">Description <sup>*</sup></label>
+  <input
+    pInputText
+    id="description"
+    formControlName="description"
+    placeholder="Enter mandate description"
+  />
+  <div *ngIf="formGroup.get('description')?.hasError('required') && formGroup.get('description')?.touched" class="p-error">
+    Description is required.
+  </div>
+
+  <!-- Mandate Date -->
+  <label for="date">Start Date <sup>*</sup></label>
+  <p-calendar
+    inputId="date"
+    formControlName="date"
+    dateFormat="yy-mm-dd"
+    placeholder="Select start date"
+    showIcon="true"
+  ></p-calendar>
+  <div *ngIf="formGroup.get('date')?.hasError('required') && formGroup.get('date')?.touched" class="p-error">
+    Date is required.
+  </div>
+
+  <!-- Validity Count -->
+  <label for="validityCount">Validity Count <sup>*</sup></label>
+  <input
+    pInputText
+    id="validityCount"
+    type="number"
+    formControlName="validityCount"
+    placeholder="Enter validity count"
+  />
+  <div *ngIf="formGroup.get('validityCount')?.hasError('required') && formGroup.get('validityCount')?.touched" class="p-error">
+    Validity Count is required.
+  </div>
+
+  <!-- Validity Unit -->
+  <label for="validityUnitId">Validity Unit <sup>*</sup></label>
+  <p-select
+    [options]="validityUnits"
+    optionLabel="name"
+    placeholder="Select validity unit"
+    formControlName="validityUnitId"
+    optionValue="id"
+  ></p-select>
+  <div *ngIf="formGroup.get('validityUnitId')?.hasError('required') && formGroup.get('validityUnitId')?.touched" class="p-error">
+    Validity Unit is required.
+  </div>
+
+
+  <!-- Indicative Rentals -->
+  <label for="indicativeRentals">Indicative Rentals <sup>*</sup></label>
+  <input
+    pInputText
+    id="indicativeRentals"
+    type="number"
+    formControlName="indicativeRentals"
+    placeholder="Enter indicative rentals"
+  />
+  <div *ngIf="formGroup.get('indicativeRentals')?.hasError('required') && formGroup.get('indicativeRentals')?.touched" class="p-error">
+    Indicative Rentals is required.
+  </div>
+
+  <!-- Client -->
+  <label for="clientId">Client <sup>*</sup></label>
+  <p-select
+    [options]="clients"
+    optionLabel="name"
+    placeholder="Select client"
+    formControlName="clientId"
+    optionValue="id"
+  ></p-select>
+  <div *ngIf="formGroup.get('clientId')?.hasError('required') && formGroup.get('clientId')?.touched" class="p-error">
+    Client is required.
+  </div>
+
+  <!-- Product -->
+  <label for="productId">Product <sup>*</sup></label>
+  <p-select
+    [options]="products"
+    optionLabel="name"
+    placeholder="Select product"
+    formControlName="productId"
+    optionValue="id"
+  ></p-select>
+  <div *ngIf="formGroup.get('productId')?.hasError('required') && formGroup.get('productId')?.touched" class="p-error">
+    Product is required.
+  </div>
+
+  <!-- Leasing Type -->
+  <label for="leasingTypeId">Leasing Type <sup>*</sup></label>
+  <p-select
+    [options]="leasingTypes"
+    optionLabel="name"
+    placeholder="Select leasing type"
+    formControlName="leasingTypeId"
+    optionValue="id"
+  ></p-select>
+  <div *ngIf="formGroup.get('leasingTypeId')?.hasError('required') && formGroup.get('leasingTypeId')?.touched" class="p-error">
+    Leasing Type is required.
+  </div>
+
+  <!-- Insured By -->
+  <label for="insuredById">Insured By <sup>*</sup></label>
+  <p-select
+    [options]="insuredByList"
+    optionLabel="name"
+    placeholder="Select insurer"
+    formControlName="insuredById"
+    optionValue="id"
+  ></p-select>
+  <div *ngIf="formGroup.get('insuredById')?.hasError('required') && formGroup.get('insuredById')?.touched" class="p-error">
+    Insurer is required.
+  </div>
+
+  <!-- Notes -->
+  <label for="notes">Notes</label>
+  <textarea
+    pInputTextarea
+    id="notes"
+    formControlName="notes"
+    rows="4"
+    placeholder="Enter notes"
+  ></textarea>
+
+
+ <div class="p-field" for="isActive" *ngIf="editMode">
+        <p-toggleSwitch
+          id="isActive"
+          formControlName="isActive"
+          label="is Active"
+        ></p-toggleSwitch>
+        <label for="isActive"> Active</label>
+      </div>
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 businesslineDiv"
+          *ngIf="!editMode"
+        >
+          <p-button
+            type="submit"
+            label="Add Mandate"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Mandate"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate(['/crm/leasing-mandates/view-leasing-mandates'])"
+          />
+        </div>
+      </div>
+  
+</form>
+
+
+    <!-- <form action="" *ngIf="addLeasingMandateForm">
       <label for="clientNameAddMandateBasic">Client Name<sup>*</sup></label>
       <p-multiselect
         [options]="clientNames"
@@ -5903,7 +6081,7 @@
         [maxSelectedLabels]="999"
         chipIcon="pi pi-times"
       />
-    </form>
+    </form> -->
     <form action="" *ngIf="addMandateShowOfficersForm" id="mandateOfficersForm">
       <label for="officerTypeOfficersForm">Officer Type</label>
       <p-multiselect
@@ -5997,6 +6175,7 @@
           <p-button icon="custom-icon" severity="danger" class="add-btn" />
         </div>
       </div>
+      
     </form>
     <form
       action=""

@@ -80,6 +80,13 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() legalFormId: number | null = null;
   @Input() officersList: any;
 
+  //Mandate select box 
+@Input() clients: any;
+ @Input() products: any;
+ @Input() leasingTypes: any;
+ @Input() insuredByList: any;
+ @Input() validityUnits: any;
+
   selectedLegalForm: any;
   @Output() sectorChanged = new EventEmitter<number>();
 
@@ -222,13 +229,11 @@ export class FormComponent implements OnInit, OnDestroy {
   clientNames!: any;
   selectedClientNames!: any;
   selectedMandateValidityUnit!: any;
-  products!: any;
   selectedProducts!: any;
   exchangeRateCurrencies!: any;
   selectedExchangeRateCurrencies!: any;
   insuredBy!: any;
   selectedInsuredBy!: any;
-  leasingTypes!: any;
   selectedLeasingTypes!: any;
   actions!: any;
   selectedActions!: any;
@@ -396,7 +401,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addMandateShowAssetTypeForm!: boolean;
   @Input() addMandateShowContactPersonsForm!: boolean;
   @Input() addMandateShowOfficersForm!: boolean;
-  @Input() addMandateShowBasicForm!: boolean;
+  @Input() addLeasingMandateForm!: boolean;
   @Input() addCallActionTypeForm!: boolean;
   @Input() addChildMandateShowMoreInformationForm!: boolean;
   @Input() addChildMandateShowAssetTypeForm!: boolean;

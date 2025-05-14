@@ -309,7 +309,7 @@ export class SideMenuComponent {
           {
             label: 'Mandate',
             icon: 'pi pi-user-plus',
-            routerLink: '/crm/leasing-mandates/view-mandate',
+            routerLink: '/crm/leasing-mandates/view-leasing-mandates',
           },
           {
             label: 'MandateAdditionalTerm',

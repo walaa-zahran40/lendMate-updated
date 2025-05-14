@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CrmRoutingModule } from '../crm-routing.module';
-import { AddMandateComponent } from './components/add-mandate/add-mandate.component';
+import { AddLeasingMandateComponent } from './components/add-leasing-mandate/add-leasing-mandate.component';
 import { AddChildMandateComponent } from './components/add-child-mandate/add-child-mandate.component';
 import { AddManageMandateTermsComponent } from './components/add-manage-mandate-terms/add-manage-mandate-terms.component';
 import { LeasingFinancialFormComponent } from './components/leasing-financial-form/leasing-financial-form.component';
 import { SharedModule } from '../../../shared/shared.module';
 import { TabsModule } from 'primeng/tabs';
 import { ButtonModule } from 'primeng/button';
-import { ViewMandateComponent } from './components/view-mandate/view-mandate.component';
+import { ViewLeasingMandatesComponent } from './components/view-leasing-mandates/view-leasing-mandates.component';
 import { ViewOfficersComponent } from './components/view-officers/view-officers.component';
 import { ViewContactPersonsComponent } from './components/view-contact-persons/view-contact-persons.component';
 import { ViewAssestTypeComponent } from './components/view-assest-type/view-assest-type.component';
@@ -19,11 +19,11 @@ import { ViewCalculationsComponent } from './components/view-calculations/view-c
 
 @NgModule({
   declarations: [
-    AddMandateComponent,
+    AddLeasingMandateComponent,
     AddChildMandateComponent,
     AddManageMandateTermsComponent,
     LeasingFinancialFormComponent,
-    ViewMandateComponent,
+    ViewLeasingMandatesComponent,
     ViewOfficersComponent,
     ViewContactPersonsComponent,
     ViewAssestTypeComponent,
@@ -40,7 +40,7 @@ import { ViewCalculationsComponent } from './components/view-calculations/view-c
     ButtonModule,
   ],
   exports: [
-    AddMandateComponent,
+    AddLeasingMandateComponent,
     AddChildMandateComponent,
     AddManageMandateTermsComponent,
     LeasingFinancialFormComponent,
