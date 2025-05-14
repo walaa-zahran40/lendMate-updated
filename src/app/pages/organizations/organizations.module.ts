@@ -8,7 +8,7 @@ import { TabsModule } from 'primeng/tabs';
 import { SharedModule } from '../../shared/shared.module';
 import { AddTeamComponent } from './components/teams/add-team/add-team.component';
 import { AddTeamLeadComponent } from './components/teams/add-team-lead/add-team-lead.component';
-import { AddTeamMemberComponent } from './components/teams/add-team-member/add-team-member.component';
+import { AddTeamOfficerComponent } from './components/teams/add-team-officer/add-team-officer.component';
 import { AddRoleComponent } from './components/roles/add-role/add-role.component';
 import { AddOperationComponent } from './components/operations/add-operation/add-operation.component';
 import { AddPageOperationComponent } from './components/operations/add-page-operation/add-page-operation.component';
@@ -20,7 +20,7 @@ import { ViewTeamsComponent } from './components/teams/view-teams/view-teams.com
 import { WizardTeamsComponent } from './components/teams/wizard-teams/wizard-teams.component';
 import { ViewTeamLeadComponent } from './components/teams/view-team-leads/view-team-lead.component';
 import { ViewRolesComponent } from './components/roles/view-roles/view-roles.component';
-import { ViewTeamMemberComponent } from './components/teams/view-team-members/view-team-member.component';
+import { ViewTeamOfficersComponent } from './components/teams/view-team-officers/view-team-officers.component';
 import { ViewOperationsComponent } from './components/operations/view-operations/view-operations.component';
 import { ViewPageOperationsComponent } from './components/operations/view-page-operations/view-page-operations.component';
 import { ViewOfficersComponent } from './components/officers/view-officers/view-officers.component';
@@ -70,6 +70,8 @@ import { ViewRoleClaimsComponent } from './components/roles/view-role-claims/vie
 import { AddRoleClaimComponent } from './components/roles/add-role-claim/add-role-claim.component';
 import { teamLeadOfficersReducer } from './store/teams/team-lead-officers/team-lead-officers.reducer';
 import { TeamLeadOfficersEffects } from './store/teams/team-lead-officers/team-lead-officers.effects';
+import { teamOfficersReducer } from './store/teams/team-officers/team-officers.reducer';
+import { TeamOfficersEffects } from './store/teams/team-officers/team-officers.effects';
 
 @NgModule({
   declarations: [
@@ -77,7 +79,7 @@ import { TeamLeadOfficersEffects } from './store/teams/team-lead-officers/team-l
     AddDepartmentManagerComponent,
     AddTeamComponent,
     AddTeamLeadComponent,
-    AddTeamMemberComponent,
+    AddTeamOfficerComponent,
     AddRoleComponent,
     AddOperationComponent,
     AddPageOperationComponent,
@@ -100,7 +102,7 @@ import { TeamLeadOfficersEffects } from './store/teams/team-lead-officers/team-l
     WizardBranchComponent,
     ViewBranchOfficersComponent,
     ViewRolesComponent,
-    ViewTeamMemberComponent,
+    ViewTeamOfficersComponent,
     ViewOperationsComponent,
     ViewPageOperationsComponent,
     ViewOfficersComponent,
@@ -141,6 +143,8 @@ import { TeamLeadOfficersEffects } from './store/teams/team-lead-officers/team-l
     EffectsModule.forFeature([BranchOfficersEffects]),
     StoreModule.forFeature('teamLeadOfficers', teamLeadOfficersReducer),
     EffectsModule.forFeature([TeamLeadOfficersEffects]),
+      StoreModule.forFeature('teamOfficers', teamOfficersReducer),
+    EffectsModule.forFeature([TeamOfficersEffects]),
     StoreModule.forFeature('signatoryOfficers', signatoryOfficersReducer),
     EffectsModule.forFeature([SignatoryOfficersEffects]),
     StoreModule.forFeature('operations', operationsReducer),
@@ -154,7 +158,7 @@ import { TeamLeadOfficersEffects } from './store/teams/team-lead-officers/team-l
     AddDepartmentManagerComponent,
     AddTeamComponent,
     AddTeamLeadComponent,
-    AddTeamMemberComponent,
+    AddTeamOfficerComponent,
     AddRoleComponent,
     AddOperationComponent,
     AddPageOperationComponent,

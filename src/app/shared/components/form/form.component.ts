@@ -428,7 +428,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addTeamORGForm!: boolean;
   @Input() addTeamLeadORGForm!: boolean;
   @Input() addCommunicationFlowTypesLookupsForm!: boolean;
-  @Input() addTeamMemberORGForm!: boolean;
+  @Input() addTeamOfficerORGForm!: boolean;
   @Input() addRoleORGForm!: boolean;
   @Input() addOperationsORGForm!: boolean;
   @Input() addPageOperationORGForm!: boolean;
@@ -641,6 +641,13 @@ export class FormComponent implements OnInit, OnDestroy {
   viewTeamLeadOfficers() {
     this.router.navigate([
       `/organizations/view-team-lead-officers/${this.teamIdParam}`,
+    ]);
+  }
+
+
+   viewTeamOfficers() {
+    this.router.navigate([
+      `/organizations/view-team-officers/${this.teamIdParam}`,
     ]);
   }
 
