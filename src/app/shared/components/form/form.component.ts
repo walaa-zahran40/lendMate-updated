@@ -426,7 +426,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addTeamORGForm!: boolean;
   @Input() addTeamLeadORGForm!: boolean;
   @Input() addCommunicationFlowTypesLookupsForm!: boolean;
-  @Input() addTeamMemberORGForm!: boolean;
+  @Input() addTeamOfficerORGForm!: boolean;
   @Input() addRoleORGForm!: boolean;
   @Input() addOperationsORGForm!: boolean;
   @Input() addPageOperationORGForm!: boolean;

@@ -114,7 +114,7 @@ export class TableComponent {
   @Input() viewTeamsTable!: boolean;
   @Input() viewTeamLeadTable!: boolean;
   @Input() viewRolesTable!: boolean;
-  @Input() viewTeamMemberTable!: boolean;
+  @Input() viewTeamOfficersTable!: boolean;
   @Input() viewFeesRangeTable!: boolean;
   @Input() viewOperationsTable!: boolean;
   @Input() viewPageOperationsTable!: boolean;

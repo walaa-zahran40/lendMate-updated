@@ -478,7 +478,7 @@
       class="custom-view m-0 float-right"
     />
     <p-button
-      *ngIf="addTeamMemberORGForm"
+      *ngIf="addTeamOfficerORGForm"
       icon="pi pi-cog"
       iconPos="left"
       label="View Team Member"
@@ -9598,30 +9598,72 @@
         </div>
       </div>
     </form>
-    <form action="" *ngIf="addTeamMemberORGForm">
-      <label for="startDateTeamMemberORG">Start Date<sup>*</sup></label>
+
+
+     <form
+      [formGroup]="formGroup"
+      *ngIf="addTeamOfficerORGForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="startDate">Start Date<sup class="danger">*</sup></label>
       <p-datepicker
-        [(ngModel)]="date17"
         [iconDisplay]="'input'"
         [showIcon]="true"
         inputId="icondisplay"
-        name="startDateTeamMemberORG"
-      />
-      <label for="officerTeamMemberORG">Select Officer<sup>*</sup></label>
+        name="startDate"
+        formControlName="startDate"
+      ></p-datepicker>
+
+      <label for="officerId">Officer<sup>*</sup></label>
       <p-select
-        [options]="officerTypesMandates"
+        [options]="officersList"
         optionLabel="name"
-        placeholder="Officer"
-        class="w-full md:w-56"
+        placeholder="Select Manager"
+        formControlName="officerId"
+        optionValue="id"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('uId')?.invalid &&
+            (formGroup.get('officerId')?.dirty ||
+              formGroup.get('officerId')?.touched)
+        }"
       />
-      <label for="teamTeamMemberORG">Select Team<sup>*</sup></label>
-      <p-select
-        [options]="teams"
-        optionLabel="name"
-        placeholder="Team"
-        class="w-full md:w-56"
-      />
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 subSectorsDiv"
+          *ngIf="!editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Add Team Member"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 subSectorsDiv"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Team Member"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 sectorsDiv"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate([`/organizations/view-team-officers/${this.teamIdParam}`])"
+          ></p-button>
+        </div>
+      </div>
     </form>
+
 
     <form action="" *ngIf="addPageOperationORGForm">
       <label for="operationsPageOperationORG">Operations<sup>*</sup></label>

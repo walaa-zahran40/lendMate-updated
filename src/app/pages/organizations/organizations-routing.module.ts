@@ -4,7 +4,7 @@ import { AddDepartmentComponent } from './components/departments/add-departments
 import { AddDepartmentManagerComponent } from './components/departments/add-department-managers/add-department-manager.component';
 import { AddTeamComponent } from './components/teams/add-team/add-team.component';
 import { AddTeamLeadComponent } from './components/teams/add-team-lead/add-team-lead.component';
-import { AddTeamMemberComponent } from './components/teams/add-team-member/add-team-member.component';
+import { AddTeamOfficerComponent } from './components/teams/add-team-officer/add-team-officer.component';
 import { AddRoleComponent } from './components/roles/add-role/add-role.component';
 import { AddOperationComponent } from './components/operations/add-operation/add-operation.component';
 import { AddPageOperationComponent } from './components/operations/add-page-operation/add-page-operation.component';
@@ -16,7 +16,7 @@ import { ViewTeamsComponent } from './components/teams/view-teams/view-teams.com
 import { WizardTeamsComponent } from './components/teams/wizard-teams/wizard-teams.component';
 import { ViewTeamLeadComponent } from './components/teams/view-team-leads/view-team-lead.component';
 import { ViewRolesComponent } from './components/roles/view-roles/view-roles.component';
-import { ViewTeamMemberComponent } from './components/teams/view-team-members/view-team-member.component';
+import { ViewTeamOfficersComponent } from './components/teams/view-team-officers/view-team-officers.component';
 import { ViewOperationsComponent } from './components/operations/view-operations/view-operations.component';
 import { ViewPageOperationsComponent } from './components/operations/view-page-operations/view-page-operations.component';
 import { ViewOfficersComponent } from './components/officers/view-officers/view-officers.component';
@@ -185,7 +185,7 @@ const routes: Routes = [
   },
   {
     path: 'add-team-member',
-    component: AddTeamMemberComponent,
+    component: AddTeamOfficerComponent,
   },
 
   {
@@ -215,7 +215,7 @@ const routes: Routes = [
 
   {
     path: 'view-team-member',
-    component: ViewTeamMemberComponent,
+    component: ViewTeamOfficersComponent,
   },
 
   {
@@ -266,15 +266,20 @@ const routes: Routes = [
     path: 'view-team-lead-officers/:teamId',
     component: ViewTeamLeadComponent,
   },
-  // {
-  //   path: 'view-department-managers/:deptId',
-  //   component: ViewDepartmentManagerComponent,
-  // },
-  // {
-  //   path: 'add-department-manager/:deptId',
-  //   component: AddDepartmentManagerComponent,
-  // },
 
+    // team lead officer 
+  {
+    path: 'add-team-officer',
+    component: AddTeamOfficerComponent,
+  },
+  {
+    path: 'edit-team-officer/:id',
+    component: AddTeamOfficerComponent,
+  },
+  {
+    path: 'view-team-officers/:teamId',
+    component: ViewTeamOfficersComponent,
+  },
 
 ];
 
