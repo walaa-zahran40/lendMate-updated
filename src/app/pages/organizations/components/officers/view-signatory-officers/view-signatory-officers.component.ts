@@ -24,9 +24,9 @@ export class ViewSignatoryOfficersComponent {
   @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
-     { field: 'officerName', header: 'Officer' },
-     { field: 'isActive', header: 'IsActive' },
-     { field: 'startDate', header: 'Start Date' },
+    { field: 'officerName', header: 'Officer' },
+    { field: 'isActive', header: 'IsActive' },
+    { field: 'startDate', header: 'Start Date' },
   ];
   showDeleteModal: boolean = false;
   selectedSignatoryOfficerId: number | null = null;
@@ -34,12 +34,12 @@ export class ViewSignatoryOfficersComponent {
   filteredSignatoryOfficers: SignatoryOfficer[] = [];
   signatoryOfficers$!: Observable<SignatoryOfficer[]>;
   officersList$!: Observable<Officer[]>;
-  
+
   constructor(
-      private router: Router, 
-      private facade: SignatoryOfficersFacade,
-      private officersFacade: OfficersFacade,
-      private store: Store
+    private router: Router,
+    private facade: SignatoryOfficersFacade,
+    private officersFacade: OfficersFacade,
+    private store: Store
   ) {}
   ngOnInit() {
     this.facade.loadAll();
@@ -47,24 +47,25 @@ export class ViewSignatoryOfficersComponent {
 
     this.officersList$ = this.store.select(selectOfficers);
     this.officersFacade.loadAll();
-     
-     combineLatest([this.signatoryOfficers$, this.officersList$])
-          .pipe(
-            map(([signatoryOfficers, officers]) =>
-              signatoryOfficers
-                .map((signatoryOfficer) => ({
-                  ...signatoryOfficer,
-                  officerName:
-                    officers.find((c) => c.id === signatoryOfficer.officerId)?.name || '—',
-                }))
-                .sort((a, b) => b.id - a.id)
-            ),
-            takeUntil(this.destroy$)
-          )
-          .subscribe((enriched) => {
-            this.originalSignatoryOfficers = enriched;
-            this.filteredSignatoryOfficers = [...enriched];
-          });
+
+    combineLatest([this.signatoryOfficers$, this.officersList$])
+      .pipe(
+        map(([signatoryOfficers, officers]) =>
+          signatoryOfficers
+            .map((signatoryOfficer) => ({
+              ...signatoryOfficer,
+              officerName:
+                officers.find((c) => c.id === signatoryOfficer.officerId)
+                  ?.name || '—',
+            }))
+            .sort((a, b) => b.id - a.id)
+        ),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((enriched) => {
+        this.originalSignatoryOfficers = enriched;
+        this.filteredSignatoryOfficers = [...enriched];
+      });
   }
 
   onAddSignatoryOfficer() {
@@ -78,7 +79,10 @@ export class ViewSignatoryOfficersComponent {
     this.destroy$.complete();
   }
   onDeleteSignatoryOfficerId(signatoryofficerId: any): void {
-    console.log('[View] onDeleteSignatoryOfficer() – opening modal for id=', signatoryofficerId);
+    console.log(
+      '[View] onDeleteSignatoryOfficer() – opening modal for id=',
+      signatoryofficerId
+    );
     this.selectedSignatoryOfficerId = signatoryofficerId;
     this.showDeleteModal = true;
   }
@@ -107,19 +111,23 @@ export class ViewSignatoryOfficersComponent {
   }
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
-    this.filteredSignatoryOfficers = this.originalSignatoryOfficers.filter((signatoryofficer) =>
-      Object.values(signatoryofficer).some((val) =>
-        val?.toString().toLowerCase().includes(lower)
-      )
+    this.filteredSignatoryOfficers = this.originalSignatoryOfficers.filter(
+      (signatoryofficer) =>
+        Object.values(signatoryofficer).some((val) =>
+          val?.toString().toLowerCase().includes(lower)
+        )
     );
   }
   onToggleFilters(value: boolean) {
     this.showFilters = value;
   }
   onEditSignatoryOfficer(signatoryofficer: SignatoryOfficer) {
-    this.router.navigate(['/organizations/edit-signatory-officer', signatoryofficer.id], {
-      queryParams: { mode: 'edit' },
-    });
+    this.router.navigate(
+      ['/organizations/edit-signatory-officer', signatoryofficer.id],
+      {
+        queryParams: { mode: 'edit' },
+      }
+    );
   }
   onViewSignatoryOfficer(ct: SignatoryOfficer) {
     this.router.navigate(['/organizations/edit-signatory-officer', ct.id], {

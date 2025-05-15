@@ -1,51 +1,51 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ClientOnboardingComponent } from './clients/components/client-onboarding/client-onboarding.component';
-import { AddClientComponent } from './clients/components/add-client/add-client.component';
-import { CompanyViewOnlyComponent } from './clients/components/company-view-only/company-view-only.component';
-import { UploadDocumentsComponent } from './clients/components/add-upload-documents/upload-documents.component';
-import { AddAddressComponent } from './clients/components/add-address/add-address.component';
-import { AddSalesTurnoverComponent } from './clients/components/add-sales-turnover/add-sales-turnover.component';
-import { AddPhoneNumberComponent } from './clients/components/add-phone-number/add-phone-number.component';
-import { AddContactPersonComponent } from './clients/components/add-contact-person/add-contact-person.component';
-import { ContactPersonViewTableDataComponent } from './clients/components/contact-person-view-table-data/contact-person-view-table-data.component';
-import { AddCrAuthorityOfficeComponent } from './clients/components/add-cr-authority-office/add-cr-authority-office.component';
-import { AddTaxAuthorityOfficeComponent } from './clients/components/add-tax-authority-office/add-tax-authority-office.component';
-import { AddCentralBankInfoComponent } from './clients/components/add-central-bank-info/add-central-bank-info.component';
-import { AddShareHoldersComponent } from './clients/components/add-share-holders/add-share-holders.component';
-import { AddTmlOfficerComponent } from './clients/components/add-tml-officer/add-tml-officer.component';
-import { AddMandateComponent } from './leasing-mandates/components/add-mandate/add-mandate.component';
-import { AddChildMandateComponent } from './leasing-mandates/components/add-child-mandate/add-child-mandate.component';
-import { AddManageMandateTermsComponent } from './leasing-mandates/components/add-manage-mandate-terms/add-manage-mandate-terms.component';
+import { ClientOnboardingComponent } from './clients/components/clients/client-onboarding/client-onboarding.component';
+import { AddClientComponent } from './clients/components/clients/add-client/add-client.component';
+import { CompanyViewOnlyComponent } from './clients/components/clients/company-view-only/company-view-only.component';
+import { UploadDocumentsComponent } from './clients/components/client-activities/add-upload-documents/upload-documents.component';
+import { AddAddressComponent } from './clients/components/client-activities/add-address/add-address.component';
+import { AddSalesTurnoverComponent } from './clients/components/client-activities/add-sales-turnover/add-sales-turnover.component';
+import { AddPhoneNumberComponent } from './clients/components/client-activities/add-phone-number/add-phone-number.component';
+import { AddContactPersonComponent } from './clients/components/client-activities/add-contact-person/add-contact-person.component';
+import { ContactPersonViewTableDataComponent } from './clients/components/client-activities/contact-person-view-table-data/contact-person-view-table-data.component';
+import { AddCrAuthorityOfficeComponent } from './clients/components/client-activities/add-cr-authority-office/add-cr-authority-office.component';
+import { AddTaxAuthorityOfficeComponent } from './clients/components/client-activities/add-tax-authority-office/add-tax-authority-office.component';
+import { AddCentralBankInfoComponent } from './clients/components/client-activities/add-central-bank-info/add-central-bank-info.component';
+import { AddShareHoldersComponent } from './clients/components/client-activities/add-share-holders/add-share-holders.component';
+import { AddTmlOfficerComponent } from './clients/components/client-activities/add-tml-officer/add-tml-officer.component';
+import { AddMandateComponent } from './leasing-mandates/components/mandate/add-mandate/add-mandate.component';
+import { AddChildMandateComponent } from './leasing-mandates/components/mandate-activities/add-child-mandate/add-child-mandate.component';
+import { AddManageMandateTermsComponent } from './leasing-mandates/components/mandate-activities/add-manage-mandate-terms/add-manage-mandate-terms.component';
 import { LeasingFinancialFormComponent } from './leasing-mandates/components/leasing-financial-form/leasing-financial-form.component';
-import { ViewClientsComponent } from './clients/components/view-clients/view-clients.component';
-import { ViewUploadDocumentsComponent } from './clients/components/view-upload-documents/view-upload-documents.component';
-import { ViewAddressComponent } from './clients/components/view-address/view-address.component';
-import { ViewSalesTurnoverComponent } from './clients/components/view-sales-turnover/view-sales-turnover.component';
-import { ViewPhoneNumberComponent } from './clients/components/view-phone-number/view-phone-number.component';
-import { ViewContactPersonComponent } from './clients/components/view-contact-person/view-contact-person.component';
-import { ViewCrAuthorityOfficeComponent } from './clients/components/view-cr-authority-office/view-cr-authority-office.component';
-import { ViewTaxAuthorityOfficeComponent } from './clients/components/view-tax-authority-office/view-tax-authority-office.component';
-import { ViewCentralBankInfoComponent } from './clients/components/view-central-bank-info/view-central-bank-info.component';
-import { ViewShareHolderComponent } from './clients/components/view-share-holder/view-share-holder.component';
-import { ViewTmlOfficerComponent } from './clients/components/view-tml-officer/view-tml-officer.component';
-import { ClientActivityWizardComponent } from './clients/components/client-activity-wizard/client-activity-wizard.component';
-import { ViewMandateComponent } from './leasing-mandates/components/view-mandate/view-mandate.component';
-import { ViewOfficersComponent } from './leasing-mandates/components/view-officers/view-officers.component';
-import { ViewContactPersonsComponent } from './leasing-mandates/components/view-contact-persons/view-contact-persons.component';
-import { ViewAssestTypeComponent } from './leasing-mandates/components/view-assest-type/view-assest-type.component';
-import { WizardComponent } from './leasing-mandates/components/wizard/wizard.component';
-import { ViewManageMandateTermsComponent } from './leasing-mandates/components/view-manage-mandate-terms/view-manage-mandate-terms.component';
+import { ViewClientsComponent } from './clients/components/clients/view-clients/view-clients.component';
+import { ViewUploadDocumentsComponent } from './clients/components/client-activities/view-upload-documents/view-upload-documents.component';
+import { ViewAddressComponent } from './clients/components/client-activities/view-address/view-address.component';
+import { ViewSalesTurnoverComponent } from './clients/components/client-activities/view-sales-turnover/view-sales-turnover.component';
+import { ViewPhoneNumberComponent } from './clients/components/client-activities/view-phone-number/view-phone-number.component';
+import { ViewContactPersonComponent } from './clients/components/client-activities/view-contact-person/view-contact-person.component';
+import { ViewCrAuthorityOfficeComponent } from './clients/components/client-activities/view-cr-authority-office/view-cr-authority-office.component';
+import { ViewTaxAuthorityOfficeComponent } from './clients/components/client-activities/view-tax-authority-office/view-tax-authority-office.component';
+import { ViewCentralBankInfoComponent } from './clients/components/client-activities/view-central-bank-info/view-central-bank-info.component';
+import { ViewShareHolderComponent } from './clients/components/client-activities/view-share-holder/view-share-holder.component';
+import { ViewTmlOfficerComponent } from './clients/components/client-activities/view-tml-officer/view-tml-officer.component';
+import { ClientActivityWizardComponent } from './clients/components/client-activities/client-activity-wizard/client-activity-wizard.component';
+import { ViewMandateComponent } from './leasing-mandates/components/mandate/view-mandate/view-mandate.component';
+import { ViewOfficersComponent } from './leasing-mandates/components/mandate-activities/view-officers/view-officers.component';
+import { ViewContactPersonsComponent } from './leasing-mandates/components/mandate-activities/view-contact-persons/view-contact-persons.component';
+import { ViewAssetTypeComponent } from './leasing-mandates/components/mandate-activities/view-asset-type/view-asset-type.component';
+import { WizardComponent } from './leasing-mandates/components/mandate-activities/wizard/wizard.component';
+import { ViewManageMandateTermsComponent } from './leasing-mandates/components/mandate-activities/view-manage-mandate-terms/view-manage-mandate-terms.component';
 import { LeasingFinancialFormCompoundComponent } from './leasing-mandates/components/leasing-financial-form-compound/leasing-financial-form-compound.component';
-import { ViewClientGuarantorComponent } from './clients/components/view-client-guarantor/view-client-guarantor.component';
-import { AddClientGuarantorComponent } from './clients/components/add-client-guarantor/add-client-guarantor.component';
-import { ViewClientIdentityComponent } from './clients/components/view-client-identity/view-client-identity.component';
-import { AddClientIdentityComponent } from './clients/components/add-client-identity/add-client-identity.component';
-import { ViewCalculationsComponent } from './leasing-mandates/components/view-calculations/view-calculations.component';
-import { ViewClientStatusComponent } from './clients/components/view-client-status-actions/view-client-status.component';
-import { ViewClientStatusesComponent } from './clients/components/view-client-statuses/view-client-statuses.component';
-import { WizardClientStatusComponent } from './clients/components/wizard-client-status/wizard-client-status.component';
-import { AddClientStatusesComponent } from './clients/components/add-client-statuses/add-client-statuses.component';
+import { ViewClientGuarantorComponent } from './clients/components/client-activities/view-client-guarantor/view-client-guarantor.component';
+import { AddClientGuarantorComponent } from './clients/components/client-activities/add-client-guarantor/add-client-guarantor.component';
+import { ViewClientIdentityComponent } from './clients/components/client-activities/view-client-identity/view-client-identity.component';
+import { AddClientIdentityComponent } from './clients/components/client-activities/add-client-identity/add-client-identity.component';
+import { ViewCalculationsComponent } from './leasing-mandates/components/mandate-activities/view-calculations/view-calculations.component';
+import { ViewClientStatusComponent } from './clients/components/client-activities/view-client-status-actions/view-client-status.component';
+import { ViewClientStatusesComponent } from './clients/components/client-activities/view-client-statuses/view-client-statuses.component';
+import { WizardClientStatusComponent } from './clients/components/client-activities/wizard-client-status/wizard-client-status.component';
+import { AddClientStatusesComponent } from './clients/components/client-activities/add-client-statuses/add-client-statuses.component';
 
 const routes: Routes = [
   /*Clients Routing*/
@@ -228,8 +228,8 @@ const routes: Routes = [
     component: ViewContactPersonsComponent,
   },
   {
-    path: 'leasing-mandates/view-assest-type',
-    component: ViewAssestTypeComponent,
+    path: 'leasing-mandates/view-asset-type',
+    component: ViewAssetTypeComponent,
   },
   {
     path: 'leasing-mandates/wizard',

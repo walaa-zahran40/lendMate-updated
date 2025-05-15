@@ -1,29 +1,29 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { BranchAddressesState } from './role-claims.state';
+import { RoleClaimsState } from './role-claims.state';
 
-export const selectBranchAddressesState =
-  createFeatureSelector<BranchAddressesState>('branchAddresses');
-export const selectBranchAddresses = createSelector(
-  selectBranchAddressesState,
+export const selectRoleClaimsState =
+  createFeatureSelector<RoleClaimsState>('roleClaims');
+export const selectRoleClaims = createSelector(
+  selectRoleClaimsState,
   (state) => state.items
 );
-export const selectBranchAddressesTotal = createSelector(
-  selectBranchAddressesState,
+export const selectRoleClaimsTotal = createSelector(
+  selectRoleClaimsState,
   (state) => state.totalCount
 );
-export const selectBranchAddressesHistory = createSelector(
-  selectBranchAddressesState,
+export const selectRoleClaimsHistory = createSelector(
+  selectRoleClaimsState,
   (state) => state.history
 );
-export const selectCurrentBranchAddress = createSelector(
-  selectBranchAddressesState,
+export const selectCurrentRoleClaim = createSelector(
+  selectRoleClaimsState,
   (state) => state.current
 );
-export const selectBranchAddressesLoading = createSelector(
-  selectBranchAddressesState,
+export const selectRoleClaimsLoading = createSelector(
+  selectRoleClaimsState,
   (state) => state.loading
 );
-export const selectBranchAddressesError = createSelector(
-  selectBranchAddressesState,
+export const selectRoleClaimsError = createSelector(
+  selectRoleClaimsState,
   (state) => state.error
 );

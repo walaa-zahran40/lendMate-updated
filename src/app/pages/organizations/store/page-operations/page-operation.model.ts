@@ -1,5 +1,5 @@
 export interface PageOperation {
-  id: number;
+  id: any;
   code?: string;
   pageId?: number;
   operationId?: number;

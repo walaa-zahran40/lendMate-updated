@@ -2,26 +2,26 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { mergeMap, map, catchError, tap, filter } from 'rxjs/operators';
 import { of } from 'rxjs';
-import * as BranchAddressActions from './role-claims.actions';
-import { BranchAddressesService } from './role-claims.service';
-import { BranchAddress } from './role-claim.model';
+import * as RoleClaimActions from './role-claims.actions';
+import { RoleClaimsService } from './role-claims.service';
+import { RoleClaim } from './role-claim.model';
 
 @Injectable()
-export class BranchAddressesEffects {
+export class RoleClaimsEffects {
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(BranchAddressActions.loadBranchAddresses),
+      ofType(RoleClaimActions.loadRoleClaims),
       mergeMap(() =>
         this.service.getAll().pipe(
           map((resp) =>
-            BranchAddressActions.loadBranchAddressesSuccess({
+            RoleClaimActions.loadRoleClaimsSuccess({
               items: resp.items,
               totalCount: resp.totalCount,
             })
           ),
           catchError((error) =>
             of(
-              BranchAddressActions.loadBranchAddressesFailure({
+              RoleClaimActions.loadRoleClaimsFailure({
                 error,
               })
             )
@@ -33,18 +33,16 @@ export class BranchAddressesEffects {
 
   loadHistory$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(BranchAddressActions.loadBranchAddressesHistory),
+      ofType(RoleClaimActions.loadRoleClaimsHistory),
       mergeMap(() =>
         this.service.getHistory().pipe(
           map((resp) =>
-            BranchAddressActions.loadBranchAddressesHistorySuccess({
+            RoleClaimActions.loadRoleClaimsHistorySuccess({
               history: resp.items,
             })
           ),
           catchError((error) =>
-            of(
-              BranchAddressActions.loadBranchAddressesHistoryFailure({ error })
-            )
+            of(RoleClaimActions.loadRoleClaimsHistoryFailure({ error }))
           )
         )
       )
@@ -53,17 +51,17 @@ export class BranchAddressesEffects {
 
   loadOne$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(BranchAddressActions.loadBranchAddress),
+      ofType(RoleClaimActions.loadRoleClaim),
       mergeMap(({ id }) =>
         this.service.getById(id).pipe(
-          map((branch) =>
-            BranchAddressActions.loadBranchAddressSuccess({
-              branch,
+          map((role) =>
+            RoleClaimActions.loadRoleClaimSuccess({
+              role,
             })
           ),
           catchError((error) =>
             of(
-              BranchAddressActions.loadBranchAddressFailure({
+              RoleClaimActions.loadRoleClaimFailure({
                 error,
               })
             )
@@ -75,17 +73,17 @@ export class BranchAddressesEffects {
 
   create$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(BranchAddressActions.createBranchAddress),
+      ofType(RoleClaimActions.createRoleClaim),
       mergeMap(({ data }) =>
         this.service.create(data).pipe(
-          map((branch) =>
-            BranchAddressActions.createBranchAddressSuccess({
-              branch,
+          map((role) =>
+            RoleClaimActions.createRoleClaimSuccess({
+              role,
             })
           ),
           catchError((error) =>
             of(
-              BranchAddressActions.createBranchAddressFailure({
+              RoleClaimActions.createRoleClaimFailure({
                 error,
               })
             )
@@ -97,26 +95,26 @@ export class BranchAddressesEffects {
 
   update$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(BranchAddressActions.updateBranchAddress),
+      ofType(RoleClaimActions.updateRoleClaim),
       tap(({ id, data }) =>
         console.log('[Effect:update] called with id=', id, 'data=', data)
       ),
       mergeMap(({ id, data }) =>
         this.service.update(id, data).pipe(
           map((serverReturned) => {
-            // force-inject branchId if missing
-            const enriched: BranchAddress = {
+            // force-inject roleId if missing
+            const enriched: RoleClaim = {
               ...serverReturned,
-              branchId: data.branchId!,
+              roleId: data.roleId!,
             };
-            console.log('[Effect:update] enriched branch →', enriched);
-            return BranchAddressActions.updateBranchAddressSuccess({
-              branch: enriched,
+            console.log('[Effect:update] enriched role →', enriched);
+            return RoleClaimActions.updateRoleClaimSuccess({
+              role: enriched,
             });
           }),
           catchError((error) =>
             of(
-              BranchAddressActions.updateBranchAddressFailure({
+              RoleClaimActions.updateRoleClaimFailure({
                 error,
               })
             )
@@ -128,18 +126,18 @@ export class BranchAddressesEffects {
 
   delete$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(BranchAddressActions.deleteBranchAddress),
-      mergeMap(({ id, branchId }) =>
+      ofType(RoleClaimActions.deleteRoleClaim),
+      mergeMap(({ id, roleId }) =>
         this.service.delete(id).pipe(
           map(() =>
-            BranchAddressActions.deleteBranchAddressSuccess({
+            RoleClaimActions.deleteRoleClaimSuccess({
               id,
-              branchId,
+              roleId,
             })
           ),
           catchError((error) =>
             of(
-              BranchAddressActions.deleteBranchAddressFailure({
+              RoleClaimActions.deleteRoleClaimFailure({
                 error,
               })
             )
@@ -152,56 +150,56 @@ export class BranchAddressesEffects {
   refreshList$ = createEffect(() =>
     this.actions$.pipe(
       ofType(
-        BranchAddressActions.createBranchAddressSuccess,
-        BranchAddressActions.updateBranchAddressSuccess,
-        BranchAddressActions.deleteBranchAddressSuccess
+        RoleClaimActions.createRoleClaimSuccess,
+        RoleClaimActions.updateRoleClaimSuccess,
+        RoleClaimActions.deleteRoleClaimSuccess
       ),
 
       map((action) => {
-        if ('branchId' in action) {
-          // for create/update you returned `{ branch: BranchAddress }`,
-          // so dig into that object’s branchId
-          return action.branchId;
+        if ('roleId' in action) {
+          // for create/update you returned `{ role: RoleClaim }`,
+          // so dig into that object’s roleId
+          return action.roleId;
         } else {
-          // for delete you returned `{ id, branchId }`
-          return action.branch.branchId;
+          // for delete you returned `{ id, roleId }`
+          return action.role.roleId;
         }
       }),
 
       // only continue if it’s a number
 
-      map((branchId) =>
-        BranchAddressActions.loadBranchAddressesByBranchId({
-          branchId,
+      map((roleId) =>
+        RoleClaimActions.loadRoleClaimsByRoleId({
+          roleId,
         })
       )
     )
   );
   /**
-   * The “by‐branchId” loader
+   * The “by‐roleId” loader
    */
-  loadByBranchId$ = createEffect(() =>
+  loadByRoleId$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(BranchAddressActions.loadBranchAddressesByBranchId),
+      ofType(RoleClaimActions.loadRoleClaimsByRoleId),
 
       tap((action) =>
-        console.log('[Effect:loadByBranchId] full action →', action)
+        console.log('[Effect:loadByRoleId] full action →', action)
       ),
-      tap(({ branchId }) =>
-        console.log('[Effect:loadByBranchId] branchId →', branchId)
+      tap(({ roleId }) =>
+        console.log('[Effect:loadByRoleId] roleId →', roleId)
       ),
 
-      mergeMap(({ branchId }) =>
-        this.service.getByBranchId(branchId).pipe(
+      mergeMap(({ roleId }) =>
+        this.service.getByRoleId(roleId).pipe(
           tap((items) =>
-            console.log('[Effect:loadByBranchId] response →', items)
+            console.log('[Effect:loadByRoleId] response →', items)
           ),
           map((items) =>
-            BranchAddressActions.loadBranchAddressesByBranchIdSuccess({ items })
+            RoleClaimActions.loadRoleClaimsByRoleIdSuccess({ items })
           ),
           catchError((error) =>
             of(
-              BranchAddressActions.loadBranchAddressesByBranchIdFailure({
+              RoleClaimActions.loadRoleClaimsByRoleIdFailure({
                 error,
               })
             )
@@ -211,8 +209,5 @@ export class BranchAddressesEffects {
     )
   );
 
-  constructor(
-    private actions$: Actions,
-    private service: BranchAddressesService
-  ) {}
+  constructor(private actions$: Actions, private service: RoleClaimsService) {}
 }

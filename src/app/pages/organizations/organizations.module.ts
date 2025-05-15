@@ -72,6 +72,8 @@ import { teamLeadOfficersReducer } from './store/teams/team-lead-officers/team-l
 import { TeamLeadOfficersEffects } from './store/teams/team-lead-officers/team-lead-officers.effects';
 import { teamOfficersReducer } from './store/teams/team-officers/team-officers.reducer';
 import { TeamOfficersEffects } from './store/teams/team-officers/team-officers.effects';
+import { roleClaimsReducer } from './store/roles/role-claims/role-claims.reducer';
+import { RoleClaimsEffects } from './store/roles/role-claims/role-claims.effects';
 
 @NgModule({
   declarations: [
@@ -104,6 +106,7 @@ import { TeamOfficersEffects } from './store/teams/team-officers/team-officers.e
     ViewRolesComponent,
     ViewTeamOfficersComponent,
     ViewOperationsComponent,
+    ViewRoleClaimsComponent,
     ViewPageOperationsComponent,
     ViewOfficersComponent,
     ViewSignatoryOfficersComponent,
@@ -143,7 +146,7 @@ import { TeamOfficersEffects } from './store/teams/team-officers/team-officers.e
     EffectsModule.forFeature([BranchOfficersEffects]),
     StoreModule.forFeature('teamLeadOfficers', teamLeadOfficersReducer),
     EffectsModule.forFeature([TeamLeadOfficersEffects]),
-      StoreModule.forFeature('teamOfficers', teamOfficersReducer),
+    StoreModule.forFeature('teamOfficers', teamOfficersReducer),
     EffectsModule.forFeature([TeamOfficersEffects]),
     StoreModule.forFeature('signatoryOfficers', signatoryOfficersReducer),
     EffectsModule.forFeature([SignatoryOfficersEffects]),
@@ -151,6 +154,8 @@ import { TeamOfficersEffects } from './store/teams/team-officers/team-officers.e
     EffectsModule.forFeature([OperationsEffects]),
     StoreModule.forFeature('pageOperations', pageOperationsReducer),
     EffectsModule.forFeature([PageOperationsEffects]),
+    StoreModule.forFeature('roleClaims', roleClaimsReducer),
+    EffectsModule.forFeature([RoleClaimsEffects]),
   ],
   exports: [
     AddDepartmentComponent,

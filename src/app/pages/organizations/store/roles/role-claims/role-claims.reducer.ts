@@ -1,111 +1,111 @@
 import { createReducer, on } from '@ngrx/store';
 import * as Actions from './role-claims.actions';
-import { initialBranchAddressesState } from './role-claims.state';
+import { initialRoleClaimsState } from './role-claims.state';
 
-export const branchAddressesReducer = createReducer(
-  initialBranchAddressesState,
-  on(Actions.loadBranchAddresses, (state) => ({
+export const roleClaimsReducer = createReducer(
+  initialRoleClaimsState,
+  on(Actions.loadRoleClaims, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
-  on(Actions.loadBranchAddressesSuccess, (state, { items, totalCount }) => ({
+  on(Actions.loadRoleClaimsSuccess, (state, { items, totalCount }) => ({
     ...state,
     items,
     totalCount,
     loading: false,
   })),
-  on(Actions.loadBranchAddressesFailure, (state, { error }) => ({
+  on(Actions.loadRoleClaimsFailure, (state, { error }) => ({
     ...state,
     error,
     loading: false,
   })),
 
-  on(Actions.loadBranchAddressesHistory, (state) => ({
+  on(Actions.loadRoleClaimsHistory, (state) => ({
     ...state,
     loading: true,
   })),
-  on(Actions.loadBranchAddressesHistorySuccess, (state, { history }) => ({
+  on(Actions.loadRoleClaimsHistorySuccess, (state, { history }) => ({
     ...state,
     history,
     loading: false,
   })),
-  on(Actions.loadBranchAddressesHistoryFailure, (state, { error }) => ({
+  on(Actions.loadRoleClaimsHistoryFailure, (state, { error }) => ({
     ...state,
     error,
     loading: false,
   })),
 
-  on(Actions.loadBranchAddress, (state) => ({
+  on(Actions.loadRoleClaim, (state) => ({
     ...state,
     loading: true,
   })),
-  on(Actions.loadBranchAddressSuccess, (state, { branch }) => ({
+  on(Actions.loadRoleClaimSuccess, (state, { role }) => ({
     ...state,
-    current: branch,
+    current: role,
     loading: false,
   })),
-  on(Actions.loadBranchAddressFailure, (state, { error }) => ({
+  on(Actions.loadRoleClaimFailure, (state, { error }) => ({
     ...state,
     error,
     loading: false,
   })),
 
-  on(Actions.createBranchAddress, (state) => ({
+  on(Actions.createRoleClaim, (state) => ({
     ...state,
     loading: true,
   })),
-  on(Actions.createBranchAddressSuccess, (state, { branch }) => ({
+  on(Actions.createRoleClaimSuccess, (state, { role }) => ({
     ...state,
-    items: [...state.items, branch],
+    items: [...state.items, role],
     loading: false,
   })),
-  on(Actions.createBranchAddressFailure, (state, { error }) => ({
+  on(Actions.createRoleClaimFailure, (state, { error }) => ({
     ...state,
     error,
     loading: false,
   })),
 
-  on(Actions.updateBranchAddress, (state) => ({
+  on(Actions.updateRoleClaim, (state) => ({
     ...state,
     loading: true,
   })),
-  on(Actions.updateBranchAddressSuccess, (state, { branch }) => ({
+  on(Actions.updateRoleClaimSuccess, (state, { role }) => ({
     ...state,
-    items: state.items.map((ct) => (ct.id === branch.id ? branch : ct)),
+    items: state.items.map((ct) => (ct.id === role.id ? role : ct)),
     loading: false,
   })),
-  on(Actions.updateBranchAddressFailure, (state, { error }) => ({
+  on(Actions.updateRoleClaimFailure, (state, { error }) => ({
     ...state,
     error,
     loading: false,
   })),
 
-  on(Actions.deleteBranchAddress, (state) => ({
+  on(Actions.deleteRoleClaim, (state) => ({
     ...state,
     loading: true,
   })),
-  on(Actions.deleteBranchAddressSuccess, (state, { id }) => ({
+  on(Actions.deleteRoleClaimSuccess, (state, { id }) => ({
     ...state,
     items: state.items.filter((ct) => ct.id !== id),
     loading: false,
   })),
-  on(Actions.deleteBranchAddressFailure, (state, { error }) => ({
+  on(Actions.deleteRoleClaimFailure, (state, { error }) => ({
     ...state,
     error,
     loading: false,
   })),
-  on(Actions.loadBranchAddressesByBranchId, (state) => ({
+  on(Actions.loadRoleClaimsByRoleId, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
-  on(Actions.loadBranchAddressesByBranchIdSuccess, (state, { items }) => ({
+  on(Actions.loadRoleClaimsByRoleIdSuccess, (state, { items }) => ({
     ...state,
     items, // replace with just these rates
     loading: false,
   })),
-  on(Actions.loadBranchAddressesByBranchIdFailure, (state, { error }) => ({
+  on(Actions.loadRoleClaimsByRoleIdFailure, (state, { error }) => ({
     ...state,
     error,
     loading: false,

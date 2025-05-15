@@ -34,6 +34,8 @@ import { setFormDirty } from '../../../pages/crm/clients/store/client-form/clien
 import { FileUpload } from 'primeng/fileupload';
 import { LegalFormLawFacade } from '../../../pages/crm/clients/store/legal-form-law/legal-form-law.facade';
 import { LegalFormsFacade } from '../../../pages/legals/store/legal-forms/legal-forms.facade';
+import { PageOperation } from '../../../pages/organizations/store/page-operations/page-operation.model';
+import { RoleClaim } from '../../../pages/organizations/store/roles/role-claims/role-claim.model';
 export interface IdentityEntry {
   identificationNumber: string;
   selectedIdentities: any[];
@@ -79,7 +81,7 @@ export class FormComponent implements OnInit, OnDestroy {
   selectedLegalFormLawId: number | null = null;
   @Input() legalFormId: number | null = null;
   @Input() officersList: any;
-
+  @Input() pageIds: any;
   selectedLegalForm: any;
   @Output() sectorChanged = new EventEmitter<number>();
 
@@ -320,8 +322,6 @@ export class FormComponent implements OnInit, OnDestroy {
       key: 'A',
     },
   ];
-  @Input() pagesList: any;
-  @Input() operationsList: any;
 
   selectedOperations: any[] = [
     {
@@ -427,6 +427,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addDepartmentManagerORGForm!: boolean;
   @Input() addTeamORGForm!: boolean;
   @Input() addTeamLeadORGForm!: boolean;
+  @Input() addRoleClaimORGForm!: boolean;
   @Input() addCommunicationFlowTypesLookupsForm!: boolean;
   @Input() addTeamOfficerORGForm!: boolean;
   @Input() addRoleORGForm!: boolean;
@@ -489,6 +490,8 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addOfficersForm!: boolean;
   @Input() addDepartmentsForm!: boolean;
   filteredSubSectors$!: Observable<SubSectors[]>;
+  @Input() operationName!: string;
+
   legalFormLaws$: Observable<LegalFormLaw[]> = this.facade.legalFormLaws$;
   // legalForms$ = this.facadeLegalForms.legalForms$;
   @Input() identityIndividual: {
@@ -506,7 +509,12 @@ export class FormComponent implements OnInit, OnDestroy {
   @Output() submitForm = new EventEmitter<void>();
   @Input() editMode: boolean = false;
   private sub!: Subscription;
-
+  roleIdParam: any;
+  @Input() pagesList: any;
+  @Input() operationsList: any;
+  @Input() operationsList$!: any;
+  @Input() operationIdValue!: any;
+  @Input() pageOperationGroups$!: Observable<RoleClaim[]>;
   constructor(
     private store: Store,
     private facade: LegalFormLawFacade,
@@ -522,6 +530,8 @@ export class FormComponent implements OnInit, OnDestroy {
     this.branchIdParam = this.route.snapshot.queryParams['branchId'];
     this.departmentIdParam = this.route.snapshot.queryParams['departmentId'];
     this.teamIdParam = this.route.snapshot.queryParams['teamId'];
+    this.roleIdParam = this.route.snapshot.queryParams['roleId'];
+
     this.sub = this.formGroup?.valueChanges
       .pipe(debounceTime(300))
       .subscribe(() => {
@@ -592,6 +602,12 @@ export class FormComponent implements OnInit, OnDestroy {
     //     }
     //   });
   }
+  get operationsLabel(): string {
+    if (!this.operationsList || this.operationsList.length === 0) {
+      return 'Select an operation';
+    }
+    return this.operationsList.map((po: any) => po.operation.name).join(', ');
+  }
 
   get subSectorList(): FormControl {
     return this.formGroup.get('subSectorIdList') as FormControl;
@@ -644,8 +660,7 @@ export class FormComponent implements OnInit, OnDestroy {
     ]);
   }
 
-
-   viewTeamOfficers() {
+  viewTeamOfficers() {
     this.router.navigate([
       `/organizations/view-team-officers/${this.teamIdParam}`,
     ]);
@@ -725,6 +740,9 @@ export class FormComponent implements OnInit, OnDestroy {
   }
   viewRoles() {
     this.router.navigate(['/organizations/view-roles']);
+  }
+  viewRoleClaims() {
+    this.router.navigate(['/organizations/view-role-claims']);
   }
   viewTeamMember() {
     this.router.navigate(['/crm/clients/view-team-member']);

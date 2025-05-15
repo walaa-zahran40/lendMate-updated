@@ -30,6 +30,7 @@ export class TableComponent {
   @Input() cols: any[] = [];
   public selectedRows: any[] = [];
   @Input() col1Name!: string;
+  @Input() viewRoleClaimsTable!: boolean;
   @Input() col2Name!: string;
   @Input() col3Name!: string;
   @Input() col4Name!: string;
