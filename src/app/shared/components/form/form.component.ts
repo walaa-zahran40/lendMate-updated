@@ -373,7 +373,7 @@ export class FormComponent implements OnInit, OnDestroy {
   //inputs
   @Input() titleIndividual!: string;
   @Input() descriptionIndividual!: string;
-  @Input() addAddressShowMain!: boolean;
+  @Input() addClientAddressesLookupsForm!: boolean;
   @Input() clientOnboardingCompanyShowMain!: boolean;
   @Input() clientOnboardingIndividualShowMain!: boolean;
   @Input() addCRAuthorityOfficeShowMain!: boolean;
