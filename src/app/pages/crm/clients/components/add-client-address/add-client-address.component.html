@@ -1,0 +1,29 @@
+<app-toolbar-form
+  [header]="'Client Address'"
+  [header]="editMode ? 'Edit Client Address' : 'Add Client Address'"
+  [backExists]="true"
+  [viewOnly]="false"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-form
+        *ngIf="addClientAddressesLookupsForm"
+        [title]="'Client Address'"
+        [description]="
+          'Introduce your Client Address core info quickly to users by fill up client details'
+        "
+        [formGroup]="addClientAddressesLookupsForm"
+        [addClientAddressesLookupsForm]="true"
+        [editMode]="editMode"
+        (submitForm)="addOrEditClientAddresses()"
+        [viewOnly]="viewOnly"
+        [countriesList]="countriesList$ | async"
+        [governoratesList]="filteredGovernorates"
+        [areasList]="filteredAreas"
+      ></app-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

@@ -68,6 +68,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() departments: any;
   @Input() subSectorsList: any[] = [];
   @Input() countriesList: any;
+  @Input() addressTypesList: any[]=[];
   @Input() assetTypeCategories: any;
   @Input() feeCalculationTypes: any;
   @Input() teamDepartments: any;
@@ -448,6 +449,7 @@ export class FormComponent implements OnInit, OnDestroy {
   branchIdParam: any;
   departmentIdParam: any;
   teamIdParam: any;
+  clientIdParam: any;
   @Input() addPaymentTypesLookupsForm!: boolean;
   @Input() addPaymentMonthDaysLookupsForm!: boolean;
   @Input() addMeetingTypesLookupsForm!: boolean;
@@ -522,6 +524,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.branchIdParam = this.route.snapshot.queryParams['branchId'];
     this.departmentIdParam = this.route.snapshot.queryParams['departmentId'];
     this.teamIdParam = this.route.snapshot.queryParams['teamId'];
+    this.clientIdParam = this.route.snapshot.queryParams['clientId'];
     this.sub = this.formGroup?.valueChanges
       .pipe(debounceTime(300))
       .subscribe(() => {
@@ -789,11 +792,12 @@ export class FormComponent implements OnInit, OnDestroy {
   viewSalesTurnover() {
     this.router.navigate(['/crm/clients/view-sales-turnover']);
   }
-  viewAddressDetails() {
-    this.router.navigate(['/crm/clients/view-address'], {
-      queryParams: { id: this.id },
-    });
+  viewClientAddressDetails() {
+    this.router.navigate([
+      `/organizations/view-client-addresses/${this.clientIdParam}`,
+    ]);
   }
+  
   viewPaymentTypes() {
     this.router.navigate(['/lookups/view-payment-types']);
   }
