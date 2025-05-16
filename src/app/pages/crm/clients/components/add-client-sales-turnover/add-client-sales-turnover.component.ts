@@ -80,12 +80,9 @@ export class AddSalesTurnoverComponent implements OnInit, OnDestroy {
   }
 
   addOrEditClientSalesTurnover() {
-    // 1) Log the full ActivatedRoute snapshot
     console.log('🛣️ Route snapshot:', this.route.snapshot);
-    // 2) Extract both paramMap and queryParamMap in parallel
     const clientIdParam = this.route.snapshot.queryParamMap.get('clientId');
     console.log(`🔍 QueryParams → clientId = ${clientIdParam}`);
-    // 3) Log the component’s mode flags
     console.log(
       `⚙️ mode = ${this.mode}, editMode = ${this.editMode}, viewOnly = ${this.viewOnly}`
     );
