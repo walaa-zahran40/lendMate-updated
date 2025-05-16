@@ -27,4 +27,3 @@ export const selectTeamOfficersError = createSelector(
   selectTeamOfficersState,
   (state) => state.error
 );
-
