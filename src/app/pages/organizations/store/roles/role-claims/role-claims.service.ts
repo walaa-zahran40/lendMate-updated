@@ -33,11 +33,14 @@ export class RoleClaimsService {
   }
 
   getById(id: number): Observable<RoleClaim> {
-    return this.http.get<RoleClaim>(`${this.api}/RoleesAddressId?id=${id}`);
+    return this.http.get<RoleClaim>(`${this.api}/ApplicationRoleClaimId=${id}`);
   }
 
   create(data: Partial<RoleClaim>): Observable<RoleClaim> {
-    return this.http.post<RoleClaim>(`${this.api}/CreateRoleesAddress`, data);
+    return this.http.post<RoleClaim>(
+      `${this.api}/CreateApplicationRoleClaim`,
+      data
+    );
   }
 
   update(id: number, data: Partial<RoleClaim>): Observable<RoleClaim> {

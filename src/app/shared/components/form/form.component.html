@@ -4174,7 +4174,23 @@
       *ngIf="addRoleClaimORGForm"
       (ngSubmit)="onSubmit()"
     >
-      <pre>{{ pageOperationGroups$ | async | json }}</pre>
+      <div *ngIf="pageOperationGroups$ | async as groups">
+        <div *ngFor="let group of groups" class="page‐group">
+          <h4>Page : {{ group.pageName }}</h4>
+          <div *ngFor="let op of group.pageOperations">
+            Operation:
+            <label>
+              <input
+                type="checkbox"
+                [value]="op.id"
+                [checked]="formGroup.value.operationIds.includes(op.id)"
+                (change)="onOpToggle(op.id, $event.target)"
+              />
+              {{ op.operation?.name }}
+            </label>
+          </div>
+        </div>
+      </div>
 
       <div class="p-field" *ngIf="editMode">
         <p-toggleSwitch
@@ -9924,87 +9940,6 @@
       </div>
     </form>
 
-    <form action="" *ngIf="addPageOperationORGForm">
-      <label for="operationsPageOperationORG">Operations<sup>*</sup></label>
-      <p-select
-        [options]="departments"
-        optionLabel="name"
-        placeholder="Department"
-        class="w-full md:w-56"
-      />
-      <label for="operationsPageOperationORG">Page<sup>*</sup></label>
-      <p-select
-        [options]="pages"
-        optionLabel="name"
-        placeholder="Page"
-        class="w-full md:w-56"
-      />
-    </form>
-    <form action="" *ngIf="addOfficerORGForm">
-      <label for="loginNameOfficerORG">Login Name<sup>*</sup></label>
-      <input
-        pInputText
-        id="loginNameOfficerORG"
-        aria-describedby="loginNameOfficerORG-help"
-        [(ngModel)]="value"
-        name="loginNameOfficerORG"
-        placeholder="Department"
-      />
-      <label for="nameOfficerORG">Name<sup>*</sup></label>
-      <input
-        pInputText
-        id="nameOfficerORG"
-        aria-describedby="nameOfficerORG-help"
-        [(ngModel)]="value"
-        name="nameOfficerORG"
-        placeholder="Department"
-      />
-      <label for="arabicNameOfficerORG">Arabic Name<sup>*</sup></label>
-      <input
-        pInputText
-        id="arabicNameOfficerORG"
-        aria-describedby="arabicNameOfficerORG-help"
-        [(ngModel)]="value"
-        name="arabicNameOfficerORG"
-        placeholder="Department"
-      />
-      <label for="titleOfficerORG">Title<sup>*</sup></label>
-      <input
-        pInputText
-        id="titleOfficerORG"
-        aria-describedby="titleOfficerORG-help"
-        [(ngModel)]="value"
-        name="titleOfficerORG"
-        placeholder="Department"
-      />
-      <label for="arabicTitleOfficerORG">Arabic Title<sup>*</sup></label>
-      <input
-        pInputText
-        id="arabicTitleOfficerORG"
-        aria-describedby="arabicTitleOfficerORG-help"
-        [(ngModel)]="value"
-        name="arabicTitleOfficerORG"
-        placeholder="Department"
-      />
-      <label for="emailOfficerORG">Email<sup>*</sup></label>
-      <input
-        pInputText
-        id="emailOfficerORG"
-        aria-describedby="emailOfficerORG-help"
-        [(ngModel)]="value"
-        name="emailOfficerORG"
-        placeholder="Department"
-      />
-      <label for="phoneNumberOfficerORG">Phone Number<sup>*</sup></label>
-      <input
-        pInputText
-        id="phoneNumberOfficerORG"
-        aria-describedby="phoneNumberOfficerORG-help"
-        [(ngModel)]="value"
-        name="phoneNumberOfficerORG"
-        placeholder="Department"
-      />
-    </form>
     <form
       [formGroup]="formGroup"
       *ngIf="addSignatoryOfficerORGForm"

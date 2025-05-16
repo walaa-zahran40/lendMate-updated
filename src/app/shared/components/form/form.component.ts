@@ -41,6 +41,11 @@ export interface IdentityEntry {
   selectedIdentities: any[];
   isMain: boolean;
 }
+interface PageOperationGroup {
+  pageName: string;
+  pageOperations: PageOperation[];
+}
+
 @Component({
   selector: 'app-form',
   standalone: false,
@@ -57,6 +62,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() applyReusable: boolean = false;
   @Input() selectedFile!: any;
   @Input() title: string = '';
+  @Input() pageOperationGroups$!: Observable<PageOperationGroup[]>;
 
   @Input() description: string = '';
   @Input() addClientShowMain?: boolean;
@@ -514,7 +520,6 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() operationsList: any;
   @Input() operationsList$!: any;
   @Input() operationIdValue!: any;
-  @Input() pageOperationGroups$!: Observable<RoleClaim[]>;
   constructor(
     private store: Store,
     private facade: LegalFormLawFacade,
@@ -665,6 +670,17 @@ export class FormComponent implements OnInit, OnDestroy {
       `/organizations/view-team-officers/${this.teamIdParam}`,
     ]);
   }
+  onOpToggle(opId: number, checked: any) {
+    const ctrl = this.formGroup.get('operationIds')!;
+    const selected: number[] = [...ctrl.value];
+    if (checked) {
+      if (!selected.includes(opId)) selected.push(opId);
+    } else {
+      const idx = selected.indexOf(opId);
+      if (idx >= 0) selected.splice(idx, 1);
+    }
+    ctrl.setValue(selected);
+  }
 
   viewBranchOfficers() {
     this.router.navigate([]);
@@ -742,7 +758,9 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/organizations/view-roles']);
   }
   viewRoleClaims() {
-    this.router.navigate(['/organizations/view-role-claims']);
+    this.router.navigate([
+      `/organizations/view-role-claims/${this.roleIdParam}`,
+    ]);
   }
   viewTeamMember() {
     this.router.navigate(['/crm/clients/view-team-member']);

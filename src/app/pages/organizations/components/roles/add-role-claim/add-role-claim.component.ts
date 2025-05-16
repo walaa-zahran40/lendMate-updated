@@ -76,44 +76,57 @@ export class AddRoleClaimComponent {
 
     // 4️⃣ Build a grouped list of just this role’s page-operations
     this.pageOperationGroups$ = combineLatest([
-      this.operationsFacade.all$.pipe(
-        filter((v): v is PageOperation[] => Array.isArray(v) && v.length > 0)
-      ),
-      this.facade.items$.pipe(
-        filter((v): v is RoleClaim[] => Array.isArray(v) && v.length > 0)
-      ),
+      this.operationsFacade.all$.pipe(filter((ops) => ops.length > 0)),
+      this.facade.items$.pipe(filter((claims) => claims.length > 0)),
     ]).pipe(
-      // wait until both are populated
-      filter(([ops, claims]) => ops.length > 0 && claims.length > 0),
+      tap(([ops, claims]) => {
+        console.log('🔍 [DBG] all pageOps:', ops);
+        console.log('🔍 [DBG] roleClaims:', claims);
+      }),
       map(([ops, claims]) => {
-        // which pageOperation.ids this role has
-        const allowedIds = claims.map((c) => c.pageOperationId!);
-        // filter down to just those ops
-        const related = (ops as any[]).filter((po) =>
-          allowedIds.includes(po.id)
-        );
+        // 1️⃣ extract the real IDs from the nested pageOperation
+        const allowedIds = claims
+          .map((c) => {
+            const id = c.pageOperation?.id;
+            console.log(`🔍 [DBG] claim ${c.id} → pageOperation.id =`, id);
+            return id;
+          })
+          .filter((id): id is number => typeof id === 'number');
+
+        console.log('🔍 [DBG] allowedIds:', allowedIds);
+
+        // 2️⃣ pick matching ops (or all if none, for add-mode)
+        const toShow =
+          allowedIds.length > 0
+            ? ops.filter((po) => allowedIds.includes(po.id))
+            : ops;
+
+        console.log('🔍 [DBG] toShow pageOperations:', toShow);
+
+        // 3️⃣ group by page name
         const byPage: Record<string, PageOperation[]> = {};
-        related.forEach((po) => {
-          const pgName = po.page!.name;
-          (byPage[pgName] ||= []).push(po);
+        toShow.forEach((po) => {
+          const name = po.page!.name;
+          console.log(`🔍 [DBG] grouping op ${po.id} under page "${name}"`);
+          (byPage[name] ||= []).push(po);
         });
 
-        return Object.entries(byPage).map(([pageName, pageOps]) => ({
+        // 4️⃣ build final array
+        const result = Object.entries(byPage).map(([pageName, pageOps]) => ({
           pageName,
           pageOperations: pageOps,
         }));
+        console.log('🔍 [DBG] grouped result:', result);
+        return result;
       }),
-      tap((groups) =>
-        console.log('[pageOperationGroups$] for this role →', groups)
-      )
+      tap((groups) => console.log('👉 [pageOperationGroups$]', groups))
     );
 
     // 5️⃣ Build the form
     this.addRoleClaimORGForm = this.fb.group({
       id: [null],
       roleId: [this.roleId, Validators.required],
-      pageIds: [[] as number[]], // multi-select of page IDs
-      operationId: [null, Validators.required],
+      operationIds: [[] as number[], Validators.required],
       isActive: [true],
     });
     console.log('Form built:', this.addRoleClaimORGForm.getRawValue());
@@ -148,32 +161,34 @@ export class AddRoleClaimComponent {
       console.log('Loading record id=', this.recordId);
       this.facade.loadOne(this.recordId);
 
-      combineLatest([
-        this.facade.current$.pipe(
-          filter((c) => !!c && c.id === this.recordId),
-          take(1)
-        ),
-        this.pagesList$.pipe(take(1)),
-        this.operationsList$.pipe(take(1)),
-      ]).subscribe(([ct]) => {
-        const po = ct?.pageOperation!;
-        // patch the form
-        this.addRoleClaimORGForm.patchValue({
-          pageIds: [po.pageId],
-          operationId: po.operationId,
-          isActive: ct?.isActive,
-        });
+      this.pageOperationGroups$ = combineLatest([
+        this.operationsFacade.all$.pipe(filter((ops) => ops.length > 0)),
+        this.facade.items$.pipe(filter((cl) => cl.length > 0)),
+      ]).pipe(
+        map(([ops, claims]) => {
+          const isEdit = this.mode !== 'add';
+          const allowedIds = claims.map((c) => c.pageOperation!.id);
 
-        // disable if viewOnly
-        if (this.viewOnly) {
-          this.addRoleClaimORGForm.disable();
-        }
+          const toShow = isEdit
+            ? ops.filter((po) => allowedIds.includes(po.id))
+            : ops;
 
-        console.log(
-          'Patched form (edit/view):',
-          this.addRoleClaimORGForm.getRawValue()
-        );
-      });
+          // now group `toShow` by page
+          const byPage = toShow.reduce<Record<string, PageOperation[]>>(
+            (acc, po) => {
+              const name = po.page!.name;
+              (acc[name] ||= []).push(po);
+              return acc;
+            },
+            {}
+          );
+
+          return Object.entries(byPage).map(([pageName, pageOps]) => ({
+            pageName,
+            pageOperations: pageOps,
+          }));
+        })
+      );
     } else if (this.viewOnly) {
       console.log('ViewOnly without id → disabling form');
       this.addRoleClaimORGForm.disable();
@@ -181,60 +196,50 @@ export class AddRoleClaimComponent {
   }
 
   addOrEditRoleClaim() {
-    const roleParamQP = this.route.snapshot.queryParamMap.get('roleId');
-
     console.log('💥 addRoleClaims() called');
-    console.log('  viewOnly:', this.viewOnly);
-    console.log('  editMode:', this.editMode);
-    console.log('  form valid:', this.addRoleClaimORGForm.valid);
-    console.log('  form touched:', this.addRoleClaimORGForm.touched);
-    console.log('  form raw value:', this.addRoleClaimORGForm.getRawValue());
+    console.log('  mode:', this.mode);
+    console.log(
+      '  form value before patch:',
+      this.addRoleClaimORGForm.getRawValue()
+    );
 
+    // 1️⃣ Validate
     if (this.addRoleClaimORGForm.invalid) {
-      console.warn('❌ Form is invalid — marking touched and aborting');
+      console.warn('❌ Form invalid — aborting');
       this.addRoleClaimORGForm.markAllAsTouched();
       return;
     }
 
-    this.addRoleClaimORGForm.patchValue({
-      roleId: roleParamQP,
-    });
+    // 2️⃣ Ensure roleId is correct
+    const roleId = Number(this.route.snapshot.queryParamMap.get('roleId'));
+    this.addRoleClaimORGForm.patchValue({ roleId });
 
-    const { pageOperation, roleId, isActive } = this.addRoleClaimORGForm.value;
-    const payload: Partial<RoleClaim> = {
-      pageOperation,
-      roleId,
-      isActive,
+    // 3️⃣ Extract operation IDs and isActive flag
+    const { operationIds, isActive } = this.addRoleClaimORGForm.value as {
+      operationIds: number[];
+      isActive: boolean;
     };
-    console.log('  → payload object:', payload);
 
-    const data = this.addRoleClaimORGForm.value as Partial<RoleClaim>;
-    console.log('📦 Payload going to facade:', data);
+    // 4️⃣ Map into the server DTO
+    const rolePageOperations = operationIds.map((pageOperationId) => ({
+      pageOperationId,
+      value: isActive.toString(), // “true” or “false”
+    }));
 
-    // Double-check your route param
-    const routeId = this.route.snapshot.paramMap.get('id');
-    console.log('  route.snapshot.paramMap.get(clientId):', routeId);
+    const payload = { roleId, rolePageOperations };
+    console.log('📦 payload →', payload);
 
-    // 7) Create vs. update
+    // 5️⃣ Send to facade
     if (this.mode === 'add') {
-      console.log('➕ Dispatching CREATE');
+      console.log('➕ Creating new Role-Claim');
       this.facade.create(payload);
     } else {
-      console.log('✏️ Dispatching UPDATE id=', data.id);
-      this.facade.update(data.id!, data);
+      console.log(`✏️ Updating Role-Claim recordId=${this.recordId}`);
+      this.facade.update(this.recordId, payload as any);
     }
 
-    if (roleParamQP) {
-      console.log('➡️ Navigating back with PATH param:', roleParamQP);
-      this.router.navigate(['/organizations/view-role-claims', roleParamQP]);
-    } else if (roleParamQP) {
-      console.log('➡️ Navigating back with QUERY param fallback:', roleParamQP);
-      this.router.navigate([`/organizations/view-role-claims/${roleParamQP}`]);
-    } else {
-      console.error('❌ Cannot navigate back: currencyId is missing!');
-    }
-    // console.log('🧭 Navigating away to view-role-claims');
-    // this.router.navigate(['/organizations/view-role-claims']);
+    // 6️⃣ Go back to list
+    this.router.navigate(['/organizations/view-role-claims', roleId]);
   }
 
   ngOnDestroy() {
