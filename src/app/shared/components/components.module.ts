@@ -56,6 +56,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { GlobalSpinnerComponent } from './global-spinner/global-spinner.component';
+import { SharedDatePickerComponent } from './shared-date-picker/shared-date-picker.component';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { GlobalSpinnerComponent } from './global-spinner/global-spinner.componen
     ToolbarCardComponent,
     ToolbarCompoundComponent,
     GlobalSpinnerComponent,
+    SharedDatePickerComponent,
   ],
   imports: [
     CommonModule,

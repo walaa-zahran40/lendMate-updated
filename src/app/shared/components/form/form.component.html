@@ -5066,12 +5066,12 @@
         </div>
       </div>
     </form>
-    <form action="" 
-    *ngIf="addSalesTurnoverForm"     
-       (ngSubmit)="onSubmit()"  
-       [formGroup]="formGroup"
-  >
-
+    <form
+      action=""
+      *ngIf="addSalesTurnoverForm"
+      (ngSubmit)="onSubmit()"
+      [formGroup]="formGroup"
+    >
       <label for="amount">Amount<sup class="danger">*</sup></label>
       <input
         pInputText
@@ -5081,12 +5081,11 @@
         type="number"
         [ngClass]="{
           'ng-invalid ng-dirty':
-            formGroup.get('amount')?.invalid &&
-            formGroup.get('amount')?.touched
+            formGroup.get('amount')?.invalid && formGroup.get('amount')?.touched
         }"
       />
 
-       <label for="date"> Date<sup class="danger">*</sup></label>
+      <label for="date"> Date<sup class="danger">*</sup></label>
       <p-datepicker
         [iconDisplay]="'input'"
         [showIcon]="true"
@@ -5128,7 +5127,6 @@
           />
         </div>
       </div>
-
     </form>
     <form action="" *ngIf="addPhoneNumbersShowMain">
       <label for="phoneType">Phone Type <sup class="danger">*</sup></label>
@@ -8902,14 +8900,12 @@
         Please enter only Arabic letters.
       </div>
 
-      <label for="startDateBusinessLinesLookups">Start Date<sup>*</sup></label
-      ><p-datepicker
+      <label for="startDateBusinessLinesLookups">Start Date<sup>*</sup></label>
+      <shared-date-picker
         formControlName="lisenceStartDate"
-        [iconDisplay]="'input'"
-        [showIcon]="true"
-        inputId="icondisplay"
-        name="startDateBusinessLinesLookups"
-      />
+        inputId="licenceStartDate"
+      >
+      </shared-date-picker>
 
       <div class="p-field" for="isActive" *ngIf="editMode">
         <p-toggleSwitch
