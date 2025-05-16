@@ -3,10 +3,8 @@
     <p-tabpanel value="0">
       <app-form
         [title]="'Main Information'"
-        [description]="
-          'Officers '
-        "
-        [addOfficersForm]="true"
+        [description]="'Officers '"
+        [addOfficerORGForm]="true"
         [formGroup]="addOfficersForm"
         (submitForm)="addOrEditOfficer()"
         [editMode]="editMode"

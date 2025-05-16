@@ -1330,24 +1330,12 @@
       <label for="dateOfBirthIndividual"
         >Date of Birth<sup class="danger">*</sup></label
       >
-      <p-datepicker
+      <shared-date-picker
         formControlName="dateOfBirthIndividual"
-        name="dateOfBirthIndividual"
-        placeholder="Date Of Birth"
-        inputId="icondisplay"
-        [showIcon]="true"
-        [iconDisplay]="'input'"
-        [maxDate]="maxDateOfBirth"
-        [defaultDate]="maxDateOfBirth"
-        [readonlyInput]="true"
-        [yearNavigator]="true"
-        yearRange="1900:2006"
-        [ngClass]="{
-          'ng-invalid ng-dirty':
-            formGroup.get('dateOfBirthIndividual')?.invalid &&
-            formGroup.get('dateOfBirthIndividual')?.touched
-        }"
-      />
+        inputId="dateOfBirthIndividual"
+      >
+      </shared-date-picker>
+
       <small
         class="p-error"
         *ngIf="
@@ -1517,15 +1505,9 @@
       >
       </p-select>
       <label>Expiry Date<sup>*</sup></label>
-      <p-datepicker
-        formControlName="expiryDate"
-        name="expiry"
-        placeholder="Expiry Date"
-        inputId="icondisplay"
-        [showIcon]="true"
-        [iconDisplay]="'input'"
-      ></p-datepicker>
 
+      <shared-date-picker formControlName="expiryDate" inputId="expiryDate">
+      </shared-date-picker>
       <div class="row upload-div">
         <div class="col-sm-3 p-0">
           <h2 class="m-0">Upload File</h2>
@@ -4649,23 +4631,12 @@
           <label for="dateOfBirthIndividual"
             >Date of Birth<sup class="danger">*</sup></label
           >
-          <p-datepicker
+          <shared-date-picker
             formControlName="dateOfBirthIndividual"
-            name="dateOfBirthIndividual"
-            placeholder="Date Of Birth"
-            inputId="icondisplay"
-            [showIcon]="true"
-            [iconDisplay]="'input'"
-            [maxDate]="maxDateOfBirth"
-            [readonlyInput]="true"
-            [yearNavigator]="true"
-            yearRange="1900:2006"
-            [ngClass]="{
-              'ng-invalid ng-dirty':
-                formGroup.get('dateOfBirthIndividual')?.invalid &&
-                formGroup.get('dateOfBirthIndividual')?.touched
-            }"
-          />
+            inputId="dateOfBirthIndividual"
+          >
+          </shared-date-picker>
+
           <small
             class="p-error"
             *ngIf="
@@ -4912,14 +4883,12 @@
           <label for="clientOnboardingDateOfBirthIndividual"
             >Date of Birth<sup class="danger">*</sup></label
           >
-          <p-datepicker
-            [(ngModel)]="date2"
-            [iconDisplay]="'input'"
-            [showIcon]="true"
-            placeholder="Date Of Birth"
-            inputId="icondisplay"
-            name="clientOnboardingDateOfBirthIndividual"
-          />
+
+          <shared-date-picker
+            formControlName="clientOnboardingDateOfBirthIndividual"
+            inputId="clientOnboardingDateOfBirthIndividual"
+          >
+          </shared-date-picker>
         </div>
         <div class="col-sm">
           <label for="clientOnboardingGenderIndividual"
@@ -5086,13 +5055,8 @@
       />
 
       <label for="date"> Date<sup class="danger">*</sup></label>
-      <p-datepicker
-        [iconDisplay]="'input'"
-        [showIcon]="true"
-        inputId="icondisplay"
-        name="date"
-        formControlName="date"
-      ></p-datepicker>
+      <shared-date-picker formControlName="date" inputId="date">
+      </shared-date-picker>
 
       <div class="row justify-end">
         <div
@@ -5397,14 +5361,11 @@
       <label for="addCRAuthorityOfficeCRExpiryDate"
         >CR Expiry Date<sup class="danger">*</sup></label
       >
-      <p-datepicker
-        [(ngModel)]="date5"
-        [iconDisplay]="'input'"
-        [showIcon]="true"
-        placeholder="09/08/1997"
-        inputId="icondisplay"
-        name="addCRAuthorityOfficeCRExpiryDate"
-      />
+      <shared-date-picker
+        formControlName="addCRAuthorityOfficeCRExpiryDate"
+        inputId="addCRAuthorityOfficeCRExpiryDate"
+      >
+      </shared-date-picker>
       <label for="crNumberAuthorityOffice"
         >CR Number <sup class="danger">*</sup></label
       >
@@ -5430,14 +5391,11 @@
       <label for="addTaxAuthorityOfficeCRExpiryDate"
         >Tax Expiry Date<sup class="danger">*</sup></label
       >
-      <p-datepicker
-        [(ngModel)]="date6"
-        [iconDisplay]="'input'"
-        [showIcon]="true"
-        placeholder="09/08/1997"
-        inputId="icondisplay"
-        name="addTaxAuthorityOfficeCRExpiryDate"
-      />
+      <shared-date-picker
+        formControlName="addTaxAuthorityOfficeCRExpiryDate"
+        inputId="addTaxAuthorityOfficeCRExpiryDate"
+      >
+      </shared-date-picker>
       <label for="taxNumberAuthorityOffice"
         >Tax Number <sup class="danger">*</sup></label
       >
@@ -5463,14 +5421,11 @@
       <label for="balanceSheetDate"
         >Balance Sheet Date<sup class="danger">*</sup></label
       >
-      <p-datepicker
-        [(ngModel)]="date7"
-        [iconDisplay]="'input'"
-        [showIcon]="true"
-        placeholder="09/08/1997"
-        inputId="icondisplay"
-        name="balanceSheetDate"
-      />
+      <shared-date-picker
+        formControlName="balanceSheetDate"
+        inputId="balanceSheetDate"
+      >
+      </shared-date-picker>
       <label for="companyType">Company Type<sup class="danger">*</sup></label>
       <p-select
         [options]="companyTypes"
@@ -6169,14 +6124,11 @@
       id="addMandateShowMoreInformationForm"
     >
       <label for="dateMoreInformationForm">Date <sup>*</sup></label>
-      <p-datepicker
-        [(ngModel)]="date8"
-        [iconDisplay]="'input'"
-        [showIcon]="true"
-        placeholder="09/08/1997"
-        inputId="icondisplay"
-        name="dateMoreInformationForm"
-      />
+      <shared-date-picker
+        formControlName="dateMoreInformationForm"
+        inputId="dateMoreInformationForm"
+      >
+      </shared-date-picker>
       <label for="notesMoreInformationForm">Notes</label
       ><textarea
         rows="5"
@@ -6345,14 +6297,11 @@
       id="addChildMandateShowMoreInformationForm"
     >
       <label for="dateMoreInformationForm">Date <sup>*</sup></label>
-      <p-datepicker
-        [(ngModel)]="date8"
-        [iconDisplay]="'input'"
-        [showIcon]="true"
-        placeholder="09/08/1997"
-        inputId="icondisplay"
-        name="dateMoreInformationForm"
-      />
+      <shared-date-picker
+        formControlName="dateMoreInformationForm"
+        inputId="dateMoreInformationForm"
+      >
+      </shared-date-picker>
       <label for="notesMoreInformationForm">Notes</label
       ><textarea
         rows="5"
@@ -7538,21 +7487,11 @@
       <label for="lisenceStartDate"
         >Date of Birth<sup class="danger">*</sup></label
       >
-      <p-datepicker
+      <shared-date-picker
         formControlName="lisenceStartDate"
-        name="lisenceStartDate"
-        placeholder="Date Of Birth"
-        inputId="icondisplay"
-        [showIcon]="true"
-        [iconDisplay]="'input'"
-        [readonlyInput]="true"
-        [yearNavigator]="true"
-        [ngClass]="{
-          'ng-invalid ng-dirty':
-            formGroup.get('lisenceStartDate')?.invalid &&
-            formGroup.get('lisenceStartDate')?.touched
-        }"
-      />
+        inputId="lisenceStartDate"
+      >
+      </shared-date-picker>
 
       <div class="p-field" *ngIf="editMode">
         <p-toggleSwitch
@@ -8222,13 +8161,8 @@
     >
       <!-- Date picker -->
       <label for="exchangeDate">Exchange Date<sup class="danger">*</sup></label>
-      <p-datepicker
-        [iconDisplay]="'input'"
-        [showIcon]="true"
-        inputId="icondisplay"
-        name="exchangeDate"
-        formControlName="exchangeDate"
-      ></p-datepicker>
+      <shared-date-picker formControlName="exchangeDate" inputId="exchangeDate">
+      </shared-date-picker>
 
       <label for="exchangeRate">Exchange Rate<sup class="danger">*</sup></label>
       <input
@@ -8785,13 +8719,8 @@
       (ngSubmit)="onSubmit()"
     >
       <label for="startDate">Start Date<sup class="danger">*</sup></label>
-      <p-datepicker
-        [iconDisplay]="'input'"
-        [showIcon]="true"
-        inputId="icondisplay"
-        name="startDate"
-        formControlName="startDate"
-      ></p-datepicker>
+      <shared-date-picker formControlName="startDate" inputId="startDate">
+      </shared-date-picker>
 
       <label for="managerId">Manager<sup>*</sup></label>
       <p-select
@@ -9171,21 +9100,17 @@
     </form>
     <form action="" *ngIf="addMeetingShowBusinessInformationForm">
       <label for="startDateAddMeeting">Start Date<sup>*</sup></label>
-      <p-datepicker
-        [(ngModel)]="date9"
-        [iconDisplay]="'input'"
-        [showIcon]="true"
-        inputId="icondisplay"
-        name="startDateAddMeeting"
-      />
+      <shared-date-picker
+        formControlName="startDateAddMeeting"
+        inputId="startDateAddMeeting"
+      >
+      </shared-date-picker>
       <label for="endDateAddMeeting">End Date<sup>*</sup></label>
-      <p-datepicker
-        [(ngModel)]="date10"
-        [iconDisplay]="'input'"
-        [showIcon]="true"
-        inputId="icondisplay"
-        name="endDateAddMeeting"
-      />
+      <shared-date-picker
+        formControlName="endDateAddMeeting"
+        inputId="endDateAddMeeting"
+      >
+      </shared-date-picker>
       <div class="d-flex flex-column">
         <label for="topicAddMeeting">Topic</label>
         <textarea
@@ -9211,13 +9136,11 @@
     </form>
     <form action="" *ngIf="addFollowUpsCommunicationForm">
       <label for="dateFollowUpsCommunication">Date<sup>*</sup></label>
-      <p-datepicker
-        [(ngModel)]="date11"
-        [iconDisplay]="'input'"
-        [showIcon]="true"
-        inputId="icondisplay"
-        name="dateFollowUpsCommunication"
-      />
+      <shared-date-picker
+        formControlName="dateFollowUpsCommunication"
+        inputId="dateFollowUpsCommunication"
+      >
+      </shared-date-picker>
       <div class="d-flex flex-column">
         <label for="followupDetailsCommunication">Follow Up Details</label
         ><textarea
@@ -9234,23 +9157,19 @@
       <label for="dueDateFollowUpsPointsCommunication"
         >Due Date<sup>*</sup></label
       >
-      <p-datepicker
-        [(ngModel)]="date12"
-        [iconDisplay]="'input'"
-        [showIcon]="true"
-        inputId="icondisplay"
-        name="dueDateFollowUpsPointsCommunication"
-      />
+      <shared-date-picker
+        formControlName="dueDateFollowUpsPointsCommunication"
+        inputId="dueDateFollowUpsPointsCommunication"
+      >
+      </shared-date-picker>
       <label for="actualDateFollowUpsPointsCommunication"
         >Actual Date<sup>*</sup></label
       >
-      <p-datepicker
-        [(ngModel)]="date13"
-        [iconDisplay]="'input'"
-        [showIcon]="true"
-        inputId="icondisplay"
-        name="actualDateFollowUpsPointsCommunication"
-      />
+      <shared-date-picker
+        formControlName="lisenceStartDate"
+        inputId="licenceStartDate"
+      >
+      </shared-date-picker>
       <div class="d-flex flex-column">
         <label for="topicFollowupsPointsCommunication">Topic</label
         ><textarea
@@ -9422,6 +9341,116 @@
         </div>
       </div>
     </form>
+    <form
+      [formGroup]="formGroup"
+      (ngSubmit)="onSubmit()"
+      *ngIf="addOfficerORGForm"
+    >
+      <label for="loginName">Login Name<sup>*</sup></label>
+      <input
+        pInputText
+        id="loginName"
+        aria-describedby="loginName-help"
+        formControlName="loginName"
+        name="loginName"
+        placeholder="Login Name"
+      />
+      <label for="name">Name<sup>*</sup></label>
+      <input
+        pInputText
+        id="name"
+        aria-describedby="name-help"
+        formControlName="name"
+        name="name"
+        placeholder="Name"
+      />
+      <label for="nameAR">Arabic Name<sup>*</sup></label>
+      <input
+        pInputText
+        id="nameAR"
+        aria-describedby="nameAR-help"
+        formControlName="nameAR"
+        name="nameAR"
+        placeholder="Arabic Name"
+      />
+      <label for="title">Title<sup>*</sup></label>
+      <input
+        pInputText
+        id="title"
+        aria-describedby="title-help"
+        formControlName="title"
+        name="title"
+        placeholder="Title"
+      />
+      <label for="titleAr">Arabic Title<sup>*</sup></label>
+      <input
+        pInputText
+        id="titleAr"
+        aria-describedby="titleAr-help"
+        formControlName="titleAr"
+        name="titleAr"
+        placeholder="Arabic Title"
+      />
+      <label for="email">Email<sup>*</sup></label>
+      <input
+        pInputText
+        id="email"
+        aria-describedby="email-help"
+        formControlName="email"
+        name="email"
+        placeholder="Email"
+      />
+      <label for="phoneNumber">Phone Number<sup>*</sup></label>
+      <input
+        pInputText
+        id="phoneNumber"
+        aria-describedby="phoneNumber-help"
+        formControlName="phoneNumber"
+        name="phoneNumber"
+        placeholder="Phone Number"
+      />
+      <div class="p-field" for="isActive" *ngIf="editMode">
+        <p-toggleSwitch
+          id="isActive"
+          formControlName="isActive"
+          label="is Active"
+        ></p-toggleSwitch>
+        <label for="isActive"> Active</label>
+      </div>
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 businesslineDiv"
+          *ngIf="!editMode"
+        >
+          <p-button
+            type="submit"
+            label="Add Business Line"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Business Line"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate(['/lookups/view-business-lines'])"
+          />
+        </div>
+      </div>
+    </form>
     <form action="" *ngIf="addCallShowContactPersonsForm">
       <div class="d-block">
         <div class="d-inline-block divInput">
@@ -9473,13 +9502,11 @@
     </form>
     <form action="" *ngIf="addCallShowBusinessInformationForm">
       <label for="crExpiryDateAddCall">CR Expiry Date<sup>*</sup></label>
-      <p-datepicker
-        [(ngModel)]="date15"
-        [iconDisplay]="'input'"
-        [showIcon]="true"
-        inputId="icondisplay"
-        name="crExpiryDateAddCall"
-      />
+      <shared-date-picker
+        formControlName="crExpiryDateAddCall"
+        inputId="crExpiryDateAddCall"
+      >
+      </shared-date-picker>
       <div class="d-flex flex-column">
         <label for="topicAddCall">Topic</label
         ><textarea
@@ -9670,13 +9697,8 @@
       (ngSubmit)="onSubmit()"
     >
       <label for="startDate">Start Date<sup class="danger">*</sup></label>
-      <p-datepicker
-        [iconDisplay]="'input'"
-        [showIcon]="true"
-        inputId="icondisplay"
-        name="startDate"
-        formControlName="startDate"
-      ></p-datepicker>
+      <shared-date-picker formControlName="startDate" inputId="startDate">
+      </shared-date-picker>
 
       <label for="officerId">Manager<sup>*</sup></label>
       <p-select
@@ -9858,13 +9880,8 @@
       (ngSubmit)="onSubmit()"
     >
       <label for="startDate">Start Date<sup class="danger">*</sup></label>
-      <p-datepicker
-        [iconDisplay]="'input'"
-        [showIcon]="true"
-        inputId="icondisplay"
-        name="startDate"
-        formControlName="startDate"
-      ></p-datepicker>
+      <shared-date-picker formControlName="startDate" inputId="startDate">
+      </shared-date-picker>
 
       <label for="officerId">Manager<sup>*</sup></label>
       <p-select
@@ -9922,13 +9939,8 @@
       (ngSubmit)="onSubmit()"
     >
       <label for="startDate">Start Date<sup class="danger">*</sup></label>
-      <p-datepicker
-        [iconDisplay]="'input'"
-        [showIcon]="true"
-        inputId="icondisplay"
-        name="startDate"
-        formControlName="startDate"
-      ></p-datepicker>
+      <shared-date-picker formControlName="startDate" inputId="startDate">
+      </shared-date-picker>
 
       <label for="officerId">Officer<sup>*</sup></label>
       <p-select
@@ -9986,13 +9998,8 @@
       (ngSubmit)="onSubmit()"
     >
       <label for="startDate">Start Date<sup class="danger">*</sup></label>
-      <p-datepicker
-        [iconDisplay]="'input'"
-        [showIcon]="true"
-        inputId="icondisplay"
-        name="startDate"
-        formControlName="startDate"
-      ></p-datepicker>
+      <shared-date-picker formControlName="startDate" inputId="startDate">
+      </shared-date-picker>
 
       <label for="officerId">Officer<sup>*</sup></label>
       <p-select

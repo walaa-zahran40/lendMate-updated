@@ -1,6 +1,16 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
-import { combineLatest, filter, map, Observable, startWith, Subject, take, takeUntil, tap } from 'rxjs';
+import {
+  combineLatest,
+  filter,
+  map,
+  Observable,
+  startWith,
+  Subject,
+  take,
+  takeUntil,
+  tap,
+} from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OfficersFacade } from '../../../store/officers/officers.facade';
 import { Officer } from '../../../store/officers/officer.model';
@@ -28,7 +38,7 @@ export class ViewDepartmentManagerComponent implements OnInit, OnDestroy {
   readonly colsInside = [
     { field: 'managerName', header: 'Manager' },
     { field: 'startDate', header: 'Start Date' },
-   { field: 'isCurrent', header: 'Is Current' },
+    { field: 'isCurrent', header: 'Is Current' },
   ];
 
   showDeleteModal = false;
@@ -47,74 +57,92 @@ export class ViewDepartmentManagerComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-  // 1) Grab route param
-  const raw = this.route.snapshot.paramMap.get('departmentId');
-  this.departmentIdParam = raw !== null ? Number(raw) : undefined;
-  console.log('[View] ngOnInit → departmentIdParam =', this.departmentIdParam);
+    // 1) Grab route param
+    const raw = this.route.snapshot.paramMap.get('departmentId');
+    this.departmentIdParam = raw !== null ? Number(raw) : undefined;
+    console.log(
+      '[View] ngOnInit → departmentIdParam =',
+      this.departmentIdParam
+    );
 
-  if (this.departmentIdParam == null || isNaN(this.departmentIdParam)) {
-    console.error('❌ Missing or invalid departmentIdParam! Cannot load department managers.');
-    return;
+    if (this.departmentIdParam == null || isNaN(this.departmentIdParam)) {
+      console.error(
+        '❌ Missing or invalid departmentIdParam! Cannot load department managers.'
+      );
+      return;
+    }
+
+    // 2) Select officers BEFORE dispatching loadAll (so stream exists early)
+    this.officersList$ = this.store.select(selectOfficers).pipe(
+      tap((officers) =>
+        console.log('[Debug] officersList$ emitted →', officers)
+      ),
+      startWith([]) // guarantees first emission
+    );
+
+    // 3) Load officers
+    this.officersFacade.loadAll();
+
+    // 4) Load department managers
+    console.log(
+      '[View] dispatching loadDepartmentManagersByDepartmentId(',
+      this.departmentIdParam,
+      ')'
+    );
+    this.facade.loadDepartmentManagersByDepartmentId(this.departmentIdParam);
+    this.departmentManagers$ = this.facade.items$;
+
+    // 5) Inspect initial values
+    this.departmentManagers$.pipe(take(1)).subscribe(
+      (items) => console.log('[Debug] items$ emitted →', items),
+      (err) => console.error('[Debug] items$ error →', err)
+    );
+
+    // 6) Combine and enrich
+    combineLatest([
+      this.facade.items$.pipe(
+        startWith({ items: [], totalCount: 0 }),
+        tap((response) =>
+          console.log('[Debug] items$ inside combineLatest →', response)
+        )
+      ),
+      this.officersList$.pipe(
+        startWith([]),
+        tap((officers) =>
+          console.log('[Debug] officersList$ inside combineLatest →', officers)
+        )
+      ),
+    ])
+      .pipe(
+        map(([response, officers]) => {
+          const departmentManagers = Array.isArray(response)
+            ? response
+            : response.items ?? [];
+          const enriched = departmentManagers
+            .map((dm) => ({
+              ...dm,
+              managerName:
+                officers.find((officer) => officer.id === dm.officerId)?.name ||
+                '—',
+            }))
+            .sort((a, b) => b.id - a.id);
+
+          console.log('[View] enriched departmentManagers →', enriched);
+          return enriched;
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe({
+        next: (enriched) => {
+          console.log('[Subscribe] setting managers →', enriched);
+          this.originalDepartmentManagers = enriched;
+          this.filteredDepartmentManagers = [...enriched];
+        },
+        error: (err) => {
+          console.error('[Error] combineLatest failed →', err);
+        },
+      });
   }
-
-  // 2) Select officers BEFORE dispatching loadAll (so stream exists early)
-  this.officersList$ = this.store.select(selectOfficers).pipe(
-    tap(officers => console.log('[Debug] officersList$ emitted →', officers)),
-    startWith([]) // guarantees first emission
-  );
-
-  // 3) Load officers
-  this.officersFacade.loadAll();
-
-  // 4) Load department managers
-  console.log('[View] dispatching loadDepartmentManagersByDepartmentId(', this.departmentIdParam, ')');
-  this.facade.loadDepartmentManagersByDepartmentId(this.departmentIdParam);
-  this.departmentManagers$ = this.facade.items$;
-  
-  // 5) Inspect initial values
-  this.departmentManagers$.pipe(take(1)).subscribe(
-    items => console.log('[Debug] items$ emitted →', items),
-    err => console.error('[Debug] items$ error →', err)
-  );
-
-  // 6) Combine and enrich
-  combineLatest([
-  this.facade.items$.pipe(
-    startWith({ items: [], totalCount: 0 }),
-    tap(response => console.log('[Debug] items$ inside combineLatest →', response))
-  ),
-  this.officersList$.pipe(
-    startWith([]),
-    tap(officers => console.log('[Debug] officersList$ inside combineLatest →', officers))
-  )
-])
-.pipe(
-  map(([response, officers]) => {
-    const departmentManagers = Array.isArray(response)
-      ? response
-      : response.items ?? [];
-    const enriched = departmentManagers.map(dm => ({
-      ...dm,
-      managerName: officers.find(officer => officer.id === dm.officerId)?.name || '—',
-    })).sort((a, b) => b.id - a.id);
-
-    console.log('[View] enriched departmentManagers →', enriched);
-    return enriched;
-  }),
-  takeUntil(this.destroy$)
-)
-.subscribe({
-  next: enriched => {
-    console.log('[Subscribe] setting managers →', enriched);
-    this.originalDepartmentManagers = enriched;
-    this.filteredDepartmentManagers = [...enriched];
-  },
-  error: err => {
-    console.error('[Error] combineLatest failed →', err);
-  }
-});
-
-}
   onAddDepartmentManager() {
     const departmentIdParam = this.route.snapshot.paramMap.get('departmentId');
     this.router.navigate(['/organizations/add-department-managers'], {
@@ -157,12 +185,12 @@ export class ViewDepartmentManagerComponent implements OnInit, OnDestroy {
 
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
-    this.filteredDepartmentManagers =
-      this.originalDepartmentManagers.filter((departmentManager) =>
+    this.filteredDepartmentManagers = this.originalDepartmentManagers.filter(
+      (departmentManager) =>
         Object.values(departmentManager).some((val) =>
           val?.toString().toLowerCase().includes(lower)
         )
-      );
+    );
   }
 
   onToggleFilters(value: boolean) {
