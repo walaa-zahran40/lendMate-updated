@@ -6,7 +6,7 @@ import { AddClientComponent } from './components/add-client/add-client.component
 import { AddContactPersonComponent } from './components/add-contact-person/add-contact-person.component';
 import { AddCrAuthorityOfficeComponent } from './components/add-cr-authority-office/add-cr-authority-office.component';
 import { AddPhoneNumberComponent } from './components/add-phone-number/add-phone-number.component';
-import { AddSalesTurnoverComponent } from './components/add-sales-turnover/add-sales-turnover.component';
+import { AddSalesTurnoverComponent } from './components/add-client-sales-turnover/add-client-sales-turnover.component';
 import { AddShareHoldersComponent } from './components/add-share-holders/add-share-holders.component';
 import {
   reducer as clientCRAuthorityOfficesReducer,
@@ -60,11 +60,6 @@ import { clientFileReducer } from './store/client-file/client-file.reducer';
 import { ClientFileEffects } from './store/client-file/client-file.effects';
 import { documentTypeReducer } from './store/document-type/document-type.reducer';
 import { DocumentTypeEffects } from './store/document-type/document-type.effects';
-import { ClientSalesTurnoversEffects } from './store/turnover/client-sales-turnovers.effects';
-import {
-  clientSalesTurnoversFeatureKey,
-  reducer,
-} from './store/turnover/client-sales-turnovers.reducer';
 import { ContactPersonEffects } from './store/contact-person/contact-person.effects';
 import {
   contactPersonsFeatureKey,
@@ -163,16 +158,13 @@ import { WizardClientStatusComponent } from './components/wizard-client-status/w
     EffectsModule.forFeature([ClientFileEffects]),
     StoreModule.forFeature('documentTypes', documentTypeReducer),
     EffectsModule.forFeature([DocumentTypeEffects]),
-    StoreModule.forFeature(clientSalesTurnoversFeatureKey, reducer),
-    EffectsModule.forFeature([ClientSalesTurnoversEffects]),
     StoreModule.forFeature(contactPersonsFeatureKey, contactPersonsReducer),
     EffectsModule.forFeature([ContactPersonEffects]),
     StoreModule.forFeature(
       clientCRAuthorityOfficesFeatureKey,
       clientCRAuthorityOfficesReducer
     ),
-    EffectsModule.forFeature([ClientCRAuthorityOfficeEffects]),
-    StoreModule.forFeature(clientCentralBankFeatureKey, reducer),
+    
     EffectsModule.forFeature([ClientCentralBankEffects]),
     StoreModule.forFeature('clientShareholders', clientShareholdersReducer),
     EffectsModule.forFeature([ClientShareholdersEffects]),
