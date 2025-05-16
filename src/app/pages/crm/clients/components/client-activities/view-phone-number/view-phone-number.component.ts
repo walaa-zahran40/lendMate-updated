@@ -1,10 +1,12 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Subject, Observable, combineLatest, map, takeUntil, filter, tap } from 'rxjs';
-import { ClientSalesTurnover } from '../../../store/client-sales-turnovers/client-sales-turnovers.model';
+import { Subject, Observable, combineLatest, map, takeUntil, filter, tap, of } from 'rxjs';
 import { TableComponent } from '../../../../../../shared/components/table/table.component';
-import { ClientSalesTurnoversFacade } from '../../../store/client-sales-turnovers/client-sales-turnovers.facade';
+import { ClientPhoneNumber } from '../../../store/client-phone-numbers/client-phone-number.model';
+import { ClientPhoneNumbersFacade } from '../../../store/client-phone-numbers/client-phone-numbers.facade';
+import { PhoneTypesFacade } from '../../../../../lookups/store/phone-types/phone-types.facade';
+import { PhoneType } from '../../../../../lookups/store/phone-types/phone-type.model';
 
 
 @Component({
@@ -14,7 +16,7 @@ import { ClientSalesTurnoversFacade } from '../../../store/client-sales-turnover
   styleUrl: './view-phone-number.component.scss',
 })
 export class ViewPhoneNumberComponent implements OnInit, OnDestroy {
-  tableDataInside: ClientSalesTurnover[] = [];
+  tableDataInside: ClientPhoneNumber[] = [];
   first2 = 0;
   rows = 10;
   showFilters = false;
@@ -24,20 +26,22 @@ export class ViewPhoneNumberComponent implements OnInit, OnDestroy {
   @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
-    { field: 'amount', header: 'Amount' },
-    { field: 'date', header: 'Start Date' }
+    { field: 'phoneTypeName', header: 'phone Type' },
+    { field: 'phoneNumber', header: 'phone Number' }
   ];
 
   showDeleteModal = false;
-  selectedClientSalesTurnoverId: number | null = null;
-  originalClientSalesTurnovers: ClientSalesTurnover[] = [];
-  filteredClientSalesTurnovers: ClientSalesTurnover[] = [];
+  selectedClientPhoneNumberId: number | null = null;
+  originalClientPhoneNumbers: ClientPhoneNumber[] = [];
+  filteredClientPhoneNumbers: ClientPhoneNumber[] = [];
 
-  clientSalesTurnovers$!: Observable<ClientSalesTurnover[]>;
+  clientPhoneNumbers$!: Observable<ClientPhoneNumber[]>;
+  phoneTypes$!: Observable<PhoneType[]>;
 
   constructor(
     private router: Router,
-    private facade: ClientSalesTurnoversFacade,
+    private facade: ClientPhoneNumbersFacade,
+    private phoneNumberTypesFacade: PhoneTypesFacade,
     private route: ActivatedRoute,
   ) {}
 
@@ -46,10 +50,12 @@ export class ViewPhoneNumberComponent implements OnInit, OnDestroy {
     const raw = this.route.snapshot.paramMap.get('clientId');
     this.clientIdParam = raw !== null ? Number(raw) : undefined;
     console.log('[View] ngOnInit → clientIdParam =', this.clientIdParam);
-  
 
     this.facade.loadByClientId(this.clientIdParam);
-    this.clientSalesTurnovers$ = this.facade.items$;
+    this.clientPhoneNumbers$ = this.facade.items$;
+
+    this.phoneNumberTypesFacade.loadAll();
+    this.phoneTypes$ = this.phoneNumberTypesFacade.all$;
 
     if (this.clientIdParam == null || isNaN(this.clientIdParam)) {
       console.error(
@@ -58,32 +64,43 @@ export class ViewPhoneNumberComponent implements OnInit, OnDestroy {
       return;
     }
 
- this.clientSalesTurnovers$
-      .pipe(
-        takeUntil(this.destroy$),
-        tap((list) => console.log('🧾 list before map:', list)),
-        map((list) =>
-          list
-         
-        )
-      )
-      .subscribe((sales) => {
-          console.log('📦 Raw sales data:', sales);
+    combineLatest([
+  this.clientPhoneNumbers$ ?? of([]),
+  this.phoneTypes$ ?? of([])
+])
+.pipe(
+  map(([clientPhoneNumbers, phoneTypes]) => {
+    console.log('📦 Raw clientPhoneNumbers:', clientPhoneNumbers);
+    console.log('📦 Raw phoneTypes:', phoneTypes);
 
-  const sorted = [...sales].sort((a, b) => b?.id - a?.id);
-  this.originalClientSalesTurnovers = sorted;
-  this.filteredClientSalesTurnovers = [...sorted];
-  console.log('filtered', this.filteredClientSalesTurnovers);
-      });
- 
-    
+    return clientPhoneNumbers
+      .map((ss) => {
+        const matchedPhoneType = phoneTypes.find(
+          (pt) => pt.id === ss.phoneTypeId
+        );
+
+        return {
+          ...ss,
+          phoneTypeName: matchedPhoneType?.name ?? '—',
+        };
+      })
+      .filter((ft) => ft.isActive)
+      .sort((a, b) => b.id - a.id);
+  }),
+  takeUntil(this.destroy$)
+)
+.subscribe((result) => {
+  console.log('✅ Final result:', result);
+  this.filteredClientPhoneNumbers = result;
+  this.originalClientPhoneNumbers = result;
+});
   }
 
-  onAddClientSalesTurnover() {
+  onAddClientPhoneNumber() {
    console.log('edioyt', this.clientIdParam);
    const routeId=this.route.snapshot.paramMap.get('clientId')
     this.router.navigate(
-      ['crm/clients/add-sales-turnover', routeId],
+      ['crm/clients/add-phone-number', routeId],
       {
         queryParams: {
           mode: 'add',
@@ -93,23 +110,24 @@ export class ViewPhoneNumberComponent implements OnInit, OnDestroy {
     );
   }
 
+
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
   }
 
-  onDeleteClientSalesTurnover(clientSalesTurnoverId: number): void {
+  onDeleteClientPhoneNumber(clientPhoneNumberId: number): void {
     console.log(
-      '[View] onDeleteClientSalesTurnover() – opening modal for id=',
-      clientSalesTurnoverId
+      '[View] onDeleteClientPhoneNumber() – opening modal for id=',
+      clientPhoneNumberId
     );
-    this.selectedClientSalesTurnoverId = clientSalesTurnoverId;
+    this.selectedClientPhoneNumberId = clientPhoneNumberId;
     this.showDeleteModal = true;
   }
 
   confirmDelete() {
-    if (this.selectedClientSalesTurnoverId != null) {
-      this.facade.delete(this.selectedClientSalesTurnoverId, this.clientIdParam);
+    if (this.selectedClientPhoneNumberId != null) {
+      this.facade.delete(this.selectedClientPhoneNumberId, this.clientIdParam);
     }
     this.resetDeleteModal();
   }
@@ -120,12 +138,12 @@ export class ViewPhoneNumberComponent implements OnInit, OnDestroy {
 
   resetDeleteModal() {
     this.showDeleteModal = false;
-    this.selectedClientSalesTurnoverId = null;
+    this.selectedClientPhoneNumberId = null;
   }
 
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
-    this.filteredClientSalesTurnovers = this.originalClientSalesTurnovers.filter(
+    this.filteredClientPhoneNumbers = this.originalClientPhoneNumbers.filter(
       (clientSales) =>
         Object.values(clientSales).some((val) =>
           val?.toString().toLowerCase().includes(lower)
@@ -137,10 +155,10 @@ export class ViewPhoneNumberComponent implements OnInit, OnDestroy {
     this.showFilters = value;
   }
 
-  onEditClientSalesTurnover(clientSales: ClientSalesTurnover) {
+  onEditClientPhoneNumber(clientSales: ClientPhoneNumber) {
     console.log('edioyt', this.clientIdParam);
     this.router.navigate(
-      ['crm/clients/edit-sales-turnover', clientSales.id],
+      ['crm/clients/edit-phone-number', clientSales.id],
       {
         queryParams: {
           mode: 'edit',
@@ -150,10 +168,10 @@ export class ViewPhoneNumberComponent implements OnInit, OnDestroy {
     );
   }
 
-  onViewClientSalesTurnover(clientSales: ClientSalesTurnover) {
+  onViewClientPhoneNumber(clientSales: ClientPhoneNumber) {
 console.log('route',this.route.snapshot)
     this.router.navigate(
-      ['crm/clients/edit-sales-turnover', clientSales.id],
+      ['crm/clients/edit-phone-number', clientSales.id],
       {
         queryParams: {
           mode: 'view',

@@ -78,6 +78,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() countriesList: any;
   @Input() assetTypeCategories: any;
   @Input() feeCalculationTypes: any;
+  @Input() phoneTypes: any;
   @Input() teamDepartments: any;
   @Input() governoratesList: any;
   @Input() areasList: any;
@@ -215,7 +216,6 @@ export class FormComponent implements OnInit, OnDestroy {
   selectedGenders!: any;
   countries!: any;
   selectedCountries!: any;
-  phoneTypes!: any;
   selectedPhoneTypes!: any;
   legalForm!: any;
   selectedDocumentTypes!: any;
@@ -385,6 +385,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() uploadDocumentsShowMain!: boolean;
   @Input() addSalesShowMain!: boolean;
   @Input() addPhoneNumbersShowMain!: boolean;
+  @Input() addClientPhoneNumberForm!: boolean;
   @Input() addContactPersonShowMain!: boolean;
   @Input() clientOnboarding!: boolean;
   @Input() clientOnboardingShowIndividual!: boolean;

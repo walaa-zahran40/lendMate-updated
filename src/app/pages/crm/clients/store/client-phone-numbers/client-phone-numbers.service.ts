@@ -40,7 +40,7 @@ export class ClientPhoneNumbersService {
 
   create(data: Partial<ClientPhoneNumber>): Observable<ClientPhoneNumber> {
     return this.http.post<ClientPhoneNumber>(
-      `${this.api}/CreateClientPhoneNumbers`,
+      `${this.api}/CreateClientPhoneNumber`,
       data
     );
   }
@@ -53,9 +53,10 @@ export class ClientPhoneNumbersService {
     return this.http.delete<void>(`${this.api}/${id}`);
   }
   getByClientId(clientId: number): Observable<ClientPhoneNumber[]> {
-    return this.http.get<ClientPhoneNumber[]>(
-      `${this.api}/GetByClientId/${clientId}`
-    );
-  }
+  return this.http.get<ClientPhoneNumber[]>(
+    `${this.api}/ClientId`,
+    { params: { clientId: clientId.toString() } }
+  );
+}
 }
 

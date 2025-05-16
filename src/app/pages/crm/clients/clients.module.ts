@@ -85,6 +85,8 @@ import { subSectorReducer } from './store/sub-sector-drop-down/sub-sector.reduce
 import { ClientSalesTurnoversEffects } from './store/client-sales-turnovers/client-sales-turnovers.effects';
 import { clientSalesTurnoverReducer } from './store/client-sales-turnovers/client-sales-turnovers.reducer';
 import { SharedModule } from '../../../shared/shared.module';
+import { ClientPhoneNumbersEffects } from './store/client-phone-numbers/client-phone-numbers.effects';
+import { clientPhoneNumberReducer } from './store/client-phone-numbers/client-phone-numbers.reducer';
 
 @NgModule({
   declarations: [
@@ -167,6 +169,9 @@ import { SharedModule } from '../../../shared/shared.module';
     EffectsModule.forFeature([ClientIdentitiesEffects]),
     StoreModule.forFeature('clientSalesTurnovers', clientSalesTurnoverReducer),
     EffectsModule.forFeature([ClientSalesTurnoversEffects]),
+
+    StoreModule.forFeature('clientPhoneNumbers', clientPhoneNumberReducer),
+    EffectsModule.forFeature([ClientPhoneNumbersEffects]),
 
     StoreModule.forFeature(
       CLIENT_IDENTITY_TYPES_FEATURE_KEY,

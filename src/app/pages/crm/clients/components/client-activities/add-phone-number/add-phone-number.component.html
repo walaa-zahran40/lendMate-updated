@@ -5,6 +5,7 @@
         [title]="'Main Information'"
         [description]="'Client Phone Number'"
         [addClientPhoneNumberForm]="true"
+        [phoneTypes]="phoneTypes$ | async"
         [formGroup]="addClientPhoneNumberForm"
         (submitForm)="addOrEditClientPhoneNumber()"
         [editMode]="editMode"

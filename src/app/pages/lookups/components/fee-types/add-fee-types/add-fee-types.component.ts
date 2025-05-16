@@ -29,7 +29,6 @@ export class AddFeeTypesComponent {
     private facade: FeeTypesFacade,
     private router: Router,
     private store: Store,
-    private facadeCalc: FeeCalculationTypesFacade
   ) {}
 
   ngOnInit() {

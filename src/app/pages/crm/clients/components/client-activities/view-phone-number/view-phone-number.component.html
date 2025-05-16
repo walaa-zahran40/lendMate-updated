@@ -7,18 +7,18 @@
     [backExists]="true"
     [customSpacing]="'custom-spacing'"
     [exports]="true"
-    (addBtn)="onAddClientSalesTurnover()"
+    (addBtn)="onAddClientPhoneNumber()"
     (searchChange)="onSearch($event)"
     (toggleFiltersEvent)="onToggleFilters($event)"
     (exportExcel)="tableRef.exportToExcel()"
     (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
 
-  <ng-container *ngIf="clientSalesTurnovers$ | async as clientSalesTurnovers">
+  <ng-container *ngIf="clientPhoneNumbers$ | async as clientPhoneNumbers">
     <app-table
       #tableRef
       [cols]="colsInside"
-      [tableData]="filteredClientSalesTurnovers"
+      [tableData]="filteredClientPhoneNumbers"
       [edit]="true"
       [delete]="true"
       [side]="false"
@@ -28,10 +28,9 @@
       [filters]="showFilters"
       [uppercase]="'uppercase'"
       [viewSalesTurnoverTable]="true"
-      
-      (onDelete)="onDeleteClientSalesTurnover($event)"
-      (onEdit)="onEditClientSalesTurnover($event)"
-      (viewForm)="onViewClientSalesTurnover($event)"
+      (onDelete)="onDeleteClientPhoneNumber($event)"
+      (onEdit)="onEditClientPhoneNumber($event)"
+      (viewForm)="onViewClientPhoneNumber($event)"
     ></app-table>
     <app-delete-module
       [visible]="showDeleteModal"

@@ -2,8 +2,9 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Subject, takeUntil, filter } from "rxjs";
-import { ClientPhoneNumbersFacade } from "../../store/client-phone-numbers/client-phone-numbers.facade";
-import { ClientPhoneNumber } from "../../store/client-phone-numbers/client-phone-number.model";
+import { ClientPhoneNumbersFacade } from "../../../store/client-phone-numbers/client-phone-numbers.facade";
+import { ClientPhoneNumber } from "../../../store/client-phone-numbers/client-phone-number.model";
+import { PhoneTypesFacade } from "../../../../../lookups/store/phone-types/phone-types.facade";
 
 @Component({
   selector: 'app-add-phone-number',
@@ -23,21 +24,25 @@ export class AddPhoneNumberComponent implements OnInit, OnDestroy {
   mode!: 'add' | 'edit' | 'view';
   parentClientId!: number;
   recordId!: number;
-
+  phoneTypes$!: any;
   private destroy$ = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private clientPhoneNumberFacade: ClientPhoneNumbersFacade,
+    private phoneTypesFacade: PhoneTypesFacade,
     private router: Router
   ) {}
 
   ngOnInit() {
+    this.phoneTypesFacade.loadAll()
+    this.phoneTypes$ = this.phoneTypesFacade.all$;
     // Read mode and set flags
     this.mode = (this.route.snapshot.queryParamMap.get('mode') as any) ?? 'add';
     this.editMode = this.mode === 'edit';
     this.viewOnly = this.mode === 'view';
+
 
     // Read IDs
     this.parentClientId = Number(
@@ -51,8 +56,8 @@ export class AddPhoneNumberComponent implements OnInit, OnDestroy {
 
     // Build form with clientId
     this.addClientPhoneNumberForm = this.fb.group({
-      amount: [null, Validators.required],
-      date: [null, Validators.required]
+       phoneTypeId: [null, Validators.required],
+  phoneNumber: [null, Validators.required],
       });
    
       this.addClientPhoneNumberForm.patchValue({
@@ -71,8 +76,8 @@ export class AddPhoneNumberComponent implements OnInit, OnDestroy {
           this.addClientPhoneNumberForm.patchValue({
             id: rec.id,
             clientId: this.route.snapshot.queryParamMap.get('clientId'),
-            amount : rec.amount,
-            date: new Date(rec.date)
+            phoneNumberTypeId : rec.phoneTypeId,
+            phoneNumber : rec.phoneNumber
           });
         });
     }
@@ -102,10 +107,12 @@ export class AddPhoneNumberComponent implements OnInit, OnDestroy {
     // 6) The actual payload
   const formValue = this.addClientPhoneNumberForm.value;
 
+  console.log("arwaa" , formValue[0])
   const data: Partial<ClientPhoneNumber> = {
     clientId: Number(this.route.snapshot.paramMap.get('clientId')),
-    amount : formValue.amount,
-    date: formValue.date
+    phoneTypeId : formValue.phoneTypeId,
+    phoneNumber : formValue.phoneNumber,
+       isActive : true
   };
 
   console.log(
@@ -125,8 +132,9 @@ else {
   const updateData: ClientPhoneNumber = {
     id: this.recordId,
     clientId: this.parentClientId,
-    amount : formValue.amount,
-    date: formValue.date
+    phoneTypeId : formValue.phoneTypeId,
+    phoneNumber: formValue.phoneNumber,
+    isActive : true
   };
 
   console.log(
