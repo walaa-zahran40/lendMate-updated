@@ -1,15 +1,15 @@
-import { BranchAddress } from './role-claim.model';
+import { RoleClaim } from './role-claim.model';
 
-export interface BranchAddressesState {
-  items: BranchAddress[];
-  history: BranchAddress[];
-  current?: BranchAddress;
+export interface RoleClaimsState {
+  items: RoleClaim[];
+  history: RoleClaim[];
+  current?: RoleClaim;
   loading: boolean;
   error: any;
   totalCount: number;
 }
 
-export const initialBranchAddressesState: BranchAddressesState = {
+export const initialRoleClaimsState: RoleClaimsState = {
   items: [],
   history: [],
   current: undefined,

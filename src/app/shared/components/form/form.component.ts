@@ -34,11 +34,18 @@ import { setFormDirty } from '../../../pages/crm/clients/store/client-form/clien
 import { FileUpload } from 'primeng/fileupload';
 import { LegalFormLawFacade } from '../../../pages/crm/clients/store/legal-form-law/legal-form-law.facade';
 import { LegalFormsFacade } from '../../../pages/legals/store/legal-forms/legal-forms.facade';
+import { PageOperation } from '../../../pages/organizations/store/page-operations/page-operation.model';
+import { RoleClaim } from '../../../pages/organizations/store/roles/role-claims/role-claim.model';
 export interface IdentityEntry {
   identificationNumber: string;
   selectedIdentities: any[];
   isMain: boolean;
 }
+interface PageOperationGroup {
+  pageName: string;
+  pageOperations: PageOperation[];
+}
+
 @Component({
   selector: 'app-form',
   standalone: false,
@@ -55,6 +62,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() applyReusable: boolean = false;
   @Input() selectedFile!: any;
   @Input() title: string = '';
+  @Input() pageOperationGroups$!: Observable<PageOperationGroup[]>;
 
   @Input() description: string = '';
   @Input() addClientShowMain?: boolean;
@@ -79,7 +87,7 @@ export class FormComponent implements OnInit, OnDestroy {
   selectedLegalFormLawId: number | null = null;
   @Input() legalFormId: number | null = null;
   @Input() officersList: any;
-
+  @Input() pageIds: any;
   selectedLegalForm: any;
   @Output() sectorChanged = new EventEmitter<number>();
 
@@ -320,8 +328,6 @@ export class FormComponent implements OnInit, OnDestroy {
       key: 'A',
     },
   ];
-  @Input() pagesList: any;
-  @Input() operationsList: any;
 
   selectedOperations: any[] = [
     {
@@ -427,6 +433,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addDepartmentManagerORGForm!: boolean;
   @Input() addTeamORGForm!: boolean;
   @Input() addTeamLeadORGForm!: boolean;
+  @Input() addRoleClaimORGForm!: boolean;
   @Input() addCommunicationFlowTypesLookupsForm!: boolean;
   @Input() addTeamOfficerORGForm!: boolean;
   @Input() addRoleORGForm!: boolean;
@@ -490,6 +497,8 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addOfficersForm!: boolean;
   @Input() addDepartmentsForm!: boolean;
   filteredSubSectors$!: Observable<SubSectors[]>;
+  @Input() operationName!: string;
+
   legalFormLaws$: Observable<LegalFormLaw[]> = this.facade.legalFormLaws$;
   // legalForms$ = this.facadeLegalForms.legalForms$;
   @Input() identityIndividual: {
@@ -507,7 +516,12 @@ export class FormComponent implements OnInit, OnDestroy {
   @Output() submitForm = new EventEmitter<void>();
   @Input() editMode: boolean = false;
   private sub!: Subscription;
-clientId:any;
+  roleIdParam: any;
+  @Input() pagesList: any;
+  @Input() operationsList: any;
+  @Input() operationsList$!: any;
+  @Input() operationIdValue!: any;
+  clientId: any;
   constructor(
     private store: Store,
     private facade: LegalFormLawFacade,
@@ -519,11 +533,13 @@ clientId:any;
   ngOnInit() {
     console.log('currency', this.route.snapshot);
     this.id = this.route.snapshot.paramMap.get('clientId')!;
-     this.clientId = this.route.snapshot.queryParams['clientId']!;
+    this.clientId = this.route.snapshot.queryParams['clientId']!;
     this.currencyIdParam = this.route.snapshot.queryParams['currencyId'];
     this.branchIdParam = this.route.snapshot.queryParams['branchId'];
     this.departmentIdParam = this.route.snapshot.queryParams['departmentId'];
     this.teamIdParam = this.route.snapshot.queryParams['teamId'];
+    this.roleIdParam = this.route.snapshot.queryParams['roleId'];
+
     this.sub = this.formGroup?.valueChanges
       .pipe(debounceTime(300))
       .subscribe(() => {
@@ -594,6 +610,12 @@ clientId:any;
     //     }
     //   });
   }
+  get operationsLabel(): string {
+    if (!this.operationsList || this.operationsList.length === 0) {
+      return 'Select an operation';
+    }
+    return this.operationsList.map((po: any) => po.operation.name).join(', ');
+  }
 
   get subSectorList(): FormControl {
     return this.formGroup.get('subSectorIdList') as FormControl;
@@ -646,11 +668,21 @@ clientId:any;
     ]);
   }
 
-
-   viewTeamOfficers() {
+  viewTeamOfficers() {
     this.router.navigate([
       `/organizations/view-team-officers/${this.teamIdParam}`,
     ]);
+  }
+  onOpToggle(opId: number, checked: any) {
+    const ctrl = this.formGroup.get('operationIds')!;
+    const selected: number[] = [...ctrl.value];
+    if (checked) {
+      if (!selected.includes(opId)) selected.push(opId);
+    } else {
+      const idx = selected.indexOf(opId);
+      if (idx >= 0) selected.splice(idx, 1);
+    }
+    ctrl.setValue(selected);
   }
 
   viewBranchOfficers() {
@@ -728,6 +760,11 @@ clientId:any;
   viewRoles() {
     this.router.navigate(['/organizations/view-roles']);
   }
+  viewRoleClaims() {
+    this.router.navigate([
+      `/organizations/view-role-claims/${this.roleIdParam}`,
+    ]);
+  }
   viewTeamMember() {
     this.router.navigate(['/crm/clients/view-team-member']);
   }
@@ -789,8 +826,8 @@ clientId:any;
     this.router.navigate(['/crm/clients/view-phone-number']);
   }
   viewSalesTurnover() {
-    console.log("hello from arwa ", this.id)
-    this.router.navigate(['/crm/clients/view-sales-turnover/' , this.id ]);
+    console.log('hello from arwa ', this.clientId);
+    this.router.navigate(['/crm/clients/view-sales-turnover/', this.clientId]);
   }
   viewAddressDetails() {
     this.router.navigate(['/crm/clients/view-address'], {

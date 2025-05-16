@@ -37,18 +37,12 @@ export class TeamOfficersEffects {
       mergeMap(() =>
         this.service.getHistory().pipe(
           map((resp) =>
-            TeamOfficerActions.loadTeamOfficersHistorySuccess(
-              {
-                history: resp.items,
-              }
-            )
+            TeamOfficerActions.loadTeamOfficersHistorySuccess({
+              history: resp.items,
+            })
           ),
           catchError((error) =>
-            of(
-              TeamOfficerActions.loadTeamOfficersHistoryFailure(
-                { error }
-              )
-            )
+            of(TeamOfficerActions.loadTeamOfficersHistoryFailure({ error }))
           )
         )
       )
@@ -114,9 +108,9 @@ export class TeamOfficersEffects {
               teamId: data.teamId!,
             };
             console.log('[Effect:update] enriched team →', enriched);
-            return TeamOfficerActions.updateTeamOfficerSuccess(
-              { team: enriched }
-            );
+            return TeamOfficerActions.updateTeamOfficerSuccess({
+              team: enriched,
+            });
           }),
           catchError((error) =>
             of(
@@ -154,27 +148,28 @@ export class TeamOfficersEffects {
   );
 
   // After any create/update/delete success: reload by teamId
- refreshList$ = createEffect(() =>
+  refreshList$ = createEffect(() =>
     this.actions$.pipe(
       ofType(
         TeamOfficerActions.createTeamOfficerSuccess,
         TeamOfficerActions.updateTeamOfficerSuccess,
         TeamOfficerActions.deleteTeamOfficerSuccess
       ),
- 
-      map(action => {
-      if ('team' in action) {
-        // for create/update you returned `{ team: TeamOfficer }`,
-        // so dig into that object’s teamId
-        return action.team;
-      } else {
-        // for delete you returned `{ id, teamId }`
-        return action.teamId;
-      }
-    }),
- 
+
+      tap((action) =>
+        console.log('[RefreshList] triggered by action:', action)
+      ),
+
+      // pull out the right number
+      map((action) => {
+        const teamId = 'team' in action ? action.team.teamId : action.teamId;
+        console.log('[RefreshList] extracted teamId →', teamId);
+        return teamId;
+      }),
+
       // only continue if it’s a number
- filter((teamId):teamId is number=> typeof teamId==='number'),
+      filter((teamId): teamId is number => typeof teamId === 'number'),
+
       map((teamId) =>
         TeamOfficerActions.loadTeamOfficersByTeamId({
           teamId,
@@ -202,17 +197,13 @@ export class TeamOfficersEffects {
           tap((items) =>
             console.log('[Effect:loadByTeamId] response →', items)
           ),
-          map((items) =>
-            TeamOfficerActions.loadTeamOfficersByTeamIdSuccess(
-              { items }
-            )
+          map((resp) =>
+            TeamOfficerActions.loadTeamOfficersByTeamIdSuccess({
+              items: resp.items, // now resp.items is typed correctly
+            })
           ),
           catchError((error) =>
-            of(
-              TeamOfficerActions.loadTeamOfficersByTeamIdFailure(
-                { error }
-              )
-            )
+            of(TeamOfficerActions.loadTeamOfficersByTeamIdFailure({ error }))
           )
         )
       )

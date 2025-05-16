@@ -37,17 +37,15 @@ export class TeamLeadOfficersEffects {
       mergeMap(() =>
         this.service.getHistory().pipe(
           map((resp) =>
-            TeamLeadOfficerActions.loadTeamLeadOfficersHistorySuccess(
-              {
-                history: resp.items,
-              }
-            )
+            TeamLeadOfficerActions.loadTeamLeadOfficersHistorySuccess({
+              history: resp.items,
+            })
           ),
           catchError((error) =>
             of(
-              TeamLeadOfficerActions.loadTeamLeadOfficersHistoryFailure(
-                { error }
-              )
+              TeamLeadOfficerActions.loadTeamLeadOfficersHistoryFailure({
+                error,
+              })
             )
           )
         )
@@ -114,9 +112,9 @@ export class TeamLeadOfficersEffects {
               teamId: data.teamId!,
             };
             console.log('[Effect:update] enriched team →', enriched);
-            return TeamLeadOfficerActions.updateTeamLeadOfficerSuccess(
-              { team: enriched }
-            );
+            return TeamLeadOfficerActions.updateTeamLeadOfficerSuccess({
+              team: enriched,
+            });
           }),
           catchError((error) =>
             of(
@@ -168,16 +166,13 @@ export class TeamLeadOfficersEffects {
 
       // pull out the right number
       map((action) => {
-        const teamId =
-          'team' in action ? action.team.teamId : action.teamId;
+        const teamId = 'team' in action ? action.team.teamId : action.teamId;
         console.log('[RefreshList] extracted teamId →', teamId);
         return teamId;
       }),
 
       // only continue if it’s a number
-      filter(
-        (teamId): teamId is number => typeof teamId === 'number'
-      ),
+      filter((teamId): teamId is number => typeof teamId === 'number'),
 
       map((teamId) =>
         TeamLeadOfficerActions.loadTeamLeadOfficersByTeamId({
@@ -207,15 +202,15 @@ export class TeamLeadOfficersEffects {
             console.log('[Effect:loadByTeamId] response →', items)
           ),
           map((items) =>
-            TeamLeadOfficerActions.loadTeamLeadOfficersByTeamIdSuccess(
-              { items }
-            )
+            TeamLeadOfficerActions.loadTeamLeadOfficersByTeamIdSuccess({
+              items,
+            })
           ),
           catchError((error) =>
             of(
-              TeamLeadOfficerActions.loadTeamLeadOfficersByTeamIdFailure(
-                { error }
-              )
+              TeamLeadOfficerActions.loadTeamLeadOfficersByTeamIdFailure({
+                error,
+              })
             )
           )
         )

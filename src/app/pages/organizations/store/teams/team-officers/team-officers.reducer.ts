@@ -9,15 +9,12 @@ export const teamOfficersReducer = createReducer(
     loading: true,
     error: null,
   })),
-  on(
-    Actions.loadTeamOfficersSuccess,
-    (state, { items, totalCount }) => ({
-      ...state,
-      items,
-      totalCount,
-      loading: false,
-    })
-  ),
+  on(Actions.loadTeamOfficersSuccess, (state, { items, totalCount }) => ({
+    ...state,
+    items,
+    totalCount,
+    loading: false,
+  })),
   on(Actions.loadTeamOfficersFailure, (state, { error }) => ({
     ...state,
     error,
@@ -60,7 +57,7 @@ export const teamOfficersReducer = createReducer(
   })),
   on(Actions.createTeamOfficerSuccess, (state, { team }) => ({
     ...state,
-    items: [...state.items, team],
+    items: Array.isArray(state.items) ? [...state.items, team] : [team], // fallback
     loading: false,
   })),
   on(Actions.createTeamOfficerFailure, (state, { error }) => ({
@@ -103,20 +100,14 @@ export const teamOfficersReducer = createReducer(
     loading: true,
     error: null,
   })),
-  on(
-    Actions.loadTeamOfficersByTeamIdSuccess,
-    (state, { items }) => ({
-      ...state,
-      items, // replace with just these rates
-      loading: false,
-    })
-  ),
-  on(
-    Actions.loadTeamOfficersByTeamIdFailure,
-    (state, { error }) => ({
-      ...state,
-      error,
-      loading: false,
-    })
-  )
+  on(Actions.loadTeamOfficersByTeamIdSuccess, (state, { items }) => ({
+    ...state,
+    items, // replace with just these rates
+    loading: false,
+  })),
+  on(Actions.loadTeamOfficersByTeamIdFailure, (state, { error }) => ({
+    ...state,
+    error,
+    loading: false,
+  }))
 );

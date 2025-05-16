@@ -1,11 +1,17 @@
-export interface BranchAddress {
-  id: number;
-  details?: string;
-  detailsAR?: string;
-  areaId: number;
-  branchId: number;
-  branch?:any;
-  governorateId: number;
-  countryId: number;
+import { PageOperation } from '../../page-operations/page-operation.model';
+
+export interface RoleClaim {
+  guid?: string;
   isActive?: boolean;
+  tenantId?: number;
+  pageOperationId?: number;
+  pageOperation?: PageOperation | null;
+  deleterUserId?: number | null;
+  deletionTime?: string | null;
+  isDeleted?: boolean;
+  role?: any;
+  id?: number;
+  roleId?: any;
+  claimType?: string;
+  claimValue?: string;
 }

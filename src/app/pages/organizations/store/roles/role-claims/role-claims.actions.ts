@@ -1,95 +1,93 @@
 import { createAction, props } from '@ngrx/store';
-import { BranchAddress } from './role-claim.model';
+import { RoleClaim } from './role-claim.model';
 
 // Load all
-export const loadBranchAddresses = createAction('[BranchAddresses] Load All');
-export const loadBranchAddressesSuccess = createAction(
-  '[BranchAddresses] Load All Success',
-  props<{ items: BranchAddress[]; totalCount: number }>()
+export const loadRoleClaims = createAction('[RoleClaims] Load All');
+export const loadRoleClaimsSuccess = createAction(
+  '[RoleClaims] Load All Success',
+  props<{ items: RoleClaim[]; totalCount: number }>()
 );
-export const loadBranchAddressesFailure = createAction(
-  '[BranchAddresses] Load All Failure',
+export const loadRoleClaimsFailure = createAction(
+  '[RoleClaims] Load All Failure',
   props<{ error: any }>()
 );
 // Load history
-export const loadBranchAddressesHistory = createAction(
-  '[BranchAddresses] Load History'
+export const loadRoleClaimsHistory = createAction('[RoleClaims] Load History');
+export const loadRoleClaimsHistorySuccess = createAction(
+  '[RoleClaims] Load History Success',
+  props<{ history: RoleClaim[] }>()
 );
-export const loadBranchAddressesHistorySuccess = createAction(
-  '[BranchAddresses] Load History Success',
-  props<{ history: BranchAddress[] }>()
-);
-export const loadBranchAddressesHistoryFailure = createAction(
-  '[BranchAddresses] Load History Failure',
+export const loadRoleClaimsHistoryFailure = createAction(
+  '[RoleClaims] Load History Failure',
   props<{ error: any }>()
 );
 
 // Load by ID
-export const loadBranchAddress = createAction(
-  '[BranchAddresses] Load One',
+export const loadRoleClaim = createAction(
+  '[RoleClaims] Load One',
   props<{ id: number }>()
 );
-export const loadBranchAddressSuccess = createAction(
-  '[BranchAddresses] Load One Success',
-  props<{ branch: BranchAddress }>()
+export const loadRoleClaimSuccess = createAction(
+  '[RoleClaims] Load One Success',
+  props<{ role: RoleClaim }>()
 );
-export const loadBranchAddressFailure = createAction(
-  '[BranchAddresses] Load One Failure',
+export const loadRoleClaimFailure = createAction(
+  '[RoleClaims] Load One Failure',
   props<{ error: any }>()
 );
 
 // Create
-export const createBranchAddress = createAction(
-  '[BranchAddresses] Create',
-  props<{ data: Partial<BranchAddress> }>()
+export const createRoleClaim = createAction(
+  '[RoleClaims] Create',
+  props<{ data: Partial<RoleClaim> }>()
 );
-export const createBranchAddressSuccess = createAction(
-  '[BranchAddresses] Create Success',
-  props<{ branch: BranchAddress }>()
+export const createRoleClaimSuccess = createAction(
+  '[RoleClaims] Create Success',
+  props<{ role: RoleClaim }>()
 );
-export const createBranchAddressFailure = createAction(
-  '[BranchAddresses] Create Failure',
+export const createRoleClaimFailure = createAction(
+  '[RoleClaims] Create Failure',
   props<{ error: any }>()
 );
 
 // Update
-export const updateBranchAddress = createAction(
-  '[BranchAddresses] Update',
-  props<{ id: number; data: Partial<BranchAddress> }>()
+export const updateRoleClaim = createAction(
+  '[RoleClaims] Update',
+  props<{ id: number; data: Partial<RoleClaim> }>()
 );
-export const updateBranchAddressSuccess = createAction(
-  '[BranchAddresses] Update Success',
-  props<{ branch: BranchAddress }>()
+export const updateRoleClaimSuccess = createAction(
+  '[RoleClaims] Update Success',
+  props<{ role: RoleClaim }>()
 );
-export const updateBranchAddressFailure = createAction(
-  '[BranchAddresses] Update Failure',
+export const updateRoleClaimFailure = createAction(
+  '[RoleClaims] Update Failure',
   props<{ error: any }>()
 );
 
-// Load by BranchId
-export const loadBranchAddressesByBranchId = createAction(
-  '[BranchAddresses] Load By BranchId',
-  props<{ branchId: number }>()
+// Load by RoleId
+export const loadRoleClaimsByRoleId = createAction(
+  '[RoleClaims] Load By RoleId',
+  props<{ roleId: number }>()
 );
-export const loadBranchAddressesByBranchIdSuccess = createAction(
-  '[BranchAddresses] Load By BranchId Success',
+export const loadRoleClaimsByRoleIdSuccess = createAction(
+  '[RoleClaims] Load By RoleId Success',
   props<{ items: any }>()
 );
-export const loadBranchAddressesByBranchIdFailure = createAction(
-  '[BranchAddresses] Load By BranchId Failure',
+export const loadRoleClaimsByRoleIdFailure = createAction(
+  '[RoleClaims] Load By RoleId Failure',
   props<{ error: any }>()
 );
 //Delete
-export const deleteBranchAddress = createAction(
-  '[BranchAddresses] Delete',
-  props<{ id: number; branchId: number }>()
+export const deleteRoleClaim = createAction(
+  '[RoleClaims] Delete',
+  props<{ id: number; roleId: number }>()
 );
-export const deleteBranchAddressSuccess = createAction(
-  '[BranchAddresses] Delete Success',
-  props<{ id: number; branchId: number }>()
+export const deleteRoleClaimSuccess = createAction(
+  '[RoleClaims] Delete Success',
+  props<{ id: number; roleId: number }>()
 );
-export const deleteBranchAddressFailure = createAction(
-  '[BranchAddresses] Delete Failure',
+export const deleteRoleClaimFailure = createAction(
+  '[RoleClaims] Delete Failure',
   props<{ error: any }>()
 );
 export const entityOperationSuccess = createAction(

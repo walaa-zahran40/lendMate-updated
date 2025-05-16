@@ -2,9 +2,7 @@ import { createAction, props } from '@ngrx/store';
 import { TeamOfficer } from './team-officer.model';
 
 // Load all
-export const loadTeamOfficers = createAction(
-  '[TeamOfficers] Load All'
-);
+export const loadTeamOfficers = createAction('[TeamOfficers] Load All');
 export const loadTeamOfficersSuccess = createAction(
   '[TeamOfficers] Load All Success',
   props<{ items: TeamOfficer[]; totalCount: number }>()

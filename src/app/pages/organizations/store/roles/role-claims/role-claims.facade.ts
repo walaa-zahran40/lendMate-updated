@@ -3,66 +3,64 @@ import { Store } from '@ngrx/store';
 import * as Actions from './role-claims.actions';
 import * as Selectors from './role-claims.selectors';
 import { Observable } from 'rxjs';
-import { BranchAddress } from './role-claim.model';
+import { RoleClaim } from './role-claim.model';
 import { selectLastOperationSuccess } from '../../../../../shared/store/ui.selectors';
 
 @Injectable({ providedIn: 'root' })
-export class BranchAddressesFacade {
-  items$: Observable<BranchAddress[]> = this.store.select(
-    Selectors.selectBranchAddresses
+export class RoleClaimsFacade {
+  items$: Observable<RoleClaim[]> = this.store.select(
+    Selectors.selectRoleClaims
   );
   total$: Observable<number> = this.store.select(
-    Selectors.selectBranchAddressesTotal
+    Selectors.selectRoleClaimsTotal
   );
-  history$: Observable<BranchAddress[]> = this.store.select(
-    Selectors.selectBranchAddressesHistory
+  history$: Observable<RoleClaim[]> = this.store.select(
+    Selectors.selectRoleClaimsHistory
   );
-  current$: Observable<BranchAddress | undefined> = this.store.select(
-    Selectors.selectCurrentBranchAddress
+  current$: Observable<RoleClaim | undefined> = this.store.select(
+    Selectors.selectCurrentRoleClaim
   );
 
   loading$: Observable<boolean> = this.store.select(
-    Selectors.selectBranchAddressesLoading
+    Selectors.selectRoleClaimsLoading
   );
-  error$: Observable<any> = this.store.select(
-    Selectors.selectBranchAddressesError
-  );
+  error$: Observable<any> = this.store.select(Selectors.selectRoleClaimsError);
   operationSuccess$ = this.store.select(selectLastOperationSuccess);
 
   constructor(private store: Store) {}
 
   loadAll() {
-    this.store.dispatch(Actions.loadBranchAddresses());
+    this.store.dispatch(Actions.loadRoleClaims());
   }
   loadHistory() {
-    this.store.dispatch(Actions.loadBranchAddressesHistory());
+    this.store.dispatch(Actions.loadRoleClaimsHistory());
   }
   loadOne(id: number) {
-    this.store.dispatch(Actions.loadBranchAddress({ id }));
+    this.store.dispatch(Actions.loadRoleClaim({ id }));
   }
-  create(data: Partial<BranchAddress>) {
-    this.store.dispatch(Actions.createBranchAddress({ data }));
+  create(data: Partial<RoleClaim>) {
+    this.store.dispatch(Actions.createRoleClaim({ data }));
   }
-  update(id: any, data: Partial<BranchAddress>) {
-    this.store.dispatch(Actions.updateBranchAddress({ id, data }));
+  update(id: any, data: Partial<RoleClaim>) {
+    this.store.dispatch(Actions.updateRoleClaim({ id, data }));
   }
-  /** NEW: dispatch the by-branchId loader */
-  loadBranchAddressesByBranchId(branchId?: number) {
-    if (branchId == null || isNaN(branchId)) {
+  /** NEW: dispatch the by-roleId loader */
+  loadRoleClaimsByRoleId(roleId?: number) {
+    if (roleId == null || isNaN(roleId)) {
       console.error(
-        '❌ Facade.loadBranchAddressesByBranchId called with invalid id:',
-        branchId
+        '❌ Facade.loadRoleClaimsByRoleId called with invalid id:',
+        roleId
       );
       return;
     }
-    this.store.dispatch(Actions.loadBranchAddressesByBranchId({ branchId }));
+    this.store.dispatch(Actions.loadRoleClaimsByRoleId({ roleId }));
   }
 
-  /** UPDATED: now expects both id & parent branchId */
-  delete(id: number, branchId: number) {
-    this.store.dispatch(Actions.deleteBranchAddress({ id, branchId }));
+  /** UPDATED: now expects both id & parent roleId */
+  delete(id: number, roleId: number) {
+    this.store.dispatch(Actions.deleteRoleClaim({ id, roleId }));
   }
-  loadByBranchId(branchId: number) {
-    this.store.dispatch(Actions.loadBranchAddressesByBranchId({ branchId }));
+  loadByRoleId(roleId: number) {
+    this.store.dispatch(Actions.loadRoleClaimsByRoleId({ roleId }));
   }
 }

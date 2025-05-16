@@ -1,35 +1,34 @@
 <div class="page-content">
   <app-toolbar-table
-    [title]="'Branch Address'"
-    [labelBtn]="'Add Branch Address'"
+    [title]="'Role Claims'"
+    [labelBtn]="'Add Role Claim'"
     [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
     [backExists]="true"
     [customSpacing]="'custom-spacing'"
     [exports]="true"
-    (addBtn)="onAddBranchAddress()"
+    (addBtn)="onAddRoleClaim()"
     (searchChange)="onSearch($event)"
     (toggleFiltersEvent)="onToggleFilters($event)"
     (exportExcel)="tableRef.exportToExcel()"
     (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <ng-container *ngIf="branchAddresses$ | async as branchAddresses">
+  <ng-container *ngIf="roleClaims$ | async as roleClaims">
     <app-table
       #tableRef
       [cols]="colsInside"
-      [tableData]="filteredBranchAddresses"
-      [edit]="true"
-      [delete]="true"
+      [tableData]="filteredRoleClaims"
+      [edit]="false"
+      [delete]="false"
       [side]="false"
       [first]="first2"
       [checkBox]="true"
-      [view]="true"
+      [view]="false"
       [filters]="showFilters"
       [uppercase]="'uppercase'"
-      [viewBranchAddressesTable]="true"
-      (onDelete)="onDeleteBranchAddress($event)"
-      (onEdit)="onEditBranchAddress($event)"
-      (viewForm)="onViewBranchAddress($event)"
+      [viewRoleClaimsTable]="true"
+      (onDelete)="onDeleteRoleClaim($event)"
+      (viewForm)="onViewRoleClaim($event)"
     ></app-table>
     <app-delete-module
       [visible]="showDeleteModal"

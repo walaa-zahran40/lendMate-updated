@@ -156,6 +156,10 @@ const routes: Routes = [
     component: ViewRoleClaimsComponent,
   },
   {
+    path: 'add-role-claim',
+    component: AddRoleClaimComponent,
+  },
+  {
     path: 'add-role-claim/:roleId',
     component: AddRoleClaimComponent,
   },

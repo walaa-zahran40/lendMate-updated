@@ -33,16 +33,11 @@ export class TeamOfficersService {
   }
 
   getById(id: number): Observable<TeamOfficer> {
-    return this.http.get<TeamOfficer>(
-      `${this.api}/TeamOfficerId?id=${id}`
-    );
+    return this.http.get<TeamOfficer>(`${this.api}/TeamOfficerId?id=${id}`);
   }
 
   create(data: Partial<TeamOfficer>): Observable<TeamOfficer> {
-    return this.http.post<TeamOfficer>(
-      `${this.api}/CreateTeamOfficer`,
-      data
-    );
+    return this.http.post<TeamOfficer>(`${this.api}/CreateTeamOfficer`, data);
   }
 
   update(id: number, data: Partial<TeamOfficer>): Observable<TeamOfficer> {
@@ -52,8 +47,8 @@ export class TeamOfficersService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.api}/${id}`);
   }
-  getByTeamId(teamId: number): Observable<TeamOfficer[]> {
-    return this.http.get<TeamOfficer[]>(
+  getByTeamId(teamId: number): Observable<PagedResponse<TeamOfficer>> {
+    return this.http.get<PagedResponse<TeamOfficer>>(
       `${this.api}/GetTeamOfficersByTeamId?teamId=${teamId}`
     );
   }
