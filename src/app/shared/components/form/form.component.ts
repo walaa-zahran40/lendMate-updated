@@ -479,6 +479,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addAuthorityOfficesLookupsForm!: boolean;
   @Input() addPhoneTypesLookupsForm!: boolean;
   @Input() addAddressTypesLookupsForm!: boolean;
+  @Input() addSalesTurnoverForm!: boolean;
   @Input() addGovernoratesLookupsForm!: boolean;
   @Input() addCountriesLookupsForm!: boolean;
   @Input() addIdentificationTypesLookupsForm!: boolean;
@@ -520,6 +521,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() operationsList: any;
   @Input() operationsList$!: any;
   @Input() operationIdValue!: any;
+  clientId: any;
   constructor(
     private store: Store,
     private facade: LegalFormLawFacade,
@@ -531,6 +533,7 @@ export class FormComponent implements OnInit, OnDestroy {
   ngOnInit() {
     console.log('currency', this.route.snapshot);
     this.id = this.route.snapshot.paramMap.get('clientId')!;
+    this.clientId = this.route.snapshot.queryParams['clientId']!;
     this.currencyIdParam = this.route.snapshot.queryParams['currencyId'];
     this.branchIdParam = this.route.snapshot.queryParams['branchId'];
     this.departmentIdParam = this.route.snapshot.queryParams['departmentId'];
@@ -823,7 +826,8 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/crm/clients/view-phone-number']);
   }
   viewSalesTurnover() {
-    this.router.navigate(['/crm/clients/view-sales-turnover']);
+    console.log('hello from arwa ', this.clientId);
+    this.router.navigate(['/crm/clients/view-sales-turnover/', this.clientId]);
   }
   viewAddressDetails() {
     this.router.navigate(['/crm/clients/view-address'], {

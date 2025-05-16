@@ -64,6 +64,9 @@
           <span *ngSwitchCase="'isinitial'">
             {{ rowData.isInitial ? "Yes" : "No" }}
           </span>
+           <span *ngSwitchCase="'date'">
+            {{  rowData[col.field] | date : "yyyy-MM-dd"  }}
+          </span>
         </ng-container>
       </td>
 

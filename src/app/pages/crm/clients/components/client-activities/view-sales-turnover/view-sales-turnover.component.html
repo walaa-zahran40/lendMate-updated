@@ -1,24 +1,42 @@
 <div class="page-content">
   <app-toolbar-table
-    [title]="'Sales Turnover'"
-    [labelBtn]="'Add Sales'"
-    [iconBtn]="''"
+    [title]="'Client Sales Turnover'"
+    [labelBtn]="'Add Client Sales Turnover'"
+    [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
     [backExists]="true"
+    [customSpacing]="'custom-spacing'"
     [exports]="true"
-    (addBtn)="addSales()"
+    (addBtn)="onAddClientSalesTurnover()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col1Name]="'Name EN'"
-    [col2Name]="'Name AR'"
-    [col3Name]="'Amount'"
-    [col4Name]="'Date'"
-    [edit]="true"
-    [delete]="true"
-    [side]="false"
-    [checkBox]="true"
-    [viewTurnOverTable]="true"
-  ></app-table>
+
+  <ng-container *ngIf="clientSalesTurnovers$ | async as clientSalesTurnovers">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredClientSalesTurnovers"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewSalesTurnoverTable]="true"
+      
+      (onDelete)="onDeleteClientSalesTurnover($event)"
+      (onEdit)="onEditClientSalesTurnover($event)"
+      (viewForm)="onViewClientSalesTurnover($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
 </div>

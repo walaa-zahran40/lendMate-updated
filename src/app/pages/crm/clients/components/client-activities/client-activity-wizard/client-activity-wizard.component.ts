@@ -39,7 +39,7 @@ export class ClientActivityWizardComponent {
           title: 'Sales Turnover',
           content:
             'Introduce your company core info quickly to users by fill up company details',
-          link: '/crm/clients/add-sales-turnover',
+          link: `/crm/clients/view-sales-turnover/${this.clientId}`
         },
       ],
       [
@@ -175,10 +175,7 @@ export class ClientActivityWizardComponent {
     ];
   }
   navigateTo(link: string) {
-    this.router.navigate([link], {
-      queryParams: { id: this.clientId },
-    });
-  }
+    this.router.navigate([link]);}
   navigateToInfo() {
     this.router.navigate(['/crm/clients/company-view-only']);
   }

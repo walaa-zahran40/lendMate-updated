@@ -52,6 +52,7 @@ export class TableComponent {
   @Input() uppercase!: string;
   @Input() viewClientIdentityTable!: boolean;
   @Input() viewClientTable!: boolean;
+  @Input() viewSalesTurnoverTable!: boolean;
   @Input() viewUploadDocumentsTable!: boolean;
   @Input() viewAddressTable!: boolean;
   @Input() viewTurnOverTable!: boolean;
