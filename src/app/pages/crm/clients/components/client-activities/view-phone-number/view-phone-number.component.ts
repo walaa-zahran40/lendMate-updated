@@ -1,17 +1,11 @@
-<<<<<<< HEAD:src/app/pages/crm/clients/components/view-phone-number/view-phone-number.component.ts
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subject, Observable, combineLatest, map, takeUntil, filter, tap } from 'rxjs';
-import { TableComponent } from '../../../../../shared/components/table/table.component';
-import { Officer } from '../../../../../shared/interfaces/officer.interface';
-import { ClientSalesTurnover } from '../../store/client-sales-turnovers/client-sales-turnovers.model';
-import { ClientSalesTurnoversFacade } from '../../store/client-sales-turnovers/client-sales-turnovers.facade';
-=======
-import { Component } from '@angular/core';
-import { PhoneNumber } from '../../../../../../shared/interfaces/phone-number.interface';
-import { Router } from '@angular/router';
->>>>>>> 8e53004283087a2d386e049bd4bedee36b599281:src/app/pages/crm/clients/components/client-activities/view-phone-number/view-phone-number.component.ts
+import { ClientSalesTurnover } from '../../../store/client-sales-turnovers/client-sales-turnovers.model';
+import { TableComponent } from '../../../../../../shared/components/table/table.component';
+import { ClientSalesTurnoversFacade } from '../../../store/client-sales-turnovers/client-sales-turnovers.facade';
+
 
 @Component({
   selector: 'app-view-phone-number',
