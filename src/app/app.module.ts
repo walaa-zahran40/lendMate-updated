@@ -23,7 +23,8 @@ import { StoreModule } from '@ngrx/store';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { LoaderInterceptor } from './shared/interceptors/loader.interceptor';
 import { uiReducer } from './shared/store/ui-state.reducer';
-import { PreloadAllModules, RouterModule } from '@angular/router';
+import { ToastModule } from 'primeng/toast';
+import { ErrorInterceptor } from './shared/interceptors/error.interceptor';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -38,7 +39,7 @@ import { PreloadAllModules, RouterModule } from '@angular/router';
     BrowserAnimationsModule,
     ConfirmDialogModule,
     ButtonModule,
-
+    ToastModule,
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
     StoreModule.forFeature('ui', uiReducer),
@@ -46,6 +47,7 @@ import { PreloadAllModules, RouterModule } from '@angular/router';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 
     provideHttpClient(),
 
