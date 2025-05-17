@@ -21,6 +21,11 @@ import {
 export class SharedDatePickerComponent implements ControlValueAccessor {
   @Input() showIcon = true;
   @Input() inputId!: string;
+
+  // ← new inputs:
+  @Input() minDate?: Date;
+  @Input() maxDate?: Date;
+
   ctrl = new FormControl();
 
   // ControlValueAccessor stubs
@@ -32,7 +37,6 @@ export class SharedDatePickerComponent implements ControlValueAccessor {
       this.ctrl.setValue(null, { emitEvent: false });
       return;
     }
-    // incoming from backend: strip time & tz
     const d = new Date(val);
     const localMid = new Date(d.getFullYear(), d.getMonth(), d.getDate());
     this.ctrl.setValue(localMid, { emitEvent: false });
@@ -41,7 +45,6 @@ export class SharedDatePickerComponent implements ControlValueAccessor {
   registerOnChange(fn: any) {
     this.onChange = fn;
     this.ctrl.valueChanges.subscribe((d: Date) => {
-      // always return UTC-midnight so it serializes to the picked date
       const utcMid = new Date(
         Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())
       );

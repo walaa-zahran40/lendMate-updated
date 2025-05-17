@@ -223,6 +223,8 @@ export class FormComponent implements OnInit, OnDestroy {
   legalForm!: any;
   selectedDocumentTypes!: any;
   isMain!: any;
+  maxDateOfBirth = new Date(); // today
+  minDateOfBirth = new Date();
   selectedIsMain!: any;
   isActive!: any;
   selectedIsActive!: any;
@@ -511,7 +513,6 @@ export class FormComponent implements OnInit, OnDestroy {
     nameAR: string;
     isActive: boolean;
   }[] = [];
-  @Input() maxDateOfBirth: Date = new Date(2006, 11, 31);
   @Output() submitDocument = new EventEmitter<{
     expiryDate: Date;
     documentTypeIds: number[];
@@ -536,6 +537,9 @@ export class FormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.minDateOfBirth.setFullYear(this.minDateOfBirth.getFullYear() - 100);
+    // 18 years ago:
+    this.maxDateOfBirth.setFullYear(this.maxDateOfBirth.getFullYear() - 18);
     console.log('currency', this.route.snapshot);
     this.id = this.route.snapshot.paramMap.get('clientId')!;
     this.clientId = this.route.snapshot.queryParams['clientId']!;

@@ -70,6 +70,8 @@ export class AddClientComponent implements OnInit {
   public disableCompanyTab = false;
   public disableIndividualTab = false;
   individualCode!: any;
+  maxDateOfBirth = new Date(); // today
+  minDateOfBirth = new Date();
   // You’ll look up the “Individual” type’s ID at runtime:
   individualTypeId!: number;
   constructor(
@@ -91,6 +93,12 @@ export class AddClientComponent implements OnInit {
     // — build both forms (company & individual)
     this.buildFormCompany();
     this.buildFormIndividual();
+    this.minDateOfBirth.setFullYear(this.minDateOfBirth.getFullYear() - 100);
+    // 18 years ago:
+    this.maxDateOfBirth.setFullYear(this.maxDateOfBirth.getFullYear() - 18);
+    this.addClientFormIndividual
+      .get('dateOfBirthIndividual')!
+      .setValue(this.maxDateOfBirth);
 
     // — client‐type tabs logic (unchanged) …
     this.clientTypesFacade.loadAll();

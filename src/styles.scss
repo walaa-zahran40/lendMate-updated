@@ -198,7 +198,24 @@ body {
     }
   }
 }
+/* global styles.scss */
 
+.btn-yes {
+  background-color: #28a745 !important; /* bootstrap-green */
+  border-color: #28a745 !important;
+  color: #fff !important;
+  float: left;
+}
+
+.btn-no {
+  background-color: #dc3545 !important; /* bootstrap-red */
+  border-color: #dc3545 !important;
+  color: #fff !important;
+}
+:ng-deep .p-dialog-footer {
+  justify-content: space-between;
+  flex-direction: row-reverse;
+}
 .p-dialog .p-dialog-close-button {
   float: right;
 }

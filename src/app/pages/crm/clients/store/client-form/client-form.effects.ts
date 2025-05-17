@@ -39,6 +39,12 @@ export class LeaveEffects {
             message: 'You have unsaved changes. Leave without saving?',
             header: '',
             icon: 'pi pi-exclamation-triangle',
+            acceptLabel: 'Yes, Leave',
+            rejectLabel: 'No, Stay',
+            acceptIcon: 'pi pi-check',
+            rejectIcon: 'pi pi-times',
+            acceptButtonStyleClass: 'btn-yes',
+            rejectButtonStyleClass: 'btn-no',
             accept: () => {
               observer.next(leaveConfirmed());
               observer.complete();
