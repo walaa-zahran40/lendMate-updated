@@ -20,6 +20,7 @@
       [cols]="colsInside"
       [tableData]="filteredClients"
       [edit]="true"
+      [view]="true"
       [delete]="true"
       [side]="true"
       [first]="first2"
@@ -30,6 +31,7 @@
       (onDelete)="onDeleteClient($event)"
       (onEdit)="onEditClient($event)"
       (wizardBtn)="onAddSide($event)"
+      (viewForm)="onViewClient($event)"
     ></app-table>
     <app-delete-module
       [visible]="showDeleteModal"

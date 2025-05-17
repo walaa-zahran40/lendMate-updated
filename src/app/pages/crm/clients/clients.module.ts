@@ -43,10 +43,10 @@ import { ViewTaxAuthorityOfficeComponent } from './components/client-activities/
 import { ViewTmlOfficerComponent } from './components/client-activities/view-tml-officer/view-tml-officer.component';
 import { ViewUploadDocumentsComponent } from './components/client-activities/view-upload-documents/view-upload-documents.component';
 import { WizardClientStatusComponent } from './components/client-activities/wizard-client-status/wizard-client-status.component';
-import { AddClientComponent } from './components/clients/add-client/add-client.component';
+import { AddClientComponent } from './components/clients/company-individual/add-client/add-client.component';
 import { ClientOnboardingComponent } from './components/clients/client-onboarding/client-onboarding.component';
 import { CompanyViewOnlyComponent } from './components/clients/company-view-only/company-view-only.component';
-import { ViewClientsComponent } from './components/clients/view-clients/view-clients.component';
+import { ViewClientsComponent } from './components/clients/company-individual/view-clients/view-clients.component';
 import { ClientCentralBankEffects } from './store/client-central-bank-info/client-central-bank.effects';
 import { ClientFileEffects } from './store/client-file/client-file.effects';
 import { clientFileReducer } from './store/client-file/client-file.reducer';

@@ -33,10 +33,10 @@ import { ViewTaxAuthorityOfficeComponent } from './clients/components/client-act
 import { ViewTmlOfficerComponent } from './clients/components/client-activities/view-tml-officer/view-tml-officer.component';
 import { ViewUploadDocumentsComponent } from './clients/components/client-activities/view-upload-documents/view-upload-documents.component';
 import { WizardClientStatusComponent } from './clients/components/client-activities/wizard-client-status/wizard-client-status.component';
-import { AddClientComponent } from './clients/components/clients/add-client/add-client.component';
+import { AddClientComponent } from './clients/components/clients/company-individual/add-client/add-client.component';
 import { ClientOnboardingComponent } from './clients/components/clients/client-onboarding/client-onboarding.component';
 import { CompanyViewOnlyComponent } from './clients/components/clients/company-view-only/company-view-only.component';
-import { ViewClientsComponent } from './clients/components/clients/view-clients/view-clients.component';
+import { ViewClientsComponent } from './clients/components/clients/company-individual/view-clients/view-clients.component';
 import { LeasingFinancialFormCompoundComponent } from './leasing-mandates/components/leasing-financial-form-compound/leasing-financial-form-compound.component';
 import { LeasingFinancialFormComponent } from './leasing-mandates/components/leasing-financial-form/leasing-financial-form.component';
 import { AddChildMandateComponent } from './leasing-mandates/components/mandate-activities/add-child-mandate/add-child-mandate.component';

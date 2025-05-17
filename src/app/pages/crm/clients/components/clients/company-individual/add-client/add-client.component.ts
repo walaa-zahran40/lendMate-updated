@@ -8,32 +8,32 @@ import {
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute } from '@angular/router';
-import { arabicOnlyValidator } from '../../../../../../shared/validators/arabic-only.validator';
-import { positiveNumberValidator } from '../../../../../../shared/validators/positive-only.validator';
-import { Sector } from '../../../../../../shared/interfaces/sector.interface';
+import { arabicOnlyValidator } from '../../../../../../../shared/validators/arabic-only.validator';
+import { positiveNumberValidator } from '../../../../../../../shared/validators/positive-only.validator';
+import { Sector } from '../../../../../../../shared/interfaces/sector.interface';
 import { combineLatest, filter, map, Observable, take } from 'rxjs';
 import {
   loadClient,
   updateClient,
   createClient,
-} from '../../../store/clients/clients.actions';
+} from '../../../../store/clients/clients.actions';
 import {
   selectSubSectorList,
   selectSelectedClient,
-} from '../../../store/clients/clients.selectors';
-import { selectAllSectors } from '../../../store/sector-drop-down/sector.selectors';
+} from '../../../../store/clients/clients.selectors';
+import { selectAllSectors } from '../../../../store/sector-drop-down/sector.selectors';
 import {
   loadSectorById,
   loadSectors,
-} from '../../../store/sector-drop-down/sector.actions';
-import { SubSectors } from '../../../../../../shared/interfaces/sub-sector.interface';
-import { selectAllSubSectors } from '../../../store/sub-sector-drop-down/sub-sector.selectors';
-import { loadSubSectors } from '../../../store/sub-sector-drop-down/sub-sector.actions';
-import { IndividualFacade } from '../../../store/individual/individual.facade';
-import { Individual } from '../../../store/individual/individual.state';
-import { ClientIdentitiesFacade } from '../../../store/client-identities/client-identities.facade';
-import { ClientIdentityTypesFacade } from '../../../store/client-identity-types/client-identity-types.facade';
-import { ClientTypesFacade } from '../../../../../lookups/store/client-types/client-types.facade';
+} from '../../../../store/sector-drop-down/sector.actions';
+import { SubSectors } from '../../../../../../../shared/interfaces/sub-sector.interface';
+import { selectAllSubSectors } from '../../../../store/sub-sector-drop-down/sub-sector.selectors';
+import { loadSubSectors } from '../../../../store/sub-sector-drop-down/sub-sector.actions';
+import { IndividualFacade } from '../../../../store/individual/individual.facade';
+import { Individual } from '../../../../store/individual/individual.state';
+import { ClientIdentitiesFacade } from '../../../../store/client-identities/client-identities.facade';
+import { ClientIdentityTypesFacade } from '../../../../store/client-identity-types/client-identity-types.facade';
+import { ClientTypesFacade } from '../../../../../../lookups/store/client-types/client-types.facade';
 
 @Component({
   selector: 'app-add-client',

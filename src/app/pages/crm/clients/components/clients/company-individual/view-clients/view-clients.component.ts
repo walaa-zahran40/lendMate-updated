@@ -1,9 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
-import { ClientsFacade } from '../../../store/clients/clients.facade';
-import { TableComponent } from '../../../../../../shared/components/table/table.component';
-import { Client } from '../../../store/clients/client.model';
+import { ClientsFacade } from '../../../../store/clients/clients.facade';
+import { TableComponent } from '../../../../../../../shared/components/table/table.component';
+import { Client } from '../../../../store/clients/client.model';
 
 @Component({
   selector: 'app-view-clients',
@@ -116,6 +116,12 @@ export class ViewClientsComponent {
   onEditClient(client: Client) {
     this.router.navigate(['/crm/clients/edit-client', client.id], {
       queryParams: { type: client.clientTypeCode },
+    });
+  }
+  onViewClient(client: Client) {
+    console.log('client', client);
+    this.router.navigate(['/crm/clients/edit-client', client.id], {
+      queryParams: { mode: 'view' },
     });
   }
 }
