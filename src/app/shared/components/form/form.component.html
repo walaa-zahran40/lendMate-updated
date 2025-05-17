@@ -915,26 +915,58 @@
       <!-- Legal Info -->
       <ng-container *ngIf="addClientShowLegal">
         <label for="legalFormLawId">Legal Form Law</label>
-        <!-- [options]="(legalFormLaws$ | async) || []"
-        (ngModelChange)="updateValue($event, $event)" -->
-
-        <p-select
-          formControlName="legalFormLawId"
-          optionLabel="name"
-          optionValue="id"
-          placeholder="Select Legal Form Law"
-        ></p-select>
-
+        <ng-container *ngIf="legalFormLaws$ | async as laws">
+          <p-select
+            [options]="laws"
+            optionLabel="name"
+            optionValue="id"
+            formControlName="legalFormLawId"
+            placeholder="Select Legal Form Law"
+            (onChange)="onLegalFormLawSelectionChange($event)"
+            [ngClass]="{
+              'ng-invalid':
+                formGroup.get('legalFormLawId')?.invalid &&
+                (formGroup.get('legalFormLawId')?.dirty ||
+                  formGroup.get('legalFormLawId')?.touched)
+            }"
+          ></p-select>
+        </ng-container>
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('legalFormLawId')?.invalid &&
+            (formGroup.get('legalFormLawId')?.dirty ||
+              formGroup.get('legalFormLawId')?.touched)
+          "
+        >
+          Legal Form Law is required.
+        </small>
         <label for="legalFormId">Legal Form</label>
-        <!-- (ngModelChange)="updateValue($event, $event)" -->
-        <!-- [options]="(legalForms$ | async) || []" -->
-
-        <p-select
-          optionLabel="name"
-          optionValue="id"
-          formControlName="legalFormId"
-          placeholder="Select a LegalForm"
-        ></p-select>
+        <ng-container *ngIf="legalForms$ | async as forms">
+          <p-select
+            [options]="forms"
+            optionLabel="name"
+            optionValue="id"
+            formControlName="legalFormId"
+            placeholder="Select Legal Form"
+            [ngClass]="{
+              'ng-invalid':
+                formGroup.get('legalFormId')?.invalid &&
+                (formGroup.get('legalFormId')?.dirty ||
+                  formGroup.get('legalFormId')?.touched)
+            }"
+          ></p-select>
+        </ng-container>
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('legalFormId')?.invalid &&
+            (formGroup.get('legalFormId')?.dirty ||
+              formGroup.get('legalFormId')?.touched)
+          "
+        >
+          Legal Form is required.
+        </small>
 
         <p-toggleswitch
           formControlName="isStampDuty"

@@ -35,6 +35,7 @@ import { FileUpload } from 'primeng/fileupload';
 import { LegalFormLawFacade } from '../../../pages/crm/clients/store/legal-form-law/legal-form-law.facade';
 import { LegalFormsFacade } from '../../../pages/legals/store/legal-forms/legal-forms.facade';
 import { PageOperation } from '../../../pages/organizations/store/page-operations/page-operation.model';
+import { LegalForm } from '../../interfaces/legal-form.interface';
 export interface IdentityEntry {
   identificationNumber: string;
   selectedIdentities: any[];
@@ -499,6 +500,8 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() operationName!: string;
 
   legalFormLaws$: Observable<LegalFormLaw[]> = this.facade.legalFormLaws$;
+  legalForms$ = this.facadeLegalForms.items$;
+
   // legalForms$ = this.facadeLegalForms.legalForms$;
   @Input() identityIndividual: {
     name: string;
