@@ -115,7 +115,7 @@ export class ViewClientsComponent {
   }
   onEditClient(client: Client) {
     this.router.navigate(['/crm/clients/edit-client', client.id], {
-      queryParams: { type: client.clientTypeCode },
+      queryParams: { type: client.clientTypeCode, mode: 'edit' },
     });
   }
   onViewClient(client: Client) {

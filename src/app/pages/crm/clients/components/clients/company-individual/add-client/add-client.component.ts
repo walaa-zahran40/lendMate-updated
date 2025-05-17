@@ -85,82 +85,29 @@ export class AddClientComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // — determine edit vs add
-    const raw = this.route.snapshot.paramMap.get('clientId');
-    this.clientId = raw ? +raw : null;
-    this.editMode = !!this.clientId;
-
     // — build both forms (company & individual)
+
+    console.log('Building the company form…');
     this.buildFormCompany();
+    console.log('Building the individual form…');
     this.buildFormIndividual();
+
+    // — calculate min/max DOB
+
+    console.log('Calculating min/max dateOfBirthIndividual…');
     this.minDateOfBirth.setFullYear(this.minDateOfBirth.getFullYear() - 100);
-    // 18 years ago:
     this.maxDateOfBirth.setFullYear(this.maxDateOfBirth.getFullYear() - 18);
+    console.log(`  → minDateOfBirth = ${this.minDateOfBirth.toDateString()}`);
+    console.log(`  → maxDateOfBirth = ${this.maxDateOfBirth.toDateString()}`);
+
+    //— set default DOB to max (first available)
+    console.log('Setting dateOfBirthIndividual default to maxDateOfBirth…');
     this.addClientFormIndividual
       .get('dateOfBirthIndividual')!
       .setValue(this.maxDateOfBirth);
 
-    // — client‐type tabs logic (unchanged) …
-    this.clientTypesFacade.loadAll();
-    this.clientTypesFacade.all$
-      .pipe(
-        filter((arr) => arr.length > 0),
-        take(1)
-      )
-      .subscribe((types) => {
-        const indivType = types.find(
-          (t) => t.name.toLowerCase() === 'individual'
-        )!;
-        this.individualCode = indivType.code;
-        this.selectedClientType = indivType.id;
-        const isIndEdit =
-          this.route.snapshot.queryParamMap.get('type') === this.individualCode;
-
-        if (!this.editMode) {
-          // add mode: both tabs enabled
-          this.activeTabIndex = 0;
-          this.disableCompanyTab = false;
-          this.disableIndividualTab = false;
-        } else if (isIndEdit) {
-          // edit individual
-          this.activeTabIndex = 1;
-          this.disableCompanyTab = true;
-          this.individualFacade.load(this.clientId!);
-          this.individualFacade.selected$
-            .pipe(
-              filter((i) => !!i),
-              take(1)
-            )
-            .subscribe((data) => {
-              this.individualBusinessId = data.id;
-              this.patchFormIndividual(data);
-            });
-        } else {
-          // edit company
-          this.activeTabIndex = 0;
-          this.disableIndividualTab = true;
-          this.store.dispatch(loadClient({ clientId: this.clientId! }));
-          this.store
-            .select(selectSelectedClient)
-            .pipe(
-              filter((c) => !!c),
-              take(1)
-            )
-            .subscribe((c) => this.patchForm(c!));
-        }
-      });
-
-    // — load sectors & sub-sectors once
-    this.store.dispatch(loadSectors());
-    this.store.dispatch(loadSubSectors());
-    this.store
-      .select(selectAllSectors)
-      .subscribe((secs) => (this.sectorsList = secs));
-    this.store
-      .select(selectAllSubSectors)
-      .subscribe((subs) => (this.subSectorsList = subs));
-
     // — identity‐types always for dropdown
+    console.log('Loading identity types for dropdown…');
     this.identityTypeFacade.loadAll();
     this.identityTypeFacade.all$
       .pipe(
@@ -168,14 +115,20 @@ export class AddClientComponent implements OnInit {
         take(1)
       )
       .subscribe((types) => {
-        // in add mode: show all types
         if (!this.editMode) {
+          console.log('  → ADD MODE: identityOptions = all types', types);
           this.identityOptions = types;
         }
       });
 
-    // — if editing, load only that client’s identities
-    if (this.editMode) {
+    console.log(
+      'Determining if we are in edit or add mode…',
+      this.route.snapshot
+    );
+    const raw = this.route.snapshot.params['clientId'];
+    if (raw) {
+      this.editMode = true;
+      console.log('Loading existing client identities…');
       this.identityFacade.loadAll(); // ideally: loadByClientId(this.clientId!)
       combineLatest({
         identities: this.identityFacade.all$.pipe(
@@ -187,13 +140,14 @@ export class AddClientComponent implements OnInit {
           take(1)
         ),
       }).subscribe(({ identities, types }) => {
-        // only show types that this client actually has
+        console.log('  → identities loaded:', identities);
         const used = Array.from(
           new Set(identities.map((i) => i.identificationTypeId))
         );
-        this.identityOptions = types.filter((t) => used.includes(t.id));
-
-        // build FormArray of existing entries
+        const filtered = types.filter((t) => used.includes(t.id));
+        console.log('  → filtered identityOptions:', filtered);
+        this.identityOptions = filtered;
+        console.log('  → Building FormArray for identities…');
         const groups = identities.map((ci) =>
           this.fb.group({
             id: [ci.id],
@@ -209,8 +163,107 @@ export class AddClientComponent implements OnInit {
           'identities',
           this.fb.array(groups)
         );
+        console.log('  → identities FormArray set');
       });
+    } else {
+      this.editMode = false;
     }
+    // — if editing, load only that client’s identities
+    if (this.editMode) {
+    }
+    // this.clientId = raw ? +raw : null;
+    // this.editMode = !!this.clientId;
+    // console.log(`  → clientId = ${this.clientId}`);
+    // console.log(`  → editMode = ${this.editMode}`);
+
+    // // — client‐type tabs logic
+    // console.log('Loading client types to decide which tab to show…');
+    // this.clientTypesFacade.loadAll();
+    // this.clientTypesFacade.all$
+    //   .pipe(
+    //     filter((arr) => arr.length > 0),
+    //     take(1)
+    //   )
+    //   .subscribe((types) => {
+    //     console.log('  → clientTypes loaded:', types);
+    //     const indivType = types.find(
+    //       (t) => t.name.toLowerCase() === 'individual'
+    //     )!;
+    //     this.individualCode = indivType.code;
+    //     this.selectedClientType = indivType.id;
+    //     console.log(
+    //       `  → individualCode = ${this.individualCode}, selectedClientType = ${this.selectedClientType}`
+    //     );
+    //     const isIndEdit =
+    //       this.route.snapshot.queryParamMap.get('type') === this.individualCode;
+    //     if (!this.editMode) {
+    //       console.log('  → ADD MODE: enabling both tabs');
+    //       this.activeTabIndex = 0;
+    //       this.disableCompanyTab = false;
+    //       this.disableIndividualTab = false;
+    //     } else if (isIndEdit) {
+    //       console.log('  → EDIT INDIVIDUAL branch selected');
+    //       this.activeTabIndex = 1;
+    //       this.disableCompanyTab = true;
+    //       console.log(
+    //         `  → Dispatching IndividualFacade.load(${this.clientId})`
+    //       );
+    //       this.individualFacade.load(this.clientId!);
+    //       this.individualFacade.selected$
+    //         .pipe(
+    //           filter((i) => !!i),
+    //           take(1)
+    //         )
+    //         .subscribe((data) => {
+    //           console.log('    → Individual data received:', data);
+    //           this.individualBusinessId = data.id;
+    //           this.patchFormIndividual(data);
+    //           console.log('    → Individual form patched');
+    //           // disable form in view mode
+    //           if (this.editMode) {
+    //             console.log('    → Disabling individual form for view-only');
+    //             this.addClientFormIndividual.disable({ emitEvent: false });
+    //           }
+    //         });
+    //     } else {
+    //       console.log('  → EDIT COMPANY branch selected');
+    //       this.activeTabIndex = 0;
+    //       this.disableIndividualTab = true;
+    //       console.log(
+    //         `  → Dispatching loadClient({ clientId: ${this.clientId} })`
+    //       );
+    //       this.store.dispatch(loadClient({ clientId: this.clientId! }));
+    //       this.store
+    //         .select(selectSelectedClient)
+    //         .pipe(
+    //           filter((c) => !!c),
+    //           take(1)
+    //         )
+    //         .subscribe((c) => {
+    //           console.log('    → Company data received:', c);
+    //           this.patchForm(c!);
+    //           console.log('    → Company form patched');
+    //           // disable form in view mode
+    //           if (this.editMode) {
+    //             console.log('    → Disabling company form for view-only');
+    //             this.addClientForm.disable({ emitEvent: false });
+    //           }
+    //         });
+    //     }
+    //   });
+    // // — load sectors & sub-sectors once
+    // console.log('Dispatching loadSectors() and loadSubSectors()…');
+    // this.store.dispatch(loadSectors());
+    // this.store.dispatch(loadSubSectors());
+    // this.store.select(selectAllSectors).subscribe((secs) => {
+    //   console.log('  → sectorsList updated:', secs);
+    //   this.sectorsList = secs;
+    // });
+    // this.store.select(selectAllSubSectors).subscribe((subs) => {
+    //   console.log('  → subSectorsList updated:', subs);
+    //   this.subSectorsList = subs;
+    // });
+    // console.log('ngOnInit: complete');
   }
 
   get tabValue(): number {
@@ -272,7 +325,41 @@ export class AddClientComponent implements OnInit {
       this.addClientFormIndividual.getRawValue()
     );
   }
+  buildFormCompany(): void {
+    this.addClientForm = this.fb.group({
+      name: ['', Validators.required],
+      nameAR: ['', [Validators.required, arabicOnlyValidator()]],
+      businessActivity: ['', Validators.required],
+      taxId: ['', [Validators.required, positiveNumberValidator()]],
+      shortName: ['', Validators.required],
+      sectorId: [[], Validators.required],
+      subSectorIdList: [[], Validators.required],
+      legalFormLawId: [null],
+      legalFormId: [null],
+      isStampDuty: [false],
+      isIscore: [false],
+      mainShare: [null, [Validators.min(0)]],
 
+      establishedYear: [
+        2000,
+        [
+          Validators.pattern(/^(19|20)\d{2}$/), // Valid years: 1900–2099
+          Validators.min(0),
+        ],
+      ],
+      website: [
+        'mansor.com',
+        [
+          Validators.pattern(
+            /^(https?:\/\/)?([\w\-]+\.)+[\w\-]{2,}(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/
+          ),
+        ],
+      ],
+      marketShare: [null, [Validators.min(0), Validators.max(100)]],
+      marketSize: [null, [Validators.min(0)]],
+      employeesNo: [null, [Validators.min(0)]],
+    });
+  }
   buildFormIndividual() {
     this.addClientFormIndividual = this.fb.group({
       nameEnglishIndividual: ['', Validators.required],
@@ -310,41 +397,7 @@ export class AddClientComponent implements OnInit {
       isMain: [false, Validators.required],
     });
   }
-  buildFormCompany(): void {
-    this.addClientForm = this.fb.group({
-      name: ['', Validators.required],
-      nameAR: ['', [Validators.required, arabicOnlyValidator()]],
-      businessActivity: ['', Validators.required],
-      taxId: ['', [Validators.required, positiveNumberValidator()]],
-      shortName: ['', Validators.required],
-      sectorId: [[], Validators.required],
-      subSectorIdList: [[], Validators.required],
-      legalFormLawId: [null],
-      legalFormId: [null],
-      isStampDuty: [false],
-      isIscore: [false],
-      mainShare: [null, [Validators.min(0)]],
 
-      establishedYear: [
-        2000,
-        [
-          Validators.pattern(/^(19|20)\d{2}$/), // Valid years: 1900–2099
-          Validators.min(0),
-        ],
-      ],
-      website: [
-        'mansor.com',
-        [
-          Validators.pattern(
-            /^(https?:\/\/)?([\w\-]+\.)+[\w\-]{2,}(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/
-          ),
-        ],
-      ],
-      marketShare: [null, [Validators.min(0), Validators.max(100)]],
-      marketSize: [null, [Validators.min(0)]],
-      employeesNo: [null, [Validators.min(0)]],
-    });
-  }
   patchForm(client: any): void {
     console.log('🛠️ patchForm got:', client);
     if (!client?.subSectorList?.length) {
