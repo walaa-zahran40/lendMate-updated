@@ -11,7 +11,7 @@ export interface Client {
   clientTypeCode?: string;
   clientTypeId?: number;
   shortName?: string;
-  taxId?: number;
+  taxId?: any;
   isActive?: boolean;
   subSectorList: {
     id?: number;

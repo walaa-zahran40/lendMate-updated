@@ -3,7 +3,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
 import { TableComponent } from '../../../../../../shared/components/table/table.component';
-import { Client } from '../../../../../../shared/interfaces/client.interface';
+import { Client } from '../../../store/clients/client.model';
 import { ClientsFacade } from '../../../store/clients/clients.facade';
 import { ClientStatus } from '../../../store/client-statuses/client-status.model';
 import { ClientStatusesFacade } from '../../../store/client-statuses/client-statuses.facade';

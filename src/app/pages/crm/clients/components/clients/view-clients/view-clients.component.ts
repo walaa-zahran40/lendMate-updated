@@ -1,9 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
-import { Client } from '../../../../../../shared/interfaces/client.interface';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { ClientsFacade } from '../../../store/clients/clients.facade';
 import { TableComponent } from '../../../../../../shared/components/table/table.component';
+import { Client } from '../../../store/clients/client.model';
 
 @Component({
   selector: 'app-view-clients',
@@ -39,10 +39,33 @@ export class ViewClientsComponent {
     this.facade.loadClients();
 
     this.clients$.pipe(takeUntil(this.destroy$)).subscribe((clients) => {
-      const sorted = [...clients].sort((a, b) => b?.id! - a?.id!); // replace with b.createdAt - a.createdAt if you have timestamps
+      console.log('raw clients from facade:', clients);
+      clients.forEach((c) =>
+        console.log(
+          `> id=${c.id}`,
+          `clientTypeCode(server)=${c.clientTypeCode}`,
+          `code=${c.code}`,
+          `clientTypeId=${(c as any).clientTypeId}`
+        )
+      );
 
-      this.originalClients = sorted;
-      this.filteredClients = [...sorted]; // default to all
+      const sorted = [...clients].sort((a, b) => b.id! - a.id!);
+
+      this.originalClients = sorted.map((c) => {
+        // choose the field that actually exists:
+        const mappedType = c.taxId ? 'Company' : 'Individual';
+        const mappedTaxID = c.taxId ? c.taxId : 'N/A';
+
+        console.log(`mapped id=${c.id} → clientTypeCode=${mappedType}`);
+        return {
+          ...c,
+          clientTypeCode: mappedType,
+          taxId: mappedTaxID,
+        };
+      });
+
+      console.log('originalClients after mapping:', this.originalClients);
+      this.filteredClients = [...this.originalClients];
     });
   }
 

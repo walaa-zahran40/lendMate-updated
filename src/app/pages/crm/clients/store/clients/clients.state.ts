@@ -1,4 +1,4 @@
-import { Client } from '../../../../../shared/interfaces/client.interface';
+import { Client } from './client.model';
 
 export interface ClientsState {
   clients: Client[];

@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Client } from '../../../../../shared/interfaces/client.interface';
+import { Client } from './client.model';
 
 export const loadClients = createAction('[Clients] Load Clients');
 

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Client } from '../../../../../../shared/interfaces/client.interface';
+import { Client } from '../../../store/clients/client.model';
 
 @Component({
   selector: 'app-view-client-identity',

@@ -11,10 +11,10 @@ import {
   tap,
 } from 'rxjs';
 import * as ClientsActions from './clients.actions';
-import { Client } from '../../../../../shared/interfaces/client.interface';
+import { Client } from './client.model';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { ClientService } from './client.service';
+import { ClientService } from './clients.service';
 import { environment } from '../../../../../../environments/environment';
 @Injectable()
 export class ClientsEffects {
