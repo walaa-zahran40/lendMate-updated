@@ -13,7 +13,7 @@ import { TabsModule } from 'primeng/tabs';
 import { LegalFormsEffects } from '../../legals/store/legal-forms/legal-forms.effects';
 import { legalFormsReducer } from '../../legals/store/legal-forms/legal-forms.reducer';
 import { AddSalesTurnoverComponent } from './components/client-activities/add-client-sales-turnover/add-client-sales-turnover.component';
-import { AddAddressComponent } from './components/client-activities/add-address/add-address.component';
+import { AddAddressComponent } from './components/client-activities/add-client-address/add-address.component';
 import { AddCentralBankInfoComponent } from './components/client-activities/add-central-bank-info/add-central-bank-info.component';
 import { AddClientGuarantorComponent } from './components/client-activities/add-client-guarantor/add-client-guarantor.component';
 import { AddClientIdentityComponent } from './components/client-activities/add-client-identity/add-client-identity.component';
@@ -28,7 +28,7 @@ import { AddTmlOfficerComponent } from './components/client-activities/add-tml-o
 import { UploadDocumentsComponent } from './components/client-activities/add-upload-documents/upload-documents.component';
 import { ClientActivityWizardComponent } from './components/client-activities/client-activity-wizard/client-activity-wizard.component';
 import { ContactPersonViewTableDataComponent } from './components/client-activities/contact-person-view-table-data/contact-person-view-table-data.component';
-import { ViewAddressComponent } from './components/client-activities/view-address/view-address.component';
+import { ViewAddressComponent } from './components/client-activities/view-client-addresses/view-address.component';
 import { ViewCentralBankInfoComponent } from './components/client-activities/view-central-bank-info/view-central-bank-info.component';
 import { ViewClientGuarantorComponent } from './components/client-activities/view-client-guarantor/view-client-guarantor.component';
 import { ViewClientIdentityComponent } from './components/client-activities/view-client-identity/view-client-identity.component';

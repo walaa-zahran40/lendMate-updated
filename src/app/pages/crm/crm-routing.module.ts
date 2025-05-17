@@ -4,7 +4,7 @@ import { ViewContactPersonsComponent } from '../communication/view-contact-perso
 import { ViewOfficersComponent } from '../communication/view-officers/view-officers.component';
 import { WizardComponent } from '../communication/wizard/wizard.component';
 import { AddSalesTurnoverComponent } from './clients/components/client-activities/add-client-sales-turnover/add-client-sales-turnover.component';
-import { AddAddressComponent } from './clients/components/client-activities/add-address/add-address.component';
+import { AddAddressComponent } from './clients/components/client-activities/add-client-address/add-address.component';
 import { AddCentralBankInfoComponent } from './clients/components/client-activities/add-central-bank-info/add-central-bank-info.component';
 import { AddClientGuarantorComponent } from './clients/components/client-activities/add-client-guarantor/add-client-guarantor.component';
 import { AddClientIdentityComponent } from './clients/components/client-activities/add-client-identity/add-client-identity.component';
@@ -18,7 +18,7 @@ import { AddTmlOfficerComponent } from './clients/components/client-activities/a
 import { UploadDocumentsComponent } from './clients/components/client-activities/add-upload-documents/upload-documents.component';
 import { ClientActivityWizardComponent } from './clients/components/client-activities/client-activity-wizard/client-activity-wizard.component';
 import { ContactPersonViewTableDataComponent } from './clients/components/client-activities/contact-person-view-table-data/contact-person-view-table-data.component';
-import { ViewAddressComponent } from './clients/components/client-activities/view-address/view-address.component';
+import { ViewAddressComponent } from './clients/components/client-activities/view-client-addresses/view-address.component';
 import { ViewCentralBankInfoComponent } from './clients/components/client-activities/view-central-bank-info/view-central-bank-info.component';
 import { ViewClientGuarantorComponent } from './clients/components/client-activities/view-client-guarantor/view-client-guarantor.component';
 import { ViewClientIdentityComponent } from './clients/components/client-activities/view-client-identity/view-client-identity.component';
