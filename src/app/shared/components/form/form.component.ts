@@ -587,27 +587,27 @@ export class FormComponent implements OnInit, OnDestroy {
   }
 
   onSectorChange(event: any) {
-    // const selectedId = event.value;
-    // this.sectorsSafe$
-    //   .pipe(
-    //     take(1),
-    //     map((sectors) => sectors.find((s) => s.id === selectedId)),
-    //     filter((sector): sector is Sectors => !!sector)
-    //   )
-    //   .subscribe((sector) => {
-    //     this.value = selectedId;
-    //     this.onChange(this.value);
-    //     this.onTouched();
-    //     this.selectionChanged.emit(sector);
-    //     this.sectorChanged.emit(selectedId);
-    //     // ← add this block to clear sub-sector selections:
-    //     const subCtrl = this.formGroup.get('subSectorIdList');
-    //     if (subCtrl) {
-    //       subCtrl.setValue([]); // remove all IDs
-    //       subCtrl.markAsUntouched(); // reset touched state if you like
-    //       subCtrl.updateValueAndValidity();
-    //     }
-    //   });
+    const selectedId = event.value;
+    this.sectorsSafe$
+      .pipe(
+        take(1),
+        map((sectors) => sectors.find((s) => s.id === selectedId)),
+        filter((sector): sector is Sectors => !!sector)
+      )
+      .subscribe((sector) => {
+        this.value = selectedId;
+        this.onChange(this.value);
+        this.onTouched();
+        this.selectionChanged.emit(sector);
+        this.sectorChanged.emit(selectedId);
+        // ← add this block to clear sub-sector selections:
+        const subCtrl = this.formGroup.get('subSectorIdList');
+        if (subCtrl) {
+          subCtrl.setValue([]); // remove all IDs
+          subCtrl.markAsUntouched(); // reset touched state if you like
+          subCtrl.updateValueAndValidity();
+        }
+      });
   }
   get operationsLabel(): string {
     if (!this.operationsList || this.operationsList.length === 0) {

@@ -10,9 +10,7 @@ import { Store } from '@ngrx/store';
 import { ActivatedRoute } from '@angular/router';
 import { arabicOnlyValidator } from '../../../../../../shared/validators/arabic-only.validator';
 import { positiveNumberValidator } from '../../../../../../shared/validators/positive-only.validator';
-import { LegalFormService } from '../../../services/legal-form.service';
 import { Sector } from '../../../../../../shared/interfaces/sector.interface';
-import { LegalFormLawService } from '../../../services/legal-form-law.service';
 import { combineLatest, filter, map, Observable, take } from 'rxjs';
 import {
   loadClient,
@@ -78,8 +76,6 @@ export class AddClientComponent implements OnInit {
     private fb: FormBuilder,
     private store: Store,
     private clientTypesFacade: ClientTypesFacade,
-    private legalFormService: LegalFormService,
-    private legalFormlawService: LegalFormLawService,
     private route: ActivatedRoute,
     private individualFacade: IndividualFacade,
     private identityFacade: ClientIdentitiesFacade,
@@ -392,30 +388,6 @@ export class AddClientComponent implements OnInit {
       });
   }
 
-  fetchLegalForms(): void {
-    this.legalFormService.getAllLegalForms().subscribe((response: any) => {
-      this.dropdownlegalLawItems = [
-        ...response.items.map((item: any) => ({
-          id: item.id,
-          name: item.name,
-          nameAR: item.nameAR,
-        })),
-      ];
-    });
-  }
-  fetchLegalFormLaws(): void {
-    this.legalFormlawService
-      .getAllLegalFormLaws()
-      .subscribe((response: any) => {
-        this.dropdownlegalFormLawItems = [
-          ...response.items.map((item: any) => ({
-            id: item.id,
-            name: item.name,
-            nameAR: item.nameAR,
-          })),
-        ];
-      });
-  }
   get sectorIdControl(): FormControl {
     return this.addClientForm.get('sectorId') as FormControl;
   }
