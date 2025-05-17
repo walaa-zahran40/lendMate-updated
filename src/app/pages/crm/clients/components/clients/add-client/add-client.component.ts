@@ -83,59 +83,16 @@ export class AddClientComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // 0) grab the real route param (not “id” → “clientId”)
+    // — determine edit vs add
     const raw = this.route.snapshot.paramMap.get('clientId');
-    if (!raw) {
-      console.warn('No clientId in route, skipping identity load');
-    }
-    const clientId = +raw!;
+    this.clientId = raw ? +raw : null;
+    this.editMode = !!this.clientId;
 
-    // 1) kick off the lookup of *all* ClientIdentityTypes
-    this.identityTypeFacade.loadAll();
-    // 2) load just this client’s identities
-    this.identityFacade.loadAll();
-
-    // 3) once both have arrived, map them into your form + dropdown options
-    combineLatest({
-      identities: this.identityFacade.all$.pipe(
-        filter((arr) => arr.length > 0), // wait until store is populated
-        take(1)
-      ),
-      types: this.identityTypeFacade.all$.pipe(
-        filter((arr) => arr.length > 0),
-        take(1)
-      ),
-    }).subscribe(({ identities, types }) => {
-      // 👇 filter the master list of types down to only the ones this client uses
-      const usedTypeIds = [
-        ...new Set(identities.map((i) => i.identificationTypeId)),
-      ];
-      this.identityOptions = types.filter((t) => usedTypeIds.includes(t.id));
-
-      console.log('🔍 clientIdentities:', identities);
-      console.log('🔍 identityOptions for dropdown:', this.identityOptions);
-
-      // 👇 build the FormArray
-      const groups = identities.map((ci) =>
-        this.fb.group({
-          id: [ci.id],
-          identificationNumber: [ci.identificationNumber, Validators.required],
-          selectedIdentities: [ci.identificationTypeId, Validators.required],
-          isMain: [ci.isMain, Validators.required],
-        })
-      );
-      this.addClientFormIndividual.setControl(
-        'identities',
-        this.fb.array(groups)
-      );
-    });
-
-    // 4) the rest of your init…
+    // — build both forms (company & individual)
     this.buildFormCompany();
     this.buildFormIndividual();
 
-    // 4) Load client-types to decide tabs
-    console.log('⏳ Loading clientTypes');
+    // — client‐type tabs logic (unchanged) …
     this.clientTypesFacade.loadAll();
     this.clientTypesFacade.all$
       .pipe(
@@ -143,77 +100,109 @@ export class AddClientComponent implements OnInit {
         take(1)
       )
       .subscribe((types) => {
-        console.log('✅ clientTypes loaded:', types);
         const indivType = types.find(
           (t) => t.name.toLowerCase() === 'individual'
         )!;
         this.individualCode = indivType.code;
         this.selectedClientType = indivType.id;
-        console.log(
-          '🎯 individualCode=',
-          this.individualCode,
-          'selectedClientType=',
-          this.selectedClientType
-        );
+        const isIndEdit =
+          this.route.snapshot.queryParamMap.get('type') === this.individualCode;
 
-        const idParam = this.route.snapshot.paramMap.get('id');
-        if (!idParam) {
-          console.log('➕ Add-mode: enabling both tabs');
+        if (!this.editMode) {
+          // add mode: both tabs enabled
           this.activeTabIndex = 0;
           this.disableCompanyTab = false;
           this.disableIndividualTab = false;
-          return;
-        }
-
-        console.log('✏️ Edit-mode detected');
-        this.editMode = true;
-        const typeParam = this.route.snapshot.queryParamMap.get('type') ?? '';
-        console.log('🔎 queryParam type=', typeParam);
-        const isIndEdit = typeParam === this.individualCode;
-
-        if (isIndEdit) {
-          console.log('↪️ Editing individual branch');
+        } else if (isIndEdit) {
+          // edit individual
           this.activeTabIndex = 1;
           this.disableCompanyTab = true;
-          this.disableIndividualTab = false;
-          console.log(`sss`, this.route.snapshot);
-          console.log(`⏳ Dispatching individualFacade.load(${clientId})`);
-          this.individualFacade.load(this.route.snapshot.params['id']);
+          this.individualFacade.load(this.clientId!);
           this.individualFacade.selected$
-            .pipe(filter((i) => !!i))
+            .pipe(
+              filter((i) => !!i),
+              take(1)
+            )
             .subscribe((data) => {
-              console.log('✅ individual data loaded:', data);
               this.individualBusinessId = data.id;
               this.patchFormIndividual(data);
             });
         } else {
-          console.log('↪️ Editing company branch');
+          // edit company
           this.activeTabIndex = 0;
-          this.disableCompanyTab = false;
           this.disableIndividualTab = true;
-
-          console.log(
-            `⏳ Dispatching loadClient({ clientId: ${this.clientId} })`
-          );
-          this.store.dispatch(loadClient({ clientId: this.clientId }));
+          this.store.dispatch(loadClient({ clientId: this.clientId! }));
           this.store
             .select(selectSelectedClient)
-            .pipe(filter((c) => !!c))
-            .subscribe((c) => {
-              console.log('✅ company data loaded:', c);
-              this.patchForm(c!);
-            });
+            .pipe(
+              filter((c) => !!c),
+              take(1)
+            )
+            .subscribe((c) => this.patchForm(c!));
         }
       });
 
-    // 5) Load sectors & sub-sectors
-    console.log('⏳ Dispatching loadSectors() and loadSubSectors()');
+    // — load sectors & sub-sectors once
     this.store.dispatch(loadSectors());
     this.store.dispatch(loadSubSectors());
-    this.store.select(selectAllSectors).subscribe((secs) => {
-      console.log('✅ sectors list updated:', secs);
-      this.sectorsList = secs;
-    });
+    this.store
+      .select(selectAllSectors)
+      .subscribe((secs) => (this.sectorsList = secs));
+    this.store
+      .select(selectAllSubSectors)
+      .subscribe((subs) => (this.subSectorsList = subs));
+
+    // — identity‐types always for dropdown
+    this.identityTypeFacade.loadAll();
+    this.identityTypeFacade.all$
+      .pipe(
+        filter((arr) => arr.length > 0),
+        take(1)
+      )
+      .subscribe((types) => {
+        // in add mode: show all types
+        if (!this.editMode) {
+          this.identityOptions = types;
+        }
+      });
+
+    // — if editing, load only that client’s identities
+    if (this.editMode) {
+      this.identityFacade.loadAll(); // ideally: loadByClientId(this.clientId!)
+      combineLatest({
+        identities: this.identityFacade.all$.pipe(
+          filter((arr) => arr.length > 0),
+          take(1)
+        ),
+        types: this.identityTypeFacade.all$.pipe(
+          filter((arr) => arr.length > 0),
+          take(1)
+        ),
+      }).subscribe(({ identities, types }) => {
+        // only show types that this client actually has
+        const used = Array.from(
+          new Set(identities.map((i) => i.identificationTypeId))
+        );
+        this.identityOptions = types.filter((t) => used.includes(t.id));
+
+        // build FormArray of existing entries
+        const groups = identities.map((ci) =>
+          this.fb.group({
+            id: [ci.id],
+            identificationNumber: [
+              ci.identificationNumber,
+              Validators.required,
+            ],
+            selectedIdentities: [ci.identificationTypeId, Validators.required],
+            isMain: [ci.isMain, Validators.required],
+          })
+        );
+        this.addClientFormIndividual.setControl(
+          'identities',
+          this.fb.array(groups)
+        );
+      });
+    }
   }
 
   get tabValue(): number {
@@ -307,6 +296,7 @@ export class AddClientComponent implements OnInit {
   }
   createIdentityGroup(): FormGroup {
     return this.fb.group({
+      id: [],
       identificationNumber: ['', Validators.required],
       selectedIdentities: [[], Validators.required],
       isMain: [false, Validators.required],
@@ -470,13 +460,18 @@ export class AddClientComponent implements OnInit {
 
     // 3) build payload
     const clientIdentitiesPayload = formValue.identities?.map((i: any) => {
-      console.log('[Mapping identity item]', i);
-      return {
-        id: i.id, // you should now see it
+      const entry: any = {
         identificationNumber: i.identificationNumber,
         clientIdentityTypeId: i.selectedIdentities,
         isMain: i.isMain,
       };
+
+      // only include id when in edit mode (and i.id is truthy)
+      if (this.editMode && i.id != null) {
+        entry.id = Number(i.id);
+      }
+
+      return entry;
     });
 
     if (this.editMode) {
@@ -497,7 +492,10 @@ export class AddClientComponent implements OnInit {
       };
 
       console.log('[Edit Mode] PATCH Payload:', changes);
-      this.individualFacade.update(this.individualBusinessId, changes);
+      this.individualFacade.update(this.individualBusinessId, {
+        ...changes,
+        clientIdentities: clientIdentitiesPayload,
+      });
     } else {
       const payload = {
         name: formValue.nameEnglishIndividual,
@@ -515,7 +513,10 @@ export class AddClientComponent implements OnInit {
       };
 
       console.log('[Create Mode] POST Payload:', payload);
-      this.individualFacade.create(payload);
+      this.individualFacade.create({
+        ...payload,
+        clientIdentities: clientIdentitiesPayload,
+      });
     }
   }
 

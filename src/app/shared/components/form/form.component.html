@@ -1279,10 +1279,11 @@
 
       <br />
       <!-- Sub Sector -->
-      <label for="subSectorDropdown"
-        >Select Sub Sector<sup class="danger">*</sup></label
-      >
       <ng-container *ngIf="filteredSubSectors$ | async as subSectors">
+        <label for="subSectorDropdown"
+          >Select Sub Sector<sup class="danger">*</sup></label
+        >
+
         <p-multiSelect
           [options]="subSectorsList"
           formControlName="subSectorIdList"
@@ -1383,7 +1384,7 @@
         name="genderIndividual"
         formControlName="genderIndividual"
         required
-        optionLabel="name"
+        optionLabel="value"
         optionValue="id"
         placeholder="Select a Gender"
         class="w-full md:w-56"

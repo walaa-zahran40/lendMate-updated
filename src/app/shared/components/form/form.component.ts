@@ -210,7 +210,10 @@ export class FormComponent implements OnInit, OnDestroy {
   selectedLegalFormCompanyViewOnly!: any;
   selectedIsStampCompanyViewOnly!: any;
   stamps!: any;
-  genders!: any;
+  genders = [
+    { id: 1, value: 'Male' },
+    { id: 2, value: 'Female' },
+  ];
   expiryDate!: Date;
   selectedGenders!: any;
   countries!: any;
