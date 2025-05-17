@@ -1,7 +1,7 @@
 export interface ClientAddress {
   id: number;
-  details: string;
-  detailsAR: string;
+  detailes: string;
+  detailesAR: string;
   areaId: number;
   governorateId: number;
   countryId: number;

@@ -34,13 +34,13 @@ export class ClientAddressesService {
 
   getById(id: number): Observable<ClientAddress> {
     return this.http.get<ClientAddress>(
-      `${this.api}/ClientsAddressId?id=${id}`
+      `${this.api}/Id?id=${id}`
     );
   }
 
   create(data: Partial<ClientAddress>): Observable<ClientAddress> {
     return this.http.post<ClientAddress>(
-      `${this.api}/CreateClientsAddress`,
+      `${this.api}/CreateClientAddress`,
       data
     );
   }
@@ -54,7 +54,7 @@ export class ClientAddressesService {
   }
   getByClientId(clientId: number): Observable<ClientAddress[]> {
     return this.http.get<ClientAddress[]>(
-      `${this.api}/ClientId?id=${clientId}`
+      `${this.api}/GetByClientId/${clientId}`
     );
   }
 }

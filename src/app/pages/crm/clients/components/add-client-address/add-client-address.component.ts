@@ -15,12 +15,15 @@ import { selectAllGovernorates } from '../../../../lookups/store/governorates/go
 import { selectAllCountries } from '../../../../lookups/store/countries/countries.selectors';
 import { ClientAddressesFacade } from '../../store/client-addresses/client-addresses.facade';
 import { ClientAddress } from '../../store/client-addresses/client-address.model';
+import { loadAll as loadAddressTypes} from '../../../../lookups/store/address-types/address-types.actions';
+import { selectAllAddressTypes } from '../../../../lookups/store/address-types/address-types.selectors';
+import { AddressType } from '../../../../lookups/store/address-types/address-types.model';
 
 @Component({
-  selector: 'app-add-client-addresses',
+  selector: 'app-add-client-address',
   standalone: false,
-  templateUrl: './add-client-addresses.component.html',
-  styleUrl: './add-client-addresses.component.scss',
+  templateUrl: './add-client-address.component.html',
+  styleUrl: './add-client-address.component.scss',
 })
 export class AddClientAddressesComponent {
   mode!: 'add' | 'edit' | 'view';
@@ -31,6 +34,7 @@ export class AddClientAddressesComponent {
   countriesList$!: Observable<Country[]>;
   governoratesList$!: Observable<Governorate[]>;
   areasList$!: Observable<Area[]>;
+  addressTypesList$!: Observable<AddressType[]>;
   clientId: any;
   recordId!: number;
   private destroy$ = new Subject<void>();
@@ -73,11 +77,13 @@ export class AddClientAddressesComponent {
     this.store.dispatch(loadCountries({}));
     this.store.dispatch(loadGovernorates({}));
     this.store.dispatch(loadAreas({}));
+    this.store.dispatch(loadAddressTypes({}));
 
     // 3️⃣ Grab lookup streams
     this.countriesList$ = this.store.select(selectAllCountries);
     this.governoratesList$ = this.store.select(selectAllGovernorates);
     this.areasList$ = this.store.select(selectAllAreas);
+    this.addressTypesList$ = this.store.select(selectAllAddressTypes);
 
     // 4️⃣ Wait for all lookups to arrive
     forkJoin({
@@ -110,12 +116,13 @@ export class AddClientAddressesComponent {
       // 5️⃣ Build the form
       this.addClientAddressesLookupsForm = this.fb.group({
         id: [null],
-        details: ['', [Validators.required]],
-        detailsAR: ['', [Validators.required, arabicOnlyValidator]],
+        detailes: ['', [Validators.required]],
+        detailesAR: ['', [Validators.required, arabicOnlyValidator]],
         areaId: [null, [Validators.required]],
         governorateId: [null, [Validators.required]],
         countryId: [null, [Validators.required]],
         clientId: [null, [Validators.required]],
+        addressTypeId: [null, [Validators.required]],
         isActive: [true],
       });
       console.log(
@@ -167,12 +174,13 @@ export class AddClientAddressesComponent {
             // patch form
             this.addClientAddressesLookupsForm.patchValue({
               id: ct?.id,
-              details: ct?.details,
-              detailsAR: ct?.detailsAR,
+              detailes: ct?.detailes,
+              detailesAR: ct?.detailesAR,
               areaId: ct?.areaId,
               governorateId: governorateId,
               countryId: countryId,
               clientId: this.clientId,
+              addressTypeId: ct?.addressTypeId,
               isActive: ct?.isActive,
             });
             console.log(
@@ -275,13 +283,14 @@ export class AddClientAddressesComponent {
       clientId: clientParamQP,
     });
 
-    const { details, detailsAR, areaId, clientId, isActive } =
+    const { detailes, detailesAR, areaId, clientId,addressTypeId, isActive } =
       this.addClientAddressesLookupsForm.value;
     const payload: Partial<ClientAddress> = {
-      details,
-      detailsAR,
+      detailes,
+      detailesAR,
       areaId,
       clientId,
+      addressTypeId,
       isActive,
     };
     console.log('  → payload object:', payload);
@@ -306,7 +315,7 @@ export class AddClientAddressesComponent {
     if (clientParamQP) {
       console.log('➡️ Navigating back with PATH param:', clientParamQP);
       this.router.navigate([
-        '/organizations/view-client-addresses',
+        '/crm/clients/view-client-addresses',
         clientParamQP,
       ]);
     } else if (clientParamQP) {
@@ -315,7 +324,7 @@ export class AddClientAddressesComponent {
         clientParamQP
       );
       this.router.navigate([
-        `/organizations/view-client-addresses/${clientParamQP}`,
+        `/crm/clients/view-client-addresses/${clientParamQP}`,
       ]);
     } else {
       console.error('❌ Cannot navigate back: clientId is missing!');

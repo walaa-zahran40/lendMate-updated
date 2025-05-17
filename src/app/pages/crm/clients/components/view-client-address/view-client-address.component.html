@@ -13,7 +13,7 @@
     (exportExcel)="tableRef.exportToExcel()"
     (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <ng-container *ngIf="branchAddresses$ | async as branchAddresses">
+  <ng-container *ngIf="clientAddresses$ | async as clientAddresses">
     <app-table
       #tableRef
       [cols]="colsInside"

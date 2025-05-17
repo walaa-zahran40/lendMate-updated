@@ -68,7 +68,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() departments: any;
   @Input() subSectorsList: any[] = [];
   @Input() countriesList: any;
-  @Input() addressTypesList: any[]=[];
+  @Input() addressTypesList: any;
   @Input() assetTypeCategories: any;
   @Input() feeCalculationTypes: any;
   @Input() teamDepartments: any;
@@ -794,7 +794,7 @@ export class FormComponent implements OnInit, OnDestroy {
   }
   viewClientAddressDetails() {
     this.router.navigate([
-      `/organizations/view-client-addresses/${this.clientIdParam}`,
+      `/crm/clients/view-client-addresses/${this.clientIdParam}`,
     ]);
   }
   

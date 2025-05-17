@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AddAddressComponent } from './components/add-address/add-address.component';
 import { AddCentralBankInfoComponent } from './components/add-central-bank-info/add-central-bank-info.component';
 import { AddClientComponent } from './components/add-client/add-client.component';
 import { AddContactPersonComponent } from './components/add-contact-person/add-contact-person.component';
@@ -27,7 +26,6 @@ import { ViewClientsComponent } from './components/view-clients/view-clients.com
 import { ViewUploadDocumentsComponent } from './components/view-upload-documents/view-upload-documents.component';
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
-import { ViewAddressComponent } from './components/view-address/view-address.component';
 import { ViewSalesTurnoverComponent } from './components/view-sales-turnover/view-sales-turnover.component';
 import { ViewPhoneNumberComponent } from './components/view-phone-number/view-phone-number.component';
 import { ViewContactPersonComponent } from './components/view-contact-person/view-contact-person.component';
@@ -95,13 +93,17 @@ import { ViewClientStatusesComponent } from './components/view-client-statuses/v
 import { ViewClientStatusComponent } from './components/view-client-status-actions/view-client-status.component';
 import { AddClientStatusesComponent } from './components/add-client-statuses/add-client-statuses.component';
 import { WizardClientStatusComponent } from './components/wizard-client-status/wizard-client-status.component';
+import { AddClientAddressesComponent } from './components/add-client-address/add-client-address.component';
+import { ViewClientAddressesComponent } from './components/view-client-address/view-client-address.component';
+import { clientAddressesReducer } from './store/client-addresses/client-addresses.reducer';
+import { ClientAddressesEffects } from './store/client-addresses/client-addresses.effects';
 
 @NgModule({
   declarations: [
     AddClientComponent,
     UploadDocumentsComponent,
     ClientOnboardingComponent,
-    AddAddressComponent,
+    AddClientAddressesComponent,
     AddSalesTurnoverComponent,
     AddContactPersonComponent,
     AddPhoneNumberComponent,
@@ -114,7 +116,7 @@ import { WizardClientStatusComponent } from './components/wizard-client-status/w
     CompanyViewOnlyComponent,
     ViewClientsComponent,
     ViewUploadDocumentsComponent,
-    ViewAddressComponent,
+    ViewClientAddressesComponent,
     ViewSalesTurnoverComponent,
     ViewPhoneNumberComponent,
     ViewContactPersonComponent,
@@ -187,6 +189,8 @@ import { WizardClientStatusComponent } from './components/wizard-client-status/w
       clientIdentityTypesReducer
     ),
     EffectsModule.forFeature([ClientIdentityTypesEffects]),
+    StoreModule.forFeature('clientAddresses', clientAddressesReducer),
+    EffectsModule.forFeature([ClientAddressesEffects]),
   ],
 })
 export class ClientsModule {}

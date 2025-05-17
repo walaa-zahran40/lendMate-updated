@@ -1,15 +1,19 @@
 import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject, Observable, takeUntil, tap, map } from 'rxjs';
+import { Subject, Observable, takeUntil, tap, map, combineLatest } from 'rxjs';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { ClientAddressesFacade } from '../../store/client-addresses/client-addresses.facade';
 import { ClientAddress } from '../../store/client-addresses/client-address.model';
+import { Area } from '../../../../lookups/store/areas/area.model';
+import { Store } from '@ngrx/store';
+import { selectAllAreas } from '../../../../lookups/store/areas/areas.selectors';
+import { AreasFacade } from '../../../../lookups/store/areas/areas.facade';
 
 @Component({
-  selector: 'app-view-client-addresses',
+  selector: 'app-view-client-address',
   standalone: false,
-  templateUrl: './view-client-addresses.component.html',
-  styleUrl: './view-client-addresses.component.scss',
+  templateUrl: './view-client-address.component.html',
+  styleUrl: './view-client-address.component.scss',
 })
 export class ViewClientAddressesComponent {
   tableDataInside: ClientAddress[] = [];
@@ -21,57 +25,54 @@ export class ViewClientAddressesComponent {
   @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
-    { field: 'details', header: 'Details' },
-    { field: 'detailsAR', header: 'Details AR' },
-    { field: 'client', header: 'Client' },
+    { field: 'detailes', header: 'Details' },
+    { field: 'detailesAR', header: 'Details AR' },
+    { field: 'AreaName', header: 'Area Name' },
   ];
   showDeleteModal: boolean = false;
   selectedClientAddressId: number | null = null;
   originalClientAddresses: ClientAddress[] = [];
   filteredClientAddresses: ClientAddress[] = [];
   clientAddresses$!: Observable<ClientAddress[]>;
+  AreasList$!: Observable<Area[]>;
 
   constructor(
     private router: Router,
     private facade: ClientAddressesFacade,
-    private route: ActivatedRoute
+    private areaFacade: AreasFacade,
+    private route: ActivatedRoute,
+    private store: Store
   ) {}
 
   ngOnInit() {
     const raw = this.route.snapshot.paramMap.get('clientId');
     this.clientIdParam = raw !== null ? Number(raw) : undefined;
+    
+    this.areaFacade.loadAll();
+    this.AreasList$ = this.store.select(selectAllAreas);
+    this.store.dispatch({ type: '[Areas] Load All' });
+
     this.facade.loadClientAddressesByClientId(this.clientIdParam);
     this.clientAddresses$ = this.facade.items$;
 
-    this.clientAddresses$
-      .pipe(
-        takeUntil(this.destroy$),
-
-        // log raw array coming from the facade
-        tap((rawList) =>
-          console.log('[View] facade.items$ rawList =', rawList)
-        ),
-
-        // your transform
-        map((list) =>
-          (list ?? [])
-            .map((r) => ({ ...r, client: r.client?.name || '—' }))
-            .sort((a, b) => b.id - a.id)
-        ),
-
-        // log after mapping + sorting
-        tap((formatted) =>
-          console.log('[View] after map+sort formatted =', formatted)
-        )
-      )
-      .subscribe((formatted) => {
-        this.filteredClientAddresses = formatted;
-        this.originalClientAddresses = formatted;
-        console.log(
-          '[View] subscribe → filteredCurrencyExchangeRates =',
-          this.filteredClientAddresses
-        );
-      });
+     combineLatest([this.clientAddresses$, this.AreasList$])
+          .pipe(
+            map(([clientAddresses, AreasList]) =>
+              clientAddresses
+                .map((address) => ({
+                  ...address,
+                  AreaName:
+                    AreasList.find((c) => c.id === address.areaId)?.name || '—',
+                }))
+                .filter((address) => address.isActive)
+                .sort((a, b) => b.id - a.id)
+            ),
+            takeUntil(this.destroy$)
+          )
+          .subscribe((enriched) => {
+            this.originalClientAddresses = enriched;
+            this.filteredClientAddresses = [...enriched];
+          });
   }
 
   onAddClientAddress() {

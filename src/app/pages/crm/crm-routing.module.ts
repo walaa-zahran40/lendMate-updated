@@ -4,7 +4,6 @@ import { ClientOnboardingComponent } from './clients/components/client-onboardin
 import { AddClientComponent } from './clients/components/add-client/add-client.component';
 import { CompanyViewOnlyComponent } from './clients/components/company-view-only/company-view-only.component';
 import { UploadDocumentsComponent } from './clients/components/add-upload-documents/upload-documents.component';
-import { AddAddressComponent } from './clients/components/add-address/add-address.component';
 import { AddSalesTurnoverComponent } from './clients/components/add-sales-turnover/add-sales-turnover.component';
 import { AddPhoneNumberComponent } from './clients/components/add-phone-number/add-phone-number.component';
 import { AddContactPersonComponent } from './clients/components/add-contact-person/add-contact-person.component';
@@ -20,7 +19,6 @@ import { AddManageMandateTermsComponent } from './leasing-mandates/components/ad
 import { LeasingFinancialFormComponent } from './leasing-mandates/components/leasing-financial-form/leasing-financial-form.component';
 import { ViewClientsComponent } from './clients/components/view-clients/view-clients.component';
 import { ViewUploadDocumentsComponent } from './clients/components/view-upload-documents/view-upload-documents.component';
-import { ViewAddressComponent } from './clients/components/view-address/view-address.component';
 import { ViewSalesTurnoverComponent } from './clients/components/view-sales-turnover/view-sales-turnover.component';
 import { ViewPhoneNumberComponent } from './clients/components/view-phone-number/view-phone-number.component';
 import { ViewContactPersonComponent } from './clients/components/view-contact-person/view-contact-person.component';
@@ -46,6 +44,8 @@ import { ViewClientStatusComponent } from './clients/components/view-client-stat
 import { ViewClientStatusesComponent } from './clients/components/view-client-statuses/view-client-statuses.component';
 import { WizardClientStatusComponent } from './clients/components/wizard-client-status/wizard-client-status.component';
 import { AddClientStatusesComponent } from './clients/components/add-client-statuses/add-client-statuses.component';
+import { AddClientAddressesComponent } from './clients/components/add-client-address/add-client-address.component';
+import { ViewClientAddressesComponent } from './clients/components/view-client-address/view-client-address.component';
 
 const routes: Routes = [
   /*Clients Routing*/
@@ -86,12 +86,16 @@ const routes: Routes = [
     component: UploadDocumentsComponent,
   },
   {
-    path: 'clients/add-address',
-    component: AddAddressComponent,
+    path: 'clients/add-client-addresses',
+    component: AddClientAddressesComponent,
   },
   {
-    path: 'clients/edit-address/:clientId',
-    component: AddAddressComponent,
+    path: 'clients/add-client-addresses/:clientId',
+    component: AddClientAddressesComponent,
+  },
+  {
+    path: 'clients/edit-client-addresses/:id',
+    component: AddClientAddressesComponent,
   },
   {
     path: 'clients/add-sales-turnover',
@@ -154,8 +158,8 @@ const routes: Routes = [
     component: ViewUploadDocumentsComponent,
   },
   {
-    path: 'clients/view-address',
-    component: ViewAddressComponent,
+    path: 'clients/view-client-addresses/:clientId',
+    component: ViewClientAddressesComponent,
   },
   {
     path: 'clients/view-sales-turnover',
