@@ -3,11 +3,11 @@ import { Routes, RouterModule } from '@angular/router';
 import { ViewContactPersonsComponent } from '../communication/view-contact-persons/view-contact-persons.component';
 import { ViewOfficersComponent } from '../communication/view-officers/view-officers.component';
 import { WizardComponent } from '../communication/wizard/wizard.component';
-import { AddSalesTurnoverComponent } from './clients/components/client-activities/add-client-sales-turnover/add-client-sales-turnover.component';
-import { AddAddressComponent } from './clients/components/client-activities/add-client-address/add-address.component';
+import { AddClientAddressesComponent } from './clients/components/client-activities/add-client-address/add-client-address.component';
 import { AddCentralBankInfoComponent } from './clients/components/client-activities/add-central-bank-info/add-central-bank-info.component';
 import { AddClientGuarantorComponent } from './clients/components/client-activities/add-client-guarantor/add-client-guarantor.component';
 import { AddClientIdentityComponent } from './clients/components/client-activities/add-client-identity/add-client-identity.component';
+import { AddSalesTurnoverComponent } from './clients/components/client-activities/add-client-sales-turnover/add-client-sales-turnover.component';
 import { AddClientStatusesComponent } from './clients/components/client-activities/add-client-statuses/add-client-statuses.component';
 import { AddContactPersonComponent } from './clients/components/client-activities/add-contact-person/add-contact-person.component';
 import { AddCrAuthorityOfficeComponent } from './clients/components/client-activities/add-cr-authority-office/add-cr-authority-office.component';
@@ -18,7 +18,6 @@ import { AddTmlOfficerComponent } from './clients/components/client-activities/a
 import { UploadDocumentsComponent } from './clients/components/client-activities/add-upload-documents/upload-documents.component';
 import { ClientActivityWizardComponent } from './clients/components/client-activities/client-activity-wizard/client-activity-wizard.component';
 import { ContactPersonViewTableDataComponent } from './clients/components/client-activities/contact-person-view-table-data/contact-person-view-table-data.component';
-import { ViewAddressComponent } from './clients/components/client-activities/view-client-addresses/view-address.component';
 import { ViewCentralBankInfoComponent } from './clients/components/client-activities/view-central-bank-info/view-central-bank-info.component';
 import { ViewClientGuarantorComponent } from './clients/components/client-activities/view-client-guarantor/view-client-guarantor.component';
 import { ViewClientIdentityComponent } from './clients/components/client-activities/view-client-identity/view-client-identity.component';
@@ -33,10 +32,11 @@ import { ViewTaxAuthorityOfficeComponent } from './clients/components/client-act
 import { ViewTmlOfficerComponent } from './clients/components/client-activities/view-tml-officer/view-tml-officer.component';
 import { ViewUploadDocumentsComponent } from './clients/components/client-activities/view-upload-documents/view-upload-documents.component';
 import { WizardClientStatusComponent } from './clients/components/client-activities/wizard-client-status/wizard-client-status.component';
-import { AddClientComponent } from './clients/components/clients/company-individual/add-client/add-client.component';
 import { ClientOnboardingComponent } from './clients/components/clients/client-onboarding/client-onboarding.component';
-import { CompanyViewOnlyComponent } from './clients/components/clients/company-view-only/company-view-only.component';
+import { AddClientComponent } from './clients/components/clients/company-individual/add-client/add-client.component';
 import { ViewClientsComponent } from './clients/components/clients/company-individual/view-clients/view-clients.component';
+import { CompanyViewOnlyComponent } from './clients/components/clients/company-view-only/company-view-only.component';
+import { ViewClientAddressesComponent } from './clients/components/client-activities/view-client-address/view-client-address.component';
 import { LeasingFinancialFormCompoundComponent } from './leasing-mandates/components/leasing-financial-form-compound/leasing-financial-form-compound.component';
 import { LeasingFinancialFormComponent } from './leasing-mandates/components/leasing-financial-form/leasing-financial-form.component';
 import { AddChildMandateComponent } from './leasing-mandates/components/mandate-activities/add-child-mandate/add-child-mandate.component';
@@ -88,17 +88,16 @@ const routes: Routes = [
   },
 
   {
-    path: 'clients/add-address',
-    component: AddAddressComponent,
+    path: 'clients/add-client-addresses',
+    component: AddClientAddressesComponent,
   },
   {
-    path: 'clients/edit-address/:clientId',
-    component: AddAddressComponent,
+    path: 'clients/add-client-addresses/:clientId',
+    component: AddClientAddressesComponent,
   },
-
   {
-    path: 'clients/add-phone-number',
-    component: AddPhoneNumberComponent,
+    path: 'clients/edit-client-addresses/:id',
+    component: AddClientAddressesComponent,
   },
   {
     path: 'clients/add-contact-person',
@@ -153,8 +152,8 @@ const routes: Routes = [
     component: ViewUploadDocumentsComponent,
   },
   {
-    path: 'clients/view-address',
-    component: ViewAddressComponent,
+    path: 'clients/view-client-addresses/:clientId',
+    component: ViewClientAddressesComponent,
   },
 
   // Client Sales Over
@@ -173,10 +172,24 @@ const routes: Routes = [
     component: ViewSalesTurnoverComponent,
   },
 
+
+    // Client Phone number
   {
-    path: 'clients/view-phone-number',
+    path: 'clients/add-phone-number/:clientId',
+    component: AddPhoneNumberComponent,
+  },
+
+  {
+    path: 'clients/edit-phone-number/:clientId',
+    component: AddPhoneNumberComponent,
+  },
+
+  {
+    path: 'clients/view-phone-number/:clientId',
     component: ViewPhoneNumberComponent,
   },
+
+
   {
     path: 'clients/view-contact-person',
     component: ViewContactPersonComponent,

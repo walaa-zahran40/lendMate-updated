@@ -76,8 +76,10 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() departments: any;
   @Input() subSectorsList: any[] = [];
   @Input() countriesList: any;
+  @Input() addressTypesList: any;
   @Input() assetTypeCategories: any;
   @Input() feeCalculationTypes: any;
+  @Input() phoneTypes: any;
   @Input() teamDepartments: any;
   @Input() governoratesList: any;
   @Input() areasList: any;
@@ -218,7 +220,6 @@ export class FormComponent implements OnInit, OnDestroy {
   selectedGenders!: any;
   countries!: any;
   selectedCountries!: any;
-  phoneTypes!: any;
   selectedPhoneTypes!: any;
   legalForm!: any;
   selectedDocumentTypes!: any;
@@ -383,13 +384,14 @@ export class FormComponent implements OnInit, OnDestroy {
   //inputs
   @Input() titleIndividual!: string;
   @Input() descriptionIndividual!: string;
-  @Input() addAddressShowMain!: boolean;
+  @Input() addClientAddressesLookupsForm!: boolean;
   @Input() clientOnboardingCompanyShowMain!: boolean;
   @Input() clientOnboardingIndividualShowMain!: boolean;
   @Input() addCRAuthorityOfficeShowMain!: boolean;
   @Input() uploadDocumentsShowMain!: boolean;
   @Input() addSalesShowMain!: boolean;
   @Input() addPhoneNumbersShowMain!: boolean;
+  @Input() addClientPhoneNumberForm!: boolean;
   @Input() addContactPersonShowMain!: boolean;
   @Input() clientOnboarding!: boolean;
   @Input() clientOnboardingShowIndividual!: boolean;
@@ -460,6 +462,7 @@ export class FormComponent implements OnInit, OnDestroy {
   branchIdParam: any;
   departmentIdParam: any;
   teamIdParam: any;
+  clientIdParam: any;
   @Input() addPaymentTypesLookupsForm!: boolean;
   @Input() addPaymentMonthDaysLookupsForm!: boolean;
   @Input() addMeetingTypesLookupsForm!: boolean;
@@ -548,7 +551,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.departmentIdParam = this.route.snapshot.queryParams['departmentId'];
     this.teamIdParam = this.route.snapshot.queryParams['teamId'];
     this.roleIdParam = this.route.snapshot.queryParams['roleId'];
-
+    this.clientIdParam = this.route.snapshot.queryParams['clientId'];
     this.sub = this.formGroup?.valueChanges
       .pipe(debounceTime(300))
       .subscribe(() => {
@@ -838,11 +841,12 @@ export class FormComponent implements OnInit, OnDestroy {
     console.log('hello from arwa ', this.clientId);
     this.router.navigate(['/crm/clients/view-sales-turnover/', this.clientId]);
   }
-  viewAddressDetails() {
-    this.router.navigate(['/crm/clients/view-address'], {
-      queryParams: { id: this.id },
-    });
+  viewClientAddressDetails() {
+    this.router.navigate([
+      `/crm/clients/view-client-addresses/${this.clientIdParam}`,
+    ]);
   }
+
   viewPaymentTypes() {
     this.router.navigate(['/lookups/view-payment-types']);
   }

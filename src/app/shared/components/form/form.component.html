@@ -253,11 +253,11 @@
       class="custom-view m-0 float-right"
     />
     <p-button
-      *ngIf="addAddressShowMain"
+      *ngIf="addClientAddressesLookupsForm"
       icon="pi pi-cog"
       iconPos="left"
       label="View Address Details"
-      (click)="viewAddressDetails()"
+      (click)="viewClientAddressDetails()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -270,6 +270,15 @@
     />
     <p-button
       *ngIf="addPhoneNumbersShowMain"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View PhoneNumber"
+      (click)="viewPhoneNumber()"
+      class="custom-view m-0 float-right"
+    />
+
+        <p-button
+      *ngIf="addClientPhoneNumberForm"
       icon="pi pi-cog"
       iconPos="left"
       label="View PhoneNumber"
@@ -4974,96 +4983,137 @@
       </div>
     </form>
 
-    <form action="" *ngIf="addAddressShowMain">
-      <label for="addresses">Address Type<sup class="danger">*</sup></label>
-      <p-multiselect
-        [options]="addresses"
-        [(ngModel)]="selectedAddresses"
+      <form
+      [formGroup]="formGroup"
+      *ngIf="addClientAddressesLookupsForm"
+      (ngSubmit)="onSubmit()"
+    >
+    <label for="addressTypeId">Address Type<sup>*</sup></label>
+      <p-select
+        [options]="addressTypesList"
         optionLabel="name"
-        display="chip"
-        icon="pi pi-times"
-        name="addresses"
-        [maxSelectedLabels]="999"
-        chipIcon="pi pi-times"
+        placeholder="Select Address Type"
+        formControlName="addressTypeId"
+        optionValue="id"
+        (onChange)="onSectorChange($event)"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('addressTypeId')?.invalid &&
+            (formGroup.get('addressTypeId')?.dirty ||
+              formGroup.get('addressTypeId')?.touched)
+        }"
       />
-      <label for="countries">Country<sup class="danger">*</sup></label>
-      <p-multiselect
-        [options]="countries"
-        [(ngModel)]="selectedCountries"
+      <label for="countryId">Country<sup>*</sup></label>
+      <p-select
+        [options]="countriesList"
+        optionLabel="name"
         placeholder="Select Country"
-        optionLabel="name"
-        display="chip"
-        icon="pi pi-times"
-        name="countries"
-        styleClass="w-full md:w-80"
-        [maxSelectedLabels]="999"
-        chipIcon="pi pi-times"
+        formControlName="countryId"
+        optionValue="id"
+        (onChange)="onSectorChange($event)"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('countryId')?.invalid &&
+            (formGroup.get('countryId')?.dirty ||
+              formGroup.get('countryId')?.touched)
+        }"
       />
-      <label for="governments">Government<sup class="danger">*</sup></label>
-      <p-multiselect
-        [options]="governments"
-        [(ngModel)]="selectedGovernments"
-        placeholder="Select Government"
+      <label for="governorateId">Governorate<sup>*</sup></label>
+      <p-select
+        [options]="governoratesList"
         optionLabel="name"
-        display="chip"
-        icon="pi pi-times"
-        name="governments"
-        styleClass="w-full md:w-80"
-        [maxSelectedLabels]="999"
-        chipIcon="pi pi-times"
+        placeholder="Select governorate"
+        formControlName="governorateId"
+        optionValue="id"
+        (onChange)="onSectorChange($event)"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('governorateId')?.invalid &&
+            (formGroup.get('governorateId')?.dirty ||
+              formGroup.get('governorateId')?.touched)
+        }"
       />
-      <label for="areas">Area<sup class="danger">*</sup></label>
-      <p-multiselect
-        [options]="areas"
-        [(ngModel)]="selectedAreas"
+      <label for="areaId">Area<sup>*</sup></label>
+      <p-select
+        [options]="areasList"
+        optionLabel="name"
         placeholder="Select Area"
-        optionLabel="name"
-        display="chip"
-        icon="pi pi-times"
-        name="areas"
-        styleClass="w-full md:w-80"
-        [maxSelectedLabels]="999"
-        chipIcon="pi pi-times"
+        formControlName="areaId"
+        optionValue="id"
+        (onChange)="onSectorChange($event)"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('areaId')?.invalid &&
+            (formGroup.get('areaId')?.dirty || formGroup.get('areaId')?.touched)
+        }"
       />
-      <label for="detailsEnglish">Details English</label>
+      <label for="detailes">Details in English<sup>*</sup></label>
       <input
         pInputText
-        id="detailsEnglish"
-        aria-describedby="detailsEnglish-help"
-        [(ngModel)]="value32"
-        name="detailsEnglish"
-        placeholder="Address Details"
+        id="detailes"
+        formControlName="detailes"
+        placeholder="Type"
       />
-      <label for="detailsEnglish">Details Arabic</label>
+      <div
+        *ngIf="
+          formGroup.get('detailes')?.hasError('required') &&
+          formGroup.get('detailes')?.touched
+        "
+        class="p-error"
+      >
+        Details in English is required.
+      </div>
+      <label for="detailesAR">DetailsAr in Arabic<sup>*</sup></label>
       <input
         pInputText
-        id="detailsArabic"
-        aria-describedby="detailsArabic-help"
-        [(ngModel)]="value33"
-        name="detailsArabic"
-        placeholder="Address Details"
+        id="detailesAR"
+        formControlName="detailesAR"
+        placeholder="Type"
       />
-      <div class="row">
-        <div class="col-sm">
-          <label for="isMain">isMain<sup class="danger">*</sup></label>
-          <p-select
-            [options]="isMain"
-            [(ngModel)]="selectedIsMain"
-            optionLabel="name"
-            placeholder="Is main?"
-            class="w-full md:w-56"
-            name="isMain"
-          />
+      <div
+        *ngIf="
+          formGroup.get('detailesAR')?.hasError('required') &&
+          formGroup.get('detailesAR')?.touched
+        "
+        class="p-error"
+      >
+        Details in Arabic is required.
+      </div>
+
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
+          *ngIf="!editMode"
+        >
+          <p-button
+            type="submit"
+            label="Add Client Addresses"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
         </div>
-        <div class="col-sm">
-          <label for="isActive">isActive<sup class="danger">*</sup></label>
-          <p-select
-            [options]="isActive"
-            [(ngModel)]="selectedIsActive"
-            optionLabel="name"
-            placeholder="is Active?"
-            class="w-full md:w-56"
-            name="isActive"
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Client Addresses"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate([`/crm/clients/view-client-addresses/${this.clientIdParam}`])"
           />
         </div>
       </div>
@@ -5125,6 +5175,96 @@
         </div>
       </div>
     </form>
+
+       <form action="" 
+    *ngIf="addClientPhoneNumberForm"     
+       (ngSubmit)="onSubmit()"  
+       [formGroup]="formGroup"
+  >
+
+   <label for="phoneTypeId"
+        >Select Phone Type<sup class="danger">*</sup></label
+      >
+      <!--Select Box-->
+      <p-select
+        [options]="phoneTypes"
+        optionLabel="name"
+        placeholder="Select Phone type"
+        formControlName="phoneTypeId"
+        optionValue="id"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('phoneTypeId')?.invalid &&
+            (formGroup.get('phoneTypeId')?.dirty ||
+              formGroup.get('phoneTypeId')?.touched)
+        }"
+      >
+      </p-select>
+
+      <div
+        *ngIf="
+          formGroup.get('phoneTypeId')?.hasError('required') &&
+          formGroup.get('phoneTypeId')?.touched
+        "
+        class="p-error"
+      >
+        Phone Type is required.
+      </div>
+
+
+      <label for="phoneNumber">Number <sup class="danger">*</sup></label>
+      <input
+        pInputText
+        name="phoneNumber"
+        formControlName="phoneNumber"
+        placeholder="phoneNumber"
+        type="string"
+        [ngClass]="{
+          'ng-invalid ng-dirty':
+            formGroup.get('phoneNumber')?.invalid &&
+            formGroup.get('phoneNumber')?.touched
+        }"
+      />
+
+       
+
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 currenciesDiv"
+          *ngIf="!editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Add Phone Number"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Phone Number "
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate([`/crm/clients/view-phone-number/${clientId}`])"
+          />
+        </div>
+      </div>
+
+    </form>
+
     <form action="" *ngIf="addPhoneNumbersShowMain">
       <label for="phoneType">Phone Type <sup class="danger">*</sup></label>
       <p-multiselect

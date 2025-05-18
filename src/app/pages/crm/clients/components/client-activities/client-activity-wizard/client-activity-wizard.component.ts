@@ -31,7 +31,7 @@ export class ClientActivityWizardComponent {
           title: 'Add Address',
           content:
             'Introduce your company core info quickly to users by fill up company details',
-          link: '/crm/clients/add-address',
+          link: `crm/clients/view-client-addresses/${this.clientId}`,
         },
         {
           imgUrl: '/assets/images/shared/card/sales.svg',
@@ -49,7 +49,7 @@ export class ClientActivityWizardComponent {
           title: 'Phone Number',
           content:
             'Introduce your company core info quickly to users by fill up company details',
-          link: '/crm/clients/add-phone-number',
+           link: `/crm/clients/view-phone-number/${this.clientId}`
         },
         {
           imgUrl: '/assets/images/shared/card/contact.svg',
