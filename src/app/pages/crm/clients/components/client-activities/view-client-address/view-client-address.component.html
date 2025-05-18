@@ -1,41 +1,35 @@
 <div class="page-content">
   <app-toolbar-table
-    [title]="'Addresses'"
-    [labelBtn]="'Add Address'"
+    [title]="'Client Address'"
+    [labelBtn]="'Add Client Address'"
     [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
     [backExists]="true"
     [customSpacing]="'custom-spacing'"
     [exports]="true"
-    (addBtn)="onAddAddress()"
+    (addBtn)="onAddClientAddress()"
     (searchChange)="onSearch($event)"
     (toggleFiltersEvent)="onToggleFilters($event)"
     (exportExcel)="tableRef.exportToExcel()"
     (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <!-- [col1Name]="'Client Name EN'"
-  [col2Name]="'Client Name AR'"
-  [col3Name]="'Details English'"
-  [col4Name]="'Details AR'"
-  [col5Name]="'Address Type '"
-  [col6Name]="'Area '"
-  [col7Name]="'IsMain'"
-  [col8Name]="'IsActive'" -->
-  <ng-container *ngIf="addresses$ | async as addresses">
+  <ng-container *ngIf="clientAddresses$ | async as clientAddresses">
     <app-table
       #tableRef
       [cols]="colsInside"
-      [tableData]="filteredAddresses"
+      [tableData]="filteredClientAddresses"
       [edit]="true"
       [delete]="true"
+      [side]="false"
       [first]="first2"
       [checkBox]="true"
+      [view]="true"
       [filters]="showFilters"
       [uppercase]="'uppercase'"
-      [viewAddressTable]="true"
-      (onDelete)="onDeleteAddress($event)"
-      (onEdit)="onEditAddress($event)"
-      (wizardBtn)="onAddSide($event)"
+      [viewClientAddressesTable]="true"
+      (onDelete)="onDeleteClientAddress($event)"
+      (onEdit)="onEditClientAddress($event)"
+      (viewForm)="onViewClientAddress($event)"
     ></app-table>
     <app-delete-module
       [visible]="showDeleteModal"

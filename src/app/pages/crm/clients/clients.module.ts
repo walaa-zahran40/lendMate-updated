@@ -1,6 +1,3 @@
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { ButtonModule } from 'primeng/button';
@@ -13,7 +10,6 @@ import { TabsModule } from 'primeng/tabs';
 import { LegalFormsEffects } from '../../legals/store/legal-forms/legal-forms.effects';
 import { legalFormsReducer } from '../../legals/store/legal-forms/legal-forms.reducer';
 import { AddSalesTurnoverComponent } from './components/client-activities/add-client-sales-turnover/add-client-sales-turnover.component';
-import { AddAddressComponent } from './components/client-activities/add-client-address/add-address.component';
 import { AddCentralBankInfoComponent } from './components/client-activities/add-central-bank-info/add-central-bank-info.component';
 import { AddClientGuarantorComponent } from './components/client-activities/add-client-guarantor/add-client-guarantor.component';
 import { AddClientIdentityComponent } from './components/client-activities/add-client-identity/add-client-identity.component';
@@ -28,7 +24,6 @@ import { AddTmlOfficerComponent } from './components/client-activities/add-tml-o
 import { UploadDocumentsComponent } from './components/client-activities/add-upload-documents/upload-documents.component';
 import { ClientActivityWizardComponent } from './components/client-activities/client-activity-wizard/client-activity-wizard.component';
 import { ContactPersonViewTableDataComponent } from './components/client-activities/contact-person-view-table-data/contact-person-view-table-data.component';
-import { ViewAddressComponent } from './components/client-activities/view-client-addresses/view-address.component';
 import { ViewCentralBankInfoComponent } from './components/client-activities/view-central-bank-info/view-central-bank-info.component';
 import { ViewClientGuarantorComponent } from './components/client-activities/view-client-guarantor/view-client-guarantor.component';
 import { ViewClientIdentityComponent } from './components/client-activities/view-client-identity/view-client-identity.component';
@@ -72,6 +67,12 @@ import {
   contactPersonsFeatureKey,
   contactPersonsReducer,
 } from './store/contact-person/contact-person.reducer';
+import { AddClientAddressesComponent } from './components/client-activities/add-client-address/add-client-address.component';
+import { ViewClientAddressesComponent } from './components/client-activities/view-client-address/view-client-address.component';
+import { ClientAddressesEffects } from './store/client-addresses/client-addresses.effects';
+import { clientAddressesReducer } from './store/client-addresses/client-addresses.reducer';
+import { ClientSalesTurnoversEffects } from './store/client-sales-turnovers/client-sales-turnovers.effects';
+import { clientSalesTurnoverReducer } from './store/client-sales-turnovers/client-sales-turnovers.reducer';
 import { DocumentTypeEffects } from './store/document-type/document-type.effects';
 import { documentTypeReducer } from './store/document-type/document-type.reducer';
 import { IndividualEffects } from './store/individual/individual.effects';
@@ -82,16 +83,16 @@ import { SectorEffects } from './store/sector-drop-down/sector.effects';
 import { sectorReducer } from './store/sector-drop-down/sector.reducer';
 import { SubSectorEffects } from './store/sub-sector-drop-down/sub-sector.effects';
 import { subSectorReducer } from './store/sub-sector-drop-down/sub-sector.reducer';
-import { ClientSalesTurnoversEffects } from './store/client-sales-turnovers/client-sales-turnovers.effects';
-import { clientSalesTurnoverReducer } from './store/client-sales-turnovers/client-sales-turnovers.reducer';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../../../shared/shared.module';
-
 @NgModule({
   declarations: [
     AddClientComponent,
     UploadDocumentsComponent,
     ClientOnboardingComponent,
-    AddAddressComponent,
+    AddClientAddressesComponent,
     AddSalesTurnoverComponent,
     AddContactPersonComponent,
     AddPhoneNumberComponent,
@@ -103,7 +104,7 @@ import { SharedModule } from '../../../shared/shared.module';
     ContactPersonViewTableDataComponent,
     CompanyViewOnlyComponent,
     ViewUploadDocumentsComponent,
-    ViewAddressComponent,
+    ViewClientAddressesComponent,
     ViewSalesTurnoverComponent,
     ViewPhoneNumberComponent,
     ViewContactPersonComponent,
@@ -173,6 +174,8 @@ import { SharedModule } from '../../../shared/shared.module';
       clientIdentityTypesReducer
     ),
     EffectsModule.forFeature([ClientIdentityTypesEffects]),
+    StoreModule.forFeature('clientAddresses', clientAddressesReducer),
+    EffectsModule.forFeature([ClientAddressesEffects]),
   ],
 })
 export class ClientsModule {}
