@@ -33,10 +33,11 @@ export class ClientPhoneNumbersService {
   }
 
   getById(id: number): Observable<ClientPhoneNumber> {
-    return this.http.get<ClientPhoneNumber>(
-      `${this.api}/${id}`
-    );
-  }
+  return this.http.get<ClientPhoneNumber>(`${this.api}/Id`, {
+    params: { id: id.toString() }
+  });
+}
+
 
   create(data: Partial<ClientPhoneNumber>): Observable<ClientPhoneNumber> {
     return this.http.post<ClientPhoneNumber>(
