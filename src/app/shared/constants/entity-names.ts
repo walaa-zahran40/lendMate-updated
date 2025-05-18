@@ -1,5 +1,4 @@
 export enum EntityNames {
-  //Lookups
   AssetType = 'AssetType',
   Team = 'Team',
   SalesTurnover = 'SalesTurnover',
@@ -40,4 +39,5 @@ export enum EntityNames {
   SignatoryOfficer = 'SignatoryOfficer',
   Operation = 'Operation',
   PageOperation = 'PageOperation',
+  ClientIdentityType = 'ClientIdentityType',
 }

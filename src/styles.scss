@@ -212,10 +212,11 @@ body {
   border-color: #dc3545 !important;
   color: #fff !important;
 }
-:ng-deep .p-dialog-footer {
-  justify-content: space-between;
+.p-dialog-footer {
+  justify-content: space-between !important;
   flex-direction: row-reverse;
 }
+
 .p-dialog .p-dialog-close-button {
   float: right;
 }

@@ -49,13 +49,6 @@ import { LeaveEffects } from './store/client-form/client-form.effects';
 import { clientFormReducer } from './store/client-form/client-form.reducer';
 import { ClientGuarantorsEffects } from './store/client-guarantors/client-guarantors.effects';
 import { clientGuarantorsReducer } from './store/client-guarantors/client-guarantors.reducer';
-import { ClientIdentitiesEffects } from './store/client-identities/client-identities.effects';
-import { clientIdentitiesReducer } from './store/client-identities/client-identities.reducer';
-import { ClientIdentityTypesEffects } from './store/client-identity-types/client-identity-types.effects';
-import {
-  CLIENT_IDENTITY_TYPES_FEATURE_KEY,
-  clientIdentityTypesReducer,
-} from './store/client-identity-types/client-identity-types.reducer';
 import { ClientShareholdersEffects } from './store/client-share-holders/client-share-holders.effects';
 import { clientShareholdersReducer } from './store/client-share-holders/client-share-holders.reducer';
 import { ClientTMLOfficersEffects } from './store/client-tml-officers/client-tml-officers.effects';
@@ -89,6 +82,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../../../shared/shared.module';
 import { ClientPhoneNumbersEffects } from './store/client-phone-numbers/client-phone-numbers.effects';
 import { clientPhoneNumberReducer } from './store/client-phone-numbers/client-phone-numbers.reducer';
+import { ClientIdentityTypesEffects } from './store/client-identity-types/client-identity-types.effects';
+import { reducer as clientIdentityTypesReducer } from './store/client-identity-types/client-identity-types.reducer';
 
 @NgModule({
   declarations: [
@@ -167,19 +162,14 @@ import { clientPhoneNumberReducer } from './store/client-phone-numbers/client-ph
     EffectsModule.forFeature([ClientGuarantorsEffects]),
     StoreModule.forFeature('clientTMLOfficers', clientTMLOfficersReducer),
     EffectsModule.forFeature([ClientTMLOfficersEffects]),
-    StoreModule.forFeature('clientIdentities', clientIdentitiesReducer),
-    EffectsModule.forFeature([ClientIdentitiesEffects]),
+    StoreModule.forFeature('clientIdentityTypes', clientIdentityTypesReducer),
+    EffectsModule.forFeature([ClientIdentityTypesEffects]),
     StoreModule.forFeature('clientSalesTurnovers', clientSalesTurnoverReducer),
     EffectsModule.forFeature([ClientSalesTurnoversEffects]),
 
     StoreModule.forFeature('clientPhoneNumbers', clientPhoneNumberReducer),
     EffectsModule.forFeature([ClientPhoneNumbersEffects]),
 
-    StoreModule.forFeature(
-      CLIENT_IDENTITY_TYPES_FEATURE_KEY,
-      clientIdentityTypesReducer
-    ),
-    EffectsModule.forFeature([ClientIdentityTypesEffects]),
     StoreModule.forFeature('clientAddresses', clientAddressesReducer),
     EffectsModule.forFeature([ClientAddressesEffects]),
   ],

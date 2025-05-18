@@ -25,10 +25,8 @@ import { SubSectors } from '../../../../../../../shared/interfaces/sub-sector.in
 import { selectAllSubSectors } from '../../../../store/sub-sector-drop-down/sub-sector.selectors';
 import { IndividualFacade } from '../../../../store/individual/individual.facade';
 import { Individual } from '../../../../store/individual/individual.state';
-import { ClientIdentitiesFacade } from '../../../../store/client-identities/client-identities.facade';
-import { ClientIdentityTypesFacade } from '../../../../store/client-identity-types/client-identity-types.facade';
-import { ClientTypesFacade } from '../../../../../../lookups/store/client-types/client-types.facade';
 import { ClientsFacade } from '../../../../store/clients/clients.facade';
+import { ClientIdentityTypesFacade } from '../../../../store/client-identity-types/client-identity-types.facade';
 
 @Component({
   selector: 'app-add-client',
@@ -75,7 +73,6 @@ export class AddClientComponent implements OnInit {
     private route: ActivatedRoute,
     private clientsFacade: ClientsFacade,
     private individualFacade: IndividualFacade,
-    private identityFacade: ClientIdentitiesFacade,
     private identityTypeFacade: ClientIdentityTypesFacade
   ) {}
 
@@ -101,187 +98,20 @@ export class AddClientComponent implements OnInit {
       .get('dateOfBirthIndividual')!
       .setValue(this.maxDateOfBirth);
 
-    // — identity‐types always for dropdown
-    console.log('Loading identity types for dropdown…');
+    //— select identity dropdown list
+    // 1) Fire the load request
     this.identityTypeFacade.loadAll();
+
+    // 2) Then subscribe (or better, use an async pipe)
     this.identityTypeFacade.all$
       .pipe(
-        filter((arr) => arr.length > 0),
+        filter((list) => list.length > 0),
         take(1)
       )
-      .subscribe((types) => {
-        if (!this.editMode) {
-          console.log('  → ADD MODE: identityOptions = all types', types);
-          this.identityOptions = types;
-        }
+      .subscribe((res) => {
+        console.log('identity list', res);
+        this.identityOptions = res;
       });
-
-    console.log(
-      'Determining if we are in edit or add mode…',
-      this.route.snapshot
-    );
-    // if (raw) {
-    //   this.editMode = true;
-    //   console.log('Loading existing client identities…');
-    //   this.identityFacade.loadAll(); // ideally: loadByClientId(this.clientId!)
-    //   combineLatest({
-    //     identities: this.identityFacade.all$.pipe(
-    //       filter((arr) => arr.length > 0),
-    //       take(1)
-    //     ),
-    //     types: this.identityTypeFacade.all$.pipe(
-    //       filter((arr) => arr.length > 0),
-    //       take(1)
-    //     ),
-    //   }).subscribe(({ identities, types }) => {
-    //     console.log('  → identities loaded:', identities);
-    //     const used = Array.from(
-    //       new Set(identities.map((i) => i.identificationTypeId))
-    //     );
-    //     const filtered = types.filter((t) => used.includes(t.id));
-    //     console.log('  → filtered identityOptions:', filtered);
-    //     this.identityOptions = filtered;
-    //     console.log('  → Building FormArray for identities…');
-    //     const groups = identities.map((ci) =>
-    //       this.fb.group({
-    //         id: [ci.id],
-    //         identificationNumber: [
-    //           ci.identificationNumber,
-    //           Validators.required,
-    //         ],
-    //         selectedIdentities: [ci.identificationTypeId, Validators.required],
-    //         isMain: [ci.isMain, Validators.required],
-    //       })
-    //     );
-    //     this.addClientFormIndividual.setControl(
-    //       'identities',
-    //       this.fb.array(groups)
-    //     );
-    //     console.log('  → identities FormArray set');
-    //   });
-    // } else {
-    //   this.editMode = false;
-    // }
-    // — if editing, load only that client’s identities
-    const raw = this.route.snapshot.params['clientId'];
-    this.clientId = raw ? +raw : null;
-    this.editMode = !!this.clientId;
-
-    if (this.editMode) {
-      // Company-vs-Individual branch
-      const isIndividual =
-        this.route.snapshot.queryParamMap.get('type') === this.individualCode;
-      if (isIndividual) {
-        this.individualFacade.load(this.clientId!);
-        this.individualFacade.selected$
-          .pipe(
-            filter((i) => !!i),
-            take(1)
-          )
-          .subscribe((data) => this.patchFormIndividual(data));
-      } else {
-        this.clientsFacade.loadClient(this.clientId!);
-        this.clientsFacade.selectedClient$
-          .pipe(
-            filter((c) => !!c),
-            take(1)
-          )
-          .subscribe((c) => this.patchForm(c));
-      }
-    }
-    // this.clientId = raw ? +raw : null;
-    // this.editMode = !!this.clientId;
-    // console.log(`  → clientId = ${this.clientId}`);
-    // console.log(`  → editMode = ${this.editMode}`);
-
-    // // — client‐type tabs logic
-    // console.log('Loading client types to decide which tab to show…');
-    // this.clientTypesFacade.loadAll();
-    // this.clientTypesFacade.all$
-    //   .pipe(
-    //     filter((arr) => arr.length > 0),
-    //     take(1)
-    //   )
-    //   .subscribe((types) => {
-    //     console.log('  → clientTypes loaded:', types);
-    //     const indivType = types.find(
-    //       (t) => t.name.toLowerCase() === 'individual'
-    //     )!;
-    //     this.individualCode = indivType.code;
-    //     this.selectedClientType = indivType.id;
-    //     console.log(
-    //       `  → individualCode = ${this.individualCode}, selectedClientType = ${this.selectedClientType}`
-    //     );
-    //     const isIndEdit =
-    //       this.route.snapshot.queryParamMap.get('type') === this.individualCode;
-    //     if (!this.editMode) {
-    //       console.log('  → ADD MODE: enabling both tabs');
-    //       this.activeTabIndex = 0;
-    //       this.disableCompanyTab = false;
-    //       this.disableIndividualTab = false;
-    //     } else if (isIndEdit) {
-    //       console.log('  → EDIT INDIVIDUAL branch selected');
-    //       this.activeTabIndex = 1;
-    //       this.disableCompanyTab = true;
-    //       console.log(
-    //         `  → Dispatching IndividualFacade.load(${this.clientId})`
-    //       );
-    //       this.individualFacade.load(this.clientId!);
-    //       this.individualFacade.selected$
-    //         .pipe(
-    //           filter((i) => !!i),
-    //           take(1)
-    //         )
-    //         .subscribe((data) => {
-    //           console.log('    → Individual data received:', data);
-    //           this.individualBusinessId = data.id;
-    //           this.patchFormIndividual(data);
-    //           console.log('    → Individual form patched');
-    //           // disable form in view mode
-    //           if (this.editMode) {
-    //             console.log('    → Disabling individual form for view-only');
-    //             this.addClientFormIndividual.disable({ emitEvent: false });
-    //           }
-    //         });
-    //     } else {
-    //       console.log('  → EDIT COMPANY branch selected');
-    //       this.activeTabIndex = 0;
-    //       this.disableIndividualTab = true;
-    //       console.log(
-    //         `  → Dispatching loadClient({ clientId: ${this.clientId} })`
-    //       );
-    //       this.store.dispatch(loadClient({ clientId: this.clientId! }));
-    //       this.store
-    //         .select(selectSelectedClient)
-    //         .pipe(
-    //           filter((c) => !!c),
-    //           take(1)
-    //         )
-    //         .subscribe((c) => {
-    //           console.log('    → Company data received:', c);
-    //           this.patchForm(c!);
-    //           console.log('    → Company form patched');
-    //           // disable form in view mode
-    //           if (this.editMode) {
-    //             console.log('    → Disabling company form for view-only');
-    //             this.addClientForm.disable({ emitEvent: false });
-    //           }
-    //         });
-    //     }
-    //   });
-    // // — load sectors & sub-sectors once
-    // console.log('Dispatching loadSectors() and loadSubSectors()…');
-    // this.store.dispatch(loadSectors());
-    // this.store.dispatch(loadSubSectors());
-    // this.store.select(selectAllSectors).subscribe((secs) => {
-    //   console.log('  → sectorsList updated:', secs);
-    //   this.sectorsList = secs;
-    // });
-    // this.store.select(selectAllSubSectors).subscribe((subs) => {
-    //   console.log('  → subSectorsList updated:', subs);
-    //   this.subSectorsList = subs;
-    // });
-    // console.log('ngOnInit: complete');
   }
 
   get tabValue(): number {
