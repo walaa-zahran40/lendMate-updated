@@ -24,7 +24,7 @@ export class ClientsFacade {
     this.store.dispatch(Actions.loadAll({ pageNumber }));
   }
 
-  loadById(id: number) {
+  loadById(id: any) {
     console.log('[Facade] loadById dispatching for id=', id);
     this.store.dispatch(Actions.loadById({ id }));
   }

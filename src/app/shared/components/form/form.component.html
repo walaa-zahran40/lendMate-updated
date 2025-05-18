@@ -890,31 +890,30 @@
         </ng-container>
         <br />
         <!-- Sub Sector Dropdown -->
-        <label for="subSectorDropdown"
-          >Select Sub Sector<sup class="danger">*</sup></label
-        >
-        <ng-container *ngIf="filteredSubSectors$ | async as subSectors">
-          <p-multiSelect
-            [options]="subSectors"
-            formControlName="subSectorIdList"
-            optionLabel="name"
-            optionValue="id"
-            placeholder="Select Sub Sector"
-            display="chip"
-            (onChange)="onSubSectorChange($event)"
-          ></p-multiSelect>
+        <label for="subSectorDropdown">
+          Select Sub Sector<sup class="danger">*</sup>
+        </label>
+        <p-multiSelect
+          [options]="subSectorsList"
+          formControlName="subSectorIdList"
+          optionLabel="name"
+          optionValue="id"
+          placeholder="Select Sub Sector"
+          display="chip"
+          (onChange)="onSubSectorChange($event)"
+        ></p-multiSelect>
 
-          <div
-            class="p-error"
-            style="color: var(--custom-red)"
-            *ngIf="
-              subSectorList?.invalid &&
-              (subSectorList?.touched || subSectorList?.dirty)
-            "
-          >
-            Sub Sector is required.
-          </div>
-        </ng-container>
+        <div
+          class="p-error"
+          *ngIf="
+            formGroup.get('subSectorIdList')?.invalid &&
+            (formGroup.get('subSectorIdList')?.touched ||
+              formGroup.get('subSectorIdList')?.dirty)
+          "
+        >
+          Sub Sector is required.
+        </div>
+
         <br />
         <p-toggleswitch formControlName="isIscore" name="isIscore" />&nbsp;
         <label for="isIscore">Is Iscore?</label><br />
@@ -1424,7 +1423,7 @@
           class="parent2-individual2 mt-2 flex items-start gap-4 align-items-center flex-wrap"
         >
           <!-- 1) Identification Number -->
-          <div class="div-number flex-1 min-w-0 mb-0">
+          <div class="div-number flex-1 min-w-0">
             <label for="identificationNumber" class="p-0">
               Identification Number<sup class="danger">*</sup>
             </label>

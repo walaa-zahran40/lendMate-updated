@@ -58,10 +58,13 @@ const routes: Routes = [
     component: AddClientComponent,
   },
   {
+    path: 'clients/edit-client/:clientId',
+    component: AddClientComponent,
+  },
+  {
     path: 'clients/edit-client/:id',
     component: AddClientComponent,
   },
-
   {
     path: 'clients/add-client-guarantor',
     component: AddClientGuarantorComponent,
@@ -172,8 +175,7 @@ const routes: Routes = [
     component: ViewSalesTurnoverComponent,
   },
 
-
-    // Client Phone number
+  // Client Phone number
   {
     path: 'clients/add-phone-number/:clientId',
     component: AddPhoneNumberComponent,
@@ -188,7 +190,6 @@ const routes: Routes = [
     path: 'clients/view-phone-number/:clientId',
     component: ViewPhoneNumberComponent,
   },
-
 
   {
     path: 'clients/view-contact-person',

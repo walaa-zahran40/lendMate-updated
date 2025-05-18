@@ -32,7 +32,10 @@ export class ClientsService {
   }
 
   create(payload: Omit<Client, 'id'>): Observable<Client> {
-    return this.http.post<Client>(`${this.baseUrl}/CreateClient`, payload);
+    return this.http.post<Client>(
+      `${this.baseUrl}/CreateClientGeneralSettings`,
+      payload
+    );
   }
 
   update(id: number, changes: Partial<Client>): Observable<void> {
@@ -43,6 +46,6 @@ export class ClientsService {
   }
 
   delete(id: number): Observable<void> {
-    return this.http.delete<void>(`/Clients/${id}`);
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 }

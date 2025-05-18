@@ -70,6 +70,7 @@ export class AddClientComponent implements OnInit {
 
   ngOnInit(): void {
     // — build both forms (company & individual)
+    console.log('route', this.route.snapshot);
 
     console.log('Building the company form…');
     this.buildFormCompany();
@@ -107,60 +108,53 @@ export class AddClientComponent implements OnInit {
     //edit and view mode
     // 1️⃣ Detect mode & id
     console.log('Detecting mode & id…', this.route.snapshot);
-    const idParam = this.route.snapshot.paramMap.get('id');
-    console.log('Detecting mode & id…', idParam);
-
+    const clientId = this.route.snapshot.paramMap.get('clientId');
+    console.log('clientId:', clientId);
     const mode = this.route.snapshot.queryParams['mode']; // 'edit' | 'view'
-    console.log('Detecting mode & id…', mode);
-    if (idParam && (mode === 'edit' || mode === 'view')) {
-      this.clientId = +idParam;
+    if (clientId && (mode === 'edit' || mode === 'view')) {
+      this.clientId = +clientId;
       this.editMode = mode === 'edit';
       this.viewOnly = mode === 'view';
+      this.clientsFacade.loadById(clientId);
 
-      // 1️⃣ Before dispatch
-      console.log('[AddClient] dispatch loadClientById for', this.clientId);
-      this.clientsFacade.loadById(this.clientId);
-
-      // 2️⃣ Inspect the facade’s selectedClient$
+      //Company
       this.clientsFacade.selected$
         .pipe(
           filter((ct): ct is Client => !!ct && ct.id === this.clientId),
           take(1)
         )
         .subscribe((client) => {
-          console.log('[AddClient] selectedClient$ emitted client:', client);
           if (client.clientTypeId === 1) {
+            // company
             this.disableIndividualTab = true;
-            console.log('[AddClient] patching COMPANY form');
+            this.activeTabIndex = 0; // <— select Company
             this.patchForm(client);
           } else {
+            // individual
             this.disableCompanyTab = true;
-            console.log('[AddClient] patching INDIVIDUAL form', this.clientId);
+            this.activeTabIndex = 1; // <— select Individual
             this.individualFacade.loadById(this.clientId);
-
-            this.individualFacade.selected$
-              .pipe(
-                filter((ind): ind is Individual => !!ind),
-                take(1)
-              )
-              .subscribe((ind) => {
-                console.log('[AddClient] patchFormIndividual with:', ind);
-                this.patchFormIndividual(ind);
-              });
+            this.patchFormIndividual(client);
           }
-
+          // if view‐only, disable the form as you did
           if (this.viewOnly) {
             if (client.clientTypeId === 2) {
-              this.patchFormIndividual(this.individualBusinessId);
-              this.addClientFormIndividual.disable(); // disables group + all children
+              this.addClientFormIndividual.disable();
             } else {
-              this.patchForm(client);
               this.addClientForm.disable();
             }
           }
         });
-    } else {
-      console.warn('[AddClient] no idParam or invalid mode');
+      //Individual
+      this.individualFacade.selected$
+        .pipe(
+          filter((ct): ct is Individual => !!ct && ct.id === this.clientId),
+          take(1)
+        )
+        .subscribe((ind) => {
+          this.patchFormIndividual(ind);
+          if (this.viewOnly) this.addClientFormIndividual.disable();
+        });
     }
   }
 
@@ -168,7 +162,7 @@ export class AddClientComponent implements OnInit {
     return this.disableCompanyTab ? 1 : 0;
   }
 
-  private patchFormIndividual(ind: Individual) {
+  private patchFormIndividual(ind: any) {
     // ── load + filter sub-sectors for the individual’s sector ──
     const firstSectorId = ind.subSectorList![0]?.sectorId;
     if (firstSectorId) {
@@ -187,7 +181,7 @@ export class AddClientComponent implements OnInit {
           // now patch just the two controls that matter:
           this.addClientFormIndividual.patchValue({
             sectorId: firstSectorId,
-            subSectorIdList: ind.subSectorList!.map((s) => s.sectorId),
+            subSectorIdList: ind.subSectorList!.map((s: any) => s.sectorId),
             clientId: this.route.snapshot.params['id'],
           });
         });
@@ -196,7 +190,7 @@ export class AddClientComponent implements OnInit {
     // ── identities array ──
     const arr = this.addClientFormIndividual.get('identities') as FormArray;
     arr.clear();
-    ind.clientIdentities!.forEach((ci) => {
+    ind.clientIdentities!.forEach((ci: any) => {
       const fg = this.fb.group({
         id: [ci.id],
         identificationNumber: [ci.identificationNumber, Validators.required],
@@ -297,12 +291,8 @@ export class AddClientComponent implements OnInit {
   }
 
   patchForm(client: any): void {
-    console.log('🛠️ patchForm got:', client);
-    if (!client?.subSectorList?.length) {
-      console.warn('⚠️ no subSectorList to patch––skipping');
-      return;
-    }
-    const sectorId = client.subSectorList[0].sectorId;
+    console.log('🛠️ patchForm got client:', client);
+    const sectorId = client.subSectorList[0]?.sectorId;
     if (!sectorId) return;
 
     this.store.dispatch(loadSectorById({ id: sectorId }));
@@ -314,26 +304,28 @@ export class AddClientComponent implements OnInit {
         take(1),
         map((subs) => {
           const sectorSubs = subs.filter((s) => s.sectorId === sectorId);
-
-          // Add any missing selected subs (edge case where they don't exist in filtered list)
-          const extraSelectedSubs = client.subSectorList.filter(
-            (s: any) => !sectorSubs.some((sub) => sub.id === s.sectorId)
+          const extraSelected = client.subSectorList.filter(
+            (s: any) => !sectorSubs.some((sub) => sub.id === s.id)
           );
-
-          return [...sectorSubs, ...extraSelectedSubs];
+          return [...sectorSubs, ...extraSelected];
         })
       )
       .subscribe((finalSubs) => {
-        this.subSectorsList = finalSubs;
+        console.log('📋 finalSubs to show in dropdown:', finalSubs);
 
+        this.subSectorsList = finalSubs;
+        // 🔍 LOG the values you patch to the form control
+        const selectedIds = client.subSectorList.map((s: any) => s.id);
+        console.log('✅ patching subSectorIdList with IDs:', selectedIds);
         // Then patch the form after options are available
         this.addClientForm.patchValue({
           ...client,
           sectorId,
-          subSectorIdList: client.subSectorList.map((s: any) => s.sectorId),
+          subSectorIdList: selectedIds,
           legalFormId: client.legalFormId?.id || client.legalFormId,
           legalFormLawId: client.legalFormLawId?.id || client.legalFormLawId,
         });
+        console.log('📄 form after patch:', this.addClientForm.getRawValue());
       });
   }
 
@@ -437,6 +429,7 @@ export class AddClientComponent implements OnInit {
     });
 
     if (this.editMode) {
+      console.log('form value individual ', this.route.snapshot);
       const changes: any = {
         id: this.individualBusinessId,
         name: formValue.nameEnglishIndividual,
@@ -450,7 +443,7 @@ export class AddClientComponent implements OnInit {
         genderId: formValue.genderIndividual,
         subSectorIdList: formValue.subSectorIdList,
         clientIdentities: clientIdentitiesPayload,
-        clientId: this.route.snapshot.params['id'],
+        clientId: this.route.snapshot.params['clientId'],
       };
 
       console.log('[Edit Mode] PATCH Payload:', changes);
