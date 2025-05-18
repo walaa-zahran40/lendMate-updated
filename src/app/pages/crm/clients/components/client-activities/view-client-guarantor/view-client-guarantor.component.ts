@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Client } from '../../../store/clients/client.model';
+import { Client } from '../../../store/_clients/allclients/client.model';
 
 @Component({
   selector: 'app-view-client-guarantor',

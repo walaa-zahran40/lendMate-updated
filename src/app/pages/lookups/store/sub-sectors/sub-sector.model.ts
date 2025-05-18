@@ -3,6 +3,6 @@ export interface SubSector {
   code?: string;
   name: string;
   nameAR: string;
-  sectorId: number;
+  sectorId: any;
   isActive: boolean;
 }

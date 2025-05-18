@@ -53,8 +53,6 @@ import { ClientShareholdersEffects } from './store/client-share-holders/client-s
 import { clientShareholdersReducer } from './store/client-share-holders/client-share-holders.reducer';
 import { ClientTMLOfficersEffects } from './store/client-tml-officers/client-tml-officers.effects';
 import { clientTMLOfficersReducer } from './store/client-tml-officers/client-tml-officers.reducer';
-import { ClientsEffects } from './store/clients/clients.effects';
-import { clientsReducer } from './store/clients/clients.reducer';
 import { ContactPersonEffects } from './store/contact-person/contact-person.effects';
 import {
   contactPersonsFeatureKey,
@@ -68,8 +66,6 @@ import { ClientSalesTurnoversEffects } from './store/client-sales-turnovers/clie
 import { clientSalesTurnoverReducer } from './store/client-sales-turnovers/client-sales-turnovers.reducer';
 import { DocumentTypeEffects } from './store/document-type/document-type.effects';
 import { documentTypeReducer } from './store/document-type/document-type.reducer';
-import { IndividualEffects } from './store/individual/individual.effects';
-import { individualReducer } from './store/individual/individual.reducer';
 import { LegalFormLawEffects } from './store/legal-form-law/legal-form-law.effects';
 import { legalFormLawReducer } from './store/legal-form-law/legal-form-law.reducer';
 import { SectorEffects } from './store/sector-drop-down/sector.effects';
@@ -84,6 +80,10 @@ import { ClientPhoneNumbersEffects } from './store/client-phone-numbers/client-p
 import { clientPhoneNumberReducer } from './store/client-phone-numbers/client-phone-numbers.reducer';
 import { ClientIdentityTypesEffects } from './store/client-identity-types/client-identity-types.effects';
 import { reducer as clientIdentityTypesReducer } from './store/client-identity-types/client-identity-types.reducer';
+import { reducer as clientsReducer } from './store/_clients/allclients/clients.reducer';
+import { reducer as individualReducer } from './store/_clients/individuals/individuals.reducer';
+import { ClientsEffects } from './store/_clients/allclients/clients.effects';
+import { IndividualsEffects } from './store/_clients/individuals/individuals.effects';
 
 @NgModule({
   declarations: [
@@ -146,8 +146,8 @@ import { reducer as clientIdentityTypesReducer } from './store/client-identity-t
     EffectsModule.forFeature([SectorEffects]),
     StoreModule.forFeature('subSector', subSectorReducer),
     EffectsModule.forFeature([SubSectorEffects]),
-    StoreModule.forFeature('individual', individualReducer),
-    EffectsModule.forFeature([IndividualEffects]),
+    StoreModule.forFeature('individuals', individualReducer),
+    EffectsModule.forFeature([IndividualsEffects]),
     StoreModule.forFeature('clientFile', clientFileReducer),
     EffectsModule.forFeature([ClientFileEffects]),
     StoreModule.forFeature('documentTypes', documentTypeReducer),

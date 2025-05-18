@@ -277,7 +277,7 @@
       class="custom-view m-0 float-right"
     />
 
-        <p-button
+    <p-button
       *ngIf="addClientPhoneNumberForm"
       icon="pi pi-cog"
       iconPos="left"
@@ -1424,7 +1424,7 @@
           class="parent2-individual2 mt-2 flex items-start gap-4 align-items-center flex-wrap"
         >
           <!-- 1) Identification Number -->
-          <div class="div-number flex-1 min-w-0">
+          <div class="div-number flex-1 min-w-0 mb-0">
             <label for="identificationNumber" class="p-0">
               Identification Number<sup class="danger">*</sup>
             </label>
@@ -4983,12 +4983,12 @@
       </div>
     </form>
 
-      <form
+    <form
       [formGroup]="formGroup"
       *ngIf="addClientAddressesLookupsForm"
       (ngSubmit)="onSubmit()"
     >
-    <label for="addressTypeId">Address Type<sup>*</sup></label>
+      <label for="addressTypeId">Address Type<sup>*</sup></label>
       <p-select
         [options]="addressTypesList"
         optionLabel="name"
@@ -5176,13 +5176,13 @@
       </div>
     </form>
 
-       <form action="" 
-    *ngIf="addClientPhoneNumberForm"     
-       (ngSubmit)="onSubmit()"  
-       [formGroup]="formGroup"
-  >
-
-   <label for="phoneTypeId"
+    <form
+      action=""
+      *ngIf="addClientPhoneNumberForm"
+      (ngSubmit)="onSubmit()"
+      [formGroup]="formGroup"
+    >
+      <label for="phoneTypeId"
         >Select Phone Type<sup class="danger">*</sup></label
       >
       <!--Select Box-->
@@ -5212,7 +5212,6 @@
         Phone Type is required.
       </div>
 
-
       <label for="phoneNumber">Number <sup class="danger">*</sup></label>
       <input
         pInputText
@@ -5226,8 +5225,6 @@
             formGroup.get('phoneNumber')?.touched
         }"
       />
-
-       
 
       <div class="row justify-end">
         <div
@@ -5262,7 +5259,6 @@
           />
         </div>
       </div>
-
     </form>
 
     <form action="" *ngIf="addPhoneNumbersShowMain">

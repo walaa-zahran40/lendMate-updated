@@ -40,4 +40,6 @@ export enum EntityNames {
   Operation = 'Operation',
   PageOperation = 'PageOperation',
   ClientIdentityType = 'ClientIdentityType',
+  Client = 'Client',
+  Individual = 'Individual',
 }

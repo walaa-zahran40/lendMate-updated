@@ -7,27 +7,19 @@ import {
   FormControl,
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { arabicOnlyValidator } from '../../../../../../../shared/validators/arabic-only.validator';
 import { positiveNumberValidator } from '../../../../../../../shared/validators/positive-only.validator';
-import { Sector } from '../../../../../../../shared/interfaces/sector.interface';
-import { combineLatest, filter, map, Observable, take } from 'rxjs';
-import {
-  updateClient,
-  createClient,
-} from '../../../../store/clients/clients.actions';
-import { selectSubSectorList } from '../../../../store/clients/clients.selectors';
-import {
-  loadSectorById,
-  loadSectors,
-} from '../../../../store/sector-drop-down/sector.actions';
+import { Observable, filter, take, map } from 'rxjs';
 import { SubSectors } from '../../../../../../../shared/interfaces/sub-sector.interface';
-import { selectAllSubSectors } from '../../../../store/sub-sector-drop-down/sub-sector.selectors';
-import { IndividualFacade } from '../../../../store/individual/individual.facade';
-import { Individual } from '../../../../store/individual/individual.state';
-import { ClientsFacade } from '../../../../store/clients/clients.facade';
+import { Sector } from '../../../../../../lookups/store/sectors/sector.model';
+import { ClientsFacade } from '../../../../store/_clients/allclients/clients.facade';
+import { Individual } from '../../../../store/_clients/individuals/individual.model';
 import { ClientIdentityTypesFacade } from '../../../../store/client-identity-types/client-identity-types.facade';
-
+import { loadSectorById } from '../../../../store/sector-drop-down/sector.actions';
+import { selectAllSubSectors } from '../../../../store/sub-sector-drop-down/sub-sector.selectors';
+import { IndividualsFacade } from '../../../../store/_clients/individuals/individuals.facade';
+import { Client } from '../../../../store/_clients/allclients/client.model';
 @Component({
   selector: 'app-add-client',
   standalone: false,
@@ -47,7 +39,6 @@ export class AddClientComponent implements OnInit {
   dropdownClientTypeItems: any[] = [];
   company: boolean = false;
   individual: any = false;
-  subSectorList$ = this.clientsFacade.subSectorList$;
   dropdownlegalLawItems: Sector[] = [];
   dropdownlegalFormLawItems: Sector[] = [];
   selectedClient$!: Observable<any>;
@@ -65,15 +56,16 @@ export class AddClientComponent implements OnInit {
   individualCode!: any;
   maxDateOfBirth = new Date(); // today
   minDateOfBirth = new Date();
-  // You’ll look up the “Individual” type’s ID at runtime:
+  viewOnly = false;
   individualTypeId!: number;
   constructor(
     private fb: FormBuilder,
     private store: Store,
     private route: ActivatedRoute,
     private clientsFacade: ClientsFacade,
-    private individualFacade: IndividualFacade,
-    private identityTypeFacade: ClientIdentityTypesFacade
+    private individualFacade: IndividualsFacade,
+    private identityTypeFacade: ClientIdentityTypesFacade,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -112,6 +104,64 @@ export class AddClientComponent implements OnInit {
         console.log('identity list', res);
         this.identityOptions = res;
       });
+    //edit and view mode
+    // 1️⃣ Detect mode & id
+    console.log('Detecting mode & id…', this.route.snapshot);
+    const idParam = this.route.snapshot.paramMap.get('id');
+    console.log('Detecting mode & id…', idParam);
+
+    const mode = this.route.snapshot.queryParams['mode']; // 'edit' | 'view'
+    console.log('Detecting mode & id…', mode);
+    if (idParam && (mode === 'edit' || mode === 'view')) {
+      this.clientId = +idParam;
+      this.editMode = mode === 'edit';
+      this.viewOnly = mode === 'view';
+
+      // 1️⃣ Before dispatch
+      console.log('[AddClient] dispatch loadClientById for', this.clientId);
+      this.clientsFacade.loadById(this.clientId);
+
+      // 2️⃣ Inspect the facade’s selectedClient$
+      this.clientsFacade.selected$
+        .pipe(
+          filter((ct): ct is Client => !!ct && ct.id === this.clientId),
+          take(1)
+        )
+        .subscribe((client) => {
+          console.log('[AddClient] selectedClient$ emitted client:', client);
+          if (client.clientTypeId === 1) {
+            this.disableIndividualTab = true;
+            console.log('[AddClient] patching COMPANY form');
+            this.patchForm(client);
+          } else {
+            this.disableCompanyTab = true;
+            console.log('[AddClient] patching INDIVIDUAL form', this.clientId);
+            this.individualFacade.loadById(this.clientId);
+
+            this.individualFacade.selected$
+              .pipe(
+                filter((ind): ind is Individual => !!ind),
+                take(1)
+              )
+              .subscribe((ind) => {
+                console.log('[AddClient] patchFormIndividual with:', ind);
+                this.patchFormIndividual(ind);
+              });
+          }
+
+          if (this.viewOnly) {
+            if (client.clientTypeId === 2) {
+              this.patchFormIndividual(this.individualBusinessId);
+              this.addClientFormIndividual.disable(); // disables group + all children
+            } else {
+              this.patchForm(client);
+              this.addClientForm.disable();
+            }
+          }
+        });
+    } else {
+      console.warn('[AddClient] no idParam or invalid mode');
+    }
   }
 
   get tabValue(): number {
@@ -120,7 +170,7 @@ export class AddClientComponent implements OnInit {
 
   private patchFormIndividual(ind: Individual) {
     // ── load + filter sub-sectors for the individual’s sector ──
-    const firstSectorId = ind.subSectorList[0]?.sectorId;
+    const firstSectorId = ind.subSectorList![0]?.sectorId;
     if (firstSectorId) {
       // tell NgRx to fetch (or ensure loaded) the sub-sectors for that sector
       this.store.dispatch(loadSectorById({ id: firstSectorId }));
@@ -137,7 +187,7 @@ export class AddClientComponent implements OnInit {
           // now patch just the two controls that matter:
           this.addClientFormIndividual.patchValue({
             sectorId: firstSectorId,
-            subSectorIdList: ind.subSectorList.map((s) => s.sectorId),
+            subSectorIdList: ind.subSectorList!.map((s) => s.sectorId),
             clientId: this.route.snapshot.params['id'],
           });
         });
@@ -146,7 +196,7 @@ export class AddClientComponent implements OnInit {
     // ── identities array ──
     const arr = this.addClientFormIndividual.get('identities') as FormArray;
     arr.clear();
-    ind.clientIdentities.forEach((ci) => {
+    ind.clientIdentities!.forEach((ci) => {
       const fg = this.fb.group({
         id: [ci.id],
         identificationNumber: [ci.identificationNumber, Validators.required],
@@ -164,7 +214,7 @@ export class AddClientComponent implements OnInit {
       shortNameIndividual: ind.shortName,
       emailIndividual: ind.email,
       jobTitleIndividual: ind.jobTitle,
-      dateOfBirthIndividual: new Date(ind.birthDate),
+      dateOfBirthIndividual: new Date(ind.birthDate!),
       genderIndividual: ind.genderId,
     });
 
@@ -322,7 +372,7 @@ export class AddClientComponent implements OnInit {
       };
       delete updatedClient.sectorId;
 
-      this.store.dispatch(updateClient({ client: updatedClient }));
+      this.clientsFacade.update(this.clientId, updatedClient);
     } else {
       const payload = {
         id: this.clientId,
@@ -345,12 +395,15 @@ export class AddClientComponent implements OnInit {
         employeesNo: formValue.employeesNo,
         marketSize: formValue.marketSize,
       };
-      this.store.dispatch(createClient({ payload }));
+      this.clientsFacade.create(payload);
     }
+    this.router.navigate(['/crm/clients/view-clients']);
   }
 
   individualBusinessId!: any; // Add this at class level to store ID 22
   saveInfoIndividual() {
+    console.log('saveInfoIndividual() called', this.route.snapshot);
+    this.individualBusinessId = this.route.snapshot.params['id'];
     if (this.addClientFormIndividual.invalid) {
       console.warn('[Validation] Individual form is invalid');
       this.addClientFormIndividual.markAllAsTouched();
@@ -426,6 +479,8 @@ export class AddClientComponent implements OnInit {
         ...payload,
         clientIdentities: clientIdentitiesPayload,
       });
+      this.clientsFacade.loadAll();
+      this.router.navigate(['/crm/clients/view-clients']);
     }
   }
 
@@ -454,5 +509,8 @@ export class AddClientComponent implements OnInit {
         // Clear selected sub-sectors to prevent stale values
         this.addClientForm.patchValue({ subSectorIdList: [] });
       });
+  }
+  close() {
+    this.router.navigate(['/crm/clients/view-clients']);
   }
 }

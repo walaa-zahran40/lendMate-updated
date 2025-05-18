@@ -39,7 +39,7 @@ export class ClientActivityWizardComponent {
           title: 'Sales Turnover',
           content:
             'Introduce your company core info quickly to users by fill up company details',
-          link: `/crm/clients/view-sales-turnover/${this.clientId}`
+          link: `/crm/clients/view-sales-turnover/${this.clientId}`,
         },
       ],
       [
@@ -49,7 +49,7 @@ export class ClientActivityWizardComponent {
           title: 'Phone Number',
           content:
             'Introduce your company core info quickly to users by fill up company details',
-           link: `/crm/clients/view-phone-number/${this.clientId}`
+          link: `/crm/clients/view-phone-number/${this.clientId}`,
         },
         {
           imgUrl: '/assets/images/shared/card/contact.svg',
@@ -124,58 +124,25 @@ export class ClientActivityWizardComponent {
         {
           imgUrl: '/assets/images/shared/card/mandate.svg',
           imgAlt: 'guarantor',
-          title: 'Guarantor',
+          title: 'Client Guarantors',
           content:
             'Introduce your company core info quickly to users by fill up company details',
           link: '/crm/clients/view-client-guarantor',
         },
         {
           imgUrl: '/assets/images/shared/card/mandate.svg',
-          imgAlt: 'Identity',
-          title: 'Identity',
+          imgAlt: 'client status',
+          title: 'Client Statuses',
           content:
             'Introduce your company core info quickly to users by fill up company details',
-          link: '/crm/clients/view-client-identity',
-        },
-        {
-          imgUrl: '/assets/images/shared/card/mandate.svg',
-          imgAlt: 'Legal',
-          title: 'Legal',
-          content:
-            'Introduce your company core info quickly to users by fill up company details',
-          link: '/crm/clients/view-client-legal',
-        },
-      ],
-      [
-        {
-          imgUrl: '/assets/images/shared/card/mandate.svg',
-          imgAlt: 'officer',
-          title: 'Officer',
-          content:
-            'Introduce your company core info quickly to users by fill up company details',
-          link: '/crm/clients/view-client-officer',
-        },
-        {
-          imgUrl: '/assets/images/shared/card/mandate.svg',
-          imgAlt: 'Identity',
-          title: 'Identity',
-          content:
-            'Introduce your company core info quickly to users by fill up company details',
-          link: '/crm/clients/view-client-identity',
-        },
-        {
-          imgUrl: '/assets/images/shared/card/mandate.svg',
-          imgAlt: 'Legal',
-          title: 'Legal',
-          content:
-            'Introduce your company core info quickly to users by fill up company details',
-          link: '/crm/clients/view-client-legal',
+          link: '/crm/clients/view-client-statuses',
         },
       ],
     ];
   }
   navigateTo(link: string) {
-    this.router.navigate([link]);}
+    this.router.navigate([link]);
+  }
   navigateToInfo() {
     this.router.navigate(['/crm/clients/company-view-only']);
   }

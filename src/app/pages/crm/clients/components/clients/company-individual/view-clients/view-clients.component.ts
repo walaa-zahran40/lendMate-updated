@@ -1,9 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
-import { ClientsFacade } from '../../../../store/clients/clients.facade';
 import { TableComponent } from '../../../../../../../shared/components/table/table.component';
-import { Client } from '../../../../store/clients/client.model';
+import { Client } from '../../../../store/_clients/allclients/client.model';
+import { ClientsFacade } from '../../../../store/_clients/allclients/clients.facade';
+// import { IndividualsFacade } from '../../../../store/_clients/individuals/individuals.facade';
 
 @Component({
   selector: 'app-view-clients',
@@ -15,7 +16,7 @@ export class ViewClientsComponent {
   tableDataInside: Client[] = [];
   first2: number = 0;
   private destroy$ = new Subject<void>();
-  clients$ = this.facade.clients$;
+  clients$ = this.facade.all$;
   rows: number = 10;
   showFilters: boolean = false;
   @ViewChild('tableRef') tableRef!: TableComponent;
@@ -31,19 +32,21 @@ export class ViewClientsComponent {
   ];
   showDeleteModal: boolean = false;
   selectedClientId: number | null = null;
-  originalClients: Client[] = [];
+  originalClients: any[] = [];
   filteredClients: Client[] = [];
 
-  constructor(private router: Router, private facade: ClientsFacade) {}
+  constructor(
+    private router: Router,
+    private facade: ClientsFacade // private facadeInd: IndividualsFacade
+  ) {}
   ngOnInit() {
-    this.facade.loadClients();
-
+    this.facade.loadAll();
+    // this.facadeInd.loadAll();
     this.clients$.pipe(takeUntil(this.destroy$)).subscribe((clients) => {
       console.log('raw clients from facade:', clients);
       clients.forEach((c) =>
         console.log(
           `> id=${c.id}`,
-          `clientTypeCode(server)=${c.clientTypeCode}`,
           `code=${c.code}`,
           `clientTypeId=${(c as any).clientTypeId}`
         )
@@ -52,8 +55,11 @@ export class ViewClientsComponent {
       const sorted = [...clients].sort((a, b) => b.id! - a.id!);
 
       this.originalClients = sorted.map((c) => {
+        console.log(
+          `client ${c} mapping client id=${c.id} → clientTypeId=${c.clientTypeId}`
+        );
         // choose the field that actually exists:
-        const mappedType = c.taxId ? 'Company' : 'Individual';
+        const mappedType = c.clientTypeId === 1 ? 'Company' : 'Individual';
         const mappedTaxID = c.taxId ? c.taxId : 'N/A';
         const mappedIscore = c.taxId ? c.taxId : 'N/A';
 
@@ -89,7 +95,7 @@ export class ViewClientsComponent {
 
   confirmDelete() {
     if (this.selectedClientId !== null) {
-      this.facade.deleteClient(this.selectedClientId);
+      this.facade.delete(this.selectedClientId);
     }
     this.resetDeleteModal();
   }
@@ -115,7 +121,10 @@ export class ViewClientsComponent {
   }
   onEditClient(client: Client) {
     this.router.navigate(['/crm/clients/edit-client', client.id], {
-      queryParams: { type: client.clientTypeCode, mode: 'edit' },
+      queryParams: {
+        type: client.clientTypeId === 2 ? 'Individual' : 'Company',
+        mode: 'edit',
+      },
     });
   }
   onViewClient(client: Client) {

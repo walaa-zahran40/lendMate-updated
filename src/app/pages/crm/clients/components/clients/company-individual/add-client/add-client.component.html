@@ -1,5 +1,5 @@
 <app-toolbar-form
-  [header]="editMode ? 'Edit Client' : 'Add Client'"
+  [header]="viewOnly ? 'View Client' : editMode ? 'Edit Client' : 'Add Client'"
   [backExists]="false"
   [closeExists]="true"
   [closeIcon]="'close-icon'"
@@ -32,6 +32,7 @@
                   [subSectorsList]="subSectorsList"
                   [selectedSectorId]="selectedSectorId"
                   (sectorChanged)="onSectorChanged($event)"
+                  [viewOnly]="viewOnly && tabValue === 0"
                 ></app-form>
                 <!--  -->
                 <div
@@ -57,6 +58,7 @@
                   [description]="'This information will be displayed publicly'"
                   [addClientShowLegal]="true"
                   [addClient]="true"
+                  [viewOnly]="viewOnly && tabValue === 0"
                 ></app-form>
 
                 <div class="row two-buttons margin-top">
@@ -89,6 +91,7 @@
                   [description]="'This information will be displayed publicly'"
                   [addClientShowBusiness]="true"
                   [addClient]="true"
+                  [viewOnly]="viewOnly && tabValue === 0"
                 ></app-form>
 
                 <div class="row two-buttons margin-top">
@@ -131,14 +134,22 @@
         (removeIdentity)="removeIdentity($event)"
         (addIdentity)="addIdentity()"
         [identityIndividual]="identityOptions"
+        [viewOnly]="viewOnly && tabValue === 1"
         [editMode]="editMode"
       ></app-form>
 
       <div class="row justify-end">
         <div class="col-sm-12 col-md-6 d-flex justify-end margin-top">
           <p-button
+            *ngIf="!viewOnly"
             (click)="saveInfoIndividual()"
             label="Save Information"
+            class="custom-save m-0 float-right"
+          ></p-button>
+          <p-button
+            *ngIf="viewOnly"
+            (click)="close()"
+            label="Close"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
