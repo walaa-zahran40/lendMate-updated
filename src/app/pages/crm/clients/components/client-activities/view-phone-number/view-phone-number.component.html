@@ -1,24 +1,41 @@
 <div class="page-content">
   <app-toolbar-table
-    [title]="'Phone Numbers'"
-    [labelBtn]="'Add Phone Number'"
-    [iconBtn]="''"
+    [title]="'Client Phone Number'"
+    [labelBtn]="'Add Client Phone Number'"
+    [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
     [backExists]="true"
+    [customSpacing]="'custom-spacing'"
     [exports]="true"
-    (addBtn)="addPhone()"
+    (addBtn)="onAddClientPhoneNumber()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col1Name]="'Name EN'"
-    [col2Name]="'Name AR'"
-    [col3Name]="'Phone Type'"
-    [col4Name]="'Phone Number'"
-    [edit]="true"
-    [delete]="true"
-    [side]="false"
-    [checkBox]="true"
-    [viewPhoneNumberTable]="true"
-  ></app-table>
+
+  <ng-container *ngIf="clientPhoneNumbers$ | async as clientPhoneNumbers">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredClientPhoneNumbers"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewSalesTurnoverTable]="true"
+      (onDelete)="onDeleteClientPhoneNumber($event)"
+      (onEdit)="onEditClientPhoneNumber($event)"
+      (viewForm)="onViewClientPhoneNumber($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
 </div>

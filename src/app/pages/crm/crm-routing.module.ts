@@ -99,11 +99,6 @@ const routes: Routes = [
     path: 'clients/edit-client-addresses/:id',
     component: AddClientAddressesComponent,
   },
-
-  {
-    path: 'clients/add-phone-number',
-    component: AddPhoneNumberComponent,
-  },
   {
     path: 'clients/add-contact-person',
     component: AddContactPersonComponent,
@@ -177,10 +172,24 @@ const routes: Routes = [
     component: ViewSalesTurnoverComponent,
   },
 
+
+    // Client Phone number
   {
-    path: 'clients/view-phone-number',
+    path: 'clients/add-phone-number/:clientId',
+    component: AddPhoneNumberComponent,
+  },
+
+  {
+    path: 'clients/edit-phone-number/:clientId',
+    component: AddPhoneNumberComponent,
+  },
+
+  {
+    path: 'clients/view-phone-number/:clientId',
     component: ViewPhoneNumberComponent,
   },
+
+
   {
     path: 'clients/view-contact-person',
     component: ViewContactPersonComponent,
