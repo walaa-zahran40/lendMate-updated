@@ -5051,33 +5051,33 @@
             (formGroup.get('areaId')?.dirty || formGroup.get('areaId')?.touched)
         }"
       />
-      <label for="detailes">Details in English<sup>*</sup></label>
+      <label for="details">Details in English<sup>*</sup></label>
       <input
         pInputText
-        id="detailes"
-        formControlName="detailes"
+        id="details"
+        formControlName="details"
         placeholder="Type"
       />
       <div
         *ngIf="
-          formGroup.get('detailes')?.hasError('required') &&
-          formGroup.get('detailes')?.touched
+          formGroup.get('details')?.hasError('required') &&
+          formGroup.get('details')?.touched
         "
         class="p-error"
       >
         Details in English is required.
       </div>
-      <label for="detailesAR">DetailsAr in Arabic<sup>*</sup></label>
+      <label for="detailsAR">DetailsAr in Arabic<sup>*</sup></label>
       <input
         pInputText
-        id="detailesAR"
-        formControlName="detailesAR"
+        id="detailsAR"
+        formControlName="detailsAR"
         placeholder="Type"
       />
       <div
         *ngIf="
-          formGroup.get('detailesAR')?.hasError('required') &&
-          formGroup.get('detailesAR')?.touched
+          formGroup.get('detailsAR')?.hasError('required') &&
+          formGroup.get('detailsAR')?.touched
         "
         class="p-error"
       >
@@ -5530,35 +5530,76 @@
         name="isActive"
       />
     </form>
-    <form action="" *ngIf="addCRAuthorityOfficeShowMain">
-      <label for="addCRAuthorityOfficeCRExpiryDate"
+    <form [formGroup]="formGroup"
+      *ngIf="addCRAuthorityOfficeShowMain"
+      (ngSubmit)="onSubmit()">
+
+      <label for="expiryDate"
         >CR Expiry Date<sup class="danger">*</sup></label
       >
       <shared-date-picker
-        formControlName="addCRAuthorityOfficeCRExpiryDate"
-        inputId="addCRAuthorityOfficeCRExpiryDate"
+        formControlName="expiryDate"
+        inputId="expiryDate"
       >
       </shared-date-picker>
-      <label for="crNumberAuthorityOffice"
-        >CR Number <sup class="danger">*</sup></label
-      >
+ 
+      <label for="crNumber">CR Number<sup>*</sup></label>
       <input
         pInputText
-        id="crNumberAuthorityOffice"
-        aria-describedby="crNumberAuthorityOffice-help"
-        [(ngModel)]="value45"
-        name="crNumberAuthorityOffice"
-        placeholder="Add CR Number"
+        id="crNumber"
+        formControlName="crNumber"
+        placeholder="Type"
       />
-      <label for="crNumberAuthorityOffice"
-        >CR Authority Office <sup class="danger">*</sup></label
-      >
+
+      <label for="crAuthorityOfficeId">CR Authority Office<sup>*</sup></label>
       <p-select
-        [options]="crAuthorityOffices"
+        [options]="authorityOfficesList"
         optionLabel="name"
         placeholder="Select CR Authority Office"
-        class="w-full md:w-56"
+        formControlName="crAuthorityOfficeId"
+        optionValue="id"
+        (onChange)="onSectorChange($event)"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('crAuthorityOfficeId')?.invalid &&
+            (formGroup.get('crAuthorityOfficeId')?.dirty ||
+              formGroup.get('crAuthorityOfficeId')?.touched)
+        }"
       />
+       <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
+          *ngIf="!editMode"
+        >
+          <p-button
+            type="submit"
+            label="Add CR Authority Office"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit CR Authority Office"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate([`/crm/clients/view-client-cr-authority-offices/${this.clientIdParam}`])"
+          />
+        </div>
+      </div>
     </form>
     <form action="" *ngIf="addTaxAuthorityOfficeShowMain">
       <label for="addTaxAuthorityOfficeCRExpiryDate"

@@ -16,7 +16,6 @@ import { AddClientIdentityComponent } from './components/client-activities/add-c
 import { AddClientStatusActionsComponent } from './components/client-activities/add-client-status-actions/add-client-status-actions.component';
 import { AddClientStatusesComponent } from './components/client-activities/add-client-statuses/add-client-statuses.component';
 import { AddContactPersonComponent } from './components/client-activities/add-contact-person/add-contact-person.component';
-import { AddCrAuthorityOfficeComponent } from './components/client-activities/add-cr-authority-office/add-cr-authority-office.component';
 import { AddPhoneNumberComponent } from './components/client-activities/add-phone-number/add-phone-number.component';
 import { AddShareHoldersComponent } from './components/client-activities/add-share-holders/add-share-holders.component';
 import { AddTaxAuthorityOfficeComponent } from './components/client-activities/add-tax-authority-office/add-tax-authority-office.component';
@@ -30,7 +29,6 @@ import { ViewClientIdentityComponent } from './components/client-activities/view
 import { ViewClientStatusComponent } from './components/client-activities/view-client-status-actions/view-client-status.component';
 import { ViewClientStatusesComponent } from './components/client-activities/view-client-statuses/view-client-statuses.component';
 import { ViewContactPersonComponent } from './components/client-activities/view-contact-person/view-contact-person.component';
-import { ViewCrAuthorityOfficeComponent } from './components/client-activities/view-cr-authority-office/view-cr-authority-office.component';
 import { ViewPhoneNumberComponent } from './components/client-activities/view-phone-number/view-phone-number.component';
 import { ViewSalesTurnoverComponent } from './components/client-activities/view-sales-turnover/view-sales-turnover.component';
 import { ViewShareHolderComponent } from './components/client-activities/view-share-holder/view-share-holder.component';
@@ -89,6 +87,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../../../shared/shared.module';
 import { ClientPhoneNumbersEffects } from './store/client-phone-numbers/client-phone-numbers.effects';
 import { clientPhoneNumberReducer } from './store/client-phone-numbers/client-phone-numbers.reducer';
+import { AddClientCRAuthorityOfficesComponent } from './components/client-activities/add-cr-authority-office/add-cr-authority-office.component';
+import { ViewCRAuthorityOfficesComponent } from './components/client-activities/view-cr-authority-office/view-cr-authority-office.component';
+import { clientCRAuthorityOfficesReducer } from './store/client-cr-authority-office/client-cr-authority-office.reducer';
+import { ClientCRAuthorityOfficesEffects } from './store/client-cr-authority-office/client-cr-authority-office.effects';
 
 @NgModule({
   declarations: [
@@ -99,7 +101,7 @@ import { clientPhoneNumberReducer } from './store/client-phone-numbers/client-ph
     AddSalesTurnoverComponent,
     AddContactPersonComponent,
     AddPhoneNumberComponent,
-    AddCrAuthorityOfficeComponent,
+    AddClientCRAuthorityOfficesComponent,
     AddTaxAuthorityOfficeComponent,
     AddCentralBankInfoComponent,
     AddShareHoldersComponent,
@@ -112,7 +114,7 @@ import { clientPhoneNumberReducer } from './store/client-phone-numbers/client-ph
     ViewPhoneNumberComponent,
     ViewContactPersonComponent,
     WizardClientStatusComponent,
-    ViewCrAuthorityOfficeComponent,
+    ViewCRAuthorityOfficesComponent,
     ViewTaxAuthorityOfficeComponent,
     ViewCentralBankInfoComponent,
     ViewShareHolderComponent,
@@ -182,6 +184,8 @@ import { clientPhoneNumberReducer } from './store/client-phone-numbers/client-ph
     EffectsModule.forFeature([ClientIdentityTypesEffects]),
     StoreModule.forFeature('clientAddresses', clientAddressesReducer),
     EffectsModule.forFeature([ClientAddressesEffects]),
+    StoreModule.forFeature('clientCRAuthorityOffices', clientCRAuthorityOfficesReducer),
+    EffectsModule.forFeature([ClientCRAuthorityOfficesEffects]),
   ],
 })
 export class ClientsModule {}

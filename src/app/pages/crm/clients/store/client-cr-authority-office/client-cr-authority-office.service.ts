@@ -34,7 +34,7 @@ export class ClientCRAuthorityOfficesService {
 
   getById(id: number): Observable<ClientCRAuthorityOffice> {
     return this.http.get<ClientCRAuthorityOffice>(
-      `${this.api}/ClientCRAuthorityOfficeId?id=${id}`
+      `${this.api}/Id?id=${id}`
     );
   }
 
@@ -54,7 +54,7 @@ export class ClientCRAuthorityOfficesService {
   }
   getByClientId(clientId: number): Observable<ClientCRAuthorityOffice[]> {
     return this.http.get<ClientCRAuthorityOffice[]>(
-      `${this.api}/ClientId?id=${clientId}`
+      `${this.api}/GetByClientId/${clientId}`
     );
   }
 }

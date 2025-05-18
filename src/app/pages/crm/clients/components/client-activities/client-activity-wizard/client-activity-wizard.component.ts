@@ -65,7 +65,7 @@ export class ClientActivityWizardComponent {
           title: 'CR Authority Office',
           content:
             'Introduce your company core info quickly to users by fill up company details',
-          link: '/crm/clients/add-cr-authority-office',
+          link: `/crm/clients/view-client-cr-authority-offices/${this.clientId}`,
         },
       ],
       [

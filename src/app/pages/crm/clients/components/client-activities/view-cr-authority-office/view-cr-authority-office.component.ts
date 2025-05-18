@@ -1,9 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject, Observable, takeUntil, tap, map } from 'rxjs';
+import { Subject, Observable, takeUntil, tap, map, combineLatest } from 'rxjs';
 import { TableComponent } from '../../../../../../shared/components/table/table.component';
 import { ClientCRAuthorityOffice } from '../../../store/client-cr-authority-office/client-cr-authority-office.model';
 import { ClientCRAuthorityOfficesFacade } from '../../../store/client-cr-authority-office/client-cr-authority-office.facade';
+import { Store } from '@ngrx/store';
+import { loadAll as loadAllAuthorityOffice} from '../../../../../lookups/store/authority-offices/authority-offices.actions';
+import { AuthorityOffice } from '../../../../../lookups/store/authority-offices/authority-office.model';
+import { selectAllAuthorityOffices } from '../../../../../lookups/store/authority-offices/authority-offices.selectors';
 
 @Component({
   selector: 'app-view-cr-authority-office',
@@ -11,7 +15,7 @@ import { ClientCRAuthorityOfficesFacade } from '../../../store/client-cr-authori
   templateUrl: './view-cr-authority-office.component.html',
   styleUrl: './view-cr-authority-office.component.scss',
 })
-export class ViewCRAuthorityOfficeesComponent {
+export class ViewCRAuthorityOfficesComponent {
   tableDataInside: ClientCRAuthorityOffice[] = [];
   first2: number = 0;
   private destroy$ = new Subject<void>();
@@ -21,20 +25,24 @@ export class ViewCRAuthorityOfficeesComponent {
   @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
-    { field: 'details', header: 'Details' },
-    { field: 'detailsAR', header: 'Details AR' },
-    { field: 'client', header: 'Branch' },
+    { field: 'crNumber', header: 'CR Number' },
+    { field: 'expiryDate', header: 'Expiry Date' },
+    { field: 'crAuthorityOffice', header: 'CR Authority Office' },
+    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedCRAuthorityOfficeId: number | null = null;
   originalCRAuthorityOffices: ClientCRAuthorityOffice[] = [];
   filteredCRAuthorityOffices: ClientCRAuthorityOffice[] = [];
   cRAuthorityOffices$!: Observable<ClientCRAuthorityOffice[]>;
+  authorityOfficesList$!: Observable<AuthorityOffice[]>;
 
   constructor(
     private router: Router,
     private facade: ClientCRAuthorityOfficesFacade,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private store: Store
+    
   ) {}
 
   ngOnInit() {
@@ -43,41 +51,35 @@ export class ViewCRAuthorityOfficeesComponent {
     this.facade.loadClientCRAuthorityOfficesByClientId(this.clientIdParam);
     this.cRAuthorityOffices$ = this.facade.items$;
 
-    this.cRAuthorityOffices$
-      .pipe(
-        takeUntil(this.destroy$),
+    this.store.dispatch(loadAllAuthorityOffice({}));
+   
+    this.authorityOfficesList$ = this.store.select(selectAllAuthorityOffices);
+   
 
-        // log raw array coming from the facade
-        tap((rawList) =>
-          console.log('[View] facade.items$ rawList =', rawList)
-        ),
-
-        // your transform
-        map((list) =>
-          (list ?? [])
-            .map((r) => ({ ...r, client: r.client?.name || '—' }))
-            .sort((a, b) => b.id - a.id)
-        ),
-
-        // log after mapping + sorting
-        tap((formatted) =>
-          console.log('[View] after map+sort formatted =', formatted)
-        )
-      )
-      .subscribe((formatted) => {
-        this.filteredCRAuthorityOffices = formatted;
-        this.originalCRAuthorityOffices = formatted;
-        console.log(
-          '[View] subscribe → filteredCurrencyExchangeRates =',
-          this.filteredCRAuthorityOffices
-        );
-      });
+    combineLatest([this.cRAuthorityOffices$, this.authorityOfficesList$])
+          .pipe(
+            map(([cRAuthorityOffices, authorityOfficesList]) =>
+              cRAuthorityOffices
+                .map((authorityOffice) => ({
+                  ...authorityOffice,
+                  crAuthorityOffice:
+                    authorityOfficesList.find((c) => c.id === authorityOffice.id)?.name || '—',
+                }))
+                // .filter((authorityOffice) => authorityOffice.isActive)
+                .sort((a, b) => b.id - a.id)
+            ),
+            takeUntil(this.destroy$)
+          )
+          .subscribe((enriched) => {
+            this.originalCRAuthorityOffices = enriched;
+            this.filteredCRAuthorityOffices = [...enriched];
+          });
   }
 
-  onAddCRAuthorityOfficee() {
+  onAddCRAuthorityOffice() {
     const clientIdParam = this.route.snapshot.paramMap.get('clientId');
 
-    this.router.navigate(['/organizations/add-client-addresses'], {
+    this.router.navigate(['/crm/clients/add-client-cr-authority-offices'], {
       queryParams: { mode: 'add', clientId: clientIdParam },
     });
   }
@@ -86,7 +88,7 @@ export class ViewCRAuthorityOfficeesComponent {
     this.destroy$.next();
     this.destroy$.complete();
   }
-  onDeleteCRAuthorityOfficee(cRAuthorityOfficeId: any): void {
+  onDeleteCRAuthorityOffice(cRAuthorityOfficeId: any): void {
     console.log(
       '[View] onDeleteCRAuthorityOfficee() – opening modal for id=',
       cRAuthorityOfficeId
@@ -129,9 +131,9 @@ export class ViewCRAuthorityOfficeesComponent {
   onToggleFilters(value: boolean) {
     this.showFilters = value;
   }
-  onEditCRAuthorityOfficee(cRAuthorityOffice: ClientCRAuthorityOffice) {
+  onEditCRAuthorityOffice(cRAuthorityOffice: ClientCRAuthorityOffice) {
     this.router.navigate(
-      ['/organizations/edit-client-addresses', cRAuthorityOffice.id],
+      ['/crm/clients/edit-client-cr-authority-offices', cRAuthorityOffice.id],
       {
         queryParams: {
           mode: 'edit',
@@ -140,8 +142,8 @@ export class ViewCRAuthorityOfficeesComponent {
       }
     );
   }
-  onViewCRAuthorityOfficee(ct: ClientCRAuthorityOffice) {
-    this.router.navigate(['/organizations/edit-client-addresses', ct.id], {
+  onViewCRAuthorityOffice(ct: ClientCRAuthorityOffice) {
+    this.router.navigate(['/crm/clients/edit-client-cr-authority-offices', ct.id], {
       queryParams: {
         mode: 'view',
         clientId: this.clientIdParam, // <-- use "currencyId" here

@@ -10,7 +10,6 @@ import { AddClientIdentityComponent } from './clients/components/client-activiti
 import { AddSalesTurnoverComponent } from './clients/components/client-activities/add-client-sales-turnover/add-client-sales-turnover.component';
 import { AddClientStatusesComponent } from './clients/components/client-activities/add-client-statuses/add-client-statuses.component';
 import { AddContactPersonComponent } from './clients/components/client-activities/add-contact-person/add-contact-person.component';
-import { AddCrAuthorityOfficeComponent } from './clients/components/client-activities/add-cr-authority-office/add-cr-authority-office.component';
 import { AddPhoneNumberComponent } from './clients/components/client-activities/add-phone-number/add-phone-number.component';
 import { AddShareHoldersComponent } from './clients/components/client-activities/add-share-holders/add-share-holders.component';
 import { AddTaxAuthorityOfficeComponent } from './clients/components/client-activities/add-tax-authority-office/add-tax-authority-office.component';
@@ -24,7 +23,6 @@ import { ViewClientIdentityComponent } from './clients/components/client-activit
 import { ViewClientStatusComponent } from './clients/components/client-activities/view-client-status-actions/view-client-status.component';
 import { ViewClientStatusesComponent } from './clients/components/client-activities/view-client-statuses/view-client-statuses.component';
 import { ViewContactPersonComponent } from './clients/components/client-activities/view-contact-person/view-contact-person.component';
-import { ViewCrAuthorityOfficeComponent } from './clients/components/client-activities/view-cr-authority-office/view-cr-authority-office.component';
 import { ViewPhoneNumberComponent } from './clients/components/client-activities/view-phone-number/view-phone-number.component';
 import { ViewSalesTurnoverComponent } from './clients/components/client-activities/view-sales-turnover/view-sales-turnover.component';
 import { ViewShareHolderComponent } from './clients/components/client-activities/view-share-holder/view-share-holder.component';
@@ -46,6 +44,8 @@ import { ViewCalculationsComponent } from './leasing-mandates/components/mandate
 import { ViewManageMandateTermsComponent } from './leasing-mandates/components/mandate-activities/view-manage-mandate-terms/view-manage-mandate-terms.component';
 import { AddMandateComponent } from './leasing-mandates/components/mandate/add-mandate/add-mandate.component';
 import { ViewMandateComponent } from './leasing-mandates/components/mandate/view-mandate/view-mandate.component';
+import { ViewCRAuthorityOfficesComponent } from './clients/components/client-activities/view-cr-authority-office/view-cr-authority-office.component';
+import { AddClientCRAuthorityOfficesComponent } from './clients/components/client-activities/add-cr-authority-office/add-cr-authority-office.component';
 
 const routes: Routes = [
   /*Clients Routing*/
@@ -108,12 +108,16 @@ const routes: Routes = [
     component: ContactPersonViewTableDataComponent,
   },
   {
-    path: 'clients/add-cr-authority-office',
-    component: AddCrAuthorityOfficeComponent,
+    path: 'clients/add-client-cr-authority-offices',
+    component: AddClientCRAuthorityOfficesComponent,
   },
   {
-    path: 'clients/add-cr-authority-office',
-    component: AddCrAuthorityOfficeComponent,
+    path: 'clients/add-client-cr-authority-offices/:clientId',
+    component: AddClientCRAuthorityOfficesComponent,
+  },
+    {
+    path: 'clients/edit-client-cr-authority-offices/:id',
+    component: AddClientCRAuthorityOfficesComponent,
   },
   {
     path: 'clients/add-tax-authority-office',
@@ -195,8 +199,8 @@ const routes: Routes = [
     component: ViewContactPersonComponent,
   },
   {
-    path: 'clients/view-cr-authority-office',
-    component: ViewCrAuthorityOfficeComponent,
+    path: 'clients/view-client-cr-authority-offices/:clientId',
+    component: ViewCRAuthorityOfficesComponent,
   },
   {
     path: 'clients/view-tax-authority-office',
