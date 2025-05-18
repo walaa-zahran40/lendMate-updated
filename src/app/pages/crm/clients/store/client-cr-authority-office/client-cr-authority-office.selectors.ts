@@ -1,26 +1,29 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import * as fromFeature from './client-cr-authority-office.reducer';
+import { ClientCRAuthorityOfficesState } from './client-cr-authority-office.state';
 
-export const selectState = createFeatureSelector<fromFeature.State>(
-  fromFeature.clientCRAuthorityOfficesFeatureKey
+export const selectClientCRAuthorityOfficesState =
+  createFeatureSelector<ClientCRAuthorityOfficesState>('clientCRAuthorityOffices');
+export const selectClientCRAuthorityOffices = createSelector(
+  selectClientCRAuthorityOfficesState,
+  (state) => state.items
 );
-
-export const selectAllOffices = createSelector(
-  selectState,
-  fromFeature.selectAll
-);
-export const selectLoading = createSelector(
-  selectState,
-  (state) => state.loading
-);
-export const selectError = createSelector(selectState, (state) => state.error);
-export const selectTotalCount = createSelector(
-  selectState,
+export const selectClientCRAuthorityOfficesTotal = createSelector(
+  selectClientCRAuthorityOfficesState,
   (state) => state.totalCount
 );
-export const selectEntities = createSelector(
-  selectState,
-  fromFeature.selectEntities
+export const selectClientCRAuthorityOfficesHistory = createSelector(
+  selectClientCRAuthorityOfficesState,
+  (state) => state.history
 );
-export const selectById = (id: number) =>
-  createSelector(selectEntities, (entities) => entities[id]);
+export const selectCurrentClientCRAuthorityOffice = createSelector(
+  selectClientCRAuthorityOfficesState,
+  (state) => state.current
+);
+export const selectClientCRAuthorityOfficesLoading = createSelector(
+  selectClientCRAuthorityOfficesState,
+  (state) => state.loading
+);
+export const selectClientCRAuthorityOfficesError = createSelector(
+  selectClientCRAuthorityOfficesState,
+  (state) => state.error
+);

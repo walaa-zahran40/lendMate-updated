@@ -1,48 +1,60 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {
-  ClientCRAuthorityOfficesResponse,
-  ClientCRAuthorityOffice,
-} from './client-cr-authority-office.model';
+import { ClientCRAuthorityOffice } from './client-cr-authority-office.model';
+import { environment } from '../../../../../../environments/environment';
+
+interface PagedResponse<T> {
+  items: T[];
+  totalCount: number;
+}
 
 @Injectable({ providedIn: 'root' })
-export class ClientCRAuthorityOfficeService {
-  private baseUrl = '/api/ClientCRAuthorityOffices';
+export class ClientCRAuthorityOfficesService {
+  private api = `${environment.apiUrl}ClientCRAuthorityOffices`;
 
   constructor(private http: HttpClient) {}
 
-  getAll(page: number): Observable<ClientCRAuthorityOfficesResponse> {
-    return this.http.get<ClientCRAuthorityOfficesResponse>(
-      `${this.baseUrl}/GetAllClientCRAuthorityOffices`,
-      { params: { pageNumber: page } }
+  getAll(pageNumber?: number): Observable<PagedResponse<ClientCRAuthorityOffice>> {
+    let params = new HttpParams();
+    if (pageNumber != null) {
+      params = params.set('pageNumber', pageNumber.toString());
+    }
+    return this.http.get<PagedResponse<ClientCRAuthorityOffice>>(
+      `${this.api}/GetAllClientCRAuthorityOffices`,
+      { params }
+    );
+  }
+
+  getHistory(): Observable<PagedResponse<ClientCRAuthorityOffice>> {
+    return this.http.get<PagedResponse<ClientCRAuthorityOffice>>(
+      `${this.api}/GetAllClientCRAuthorityOfficesHistory`
     );
   }
 
   getById(id: number): Observable<ClientCRAuthorityOffice> {
-    return this.http.get<ClientCRAuthorityOffice>(`${this.baseUrl}/${id}`);
+    return this.http.get<ClientCRAuthorityOffice>(
+      `${this.api}/ClientCRAuthorityOfficeId?id=${id}`
+    );
   }
 
-  create(
-    data: Partial<ClientCRAuthorityOffice>
-  ): Observable<ClientCRAuthorityOffice> {
+  create(data: Partial<ClientCRAuthorityOffice>): Observable<ClientCRAuthorityOffice> {
     return this.http.post<ClientCRAuthorityOffice>(
-      `${this.baseUrl}/CreateClientCRAuthorityOffice`,
+      `${this.api}/CreateClientCRAuthorityOffice`,
       data
     );
   }
 
-  update(
-    id: number,
-    changes: Partial<ClientCRAuthorityOffice>
-  ): Observable<ClientCRAuthorityOffice> {
-    return this.http.put<ClientCRAuthorityOffice>(
-      `${this.baseUrl}/${id}`,
-      changes
-    );
+  update(id: number, data: Partial<ClientCRAuthorityOffice>): Observable<ClientCRAuthorityOffice> {
+    return this.http.put<ClientCRAuthorityOffice>(`${this.api}/${id}`, data);
   }
 
   delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+    return this.http.delete<void>(`${this.api}/${id}`);
+  }
+  getByClientId(clientId: number): Observable<ClientCRAuthorityOffice[]> {
+    return this.http.get<ClientCRAuthorityOffice[]>(
+      `${this.api}/ClientId?id=${clientId}`
+    );
   }
 }

@@ -1,41 +1,68 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import * as fromFeature from './client-cr-authority-office.reducer';
+import { Observable } from 'rxjs';
+import { selectLastOperationSuccess } from '../../../../../shared/store/ui.selectors';
+import { ClientCRAuthorityOffice } from './client-cr-authority-office.model';
 import * as Selectors from './client-cr-authority-office.selectors';
 import * as Actions from './client-cr-authority-office.actions';
-import { Observable } from 'rxjs';
-import { ClientCRAuthorityOffice } from './client-cr-authority-office.model';
 
 @Injectable({ providedIn: 'root' })
-export class ClientCRAuthorityOfficeFacade {
-  all$: Observable<ClientCRAuthorityOffice[]> = this.store.select(
-    Selectors.selectAllOffices
+export class ClientCRAuthorityOfficesFacade {
+  items$: Observable<ClientCRAuthorityOffice[]> = this.store.select(
+    Selectors.selectClientCRAuthorityOffices
   );
-  loading$: Observable<boolean> = this.store.select(Selectors.selectLoading);
-  total$: Observable<number> = this.store.select(Selectors.selectTotalCount);
-  error$: Observable<any> = this.store.select(Selectors.selectError);
+  total$: Observable<number> = this.store.select(
+    Selectors.selectClientCRAuthorityOfficesTotal
+  );
+  history$: Observable<ClientCRAuthorityOffice[]> = this.store.select(
+    Selectors.selectClientCRAuthorityOfficesHistory
+  );
+  current$: Observable<ClientCRAuthorityOffice | undefined> = this.store.select(
+    Selectors.selectCurrentClientCRAuthorityOffice
+  );
 
-  constructor(private store: Store<fromFeature.State>) {}
+  loading$: Observable<boolean> = this.store.select(
+    Selectors.selectClientCRAuthorityOfficesLoading
+  );
+  error$: Observable<any> = this.store.select(
+    Selectors.selectClientCRAuthorityOfficesError
+  );
+  operationSuccess$ = this.store.select(selectLastOperationSuccess);
 
-  loadAll(page: number = 1) {
-    this.store.dispatch(Actions.loadClientCRAuthorityOffices({ page }));
+  constructor(private store: Store) {}
+
+  loadAll() {
+    this.store.dispatch(Actions.loadClientCRAuthorityOffices());
   }
-
+  loadHistory() {
+    this.store.dispatch(Actions.loadClientCRAuthorityOfficesHistory());
+  }
   loadOne(id: number) {
     this.store.dispatch(Actions.loadClientCRAuthorityOffice({ id }));
   }
-
   create(data: Partial<ClientCRAuthorityOffice>) {
-    this.store.dispatch(
-      Actions.createClientCRAuthorityOffice({ office: data })
-    );
+    this.store.dispatch(Actions.createClientCRAuthorityOffice({ data }));
+  }
+  update(id: any, data: Partial<ClientCRAuthorityOffice>) {
+    this.store.dispatch(Actions.updateClientCRAuthorityOffice({ id, data }));
+  }
+  /** NEW: dispatch the by-clientId loader */
+  loadClientCRAuthorityOfficesByClientId(clientId?: number) {
+    if (clientId == null || isNaN(clientId)) {
+      console.error(
+        '❌ Facade.loadClientCRAuthorityOfficesByClientId called with invalid id:',
+        clientId
+      );
+      return;
+    }
+    this.store.dispatch(Actions.loadClientCRAuthorityOfficesByClientId({ clientId }));
   }
 
-  update(id: number, changes: Partial<ClientCRAuthorityOffice>) {
-    this.store.dispatch(Actions.updateClientCRAuthorityOffice({ id, changes }));
+  /** UPDATED: now expects both id & parent clientId */
+  delete(id: number, clientId: number) {
+    this.store.dispatch(Actions.deleteClientCRAuthorityOffice({ id, clientId }));
   }
-
-  delete(id: number) {
-    this.store.dispatch(Actions.deleteClientCRAuthorityOffice({ id }));
+  loadByClientId(clientId: number) {
+    this.store.dispatch(Actions.loadClientCRAuthorityOfficesByClientId({ clientId }));
   }
 }
