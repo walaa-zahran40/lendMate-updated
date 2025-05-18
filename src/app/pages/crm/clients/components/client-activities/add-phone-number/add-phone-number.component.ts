@@ -76,7 +76,7 @@ export class AddPhoneNumberComponent implements OnInit, OnDestroy {
           this.addClientPhoneNumberForm.patchValue({
             id: rec.id,
             clientId: this.route.snapshot.queryParamMap.get('clientId'),
-            phoneNumberTypeId : rec.phoneTypeId,
+            phoneTypeId : rec.phoneTypeId,
             phoneNumber : rec.phoneNumber
           });
         });
@@ -151,7 +151,7 @@ console.log('route',this.route.snapshot)
   if (clientIdParam) {
   console.log('➡️ Navigating back with PATH param:', clientIdParam);
   this.router.navigate(
-    ['/crm/clients/view-sales-turnover', clientIdParam]
+    ['/crm/clients/view-phone-number', clientIdParam]
   );
 } else {
   console.error('❌ Cannot navigate back: clientId is missing!');

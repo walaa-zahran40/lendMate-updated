@@ -5146,17 +5146,16 @@
        [formGroup]="formGroup"
   >
 
-
    <label for="phoneTypeId"
         >Select Phone Type<sup class="danger">*</sup></label
       >
       <!--Select Box-->
       <p-select
         [options]="phoneTypes"
-        optionLabel="phoneTypeId"
+        optionLabel="name"
         placeholder="Select Phone type"
         formControlName="phoneTypeId"
-        optionValue="iphoneTypeId"
+        optionValue="id"
         required
         [ngClass]="{
           'ng-invalid':
