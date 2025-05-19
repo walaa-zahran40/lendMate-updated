@@ -77,6 +77,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() subSectorsList: any[] = [];
   @Input() countriesList: any;
   @Input() addressTypesList: any;
+  @Input() authorityOfficesList: any;
   @Input() assetTypeCategories: any;
   @Input() feeCalculationTypes: any;
   @Input() phoneTypes: any;
@@ -661,7 +662,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/crm/clients/view-central-bank-info']);
   }
   viewCRAuthority() {
-    this.router.navigate(['/crm/clients/view-cr-authority-office']);
+    this.router.navigate([`/crm/clients/view-client-cr-authority-offices/${this.clientId}`]);
   }
   viewBusinessLines() {
     this.router.navigate(['/lookups/view-business-lines']);

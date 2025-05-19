@@ -1,27 +1,27 @@
 <app-toolbar-form
-  [header]="'CR Authority Office'"
+  [header]="'Client CR Authority Office'"
+  [header]="editMode ? 'Edit Client CR Authority Office' : 'Add Client CR Authority Office'"
   [backExists]="true"
+  [viewOnly]="false"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
 ></app-toolbar-form>
 <p-tabs value="0" styleClass="p-3">
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
-        [title]="'Main Information'"
+        *ngIf="addClientCRAuthorityOfficesLookupsForm"
+        [title]="'Client CR Authority Office'"
         [description]="
-          'Introduce your company core info quickly to users by fill up company
-details'
+          'Introduce your Client CR Authority Office core info quickly to users by fill up client details'
         "
+        [formGroup]="addClientCRAuthorityOfficesLookupsForm"
         [addCRAuthorityOfficeShowMain]="true"
+        [editMode]="editMode"
+        (submitForm)="addOrEditClientCRAuthorityOffices()"
+        [viewOnly]="viewOnly"
+        [authorityOfficesList]="authorityOfficesList$ | async"
       ></app-form>
-
-      <div class="row justify-end">
-        <div
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
-          (click)="addCrOffices()"
-        >
-          <p-button label="Add CR" class="custom-save m-0 float-right" />
-        </div>
-      </div>
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>

@@ -1,9 +1,9 @@
 export interface ClientCRAuthorityOffice {
   id: number;
-  // TODO: add all other fields from your API (e.g. name, address, clientId, isActive…)
-}
-
-export interface ClientCRAuthorityOfficesResponse {
-  items: ClientCRAuthorityOffice[];
-  totalCount: number;
+  crNumber?: string;
+  expiryDate:Date;
+  clientId: number;
+  client: any;
+  crAuthorityOfficeId: number;
+  isActive?: boolean;
 }

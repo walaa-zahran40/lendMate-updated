@@ -116,8 +116,8 @@ export class AddClientAddressesComponent {
       // 5️⃣ Build the form
       this.addClientAddressesLookupsForm = this.fb.group({
         id: [null],
-        detailes: ['', [Validators.required]],
-        detailesAR: ['', [Validators.required, arabicOnlyValidator]],
+        details: ['', [Validators.required]],
+        detailsAR: ['', [Validators.required, arabicOnlyValidator]],
         areaId: [null, [Validators.required]],
         governorateId: [null, [Validators.required]],
         countryId: [null, [Validators.required]],
@@ -174,8 +174,8 @@ export class AddClientAddressesComponent {
             // patch form
             this.addClientAddressesLookupsForm.patchValue({
               id: ct?.id,
-              detailes: ct?.detailes,
-              detailesAR: ct?.detailesAR,
+              details: ct?.details,
+              detailsAR: ct?.detailsAR,
               areaId: ct?.areaId,
               governorateId: governorateId,
               countryId: countryId,
@@ -283,11 +283,11 @@ export class AddClientAddressesComponent {
       clientId: clientParamQP,
     });
 
-    const { detailes, detailesAR, areaId, clientId, addressTypeId, isActive } =
+    const { details, detailsAR, areaId, clientId, addressTypeId, isActive } =
       this.addClientAddressesLookupsForm.value;
     const payload: Partial<ClientAddress> = {
-      detailes,
-      detailesAR,
+      details,
+      detailsAR,
       areaId,
       clientId,
       addressTypeId,

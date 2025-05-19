@@ -25,8 +25,8 @@ export class ViewClientAddressesComponent {
   @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
-    { field: 'detailes', header: 'Details' },
-    { field: 'detailesAR', header: 'Details AR' },
+    { field: 'details', header: 'Details' },
+    { field: 'detailsAR', header: 'Details AR' },
     { field: 'AreaName', header: 'Area Name' },
   ];
   showDeleteModal: boolean = false;
