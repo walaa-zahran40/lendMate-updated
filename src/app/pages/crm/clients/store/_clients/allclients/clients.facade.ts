@@ -24,8 +24,7 @@ export class ClientsFacade {
     this.store.dispatch(Actions.loadAll({ pageNumber }));
   }
 
-  loadById(id: any) {
-    console.log('[Facade] loadById dispatching for id=', id);
+  loadById(id: number) {
     this.store.dispatch(Actions.loadById({ id }));
   }
 
@@ -39,5 +38,8 @@ export class ClientsFacade {
 
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
+  }
+  clearSelected() {
+    this.store.dispatch(Actions.clearSelectedClient());
   }
 }

@@ -61,10 +61,7 @@ const routes: Routes = [
     path: 'clients/edit-client/:clientId',
     component: AddClientComponent,
   },
-  {
-    path: 'clients/edit-client/:id',
-    component: AddClientComponent,
-  },
+
   {
     path: 'clients/add-client-guarantor',
     component: AddClientGuarantorComponent,
@@ -118,7 +115,7 @@ const routes: Routes = [
     path: 'clients/add-client-cr-authority-offices/:clientId',
     component: AddClientCRAuthorityOfficesComponent,
   },
-    {
+  {
     path: 'clients/edit-client-cr-authority-offices/:id',
     component: AddClientCRAuthorityOfficesComponent,
   },

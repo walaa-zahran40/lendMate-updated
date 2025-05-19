@@ -71,3 +71,4 @@ export const entityOperationSuccess = createAction(
   '[Entity] Operation Success',
   props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
 );
+export const clearSelectedClient = createAction('[Clients] Clear Selected');

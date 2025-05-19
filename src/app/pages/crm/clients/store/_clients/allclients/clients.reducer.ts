@@ -88,7 +88,11 @@ export const reducer = createReducer(
     });
 
     return newState;
-  })
+  }),
+  on(ClientActions.clearSelectedClient, (state) => ({
+    ...state,
+    loadedId: null,
+  }))
 );
 
 export const { selectAll, selectEntities, selectIds, selectTotal } =

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -26,7 +26,7 @@ import { Client } from '../../../../store/_clients/allclients/client.model';
   templateUrl: './add-client.component.html',
   styleUrls: ['./add-client.component.scss'],
 })
-export class AddClientComponent implements OnInit {
+export class AddClientComponent implements OnInit, OnDestroy {
   addClientForm!: FormGroup;
   addClientFormIndividual!: FormGroup;
   addClient = true;
@@ -126,7 +126,6 @@ export class AddClientComponent implements OnInit {
       this.clientsFacade.selected$
         .pipe(
           filter((c): c is Client => !!c && c.id === this.clientId),
-          tap((c) => console.log('[DEBUG] selected client:', c)), // ← logs the client
           take(1)
         )
         .subscribe({
@@ -177,6 +176,10 @@ export class AddClientComponent implements OnInit {
         });
     }
   }
+  ngOnDestroy(): void {
+    this.clientsFacade.clearSelected();
+  }
+
   get sectorIdControl(): FormControl {
     return this.addClientForm.get('sectorId') as FormControl;
   }
