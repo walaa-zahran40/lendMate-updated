@@ -5521,19 +5521,15 @@
         name="isActive"
       />
     </form>
-    <form [formGroup]="formGroup"
+    <form
+      [formGroup]="formGroup"
       *ngIf="addCRAuthorityOfficeShowMain"
-      (ngSubmit)="onSubmit()">
-
-      <label for="expiryDate"
-        >CR Expiry Date<sup class="danger">*</sup></label
-      >
-      <shared-date-picker
-        formControlName="expiryDate"
-        inputId="expiryDate"
-      >
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="expiryDate">CR Expiry Date<sup class="danger">*</sup></label>
+      <shared-date-picker formControlName="expiryDate" inputId="expiryDate">
       </shared-date-picker>
- 
+
       <label for="crNumber">CR Number<sup>*</sup></label>
       <input
         pInputText
@@ -5557,7 +5553,7 @@
               formGroup.get('crAuthorityOfficeId')?.touched)
         }"
       />
-       <div class="row justify-end">
+      <div class="row justify-end">
         <div
           class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
           *ngIf="!editMode"

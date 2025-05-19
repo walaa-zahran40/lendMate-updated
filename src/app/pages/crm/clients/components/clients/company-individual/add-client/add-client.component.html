@@ -104,9 +104,16 @@
                   </div>
                   <div class="col-sm-6 m-0">
                     <p-button
+                      *ngIf="!viewOnly"
                       label="Save Information"
                       (click)="saveInfo()"
                       class="custom-save2 m-0 float-right"
+                    ></p-button>
+                    <p-button
+                      *ngIf="viewOnly"
+                      (click)="close()"
+                      label="Close"
+                      class="custom-save m-0 float-right"
                     ></p-button>
                   </div>
                 </div>

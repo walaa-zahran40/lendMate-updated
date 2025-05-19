@@ -21,5 +21,6 @@ export interface Client {
   establishedYear?: number;
   website?: string | null;
   employeesNo?: number;
+  subSectorList?: any;
   marketSize?: number;
 }

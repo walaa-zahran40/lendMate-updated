@@ -276,7 +276,7 @@ export class AddClientComponent implements OnInit {
     }
 
     // 2) Determine which list actually has data
-    const rawList = client.subSectorIdList ?? [];
+    const rawList = client.subSectorList ?? [];
 
     console.log('🔍 rawList computed:', rawList);
 
@@ -305,7 +305,7 @@ export class AddClientComponent implements OnInit {
           this.subSectorsList = filtered;
 
           // 6) Finally patch the dropdown controls
-          const selectedIds = rawList.map((s) => s.id);
+          const selectedIds = rawList.map((s: any) => s.id);
           try {
             this.addClientForm.patchValue({
               sectorId,
