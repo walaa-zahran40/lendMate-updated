@@ -126,6 +126,7 @@ export class AddClientComponent implements OnInit {
       this.clientsFacade.selected$
         .pipe(
           filter((c): c is Client => !!c && c.id === this.clientId),
+          tap((c) => console.log('[DEBUG] selected client:', c)), // ← logs the client
           take(1)
         )
         .subscribe({
@@ -289,7 +290,7 @@ export class AddClientComponent implements OnInit {
     // 4) Extract sectorId and dispatch load
     const sectorId = rawList[0].sectorId;
     console.log(`⏳ dispatching loadSectorById({ id: ${sectorId} })`);
-    this.store.dispatch(loadSectorById({ id: sectorId }));
+    // this.store.dispatch(loadSectorById({ id: sectorId }));
 
     // 5) Subscribe to sub-sector options
     this.store
@@ -335,15 +336,25 @@ export class AddClientComponent implements OnInit {
     if (this.editMode) {
       console.log('form value company ', formValue);
       const updatedClient = {
-        ...formValue,
         id: this.clientId,
+        name: formValue.name,
+        nameAR: formValue.nameAR,
+        shortName: formValue.shortName,
+        businessActivity: formValue.businessActivity,
+        isIscore: formValue.isIscore,
+        taxId: String(formValue.taxId),
         clientTypeId: 1,
-        subSectorIdList: formValue.subSectorIdList.id,
+        subSectorIdList: formValue.subSectorIdList, // ← pass the array of IDs
+        isStampDuty: formValue.isStampDuty,
         legalFormLawId: formValue.legalFormLawId,
         legalFormId: formValue.legalFormId,
-        taxId: String(formValue.taxId),
+        mainShare: formValue.mainShare,
+        marketShare: formValue.marketShare,
+        establishedYear: formValue.establishedYear,
+        website: formValue.website,
+        employeesNo: formValue.employeesNo,
+        marketSize: formValue.marketSize,
       };
-      delete updatedClient.sectorId;
 
       this.clientsFacade.update(this.clientId, updatedClient);
     } else {
