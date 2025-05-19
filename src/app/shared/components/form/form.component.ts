@@ -78,6 +78,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() countriesList: any;
   @Input() addressTypesList: any;
   @Input() authorityOfficesList: any;
+  @Input() taxOfficesList: any;
   @Input() assetTypeCategories: any;
   @Input() feeCalculationTypes: any;
   @Input() phoneTypes: any;
@@ -831,7 +832,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/crm/clients/view-share-holder']);
   }
   viewTaxAuthority() {
-    this.router.navigate(['/crm/clients/view-tax-authority-office']);
+    this.router.navigate([`/crm/clients/view-client-tax-authority-offices/${this.clientId}`]);
   }
   viewContactDetails() {
     this.router.navigate(['/crm/clients/view-contact-person']);

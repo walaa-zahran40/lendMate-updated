@@ -12,7 +12,6 @@ import { AddClientStatusesComponent } from './clients/components/client-activiti
 import { AddContactPersonComponent } from './clients/components/client-activities/add-contact-person/add-contact-person.component';
 import { AddPhoneNumberComponent } from './clients/components/client-activities/add-phone-number/add-phone-number.component';
 import { AddShareHoldersComponent } from './clients/components/client-activities/add-share-holders/add-share-holders.component';
-import { AddTaxAuthorityOfficeComponent } from './clients/components/client-activities/add-tax-authority-office/add-tax-authority-office.component';
 import { AddTmlOfficerComponent } from './clients/components/client-activities/add-tml-officer/add-tml-officer.component';
 import { UploadDocumentsComponent } from './clients/components/client-activities/add-upload-documents/upload-documents.component';
 import { ClientActivityWizardComponent } from './clients/components/client-activities/client-activity-wizard/client-activity-wizard.component';
@@ -26,7 +25,6 @@ import { ViewContactPersonComponent } from './clients/components/client-activiti
 import { ViewPhoneNumberComponent } from './clients/components/client-activities/view-phone-number/view-phone-number.component';
 import { ViewSalesTurnoverComponent } from './clients/components/client-activities/view-sales-turnover/view-sales-turnover.component';
 import { ViewShareHolderComponent } from './clients/components/client-activities/view-share-holder/view-share-holder.component';
-import { ViewTaxAuthorityOfficeComponent } from './clients/components/client-activities/view-tax-authority-office/view-tax-authority-office.component';
 import { ViewTmlOfficerComponent } from './clients/components/client-activities/view-tml-officer/view-tml-officer.component';
 import { ViewUploadDocumentsComponent } from './clients/components/client-activities/view-upload-documents/view-upload-documents.component';
 import { WizardClientStatusComponent } from './clients/components/client-activities/wizard-client-status/wizard-client-status.component';
@@ -46,6 +44,8 @@ import { AddMandateComponent } from './leasing-mandates/components/mandate/add-m
 import { ViewMandateComponent } from './leasing-mandates/components/mandate/view-mandate/view-mandate.component';
 import { ViewCRAuthorityOfficesComponent } from './clients/components/client-activities/view-cr-authority-office/view-cr-authority-office.component';
 import { AddClientCRAuthorityOfficesComponent } from './clients/components/client-activities/add-cr-authority-office/add-cr-authority-office.component';
+import { ViewTaxAuthorityOfficesComponent } from './clients/components/client-activities/view-tax-authority-office/view-tax-authority-office.component';
+import { AddClientTaxAuthorityOfficesComponent } from './clients/components/client-activities/add-tax-authority-office/add-tax-authority-office.component';
 
 const routes: Routes = [
   /*Clients Routing*/
@@ -123,8 +123,16 @@ const routes: Routes = [
     component: AddClientCRAuthorityOfficesComponent,
   },
   {
-    path: 'clients/add-tax-authority-office',
-    component: AddTaxAuthorityOfficeComponent,
+    path: 'clients/add-client-tax-authority-offices',
+    component: AddClientTaxAuthorityOfficesComponent,
+  },
+  {
+    path: 'clients/add-client-tax-authority-offices/:clientId',
+    component: AddClientTaxAuthorityOfficesComponent,
+  },
+  {
+    path: 'clients/edit-client-tax-authority-offices/:id',
+    component: AddClientTaxAuthorityOfficesComponent,
   },
   {
     path: 'clients/add-central-bank-info',
@@ -204,8 +212,8 @@ const routes: Routes = [
     component: ViewCRAuthorityOfficesComponent,
   },
   {
-    path: 'clients/view-tax-authority-office',
-    component: ViewTaxAuthorityOfficeComponent,
+    path: 'clients/view-client-tax-authority-offices/:clientId',
+    component: ViewTaxAuthorityOfficesComponent,
   },
   {
     path: 'clients/view-central-bank-info',
