@@ -10,7 +10,7 @@ import { Store } from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
 import { arabicOnlyValidator } from '../../../../../../../shared/validators/arabic-only.validator';
 import { positiveNumberValidator } from '../../../../../../../shared/validators/positive-only.validator';
-import { Observable, filter, take, map } from 'rxjs';
+import { Observable, filter, take, map, tap } from 'rxjs';
 import { SubSectors } from '../../../../../../../shared/interfaces/sub-sector.interface';
 import { Sector } from '../../../../../../lookups/store/sectors/sector.model';
 import { ClientsFacade } from '../../../../store/_clients/allclients/clients.facade';
@@ -58,6 +58,8 @@ export class AddClientComponent implements OnInit {
   minDateOfBirth = new Date();
   viewOnly = false;
   individualTypeId!: number;
+  individualBusinessId!: any;
+
   constructor(
     private fb: FormBuilder,
     private store: Store,
@@ -68,33 +70,28 @@ export class AddClientComponent implements OnInit {
     private router: Router
   ) {}
 
+  //Both
   ngOnInit(): void {
-    // — build both forms (company & individual)
+    // (company & individual)
     console.log('route', this.route.snapshot);
-
     console.log('Building the company form…');
     this.buildFormCompany();
     console.log('Building the individual form…');
     this.buildFormIndividual();
 
-    // — calculate min/max DOB
-
+    // Individual
     console.log('Calculating min/max dateOfBirthIndividual…');
     this.minDateOfBirth.setFullYear(this.minDateOfBirth.getFullYear() - 100);
     this.maxDateOfBirth.setFullYear(this.maxDateOfBirth.getFullYear() - 18);
     console.log(`  → minDateOfBirth = ${this.minDateOfBirth.toDateString()}`);
     console.log(`  → maxDateOfBirth = ${this.maxDateOfBirth.toDateString()}`);
-
-    //— set default DOB to max (first available)
     console.log('Setting dateOfBirthIndividual default to maxDateOfBirth…');
     this.addClientFormIndividual
       .get('dateOfBirthIndividual')!
       .setValue(this.maxDateOfBirth);
-
     //— select identity dropdown list
     // 1) Fire the load request
     this.identityTypeFacade.loadAll();
-
     // 2) Then subscribe (or better, use an async pipe)
     this.identityTypeFacade.all$
       .pipe(
@@ -105,64 +102,315 @@ export class AddClientComponent implements OnInit {
         console.log('identity list', res);
         this.identityOptions = res;
       });
+
     //edit and view mode
     // 1️⃣ Detect mode & id
     console.log('Detecting mode & id…', this.route.snapshot);
-    const clientId = this.route.snapshot.paramMap.get('clientId');
-    console.log('clientId:', clientId);
+    const idParam = this.route.snapshot.paramMap.get('clientId');
+    console.log('clientId:', idParam);
     const mode = this.route.snapshot.queryParams['mode']; // 'edit' | 'view'
-    if (clientId && (mode === 'edit' || mode === 'view')) {
-      this.clientId = +clientId;
+    if (!idParam || (mode !== 'edit' && mode !== 'view')) {
+      console.log('No edit/view mode detected, skipping load.');
+      return;
+    }
+
+    if (idParam && (mode === 'edit' || mode === 'view')) {
+      this.clientId = +idParam;
       this.editMode = mode === 'edit';
       this.viewOnly = mode === 'view';
-      this.clientsFacade.loadById(clientId);
+      console.log(`Mode = ${mode}, clientId = ${this.clientId}`);
+      // 5) Always load the general client first
+      this.clientsFacade.loadById(this.clientId);
 
-      //Company
+      // 6) Subscribe to general‐client stream
       this.clientsFacade.selected$
         .pipe(
-          filter((ct): ct is Client => !!ct && ct.id === this.clientId),
+          filter((c): c is Client => !!c && c.id === this.clientId),
           take(1)
         )
-        .subscribe((client) => {
-          if (client.clientTypeId === 1) {
-            // company
-            this.disableIndividualTab = true;
-            this.activeTabIndex = 0; // <— select Company
-            this.patchForm(client);
-          } else {
-            // individual
-            this.disableCompanyTab = true;
-            this.activeTabIndex = 1; // <— select Individual
-            this.individualFacade.loadById(this.clientId);
-            this.patchFormIndividual(client);
-          }
-          // if view‐only, disable the form as you did
-          if (this.viewOnly) {
-            if (client.clientTypeId === 2) {
-              this.addClientFormIndividual.disable();
+        .subscribe({
+          next: (client) => {
+            console.log('Loaded client:', client);
+
+            if (client.clientTypeId === 1) {
+              // --- Company path ---
+              console.log('⮕ Company, patching company form');
+              this.disableIndividualTab = true;
+              this.activeTabIndex = 0;
+              this.patchForm(client);
+
+              if (this.viewOnly) {
+                console.log('⮕ View-only, disabling company form');
+                this.disableIndividualTab = true;
+                this.activeTabIndex = 0;
+                this.patchForm(client);
+                this.addClientForm.disable();
+              }
             } else {
-              this.addClientForm.disable();
+              // --- Individual path ---
+              console.log('⮕ Individual, patching individual form');
+              this.disableCompanyTab = true;
+              this.activeTabIndex = 1;
+
+              // Now load the individual details
+              this.individualFacade.loadById(this.clientId);
+              this.individualFacade.selected$
+                .pipe(
+                  filter((i): i is Individual => !!i && i.id === this.clientId),
+                  take(1)
+                )
+                .subscribe((ind) => {
+                  console.log('Loaded individual:', ind);
+                  this.patchFormIndividual(ind);
+
+                  if (this.viewOnly) {
+                    console.log('⮕ View-only, disabling individual form');
+                    this.addClientFormIndividual.disable();
+                  }
+                });
             }
-          }
-        });
-      //Individual
-      this.individualFacade.selected$
-        .pipe(
-          filter((ct): ct is Individual => !!ct && ct.id === this.clientId),
-          take(1)
-        )
-        .subscribe((ind) => {
-          this.patchFormIndividual(ind);
-          if (this.viewOnly) this.addClientFormIndividual.disable();
+          },
+          error: (err) =>
+            console.error('❌ clientsFacade.selected$ error:', err),
+          complete: () => console.log('✔️ clientsFacade.selected$ complete'),
         });
     }
   }
-
+  get sectorIdControl(): FormControl {
+    return this.addClientForm.get('sectorId') as FormControl;
+  }
+  get subSectorList(): FormArray {
+    return this.addClientForm.get('subSectorIdList') as FormArray;
+  }
   get tabValue(): number {
     return this.disableCompanyTab ? 1 : 0;
   }
+  onSectorChanged(sectorId: number) {
+    this.selectedSectorId = sectorId;
 
-  private patchFormIndividual(ind: any) {
+    this.store
+      .select(selectAllSubSectors)
+      .pipe(
+        take(1),
+        map((subSectors) => subSectors.filter((s) => s.sectorId === sectorId))
+      )
+      .subscribe((filtered) => {
+        this.subSectorsList = filtered;
+
+        // Clear selected sub-sectors to prevent stale values
+        this.addClientForm.patchValue({ subSectorIdList: [] });
+      });
+  }
+  close() {
+    this.router.navigate(['/crm/clients/view-clients']);
+  }
+
+  //Company Only
+  get legalFormList(): FormArray {
+    return this.addClientForm.get('legalFormId') as FormArray;
+  }
+  get legalFormLawList(): FormArray {
+    return this.addClientForm.get('legalFormLawId') as FormArray;
+  }
+  buildFormCompany(): void {
+    this.addClientForm = this.fb.group({
+      name: ['', Validators.required],
+      nameAR: ['', [Validators.required, arabicOnlyValidator()]],
+      businessActivity: ['', Validators.required],
+      taxId: ['', [Validators.required, positiveNumberValidator()]],
+      shortName: ['', Validators.required],
+      sectorId: [[], Validators.required],
+      subSectorIdList: [[], Validators.required],
+      legalFormLawId: [null],
+      legalFormId: [null],
+      isStampDuty: [false],
+      isIscore: [false],
+      mainShare: [null, [Validators.min(0)]],
+
+      establishedYear: [
+        2000,
+        [
+          Validators.pattern(/^(19|20)\d{2}$/), // Valid years: 1900–2099
+          Validators.min(0),
+        ],
+      ],
+      website: [
+        'mansor.com',
+        [
+          Validators.pattern(
+            /^(https?:\/\/)?([\w\-]+\.)+[\w\-]{2,}(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/
+          ),
+        ],
+      ],
+      marketShare: [null, [Validators.min(0), Validators.max(100)]],
+      marketSize: [null, [Validators.min(0)]],
+      employeesNo: [null, [Validators.min(0)]],
+    });
+  }
+  private patchForm(client: Client): void {
+    console.log('🛠️ patchForm() entry, client payload:', client);
+
+    // 1) Patch all the simple controls up front
+    try {
+      this.addClientForm.patchValue({
+        id: client.id,
+        name: client.name,
+        nameAR: client.nameAR,
+        businessActivity: client.businessActivity,
+        taxId: +client.taxId!,
+        shortName: client.shortName,
+        isIscore: client.isIscore,
+        isStampDuty: client.isStampDuty,
+        legalFormId: client.legalFormId,
+        legalFormLawId: client.legalFormLawId,
+        mainShare: client.mainShare,
+        marketShare: client.marketShare,
+        marketSize: client.marketSize,
+        employeesNo: client.employeesNo,
+        establishedYear: client.establishedYear,
+        website: client.website,
+      });
+      console.log('✅ static fields patched');
+    } catch (e) {
+      console.error('❌ Error patching static fields:', e);
+    }
+
+    // 2) Determine which list actually has data
+    const rawList = client.subSectorIdList ?? [];
+
+    console.log('🔍 rawList computed:', rawList);
+
+    // 3) Bail early if empty
+    if (rawList.length === 0) {
+      console.warn('⚠️ no sub‐sectors in rawList, skipping dropdown patch');
+      return;
+    }
+
+    // 4) Extract sectorId and dispatch load
+    const sectorId = rawList[0].sectorId;
+    console.log(`⏳ dispatching loadSectorById({ id: ${sectorId} })`);
+    this.store.dispatch(loadSectorById({ id: sectorId }));
+
+    // 5) Subscribe to sub-sector options
+    this.store
+      .select(selectAllSubSectors)
+      .pipe(
+        filter((list) => list.length > 0),
+        take(1),
+        map((list) => list.filter((s) => s.sectorId === sectorId))
+      )
+      .subscribe({
+        next: (filtered) => {
+          console.log('📋 filtered subSectorsList:', filtered);
+          this.subSectorsList = filtered;
+
+          // 6) Finally patch the dropdown controls
+          const selectedIds = rawList.map((s) => s.id);
+          try {
+            this.addClientForm.patchValue({
+              sectorId,
+              subSectorIdList: selectedIds,
+            });
+            console.log('✅ dropdown fields patched:', {
+              sectorId,
+              selectedIds,
+            });
+          } catch (e) {
+            console.error('❌ Error patching dropdown fields:', e);
+          }
+        },
+        error: (err) => {
+          console.error('❌ Error in selectAllSubSectors subscription:', err);
+        },
+      });
+  }
+
+  saveInfo() {
+    if (this.addClientForm.invalid) {
+      this.addClientForm.markAllAsTouched();
+      return;
+    }
+
+    const formValue = this.addClientForm.value;
+    if (this.editMode) {
+      console.log('form value company ', formValue);
+      const updatedClient = {
+        ...formValue,
+        id: this.clientId,
+        clientTypeId: 1,
+        subSectorIdList: formValue.subSectorIdList.id,
+        legalFormLawId: formValue.legalFormLawId,
+        legalFormId: formValue.legalFormId,
+        taxId: String(formValue.taxId),
+      };
+      delete updatedClient.sectorId;
+
+      this.clientsFacade.update(this.clientId, updatedClient);
+    } else {
+      const payload = {
+        clientTypeId: 1,
+        id: this.clientId,
+        name: formValue.name,
+        nameAR: formValue.nameAR,
+        businessActivity: formValue.businessActivity,
+        taxId: String(formValue.taxId),
+        shortName: formValue.shortName,
+        sectorId: formValue.sectorId,
+        subSectorIdList: formValue.subSectorIdList,
+        isIscore: formValue.isIscore,
+        legalFormLawId: formValue.legalFormLawId,
+        legalFormId: formValue.legalFormId,
+        isStampDuty: formValue.isStampDuty,
+        mainShare: formValue.mainShare,
+        establishedYear: formValue.establishedYear,
+        website: formValue.website,
+        marketShare: formValue.marketShare,
+        marketSize: formValue.marketSize,
+        employeesNo: formValue.employeesNo,
+      };
+      this.clientsFacade.create(payload);
+    }
+    this.router.navigate(['/crm/clients/view-clients']);
+  }
+
+  //Individual Only
+  get identities(): FormArray {
+    return this.addClientFormIndividual.get('identities') as FormArray;
+  }
+  addIdentity() {
+    this.identities.push(this.createIdentityGroup());
+  }
+  removeIdentity(i: number) {
+    if (this.identities.length > 1) {
+      this.identities.removeAt(i);
+    }
+  }
+  createIdentityGroup(): FormGroup {
+    return this.fb.group({
+      id: [],
+      identificationNumber: ['', Validators.required],
+      selectedIdentities: [[], Validators.required],
+      isMain: [false, Validators.required],
+    });
+  }
+  buildFormIndividual() {
+    this.addClientFormIndividual = this.fb.group({
+      nameEnglishIndividual: ['', Validators.required],
+      nameArabicIndividual: ['', [Validators.required, arabicOnlyValidator()]],
+      businessActivityIndividual: ['', Validators.required],
+      shortNameIndividual: ['', Validators.required],
+      sectorId: [null, Validators.required],
+      subSectorIdList: [[], Validators.required],
+      emailIndividual: ['', [Validators.required, Validators.email]],
+      jobTitleIndividual: ['', Validators.required],
+      dateOfBirthIndividual: [null, Validators.required],
+      genderIndividual: [null, Validators.required],
+
+      // initialize your FormArray with one entry
+      identities: this.fb.array([this.createIdentityGroup()]),
+    });
+  }
+  patchFormIndividual(ind: any) {
     // ── load + filter sub-sectors for the individual’s sector ──
     const firstSectorId = ind.subSectorList![0]?.sectorId;
     if (firstSectorId) {
@@ -217,182 +465,6 @@ export class AddClientComponent implements OnInit {
       this.addClientFormIndividual.getRawValue()
     );
   }
-  buildFormCompany(): void {
-    this.addClientForm = this.fb.group({
-      name: ['', Validators.required],
-      nameAR: ['', [Validators.required, arabicOnlyValidator()]],
-      businessActivity: ['', Validators.required],
-      taxId: ['', [Validators.required, positiveNumberValidator()]],
-      shortName: ['', Validators.required],
-      sectorId: [[], Validators.required],
-      subSectorIdList: [[], Validators.required],
-      legalFormLawId: [null],
-      legalFormId: [null],
-      isStampDuty: [false],
-      isIscore: [false],
-      mainShare: [null, [Validators.min(0)]],
-
-      establishedYear: [
-        2000,
-        [
-          Validators.pattern(/^(19|20)\d{2}$/), // Valid years: 1900–2099
-          Validators.min(0),
-        ],
-      ],
-      website: [
-        'mansor.com',
-        [
-          Validators.pattern(
-            /^(https?:\/\/)?([\w\-]+\.)+[\w\-]{2,}(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/
-          ),
-        ],
-      ],
-      marketShare: [null, [Validators.min(0), Validators.max(100)]],
-      marketSize: [null, [Validators.min(0)]],
-      employeesNo: [null, [Validators.min(0)]],
-    });
-  }
-  buildFormIndividual() {
-    this.addClientFormIndividual = this.fb.group({
-      nameEnglishIndividual: ['', Validators.required],
-      nameArabicIndividual: ['', [Validators.required, arabicOnlyValidator()]],
-      businessActivityIndividual: ['', Validators.required],
-      shortNameIndividual: ['', Validators.required],
-      sectorId: [null, Validators.required],
-      subSectorIdList: [[], Validators.required],
-      emailIndividual: ['', [Validators.required, Validators.email]],
-      jobTitleIndividual: ['', Validators.required],
-      dateOfBirthIndividual: [null, Validators.required],
-      genderIndividual: [null, Validators.required],
-
-      // initialize your FormArray with one entry
-      identities: this.fb.array([this.createIdentityGroup()]),
-    });
-  }
-  get identities(): FormArray {
-    return this.addClientFormIndividual.get('identities') as FormArray;
-  }
-  addIdentity() {
-    this.identities.push(this.createIdentityGroup());
-  }
-
-  removeIdentity(i: number) {
-    if (this.identities.length > 1) {
-      this.identities.removeAt(i);
-    }
-  }
-  createIdentityGroup(): FormGroup {
-    return this.fb.group({
-      id: [],
-      identificationNumber: ['', Validators.required],
-      selectedIdentities: [[], Validators.required],
-      isMain: [false, Validators.required],
-    });
-  }
-
-  patchForm(client: any): void {
-    console.log('🛠️ patchForm got client:', client);
-    const sectorId = client.subSectorList[0]?.sectorId;
-    if (!sectorId) return;
-
-    this.store.dispatch(loadSectorById({ id: sectorId }));
-
-    this.store
-      .select(selectAllSubSectors)
-      .pipe(
-        filter((subs) => subs.length > 0),
-        take(1),
-        map((subs) => {
-          const sectorSubs = subs.filter((s) => s.sectorId === sectorId);
-          const extraSelected = client.subSectorList.filter(
-            (s: any) => !sectorSubs.some((sub) => sub.id === s.id)
-          );
-          return [...sectorSubs, ...extraSelected];
-        })
-      )
-      .subscribe((finalSubs) => {
-        console.log('📋 finalSubs to show in dropdown:', finalSubs);
-
-        this.subSectorsList = finalSubs;
-        // 🔍 LOG the values you patch to the form control
-        const selectedIds = client.subSectorList.map((s: any) => s.id);
-        console.log('✅ patching subSectorIdList with IDs:', selectedIds);
-        // Then patch the form after options are available
-        this.addClientForm.patchValue({
-          ...client,
-          sectorId,
-          subSectorIdList: selectedIds,
-          legalFormId: client.legalFormId?.id || client.legalFormId,
-          legalFormLawId: client.legalFormLawId?.id || client.legalFormLawId,
-        });
-        console.log('📄 form after patch:', this.addClientForm.getRawValue());
-      });
-  }
-
-  get sectorIdControl(): FormControl {
-    return this.addClientForm.get('sectorId') as FormControl;
-  }
-
-  get subSectorList(): FormArray {
-    return this.addClientForm.get('subSectorIdList') as FormArray;
-  }
-  get legalFormList(): FormArray {
-    return this.addClientForm.get('legalFormId') as FormArray;
-  }
-
-  get legalFormLawList(): FormArray {
-    return this.addClientForm.get('legalFormLawId') as FormArray;
-  }
-
-  saveInfo() {
-    if (this.addClientForm.invalid) {
-      this.addClientForm.markAllAsTouched();
-      return;
-    }
-
-    const formValue = this.addClientForm.value;
-    if (this.editMode) {
-      console.log('form value company ', formValue);
-      const updatedClient = {
-        ...formValue,
-        id: this.clientId,
-        clientTypeId: 1,
-        subSectorIdList: formValue.subSectorIdList,
-        legalFormLawId: formValue.legalFormLawId,
-        legalFormId: formValue.legalFormId,
-        taxId: String(formValue.taxId),
-      };
-      delete updatedClient.sectorId;
-
-      this.clientsFacade.update(this.clientId, updatedClient);
-    } else {
-      const payload = {
-        id: this.clientId,
-        name: formValue.name,
-        nameAR: formValue.nameAR,
-        shortName: formValue.shortName,
-        businessActivity: formValue.businessActivity,
-        isIscore: formValue.isIscore,
-        taxId: String(formValue.taxId),
-        clientTypeId: 1,
-        sectorId: formValue.sectorId,
-        subSectorIdList: formValue.subSectorIdList,
-        isStampDuty: formValue.isStampDuty,
-        legalFormLawId: formValue.legalFormLawId,
-        legalFormId: formValue.legalFormId,
-        mainShare: formValue.mainShare,
-        marketShare: formValue.marketShare,
-        establishedYear: formValue.establishedYear,
-        website: formValue.website,
-        employeesNo: formValue.employeesNo,
-        marketSize: formValue.marketSize,
-      };
-      this.clientsFacade.create(payload);
-    }
-    this.router.navigate(['/crm/clients/view-clients']);
-  }
-
-  individualBusinessId!: any; // Add this at class level to store ID 22
   saveInfoIndividual() {
     console.log('saveInfoIndividual() called', this.route.snapshot);
     this.individualBusinessId = this.route.snapshot.params['id'];
@@ -475,35 +547,5 @@ export class AddClientComponent implements OnInit {
       this.clientsFacade.loadAll();
       this.router.navigate(['/crm/clients/view-clients']);
     }
-  }
-
-  onLegalFormLawSelectionChange(selectedLaw: any) {
-    this.selectedLegalFormLawId = selectedLaw?.id || null;
-    this.addClientForm.get('legalFormId')?.reset(); // reset legal form
-  }
-  onClientTypeChange(event: any) {
-    if (event && event.value) {
-      this.selectedClientType = event;
-    }
-  }
-
-  onSectorChanged(sectorId: number) {
-    this.selectedSectorId = sectorId;
-
-    this.store
-      .select(selectAllSubSectors)
-      .pipe(
-        take(1),
-        map((subSectors) => subSectors.filter((s) => s.sectorId === sectorId))
-      )
-      .subscribe((filtered) => {
-        this.subSectorsList = filtered;
-
-        // Clear selected sub-sectors to prevent stale values
-        this.addClientForm.patchValue({ subSectorIdList: [] });
-      });
-  }
-  close() {
-    this.router.navigate(['/crm/clients/view-clients']);
   }
 }

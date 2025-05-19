@@ -36,7 +36,23 @@ export class ClientsEffects {
           tap((entity) =>
             console.log('[Effects] HTTP returned entity:', entity)
           ),
-          map((entity) => ActionsList.loadByIdSuccess({ entity })),
+          map((raw) => {
+            // Normalize sub-sector data into subSectorIdList
+            const subSectorIdList =
+              raw.subSectorIdList ??
+              // @ts-ignore: if your API returns it under a different key
+              raw.subSectorList ??
+              [];
+
+            // Rebuild the entity with a guaranteed subSectorIdList
+            const entity: Client = {
+              ...raw,
+              subSectorIdList,
+            };
+
+            console.log('[Effects] normalized entity:', entity);
+            return ActionsList.loadByIdSuccess({ entity });
+          }),
           catchError((error) => {
             console.error('[Effects] loadById FAILURE', error);
             return of(ActionsList.loadByIdFailure({ error }));
