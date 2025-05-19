@@ -1,30 +1,27 @@
 <app-toolbar-form
   [header]="'Central Bank Info'"
+  [header]="editMode ? 'Edit Central Bank Info' : 'Add Central Bank Info'"
   [backExists]="true"
+  [viewOnly]="false"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
 ></app-toolbar-form>
 <p-tabs value="0" styleClass="p-3">
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
-        [title]="'Main Information'"
+        *ngIf="addClientCentralBankInfoForm"
+        [title]="'Central Bank Info'"
         [description]="
-          'Introduce your company core info quickly to users by fill up company
-details'
+          'Introduce your Central Bank Info core info quickly to users by fill up client details'
         "
-        [addCentralBankInfoShowMain]="true"
+        [formGroup]="addClientCentralBankInfoForm"
+        [addClientCentralBankInfoForm]="true"
+        [editMode]="editMode"
+        (submitForm)="addOrEditClientCentralBankInfo()"
+        [viewOnly]="viewOnly"
+        [companyTypesList]="companyTypesList$ | async"
       ></app-form>
-
-      <div class="row justify-end">
-        <div
-          class="col-sm-12 margin-top col-md-6 d-flex justify-end"
-          (click)="addCentralBankInfo()"
-        >
-          <p-button
-            label="Add Central Bank Info"
-            class="custom-save m-0 float-right"
-          />
-        </div>
-      </div>
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>
