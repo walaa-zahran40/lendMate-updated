@@ -18,7 +18,7 @@ import { AddClientStatusesComponent } from './components/client-activities/add-c
 import { AddContactPersonComponent } from './components/client-activities/add-contact-person/add-contact-person.component';
 import { AddPhoneNumberComponent } from './components/client-activities/add-phone-number/add-phone-number.component';
 import { AddShareHoldersComponent } from './components/client-activities/add-share-holders/add-share-holders.component';
-import { AddTaxAuthorityOfficeComponent } from './components/client-activities/add-tax-authority-office/add-tax-authority-office.component';
+import { AddClientTaxAuthorityOfficesComponent } from './components/client-activities/add-tax-authority-office/add-tax-authority-office.component';
 import { AddTmlOfficerComponent } from './components/client-activities/add-tml-officer/add-tml-officer.component';
 import { UploadDocumentsComponent } from './components/client-activities/add-upload-documents/upload-documents.component';
 import { ClientActivityWizardComponent } from './components/client-activities/client-activity-wizard/client-activity-wizard.component';
@@ -32,7 +32,7 @@ import { ViewContactPersonComponent } from './components/client-activities/view-
 import { ViewPhoneNumberComponent } from './components/client-activities/view-phone-number/view-phone-number.component';
 import { ViewSalesTurnoverComponent } from './components/client-activities/view-sales-turnover/view-sales-turnover.component';
 import { ViewShareHolderComponent } from './components/client-activities/view-share-holder/view-share-holder.component';
-import { ViewTaxAuthorityOfficeComponent } from './components/client-activities/view-tax-authority-office/view-tax-authority-office.component';
+import { ViewTaxAuthorityOfficesComponent } from './components/client-activities/view-tax-authority-office/view-tax-authority-office.component';
 import { ViewTmlOfficerComponent } from './components/client-activities/view-tml-officer/view-tml-officer.component';
 import { ViewUploadDocumentsComponent } from './components/client-activities/view-upload-documents/view-upload-documents.component';
 import { WizardClientStatusComponent } from './components/client-activities/wizard-client-status/wizard-client-status.component';
@@ -86,6 +86,8 @@ import { AddClientCRAuthorityOfficesComponent } from './components/client-activi
 import { ViewCRAuthorityOfficesComponent } from './components/client-activities/view-cr-authority-office/view-cr-authority-office.component';
 import { clientCRAuthorityOfficesReducer } from './store/client-cr-authority-office/client-cr-authority-office.reducer';
 import { ClientCRAuthorityOfficesEffects } from './store/client-cr-authority-office/client-cr-authority-office.effects';
+import { clientTaxOfficesReducer } from './store/client-tax-office/client-tax-office.reducer';
+import { ClientTaxOfficesEffects } from './store/client-tax-office/client-tax-office.effects';
 
 @NgModule({
   declarations: [
@@ -97,7 +99,7 @@ import { ClientCRAuthorityOfficesEffects } from './store/client-cr-authority-off
     AddContactPersonComponent,
     AddPhoneNumberComponent,
     AddClientCRAuthorityOfficesComponent,
-    AddTaxAuthorityOfficeComponent,
+    AddClientTaxAuthorityOfficesComponent,
     AddCentralBankInfoComponent,
     AddShareHoldersComponent,
     AddTmlOfficerComponent,
@@ -110,7 +112,7 @@ import { ClientCRAuthorityOfficesEffects } from './store/client-cr-authority-off
     ViewContactPersonComponent,
     WizardClientStatusComponent,
     ViewCRAuthorityOfficesComponent,
-    ViewTaxAuthorityOfficeComponent,
+    ViewTaxAuthorityOfficesComponent,
     ViewCentralBankInfoComponent,
     ViewShareHolderComponent,
     ViewTmlOfficerComponent,
@@ -179,6 +181,9 @@ import { ClientCRAuthorityOfficesEffects } from './store/client-cr-authority-off
       clientCRAuthorityOfficesReducer
     ),
     EffectsModule.forFeature([ClientCRAuthorityOfficesEffects]),
+
+    StoreModule.forFeature('clientTaxOffices', clientTaxOfficesReducer),
+    EffectsModule.forFeature([ClientTaxOfficesEffects]),
   ],
 })
 export class ClientsModule {}

@@ -5587,36 +5587,74 @@
         </div>
       </div>
     </form>
-    <form action="" *ngIf="addTaxAuthorityOfficeShowMain">
-      <label for="addTaxAuthorityOfficeCRExpiryDate"
-        >Tax Expiry Date<sup class="danger">*</sup></label
-      >
+    <form  [formGroup]="formGroup"
+          *ngIf="addTaxAuthorityOfficeShowMain"
+          (ngSubmit)="onSubmit()">
+       <label for="expiryDate">CR Expiry Date<sup class="danger">*</sup></label>
       <shared-date-picker
-        formControlName="addTaxAuthorityOfficeCRExpiryDate"
-        inputId="addTaxAuthorityOfficeCRExpiryDate"
+        formControlName="expiryDate"
+        inputId="expiryDate"
       >
-      </shared-date-picker>
-      <label for="taxNumberAuthorityOffice"
-        >Tax Number <sup class="danger">*</sup></label
-      >
+       </shared-date-picker>
+     <label for="taxCardNumber">Tax Number<sup>*</sup></label>
       <input
         pInputText
-        id="taxNumberAuthorityOffice"
-        aria-describedby="taxNumberAuthorityOffice-help"
-        [(ngModel)]="value46"
-        name="taxNumberAuthorityOffice"
-        placeholder="Add Tax Number"
+        id="taxCardNumber"
+        formControlName="taxCardNumber"
+        placeholder="Type"
       />
-      <label for="taxAuthorityOffice"
-        >Tax Authority Office <sup class="danger">*</sup></label
-      >
+
+     <label for="taxOfficeId">Tax Office<sup>*</sup></label>
       <p-select
-        [options]="crAuthorityOffices"
+        [options]="taxOfficesList"
         optionLabel="name"
-        placeholder="Select Tax Authority Office"
-        class="w-full md:w-56"
+        placeholder="Select Tax Office"
+        formControlName="taxOfficeId"
+        optionValue="id"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('taxOfficeId')?.invalid &&
+            (formGroup.get('taxOfficeId')?.dirty ||
+              formGroup.get('taxOfficeId')?.touched)
+        }"
       />
+
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="!editMode"
+        >
+          <p-button
+            type="submit"
+            label="Add Tax Authority Office"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Tax Authority Office"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate([`/crm/clients/view-client-tax-authority-offices/${this.clientIdParam}`])"
+          />
+        </div>
+      </div>
     </form>
+
     <form action="" *ngIf="addCentralBankInfoShowMain">
       <label for="balanceSheetDate"
         >Balance Sheet Date<sup class="danger">*</sup></label

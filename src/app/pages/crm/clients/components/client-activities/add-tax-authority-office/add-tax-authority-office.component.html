@@ -1,27 +1,27 @@
 <app-toolbar-form
-  [header]="'Tax Authority Office'"
+  [header]="'Client Tax Authority Office'"
+  [header]="editMode ? 'Edit Client Tax Authority Office' : 'Add Client Tax Authority Office'"
   [backExists]="true"
+  [viewOnly]="false"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
 ></app-toolbar-form>
 <p-tabs value="0" styleClass="p-3">
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
-        [title]="'Main Information'"
+        *ngIf="addClientTaxAuthorityOfficesLookupsForm"
+        [title]="'Client Tax Authority Office'"
         [description]="
-          'Introduce your company core info quickly to users by fill up company
-details'
+          'Introduce your Client Tax Authority Office core info quickly to users by fill up client details'
         "
+        [formGroup]="addClientTaxAuthorityOfficesLookupsForm"
         [addTaxAuthorityOfficeShowMain]="true"
+        [editMode]="editMode"
+        (submitForm)="addOrEditClientTaxAuthorityOffices()"
+        [viewOnly]="viewOnly"
+        [taxOfficesList]="taxOfficesList$ | async"
       ></app-form>
-
-      <div class="row justify-end">
-        <div
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
-          (click)="addTaxes()"
-        >
-          <p-button label="Add Tax" class="custom-save m-0 float-right" />
-        </div>
-      </div>
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>

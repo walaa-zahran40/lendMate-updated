@@ -75,7 +75,7 @@ export class ClientActivityWizardComponent {
           title: 'TAX Authority Office',
           content:
             'Introduce your company core info quickly to users by fill up company details',
-          link: '/crm/clients/add-tax-authority-office',
+          link: `/crm/clients/view-client-tax-authority-offices/${this.clientId}`,
         },
         {
           imgUrl: '/assets/images/shared/card/central.svg',
