@@ -68,6 +68,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addClientShowMain?: boolean;
   @Input() addClientShowLegal?: boolean;
   @Input() addClientShowBusiness?: boolean;
+  @Input() addClientOnboardingForm?: boolean;
   @Input() addClientShowIndividual?: boolean;
   @Input() addClient?: boolean;
   //Select Box

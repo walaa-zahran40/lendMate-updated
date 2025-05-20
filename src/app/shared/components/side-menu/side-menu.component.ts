@@ -27,7 +27,7 @@ export class SideMenuComponent {
           {
             label: 'Quick Onboarding',
             icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/client-onboarding',
+            routerLink: '/crm/clients/view-clients-onboarding',
           },
           {
             label: 'Clients',

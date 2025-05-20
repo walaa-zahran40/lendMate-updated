@@ -1,0 +1,42 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Client Onboarding'"
+    [labelBtn]="'Add Client Onboarding'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddClient()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="clients$ | async as clients">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredClients"
+      [edit]="true"
+      [view]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewClientTable]="true"
+      (onDelete)="onDeleteClient($event)"
+      (onEdit)="onEditClient($event)"
+      (wizardBtn)="onAddSide($event)"
+      (viewForm)="onViewClient($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

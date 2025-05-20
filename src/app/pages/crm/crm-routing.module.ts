@@ -28,7 +28,6 @@ import { ViewShareHolderComponent } from './clients/components/client-activities
 import { ViewTmlOfficerComponent } from './clients/components/client-activities/view-tml-officer/view-tml-officer.component';
 import { ViewUploadDocumentsComponent } from './clients/components/client-activities/view-upload-documents/view-upload-documents.component';
 import { WizardClientStatusComponent } from './clients/components/client-activities/wizard-client-status/wizard-client-status.component';
-import { ClientOnboardingComponent } from './clients/components/clients/client-onboarding/client-onboarding.component';
 import { AddClientComponent } from './clients/components/clients/company-individual/add-client/add-client.component';
 import { ViewClientsComponent } from './clients/components/clients/company-individual/view-clients/view-clients.component';
 import { CompanyViewOnlyComponent } from './clients/components/clients/company-view-only/company-view-only.component';
@@ -46,12 +45,22 @@ import { ViewCRAuthorityOfficesComponent } from './clients/components/client-act
 import { AddClientCRAuthorityOfficesComponent } from './clients/components/client-activities/add-cr-authority-office/add-cr-authority-office.component';
 import { ViewTaxAuthorityOfficesComponent } from './clients/components/client-activities/view-tax-authority-office/view-tax-authority-office.component';
 import { AddClientTaxAuthorityOfficesComponent } from './clients/components/client-activities/add-tax-authority-office/add-tax-authority-office.component';
+import { AddClientOnboardingComponent } from './clients/components/clients/client-onboarding/add-client-onboarding/add-client-onboarding.component';
+import { ViewClientsOnboardingComponent } from './clients/components/clients/client-onboarding/view-clients-onboarding/view-clients-onboarding.component';
 
 const routes: Routes = [
-  /*Clients Routing*/
+  /*Clients , Client Onboarding Routing*/
   {
-    path: 'clients/client-onboarding',
-    component: ClientOnboardingComponent,
+    path: 'clients/add-client-onboarding',
+    component: AddClientOnboardingComponent,
+  },
+  {
+    path: 'clients/edit-client-onboarding/:clientId',
+    component: AddClientOnboardingComponent,
+  },
+  {
+    path: 'clients/view-clients-onboarding',
+    component: ViewClientsOnboardingComponent,
   },
   {
     path: 'clients/add-client',
@@ -61,7 +70,10 @@ const routes: Routes = [
     path: 'clients/edit-client/:clientId',
     component: AddClientComponent,
   },
-
+  {
+    path: 'clients/view-clients',
+    component: ViewClientsComponent,
+  },
   {
     path: 'clients/add-client-guarantor',
     component: AddClientGuarantorComponent,
@@ -143,10 +155,7 @@ const routes: Routes = [
     path: 'clients/add-tml-officer',
     component: AddTmlOfficerComponent,
   },
-  {
-    path: 'clients/view-clients',
-    component: ViewClientsComponent,
-  },
+
   {
     path: 'clients/view-client-guarantor',
     component: ViewClientGuarantorComponent,

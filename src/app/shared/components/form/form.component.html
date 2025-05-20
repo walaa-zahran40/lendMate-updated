@@ -1143,6 +1143,449 @@
         </div>
       </ng-container>
     </form>
+    <form
+      class="div2"
+      [ngClass]="{ span: applyReusable }"
+      [formGroup]="formGroup"
+    >
+      <!-- Main Info -->
+      <ng-container *ngIf="addClientOnboardingForm">
+        <!-- Name in English -->
+        <label for="name">Name in English <sup class="danger">*</sup></label>
+        <input
+          pInputText
+          name="name"
+          formControlName="name"
+          placeholder="Name in English"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              formGroup.get('name')?.invalid && formGroup.get('name')?.touched
+          }"
+        />
+
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('name')?.hasError('required') &&
+            formGroup.get('name')?.touched
+          "
+        >
+          Name in English is required.
+        </small>
+        <br />
+
+        <!-- Name in Arabic -->
+        <label for="nameAR">Name in Arabic <sup class="danger">*</sup></label>
+        <input
+          pInputText
+          name="nameAR"
+          formControlName="nameAR"
+          placeholder="Name in Arabic"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              formGroup.get('nameAR')?.invalid &&
+              formGroup.get('nameAR')?.touched
+          }"
+          appOnlyArabic
+        />
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('nameAR')?.hasError('required') &&
+            formGroup.get('nameAR')?.touched
+          "
+        >
+          Name in Arabic is required.
+        </small>
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('nameAR')?.hasError('nonArabic') &&
+            formGroup.get('nameAR')?.touched
+          "
+        >
+          Only Arabic characters are allowed.
+        </small>
+        <br />
+
+        <!-- Business Activity -->
+        <label for="businessActivity"
+          >Business Activity <sup class="danger">*</sup></label
+        >
+        <input
+          pInputText
+          name="businessActivity"
+          formControlName="businessActivity"
+          placeholder="Business Activity"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              formGroup.get('businessActivity')?.invalid &&
+              formGroup.get('businessActivity')?.touched
+          }"
+        />
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('businessActivity')?.hasError('required') &&
+            formGroup.get('businessActivity')?.touched
+          "
+        >
+          Business Activity is required.
+        </small>
+        <br />
+
+        <!-- Tax ID -->
+        <label for="taxId">Tax ID <sup class="danger">*</sup></label>
+        <input
+          pInputText
+          name="taxId"
+          formControlName="taxId"
+          placeholder="Tax ID"
+          type="number"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              formGroup.get('taxId')?.invalid && formGroup.get('taxId')?.touched
+          }"
+        />
+        <div
+          *ngIf="
+            formGroup.get('taxId')?.invalid && formGroup.get('taxId')?.touched
+          "
+        >
+          <small
+            class="p-error"
+            *ngIf="
+              formGroup.get('taxId')?.hasError('required') &&
+              formGroup.get('taxId')?.touched
+            "
+          >
+            Tax ID is required.
+          </small>
+          <br />
+          <small
+            class="p-error"
+            *ngIf="
+              formGroup.get('taxId')?.hasError('nonPositiveNumeric') &&
+              formGroup.get('taxId')?.touched
+            "
+          >
+            Only positive numeric characters are allowed.
+          </small>
+          <br />
+        </div>
+
+        <!-- Short Name -->
+        <label for="shortName">Short Name <sup class="danger">*</sup></label>
+        <input
+          pInputText
+          name="shortName"
+          formControlName="shortName"
+          placeholder="Short Name"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              formGroup.get('shortName')?.invalid &&
+              formGroup.get('shortName')?.touched
+          }"
+        />
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('shortName')?.hasError('required') &&
+            formGroup.get('shortName')?.touched
+          "
+        >
+          Short Name is required.
+        </small>
+        <br />
+        <ng-container *ngIf="sectorsSafe$ | async as sectors">
+          <!-- Sector Dropdown -->
+          <label for="sectorDropdown"
+            >Select Sector<sup class="danger">*</sup></label
+          >
+
+          <p-select
+            [options]="sectors"
+            optionLabel="name"
+            placeholder="Select Sector"
+            formControlName="sectorId"
+            optionValue="id"
+            (onChange)="onSectorChange($event)"
+            required
+            [ngClass]="{
+              'ng-invalid':
+                formGroup.get('sectorId')?.invalid &&
+                (formGroup.get('sectorId')?.dirty ||
+                  formGroup.get('sectorId')?.touched)
+            }"
+          >
+          </p-select>
+
+          <!-- Validation message -->
+          <small
+            class="p-error"
+            style="color: var(--custom-red)"
+            *ngIf="
+              formGroup.get('sectorId')?.invalid &&
+              (formGroup.get('sectorId')?.dirty ||
+                formGroup.get('sectorId')?.touched)
+            "
+          >
+            Sector is required.
+          </small>
+        </ng-container>
+        <br />
+        <!-- Sub Sector Dropdown -->
+        <label for="subSectorDropdown">
+          Select Sub Sector<sup class="danger">*</sup>
+        </label>
+        <p-multiSelect
+          [options]="subSectorsList"
+          formControlName="subSectorIdList"
+          optionLabel="name"
+          optionValue="id"
+          placeholder="Select Sub Sector"
+          display="chip"
+          (onChange)="onSubSectorChange($event)"
+        ></p-multiSelect>
+
+        <div
+          class="p-error"
+          *ngIf="
+            formGroup.get('subSectorIdList')?.invalid &&
+            (formGroup.get('subSectorIdList')?.touched ||
+              formGroup.get('subSectorIdList')?.dirty)
+          "
+        >
+          Sub Sector is required.
+        </div>
+
+        <br />
+      </ng-container>
+      <!-- Legal Info -->
+      <ng-container *ngIf="addClientShowLegal">
+        <label for="legalFormLawId">Legal Form Law</label>
+        <ng-container *ngIf="legalFormLaws$ | async as laws">
+          <p-select
+            [options]="laws"
+            optionLabel="name"
+            optionValue="id"
+            formControlName="legalFormLawId"
+            placeholder="Select Legal Form Law"
+            (onChange)="onLegalFormLawSelectionChange($event)"
+            [ngClass]="{
+              'ng-invalid':
+                formGroup.get('legalFormLawId')?.invalid &&
+                (formGroup.get('legalFormLawId')?.dirty ||
+                  formGroup.get('legalFormLawId')?.touched)
+            }"
+          ></p-select>
+        </ng-container>
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('legalFormLawId')?.invalid &&
+            (formGroup.get('legalFormLawId')?.dirty ||
+              formGroup.get('legalFormLawId')?.touched)
+          "
+        >
+          Legal Form Law is required.
+        </small>
+        <label for="legalFormId">Legal Form</label>
+        <ng-container *ngIf="legalForms$ | async as forms">
+          <p-select
+            [options]="forms"
+            optionLabel="name"
+            optionValue="id"
+            formControlName="legalFormId"
+            placeholder="Select Legal Form"
+            [ngClass]="{
+              'ng-invalid':
+                formGroup.get('legalFormId')?.invalid &&
+                (formGroup.get('legalFormId')?.dirty ||
+                  formGroup.get('legalFormId')?.touched)
+            }"
+          ></p-select>
+        </ng-container>
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('legalFormId')?.invalid &&
+            (formGroup.get('legalFormId')?.dirty ||
+              formGroup.get('legalFormId')?.touched)
+          "
+        >
+          Legal Form is required.
+        </small>
+
+        <p-toggleswitch
+          formControlName="isStampDuty"
+          name="isStampDuty"
+        />&nbsp;
+        <label for="isStampDuty">Is Stamp Duty</label>
+      </ng-container>
+
+      <!-- Business Info -->
+      <ng-container *ngIf="addClientShowBusiness">
+        <!-- Main Share -->
+        <label for="mainShare">Main Share </label>
+        <input
+          pInputText
+          id="mainShare"
+          formControlName="mainShare"
+          placeholder="Main Share"
+          appNoNegative
+          type="number"
+        />
+        <div
+          *ngIf="
+            formGroup.get('mainShare')?.touched &&
+            formGroup.get('mainShare')?.invalid
+          "
+          class="error-msg"
+        >
+          <small
+            class="p-error"
+            *ngIf="formGroup.get('mainShare')?.errors?.['min']"
+            >Value cannot be negative.</small
+          >
+        </div>
+
+        <!-- Established Year -->
+        <label for="establishedYear">Established Year </label>
+        <input
+          pInputText
+          id="establishedYear"
+          formControlName="establishedYear"
+          placeholder="Established Year"
+          appNoNegative
+          type="number"
+        />
+        <div
+          *ngIf="
+            formGroup.get('establishedYear')?.touched &&
+            formGroup.get('establishedYear')?.invalid
+          "
+          class="error-msg"
+        >
+          <small
+            class="p-error"
+            *ngIf="formGroup.get('establishedYear')?.errors?.['min']"
+            >Value cannot be negative.</small
+          ><br />
+          <small
+            class="p-error"
+            *ngIf="formGroup.get('establishedYear')?.errors?.['pattern']"
+          >
+            Enter a valid year (e.g. 2005).
+          </small>
+        </div>
+
+        <!-- Website -->
+        <label for="website">Website </label>
+        <input
+          pInputText
+          type="url"
+          id="website"
+          formControlName="website"
+          placeholder="Website"
+        />
+
+        <div
+          *ngIf="
+            formGroup.get('website')?.touched &&
+            formGroup.get('website')?.invalid
+          "
+          class="error-msg"
+        >
+          <small
+            class="p-error"
+            *ngIf="formGroup.get('website')?.errors?.['pattern']"
+            >Enter a valid website URL.</small
+          >
+        </div>
+
+        <!-- Market Share -->
+        <label for="marketShare">Market Share %</label>
+        <input
+          pInputText
+          min="0"
+          type="number"
+          id="marketShare"
+          formControlName="marketShare"
+          placeholder="Market Share"
+          appNoNegative
+        />
+        <div
+          *ngIf="
+            formGroup.get('marketShare')?.touched &&
+            formGroup.get('marketShare')?.invalid
+          "
+          class="error-msg"
+        >
+          <small
+            class="p-error"
+            *ngIf="formGroup.get('marketShare')?.errors?.['min']"
+            >Cannot be negative.</small
+          ><br />
+
+          <small
+            class="p-error"
+            *ngIf="formGroup.get('marketShare')?.errors?.['max']"
+            >Cannot exceed 100%.</small
+          >
+        </div>
+
+        <!-- Market Size -->
+        <label for="marketSize">Market Size</label>
+        <input
+          pInputText
+          min="0"
+          type="number"
+          id="marketSize"
+          formControlName="marketSize"
+          placeholder="Market Size"
+          appNoNegative
+        />
+        <div
+          *ngIf="
+            formGroup.get('marketSize')?.touched &&
+            formGroup.get('marketSize')?.invalid
+          "
+          class="error-msg"
+        >
+          <small
+            class="p-error"
+            *ngIf="formGroup.get('marketSize')?.errors?.['min']"
+            >Market size cannot be negative.</small
+          >
+        </div>
+
+        <!-- Number of Employees -->
+        <label for="employeesNo">Number of Employees </label>
+        <input
+          pInputText
+          min="0"
+          type="number"
+          id="employeesNo"
+          formControlName="employeesNo"
+          placeholder="Number of Employees"
+          appNoNegative
+        />
+        <div
+          *ngIf="
+            formGroup.get('employeesNo')?.touched &&
+            formGroup.get('employeesNo')?.invalid
+          "
+          class="error-msg"
+        >
+          <small
+            class="p-error"
+            *ngIf="formGroup.get('employeesNo')?.errors?.['min']"
+            >Number of employees cannot be negative.</small
+          >
+        </div>
+      </ng-container>
+    </form>
     <form class="div2" [formGroup]="formGroup" *ngIf="addClientShowIndividual">
       <!-- Name in English -->
       <label for="nameEnglishIndividual"
@@ -5587,16 +6030,15 @@
         </div>
       </div>
     </form>
-    <form  [formGroup]="formGroup"
-          *ngIf="addTaxAuthorityOfficeShowMain"
-          (ngSubmit)="onSubmit()">
-       <label for="expiryDate">CR Expiry Date<sup class="danger">*</sup></label>
-      <shared-date-picker
-        formControlName="expiryDate"
-        inputId="expiryDate"
-      >
-       </shared-date-picker>
-     <label for="taxCardNumber">Tax Number<sup>*</sup></label>
+    <form
+      [formGroup]="formGroup"
+      *ngIf="addTaxAuthorityOfficeShowMain"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="expiryDate">CR Expiry Date<sup class="danger">*</sup></label>
+      <shared-date-picker formControlName="expiryDate" inputId="expiryDate">
+      </shared-date-picker>
+      <label for="taxCardNumber">Tax Number<sup>*</sup></label>
       <input
         pInputText
         id="taxCardNumber"
@@ -5604,7 +6046,7 @@
         placeholder="Type"
       />
 
-     <label for="taxOfficeId">Tax Office<sup>*</sup></label>
+      <label for="taxOfficeId">Tax Office<sup>*</sup></label>
       <p-select
         [options]="taxOfficesList"
         optionLabel="name"

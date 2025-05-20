@@ -37,7 +37,6 @@ import { ViewTmlOfficerComponent } from './components/client-activities/view-tml
 import { ViewUploadDocumentsComponent } from './components/client-activities/view-upload-documents/view-upload-documents.component';
 import { WizardClientStatusComponent } from './components/client-activities/wizard-client-status/wizard-client-status.component';
 import { AddClientComponent } from './components/clients/company-individual/add-client/add-client.component';
-import { ClientOnboardingComponent } from './components/clients/client-onboarding/client-onboarding.component';
 import { CompanyViewOnlyComponent } from './components/clients/company-view-only/company-view-only.component';
 import { ViewClientsComponent } from './components/clients/company-individual/view-clients/view-clients.component';
 import { ClientCentralBankEffects } from './store/client-central-bank-info/client-central-bank.effects';
@@ -88,12 +87,15 @@ import { clientCRAuthorityOfficesReducer } from './store/client-cr-authority-off
 import { ClientCRAuthorityOfficesEffects } from './store/client-cr-authority-office/client-cr-authority-office.effects';
 import { clientTaxOfficesReducer } from './store/client-tax-office/client-tax-office.reducer';
 import { ClientTaxOfficesEffects } from './store/client-tax-office/client-tax-office.effects';
+import { AddClientOnboardingComponent } from './components/clients/client-onboarding/add-client-onboarding/add-client-onboarding.component';
+import { ViewClientsOnboardingComponent } from './components/clients/client-onboarding/view-clients-onboarding/view-clients-onboarding.component';
 
 @NgModule({
   declarations: [
     AddClientComponent,
     UploadDocumentsComponent,
-    ClientOnboardingComponent,
+    AddClientOnboardingComponent,
+    ViewClientsOnboardingComponent,
     AddClientAddressesComponent,
     AddSalesTurnoverComponent,
     AddContactPersonComponent,

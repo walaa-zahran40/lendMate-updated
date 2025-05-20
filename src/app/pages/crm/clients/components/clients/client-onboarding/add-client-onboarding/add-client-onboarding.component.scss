@@ -21,7 +21,7 @@
   &::ng-deep {
     .p-button {
       flex-direction: var(--custom-flex-direction-row-reverse);
-      background: var(--custom-background-transparent);
+      background: var(--p-tabs-active-bar-background);
       border-radius: var(--custom-size-8);
       padding-top: var(--custom-size-8);
       padding-right: var(--custom-size-16);
@@ -33,7 +33,9 @@
       font-size: var(--custom-font-size-13);
       line-height: var(--custom-font-size-24);
     }
-
+    .p-tablist-tab-list {
+      background: var(--bg-transparent);
+    }
     .p-button:not(:disabled):hover {
       background: var(--p-tabs-active-bar-background) !important;
       border: none;
@@ -46,6 +48,10 @@
       cursor: var(--custom-cursor);
       color: var(--custom-color-white);
     }
+    .two-buttons {
+      margin-left: auto;
+      width: 65.9%;
+    }
     .custom-save {
       background: var(--p-tabs-active-bar-background);
       margin-left: var(--custom-position-auto);
@@ -55,7 +61,16 @@
       font-size: var(--custom-font-size-18);
       cursor: var(--custom-cursor);
       color: var(--custom-color-white);
-      margin-top: 32px !important;
+    }
+    .custom-save2 {
+      background: var(--p-tabs-active-bar-background);
+      margin-left: var(--custom-position-auto);
+      margin-right: var(--custom-position-28);
+      text-align: var(--custom-position-center);
+      padding: 14px 27px;
+      font-size: var(--custom-font-size-18);
+      cursor: var(--custom-cursor);
+      color: var(--custom-color-white);
     }
     .p-button-label {
       font-weight: var(--custom-weight-700);
@@ -67,18 +82,61 @@
       background: var(--custom-background-transparent);
       border: 1px solid var(--p-tabs-active-bar-background);
       color: var(--p-tabs-active-bar-background) !important;
-      width: var(--custom-width-30);
       text-align: var(--custom-position-center);
-      padding: var(--custom-padding-20);
+      padding: 21px 69px;
       font-size: var(--custom-font-size-18);
       cursor: var(--custom-cursor);
     }
     .custom-back .p-button:not(:disabled):hover {
-      background: var(--custom-color-white) !important;
-      border: 1px solid var(--p-tabs-active-bar-background);
+      background: white !important;
+      border: 1px solid var(--p-tabs-active-bar-background) !important;
+    }
+    .custom-next .p-button:not(:disabled):hover {
+      background: #fff !important;
+    }
+    .p-multiselect,
+    .p-select {
+      color: var(--custom-grey-bold);
+      margin-bottom: var(--custom-size-16);
+      border-radius: var(--custom-margin-0);
+      border: 1px solid var(--custom-color-grey-light);
+      height: 50px;
+      padding: 3px 8px;
+    }
+    .p-multiselect-label:has(.p-chip) {
+      padding: 0;
     }
     /*responsiveness*/
+    @media only screen and (max-width: 981px) {
+      .two-buttons {
+        width: 100%;
+        margin-left: 0;
+        gap: 20px;
+        div {
+          width: 100%;
+          padding: 0;
+          .custom-save {
+            margin-top: 0px !important;
+            width: 100%;
+          }
+          .custom-back .p-button {
+            width: 100%;
+          }
+          .custom-save2 {
+            width: 100%;
+          }
+        }
+      }
+      .custom-save {
+        width: 100%;
+      }
+    }
     @media only screen and (max-width: 600px) {
+      .two-buttons {
+        width: 100%;
+        margin-left: 0;
+        gap: 20px;
+      }
       .nextBtn {
         width: var(--custom-size-100);
       }
@@ -101,7 +159,7 @@
       .custom-back {
         margin-right: var(--custom-position-0);
         margin-left: var(--custom-position-auto);
-        margin-bottom: var(--custom-padding-20);
+        margin-bottom: 0;
       }
       .custom-back .p-button {
         width: var(--custom-width-100);
@@ -162,6 +220,7 @@
   &::ng-deep {
     .p-tabs {
       padding: var(--custom-padding-right-10);
+      zoom: 80%;
     }
     .p-button {
       border-radius: var(--custom-size-8);
@@ -174,6 +233,7 @@
       font-weight: var(--custom-font-weight);
       font-size: var(--custom-font-size-13);
       line-height: var(--custom-font-size-24);
+      color: var(--custom-color-white);
     }
     .p-datepicker {
       width: 100%;
@@ -244,6 +304,9 @@
       line-height: var(--custom-line-height-25);
       color: var(--custom-grey);
     }
+    .p-tab:not(.p-tab-active):not(.p-disabled):hover {
+      color: var(--custom-grey);
+    }
     .p-tab-active {
       border-color: var(--p-tabs-active-bar-background);
       color: var(--p-tabs-active-bar-background);
@@ -305,25 +368,13 @@
       top: 45px !important;
       position: absolute;
     }
-    .p-multiselect-label:has(.p-chip) {
-      padding: 0;
-    }
-    .p-multiselect,
-    .p-select {
-      color: var(--custom-grey-bold);
-      margin-bottom: var(--custom-size-16);
-      border-radius: var(--custom-margin-0);
-      border: 1px solid var(--custom-color-grey-light);
-      height: 50px;
-      padding: 3px 8px;
-    }
+
     /*responsiveness*/
     @media only screen and (max-width: 600px) {
       .nextBtn {
         width: var(--custom-size-100);
       }
-      .p-toolbar-end,
-      p-button {
+      .p-toolbar-end {
         width: var(--custom-size-100);
       }
       p.client {
@@ -397,4 +448,8 @@ form {
       color: var(--custom-red);
     }
   }
+}
+.margin-top {
+  margin-top: 32px;
+  margin-bottom: 32px;
 }
