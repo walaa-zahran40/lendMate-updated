@@ -16,7 +16,6 @@ import { Sector } from '../../../../../../lookups/store/sectors/sector.model';
 import { ClientsFacade } from '../../../../store/_clients/allclients/clients.facade';
 import { Individual } from '../../../../store/_clients/individuals/individual.model';
 import { ClientIdentityTypesFacade } from '../../../../store/client-identity-types/client-identity-types.facade';
-import { loadSectorById } from '../../../../store/sector-drop-down/sector.actions';
 import { selectAllSubSectors } from '../../../../store/sub-sector-drop-down/sub-sector.selectors';
 import { IndividualsFacade } from '../../../../store/_clients/individuals/individuals.facade';
 import { Client } from '../../../../store/_clients/allclients/client.model';
