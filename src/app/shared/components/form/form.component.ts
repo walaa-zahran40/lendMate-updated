@@ -546,7 +546,6 @@ export class FormComponent implements OnInit, OnDestroy {
     this.minDateOfBirth.setFullYear(this.minDateOfBirth.getFullYear() - 100);
     // 18 years ago:
     this.maxDateOfBirth.setFullYear(this.maxDateOfBirth.getFullYear() - 18);
-    console.log('currency', this.route.snapshot);
     this.id = this.route.snapshot.paramMap.get('clientId')!;
     this.clientId = this.route.snapshot.queryParams['clientId']!;
     this.currencyIdParam = this.route.snapshot.queryParams['currencyId'];
@@ -663,7 +662,9 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/crm/clients/view-central-bank-info']);
   }
   viewCRAuthority() {
-    this.router.navigate([`/crm/clients/view-client-cr-authority-offices/${this.clientId}`]);
+    this.router.navigate([
+      `/crm/clients/view-client-cr-authority-offices/${this.clientId}`,
+    ]);
   }
   viewBusinessLines() {
     this.router.navigate(['/lookups/view-business-lines']);
@@ -832,7 +833,9 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/crm/clients/view-share-holder']);
   }
   viewTaxAuthority() {
-    this.router.navigate([`/crm/clients/view-client-tax-authority-offices/${this.clientId}`]);
+    this.router.navigate([
+      `/crm/clients/view-client-tax-authority-offices/${this.clientId}`,
+    ]);
   }
   viewContactDetails() {
     this.router.navigate(['/crm/clients/view-contact-person']);

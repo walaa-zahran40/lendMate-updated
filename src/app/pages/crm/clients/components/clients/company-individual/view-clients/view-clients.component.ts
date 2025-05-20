@@ -130,7 +130,10 @@ export class ViewClientsComponent {
   onViewClient(client: Client) {
     console.log('client', client);
     this.router.navigate(['/crm/clients/edit-client', client.id], {
-      queryParams: { mode: 'view' },
+      queryParams: {
+        type: client.clientTypeId === 2 ? 'Individual' : 'Company',
+        mode: 'view',
+      },
     });
   }
 }

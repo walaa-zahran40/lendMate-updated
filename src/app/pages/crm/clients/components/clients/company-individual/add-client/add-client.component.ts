@@ -20,6 +20,7 @@ import { loadSectorById } from '../../../../store/sector-drop-down/sector.action
 import { selectAllSubSectors } from '../../../../store/sub-sector-drop-down/sub-sector.selectors';
 import { IndividualsFacade } from '../../../../store/_clients/individuals/individuals.facade';
 import { Client } from '../../../../store/_clients/allclients/client.model';
+
 @Component({
   selector: 'app-add-client',
   standalone: false,
@@ -70,16 +71,32 @@ export class AddClientComponent implements OnInit, OnDestroy {
     private router: Router
   ) {}
 
-  //Both
   ngOnInit(): void {
-    // (company & individual)
-    console.log('route', this.route.snapshot);
-    console.log('Building the company form…');
-    this.buildFormCompany();
-    console.log('Building the individual form…');
-    this.buildFormIndividual();
+    console.log('🔧 ngOnInit start', {
+      snapshot: this.route.snapshot,
+      queryParams: this.route.snapshot.queryParams,
+    });
 
-    // Individual
+    // Build company form
+    try {
+      this.buildFormCompany();
+      console.log('✅ buildFormCompany done', this.addClientForm.value);
+    } catch (e) {
+      console.error('❌ buildFormCompany threw', e);
+    }
+
+    // Build individual form
+    try {
+      this.buildFormIndividual();
+      console.log(
+        '✅ buildFormIndividual done',
+        this.addClientFormIndividual.value
+      );
+    } catch (e) {
+      console.error('❌ buildFormIndividual threw', e);
+    }
+
+    // Calculate DOB limits
     console.log('Calculating min/max dateOfBirthIndividual…');
     this.minDateOfBirth.setFullYear(this.minDateOfBirth.getFullYear() - 100);
     this.maxDateOfBirth.setFullYear(this.maxDateOfBirth.getFullYear() - 18);
@@ -89,40 +106,45 @@ export class AddClientComponent implements OnInit, OnDestroy {
     this.addClientFormIndividual
       .get('dateOfBirthIndividual')!
       .setValue(this.maxDateOfBirth);
-    //— select identity dropdown list
-    // 1) Fire the load request
+
+    // Load identity types
+    console.log('Loading identity types…');
     this.identityTypeFacade.loadAll();
-    // 2) Then subscribe (or better, use an async pipe)
     this.identityTypeFacade.all$
       .pipe(
+        tap((list) => console.log('identityTypeFacade.all$ emitted', list)),
         filter((list) => list.length > 0),
         take(1)
       )
-      .subscribe((res) => {
-        console.log('identity list', res);
-        this.identityOptions = res;
+      .subscribe({
+        next: (res) => {
+          console.log('✔ identityOptions loaded', res);
+          this.identityOptions = res;
+        },
+        error: (err) => console.error('❌ identityTypeFacade.all$ error', err),
       });
 
-    //edit and view mode
-    // 1️⃣ Detect mode & id
-    console.log('Detecting mode & id…', this.route.snapshot);
+    // Detect edit/view mode
+    console.log('Detecting mode & id…');
+    console.log('route snapshot:', this.route.snapshot);
     const idParam = this.route.snapshot.paramMap.get('clientId');
-    console.log('clientId:', idParam);
     const mode = this.route.snapshot.queryParams['mode']; // 'edit' | 'view'
+    const type = this.route.snapshot.queryParams['type'];
+    console.log('→ idParam:', idParam, 'mode:', mode, 'type:', type);
+
     if (!idParam || (mode !== 'edit' && mode !== 'view')) {
       console.log('No edit/view mode detected, skipping load.');
       return;
     }
 
-    if (idParam && (mode === 'edit' || mode === 'view')) {
-      this.clientId = +idParam;
-      this.editMode = mode === 'edit';
-      this.viewOnly = mode === 'view';
-      console.log(`Mode = ${mode}, clientId = ${this.clientId}`);
-      // 5) Always load the general client first
-      this.clientsFacade.loadById(this.clientId);
+    this.clientId = +idParam;
+    this.editMode = mode === 'edit';
+    this.viewOnly = mode === 'view';
+    console.log(`Mode = ${mode}, clientId = ${this.clientId}`);
 
-      // 6) Subscribe to general‐client stream
+    if (type === 'Company') {
+      // Company path
+      this.clientsFacade.loadById(this.clientId);
       this.clientsFacade.selected$
         .pipe(
           filter((c): c is Client => !!c && c.id === this.clientId),
@@ -131,47 +153,13 @@ export class AddClientComponent implements OnInit, OnDestroy {
         .subscribe({
           next: (client) => {
             console.log('Loaded client:', client);
+            this.disableIndividualTab = true;
+            this.activeTabIndex = 0;
+            this.patchForm(client);
 
-            if (client.clientTypeId === 1) {
-              // --- Company path ---
-              console.log('⮕ Company, patching company form');
-              this.disableIndividualTab = true;
-              this.activeTabIndex = 0;
-              this.patchForm(client);
-
-              if (this.viewOnly) {
-                console.log('⮕ View-only, disabling company form');
-                this.disableIndividualTab = true;
-                this.activeTabIndex = 0;
-                this.patchForm(client);
-                this.addClientForm.disable();
-              }
-            } else {
-              // --- Individual path ---
-              console.log('⮕ Individual, patching individual form');
-              this.disableCompanyTab = true;
-              this.activeTabIndex = 1;
-              this.patchFormIndividual(client);
-
-              // Now load the individual details
-              this.individualFacade.loadById(this.clientId);
-              this.individualFacade.selected$
-                .pipe(
-                  filter((i): i is Individual => !!i && i.id === this.clientId),
-                  take(1)
-                )
-                .subscribe((ind) => {
-                  console.log('Loaded individual:', ind);
-                  this.patchFormIndividual(ind);
-
-                  if (this.viewOnly) {
-                    console.log('⮕ View-only, disabling individual form');
-                    this.disableCompanyTab = true;
-                    this.activeTabIndex = 1;
-                    this.patchFormIndividual(client);
-                    this.addClientFormIndividual.disable();
-                  }
-                });
+            if (this.viewOnly) {
+              console.log('⮕ View-only, disabling company form');
+              this.addClientForm.disable();
             }
           },
           error: (err) =>
@@ -179,11 +167,44 @@ export class AddClientComponent implements OnInit, OnDestroy {
           complete: () => console.log('✔️ clientsFacade.selected$ complete'),
         });
     }
+
+    if (type === 'Individual') {
+      // Individual path
+      console.log('⮕ Individual, patching individual form');
+      this.disableCompanyTab = true;
+      this.activeTabIndex = 1;
+
+      this.individualFacade.loadById(this.clientId);
+      this.individualFacade.selected$
+        .pipe(
+          filter((i): i is Individual => !!i && i.clientId === this.clientId),
+          take(1)
+        )
+        .subscribe({
+          next: (ind) => {
+            this.individualBusinessId = ind.id;
+
+            console.log('Loaded individual:', ind);
+            this.patchFormIndividual(ind);
+
+            if (this.viewOnly) {
+              console.log('⮕ View-only, disabling individual form');
+              this.addClientFormIndividual.disable();
+            }
+          },
+          error: (err) =>
+            console.error('❌ individualFacade.selected$ error:', err),
+          complete: () => console.log('✔️ individualFacade.selected$ complete'),
+        });
+    }
   }
+
   ngOnDestroy(): void {
+    console.log('🗑️ ngOnDestroy: clearing selected client');
     this.clientsFacade.clearSelected();
   }
 
+  // Helpers & getters
   get sectorIdControl(): FormControl {
     return this.addClientForm.get('sectorId') as FormControl;
   }
@@ -193,33 +214,43 @@ export class AddClientComponent implements OnInit, OnDestroy {
   get tabValue(): number {
     return this.disableCompanyTab ? 1 : 0;
   }
-  onSectorChanged(sectorId: number) {
-    this.selectedSectorId = sectorId;
-
-    this.store
-      .select(selectAllSubSectors)
-      .pipe(
-        take(1),
-        map((subSectors) => subSectors.filter((s) => s.sectorId === sectorId))
-      )
-      .subscribe((filtered) => {
-        this.subSectorsList = filtered;
-
-        // Clear selected sub-sectors to prevent stale values
-        this.addClientForm.patchValue({ subSectorIdList: [] });
-      });
-  }
-  close() {
-    this.router.navigate(['/crm/clients/view-clients']);
-  }
-
-  //Company Only
   get legalFormList(): FormArray {
     return this.addClientForm.get('legalFormId') as FormArray;
   }
   get legalFormLawList(): FormArray {
     return this.addClientForm.get('legalFormLawId') as FormArray;
   }
+  get identities(): FormArray {
+    return this.addClientFormIndividual.get('identities') as FormArray;
+  }
+
+  onSectorChanged(sectorId: number) {
+    console.log('➡ onSectorChanged', sectorId);
+    this.store
+      .select(selectAllSubSectors)
+      .pipe(
+        take(1),
+        tap((list) => console.log('selectAllSubSectors full list:', list)),
+        map((list) => list.filter((s) => s.sectorId === sectorId)),
+        tap((filtered) => console.log('Filtered subSectorsList:', filtered))
+      )
+      .subscribe({
+        next: (filtered) => {
+          this.subSectorsList = filtered;
+          console.log('⤷ Clearing subSectorIdList to []');
+          this.addClientForm.patchValue({ subSectorIdList: [] });
+        },
+        error: (err) =>
+          console.error('❌ onSectorChanged subscription error', err),
+      });
+  }
+
+  close() {
+    console.log('Navigating back to view-clients');
+    this.router.navigate(['/crm/clients/view-clients']);
+  }
+
+  // Company form
   buildFormCompany(): void {
     this.addClientForm = this.fb.group({
       name: ['', Validators.required],
@@ -234,13 +265,9 @@ export class AddClientComponent implements OnInit, OnDestroy {
       isStampDuty: [false],
       isIscore: [false],
       mainShare: [null, [Validators.min(0)]],
-
       establishedYear: [
         2000,
-        [
-          Validators.pattern(/^(19|20)\d{2}$/), // Valid years: 1900–2099
-          Validators.min(0),
-        ],
+        [Validators.pattern(/^(19|20)\d{2}$/), Validators.min(0)],
       ],
       website: [
         'mansor.com',
@@ -255,10 +282,9 @@ export class AddClientComponent implements OnInit, OnDestroy {
       employeesNo: [null, [Validators.min(0)]],
     });
   }
-  private patchForm(client: Client): void {
-    console.log('🛠️ patchForm() entry, client payload:', client);
 
-    // 1) Patch all the simple controls up front
+  private patchForm(client: Client): void {
+    console.log('🛠️ patchForm() start', client);
     try {
       this.addClientForm.patchValue({
         id: client.id,
@@ -278,41 +304,35 @@ export class AddClientComponent implements OnInit, OnDestroy {
         establishedYear: client.establishedYear,
         website: client.website,
       });
-      console.log('✅ static fields patched');
+      console.log('✅ static fields patched', this.addClientForm.getRawValue());
     } catch (e) {
       console.error('❌ Error patching static fields:', e);
     }
 
-    // 2) Determine which list actually has data
     const rawList = client.subSectorList ?? [];
-
-    console.log('🔍 rawList computed:', rawList);
-
-    // 3) Bail early if empty
+    console.log('🔍 rawList:', rawList);
     if (rawList.length === 0) {
       console.warn('⚠️ no sub‐sectors in rawList, skipping dropdown patch');
       return;
     }
 
-    // 4) Extract sectorId and dispatch load
     const sectorId = rawList[0].sectorId;
-    console.log(`⏳ dispatching loadSectorById({ id: ${sectorId} })`);
+    console.log(`⏳ Would dispatch loadSectorById({ id: ${sectorId} })`);
     // this.store.dispatch(loadSectorById({ id: sectorId }));
 
-    // 5) Subscribe to sub-sector options
     this.store
       .select(selectAllSubSectors)
       .pipe(
         filter((list) => list.length > 0),
         take(1),
-        map((list) => list.filter((s) => s.sectorId === sectorId))
+        map((list) => list.filter((s) => s.sectorId === sectorId)),
+        tap((filtered) =>
+          console.log('⤷ filtered subSectors for patchForm:', filtered)
+        )
       )
       .subscribe({
         next: (filtered) => {
-          console.log('📋 filtered subSectorsList:', filtered);
           this.subSectorsList = filtered;
-
-          // 6) Finally patch the dropdown controls
           const selectedIds = rawList.map((s: any) => s.id);
           try {
             this.addClientForm.patchValue({
@@ -327,21 +347,24 @@ export class AddClientComponent implements OnInit, OnDestroy {
             console.error('❌ Error patching dropdown fields:', e);
           }
         },
-        error: (err) => {
-          console.error('❌ Error in selectAllSubSectors subscription:', err);
-        },
+        error: (err) =>
+          console.error('❌ Error in selectAllSubSectors subscription:', err),
       });
   }
 
   saveInfo() {
+    console.log('💾 saveInfo() start; valid?', this.addClientForm.valid);
     if (this.addClientForm.invalid) {
+      console.warn('❗ form invalid, errors:', this.addClientForm.errors);
       this.addClientForm.markAllAsTouched();
       return;
     }
 
     const formValue = this.addClientForm.value;
+    console.log('→ formValue:', formValue);
+
     if (this.editMode) {
-      console.log('form value company ', formValue);
+      console.log('✏️ update mode payload:', formValue);
       const updatedClient = {
         id: this.clientId,
         name: formValue.name,
@@ -351,7 +374,7 @@ export class AddClientComponent implements OnInit, OnDestroy {
         isIscore: formValue.isIscore,
         taxId: String(formValue.taxId),
         clientTypeId: 1,
-        subSectorIdList: formValue.subSectorIdList, // ← pass the array of IDs
+        subSectorIdList: formValue.subSectorIdList,
         isStampDuty: formValue.isStampDuty,
         legalFormLawId: formValue.legalFormLawId,
         legalFormId: formValue.legalFormId,
@@ -362,9 +385,9 @@ export class AddClientComponent implements OnInit, OnDestroy {
         employeesNo: formValue.employeesNo,
         marketSize: formValue.marketSize,
       };
-
       this.clientsFacade.update(this.clientId, updatedClient);
     } else {
+      console.log('🆕 create mode payload:', formValue);
       const payload = {
         clientTypeId: 1,
         id: this.clientId,
@@ -388,21 +411,39 @@ export class AddClientComponent implements OnInit, OnDestroy {
       };
       this.clientsFacade.create(payload);
     }
+
     this.router.navigate(['/crm/clients/view-clients']);
   }
 
-  //Individual Only
-  get identities(): FormArray {
-    return this.addClientFormIndividual.get('identities') as FormArray;
+  // Individual form
+  buildFormIndividual() {
+    this.addClientFormIndividual = this.fb.group({
+      nameEnglishIndividual: ['', Validators.required],
+      nameArabicIndividual: ['', [Validators.required, arabicOnlyValidator()]],
+      businessActivityIndividual: ['', Validators.required],
+      shortNameIndividual: ['', Validators.required],
+      sectorId: [[], Validators.required],
+      subSectorIdList: [[], Validators.required],
+      emailIndividual: ['', [Validators.required, Validators.email]],
+      jobTitleIndividual: ['', Validators.required],
+      dateOfBirthIndividual: [null, Validators.required],
+      genderIndividual: [null, Validators.required],
+      identities: this.fb.array([this.createIdentityGroup()]),
+    });
   }
+
   addIdentity() {
+    console.log('Adding new identity group');
     this.identities.push(this.createIdentityGroup());
   }
+
   removeIdentity(i: number) {
+    console.log('Removing identity group at index', i);
     if (this.identities.length > 1) {
       this.identities.removeAt(i);
     }
   }
+
   createIdentityGroup(): FormGroup {
     return this.fb.group({
       id: [],
@@ -411,25 +452,9 @@ export class AddClientComponent implements OnInit, OnDestroy {
       isMain: [false, Validators.required],
     });
   }
-  buildFormIndividual() {
-    this.addClientFormIndividual = this.fb.group({
-      nameEnglishIndividual: ['', Validators.required],
-      nameArabicIndividual: ['', [Validators.required, arabicOnlyValidator()]],
-      businessActivityIndividual: ['', Validators.required],
-      shortNameIndividual: ['', Validators.required],
-      sectorId: [null, Validators.required],
-      subSectorIdList: [[], Validators.required],
-      emailIndividual: ['', [Validators.required, Validators.email]],
-      jobTitleIndividual: ['', Validators.required],
-      dateOfBirthIndividual: [null, Validators.required],
-      genderIndividual: [null, Validators.required],
 
-      // initialize your FormArray with one entry
-      identities: this.fb.array([this.createIdentityGroup()]),
-    });
-  }
   private patchFormIndividual(ind: any) {
-    console.log('🛠️ patchForm() entry, client payload:', ind);
+    console.log('🛠️ patchFormIndividual() start', ind);
     try {
       this.addClientFormIndividual.patchValue({
         nameEnglishIndividual: ind.name,
@@ -441,128 +466,106 @@ export class AddClientComponent implements OnInit, OnDestroy {
         dateOfBirthIndividual: new Date(ind.birthDate!),
         genderIndividual: ind.genderId,
       });
-      const arr = this.addClientFormIndividual.get('identities') as FormArray;
-      arr.clear();
-      ind.clientIdentities!.forEach((ci: any) => {
-        const fg = this.fb.group({
-          id: [ci.id],
-          identificationNumber: [ci.identificationNumber, Validators.required],
-          selectedIdentities: [ci.clientIdentityTypeId, Validators.required],
-          isMain: [ci.isMain, Validators.required],
-        });
-        arr.push(fg);
-      });
-
-      console.log('✅ static fields patched');
+      console.log(
+        '✅ individual static fields patched',
+        this.addClientFormIndividual.getRawValue()
+      );
     } catch (e) {
-      console.error('❌ Error patching static fields:', e);
+      console.error('❌ Error patching individual static fields:', e);
     }
 
+    const arr = this.identities;
+    arr.clear();
+    ind.clientIdentities!.forEach((ci: any) => {
+      const fg = this.fb.group({
+        id: [ci.id],
+        identificationNumber: [ci.identificationNumber, Validators.required],
+        selectedIdentities: [ci.clientIdentityTypeId, Validators.required],
+        isMain: [ci.isMain, Validators.required],
+      });
+      arr.push(fg);
+    });
+
     const rawList = ind.subSectorList ?? [];
-
     console.log('🔍 rawList computed:', rawList);
-
-    // 3) Bail early if empty
-
     if (rawList.length === 0) {
       console.warn('⚠️ no sub‐sectors in rawList, skipping dropdown patch');
-
       return;
     }
 
-    // 4) Extract sectorId and dispatch load
-
     const sectorId = rawList[0].sectorId;
-
-    console.log(`⏳ dispatching loadSectorById({ id: ${sectorId} })`);
-
+    console.log(`⏳ Would dispatch loadSectorById({ id: ${sectorId} })`);
     // this.store.dispatch(loadSectorById({ id: sectorId }));
 
-    // 5) Subscribe to sub-sector options
-
     this.store
-
       .select(selectAllSubSectors)
-
       .pipe(
         filter((list) => list.length > 0),
-
         take(1),
-
-        map((list) => list.filter((s) => s.sectorId === sectorId))
+        map((list) => list.filter((s) => s.sectorId === sectorId)),
+        tap((filtered) => console.log('⤷ filtered subSectorsList:', filtered))
       )
-
       .subscribe({
         next: (filtered) => {
-          console.log('📋 filtered subSectorsList:', filtered);
-
           this.subSectorsList = filtered;
-
-          // 6) Finally patch the dropdown controls
-
           const selectedIds = rawList.map((s: any) => s.id);
-
           try {
             this.addClientFormIndividual.patchValue({
               sectorId,
-
               subSectorIdList: selectedIds,
             });
-
             console.log('✅ dropdown fields patched:', {
               sectorId,
-
               selectedIds,
             });
           } catch (e) {
-            console.error('❌ Error patching dropdown fields:', e);
+            console.error('❌ Error patching individual dropdown fields:', e);
           }
         },
-
-        error: (err) => {
-          console.error('❌ Error in selectAllSubSectors subscription:', err);
-        },
+        error: (err) =>
+          console.error('❌ Error in selectAllSubSectors subscription:', err),
       });
+
     console.log(
       '[patchFormIndividual] complete form value:',
       this.addClientFormIndividual.getRawValue()
     );
   }
-  saveInfoIndividual() {
-    if (this.addClientFormIndividual.invalid) {
-      this.addClientFormIndividual.markAllAsTouched();
 
+  saveInfoIndividual() {
+    console.log(
+      '💾 saveInfoIndividual() start; valid?',
+      this.addClientFormIndividual.valid
+    );
+    if (this.addClientFormIndividual.invalid) {
+      console.warn(
+        '❗ individual form invalid, errors:',
+        this.addClientFormIndividual.errors
+      );
+      this.addClientFormIndividual.markAllAsTouched();
       return;
     }
 
-    // 1) grab absolutely everything, even disabled fields
     const formValue = this.addClientFormIndividual.value;
     console.log('[Form Raw getRawValue]', formValue);
-
-    // 2) inspect the identities array
-    console.log('[Form Raw identities array]', formValue.identities);
     formValue.identities?.forEach((i: any, idx: number) => {
-      console.log(`[FormRaw identities][${idx}].id =`, i.id);
+      console.log(`[FormRaw identities][${idx}]`, i);
     });
 
-    // 3) build payload
     const clientIdentitiesPayload = formValue.identities?.map((i: any) => {
       const entry: any = {
         identificationNumber: i.identificationNumber,
         clientIdentityTypeId: i.selectedIdentities,
         isMain: i.isMain,
       };
-
-      // only include id when in edit mode (and i.id is truthy)
       if (this.editMode && i.id != null) {
         entry.id = Number(i.id);
       }
-
       return entry;
     });
 
     if (this.editMode) {
-      console.log('form value individual ', this.route.snapshot);
+      console.log('✏️ update individual payload building…');
       const changes: any = {
         id: this.individualBusinessId,
         name: formValue.nameEnglishIndividual,
@@ -572,19 +575,19 @@ export class AddClientComponent implements OnInit, OnDestroy {
         businessActivity: formValue.businessActivityIndividual,
         email: formValue.emailIndividual,
         jobTitle: formValue.jobTitleIndividual,
-        birthDate: (formValue.dateOfBirthIndividual as Date)?.toISOString(),
+        birthDate: (formValue.dateOfBirthIndividual as Date).toISOString(),
         genderId: formValue.genderIndividual,
         subSectorIdList: formValue.subSectorIdList,
         clientIdentities: clientIdentitiesPayload,
         clientId: this.route.snapshot.params['clientId'],
       };
-
       console.log('[Edit Mode] PATCH Payload:', changes);
       this.individualFacade.update(this.individualBusinessId, {
         ...changes,
         clientIdentities: clientIdentitiesPayload,
       });
     } else {
+      console.log('🆕 create individual payload building…');
       const payload = {
         name: formValue.nameEnglishIndividual,
         nameAR: formValue.nameArabicIndividual,
@@ -595,17 +598,16 @@ export class AddClientComponent implements OnInit, OnDestroy {
         subSectorIdList: formValue.subSectorIdList,
         email: formValue.emailIndividual,
         jobTitle: formValue.jobTitleIndividual,
-        birthDate: (formValue.dateOfBirthIndividual as Date)?.toISOString(),
+        birthDate: (formValue.dateOfBirthIndividual as Date).toISOString(),
         genderId: formValue.genderIndividual,
         clientIdentities: clientIdentitiesPayload,
       };
-
       console.log('[Create Mode] POST Payload:', payload);
       this.individualFacade.create({
         ...payload,
         clientIdentities: clientIdentitiesPayload,
       });
-      this.router.navigate(['/crm/clients/view-clients']);
     }
+    this.router.navigate(['/crm/clients/view-clients']);
   }
 }
