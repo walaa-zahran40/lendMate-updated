@@ -151,6 +151,7 @@ export class AddClientComponent implements OnInit, OnDestroy {
               console.log('⮕ Individual, patching individual form');
               this.disableCompanyTab = true;
               this.activeTabIndex = 1;
+              this.patchFormIndividual(client);
 
               // Now load the individual details
               this.individualFacade.loadById(this.clientId);
@@ -165,6 +166,9 @@ export class AddClientComponent implements OnInit, OnDestroy {
 
                   if (this.viewOnly) {
                     console.log('⮕ View-only, disabling individual form');
+                    this.disableCompanyTab = true;
+                    this.activeTabIndex = 1;
+                    this.patchFormIndividual(client);
                     this.addClientFormIndividual.disable();
                   }
                 });
@@ -424,72 +428,115 @@ export class AddClientComponent implements OnInit, OnDestroy {
       identities: this.fb.array([this.createIdentityGroup()]),
     });
   }
-  patchFormIndividual(ind: any) {
-    // ── load + filter sub-sectors for the individual’s sector ──
-    const firstSectorId = ind.subSectorList![0]?.sectorId;
-    if (firstSectorId) {
-      // tell NgRx to fetch (or ensure loaded) the sub-sectors for that sector
-      this.store.dispatch(loadSectorById({ id: firstSectorId }));
-      this.store
-        .select(selectAllSubSectors)
-        .pipe(
-          filter((subs) => subs.length > 0), // wait until they’re in the store
-          take(1),
-          map((subs) => subs.filter((s) => s.sectorId === firstSectorId))
-        )
-        .subscribe((filtered) => {
-          this.subSectorsList = filtered;
-
-          // now patch just the two controls that matter:
-          this.addClientFormIndividual.patchValue({
-            sectorId: firstSectorId,
-            subSectorIdList: ind.subSectorList!.map((s: any) => s.sectorId),
-            clientId: this.route.snapshot.params['id'],
-          });
+  private patchFormIndividual(ind: any) {
+    console.log('🛠️ patchForm() entry, client payload:', ind);
+    try {
+      this.addClientFormIndividual.patchValue({
+        nameEnglishIndividual: ind.name,
+        nameArabicIndividual: ind.nameAR,
+        businessActivityIndividual: ind.businessActivity,
+        shortNameIndividual: ind.shortName,
+        emailIndividual: ind.email,
+        jobTitleIndividual: ind.jobTitle,
+        dateOfBirthIndividual: new Date(ind.birthDate!),
+        genderIndividual: ind.genderId,
+      });
+      const arr = this.addClientFormIndividual.get('identities') as FormArray;
+      arr.clear();
+      ind.clientIdentities!.forEach((ci: any) => {
+        const fg = this.fb.group({
+          id: [ci.id],
+          identificationNumber: [ci.identificationNumber, Validators.required],
+          selectedIdentities: [ci.clientIdentityTypeId, Validators.required],
+          isMain: [ci.isMain, Validators.required],
         });
+        arr.push(fg);
+      });
+
+      console.log('✅ static fields patched');
+    } catch (e) {
+      console.error('❌ Error patching static fields:', e);
     }
 
-    // ── identities array ──
-    const arr = this.addClientFormIndividual.get('identities') as FormArray;
-    arr.clear();
-    ind.clientIdentities!.forEach((ci: any) => {
-      const fg = this.fb.group({
-        id: [ci.id],
-        identificationNumber: [ci.identificationNumber, Validators.required],
-        selectedIdentities: [ci.clientIdentityTypeId, Validators.required],
-        isMain: [ci.isMain, Validators.required],
+    const rawList = ind.subSectorList ?? [];
+
+    console.log('🔍 rawList computed:', rawList);
+
+    // 3) Bail early if empty
+
+    if (rawList.length === 0) {
+      console.warn('⚠️ no sub‐sectors in rawList, skipping dropdown patch');
+
+      return;
+    }
+
+    // 4) Extract sectorId and dispatch load
+
+    const sectorId = rawList[0].sectorId;
+
+    console.log(`⏳ dispatching loadSectorById({ id: ${sectorId} })`);
+
+    // this.store.dispatch(loadSectorById({ id: sectorId }));
+
+    // 5) Subscribe to sub-sector options
+
+    this.store
+
+      .select(selectAllSubSectors)
+
+      .pipe(
+        filter((list) => list.length > 0),
+
+        take(1),
+
+        map((list) => list.filter((s) => s.sectorId === sectorId))
+      )
+
+      .subscribe({
+        next: (filtered) => {
+          console.log('📋 filtered subSectorsList:', filtered);
+
+          this.subSectorsList = filtered;
+
+          // 6) Finally patch the dropdown controls
+
+          const selectedIds = rawList.map((s: any) => s.id);
+
+          try {
+            this.addClientFormIndividual.patchValue({
+              sectorId,
+
+              subSectorIdList: selectedIds,
+            });
+
+            console.log('✅ dropdown fields patched:', {
+              sectorId,
+
+              selectedIds,
+            });
+          } catch (e) {
+            console.error('❌ Error patching dropdown fields:', e);
+          }
+        },
+
+        error: (err) => {
+          console.error('❌ Error in selectAllSubSectors subscription:', err);
+        },
       });
-      arr.push(fg);
-    });
-
-    // ── the rest of the form ──
-    this.addClientFormIndividual.patchValue({
-      nameEnglishIndividual: ind.name,
-      nameArabicIndividual: ind.nameAR,
-      businessActivityIndividual: ind.businessActivity,
-      shortNameIndividual: ind.shortName,
-      emailIndividual: ind.email,
-      jobTitleIndividual: ind.jobTitle,
-      dateOfBirthIndividual: new Date(ind.birthDate!),
-      genderIndividual: ind.genderId,
-    });
-
     console.log(
       '[patchFormIndividual] complete form value:',
       this.addClientFormIndividual.getRawValue()
     );
   }
   saveInfoIndividual() {
-    console.log('saveInfoIndividual() called', this.route.snapshot);
-    this.individualBusinessId = this.route.snapshot.params['id'];
     if (this.addClientFormIndividual.invalid) {
-      console.warn('[Validation] Individual form is invalid');
       this.addClientFormIndividual.markAllAsTouched();
+
       return;
     }
 
     // 1) grab absolutely everything, even disabled fields
-    const formValue = this.addClientFormIndividual.getRawValue();
+    const formValue = this.addClientFormIndividual.value;
     console.log('[Form Raw getRawValue]', formValue);
 
     // 2) inspect the identities array
@@ -558,7 +605,6 @@ export class AddClientComponent implements OnInit, OnDestroy {
         ...payload,
         clientIdentities: clientIdentitiesPayload,
       });
-      this.clientsFacade.loadAll();
       this.router.navigate(['/crm/clients/view-clients']);
     }
   }

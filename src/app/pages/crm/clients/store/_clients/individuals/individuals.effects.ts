@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { IndividualsService } from './individuals.service';
 import * as ActionsList from './individuals.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, exhaustMap, map, mergeMap, of, tap } from 'rxjs';
 import { Individual } from './individual.model';
 import { EntityNames } from '../../../../../../shared/constants/entity-names';
-import { IndividualsService } from './individuals.service';
+import * as ClientsActions from '../../_clients/allclients/clients.actions';
 
 @Injectable()
 export class IndividualsEffects {
@@ -30,15 +31,31 @@ export class IndividualsEffects {
   loadById$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActionsList.loadById),
-      tap(({ id }) =>
-        console.log('🔄 Effect: loadById action caught for id=', id)
-      ),
-      mergeMap(({ id }) =>
+      tap(({ id }) => console.log('[Effects] loadById caught, id=', id)),
+      exhaustMap(({ id }) =>
         this.service.getById(id).pipe(
-          tap((entity) => console.log('🔄 Service.getById returned:', entity)),
-          map((entity) => ActionsList.loadByIdSuccess({ entity })),
+          tap((entity) =>
+            console.log('[Effects] HTTP returned entity:', entity)
+          ),
+          map((raw) => {
+            // Normalize sub-sector data into subSectorIdList
+            const subSectorIdList =
+              raw.subSectorIdList ??
+              // @ts-ignore: if your API returns it under a different key
+              raw.subSectorList ??
+              [];
+
+            // Rebuild the entity with a guaranteed subSectorIdList
+            const entity: Individual = {
+              ...raw,
+              subSectorIdList,
+            };
+
+            console.log('[Effects] normalized entity:', entity);
+            return ActionsList.loadByIdSuccess({ entity });
+          }),
           catchError((error) => {
-            console.error('❌ Service.getById error:', error);
+            console.error('[Effects] loadById FAILURE', error);
             return of(ActionsList.loadByIdFailure({ error }));
           })
         )
@@ -115,7 +132,12 @@ export class IndividualsEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      mergeMap(() => [
+        // reload individuals
+        ActionsList.loadAll({}),
+        // **also** reload the full clients list
+        ClientsActions.loadAll({}),
+      ])
     )
   );
 }
