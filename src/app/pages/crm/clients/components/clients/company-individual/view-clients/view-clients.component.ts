@@ -61,7 +61,7 @@ export class ViewClientsComponent {
         // choose the field that actually exists:
         const mappedType = c.clientTypeId === 1 ? 'Company' : 'Individual';
         const mappedTaxID = c.taxId ? c.taxId : 'N/A';
-        const mappedIscore = c.taxId ? c.taxId : 'N/A';
+        const mappedIscore = c.isIscore ? c.isIscore : 'N/A';
 
         console.log(`mapped id=${c.id} → clientTypeCode=${mappedType}`);
         return {

@@ -10,6 +10,8 @@ import {
   confirmLeave,
   leaveConfirmed,
   leaveCanceled,
+  confirmLeave2,
+  leaveConfirmed2,
 } from './client-form.actions';
 import { Action } from '@ngrx/store';
 import { selectFormDirty } from './client-form.selectors';
@@ -58,13 +60,57 @@ export class LeaveEffects {
       })
     )
   );
-
+  confirmLeave2$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(confirmLeave2),
+      // now strongly typed & self‑documenting:
+      withLatestFrom(this.store.pipe(select(selectFormDirty))),
+      concatMap(([_, dirty]) => {
+        if (dirty) {
+          // this already returns Observable<Action>
+          return of(leaveConfirmed2());
+        }
+        // now we tell TS: this Observable will emit Actions
+        return new Observable<Action>((observer) => {
+          this.confirmation.confirm({
+            message: 'You have unsaved changes. Leave without saving?',
+            header: '',
+            icon: 'pi pi-exclamation-triangle',
+            acceptLabel: 'Yes, Leave',
+            rejectLabel: 'No, Stay',
+            acceptIcon: 'pi pi-check',
+            rejectIcon: 'pi pi-times',
+            acceptButtonStyleClass: 'btn-yes',
+            rejectButtonStyleClass: 'btn-no',
+            accept: () => {
+              observer.next(leaveConfirmed());
+              observer.complete();
+            },
+            reject: () => {
+              observer.next(leaveCanceled());
+              observer.complete();
+            },
+          });
+        });
+      })
+    )
+  );
   navigate$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(leaveConfirmed),
         map(() => {
           this.router.navigate(['/crm/clients/view-clients']);
+        })
+      ),
+    { dispatch: false }
+  );
+  navigate2$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(leaveConfirmed),
+        map(() => {
+          this.router.navigate(['/crm/clients/view-clients-onboarding']);
         })
       ),
     { dispatch: false }

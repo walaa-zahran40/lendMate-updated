@@ -1,19 +1,19 @@
 import { createReducer, on } from '@ngrx/store';
-import * as ClientActions from './clients.actions';
-import { adapter, initialState, State } from './clients.state';
+import * as IndividualOnboardingActions from './individuals-onboarding.actions';
+import { adapter, initialState, State } from './individuals-onboarding.state';
 
 export const reducer = createReducer(
   initialState,
 
   // when you dispatch loadAll()
-  on(ClientActions.loadAll, (state) => ({
+  on(IndividualOnboardingActions.loadAll, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
 
   // when your effect dispatches loadAllSuccess({ result })
-  on(ClientActions.loadAllSuccess, (state, { result }) =>
+  on(IndividualOnboardingActions.loadAllSuccess, (state, { result }) =>
     adapter.setAll(result, {
       ...state,
       loading: false,
@@ -21,56 +21,58 @@ export const reducer = createReducer(
     })
   ),
   // on failure
-  on(ClientActions.loadAllFailure, (state, { error }) => ({
+  on(IndividualOnboardingActions.loadAllFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
   // create
-  on(ClientActions.createEntity, (state) => ({
+  on(IndividualOnboardingActions.createEntity, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
-  on(ClientActions.createEntitySuccess, (state, { entity }) =>
+  on(IndividualOnboardingActions.createEntitySuccess, (state, { entity }) =>
     adapter.addOne(entity, { ...state, loading: false })
   ),
-  on(ClientActions.createEntityFailure, (state, { error }) => ({
+  on(IndividualOnboardingActions.createEntityFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
 
   // update
-  on(ClientActions.updateEntity, (state) => ({
+  on(IndividualOnboardingActions.updateEntity, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
-  on(ClientActions.updateEntitySuccess, (state, { id, changes }) =>
-    adapter.updateOne({ id, changes }, { ...state, loading: false })
+  on(
+    IndividualOnboardingActions.updateEntitySuccess,
+    (state, { id, changes }) =>
+      adapter.updateOne({ id, changes }, { ...state, loading: false })
   ),
-  on(ClientActions.updateEntityFailure, (state, { error }) => ({
+  on(IndividualOnboardingActions.updateEntityFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
 
   // delete
-  on(ClientActions.deleteEntity, (state) => ({
+  on(IndividualOnboardingActions.deleteEntity, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
-  on(ClientActions.deleteEntitySuccess, (state, { id }) =>
+  on(IndividualOnboardingActions.deleteEntitySuccess, (state, { id }) =>
     adapter.removeOne(id, { ...state, loading: false })
   ),
-  on(ClientActions.deleteEntityFailure, (state, { error }) => ({
+  on(IndividualOnboardingActions.deleteEntityFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
-  on(ClientActions.loadByIdSuccess, (state, { entity }) => {
+  on(IndividualOnboardingActions.loadByIdSuccess, (state, { entity }) => {
     console.log('🗄️ Reducer: loadByIdSuccess, before:', {
       loadedId: state.loadedId,
       entities: state.entities,
@@ -89,10 +91,13 @@ export const reducer = createReducer(
 
     return newState;
   }),
-  on(ClientActions.clearSelectedClient, (state) => ({
-    ...state,
-    loadedId: null,
-  }))
+  on(
+    IndividualOnboardingActions.clearSelectedIndividualOnboarding,
+    (state) => ({
+      ...state,
+      loadedId: null,
+    })
+  )
 );
 
 export const { selectAll, selectEntities, selectIds, selectTotal } =

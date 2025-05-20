@@ -1,7 +1,7 @@
 import { ClientIdentity } from '../../../../../../shared/interfaces/client-identity.interface';
 import { SubSector } from '../../../../../lookups/store/sub-sectors/sub-sector.model';
 
-export interface Individual {
+export interface IndividualOnboarding {
   id: number;
   name: string;
   nameAR: string;

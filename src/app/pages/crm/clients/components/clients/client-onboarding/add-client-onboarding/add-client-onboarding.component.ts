@@ -15,10 +15,10 @@ import { SubSectors } from '../../../../../../../shared/interfaces/sub-sector.in
 import { Sector } from '../../../../../../lookups/store/sectors/sector.model';
 import { ClientIdentityTypesFacade } from '../../../../store/client-identity-types/client-identity-types.facade';
 import { selectAllSubSectors } from '../../../../store/sub-sector-drop-down/sub-sector.selectors';
-import { ClientsFacade } from '../../../../store/_client-onboarding/allclients/clients.facade';
-import { IndividualsFacade } from '../../../../store/_client-onboarding/individuals/individuals.facade';
-import { Client } from '../../../../store/_client-onboarding/allclients/client.model';
-import { Individual } from '../../../../store/_client-onboarding/individuals/individual.model';
+import { ClientsOnboardingFacade } from '../../../../store/_client-onboarding/allclients/clients-onboarding.facade';
+import { IndividualOnboardingsFacade } from '../../../../store/_client-onboarding/individuals/individuals-onboarding.facade';
+import { ClientOnboarding } from '../../../../store/_client-onboarding/allclients/client-onboarding.model';
+import { IndividualOnboarding } from '../../../../store/_client-onboarding/individuals/individual-onboarding.model';
 
 @Component({
   selector: 'app-add-client-onboarding',
@@ -64,8 +64,8 @@ export class AddClientOnboardingComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private store: Store,
     private route: ActivatedRoute,
-    private clientsFacade: ClientsFacade,
-    private individualFacade: IndividualsFacade,
+    private clientsFacade: ClientsOnboardingFacade,
+    private individualFacade: IndividualOnboardingsFacade,
     private identityTypeFacade: ClientIdentityTypesFacade,
     private router: Router
   ) {}
@@ -79,7 +79,7 @@ export class AddClientOnboardingComponent implements OnInit, OnDestroy {
     // Build company form
     try {
       this.buildFormCompany();
-      console.log('✅ buildFormCompany done', this.addClientForm.value);
+      console.log('✅ buildFormCompany done', this.addClientForm.controls);
     } catch (e) {
       console.error('❌ buildFormCompany threw', e);
     }
@@ -146,7 +146,7 @@ export class AddClientOnboardingComponent implements OnInit, OnDestroy {
       this.clientsFacade.loadById(this.clientId);
       this.clientsFacade.selected$
         .pipe(
-          filter((c): c is Client => !!c && c.id === this.clientId),
+          filter((c): c is ClientOnboarding => !!c && c.id === this.clientId),
           take(1)
         )
         .subscribe({
@@ -176,7 +176,10 @@ export class AddClientOnboardingComponent implements OnInit, OnDestroy {
       this.individualFacade.loadById(this.clientId);
       this.individualFacade.selected$
         .pipe(
-          filter((i): i is Individual => !!i && i.clientId === this.clientId),
+          filter(
+            (i): i is IndividualOnboarding =>
+              !!i && i.clientId === this.clientId
+          ),
           take(1)
         )
         .subscribe({
@@ -245,8 +248,8 @@ export class AddClientOnboardingComponent implements OnInit, OnDestroy {
   }
 
   close() {
-    console.log('Navigating back to view-clients');
-    this.router.navigate(['/crm/clients/view-clients']);
+    console.log('Navigating back to view-clients-onboarding');
+    this.router.navigate(['/crm/clients/view-clients-onboarding']);
   }
 
   // Company form
@@ -262,7 +265,7 @@ export class AddClientOnboardingComponent implements OnInit, OnDestroy {
     });
   }
 
-  private patchForm(client: Client): void {
+  private patchForm(client: ClientOnboarding): void {
     console.log('🛠️ patchForm() start', client);
     try {
       this.addClientForm.patchValue({
@@ -360,7 +363,7 @@ export class AddClientOnboardingComponent implements OnInit, OnDestroy {
       this.clientsFacade.create(payload);
     }
 
-    this.router.navigate(['/crm/clients/view-clients']);
+    this.router.navigate(['/crm/clients/view-clients-onboarding']);
   }
 
   // Individual form
@@ -556,6 +559,6 @@ export class AddClientOnboardingComponent implements OnInit, OnDestroy {
         clientIdentities: clientIdentitiesPayload,
       });
     }
-    this.router.navigate(['/crm/clients/view-clients']);
+    this.router.navigate(['/crm/clients/view-clients-onboarding']);
   }
 }

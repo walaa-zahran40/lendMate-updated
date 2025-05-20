@@ -2,8 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { TableComponent } from '../../../../../../../shared/components/table/table.component';
-import { Client } from '../../../../store/_client-onboarding/allclients/client.model';
-import { ClientsFacade } from '../../../../store/_client-onboarding/allclients/clients.facade';
+import { ClientOnboarding } from '../../../../store/_client-onboarding/allclients/client-onboarding.model';
+import { ClientsOnboardingFacade } from '../../../../store/_client-onboarding/allclients/clients-onboarding.facade';
 
 @Component({
   selector: 'app-view-clients-onboarding',
@@ -12,7 +12,7 @@ import { ClientsFacade } from '../../../../store/_client-onboarding/allclients/c
   styleUrl: './view-clients-onboarding.component.scss',
 })
 export class ViewClientsOnboardingComponent {
-  tableDataInside: Client[] = [];
+  tableDataInside: ClientOnboarding[] = [];
   first2: number = 0;
   private destroy$ = new Subject<void>();
   clients$ = this.facade.all$;
@@ -32,11 +32,11 @@ export class ViewClientsOnboardingComponent {
   showDeleteModal: boolean = false;
   selectedClientId: number | null = null;
   originalClients: any[] = [];
-  filteredClients: Client[] = [];
+  filteredClients: ClientOnboarding[] = [];
 
   constructor(
     private router: Router,
-    private facade: ClientsFacade // private facadeInd: IndividualsFacade
+    private facade: ClientsOnboardingFacade // private facadeInd: IndividualsFacade
   ) {}
   ngOnInit() {
     this.facade.loadAll();
@@ -60,14 +60,12 @@ export class ViewClientsOnboardingComponent {
         // choose the field that actually exists:
         const mappedType = c.clientTypeId === 1 ? 'Company' : 'Individual';
         const mappedTaxID = c.taxId ? c.taxId : 'N/A';
-        const mappedIscore = c.taxId ? c.taxId : 'N/A';
 
         console.log(`mapped id=${c.id} → clientTypeCode=${mappedType}`);
         return {
           ...c,
           clientTypeCode: mappedType,
           taxId: mappedTaxID,
-          isIscore: mappedIscore,
         };
       });
 
@@ -118,7 +116,7 @@ export class ViewClientsOnboardingComponent {
   onToggleFilters(value: boolean) {
     this.showFilters = value;
   }
-  onEditClient(client: Client) {
+  onEditClient(client: ClientOnboarding) {
     this.router.navigate(['/crm/clients/edit-client-onboarding', client.id], {
       queryParams: {
         type: client.clientTypeId === 2 ? 'Individual' : 'Company',
@@ -126,7 +124,7 @@ export class ViewClientsOnboardingComponent {
       },
     });
   }
-  onViewClient(client: Client) {
+  onViewClient(client: ClientOnboarding) {
     console.log('client', client);
     this.router.navigate(['/crm/clients/edit-client-onboarding', client.id], {
       queryParams: {

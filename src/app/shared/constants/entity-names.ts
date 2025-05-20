@@ -42,4 +42,5 @@ export enum EntityNames {
   ClientIdentityType = 'ClientIdentityType',
   Client = 'Client',
   Individual = 'Individual',
+  IndividualOnboarding = 'IndividualOnboarding',
 }

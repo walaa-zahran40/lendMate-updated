@@ -17,8 +17,6 @@ import { ClientSalesTurnoversEffects } from './clients/store/client-sales-turnov
     LeasingMandatesModule,
     CrmRoutingModule,
     SharedModule,
-    StoreModule.forFeature('clientSalesTurnovers', clientSalesTurnoverReducer),
-    EffectsModule.forFeature([ClientSalesTurnoversEffects]),
   ],
   providers: [],
 })

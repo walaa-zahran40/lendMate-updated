@@ -1,6 +1,6 @@
 import { SubSector } from '../../../../../lookups/store/sub-sectors/sub-sector.model';
 
-export interface Client {
+export interface ClientOnboarding {
   id: number;
   name?: string;
   nameAR?: string;
@@ -9,7 +9,7 @@ export interface Client {
   isIscore?: boolean;
   code?: string;
   taxId?: string | null;
-  clientTypeId?: number;
+  clientOnboardingTypeId?: number;
   subSectorIdList?: SubSector[];
   currentStatusName?: string | null;
   allowedActionsList?: any[];
@@ -18,6 +18,7 @@ export interface Client {
   legalFormId?: number;
   mainShare?: number;
   marketShare?: number;
+  clientTypeId?: number;
   establishedYear?: number;
   website?: string | null;
   employeesNo?: number;

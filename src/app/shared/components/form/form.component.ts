@@ -565,8 +565,12 @@ export class FormComponent implements OnInit, OnDestroy {
       this.addClientShowMain ||
       this.addClientShowBusiness ||
       this.addClientShowLegal ||
-      this.addClientShowIndividual
+      this.addClientShowIndividual ||
+      this.addClientOnboardingForm
     ) {
+      this.store.dispatch(sectorsActions.loadSectors());
+      this.store.dispatch(subSectorsActions.loadSubSectors());
+
       this.sectorsSafe$ = this.store.select(selectAllSectors);
       const sectorCtrl = this.formGroup.get('sectorId');
       if (sectorCtrl) {

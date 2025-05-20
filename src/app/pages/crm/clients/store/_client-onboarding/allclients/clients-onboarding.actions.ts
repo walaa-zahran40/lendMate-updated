@@ -1,76 +1,76 @@
 import { createAction, props } from '@ngrx/store';
-import { Individual } from './individual.model';
+import { ClientOnboarding } from './client-onboarding.model';
 
 export const loadAll = createAction(
-  '[Individuals] Load All',
+  '[ClientsOnboarding] Load All',
   props<{ pageNumber?: number }>()
 );
 export const loadAllSuccess = createAction(
-  '[Individuals] Load All Success',
-  props<{ result: Individual[] }>()
+  '[ClientsOnboarding] Load All Success',
+  props<{ result: ClientOnboarding[] }>()
 );
 
 export const loadAllFailure = createAction(
-  '[Individuals] Load All Failure',
+  '[ClientsOnboarding] Load All Failure',
   props<{ error: any }>()
 );
 
 export const loadById = createAction(
-  '[Individuals] Load By Id',
+  '[ClientsOnboarding] Load By Id',
   props<{ id: number }>()
 );
 export const loadByIdSuccess = createAction(
-  '[Individuals] Load By Id Success',
-  props<{ entity: Individual }>()
+  '[ClientsOnboarding] Load By Id Success',
+  props<{ entity: ClientOnboarding }>()
 );
 export const loadByIdFailure = createAction(
-  '[Individuals] Load By Id Failure',
+  '[ClientsOnboarding] Load By Id Failure',
   props<{ error: any }>()
 );
 
 export const createEntity = createAction(
-  '[Individuals] Create',
+  '[ClientsOnboarding] Create',
   // allow all fields except id, but all optional
-  props<{ payload: Partial<Omit<Individual, 'id'>> }>()
+  props<{ payload: Partial<Omit<ClientOnboarding, 'id'>> }>()
 );
 export const createEntitySuccess = createAction(
-  '[Individuals] Create Success',
-  props<{ entity: Individual }>()
+  '[ClientsOnboarding] Create Success',
+  props<{ entity: ClientOnboarding }>()
 );
 export const createEntityFailure = createAction(
-  '[Individuals] Create Failure',
+  '[ClientsOnboarding] Create Failure',
   props<{ error: any }>()
 );
 
 export const updateEntity = createAction(
-  '[Individuals] Update',
-  props<{ id: number; changes: Partial<Individual> }>()
+  '[ClientsOnboarding] Update',
+  props<{ id: number; changes: Partial<ClientOnboarding> }>()
 );
 export const updateEntitySuccess = createAction(
-  '[Individuals] Update Success',
-  props<{ id: number; changes: Partial<Individual> }>()
+  '[ClientsOnboarding] Update Success',
+  props<{ id: number; changes: Partial<ClientOnboarding> }>()
 );
 export const updateEntityFailure = createAction(
-  '[Individuals] Update Failure',
+  '[ClientsOnboarding] Update Failure',
   props<{ error: any }>()
 );
 
 export const deleteEntity = createAction(
-  '[Individuals] Delete',
+  '[ClientsOnboarding] Delete',
   props<{ id: number }>()
 );
 export const deleteEntitySuccess = createAction(
-  '[Individuals] Delete Success',
+  '[ClientsOnboarding] Delete Success',
   props<{ id: number }>()
 );
 export const deleteEntityFailure = createAction(
-  '[Individuals] Delete Failure',
+  '[ClientsOnboarding] Delete Failure',
   props<{ error: any }>()
 );
 export const entityOperationSuccess = createAction(
   '[Entity] Operation Success',
   props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
 );
-export const clearSelectedIndividual = createAction(
-  '[Individuals] Clear Selected'
+export const clearSelectedClientOnboarding = createAction(
+  '[ClientsOnboarding] Clear Selected'
 );

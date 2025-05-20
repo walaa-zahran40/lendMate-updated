@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { IndividualsService } from './individuals.service';
-import * as ActionsList from './individuals.actions';
+import { IndividualOnboardingsService } from './individuals-onboarding.service';
+import * as ActionsList from './individuals-onboarding.actions';
 import { catchError, exhaustMap, map, mergeMap, of, tap } from 'rxjs';
-import { Individual } from './individual.model';
+import { IndividualOnboarding } from './individual-onboarding.model';
 import { EntityNames } from '../../../../../../shared/constants/entity-names';
 import * as ClientsActions from '../../_clients/allclients/clients.actions';
 
 @Injectable()
-export class IndividualsEffects {
-  constructor(private actions$: Actions, private service: IndividualsService) {}
+export class IndividualOnboardingsEffects {
+  constructor(
+    private actions$: Actions,
+    private service: IndividualOnboardingsService
+  ) {}
 
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
@@ -20,7 +23,7 @@ export class IndividualsEffects {
           tap((items) => console.log('✨ Service returned items:', items)),
           map((items) => ActionsList.loadAllSuccess({ result: items })),
           catchError((err) => {
-            console.error('⚠️ Error loading individuals', err);
+            console.error('⚠️ Error loading individualOnboardings', err);
             return of(ActionsList.loadAllFailure({ error: err }));
           })
         )
@@ -46,7 +49,7 @@ export class IndividualsEffects {
               [];
 
             // Rebuild the entity with a guaranteed subSectorIdList
-            const entity: Individual = {
+            const entity: IndividualOnboarding = {
               ...raw,
               subSectorIdList,
             };
@@ -81,12 +84,12 @@ export class IndividualsEffects {
     this.actions$.pipe(
       ofType(ActionsList.createEntity),
       mergeMap(({ payload }) => {
-        const dto = payload as Omit<Individual, 'id'>;
+        const dto = payload as Omit<IndividualOnboarding, 'id'>;
         return this.service.create(dto).pipe(
           mergeMap((entity) => [
             ActionsList.createEntitySuccess({ entity }),
             ActionsList.entityOperationSuccess({
-              entity: EntityNames.Individual,
+              entity: EntityNames.IndividualOnboarding,
               operation: 'create',
             }),
           ]),
@@ -104,7 +107,7 @@ export class IndividualsEffects {
           mergeMap(() => [
             ActionsList.updateEntitySuccess({ id, changes }),
             ActionsList.entityOperationSuccess({
-              entity: EntityNames.Individual,
+              entity: EntityNames.IndividualOnboarding,
               operation: 'update',
             }),
           ]),
@@ -133,7 +136,7 @@ export class IndividualsEffects {
         ActionsList.deleteEntitySuccess
       ),
       mergeMap(() => [
-        // reload individuals
+        // reload individualOnboardings
         ActionsList.loadAll({}),
         // **also** reload the full clients list
         ClientsActions.loadAll({}),

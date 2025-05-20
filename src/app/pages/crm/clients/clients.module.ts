@@ -89,7 +89,12 @@ import { clientTaxOfficesReducer } from './store/client-tax-office/client-tax-of
 import { ClientTaxOfficesEffects } from './store/client-tax-office/client-tax-office.effects';
 import { AddClientOnboardingComponent } from './components/clients/client-onboarding/add-client-onboarding/add-client-onboarding.component';
 import { ViewClientsOnboardingComponent } from './components/clients/client-onboarding/view-clients-onboarding/view-clients-onboarding.component';
+import { ClientsOnboardingEffects } from './store/_client-onboarding/allclients/clients-onboarding.effects';
 
+import { reducer as individualOnboardingReducer } from './store/_client-onboarding/individuals/individuals-onboarding.reducer';
+
+import { reducer as clientsOnboardingReducer } from './store/_client-onboarding/allclients/clients-onboarding.reducer';
+import { IndividualOnboardingsEffects } from './store/_client-onboarding/individuals/individuals-onboarding.effects';
 @NgModule({
   declarations: [
     AddClientComponent,
@@ -142,25 +147,34 @@ import { ViewClientsOnboardingComponent } from './components/clients/client-onbo
     ReactiveFormsModule,
     StoreModule.forFeature('clients', clientsReducer),
     EffectsModule.forFeature([ClientsEffects]),
+    StoreModule.forFeature('clientsOnboarding', clientsOnboardingReducer),
+    EffectsModule.forFeature([ClientsOnboardingEffects]),
     StoreModule.forFeature('legalFormLaw', legalFormLawReducer),
     EffectsModule.forFeature([LegalFormLawEffects]),
     StoreModule.forFeature('legalForm', legalFormsReducer),
     EffectsModule.forFeature([LegalFormsEffects]),
     StoreModule.forFeature('clientForm', clientFormReducer),
     EffectsModule.forFeature([LeaveEffects]),
+    StoreModule.forFeature('clientSalesTurnovers', clientSalesTurnoverReducer),
+    EffectsModule.forFeature([ClientSalesTurnoversEffects]),
     StoreModule.forFeature('sector', sectorReducer),
     EffectsModule.forFeature([SectorEffects]),
     StoreModule.forFeature('subSector', subSectorReducer),
     EffectsModule.forFeature([SubSectorEffects]),
     StoreModule.forFeature('individuals', individualReducer),
     EffectsModule.forFeature([IndividualsEffects]),
+    StoreModule.forFeature(
+      'individualOnboardings',
+      individualOnboardingReducer
+    ),
+    EffectsModule.forFeature([IndividualOnboardingsEffects]),
+
     StoreModule.forFeature('clientFile', clientFileReducer),
     EffectsModule.forFeature([ClientFileEffects]),
     StoreModule.forFeature('documentTypes', documentTypeReducer),
     EffectsModule.forFeature([DocumentTypeEffects]),
     StoreModule.forFeature(contactPersonsFeatureKey, contactPersonsReducer),
     EffectsModule.forFeature([ContactPersonEffects]),
-
     EffectsModule.forFeature([ClientCentralBankEffects]),
     StoreModule.forFeature('clientShareholders', clientShareholdersReducer),
     EffectsModule.forFeature([ClientShareholdersEffects]),
@@ -170,12 +184,8 @@ import { ViewClientsOnboardingComponent } from './components/clients/client-onbo
     EffectsModule.forFeature([ClientTMLOfficersEffects]),
     StoreModule.forFeature('clientIdentityTypes', clientIdentityTypesReducer),
     EffectsModule.forFeature([ClientIdentityTypesEffects]),
-    StoreModule.forFeature('clientSalesTurnovers', clientSalesTurnoverReducer),
-    EffectsModule.forFeature([ClientSalesTurnoversEffects]),
-
     StoreModule.forFeature('clientPhoneNumbers', clientPhoneNumberReducer),
     EffectsModule.forFeature([ClientPhoneNumbersEffects]),
-
     StoreModule.forFeature('clientAddresses', clientAddressesReducer),
     EffectsModule.forFeature([ClientAddressesEffects]),
     StoreModule.forFeature(
