@@ -104,24 +104,6 @@ export class ClientActivityWizardComponent {
           link: '/crm/clients/add-tml-officer',
         },
         {
-          imgUrl: '/assets/images/shared/card/meeting.svg',
-          imgAlt: 'meeting',
-          title: 'Meeting',
-          content:
-            'Introduce your company core info quickly to users by fill up company details',
-          link: '/communication/add-meeting',
-        },
-        {
-          imgUrl: '/assets/images/shared/card/mandate.svg',
-          imgAlt: 'mandate',
-          title: 'Mandate',
-          content:
-            'Introduce your company core info quickly to users by fill up company details',
-          link: '/crm/leasing-mandates/add-mandate',
-        },
-      ],
-      [
-        {
           imgUrl: '/assets/images/shared/card/mandate.svg',
           imgAlt: 'guarantor',
           title: 'Client Guarantors',
