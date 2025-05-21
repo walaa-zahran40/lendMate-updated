@@ -16,11 +16,12 @@
           'Introduce your Central Bank Info core info quickly to users by fill up client details'
         "
         [formGroup]="addClientCentralBankInfoForm"
-        [addClientCentralBankInfoForm]="true"
+        [addCentralBankInfoShowMain]="true"
         [editMode]="editMode"
         (submitForm)="addOrEditClientCentralBankInfo()"
         [viewOnly]="viewOnly"
         [companyTypesList]="companyTypesList$ | async"
+        [smeClientCodesList]="smeClientCodesList$ | async"
       ></app-form>
     </p-tabpanel>
   </p-tabpanels>

@@ -1,58 +1,68 @@
-// import { Injectable } from '@angular/core';
-// import { Store } from '@ngrx/store';
-// import * as ActionsDef from './client-central-bank.actions';
-// import * as Selectors from './client-central-bank.selectors';
-// import { Observable } from 'rxjs';
-// import {
-//   ClientCentralBank,
-//   ClientCentralBankHistory,
-// } from './client-central-bank.model';
-// import {
-//   selectAllBanks,
-//   selectSelectedBank,
-// } from './client-central-bank.selectors';
+import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
+import * as Actions from './client-central-bank.actions';
+import * as Selectors from './client-central-bank.selectors';
+import { Observable } from 'rxjs';
+import { selectLastOperationSuccess } from '../../../../../shared/store/ui.selectors';
+import { ClientCentralBankInfo } from './client-central-bank.model';
 
-// @Injectable({ providedIn: 'root' })
-// export class ClientCentralBankFacade {
-//   all$: Observable<ClientCentralBank[]> = this.store.select(selectAllBanks);
+@Injectable({ providedIn: 'root' })
+export class ClientCentralBankInfoFacade {
+  items$: Observable<ClientCentralBankInfo[]> = this.store.select(
+    Selectors.selectClientCentralBankInfo
+  );
+  total$: Observable<number> = this.store.select(
+    Selectors.selectClientCentralBankInfoTotal
+  );
+  history$: Observable<ClientCentralBankInfo[]> = this.store.select(
+    Selectors.selectClientCentralBankInfoHistory
+  );
+  current$: Observable<ClientCentralBankInfo | undefined> = this.store.select(
+    Selectors.selectCurrentClientCentralBankInfo
+  );
 
-//   selectedBank$: Observable<ClientCentralBank | null> =
-//     this.store.select(selectSelectedBank);
+  loading$: Observable<boolean> = this.store.select(
+    Selectors.selectClientCentralBankInfoLoading
+  );
+  error$: Observable<any> = this.store.select(
+    Selectors.selectClientCentralBankInfoError
+  );
+  operationSuccess$ = this.store.select(selectLastOperationSuccess);
 
-//   allBanks$: Observable<ClientCentralBank[]> =
-//     this.store.select(selectAllBanks);
-//   loading$: Observable<boolean> = this.store.select(Selectors.selectLoading);
-//   error$: Observable<string | null> = this.store.select(Selectors.selectError);
-//   history$: Observable<ClientCentralBankHistory[]> = this.store.select(
-//     Selectors.selectHistory
-//   );
-//   historyLoading$: Observable<boolean> = this.store.select(
-//     Selectors.selectHistoryLoading
-//   );
+  constructor(private store: Store) {}
 
-//   constructor(private store: Store) {}
+  loadAll() {
+    this.store.dispatch(Actions.loadAllClientCentralBankInfo());
+  }
+  loadHistory() {
+    this.store.dispatch(Actions.loadClientCentralBankInfoHistory());
+  }
+  loadOne(id: number) {
+    this.store.dispatch(Actions.loadClientCentralBankInfo({ id }));
+  }
+  create(data: Partial<ClientCentralBankInfo>) {
+    this.store.dispatch(Actions.createClientCentralBankInfo({ data }));
+  }
+  update(id: any, data: Partial<ClientCentralBankInfo>) {
+    this.store.dispatch(Actions.updateClientCentralBankInfo({ id, data }));
+  }
+  /** NEW: dispatch the by-clientId loader */
+  loadClientCentralBankInfoByClientId(clientId?: number) {
+    if (clientId == null || isNaN(clientId)) {
+      console.error(
+        '❌ Facade.loadClientCentralBankInfoByClientId called with invalid id:',
+        clientId
+      );
+      return;
+    }
+    this.store.dispatch(Actions.loadClientCentralBankInfoByClientId({ clientId }));
+  }
 
-//   loadAll(page: number = 1) {
-//     this.store.dispatch(ActionsDef.loadAll({ page }));
-//   }
-
-//   loadOne(id: number) {
-//     this.store.dispatch(ActionsDef.loadOne({ id }));
-//   }
-
-//   create(payload: Partial<ClientCentralBank>) {
-//     this.store.dispatch(ActionsDef.createEntity({ payload }));
-//   }
-
-//   update(id: number, changes: Partial<ClientCentralBank>) {
-//     this.store.dispatch(ActionsDef.updateEntity({ id, changes }));
-//   }
-
-//   delete(id: number) {
-//     this.store.dispatch(ActionsDef.deleteEntity({ id }));
-//   }
-
-//   loadHistory(clientId: number) {
-//     this.store.dispatch(ActionsDef.loadHistory({ clientId }));
-//   }
-// }
+  /** UPDATED: now expects both id & parent clientId */
+  delete(id: number, clientId: number) {
+    this.store.dispatch(Actions.deleteClientCentralBankInfo({ id, clientId }));
+  }
+  loadByClientId(clientId: number) {
+    this.store.dispatch(Actions.loadClientCentralBankInfoByClientId({ clientId }));
+  }
+}

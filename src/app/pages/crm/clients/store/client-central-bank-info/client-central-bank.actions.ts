@@ -1,90 +1,98 @@
 import { createAction, props } from '@ngrx/store';
-import {
-  ClientCentralBank,
-  ClientCentralBankHistory,
-  PagedResultDto,
-} from './client-central-bank.model';
+import { ClientCentralBankInfo } from './client-central-bank.model';
 
 // Load all
-export const loadAll = createAction(
-  '[ClientCentralBank] Load All',
-  props<{ page: number }>()
+export const loadAllClientCentralBankInfo = createAction('[ClientCentralBankInfo] Load All');
+export const loadAllClientCentralBankInfoSuccess = createAction(
+  '[ClientCentralBankInfo] Load All Success',
+  props<{ items: ClientCentralBankInfo[]; totalCount: number }>()
 );
-export const loadAllSuccess = createAction(
-  '[ClientCentralBank] Load All Success',
-  props<{ result: PagedResultDto<ClientCentralBank> }>()
+export const loadAllClientCentralBankInfoFailure = createAction(
+  '[ClientCentralBankInfo] Load All Failure',
+  props<{ error: any }>()
 );
-export const loadAllFailure = createAction(
-  '[ClientCentralBank] Load All Failure',
-  props<{ error: string }>()
+// Load history
+export const loadClientCentralBankInfoHistory = createAction(
+  '[ClientCentralBankInfo] Load History'
+);
+export const loadClientCentralBankInfoHistorySuccess = createAction(
+  '[ClientCentralBankInfo] Load History Success',
+  props<{ history: ClientCentralBankInfo[] }>()
+);
+export const loadClientCentralBankInfoHistoryFailure = createAction(
+  '[ClientCentralBankInfo] Load History Failure',
+  props<{ error: any }>()
 );
 
-// Load one
-export const loadOne = createAction(
-  '[ClientCentralBank] Load One',
+// Load by ID
+export const loadClientCentralBankInfo = createAction(
+  '[ClientCentralBankInfo] Load One',
   props<{ id: number }>()
 );
-export const loadOneSuccess = createAction(
-  '[ClientCentralBank] Load One Success',
-  props<{ entity: ClientCentralBank }>()
+export const loadClientCentralBankInfoSuccess = createAction(
+  '[ClientCentralBankInfo] Load One Success',
+  props<{ client: ClientCentralBankInfo }>()
 );
-export const loadOneFailure = createAction(
-  '[ClientCentralBank] Load One Failure',
-  props<{ error: string }>()
+export const loadClientCentralBankInfoFailure = createAction(
+  '[ClientCentralBankInfo] Load One Failure',
+  props<{ error: any }>()
 );
 
 // Create
-export const createEntity = createAction(
-  '[ClientCentralBank] Create',
-  props<{ payload: Partial<ClientCentralBank> }>()
+export const createClientCentralBankInfo = createAction(
+  '[ClientCentralBankInfo] Create',
+  props<{ data: Partial<ClientCentralBankInfo> }>()
 );
-export const createSuccess = createAction(
-  '[ClientCentralBank] Create Success',
-  props<{ entity: ClientCentralBank }>()
+export const createClientCentralBankInfoSuccess = createAction(
+  '[ClientCentralBankInfo] Create Success',
+  props<{ client: ClientCentralBankInfo }>()
 );
-export const createFailure = createAction(
-  '[ClientCentralBank] Create Failure',
-  props<{ error: string }>()
+export const createClientCentralBankInfoFailure = createAction(
+  '[ClientCentralBankInfo] Create Failure',
+  props<{ error: any }>()
 );
 
 // Update
-export const updateEntity = createAction(
-  '[ClientCentralBank] Update',
-  props<{ id: number; changes: Partial<ClientCentralBank> }>()
+export const updateClientCentralBankInfo = createAction(
+  '[ClientCentralBankInfo] Update',
+  props<{ id: number; data: Partial<ClientCentralBankInfo> }>()
 );
-export const updateSuccess = createAction(
-  '[ClientCentralBank] Update Success',
-  props<{ entity: ClientCentralBank }>()
+export const updateClientCentralBankInfoSuccess = createAction(
+  '[ClientCentralBankInfo] Update Success',
+  props<{ client: ClientCentralBankInfo }>()
 );
-export const updateFailure = createAction(
-  '[ClientCentralBank] Update Failure',
-  props<{ error: string }>()
-);
-
-// Delete
-export const deleteEntity = createAction(
-  '[ClientCentralBank] Delete',
-  props<{ id: number }>()
-);
-export const deleteSuccess = createAction(
-  '[ClientCentralBank] Delete Success',
-  props<{ id: number }>()
-);
-export const deleteFailure = createAction(
-  '[ClientCentralBank] Delete Failure',
-  props<{ error: string }>()
+export const updateClientCentralBankInfoFailure = createAction(
+  '[ClientCentralBankInfo] Update Failure',
+  props<{ error: any }>()
 );
 
-// Load history
-export const loadHistory = createAction(
-  '[ClientCentralBank] Load History',
+// Load by ClientId
+export const loadClientCentralBankInfoByClientId = createAction(
+  '[ClientCentralBankInfo] Load By ClientId',
   props<{ clientId: number }>()
 );
-export const loadHistorySuccess = createAction(
-  '[ClientCentralBank] Load History Success',
-  props<{ history: ClientCentralBankHistory[] }>()
+export const loadClientCentralBankInfoByClientIdSuccess = createAction(
+  '[ClientCentralBankInfo] Load By ClientId Success',
+  props<{ items: any }>()
 );
-export const loadHistoryFailure = createAction(
-  '[ClientCentralBank] Load History Failure',
-  props<{ error: string }>()
+export const loadClientCentralBankInfoByClientIdFailure = createAction(
+  '[ClientCentralBankInfo] Load By ClientId Failure',
+  props<{ error: any }>()
+);
+//Delete
+export const deleteClientCentralBankInfo = createAction(
+  '[ClientCentralBankInfo] Delete',
+  props<{ id: number; clientId: number }>()
+);
+export const deleteClientCentralBankInfoSuccess = createAction(
+  '[ClientCentralBankInfo] Delete Success',
+  props<{ id: number; clientId: number }>()
+);
+export const deleteClientCentralBankInfoFailure = createAction(
+  '[ClientCentralBankInfo] Delete Failure',
+  props<{ error: any }>()
+);
+export const entityOperationSuccess = createAction(
+  '[Entity] Operation Success',
+  props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
 );

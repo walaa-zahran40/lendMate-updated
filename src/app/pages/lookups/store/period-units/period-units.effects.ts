@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { GracePeriodUnitsService } from './period-units.service';
 import * as ActionsList from './period-units.actions';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
-import { loadAll } from '../../../crm/clients/store/client-central-bank-info/client-central-bank.actions';
+import { loadAllClientCentralBankInfo } from '../../../crm/clients/store/client-central-bank-info/client-central-bank.actions';
 import { PeriodUnit } from './period-unit.model';
 
 @Injectable()

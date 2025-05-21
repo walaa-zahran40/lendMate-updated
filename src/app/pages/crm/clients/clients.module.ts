@@ -10,7 +10,7 @@ import { TabsModule } from 'primeng/tabs';
 import { LegalFormsEffects } from '../../legals/store/legal-forms/legal-forms.effects';
 import { legalFormsReducer } from '../../legals/store/legal-forms/legal-forms.reducer';
 import { AddSalesTurnoverComponent } from './components/client-activities/add-client-sales-turnover/add-client-sales-turnover.component';
-import { AddCentralBankInfoComponent } from './components/client-activities/add-central-bank-info/add-central-bank-info.component';
+import { AddClientCentralBankInfoComponent } from './components/client-activities/add-central-bank-info/add-central-bank-info.component';
 import { AddClientGuarantorComponent } from './components/client-activities/add-client-guarantor/add-client-guarantor.component';
 import { AddClientIdentityComponent } from './components/client-activities/add-client-identity/add-client-identity.component';
 import { AddClientStatusActionsComponent } from './components/client-activities/add-client-status-actions/add-client-status-actions.component';
@@ -23,7 +23,7 @@ import { AddTmlOfficerComponent } from './components/client-activities/add-tml-o
 import { UploadDocumentsComponent } from './components/client-activities/add-upload-documents/upload-documents.component';
 import { ClientActivityWizardComponent } from './components/client-activities/client-activity-wizard/client-activity-wizard.component';
 import { ContactPersonViewTableDataComponent } from './components/client-activities/contact-person-view-table-data/contact-person-view-table-data.component';
-import { ViewCentralBankInfoComponent } from './components/client-activities/view-central-bank-info/view-central-bank-info.component';
+import { ViewClientCentralBankInfoComponent } from './components/client-activities/view-central-bank-info/view-central-bank-info.component';
 import { ViewClientGuarantorComponent } from './components/client-activities/view-client-guarantor/view-client-guarantor.component';
 import { ViewClientIdentityComponent } from './components/client-activities/view-client-identity/view-client-identity.component';
 import { ViewClientStatusComponent } from './components/client-activities/view-client-status-actions/view-client-status.component';
@@ -40,7 +40,6 @@ import { AddClientComponent } from './components/clients/company-individual/add-
 import { ClientOnboardingComponent } from './components/clients/client-onboarding/client-onboarding.component';
 import { CompanyViewOnlyComponent } from './components/clients/company-view-only/company-view-only.component';
 import { ViewClientsComponent } from './components/clients/company-individual/view-clients/view-clients.component';
-import { ClientCentralBankEffects } from './store/client-central-bank-info/client-central-bank.effects';
 import { ClientFileEffects } from './store/client-file/client-file.effects';
 import { clientFileReducer } from './store/client-file/client-file.reducer';
 import { LeaveEffects } from './store/client-form/client-form.effects';
@@ -88,6 +87,8 @@ import { clientCRAuthorityOfficesReducer } from './store/client-cr-authority-off
 import { ClientCRAuthorityOfficesEffects } from './store/client-cr-authority-office/client-cr-authority-office.effects';
 import { clientTaxOfficesReducer } from './store/client-tax-office/client-tax-office.reducer';
 import { ClientTaxOfficesEffects } from './store/client-tax-office/client-tax-office.effects';
+import { ClientCentralBankInfoEffects } from './store/client-central-bank-info/client-central-bank.effects';
+import { clientCentralBankInfoReducer } from './store/client-central-bank-info/client-central-bank.reducer';
 
 @NgModule({
   declarations: [
@@ -100,7 +101,7 @@ import { ClientTaxOfficesEffects } from './store/client-tax-office/client-tax-of
     AddPhoneNumberComponent,
     AddClientCRAuthorityOfficesComponent,
     AddClientTaxAuthorityOfficesComponent,
-    AddCentralBankInfoComponent,
+    AddClientCentralBankInfoComponent,
     AddShareHoldersComponent,
     AddTmlOfficerComponent,
     ContactPersonViewTableDataComponent,
@@ -113,7 +114,7 @@ import { ClientTaxOfficesEffects } from './store/client-tax-office/client-tax-of
     WizardClientStatusComponent,
     ViewCRAuthorityOfficesComponent,
     ViewTaxAuthorityOfficesComponent,
-    ViewCentralBankInfoComponent,
+    ViewClientCentralBankInfoComponent,
     ViewShareHolderComponent,
     ViewTmlOfficerComponent,
     ClientActivityWizardComponent,
@@ -159,7 +160,6 @@ import { ClientTaxOfficesEffects } from './store/client-tax-office/client-tax-of
     StoreModule.forFeature(contactPersonsFeatureKey, contactPersonsReducer),
     EffectsModule.forFeature([ContactPersonEffects]),
 
-    EffectsModule.forFeature([ClientCentralBankEffects]),
     StoreModule.forFeature('clientShareholders', clientShareholdersReducer),
     EffectsModule.forFeature([ClientShareholdersEffects]),
     StoreModule.forFeature('clientGuarantors', clientGuarantorsReducer),
@@ -170,10 +170,10 @@ import { ClientTaxOfficesEffects } from './store/client-tax-office/client-tax-of
     EffectsModule.forFeature([ClientIdentityTypesEffects]),
     StoreModule.forFeature('clientSalesTurnovers', clientSalesTurnoverReducer),
     EffectsModule.forFeature([ClientSalesTurnoversEffects]),
-
+    
     StoreModule.forFeature('clientPhoneNumbers', clientPhoneNumberReducer),
     EffectsModule.forFeature([ClientPhoneNumbersEffects]),
-
+    
     StoreModule.forFeature('clientAddresses', clientAddressesReducer),
     EffectsModule.forFeature([ClientAddressesEffects]),
     StoreModule.forFeature(
@@ -181,9 +181,12 @@ import { ClientTaxOfficesEffects } from './store/client-tax-office/client-tax-of
       clientCRAuthorityOfficesReducer
     ),
     EffectsModule.forFeature([ClientCRAuthorityOfficesEffects]),
-
+    
     StoreModule.forFeature('clientTaxOffices', clientTaxOfficesReducer),
     EffectsModule.forFeature([ClientTaxOfficesEffects]),
+
+    StoreModule.forFeature('clientCentralBankInfo', clientCentralBankInfoReducer),
+    EffectsModule.forFeature([ClientCentralBankInfoEffects]),
   ],
 })
 export class ClientsModule {}

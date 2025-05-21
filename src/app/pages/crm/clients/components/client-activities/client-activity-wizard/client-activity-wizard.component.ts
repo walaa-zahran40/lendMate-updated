@@ -83,7 +83,7 @@ export class ClientActivityWizardComponent {
           title: 'Central Bank Info',
           content:
             'Introduce your company core info quickly to users by fill up company details',
-          link: '/crm/clients/add-central-bank-info',
+          link: `/crm/clients/view-client-central-bank-info/${this.clientId}`,
         },
         {
           imgUrl: '/assets/images/shared/card/share.svg',
