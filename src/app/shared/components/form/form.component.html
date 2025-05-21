@@ -5672,36 +5672,9 @@
         </div>
       </div>
 
-      <!-- <div class="parent-phone">
-        <div class="div-phone d-inline-block">
-          <label for="phoneNumberContactPerson"
-            >Phone Number<sup class="danger">*</sup></label
-          >
-          <input
-            pInputText
-            id="phoneNumberContactPerson"
-            aria-describedby="phoneNumberContactPerson-help"
-            placeholder="Enter Name"
-            name="phoneNumberContactPerson"
-          />
-        </div>
+  
 
-        <div class="div2-phone d-inline-block">
-          <p-button icon="custom-icon" severity="danger" class="add-btn" />
-        </div>
-      </div>
-      <label for="phoneTypeContactPerson"
-        >Phone Type<sup class="danger">*</sup></label
-      >
-      <p-select
-        [options]="phoneTypes"
-        optionLabel="name"
-        placeholder="Phone Type"
-        name="phoneType"
-        optionLabel="value"
-        optionValue="id"
-        formControlName="phoneTypeId" 
-      /> -->
+      
       <div formArrayName="identities">
         <div
           *ngFor="let group of identities?.controls; let i = index"
@@ -5895,9 +5868,9 @@
         name="detailsArabicContactPerson"
       />
 
-      <div class="row justify-end">
+   <div class="row justify-end">
         <div
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 paymentTypesDiv"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 currenciesDiv"
           *ngIf="!editMode && !viewOnly"
         >
           <p-button
@@ -5907,63 +5880,27 @@
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
-
         <div
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 paymentTypesDiv"
-          *ngIf="editMode"
-        >
-          <p-button
-            type="submit"
-            label="Edit Contact Person"
-            class="custom-save m-0 float-right"
-          ></p-button>
-        </div>
-        <div
-          *ngIf="viewOnly"
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 paymentTypesDiv"
-        >
-          <p-button
-            label="Close"
-            class="custom-save m-0 float-right"
-            (click)="router.navigate(['/crm/clients/view-contact-person'])"
-          />
-        </div>
-      </div>
-
-      <div class="row justify-end">
-        <div
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 paymentTypesDiv"
-          *ngIf="!editMode"
-        >
-          <p-button
-            type="submit"
-            label="Add Payment Type"
-            [disabled]="formGroup.invalid"
-            class="custom-save m-0 float-right"
-          ></p-button>
-        </div>
-        <div
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 paymentTypesDiv"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
           *ngIf="editMode && !viewOnly"
         >
           <p-button
             type="submit"
-            label="Edit Payment Type"
+            label="Edit Contact Person "
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
         <div
           *ngIf="viewOnly"
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 paymentTypesDiv"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
         >
           <p-button
             label="Close"
             class="custom-save m-0 float-right"
-            (click)="router.navigate(['/lookups/view-payment-types'])"
+            (click)="router.navigate([`/crm/clients/view-contact-person/${clientId}`])"
           />
         </div>
       </div>
-
     </form>
     <form
       [formGroup]="formGroup"

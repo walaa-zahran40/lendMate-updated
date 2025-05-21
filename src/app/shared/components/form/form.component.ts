@@ -90,6 +90,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() assetTypeCategories: any;
   @Input() feeCalculationTypes: any;
   @Input() phoneTypes: any;
+  @Input() phones: any;
   @Input() identityTypes: any;
   @Input() areas: any;
   @Input() countries: any;
@@ -617,7 +618,9 @@ export class FormComponent implements OnInit, OnDestroy {
   get identities(): FormArray {
     return this.formGroup.get('identities') as FormArray;
   }
-
+ get phoneTypes2(): FormArray {
+    return this.formGroup.get('phoneTypes') as FormArray;
+  }
   onSectorChange(event: any) {
     const selectedId = event.value;
     this.sectorsSafe$
