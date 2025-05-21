@@ -142,11 +142,10 @@ export class ViewUploadDocumentsComponent implements OnInit, OnDestroy {
 
   onEditDocument(doc: any) {
     console.log('[onEditDocument] doc=', doc);
-    this.router.navigate([
-      '/crm/clients/edit-upload-documents',
-      this.clientId,
-      doc.id,
-    ]);
+    this.router.navigate(
+      ['/crm/clients/edit-upload-documents', this.clientId, doc.id],
+      { queryParams: { mode: 'edit' } }
+    );
   }
 
   onSearch(keyword: string) {
@@ -172,10 +171,9 @@ export class ViewUploadDocumentsComponent implements OnInit, OnDestroy {
   }
   onViewDocument(doc: any) {
     console.log('[onViewDocument] doc=', doc);
-    this.router.navigate([
-      '/crm/clients/edit-upload-documents',
-      this.clientId,
-      doc.id,
-    ]);
+    this.router.navigate(
+      ['/crm/clients/view-documents', this.clientId, doc.id],
+      { queryParams: { mode: 'view' } }
+    );
   }
 }

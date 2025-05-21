@@ -536,6 +536,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() operationsList: any;
   @Input() operationsList$!: any;
   @Input() operationIdValue!: any;
+  clientDocId!: any;
   clientId: any;
   constructor(
     private store: Store,
@@ -550,6 +551,7 @@ export class FormComponent implements OnInit, OnDestroy {
     // 18 years ago:
     this.maxDateOfBirth.setFullYear(this.maxDateOfBirth.getFullYear() - 18);
     this.id = this.route.snapshot.paramMap.get('clientId')!;
+    this.clientDocId = this.route.snapshot.params['clientId'];
     this.clientId = this.route.snapshot.queryParams['clientId']!;
     this.currencyIdParam = this.route.snapshot.queryParams['currencyId'];
     this.branchIdParam = this.route.snapshot.queryParams['branchId'];
@@ -666,7 +668,9 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/crm/clients/view-address']);
   }
   viewCentralBankInfo() {
-    this.router.navigate([`/crm/clients/view-client-central-bank-info/${this.clientId}`]);
+    this.router.navigate([
+      `/crm/clients/view-client-central-bank-info/${this.clientId}`,
+    ]);
   }
   viewCRAuthority() {
     this.router.navigate([
@@ -998,5 +1002,9 @@ export class FormComponent implements OnInit, OnDestroy {
     }
     // bubble up to the parent
     this.submitForm.emit();
+  }
+  close() {
+    console.log('route', this.route.snapshot);
+    this.router.navigate([`/crm/clients/view-upload-documents/${this.id}`]);
   }
 }

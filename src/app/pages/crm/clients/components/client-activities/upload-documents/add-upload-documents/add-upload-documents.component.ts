@@ -54,7 +54,7 @@ export class AddUploadDocumentsComponent implements OnInit {
     this.uploadForm = this.fb.group({
       documentTypeIds: [null, Validators.required],
       expiryDate: [null, Validators.required],
-      file: [null, this.editMode ? [] : Validators.required],
+      file: [null, this.editMode || this.viewMode ? [] : Validators.required],
     });
     console.log('[Init] Route Snapshot params:', this.route.snapshot.params);
     console.log(
@@ -76,7 +76,7 @@ export class AddUploadDocumentsComponent implements OnInit {
       });
     this.uploadForm.get('documentTypeIds')?.enable();
 
-    if (this.editMode) {
+    if (this.editMode || this.viewMode) {
       console.log('doc', this.documentId);
       this.facade.loadOne(this.documentId!); // ✅ correct call
       this.uploadForm.get('documentTypeIds')?.disable();
@@ -164,7 +164,7 @@ export class AddUploadDocumentsComponent implements OnInit {
         ? documentTypeIds.id
         : documentTypeIds;
 
-    if (this.editMode) {
+    if (this.editMode || this.viewMode) {
       // 🎯 EDIT MODE: Send JSON body, not FormData
       this.uploadForm.get('documentTypeIds')?.disable();
       const updatePayload = {

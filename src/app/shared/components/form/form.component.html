@@ -1750,6 +1750,7 @@
         </div>
       </div>
     </form>
+    <!-- Client Activities-->
     <form
       [formGroup]="formGroup"
       *ngIf="uploadDocumentsShowMain"
@@ -1763,11 +1764,16 @@
         formControlName="documentTypeIds"
         placeholder="Select document type"
         [disabled]="editMode || viewOnly"
+        [ngClass]="editMode || viewOnly ? 'disabled' : 'enabled'"
       >
       </p-select>
       <label>Expiry Date<sup>*</sup></label>
 
-      <shared-date-picker formControlName="expiryDate" inputId="expiryDate">
+      <shared-date-picker
+        formControlName="expiryDate"
+        inputId="expiryDate"
+        [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+      >
       </shared-date-picker>
       <div class="row upload-div">
         <div class="col-sm-3 p-0">
@@ -1784,8 +1790,9 @@
             [showUploadButton]="false"
             [showCancelButton]="false"
             accept=".pdf,.docx,.jpg"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
           ></p-fileUpload>
-          <div *ngIf="editMode" class="mt-2">
+          <div *ngIf="editMode || viewOnly" class="mt-2">
             <span class="text-muted">
               Previously uploaded file:
               <strong>{{ selectedFile?.name }}</strong>
@@ -1795,7 +1802,7 @@
           <div
             class="custom-upload-overlay"
             (click)="fileUploader.choose()"
-            *ngIf="!editMode"
+            *ngIf="!editMode && !viewOnly"
           >
             <span class="custom-icon"></span>
             <span>Click or drag file to upload</span>
@@ -1807,8 +1814,16 @@
         <div
           class="col-sm-12 mt-0 p-0 col-md-6 d-flex justify-end m-0"
           (click)="submitForm.emit()"
+          *ngIf="!viewOnly"
         >
           <p-button label="Submit" class="custom-save m-0 float-right" />
+        </div>
+        <div
+          class="col-sm-12 mt-0 p-0 col-md-6 d-flex justify-end m-0"
+          (click)="close()"
+          *ngIf="viewOnly"
+        >
+          <p-button label="Close" class="custom-save m-0 float-right" />
         </div>
       </div>
     </form>
@@ -5874,13 +5889,12 @@
       </div>
     </form>
 
-    <form [formGroup]="formGroup"
-          *ngIf="addCentralBankInfoShowMain"
-          (ngSubmit)="onSubmit()"
+    <form
+      [formGroup]="formGroup"
+      *ngIf="addCentralBankInfoShowMain"
+      (ngSubmit)="onSubmit()"
     >
-      <label for="balanceSheetdate"
-        >Balance Sheet Date</label
-      >
+      <label for="balanceSheetdate">Balance Sheet Date</label>
       <shared-date-picker
         formControlName="balanceSheetdate"
         inputId="balanceSheetdate"
@@ -5902,7 +5916,7 @@
               formGroup.get('companyTypeId')?.touched)
         }"
       />
-   
+
       <label for="capital">Capital<sup>*</sup></label>
       <input
         pInputText
@@ -5944,7 +5958,7 @@
         formControlName="cbeCustomerCode"
         placeholder="Type"
       />
-        <div
+      <div
         *ngIf="
           formGroup.get('cbeCustomerCode')?.hasError('required') &&
           formGroup.get('cbeCustomerCode')?.touched
