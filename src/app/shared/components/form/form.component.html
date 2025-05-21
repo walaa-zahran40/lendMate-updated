@@ -6003,36 +6003,66 @@
         </div>
       </div>
     </form>
-    <form action="" *ngIf="addShareHolderShowMain">
-      <label for="shareHolderName"
-        >Share Holder Name <sup class="danger">*</sup></label
-      >
+    <form  [formGroup]="formGroup"
+        *ngIf="addShareHolderShowMain"
+        (ngSubmit)="onSubmit()">
+
+      <label for="shareHolderId">Share Holder Name<sup>*</sup></label>
       <p-select
-        [options]="shareHolderNames"
+        [options]="clientsList"
         optionLabel="name"
-        placeholder="Select Share Holder Name"
-        class="w-full md:w-56"
+        placeholder="Select Share Holder"
+        formControlName="shareHolderId"
+        optionValue="id"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('shareHolderId')?.invalid &&
+            (formGroup.get('shareHolderId')?.dirty ||
+              formGroup.get('shareHolderId')?.touched)
+        }"
       />
-      <label for="shareHolderType"
-        >Share Holder Type <sup class="danger">*</sup></label
-      >
-      <p-select
-        [options]="shareHolderTypes"
-        optionLabel="name"
-        placeholder="Select Share Holder Type"
-        class="w-full md:w-56"
-      />
-      <label for="shareHolderPercentage"
-        >Share Holder Percentage <sup class="danger">*</sup></label
-      >
+      <label for="percentage">Share Holder Percentage<sup>*</sup></label>
       <input
         pInputText
-        id="shareHolderPercentage"
-        aria-describedby="shareHolderPercentage-help"
-        [(ngModel)]="value51"
-        name="shareHolderPercentage"
-        placeholder="Add Share Holder Percentage"
+        id="percentage"
+        formControlName="percentage"
+        placeholder="Type"
       />
+       <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="!editMode"
+        >
+          <p-button
+            type="submit"
+            label="Add Share Holder"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Share Holder"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate([`/crm/clients/view-client-share-holders/${this.clientIdParam}`])"
+          />
+        </div>
+      </div>
+     
     </form>
     <form action="" *ngIf="addTMLOfficerShowMain">
       <label for="officerName">Officer Name <sup class="danger">*</sup></label>

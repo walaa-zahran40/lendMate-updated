@@ -17,7 +17,7 @@ import { AddClientStatusActionsComponent } from './components/client-activities/
 import { AddClientStatusesComponent } from './components/client-activities/add-client-statuses/add-client-statuses.component';
 import { AddContactPersonComponent } from './components/client-activities/add-contact-person/add-contact-person.component';
 import { AddPhoneNumberComponent } from './components/client-activities/add-phone-number/add-phone-number.component';
-import { AddShareHoldersComponent } from './components/client-activities/add-share-holders/add-share-holders.component';
+import { AddClientShareHoldersComponent } from './components/client-activities/add-share-holders/add-share-holders.component';
 import { AddClientTaxAuthorityOfficesComponent } from './components/client-activities/add-tax-authority-office/add-tax-authority-office.component';
 import { AddTmlOfficerComponent } from './components/client-activities/add-tml-officer/add-tml-officer.component';
 import { AddUploadDocumentsComponent } from './components/client-activities/upload-documents/add-upload-documents/add-upload-documents.component';
@@ -31,7 +31,7 @@ import { ViewClientStatusesComponent } from './components/client-activities/view
 import { ViewContactPersonComponent } from './components/client-activities/view-contact-person/view-contact-person.component';
 import { ViewPhoneNumberComponent } from './components/client-activities/view-phone-number/view-phone-number.component';
 import { ViewSalesTurnoverComponent } from './components/client-activities/view-sales-turnover/view-sales-turnover.component';
-import { ViewShareHolderComponent } from './components/client-activities/view-share-holder/view-share-holder.component';
+import { ViewShareHoldersComponent } from './components/client-activities/view-share-holder/view-share-holder.component';
 import { ViewTaxAuthorityOfficesComponent } from './components/client-activities/view-tax-authority-office/view-tax-authority-office.component';
 import { ViewTmlOfficerComponent } from './components/client-activities/view-tml-officer/view-tml-officer.component';
 import { ViewUploadDocumentsComponent } from './components/client-activities/upload-documents/view-upload-documents/view-upload-documents.component';
@@ -46,8 +46,6 @@ import { LeaveEffects } from './store/client-form/client-form.effects';
 import { clientFormReducer } from './store/client-form/client-form.reducer';
 import { ClientGuarantorsEffects } from './store/client-guarantors/client-guarantors.effects';
 import { clientGuarantorsReducer } from './store/client-guarantors/client-guarantors.reducer';
-import { ClientShareholdersEffects } from './store/client-share-holders/client-share-holders.effects';
-import { clientShareholdersReducer } from './store/client-share-holders/client-share-holders.reducer';
 import { ClientTMLOfficersEffects } from './store/client-tml-officers/client-tml-officers.effects';
 import { clientTMLOfficersReducer } from './store/client-tml-officers/client-tml-officers.reducer';
 import { ContactPersonEffects } from './store/contact-person/contact-person.effects';
@@ -94,6 +92,8 @@ import { reducer as individualOnboardingReducer } from './store/_client-onboardi
 
 import { reducer as clientsOnboardingReducer } from './store/_client-onboarding/allclients/clients-onboarding.reducer';
 import { IndividualOnboardingsEffects } from './store/_client-onboarding/individuals/individuals-onboarding.effects';
+import { ClientShareHoldersEffects } from './store/client-share-holders/client-share-holders.effects';
+import { clientShareHoldersReducer } from './store/client-share-holders/client-share-holders.reducer';
 @NgModule({
   declarations: [
     AddClientComponent,
@@ -107,7 +107,7 @@ import { IndividualOnboardingsEffects } from './store/_client-onboarding/individ
     AddClientCRAuthorityOfficesComponent,
     AddClientTaxAuthorityOfficesComponent,
     AddClientCentralBankInfoComponent,
-    AddShareHoldersComponent,
+    AddClientShareHoldersComponent,
     AddTmlOfficerComponent,
     ContactPersonViewTableDataComponent,
     CompanyViewOnlyComponent,
@@ -120,7 +120,7 @@ import { IndividualOnboardingsEffects } from './store/_client-onboarding/individ
     ViewCRAuthorityOfficesComponent,
     ViewTaxAuthorityOfficesComponent,
     ViewClientCentralBankInfoComponent,
-    ViewShareHolderComponent,
+    ViewShareHoldersComponent,
     ViewTmlOfficerComponent,
     ClientActivityWizardComponent,
     ViewClientGuarantorComponent,
@@ -173,8 +173,8 @@ import { IndividualOnboardingsEffects } from './store/_client-onboarding/individ
     StoreModule.forFeature(contactPersonsFeatureKey, contactPersonsReducer),
     EffectsModule.forFeature([ContactPersonEffects]),
     EffectsModule.forFeature([ClientCentralBankInfoEffects]),
-    StoreModule.forFeature('clientShareholders', clientShareholdersReducer),
-    EffectsModule.forFeature([ClientShareholdersEffects]),
+    StoreModule.forFeature('clientShareHolders', clientShareHoldersReducer),
+    EffectsModule.forFeature([ClientShareHoldersEffects]),
     StoreModule.forFeature('clientGuarantors', clientGuarantorsReducer),
     EffectsModule.forFeature([ClientGuarantorsEffects]),
     StoreModule.forFeature('clientTMLOfficers', clientTMLOfficersReducer),

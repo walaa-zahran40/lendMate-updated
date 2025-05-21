@@ -1,78 +1,98 @@
 import { createAction, props } from '@ngrx/store';
-import { Shareholder } from './client-share-holders.model';
+import { ClientShareHolder } from './client-share-holders.model';
 
-export const loadShareholders = createAction(
-  '[Client Shareholders] Load Shareholders',
+// Load all
+export const loadClientShareHolders = createAction('[ClientShareHolders] Load All');
+export const loadClientShareHoldersSuccess = createAction(
+  '[ClientShareHolders] Load All Success',
+  props<{ items: ClientShareHolder[]; totalCount: number }>()
+);
+export const loadClientShareHoldersFailure = createAction(
+  '[ClientShareHolders] Load All Failure',
+  props<{ error: any }>()
+);
+// Load history
+export const loadClientShareHoldersHistory = createAction(
+  '[ClientShareHolders] Load History'
+);
+export const loadClientShareHoldersHistorySuccess = createAction(
+  '[ClientShareHolders] Load History Success',
+  props<{ history: ClientShareHolder[] }>()
+);
+export const loadClientShareHoldersHistoryFailure = createAction(
+  '[ClientShareHolders] Load History Failure',
+  props<{ error: any }>()
+);
+
+// Load by ID
+export const loadClientShareHolder = createAction(
+  '[ClientShareHolders] Load One',
+  props<{ id: number }>()
+);
+export const loadClientShareHolderSuccess = createAction(
+  '[ClientShareHolders] Load One Success',
+  props<{ client: ClientShareHolder }>()
+);
+export const loadClientShareHolderFailure = createAction(
+  '[ClientShareHolders] Load One Failure',
+  props<{ error: any }>()
+);
+
+// Create
+export const createClientShareHolder = createAction(
+  '[ClientShareHolders] Create',
+  props<{ data: Partial<ClientShareHolder> }>()
+);
+export const createClientShareHolderSuccess = createAction(
+  '[ClientShareHolders] Create Success',
+  props<{ client: ClientShareHolder }>()
+);
+export const createClientShareHolderFailure = createAction(
+  '[ClientShareHolders] Create Failure',
+  props<{ error: any }>()
+);
+
+// Update
+export const updateClientShareHolder = createAction(
+  '[ClientShareHolders] Update',
+  props<{ id: number; data: Partial<ClientShareHolder> }>()
+);
+export const updateClientShareHolderSuccess = createAction(
+  '[ClientShareHolders] Update Success',
+  props<{ client: ClientShareHolder }>()
+);
+export const updateClientShareHolderFailure = createAction(
+  '[ClientShareHolders] Update Failure',
+  props<{ error: any }>()
+);
+
+// Load by ClientId
+export const loadClientShareHoldersByClientId = createAction(
+  '[ClientShareHolders] Load By ClientId',
   props<{ clientId: number }>()
 );
-export const loadShareholdersSuccess = createAction(
-  '[Client Shareholders] Load Shareholders Success',
-  props<{ shareholders: Shareholder[] }>()
+export const loadClientShareHoldersByClientIdSuccess = createAction(
+  '[ClientShareHolders] Load By ClientId Success',
+  props<{ items: any }>()
 );
-export const loadShareholdersFailure = createAction(
-  '[Client Shareholders] Load Shareholders Failure',
+export const loadClientShareHoldersByClientIdFailure = createAction(
+  '[ClientShareHolders] Load By ClientId Failure',
   props<{ error: any }>()
 );
-
-export const loadAllShareholders = createAction(
-  '[Client Shareholders] Load All Shareholders'
+//Delete
+export const deleteClientShareHolder = createAction(
+  '[ClientShareHolders] Delete',
+  props<{ id: number; clientId: number }>()
 );
-export const loadAllShareholdersSuccess = createAction(
-  '[Client Shareholders] Load All Shareholders Success',
-  props<{ shareholders: Shareholder[] }>()
+export const deleteClientShareHolderSuccess = createAction(
+  '[ClientShareHolders] Delete Success',
+  props<{ id: number; clientId: number }>()
 );
-export const loadAllShareholdersFailure = createAction(
-  '[Client Shareholders] Load All Shareholders Failure',
+export const deleteClientShareHolderFailure = createAction(
+  '[ClientShareHolders] Delete Failure',
   props<{ error: any }>()
 );
-
-export const createShareholder = createAction(
-  '[Client Shareholders] Create Shareholder',
-  props<{ shareholder: Shareholder }>()
-);
-export const createShareholderSuccess = createAction(
-  '[Client Shareholders] Create Shareholder Success',
-  props<{ shareholder: Shareholder }>()
-);
-export const createShareholderFailure = createAction(
-  '[Client Shareholders] Create Shareholder Failure',
-  props<{ error: any }>()
-);
-
-export const updateShareholder = createAction(
-  '[Client Shareholders] Update Shareholder',
-  props<{ id: number; shareholder: Shareholder }>()
-);
-export const updateShareholderSuccess = createAction(
-  '[Client Shareholders] Update Shareholder Success',
-  props<{ shareholder: Shareholder }>()
-);
-export const updateShareholderFailure = createAction(
-  '[Client Shareholders] Update Shareholder Failure',
-  props<{ error: any }>()
-);
-
-export const deleteShareholder = createAction(
-  '[Client Shareholders] Delete Shareholder',
-  props<{ id: number }>()
-);
-export const deleteShareholderSuccess = createAction(
-  '[Client Shareholders] Delete Shareholder Success',
-  props<{ id: number }>()
-);
-export const deleteShareholderFailure = createAction(
-  '[Client Shareholders] Delete Shareholder Failure',
-  props<{ error: any }>()
-);
-
-export const loadShareholdersHistory = createAction(
-  '[Client Shareholders] Load Shareholders History'
-);
-export const loadShareholdersHistorySuccess = createAction(
-  '[Client Shareholders] Load Shareholders History Success',
-  props<{ history: any[] }>()
-);
-export const loadShareholdersHistoryFailure = createAction(
-  '[Client Shareholders] Load Shareholders History Failure',
-  props<{ error: any }>()
+export const entityOperationSuccess = createAction(
+  '[Entity] Operation Success',
+  props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
 );
