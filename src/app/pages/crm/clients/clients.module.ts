@@ -48,11 +48,6 @@ import { ClientGuarantorsEffects } from './store/client-guarantors/client-guaran
 import { clientGuarantorsReducer } from './store/client-guarantors/client-guarantors.reducer';
 import { ClientTMLOfficersEffects } from './store/client-tml-officers/client-tml-officers.effects';
 import { clientTMLOfficersReducer } from './store/client-tml-officers/client-tml-officers.reducer';
-import { ContactPersonEffects } from './store/contact-person/contact-person.effects';
-import {
-  contactPersonsFeatureKey,
-  contactPersonsReducer,
-} from './store/contact-person/contact-person.reducer';
 import { AddClientAddressesComponent } from './components/client-activities/add-client-address/add-client-address.component';
 import { ViewClientAddressesComponent } from './components/client-activities/view-client-address/view-client-address.component';
 import { ClientAddressesEffects } from './store/client-addresses/client-addresses.effects';
@@ -161,6 +156,12 @@ import { clientShareHoldersReducer } from './store/client-share-holders/client-s
     EffectsModule.forFeature([SubSectorEffects]),
     StoreModule.forFeature('individuals', individualReducer),
     EffectsModule.forFeature([IndividualsEffects]),
+    StoreModule.forFeature('clientFile', clientFilesReducer),
+    EffectsModule.forFeature([ClientFilesEffects]),
+    // StoreModule.forFeature('documentTypes', documentTypeReducer),
+    // EffectsModule.forFeature([DocumentTypesEffects]),
+
+    EffectsModule.forFeature([ClientCentralBankInfoEffects]),
     StoreModule.forFeature(
       'individualOnboardings',
       individualOnboardingReducer
@@ -169,8 +170,6 @@ import { clientShareHoldersReducer } from './store/client-share-holders/client-s
 
     StoreModule.forFeature('clientFiles', clientFilesReducer),
     EffectsModule.forFeature([ClientFilesEffects]),
-    StoreModule.forFeature(contactPersonsFeatureKey, contactPersonsReducer),
-    EffectsModule.forFeature([ContactPersonEffects]),
     EffectsModule.forFeature([ClientCentralBankInfoEffects]),
     StoreModule.forFeature('clientShareHolders', clientShareHoldersReducer),
     EffectsModule.forFeature([ClientShareHoldersEffects]),
