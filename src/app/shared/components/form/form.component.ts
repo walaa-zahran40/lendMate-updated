@@ -95,6 +95,7 @@ export class FormComponent implements OnInit, OnDestroy {
   selectedLegalFormLawId: number | null = null;
   @Input() legalFormId: number | null = null;
   @Input() officersList: any;
+  @Input() tmlOfficerTypesList: any;
   @Input() pageIds: any;
   selectedLegalForm: any;
   @Output() sectorChanged = new EventEmitter<number>();

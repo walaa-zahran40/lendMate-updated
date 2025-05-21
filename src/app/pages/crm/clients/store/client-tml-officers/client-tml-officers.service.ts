@@ -1,38 +1,60 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { ClientTMLOfficer } from './client-tml-officer.model';
 import { environment } from '../../../../../../environments/environment';
 
-@Injectable({
-  providedIn: 'root',
-})
+interface PagedResponse<T> {
+  items: T[];
+  totalCount: number;
+}
+
+@Injectable({ providedIn: 'root' })
 export class ClientTMLOfficersService {
-  private apiUrl = `${environment.apiUrl}ClientTMLOfficer`;
+  private api = `${environment.apiUrl}ClientTMLOfficer`;
 
   constructor(private http: HttpClient) {}
 
-  getTMLOfficers(clientId: number): Observable<{ items: any[] }> {
-    return this.http.get<{ items: any[] }>(
-      `${this.apiUrl}/GetAllClientTMLOfficers?ClientId=${clientId}`
+  getAll(pageNumber?: number): Observable<PagedResponse<ClientTMLOfficer>> {
+    let params = new HttpParams();
+    if (pageNumber != null) {
+      params = params.set('pageNumber', pageNumber.toString());
+    }
+    return this.http.get<PagedResponse<ClientTMLOfficer>>(
+      `${this.api}/GetAllClientTMLOfficers`,
+      { params }
     );
   }
 
-  createTMLOfficer(officerData: any): Observable<any> {
-    return this.http.post<any>(
-      `${this.apiUrl}/CreateClientTMLOfficer`,
-      officerData
+  getHistory(): Observable<PagedResponse<ClientTMLOfficer>> {
+    return this.http.get<PagedResponse<ClientTMLOfficer>>(
+      `${this.api}/GetAllClientTMLOfficersHistory`
     );
   }
 
-  updateTMLOfficer(id: number, officerData: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/${id}`, officerData);
+  getById(id: number): Observable<ClientTMLOfficer> {
+    return this.http.get<ClientTMLOfficer>(
+      `${this.api}/${id}`
+    );
   }
 
-  deleteTMLOfficer(id: number): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/${id}`);
+  create(data: Partial<ClientTMLOfficer>): Observable<ClientTMLOfficer> {
+    return this.http.post<ClientTMLOfficer>(
+      `${this.api}/CreateClientTMLOfficer`,
+      data
+    );
   }
 
-  getTMLOfficersHistory(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/GetAllClientTMLOfficersHistory`);
+  update(id: number, data: Partial<ClientTMLOfficer>): Observable<ClientTMLOfficer> {
+    return this.http.put<ClientTMLOfficer>(`${this.api}/${id}`, data);
+  }
+
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.api}/${id}`);
+  }
+  getByClientId(clientId: number): Observable<ClientTMLOfficer[]> {
+    return this.http.get<ClientTMLOfficer[]>(
+      `${this.api}/GetByClientId/${clientId}`
+    );
   }
 }

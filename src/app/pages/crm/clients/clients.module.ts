@@ -19,7 +19,7 @@ import { AddContactPersonComponent } from './components/client-activities/add-co
 import { AddPhoneNumberComponent } from './components/client-activities/add-phone-number/add-phone-number.component';
 import { AddShareHoldersComponent } from './components/client-activities/add-share-holders/add-share-holders.component';
 import { AddClientTaxAuthorityOfficesComponent } from './components/client-activities/add-tax-authority-office/add-tax-authority-office.component';
-import { AddTmlOfficerComponent } from './components/client-activities/add-tml-officer/add-tml-officer.component';
+import { AddClientTMLOfficersComponent } from './components/client-activities/add-tml-officer/add-tml-officer.component';
 import { AddUploadDocumentsComponent } from './components/client-activities/upload-documents/add-upload-documents/add-upload-documents.component';
 import { ClientActivityWizardComponent } from './components/client-activities/client-activity-wizard/client-activity-wizard.component';
 import { ContactPersonViewTableDataComponent } from './components/client-activities/contact-person-view-table-data/contact-person-view-table-data.component';
@@ -33,7 +33,7 @@ import { ViewPhoneNumberComponent } from './components/client-activities/view-ph
 import { ViewSalesTurnoverComponent } from './components/client-activities/view-sales-turnover/view-sales-turnover.component';
 import { ViewShareHolderComponent } from './components/client-activities/view-share-holder/view-share-holder.component';
 import { ViewTaxAuthorityOfficesComponent } from './components/client-activities/view-tax-authority-office/view-tax-authority-office.component';
-import { ViewTmlOfficerComponent } from './components/client-activities/view-tml-officer/view-tml-officer.component';
+import { ViewTMLOfficersComponent } from './components/client-activities/view-tml-officer/view-tml-officer.component';
 import { ViewUploadDocumentsComponent } from './components/client-activities/upload-documents/view-upload-documents/view-upload-documents.component';
 import { WizardClientStatusComponent } from './components/client-activities/wizard-client-status/wizard-client-status.component';
 import { AddClientComponent } from './components/clients/company-individual/add-client/add-client.component';
@@ -108,7 +108,7 @@ import { IndividualOnboardingsEffects } from './store/_client-onboarding/individ
     AddClientTaxAuthorityOfficesComponent,
     AddClientCentralBankInfoComponent,
     AddShareHoldersComponent,
-    AddTmlOfficerComponent,
+    AddClientTMLOfficersComponent,
     ContactPersonViewTableDataComponent,
     CompanyViewOnlyComponent,
     ViewUploadDocumentsComponent,
@@ -121,7 +121,7 @@ import { IndividualOnboardingsEffects } from './store/_client-onboarding/individ
     ViewTaxAuthorityOfficesComponent,
     ViewClientCentralBankInfoComponent,
     ViewShareHolderComponent,
-    ViewTmlOfficerComponent,
+    ViewTMLOfficersComponent,
     ClientActivityWizardComponent,
     ViewClientGuarantorComponent,
     AddClientGuarantorComponent,

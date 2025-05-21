@@ -1,67 +1,111 @@
 import { createReducer, on } from '@ngrx/store';
-import * as TMLActions from './client-tml-officers.actions';
-import { initialTMLOfficersState } from './client-tml-officers.state';
+import * as Actions from './client-tml-officers.actions';
+import { initialClientTMLOfficersState } from './client-tml-officers.state';
 
 export const clientTMLOfficersReducer = createReducer(
-  initialTMLOfficersState,
-  on(TMLActions.loadTMLOfficers, (state) => ({ ...state, loading: true })),
-  on(TMLActions.loadTMLOfficersSuccess, (state, { items }) => ({
+  initialClientTMLOfficersState,
+  on(Actions.loadClientTMLOfficers, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
+  on(Actions.loadClientTMLOfficersSuccess, (state, { items, totalCount }) => ({
     ...state,
     items,
+    totalCount,
     loading: false,
   })),
-  on(TMLActions.loadTMLOfficersFailure, (state, { error }) => ({
+  on(Actions.loadClientTMLOfficersFailure, (state, { error }) => ({
     ...state,
     error,
     loading: false,
   })),
 
-  on(TMLActions.createTMLOfficer, (state) => ({ ...state, loading: true })),
-  on(TMLActions.createTMLOfficerSuccess, (state, { officer }) => ({
-    ...state,
-    items: [...state.items, officer],
-    loading: false,
-  })),
-  on(TMLActions.createTMLOfficerFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
-  })),
-
-  on(TMLActions.updateTMLOfficer, (state) => ({ ...state, loading: true })),
-  on(TMLActions.updateTMLOfficerSuccess, (state, { officer }) => ({
-    ...state,
-    items: state.items.map((o) => (o.id === officer.id ? officer : o)),
-    loading: false,
-  })),
-  on(TMLActions.updateTMLOfficerFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
-  })),
-
-  on(TMLActions.deleteTMLOfficer, (state) => ({ ...state, loading: true })),
-  on(TMLActions.deleteTMLOfficerSuccess, (state, { id }) => ({
-    ...state,
-    items: state.items.filter((o) => o.id !== id),
-    loading: false,
-  })),
-  on(TMLActions.deleteTMLOfficerFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
-  })),
-
-  on(TMLActions.loadTMLOfficersHistory, (state) => ({
+  on(Actions.loadClientTMLOfficersHistory, (state) => ({
     ...state,
     loading: true,
   })),
-  on(TMLActions.loadTMLOfficersHistorySuccess, (state, { history }) => ({
+  on(Actions.loadClientTMLOfficersHistorySuccess, (state, { history }) => ({
     ...state,
     history,
     loading: false,
   })),
-  on(TMLActions.loadTMLOfficersHistoryFailure, (state, { error }) => ({
+  on(Actions.loadClientTMLOfficersHistoryFailure, (state, { error }) => ({
+    ...state,
+    error,
+    loading: false,
+  })),
+
+  on(Actions.loadClientTMLOfficer, (state) => ({
+    ...state,
+    loading: true,
+  })),
+  on(Actions.loadClientTMLOfficerSuccess, (state, { client }) => ({
+    ...state,
+    current: client,
+    loading: false,
+  })),
+  on(Actions.loadClientTMLOfficerFailure, (state, { error }) => ({
+    ...state,
+    error,
+    loading: false,
+  })),
+
+  on(Actions.createClientTMLOfficer, (state) => ({
+    ...state,
+    loading: true,
+  })),
+  on(Actions.createClientTMLOfficerSuccess, (state, { client }) => ({
+    ...state,
+    items: [...state.items, client],
+    loading: false,
+  })),
+  on(Actions.createClientTMLOfficerFailure, (state, { error }) => ({
+    ...state,
+    error,
+    loading: false,
+  })),
+
+  on(Actions.updateClientTMLOfficer, (state) => ({
+    ...state,
+    loading: true,
+  })),
+  on(Actions.updateClientTMLOfficerSuccess, (state, { client }) => ({
+    ...state,
+    items: state.items.map((ct) => (ct.id === client.id ? client : ct)),
+    loading: false,
+  })),
+  on(Actions.updateClientTMLOfficerFailure, (state, { error }) => ({
+    ...state,
+    error,
+    loading: false,
+  })),
+
+  on(Actions.deleteClientTMLOfficer, (state) => ({
+    ...state,
+    loading: true,
+  })),
+  on(Actions.deleteClientTMLOfficerSuccess, (state, { id }) => ({
+    ...state,
+    items: state.items.filter((ct) => ct.id !== id),
+    loading: false,
+  })),
+  on(Actions.deleteClientTMLOfficerFailure, (state, { error }) => ({
+    ...state,
+    error,
+    loading: false,
+  })),
+  on(Actions.loadClientTMLOfficersByClientId, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
+  on(Actions.loadClientTMLOfficersByClientIdSuccess, (state, { items }) => ({
+    ...state,
+    items, // replace with just these rates
+    loading: false,
+  })),
+  on(Actions.loadClientTMLOfficersByClientIdFailure, (state, { error }) => ({
     ...state,
     error,
     loading: false,
