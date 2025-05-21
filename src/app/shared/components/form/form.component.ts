@@ -95,6 +95,7 @@ export class FormComponent implements OnInit, OnDestroy {
   selectedLegalFormLawId: number | null = null;
   @Input() legalFormId: number | null = null;
   @Input() officersList: any;
+  @Input() clientsList: any;
   @Input() pageIds: any;
   selectedLegalForm: any;
   @Output() sectorChanged = new EventEmitter<number>();
@@ -841,7 +842,9 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/crm/clients/view-tml-officer']);
   }
   viewShareHolder() {
-    this.router.navigate(['/crm/clients/view-share-holder']);
+    this.router.navigate([
+      `/crm/clients/view-client-share-holders/${this.clientId}`,
+    ]);  
   }
   viewTaxAuthority() {
     this.router.navigate([

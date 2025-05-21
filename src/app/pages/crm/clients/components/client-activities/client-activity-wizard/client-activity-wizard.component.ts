@@ -91,7 +91,7 @@ export class ClientActivityWizardComponent {
           title: 'Share Holders',
           content:
             'Introduce your company core info quickly to users by fill up company details',
-          link: '/crm/clients/add-share-holders',
+          link: `/crm/clients/view-client-share-holders/${this.clientId}`,
         },
       ],
       [

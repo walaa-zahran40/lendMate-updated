@@ -11,7 +11,7 @@ import { AddSalesTurnoverComponent } from './clients/components/client-activitie
 import { AddClientStatusesComponent } from './clients/components/client-activities/add-client-statuses/add-client-statuses.component';
 import { AddContactPersonComponent } from './clients/components/client-activities/add-contact-person/add-contact-person.component';
 import { AddPhoneNumberComponent } from './clients/components/client-activities/add-phone-number/add-phone-number.component';
-import { AddShareHoldersComponent } from './clients/components/client-activities/add-share-holders/add-share-holders.component';
+import { AddClientShareHoldersComponent } from './clients/components/client-activities/add-share-holders/add-share-holders.component';
 import { AddTmlOfficerComponent } from './clients/components/client-activities/add-tml-officer/add-tml-officer.component';
 import { AddUploadDocumentsComponent } from './clients/components/client-activities/upload-documents/add-upload-documents/add-upload-documents.component';
 import { ClientActivityWizardComponent } from './clients/components/client-activities/client-activity-wizard/client-activity-wizard.component';
@@ -24,7 +24,7 @@ import { ViewClientStatusesComponent } from './clients/components/client-activit
 import { ViewContactPersonComponent } from './clients/components/client-activities/view-contact-person/view-contact-person.component';
 import { ViewPhoneNumberComponent } from './clients/components/client-activities/view-phone-number/view-phone-number.component';
 import { ViewSalesTurnoverComponent } from './clients/components/client-activities/view-sales-turnover/view-sales-turnover.component';
-import { ViewShareHolderComponent } from './clients/components/client-activities/view-share-holder/view-share-holder.component';
+import { ViewShareHoldersComponent } from './clients/components/client-activities/view-share-holder/view-share-holder.component';
 import { ViewTmlOfficerComponent } from './clients/components/client-activities/view-tml-officer/view-tml-officer.component';
 import { ViewUploadDocumentsComponent } from './clients/components/client-activities/upload-documents/view-upload-documents/view-upload-documents.component';
 import { WizardClientStatusComponent } from './clients/components/client-activities/wizard-client-status/wizard-client-status.component';
@@ -163,8 +163,16 @@ const routes: Routes = [
     component: AddClientCentralBankInfoComponent,
   },
   {
-    path: 'clients/add-share-holders',
-    component: AddShareHoldersComponent,
+    path: 'clients/add-client-share-holders',
+    component: AddClientShareHoldersComponent,
+  },
+  {
+    path: 'clients/add-client-share-holders/:id',
+    component: AddClientShareHoldersComponent,
+  },
+  {
+    path: 'clients/edit-client-share-holders/:id',
+    component: AddClientShareHoldersComponent,
   },
   {
     path: 'clients/add-tml-officer',
@@ -234,8 +242,8 @@ const routes: Routes = [
     component: ViewClientCentralBankInfoComponent,
   },
   {
-    path: 'clients/view-share-holder',
-    component: ViewShareHolderComponent,
+    path: 'clients/view-client-share-holders/:clientId',
+    component: ViewShareHoldersComponent,
   },
   {
     path: 'clients/view-tml-officer',

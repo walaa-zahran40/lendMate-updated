@@ -1,102 +1,210 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import * as ShareholderActions from './client-share-holders.actions';
-import { ClientShareholdersService } from './client-share-holders.service';
-import { mergeMap, map, catchError } from 'rxjs/operators';
+import { mergeMap, map, catchError, tap, filter } from 'rxjs/operators';
 import { of } from 'rxjs';
+import * as ClientShareHolderActions from './client-share-holders.actions';
+import { ClientShareHoldersService } from './client-share-holders.service';
+import { ClientShareHolder } from './client-share-holders.model';
 
 @Injectable()
-export class ClientShareholdersEffects {
-  loadShareholders$ = createEffect(() =>
+export class ClientShareHoldersEffects {
+  loadAll$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ShareholderActions.loadShareholders),
-      mergeMap((action) =>
-        this.service.getShareholders(action.clientId).pipe(
-          map((shareholders) =>
-            ShareholderActions.loadShareholdersSuccess({ shareholders })
-          ),
-          catchError((error) =>
-            of(ShareholderActions.loadShareholdersFailure({ error }))
-          )
-        )
-      )
-    )
-  );
-
-  loadAllShareholders$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ShareholderActions.loadAllShareholders),
+      ofType(ClientShareHolderActions.loadClientShareHolders),
       mergeMap(() =>
-        this.service.getAllShareholders().pipe(
-          map((shareholders) =>
-            ShareholderActions.loadAllShareholdersSuccess({ shareholders })
+        this.service.getAll().pipe(
+          map((resp) =>
+            ClientShareHolderActions.loadClientShareHoldersSuccess({
+              items: resp.items,
+              totalCount: resp.totalCount,
+            })
           ),
           catchError((error) =>
-            of(ShareholderActions.loadAllShareholdersFailure({ error }))
+            of(
+              ClientShareHolderActions.loadClientShareHoldersFailure({
+                error,
+              })
+            )
           )
         )
       )
     )
   );
 
-  createShareholder$ = createEffect(() =>
+  loadHistory$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ShareholderActions.createShareholder),
-      mergeMap((action) =>
-        this.service.createShareholder(action.shareholder).pipe(
-          map((shareholder) =>
-            ShareholderActions.createShareholderSuccess({ shareholder })
+      ofType(ClientShareHolderActions.loadClientShareHoldersHistory),
+      mergeMap(() =>
+        this.service.getHistory().pipe(
+          map((resp) =>
+            ClientShareHolderActions.loadClientShareHoldersHistorySuccess({
+              history: resp.items,
+            })
           ),
           catchError((error) =>
-            of(ShareholderActions.createShareholderFailure({ error }))
+            of(
+              ClientShareHolderActions.loadClientShareHoldersHistoryFailure({ error })
+            )
           )
         )
       )
     )
   );
 
-  updateShareholder$ = createEffect(() =>
+  loadOne$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ShareholderActions.updateShareholder),
-      mergeMap((action) =>
-        this.service.updateShareholder(action.id, action.shareholder).pipe(
-          map((shareholder) =>
-            ShareholderActions.updateShareholderSuccess({ shareholder })
+      ofType(ClientShareHolderActions.loadClientShareHolder),
+      mergeMap(({ id }) =>
+        this.service.getById(id).pipe(
+          map((client) =>
+            ClientShareHolderActions.loadClientShareHolderSuccess({
+              client,
+            })
           ),
           catchError((error) =>
-            of(ShareholderActions.updateShareholderFailure({ error }))
+            of(
+              ClientShareHolderActions.loadClientShareHolderFailure({
+                error,
+              })
+            )
           )
         )
       )
     )
   );
 
-  deleteShareholder$ = createEffect(() =>
+  create$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ShareholderActions.deleteShareholder),
-      mergeMap((action) =>
-        this.service.deleteShareholder(action.id).pipe(
+      ofType(ClientShareHolderActions.createClientShareHolder),
+      mergeMap(({ data }) =>
+        this.service.create(data).pipe(
+          map((client) =>
+            ClientShareHolderActions.createClientShareHolderSuccess({
+              client,
+            })
+          ),
+          catchError((error) =>
+            of(
+              ClientShareHolderActions.createClientShareHolderFailure({
+                error,
+              })
+            )
+          )
+        )
+      )
+    )
+  );
+
+  update$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClientShareHolderActions.updateClientShareHolder),
+      tap(({ id, data }) =>
+        console.log('[Effect:update] called with id=', id, 'data=', data)
+      ),
+      mergeMap(({ id, data }) =>
+        this.service.update(id, data).pipe(
+          map((serverReturned) => {
+            // force-inject clientId if missing
+            const enriched: ClientShareHolder = {
+              ...serverReturned,
+              clientId: data.clientId!,
+            };
+            console.log('[Effect:update] enriched client →', enriched);
+            return ClientShareHolderActions.updateClientShareHolderSuccess({
+              client: enriched,
+            });
+          }),
+          catchError((error) =>
+            of(
+              ClientShareHolderActions.updateClientShareHolderFailure({
+                error,
+              })
+            )
+          )
+        )
+      )
+    )
+  );
+
+  delete$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClientShareHolderActions.deleteClientShareHolder),
+      mergeMap(({ id, clientId }) =>
+        this.service.delete(id).pipe(
           map(() =>
-            ShareholderActions.deleteShareholderSuccess({ id: action.id })
+            ClientShareHolderActions.deleteClientShareHolderSuccess({
+              id,
+              clientId,
+            })
           ),
           catchError((error) =>
-            of(ShareholderActions.deleteShareholderFailure({ error }))
+            of(
+              ClientShareHolderActions.deleteClientShareHolderFailure({
+                error,
+              })
+            )
           )
         )
       )
     )
   );
 
-  loadShareholdersHistory$ = createEffect(() =>
+  refreshList$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ShareholderActions.loadShareholdersHistory),
-      mergeMap(() =>
-        this.service.getShareholdersHistory().pipe(
-          map((history) =>
-            ShareholderActions.loadShareholdersHistorySuccess({ history })
+      ofType(
+        ClientShareHolderActions.createClientShareHolderSuccess,
+        ClientShareHolderActions.updateClientShareHolderSuccess,
+        ClientShareHolderActions.deleteClientShareHolderSuccess
+      ),
+ 
+      map(action => {
+      if ('clientId' in action) {
+        // for create/update you returned `{ client: ClientShareHolder }`,
+        // so dig into that object’s clientId
+        return action.clientId;
+      } else {
+        // for delete you returned `{ id, clientId }`
+        return action.client.clientId;
+      }
+    }),
+ 
+      // only continue if it’s a number
+ 
+      map((clientId) =>
+        ClientShareHolderActions.loadClientShareHoldersByClientId({
+          clientId,
+        })
+      )
+    )
+  );
+  /**
+   * The “by‐clientId” loader
+   */
+  loadByClientId$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClientShareHolderActions.loadClientShareHoldersByClientId),
+
+      tap((action) =>
+        console.log('[Effect:loadByClientId] full action →', action)
+      ),
+      tap(({ clientId }) =>
+        console.log('[Effect:loadByClientId] clientId →', clientId)
+      ),
+
+      mergeMap(({ clientId }) =>
+        this.service.getByClientId(clientId).pipe(
+          tap((items) =>
+            console.log('[Effect:loadByClientId] response →', items)
+          ),
+          map((items) =>
+            ClientShareHolderActions.loadClientShareHoldersByClientIdSuccess({ items })
           ),
           catchError((error) =>
-            of(ShareholderActions.loadShareholdersHistoryFailure({ error }))
+            of(
+              ClientShareHolderActions.loadClientShareHoldersByClientIdFailure({
+                error,
+              })
+            )
           )
         )
       )
@@ -105,6 +213,6 @@ export class ClientShareholdersEffects {
 
   constructor(
     private actions$: Actions,
-    private service: ClientShareholdersService
+    private service: ClientShareHoldersService
   ) {}
 }

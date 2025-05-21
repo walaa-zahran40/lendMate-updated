@@ -1,42 +1,60 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Shareholder } from './client-share-holders.model';
+import { ClientShareHolder } from './client-share-holders.model';
 import { environment } from '../../../../../../environments/environment';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class ClientShareholdersService {
-  private baseUrl = `${environment.apiUrl}ClientShareHolders`;
+interface PagedResponse<T> {
+  items: T[];
+  totalCount: number;
+}
+
+@Injectable({ providedIn: 'root' })
+export class ClientShareHoldersService {
+  private api = `${environment.apiUrl}ClientShareHolders`;
 
   constructor(private http: HttpClient) {}
-  getAllShareholders(): Observable<Shareholder[]> {
-    return this.http.get<Shareholder[]>(`${this.baseUrl}/GetAllShareholders`);
-  }
-  getShareholders(clientId: number): Observable<any[]> {
-    return this.http.get<any[]>(
-      `${this.baseUrl}/ClientId?ClientId=${clientId}`
+
+  getAll(pageNumber?: number): Observable<PagedResponse<ClientShareHolder>> {
+    let params = new HttpParams();
+    if (pageNumber != null) {
+      params = params.set('pageNumber', pageNumber.toString());
+    }
+    return this.http.get<PagedResponse<ClientShareHolder>>(
+      `${this.api}/GetAllClientShareHolders`,
+      { params }
     );
   }
 
-  createShareholder(shareholderData: any): Observable<any> {
-    return this.http.post<any>(
-      `${this.baseUrl}/CreateClientShareHolder`,
-      shareholderData
+  getHistory(): Observable<PagedResponse<ClientShareHolder>> {
+    return this.http.get<PagedResponse<ClientShareHolder>>(
+      `${this.api}/GetAllClientShareHoldersHistory`
     );
   }
 
-  updateShareholder(id: number, shareholderData: any): Observable<any> {
-    return this.http.put<any>(`${this.baseUrl}/${id}`, shareholderData);
+  getById(id: number): Observable<ClientShareHolder> {
+    return this.http.get<ClientShareHolder>(
+      `${this.api}/Id?id=${id}`
+    );
   }
 
-  deleteShareholder(id: number): Observable<any> {
-    return this.http.delete<any>(`${this.baseUrl}/${id}`);
+  create(data: Partial<ClientShareHolder>): Observable<ClientShareHolder> {
+    return this.http.post<ClientShareHolder>(
+      `${this.api}/CreateClientShareHolder`,
+      data
+    );
   }
-  getShareholdersHistory(): Observable<any> {
-    return this.http.get<any>(
-      `${this.baseUrl}/GetAllClientShareHoldersHistory`
+
+  update(id: number, data: Partial<ClientShareHolder>): Observable<ClientShareHolder> {
+    return this.http.put<ClientShareHolder>(`${this.api}/${id}`, data);
+  }
+
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.api}/${id}`);
+  }
+  getByClientId(clientId: number): Observable<ClientShareHolder[]> {
+    return this.http.get<ClientShareHolder[]>(
+      `${this.api}/ClientId/${clientId}`
     );
   }
 }
