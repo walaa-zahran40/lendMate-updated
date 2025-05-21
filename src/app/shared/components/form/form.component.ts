@@ -392,7 +392,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() clientOnboardingCompanyShowMain!: boolean;
   @Input() clientOnboardingIndividualShowMain!: boolean;
   @Input() addCRAuthorityOfficeShowMain!: boolean;
-  @Input() uploadDocumentsShowMain!: boolean;
+  @Input() uploadDocumentsShowMain!: any;
   @Input() addSalesShowMain!: boolean;
   @Input() addPhoneNumbersShowMain!: boolean;
   @Input() addClientPhoneNumberForm!: boolean;

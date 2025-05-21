@@ -2,32 +2,35 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { ClientFileFacade } from '../../../store/client-file/client-file.facade';
-import { filter, take } from 'rxjs';
-import { DocumentTypeFacade } from '../../../store/document-type/document-type.facade';
+import { ClientFilesFacade } from '../../../../store/client-file/client-files.facade';
+import { filter, Subject, take, takeUntil, tap } from 'rxjs';
+import { ClientFile } from '../../../../store/client-file/client-file.model';
+import { DocTypesFacade } from '../../../../../../lookups/store/doc-types/doc-types.facade';
 
 @Component({
-  selector: 'app-upload-documents',
+  selector: 'app-add-upload-documents',
   standalone: false,
-  templateUrl: './upload-documents.component.html',
-  styleUrl: './upload-documents.component.scss',
+  templateUrl: './add-upload-documents.component.html',
+  styleUrl: './add-upload-documents.component.scss',
 })
-export class UploadDocumentsComponent implements OnInit {
+export class AddUploadDocumentsComponent implements OnInit {
   clientId!: number;
   selectedFile!: File;
   selectedDocuments: any[] = [];
   expiryDate!: Date;
   documentId!: number | null;
   editMode: boolean = false;
+  viewMode: boolean = false;
   uploadForm!: FormGroup;
   documentTypes: any[] = [];
+  private destroy$ = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private facade: ClientFileFacade,
+    private facade: ClientFilesFacade,
     private router: Router,
-    private facadeDocumentTypes: DocumentTypeFacade,
+    private facadeDocumentTypes: DocTypesFacade,
     private messageService: MessageService
   ) {}
 
@@ -38,7 +41,12 @@ export class UploadDocumentsComponent implements OnInit {
     const fileIdParam = this.route.snapshot.paramMap.get('documentId');
     this.documentId = fileIdParam ? +fileIdParam : null;
     this.editMode = !!this.documentId;
+    // NEW: detect ?mode=view
+    const mode = this.route.snapshot.queryParamMap.get('mode');
+    this.viewMode = mode === 'view';
+    this.editMode = !!this.documentId && !this.viewMode;
 
+    console.log('[Init] viewMode=', this.viewMode, 'editMode=', this.editMode);
     console.log('[Init] clientId:', this.clientId);
     console.log('[Init] documentId:', this.documentId);
     console.log('[Init] editMode:', this.editMode);
@@ -48,32 +56,71 @@ export class UploadDocumentsComponent implements OnInit {
       expiryDate: [null, Validators.required],
       file: [null, this.editMode ? [] : Validators.required],
     });
+    console.log('[Init] Route Snapshot params:', this.route.snapshot.params);
+    console.log(
+      '[Init] Route Snapshot queryParams:',
+      this.route.snapshot.queryParams
+    );
 
-    this.facadeDocumentTypes.loadDocumentTypes();
-    this.facadeDocumentTypes.documentTypes$.subscribe((items) => {
-      console.log(
-        '[UploadDocumentsComponent] Document types from store:',
-        items
-      );
-      this.documentTypes = items;
-    });
+    console.log('[Init] Dispatching loadDocumentTypes()');
+
+    this.facadeDocumentTypes.loadAll();
+    this.facadeDocumentTypes.all$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((types) => {
+        console.log(
+          '[UploadDocumentsComponent] documentTypes$ emitted:',
+          types
+        );
+        this.documentTypes = types;
+      });
     this.uploadForm.get('documentTypeIds')?.enable();
 
     if (this.editMode) {
-      this.facade.loadClientFileById(this.documentId!); // ✅ correct call
+      console.log('doc', this.documentId);
+      this.facade.loadOne(this.documentId!); // ✅ correct call
       this.uploadForm.get('documentTypeIds')?.disable();
 
-      this.facade.selectedDocument$
+      console.log(
+        '[Init] about to subscribe to facade.current$ for clientId=',
+        this.clientId
+      );
+      this.facade.current$
         .pipe(
-          filter((doc) => !!doc),
+          tap((c) => console.log('[current$] raw emission →', c)),
+          filter((c): c is ClientFile => {
+            const pass = !!c && c.id === this.documentId;
+            console.log(
+              `[current$] filtering: c?.id=${c?.id}  === documentId? → ${pass}`
+            );
+            return pass;
+          }),
           take(1)
         )
-        .subscribe((doc) => {
-          this.uploadForm.patchValue({
-            documentTypeIds: doc.documentTypeId,
-            expiryDate: new Date(doc.expiryDate),
-          });
-          this.selectedFile = { name: doc.fileName } as File;
+        .subscribe({
+          next: (doc) => {
+            console.log('[current$ subscribe] received doc →', doc);
+            this.uploadForm.patchValue({
+              documentTypeIds: doc.documentTypeId,
+              expiryDate: new Date(doc.expiryDate),
+            });
+            console.log('[current$ subscribe] patched form with', {
+              documentTypeId: doc.documentTypeId,
+              expiryDate: doc.expiryDate,
+            });
+
+            this.selectedFile = { name: doc.fileName } as File;
+            console.log(
+              '[current$ subscribe] selectedFile set to →',
+              this.selectedFile
+            );
+            if (this.viewMode) {
+              console.log('[Init] viewMode active, disabling form');
+              this.uploadForm.disable({ emitEvent: false });
+            }
+          },
+          error: (err) => console.error('[current$ subscribe] error →', err),
+          complete: () => console.log('[current$ subscribe] complete'),
         });
     }
   }
@@ -96,6 +143,10 @@ export class UploadDocumentsComponent implements OnInit {
   }
 
   addDocument() {
+    if (this.viewMode) {
+      console.warn('AddDocument called in viewMode – no action taken');
+      return;
+    }
     console.log('Entered addDocument method');
 
     if (this.uploadForm.invalid) {
@@ -125,7 +176,7 @@ export class UploadDocumentsComponent implements OnInit {
 
       console.log('[Edit Mode] Sending update payload:', updatePayload);
 
-      this.facade.updateClientFile(this.documentId!, updatePayload);
+      this.facade.update(this.documentId!, updatePayload);
 
       this.messageService.add({
         severity: 'success',
@@ -133,9 +184,12 @@ export class UploadDocumentsComponent implements OnInit {
         detail: 'Document updated successfully',
       });
 
-      this.router.navigate(['/crm/clients/view-upload-documents'], {
-        queryParams: { id: this.clientId },
-      });
+      this.router.navigate(
+        [`/crm/clients/view-upload-documents/${this.clientId}`],
+        {
+          queryParams: { id: this.clientId },
+        }
+      );
     } else {
       // 🎯 ADD MODE: Upload new file with FormData
       if (!file) {
@@ -151,7 +205,17 @@ export class UploadDocumentsComponent implements OnInit {
 
       console.log('[Add Mode] Sending FormData upload...');
 
-      this.facade.uploadClientFile(formData, this.clientId);
+      // If facade.create only accepts Partial<ClientFile>, convert FormData to object:
+      // const payload: Partial<ClientFile> = {
+      //   clientId: this.clientId,
+      //   expiryDate: this.formatDateWithoutTime(expiryDate),
+      //   documentTypeId: docTypeId,
+      //   file: file
+      // };
+      // this.facade.create(payload);
+
+      // If facade.create can be updated to accept FormData, update its type signature.
+      this.facade.create(formData as any);
 
       this.messageService.add({
         severity: 'success',
@@ -159,9 +223,12 @@ export class UploadDocumentsComponent implements OnInit {
         detail: 'Document uploaded successfully',
       });
 
-      this.router.navigate(['/crm/clients/view-upload-documents'], {
-        queryParams: { id: this.clientId },
-      });
+      this.router.navigate(
+        [`/crm/clients/view-upload-documents/${this.clientId}`],
+        {
+          queryParams: { id: this.clientId },
+        }
+      );
     }
   }
   private formatDateWithoutTime(date: Date): string {

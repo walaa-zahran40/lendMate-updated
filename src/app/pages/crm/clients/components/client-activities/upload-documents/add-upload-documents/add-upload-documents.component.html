@@ -1,5 +1,7 @@
 <app-toolbar-form
-  [header]="editMode ? 'Edit Document' : 'Upload Document'"
+  [header]="
+    viewMode ? 'View Document' : editMode ? 'Edit Document' : 'Upload Document'
+  "
   [backExists]="true"
   [backIcon]="'back-icon'"
   [viewOnly]="editMode ? true : false"
@@ -14,6 +16,7 @@
         [formGroup]="uploadForm"
         [documents]="documentTypes"
         [editMode]="editMode"
+        [viewOnly]="viewMode"
         [description]="'Fill in document details'"
         [uploadDocumentsShowMain]="true"
         (submitForm)="addDocument()"

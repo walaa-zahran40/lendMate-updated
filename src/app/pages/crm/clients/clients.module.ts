@@ -20,7 +20,7 @@ import { AddPhoneNumberComponent } from './components/client-activities/add-phon
 import { AddShareHoldersComponent } from './components/client-activities/add-share-holders/add-share-holders.component';
 import { AddClientTaxAuthorityOfficesComponent } from './components/client-activities/add-tax-authority-office/add-tax-authority-office.component';
 import { AddTmlOfficerComponent } from './components/client-activities/add-tml-officer/add-tml-officer.component';
-import { UploadDocumentsComponent } from './components/client-activities/add-upload-documents/upload-documents.component';
+import { AddUploadDocumentsComponent } from './components/client-activities/upload-documents/add-upload-documents/add-upload-documents.component';
 import { ClientActivityWizardComponent } from './components/client-activities/client-activity-wizard/client-activity-wizard.component';
 import { ContactPersonViewTableDataComponent } from './components/client-activities/contact-person-view-table-data/contact-person-view-table-data.component';
 import { ViewCentralBankInfoComponent } from './components/client-activities/view-central-bank-info/view-central-bank-info.component';
@@ -34,14 +34,14 @@ import { ViewSalesTurnoverComponent } from './components/client-activities/view-
 import { ViewShareHolderComponent } from './components/client-activities/view-share-holder/view-share-holder.component';
 import { ViewTaxAuthorityOfficesComponent } from './components/client-activities/view-tax-authority-office/view-tax-authority-office.component';
 import { ViewTmlOfficerComponent } from './components/client-activities/view-tml-officer/view-tml-officer.component';
-import { ViewUploadDocumentsComponent } from './components/client-activities/view-upload-documents/view-upload-documents.component';
+import { ViewUploadDocumentsComponent } from './components/client-activities/upload-documents/view-upload-documents/view-upload-documents.component';
 import { WizardClientStatusComponent } from './components/client-activities/wizard-client-status/wizard-client-status.component';
 import { AddClientComponent } from './components/clients/company-individual/add-client/add-client.component';
 import { CompanyViewOnlyComponent } from './components/clients/company-view-only/company-view-only.component';
 import { ViewClientsComponent } from './components/clients/company-individual/view-clients/view-clients.component';
 import { ClientCentralBankEffects } from './store/client-central-bank-info/client-central-bank.effects';
-import { ClientFileEffects } from './store/client-file/client-file.effects';
-import { clientFileReducer } from './store/client-file/client-file.reducer';
+import { ClientFilesEffects } from './store/client-file/client-files.effects';
+import { clientFilesReducer } from './store/client-file/client-files.reducer';
 import { LeaveEffects } from './store/client-form/client-form.effects';
 import { clientFormReducer } from './store/client-form/client-form.reducer';
 import { ClientGuarantorsEffects } from './store/client-guarantors/client-guarantors.effects';
@@ -61,8 +61,6 @@ import { ClientAddressesEffects } from './store/client-addresses/client-addresse
 import { clientAddressesReducer } from './store/client-addresses/client-addresses.reducer';
 import { ClientSalesTurnoversEffects } from './store/client-sales-turnovers/client-sales-turnovers.effects';
 import { clientSalesTurnoverReducer } from './store/client-sales-turnovers/client-sales-turnovers.reducer';
-import { DocumentTypeEffects } from './store/document-type/document-type.effects';
-import { documentTypeReducer } from './store/document-type/document-type.reducer';
 import { LegalFormLawEffects } from './store/legal-form-law/legal-form-law.effects';
 import { legalFormLawReducer } from './store/legal-form-law/legal-form-law.reducer';
 import { SectorEffects } from './store/sector-drop-down/sector.effects';
@@ -98,7 +96,7 @@ import { IndividualOnboardingsEffects } from './store/_client-onboarding/individ
 @NgModule({
   declarations: [
     AddClientComponent,
-    UploadDocumentsComponent,
+    AddUploadDocumentsComponent,
     AddClientOnboardingComponent,
     ViewClientsOnboardingComponent,
     AddClientAddressesComponent,
@@ -169,10 +167,8 @@ import { IndividualOnboardingsEffects } from './store/_client-onboarding/individ
     ),
     EffectsModule.forFeature([IndividualOnboardingsEffects]),
 
-    StoreModule.forFeature('clientFile', clientFileReducer),
-    EffectsModule.forFeature([ClientFileEffects]),
-    StoreModule.forFeature('documentTypes', documentTypeReducer),
-    EffectsModule.forFeature([DocumentTypeEffects]),
+    StoreModule.forFeature('clientFiles', clientFilesReducer),
+    EffectsModule.forFeature([ClientFilesEffects]),
     StoreModule.forFeature(contactPersonsFeatureKey, contactPersonsReducer),
     EffectsModule.forFeature([ContactPersonEffects]),
     EffectsModule.forFeature([ClientCentralBankEffects]),

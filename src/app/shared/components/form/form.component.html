@@ -1760,9 +1760,9 @@
         [options]="documents"
         optionLabel="name"
         optionValue="id"
-        [disabled]="editMode"
         formControlName="documentTypeIds"
         placeholder="Select document type"
+        [disabled]="editMode || viewOnly"
       >
       </p-select>
       <label>Expiry Date<sup>*</sup></label>

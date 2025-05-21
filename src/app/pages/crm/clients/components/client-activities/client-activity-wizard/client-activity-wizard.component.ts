@@ -23,7 +23,7 @@ export class ClientActivityWizardComponent {
           title: 'Upload Documents',
           content:
             'Introduce your company core info quickly to users by fill up company details',
-          link: '/crm/clients/view-upload-documents',
+          link: `/crm/clients/view-upload-documents/${this.clientId}`,
         },
         {
           imgUrl: '/assets/images/shared/card/add.svg',
