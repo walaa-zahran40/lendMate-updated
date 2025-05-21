@@ -96,6 +96,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() legalFormId: number | null = null;
   @Input() officersList: any;
   @Input() clientsList: any;
+  @Input() tmlOfficerTypesList: any;
   @Input() pageIds: any;
   selectedLegalForm: any;
   @Output() sectorChanged = new EventEmitter<number>();
@@ -844,7 +845,7 @@ export class FormComponent implements OnInit, OnDestroy {
   viewShareHolder() {
     this.router.navigate([
       `/crm/clients/view-client-share-holders/${this.clientId}`,
-    ]);  
+    ]);
   }
   viewTaxAuthority() {
     this.router.navigate([

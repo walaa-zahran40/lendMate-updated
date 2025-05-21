@@ -1,30 +1,28 @@
 <app-toolbar-form
-  [header]="'TML Officer'"
+  [header]="'Client TML Officer'"
+  [header]="editMode ? 'Edit Client TML Officer' : 'Add Client TML Officer'"
   [backExists]="true"
+  [viewOnly]="false"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
 ></app-toolbar-form>
 <p-tabs value="0" styleClass="p-3">
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
-        [title]="'Main Information'"
+        *ngIf="addClientTMLOfficersLookupsForm"
+        [title]="'Client TML Officer'"
         [description]="
-          'Introduce your company core info quickly to users by fill up company
-details'
+          'Introduce your Client TML Officer core info quickly to users by fill up client details'
         "
+        [formGroup]="addClientTMLOfficersLookupsForm"
         [addTMLOfficerShowMain]="true"
+        [editMode]="editMode"
+        (submitForm)="addOrEditClientTMLOfficers()"
+        [viewOnly]="viewOnly"
+        [officersList]="officersList$ | async"
+        [tmlOfficerTypesList]="tmlOfficerTypesList$ | async"
       ></app-form>
-
-      <div class="row justify-end">
-        <div
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
-          (click)="addTMLOfficers()"
-        >
-          <p-button
-            label="Add TML Officer"
-            class="custom-save m-0 float-right"
-          />
-        </div>
-      </div>
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>

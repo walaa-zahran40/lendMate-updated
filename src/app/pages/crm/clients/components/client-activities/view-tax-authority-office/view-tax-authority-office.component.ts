@@ -5,7 +5,7 @@ import { TableComponent } from '../../../../../../shared/components/table/table.
 import { ClientTaxOffice } from '../../../store/client-tax-office/client-tax-office.model';
 import { ClientTaxOfficesFacade } from '../../../store/client-tax-office/client-tax-office.facade';
 import { Store } from '@ngrx/store';
-import { loadAll as loadAllOffice} from '../../../../../lookups/store/authority-offices/authority-offices.actions';
+import { loadAll as loadAllOffice } from '../../../../../lookups/store/authority-offices/authority-offices.actions';
 import { TaxOffice } from '../../../../../lookups/store/tax_offices/tax_office.model';
 import { selectAllTaxOffices } from '../../../../../lookups/store/tax_offices/tax_offices.selectors';
 import { loadAll } from '../../../../../lookups/store/tax_offices/tax_offices.actions';
@@ -43,7 +43,6 @@ export class ViewTaxAuthorityOfficesComponent {
     private facade: ClientTaxOfficesFacade,
     private route: ActivatedRoute,
     private store: Store
-    
   ) {}
 
   ngOnInit() {
@@ -53,28 +52,27 @@ export class ViewTaxAuthorityOfficesComponent {
     this.taxOffices$ = this.facade.items$;
 
     this.store.dispatch(loadAll({}));
-   
+
     this.taxOfficesList$ = this.store.select(selectAllTaxOffices);
-   
 
     combineLatest([this.taxOffices$, this.taxOfficesList$])
-          .pipe(
-            map(([taxOffices, taxOfficesList]) =>
-              taxOffices
-                .map((taxOffice) => ({
-                  ...taxOffice,
-                  taxOffice:
-                    taxOfficesList.find((c) => c.id === taxOffice.id)?.name || '—',
-                }))
-                .filter((taxOffice) => taxOffice.isActive)
-                .sort((a, b) => b.id - a.id)
-            ),
-            takeUntil(this.destroy$)
-          )
-          .subscribe((enriched) => {
-            this.originalTaxOffices = enriched;
-            this.filteredTaxOffices = [...enriched];
-          });
+      .pipe(
+        map(([taxOffices, taxOfficesList]) =>
+          taxOffices
+            .map((taxOffice) => ({
+              ...taxOffice,
+              taxOffice:
+                taxOfficesList.find((c) => c.id === taxOffice.id)?.name || '—',
+            }))
+            .filter((taxOffice) => taxOffice.isActive)
+            .sort((a, b) => b.id - a.id)
+        ),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((enriched) => {
+        this.originalTaxOffices = enriched;
+        this.filteredTaxOffices = [...enriched];
+      });
   }
 
   onAddTaxOffice() {
@@ -122,11 +120,10 @@ export class ViewTaxAuthorityOfficesComponent {
   }
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
-    this.filteredTaxOffices = this.originalTaxOffices.filter(
-      (taxOffice) =>
-        Object.values(taxOffice).some((val) =>
-          val?.toString().toLowerCase().includes(lower)
-        )
+    this.filteredTaxOffices = this.originalTaxOffices.filter((taxOffice) =>
+      Object.values(taxOffice).some((val) =>
+        val?.toString().toLowerCase().includes(lower)
+      )
     );
   }
   onToggleFilters(value: boolean) {
@@ -144,11 +141,14 @@ export class ViewTaxAuthorityOfficesComponent {
     );
   }
   onViewTaxOffice(ct: ClientTaxOffice) {
-    this.router.navigate(['/crm/clients/edit-client-tax-authority-offices', ct.id], {
-      queryParams: {
-        mode: 'view',
-        clientId: this.clientIdParam, // <-- use "currencyId" here
-      },
-    });
+    this.router.navigate(
+      ['/crm/clients/edit-client-tax-authority-offices', ct.id],
+      {
+        queryParams: {
+          mode: 'view',
+          clientId: this.clientIdParam, // <-- use "currencyId" here
+        },
+      }
+    );
   }
 }

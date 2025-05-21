@@ -11,8 +11,7 @@ import { AddSalesTurnoverComponent } from './clients/components/client-activitie
 import { AddClientStatusesComponent } from './clients/components/client-activities/add-client-statuses/add-client-statuses.component';
 import { AddContactPersonComponent } from './clients/components/client-activities/add-contact-person/add-contact-person.component';
 import { AddPhoneNumberComponent } from './clients/components/client-activities/add-phone-number/add-phone-number.component';
-import { AddClientShareHoldersComponent } from './clients/components/client-activities/add-share-holders/add-share-holders.component';
-import { AddTmlOfficerComponent } from './clients/components/client-activities/add-tml-officer/add-tml-officer.component';
+import { AddClientTMLOfficersComponent } from './clients/components/client-activities/add-tml-officer/add-tml-officer.component';
 import { AddUploadDocumentsComponent } from './clients/components/client-activities/upload-documents/add-upload-documents/add-upload-documents.component';
 import { ClientActivityWizardComponent } from './clients/components/client-activities/client-activity-wizard/client-activity-wizard.component';
 import { ContactPersonViewTableDataComponent } from './clients/components/client-activities/contact-person-view-table-data/contact-person-view-table-data.component';
@@ -24,8 +23,7 @@ import { ViewClientStatusesComponent } from './clients/components/client-activit
 import { ViewContactPersonComponent } from './clients/components/client-activities/view-contact-person/view-contact-person.component';
 import { ViewPhoneNumberComponent } from './clients/components/client-activities/view-phone-number/view-phone-number.component';
 import { ViewSalesTurnoverComponent } from './clients/components/client-activities/view-sales-turnover/view-sales-turnover.component';
-import { ViewShareHoldersComponent } from './clients/components/client-activities/view-share-holder/view-share-holder.component';
-import { ViewTmlOfficerComponent } from './clients/components/client-activities/view-tml-officer/view-tml-officer.component';
+import { ViewTMLOfficersComponent } from './clients/components/client-activities/view-tml-officer/view-tml-officer.component';
 import { ViewUploadDocumentsComponent } from './clients/components/client-activities/upload-documents/view-upload-documents/view-upload-documents.component';
 import { WizardClientStatusComponent } from './clients/components/client-activities/wizard-client-status/wizard-client-status.component';
 import { AddClientComponent } from './clients/components/clients/company-individual/add-client/add-client.component';
@@ -47,6 +45,8 @@ import { ViewTaxAuthorityOfficesComponent } from './clients/components/client-ac
 import { AddClientTaxAuthorityOfficesComponent } from './clients/components/client-activities/add-tax-authority-office/add-tax-authority-office.component';
 import { AddClientOnboardingComponent } from './clients/components/clients/client-onboarding/add-client-onboarding/add-client-onboarding.component';
 import { ViewClientsOnboardingComponent } from './clients/components/clients/client-onboarding/view-clients-onboarding/view-clients-onboarding.component';
+import { AddClientShareHoldersComponent } from './clients/components/client-activities/add-share-holders/add-share-holders.component';
+import { ViewShareHoldersComponent } from './clients/components/client-activities/view-share-holder/view-share-holder.component';
 
 const routes: Routes = [
   /*Clients , Client Onboarding Routing*/
@@ -175,8 +175,16 @@ const routes: Routes = [
     component: AddClientShareHoldersComponent,
   },
   {
-    path: 'clients/add-tml-officer',
-    component: AddTmlOfficerComponent,
+    path: 'clients/add-client-tml-officers',
+    component: AddClientTMLOfficersComponent,
+  },
+  {
+    path: 'clients/add-client-tml-officers/:clientId',
+    component: AddClientTMLOfficersComponent,
+  },
+  {
+    path: 'clients/edit-client-tml-officers/:id',
+    component: AddClientTMLOfficersComponent,
   },
 
   {
@@ -246,8 +254,8 @@ const routes: Routes = [
     component: ViewShareHoldersComponent,
   },
   {
-    path: 'clients/view-tml-officer',
-    component: ViewTmlOfficerComponent,
+    path: 'clients/view-client-tml-officers/:clientId',
+    component: ViewTMLOfficersComponent,
   },
   {
     path: 'clients/client-activity-wizard',

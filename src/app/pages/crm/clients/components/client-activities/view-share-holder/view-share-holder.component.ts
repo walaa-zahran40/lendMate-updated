@@ -41,7 +41,6 @@ export class ViewShareHoldersComponent {
     private facade: ClientShareHoldersFacade,
     private route: ActivatedRoute,
     private store: Store
-    
   ) {}
 
   ngOnInit() {
@@ -51,28 +50,28 @@ export class ViewShareHoldersComponent {
     this.shareHolders$ = this.facade.items$;
 
     this.store.dispatch(loadAll({}));
-   
+
     this.clientsList$ = this.store.select(selectAllClients);
-   
 
     combineLatest([this.shareHolders$, this.clientsList$])
-          .pipe(
-            map(([shareHolders, clientsList]) =>
-              shareHolders
-                .map((shareHolder) => ({
-                  ...shareHolder,
-                  shareHolderName:
-                    clientsList.find((c) => c.id === shareHolder.shareHolderId)?.name || '—',
-                }))
-                .filter((shareHolder) => shareHolder.isActive)
-                .sort((a, b) => b.id - a.id)
-            ),
-            takeUntil(this.destroy$)
-          )
-          .subscribe((enriched) => {
-            this.originalShareHolders = enriched;
-            this.filteredShareHolders = [...enriched];
-          });
+      .pipe(
+        map(([shareHolders, clientsList]) =>
+          shareHolders
+            .map((shareHolder) => ({
+              ...shareHolder,
+              shareHolderName:
+                clientsList.find((c) => c.id === shareHolder.shareHolderId)
+                  ?.name || '—',
+            }))
+            .filter((shareHolder) => shareHolder.isActive)
+            .sort((a, b) => b.id - a.id)
+        ),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((enriched) => {
+        this.originalShareHolders = enriched;
+        this.filteredShareHolders = [...enriched];
+      });
   }
 
   onAddShareHolder() {

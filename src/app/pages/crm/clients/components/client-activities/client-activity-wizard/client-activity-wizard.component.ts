@@ -101,7 +101,7 @@ export class ClientActivityWizardComponent {
           title: 'TML Officer',
           content:
             'Introduce your company core info quickly to users by fill up company details',
-          link: '/crm/clients/add-tml-officer',
+          link: `/crm/clients/view-client-tml-officers/${this.clientId}`,
         },
         {
           imgUrl: '/assets/images/shared/card/mandate.svg',
