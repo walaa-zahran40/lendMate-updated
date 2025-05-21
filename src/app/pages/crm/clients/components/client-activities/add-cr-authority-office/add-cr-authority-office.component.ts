@@ -90,28 +90,28 @@ export class AddClientCRAuthorityOfficesComponent {
         console.log('✏️ Add mode → patched clientId:', this.clientId);
       }
     
-        // Patch for edit/view mode
-        if (this.editMode || this.viewOnly) {
-          this.recordId = Number(this.route.snapshot.paramMap.get('id'));
-          this.facade.loadOne(this.recordId);
+      // Patch for edit/view mode
+      if (this.editMode || this.viewOnly) {
+        this.recordId = Number(this.route.snapshot.paramMap.get('id'));
+        this.facade.loadOne(this.recordId);
 
-          this.facade.current$
-            .pipe(
-              takeUntil(this.destroy$),
-              filter((rec) => !!rec)
-            )
-            .subscribe((ct) => {
-              console.log('red', ct);
-              this.addClientCRAuthorityOfficesLookupsForm.patchValue({
-              id: ct?.id,
-              clientId: this.clientId,
-              expiryDate: new Date(ct.expiryDate),
-              crAuthorityOfficeId : ct.crAuthorityOfficeId,
-              crNumber: ct.crNumber,
-              isActive: ct?.isActive,
-              });
+        this.facade.current$
+          .pipe(
+            takeUntil(this.destroy$),
+            filter((rec) => !!rec)
+          )
+          .subscribe((ct) => {
+            console.log('red', ct);
+            this.addClientCRAuthorityOfficesLookupsForm.patchValue({
+            id: ct?.id,
+            clientId: this.clientId,
+            expiryDate: new Date(ct.expiryDate),
+            crAuthorityOfficeId : ct.crAuthorityOfficeId,
+            crNumber: ct.crNumber,
+            isActive: ct?.isActive,
             });
-        }
+          });
+      }
   }
 
 

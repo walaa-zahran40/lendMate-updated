@@ -79,6 +79,8 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() countriesList: any;
   @Input() addressTypesList: any;
   @Input() authorityOfficesList: any;
+  @Input() companyTypesList: any;
+  @Input() smeClientCodesList: any;
   @Input() taxOfficesList: any;
   @Input() assetTypeCategories: any;
   @Input() feeCalculationTypes: any;
@@ -664,7 +666,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/crm/clients/view-address']);
   }
   viewCentralBankInfo() {
-    this.router.navigate(['/crm/clients/view-central-bank-info']);
+    this.router.navigate([`/crm/clients/view-client-central-bank-info/${this.clientId}`]);
   }
   viewCRAuthority() {
     this.router.navigate([
