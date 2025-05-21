@@ -57,7 +57,7 @@ export class ClientActivityWizardComponent {
           title: 'Contact Person',
           content:
             'Introduce your company core info quickly to users by fill up company details',
-          link: '/crm/clients/add-contact-person',
+           link: `/crm/clients/view-contact-person/${this.clientId}`,
         },
         {
           imgUrl: '/assets/images/shared/card/cr.svg',

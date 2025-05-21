@@ -58,6 +58,10 @@ export class FormComponent implements OnInit, OnDestroy {
   companyLegalDetail: CompanyLegalDetails = {};
   @Output() addIdentity = new EventEmitter<void>();
   @Output() removeIdentity = new EventEmitter<number>();
+
+  @Output() addPhoneType = new EventEmitter<void>();
+  @Output() removePhoneType = new EventEmitter<number>();
+
   id!: string;
   @Input() applyReusable: boolean = false;
   @Input() selectedFile!: any;
@@ -77,11 +81,16 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() subSectorsList: any[] = [];
   @Input() countriesList: any;
   @Input() addressTypesList: any;
+  @Input() addressTypes: any;
   @Input() authorityOfficesList: any;
   @Input() taxOfficesList: any;
   @Input() assetTypeCategories: any;
   @Input() feeCalculationTypes: any;
   @Input() phoneTypes: any;
+  @Input() identityTypes: any;
+  @Input() areas: any;
+  @Input() countries: any;
+  @Input() governorates: any;
   @Input() teamDepartments: any;
   @Input() governoratesList: any;
   @Input() areasList: any;
@@ -188,7 +197,6 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() documents: any[] = [];
   @ViewChild('fileUploader') fileUploader!: FileUpload;
 
-  areas!: any;
   selectedAreas!: any;
   codes!: any;
   selectedCodes!: any;
@@ -221,7 +229,6 @@ export class FormComponent implements OnInit, OnDestroy {
   ];
   expiryDate!: Date;
   selectedGenders!: any;
-  countries!: any;
   selectedCountries!: any;
   selectedPhoneTypes!: any;
   legalForm!: any;
@@ -395,6 +402,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addSalesShowMain!: boolean;
   @Input() addPhoneNumbersShowMain!: boolean;
   @Input() addClientPhoneNumberForm!: boolean;
+  @Input() addClientContactPersonForm!: boolean;
   @Input() addContactPersonShowMain!: boolean;
   @Input() clientOnboarding!: boolean;
   @Input() clientOnboardingShowIndividual!: boolean;

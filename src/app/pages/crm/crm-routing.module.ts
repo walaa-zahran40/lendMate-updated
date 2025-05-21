@@ -99,14 +99,14 @@ const routes: Routes = [
     path: 'clients/edit-client-addresses/:id',
     component: AddClientAddressesComponent,
   },
-  {
-    path: 'clients/add-contact-person',
-    component: AddContactPersonComponent,
-  },
-  {
-    path: 'clients/contact-person-view-table-data',
-    component: ContactPersonViewTableDataComponent,
-  },
+  // {
+  //   path: 'clients/add-contact-person',
+  //   component: AddContactPersonComponent,
+  // },
+  // {
+  //   path: 'clients/contact-person-view-table-data',
+  //   component: ContactPersonViewTableDataComponent,
+  // },
   {
     path: 'clients/add-client-cr-authority-offices',
     component: AddClientCRAuthorityOfficesComponent,
@@ -200,10 +200,24 @@ const routes: Routes = [
     component: ViewPhoneNumberComponent,
   },
 
+    // Client Contact Person 
   {
-    path: 'clients/view-contact-person',
+    path: 'clients/add-contact-person/:clientId',
+    component: AddContactPersonComponent,
+  },
+
+  {
+    path: 'clients/edit-contact-person/:clientId',
+    component: AddContactPersonComponent,
+  },
+
+  {
+    path: 'clients/view-contact-person/:clientId',
     component: ViewContactPersonComponent,
   },
+
+
+
   {
     path: 'clients/view-client-cr-authority-offices/:clientId',
     component: ViewCRAuthorityOfficesComponent,

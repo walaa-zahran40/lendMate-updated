@@ -1,25 +1,41 @@
 <div class="page-content">
   <app-toolbar-table
-    [title]="'Contact Person'"
-    [labelBtn]="'Add Contact'"
-    [iconBtn]="''"
+    [title]="'Client Contact Person'"
+    [labelBtn]="'Add Contact Person'"
+    [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
     [backExists]="true"
+    [customSpacing]="'custom-spacing'"
     [exports]="true"
-    (addBtn)="addContactPerson()"
+    (addBtn)="onAddClientContactPerson()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <app-table
-    [cols]="colsInside"
-    [tableData]="tableDataInside"
-    [col1Name]="'Name EN'"
-    [col2Name]="'Name AR'"
-    [col3Name]="'IsAuthorized Sign'"
-    [col4Name]="'Gender'"
-    [edit]="true"
-    [delete]="true"
-    [side]="true"
-    [checkBox]="true"
-    [uppercase]="'uppercase'"
-    [viewContactPersonTable]="true"
-  ></app-table>
+
+  <ng-container *ngIf="clientContactPersons$ | async as clientContactPersons">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredClientContactPersons"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewSalesTurnoverTable]="true"
+      (onDelete)="onDeleteClientContactPerson($event)"
+      (onEdit)="onEditClientContactPerson($event)"
+      (viewForm)="onViewClientContactPerson($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
 </div>
