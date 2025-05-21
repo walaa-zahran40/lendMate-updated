@@ -39,4 +39,7 @@ export class IndividualsFacade {
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
   }
+  clearSelected() {
+    this.store.dispatch(Actions.clearSelectedIndividual());
+  }
 }

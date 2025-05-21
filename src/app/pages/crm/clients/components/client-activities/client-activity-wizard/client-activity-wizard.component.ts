@@ -23,7 +23,7 @@ export class ClientActivityWizardComponent {
           title: 'Upload Documents',
           content:
             'Introduce your company core info quickly to users by fill up company details',
-          link: '/crm/clients/view-upload-documents',
+          link: `/crm/clients/view-upload-documents/${this.clientId}`,
         },
         {
           imgUrl: '/assets/images/shared/card/add.svg',
@@ -83,7 +83,7 @@ export class ClientActivityWizardComponent {
           title: 'Central Bank Info',
           content:
             'Introduce your company core info quickly to users by fill up company details',
-          link: '/crm/clients/add-central-bank-info',
+          link: `/crm/clients/view-client-central-bank-info/${this.clientId}`,
         },
         {
           imgUrl: '/assets/images/shared/card/share.svg',
@@ -103,24 +103,6 @@ export class ClientActivityWizardComponent {
             'Introduce your company core info quickly to users by fill up company details',
           link: '/crm/clients/add-tml-officer',
         },
-        {
-          imgUrl: '/assets/images/shared/card/meeting.svg',
-          imgAlt: 'meeting',
-          title: 'Meeting',
-          content:
-            'Introduce your company core info quickly to users by fill up company details',
-          link: '/communication/add-meeting',
-        },
-        {
-          imgUrl: '/assets/images/shared/card/mandate.svg',
-          imgAlt: 'mandate',
-          title: 'Mandate',
-          content:
-            'Introduce your company core info quickly to users by fill up company details',
-          link: '/crm/leasing-mandates/add-mandate',
-        },
-      ],
-      [
         {
           imgUrl: '/assets/images/shared/card/mandate.svg',
           imgAlt: 'guarantor',

@@ -15,6 +15,12 @@
         *ngIf="closeExists"
         (click)="onCloseClick()"
       ></p-button>
+      <p-button
+        icon="{{ closeIcon }}"
+        styleClass="closeIcon"
+        *ngIf="close2Exists"
+        (click)="onClose2Click()"
+      ></p-button>
       {{ header }}
       <span class="badge badge-warning" *ngIf="!viewOnly">Pending</span>
     </p>

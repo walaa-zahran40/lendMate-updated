@@ -22,10 +22,6 @@
   --custom-font-epilogue-regular: "epilogue";
   --custom-font-weight-600: 600;
   &::ng-deep {
-    .p-tabs {
-      padding: var(--custom-padding-right-10);
-      zoom: 80%;
-    }
     .p-button {
       flex-direction: var(--custom-flex-direction-row-reverse);
       background: var(--custom-background-transparent);
@@ -40,7 +36,10 @@
       font-size: var(--custom-font-size-13);
       line-height: var(--custom-font-size-24);
     }
-
+    .p-tabs {
+      padding: var(--custom-padding-right-10);
+      zoom: 80%;
+    }
     .p-button:not(:disabled):hover {
       background: var(--p-tabs-active-bar-background) !important;
       border: none;

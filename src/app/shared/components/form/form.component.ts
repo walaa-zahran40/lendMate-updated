@@ -72,6 +72,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addClientShowMain?: boolean;
   @Input() addClientShowLegal?: boolean;
   @Input() addClientShowBusiness?: boolean;
+  @Input() addClientOnboardingForm?: boolean;
   @Input() addClientShowIndividual?: boolean;
   @Input() addClient?: boolean;
   //Select Box
@@ -83,6 +84,8 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addressTypesList: any;
   @Input() addressTypes: any;
   @Input() authorityOfficesList: any;
+  @Input() companyTypesList: any;
+  @Input() smeClientCodesList: any;
   @Input() taxOfficesList: any;
   @Input() assetTypeCategories: any;
   @Input() feeCalculationTypes: any;
@@ -398,7 +401,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() clientOnboardingCompanyShowMain!: boolean;
   @Input() clientOnboardingIndividualShowMain!: boolean;
   @Input() addCRAuthorityOfficeShowMain!: boolean;
-  @Input() uploadDocumentsShowMain!: boolean;
+  @Input() uploadDocumentsShowMain!: any;
   @Input() addSalesShowMain!: boolean;
   @Input() addPhoneNumbersShowMain!: boolean;
   @Input() addClientPhoneNumberForm!: boolean;
@@ -541,6 +544,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() operationsList: any;
   @Input() operationsList$!: any;
   @Input() operationIdValue!: any;
+  clientDocId!: any;
   clientId: any;
   constructor(
     private store: Store,
@@ -554,8 +558,8 @@ export class FormComponent implements OnInit, OnDestroy {
     this.minDateOfBirth.setFullYear(this.minDateOfBirth.getFullYear() - 100);
     // 18 years ago:
     this.maxDateOfBirth.setFullYear(this.maxDateOfBirth.getFullYear() - 18);
-    console.log('currency', this.route.snapshot);
     this.id = this.route.snapshot.paramMap.get('clientId')!;
+    this.clientDocId = this.route.snapshot.params['clientId'];
     this.clientId = this.route.snapshot.queryParams['clientId']!;
     this.currencyIdParam = this.route.snapshot.queryParams['currencyId'];
     this.branchIdParam = this.route.snapshot.queryParams['branchId'];
@@ -573,8 +577,12 @@ export class FormComponent implements OnInit, OnDestroy {
       this.addClientShowMain ||
       this.addClientShowBusiness ||
       this.addClientShowLegal ||
-      this.addClientShowIndividual
+      this.addClientShowIndividual ||
+      this.addClientOnboardingForm
     ) {
+      this.store.dispatch(sectorsActions.loadSectors());
+      this.store.dispatch(subSectorsActions.loadSubSectors());
+
       this.sectorsSafe$ = this.store.select(selectAllSectors);
       const sectorCtrl = this.formGroup.get('sectorId');
       if (sectorCtrl) {
@@ -668,10 +676,14 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/crm/clients/view-address']);
   }
   viewCentralBankInfo() {
-    this.router.navigate(['/crm/clients/view-central-bank-info']);
+    this.router.navigate([
+      `/crm/clients/view-client-central-bank-info/${this.clientId}`,
+    ]);
   }
   viewCRAuthority() {
-    this.router.navigate([`/crm/clients/view-client-cr-authority-offices/${this.clientId}`]);
+    this.router.navigate([
+      `/crm/clients/view-client-cr-authority-offices/${this.clientId}`,
+    ]);
   }
   viewBusinessLines() {
     this.router.navigate(['/lookups/view-business-lines']);
@@ -840,7 +852,9 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/crm/clients/view-share-holder']);
   }
   viewTaxAuthority() {
-    this.router.navigate([`/crm/clients/view-client-tax-authority-offices/${this.clientId}`]);
+    this.router.navigate([
+      `/crm/clients/view-client-tax-authority-offices/${this.clientId}`,
+    ]);
   }
   viewContactDetails() {
     this.router.navigate(['/crm/clients/view-contact-person']);
@@ -996,5 +1010,9 @@ export class FormComponent implements OnInit, OnDestroy {
     }
     // bubble up to the parent
     this.submitForm.emit();
+  }
+  close() {
+    console.log('route', this.route.snapshot);
+    this.router.navigate([`/crm/clients/view-upload-documents/${this.id}`]);
   }
 }

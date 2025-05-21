@@ -61,7 +61,7 @@ export class ViewClientsComponent {
         // choose the field that actually exists:
         const mappedType = c.clientTypeId === 1 ? 'Company' : 'Individual';
         const mappedTaxID = c.taxId ? c.taxId : 'N/A';
-        const mappedIscore = c.taxId ? c.taxId : 'N/A';
+        const mappedIscore = c.isIscore ? c.isIscore : 'N/A';
 
         console.log(`mapped id=${c.id} → clientTypeCode=${mappedType}`);
         return {
@@ -130,7 +130,10 @@ export class ViewClientsComponent {
   onViewClient(client: Client) {
     console.log('client', client);
     this.router.navigate(['/crm/clients/edit-client', client.id], {
-      queryParams: { mode: 'view' },
+      queryParams: {
+        type: client.clientTypeId === 2 ? 'Individual' : 'Company',
+        mode: 'view',
+      },
     });
   }
 }

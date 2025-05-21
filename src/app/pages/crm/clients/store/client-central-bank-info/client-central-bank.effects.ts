@@ -1,83 +1,30 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { mergeMap, map, catchError, tap, filter } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
-import * as ActionsDef from './client-central-bank.actions';
-import { ClientCentralBankService } from './client-central-bank.service';
+import * as ClientCentralBankInfoActions from './client-central-bank.actions';
+import { ClientCentralBankInfo } from './client-central-bank.model';
+import { ClientCentralBankInfoService } from './client-central-bank.service';
 
 @Injectable()
-export class ClientCentralBankEffects {
-  constructor(
-    private actions$: Actions,
-    private svc: ClientCentralBankService
-  ) {}
-
+export class ClientCentralBankInfoEffects {
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ActionsDef.loadAll),
-      mergeMap(({ page }) =>
-        this.svc.getAll(page).pipe(
-          map((result) => ActionsDef.loadAllSuccess({ result })),
-          catchError((err) =>
-            of(ActionsDef.loadAllFailure({ error: err.message }))
-          )
-        )
-      )
-    )
-  );
-
-  loadOne$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ActionsDef.loadOne),
-      mergeMap(({ id }) =>
-        this.svc.getById(id).pipe(
-          map((entity) => ActionsDef.loadOneSuccess({ entity })),
-          catchError((err) =>
-            of(ActionsDef.loadOneFailure({ error: err.message }))
-          )
-        )
-      )
-    )
-  );
-
-  create$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ActionsDef.createEntity),
-      mergeMap(({ payload }) =>
-        this.svc.create(payload).pipe(
-          map((entity) => ActionsDef.createSuccess({ entity })),
-          catchError((err) =>
-            of(ActionsDef.createFailure({ error: err.message }))
-          )
-        )
-      )
-    )
-  );
-
-  update$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ActionsDef.updateEntity),
-      mergeMap(({ id, changes }) =>
-        this.svc.update(id, changes).pipe(
-          map(() =>
-            ActionsDef.updateSuccess({ entity: { id, ...changes } as any })
+      ofType(ClientCentralBankInfoActions.loadClientCentralBankInfo),
+      mergeMap(() =>
+        this.service.getAll().pipe(
+          map((resp) =>
+            ClientCentralBankInfoActions.loadAllClientCentralBankInfoSuccess({
+              items: resp.items,
+              totalCount: resp.totalCount,
+            })
           ),
-          catchError((err) =>
-            of(ActionsDef.updateFailure({ error: err.message }))
-          )
-        )
-      )
-    )
-  );
-
-  delete$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ActionsDef.deleteEntity),
-      mergeMap(({ id }) =>
-        this.svc.delete(id).pipe(
-          map(() => ActionsDef.deleteSuccess({ id })),
-          catchError((err) =>
-            of(ActionsDef.deleteFailure({ error: err.message }))
+          catchError((error) =>
+            of(
+              ClientCentralBankInfoActions.loadClientCentralBankInfoFailure({
+                error,
+              })
+            )
           )
         )
       )
@@ -86,15 +33,186 @@ export class ClientCentralBankEffects {
 
   loadHistory$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ActionsDef.loadHistory),
-      mergeMap(({ clientId }) =>
-        this.svc.getHistory(clientId).pipe(
-          map((history) => ActionsDef.loadHistorySuccess({ history })),
-          catchError((err) =>
-            of(ActionsDef.loadHistoryFailure({ error: err.message }))
+      ofType(ClientCentralBankInfoActions.loadClientCentralBankInfoHistory),
+      mergeMap(() =>
+        this.service.getHistory().pipe(
+          map((resp) =>
+            ClientCentralBankInfoActions.loadClientCentralBankInfoHistorySuccess({
+              history: resp.items,
+            })
+          ),
+          catchError((error) =>
+            of(
+              ClientCentralBankInfoActions.loadClientCentralBankInfoHistoryFailure({ error })
+            )
           )
         )
       )
     )
   );
+
+  loadOne$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClientCentralBankInfoActions.loadClientCentralBankInfo),
+      mergeMap(({ id }) =>
+        this.service.getById(id).pipe(
+          map((client) =>
+            ClientCentralBankInfoActions.loadClientCentralBankInfoSuccess({
+              client,
+            })
+          ),
+          catchError((error) =>
+            of(
+              ClientCentralBankInfoActions.loadClientCentralBankInfoFailure({
+                error,
+              })
+            )
+          )
+        )
+      )
+    )
+  );
+
+  create$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClientCentralBankInfoActions.createClientCentralBankInfo),
+      mergeMap(({ data }) =>
+        this.service.create(data).pipe(
+          map((client) =>
+            ClientCentralBankInfoActions.createClientCentralBankInfoSuccess({
+              client,
+            })
+          ),
+          catchError((error) =>
+            of(
+              ClientCentralBankInfoActions.createClientCentralBankInfoFailure({
+                error,
+              })
+            )
+          )
+        )
+      )
+    )
+  );
+
+  update$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClientCentralBankInfoActions.updateClientCentralBankInfo),
+      tap(({ id, data }) =>
+        console.log('[Effect:update] called with id=', id, 'data=', data)
+      ),
+      mergeMap(({ id, data }) =>
+        this.service.update(id, data).pipe(
+          map((serverReturned) => {
+            // force-inject clientId if missing
+            const enriched: ClientCentralBankInfo = {
+              ...serverReturned,
+              clientId: data.clientId!,
+            };
+            console.log('[Effect:update] enriched client →', enriched);
+            return ClientCentralBankInfoActions.updateClientCentralBankInfoSuccess({
+              client: enriched,
+            });
+          }),
+          catchError((error) =>
+            of(
+              ClientCentralBankInfoActions.updateClientCentralBankInfoFailure({
+                error,
+              })
+            )
+          )
+        )
+      )
+    )
+  );
+
+  delete$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClientCentralBankInfoActions.deleteClientCentralBankInfo),
+      mergeMap(({ id, clientId }) =>
+        this.service.delete(id).pipe(
+          map(() =>
+            ClientCentralBankInfoActions.deleteClientCentralBankInfoSuccess({
+              id,
+              clientId,
+            })
+          ),
+          catchError((error) =>
+            of(
+              ClientCentralBankInfoActions.deleteClientCentralBankInfoFailure({
+                error,
+              })
+            )
+          )
+        )
+      )
+    )
+  );
+
+  refreshList$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        ClientCentralBankInfoActions.createClientCentralBankInfoSuccess,
+        ClientCentralBankInfoActions.updateClientCentralBankInfoSuccess,
+        ClientCentralBankInfoActions.deleteClientCentralBankInfoSuccess
+      ),
+ 
+      map(action => {
+      if ('clientId' in action) {
+        // for create/update you returned `{ client: ClientCentralBankInfo }`,
+        // so dig into that object’s clientId
+        return action.clientId;
+      } else {
+        // for delete you returned `{ id, clientId }`
+        return action.client.clientId;
+      }
+    }),
+ 
+      // only continue if it’s a number
+ 
+      map((clientId) =>
+        ClientCentralBankInfoActions.loadClientCentralBankInfoByClientId({
+          clientId,
+        })
+      )
+    )
+  );
+  /**
+   * The “by‐clientId” loader
+   */
+  loadByClientId$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClientCentralBankInfoActions.loadClientCentralBankInfoByClientId),
+
+      tap((action) =>
+        console.log('[Effect:loadByClientId] full action →', action)
+      ),
+      tap(({ clientId }) =>
+        console.log('[Effect:loadByClientId] clientId →', clientId)
+      ),
+
+      mergeMap(({ clientId }) =>
+        this.service.getByClientId(clientId).pipe(
+          tap((items) =>
+            console.log('[Effect:loadByClientId] response →', items)
+          ),
+          map((items) =>
+            ClientCentralBankInfoActions.loadClientCentralBankInfoByClientIdSuccess({ items })
+          ),
+          catchError((error) =>
+            of(
+              ClientCentralBankInfoActions.loadClientCentralBankInfoByClientIdFailure({
+                error,
+              })
+            )
+          )
+        )
+      )
+    )
+  );
+
+  constructor(
+    private actions$: Actions,
+    private service: ClientCentralBankInfoService
+  ) {}
 }

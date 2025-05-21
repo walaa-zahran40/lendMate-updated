@@ -52,7 +52,10 @@
     .p-tabs {
       padding: var(--custom-padding-right-10);
     }
-
+    .disabled {
+      pointer-events: none;
+      background: rgb(227 227 227) !important;
+    }
     .p-multiselect-chip-item {
       background-color: #f8f8fd;
       width: max-content;

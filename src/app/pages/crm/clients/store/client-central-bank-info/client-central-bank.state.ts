@@ -1,27 +1,19 @@
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import {
-  ClientCentralBank,
-  ClientCentralBankHistory,
-} from './client-central-bank.model';
+import { ClientCentralBankInfo } from "./client-central-bank.model";
 
-// Feature key
-export const clientCentralBankFeatureKey = 'clientCentralBanks';
-
-export interface ClientCentralBankState extends EntityState<ClientCentralBank> {
-  selectedId: number | null;
+export interface ClientCentralBankInfoState {
+  items: ClientCentralBankInfo[];
+  history: ClientCentralBankInfo[];
+  current?: ClientCentralBankInfo;
   loading: boolean;
-  error: string | null;
-  history: ClientCentralBankHistory[];
-  historyLoading: boolean;
+  error: any;
+  totalCount: number;
 }
 
-export const adapter: EntityAdapter<ClientCentralBank> =
-  createEntityAdapter<ClientCentralBank>();
-
-export const initialState: ClientCentralBankState = adapter.getInitialState({
-  selectedId: null,
+export const initialClientCentralBankInfoState: ClientCentralBankInfoState = {
+  items: [],
+  history: [],
+  current: undefined,
   loading: false,
   error: null,
-  history: [],
-  historyLoading: false,
-});
+  totalCount: 0,
+};

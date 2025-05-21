@@ -1,19 +1,19 @@
 import { createReducer, on } from '@ngrx/store';
-import * as AddressActions from './individuals.actions';
+import * as IndividualActions from './individuals.actions';
 import { adapter, initialState, State } from './individuals.state';
 
 export const reducer = createReducer(
   initialState,
 
   // when you dispatch loadAll()
-  on(AddressActions.loadAll, (state) => ({
+  on(IndividualActions.loadAll, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
 
   // when your effect dispatches loadAllSuccess({ result })
-  on(AddressActions.loadAllSuccess, (state, { result }) =>
+  on(IndividualActions.loadAllSuccess, (state, { result }) =>
     adapter.setAll(result, {
       ...state,
       loading: false,
@@ -21,57 +21,56 @@ export const reducer = createReducer(
     })
   ),
   // on failure
-  on(AddressActions.loadAllFailure, (state, { error }) => ({
+  on(IndividualActions.loadAllFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
   // create
-  on(AddressActions.createEntity, (state) => ({
+  on(IndividualActions.createEntity, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
-  on(AddressActions.createEntitySuccess, (state, { entity }) =>
+  on(IndividualActions.createEntitySuccess, (state, { entity }) =>
     adapter.addOne(entity, { ...state, loading: false })
   ),
-  on(AddressActions.createEntityFailure, (state, { error }) => ({
+  on(IndividualActions.createEntityFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
 
   // update
-  on(AddressActions.updateEntity, (state) => ({
+  on(IndividualActions.updateEntity, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
-  on(AddressActions.updateEntitySuccess, (state, { id, changes }) =>
+  on(IndividualActions.updateEntitySuccess, (state, { id, changes }) =>
     adapter.updateOne({ id, changes }, { ...state, loading: false })
   ),
-  on(AddressActions.updateEntityFailure, (state, { error }) => ({
+  on(IndividualActions.updateEntityFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
 
   // delete
-  on(AddressActions.deleteEntity, (state) => ({
+  on(IndividualActions.deleteEntity, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
-  on(AddressActions.deleteEntitySuccess, (state, { id }) =>
+  on(IndividualActions.deleteEntitySuccess, (state, { id }) =>
     adapter.removeOne(id, { ...state, loading: false })
   ),
-  on(AddressActions.deleteEntityFailure, (state, { error }) => ({
+  on(IndividualActions.deleteEntityFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
-  // address-calculation-types.reducer.ts
-  on(AddressActions.loadByIdSuccess, (state, { entity }) => {
+  on(IndividualActions.loadByIdSuccess, (state, { entity }) => {
     console.log('🗄️ Reducer: loadByIdSuccess, before:', {
       loadedId: state.loadedId,
       entities: state.entities,
@@ -89,7 +88,11 @@ export const reducer = createReducer(
     });
 
     return newState;
-  })
+  }),
+  on(IndividualActions.clearSelectedIndividual, (state) => ({
+    ...state,
+    loadedId: null,
+  }))
 );
 
 export const { selectAll, selectEntities, selectIds, selectTotal } =

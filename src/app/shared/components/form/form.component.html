@@ -1143,6 +1143,226 @@
         </div>
       </ng-container>
     </form>
+    <form
+      class="div2"
+      [ngClass]="{ span: applyReusable }"
+      [formGroup]="formGroup"
+    >
+      <!-- Main Info -->
+      <ng-container *ngIf="addClientOnboardingForm">
+        <!-- Name in English -->
+        <label for="name">Name in English <sup class="danger">*</sup></label>
+        <input
+          pInputText
+          name="name"
+          formControlName="name"
+          placeholder="Name in English"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              formGroup.get('name')?.invalid && formGroup.get('name')?.touched
+          }"
+        />
+
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('name')?.hasError('required') &&
+            formGroup.get('name')?.touched
+          "
+        >
+          Name in English is required.
+        </small>
+        <br />
+
+        <!-- Name in Arabic -->
+        <label for="nameAR">Name in Arabic <sup class="danger">*</sup></label>
+        <input
+          pInputText
+          name="nameAR"
+          formControlName="nameAR"
+          placeholder="Name in Arabic"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              formGroup.get('nameAR')?.invalid &&
+              formGroup.get('nameAR')?.touched
+          }"
+          appOnlyArabic
+        />
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('nameAR')?.hasError('required') &&
+            formGroup.get('nameAR')?.touched
+          "
+        >
+          Name in Arabic is required.
+        </small>
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('nameAR')?.hasError('nonArabic') &&
+            formGroup.get('nameAR')?.touched
+          "
+        >
+          Only Arabic characters are allowed.
+        </small>
+        <br />
+
+        <!-- Business Activity -->
+        <label for="businessActivity"
+          >Business Activity <sup class="danger">*</sup></label
+        >
+        <input
+          pInputText
+          name="businessActivity"
+          formControlName="businessActivity"
+          placeholder="Business Activity"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              formGroup.get('businessActivity')?.invalid &&
+              formGroup.get('businessActivity')?.touched
+          }"
+        />
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('businessActivity')?.hasError('required') &&
+            formGroup.get('businessActivity')?.touched
+          "
+        >
+          Business Activity is required.
+        </small>
+        <br />
+
+        <!-- Tax ID -->
+        <label for="taxId">Tax ID <sup class="danger">*</sup></label>
+        <input
+          pInputText
+          name="taxId"
+          formControlName="taxId"
+          placeholder="Tax ID"
+          type="number"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              formGroup.get('taxId')?.invalid && formGroup.get('taxId')?.touched
+          }"
+        />
+        <div
+          *ngIf="
+            formGroup.get('taxId')?.invalid && formGroup.get('taxId')?.touched
+          "
+        >
+          <small
+            class="p-error"
+            *ngIf="
+              formGroup.get('taxId')?.hasError('required') &&
+              formGroup.get('taxId')?.touched
+            "
+          >
+            Tax ID is required.
+          </small>
+          <br />
+          <small
+            class="p-error"
+            *ngIf="
+              formGroup.get('taxId')?.hasError('nonPositiveNumeric') &&
+              formGroup.get('taxId')?.touched
+            "
+          >
+            Only positive numeric characters are allowed.
+          </small>
+          <br />
+        </div>
+
+        <!-- Short Name -->
+        <label for="shortName">Short Name <sup class="danger">*</sup></label>
+        <input
+          pInputText
+          name="shortName"
+          formControlName="shortName"
+          placeholder="Short Name"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              formGroup.get('shortName')?.invalid &&
+              formGroup.get('shortName')?.touched
+          }"
+        />
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('shortName')?.hasError('required') &&
+            formGroup.get('shortName')?.touched
+          "
+        >
+          Short Name is required.
+        </small>
+        <br />
+        <ng-container *ngIf="sectorsSafe$ | async as sectors">
+          <!-- Sector Dropdown -->
+          <label for="sectorDropdown"
+            >Select Sector<sup class="danger">*</sup></label
+          >
+
+          <p-select
+            [options]="sectors"
+            optionLabel="name"
+            placeholder="Select Sector"
+            formControlName="sectorId"
+            optionValue="id"
+            (onChange)="onSectorChange($event)"
+            required
+            [ngClass]="{
+              'ng-invalid':
+                formGroup.get('sectorId')?.invalid &&
+                (formGroup.get('sectorId')?.dirty ||
+                  formGroup.get('sectorId')?.touched)
+            }"
+          >
+          </p-select>
+
+          <!-- Validation message -->
+          <small
+            class="p-error"
+            style="color: var(--custom-red)"
+            *ngIf="
+              formGroup.get('sectorId')?.invalid &&
+              (formGroup.get('sectorId')?.dirty ||
+                formGroup.get('sectorId')?.touched)
+            "
+          >
+            Sector is required.
+          </small>
+        </ng-container>
+        <br />
+        <!-- Sub Sector Dropdown -->
+        <label for="subSectorDropdown">
+          Select Sub Sector<sup class="danger">*</sup>
+        </label>
+        <p-multiSelect
+          [options]="subSectorsList"
+          formControlName="subSectorIdList"
+          optionLabel="name"
+          optionValue="id"
+          placeholder="Select Sub Sector"
+          display="chip"
+          (onChange)="onSubSectorChange($event)"
+        ></p-multiSelect>
+
+        <div
+          class="p-error"
+          *ngIf="
+            formGroup.get('subSectorIdList')?.invalid &&
+            (formGroup.get('subSectorIdList')?.touched ||
+              formGroup.get('subSectorIdList')?.dirty)
+          "
+        >
+          Sub Sector is required.
+        </div>
+
+        <br />
+      </ng-container>
+      <!-- Legal Info -->
+    </form>
     <form class="div2" [formGroup]="formGroup" *ngIf="addClientShowIndividual">
       <!-- Name in English -->
       <label for="nameEnglishIndividual"
@@ -1530,6 +1750,7 @@
         </div>
       </div>
     </form>
+    <!-- Client Activities-->
     <form
       [formGroup]="formGroup"
       *ngIf="uploadDocumentsShowMain"
@@ -1540,14 +1761,19 @@
         [options]="documents"
         optionLabel="name"
         optionValue="id"
-        [disabled]="editMode"
         formControlName="documentTypeIds"
         placeholder="Select document type"
+        [disabled]="editMode || viewOnly"
+        [ngClass]="editMode || viewOnly ? 'disabled' : 'enabled'"
       >
       </p-select>
       <label>Expiry Date<sup>*</sup></label>
 
-      <shared-date-picker formControlName="expiryDate" inputId="expiryDate">
+      <shared-date-picker
+        formControlName="expiryDate"
+        inputId="expiryDate"
+        [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+      >
       </shared-date-picker>
       <div class="row upload-div">
         <div class="col-sm-3 p-0">
@@ -1564,8 +1790,9 @@
             [showUploadButton]="false"
             [showCancelButton]="false"
             accept=".pdf,.docx,.jpg"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
           ></p-fileUpload>
-          <div *ngIf="editMode" class="mt-2">
+          <div *ngIf="editMode || viewOnly" class="mt-2">
             <span class="text-muted">
               Previously uploaded file:
               <strong>{{ selectedFile?.name }}</strong>
@@ -1575,7 +1802,7 @@
           <div
             class="custom-upload-overlay"
             (click)="fileUploader.choose()"
-            *ngIf="!editMode"
+            *ngIf="!editMode && !viewOnly"
           >
             <span class="custom-icon"></span>
             <span>Click or drag file to upload</span>
@@ -1587,8 +1814,16 @@
         <div
           class="col-sm-12 mt-0 p-0 col-md-6 d-flex justify-end m-0"
           (click)="submitForm.emit()"
+          *ngIf="!viewOnly"
         >
           <p-button label="Submit" class="custom-save m-0 float-right" />
+        </div>
+        <div
+          class="col-sm-12 mt-0 p-0 col-md-6 d-flex justify-end m-0"
+          (click)="close()"
+          *ngIf="viewOnly"
+        >
+          <p-button label="Close" class="custom-save m-0 float-right" />
         </div>
       </div>
     </form>
@@ -5796,16 +6031,15 @@
         </div>
       </div>
     </form>
-    <form  [formGroup]="formGroup"
-          *ngIf="addTaxAuthorityOfficeShowMain"
-          (ngSubmit)="onSubmit()">
-       <label for="expiryDate">CR Expiry Date<sup class="danger">*</sup></label>
-      <shared-date-picker
-        formControlName="expiryDate"
-        inputId="expiryDate"
-      >
-       </shared-date-picker>
-     <label for="taxCardNumber">Tax Number<sup>*</sup></label>
+    <form
+      [formGroup]="formGroup"
+      *ngIf="addTaxAuthorityOfficeShowMain"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="expiryDate">CR Expiry Date<sup class="danger">*</sup></label>
+      <shared-date-picker formControlName="expiryDate" inputId="expiryDate">
+      </shared-date-picker>
+      <label for="taxCardNumber">Tax Number<sup>*</sup></label>
       <input
         pInputText
         id="taxCardNumber"
@@ -5813,7 +6047,7 @@
         placeholder="Type"
       />
 
-     <label for="taxOfficeId">Tax Office<sup>*</sup></label>
+      <label for="taxOfficeId">Tax Office<sup>*</sup></label>
       <p-select
         [options]="taxOfficesList"
         optionLabel="name"
@@ -5864,67 +6098,133 @@
       </div>
     </form>
 
-    <form action="" *ngIf="addCentralBankInfoShowMain">
-      <label for="balanceSheetDate"
-        >Balance Sheet Date<sup class="danger">*</sup></label
-      >
+    <form
+      [formGroup]="formGroup"
+      *ngIf="addCentralBankInfoShowMain"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="balanceSheetdate">Balance Sheet Date</label>
       <shared-date-picker
-        formControlName="balanceSheetDate"
-        inputId="balanceSheetDate"
+        formControlName="balanceSheetdate"
+        inputId="balanceSheetdate"
       >
       </shared-date-picker>
-      <label for="companyType">Company Type<sup class="danger">*</sup></label>
+
+      <label for="companyTypeId">Company Type<sup>*</sup></label>
       <p-select
-        [options]="companyTypes"
-        [(ngModel)]="selectedCompanyTypes"
+        [options]="companyTypesList"
         optionLabel="name"
-        class="w-full md:w-56"
-        name="companyType"
+        placeholder="Select Company Type"
+        formControlName="companyTypeId"
+        optionValue="id"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('companyTypeId')?.invalid &&
+            (formGroup.get('companyTypeId')?.dirty ||
+              formGroup.get('companyTypeId')?.touched)
+        }"
       />
-      <label for="capitalCentralBankInfo"
-        >Capital<sup class="danger">*</sup></label
-      >
+
+      <label for="capital">Capital<sup>*</sup></label>
       <input
         pInputText
-        id="capitalCentralBankInfo"
-        aria-describedby="capitalCentralBankInfo-help"
-        [(ngModel)]="value47"
-        name="capitalCentralBankInfo"
-        placeholder="Add Capital"
+        id="capital"
+        formControlName="capital"
+        placeholder="Type"
       />
-      <label for="iScoreSectorCentralBankInfo"
-        >Iscore Sector<sup class="danger">*</sup></label
+      <div
+        *ngIf="
+          formGroup.get('capital')?.hasError('required') &&
+          formGroup.get('capital')?.touched
+        "
+        class="p-error"
       >
+        Capital is required.
+      </div>
+      <div
+        *ngIf="
+          formGroup.get('capital')?.hasError('pattern') &&
+          formGroup.get('capital')?.touched
+        "
+        class="p-error"
+      >
+        Please enter only Numbers.
+      </div>
+
+      <label for="iScoreSectore">Iscore Sector</label>
       <input
         pInputText
-        id="iScoreSectorCentralBankInfo"
-        aria-describedby="iScoreSectorCentralBankInfo-help"
-        [(ngModel)]="value48"
-        name="iScoreSectorCentralBankInfo"
-        placeholder="Add IScore Sector"
+        id="iScoreSectore"
+        formControlName="iScoreSectore"
+        placeholder="Type"
       />
-      <label for="companyCodeCentralBankInfo"
-        >Company Code<sup class="danger">*</sup></label
-      >
+
+      <label for="cbeCustomerCode">CBE Customer Code<sup>*</sup></label>
       <input
         pInputText
-        id="companyCodeCentralBankInfo"
-        aria-describedby="companyCodeCentralBankInfo-help"
-        [(ngModel)]="value49"
-        name="companyCodeCentralBankInfo"
-        placeholder="Add Company Code"
+        id="cbeCustomerCode"
+        formControlName="cbeCustomerCode"
+        placeholder="Type"
       />
-      <label for="cbeCustomerCodeCentralBankInfo"
-        >CBE Customer Code<sup class="danger">*</sup></label
+      <div
+        *ngIf="
+          formGroup.get('cbeCustomerCode')?.hasError('required') &&
+          formGroup.get('cbeCustomerCode')?.touched
+        "
+        class="p-error"
       >
-      <input
-        pInputText
-        id="cbeCustomerCodeCentralBankInfo"
-        aria-describedby="cbeCustomerCodeCentralBankInfo-help"
-        [(ngModel)]="value50"
-        name="cbeCustomerCodeCentralBankInfo"
-        placeholder="Add CBE Customer Code"
+        cbeCustomerCode is required.
+      </div>
+
+      <label for="smeClientCodeId">SME Client Code <sup>*</sup></label>
+      <p-select
+        [options]="smeClientCodesList"
+        optionLabel="name"
+        placeholder="Select SME Client Code"
+        formControlName="smeClientCodeId"
+        optionValue="id"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('smeClientCodeId')?.invalid &&
+            (formGroup.get('smeClientCodeId')?.dirty ||
+              formGroup.get('smeClientCodeId')?.touched)
+        }"
       />
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="!editMode"
+        >
+          <p-button
+            type="submit"
+            label="Add Central Bank Info"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Central Bank Info"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate([`/crm/clients/view-client-central-bank-info/${this.clientIdParam}`])"
+          />
+        </div>
+      </div>
     </form>
     <form action="" *ngIf="addShareHolderShowMain">
       <label for="shareHolderName"

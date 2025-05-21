@@ -1,91 +1,113 @@
 import { createReducer, on } from '@ngrx/store';
 import * as Actions from './client-central-bank.actions';
-import { adapter, initialState } from './client-central-bank.state';
+import { initialClientCentralBankInfoState } from './client-central-bank.state';
 
-export const reducer = createReducer(
-  initialState,
-
-  // Load all
-  on(Actions.loadAll, (state) => ({ ...state, loading: true, error: null })),
-  on(Actions.loadAllSuccess, (state, { result }) =>
-    adapter.setAll(result.items, {
-      ...state,
-      loading: false,
-      error: null,
-    })
-  ),
-  on(Actions.loadAllFailure, (state, { error }) => ({
-    ...state,
-    loading: false,
-    error,
-  })),
-
-  // Load one
-  on(Actions.loadOne, (state, { id }) => ({
+export const clientCentralBankInfoReducer = createReducer(
+  initialClientCentralBankInfoState,
+  on(Actions.loadAllClientCentralBankInfo, (state) => ({
     ...state,
     loading: true,
-    selectedId: id,
     error: null,
   })),
-  on(Actions.loadOneSuccess, (state, { entity }) =>
-    adapter.upsertOne(entity, { ...state, loading: false })
-  ),
-  on(Actions.loadOneFailure, (state, { error }) => ({
+  on(Actions.loadAllClientCentralBankInfoSuccess, (state, { items, totalCount }) => ({
     ...state,
+    items,
+    totalCount,
     loading: false,
+  })),
+  on(Actions.loadAllClientCentralBankInfoFailure, (state, { error }) => ({
+    ...state,
     error,
+    loading: false,
   })),
 
-  // Create
-  on(Actions.createEntity, (state) => ({ ...state, loading: true })),
-  on(Actions.createSuccess, (state, { entity }) =>
-    adapter.addOne(entity, { ...state, loading: false })
-  ),
-  on(Actions.createFailure, (state, { error }) => ({
+  on(Actions.loadClientCentralBankInfoHistory, (state) => ({
     ...state,
-    loading: false,
-    error,
+    loading: true,
   })),
-
-  // Update
-  on(Actions.updateEntity, (state) => ({ ...state, loading: true })),
-  on(Actions.updateSuccess, (state, { entity }) =>
-    adapter.upsertOne(entity, { ...state, loading: false })
-  ),
-  on(Actions.updateFailure, (state, { error }) => ({
-    ...state,
-    loading: false,
-    error,
-  })),
-
-  // Delete
-  on(Actions.deleteEntity, (state) => ({ ...state, loading: true })),
-  on(Actions.deleteSuccess, (state, { id }) =>
-    adapter.removeOne(id, { ...state, loading: false })
-  ),
-  on(Actions.deleteFailure, (state, { error }) => ({
-    ...state,
-    loading: false,
-    error,
-  })),
-
-  // History
-  on(Actions.loadHistory, (state) => ({
-    ...state,
-    historyLoading: true,
-    error: null,
-  })),
-  on(Actions.loadHistorySuccess, (state, { history }) => ({
+  on(Actions.loadClientCentralBankInfoHistorySuccess, (state, { history }) => ({
     ...state,
     history,
-    historyLoading: false,
+    loading: false,
   })),
-  on(Actions.loadHistoryFailure, (state, { error }) => ({
+  on(Actions.loadClientCentralBankInfoHistoryFailure, (state, { error }) => ({
     ...state,
-    historyLoading: false,
     error,
+    loading: false,
+  })),
+
+  on(Actions.loadClientCentralBankInfo, (state) => ({
+    ...state,
+    loading: true,
+  })),
+  on(Actions.loadClientCentralBankInfoSuccess, (state, { client }) => ({
+    ...state,
+    current: client,
+    loading: false,
+  })),
+  on(Actions.loadClientCentralBankInfoFailure, (state, { error }) => ({
+    ...state,
+    error,
+    loading: false,
+  })),
+
+  on(Actions.createClientCentralBankInfo, (state) => ({
+    ...state,
+    loading: true,
+  })),
+  on(Actions.createClientCentralBankInfoSuccess, (state, { client }) => ({
+    ...state,
+    items: [...state.items, client],
+    loading: false,
+  })),
+  on(Actions.createClientCentralBankInfoFailure, (state, { error }) => ({
+    ...state,
+    error,
+    loading: false,
+  })),
+
+  on(Actions.updateClientCentralBankInfo, (state) => ({
+    ...state,
+    loading: true,
+  })),
+  on(Actions.updateClientCentralBankInfoSuccess, (state, { client }) => ({
+    ...state,
+    items: state.items.map((ct) => (ct.id === client.id ? client : ct)),
+    loading: false,
+  })),
+  on(Actions.updateClientCentralBankInfoFailure, (state, { error }) => ({
+    ...state,
+    error,
+    loading: false,
+  })),
+
+  on(Actions.deleteClientCentralBankInfo, (state) => ({
+    ...state,
+    loading: true,
+  })),
+  on(Actions.deleteClientCentralBankInfoSuccess, (state, { id }) => ({
+    ...state,
+    items: state.items.filter((ct) => ct.id !== id),
+    loading: false,
+  })),
+  on(Actions.deleteClientCentralBankInfoFailure, (state, { error }) => ({
+    ...state,
+    error,
+    loading: false,
+  })),
+  on(Actions.loadClientCentralBankInfoByClientId, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
+  on(Actions.loadClientCentralBankInfoByClientIdSuccess, (state, { items }) => ({
+    ...state,
+    items, // replace with just these rates
+    loading: false,
+  })),
+  on(Actions.loadClientCentralBankInfoByClientIdFailure, (state, { error }) => ({
+    ...state,
+    error,
+    loading: false,
   }))
 );
-
-export const { selectAll, selectEntities, selectIds, selectTotal } =
-  adapter.getSelectors();
