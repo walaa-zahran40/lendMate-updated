@@ -206,7 +206,25 @@ body {
   color: #fff !important;
   float: left;
 }
-
+.value-true {
+  color: #28a745 !important;
+  text-transform: uppercase;
+  span {
+    border: 1px solid #28a745 !important;
+    border-radius: 20px;
+    padding: 4px 10px;
+  }
+}
+.value-false {
+  color: #dc3545 !important;
+  text-transform: uppercase;
+  border: 1px solid #dc3545 !important;
+  span {
+    border: 1px solid #dc3545 !important;
+    border-radius: 20px;
+    padding: 4px 10px;
+  }
+}
 .btn-no {
   background-color: #dc3545 !important; /* bootstrap-red */
   border-color: #dc3545 !important;

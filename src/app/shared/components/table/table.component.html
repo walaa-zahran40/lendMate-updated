@@ -38,11 +38,20 @@
       <td *ngIf="checkBox" class="pt-0">
         <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
       </td>
-      <td *ngFor="let col of cols" class="pt-0">
+      <td
+        *ngFor="let col of cols"
+        class="pt-0"
+        [ngClass]="{
+          'value-true':
+            rowData[col.field] === true || rowData[col.field] === 'yes',
+          'value-false':
+            rowData[col.field] === false || rowData[col.field] === 'no'
+        }"
+      >
         <span class="p-column-title">{{ col.header }}</span>
         <ng-container [ngSwitch]="col.field">
           <!-- when it's your “Type” column, call getTypeLabel() -->
-          <span *ngSwitchCase="'clientTypeCode'">
+          <span *ngSwitchCase="'clientTypeCode'" class="label-table">
             {{ getTypeLabel(rowData.clientTypeCode) }}
           </span>
           <!-- otherwise just print the raw value -->

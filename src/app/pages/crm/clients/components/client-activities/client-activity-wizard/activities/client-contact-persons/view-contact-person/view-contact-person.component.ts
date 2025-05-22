@@ -28,6 +28,10 @@ export class ViewContactPersonComponent implements OnInit, OnDestroy {
     { field: 'nameAR', header: 'Name AR' },
     { field: 'title', header: 'Title' },
     { field: 'titleAR', header: 'Title AR' },
+    { field: 'gender', header: 'Gender' },
+    { field: 'phoneNumber', header: 'Phone Number' },
+    { field: 'isAuthorizedSign', header: 'Is Authorized Sign' },
+    { field: 'isKeyManager', header: 'Is Key Manager' },
     { field: 'isFinance', header: 'Is Finance' },
   ];
 
