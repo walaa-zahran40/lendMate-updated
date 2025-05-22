@@ -1,19 +1,19 @@
 import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, Observable, takeUntil, tap, map, combineLatest } from 'rxjs';
-import { TableComponent } from '../../../../../../shared/components/table/table.component';
-import { Area } from '../../../../../lookups/store/areas/area.model';
+import { TableComponent } from '../../../../../../../shared/components/table/table.component';
+import { Area } from '../../../../../../lookups/store/areas/area.model';
 import { Store } from '@ngrx/store';
-import { selectAllAreas } from '../../../../../lookups/store/areas/areas.selectors';
-import { AreasFacade } from '../../../../../lookups/store/areas/areas.facade';
-import { ClientCentralBankInfo } from '../../../store/client-central-bank-info/client-central-bank.model';
-import { ClientCentralBankInfoFacade } from '../../../store/client-central-bank-info/client-central-bank.facade';
-import { CompanyTypesFacade } from '../../../../../lookups/store/company-types/company-types.facade';
-import { CompanyType } from '../../../../../lookups/store/company-types/company-type.model';
-import { SMEClientCode } from '../../../../../lookups/store/sme-client-codes/sme-client-codes.model';
-import { selectAllCompanyTypes } from '../../../../../lookups/store/company-types/company-types.selectors';
-import { SMEClientCodesFacade } from '../../../../../lookups/store/sme-client-codes/sme-client-codes.facade';
-import { selectAllSMEClientCodes } from '../../../../../lookups/store/sme-client-codes/sme-client-codes.selectors';
+import { selectAllAreas } from '../../../../../../lookups/store/areas/areas.selectors';
+import { AreasFacade } from '../../../../../../lookups/store/areas/areas.facade';
+import { ClientCentralBankInfo } from '../../../../store/client-central-bank-info/client-central-bank.model';
+import { ClientCentralBankInfoFacade } from '../../../../store/client-central-bank-info/client-central-bank.facade';
+import { CompanyTypesFacade } from '../../../../../../lookups/store/company-types/company-types.facade';
+import { CompanyType } from '../../../../../../lookups/store/company-types/company-type.model';
+import { SMEClientCode } from '../../../../../../lookups/store/sme-client-codes/sme-client-codes.model';
+import { selectAllCompanyTypes } from '../../../../../../lookups/store/company-types/company-types.selectors';
+import { SMEClientCodesFacade } from '../../../../../../lookups/store/sme-client-codes/sme-client-codes.facade';
+import { selectAllSMEClientCodes } from '../../../../../../lookups/store/sme-client-codes/sme-client-codes.selectors';
 
 @Component({
   selector: 'app-view-central-bank-info',
@@ -69,16 +69,24 @@ export class ViewClientCentralBankInfoComponent {
     this.facade.loadClientCentralBankInfoByClientId(this.clientIdParam);
     this.clientCentralBankInfo$ = this.facade.items$;
 
-    combineLatest([this.clientCentralBankInfo$, this.companyTypesList$, this.smeClientCodesList$])
+    combineLatest([
+      this.clientCentralBankInfo$,
+      this.companyTypesList$,
+      this.smeClientCodesList$,
+    ])
       .pipe(
-        map(([clientCentralBankInfo, companyTypesList,smeClientCodesList]) =>
+        map(([clientCentralBankInfo, companyTypesList, smeClientCodesList]) =>
           clientCentralBankInfo
             .map((centralBankinfo) => ({
               ...centralBankinfo,
               CompanyType:
-                companyTypesList.find((c) => c.id === centralBankinfo.companyTypeId)?.name || '—',
+                companyTypesList.find(
+                  (c) => c.id === centralBankinfo.companyTypeId
+                )?.name || '—',
               SMEClientCode:
-                smeClientCodesList.find((c) => c.id === centralBankinfo.smeClientCodeId)?.name || '—',
+                smeClientCodesList.find(
+                  (c) => c.id === centralBankinfo.smeClientCodeId
+                )?.name || '—',
             }))
             .filter((centralBankinfo) => centralBankinfo.isActive)
             .sort((a, b) => b.id - a.id)
@@ -118,7 +126,10 @@ export class ViewClientCentralBankInfoComponent {
       this.selectedClientCentralBankInfoId
     );
     if (this.selectedClientCentralBankInfoId !== null) {
-      this.facade.delete(this.selectedClientCentralBankInfoId, this.clientIdParam);
+      this.facade.delete(
+        this.selectedClientCentralBankInfoId,
+        this.clientIdParam
+      );
       console.log('[View] confirmDelete() – facade.delete() called');
     } else {
       console.warn('[View] confirmDelete() – no id to delete');
@@ -136,12 +147,12 @@ export class ViewClientCentralBankInfoComponent {
   }
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
-    this.filteredClientCentralBankInfo = this.originalClientCentralBankInfo.filter(
-      (clientCentralBankInfo) =>
+    this.filteredClientCentralBankInfo =
+      this.originalClientCentralBankInfo.filter((clientCentralBankInfo) =>
         Object.values(clientCentralBankInfo).some((val) =>
           val?.toString().toLowerCase().includes(lower)
         )
-    );
+      );
   }
   onToggleFilters(value: boolean) {
     this.showFilters = value;
@@ -158,11 +169,14 @@ export class ViewClientCentralBankInfoComponent {
     );
   }
   onViewClientCentralBankInfo(ct: ClientCentralBankInfo) {
-    this.router.navigate(['/crm/clients/edit-client-central-bank-info', ct.id], {
-      queryParams: {
-        mode: 'view',
-        clientId: this.clientIdParam, // <-- use "currencyId" here
-      },
-    });
+    this.router.navigate(
+      ['/crm/clients/edit-client-central-bank-info', ct.id],
+      {
+        queryParams: {
+          mode: 'view',
+          clientId: this.clientIdParam, // <-- use "currencyId" here
+        },
+      }
+    );
   }
 }

@@ -10,7 +10,7 @@ import { TabsModule } from 'primeng/tabs';
 import { LegalFormsEffects } from '../../legals/store/legal-forms/legal-forms.effects';
 import { legalFormsReducer } from '../../legals/store/legal-forms/legal-forms.reducer';
 import { AddSalesTurnoverComponent } from './components/client-activities/client-sales-turnovers/add-client-sales-turnover/add-client-sales-turnover.component';
-import { AddClientCentralBankInfoComponent } from './components/client-activities/add-central-bank-info/add-central-bank-info.component';
+import { AddClientCentralBankInfoComponent } from './components/client-activities/client-central-bank-info/add-central-bank-info/add-central-bank-info.component';
 import { AddClientGuarantorComponent } from './components/client-activities/add-client-guarantor/add-client-guarantor.component';
 import { AddClientIdentityComponent } from './components/client-activities/add-client-identity/add-client-identity.component';
 import { AddClientStatusActionsComponent } from './components/client-activities/add-client-status-actions/add-client-status-actions.component';
@@ -23,7 +23,7 @@ import { AddClientTMLOfficersComponent } from './components/client-activities/ad
 import { AddUploadDocumentsComponent } from './components/client-activities/upload-documents/add-upload-documents/add-upload-documents.component';
 import { ClientActivityWizardComponent } from './components/client-activities/client-activity-wizard/client-activity-wizard.component';
 import { ContactPersonViewTableDataComponent } from './components/client-activities/contact-person-view-table-data/contact-person-view-table-data.component';
-import { ViewClientCentralBankInfoComponent } from './components/client-activities/view-central-bank-info/view-central-bank-info.component';
+import { ViewClientCentralBankInfoComponent } from './components/client-activities/client-central-bank-info/view-central-bank-info/view-central-bank-info.component';
 import { ViewClientGuarantorComponent } from './components/client-activities/view-client-guarantor/view-client-guarantor.component';
 import { ViewClientIdentityComponent } from './components/client-activities/view-client-identity/view-client-identity.component';
 import { ViewClientStatusComponent } from './components/client-activities/view-client-status-actions/view-client-status.component';

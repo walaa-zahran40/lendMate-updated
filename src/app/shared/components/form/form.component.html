@@ -5991,7 +5991,7 @@
       <div class="row justify-end">
         <div
           class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
-          *ngIf="!editMode"
+          *ngIf="!editMode && !viewOnly"
         >
           <p-button
             type="submit"
@@ -6056,7 +6056,7 @@
         pInputText
         id="capital"
         formControlName="capital"
-        placeholder="Type"
+        placeholder="Capital"
       />
       <div
         *ngIf="
@@ -6082,7 +6082,7 @@
         pInputText
         id="iScoreSectore"
         formControlName="iScoreSectore"
-        placeholder="Type"
+        placeholder="Iscore Sector"
       />
 
       <label for="cbeCustomerCode">CBE Customer Code<sup>*</sup></label>
@@ -6090,7 +6090,7 @@
         pInputText
         id="cbeCustomerCode"
         formControlName="cbeCustomerCode"
-        placeholder="Type"
+        placeholder="CBE Customer Code"
       />
       <div
         *ngIf="
@@ -6099,7 +6099,7 @@
         "
         class="p-error"
       >
-        cbeCustomerCode is required.
+        CBE Customer Code is required.
       </div>
 
       <label for="smeClientCodeId">SME Client Code <sup>*</sup></label>
@@ -6120,7 +6120,7 @@
       <div class="row justify-end">
         <div
           class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
-          *ngIf="!editMode"
+          *ngIf="!editMode && !viewOnly"
         >
           <p-button
             type="submit"

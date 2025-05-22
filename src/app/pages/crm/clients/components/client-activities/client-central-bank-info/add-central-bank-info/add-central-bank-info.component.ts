@@ -3,15 +3,14 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, forkJoin, filter, take, takeUntil } from 'rxjs';
-import { loadAll as loadCompanyTypes } from '../../../../../lookups/store/address-types/address-types.actions';
-import { selectAllCompanyTypes } from '../../../../../lookups/store/company-types/company-types.selectors';
-import { CompanyType } from '../../../../../lookups/store/company-types/company-type.model';
-import { ClientCentralBankInfoFacade } from '../../../store/client-central-bank-info/client-central-bank.facade';
-import { ClientCentralBankInfo } from '../../../store/client-central-bank-info/client-central-bank.model';
-import { SMEClientCode } from '../../../../../lookups/store/sme-client-codes/sme-client-codes.model';
-import { loadAll as loadSMEClientCodes} from '../../../../../lookups/store/sme-client-codes/sme-client-codes.actions';
-import { selectAllSMEClientCodes } from '../../../../../lookups/store/sme-client-codes/sme-client-codes.selectors';
-
+import { loadAll as loadCompanyTypes } from '../../../../../../lookups/store/address-types/address-types.actions';
+import { selectAllCompanyTypes } from '../../../../../../lookups/store/company-types/company-types.selectors';
+import { CompanyType } from '../../../../../../lookups/store/company-types/company-type.model';
+import { ClientCentralBankInfoFacade } from '../../../../store/client-central-bank-info/client-central-bank.facade';
+import { ClientCentralBankInfo } from '../../../../store/client-central-bank-info/client-central-bank.model';
+import { SMEClientCode } from '../../../../../../lookups/store/sme-client-codes/sme-client-codes.model';
+import { loadAll as loadSMEClientCodes } from '../../../../../../lookups/store/sme-client-codes/sme-client-codes.actions';
+import { selectAllSMEClientCodes } from '../../../../../../lookups/store/sme-client-codes/sme-client-codes.selectors';
 
 @Component({
   selector: 'app-add-central-bank-info',
@@ -67,7 +66,7 @@ export class AddClientCentralBankInfoComponent {
       cbeCustomerCode: [null, [Validators.required]],
       balanceSheetdate: [null, [Validators.required]],
       iScoreSectore: [null, [Validators.required]],
-      capital: [null, [Validators.required,Validators.pattern(/^[0-9]*$/)]],
+      capital: [null, [Validators.required, Validators.pattern(/^[0-9]*$/)]],
       isActive: [true],
     });
     console.log(
@@ -82,39 +81,39 @@ export class AddClientCentralBankInfoComponent {
     this.companyTypesList$ = this.store.select(selectAllCompanyTypes);
     this.smeClientCodesList$ = this.store.select(selectAllSMEClientCodes);
 
-     // Patch for add mode
-     if (this.mode === 'add') {
-        this.addClientCentralBankInfoForm.patchValue({
-          clientId: this.clientId,
-        });
-        console.log('✏️ Add mode → patched clientId:', this.clientId);
-      }
-    
-      // Patch for edit/view mode
-      if (this.editMode || this.viewOnly) {
-        this.recordId = Number(this.route.snapshot.paramMap.get('id'));
-        this.facade.loadOne(this.recordId);
+    // Patch for add mode
+    if (this.mode === 'add') {
+      this.addClientCentralBankInfoForm.patchValue({
+        clientId: this.clientId,
+      });
+      console.log('✏️ Add mode → patched clientId:', this.clientId);
+    }
 
-        this.facade.current$
-          .pipe(
-            takeUntil(this.destroy$),
-            filter((rec) => !!rec)
-          )
-          .subscribe((ct) => {
-            console.log('red', ct);
-            this.addClientCentralBankInfoForm.patchValue({
+    // Patch for edit/view mode
+    if (this.editMode || this.viewOnly) {
+      this.recordId = Number(this.route.snapshot.paramMap.get('id'));
+      this.facade.loadOne(this.recordId);
+
+      this.facade.current$
+        .pipe(
+          takeUntil(this.destroy$),
+          filter((rec) => !!rec)
+        )
+        .subscribe((ct) => {
+          console.log('red', ct);
+          this.addClientCentralBankInfoForm.patchValue({
             id: ct?.id,
             clientId: this.clientId,
             capital: ct?.capital,
             iScoreSectore: ct?.iScoreSectore,
-            companyTypeId : ct.companyTypeId,
+            companyTypeId: ct.companyTypeId,
             balanceSheetdate: new Date(ct.balanceSheetdate),
             cbeCustomerCode: ct.cbeCustomerCode,
             smeClientCodeId: ct.smeClientCodeId,
             isActive: ct?.isActive,
-            });
           });
-      }
+        });
+    }
   }
 
   addOrEditClientCentralBankInfo() {
@@ -140,8 +139,16 @@ export class AddClientCentralBankInfoComponent {
       clientId: clientParamQP,
     });
 
-    const { clientId,capital, iScoreSectore, companyTypeId,balanceSheetdate,cbeCustomerCode,smeClientCodeId, isActive } =
-      this.addClientCentralBankInfoForm.value;
+    const {
+      clientId,
+      capital,
+      iScoreSectore,
+      companyTypeId,
+      balanceSheetdate,
+      cbeCustomerCode,
+      smeClientCodeId,
+      isActive,
+    } = this.addClientCentralBankInfoForm.value;
     const payload: Partial<ClientCentralBankInfo> = {
       clientId,
       capital,
