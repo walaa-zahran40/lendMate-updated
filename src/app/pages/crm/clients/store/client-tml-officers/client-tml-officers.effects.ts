@@ -43,7 +43,9 @@ export class ClientTMLOfficersEffects {
           ),
           catchError((error) =>
             of(
-              ClientTMLOfficerActions.loadClientTMLOfficersHistoryFailure({ error })
+              ClientTMLOfficerActions.loadClientTMLOfficersHistoryFailure({
+                error,
+              })
             )
           )
         )
@@ -156,20 +158,20 @@ export class ClientTMLOfficersEffects {
         ClientTMLOfficerActions.updateClientTMLOfficerSuccess,
         ClientTMLOfficerActions.deleteClientTMLOfficerSuccess
       ),
- 
-      map(action => {
-      if ('clientId' in action) {
-        // for create/update you returned `{ client: ClientTMLOfficer }`,
-        // so dig into that object’s clientId
-        return action.clientId;
-      } else {
-        // for delete you returned `{ id, clientId }`
-        return action.client.clientId;
-      }
-    }),
- 
+
+      map((action) => {
+        if ('clientId' in action) {
+          // for create/update you returned `{ client: ClientTMLOfficer }`,
+          // so dig into that object’s clientId
+          return action.clientId;
+        } else {
+          // for delete you returned `{ id, clientId }`
+          return action.client.clientId;
+        }
+      }),
+
       // only continue if it’s a number
- 
+
       map((clientId) =>
         ClientTMLOfficerActions.loadClientTMLOfficersByClientId({
           clientId,
@@ -197,7 +199,9 @@ export class ClientTMLOfficersEffects {
             console.log('[Effect:loadByClientId] response →', items)
           ),
           map((items) =>
-            ClientTMLOfficerActions.loadClientTMLOfficersByClientIdSuccess({ items })
+            ClientTMLOfficerActions.loadClientTMLOfficersByClientIdSuccess({
+              items,
+            })
           ),
           catchError((error) =>
             of(

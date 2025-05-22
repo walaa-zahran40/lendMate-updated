@@ -2,7 +2,9 @@ import { createAction, props } from '@ngrx/store';
 import { ClientTMLOfficer } from './client-tml-officer.model';
 
 // Load all
-export const loadClientTMLOfficers = createAction('[ClientTMLOfficers] Load All');
+export const loadClientTMLOfficers = createAction(
+  '[ClientTMLOfficers] Load All'
+);
 export const loadClientTMLOfficersSuccess = createAction(
   '[ClientTMLOfficers] Load All Success',
   props<{ items: ClientTMLOfficer[]; totalCount: number }>()

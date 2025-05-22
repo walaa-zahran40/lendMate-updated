@@ -33,9 +33,7 @@ export class ClientTMLOfficersService {
   }
 
   getById(id: number): Observable<ClientTMLOfficer> {
-    return this.http.get<ClientTMLOfficer>(
-      `${this.api}/${id}`
-    );
+    return this.http.get<ClientTMLOfficer>(`${this.api}/${id}`);
   }
 
   create(data: Partial<ClientTMLOfficer>): Observable<ClientTMLOfficer> {
@@ -45,7 +43,10 @@ export class ClientTMLOfficersService {
     );
   }
 
-  update(id: number, data: Partial<ClientTMLOfficer>): Observable<ClientTMLOfficer> {
+  update(
+    id: number,
+    data: Partial<ClientTMLOfficer>
+  ): Observable<ClientTMLOfficer> {
     return this.http.put<ClientTMLOfficer>(`${this.api}/${id}`, data);
   }
 

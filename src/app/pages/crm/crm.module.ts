@@ -21,7 +21,7 @@ import { ClientContactPersonsEffects } from './clients/store/client-contact-pers
     SharedModule,
     StoreModule.forFeature('clientSalesTurnovers', clientSalesTurnoverReducer),
     EffectsModule.forFeature([ClientSalesTurnoversEffects]),
-      StoreModule.forFeature('clientContactPersons', clientContactPersonsReducer),
+    StoreModule.forFeature('clientContactPersons', clientContactPersonsReducer),
     EffectsModule.forFeature([ClientContactPersonsEffects]),
   ],
   providers: [],
