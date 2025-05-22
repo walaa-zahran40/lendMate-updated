@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ViewContactPersonsComponent } from '../communication/view-contact-persons/view-contact-persons.component';
 import { ViewOfficersComponent } from '../communication/view-officers/view-officers.component';
 import { WizardComponent } from '../communication/wizard/wizard.component';
-import { AddClientAddressesComponent } from './clients/components/client-activities/add-client-address/add-client-address.component';
+import { AddClientAddressesComponent } from './clients/components/client-activities/client-addresses/add-client-address/add-client-address.component';
 import { AddClientCentralBankInfoComponent } from './clients/components/client-activities/add-central-bank-info/add-central-bank-info.component';
 import { AddClientGuarantorComponent } from './clients/components/client-activities/add-client-guarantor/add-client-guarantor.component';
 import { AddClientIdentityComponent } from './clients/components/client-activities/add-client-identity/add-client-identity.component';
@@ -29,7 +29,7 @@ import { WizardClientStatusComponent } from './clients/components/client-activit
 import { AddClientComponent } from './clients/components/clients/company-individual/add-client/add-client.component';
 import { ViewClientsComponent } from './clients/components/clients/company-individual/view-clients/view-clients.component';
 import { CompanyViewOnlyComponent } from './clients/components/clients/company-view-only/company-view-only.component';
-import { ViewClientAddressesComponent } from './clients/components/client-activities/view-client-address/view-client-address.component';
+import { ViewClientAddressesComponent } from './clients/components/client-activities/client-addresses/view-client-addresses/view-client-address.component';
 import { LeasingFinancialFormCompoundComponent } from './leasing-mandates/components/leasing-financial-form-compound/leasing-financial-form-compound.component';
 import { LeasingFinancialFormComponent } from './leasing-mandates/components/leasing-financial-form/leasing-financial-form.component';
 import { AddChildMandateComponent } from './leasing-mandates/components/mandate-activities/add-child-mandate/add-child-mandate.component';
@@ -233,7 +233,7 @@ const routes: Routes = [
     component: ViewPhoneNumberComponent,
   },
 
-    // Client Contact Person 
+  // Client Contact Person
   {
     path: 'clients/add-contact-person/:clientId',
     component: AddContactPersonComponent,
@@ -248,8 +248,6 @@ const routes: Routes = [
     path: 'clients/view-contact-person/:clientId',
     component: ViewContactPersonComponent,
   },
-
-
 
   {
     path: 'clients/view-client-cr-authority-offices/:clientId',

@@ -48,8 +48,8 @@ import { ClientGuarantorsEffects } from './store/client-guarantors/client-guaran
 import { clientGuarantorsReducer } from './store/client-guarantors/client-guarantors.reducer';
 import { ClientTMLOfficersEffects } from './store/client-tml-officers/client-tml-officers.effects';
 import { clientTMLOfficersReducer } from './store/client-tml-officers/client-tml-officers.reducer';
-import { AddClientAddressesComponent } from './components/client-activities/add-client-address/add-client-address.component';
-import { ViewClientAddressesComponent } from './components/client-activities/view-client-address/view-client-address.component';
+import { AddClientAddressesComponent } from './components/client-activities/client-addresses/add-client-address/add-client-address.component';
+import { ViewClientAddressesComponent } from './components/client-activities/client-addresses/view-client-addresses/view-client-address.component';
 import { ClientAddressesEffects } from './store/client-addresses/client-addresses.effects';
 import { clientAddressesReducer } from './store/client-addresses/client-addresses.reducer';
 import { ClientSalesTurnoversEffects } from './store/client-sales-turnovers/client-sales-turnovers.effects';

@@ -3,21 +3,21 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, forkJoin, filter, take } from 'rxjs';
-import { arabicOnlyValidator } from '../../../../../../shared/validators/arabic-only.validator';
-import { Area } from '../../../../../lookups/store/areas/area.model';
-import { selectAllAreas } from '../../../../../lookups/store/areas/areas.selectors';
-import { Country } from '../../../../../lookups/store/countries/country.model';
-import { Governorate } from '../../../../../lookups/store/governorates/governorate.model';
-import { loadCountries } from '../../../../../lookups/store/countries/countries.actions';
-import { loadGovernorates } from '../../../../../lookups/store/governorates/governorates.actions';
-import { loadAreas } from '../../../../../lookups/store/areas/areas.actions';
-import { selectAllGovernorates } from '../../../../../lookups/store/governorates/governorates.selectors';
-import { selectAllCountries } from '../../../../../lookups/store/countries/countries.selectors';
-import { ClientAddressesFacade } from '../../../store/client-addresses/client-addresses.facade';
-import { ClientAddress } from '../../../store/client-addresses/client-address.model';
-import { loadAll as loadAddressTypes } from '../../../../../lookups/store/address-types/address-types.actions';
-import { selectAllAddressTypes } from '../../../../../lookups/store/address-types/address-types.selectors';
-import { AddressType } from '../../../../../lookups/store/address-types/address-types.model';
+import { arabicOnlyValidator } from '../../../../../../../shared/validators/arabic-only.validator';
+import { Area } from '../../../../../../lookups/store/areas/area.model';
+import { selectAllAreas } from '../../../../../../lookups/store/areas/areas.selectors';
+import { Country } from '../../../../../../lookups/store/countries/country.model';
+import { Governorate } from '../../../../../../lookups/store/governorates/governorate.model';
+import { loadCountries } from '../../../../../../lookups/store/countries/countries.actions';
+import { loadGovernorates } from '../../../../../../lookups/store/governorates/governorates.actions';
+import { loadAreas } from '../../../../../../lookups/store/areas/areas.actions';
+import { selectAllGovernorates } from '../../../../../../lookups/store/governorates/governorates.selectors';
+import { selectAllCountries } from '../../../../../../lookups/store/countries/countries.selectors';
+import { ClientAddressesFacade } from '../../../../store/client-addresses/client-addresses.facade';
+import { ClientAddress } from '../../../../store/client-addresses/client-address.model';
+import { loadAll as loadAddressTypes } from '../../../../../../lookups/store/address-types/address-types.actions';
+import { selectAllAddressTypes } from '../../../../../../lookups/store/address-types/address-types.selectors';
+import { AddressType } from '../../../../../../lookups/store/address-types/address-types.model';
 
 @Component({
   selector: 'app-add-client-address',

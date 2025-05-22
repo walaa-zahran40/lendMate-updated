@@ -5286,7 +5286,7 @@
         pInputText
         id="details"
         formControlName="details"
-        placeholder="Type"
+        placeholder="Details in English"
       />
       <div
         *ngIf="
@@ -5297,12 +5297,12 @@
       >
         Details in English is required.
       </div>
-      <label for="detailsAR">DetailsAr in Arabic<sup>*</sup></label>
+      <label for="detailsAR">Details in Arabic<sup>*</sup></label>
       <input
         pInputText
         id="detailsAR"
         formControlName="detailsAR"
-        placeholder="Type"
+        placeholder="Details in Arabic"
       />
       <div
         *ngIf="
@@ -5317,7 +5317,7 @@
       <div class="row justify-end">
         <div
           class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
-          *ngIf="!editMode"
+          *ngIf="!editMode && !viewOnly"
         >
           <p-button
             type="submit"
@@ -5337,7 +5337,7 @@
           ></p-button>
         </div>
         <div
-          *ngIf="viewOnly"
+          *ngIf="viewOnly && !editMode"
           class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
         >
           <p-button
@@ -5515,32 +5515,27 @@
         placeholder="Add Phone Number"
       />
     </form>
-    <form 
-     *ngIf="addClientContactPersonForm" 
-     (ngSubmit)="onSubmit()"
+    <form
+      *ngIf="addClientContactPersonForm"
+      (ngSubmit)="onSubmit()"
       [formGroup]="formGroup"
-      >
-
-      <label for="name"
-        >Name<sup class="danger">*</sup></label
-      >
+    >
+      <label for="name">Name<sup class="danger">*</sup></label>
       <input
         pInputText
         id="name"
         aria-describedby="name-help"
         name="name"
         placeholder="Mohamed"
-        formControlName="name" 
+        formControlName="name"
       />
-      <label for="nameAR"
-        >Name in Arabic<sup class="danger">*</sup></label
-      >
+      <label for="nameAR">Name in Arabic<sup class="danger">*</sup></label>
       <input
         pInputText
         id="nameAR"
         aria-describedby="nameAR-help"
         placeholder="Yasser"
-        formControlName="nameAR" 
+        formControlName="nameAR"
         name="nameAR"
       />
       <label for="genderContactPerson">Gender<sup class="danger">*</sup></label>
@@ -5549,7 +5544,7 @@
         optionLabel="value"
         optionValue="id"
         placeholder="Select a Gender"
-        formControlName="genderId" 
+        formControlName="genderId"
         class="w-full md:w-56"
         name="gender"
       />
@@ -5559,7 +5554,7 @@
         id="TitleInEnglishContactPerson"
         aria-describedby="TitleInEnglishContactPerson-help"
         placeholder="Mou Yasser"
-        formControlName="title" 
+        formControlName="title"
         name="TitleInEnglishContactPerson"
       />
       <label for="TitleInArabicContactPerson">Title in Arabic</label>
@@ -5568,24 +5563,22 @@
         id="TitleInArabicContactPerson"
         aria-describedby="TitleInArabicContactPerson-help"
         placeholder="Mou Yasser"
-        formControlName="titleAR" 
+        formControlName="titleAR"
         name="TitleInArabicContactPerson"
       />
- 
-          <label for="emailAddressContactPerson"
-            >Email Address<sup>*</sup></label
-          >
-          <input
-            pInputText
-            id="emailAddressContactPerson"
-            aria-describedby="emailAddressContactPerson-help"
-            formControlName="email" 
-            placeholder="name@corplease.com.eg"
-            name="emailAddressContactPerson"
-          />
-          <!-- Here is phone numbers multiselect  -->
 
-       <div formArrayName="phoneTypes">
+      <label for="emailAddressContactPerson">Email Address<sup>*</sup></label>
+      <input
+        pInputText
+        id="emailAddressContactPerson"
+        aria-describedby="emailAddressContactPerson-help"
+        formControlName="email"
+        placeholder="name@corplease.com.eg"
+        name="emailAddressContactPerson"
+      />
+      <!-- Here is phone numbers multiselect  -->
+
+      <div formArrayName="phoneTypes">
         <div
           *ngFor="let group of phoneTypes?.controls; let i = index"
           [formGroupName]="i"
@@ -5617,7 +5610,7 @@
               Phone Number is required.
             </small>
           </div>
- 
+
           <!-- 2) Select Identity -->
           <div class="div-select flex-1 min-w-0">
             <label for="phoneType" class="p-0">
@@ -5648,7 +5641,7 @@
               Phone Type is required.
             </small>
           </div>
- 
+
           <!-- 4) Add another identity -->
           <button
             style="margin-top: 25px"
@@ -5658,7 +5651,7 @@
             class="p-button-outlined p-button-sm"
             (click)="addPhoneType.emit()"
           ></button>
- 
+
           <!-- 5) Remove this identity -->
           <button
             pButton
@@ -5672,9 +5665,6 @@
         </div>
       </div>
 
-  
-
-      
       <div formArrayName="identities">
         <div
           *ngFor="let group of identities?.controls; let i = index"
@@ -5707,7 +5697,7 @@
               Identification Number is required.
             </small>
           </div>
- 
+
           <!-- 2) Select Identity -->
           <div class="div-select flex-1 min-w-0">
             <label for="identityType" class="p-0">
@@ -5738,7 +5728,7 @@
               Identity is required.
             </small>
           </div>
- 
+
           <!-- 3) Is Main toggle -->
           <!-- 3) Is Main toggle -->
           <div
@@ -5765,7 +5755,7 @@
               You must choose if this is main.
             </small>
           </div>
- 
+
           <!-- 4) Add another identity -->
           <button
             style="margin-top: 25px"
@@ -5775,7 +5765,7 @@
             class="p-button-outlined p-button-sm"
             (click)="addIdentity.emit()"
           ></button>
- 
+
           <!-- 5) Remove this identity -->
           <button
             pButton
@@ -5800,7 +5790,7 @@
         optionLabel="name"
         icon="pi pi-times"
         name="addressTypeContactPerson"
-        formControlName="addressTypeId" 
+        formControlName="addressTypeId"
         chipIcon="pi pi-times"
       />
       <label for="countryContactPerson"
@@ -5814,27 +5804,26 @@
         display="chip"
         icon="pi pi-times"
         name="countryContactPerson"
-        styleClass="w-full md:w-80"   
-         formControlName="countryId" 
+        styleClass="w-full md:w-80"
+        formControlName="countryId"
         chipIcon="pi pi-times"
       />
       <label for="governmentContactPerson"
         >Governorate <sup class="danger">*</sup></label
       >
 
-<p-select
-[options]="governorates"
+      <p-select
+        [options]="governorates"
         optionValue="id"
         placeholder="Select governorate"
         optionLabel="name"
         display="chip"
         icon="pi pi-times"
         name="governmentContactPerson"
-        styleClass="w-full md:w-80"   
-         formControlName="governorateId" 
+        styleClass="w-full md:w-80"
+        formControlName="governorateId"
         chipIcon="pi pi-times"
-        
-        />
+      />
       <label for="areasContactPerson">Area<sup class="danger">*</sup></label>
       <p-select
         [options]="areas"
@@ -5844,8 +5833,8 @@
         display="chip"
         icon="pi pi-times"
         name="areasContactPerson"
-        styleClass="w-full md:w-80"   
-         formControlName="areaId" 
+        styleClass="w-full md:w-80"
+        formControlName="areaId"
         chipIcon="pi pi-times"
       />
       <label for="detailsEnglishContactPerson">Details English</label>
@@ -5854,7 +5843,7 @@
         id="detailsEnglishContactPerson"
         aria-describedby="detailsEnglishContactPerson-help"
         placeholder="Address Details"
-            formControlName="addressDetails" 
+        formControlName="addressDetails"
         name="detailsEnglishContactPerson"
       />
       <label for="detailsArabicContactPerson">Details Arabic</label>
@@ -5863,12 +5852,11 @@
         id="detailsArabicContactPerson"
         aria-describedby="detailsArabicContactPerson-help"
         placeholder="Address Details"
-            formControlName="addressDetailsAr" 
-
+        formControlName="addressDetailsAr"
         name="detailsArabicContactPerson"
       />
 
-   <div class="row justify-end">
+      <div class="row justify-end">
         <div
           class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 currenciesDiv"
           *ngIf="!editMode && !viewOnly"
@@ -6163,10 +6151,11 @@
         </div>
       </div>
     </form>
-    <form  [formGroup]="formGroup"
-        *ngIf="addShareHolderShowMain"
-        (ngSubmit)="onSubmit()">
-
+    <form
+      [formGroup]="formGroup"
+      *ngIf="addShareHolderShowMain"
+      (ngSubmit)="onSubmit()"
+    >
       <label for="shareHolderId">Share Holder Name<sup>*</sup></label>
       <p-select
         [options]="clientsList"
@@ -6189,7 +6178,7 @@
         formControlName="percentage"
         placeholder="Type"
       />
-       <div class="row justify-end">
+      <div class="row justify-end">
         <div
           class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
           *ngIf="!editMode"
@@ -6222,13 +6211,12 @@
           />
         </div>
       </div>
-     
     </form>
-    <form   
-        [formGroup]="formGroup"
-        *ngIf="addTMLOfficerShowMain"
-        (ngSubmit)="onSubmit()"
-      >
+    <form
+      [formGroup]="formGroup"
+      *ngIf="addTMLOfficerShowMain"
+      (ngSubmit)="onSubmit()"
+    >
       <label for="officerId">Officer Name<sup>*</sup></label>
       <p-select
         [options]="officersList"

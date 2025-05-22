@@ -1,13 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, Observable, takeUntil, tap, map, combineLatest } from 'rxjs';
-import { TableComponent } from '../../../../../../shared/components/table/table.component';
-import { ClientAddressesFacade } from '../../../store/client-addresses/client-addresses.facade';
-import { ClientAddress } from '../../../store/client-addresses/client-address.model';
-import { Area } from '../../../../../lookups/store/areas/area.model';
+import { TableComponent } from '../../../../../../../shared/components/table/table.component';
+import { ClientAddressesFacade } from '../../../../store/client-addresses/client-addresses.facade';
+import { ClientAddress } from '../../../../store/client-addresses/client-address.model';
+import { Area } from '../../../../../../lookups/store/areas/area.model';
 import { Store } from '@ngrx/store';
-import { selectAllAreas } from '../../../../../lookups/store/areas/areas.selectors';
-import { AreasFacade } from '../../../../../lookups/store/areas/areas.facade';
+import { selectAllAreas } from '../../../../../../lookups/store/areas/areas.selectors';
+import { AreasFacade } from '../../../../../../lookups/store/areas/areas.facade';
 
 @Component({
   selector: 'app-view-client-address',

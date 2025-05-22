@@ -40,12 +40,12 @@
       padding: var(--custom-padding-right-10);
       zoom: 80%;
     }
-    .p-tabpanels {
-      background: var(--bg-tab);
+    .p-button:not(:disabled):hover {
+      background: var(--p-tabs-active-bar-background) !important;
+      border: none;
     }
-    .p-tabs {
-      padding: var(--custom-padding-right-10);
-      zoom: 80%;
+    .p-fileupload-choose-button:not(:disabled):hover {
+      background: transparent !important;
     }
     .custom-next {
       background: var(--p-tabs-active-bar-background);
@@ -64,7 +64,7 @@
       margin-left: var(--custom-position-auto);
       margin-right: var(--custom-position-28);
       text-align: var(--custom-position-center);
-      padding: 14px 58px;
+      padding: 14px 27px;
       font-size: var(--custom-font-size-18);
       cursor: var(--custom-cursor);
       color: var(--custom-color-white);
@@ -164,7 +164,7 @@ p {
   line-height: 25.6px;
   color: #7c8493;
 }
-.margin-top {
+hr {
   margin-top: 32px;
   margin-bottom: 32px;
 }
