@@ -1,44 +1,68 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import * as GuarantorActions from './client-guarantors.actions';
-import * as GuarantorSelectors from './client-guarantors.selectors';
 import { Observable } from 'rxjs';
-import { ClientGuarantor } from './client-guarantors.state';
+import { selectLastOperationSuccess } from '../../../../../shared/store/ui.selectors';
+import { ClientGuarantor } from './client-guarantor.model';
+import * as Selectors from './client-guarantors.selectors';
+import * as Actions from './client-guarantors.actions';
 
 @Injectable({ providedIn: 'root' })
 export class ClientGuarantorsFacade {
-  list$: Observable<ClientGuarantor[]> = this.store.select(
-    GuarantorSelectors.selectGuarantorList
+  items$: Observable<ClientGuarantor[]> = this.store.select(
+    Selectors.selectClientGuarantors
   );
-  history$: Observable<any[]> = this.store.select(
-    GuarantorSelectors.selectGuarantorsHistory
+  total$: Observable<number> = this.store.select(
+    Selectors.selectClientGuarantorsTotal
   );
+  history$: Observable<ClientGuarantor[]> = this.store.select(
+    Selectors.selectClientGuarantorsHistory
+  );
+  current$: Observable<ClientGuarantor | undefined> = this.store.select(
+    Selectors.selectCurrentClientGuarantor
+  );
+
   loading$: Observable<boolean> = this.store.select(
-    GuarantorSelectors.selectGuarantorsLoading
+    Selectors.selectClientGuarantorsLoading
   );
   error$: Observable<any> = this.store.select(
-    GuarantorSelectors.selectGuarantorsError
+    Selectors.selectClientGuarantorsError
   );
+  operationSuccess$ = this.store.select(selectLastOperationSuccess);
 
   constructor(private store: Store) {}
 
-  loadGuarantors(clientId: number) {
-    this.store.dispatch(GuarantorActions.loadGuarantors({ clientId }));
+  loadAll() {
+    this.store.dispatch(Actions.loadClientGuarantors());
   }
-
-  createGuarantor(guarantor: ClientGuarantor) {
-    this.store.dispatch(GuarantorActions.createGuarantor({ guarantor }));
-  }
-
-  updateGuarantor(id: number, guarantor: ClientGuarantor) {
-    this.store.dispatch(GuarantorActions.updateGuarantor({ id, guarantor }));
-  }
-
-  deleteGuarantor(id: number) {
-    this.store.dispatch(GuarantorActions.deleteGuarantor({ id }));
-  }
-
   loadHistory() {
-    this.store.dispatch(GuarantorActions.loadGuarantorsHistory());
+    this.store.dispatch(Actions.loadClientGuarantorsHistory());
+  }
+  loadOne(id: number) {
+    this.store.dispatch(Actions.loadClientGuarantor({ id }));
+  }
+  create(data: Partial<ClientGuarantor>) {
+    this.store.dispatch(Actions.createClientGuarantor({ data }));
+  }
+  update(id: any, data: Partial<ClientGuarantor>) {
+    this.store.dispatch(Actions.updateClientGuarantor({ id, data }));
+  }
+  /** NEW: dispatch the by-clientId loader */
+  loadClientGuarantorsByClientId(clientId?: number) {
+    if (clientId == null || isNaN(clientId)) {
+      console.error(
+        '❌ Facade.loadClientGuarantorsByClientId called with invalid id:',
+        clientId
+      );
+      return;
+    }
+    this.store.dispatch(Actions.loadClientGuarantorsByClientId({ clientId }));
+  }
+
+  /** UPDATED: now expects both id & parent clientId */
+  delete(id: number, clientId: number) {
+    this.store.dispatch(Actions.deleteClientGuarantor({ id, clientId }));
+  }
+  loadByClientId(clientId: number) {
+    this.store.dispatch(Actions.loadClientGuarantorsByClientId({ clientId }));
   }
 }

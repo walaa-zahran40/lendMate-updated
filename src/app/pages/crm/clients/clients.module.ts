@@ -24,7 +24,6 @@ import { AddUploadDocumentsComponent } from './components/client-activities/uplo
 import { ClientActivityWizardComponent } from './components/client-activities/client-activity-wizard/client-activity-wizard.component';
 import { ContactPersonViewTableDataComponent } from './components/client-activities/contact-person-view-table-data/contact-person-view-table-data.component';
 import { ViewClientCentralBankInfoComponent } from './components/client-activities/view-central-bank-info/view-central-bank-info.component';
-import { ViewClientGuarantorComponent } from './components/client-activities/view-client-guarantor/view-client-guarantor.component';
 import { ViewClientIdentityComponent } from './components/client-activities/view-client-identity/view-client-identity.component';
 import { ViewClientStatusComponent } from './components/client-activities/view-client-status-actions/view-client-status.component';
 import { ViewClientStatusesComponent } from './components/client-activities/view-client-statuses/view-client-statuses.component';
@@ -117,7 +116,6 @@ import { clientShareHoldersReducer } from './store/client-share-holders/client-s
     ViewShareHoldersComponent,
     ViewTMLOfficersComponent,
     ClientActivityWizardComponent,
-    ViewClientGuarantorComponent,
     AddClientGuarantorComponent,
     ViewClientIdentityComponent,
     AddClientIdentityComponent,

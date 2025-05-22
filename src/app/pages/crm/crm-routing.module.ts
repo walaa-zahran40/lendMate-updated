@@ -16,7 +16,6 @@ import { AddUploadDocumentsComponent } from './clients/components/client-activit
 import { ClientActivityWizardComponent } from './clients/components/client-activities/client-activity-wizard/client-activity-wizard.component';
 import { ContactPersonViewTableDataComponent } from './clients/components/client-activities/contact-person-view-table-data/contact-person-view-table-data.component';
 import { ViewClientCentralBankInfoComponent } from './clients/components/client-activities/view-central-bank-info/view-central-bank-info.component';
-import { ViewClientGuarantorComponent } from './clients/components/client-activities/view-client-guarantor/view-client-guarantor.component';
 import { ViewClientIdentityComponent } from './clients/components/client-activities/view-client-identity/view-client-identity.component';
 import { ViewClientStatusComponent } from './clients/components/client-activities/view-client-status-actions/view-client-status.component';
 import { ViewClientStatusesComponent } from './clients/components/client-activities/view-client-statuses/view-client-statuses.component';
@@ -47,6 +46,7 @@ import { AddClientOnboardingComponent } from './clients/components/clients/clien
 import { ViewClientsOnboardingComponent } from './clients/components/clients/client-onboarding/view-clients-onboarding/view-clients-onboarding.component';
 import { AddClientShareHoldersComponent } from './clients/components/client-activities/add-share-holders/add-share-holders.component';
 import { ViewShareHoldersComponent } from './clients/components/client-activities/view-share-holder/view-share-holder.component';
+import { ViewGuarantorsComponent } from './clients/components/client-activities/view-client-guarantor/view-client-guarantor.component';
 
 const routes: Routes = [
   /*Clients , Client Onboarding Routing*/
@@ -174,6 +174,24 @@ const routes: Routes = [
     path: 'clients/edit-client-share-holders/:id',
     component: AddClientShareHoldersComponent,
   },
+
+
+  /// 
+  {
+    path: 'clients/add-client-guarantors/:id',
+    component: AddClientShareHoldersComponent,
+  },
+  {
+    path: 'clients/edit-client-guarantors/:id',
+    component: AddClientGuarantorComponent,
+  },
+{
+    path: 'clients/view-client-Guarantors/:id',
+    component: ViewGuarantorsComponent,
+  },
+ 
+
+
   {
     path: 'clients/add-client-tml-officers',
     component: AddClientTMLOfficersComponent,
@@ -187,10 +205,6 @@ const routes: Routes = [
     component: AddClientTMLOfficersComponent,
   },
 
-  {
-    path: 'clients/view-client-guarantor',
-    component: ViewClientGuarantorComponent,
-  },
   {
     path: 'clients/view-client-identity',
     component: ViewClientIdentityComponent,

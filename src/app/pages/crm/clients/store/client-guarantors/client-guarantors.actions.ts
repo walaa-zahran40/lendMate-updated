@@ -1,66 +1,98 @@
 import { createAction, props } from '@ngrx/store';
-import { ClientGuarantor } from './client-guarantors.state';
+import { ClientGuarantor } from './client-guarantor.model';
 
-export const loadGuarantors = createAction(
-  '[Client Guarantors] Load Guarantors',
+// Load all
+export const loadClientGuarantors = createAction('[ClientGuarantors] Load All');
+export const loadClientGuarantorsSuccess = createAction(
+  '[ClientGuarantors] Load All Success',
+  props<{ items: ClientGuarantor[]; totalCount: number }>()
+);
+export const loadClientGuarantorsFailure = createAction(
+  '[ClientGuarantors] Load All Failure',
+  props<{ error: any }>()
+);
+// Load history
+export const loadClientGuarantorsHistory = createAction(
+  '[ClientGuarantors] Load History'
+);
+export const loadClientGuarantorsHistorySuccess = createAction(
+  '[ClientGuarantors] Load History Success',
+  props<{ history: ClientGuarantor[] }>()
+);
+export const loadClientGuarantorsHistoryFailure = createAction(
+  '[ClientGuarantors] Load History Failure',
+  props<{ error: any }>()
+);
+
+// Load by ID
+export const loadClientGuarantor = createAction(
+  '[ClientGuarantors] Load One',
+  props<{ id: number }>()
+);
+export const loadClientGuarantorSuccess = createAction(
+  '[ClientGuarantors] Load One Success',
+  props<{ client: ClientGuarantor }>()
+);
+export const loadClientGuarantorFailure = createAction(
+  '[ClientGuarantors] Load One Failure',
+  props<{ error: any }>()
+);
+
+// Create
+export const createClientGuarantor = createAction(
+  '[ClientGuarantors] Create',
+  props<{ data: Partial<ClientGuarantor> }>()
+);
+export const createClientGuarantorSuccess = createAction(
+  '[ClientGuarantors] Create Success',
+  props<{ client: ClientGuarantor }>()
+);
+export const createClientGuarantorFailure = createAction(
+  '[ClientGuarantors] Create Failure',
+  props<{ error: any }>()
+);
+
+// Update
+export const updateClientGuarantor = createAction(
+  '[ClientGuarantors] Update',
+  props<{ id: number; data: Partial<ClientGuarantor> }>()
+);
+export const updateClientGuarantorSuccess = createAction(
+  '[ClientGuarantors] Update Success',
+  props<{ client: ClientGuarantor }>()
+);
+export const updateClientGuarantorFailure = createAction(
+  '[ClientGuarantors] Update Failure',
+  props<{ error: any }>()
+);
+
+// Load by ClientId
+export const loadClientGuarantorsByClientId = createAction(
+  '[ClientGuarantors] Load By ClientId',
   props<{ clientId: number }>()
 );
-export const loadGuarantorsSuccess = createAction(
-  '[Client Guarantors] Load Guarantors Success',
-  props<{ guarantors: ClientGuarantor[] }>()
+export const loadClientGuarantorsByClientIdSuccess = createAction(
+  '[ClientGuarantors] Load By ClientId Success',
+  props<{ items: any }>()
 );
-export const loadGuarantorsFailure = createAction(
-  '[Client Guarantors] Load Guarantors Failure',
+export const loadClientGuarantorsByClientIdFailure = createAction(
+  '[ClientGuarantors] Load By ClientId Failure',
   props<{ error: any }>()
 );
-
-export const createGuarantor = createAction(
-  '[Client Guarantors] Create Guarantor',
-  props<{ guarantor: ClientGuarantor }>()
+//Delete
+export const deleteClientGuarantor = createAction(
+  '[ClientGuarantors] Delete',
+  props<{ id: number; clientId: number }>()
 );
-export const createGuarantorSuccess = createAction(
-  '[Client Guarantors] Create Guarantor Success',
-  props<{ guarantor: ClientGuarantor }>()
+export const deleteClientGuarantorSuccess = createAction(
+  '[ClientGuarantors] Delete Success',
+  props<{ id: number; clientId: number }>()
 );
-export const createGuarantorFailure = createAction(
-  '[Client Guarantors] Create Guarantor Failure',
+export const deleteClientGuarantorFailure = createAction(
+  '[ClientGuarantors] Delete Failure',
   props<{ error: any }>()
 );
-
-export const updateGuarantor = createAction(
-  '[Client Guarantors] Update Guarantor',
-  props<{ id: number; guarantor: ClientGuarantor }>()
-);
-export const updateGuarantorSuccess = createAction(
-  '[Client Guarantors] Update Guarantor Success',
-  props<{ guarantor: ClientGuarantor }>()
-);
-export const updateGuarantorFailure = createAction(
-  '[Client Guarantors] Update Guarantor Failure',
-  props<{ error: any }>()
-);
-
-export const deleteGuarantor = createAction(
-  '[Client Guarantors] Delete Guarantor',
-  props<{ id: number }>()
-);
-export const deleteGuarantorSuccess = createAction(
-  '[Client Guarantors] Delete Guarantor Success',
-  props<{ id: number }>()
-);
-export const deleteGuarantorFailure = createAction(
-  '[Client Guarantors] Delete Guarantor Failure',
-  props<{ error: any }>()
-);
-
-export const loadGuarantorsHistory = createAction(
-  '[Client Guarantors] Load Guarantors History'
-);
-export const loadGuarantorsHistorySuccess = createAction(
-  '[Client Guarantors] Load Guarantors History Success',
-  props<{ history: any[] }>()
-);
-export const loadGuarantorsHistoryFailure = createAction(
-  '[Client Guarantors] Load Guarantors History Failure',
-  props<{ error: any }>()
+export const entityOperationSuccess = createAction(
+  '[Entity] Operation Success',
+  props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
 );
