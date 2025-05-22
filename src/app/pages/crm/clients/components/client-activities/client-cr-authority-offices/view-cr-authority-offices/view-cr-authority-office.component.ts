@@ -1,13 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, Observable, takeUntil, tap, map, combineLatest } from 'rxjs';
-import { TableComponent } from '../../../../../../shared/components/table/table.component';
-import { ClientCRAuthorityOffice } from '../../../store/client-cr-authority-office/client-cr-authority-office.model';
-import { ClientCRAuthorityOfficesFacade } from '../../../store/client-cr-authority-office/client-cr-authority-office.facade';
+import { TableComponent } from '../../../../../../../shared/components/table/table.component';
+import { ClientCRAuthorityOffice } from '../../../../store/client-cr-authority-office/client-cr-authority-office.model';
+import { ClientCRAuthorityOfficesFacade } from '../../../../store/client-cr-authority-office/client-cr-authority-office.facade';
 import { Store } from '@ngrx/store';
-import { loadAll as loadAllAuthorityOffice} from '../../../../../lookups/store/authority-offices/authority-offices.actions';
-import { AuthorityOffice } from '../../../../../lookups/store/authority-offices/authority-office.model';
-import { selectAllAuthorityOffices } from '../../../../../lookups/store/authority-offices/authority-offices.selectors';
+import { loadAll as loadAllAuthorityOffice } from '../../../../../../lookups/store/authority-offices/authority-offices.actions';
+import { AuthorityOffice } from '../../../../../../lookups/store/authority-offices/authority-office.model';
+import { selectAllAuthorityOffices } from '../../../../../../lookups/store/authority-offices/authority-offices.selectors';
 
 @Component({
   selector: 'app-view-cr-authority-office',
@@ -42,7 +42,6 @@ export class ViewCRAuthorityOfficesComponent {
     private facade: ClientCRAuthorityOfficesFacade,
     private route: ActivatedRoute,
     private store: Store
-    
   ) {}
 
   ngOnInit() {
@@ -52,28 +51,28 @@ export class ViewCRAuthorityOfficesComponent {
     this.cRAuthorityOffices$ = this.facade.items$;
 
     this.store.dispatch(loadAllAuthorityOffice({}));
-   
+
     this.authorityOfficesList$ = this.store.select(selectAllAuthorityOffices);
-   
 
     combineLatest([this.cRAuthorityOffices$, this.authorityOfficesList$])
-          .pipe(
-            map(([cRAuthorityOffices, authorityOfficesList]) =>
-              cRAuthorityOffices
-                .map((authorityOffice) => ({
-                  ...authorityOffice,
-                  crAuthorityOffice:
-                    authorityOfficesList.find((c) => c.id === authorityOffice.id)?.name || '—',
-                }))
-                // .filter((authorityOffice) => authorityOffice.isActive)
-                .sort((a, b) => b.id - a.id)
-            ),
-            takeUntil(this.destroy$)
-          )
-          .subscribe((enriched) => {
-            this.originalCRAuthorityOffices = enriched;
-            this.filteredCRAuthorityOffices = [...enriched];
-          });
+      .pipe(
+        map(([cRAuthorityOffices, authorityOfficesList]) =>
+          cRAuthorityOffices
+            .map((authorityOffice) => ({
+              ...authorityOffice,
+              crAuthorityOffice:
+                authorityOfficesList.find((c) => c.id === authorityOffice.id)
+                  ?.name || '—',
+            }))
+            // .filter((authorityOffice) => authorityOffice.isActive)
+            .sort((a, b) => b.id - a.id)
+        ),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((enriched) => {
+        this.originalCRAuthorityOffices = enriched;
+        this.filteredCRAuthorityOffices = [...enriched];
+      });
   }
 
   onAddCRAuthorityOffice() {
@@ -143,11 +142,14 @@ export class ViewCRAuthorityOfficesComponent {
     );
   }
   onViewCRAuthorityOffice(ct: ClientCRAuthorityOffice) {
-    this.router.navigate(['/crm/clients/edit-client-cr-authority-offices', ct.id], {
-      queryParams: {
-        mode: 'view',
-        clientId: this.clientIdParam, // <-- use "currencyId" here
-      },
-    });
+    this.router.navigate(
+      ['/crm/clients/edit-client-cr-authority-offices', ct.id],
+      {
+        queryParams: {
+          mode: 'view',
+          clientId: this.clientIdParam, // <-- use "currencyId" here
+        },
+      }
+    );
   }
 }

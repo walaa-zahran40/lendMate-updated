@@ -3,11 +3,11 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, forkJoin, filter, take, takeUntil } from 'rxjs';
-import { ClientCRAuthorityOfficesFacade } from '../../../store/client-cr-authority-office/client-cr-authority-office.facade';
-import { ClientCRAuthorityOffice } from '../../../store/client-cr-authority-office/client-cr-authority-office.model';
-import { AuthorityOffice } from '../../../../../lookups/store/authority-offices/authority-office.model';
-import { loadAll as loadAllAuthorityOffice} from '../../../../../lookups/store/authority-offices/authority-offices.actions';
-import { selectAllAuthorityOffices } from '../../../../../lookups/store/authority-offices/authority-offices.selectors';
+import { ClientCRAuthorityOfficesFacade } from '../../../../store/client-cr-authority-office/client-cr-authority-office.facade';
+import { ClientCRAuthorityOffice } from '../../../../store/client-cr-authority-office/client-cr-authority-office.model';
+import { AuthorityOffice } from '../../../../../../lookups/store/authority-offices/authority-office.model';
+import { loadAll as loadAllAuthorityOffice } from '../../../../../../lookups/store/authority-offices/authority-offices.actions';
+import { selectAllAuthorityOffices } from '../../../../../../lookups/store/authority-offices/authority-offices.selectors';
 
 @Component({
   selector: 'app-add-cr-authority-office',
@@ -72,38 +72,37 @@ export class AddClientCRAuthorityOfficesComponent {
 
     this.authorityOfficesList$ = this.store.select(selectAllAuthorityOffices);
 
-     // Patch for add mode
-       if (this.mode === 'add') {
-        this.addClientCRAuthorityOfficesLookupsForm.patchValue({
-          clientId: this.clientId,
-        });
-        console.log('✏️ Add mode → patched clientId:', this.clientId);
-      }
-    
-      // Patch for edit/view mode
-      if (this.editMode || this.viewOnly) {
-        this.recordId = Number(this.route.snapshot.paramMap.get('id'));
-        this.facade.loadOne(this.recordId);
+    // Patch for add mode
+    if (this.mode === 'add') {
+      this.addClientCRAuthorityOfficesLookupsForm.patchValue({
+        clientId: this.clientId,
+      });
+      console.log('✏️ Add mode → patched clientId:', this.clientId);
+    }
 
-        this.facade.current$
-          .pipe(
-            takeUntil(this.destroy$),
-            filter((rec) => !!rec)
-          )
-          .subscribe((ct) => {
-            console.log('red', ct);
-            this.addClientCRAuthorityOfficesLookupsForm.patchValue({
+    // Patch for edit/view mode
+    if (this.editMode || this.viewOnly) {
+      this.recordId = Number(this.route.snapshot.paramMap.get('id'));
+      this.facade.loadOne(this.recordId);
+
+      this.facade.current$
+        .pipe(
+          takeUntil(this.destroy$),
+          filter((rec) => !!rec)
+        )
+        .subscribe((ct) => {
+          console.log('red', ct);
+          this.addClientCRAuthorityOfficesLookupsForm.patchValue({
             id: ct?.id,
             clientId: this.clientId,
             expiryDate: new Date(ct.expiryDate),
-            crAuthorityOfficeId : ct.crAuthorityOfficeId,
+            crAuthorityOfficeId: ct.crAuthorityOfficeId,
             crNumber: ct.crNumber,
             isActive: ct?.isActive,
-            });
           });
-      }
+        });
+    }
   }
-
 
   addOrEditClientCRAuthorityOffices() {
     const clientParamQP = this.route.snapshot.queryParamMap.get('clientId');
@@ -111,8 +110,14 @@ export class AddClientCRAuthorityOfficesComponent {
     console.log('💥 addClientCRAuthorityOffices() called');
     console.log('  viewOnly:', this.viewOnly);
     console.log('  editMode:', this.editMode);
-    console.log('  form valid:', this.addClientCRAuthorityOfficesLookupsForm.valid);
-    console.log('  form touched:', this.addClientCRAuthorityOfficesLookupsForm.touched);
+    console.log(
+      '  form valid:',
+      this.addClientCRAuthorityOfficesLookupsForm.valid
+    );
+    console.log(
+      '  form touched:',
+      this.addClientCRAuthorityOfficesLookupsForm.touched
+    );
     console.log(
       '  form raw value:',
       this.addClientCRAuthorityOfficesLookupsForm.getRawValue()

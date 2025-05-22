@@ -72,8 +72,8 @@ import { reducer as clientsReducer } from './store/_clients/allclients/clients.r
 import { reducer as individualReducer } from './store/_clients/individuals/individuals.reducer';
 import { ClientsEffects } from './store/_clients/allclients/clients.effects';
 import { IndividualsEffects } from './store/_clients/individuals/individuals.effects';
-import { AddClientCRAuthorityOfficesComponent } from './components/client-activities/add-cr-authority-office/add-cr-authority-office.component';
-import { ViewCRAuthorityOfficesComponent } from './components/client-activities/view-cr-authority-office/view-cr-authority-office.component';
+import { AddClientCRAuthorityOfficesComponent } from './components/client-activities/client-cr-authority-offices/add-cr-authority-office/add-cr-authority-office.component';
+import { ViewCRAuthorityOfficesComponent } from './components/client-activities/client-cr-authority-offices/view-cr-authority-offices/view-cr-authority-office.component';
 import { clientCRAuthorityOfficesReducer } from './store/client-cr-authority-office/client-cr-authority-office.reducer';
 import { ClientCRAuthorityOfficesEffects } from './store/client-cr-authority-office/client-cr-authority-office.effects';
 import { clientTaxOfficesReducer } from './store/client-tax-office/client-tax-office.reducer';

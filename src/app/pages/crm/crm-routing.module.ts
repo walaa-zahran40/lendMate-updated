@@ -39,8 +39,8 @@ import { ViewCalculationsComponent } from './leasing-mandates/components/mandate
 import { ViewManageMandateTermsComponent } from './leasing-mandates/components/mandate-activities/view-manage-mandate-terms/view-manage-mandate-terms.component';
 import { AddMandateComponent } from './leasing-mandates/components/mandate/add-mandate/add-mandate.component';
 import { ViewMandateComponent } from './leasing-mandates/components/mandate/view-mandate/view-mandate.component';
-import { ViewCRAuthorityOfficesComponent } from './clients/components/client-activities/view-cr-authority-office/view-cr-authority-office.component';
-import { AddClientCRAuthorityOfficesComponent } from './clients/components/client-activities/add-cr-authority-office/add-cr-authority-office.component';
+import { ViewCRAuthorityOfficesComponent } from './clients/components/client-activities/client-cr-authority-offices/view-cr-authority-offices/view-cr-authority-office.component';
+import { AddClientCRAuthorityOfficesComponent } from './clients/components/client-activities/client-cr-authority-offices/add-cr-authority-office/add-cr-authority-office.component';
 import { ViewTaxAuthorityOfficesComponent } from './clients/components/client-activities/view-tax-authority-office/view-tax-authority-office.component';
 import { AddClientTaxAuthorityOfficesComponent } from './clients/components/client-activities/add-tax-authority-office/add-tax-authority-office.component';
 import { AddClientOnboardingComponent } from './clients/components/clients/client-onboarding/add-client-onboarding/add-client-onboarding.component';
@@ -139,7 +139,23 @@ const routes: Routes = [
     path: 'clients/view-phone-numbers/:clientId',
     component: ViewPhoneNumberComponent,
   },
-
+  //Client CR Authority offices
+  {
+    path: 'clients/add-client-cr-authority-offices',
+    component: AddClientCRAuthorityOfficesComponent,
+  },
+  {
+    path: 'clients/add-client-cr-authority-offices/:clientId',
+    component: AddClientCRAuthorityOfficesComponent,
+  },
+  {
+    path: 'clients/edit-client-cr-authority-offices/:id',
+    component: AddClientCRAuthorityOfficesComponent,
+  },
+  {
+    path: 'clients/view-client-cr-authority-offices/:clientId',
+    component: ViewCRAuthorityOfficesComponent,
+  },
   {
     path: 'clients/add-client-guarantor',
     component: AddClientGuarantorComponent,
@@ -161,18 +177,7 @@ const routes: Routes = [
   //   path: 'clients/contact-person-view-table-data',
   //   component: ContactPersonViewTableDataComponent,
   // },
-  {
-    path: 'clients/add-client-cr-authority-offices',
-    component: AddClientCRAuthorityOfficesComponent,
-  },
-  {
-    path: 'clients/add-client-cr-authority-offices/:clientId',
-    component: AddClientCRAuthorityOfficesComponent,
-  },
-  {
-    path: 'clients/edit-client-cr-authority-offices/:id',
-    component: AddClientCRAuthorityOfficesComponent,
-  },
+
   {
     path: 'clients/add-client-tax-authority-offices',
     component: AddClientTaxAuthorityOfficesComponent,
@@ -247,10 +252,6 @@ const routes: Routes = [
     component: ViewContactPersonComponent,
   },
 
-  {
-    path: 'clients/view-client-cr-authority-offices/:clientId',
-    component: ViewCRAuthorityOfficesComponent,
-  },
   {
     path: 'clients/view-client-tax-authority-offices/:clientId',
     component: ViewTaxAuthorityOfficesComponent,
