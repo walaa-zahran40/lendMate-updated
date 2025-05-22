@@ -109,7 +109,22 @@ const routes: Routes = [
     path: 'clients/view-client-addresses/:clientId',
     component: ViewClientAddressesComponent,
   },
-  //---
+  // Client Sales Turn Overs
+  {
+    path: 'clients/add-sales-turnover/:clientId',
+    component: AddSalesTurnoverComponent,
+  },
+
+  {
+    path: 'clients/edit-sales-turnover/:clientId',
+    component: AddSalesTurnoverComponent,
+  },
+
+  {
+    path: 'clients/view-sales-turnovers/:clientId',
+    component: ViewSalesTurnoverComponent,
+  },
+  //----
   {
     path: 'clients/add-client-guarantor',
     component: AddClientGuarantorComponent,
@@ -199,22 +214,6 @@ const routes: Routes = [
   {
     path: 'clients/view-client-identity',
     component: ViewClientIdentityComponent,
-  },
-
-  // Client Sales Over
-  {
-    path: 'clients/add-sales-turnover/:clientId',
-    component: AddSalesTurnoverComponent,
-  },
-
-  {
-    path: 'clients/edit-sales-turnover/:clientId',
-    component: AddSalesTurnoverComponent,
-  },
-
-  {
-    path: 'clients/view-sales-turnovers/:clientId',
-    component: ViewSalesTurnoverComponent,
   },
 
   // Client Phone number
