@@ -65,7 +65,7 @@ export class SideMenuComponent {
           {
             label: 'ClientGuarantor',
             icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-client-guarantor',
+            routerLink: '/crm/clients/view-client-guarantors',
           },
           {
             label: 'ClientIdentity',

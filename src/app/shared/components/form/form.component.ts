@@ -969,7 +969,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-workflow-action-types']);
   }
   viewClientGuarantors() {
-    this.router.navigate(['/crm/clients/view-client-guarantor']);
+    this.router.navigate(['/crm/clients/view-client-guarantors']);
   }
   onSubSectorChange(event: any): void {
     const selectedIds: number[] = event.value;

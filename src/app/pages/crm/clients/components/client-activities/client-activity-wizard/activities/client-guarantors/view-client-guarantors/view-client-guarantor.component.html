@@ -1,0 +1,40 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'CR Authority Offices'"
+    [labelBtn]="'Add CR Authority Office'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddCRAuthorityOffice()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+  <ng-container *ngIf="cRAuthorityOffices$ | async as cRAuthorityOffices">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredCRAuthorityOffices"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewCRAuthorityOfficeTable]="true"
+      (onDelete)="onDeleteCRAuthorityOffice($event)"
+      (onEdit)="onEditCRAuthorityOffice($event)"
+      (viewForm)="onViewCRAuthorityOffice($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

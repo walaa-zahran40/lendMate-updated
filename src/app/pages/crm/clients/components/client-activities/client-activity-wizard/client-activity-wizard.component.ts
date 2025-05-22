@@ -101,17 +101,17 @@ export class ClientActivityWizardComponent {
         title: 'Client Guarantors',
         content:
           'Introduce your company core info quickly to users by fill up company details',
-        link: '/crm/clients/view-client-guarantor',
+        link: `/crm/clients/view-client-guarantors/${clientId}`,
       },
 
-      // {
-      //   imgUrl: '/assets/images/shared/card/contact.svg',
-      //   imgAlt: 'contact',
-      //   title: 'Client Identity',
-      //   content:
-      //     'Introduce your company core info quickly to users by fill up company details',
-      //   link: `/crm/clients/view-client-identities/${clientId}`,
-      // },
+      {
+        imgUrl: '/assets/images/shared/card/contact.svg',
+        imgAlt: 'contact',
+        title: 'Client Identity',
+        content:
+          'Introduce your company core info quickly to users by fill up company details',
+        link: `/crm/clients/view-client-identities/${clientId}`,
+      },
     ];
     this.cards = this.chunkArray(this.originalCards, 3);
   }

@@ -56,12 +56,10 @@ import { ViewClientAddressesComponent } from './components/client-activities/cli
 import { AddClientCentralBankInfoComponent } from './components/client-activities/client-activity-wizard/activities/client-central-bank-info/add-central-bank-info/add-central-bank-info.component';
 import { ViewClientCentralBankInfoComponent } from './components/client-activities/client-activity-wizard/activities/client-central-bank-info/view-central-bank-info/view-central-bank-info.component';
 import { AddContactPersonComponent } from './components/client-activities/client-activity-wizard/activities/client-contact-persons/add-contact-person/add-contact-person.component';
-import { ContactPersonViewTableDataComponent } from './components/client-activities/client-activity-wizard/activities/client-contact-persons/contact-person-view-table-data/contact-person-view-table-data.component';
-import { ViewContactPersonComponent } from './components/client-activities/client-activity-wizard/activities/client-contact-persons/view-contact-person/view-contact-person.component';
 import { AddClientCRAuthorityOfficesComponent } from './components/client-activities/client-activity-wizard/activities/client-cr-authority-offices/add-cr-authority-office/add-cr-authority-office.component';
 import { ViewCRAuthorityOfficesComponent } from './components/client-activities/client-activity-wizard/activities/client-cr-authority-offices/view-cr-authority-offices/view-cr-authority-office.component';
 import { AddClientGuarantorComponent } from './components/client-activities/client-activity-wizard/activities/client-guarantors/add-client-guarantor/add-client-guarantor.component';
-import { ViewClientGuarantorComponent } from './components/client-activities/client-activity-wizard/activities/client-guarantors/view-client-guarantor/view-client-guarantor.component';
+import { ViewClientGuarantorComponent } from './components/client-activities/client-activity-wizard/activities/client-guarantors/view-client-guarantors/view-client-guarantor.component';
 import { AddClientIdentityComponent } from './components/client-activities/client-activity-wizard/activities/client-identities/add-client-identity/add-client-identity.component';
 import { ViewClientIdentityComponent } from './components/client-activities/client-activity-wizard/activities/client-identities/view-client-identity/view-client-identity.component';
 import { AddPhoneNumberComponent } from './components/client-activities/client-activity-wizard/activities/client-phone-numbers/add-phone-number/add-phone-number.component';
@@ -89,6 +87,7 @@ import { ClientGuarantorsEffects } from './store/client-guarantors/client-guaran
 import { clientGuarantorsReducer } from './store/client-guarantors/client-guarantors.reducer';
 import { ClientTMLOfficersEffects } from './store/client-tml-officers/client-tml-officers.effects';
 import { clientTMLOfficersReducer } from './store/client-tml-officers/client-tml-officers.reducer';
+import { ViewContactPersonComponent } from './components/client-activities/client-activity-wizard/activities/client-contact-persons/view-contact-person/view-contact-person.component';
 @NgModule({
   declarations: [
     AddClientComponent,
@@ -104,7 +103,6 @@ import { clientTMLOfficersReducer } from './store/client-tml-officers/client-tml
     AddClientTaxAuthorityOfficesComponent,
     AddClientCentralBankInfoComponent,
     AddClientShareHoldersComponent,
-    ContactPersonViewTableDataComponent,
     CompanyViewOnlyComponent,
     ViewUploadDocumentsComponent,
     ViewClientAddressesComponent,

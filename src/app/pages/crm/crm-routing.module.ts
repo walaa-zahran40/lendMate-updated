@@ -16,7 +16,7 @@ import { ViewContactPersonComponent } from './clients/components/client-activiti
 import { AddClientCRAuthorityOfficesComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-cr-authority-offices/add-cr-authority-office/add-cr-authority-office.component';
 import { ViewCRAuthorityOfficesComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-cr-authority-offices/view-cr-authority-offices/view-cr-authority-office.component';
 import { AddClientGuarantorComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-guarantors/add-client-guarantor/add-client-guarantor.component';
-import { ViewClientGuarantorComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-guarantors/view-client-guarantor/view-client-guarantor.component';
+import { ViewClientGuarantorComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-guarantors/view-client-guarantors/view-client-guarantor.component';
 import { AddClientIdentityComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-identities/add-client-identity/add-client-identity.component';
 import { ViewClientIdentityComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-identities/view-client-identity/view-client-identity.component';
 import { AddPhoneNumberComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-phone-numbers/add-phone-number/add-phone-number.component';
@@ -74,6 +74,15 @@ const routes: Routes = [
     component: ViewClientsComponent,
   },
   //Client Activities
+  {
+    path: 'clients/client-activity-wizard',
+    component: ClientActivityWizardComponent,
+  },
+  {
+    path: 'clients/client-activity-wizard/:clientId',
+    component: ClientActivityWizardComponent,
+  },
+
   /*Upload Documents*/
   {
     path: 'clients/add-upload-documents/:clientId',
@@ -223,41 +232,7 @@ const routes: Routes = [
     path: 'clients/view-client-tml-officers/:clientId',
     component: ViewTMLOfficersComponent,
   },
-  //====
-  {
-    path: 'clients/add-client-guarantor',
-    component: AddClientGuarantorComponent,
-  },
-  {
-    path: 'clients/add-client-identity',
-    component: AddClientIdentityComponent,
-  },
-  {
-    path: 'clients/company-view-only',
-    component: CompanyViewOnlyComponent,
-  },
-
-  // {
-  //   path: 'clients/add-contact-person',
-  //   component: AddContactPersonComponent,
-  // },
-  // {
-  //   path: 'clients/contact-person-view-table-data',
-  //   component: ContactPersonViewTableDataComponent,
-  // },
-
-  //---
-
-  {
-    path: 'clients/view-client-guarantor',
-    component: ViewClientGuarantorComponent,
-  },
-  {
-    path: 'clients/view-client-identity',
-    component: ViewClientIdentityComponent,
-  },
-
-  // Client Contact Person
+  // Client Contact Persons
   {
     path: 'clients/add-contact-person/:clientId',
     component: AddContactPersonComponent,
@@ -273,15 +248,32 @@ const routes: Routes = [
     component: ViewContactPersonComponent,
   },
 
+  //Client Guarantors
   {
-    path: 'clients/client-activity-wizard',
-    component: ClientActivityWizardComponent,
+    path: 'clients/add-client-guarantor',
+    component: AddClientGuarantorComponent,
   },
   {
-    path: 'clients/client-activity-wizard/:clientId',
-    component: ClientActivityWizardComponent,
+    path: 'clients/edit-client-guarantor/:id',
+    component: AddClientGuarantorComponent,
   },
-
+  {
+    path: 'clients/view-client-guarantors/:clientId',
+    component: ViewClientGuarantorComponent,
+  },
+  //Client Identities
+  {
+    path: 'clients/add-client-identity',
+    component: AddClientIdentityComponent,
+  },
+  {
+    path: 'clients/edit-client-identity/:id',
+    component: AddClientIdentityComponent,
+  },
+  {
+    path: 'clients/view-client-identities/:clientId',
+    component: ViewClientIdentityComponent,
+  },
   /*Leasing Mandates Routing*/
   {
     path: 'leasing-mandates/add-mandate',
