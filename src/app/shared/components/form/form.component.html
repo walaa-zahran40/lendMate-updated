@@ -329,7 +329,7 @@
       *ngIf="addTMLOfficerShowMain"
       icon="pi pi-cog"
       iconPos="left"
-      label="View TML Officer"
+      label="View Client TML Officers"
       (click)="viewTMLOfficer()"
       class="custom-view m-0 float-right"
     />
@@ -6250,7 +6250,7 @@
       <div class="row justify-end">
         <div
           class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
-          *ngIf="!editMode"
+          *ngIf="!editMode && !viewOnly"
         >
           <p-button
             type="submit"

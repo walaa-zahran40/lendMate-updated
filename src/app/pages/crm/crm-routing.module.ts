@@ -11,7 +11,7 @@ import { AddSalesTurnoverComponent } from './clients/components/client-activitie
 import { AddClientStatusesComponent } from './clients/components/client-activities/add-client-statuses/add-client-statuses.component';
 import { AddContactPersonComponent } from './clients/components/client-activities/add-contact-person/add-contact-person.component';
 import { AddPhoneNumberComponent } from './clients/components/client-activities/client-phone-numbers/add-phone-number/add-phone-number.component';
-import { AddClientTMLOfficersComponent } from './clients/components/client-activities/add-tml-officer/add-tml-officer.component';
+import { AddClientTMLOfficersComponent } from './clients/components/client-activities/client-tml-officers/add-tml-officer/add-tml-officer.component';
 import { AddUploadDocumentsComponent } from './clients/components/client-activities/upload-documents/add-upload-documents/add-upload-documents.component';
 import { ClientActivityWizardComponent } from './clients/components/client-activities/client-activity-wizard/client-activity-wizard.component';
 import { ContactPersonViewTableDataComponent } from './clients/components/client-activities/contact-person-view-table-data/contact-person-view-table-data.component';
@@ -23,7 +23,7 @@ import { ViewClientStatusesComponent } from './clients/components/client-activit
 import { ViewContactPersonComponent } from './clients/components/client-activities/view-contact-person/view-contact-person.component';
 import { ViewPhoneNumberComponent } from './clients/components/client-activities/client-phone-numbers/view-phone-numbers/view-phone-number.component';
 import { ViewSalesTurnoverComponent } from './clients/components/client-activities/client-sales-turnovers/view-client-sales-turnovers/view-sales-turnover.component';
-import { ViewTMLOfficersComponent } from './clients/components/client-activities/view-tml-officer/view-tml-officer.component';
+import { ViewTMLOfficersComponent } from './clients/components/client-activities/client-tml-officers/view-tml-officers/view-tml-officer.component';
 import { ViewUploadDocumentsComponent } from './clients/components/client-activities/upload-documents/view-upload-documents/view-upload-documents.component';
 import { WizardClientStatusComponent } from './clients/components/client-activities/wizard-client-status/wizard-client-status.component';
 import { AddClientComponent } from './clients/components/clients/company-individual/add-client/add-client.component';
@@ -207,6 +207,24 @@ const routes: Routes = [
     path: 'clients/view-client-share-holders/:clientId',
     component: ViewShareHoldersComponent,
   },
+  //Client TML Officers
+  {
+    path: 'clients/add-client-tml-officers',
+    component: AddClientTMLOfficersComponent,
+  },
+  {
+    path: 'clients/add-client-tml-officers/:clientId',
+    component: AddClientTMLOfficersComponent,
+  },
+  {
+    path: 'clients/edit-client-tml-officers/:id',
+    component: AddClientTMLOfficersComponent,
+  },
+  {
+    path: 'clients/view-client-tml-officers/:clientId',
+    component: ViewTMLOfficersComponent,
+  },
+  //====
   {
     path: 'clients/add-client-guarantor',
     component: AddClientGuarantorComponent,
@@ -230,19 +248,6 @@ const routes: Routes = [
   // },
 
   //---
-
-  {
-    path: 'clients/add-client-tml-officers',
-    component: AddClientTMLOfficersComponent,
-  },
-  {
-    path: 'clients/add-client-tml-officers/:clientId',
-    component: AddClientTMLOfficersComponent,
-  },
-  {
-    path: 'clients/edit-client-tml-officers/:id',
-    component: AddClientTMLOfficersComponent,
-  },
 
   {
     path: 'clients/view-client-guarantor',
@@ -269,10 +274,6 @@ const routes: Routes = [
     component: ViewContactPersonComponent,
   },
 
-  {
-    path: 'clients/view-client-tml-officers/:clientId',
-    component: ViewTMLOfficersComponent,
-  },
   {
     path: 'clients/client-activity-wizard',
     component: ClientActivityWizardComponent,

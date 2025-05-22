@@ -848,7 +848,9 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/legals/view-legal-forms']);
   }
   viewTMLOfficer() {
-    this.router.navigate(['/crm/clients/view-tml-officer']);
+    this.router.navigate([
+      `/crm/clients/view-client-tml-officers/${this.clientId}`,
+    ]);
   }
   viewShareHolder() {
     this.router.navigate([

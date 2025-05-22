@@ -1,16 +1,16 @@
 import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, Observable, takeUntil, tap, map, combineLatest } from 'rxjs';
-import { TableComponent } from '../../../../../../shared/components/table/table.component';
-import { ClientTMLOfficer } from '../../../store/client-tml-officers/client-tml-officer.model';
-import { ClientTMLOfficersFacade } from '../../../store/client-tml-officers/client-tml-officers.facade';
+import { TableComponent } from '../../../../../../../shared/components/table/table.component';
+import { ClientTMLOfficer } from '../../../../store/client-tml-officers/client-tml-officer.model';
+import { ClientTMLOfficersFacade } from '../../../../store/client-tml-officers/client-tml-officers.facade';
 import { Store } from '@ngrx/store';
-import { Officer } from '../../../../../organizations/store/officers/officer.model';
-import { loadOfficers } from '../../../../../organizations/store/officers/officers.actions';
-import { TmlOfficerType } from '../../../../../lookups/store/tml-officer-types/tml-officer-type.model';
-import { loadAll as loadAllTMLOfficerTypes } from '../../../../../lookups/store/tml-officer-types/tml-officer-types.actions';
-import { selectOfficers } from '../../../../../organizations/store/officers/officers.selectors';
-import { selectAllTmlOfficerTypes } from '../../../../../lookups/store/tml-officer-types/tml-officer-types.selectors';
+import { Officer } from '../../../../../../organizations/store/officers/officer.model';
+import { loadOfficers } from '../../../../../../organizations/store/officers/officers.actions';
+import { TmlOfficerType } from '../../../../../../lookups/store/tml-officer-types/tml-officer-type.model';
+import { loadAll as loadAllTMLOfficerTypes } from '../../../../../../lookups/store/tml-officer-types/tml-officer-types.actions';
+import { selectOfficers } from '../../../../../../organizations/store/officers/officers.selectors';
+import { selectAllTmlOfficerTypes } from '../../../../../../lookups/store/tml-officer-types/tml-officer-types.selectors';
 
 @Component({
   selector: 'app-view-tml-officer',
@@ -30,7 +30,6 @@ export class ViewTMLOfficersComponent {
   readonly colsInside = [
     { field: 'officer', header: 'Officer' },
     { field: 'tmlOfficerType', header: 'TML Officer Type' },
-    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedTMLOfficerId: number | null = null;
