@@ -95,6 +95,7 @@ import { clientShareHoldersReducer } from './store/client-share-holders/client-s
     AddUploadDocumentsComponent,
     AddClientOnboardingComponent,
     ViewClientsOnboardingComponent,
+    AddClientTMLOfficersComponent,
     AddClientAddressesComponent,
     AddSalesTurnoverComponent,
     AddContactPersonComponent,
