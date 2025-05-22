@@ -272,7 +272,7 @@
       *ngIf="addPhoneNumbersShowMain"
       icon="pi pi-cog"
       iconPos="left"
-      label="View PhoneNumber"
+      label="View Phone Numbers"
       (click)="viewPhoneNumber()"
       class="custom-view m-0 float-right"
     />
@@ -281,7 +281,7 @@
       *ngIf="addClientPhoneNumberForm"
       icon="pi pi-cog"
       iconPos="left"
-      label="View PhoneNumber"
+      label="View Phone Numbers"
       (click)="viewPhoneNumber()"
       class="custom-view m-0 float-right"
     />
@@ -5485,7 +5485,7 @@
           <p-button
             label="Close"
             class="custom-save m-0 float-right"
-            (click)="router.navigate([`/crm/clients/view-phone-number/${clientId}`])"
+            (click)="router.navigate([`/crm/clients/view-phone-numbers/${clientId}`])"
           />
         </div>
       </div>

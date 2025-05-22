@@ -88,7 +88,7 @@ export class SideMenuComponent {
           {
             label: 'ClientPhoneNumber',
             icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-phone-number',
+            routerLink: '/crm/clients/view-phone-numbers',
           },
           {
             label: 'ClientSalesTurnovers',

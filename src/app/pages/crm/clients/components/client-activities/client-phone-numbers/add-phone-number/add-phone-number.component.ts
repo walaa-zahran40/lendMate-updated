@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { Subject, takeUntil, filter } from "rxjs";
-import { ClientPhoneNumbersFacade } from "../../../store/client-phone-numbers/client-phone-numbers.facade";
-import { ClientPhoneNumber } from "../../../store/client-phone-numbers/client-phone-number.model";
-import { PhoneTypesFacade } from "../../../../../lookups/store/phone-types/phone-types.facade";
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subject, takeUntil, filter } from 'rxjs';
+import { ClientPhoneNumbersFacade } from '../../../../store/client-phone-numbers/client-phone-numbers.facade';
+import { ClientPhoneNumber } from '../../../../store/client-phone-numbers/client-phone-number.model';
+import { PhoneTypesFacade } from '../../../../../../lookups/store/phone-types/phone-types.facade';
 
 @Component({
   selector: 'app-add-phone-number',
@@ -36,34 +36,32 @@ export class AddPhoneNumberComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.phoneTypesFacade.loadAll()
+    this.phoneTypesFacade.loadAll();
     this.phoneTypes$ = this.phoneTypesFacade.all$;
     // Read mode and set flags
     this.mode = (this.route.snapshot.queryParamMap.get('mode') as any) ?? 'add';
     this.editMode = this.mode === 'edit';
     this.viewOnly = this.mode === 'view';
 
-
     // Read IDs
     this.parentClientId = Number(
       this.route.snapshot.queryParamMap.get('clientId')
     );
     if (this.editMode || this.viewOnly) {
-      console.log('route add',this.route.snapshot)
+      console.log('route add', this.route.snapshot);
       this.recordId = Number(this.route.snapshot.params['clientId']);
       this.clientPhoneNumberFacade.loadOne(this.recordId);
     }
 
     // Build form with clientId
     this.addClientPhoneNumberForm = this.fb.group({
-       phoneTypeId: [null, Validators.required],
-  phoneNumber: [null, Validators.required],
-      });
-   
-      this.addClientPhoneNumberForm.patchValue({
-         clientId: this.route.snapshot.queryParamMap.get('clientId'),
-      });
-    
+      phoneTypeId: [null, Validators.required],
+      phoneNumber: [null, Validators.required],
+    });
+
+    this.addClientPhoneNumberForm.patchValue({
+      clientId: this.route.snapshot.queryParamMap.get('clientId'),
+    });
 
     // Patch for edit/view mode
     if (this.editMode || this.viewOnly) {
@@ -76,12 +74,11 @@ export class AddPhoneNumberComponent implements OnInit, OnDestroy {
           this.addClientPhoneNumberForm.patchValue({
             id: rec.id,
             clientId: this.route.snapshot.queryParamMap.get('clientId'),
-            phoneTypeId : rec.phoneTypeId,
-            phoneNumber : rec.phoneNumber
+            phoneTypeId: rec.phoneTypeId,
+            phoneNumber: rec.phoneNumber,
           });
         });
     }
-
   }
 
   addOrEditClientPhoneNumber() {
@@ -105,61 +102,57 @@ export class AddPhoneNumberComponent implements OnInit, OnDestroy {
     }
 
     // 6) The actual payload
-  const formValue = this.addClientPhoneNumberForm.value;
+    const formValue = this.addClientPhoneNumberForm.value;
 
-  console.log("arwaa" , formValue[0])
-  const data: Partial<ClientPhoneNumber> = {
-    clientId: Number(this.route.snapshot.paramMap.get('clientId')),
-    phoneTypeId : formValue.phoneTypeId,
-    phoneNumber : formValue.phoneNumber,
-       isActive : true
-  };
+    console.log('arwaa', formValue[0]);
+    const data: Partial<ClientPhoneNumber> = {
+      clientId: Number(this.route.snapshot.paramMap.get('clientId')),
+      phoneTypeId: formValue.phoneTypeId,
+      phoneNumber: formValue.phoneNumber,
+      isActive: true,
+    };
 
-  console.log(
-    '🔄 Dispatching UPDATE id=',
-    this.recordId,
-    ' created  payload=',
-    data
-  );
-
+    console.log(
+      '🔄 Dispatching UPDATE id=',
+      this.recordId,
+      ' created  payload=',
+      data
+    );
 
     if (this.mode === 'add') {
-  this.clientPhoneNumberFacade.create(data);
-} 
-else {
-  const formValue = this.addClientPhoneNumberForm.value;
+      this.clientPhoneNumberFacade.create(data);
+    } else {
+      const formValue = this.addClientPhoneNumberForm.value;
 
-  const updateData: ClientPhoneNumber = {
-    id: this.recordId,
-    clientId: this.parentClientId,
-    phoneTypeId : formValue.phoneTypeId,
-    phoneNumber: formValue.phoneNumber,
-    isActive : true
-  };
+      const updateData: ClientPhoneNumber = {
+        id: this.recordId,
+        clientId: this.parentClientId,
+        phoneTypeId: formValue.phoneTypeId,
+        phoneNumber: formValue.phoneNumber,
+        isActive: true,
+      };
 
-  console.log(
-    '🔄 Dispatching UPDATE id=',
-    this.recordId,
-    ' UPDATED payload=',
-    updateData
-  );
+      console.log(
+        '🔄 Dispatching UPDATE id=',
+        this.recordId,
+        ' UPDATED payload=',
+        updateData
+      );
 
-  this.clientPhoneNumberFacade.update(this.recordId, updateData);
-}
-console.log('route',this.route.snapshot)
+      this.clientPhoneNumberFacade.update(this.recordId, updateData);
+    }
+    console.log('route', this.route.snapshot);
 
-  if (clientIdParam) {
-  console.log('➡️ Navigating back with PATH param:', clientIdParam);
-  this.router.navigate(
-    ['/crm/clients/view-phone-number', clientIdParam]
-  );
-} else {
-  console.error('❌ Cannot navigate back: clientId is missing!');
-}}
+    if (clientIdParam) {
+      console.log('➡️ Navigating back with PATH param:', clientIdParam);
+      this.router.navigate(['/crm/clients/view-phone-numbers', clientIdParam]);
+    } else {
+      console.error('❌ Cannot navigate back: clientId is missing!');
+    }
+  }
 
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
   }
 }
-

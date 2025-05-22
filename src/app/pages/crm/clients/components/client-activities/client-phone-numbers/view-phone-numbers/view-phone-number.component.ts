@@ -1,13 +1,21 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Subject, Observable, combineLatest, map, takeUntil, filter, tap, of } from 'rxjs';
-import { TableComponent } from '../../../../../../shared/components/table/table.component';
-import { ClientPhoneNumber } from '../../../store/client-phone-numbers/client-phone-number.model';
-import { ClientPhoneNumbersFacade } from '../../../store/client-phone-numbers/client-phone-numbers.facade';
-import { PhoneTypesFacade } from '../../../../../lookups/store/phone-types/phone-types.facade';
-import { PhoneType } from '../../../../../lookups/store/phone-types/phone-type.model';
-
+import {
+  Subject,
+  Observable,
+  combineLatest,
+  map,
+  takeUntil,
+  filter,
+  tap,
+  of,
+} from 'rxjs';
+import { TableComponent } from '../../../../../../../shared/components/table/table.component';
+import { ClientPhoneNumber } from '../../../../store/client-phone-numbers/client-phone-number.model';
+import { ClientPhoneNumbersFacade } from '../../../../store/client-phone-numbers/client-phone-numbers.facade';
+import { PhoneTypesFacade } from '../../../../../../lookups/store/phone-types/phone-types.facade';
+import { PhoneType } from '../../../../../../lookups/store/phone-types/phone-type.model';
 
 @Component({
   selector: 'app-view-phone-number',
@@ -27,7 +35,7 @@ export class ViewPhoneNumberComponent implements OnInit, OnDestroy {
 
   readonly colsInside = [
     { field: 'phoneTypeName', header: 'phone Type' },
-    { field: 'phoneNumber', header: 'phone Number' }
+    { field: 'phoneNumber', header: 'phone Number' },
   ];
 
   showDeleteModal = false;
@@ -42,7 +50,7 @@ export class ViewPhoneNumberComponent implements OnInit, OnDestroy {
     private router: Router,
     private facade: ClientPhoneNumbersFacade,
     private phoneNumberTypesFacade: PhoneTypesFacade,
-    private route: ActivatedRoute,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -65,51 +73,47 @@ export class ViewPhoneNumberComponent implements OnInit, OnDestroy {
     }
 
     combineLatest([
-  this.clientPhoneNumbers$ ?? of([]),
-  this.phoneTypes$ ?? of([])
-])
-.pipe(
-  map(([clientPhoneNumbers, phoneTypes]) => {
-    console.log('📦 Raw clientPhoneNumbers:', clientPhoneNumbers);
-    console.log('📦 Raw phoneTypes:', phoneTypes);
+      this.clientPhoneNumbers$ ?? of([]),
+      this.phoneTypes$ ?? of([]),
+    ])
+      .pipe(
+        map(([clientPhoneNumbers, phoneTypes]) => {
+          console.log('📦 Raw clientPhoneNumbers:', clientPhoneNumbers);
+          console.log('📦 Raw phoneTypes:', phoneTypes);
 
-    return clientPhoneNumbers
-      .map((ss) => {
-        const matchedPhoneType = phoneTypes.find(
-          (pt) => pt.id === ss.phoneTypeId
-        );
+          return clientPhoneNumbers
+            .map((ss) => {
+              const matchedPhoneType = phoneTypes.find(
+                (pt) => pt.id === ss.phoneTypeId
+              );
 
-        return {
-          ...ss,
-          phoneTypeName: matchedPhoneType?.name ?? '—',
-        };
-      })
-      .filter((ft) => ft.isActive)
-      .sort((a, b) => b.id - a.id);
-  }),
-  takeUntil(this.destroy$)
-)
-.subscribe((result) => {
-  console.log('✅ Final result:', result);
-  this.filteredClientPhoneNumbers = result;
-  this.originalClientPhoneNumbers = result;
-});
+              return {
+                ...ss,
+                phoneTypeName: matchedPhoneType?.name ?? '—',
+              };
+            })
+            .filter((ft) => ft.isActive)
+            .sort((a, b) => b.id - a.id);
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((result) => {
+        console.log('✅ Final result:', result);
+        this.filteredClientPhoneNumbers = result;
+        this.originalClientPhoneNumbers = result;
+      });
   }
 
   onAddClientPhoneNumber() {
-   console.log('edioyt', this.clientIdParam);
-   const routeId=this.route.snapshot.paramMap.get('clientId')
-    this.router.navigate(
-      ['crm/clients/add-phone-number', routeId],
-      {
-        queryParams: {
-          mode: 'add',
-          clientId: this.clientIdParam, // <-- use "clientId" here
-        },
-      }
-    );
+    console.log('edioyt', this.clientIdParam);
+    const routeId = this.route.snapshot.paramMap.get('clientId');
+    this.router.navigate(['crm/clients/add-phone-number', routeId], {
+      queryParams: {
+        mode: 'add',
+        clientId: this.clientIdParam, // <-- use "clientId" here
+      },
+    });
   }
-
 
   ngOnDestroy() {
     this.destroy$.next();
@@ -157,27 +161,21 @@ export class ViewPhoneNumberComponent implements OnInit, OnDestroy {
 
   onEditClientPhoneNumber(clientSales: ClientPhoneNumber) {
     console.log('edioyt', this.clientIdParam);
-    this.router.navigate(
-      ['crm/clients/edit-phone-number', clientSales.id],
-      {
-        queryParams: {
-          mode: 'edit',
-          clientId: this.clientIdParam, // <-- use "clientId" here
-        },
-      }
-    );
+    this.router.navigate(['crm/clients/edit-phone-number', clientSales.id], {
+      queryParams: {
+        mode: 'edit',
+        clientId: this.clientIdParam, // <-- use "clientId" here
+      },
+    });
   }
 
   onViewClientPhoneNumber(clientSales: ClientPhoneNumber) {
-console.log('route',this.route.snapshot)
-    this.router.navigate(
-      ['crm/clients/edit-phone-number', clientSales.id],
-      {
-        queryParams: {
-          mode: 'view',
-          clientId: this.clientIdParam, // <-- and here
-        },
-      }
-    );
+    console.log('route', this.route.snapshot);
+    this.router.navigate(['crm/clients/edit-phone-number', clientSales.id], {
+      queryParams: {
+        mode: 'view',
+        clientId: this.clientIdParam, // <-- and here
+      },
+    });
   }
 }

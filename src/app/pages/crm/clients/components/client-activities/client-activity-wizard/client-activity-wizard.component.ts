@@ -44,7 +44,7 @@ export class ClientActivityWizardComponent {
         title: 'Phone Number',
         content:
           'Introduce your company core info quickly to users by fill up company details',
-        link: `/crm/clients/view-phone-number/${clientId}`,
+        link: `/crm/clients/view-phone-numbers/${clientId}`,
       },
       {
         imgUrl: '/assets/images/shared/card/contact.svg',

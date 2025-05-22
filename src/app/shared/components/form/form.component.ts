@@ -864,7 +864,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/crm/clients/view-contact-person']);
   }
   viewPhoneNumber() {
-    this.router.navigate(['/crm/clients/view-phone-number']);
+    this.router.navigate([`/crm/clients/view-phone-numbers/${this.clientId}`]);
   }
   viewSalesTurnover() {
     console.log('hello from arwa ', this.clientId);
