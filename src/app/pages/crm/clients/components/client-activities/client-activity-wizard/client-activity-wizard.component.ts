@@ -102,14 +102,6 @@ export class ClientActivityWizardComponent {
           'Introduce your company core info quickly to users by fill up company details',
         link: '/crm/clients/view-client-guarantor',
       },
-      {
-        imgUrl: '/assets/images/shared/card/mandate.svg',
-        imgAlt: 'client status',
-        title: 'Client Statuses',
-        content:
-          'Introduce your company core info quickly to users by fill up company details',
-        link: '/crm/clients/view-client-statuses',
-      },
     ];
     this.cards = this.chunkArray(this.originalCards, 3);
   }

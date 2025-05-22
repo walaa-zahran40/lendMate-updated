@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil, filter } from 'rxjs';
-import { ClientSalesTurnover } from '../../../store/client-sales-turnovers/client-sales-turnovers.model';
-import { ClientSalesTurnoversFacade } from '../../../store/client-sales-turnovers/client-sales-turnovers.facade';
+import { ClientSalesTurnover } from '../../../../store/client-sales-turnovers/client-sales-turnovers.model';
+import { ClientSalesTurnoversFacade } from '../../../../store/client-sales-turnovers/client-sales-turnovers.facade';
 
 @Component({
   selector: 'app-add-client-sales-turnover',

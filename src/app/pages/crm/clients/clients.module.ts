@@ -9,7 +9,7 @@ import { StepperModule } from 'primeng/stepper';
 import { TabsModule } from 'primeng/tabs';
 import { LegalFormsEffects } from '../../legals/store/legal-forms/legal-forms.effects';
 import { legalFormsReducer } from '../../legals/store/legal-forms/legal-forms.reducer';
-import { AddSalesTurnoverComponent } from './components/client-activities/add-client-sales-turnover/add-client-sales-turnover.component';
+import { AddSalesTurnoverComponent } from './components/client-activities/client-sales-turnovers/add-client-sales-turnover/add-client-sales-turnover.component';
 import { AddClientCentralBankInfoComponent } from './components/client-activities/add-central-bank-info/add-central-bank-info.component';
 import { AddClientGuarantorComponent } from './components/client-activities/add-client-guarantor/add-client-guarantor.component';
 import { AddClientIdentityComponent } from './components/client-activities/add-client-identity/add-client-identity.component';
@@ -30,7 +30,7 @@ import { ViewClientStatusComponent } from './components/client-activities/view-c
 import { ViewClientStatusesComponent } from './components/client-activities/view-client-statuses/view-client-statuses.component';
 import { ViewContactPersonComponent } from './components/client-activities/view-contact-person/view-contact-person.component';
 import { ViewPhoneNumberComponent } from './components/client-activities/view-phone-number/view-phone-number.component';
-import { ViewSalesTurnoverComponent } from './components/client-activities/view-sales-turnover/view-sales-turnover.component';
+import { ViewSalesTurnoverComponent } from './components/client-activities/client-sales-turnovers/view-client-sales-turnovers/view-sales-turnover.component';
 import { ViewShareHoldersComponent } from './components/client-activities/view-share-holder/view-share-holder.component';
 import { ViewTaxAuthorityOfficesComponent } from './components/client-activities/view-tax-authority-office/view-tax-authority-office.component';
 import { ViewTMLOfficersComponent } from './components/client-activities/view-tml-officer/view-tml-officer.component';

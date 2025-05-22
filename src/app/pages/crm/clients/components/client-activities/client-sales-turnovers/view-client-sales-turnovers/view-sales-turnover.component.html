@@ -1,6 +1,6 @@
 <div class="page-content">
   <app-toolbar-table
-    [title]="'Client Sales Turnover'"
+    [title]="'Client Sales Turnovers'"
     [labelBtn]="'Add Client Sales Turnover'"
     [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
@@ -28,7 +28,6 @@
       [filters]="showFilters"
       [uppercase]="'uppercase'"
       [viewSalesTurnoverTable]="true"
-      
       (onDelete)="onDeleteClientSalesTurnover($event)"
       (onEdit)="onEditClientSalesTurnover($event)"
       (viewForm)="onViewClientSalesTurnover($event)"

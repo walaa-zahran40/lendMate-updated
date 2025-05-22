@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subject, Observable, takeUntil, tap, map } from 'rxjs';
-import { TableComponent } from '../../../../../../shared/components/table/table.component';
-import { ClientSalesTurnoversFacade } from '../../../store/client-sales-turnovers/client-sales-turnovers.facade';
-import { ClientSalesTurnover } from '../../../store/client-sales-turnovers/client-sales-turnovers.model';
+import { TableComponent } from '../../../../../../../shared/components/table/table.component';
+import { ClientSalesTurnoversFacade } from '../../../../store/client-sales-turnovers/client-sales-turnovers.facade';
+import { ClientSalesTurnover } from '../../../../store/client-sales-turnovers/client-sales-turnovers.model';
 
 @Component({
   selector: 'app-view-sales-turnover',
