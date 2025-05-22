@@ -3,14 +3,14 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, filter, takeUntil } from 'rxjs';
-import { AuthorityOffice } from '../../../../../lookups/store/authority-offices/authority-office.model';
-import { loadAll as loadAllAuthorityOffice} from '../../../../../lookups/store/authority-offices/authority-offices.actions';
-import { selectAllAuthorityOffices } from '../../../../../lookups/store/authority-offices/authority-offices.selectors';
-import { ClientTaxOfficesFacade } from '../../../store/client-tax-office/client-tax-office.facade';
-import { ClientTaxOffice } from '../../../store/client-tax-office/client-tax-office.model';
-import { TaxOffice } from '../../../../../lookups/store/tax_offices/tax_office.model';
-import { selectAllTaxOffices } from '../../../../../lookups/store/tax_offices/tax_offices.selectors';
-import { loadAll } from '../../../../../lookups/store/tax_offices/tax_offices.actions';
+import { AuthorityOffice } from '../../../../../../lookups/store/authority-offices/authority-office.model';
+import { loadAll as loadAllAuthorityOffice } from '../../../../../../lookups/store/authority-offices/authority-offices.actions';
+import { selectAllAuthorityOffices } from '../../../../../../lookups/store/authority-offices/authority-offices.selectors';
+import { ClientTaxOfficesFacade } from '../../../../store/client-tax-office/client-tax-office.facade';
+import { ClientTaxOffice } from '../../../../store/client-tax-office/client-tax-office.model';
+import { TaxOffice } from '../../../../../../lookups/store/tax_offices/tax_office.model';
+import { selectAllTaxOffices } from '../../../../../../lookups/store/tax_offices/tax_offices.selectors';
+import { loadAll } from '../../../../../../lookups/store/tax_offices/tax_offices.actions';
 
 @Component({
   selector: 'app-add-tax-authority-office',
@@ -75,38 +75,37 @@ export class AddClientTaxAuthorityOfficesComponent {
 
     this.taxOfficesList$ = this.store.select(selectAllTaxOffices);
 
-     // Patch for add mode
-       if (this.mode === 'add') {
-        this.addClientTaxAuthorityOfficesLookupsForm.patchValue({
-          clientId: this.clientId,
+    // Patch for add mode
+    if (this.mode === 'add') {
+      this.addClientTaxAuthorityOfficesLookupsForm.patchValue({
+        clientId: this.clientId,
+      });
+      console.log('✏️ Add mode → patched clientId:', this.clientId);
+    }
+
+    // Patch for edit/view mode
+    if (this.editMode || this.viewOnly) {
+      this.recordId = Number(this.route.snapshot.paramMap.get('id'));
+      this.facade.loadOne(this.recordId);
+
+      this.facade.current$
+        .pipe(
+          takeUntil(this.destroy$),
+          filter((rec) => !!rec)
+        )
+        .subscribe((ct) => {
+          console.log('red', ct);
+          this.addClientTaxAuthorityOfficesLookupsForm.patchValue({
+            id: ct?.id,
+            clientId: this.clientId,
+            expiryDate: new Date(ct.expiryDate),
+            taxOfficeId: ct.taxOfficeId,
+            taxCardNumber: ct.taxCardNumber,
+            isActive: ct?.isActive,
+          });
         });
-        console.log('✏️ Add mode → patched clientId:', this.clientId);
-      }
-    
-        // Patch for edit/view mode
-        if (this.editMode || this.viewOnly) {
-          this.recordId = Number(this.route.snapshot.paramMap.get('id'));
-          this.facade.loadOne(this.recordId);
-
-          this.facade.current$
-            .pipe(
-              takeUntil(this.destroy$),
-              filter((rec) => !!rec)
-            )
-            .subscribe((ct) => {
-              console.log('red', ct);
-              this.addClientTaxAuthorityOfficesLookupsForm.patchValue({
-              id: ct?.id,
-              clientId: this.clientId,
-              expiryDate: new Date(ct.expiryDate),
-              taxOfficeId : ct.taxOfficeId,
-              taxCardNumber: ct.taxCardNumber,
-              isActive: ct?.isActive,
-              });
-            });
-        }
+    }
   }
-
 
   addOrEditClientTaxAuthorityOffices() {
     const clientParamQP = this.route.snapshot.queryParamMap.get('clientId');
@@ -114,8 +113,14 @@ export class AddClientTaxAuthorityOfficesComponent {
     console.log('💥 addClientTaxAuthorityOffices() called');
     console.log('  viewOnly:', this.viewOnly);
     console.log('  editMode:', this.editMode);
-    console.log('  form valid:', this.addClientTaxAuthorityOfficesLookupsForm.valid);
-    console.log('  form touched:', this.addClientTaxAuthorityOfficesLookupsForm.touched);
+    console.log(
+      '  form valid:',
+      this.addClientTaxAuthorityOfficesLookupsForm.valid
+    );
+    console.log(
+      '  form touched:',
+      this.addClientTaxAuthorityOfficesLookupsForm.touched
+    );
     console.log(
       '  form raw value:',
       this.addClientTaxAuthorityOfficesLookupsForm.getRawValue()

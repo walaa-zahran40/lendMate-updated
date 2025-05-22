@@ -1,14 +1,14 @@
 import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, Observable, takeUntil, tap, map, combineLatest } from 'rxjs';
-import { TableComponent } from '../../../../../../shared/components/table/table.component';
-import { ClientTaxOffice } from '../../../store/client-tax-office/client-tax-office.model';
-import { ClientTaxOfficesFacade } from '../../../store/client-tax-office/client-tax-office.facade';
+import { TableComponent } from '../../../../../../../shared/components/table/table.component';
+import { ClientTaxOffice } from '../../../../store/client-tax-office/client-tax-office.model';
+import { ClientTaxOfficesFacade } from '../../../../store/client-tax-office/client-tax-office.facade';
 import { Store } from '@ngrx/store';
-import { loadAll as loadAllOffice } from '../../../../../lookups/store/authority-offices/authority-offices.actions';
-import { TaxOffice } from '../../../../../lookups/store/tax_offices/tax_office.model';
-import { selectAllTaxOffices } from '../../../../../lookups/store/tax_offices/tax_offices.selectors';
-import { loadAll } from '../../../../../lookups/store/tax_offices/tax_offices.actions';
+import { loadAll as loadAllOffice } from '../../../../../../lookups/store/authority-offices/authority-offices.actions';
+import { TaxOffice } from '../../../../../../lookups/store/tax_offices/tax_office.model';
+import { selectAllTaxOffices } from '../../../../../../lookups/store/tax_offices/tax_offices.selectors';
+import { loadAll } from '../../../../../../lookups/store/tax_offices/tax_offices.actions';
 
 @Component({
   selector: 'app-view-tax-authority-office',
