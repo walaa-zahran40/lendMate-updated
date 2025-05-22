@@ -45,8 +45,8 @@ import { ViewTaxAuthorityOfficesComponent } from './clients/components/client-ac
 import { AddClientTaxAuthorityOfficesComponent } from './clients/components/client-activities/client-tax-authority-offices/add-tax-authority-office/add-tax-authority-office.component';
 import { AddClientOnboardingComponent } from './clients/components/clients/client-onboarding/add-client-onboarding/add-client-onboarding.component';
 import { ViewClientsOnboardingComponent } from './clients/components/clients/client-onboarding/view-clients-onboarding/view-clients-onboarding.component';
-import { AddClientShareHoldersComponent } from './clients/components/client-activities/add-share-holders/add-share-holders.component';
-import { ViewShareHoldersComponent } from './clients/components/client-activities/view-share-holder/view-share-holder.component';
+import { AddClientShareHoldersComponent } from './clients/components/client-activities/client-share-holders/add-share-holder/add-share-holders.component';
+import { ViewShareHoldersComponent } from './clients/components/client-activities/client-share-holders/view-share-holders/view-share-holder.component';
 
 const routes: Routes = [
   /*Clients , Client Onboarding Routing*/
@@ -190,7 +190,23 @@ const routes: Routes = [
     path: 'clients/view-client-central-bank-info/:clientId',
     component: ViewClientCentralBankInfoComponent,
   },
-  //----
+  //Client Share Holders
+  {
+    path: 'clients/add-client-share-holder',
+    component: AddClientShareHoldersComponent,
+  },
+  {
+    path: 'clients/add-client-share-holder/:id',
+    component: AddClientShareHoldersComponent,
+  },
+  {
+    path: 'clients/edit-client-share-holder/:id',
+    component: AddClientShareHoldersComponent,
+  },
+  {
+    path: 'clients/view-client-share-holders/:clientId',
+    component: ViewShareHoldersComponent,
+  },
   {
     path: 'clients/add-client-guarantor',
     component: AddClientGuarantorComponent,
@@ -215,18 +231,6 @@ const routes: Routes = [
 
   //---
 
-  {
-    path: 'clients/add-client-share-holders',
-    component: AddClientShareHoldersComponent,
-  },
-  {
-    path: 'clients/add-client-share-holders/:id',
-    component: AddClientShareHoldersComponent,
-  },
-  {
-    path: 'clients/edit-client-share-holders/:id',
-    component: AddClientShareHoldersComponent,
-  },
   {
     path: 'clients/add-client-tml-officers',
     component: AddClientTMLOfficersComponent,
@@ -265,10 +269,6 @@ const routes: Routes = [
     component: ViewContactPersonComponent,
   },
 
-  {
-    path: 'clients/view-client-share-holders/:clientId',
-    component: ViewShareHoldersComponent,
-  },
   {
     path: 'clients/view-client-tml-officers/:clientId',
     component: ViewTMLOfficersComponent,

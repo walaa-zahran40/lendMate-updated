@@ -1,13 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, Observable, takeUntil, tap, map, combineLatest } from 'rxjs';
-import { TableComponent } from '../../../../../../shared/components/table/table.component';
-import { ClientShareHolder } from '../../../store/client-share-holders/client-share-holders.model';
-import { ClientShareHoldersFacade } from '../../../store/client-share-holders/client-share-holders.facade';
+import { TableComponent } from '../../../../../../../shared/components/table/table.component';
+import { ClientShareHolder } from '../../../../store/client-share-holders/client-share-holders.model';
+import { ClientShareHoldersFacade } from '../../../../store/client-share-holders/client-share-holders.facade';
 import { Store } from '@ngrx/store';
-import { Client } from '../../../store/_clients/allclients/client.model';
-import { loadAll } from '../../../store/_clients/allclients/clients.actions';
-import { selectAllClients } from '../../../store/_clients/allclients/clients.selectors';
+import { Client } from '../../../../store/_clients/allclients/client.model';
+import { loadAll } from '../../../../store/_clients/allclients/clients.actions';
+import { selectAllClients } from '../../../../store/_clients/allclients/clients.selectors';
 
 @Component({
   selector: 'app-view-share-holder',
@@ -77,7 +77,7 @@ export class ViewShareHoldersComponent {
   onAddShareHolder() {
     const clientIdParam = this.route.snapshot.paramMap.get('clientId');
 
-    this.router.navigate(['/crm/clients/add-client-share-holders'], {
+    this.router.navigate(['/crm/clients/add-client-share-holder'], {
       queryParams: { mode: 'add', clientId: clientIdParam },
     });
   }
@@ -131,7 +131,7 @@ export class ViewShareHoldersComponent {
   }
   onEditShareHolder(shareHolder: ClientShareHolder) {
     this.router.navigate(
-      ['/crm/clients/edit-client-share-holders', shareHolder.id],
+      ['/crm/clients/edit-client-share-holder', shareHolder.id],
       {
         queryParams: {
           mode: 'edit',
@@ -141,7 +141,7 @@ export class ViewShareHoldersComponent {
     );
   }
   onViewShareHolder(ct: ClientShareHolder) {
-    this.router.navigate(['/crm/clients/edit-client-share-holders', ct.id], {
+    this.router.navigate(['/crm/clients/edit-client-share-holder', ct.id], {
       queryParams: {
         mode: 'view',
         clientId: this.clientIdParam, // <-- use "currencyId" here

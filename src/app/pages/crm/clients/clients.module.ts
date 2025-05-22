@@ -17,7 +17,7 @@ import { AddClientStatusActionsComponent } from './components/client-activities/
 import { AddClientStatusesComponent } from './components/client-activities/add-client-statuses/add-client-statuses.component';
 import { AddContactPersonComponent } from './components/client-activities/add-contact-person/add-contact-person.component';
 import { AddPhoneNumberComponent } from './components/client-activities/client-phone-numbers/add-phone-number/add-phone-number.component';
-import { AddClientShareHoldersComponent } from './components/client-activities/add-share-holders/add-share-holders.component';
+import { AddClientShareHoldersComponent } from './components/client-activities/client-share-holders/add-share-holder/add-share-holders.component';
 import { AddClientTaxAuthorityOfficesComponent } from './components/client-activities/client-tax-authority-offices/add-tax-authority-office/add-tax-authority-office.component';
 import { AddClientTMLOfficersComponent } from './components/client-activities/add-tml-officer/add-tml-officer.component';
 import { AddUploadDocumentsComponent } from './components/client-activities/upload-documents/add-upload-documents/add-upload-documents.component';
@@ -31,7 +31,7 @@ import { ViewClientStatusesComponent } from './components/client-activities/view
 import { ViewContactPersonComponent } from './components/client-activities/view-contact-person/view-contact-person.component';
 import { ViewPhoneNumberComponent } from './components/client-activities/client-phone-numbers/view-phone-numbers/view-phone-number.component';
 import { ViewSalesTurnoverComponent } from './components/client-activities/client-sales-turnovers/view-client-sales-turnovers/view-sales-turnover.component';
-import { ViewShareHoldersComponent } from './components/client-activities/view-share-holder/view-share-holder.component';
+import { ViewShareHoldersComponent } from './components/client-activities/client-share-holders/view-share-holders/view-share-holder.component';
 import { ViewTaxAuthorityOfficesComponent } from './components/client-activities/client-tax-authority-offices/view-tax-authority-offices/view-tax-authority-office.component';
 import { ViewTMLOfficersComponent } from './components/client-activities/view-tml-officer/view-tml-officer.component';
 import { ViewUploadDocumentsComponent } from './components/client-activities/upload-documents/view-upload-documents/view-upload-documents.component';
