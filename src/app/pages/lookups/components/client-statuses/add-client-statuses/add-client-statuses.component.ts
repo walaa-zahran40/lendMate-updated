@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClientStatusesFacade } from '../../../store/client-statuses/client-statuses.facade';
 import { filter, take } from 'rxjs';
-import { arabicOnlyValidator } from '../../../../../../shared/validators/arabic-only.validator';
 import { ClientStatus } from '../../../store/client-statuses/client-status.model';
+import { arabicOnlyValidator } from '../../../../../shared/validators/arabic-only.validator';
 
 @Component({
   selector: 'app-add-client-statuses',

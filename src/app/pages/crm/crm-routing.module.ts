@@ -8,7 +8,6 @@ import { AddClientCentralBankInfoComponent } from './clients/components/client-a
 import { AddClientGuarantorComponent } from './clients/components/client-activities/add-client-guarantor/add-client-guarantor.component';
 import { AddClientIdentityComponent } from './clients/components/client-activities/add-client-identity/add-client-identity.component';
 import { AddSalesTurnoverComponent } from './clients/components/client-activities/add-client-sales-turnover/add-client-sales-turnover.component';
-import { AddClientStatusesComponent } from './clients/components/client-activities/add-client-statuses/add-client-statuses.component';
 import { AddContactPersonComponent } from './clients/components/client-activities/add-contact-person/add-contact-person.component';
 import { AddPhoneNumberComponent } from './clients/components/client-activities/add-phone-number/add-phone-number.component';
 import { AddClientTMLOfficersComponent } from './clients/components/client-activities/add-tml-officer/add-tml-officer.component';
@@ -18,8 +17,6 @@ import { ContactPersonViewTableDataComponent } from './clients/components/client
 import { ViewClientCentralBankInfoComponent } from './clients/components/client-activities/view-central-bank-info/view-central-bank-info.component';
 import { ViewClientGuarantorComponent } from './clients/components/client-activities/view-client-guarantor/view-client-guarantor.component';
 import { ViewClientIdentityComponent } from './clients/components/client-activities/view-client-identity/view-client-identity.component';
-import { ViewClientStatusComponent } from './clients/components/client-activities/view-client-status-actions/view-client-status.component';
-import { ViewClientStatusesComponent } from './clients/components/client-activities/view-client-statuses/view-client-statuses.component';
 import { ViewContactPersonComponent } from './clients/components/client-activities/view-contact-person/view-contact-person.component';
 import { ViewPhoneNumberComponent } from './clients/components/client-activities/view-phone-number/view-phone-number.component';
 import { ViewSalesTurnoverComponent } from './clients/components/client-activities/view-sales-turnover/view-sales-turnover.component';
@@ -330,26 +327,26 @@ const routes: Routes = [
     component: LeasingFinancialFormCompoundComponent,
   },
   //Client Statuses
-  {
-    path: 'add-client-statuses',
-    component: AddClientStatusesComponent,
-  },
-  {
-    path: 'view-client-status-actions/:clientStatusId',
-    component: ViewClientStatusComponent,
-  },
-  {
-    path: 'edit-client-statuses/:id',
-    component: AddClientStatusesComponent,
-  },
-  {
-    path: 'view-client-statuses',
-    component: ViewClientStatusesComponent,
-  },
-  {
-    path: 'wizard-client-status/:clientStatusId',
-    component: WizardClientStatusComponent,
-  },
+  // {
+  //   path: 'add-client-statuses',
+  //   component: AddClientStatusesComponent,
+  // },
+  // {
+  //   path: 'view-client-status-actions/:clientStatusId',
+  //   component: ViewClientStatusComponent,
+  // },
+  // {
+  //   path: 'edit-client-statuses/:id',
+  //   component: AddClientStatusesComponent,
+  // },
+  // {
+  //   path: 'view-client-statuses',
+  //   component: ViewClientStatusesComponent,
+  // },
+  // {
+  //   path: 'wizard-client-status/:clientStatusId',
+  //   component: WizardClientStatusComponent,
+  // },
 ];
 
 @NgModule({

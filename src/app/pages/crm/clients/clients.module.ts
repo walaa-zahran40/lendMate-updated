@@ -13,8 +13,8 @@ import { AddSalesTurnoverComponent } from './components/client-activities/add-cl
 import { AddClientCentralBankInfoComponent } from './components/client-activities/add-central-bank-info/add-central-bank-info.component';
 import { AddClientGuarantorComponent } from './components/client-activities/add-client-guarantor/add-client-guarantor.component';
 import { AddClientIdentityComponent } from './components/client-activities/add-client-identity/add-client-identity.component';
-import { AddClientStatusActionsComponent } from './components/client-activities/add-client-status-actions/add-client-status-actions.component';
-import { AddClientStatusesComponent } from './components/client-activities/add-client-statuses/add-client-statuses.component';
+// import { AddClientStatusActionsComponent } from './components/client-activities/add-client-status-actions/add-client-status-actions.component';
+// import { AddClientStatusesComponent } from './components/client-activities/add-client-statuses/add-client-statuses.component';
 import { AddContactPersonComponent } from './components/client-activities/add-contact-person/add-contact-person.component';
 import { AddPhoneNumberComponent } from './components/client-activities/add-phone-number/add-phone-number.component';
 import { AddClientShareHoldersComponent } from './components/client-activities/add-share-holders/add-share-holders.component';
@@ -26,8 +26,8 @@ import { ContactPersonViewTableDataComponent } from './components/client-activit
 import { ViewClientCentralBankInfoComponent } from './components/client-activities/view-central-bank-info/view-central-bank-info.component';
 import { ViewClientGuarantorComponent } from './components/client-activities/view-client-guarantor/view-client-guarantor.component';
 import { ViewClientIdentityComponent } from './components/client-activities/view-client-identity/view-client-identity.component';
-import { ViewClientStatusComponent } from './components/client-activities/view-client-status-actions/view-client-status.component';
-import { ViewClientStatusesComponent } from './components/client-activities/view-client-statuses/view-client-statuses.component';
+// import { ViewClientStatusComponent } from './components/client-activities/view-client-status-actions/view-client-status.component';
+// import { ViewClientStatusesComponent } from './components/client-activities/view-client-statuses/view-client-statuses.component';
 import { ViewContactPersonComponent } from './components/client-activities/view-contact-person/view-contact-person.component';
 import { ViewPhoneNumberComponent } from './components/client-activities/view-phone-number/view-phone-number.component';
 import { ViewSalesTurnoverComponent } from './components/client-activities/view-sales-turnover/view-sales-turnover.component';
@@ -122,11 +122,11 @@ import { clientShareHoldersReducer } from './store/client-share-holders/client-s
     AddClientGuarantorComponent,
     ViewClientIdentityComponent,
     AddClientIdentityComponent,
-    AddClientStatusActionsComponent,
-    ViewClientStatusesComponent,
-    ViewClientStatusComponent,
+    // AddClientStatusActionsComponent,
+    // ViewClientStatusesComponent,
+    // ViewClientStatusComponent,
+    // AddClientStatusesComponent,
     ViewClientsComponent,
-    AddClientStatusesComponent,
   ],
   imports: [
     CommonModule,

@@ -138,6 +138,7 @@ export class TableComponent {
   @Input() viewCallsCommunicationTable!: boolean;
   @Input() viewClientGuarantorTable!: boolean;
   @Input() viewWorkFlowActionTypesLookupsTable!: boolean;
+  @Input() viewClientStatusActionsTable!: boolean;
   @Input() viewDocTypesTable!: boolean;
   @Input() viewProductsTable!: boolean;
   @Input() paginator: boolean = true;

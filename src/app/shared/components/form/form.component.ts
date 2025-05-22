@@ -106,6 +106,9 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() officersList: any;
   @Input() clientsList: any;
   @Input() tmlOfficerTypesList: any;
+  @Input() statusList: any;
+  @Input() workflowActionTypeList: any;
+
   @Input() pageIds: any;
   selectedLegalForm: any;
   @Output() sectorChanged = new EventEmitter<number>();
@@ -903,7 +906,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-client-statuses']);
   }
   viewClientStatusActions() {
-    this.router.navigate(['/crm/clients/view-client-status-actions']);
+    this.router.navigate(['/lookups/view-client-status-actions']);
   }
   viewSMEClientCode() {
     this.router.navigate(['/lookups/view-sme-client-codes']);

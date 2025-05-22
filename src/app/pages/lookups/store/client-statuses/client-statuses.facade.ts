@@ -4,7 +4,8 @@ import * as Actions from './client-statuses.actions';
 import * as Selectors from './client-statuses.selectors';
 import { Observable } from 'rxjs';
 import { ClientStatus } from './client-status.model';
-import { selectLastOperationSuccess } from '../../../../../shared/store/ui.selectors';
+import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
+
 
 @Injectable({ providedIn: 'root' })
 export class ClientStatusesFacade {

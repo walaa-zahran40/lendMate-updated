@@ -2,17 +2,17 @@ import { Component, ViewChild } from '@angular/core';
 // import { ClientStatuses } from '../../../../shared/interfaces/client-statuses.interface';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
-import { TableComponent } from '../../../../../../shared/components/table/table.component';
 import { ClientStatus } from '../../../store/client-statuses/client-status.model';
 import { ClientStatusesFacade } from '../../../store/client-statuses/client-statuses.facade';
+import { TableComponent } from '../../../../../shared/components/table/table.component';
 
 @Component({
   selector: 'app-view-client-status',
   standalone: false,
-  templateUrl: './view-client-status.component.html',
-  styleUrl: './view-client-status.component.scss',
+  templateUrl: './view-client-statuses.component.html',
+  styleUrl: './view-client-statuses.component.scss',
 })
-export class ViewClientStatusComponent {
+export class ViewClientStatusesComponent {
   tableDataInside: ClientStatus[] = [];
   first2: number = 0;
   private destroy$ = new Subject<void>();
@@ -23,6 +23,7 @@ export class ViewClientStatusComponent {
   readonly colsInside = [
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
+    { field: 'isInitial', header: 'Is Initial' },
   ];
   showDeleteModal: boolean = false;
   selectedClientStatusId: number | null = null;
@@ -48,7 +49,9 @@ export class ViewClientStatusComponent {
   onAddClientStatus() {
     this.router.navigate(['/lookups/add-client-statuses']);
   }
-
+  onAddSide(clientStatusId: any) {
+    this.router.navigate(['/lookups/wizard-client-status', clientStatusId]);
+  }
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
