@@ -36,7 +36,7 @@ export class ClientActivityWizardComponent {
         title: 'Sales Turnover',
         content:
           'Introduce your company core info quickly to users by fill up company details',
-        link: `/crm/clients/view-sales-turnover/${clientId}`,
+        link: `/crm/clients/view-sales-turnovers/${clientId}`,
       },
       {
         imgUrl: '/assets/images/shared/card/phone.svg',

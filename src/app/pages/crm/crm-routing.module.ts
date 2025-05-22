@@ -213,7 +213,7 @@ const routes: Routes = [
   },
 
   {
-    path: 'clients/view-sales-turnover/:clientId',
+    path: 'clients/view-sales-turnovers/:clientId',
     component: ViewSalesTurnoverComponent,
   },
 

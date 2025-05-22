@@ -138,7 +138,10 @@ export class AddSalesTurnoverComponent implements OnInit, OnDestroy {
 
     if (clientIdParam) {
       console.log('➡️ Navigating back with PATH param:', clientIdParam);
-      this.router.navigate(['/crm/clients/view-sales-turnover', clientIdParam]);
+      this.router.navigate([
+        '/crm/clients/view-sales-turnovers',
+        clientIdParam,
+      ]);
     } else {
       console.error('❌ Cannot navigate back: clientId is missing!');
     }

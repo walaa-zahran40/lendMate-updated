@@ -93,7 +93,7 @@ export class SideMenuComponent {
           {
             label: 'ClientSalesTurnovers',
             icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-sales-turnover',
+            routerLink: '/crm/clients/view-sales-turnovers',
           },
           {
             label: 'ClientShareHolder',
