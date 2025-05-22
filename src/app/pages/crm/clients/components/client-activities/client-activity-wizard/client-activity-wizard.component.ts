@@ -88,14 +88,6 @@ export class ClientActivityWizardComponent {
         link: `/crm/clients/view-client-tml-officers/${clientId}`,
       },
       {
-        imgUrl: '/assets/images/shared/card/mandate.svg',
-        imgAlt: 'guarantor',
-        title: 'Client Guarantors',
-        content:
-          'Introduce your company core info quickly to users by fill up company details',
-        link: '/crm/clients/view-client-guarantor',
-      },
-      {
         imgUrl: '/assets/images/shared/card/contact.svg',
         imgAlt: 'contact',
         title: 'Contact Person',
@@ -104,13 +96,22 @@ export class ClientActivityWizardComponent {
         link: `/crm/clients/view-contact-person/${clientId}`,
       },
       {
-        imgUrl: '/assets/images/shared/card/contact.svg',
-        imgAlt: 'contact',
-        title: 'Client Identity',
+        imgUrl: '/assets/images/shared/card/mandate.svg',
+        imgAlt: 'guarantor',
+        title: 'Client Guarantors',
         content:
           'Introduce your company core info quickly to users by fill up company details',
-        link: `/crm/clients/view-client-identities/${clientId}`,
+        link: '/crm/clients/view-client-guarantor',
       },
+
+      // {
+      //   imgUrl: '/assets/images/shared/card/contact.svg',
+      //   imgAlt: 'contact',
+      //   title: 'Client Identity',
+      //   content:
+      //     'Introduce your company core info quickly to users by fill up company details',
+      //   link: `/crm/clients/view-client-identities/${clientId}`,
+      // },
     ];
     this.cards = this.chunkArray(this.originalCards, 3);
   }

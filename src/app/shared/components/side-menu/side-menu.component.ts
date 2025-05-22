@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MenuToggleService } from '../../services/menu-toggle.service';
 import { Subscription } from 'rxjs';
 import { MenuItem } from '../../interfaces/menu-item.interface';
+import { ActivatedRoute, Route } from '@angular/router';
 
 @Component({
   selector: 'app-side-menu',
@@ -13,10 +14,11 @@ export class SideMenuComponent {
   menuItems = [
     { id: 'CRM', icon: 'pi pi-ico1', label: 'CRM' },
     { id: 'Business', icon: 'pi pi-ico2', label: 'Business' },
-    { id: 'Assets', icon: 'pi pi-ico3', label: 'Assets' },
-    { id: 'Orders', icon: 'pi pi-ico4', label: 'Orders' },
+    // { id: 'Assets', icon: 'pi pi-ico3', label: 'Assets' },
+    // { id: 'Orders', icon: 'pi pi-ico4', label: 'Orders' },
     { id: 'Settings', icon: 'pi pi-cog', label: 'Settings' },
   ];
+  raw = this.route.snapshot.paramMap.get('teamId');
 
   menuData: Record<string, MenuItem[]> = {
     CRM: [
@@ -57,7 +59,7 @@ export class SideMenuComponent {
           {
             label: 'ClientDocumentType',
             icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-cr-authority-office',
+            routerLink: '/lookups/view-document-types',
           },
 
           {
@@ -158,148 +160,148 @@ export class SideMenuComponent {
           },
         ],
       },
-      {
-        label: 'Vendors',
-        icon: 'pi pi-users',
-        items: [
-          {
-            label: 'Vendors',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'VendorAddress',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'VendorCompanyBusinessDetails',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'VendorCRAuthorityOffice',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'VendorDocumentType',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'VendorIdentity',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'VendorLegal',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'VendorOfficer',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'VendorPhoneNumber',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'VendorShareHolder',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'VendorFile',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'VendorTaxOffice',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'ContactPerson',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-        ],
-      },
-      {
-        label: 'Guarantors',
-        icon: 'pi pi-users',
-        items: [
-          {
-            label: 'Guarantors',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'GuarantorAddress',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'GuarantorCompanyBusinessDetails',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'GuarantorCRAuthorityOffice',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'GuarantorDocumentType',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'GuarantorIdentity',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'GuarantorLegal',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'GuarantorOfficer',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'GuarantorPhoneNumber',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'GuarantorShareHolder',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'GuarantorFile',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'GuarantorTaxOffice',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'ContactPerson',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-        ],
-      },
+      // {
+      //   label: 'Vendors',
+      //   icon: 'pi pi-users',
+      //   items: [
+      //     {
+      //       label: 'Vendors',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorAddress',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorCompanyBusinessDetails',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorCRAuthorityOffice',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorDocumentType',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorIdentity',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorLegal',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorOfficer',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorPhoneNumber',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorShareHolder',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorFile',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorTaxOffice',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'ContactPerson',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //   ],
+      // },
+      // {
+      //   label: 'Guarantors',
+      //   icon: 'pi pi-users',
+      //   items: [
+      //     {
+      //       label: 'Guarantors',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorAddress',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorCompanyBusinessDetails',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorCRAuthorityOffice',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorDocumentType',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorIdentity',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorLegal',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorOfficer',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorPhoneNumber',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorShareHolder',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorFile',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorTaxOffice',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'ContactPerson',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //   ],
+      // },
     ],
     Business: [
       {
@@ -329,57 +331,57 @@ export class SideMenuComponent {
         ],
       },
     ],
-    Assets: [
-      {
-        label: 'Leasing',
-        icon: 'pi pi-users',
-        items: [
-          {
-            label: 'Vehicle',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/leasing-mandates/view-manage-mandate-termss',
-          },
-          {
-            label: 'Machinery and Equipments',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/leasing-mandates/view-manage-mandate-termss',
-          },
-          {
-            label: 'Real Estate',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/leasing-mandates/view-manage-mandate-termss',
-          },
-        ],
-      },
-      {
-        label: 'Insurance Policies',
-        icon: 'pi pi-users',
-        routerLink: '/crm/leasing-mandates/view-manage-mandate-termss',
-      },
-    ],
-    Orders: [
-      {
-        label: 'Leasing',
-        icon: 'pi pi-users',
-        items: [
-          {
-            label: 'Purchasing Order',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/leasing-mandates/view-manage-mandate-termss',
-          },
-        ],
-      },
-    ],
+    // Assets: [
+    //   {
+    //     label: 'Leasing',
+    //     icon: 'pi pi-users',
+    //     items: [
+    //       {
+    //         label: 'Vehicle',
+    //         icon: 'pi pi-user-plus',
+    //         routerLink: '/crm/leasing-mandates/view-manage-mandate-termss',
+    //       },
+    //       {
+    //         label: 'Machinery and Equipments',
+    //         icon: 'pi pi-user-plus',
+    //         routerLink: '/crm/leasing-mandates/view-manage-mandate-termss',
+    //       },
+    //       {
+    //         label: 'Real Estate',
+    //         icon: 'pi pi-user-plus',
+    //         routerLink: '/crm/leasing-mandates/view-manage-mandate-termss',
+    //       },
+    //     ],
+    //   },
+    //   {
+    //     label: 'Insurance Policies',
+    //     icon: 'pi pi-users',
+    //     routerLink: '/crm/leasing-mandates/view-manage-mandate-termss',
+    //   },
+    // ],
+    // Orders: [
+    //   {
+    //     label: 'Leasing',
+    //     icon: 'pi pi-users',
+    //     items: [
+    //       {
+    //         label: 'Purchasing Order',
+    //         icon: 'pi pi-user-plus',
+    //         routerLink: '/crm/leasing-mandates/view-manage-mandate-termss',
+    //       },
+    //     ],
+    //   },
+    // ],
     Settings: [
       {
         label: 'General',
         icon: 'pi pi-users',
         items: [
-          {
-            label: 'AppSettings',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/leasing-mandates/view-manage-mandate-termss',
-          },
+          // {
+          //   label: 'AppSettings',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/crm/leasing-mandates/view-manage-mandate-termss',
+          // },
           {
             label: 'BusinessLine',
             icon: 'pi pi-user-plus',
@@ -400,11 +402,11 @@ export class SideMenuComponent {
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-sub-sectors',
           },
-          {
-            label: 'Tenants ',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/leasing-mandates/view-manage-mandate-termss',
-          },
+          // {
+          //   label: 'Tenants ',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/crm/leasing-mandates/view-manage-mandate-termss',
+          // },
         ],
       },
       {
@@ -432,16 +434,16 @@ export class SideMenuComponent {
             icon: 'pi pi-user-plus',
             routerLink: '/organizations/view-signatory-officers',
           },
-          {
-            label: 'TeamLeadOfficer',
-            icon: 'pi pi-user-plus',
-            routerLink: '/organizations/view-team-lead',
-          },
-          {
-            label: 'TeamOfficer',
-            icon: 'pi pi-user-plus',
-            routerLink: '/organizations/view-team-member',
-          },
+          // {
+          //   label: 'TeamLeadOfficer',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: `/organizations/view-team-lead-officers/${this.raw}`,
+          // },
+          // {
+          //   label: 'TeamOfficer',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: `/organizations/view-team-officers/${this.raw}`,
+          // },
 
           {
             label: 'Teams',
@@ -490,21 +492,21 @@ export class SideMenuComponent {
             icon: 'pi pi-user-plus',
             routerLink: '/organizations/view-roles',
           },
-          {
-            label: 'Application Role Claims',
-            icon: 'pi pi-user-plus',
-            routerLink: '/organizations/view-role-claims',
-          },
-          {
-            label: 'ApplicationUserRole',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-sme-client-codes',
-          },
-          {
-            label: 'Users',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-sme-client-codes',
-          },
+          // {
+          //   label: 'Application Role Claims',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/organizations/view-role-claims',
+          // },
+          // {
+          //   label: 'ApplicationUserRole',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/lookups/view-sme-client-codes',
+          // },
+          // {
+          //   label: 'Users',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/lookups/view-sme-client-codes',
+          // },
           {
             label: 'Page Operations',
             icon: 'pi pi-user-plus',
@@ -531,89 +533,89 @@ export class SideMenuComponent {
             icon: 'pi pi-user-plus',
             routerLink: '/crm/clients/view-client-statuses',
           },
-          {
-            label: 'ClientStatusAction',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-client-status-actions',
-          },
-          {
-            label: 'ClientStatusActionAuthorizationGroup',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-client-statuses',
-          },
-          {
-            label: 'MandateStatusActionCondition',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-mandate-statuses',
-          },
-          {
-            label: 'ClientStatusActionNotificationGroup',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-client-statuses',
-          },
-          {
-            label: 'MandateWorkFlowActions',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-client-statuses',
-          },
-          {
-            label: 'ClientNotificationGroupOfficer',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-client-statuses',
-          },
-          {
-            label: 'ClientAuthorizationGroup',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-client-statuses',
-          },
+          // {
+          //   label: 'ClientStatusAction',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/crm/clients/view-client-status-actions',
+          // },
+          // {
+          //   label: 'ClientStatusActionAuthorizationGroup',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/lookups/view-client-statuses',
+          // },
+          // {
+          //   label: 'MandateStatusActionCondition',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/lookups/view-mandate-statuses',
+          // },
+          // {
+          //   label: 'ClientStatusActionNotificationGroup',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/lookups/view-client-statuses',
+          // },
+          // {
+          //   label: 'MandateWorkFlowActions',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/lookups/view-client-statuses',
+          // },
+          // {
+          //   label: 'ClientNotificationGroupOfficer',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/lookups/view-client-statuses',
+          // },
+          // {
+          //   label: 'ClientAuthorizationGroup',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/lookups/view-client-statuses',
+          // },
         ],
       },
-      {
-        label: 'Mandate WorkFlow',
-        icon: 'pi pi-users',
-        items: [
-          {
-            label: 'MandateStatus',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-mandate-statuses',
-          },
-          {
-            label: 'MandateStatusAction',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/add-client-status-actions',
-          },
-          {
-            label: 'MandateStatusActionAuthorizationGroup',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/add-client-status-actionss',
-          },
-          {
-            label: 'MandateStatusActionCondition',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/add-client-status-actionss',
-          },
-          {
-            label: 'MandateStatusActionNotificationGroup',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/add-client-status-actionss',
-          },
-          {
-            label: 'MandateWorkFlowActions',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/add-client-status-actionss',
-          },
-          {
-            label: 'MandateNotificationGroupOfficer',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/add-client-status-actionss',
-          },
-          {
-            label: 'MandateAuthorizationGroup',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/add-client-status-actionss',
-          },
-        ],
-      },
+      // {
+      //   label: 'Mandate WorkFlow',
+      //   icon: 'pi pi-users',
+      //   items: [
+      //     {
+      //       label: 'MandateStatus',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/lookups/view-mandate-statuses',
+      //     },
+      //     {
+      //       label: 'MandateStatusAction',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/lookups/add-client-status-actions',
+      //     },
+      //     {
+      //       label: 'MandateStatusActionAuthorizationGroup',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/lookups/add-client-status-actionss',
+      //     },
+      //     {
+      //       label: 'MandateStatusActionCondition',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/lookups/add-client-status-actionss',
+      //     },
+      //     {
+      //       label: 'MandateStatusActionNotificationGroup',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/lookups/add-client-status-actionss',
+      //     },
+      //     {
+      //       label: 'MandateWorkFlowActions',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/lookups/add-client-status-actionss',
+      //     },
+      //     {
+      //       label: 'MandateNotificationGroupOfficer',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/lookups/add-client-status-actionss',
+      //     },
+      //     {
+      //       label: 'MandateAuthorizationGroup',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/lookups/add-client-status-actionss',
+      //     },
+      //   ],
+      // },
       {
         label: 'Fees',
         icon: 'pi pi-users',
@@ -749,7 +751,7 @@ export class SideMenuComponent {
           {
             label: 'Governorates',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-Governorates',
+            routerLink: '/lookups/view-governorates',
           },
           {
             label: 'Identification Types',
@@ -893,9 +895,13 @@ export class SideMenuComponent {
   isVisible = true;
   subscription!: Subscription;
 
-  constructor(private menuToggleService: MenuToggleService) {}
+  constructor(
+    private menuToggleService: MenuToggleService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
+    console.log('route', this.route.snapshot);
     this.subscription = this.menuToggleService.toggle$.subscribe(
       (isVisible) => (this.isVisible = isVisible)
     );
