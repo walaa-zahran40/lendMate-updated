@@ -159,54 +159,82 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
           takeUntil(this.destroy$),
           filter((rec) => !!rec)
         )
-        .subscribe((rec) => {
-          this.addClientContactPersonForm.patchValue({
-            id: rec.id,
-            clientId: this.route.snapshot.queryParamMap.get('clientId'),
-            name: rec.name,
-            nameAR: rec.nameAR,
-            genderId: rec.genderId,
-            title: rec.title,
-            titleAR: rec.titleAR,
-            email: rec.email,
-            isAuthorizedSign: rec.isAuthorizedSign,
-            isKeyManager: rec.isKeyManager,
-            isFinance: rec.isFinance,
-            areaId: rec.areaId,
-            governorateId: rec.governorateId,
-            countryId: rec.countryId,
-            addressTypeId: rec.addressTypeId,
-            addressDetails: rec.addressDetails,
-            addressDetailsAr: rec.addressDetailsAr,
-          });
-          const identitiesarr = this.identities;
-          identitiesarr.clear();
-          rec.contactPersonIdentities!.forEach((ci: any) => {
-            const fg = this.fb.group({
-              id: [ci.id],
-              identificationNumber: [
-                ci.identificationNumber,
-                Validators.required,
-              ],
-              selectedIdentities: [
-                ci.identificationTypeId,
-                Validators.required,
-              ],
-              isMain: [ci.isMain, Validators.required],
-            });
-            identitiesarr.push(fg);
-          });
+        .subscribe({
+          next: (rec) => {
+            console.log('💾 Loaded contact-person record:', rec);
+            console.log('🔑 rec keys:', Object.keys(rec));
 
-          const phoneTypesarr = this.phoneTypes;
-          phoneTypesarr.clear();
-          rec.contactPersonPhoneNumbers!.forEach((ci: any) => {
-            const fg = this.fb.group({
-              id: [ci.id],
-              phoneNumber: [ci.phoneNumber, Validators.required],
-              selectedPhoneTypes: [ci.phoneTypeId, Validators.required],
+            // 1) patch simple fields
+            this.addClientContactPersonForm.patchValue({
+              id: rec.id,
+              clientId: this.route.snapshot.queryParamMap.get('clientId'),
+              name: rec.name,
+              nameAR: rec.nameAR,
+              genderId: rec.genderId,
+              title: rec.title,
+              titleAR: rec.titleAR,
+              email: rec.email,
+              isAuthorizedSign: rec.isAuthorizedSign,
+              isKeyManager: rec.isKeyManager,
+              isFinance: rec.isFinance,
+              areaId: rec.areaId,
+              governorateId: rec.governorateId,
+              countryId: rec.countryId,
+              addressTypeId: rec.addressTypeId,
+              addressDetails: rec.addressDetails,
+              addressDetailsAr: rec.addressDetailsAr,
             });
-            phoneTypesarr.push(fg);
-          });
+            console.log(
+              '📝 After patchValue, form value:',
+              this.addClientContactPersonForm.value
+            );
+
+            // 2) identities
+            const idArr = this.addClientContactPersonForm.get(
+              'identities'
+            ) as FormArray;
+            console.log('👥 identities before clear:', idArr.length);
+            idArr.clear();
+            console.log('👥 identities after clear:', idArr.length);
+            rec.contactPersonIdentities?.forEach((ci) => {
+              idArr.push(
+                this.fb.group({
+                  id: [ci.id],
+                  identificationNumber: [
+                    ci.identificationNumber,
+                    Validators.required,
+                  ],
+                  selectedIdentities: [
+                    ci.identificationTypeId,
+                    Validators.required,
+                  ],
+                  isMain: [ci.isMain, Validators.required],
+                })
+              );
+            });
+            console.log('👥 identities after rebuild:', idArr.length);
+
+            // 3) phone types
+            const phArr = this.addClientContactPersonForm.get(
+              'phoneTypes'
+            ) as FormArray;
+            console.log('📞 phoneTypes before clear:', phArr.length);
+            phArr.clear();
+            console.log('📞 phoneTypes after clear:', phArr.length);
+            rec.contactPersonPhoneNumbers?.forEach((pp) => {
+              phArr.push(
+                this.fb.group({
+                  id: [pp.id],
+                  phoneNumber: [pp.phoneNumber, Validators.required],
+                  phoneTypeId: [pp.phoneTypeId, Validators.required],
+                })
+              );
+            });
+            console.log('📞 phoneTypes after rebuild:', phArr.length);
+          },
+          error: (err) => {
+            console.error('❌ Error loading contact-person from facade:', err);
+          },
         });
     }
   }
@@ -281,7 +309,7 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
       (i: any) => {
         const entry: any = {
           identificationNumber: i.identificationNumber,
-          clientIdentityTypeId: i.selectedIdentities,
+          identificationTypeId: i.selectedIdentities,
           isMain: i.isMain,
         };
         if (this.editMode && i.id != null) {
@@ -294,8 +322,8 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
     const contactPersonPhoneTypesPayload = formValue.phoneTypes?.map(
       (i: any) => {
         const entry: any = {
-          phoneNumber: i.identificationNumber,
-          phoneTypeId: i.selectedIdentities,
+          phoneNumber: i.phoneNumber,
+          phoneTypeId: i.phoneTypeId,
         };
         if (this.editMode && i.id != null) {
           entry.id = Number(i.id);
@@ -322,8 +350,8 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
       //countryId : formValue.countryId,
       addressDetails: formValue.addressDetails,
       addressDetailsAr: formValue.addressDetailsAr,
-      contactPersonIdentities: contactPersonIdentitiesPayload,
-      contactPersonPhoneNumbers: contactPersonPhoneTypesPayload,
+      clientContactPersonIdentities: contactPersonIdentitiesPayload,
+      clientContactPhoneNumbers: contactPersonPhoneTypesPayload,
     };
 
     console.log(
@@ -336,12 +364,6 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
     if (this.mode === 'add') {
       this.clientContactPersonFacade.create({
         ...data,
-        contactPersonIdentities: contactPersonIdentitiesPayload,
-      });
-
-      this.clientContactPersonFacade.create({
-        ...data,
-        contactPersonPhoneNumbers: contactPersonPhoneTypesPayload,
       });
     } else {
       const formValue = this.addClientContactPersonForm.value;
@@ -375,19 +397,18 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
 
       this.clientContactPersonFacade.update(this.recordId, {
         ...updateData,
-        contactPersonIdentities: contactPersonIdentitiesPayload,
-      });
-
-      this.clientContactPersonFacade.update(this.recordId, {
-        ...updateData,
-        contactPersonPhoneNumbers: contactPersonPhoneTypesPayload,
+        clientContactPersonIdentities: contactPersonIdentitiesPayload,
+        clientContactPhoneNumbers: contactPersonPhoneTypesPayload,
       });
     }
     console.log('route', this.route.snapshot);
 
     if (clientIdParam) {
       console.log('➡️ Navigating back with PATH param:', clientIdParam);
-      this.router.navigate(['/crm/clients/view-contact-person', clientIdParam]);
+      this.router.navigate([
+        '/crm/clients/view-contact-persons',
+        clientIdParam,
+      ]);
     } else {
       console.error('❌ Cannot navigate back: clientId is missing!');
     }

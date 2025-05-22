@@ -269,7 +269,7 @@ const routes: Routes = [
   },
 
   {
-    path: 'clients/view-contact-person/:clientId',
+    path: 'clients/view-contact-persons/:clientId',
     component: ViewContactPersonComponent,
   },
 

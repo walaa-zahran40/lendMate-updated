@@ -36,6 +36,8 @@ import { LegalFormLawFacade } from '../../../pages/crm/clients/store/legal-form-
 import { LegalFormsFacade } from '../../../pages/legals/store/legal-forms/legal-forms.facade';
 import { PageOperation } from '../../../pages/organizations/store/page-operations/page-operation.model';
 import { LegalForm } from '../../interfaces/legal-form.interface';
+import { PhoneType } from '../../../pages/lookups/store/phone-types/phone-type.model';
+import { IdentificationType } from '../../../pages/lookups/store/identification-types/identification-type.model';
 export interface IdentityEntry {
   identificationNumber: string;
   selectedIdentities: any[];
@@ -58,7 +60,8 @@ export class FormComponent implements OnInit, OnDestroy {
   companyLegalDetail: CompanyLegalDetails = {};
   @Output() addIdentity = new EventEmitter<void>();
   @Output() removeIdentity = new EventEmitter<number>();
-
+  @Input() phoneTypeOptions!: any;
+  @Input() identityTypeOptions!: IdentificationType[];
   @Output() addPhoneType = new EventEmitter<void>();
   @Output() removePhoneType = new EventEmitter<number>();
 
@@ -649,7 +652,9 @@ export class FormComponent implements OnInit, OnDestroy {
     }
     return this.operationsList.map((po: any) => po.operation.name).join(', ');
   }
-
+  get phoneTypesArray(): FormArray {
+    return this.formGroup.get('phoneTypes') as FormArray;
+  }
   get subSectorList(): FormControl {
     return this.formGroup.get('subSectorIdList') as FormControl;
   }
@@ -827,7 +832,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/crm/clients/view-officers']);
   }
   viewContactPersons() {
-    this.router.navigate(['/crm/clients/view-contact-person']);
+    this.router.navigate(['/crm/clients/view-contact-persons']);
   }
   viewFollowUpsPoint() {
     this.router.navigate(['/communication/view-followup-points']);
@@ -863,7 +868,9 @@ export class FormComponent implements OnInit, OnDestroy {
     ]);
   }
   viewContactDetails() {
-    this.router.navigate(['/crm/clients/view-contact-person']);
+    this.router.navigate([
+      `/crm/clients/view-contact-persons/${this.clientId}`,
+    ]);
   }
   viewPhoneNumber() {
     this.router.navigate([`/crm/clients/view-phone-numbers/${this.clientId}`]);

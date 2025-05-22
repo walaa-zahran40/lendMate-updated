@@ -54,6 +54,7 @@
           <span *ngSwitchCase="'clientTypeCode'" class="label-table">
             {{ getTypeLabel(rowData.clientTypeCode) }}
           </span>
+
           <!-- otherwise just print the raw value -->
           <span *ngSwitchDefault>
             {{ rowData[col.field] }}
@@ -78,6 +79,9 @@
           </span>
           <span *ngSwitchCase="'balanceSheetdate'">
             {{ rowData[col.field] | date : "yyyy-MM-dd" }}
+          </span>
+          <span *ngSwitchCase="'genderId'">
+            {{ getGenderLabel(rowData.genderId) }}
           </span>
         </ng-container>
       </td>

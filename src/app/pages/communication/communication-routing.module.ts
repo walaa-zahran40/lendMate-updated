@@ -58,7 +58,7 @@ const routes: Routes = [
     component: ViewOfficersComponent,
   },
   {
-    path: 'view-contact-person',
+    path: 'view-contact-persons',
     component: ViewContactPersonsComponent,
   },
   {

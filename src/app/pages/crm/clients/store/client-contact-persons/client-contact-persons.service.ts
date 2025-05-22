@@ -33,20 +33,22 @@ export class ClientContactPersonsService {
   }
 
   getById(id: number): Observable<ClientContactPerson> {
-  return this.http.get<ClientContactPerson>(`${this.api}/Id`, {
-    params: { id: id.toString() }
-  });
-}
-
+    return this.http.get<ClientContactPerson>(`${this.api}/Id`, {
+      params: { id: id.toString() },
+    });
+  }
 
   create(data: Partial<ClientContactPerson>): Observable<ClientContactPerson> {
     return this.http.post<ClientContactPerson>(
-      `${this.api}/CreateClientContactPerson`,
+      `${this.api}/CreateContactPerson`,
       data
     );
   }
 
-  update(id: number, data: Partial<ClientContactPerson>): Observable<ClientContactPerson> {
+  update(
+    id: number,
+    data: Partial<ClientContactPerson>
+  ): Observable<ClientContactPerson> {
     return this.http.put<ClientContactPerson>(`${this.api}/${id}`, data);
   }
 
@@ -54,8 +56,6 @@ export class ClientContactPersonsService {
     return this.http.delete<void>(`${this.api}/${id}`);
   }
   getByClientId(clientId: number): Observable<ClientContactPerson[]> {
-  return this.http.get<ClientContactPerson[]>(
-    `${this.api}/${clientId}`
-  );
-}
+    return this.http.get<ClientContactPerson[]>(`${this.api}/${clientId}`);
+  }
 }

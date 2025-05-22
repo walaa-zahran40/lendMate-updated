@@ -289,7 +289,7 @@
       *ngIf="addClientContactPersonForm"
       icon="pi pi-cog"
       iconPos="left"
-      label="View Contact Details"
+      label="View Contact Persons"
       (click)="viewContactDetails()"
       class="custom-view m-0 float-right"
     />
@@ -5520,13 +5520,13 @@
       (ngSubmit)="onSubmit()"
       [formGroup]="formGroup"
     >
-      <label for="name">Name<sup class="danger">*</sup></label>
+      <label for="name">Name in English<sup class="danger">*</sup></label>
       <input
         pInputText
         id="name"
         aria-describedby="name-help"
         name="name"
-        placeholder="Mohamed"
+        placeholder="Name"
         formControlName="name"
       />
       <label for="nameAR">Name in Arabic<sup class="danger">*</sup></label>
@@ -5534,9 +5534,27 @@
         pInputText
         id="nameAR"
         aria-describedby="nameAR-help"
-        placeholder="Yasser"
+        placeholder="Name in Arabic"
         formControlName="nameAR"
         name="nameAR"
+      />
+      <label for="TitleInEnglishContactPerson">Title in English</label>
+      <input
+        pInputText
+        id="TitleInEnglishContactPerson"
+        aria-describedby="TitleInEnglishContactPerson-help"
+        placeholder="Title in English"
+        formControlName="title"
+        name="TitleInEnglishContactPerson"
+      />
+      <label for="TitleInArabicContactPerson">Title in Arabic</label>
+      <input
+        pInputText
+        id="TitleInArabicContactPerson"
+        aria-describedby="TitleInArabicContactPerson-help"
+        placeholder="Title in Arabic"
+        formControlName="titleAR"
+        name="TitleInArabicContactPerson"
       />
       <label for="genderContactPerson">Gender<sup class="danger">*</sup></label>
       <p-select
@@ -5547,24 +5565,6 @@
         formControlName="genderId"
         class="w-full md:w-56"
         name="gender"
-      />
-      <label for="TitleInEnglishContactPerson">Title in English</label>
-      <input
-        pInputText
-        id="TitleInEnglishContactPerson"
-        aria-describedby="TitleInEnglishContactPerson-help"
-        placeholder="Mou Yasser"
-        formControlName="title"
-        name="TitleInEnglishContactPerson"
-      />
-      <label for="TitleInArabicContactPerson">Title in Arabic</label>
-      <input
-        pInputText
-        id="TitleInArabicContactPerson"
-        aria-describedby="TitleInArabicContactPerson-help"
-        placeholder="Mou Yasser"
-        formControlName="titleAR"
-        name="TitleInArabicContactPerson"
       />
 
       <label for="emailAddressContactPerson">Email Address<sup>*</sup></label>
@@ -5578,9 +5578,9 @@
       />
       <!-- Here is phone numbers multiselect  -->
 
-      <div formArrayName="phoneTypes">
+      <div formArrayName="phoneTypes" class="my-4">
         <div
-          *ngFor="let group of phoneTypes?.controls; let i = index"
+          *ngFor="let group of phoneTypesArray.controls; let i = index"
           [formGroupName]="i"
           class="parent2-individual2 mt-2 flex items-start gap-4 align-items-center flex-wrap"
         >
@@ -5599,6 +5599,7 @@
                   group.get('phoneNumber')?.invalid &&
                   group.get('phoneNumber')?.touched
               }"
+              [ngClass]="viewOnly ? 'disabled' : 'enabled'"
             />
             <small
               class="p-error d-block"
@@ -5617,8 +5618,8 @@
               Select Phone Type<sup class="danger">*</sup>
             </label>
             <p-select
-              [options]="phoneTypes"
-              formControlName="selectedPhoneTypes"
+              [options]="phoneTypeOptions"
+              formControlName="phoneTypeId"
               name="phoneType"
               placeholder="Select Phone Type"
               optionLabel="name"
@@ -5627,15 +5628,16 @@
               class="m-0"
               [ngClass]="{
                 'ng-invalid ng-dirty':
-                  group.get('selectedPhoneTypes')?.invalid &&
-                  group.get('selectedPhoneTypes')?.touched
+                  group.get('phoneTypeId')?.invalid &&
+                  group.get('phoneTypeId')?.touched
               }"
+              [ngClass]="viewOnly ? 'disabled' : 'enabled'"
             ></p-select>
             <small
               class="p-error d-block"
               *ngIf="
-                group.get('selectedPhoneTypes')?.invalid &&
-                group.get('selectedPhoneTypes')?.touched
+                group.get('phoneTypeId')?.invalid &&
+                group.get('phoneTypeId')?.touched
               "
             >
               Phone Type is required.
@@ -5650,6 +5652,8 @@
             icon="pi pi-plus"
             class="p-button-outlined p-button-sm"
             (click)="addPhoneType.emit()"
+            *ngIf="!viewOnly"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
           ></button>
 
           <!-- 5) Remove this identity -->
@@ -5659,8 +5663,9 @@
             type="button"
             icon="pi pi-trash"
             class="p-button-danger p-button-sm"
+            *ngIf="phoneTypesArray.length > 1 && !viewOnly"
             (click)="removePhoneType.emit(i)"
-            *ngIf="phoneTypes.length > 1"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
           ></button>
         </div>
       </div>
@@ -5686,6 +5691,7 @@
                   group.get('identificationNumber')?.invalid &&
                   group.get('identificationNumber')?.touched
               }"
+              [ngClass]="viewOnly ? 'disabled' : 'enabled'"
             />
             <small
               class="p-error d-block"
@@ -5717,6 +5723,7 @@
                   group.get('selectedIdentities')?.invalid &&
                   group.get('selectedIdentities')?.touched
               }"
+              [ngClass]="viewOnly ? 'disabled' : 'enabled'"
             ></p-select>
             <small
               class="p-error d-block"
@@ -5734,6 +5741,7 @@
           <div
             class="div-main flex items-center flex-column"
             style="margin-top: 25px"
+            *ngIf="!viewOnly"
           >
             <label for="isMain" class="p-0"> Is Main </label>
             <p-toggleswitch
@@ -5744,6 +5752,7 @@
                 'ng-invalid ng-dirty':
                   group.get('isMain')?.invalid && group.get('isMain')?.touched
               }"
+              [ngClass]="viewOnly ? 'disabled' : 'enabled'"
             ></p-toggleswitch
             ><br />
             <small
@@ -5762,8 +5771,10 @@
             pButton
             type="button"
             icon="pi pi-plus"
+            *ngIf="!viewOnly"
             class="p-button-outlined p-button-sm"
             (click)="addIdentity.emit()"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
           ></button>
 
           <!-- 5) Remove this identity -->
@@ -5774,7 +5785,8 @@
             icon="pi pi-trash"
             class="p-button-danger p-button-sm"
             (click)="removeIdentity.emit(i)"
-            *ngIf="identities.length > 1"
+            *ngIf="identities.length > 1 && !viewOnly"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
           ></button>
         </div>
       </div>
@@ -5837,21 +5849,21 @@
         formControlName="areaId"
         chipIcon="pi pi-times"
       />
-      <label for="detailsEnglishContactPerson">Details English</label>
+      <label for="detailsEnglishContactPerson">Details in English</label>
       <input
         pInputText
         id="detailsEnglishContactPerson"
         aria-describedby="detailsEnglishContactPerson-help"
-        placeholder="Address Details"
+        placeholder="Details in English"
         formControlName="addressDetails"
         name="detailsEnglishContactPerson"
       />
-      <label for="detailsArabicContactPerson">Details Arabic</label>
+      <label for="detailsArabicContactPerson">Details in Arabic</label>
       <input
         pInputText
         id="detailsArabicContactPerson"
         aria-describedby="detailsArabicContactPerson-help"
-        placeholder="Address Details"
+        placeholder="Details in Arabic"
         formControlName="addressDetailsAr"
         name="detailsArabicContactPerson"
       />
@@ -5885,7 +5897,7 @@
           <p-button
             label="Close"
             class="custom-save m-0 float-right"
-            (click)="router.navigate([`/crm/clients/view-contact-person/${clientId}`])"
+            (click)="router.navigate([`/crm/clients/view-contact-persons/${clientId}`])"
           />
         </div>
       </div>

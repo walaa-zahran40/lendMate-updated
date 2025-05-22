@@ -279,7 +279,16 @@ export class TableComponent {
 
     this.saveAsExcelFile(excelBuffer, 'ExportedData');
   }
-
+  getGenderLabel(id: number): string {
+    switch (id) {
+      case 1:
+        return 'Male';
+      case 2:
+        return 'Female';
+      default:
+        return '—';
+    }
+  }
   private saveAsExcelFile(buffer: any, fileName: string): void {
     const data: Blob = new Blob([buffer], {
       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8',

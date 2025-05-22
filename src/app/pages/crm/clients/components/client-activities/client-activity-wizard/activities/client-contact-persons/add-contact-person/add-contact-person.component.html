@@ -8,12 +8,12 @@
         [addressTypes]="addressTypes$ | async"
         [countries]="countries$ | async"
         [governorates]="governorates$ | async"
-        [phoneTypes]="phoneTypes$ | async"
         [identityTypes]="identityTypes$ | async"
         [areas]="areas$ | async"
         [formGroup]="addClientContactPersonForm"
         (submitForm)="addOrEditClientContactPerson()"
         [editMode]="editMode"
+        [phoneTypeOptions]="phoneTypes$ | async"
         [viewOnly]="viewOnly"
         (removeIdentity)="removeIdentity($event)"
         (addIdentity)="addIdentity()"
@@ -22,5 +22,4 @@
       ></app-form>
     </p-tabpanel>
   </p-tabpanels>
-  
 </p-tabs>

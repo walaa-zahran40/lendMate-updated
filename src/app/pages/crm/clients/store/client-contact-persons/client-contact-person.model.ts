@@ -1,13 +1,16 @@
 export interface ContactPersonPhoneNumber {
+  id?: number;
   phoneNumber: string;
   phoneTypeId: number;
 }
- 
+
 export interface ContactPersonIdentity {
+  id?: number;
   identificationNumber: string;
   identificationTypeId: number;
+  isMain?: boolean;
 }
- 
+
 export interface ClientContactPerson {
   id: number;
   name: string;
@@ -26,7 +29,8 @@ export interface ClientContactPerson {
   governorateId?: number;
   addressDetails?: string;
   addressDetailsAr: string;
-
   contactPersonPhoneNumbers?: ContactPersonPhoneNumber[];
+  clientContactPhoneNumbers?: ContactPersonPhoneNumber[];
+  clientContactPersonIdentities?: ContactPersonIdentity[];
   contactPersonIdentities?: ContactPersonIdentity[];
 }

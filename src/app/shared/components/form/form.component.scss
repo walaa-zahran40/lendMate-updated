@@ -162,6 +162,7 @@
     .p-button:not(:disabled):hover {
       background-color: var(--p-tabs-active-bar-background);
       border: var(--p-tabs-active-bar-background) !important;
+      color: white;
     }
     .row-spacing {
       gap: 60px;

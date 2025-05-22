@@ -120,7 +120,7 @@ export class SideMenuComponent {
           {
             label: 'ContactPerson',
             icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-contact-person',
+            routerLink: '/crm/clients/view-contact-persons',
           },
         ],
       },

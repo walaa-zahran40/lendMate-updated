@@ -28,7 +28,7 @@ export class ViewContactPersonComponent implements OnInit, OnDestroy {
     { field: 'nameAR', header: 'Name AR' },
     { field: 'title', header: 'Title' },
     { field: 'titleAR', header: 'Title AR' },
-    { field: 'gender', header: 'Gender' },
+    { field: 'genderId', header: 'Gender' },
     { field: 'phoneNumber', header: 'Phone Number' },
     { field: 'isAuthorizedSign', header: 'Is Authorized Sign' },
     { field: 'isKeyManager', header: 'Is Key Manager' },
@@ -59,7 +59,6 @@ export class ViewContactPersonComponent implements OnInit, OnDestroy {
     this.facade.loadByClientId(this.clientIdParam);
     this.clientContactPersons$ = this.facade.items$;
 
-    this.addressTypesFacade.loadAll();
     this.phoneTypes$ = this.addressTypesFacade.all$;
 
     if (this.clientIdParam == null || isNaN(this.clientIdParam)) {
@@ -69,32 +68,31 @@ export class ViewContactPersonComponent implements OnInit, OnDestroy {
       return;
     }
 
-    combineLatest([
-      this.clientContactPersons$ ?? of([]),
-      this.phoneTypes$ ?? of([]),
-    ])
+    combineLatest([this.clientContactPersons$!, this.phoneTypes$!])
       .pipe(
-        map(([clientContactPersons, phoneTypes]) => {
-          console.log('📦 Raw clientContactPersons:', clientContactPersons);
-          console.log('📦 Raw phoneTypes:', phoneTypes);
-
-          return clientContactPersons
+        map(([clientContactPersons, phoneTypes]) =>
+          clientContactPersons
             .map((ss) => {
+              // Join multiple numbers if you like, or just take the first:
+              const numbers = ss.contactPersonPhoneNumbers
+                ?.map((p) => p.phoneNumber)
+                .join(', ');
               const matchedPhoneType = phoneTypes.find(
                 (pt) => pt.id === ss.addressTypeId
               );
 
               return {
                 ...ss,
+                // <-- add this:
+                phoneNumber: numbers,
                 phoneTypeName: matchedPhoneType?.name ?? '—',
               };
             })
-            .sort((a, b) => b.id - a.id);
-        }),
+            .sort((a, b) => b.id - a.id)
+        ),
         takeUntil(this.destroy$)
       )
       .subscribe((result) => {
-        console.log('✅ Final result:', result);
         this.filteredClientContactPersons = result;
         this.originalClientContactPersons = result;
       });
