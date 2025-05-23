@@ -3,9 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { ViewContactPersonsComponent } from '../communication/view-contact-persons/view-contact-persons.component';
 import { ViewOfficersComponent } from '../communication/view-officers/view-officers.component';
 import { WizardComponent } from '../communication/wizard/wizard.component';
-import { AddClientStatusesComponent } from '../lookups/components/client-statuses/add-client-statuses/add-client-statuses.component';
-import { ViewClientStatusComponent } from '../lookups/components/client-statuses/view-client-status-actions/view-client-status.component';
-import { ViewClientStatusesComponent } from '../lookups/components/client-statuses/view-client-statuses/view-client-statuses.component';
 import { WizardClientStatusComponent } from '../lookups/components/client-statuses/wizard-client-status/wizard-client-status.component';
 import { AddClientAddressesComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-addresses/add-client-address/add-client-address.component';
 import { ViewClientAddressesComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-addresses/view-client-addresses/view-client-address.component';
@@ -322,27 +319,6 @@ const routes: Routes = [
   {
     path: 'leasing-mandates/leasing-financial-form-compound',
     component: LeasingFinancialFormCompoundComponent,
-  },
-  //Client Statuses
-  {
-    path: 'add-client-statuses',
-    component: AddClientStatusesComponent,
-  },
-  {
-    path: 'view-client-status-actions/:clientStatusId',
-    component: ViewClientStatusComponent,
-  },
-  {
-    path: 'edit-client-statuses/:id',
-    component: AddClientStatusesComponent,
-  },
-  {
-    path: 'view-client-statuses',
-    component: ViewClientStatusesComponent,
-  },
-  {
-    path: 'wizard-client-status/:clientStatusId',
-    component: WizardClientStatusComponent,
   },
 ];
 

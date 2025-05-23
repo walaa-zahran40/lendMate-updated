@@ -138,8 +138,6 @@ import { MandateStatusesEffects } from './store/mandate-statuses/mandate-statuse
 import { mandateStatusesReducer } from './store/mandate-statuses/mandate-statuses.reducer';
 import { reducer as SubSectorsReducer } from './store/sub-sectors/sub-sectors.reducer';
 import { SubSectorsEffects } from './store/sub-sectors/sub-sectors.effects';
-import { clientStatusesReducer } from '../crm/clients/store/client-statuses/client-statuses.reducer';
-import { ClientStatusesEffects } from '../crm/clients/store/client-statuses/client-statuses.effects';
 import { reducer as docTypesReducer } from './store/doc-types/doc-types.reducer';
 import { DocTypesEffects } from './store/doc-types/doc-types.effects';
 import { CountriesEffects } from './store/countries/countries.effects';
@@ -167,7 +165,15 @@ import { ProductsEffects } from './store/products/products.effects';
 import { reducer as productsReducer } from './store/products/products.reducer';
 import { reducer as smeClientCodesReducer } from './store/sme-client-codes/sme-client-codes.reducer';
 import { SMEClientCodesEffects } from './store/sme-client-codes/sme-client-codes.effects';
-
+import { ViewClientStatusesComponent } from './components/client-statuses/view-client-statuses/view-client-statuses.component';
+import { ClientStatusActionsEffects } from './store/client-statuses-actions/client-status-actions.effects';
+import { reducer as clientStatusActionsReducer } from './store/client-statuses-actions/client-status-actions.reducer';
+import { WizardClientStatusComponent } from './components/client-statuses/wizard-client-status/wizard-client-status.component';
+import { AddClientStatusActionsComponent } from './components/client-statuses/add-client-status-action/add-client-status-actions.component';
+import { AddClientStatusesComponent } from './components/client-statuses/add-client-status/add-client-status.component';
+import { ViewClientStatusActionsComponent } from './components/client-statuses/view-client-status-actions/view-client-status-actions.component';
+import { ClientStatusesEffects } from './store/client-statuses/client-statuses.effects';
+import { clientStatusesReducer } from './store/client-statuses/client-statuses.reducer';
 @NgModule({
   declarations: [
     AddTmlOfficerTypesComponent,
@@ -245,6 +251,11 @@ import { SMEClientCodesEffects } from './store/sme-client-codes/sme-client-codes
     ViewAreasComponent,
     ViewTaxOfficesComponent,
     ViewTmlOfficerTypesComponent,
+    AddClientStatusActionsComponent,
+    ViewClientStatusActionsComponent,
+    ViewClientStatusesComponent,
+    AddClientStatusesComponent,
+    WizardClientStatusComponent,
     ViewCallTypesComponent,
     ViewCommunicationTypesComponent,
     ViewCallActionTypesComponent,
@@ -352,6 +363,8 @@ import { SMEClientCodesEffects } from './store/sme-client-codes/sme-client-codes
     EffectsModule.forFeature([ProductsEffects]),
     StoreModule.forFeature('sMEClientCodes', smeClientCodesReducer),
     EffectsModule.forFeature([SMEClientCodesEffects]),
+    StoreModule.forFeature('clientStatusActions', clientStatusActionsReducer),
+    EffectsModule.forFeature([ClientStatusActionsEffects]),
   ],
   exports: [
     AddMandateStatusesComponent,

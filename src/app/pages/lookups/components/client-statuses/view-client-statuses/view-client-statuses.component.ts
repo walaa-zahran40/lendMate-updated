@@ -3,8 +3,8 @@ import { Component, ViewChild } from '@angular/core';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
-import { ClientStatusesFacade } from '../../../../crm/clients/store/client-statuses/client-statuses.facade';
-import { ClientStatus } from '../../../../crm/clients/store/client-statuses/client-status.model';
+import { ClientStatus } from '../../../store/client-statuses/client-status.model';
+import { ClientStatusesFacade } from '../../../store/client-statuses/client-statuses.facade';
 
 @Component({
   selector: 'app-view-client-status',
@@ -47,7 +47,7 @@ export class ViewClientStatusesComponent {
   }
 
   onAddClientStatus() {
-    this.router.navigate(['/lookups/add-client-statuses']);
+    this.router.navigate(['/lookups/add-client-status']);
   }
   onAddSide(clientStatusId: any) {
     this.router.navigate(['/lookups/wizard-client-status', clientStatusId]);
@@ -100,12 +100,12 @@ export class ViewClientStatusesComponent {
     this.showFilters = value;
   }
   onEditClientStatus(companyType: ClientStatus) {
-    this.router.navigate(['/lookups/edit-client-statuses', companyType.id], {
+    this.router.navigate(['/lookups/edit-client-status', companyType.id], {
       queryParams: { mode: 'edit' },
     });
   }
   onViewClientStatus(ct: ClientStatus) {
-    this.router.navigate(['/lookups/edit-client-statuses', ct.id], {
+    this.router.navigate(['/lookups/edit-client-status', ct.id], {
       queryParams: { mode: 'view' },
     });
   }

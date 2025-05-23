@@ -79,6 +79,11 @@ import { AddDocTypesComponent } from './components/doc-types/add-doc-types/add-d
 import { ViewDocTypesComponent } from './components/doc-types/view-doc-types/view-doc-types.component';
 import { AddWorkFlowActionTypesComponent } from './components/workflow-action-types/add-workflow-action-types/add-workflow-action-types.component';
 import { ViewWorkFlowActionTypesComponent } from './components/workflow-action-types/view-workflow-action-types/view-workflow-action-types.component';
+import { AddClientStatusesComponent } from './components/client-statuses/add-client-status/add-client-status.component';
+import { ViewClientStatusActionsComponent } from './components/client-statuses/view-client-status-actions/view-client-status-actions.component';
+import { ViewClientStatusesComponent } from './components/client-statuses/view-client-statuses/view-client-statuses.component';
+import { WizardClientStatusComponent } from './components/client-statuses/wizard-client-status/wizard-client-status.component';
+import { AddClientStatusActionsComponent } from './components/client-statuses/add-client-status-action/add-client-status-actions.component';
 
 const routes: Routes = [
   /**Lookup Module */
@@ -561,14 +566,44 @@ const routes: Routes = [
     path: 'view-document-types',
     component: ViewDocTypesComponent,
   },
+  //Client Statuses
+  {
+    path: 'add-client-status',
+    component: AddClientStatusesComponent,
+  },
+  {
+    path: 'view-client-status-actions/:clientStatusId',
+    component: ViewClientStatusActionsComponent,
+  },
+  {
+    path: 'edit-client-status/:id',
+    component: AddClientStatusesComponent,
+  },
+  {
+    path: 'view-client-statuses',
+    component: ViewClientStatusesComponent,
+  },
+  {
+    path: 'wizard-client-status/:clientStatusId',
+    component: WizardClientStatusComponent,
+  },
+  {
+    path: 'add-client-status-actions',
+    component: AddClientStatusActionsComponent,
+  },
+  {
+    path: 'edit-client-status-actions/:id',
+    component: AddClientStatusActionsComponent,
+  },
+  {
+    path: 'view-client-status-actions',
+    component: ViewClientStatusActionsComponent,
+  },
+
+  //----
   {
     path: 'add-mandate-statuses',
     component: AddMandateStatusesComponent,
-  },
-
-  {
-    path: 'add-fees-types',
-    component: AddFeeTypesComponent,
   },
 
   {

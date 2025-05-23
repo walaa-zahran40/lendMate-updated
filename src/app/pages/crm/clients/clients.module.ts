@@ -46,11 +46,6 @@ import { reducer as clientsOnboardingReducer } from './store/_client-onboarding/
 import { IndividualOnboardingsEffects } from './store/_client-onboarding/individuals/individuals-onboarding.effects';
 import { ClientShareHoldersEffects } from './store/client-share-holders/client-share-holders.effects';
 import { clientShareHoldersReducer } from './store/client-share-holders/client-share-holders.reducer';
-import { AddClientStatusActionsComponent } from '../../lookups/components/client-statuses/add-client-status-actions/add-client-status-actions.component';
-import { AddClientStatusesComponent } from '../../lookups/components/client-statuses/add-client-statuses/add-client-statuses.component';
-import { ViewClientStatusComponent } from '../../lookups/components/client-statuses/view-client-status-actions/view-client-status.component';
-import { ViewClientStatusesComponent } from '../../lookups/components/client-statuses/view-client-statuses/view-client-statuses.component';
-import { WizardClientStatusComponent } from '../../lookups/components/client-statuses/wizard-client-status/wizard-client-status.component';
 import { AddClientAddressesComponent } from './components/client-activities/client-activity-wizard/activities/client-addresses/add-client-address/add-client-address.component';
 import { ViewClientAddressesComponent } from './components/client-activities/client-activity-wizard/activities/client-addresses/view-client-addresses/view-client-address.component';
 import { AddClientCentralBankInfoComponent } from './components/client-activities/client-activity-wizard/activities/client-central-bank-info/add-central-bank-info/add-central-bank-info.component';
@@ -109,7 +104,6 @@ import { ViewContactPersonComponent } from './components/client-activities/clien
     ViewSalesTurnoverComponent,
     ViewPhoneNumberComponent,
     ViewContactPersonComponent,
-    WizardClientStatusComponent,
     ViewCRAuthorityOfficesComponent,
     ViewTaxAuthorityOfficesComponent,
     ViewClientCentralBankInfoComponent,
@@ -120,11 +114,7 @@ import { ViewContactPersonComponent } from './components/client-activities/clien
     AddClientGuarantorComponent,
     ViewClientIdentityComponent,
     AddClientIdentityComponent,
-    AddClientStatusActionsComponent,
-    ViewClientStatusesComponent,
-    ViewClientStatusComponent,
     ViewClientsComponent,
-    AddClientStatusesComponent,
   ],
   imports: [
     CommonModule,

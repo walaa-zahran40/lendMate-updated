@@ -8044,56 +8044,131 @@
       </div>
     </form>
 
-    <form action="" *ngIf="addStatusActionsLookupsForm">
-      <label for="codeAssestTypesLookups">Code<sup>*</sup></label>
+    <form
+      [formGroup]="formGroup"
+      *ngIf="addStatusActionsLookupsForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="name">Name in English<sup>*</sup></label>
+
       <input
+        id="details"
         pInputText
-        id="codeAssestTypesLookups"
-        aria-describedby="codeAssestTypesLookups-help"
-        name="codeAssestTypesLookups"
-        placeholder="Yes"
+        formControlName="name"
+        placeholder="Name in English"
       />
-      <label for="nameInEnglishAssestTypesLookups"
-        >Name in English<sup>*</sup></label
+      <div
+        *ngIf="
+          formGroup.get('name')?.hasError('required') &&
+          formGroup.get('name')?.touched
+        "
+        class="p-error"
       >
+        Name in English is required.
+      </div>
+      <label for="nameAR">Name in Arabic<sup>*</sup></label>
       <input
         pInputText
-        id="nameInEnglishAssestTypesLookups"
-        aria-describedby="nameInEnglishAssestTypesLookups-help"
-        name="nameInEnglishAssestTypesLookups"
-        placeholder="Enter Name"
+        id="nameAR"
+        formControlName="nameAR"
+        placeholder="Name in Arabic"
       />
-      <label for="nameInArabicAssestTypesLookups"
-        >Name in Arabic<sup>*</sup></label
+      <div
+        *ngIf="
+          formGroup.get('nameAR')?.hasError('required') &&
+          formGroup.get('nameAR')?.touched
+        "
+        class="p-error"
       >
-      <input
-        pInputText
-        id="nameInArabicAssestTypesLookups"
-        aria-describedby="nameInArabicAssestTypesLookups-help"
-        name="nameInArabicAssestTypesLookups"
-        placeholder="Enter Name"
-      />
-      <label for="initialClientStatusesLookups">Status in ID<sup>*</sup></label>
-      <p-multiselect
-        [options]="officerTypesMandates"
-        [(ngModel)]="officerTypesMandates"
-        placeholder="Select Status in ID"
-        optionLabel="name"
-        display="chip"
-        icon="pi pi-times"
-        name="initialClientStatusesLookups"
-        styleClass="w-full md:w-80"
-        [maxSelectedLabels]="999"
-        chipIcon="pi pi-times"
-      />
-      <label for="activeClientStatusesLookups">Status Out ID<sup>*</sup></label>
+        nameAR in Arabic is required.
+      </div>
+      <div
+        *ngIf="
+          formGroup.get('nameAR')?.hasError('pattern') &&
+          formGroup.get('nameAR')?.touched
+        "
+        class="p-error"
+      >
+        Please enter only Arabic letters.
+      </div>
+      <label for="statusInId">Status In<sup>*</sup></label>
       <p-select
-        [options]="stamps"
-        [(ngModel)]="selectedStamps"
+        [options]="statusList"
+        placeholder="Select Status In"
         optionLabel="name"
-        class="w-full md:w-56"
-        name="activeClientStatusesLookups"
-      />
+        optionValue="id"
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('statusInId')?.invalid &&
+            (formGroup.get('statusInId')?.dirty ||
+              formGroup.get('statusInId')?.touched)
+        }"
+        formControlName="statusInId"
+      ></p-select>
+      <label for="statusOutId">Status Out<sup>*</sup></label>
+      <p-select
+        [options]="statusList"
+        optionLabel="name"
+        placeholder="Select Status Out"
+        formControlName="statusOutId"
+        optionValue="id"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('statusOutId')?.invalid &&
+            (formGroup.get('statusOutId')?.dirty ||
+              formGroup.get('statusOutId')?.touched)
+        }"
+      ></p-select>
+      <label for="workflowActionTypeId">Workflow Action Type<sup>*</sup></label>
+      <p-select
+        [options]="workflowActionTypeList"
+        placeholder="Select Workflow Action Type"
+        formControlName="workflowActionTypeId"
+        optionValue="id"
+        optionLabel="name"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('workflowActionTypeId')?.invalid &&
+            (formGroup.get('workflowActionTypeId')?.dirty ||
+              formGroup.get('workflowActionTypeId')?.touched)
+        }"
+      >
+      </p-select>
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="!editMode"
+        >
+          <p-button
+            type="submit"
+            label="Add Status Action"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Status Action"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate([`/lookups/view-client-status-actions/${this.clientStatusIdParam}`])"
+          />
+        </div>
+      </div>
     </form>
     <form
       [formGroup]="formGroup"

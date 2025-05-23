@@ -531,13 +531,13 @@ export class SideMenuComponent {
           {
             label: 'ClientStatus',
             icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-client-statuses',
+            routerLink: '/lookups/view-client-statuses',
           },
-          // {
-          //   label: 'ClientStatusAction',
-          //   icon: 'pi pi-user-plus',
-          //   routerLink: '/crm/clients/view-client-status-actions',
-          // },
+          {
+            label: 'ClientStatusAction',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-client-status-actions',
+          },
           // {
           //   label: 'ClientStatusActionAuthorizationGroup',
           //   icon: 'pi pi-user-plus',

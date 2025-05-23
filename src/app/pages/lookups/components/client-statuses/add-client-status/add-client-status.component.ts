@@ -1,16 +1,15 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ClientStatusesFacade } from '../../../../crm/clients/store/client-statuses/client-statuses.facade';
 import { filter, take } from 'rxjs';
 import { arabicOnlyValidator } from '../../../../../shared/validators/arabic-only.validator';
-import { ClientStatus } from '../../../../crm/clients/store/client-statuses/client-status.model';
-
+import { ClientStatus } from '../../../store/client-statuses/client-status.model';
+import { ClientStatusesFacade } from '../../../store/client-statuses/client-statuses.facade';
 @Component({
-  selector: 'app-add-client-statuses',
+  selector: 'app-add-client-status',
   standalone: false,
-  templateUrl: './add-client-statuses.component.html',
-  styleUrl: './add-client-statuses.component.scss',
+  templateUrl: './add-client-status.component.html',
+  styleUrl: './add-client-status.component.scss',
 })
 export class AddClientStatusesComponent {
   editMode: boolean = false;

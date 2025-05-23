@@ -418,6 +418,8 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addCentralBankInfoShowMain!: boolean;
   @Input() addShareHolderShowMain!: boolean;
   @Input() addTMLOfficerShowMain!: boolean;
+  @Input() statusList: any;
+  @Input() workflowActionTypeList: any;
   @Input() addClientCompanyViewShowMain!: boolean;
   @Input() addClientCompanyViewShowLegal!: boolean;
   @Input() addClientCompanyViewShowBusiness!: boolean;
@@ -525,7 +527,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addDepartmentsForm!: boolean;
   filteredSubSectors$!: Observable<SubSectors[]>;
   @Input() operationName!: string;
-
+  clientStatusIdParam!: any;
   legalFormLaws$: Observable<LegalFormLaw[]> = this.facade.legalFormLaws$;
   legalForms$ = this.facadeLegalForms.items$;
 
@@ -572,6 +574,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.teamIdParam = this.route.snapshot.queryParams['teamId'];
     this.roleIdParam = this.route.snapshot.queryParams['roleId'];
     this.clientIdParam = this.route.snapshot.queryParams['clientId'];
+    this.clientStatusIdParam = this.route.snapshot.params['id'];
     this.sub = this.formGroup?.valueChanges
       .pipe(debounceTime(300))
       .subscribe(() => {
@@ -912,7 +915,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-client-statuses']);
   }
   viewClientStatusActions() {
-    this.router.navigate(['/crm/clients/view-client-status-actions']);
+    this.router.navigate(['/lookups/view-client-status-actions']);
   }
   viewSMEClientCode() {
     this.router.navigate(['/lookups/view-sme-client-codes']);
