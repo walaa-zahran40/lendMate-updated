@@ -53,7 +53,7 @@
       class="custom-view m-0 float-right"
     />
     <p-button
-      *ngIf="addClientIdentitiesShowIndividual"
+      *ngIf="addClientIdentities"
       icon="pi pi-cog"
       iconPos="left"
       label="View Client Identities"
@@ -283,6 +283,15 @@
       iconPos="left"
       label="View Phone Numbers"
       (click)="viewPhoneNumber()"
+      class="custom-view m-0 float-right"
+    />
+
+       <p-button
+      *ngIf="addClientIdentityForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Client Identities"
+      (click)="viewClientIdentity()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -5407,6 +5416,92 @@
     </form>
 
     <form
+      action=""
+      *ngIf="addClientIdentityForm"
+      (ngSubmit)="onSubmit()"
+      [formGroup]="formGroup"
+    >
+      <label for="phoneTypeId"
+        >Select Phone Type<sup class="danger">*</sup></label
+      >
+      <!--Select Box-->
+      <p-select
+        [options]="phoneTypes"
+        optionLabel="name"
+        placeholder="Select Phone type"
+        formControlName="phoneTypeId"
+        optionValue="id"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('phoneTypeId')?.invalid &&
+            (formGroup.get('phoneTypeId')?.dirty ||
+              formGroup.get('phoneTypeId')?.touched)
+        }"
+      >
+      </p-select>
+
+      <div
+        *ngIf="
+          formGroup.get('phoneTypeId')?.hasError('required') &&
+          formGroup.get('phoneTypeId')?.touched
+        "
+        class="p-error"
+      >
+        Phone Type is required.
+      </div>
+
+      <label for="phoneNumber">Number <sup class="danger">*</sup></label>
+      <input
+        pInputText
+        name="phoneNumber"
+        formControlName="phoneNumber"
+        placeholder="phoneNumber"
+        type="string"
+        [ngClass]="{
+          'ng-invalid ng-dirty':
+            formGroup.get('phoneNumber')?.invalid &&
+            formGroup.get('phoneNumber')?.touched
+        }"
+      />
+
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 currenciesDiv"
+          *ngIf="!editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Add Phone Number"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Phone Number "
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate([`/crm/clients/view-phone-numbers/${clientId}`])"
+          />
+        </div>
+      </div>
+    </form>
+
+
+        <form
       action=""
       *ngIf="addClientPhoneNumberForm"
       (ngSubmit)="onSubmit()"

@@ -95,6 +95,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() phoneTypes: any;
   @Input() identityTypes: any;
   @Input() areas: any;
+  @Input() identificationTypes: any;
   @Input() countries: any;
   @Input() governorates: any;
   @Input() teamDepartments: any;
@@ -410,6 +411,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addSalesShowMain!: boolean;
   @Input() addPhoneNumbersShowMain!: boolean;
   @Input() addClientPhoneNumberForm!: boolean;
+  @Input() addClientIdentityForm!: boolean;
   @Input() addClientContactPersonForm!: boolean;
   @Input() addContactPersonShowMain!: boolean;
   @Input() clientOnboarding!: boolean;
@@ -517,7 +519,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addCommunicationTypesLookupsForm!: boolean;
   @Input() addCallActionTypeLookupsForm!: boolean;
   @Input() addClientGuarantorsShowIndividual!: boolean;
-  @Input() addClientIdentitiesShowIndividual!: boolean;
+  @Input() addClientIdentities!: boolean;
   @Input() addWorkFlowActionTypesLookupsForm!: boolean;
   @Input() addLegalFormLawsForm!: boolean;
   @Input() addLegalFormsForm!: boolean;
@@ -882,6 +884,12 @@ export class FormComponent implements OnInit, OnDestroy {
   viewClientAddressDetails() {
     this.router.navigate([
       `/crm/clients/view-client-addresses/${this.clientIdParam}`,
+    ]);
+  }
+
+    viewClientIdentity() {
+    this.router.navigate([
+      `/crm/clients/view-client-identity/${this.clientIdParam}`,
     ]);
   }
 

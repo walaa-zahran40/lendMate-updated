@@ -88,6 +88,8 @@ import { clientGuarantorsReducer } from './store/client-guarantors/client-guaran
 import { ClientTMLOfficersEffects } from './store/client-tml-officers/client-tml-officers.effects';
 import { clientTMLOfficersReducer } from './store/client-tml-officers/client-tml-officers.reducer';
 import { ViewContactPersonComponent } from './components/client-activities/client-activity-wizard/activities/client-contact-persons/view-contact-person/view-contact-person.component';
+import { clientIdentityReducer } from './store/client-identities/client-identities.reducer';
+import { ClientIdentitiesEffects } from './store/client-identities/client-identities.effects';
 @NgModule({
   declarations: [
     AddClientComponent,
@@ -180,6 +182,8 @@ import { ViewContactPersonComponent } from './components/client-activities/clien
     EffectsModule.forFeature([ClientIdentityTypesEffects]),
     StoreModule.forFeature('clientPhoneNumbers', clientPhoneNumberReducer),
     EffectsModule.forFeature([ClientPhoneNumbersEffects]),
+       StoreModule.forFeature('clientIdentities', clientIdentityReducer),
+    EffectsModule.forFeature([ClientIdentitiesEffects]),
     StoreModule.forFeature('clientSalesTurnovers', clientSalesTurnoverReducer),
     EffectsModule.forFeature([ClientSalesTurnoversEffects]),
     StoreModule.forFeature('clientAddresses', clientAddressesReducer),
