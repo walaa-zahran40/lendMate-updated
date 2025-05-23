@@ -54,7 +54,6 @@ import { AddContactPersonComponent } from './components/client-activities/client
 import { AddClientCRAuthorityOfficesComponent } from './components/client-activities/client-activity-wizard/activities/client-cr-authority-offices/add-cr-authority-office/add-cr-authority-office.component';
 import { ViewCRAuthorityOfficesComponent } from './components/client-activities/client-activity-wizard/activities/client-cr-authority-offices/view-cr-authority-offices/view-cr-authority-office.component';
 import { AddClientGuarantorComponent } from './components/client-activities/client-activity-wizard/activities/client-guarantors/add-client-guarantor/add-client-guarantor.component';
-import { ViewClientGuarantorComponent } from './components/client-activities/client-activity-wizard/activities/client-guarantors/view-client-guarantors/view-client-guarantor.component';
 import { AddClientIdentityComponent } from './components/client-activities/client-activity-wizard/activities/client-identities/add-client-identity/add-client-identity.component';
 import { ViewClientIdentityComponent } from './components/client-activities/client-activity-wizard/activities/client-identities/view-client-identity/view-client-identity.component';
 import { AddPhoneNumberComponent } from './components/client-activities/client-activity-wizard/activities/client-phone-numbers/add-phone-number/add-phone-number.component';
@@ -83,6 +82,7 @@ import { clientGuarantorsReducer } from './store/client-guarantors/client-guaran
 import { ClientTMLOfficersEffects } from './store/client-tml-officers/client-tml-officers.effects';
 import { clientTMLOfficersReducer } from './store/client-tml-officers/client-tml-officers.reducer';
 import { ViewContactPersonComponent } from './components/client-activities/client-activity-wizard/activities/client-contact-persons/view-contact-person/view-contact-person.component';
+import { ViewGuarantorsComponent } from './components/client-activities/client-activity-wizard/activities/client-guarantors/view-client-guarantors/view-client-guarantor.component';
 @NgModule({
   declarations: [
     AddClientComponent,
@@ -110,7 +110,7 @@ import { ViewContactPersonComponent } from './components/client-activities/clien
     ViewShareHoldersComponent,
     ViewTMLOfficersComponent,
     ClientActivityWizardComponent,
-    ViewClientGuarantorComponent,
+    ViewGuarantorsComponent,
     AddClientGuarantorComponent,
     ViewClientIdentityComponent,
     AddClientIdentityComponent,

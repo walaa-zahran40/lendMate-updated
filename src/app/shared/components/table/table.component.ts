@@ -77,6 +77,8 @@ export class TableComponent {
   @Input() viewClientStatusActionsTable!: boolean;
   @Input() viewContactPersonsTable!: boolean;
   @Input() viewAssestTypeTable!: boolean;
+  @Input() viewGuarantorTable!: boolean;
+
   @Input() viewCalculationsTable!: boolean;
   @Input() viewManageMandateTermsTable!: boolean;
   @Input() viewClientTypesTable!: boolean;

@@ -23,4 +23,6 @@ export interface Client {
   employeesNo?: number;
   subSectorList?: any;
   marketSize?: number;
+  guarantorNameAR?: string;
+  guarantorName?: string;
 }

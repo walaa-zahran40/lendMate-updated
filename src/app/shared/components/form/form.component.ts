@@ -550,6 +550,8 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() pagesList: any;
   @Input() operationsList: any;
   @Input() operationsList$!: any;
+  @Input() addClientGuarantorsLookupsForm!: boolean;
+
   @Input() operationIdValue!: any;
   clientDocId!: any;
   clientId: any;

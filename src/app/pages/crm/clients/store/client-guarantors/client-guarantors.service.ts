@@ -1,37 +1,59 @@
 // src/app/services/client-guarantors.service.ts
 
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
+
 import { Observable } from 'rxjs';
 import { environment } from '../../../../../../environments/environment';
+import { ClientGuarantor } from './client-guarantor.model';
 
-@Injectable({
-  providedIn: 'root',
-})
+interface PagedResponse<T> {
+  items: T[];
+  totalCount: number;
+}
+@Injectable({ providedIn: 'root' })
 export class ClientGuarantorsService {
-  private apiUrl = `${environment.apiUrl}ClientGuarantors`;
+  private api = `${environment.apiUrl}ClientGuarantors`;
 
   constructor(private http: HttpClient) {}
 
-  getGuarantors(clientId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/ClientId?ClientId=${clientId}`);
-  }
-
-  createGuarantor(guarantorData: any): Observable<any> {
-    return this.http.post<any>(
-      `${this.apiUrl}/CreateClientGuarantor`,
-      guarantorData
+  getAll(pageNumber?: number): Observable<PagedResponse<ClientGuarantor>> {
+    let params = new HttpParams();
+    if (pageNumber != null) {
+      params = params.set('pageNumber', pageNumber.toString());
+    }
+    return this.http.get<PagedResponse<ClientGuarantor>>(
+      `${this.api}/GetAllClientGuarantors`,
+      { params }
     );
   }
-
-  updateGuarantor(id: number, guarantorData: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/${id}`, guarantorData);
+  getHistory(): Observable<PagedResponse<ClientGuarantor>> {
+    return this.http.get<PagedResponse<ClientGuarantor>>(
+      `${this.api}/GetAllClientGuarantorsHistory`
+    );
+  }
+  getById(id: number): Observable<ClientGuarantor> {
+    return this.http.get<ClientGuarantor>(`${this.api}/Id?id=${id}`);
+  }
+  create(data: Partial<ClientGuarantor>): Observable<ClientGuarantor> {
+    return this.http.post<ClientGuarantor>(
+      `${this.api}/CreateClientGuarantor`,
+      data
+    );
+  }
+  update(
+    id: number,
+    data: Partial<ClientGuarantor>
+  ): Observable<ClientGuarantor> {
+    return this.http.put<ClientGuarantor>(`${this.api}/${id}`, data);
   }
 
-  deleteGuarantor(id: number): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/${id}`);
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.api}/${id}`);
   }
-  getGuarantorsHistory(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/GetAllClientGuarantorsHistory`);
+  getByClientId(clientId: number): Observable<ClientGuarantor[]> {
+    return this.http.get<ClientGuarantor[]>(
+      `${this.api}/ClientId?ClientId=${clientId}`
+    );
   }
 }

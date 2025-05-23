@@ -2,13 +2,12 @@ import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Client } from '../../../../../../store/_clients/allclients/client.model';
 import { Store } from '@ngrx/store';
-import { Subject, Observable, combineLatest, map, takeUntil } from 'rxjs';
+import { Subject, Observable, combineLatest, map, takeUntil, tap } from 'rxjs';
 import { TableComponent } from '../../../../../../../../../shared/components/table/table.component';
-import { AuthorityOffice } from '../../../../../../../../lookups/store/authority-offices/authority-office.model';
-import { selectAllAuthorityOffices } from '../../../../../../../../lookups/store/authority-offices/authority-offices.selectors';
-import { ClientCRAuthorityOfficesFacade } from '../../../../../../store/client-cr-authority-office/client-cr-authority-office.facade';
-import { ClientCRAuthorityOffice } from '../../../../../../store/client-cr-authority-office/client-cr-authority-office.model';
-import { loadAll as loadAllAuthorityOffice } from '../../../../../../../../lookups/store/authority-offices/authority-offices.actions';
+import { loadAll } from '../../../../../../store/_clients/allclients/clients.actions';
+import { selectAllClients } from '../../../../../../store/_clients/allclients/clients.selectors';
+import { ClientGuarantorsFacade } from '../../../../../../store/client-guarantors/client-guarantors.facade';
+import { ClientGuarantor } from '../../../../../../store/client-guarantors/client-guarantor.model';
 
 @Component({
   selector: 'app-view-client-guarantor',
@@ -16,8 +15,8 @@ import { loadAll as loadAllAuthorityOffice } from '../../../../../../../../looku
   templateUrl: './view-client-guarantor.component.html',
   styleUrl: './view-client-guarantor.component.scss',
 })
-export class ViewClientGuarantorComponent {
-  tableDataInside: ClientCRAuthorityOffice[] = [];
+export class ViewGuarantorsComponent {
+  tableDataInside: ClientGuarantor[] = [];
   first2: number = 0;
   private destroy$ = new Subject<void>();
   rows: number = 10;
@@ -26,84 +25,112 @@ export class ViewClientGuarantorComponent {
   @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
-    { field: 'crNumber', header: 'CR Number' },
-    { field: 'expiryDate', header: 'Expiry Date' },
-    { field: 'crAuthorityOffice', header: 'CR Authority Office' },
+    { field: 'guarantorName', header: 'Guarantor Name' },
+    { field: 'guarantorNameAR', header: 'Guarantor Name AR' },
     { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
-  selectedCRAuthorityOfficeId: number | null = null;
-  originalCRAuthorityOffices: ClientCRAuthorityOffice[] = [];
-  filteredCRAuthorityOffices: ClientCRAuthorityOffice[] = [];
-  cRAuthorityOffices$!: Observable<ClientCRAuthorityOffice[]>;
-  authorityOfficesList$!: Observable<AuthorityOffice[]>;
+  selectedGuarantorId: number | null = null;
+  originalGuarantors: ClientGuarantor[] = [];
+  filteredGuarantors: ClientGuarantor[] = [];
+  guarantors$!: Observable<ClientGuarantor[]>;
+  clientsList$!: Observable<Client[]>;
 
   constructor(
     private router: Router,
-    private facade: ClientCRAuthorityOfficesFacade,
+    private facade: ClientGuarantorsFacade,
     private route: ActivatedRoute,
     private store: Store
   ) {}
-
   ngOnInit() {
     const raw = this.route.snapshot.paramMap.get('clientId');
     this.clientIdParam = raw !== null ? Number(raw) : undefined;
-    this.facade.loadClientCRAuthorityOfficesByClientId(this.clientIdParam);
-    this.cRAuthorityOffices$ = this.facade.items$;
+    // 1) ensure clients are loaded into the store
+    this.store.dispatch(loadAll({}));
+    // 2) load this client’s guarantors
 
-    this.store.dispatch(loadAllAuthorityOffice({}));
+    this.facade.loadClientGuarantorsByClientId(this.clientIdParam);
+    this.guarantors$ = this.facade.items$;
 
-    this.authorityOfficesList$ = this.store.select(selectAllAuthorityOffices);
+    this.clientsList$ = this.store.select(selectAllClients);
 
-    combineLatest([this.cRAuthorityOffices$, this.authorityOfficesList$])
+    combineLatest([this.guarantors$, this.clientsList$])
       .pipe(
-        map(([cRAuthorityOffices, authorityOfficesList]) =>
-          cRAuthorityOffices
-            .map((authorityOffice) => ({
-              ...authorityOffice,
-              crAuthorityOffice:
-                authorityOfficesList.find((c) => c.id === authorityOffice.id)
-                  ?.name || '—',
-            }))
-            // .filter((authorityOffice) => authorityOffice.isActive)
-            .sort((a, b) => b.id - a.id)
+        // 1) log the raw inputs
+        tap(([guarantors, clientsList]) =>
+          console.log(
+            '⏺ combineLatest • guarantors:',
+            guarantors,
+            'clientsList:',
+            clientsList
+          )
         ),
+
+        // 2) map in the names, no logging here
+        map(([guarantors, clientsList]) =>
+          guarantors.map((g) => ({
+            ...g,
+            guarantorName:
+              clientsList.find((c) => c.id === g.guarantorId)?.name ?? '—',
+            guarantorNameAR:
+              clientsList.find((c) => c.id === g.guarantorId)?.nameAR ?? '—',
+          }))
+        ),
+
+        // 3) log right after that mapping
+        tap((mapped) => console.log('📝 after map (with names):', mapped)),
+
+        // 4) filter out inactive
+        map((mapped) => mapped.filter((g) => g.isActive)),
+
+        // 5) log the filtered result
+        tap((filtered) =>
+          console.log('✅ after filter (active only):', filtered)
+        ),
+
+        // 6) sort descending by id
+        map((filtered) => filtered.sort((a, b) => b.id - a.id)),
+
+        // 7) final log
+        tap((sorted) => console.log('🔢 after sort (by id desc):', sorted)),
+
         takeUntil(this.destroy$)
       )
-      .subscribe((enriched) => {
-        this.originalCRAuthorityOffices = enriched;
-        this.filteredCRAuthorityOffices = [...enriched];
+      .subscribe((finalList) => {
+        console.log('🎯 final output:', finalList);
+        console.log('🎯 final output:', finalList);
+        this.originalGuarantors = finalList;
+        this.filteredGuarantors = [...finalList];
       });
   }
 
-  onAddCRAuthorityOffice() {
+  onAddGuarantor() {
     const clientIdParam = this.route.snapshot.paramMap.get('clientId');
 
-    this.router.navigate(['/crm/clients/add-client-cr-authority-offices'], {
+    this.router.navigate(['/crm/clients/add-client-guarantor'], {
       queryParams: { mode: 'add', clientId: clientIdParam },
     });
   }
-
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
   }
-  onDeleteCRAuthorityOffice(cRAuthorityOfficeId: any): void {
+  onDeleteGuarantor(guarantorId: any): void {
     console.log(
-      '[View] onDeleteCRAuthorityOfficee() – opening modal for id=',
-      cRAuthorityOfficeId
+      '[View] onDeleteGuarantore() – opening modal for id=',
+      guarantorId
     );
-    this.selectedCRAuthorityOfficeId = cRAuthorityOfficeId;
+    this.selectedGuarantorId = guarantorId;
     this.showDeleteModal = true;
   }
 
   confirmDelete() {
     console.log(
       '[View] confirmDelete() – about to dispatch delete for id=',
-      this.selectedCRAuthorityOfficeId
+      this.selectedGuarantorId
     );
-    if (this.selectedCRAuthorityOfficeId !== null) {
-      this.facade.delete(this.selectedCRAuthorityOfficeId, this.clientIdParam);
+    if (this.selectedGuarantorId !== null) {
+      this.facade.delete(this.selectedGuarantorId, this.clientIdParam);
       console.log('[View] confirmDelete() – facade.delete() called');
     } else {
       console.warn('[View] confirmDelete() – no id to delete');
@@ -117,23 +144,22 @@ export class ViewClientGuarantorComponent {
   resetDeleteModal() {
     console.log('[View] resetDeleteModal() – closing modal and clearing id');
     this.showDeleteModal = false;
-    this.selectedCRAuthorityOfficeId = null;
+    this.selectedGuarantorId = null;
   }
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
-    this.filteredCRAuthorityOffices = this.originalCRAuthorityOffices.filter(
-      (cRAuthorityOffice) =>
-        Object.values(cRAuthorityOffice).some((val) =>
-          val?.toString().toLowerCase().includes(lower)
-        )
+    this.filteredGuarantors = this.originalGuarantors.filter((guarantor) =>
+      Object.values(guarantor).some((val) =>
+        val?.toString().toLowerCase().includes(lower)
+      )
     );
   }
   onToggleFilters(value: boolean) {
     this.showFilters = value;
   }
-  onEditCRAuthorityOffice(cRAuthorityOffice: ClientCRAuthorityOffice) {
+  onEditGuarantor(guarantor: ClientGuarantor) {
     this.router.navigate(
-      ['/crm/clients/edit-client-cr-authority-offices', cRAuthorityOffice.id],
+      ['/crm/clients/edit-client-guarantors', guarantor.id],
       {
         queryParams: {
           mode: 'edit',
@@ -142,15 +168,12 @@ export class ViewClientGuarantorComponent {
       }
     );
   }
-  onViewCRAuthorityOffice(ct: ClientCRAuthorityOffice) {
-    this.router.navigate(
-      ['/crm/clients/edit-client-cr-authority-offices', ct.id],
-      {
-        queryParams: {
-          mode: 'view',
-          clientId: this.clientIdParam, // <-- use "currencyId" here
-        },
-      }
-    );
+  onViewGuarantor(ct: ClientGuarantor) {
+    this.router.navigate(['/crm/clients/edit-client-guarantors', ct.id], {
+      queryParams: {
+        mode: 'view',
+        clientId: this.clientIdParam, // <-- use "currencyId" here
+      },
+    });
   }
 }

@@ -1,23 +1,23 @@
 <div class="page-content">
   <app-toolbar-table
-    [title]="'CR Authority Offices'"
-    [labelBtn]="'Add CR Authority Office'"
+    [title]="'Client Guarantors'"
+    [labelBtn]="'Add Client Guarantor'"
     [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
     [backExists]="true"
     [customSpacing]="'custom-spacing'"
     [exports]="true"
-    (addBtn)="onAddCRAuthorityOffice()"
+    (addBtn)="onAddGuarantor()"
     (searchChange)="onSearch($event)"
     (toggleFiltersEvent)="onToggleFilters($event)"
     (exportExcel)="tableRef.exportToExcel()"
     (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <ng-container *ngIf="cRAuthorityOffices$ | async as cRAuthorityOffices">
+  <ng-container *ngIf="guarantors$ | async as guarantors">
     <app-table
       #tableRef
       [cols]="colsInside"
-      [tableData]="filteredCRAuthorityOffices"
+      [tableData]="filteredGuarantors"
       [edit]="true"
       [delete]="true"
       [side]="false"
@@ -26,10 +26,10 @@
       [view]="true"
       [filters]="showFilters"
       [uppercase]="'uppercase'"
-      [viewCRAuthorityOfficeTable]="true"
-      (onDelete)="onDeleteCRAuthorityOffice($event)"
-      (onEdit)="onEditCRAuthorityOffice($event)"
-      (viewForm)="onViewCRAuthorityOffice($event)"
+      [viewGuarantorTable]="true"
+      (onDelete)="onDeleteGuarantor($event)"
+      (onEdit)="onEditGuarantor($event)"
+      (viewForm)="onViewGuarantor($event)"
     ></app-table>
     <app-delete-module
       [visible]="showDeleteModal"

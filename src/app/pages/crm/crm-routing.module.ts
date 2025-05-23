@@ -13,7 +13,6 @@ import { ViewContactPersonComponent } from './clients/components/client-activiti
 import { AddClientCRAuthorityOfficesComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-cr-authority-offices/add-cr-authority-office/add-cr-authority-office.component';
 import { ViewCRAuthorityOfficesComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-cr-authority-offices/view-cr-authority-offices/view-cr-authority-office.component';
 import { AddClientGuarantorComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-guarantors/add-client-guarantor/add-client-guarantor.component';
-import { ViewClientGuarantorComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-guarantors/view-client-guarantors/view-client-guarantor.component';
 import { AddClientIdentityComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-identities/add-client-identity/add-client-identity.component';
 import { ViewClientIdentityComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-identities/view-client-identity/view-client-identity.component';
 import { AddPhoneNumberComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-phone-numbers/add-phone-number/add-phone-number.component';
@@ -43,6 +42,7 @@ import { ViewCalculationsComponent } from './leasing-mandates/components/mandate
 import { ViewManageMandateTermsComponent } from './leasing-mandates/components/mandate-activities/view-manage-mandate-terms/view-manage-mandate-terms.component';
 import { AddMandateComponent } from './leasing-mandates/components/mandate/add-mandate/add-mandate.component';
 import { ViewMandateComponent } from './leasing-mandates/components/mandate/view-mandate/view-mandate.component';
+import { ViewGuarantorsComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-guarantors/view-client-guarantors/view-client-guarantor.component';
 
 const routes: Routes = [
   /*Clients , Client Onboarding Routing*/
@@ -256,7 +256,7 @@ const routes: Routes = [
   },
   {
     path: 'clients/view-client-guarantors/:clientId',
-    component: ViewClientGuarantorComponent,
+    component: ViewGuarantorsComponent,
   },
   //Client Identities
   {
