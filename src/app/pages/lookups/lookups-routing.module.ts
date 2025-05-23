@@ -84,6 +84,8 @@ import { ViewClientStatusActionsComponent } from './components/client-statuses/v
 import { ViewClientStatusesComponent } from './components/client-statuses/view-client-statuses/view-client-statuses.component';
 import { WizardClientStatusComponent } from './components/client-statuses/wizard-client-status/wizard-client-status.component';
 import { AddClientStatusActionsComponent } from './components/client-statuses/add-client-status-action/add-client-status-actions.component';
+import { AddClientOfficerTypesComponent } from './components/client-officer-types/add-client-officer-types/add-client-officer-types.component';
+import { ViewClientOfficerTypesComponent } from './components/client-officer-types/view-client-officer-types/view-client-officer-types.component';
 
 const routes: Routes = [
   /**Lookup Module */
@@ -217,6 +219,19 @@ const routes: Routes = [
   {
     path: 'view-call-action-types',
     component: ViewCallActionTypesComponent,
+  },
+  //client-officer-types
+  {
+    path: 'add-client-officer-types',
+    component: AddClientOfficerTypesComponent,
+  },
+  {
+    path: 'edit-client-officer-types/:id',
+    component: AddClientOfficerTypesComponent,
+  },
+  {
+    path: 'view-client-officer-types',
+    component: ViewClientOfficerTypesComponent,
   },
   //Areas
   {

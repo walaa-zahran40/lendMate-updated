@@ -91,6 +91,7 @@ import { AddressTypesEffects } from './store/address-types/address-types.effects
 import { reducer as authorityOfficeReducer } from './store/authority-offices/authority-offices.reducer';
 import { AuthorityOfficesEffects } from './store/authority-offices/authority-offices.effects';
 import { reducer as callActionTypesReducer } from './store/call-action-types/call-action-types.reducer';
+import { reducer as clientOfficerTypesReducer } from './store/client-officer-types/client-officer-types.reducer';
 import { CallActionTypesEffects } from './store/call-action-types/call-action-types.effects';
 import { reducer as currenciesReducer } from './store/currencies/currencies.reducer';
 import { reducer as callTypesReducer } from './store/call-types/call-types.reducer';
@@ -174,6 +175,10 @@ import { AddClientStatusesComponent } from './components/client-statuses/add-cli
 import { ViewClientStatusActionsComponent } from './components/client-statuses/view-client-status-actions/view-client-status-actions.component';
 import { ClientStatusesEffects } from './store/client-statuses/client-statuses.effects';
 import { clientStatusesReducer } from './store/client-statuses/client-statuses.reducer';
+import { AddClientOfficerTypesComponent } from './components/client-officer-types/add-client-officer-types/add-client-officer-types.component';
+import { ViewClientOfficerTypesComponent } from './components/client-officer-types/view-client-officer-types/view-client-officer-types.component';
+import { ClientOfficerTypesEffects } from './store/client-officer-types/client-officer-types.effects';
+
 @NgModule({
   declarations: [
     AddTmlOfficerTypesComponent,
@@ -211,6 +216,7 @@ import { clientStatusesReducer } from './store/client-statuses/client-statuses.r
     AddCallTypesComponent,
     AddCommunicationTypesComponent,
     AddCallActionTypesComponent,
+    AddClientOfficerTypesComponent,
     AddCommunicationFlowTypesComponent,
     AddCurrenciesExchangeComponent,
     AddDocTypesComponent,
@@ -259,6 +265,7 @@ import { clientStatusesReducer } from './store/client-statuses/client-statuses.r
     ViewCallTypesComponent,
     ViewCommunicationTypesComponent,
     ViewCallActionTypesComponent,
+    ViewClientOfficerTypesComponent,
     ViewCommunicationFlowTypeComponent,
     ViewWorkFlowActionTypesComponent,
     ViewProductsComponent,
@@ -365,6 +372,8 @@ import { clientStatusesReducer } from './store/client-statuses/client-statuses.r
     EffectsModule.forFeature([SMEClientCodesEffects]),
     StoreModule.forFeature('clientStatusActions', clientStatusActionsReducer),
     EffectsModule.forFeature([ClientStatusActionsEffects]),
+    StoreModule.forFeature('clientOfficerTypes', clientOfficerTypesReducer),
+    EffectsModule.forFeature([ClientOfficerTypesEffects]),
   ],
   exports: [
     AddMandateStatusesComponent,
@@ -400,9 +409,11 @@ import { clientStatusesReducer } from './store/client-statuses/client-statuses.r
     AddCallTypesComponent,
     AddCommunicationTypesComponent,
     AddCallActionTypesComponent,
+    AddClientOfficerTypesComponent,
     AddCommunicationFlowTypesComponent,
     AddCurrenciesExchangeComponent,
     ViewSMEClientCodesComponent,
+    ViewClientOfficerTypesComponent,
   ],
 })
 export class LookupsModule {}

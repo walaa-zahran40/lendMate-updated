@@ -141,8 +141,10 @@ export class TableComponent {
   @Input() viewCallsCommunicationTable!: boolean;
   @Input() viewClientGuarantorTable!: boolean;
   @Input() viewWorkFlowActionTypesLookupsTable!: boolean;
+  @Input() viewClientOfficerTypesTable!: boolean;
   @Input() viewDocTypesTable!: boolean;
   @Input() viewProductsTable!: boolean;
+  @Input() viewClientOfficerTable!: boolean;
   @Input() paginator: boolean = true;
   @Output() wizardBtn = new EventEmitter<void>();
   @Output() onEdit = new EventEmitter<any>();

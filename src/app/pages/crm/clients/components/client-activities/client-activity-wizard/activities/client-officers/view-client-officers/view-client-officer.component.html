@@ -1,0 +1,40 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Client  Officers'"
+    [labelBtn]="'Add Client  Officer'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddOfficer()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+  <ng-container *ngIf="clientOfficers$ | async as clientOfficers">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredOfficers"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewClientOfficerTable]="true"
+      (onDelete)="onDeleteOfficer($event)"
+      (onEdit)="onEditOfficer($event)"
+      (viewForm)="onViewOfficer($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>
