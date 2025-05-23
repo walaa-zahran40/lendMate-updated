@@ -91,6 +91,7 @@ import { AddressTypesEffects } from './store/address-types/address-types.effects
 import { reducer as authorityOfficeReducer } from './store/authority-offices/authority-offices.reducer';
 import { AuthorityOfficesEffects } from './store/authority-offices/authority-offices.effects';
 import { reducer as callActionTypesReducer } from './store/call-action-types/call-action-types.reducer';
+import { reducer as clientOfficerTypesReducer } from './store/client-officer-types/client-officer-types.reducer';
 import { CallActionTypesEffects } from './store/call-action-types/call-action-types.effects';
 import { reducer as currenciesReducer } from './store/currencies/currencies.reducer';
 import { reducer as callTypesReducer } from './store/call-types/call-types.reducer';
@@ -167,6 +168,9 @@ import { ProductsEffects } from './store/products/products.effects';
 import { reducer as productsReducer } from './store/products/products.reducer';
 import { reducer as smeClientCodesReducer } from './store/sme-client-codes/sme-client-codes.reducer';
 import { SMEClientCodesEffects } from './store/sme-client-codes/sme-client-codes.effects';
+import { AddClientOfficerTypesComponent } from './components/client-officer-types/add-client-officer-types/add-client-officer-types.component';
+import { ViewClientOfficerTypesComponent } from './components/client-officer-types/view-client-officer-types/view-client-officer-types.component';
+import { ClientOfficerTypesEffects } from './store/client-officer-types/client-officer-types.effects';
 
 @NgModule({
   declarations: [
@@ -205,6 +209,7 @@ import { SMEClientCodesEffects } from './store/sme-client-codes/sme-client-codes
     AddCallTypesComponent,
     AddCommunicationTypesComponent,
     AddCallActionTypesComponent,
+    AddClientOfficerTypesComponent,
     AddCommunicationFlowTypesComponent,
     AddCurrenciesExchangeComponent,
     AddDocTypesComponent,
@@ -248,6 +253,7 @@ import { SMEClientCodesEffects } from './store/sme-client-codes/sme-client-codes
     ViewCallTypesComponent,
     ViewCommunicationTypesComponent,
     ViewCallActionTypesComponent,
+    ViewClientOfficerTypesComponent,
     ViewCommunicationFlowTypeComponent,
     ViewWorkFlowActionTypesComponent,
     ViewProductsComponent,
@@ -352,6 +358,8 @@ import { SMEClientCodesEffects } from './store/sme-client-codes/sme-client-codes
     EffectsModule.forFeature([ProductsEffects]),
     StoreModule.forFeature('sMEClientCodes', smeClientCodesReducer),
     EffectsModule.forFeature([SMEClientCodesEffects]),
+     StoreModule.forFeature('clientOfficerTypes', clientOfficerTypesReducer),
+    EffectsModule.forFeature([ClientOfficerTypesEffects]),
   ],
   exports: [
     AddMandateStatusesComponent,
@@ -387,9 +395,11 @@ import { SMEClientCodesEffects } from './store/sme-client-codes/sme-client-codes
     AddCallTypesComponent,
     AddCommunicationTypesComponent,
     AddCallActionTypesComponent,
+    AddClientOfficerTypesComponent,
     AddCommunicationFlowTypesComponent,
     AddCurrenciesExchangeComponent,
     ViewSMEClientCodesComponent,
+    ViewClientOfficerTypesComponent
   ],
 })
 export class LookupsModule {}

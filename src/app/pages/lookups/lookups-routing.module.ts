@@ -79,6 +79,8 @@ import { AddDocTypesComponent } from './components/doc-types/add-doc-types/add-d
 import { ViewDocTypesComponent } from './components/doc-types/view-doc-types/view-doc-types.component';
 import { AddWorkFlowActionTypesComponent } from './components/workflow-action-types/add-workflow-action-types/add-workflow-action-types.component';
 import { ViewWorkFlowActionTypesComponent } from './components/workflow-action-types/view-workflow-action-types/view-workflow-action-types.component';
+import { AddClientOfficerTypesComponent } from './components/client-officer-types/add-client-officer-types/add-client-officer-types.component';
+import { ViewClientOfficerTypesComponent } from './components/client-officer-types/view-client-officer-types/view-client-officer-types.component';
 
 const routes: Routes = [
   /**Lookup Module */
@@ -212,6 +214,19 @@ const routes: Routes = [
   {
     path: 'view-call-action-types',
     component: ViewCallActionTypesComponent,
+  },
+  //client-officer-types
+  {
+    path: 'add-client-officer-types',
+    component: AddClientOfficerTypesComponent,
+  },
+  {
+    path: 'edit-client-officer-types/:id',
+    component: AddClientOfficerTypesComponent,
+  },
+  {
+    path: 'view-client-officer-types',
+    component: ViewClientOfficerTypesComponent,
   },
   //Areas
   {

@@ -46,6 +46,8 @@ import { ViewCalculationsComponent } from './leasing-mandates/components/mandate
 import { ViewManageMandateTermsComponent } from './leasing-mandates/components/mandate-activities/view-manage-mandate-terms/view-manage-mandate-terms.component';
 import { AddMandateComponent } from './leasing-mandates/components/mandate/add-mandate/add-mandate.component';
 import { ViewMandateComponent } from './leasing-mandates/components/mandate/view-mandate/view-mandate.component';
+import { AddClientOfficersComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-officers/add-client-officer/add-client-officer.component';
+import { ViewClientOfficersComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-officers/view-client-officers/view-client-officer.component';
 
 const routes: Routes = [
   /*Clients , Client Onboarding Routing*/
@@ -231,6 +233,23 @@ const routes: Routes = [
   {
     path: 'clients/view-client-tml-officers/:clientId',
     component: ViewTMLOfficersComponent,
+  },
+   //Client Officers
+  {
+    path: 'clients/add-client-officers',
+    component: AddClientOfficersComponent,
+  },
+  {
+    path: 'clients/add-client-officers/:clientId',
+    component: AddClientOfficersComponent,
+  },
+  {
+    path: 'clients/edit-client-officers/:id',
+    component: AddClientOfficersComponent,
+  },
+  {
+    path: 'clients/view-client-officers/:clientId',
+    component: ViewClientOfficersComponent,
   },
   // Client Contact Persons
   {

@@ -88,6 +88,10 @@ import { clientGuarantorsReducer } from './store/client-guarantors/client-guaran
 import { ClientTMLOfficersEffects } from './store/client-tml-officers/client-tml-officers.effects';
 import { clientTMLOfficersReducer } from './store/client-tml-officers/client-tml-officers.reducer';
 import { ViewContactPersonComponent } from './components/client-activities/client-activity-wizard/activities/client-contact-persons/view-contact-person/view-contact-person.component';
+import { AddClientOfficersComponent } from './components/client-activities/client-activity-wizard/activities/client-officers/add-client-officer/add-client-officer.component';
+import { ViewClientOfficersComponent } from './components/client-activities/client-activity-wizard/activities/client-officers/view-client-officers/view-client-officer.component';
+import { clientOfficersReducer } from './store/client-officers/client-officers.reducer';
+import { ClientOfficersEffects } from './store/client-officers/client-officers.effects';
 @NgModule({
   declarations: [
     AddClientComponent,
@@ -95,6 +99,7 @@ import { ViewContactPersonComponent } from './components/client-activities/clien
     AddClientOnboardingComponent,
     ViewClientsOnboardingComponent,
     AddClientTMLOfficersComponent,
+    AddClientOfficersComponent,
     AddClientAddressesComponent,
     AddSalesTurnoverComponent,
     AddContactPersonComponent,
@@ -115,6 +120,7 @@ import { ViewContactPersonComponent } from './components/client-activities/clien
     ViewClientCentralBankInfoComponent,
     ViewShareHoldersComponent,
     ViewTMLOfficersComponent,
+    ViewClientOfficersComponent,
     ClientActivityWizardComponent,
     ViewClientGuarantorComponent,
     AddClientGuarantorComponent,
@@ -198,6 +204,8 @@ import { ViewContactPersonComponent } from './components/client-activities/clien
       clientCentralBankInfoReducer
     ),
     EffectsModule.forFeature([ClientCentralBankInfoEffects]),
+    StoreModule.forFeature('clientOfficers', clientOfficersReducer),
+    EffectsModule.forFeature([ClientOfficersEffects]),
   ],
 })
 export class ClientsModule {}

@@ -117,6 +117,11 @@ export class SideMenuComponent {
             icon: 'pi pi-user-plus',
             routerLink: '/crm/clients/view-tml-officer',
           },
+           {
+            label: 'ClientOfficer',
+            icon: 'pi pi-user-plus',
+            routerLink: '/crm/clients/view-client-officers',
+          },
           {
             label: 'ContactPerson',
             icon: 'pi pi-user-plus',
@@ -701,6 +706,11 @@ export class SideMenuComponent {
             label: 'Client Types',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-client-types',
+          },
+           {
+            label: 'Client Officer Types',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-client-officer-types',
           },
           {
             label: 'Communication Types',

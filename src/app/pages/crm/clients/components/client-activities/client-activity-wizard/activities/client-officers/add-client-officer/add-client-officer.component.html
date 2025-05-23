@@ -1,0 +1,28 @@
+<app-toolbar-form
+  [header]="'Client  Officer'"
+  [header]="editMode ? 'Edit Client  Officer' : 'Add Client  Officer'"
+  [backExists]="true"
+  [viewOnly]="false"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-form
+        *ngIf="addClientOfficersLookupsForm"
+        [title]="'Client  Officer'"
+        [description]="
+          'Introduce your Client  Officer core info quickly to users by fill up client details'
+        "
+        [formGroup]="addClientOfficersLookupsForm"
+        [addClientOfficerShowMain]="true"
+        [editMode]="editMode"
+        (submitForm)="addOrEditClientOfficers()"
+        [viewOnly]="viewOnly"
+        [officersList]="officersList$ | async"
+        [clientOfficerTypesList]="clientOfficerTypesList$ | async"
+      ></app-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

@@ -109,6 +109,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() officersList: any;
   @Input() clientsList: any;
   @Input() tmlOfficerTypesList: any;
+  @Input() clientOfficerTypesList: any;
   @Input() pageIds: any;
   selectedLegalForm: any;
   @Output() sectorChanged = new EventEmitter<number>();
@@ -516,12 +517,14 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addcallTypesLookupsForm!: boolean;
   @Input() addCommunicationTypesLookupsForm!: boolean;
   @Input() addCallActionTypeLookupsForm!: boolean;
+  @Input() addClientOfficerTypeLookupsForm!: boolean;
   @Input() addClientGuarantorsShowIndividual!: boolean;
   @Input() addClientIdentitiesShowIndividual!: boolean;
   @Input() addWorkFlowActionTypesLookupsForm!: boolean;
   @Input() addLegalFormLawsForm!: boolean;
   @Input() addLegalFormsForm!: boolean;
   @Input() addOfficersForm!: boolean;
+  @Input() addClientOfficerShowMain!: boolean;
   @Input() addDepartmentsForm!: boolean;
   filteredSubSectors$!: Observable<SubSectors[]>;
   @Input() operationName!: string;
@@ -857,6 +860,11 @@ export class FormComponent implements OnInit, OnDestroy {
       `/crm/clients/view-client-tml-officers/${this.clientId}`,
     ]);
   }
+  viewClientOfficer() {
+    this.router.navigate([
+      `/crm/clients/view-client-officers/${this.clientId}`,
+    ]);
+  }
   viewShareHolder() {
     this.router.navigate([
       `/crm/clients/view-client-share-holders/${this.clientId}`,
@@ -961,6 +969,9 @@ export class FormComponent implements OnInit, OnDestroy {
   }
   viewCallActionType() {
     this.router.navigate(['/lookups/view-call-action-types']);
+  }
+  viewClientOfficerType() {
+    this.router.navigate(['/lookups/view-client-officer-types']);
   }
   viewCommunicationFlowType() {
     this.router.navigate(['/lookups/view-communication-flow-types']);
