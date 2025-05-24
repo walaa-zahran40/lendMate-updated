@@ -107,12 +107,12 @@ export class ClientActivityWizardComponent {
       {
         imgUrl: '/assets/images/shared/card/contact.svg',
         imgAlt: 'contact',
-        title: 'Client Identity',
+        title: 'Client Identities',
         content:
           'Introduce your company core info quickly to users by fill up company details',
         link: `/crm/clients/view-client-identities/${clientId}`,
       },
-       {
+      {
         imgUrl: '/assets/images/shared/card/share.svg',
         imgAlt: 'share',
         title: 'Client Officers',
@@ -120,7 +120,7 @@ export class ClientActivityWizardComponent {
           'Introduce your company core info quickly to users by fill up company details',
         link: `/crm/clients/view-client-officers/${clientId}`,
       },
-        {
+      {
         imgUrl: '/assets/images/shared/card/share.svg',
         imgAlt: 'share',
         title: 'Client Legals',
