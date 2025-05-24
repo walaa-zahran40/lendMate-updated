@@ -91,6 +91,8 @@ import { AddClientLegalsComponent } from './components/client-activities/client-
 import { ViewClientLegalsComponent } from './components/client-activities/client-activity-wizard/activities/client-legals/view-client-legal/view-client-legal.component';
 import { clientLegalsReducer } from './store/client-legals/client-legals.reducer';
 import { ClientLegalsEffects } from './store/client-legals/client-legals.effects';
+import { clientIdentityReducer } from './store/client-identities/client-identities.reducer';
+import { ClientIdentitiesEffects } from './store/client-identities/client-identities.effects';
 @NgModule({
   declarations: [
     AddClientComponent,
@@ -182,6 +184,8 @@ import { ClientLegalsEffects } from './store/client-legals/client-legals.effects
     EffectsModule.forFeature([ClientIdentityTypesEffects]),
     StoreModule.forFeature('clientPhoneNumbers', clientPhoneNumberReducer),
     EffectsModule.forFeature([ClientPhoneNumbersEffects]),
+    StoreModule.forFeature('clientIdentities', clientIdentityReducer),
+    EffectsModule.forFeature([ClientIdentitiesEffects]),
     StoreModule.forFeature('clientSalesTurnovers', clientSalesTurnoverReducer),
     EffectsModule.forFeature([ClientSalesTurnoversEffects]),
     StoreModule.forFeature('clientAddresses', clientAddressesReducer),

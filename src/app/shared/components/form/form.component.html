@@ -53,7 +53,7 @@
       class="custom-view m-0 float-right"
     />
     <p-button
-      *ngIf="addClientIdentitiesShowIndividual"
+      *ngIf="addClientIdentities"
       icon="pi pi-cog"
       iconPos="left"
       label="View Client Identities"
@@ -291,6 +291,15 @@
       iconPos="left"
       label="View Phone Numbers"
       (click)="viewPhoneNumber()"
+      class="custom-view m-0 float-right"
+    />
+
+       <p-button
+      *ngIf="addClientIdentityForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Client Identities"
+      (click)="viewClientIdentity()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -5528,6 +5537,102 @@
     </form>
 
     <form
+      action=""
+      *ngIf="addClientIdentityForm"
+      (ngSubmit)="onSubmit()"
+      [formGroup]="formGroup"
+    >
+      <label for="identificationTypeId"
+        >Select Identity Type<sup class="danger">*</sup></label
+      >
+      <!--Select Box-->
+      <p-select
+        [options]="identificationTypes"
+        optionLabel="name"
+        placeholder="Select Identity Type"
+        formControlName="identificationTypeId"
+        optionValue="id"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('identificationTypeId')?.invalid &&
+            (formGroup.get('identificationTypeId')?.dirty ||
+              formGroup.get('identificationTypeId')?.touched)
+        }"
+      >
+      </p-select>
+
+      <div
+        *ngIf="
+          formGroup.get('identificationTypeId')?.hasError('required') &&
+          formGroup.get('identificationTypeId')?.touched
+        "
+        class="p-error"
+      >
+        Identification Type is required.
+      </div>
+
+      <label for="identificationNumber">Number <sup class="danger">*</sup></label>
+      <input
+        pInputText
+        name="identificationNumber"
+        formControlName="identificationNumber"
+        placeholder="identificationNumber"
+        type="string"
+        [ngClass]="{
+          'ng-invalid ng-dirty':
+            formGroup.get('identificationNumber')?.invalid &&
+            formGroup.get('identificationNumber')?.touched
+        }"
+      />
+
+      <br/> 
+      <br/> 
+      <label for="isMain" class="p-0"> Is Main </label>
+            <p-toggleswitch
+              formControlName="isMain"
+              name="isMain"
+            
+            ></p-toggleswitch
+            ><br />
+
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 currenciesDiv"
+          *ngIf="!editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Add Identity Number"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Identity Number "
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate([`/crm/clients/view-client-identity/${clientId}`])"
+          />
+        </div>
+      </div>
+    </form>
+
+
+        <form
       action=""
       *ngIf="addClientPhoneNumberForm"
       (ngSubmit)="onSubmit()"
