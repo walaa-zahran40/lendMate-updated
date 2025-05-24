@@ -33,9 +33,11 @@ export class ClientIdentitiesService {
   }
 
   getById(id: number): Observable<ClientIdentity> {
-  return this.http.get<ClientIdentity>(`${this.api}/Id`, {
-    params: { id: id.toString() }
-  });
+  const url = `${this.api}/ClientIdentityId`;
+  const params = new HttpParams().set('ClientIdentityId', id.toString());
+
+  return this.http.get<ClientIdentity>(url, { params });
+
 }
 
 

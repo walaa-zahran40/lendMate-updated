@@ -24,7 +24,7 @@ export class ViewClientIdentityComponent implements OnInit, OnDestroy {
   @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
-    { field: 'IdentificationTypeName', header: 'Identification Type' },
+    { field: 'identificationTypeName', header: 'Identification Type' },
     { field: 'identificationNumber', header: 'Identification Number' },
     { field: 'isMain', header: 'Is Main' },
   ];

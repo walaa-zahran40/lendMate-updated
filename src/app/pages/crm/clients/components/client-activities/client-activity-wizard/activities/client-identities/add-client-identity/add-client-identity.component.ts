@@ -49,7 +49,7 @@ export class AddClientIdentityComponent implements OnInit, OnDestroy {
     );
     if (this.editMode || this.viewOnly) {
       console.log('route add', this.route.snapshot);
-      this.recordId = Number(this.route.snapshot.params['clientId']);
+      this.recordId = Number(this.route.snapshot.params['id']);
       this.clientIdentityFacade.loadOne(this.recordId);
     }
 
@@ -143,6 +143,7 @@ export class AddClientIdentityComponent implements OnInit, OnDestroy {
         updateData
       );
 
+      console.log("arwaaaaaaaa " , this.recordId)
       this.clientIdentityFacade.update(this.recordId, updateData);
     }
     console.log('route', this.route.snapshot);
