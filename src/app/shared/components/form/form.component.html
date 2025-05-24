@@ -350,6 +350,14 @@
       class="custom-view m-0 float-right"
     />
     <p-button
+      *ngIf="addClientLegalShowMain"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Client Legals"
+      (click)="viewClientLegal()"
+      class="custom-view m-0 float-right"
+    />
+    <p-button
       *ngIf="addMandateShowOfficersForm"
       icon="pi pi-cog"
       iconPos="left"
@@ -6566,6 +6574,84 @@
             label="Close"
             class="custom-save m-0 float-right"
             (click)="router.navigate([`/crm/clients/view-client-officers/${this.clientIdParam}`])"
+          />
+        </div>
+      </div>
+    </form>
+
+     <form
+      [formGroup]="formGroup"
+      *ngIf="addClientLegalShowMain"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="legalFormId">Legal Form<sup>*</sup></label>
+      <p-select
+        [options]="legalFormsList"
+        optionLabel="name"
+        placeholder="Select Legal Form"
+        formControlName="legalFormId"
+        optionValue="id"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('legalFormId')?.invalid &&
+            (formGroup.get('legalFormId')?.dirty ||
+              formGroup.get('legalFormId')?.touched)
+        }"
+      />
+      <label for="legalFormLawId">Legal Form Law<sup>*</sup></label>
+      <p-select
+        [options]="legalFormLawsList"
+        optionLabel="name"
+        placeholder="Select Legal Form Law"
+        formControlName="legalFormLawId"
+        optionValue="id"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('legalFormLawId')?.invalid &&
+            (formGroup.get('legalFormLawId')?.dirty ||
+              formGroup.get('legalFormLawId')?.touched)
+        }"
+      />
+       <div class="p-field">
+        <p-toggleSwitch
+          id="isStampDuty"
+          formControlName="isStampDuty"
+          label="is Stamp Duty"
+        ></p-toggleSwitch>
+        <label for="isStampDuty"> is Stamp Duty</label>
+      </div>
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="!editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Add Client Legal"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Client Legal"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate([`/crm/clients/view-client-legals/${this.clientIdParam}`])"
           />
         </div>
       </div>
