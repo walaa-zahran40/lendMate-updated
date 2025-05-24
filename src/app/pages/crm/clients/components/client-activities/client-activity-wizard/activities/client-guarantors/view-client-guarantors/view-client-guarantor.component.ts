@@ -158,18 +158,15 @@ export class ViewGuarantorsComponent {
     this.showFilters = value;
   }
   onEditGuarantor(guarantor: ClientGuarantor) {
-    this.router.navigate(
-      ['/crm/clients/edit-client-guarantors', guarantor.id],
-      {
-        queryParams: {
-          mode: 'edit',
-          clientId: this.clientIdParam, // <-- use "currencyId" here
-        },
-      }
-    );
+    this.router.navigate(['/crm/clients/edit-client-guarantor', guarantor.id], {
+      queryParams: {
+        mode: 'edit',
+        clientId: this.clientIdParam, // <-- use "currencyId" here
+      },
+    });
   }
   onViewGuarantor(ct: ClientGuarantor) {
-    this.router.navigate(['/crm/clients/edit-client-guarantors', ct.id], {
+    this.router.navigate(['/crm/clients/edit-client-guarantor', ct.id], {
       queryParams: {
         mode: 'view',
         clientId: this.clientIdParam, // <-- use "currencyId" here

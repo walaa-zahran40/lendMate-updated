@@ -75,7 +75,7 @@
       (click)="viewCallActionType()"
       class="custom-view m-0 float-right"
     />
-       <p-button
+    <p-button
       *ngIf="addClientOfficerTypeLookupsForm"
       icon="pi pi-cog"
       iconPos="left"
@@ -341,7 +341,7 @@
       (click)="viewTMLOfficer()"
       class="custom-view m-0 float-right"
     />
-      <p-button
+    <p-button
       *ngIf="addClientOfficerShowMain"
       icon="pi pi-cog"
       iconPos="left"
@@ -589,6 +589,14 @@
       iconPos="left"
       label="View Grace Period"
       (click)="viewGracePeriod()"
+      class="custom-view m-0 float-right"
+    />
+    <p-button
+      *ngIf="addClientGuarantorsLookupsForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Client Guarantors"
+      (click)="viewClientGuarantors()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -2575,7 +2583,7 @@
       </div>
     </form>
 
-     <form
+    <form
       [formGroup]="formGroup"
       *ngIf="addClientOfficerTypeLookupsForm"
       (ngSubmit)="onSubmit()"
@@ -6331,6 +6339,60 @@
     </form>
     <form
       [formGroup]="formGroup"
+      *ngIf="addClientGuarantorsLookupsForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="guarantorId">Guarantor Name<sup>*</sup></label>
+      <p-select
+        [options]="clientsList"
+        optionLabel="name"
+        placeholder="Select Guarantor"
+        formControlName="guarantorId"
+        optionValue="id"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('guarantorId')?.invalid &&
+            (formGroup.get('guarantorId')?.dirty ||
+              formGroup.get('guarantorId')?.touched)
+        }"
+      />
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="!editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Add Client Guarantor"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Client Guarantor"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate([`/crm/clients/view-client-guarantors/${this.clientIdParam}`])"
+          />
+        </div>
+      </div>
+    </form>
+    <form
+      [formGroup]="formGroup"
       *ngIf="addTMLOfficerShowMain"
       (ngSubmit)="onSubmit()"
     >
@@ -6399,12 +6461,12 @@
       </div>
     </form>
 
-     <form
+    <form
       [formGroup]="formGroup"
       *ngIf="addClientOfficerShowMain"
       (ngSubmit)="onSubmit()"
     >
-       <label for="detailes">Details in English<sup>*</sup></label>
+      <label for="detailes">Details in English<sup>*</sup></label>
       <input
         pInputText
         id="detailes"
@@ -6466,7 +6528,7 @@
               formGroup.get('clientOfficerTypeId')?.touched)
         }"
       />
-       <div class="p-field">
+      <div class="p-field">
         <p-toggleSwitch
           id="isMain"
           formControlName="isMain"

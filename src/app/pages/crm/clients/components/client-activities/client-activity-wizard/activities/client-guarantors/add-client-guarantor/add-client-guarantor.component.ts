@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, Subject, takeUntil, filter } from 'rxjs';
+import { Observable, Subject, takeUntil, filter, combineLatest } from 'rxjs';
 import { Client } from '../../../../../../store/_clients/allclients/client.model';
 import { selectAllClients } from '../../../../../../store/_clients/allclients/clients.selectors';
 import { ClientGuarantor } from '../../../../../../store/client-guarantors/client-guarantor.model';
@@ -56,9 +56,8 @@ export class AddClientGuarantorComponent {
 
     this.addClientGuarantorsLookupsForm = this.fb.group({
       id: [null],
-      clientId: [null, [Validators.required]],
+      clientId: [null],
       guarantorId: [null, [Validators.required]],
-      percentage: [null, [Validators.required]],
       isActive: [true],
     });
     console.log(
@@ -80,22 +79,24 @@ export class AddClientGuarantorComponent {
 
     // Patch for edit/view mode
     if (this.editMode || this.viewOnly) {
-      this.recordId = Number(this.route.snapshot.paramMap.get('id'));
+      // ←—— CHANGE paramMap → queryParamMap here
+      const rawId = this.route.snapshot.queryParamMap.get('id');
+      this.recordId = rawId ? +rawId : 0;
+      console.log('📥 Loaded recordId from query params:', this.recordId);
+
       this.facade.loadOne(this.recordId);
 
       this.facade.current$
         .pipe(
-          takeUntil(this.destroy$),
-          filter((rec) => !!rec)
+          filter((rec) => !!rec),
+          takeUntil(this.destroy$)
         )
-        .subscribe((ct) => {
-          console.log('red', ct);
+        .subscribe((rec) => {
           this.addClientGuarantorsLookupsForm.patchValue({
-            id: ct?.id,
+            id: rec.id,
             clientId: this.clientId,
-            guarantorId: ct.guarantorId,
-            percentage: ct.percentage,
-            isActive: ct?.isActive,
+            guarantorId: rec.guarantorId,
+            isActive: rec.isActive,
           });
         });
     }
@@ -124,11 +125,10 @@ export class AddClientGuarantorComponent {
       clientId: clientParamQP,
     });
 
-    const { guarantorId, percentage, clientId, isActive } =
+    const { guarantorId, clientId, isActive } =
       this.addClientGuarantorsLookupsForm.value;
     const payload: Partial<ClientGuarantor> = {
       guarantorId,
-      percentage,
       clientId,
       isActive,
     };
@@ -154,7 +154,7 @@ export class AddClientGuarantorComponent {
     if (clientParamQP) {
       console.log('➡️ Navigating back with PATH param:', clientParamQP);
       this.router.navigate([
-        '/crm/clients/view-client-share-holders',
+        '/crm/clients/view-client-guarantors',
         clientParamQP,
       ]);
     } else if (clientParamQP) {
@@ -163,7 +163,7 @@ export class AddClientGuarantorComponent {
         clientParamQP
       );
       this.router.navigate([
-        `/crm/clients/view-client-share-holders/${clientParamQP}`,
+        `/crm/clients/view-client-guarantors/${clientParamQP}`,
       ]);
     } else {
       console.error('❌ Cannot navigate back: clientId is missing!');
