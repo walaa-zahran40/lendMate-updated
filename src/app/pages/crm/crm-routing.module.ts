@@ -147,6 +147,24 @@ const routes: Routes = [
     path: 'clients/view-phone-numbers/:clientId',
     component: ViewPhoneNumberComponent,
   },
+
+  // Client Identity
+  {
+    path: 'clients/add-client-identity/:clientId',
+    component: AddClientIdentityComponent,
+  },
+
+  {
+    path: 'clients/edit-client-Identity/:clientId',
+    component: AddClientIdentityComponent,
+  },
+
+  {
+    path: 'clients/view-client-identity/:clientId',
+    component: ViewClientIdentityComponent,
+  },
+
+
   //Client CR Authority offices
   {
     path: 'clients/add-client-cr-authority-offices',

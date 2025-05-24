@@ -5421,49 +5421,59 @@
       (ngSubmit)="onSubmit()"
       [formGroup]="formGroup"
     >
-      <label for="phoneTypeId"
-        >Select Phone Type<sup class="danger">*</sup></label
+      <label for="identificationTypeId"
+        >Select Identity Type<sup class="danger">*</sup></label
       >
       <!--Select Box-->
       <p-select
-        [options]="phoneTypes"
+        [options]="identificationTypes"
         optionLabel="name"
-        placeholder="Select Phone type"
-        formControlName="phoneTypeId"
+        placeholder="Select Identity Type"
+        formControlName="identificationTypeId"
         optionValue="id"
         required
         [ngClass]="{
           'ng-invalid':
-            formGroup.get('phoneTypeId')?.invalid &&
-            (formGroup.get('phoneTypeId')?.dirty ||
-              formGroup.get('phoneTypeId')?.touched)
+            formGroup.get('identificationTypeId')?.invalid &&
+            (formGroup.get('identificationTypeId')?.dirty ||
+              formGroup.get('identificationTypeId')?.touched)
         }"
       >
       </p-select>
 
       <div
         *ngIf="
-          formGroup.get('phoneTypeId')?.hasError('required') &&
-          formGroup.get('phoneTypeId')?.touched
+          formGroup.get('identificationTypeId')?.hasError('required') &&
+          formGroup.get('identificationTypeId')?.touched
         "
         class="p-error"
       >
-        Phone Type is required.
+        Identification Type is required.
       </div>
 
-      <label for="phoneNumber">Number <sup class="danger">*</sup></label>
+      <label for="identificationNumber">Number <sup class="danger">*</sup></label>
       <input
         pInputText
-        name="phoneNumber"
-        formControlName="phoneNumber"
-        placeholder="phoneNumber"
+        name="identificationNumber"
+        formControlName="identificationNumber"
+        placeholder="identificationNumber"
         type="string"
         [ngClass]="{
           'ng-invalid ng-dirty':
-            formGroup.get('phoneNumber')?.invalid &&
-            formGroup.get('phoneNumber')?.touched
+            formGroup.get('identificationNumber')?.invalid &&
+            formGroup.get('identificationNumber')?.touched
         }"
       />
+
+      <br/> 
+      <br/> 
+      <label for="isMain" class="p-0"> Is Main </label>
+            <p-toggleswitch
+              formControlName="isMain"
+              name="isMain"
+            
+            ></p-toggleswitch
+            ><br />
 
       <div class="row justify-end">
         <div
@@ -5472,7 +5482,7 @@
         >
           <p-button
             type="submit"
-            label="Add Phone Number"
+            label="Add Identity Number"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -5483,7 +5493,7 @@
         >
           <p-button
             type="submit"
-            label="Edit Phone Number "
+            label="Edit Identity Number "
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -5494,7 +5504,7 @@
           <p-button
             label="Close"
             class="custom-save m-0 float-right"
-            (click)="router.navigate([`/crm/clients/view-phone-numbers/${clientId}`])"
+            (click)="router.navigate([`/crm/clients/view-client-identity/${clientId}`])"
           />
         </div>
       </div>
