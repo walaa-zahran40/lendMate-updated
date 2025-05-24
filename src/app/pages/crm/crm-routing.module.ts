@@ -45,6 +45,8 @@ import { ViewMandateComponent } from './leasing-mandates/components/mandate/view
 import { ViewGuarantorsComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-guarantors/view-client-guarantors/view-client-guarantor.component';
 import { AddClientOfficersComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-officers/add-client-officer/add-client-officer.component';
 import { ViewClientOfficersComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-officers/view-client-officers/view-client-officer.component';
+import { AddClientLegalsComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-legals/add-client-legal/add-client-legal.component';
+import { ViewClientLegalsComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-legals/view-client-legal/view-client-legal.component';
 
 const routes: Routes = [
   /*Clients , Client Onboarding Routing*/
@@ -247,6 +249,23 @@ const routes: Routes = [
   {
     path: 'clients/view-client-officers/:clientId',
     component: ViewClientOfficersComponent,
+  },
+   //Client legal
+  {
+    path: 'clients/add-client-legals',
+    component: AddClientLegalsComponent,
+  },
+  {
+    path: 'clients/add-client-legals/:clientId',
+    component: AddClientLegalsComponent,
+  },
+  {
+    path: 'clients/edit-client-legals/:id',
+    component: AddClientLegalsComponent,
+  },
+  {
+    path: 'clients/view-client-legals/:clientId',
+    component: ViewClientLegalsComponent,
   },
   // Client Contact Persons
   {

@@ -120,6 +120,14 @@ export class ClientActivityWizardComponent {
           'Introduce your company core info quickly to users by fill up company details',
         link: `/crm/clients/view-client-officers/${clientId}`,
       },
+        {
+        imgUrl: '/assets/images/shared/card/share.svg',
+        imgAlt: 'share',
+        title: 'Client Legals',
+        content:
+          'Introduce your company core info quickly to users by fill up company details',
+        link: `/crm/clients/view-client-legals/${clientId}`,
+      },
     ];
     this.cards = this.chunkArray(this.originalCards, 3);
   }

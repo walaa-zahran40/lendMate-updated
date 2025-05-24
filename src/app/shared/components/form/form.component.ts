@@ -110,6 +110,8 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() clientsList: any;
   @Input() tmlOfficerTypesList: any;
   @Input() clientOfficerTypesList: any;
+  @Input() legalFormsList: any;
+  @Input() legalFormLawsList: any;
   @Input() pageIds: any;
   selectedLegalForm: any;
   @Output() sectorChanged = new EventEmitter<number>();
@@ -527,6 +529,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addLegalFormsForm!: boolean;
   @Input() addOfficersForm!: boolean;
   @Input() addClientOfficerShowMain!: boolean;
+  @Input() addClientLegalShowMain!: boolean;
   @Input() addDepartmentsForm!: boolean;
   filteredSubSectors$!: Observable<SubSectors[]>;
   @Input() operationName!: string;
@@ -868,6 +871,11 @@ export class FormComponent implements OnInit, OnDestroy {
   viewClientOfficer() {
     this.router.navigate([
       `/crm/clients/view-client-officers/${this.clientId}`,
+    ]);
+  }
+  viewClientLegal() {
+    this.router.navigate([
+      `/crm/clients/view-client-legals/${this.clientId}`,
     ]);
   }
   viewShareHolder() {

@@ -87,6 +87,10 @@ import { AddClientOfficersComponent } from './components/client-activities/clien
 import { ViewClientOfficersComponent } from './components/client-activities/client-activity-wizard/activities/client-officers/view-client-officers/view-client-officer.component';
 import { clientOfficersReducer } from './store/client-officers/client-officers.reducer';
 import { ClientOfficersEffects } from './store/client-officers/client-officers.effects';
+import { AddClientLegalsComponent } from './components/client-activities/client-activity-wizard/activities/client-legals/add-client-legal/add-client-legal.component';
+import { ViewClientLegalsComponent } from './components/client-activities/client-activity-wizard/activities/client-legals/view-client-legal/view-client-legal.component';
+import { clientLegalsReducer } from './store/client-legals/client-legals.reducer';
+import { ClientLegalsEffects } from './store/client-legals/client-legals.effects';
 @NgModule({
   declarations: [
     AddClientComponent,
@@ -95,6 +99,7 @@ import { ClientOfficersEffects } from './store/client-officers/client-officers.e
     ViewClientsOnboardingComponent,
     AddClientTMLOfficersComponent,
     AddClientOfficersComponent,
+    AddClientLegalsComponent,
     AddClientAddressesComponent,
     AddSalesTurnoverComponent,
     AddContactPersonComponent,
@@ -115,6 +120,7 @@ import { ClientOfficersEffects } from './store/client-officers/client-officers.e
     ViewShareHoldersComponent,
     ViewTMLOfficersComponent,
     ViewClientOfficersComponent,
+    ViewClientLegalsComponent,
     ClientActivityWizardComponent,
     ViewGuarantorsComponent,
     AddClientGuarantorComponent,
@@ -196,6 +202,8 @@ import { ClientOfficersEffects } from './store/client-officers/client-officers.e
     EffectsModule.forFeature([ClientCentralBankInfoEffects]),
     StoreModule.forFeature('clientOfficers', clientOfficersReducer),
     EffectsModule.forFeature([ClientOfficersEffects]),
+    StoreModule.forFeature('clientLegals', clientLegalsReducer),
+    EffectsModule.forFeature([ClientLegalsEffects]),
   ],
 })
 export class ClientsModule {}

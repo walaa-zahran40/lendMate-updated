@@ -1,0 +1,28 @@
+<app-toolbar-form
+  [header]="'Client  Legal'"
+  [header]="editMode ? 'Edit Client  Legal' : 'Add Client  Legal'"
+  [backExists]="true"
+  [viewOnly]="false"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-form
+        *ngIf="addClientLegalsLookupsForm"
+        [title]="'Client  Legal'"
+        [description]="
+          'Introduce your Client  Legal core info quickly to users by fill up client details'
+        "
+        [formGroup]="addClientLegalsLookupsForm"
+        [addClientLegalShowMain]="true"
+        [editMode]="editMode"
+        (submitForm)="addOrEditClientLegals()"
+        [viewOnly]="viewOnly"
+        [legalFormLawsList]="legalFormLawsList$ | async"
+        [legalFormsList]="legalFormsList$ | async"
+      ></app-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>
