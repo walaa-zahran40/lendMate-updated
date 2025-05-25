@@ -7,10 +7,10 @@ import { InterestType } from '../../../store/interest-types/interest-type.model'
 
 
 @Component({
-  selector: 'app-add-address-types',
+  selector: 'app-add-interest-types',
   standalone: false,
-  templateUrl: './add-address-types.component.html',
-  styleUrl: './add-address-types.component.scss',
+  templateUrl: './add-interest-types.component.html',
+  styleUrl: './add-interest-types.component.scss',
 })
 export class AddInterestTypesComponent {
   editMode: boolean = false;

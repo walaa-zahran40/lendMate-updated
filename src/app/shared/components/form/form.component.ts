@@ -711,6 +711,11 @@ export class FormComponent implements OnInit, OnDestroy {
   viewBusinessLines() {
     this.router.navigate(['/lookups/view-business-lines']);
   }
+
+  viewInterestTypes() {
+    this.router.navigate(['/lookups/view-interest-types']);
+  }
+
   viewBranchManagers() {
     this.router.navigate([
       `/organizations/view-branch-managers/${this.branchIdParam}`,

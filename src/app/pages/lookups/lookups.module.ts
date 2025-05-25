@@ -179,6 +179,12 @@ import { AddClientOfficerTypesComponent } from './components/client-officer-type
 import { ViewClientOfficerTypesComponent } from './components/client-officer-types/view-client-officer-types/view-client-officer-types.component';
 import { ClientOfficerTypesEffects } from './store/client-officer-types/client-officer-types.effects';
 import { ViewInterestTypesComponent } from './components/interestType-types/view-interest-types/view-interest-types.component';
+import { ViewFollowUpTypesComponent } from './components/followup-types/view-followup-types/view-followup-types.component';
+import { followupTypesReducer } from './store/followup-types/followup-types.reducer';
+import { FollowupTypesEffects } from './store/followup-types/followup-types.effects';
+import { AddFollowupTypesComponent } from './components/followup-types/add-followup-types/add-followup-types.component';
+import { AddInterestTypesComponent } from './components/interestType-types/add-interest-types/add-interest-types.component';
+import { interestTypeReducer } from './store/interest-types/interest-types.reducer';
 
 @NgModule({
   declarations: [
@@ -209,8 +215,11 @@ import { ViewInterestTypesComponent } from './components/interestType-types/view
     AddAuthorityOfficesComponent,
     AddPhoneTypesComponent,
     AddAddressTypesComponent,
+    AddInterestTypesComponent,
     AddGovernoratesComponent,
     AddCountriesComponent,
+    AddFollowupTypesComponent,
+    AddInterestTypesComponent,
     AddIdentificationTypesComponent,
     AddAreasComponent,
     AddTaxOfficesComponent,
@@ -250,6 +259,7 @@ import { ViewInterestTypesComponent } from './components/interestType-types/view
     ViewSubSectorsComponent,
     ViewClientTypesComponent,
     ViewInterestTypesComponent,
+    ViewFollowUpTypesComponent,
     ViewAuthorityOfficesComponent,
     ViewPhoneTypesComponent,
     ViewAddressTypesComponent,
@@ -376,6 +386,10 @@ import { ViewInterestTypesComponent } from './components/interestType-types/view
     EffectsModule.forFeature([ClientStatusActionsEffects]),
     StoreModule.forFeature('clientOfficerTypes', clientOfficerTypesReducer),
     EffectsModule.forFeature([ClientOfficerTypesEffects]),
+    StoreModule.forFeature('followupTypes', followupTypesReducer),
+    EffectsModule.forFeature([FollowupTypesEffects]),
+        StoreModule.forFeature('interestTypes', interestTypeReducer),
+    EffectsModule.forFeature([FollowupTypesEffects]),
   ],
   exports: [
     AddMandateStatusesComponent,

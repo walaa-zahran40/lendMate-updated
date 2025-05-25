@@ -14,7 +14,7 @@ import { FollowupType } from '../../../store/followup-types/folllowup-types.mode
 export class AddFollowupTypesComponent {
   editMode: boolean = false;
   viewOnly = false;
-  addFollowupTypesCommunicationForm!: FormGroup;
+  addFollowUpTypesCommunicationForm!: FormGroup;
   clientId: any;
 
   constructor(
@@ -25,7 +25,7 @@ export class AddFollowupTypesComponent {
   ) {}
 
   ngOnInit() {
-    this.addFollowupTypesCommunicationForm = this.fb.group({
+    this.addFollowUpTypesCommunicationForm = this.fb.group({
       id: [null], // ← new hidden control
       name: [
         '',
@@ -48,7 +48,7 @@ export class AddFollowupTypesComponent {
         // disable if it’s view mode via ?mode=view
         this.viewOnly = this.route.snapshot.queryParams['mode'] === 'view';
         if (this.viewOnly) {
-          this.addFollowupTypesCommunicationForm.disable();
+          this.addFollowUpTypesCommunicationForm.disable();
         }
 
         // 3. load the existing record & patch the form
@@ -63,7 +63,7 @@ export class AddFollowupTypesComponent {
           )
           .subscribe((ct) => {
             console.log(ct);
-            this.addFollowupTypesCommunicationForm.patchValue({
+            this.addFollowUpTypesCommunicationForm.patchValue({
               id: ct!.id,
               name: ct!.name,
               nameAR: ct!.nameAR,
@@ -74,7 +74,7 @@ export class AddFollowupTypesComponent {
         // no id → add mode: still check if ?mode=view
         this.viewOnly = this.route.snapshot.queryParams['mode'] === 'view';
         if (this.viewOnly) {
-          this.addFollowupTypesCommunicationForm.disable();
+          this.addFollowUpTypesCommunicationForm.disable();
         }
       }
     });
@@ -84,16 +84,16 @@ export class AddFollowupTypesComponent {
     console.log('💥 addFollowupTypes() called');
     console.log('  viewOnly:', this.viewOnly);
     console.log('  editMode:', this.editMode);
-    console.log('  form valid:', this.addFollowupTypesCommunicationForm.valid);
-    console.log('  form touched:', this.addFollowupTypesCommunicationForm.touched);
+    console.log('  form valid:', this.addFollowUpTypesCommunicationForm.valid);
+    console.log('  form touched:', this.addFollowUpTypesCommunicationForm.touched);
     console.log(
       '  form raw value:',
-      this.addFollowupTypesCommunicationForm.getRawValue()
+      this.addFollowUpTypesCommunicationForm.getRawValue()
     );
 
     // Print individual control errors
-    const nameCtrl = this.addFollowupTypesCommunicationForm.get('name');
-    const nameARCtrl = this.addFollowupTypesCommunicationForm.get('nameAR');
+    const nameCtrl = this.addFollowUpTypesCommunicationForm.get('name');
+    const nameARCtrl = this.addFollowUpTypesCommunicationForm.get('nameAR');
     console.log('  name.errors:', nameCtrl?.errors);
     console.log('  nameAR.errors:', nameARCtrl?.errors);
 
@@ -102,13 +102,13 @@ export class AddFollowupTypesComponent {
       return;
     }
 
-    if (this.addFollowupTypesCommunicationForm.invalid) {
+    if (this.addFollowUpTypesCommunicationForm.invalid) {
       console.warn('❌ Form is invalid — marking touched and aborting');
-      this.addFollowupTypesCommunicationForm.markAllAsTouched();
+      this.addFollowUpTypesCommunicationForm.markAllAsTouched();
       return;
     }
 
-    const { name, nameAR, isActive } = this.addFollowupTypesCommunicationForm.value;
+    const { name, nameAR, isActive } = this.addFollowUpTypesCommunicationForm.value;
     const payload: Partial<FollowupType> = { name, nameAR, isActive };
     console.log('  → payload object:', payload);
 
@@ -118,7 +118,7 @@ export class AddFollowupTypesComponent {
 
     if (this.editMode) {
       const { id, name, nameAR, isActive } =
-        this.addFollowupTypesCommunicationForm.value;
+        this.addFollowUpTypesCommunicationForm.value;
       const payload: FollowupType = { id, name, nameAR, isActive };
       console.log(
         '🔄 Dispatching UPDATE id=',
