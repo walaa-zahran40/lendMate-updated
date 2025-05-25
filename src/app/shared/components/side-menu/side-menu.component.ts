@@ -117,7 +117,7 @@ export class SideMenuComponent {
             icon: 'pi pi-user-plus',
             routerLink: '/crm/clients/view-tml-officer',
           },
-           {
+          {
             label: 'ClientOfficer',
             icon: 'pi pi-user-plus',
             routerLink: '/crm/clients/view-client-officers',
@@ -707,7 +707,7 @@ export class SideMenuComponent {
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-client-types',
           },
-           {
+          {
             label: 'Client Officer Types',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-client-officer-types',
@@ -833,16 +833,16 @@ export class SideMenuComponent {
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-payment-types',
           },
-          {
-            label: 'Property',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-payment-types',
-          },
-          {
-            label: 'Property Types',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-payment-types',
-          },
+          // {
+          //   label: 'Property',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/lookups/view-payment-types',
+          // },
+          // {
+          //   label: 'Property Types',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/lookups/view-payment-types',
+          // },
           {
             label: 'Period Units',
             icon: 'pi pi-user-plus',
