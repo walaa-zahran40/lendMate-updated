@@ -21,7 +21,7 @@ export class ClientContactPersonsService {
       params = params.set('pageNumber', pageNumber.toString());
     }
     return this.http.get<PagedResponse<ClientContactPerson>>(
-      `${this.api}/GetAllClientContactPersons`,
+      `${this.api}/GetAllContactPersons`,
       { params }
     );
   }

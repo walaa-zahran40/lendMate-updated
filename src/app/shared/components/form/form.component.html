@@ -7603,47 +7603,61 @@
       [formGroup]="formGroup"
       (ngSubmit)="onSubmit()"
       *ngIf="addMandateShowContactPersonsForm"
-      id="mandateContactPersonsForm"
+      id="addMandateShowContactPersonsForm"
     >
-      <label for="officerTypeOfficersForm">Contact Person Type</label>
-      <p-multiselect
-        [options]="officerTypesMandates"
-        placeholder="Select Officer Type"
-        optionLabel="name"
-        display="chip"
-        icon="pi pi-times"
-        name="officerTypeOfficersForm"
-        styleClass="w-full md:w-80"
-        [maxSelectedLabels]="999"
-        chipIcon="pi pi-times"
-      />
-      <div class="parent-individual">
-        <div class="div4-individual">
-          <label for="officerNameOfficersForm">Contact Person Name</label>
-          <input
-            pInputText
-            id="officerNameOfficersForm"
-            aria-describedby="officerNameOfficersForm-help"
-            name="officerNameOfficersForm"
-            placeholder="Mohamed Yasser"
-          />
-        </div>
-        <div class="div2-individual">
-          <label for="actionsOfficersForm">Actions</label>
-          <p-multiselect
-            [options]="actions"
-            placeholder="Select Actions"
-            optionLabel="name"
-            display="chip"
-            icon="pi pi-times"
-            name="actionsOfficersForm"
-            styleClass="w-full md:w-80"
-            [maxSelectedLabels]="999"
-            chipIcon="pi pi-times"
-          />
-        </div>
-        <div class="div3-individual">
-          <p-button icon="custom-icon" severity="danger" class="add-btn" />
+      <div formArrayName="mandateContactPersons">
+        <div
+          *ngFor="let group of mandateContactPersons?.controls; let i = index"
+          [formGroupName]="i"
+          class="parent2-individual2 mt-2 flex items-start gap-4 align-items-center flex-wrap"
+        >
+          <!-- 1) contact PersonsName -->
+          <div class="div-number flex-1 min-w-0">
+            <label for="contactPerson" class="p-0">
+              Contact Person<sup class="danger">*</sup>
+            </label>
+            <p-select
+              [options]="contactPersonsList"
+              formControlName="contactPerson"
+              placeholder="Select Contact Person"
+              optionLabel="name"
+              optionValue="id"
+              name="contactPerson"
+              styleClass="w-full md:w-80"
+            />
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('contactPerson')?.invalid &&
+                group.get('contactPerson')?.touched
+              "
+            >
+              Contact Person is required.
+            </small>
+          </div>
+          <!-- 4) Add another Contact Person -->
+          <button
+            style="margin-top: 25px"
+            pButton
+            type="button"
+            icon="pi pi-plus"
+            class="p-button-outlined p-button-sm"
+            (click)="addContactPerson.emit()"
+            *ngIf="!viewOnly"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+          ></button>
+
+          <!-- 5) Remove this Contact Person -->
+          <button
+            pButton
+            style="margin-top: 25px"
+            type="button"
+            icon="pi pi-trash"
+            class="p-button-danger p-button-sm"
+            *ngIf="mandateContactPersons.length > 1 && !viewOnly"
+            (click)="removeContactPerson.emit(i)"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+          ></button>
         </div>
       </div>
     </form>
@@ -10800,102 +10814,7 @@
         </div>
       </div>
     </form>
-    <form action="" *ngIf="addMeetingShowContactPersonsForm">
-      <div class="d-block">
-        <div class="d-inline-block divInput">
-          <label for="contactPersonsAddMeeting"
-            >Contact Person<sup>*</sup></label
-          >
-          <p-multiselect
-            [options]="officerAddMeeting"
-            [(ngModel)]="selectedOfficerAddMeeting"
-            placeholder="Select Contact Person"
-            optionLabel="name"
-            display="chip"
-            icon="pi pi-times"
-            name="contactPersonsAddMeeting"
-            styleClass="w-full md:w-80"
-            [maxSelectedLabels]="999"
-            chipIcon="pi pi-times"
-          />
-        </div>
 
-        <div class="d-inline-block divPlus">
-          <p-button icon="custom-icon" severity="danger" class="add-btn" />
-        </div>
-      </div>
-
-      <div
-        *ngFor="let contactPerson of contactPersons"
-        class="flex items-center contactPersons-check"
-      >
-        <div class="row">
-          <div class="col-sm-1 d-flex align-items-center">
-            <p-checkbox
-              [inputId]="contactPerson.key"
-              name="group"
-              [value]="contactPerson"
-              [(ngModel)]="selectedContactPersons"
-            />
-          </div>
-          <div class="col-sm">
-            <label [for]="contactPerson.key" class="ml-2">
-              {{ contactPerson.name }} </label
-            ><br />
-            <p class="ml-2 desc">
-              {{ contactPerson.description }}
-            </p>
-          </div>
-        </div>
-      </div>
-    </form>
-    <form action="" *ngIf="addMeetingShowAssetTypeForm">
-      <div class="d-block">
-        <div class="d-inline-block divInput">
-          <label for="assestTypesAddMeeting">Contact Person<sup>*</sup></label>
-          <p-multiselect
-            [options]="officerAddMeeting"
-            [(ngModel)]="selectedOfficerAddMeeting"
-            placeholder="Select Assest Type"
-            optionLabel="name"
-            display="chip"
-            icon="pi pi-times"
-            name="assestTypesAddMeeting"
-            styleClass="w-full md:w-80"
-            [maxSelectedLabels]="999"
-            chipIcon="pi pi-times"
-          />
-        </div>
-
-        <div class="d-inline-block divPlus">
-          <p-button icon="custom-icon" severity="danger" class="add-btn" />
-        </div>
-      </div>
-
-      <div
-        *ngFor="let assestType of assestTypes"
-        class="flex items-center assestTypes-check"
-      >
-        <div class="row">
-          <div class="col-sm-1 d-flex align-items-center">
-            <p-checkbox
-              [inputId]="assestType.key"
-              name="group"
-              [value]="assestType"
-              [(ngModel)]="selectedAssestTypes"
-            />
-          </div>
-          <div class="col-sm">
-            <label [for]="assestType.key" class="ml-2">
-              {{ assestType.name }} </label
-            ><br />
-            <p class="ml-2 desc">
-              {{ assestType.description }}
-            </p>
-          </div>
-        </div>
-      </div>
-    </form>
     <form action="" *ngIf="addMeetingShowBusinessInformationForm">
       <label for="startDateAddMeeting">Start Date<sup>*</sup></label>
       <shared-date-picker
@@ -11244,55 +11163,7 @@
         </div>
       </div>
     </form>
-    <form action="" *ngIf="addCallShowContactPersonsForm">
-      <div class="d-block">
-        <div class="d-inline-block divInput">
-          <label for="contactPersonsAddMeeting"
-            >Contact Person<sup>*</sup></label
-          >
-          <p-multiselect
-            [options]="officerAddMeeting"
-            [(ngModel)]="selectedOfficerAddMeeting"
-            placeholder="Select Contact Person"
-            optionLabel="name"
-            display="chip"
-            icon="pi pi-times"
-            name="contactPersonsAddMeeting"
-            styleClass="w-full md:w-80"
-            [maxSelectedLabels]="999"
-            chipIcon="pi pi-times"
-          />
-        </div>
 
-        <div class="d-inline-block divPlus">
-          <p-button icon="custom-icon" severity="danger" class="add-btn" />
-        </div>
-      </div>
-
-      <div
-        *ngFor="let contactPerson of contactPersons"
-        class="flex items-center contactPersons-check"
-      >
-        <div class="row">
-          <div class="col-1 pr-0">
-            <p-checkbox
-              [inputId]="contactPerson.key"
-              name="group"
-              [value]="contactPerson"
-              [(ngModel)]="selectedContactPersons"
-            />
-          </div>
-          <div class="col-11 pl-0">
-            <label [for]="contactPerson.key" class="ml-2">
-              {{ contactPerson.name }} </label
-            ><br />
-            <p class="ml-2">
-              {{ contactPerson.description }}
-            </p>
-          </div>
-        </div>
-      </div>
-    </form>
     <form action="" *ngIf="addCallShowBusinessInformationForm">
       <label for="crExpiryDateAddCall">CR Expiry Date<sup>*</sup></label>
       <shared-date-picker

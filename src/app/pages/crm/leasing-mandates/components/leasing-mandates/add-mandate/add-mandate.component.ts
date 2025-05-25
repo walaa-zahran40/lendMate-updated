@@ -10,6 +10,7 @@ import { Product } from '../../../../../lookups/store/products/product.model';
 import { LeasingType } from '../../../../../lookups/store/leasing-types/leasing-type.model';
 import { InsuredBy } from '../../../../../lookups/store/insured-by/insured-by.model';
 import { Officer } from '../../../../../organizations/store/officers/officer.model';
+import { ClientContactPerson } from '../../../../clients/store/client-contact-persons/client-contact-person.model';
 //Facades
 import { ClientsFacade } from '../../../../clients/store/_clients/allclients/clients.facade';
 import { MandateValidityUnitsFacade } from '../../../../../lookups/store/mandate-validity-units/mandate-validity-units.facade';
@@ -17,6 +18,7 @@ import { ProductsFacade } from '../../../../../lookups/store/products/products.f
 import { LeasingTypesFacade } from '../../../../../lookups/store/leasing-types/leasing-types.facade';
 import { InsuredByFacade } from '../../../../../lookups/store/insured-by/insured-by.facade';
 import { OfficersFacade } from '../../../../../organizations/store/officers/officers.facade';
+import { ClientContactPersonsFacade } from '../../../../clients/store/client-contact-persons/client-contact-persons.facade';
 //Actions
 import { loadAll } from '../../../../clients/store/_clients/allclients/clients.actions';
 import { loadAll as loadValidityUnits } from '../../../../../lookups/store/mandate-validity-units/mandate-validity-units.actions';
@@ -24,6 +26,7 @@ import { loadAll as loadProducts } from '../../../../../lookups/store/products/p
 import { loadAll as loadLeasingTypes } from '../../../../../lookups/store/leasing-types/leasing-types.actions';
 import { loadAll as loadInsuredBy } from '../../../../../lookups/store/insured-by/insured-by.actions';
 import { loadOfficers } from '../../../../../organizations/store/officers/officers.actions';
+import { loadClientContactPersons } from '../../../../../crm/clients/store/client-contact-persons/client-contact-persons.actions';
 
 @Component({
   selector: 'app-add-mandate',
@@ -45,6 +48,7 @@ export class AddMandateComponent {
   leasingTypes$!: Observable<LeasingType[]>;
   insuredBy$!: Observable<InsuredBy[]>;
   officers$!: Observable<Officer[]>;
+  contactPersons$!: Observable<ClientContactPerson[]>;
   constructor(
     private fb: FormBuilder,
     private store: Store,
@@ -53,7 +57,8 @@ export class AddMandateComponent {
     private productFacade: ProductsFacade,
     private leasingTypeFacade: LeasingTypesFacade,
     private insuredByFacade: InsuredByFacade,
-    private officersFacade: OfficersFacade
+    private officersFacade: OfficersFacade,
+    private contactPersonsFacade: ClientContactPersonsFacade
   ) {}
 
   ngOnInit() {
@@ -79,7 +84,12 @@ export class AddMandateComponent {
     //Officers Dropdown
     this.store.dispatch(loadOfficers());
     this.officers$ = this.officersFacade.items$;
+    //3-Contact Persons Form
     this.buildMandateShowContactPersonsForm();
+    //Contact Persons Dropdown
+    this.store.dispatch(loadClientContactPersons());
+    this.contactPersons$ = this.contactPersonsFacade.items$;
+    //4`-Asset Type Form
     this.buildMandateShowAssetTypeForm();
     this.buildMandateShowMoreInformationForm();
   }
@@ -99,18 +109,27 @@ export class AddMandateComponent {
       mandateOfficers: this.fb.array([this.createMandateOfficerGroup()]),
     });
   }
+  buildMandateShowContactPersonsForm(): void {
+    this.addMandateShowContactPersonsForm = this.fb.group({
+      id: [null],
+      mandateContactPersons: this.fb.array([
+        this.createMandateContactPersonGroup(),
+      ]),
+    });
+  }
   createMandateOfficerGroup(): FormGroup {
     return this.fb.group({
       id: [],
       officerName: ['', Validators.required],
     });
   }
-  buildMandateShowContactPersonsForm(): void {
-    this.addMandateShowContactPersonsForm = this.fb.group({
-      id: [null],
-      mandateContactPersons: [null],
+  createMandateContactPersonGroup(): FormGroup {
+    return this.fb.group({
+      id: [],
+      contactPerson: ['', Validators.required],
     });
   }
+
   buildMandateShowAssetTypeForm(): void {
     this.addMandateShowAssetTypeForm = this.fb.group({
       id: [null],
@@ -145,7 +164,23 @@ export class AddMandateComponent {
       this.mandateOfficers.removeAt(i);
     }
   }
+  addContactPerson() {
+    console.log('Adding new identity group');
+    this.mandateContactPersons?.push(this.createMandateContactPersonGroup());
+  }
+
+  removeContactPerson(i: number) {
+    console.log('Removing identity group at index', i);
+    if (this.mandateContactPersons.length > 1) {
+      this.mandateContactPersons.removeAt(i);
+    }
+  }
   get mandateOfficers(): FormArray {
     return this.addMandateShowOfficersForm.get('mandateOfficers') as FormArray;
+  }
+  get mandateContactPersons(): FormArray {
+    return this.addMandateShowContactPersonsForm.get(
+      'mandateContactPersons'
+    ) as FormArray;
   }
 }

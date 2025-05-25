@@ -45,6 +45,9 @@
         [formGroup]="addMandateShowContactPersonsForm"
         [editMode]="editMode"
         [viewOnly]="viewOnly"
+        [contactPersonsList]="contactPersons$ | async"
+        (removeContactPerson)="removeContactPerson($event)"
+        (addContactPerson)="addContactPerson()"
       ></app-form>
       <hr />
       <app-form

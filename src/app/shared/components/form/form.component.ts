@@ -66,6 +66,8 @@ export class FormComponent implements OnInit, OnDestroy {
   @Output() removePhoneType = new EventEmitter<number>();
   @Output() addOfficer = new EventEmitter<void>();
   @Output() removeOfficer = new EventEmitter<number>();
+  @Output() addContactPerson = new EventEmitter<void>();
+  @Output() removeContactPerson = new EventEmitter<number>();
 
   id!: string;
   @Input() applyReusable: boolean = false;
@@ -264,6 +266,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() leasingTypes!: any;
   @Input() insuredBy!: any;
   @Input() officers!: any;
+  @Input() contactPersonsList!: any;
   selectedClientNames!: any;
   selectedMandateValidityUnit!: any;
   selectedProducts!: any;
@@ -362,14 +365,7 @@ export class FormComponent implements OnInit, OnDestroy {
         'Must attend to hold and run the meeting with other team members',
     },
   ];
-  contactPersons: any[] = [
-    {
-      name: 'Must Attend',
-      key: 'MA',
-      description:
-        'Must attend to hold and run the meeting with other team members',
-    },
-  ];
+
   //dates
   date: Date | undefined;
   date1: Date | undefined;
@@ -633,6 +629,9 @@ export class FormComponent implements OnInit, OnDestroy {
   get mandateOfficers(): FormArray {
     return this.formGroup.get('mandateOfficers') as FormArray;
   }
+  get mandateContactPersons(): FormArray {
+    return this.formGroup.get('mandateContactPersons') as FormArray;
+  }
   onSectorChange(event: any) {
     const selectedId = event.value;
     this.sectorsSafe$
@@ -851,7 +850,9 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/organizations/view-officers']);
   }
   viewContactPersons() {
-    this.router.navigate(['/crm/clients/view-contact-persons']);
+    this.router.navigate([
+      `/crm/clients/view-contact-persons/${this.clientId}`,
+    ]);
   }
   viewFollowUpsPoint() {
     this.router.navigate(['/communication/view-followup-points']);
