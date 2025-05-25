@@ -1,11 +1,14 @@
 export enum EntityNames {
   //Clients and Lookups
   AssetType = 'AssetType',
+  FollowupType = 'FollowupType',
   Team = 'Team',
   SalesTurnover = 'SalesTurnover',
   AssetTypeCategory = 'AssetTypeCategory',
   Area = 'Area',
   AddressType = 'AddressType',
+  FeeRange = 'FeeRange',
+  InterestType = 'InterestType',
   AuthorityOffice = 'AuthorityOffice',
   Branch = 'Branch',
   BusinessLine = 'BusinessLine',

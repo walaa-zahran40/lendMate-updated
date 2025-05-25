@@ -182,6 +182,18 @@ import { AddAuthorizationGroupsComponent } from './components/authorization-grou
 import { ViewAuthorizationGroupsComponent } from './components/authorization-groups/view-authorization-groups/view-authorization-groups.component';
 import { AuthorizationGroupsEffects } from './store/authorization-groups/authorization-groups.effects';
 import { reducer as authorizationGroupsReducer } from './store/authorization-groups/authorization-groups.reducer';
+import { ViewInterestTypesComponent } from './components/interestType-types/view-interest-types/view-interest-types.component';
+import { ViewFollowUpTypesComponent } from './components/followup-types/view-followup-types/view-followup-types.component';
+import { followupTypesReducer } from './store/followup-types/followup-types.reducer';
+import { FollowupTypesEffects } from './store/followup-types/followup-types.effects';
+import { AddFollowupTypesComponent } from './components/followup-types/add-followup-types/add-followup-types.component';
+import { AddInterestTypesComponent } from './components/interestType-types/add-interest-types/add-interest-types.component';
+import { interestTypeReducer } from './store/interest-types/interest-types.reducer';
+import { InterestTypesEffects } from './store/interest-types/interest-types.effects';
+import { ViewFeeRangesComponent } from './components/fee-ranges/view-fee-ranges/view-fee-ranges.component';
+import { AddFeeRangesComponent } from './components/fee-ranges/add-fee-ranges/add-fee-ranges.component';
+import { FeeRangesEffects } from './store/fee-ranges/fee-ranges.effects';
+import { feeRangesReducer } from './store/fee-ranges/fee-ranges.reducer';
 
 @NgModule({
   declarations: [
@@ -212,8 +224,13 @@ import { reducer as authorizationGroupsReducer } from './store/authorization-gro
     AddAuthorityOfficesComponent,
     AddPhoneTypesComponent,
     AddAddressTypesComponent,
+    AddInterestTypesComponent,
     AddGovernoratesComponent,
     AddCountriesComponent,
+    AddFollowupTypesComponent,
+    AddFeeRangesComponent,
+    ViewFeeRangesComponent,
+    AddInterestTypesComponent,
     AddIdentificationTypesComponent,
     AddAreasComponent,
     AddTaxOfficesComponent,
@@ -252,6 +269,10 @@ import { reducer as authorizationGroupsReducer } from './store/authorization-gro
     ViewSMEClientCodesComponent,
     ViewSubSectorsComponent,
     ViewClientTypesComponent,
+    ViewInterestTypesComponent,
+    ViewFollowUpTypesComponent,
+    ViewFeeRangesComponent,
+    AddFeeRangesComponent,
     ViewAuthorityOfficesComponent,
     ViewPhoneTypesComponent,
     ViewAddressTypesComponent,
@@ -274,7 +295,7 @@ import { reducer as authorizationGroupsReducer } from './store/authorization-gro
     ViewWorkFlowActionTypesComponent,
     ViewProductsComponent,
     AddAuthorizationGroupsComponent,
-    ViewAuthorizationGroupsComponent
+    ViewAuthorizationGroupsComponent,
   ],
   imports: [
     CommonModule,
@@ -382,6 +403,12 @@ import { reducer as authorizationGroupsReducer } from './store/authorization-gro
     EffectsModule.forFeature([ClientOfficerTypesEffects]),
     StoreModule.forFeature('authorizationGroups', authorizationGroupsReducer),
     EffectsModule.forFeature([AuthorizationGroupsEffects]),
+    StoreModule.forFeature('followupTypes', followupTypesReducer),
+    EffectsModule.forFeature([FollowupTypesEffects]),
+    StoreModule.forFeature('interestTypes', interestTypeReducer),
+    EffectsModule.forFeature([InterestTypesEffects]),
+    StoreModule.forFeature('feeRanges', feeRangesReducer),
+    EffectsModule.forFeature([FeeRangesEffects]),
   ],
   exports: [
     AddMandateStatusesComponent,
@@ -402,6 +429,7 @@ import { reducer as authorizationGroupsReducer } from './store/authorization-gro
     AddBusinessLinesComponent,
     AddAssetTypesComponent,
     AddAssetTypeCategoriesComponent,
+
     AddProductsComponent,
     AddSectorsComponent,
     AddSMEClientCodesComponent,
@@ -422,7 +450,7 @@ import { reducer as authorizationGroupsReducer } from './store/authorization-gro
     AddCurrenciesExchangeComponent,
     ViewSMEClientCodesComponent,
     ViewClientOfficerTypesComponent,
-    AddAuthorizationGroupsComponent
+    AddAuthorizationGroupsComponent,
   ],
 })
 export class LookupsModule {}

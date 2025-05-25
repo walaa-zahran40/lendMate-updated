@@ -61,6 +61,9 @@ export class TableComponent {
   @Input() viewCommunicationTypesTable!: boolean;
   @Input() viewAddressTypesTable!: boolean;
   @Input() ViewAuthorizationGroupsComponent!: boolean;
+  @Input() viewFeeRangesTable!: boolean;
+  @Input() viewInterestTypesTable!: boolean;
+  @Input() viewFollowUpTypesTable!: boolean;
   @Input() viewPhoneTypesTable!: boolean;
   @Input() viewPhoneNumberTable!: boolean;
   @Input() viewContactPersonTable!: boolean;

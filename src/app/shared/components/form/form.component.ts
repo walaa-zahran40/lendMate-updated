@@ -100,6 +100,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() governorates: any;
   @Input() teamDepartments: any;
   @Input() governoratesList: any;
+  @Input() feeTypes: any;
   @Input() areasList: any;
   @Input() currencies: { id: number; name: string }[] = [];
   @Input() selectedSectorId: number | null = null;
@@ -429,7 +430,6 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addClientCompanyViewShowLegal!: boolean;
   @Input() addClientCompanyViewShowBusiness!: boolean;
   @Input() contactPersonDetailsView!: boolean;
-  @Input() addFeesRangesLookupsForm!: boolean;
   @Input() contactPersonDetailsViewShowForm!: boolean;
   @Input() addMandateShowMoreInformationForm!: boolean;
   @Input() addMandateShowAssetTypeForm!: boolean;
@@ -514,7 +514,11 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addPhoneTypesLookupsForm!: boolean;
   @Input() addAddressTypesLookupsForm!: boolean;
   @Input() addAuthorizationGroupsLookupsForm!: boolean;
+  @Input() addInterestTypesLookupsForm!: boolean;
+  @Input() addFollowupTypesLookupsForm!: boolean;
+  @Input() addFeeRangesForm!: boolean;
   @Input() addSalesTurnoverForm!: boolean;
+  @Input() addFollowupTypesCommunicationForm!: boolean;
   @Input() addGovernoratesLookupsForm!: boolean;
   @Input() addCountriesLookupsForm!: boolean;
   @Input() addIdentificationTypesLookupsForm!: boolean;
@@ -640,7 +644,7 @@ export class FormComponent implements OnInit, OnDestroy {
   onSectorChange(event: any) {
     const selectedId = event.value;
     this.sectorsSafe$
-      .pipe(
+      ?.pipe(
         take(1),
         map((sectors) => sectors.find((s) => s.id === selectedId)),
         filter((sector): sector is Sectors => !!sector)
@@ -709,6 +713,15 @@ export class FormComponent implements OnInit, OnDestroy {
   viewBusinessLines() {
     this.router.navigate(['/lookups/view-business-lines']);
   }
+
+  viewInterestTypes() {
+    this.router.navigate(['/lookups/view-interest-types']);
+  }
+
+  viewFeesRnages() {
+    this.router.navigate(['/lookups/view-fee-ranges']);
+  }
+
   viewBranchManagers() {
     this.router.navigate([
       `/organizations/view-branch-managers/${this.branchIdParam}`,
@@ -840,7 +853,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-call-types']);
   }
   viewFollowupTypes() {
-    this.router.navigate(['/crm/clients/view-followup-types']);
+    this.router.navigate(['/lookups/view-followup-types']);
   }
   viewOfficers() {
     this.router.navigate(['/crm/clients/view-officers']);

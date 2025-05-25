@@ -21,6 +21,25 @@
   --custom-background-transparent: transparent;
   --custom-font-epilogue-regular: "epilogue";
   --custom-font-weight-600: 600;
+  h2 {
+    font-family: var(--custom-font-epilogue-regular);
+    font-weight: var(--custom-font-weight-600);
+    font-size: var(--custom-size-16);
+    line-height: var(--custom-line-height-25);
+  }
+  p {
+    font-family: "epilogue";
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 25.6px;
+    color: #7c8493;
+  }
+  @media only screen and (max-width: 600px) {
+    .companyTypesDiv {
+      padding-right: 0;
+      padding-left: 0;
+    }
+  }
   &::ng-deep {
     .p-button {
       flex-direction: var(--custom-flex-direction-row-reverse);
@@ -55,19 +74,15 @@
     .custom-save {
       background: var(--p-tabs-active-bar-background);
       width: var(--custom-position-auto);
-
+      margin-left: var(--custom-position-auto);
+      margin-right: var(--custom-position-28);
       text-align: var(--custom-position-center);
-      padding: 14px 54px 14px 54px;
+      padding: 14px 73px;
       font-size: var(--custom-font-size-18);
       cursor: var(--custom-cursor);
       color: var(--custom-color-white);
     }
-    .padding-right {
-      padding-right: 15px;
-    }
-    .p-tabpanels {
-      padding-bottom: 116px;
-    }
+
     .p-button-label {
       font-weight: var(--custom-weight-700);
       font-size: var(--custom-font-size-18);
@@ -133,10 +148,6 @@
       .p-toolbar-start {
         width: var(--custom-size-100);
       }
-      .padding-right {
-        padding-right: 0;
-        padding-left: 0;
-      }
       .custom-next,
       .custom-back {
         width: var(--custom-width-94);
@@ -151,27 +162,9 @@
         width: var(--custom-width-100);
       }
     }
+    .p-tabs {
+      padding: var(--custom-padding-right-10);
+      zoom: 80%;
+    }
   }
-}
-h2 {
-  font-family: var(--custom-font-epilogue-regular);
-  font-weight: var(--custom-font-weight-600);
-  font-size: var(--custom-size-16);
-  line-height: var(--custom-line-height-25);
-}
-p {
-  font-family: "epilogue";
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 25.6px;
-  color: #7c8493;
-}
-hr {
-  margin: 0;
-  margin-bottom: 24px;
-  margin-top: 8px;
-}
-.margin-top {
-  margin-top: 32px;
-  margin-bottom: 32px;
 }

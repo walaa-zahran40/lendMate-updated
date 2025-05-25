@@ -756,7 +756,7 @@ export class SideMenuComponent {
           {
             label: 'FollowUp Types',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-Governorates',
+            routerLink: '/lookups/view-followup-types',
           },
           {
             label: 'Governorates',
@@ -781,8 +781,15 @@ export class SideMenuComponent {
           {
             label: 'Interest Types',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-interest-rate-benchmarks',
+            routerLink: '/lookups/view-interest-types',
           },
+
+          {
+            label: 'Fees Ranges',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-fee-ranges',
+          },
+
           {
             label: 'Leasing Types',
             icon: 'pi pi-user-plus',

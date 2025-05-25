@@ -10,7 +10,6 @@ import { AddFollowUpsPointsComponent } from './add-follow-ups-points/add-follow-
 import { AddMeetingTypesComponent } from './add-meeting-types/add-meeting-types.component';
 import { AddCallComponent } from './add-call/add-call.component';
 import { AddCallTypesComponent } from './add-call-types/add-call-types.component';
-import { AddFollowupTypesComponent } from './add-followup-types/add-followup-types.component';
 import { ViewMeetingsComponent } from './view-meetings/view-meetings.component';
 import { WizardComponent } from './wizard/wizard.component';
 import { ViewOfficersComponent } from './view-officers/view-officers.component';
@@ -36,7 +35,6 @@ import { DialogModule } from 'primeng/dialog';
     AddMeetingTypesComponent,
     AddCallComponent,
     AddCallTypesComponent,
-    AddFollowupTypesComponent,
     ViewMeetingsComponent,
     WizardComponent,
     ViewOfficersComponent,
@@ -69,7 +67,6 @@ import { DialogModule } from 'primeng/dialog';
     AddMeetingTypesComponent,
     AddCallComponent,
     AddCallTypesComponent,
-    AddFollowupTypesComponent,
   ],
 })
 export class CommunicationModule {}
