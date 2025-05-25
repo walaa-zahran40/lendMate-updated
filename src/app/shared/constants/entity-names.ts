@@ -6,6 +6,7 @@ export enum EntityNames {
   AssetTypeCategory = 'AssetTypeCategory',
   Area = 'Area',
   AddressType = 'AddressType',
+  FeeRange = 'FeeRange',
   InterestType = 'InterestType',
   AuthorityOffice = 'AuthorityOffice',
   Branch = 'Branch',

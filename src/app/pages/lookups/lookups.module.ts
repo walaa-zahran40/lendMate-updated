@@ -185,6 +185,11 @@ import { FollowupTypesEffects } from './store/followup-types/followup-types.effe
 import { AddFollowupTypesComponent } from './components/followup-types/add-followup-types/add-followup-types.component';
 import { AddInterestTypesComponent } from './components/interestType-types/add-interest-types/add-interest-types.component';
 import { interestTypeReducer } from './store/interest-types/interest-types.reducer';
+import { InterestTypesEffects } from './store/interest-types/interest-types.effects';
+import { ViewFeeRangesComponent } from './components/fee-ranges/view-fee-ranges/view-fee-ranges.component';
+import { AddFeeRangesComponent } from './components/fee-ranges/add-fee-ranges/add-fee-ranges.component';
+import { FeeRangesEffects } from './store/fee-ranges/fee-ranges.effects';
+import { feeRangesReducer } from './store/fee-ranges/fee-ranges.reducer';
 
 @NgModule({
   declarations: [
@@ -219,6 +224,8 @@ import { interestTypeReducer } from './store/interest-types/interest-types.reduc
     AddGovernoratesComponent,
     AddCountriesComponent,
     AddFollowupTypesComponent,
+    AddFeeRangesComponent,
+    ViewFeeRangesComponent,
     AddInterestTypesComponent,
     AddIdentificationTypesComponent,
     AddAreasComponent,
@@ -260,6 +267,8 @@ import { interestTypeReducer } from './store/interest-types/interest-types.reduc
     ViewClientTypesComponent,
     ViewInterestTypesComponent,
     ViewFollowUpTypesComponent,
+    ViewFeeRangesComponent,
+    AddFeeRangesComponent,
     ViewAuthorityOfficesComponent,
     ViewPhoneTypesComponent,
     ViewAddressTypesComponent,
@@ -388,8 +397,11 @@ import { interestTypeReducer } from './store/interest-types/interest-types.reduc
     EffectsModule.forFeature([ClientOfficerTypesEffects]),
     StoreModule.forFeature('followupTypes', followupTypesReducer),
     EffectsModule.forFeature([FollowupTypesEffects]),
-        StoreModule.forFeature('interestTypes', interestTypeReducer),
-    EffectsModule.forFeature([FollowupTypesEffects]),
+    StoreModule.forFeature('interestTypes', interestTypeReducer),
+    EffectsModule.forFeature([InterestTypesEffects]),
+    StoreModule.forFeature('feeRanges', feeRangesReducer),
+    EffectsModule.forFeature([FeeRangesEffects]),
+
   ],
   exports: [
     AddMandateStatusesComponent,
@@ -410,6 +422,7 @@ import { interestTypeReducer } from './store/interest-types/interest-types.reduc
     AddBusinessLinesComponent,
     AddAssetTypesComponent,
     AddAssetTypeCategoriesComponent,
+
     AddProductsComponent,
     AddSectorsComponent,
     AddSMEClientCodesComponent,

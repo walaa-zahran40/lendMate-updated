@@ -1,0 +1,41 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'FeeRanges'"
+    [labelBtn]="'Add FeeRange'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddFeeRange()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="feeRanges$ | async as feeRanges">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredFeeRanges"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewFeeRangesTable]="true"
+      (onDelete)="onDeleteFeeRange($event)"
+      (onEdit)="onEditFeeRange($event)"
+      (viewForm)="onViewFeeRange($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

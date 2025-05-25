@@ -610,6 +610,16 @@
       (click)="viewFeesTypes()"
       class="custom-view m-0 float-right"
     />
+
+       <p-button
+      *ngIf="addFeeRangesForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Fees Ranges"
+      (click)="viewFeesRnages()"
+      class="custom-view m-0 float-right"
+    />
+
     <p-button
       *ngIf="addGracePeriodUnitsLookupsForm"
       icon="pi pi-cog"
@@ -2522,6 +2532,7 @@
       </div>
     </form>
 
+    
     <form
       [formGroup]="formGroup"
       *ngIf="addAuthorityOfficesLookupsForm"
@@ -9258,36 +9269,6 @@
       </div>
     </form>
 
-    <form action="" *ngIf="addFeesRangesLookupsForm">
-      <label for="codeMeetingTypesCommunication">Code<sup>*</sup></label>
-      <input
-        pInputText
-        id="codeMeetingTypesCommunication"
-        aria-describedby="codeMeetingTypesCommunication-help"
-        name="codeMeetingTypesCommunication"
-        placeholder="342425"
-      />
-      <label for="nameInEnglishMeetingTypesCommunication"
-        >Name in English<sup>*</sup></label
-      >
-      <input
-        pInputText
-        id="nameInEnglishMeetingTypesCommunication"
-        aria-describedby="nameInEnglishMeetingTypesCommunication-help"
-        name="nameInEnglishMeetingTypesCommunication"
-        placeholder="Enter Name"
-      />
-      <label for="nameInArabicMeetingTypesCommunication"
-        >Name in Arabic<sup>*</sup></label
-      >
-      <input
-        pInputText
-        id="nameInArabicMeetingTypesCommunication"
-        aria-describedby="nameInArabicMeetingTypesCommunication-help"
-        name="nameInArabicMeetingTypesCommunication"
-        placeholder="Enter Name"
-      />
-    </form>
     <form
       [formGroup]="formGroup"
       *ngIf="addMandateStatusesLookupsForm"
@@ -9552,6 +9533,179 @@
         </div>
       </div>
     </form>
+
+
+    
+    <form
+      [formGroup]="formGroup"
+      *ngIf="addFeeRangesForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <!-- Name in English -->
+      <label for="name">Name in English<sup>*</sup></label>
+      <input
+        pInputText
+        id="name"
+        formControlName="name"
+        placeholder="Enter Name in English"
+      />
+      <div
+        *ngIf="
+          formGroup.get('name')?.hasError('required') &&
+          formGroup.get('name')?.touched
+        "
+        class="p-error"
+      >
+        Name in English is required.
+      </div>
+
+      <!-- Name in Arabic -->
+      <label for="nameAR">Name in Arabic<sup>*</sup></label>
+      <input
+        pInputText
+        id="nameAR"
+        formControlName="nameAR"
+        placeholder="Enter Name in Arabic"
+      />
+      <div
+        *ngIf="
+          formGroup.get('nameAR')?.hasError('required') &&
+          formGroup.get('nameAR')?.touched
+        "
+        class="p-error"
+      >
+        Name in Arabic is required.
+      </div>
+      <div
+        *ngIf="
+          formGroup.get('nameAR')?.hasError('pattern') &&
+          formGroup.get('nameAR')?.touched
+        "
+        class="p-error"
+      >
+        Please enter only Arabic letters.
+      </div>
+
+      <label for="feeCalculationTypeId"
+        >Select Asset Type Category<sup class="danger">*</sup></label
+      >
+      <!--Select Box-->
+      <p-select
+        [options]="feeCalculationTypes"
+        optionLabel="name"
+        placeholder="Select fee calculation type"
+        formControlName="feeCalculationTypeId"
+        optionValue="id"
+        (onChange)="onSectorChange($event)"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('feeCalculationTypeId')?.invalid &&
+            (formGroup.get('feeCalculationTypeId')?.dirty ||
+              formGroup.get('feeCalculationTypeId')?.touched)
+        }"
+      >
+      </p-select>
+
+      <div
+        *ngIf="
+          formGroup.get('feeCalculationTypeId')?.hasError('required') &&
+          formGroup.get('feeCalculationTypeId')?.touched
+        "
+        class="p-error"
+      >
+        Asset Type Category is required.
+      </div>
+
+      <!-- Description -->
+      <label for="description">Description<sup>*</sup></label>
+      <div>
+        <textarea
+          pInputText
+          id="description"
+          formControlName="description"
+          placeholder="Enter Description"
+        ></textarea>
+      </div>
+      <!-- Arabic Description -->
+      <label for="descriptionAR">Arabic Description<sup>*</sup></label>
+      <div>
+        <textarea
+          pInputText
+          id="descriptionAR"
+          formControlName="descriptionAR"
+          placeholder="Enter Arabic Description"
+        ></textarea>
+      </div>
+
+      <label for="defaultAmount">Default Amount<sup>*</sup></label>
+      <div>
+        <!-- Default Amount -->
+        <input
+          pInputText
+          id="defaultAmount"
+          aria-describedby="defaultAmount-help"
+          name="defaultAmount"
+          formControlName="defaultAmount"
+          placeholder="Enter Default Amount"
+        />
+      </div>
+
+      <label for="defaultPrecentage">Default Percentage<sup>*</sup></label>
+      <div>
+        <!-- Default Percentage -->
+        <input
+          pInputText
+          id="defaultPrecentage"
+          aria-describedby="defaultPrecentage-help"
+          name="defaultPrecentage"
+          formControlName="defaultPrecentage"
+          placeholder="Enter Default Percentage"
+        />
+      </div>
+      <div class="p-field" for="isActive" *ngIf="editMode">
+        <p-toggleSwitch
+          id="isActive"
+          formControlName="isActive"
+          label="is Active"
+        ></p-toggleSwitch>
+        <label for="isActive"> Active</label>
+      </div>
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 businesslineDiv"
+          *ngIf="!editMode"
+        >
+          <p-button
+            type="submit"
+            label="Add Fee Range"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Fee Range"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate(['/lookups/view-fee-ranges'])"
+          />
+        </div>
+      </div>
+    </form>
+
 
     <form
       [formGroup]="formGroup"

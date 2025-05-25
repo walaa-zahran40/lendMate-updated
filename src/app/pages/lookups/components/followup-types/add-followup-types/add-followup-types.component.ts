@@ -131,8 +131,7 @@ export class AddFollowupTypesComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
-    console.log('🧭 Navigating away to view-address-types');
 
-    this.router.navigate(['/lookups/view-address-types']);
+    this.router.navigate(['/lookups/view-followup-types']);
   }
 }

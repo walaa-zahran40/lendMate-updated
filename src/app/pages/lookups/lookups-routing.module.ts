@@ -88,6 +88,8 @@ import { AddClientOfficerTypesComponent } from './components/client-officer-type
 import { ViewClientOfficerTypesComponent } from './components/client-officer-types/view-client-officer-types/view-client-officer-types.component';
 import { AddFollowupTypesComponent } from './components/followup-types/add-followup-types/add-followup-types.component';
 import { ViewFollowUpTypesComponent } from './components/followup-types/view-followup-types/view-followup-types.component';
+import { AddInterestTypesComponent } from './components/interestType-types/add-interest-types/add-interest-types.component';
+import { ViewInterestTypesComponent } from './components/interestType-types/view-interest-types/view-interest-types.component';
 
 const routes: Routes = [
   /**Lookup Module */
@@ -108,6 +110,22 @@ const routes: Routes = [
   },
 
 
+   //Interest Types
+  {
+    path: 'add-interest-types',
+    component: AddInterestTypesComponent,
+  },
+  {
+    path: 'edit-interest-types/:id',
+    component: AddInterestTypesComponent,
+  },
+  {
+    path: 'view-interest-types',
+    component: ViewInterestTypesComponent,
+  },
+
+
+ 
 
   //Company Types
   {
