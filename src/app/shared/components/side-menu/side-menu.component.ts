@@ -756,7 +756,7 @@ export class SideMenuComponent {
           {
             label: 'FollowUp Types',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-Governorates',
+            routerLink: '/lookups/view-followup-types',
           },
           {
             label: 'Governorates',

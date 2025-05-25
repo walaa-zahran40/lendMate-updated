@@ -178,6 +178,8 @@ import { clientStatusesReducer } from './store/client-statuses/client-statuses.r
 import { AddClientOfficerTypesComponent } from './components/client-officer-types/add-client-officer-types/add-client-officer-types.component';
 import { ViewClientOfficerTypesComponent } from './components/client-officer-types/view-client-officer-types/view-client-officer-types.component';
 import { ClientOfficerTypesEffects } from './store/client-officer-types/client-officer-types.effects';
+import { followUpTypesReducer } from './store/followup-types/followup-types.reducer';
+import { FollowupTypesEffects } from './store/followup-types/followup-types.effects';
 
 @NgModule({
   declarations: [
@@ -296,6 +298,8 @@ import { ClientOfficerTypesEffects } from './store/client-officer-types/client-o
     EffectsModule.forFeature([BusinessLinesEffects]),
     StoreModule.forFeature('clientTypes', clientTypesReducer),
     EffectsModule.forFeature([ClientTypesEffects]),
+     StoreModule.forFeature('followupTypes', followUpTypesReducer),
+        EffectsModule.forFeature([FollowupTypesEffects]),
     StoreModule.forFeature(
       'communicationFlowTypes',
       communicationFlowTypesReducer

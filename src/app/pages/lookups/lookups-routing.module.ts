@@ -86,6 +86,8 @@ import { WizardClientStatusComponent } from './components/client-statuses/wizard
 import { AddClientStatusActionsComponent } from './components/client-statuses/add-client-status-action/add-client-status-actions.component';
 import { AddClientOfficerTypesComponent } from './components/client-officer-types/add-client-officer-types/add-client-officer-types.component';
 import { ViewClientOfficerTypesComponent } from './components/client-officer-types/view-client-officer-types/view-client-officer-types.component';
+import { ViewFollowUpTypesComponent } from './components/followup-types/view-followup-types/view-followup-types.component';
+import { AddFollowupTypesComponent } from './components/followup-types/add-followup-types/add-followup-types.component';
 
 const routes: Routes = [
   /**Lookup Module */
@@ -346,6 +348,20 @@ const routes: Routes = [
     component: ViewFeeTypesComponent,
   },
 
+    //Follow Types
+    {
+      path: 'add-followup-types',
+      component: AddFollowupTypesComponent,
+    },
+    {
+      path: 'edit-followup-types/:id',
+      component: AddFollowupTypesComponent,
+    },
+  
+    {
+      path: 'view-followup-types',
+      component: ViewFollowUpTypesComponent,
+    },
   //Call Types
   {
     path: 'add-call-types',

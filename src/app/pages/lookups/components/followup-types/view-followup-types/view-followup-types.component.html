@@ -1,0 +1,39 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Followup Types'"
+    [labelBtn]="'Add Followup Type'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddFollowupType()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredFollowupTypes"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewFollowUpsCommunicationTable]="true"
+      (onDelete)="onDeleteFollowupType($event)"
+      (onEdit)="onEditFollowupType($event)"
+      (viewForm)="onViewFollowupType($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+</div>
