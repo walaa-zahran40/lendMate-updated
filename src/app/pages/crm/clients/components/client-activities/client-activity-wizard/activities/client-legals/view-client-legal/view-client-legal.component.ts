@@ -7,9 +7,12 @@ import { ClientLegal } from '../../../../../../store/client-legals/client-legal.
 import { ClientLegalsFacade } from '../../../../../../store/client-legals/client-legals.facade';
 import { LegalForm } from '../../../../../../../../legals/store/legal-forms/legal-form.model';
 import { LegalFormLaw } from '../../../../../../../../legals/store/legal-form-laws/legal-form-law.model';
-import { loadLegalForm, loadLegalForms } from '../../../../../../../../legals/store/legal-forms/legal-forms.actions';
+import {
+  loadLegalForm,
+  loadLegalForms,
+} from '../../../../../../../../legals/store/legal-forms/legal-forms.actions';
 import { selectLegalForms } from '../../../../../../../../legals/store/legal-forms/legal-forms.selectors';
-import { loadLegalFormLaws } from '../../../../../../store/legal-form-law/legal-form-law.actions';
+import { loadLegalFormLaws } from '../../../../../../../../legals/store/legal-form-law/legal-form-law.actions';
 import { selectLegalFormLaws } from '../../../../../../../../legals/store/legal-form-laws/legal-form-laws.selectors';
 
 @Component({
@@ -62,7 +65,7 @@ export class ViewClientLegalsComponent {
     combineLatest([
       this.clientLegals$,
       this.legalFormsList$,
-      this.legalFormLawsList$ 
+      this.legalFormLawsList$,
     ])
       .pipe(
         map(([clientLegals, legalFormsList, legalFormLawsList]) =>
@@ -70,11 +73,12 @@ export class ViewClientLegalsComponent {
             .map((clientLegal) => ({
               ...clientLegal,
               legalForm:
-                legalFormsList.find((c) => c.id === clientLegal.legalFormId)?.name ||
-                '—',
+                legalFormsList.find((c) => c.id === clientLegal.legalFormId)
+                  ?.name || '—',
               legalFormLaw:
-                legalFormLawsList.find((c) => c.id === clientLegal.legalFormLawId)?.name ||
-                '—',
+                legalFormLawsList.find(
+                  (c) => c.id === clientLegal.legalFormLawId
+                )?.name || '—',
             }))
             .filter((clientLegal) => clientLegal.isActive)
             .sort((a, b) => b.id - a.id)
@@ -142,15 +146,12 @@ export class ViewClientLegalsComponent {
     this.showFilters = value;
   }
   onEditLegal(clientLegal: ClientLegal) {
-    this.router.navigate(
-      ['/crm/clients/edit-client-legals', clientLegal.id],
-      {
-        queryParams: {
-          mode: 'edit',
-          clientId: this.clientIdParam, // <-- use "currencyId" here
-        },
-      }
-    );
+    this.router.navigate(['/crm/clients/edit-client-legals', clientLegal.id], {
+      queryParams: {
+        mode: 'edit',
+        clientId: this.clientIdParam, // <-- use "currencyId" here
+      },
+    });
   }
   onViewLegal(ct: ClientLegal) {
     this.router.navigate(['/crm/clients/edit-client-legals', ct.id], {

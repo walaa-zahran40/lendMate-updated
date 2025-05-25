@@ -14,11 +14,11 @@ import { Observable, filter, take, map, tap } from 'rxjs';
 import { SubSectors } from '../../../../../../../shared/interfaces/sub-sector.interface';
 import { Sector } from '../../../../../../lookups/store/sectors/sector.model';
 import { ClientIdentityTypesFacade } from '../../../../store/client-identity-types/client-identity-types.facade';
-import { selectAllSubSectors } from '../../../../store/sub-sector-drop-down/sub-sector.selectors';
 import { ClientsOnboardingFacade } from '../../../../store/_client-onboarding/allclients/clients-onboarding.facade';
 import { IndividualOnboardingsFacade } from '../../../../store/_client-onboarding/individuals/individuals-onboarding.facade';
 import { ClientOnboarding } from '../../../../store/_client-onboarding/allclients/client-onboarding.model';
 import { IndividualOnboarding } from '../../../../store/_client-onboarding/individuals/individual-onboarding.model';
+import { selectAllSubSectors } from '../../../../../../lookups/store/sub-sector-drop-down/sub-sector.selectors';
 
 @Component({
   selector: 'app-add-client-onboarding',

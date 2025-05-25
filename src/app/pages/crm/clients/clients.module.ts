@@ -13,12 +13,8 @@ import { ClientAddressesEffects } from './store/client-addresses/client-addresse
 import { clientAddressesReducer } from './store/client-addresses/client-addresses.reducer';
 import { ClientSalesTurnoversEffects } from './store/client-sales-turnovers/client-sales-turnovers.effects';
 import { clientSalesTurnoverReducer } from './store/client-sales-turnovers/client-sales-turnovers.reducer';
-import { LegalFormLawEffects } from './store/legal-form-law/legal-form-law.effects';
-import { legalFormLawReducer } from './store/legal-form-law/legal-form-law.reducer';
-import { SectorEffects } from './store/sector-drop-down/sector.effects';
-import { sectorReducer } from './store/sector-drop-down/sector.reducer';
-import { SubSectorEffects } from './store/sub-sector-drop-down/sub-sector.effects';
-import { subSectorReducer } from './store/sub-sector-drop-down/sub-sector.reducer';
+import { LegalFormLawEffects } from '../../legals/store/legal-form-law/legal-form-law.effects';
+import { legalFormLawReducer } from '../../legals/store/legal-form-law/legal-form-law.reducer';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -93,6 +89,10 @@ import { clientLegalsReducer } from './store/client-legals/client-legals.reducer
 import { ClientLegalsEffects } from './store/client-legals/client-legals.effects';
 import { clientIdentityReducer } from './store/client-identities/client-identities.reducer';
 import { ClientIdentitiesEffects } from './store/client-identities/client-identities.effects';
+import { sectorReducer } from '../../lookups/store/sector-drop-down/sector.reducer';
+import { SectorEffects } from '../../lookups/store/sector-drop-down/sector.effects';
+import { subSectorReducer } from '../../lookups/store/sub-sector-drop-down/sub-sector.reducer';
+import { SubSectorEffects } from '../../lookups/store/sub-sector-drop-down/sub-sector.effects';
 @NgModule({
   declarations: [
     AddClientComponent,

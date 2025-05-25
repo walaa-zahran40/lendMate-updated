@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as LegalFormLawActions from './legal-form-law.actions';
 import * as LegalFormLawSelectors from './legal-form-law.selectors';
-import { LegalFormLaw } from '../../../../../shared/interfaces/legal-form-law.interface';
+import { LegalFormLaw } from '../../../../shared/interfaces/legal-form-law.interface';
 
 @Injectable({
   providedIn: 'root',

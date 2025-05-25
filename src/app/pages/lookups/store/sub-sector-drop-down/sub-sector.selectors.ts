@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { SubSectors } from '../../../../../shared/interfaces/sub-sector.interface';
 import { SubSectorState } from './sub-sector.state';
+import { SubSectors } from '../../../../shared/interfaces/sub-sector.interface';
 
 // Select the entire feature state registered as 'subSector'
 export const selectSubSectorFeature =
