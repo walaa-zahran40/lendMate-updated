@@ -1,5 +1,6 @@
 export enum EntityNames {
   AssetType = 'AssetType',
+  FollowupType = 'FollowupType',
   Team = 'Team',
   SalesTurnover = 'SalesTurnover',
   AssetTypeCategory = 'AssetTypeCategory',
