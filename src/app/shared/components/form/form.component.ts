@@ -513,6 +513,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addAuthorityOfficesLookupsForm!: boolean;
   @Input() addPhoneTypesLookupsForm!: boolean;
   @Input() addAddressTypesLookupsForm!: boolean;
+  @Input() addAuthorizationGroupsLookupsForm!: boolean;
   @Input() addSalesTurnoverForm!: boolean;
   @Input() addGovernoratesLookupsForm!: boolean;
   @Input() addCountriesLookupsForm!: boolean;
@@ -958,6 +959,9 @@ export class FormComponent implements OnInit, OnDestroy {
   }
   viewAddressTypes() {
     this.router.navigate(['/lookups/view-address-types']);
+  }
+  viewAuthorizationGroups() {
+    this.router.navigate(['/lookups/view-authorization-groups']);
   }
   viewGovernorates() {
     this.router.navigate(['/lookups/view-governorates']);

@@ -1,0 +1,41 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Authorization Groups'"
+    [labelBtn]="'Add Authorization Group'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddAuthorizationGroup()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="authorizationGroups$ | async as authorizationGroups">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredAuthorizationGroups"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewauthorizationGroupsTable]="true"
+      (onDelete)="onDeleteAuthorizationGroup($event)"
+      (onEdit)="onEditAuthorizationGroup($event)"
+      (viewForm)="onViewAuthorizationGroup($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

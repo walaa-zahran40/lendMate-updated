@@ -86,6 +86,8 @@ import { WizardClientStatusComponent } from './components/client-statuses/wizard
 import { AddClientStatusActionsComponent } from './components/client-statuses/add-client-status-action/add-client-status-actions.component';
 import { AddClientOfficerTypesComponent } from './components/client-officer-types/add-client-officer-types/add-client-officer-types.component';
 import { ViewClientOfficerTypesComponent } from './components/client-officer-types/view-client-officer-types/view-client-officer-types.component';
+import { AddAuthorizationGroupsComponent } from './components/authorization-groups/add-authorization-groups/add-authorization-groups.component';
+import { ViewAuthorizationGroupsComponent } from './components/authorization-groups/view-authorization-groups/view-authorization-groups.component';
 
 const routes: Routes = [
   /**Lookup Module */
@@ -718,6 +720,19 @@ const routes: Routes = [
   {
     path: 'view-tml-officer-types',
     component: ViewTmlOfficerTypesComponent,
+  },
+  //Address Types
+  {
+    path: 'add-authorization-groups',
+    component: AddAuthorizationGroupsComponent,
+  },
+  {
+    path: 'edit-authorization-groups/:id',
+    component: AddAuthorizationGroupsComponent,
+  },
+  {
+    path: 'view-authorization-groups',
+    component: ViewAuthorizationGroupsComponent,
   },
 ];
 

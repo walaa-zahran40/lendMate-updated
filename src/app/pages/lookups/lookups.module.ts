@@ -178,6 +178,10 @@ import { clientStatusesReducer } from './store/client-statuses/client-statuses.r
 import { AddClientOfficerTypesComponent } from './components/client-officer-types/add-client-officer-types/add-client-officer-types.component';
 import { ViewClientOfficerTypesComponent } from './components/client-officer-types/view-client-officer-types/view-client-officer-types.component';
 import { ClientOfficerTypesEffects } from './store/client-officer-types/client-officer-types.effects';
+import { AddAuthorizationGroupsComponent } from './components/authorization-groups/add-authorization-groups/add-authorization-groups.component';
+import { ViewAuthorizationGroupsComponent } from './components/authorization-groups/view-authorization-groups/view-authorization-groups.component';
+import { AuthorizationGroupsEffects } from './store/authorization-groups/authorization-groups.effects';
+import { reducer as authorizationGroupsReducer } from './store/authorization-groups/authorization-groups.reducer';
 
 @NgModule({
   declarations: [
@@ -269,6 +273,8 @@ import { ClientOfficerTypesEffects } from './store/client-officer-types/client-o
     ViewCommunicationFlowTypeComponent,
     ViewWorkFlowActionTypesComponent,
     ViewProductsComponent,
+    AddAuthorizationGroupsComponent,
+    ViewAuthorizationGroupsComponent
   ],
   imports: [
     CommonModule,
@@ -374,6 +380,8 @@ import { ClientOfficerTypesEffects } from './store/client-officer-types/client-o
     EffectsModule.forFeature([ClientStatusActionsEffects]),
     StoreModule.forFeature('clientOfficerTypes', clientOfficerTypesReducer),
     EffectsModule.forFeature([ClientOfficerTypesEffects]),
+    StoreModule.forFeature('authorizationGroups', authorizationGroupsReducer),
+    EffectsModule.forFeature([AuthorizationGroupsEffects]),
   ],
   exports: [
     AddMandateStatusesComponent,
@@ -414,6 +422,7 @@ import { ClientOfficerTypesEffects } from './store/client-officer-types/client-o
     AddCurrenciesExchangeComponent,
     ViewSMEClientCodesComponent,
     ViewClientOfficerTypesComponent,
+    AddAuthorizationGroupsComponent
   ],
 })
 export class LookupsModule {}

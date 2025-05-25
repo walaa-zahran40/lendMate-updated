@@ -893,6 +893,11 @@ export class SideMenuComponent {
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-workflow-action-types',
           },
+          {
+            label: 'Authorization Group',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-authorization-groups',
+          },
         ],
       },
     ],
