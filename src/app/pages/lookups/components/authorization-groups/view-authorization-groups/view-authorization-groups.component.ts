@@ -29,7 +29,10 @@ export class ViewAuthorizationGroupsComponent {
   filteredAuthorizationGroups: AuthorizationGroup[] = [];
   authorizationGroups$!: Observable<AuthorizationGroup[]>;
 
-  constructor(private router: Router, private facade: AuthorizationGroupsFacade) {}
+  constructor(
+    private router: Router,
+    private facade: AuthorizationGroupsFacade
+  ) {}
   ngOnInit() {
     this.facade.loadAll();
     this.facade.operationSuccess$
@@ -40,12 +43,14 @@ export class ViewAuthorizationGroupsComponent {
       .subscribe(() => this.facade.loadAll());
     this.authorizationGroups$ = this.facade.all$;
 
-    this.authorizationGroups$?.pipe(takeUntil(this.destroy$))?.subscribe((address) => {
-      const activeCodes = address.filter((code) => code.isActive);
-      const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
-      this.originalAuthorizationGroups = sorted;
-      this.filteredAuthorizationGroups = [...sorted];
-    });
+    this.authorizationGroups$
+      ?.pipe(takeUntil(this.destroy$))
+      ?.subscribe((address) => {
+        const activeCodes = address.filter((code) => code.isActive);
+        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
+        this.originalAuthorizationGroups = sorted;
+        this.filteredAuthorizationGroups = [...sorted];
+      });
   }
 
   onAddAuthorizationGroup() {
@@ -100,9 +105,12 @@ export class ViewAuthorizationGroupsComponent {
     this.showFilters = value;
   }
   onEditAuthorizationGroup(authorizationGroup: AuthorizationGroup) {
-    this.router.navigate(['/lookups/edit-authorization-groups', authorizationGroup.id], {
-      queryParams: { mode: 'edit' },
-    });
+    this.router.navigate(
+      ['/lookups/edit-authorization-groups', authorizationGroup.id],
+      {
+        queryParams: { mode: 'edit' },
+      }
+    );
   }
   onViewAuthorizationGroup(ct: AuthorizationGroup) {
     this.router.navigate(['/lookups/edit-authorization-groups', ct.id], {

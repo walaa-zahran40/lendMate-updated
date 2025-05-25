@@ -79,7 +79,7 @@ export class TableComponent {
   @Input() viewContactPersonsTable!: boolean;
   @Input() viewAssestTypeTable!: boolean;
   @Input() viewGuarantorTable!: boolean;
-
+  @Input() viewauthorizationGroupsTable!: boolean;
   @Input() viewCalculationsTable!: boolean;
   @Input() viewManageMandateTermsTable!: boolean;
   @Input() viewClientTypesTable!: boolean;

@@ -674,7 +674,7 @@ export class SideMenuComponent {
           {
             label: 'Authorization Groups',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-authority-offices',
+            routerLink: '/lookups/view-authorization-groups',
           },
           {
             label: 'Business Lines',
@@ -892,11 +892,6 @@ export class SideMenuComponent {
             label: 'Workflow Action Types',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-workflow-action-types',
-          },
-          {
-            label: 'Authorization Group',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-authorization-groups',
           },
         ],
       },
