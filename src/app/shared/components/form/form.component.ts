@@ -64,6 +64,8 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() identityTypeOptions!: IdentificationType[];
   @Output() addPhoneType = new EventEmitter<void>();
   @Output() removePhoneType = new EventEmitter<number>();
+  @Output() addOfficer = new EventEmitter<void>();
+  @Output() removeOfficer = new EventEmitter<number>();
 
   id!: string;
   @Input() applyReusable: boolean = false;
@@ -256,16 +258,18 @@ export class FormComponent implements OnInit, OnDestroy {
   shareHolderTypes!: any;
   officerNames!: any;
   officerTypes!: any;
-  clientNames!: any;
+  @Input() clientNames!: any;
+  @Input() validityUnits!: any;
+  @Input() products!: any;
+  @Input() leasingTypes!: any;
+  @Input() insuredBy!: any;
+  @Input() officers!: any;
   selectedClientNames!: any;
   selectedMandateValidityUnit!: any;
-  products!: any;
   selectedProducts!: any;
   exchangeRateCurrencies!: any;
   selectedExchangeRateCurrencies!: any;
-  insuredBy!: any;
   selectedInsuredBy!: any;
-  leasingTypes!: any;
   selectedLeasingTypes!: any;
   actions!: any;
   selectedActions!: any;
@@ -324,20 +328,6 @@ export class FormComponent implements OnInit, OnDestroy {
   size: any = true;
   size1: any = true;
 
-  officers: any[] = [
-    {
-      name: 'Is Responsible',
-      key: 'IR',
-      description:
-        'Is responsible to hold and run the meeting with other team members',
-    },
-    {
-      name: 'Must Attend',
-      key: 'MA',
-      description:
-        'Must attend to hold and run the meeting with other team members',
-    },
-  ];
   roles: any[] = [
     {
       name: 'Active',
@@ -640,7 +630,9 @@ export class FormComponent implements OnInit, OnDestroy {
   get identities(): FormArray {
     return this.formGroup.get('identities') as FormArray;
   }
-
+  get mandateOfficers(): FormArray {
+    return this.formGroup.get('mandateOfficers') as FormArray;
+  }
   onSectorChange(event: any) {
     const selectedId = event.value;
     this.sectorsSafe$
@@ -856,7 +848,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-followup-types']);
   }
   viewOfficers() {
-    this.router.navigate(['/crm/clients/view-officers']);
+    this.router.navigate(['/organizations/view-officers']);
   }
   viewContactPersons() {
     this.router.navigate(['/crm/clients/view-contact-persons']);

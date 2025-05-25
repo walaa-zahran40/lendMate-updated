@@ -1,7 +1,11 @@
 <app-toolbar-form
-  [header]="'Add a Mandate'"
-  [backExists]="false"
+  [backExists]="true"
+  [backIcon]="'back-icon'"
   [viewOnly]="false"
+  [header]="
+    viewOnly ? 'View Mandates' : editMode ? 'Edit Mandate' : 'Add Mandate'
+  "
+  [viewOnly]="editMode ? true : false"
 ></app-toolbar-form>
 <p-tabs value="0" styleClass="p-3">
   <p-tabpanels>
@@ -12,24 +16,44 @@
           'Introduce your company core info quickly to users by fill up company details'
         "
         [addMandateShowBasicForm]="true"
+        [formGroup]="addMandateShowBasicForm"
+        [editMode]="editMode"
+        [viewOnly]="viewOnly"
+        [clientNames]="clientNames$ | async"
+        [validityUnits]="validityUnits$ | async"
+        [products]="products$ | async"
+        [leasingTypes]="leasingTypes$ | async"
+        [insuredBy]="insuredBy$ | async"
       ></app-form>
       <hr />
       <app-form
         [title]="'Officers'"
         [description]="'This information will be displayed publicly'"
         [addMandateShowOfficersForm]="true"
+        [formGroup]="addMandateShowOfficersForm"
+        [editMode]="editMode"
+        [viewOnly]="viewOnly"
+        [officers]="officers$ | async"
+        (removeOfficer)="removeOfficer($event)"
+        (addOfficer)="addOfficer()"
       ></app-form>
       <hr />
       <app-form
         [title]="'Contact Persons'"
         [description]="'This information will be displayed publicly'"
         [addMandateShowContactPersonsForm]="true"
+        [formGroup]="addMandateShowContactPersonsForm"
+        [editMode]="editMode"
+        [viewOnly]="viewOnly"
       ></app-form>
       <hr />
       <app-form
         [title]="'Assest Type'"
         [description]="'This information will be displayed publicly'"
         [addMandateShowAssetTypeForm]="true"
+        [formGroup]="addMandateShowAssetTypeForm"
+        [editMode]="editMode"
+        [viewOnly]="viewOnly"
       ></app-form>
       <hr />
       <app-form
@@ -38,18 +62,10 @@
           'Introduce your company core info quickly to users by fill up company details'
         "
         [addMandateShowMoreInformationForm]="true"
+        [formGroup]="addMandateShowMoreInformationForm"
+        [editMode]="editMode"
+        [viewOnly]="viewOnly"
       ></app-form>
-      <div class="row justify-end">
-        <div
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
-          (click)="saveInfo()"
-        >
-          <p-button
-            label="Save Information"
-            class="custom-save m-0 float-right"
-          />
-        </div>
-      </div>
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>

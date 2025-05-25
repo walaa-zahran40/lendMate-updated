@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CrmRoutingModule } from '../crm-routing.module';
-import { AddMandateComponent } from './components/mandate/add-mandate/add-mandate.component';
+import { AddMandateComponent } from './components/leasing-mandates/add-mandate/add-mandate.component';
 import { AddChildMandateComponent } from './components/mandate-activities/add-child-mandate/add-child-mandate.component';
 import { AddManageMandateTermsComponent } from './components/mandate-activities/add-manage-mandate-terms/add-manage-mandate-terms.component';
 import { LeasingFinancialFormComponent } from './components/leasing-financial-form/leasing-financial-form.component';

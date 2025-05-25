@@ -7434,129 +7434,180 @@
       </div>
     </form>
     <!--Forms Mandate Journey-->
-    <form action="" *ngIf="addMandateShowBasicForm">
+    <form
+      [formGroup]="formGroup"
+      (ngSubmit)="onSubmit()"
+      *ngIf="addMandateShowBasicForm"
+    >
       <label for="clientNameAddMandateBasic">Client Name<sup>*</sup></label>
-      <p-multiselect
+      <p-select
         [options]="clientNames"
-        [(ngModel)]="selectedClientNames"
+        formControlName="clientId"
         placeholder="Select Client Name"
         optionLabel="name"
-        display="chip"
-        icon="pi pi-times"
+        optionValue="id"
         name="clientNameAddMandateBasic"
         styleClass="w-full md:w-80"
-        [maxSelectedLabels]="999"
-        chipIcon="pi pi-times"
       />
+      <div
+        *ngIf="
+          formGroup.get('clientId')?.hasError('required') &&
+          formGroup.get('clientId')?.touched
+        "
+        class="p-error"
+      >
+        Client is required.
+      </div>
       <label for="validityUnitAddMandateBasic"
         >Mandate Validity Unit<sup>*</sup></label
       >
-      <p-multiselect
-        [options]="sectors"
-        [(ngModel)]="selectedMandateValidityUnit"
+      <p-select
+        [options]="validityUnits"
+        formControlName="validityUnitId"
         placeholder="Select Mandate Validity Unit"
         optionLabel="name"
-        display="chip"
-        icon="pi pi-times"
         name="validityUnitAddMandateBasic"
         styleClass="w-full md:w-80"
-        [maxSelectedLabels]="999"
-        chipIcon="pi pi-times"
+        optionValue="id"
       />
+      <div
+        *ngIf="
+          formGroup.get('validityUnitId')?.hasError('required') &&
+          formGroup.get('validityUnitId')?.touched
+        "
+        class="p-error"
+      >
+        Mandate Validity Unit is required.
+      </div>
       <label for="productAddMandateBasic">Product<sup>*</sup></label>
-      <p-multiselect
+      <p-select
         [options]="products"
-        [(ngModel)]="selectedProducts"
-        placeholder="Select Phone Types"
+        formControlName="productId"
+        placeholder="Select Product"
         optionLabel="name"
-        display="chip"
-        icon="pi pi-times"
+        optionValue="id"
         name="productAddMandateBasic"
         styleClass="w-full md:w-80"
-        [maxSelectedLabels]="999"
-        chipIcon="pi pi-times"
       />
-      <label for="leasingTypesAddMandateBasic">Leasing Types<sup>*</sup></label>
-      <p-multiselect
+      <div
+        *ngIf="
+          formGroup.get('productId')?.hasError('required') &&
+          formGroup.get('productId')?.touched
+        "
+        class="p-error"
+      >
+        Product is required.
+      </div>
+      <label for="leasingTypesAddMandateBasic">Leasing Type<sup>*</sup></label>
+      <p-select
         [options]="leasingTypes"
-        [(ngModel)]="selectedLeasingTypes"
+        formControlName="leasingTypeId"
         placeholder="Select Leasing Types"
         optionLabel="name"
-        display="chip"
-        icon="pi pi-times"
         name="leasingTypesAddMandateBasic"
         styleClass="w-full md:w-80"
-        [maxSelectedLabels]="999"
-        chipIcon="pi pi-times"
+        optionValue="id"
       />
+      <div
+        *ngIf="
+          formGroup.get('leasingTypeId')?.hasError('required') &&
+          formGroup.get('leasingTypeId')?.touched
+        "
+        class="p-error"
+      >
+        Leasing Type is required.
+      </div>
       <label for="insuredByAddMandateBasic">Insured By<sup>*</sup></label>
-      <p-multiselect
+      <p-select
         [options]="insuredBy"
-        [(ngModel)]="selectedInsuredBy"
+        formControlName="insuredById"
         placeholder="Select Insured By"
         optionLabel="name"
-        display="chip"
-        icon="pi pi-times"
+        optionValue="id"
         name="insuredByAddMandateBasic"
         styleClass="w-full md:w-80"
-        [maxSelectedLabels]="999"
-        chipIcon="pi pi-times"
       />
+      <div
+        *ngIf="
+          formGroup.get('insuredById')?.hasError('required') &&
+          formGroup.get('insuredById')?.touched
+        "
+        class="p-error"
+      >
+        Insured By is required.
+      </div>
     </form>
-    <form action="" *ngIf="addMandateShowOfficersForm" id="mandateOfficersForm">
-      <label for="officerTypeOfficersForm">Officer Type</label>
-      <p-multiselect
-        [options]="officerTypesMandates"
-        [(ngModel)]="selectedOfficerTypesMandate"
-        placeholder="Select Officer Type"
-        optionLabel="name"
-        display="chip"
-        icon="pi pi-times"
-        name="officerTypeOfficersForm"
-        styleClass="w-full md:w-80"
-        [maxSelectedLabels]="999"
-        chipIcon="pi pi-times"
-      />
-      <div class="parent-individual">
-        <div class="div4-individual">
-          <label for="officerNameOfficersForm">Officer Name</label>
-          <input
-            pInputText
-            id="officerNameOfficersForm"
-            aria-describedby="officerNameOfficersForm-help"
-            name="officerNameOfficersForm"
-            placeholder="Mohamed Yasser"
-          />
-        </div>
-        <div class="div2-individual">
-          <label for="actionsOfficersForm">Actions</label>
-          <p-multiselect
-            [options]="actions"
-            [(ngModel)]="selectedActions"
-            placeholder="Select Actions"
-            optionLabel="name"
-            display="chip"
-            icon="pi pi-times"
-            name="actionsOfficersForm"
-            styleClass="w-full md:w-80"
-            [maxSelectedLabels]="999"
-            chipIcon="pi pi-times"
-          />
-        </div>
-        <div class="div3-individual">
-          <p-button icon="custom-icon" severity="danger" class="add-btn" />
+    <form
+      [formGroup]="formGroup"
+      (ngSubmit)="onSubmit()"
+      *ngIf="addMandateShowOfficersForm"
+      id="mandateOfficersForm"
+    >
+      <div formArrayName="mandateOfficers">
+        <div
+          *ngFor="let group of mandateOfficers?.controls; let i = index"
+          [formGroupName]="i"
+          class="parent2-individual2 mt-2 flex items-start gap-4 align-items-center flex-wrap"
+        >
+          <!-- 1) officer Name -->
+          <div class="div-number flex-1 min-w-0">
+            <label for="officerName" class="p-0">
+              Officer Name<sup class="danger">*</sup>
+            </label>
+            <p-select
+              [options]="officers"
+              formControlName="officerName"
+              placeholder="Select Officer"
+              optionLabel="name"
+              optionValue="id"
+              name="officerName"
+              styleClass="w-full md:w-80"
+            />
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('officerName')?.invalid &&
+                group.get('officerName')?.touched
+              "
+            >
+              Officer Name is required.
+            </small>
+          </div>
+          <!-- 4) Add another Officer -->
+          <button
+            style="margin-top: 25px"
+            pButton
+            type="button"
+            icon="pi pi-plus"
+            class="p-button-outlined p-button-sm"
+            (click)="addOfficer.emit()"
+            *ngIf="!viewOnly"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+          ></button>
+
+          <!-- 5) Remove this Officer -->
+          <button
+            pButton
+            style="margin-top: 25px"
+            type="button"
+            icon="pi pi-trash"
+            class="p-button-danger p-button-sm"
+            *ngIf="mandateOfficers.length > 1 && !viewOnly"
+            (click)="removeOfficer.emit(i)"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+          ></button>
         </div>
       </div>
     </form>
     <form
-      action=""
+      [formGroup]="formGroup"
+      (ngSubmit)="onSubmit()"
       *ngIf="addMandateShowContactPersonsForm"
       id="mandateContactPersonsForm"
     >
       <label for="officerTypeOfficersForm">Contact Person Type</label>
       <p-multiselect
         [options]="officerTypesMandates"
-        [(ngModel)]="selectedOfficerTypesMandate"
         placeholder="Select Officer Type"
         optionLabel="name"
         display="chip"
@@ -7581,7 +7632,6 @@
           <label for="actionsOfficersForm">Actions</label>
           <p-multiselect
             [options]="actions"
-            [(ngModel)]="selectedActions"
             placeholder="Select Actions"
             optionLabel="name"
             display="chip"
@@ -7598,14 +7648,14 @@
       </div>
     </form>
     <form
-      action=""
+      [formGroup]="formGroup"
+      (ngSubmit)="onSubmit()"
       *ngIf="addMandateShowAssetTypeForm"
       id="mandateAssetTypeForm"
     >
       <label for="officerTypeOfficersForm">Assest Type</label>
       <p-multiselect
         [options]="officerTypesMandates"
-        [(ngModel)]="selectedOfficerTypesMandate"
         placeholder="Select Officer Type"
         optionLabel="name"
         display="chip"
@@ -7630,7 +7680,6 @@
           <label for="actionsOfficersForm">Actions</label>
           <p-multiselect
             [options]="actions"
-            [(ngModel)]="selectedActions"
             placeholder="Select Actions"
             optionLabel="name"
             display="chip"
@@ -7647,15 +7696,13 @@
       </div>
     </form>
     <form
-      action=""
+      [formGroup]="formGroup"
+      (ngSubmit)="onSubmit()"
       *ngIf="addMandateShowMoreInformationForm"
       id="addMandateShowMoreInformationForm"
     >
       <label for="dateMoreInformationForm">Date <sup>*</sup></label>
-      <shared-date-picker
-        formControlName="dateMoreInformationForm"
-        inputId="dateMoreInformationForm"
-      >
+      <shared-date-picker inputId="dateMoreInformationForm">
       </shared-date-picker>
       <label for="notesMoreInformationForm">Notes</label
       ><textarea
@@ -7663,7 +7710,6 @@
         cols="30"
         pTextarea
         placeholder="Notes"
-        [(ngModel)]="value"
         name="notesMoreInformationForm"
       ></textarea>
 
@@ -7672,7 +7718,6 @@
         rows="5"
         cols="30"
         pTextarea
-        [(ngModel)]="value"
         name="descriptionMoreInformationForm"
         placeholder="Description"
       ></textarea>
@@ -7682,10 +7727,44 @@
         rows="5"
         cols="30"
         pTextarea
-        [(ngModel)]="value"
         name="validityCountMoreInformationForm"
         placeholder="Validity Count"
       ></textarea>
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 addressTypesDiv"
+          *ngIf="!editMode"
+        >
+          <p-button
+            type="submit"
+            label="Add Leasing Mandate"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 addressTypesDiv"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Leasing Mandate"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 addressTypesDiv"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="
+              router.navigate(['/crm/leasing-mandates/view-leasing-mandates'])
+            "
+          />
+        </div>
+      </div>
     </form>
     <form action="" *ngIf="addChildMandateShowBasicForm">
       <label for="clientNameAddChildMandateBasic"

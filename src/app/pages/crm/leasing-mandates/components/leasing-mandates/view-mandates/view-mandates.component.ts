@@ -61,7 +61,7 @@ export class ViewMandatesComponent {
   }
 
   onAddLeasingMandate() {
-    this.router.navigate(['/crm/leasing-mandates/add-leasing-mandate']);
+    this.router.navigate(['/crm/leasing-mandates/add-mandate']);
   }
   onAddSide(leasingMandatesId: any) {
     this.router.navigate([

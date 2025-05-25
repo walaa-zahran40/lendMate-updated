@@ -23,11 +23,9 @@ export class ViewOfficersComponent {
   readonly colsInside = [
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
-    { field: 'loginName', header: 'Login Name' },
     { field: 'title', header: 'Title' },
     { field: 'titleAr', header: 'Title AR' },
     { field: 'phoneNumber', header: 'Phone Number' },
-    { field: 'email', header: 'email' },
   ];
 
   showDeleteModal = false;
