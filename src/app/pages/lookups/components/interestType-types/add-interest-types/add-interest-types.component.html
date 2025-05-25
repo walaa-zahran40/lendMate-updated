@@ -1,0 +1,24 @@
+<app-toolbar-form
+  [header]="editMode ? 'Edit Interest Type' : 'Add Interest Type'"
+  [backExists]="true"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-form
+        *ngIf="addInterestTypesLookupsForm"
+        [title]="'Main Information'"
+        [description]="
+          'Introduce your address core info quickly to users by fill up address details'
+        "
+        [formGroup]="addInterestTypesLookupsForm"
+        [addInterestTypesLookupsForm]="true"
+        [editMode]="editMode"
+        (submitForm)="addOrEditInterestType()"
+        [viewOnly]="viewOnly"
+      ></app-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

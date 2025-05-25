@@ -178,6 +178,7 @@ import { clientStatusesReducer } from './store/client-statuses/client-statuses.r
 import { AddClientOfficerTypesComponent } from './components/client-officer-types/add-client-officer-types/add-client-officer-types.component';
 import { ViewClientOfficerTypesComponent } from './components/client-officer-types/view-client-officer-types/view-client-officer-types.component';
 import { ClientOfficerTypesEffects } from './store/client-officer-types/client-officer-types.effects';
+import { ViewInterestTypesComponent } from './components/interestType-types/view-interest-types/view-interest-types.component';
 
 @NgModule({
   declarations: [
@@ -248,6 +249,7 @@ import { ClientOfficerTypesEffects } from './store/client-officer-types/client-o
     ViewSMEClientCodesComponent,
     ViewSubSectorsComponent,
     ViewClientTypesComponent,
+    ViewInterestTypesComponent,
     ViewAuthorityOfficesComponent,
     ViewPhoneTypesComponent,
     ViewAddressTypesComponent,
