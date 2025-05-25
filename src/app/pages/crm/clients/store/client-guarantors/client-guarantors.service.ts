@@ -52,8 +52,6 @@ export class ClientGuarantorsService {
     return this.http.delete<void>(`${this.api}/${id}`);
   }
   getByClientId(clientId: number): Observable<ClientGuarantor[]> {
-    return this.http.get<ClientGuarantor[]>(
-      `${this.api}/ClientId?ClientId=${clientId}`
-    );
+    return this.http.get<ClientGuarantor[]>(`${this.api}/ClientId/${clientId}`);
   }
 }

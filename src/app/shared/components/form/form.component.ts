@@ -876,9 +876,7 @@ export class FormComponent implements OnInit, OnDestroy {
     ]);
   }
   viewClientLegal() {
-    this.router.navigate([
-      `/crm/clients/view-client-legals/${this.clientId}`,
-    ]);
+    this.router.navigate([`/crm/clients/view-client-legals/${this.clientId}`]);
   }
   viewShareHolder() {
     this.router.navigate([
@@ -908,7 +906,7 @@ export class FormComponent implements OnInit, OnDestroy {
     ]);
   }
 
-    viewClientIdentity() {
+  viewClientIdentity() {
     this.router.navigate([
       `/crm/clients/view-client-identity/${this.clientIdParam}`,
     ]);
@@ -1001,7 +999,9 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-workflow-action-types']);
   }
   viewClientGuarantors() {
-    this.router.navigate(['/crm/clients/view-client-guarantors']);
+    this.router.navigate([
+      `/crm/clients/view-client-guarantors/${this.clientIdParam}`,
+    ]);
   }
   onSubSectorChange(event: any): void {
     const selectedIds: number[] = event.value;

@@ -2,12 +2,19 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, Subject, takeUntil, filter, combineLatest } from 'rxjs';
+import {
+  Observable,
+  Subject,
+  takeUntil,
+  filter,
+  tap,
+  combineLatest,
+} from 'rxjs';
 import { Client } from '../../../../../../store/_clients/allclients/client.model';
 import { selectAllClients } from '../../../../../../store/_clients/allclients/clients.selectors';
 import { ClientGuarantor } from '../../../../../../store/client-guarantors/client-guarantor.model';
 import { ClientGuarantorsFacade } from '../../../../../../store/client-guarantors/client-guarantors.facade';
-import { loadAll } from '../../../../../../store/client-identity-types/client-identity-types.actions';
+import * as clientsActions from '../../../../../../store/_clients/allclients/clients.actions';
 
 @Component({
   selector: 'app-add-client-guarantor',
@@ -68,6 +75,7 @@ export class AddClientGuarantorComponent {
     console.log('🚀 Dispatching lookup loads');
 
     this.clientsList$ = this.store.select(selectAllClients);
+    this.store.dispatch(clientsActions.loadAll({})); // ← NEW
 
     // Patch for add mode
     if (this.mode === 'add') {
@@ -80,18 +88,26 @@ export class AddClientGuarantorComponent {
     // Patch for edit/view mode
     if (this.editMode || this.viewOnly) {
       // ←—— CHANGE paramMap → queryParamMap here
-      const rawId = this.route.snapshot.queryParamMap.get('id');
+      const rawId = this.route.snapshot.params['id'];
       this.recordId = rawId ? +rawId : 0;
-      console.log('📥 Loaded recordId from query params:', this.recordId);
+      console.log('📥 Loaded recordId from query params:', this.route.snapshot);
 
       this.facade.loadOne(this.recordId);
 
       this.facade.current$
         .pipe(
           filter((rec) => !!rec),
+          tap((rec) => console.log('facade.current$ emitted:', rec)),
           takeUntil(this.destroy$)
         )
         .subscribe((rec) => {
+          // You can also log here if you want:
+          console.log('About to patchValue with:', {
+            id: rec.id,
+            clientId: this.clientId,
+            guarantorId: rec.guarantorId,
+            isActive: rec.isActive,
+          });
           this.addClientGuarantorsLookupsForm.patchValue({
             id: rec.id,
             clientId: this.clientId,

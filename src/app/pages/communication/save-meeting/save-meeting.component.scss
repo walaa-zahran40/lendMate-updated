@@ -1,6 +1,7 @@
 .row-toolbar {
   padding: 30px 5px 0px 20px;
   border-bottom: 1px solid #d6ddeb;
+  zoom: 80%;
   .back-col {
     gap: 16px;
     .meeting-details {
@@ -93,6 +94,8 @@
 }
 :host {
   &::ng-deep {
+    zoom: 80%;
+
     .fc-scroller {
       overflow-y: hidden !important;
     }
