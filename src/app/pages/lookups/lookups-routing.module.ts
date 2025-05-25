@@ -90,6 +90,8 @@ import { AddFollowupTypesComponent } from './components/followup-types/add-follo
 import { ViewFollowUpTypesComponent } from './components/followup-types/view-followup-types/view-followup-types.component';
 import { AddInterestTypesComponent } from './components/interestType-types/add-interest-types/add-interest-types.component';
 import { ViewInterestTypesComponent } from './components/interestType-types/view-interest-types/view-interest-types.component';
+import { AddFeeRangesComponent } from './components/fee-ranges/add-fee-ranges/add-fee-ranges.component';
+import { ViewFeeRangesComponent } from './components/fee-ranges/view-fee-ranges/view-fee-ranges.component';
 
 const routes: Routes = [
   /**Lookup Module */
@@ -124,7 +126,19 @@ const routes: Routes = [
     component: ViewInterestTypesComponent,
   },
 
-
+//fees ranges
+  {
+    path: 'add-fee-ranges',
+    component: AddFeeRangesComponent,
+  },
+  {
+    path: 'edit-fee-ranges/:id',
+    component: AddFeeRangesComponent,
+  },
+  {
+    path: 'view-fee-ranges',
+    component: ViewFeeRangesComponent,
+  },
  
 
   //Company Types

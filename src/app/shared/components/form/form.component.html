@@ -9541,104 +9541,93 @@
       *ngIf="addFeeRangesForm"
       (ngSubmit)="onSubmit()"
     >
-      <!-- Name in English -->
-      <label for="name">Name in English<sup>*</sup></label>
-      <input
-        pInputText
-        id="name"
-        formControlName="name"
-        placeholder="Enter Name in English"
-      />
-      <div
-        *ngIf="
-          formGroup.get('name')?.hasError('required') &&
-          formGroup.get('name')?.touched
-        "
-        class="p-error"
-      >
-        Name in English is required.
-      </div>
 
-      <!-- Name in Arabic -->
-      <label for="nameAR">Name in Arabic<sup>*</sup></label>
-      <input
-        pInputText
-        id="nameAR"
-        formControlName="nameAR"
-        placeholder="Enter Name in Arabic"
-      />
-      <div
-        *ngIf="
-          formGroup.get('nameAR')?.hasError('required') &&
-          formGroup.get('nameAR')?.touched
-        "
-        class="p-error"
-      >
-        Name in Arabic is required.
-      </div>
-      <div
-        *ngIf="
-          formGroup.get('nameAR')?.hasError('pattern') &&
-          formGroup.get('nameAR')?.touched
-        "
-        class="p-error"
-      >
-        Please enter only Arabic letters.
-      </div>
+        
 
-      <label for="feeCalculationTypeId"
-        >Select Asset Type Category<sup class="danger">*</sup></label
+      <label for="feeTypeId"
+        >Select Fee Type<sup class="danger">*</sup></label
       >
       <!--Select Box-->
       <p-select
-        [options]="feeCalculationTypes"
+        [options]="feeTypes"
         optionLabel="name"
-        placeholder="Select fee calculation type"
-        formControlName="feeCalculationTypeId"
+        placeholder="Select fee type"
+        formControlName="feeTypeId"
         optionValue="id"
         (onChange)="onSectorChange($event)"
         required
         [ngClass]="{
           'ng-invalid':
-            formGroup.get('feeCalculationTypeId')?.invalid &&
-            (formGroup.get('feeCalculationTypeId')?.dirty ||
-              formGroup.get('feeCalculationTypeId')?.touched)
+            formGroup.get('feeTypeId')?.invalid &&
+            (formGroup.get('feeTypeId')?.dirty ||
+              formGroup.get('feeTypeId')?.touched)
         }"
       >
       </p-select>
 
       <div
         *ngIf="
-          formGroup.get('feeCalculationTypeId')?.hasError('required') &&
-          formGroup.get('feeCalculationTypeId')?.touched
+          formGroup.get('feeTypeId')?.hasError('required') &&
+          formGroup.get('feeTypeId')?.touched
         "
         class="p-error"
       >
-        Asset Type Category is required.
+        Fee Type is required.
       </div>
 
-      <!-- Description -->
-      <label for="description">Description<sup>*</sup></label>
+      
+      <label for="lowerBound">LowerBound Amount<sup>*</sup></label>
       <div>
-        <textarea
+        <!-- Default Amount -->
+        <input
           pInputText
-          id="description"
-          formControlName="description"
-          placeholder="Enter Description"
-        ></textarea>
-      </div>
-      <!-- Arabic Description -->
-      <label for="descriptionAR">Arabic Description<sup>*</sup></label>
-      <div>
-        <textarea
-          pInputText
-          id="descriptionAR"
-          formControlName="descriptionAR"
-          placeholder="Enter Arabic Description"
-        ></textarea>
+          id="lowerBound"
+          aria-describedby="lowerBound-help"
+          name="lowerBound"
+          formControlName="lowerBound"
+          placeholder="Enter lowerBound"
+        />
       </div>
 
-      <label for="defaultAmount">Default Amount<sup>*</sup></label>
+
+
+      
+      <label for="upperBound">UpperBound Amount<sup>*</sup></label>
+      <div>
+        <!-- Default Amount -->
+        <input
+          pInputText
+          id="upperBound"
+          aria-describedby="upperBound-help"
+          name="upperBound"
+          formControlName="upperBound"
+          placeholder="Enter upperBound Amount"
+        />
+      </div>
+
+
+
+      <!-- Name in English -->
+      <label for="criteriaField">criteria Field<sup>*</sup></label>
+      <input
+        pInputText
+        id="criteriaField"
+        formControlName="criteriaField"
+        placeholder="criteriaField"
+      />
+      <div
+        *ngIf="
+          formGroup.get('criteriaField')?.hasError('required') &&
+          formGroup.get('criteriaField')?.touched
+        "
+        class="p-error"
+      >
+        criteriaField is required.
+      </div>
+
+
+
+      <label for="defaultAmount">Default Amount</label>
       <div>
         <!-- Default Amount -->
         <input
@@ -9651,15 +9640,15 @@
         />
       </div>
 
-      <label for="defaultPrecentage">Default Percentage<sup>*</sup></label>
+      <label for="defaultPercentage">Default Percentage</label>
       <div>
         <!-- Default Percentage -->
         <input
           pInputText
-          id="defaultPrecentage"
-          aria-describedby="defaultPrecentage-help"
-          name="defaultPrecentage"
-          formControlName="defaultPrecentage"
+          id="defaultPercentage"
+          aria-describedby="defaultPercentage-help"
+          name="defaultPercentage"
+          formControlName="defaultPercentage"
           placeholder="Enter Default Percentage"
         />
       </div>

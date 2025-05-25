@@ -6,7 +6,7 @@ import { environment } from '../../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class FeeRangesService {
-  private baseUrl = `${environment.apiUrl}FeeRanges`;
+  private baseUrl = `${environment.apiUrl}FeesRanges`;
 
   constructor(private http: HttpClient) {}
 
@@ -14,7 +14,7 @@ export class FeeRangesService {
     console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: FeeRange[]; totalCount: number }>(
-        `${this.baseUrl}/GetAllFeeRanges`
+        `${this.baseUrl}/GetAllFeesRanges`
       )
       .pipe(
         tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
@@ -28,12 +28,12 @@ export class FeeRangesService {
   }
 
   getById(id: number): Observable<FeeRange> {
-    return this.http.get<FeeRange>(`${this.baseUrl}/FeeRangeId?id=${id}`);
+    return this.http.get<FeeRange>(`${this.baseUrl}/FeesRangeId?id=${id}`);
   }
 
   create(payload: Omit<FeeRange, 'id'>): Observable<FeeRange> {
     return this.http.post<FeeRange>(
-      `${this.baseUrl}/CreateFeeRange`,
+      `${this.baseUrl}/CreateFeesRange`,
       payload
     );
   }

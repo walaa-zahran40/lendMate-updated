@@ -28,31 +28,21 @@ export class ViewFeeRangesComponent {
   @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
+    { field: 'feeTypeName', header: 'Fee Type' },
     { field: 'lowerBound', header: 'Lower Bound' },
     { field: 'upperBound', header: 'Upper Bound' },
-    { field: 'feeTypeName', header: 'Fee Type' },
+    { field: 'criteriaField', header: 'Criteria Field' },
     { field: 'defaultPrecentage', header: 'Default Percentage' },
-    { field: 'defaultAmount', header: 'Default Amount' },
-    { field: 'criteriaField', header: 'Criteria Field' }
+    { field: 'defaultAmount', header: 'Default Amount' }
   ];
 
-
-  //   id: number;
-  // lowerBound: number;
-  // upperBound: number;
-  // feeTypeId: number;
-  // feeType: any;
-  // defaultAmount: number;
-  // defaultPercentage: any;
-  // criteriaField: string;
-  // isActive: boolean;
 
   showDeleteModal = false;
   selectedFeeRangeId: number | null = null;
   originalFeeRanges: FeeRange[] = [];
   filteredFeeRanges: FeeRange[] = [];
   feeRanges$!: any;
-  feeCalcList$: any;
+  feeTypes$: any;
   constructor(
     private router: Router,
     private facade: FeeRangesFacade,
@@ -62,43 +52,44 @@ export class ViewFeeRangesComponent {
   //feeTypeId
   ngOnInit() {
     // Initialize observables
-    this.feeRanges$ = this.facade.all$;
-    this.feeCalcList$ = this.feeTypesFacade.all$;
-
+    
     // Trigger loading
     this.facade.loadAll();
     this.feeTypesFacade.loadAll();
 
+    this.feeRanges$ = this.facade.all$;
+    this.feeTypes$ = this.feeTypesFacade.all$;
+
     // Combine fee types with their corresponding Typesulation type names
     combineLatest<[FeeRange[], any[]]>([
       this.feeRanges$ ?? of([]),
-      this.feeCalcList$ ?? of([]),
+      this.feeTypes$ ?? of([]),
     ])
       .pipe(
-        map(([feeRanges, feeCalcRanges]) => {
+        map(([feeRanges, feeTypes]) => {
           console.log('📦 Raw feeRanges:', feeRanges);
-          console.log('📦 Raw feeCalcRanges:', feeCalcRanges);
+          console.log('📦 Raw feeTypes:', feeTypes);
 
           return feeRanges
             .map((ss) => {
               console.log('ss', ss);
-              const match = feeCalcRanges.find(
+              const match = feeTypes.find(
                 (s) => s.id === ss.feeTypeId
               );
 
               console.log(
-                `🔍 Matching Types type for feeRange ID ${ss.id} (feeCalculationRangeId: ${ss.feeTypeId}):`,
+                `🔍 Matching Types type for feeRange ID ${ss.id} (feeTypeNameId: ${ss.feeTypeId}):`,
                 match
               );
 
               return {
                 ...ss,
-                feeCalculationRange:
-                  feeCalcRanges.find((s) => s.id === ss.feeTypeId)
+                feeTypeName:
+                  feeTypes.find((s) => s.id === ss.feeTypeId)
                     ?.name || '—',
               };
             })
-            .filter((ft) => ft.isActive)
+            // .filter((ft) => ft.isActive)
             .sort((a, b) => b.id - a.id);
         }),
         takeUntil(this.destroy$)

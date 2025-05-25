@@ -718,7 +718,7 @@ export class FormComponent implements OnInit, OnDestroy {
   }
 
     viewFeesRnages() {
-    this.router.navigate(['/lookups/view-ranges']);
+    this.router.navigate(['/lookups/view-fee-ranges']);
   }
 
   viewBranchManagers() {
