@@ -8,7 +8,7 @@ import { LeasingFinancialFormComponent } from './components/leasing-financial-fo
 import { SharedModule } from '../../../shared/shared.module';
 import { TabsModule } from 'primeng/tabs';
 import { ButtonModule } from 'primeng/button';
-import { ViewMandateComponent } from './components/mandate/view-mandate/view-mandate.component';
+import { ViewMandatesComponent } from './components/leasing-mandates/view-mandates/view-mandates.component';
 import { ViewOfficersComponent } from './components/mandate-activities/view-officers/view-officers.component';
 import { ViewContactPersonsComponent } from './components/mandate-activities/view-contact-persons/view-contact-persons.component';
 import { ViewAssetTypeComponent } from './components/mandate-activities/view-asset-type/view-asset-type.component';
@@ -16,6 +16,10 @@ import { WizardComponent } from './components/mandate-activities/wizard/wizard.c
 import { ViewManageMandateTermsComponent } from './components/mandate-activities/view-manage-mandate-terms/view-manage-mandate-terms.component';
 import { LeasingFinancialFormCompoundComponent } from './components/leasing-financial-form-compound/leasing-financial-form-compound.component';
 import { ViewCalculationsComponent } from './components/mandate-activities/view-calculations/view-calculations.component';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { reducer as leasingMandatesReducer } from './store/leasing-mandates/leasing-mandates.reducer';
+import { MandatesEffects } from './store/leasing-mandates/leasing-mandates.effects';
 
 @NgModule({
   declarations: [
@@ -23,7 +27,7 @@ import { ViewCalculationsComponent } from './components/mandate-activities/view-
     AddChildMandateComponent,
     AddManageMandateTermsComponent,
     LeasingFinancialFormComponent,
-    ViewMandateComponent,
+    ViewMandatesComponent,
     ViewOfficersComponent,
     ViewContactPersonsComponent,
     ViewAssetTypeComponent,
@@ -38,12 +42,8 @@ import { ViewCalculationsComponent } from './components/mandate-activities/view-
     SharedModule,
     TabsModule,
     ButtonModule,
-  ],
-  exports: [
-    AddMandateComponent,
-    AddChildMandateComponent,
-    AddManageMandateTermsComponent,
-    LeasingFinancialFormComponent,
+    StoreModule.forFeature('mandates', leasingMandatesReducer),
+    EffectsModule.forFeature([MandatesEffects]),
   ],
 })
 export class LeasingMandatesModule {}

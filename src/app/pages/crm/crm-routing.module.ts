@@ -41,7 +41,7 @@ import { ViewAssetTypeComponent } from './leasing-mandates/components/mandate-ac
 import { ViewCalculationsComponent } from './leasing-mandates/components/mandate-activities/view-calculations/view-calculations.component';
 import { ViewManageMandateTermsComponent } from './leasing-mandates/components/mandate-activities/view-manage-mandate-terms/view-manage-mandate-terms.component';
 import { AddMandateComponent } from './leasing-mandates/components/mandate/add-mandate/add-mandate.component';
-import { ViewMandateComponent } from './leasing-mandates/components/mandate/view-mandate/view-mandate.component';
+import { ViewMandatesComponent } from './leasing-mandates/components/leasing-mandates/view-mandates/view-mandates.component';
 import { ViewGuarantorsComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-guarantors/view-client-guarantors/view-client-guarantor.component';
 import { AddClientOfficersComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-officers/add-client-officer/add-client-officer.component';
 import { ViewClientOfficersComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-officers/view-client-officers/view-client-officer.component';
@@ -165,7 +165,6 @@ const routes: Routes = [
     component: ViewClientIdentityComponent,
   },
 
-
   //Client CR Authority offices
   {
     path: 'clients/add-client-cr-authority-offices',
@@ -268,7 +267,7 @@ const routes: Routes = [
     path: 'clients/view-client-officers/:clientId',
     component: ViewClientOfficersComponent,
   },
-   //Client legal
+  //Client legal
   {
     path: 'clients/add-client-legals',
     component: AddClientLegalsComponent,
@@ -329,6 +328,10 @@ const routes: Routes = [
   },
   /*Leasing Mandates Routing*/
   {
+    path: 'leasing-mandates/view-mandates',
+    component: ViewMandatesComponent,
+  },
+  {
     path: 'leasing-mandates/add-mandate',
     component: AddMandateComponent,
   },
@@ -344,10 +347,7 @@ const routes: Routes = [
     path: 'leasing-mandates/leasing-financial-form',
     component: LeasingFinancialFormComponent,
   },
-  {
-    path: 'leasing-mandates/view-mandate',
-    component: ViewMandateComponent,
-  },
+
   {
     path: 'leasing-mandates/view-officers',
     component: ViewOfficersComponent,

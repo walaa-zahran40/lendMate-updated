@@ -3,5 +3,6 @@ export interface PeriodUnit {
   code?: string;
   name: string;
   nameAR: string;
+  count?: number;
   isActive: boolean;
 }

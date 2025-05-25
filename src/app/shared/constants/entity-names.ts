@@ -1,4 +1,5 @@
 export enum EntityNames {
+  //Clients and Lookups
   AssetType = 'AssetType',
   Team = 'Team',
   SalesTurnover = 'SalesTurnover',
@@ -45,5 +46,7 @@ export enum EntityNames {
   IndividualOnboarding = 'IndividualOnboarding',
   ClientStatusAction = 'ClientStatusAction',
   ClientOfficerType = 'ClientOfficerType',
-  AuthorizationGroup= 'AuthorizationGroup'
+  AuthorizationGroup = 'AuthorizationGroup',
+  //Mandates
+  Mandate = 'Mandate',
 }
