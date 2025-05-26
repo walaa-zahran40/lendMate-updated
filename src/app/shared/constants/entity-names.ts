@@ -1,6 +1,7 @@
 export enum EntityNames {
   //Clients and Lookups
   AssetType = 'AssetType',
+  NotificationGroupOfficer = 'NotificationGroupOfficer',
   FollowupType = 'FollowupType',
   NotificationGroup = 'NotificationGroup',
   Team = 'Team',

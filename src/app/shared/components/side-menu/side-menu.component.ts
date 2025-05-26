@@ -815,6 +815,13 @@ export class SideMenuComponent {
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-notification-groups',
           },
+
+           {
+            label: 'Notification Group Officers',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-notification-group-officers',
+          },
+
           {
             label: 'Payment Methods',
             icon: 'pi pi-user-plus',
