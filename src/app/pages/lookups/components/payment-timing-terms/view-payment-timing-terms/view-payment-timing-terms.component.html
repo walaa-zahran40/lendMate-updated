@@ -1,0 +1,41 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Payment TimingTerms'"
+    [labelBtn]="'Add Payment Timing Term'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddPaymentTimingTerm()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="PaymentTimingTerms$ | async as PaymentTimingTerms">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredPaymentTimingTerm"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewPaymentTimingTermsTable]="true"
+      (onDelete)="onDeletePaymentTimingTerm($event)"
+      (onEdit)="onEditPaymentTimingTerm($event)"
+      (viewForm)="onViewPaymentTimingTerm($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

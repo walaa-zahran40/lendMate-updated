@@ -198,6 +198,10 @@ import { AddPaymentPeriodsComponent } from './components/payment-periods/add-pay
 import { ViewPaymentPeriodsComponent } from './components/payment-periods/view-payment-periods/view-payment-periods.component';
 import { paymentPeriodReducer } from './store/payment-periods/payment-periods.reducer';
 import { PaymentPeriodsEffects } from './store/payment-periods/payment-periods.effects';
+import { paymentTimingTermsReducer } from './store/payment-timing-terms/payment-timing-terms..reducer';
+import { PaymentTimingTermsEffects } from './store/payment-timing-terms/payment-timing-terms..effects';
+import { ViewPaymentTimingTermsComponent } from './components/payment-timing-terms/view-payment-timing-terms/view-payment-timing-terms.component';
+import { AddPaymentTimingTermsComponent } from './components/payment-timing-terms/add-payment-timing-terms/add-payment-timing-terms.component';
 
 @NgModule({
   declarations: [
@@ -213,6 +217,7 @@ import { PaymentPeriodsEffects } from './store/payment-periods/payment-periods.e
     AddPaymentMethodsComponent,
     AddWorkFlowActionTypesComponent,
     AddPaymentTypesComponent,
+    AddPaymentTimingTermsComponent,
     AddPaymentPeriodsComponent,
     AddPaymentMonthDaysComponent,
     AddMeetingTypesComponent,
@@ -264,6 +269,7 @@ import { PaymentPeriodsEffects } from './store/payment-periods/payment-periods.e
     ViewInsuredByComponent,
     ViewLeasingTypeComponent,
     ViewPaymentTypesComponent,
+    ViewPaymentTimingTermsComponent,
     ViewPaymentPeriodsComponent,
     ViewMandateValidityUnitComponent,
     ViewDocTypesComponent,
@@ -417,6 +423,8 @@ import { PaymentPeriodsEffects } from './store/payment-periods/payment-periods.e
     EffectsModule.forFeature([FeeRangesEffects]),
         StoreModule.forFeature('paymentPeriods', paymentPeriodReducer),
     EffectsModule.forFeature([PaymentPeriodsEffects]),
+            StoreModule.forFeature('paymentTimingTerms', paymentTimingTermsReducer),
+    EffectsModule.forFeature([PaymentTimingTermsEffects]),
   ],
   exports: [
     AddMandateStatusesComponent,
@@ -427,6 +435,7 @@ import { PaymentPeriodsEffects } from './store/payment-periods/payment-periods.e
     AddCurrenciesComponent,
     AddPaymentMethodsComponent,
     AddPaymentTypesComponent,
+    AddPaymentTimingTermsComponent,
     AddPaymentPeriodsComponent,
     AddPaymentMonthDaysComponent,
     AddClientTypesComponent,

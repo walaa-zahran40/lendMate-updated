@@ -476,6 +476,7 @@ export class FormComponent implements OnInit, OnDestroy {
   teamIdParam: any;
   clientIdParam: any;
   @Input() addPaymentTypesLookupsForm!: boolean;
+  @Input() addPaymentTimingTermsLookupsForm!: boolean;
   @Input() addPaymentPeriodsLookupsForm!: boolean;
   @Input() addPaymentMonthDaysLookupsForm!: boolean;
   @Input() addMeetingTypesLookupsForm!: boolean;
@@ -785,6 +786,11 @@ export class FormComponent implements OnInit, OnDestroy {
   viewPaymentMethod() {
     this.router.navigate(['/lookups/view-payment-methods']);
   }
+
+    viewPaymentTimingTerms() {
+    this.router.navigate(['/lookups/view-payment-timing-terms']);
+  }
+
 
   viewCurrencyExchange() {
     this.router.navigate([

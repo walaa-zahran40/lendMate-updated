@@ -838,7 +838,7 @@ export class SideMenuComponent {
           {
             label: 'Payment Timing Terms',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-payment-types',
+            routerLink: '/lookups/view-payment-timing-terms',
           },
           // {
           //   label: 'Property',

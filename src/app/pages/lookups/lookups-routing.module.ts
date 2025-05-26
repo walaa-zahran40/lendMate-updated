@@ -96,6 +96,8 @@ import { AddFeeRangesComponent } from './components/fee-ranges/add-fee-ranges/ad
 import { ViewFeeRangesComponent } from './components/fee-ranges/view-fee-ranges/view-fee-ranges.component';
 import { ViewPaymentPeriodsComponent } from './components/payment-periods/view-payment-periods/view-payment-periods.component';
 import { AddPaymentPeriodsComponent } from './components/payment-periods/add-payment-periods/add-payment-periods.component';
+import { AddPaymentTimingTermsComponent } from './components/payment-timing-terms/add-payment-timing-terms/add-payment-timing-terms.component';
+import { ViewPaymentTimingTermsComponent } from './components/payment-timing-terms/view-payment-timing-terms/view-payment-timing-terms.component';
 
 const routes: Routes = [
   /**Lookup Module */
@@ -570,7 +572,7 @@ const routes: Routes = [
     component: ViewPaymentTypesComponent,
   },
 
-  //Payment Types
+  //Payment Periods
   {
     path: 'add-payment-periods',
     component: AddPaymentPeriodsComponent,
@@ -582,6 +584,20 @@ const routes: Routes = [
   {
     path: 'view-payment-periods',
     component: ViewPaymentPeriodsComponent,
+  },
+
+  //Payment Timing Terms 
+  {
+    path: 'add-payment-timing-terms',
+    component: AddPaymentTimingTermsComponent,
+  },
+  {
+    path: 'edit-payment-timing-terms/:id',
+    component: AddPaymentTimingTermsComponent,
+  },
+  {
+    path: 'view-payment-timing-terms',
+    component: ViewPaymentTimingTermsComponent,
   },
 
   //payment month days
