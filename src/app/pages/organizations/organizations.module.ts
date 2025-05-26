@@ -109,6 +109,7 @@ import { RoleClaimsEffects } from './store/roles/role-claims/role-claims.effects
     ViewRoleClaimsComponent,
     ViewPageOperationsComponent,
     ViewOfficersComponent,
+    ViewOfficersComponent,
     ViewSignatoryOfficersComponent,
     AddPageComponent,
     ViewPagesComponent,

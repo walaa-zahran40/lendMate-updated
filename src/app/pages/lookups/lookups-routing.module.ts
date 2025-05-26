@@ -100,6 +100,8 @@ import { AddPaymentTimingTermsComponent } from './components/payment-timing-term
 import { ViewPaymentTimingTermsComponent } from './components/payment-timing-terms/view-payment-timing-terms/view-payment-timing-terms.component';
 import { ViewNotificationGroupsComponent } from './components/notification-groups/view-notification-groups/view-notification-groups.component';
 import { AddNotificationGroupsComponent } from './components/notification-groups/add-notification-groups/add-notification-groups.component';
+import { ViewNotificationGroupOfficersComponent } from './components/notification-group-officers/view-notification-group-officers/view-notification-notification-group-officers.component';
+import { AddNotificationGroupOfficersComponent } from './components/notification-group-officers/add-notification-group-officers/add-notification-group-officers.component';
 
 const routes: Routes = [
   /**Lookup Module */
@@ -819,7 +821,7 @@ const routes: Routes = [
     component: ViewAuthorizationGroupsComponent,
   },
 
-   //Address Types
+   //notification groups
   {
     path: 'add-notification-groups',
     component: AddNotificationGroupsComponent,
@@ -832,6 +834,21 @@ const routes: Routes = [
     path: 'view-notification-groups',
     component: ViewNotificationGroupsComponent,
   },
+
+  //notification group officers
+  {
+    path: 'add-notification-group-officers',
+    component: AddNotificationGroupOfficersComponent,
+  },
+  {
+    path: 'edit-notification-group-officers/:id',
+    component: AddNotificationGroupOfficersComponent,
+  },
+  {
+    path: 'view-notification-group-officers',
+    component: ViewNotificationGroupOfficersComponent,
+  },
+
 
 ];
 

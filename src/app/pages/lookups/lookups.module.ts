@@ -206,6 +206,10 @@ import { AddNotificationGroupsComponent } from './components/notification-groups
 import { ViewNotificationGroupsComponent } from './components/notification-groups/view-notification-groups/view-notification-groups.component';
 import { notificationGroupReducer } from './store/notification-groups/notification-groups.reducer';
 import { NotificationGroupsEffects } from './store/notification-groups/notification-groups.effects';
+import { AddNotificationGroupOfficersComponent } from './components/notification-group-officers/add-notification-group-officers/add-notification-group-officers.component';
+import { ViewNotificationGroupOfficersComponent } from './components/notification-group-officers/view-notification-group-officers/view-notification-notification-group-officers.component';
+import { notificationGroupOfficerReducer } from './store/notification-group-officers/notification-group-officers.reducer';
+import { NotificationGroupOfficersEffects } from './store/notification-group-officers/notification-group-officers.effects';
 
 @NgModule({
   declarations: [
@@ -216,6 +220,7 @@ import { NotificationGroupsEffects } from './store/notification-groups/notificat
     AddMandateStatusesComponent,
     AddInterestRateBenchmarksComponent,
     AddFeeTypesComponent,
+    AddNotificationGroupOfficersComponent,
     AddPeriodUnitsComponent,
     AddRentStructureTypesComponent,
     AddCurrenciesComponent,
@@ -263,6 +268,7 @@ import { NotificationGroupsEffects } from './store/notification-groups/notificat
     ViewMeetingTypesComponent,
     ViewInterestRateBenchmarksComponent,
     ViewFeeTypesComponent,
+    ViewNotificationGroupOfficersComponent,
     ViewPeriodUnitsComponent,
     ViewRentStructureTypesComponent,
     ViewCurrenciesComponent,
@@ -433,11 +439,14 @@ import { NotificationGroupsEffects } from './store/notification-groups/notificat
     EffectsModule.forFeature([PaymentTimingTermsEffects]),
     StoreModule.forFeature('notificationGroups', notificationGroupReducer),
     EffectsModule.forFeature([NotificationGroupsEffects]),
+    StoreModule.forFeature('notificationGroupOfficers', notificationGroupOfficerReducer),
+    EffectsModule.forFeature([NotificationGroupOfficersEffects]),
   ],
   exports: [
     AddMandateStatusesComponent,
     AddInterestRateBenchmarksComponent,
     AddFeeTypesComponent,
+    AddNotificationGroupOfficersComponent,
     AddPeriodUnitsComponent,
     AddRentStructureTypesComponent,
     AddCurrenciesComponent,

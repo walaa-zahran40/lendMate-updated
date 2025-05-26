@@ -96,6 +96,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() taxOfficesList: any;
   @Input() assetTypeCategories: any;
   @Input() feeCalculationTypes: any;
+  @Input() notificationGroups: any;
   @Input() phoneTypes: any;
   @Input() identityTypes: any;
   @Input() areas: any;
@@ -503,6 +504,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addAddressTypesLookupsForm!: boolean;
   @Input() addAuthorizationGroupsLookupsForm!: boolean;
   @Input() addNotificationGroupsLookupsForm!: boolean;
+  @Input() addNotificationGroupOfficersLookupsForm!: boolean;
   @Input() addInterestTypesLookupsForm!: boolean;
   @Input() addFollowupTypesLookupsForm!: boolean;
   @Input() addFeeRangesForm!: boolean;
