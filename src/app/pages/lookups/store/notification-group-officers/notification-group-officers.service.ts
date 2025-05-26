@@ -31,6 +31,7 @@ export class NotificationGroupOfficersService {
     return this.http.get<NotificationGroupOfficer>(`${this.baseUrl}/NotificationGroupOfficerId?id=${id}`);
   }
 
+
   create(payload: Omit<NotificationGroupOfficer, 'id'>): Observable<NotificationGroupOfficer> {
     return this.http.post<NotificationGroupOfficer>(`${this.baseUrl}/CreateNotificationGroupOfficer`, payload);
   }

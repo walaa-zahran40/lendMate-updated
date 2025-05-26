@@ -51,8 +51,8 @@ export class AddNotificationGroupOfficersComponent {
       officer: [null],
       officerId: [null],
       isCurrent: [true],
-      startDate: [true],
-      endDate: [true],
+      startDate: [null],
+      endDate: [null],
     });
 
 

@@ -4,7 +4,7 @@ export interface NotificationGroupOfficer {
   notificationGroup? : any;
   officerId : number;
   officer? : any;
-  startDate : number;
-  endDate? : number;
+  startDate : Date;
+  endDate? : Date;
   isCurrent?: boolean;
 }
