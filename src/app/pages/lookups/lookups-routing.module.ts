@@ -98,6 +98,8 @@ import { ViewPaymentPeriodsComponent } from './components/payment-periods/view-p
 import { AddPaymentPeriodsComponent } from './components/payment-periods/add-payment-periods/add-payment-periods.component';
 import { AddPaymentTimingTermsComponent } from './components/payment-timing-terms/add-payment-timing-terms/add-payment-timing-terms.component';
 import { ViewPaymentTimingTermsComponent } from './components/payment-timing-terms/view-payment-timing-terms/view-payment-timing-terms.component';
+import { ViewNotificationGroupsComponent } from './components/notification-groups/view-notification-groups/view-notification-groups.component';
+import { AddNotificationGroupsComponent } from './components/notification-groups/add-notification-groups/add-notification-groups.component';
 
 const routes: Routes = [
   /**Lookup Module */
@@ -816,6 +818,21 @@ const routes: Routes = [
     path: 'view-authorization-groups',
     component: ViewAuthorizationGroupsComponent,
   },
+
+   //Address Types
+  {
+    path: 'add-notification-groups',
+    component: AddNotificationGroupsComponent,
+  },
+  {
+    path: 'edit-notification-groups/:id',
+    component: AddNotificationGroupsComponent,
+  },
+  {
+    path: 'view-notification-groups',
+    component: ViewNotificationGroupsComponent,
+  },
+
 ];
 
 @NgModule({

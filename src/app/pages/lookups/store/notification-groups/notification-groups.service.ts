@@ -27,9 +27,10 @@ export class NotificationGroupsService {
       );
   }
 
+
   getById(id: number): Observable<NotificationGroup> {
-    return this.http.get<NotificationGroup>(`${this.baseUrl}/NotificationGroupId?id=${id}`);
-  }
+  return this.http.get<NotificationGroup>(`${this.baseUrl}/${id}`);
+}
 
   create(payload: Omit<NotificationGroup, 'id'>): Observable<NotificationGroup> {
     return this.http.post<NotificationGroup>(
@@ -37,6 +38,7 @@ export class NotificationGroupsService {
       payload
     );
   }
+
 
   update(id: number, changes: Partial<NotificationGroup>): Observable<void> {
     return this.http.put<void>(`${this.baseUrl}/${id}`, changes);
