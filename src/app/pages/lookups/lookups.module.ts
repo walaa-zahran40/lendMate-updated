@@ -202,11 +202,16 @@ import { paymentTimingTermsReducer } from './store/payment-timing-terms/payment-
 import { PaymentTimingTermsEffects } from './store/payment-timing-terms/payment-timing-terms..effects';
 import { ViewPaymentTimingTermsComponent } from './components/payment-timing-terms/view-payment-timing-terms/view-payment-timing-terms.component';
 import { AddPaymentTimingTermsComponent } from './components/payment-timing-terms/add-payment-timing-terms/add-payment-timing-terms.component';
+import { AddNotificationGroupsComponent } from './components/notification-groups/add-notification-groups/add-notification-groups.component';
+import { ViewNotificationGroupsComponent } from './components/notification-groups/view-notification-groups/view-notification-groups.component';
+import { notificationGroupReducer } from './store/notification-groups/notification-groups.reducer';
+import { NotificationGroupsEffects } from './store/notification-groups/notification-groups.effects';
 
 @NgModule({
   declarations: [
     AddTmlOfficerTypesComponent,
     AddCompanyTypesComponent,
+    AddNotificationGroupsComponent,
     AddFeeCalculationTypesComponent,
     AddMandateStatusesComponent,
     AddInterestRateBenchmarksComponent,
@@ -308,6 +313,7 @@ import { AddPaymentTimingTermsComponent } from './components/payment-timing-term
     ViewProductsComponent,
     AddAuthorizationGroupsComponent,
     ViewAuthorizationGroupsComponent,
+    ViewNotificationGroupsComponent,
   ],
   imports: [
     CommonModule,
@@ -421,10 +427,12 @@ import { AddPaymentTimingTermsComponent } from './components/payment-timing-term
     EffectsModule.forFeature([InterestTypesEffects]),
     StoreModule.forFeature('feeRanges', feeRangesReducer),
     EffectsModule.forFeature([FeeRangesEffects]),
-        StoreModule.forFeature('paymentPeriods', paymentPeriodReducer),
+    StoreModule.forFeature('paymentPeriods', paymentPeriodReducer),
     EffectsModule.forFeature([PaymentPeriodsEffects]),
-            StoreModule.forFeature('paymentTimingTerms', paymentTimingTermsReducer),
+    StoreModule.forFeature('paymentTimingTerms', paymentTimingTermsReducer),
     EffectsModule.forFeature([PaymentTimingTermsEffects]),
+    StoreModule.forFeature('notificationGroups', notificationGroupReducer),
+    EffectsModule.forFeature([NotificationGroupsEffects]),
   ],
   exports: [
     AddMandateStatusesComponent,
@@ -469,6 +477,7 @@ import { AddPaymentTimingTermsComponent } from './components/payment-timing-term
     ViewSMEClientCodesComponent,
     ViewClientOfficerTypesComponent,
     AddAuthorizationGroupsComponent,
+    AddNotificationGroupsComponent,
   ],
 })
 export class LookupsModule {}
