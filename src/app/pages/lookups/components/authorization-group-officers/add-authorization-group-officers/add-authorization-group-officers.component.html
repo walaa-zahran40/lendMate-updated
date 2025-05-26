@@ -1,0 +1,19 @@
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-form
+        [title]="'Main Information'"
+        [description]="
+          'Authorization Group Officers'
+        "
+        [addAuthorizationGroupOfficersLookupsForm]="true"
+        [notificationGroups]="notificationGroups$ | async"    
+        [officers]="officers$ | async"    
+        [formGroup]="addAuthorizationGroupOfficersLookupsForm"
+        (submitForm)="addOrEditAuthorizationGroupOfficer()"
+        [editMode]="editMode"
+        [viewOnly]="viewOnly"
+      ></app-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

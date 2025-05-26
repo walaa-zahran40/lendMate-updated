@@ -210,6 +210,9 @@ import { AddNotificationGroupOfficersComponent } from './components/notification
 import { ViewNotificationGroupOfficersComponent } from './components/notification-group-officers/view-notification-group-officers/view-notification-notification-group-officers.component';
 import { notificationGroupOfficerReducer } from './store/notification-group-officers/notification-group-officers.reducer';
 import { NotificationGroupOfficersEffects } from './store/notification-group-officers/notification-group-officers.effects';
+import { AuthorizationGroupOfficersEffects } from './store/authorization-group-officers/authorization-group-officers.effects';
+import { authorizationGroupOfficerReducer } from './store/authorization-group-officers/authorization-group-officers.reducer';
+import { AddAuthorizationGroupOfficersComponent } from './components/authorization-group-officers/add-authorization-group-officers/add-authorization-group-officers.component';
 
 @NgModule({
   declarations: [
@@ -441,12 +444,15 @@ import { NotificationGroupOfficersEffects } from './store/notification-group-off
     EffectsModule.forFeature([NotificationGroupsEffects]),
     StoreModule.forFeature('notificationGroupOfficers', notificationGroupOfficerReducer),
     EffectsModule.forFeature([NotificationGroupOfficersEffects]),
+    StoreModule.forFeature('authorizationGroupOfficers', authorizationGroupOfficerReducer),
+    EffectsModule.forFeature([AuthorizationGroupOfficersEffects]),
   ],
   exports: [
     AddMandateStatusesComponent,
     AddInterestRateBenchmarksComponent,
     AddFeeTypesComponent,
     AddNotificationGroupOfficersComponent,
+    AddAuthorizationGroupOfficersComponent,
     AddPeriodUnitsComponent,
     AddRentStructureTypesComponent,
     AddCurrenciesComponent,

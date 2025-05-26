@@ -102,6 +102,8 @@ import { ViewNotificationGroupsComponent } from './components/notification-group
 import { AddNotificationGroupsComponent } from './components/notification-groups/add-notification-groups/add-notification-groups.component';
 import { ViewNotificationGroupOfficersComponent } from './components/notification-group-officers/view-notification-group-officers/view-notification-notification-group-officers.component';
 import { AddNotificationGroupOfficersComponent } from './components/notification-group-officers/add-notification-group-officers/add-notification-group-officers.component';
+import { ViewAuthorizationGroupOfficersComponent } from './components/authorization-group-officers/view-authorization-group-officers/view-notification-authorization-group-officers.component';
+import { AddAuthorizationGroupOfficersComponent } from './components/authorization-group-officers/add-authorization-group-officers/add-authorization-group-officers.component';
 
 const routes: Routes = [
   /**Lookup Module */
@@ -848,6 +850,22 @@ const routes: Routes = [
     path: 'view-notification-group-officers',
     component: ViewNotificationGroupOfficersComponent,
   },
+
+
+    //notification group officers
+  {
+    path: 'add-authorization-group-officers',
+    component: AddAuthorizationGroupOfficersComponent,
+  },
+  {
+    path: 'edit-authorization-group-officers/:id',
+    component: AddAuthorizationGroupOfficersComponent,
+  },
+  {
+    path: 'view-authorization-group-officers',
+    component: ViewAuthorizationGroupOfficersComponent,
+  },
+
 
 
 ];
