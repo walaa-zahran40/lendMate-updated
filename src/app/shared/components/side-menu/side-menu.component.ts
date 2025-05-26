@@ -813,7 +813,7 @@ export class SideMenuComponent {
           {
             label: 'Notification Group',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-meeting-types',
+            routerLink: '/lookups/view-notification-groups',
           },
           {
             label: 'Payment Methods',

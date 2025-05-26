@@ -502,6 +502,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addPhoneTypesLookupsForm!: boolean;
   @Input() addAddressTypesLookupsForm!: boolean;
   @Input() addAuthorizationGroupsLookupsForm!: boolean;
+  @Input() addNotificationGroupsLookupsForm!: boolean;
   @Input() addInterestTypesLookupsForm!: boolean;
   @Input() addFollowupTypesLookupsForm!: boolean;
   @Input() addFeeRangesForm!: boolean;
@@ -808,6 +809,9 @@ export class FormComponent implements OnInit, OnDestroy {
   }
   viewFeesTypes() {
     this.router.navigate(['/lookups/view-fee-types']);
+  }
+  viewNotificationGroup() {
+    this.router.navigate(['/lookups/view-notification-groups']);
   }
   viewInterestRate() {
     this.router.navigate(['/lookups/view-interest-rate-benchmarks']);

@@ -84,6 +84,7 @@ export class TableComponent {
   @Input() viewAssestTypeTable!: boolean;
   @Input() viewGuarantorTable!: boolean;
   @Input() viewauthorizationGroupsTable!: boolean;
+  @Input() viewNotificationGroupsTable!: boolean;
   @Input() viewCalculationsTable!: boolean;
   @Input() viewManageMandateTermsTable!: boolean;
   @Input() viewClientTypesTable!: boolean;
