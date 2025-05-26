@@ -97,6 +97,7 @@ export class TableComponent {
   @Input() viewMandateStatusesTypesTable!: boolean;
   @Input() viewFeelTypesTable!: boolean;
   @Input() viewNotificationGroupOfficersTable!: boolean;
+  @Input() viewAuthorizationGroupOfficersTable!: boolean;
   @Input() ViewInterestRateBenchmarksTable!: boolean;
   @Input() viewCurrenciesTable!: boolean;
   @Input() viewDepartmentsTable!: boolean;

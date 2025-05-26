@@ -7,7 +7,7 @@
           'Authorization Group Officers'
         "
         [addAuthorizationGroupOfficersLookupsForm]="true"
-        [notificationGroups]="notificationGroups$ | async"    
+        [authorizationGroups]="authorizationGroups$ | async"    
         [officers]="officers$ | async"    
         [formGroup]="addAuthorizationGroupOfficersLookupsForm"
         (submitForm)="addOrEditAuthorizationGroupOfficer()"

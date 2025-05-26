@@ -106,6 +106,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() teamDepartments: any;
   @Input() governoratesList: any;
   @Input() feeTypes: any;
+  @Input() authorizationGroups: any;
   @Input() areasList: any;
   @Input() currencies: { id: number; name: string }[] = [];
   @Input() selectedSectorId: number | null = null;
@@ -505,6 +506,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addAuthorizationGroupsLookupsForm!: boolean;
   @Input() addNotificationGroupsLookupsForm!: boolean;
   @Input() addNotificationGroupOfficersLookupsForm!: boolean;
+  @Input() addAuthorizationGroupOfficersLookupsForm!: boolean;
   @Input() addInterestTypesLookupsForm!: boolean;
   @Input() addFollowupTypesLookupsForm!: boolean;
   @Input() addFeeRangesForm!: boolean;
@@ -708,6 +710,10 @@ export class FormComponent implements OnInit, OnDestroy {
   }
   viewBusinessLines() {
     this.router.navigate(['/lookups/view-business-lines']);
+  }
+
+    viewAuthorizationOfficersGroup() {
+    this.router.navigate(['/lookups/view-authorization-group-officers']);
   }
 
   viewNotificationOfficersGroup() {

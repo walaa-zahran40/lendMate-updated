@@ -676,6 +676,12 @@ export class SideMenuComponent {
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-authorization-groups',
           },
+
+             {
+            label: 'Authorization Group Officers',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-authorization-group-officers',
+          },
           {
             label: 'Business Lines',
             icon: 'pi pi-user-plus',
