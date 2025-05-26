@@ -103,6 +103,7 @@ export class TableComponent {
   @Input() viewPaymentMethodsTable!: boolean;
   @Input() viewPaymentMonthDaysTable!: boolean;
   @Input() viewPaymentTypesTable!: boolean;
+  @Input() viewPaymentPeriodsTable!: boolean;
   @Input() viewMandateValidityUnitTable!: boolean;
   @Input() viewBranchesTable!: boolean;
   @Input() viewBranchManagersTable!: boolean;

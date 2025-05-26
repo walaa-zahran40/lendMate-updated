@@ -833,7 +833,7 @@ export class SideMenuComponent {
           {
             label: 'Payment Periods',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-payment-types',
+            routerLink: '/lookups/view-payment-periods',
           },
           {
             label: 'Payment Timing Terms',

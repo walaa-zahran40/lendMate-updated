@@ -194,6 +194,10 @@ import { ViewFeeRangesComponent } from './components/fee-ranges/view-fee-ranges/
 import { AddFeeRangesComponent } from './components/fee-ranges/add-fee-ranges/add-fee-ranges.component';
 import { FeeRangesEffects } from './store/fee-ranges/fee-ranges.effects';
 import { feeRangesReducer } from './store/fee-ranges/fee-ranges.reducer';
+import { AddPaymentPeriodsComponent } from './components/payment-periods/add-payment-periods/add-payment-periods.component';
+import { ViewPaymentPeriodsComponent } from './components/payment-periods/view-payment-periods/view-payment-periods.component';
+import { paymentPeriodReducer } from './store/payment-periods/payment-periods.reducer';
+import { PaymentPeriodsEffects } from './store/payment-periods/payment-periods.effects';
 
 @NgModule({
   declarations: [
@@ -209,6 +213,7 @@ import { feeRangesReducer } from './store/fee-ranges/fee-ranges.reducer';
     AddPaymentMethodsComponent,
     AddWorkFlowActionTypesComponent,
     AddPaymentTypesComponent,
+    AddPaymentPeriodsComponent,
     AddPaymentMonthDaysComponent,
     AddMeetingTypesComponent,
     AddInsuredByComponent,
@@ -259,6 +264,7 @@ import { feeRangesReducer } from './store/fee-ranges/fee-ranges.reducer';
     ViewInsuredByComponent,
     ViewLeasingTypeComponent,
     ViewPaymentTypesComponent,
+    ViewPaymentPeriodsComponent,
     ViewMandateValidityUnitComponent,
     ViewDocTypesComponent,
     ViewBusinessLinesComponent,
@@ -409,6 +415,8 @@ import { feeRangesReducer } from './store/fee-ranges/fee-ranges.reducer';
     EffectsModule.forFeature([InterestTypesEffects]),
     StoreModule.forFeature('feeRanges', feeRangesReducer),
     EffectsModule.forFeature([FeeRangesEffects]),
+        StoreModule.forFeature('paymentPeriods', paymentPeriodReducer),
+    EffectsModule.forFeature([PaymentPeriodsEffects]),
   ],
   exports: [
     AddMandateStatusesComponent,
@@ -419,6 +427,7 @@ import { feeRangesReducer } from './store/fee-ranges/fee-ranges.reducer';
     AddCurrenciesComponent,
     AddPaymentMethodsComponent,
     AddPaymentTypesComponent,
+    AddPaymentPeriodsComponent,
     AddPaymentMonthDaysComponent,
     AddClientTypesComponent,
     AddMeetingTypesComponent,

@@ -476,6 +476,7 @@ export class FormComponent implements OnInit, OnDestroy {
   teamIdParam: any;
   clientIdParam: any;
   @Input() addPaymentTypesLookupsForm!: boolean;
+  @Input() addPaymentPeriodsLookupsForm!: boolean;
   @Input() addPaymentMonthDaysLookupsForm!: boolean;
   @Input() addMeetingTypesLookupsForm!: boolean;
   @Input() addInsuredByLookupsForm!: boolean;

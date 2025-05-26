@@ -94,6 +94,8 @@ import { AddInterestTypesComponent } from './components/interestType-types/add-i
 import { ViewInterestTypesComponent } from './components/interestType-types/view-interest-types/view-interest-types.component';
 import { AddFeeRangesComponent } from './components/fee-ranges/add-fee-ranges/add-fee-ranges.component';
 import { ViewFeeRangesComponent } from './components/fee-ranges/view-fee-ranges/view-fee-ranges.component';
+import { ViewPaymentPeriodsComponent } from './components/payment-periods/view-payment-periods/view-payment-periods.component';
+import { AddPaymentPeriodsComponent } from './components/payment-periods/add-payment-periods/add-payment-periods.component';
 
 const routes: Routes = [
   /**Lookup Module */
@@ -567,6 +569,21 @@ const routes: Routes = [
     path: 'view-payment-types',
     component: ViewPaymentTypesComponent,
   },
+
+  //Payment Types
+  {
+    path: 'add-payment-periods',
+    component: AddPaymentPeriodsComponent,
+  },
+  {
+    path: 'edit-payment-periods/:id',
+    component: AddPaymentPeriodsComponent,
+  },
+  {
+    path: 'view-payment-periods',
+    component: ViewPaymentPeriodsComponent,
+  },
+
   //payment month days
   {
     path: 'add-payment-month-day',
