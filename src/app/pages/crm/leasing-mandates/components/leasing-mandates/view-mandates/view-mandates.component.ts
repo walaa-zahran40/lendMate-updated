@@ -1,9 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
+import { combineLatest, map, Subject, takeUntil, tap } from 'rxjs';
 import { TableComponent } from '../../../../../../shared/components/table/table.component';
 import { Mandate } from '../../../store/leasing-mandates/leasing-mandate.model';
 import { MandatesFacade } from '../../../store/leasing-mandates/leasing-mandates.facade';
+import { ClientsFacade } from '../../../../clients/store/_clients/allclients/clients.facade';
 
 @Component({
   selector: 'app-view-mandates',
@@ -19,44 +20,68 @@ export class ViewMandatesComponent {
   rows: number = 10;
   showFilters: boolean = false;
   @ViewChild('tableRef') tableRef!: TableComponent;
+  clients$ = this.clientsFacade.all$;
 
   readonly colsInside = [
     { field: 'description', header: 'Description' },
     { field: 'clientName', header: 'Client Name' },
-    { field: 'startDate', header: 'Start Date' },
+    { field: 'date', header: 'Start Date' },
   ];
   showDeleteModal: boolean = false;
   selectedLeasingMandateId: number | null = null;
   originalLeasingMandates: any[] = [];
   filteredLeasingMandates: Mandate[] = [];
 
-  constructor(private router: Router, private facade: MandatesFacade) {}
+  constructor(
+    private router: Router,
+    private clientsFacade: ClientsFacade,
+    private facade: MandatesFacade
+  ) {}
   ngOnInit() {
     this.facade.loadAll();
-    // this.facadeInd.loadAll();
-    this.leasingMandates$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((leasingMandates) => {
-        console.log('raw Leasing Mandates from facade:', leasingMandates);
-        leasingMandates.forEach((c) => console.log(`> id=${c.id}`));
+    combineLatest([this.leasingMandates$, this.clients$])
+      .pipe(
+        takeUntil(this.destroy$),
 
-        const sorted = [...leasingMandates].sort((a, b) => b.id! - a.id!);
+        // 1️⃣ Log the raw mandates array
+        tap(([mandates, clients]) => {
+          console.group('🚀 combineLatest payload');
+          console.log('Mandates:', mandates);
+          console.log('Clients :', clients);
+          console.groupEnd();
+        }),
 
-        this.originalLeasingMandates = sorted.map((c) => {
-          console.log(`client ${c} mapping client id=${c.id} `);
-          // choose the field that actually exists:
+        // 2️⃣ Now map & flatten clientName out of clientView
+        map(([mandates, clients]) =>
+          mandates
+            .slice()
+            .sort((a, b) => b.id! - a.id!)
+            .map((m) => {
+              const fromMandate = m.clientView?.clientName;
+              const fromClients = clients.find(
+                (c) => c.id === m.clientId
+              )?.name;
+              console.log(
+                `🗺️ mapping mandate#${m.id}:`,
+                'clientView.name=',
+                fromMandate,
+                'clients lookup=',
+                fromClients
+              );
+              return {
+                ...m,
+                clientName: fromMandate ?? fromClients ?? '— unknown —',
+              };
+            })
+        ),
 
-          console.log(`mapped id=${c.id} `);
-          return {
-            ...c,
-          };
-        });
-
-        console.log(
-          'originalLeasingMandates after mapping:',
-          this.originalLeasingMandates
-        );
-        this.filteredLeasingMandates = [...this.originalLeasingMandates];
+        // 3️⃣ Log the enriched array
+        tap((enriched) => console.log('Enriched tableDataInside:', enriched))
+      )
+      .subscribe((enriched) => {
+        this.tableDataInside = enriched;
+        this.originalLeasingMandates = enriched;
+        this.filteredLeasingMandates = enriched;
       });
   }
 

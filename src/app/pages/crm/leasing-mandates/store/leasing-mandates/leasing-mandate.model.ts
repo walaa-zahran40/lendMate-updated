@@ -9,6 +9,7 @@ export interface Mandate {
   description?: string;
   date?: Date;
   clientId?: number;
+  clientView?: any;
   parentMandateId?: number;
   validityCount?: number;
   validityUnitId?: number;
