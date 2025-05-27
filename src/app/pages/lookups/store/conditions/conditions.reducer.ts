@@ -2,7 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import * as AddressTypeActions from './conditions.actions';
 import { adapter, initialState, State } from './conditions.state';
 
-export const reducer = createReducer(
+export const conditionsReducer = createReducer(
   initialState,
 
   // when you dispatch loadAll()

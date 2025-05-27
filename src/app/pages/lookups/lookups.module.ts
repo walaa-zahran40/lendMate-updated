@@ -218,6 +218,10 @@ import { ViewConditionExpressionsComponent } from './components/condition-expres
 import { AddConditionExpressionsComponent } from './components/condition-expressions/add-condition-expressions/add-condition-expressions.component';
 import { conditionExpressionsReducer } from './store/condition-expressions/condition-expressions.reducer';
 import { ConditionExpressionsEffects } from './store/condition-expressions/condition-expressions.effects';
+import { AddConditionsComponent } from './components/conditions/add-conditions/add-conditions.component';
+import { ViewConditionsComponent } from './components/conditions/view-conditions/view-conditions.component';
+import { conditionsReducer } from './store/conditions/conditions.reducer';
+import { ConditionsEffects } from './store/conditions/conditions.effects';
 
 @NgModule({
   declarations: [
@@ -235,6 +239,7 @@ import { ConditionExpressionsEffects } from './store/condition-expressions/condi
     AddRentStructureTypesComponent,
     AddCurrenciesComponent,
     AddConditionExpressionsComponent,
+    AddConditionsComponent,
     AddPaymentMethodsComponent,
     AddWorkFlowActionTypesComponent,
     AddPaymentTypesComponent,
@@ -285,6 +290,7 @@ import { ConditionExpressionsEffects } from './store/condition-expressions/condi
     ViewRentStructureTypesComponent,
     ViewCurrenciesComponent,
     ViewConditionExpressionsComponent,
+    ViewConditionsComponent,
     WizardCurrenciesComponent,
     ViewPaymentMonthDaysComponent,
     AddPaymentMonthDaysComponent,
@@ -458,6 +464,8 @@ import { ConditionExpressionsEffects } from './store/condition-expressions/condi
     EffectsModule.forFeature([AuthorizationGroupOfficersEffects]),
        StoreModule.forFeature('conditionExpressions', conditionExpressionsReducer),
     EffectsModule.forFeature([ConditionExpressionsEffects]),
+           StoreModule.forFeature('conditions', conditionsReducer),
+    EffectsModule.forFeature([ConditionsEffects]),
   ],
   exports: [
     AddMandateStatusesComponent,
@@ -469,6 +477,7 @@ import { ConditionExpressionsEffects } from './store/condition-expressions/condi
     AddRentStructureTypesComponent,
     AddCurrenciesComponent,
     AddConditionExpressionsComponent,
+    AddConditionsComponent,
     AddPaymentMethodsComponent,
     AddPaymentTypesComponent,
     AddPaymentTimingTermsComponent,

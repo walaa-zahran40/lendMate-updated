@@ -35,6 +35,7 @@ export class AddFeeTypesComponent {
     //Select Box
     this.store.dispatch(loadAll({}));
     this.feeCalculationTypes$ = this.store.select(selectAllFeeCalculationTypes);
+    
     this.addFeesTypesLookupsForm = this.fb.group({
       id: [null],
       name: ['', [Validators.required]],

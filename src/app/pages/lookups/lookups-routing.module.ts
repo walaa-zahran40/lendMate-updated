@@ -106,6 +106,8 @@ import { ViewAuthorizationGroupOfficersComponent } from './components/authorizat
 import { AddAuthorizationGroupOfficersComponent } from './components/authorization-group-officers/add-authorization-group-officers/add-authorization-group-officers.component';
 import { ViewConditionExpressionsComponent } from './components/condition-expressions/view-condition-expressions/view-condition-expressions.component';
 import { AddConditionExpressionsComponent } from './components/condition-expressions/add-condition-expressions/add-condition-expressions.component';
+import { AddConditionsComponent } from './components/conditions/add-conditions/add-conditions.component';
+import { ViewConditionsComponent } from './components/conditions/view-conditions/view-conditions.component';
 
 const routes: Routes = [
   /**Lookup Module */
@@ -866,6 +868,20 @@ const routes: Routes = [
   {
     path: 'view-condition-expressions',
     component: ViewConditionExpressionsComponent,
+  },
+
+   //Conditions
+  {
+    path: 'add-conditions',
+    component: AddConditionsComponent,
+  },
+  {
+    path: 'edit-conditions/:id',
+    component: AddConditionsComponent,
+  },
+  {
+    path: 'view-conditions',
+    component: ViewConditionsComponent,
   },
 
 

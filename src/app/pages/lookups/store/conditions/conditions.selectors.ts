@@ -2,9 +2,9 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromSlice from './conditions.reducer';
 import { adapter, State } from './conditions.state';
 
-export const selectFeature = createFeatureSelector<State>('addressTypes');
+export const selectFeature = createFeatureSelector<State>('conditions');
 export const selectConditionsFeature =
-  createFeatureSelector<State>('addressTypes');
+  createFeatureSelector<State>('conditions');
 
 // these come from your EntityAdapter
 const { selectAll, selectEntities, selectIds, selectTotal } =

@@ -1,7 +1,8 @@
 export interface Condition {
   id: number;
-  code?: string;
-  name: string;
-  nameAR: string;
-  isActive: boolean;
+  description: string;
+  conditionType : number;
+  functionName: string;
+  conditionExpressionId: number;
+  conditionExpression?: any;
 }
