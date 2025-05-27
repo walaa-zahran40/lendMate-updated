@@ -86,7 +86,27 @@
         [gracePeriodUnitsList]="gracePeriodUnits$ | async"
         [feesList]="feeTypes$ | async"
       ></app-form>
+      <button
+        *ngIf="!editMode && !viewOnly"
+        pButton
+        type="submit"
+        label="Add Mandate"
+        style="float: right"
+      ></button>
+      <button
+        *ngIf="editMode && !viewOnly"
+        pButton
+        type="button"
+        label="Edit Mandate"
+        style="float: right"
+      ></button>
+      <button
+        pButton
+        type="button"
+        label="Close"
+        style="float: right"
+        *ngIf="!editMode && viewOnly"
+      ></button>
     </p-tabpanel>
-    <button pButton type="submit" label="Save Mandate"></button>
   </p-tabs>
 </form>
