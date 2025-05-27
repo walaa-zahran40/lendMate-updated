@@ -68,6 +68,8 @@ export class FormComponent implements OnInit, OnDestroy {
   @Output() removeOfficer = new EventEmitter<number>();
   @Output() addContactPerson = new EventEmitter<void>();
   @Output() removeContactPerson = new EventEmitter<number>();
+  @Output() addAssetType = new EventEmitter<void>();
+  @Output() removeAssetType = new EventEmitter<number>();
 
   id!: string;
   @Input() applyReusable: boolean = false;
@@ -269,6 +271,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() insuredBy!: any;
   @Input() officers!: any;
   @Input() contactPersonsList!: any;
+  @Input() assetTypesList!: any;
   selectedClientNames!: any;
   selectedMandateValidityUnit!: any;
   selectedProducts!: any;
@@ -639,6 +642,9 @@ export class FormComponent implements OnInit, OnDestroy {
   get mandateContactPersons(): FormArray {
     return this.formGroup.get('mandateContactPersons') as FormArray;
   }
+  get mandateAssetTypes(): FormArray {
+    return this.formGroup.get('mandateAssetTypes') as FormArray;
+  }
   onSectorChange(event: any) {
     const selectedId = event.value;
     this.sectorsSafe$
@@ -712,7 +718,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-business-lines']);
   }
 
-    viewAuthorizationOfficersGroup() {
+  viewAuthorizationOfficersGroup() {
     this.router.navigate(['/lookups/view-authorization-group-officers']);
   }
 
@@ -728,11 +734,9 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-fee-ranges']);
   }
 
-    viewPaymentPeriods() {
+  viewPaymentPeriods() {
     this.router.navigate(['/lookups/view-payment-periods']);
   }
-
-
 
   viewBranchManagers() {
     this.router.navigate([
@@ -800,10 +804,9 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-payment-methods']);
   }
 
-    viewPaymentTimingTerms() {
+  viewPaymentTimingTerms() {
     this.router.navigate(['/lookups/view-payment-timing-terms']);
   }
-
 
   viewCurrencyExchange() {
     this.router.navigate([

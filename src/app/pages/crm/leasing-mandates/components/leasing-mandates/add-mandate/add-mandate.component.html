@@ -51,12 +51,15 @@
       ></app-form>
       <hr />
       <app-form
-        [title]="'Assest Type'"
+        [title]="'Asset Type'"
         [description]="'This information will be displayed publicly'"
         [addMandateShowAssetTypeForm]="true"
         [formGroup]="addMandateShowAssetTypeForm"
         [editMode]="editMode"
         [viewOnly]="viewOnly"
+        [assetTypesList]="assetTypes$ | async"
+        (removeAssetType)="removeAssetType($event)"
+        (addAssetType)="addAssetType()"
       ></app-form>
       <hr />
       <app-form

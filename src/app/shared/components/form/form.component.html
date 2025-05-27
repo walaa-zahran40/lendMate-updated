@@ -257,7 +257,7 @@
       *ngIf="addAssetTypeCategoriesLookupsForm"
       icon="pi pi-cog"
       iconPos="left"
-      label="View Assest Type Categories"
+      label="View Asset Type Categories"
       (click)="viewAssetTypeCategories()"
       class="custom-view m-0 float-right"
     />
@@ -279,7 +279,7 @@
       class="custom-view m-0 float-right"
     />
 
-         <p-button
+    <p-button
       *ngIf="addAuthorizationGroupOfficersLookupsForm"
       icon="pi pi-cog"
       iconPos="left"
@@ -288,8 +288,7 @@
       class="custom-view m-0 float-right"
     />
 
-
-       <p-button
+    <p-button
       *ngIf="addNotificationGroupOfficersLookupsForm"
       icon="pi pi-cog"
       iconPos="left"
@@ -297,7 +296,7 @@
       (click)="viewNotificationOfficersGroup()"
       class="custom-view m-0 float-right"
     />
-    
+
     <p-button
       *ngIf="addNotificationGroupsLookupsForm"
       icon="pi pi-cog"
@@ -307,7 +306,7 @@
       class="custom-view m-0 float-right"
     />
 
-       <p-button
+    <p-button
       *ngIf="addPaymentTimingTermsLookupsForm"
       icon="pi pi-cog"
       iconPos="left"
@@ -450,8 +449,8 @@
       *ngIf="addMandateShowAssetTypeForm"
       icon="pi pi-cog"
       iconPos="left"
-      label="View Assest Type"
-      (click)="viewAssestType()"
+      label="View Asset Types"
+      (click)="viewAssetTypes()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -2494,7 +2493,7 @@
       </div>
     </form>
 
-      <form
+    <form
       [formGroup]="formGroup"
       *ngIf="addNotificationGroupsLookupsForm"
       (ngSubmit)="onSubmit()"
@@ -2583,7 +2582,6 @@
         </div>
       </div>
     </form>
-
 
     <form
       [formGroup]="formGroup"
@@ -4207,7 +4205,7 @@
       </div>
     </form>
 
-     <form
+    <form
       [formGroup]="formGroup"
       *ngIf="addPaymentTimingTermsLookupsForm"
       (ngSubmit)="onSubmit()"
@@ -4297,8 +4295,7 @@
       </div>
     </form>
 
-
-     <form
+    <form
       [formGroup]="formGroup"
       *ngIf="addPaymentPeriodsLookupsForm"
       (ngSubmit)="onSubmit()"
@@ -4354,7 +4351,6 @@
         placeholder="Enter Month Count"
       />
 
-
       <div class="p-field" *ngIf="editMode">
         <p-toggleSwitch
           id="isActive"
@@ -4397,7 +4393,6 @@
         </div>
       </div>
     </form>
-
 
     <form
       [formGroup]="formGroup"
@@ -7996,45 +7991,59 @@
       *ngIf="addMandateShowAssetTypeForm"
       id="mandateAssetTypeForm"
     >
-      <label for="officerTypeOfficersForm">Assest Type</label>
-      <p-multiselect
-        [options]="officerTypesMandates"
-        placeholder="Select Officer Type"
-        optionLabel="name"
-        display="chip"
-        icon="pi pi-times"
-        name="officerTypeOfficersForm"
-        styleClass="w-full md:w-80"
-        [maxSelectedLabels]="999"
-        chipIcon="pi pi-times"
-      />
-      <div class="parent-individual">
-        <div class="div4-individual">
-          <label for="officerNameOfficersForm">Assest Type Name</label>
-          <input
-            pInputText
-            id="officerNameOfficersForm"
-            aria-describedby="officerNameOfficersForm-help"
-            name="officerNameOfficersForm"
-            placeholder="Mohamed Yasser"
-          />
-        </div>
-        <div class="div2-individual">
-          <label for="actionsOfficersForm">Actions</label>
-          <p-multiselect
-            [options]="actions"
-            placeholder="Select Actions"
-            optionLabel="name"
-            display="chip"
-            icon="pi pi-times"
-            name="actionsOfficersForm"
-            styleClass="w-full md:w-80"
-            [maxSelectedLabels]="999"
-            chipIcon="pi pi-times"
-          />
-        </div>
-        <div class="div3-individual">
-          <p-button icon="custom-icon" severity="danger" class="add-btn" />
+      <div formArrayName="mandateAssetTypes">
+        <div
+          *ngFor="let group of mandateAssetTypes?.controls; let i = index"
+          [formGroupName]="i"
+          class="parent2-individual2 mt-2 flex items-start gap-4 align-items-center flex-wrap"
+        >
+          <!-- 1) contact PersonsName -->
+          <div class="div-number flex-1 min-w-0">
+            <label for="contactPerson" class="p-0">
+              Asset Type<sup class="danger">*</sup>
+            </label>
+            <p-select
+              [options]="assetTypesList"
+              formControlName="assetType"
+              placeholder="Select Asset Type"
+              optionLabel="name"
+              optionValue="id"
+              name="assetType"
+              styleClass="w-full md:w-80"
+            />
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('assetType')?.invalid &&
+                group.get('assetType')?.touched
+              "
+            >
+              Asset Type is required.
+            </small>
+          </div>
+          <!-- 4) Add another Asset Type -->
+          <button
+            style="margin-top: 25px"
+            pButton
+            type="button"
+            icon="pi pi-plus"
+            class="p-button-outlined p-button-sm"
+            (click)="addAssetType.emit()"
+            *ngIf="!viewOnly"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+          ></button>
+
+          <!-- 5) Remove this Asset Type -->
+          <button
+            pButton
+            style="margin-top: 25px"
+            type="button"
+            icon="pi pi-trash"
+            class="p-button-danger p-button-sm"
+            *ngIf="mandateAssetTypes.length > 1 && !viewOnly"
+            (click)="removeAssetType.emit(i)"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+          ></button>
         </div>
       </div>
     </form>
@@ -10193,13 +10202,14 @@
       </div>
     </form>
 
-
-      <form
+    <form
       [formGroup]="formGroup"
       *ngIf="addNotificationGroupOfficersLookupsForm"
       (ngSubmit)="onSubmit()"
     >
-      <label for="notificationGroupId">Select Notification Group<sup class="danger">*</sup></label>
+      <label for="notificationGroupId"
+        >Select Notification Group<sup class="danger">*</sup></label
+      >
       <!--Select Box-->
       <p-select
         [options]="notificationGroups"
@@ -10227,8 +10237,7 @@
         Notification Group is required.
       </div>
 
-
-          <label for="officerId">Select Officer<sup class="danger">*</sup></label>
+      <label for="officerId">Select Officer<sup class="danger">*</sup></label>
       <!--Select Box-->
       <p-select
         [options]="officers"
@@ -10289,18 +10298,22 @@
           <p-button
             label="Close"
             class="custom-save m-0 float-right"
-            (click)="router.navigate(['/lookups/view-notification-group-officers'])"
+            (click)="
+              router.navigate(['/lookups/view-notification-group-officers'])
+            "
           />
         </div>
       </div>
     </form>
 
-        <form
+    <form
       [formGroup]="formGroup"
       *ngIf="addAuthorizationGroupOfficersLookupsForm"
       (ngSubmit)="onSubmit()"
     >
-      <label for="authorizationGroupId">Select Authorization Group<sup class="danger">*</sup></label>
+      <label for="authorizationGroupId"
+        >Select Authorization Group<sup class="danger">*</sup></label
+      >
       <!--Select Box-->
       <p-select
         [options]="authorizationGroups"
@@ -10328,8 +10341,7 @@
         Authorization Group is required.
       </div>
 
-
-          <label for="officerId">Select Officer<sup class="danger">*</sup></label>
+      <label for="officerId">Select Officer<sup class="danger">*</sup></label>
       <!--Select Box-->
       <p-select
         [options]="officers"
@@ -10390,7 +10402,9 @@
           <p-button
             label="Close"
             class="custom-save m-0 float-right"
-            (click)="router.navigate(['/lookups/view-authorization-group-officers'])"
+            (click)="
+              router.navigate(['/lookups/view-authorization-group-officers'])
+            "
           />
         </div>
       </div>

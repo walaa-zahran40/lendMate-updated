@@ -27,6 +27,9 @@ import { loadAll as loadLeasingTypes } from '../../../../../lookups/store/leasin
 import { loadAll as loadInsuredBy } from '../../../../../lookups/store/insured-by/insured-by.actions';
 import { loadOfficers } from '../../../../../organizations/store/officers/officers.actions';
 import { loadClientContactPersons } from '../../../../../crm/clients/store/client-contact-persons/client-contact-persons.actions';
+import { loadAll as loadAssetTypes } from '../../../../../lookups/store/asset-types/asset-types.actions';
+import { AssetType } from '../../../../../lookups/store/asset-types/asset-type.model';
+import { AssetTypesFacade } from '../../../../../lookups/store/asset-types/asset-types.facade';
 
 @Component({
   selector: 'app-add-mandate',
@@ -49,6 +52,7 @@ export class AddMandateComponent {
   insuredBy$!: Observable<InsuredBy[]>;
   officers$!: Observable<Officer[]>;
   contactPersons$!: Observable<ClientContactPerson[]>;
+  assetTypes$!: Observable<AssetType[]>;
   constructor(
     private fb: FormBuilder,
     private store: Store,
@@ -58,7 +62,8 @@ export class AddMandateComponent {
     private leasingTypeFacade: LeasingTypesFacade,
     private insuredByFacade: InsuredByFacade,
     private officersFacade: OfficersFacade,
-    private contactPersonsFacade: ClientContactPersonsFacade
+    private contactPersonsFacade: ClientContactPersonsFacade,
+    private assetTypesFacade: AssetTypesFacade
   ) {}
 
   ngOnInit() {
@@ -91,6 +96,9 @@ export class AddMandateComponent {
     this.contactPersons$ = this.contactPersonsFacade.items$;
     //4`-Asset Type Form
     this.buildMandateShowAssetTypeForm();
+    //Asset Type Dropdown
+    this.store.dispatch(loadAssetTypes({}));
+    this.assetTypes$ = this.assetTypesFacade.all$;
     this.buildMandateShowMoreInformationForm();
   }
   buildMandateShowBasicForm(): void {
@@ -133,9 +141,16 @@ export class AddMandateComponent {
   buildMandateShowAssetTypeForm(): void {
     this.addMandateShowAssetTypeForm = this.fb.group({
       id: [null],
-      mandateAssetTypes: [null],
+      mandateAssetTypes: this.fb.array([this.createAssetTypeGroup()]),
     });
   }
+  createAssetTypeGroup(): FormGroup {
+    return this.fb.group({
+      id: [],
+      assetType: ['', Validators.required],
+    });
+  }
+
   buildMandateShowMoreInformationForm(): void {
     this.addMandateShowMoreInformationForm = this.fb.group({
       id: [null],
@@ -175,12 +190,28 @@ export class AddMandateComponent {
       this.mandateContactPersons.removeAt(i);
     }
   }
+  addAssetType() {
+    console.log('Adding new Asset Type group');
+    this.mandateAssetTypes?.push(this.createAssetTypeGroup());
+  }
+
+  removeAssetType(i: number) {
+    console.log('Removing Asset Type at index', i);
+    if (this.mandateAssetTypes.length > 1) {
+      this.mandateAssetTypes.removeAt(i);
+    }
+  }
   get mandateOfficers(): FormArray {
     return this.addMandateShowOfficersForm.get('mandateOfficers') as FormArray;
   }
   get mandateContactPersons(): FormArray {
     return this.addMandateShowContactPersonsForm.get(
       'mandateContactPersons'
+    ) as FormArray;
+  }
+  get mandateAssetTypes(): FormArray {
+    return this.addMandateShowAssetTypeForm.get(
+      'mandateAssetTypes'
     ) as FormArray;
   }
 }
