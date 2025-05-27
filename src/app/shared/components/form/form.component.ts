@@ -55,7 +55,7 @@ interface PageOperationGroup {
   styleUrl: './form.component.scss',
 })
 export class FormComponent implements OnInit, OnDestroy {
-  @Input() formGroup!: FormGroup;
+  @Input() formGroup: FormGroup = new FormGroup({});
   @Input() viewOnly = false;
   companyLegalDetail: CompanyLegalDetails = {};
   @Output() addIdentity = new EventEmitter<void>();

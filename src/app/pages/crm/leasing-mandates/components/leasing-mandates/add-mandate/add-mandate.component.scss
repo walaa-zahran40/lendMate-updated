@@ -219,7 +219,7 @@
   --custom-flex-direction-row-reverse: row-reverse;
   &::ng-deep {
     .p-tabs {
-      padding: var(--custom-padding-right-10);
+      padding: 50px 30px 30px 50px;
       zoom: 80%;
     }
     .p-button {

@@ -629,6 +629,20 @@ form {
     margin-bottom: 15px;
   }
 }
+
+.label-container {
+  font-family: var(--custom-font-family-regular);
+  font-weight: var(--custom-font-weight-600);
+  font-size: var(--custom-size-16);
+  color: var(--custom-grey-bold);
+  white-space: nowrap;
+  padding-bottom: 4px;
+  padding-top: 32px;
+  sup {
+    color: var(--custom-red);
+  }
+}
+
 .roles {
   display: flex;
   align-items: center;

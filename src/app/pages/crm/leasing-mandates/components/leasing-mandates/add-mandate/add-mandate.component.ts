@@ -61,6 +61,8 @@ export class AddMandateComponent {
   assetTypes$!: Observable<AssetType[]>;
   gracePeriodUnits$!: Observable<PeriodUnit[]>;
   feeTypes$!: Observable<FeeType[]>;
+  parentForm!: FormGroup;
+
   constructor(
     private fb: FormBuilder,
     private store: Store,
@@ -117,6 +119,14 @@ export class AddMandateComponent {
     //Grace Period Units Dropdown
     this.store.dispatch(loadGracePeriods({}));
     this.gracePeriodUnits$ = this.gracePeriodUnitsFacade.all$;
+    //Combine all forms into a single FormGroup
+    this.parentForm = this.fb.group({
+      basic: this.addMandateShowBasicForm,
+      officers: this.addMandateShowOfficersForm,
+      contacts: this.addMandateShowContactPersonsForm,
+      assets: this.addMandateShowAssetTypeForm,
+      moreInfo: this.addMandateShowMoreInformationForm,
+    });
   }
   buildMandateShowBasicForm(): void {
     this.addMandateShowBasicForm = this.fb.group({
@@ -271,5 +281,44 @@ export class AddMandateComponent {
     return this.addMandateShowMoreInformationForm.get(
       'mandateGracePeriodSetting'
     ) as FormArray;
+  }
+  get basicForm(): FormGroup {
+    // this never returns null at runtime, so we assert with `!` then cast
+    return this.parentForm.get('basic')! as FormGroup;
+  }
+  get officersForm(): FormGroup {
+    // the `!` tells TS “I guarantee there’s a value here”
+    // and the `as FormGroup` tells it the exact type
+    return this.parentForm.get('officers')! as FormGroup;
+  }
+  get contactsForm(): FormGroup {
+    // the `!` tells TS “I guarantee there’s a value here”
+    // and the `as FormGroup` tells it the exact type
+    return this.parentForm.get('contacts')! as FormGroup;
+  }
+  get assetsForm(): FormGroup {
+    // this never returns null at runtime, so we assert with `!` then cast
+    return this.parentForm.get('assets')! as FormGroup;
+  }
+  get moreInfoForm(): FormGroup {
+    // the `!` tells TS “I guarantee there’s a value here”
+    // and the `as FormGroup` tells it the exact type
+    return this.parentForm.get('moreInfo')! as FormGroup;
+  }
+  onSubmit() {
+    if (this.parentForm.invalid) {
+      this.parentForm.markAllAsTouched();
+      return;
+    }
+    const payload = {
+      ...this.parentForm.value.basic,
+      mandateOfficers: this.parentForm.value.officers.mandateOfficers,
+      mandateContactPersons:
+        this.parentForm.value.contacts.mandateContactPersons,
+      mandateAssetTypes: this.parentForm.value.assets.mandateAssetTypes,
+      ...this.parentForm.value.moreInfo,
+    };
+    // dispatch your save action or emit
+    console.log('Full Mandate payload', payload);
   }
 }

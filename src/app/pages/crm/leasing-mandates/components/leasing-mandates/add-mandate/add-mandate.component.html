@@ -7,16 +7,16 @@
   "
   [viewOnly]="editMode ? true : false"
 ></app-toolbar-form>
-<p-tabs value="0" styleClass="p-3">
-  <p-tabpanels>
-    <p-tabpanel value="0">
+<form [formGroup]="parentForm" (ngSubmit)="onSubmit()">
+  <p-tabs styleClass="p-3">
+    <p-tabpanel header="Basic">
       <app-form
         [title]="'Basic Information'"
         [description]="
           'Introduce your company core info quickly to users by fill up company details'
         "
         [addMandateShowBasicForm]="true"
-        [formGroup]="addMandateShowBasicForm"
+        [formGroup]="basicForm"
         [editMode]="editMode"
         [viewOnly]="viewOnly"
         [clientNames]="clientNames$ | async"
@@ -26,11 +26,13 @@
         [insuredBy]="insuredBy$ | async"
       ></app-form>
       <hr />
+    </p-tabpanel>
+    <p-tabpanel header="Officers">
       <app-form
         [title]="'Officers'"
         [description]="'This information will be displayed publicly'"
         [addMandateShowOfficersForm]="true"
-        [formGroup]="addMandateShowOfficersForm"
+        [formGroup]="officersForm"
         [editMode]="editMode"
         [viewOnly]="viewOnly"
         [officers]="officers$ | async"
@@ -38,11 +40,13 @@
         (addOfficer)="addOfficer()"
       ></app-form>
       <hr />
+    </p-tabpanel>
+    <p-tabpanel header="Contact Persons">
       <app-form
         [title]="'Contact Persons'"
         [description]="'This information will be displayed publicly'"
         [addMandateShowContactPersonsForm]="true"
-        [formGroup]="addMandateShowContactPersonsForm"
+        [formGroup]="contactsForm"
         [editMode]="editMode"
         [viewOnly]="viewOnly"
         [contactPersonsList]="contactPersons$ | async"
@@ -50,11 +54,13 @@
         (addContactPerson)="addContactPerson()"
       ></app-form>
       <hr />
+    </p-tabpanel>
+    <p-tabpanel header="Asset Types">
       <app-form
         [title]="'Asset Type'"
         [description]="'This information will be displayed publicly'"
         [addMandateShowAssetTypeForm]="true"
-        [formGroup]="addMandateShowAssetTypeForm"
+        [formGroup]="assetsForm"
         [editMode]="editMode"
         [viewOnly]="viewOnly"
         [assetTypesList]="assetTypes$ | async"
@@ -62,13 +68,15 @@
         (addAssetType)="addAssetType()"
       ></app-form>
       <hr />
+    </p-tabpanel>
+    <p-tabpanel header="More Information">
       <app-form
         [title]="'More Information'"
         [description]="
           'Introduce your company core info quickly to users by fill up company details'
         "
         [addMandateShowMoreInformationForm]="true"
-        [formGroup]="addMandateShowMoreInformationForm"
+        [formGroup]="moreInfoForm"
         [editMode]="editMode"
         [viewOnly]="viewOnly"
         (removeFee)="removeFee($event)"
@@ -79,5 +87,6 @@
         [feesList]="feeTypes$ | async"
       ></app-form>
     </p-tabpanel>
-  </p-tabpanels>
-</p-tabs>
+  </p-tabs>
+  <button pButton type="submit" label="Save Mandate"></button>
+</form>

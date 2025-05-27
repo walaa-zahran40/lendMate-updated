@@ -20,6 +20,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { reducer as leasingMandatesReducer } from './store/leasing-mandates/leasing-mandates.reducer';
 import { MandatesEffects } from './store/leasing-mandates/leasing-mandates.effects';
+import { FormComponent } from '../../../shared/components/form/form.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -39,6 +41,7 @@ import { MandatesEffects } from './store/leasing-mandates/leasing-mandates.effec
   imports: [
     CommonModule,
     CrmRoutingModule,
+    ReactiveFormsModule,
     SharedModule,
     TabsModule,
     ButtonModule,
