@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FollowUpPoints } from '../../../shared/interfaces/followup-points.interface';
+import { FollowUpPoints } from '../../../../shared/interfaces/followup-points.interface';
 
 @Component({
   selector: 'app-view-follow-up-points',

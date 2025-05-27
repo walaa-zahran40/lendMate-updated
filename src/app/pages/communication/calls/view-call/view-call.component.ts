@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Calls } from '../../../shared/interfaces/calls.interface';
+import { Calls } from '../../../../shared/interfaces/calls.interface';
 import { Router } from '@angular/router';
 
 @Component({
