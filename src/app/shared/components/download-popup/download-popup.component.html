@@ -1,17 +1,45 @@
 <div class="overlay">
   <div class="popup">
     <div class="header">
-      <h3>Download Mandate</h3>
-      <button class="close-btn" (click)="onClose()">×</button>
+      <h3>Download</h3>
+      <button class="close-btn" (click)="onClose()">
+        <img src="/assets/images/shared/download-popup/close.svg" />
+      </button>
     </div>
-    <div class="content">
-      <p><strong>Mandate Code:</strong> {{ mandate.code }}</p>
-      <p><strong>Description:</strong> {{ mandate.description }}</p>
-      <p><strong>Date:</strong> {{ mandate.date | date : "yyyy-MM-dd" }}</p>
-    </div>
+    <form class="content" [formGroup]="downloadForm">
+      <label for="contactPerson">Select Contact Person</label><br />
+      <p-select
+        class="w-100"
+        id="contactPerson"
+        [options]="contactPersons"
+        formControlName="contactPersons"
+        optionLabel="name"
+        optionValue="id"
+        placeholder="Choose Contact Person"
+      ></p-select
+      ><br />
+      <label for="officer">Select Officer</label><br />
+      <p-select
+        class="w-100"
+        id="officer"
+        [options]="officers"
+        formControlName="officers"
+        optionLabel="name"
+        placeholder="Choose officer"
+      ></p-select
+      ><br />
+      <label for="language">Select Language</label><br />
+      <p-select
+        class="w-100"
+        id="language"
+        [options]="languages"
+        formControlName="languages"
+        optionLabel="name"
+        placeholder="Choose Language"
+      ></p-select>
+    </form>
     <div class="actions">
       <button class="btn btn-primary" (click)="onDownload()">Download</button>
-      <button class="btn btn-secondary" (click)="onClose()">Cancel</button>
     </div>
   </div>
 </div>

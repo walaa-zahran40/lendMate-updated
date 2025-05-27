@@ -35,10 +35,6 @@ import { loadAll as loadProducts } from '../../../../../lookups/store/products/p
 import { loadAll as loadLeasingTypes } from '../../../../../lookups/store/leasing-types/leasing-types.actions';
 import { loadAll as loadInsuredBy } from '../../../../../lookups/store/insured-by/insured-by.actions';
 import { loadOfficers } from '../../../../../organizations/store/officers/officers.actions';
-import {
-  loadClientContactPersons,
-  loadClientContactPersonsByClientId,
-} from '../../../../../crm/clients/store/client-contact-persons/client-contact-persons.actions';
 import { loadAll as loadAssetTypes } from '../../../../../lookups/store/asset-types/asset-types.actions';
 import { loadAll as loadFeeTypes } from '../../../../../lookups/store/fee-types/fee-types.actions';
 import { loadAll as loadGracePeriods } from '../../../../../lookups/store/period-units/period-units.actions';

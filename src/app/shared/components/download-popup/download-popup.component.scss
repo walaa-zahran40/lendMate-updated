@@ -9,6 +9,12 @@
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  zoom: 80%;
+  font-family: "poppins-bold";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 160%;
 }
 
 .popup {
@@ -17,7 +23,6 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   max-width: 400px;
   width: 100%;
-  overflow: hidden;
 }
 
 .header {
@@ -29,6 +34,12 @@
 
   h3 {
     margin: 0;
+    font-family: "poppins-bold";
+    font-size: 16px;
+    font-style: normal;
+    color: #1a1d1f;
+    font-weight: 700;
+    line-height: 160%;
   }
 
   .close-btn {
@@ -41,9 +52,15 @@
 
 .content {
   padding: 1rem;
+  overflow: visible;
 
-  p {
+  label {
     margin: 0.5rem 0;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 160%;
+    color: #6f767e;
   }
 }
 
@@ -59,7 +76,7 @@
   }
 
   .btn-primary {
-    background: #007ad9;
+    background-color: #0a69bb;
     color: #fff;
     border: none;
     border-radius: 4px;

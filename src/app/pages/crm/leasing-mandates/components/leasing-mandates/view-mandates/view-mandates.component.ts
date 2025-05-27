@@ -5,6 +5,12 @@ import { TableComponent } from '../../../../../../shared/components/table/table.
 import { Mandate } from '../../../store/leasing-mandates/leasing-mandate.model';
 import { MandatesFacade } from '../../../store/leasing-mandates/leasing-mandates.facade';
 import { ClientsFacade } from '../../../../clients/store/_clients/allclients/clients.facade';
+import { Store } from '@ngrx/store';
+import {
+  loadClientContactPersons,
+  loadClientContactPersonsByClientId,
+} from '../../../../../crm/clients/store/client-contact-persons/client-contact-persons.actions';
+import { ClientContactPersonsFacade } from '../../../../clients/store/client-contact-persons/client-contact-persons.facade';
 
 @Component({
   selector: 'app-view-mandates',
@@ -33,11 +39,16 @@ export class ViewMandatesComponent {
   selectedLeasingMandateId: number | null = null;
   originalLeasingMandates: any[] = [];
   filteredLeasingMandates: Mandate[] = [];
+  contactPersonsDropdown: any;
+  officersDropdown: any[] = [];
+  languagesDropdown: any[] = [];
 
   constructor(
     private router: Router,
     private clientsFacade: ClientsFacade,
-    private facade: MandatesFacade
+    private facade: MandatesFacade,
+    private store: Store,
+    private facadeContact: ClientContactPersonsFacade
   ) {}
   ngOnInit() {
     this.facade.loadAll();
@@ -85,8 +96,69 @@ export class ViewMandatesComponent {
         this.originalLeasingMandates = enriched;
         this.filteredLeasingMandates = enriched;
       });
+    this.setupContactPersonsDropdown();
+    this.setupOfficersDropdown();
+    this.setupLanguagesDropdown();
+  }
+  private setupContactPersonsDropdown(): void {
+    this.store.dispatch(loadClientContactPersons());
+    this.contactPersonsDropdown = this.facadeContact.items$;
   }
 
+  private setupOfficersDropdown(): void {
+    console.log('🔍 selectedRowForDownload:', this.selectedRowForDownload);
+
+    const contacts = this.selectedRowForDownload?.contacts;
+    console.log('🔍 raw contacts array:', contacts);
+
+    if (contacts && Array.isArray(contacts)) {
+      this.contactPersonsDropdown = contacts.filter((v, i, a) => {
+        const firstIdx = a.findIndex((t) => t.id === v.id);
+        const keep = firstIdx === i;
+        if (!keep) {
+          console.warn(
+            `🚨 duplicate contact id=${v.id} at index ${i}; first seen at ${firstIdx}`
+          );
+        }
+        return keep;
+      });
+
+      console.log(
+        '✅ filtered (unique) contacts:',
+        this.contactPersonsDropdown
+      );
+    } else {
+      console.warn('⚠️ no contacts found on selectedRowForDownload');
+      this.contactPersonsDropdown = [];
+    }
+  }
+  private setupLanguagesDropdown(): void {
+    console.log('🔍 selectedRowForDownload:', this.selectedRowForDownload);
+
+    const contacts = this.selectedRowForDownload?.contacts;
+    console.log('🔍 raw contacts array:', contacts);
+
+    if (contacts && Array.isArray(contacts)) {
+      this.contactPersonsDropdown = contacts.filter((v, i, a) => {
+        const firstIdx = a.findIndex((t) => t.id === v.id);
+        const keep = firstIdx === i;
+        if (!keep) {
+          console.warn(
+            `🚨 duplicate contact id=${v.id} at index ${i}; first seen at ${firstIdx}`
+          );
+        }
+        return keep;
+      });
+
+      console.log(
+        '✅ filtered (unique) contacts:',
+        this.contactPersonsDropdown
+      );
+    } else {
+      console.warn('⚠️ no contacts found on selectedRowForDownload');
+      this.contactPersonsDropdown = [];
+    }
+  }
   onAddLeasingMandate() {
     this.router.navigate(['/crm/leasing-mandates/add-mandate']);
   }

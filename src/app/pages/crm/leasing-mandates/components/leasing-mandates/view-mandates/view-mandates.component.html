@@ -37,7 +37,9 @@
     ></app-table
     ><app-download-popup
       *ngIf="showDownloadPopup"
-      [mandate]="selectedRowForDownload"
+      [contactPersons]="contactPersonsDropdown"
+      [officers]="officersDropdown"
+      [languages]="languagesDropdown"
       (close)="onPopupClose()"
       (download)="onPopupDownload($event)"
     ></app-download-popup>
