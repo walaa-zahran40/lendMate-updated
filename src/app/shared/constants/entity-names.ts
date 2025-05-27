@@ -10,6 +10,8 @@ export enum EntityNames {
   AssetTypeCategory = 'AssetTypeCategory',
   Area = 'Area',
   AddressType = 'AddressType',
+  ConditionExpression = 'ConditionExpression',
+  Condition = 'Condition',
   FeeRange = 'FeeRange',
   InterestType = 'InterestType',
   AuthorityOffice = 'AuthorityOffice',

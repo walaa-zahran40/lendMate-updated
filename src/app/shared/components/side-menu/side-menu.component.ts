@@ -736,12 +736,12 @@ export class SideMenuComponent {
           {
             label: 'Condition',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-company-types',
+            routerLink: '/lookups/view-conditions',
           },
           {
             label: 'Condition Expression',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-company-types',
+            routerLink: '/lookups/view-condition-expressions',
           },
           {
             label: 'Countries',
