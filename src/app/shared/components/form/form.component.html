@@ -7997,9 +7997,9 @@
           [formGroupName]="i"
           class="parent2-individual2 mt-2 flex items-start gap-4 align-items-center flex-wrap"
         >
-          <!-- 1) contact PersonsName -->
+          <!-- 1) Asset Type -->
           <div class="div-number flex-1 min-w-0">
-            <label for="contactPerson" class="p-0">
+            <label for="assetType" class="p-0">
               Asset Type<sup class="danger">*</sup>
             </label>
             <p-select
@@ -8019,6 +8019,28 @@
               "
             >
               Asset Type is required.
+            </small>
+            <label for="assetTypeDescription" class="p-0">
+              Asset Type Description<sup class="danger">*</sup>
+            </label>
+            <input
+              pInputText
+              id="assetTypeDescription"
+              aria-describedby="assetTypeDescription-help"
+              name="assetTypeDescription"
+              formControlName="assetTypeDescription"
+              placeholder="Yes"
+              [disabled]="true"
+              class="d-block w-100"
+            />
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('assetTypeDescription')?.invalid &&
+                group.get('assetTypeDescription')?.touched
+              "
+            >
+              Asset Type Description.
             </small>
           </div>
           <!-- 4) Add another Asset Type -->
@@ -8053,35 +8075,249 @@
       *ngIf="addMandateShowMoreInformationForm"
       id="addMandateShowMoreInformationForm"
     >
-      <label for="dateMoreInformationForm">Date <sup>*</sup></label>
-      <shared-date-picker inputId="dateMoreInformationForm">
+      <label for="date">Date <sup>*</sup></label>
+      <shared-date-picker inputId="date" formControlName="date">
+        <small
+          class="p-error d-block"
+          *ngIf="
+            formGroup.get('date')?.invalid && formGroup.get('date')?.touched
+          "
+        >
+          Date is required.
+        </small>
       </shared-date-picker>
-      <label for="notesMoreInformationForm">Notes</label
+      <label for="notes">Notes<sup>*</sup></label
       ><textarea
         rows="5"
         cols="30"
         pTextarea
         placeholder="Notes"
-        name="notesMoreInformationForm"
+        formControlName="notes"
+        name="notes"
       ></textarea>
-
-      <label for="descriptionMoreInformationForm">Description</label
+      <small
+        class="p-error d-block"
+        *ngIf="
+          formGroup.get('notes')?.invalid && formGroup.get('notes')?.touched
+        "
+      >
+        Notes is required.
+      </small>
+      <label for="description">Description<sup>*</sup></label
       ><textarea
         rows="5"
         cols="30"
         pTextarea
-        name="descriptionMoreInformationForm"
+        name="description"
         placeholder="Description"
+        formControlName="description"
       ></textarea>
+      <small
+        class="p-error d-block"
+        *ngIf="
+          formGroup.get('description')?.invalid &&
+          formGroup.get('description')?.touched
+        "
+      >
+        Description is required.
+      </small>
+      <label for="validityCount">Validity Count<sup>*</sup></label
+      ><input type="number" formControlName="validityCount" pInputText />
+      <small
+        class="p-error d-block"
+        *ngIf="
+          formGroup.get('validityCount')?.invalid &&
+          formGroup.get('validityCount')?.touched
+        "
+      >
+        Validity Count is required.
+      </small>
+      <label for="indicativeRentals">Indicative Rentals<sup>*</sup></label>
+      <input type="number" formControlName="indicativeRentals" pInputText />
+      <small
+        class="p-error d-block"
+        *ngIf="
+          formGroup.get('indicativeRentals')?.invalid &&
+          formGroup.get('indicativeRentals')?.touched
+        "
+      >
+        Indicative Rentals is required.
+      </small>
+      <div formArrayName="mandateFees" class="mt-4">
+        <div
+          *ngFor="let group of mandateFees?.controls; let i = index"
+          [formGroupName]="i"
+          class="parent2-individual2 mt-2 flex items-start gap-4 align-items-center flex-wrap"
+        >
+          <!-- 1) Fee Type -->
+          <div class="div-number flex-1 min-w-0">
+            <label for="feeTypeId" class="p-0">
+              Fee Type<sup class="danger">*</sup>
+            </label>
+            <p-select
+              [options]="feesList"
+              formControlName="feeTypeId"
+              placeholder="Select Fee Type"
+              optionLabel="name"
+              optionValue="id"
+              name="feeTypeId"
+              styleClass="w-full md:w-80"
+            />
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('feeTypeId')?.invalid &&
+                group.get('feeTypeId')?.touched
+              "
+            >
+              Fee Type is required.
+            </small>
+            <label for="actualAmount" class="p-0">
+              Actual Amount<sup class="danger">*</sup>
+            </label>
+            <input
+              pInputText
+              id="actualAmount"
+              aria-describedby="actualAmount-help"
+              name="actualAmount"
+              formControlName="actualAmount"
+              placeholder="Yes"
+              class="d-block w-100"
+            />
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('actualAmount')?.invalid &&
+                group.get('actualAmount')?.touched
+              "
+            >
+              Actual Amount Required.
+            </small>
+            <label for="actualPrecentage" class="p-0">
+              Actual Percentage<sup class="danger">*</sup>
+            </label>
+            <input
+              pInputText
+              id="actualPrecentage"
+              aria-describedby="actualPrecentage-help"
+              name="actualPrecentage"
+              formControlName="actualPrecentage"
+              placeholder="Yes"
+              class="d-block w-100"
+            />
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('actualPrecentage')?.invalid &&
+                group.get('actualPrecentage')?.touched
+              "
+            >
+              Actual Percentage Required.
+            </small>
+          </div>
+          <!-- 4) Add another Fee -->
+          <button
+            style="margin-top: 25px"
+            pButton
+            type="button"
+            icon="pi pi-plus"
+            class="p-button-outlined p-button-sm"
+            (click)="addFee.emit()"
+            *ngIf="!viewOnly"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+          ></button>
 
-      <label for="validityCountMoreInformationForm">Validity Count</label
-      ><textarea
-        rows="5"
-        cols="30"
-        pTextarea
-        name="validityCountMoreInformationForm"
-        placeholder="Validity Count"
-      ></textarea>
+          <!-- 5) Remove this Fee -->
+          <button
+            pButton
+            style="margin-top: 25px"
+            type="button"
+            icon="pi pi-trash"
+            class="p-button-danger p-button-sm"
+            *ngIf="mandateFees.length > 1 && !viewOnly"
+            (click)="removeFee.emit(i)"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+          ></button>
+        </div>
+      </div>
+      <div formArrayName="mandateGracePeriodSetting" class="mt-4">
+        <div
+          *ngFor="let group of mandateGracePeriodSetting?.controls; let i = index"
+          [formGroupName]="i"
+          class="parent2-individual2 mt-2 flex items-start gap-4 align-items-center flex-wrap"
+        >
+          <!-- 1) Grace Period Count -->
+          <div class="div-number flex-1 min-w-0">
+            <label for="gracePeriodCount" class="p-0">
+              Grace Period Count<sup class="danger">*</sup>
+            </label>
+            <input
+              pInputText
+              id="gracePeriodCount"
+              aria-describedby="gracePeriodCount-help"
+              name="gracePeriodCount"
+              formControlName="gracePeriodCount"
+              placeholder="Yes"
+              class="d-block w-100"
+            />
+           
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('gracePeriodCount')?.invalid &&
+                group.get('gracePeriodCount')?.touched
+              "
+            >
+              Grace Period Count is required.
+            </small>
+            <label for="gracePeriodUnitId" class="p-0">
+              Grace Period Unit<sup class="danger">*</sup>
+            </label>
+           <p-select
+              [options]="gracePeriodUnitsList"
+              formControlName="gracePeriodUnitId"
+              placeholder="Select Grace Period Unit"
+              optionLabel="name"
+              optionValue="id"
+              name="gracePeriodUnitId"
+              styleClass="w-full md:w-80"
+            />
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('gracePeriodUnitId')?.invalid &&
+                group.get('gracePeriodUnitId')?.touched
+              "
+            >
+              Grace Period Unit Required.
+            </small>
+          
+          </div>
+          <!-- 4) Add another Fee -->
+          <button
+            style="margin-top: 25px"
+            pButton
+            type="button"
+            icon="pi pi-plus"
+            class="p-button-outlined p-button-sm"
+            (click)="addGracePeriod.emit()"
+            *ngIf="!viewOnly"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+          ></button>
+
+          <!-- 5) Remove this Fee -->
+          <button
+            pButton
+            style="margin-top: 25px"
+            type="button"
+            icon="pi pi-trash"
+            class="p-button-danger p-button-sm"
+            *ngIf="mandateGracePeriodSetting.length > 1 && !viewOnly"
+            (click)="removeGracePeriod.emit(i)"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+          ></button>
+        </div>
+      </div>
       <div class="row justify-end">
         <div
           class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 addressTypesDiv"
@@ -10298,9 +10534,7 @@
           <p-button
             label="Close"
             class="custom-save m-0 float-right"
-            (click)="
-              router.navigate(['/lookups/view-notification-group-officers'])
-            "
+            (click)="closeNotificationGroups()"
           />
         </div>
       </div>
@@ -11277,7 +11511,6 @@
       <label for="countryAddMeeting">Country<sup>*</sup></label>
       <p-multiselect
         [options]="countryAddMeeting"
-        [(ngModel)]="selectedCountryAddMeeting"
         placeholder="Select Country"
         optionLabel="name"
         display="chip"
@@ -11290,7 +11523,6 @@
       <label for="governorateAddMeeting">Governorate<sup>*</sup></label>
       <p-multiselect
         [options]="governorateAddMeeting"
-        [(ngModel)]="selectedGovernorateAddMeeting"
         placeholder="Select Governorate"
         optionLabel="name"
         display="chip"
@@ -11303,7 +11535,6 @@
       <label for="areaAddMeeting">Area<sup>*</sup></label>
       <p-multiselect
         [options]="areaAddMeeting"
-        [(ngModel)]="selectedAreaAddMeeting"
         placeholder="Select Area"
         optionLabel="name"
         display="chip"
@@ -11320,7 +11551,6 @@
           <label for="officerAddMeeting">Officer<sup>*</sup></label>
           <p-multiselect
             [options]="officerAddMeeting"
-            [(ngModel)]="selectedOfficerAddMeeting"
             placeholder="Select Officer"
             optionLabel="name"
             display="chip"
@@ -11347,7 +11577,6 @@
               [inputId]="officer.key"
               name="group"
               [value]="officer"
-              [(ngModel)]="selectedOfficers"
             />
           </div>
           <div class="col-sm">
@@ -11514,7 +11743,6 @@
       <label for="callTypeAddCall">Call Type<sup>*</sup></label>
       <p-multiselect
         [options]="callTypeAddCall"
-        [(ngModel)]="selectedCallTypeAddCall"
         placeholder="Select Call Type"
         optionLabel="name"
         display="chip"
@@ -11527,7 +11755,6 @@
       <label for="callActionTypeAddCall">Call Action Type<sup>*</sup></label>
       <p-multiselect
         [options]="callActionTypeAddCall"
-        [(ngModel)]="selectedCallActionTypeAddCall"
         placeholder="Select Call Action Type"
         optionLabel="name"
         display="chip"
@@ -11542,7 +11769,6 @@
       >
       <p-multiselect
         [options]="communicationFlowAddCall"
-        [(ngModel)]="selectedCommunicationFlowAddCall"
         placeholder="Select CommunicationFlow"
         optionLabel="name"
         display="chip"

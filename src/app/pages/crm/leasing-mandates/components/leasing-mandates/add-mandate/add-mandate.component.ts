@@ -11,6 +11,9 @@ import { LeasingType } from '../../../../../lookups/store/leasing-types/leasing-
 import { InsuredBy } from '../../../../../lookups/store/insured-by/insured-by.model';
 import { Officer } from '../../../../../organizations/store/officers/officer.model';
 import { ClientContactPerson } from '../../../../clients/store/client-contact-persons/client-contact-person.model';
+import { PeriodUnit } from '../../../../../lookups/store/period-units/period-unit.model';
+import { FeeType } from '../../../../../lookups/store/fee-types/fee-type.model';
+import { AssetType } from '../../../../../lookups/store/asset-types/asset-type.model';
 //Facades
 import { ClientsFacade } from '../../../../clients/store/_clients/allclients/clients.facade';
 import { MandateValidityUnitsFacade } from '../../../../../lookups/store/mandate-validity-units/mandate-validity-units.facade';
@@ -19,6 +22,9 @@ import { LeasingTypesFacade } from '../../../../../lookups/store/leasing-types/l
 import { InsuredByFacade } from '../../../../../lookups/store/insured-by/insured-by.facade';
 import { OfficersFacade } from '../../../../../organizations/store/officers/officers.facade';
 import { ClientContactPersonsFacade } from '../../../../clients/store/client-contact-persons/client-contact-persons.facade';
+import { FeeTypesFacade } from '../../../../../lookups/store/fee-types/fee-types.facade';
+import { GracePeriodUnitsFacade } from '../../../../../lookups/store/period-units/period-units.facade';
+import { AssetTypesFacade } from '../../../../../lookups/store/asset-types/asset-types.facade';
 //Actions
 import { loadAll } from '../../../../clients/store/_clients/allclients/clients.actions';
 import { loadAll as loadValidityUnits } from '../../../../../lookups/store/mandate-validity-units/mandate-validity-units.actions';
@@ -28,8 +34,8 @@ import { loadAll as loadInsuredBy } from '../../../../../lookups/store/insured-b
 import { loadOfficers } from '../../../../../organizations/store/officers/officers.actions';
 import { loadClientContactPersons } from '../../../../../crm/clients/store/client-contact-persons/client-contact-persons.actions';
 import { loadAll as loadAssetTypes } from '../../../../../lookups/store/asset-types/asset-types.actions';
-import { AssetType } from '../../../../../lookups/store/asset-types/asset-type.model';
-import { AssetTypesFacade } from '../../../../../lookups/store/asset-types/asset-types.facade';
+import { loadAll as loadFeeTypes } from '../../../../../lookups/store/fee-types/fee-types.actions';
+import { loadAll as loadGracePeriods } from '../../../../../lookups/store/period-units/period-units.actions';
 
 @Component({
   selector: 'app-add-mandate',
@@ -53,6 +59,8 @@ export class AddMandateComponent {
   officers$!: Observable<Officer[]>;
   contactPersons$!: Observable<ClientContactPerson[]>;
   assetTypes$!: Observable<AssetType[]>;
+  gracePeriodUnits$!: Observable<PeriodUnit[]>;
+  feeTypes$!: Observable<FeeType[]>;
   constructor(
     private fb: FormBuilder,
     private store: Store,
@@ -63,7 +71,9 @@ export class AddMandateComponent {
     private insuredByFacade: InsuredByFacade,
     private officersFacade: OfficersFacade,
     private contactPersonsFacade: ClientContactPersonsFacade,
-    private assetTypesFacade: AssetTypesFacade
+    private assetTypesFacade: AssetTypesFacade,
+    private feeTypesFacade: FeeTypesFacade,
+    private gracePeriodUnitsFacade: GracePeriodUnitsFacade
   ) {}
 
   ngOnInit() {
@@ -99,11 +109,19 @@ export class AddMandateComponent {
     //Asset Type Dropdown
     this.store.dispatch(loadAssetTypes({}));
     this.assetTypes$ = this.assetTypesFacade.all$;
+    //5`-More Information Form
     this.buildMandateShowMoreInformationForm();
+    //Fee Types Dropdown
+    this.store.dispatch(loadFeeTypes({}));
+    this.feeTypes$ = this.feeTypesFacade.all$;
+    //Grace Period Units Dropdown
+    this.store.dispatch(loadGracePeriods({}));
+    this.gracePeriodUnits$ = this.gracePeriodUnitsFacade.all$;
   }
   buildMandateShowBasicForm(): void {
     this.addMandateShowBasicForm = this.fb.group({
       id: [null],
+      parentMandateId: [null],
       clientId: [null, Validators.required],
       validityUnitId: [null, Validators.required],
       productId: [null, Validators.required],
@@ -113,7 +131,6 @@ export class AddMandateComponent {
   }
   buildMandateShowOfficersForm(): void {
     this.addMandateShowOfficersForm = this.fb.group({
-      id: [null],
       mandateOfficers: this.fb.array([this.createMandateOfficerGroup()]),
     });
   }
@@ -133,41 +150,50 @@ export class AddMandateComponent {
   }
   createMandateContactPersonGroup(): FormGroup {
     return this.fb.group({
-      id: [],
       contactPerson: ['', Validators.required],
     });
   }
 
   buildMandateShowAssetTypeForm(): void {
     this.addMandateShowAssetTypeForm = this.fb.group({
-      id: [null],
       mandateAssetTypes: this.fb.array([this.createAssetTypeGroup()]),
     });
   }
   createAssetTypeGroup(): FormGroup {
     return this.fb.group({
-      id: [],
       assetType: ['', Validators.required],
+      assetTypeDescription: [null, Validators.required],
     });
   }
 
   buildMandateShowMoreInformationForm(): void {
     this.addMandateShowMoreInformationForm = this.fb.group({
-      id: [null],
-      date: [null],
-      notes: [null],
-      description: [null],
-      validityCount: [null],
-      parentMandateId: [null],
-      validityUnitId: [null],
-      productId: [null],
-      indicativeRentals: [null],
-      leasingTypeId: [null],
-      insuredById: [null],
-      mandateFees: [null],
-      mandateGracePeriodSetting: [null],
+      date: [null, Validators.required],
+      notes: [null, Validators.required],
+      description: [null, Validators.required],
+      validityCount: [null, Validators.required],
+      indicativeRentals: [null, Validators.required],
+      mandateFees: this.fb.array([this.createMandateFeesGroup()]),
+      mandateGracePeriodSetting: this.fb.array([
+        this.createMandateGracePeriodSettingGroup(),
+      ]),
     });
   }
+  createMandateFeesGroup(): FormGroup {
+    return this.fb.group({
+      feeTypeId: [null],
+      actualAmount: [null],
+      actualPrecentage: [null],
+    });
+  }
+
+  createMandateGracePeriodSettingGroup(): FormGroup {
+    return this.fb.group({
+      gracePeriodCount: [null],
+      gracePeriodUnitId: [null],
+    });
+  }
+
   addOfficer() {
     console.log('Adding new identity group');
     this.mandateOfficers?.push(this.createMandateOfficerGroup());
@@ -201,6 +227,28 @@ export class AddMandateComponent {
       this.mandateAssetTypes.removeAt(i);
     }
   }
+  addFee() {
+    console.log('Adding new mandate Fees group');
+    this.mandateFees?.push(this.createMandateFeesGroup());
+  }
+
+  removeFee(i: number) {
+    console.log('Removing mandate Fees at index', i);
+    if (this.mandateFees.length > 1) {
+      this.mandateFees.removeAt(i);
+    }
+  }
+  addGracePeriod() {
+    console.log('Adding new Grace Period group');
+    this.mandateGracePeriods?.push(this.createMandateGracePeriodSettingGroup());
+  }
+
+  removeGracePeriod(i: number) {
+    console.log('Removing Grace Period at index', i);
+    if (this.mandateGracePeriods.length > 1) {
+      this.mandateGracePeriods.removeAt(i);
+    }
+  }
   get mandateOfficers(): FormArray {
     return this.addMandateShowOfficersForm.get('mandateOfficers') as FormArray;
   }
@@ -212,6 +260,16 @@ export class AddMandateComponent {
   get mandateAssetTypes(): FormArray {
     return this.addMandateShowAssetTypeForm.get(
       'mandateAssetTypes'
+    ) as FormArray;
+  }
+  get mandateFees(): FormArray {
+    return this.addMandateShowMoreInformationForm.get(
+      'mandateFees'
+    ) as FormArray;
+  }
+  get mandateGracePeriods(): FormArray {
+    return this.addMandateShowMoreInformationForm.get(
+      'mandateGracePeriodSetting'
     ) as FormArray;
   }
 }

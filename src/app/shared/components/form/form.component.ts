@@ -70,6 +70,10 @@ export class FormComponent implements OnInit, OnDestroy {
   @Output() removeContactPerson = new EventEmitter<number>();
   @Output() addAssetType = new EventEmitter<void>();
   @Output() removeAssetType = new EventEmitter<number>();
+  @Output() addFee = new EventEmitter<void>();
+  @Output() removeFee = new EventEmitter<number>();
+  @Output() addGracePeriod = new EventEmitter<void>();
+  @Output() removeGracePeriod = new EventEmitter<number>();
 
   id!: string;
   @Input() applyReusable: boolean = false;
@@ -272,6 +276,8 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() officers!: any;
   @Input() contactPersonsList!: any;
   @Input() assetTypesList!: any;
+  @Input() feesList!: any;
+  @Input() gracePeriodUnitsList!: any;
   selectedClientNames!: any;
   selectedMandateValidityUnit!: any;
   selectedProducts!: any;
@@ -644,6 +650,12 @@ export class FormComponent implements OnInit, OnDestroy {
   }
   get mandateAssetTypes(): FormArray {
     return this.formGroup.get('mandateAssetTypes') as FormArray;
+  }
+  get mandateFees(): FormArray {
+    return this.formGroup.get('mandateFees') as FormArray;
+  }
+  get mandateGracePeriodSetting(): FormArray {
+    return this.formGroup.get('mandateGracePeriodSetting') as FormArray;
   }
   onSectorChange(event: any) {
     const selectedId = event.value;
@@ -1101,5 +1113,8 @@ export class FormComponent implements OnInit, OnDestroy {
   close() {
     console.log('route', this.route.snapshot);
     this.router.navigate([`/crm/clients/view-upload-documents/${this.id}`]);
+  }
+  closeNotificationGroups() {
+    this.router.navigate(['/lookups/view-notification-group-officers']);
   }
 }
