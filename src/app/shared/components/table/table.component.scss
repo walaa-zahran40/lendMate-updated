@@ -17,7 +17,8 @@
   &::ng-deep {
     img[alt="side"],
     img[alt="delete"],
-    img[alt="edit"] {
+    img[alt="edit"],
+    img[alt="download"] {
       cursor: pointer;
     }
     .p-datatable-popover-filter {

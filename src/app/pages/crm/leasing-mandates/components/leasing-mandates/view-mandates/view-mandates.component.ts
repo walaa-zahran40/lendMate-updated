@@ -21,6 +21,8 @@ export class ViewMandatesComponent {
   showFilters: boolean = false;
   @ViewChild('tableRef') tableRef!: TableComponent;
   clients$ = this.clientsFacade.all$;
+  selectedRowForDownload: Mandate | null = null;
+  showDownloadPopup = false;
 
   readonly colsInside = [
     { field: 'description', header: 'Description' },
@@ -94,6 +96,11 @@ export class ViewMandatesComponent {
       leasingMandatesId,
     ]);
   }
+  onDownloadClick(row: any) {
+    console.log('clicked');
+    this.selectedRowForDownload = row;
+    this.showDownloadPopup = true;
+  }
 
   ngOnDestroy() {
     this.destroy$.next();
@@ -145,5 +152,14 @@ export class ViewMandatesComponent {
         mode: 'view',
       },
     });
+  }
+  onPopupClose() {
+    this.showDownloadPopup = false;
+    this.selectedRowForDownload = null;
+  }
+  onPopupDownload(m: any) {
+    // you can kick off server download here, e.g.:
+    // this.fileService.downloadMandatePdf(m.id).subscribe(...);
+    this.onPopupClose();
   }
 }

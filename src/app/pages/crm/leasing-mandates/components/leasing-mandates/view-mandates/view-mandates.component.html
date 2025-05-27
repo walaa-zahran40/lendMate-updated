@@ -33,7 +33,14 @@
       (onEdit)="onEditLeasingMandate($event)"
       (wizardBtn)="onAddSide($event)"
       (viewForm)="onViewLeasingMandates($event)"
-    ></app-table>
+      (onDownload)="onDownloadClick($event)"
+    ></app-table
+    ><app-download-popup
+      *ngIf="showDownloadPopup"
+      [mandate]="selectedRowForDownload"
+      (close)="onPopupClose()"
+      (download)="onPopupDownload($event)"
+    ></app-download-popup>
     <app-delete-module
       [visible]="showDeleteModal"
       (confirm)="confirmDelete()"

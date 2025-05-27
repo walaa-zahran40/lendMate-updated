@@ -57,6 +57,7 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { GlobalSpinnerComponent } from './global-spinner/global-spinner.component';
 import { SharedDatePickerComponent } from './shared-date-picker/shared-date-picker.component';
+import { DownloadPopupComponent } from './download-popup/download-popup.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { SharedDatePickerComponent } from './shared-date-picker/shared-date-pick
     ToolbarCompoundComponent,
     GlobalSpinnerComponent,
     SharedDatePickerComponent,
+    DownloadPopupComponent,
   ],
   imports: [
     CommonModule,
@@ -135,7 +137,7 @@ import { SharedDatePickerComponent } from './shared-date-picker/shared-date-pick
     CardComponent,
     ToastModule,
     GlobalSpinnerComponent,
-
+    DownloadPopupComponent,
     ToolbarCardComponent,
     ToolbarCompoundComponent,
   ],

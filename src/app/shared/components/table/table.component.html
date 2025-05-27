@@ -88,6 +88,13 @@
 
       <td class="imgs pt-0">
         <img
+          src="/assets/images/shared/table/download.svg"
+          alt="download"
+          class="d-inline-block mx-2 my-2"
+          *ngIf="download"
+          (click)="onDownload.emit(rowData)"
+        />
+        <img
           src="/assets/images/shared/table/edit.svg"
           alt="edit"
           class="d-inline-block mx-2 my-2"
@@ -127,6 +134,7 @@
     <div class="p-paginator-left"></div>
   </ng-template>
 </p-table>
+
 <div
   *ngIf="tableData?.length === 0 || !tableData"
   class="flex justify-content-center align-items-center"

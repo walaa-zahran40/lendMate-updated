@@ -162,6 +162,7 @@ export class TableComponent {
   @Output() wizardBtn = new EventEmitter<void>();
   @Output() onEdit = new EventEmitter<any>();
   @Output() onDelete = new EventEmitter<number>();
+  @Output() onDownload = new EventEmitter<number>();
 
   checked: boolean = false;
   first2: number = 0;
@@ -196,6 +197,7 @@ export class TableComponent {
     }
     this.totalRecords = this.tableData.length;
   }
+
   getSectorName(sectorId: number): string {
     const sector = this.allSectors.find((s: any) => s.id === sectorId);
     return sector ? sector.name : 'Unknown Sector';
