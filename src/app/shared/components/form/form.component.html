@@ -164,6 +164,15 @@
       class="custom-view m-0 float-right"
     />
 
+      <p-button
+      *ngIf="addConditionExpressionsLookupsForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Condition Expression"
+      (click)="viewConditionExpressions()"
+      class="custom-view m-0 float-right"
+    />
+
     <p-button
       *ngIf="addInterestTypesLookupsForm"
       icon="pi pi-cog"
@@ -2852,6 +2861,100 @@
         </div>
       </div>
     </form>
+
+    <form
+      [formGroup]="formGroup"
+      *ngIf="addConditionExpressionsLookupsForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="fieldName">Field Name<sup>*</sup></label>
+      <input
+        pInputText
+        id="fieldName"
+        formControlName="fieldName"
+        placeholder="Enter fieldName"
+      />
+      <div
+        *ngIf="
+          formGroup.get('fieldName')?.hasError('required') &&
+          formGroup.get('fieldName')?.touched
+        "
+        class="p-error"
+      >
+        fieldName is required.
+      </div>
+
+      <label for="value">Value<sup>*</sup></label>
+      <input
+        pInputText
+        id="value"
+        formControlName="value"
+        placeholder="Enter value"
+        
+      />
+      <div
+        *ngIf="
+          formGroup.get('value')?.hasError('required') &&
+          formGroup.get('value')?.touched
+        "
+        class="p-error"
+      >
+        Value is required.
+      </div>
+  
+       <label for="operator">Operator<sup>*</sup></label>
+      <input
+        pInputText
+        id="operator"
+        formControlName="operator"
+        placeholder="Enter operator"
+           type="number"
+      />
+      <div
+        *ngIf="
+          formGroup.get('operator')?.hasError('required') &&
+          formGroup.get('operator')?.touched
+        "
+        class="p-error"
+      >
+        Operator is required.
+      </div>
+
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 addressTypesDiv"
+          *ngIf="!editMode"
+        >
+          <p-button
+            type="submit"
+            label="Add Condition Expression"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 addressTypesDiv"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Condition Expression"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 addressTypesDiv"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate(['/lookups/view-condition-expressions'])"
+          />
+        </div>
+      </div>
+    </form>
+
 
     <form
       [formGroup]="formGroup"

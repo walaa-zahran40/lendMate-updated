@@ -104,6 +104,8 @@ import { ViewNotificationGroupOfficersComponent } from './components/notificatio
 import { AddNotificationGroupOfficersComponent } from './components/notification-group-officers/add-notification-group-officers/add-notification-group-officers.component';
 import { ViewAuthorizationGroupOfficersComponent } from './components/authorization-group-officers/view-authorization-group-officers/view-notification-authorization-group-officers.component';
 import { AddAuthorizationGroupOfficersComponent } from './components/authorization-group-officers/add-authorization-group-officers/add-authorization-group-officers.component';
+import { ViewConditionExpressionsComponent } from './components/condition-expressions/view-condition-expressions/view-condition-expressions.component';
+import { AddConditionExpressionsComponent } from './components/condition-expressions/add-condition-expressions/add-condition-expressions.component';
 
 const routes: Routes = [
   /**Lookup Module */
@@ -849,6 +851,21 @@ const routes: Routes = [
   {
     path: 'view-notification-group-officers',
     component: ViewNotificationGroupOfficersComponent,
+  },
+
+
+    //ConditionExpression
+  {
+    path: 'add-condition-expressions',
+    component: AddConditionExpressionsComponent,
+  },
+  {
+    path: 'edit-condition-expressions/:id',
+    component: AddConditionExpressionsComponent,
+  },
+  {
+    path: 'view-condition-expressions',
+    component: ViewConditionExpressionsComponent,
   },
 
 

@@ -27,15 +27,15 @@ export class AddConditionExpressionsComponent {
   ngOnInit() {
     this.addConditionExpressionsLookupsForm = this.fb.group({
       id: [null], // ← new hidden control
-      name: [
+      fieldName: [
         '',
         [Validators.required], // 2nd slot (sync)
       ],
-      nameAR: [
+      value: [
         '',
-        [Validators.required, , Validators.pattern(/^[\u0600-\u06FF\s]+$/)],
+        [Validators.required],
       ],
-      isActive: [true], // ← new hidden control
+      operator: 0, // ← new hidden control
     });
 
     this.route.paramMap.subscribe((params) => {
@@ -131,8 +131,8 @@ export class AddConditionExpressionsComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
-    console.log('🧭 Navigating away to view-address-types');
+    console.log('🧭 Navigating away to view-condition-expressions');
 
-    this.router.navigate(['/lookups/view-address-types']);
+    this.router.navigate(['/lookups/view-condition-expressions']);
   }
 }

@@ -2,9 +2,9 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromSlice from './condition-expressions.reducer';
 import { adapter, State } from './condition-expressions.state';
 
-export const selectFeature = createFeatureSelector<State>('addressTypes');
+export const selectFeature = createFeatureSelector<State>('conditionExpressions');
 export const selectConditionExpressionsFeature =
-  createFeatureSelector<State>('addressTypes');
+  createFeatureSelector<State>('conditionExpressions');
 
 // these come from your EntityAdapter
 const { selectAll, selectEntities, selectIds, selectTotal } =

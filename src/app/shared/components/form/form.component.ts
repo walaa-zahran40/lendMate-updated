@@ -723,6 +723,11 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-authorization-group-officers']);
   }
 
+  
+  viewConditionExpressions() {
+    this.router.navigate(['/lookups/view-condition-expressions']);
+  }
+
   viewNotificationOfficersGroup() {
     this.router.navigate(['/lookups/view-notification-group-officers']);
   }

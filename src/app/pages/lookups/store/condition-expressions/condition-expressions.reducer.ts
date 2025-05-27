@@ -2,7 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import * as ConditionExpressionActions from './condition-expressions.actions';
 import { adapter, initialState, State } from './condition-expressions.state';
 
-export const reducer = createReducer(
+export const conditionExpressionsReducer = createReducer(
   initialState,
 
   // when you dispatch loadAll()

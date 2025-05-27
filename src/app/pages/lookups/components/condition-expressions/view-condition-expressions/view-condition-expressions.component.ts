@@ -48,16 +48,16 @@ export class ViewConditionExpressionsComponent {
       .subscribe(() => this.facade.loadAll());
     this.conditionExpressions$ = this.facade.all$;
 
-    // this.conditionExpressions$?.pipe(takeUntil(this.destroy$))?.subscribe((address) => {
-    //   const activeCodes = address.filter((code) => code.isActive);
-    //   const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
-    //   this.originalConditionExpressions = sorted;
-    //   this.filteredConditionExpressions = [...sorted];
-    // });
+    this.conditionExpressions$?.pipe(takeUntil(this.destroy$))?.subscribe((address) => {
+      //const activeCodes = address.filter((code) => code.isActive);
+      const sorted = [...address].sort((a, b) => b?.id - a?.id);
+      this.originalConditionExpressions = sorted;
+      this.filteredConditionExpressions = [...sorted];
+    });
   }
 
   onAddConditionExpression() {
-    this.router.navigate(['/lookups/add-address-types']);
+    this.router.navigate(['/lookups/add-condition-expressions']);
   }
 
   ngOnDestroy() {
@@ -108,12 +108,12 @@ export class ViewConditionExpressionsComponent {
     this.showFilters = value;
   }
   onEditConditionExpression(conditionExpression: ConditionExpression) {
-    this.router.navigate(['/lookups/edit-address-types', conditionExpression.id], {
+    this.router.navigate(['/lookups/edit-condition-expressions', conditionExpression.id], {
       queryParams: { mode: 'edit' },
     });
   }
   onViewConditionExpression(ct: ConditionExpression) {
-    this.router.navigate(['/lookups/edit-address-types', ct.id], {
+    this.router.navigate(['/lookups/edit-condition-expressions', ct.id], {
       queryParams: { mode: 'view' },
     });
   }
