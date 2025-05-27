@@ -376,6 +376,6 @@ export class AddMandateComponent {
     }
 
     console.log('🧭 Navigating away to view-mandates');
-    // this.router.navigate(['/crm/leasing-mandates/view-mandates']);
+    this.router.navigate(['/crm/leasing-mandates/view-mandates']);
   }
 }

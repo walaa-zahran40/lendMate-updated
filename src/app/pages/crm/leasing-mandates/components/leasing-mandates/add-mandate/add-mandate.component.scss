@@ -250,7 +250,8 @@
       border: var(--custom-border);
     }
     .p-button:not(:disabled) {
-      margin-top: 8px !important;
+      position: relative;
+      top: 20px;
       padding: 12px 34px !important;
     }
     .p-tieredmenu {

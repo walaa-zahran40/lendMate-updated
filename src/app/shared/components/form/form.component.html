@@ -460,8 +460,8 @@
       *ngIf="addMandateShowContactPersonsForm"
       icon="pi pi-cog"
       iconPos="left"
-      label="View Contact Persons"  [disabled]="!currentClientId"
-
+      label="View Contact Persons"
+      [disabled]="!currentClientId"
       (click)="viewContactPersons.emit(currentClientId)"
       class="custom-view m-0 float-right"
     />
@@ -1836,10 +1836,7 @@
 
           <!-- 3) Is Main toggle -->
           <!-- 3) Is Main toggle -->
-          <div
-            class="div-main flex items-center flex-column"
-            style="margin-top: 25px"
-          >
+          <div class="div-main flex items-center flex-column">
             <label for="isMain" class="p-0"> Is Main </label>
             <p-toggleswitch
               formControlName="isMain"
@@ -1863,7 +1860,6 @@
 
           <!-- 4) Add another identity -->
           <button
-            style="margin-top: 25px"
             pButton
             type="button"
             icon="pi pi-plus"
@@ -1874,7 +1870,6 @@
           <!-- 5) Remove this identity -->
           <button
             pButton
-            style="margin-top: 25px"
             type="button"
             icon="pi pi-trash"
             class="p-button-danger p-button-sm"
@@ -6602,7 +6597,6 @@
 
           <!-- 4) Add another identity -->
           <button
-            style="margin-top: 25px"
             pButton
             type="button"
             icon="pi pi-plus"
@@ -6615,7 +6609,6 @@
           <!-- 5) Remove this identity -->
           <button
             pButton
-            style="margin-top: 25px"
             type="button"
             icon="pi pi-trash"
             class="p-button-danger p-button-sm"
@@ -6694,11 +6687,7 @@
 
           <!-- 3) Is Main toggle -->
           <!-- 3) Is Main toggle -->
-          <div
-            class="div-main flex items-center flex-column"
-            style="margin-top: 25px"
-            *ngIf="!viewOnly"
-          >
+          <div class="div-main flex items-center flex-column" *ngIf="!viewOnly">
             <label for="isMain" class="p-0"> Is Main </label>
             <p-toggleswitch
               formControlName="isMain"
@@ -6723,7 +6712,6 @@
 
           <!-- 4) Add another identity -->
           <button
-            style="margin-top: 25px"
             pButton
             type="button"
             icon="pi pi-plus"
@@ -6736,7 +6724,6 @@
           <!-- 5) Remove this identity -->
           <button
             pButton
-            style="margin-top: 25px"
             type="button"
             icon="pi pi-trash"
             class="p-button-danger p-button-sm"
@@ -8018,7 +8005,6 @@
           </div>
           <!-- 4) Add another Officer -->
           <button
-            style="margin-top: 25px"
             pButton
             type="button"
             icon="pi pi-plus"
@@ -8031,7 +8017,6 @@
           <!-- 5) Remove this Officer -->
           <button
             pButton
-            style="margin-top: 25px"
             type="button"
             icon="pi pi-trash"
             class="p-button-danger p-button-sm"
@@ -8055,7 +8040,7 @@
         >
           <!-- 1) contact PersonsName -->
           <div class="div-number flex-1 min-w-0">
-            <label for="contactPersonId" class="p-0 label-container">
+            <label for="contactPersonId" class="label-container">
               Contact Person<sup class="danger">*</sup>
             </label>
             <p-select
@@ -8079,7 +8064,6 @@
           </div>
           <!-- 4) Add another Contact Person -->
           <button
-            style="margin-top: 25px"
             pButton
             type="button"
             icon="pi pi-plus"
@@ -8092,7 +8076,6 @@
           <!-- 5) Remove this Contact Person -->
           <button
             pButton
-            style="margin-top: 25px"
             type="button"
             icon="pi pi-trash"
             class="p-button-danger p-button-sm"
@@ -8161,7 +8144,6 @@
           </div>
           <!-- 4) Add another Asset Type -->
           <button
-            style="margin-top: 25px"
             pButton
             type="button"
             icon="pi pi-plus"
@@ -8174,7 +8156,6 @@
           <!-- 5) Remove this Asset Type -->
           <button
             pButton
-            style="margin-top: 25px"
             type="button"
             icon="pi pi-trash"
             class="p-button-danger p-button-sm"
@@ -8335,7 +8316,6 @@
           </div>
           <!-- 4) Add another Fee -->
           <button
-            style="margin-top: 25px"
             pButton
             type="button"
             icon="pi pi-plus"
@@ -8348,7 +8328,6 @@
           <!-- 5) Remove this Fee -->
           <button
             pButton
-            style="margin-top: 25px"
             type="button"
             icon="pi pi-trash"
             class="p-button-danger p-button-sm"
