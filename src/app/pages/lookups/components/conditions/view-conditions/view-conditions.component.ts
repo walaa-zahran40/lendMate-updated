@@ -23,9 +23,9 @@ export class ViewConditionsComponent {
 
   readonly colsInside = [
     { field: 'description', header: 'description' },
-    { field: 'functionName', header: 'functionName' },
+    { field: 'conditionTypeName', header: 'conditionType' },
     { field: 'fieldName', header: 'Expression Field Name' },
-    { field: 'conditionType', header: 'conditionType' },
+    { field: 'functionName', header: 'functionName' },
   ];
 
   showDeleteModal: boolean = false;
@@ -34,6 +34,11 @@ export class ViewConditionsComponent {
   filteredConditions: Condition[] = [];
   conditions$!: Observable<Condition[]>;
   conditionExpressions$!: Observable<ConditionExpression[]>;
+  readonly conditionTypes = [
+  { id: 1, value: 'Expression' },
+  { id: 2, value: 'Function' },
+  { id: 3, value: 'Both' }
+];
   
 
   constructor(
@@ -62,8 +67,9 @@ export class ViewConditionsComponent {
             .map((ss) => {
               console.log('ss', ss);
               const match = conditionExpressions.find(
-                (s) => s.id === ss.conditionExpressionId
+                (s) => s.id === ss.conditionExpressionId,
               );
+              const type = this.conditionTypes.find(t => t.id === ss.conditionType);
 
               console.log(
                 `🔍 Matching calc type for feeType ID ${ss.id} (feeCalculationTypeId: ${ss.conditionExpressionId}):`,
@@ -76,6 +82,7 @@ export class ViewConditionsComponent {
                   conditionExpressions.find((s) => s.id === ss.conditionExpressionId)
                     ?.fieldName || '—',
 
+                    conditionTypeName: type?.value || 'Unknown'
                   };
                 })
             .sort((a, b) => b.id - a.id);
