@@ -1,7 +1,6 @@
 export interface ConditionExpression {
   id: number;
-  code?: string;
-  name: string;
-  nameAR: string;
-  isActive: boolean;
+  fieldName: string;
+  value: string;
+  operator: number;
 }

@@ -433,6 +433,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addChildMandateShowContactPersonsForm!: boolean;
   @Input() addChildMandateShowOfficersForm!: boolean;
   @Input() addChildMandateShowBasicForm!: boolean;
+  @Input() addConditionExpressionsLookupsForm!: boolean;
   @Input() addManageMandateTermsForm!: boolean;
   @Input() leasingFinancialFormShowCurrencyForm!: boolean;
   @Input() leasingFinancialFormShowRatesForm!: boolean;
