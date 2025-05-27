@@ -214,6 +214,14 @@ import { AuthorizationGroupOfficersEffects } from './store/authorization-group-o
 import { authorizationGroupOfficerReducer } from './store/authorization-group-officers/authorization-group-officers.reducer';
 import { AddAuthorizationGroupOfficersComponent } from './components/authorization-group-officers/add-authorization-group-officers/add-authorization-group-officers.component';
 import { ViewAuthorizationGroupOfficersComponent } from './components/authorization-group-officers/view-authorization-group-officers/view-notification-authorization-group-officers.component';
+import { ViewConditionExpressionsComponent } from './components/condition-expressions/view-condition-expressions/view-condition-expressions.component';
+import { AddConditionExpressionsComponent } from './components/condition-expressions/add-condition-expressions/add-condition-expressions.component';
+import { conditionExpressionsReducer } from './store/condition-expressions/condition-expressions.reducer';
+import { ConditionExpressionsEffects } from './store/condition-expressions/condition-expressions.effects';
+import { AddConditionsComponent } from './components/conditions/add-conditions/add-conditions.component';
+import { ViewConditionsComponent } from './components/conditions/view-conditions/view-conditions.component';
+import { conditionsReducer } from './store/conditions/conditions.reducer';
+import { ConditionsEffects } from './store/conditions/conditions.effects';
 
 @NgModule({
   declarations: [
@@ -230,6 +238,8 @@ import { ViewAuthorizationGroupOfficersComponent } from './components/authorizat
     AddPeriodUnitsComponent,
     AddRentStructureTypesComponent,
     AddCurrenciesComponent,
+    AddConditionExpressionsComponent,
+    AddConditionsComponent,
     AddPaymentMethodsComponent,
     AddWorkFlowActionTypesComponent,
     AddPaymentTypesComponent,
@@ -279,6 +289,8 @@ import { ViewAuthorizationGroupOfficersComponent } from './components/authorizat
     ViewPeriodUnitsComponent,
     ViewRentStructureTypesComponent,
     ViewCurrenciesComponent,
+    ViewConditionExpressionsComponent,
+    ViewConditionsComponent,
     WizardCurrenciesComponent,
     ViewPaymentMonthDaysComponent,
     AddPaymentMonthDaysComponent,
@@ -450,6 +462,10 @@ import { ViewAuthorizationGroupOfficersComponent } from './components/authorizat
     EffectsModule.forFeature([NotificationGroupOfficersEffects]),
     StoreModule.forFeature('authorizationGroupOfficers', authorizationGroupOfficerReducer),
     EffectsModule.forFeature([AuthorizationGroupOfficersEffects]),
+       StoreModule.forFeature('conditionExpressions', conditionExpressionsReducer),
+    EffectsModule.forFeature([ConditionExpressionsEffects]),
+           StoreModule.forFeature('conditions', conditionsReducer),
+    EffectsModule.forFeature([ConditionsEffects]),
   ],
   exports: [
     AddMandateStatusesComponent,
@@ -460,6 +476,8 @@ import { ViewAuthorizationGroupOfficersComponent } from './components/authorizat
     AddPeriodUnitsComponent,
     AddRentStructureTypesComponent,
     AddCurrenciesComponent,
+    AddConditionExpressionsComponent,
+    AddConditionsComponent,
     AddPaymentMethodsComponent,
     AddPaymentTypesComponent,
     AddPaymentTimingTermsComponent,

@@ -120,6 +120,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() legalFormLawIdControl!: number;
   selectedLegalFormLawId: number | null = null;
   @Input() legalFormId: number | null = null;
+  @Input() conditionExpressions: any;
   @Input() officersList: any;
   @Input() clientsList: any;
   @Input() tmlOfficerTypesList: any;
@@ -252,6 +253,13 @@ export class FormComponent implements OnInit, OnDestroy {
     { id: 1, value: 'Male' },
     { id: 2, value: 'Female' },
   ];
+
+    conditionTypes = [
+    { id: 1, value: 'Expression' },
+    { id: 2, value: 'Function' },
+    { id: 3, value: 'Both' }
+    ];
+
   expiryDate!: Date;
   selectedGenders!: any;
   selectedCountries!: any;
@@ -433,12 +441,14 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addMandateShowContactPersonsForm!: boolean;
   @Input() addMandateShowOfficersForm!: boolean;
   @Input() addMandateShowBasicForm!: boolean;
+  @Input() addConditionsLookupsForm!: boolean;
   @Input() addCallActionTypeForm!: boolean;
   @Input() addChildMandateShowMoreInformationForm!: boolean;
   @Input() addChildMandateShowAssetTypeForm!: boolean;
   @Input() addChildMandateShowContactPersonsForm!: boolean;
   @Input() addChildMandateShowOfficersForm!: boolean;
   @Input() addChildMandateShowBasicForm!: boolean;
+  @Input() addConditionExpressionsLookupsForm!: boolean;
   @Input() addManageMandateTermsForm!: boolean;
   @Input() leasingFinancialFormShowCurrencyForm!: boolean;
   @Input() leasingFinancialFormShowRatesForm!: boolean;
@@ -730,8 +740,18 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-business-lines']);
   }
 
+   viewConditions() {
+    this.router.navigate(['/lookups/view-conditions']);
+  }
+
+
   viewAuthorizationOfficersGroup() {
     this.router.navigate(['/lookups/view-authorization-group-officers']);
+  }
+
+  
+  viewConditionExpressions() {
+    this.router.navigate(['/lookups/view-condition-expressions']);
   }
 
   viewNotificationOfficersGroup() {

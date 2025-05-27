@@ -147,6 +147,16 @@
       (click)="viewWorkFlowActionTypes()"
       class="custom-view m-0 float-right"
     />
+
+      <p-button
+      *ngIf="addConditionsLookupsForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Conditions"
+      (click)="viewConditions()"
+      class="custom-view m-0 float-right"
+    />
+
     <p-button
       *ngIf="addGovernoratesLookupsForm"
       icon="pi pi-cog"
@@ -161,6 +171,15 @@
       iconPos="left"
       label="View Address Types"
       (click)="viewAddressTypes()"
+      class="custom-view m-0 float-right"
+    />
+
+      <p-button
+      *ngIf="addConditionExpressionsLookupsForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Condition Expression"
+      (click)="viewConditionExpressions()"
       class="custom-view m-0 float-right"
     />
 
@@ -2852,6 +2871,100 @@
         </div>
       </div>
     </form>
+
+    <form
+      [formGroup]="formGroup"
+      *ngIf="addConditionExpressionsLookupsForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="fieldName">Field Name<sup>*</sup></label>
+      <input
+        pInputText
+        id="fieldName"
+        formControlName="fieldName"
+        placeholder="Enter fieldName"
+      />
+      <div
+        *ngIf="
+          formGroup.get('fieldName')?.hasError('required') &&
+          formGroup.get('fieldName')?.touched
+        "
+        class="p-error"
+      >
+        fieldName is required.
+      </div>
+
+      <label for="value">Value<sup>*</sup></label>
+      <input
+        pInputText
+        id="value"
+        formControlName="value"
+        placeholder="Enter value"
+        
+      />
+      <div
+        *ngIf="
+          formGroup.get('value')?.hasError('required') &&
+          formGroup.get('value')?.touched
+        "
+        class="p-error"
+      >
+        Value is required.
+      </div>
+  
+       <label for="operator">Operator<sup>*</sup></label>
+      <input
+        pInputText
+        id="operator"
+        formControlName="operator"
+        placeholder="Enter operator"
+           type="number"
+      />
+      <div
+        *ngIf="
+          formGroup.get('operator')?.hasError('required') &&
+          formGroup.get('operator')?.touched
+        "
+        class="p-error"
+      >
+        Operator is required.
+      </div>
+
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 addressTypesDiv"
+          *ngIf="!editMode"
+        >
+          <p-button
+            type="submit"
+            label="Add Condition Expression"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 addressTypesDiv"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Condition Expression"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 addressTypesDiv"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate(['/lookups/view-condition-expressions'])"
+          />
+        </div>
+      </div>
+    </form>
+
 
     <form
       [formGroup]="formGroup"
@@ -10060,6 +10173,123 @@
             label="Close"
             class="custom-save m-0 float-right"
             (click)="router.navigate(['/lookups/view-mandate-statuses'])"
+          />
+        </div>
+      </div>
+    </form>
+
+    
+    <form
+      [formGroup]="formGroup"
+      *ngIf="addConditionsLookupsForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <!-- Name in English -->
+      <label for="description">Description</label>
+      <input
+        pInputText
+        id="description"
+        formControlName="description"
+        placeholder="description"
+      />
+    
+
+     <label for="conditionType">Condition Type<sup class="danger">*</sup></label>
+      <p-select
+        [options]="conditionTypes"
+        name="conditionType"
+        formControlName="conditionType"
+        required
+        optionLabel="value"
+        optionValue="id"
+        placeholder="Select a conditionType"
+        class="w-full md:w-56"
+        [ngClass]="{
+          'ng-invalid ng-dirty':
+            formGroup.get('conditionType')?.invalid &&
+            formGroup.get('conditionType')?.touched
+        }"
+      ></p-select>
+      <small
+        class="p-error"
+        *ngIf="
+          formGroup.get('conditionType')?.invalid &&
+          formGroup.get('conditionType')?.touched
+        "
+      >
+        Condition Type is required.
+      </small>
+
+
+         <label for="conditionExpressionId">Select Condition Expression<sup class="danger">*</sup></label>
+      <!--Select Box-->
+      <p-select
+        [options]="conditionExpressions"
+        optionLabel="fieldName"
+        placeholder="Select Condition Expression"
+        formControlName="conditionExpressionId"
+        optionValue="id"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('conditionExpressionId')?.invalid &&
+            (formGroup.get('conditionExpressionId')?.dirty ||
+              formGroup.get('conditionExpressionId')?.touched)
+        }"
+      >
+      </p-select>
+
+      <div
+        *ngIf="
+          formGroup.get('conditionExpressionId')?.hasError('required') &&
+          formGroup.get('conditionExpressionId')?.touched
+        "
+        class="p-error"
+      >
+       Condition Expression is required.
+      </div>
+
+      <!-- Description -->
+      <label for="functionName">Function Name<sup>*</sup></label>
+      <div>
+        <textarea
+          pInputText
+          id="functionName"
+          formControlName="functionName"
+          placeholder="Function Name"
+        ></textarea>
+      </div>
+
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 businesslineDiv"
+          *ngIf="!editMode"
+        >
+          <p-button
+            type="submit"
+            label="Add Condition"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Condition"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate(['/lookups/view-conditions'])"
           />
         </div>
       </div>
