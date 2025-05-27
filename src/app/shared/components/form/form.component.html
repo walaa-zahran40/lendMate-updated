@@ -148,7 +148,7 @@
       class="custom-view m-0 float-right"
     />
 
-      <p-button
+    <p-button
       *ngIf="addConditionsLookupsForm"
       icon="pi pi-cog"
       iconPos="left"
@@ -174,7 +174,7 @@
       class="custom-view m-0 float-right"
     />
 
-      <p-button
+    <p-button
       *ngIf="addConditionExpressionsLookupsForm"
       icon="pi pi-cog"
       iconPos="left"
@@ -389,7 +389,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Contact Persons"
-      (click)="viewContactDetails()"
+      (click)="onViewContactPersonsClick()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -460,8 +460,9 @@
       *ngIf="addMandateShowContactPersonsForm"
       icon="pi pi-cog"
       iconPos="left"
-      label="View Contact Persons"
-      (click)="viewContactPersons()"
+      label="View Contact Persons"  [disabled]="!currentClientId"
+
+      (click)="viewContactPersons.emit(currentClientId)"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -502,7 +503,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Contact Persons"
-      (click)="viewContactPersons()"
+      (click)="onViewContactPersonsClick()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -542,7 +543,7 @@
       icon="pi pi-cog"
       iconPos="left"
       label="View Contact Persons"
-      (click)="viewContactPersons()"
+      (click)="onViewContactPersonsClick()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -2900,7 +2901,6 @@
         id="value"
         formControlName="value"
         placeholder="Enter value"
-        
       />
       <div
         *ngIf="
@@ -2911,14 +2911,14 @@
       >
         Value is required.
       </div>
-  
-       <label for="operator">Operator<sup>*</sup></label>
+
+      <label for="operator">Operator<sup>*</sup></label>
       <input
         pInputText
         id="operator"
         formControlName="operator"
         placeholder="Enter operator"
-           type="number"
+        type="number"
       />
       <div
         *ngIf="
@@ -2964,7 +2964,6 @@
         </div>
       </div>
     </form>
-
 
     <form
       [formGroup]="formGroup"
@@ -8117,16 +8116,16 @@
         >
           <!-- 1) Asset Type -->
           <div class="div-number flex-1 min-w-0">
-            <label for="assetType" class="label-container">
+            <label for="assetTypeId" class="label-container">
               Asset Type<sup class="danger">*</sup>
             </label>
             <p-select
               [options]="assetTypesList"
-              formControlName="assetType"
+              formControlName="assetTypeId"
               placeholder="Select Asset Type"
               optionLabel="name"
               optionValue="id"
-              name="assetType"
+              name="assetTypeId"
               styleClass="w-full md:w-80"
             />
             <small
@@ -10178,7 +10177,6 @@
       </div>
     </form>
 
-    
     <form
       [formGroup]="formGroup"
       *ngIf="addConditionsLookupsForm"
@@ -10192,9 +10190,10 @@
         formControlName="description"
         placeholder="description"
       />
-    
 
-     <label for="conditionType">Condition Type<sup class="danger">*</sup></label>
+      <label for="conditionType"
+        >Condition Type<sup class="danger">*</sup></label
+      >
       <p-select
         [options]="conditionTypes"
         name="conditionType"
@@ -10220,8 +10219,9 @@
         Condition Type is required.
       </small>
 
-
-         <label for="conditionExpressionId">Select Condition Expression<sup class="danger">*</sup></label>
+      <label for="conditionExpressionId"
+        >Select Condition Expression<sup class="danger">*</sup></label
+      >
       <!--Select Box-->
       <p-select
         [options]="conditionExpressions"
@@ -10246,7 +10246,7 @@
         "
         class="p-error"
       >
-       Condition Expression is required.
+        Condition Expression is required.
       </div>
 
       <!-- Description -->

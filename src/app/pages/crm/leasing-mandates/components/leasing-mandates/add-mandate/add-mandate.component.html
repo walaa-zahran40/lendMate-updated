@@ -51,7 +51,9 @@
         [viewOnly]="viewOnly"
         [contactPersonsList]="contactPersons$ | async"
         (removeContactPerson)="removeContactPerson($event)"
+        [currentClientId]="basicForm.get('clientId')?.value"
         (addContactPerson)="addContactPerson()"
+        (viewContactPersons)="viewContactPersons($event)"
       ></app-form>
       <hr />
     </p-tabpanel>

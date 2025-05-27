@@ -74,6 +74,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Output() removeFee = new EventEmitter<number>();
   @Output() addGracePeriod = new EventEmitter<void>();
   @Output() removeGracePeriod = new EventEmitter<number>();
+  @Output() viewContactPersons = new EventEmitter<number>();
 
   id!: string;
   @Input() applyReusable: boolean = false;
@@ -254,11 +255,11 @@ export class FormComponent implements OnInit, OnDestroy {
     { id: 2, value: 'Female' },
   ];
 
-    conditionTypes = [
+  conditionTypes = [
     { id: 1, value: 'Expression' },
     { id: 2, value: 'Function' },
-    { id: 3, value: 'Both' }
-    ];
+    { id: 3, value: 'Both' },
+  ];
 
   expiryDate!: Date;
   selectedGenders!: any;
@@ -550,6 +551,8 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addClientOfficerShowMain!: boolean;
   @Input() addClientLegalShowMain!: boolean;
   @Input() addDepartmentsForm!: boolean;
+  @Input() currentClientId?: number;
+
   filteredSubSectors$!: Observable<SubSectors[]>;
   @Input() operationName!: string;
   clientStatusIdParam!: any;
@@ -740,16 +743,14 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-business-lines']);
   }
 
-   viewConditions() {
+  viewConditions() {
     this.router.navigate(['/lookups/view-conditions']);
   }
-
 
   viewAuthorizationOfficersGroup() {
     this.router.navigate(['/lookups/view-authorization-group-officers']);
   }
 
-  
   viewConditionExpressions() {
     this.router.navigate(['/lookups/view-condition-expressions']);
   }
@@ -913,10 +914,11 @@ export class FormComponent implements OnInit, OnDestroy {
   viewOfficers() {
     this.router.navigate(['/organizations/view-officers']);
   }
-  viewContactPersons() {
-    this.router.navigate([
-      `/crm/clients/view-contact-persons/${this.clientId}`,
-    ]);
+  onViewContactPersonsClick() {
+    console.log('Client ID:', this.currentClientId);
+    if (this.currentClientId) {
+      this.viewContactPersons.emit(this.currentClientId);
+    }
   }
   viewFollowUpsPoint() {
     this.router.navigate(['/communication/view-followup-points']);

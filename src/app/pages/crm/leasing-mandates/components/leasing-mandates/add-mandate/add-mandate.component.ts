@@ -149,9 +149,7 @@ export class AddMandateComponent {
         this.contactPersonsFacade.loadByClientId(clientId);
       });
   }
-  get basicForm(): FormGroup {
-    return this.parentForm.get('basic')! as FormGroup;
-  }
+
   buildMandateShowBasicForm(): void {
     this.addMandateShowBasicForm = this.fb.group({
       id: [null],
@@ -195,7 +193,7 @@ export class AddMandateComponent {
   }
   createAssetTypeGroup(): FormGroup {
     return this.fb.group({
-      assetType: ['', Validators.required],
+      assetTypeId: ['', Validators.required],
       assetsTypeDescription: [null, Validators.required],
     });
   }
@@ -313,6 +311,17 @@ export class AddMandateComponent {
     // and the `as FormGroup` tells it the exact type
     return this.parentForm.get('moreInfo')! as FormGroup;
   }
+  get basicForm(): FormGroup {
+    return this.parentForm.get('basic')! as FormGroup;
+  }
+  viewContactPersons(clientId?: number) {
+    if (!clientId) {
+      console.warn('No client selected, aborting navigation.');
+      return;
+    }
+    this.router.navigate(['/crm/clients/view-contact-persons', clientId]);
+  }
+
   onSubmit() {
     console.log('💥 addOrEditIdentificationTypes() called');
     console.log('  viewOnly:', this.viewOnly);
