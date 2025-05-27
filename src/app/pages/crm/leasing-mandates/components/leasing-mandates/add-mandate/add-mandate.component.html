@@ -81,8 +81,6 @@
         [viewOnly]="viewOnly"
         (removeFee)="removeFee($event)"
         (addFee)="addFee()"
-        (removeGracePeriod)="removeGracePeriod($event)"
-        (addGracePeriod)="addGracePeriod()"
         [gracePeriodUnitsList]="gracePeriodUnits$ | async"
         [feesList]="feeTypes$ | async"
       ></app-form>

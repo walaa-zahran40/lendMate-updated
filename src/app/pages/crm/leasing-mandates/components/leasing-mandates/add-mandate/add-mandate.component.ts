@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/internal/Observable';
 import { Store } from '@ngrx/store';
+import { ActivatedRoute, Router } from '@angular/router';
+import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 
 //Models
 import { Client } from '../../../../clients/store/_clients/allclients/client.model';
@@ -10,10 +12,10 @@ import { Product } from '../../../../../lookups/store/products/product.model';
 import { LeasingType } from '../../../../../lookups/store/leasing-types/leasing-type.model';
 import { InsuredBy } from '../../../../../lookups/store/insured-by/insured-by.model';
 import { Officer } from '../../../../../organizations/store/officers/officer.model';
-import { ClientContactPerson } from '../../../../clients/store/client-contact-persons/client-contact-person.model';
 import { PeriodUnit } from '../../../../../lookups/store/period-units/period-unit.model';
 import { FeeType } from '../../../../../lookups/store/fee-types/fee-type.model';
 import { AssetType } from '../../../../../lookups/store/asset-types/asset-type.model';
+import { Mandate } from '../../../store/leasing-mandates/leasing-mandate.model';
 //Facades
 import { ClientsFacade } from '../../../../clients/store/_clients/allclients/clients.facade';
 import { MandateValidityUnitsFacade } from '../../../../../lookups/store/mandate-validity-units/mandate-validity-units.facade';
@@ -25,6 +27,7 @@ import { ClientContactPersonsFacade } from '../../../../clients/store/client-con
 import { FeeTypesFacade } from '../../../../../lookups/store/fee-types/fee-types.facade';
 import { GracePeriodUnitsFacade } from '../../../../../lookups/store/period-units/period-units.facade';
 import { AssetTypesFacade } from '../../../../../lookups/store/asset-types/asset-types.facade';
+import { MandatesFacade } from '../../../store/leasing-mandates/leasing-mandates.facade';
 //Actions
 import { loadAll } from '../../../../clients/store/_clients/allclients/clients.actions';
 import { loadAll as loadValidityUnits } from '../../../../../lookups/store/mandate-validity-units/mandate-validity-units.actions';
@@ -32,7 +35,10 @@ import { loadAll as loadProducts } from '../../../../../lookups/store/products/p
 import { loadAll as loadLeasingTypes } from '../../../../../lookups/store/leasing-types/leasing-types.actions';
 import { loadAll as loadInsuredBy } from '../../../../../lookups/store/insured-by/insured-by.actions';
 import { loadOfficers } from '../../../../../organizations/store/officers/officers.actions';
-import { loadClientContactPersons } from '../../../../../crm/clients/store/client-contact-persons/client-contact-persons.actions';
+import {
+  loadClientContactPersons,
+  loadClientContactPersonsByClientId,
+} from '../../../../../crm/clients/store/client-contact-persons/client-contact-persons.actions';
 import { loadAll as loadAssetTypes } from '../../../../../lookups/store/asset-types/asset-types.actions';
 import { loadAll as loadFeeTypes } from '../../../../../lookups/store/fee-types/fee-types.actions';
 import { loadAll as loadGracePeriods } from '../../../../../lookups/store/period-units/period-units.actions';
@@ -57,7 +63,7 @@ export class AddMandateComponent {
   leasingTypes$!: Observable<LeasingType[]>;
   insuredBy$!: Observable<InsuredBy[]>;
   officers$!: Observable<Officer[]>;
-  contactPersons$!: Observable<ClientContactPerson[]>;
+  contactPersons$!: Observable<any>;
   assetTypes$!: Observable<AssetType[]>;
   gracePeriodUnits$!: Observable<PeriodUnit[]>;
   feeTypes$!: Observable<FeeType[]>;
@@ -75,7 +81,10 @@ export class AddMandateComponent {
     private contactPersonsFacade: ClientContactPersonsFacade,
     private assetTypesFacade: AssetTypesFacade,
     private feeTypesFacade: FeeTypesFacade,
-    private gracePeriodUnitsFacade: GracePeriodUnitsFacade
+    private gracePeriodUnitsFacade: GracePeriodUnitsFacade,
+    private route: ActivatedRoute,
+    private facade: MandatesFacade,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -103,9 +112,6 @@ export class AddMandateComponent {
     this.officers$ = this.officersFacade.items$;
     //3-Contact Persons Form
     this.buildMandateShowContactPersonsForm();
-    //Contact Persons Dropdown
-    this.store.dispatch(loadClientContactPersons());
-    this.contactPersons$ = this.contactPersonsFacade.items$;
     //4`-Asset Type Form
     this.buildMandateShowAssetTypeForm();
     //Asset Type Dropdown
@@ -127,6 +133,24 @@ export class AddMandateComponent {
       assets: this.addMandateShowAssetTypeForm,
       moreInfo: this.addMandateShowMoreInformationForm,
     });
+    //Contact Persons Dropdown
+    this.contactPersons$ = this.contactPersonsFacade.items$.pipe(
+      map((list) => list || [])
+    );
+
+    this.basicForm
+      .get('clientId')!
+      .valueChanges.pipe(
+        filter((id) => !!id),
+        distinctUntilChanged()
+      )
+      .subscribe((clientId) => {
+        // load only that client’s people into “items”
+        this.contactPersonsFacade.loadByClientId(clientId);
+      });
+  }
+  get basicForm(): FormGroup {
+    return this.parentForm.get('basic')! as FormGroup;
   }
   buildMandateShowBasicForm(): void {
     this.addMandateShowBasicForm = this.fb.group({
@@ -155,12 +179,12 @@ export class AddMandateComponent {
   createMandateOfficerGroup(): FormGroup {
     return this.fb.group({
       id: [],
-      officerName: ['', Validators.required],
+      officerId: [null, Validators.required],
     });
   }
   createMandateContactPersonGroup(): FormGroup {
     return this.fb.group({
-      contactPerson: ['', Validators.required],
+      contactPersonId: ['', Validators.required],
     });
   }
 
@@ -172,7 +196,7 @@ export class AddMandateComponent {
   createAssetTypeGroup(): FormGroup {
     return this.fb.group({
       assetType: ['', Validators.required],
-      assetTypeDescription: [null, Validators.required],
+      assetsTypeDescription: [null, Validators.required],
     });
   }
 
@@ -184,9 +208,7 @@ export class AddMandateComponent {
       validityCount: [null, Validators.required],
       indicativeRentals: [null, Validators.required],
       mandateFees: this.fb.array([this.createMandateFeesGroup()]),
-      mandateGracePeriodSetting: this.fb.array([
-        this.createMandateGracePeriodSettingGroup(),
-      ]),
+      mandateGracePeriodSetting: this.createMandateGracePeriodSettingGroup(),
     });
   }
   createMandateFeesGroup(): FormGroup {
@@ -248,17 +270,6 @@ export class AddMandateComponent {
       this.mandateFees.removeAt(i);
     }
   }
-  addGracePeriod() {
-    console.log('Adding new Grace Period group');
-    this.mandateGracePeriods?.push(this.createMandateGracePeriodSettingGroup());
-  }
-
-  removeGracePeriod(i: number) {
-    console.log('Removing Grace Period at index', i);
-    if (this.mandateGracePeriods.length > 1) {
-      this.mandateGracePeriods.removeAt(i);
-    }
-  }
   get mandateOfficers(): FormArray {
     return this.addMandateShowOfficersForm.get('mandateOfficers') as FormArray;
   }
@@ -282,10 +293,7 @@ export class AddMandateComponent {
       'mandateGracePeriodSetting'
     ) as FormArray;
   }
-  get basicForm(): FormGroup {
-    // this never returns null at runtime, so we assert with `!` then cast
-    return this.parentForm.get('basic')! as FormGroup;
-  }
+
   get officersForm(): FormGroup {
     // the `!` tells TS “I guarantee there’s a value here”
     // and the `as FormGroup` tells it the exact type
@@ -306,19 +314,59 @@ export class AddMandateComponent {
     return this.parentForm.get('moreInfo')! as FormGroup;
   }
   onSubmit() {
+    console.log('💥 addOrEditIdentificationTypes() called');
+    console.log('  viewOnly:', this.viewOnly);
+    console.log('  editMode:', this.editMode);
+    console.log('  form valid:', this.parentForm.valid);
+    console.log('  form touched:', this.parentForm.touched);
+    console.log('  form raw value:', this.parentForm.getRawValue());
+
+    if (this.viewOnly) {
+      console.log('⚠️ viewOnly mode — aborting add');
+      return;
+    }
+
     if (this.parentForm.invalid) {
+      console.warn('❌ Form is invalid — marking touched and aborting');
       this.parentForm.markAllAsTouched();
       return;
     }
-    const payload = {
-      ...this.parentForm.value.basic,
-      mandateOfficers: this.parentForm.value.officers.mandateOfficers,
-      mandateContactPersons:
-        this.parentForm.value.contacts.mandateContactPersons,
-      mandateAssetTypes: this.parentForm.value.assets.mandateAssetTypes,
-      ...this.parentForm.value.moreInfo,
+
+    const { assets, basic, contacts, officers, moreInfo } =
+      this.parentForm.value;
+    const payload: Partial<Mandate> = {
+      ...basic,
+      mandateOfficers: officers.mandateOfficers,
+      mandateContactPersons: contacts.mandateContactPersons,
+      mandateAssetTypes: assets.mandateAssetTypes,
+
+      ...moreInfo,
     };
-    // dispatch your save action or emit
-    console.log('Full Mandate payload', payload);
+    console.log('  → payload object:', payload);
+
+    // Double-check your route param
+    const routeId = this.route.snapshot.paramMap.get('id');
+    console.log('  route.snapshot.paramMap.get(clientId):', routeId);
+
+    if (this.editMode) {
+      const { id, assets, basic, contacts, officers, moreInfo } =
+        this.parentForm.value;
+      const payload: Mandate = {
+        id,
+        assets,
+        basic,
+        contacts,
+        officers,
+        moreInfo,
+      };
+      console.log(' payload=', payload);
+      this.facade.update(id, payload);
+    } else {
+      console.log('➕ Dispatching CREATE payload=', payload);
+      this.facade.create(payload);
+    }
+
+    console.log('🧭 Navigating away to view-mandates');
+    // this.router.navigate(['/crm/leasing-mandates/view-mandates']);
   }
 }

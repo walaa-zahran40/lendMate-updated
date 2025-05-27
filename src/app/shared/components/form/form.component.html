@@ -7882,23 +7882,23 @@
         >
           <!-- 1) officer Name -->
           <div class="div-number flex-1 min-w-0">
-            <label for="officerName" class="p-0" class="label-container">
+            <label for="officerId" class="p-0" class="label-container">
               Officer Name<sup class="danger">*</sup>
             </label>
             <p-select
               [options]="officers"
-              formControlName="officerName"
+              formControlName="officerId"
               placeholder="Select Officer"
               optionLabel="name"
               optionValue="id"
-              name="officerName"
+              name="officerId"
               styleClass="w-full md:w-80"
             />
             <small
               class="p-error d-block"
               *ngIf="
-                group.get('officerName')?.invalid &&
-                group.get('officerName')?.touched
+                group.get('officerId')?.invalid &&
+                group.get('officerId')?.touched
               "
             >
               Officer Name is required.
@@ -7943,23 +7943,23 @@
         >
           <!-- 1) contact PersonsName -->
           <div class="div-number flex-1 min-w-0">
-            <label for="contactPerson" class="p-0 label-container">
+            <label for="contactPersonId" class="p-0 label-container">
               Contact Person<sup class="danger">*</sup>
             </label>
             <p-select
               [options]="contactPersonsList"
-              formControlName="contactPerson"
+              formControlName="contactPersonId"
               placeholder="Select Contact Person"
               optionLabel="name"
               optionValue="id"
-              name="contactPerson"
+              name="contactPersonId"
               styleClass="w-full md:w-80"
             />
             <small
               class="p-error d-block"
               *ngIf="
-                group.get('contactPerson')?.invalid &&
-                group.get('contactPerson')?.touched
+                group.get('contactPersonId')?.invalid &&
+                group.get('contactPersonId')?.touched
               "
             >
               Contact Person is required.
@@ -8025,24 +8025,23 @@
             >
               Asset Type is required.
             </small>
-            <label for="assetTypeDescription" class="label-container">
+            <label for="assetsTypeDescription" class="label-container">
               Asset Type Description<sup class="danger">*</sup>
             </label>
             <input
               pInputText
-              id="assetTypeDescription"
-              aria-describedby="assetTypeDescription-help"
-              name="assetTypeDescription"
-              formControlName="assetTypeDescription"
+              id="assetsTypeDescription"
+              aria-describedby="assetsTypeDescription-help"
+              name="assetsTypeDescription"
+              formControlName="assetsTypeDescription"
               placeholder="Yes"
-              [disabled]="true"
               class="d-block w-100"
             />
             <small
               class="p-error d-block"
               *ngIf="
-                group.get('assetTypeDescription')?.invalid &&
-                group.get('assetTypeDescription')?.touched
+                group.get('assetsTypeDescription')?.invalid &&
+                group.get('assetsTypeDescription')?.touched
               "
             >
               Asset Type Description.
@@ -8185,6 +8184,7 @@
               id="actualAmount"
               aria-describedby="actualAmount-help"
               name="actualAmount"
+              type="number"
               formControlName="actualAmount"
               placeholder="Yes"
               class="d-block w-100"
@@ -8203,6 +8203,7 @@
             </label>
             <input
               pInputText
+              type="number"
               id="actualPrecentage"
               aria-describedby="actualPrecentage-help"
               name="actualPrecentage"
@@ -8245,84 +8246,53 @@
           ></button>
         </div>
       </div>
-      <div formArrayName="mandateGracePeriodSetting" class="mt-4">
-        <div
-          *ngFor="
-            let group of mandateGracePeriodSetting?.controls;
-            let i = index
-          "
-          [formGroupName]="i"
-          class="parent2-individual2 mt-2 flex items-start gap-4 align-items-center flex-wrap"
-        >
-          <!-- 1) Grace Period Count -->
-          <div class="div-number flex-1 min-w-0">
-            <label for="gracePeriodCount" class="label-container">
-              Grace Period Count<sup class="danger">*</sup>
-            </label>
-            <input
-              pInputText
-              id="gracePeriodCount"
-              aria-describedby="gracePeriodCount-help"
-              name="gracePeriodCount"
-              formControlName="gracePeriodCount"
-              placeholder="Yes"
-              class="d-block w-100"
-            />
+      <div formGroupName="mandateGracePeriodSetting" class="mt-4">
+        <!-- 1) Grace Period Count -->
+        <div class="div-number flex-1 min-w-0">
+          <label for="gracePeriodCount" class="label-container">
+            Grace Period Count<sup class="danger">*</sup>
+          </label>
+          <input
+            pInputText
+            type="number"
+            id="gracePeriodCount"
+            aria-describedby="gracePeriodCount-help"
+            name="gracePeriodCount"
+            formControlName="gracePeriodCount"
+            placeholder="Yes"
+            class="d-block w-100"
+          />
 
-            <small
-              class="p-error d-block"
-              *ngIf="
-                group.get('gracePeriodCount')?.invalid &&
-                group.get('gracePeriodCount')?.touched
-              "
-            >
-              Grace Period Count is required.
-            </small>
-            <label for="gracePeriodUnitId" class="label-container">
-              Grace Period Unit<sup class="danger">*</sup>
-            </label>
-            <p-select
-              [options]="gracePeriodUnitsList"
-              formControlName="gracePeriodUnitId"
-              placeholder="Select Grace Period Unit"
-              optionLabel="name"
-              optionValue="id"
-              name="gracePeriodUnitId"
-              styleClass="w-full md:w-80"
-            />
-            <small
-              class="p-error d-block"
-              *ngIf="
-                group.get('gracePeriodUnitId')?.invalid &&
-                group.get('gracePeriodUnitId')?.touched
-              "
-            >
-              Grace Period Unit Required.
-            </small>
-          </div>
-          <!-- 4) Add another Fee -->
-          <button
-            style="margin-top: 25px"
-            pButton
-            type="button"
-            icon="pi pi-plus"
-            class="p-button-outlined p-button-sm"
-            (click)="addGracePeriod.emit()"
-            *ngIf="!viewOnly"
-            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
-          ></button>
-
-          <!-- 5) Remove this Fee -->
-          <button
-            pButton
-            style="margin-top: 25px"
-            type="button"
-            icon="pi pi-trash"
-            class="p-button-danger p-button-sm"
-            *ngIf="mandateGracePeriodSetting.length > 1 && !viewOnly"
-            (click)="removeGracePeriod.emit(i)"
-            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
-          ></button>
+          <small
+            class="p-error d-block"
+            *ngIf="
+              formGroup.get('gracePeriodCount')?.invalid &&
+              formGroup.get('gracePeriodCount')?.touched
+            "
+          >
+            Grace Period Count is required.
+          </small>
+          <label for="gracePeriodUnitId" class="label-container">
+            Grace Period Unit<sup class="danger">*</sup>
+          </label>
+          <p-select
+            [options]="gracePeriodUnitsList"
+            formControlName="gracePeriodUnitId"
+            placeholder="Select Grace Period Unit"
+            optionLabel="name"
+            optionValue="id"
+            name="gracePeriodUnitId"
+            styleClass="w-full md:w-80"
+          />
+          <small
+            class="p-error d-block"
+            *ngIf="
+              formGroup.get('gracePeriodUnitId')?.invalid &&
+              formGroup.get('gracePeriodUnitId')?.touched
+            "
+          >
+            Grace Period Unit Required.
+          </small>
         </div>
       </div>
     </ng-container>

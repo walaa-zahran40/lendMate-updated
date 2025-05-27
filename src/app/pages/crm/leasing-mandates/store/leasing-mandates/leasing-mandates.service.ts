@@ -33,7 +33,7 @@ export class MandatesService {
 
   create(payload: Omit<Mandate, 'id'>): Observable<Mandate> {
     return this.http.post<Mandate>(
-      `${this.baseUrl}/CreateMandateGeneralSettings`,
+      `${this.baseUrl}/CreateLeasingMandate`,
       payload
     );
   }
