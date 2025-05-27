@@ -156,6 +156,8 @@ export class TableComponent {
   @Input() viewProductsTable!: boolean;
   @Input() viewClientOfficerTable!: boolean;
   @Input() viewClientLegalTable!: boolean;
+  @Input() viewActionAuthorizationGroupTable!: boolean;
+  @Input() viewActionNotificationGroupTable!: boolean;
   @Input() paginator: boolean = true;
   @Output() wizardBtn = new EventEmitter<void>();
   @Output() onEdit = new EventEmitter<any>();

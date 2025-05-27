@@ -137,4 +137,7 @@ export class ViewClientStatusActionsComponent {
       queryParams: { mode: 'view' },
     });
   }
+  onAddSide(clientStatusActionId: any) {
+    this.router.navigate(['/lookups/wizard-client-status-action', clientStatusActionId]);
+  }
 }

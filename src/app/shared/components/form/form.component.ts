@@ -121,6 +121,8 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() legalFormsList: any;
   @Input() legalFormLawsList: any;
   @Input() pageIds: any;
+  @Input() authorizationGroupsList: any;
+  @Input() notificationGroupsList: any;
   selectedLegalForm: any;
   @Output() sectorChanged = new EventEmitter<number>();
 
@@ -472,11 +474,15 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addCurrenciesExchangeLookupsForm!: boolean;
   @Input() addPaymentMethodsLookupsForm!: boolean;
   @Input() addPageORGForm!: boolean;
+  @Input() addActionAuthorizationGroupForm!: boolean;
+  @Input() addActionNotificationGroupForm!: boolean;
+
   currencyIdParam: any;
   branchIdParam: any;
   departmentIdParam: any;
   teamIdParam: any;
   clientIdParam: any;
+  clientStatusActionIdParam: any;
   @Input() addPaymentTypesLookupsForm!: boolean;
   @Input() addPaymentTimingTermsLookupsForm!: boolean;
   @Input() addPaymentPeriodsLookupsForm!: boolean;
@@ -582,6 +588,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.teamIdParam = this.route.snapshot.queryParams['teamId'];
     this.roleIdParam = this.route.snapshot.queryParams['roleId'];
     this.clientIdParam = this.route.snapshot.queryParams['clientId'];
+    this.clientStatusActionIdParam = this.route.snapshot.queryParams['clientStatusActionId'];
     this.clientStatusIdParam = this.route.snapshot.params['id'];
     this.sub = this.formGroup?.valueChanges
       .pipe(debounceTime(300))
@@ -976,6 +983,16 @@ export class FormComponent implements OnInit, OnDestroy {
   }
   viewClientStatusActions() {
     this.router.navigate(['/lookups/view-client-status-actions']);
+  }
+  viewActionAuthorizationGroup() {
+    this.router.navigate([
+      `/lookups/view-action-authorizationGroups/${this.clientStatusActionIdParam}`,
+    ]);
+  }
+  viewActionNotificationGroup() {
+    this.router.navigate([
+      `/lookups/view-action-notificationGroups/${this.clientStatusActionIdParam}`,
+    ]);
   }
   viewSMEClientCode() {
     this.router.navigate(['/lookups/view-sme-client-codes']);
