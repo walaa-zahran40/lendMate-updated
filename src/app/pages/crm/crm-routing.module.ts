@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { WizardComponent } from '../communication/meetings/wizard/wizard.component';
+import { WizardComponent } from './leasing-mandates/components/mandate-activities/wizard/wizard.component';
 import { AddClientAddressesComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-addresses/add-client-address/add-client-address.component';
 import { ViewClientAddressesComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-addresses/view-client-addresses/view-client-address.component';
 import { AddClientCentralBankInfoComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-central-bank-info/add-central-bank-info/add-central-bank-info.component';
@@ -350,7 +350,7 @@ const routes: Routes = [
     component: ViewAssetTypeComponent,
   },
   {
-    path: 'leasing-mandates/wizard',
+    path: 'leasing-mandates/leasing-mandate-wizard/:leasingId',
     component: WizardComponent,
   },
   {
