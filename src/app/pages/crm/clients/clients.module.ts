@@ -37,6 +37,8 @@ import { ClientsOnboardingEffects } from './store/_client-onboarding/allclients/
 import { clientCentralBankInfoReducer } from './store/client-central-bank-info/client-central-bank.reducer';
 
 import { reducer as individualOnboardingReducer } from './store/_client-onboarding/individuals/individuals-onboarding.reducer';
+import { clientContactPersonsReducer } from './store/client-contact-persons/client-contact-persons.reducer';
+import { ClientContactPersonsEffects } from './store/client-contact-persons/client-contact-persons.effects';
 
 import { reducer as clientsOnboardingReducer } from './store/_client-onboarding/allclients/clients-onboarding.reducer';
 import { IndividualOnboardingsEffects } from './store/_client-onboarding/individuals/individuals-onboarding.effects';
@@ -208,6 +210,10 @@ import { SubSectorEffects } from '../../lookups/store/sub-sector-drop-down/sub-s
     EffectsModule.forFeature([ClientOfficersEffects]),
     StoreModule.forFeature('clientLegals', clientLegalsReducer),
     EffectsModule.forFeature([ClientLegalsEffects]),
+    StoreModule.forFeature('clientSalesTurnovers', clientSalesTurnoverReducer),
+    EffectsModule.forFeature([ClientSalesTurnoversEffects]),
+    StoreModule.forFeature('clientContactPersons', clientContactPersonsReducer),
+    EffectsModule.forFeature([ClientContactPersonsEffects]),
   ],
 })
 export class ClientsModule {}

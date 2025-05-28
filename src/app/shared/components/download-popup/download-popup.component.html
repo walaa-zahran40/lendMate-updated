@@ -25,18 +25,10 @@
         [options]="officers"
         formControlName="officers"
         optionLabel="name"
+        optionValue="id"
         placeholder="Choose officer"
       ></p-select
       ><br />
-      <label for="language">Select Language</label><br />
-      <p-select
-        class="w-100"
-        id="language"
-        [options]="languages"
-        formControlName="languages"
-        optionLabel="name"
-        placeholder="Choose Language"
-      ></p-select>
     </form>
     <div class="actions">
       <button class="btn btn-primary" (click)="onDownload()">Download</button>

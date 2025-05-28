@@ -24,8 +24,9 @@ export interface Mandate {
   leasingTypeId?: number;
   insuredById?: number;
   mandateAssetTypes?: AssetType;
-  mandateContactPersons?: ClientContactPerson;
-  mandateOfficers?: Officer;
   mandateFees?: FeeType;
   mandateGracePeriodSetting?: PeriodUnit;
+  mandateContactPersons?: { contactPersonId: number }[];
+  mandateOfficers?: { officerId: number }[];
+  languages?: number[];
 }

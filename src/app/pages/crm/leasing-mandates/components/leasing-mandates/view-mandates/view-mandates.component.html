@@ -39,7 +39,7 @@
       *ngIf="showDownloadPopup"
       [contactPersons]="contactPersonsDropdown"
       [officers]="officersDropdown"
-      [languages]="languagesDropdown"
+      [leasingMandates]="(leasingMandates$ | async) || []"
       (close)="onPopupClose()"
       (download)="onPopupDownload($event)"
     ></app-download-popup>

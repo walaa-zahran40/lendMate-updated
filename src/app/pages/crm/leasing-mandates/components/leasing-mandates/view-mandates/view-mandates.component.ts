@@ -1,16 +1,23 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { combineLatest, map, Subject, takeUntil, tap } from 'rxjs';
+import {
+  combineLatest,
+  map,
+  Subject,
+  takeUntil,
+  tap,
+  take,
+  filter,
+} from 'rxjs';
 import { TableComponent } from '../../../../../../shared/components/table/table.component';
 import { Mandate } from '../../../store/leasing-mandates/leasing-mandate.model';
 import { MandatesFacade } from '../../../store/leasing-mandates/leasing-mandates.facade';
 import { ClientsFacade } from '../../../../clients/store/_clients/allclients/clients.facade';
 import { Store } from '@ngrx/store';
-import {
-  loadClientContactPersons,
-  loadClientContactPersonsByClientId,
-} from '../../../../../crm/clients/store/client-contact-persons/client-contact-persons.actions';
+import { loadClientContactPersonsByClientId } from '../../../../../crm/clients/store/client-contact-persons/client-contact-persons.actions';
 import { ClientContactPersonsFacade } from '../../../../clients/store/client-contact-persons/client-contact-persons.facade';
+import { OfficersFacade } from '../../../../../organizations/store/officers/officers.facade';
+import { loadOfficers } from '../../../../../organizations/store/officers/officers.actions';
 
 @Component({
   selector: 'app-view-mandates',
@@ -48,7 +55,8 @@ export class ViewMandatesComponent {
     private clientsFacade: ClientsFacade,
     private facade: MandatesFacade,
     private store: Store,
-    private facadeContact: ClientContactPersonsFacade
+    private facadeContact: ClientContactPersonsFacade,
+    private officersFacade: OfficersFacade
   ) {}
   ngOnInit() {
     this.facade.loadAll();
@@ -96,69 +104,84 @@ export class ViewMandatesComponent {
         this.originalLeasingMandates = enriched;
         this.filteredLeasingMandates = enriched;
       });
-    this.setupContactPersonsDropdown();
-    this.setupOfficersDropdown();
-    this.setupLanguagesDropdown();
   }
   private setupContactPersonsDropdown(): void {
-    this.store.dispatch(loadClientContactPersons());
-    this.contactPersonsDropdown = this.facadeContact.items$;
+    const mandate = this.selectedRowForDownload!;
+    const saved = mandate.mandateContactPersons ?? []; // [{ contactPersonId: number }, …]
+
+    // if nothing was saved, short-circuit
+    if (!saved.length) {
+      this.contactPersonsDropdown = [];
+      return;
+    }
+
+    // 1️⃣ Dispatch with the real clientId (not clientView.clientId)
+    this.store.dispatch(
+      loadClientContactPersonsByClientId({
+        clientId: mandate.clientView.clientId!,
+      })
+    );
+
+    // 2️⃣ Now wait until facadeContact.items$ emits a non-empty array
+    this.facadeContact.items$
+      .pipe(
+        filter((list) => list.length > 0), // skip the initial []
+        take(1) // then complete
+      )
+      .subscribe((all) => {
+        // 3️⃣ Filter down to only the ones this mandate saved
+        this.contactPersonsDropdown = all.filter((cp) =>
+          saved.some((sel) => sel.contactPersonId === cp.id)
+        );
+        console.log(
+          '✅ contacts dropdown after load:',
+          this.contactPersonsDropdown
+        );
+      });
   }
 
   private setupOfficersDropdown(): void {
-    console.log('🔍 selectedRowForDownload:', this.selectedRowForDownload);
-
-    const contacts = this.selectedRowForDownload?.contacts;
-    console.log('🔍 raw contacts array:', contacts);
-
-    if (contacts && Array.isArray(contacts)) {
-      this.contactPersonsDropdown = contacts.filter((v, i, a) => {
-        const firstIdx = a.findIndex((t) => t.id === v.id);
-        const keep = firstIdx === i;
-        if (!keep) {
-          console.warn(
-            `🚨 duplicate contact id=${v.id} at index ${i}; first seen at ${firstIdx}`
-          );
-        }
-        return keep;
-      });
-
-      console.log(
-        '✅ filtered (unique) contacts:',
-        this.contactPersonsDropdown
-      );
-    } else {
-      console.warn('⚠️ no contacts found on selectedRowForDownload');
-      this.contactPersonsDropdown = [];
+    const mandate = this.selectedRowForDownload!;
+    const saved: { officerId: number }[] = mandate.mandateOfficers ?? [];
+    console.log('saved', saved);
+    // nothing saved → empty list
+    if (!saved.length) {
+      this.officersDropdown = [];
+      return;
     }
+
+    // 1️⃣ dispatch the load
+    this.store.dispatch(loadOfficers());
+
+    // 2️⃣ wait until you actually get a non-empty array
+    this.officersFacade.items$
+      .pipe(
+        filter((list) => list.length > 0),
+        take(1)
+      )
+      .subscribe((all) => {
+        // 3️⃣ filter down to only the ones this mandate saved
+        this.officersDropdown = all.filter((o) =>
+          saved.some((sel) => sel.officerId === o.id)
+        );
+        console.log('✅ officers dropdown after load:', this.officersDropdown);
+      });
   }
+
   private setupLanguagesDropdown(): void {
-    console.log('🔍 selectedRowForDownload:', this.selectedRowForDownload);
+    // if you stored languages as simple codes or IDs
+    const savedLangs: number[] | string[] =
+      this.selectedRowForDownload?.languages || [];
 
-    const contacts = this.selectedRowForDownload?.contacts;
-    console.log('🔍 raw contacts array:', contacts);
-
-    if (contacts && Array.isArray(contacts)) {
-      this.contactPersonsDropdown = contacts.filter((v, i, a) => {
-        const firstIdx = a.findIndex((t) => t.id === v.id);
-        const keep = firstIdx === i;
-        if (!keep) {
-          console.warn(
-            `🚨 duplicate contact id=${v.id} at index ${i}; first seen at ${firstIdx}`
-          );
-        }
-        return keep;
-      });
-
-      console.log(
-        '✅ filtered (unique) contacts:',
-        this.contactPersonsDropdown
-      );
-    } else {
-      console.warn('⚠️ no contacts found on selectedRowForDownload');
-      this.contactPersonsDropdown = [];
-    }
+    // // if you have a static lookup for all languages, e.g. injected via a LanguageFacade:
+    // this.languageFacade.items$.pipe(take(1)).subscribe((allLangs) => {
+    //   this.languagesDropdown = allLangs.filter((lang) =>
+    //     savedLangs.includes(lang.id)
+    //   );
+    //   console.log('✅ languages dropdown:', this.languagesDropdown);
+    // });
   }
+
   onAddLeasingMandate() {
     this.router.navigate(['/crm/leasing-mandates/add-mandate']);
   }
@@ -169,8 +192,11 @@ export class ViewMandatesComponent {
     ]);
   }
   onDownloadClick(row: any) {
-    console.log('clicked');
+    console.log('clicked', row);
     this.selectedRowForDownload = row;
+    this.setupContactPersonsDropdown();
+    this.setupOfficersDropdown();
+    this.setupLanguagesDropdown();
     this.showDownloadPopup = true;
   }
 
