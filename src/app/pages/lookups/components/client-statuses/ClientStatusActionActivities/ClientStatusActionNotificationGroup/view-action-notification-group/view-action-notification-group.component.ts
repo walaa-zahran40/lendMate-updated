@@ -62,7 +62,7 @@ export class ViewActionNotificationGroupsComponent {
             .map((actionNotificationGroup) => ({
               ...actionNotificationGroup,
               notificationGroup:
-                notificationGroupsList.find((c) => c.id === actionNotificationGroup.notificationGroupOfficerId)?.name ||
+                notificationGroupsList.find((c) => c.id === actionNotificationGroup.notificationGroupId)?.name ||
                 '—',
             }))
             .sort((a, b) => b.id - a.id)

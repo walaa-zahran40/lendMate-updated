@@ -58,7 +58,7 @@ export class AddActionNotificationGroupsComponent {
     this.addActionNotificationGroupsLookupsForm = this.fb.group({
       id: [null],
       clientStatusActionId: [null, [Validators.required]],
-      notificationGroupOfficerId: [null, [Validators.required]],
+      notificationGroupId: [null, [Validators.required]],
       startDate:  [null, [Validators.required]],
       isActive: [true],
     });
@@ -95,7 +95,7 @@ export class AddActionNotificationGroupsComponent {
           this.addActionNotificationGroupsLookupsForm.patchValue({
             id: ct?.id,
             clientStatusActionId: this.clientStatusActionId,
-            notificationGroupOfficerId: ct?.notificationGroupOfficerId,
+            notificationGroupId: ct?.notificationGroupId,
             startDate:new Date(ct?.startDate),
             isActive: ct?.isActive,
           });
@@ -129,10 +129,10 @@ export class AddActionNotificationGroupsComponent {
       clientStatusActionId: clientParamQP,
     });
 
-    const {notificationGroupOfficerId, clientStatusActionId,startDate, isActive } =
+    const {notificationGroupId, clientStatusActionId,startDate, isActive } =
       this.addActionNotificationGroupsLookupsForm.value;
     const payload: Partial<ActionNotificationGroup> = {
-      notificationGroupOfficerId,
+      notificationGroupId,
       clientStatusActionId,
       startDate,
       isActive

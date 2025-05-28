@@ -9531,19 +9531,19 @@
       *ngIf="addActionNotificationGroupForm"
       (ngSubmit)="onSubmit()"
     >
-      <label for="notificationGroupOfficerId">Notification Group<sup>*</sup></label>
+      <label for="notificationGroupId">Notification Group<sup>*</sup></label>
       <p-select
         [options]="notificationGroupsList"
         optionLabel="name"
         placeholder="Select Notification Group"
-        formControlName="notificationGroupOfficerId"
+        formControlName="notificationGroupId"
         optionValue="id"
         required
         [ngClass]="{
           'ng-invalid':
-            formGroup.get('notificationGroupOfficerId')?.invalid &&
-            (formGroup.get('notificationGroupOfficerId')?.dirty ||
-              formGroup.get('notificationGroupOfficerId')?.touched)
+            formGroup.get('notificationGroupId')?.invalid &&
+            (formGroup.get('notificationGroupId')?.dirty ||
+              formGroup.get('notificationGroupId')?.touched)
         }"
       />
      <label for="startDate">Start Date<sup class="danger">*</sup></label>

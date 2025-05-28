@@ -2,7 +2,7 @@ export interface ActionNotificationGroup {
   id: number;
   clientStatusActionId: number;
   clientStatusAction: any;
-  notificationGroupOfficerId: number;
+  notificationGroupId: number;
   startDate: Date;
   isActive?: boolean;
 }
