@@ -57,4 +57,5 @@ export enum EntityNames {
   AuthorizationGroup = 'AuthorizationGroup',
   //Mandates
   Mandate = 'Mandate',
+  MandatePaymentSetting = 'MandatePaymentSetting',
 }
