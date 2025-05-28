@@ -82,7 +82,6 @@ import { ViewWorkFlowActionTypesComponent } from './components/workflow-action-t
 import { AddClientStatusesComponent } from './components/client-statuses/add-client-status/add-client-status.component';
 import { ViewClientStatusActionsComponent } from './components/client-statuses/view-client-status-actions/view-client-status-actions.component';
 import { ViewClientStatusesComponent } from './components/client-statuses/view-client-statuses/view-client-statuses.component';
-import { WizardClientStatusComponent } from './components/client-statuses/wizard-client-status/wizard-client-status.component';
 import { AddClientStatusActionsComponent } from './components/client-statuses/add-client-status-action/add-client-status-actions.component';
 import { AddClientOfficerTypesComponent } from './components/client-officer-types/add-client-officer-types/add-client-officer-types.component';
 import { ViewClientOfficerTypesComponent } from './components/client-officer-types/view-client-officer-types/view-client-officer-types.component';
@@ -108,6 +107,11 @@ import { ViewConditionExpressionsComponent } from './components/condition-expres
 import { AddConditionExpressionsComponent } from './components/condition-expressions/add-condition-expressions/add-condition-expressions.component';
 import { AddConditionsComponent } from './components/conditions/add-conditions/add-conditions.component';
 import { ViewConditionsComponent } from './components/conditions/view-conditions/view-conditions.component';
+import { WizardClientStatusActionComponent } from './components/client-statuses/wizard-client-status-action/wizard-client-status-action.component';
+import { AddActionAuthorizationGroupsComponent } from './components/client-statuses/ClientStatusActionActivities/ClientStatusActionAuthorizationGroup/add-action-authorization-group/add-action-authorization-group.component';
+import { ViewActionAuthorizationGroupsComponent } from './components/client-statuses/ClientStatusActionActivities/ClientStatusActionAuthorizationGroup/view-action-authorization-group/view-action-authorization-group.component';
+import { AddActionNotificationGroupsComponent } from './components/client-statuses/ClientStatusActionActivities/ClientStatusActionNotificationGroup/add-action-notification-group/add-action-notification-group.component';
+import { ViewActionNotificationGroupsComponent } from './components/client-statuses/ClientStatusActionActivities/ClientStatusActionNotificationGroup/view-action-notification-group/view-action-notification-group.component';
 
 const routes: Routes = [
   /**Lookup Module */
@@ -596,7 +600,7 @@ const routes: Routes = [
     component: ViewPaymentPeriodsComponent,
   },
 
-  //Payment Timing Terms 
+  //Payment Timing Terms
   {
     path: 'add-payment-timing-terms',
     component: AddPaymentTimingTermsComponent,
@@ -693,8 +697,8 @@ const routes: Routes = [
     component: ViewClientStatusesComponent,
   },
   {
-    path: 'wizard-client-status/:clientStatusId',
-    component: WizardClientStatusComponent,
+    path: 'wizard-client-status-action/:clientStatusActionId',
+    component: WizardClientStatusActionComponent,
   },
   {
     path: 'add-client-status-actions',
@@ -827,7 +831,7 @@ const routes: Routes = [
     component: ViewAuthorizationGroupsComponent,
   },
 
-   //notification groups
+  //notification groups
   {
     path: 'add-notification-groups',
     component: AddNotificationGroupsComponent,
@@ -855,8 +859,7 @@ const routes: Routes = [
     component: ViewNotificationGroupOfficersComponent,
   },
 
-
-    //ConditionExpression
+  //ConditionExpression
   {
     path: 'add-condition-expressions',
     component: AddConditionExpressionsComponent,
@@ -870,7 +873,7 @@ const routes: Routes = [
     component: ViewConditionExpressionsComponent,
   },
 
-   //Conditions
+  //Conditions
   {
     path: 'add-conditions',
     component: AddConditionsComponent,
@@ -884,8 +887,7 @@ const routes: Routes = [
     component: ViewConditionsComponent,
   },
 
-
-    //notification group officers
+  //notification group officers
   {
     path: 'add-authorization-group-officers',
     component: AddAuthorizationGroupOfficersComponent,
@@ -899,8 +901,38 @@ const routes: Routes = [
     component: ViewAuthorizationGroupOfficersComponent,
   },
 
-
-
+  {
+    path: 'add-action-authorizationGroups',
+    component: AddActionAuthorizationGroupsComponent,
+  },
+  {
+    path: 'add-action-authorizationGroups/:clientStatusActionId',
+    component: AddActionAuthorizationGroupsComponent,
+  },
+  {
+    path: 'edit-action-authorizationGroups/:id',
+    component: AddActionAuthorizationGroupsComponent,
+  },
+  {
+    path: 'view-action-authorizationGroups/:clientStatusActionId',
+    component: ViewActionAuthorizationGroupsComponent,
+  },
+  {
+    path: 'add-action-notificationGroups',
+    component: AddActionNotificationGroupsComponent,
+  },
+  {
+    path: 'add-action-notificationGroups/:clientStatusActionId',
+    component: AddActionNotificationGroupsComponent,
+  },
+  {
+    path: 'edit-action-notificationGroups/:id',
+    component: AddActionNotificationGroupsComponent,
+  },
+  {
+    path: 'view-action-notificationGroups/:clientStatusActionId',
+    component: ViewActionNotificationGroupsComponent,
+  },
 ];
 
 @NgModule({

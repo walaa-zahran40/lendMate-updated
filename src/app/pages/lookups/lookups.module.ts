@@ -169,7 +169,6 @@ import { SMEClientCodesEffects } from './store/sme-client-codes/sme-client-codes
 import { ViewClientStatusesComponent } from './components/client-statuses/view-client-statuses/view-client-statuses.component';
 import { ClientStatusActionsEffects } from './store/client-statuses-actions/client-status-actions.effects';
 import { reducer as clientStatusActionsReducer } from './store/client-statuses-actions/client-status-actions.reducer';
-import { WizardClientStatusComponent } from './components/client-statuses/wizard-client-status/wizard-client-status.component';
 import { AddClientStatusActionsComponent } from './components/client-statuses/add-client-status-action/add-client-status-actions.component';
 import { AddClientStatusesComponent } from './components/client-statuses/add-client-status/add-client-status.component';
 import { ViewClientStatusActionsComponent } from './components/client-statuses/view-client-status-actions/view-client-status-actions.component';
@@ -222,6 +221,15 @@ import { AddConditionsComponent } from './components/conditions/add-conditions/a
 import { ViewConditionsComponent } from './components/conditions/view-conditions/view-conditions.component';
 import { conditionsReducer } from './store/conditions/conditions.reducer';
 import { ConditionsEffects } from './store/conditions/conditions.effects';
+import { WizardClientStatusActionComponent } from './components/client-statuses/wizard-client-status-action/wizard-client-status-action.component';
+import { AddActionAuthorizationGroupsComponent } from './components/client-statuses/ClientStatusActionActivities/ClientStatusActionAuthorizationGroup/add-action-authorization-group/add-action-authorization-group.component';
+import { ViewActionAuthorizationGroupsComponent } from './components/client-statuses/ClientStatusActionActivities/ClientStatusActionAuthorizationGroup/view-action-authorization-group/view-action-authorization-group.component';
+import { actionAuthorizationGroupsReducer } from './store/client-statuses-actions-activities/ClientStatusActionAuthorizationGroup/action-authorization-groups.reducer';
+import { ActionAuthorizationGroupsEffects } from './store/client-statuses-actions-activities/ClientStatusActionAuthorizationGroup/action-authorization-groups.effects';
+import { AddActionNotificationGroupsComponent } from './components/client-statuses/ClientStatusActionActivities/ClientStatusActionNotificationGroup/add-action-notification-group/add-action-notification-group.component';
+import { ViewActionNotificationGroupsComponent } from './components/client-statuses/ClientStatusActionActivities/ClientStatusActionNotificationGroup/view-action-notification-group/view-action-notification-group.component';
+import { actionNotificationGroupsReducer } from './store/client-statuses-actions-activities/ClientStatusActionNotificationGroup/action-notification-groups.reducer';
+import { ActionNotificationGroupsEffects } from './store/client-statuses-actions-activities/ClientStatusActionNotificationGroup/action-notification-groups.effects';
 
 @NgModule({
   declarations: [
@@ -328,7 +336,7 @@ import { ConditionsEffects } from './store/conditions/conditions.effects';
     ViewClientStatusActionsComponent,
     ViewClientStatusesComponent,
     AddClientStatusesComponent,
-    WizardClientStatusComponent,
+    WizardClientStatusActionComponent,
     ViewCallTypesComponent,
     ViewCommunicationTypesComponent,
     ViewCallActionTypesComponent,
@@ -339,6 +347,10 @@ import { ConditionsEffects } from './store/conditions/conditions.effects';
     AddAuthorizationGroupsComponent,
     ViewAuthorizationGroupsComponent,
     ViewNotificationGroupsComponent,
+    AddActionAuthorizationGroupsComponent,
+    ViewActionAuthorizationGroupsComponent,
+    AddActionNotificationGroupsComponent,
+    ViewActionNotificationGroupsComponent,
   ],
   imports: [
     CommonModule,
@@ -458,14 +470,30 @@ import { ConditionsEffects } from './store/conditions/conditions.effects';
     EffectsModule.forFeature([PaymentTimingTermsEffects]),
     StoreModule.forFeature('notificationGroups', notificationGroupReducer),
     EffectsModule.forFeature([NotificationGroupsEffects]),
-    StoreModule.forFeature('notificationGroupOfficers', notificationGroupOfficerReducer),
+    StoreModule.forFeature(
+      'notificationGroupOfficers',
+      notificationGroupOfficerReducer
+    ),
     EffectsModule.forFeature([NotificationGroupOfficersEffects]),
-    StoreModule.forFeature('authorizationGroupOfficers', authorizationGroupOfficerReducer),
+    StoreModule.forFeature(
+      'authorizationGroupOfficers',
+      authorizationGroupOfficerReducer
+    ),
     EffectsModule.forFeature([AuthorizationGroupOfficersEffects]),
-       StoreModule.forFeature('conditionExpressions', conditionExpressionsReducer),
+    StoreModule.forFeature('conditionExpressions', conditionExpressionsReducer),
     EffectsModule.forFeature([ConditionExpressionsEffects]),
-           StoreModule.forFeature('conditions', conditionsReducer),
+    StoreModule.forFeature('conditions', conditionsReducer),
     EffectsModule.forFeature([ConditionsEffects]),
+    StoreModule.forFeature(
+      'actionAuthorizationGroups',
+      actionAuthorizationGroupsReducer
+    ),
+    EffectsModule.forFeature([ActionAuthorizationGroupsEffects]),
+    StoreModule.forFeature(
+      'actionNotificationGroups',
+      actionNotificationGroupsReducer
+    ),
+    EffectsModule.forFeature([ActionNotificationGroupsEffects]),
   ],
   exports: [
     AddMandateStatusesComponent,
@@ -515,6 +543,8 @@ import { ConditionsEffects } from './store/conditions/conditions.effects';
     ViewClientOfficerTypesComponent,
     AddAuthorizationGroupsComponent,
     AddNotificationGroupsComponent,
+    AddActionAuthorizationGroupsComponent,
+    AddActionNotificationGroupsComponent,
   ],
 })
 export class LookupsModule {}

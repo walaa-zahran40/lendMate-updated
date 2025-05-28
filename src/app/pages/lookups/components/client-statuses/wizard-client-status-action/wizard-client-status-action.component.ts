@@ -2,32 +2,40 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-wizard-client-status',
+  selector: 'app-wizard-client-status-action',
   standalone: false,
-  templateUrl: './wizard-client-status.component.html',
-  styleUrl: './wizard-client-status.component.scss',
+  templateUrl: './wizard-client-status-action.component.html',
+  styleUrl: './wizard-client-status-action.component.scss',
 })
-export class WizardClientStatusComponent {
+export class WizardClientStatusActionComponent {
   cards: any[] = [];
   originalCards: any[] = [];
 
   constructor(private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    const clientStatusId = this.route.snapshot.paramMap.get('clientStatusId');
+    const clientStatusActionId = this.route.snapshot.paramMap.get('clientStatusActionId');
     this.originalCards = [
       {
         imgUrl: '/assets/images/shared/card/add-status.svg',
-        imgAlt: 'add Status',
-        title: 'Add Status',
+        imgAlt: 'add Authorization Group',
+        title: 'Add Authorization Group',
         content:
           'Introduce your company core info quickly to users by fill up company details',
-        link: `/lookups/view-client-status-actions/${clientStatusId}`,
+        link: `/lookups/view-action-authorizationGroups/${clientStatusActionId}`,
+      },
+       {
+        imgUrl: '/assets/images/shared/card/add-status.svg',
+        imgAlt: 'add Notification Group',
+        title: 'Add Notification Group',
+        content:
+          'Introduce your company core info quickly to users by fill up company details',
+        link: `/lookups/view-action-notificationGroups/${clientStatusActionId}`,
       },
     ];
     this.cards = this.chunkArray(this.originalCards, 3);
   }
-  onSearchClientStatus(keyword: string) {
+  onSearchClientStatusAction(keyword: string) {
     const lower = keyword.toLowerCase();
     const filtered = this.originalCards.filter((card) =>
       Object.values(card).some((val) =>

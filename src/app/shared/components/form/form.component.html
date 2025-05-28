@@ -256,6 +256,22 @@
       (click)="viewClientStatuses()"
       class="custom-view m-0 float-right"
     />
+     <p-button
+      *ngIf="addActionAuthorizationGroupForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Action Authorization Groups"
+      (click)="viewActionAuthorizationGroup()"
+      class="custom-view m-0 float-right"
+    />
+      <p-button
+      *ngIf="addActionNotificationGroupForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Action Notification Groups"
+      (click)="viewActionNotificationGroup()"
+      class="custom-view m-0 float-right"
+    />
     <p-button
       *ngIf="addSectorsLookupsForm"
       icon="pi pi-cog"
@@ -9735,6 +9751,124 @@
             label="Close"
             class="custom-save m-0 float-right"
             (click)="router.navigate(['/lookups/view-client-statuses'])"
+          />
+        </div>
+      </div>
+    </form>
+
+     <form
+      [formGroup]="formGroup"
+      *ngIf="addActionAuthorizationGroupForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="authorizationGroupId">Authorization Group<sup>*</sup></label>
+      <p-select
+        [options]="authorizationGroupsList"
+        optionLabel="name"
+        placeholder="Select Authorization Group"
+        formControlName="authorizationGroupId"
+        optionValue="id"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('authorizationGroupId')?.invalid &&
+            (formGroup.get('authorizationGroupId')?.dirty ||
+              formGroup.get('authorizationGroupId')?.touched)
+        }"
+      />
+     <label for="startDate">Start Date<sup class="danger">*</sup></label>
+      <shared-date-picker formControlName="startDate" inputId="startDate">
+      </shared-date-picker>
+
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="!editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Add Action Authorization Group"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Action Authorization Group"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate([`/lookups/view-action-authorizationGroups/${this.clientStatusActionIdParam}`])"
+          />
+        </div>
+      </div>
+    </form>
+
+     <form
+      [formGroup]="formGroup"
+      *ngIf="addActionNotificationGroupForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="notificationGroupId">Notification Group<sup>*</sup></label>
+      <p-select
+        [options]="notificationGroupsList"
+        optionLabel="name"
+        placeholder="Select Notification Group"
+        formControlName="notificationGroupId"
+        optionValue="id"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('notificationGroupId')?.invalid &&
+            (formGroup.get('notificationGroupId')?.dirty ||
+              formGroup.get('notificationGroupId')?.touched)
+        }"
+      />
+     <label for="startDate">Start Date<sup class="danger">*</sup></label>
+      <shared-date-picker formControlName="startDate" inputId="startDate">
+      </shared-date-picker>
+
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="!editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Add Action Notification Group"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Action Notification Group"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate([`/lookups/view-action-notificationGroups/${this.clientStatusActionIdParam}`])"
           />
         </div>
       </div>
