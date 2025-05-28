@@ -7,6 +7,7 @@ import { selectLastOperationSuccess } from '../../../../../shared/store/ui.selec
 
 @Injectable({ providedIn: 'root' })
 export class MandatesFacade {
+  readonly selectedMandate$ = this.store.select(Selectors.selectCurrent);
   all$ = this.store.select(Selectors.selectAllMandates);
   loading$ = this.store.select(Selectors.selectMandatesLoading);
   error$ = this.store.select(Selectors.selectMandatesError);

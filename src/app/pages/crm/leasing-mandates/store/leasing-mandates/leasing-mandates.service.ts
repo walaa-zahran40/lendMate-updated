@@ -28,7 +28,9 @@ export class MandatesService {
   }
 
   getById(id: number): Observable<Mandate> {
-    return this.http.get<Mandate>(`${this.baseUrl}/MandateId?mandateId=${id}`);
+    return this.http.get<Mandate>(
+      `${this.baseUrl}/LeasingMandateId?leasingMandate=${id}`
+    );
   }
 
   create(payload: Omit<Mandate, 'id'>): Observable<Mandate> {

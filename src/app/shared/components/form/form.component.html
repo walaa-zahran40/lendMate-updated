@@ -256,7 +256,7 @@
       (click)="viewClientStatuses()"
       class="custom-view m-0 float-right"
     />
-     <p-button
+    <p-button
       *ngIf="addActionAuthorizationGroupForm"
       icon="pi pi-cog"
       iconPos="left"
@@ -264,7 +264,7 @@
       (click)="viewActionAuthorizationGroup()"
       class="custom-view m-0 float-right"
     />
-      <p-button
+    <p-button
       *ngIf="addActionNotificationGroupForm"
       icon="pi pi-cog"
       iconPos="left"
@@ -8024,7 +8024,7 @@
             pButton
             type="button"
             icon="pi pi-plus"
-            class="p-button-outlined p-button-sm"
+            class="p-button-outlined p-button-sm p-plus"
             (click)="addOfficer.emit()"
             *ngIf="!viewOnly"
             [ngClass]="viewOnly ? 'disabled' : 'enabled'"
@@ -8035,7 +8035,7 @@
             pButton
             type="button"
             icon="pi pi-trash"
-            class="p-button-danger p-button-sm"
+            class="p-button-danger p-button-sm p-remove"
             *ngIf="mandateOfficers.length > 1 && !viewOnly"
             (click)="removeOfficer.emit(i)"
             [ngClass]="viewOnly ? 'disabled' : 'enabled'"
@@ -8083,7 +8083,7 @@
             pButton
             type="button"
             icon="pi pi-plus"
-            class="p-button-outlined p-button-sm"
+            class="p-button-outlined p-button-sm p-plus"
             (click)="addContactPerson.emit()"
             *ngIf="!viewOnly"
             [ngClass]="viewOnly ? 'disabled' : 'enabled'"
@@ -8094,7 +8094,7 @@
             pButton
             type="button"
             icon="pi pi-trash"
-            class="p-button-danger p-button-sm"
+            class="p-button-danger p-button-sm p-remove"
             *ngIf="mandateContactPersons.length > 1 && !viewOnly"
             (click)="removeContactPerson.emit(i)"
             [ngClass]="viewOnly ? 'disabled' : 'enabled'"
@@ -8163,7 +8163,7 @@
             pButton
             type="button"
             icon="pi pi-plus"
-            class="p-button-outlined p-button-sm"
+            class="p-button-outlined p-button-sm p-plus"
             (click)="addAssetType.emit()"
             *ngIf="!viewOnly"
             [ngClass]="viewOnly ? 'disabled' : 'enabled'"
@@ -8174,7 +8174,7 @@
             pButton
             type="button"
             icon="pi pi-trash"
-            class="p-button-danger p-button-sm"
+            class="p-button-danger p-button-sm p-remove"
             *ngIf="mandateAssetTypes.length > 1 && !viewOnly"
             (click)="removeAssetType.emit(i)"
             [ngClass]="viewOnly ? 'disabled' : 'enabled'"
@@ -8345,7 +8345,7 @@
             pButton
             type="button"
             icon="pi pi-plus"
-            class="p-button-outlined p-button-sm"
+            class="p-button-outlined p-button-sm p-plus"
             (click)="addFee.emit()"
             *ngIf="!viewOnly"
             [ngClass]="viewOnly ? 'disabled' : 'enabled'"
@@ -8356,7 +8356,7 @@
             pButton
             type="button"
             icon="pi pi-trash"
-            class="p-button-danger p-button-sm"
+            class="p-button-danger p-button-sm p-remove"
             *ngIf="mandateFees.length > 1 && !viewOnly"
             (click)="removeFee.emit(i)"
             [ngClass]="viewOnly ? 'disabled' : 'enabled'"
@@ -9756,7 +9756,7 @@
       </div>
     </form>
 
-     <form
+    <form
       [formGroup]="formGroup"
       *ngIf="addActionAuthorizationGroupForm"
       (ngSubmit)="onSubmit()"
@@ -9776,7 +9776,7 @@
               formGroup.get('authorizationGroupId')?.touched)
         }"
       />
-     <label for="startDate">Start Date<sup class="danger">*</sup></label>
+      <label for="startDate">Start Date<sup class="danger">*</sup></label>
       <shared-date-picker formControlName="startDate" inputId="startDate">
       </shared-date-picker>
 
@@ -9815,7 +9815,7 @@
       </div>
     </form>
 
-     <form
+    <form
       [formGroup]="formGroup"
       *ngIf="addActionNotificationGroupForm"
       (ngSubmit)="onSubmit()"
@@ -9835,7 +9835,7 @@
               formGroup.get('notificationGroupId')?.touched)
         }"
       />
-     <label for="startDate">Start Date<sup class="danger">*</sup></label>
+      <label for="startDate">Start Date<sup class="danger">*</sup></label>
       <shared-date-picker formControlName="startDate" inputId="startDate">
       </shared-date-picker>
 

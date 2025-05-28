@@ -168,20 +168,6 @@ export class ViewMandatesComponent {
       });
   }
 
-  private setupLanguagesDropdown(): void {
-    // if you stored languages as simple codes or IDs
-    const savedLangs: number[] | string[] =
-      this.selectedRowForDownload?.languages || [];
-
-    // // if you have a static lookup for all languages, e.g. injected via a LanguageFacade:
-    // this.languageFacade.items$.pipe(take(1)).subscribe((allLangs) => {
-    //   this.languagesDropdown = allLangs.filter((lang) =>
-    //     savedLangs.includes(lang.id)
-    //   );
-    //   console.log('✅ languages dropdown:', this.languagesDropdown);
-    // });
-  }
-
   onAddLeasingMandate() {
     this.router.navigate(['/crm/leasing-mandates/add-mandate']);
   }
@@ -196,7 +182,6 @@ export class ViewMandatesComponent {
     this.selectedRowForDownload = row;
     this.setupContactPersonsDropdown();
     this.setupOfficersDropdown();
-    this.setupLanguagesDropdown();
     this.showDownloadPopup = true;
   }
 
@@ -237,7 +222,7 @@ export class ViewMandatesComponent {
     this.showFilters = value;
   }
   onEditLeasingMandate(mandate: Mandate) {
-    this.router.navigate(['/crm/mandates/edit-mandate', mandate.id], {
+    this.router.navigate(['/crm/leasing-mandates/edit-mandate', mandate.id], {
       queryParams: {
         mode: 'edit',
       },
@@ -245,7 +230,7 @@ export class ViewMandatesComponent {
   }
   onViewLeasingMandates(mandate: Mandate) {
     console.log('mandate', mandate);
-    this.router.navigate(['/crm/mandates/edit-mandate', mandate.id], {
+    this.router.navigate(['/crm/leasing-mandates/view-mandates', mandate.id], {
       queryParams: {
         mode: 'view',
       },

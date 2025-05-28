@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/internal/Observable';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
-import { distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, take } from 'rxjs/operators';
 
 //Models
 import { Client } from '../../../../clients/store/_clients/allclients/client.model';
@@ -84,6 +84,22 @@ export class AddMandateComponent {
   ) {}
 
   ngOnInit() {
+    //Edit and view Modes
+    console.log('route', this.route.snapshot);
+    // 6️⃣ Now check for an ID in the route, load & patch
+    const idParam = this.route.snapshot.paramMap.get('leasingId');
+    const modeParam = this.route.snapshot.queryParamMap.get('mode');
+    if (idParam) {
+      const mandateId = +idParam;
+      this.editMode = modeParam === 'edit';
+      this.viewOnly = modeParam === 'view';
+
+      // trigger load of the single mandate
+      this.facade.loadById(mandateId);
+
+      // patch *after* forms are ready
+      this.patchMandate(mandateId);
+    }
     //1-Mandate Basic Info Form
     this.buildMandateShowBasicForm();
     //Clients Dropdown
@@ -143,6 +159,121 @@ export class AddMandateComponent {
       .subscribe((clientId) => {
         // load only that client’s people into “items”
         this.contactPersonsFacade.loadByClientId(clientId);
+      });
+  }
+  private patchMandate(id: number) {
+    this.facade.selectedMandate$
+      .pipe(
+        filter((m) => !!m && m.id === id),
+        take(1)
+      )
+      .subscribe({
+        next: (m) => {
+          console.log('[patchMandate] ▶️ mandate payload:', m);
+
+          // 1️⃣ Patch basic form
+          const basicPatch = {
+            id: m?.id,
+            parentMandateId: m?.parentMandateId,
+            clientId: m?.clientId,
+            validityUnitId: m?.validityUnitId,
+            productId: m?.productId,
+            leasingTypeId: m?.leasingTypeId,
+            insuredById: m?.insuredById,
+          };
+          console.log('[patchMandate] — patching basicForm with', basicPatch);
+          this.basicForm.patchValue(basicPatch);
+
+          // 2️⃣ Patch moreInfo form
+          const moreInfoPatch = {
+            date: m?.date,
+            notes: m?.notes,
+            description: m?.description,
+            validityCount: m?.validityCount,
+            indicativeRentals: m?.indicativeRentals,
+          };
+          console.log(
+            '[patchMandate] — patching moreInfoForm with',
+            moreInfoPatch
+          );
+          this.moreInfoForm.patchValue(moreInfoPatch);
+
+          // 3️⃣ Helper to reset arrays with try/catch
+          const resetArray = (
+            fa: FormArray,
+            groups: any[],
+            factory: () => FormGroup,
+            name: string
+          ) => {
+            console.log(`[patchMandate] — resetting ${name}, groups=`, groups);
+            fa.clear();
+            groups.forEach((g, i) => {
+              try {
+                const fg = factory();
+                fg.patchValue(g);
+                fa.push(fg);
+              } catch (err) {
+                console.error(
+                  `[patchMandate] ✖️ error patching ${name}[${i}]`,
+                  g,
+                  err
+                );
+              }
+            });
+            console.log(`[patchMandate] ✅ ${name}.length =`, fa.length);
+          };
+
+          // 4️⃣ Reset each FormArray
+          resetArray(
+            this.mandateOfficers,
+            m?.mandateOfficers || [],
+            () => this.createMandateOfficerGroup(),
+            'mandateOfficers'
+          );
+          resetArray(
+            this.mandateContactPersons,
+            m?.mandateContactPersons || [],
+            () => this.createMandateContactPersonGroup(),
+            'mandateContactPersons'
+          );
+          resetArray(
+            this.mandateAssetTypes,
+            m?.mandateAssetTypes || [],
+            () => this.createAssetTypeGroup(),
+            'mandateAssetTypes'
+          );
+          resetArray(
+            this.mandateFees,
+            m?.mandateFees || [],
+            () => this.createMandateFeesGroup(),
+            'mandateFees'
+          );
+
+          // 5️⃣ Grace period
+          console.log(
+            '[patchMandate] — patching gracePeriodSetting with',
+            m?.mandateGracePeriodSetting
+          );
+          try {
+            this.moreInfoForm
+              .get('mandateGracePeriodSetting')!
+              .patchValue(m?.mandateGracePeriodSetting || {});
+          } catch (err) {
+            console.error(
+              '[patchMandate] ✖️ error patching gracePeriodSetting',
+              err
+            );
+          }
+
+          // 6️⃣ View-only?
+          if (this.viewOnly) {
+            console.log('[patchMandate] — viewOnly, disabling parentForm');
+            this.parentForm.disable({ emitEvent: false });
+          }
+        },
+        error: (err) => {
+          console.error('[patchMandate] subscription error', err);
+        },
       });
   }
 
@@ -372,6 +503,9 @@ export class AddMandateComponent {
     }
 
     console.log('🧭 Navigating away to view-mandates');
+    this.router.navigate(['/crm/leasing-mandates/view-mandates']);
+  }
+  navigateToView() {
     this.router.navigate(['/crm/leasing-mandates/view-mandates']);
   }
 }

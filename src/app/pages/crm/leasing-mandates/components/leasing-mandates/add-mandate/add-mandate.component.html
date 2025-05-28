@@ -5,7 +5,7 @@
   [header]="
     viewOnly ? 'View Mandates' : editMode ? 'Edit Mandate' : 'Add Mandate'
   "
-  [viewOnly]="editMode ? true : false"
+  [viewOnly]="viewOnly || editMode ? true : false"
 ></app-toolbar-form>
 <form [formGroup]="parentForm" (ngSubmit)="onSubmit()">
   <p-tabs styleClass="p-3">
@@ -87,6 +87,7 @@
         [feesList]="feeTypes$ | async"
       ></app-form>
       <button
+        class="submit"
         *ngIf="!editMode && !viewOnly"
         pButton
         type="submit"
@@ -94,17 +95,20 @@
         style="float: right"
       ></button>
       <button
+        class="submit"
         *ngIf="editMode && !viewOnly"
         pButton
-        type="button"
+        type="submit"
         label="Edit Mandate"
         style="float: right"
       ></button>
       <button
+        class="submit"
         pButton
         type="button"
         label="Close"
         style="float: right"
+        (click)="navigateToView()"
         *ngIf="!editMode && viewOnly"
       ></button>
     </p-tabpanel>

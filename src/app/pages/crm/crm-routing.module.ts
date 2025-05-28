@@ -333,6 +333,15 @@ const routes: Routes = [
     component: AddMandateComponent,
   },
   {
+    path: 'leasing-mandates/edit-mandate/:leasingId',
+    component: AddMandateComponent,
+  },
+  {
+    path: 'leasing-mandates/view-mandates/:leasingId',
+    component: AddMandateComponent,
+  },
+  //------------------
+  {
     path: 'leasing-mandates/add-child-mandate',
     component: AddChildMandateComponent,
   },

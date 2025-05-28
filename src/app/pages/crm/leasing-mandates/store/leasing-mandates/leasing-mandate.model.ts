@@ -23,8 +23,15 @@ export interface Mandate {
   indicativeRentals?: number;
   leasingTypeId?: number;
   insuredById?: number;
-  mandateAssetTypes?: AssetType;
-  mandateFees?: FeeType;
+  mandateAssetTypes?: {
+    assetTypeId: number;
+    assetsTypeDescription: string;
+  }[];
+  mandateFees?: {
+    feeTypeId: number;
+    actualAmount?: number;
+    actualPrecentage?: number;
+  }[];
   mandateGracePeriodSetting?: PeriodUnit;
   mandateContactPersons?: { contactPersonId: number }[];
   mandateOfficers?: { officerId: number }[];
