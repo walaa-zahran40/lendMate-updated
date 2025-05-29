@@ -611,7 +611,8 @@ export class FormComponent implements OnInit, OnDestroy {
     this.teamIdParam = this.route.snapshot.queryParams['teamId'];
     this.roleIdParam = this.route.snapshot.queryParams['roleId'];
     this.clientIdParam = this.route.snapshot.queryParams['clientId'];
-    this.clientStatusActionIdParam = this.route.snapshot.queryParams['clientStatusActionId'];
+    this.clientStatusActionIdParam =
+      this.route.snapshot.queryParams['clientStatusActionId'];
     this.clientStatusIdParam = this.route.snapshot.params['id'];
     this.sub = this.formGroup?.valueChanges
       .pipe(debounceTime(300))
@@ -675,8 +676,8 @@ export class FormComponent implements OnInit, OnDestroy {
   get mandateFees(): FormArray {
     return this.formGroup.get('mandateFees') as FormArray;
   }
-  get mandateGracePeriodSetting(): FormArray {
-    return this.formGroup.get('mandateGracePeriodSetting') as FormArray;
+  get mandateGracePeriodSettingView(): FormGroup {
+    return this.formGroup.get('mandateGracePeriodSettingView') as FormGroup;
   }
   onSectorChange(event: any) {
     const selectedId = event.value;
@@ -785,7 +786,7 @@ export class FormComponent implements OnInit, OnDestroy {
     ]);
   }
 
-    viewMandateAdditionalTerms() {
+  viewMandateAdditionalTerms() {
     this.router.navigate([
       `/organizations/view-mandate-additional-terms/${this.branchIdParam}`,
     ]);

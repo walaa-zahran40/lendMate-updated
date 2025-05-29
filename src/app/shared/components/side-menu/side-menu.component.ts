@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { MenuToggleService } from '../../services/menu-toggle.service';
-import { Subscription } from 'rxjs';
+import { filter, Subscription } from 'rxjs';
 import { MenuItem } from '../../interfaces/menu-item.interface';
-import { ActivatedRoute, Route } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-side-menu',
@@ -20,6 +20,14 @@ export class SideMenuComponent {
   ];
   raw = this.route.snapshot.paramMap.get('teamId');
 
+  activeMenu: string | null = null;
+  activeMenuItem: string | null = null;
+  searchTerm: string = '';
+  filteredMenuItems: MenuItem[] = [];
+  isVisible = true;
+  private toggleSub!: Subscription;
+  clientId: string | null = null;
+  rawTeamId: string | null = null;
   menuData: Record<string, MenuItem[]> = {
     CRM: [
       {
@@ -39,7 +47,7 @@ export class SideMenuComponent {
           {
             label: 'Client Address',
             icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-address',
+            routerLink: `/crm/clients/view-client-addresses/${this.clientId}`,
           },
           {
             label: 'ClientCentralBank',
@@ -677,7 +685,7 @@ export class SideMenuComponent {
             routerLink: '/lookups/view-authorization-groups',
           },
 
-             {
+          {
             label: 'Authorization Group Officers',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-authorization-group-officers',
@@ -822,7 +830,7 @@ export class SideMenuComponent {
             routerLink: '/lookups/view-notification-groups',
           },
 
-           {
+          {
             label: 'Notification Group Officers',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-notification-group-officers',
@@ -917,28 +925,35 @@ export class SideMenuComponent {
       },
     ],
   };
-
-  activeMenu: string | null = null;
-  activeMenuItem: string | null = null;
-  searchTerm: string = '';
-  filteredMenuItems: MenuItem[] = [];
-  isVisible = true;
-  subscription!: Subscription;
-
   constructor(
     private menuToggleService: MenuToggleService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit() {
-    console.log('route', this.route.snapshot);
-    this.subscription = this.menuToggleService.toggle$.subscribe(
+    // subscribe and keep the Subscription object
+    this.toggleSub = this.menuToggleService.toggle$.subscribe(
       (isVisible) => (this.isVisible = isVisible)
     );
+
+    // paramMap subscription as before
+    this.route.paramMap.subscribe((pm) => {
+      this.raw = pm.get('teamId');
+      this.clientId = pm.get('clientId');
+    });
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    // now unsubscribe the Subscription—not the Observable!
+    this.toggleSub.unsubscribe();
+  }
+  private getDeepestRoute(route: ActivatedRoute): ActivatedRoute {
+    console.log('route', route);
+    while (route.firstChild) {
+      route = route.firstChild;
+    }
+    return route;
   }
   toggleMenu(item: any) {
     this.activeMenu = this.activeMenu === item.id ? null : item.id;

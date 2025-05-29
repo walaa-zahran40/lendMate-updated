@@ -32,7 +32,6 @@ export interface Mandate {
     actualAmount?: number;
     actualPrecentage?: number;
   }[];
-  mandateGracePeriodSetting?: PeriodUnit;
   mandateGracePeriodSettingView?: PeriodUnit;
   mandateContactPersons?: { contactPersonId: number }[];
   mandateOfficers?: { officerId: number }[];

@@ -21,7 +21,7 @@
       class="custom-view m-0 float-right"
     />
 
-        <p-button
+    <p-button
       *ngIf="addMandateAdditionalTermForm"
       icon="pi pi-cog"
       iconPos="left"
@@ -29,7 +29,7 @@
       (click)="viewMandateAdditionalTerms()"
       class="custom-view m-0 float-right"
     />
-    
+
     <p-button
       *ngIf="addPageORGForm"
       icon="pi pi-cog"
@@ -6388,7 +6388,6 @@
       (ngSubmit)="onSubmit()"
       [formGroup]="formGroup"
     >
-
       <label for="termKey">Term Key <sup class="danger">*</sup></label>
       <input
         pInputText
@@ -6416,7 +6415,6 @@
             formGroup.get('description')?.touched
         }"
       />
-
 
       <div class="row justify-end">
         <div
@@ -8443,7 +8441,7 @@
           ></button>
         </div>
       </div>
-      <div formGroupName="mandateGracePeriodSetting" class="mt-4">
+      <div formGroupName="mandateGracePeriodSettingView" class="mt-4">
         <!-- 1) Grace Period Count -->
         <div class="div-number flex-1 min-w-0">
           <label for="gracePeriodCount" class="label-container">

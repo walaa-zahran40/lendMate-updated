@@ -9,6 +9,7 @@ import {
   map,
   switchMap,
   take,
+  takeUntil,
   tap,
 } from 'rxjs/operators';
 
@@ -45,6 +46,7 @@ import { loadOfficers } from '../../../../../organizations/store/officers/office
 import { loadAll as loadAssetTypes } from '../../../../../lookups/store/asset-types/asset-types.actions';
 import { loadAll as loadFeeTypes } from '../../../../../lookups/store/fee-types/fee-types.actions';
 import { loadAll as loadGracePeriods } from '../../../../../lookups/store/period-units/period-units.actions';
+import { combineLatest, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-add-mandate',
@@ -71,6 +73,7 @@ export class AddMandateComponent {
   gracePeriodUnits$!: Observable<PeriodUnit[]>;
   feeTypes$!: Observable<FeeType[]>;
   parentForm!: FormGroup;
+  private destroy$ = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
@@ -138,41 +141,34 @@ export class AddMandateComponent {
       map((list) => list || [])
     );
 
-    // 4️⃣ Watch the route for changes
-    this.route.paramMap
+    combineLatest({
+      params: this.route.paramMap,
+      query: this.route.queryParamMap,
+    })
       .pipe(
-        map((pm) => +pm.get('leasingId')!),
-        filter((id) => !!id),
-        tap((id) => {
-          console.log('[ngOnInit] 👉 got leasingId from route:', id);
-          this.editMode =
-            this.route.snapshot.queryParamMap.get('mode') === 'edit';
-          this.viewOnly =
-            this.route.snapshot.queryParamMap.get('mode') === 'view';
-          console.log(
-            '[ngOnInit] ✏️ editMode=',
-            this.editMode,
-            'viewOnly=',
-            this.viewOnly
-          );
-          console.log('[ngOnInit] ➡️ dispatching loadById(', id, ')');
-          this.facade.loadById(id);
+        map(({ params, query }) => ({
+          leasingId: +params.get('leasingId')!,
+          mode: query.get('mode'),
+        })),
+        filter(({ leasingId }) => !!leasingId),
+        tap(({ leasingId, mode }) => {
+          // flip your flags exactly once, at the same time you load
+          this.editMode = mode === 'edit';
+          this.viewOnly = mode === 'view';
+          // ← clear out the old entity so selectedMandate$ doesn’t emit immediately
+          this.facade.clearSelected();
+          // now fetch afresh
+          this.facade.loadById(leasingId);
         }),
-        switchMap((id) =>
+        switchMap(({ leasingId }) =>
           this.facade.selectedMandate$.pipe(
-            tap((m) => console.log('[selectedMandate$] emitted:', m)),
-            filter((m): m is Mandate => m != null && m.id === id),
-            tap((m) => console.log('[selectedMandate$] passed filter:', m)),
+            filter((m) => m != null && m.id === leasingId),
             take(1)
           )
         )
       )
-      .subscribe(
-        (mandate) => {
-          console.log('[ngOnInit] 🎯 subscribe got mandate:', mandate);
-          this.patchMandate(mandate);
-        },
-        (err) => console.error('[ngOnInit] ❌ subscription error:', err)
+      .subscribe((mandate: any) =>
+        this.patchMandate(this.normalizeMandate(mandate))
       );
 
     this.basicForm
@@ -186,37 +182,26 @@ export class AddMandateComponent {
         this.contactPersonsFacade.loadByClientId(clientId);
       });
   }
-  private patchMandate(m: Mandate) {
-    console.log('[patchMandate] ▶️ start patch for mandate:', m);
+  private patchMandate(
+    m: Mandate & {
+      mandateGracePeriodSettingView?: {
+        gracePeriodCount?: number | null;
+        gracePeriodUnitId?: number | null;
+      };
+    }
+  ) {
+    const grace = m.mandateGracePeriodSettingView ?? {
+      gracePeriodCount: null,
+      gracePeriodUnitId: null,
+    };
 
-    // derive IDs, falling back to view‐models if needed
-    const clientId = m.clientId ?? m.clientView?.clientId;
-    const validityUnitId =
-      m.validityUnitId ?? m.validityUnitView?.validityUnitId;
-    const graceView =
-      m.mandateGracePeriodSettingView ?? m.mandateGracePeriodSetting;
-    const graceCount = graceView?.gracePeriodCount;
-    const graceUnitId = graceView?.gracePeriodUnitId;
-
-    console.log('[patchMandate] ⚙️ derived values →', {
-      clientId,
-      validityUnitId,
-      graceCount,
-      graceUnitId,
-    });
-    // log form state before patch
-    console.log(
-      '[patchMandate] — form before patch:',
-      this.parentForm.getRawValue()
-    );
-
-    // 1️⃣ Patch everything in one go
+    // 1️⃣ patch all of the flat values, _excluding_ the nested grace group
     this.parentForm.patchValue({
       basic: {
         id: m.id,
         parentMandateId: m.parentMandateId,
-        clientId,
-        validityUnitId,
+        clientId: m.clientId ?? m.clientView?.clientId,
+        validityUnitId: m.validityUnitId ?? m.validityUnitView?.validityUnitId,
         productId: m.productId,
         leasingTypeId: m.leasingTypeId,
         insuredById: m.insuredById,
@@ -227,47 +212,33 @@ export class AddMandateComponent {
         description: m.description,
         validityCount: m.validityCount,
         indicativeRentals: m.indicativeRentals,
-        mandateGracePeriodSetting: {
-          gracePeriodCount: graceCount,
-          gracePeriodUnitId: graceUnitId,
+        mandateGracePeriodSettingView: {
+          gracePeriodCount: grace.gracePeriodCount,
+          gracePeriodUnitId: grace.gracePeriodUnitId,
         },
       },
     });
+    this.gracePeriodSettings.reset(); // clear any old values
 
-    // log the raw form state immediately after patching
-    console.log(
-      '[patchMandate] — form after patch:',
-      this.parentForm.getRawValue()
-    );
-    console.log('[patchMandate] — basicForm value:', this.basicForm.value);
-    console.log(
-      '[patchMandate] — moreInfoForm value:',
-      this.moreInfoForm.value
-    );
-    console.log(
-      '[patchMandate] — gracePeriodSetting group:',
-      this.moreInfoForm.get('mandateGracePeriodSetting')?.value
-    );
+    // 2️⃣ then explicitly set the nested grace-period group exactly once
+    this.gracePeriodSettings.patchValue({
+      gracePeriodCount: grace.gracePeriodCount,
+      gracePeriodUnitId: grace.gracePeriodUnitId,
+    });
 
-    // 2️⃣ Reset each FormArray as before
+    // 4️⃣ now reset your FormArrays exactly as before…
     const resetArray = (
       fa: FormArray,
       items: any[],
       factory: () => FormGroup,
       name: string
     ) => {
-      console.log(`[patchMandate] — resetting ${name}, items=`, items);
       fa.clear();
-      items.forEach((item, i) => {
-        try {
-          const fg = factory();
-          fg.patchValue(item);
-          fa.push(fg);
-        } catch (err) {
-          console.error(`✖️ error patching ${name}[${i}]`, item, err);
-        }
+      items.forEach((item) => {
+        const fg = factory();
+        fg.patchValue(item);
+        fa.push(fg);
       });
-      console.log(`✅ ${name}.length =`, fa.length);
     };
 
     resetArray(
@@ -294,15 +265,32 @@ export class AddMandateComponent {
       () => this.createMandateFeesGroup(),
       'mandateFees'
     );
-
-    // 3️⃣ Finally disable if viewOnly
-    if (this.viewOnly) {
-      console.log('[patchMandate] — viewOnly, disabling parentForm');
-      this.parentForm.disable({ emitEvent: false });
-    }
-
-    console.log('[patchMandate] ✅ patch complete');
   }
+
+  private normalizeMandate(raw: any): Mandate & {
+    clientId: number;
+    validityUnitId: number;
+    mandateGracePeriodSettingView: {
+      gracePeriodCount: number | null;
+      gracePeriodUnitId: number | null;
+    };
+  } {
+    return {
+      ...raw,
+      // pick flat IDs first, then fallback to the nested view-model…
+      clientId: raw?.clientId ?? raw?.clientView?.clientId,
+      validityUnitId:
+        raw?.validityUnitId ?? raw?.validityUnitView?.validityUnitId,
+      // if your back-end ever renames the grace-period prop,
+      // adjust the fallback here:
+      mandateGracePeriodSettingView: raw?.mandateGracePeriodSettingView ??
+        raw?.gracePeriodSettingView ?? {
+          gracePeriodCount: null,
+          gracePeriodUnitId: null,
+        },
+    };
+  }
+
   buildMandateShowBasicForm(): void {
     this.addMandateShowBasicForm = this.fb.group({
       id: [null],
@@ -359,7 +347,8 @@ export class AddMandateComponent {
       validityCount: [null, Validators.required],
       indicativeRentals: [null, Validators.required],
       mandateFees: this.fb.array([this.createMandateFeesGroup()]),
-      mandateGracePeriodSetting: this.createMandateGracePeriodSettingGroup(),
+      mandateGracePeriodSettingView:
+        this.createMandateGracePeriodSettingGroup(),
     });
   }
   createMandateFeesGroup(): FormGroup {
@@ -439,11 +428,7 @@ export class AddMandateComponent {
       'mandateFees'
     ) as FormArray;
   }
-  get mandateGracePeriods(): FormArray {
-    return this.addMandateShowMoreInformationForm.get(
-      'mandateGracePeriodSetting'
-    ) as FormArray;
-  }
+  // → update to:
 
   get officersForm(): FormGroup {
     // the `!` tells TS “I guarantee there’s a value here”
@@ -463,7 +448,11 @@ export class AddMandateComponent {
     // the `!` tells TS “I guarantee there’s a value here”
     // and the `as FormGroup` tells it the exact type
     return this.parentForm.get('moreInfo')! as FormGroup;
+  } // ← Insert it here
+  get gracePeriodSettings(): FormGroup {
+    return this.moreInfoForm.get('mandateGracePeriodSettingView')! as FormGroup;
   }
+
   get basicForm(): FormGroup {
     return this.parentForm?.get('basic')! as FormGroup;
   }
@@ -533,7 +522,7 @@ export class AddMandateComponent {
         validityCount: moreInfo.validityCount,
         indicativeRentals: moreInfo.indicativeRentals,
         mandateFees: moreInfo.mandateFees,
-        mandateGracePeriodSetting: moreInfo.mandateGracePeriodSetting,
+        mandateGracePeriodSettingView: moreInfo.mandateGracePeriodSettingView,
 
         // your array groups, renamed to match the API
         mandateAssetTypes: assets.mandateAssetTypes,
