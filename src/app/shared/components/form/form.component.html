@@ -20,6 +20,16 @@
       (click)="viewDocumentDetails()"
       class="custom-view m-0 float-right"
     />
+
+        <p-button
+      *ngIf="addMandateAdditionalTermForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Mandate Additional Terms Details"
+      (click)="viewMandateAdditionalTerms()"
+      class="custom-view m-0 float-right"
+    />
+    
     <p-button
       *ngIf="addPageORGForm"
       icon="pi pi-cog"
@@ -6368,6 +6378,76 @@
             label="Close"
             class="custom-save m-0 float-right"
             (click)="router.navigate([`/crm/clients/view-client-identity/${clientId}`])"
+          />
+        </div>
+      </div>
+    </form>
+
+    <form
+      *ngIf="addMandateAdditionalTermForm"
+      (ngSubmit)="onSubmit()"
+      [formGroup]="formGroup"
+    >
+
+      <label for="termKey">Term Key <sup class="danger">*</sup></label>
+      <input
+        pInputText
+        name="termKey"
+        formControlName="termKey"
+        placeholder="termKey"
+        type="string"
+        [ngClass]="{
+          'ng-invalid ng-dirty':
+            formGroup.get('termKey')?.invalid &&
+            formGroup.get('termKey')?.touched
+        }"
+      />
+
+      <label for="description">Description</label>
+      <input
+        pInputText
+        name="description"
+        formControlName="description"
+        placeholder="description"
+        type="string"
+        [ngClass]="{
+          'ng-invalid ng-dirty':
+            formGroup.get('description')?.invalid &&
+            formGroup.get('description')?.touched
+        }"
+      />
+
+
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 currenciesDiv"
+          *ngIf="!editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Add Mandate Term"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Mandate Term"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate([`/crm/clients/view-mandate-additional-terms/${leasingId}`])"
           />
         </div>
       </div>

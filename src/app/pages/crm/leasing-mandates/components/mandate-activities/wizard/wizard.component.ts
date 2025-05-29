@@ -12,7 +12,8 @@ export class WizardComponent {
   constructor(private router: Router, private route: ActivatedRoute) {}
   ngOnInit(): void {
     console.log("current Id : " ,  this.route.snapshot.paramMap.get('leasingMandatesId'));
-     const mandateId = this.route.snapshot.paramMap.get('leasingMandatesId');
+  
+    const mandateId =this.route.snapshot.params['leasingId'];
     this.cards = [
       [
         {
