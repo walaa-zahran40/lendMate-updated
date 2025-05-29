@@ -127,6 +127,7 @@ export class TableComponent {
   @Input() viewCallActionTypesTable!: boolean;
   @Input() viewCountriesTable!: boolean;
   @Input() viewAreasTable!: boolean;
+  @Input() viewCallsTable!: boolean;
   @Input() viewMandateAdditionalTermsTable!: boolean;
   @Input() viewTaxOfficeTable!: boolean;
   @Input() viewAddDepartmentManagerTable!: boolean;

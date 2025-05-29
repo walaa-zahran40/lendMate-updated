@@ -136,7 +136,7 @@ export class SideMenuComponent {
           {
             label: 'Call',
             icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-call',
+            routerLink: '/communication/view-calls',
           },
           {
             label: 'Meeting',

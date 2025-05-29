@@ -497,6 +497,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addPageORGForm!: boolean;
   @Input() addActionAuthorizationGroupForm!: boolean;
   @Input() addActionNotificationGroupForm!: boolean;
+  @Input() addCallsForm!: boolean;
 
   currencyIdParam: any;
   branchIdParam: any;
