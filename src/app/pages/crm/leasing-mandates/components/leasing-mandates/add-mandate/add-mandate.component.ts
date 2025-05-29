@@ -3,7 +3,14 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/internal/Observable';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
-import { distinctUntilChanged, filter, map, take } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
 
 //Models
 import { Client } from '../../../../clients/store/_clients/allclients/client.model';
@@ -84,60 +91,13 @@ export class AddMandateComponent {
   ) {}
 
   ngOnInit() {
-    //Edit and view Modes
-    console.log('route', this.route.snapshot);
-    // 6️⃣ Now check for an ID in the route, load & patch
-    const idParam = this.route.snapshot.paramMap.get('leasingId');
-    const modeParam = this.route.snapshot.queryParamMap.get('mode');
-    if (idParam) {
-      const mandateId = +idParam;
-      this.editMode = modeParam === 'edit';
-      this.viewOnly = modeParam === 'view';
-
-      // trigger load of the single mandate
-      this.facade.loadById(mandateId);
-
-      // patch *after* forms are ready
-      this.patchMandate(mandateId);
-    }
-    //1-Mandate Basic Info Form
+    // 1️⃣ Build all form‐groups (so that patchMandate always finds them)
     this.buildMandateShowBasicForm();
-    //Clients Dropdown
-    this.store.dispatch(loadAll({}));
-    this.clientNames$ = this.clientFacade.all$;
-    //Mandate Validity Units Dropdown
-    this.store.dispatch(loadValidityUnits({}));
-    this.validityUnits$ = this.validityUnitFacade.all$;
-    //Products Dropdown
-    this.store.dispatch(loadProducts({}));
-    this.products$ = this.productFacade.all$;
-    //Leasing Types Dropdown
-    this.store.dispatch(loadLeasingTypes({}));
-    this.leasingTypes$ = this.leasingTypeFacade.all$;
-    //Insured By Dropdown
-    this.store.dispatch(loadInsuredBy({}));
-    this.insuredBy$ = this.insuredByFacade.all$;
-    //2-Mandate Officers Form
     this.buildMandateShowOfficersForm();
-    //Officers Dropdown
-    this.store.dispatch(loadOfficers());
-    this.officers$ = this.officersFacade.items$;
-    //3-Contact Persons Form
     this.buildMandateShowContactPersonsForm();
-    //4`-Asset Type Form
     this.buildMandateShowAssetTypeForm();
-    //Asset Type Dropdown
-    this.store.dispatch(loadAssetTypes({}));
-    this.assetTypes$ = this.assetTypesFacade.all$;
-    //5`-More Information Form
     this.buildMandateShowMoreInformationForm();
-    //Fee Types Dropdown
-    this.store.dispatch(loadFeeTypes({}));
-    this.feeTypes$ = this.feeTypesFacade.all$;
-    //Grace Period Units Dropdown
-    this.store.dispatch(loadGracePeriods({}));
-    this.gracePeriodUnits$ = this.gracePeriodUnitsFacade.all$;
-    //Combine all forms into a single FormGroup
+    // 2️⃣ Combine into parentForm
     this.parentForm = this.fb.group({
       basic: this.addMandateShowBasicForm,
       officers: this.addMandateShowOfficersForm,
@@ -145,10 +105,75 @@ export class AddMandateComponent {
       assets: this.addMandateShowAssetTypeForm,
       moreInfo: this.addMandateShowMoreInformationForm,
     });
+    // 3️⃣ Load your lookups…
+    this.store.dispatch(loadAll({}));
+    this.store.dispatch(loadValidityUnits({}));
+    this.store.dispatch(loadProducts({}));
+    this.store.dispatch(loadLeasingTypes({}));
+    this.store.dispatch(loadInsuredBy({}));
+    this.store.dispatch(loadOfficers());
+    this.store.dispatch(loadAssetTypes({}));
+    this.store.dispatch(loadFeeTypes({}));
+    this.store.dispatch(loadGracePeriods({}));
+    //Clients Dropdown
+    this.clientNames$ = this.clientFacade.all$;
+    //Mandate Validity Units Dropdown
+    this.validityUnits$ = this.validityUnitFacade.all$;
+    //Products Dropdown
+    this.products$ = this.productFacade.all$;
+    //Leasing Types Dropdown
+    this.leasingTypes$ = this.leasingTypeFacade.all$;
+    //Insured By Dropdown
+    this.insuredBy$ = this.insuredByFacade.all$;
+    //Officers Dropdown
+    this.officers$ = this.officersFacade.items$;
+    //Asset Type Dropdown
+    this.assetTypes$ = this.assetTypesFacade.all$;
+    //Fee Types Dropdown
+    this.feeTypes$ = this.feeTypesFacade.all$;
+    //Grace Period Units Dropdown
+    this.gracePeriodUnits$ = this.gracePeriodUnitsFacade.all$;
     //Contact Persons Dropdown
     this.contactPersons$ = this.contactPersonsFacade.items$.pipe(
       map((list) => list || [])
     );
+
+    // 4️⃣ Watch the route for changes
+    this.route.paramMap
+      .pipe(
+        map((pm) => +pm.get('leasingId')!),
+        filter((id) => !!id),
+        tap((id) => {
+          console.log('[ngOnInit] 👉 got leasingId from route:', id);
+          this.editMode =
+            this.route.snapshot.queryParamMap.get('mode') === 'edit';
+          this.viewOnly =
+            this.route.snapshot.queryParamMap.get('mode') === 'view';
+          console.log(
+            '[ngOnInit] ✏️ editMode=',
+            this.editMode,
+            'viewOnly=',
+            this.viewOnly
+          );
+          console.log('[ngOnInit] ➡️ dispatching loadById(', id, ')');
+          this.facade.loadById(id);
+        }),
+        switchMap((id) =>
+          this.facade.selectedMandate$.pipe(
+            tap((m) => console.log('[selectedMandate$] emitted:', m)),
+            filter((m): m is Mandate => m != null && m.id === id),
+            tap((m) => console.log('[selectedMandate$] passed filter:', m)),
+            take(1)
+          )
+        )
+      )
+      .subscribe(
+        (mandate) => {
+          console.log('[ngOnInit] 🎯 subscribe got mandate:', mandate);
+          this.patchMandate(mandate);
+        },
+        (err) => console.error('[ngOnInit] ❌ subscription error:', err)
+      );
 
     this.basicForm
       .get('clientId')!
@@ -161,122 +186,123 @@ export class AddMandateComponent {
         this.contactPersonsFacade.loadByClientId(clientId);
       });
   }
-  private patchMandate(id: number) {
-    this.facade.selectedMandate$
-      .pipe(
-        filter((m) => !!m && m.id === id),
-        take(1)
-      )
-      .subscribe({
-        next: (m) => {
-          console.log('[patchMandate] ▶️ mandate payload:', m);
+  private patchMandate(m: Mandate) {
+    console.log('[patchMandate] ▶️ start patch for mandate:', m);
 
-          // 1️⃣ Patch basic form
-          const basicPatch = {
-            id: m?.id,
-            parentMandateId: m?.parentMandateId,
-            clientId: m?.clientId,
-            validityUnitId: m?.validityUnitId,
-            productId: m?.productId,
-            leasingTypeId: m?.leasingTypeId,
-            insuredById: m?.insuredById,
-          };
-          console.log('[patchMandate] — patching basicForm with', basicPatch);
-          this.basicForm.patchValue(basicPatch);
+    // derive IDs, falling back to view‐models if needed
+    const clientId = m.clientId ?? m.clientView?.clientId;
+    const validityUnitId =
+      m.validityUnitId ?? m.validityUnitView?.validityUnitId;
+    const graceView =
+      m.mandateGracePeriodSettingView ?? m.mandateGracePeriodSetting;
+    const graceCount = graceView?.gracePeriodCount;
+    const graceUnitId = graceView?.gracePeriodUnitId;
 
-          // 2️⃣ Patch moreInfo form
-          const moreInfoPatch = {
-            date: m?.date,
-            notes: m?.notes,
-            description: m?.description,
-            validityCount: m?.validityCount,
-            indicativeRentals: m?.indicativeRentals,
-          };
-          console.log(
-            '[patchMandate] — patching moreInfoForm with',
-            moreInfoPatch
-          );
-          this.moreInfoForm.patchValue(moreInfoPatch);
+    console.log('[patchMandate] ⚙️ derived values →', {
+      clientId,
+      validityUnitId,
+      graceCount,
+      graceUnitId,
+    });
+    // log form state before patch
+    console.log(
+      '[patchMandate] — form before patch:',
+      this.parentForm.getRawValue()
+    );
 
-          // 3️⃣ Helper to reset arrays with try/catch
-          const resetArray = (
-            fa: FormArray,
-            groups: any[],
-            factory: () => FormGroup,
-            name: string
-          ) => {
-            console.log(`[patchMandate] — resetting ${name}, groups=`, groups);
-            fa.clear();
-            groups.forEach((g, i) => {
-              try {
-                const fg = factory();
-                fg.patchValue(g);
-                fa.push(fg);
-              } catch (err) {
-                console.error(
-                  `[patchMandate] ✖️ error patching ${name}[${i}]`,
-                  g,
-                  err
-                );
-              }
-            });
-            console.log(`[patchMandate] ✅ ${name}.length =`, fa.length);
-          };
-
-          // 4️⃣ Reset each FormArray
-          resetArray(
-            this.mandateOfficers,
-            m?.mandateOfficers || [],
-            () => this.createMandateOfficerGroup(),
-            'mandateOfficers'
-          );
-          resetArray(
-            this.mandateContactPersons,
-            m?.mandateContactPersons || [],
-            () => this.createMandateContactPersonGroup(),
-            'mandateContactPersons'
-          );
-          resetArray(
-            this.mandateAssetTypes,
-            m?.mandateAssetTypes || [],
-            () => this.createAssetTypeGroup(),
-            'mandateAssetTypes'
-          );
-          resetArray(
-            this.mandateFees,
-            m?.mandateFees || [],
-            () => this.createMandateFeesGroup(),
-            'mandateFees'
-          );
-
-          // 5️⃣ Grace period
-          console.log(
-            '[patchMandate] — patching gracePeriodSetting with',
-            m?.mandateGracePeriodSetting
-          );
-          try {
-            this.moreInfoForm
-              .get('mandateGracePeriodSetting')!
-              .patchValue(m?.mandateGracePeriodSetting || {});
-          } catch (err) {
-            console.error(
-              '[patchMandate] ✖️ error patching gracePeriodSetting',
-              err
-            );
-          }
-
-          // 6️⃣ View-only?
-          if (this.viewOnly) {
-            console.log('[patchMandate] — viewOnly, disabling parentForm');
-            this.parentForm.disable({ emitEvent: false });
-          }
+    // 1️⃣ Patch everything in one go
+    this.parentForm.patchValue({
+      basic: {
+        id: m.id,
+        parentMandateId: m.parentMandateId,
+        clientId,
+        validityUnitId,
+        productId: m.productId,
+        leasingTypeId: m.leasingTypeId,
+        insuredById: m.insuredById,
+      },
+      moreInfo: {
+        date: m.date,
+        notes: m.notes,
+        description: m.description,
+        validityCount: m.validityCount,
+        indicativeRentals: m.indicativeRentals,
+        mandateGracePeriodSetting: {
+          gracePeriodCount: graceCount,
+          gracePeriodUnitId: graceUnitId,
         },
-        error: (err) => {
-          console.error('[patchMandate] subscription error', err);
-        },
+      },
+    });
+
+    // log the raw form state immediately after patching
+    console.log(
+      '[patchMandate] — form after patch:',
+      this.parentForm.getRawValue()
+    );
+    console.log('[patchMandate] — basicForm value:', this.basicForm.value);
+    console.log(
+      '[patchMandate] — moreInfoForm value:',
+      this.moreInfoForm.value
+    );
+    console.log(
+      '[patchMandate] — gracePeriodSetting group:',
+      this.moreInfoForm.get('mandateGracePeriodSetting')?.value
+    );
+
+    // 2️⃣ Reset each FormArray as before
+    const resetArray = (
+      fa: FormArray,
+      items: any[],
+      factory: () => FormGroup,
+      name: string
+    ) => {
+      console.log(`[patchMandate] — resetting ${name}, items=`, items);
+      fa.clear();
+      items.forEach((item, i) => {
+        try {
+          const fg = factory();
+          fg.patchValue(item);
+          fa.push(fg);
+        } catch (err) {
+          console.error(`✖️ error patching ${name}[${i}]`, item, err);
+        }
       });
-  }
+      console.log(`✅ ${name}.length =`, fa.length);
+    };
 
+    resetArray(
+      this.mandateOfficers,
+      m.mandateOfficers || [],
+      () => this.createMandateOfficerGroup(),
+      'mandateOfficers'
+    );
+    resetArray(
+      this.mandateContactPersons,
+      m.mandateContactPersons || [],
+      () => this.createMandateContactPersonGroup(),
+      'mandateContactPersons'
+    );
+    resetArray(
+      this.mandateAssetTypes,
+      m.mandateAssetTypes || [],
+      () => this.createAssetTypeGroup(),
+      'mandateAssetTypes'
+    );
+    resetArray(
+      this.mandateFees,
+      m.mandateFees || [],
+      () => this.createMandateFeesGroup(),
+      'mandateFees'
+    );
+
+    // 3️⃣ Finally disable if viewOnly
+    if (this.viewOnly) {
+      console.log('[patchMandate] — viewOnly, disabling parentForm');
+      this.parentForm.disable({ emitEvent: false });
+    }
+
+    console.log('[patchMandate] ✅ patch complete');
+  }
   buildMandateShowBasicForm(): void {
     this.addMandateShowBasicForm = this.fb.group({
       id: [null],
@@ -439,7 +465,7 @@ export class AddMandateComponent {
     return this.parentForm.get('moreInfo')! as FormGroup;
   }
   get basicForm(): FormGroup {
-    return this.parentForm.get('basic')! as FormGroup;
+    return this.parentForm?.get('basic')! as FormGroup;
   }
   viewContactPersons(clientId?: number) {
     if (!clientId) {
@@ -481,22 +507,42 @@ export class AddMandateComponent {
     console.log('  → payload object:', payload);
 
     // Double-check your route param
-    const routeId = this.route.snapshot.paramMap.get('id');
-    console.log('  route.snapshot.paramMap.get(clientId):', routeId);
+    // console.log('  route.snapshot.paramMap.get(clientId):', routeId);
 
     if (this.editMode) {
-      const { id, assets, basic, contacts, officers, moreInfo } =
+      const leaseId = +this.route.snapshot.paramMap.get('leasingId')!;
+
+      // pull out each group
+      const { basic, assets, contacts, officers, moreInfo } =
         this.parentForm.value;
-      const payload: Mandate = {
-        id,
-        assets,
-        basic,
-        contacts,
-        officers,
-        moreInfo,
+      console.log('ffff', this.parentForm.value);
+      // build the flat payload
+      const payload = {
+        id: basic.id,
+        parentMandateId: basic.parentMandateId,
+        clientId: basic.clientId,
+        validityUnitId: basic.validityUnitId,
+        productId: basic.productId,
+        leasingTypeId: basic.leasingTypeId,
+        insuredById: basic.insuredById,
+
+        // from your "moreInfo" group
+        description: moreInfo.description,
+        date: moreInfo.date,
+        notes: moreInfo.notes,
+        validityCount: moreInfo.validityCount,
+        indicativeRentals: moreInfo.indicativeRentals,
+        mandateFees: moreInfo.mandateFees,
+        mandateGracePeriodSetting: moreInfo.mandateGracePeriodSetting,
+
+        // your array groups, renamed to match the API
+        mandateAssetTypes: assets.mandateAssetTypes,
+        mandateContactPersons: contacts.mandateContactPersons,
+        mandateOfficers: officers.mandateOfficers,
       };
-      console.log(' payload=', payload);
-      this.facade.update(id, payload);
+
+      console.log('→ PUT payload:', payload);
+      this.facade.update(leaseId, payload);
     } else {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);

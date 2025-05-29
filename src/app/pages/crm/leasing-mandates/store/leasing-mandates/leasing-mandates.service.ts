@@ -41,10 +41,7 @@ export class MandatesService {
   }
 
   update(id: number, changes: Partial<Mandate>): Observable<void> {
-    return this.http.put<void>(
-      `${this.baseUrl}/UpdateMandateGeneralSettingCommand/${id}`,
-      changes
-    );
+    return this.http.put<void>(`${this.baseUrl}/${id}`, changes);
   }
 
   delete(id: number): Observable<void> {

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-wizard',
@@ -9,8 +9,10 @@ import { Router } from '@angular/router';
 })
 export class WizardComponent {
   cards: any[] = [];
-  constructor(private router: Router) {}
+  constructor(private router: Router, private route: ActivatedRoute) {}
   ngOnInit(): void {
+    console.log('route', this.route.snapshot);
+    const routeId = this.route.snapshot.params['leasingId'];
     this.cards = [
       [
         {
@@ -19,7 +21,7 @@ export class WizardComponent {
           title: 'Clone',
           content:
             'Introduce your company core info quickly to users by fill up company details',
-          link: '/crm/leasing-mandates/add-child-mandate',
+          link: `/crm/leasing-mandates/add-child-mandate/${routeId}`,
         },
         {
           imgUrl: '/assets/images/shared/card/mandate-manage.svg',
