@@ -33,10 +33,8 @@ import { CompanyViewOnlyComponent } from './clients/components/clients/company-v
 import { LeasingFinancialFormCompoundComponent } from './leasing-mandates/components/leasing-financial-form-compound/leasing-financial-form-compound.component';
 import { LeasingFinancialFormComponent } from './leasing-mandates/components/leasing-financial-form/leasing-financial-form.component';
 import { AddChildMandateComponent } from './leasing-mandates/components/mandate-activities/add-child-mandate/add-child-mandate.component';
-import { AddManageMandateTermsComponent } from './leasing-mandates/components/mandate-activities/add-manage-mandate-terms/add-manage-mandate-terms.component';
 import { ViewAssetTypeComponent } from './leasing-mandates/components/mandate-activities/view-asset-type/view-asset-type.component';
 import { ViewCalculationsComponent } from './leasing-mandates/components/mandate-activities/view-calculations/view-calculations.component';
-import { ViewManageMandateTermsComponent } from './leasing-mandates/components/mandate-activities/view-manage-mandate-terms/view-manage-mandate-terms.component';
 import { AddMandateComponent } from './leasing-mandates/components/leasing-mandates/add-mandate/add-mandate.component';
 import { ViewMandatesComponent } from './leasing-mandates/components/leasing-mandates/view-mandates/view-mandates.component';
 import { ViewGuarantorsComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-guarantors/view-client-guarantors/view-client-guarantor.component';
@@ -44,6 +42,8 @@ import { AddClientOfficersComponent } from './clients/components/client-activiti
 import { ViewClientOfficersComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-officers/view-client-officers/view-client-officer.component';
 import { AddClientLegalsComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-legals/add-client-legal/add-client-legal.component';
 import { ViewClientLegalsComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-legals/view-client-legal/view-client-legal.component';
+import { AddMandateAdditionalTermsComponent } from './leasing-mandates/components/mandate-activities/mandate-additional-terms/add-mandate-additional-terms/add-mandate-additional-terms.component';
+import { ViewMandateAdditionalTermsComponent } from './leasing-mandates/components/mandate-activities/mandate-additional-terms/view-mandate-additional-terms/view-mandate-additional-terms.component';
 
 const routes: Routes = [
   /*Clients , Client Onboarding Routing*/
@@ -144,6 +144,23 @@ const routes: Routes = [
   {
     path: 'clients/view-phone-numbers/:clientId',
     component: ViewPhoneNumberComponent,
+  },
+
+
+  // Client Phone numbers
+  {
+    path: 'leasing-mandates/add-mandate-additional-terms/:mandateId',
+    component: AddMandateAdditionalTermsComponent,
+  },
+
+  {
+    path: 'leasing-mandates/edit-mandate-additional-terms/:mandateId',
+    component: AddMandateAdditionalTermsComponent,
+  },
+
+  {
+    path: 'leasing-mandates/view-mandate-additional-terms/:mandateId',
+    component: ViewMandateAdditionalTermsComponent,
   },
 
   // Client Identity
@@ -336,10 +353,7 @@ const routes: Routes = [
     path: 'leasing-mandates/add-child-mandate',
     component: AddChildMandateComponent,
   },
-  {
-    path: 'leasing-mandates/add-manage-mandate-terms',
-    component: AddManageMandateTermsComponent,
-  },
+
   {
     path: 'leasing-mandates/leasing-financial-form',
     component: LeasingFinancialFormComponent,
@@ -356,10 +370,6 @@ const routes: Routes = [
   {
     path: 'leasing-mandates/view-calculations',
     component: ViewCalculationsComponent,
-  },
-  {
-    path: 'leasing-mandates/view-manage-mandate-terms',
-    component: ViewManageMandateTermsComponent,
   },
   {
     path: 'leasing-mandates/leasing-financial-form-compound',

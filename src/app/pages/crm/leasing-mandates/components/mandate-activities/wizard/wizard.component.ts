@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-wizard',
@@ -9,8 +9,10 @@ import { Router } from '@angular/router';
 })
 export class WizardComponent {
   cards: any[] = [];
-  constructor(private router: Router) {}
+  constructor(private router: Router, private route: ActivatedRoute) {}
   ngOnInit(): void {
+    console.log("current Id : " ,  this.route.snapshot.paramMap.get('leasingMandatesId'));
+     const mandateId = this.route.snapshot.paramMap.get('leasingMandatesId');
     this.cards = [
       [
         {
@@ -27,7 +29,7 @@ export class WizardComponent {
           title: 'Manage Mandate Terms',
           content:
             'Introduce your company core info quickly to users by fill up company details',
-          link: '/crm/leasing-mandates/view-manage-mandate-terms',
+          link: `/crm/leasing-mandates/view-mandate-additional-terms/${mandateId}`,
         },
       ],
     ];
