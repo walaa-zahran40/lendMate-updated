@@ -11,8 +11,12 @@ export class WizardComponent {
   cards: any[] = [];
   constructor(private router: Router, private route: ActivatedRoute) {}
   ngOnInit(): void {
-    console.log('route', this.route.snapshot);
-    const routeId = this.route.snapshot.params['leasingId'];
+    console.log(
+      'current Id : ',
+      this.route.snapshot.paramMap.get('leasingMandatesId')
+    );
+
+    const mandateId = this.route.snapshot.params['leasingId'];
     this.cards = [
       [
         {
@@ -21,7 +25,7 @@ export class WizardComponent {
           title: 'Clone',
           content:
             'Introduce your company core info quickly to users by fill up company details',
-          link: `/crm/leasing-mandates/add-child-mandate/${routeId}`,
+          link: `/crm/leasing-mandates/add-child-mandate/${mandateId}`,
         },
         {
           imgUrl: '/assets/images/shared/card/mandate-manage.svg',
@@ -29,7 +33,7 @@ export class WizardComponent {
           title: 'Manage Mandate Terms',
           content:
             'Introduce your company core info quickly to users by fill up company details',
-          link: '/crm/leasing-mandates/view-manage-mandate-terms',
+          link: `/crm/leasing-mandates/view-mandate-additional-terms/${mandateId}`,
         },
       ],
     ];

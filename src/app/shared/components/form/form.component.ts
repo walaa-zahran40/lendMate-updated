@@ -448,6 +448,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addCallActionTypeForm!: boolean;
   @Input() addChildMandateShowMoreInformationForm!: boolean;
   @Input() addChildMandateShowAssetTypeForm!: boolean;
+  @Input() addMandateAdditionalTermForm!: boolean;
   @Input() addChildMandateShowContactPersonsForm!: boolean;
   @Input() addChildMandateShowOfficersForm!: boolean;
   @Input() addChildMandateShowBasicForm!: boolean;
@@ -783,6 +784,13 @@ export class FormComponent implements OnInit, OnDestroy {
       `/organizations/view-branch-managers/${this.branchIdParam}`,
     ]);
   }
+
+    viewMandateAdditionalTerms() {
+    this.router.navigate([
+      `/organizations/view-mandate-additional-terms/${this.branchIdParam}`,
+    ]);
+  }
+
   viewDepartmentManager() {
     this.router.navigate([]);
   }

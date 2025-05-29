@@ -1,0 +1,41 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Mandate Additional Terms'"
+    [labelBtn]="'Add Mandate Additional Term'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddMandateAdditionalTerm()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="mandateAdditionalTerms$ | async as mandateAdditionalTerms">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredMandateAdditionalTerms"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewMandateAdditionalTermsTable]="true"
+      (onDelete)="onDeleteMandateAdditionalTerm($event)"
+      (onEdit)="onEditMandateAdditionalTerm($event)"
+      (viewForm)="onViewMandateAdditionalTerm($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>
