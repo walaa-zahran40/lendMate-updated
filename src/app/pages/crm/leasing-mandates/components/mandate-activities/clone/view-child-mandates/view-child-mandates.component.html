@@ -1,0 +1,51 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Clones'"
+    [labelBtn]="'Add Clone'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddLeasingMandate()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="leasingMandates$ | async as leasingMandates">
+    <app-table
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredLeasingMandates"
+      [edit]="true"
+      [view]="true"
+      [delete]="true"
+      [side]="false"
+      [download]="true"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewChildLeasingMandateTable]="true"
+      (onDelete)="onDeleteLeasingMandate($event)"
+      (onEdit)="onEditLeasingMandate($event)"
+      (viewForm)="onViewLeasingMandates($event)"
+      (onDownload)="onDownloadClick($event)"
+    ></app-table
+    ><app-download-popup
+      *ngIf="showDownloadPopup"
+      [contactPersons]="contactPersonsDropdown"
+      [officers]="officersDropdown"
+      [leasingMandates]="(leasingMandates$ | async) || []"
+      (close)="onPopupClose()"
+      (download)="onPopupDownload($event)"
+    ></app-download-popup>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

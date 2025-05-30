@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { createSelector, Store } from '@ngrx/store';
-import * as Actions from './leasing-mandates.actions';
-import * as Selectors from './leasing-mandates.selectors';
-import { Mandate } from './leasing-mandate.model';
+import * as Actions from './clones.actions';
+import * as Selectors from './clones.selectors';
+import { Clone } from './clone.model';
 import { selectLastOperationSuccess } from '../../../../../shared/store/ui.selectors';
 
 @Injectable({ providedIn: 'root' })
-export class MandatesFacade {
-  readonly selectedMandate$ = this.store.select(Selectors.selectCurrent);
-  all$ = this.store.select(Selectors.selectAllMandates);
-  loading$ = this.store.select(Selectors.selectMandatesLoading);
-  error$ = this.store.select(Selectors.selectMandatesError);
-  totalCount$ = this.store.select(Selectors.selectMandatesTotalCount);
+export class ClonesFacade {
+  readonly selectedClone$ = this.store.select(Selectors.selectCurrent);
+  all$ = this.store.select(Selectors.selectAllClones);
+  loading$ = this.store.select(Selectors.selectClonesLoading);
+  error$ = this.store.select(Selectors.selectClonesError);
+  totalCount$ = this.store.select(Selectors.selectClonesTotalCount);
   selected$ = this.store.select(
     createSelector(
       Selectors.selectFeature,
@@ -29,11 +29,11 @@ export class MandatesFacade {
     this.store.dispatch(Actions.loadById({ id }));
   }
 
-  create(payload: Partial<Omit<Mandate, 'id'>>) {
-    this.store.dispatch(Actions.createEntity({ payload }));
+  create(payload: Partial<Omit<Clone, 'id'>>) {
+    this.store.dispatch(Actions.createClone({ payload }));
   }
 
-  update(id: number, changes: Partial<Mandate>) {
+  update(id: number, changes: Partial<Clone>) {
     this.store.dispatch(Actions.updateEntity({ id, changes }));
   }
 
@@ -42,6 +42,6 @@ export class MandatesFacade {
   }
 
   clearSelected() {
-    this.store.dispatch(Actions.clearSelectedMandate());
+    this.store.dispatch(Actions.clearSelectedClone());
   }
 }

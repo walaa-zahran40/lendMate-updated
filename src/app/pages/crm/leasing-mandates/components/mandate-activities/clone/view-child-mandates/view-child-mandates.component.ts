@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   combineLatest,
   map,
@@ -9,24 +9,24 @@ import {
   take,
   filter,
 } from 'rxjs';
-import { TableComponent } from '../../../../../../shared/components/table/table.component';
-import { Mandate } from '../../../store/leasing-mandates/leasing-mandate.model';
-import { MandatesFacade } from '../../../store/leasing-mandates/leasing-mandates.facade';
-import { ClientsFacade } from '../../../../clients/store/_clients/allclients/clients.facade';
+import { TableComponent } from '../../../../../../../shared/components/table/table.component';
+import { Clone } from '../../../../store/clone/clone.model';
+import { ClonesFacade } from '../../../../store/clone/clones.facade';
+import { ClientsFacade } from '../../../../../clients/store/_clients/allclients/clients.facade';
 import { Store } from '@ngrx/store';
-import { loadClientContactPersonsByClientId } from '../../../../../crm/clients/store/client-contact-persons/client-contact-persons.actions';
-import { ClientContactPersonsFacade } from '../../../../clients/store/client-contact-persons/client-contact-persons.facade';
-import { OfficersFacade } from '../../../../../organizations/store/officers/officers.facade';
-import { loadOfficers } from '../../../../../organizations/store/officers/officers.actions';
+import { loadClientContactPersonsByClientId } from '../../../../../../crm/clients/store/client-contact-persons/client-contact-persons.actions';
+import { ClientContactPersonsFacade } from '../../../../../clients/store/client-contact-persons/client-contact-persons.facade';
+import { OfficersFacade } from '../../../../../../organizations/store/officers/officers.facade';
+import { loadOfficers } from '../../../../../../organizations/store/officers/officers.actions';
 
 @Component({
-  selector: 'app-view-mandates',
+  selector: 'app-view-child-mandates',
   standalone: false,
-  templateUrl: './view-mandates.component.html',
-  styleUrl: './view-mandates.component.scss',
+  templateUrl: './view-child-mandates.component.html',
+  styleUrl: './view-child-mandates.component.scss',
 })
-export class ViewMandatesComponent {
-  tableDataInside: Mandate[] = [];
+export class ViewChildMandatesComponent {
+  tableDataInside: Clone[] = [];
   first2: number = 0;
   private destroy$ = new Subject<void>();
   leasingMandates$ = this.facade.all$;
@@ -34,7 +34,7 @@ export class ViewMandatesComponent {
   showFilters: boolean = false;
   @ViewChild('tableRef') tableRef!: TableComponent;
   clients$ = this.clientsFacade.all$;
-  selectedRowForDownload: Mandate | null = null;
+  selectedRowForDownload: Clone | null = null;
   showDownloadPopup = false;
 
   readonly colsInside = [
@@ -45,20 +45,23 @@ export class ViewMandatesComponent {
   showDeleteModal: boolean = false;
   selectedLeasingMandateId: number | null = null;
   originalLeasingMandates: any[] = [];
-  filteredLeasingMandates: Mandate[] = [];
+  filteredLeasingMandates: Clone[] = [];
   contactPersonsDropdown: any;
   officersDropdown: any[] = [];
   languagesDropdown: any[] = [];
-
+  routeId = this.route.snapshot.params['leasingId'];
+  leasingRouteId = this.route.snapshot.params['leasingMandatesId'];
   constructor(
     private router: Router,
     private clientsFacade: ClientsFacade,
-    private facade: MandatesFacade,
+    private facade: ClonesFacade,
     private store: Store,
+    private route: ActivatedRoute,
     private facadeContact: ClientContactPersonsFacade,
     private officersFacade: OfficersFacade
   ) {}
   ngOnInit() {
+    console.log('route', this.route.snapshot);
     this.facade.loadAll();
     combineLatest([this.leasingMandates$, this.clients$])
       .pipe(
@@ -169,14 +172,11 @@ export class ViewMandatesComponent {
   }
 
   onAddLeasingMandate() {
-    this.router.navigate(['/crm/leasing-mandates/add-mandate']);
-  }
-  onAddSide(leasingMandatesId: any) {
     this.router.navigate([
-      '/crm/leasing-mandates/leasing-mandate-wizard',
-      leasingMandatesId,
+      `/crm/leasing-mandates/add-child-mandate/${this.routeId}/${this.leasingRouteId}`,
     ]);
   }
+
   onDownloadClick(row: any) {
     console.log('clicked', row);
     this.selectedRowForDownload = row;
@@ -221,20 +221,35 @@ export class ViewMandatesComponent {
   onToggleFilters(value: boolean) {
     this.showFilters = value;
   }
-  onEditLeasingMandate(mandate: Mandate) {
-    this.router.navigate(['/crm/leasing-mandates/edit-mandate', mandate.id], {
-      queryParams: {
-        mode: 'edit',
-      },
-    });
-  }
-  onViewLeasingMandates(mandate: Mandate) {
+  onEditLeasingMandate(mandate: Clone) {
     console.log('mandate', mandate);
-    this.router.navigate(['/crm/leasing-mandates/view-mandates', mandate.id], {
-      queryParams: {
-        mode: 'view',
-      },
-    });
+    this.router.navigate(
+      [
+        '/crm/leasing-mandates/edit-child-mandate',
+        mandate.id,
+        mandate.mandateId,
+      ],
+      {
+        queryParams: {
+          mode: 'edit',
+        },
+      }
+    );
+  }
+  onViewLeasingMandates(mandate: Clone) {
+    console.log('mandate', mandate);
+    this.router.navigate(
+      [
+        '/crm/leasing-mandates/add-child-mandate',
+        mandate.id,
+        mandate.mandateId,
+      ],
+      {
+        queryParams: {
+          mode: 'view',
+        },
+      }
+    );
   }
   onPopupClose() {
     this.showDownloadPopup = false;

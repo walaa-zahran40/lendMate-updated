@@ -78,6 +78,7 @@ export class TableComponent {
   @Input() viewLeasingMandateTable!: boolean;
   @Input() viewLeasingMandatesTable!: boolean;
   @Input() viewLeasingTypesLookupTable!: boolean;
+  @Input() viewChildLeasingMandateTable!: boolean;
   @Input() viewOfficersTable!: boolean;
   @Input() viewClientStatusActionsTable!: boolean;
   @Input() viewContactPersonsTable!: boolean;

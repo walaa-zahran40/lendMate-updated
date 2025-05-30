@@ -32,7 +32,7 @@ import { ViewClientsComponent } from './clients/components/clients/company-indiv
 import { CompanyViewOnlyComponent } from './clients/components/clients/company-view-only/company-view-only.component';
 import { LeasingFinancialFormCompoundComponent } from './leasing-mandates/components/leasing-financial-form-compound/leasing-financial-form-compound.component';
 import { LeasingFinancialFormComponent } from './leasing-mandates/components/leasing-financial-form/leasing-financial-form.component';
-import { AddChildMandateComponent } from './leasing-mandates/components/mandate-activities/add-child-mandate/add-child-mandate.component';
+import { AddChildMandateComponent } from './leasing-mandates/components/mandate-activities/clone/add-child-mandate/add-child-mandate.component';
 import { ViewAssetTypeComponent } from './leasing-mandates/components/mandate-activities/view-asset-type/view-asset-type.component';
 import { ViewCalculationsComponent } from './leasing-mandates/components/mandate-activities/view-calculations/view-calculations.component';
 import { AddMandateComponent } from './leasing-mandates/components/leasing-mandates/add-mandate/add-mandate.component';
@@ -44,6 +44,7 @@ import { AddClientLegalsComponent } from './clients/components/client-activities
 import { ViewClientLegalsComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-legals/view-client-legal/view-client-legal.component';
 import { AddMandateAdditionalTermsComponent } from './leasing-mandates/components/mandate-activities/mandate-additional-terms/add-mandate-additional-terms/add-mandate-additional-terms.component';
 import { ViewMandateAdditionalTermsComponent } from './leasing-mandates/components/mandate-activities/mandate-additional-terms/view-mandate-additional-terms/view-mandate-additional-terms.component';
+import { ViewChildMandatesComponent } from './leasing-mandates/components/mandate-activities/clone/view-child-mandates/view-child-mandates.component';
 
 const routes: Routes = [
   /*Clients , Client Onboarding Routing*/
@@ -145,7 +146,6 @@ const routes: Routes = [
     path: 'clients/view-phone-numbers/:clientId',
     component: ViewPhoneNumberComponent,
   },
-
 
   // Client Phone numbers
   {
@@ -357,12 +357,25 @@ const routes: Routes = [
     path: 'leasing-mandates/view-mandates/:leasingId',
     component: AddMandateComponent,
   },
-  //------------------
+  //Mandate Activities
+  //Clone
   {
-    path: 'leasing-mandates/add-child-mandate',
+    path: 'leasing-mandates/leasing-mandate-wizard/:leasingMandatesId',
+    component: WizardComponent,
+  },
+  {
+    path: 'leasing-mandates/add-child-mandate/:leasingId/:leasingMandatesId',
     component: AddChildMandateComponent,
   },
-
+  {
+    path: 'leasing-mandates/edit-child-mandate/:leasingId/:leasingMandatesId',
+    component: AddChildMandateComponent,
+  },
+  {
+    path: 'leasing-mandates/view-child-mandates/:leasingId/:leasingMandatesId',
+    component: ViewChildMandatesComponent,
+  },
+  //----
   {
     path: 'leasing-mandates/leasing-financial-form',
     component: LeasingFinancialFormComponent,
@@ -372,10 +385,7 @@ const routes: Routes = [
     path: 'leasing-mandates/view-asset-type',
     component: ViewAssetTypeComponent,
   },
-  {
-    path: 'leasing-mandates/leasing-mandate-wizard/:leasingId',
-    component: WizardComponent,
-  },
+
   {
     path: 'leasing-mandates/view-calculations',
     component: ViewCalculationsComponent,

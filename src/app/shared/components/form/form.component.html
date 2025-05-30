@@ -8063,8 +8063,178 @@
       </div>
     </ng-container>
     <ng-container
+      *ngIf="addChildMandateShowBasicForm"
+      [formGroup]="formGroup"
+      class="form-container"
+    >
+      <label for="clientNameAddMandateBasic" class="label-container"
+        >Client Name<sup>*</sup></label
+      >
+      <p-select
+        [options]="clientNames"
+        formControlName="clientId"
+        placeholder="Select Client Name"
+        optionLabel="name"
+        optionValue="id"
+        name="clientNameAddMandateBasic"
+        styleClass="w-full md:w-80"
+      />
+      <div
+        *ngIf="
+          formGroup.get('clientId')?.hasError('required') &&
+          formGroup.get('clientId')?.touched
+        "
+        class="p-error"
+      >
+        Client is required.
+      </div>
+      <label for="validityUnitAddMandateBasic" class="label-container"
+        >Mandate Validity Unit<sup>*</sup></label
+      >
+      <p-select
+        [options]="validityUnits"
+        formControlName="validityUnitId"
+        placeholder="Select Mandate Validity Unit"
+        optionLabel="name"
+        name="validityUnitAddMandateBasic"
+        styleClass="w-full md:w-80"
+        optionValue="id"
+      />
+      <div
+        *ngIf="
+          formGroup.get('validityUnitId')?.hasError('required') &&
+          formGroup.get('validityUnitId')?.touched
+        "
+        class="p-error"
+      >
+        Mandate Validity Unit is required.
+      </div>
+      <label for="productAddMandateBasic" class="label-container"
+        >Product<sup>*</sup></label
+      >
+      <p-select
+        [options]="products"
+        formControlName="productId"
+        placeholder="Select Product"
+        optionLabel="name"
+        optionValue="id"
+        name="productAddMandateBasic"
+        styleClass="w-full md:w-80"
+      />
+      <div
+        *ngIf="
+          formGroup.get('productId')?.hasError('required') &&
+          formGroup.get('productId')?.touched
+        "
+        class="p-error"
+      >
+        Product is required.
+      </div>
+      <label for="leasingTypesAddMandateBasic" class="label-container"
+        >Leasing Type<sup>*</sup></label
+      >
+      <p-select
+        [options]="leasingTypes"
+        formControlName="leasingTypeId"
+        placeholder="Select Leasing Type"
+        optionLabel="name"
+        name="leasingTypesAddMandateBasic"
+        styleClass="w-full md:w-80"
+        optionValue="id"
+      />
+      <div
+        *ngIf="
+          formGroup.get('leasingTypeId')?.hasError('required') &&
+          formGroup.get('leasingTypeId')?.touched
+        "
+        class="p-error"
+      >
+        Leasing Type is required.
+      </div>
+      <label for="insuredByAddMandateBasic" class="label-container"
+        >Insured By<sup>*</sup></label
+      >
+      <p-select
+        [options]="insuredBy"
+        formControlName="insuredById"
+        placeholder="Select Insured By"
+        optionLabel="name"
+        optionValue="id"
+        name="insuredByAddMandateBasic"
+        styleClass="w-full md:w-80"
+      />
+      <div
+        *ngIf="
+          formGroup.get('insuredById')?.hasError('required') &&
+          formGroup.get('insuredById')?.touched
+        "
+        class="p-error"
+      >
+        Insured By is required.
+      </div>
+    </ng-container>
+    <ng-container
       *ngIf="addMandateShowOfficersForm"
       id="mandateOfficersForm"
+      [formGroup]="formGroup"
+    >
+      <div formArrayName="mandateOfficers">
+        <div
+          *ngFor="let group of mandateOfficers?.controls; let i = index"
+          [formGroupName]="i"
+          class="parent2-individual2 mt-2 flex items-start gap-4 align-items-center flex-wrap"
+        >
+          <!-- 1) officer Name -->
+          <div class="div-number flex-1 min-w-0">
+            <label for="officerId" class="p-0" class="label-container">
+              Officer Name<sup class="danger">*</sup>
+            </label>
+            <p-select
+              [options]="officers"
+              formControlName="officerId"
+              placeholder="Select Officer"
+              optionLabel="name"
+              optionValue="id"
+              name="officerId"
+              styleClass="w-full md:w-80"
+            />
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('officerId')?.invalid &&
+                group.get('officerId')?.touched
+              "
+            >
+              Officer Name is required.
+            </small>
+          </div>
+          <!-- 4) Add another Officer -->
+          <button
+            pButton
+            type="button"
+            icon="pi pi-plus"
+            class="p-button-outlined p-button-sm p-plus"
+            (click)="addOfficer.emit()"
+            *ngIf="!viewOnly"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+          ></button>
+
+          <!-- 5) Remove this Officer -->
+          <button
+            pButton
+            type="button"
+            icon="pi pi-trash"
+            class="p-button-danger p-button-sm p-remove"
+            *ngIf="mandateOfficers.length > 1 && !viewOnly"
+            (click)="removeOfficer.emit(i)"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+          ></button>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container
+      *ngIf="addChildMandateShowOfficersForm"
+      id="addChildMandateShowOfficersForm"
       [formGroup]="formGroup"
     >
       <div formArrayName="mandateOfficers">
@@ -8181,8 +8351,148 @@
       </div>
     </ng-container>
     <ng-container
+      *ngIf="addChildMandateShowContactPersonsForm"
+      [formGroup]="formGroup"
+      id="addChildMandateShowContactPersonsForm"
+    >
+      <div formArrayName="mandateContactPersons">
+        <div
+          *ngFor="let group of mandateContactPersons?.controls; let i = index"
+          [formGroupName]="i"
+          class="parent2-individual2 mt-2 flex items-start gap-4 align-items-center flex-wrap"
+        >
+          <!-- 1) contact PersonsName -->
+          <div class="div-number flex-1 min-w-0">
+            <label for="contactPersonId" class="label-container">
+              Contact Person<sup class="danger">*</sup>
+            </label>
+            <p-select
+              [options]="contactPersonsList"
+              formControlName="contactPersonId"
+              placeholder="Select Contact Person"
+              optionLabel="name"
+              optionValue="id"
+              name="contactPersonId"
+              styleClass="w-full md:w-80"
+            />
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('contactPersonId')?.invalid &&
+                group.get('contactPersonId')?.touched
+              "
+            >
+              Contact Person is required.
+            </small>
+          </div>
+          <!-- 4) Add another Contact Person -->
+          <button
+            pButton
+            type="button"
+            icon="pi pi-plus"
+            class="p-button-outlined p-button-sm p-plus"
+            (click)="addContactPerson.emit()"
+            *ngIf="!viewOnly"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+          ></button>
+
+          <!-- 5) Remove this Contact Person -->
+          <button
+            pButton
+            type="button"
+            icon="pi pi-trash"
+            class="p-button-danger p-button-sm p-remove"
+            *ngIf="mandateContactPersons.length > 1 && !viewOnly"
+            (click)="removeContactPerson.emit(i)"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+          ></button>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container
       *ngIf="addMandateShowAssetTypeForm"
       id="mandateAssetTypeForm"
+      [formGroup]="formGroup"
+    >
+      <div formArrayName="mandateAssetTypes">
+        <div
+          *ngFor="let group of mandateAssetTypes?.controls; let i = index"
+          [formGroupName]="i"
+          class="parent2-individual2 mt-2 flex items-start gap-4 align-items-center flex-wrap"
+        >
+          <!-- 1) Asset Type -->
+          <div class="div-number flex-1 min-w-0">
+            <label for="assetTypeId" class="label-container">
+              Asset Type<sup class="danger">*</sup>
+            </label>
+            <p-select
+              [options]="assetTypesList"
+              formControlName="assetTypeId"
+              placeholder="Select Asset Type"
+              optionLabel="name"
+              optionValue="id"
+              name="assetTypeId"
+              styleClass="w-full md:w-80"
+            />
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('assetType')?.invalid &&
+                group.get('assetType')?.touched
+              "
+            >
+              Asset Type is required.
+            </small>
+            <label for="assetsTypeDescription" class="label-container">
+              Asset Type Description<sup class="danger">*</sup>
+            </label>
+            <input
+              pInputText
+              id="assetsTypeDescription"
+              aria-describedby="assetsTypeDescription-help"
+              name="assetsTypeDescription"
+              formControlName="assetsTypeDescription"
+              placeholder="Asset Type Description"
+              class="d-block w-100"
+            />
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('assetsTypeDescription')?.invalid &&
+                group.get('assetsTypeDescription')?.touched
+              "
+            >
+              Asset Type Description.
+            </small>
+          </div>
+          <!-- 4) Add another Asset Type -->
+          <button
+            pButton
+            type="button"
+            icon="pi pi-plus"
+            class="p-button-outlined p-button-sm p-plus"
+            (click)="addAssetType.emit()"
+            *ngIf="!viewOnly"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+          ></button>
+
+          <!-- 5) Remove this Asset Type -->
+          <button
+            pButton
+            type="button"
+            icon="pi pi-trash"
+            class="p-button-danger p-button-sm p-remove"
+            *ngIf="mandateAssetTypes.length > 1 && !viewOnly"
+            (click)="removeAssetType.emit(i)"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+          ></button>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container
+      *ngIf="addChildMandateShowAssetTypeForm"
+      id="addChildMandateShowAssetTypeForm"
       [formGroup]="formGroup"
     >
       <div formArrayName="mandateAssetTypes">
@@ -8491,180 +8801,238 @@
         </div>
       </div>
     </ng-container>
-
-    <form action="" *ngIf="addChildMandateShowBasicForm">
-      <label for="clientNameAddChildMandateBasic"
-        >Client Name<sup>*</sup></label
-      >
-      <p-multiselect
-        [options]="clientNames"
-        [(ngModel)]="selectedClientNames"
-        placeholder="Select Client Name"
-        optionLabel="name"
-        display="chip"
-        icon="pi pi-times"
-        name="clientNameAddChildMandateBasic"
-        styleClass="w-full md:w-80"
-        [maxSelectedLabels]="999"
-        chipIcon="pi pi-times"
-      />
-      <label for="validityUnitAddChildMandateBasic"
-        >Mandate Validity Unit<sup>*</sup></label
-      >
-      <p-multiselect
-        [options]="sectors"
-        [(ngModel)]="selectedMandateValidityUnit"
-        placeholder="Select Mandate Validity Unit"
-        optionLabel="name"
-        display="chip"
-        icon="pi pi-times"
-        name="validityUnitAddChildMandateBasic"
-        styleClass="w-full md:w-80"
-        [maxSelectedLabels]="999"
-        chipIcon="pi pi-times"
-      />
-      <label for="productAddChildMandateBasic">Product<sup>*</sup></label>
-      <p-multiselect
-        [options]="products"
-        [(ngModel)]="selectedProducts"
-        placeholder="Select Phone Types"
-        optionLabel="name"
-        display="chip"
-        icon="pi pi-times"
-        name="productAddChildMandateBasic"
-        styleClass="w-full md:w-80"
-        [maxSelectedLabels]="999"
-        chipIcon="pi pi-times"
-      />
-      <label for="leasingTypesAddChildMandateBasic"
-        >Leasing Types<sup>*</sup></label
-      >
-      <p-multiselect
-        [options]="leasingTypes"
-        [(ngModel)]="selectedLeasingTypes"
-        placeholder="Select Leasing Types"
-        optionLabel="name"
-        display="chip"
-        icon="pi pi-times"
-        name="leasingTypesAddChildMandateBasic"
-        styleClass="w-full md:w-80"
-        [maxSelectedLabels]="999"
-        chipIcon="pi pi-times"
-      />
-      <label for="insuredByAddChildMandateBasic">Insured By<sup>*</sup></label>
-      <p-multiselect
-        [options]="insuredBy"
-        [(ngModel)]="selectedInsuredBy"
-        placeholder="Select Insured By"
-        optionLabel="name"
-        display="chip"
-        icon="pi pi-times"
-        name="insuredByAddChildMandateBasic"
-        styleClass="w-full md:w-80"
-        [maxSelectedLabels]="999"
-        chipIcon="pi pi-times"
-      />
-    </form>
-    <form
-      action=""
-      *ngIf="addChildMandateShowOfficersForm"
-      id="childMandateOfficersForm"
-    >
-      <label for="officerTypeOfficersForm">Officer Type</label>
-      <p-multiselect
-        [options]="officerTypesMandates"
-        [(ngModel)]="selectedOfficerTypesMandate"
-        placeholder="Select Officer Type"
-        optionLabel="name"
-        display="chip"
-        icon="pi pi-times"
-        name="officerTypeOfficersForm"
-        styleClass="w-full md:w-80"
-        [maxSelectedLabels]="999"
-        chipIcon="pi pi-times"
-      />
-    </form>
-    <form
-      action=""
-      *ngIf="addChildMandateShowContactPersonsForm"
-      id="childMandateContactPersonsForm"
-    >
-      <label for="contactPersonTypeContactPersonsForm"
-        >Contact Person Type</label
-      >
-      <p-multiselect
-        [options]="officerTypesMandates"
-        [(ngModel)]="selectedOfficerTypesMandate"
-        placeholder="Select Contact Person Type"
-        optionLabel="name"
-        display="chip"
-        icon="pi pi-times"
-        name="contactPersonTypeContactPersonsForm"
-        styleClass="w-full md:w-80"
-        [maxSelectedLabels]="999"
-        chipIcon="pi pi-times"
-      />
-    </form>
-    <form
-      action=""
-      *ngIf="addChildMandateShowAssetTypeForm"
-      id="childMandateAssetTypeForm"
-    >
-      <label for="assetTypeAssestTypeForm">Assest Type</label>
-      <p-multiselect
-        [options]="officerTypesMandates"
-        [(ngModel)]="selectedOfficerTypesMandate"
-        placeholder="Select Assest Type"
-        optionLabel="name"
-        display="chip"
-        icon="pi pi-times"
-        name="assestTypeAssestTypeForm"
-        styleClass="w-full md:w-80"
-        [maxSelectedLabels]="999"
-        chipIcon="pi pi-times"
-      />
-    </form>
-    <form
-      action=""
+    <ng-container
       *ngIf="addChildMandateShowMoreInformationForm"
+      [formGroup]="formGroup"
       id="addChildMandateShowMoreInformationForm"
     >
-      <label for="dateMoreInformationForm">Date <sup>*</sup></label>
-      <shared-date-picker
-        formControlName="dateMoreInformationForm"
-        inputId="dateMoreInformationForm"
-      >
+      <label for="date" class="label-container">Date <sup>*</sup></label>
+      <shared-date-picker inputId="date" formControlName="date">
+        <small
+          class="p-error d-block"
+          *ngIf="
+            formGroup.get('date')?.invalid && formGroup.get('date')?.touched
+          "
+        >
+          Date is required.
+        </small>
       </shared-date-picker>
-      <label for="notesMoreInformationForm">Notes</label
-      ><textarea
-        rows="5"
-        cols="30"
-        pTextarea
+      <label for="notes" class="label-container">Notes<sup>*</sup></label
+      ><input
+        pInputText
         placeholder="Notes"
-        [(ngModel)]="value"
-        name="notesMoreInformationForm"
-      ></textarea>
+        formControlName="notes"
+        name="notes"
+      />
+      <small
+        class="p-error d-block"
+        *ngIf="
+          formGroup.get('notes')?.invalid && formGroup.get('notes')?.touched
+        "
+      >
+        Notes is required.
+      </small>
 
-      <label for="descriptionMoreInformationForm">Description</label
-      ><textarea
-        rows="5"
-        cols="30"
-        pTextarea
-        [(ngModel)]="value"
-        name="descriptionMoreInformationForm"
+      <label for="description" class="label-container"
+        >Description<sup>*</sup></label
+      ><input
+        pInputText
+        name="description"
         placeholder="Description"
-      ></textarea>
-
-      <label for="validityCountMoreInformationForm">Validity Count</label
-      ><textarea
-        rows="5"
-        cols="30"
-        pTextarea
-        [(ngModel)]="value"
-        name="validityCountMoreInformationForm"
+        formControlName="description"
+      />
+      <small
+        class="p-error d-block"
+        *ngIf="
+          formGroup.get('description')?.invalid &&
+          formGroup.get('description')?.touched
+        "
+      >
+        Description is required.
+      </small>
+      <label for="validityCount" class="label-container"
+        >Validity Count<sup>*</sup></label
+      ><input
+        type="number"
+        formControlName="validityCount"
+        pInputText
         placeholder="Validity Count"
-      ></textarea>
-    </form>
+      />
+      <small
+        class="p-error d-block"
+        *ngIf="
+          formGroup.get('validityCount')?.invalid &&
+          formGroup.get('validityCount')?.touched
+        "
+      >
+        Validity Count is required. </small
+      ><br />
+      <label for="indicativeRentals" class="label-container"
+        >Indicative Rentals<sup>*</sup></label
+      >
+      <input
+        type="number"
+        formControlName="indicativeRentals"
+        placeholder="Indicative Rentals"
+        pInputText
+      />
+      <small
+        class="p-error d-block"
+        *ngIf="
+          formGroup.get('indicativeRentals')?.invalid &&
+          formGroup.get('indicativeRentals')?.touched
+        "
+      >
+        Indicative Rentals is required.
+      </small>
+      <div formArrayName="mandateFees" class="mt-4">
+        <div
+          *ngFor="let group of mandateFees?.controls; let i = index"
+          [formGroupName]="i"
+          class="parent2-individual2 mt-2 flex items-start gap-4 align-items-center flex-wrap"
+        >
+          <!-- 1) Fee Type -->
+          <div class="div-number flex-1 min-w-0">
+            <label for="feeTypeId" class="label-container">
+              Fee Type<sup class="danger">*</sup>
+            </label>
+            <p-select
+              [options]="feesList"
+              formControlName="feeTypeId"
+              placeholder="Select Fee Type"
+              optionLabel="name"
+              optionValue="id"
+              name="feeTypeId"
+              styleClass="w-full md:w-80"
+            />
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('feeTypeId')?.invalid &&
+                group.get('feeTypeId')?.touched
+              "
+            >
+              Fee Type is required.
+            </small>
+            <label for="actualAmount" class="label-container">
+              Actual Amount<sup class="danger">*</sup>
+            </label>
+            <input
+              pInputText
+              id="actualAmount"
+              aria-describedby="actualAmount-help"
+              name="actualAmount"
+              type="number"
+              formControlName="actualAmount"
+              placeholder="Actual Amount"
+              class="d-block w-100"
+            />
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('actualAmount')?.invalid &&
+                group.get('actualAmount')?.touched
+              "
+            >
+              Actual Amount Required.
+            </small>
+            <label for="actualPrecentage" class="label-container">
+              Actual Percentage<sup class="danger">*</sup>
+            </label>
+            <input
+              pInputText
+              type="number"
+              id="actualPrecentage"
+              aria-describedby="actualPrecentage-help"
+              name="actualPrecentage"
+              formControlName="actualPrecentage"
+              placeholder="Actual Percentage"
+              class="d-block w-100"
+            />
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('actualPrecentage')?.invalid &&
+                group.get('actualPrecentage')?.touched
+              "
+            >
+              Actual Percentage Required.
+            </small>
+          </div>
+          <!-- 4) Add another Fee -->
+          <button
+            pButton
+            type="button"
+            icon="pi pi-plus"
+            class="p-button-outlined p-button-sm p-plus"
+            (click)="addFee.emit()"
+            *ngIf="!viewOnly"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+          ></button>
+
+          <!-- 5) Remove this Fee -->
+          <button
+            pButton
+            type="button"
+            icon="pi pi-trash"
+            class="p-button-danger p-button-sm p-remove"
+            *ngIf="mandateFees.length > 1 && !viewOnly"
+            (click)="removeFee.emit(i)"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+          ></button>
+        </div>
+      </div>
+      <div formGroupName="mandateGracePeriodSettingView" class="mt-4">
+        <!-- 1) Grace Period Count -->
+        <div class="div-number flex-1 min-w-0">
+          <label for="gracePeriodCount" class="label-container">
+            Grace Period Count<sup class="danger">*</sup>
+          </label>
+          <input
+            pInputText
+            type="number"
+            id="gracePeriodCount"
+            aria-describedby="gracePeriodCount-help"
+            name="gracePeriodCount"
+            formControlName="gracePeriodCount"
+            placeholder="Grace Period Count"
+            class="d-block w-100"
+          />
+
+          <small
+            class="p-error d-block"
+            *ngIf="
+              formGroup.get('gracePeriodCount')?.invalid &&
+              formGroup.get('gracePeriodCount')?.touched
+            "
+          >
+            Grace Period Count is required.
+          </small>
+          <label for="gracePeriodUnitId" class="label-container">
+            Grace Period Unit<sup class="danger">*</sup>
+          </label>
+          <p-select
+            [options]="gracePeriodUnitsList"
+            formControlName="gracePeriodUnitId"
+            placeholder="Select Grace Period Unit"
+            optionLabel="name"
+            optionValue="id"
+            name="gracePeriodUnitId"
+            styleClass="w-full md:w-80"
+          />
+          <small
+            class="p-error d-block"
+            *ngIf="
+              formGroup.get('gracePeriodUnitId')?.invalid &&
+              formGroup.get('gracePeriodUnitId')?.touched
+            "
+          >
+            Grace Period Unit Required.
+          </small>
+        </div>
+      </div>
+    </ng-container>
+  
     <form
       action=""
       *ngIf="addManageMandateTermsForm"

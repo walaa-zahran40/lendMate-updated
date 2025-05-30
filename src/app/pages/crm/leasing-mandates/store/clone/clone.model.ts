@@ -1,10 +1,6 @@
-import { AssetType } from '../../../../lookups/store/asset-types/asset-type.model';
-import { FeeType } from '../../../../lookups/store/fee-types/fee-type.model';
 import { PeriodUnit } from '../../../../lookups/store/period-units/period-unit.model';
-import { Officer } from '../../../../organizations/store/officers/officer.model';
-import { ClientContactPerson } from '../../../clients/store/client-contact-persons/client-contact-person.model';
 
-export interface Mandate {
+export interface Clone {
   id?: number;
   description?: string;
   date?: Date;

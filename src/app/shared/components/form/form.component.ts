@@ -439,19 +439,22 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addClientCompanyViewShowBusiness!: boolean;
   @Input() contactPersonDetailsView!: boolean;
   @Input() contactPersonDetailsViewShowForm!: boolean;
+  //Leasing Mandates
   @Input() addMandateShowMoreInformationForm!: boolean;
   @Input() addMandateShowAssetTypeForm!: boolean;
   @Input() addMandateShowContactPersonsForm!: boolean;
   @Input() addMandateShowOfficersForm!: boolean;
   @Input() addMandateShowBasicForm!: boolean;
-  @Input() addConditionsLookupsForm!: boolean;
-  @Input() addCallActionTypeForm!: boolean;
-  @Input() addChildMandateShowMoreInformationForm!: boolean;
-  @Input() addChildMandateShowAssetTypeForm!: boolean;
-  @Input() addMandateAdditionalTermForm!: boolean;
+  //Child Leasing Mandates
+  @Input() addChildMandateShowBasicForm!: boolean;
   @Input() addChildMandateShowContactPersonsForm!: boolean;
   @Input() addChildMandateShowOfficersForm!: boolean;
-  @Input() addChildMandateShowBasicForm!: boolean;
+  @Input() addChildMandateShowMoreInformationForm!: boolean;
+  @Input() addChildMandateShowAssetTypeForm!: boolean;
+  //----
+  @Input() addConditionsLookupsForm!: boolean;
+  @Input() addCallActionTypeForm!: boolean;
+  @Input() addMandateAdditionalTermForm!: boolean;
   @Input() addConditionExpressionsLookupsForm!: boolean;
   @Input() addManageMandateTermsForm!: boolean;
   @Input() leasingFinancialFormShowCurrencyForm!: boolean;
