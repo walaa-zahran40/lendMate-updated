@@ -167,9 +167,13 @@ export class AddMandateComponent {
           )
         )
       )
-      .subscribe((mandate: any) =>
-        this.patchMandate(this.normalizeMandate(mandate))
-      );
+      .subscribe((mandate: any) => {
+        this.patchMandate(this.normalizeMandate(mandate));
+
+        if (this.viewOnly) {
+          this.parentForm.disable();
+        }
+      });
 
     this.basicForm
       .get('clientId')!
