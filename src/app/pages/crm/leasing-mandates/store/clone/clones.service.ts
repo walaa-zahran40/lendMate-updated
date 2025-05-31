@@ -26,7 +26,6 @@ export class ClonesService {
         })
       );
   }
-
   getById(id: number): Observable<Clone> {
     return this.http.get<Clone>(
       `${this.baseUrl}/LeasingMandateId?leasingMandate=${id}`
