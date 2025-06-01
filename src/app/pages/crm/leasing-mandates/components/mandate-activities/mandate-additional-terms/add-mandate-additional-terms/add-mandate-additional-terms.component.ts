@@ -28,7 +28,9 @@ export class AddMandateAdditionalTermsComponent {
   ) {}
 
   ngOnInit() {
-    console.log('riyte', this.route.snapshot);
+    console.log('route', this.route.snapshot);
+    console.log('routeId (leasingId):', this.routeId);
+    console.log('mandateRouteId (leasingMandatesId):', this.mandateRouteId);
 
     // 2️⃣ Combine into addMandateAdditionalTermForm
     this.addMandateAdditionalTermForm = this.fb.group({
@@ -42,68 +44,58 @@ export class AddMandateAdditionalTermsComponent {
 
     // 3️⃣ shove it into your basic form
     this.addMandateAdditionalTermForm.patchValue({
-      parentMandateId: leasingMandatesId,
+      mandateId: leasingMandatesId,
     });
 
-    combineLatest({
+    const routeParams$ = combineLatest({
       params: this.route.paramMap,
       query: this.route.queryParamMap,
-    })
+    }).pipe(
+      map(({ params, query }) => ({
+        leasingMandatesId: +params.get('leasingMandatesId')!,
+        selectedItemId: +params.get('leasingId')!, // this is the ID of the *item* (e.g. 2812)
+        mode: query.get('mode'),
+      }))
+    );
+
+    routeParams$
       .pipe(
-        map(({ params, query }) => ({
-          leasingId: +params.get('leasingId')!,
-          mode: query.get('mode'),
-        })),
-        filter(
-          ({ leasingId, mode }) =>
-            !!leasingId && (mode === 'edit' || mode === 'view')
-        ),
-        tap(({ leasingId, mode }) => {
-          // flip your flags exactly once, at the same time you load
+        tap(({ leasingMandatesId, selectedItemId, mode }) => {
+          console.log('mode:', mode);
           this.editMode = mode === 'edit';
           this.viewOnly = mode === 'view';
-          // ← clear out the old entity so selectedMandate$ doesn’t emit immediately
-          this.facade.clearSelected();
-          // now fetch afresh
-          this.facade.loadById(leasingId);
+          this.facade.loadById(leasingMandatesId); // Load all terms for the mandate
         }),
-        switchMap(({ leasingId }) =>
-          this.facade.selected$.pipe(
-            filter((m) => m != null && m.id === leasingId),
+        switchMap(({ selectedItemId }) =>
+          this.facade.all$.pipe(
+            map((items) => items.find((item) => item.id === selectedItemId)),
+            filter((item): item is MandateAdditionalTerm => !!item),
             take(1)
           )
         )
       )
-      .subscribe((mandate: any) => {
-        this.patchMandate(this.normalizeMandate(mandate));
+      .subscribe((matchedItem) => {
+        console.log('✅ Found item to edit:', matchedItem);
+        this.patchMandate(this.normalizeMandate(matchedItem));
         if (this.viewOnly) {
           this.addMandateAdditionalTermForm.disable();
         }
       });
   }
   private patchMandate(m: MandateAdditionalTerm) {
-    // 1️⃣ patch all of the flat values, _excluding_ the nested grace group
+    if (!m) {
+      console.warn('❌ patchMandate called with null/undefined mandate');
+      return;
+    }
+
+    console.log('📌 patching form with mandate:', m);
+
     this.addMandateAdditionalTermForm.patchValue({
       id: m.id,
       mandateId: m.mandateId,
       description: m.description,
       termKey: m.termKey,
     });
-
-    // 4️⃣ now reset your FormArrays exactly as before…
-    const resetArray = (
-      fa: FormArray,
-      items: any[],
-      factory: () => FormGroup,
-      name: string
-    ) => {
-      fa.clear();
-      items.forEach((item) => {
-        const fg = factory();
-        fg.patchValue(item);
-        fa.push(fg);
-      });
-    };
   }
 
   private normalizeMandate(raw: any): MandateAdditionalTerm {

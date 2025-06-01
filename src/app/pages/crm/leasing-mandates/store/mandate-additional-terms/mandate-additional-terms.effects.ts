@@ -16,9 +16,7 @@ export class MandateAdditionalTermsEffects {
     private router: Router,
     private mandatesFacade: MandateAdditionalTermsFacade,
     private route: ActivatedRoute
-  ) {
-    console.log('trr', this.route.snapshot);
-  }
+  ) {}
 
   loadAll$ = createEffect(() =>
     this.actions$.pipe(

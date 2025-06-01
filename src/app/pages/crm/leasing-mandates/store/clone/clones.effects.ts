@@ -5,7 +5,6 @@ import * as ActionsList from './clones.actions';
 import { catchError, exhaustMap, map, mergeMap, of, tap } from 'rxjs';
 import { Clone } from './clone.model';
 import { EntityNames } from '../../../../../shared/constants/entity-names';
-import { ActivatedRoute, Router } from '@angular/router';
 import { ClonesFacade } from './clones.facade';
 
 @Injectable()
@@ -13,12 +12,8 @@ export class ClonesEffects {
   constructor(
     private actions$: Actions,
     private service: ClonesService,
-    private router: Router,
-    private mandatesFacade: ClonesFacade,
-    private route: ActivatedRoute
-  ) {
-    console.log('trr', this.route.snapshot);
-  }
+    private mandatesFacade: ClonesFacade
+  ) {}
 
   loadAll$ = createEffect(() =>
     this.actions$.pipe(

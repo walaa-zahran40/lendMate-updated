@@ -6445,7 +6445,7 @@
           <p-button
             label="Close"
             class="custom-save m-0 float-right"
-            (click)="router.navigate([`/crm/clients/view-mandate-additional-terms/${clientId}`])"
+            (click)="router.navigate([`/crm/leasing-mandates/view-mandate-additional-terms/${this.routeId}/${this.leasingRouteId}`])"
           />
         </div>
       </div>
@@ -9032,7 +9032,7 @@
         </div>
       </div>
     </ng-container>
-  
+
     <form
       action=""
       *ngIf="addManageMandateTermsForm"

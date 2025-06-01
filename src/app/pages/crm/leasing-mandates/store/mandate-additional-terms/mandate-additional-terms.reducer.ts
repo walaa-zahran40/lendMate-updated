@@ -72,9 +72,13 @@ export const reducer = createReducer(
     loading: false,
     error,
   })),
-  on(MandateAdditionalTermActions.loadByIdSuccess, (state, { entities }) =>
-    adapter.setAll(entities, { ...state, loadedId: null })
-  ),
+  on(MandateAdditionalTermActions.loadByIdSuccess, (state, { entities }) => {
+    const firstId = entities.length > 0 ? entities[0].id : null;
+    return adapter.setAll(entities, {
+      ...state,
+      loadedId: firstId, // ✅ Set the selected ID so selected$ can resolve it
+    });
+  }),
 
   on(
     MandateAdditionalTermActions.clearSelectedMandateAdditionalTerm,
