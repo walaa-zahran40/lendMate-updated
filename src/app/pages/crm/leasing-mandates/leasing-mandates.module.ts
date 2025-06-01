@@ -20,7 +20,7 @@ import { reducer as leasingMandatesReducer } from './store/leasing-mandates/leas
 import { MandatesEffects } from './store/leasing-mandates/leasing-mandates.effects';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MandateAdditionalTermsEffects } from './store/mandate-additional-terms/mandate-additional-terms.effects';
-import { mandateAdditionalTermReducer } from './store/mandate-additional-terms/mandate-additional-terms.reducer';
+import { reducer as mandateAdditionalTermReducer } from './store/mandate-additional-terms/mandate-additional-terms.reducer';
 import { ViewMandateAdditionalTermsComponent } from './components/mandate-activities/mandate-additional-terms/view-mandate-additional-terms/view-mandate-additional-terms.component';
 import { AddMandateAdditionalTermsComponent } from './components/mandate-activities/mandate-additional-terms/add-mandate-additional-terms/add-mandate-additional-terms.component';
 import { ClonesEffects } from './store/clone/clones.effects';

@@ -41,13 +41,13 @@ export class ViewMandateAdditionalTermsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // 1) grab the param
-    const raw = this.route.snapshot.paramMap.get('mandateId');
+    console.log('toue', this.route.snapshot);
+    const raw = this.route.snapshot.paramMap.get('leasingMandatesId');
     this.mandateIdParam = raw !== null ? Number(raw) : undefined;
     console.log('[View] ngOnInit → mandateIdParam =', this.mandateIdParam);
 
-    this.facade.loadByClientId(this.mandateIdParam);
-    this.mandateAdditionalTerms$ = this.facade.items$;
-
+    this.facade.loadById(this.mandateIdParam);
+    this.mandateAdditionalTerms$ = this.facade.all$;
 
     if (this.mandateIdParam == null || isNaN(this.mandateIdParam)) {
       console.error(
@@ -56,15 +56,12 @@ export class ViewMandateAdditionalTermsComponent implements OnInit, OnDestroy {
       return;
     }
 
-    combineLatest([
-      this.mandateAdditionalTerms$ ?? of([]),
-    ])
+    combineLatest([this.mandateAdditionalTerms$ ?? of([])])
       .pipe(
         map(([mandateAdditionalTerms]) => {
           console.log('📦 Raw mandateAdditionalTerms:', mandateAdditionalTerms);
 
-          return mandateAdditionalTerms
-            .sort((a, b) => b.id - a.id);
+          return mandateAdditionalTerms.sort((a, b) => b.id - a.id);
         }),
         takeUntil(this.destroy$)
       )
@@ -78,12 +75,15 @@ export class ViewMandateAdditionalTermsComponent implements OnInit, OnDestroy {
   onAddMandateAdditionalTerm() {
     console.log('edioyt', this.mandateIdParam);
     const routeId = this.route.snapshot.paramMap.get('mandateId');
-    this.router.navigate(['crm/leasing-mandates/add-mandate-additional-terms', routeId], {
-      queryParams: {
-        mode: 'add',
-        mandateId: this.mandateIdParam, // <-- use "mandateId" here
-      },
-    });
+    this.router.navigate(
+      ['crm/leasing-mandates/add-mandate-additional-terms', routeId],
+      {
+        queryParams: {
+          mode: 'add',
+          mandateId: this.mandateIdParam, // <-- use "mandateId" here
+        },
+      }
+    );
   }
 
   ngOnDestroy() {
@@ -102,7 +102,7 @@ export class ViewMandateAdditionalTermsComponent implements OnInit, OnDestroy {
 
   confirmDelete() {
     if (this.selectedMandateAdditionalTermId != null) {
-      this.facade.delete(this.selectedMandateAdditionalTermId, this.mandateIdParam);
+      this.facade.delete(this.selectedMandateAdditionalTermId);
     }
     this.resetDeleteModal();
   }
@@ -118,12 +118,12 @@ export class ViewMandateAdditionalTermsComponent implements OnInit, OnDestroy {
 
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
-    this.filteredMandateAdditionalTerms = this.originalMandateAdditionalTerms.filter(
-      (clientSales) =>
+    this.filteredMandateAdditionalTerms =
+      this.originalMandateAdditionalTerms.filter((clientSales) =>
         Object.values(clientSales).some((val) =>
           val?.toString().toLowerCase().includes(lower)
         )
-    );
+      );
   }
 
   onToggleFilters(value: boolean) {
@@ -132,21 +132,33 @@ export class ViewMandateAdditionalTermsComponent implements OnInit, OnDestroy {
 
   onEditMandateAdditionalTerm(mandateAdditionalTerm: MandateAdditionalTerm) {
     console.log('edioyt', this.mandateIdParam);
-    this.router.navigate(['crm/leasing-mandates/edit-mandate-additional-terms', mandateAdditionalTerm.id], {
-      queryParams: {
-        mode: 'edit',
-        mandateId: this.mandateIdParam, // <-- use "mandateId" here
-      },
-    });
+    this.router.navigate(
+      [
+        'crm/leasing-mandates/edit-mandate-additional-terms',
+        mandateAdditionalTerm.id,
+      ],
+      {
+        queryParams: {
+          mode: 'edit',
+          mandateId: this.mandateIdParam, // <-- use "mandateId" here
+        },
+      }
+    );
   }
 
   onViewMandateAdditionalTerm(mandateAdditionalTerm: MandateAdditionalTerm) {
     console.log('route', this.route.snapshot);
-    this.router.navigate(['crm/leasing-mandates/edit-mandate-additional-terms', mandateAdditionalTerm.id], {
-      queryParams: {
-        mode: 'view',
-        mandateId: this.mandateIdParam, // <-- and here
-      },
-    });
+    this.router.navigate(
+      [
+        'crm/leasing-mandates/edit-mandate-additional-terms',
+        mandateAdditionalTerm.id,
+      ],
+      {
+        queryParams: {
+          mode: 'view',
+          mandateId: this.mandateIdParam, // <-- and here
+        },
+      }
+    );
   }
 }

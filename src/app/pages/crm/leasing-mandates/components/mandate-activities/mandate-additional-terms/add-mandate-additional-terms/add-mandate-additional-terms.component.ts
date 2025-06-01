@@ -35,7 +35,6 @@ export class AddMandateAdditionalTermsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-
     // Read mode and set flags
     this.mode = (this.route.snapshot.queryParamMap.get('mode') as any) ?? 'add';
     this.editMode = this.mode === 'edit';
@@ -48,7 +47,7 @@ export class AddMandateAdditionalTermsComponent implements OnInit, OnDestroy {
     if (this.editMode || this.viewOnly) {
       console.log('route add', this.route.snapshot);
       this.recordId = Number(this.route.snapshot.params['mandateId']);
-      this.mandateAdditionalTermFacade.loadOne(this.recordId);
+      this.mandateAdditionalTermFacade.loadById(this.recordId);
     }
 
     // Build form with mandateId
@@ -61,10 +60,9 @@ export class AddMandateAdditionalTermsComponent implements OnInit, OnDestroy {
       mandateId: this.route.snapshot.queryParamMap.get('mandateId'),
     });
 
-              
     // Patch for edit/view mode
     if (this.editMode || this.viewOnly) {
-      this.mandateAdditionalTermFacade.current$
+      this.mandateAdditionalTermFacade.selected$
         .pipe(
           takeUntil(this.destroy$),
           filter((rec) => !!rec)
@@ -142,7 +140,10 @@ export class AddMandateAdditionalTermsComponent implements OnInit, OnDestroy {
 
     if (mandateIdParam) {
       console.log('➡️ Navigating back with PATH param:', mandateIdParam);
-      this.router.navigate(['/crm/leasing-mandates/view-mandate-additional-terms', mandateIdParam]);
+      this.router.navigate([
+        '/crm/leasing-mandates/view-mandate-additional-terms',
+        mandateIdParam,
+      ]);
     } else {
       console.error('❌ Cannot navigate back: mandateId is missing!');
     }

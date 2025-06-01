@@ -1,68 +1,51 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { createSelector, Store } from '@ngrx/store';
 import * as Actions from './mandate-additional-terms.actions';
 import * as Selectors from './mandate-additional-terms.selectors';
-import { Observable } from 'rxjs';
 import { MandateAdditionalTerm } from './mandate-additional-term.model';
 import { selectLastOperationSuccess } from '../../../../../shared/store/ui.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class MandateAdditionalTermsFacade {
-  items$: Observable<MandateAdditionalTerm[]> = this.store.select(
-    Selectors.selectMandateAdditionalTerms
+  readonly selectedMandateAdditionalTerm$ = this.store.select(
+    Selectors.selectCurrent
   );
-  total$: Observable<number> = this.store.select(
-    Selectors.selectMandateAdditionalTermsTotal
+  all$ = this.store.select(Selectors.selectAllMandateAdditionalTerms);
+  loading$ = this.store.select(Selectors.selectMandateAdditionalTermsLoading);
+  error$ = this.store.select(Selectors.selectMandateAdditionalTermsError);
+  totalCount$ = this.store.select(
+    Selectors.selectMandateAdditionalTermsTotalCount
   );
-  history$: Observable<MandateAdditionalTerm[]> = this.store.select(
-    Selectors.selectMandateAdditionalTermsHistory
-  );
-  current$: Observable<MandateAdditionalTerm | undefined> = this.store.select(
-    Selectors.selectCurrentMandateAdditionalTerm
-  );
-
-  loading$: Observable<boolean> = this.store.select(
-    Selectors.selectMandateAdditionalTermsLoading
-  );
-  error$: Observable<any> = this.store.select(
-    Selectors.selectMandateAdditionalTermsError
+  selected$ = this.store.select(
+    createSelector(
+      Selectors.selectFeature,
+      (state) => state.entities[state.loadedId!] // or however you track it
+    )
   );
   operationSuccess$ = this.store.select(selectLastOperationSuccess);
-
   constructor(private store: Store) {}
 
-  loadAll() {
-    this.store.dispatch(Actions.loadMandateAdditionalTerms());
-  }
-  loadHistory() {
-    this.store.dispatch(Actions.loadMandateAdditionalTermsHistory());
-  }
-  loadOne(id: number) {
-    this.store.dispatch(Actions.loadMandateAdditionalTerm({ id }));
-  }
-  create(data: Partial<MandateAdditionalTerm>) {
-    this.store.dispatch(Actions.createMandateAdditionalTerm({ data }));
-  }
-  update(id: any, data: Partial<MandateAdditionalTerm>) {
-    this.store.dispatch(Actions.updateMandateAdditionalTerm({ id, data }));
-  }
-  /** NEW: dispatch the by-mandateId loader */
-  loadMandateAdditionalTermsByClientId(mandateId?: number) {
-    if (mandateId == null || isNaN(mandateId)) {
-      console.error(
-        '❌ Facade.loadMandateAdditionalTermsByClientId called with invalid id:',
-        mandateId
-      );
-      return;
-    }
-    this.store.dispatch(Actions.loadMandateAdditionalTermsByClientId({ mandateId }));
+  loadAll(pageNumber?: number) {
+    this.store.dispatch(Actions.loadAll({ pageNumber }));
   }
 
-  /** UPDATED: now expects both id & parent mandateId */
-  delete(id: number, mandateId: number) {
-    this.store.dispatch(Actions.deleteMandateAdditionalTerm({ id, mandateId }));
+  loadById(id: number) {
+    this.store.dispatch(Actions.loadById({ id }));
   }
-  loadByClientId(mandateId: number) {
-    this.store.dispatch(Actions.loadMandateAdditionalTermsByClientId({ mandateId }));
+
+  create(payload: Partial<Omit<MandateAdditionalTerm, 'id'>>) {
+    this.store.dispatch(Actions.createMandateAdditionalTerm({ payload }));
+  }
+
+  update(id: number, changes: Partial<MandateAdditionalTerm>) {
+    this.store.dispatch(Actions.updateEntity({ id, changes }));
+  }
+
+  delete(id: number) {
+    this.store.dispatch(Actions.deleteEntity({ id }));
+  }
+
+  clearSelected() {
+    this.store.dispatch(Actions.clearSelectedMandateAdditionalTerm());
   }
 }

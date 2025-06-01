@@ -1,63 +1,54 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, map, Observable, tap, throwError } from 'rxjs';
 import { MandateAdditionalTerm } from './mandate-additional-term.model';
 import { environment } from '../../../../../../environments/environment';
 
-interface PagedResponse<T> {
-  items: T[];
-  totalCount: number;
-}
-
 @Injectable({ providedIn: 'root' })
 export class MandateAdditionalTermsService {
-  private api = `${environment.apiUrl}MandateAdditionalTerms`;
+  private baseUrl = `${environment.apiUrl}MandateAdditionalTerms`;
 
   constructor(private http: HttpClient) {}
 
-  getAll(pageNumber?: number): Observable<PagedResponse<MandateAdditionalTerm>> {
-    let params = new HttpParams();
-    if (pageNumber != null) {
-      params = params.set('pageNumber', pageNumber.toString());
-    }
-    return this.http.get<PagedResponse<MandateAdditionalTerm>>(
-      `${this.api}/GetAllMandateAdditionalTerms`,
-      { params }
-    );
+  getAll(): Observable<MandateAdditionalTerm[]> {
+    console.log('🚀 Service: calling GET …');
+    return this.http
+      .get<{ items: MandateAdditionalTerm[]; totalCount: number }>(
+        `${this.baseUrl}/GetAllLeasingMandates`
+      )
+      .pipe(
+        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
+        map((resp) => resp.items), // ← pull off the `items` array here
+        tap((items) => console.log('🚀 Mapped items:', items)),
+        catchError((err) => {
+          console.error('🚀 HTTP error fetching Mandates:', err);
+          return throwError(() => err);
+        })
+      );
   }
-
-  getHistory(): Observable<PagedResponse<MandateAdditionalTerm>> {
-    return this.http.get<PagedResponse<MandateAdditionalTerm>>(
-      `${this.api}/GetAllMandateAdditionalTermsHistory`
-    );
-  }
-
   getById(id: number): Observable<MandateAdditionalTerm> {
-  return this.http.get<MandateAdditionalTerm>(`${this.api}/Id`, {
-    params: { id: id.toString() }
-  });
-}
-
-
-  create(data: Partial<MandateAdditionalTerm>): Observable<MandateAdditionalTerm> {
-    return this.http.post<MandateAdditionalTerm>(
-      `${this.api}/CreateMandateAdditionalTerm`,
-      data
+    return this.http.get<MandateAdditionalTerm>(
+      `${this.baseUrl}/MandateId?id=${id}`
     );
   }
 
-  update(id: number, data: Partial<MandateAdditionalTerm>): Observable<MandateAdditionalTerm> {
-    return this.http.put<MandateAdditionalTerm>(`${this.api}/${id}`, data);
+  create(
+    payload: Omit<MandateAdditionalTerm, 'id'>
+  ): Observable<MandateAdditionalTerm> {
+    return this.http.post<MandateAdditionalTerm>(
+      `${this.baseUrl}/CreateLeasingMandate`,
+      payload
+    );
+  }
+
+  update(
+    id: number,
+    changes: Partial<MandateAdditionalTerm>
+  ): Observable<void> {
+    return this.http.put<void>(`${this.baseUrl}/${id}`, changes);
   }
 
   delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.api}/${id}`);
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
-  getByMandateId(mandateId: number): Observable<MandateAdditionalTerm[]> {
-  return this.http.get<MandateAdditionalTerm[]>(
-    `${this.api}/MandateId`,
-    { params: { mandateId: mandateId.toString() } }
-  );
 }
-}
-

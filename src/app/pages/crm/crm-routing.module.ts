@@ -147,22 +147,6 @@ const routes: Routes = [
     component: ViewPhoneNumberComponent,
   },
 
-  // Client Phone numbers
-  {
-    path: 'leasing-mandates/add-mandate-additional-terms/:mandateId',
-    component: AddMandateAdditionalTermsComponent,
-  },
-
-  {
-    path: 'leasing-mandates/edit-mandate-additional-terms/:mandateId',
-    component: AddMandateAdditionalTermsComponent,
-  },
-
-  {
-    path: 'leasing-mandates/view-mandate-additional-terms/:mandateId',
-    component: ViewMandateAdditionalTermsComponent,
-  },
-
   // Client Identity
   {
     path: 'clients/add-client-identity/:clientId',
@@ -374,6 +358,21 @@ const routes: Routes = [
   {
     path: 'leasing-mandates/view-child-mandates/:leasingId/:leasingMandatesId',
     component: ViewChildMandatesComponent,
+  },
+  // Manage Mandate Terms
+  {
+    path: 'leasing-mandates/add-mandate-additional-term/:leasingId/:leasingMandatesId',
+    component: AddMandateAdditionalTermsComponent,
+  },
+
+  {
+    path: 'leasing-mandates/edit-mandate-additional-term/:leasingId/:leasingMandatesId',
+    component: AddMandateAdditionalTermsComponent,
+  },
+
+  {
+    path: 'leasing-mandates/view-mandate-additional-terms/:leasingId/:leasingMandatesId',
+    component: ViewMandateAdditionalTermsComponent,
   },
   //----
   {

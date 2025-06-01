@@ -1,101 +1,90 @@
 import { createAction, props } from '@ngrx/store';
 import { MandateAdditionalTerm } from './mandate-additional-term.model';
 
-// Load all
-export const loadMandateAdditionalTerms = createAction(
-  '[MandateAdditionalTerms] Load All'
+export const loadAll = createAction(
+  '[MandateAdditionalTerms] Load All',
+  props<{ pageNumber?: number }>()
 );
-export const loadMandateAdditionalTermsSuccess = createAction(
+export const loadAllSuccess = createAction(
   '[MandateAdditionalTerms] Load All Success',
-  props<{ items: MandateAdditionalTerm[]; totalCount: number }>()
+  props<{ result: MandateAdditionalTerm[] }>()
 );
-export const loadMandateAdditionalTermsFailure = createAction(
+
+export const loadAllFailure = createAction(
   '[MandateAdditionalTerms] Load All Failure',
   props<{ error: any }>()
 );
+export const createMandateAdditionalTerm = createAction(
+  '[MandateAdditionalTerm] Create',
+  props<{ payload: Partial<MandateAdditionalTerm> }>()
+);
 
-// Load history
-export const loadMandateAdditionalTermsHistory = createAction(
-  '[MandateAdditionalTerms] Load History'
+export const createMandateAdditionalTermSuccess = createAction(
+  '[MandateAdditionalTerm] Create Success',
+  props<{ mandateAdditionalTerm: MandateAdditionalTerm }>()
 );
-export const loadMandateAdditionalTermsHistorySuccess = createAction(
-  '[MandateAdditionalTerms] Load History Success',
-  props<{ history: MandateAdditionalTerm[] }>()
-);
-export const loadMandateAdditionalTermsHistoryFailure = createAction(
-  '[MandateAdditionalTerms] Load History Failure',
+
+export const createMandateAdditionalTermFailure = createAction(
+  '[MandateAdditionalTerm] Create Failure',
   props<{ error: any }>()
 );
 
-// Load by ID
-export const loadMandateAdditionalTerm = createAction(
-  '[MandateAdditionalTerms] Load One',
+export const loadById = createAction(
+  '[MandateAdditionalTerms] Load By Id',
   props<{ id: number }>()
 );
-export const loadMandateAdditionalTermSuccess = createAction(
-  '[MandateAdditionalTerms] Load One Success',
-  props<{ mandate: MandateAdditionalTerm }>()
+export const loadByIdSuccess = createAction(
+  '[MandateAdditionalTerms] Load By Id Success',
+  props<{ entity: MandateAdditionalTerm }>()
 );
-export const loadMandateAdditionalTermFailure = createAction(
-  '[MandateAdditionalTerms] Load One Failure',
+export const loadByIdFailure = createAction(
+  '[MandateAdditionalTerms] Load By Id Failure',
   props<{ error: any }>()
 );
 
-// Create
-export const createMandateAdditionalTerm = createAction(
+export const createEntity = createAction(
   '[MandateAdditionalTerms] Create',
-  props<{ data: Partial<MandateAdditionalTerm> }>()
+  // allow all fields except id, but all optional
+  props<{ payload: Partial<Omit<MandateAdditionalTerm, 'id'>> }>()
 );
-export const createMandateAdditionalTermSuccess = createAction(
+export const createEntitySuccess = createAction(
   '[MandateAdditionalTerms] Create Success',
-  props<{ mandate: MandateAdditionalTerm }>()
+  props<{ entity: MandateAdditionalTerm }>()
 );
-export const createMandateAdditionalTermFailure = createAction(
+export const createEntityFailure = createAction(
   '[MandateAdditionalTerms] Create Failure',
   props<{ error: any }>()
 );
 
-// Update
-export const updateMandateAdditionalTerm = createAction(
+export const updateEntity = createAction(
   '[MandateAdditionalTerms] Update',
-  props<{ id: number; data: Partial<MandateAdditionalTerm> }>()
+  props<{ id: number; changes: Partial<MandateAdditionalTerm> }>()
 );
-export const updateMandateAdditionalTermSuccess = createAction(
+export const updateEntitySuccess = createAction(
   '[MandateAdditionalTerms] Update Success',
-  props<{ mandate: MandateAdditionalTerm }>()
+  props<{ id: number; changes: Partial<MandateAdditionalTerm> }>()
 );
-export const updateMandateAdditionalTermFailure = createAction(
+export const updateEntityFailure = createAction(
   '[MandateAdditionalTerms] Update Failure',
   props<{ error: any }>()
 );
 
-// Load by ClientId
-export const loadMandateAdditionalTermsByClientId = createAction(
-  '[MandateAdditionalTerms] Load By ClientId',
-  props<{ mandateId: number }>()
-);
-export const loadMandateAdditionalTermsByClientIdSuccess = createAction(
-  '[MandateAdditionalTerms] Load By ClientId Success',
-  props<{ items: MandateAdditionalTerm[] }>()
-);
-export const loadMandateAdditionalTermsByClientIdFailure = createAction(
-  '[MandateAdditionalTerms] Load By ClientId Failure',
-  props<{ error: any }>()
-);
-//Delete
-export const deleteMandateAdditionalTerm = createAction(
+export const deleteEntity = createAction(
   '[MandateAdditionalTerms] Delete',
-  props<{ id: number; mandateId: number }>()
+  props<{ id: number }>()
 );
-export const deleteMandateAdditionalTermSuccess = createAction(
+export const deleteEntitySuccess = createAction(
   '[MandateAdditionalTerms] Delete Success',
-  props<{ id: number; mandateId: number }>()
+  props<{ id: number }>()
 );
-export const deleteMandateAdditionalTermFailure = createAction(
+export const deleteEntityFailure = createAction(
   '[MandateAdditionalTerms] Delete Failure',
   props<{ error: any }>()
 );
 export const entityOperationSuccess = createAction(
   '[Entity] Operation Success',
   props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
+);
+export const clearSelectedMandateAdditionalTerm = createAction(
+  '[MandateAdditionalTerms] Clear Selected'
 );

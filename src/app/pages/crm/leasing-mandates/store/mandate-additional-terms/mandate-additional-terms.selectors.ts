@@ -1,30 +1,46 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { MandateAdditionalTermsState } from './mandate-additional-terms.state';
+import * as fromSlice from './mandate-additional-terms.reducer';
+import { adapter, State } from './mandate-additional-terms.state';
 
-export const selectMandateAdditionalTermsState =
-  createFeatureSelector<MandateAdditionalTermsState>('mandateAdditionalTerms');
-export const selectMandateAdditionalTerms = createSelector(
-  selectMandateAdditionalTermsState,
-  (state) => state.items
+export const selectFeature = createFeatureSelector<State>(
+  'mandateAdditionalTerms'
 );
-export const selectMandateAdditionalTermsTotal = createSelector(
-  selectMandateAdditionalTermsState,
-  (state) => state.totalCount
+export const selectMandateAdditionalTermsFeature = createFeatureSelector<State>(
+  'mandateAdditionalTerms'
 );
-export const selectMandateAdditionalTermsHistory = createSelector(
-  selectMandateAdditionalTermsState,
-  (state) => state.history
+
+// these come from your EntityAdapter
+const { selectAll, selectEntities, selectIds, selectTotal } =
+  adapter.getSelectors(selectMandateAdditionalTermsFeature);
+
+export const selectAllMandateAdditionalTerms = createSelector(
+  selectFeature,
+  fromSlice.selectAll
 );
-export const selectCurrentMandateAdditionalTerm = createSelector(
-  selectMandateAdditionalTermsState,
-  (state) => state.current
+export const selectMandateAdditionalTermEntities = createSelector(
+  selectFeature,
+  fromSlice.selectEntities
 );
 export const selectMandateAdditionalTermsLoading = createSelector(
-  selectMandateAdditionalTermsState,
+  selectFeature,
   (state) => state.loading
 );
 export const selectMandateAdditionalTermsError = createSelector(
-  selectMandateAdditionalTermsState,
+  selectFeature,
   (state) => state.error
 );
 
+export const selectLoadedId = createSelector(
+  selectFeature,
+  (state) => state.loadedId
+);
+
+export const selectCurrent = createSelector(
+  selectEntities,
+  selectLoadedId,
+  (entities, id) => (id != null ? entities[id] : null)
+);
+export const selectMandateAdditionalTermsTotalCount = createSelector(
+  selectMandateAdditionalTermsFeature,
+  (state) => state
+);

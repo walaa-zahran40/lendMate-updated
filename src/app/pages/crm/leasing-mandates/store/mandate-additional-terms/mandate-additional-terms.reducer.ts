@@ -1,122 +1,104 @@
 import { createReducer, on } from '@ngrx/store';
-import * as Actions from './mandate-additional-terms.actions';
-import { initialMandateAdditionalTermsState } from './mandate-additional-terms.state';
+import * as MandateAdditionalTermActions from './mandate-additional-terms.actions';
+import { adapter, initialState, State } from './mandate-additional-terms.state';
 
-export const mandateAdditionalTermReducer = createReducer(
-  initialMandateAdditionalTermsState,
-  on(Actions.loadMandateAdditionalTerms, (state) => ({
+export const reducer = createReducer(
+  initialState,
+
+  // when you dispatch loadAll()
+  on(MandateAdditionalTermActions.loadAll, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
+
+  // when your effect dispatches loadAllSuccess({ result })
+  on(MandateAdditionalTermActions.loadAllSuccess, (state, { result }) =>
+    adapter.setAll(result, {
+      ...state,
+      loading: false,
+      error: null,
+    })
+  ),
+  // on failure
+  on(MandateAdditionalTermActions.loadAllFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
+  })),
+  // create
+  on(MandateAdditionalTermActions.createEntity, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
+  on(MandateAdditionalTermActions.createEntitySuccess, (state, { entity }) =>
+    adapter.addOne(entity, { ...state, loading: false })
+  ),
+  on(MandateAdditionalTermActions.createEntityFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
+  })),
+
+  // update
+  on(MandateAdditionalTermActions.updateEntity, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
   on(
-    Actions.loadMandateAdditionalTermsSuccess,
-    (state, { items, totalCount }) => ({
-      ...state,
-      items,
-      totalCount,
-      loading: false,
-    })
+    MandateAdditionalTermActions.updateEntitySuccess,
+    (state, { id, changes }) =>
+      adapter.updateOne({ id, changes }, { ...state, loading: false })
   ),
-  on(Actions.loadMandateAdditionalTermsFailure, (state, { error }) => ({
+  on(MandateAdditionalTermActions.updateEntityFailure, (state, { error }) => ({
     ...state,
-    error,
     loading: false,
+    error,
   })),
 
-  on(Actions.loadMandateAdditionalTermsHistory, (state) => ({
-    ...state,
-    loading: true,
-  })),
-  on(Actions.loadMandateAdditionalTermsHistorySuccess, (state, { history }) => ({
-    ...state,
-    history,
-    loading: false,
-  })),
-  on(Actions.loadMandateAdditionalTermsHistoryFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
-  })),
-
-  on(Actions.loadMandateAdditionalTerm, (state) => ({
-    ...state,
-    loading: true,
-  })),
-  on(Actions.loadMandateAdditionalTermSuccess, (state, { mandate }) => ({
-    ...state,
-    current: mandate,
-    loading: false,
-  })),
-  on(Actions.loadMandateAdditionalTermFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
-  })),
-
-  on(Actions.createMandateAdditionalTerm, (state) => ({
-    ...state,
-    loading: true,
-  })),
-  on(Actions.createMandateAdditionalTermSuccess, (state, { mandate }) => ({
-    ...state,
-    items: [...state.items, mandate],
-    loading: false,
-  })),
-  on(Actions.createMandateAdditionalTermFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
-  })),
-
-  on(Actions.updateMandateAdditionalTerm, (state) => ({
-    ...state,
-    loading: true,
-  })),
-  on(Actions.updateMandateAdditionalTermSuccess, (state, { mandate }) => ({
-    ...state,
-    items: state.items.map((ct) => (ct.id === mandate.id ? mandate : ct)),
-    loading: false,
-  })),
-  on(Actions.updateMandateAdditionalTermFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
-  })),
-
-  on(Actions.deleteMandateAdditionalTerm, (state) => ({
-    ...state,
-    loading: true,
-  })),
-  on(Actions.deleteMandateAdditionalTermSuccess, (state, { id }) => ({
-    ...state,
-    items: state.items.filter((ct) => ct.id !== id),
-    loading: false,
-  })),
-  on(Actions.deleteMandateAdditionalTermFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
-  })),
-  on(Actions.loadMandateAdditionalTermsByClientId, (state) => ({
+  // delete
+  on(MandateAdditionalTermActions.deleteEntity, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
-  on(
-    Actions.loadMandateAdditionalTermsByClientIdSuccess,
-    (state, { items }) => ({
-      ...state,
-      items, // replace with just these rates
-      loading: false,
-    })
+  on(MandateAdditionalTermActions.deleteEntitySuccess, (state, { id }) =>
+    adapter.removeOne(id, { ...state, loading: false })
   ),
-  on(
-    Actions.loadMandateAdditionalTermsByClientIdFailure,
-    (state, { error }) => ({
+  on(MandateAdditionalTermActions.deleteEntityFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
+  })),
+  on(MandateAdditionalTermActions.loadByIdSuccess, (state, { entity }) => {
+    console.log('🗄️ Reducer: loadByIdSuccess, before:', {
+      loadedId: state.loadedId,
+      entities: state.entities,
+    });
+
+    const newState = adapter.upsertOne(entity, {
       ...state,
-      error,
       loading: false,
+      loadedId: entity.id ?? null,
+    });
+
+    console.log('🗄️ Reducer: loadByIdSuccess, after:', {
+      loadedId: newState.loadedId,
+      entities: newState.entities,
+    });
+
+    return newState;
+  }),
+  on(
+    MandateAdditionalTermActions.clearSelectedMandateAdditionalTerm,
+    (state) => ({
+      ...state,
+      loadedId: null,
     })
   )
 );
+
+export const { selectAll, selectEntities, selectIds, selectTotal } =
+  adapter.getSelectors();
