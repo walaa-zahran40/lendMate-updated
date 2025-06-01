@@ -34,9 +34,10 @@ export const loadById = createAction(
   props<{ id: number }>()
 );
 export const loadByIdSuccess = createAction(
-  '[MandateAdditionalTerms] Load By Id Success',
-  props<{ entity: MandateAdditionalTerm }>()
+  '[Mandate Additional Term] Load By Id Success',
+  props<{ entities: MandateAdditionalTerm[] }>() // <- changed from `{ entity }`
 );
+
 export const loadByIdFailure = createAction(
   '[MandateAdditionalTerms] Load By Id Failure',
   props<{ error: any }>()

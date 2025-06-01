@@ -2,6 +2,8 @@ export interface MandateAdditionalTerm {
   id: number;
   mandateId: number;
   mandate?: any;
-  termKey : string;
-  description? : string;
+  clientView?: any;
+  clientId?: any;
+  termKey: string;
+  description?: string;
 }

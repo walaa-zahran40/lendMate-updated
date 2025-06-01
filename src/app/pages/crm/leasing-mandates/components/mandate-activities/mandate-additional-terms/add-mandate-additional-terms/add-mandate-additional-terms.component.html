@@ -1,15 +1,113 @@
-<p-tabs value="0" styleClass="p-3">
-  <p-tabpanels>
-    <p-tabpanel value="0">
+<app-toolbar-form
+  [backExists]="true"
+  [backIcon]="'back-icon'"
+  [header]="viewOnly ? 'View Clones' : editMode ? 'Edit Clone' : 'Add Clone'"
+  [viewOnly]="viewOnly || editMode ? true : false"
+></app-toolbar-form>
+<form [formGroup]="parentForm" (ngSubmit)="onSubmit()">
+  <p-tabs styleClass="p-3">
+    <p-tabpanel header="Basic">
       <app-form
-        [title]="'Main Information'"
-        [description]="'Mandate Additional Term'"
-        [addMandateAdditionalTermForm]="true"
-        [formGroup]="addMandateAdditionalTermForm"
-        (submitForm)="addOrEditMandateAdditionalTerm()"
+        [title]="'Basic Information'"
+        [description]="
+          'Introduce your company core info quickly to users by fill up company details'
+        "
+        [addChildMandateShowBasicForm]="true"
+        [formGroup]="basicForm"
         [editMode]="editMode"
         [viewOnly]="viewOnly"
+        [clientNames]="clientNames$ | async"
+        [validityUnits]="validityUnits$ | async"
+        [products]="products$ | async"
+        [leasingTypes]="leasingTypes$ | async"
+        [insuredBy]="insuredBy$ | async"
       ></app-form>
+      <hr />
     </p-tabpanel>
-  </p-tabpanels>
-</p-tabs>
+    <p-tabpanel header="Officers">
+      <app-form
+        [title]="'Officers'"
+        [description]="'This information will be displayed publicly'"
+        [addChildMandateShowOfficersForm]="true"
+        [formGroup]="officersForm"
+        [editMode]="editMode"
+        [viewOnly]="viewOnly"
+        [officers]="officers$ | async"
+        (removeOfficer)="removeOfficer($event)"
+        (addOfficer)="addOfficer()"
+      ></app-form>
+      <hr />
+    </p-tabpanel>
+    <p-tabpanel header="Contact Persons">
+      <app-form
+        [title]="'Contact Persons'"
+        [description]="'This information will be displayed publicly'"
+        [addChildMandateShowContactPersonsForm]="true"
+        [formGroup]="contactsForm"
+        [editMode]="editMode"
+        [viewOnly]="viewOnly"
+        [contactPersonsList]="contactPersons$ | async"
+        (removeContactPerson)="removeContactPerson($event)"
+        [currentClientId]="basicForm.get('clientId')?.value"
+        (addContactPerson)="addContactPerson()"
+        (viewContactPersons)="viewContactPersons($event)"
+      ></app-form>
+      <hr />
+    </p-tabpanel>
+    <p-tabpanel header="Asset Types">
+      <app-form
+        [title]="'Asset Type'"
+        [description]="'This information will be displayed publicly'"
+        [addChildMandateShowAssetTypeForm]="true"
+        [formGroup]="assetsForm"
+        [editMode]="editMode"
+        [viewOnly]="viewOnly"
+        [assetTypesList]="assetTypes$ | async"
+        (removeAssetType)="removeAssetType($event)"
+        (addAssetType)="addAssetType()"
+      ></app-form>
+      <hr />
+    </p-tabpanel>
+    <p-tabpanel header="More Information">
+      <app-form
+        [title]="'More Information'"
+        [description]="
+          'Introduce your company core info quickly to users by fill up company details'
+        "
+        [addChildMandateShowMoreInformationForm]="true"
+        [formGroup]="moreInfoForm"
+        [editMode]="editMode"
+        [viewOnly]="viewOnly"
+        (removeFee)="removeFee($event)"
+        (addFee)="addFee()"
+        [gracePeriodUnitsList]="gracePeriodUnits$ | async"
+        [feesList]="feeTypes$ | async"
+      ></app-form>
+      <button
+        class="submit"
+        *ngIf="!editMode && !viewOnly"
+        pButton
+        type="submit"
+        label="Add Child Mandate"
+        style="float: right"
+      ></button>
+      <button
+        class="submit"
+        *ngIf="editMode && !viewOnly"
+        pButton
+        type="submit"
+        label="Edit Child Mandate"
+        style="float: right"
+      ></button>
+      <button
+        class="submit"
+        pButton
+        type="button"
+        label="Close"
+        style="float: right"
+        (click)="navigateToView()"
+        *ngIf="!editMode && viewOnly"
+      ></button>
+    </p-tabpanel>
+  </p-tabs>
+</form>

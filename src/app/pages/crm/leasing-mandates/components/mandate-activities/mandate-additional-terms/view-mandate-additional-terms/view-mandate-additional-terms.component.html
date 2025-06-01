@@ -14,23 +14,26 @@
     (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
 
-  <ng-container *ngIf="mandateAdditionalTerms$ | async as mandateAdditionalTerms">
+  <ng-container
+    *ngIf="mandateAdditionalTerms$ | async as mandateAdditionalTerms"
+  >
     <app-table
       #tableRef
       [cols]="colsInside"
       [tableData]="filteredMandateAdditionalTerms"
       [edit]="true"
+      [view]="true"
       [delete]="true"
       [side]="false"
+      [download]="false"
       [first]="first2"
       [checkBox]="true"
-      [view]="true"
       [filters]="showFilters"
       [uppercase]="'uppercase'"
       [viewMandateAdditionalTermsTable]="true"
       (onDelete)="onDeleteMandateAdditionalTerm($event)"
       (onEdit)="onEditMandateAdditionalTerm($event)"
-      (viewForm)="onViewMandateAdditionalTerm($event)"
+      (viewForm)="onViewMandateAdditionalTerms($event)"
     ></app-table>
     <app-delete-module
       [visible]="showDeleteModal"

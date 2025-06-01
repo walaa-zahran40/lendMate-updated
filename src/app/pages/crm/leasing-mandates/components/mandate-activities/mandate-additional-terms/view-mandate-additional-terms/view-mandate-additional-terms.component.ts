@@ -1,8 +1,16 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subject, Observable, combineLatest, of, map, takeUntil } from 'rxjs';
-import { MandateAdditionalTerm } from '../../../../store/mandate-additional-terms/mandate-additional-term.model';
+import {
+  Subject,
+  combineLatest,
+  filter,
+  map,
+  take,
+  takeUntil,
+  tap,
+} from 'rxjs';
 import { TableComponent } from '../../../../../../../shared/components/table/table.component';
+import { MandateAdditionalTerm } from '../../../../store/mandate-additional-terms/mandate-additional-term.model';
 import { MandateAdditionalTermsFacade } from '../../../../store/mandate-additional-terms/mandate-additional-terms.facade';
 
 @Component({
@@ -11,97 +19,88 @@ import { MandateAdditionalTermsFacade } from '../../../../store/mandate-addition
   templateUrl: './view-mandate-additional-terms.component.html',
   styleUrl: './view-mandate-additional-terms.component.scss',
 })
-export class ViewMandateAdditionalTermsComponent implements OnInit, OnDestroy {
+export class ViewMandateAdditionalTermsComponent {
   tableDataInside: MandateAdditionalTerm[] = [];
-  first2 = 0;
-  rows = 10;
-  showFilters = false;
+  first2: number = 0;
   private destroy$ = new Subject<void>();
-  mandateIdParam!: any;
-
+  mandateAdditionalTerms$ = this.facade.all$;
+  rows: number = 10;
+  showFilters: boolean = false;
   @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
-    { field: 'termKey', header: 'Term Key' },
     { field: 'description', header: 'Description' },
+    { field: 'termKey', header: 'Term Key' },
   ];
-
-  showDeleteModal = false;
+  showDeleteModal: boolean = false;
   selectedMandateAdditionalTermId: number | null = null;
-  originalMandateAdditionalTerms: MandateAdditionalTerm[] = [];
+  originalMandateAdditionalTerms: any[] = [];
   filteredMandateAdditionalTerms: MandateAdditionalTerm[] = [];
-
-  mandateAdditionalTerms$!: Observable<MandateAdditionalTerm[]>;
-
+  contactPersonsDropdown: any;
+  officersDropdown: any[] = [];
+  languagesDropdown: any[] = [];
+  routeId = this.route.snapshot.params['leasingId'];
+  leasingRouteId = this.route.snapshot.params['leasingMandatesId'];
   constructor(
     private router: Router,
     private facade: MandateAdditionalTermsFacade,
     private route: ActivatedRoute
   ) {}
-
   ngOnInit() {
-    // 1) grab the param
-    console.log('toue', this.route.snapshot);
-    const raw = this.route.snapshot.paramMap.get('leasingMandatesId');
-    this.mandateIdParam = raw !== null ? Number(raw) : undefined;
-    console.log('[View] ngOnInit → mandateIdParam =', this.mandateIdParam);
-
-    this.facade.loadById(this.mandateIdParam);
-    this.mandateAdditionalTerms$ = this.facade.all$;
-
-    if (this.mandateIdParam == null || isNaN(this.mandateIdParam)) {
-      console.error(
-        '❌ Missing or invalid mandateIdParam! Cannot load exchange rates.'
-      );
-      return;
-    }
-
-    combineLatest([this.mandateAdditionalTerms$ ?? of([])])
+    console.log('route', this.route.snapshot);
+    this.facade.loadById(this.leasingRouteId);
+    combineLatest([this.mandateAdditionalTerms$])
       .pipe(
-        map(([mandateAdditionalTerms]) => {
-          console.log('📦 Raw mandateAdditionalTerms:', mandateAdditionalTerms);
+        takeUntil(this.destroy$),
 
-          return mandateAdditionalTerms.sort((a, b) => b.id - a.id);
+        // 1️⃣ Log the raw mandates array
+        tap(([mandates]) => {
+          console.group('🚀 combineLatest payload');
+          console.log('Mandates:', mandates);
+          console.groupEnd();
         }),
-        takeUntil(this.destroy$)
+
+        // 2️⃣ Now map & flatten clientName out of clientView
+        map(([mandates]) =>
+          mandates
+            .slice()
+            .sort((a, b) => b.id! - a.id!)
+            .map((m) => {
+              const fromMandate = m.clientView?.clientName;
+
+              return {
+                ...m,
+              };
+            })
+        ),
+
+        // 3️⃣ Log the enriched array
+        tap((enriched) => console.log('Enriched tableDataInside:', enriched))
       )
-      .subscribe((result) => {
-        console.log('✅ Final result:', result);
-        this.filteredMandateAdditionalTerms = result;
-        this.originalMandateAdditionalTerms = result;
+      .subscribe((enriched) => {
+        this.tableDataInside = enriched;
+        this.originalMandateAdditionalTerms = enriched;
+        this.filteredMandateAdditionalTerms = enriched;
       });
   }
 
   onAddMandateAdditionalTerm() {
-    console.log('edioyt', this.mandateIdParam);
-    const routeId = this.route.snapshot.paramMap.get('mandateId');
-    this.router.navigate(
-      ['crm/leasing-mandates/add-mandate-additional-terms', routeId],
-      {
-        queryParams: {
-          mode: 'add',
-          mandateId: this.mandateIdParam, // <-- use "mandateId" here
-        },
-      }
-    );
+    this.router.navigate([
+      `/crm/leasing-mandates/add-mandate-additional-term/${this.routeId}/${this.leasingRouteId}`,
+    ]);
   }
 
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
   }
-
-  onDeleteMandateAdditionalTerm(mandateAdditionalTermId: number): void {
-    console.log(
-      '[View] onDeleteMandateAdditionalTerm() – opening modal for id=',
-      mandateAdditionalTermId
-    );
-    this.selectedMandateAdditionalTermId = mandateAdditionalTermId;
+  onDeleteMandateAdditionalTerm(mandateAdditionalTermsId: number): void {
+    this.selectedMandateAdditionalTermId = mandateAdditionalTermsId;
     this.showDeleteModal = true;
   }
 
   confirmDelete() {
-    if (this.selectedMandateAdditionalTermId != null) {
+    if (this.selectedMandateAdditionalTermId !== null) {
       this.facade.delete(this.selectedMandateAdditionalTermId);
     }
     this.resetDeleteModal();
@@ -115,48 +114,44 @@ export class ViewMandateAdditionalTermsComponent implements OnInit, OnDestroy {
     this.showDeleteModal = false;
     this.selectedMandateAdditionalTermId = null;
   }
-
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
     this.filteredMandateAdditionalTerms =
-      this.originalMandateAdditionalTerms.filter((clientSales) =>
-        Object.values(clientSales).some((val) =>
+      this.originalMandateAdditionalTerms.filter((mandate) =>
+        Object.values(mandate).some((val) =>
           val?.toString().toLowerCase().includes(lower)
         )
       );
   }
-
   onToggleFilters(value: boolean) {
     this.showFilters = value;
   }
-
-  onEditMandateAdditionalTerm(mandateAdditionalTerm: MandateAdditionalTerm) {
-    console.log('edioyt', this.mandateIdParam);
+  onEditMandateAdditionalTerm(mandate: MandateAdditionalTerm) {
+    console.log('mandate', mandate);
     this.router.navigate(
       [
-        'crm/leasing-mandates/edit-mandate-additional-terms',
-        mandateAdditionalTerm.id,
+        '/crm/leasing-mandates/edit-mandate-additional-term',
+        mandate.id,
+        mandate.mandateId,
       ],
       {
         queryParams: {
           mode: 'edit',
-          mandateId: this.mandateIdParam, // <-- use "mandateId" here
         },
       }
     );
   }
-
-  onViewMandateAdditionalTerm(mandateAdditionalTerm: MandateAdditionalTerm) {
-    console.log('route', this.route.snapshot);
+  onViewMandateAdditionalTerms(mandate: MandateAdditionalTerm) {
+    console.log('mandate', mandate);
     this.router.navigate(
       [
-        'crm/leasing-mandates/edit-mandate-additional-terms',
-        mandateAdditionalTerm.id,
+        '/crm/leasing-mandates/add-mandate-additional-term',
+        mandate.id,
+        mandate.mandateId,
       ],
       {
         queryParams: {
           mode: 'view',
-          mandateId: this.mandateIdParam, // <-- and here
         },
       }
     );

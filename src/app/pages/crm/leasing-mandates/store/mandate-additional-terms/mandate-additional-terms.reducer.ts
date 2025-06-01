@@ -72,25 +72,10 @@ export const reducer = createReducer(
     loading: false,
     error,
   })),
-  on(MandateAdditionalTermActions.loadByIdSuccess, (state, { entity }) => {
-    console.log('🗄️ Reducer: loadByIdSuccess, before:', {
-      loadedId: state.loadedId,
-      entities: state.entities,
-    });
+  on(MandateAdditionalTermActions.loadByIdSuccess, (state, { entities }) =>
+    adapter.setAll(entities, { ...state, loadedId: null })
+  ),
 
-    const newState = adapter.upsertOne(entity, {
-      ...state,
-      loading: false,
-      loadedId: entity.id ?? null,
-    });
-
-    console.log('🗄️ Reducer: loadByIdSuccess, after:', {
-      loadedId: newState.loadedId,
-      entities: newState.entities,
-    });
-
-    return newState;
-  }),
   on(
     MandateAdditionalTermActions.clearSelectedMandateAdditionalTerm,
     (state) => ({

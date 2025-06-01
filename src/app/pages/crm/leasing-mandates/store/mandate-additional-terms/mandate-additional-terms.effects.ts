@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { tap, mergeMap, map, catchError, of, exhaustMap } from 'rxjs';
-import { EntityNames } from '../../../../../shared/constants/entity-names';
-import { MandateAdditionalTerm } from './mandate-additional-term.model';
-import { MandateAdditionalTermsFacade } from './mandate-additional-terms.facade';
 import { MandateAdditionalTermsService } from './mandate-additional-terms.service';
 import * as ActionsList from './mandate-additional-terms.actions';
+import { catchError, exhaustMap, map, mergeMap, of, tap } from 'rxjs';
+import { MandateAdditionalTerm } from './mandate-additional-term.model';
+import { EntityNames } from '../../../../../shared/constants/entity-names';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MandateAdditionalTermsFacade } from './mandate-additional-terms.facade';
+
 @Injectable()
 export class MandateAdditionalTermsEffects {
   constructor(
@@ -45,14 +46,14 @@ export class MandateAdditionalTermsEffects {
           tap((entity) =>
             console.log('[Effects] HTTP returned entity:', entity)
           ),
-          map((raw) => {
-            // Rebuild the entity with a guaranteed subSectorIdList
-            const entity: MandateAdditionalTerm = {
-              ...raw,
-            };
+          map((rawEntities) => {
+            // Convert object of keyed entities into array
+            const entities: MandateAdditionalTerm[] = Array.isArray(rawEntities)
+              ? rawEntities
+              : Object.values(rawEntities); // in case it's an object with keys 0,1,2,...
 
-            console.log('[Effects] normalized entity:', entity);
-            return ActionsList.loadByIdSuccess({ entity });
+            console.log('[Effects] normalized entities:', entities);
+            return ActionsList.loadByIdSuccess({ entities });
           }),
           catchError((error) => {
             console.error('[Effects] loadById FAILURE', error);
@@ -67,10 +68,10 @@ export class MandateAdditionalTermsEffects {
     () =>
       this.actions$.pipe(
         ofType(ActionsList.loadByIdSuccess),
-        tap(({ entity }) =>
+        tap(({ entities }) =>
           console.log(
-            '✨ Effect: loadByIdSuccess action caught, entity:',
-            entity
+            '✨ Effect: loadByIdSuccess action caught, entities:',
+            entities
           )
         )
       ),
@@ -82,13 +83,20 @@ export class MandateAdditionalTermsEffects {
     this.actions$.pipe(
       ofType(ActionsList.createMandateAdditionalTerm), // ← use the action creator imported above
       mergeMap(({ payload }) => {
-        // Ensure mandateId is present and is a number
-        if (typeof payload.mandateId !== 'number') {
-          throw new Error('mandateId is required and must be a number');
+        // Ensure mandateId is present and not undefined
+        if (payload.mandateId === undefined) {
+          return of(
+            ActionsList.createMandateAdditionalTermFailure({
+              error: new Error('mandateId is required'),
+            })
+          );
         }
-        // Remove id if present, as per Omit<MandateAdditionalTerm, "id">
-        const { id, ...rest } = payload as MandateAdditionalTerm;
-        return this.service.create(rest).pipe(
+        // Cast payload to Omit<MandateAdditionalTerm, "id">
+        const createPayload = {
+          ...payload,
+          mandateId: payload.mandateId as number,
+        } as Omit<MandateAdditionalTerm, 'id'>;
+        return this.service.create(createPayload).pipe(
           map((result) =>
             ActionsList.createMandateAdditionalTermSuccess({
               mandateAdditionalTerm: result,
