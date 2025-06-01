@@ -23,6 +23,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DialogModule } from 'primeng/dialog';
+import { ViewMonitorFollowupsComponent } from './monitor-followups/view-monitor-followups/view-monitor-followups.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { DialogModule } from 'primeng/dialog';
     ViewCallComponent,
     ViewCallTypesComponent,
     SaveMeetingComponent,
+    ViewMonitorFollowupsComponent,
   ],
   imports: [
     CommonModule,

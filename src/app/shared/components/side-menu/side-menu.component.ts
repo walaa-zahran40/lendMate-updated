@@ -44,97 +44,97 @@ export class SideMenuComponent {
             icon: 'pi pi-user-plus',
             routerLink: '/crm/clients/view-clients',
           },
-          {
-            label: 'Client Address',
-            icon: 'pi pi-user-plus',
-            routerLink: `/crm/clients/view-client-addresses/${this.clientId}`,
-          },
-          {
-            label: 'ClientCentralBank',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-central-bank-info',
-          },
-          {
-            label: 'ClientCompanyBusinessDetails',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/company-view-only',
-          },
-          {
-            label: 'ClientCRAuthorityOffice',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-cr-authority-office',
-          },
-          {
-            label: 'ClientDocumentType',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-document-types',
-          },
+          // {
+          //   label: 'Client Address',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: `/crm/clients/view-client-addresses/${this.clientId}`,
+          // },
+          // {
+          //   label: 'ClientCentralBank',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/crm/clients/view-central-bank-info',
+          // },
+          // {
+          //   label: 'ClientCompanyBusinessDetails',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/crm/clients/company-view-only',
+          // },
+          // {
+          //   label: 'ClientCRAuthorityOffice',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/crm/clients/view-cr-authority-office',
+          // },
+          // {
+          //   label: 'ClientDocumentType',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/lookups/view-document-types',
+          // },
 
-          {
-            label: 'ClientGuarantor',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-client-guarantors',
-          },
-          {
-            label: 'ClientIdentity',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-client-identity-types',
-          },
-          {
-            label: 'ClientIndividualBusinessDetail',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-client-individual-business-detail',
-          },
-          {
-            label: 'ClientLegal',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-client-legal',
-          },
-          {
-            label: 'ClientOfficer',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-client-officer',
-          },
-          {
-            label: 'ClientPhoneNumber',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-phone-numbers',
-          },
-          {
-            label: 'ClientSalesTurnovers',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-sales-turnovers',
-          },
-          {
-            label: 'ClientShareHolder',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-share-holder',
-          },
-          {
-            label: 'ClientFile',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-upload-documents',
-          },
-          {
-            label: 'ClientTaxOffice',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-tax-authority-office',
-          },
-          {
-            label: 'ClientTMLOfficer',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-tml-officer',
-          },
-          {
-            label: 'ClientOfficer',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-client-officers',
-          },
-          {
-            label: 'ContactPerson',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-contact-persons',
-          },
+          // {
+          //   label: 'ClientGuarantor',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/crm/clients/view-client-guarantors',
+          // },
+          // {
+          //   label: 'ClientIdentity',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/crm/clients/view-client-identity-types',
+          // },
+          // {
+          //   label: 'ClientIndividualBusinessDetail',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/crm/clients/view-client-individual-business-detail',
+          // },
+          // {
+          //   label: 'ClientLegal',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/crm/clients/view-client-legal',
+          // },
+          // {
+          //   label: 'ClientOfficer',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/crm/clients/view-client-officer',
+          // },
+          // {
+          //   label: 'ClientPhoneNumber',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/crm/clients/view-phone-numbers',
+          // },
+          // {
+          //   label: 'ClientSalesTurnovers',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/crm/clients/view-sales-turnovers',
+          // },
+          // {
+          //   label: 'ClientShareHolder',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/crm/clients/view-share-holder',
+          // },
+          // {
+          //   label: 'ClientFile',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/crm/clients/view-upload-documents',
+          // },
+          // {
+          //   label: 'ClientTaxOffice',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/crm/clients/view-tax-authority-office',
+          // },
+          // {
+          //   label: 'ClientTMLOfficer',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/crm/clients/view-tml-officer',
+          // },
+          // {
+          //   label: 'ClientOfficer',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/crm/clients/view-client-officers',
+          // },
+          // {
+          //   label: 'ContactPerson',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/crm/clients/view-contact-persons',
+          // },
         ],
       },
       {
@@ -169,7 +169,7 @@ export class SideMenuComponent {
           {
             label: 'MonitorFollowUps',
             icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
+            routerLink: '/communication/view-monitor-followups',
           },
         ],
       },
@@ -326,21 +326,21 @@ export class SideMenuComponent {
             icon: 'pi pi-user-plus',
             routerLink: '/crm/leasing-mandates/view-mandates',
           },
-          {
-            label: 'MandateAdditionalTerm',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/leasing-mandates/view-manage-mandate-terms',
-          },
-          {
-            label: 'MandateFees',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/leasing-mandates/view-manage-mandate-termss',
-          },
-          {
-            label: 'MandateFinancialActivity',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/leasing-mandates/leasing-financial-form-compound',
-          },
+          // {
+          //   label: 'MandateAdditionalTerm',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/crm/leasing-mandates/view-manage-mandate-terms',
+          // },
+          // {
+          //   label: 'MandateFees',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/crm/leasing-mandates/view-manage-mandate-termss',
+          // },
+          // {
+          //   label: 'MandateFinancialActivity',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/crm/leasing-mandates/leasing-financial-form-compound',
+          // },
         ],
       },
     ],
@@ -636,7 +636,7 @@ export class SideMenuComponent {
           {
             label: 'FeesRange',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-fees-range',
+            routerLink: '/lookups/view-fee-ranges',
           },
           {
             label: 'FeeCalculationType',
@@ -700,22 +700,22 @@ export class SideMenuComponent {
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-call-action-types',
           },
-          {
-            label: 'Call Officer Types',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-call-action-types',
-          },
+          // {
+          //   label: 'Call Officer Types',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/lookups/view-call-action-types',
+          // },
           {
             label: 'Call Types',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-call-types',
           },
 
-          {
-            label: 'Client Identity Types',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-client-types',
-          },
+          // {
+          //   label: 'Client Identity Types',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/lookups/view-client-identity-types',
+          // },
           {
             label: 'Client Types',
             icon: 'pi pi-user-plus',
@@ -809,11 +809,11 @@ export class SideMenuComponent {
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-leasing-types',
           },
-          {
-            label: 'Mandate Payment Settings',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-mandate-validity-unit',
-          },
+          // {
+          //   label: 'Mandate Payment Settings',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/lookups/view-mandate-validity-unit',
+          // },
           {
             label: 'Mandate Validity Unit',
             icon: 'pi pi-user-plus',

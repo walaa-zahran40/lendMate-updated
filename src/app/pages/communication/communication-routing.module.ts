@@ -15,6 +15,7 @@ import { ViewCallComponent } from './calls/view-call/view-call.component';
 import { ViewCallTypesComponent } from './call-types/view-call-types/view-call-types.component';
 import { SaveMeetingComponent } from './meetings/save-meeting/save-meeting.component';
 import { ViewAssetTypeCategoriesComponent } from '../lookups/components/asset-type-categories/view-asset-type-categories/view-asset-type-categories.component';
+import { ViewMonitorFollowupsComponent } from './monitor-followups/view-monitor-followups/view-monitor-followups.component';
 
 const routes: Routes = [
   {
@@ -78,6 +79,10 @@ const routes: Routes = [
   {
     path: 'save-meeting',
     component: SaveMeetingComponent,
+  },
+  {
+    path: 'view-monitor-followups',
+    component: ViewMonitorFollowupsComponent,
   },
 ];
 
