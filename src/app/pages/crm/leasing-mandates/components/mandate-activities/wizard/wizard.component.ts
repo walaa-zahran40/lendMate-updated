@@ -52,7 +52,7 @@ export class WizardComponent implements OnInit {
         {
           imgUrl: '/assets/images/shared/card/mandate-manage.svg',
           imgAlt: 'mandate',
-          title: 'Manage Mandate Terms',
+          title: 'Mandate Additional Terms',
           content: 'Edit or review your mandate’s T&Cs…',
           link: `/crm/leasing-mandates/view-mandate-additional-terms/${id}/${this.routeId}`,
         },

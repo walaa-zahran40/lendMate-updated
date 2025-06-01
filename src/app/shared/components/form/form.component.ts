@@ -589,6 +589,8 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() operationsList: any;
   @Input() operationsList$!: any;
   @Input() addClientGuarantorsLookupsForm!: boolean;
+  routeId = this.route.snapshot.params['leasingId'];
+  leasingRouteId = this.route.snapshot.params['leasingMandatesId'];
 
   @Input() operationIdValue!: any;
   clientDocId!: any;
@@ -791,7 +793,7 @@ export class FormComponent implements OnInit, OnDestroy {
 
   viewMandateAdditionalTerms() {
     this.router.navigate([
-      `/organizations/view-mandate-additional-terms/${this.branchIdParam}`,
+      `/crm/leasing-mandates/view-mandate-additional-terms/${this.routeId}/${this.leasingRouteId}`,
     ]);
   }
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { MandateAdditionalTermsService } from './mandate-additional-terms.service';
 import * as ActionsList from './mandate-additional-terms.actions';
-import { catchError, exhaustMap, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, exhaustMap, filter, map, mergeMap, of, tap } from 'rxjs';
 import { MandateAdditionalTerm } from './mandate-additional-term.model';
 import { EntityNames } from '../../../../../shared/constants/entity-names';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -115,9 +115,11 @@ export class MandateAdditionalTermsEffects {
     () =>
       this.actions$.pipe(
         ofType(ActionsList.createMandateAdditionalTermSuccess),
-        tap(() => {
-          // 1) re-fetch the full leasing-mandates list
-          this.mandatesFacade.loadAll();
+        tap(({ mandateAdditionalTerm }) => {
+          const mandateId = mandateAdditionalTerm?.mandateId;
+          if (mandateId) {
+            this.mandatesFacade.loadById(mandateId);
+          }
         })
       ),
     { dispatch: false }
@@ -158,7 +160,35 @@ export class MandateAdditionalTermsEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map((action) => {
+        let mandateId: number | null = null;
+
+        if (
+          'mandateAdditionalTerm' in action &&
+          action.mandateAdditionalTerm &&
+          typeof action.mandateAdditionalTerm === 'object' &&
+          'mandateId' in action.mandateAdditionalTerm
+        ) {
+          // From createEntitySuccess
+          mandateId = (action.mandateAdditionalTerm as { mandateId: number })
+            .mandateId;
+        } else if ('changes' in action && action.changes?.mandateId) {
+          // From updateEntitySuccess
+          mandateId = action.changes.mandateId;
+        } else {
+          // You can optionally skip deleteEntitySuccess or handle it if needed
+          console.warn('⚠️ mandateId missing from action:', action);
+        }
+
+        if (mandateId == null) {
+          // Skip if mandateId not available
+          return { type: '[MandateAdditionalTerms] No-op' };
+        }
+
+        return ActionsList.loadById({ id: mandateId });
+      }),
+      // Optional: filter out No-op actions
+      filter((action) => action.type !== '[MandateAdditionalTerms] No-op')
     )
   );
 }

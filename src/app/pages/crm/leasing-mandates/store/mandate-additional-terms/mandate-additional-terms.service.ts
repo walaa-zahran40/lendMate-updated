@@ -14,7 +14,7 @@ export class MandateAdditionalTermsService {
     console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: MandateAdditionalTerm[]; totalCount: number }>(
-        `${this.baseUrl}/GetAllLeasingMandates`
+        `${this.baseUrl}/GetAllMandateAdditionalTerms`
       )
       .pipe(
         tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
@@ -36,7 +36,7 @@ export class MandateAdditionalTermsService {
     payload: Omit<MandateAdditionalTerm, 'id'>
   ): Observable<MandateAdditionalTerm> {
     return this.http.post<MandateAdditionalTerm>(
-      `${this.baseUrl}/CreateLeasingMandate`,
+      `${this.baseUrl}/CreateMandateAdditionalTerm`,
       payload
     );
   }
