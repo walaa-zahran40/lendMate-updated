@@ -12,6 +12,8 @@ import { filter, take, tap } from 'rxjs';
 export class WizardComponent implements OnInit {
   cards: any[][] = [];
   private businessMandateId!: number;
+  originalCards: any[] = [];
+
   routeId = this.route.snapshot.params['leasingMandatesId'];
   constructor(
     private router: Router,
@@ -40,27 +42,48 @@ export class WizardComponent implements OnInit {
 
   private buildCards() {
     const id = this.businessMandateId;
-    this.cards = [
-      [
-        {
-          imgUrl: '/assets/images/shared/card/clone.svg',
-          imgAlt: 'clone',
-          title: 'Clone',
-          content: 'Quickly spin up a copy of this mandate…',
-          link: `/crm/leasing-mandates/add-child-mandate/${id}/${this.routeId}`,
-        },
-        {
-          imgUrl: '/assets/images/shared/card/mandate-manage.svg',
-          imgAlt: 'mandate',
-          title: 'Mandate Additional Terms',
-          content: 'Edit or review your mandate’s T&Cs…',
-          link: `/crm/leasing-mandates/view-mandate-additional-terms/${id}/${this.routeId}`,
-        },
-      ],
+    this.originalCards = [
+      {
+        imgUrl: '/assets/images/shared/card/clone.svg',
+        imgAlt: 'clone',
+        title: 'Clone',
+        content: 'Quickly spin up a copy of this mandate…',
+        link: `/crm/leasing-mandates/add-child-mandate/${id}/${this.routeId}`,
+      },
+      {
+        imgUrl: '/assets/images/shared/card/mandate-manage.svg',
+        imgAlt: 'mandate',
+        title: 'Mandate Additional Terms',
+        content: 'Edit or review your mandate’s T&Cs…',
+        link: `/crm/leasing-mandates/view-mandate-additional-terms/${id}/${this.routeId}`,
+      },
     ];
+
+    this.cards = this.chunkArray(this.originalCards, 3);
+    console.log('🧩 Built cards:', this.originalCards);
+    console.log('🔀 Chunked cards:', this.cards);
   }
 
   navigateTo(link: string) {
     this.router.navigate([link]);
+  }
+  onSearchMandate(keyword: string) {
+    const lower = keyword.toLowerCase();
+    const filtered = this.originalCards.filter((card) =>
+      Object.values(card).some((val) =>
+        val?.toString().toLowerCase().includes(lower)
+      )
+    );
+
+    this.cards = this.chunkArray(filtered, 3); // 3 per row
+    console.log('Original Cards:', this.originalCards);
+    console.log('Chunked Cards:', this.cards);
+  }
+  chunkArray(arr: any[], chunkSize: number): any[][] {
+    const result = [];
+    for (let i = 0; i < arr.length; i += chunkSize) {
+      result.push(arr.slice(i, i + chunkSize));
+    }
+    return result;
   }
 }
