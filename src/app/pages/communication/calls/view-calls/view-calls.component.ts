@@ -66,7 +66,8 @@ export class ViewCallsComponent {
         ...call,
         clientName: client?.name || 'N/A',
         callTypeName: callType?.name || 'N/A',
-        topic : call.communication?.topic
+        topic : call.communication?.topic,
+        date : call.communication?.date
       };
     });
 
