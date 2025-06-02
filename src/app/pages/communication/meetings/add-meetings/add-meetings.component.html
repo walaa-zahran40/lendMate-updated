@@ -1,0 +1,25 @@
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-form
+        [title]="'Main Information'"
+        [description]="'Call'"
+        [addCallForm]="true"
+        [clientsList]="clients$ | async"
+        [callTypes]="callTypes$ | async"
+        [callActionTypes]="callActionTypes$ | async"
+        [communicationFlowTypes]="communicationFlowTypes$ | async"
+        [formGroup]="addCallForm"
+        (submitForm)="addOrEditCall()"
+        [editMode]="editMode"
+        [contactPersons]="contactPersons$ | async"
+        [officersList]="officers$ | async"
+        [viewOnly]="viewOnly"
+        (removeCommunicationContactPerson)="removeCommunicationContactPerson($event)"
+        (addCommunicationContactPerson)="addCommunicationContactPerson()"
+        (removeCommunicationOfficer)="removeCommunicationOfficer($event)"
+        (addCommunicationOfficer)="addCommunicationOfficer()"
+      ></app-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AddMeetingComponent } from './meetings/add-meeting/add-meeting.component';
 import { AddFollowUpsComponent } from './follow-ups/add-follow-ups/add-follow-ups.component';
 import { AddFollowUpsPointsComponent } from './follow-ups-points/add-follow-ups-points/add-follow-ups-points.component';
 import { AddMeetingTypesComponent } from './meeting-types/add-meeting-types/add-meeting-types.component';
 import { AddCallTypesComponent } from './call-types/add-call-types/add-call-types.component';
-import { ViewMeetingsComponent } from './meetings/view-meetings/view-meetings.component';
 import { WizardComponent } from './meetings/wizard/wizard.component';
 import { ViewFollowUpsComponent } from './follow-ups/view-follow-ups/view-follow-ups.component';
 import { ViewFollowUpPointsComponent } from './follow-ups-points/view-follow-up-points/view-follow-up-points.component';
@@ -16,6 +14,8 @@ import { ViewAssetTypeCategoriesComponent } from '../lookups/components/asset-ty
 import { ViewMonitorFollowupsComponent } from './monitor-followups/view-monitor-followups/view-monitor-followups.component';
 import { AddCallsComponent } from './calls/add-calls/add-calls.component';
 import { ViewCallsComponent } from './calls/view-calls/view-calls.component';
+import { AddMeetingsComponent } from './meetings/add-meetings/add-meetings.component';
+import { ViewMeetingsComponent } from './meetings/view-meetings/view-meetings.component';
 
 const routes: Routes = [
   //Calls
@@ -32,10 +32,20 @@ const routes: Routes = [
     component: ViewCallsComponent,
   },
 
-  {
-    path: 'add-meeting',
-    component: AddMeetingComponent,
+  // meeting 
+   {
+    path: 'add-meetings',
+    component: AddMeetingsComponent,
   },
+  {
+    path: 'edit-meetings/:id',
+    component: AddMeetingsComponent,
+  },
+  {
+    path: 'view-meetings',
+    component: ViewMeetingsComponent,
+  },
+
   {
     path: 'add-follow-up',
     component: AddFollowUpsComponent,
