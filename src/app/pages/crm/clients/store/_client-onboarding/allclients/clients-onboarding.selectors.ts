@@ -41,3 +41,7 @@ export const selectClientsOnboardingTotalCount = createSelector(
   selectClientsOnboardingFeature,
   (state) => state
 );
+export const selectWorkflowActionSuccess = createSelector(
+  selectFeature,
+  fromSlice.reducer
+);

@@ -151,4 +151,24 @@ export class ClientsOnboardingEffects {
       map(() => ClientsOnboardingActions.loadAll({}))
     )
   );
+
+  performWorkflow$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClientsOnboardingActions.performWorkflowActionEntity),
+      mergeMap(({ id, changes }) =>
+        this.service.performWorkflowAction(id, changes).pipe(
+          mergeMap(() => [
+            ClientsOnboardingActions.performWorkflowActionEntitySuccess({ id, changes }),
+            ClientsOnboardingActions.entityOperationSuccess({
+              entity: EntityNames.Client,
+              operation: 'update',
+            }),
+          ]),
+          catchError((error) =>
+            of(ClientsOnboardingActions.performWorkflowActionEntityFailure({ error }))
+          )
+        )
+      )
+    )
+  );
 }

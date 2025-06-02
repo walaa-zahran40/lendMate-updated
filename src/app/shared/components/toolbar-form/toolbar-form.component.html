@@ -27,11 +27,32 @@
   </ng-template>
 
   <ng-template #end>
+    <!-- ✅ Correct -->
     <p-splitButton
+      [label]="selectedActionLabel || 'Workflow Actions'"
+      icon="pi pi-cog"
+      [model]="workFlowItems"
+      appendTo="body"
+      class="work-actions"
+      >
+            <!-- *ngIf="!viewOnly" -->
+    </p-splitButton>
+
+    <!-- <p-splitButton
       label="Workflow Actions"
-      [model]="items"
+      [model]="items2"
       class="work-actions"
       *ngIf="!viewOnly"
-    />
+    /> -->
   </ng-template>
+
+<app-workflow-dialog
+  [selectedActionLabel]="selectedActionLabel"
+  [selectedActionId]="selectedActionId"
+  [comment]="comment"
+  [(visible)]="showCommentDialog"
+  (onSaveAction)="submitWorkflowAction($event)"
+  >
+</app-workflow-dialog>
+  
 </p-toolbar>
