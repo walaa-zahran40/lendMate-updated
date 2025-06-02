@@ -28,7 +28,7 @@ export class CallsService {
   }
 
   getById(id: number): Observable<Call> {
-    return this.http.get<Call>(`${this.baseUrl}/CallId?id=${id}`);
+    return this.http.get<Call>(`${this.baseUrl}/CallId?callId=${id}`);
   }
 
   create(payload: Omit<Call, 'id'>): Observable<Call> {

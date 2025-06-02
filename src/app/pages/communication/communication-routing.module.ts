@@ -23,7 +23,7 @@ const routes: Routes = [
     component: AddCallsComponent,
   },
   {
-    path: 'add-calls',
+    path: 'edit-calls/:id',
     component: AddCallsComponent,
   },
   {

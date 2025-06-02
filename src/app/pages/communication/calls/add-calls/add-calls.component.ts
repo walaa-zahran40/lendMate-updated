@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject, Observable, forkJoin, filter, take, takeUntil } from 'rxjs';
+import { Subject, Observable, forkJoin, filter, take, takeUntil, map, distinctUntilChanged } from 'rxjs';
 import { CallsFacade } from '../../store/calls/calls.facade';
 import { Client } from '../../../crm/clients/store/_clients/allclients/client.model';
 import { ClientsFacade } from '../../../crm/clients/store/_clients/allclients/clients.facade';
@@ -80,8 +80,10 @@ export class AddCallsComponent implements OnInit, OnDestroy {
     this.officers$ = this.officersFacade.items$;
     
     this.contactPersonsFacade.loadAll();
-    this.contactPersons$ = this.contactPersonsFacade.items$;
+    // this.contactPersons$ = this.contactPersonsFacade.items$;
 
+     this.contactPersons$ = this.contactPersonsFacade.items$.pipe(
+          map((list) => list || []));
 
     // Read mode and set flags
     this.mode = (this.route.snapshot.queryParamMap.get('mode') as any) ?? 'add';
@@ -108,6 +110,8 @@ export class AddCallsComponent implements OnInit, OnDestroy {
 
     // Patch for edit/view mode
     if (this.editMode || this.viewOnly) {
+      this.recordId = Number (this.route.snapshot.paramMap.get('id'));
+      this.callFacade.loadById(this.recordId);
       this.callFacade.selected$
         .pipe(
           takeUntil(this.destroy$),
@@ -176,16 +180,16 @@ export class AddCallsComponent implements OnInit, OnDestroy {
         });
     }
 
-    // this.basicForm
-    //       .get('clientId')!
-    //       .valueChanges.pipe(
-    //         filter((id) => !!id),
-    //         distinctUntilChanged()
-    //       )
-    //       .subscribe((clientId) => {
-    //         // load only that client’s people into “items”
-    //         this.contactPersonsFacade.loadByClientId(clientId);
-    //       });
+    this.addCallForm
+          .get('clientId')!
+          .valueChanges.pipe(
+            filter((id) => !!id),
+            distinctUntilChanged()
+          )
+          .subscribe((clientId) => {
+            // load only that client’s people into “items”
+            this.contactPersonsFacade.loadByClientId(clientId);
+          });
   }
 
   get communicationContactPersons(): FormArray {
@@ -241,7 +245,7 @@ createCommunicationOfficerGroup(): FormGroup {
 
   addOrEditCall() {
     console.log('🛣️ Route snapshot:', this.route.snapshot);
-    const clientIdParam = this.route.snapshot.queryParamMap.get('clientId');
+    const recordId = this.route.snapshot.queryParamMap.get('id');
 
     // 4) Early return in view-only
     if (this.viewOnly) {
@@ -336,15 +340,7 @@ createCommunicationOfficerGroup(): FormGroup {
     }
     console.log('route', this.route.snapshot);
 
-    if (clientIdParam) {
-      console.log('➡️ Navigating back with PATH param:', clientIdParam);
-      this.router.navigate([
-        '/communication/view-calls',
-        clientIdParam,
-      ]);
-    } else {
-      console.error('❌ Cannot navigate back: clientId is missing!');
-    }
+    this.router.navigate(['/communication/view-calls']);
   }
 
   get communicationOfficersArray(): FormArray {
