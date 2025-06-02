@@ -12,7 +12,7 @@ import { ViewOfficersComponent } from './components/mandate-activities/view-offi
 import { ViewContactPersonsComponent } from './components/mandate-activities/view-contact-persons/view-contact-persons.component';
 import { ViewAssetTypeComponent } from './components/mandate-activities/view-asset-type/view-asset-type.component';
 import { WizardComponent } from './components/mandate-activities/wizard/wizard.component';
-import { LeasingFinancialFormCompoundComponent } from './components/leasing-financial-form-compound/leasing-financial-form-compound.component';
+import { LeasingFinancialFormCompoundComponent } from './components/mandate-activities/leasing-financial-form/leasing-financial-form-compound.component';
 import { ViewCalculationsComponent } from './components/mandate-activities/view-calculations/view-calculations.component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';

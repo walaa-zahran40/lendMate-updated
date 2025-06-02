@@ -29,9 +29,7 @@ import { AddClientOnboardingComponent } from './clients/components/clients/clien
 import { ViewClientsOnboardingComponent } from './clients/components/clients/client-onboarding/view-clients-onboarding/view-clients-onboarding.component';
 import { AddClientComponent } from './clients/components/clients/company-individual/add-client/add-client.component';
 import { ViewClientsComponent } from './clients/components/clients/company-individual/view-clients/view-clients.component';
-import { CompanyViewOnlyComponent } from './clients/components/clients/company-view-only/company-view-only.component';
-import { LeasingFinancialFormCompoundComponent } from './leasing-mandates/components/leasing-financial-form-compound/leasing-financial-form-compound.component';
-import { LeasingFinancialFormComponent } from './leasing-mandates/components/leasing-financial-form/leasing-financial-form.component';
+import { LeasingFinancialFormCompoundComponent } from './leasing-mandates/components/mandate-activities/leasing-financial-form/leasing-financial-form-compound.component';
 import { AddChildMandateComponent } from './leasing-mandates/components/mandate-activities/clone/add-child-mandate/add-child-mandate.component';
 import { ViewAssetTypeComponent } from './leasing-mandates/components/mandate-activities/view-asset-type/view-asset-type.component';
 import { ViewCalculationsComponent } from './leasing-mandates/components/mandate-activities/view-calculations/view-calculations.component';
@@ -374,10 +372,10 @@ const routes: Routes = [
     path: 'leasing-mandates/view-mandate-additional-terms/:leasingId/:leasingMandatesId',
     component: ViewMandateAdditionalTermsComponent,
   },
-  //----
+  //Leasing Financial Form
   {
     path: 'leasing-mandates/leasing-financial-form',
-    component: LeasingFinancialFormComponent,
+    component: LeasingFinancialFormCompoundComponent,
   },
 
   {
@@ -388,10 +386,6 @@ const routes: Routes = [
   {
     path: 'leasing-mandates/view-calculations',
     component: ViewCalculationsComponent,
-  },
-  {
-    path: 'leasing-mandates/leasing-financial-form-compound',
-    component: LeasingFinancialFormCompoundComponent,
   },
 ];
 

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Calculation } from '../../../../../shared/interfaces/calculations.interface';
+import { Calculation } from '../../../../../../shared/interfaces/calculations.interface';
 
 @Component({
   selector: 'app-leasing-financial-form-compound',
