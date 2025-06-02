@@ -3,7 +3,7 @@ import { createSelector, Store } from '@ngrx/store';
 import * as Actions from './clients-onboarding.actions';
 import * as Selectors from './clients-onboarding.selectors';
 import { selectLastOperationSuccess } from '../../../../../../shared/store/ui.selectors';
-import { ClientOnboarding } from './client-onboarding.model';
+import { ClientOnboarding, ClientWorkFlowAction } from './client-onboarding.model';
 
 @Injectable({ providedIn: 'root' })
 export class ClientsOnboardingFacade {
@@ -18,6 +18,8 @@ export class ClientsOnboardingFacade {
     )
   );
   operationSuccess$ = this.store.select(selectLastOperationSuccess);
+  workFlowActionSuccess$ = this.store.select(selectLastOperationSuccess);
+
   constructor(private store: Store) {}
 
   loadAll(pageNumber?: number) {
@@ -41,5 +43,8 @@ export class ClientsOnboardingFacade {
   }
   clearSelected() {
     this.store.dispatch(Actions.clearSelectedClientOnboarding());
+  }
+  performWorkflowAction(id: number, changes: Partial<ClientWorkFlowAction>) {
+    this.store.dispatch(Actions.performWorkflowActionEntity({ id, changes }));
   }
 }

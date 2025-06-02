@@ -58,6 +58,7 @@ import { MessageService } from 'primeng/api';
 import { GlobalSpinnerComponent } from './global-spinner/global-spinner.component';
 import { SharedDatePickerComponent } from './shared-date-picker/shared-date-picker.component';
 import { DownloadPopupComponent } from './download-popup/download-popup.component';
+import { WorkflowDialogComponent } from './workflow-dialog/workflow-dialog.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import { DownloadPopupComponent } from './download-popup/download-popup.componen
     GlobalSpinnerComponent,
     SharedDatePickerComponent,
     DownloadPopupComponent,
+    WorkflowDialogComponent
   ],
   imports: [
     CommonModule,
@@ -140,6 +142,7 @@ import { DownloadPopupComponent } from './download-popup/download-popup.componen
     DownloadPopupComponent,
     ToolbarCardComponent,
     ToolbarCompoundComponent,
+    WorkflowDialogComponent
   ],
 })
 export class ComponentsModule {}

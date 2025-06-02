@@ -12,7 +12,7 @@ export interface ClientOnboarding {
   clientOnboardingTypeId?: number;
   subSectorIdList?: SubSector[];
   currentStatusName?: string | null;
-  allowedActionsList?: any[];
+  allowedActionsList: any[];
   isStampDuty?: boolean;
   legalFormLawId?: number;
   legalFormId?: number;
@@ -24,4 +24,13 @@ export interface ClientOnboarding {
   employeesNo?: number;
   subSectorList?: any;
   marketSize?: number;
+}
+
+
+export interface ClientWorkFlowAction {
+  id: number;
+  clientStatusActionId?: number ;
+  clientId?: number;
+  comment?: string;
+  isCurrent?:boolean;
 }

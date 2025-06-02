@@ -9,7 +9,10 @@
   [backExists]="false"
   [close2Exists]="true"
   [closeIcon]="'close-icon'"
-  [viewOnly]="editMode ? true : false"
+  [viewOnly]="false"
+  [selectedAction]="selectedAction"
+  [workFlowItems]="workFlowActionList"
+  (saveAction)="handleWorkflowAction($event)"
 ></app-toolbar-form>
 
 <p-tabs [value]="tabValue" styleClass="p-3">

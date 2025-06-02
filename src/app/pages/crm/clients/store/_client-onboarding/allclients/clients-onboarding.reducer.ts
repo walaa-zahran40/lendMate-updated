@@ -83,7 +83,22 @@ export const reducer = createReducer(
   on(ClientsOnboardingActions.clearSelectedClientOnboarding, (state) => ({
     ...state,
     loadedId: null,
-  }))
+  })),
+
+  // ✏️ performWorkflowAction
+  on(ClientsOnboardingActions.performWorkflowActionEntity, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
+  on(ClientsOnboardingActions.performWorkflowActionEntitySuccess, (state, { id, changes }) =>
+    adapter.updateOne({ id, changes }, { ...state, loading: false })
+  ),
+  on(ClientsOnboardingActions.performWorkflowActionEntityFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
+  })),
 );
 
 export const { selectAll, selectEntities, selectIds, selectTotal } =

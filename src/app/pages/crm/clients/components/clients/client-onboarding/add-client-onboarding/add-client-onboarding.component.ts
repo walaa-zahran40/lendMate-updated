@@ -19,6 +19,7 @@ import { IndividualOnboardingsFacade } from '../../../../store/_client-onboardin
 import { ClientOnboarding } from '../../../../store/_client-onboarding/allclients/client-onboarding.model';
 import { IndividualOnboarding } from '../../../../store/_client-onboarding/individuals/individual-onboarding.model';
 import { selectAllSubSectors } from '../../../../../../lookups/store/sub-sector-drop-down/sub-sector.selectors';
+import { selectAllClientStatusActions } from '../../../../../../lookups/store/client-statuses-actions/client-status-actions.selectors';
 
 @Component({
   selector: 'app-add-client-onboarding',
@@ -59,6 +60,8 @@ export class AddClientOnboardingComponent implements OnInit, OnDestroy {
   viewOnly = false;
   individualTypeId!: number;
   individualBusinessId!: any;
+  workFlowActionList: any[] = [];
+  selectedAction: string='';
 
   constructor(
     private fb: FormBuilder,
@@ -266,20 +269,30 @@ export class AddClientOnboardingComponent implements OnInit, OnDestroy {
   }
 
   private patchForm(client: ClientOnboarding): void {
-    console.log('🛠️ patchForm() start', client);
-    try {
-      this.addClientForm.patchValue({
-        id: client.id,
-        name: client.name,
-        nameAR: client.nameAR,
-        businessActivity: client.businessActivity,
-        taxId: +client.taxId!,
-        shortName: client.shortName,
-      });
-      console.log('✅ static fields patched', this.addClientForm.getRawValue());
-    } catch (e) {
-      console.error('❌ Error patching static fields:', e);
-    }
+  console.log('🛠️ patchForm() start', client);
+  try {
+    this.addClientForm.patchValue({
+      id: client.id,
+      name: client.name,
+      nameAR: client.nameAR,
+      businessActivity: client.businessActivity,
+      taxId: +client.taxId!,
+      shortName: client.shortName,
+    });
+    console.log('✅ static fields patched', this.addClientForm.getRawValue());
+
+    // 🔍 TEST LOG PLACEMENT
+    console.log("📍 Reached before workflow setup",client);
+
+    this.workFlowActionList = client.allowedActionsList;
+    console.log("📍 Before map");
+    this.workFlowActionList = client.allowedActionsList.map(action => ({
+      id: action.id,
+      label: action.name,
+      icon: 'pi pi-times',
+    }));
+    this.selectedAction= client.currentStatusName??'';
+    console.log("✅ this.selectedAction", this.selectedAction);
 
     const rawList = client.subSectorList ?? [];
     console.log('🔍 rawList:', rawList);
@@ -290,39 +303,69 @@ export class AddClientOnboardingComponent implements OnInit, OnDestroy {
 
     const sectorId = rawList[0].sectorId;
     console.log(`⏳ Would dispatch loadSectorById({ id: ${sectorId} })`);
-    // this.store.dispatch(loadSectorById({ id: sectorId }));
 
-    this.store
-      .select(selectAllSubSectors)
+    // TEMP: comment out store code entirely to isolate
+    
+    this.store.select(selectAllSubSectors)
       .pipe(
         filter((list) => list.length > 0),
         take(1),
         map((list) => list.filter((s) => s.sectorId === sectorId)),
-        tap((filtered) =>
-          console.log('⤷ filtered subSectors for patchForm:', filtered)
-        )
+        tap((filtered) => console.log('⤷ filtered subSectors:', filtered))
       )
       .subscribe({
         next: (filtered) => {
           this.subSectorsList = filtered;
           const selectedIds = rawList.map((s: any) => s.id);
-          try {
-            this.addClientForm.patchValue({
-              sectorId,
-              subSectorIdList: selectedIds,
-            });
-            console.log('✅ dropdown fields patched:', {
-              sectorId,
-              selectedIds,
-            });
-          } catch (e) {
-            console.error('❌ Error patching dropdown fields:', e);
-          }
+          this.addClientForm.patchValue({
+            sectorId,
+            subSectorIdList: selectedIds,
+          });
+          console.log('✅ dropdown fields patched');
         },
         error: (err) =>
           console.error('❌ Error in selectAllSubSectors subscription:', err),
       });
+
+  } catch (e) {
+    console.error('❌ patchForm() crashed:', e);
   }
+}
+
+  handleWorkflowAction(event: { actionId: number, comment: string }): void {
+    const payload = {
+      clientId: this.clientId,
+      clientStatusActionId: event.actionId,
+      comment: event.comment,
+      isCurrent: true
+    };
+
+    this.clientsFacade.performWorkflowAction(event.actionId,payload);
+    this.clientsFacade.workFlowActionSuccess$.subscribe({
+       next: () => {
+          console.log('Workflow action submitted successfully.');
+          this.refreshAllowedActions(); 
+        },
+    });
+  }
+
+  refreshAllowedActions(): void {
+    this.clientsFacade.loadById(this.clientId);
+    this.clientsFacade.selected$.subscribe({
+      next: (client) => {
+        var workFlowAction = [...client?.allowedActionsList?? []]; 
+        this.workFlowActionList = workFlowAction.map(action => ({
+        id: action.id,
+        label: action.name,
+        icon: 'pi pi-times',
+      }));// clone to ensure change detection
+      },
+      error: err => {
+        console.error('Failed to refresh actions:', err);
+      }
+    });
+  }
+
 
   saveInfo() {
     console.log('💾 saveInfo() start; valid?', this.addClientForm.valid);
@@ -481,6 +524,17 @@ export class AddClientOnboardingComponent implements OnInit, OnDestroy {
       '[patchFormIndividual] complete form value:',
       this.addClientFormIndividual.getRawValue()
     );
+
+    console.log("📍 Reached before workflow setup");
+
+    // this.workFlowActionList = ind.allowedActionsList;
+    // console.log("📍 Before map");
+    // this.workFlowActionList = ind.allowedActionsList.map(action => ({
+    //   id: action.id,
+    //   label: action.name,
+    //   icon: 'pi pi-times',
+    // }));
+    // console.log("✅ workflowaction", this.workFlowActionList);
   }
 
   saveInfoIndividual() {
