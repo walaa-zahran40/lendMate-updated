@@ -64,6 +64,12 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() identityTypeOptions!: IdentificationType[];
   @Output() addPhoneType = new EventEmitter<void>();
   @Output() removePhoneType = new EventEmitter<number>();
+    @Output() addCommunicationOfficer = new EventEmitter<void>();
+  @Output() removeCommunicationOfficer = new EventEmitter<number>();
+
+      @Output() addCommunicationContactPerson = new EventEmitter<void>();
+  @Output() removeCommunicationContactPerson = new EventEmitter<number>();
+
   @Output() addOfficer = new EventEmitter<void>();
   @Output() removeOfficer = new EventEmitter<number>();
   @Output() addContactPerson = new EventEmitter<void>();
@@ -109,6 +115,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() areas: any;
   @Input() identificationTypes: any;
   @Input() countries: any;
+  @Input() callActionTypes: any;
   @Input() governorates: any;
   @Input() teamDepartments: any;
   @Input() governoratesList: any;
@@ -288,6 +295,8 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() contactPersonsList!: any;
   @Input() assetTypesList!: any;
   @Input() feesList!: any;
+  @Input() contactPersons!: any;
+  @Input() callTypes!: any;
   @Input() gracePeriodUnitsList!: any;
   selectedClientNames!: any;
   selectedMandateValidityUnit!: any;
@@ -433,6 +442,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addShareHolderShowMain!: boolean;
   @Input() addTMLOfficerShowMain!: boolean;
   @Input() statusList: any;
+  @Input() communicationFlowTypes: any;
   @Input() workflowActionTypeList: any;
   @Input() addClientCompanyViewShowMain!: boolean;
   @Input() addClientCompanyViewShowLegal!: boolean;
@@ -500,6 +510,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addPageORGForm!: boolean;
   @Input() addActionAuthorizationGroupForm!: boolean;
   @Input() addActionNotificationGroupForm!: boolean;
+  @Input() addCallForm!: boolean;
 
   currencyIdParam: any;
   branchIdParam: any;
@@ -804,6 +815,13 @@ export class FormComponent implements OnInit, OnDestroy {
   viewTeamLeadOfficers() {
     this.router.navigate([
       `/organizations/view-team-lead-officers/${this.teamIdParam}`,
+    ]);
+  }
+
+  
+  viewCalls() {
+    this.router.navigate([
+      `/communication/view-calls`,
     ]);
   }
 
@@ -1163,6 +1181,16 @@ export class FormComponent implements OnInit, OnDestroy {
     // bubble up to the parent
     this.submitForm.emit();
   }
+
+  get communicationOfficersArray(): FormArray {
+  return this.formGroup.get('communicationOfficers') as FormArray;
+}
+
+get communicationContactPersonsArray(): FormArray {
+  return this.formGroup.get('communicationContactPersons') as FormArray;
+}
+
+
   close() {
     console.log('route', this.route.snapshot);
     this.router.navigate([`/crm/clients/view-upload-documents/${this.id}`]);
