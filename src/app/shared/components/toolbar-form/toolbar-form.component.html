@@ -34,8 +34,8 @@
       [model]="workFlowItems"
       appendTo="body"
       class="work-actions"
-      >
-            <!-- *ngIf="!viewOnly" -->
+    >
+      <!-- *ngIf="!viewOnly" -->
     </p-splitButton>
 
     <!-- <p-splitButton
@@ -45,14 +45,12 @@
       *ngIf="!viewOnly"
     /> -->
   </ng-template>
-
+</p-toolbar>
 <app-workflow-dialog
   [selectedActionLabel]="selectedActionLabel"
   [selectedActionId]="selectedActionId"
   [comment]="comment"
   [(visible)]="showCommentDialog"
   (onSaveAction)="submitWorkflowAction($event)"
-  >
+>
 </app-workflow-dialog>
-  
-</p-toolbar>
