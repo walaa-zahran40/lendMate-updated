@@ -19,17 +19,17 @@ export interface Call {
   details: string;
   comments: string;
 
-   communicationOfficers: CommunicationOfficers[];
-   communicationContactPersons: CommunicationContactPersons[];
+  communicationOfficers: CommunicationOfficers[];
+  communicationContactPersons: CommunicationContactPersons[];
 }
-
+ 
 export interface CommunicationContactPersons {
   contactPersonId?: number;
   isAttend: boolean;
 }
 
 export interface CommunicationOfficers {
-   officerId?: number;
+  officerId?: number;
   isAttend: boolean;
   isResponsible: boolean;
 }

@@ -132,7 +132,7 @@ export class AddCallsComponent implements OnInit, OnDestroy {
               topic: rec.topic,
               comments: rec.comments,
               details: rec.details,
-              date: rec.date            
+              date: rec.date    ,
             });
             console.log(
               '📝 After patchValue, form value:',
@@ -141,7 +141,7 @@ export class AddCallsComponent implements OnInit, OnDestroy {
 
             // 2) communicationContactPersons
             const idArr = this.addCallForm.get(
-              'communicationContactPersons'
+              'communicationOfficers'
             ) as FormArray;
             console.log('👥 communicationContactPersons before clear:', idArr.length);
             idArr.clear();
@@ -149,9 +149,9 @@ export class AddCallsComponent implements OnInit, OnDestroy {
             rec.communicationOfficers?.forEach((ci) => {
               idArr.push(
                 this.fb.group({
-                   officerId: [null, Validators.required],
-                     isAttend: [true, Validators.requiredTrue],
-                       isResponsible: [true, Validators.requiredTrue],
+                   officerId: [ci.officerId, Validators.required],
+                   isAttend: [ci.isAttend, Validators.requiredTrue],
+                   isResponsible: [ci.isResponsible, Validators.requiredTrue],
                 })
               );
             });
@@ -159,7 +159,7 @@ export class AddCallsComponent implements OnInit, OnDestroy {
 
             // 3) phone types
             const phArr = this.addCallForm.get(
-              'officersList'
+              'communicationContactPersons'
             ) as FormArray;
             console.log('📞 officers before clear:', phArr.length);
             phArr.clear();
@@ -167,8 +167,8 @@ export class AddCallsComponent implements OnInit, OnDestroy {
             rec.communicationContactPersons?.forEach((pp) => {
               phArr.push(
                 this.fb.group({
-                  contactPersonId: [null, Validators.required],  
-                  isAttend: [true, Validators.requiredTrue], 
+                  contactPersonId: [pp.contactPersonId, Validators.required],  
+                  isAttend: [pp.isAttend, Validators.requiredTrue], 
                 })
               );
             });
@@ -335,7 +335,7 @@ createCommunicationOfficerGroup(): FormGroup {
       this.callFacade.update(this.recordId, {
         ...updateData,
         communicationOfficers: communicationOfficersPayload,
-        communicationContactPersons: contactPersonPayload,
+        communicationContactPersons : contactPersonPayload,
       });
     }
     console.log('route', this.route.snapshot);
