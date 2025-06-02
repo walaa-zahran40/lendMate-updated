@@ -1,5 +1,6 @@
 <app-toolbar-form
   [backExists]="true"
+  [backIcon]="'back-icon'"
   [viewOnly]="true"
   [header]="'Leasing Financial Form'"
 ></app-toolbar-form>
@@ -12,7 +13,8 @@
         [description]="
           'Introduce your company core info quickly to users by fill up company details'
         "
-        [leasingFinancialFormShowBasicForm]="true"
+        [leasingFinancialBasicForm]="true"
+        [formGroup]="leasingFinancialBasicForm"
       ></app-form>
     </div>
     <div class="second-form">
@@ -21,7 +23,8 @@
         [description]="
           'Introduce your company core info quickly to users by fill up company details'
         "
-        [leasingFinancialFormShowRatesForm]="true"
+        [leasingFinancialRateForm]="true"
+        [formGroup]="leasingFinancialRateForm"
       ></app-form>
     </div>
     <div class="third-form">
@@ -55,9 +58,9 @@
       details
     </p>
     <app-form
-      [contactPersonDetailsView]="true"
-      [leasingFinancialFormShowCurrencyForm]="true"
-      [applyReusable]="true"
+      [leasingFinancialCurrencyForm]="true"
+      [formGroup]="leasingFinancialCurrencyForm"
+      [formGroup]="leasingFinancialCurrencyForm"
     ></app-form>
     <div
       class="row justify-content-between w-100 gap-4"

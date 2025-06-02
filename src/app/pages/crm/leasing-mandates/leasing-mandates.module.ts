@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CrmRoutingModule } from '../crm-routing.module';
 import { AddMandateComponent } from './components/leasing-mandates/add-mandate/add-mandate.component';
 import { AddChildMandateComponent } from './components/mandate-activities/clone/add-child-mandate/add-child-mandate.component';
-import { LeasingFinancialFormComponent } from './components/leasing-financial-form/leasing-financial-form.component';
+import { LeasingFinancialFormComponent } from './components/leasing-mandates/leasing-financial-form/leasing-financial-form.component';
 import { SharedModule } from '../../../shared/shared.module';
 import { TabsModule } from 'primeng/tabs';
 import { ButtonModule } from 'primeng/button';

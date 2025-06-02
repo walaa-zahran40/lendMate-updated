@@ -64,10 +64,10 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() identityTypeOptions!: IdentificationType[];
   @Output() addPhoneType = new EventEmitter<void>();
   @Output() removePhoneType = new EventEmitter<number>();
-    @Output() addCommunicationOfficer = new EventEmitter<void>();
+  @Output() addCommunicationOfficer = new EventEmitter<void>();
   @Output() removeCommunicationOfficer = new EventEmitter<number>();
 
-      @Output() addCommunicationContactPerson = new EventEmitter<void>();
+  @Output() addCommunicationContactPerson = new EventEmitter<void>();
   @Output() removeCommunicationContactPerson = new EventEmitter<number>();
 
   @Output() addOfficer = new EventEmitter<void>();
@@ -467,9 +467,9 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addMandateAdditionalTermForm!: boolean;
   @Input() addConditionExpressionsLookupsForm!: boolean;
   @Input() addManageMandateTermsForm!: boolean;
-  @Input() leasingFinancialFormShowCurrencyForm!: boolean;
-  @Input() leasingFinancialFormShowRatesForm!: boolean;
-  @Input() leasingFinancialFormShowBasicForm!: boolean;
+  @Input() leasingFinancialCurrencyForm!: boolean;
+  @Input() leasingFinancialRateForm!: boolean;
+  @Input() leasingFinancialBasicForm!: boolean;
   @Input() addCompanyTypesLookupsForm!: boolean;
   @Input() addMeetingShowBusinessInformationForm!: boolean;
   @Input() addMeetingShowAssetTypeForm!: boolean;
@@ -818,11 +818,8 @@ export class FormComponent implements OnInit, OnDestroy {
     ]);
   }
 
-  
   viewCalls() {
-    this.router.navigate([
-      `/communication/view-calls`,
-    ]);
+    this.router.navigate([`/communication/view-calls`]);
   }
 
   viewTeamOfficers() {
@@ -1183,13 +1180,12 @@ export class FormComponent implements OnInit, OnDestroy {
   }
 
   get communicationOfficersArray(): FormArray {
-  return this.formGroup.get('communicationOfficers') as FormArray;
-}
+    return this.formGroup.get('communicationOfficers') as FormArray;
+  }
 
-get communicationContactPersonsArray(): FormArray {
-  return this.formGroup.get('communicationContactPersons') as FormArray;
-}
-
+  get communicationContactPersonsArray(): FormArray {
+    return this.formGroup.get('communicationContactPersons') as FormArray;
+  }
 
   close() {
     console.log('route', this.route.snapshot);

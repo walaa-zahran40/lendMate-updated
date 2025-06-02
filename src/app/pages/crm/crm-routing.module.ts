@@ -374,7 +374,7 @@ const routes: Routes = [
   },
   //Leasing Financial Form
   {
-    path: 'leasing-mandates/leasing-financial-form',
+    path: 'leasing-mandates/leasing-financial-form/:leasingId/:leasingMandatesId',
     component: LeasingFinancialFormCompoundComponent,
   },
 

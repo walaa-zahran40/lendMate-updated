@@ -54,8 +54,8 @@
       label="View Calls"
       (click)="viewCalls()"
       class="custom-view m-0 float-right"
-    /> 
-    
+    />
+
     <p-button
       *ngIf="addFeeCalculationTypesLookupsForm"
       icon="pi pi-cog"
@@ -546,7 +546,7 @@
       *ngIf="addMeetingShowAssetTypeForm"
       icon="pi pi-cog"
       iconPos="left"
-      label="View Assest Type"
+      label="View Asset Type"
       (click)="viewAssestType()"
       class="custom-view m-0 float-right"
     />
@@ -1534,22 +1534,6 @@
       <!-- Legal Info -->
     </form>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
     <form class="div2" [formGroup]="formGroup" *ngIf="addClientShowIndividual">
       <!-- Name in English -->
       <label for="nameEnglishIndividual"
@@ -6587,7 +6571,7 @@
         placeholder="Add Phone Number"
       />
     </form>
-    
+
     <form
       *ngIf="addClientContactPersonForm"
       (ngSubmit)="onSubmit()"
@@ -9092,131 +9076,181 @@
         name="isActiveMandateTermsForm"
       />
     </form>
+    <!--Leasing Financial Form-->
     <form
-      action=""
-      *ngIf="leasingFinancialFormShowBasicForm"
-      id="leasingFinancialFormShowBasicForm"
+      [formGroup]="formGroup"
+      *ngIf="leasingFinancialBasicForm"
+      id="leasingFinancialBasicForm"
+      (ngSubmit)="onSubmit()"
     >
       <div class="row w-100">
         <div class="col-sm">
-          <label for="assetCostLeasingFinancialForm">Assest Cost</label>
+          <label for="assetCost">Asset Cost<sup>*</sup></label>
           <input
             pInputText
             id="assetCost"
             aria-describedby="assetCost-help"
-            [(ngModel)]="value53"
-            name="assestCost"
-            placeholder="150,000,000"
+            formControlName="assetCost"
+            name="assetCost"
+            placeholder="Asset Cost"
           />
+          <small
+            *ngIf="
+              formGroup.get('assetCost')?.invalid &&
+              formGroup.get('assetCost')?.touched
+            "
+            class="p-error"
+          >
+            Asset Cost is required.
+          </small>
         </div>
         <div class="col-sm">
-          <label for="downPaymentLeasingFinancialForm">Down Payment</label>
+          <label for="downPayment">Down Payment<sup>*</sup></label>
           <input
             pInputText
             id="downPayment"
             aria-describedby="downPayment-help"
-            [(ngModel)]="value54"
+            formControlName="downPayment"
             name="downPayment"
-            placeholder="1,200,000"
+            placeholder="Down Payment"
           />
+          <small
+            *ngIf="
+              formGroup.get('downPayment')?.invalid &&
+              formGroup.get('downPayment')?.touched
+            "
+            class="p-error"
+          >
+            Down Payment is required.
+          </small>
         </div>
       </div>
       <div class="row w-100">
         <div class="col-sm">
-          <label for="percentOfFinanceFinancialForm">Percent of Finance </label>
+          <label for="percentOfFinance">Percent of Finance<sup>*</sup> </label>
           <input
             pInputText
+            suffix="%"
+            mode="decimal"
             id="percentOfFinance"
             aria-describedby="percentOfFinance-help"
-            [(ngModel)]="value55"
+            formControlName="percentOfFinance"
             name="percentOfFinance"
-            placeholder="85%"
+            placeholder="Percent of Finance"
           />
+          <small
+            *ngIf="
+              formGroup.get('percentOfFinance')?.invalid &&
+              formGroup.get('percentOfFinance')?.touched
+            "
+            class="p-error"
+          >
+            Percent of Finance is required.
+          </small>
         </div>
         <div class="col-sm">
-          <label for="NFAFinancialForm">NFA</label>
+          <label for="nfa">NFA<sup>*</sup></label>
           <input
             pInputText
             id="NFA"
             aria-describedby="NFA-help"
-            [(ngModel)]="value56"
+            formControlName="nfa"
             name="NFA"
-            placeholder="1,200,000"
-          />
+            placeholder="NFA"
+          /><small
+            *ngIf="
+              formGroup.get('nfa')?.invalid && formGroup.get('nfa')?.touched
+            "
+            class="p-error"
+          >
+            NFA is required.
+          </small>
         </div>
       </div>
       <div class="row w-100">
         <div class="col-sm">
-          <label for="yearsLeasingFinancialForm">Years</label>
+          <label for="years">Years<sup>*</sup></label>
           <input
             pInputText
             id="years"
             aria-describedby="years-help"
-            [(ngModel)]="value57"
+            formControlName="years"
             name="years"
-            placeholder="6"
-          />
+            placeholder="Years"
+          /><small
+            *ngIf="
+              formGroup.get('years')?.invalid && formGroup.get('years')?.touched
+            "
+            class="p-error"
+          >
+            Years is required.
+          </small>
         </div>
         <div class="col-sm">
-          <label for="startDateLeasingFinancialForm">Start Date</label>
-          <input
-            pInputText
-            id="startDate"
-            aria-describedby="startDate-help"
-            [(ngModel)]="value58"
-            name="startDate"
-            placeholder="10 May 2025"
-          />
+          <label for="startDate">Start Date<sup>*</sup></label>
+          <shared-date-picker formControlName="startDate" inputId="startDate">
+          </shared-date-picker>
+          <small
+            *ngIf="
+              formGroup.get('startDate')?.invalid &&
+              formGroup.get('startDate')?.touched
+            "
+            class="p-error"
+          >
+            Start Date is required.
+          </small>
         </div>
       </div>
     </form>
     <form
-      action=""
-      *ngIf="leasingFinancialFormShowRatesForm"
-      id="leasingFinancialFormShowRatesForm"
+      *ngIf="leasingFinancialRateForm"
+      id="leasingFinancialRateForm"
+      [formGroup]="formGroup"
+      (ngSubmit)="onSubmit()"
     >
       <div class="row w-100">
         <div class="col-sm">
-          <label for="interestRateLeasingFinancialForm">Interest Rate</label>
+          <label for="interestRate">Interest Rate<sup>*</sup></label>
           <input
             pInputText
             id="interestRate"
             aria-describedby="interestRate-help"
-            [(ngModel)]="value59"
+            formControlName="interestRate"
             name="interestRate"
-            placeholder="25%"
+            placeholder="Interest Rate"
           />
         </div>
         <div class="col-sm">
-          <label for="insuranceRateLeasingFinancialForm">Insurance Rate</label>
+          <label for="insuranceRate">Insurance Rate<sup>*</sup></label>
           <input
             pInputText
             id="insuranceRate"
             aria-describedby="insuranceRate-help"
-            [(ngModel)]="value60"
+            formControlName="insuranceRate"
             name="insuranceRate"
-            placeholder="5%"
+            placeholder="Insurance Rate"
           />
         </div>
       </div>
       <div class="row w-100">
         <div class="col-sm">
-          <label for="tenorLeasingFinancialForm">Tenor </label>
+          <label for="tenor">Tenor <sup>*</sup></label>
           <input
             pInputText
-            id="tenorLeasing"
-            aria-describedby="tenorLeasing-help"
-            [(ngModel)]="value61"
-            name="tenorLeasing"
-            placeholder="5"
+            id="tenor"
+            aria-describedby="tenor-help"
+            formControlName="tenor"
+            name="tenor"
+            placeholder="Tenor"
           />
         </div>
         <div class="col-sm">
-          <label for="paymentPeriodLeasingFinancialForm">Payment Period</label>
+          <label for="paymentPeriodId">Payment Period</label>
           <p-select
             [options]="paymentPeriods"
-            [(ngModel)]="selectedPaymentPeriods"
+            formControlName="paymentPeriodId"
             optionLabel="name"
+            optionValue="id"
             class="w-full md:w-56"
             name="paymentPeriodLeasingFinancialForm"
           />
@@ -9224,254 +9258,239 @@
       </div>
       <div class="row w-100">
         <div class="col-sm">
-          <label for="gracePeriodCountLeasingFinancialForm"
-            >Grace Period Count</label
-          >
+          <label for="gracePeriod">Grace Period Count</label>
           <input
             pInputText
-            id="gracePeriodCount"
-            aria-describedby="gracePeriodCount-help"
-            [(ngModel)]="value62"
-            name="gracePeriodCount"
+            id="gracePeriod"
+            aria-describedby="gracePeriod-help"
+            formControlName="gracePeriod"
+            name="gracePeriod"
             placeholder="6"
           />
         </div>
         <div class="col-sm">
-          <label for="gracePeriodUnitLeasingFinancialForm"
-            >Grace Period Unit</label
-          >
+          <label for="gracePeriodUnitId">Grace Period Unit</label>
           <p-select
             [options]="gracePeriodUnits"
-            [(ngModel)]="selectedGracePeriodUnits"
+            formControlName="gracePeriodUnitId"
             optionLabel="name"
+            optionValue="id"
             class="w-full md:w-56"
-            name="gracePeriodUnitLeasingFinancialForm"
+            name="gracePeriodUnitId"
           />
         </div>
       </div>
     </form>
     <form
-      action=""
-      *ngIf="leasingFinancialFormShowCurrencyForm"
+      [formGroup]="formGroup"
+      (ngSubmit)="onSubmit()"
+      *ngIf="leasingFinancialCurrencyForm"
       id="addManageMandateTermsForm"
     >
       <div class="row w-100">
         <div class="col-sm">
-          <label for="currencyRateLeasingFinancialForm">Currency</label>
+          <label for="currencyId">Currency</label>
           <input
             pInputText
-            id="currencyRate"
-            aria-describedby="currencyRate-help"
-            [(ngModel)]="value63"
-            name="currencyRate"
-            placeholder="5"
+            id="currencyId"
+            aria-describedby="currencyId-help"
+            formControlName="currencyId"
+            name="currencyId"
+            placeholder="Currency"
           />
         </div>
         <div class="col-sm">
-          <label for="currencyExchangeRateLeasingFinancialForm"
-            >Currency Exchange Rate</label
-          >
+          <label for="currencyExchangeRateId">Currency Exchange Rate</label>
           <p-select
             [options]="currencyExchangeRate"
-            [(ngModel)]="selectedCurrencyExchangeRate"
+            formControlName="currencyExchangeRateId"
             optionLabel="name"
+            optionValue="id"
             class="w-full md:w-56"
-            name="currencyExchangeRateLeasingFinancialForm"
+            name="currencyExchangeRateId"
           />
         </div>
       </div>
       <div class="row w-100">
         <div class="col-sm">
-          <label for="manualExchangeRateLeasingFinancialForm"
-            >Manual Exchange Rate
-          </label>
+          <label for="manualExchangeRate">Manual Exchange Rate </label>
           <input
             pInputText
             id="manualExchangeRate"
             aria-describedby="manualExchangeRate-help"
-            [(ngModel)]="value63"
+            formControlName="manualExchangeRate"
             name="manualExchangeRate"
-            placeholder="25%"
+            placeholder="Manual Exchange Rate"
           />
         </div>
         <div class="col-sm">
-          <label for="isManualExchangeRateLeasingFinancialForm"
+          <label for="isManualExchangeRate"
             >IsManual Exchange Rate<sup>*</sup></label
           >
           <p-select
             [options]="isManualExchangeRates"
-            [(ngModel)]="selectedIsManualExchangeRates"
+            formControlName="isManualExchangeRate"
             optionLabel="name"
+            optionValue="id"
             class="w-full md:w-56"
-            name="isManualExchangeRateLeasingFinancialForm"
+            name="isManualExchangeRate"
           />
         </div>
       </div>
       <div class="row w-100">
         <div class="col-sm">
-          <label for="indicativeRentalsLeasingFinancialForm"
-            >Indicative Rentals</label
-          >
+          <label for="indicativeRentals">Indicative Rentals</label>
           <input
             pInputText
             id="indicativeRentals"
             aria-describedby="indicativeRentals-help"
-            [(ngModel)]="value63"
+            formControlName="indicativeRentals"
             name="indicativeRentals"
-            placeholder="90,000"
+            placeholder="Indicative Rentals"
           />
         </div>
         <div class="col-sm">
-          <label for="rentLeasingFinancialForm">Rent</label>
+          <label for="rent">Rent</label>
           <input
             pInputText
             id="rent"
             aria-describedby="rent-help"
-            [(ngModel)]="value64"
+            formControlName="rent"
             name="rent"
-            placeholder="1,850,000"
+            placeholder="Rent"
           />
         </div>
       </div>
       <div class="row w-100">
         <div class="col-sm">
-          <label for="rvPercentLeasingFinancialForm">RV Percent</label>
+          <label for="rvPercent">RV Percent</label>
           <input
             pInputText
             id="rvPercent"
             aria-describedby="rvPercent-help"
-            [(ngModel)]="value65"
+            formControlName="rvPercent"
             name="rvPercent"
-            placeholder="50%"
+            placeholder="RV Percent"
           />
         </div>
         <div class="col-sm">
-          <label for="rvAmountLeasingFinancialForm">RV Amount</label>
+          <label for="rvAmount">RV Amount</label>
           <input
             pInputText
             id="rvAmount"
             aria-describedby="rvAmount-help"
-            [(ngModel)]="value66"
+            formControlName="rvAmount"
             name="rvAmount"
-            placeholder="1,850,000"
+            placeholder="RV Amount"
           />
         </div>
       </div>
       <div class="row w-100">
         <div class="col-sm">
-          <label for="reservePaymentCountLeasingFinancialForm"
-            >Reserve Payment Count
-          </label>
+          <label for="reservePaymentCount">Reserve Payment Count </label>
           <input
             pInputText
-            id="reservePaymentCountLeasing"
-            aria-describedby="reservePaymentCountLeasing-help"
-            [(ngModel)]="value67"
-            name="reservePaymentCountLeasing"
-            placeholder="50%"
+            id="reservePaymentCount"
+            aria-describedby="reservePaymentCount-help"
+            formControlName="reservePaymentCount"
+            name="reservePaymentCount"
+            placeholder="Reserve Payment Count"
           />
         </div>
         <div class="col-sm">
-          <label for="reservePaymentAmountLeasingFinancialForm"
-            >Reserve Payment Amount</label
-          >
+          <label for="reservePaymentAmount">Reserve Payment Amount</label>
           <input
             pInputText
-            id="reservePaymentAmountLeasing"
-            aria-describedby="reservePaymentAmountLeasing-help"
-            [(ngModel)]="value68"
-            name="reservePaymentAmountLeasing"
-            placeholder="1,850,000"
+            id="reservePaymentAmount"
+            aria-describedby="reservePaymentAmount-help"
+            formControlName="reservePaymentAmount"
+            name="reservePaymentAmount"
+            placeholder="Reserve Payment Amount"
           />
         </div>
       </div>
       <div class="row w-100">
         <div class="col-sm">
-          <label for="provisionPercentLeasingFinancialForm"
-            >Provision Percent</label
-          >
+          <label for="provisionPercent">Provision Percent</label>
           <input
             pInputText
             id="provisionPercent"
             aria-describedby="provisionPercent-help"
-            [(ngModel)]="value69"
+            formControlName="provisionPercent"
             name="provisionPercent"
             placeholder="50%"
           />
         </div>
         <div class="col-sm">
-          <label for="provisionAmountLeasingFinancialForm"
-            >Provision Amount</label
-          >
+          <label for="provisionAmount">Provision Amount</label>
           <input
             pInputText
             id="provisionAmount"
             aria-describedby="provisionAmount-help"
-            [(ngModel)]="value70"
+            formControlName="provisionAmount"
             name="provisionAmount"
-            placeholder="1,850,000"
+            placeholder="Provision Amount"
           />
         </div>
       </div>
       <div class="row w-100">
         <div class="col-sm">
-          <label for="interestRateBenchMarkLeasingFinancialForm"
-            >Interest Rate Benchmark</label
-          >
+          <label for="interestRateBenchmarkId">Interest Rate Benchmark</label>
           <p-select
             [options]="interestRateBenchMarks"
-            [(ngModel)]="selectedInterestRateBenchMarks"
+            formControlName="interestRateBenchmarkId"
             optionLabel="name"
+            optionValue="id"
             class="w-full md:w-56"
-            name="interestRateBenchMarkLeasingFinancialForm"
+            name="interestRateBenchmarkId"
           />
         </div>
         <div class="col-sm">
-          <label for="paymentTimeTermLeasingFinancialForm"
-            >Payment Time Term</label
-          >
+          <label for="paymentTimingTermId">Payment Time Term</label>
           <p-select
             [options]="paymentTimeTerms"
-            [(ngModel)]="selectedPaymentTimeTerms"
+            formControlName="paymentTimingTermId"
             optionLabel="name"
+            optionValue="id"
             class="w-full md:w-56"
-            name="paymentTimeTermLeasingFinancialForm"
+            name="paymentTimingTermId"
           />
         </div>
       </div>
       <div class="row w-100">
         <div class="col-sm">
-          <label for="rentStructureLeasingFinancialForm">Rent Structure </label>
+          <label for="rentStructureTypeId">Rent Structure </label>
           <p-select
             [options]="rentStructures"
-            [(ngModel)]="selectedRentStructures"
+            formControlName="rentStructureTypeId"
             optionLabel="name"
+            optionValue="id"
             class="w-full md:w-56"
-            name="rentStructureLeasingFinancialForm"
+            name="rentStructureTypeId"
           />
         </div>
         <div class="col-sm">
-          <label for="paymentMethodsLeasingFinancialForm">Payment Method</label>
+          <label for="paymentMethodId">Payment Method</label>
           <p-select
             [options]="paymentMethods"
-            [(ngModel)]="selectedPaymentMethods"
+            formControlName="paymentMethodId"
             optionLabel="name"
+            optionValue="id"
             class="w-full md:w-56"
-            name="paymentMethodsLeasingFinancialForm"
+            name="paymentMethodId"
           />
         </div>
       </div>
       <div class="row w-100">
         <div class="col-sm-12">
-          <label for="paymentMethodDayLeasingFinancialForm"
-            >Payment Month Day</label
-          >
+          <label for="paymentMonthDayID">Payment Month Day</label>
           <p-select
             [options]="paymentMonthDays"
-            [(ngModel)]="selectedPaymentMonthDays"
+            formControlName="paymentMonthDayID"
             optionLabel="name"
+            optionValue="id"
             class="w-full md:w-56"
-            name="paymentMethodDayLeasingFinancialForm"
+            name="paymentMonthDayID"
           />
         </div>
       </div>
@@ -12360,295 +12379,316 @@
       </div>
     </form>
 
-<form
-  *ngIf="addCallForm"
-  (ngSubmit)="onSubmit()"
-  [formGroup]="formGroup"
->
-  <!-- Client Name -->
-  <label for="clientId">Client Name <sup>*</sup></label>
-  <p-select
-    id="clientId"
-    [options]="clientsList"
-    optionLabel="name"
-    placeholder="Select Client"
-    formControlName="clientId"
-    optionValue="id"
-    [ngClass]="{
-      'ng-invalid':
-        formGroup.get('clientId')?.invalid &&
-        (formGroup.get('clientId')?.dirty || formGroup.get('clientId')?.touched)
-    }"
-  ></p-select>
+    <form *ngIf="addCallForm" (ngSubmit)="onSubmit()" [formGroup]="formGroup">
+      <!-- Client Name -->
+      <label for="clientId">Client Name <sup>*</sup></label>
+      <p-select
+        id="clientId"
+        [options]="clientsList"
+        optionLabel="name"
+        placeholder="Select Client"
+        formControlName="clientId"
+        optionValue="id"
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('clientId')?.invalid &&
+            (formGroup.get('clientId')?.dirty ||
+              formGroup.get('clientId')?.touched)
+        }"
+      ></p-select>
 
-  <!-- Call Type -->
-  <label for="callTypeId">Call Type <sup>*</sup></label>
-  <p-select
-    id="callTypeId"
-    [options]="callTypes"
-    optionLabel="name"
-    placeholder="Select Type"
-    formControlName="callTypeId"
-    optionValue="id"
-    [ngClass]="{
-      'ng-invalid':
-        formGroup.get('callTypeId')?.invalid &&
-        (formGroup.get('callTypeId')?.dirty || formGroup.get('callTypeId')?.touched)
-    }"
-  ></p-select>
+      <!-- Call Type -->
+      <label for="callTypeId">Call Type <sup>*</sup></label>
+      <p-select
+        id="callTypeId"
+        [options]="callTypes"
+        optionLabel="name"
+        placeholder="Select Type"
+        formControlName="callTypeId"
+        optionValue="id"
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('callTypeId')?.invalid &&
+            (formGroup.get('callTypeId')?.dirty ||
+              formGroup.get('callTypeId')?.touched)
+        }"
+      ></p-select>
 
-  <!-- Call Action -->
-  <label for="callActionTypeId">Call Action <sup>*</sup></label>
-  <p-select
-    id="callActionTypeId"
-    [options]="callActionTypes"
-    optionLabel="name"
-    placeholder="Select Call Action"
-    formControlName="callActionTypeId"
-    optionValue="id"
-    [ngClass]="{
-      'ng-invalid':
-        formGroup.get('callActionTypeId')?.invalid &&
-        (formGroup.get('callActionTypeId')?.dirty || formGroup.get('callActionTypeId')?.touched)
-    }"
-  ></p-select>
+      <!-- Call Action -->
+      <label for="callActionTypeId">Call Action <sup>*</sup></label>
+      <p-select
+        id="callActionTypeId"
+        [options]="callActionTypes"
+        optionLabel="name"
+        placeholder="Select Call Action"
+        formControlName="callActionTypeId"
+        optionValue="id"
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('callActionTypeId')?.invalid &&
+            (formGroup.get('callActionTypeId')?.dirty ||
+              formGroup.get('callActionTypeId')?.touched)
+        }"
+      ></p-select>
 
-  <!-- Communication Flow -->
-  <label for="communicationFlowId">Communication Flow <sup>*</sup></label>
-  <p-select
-    id="communicationFlowId"
-    [options]="communicationFlowTypes"
-    optionLabel="name"
-    placeholder="Select Communication Flow"
-    formControlName="communicationFlowId"
-    optionValue="id"
-    [ngClass]="{
-      'ng-invalid':
-        formGroup.get('communicationFlowId')?.invalid &&
-        (formGroup.get('communicationFlowId')?.dirty || formGroup.get('communicationFlowId')?.touched)
-    }"
-  ></p-select>
+      <!-- Communication Flow -->
+      <label for="communicationFlowId">Communication Flow <sup>*</sup></label>
+      <p-select
+        id="communicationFlowId"
+        [options]="communicationFlowTypes"
+        optionLabel="name"
+        placeholder="Select Communication Flow"
+        formControlName="communicationFlowId"
+        optionValue="id"
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('communicationFlowId')?.invalid &&
+            (formGroup.get('communicationFlowId')?.dirty ||
+              formGroup.get('communicationFlowId')?.touched)
+        }"
+      ></p-select>
 
-  <!-- Topic -->
-  <label for="topic">Topic <sup class="danger">*</sup></label>
-  <input
-    pInputText
-    id="topic"
-    placeholder="Topic"
-    formControlName="topic"
-  />
+      <!-- Topic -->
+      <label for="topic">Topic <sup class="danger">*</sup></label>
+      <input
+        pInputText
+        id="topic"
+        placeholder="Topic"
+        formControlName="topic"
+      />
 
-  <!-- Details -->
-  <label for="details">Details</label>
-  <input
-    pInputText
-    id="details"
-    placeholder="Details"
-    formControlName="details"
-  />
+      <!-- Details -->
+      <label for="details">Details</label>
+      <input
+        pInputText
+        id="details"
+        placeholder="Details"
+        formControlName="details"
+      />
 
-  <label for="date">Date<sup>*</sup></label>
-      <shared-date-picker
-        formControlName="date"
-        inputId="date"
-        >
+      <label for="date">Date<sup>*</sup></label>
+      <shared-date-picker formControlName="date" inputId="date">
       </shared-date-picker>
 
-  <!-- Comments -->
-  <label for="comments">Comments</label>
-  <input
-    pInputText
-    id="comments"
-    placeholder="Comments"
-    formControlName="comments"
-  />
+      <!-- Comments -->
+      <label for="comments">Comments</label>
+      <input
+        pInputText
+        id="comments"
+        placeholder="Comments"
+        formControlName="comments"
+      />
 
-  <!-- Communication Officers -->
-  <div formArrayName="communicationOfficers" class="my-4">
-    <div
-      *ngFor="let group of communicationOfficersArray.controls; let i = index"
-      [formGroupName]="i"
-      class="parent2-individual2 mt-2 flex items-start gap-4 align-items-center flex-wrap"
-    >
-      <div class="div-select flex-1 min-w-0">
-        <label for="officerId" class="p-0">
-          Select Officer <sup class="danger">*</sup>
-        </label>
-        <p-select
-          [options]="officersList"
-          formControlName="officerId"
-          placeholder="Select Officer"
-          optionLabel="name"
-          optionValue="id"
-          [ngClass]="{
-            'ng-invalid ng-dirty': group.get('officerId')?.invalid && group.get('officerId')?.touched,
-            'disabled': viewOnly,
-            'enabled': !viewOnly
-          }"
-        ></p-select>
-        <small
-          class="p-error d-block"
-          *ngIf="group.get('officerId')?.invalid && group.get('officerId')?.touched"
+      <!-- Communication Officers -->
+      <div formArrayName="communicationOfficers" class="my-4">
+        <div
+          *ngFor="
+            let group of communicationOfficersArray.controls;
+            let i = index
+          "
+          [formGroupName]="i"
+          class="parent2-individual2 mt-2 flex items-start gap-4 align-items-center flex-wrap"
         >
-          Officer is required.
-        </small>
+          <div class="div-select flex-1 min-w-0">
+            <label for="officerId" class="p-0">
+              Select Officer <sup class="danger">*</sup>
+            </label>
+            <p-select
+              [options]="officersList"
+              formControlName="officerId"
+              placeholder="Select Officer"
+              optionLabel="name"
+              optionValue="id"
+              [ngClass]="{
+                'ng-invalid ng-dirty':
+                  group.get('officerId')?.invalid &&
+                  group.get('officerId')?.touched,
+                disabled: viewOnly,
+                enabled: !viewOnly
+              }"
+            ></p-select>
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('officerId')?.invalid &&
+                group.get('officerId')?.touched
+              "
+            >
+              Officer is required.
+            </small>
+          </div>
+
+          <!-- Is Attend -->
+          <label for="isAttend" class="p-0">Is Attend</label>
+          <p-toggleswitch
+            formControlName="isAttend"
+            [ngClass]="{
+              'ng-invalid ng-dirty':
+                group.get('isAttend')?.invalid &&
+                group.get('isAttend')?.touched,
+              disabled: viewOnly,
+              enabled: !viewOnly
+            }"
+          ></p-toggleswitch>
+
+          <!-- Is Responsible -->
+          <label for="isResponsible" class="p-0">Is Responsible</label>
+          <p-toggleswitch
+            formControlName="isResponsible"
+            [ngClass]="{
+              'ng-invalid ng-dirty':
+                group.get('isResponsible')?.invalid &&
+                group.get('isResponsible')?.touched,
+              disabled: viewOnly,
+              enabled: !viewOnly
+            }"
+          ></p-toggleswitch>
+          <small
+            class="p-error"
+            *ngIf="
+              group.get('isResponsible')?.invalid &&
+              group.get('isResponsible')?.touched
+            "
+          >
+            You must choose if this is Responsible.
+          </small>
+
+          <!-- Add/Remove Buttons -->
+          <button
+            pButton
+            type="button"
+            icon="pi pi-plus"
+            class="p-button-outlined p-button-sm"
+            (click)="addCommunicationOfficer.emit()"
+            *ngIf="!viewOnly"
+          ></button>
+          <button
+            pButton
+            type="button"
+            icon="pi pi-trash"
+            class="p-button-danger p-button-sm"
+            (click)="removeCommunicationOfficer.emit(i)"
+            *ngIf="communicationOfficersArray.length > 1 && !viewOnly"
+          ></button>
+        </div>
       </div>
 
-      <!-- Is Attend -->
-      <label for="isAttend" class="p-0">Is Attend</label>
-      <p-toggleswitch
-        formControlName="isAttend"
-        [ngClass]="{
-          'ng-invalid ng-dirty': group.get('isAttend')?.invalid && group.get('isAttend')?.touched,
-          'disabled': viewOnly,
-          'enabled': !viewOnly
-        }"
-      ></p-toggleswitch>
-    
-
-      <!-- Is Responsible -->
-      <label for="isResponsible" class="p-0">Is Responsible</label>
-      <p-toggleswitch
-        formControlName="isResponsible"
-        [ngClass]="{
-          'ng-invalid ng-dirty': group.get('isResponsible')?.invalid && group.get('isResponsible')?.touched,
-          'disabled': viewOnly,
-          'enabled': !viewOnly
-        }"
-      ></p-toggleswitch>
-      <small
-        class="p-error"
-        *ngIf="group.get('isResponsible')?.invalid && group.get('isResponsible')?.touched"
-      >
-        You must choose if this is Responsible.
-      </small>
-
-      <!-- Add/Remove Buttons -->
-      <button
-        pButton
-        type="button"
-        icon="pi pi-plus"
-        class="p-button-outlined p-button-sm"
-        (click)="addCommunicationOfficer.emit()"
-        *ngIf="!viewOnly"
-      ></button>
-      <button
-        pButton
-        type="button"
-        icon="pi pi-trash"
-        class="p-button-danger p-button-sm"
-        (click)="removeCommunicationOfficer.emit(i)"
-        *ngIf="communicationOfficersArray.length > 1 && !viewOnly"
-      ></button>
-    </div>
-  </div>
-
-  <!-- Communication Contact Persons -->
-  <div formArrayName="communicationContactPersons" class="my-4">
-    <div
-      *ngFor="let group of communicationContactPersonsArray.controls; let i = index"
-      [formGroupName]="i"
-      class="parent2-individual2 mt-2 flex items-start gap-4 align-items-center flex-wrap"
-    >
-      <div class="div-select flex-1 min-w-0">
-        <label for="contactPersonId" class="p-0">
-          Select Contact Person <sup class="danger">*</sup>
-        </label>
-        <p-select
-          [options]="contactPersons"
-          formControlName="contactPersonId"
-          placeholder="Select Contact Person"
-          optionLabel="name"
-          optionValue="id"
-          [ngClass]="{
-            'ng-invalid ng-dirty': group.get('contactPersonId')?.invalid && group.get('contactPersonId')?.touched,
-            'disabled': viewOnly,
-            'enabled': !viewOnly
-          }"
-        ></p-select>
-        <small
-          class="p-error d-block"
-          *ngIf="group.get('contactPersonId')?.invalid && group.get('contactPersonId')?.touched"
+      <!-- Communication Contact Persons -->
+      <div formArrayName="communicationContactPersons" class="my-4">
+        <div
+          *ngFor="
+            let group of communicationContactPersonsArray.controls;
+            let i = index
+          "
+          [formGroupName]="i"
+          class="parent2-individual2 mt-2 flex items-start gap-4 align-items-center flex-wrap"
         >
-          Contact Person is required.
-        </small>
+          <div class="div-select flex-1 min-w-0">
+            <label for="contactPersonId" class="p-0">
+              Select Contact Person <sup class="danger">*</sup>
+            </label>
+            <p-select
+              [options]="contactPersons"
+              formControlName="contactPersonId"
+              placeholder="Select Contact Person"
+              optionLabel="name"
+              optionValue="id"
+              [ngClass]="{
+                'ng-invalid ng-dirty':
+                  group.get('contactPersonId')?.invalid &&
+                  group.get('contactPersonId')?.touched,
+                disabled: viewOnly,
+                enabled: !viewOnly
+              }"
+            ></p-select>
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('contactPersonId')?.invalid &&
+                group.get('contactPersonId')?.touched
+              "
+            >
+              Contact Person is required.
+            </small>
+          </div>
+
+          <!-- Is Attend -->
+          <label for="isAttend" class="p-0">Is Attend</label>
+          <p-toggleswitch
+            formControlName="isAttend"
+            [ngClass]="{
+              'ng-invalid ng-dirty':
+                group.get('isAttend')?.invalid &&
+                group.get('isAttend')?.touched,
+              disabled: viewOnly,
+              enabled: !viewOnly
+            }"
+          ></p-toggleswitch>
+          <small
+            class="p-error"
+            *ngIf="
+              group.get('isAttend')?.invalid && group.get('isAttend')?.touched
+            "
+          >
+            You must choose if this is Attend.
+          </small>
+
+          <!-- Add/Remove Buttons -->
+          <button
+            pButton
+            type="button"
+            icon="pi pi-plus"
+            class="p-button-outlined p-button-sm"
+            (click)="addCommunicationContactPerson.emit()"
+            *ngIf="!viewOnly"
+          ></button>
+          <button
+            pButton
+            type="button"
+            icon="pi pi-trash"
+            class="p-button-danger p-button-sm"
+            (click)="removeCommunicationContactPerson.emit(i)"
+            *ngIf="communicationContactPersonsArray.length > 1 && !viewOnly"
+          ></button>
+        </div>
       </div>
 
-      <!-- Is Attend -->
-      <label for="isAttend" class="p-0">Is Attend</label>
-      <p-toggleswitch
-        formControlName="isAttend"
-        [ngClass]="{
-          'ng-invalid ng-dirty': group.get('isAttend')?.invalid && group.get('isAttend')?.touched,
-          'disabled': viewOnly,
-          'enabled': !viewOnly
-        }"
-      ></p-toggleswitch>
-      <small
-        class="p-error"
-        *ngIf="group.get('isAttend')?.invalid && group.get('isAttend')?.touched"
-      >
-        You must choose if this is Attend.
-      </small>
+      <!-- Action Buttons -->
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 currenciesDiv"
+          *ngIf="!editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Add Call"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Call"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate([`/communication/view-calls`])"
+          ></p-button>
+        </div>
+      </div>
+    </form>
 
-      <!-- Add/Remove Buttons -->
-      <button
-        pButton
-        type="button"
-        icon="pi pi-plus"
-        class="p-button-outlined p-button-sm"
-        (click)="addCommunicationContactPerson.emit()"
-        *ngIf="!viewOnly"
-      ></button>
-      <button
-        pButton
-        type="button"
-        icon="pi pi-trash"
-        class="p-button-danger p-button-sm"
-        (click)="removeCommunicationContactPerson.emit(i)"
-        *ngIf="communicationContactPersonsArray.length > 1 && !viewOnly"
-      ></button>
-    </div>
-  </div>
-
-  <!-- Action Buttons -->
-  <div class="row justify-end">
-    <div
-      class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 currenciesDiv"
-      *ngIf="!editMode && !viewOnly"
-    >
-      <p-button
-        type="submit"
-        label="Add Call"
-        [disabled]="formGroup.invalid"
-        class="custom-save m-0 float-right"
-      ></p-button>
-    </div>
-    <div
-      class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
-      *ngIf="editMode && !viewOnly"
-    >
-      <p-button
-        type="submit"
-        label="Edit Call"
-        class="custom-save m-0 float-right"
-      ></p-button>
-    </div>
-    <div
-      *ngIf="viewOnly"
-      class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
-    >
-      <p-button
-        label="Close"
-        class="custom-save m-0 float-right"
-        (click)="router.navigate([`/communication/view-calls`])"
-      ></p-button>
-    </div>
-  </div>
-</form>
-
-
-    
     <form action="" *ngIf="addMeetingShowBusinessInformationForm">
       <label for="startDateAddMeeting">Start Date<sup>*</sup></label>
       <shared-date-picker
@@ -12790,7 +12830,7 @@
         placeholder="Enter Name"
       />
     </form>
-   
+
     <form action="" *ngIf="addCallShowOfficersForm">
       <div class="d-block">
         <div class="d-inline-block divInput">
