@@ -28,7 +28,8 @@ export class ViewMeetingsComponent {
     { field: 'topic', header: 'Topic' },
     { field: 'clientName', header: 'client' },
     { field: 'meetingTypeName', header: 'meetingType' },
-    { field: 'date', header: 'Date' },
+    { field: 'startDate', header: 'startDate' },
+    { field: 'endDate', header: 'End Date' },
   ];
   showDeleteModal: boolean = false;
   selectedMeetingId: number | null = null;

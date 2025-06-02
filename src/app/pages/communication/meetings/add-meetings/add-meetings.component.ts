@@ -14,6 +14,8 @@ import { CommunicationFlowTypesFacade } from '../../../lookups/store/communicati
 import { OfficersFacade } from '../../../organizations/store/officers/officers.facade';
 import { ClientContactPersonsFacade } from '../../../crm/clients/store/client-contact-persons/client-contact-persons.facade';
 import { ClientContactPerson } from '../../../crm/clients/store/client-contact-persons/client-contact-person.model';
+import { AssetTypesFacade } from '../../../lookups/store/asset-types/asset-types.facade';
+import { AssetType } from '../../../lookups/store/asset-types/asset-type.model';
 
 
 @Component({
@@ -37,6 +39,7 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   meetingTypes$!: Observable<MeetingType[]>;
+  assetTypes$!: Observable<AssetType[]>;
   contactPersons$!: Observable<ClientContactPerson[]>;
   officers$!: Observable<Officer[]>;
   communicationFlowTypes$!: Observable<CommunicationFlowType[]>;
@@ -48,6 +51,7 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private meetingFacade: MeetingsFacade,
+    private assetTypesFacade: AssetTypesFacade,
     private clientsFacade: ClientsFacade,
     private meetingTypesFacade: MeetingTypesFacade,
     private communicationFlowTypesFacade: CommunicationFlowTypesFacade,
@@ -63,6 +67,9 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
     this.meetingTypesFacade.loadAll();
     this.meetingTypes$ = this.meetingTypesFacade.all$;
 
+    this.assetTypesFacade.loadAll();
+    this.assetTypes$ = this.assetTypesFacade.all$;
+
     this.clientsFacade.loadAll();
     this.clients$ = this.clientsFacade.all$;
 
@@ -73,7 +80,6 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
     this.officers$ = this.officersFacade.items$;
     
     this.contactPersonsFacade.loadAll();
-    // this.contactPersons$ = this.contactPersonsFacade.items$;
 
      this.contactPersons$ = this.contactPersonsFacade.items$.pipe(
           map((list) => list || []));
@@ -203,6 +209,10 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
     return this.addMeetingForm.get('officersList') as FormArray;
   }
 
+  get assetTypes(): FormArray {
+    return this.addMeetingForm.get('assetTypes') as FormArray;
+  }
+
   addCommunicationOfficer() {
     console.log('Adding new identity group');
     this.officers.push(this.createCommunicationOfficerGroup());
@@ -215,8 +225,19 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
     }
   }
 
+    removeAssetType(i: number) {
+    console.log('Removing identity group at index', i);
+    if (this.assetTypes.length > 1) {
+      this.assetTypes.removeAt(i);
+    }
+  }
 
-  
+
+    createAssetTypesGroup(): FormGroup {
+  return this.fb.group({
+    assetTypeId : [null, Validators.required]
+  });
+}
 
   createContactPersonGroup(): FormGroup {
   return this.fb.group({
@@ -314,11 +335,11 @@ createCommunicationOfficerGroup(): FormGroup {
         communicationContactPersons: contactPersonPayload,
         startDate: formValue.startDate,
         endDate: formValue.endDate,
-        onlineURL: '',
-        addressLocation: '',
-        reserveCar: '',
-        driverName: '',
-        adminComments: '',
+        onlineURL: formValue.onlineURL,
+        addressLocation: formValue.addressLocation,
+        reserveCar: formValue.reserveCar,
+        driverName: formValue.driverName,
+        adminComments: formValue.adminComments,
         communicationAssetTypes: []
       };
 
@@ -333,6 +354,7 @@ createCommunicationOfficerGroup(): FormGroup {
         ...updateData,
         communicationOfficers: communicationOfficersPayload,
         communicationContactPersons : contactPersonPayload,
+        communicationAssetTypes : contactPersonPayload,
       });
     }
     console.log('route', this.route.snapshot);

@@ -120,6 +120,8 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() teamDepartments: any;
   @Input() governoratesList: any;
   @Input() feeTypes: any;
+  @Input() assetTypes : any;
+  @Input() meetingTypes : any;
   @Input() authorizationGroups: any;
   @Input() areasList: any;
   @Input() currencies: { id: number; name: string }[] = [];
@@ -348,6 +350,7 @@ export class FormComponent implements OnInit, OnDestroy {
   communicationFlowAddCall!: any;
   selectedCommunicationFlowAddCall!: any;
   callActionTypeAddCall!: any;
+
   selectedCallActionTypeAddCall!: any;
   callTypeAddCall!: any;
   selectedCallTypeAddCall!: any;
@@ -467,6 +470,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addMandateAdditionalTermForm!: boolean;
   @Input() addConditionExpressionsLookupsForm!: boolean;
   @Input() addManageMandateTermsForm!: boolean;
+  @Input() addMeetingForm!: boolean;
   @Input() leasingFinancialFormShowCurrencyForm!: boolean;
   @Input() leasingFinancialFormShowRatesForm!: boolean;
   @Input() leasingFinancialFormShowBasicForm!: boolean;
