@@ -64,10 +64,13 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() identityTypeOptions!: IdentificationType[];
   @Output() addPhoneType = new EventEmitter<void>();
   @Output() removePhoneType = new EventEmitter<number>();
-    @Output() addCommunicationOfficer = new EventEmitter<void>();
+  @Output() addCommunicationOfficer = new EventEmitter<void>();
   @Output() removeCommunicationOfficer = new EventEmitter<number>();
 
-      @Output() addCommunicationContactPerson = new EventEmitter<void>();
+  @Output() addCommunicationAssetType = new EventEmitter<void>();
+  @Output() removeCommunicationAssetType = new EventEmitter<number>();
+
+  @Output() addCommunicationContactPerson = new EventEmitter<void>();
   @Output() removeCommunicationContactPerson = new EventEmitter<number>();
 
   @Output() addOfficer = new EventEmitter<void>();

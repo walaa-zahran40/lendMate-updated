@@ -102,9 +102,8 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
 
       communicationContactPersons: this.fb.array([this.createContactPersonGroup()]),
       communicationOfficers: this.fb.array([this.createCommunicationOfficerGroup()]),
+      communicationAssetTypes: this.fb.array([this.createCommunicationAssetTypeGroup()]),
     });
-
-  
 
     // Patch for edit/view mode
     if (this.editMode || this.viewOnly) {
@@ -218,6 +217,13 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
     this.officers.push(this.createCommunicationOfficerGroup());
   }
 
+  
+  addCommunicationAssetType() {
+    console.log('Adding new identity group');
+    this.officers.push(this.createCommunicationAssetTypeGroup());
+  }
+
+
   removeCommunicationOfficer(i: number) {
     console.log('Removing identity group at index', i);
     if (this.officers.length > 1) {
@@ -225,7 +231,7 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
     }
   }
 
-    removeAssetType(i: number) {
+    removeCommunicationAssetType(i: number) {
     console.log('Removing identity group at index', i);
     if (this.assetTypes.length > 1) {
       this.assetTypes.removeAt(i);
@@ -233,7 +239,7 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
   }
 
 
-    createAssetTypesGroup(): FormGroup {
+    createCommunicationAssetTypeGroup(): FormGroup {
   return this.fb.group({
     assetTypeId : [null, Validators.required]
   });
