@@ -16,6 +16,7 @@ import { ViewAssetTypeCategoriesComponent } from '../lookups/components/asset-ty
 import { ViewMonitorFollowupsComponent } from './monitor-followups/view-monitor-followups/view-monitor-followups.component';
 import { AddCallsComponent } from './calls/add-calls/add-calls.component';
 import { ViewCallsComponent } from './calls/view-calls/view-calls.component';
+import { WizardCommunicationComponent } from './wizard-communication/wizard-communication.component';
 
 const routes: Routes = [
   //Calls
@@ -31,7 +32,11 @@ const routes: Routes = [
     path: 'view-calls',
     component: ViewCallsComponent,
   },
-
+  //Wizard
+  {
+    path: 'wizard-communication/:id',
+    component: WizardCommunicationComponent,
+  },
   {
     path: 'add-meeting',
     component: AddMeetingComponent,

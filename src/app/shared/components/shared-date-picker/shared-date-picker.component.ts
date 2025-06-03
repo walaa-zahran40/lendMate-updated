@@ -1,43 +1,54 @@
-import { Component, forwardRef, Input } from '@angular/core';
 import {
+  Component,
+  forwardRef,
+  Input,
+  Injector,
+  OnInit,
+  Self,
+  Optional,
+} from '@angular/core';
+import {
+  AbstractControl,
   ControlValueAccessor,
-  NG_VALUE_ACCESSOR,
   FormControl,
-  FormGroup,
+  NG_VALUE_ACCESSOR,
+  NgControl,
 } from '@angular/forms';
 
 @Component({
   selector: 'shared-date-picker',
+  standalone: false,
   templateUrl: './shared-date-picker.component.html',
   styleUrls: ['./shared-date-picker.component.scss'],
-  standalone: false,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => SharedDatePickerComponent),
-      multi: true,
-    },
-  ],
+  providers: [],
 })
-export class SharedDatePickerComponent implements ControlValueAccessor {
+export class SharedDatePickerComponent implements ControlValueAccessor, OnInit {
   @Input() showIcon = true;
   @Input() inputId!: string;
   @Input() minDate?: Date;
   @Input() maxDate?: Date;
-
   value: Date | null = null;
   disabled = false;
 
   onTouched = () => {};
   onChange = (_: any) => {};
 
-  writeValue(val: any) {
-    if (val === null || val === undefined) {
-      this.value = null;
-    } else {
-      const d = new Date(val);
-      this.value = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  constructor(
+    private injector: Injector,
+    @Self() @Optional() public ngControl: NgControl
+  ) {
+    if (this.ngControl != null) {
+      this.ngControl.valueAccessor = this;
     }
+  }
+
+  ngOnInit(): void {}
+  get control(): FormControl | null {
+    return this.ngControl?.control as FormControl;
+  }
+
+  writeValue(val: any) {
+    this.value = val ? new Date(val) : null;
   }
 
   registerOnChange(fn: any) {
@@ -55,6 +66,6 @@ export class SharedDatePickerComponent implements ControlValueAccessor {
   onSelect(d: Date) {
     this.value = d;
     this.onChange(d);
-    this.onTouched();
+    this.onTouched(); // ✅ good
   }
 }

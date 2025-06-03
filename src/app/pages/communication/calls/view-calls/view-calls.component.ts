@@ -9,7 +9,6 @@ import { ClientsFacade } from '../../../crm/clients/store/_clients/allclients/cl
 import { CallType } from '../../../lookups/store/call-types/call-type.model';
 import { CallTypesFacade } from '../../../lookups/store/call-types/call-types.facade';
 
-
 @Component({
   selector: 'app-view-calls',
   standalone: false,
@@ -41,40 +40,41 @@ export class ViewCallsComponent {
 
   constructor(
     private router: Router,
-     private facade: CallsFacade,
-     private clientsFacade: ClientsFacade,
-     private callTypesFacade: CallTypesFacade
-    ) {}
+    private facade: CallsFacade,
+    private clientsFacade: ClientsFacade,
+    private callTypesFacade: CallTypesFacade
+  ) {}
   ngOnInit() {
+    this.facade.loadAll();
+    this.calls$ = this.facade.all$;
 
-     this.facade.loadAll(); 
-    this.calls$ = this.facade.all$; 
+    this.clientsFacade.loadAll();
+    this.clients = this.clientsFacade.all$;
 
-    this.clientsFacade.loadAll(); 
-    this.clients = this.clientsFacade.all$; 
+    this.callTypesFacade.loadAll();
+    this.callTypes = this.callTypesFacade.all$;
 
-    this.callTypesFacade.loadAll(); 
-    this.callTypes = this.callTypesFacade.all$; 
+    combineLatest([this.calls$, this.clients, this.callTypes])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(([calls, clients, callTypes]) => {
+        const enriched: Call[] = calls.map((call) => {
+          const client = clients.find(
+            (c) => c.id === call.communication?.clientId
+          );
+          const callType = callTypes.find((ct) => ct.id === call.callTypeId);
+          return {
+            ...call,
+            clientName: client?.name || 'N/A',
+            callTypeName: callType?.name || 'N/A',
+            topic: call.communication?.topic,
+            date: call.communication?.date,
+          };
+        });
 
-  combineLatest([this.calls$, this.clients, this.callTypes])
-  .pipe(takeUntil(this.destroy$))
-  .subscribe(([calls, clients, callTypes]) => {
-    const enriched: Call[] = calls.map(call => {
-      const client = clients.find(c => c.id === call.communication?.clientId);
-      const callType = callTypes.find(ct => ct.id === call.callTypeId);
-      return {
-        ...call,
-        clientName: client?.name || 'N/A',
-        callTypeName: callType?.name || 'N/A',
-        topic : call.communication?.topic,
-        date : call.communication?.date
-      };
-    });
-
-    const sorted = enriched.sort((a, b) => b.id - a.id);
-    this.originalCalls = sorted;
-    this.filteredCalls = [...sorted];
-    });
+        const sorted = enriched.sort((a, b) => b.id - a.id);
+        this.originalCalls = sorted;
+        this.filteredCalls = [...sorted];
+      });
   }
 
   onAddCall() {
@@ -86,14 +86,13 @@ export class ViewCallsComponent {
     this.destroy$.complete();
   }
   onDeleteCall(callId: any): void {
-    console.log(
-      '[View] onDeleteCall() – opening modal for id=',
-      callId
-    );
+    console.log('[View] onDeleteCall() – opening modal for id=', callId);
     this.selectedCallId = callId;
     this.showDeleteModal = true;
   }
-
+  onAddSide(callId: any) {
+    this.router.navigate(['/communication/wizard-communication', callId]);
+  }
   confirmDelete() {
     console.log(
       '[View] confirmDelete() – about to dispatch delete for id=',
@@ -118,11 +117,10 @@ export class ViewCallsComponent {
   }
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
-    this.filteredCalls = this.originalCalls.filter(
-      (call) =>
-        Object.values(call).some((val) =>
-          val?.toString().toLowerCase().includes(lower)
-        )
+    this.filteredCalls = this.originalCalls.filter((call) =>
+      Object.values(call).some((val) =>
+        val?.toString().toLowerCase().includes(lower)
+      )
     );
   }
   onToggleFilters(value: boolean) {

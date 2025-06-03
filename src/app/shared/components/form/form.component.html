@@ -9090,6 +9090,7 @@
           <p-inputNumber
             formControlName="assetCost"
             placeholder="Asset Cost"
+            class="w-100"
             name="assetCost"
           ></p-inputNumber
           ><br />
@@ -9109,6 +9110,7 @@
           <p-inputNumber
             formControlName="downPayment"
             name="downPayment"
+            class="w-100"
             placeholder="Down Payment"
           ></p-inputNumber
           ><br />
@@ -9132,6 +9134,7 @@
             formControlName="percentOfFinance"
             suffix="%"
             mode="decimal"
+            class="w-100"
             [min]="10"
             [max]="100"
             [minFractionDigits]="2"
@@ -9156,6 +9159,7 @@
           <p-inputNumber
             formControlName="nfa"
             placeholder="NFA"
+            class="w-100"
             name="nfa"
           ></p-inputNumber
           ><br />
@@ -9175,6 +9179,7 @@
           ><br />
           <p-inputNumber
             formControlName="years"
+            class="w-100"
             name="years"
             placeholder="Years"
           ></p-inputNumber
@@ -9209,6 +9214,7 @@
             formControlName="interestRate"
             placeholder="Interest Rate"
             suffix="%"
+            class="w-100"
             mode="decimal"
             [min]="0"
             [minFractionDigits]="2"
@@ -9236,6 +9242,7 @@
             [minFractionDigits]="2"
             [maxFractionDigits]="2"
             placeholder="Insurance Rate"
+            class="w-100"
           ></p-inputNumber
           ><br />
           <small
@@ -9251,15 +9258,24 @@
       </div>
       <div class="row w-100">
         <div class="col-sm">
-          <label for="tenor">Tenor <sup>*</sup></label>
-          <input
-            pInputText
-            id="tenor"
-            aria-describedby="tenor-help"
+          <label for="tenor">Tenor <sup>*</sup></label
+          ><br />
+          <p-inputNumber
             formControlName="tenor"
-            name="tenor"
+            [min]="1"
+            class="w-100"
             placeholder="Tenor"
-          />
+            name="tenor"
+          ></p-inputNumber
+          ><br />
+          <small
+            *ngIf="
+              formGroup.get('tenor')?.invalid && formGroup.get('tenor')?.touched
+            "
+            class="p-error"
+          >
+            Tenor is required.
+          </small>
         </div>
         <div class="col-sm">
           <label for="paymentPeriodId">Payment Period</label>

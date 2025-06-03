@@ -28,6 +28,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { CallsEffects } from './store/calls/calls.effects';
 import { callsReducer } from './store/calls/calls.reducer';
+import { WizardCommunicationComponent } from './wizard-communication/wizard-communication.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { callsReducer } from './store/calls/calls.reducer';
     ViewCallTypesComponent,
     SaveMeetingComponent,
     ViewMonitorFollowupsComponent,
+    WizardCommunicationComponent,
   ],
   imports: [
     CommonModule,

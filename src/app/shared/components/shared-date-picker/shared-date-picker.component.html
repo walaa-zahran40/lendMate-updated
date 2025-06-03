@@ -3,6 +3,7 @@
   [disabled]="disabled"
   [showIcon]="showIcon"
   (onSelect)="onSelect($event)"
+  (onBlur)="onTouched()"
   [inputId]="inputId"
   [minDate]="minDate"
   [maxDate]="maxDate"
@@ -10,4 +11,9 @@
   placeholder="Select Date"
 ></p-datepicker>
 
-<small *ngIf="value === null" class="p-error"> Date is required. </small>
+<small
+  *ngIf="control?.hasError('required') && control?.touched"
+  class="p-error"
+>
+  Date is required.
+</small>
