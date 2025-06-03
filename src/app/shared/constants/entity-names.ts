@@ -20,6 +20,7 @@ export enum EntityNames {
   CallActionType = 'CallActionType',
   CallType = 'CallType',
   ClientType = 'ClientType',
+  Meeting = 'Meeting',
   CommunicationFlowType = 'CommunicationFlowType',
   CommunicationType = 'CommunicationType',
   CompanyType = 'CompanyType',

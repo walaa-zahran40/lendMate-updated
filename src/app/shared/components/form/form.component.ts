@@ -68,6 +68,9 @@ export class FormComponent implements OnInit, OnDestroy {
   @Output() addCommunicationOfficer = new EventEmitter<void>();
   @Output() removeCommunicationOfficer = new EventEmitter<number>();
 
+  @Output() addCommunicationAssetType = new EventEmitter<void>();
+  @Output() removeCommunicationAssetType = new EventEmitter<number>();
+
   @Output() addCommunicationContactPerson = new EventEmitter<void>();
   @Output() removeCommunicationContactPerson = new EventEmitter<number>();
 
@@ -121,6 +124,8 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() teamDepartments: any;
   @Input() governoratesList: any;
   @Input() feeTypes: any;
+  @Input() assetTypes: any;
+  @Input() meetingTypes: any;
   @Input() authorizationGroups: any;
   @Input() areasList: any;
   @Input() currencies: { id: number; name: string }[] = [];
@@ -350,6 +355,7 @@ export class FormComponent implements OnInit, OnDestroy {
   communicationFlowAddCall!: any;
   selectedCommunicationFlowAddCall!: any;
   callActionTypeAddCall!: any;
+
   selectedCallActionTypeAddCall!: any;
   callTypeAddCall!: any;
   selectedCallTypeAddCall!: any;
@@ -472,6 +478,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() leasingFinancialCurrencyForm!: boolean;
   @Input() leasingFinancialRateForm!: boolean;
   @Input() leasingFinancialBasicForm!: boolean;
+  @Input() addMeetingForm!: boolean;
   @Input() addCompanyTypesLookupsForm!: boolean;
   @Input() addMeetingShowBusinessInformationForm!: boolean;
   @Input() addMeetingShowAssetTypeForm!: boolean;
@@ -804,6 +811,10 @@ export class FormComponent implements OnInit, OnDestroy {
     ]);
   }
 
+  viewMeetings() {
+    this.router.navigate([`/communication/view-meetings`]);
+  }
+
   viewMandateAdditionalTerms() {
     this.router.navigate([
       `/crm/leasing-mandates/view-mandate-additional-terms/${this.routeId}/${this.leasingRouteId}`,
@@ -845,7 +856,6 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate([]);
   }
   viewBranchAddress() {
-    console.log('rrrrr', this.branchIdParam);
     this.router.navigate([
       `/organizations/view-branch-addresses/${this.branchIdParam}`,
     ]);
@@ -1187,6 +1197,10 @@ export class FormComponent implements OnInit, OnDestroy {
 
   get communicationContactPersonsArray(): FormArray {
     return this.formGroup.get('communicationContactPersons') as FormArray;
+  }
+
+  get communicationAssetTypesArray(): FormArray {
+    return this.formGroup.get('communicationAssetTypes') as FormArray;
   }
 
   close() {

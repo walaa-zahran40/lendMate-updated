@@ -1,0 +1,27 @@
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-form
+        [title]="'Main Information'"
+        [description]="'Meeting'"
+        [addMeetingForm]="true"
+        [clientsList]="clients$ | async"
+        [meetingTypes]="meetingTypes$ | async"
+        [assetTypes]="assetTypes$ | async"
+        [communicationFlowTypes]="communicationFlowTypes$ | async"
+        [formGroup]="addMeetingForm"
+        (submitForm)="addOrEditMeeting()"
+        [editMode]="editMode"
+        [contactPersons]="contactPersons$ | async"
+        [officersList]="officers$ | async"
+        [viewOnly]="viewOnly"
+        (removeCommunicationContactPerson)="removeCommunicationContactPerson($event)"
+        (addCommunicationContactPerson)="addCommunicationContactPerson()"
+        (removeCommunicationOfficer)="removeCommunicationOfficer($event)"
+        (addCommunicationOfficer)="addCommunicationOfficer()"
+        (removeCommunicationAssetType)="removeCommunicationAssetType($event)"
+        (addCommunicationAssetType)="addCommunicationAssetType()"
+      ></app-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>
