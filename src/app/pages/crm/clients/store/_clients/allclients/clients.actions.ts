@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Client } from './client.model';
+import { Client, ClientWorkFlowAction } from './client.model';
 
 export const loadAll = createAction(
   '[Clients] Load All',
@@ -72,3 +72,16 @@ export const entityOperationSuccess = createAction(
   props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
 );
 export const clearSelectedClient = createAction('[Clients] Clear Selected');
+
+export const performWorkflowActionEntity = createAction(
+  '[ClientsOnboarding] PerformWorkflowAction',
+  props<{ id: number; changes: Partial<ClientWorkFlowAction> }>()
+);
+export const performWorkflowActionEntitySuccess = createAction(
+  '[ClientsOnboarding] PerformWorkflowAction Success',
+  props<{ id: number; changes: Partial<ClientWorkFlowAction> }>()
+);
+export const performWorkflowActionEntityFailure = createAction(
+  '[ClientsOnboarding] PerformWorkflowAction Failure',
+  props<{ error: any }>()
+);

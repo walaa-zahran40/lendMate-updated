@@ -59,6 +59,8 @@ export class AddClientComponent implements OnInit, OnDestroy {
   viewOnly = false;
   individualTypeId!: number;
   individualBusinessId!: any;
+  workFlowActionList: any[] = [];
+  selectedAction: string='';
 
   constructor(
     private fb: FormBuilder,
@@ -315,6 +317,16 @@ export class AddClientComponent implements OnInit, OnDestroy {
       return;
     }
 
+     console.log("📍 Reached before workflow setup",client);
+
+    this.workFlowActionList = client.allowedActionsList?.map(action => ({
+      id: action.id,
+      label: action.name,
+      icon: 'pi pi-times',
+    }));
+    this.selectedAction= client.currentStatusName??'';
+    console.log("✅ this.selectedAction", this.selectedAction);
+
     const sectorId = rawList[0].sectorId;
     console.log(`⏳ Would dispatch loadSectorById({ id: ${sectorId} })`);
     // this.store.dispatch(loadSectorById({ id: sectorId }));
@@ -351,6 +363,40 @@ export class AddClientComponent implements OnInit, OnDestroy {
       });
   }
 
+  handleWorkflowAction(event: { actionId: number, comment: string }): void {
+    const payload = {
+      clientId: this.clientId,
+      clientStatusActionId: event.actionId,
+      comment: event.comment,
+      isCurrent: true
+    };
+
+    this.clientsFacade.performWorkflowAction(event.actionId,payload);
+    this.clientsFacade.workFlowActionSuccess$.subscribe({
+       next: () => {
+          console.log('Workflow action submitted successfully.');
+          this.refreshAllowedActions(); 
+        },
+    });
+  }
+
+  refreshAllowedActions(): void {
+    this.clientsFacade.loadById(this.clientId);
+    this.clientsFacade.selected$.subscribe({
+      next: (client) => {
+        var workFlowAction = [...client?.allowedActionsList?? []]; 
+        this.workFlowActionList = workFlowAction.map(action => ({
+        id: action.id,
+        label: action.name,
+        icon: 'pi pi-times',
+      }));// clone to ensure change detection
+      },
+      error: err => {
+        console.error('Failed to refresh actions:', err);
+      }
+    });
+  }
+  
   saveInfo() {
     console.log('💾 saveInfo() start; valid?', this.addClientForm.valid);
     if (this.addClientForm.invalid) {

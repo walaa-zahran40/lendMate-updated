@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
-import { Client } from './client.model';
+import { Client, ClientWorkFlowAction } from './client.model';
 import { environment } from '../../../../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
@@ -47,5 +47,9 @@ export class ClientsService {
 
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+
+  performWorkflowAction(id: number, changes: Partial<ClientWorkFlowAction>): Observable<void> {
+      return this.http.post<void>(`${environment.apiUrl}ClientWorkFlowActions/CreateClientWorkFlowAction`, changes);
   }
 }
