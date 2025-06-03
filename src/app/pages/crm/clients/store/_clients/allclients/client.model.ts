@@ -12,7 +12,7 @@ export interface Client {
   clientTypeId?: number;
   subSectorIdList?: SubSector[];
   currentStatusName?: string | null;
-  allowedActionsList?: any[];
+  allowedActionsList: any[];
   isStampDuty?: boolean;
   legalFormLawId?: number;
   legalFormId?: number;
@@ -25,4 +25,12 @@ export interface Client {
   marketSize?: number;
   guarantorNameAR?: string;
   guarantorName?: string;
+}
+
+export interface ClientWorkFlowAction {
+  id: number;
+  clientStatusActionId?: number ;
+  clientId?: number;
+  comment?: string;
+  isCurrent?:boolean;
 }
