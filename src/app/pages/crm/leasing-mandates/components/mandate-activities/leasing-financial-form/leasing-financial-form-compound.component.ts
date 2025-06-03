@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
 import { Calculation } from '../../../../../../shared/interfaces/calculations.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { Observable } from 'rxjs';
+import { PaymentPeriod } from '../../../../../lookups/store/payment-periods/payment-period.model';
+import { PaymentPeriodsFacade } from '../../../../../lookups/store/payment-periods/payment-periods.facade';
+import { Store } from '@ngrx/store';
+import { loadAll } from '../../../../../lookups/store/payment-periods/payment-periods.actions';
 @Component({
   selector: 'app-leasing-financial-form-compound',
   standalone: false,
@@ -26,7 +30,13 @@ export class LeasingFinancialFormCompoundComponent {
     { field: 'nameEN', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
   ];
-  constructor(private fb: FormBuilder) {}
+  paymentPeriods$!: Observable<PaymentPeriod[]>;
+
+  constructor(
+    private fb: FormBuilder,
+    private paymentPeriodFacade: PaymentPeriodsFacade,
+    private store: Store
+  ) {}
   ngOnInit() {
     //   this.tableDataInside = [
     //     {
@@ -167,6 +177,9 @@ export class LeasingFinancialFormCompoundComponent {
     this.initializeLeasingFinancialCurrencyForm();
     //Setup Listeners
     this.setupFormListeners();
+    //Load Dropdowns
+    this.store.dispatch(loadAll({}));
+    this.paymentPeriods$ = this.paymentPeriodFacade.all$;
   }
   private initializeLeasingFinancialBasicForm() {
     this.leasingFinancialBasicForm = this.fb.group({

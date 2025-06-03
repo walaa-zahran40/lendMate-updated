@@ -38,6 +38,7 @@ import { PageOperation } from '../../../pages/organizations/store/page-operation
 import { LegalForm } from '../../interfaces/legal-form.interface';
 import { PhoneType } from '../../../pages/lookups/store/phone-types/phone-type.model';
 import { IdentificationType } from '../../../pages/lookups/store/identification-types/identification-type.model';
+import { PaymentPeriod } from '../../../pages/lookups/store/payment-periods/payment-period.model';
 export interface IdentityEntry {
   identificationNumber: string;
   selectedIdentities: any[];
@@ -138,6 +139,8 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() pageIds: any;
   @Input() authorizationGroupsList: any;
   @Input() notificationGroupsList: any;
+  @Input() paymentPeriods: any;
+
   selectedLegalForm: any;
   @Output() sectorChanged = new EventEmitter<number>();
 
@@ -315,7 +318,6 @@ export class FormComponent implements OnInit, OnDestroy {
   contactPersonTypesMandates!: any;
   gracePeriodUnits!: any;
   selectedGracePeriodUnits!: any;
-  paymentPeriods!: any;
   selectedPaymentPeriods!: any;
   currencyExchangeRate!: any;
   selectedCurrencyExchangeRate!: any;
