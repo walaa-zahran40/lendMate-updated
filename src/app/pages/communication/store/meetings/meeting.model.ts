@@ -11,23 +11,21 @@ export interface Meeting {
   communicationFlowId: string;
   communicationFlow?: any; 
 
-  date : Date ; 
   startDate: Date ; 
   endDate: Date ; 
-  onlineURL : string;
+  onlineURL? : string;
   addressLocation : string;
   topic: string;
   details: string;
   comments: string;
 
-reserveCar : string ; 
-driverName : string ; 
-adminComments : string ; 
-
+  reserveCar? : string ; 
+  driverName? : string ; 
+  adminComments? : string ; 
 
   communicationOfficers: CommunicationOfficers[];
   communicationContactPersons: CommunicationContactPersons[];
-  communicationAssetTypes: CommunicationAssetTypes[];
+  communicationAssetTypes?: CommunicationAssetTypes[];
 }
  
 export interface CommunicationContactPersons {

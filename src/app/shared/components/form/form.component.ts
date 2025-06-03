@@ -809,6 +809,12 @@ export class FormComponent implements OnInit, OnDestroy {
     ]);
   }
 
+  viewMeetings() {
+    this.router.navigate([
+      `/communication/view-meetings`,
+    ]);
+  }
+
   viewMandateAdditionalTerms() {
     this.router.navigate([
       `/crm/leasing-mandates/view-mandate-additional-terms/${this.routeId}/${this.leasingRouteId}`,
@@ -853,7 +859,6 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate([]);
   }
   viewBranchAddress() {
-    console.log('rrrrr', this.branchIdParam);
     this.router.navigate([
       `/organizations/view-branch-addresses/${this.branchIdParam}`,
     ]);
@@ -1195,6 +1200,11 @@ export class FormComponent implements OnInit, OnDestroy {
 
 get communicationContactPersonsArray(): FormArray {
   return this.formGroup.get('communicationContactPersons') as FormArray;
+}
+
+
+get communicationAssetTypesArray(): FormArray {
+  return this.formGroup.get('communicationAssetTypes') as FormArray;
 }
 
 

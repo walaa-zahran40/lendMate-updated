@@ -55,6 +55,15 @@
       (click)="viewCalls()"
       class="custom-view m-0 float-right"
     /> 
+
+    <p-button
+      *ngIf="addMeetingForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Meetings"
+      (click)="viewMeetings()"
+      class="custom-view m-0 float-right"
+    /> 
     
     <p-button
       *ngIf="addFeeCalculationTypesLookupsForm"
@@ -12647,11 +12656,7 @@
   </div>
 </form>
 
-<form
-  *ngIf="addMeetingForm"
-  (ngSubmit)="onSubmit()"
-  [formGroup]="formGroup"
->
+<form *ngIf="addMeetingForm" (ngSubmit)="onSubmit()" [formGroup]="formGroup">
   <!-- Client Name -->
   <label for="clientId">Client Name <sup>*</sup></label>
   <p-select
@@ -12668,8 +12673,8 @@
     }"
   ></p-select>
 
-  <!-- Call Type -->
-  <label for="meetingTypeId">Call Type <sup>*</sup></label>
+  <!-- Meeting Type -->
+  <label for="meetingTypeId">Meeting Type <sup>*</sup></label>
   <p-select
     id="meetingTypeId"
     [options]="meetingTypes"
@@ -12699,40 +12704,6 @@
         (formGroup.get('communicationFlowId')?.dirty || formGroup.get('communicationFlowId')?.touched)
     }"
   ></p-select>
-
-  <!-- Topic -->
-  <label for="topic">Topic <sup class="danger">*</sup></label>
-  <input
-    pInputText
-    id="topic"
-    placeholder="Topic"
-    formControlName="topic"
-  />
-
-  <!-- Details -->
-  <label for="details">Details</label>
-  <input
-    pInputText
-    id="details"
-    placeholder="Details"
-    formControlName="details"
-  />
-
-  <label for="date">Date<sup>*</sup></label>
-      <shared-date-picker
-        formControlName="date"
-        inputId="date"
-        >
-      </shared-date-picker>
-
-  <!-- Comments -->
-  <label for="comments">Comments</label>
-  <input
-    pInputText
-    id="comments"
-    placeholder="Comments"
-    formControlName="comments"
-  />
 
   <!-- Communication Officers -->
   <div formArrayName="communicationOfficers" class="my-4">
@@ -12775,7 +12746,6 @@
           'enabled': !viewOnly
         }"
       ></p-toggleswitch>
-    
 
       <!-- Is Responsible -->
       <label for="isResponsible" class="p-0">Is Responsible</label>
@@ -12814,6 +12784,50 @@
     </div>
   </div>
 
+  <!-- Communication Asset Types -->
+  <div formArrayName="communicationAssetTypes" class="my-4">
+    <div
+      *ngFor="let group of communicationAssetTypesArray.controls; let i = index"
+      [formGroupName]="i"
+      class="parent2-individual2 mt-2 flex items-start gap-4 align-items-center flex-wrap"
+    >
+      <div class="div-select flex-1 min-w-0">
+        <label for="assetTypeId" class="p-0">
+          Select Asset Type <sup class="danger">*</sup>
+        </label>
+        <p-select
+          [options]="assetTypes"
+          formControlName="assetTypeId"
+          placeholder="Select Asset Type"
+          optionLabel="name"
+          optionValue="id"
+          [ngClass]="{
+            'ng-invalid ng-dirty': group.get('assetTypeId')?.invalid && group.get('assetTypeId')?.touched,
+            'disabled': viewOnly,
+            'enabled': !viewOnly
+          }"
+        ></p-select>
+      </div>
+      
+      <button
+      pButton
+      type="button"
+      icon="pi pi-plus"
+      class="p-button-outlined p-button-sm"
+      (click)="addCommunicationAssetType.emit()"
+      *ngIf="!viewOnly"
+      ></button>
+      <button
+      pButton
+      type="button"
+      icon="pi pi-trash"
+      class="p-button-danger p-button-sm"
+      (click)="removeCommunicationAssetType.emit(i)"
+      *ngIf="communicationAssetTypesArray.length > 1 && !viewOnly"
+      ></button>
+    </div>
+  </div>
+
   <!-- Communication Contact Persons -->
   <div formArrayName="communicationContactPersons" class="my-4">
     <div
@@ -12843,6 +12857,8 @@
         >
           Contact Person is required.
         </small>
+
+
       </div>
 
       <!-- Is Attend -->
@@ -12882,6 +12898,47 @@
     </div>
   </div>
 
+  <!-- Topic -->
+  <label for="topic">Topic <sup class="danger">*</sup></label>
+  <input
+    pInputText
+    id="topic"
+    placeholder="Topic"
+    formControlName="topic"
+  />
+
+  <!-- Details -->
+  <label for="details">Details</label>
+  <input
+    pInputText
+    id="details"
+    placeholder="Details"
+    formControlName="details"
+  />
+
+  <!-- Start Date -->
+  <label for="startDate">Start Date<sup>*</sup></label>
+  <shared-date-picker
+    formControlName="startDate"
+    inputId="startDate"
+  ></shared-date-picker>
+
+  <!-- End Date -->
+  <label for="endDate">End Date<sup>*</sup></label>
+  <shared-date-picker
+    formControlName="endDate"
+    inputId="endDate"
+  ></shared-date-picker>
+
+  <!-- Comments -->
+  <label for="comments">Comments</label>
+  <input
+    pInputText
+    id="comments"
+    placeholder="Comments"
+    formControlName="comments"
+  />
+
   <!-- Action Buttons -->
   <div class="row justify-end">
     <div
@@ -12895,6 +12952,7 @@
         class="custom-save m-0 float-right"
       ></p-button>
     </div>
+
     <div
       class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
       *ngIf="editMode && !viewOnly"
@@ -12905,6 +12963,7 @@
         class="custom-save m-0 float-right"
       ></p-button>
     </div>
+
     <div
       *ngIf="viewOnly"
       class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
@@ -12919,9 +12978,7 @@
 </form>
 
 
-
-    
-    <form action="" *ngIf="addMeetingShowBusinessInformationForm">
+<form action="" *ngIf="addMeetingShowBusinessInformationForm">
       <label for="startDateAddMeeting">Start Date<sup>*</sup></label>
       <shared-date-picker
         formControlName="startDateAddMeeting"
@@ -12955,7 +13012,8 @@
         ></textarea>
       </div>
     </form>
-    <form action="" *ngIf="addFollowUpsCommunicationForm">
+
+<form action="" *ngIf="addFollowUpsCommunicationForm">
       <label for="dateFollowUpsCommunication">Date<sup>*</sup></label>
       <shared-date-picker
         formControlName="dateFollowUpsCommunication"
@@ -12973,7 +13031,8 @@
         ></textarea>
       </div>
     </form>
-    <form action="" *ngIf="addFollowUpsPointsCommunicationForm">
+
+<form action="" *ngIf="addFollowUpsPointsCommunicationForm">
       <label for="dueDateFollowUpsPointsCommunication"
         >Due Date<sup>*</sup></label
       >
@@ -13030,6 +13089,7 @@
         class="w-full md:w-56"
       />
     </form>
+
     <form action="" *ngIf="addMeetingTypesCommunicationForm">
       <label>Arabic Description<sup>*</sup></label>
       <br />
