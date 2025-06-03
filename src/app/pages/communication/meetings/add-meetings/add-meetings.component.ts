@@ -129,7 +129,7 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
               clientId: rec.clientId,
               meetingTypeId: rec.meetingTypeId,
               communicationFlowId: rec.communicationFlowId,
-
+              addressLocation : rec.addressLocation,
               topic: rec.topic,
               details: rec.details,
               startDate : rec.startDate,
@@ -148,7 +148,7 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
             rec.communicationAssetTypes?.forEach((pp) => {
               assetArr.push(
                 this.fb.group({
-                  contactPersonId: [pp.assetTypeId, Validators.required],  
+                  assetTypeId: [pp.assetTypeId, Validators.required],  
                 })
               );
             });
@@ -325,6 +325,7 @@ createCommunicationOfficerGroup(): FormGroup {
       meetingTypeId: formValue.meetingTypeId,
       communicationFlowId: formValue.communicationFlowId,
 
+      addressLocation : formValue.addressLocation,
       topic: formValue.topic,
       details: formValue.details,
       startDate: formValue.startDate,
