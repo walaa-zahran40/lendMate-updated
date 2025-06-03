@@ -9086,14 +9086,13 @@
       <div class="row w-100">
         <div class="col-sm">
           <label for="assetCost">Asset Cost<sup>*</sup></label>
-          <input
-            pInputText
-            id="assetCost"
-            aria-describedby="assetCost-help"
+          <br />
+          <p-inputNumber
             formControlName="assetCost"
-            name="assetCost"
             placeholder="Asset Cost"
-          />
+            name="assetCost"
+          ></p-inputNumber
+          ><br />
           <small
             *ngIf="
               formGroup.get('assetCost')?.invalid &&
@@ -9106,14 +9105,14 @@
         </div>
         <div class="col-sm">
           <label for="downPayment">Down Payment<sup>*</sup></label>
-          <input
-            pInputText
-            id="downPayment"
-            aria-describedby="downPayment-help"
+          <br />
+          <p-inputNumber
             formControlName="downPayment"
             name="downPayment"
             placeholder="Down Payment"
-          />
+          ></p-inputNumber
+          ><br />
+
           <small
             *ngIf="
               formGroup.get('downPayment')?.invalid &&
@@ -9128,16 +9127,19 @@
       <div class="row w-100">
         <div class="col-sm">
           <label for="percentOfFinance">Percent of Finance<sup>*</sup> </label>
-          <input
-            pInputText
+          <br />
+          <p-inputNumber
+            formControlName="percentOfFinance"
             suffix="%"
             mode="decimal"
-            id="percentOfFinance"
-            aria-describedby="percentOfFinance-help"
-            formControlName="percentOfFinance"
+            [min]="10"
+            [max]="100"
+            [minFractionDigits]="2"
+            [maxFractionDigits]="2"
             name="percentOfFinance"
             placeholder="Percent of Finance"
-          />
+          ></p-inputNumber
+          ><br />
           <small
             *ngIf="
               formGroup.get('percentOfFinance')?.invalid &&
@@ -9150,14 +9152,14 @@
         </div>
         <div class="col-sm">
           <label for="nfa">NFA<sup>*</sup></label>
-          <input
-            pInputText
-            id="NFA"
-            aria-describedby="NFA-help"
+          <br />
+          <p-inputNumber
             formControlName="nfa"
-            name="NFA"
             placeholder="NFA"
-          /><small
+            name="nfa"
+          ></p-inputNumber
+          ><br />
+          <small
             *ngIf="
               formGroup.get('nfa')?.invalid && formGroup.get('nfa')?.touched
             "
@@ -9169,15 +9171,15 @@
       </div>
       <div class="row w-100">
         <div class="col-sm">
-          <label for="years">Years<sup>*</sup></label>
-          <input
-            pInputText
-            id="years"
-            aria-describedby="years-help"
+          <label for="years">Years<sup>*</sup></label
+          ><br />
+          <p-inputNumber
             formControlName="years"
             name="years"
             placeholder="Years"
-          /><small
+          ></p-inputNumber
+          ><br />
+          <small
             *ngIf="
               formGroup.get('years')?.invalid && formGroup.get('years')?.touched
             "
@@ -9190,15 +9192,6 @@
           <label for="startDate">Start Date<sup>*</sup></label>
           <shared-date-picker formControlName="startDate" inputId="startDate">
           </shared-date-picker>
-          <small
-            *ngIf="
-              formGroup.get('startDate')?.invalid &&
-              formGroup.get('startDate')?.touched
-            "
-            class="p-error"
-          >
-            Start Date is required.
-          </small>
         </div>
       </div>
     </form>
@@ -9210,26 +9203,50 @@
     >
       <div class="row w-100">
         <div class="col-sm">
-          <label for="interestRate">Interest Rate<sup>*</sup></label>
-          <input
-            pInputText
-            id="interestRate"
-            aria-describedby="interestRate-help"
+          <label for="interestRate">Interest Rate<sup>*</sup></label
+          ><br />
+          <p-inputNumber
             formControlName="interestRate"
-            name="interestRate"
             placeholder="Interest Rate"
-          />
+            suffix="%"
+            mode="decimal"
+            [min]="0"
+            [minFractionDigits]="2"
+            [maxFractionDigits]="2"
+          ></p-inputNumber
+          ><br />
+          <small
+            *ngIf="
+              formGroup.get('interestRate')?.invalid &&
+              formGroup.get('interestRate')?.touched
+            "
+            class="p-error"
+          >
+            Interest Rate is required.
+          </small>
         </div>
         <div class="col-sm">
-          <label for="insuranceRate">Insurance Rate<sup>*</sup></label>
-          <input
-            pInputText
-            id="insuranceRate"
-            aria-describedby="insuranceRate-help"
+          <label for="insuranceRate">Insurance Rate<sup>*</sup></label
+          ><br />
+          <p-inputNumber
             formControlName="insuranceRate"
-            name="insuranceRate"
+            suffix="%"
+            mode="decimal"
+            [min]="0"
+            [minFractionDigits]="2"
+            [maxFractionDigits]="2"
             placeholder="Insurance Rate"
-          />
+          ></p-inputNumber
+          ><br />
+          <small
+            *ngIf="
+              formGroup.get('insuranceRate')?.invalid &&
+              formGroup.get('insuranceRate')?.touched
+            "
+            class="p-error"
+          >
+            Insurance Rate is required.
+          </small>
         </div>
       </div>
       <div class="row w-100">

@@ -1,9 +1,13 @@
 <p-datepicker
-  [formControl]="ctrl"
+  [(ngModel)]="value"
+  [disabled]="disabled"
   [showIcon]="showIcon"
   (onSelect)="onSelect($event)"
   [inputId]="inputId"
   [minDate]="minDate"
   [maxDate]="maxDate"
->
-</p-datepicker>
+  dateFormat="dd-MM-yy"
+  placeholder="Select Date"
+></p-datepicker>
+
+<small *ngIf="value === null" class="p-error"> Date is required. </small>

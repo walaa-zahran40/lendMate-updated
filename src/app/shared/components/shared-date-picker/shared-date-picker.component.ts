@@ -3,6 +3,7 @@ import {
   ControlValueAccessor,
   NG_VALUE_ACCESSOR,
   FormControl,
+  FormGroup,
 } from '@angular/forms';
 
 @Component({
@@ -21,45 +22,39 @@ import {
 export class SharedDatePickerComponent implements ControlValueAccessor {
   @Input() showIcon = true;
   @Input() inputId!: string;
-
-  // ← new inputs:
   @Input() minDate?: Date;
   @Input() maxDate?: Date;
 
-  ctrl = new FormControl();
+  value: Date | null = null;
+  disabled = false;
 
-  // ControlValueAccessor stubs
   onTouched = () => {};
   onChange = (_: any) => {};
 
   writeValue(val: any) {
-    if (val == null) {
-      this.ctrl.setValue(null, { emitEvent: false });
-      return;
+    if (val === null || val === undefined) {
+      this.value = null;
+    } else {
+      const d = new Date(val);
+      this.value = new Date(d.getFullYear(), d.getMonth(), d.getDate());
     }
-    const d = new Date(val);
-    const localMid = new Date(d.getFullYear(), d.getMonth(), d.getDate());
-    this.ctrl.setValue(localMid, { emitEvent: false });
   }
 
   registerOnChange(fn: any) {
     this.onChange = fn;
-    this.ctrl.valueChanges.subscribe((d: Date) => {
-      const utcMid = new Date(
-        Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())
-      );
-      fn(utcMid);
-    });
   }
+
   registerOnTouched(fn: any) {
     this.onTouched = fn;
   }
+
   setDisabledState?(isDisabled: boolean) {
-    isDisabled ? this.ctrl.disable() : this.ctrl.enable();
+    this.disabled = isDisabled;
   }
 
-  // forward the p-datepicker onSelect
   onSelect(d: Date) {
+    this.value = d;
+    this.onChange(d);
     this.onTouched();
   }
 }

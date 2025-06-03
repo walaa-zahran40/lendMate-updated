@@ -59,6 +59,7 @@ import { GlobalSpinnerComponent } from './global-spinner/global-spinner.componen
 import { SharedDatePickerComponent } from './shared-date-picker/shared-date-picker.component';
 import { DownloadPopupComponent } from './download-popup/download-popup.component';
 import { WorkflowDialogComponent } from './workflow-dialog/workflow-dialog.component';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,7 @@ import { WorkflowDialogComponent } from './workflow-dialog/workflow-dialog.compo
     GlobalSpinnerComponent,
     SharedDatePickerComponent,
     DownloadPopupComponent,
-    WorkflowDialogComponent
+    WorkflowDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -96,6 +97,7 @@ import { WorkflowDialogComponent } from './workflow-dialog/workflow-dialog.compo
     ButtonModule,
     MultiSelectModule,
     DropdownModule,
+    InputNumberModule,
     ProgressBarModule,
     PanelMenuModule,
     AutoCompleteModule,
@@ -142,7 +144,7 @@ import { WorkflowDialogComponent } from './workflow-dialog/workflow-dialog.compo
     DownloadPopupComponent,
     ToolbarCardComponent,
     ToolbarCompoundComponent,
-    WorkflowDialogComponent
+    WorkflowDialogComponent,
   ],
 })
 export class ComponentsModule {}
