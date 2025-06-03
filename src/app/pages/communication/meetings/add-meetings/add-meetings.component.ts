@@ -141,14 +141,12 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
               this.addMeetingForm.value
             );
 
-             const assetArr = this.addMeetingForm.get(
+            const assetArr = this.addMeetingForm.get(
               'communicationAssetTypes'
             ) as FormArray;
-            console.log('📞 assets before clear:', assetArr.length);
             assetArr.clear();
-            console.log('📞 assets after clear:', assetArr.length);
             rec.communicationAssetTypes?.forEach((pp) => {
-              phArr.push(
+              assetArr.push(
                 this.fb.group({
                   contactPersonId: [pp.assetTypeId, Validators.required],  
                 })
@@ -161,7 +159,6 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
             ) as FormArray;
             console.log('👥 communicationContactPersons before clear:', idArr.length);
             idArr.clear();
-            console.log('👥 communicationContactPersons after clear:', idArr.length);
             rec.communicationOfficers?.forEach((ci) => {
               idArr.push(
                 this.fb.group({
@@ -176,9 +173,7 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
             const phArr = this.addMeetingForm.get(
               'communicationContactPersons'
             ) as FormArray;
-            console.log('📞 officers before clear:', phArr.length);
             phArr.clear();
-            console.log('📞 officers after clear:', phArr.length);
             rec.communicationContactPersons?.forEach((pp) => {
               phArr.push(
                 this.fb.group({
@@ -224,11 +219,11 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
   }
 
   get officers(): FormArray {
-    return this.addMeetingForm.get('officersList') as FormArray;
+    return this.addMeetingForm.get('communicationOfficers') as FormArray;
   }
 
   get assetTypes(): FormArray {
-    return this.addMeetingForm.get('assetTypes') as FormArray;
+    return this.addMeetingForm.get('communicationAssetTypes') as FormArray;
   }
 
   addCommunicationOfficer() {
@@ -393,6 +388,18 @@ createCommunicationOfficerGroup(): FormGroup {
     this.router.navigate(['/communication/view-meetings']);
   }
 
+  
+  get communicationOfficersArray(): FormArray {
+  return this.addMeetingForm.get('communicationOfficers') as FormArray;
+}
+
+get communicationContactPersonsArray(): FormArray {
+  return this.addMeetingForm.get('communicationContactPersons') as FormArray;
+}
+
+get communicationAssetTypesArray(): FormArray {
+  return this.addMeetingForm.get('communicationAssetTypes') as FormArray;
+}
 
 ngOnDestroy() {
     this.destroy$.next();
