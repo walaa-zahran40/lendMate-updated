@@ -1183,7 +1183,6 @@
         />&nbsp;
         <label for="isStampDuty">Is Stamp Duty</label>
       </ng-container>
-
       <!-- Business Info -->
       <ng-container *ngIf="addClientShowBusiness">
         <!-- Main Share -->
@@ -13385,28 +13384,27 @@
       </div>
     </form>
 
-        <form *ngIf="addFollowupsForm" (ngSubmit)="onSubmit()" [formGroup]="formGroup">
+    <form
+      *ngIf="addFollowupsForm"
+      (ngSubmit)="onSubmit()"
+      [formGroup]="formGroup"
+    >
       <label for="date">Date<sup>*</sup></label>
-      <shared-date-picker
-        formControlName="date"
-        inputId="date"
-      >
+      <shared-date-picker formControlName="date" inputId="date">
       </shared-date-picker>
       <div class="d-flex flex-column">
-        <label for="details">Follow Up Details</label
-        >
-     <div>
-        <textarea
-          pInputText
-          id="details"
-          formControlName="details"
-          placeholder="Enter details"
-        ></textarea>
+        <label for="details">Follow Up Details</label>
+        <div>
+          <textarea
+            pInputText
+            id="details"
+            formControlName="details"
+            placeholder="Enter details"
+          ></textarea>
+        </div>
       </div>
 
-      </div>
-
-        <div class="row justify-end">
+      <div class="row justify-end">
         <div
           class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 addressTypesDiv"
           *ngIf="!editMode"
@@ -13439,9 +13437,7 @@
           />
         </div>
       </div>
-
     </form>
-
 
     <!-- <form action="" *ngIf="addMeetingShowBusinessInformationForm">
       <label for="startDateAddMeeting">Start Date<sup>*</sup></label>
