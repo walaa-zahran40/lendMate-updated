@@ -1,23 +1,23 @@
 <div class="page-content">
   <app-toolbar-table
-    [title]="'Mandate Statuses'"
-    [labelBtn]="'Add Mandate Status'"
+    [title]="'Action Authorization Group'"
+    [labelBtn]="'Add Action Authorization Group'"
     [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
     [backExists]="true"
     [customSpacing]="'custom-spacing'"
     [exports]="true"
-    (addBtn)="onAddMandateStatus()"
+    (addBtn)="onAddActionAuthorizationGroup()"
     (searchChange)="onSearch($event)"
     (toggleFiltersEvent)="onToggleFilters($event)"
     (exportExcel)="tableRef.exportToExcel()"
     (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <ng-container *ngIf="mandateStatuses$ | async as mandateStatuses">
+  <ng-container *ngIf="actionAuthorizationGroups$ | async as actionAuthorizationGroups">
     <app-table
       #tableRef
       [cols]="colsInside"
-      [tableData]="filteredMandateStatuses"
+      [tableData]="filteredActionAuthorizationGroups"
       [edit]="true"
       [delete]="true"
       [side]="false"
@@ -26,10 +26,10 @@
       [view]="true"
       [filters]="showFilters"
       [uppercase]="'uppercase'"
-      [viewMandateStatusesTable]="true"
-      (onDelete)="onDeleteMandateStatus($event)"
-      (onEdit)="onEditMandateStatus($event)"
-      (viewForm)="onViewMandateStatus($event)"
+      [viewActionAuthorizationGroupTable]="true"
+      (onDelete)="onDeleteActionAuthorizationGroup($event)"
+      (onEdit)="onEditActionAuthorizationGroup($event)"
+      (viewForm)="onViewActionAuthorizationGroup($event)"
     ></app-table>
     <app-delete-module
       [visible]="showDeleteModal"

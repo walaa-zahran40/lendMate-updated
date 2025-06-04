@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddCompanyTypesComponent } from './components/company-types/add-company-types/add-company-types.component';
 import { AddFeeCalculationTypesComponent } from './components/fee-calculation-types/add-fee-calculation-types/add-fee-calculation-types.component';
-import { AddMandateStatusesComponent } from './components/mandate-statuses/add-mandate-statuses/add-mandate-statuses.component';
 import { AddInterestRateBenchmarksComponent } from './components/interest-rate-benchmarks/add-interest-rate-benchmarks/add-interest-rate-benchmarks.component';
 import { AddFeeTypesComponent } from './components/fee-types/add-fee-types/add-fee-types.component';
 import { AddPeriodUnitsComponent } from './components/period-units/add-period-units/add-period-units.component';
@@ -39,7 +38,6 @@ import { AddCallActionTypesComponent } from './components/call-action-types/add-
 import { AddCommunicationFlowTypesComponent } from './components/communication-flow-types/add-communication-flow-types/communication-flow-types.component';
 import { ViewCompanyTypesComponent } from './components/company-types/view-company-types/view-company-types.component';
 import { ViewFeesCalculationTypesComponent } from './components/fee-calculation-types/view-fees-calculation-types/view-fees-calculation-types.component';
-import { ViewMandateStatusesComponent } from './components/mandate-statuses/view-mandate-statuses/view-mandate-statuses.component';
 import { ViewInterestRateBenchmarksComponent } from './components/interest-rate-benchmarks/view-interest-rate-benchmarks/view-interest-rate-benchmarks.component';
 import { ViewFeeTypesComponent } from './components/fee-types/view-fee-types/view-fee-types.component';
 import { ViewPeriodUnitsComponent } from './components/period-units/view-period-units/view-period-units.component';
@@ -112,6 +110,11 @@ import { AddActionAuthorizationGroupsComponent } from './components/client-statu
 import { ViewActionAuthorizationGroupsComponent } from './components/client-statuses/ClientStatusActionActivities/ClientStatusActionAuthorizationGroup/view-action-authorization-group/view-action-authorization-group.component';
 import { AddActionNotificationGroupsComponent } from './components/client-statuses/ClientStatusActionActivities/ClientStatusActionNotificationGroup/add-action-notification-group/add-action-notification-group.component';
 import { ViewActionNotificationGroupsComponent } from './components/client-statuses/ClientStatusActionActivities/ClientStatusActionNotificationGroup/view-action-notification-group/view-action-notification-group.component';
+import { AddMandateStatusActionsComponent } from './components/mandate-statuses/add-mandate-status-action/add-mandate-status-actions.component';
+import { AddMandateStatusesComponent } from './components/mandate-statuses/add-mandate-status/add-mandate-status.component';
+import { ViewMandateStatusActionsComponent } from './components/mandate-statuses/view-mandate-status-actions/view-mandate-status-actions.component';
+import { ViewMandateStatusesComponent } from './components/mandate-statuses/view-mandate-statuses/view-mandate-statuses.component';
+import { WizardMandateStatusActionComponent } from './components/mandate-statuses/wizard-mandate-status-action/wizard-mandate-status-action.component';
 
 const routes: Routes = [
   /**Lookup Module */
@@ -368,21 +371,6 @@ const routes: Routes = [
   {
     path: 'view-currency-exchange-rates/:currencyId',
     component: ViewCurrencyExchangeComponent,
-  },
-
-  //Asset mandate status
-  {
-    path: 'add-mandate-statuses',
-    component: AddMandateStatusesComponent,
-  },
-  {
-    path: 'edit-mandate-statuses/:id',
-    component: AddMandateStatusesComponent,
-  },
-
-  {
-    path: 'view-mandate-statuses',
-    component: ViewMandateStatusesComponent,
   },
 
   //Asset Types
@@ -713,10 +701,38 @@ const routes: Routes = [
     component: ViewClientStatusActionsComponent,
   },
 
-  //----
+  //Mandate Statuses
   {
-    path: 'add-mandate-statuses',
+    path: 'add-mandate-status',
     component: AddMandateStatusesComponent,
+  },
+  {
+    path: 'view-mandate-status-actions/:mandateStatusId',
+    component: ViewMandateStatusActionsComponent,
+  },
+  {
+    path: 'edit-mandate-status/:id',
+    component: AddMandateStatusesComponent,
+  },
+  {
+    path: 'view-mandate-statuses',
+    component: ViewMandateStatusesComponent,
+  },
+  {
+    path: 'wizard-mandate-status-action/:mandate',
+    component: WizardMandateStatusActionComponent,
+  },
+  {
+    path: 'add-mandate-status-actions',
+    component: AddMandateStatusActionsComponent,
+  },
+  {
+    path: 'edit-mandate-status-actions/:id',
+    component: AddMandateStatusActionsComponent,
+  },
+  {
+    path: 'view-mandate-status-actions',
+    component: ViewMandateStatusActionsComponent,
   },
 
   {

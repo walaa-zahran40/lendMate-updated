@@ -1,4 +1,4 @@
-import { MandateStatus } from './mandate-status.model';
+import { MandateStatus } from "./mandate-status.model";
 
 export interface MandateStatusesState {
   items: MandateStatus[];

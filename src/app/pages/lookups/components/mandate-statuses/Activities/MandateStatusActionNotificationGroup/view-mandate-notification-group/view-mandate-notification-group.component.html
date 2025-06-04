@@ -1,23 +1,23 @@
 <div class="page-content">
   <app-toolbar-table
-    [title]="'Mandate Statuses'"
-    [labelBtn]="'Add Mandate Status'"
+    [title]="'Action Notification Group'"
+    [labelBtn]="'Add Action Notification Group'"
     [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
     [backExists]="true"
     [customSpacing]="'custom-spacing'"
     [exports]="true"
-    (addBtn)="onAddMandateStatus()"
+    (addBtn)="onAddActionNotificationGroup()"
     (searchChange)="onSearch($event)"
     (toggleFiltersEvent)="onToggleFilters($event)"
     (exportExcel)="tableRef.exportToExcel()"
     (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <ng-container *ngIf="mandateStatuses$ | async as mandateStatuses">
+  <ng-container *ngIf="actionNotificationGroups$ | async as actionNotificationGroups">
     <app-table
       #tableRef
       [cols]="colsInside"
-      [tableData]="filteredMandateStatuses"
+      [tableData]="filteredActionNotificationGroups"
       [edit]="true"
       [delete]="true"
       [side]="false"
@@ -26,10 +26,10 @@
       [view]="true"
       [filters]="showFilters"
       [uppercase]="'uppercase'"
-      [viewMandateStatusesTable]="true"
-      (onDelete)="onDeleteMandateStatus($event)"
-      (onEdit)="onEditMandateStatus($event)"
-      (viewForm)="onViewMandateStatus($event)"
+      [viewActionNotificationGroupTable]="true"
+      (onDelete)="onDeleteActionNotificationGroup($event)"
+      (onEdit)="onEditActionNotificationGroup($event)"
+      (viewForm)="onViewActionNotificationGroup($event)"
     ></app-table>
     <app-delete-module
       [visible]="showDeleteModal"

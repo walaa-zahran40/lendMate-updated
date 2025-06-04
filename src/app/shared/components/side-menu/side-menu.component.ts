@@ -583,52 +583,52 @@ export class SideMenuComponent {
           // },
         ],
       },
-      // {
-      //   label: 'Mandate WorkFlow',
-      //   icon: 'pi pi-users',
-      //   items: [
-      //     {
-      //       label: 'MandateStatus',
-      //       icon: 'pi pi-user-plus',
-      //       routerLink: '/lookups/view-mandate-statuses',
-      //     },
-      //     {
-      //       label: 'MandateStatusAction',
-      //       icon: 'pi pi-user-plus',
-      //       routerLink: '/lookups/add-client-status-actions',
-      //     },
-      //     {
-      //       label: 'MandateStatusActionAuthorizationGroup',
-      //       icon: 'pi pi-user-plus',
-      //       routerLink: '/lookups/add-client-status-actionss',
-      //     },
-      //     {
-      //       label: 'MandateStatusActionCondition',
-      //       icon: 'pi pi-user-plus',
-      //       routerLink: '/lookups/add-client-status-actionss',
-      //     },
-      //     {
-      //       label: 'MandateStatusActionNotificationGroup',
-      //       icon: 'pi pi-user-plus',
-      //       routerLink: '/lookups/add-client-status-actionss',
-      //     },
-      //     {
-      //       label: 'MandateWorkFlowActions',
-      //       icon: 'pi pi-user-plus',
-      //       routerLink: '/lookups/add-client-status-actionss',
-      //     },
-      //     {
-      //       label: 'MandateNotificationGroupOfficer',
-      //       icon: 'pi pi-user-plus',
-      //       routerLink: '/lookups/add-client-status-actionss',
-      //     },
-      //     {
-      //       label: 'MandateAuthorizationGroup',
-      //       icon: 'pi pi-user-plus',
-      //       routerLink: '/lookups/add-client-status-actionss',
-      //     },
-      //   ],
-      // },
+      {
+        label: 'Mandate WorkFlow',
+        icon: 'pi pi-users',
+        items: [
+          {
+            label: 'Mandate Status',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-mandate-statuses',
+          },
+          {
+            label: 'Mandate Status Action',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-mandate-status-actions',
+          },
+          // {
+          //   label: 'MandateStatusActionAuthorizationGroup',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/lookups/add-mandate-status-actionss',
+          // },
+          // {
+          //   label: 'MandateStatusActionCondition',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/lookups/add-mandate-status-actionss',
+          // },
+          // {
+          //   label: 'MandateStatusActionNotificationGroup',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/lookups/add-mandate-status-actionss',
+          // },
+          // {
+          //   label: 'MandateWorkFlowActions',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/lookups/add-mandate-status-actions',
+          // },
+          // {
+          //   label: 'MandateNotificationGroupOfficer',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/lookups/add-client-status-actionss',
+          // },
+          // {
+          //   label: 'MandateAuthorizationGroup',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/lookups/add-client-status-actionss',
+          // },
+        ],
+      },
       {
         label: 'Fees',
         icon: 'pi pi-users',
