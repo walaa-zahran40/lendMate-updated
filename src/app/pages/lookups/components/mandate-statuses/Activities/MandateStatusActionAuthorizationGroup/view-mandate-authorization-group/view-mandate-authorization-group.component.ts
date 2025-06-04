@@ -73,29 +73,7 @@ export class ViewMandateActionAuthorizationGroupsComponent {
         this.filteredActionAuthorizationGroups = [...enriched];
       });
   }
-  private setupAuthorizationGroupMapping(): void {
-    combineLatest([
-      this.actionAuthorizationGroups$,
-      this.authorizationGroupsList$,
-    ])
-      .pipe(
-        filter(([actionGroups, groupList]) => actionGroups.length > 0 && groupList.length > 0),
-        map(([actionAuthorizationGroups, authorizationGroupsList]) =>
-          actionAuthorizationGroups
-            .map((actionAuthorizationGroup) => ({
-              ...actionAuthorizationGroup,
-              authorizationGroup:
-                authorizationGroupsList.find((c) => c.id === actionAuthorizationGroup.authorizationGroupId)?.name || '—',
-            }))
-            .sort((a, b) => b.id - a.id)
-        ),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((enriched) => {
-        this.originalActionAuthorizationGroups = enriched;
-        this.filteredActionAuthorizationGroups = [...enriched];
-      });
-  }
+ 
 
   onAddActionAuthorizationGroup() {
     const mandateStatusActionIdParam = this.route.snapshot.paramMap.get('mandateStatusActionId');
