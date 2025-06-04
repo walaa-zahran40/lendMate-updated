@@ -13314,23 +13314,59 @@
       </div>
     </form>
 
-    <form action="" *ngIf="addFollowupsForm">
-      <label for="dateFollowUpsCommunication">Date<sup>*</sup></label>
+    <form *ngIf="addFollowupsForm" (ngSubmit)="onSubmit()" [formGroup]="formGroup">
+      <label for="date">Date<sup>*</sup></label>
       <shared-date-picker
-        formControlName="dateFollowUpsCommunication"
-        inputId="dateFollowUpsCommunication"
+        formControlName="date"
+        inputId="date"
       >
       </shared-date-picker>
       <div class="d-flex flex-column">
-        <label for="followupDetailsCommunication">Follow Up Details</label
+        <label for="details">Follow Up Details</label
         ><textarea
           rows="5"
           cols="30"
           pTextarea
-          placeholder="Topic"
-          name="followupDetailsCommunication"
+          placeholder="details"
+          formControlName="details"
+          name="details"
         ></textarea>
       </div>
+
+        <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 addressTypesDiv"
+          *ngIf="!editMode"
+        >
+          <p-button
+            type="submit"
+            label="Add Follow up"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 addressTypesDiv"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Follow up"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 addressTypesDiv"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate(['/communication/view-followups/'])"
+          />
+        </div>
+      </div>
+
     </form>
 
     <form action="" *ngIf="addFollowUpsPointsCommunicationForm">
