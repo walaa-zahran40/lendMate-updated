@@ -15,6 +15,7 @@ export class WizardMandateStatusActionComponent {
 
   ngOnInit(): void {
     const mandateStatusActionId = this.route.snapshot.paramMap.get('mandateStatusActionId');
+    console.log(this.route.snapshot.paramMap);
     this.originalCards = [
       {
         imgUrl: '/assets/images/shared/card/add-status.svg',
@@ -22,7 +23,7 @@ export class WizardMandateStatusActionComponent {
         title: 'Add Authorization Group',
         content:
           'Introduce your company core info quickly to users by fill up company details',
-        link: `/lookups/view-action-authorizationGroups/${mandateStatusActionId}`,
+        link: `/lookups/view-mandate-action-authorizationGroups/${mandateStatusActionId}`,
       },
        {
         imgUrl: '/assets/images/shared/card/add-status.svg',
@@ -30,7 +31,7 @@ export class WizardMandateStatusActionComponent {
         title: 'Add Notification Group',
         content:
           'Introduce your company core info quickly to users by fill up company details',
-        link: `/lookups/view-action-notificationGroups/${mandateStatusActionId}`,
+        link: `/lookups/view-mandate-action-notificationGroups/${mandateStatusActionId}`,
       },
     ];
     this.cards = this.chunkArray(this.originalCards, 3);

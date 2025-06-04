@@ -115,6 +115,10 @@ import { AddMandateStatusesComponent } from './components/mandate-statuses/add-m
 import { ViewMandateStatusActionsComponent } from './components/mandate-statuses/view-mandate-status-actions/view-mandate-status-actions.component';
 import { ViewMandateStatusesComponent } from './components/mandate-statuses/view-mandate-statuses/view-mandate-statuses.component';
 import { WizardMandateStatusActionComponent } from './components/mandate-statuses/wizard-mandate-status-action/wizard-mandate-status-action.component';
+import { AddMandateActionAuthorizationGroupsComponent } from './components/mandate-statuses/Activities/MandateStatusActionAuthorizationGroup/add-mandate-authorization-group/add-mandate-authorization-group.component';
+import { ViewMandateActionAuthorizationGroupsComponent } from './components/mandate-statuses/Activities/MandateStatusActionAuthorizationGroup/view-mandate-authorization-group/view-mandate-authorization-group.component';
+import { AddMandateActionNotificationGroupsComponent } from './components/mandate-statuses/Activities/MandateStatusActionNotificationGroup/add-mandate-notification-group/add-mandate-notification-group.component';
+import { ViewMandateActionNotificationGroupsComponent } from './components/mandate-statuses/Activities/MandateStatusActionNotificationGroup/view-mandate-notification-group/view-mandate-notification-group.component';
 
 const routes: Routes = [
   /**Lookup Module */
@@ -719,7 +723,7 @@ const routes: Routes = [
     component: ViewMandateStatusesComponent,
   },
   {
-    path: 'wizard-mandate-status-action/:mandate',
+    path: 'wizard-mandate-status-action/:mandateStatusActionId',
     component: WizardMandateStatusActionComponent,
   },
   {
@@ -948,6 +952,39 @@ const routes: Routes = [
   {
     path: 'view-action-notificationGroups/:clientStatusActionId',
     component: ViewActionNotificationGroupsComponent,
+  },
+  
+   {
+    path: 'add-mandate-action-authorizationGroups',
+    component: AddMandateActionAuthorizationGroupsComponent,
+  },
+  {
+    path: 'add-mandate-action-authorizationGroups/:mandateStatusActionId',
+    component: AddMandateActionAuthorizationGroupsComponent,
+  },
+  {
+    path: 'edit-mandate-action-authorizationGroups/:id',
+    component: AddMandateActionAuthorizationGroupsComponent,
+  },
+  {
+    path: 'view-mandate-action-authorizationGroups/:mandateStatusActionId',
+    component: ViewMandateActionAuthorizationGroupsComponent,
+  },
+  {
+    path: 'add-mandate-action-notificationGroups',
+    component: AddMandateActionNotificationGroupsComponent,
+  },
+  {
+    path: 'add-mandate-action-notificationGroups/:mandateStatusActionId',
+    component: AddMandateActionNotificationGroupsComponent,
+  },
+  {
+    path: 'edit-mandate-action-notificationGroups/:id',
+    component: AddMandateActionNotificationGroupsComponent,
+  },
+  {
+    path: 'view-mandate-action-notificationGroups/:mandateStatusActionId',
+    component: ViewMandateActionNotificationGroupsComponent,
   },
 ];
 

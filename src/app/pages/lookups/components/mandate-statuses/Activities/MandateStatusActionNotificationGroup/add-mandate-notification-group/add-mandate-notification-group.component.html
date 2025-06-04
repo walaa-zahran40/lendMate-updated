@@ -16,9 +16,9 @@
           'Introduce your Notification Group core info quickly to users by fill up client details'
         "
         [formGroup]="addActionNotificationGroupsLookupsForm"
-        [addActionNotificationGroupForm]="true"
+        [addMandateActionNotificationGroupForm]="true"
         [editMode]="editMode"
-        (submitForm)="addOrEditActionNotificationGroups()"
+        (submitForm)="addOrEditMandateActionNotificationGroups()"
         [viewOnly]="viewOnly"
         [notificationGroupsList]="notificationGroupsList$ | async"
       ></app-form>

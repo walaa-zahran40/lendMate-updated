@@ -530,6 +530,7 @@ export class FormComponent implements OnInit, OnDestroy {
   teamIdParam: any;
   clientIdParam: any;
   clientStatusActionIdParam: any;
+  mandateStatusActionIdParam: any;
   @Input() addPaymentTypesLookupsForm!: boolean;
   @Input() addPaymentTimingTermsLookupsForm!: boolean;
   @Input() addPaymentPeriodsLookupsForm!: boolean;
@@ -584,6 +585,9 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addClientOfficerShowMain!: boolean;
   @Input() addClientLegalShowMain!: boolean;
   @Input() addDepartmentsForm!: boolean;
+  @Input() addMandateActionAuthorizationGroupForm!: boolean;
+  @Input() addMandateActionNotificationGroupForm!: boolean;
+
   @Input() currentClientId?: number;
 
   filteredSubSectors$!: Observable<SubSectors[]>;
@@ -644,6 +648,8 @@ export class FormComponent implements OnInit, OnDestroy {
       this.route.snapshot.queryParams['clientStatusActionId'];
     this.clientStatusIdParam = this.route.snapshot.params['id'];
     this.mandateStatusIdParam = this.route.snapshot.params['id'];
+    this.mandateStatusActionIdParam =
+      this.route.snapshot.queryParams['mandateStatusActionId'];
     this.sub = this.formGroup?.valueChanges
       .pipe(debounceTime(300))
       .subscribe(() => {
@@ -1078,6 +1084,16 @@ export class FormComponent implements OnInit, OnDestroy {
   viewActionNotificationGroup() {
     this.router.navigate([
       `/lookups/view-action-notificationGroups/${this.clientStatusActionIdParam}`,
+    ]);
+  }
+   viewMandateActionAuthorizationGroup() {
+    this.router.navigate([
+      `/lookups/view-mandate-action-authorizationGroups/${this.mandateStatusActionIdParam}`,
+    ]);
+  }
+  viewMandateActionNotificationGroup() {
+    this.router.navigate([
+      `/lookups/view-mandate-action-notificationGroups/${this.mandateStatusActionIdParam}`,
     ]);
   }
   viewSMEClientCode() {
