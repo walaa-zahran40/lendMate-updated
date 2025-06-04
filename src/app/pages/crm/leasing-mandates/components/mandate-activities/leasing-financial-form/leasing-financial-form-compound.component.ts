@@ -1,11 +1,23 @@
 import { Component } from '@angular/core';
-import { Calculation } from '../../../../../../shared/interfaces/calculations.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+
+import { loadAll } from '../../../../../lookups/store/payment-periods/payment-periods.actions';
+import { loadAll as loadAllGracePeriodUnits } from '../../../../../lookups/store/period-units/period-units.actions';
+import { loadAll as loadCurrencies } from '../../../../../lookups/store/currencies/currencies.actions';
+import { loadCurrencyExchangeRates } from '../../../../../lookups/store/currency-exchange-rates/currency-exchange-rates.actions';
+
 import { PaymentPeriod } from '../../../../../lookups/store/payment-periods/payment-period.model';
 import { PaymentPeriodsFacade } from '../../../../../lookups/store/payment-periods/payment-periods.facade';
-import { Store } from '@ngrx/store';
-import { loadAll } from '../../../../../lookups/store/payment-periods/payment-periods.actions';
+import { Currency } from '../../../../../lookups/store/currencies/currency.model';
+import { Calculation } from '../../../../../../shared/interfaces/calculations.interface';
+import { PeriodUnit } from '../../../../../lookups/store/period-units/period-unit.model';
+
+import { GracePeriodUnitsFacade } from '../../../../../lookups/store/period-units/period-units.facade';
+import { CurrenciesFacade } from '../../../../../lookups/store/currencies/currencies.facade';
+import { CurrencyExchangeRate } from '../../../../../lookups/store/currency-exchange-rates/currency-exchange-rate.model';
+import { CurrencyExchangeRatesFacade } from '../../../../../lookups/store/currency-exchange-rates/currency-exchange-rates.facade';
 @Component({
   selector: 'app-leasing-financial-form-compound',
   standalone: false,
@@ -31,146 +43,18 @@ export class LeasingFinancialFormCompoundComponent {
     { field: 'nameAR', header: 'Name AR' },
   ];
   paymentPeriods$!: Observable<PaymentPeriod[]>;
-
+  gracePeriodUnits$!: Observable<PeriodUnit[]>;
+  currencies$!: Observable<Currency[]>;
+  currencyExchangeRates$!: Observable<CurrencyExchangeRate[]>;
   constructor(
     private fb: FormBuilder,
     private paymentPeriodFacade: PaymentPeriodsFacade,
+    private gracePeriodUnitFacade: GracePeriodUnitsFacade,
+    private currenciesFacade: CurrenciesFacade,
+    private currencyExchangeRatesFacade: CurrencyExchangeRatesFacade,
     private store: Store
   ) {}
   ngOnInit() {
-    //   this.tableDataInside = [
-    //     {
-    //       code: 1,
-    //       paymentNumber: 1,
-    //       dueDate: new Date('01/10/2025'),
-    //       balanceBefore: 50000,
-    //       balanceAfter: 70000,
-    //       insuranceOutcome: 0,
-    //       principal: 7948,
-    //       installment: 18000,
-    //       interest: 7,
-    //       nameAR: 'name ar',
-    //       nameEN: 'name en',
-    //     },
-    //     {
-    //       code: 1,
-    //       paymentNumber: 1,
-    //       dueDate: new Date('01/10/2025'),
-    //       balanceBefore: 50000,
-    //       balanceAfter: 70000,
-    //       insuranceOutcome: 0,
-    //       principal: 7948,
-    //       installment: 18000,
-    //       interest: 7,
-    //       nameAR: 'name ar',
-    //       nameEN: 'name en',
-    //     },
-    //     {
-    //       code: 1,
-    //       paymentNumber: 1,
-    //       dueDate: new Date('01/10/2025'),
-    //       balanceBefore: 50000,
-    //       balanceAfter: 70000,
-    //       insuranceOutcome: 0,
-    //       principal: 7948,
-    //       installment: 18000,
-    //       interest: 7,
-    //       nameAR: 'name ar',
-    //       nameEN: 'name en',
-    //     },
-    //     {
-    //       code: 1,
-    //       paymentNumber: 1,
-    //       dueDate: new Date('01/10/2025'),
-    //       balanceBefore: 50000,
-    //       balanceAfter: 70000,
-    //       insuranceOutcome: 0,
-    //       principal: 7948,
-    //       installment: 18000,
-    //       interest: 7,
-    //       nameAR: 'name ar',
-    //       nameEN: 'name en',
-    //     },
-    //     {
-    //       code: 1,
-    //       paymentNumber: 1,
-    //       dueDate: new Date('01/10/2025'),
-    //       balanceBefore: 50000,
-    //       balanceAfter: 70000,
-    //       insuranceOutcome: 0,
-    //       principal: 7948,
-    //       installment: 18000,
-    //       interest: 7,
-    //       nameAR: 'name ar',
-    //       nameEN: 'name en',
-    //     },
-    //     {
-    //       code: 1,
-    //       paymentNumber: 1,
-    //       dueDate: new Date('01/10/2025'),
-    //       balanceBefore: 50000,
-    //       balanceAfter: 70000,
-    //       insuranceOutcome: 0,
-    //       principal: 7948,
-    //       installment: 18000,
-    //       interest: 7,
-    //       nameAR: 'name ar',
-    //       nameEN: 'name en',
-    //     },
-    //     {
-    //       code: 1,
-    //       paymentNumber: 1,
-    //       dueDate: new Date('01/10/2025'),
-    //       balanceBefore: 50000,
-    //       balanceAfter: 70000,
-    //       insuranceOutcome: 0,
-    //       principal: 7948,
-    //       installment: 18000,
-    //       interest: 7,
-    //       nameAR: 'name ar',
-    //       nameEN: 'name en',
-    //     },
-    //     {
-    //       code: 1,
-    //       paymentNumber: 1,
-    //       dueDate: new Date('01/10/2025'),
-    //       balanceBefore: 50000,
-    //       balanceAfter: 70000,
-    //       insuranceOutcome: 0,
-    //       principal: 7948,
-    //       installment: 18000,
-    //       interest: 7,
-    //       nameAR: 'name ar',
-    //       nameEN: 'name en',
-    //     },
-    //     {
-    //       code: 1,
-    //       paymentNumber: 1,
-    //       dueDate: new Date('01/10/2025'),
-    //       balanceBefore: 50000,
-    //       balanceAfter: 70000,
-    //       insuranceOutcome: 0,
-    //       principal: 7948,
-    //       installment: 18000,
-    //       interest: 7,
-    //       nameAR: 'name ar',
-    //       nameEN: 'name en',
-    //     },
-    //     {
-    //       code: 1,
-    //       paymentNumber: 1,
-    //       dueDate: new Date('01/10/2025'),
-    //       balanceBefore: 50000,
-    //       balanceAfter: 70000,
-    //       insuranceOutcome: 0,
-    //       principal: 7948,
-    //       installment: 18000,
-    //       interest: 7,
-    //       nameAR: 'name ar',
-    //       nameEN: 'name en',
-    //     },
-    //   ];
-    // }
     //Build Forms
     this.initializeLeasingFinancialBasicForm();
     this.initializeLeasingFinancialRatesForm();
@@ -179,7 +63,14 @@ export class LeasingFinancialFormCompoundComponent {
     this.setupFormListeners();
     //Load Dropdowns
     this.store.dispatch(loadAll({}));
+    this.store.dispatch(loadAllGracePeriodUnits({}));
+    this.store.dispatch(loadCurrencies({}));
+    this.store.dispatch(loadCurrencyExchangeRates());
+
     this.paymentPeriods$ = this.paymentPeriodFacade.all$;
+    this.gracePeriodUnits$ = this.gracePeriodUnitFacade.all$;
+    this.currencies$ = this.currenciesFacade.all$;
+    this.currencyExchangeRates$ = this.currencyExchangeRatesFacade.items$;
   }
   private initializeLeasingFinancialBasicForm() {
     this.leasingFinancialBasicForm = this.fb.group({
@@ -558,5 +449,21 @@ export class LeasingFinancialFormCompoundComponent {
     this.leasingFinancialCurrencyForm
       .get('reservePaymentCount')
       ?.setValue(reservePaymentCount, { emitEvent: false });
+  }
+  onCheckboxChange(event: any) {
+    const manualExchangeRateControl =
+      this.leasingFinancialCurrencyForm.get('manualExchangeRate')!;
+    if (event?.checked) {
+      console.log(
+        'Manual checkbox check detected. Enabling manualExchangeRate control.'
+      );
+      manualExchangeRateControl.enable({ emitEvent: false });
+    } else {
+      console.log(
+        'Manual checkbox uncheck detected. Resetting and disabling manualExchangeRate control.'
+      );
+      manualExchangeRateControl.reset(0, { emitEvent: false });
+      manualExchangeRateControl.disable({ emitEvent: false });
+    }
   }
 }

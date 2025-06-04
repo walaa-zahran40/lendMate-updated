@@ -54,7 +54,7 @@
       label="View Calls"
       (click)="viewCalls()"
       class="custom-view m-0 float-right"
-    /> 
+    />
 
     <p-button
       *ngIf="addMeetingForm"
@@ -63,8 +63,8 @@
       label="View Meetings"
       (click)="viewMeetings()"
       class="custom-view m-0 float-right"
-    /> 
-    
+    />
+
     <p-button
       *ngIf="addFeeCalculationTypesLookupsForm"
       icon="pi pi-cog"
@@ -9287,7 +9287,7 @@
           </small>
         </div>
         <div class="col-sm">
-          <label for="paymentPeriodId">Payment Period</label>
+          <label for="paymentPeriodId">Payment Period<sup>*</sup></label>
           <p-select
             [options]="paymentPeriods"
             formControlName="paymentPeriodId"
@@ -9296,31 +9296,59 @@
             class="w-full md:w-56"
             name="paymentPeriodId"
             placeholder="Payment Period"
-          />
+          /><br />
+          <small
+            *ngIf="
+              formGroup.get('paymentPeriodId')?.invalid &&
+              formGroup.get('paymentPeriodId')?.touched
+            "
+            class="p-error"
+          >
+            Payment Period is required.
+          </small>
         </div>
       </div>
       <div class="row w-100">
         <div class="col-sm">
-          <label for="gracePeriod">Grace Period Count</label>
-          <input
-            pInputText
-            id="gracePeriod"
-            aria-describedby="gracePeriod-help"
+          <label for="gracePeriod">Grace Period Count<sup>*</sup></label
+          ><br />
+          <p-inputNumber
             formControlName="gracePeriod"
+            class="w-100"
+            placeholder="Grace Period Count"
             name="gracePeriod"
-            placeholder="6"
-          />
+          ></p-inputNumber
+          ><br />
+          <small
+            *ngIf="
+              formGroup.get('gracePeriod')?.invalid &&
+              formGroup.get('gracePeriod')?.touched
+            "
+            class="p-error"
+          >
+            Grace Period Count is required.
+          </small>
         </div>
         <div class="col-sm">
-          <label for="gracePeriodUnitId">Grace Period Unit</label>
+          <label for="gracePeriodUnitId">Grace Period Unit<sup>*</sup></label>
           <p-select
             [options]="gracePeriodUnits"
             formControlName="gracePeriodUnitId"
+            placeholder="Grace Period Unit"
             optionLabel="name"
             optionValue="id"
             class="w-full md:w-56"
             name="gracePeriodUnitId"
           />
+          <small
+            *ngIf="
+              formGroup.get('gracePeriodUnitId')?.invalid &&
+              formGroup.get('gracePeriodUnitId')?.touched
+            "
+            class="p-error"
+          >
+            Grace Period Unit is required.
+          </small>
         </div>
       </div>
     </form>
@@ -9332,39 +9360,59 @@
     >
       <div class="row w-100">
         <div class="col-sm">
-          <label for="currencyId">Currency</label>
-          <input
-            pInputText
-            id="currencyId"
-            aria-describedby="currencyId-help"
-            formControlName="currencyId"
-            name="currencyId"
-            placeholder="Currency"
-          />
-        </div>
-        <div class="col-sm">
-          <label for="currencyExchangeRateId">Currency Exchange Rate</label>
+          <label for="currencyId">Currency<sup>*</sup></label>
           <p-select
-            [options]="currencyExchangeRate"
-            formControlName="currencyExchangeRateId"
+            [options]="currencies"
+            formControlName="currencyId"
+            placeholder="Currency"
             optionLabel="name"
             optionValue="id"
-            class="w-full md:w-56"
-            name="currencyExchangeRateId"
+            name="currencyId"
+            styleClass="w-full md:w-80"
           />
+          <small
+            *ngIf="
+              formGroup.get('currencyId')?.invalid &&
+              formGroup.get('currencyId')?.touched
+            "
+            class="p-error"
+          >
+            Currency is required.
+          </small>
+        </div>
+        <div class="col-sm">
+          <label for="currencyExchangeRateId"
+            >Currency Exchange Rate<sup>*</sup></label
+          >
+          <p-select
+            [options]="currencyExchangeRates"
+            formControlName="currencyExchangeRateId"
+            placeholder="Currency Exchange Rate"
+            optionLabel="exchangeRate"
+            optionValue="id"
+            name="currencyExchangeRateId"
+            styleClass="w-full md:w-80"
+          />
+          <small
+            *ngIf="
+              formGroup.get('currencyExchangeRateId')?.invalid &&
+              formGroup.get('currencyExchangeRateId')?.touched
+            "
+            class="p-error"
+          >
+            Currency Exchange Rate is required.
+          </small>
         </div>
       </div>
       <div class="row w-100">
         <div class="col-sm">
-          <label for="manualExchangeRate">Manual Exchange Rate </label>
-          <input
-            pInputText
-            id="manualExchangeRate"
-            aria-describedby="manualExchangeRate-help"
-            formControlName="manualExchangeRate"
-            name="manualExchangeRate"
-            placeholder="Manual Exchange Rate"
-          />
+          <label for="isManualExchangeRate">Is Manual Exchange Rate</label
+          ><br />
+          <p-checkbox
+            formControlName="isManualExchangeRate"
+            binary="true"
+            (onChange)="onCheckboxChange.emit()"
+          ></p-checkbox>
         </div>
         <div class="col-sm">
           <label for="isManualExchangeRate"
@@ -12696,374 +12744,409 @@
         </div>
       </div>
 
-  <!-- Action Buttons -->
-  <div class="row justify-end">
-    <div
-      class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 currenciesDiv"
-      *ngIf="!editMode && !viewOnly"
-    >
-      <p-button
-        type="submit"
-        label="Add Call"
-        [disabled]="formGroup.invalid"
-        class="custom-save m-0 float-right"
-      ></p-button>
-    </div>
-    <div
-      class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
-      *ngIf="editMode && !viewOnly"
-    >
-      <p-button
-        type="submit"
-        label="Edit Call"
-        class="custom-save m-0 float-right"
-      ></p-button>
-    </div>
-    <div
-      *ngIf="viewOnly"
-      class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
-    >
-      <p-button
-        label="Close"
-        class="custom-save m-0 float-right"
-        (click)="router.navigate([`/communication/view-calls`])"
-      ></p-button>
-    </div>
-  </div>
-</form>
-
-<form *ngIf="addMeetingForm" (ngSubmit)="onSubmit()" [formGroup]="formGroup">
-  <!-- Client Name -->
-  <label for="clientId">Client Name <sup>*</sup></label>
-  <p-select
-    id="clientId"
-    [options]="clientsList"
-    optionLabel="name"
-    placeholder="Select Client"
-    formControlName="clientId"
-    optionValue="id"
-    [ngClass]="{
-      'ng-invalid':
-        formGroup.get('clientId')?.invalid &&
-        (formGroup.get('clientId')?.dirty || formGroup.get('clientId')?.touched)
-    }"
-  ></p-select>
-
-  <!-- Meeting Type -->
-  <label for="meetingTypeId">Meeting Type <sup>*</sup></label>
-  <p-select
-    id="meetingTypeId"
-    [options]="meetingTypes"
-    optionLabel="name"
-    placeholder="Select Type"
-    formControlName="meetingTypeId"
-    optionValue="id"
-    [ngClass]="{
-      'ng-invalid':
-        formGroup.get('meetingTypeId')?.invalid &&
-        (formGroup.get('meetingTypeId')?.dirty || formGroup.get('meetingTypeId')?.touched)
-    }"
-  ></p-select>
-
-  <!-- Communication Flow -->
-  <label for="communicationFlowId">Communication Flow <sup>*</sup></label>
-  <p-select
-    id="communicationFlowId"
-    [options]="communicationFlowTypes"
-    optionLabel="name"
-    placeholder="Select Communication Flow"
-    formControlName="communicationFlowId"
-    optionValue="id"
-    [ngClass]="{
-      'ng-invalid':
-        formGroup.get('communicationFlowId')?.invalid &&
-        (formGroup.get('communicationFlowId')?.dirty || formGroup.get('communicationFlowId')?.touched)
-    }"
-  ></p-select>
-
-  <label for="addressLocation">Address Location</label>
-  <input
-    pInputText
-    id="addressLocation"
-    placeholder="addressLocation"
-    formControlName="addressLocation"
-  />
-
-
-  <!-- Communication Officers -->
-  <div formArrayName="communicationOfficers" class="my-4">
-    <div
-      *ngFor="let group of communicationOfficersArray.controls; let i = index"
-      [formGroupName]="i"
-      class="parent2-individual2 mt-2 flex items-start gap-4 align-items-center flex-wrap"
-    >
-      <div class="div-select flex-1 min-w-0">
-        <label for="officerId" class="p-0">
-          Select Officer <sup class="danger">*</sup>
-        </label>
-        <p-select
-          [options]="officersList"
-          formControlName="officerId"
-          placeholder="Select Officer"
-          optionLabel="name"
-          optionValue="id"
-          [ngClass]="{
-            'ng-invalid ng-dirty': group.get('officerId')?.invalid && group.get('officerId')?.touched,
-            'disabled': viewOnly,
-            'enabled': !viewOnly
-          }"
-        ></p-select>
-        <small
-          class="p-error d-block"
-          *ngIf="group.get('officerId')?.invalid && group.get('officerId')?.touched"
+      <!-- Action Buttons -->
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 currenciesDiv"
+          *ngIf="!editMode && !viewOnly"
         >
-          Officer is required.
-        </small>
-      </div>
-
-      <!-- Is Attend -->
-      <label for="isAttend" class="p-0">Is Attend</label>
-      <p-toggleswitch
-        formControlName="isAttend"
-        [ngClass]="{
-          'ng-invalid ng-dirty': group.get('isAttend')?.invalid && group.get('isAttend')?.touched,
-          'disabled': viewOnly,
-          'enabled': !viewOnly
-        }"
-      ></p-toggleswitch>
-
-      <!-- Is Responsible -->
-      <label for="isResponsible" class="p-0">Is Responsible</label>
-      <p-toggleswitch
-        formControlName="isResponsible"
-        [ngClass]="{
-          'ng-invalid ng-dirty': group.get('isResponsible')?.invalid && group.get('isResponsible')?.touched,
-          'disabled': viewOnly,
-          'enabled': !viewOnly
-        }"
-      ></p-toggleswitch>
-      <small
-        class="p-error"
-        *ngIf="group.get('isResponsible')?.invalid && group.get('isResponsible')?.touched"
-      >
-        You must choose if this is Responsible.
-      </small>
-
-      <!-- Add/Remove Buttons -->
-      <button
-        pButton
-        type="button"
-        icon="pi pi-plus"
-        class="p-button-outlined p-button-sm"
-        (click)="addCommunicationOfficer.emit()"
-        *ngIf="!viewOnly"
-      ></button>
-      <button
-        pButton
-        type="button"
-        icon="pi pi-trash"
-        class="p-button-danger p-button-sm"
-        (click)="removeCommunicationOfficer.emit(i)"
-        *ngIf="communicationOfficersArray.length > 1 && !viewOnly"
-      ></button>
-    </div>
-  </div>
-
-  <!-- Communication Asset Types -->
-  <div formArrayName="communicationAssetTypes" class="my-4">
-    <div
-      *ngFor="let group of communicationAssetTypesArray.controls; let i = index"
-      [formGroupName]="i"
-      class="parent2-individual2 mt-2 flex items-start gap-4 align-items-center flex-wrap"
-    >
-      <div class="div-select flex-1 min-w-0">
-        <label for="assetTypeId" class="p-0">
-          Select Asset Type <sup class="danger">*</sup>
-        </label>
-        <p-select
-          [options]="assetTypes"
-          formControlName="assetTypeId"
-          placeholder="Select Asset Type"
-          optionLabel="name"
-          optionValue="id"
-          [ngClass]="{
-            'ng-invalid ng-dirty': group.get('assetTypeId')?.invalid && group.get('assetTypeId')?.touched,
-            'disabled': viewOnly,
-            'enabled': !viewOnly
-          }"
-        ></p-select>
-      </div>
-      
-      <button
-      pButton
-      type="button"
-      icon="pi pi-plus"
-      class="p-button-outlined p-button-sm"
-      (click)="addCommunicationAssetType.emit()"
-      *ngIf="!viewOnly"
-      ></button>
-      <button
-      pButton
-      type="button"
-      icon="pi pi-trash"
-      class="p-button-danger p-button-sm"
-      (click)="removeCommunicationAssetType.emit(i)"
-      *ngIf="communicationAssetTypesArray.length > 1 && !viewOnly"
-      ></button>
-    </div>
-  </div>
-
-  <!-- Communication Contact Persons -->
-  <div formArrayName="communicationContactPersons" class="my-4">
-    <div
-      *ngFor="let group of communicationContactPersonsArray.controls; let i = index"
-      [formGroupName]="i"
-      class="parent2-individual2 mt-2 flex items-start gap-4 align-items-center flex-wrap"
-    >
-      <div class="div-select flex-1 min-w-0">
-        <label for="contactPersonId" class="p-0">
-          Select Contact Person <sup class="danger">*</sup>
-        </label>
-        <p-select
-          [options]="contactPersons"
-          formControlName="contactPersonId"
-          placeholder="Select Contact Person"
-          optionLabel="name"
-          optionValue="id"
-          [ngClass]="{
-            'ng-invalid ng-dirty': group.get('contactPersonId')?.invalid && group.get('contactPersonId')?.touched,
-            'disabled': viewOnly,
-            'enabled': !viewOnly
-          }"
-        ></p-select>
-        <small
-          class="p-error d-block"
-          *ngIf="group.get('contactPersonId')?.invalid && group.get('contactPersonId')?.touched"
+          <p-button
+            type="submit"
+            label="Add Call"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="editMode && !viewOnly"
         >
-          Contact Person is required.
-        </small>
+          <p-button
+            type="submit"
+            label="Edit Call"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate([`/communication/view-calls`])"
+          ></p-button>
+        </div>
+      </div>
+    </form>
 
+    <form
+      *ngIf="addMeetingForm"
+      (ngSubmit)="onSubmit()"
+      [formGroup]="formGroup"
+    >
+      <!-- Client Name -->
+      <label for="clientId">Client Name <sup>*</sup></label>
+      <p-select
+        id="clientId"
+        [options]="clientsList"
+        optionLabel="name"
+        placeholder="Select Client"
+        formControlName="clientId"
+        optionValue="id"
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('clientId')?.invalid &&
+            (formGroup.get('clientId')?.dirty ||
+              formGroup.get('clientId')?.touched)
+        }"
+      ></p-select>
 
+      <!-- Meeting Type -->
+      <label for="meetingTypeId">Meeting Type <sup>*</sup></label>
+      <p-select
+        id="meetingTypeId"
+        [options]="meetingTypes"
+        optionLabel="name"
+        placeholder="Select Type"
+        formControlName="meetingTypeId"
+        optionValue="id"
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('meetingTypeId')?.invalid &&
+            (formGroup.get('meetingTypeId')?.dirty ||
+              formGroup.get('meetingTypeId')?.touched)
+        }"
+      ></p-select>
+
+      <!-- Communication Flow -->
+      <label for="communicationFlowId">Communication Flow <sup>*</sup></label>
+      <p-select
+        id="communicationFlowId"
+        [options]="communicationFlowTypes"
+        optionLabel="name"
+        placeholder="Select Communication Flow"
+        formControlName="communicationFlowId"
+        optionValue="id"
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('communicationFlowId')?.invalid &&
+            (formGroup.get('communicationFlowId')?.dirty ||
+              formGroup.get('communicationFlowId')?.touched)
+        }"
+      ></p-select>
+
+      <label for="addressLocation">Address Location</label>
+      <input
+        pInputText
+        id="addressLocation"
+        placeholder="addressLocation"
+        formControlName="addressLocation"
+      />
+
+      <!-- Communication Officers -->
+      <div formArrayName="communicationOfficers" class="my-4">
+        <div
+          *ngFor="
+            let group of communicationOfficersArray.controls;
+            let i = index
+          "
+          [formGroupName]="i"
+          class="parent2-individual2 mt-2 flex items-start gap-4 align-items-center flex-wrap"
+        >
+          <div class="div-select flex-1 min-w-0">
+            <label for="officerId" class="p-0">
+              Select Officer <sup class="danger">*</sup>
+            </label>
+            <p-select
+              [options]="officersList"
+              formControlName="officerId"
+              placeholder="Select Officer"
+              optionLabel="name"
+              optionValue="id"
+              [ngClass]="{
+                'ng-invalid ng-dirty':
+                  group.get('officerId')?.invalid &&
+                  group.get('officerId')?.touched,
+                disabled: viewOnly,
+                enabled: !viewOnly
+              }"
+            ></p-select>
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('officerId')?.invalid &&
+                group.get('officerId')?.touched
+              "
+            >
+              Officer is required.
+            </small>
+          </div>
+
+          <!-- Is Attend -->
+          <label for="isAttend" class="p-0">Is Attend</label>
+          <p-toggleswitch
+            formControlName="isAttend"
+            [ngClass]="{
+              'ng-invalid ng-dirty':
+                group.get('isAttend')?.invalid &&
+                group.get('isAttend')?.touched,
+              disabled: viewOnly,
+              enabled: !viewOnly
+            }"
+          ></p-toggleswitch>
+
+          <!-- Is Responsible -->
+          <label for="isResponsible" class="p-0">Is Responsible</label>
+          <p-toggleswitch
+            formControlName="isResponsible"
+            [ngClass]="{
+              'ng-invalid ng-dirty':
+                group.get('isResponsible')?.invalid &&
+                group.get('isResponsible')?.touched,
+              disabled: viewOnly,
+              enabled: !viewOnly
+            }"
+          ></p-toggleswitch>
+          <small
+            class="p-error"
+            *ngIf="
+              group.get('isResponsible')?.invalid &&
+              group.get('isResponsible')?.touched
+            "
+          >
+            You must choose if this is Responsible.
+          </small>
+
+          <!-- Add/Remove Buttons -->
+          <button
+            pButton
+            type="button"
+            icon="pi pi-plus"
+            class="p-button-outlined p-button-sm"
+            (click)="addCommunicationOfficer.emit()"
+            *ngIf="!viewOnly"
+          ></button>
+          <button
+            pButton
+            type="button"
+            icon="pi pi-trash"
+            class="p-button-danger p-button-sm"
+            (click)="removeCommunicationOfficer.emit(i)"
+            *ngIf="communicationOfficersArray.length > 1 && !viewOnly"
+          ></button>
+        </div>
       </div>
 
-      <!-- Is Attend -->
-      <label for="isAttend" class="p-0">Is Attend</label>
-      <p-toggleswitch
-        formControlName="isAttend"
-        [ngClass]="{
-          'ng-invalid ng-dirty': group.get('isAttend')?.invalid && group.get('isAttend')?.touched,
-          'disabled': viewOnly,
-          'enabled': !viewOnly
-        }"
-      ></p-toggleswitch>
-      <small
-        class="p-error"
-        *ngIf="group.get('isAttend')?.invalid && group.get('isAttend')?.touched"
-      >
-        You must choose if this is Attend.
-      </small>
+      <!-- Communication Asset Types -->
+      <div formArrayName="communicationAssetTypes" class="my-4">
+        <div
+          *ngFor="
+            let group of communicationAssetTypesArray.controls;
+            let i = index
+          "
+          [formGroupName]="i"
+          class="parent2-individual2 mt-2 flex items-start gap-4 align-items-center flex-wrap"
+        >
+          <div class="div-select flex-1 min-w-0">
+            <label for="assetTypeId" class="p-0">
+              Select Asset Type <sup class="danger">*</sup>
+            </label>
+            <p-select
+              [options]="assetTypes"
+              formControlName="assetTypeId"
+              placeholder="Select Asset Type"
+              optionLabel="name"
+              optionValue="id"
+              [ngClass]="{
+                'ng-invalid ng-dirty':
+                  group.get('assetTypeId')?.invalid &&
+                  group.get('assetTypeId')?.touched,
+                disabled: viewOnly,
+                enabled: !viewOnly
+              }"
+            ></p-select>
+          </div>
 
-      <!-- Add/Remove Buttons -->
-      <button
-        pButton
-        type="button"
-        icon="pi pi-plus"
-        class="p-button-outlined p-button-sm"
-        (click)="addCommunicationContactPerson.emit()"
-        *ngIf="!viewOnly"
-      ></button>
-      <button
-        pButton
-        type="button"
-        icon="pi pi-trash"
-        class="p-button-danger p-button-sm"
-        (click)="removeCommunicationContactPerson.emit(i)"
-        *ngIf="communicationContactPersonsArray.length > 1 && !viewOnly"
-      ></button>
-    </div>
-  </div>
+          <button
+            pButton
+            type="button"
+            icon="pi pi-plus"
+            class="p-button-outlined p-button-sm"
+            (click)="addCommunicationAssetType.emit()"
+            *ngIf="!viewOnly"
+          ></button>
+          <button
+            pButton
+            type="button"
+            icon="pi pi-trash"
+            class="p-button-danger p-button-sm"
+            (click)="removeCommunicationAssetType.emit(i)"
+            *ngIf="communicationAssetTypesArray.length > 1 && !viewOnly"
+          ></button>
+        </div>
+      </div>
 
-  <!-- Topic -->
-  <label for="topic">Topic <sup class="danger">*</sup></label>
-  <input
-    pInputText
-    id="topic"
-    placeholder="Topic"
-    formControlName="topic"
-  />
+      <!-- Communication Contact Persons -->
+      <div formArrayName="communicationContactPersons" class="my-4">
+        <div
+          *ngFor="
+            let group of communicationContactPersonsArray.controls;
+            let i = index
+          "
+          [formGroupName]="i"
+          class="parent2-individual2 mt-2 flex items-start gap-4 align-items-center flex-wrap"
+        >
+          <div class="div-select flex-1 min-w-0">
+            <label for="contactPersonId" class="p-0">
+              Select Contact Person <sup class="danger">*</sup>
+            </label>
+            <p-select
+              [options]="contactPersons"
+              formControlName="contactPersonId"
+              placeholder="Select Contact Person"
+              optionLabel="name"
+              optionValue="id"
+              [ngClass]="{
+                'ng-invalid ng-dirty':
+                  group.get('contactPersonId')?.invalid &&
+                  group.get('contactPersonId')?.touched,
+                disabled: viewOnly,
+                enabled: !viewOnly
+              }"
+            ></p-select>
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('contactPersonId')?.invalid &&
+                group.get('contactPersonId')?.touched
+              "
+            >
+              Contact Person is required.
+            </small>
+          </div>
 
-  <!-- Details -->
-  <label for="details">Details</label>
-  <input
-    pInputText
-    id="details"
-    placeholder="Details"
-    formControlName="details"
-  />
+          <!-- Is Attend -->
+          <label for="isAttend" class="p-0">Is Attend</label>
+          <p-toggleswitch
+            formControlName="isAttend"
+            [ngClass]="{
+              'ng-invalid ng-dirty':
+                group.get('isAttend')?.invalid &&
+                group.get('isAttend')?.touched,
+              disabled: viewOnly,
+              enabled: !viewOnly
+            }"
+          ></p-toggleswitch>
+          <small
+            class="p-error"
+            *ngIf="
+              group.get('isAttend')?.invalid && group.get('isAttend')?.touched
+            "
+          >
+            You must choose if this is Attend.
+          </small>
 
-  <!-- Start Date -->
-  <label for="startDate">Start Date<sup>*</sup></label>
-  <shared-date-picker
-    formControlName="startDate"
-    inputId="startDate"
-  ></shared-date-picker>
+          <!-- Add/Remove Buttons -->
+          <button
+            pButton
+            type="button"
+            icon="pi pi-plus"
+            class="p-button-outlined p-button-sm"
+            (click)="addCommunicationContactPerson.emit()"
+            *ngIf="!viewOnly"
+          ></button>
+          <button
+            pButton
+            type="button"
+            icon="pi pi-trash"
+            class="p-button-danger p-button-sm"
+            (click)="removeCommunicationContactPerson.emit(i)"
+            *ngIf="communicationContactPersonsArray.length > 1 && !viewOnly"
+          ></button>
+        </div>
+      </div>
 
-  <!-- End Date -->
-  <label for="endDate">End Date<sup>*</sup></label>
-  <shared-date-picker
-    formControlName="endDate"
-    inputId="endDate"
-  ></shared-date-picker>
+      <!-- Topic -->
+      <label for="topic">Topic <sup class="danger">*</sup></label>
+      <input
+        pInputText
+        id="topic"
+        placeholder="Topic"
+        formControlName="topic"
+      />
 
-  <!-- Comments -->
-  <label for="comments">Comments</label>
-  <input
-    pInputText
-    id="comments"
-    placeholder="Comments"
-    formControlName="comments"
-  />
+      <!-- Details -->
+      <label for="details">Details</label>
+      <input
+        pInputText
+        id="details"
+        placeholder="Details"
+        formControlName="details"
+      />
 
-  <!-- Action Buttons -->
-  <div class="row justify-end">
-    <div
-      class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 currenciesDiv"
-      *ngIf="!editMode && !viewOnly"
-    >
-      <p-button
-        type="submit"
-        label="Add Meeting"
-        [disabled]="formGroup.invalid"
-        class="custom-save m-0 float-right"
-      ></p-button>
-    </div>
+      <!-- Start Date -->
+      <label for="startDate">Start Date<sup>*</sup></label>
+      <shared-date-picker
+        formControlName="startDate"
+        inputId="startDate"
+      ></shared-date-picker>
 
-    <div
-      class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
-      *ngIf="editMode && !viewOnly"
-    >
-      <p-button
-        type="submit"
-        label="Edit Meeting"
-        class="custom-save m-0 float-right"
-      ></p-button>
-    </div>
+      <!-- End Date -->
+      <label for="endDate">End Date<sup>*</sup></label>
+      <shared-date-picker
+        formControlName="endDate"
+        inputId="endDate"
+      ></shared-date-picker>
 
-    <div
-      *ngIf="viewOnly"
-      class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
-    >
-      <p-button
-        label="Close"
-        class="custom-save m-0 float-right"
-        (click)="router.navigate([`/communication/view-meetings`])"
-      ></p-button>
-    </div>
-  </div>
-</form>
+      <!-- Comments -->
+      <label for="comments">Comments</label>
+      <input
+        pInputText
+        id="comments"
+        placeholder="Comments"
+        formControlName="comments"
+      />
 
+      <!-- Action Buttons -->
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 currenciesDiv"
+          *ngIf="!editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Add Meeting"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
 
-<form action="" *ngIf="addMeetingShowBusinessInformationForm">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Meeting"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate([`/communication/view-meetings`])"
+          ></p-button>
+        </div>
+      </div>
+    </form>
+
+    <form action="" *ngIf="addMeetingShowBusinessInformationForm">
       <label for="startDateAddMeeting">Start Date<sup>*</sup></label>
       <shared-date-picker
         formControlName="startDateAddMeeting"
@@ -13098,7 +13181,7 @@
       </div>
     </form>
 
-<form action="" *ngIf="addFollowUpsCommunicationForm">
+    <form action="" *ngIf="addFollowUpsCommunicationForm">
       <label for="dateFollowUpsCommunication">Date<sup>*</sup></label>
       <shared-date-picker
         formControlName="dateFollowUpsCommunication"
@@ -13117,7 +13200,7 @@
       </div>
     </form>
 
-<form action="" *ngIf="addFollowUpsPointsCommunicationForm">
+    <form action="" *ngIf="addFollowUpsPointsCommunicationForm">
       <label for="dueDateFollowUpsPointsCommunication"
         >Due Date<sup>*</sup></label
       >

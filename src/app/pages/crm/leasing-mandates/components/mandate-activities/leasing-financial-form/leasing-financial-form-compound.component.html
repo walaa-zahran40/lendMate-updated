@@ -15,7 +15,6 @@
         "
         [leasingFinancialBasicForm]="true"
         [formGroup]="leasingFinancialBasicForm"
-        [paymentPeriods]="paymentPeriods$ | async"
       ></app-form>
     </div>
     <div class="second-form">
@@ -26,11 +25,14 @@
         "
         [leasingFinancialRateForm]="true"
         [formGroup]="leasingFinancialRateForm"
+        [paymentPeriods]="paymentPeriods$ | async"
+        [gracePeriodUnits]="gracePeriodUnits$ | async"
       ></app-form>
     </div>
     <div class="third-form">
       <app-toolbar-table [exports]="true" [btnAdd]="false"></app-toolbar-table>
       <app-table
+        class="table"
         [cols]="colsInside"
         [tableData]="tableDataInside"
         [col1Name]="'Payment Number'"
@@ -58,20 +60,17 @@
       Introduce your company core info quickly to users by fill up company
       details
     </p>
+
     <app-form
+      class="form-currency"
       [leasingFinancialCurrencyForm]="true"
       [formGroup]="leasingFinancialCurrencyForm"
-      [formGroup]="leasingFinancialCurrencyForm"
+      [currencies]="currencies$ | async"
+      [currencyExchangeRates]="currencyExchangeRates$ | async"
+      (onCheckboxChange)="onCheckboxChange($event)"
     ></app-form>
-    <div
-      class="row justify-content-between w-100 gap-4"
-      style="
-        padding: 10px 0px;
-        justify-content: center;
-        align-items: center;
-        margin-left: 1px;
-      "
-    >
+
+    <div class="buttons">
       <p-button label="Submit" class="custom-submit custom-save m-0" />
       <p-button label="Calculate" class="custom-calculate custom-save m-0" />
     </div>

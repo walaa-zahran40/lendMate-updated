@@ -61,6 +61,7 @@ export class FormComponent implements OnInit, OnDestroy {
   companyLegalDetail: CompanyLegalDetails = {};
   @Output() addIdentity = new EventEmitter<void>();
   @Output() removeIdentity = new EventEmitter<number>();
+  @Output() onCheckboxChange = new EventEmitter<any>();
   @Input() phoneTypeOptions!: any;
   @Input() identityTypeOptions!: IdentificationType[];
   @Output() addPhoneType = new EventEmitter<void>();
@@ -128,7 +129,9 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() meetingTypes: any;
   @Input() authorizationGroups: any;
   @Input() areasList: any;
-  @Input() currencies: { id: number; name: string }[] = [];
+  @Input() currencies: any;
+  @Input() currencyExchangeRates: any;
+  @Input() manualExchangeRates: any;
   @Input() selectedSectorId: number | null = null;
   @Input() selectedSubSectorId: number | null = null;
   @Input() legalFormLawIdControl!: number;
@@ -145,7 +148,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() authorizationGroupsList: any;
   @Input() notificationGroupsList: any;
   @Input() paymentPeriods: any;
-
+  @Input() gracePeriodUnits: any;
   selectedLegalForm: any;
   @Output() sectorChanged = new EventEmitter<number>();
 
@@ -321,7 +324,6 @@ export class FormComponent implements OnInit, OnDestroy {
   assestTypesMandates!: any;
   selectedContactPersonTypesMandate!: any;
   contactPersonTypesMandates!: any;
-  gracePeriodUnits!: any;
   selectedGracePeriodUnits!: any;
   selectedPaymentPeriods!: any;
   currencyExchangeRate!: any;
