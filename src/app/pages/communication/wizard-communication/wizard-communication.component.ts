@@ -12,6 +12,7 @@ export class WizardCommunicationComponent {
   originalCards: any[] = [];
   constructor(private router: Router, private route: ActivatedRoute) {}
   ngOnInit(): void {
+    console.log('thirs',this.route.snapshot);
     const clientId = this.route.snapshot.paramMap.get('id');
     this.originalCards = [
       {

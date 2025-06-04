@@ -491,7 +491,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addCallShowContactPersonsForm!: boolean;
   @Input() addCallShowOfficersForm!: boolean;
   @Input() addCallShowBasicForm!: boolean;
-  @Input() addFollowUpsCommunicationForm!: boolean;
+  @Input() addFollowupsForm!: boolean;
   @Input() addFollowUpsPointsCommunicationForm!: boolean;
   @Input() addMeetingTypesCommunicationForm!: boolean;
   @Input() addFollowUpTypesCommunicationForm!: boolean;

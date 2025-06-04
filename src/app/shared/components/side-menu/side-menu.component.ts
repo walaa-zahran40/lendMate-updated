@@ -151,26 +151,26 @@ export class SideMenuComponent {
             icon: 'pi pi-user-plus',
             routerLink: '/communication/view-meetings',
           },
-          {
-            label: 'FollowUp',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-followups',
-          },
-          {
-            label: 'FollowUpPoints',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-followup-points',
-          },
-          {
-            label: 'CommunicationFollowUp',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-followups',
-          },
-          {
-            label: 'MonitorFollowUps',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-monitor-followups',
-          },
+          // {
+          //   label: 'FollowUp',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/communication/view-followups',
+          // },
+          // {
+          //   label: 'FollowUpPoints',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/communication/view-followup-points',
+          // },
+          // {
+          //   label: 'CommunicationFollowUp',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/communication/view-followups',
+          // },
+          // {
+          //   label: 'MonitorFollowUps',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/communication/view-monitor-followups',
+          // },
         ],
       },
       // {
