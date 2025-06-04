@@ -235,6 +235,14 @@ import { mandateStatusesReducer } from './store/mandate-statuses/mandate-statuse
 import { MandateStatusActionsEffects } from './store/mandate-statuses/mandate-statuses-actions/mandate-status-actions.effects';
 import { reducer as mandateStatusActionsReducer } from './store/mandate-statuses/mandate-statuses-actions/mandate-status-actions.reducer';
 import { WizardMandateStatusActionComponent } from './components/mandate-statuses/wizard-mandate-status-action/wizard-mandate-status-action.component';
+import { AddMandateActionAuthorizationGroupsComponent } from './components/mandate-statuses/Activities/MandateStatusActionAuthorizationGroup/add-mandate-authorization-group/add-mandate-authorization-group.component';
+import { AddMandateActionNotificationGroupsComponent } from './components/mandate-statuses/Activities/MandateStatusActionNotificationGroup/add-mandate-notification-group/add-mandate-notification-group.component';
+import { mandateActionAuthorizationGroupsReducer } from './store/mandate-statuses-actions-activities/MandateStatusActionAuthorizationGroup/action-authorization-groups.reducer';
+import { MandateActionAuthorizationGroupsEffects } from './store/mandate-statuses-actions-activities/MandateStatusActionAuthorizationGroup/action-authorization-groups.effects';
+import { mandateActionNotificationGroupsReducer } from './store/mandate-statuses-actions-activities/MandateStatusActionNotificationGroup/action-notification-groups.reducer';
+import { MandateActionNotificationGroupsEffects } from './store/mandate-statuses-actions-activities/MandateStatusActionNotificationGroup/action-notification-groups.effects';
+import { ViewMandateActionAuthorizationGroupsComponent } from './components/mandate-statuses/Activities/MandateStatusActionAuthorizationGroup/view-mandate-authorization-group/view-mandate-authorization-group.component';
+import { ViewMandateActionNotificationGroupsComponent } from './components/mandate-statuses/Activities/MandateStatusActionNotificationGroup/view-mandate-notification-group/view-mandate-notification-group.component';
 
 @NgModule({
   declarations: [
@@ -359,6 +367,10 @@ import { WizardMandateStatusActionComponent } from './components/mandate-statuse
     ViewActionAuthorizationGroupsComponent,
     AddActionNotificationGroupsComponent,
     ViewActionNotificationGroupsComponent,
+    AddMandateActionAuthorizationGroupsComponent,
+    ViewMandateActionAuthorizationGroupsComponent,
+    AddMandateActionNotificationGroupsComponent,
+    ViewMandateActionNotificationGroupsComponent,
   ],
   imports: [
     CommonModule,
@@ -504,6 +516,17 @@ import { WizardMandateStatusActionComponent } from './components/mandate-statuse
       actionNotificationGroupsReducer
     ),
     EffectsModule.forFeature([ActionNotificationGroupsEffects]),
+
+     StoreModule.forFeature(
+      'mandateActionAuthorizationGroups',
+      mandateActionAuthorizationGroupsReducer
+    ),
+    EffectsModule.forFeature([MandateActionAuthorizationGroupsEffects]),
+    StoreModule.forFeature(
+      'mandateActionNotificationGroups',
+      mandateActionNotificationGroupsReducer
+    ),
+    EffectsModule.forFeature([MandateActionNotificationGroupsEffects]),
   ],
   exports: [
     AddMandateStatusesComponent,
@@ -555,6 +578,8 @@ import { WizardMandateStatusActionComponent } from './components/mandate-statuse
     AddNotificationGroupsComponent,
     AddActionAuthorizationGroupsComponent,
     AddActionNotificationGroupsComponent,
+    AddMandateActionAuthorizationGroupsComponent,
+    AddMandateActionNotificationGroupsComponent,
   ],
 })
 export class LookupsModule {}

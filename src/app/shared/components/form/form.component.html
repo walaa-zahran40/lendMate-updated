@@ -302,11 +302,27 @@
       class="custom-view m-0 float-right"
     />
     <p-button
+      *ngIf="addMandateActionAuthorizationGroupForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Action Authorization Groups"
+      (click)="viewActionAuthorizationGroup()"
+      class="custom-view m-0 float-right"
+    />
+    <p-button
       *ngIf="addActionNotificationGroupForm"
       icon="pi pi-cog"
       iconPos="left"
       label="View Action Notification Groups"
       (click)="viewActionNotificationGroup()"
+      class="custom-view m-0 float-right"
+    />
+    <p-button
+      *ngIf="addMandateActionNotificationGroupForm"
+      icon="pi pi-cog"
+      iconPos="left"
+      label="View Action Notification Groups"
+      (click)="viewMandateActionNotificationGroup()"
       class="custom-view m-0 float-right"
     />
     <p-button
@@ -5723,6 +5739,412 @@
       </div>
     </form>
 
+    <form action="" *ngIf="addClientGuarantorsShowIndividual">
+      <label for="nameEnglishIndividual"
+        >Name in English<sup class="danger">*</sup></label
+      >
+      <input
+        pInputText
+        id="nameEnglishIndividual"
+        aria-describedby="nameEnglishIndividual-help"
+        [(ngModel)]="value11"
+        name="nameEnglishIndividual"
+        placeholder="Google"
+      />
+      <label for="nameArabicIndividual"
+        >Name in Arabic<sup class="danger">*</sup></label
+      >
+      <input
+        pInputText
+        id="nameArabicIndividual"
+        aria-describedby="nameArabicIndividual-help"
+        [(ngModel)]="value12"
+        placeholder="Google"
+        name="nameArabicIndividual"
+      />
+      <label for="businessActivityIndividual"
+        >Business Activity<sup class="danger">*</sup></label
+      >
+      <input
+        pInputText
+        id="businessActivityIndividual"
+        aria-describedby="businessActivityIndividual-help"
+        [(ngModel)]="value13"
+        placeholder="Technology Business"
+        name="businessActivityIndividual"
+      />
+      <label for="selectSectorIndividual"
+        >Select Sector<sup class="danger">*</sup></label
+      >
+      <p-multiselect
+        [options]="sectorsIndividual"
+        [(ngModel)]="selectedSectorsIndividual"
+        placeholder="Select Sectors"
+        optionLabel="name"
+        display="chip"
+        icon="pi pi-times"
+        name="sectorsIndividual"
+        styleClass="w-full md:w-80"
+        [maxSelectedLabels]="999"
+        chipIcon="pi pi-times"
+      />
+      <label for="selectSubSectorIndividual"
+        >Select Sub Sector<sup class="danger">*</sup></label
+      >
+      <p-multiselect
+        [options]="subSectorsIndividual"
+        [(ngModel)]="selectedSubSectorsIndividual"
+        placeholder="Select Sub Sectors"
+        optionLabel="name"
+        display="chip"
+        icon="pi pi-times"
+        name="subSectorsIndividual"
+        styleClass="w-full md:w-80"
+        [maxSelectedLabels]="999"
+        chipIcon="pi pi-times"
+      />
+      <label for="shortNameIndividual">Short Name</label>
+      <input
+        pInputText
+        id="shortNameIndividual"
+        aria-describedby="shortNameIndividual-help"
+        [(ngModel)]="value16"
+        placeholder="GO"
+        name="shortNameIndividual"
+      />
+      <label for="jobTitleIndividual">Job Title</label>
+      <input
+        pInputText
+        id="jobTitleIndividual"
+        aria-describedby="jobTitleIndividual-help"
+        [(ngModel)]="value17"
+        placeholder="Senior UI/UX Designer"
+        name="jobTitleIndividual"
+      />
+      <label for="taxIdIndividual">Tax ID<sup class="danger">*</sup></label>
+      <input
+        pInputText
+        id="taxIdIndividual"
+        aria-describedby="taxIdIndividual-help"
+        formControlName="taxIdIndividual"
+        placeholder="#101020203030"
+        name="taxIdIndividual"
+      />
+      <div class="row">
+        <div class="col-sm">
+          <label for="dateOfBirthIndividual"
+            >Date of Birth<sup class="danger">*</sup></label
+          >
+          <shared-date-picker
+            formControlName="dateOfBirthIndividual"
+            inputId="dateOfBirthIndividual"
+          >
+          </shared-date-picker>
+
+          <small
+            class="p-error"
+            *ngIf="
+              formGroup.get('dateOfBirthIndividual')?.invalid &&
+              formGroup.get('dateOfBirthIndividual')?.touched
+            "
+          >
+            Date of Birth is required.
+          </small>
+        </div>
+        <div class="col-sm">
+          <label for="genderIndividual"
+            >Gender<sup class="danger">*</sup></label
+          >
+          <p-select
+            [options]="genders"
+            [(ngModel)]="selectedGenders"
+            optionLabel="name"
+            placeholder="Select a Gender"
+            class="w-full md:w-56"
+            name="gender"
+          />
+        </div>
+      </div>
+
+      <div class="parent-individual">
+        <div class="div4-individual m-0">
+          <label for="identificationNumberIndividual"
+            >Identification Number<sup class="danger">*</sup></label
+          >
+          <input
+            pInputText
+            id="identificationNumberIndividual"
+            aria-describedby="identificationNumberIndividual-help"
+            [(ngModel)]="value21"
+            placeholder="#42352353"
+            name="identificationNumberIndividual"
+          />
+        </div>
+        <div class="div2-individual">
+          <label for="selectIdentityIndividual"
+            >Select Identity<sup class="danger">*</sup></label
+          >
+          <p-multiselect
+            [options]="identityIndividual"
+            [(ngModel)]="selectedIdentityIndividual"
+            placeholder="Select Identity"
+            optionLabel="name"
+            display="chip"
+            icon="pi pi-times"
+            name="identityIndividual"
+            styleClass="w-full md:w-80"
+            [maxSelectedLabels]="999"
+            chipIcon="pi pi-times"
+          />
+        </div>
+        <div class="div3-individual">
+          <p-button icon="custom-icon" severity="danger" class="add-btn" />
+        </div>
+      </div>
+    </form>
+
+    <form action="" *ngIf="clientOnboardingCompanyShowMain">
+      <label for="clientOnboardingCompanyNameEnglish"
+        >Name in English<sup class="danger">*</sup></label
+      >
+      <input
+        pInputText
+        id="clientOnboardingNameEnglish"
+        aria-describedby="clientOnboardingNameEnglish-help"
+        [(ngModel)]="value22"
+        name="clientOnboardingNameEnglish"
+        placeholder="Google"
+      />
+      <label for="clientOnboardingCompanyNameArabic"
+        >Name in Arabic<sup class="danger">*</sup></label
+      >
+      <input
+        pInputText
+        id="clientOnboardingNameArabic"
+        aria-describedby="clientOnboardingNameArabic-help"
+        [(ngModel)]="value23"
+        placeholder="Google"
+        name="clientOnboardingNameArabic"
+      />
+      <label for="clientOnboardingCompanySectors"
+        >Select Sector<sup class="danger">*</sup></label
+      >
+      <p-multiselect
+        [options]="sectors"
+        [(ngModel)]="selectedSectors"
+        placeholder="Select Sectors"
+        optionLabel="name"
+        display="chip"
+        icon="pi pi-times"
+        name="clientOnboardingSectors"
+        styleClass="w-full md:w-80"
+        [maxSelectedLabels]="999"
+        chipIcon="pi pi-times"
+      />
+      <label for="clientOnboardingCompanySubSectors"
+        >Select Sub Sector<sup class="danger">*</sup></label
+      >
+      <p-multiselect
+        [options]="subSectors"
+        [(ngModel)]="selectedSubSectors"
+        placeholder="Select Sub Sectors"
+        optionLabel="name"
+        display="chip"
+        icon="pi pi-times"
+        name="clientOnboardingCompanySubSectors"
+        styleClass="w-full md:w-80"
+        [maxSelectedLabels]="999"
+        chipIcon="pi pi-times"
+      />
+      <label for="clientOnboardingCompanyBusinessActivity"
+        >Business Activity<sup class="danger">*</sup></label
+      >
+      <input
+        pInputText
+        id="clientOnboardingCompanyBusinessActivity"
+        aria-describedby="clientOnboardingCompanyBusinessActivity-help"
+        [(ngModel)]="value24"
+        name="clientOnboardingCompanyBusinessActivity"
+        placeholder="Technology Business"
+      />
+      <label for="clientOnbardingCompanyTaxId"
+        >Tax ID<sup class="danger">*</sup></label
+      >
+
+      <input
+        pInputText
+        id="clientOnbardingCompanyTaxId"
+        aria-describedby="clientOnbardingCompanyTaxId-help"
+        [(ngModel)]="value25"
+        name="clientOnbardingCompanyTaxId"
+        placeholder="#101020203030"
+      />
+      <label for="clientOnboardingCompanyshortName">Short Name</label>
+      <input
+        pInputText
+        id="clientOnboardingCompanyshortName"
+        aria-describedby="clientOnboardingCompanyshortName-help"
+        [(ngModel)]="value26"
+        placeholder="GO"
+        name="clientOnboardingCompanyshortName"
+      />
+    </form>
+    <form action="" *ngIf="clientOnboardingIndividualShowMain">
+      <label for="clientOnboardingNameEnglishIndividual"
+        >Name in English<sup class="danger">*</sup></label
+      >
+      <input
+        pInputText
+        id="clientOnboardingNameEnglishIndividual"
+        aria-describedby="clientOnboardingNameEnglishIndividual-help"
+        [(ngModel)]="value27"
+        name="clientOnboardingNameEnglishIndividual"
+        placeholder="Google"
+      />
+      <label for="clientOnboardingNameArabicIndividual"
+        >Name in Arabic<sup class="danger">*</sup></label
+      >
+      <input
+        pInputText
+        id="clientOnboardingNameArabicIndividual"
+        aria-describedby="clientOnboardingNameArabicIndividual-help"
+        [(ngModel)]="value28"
+        placeholder="Google"
+        name="clientOnboardingNameArabicIndividual"
+      />
+      <label for="clientOnboardingBusinessActivityIndividual"
+        >Business Activity<sup class="danger">*</sup></label
+      >
+      <input
+        pInputText
+        id="clientOnboardingBusinessActivityIndividual"
+        aria-describedby="clientOnboardingBusinessActivityIndividual-help"
+        [(ngModel)]="value29"
+        placeholder="Technology Business"
+        name="clientOnboardingBusinessActivityIndividual"
+      />
+      <label for="clientOnboardingSelectSectorIndividual"
+        >Select Sector<sup class="danger">*</sup></label
+      >
+      <p-multiselect
+        [options]="sectorsIndividual"
+        [(ngModel)]="selectedSectorsIndividual"
+        placeholder="Select Sectors"
+        optionLabel="name"
+        display="chip"
+        icon="pi pi-times"
+        name="clientOnboardingSelectSectorIndividual"
+        styleClass="w-full md:w-80"
+        [maxSelectedLabels]="999"
+        chipIcon="pi pi-times"
+      />
+      <label for="clientOnboardingSelectSubSectorIndividual"
+        >Select Sub Sector<sup class="danger">*</sup></label
+      >
+      <p-multiselect
+        [options]="subSectorsIndividual"
+        [(ngModel)]="selectedSubSectorsIndividual"
+        placeholder="Select Sub Sectors"
+        optionLabel="name"
+        display="chip"
+        icon="pi pi-times"
+        name="clientOnboardingSelectSubSectorIndividual"
+        styleClass="w-full md:w-80"
+        [maxSelectedLabels]="999"
+        chipIcon="pi pi-times"
+      />
+      <label for="clientOnboardingShortNameIndividual">Short Name</label>
+      <input
+        pInputText
+        id="clientOnboardingShortNameIndividual"
+        aria-describedby="clientOnboardingShortNameIndividual-help"
+        [(ngModel)]="value30"
+        placeholder="GO"
+        name="clientOnboardingShortNameIndividual"
+      />
+      <label for="clientOnboardingJobTitleIndividual">Job Title</label>
+      <input
+        pInputText
+        id="clientOnboardingJobTitleIndividual"
+        aria-describedby="clientOnboardingJobTitleIndividual-help"
+        [(ngModel)]="value24"
+        placeholder="Senior UI/UX Designer"
+        name="clientOnboardingJobTitleIndividual"
+      />
+      <label for="clientOnboardingTaxIdIndividual"
+        >Tax ID<sup class="danger">*</sup></label
+      >
+      <input
+        pInputText
+        id="clientOnboardingTaxIdIndividual"
+        aria-describedby="clientOnboardingTaxIdIndividual-help"
+        [(ngModel)]="value25"
+        placeholder="#101020203030"
+        name="clientOnboardingTaxIdIndividual"
+      />
+      <div class="row">
+        <div class="col-sm">
+          <label for="clientOnboardingDateOfBirthIndividual"
+            >Date of Birth<sup class="danger">*</sup></label
+          >
+
+          <shared-date-picker
+            formControlName="clientOnboardingDateOfBirthIndividual"
+            inputId="clientOnboardingDateOfBirthIndividual"
+          >
+          </shared-date-picker>
+        </div>
+        <div class="col-sm">
+          <label for="clientOnboardingGenderIndividual"
+            >Gender<sup class="danger">*</sup></label
+          >
+          <p-select
+            [options]="genders"
+            [(ngModel)]="selectedGenders"
+            optionLabel="name"
+            placeholder="Select a Gender"
+            class="w-full md:w-56"
+            name="clientOnboardingGenderIndividual"
+          />
+        </div>
+      </div>
+      <div class="parent-individual">
+        <div class="div4-individual">
+          <label for="identificationNumberIndividual"
+            >Identification Number<sup class="danger">*</sup></label
+          >
+          <input
+            pInputText
+            id="identificationNumberIndividual"
+            aria-describedby="identificationNumberIndividual-help"
+            [(ngModel)]="value21"
+            placeholder="#42352353"
+            name="identificationNumberIndividual"
+          />
+        </div>
+        <div class="div2-individual">
+          <label for="selectIdentityIndividual"
+            >Select Identity<sup class="danger">*</sup></label
+          >
+          <p-multiselect
+            [options]="identityIndividual"
+            [(ngModel)]="selectedIdentityIndividual"
+            placeholder="Select Identity"
+            optionLabel="name"
+            display="chip"
+            icon="pi pi-times"
+            name="identityIndividual"
+            styleClass="w-full md:w-80"
+            [maxSelectedLabels]="999"
+            chipIcon="pi pi-times"
+          />
+        </div>
+        <div class="div3-individual">
+          <p-button icon="custom-icon" severity="danger" class="add-btn" />
+        </div>
+      </div>
+    </form>
+
     <form
       [formGroup]="formGroup"
       *ngIf="addClientAddressesLookupsForm"
@@ -6153,6 +6575,31 @@
           />
         </div>
       </div>
+    </form>
+
+    <form action="" *ngIf="addPhoneNumbersShowMain">
+      <label for="phoneType">Phone Type <sup class="danger">*</sup></label>
+      <p-multiselect
+        [options]="phoneTypes"
+        [(ngModel)]="selectedPhoneTypes"
+        placeholder="Select Phone Types"
+        optionLabel="name"
+        display="chip"
+        icon="pi pi-times"
+        name="phoneTypes"
+        styleClass="w-full md:w-80"
+        [maxSelectedLabels]="999"
+        chipIcon="pi pi-times"
+      />
+      <label for="phoneNumber">Phone Number <sup class="danger">*</sup></label>
+      <input
+        pInputText
+        id="phoneNumber"
+        aria-describedby="phoneNumber-help"
+        [(ngModel)]="value35"
+        name="phoneNumber"
+        placeholder="Add Phone Number"
+      />
     </form>
 
     <form
@@ -7168,6 +7615,383 @@
       </div>
     </form>
 
+    <form action="" *ngIf="addClientCompanyViewShowMain">
+      <label for="nameInEnglishCompanyViewOnly"
+        >Name in English <sup class="danger">*</sup></label
+      >
+
+      <input
+        pInputText
+        id="nameInEnglishCompanyViewOnly"
+        aria-describedby="nameInEnglishCompanyViewOnly-help"
+        name="nameInEnglishCompanyViewOnly"
+        placeholder="Google"
+        [disabled]="true"
+      />
+      <label for="nameInArabicCompanyViewOnly"
+        >Name in Arabic <sup class="danger">*</sup></label
+      >
+
+      <input
+        pInputText
+        id="nameInArabicCompanyViewOnly"
+        aria-describedby="nameInArabicCompanyViewOnly-help"
+        name="nameInArabicCompanyViewOnly"
+        placeholder="Google"
+        [disabled]="true"
+      />
+      <label for="selectSectorCompanyViewOnly"
+        >Select Sector <sup class="danger">*</sup></label
+      >
+      <p-multiselect
+        [options]="sectors"
+        [(ngModel)]="selectedSectorsShowCompanyOnly"
+        optionLabel="name"
+        display="chip"
+        icon="pi pi-times"
+        name="sectors"
+        styleClass="w-full md:w-80"
+        [maxSelectedLabels]="999"
+        chipIcon="pi pi-times"
+        [disabled]="true"
+      />
+      <label for="selectSubSectorCompanyViewOnly"
+        >Select Sub Sector <sup class="danger">*</sup></label
+      >
+      <p-multiselect
+        [options]="subSectors"
+        [(ngModel)]="selectedSubSectorsShowCompanyOnly"
+        optionLabel="name"
+        display="chip"
+        icon="pi pi-times"
+        name="subSectors"
+        styleClass="w-full md:w-80"
+        [maxSelectedLabels]="999"
+        chipIcon="pi pi-times"
+        [disabled]="true"
+      />
+      <label for="businessActivityCompanyViewOnly"
+        >Business Activity <sup class="danger">*</sup></label
+      >
+
+      <input
+        pInputText
+        id="businessActivityCompanyViewOnly"
+        aria-describedby="businessActivityCompanyViewOnly-help"
+        name="businessActivityCompanyViewOnly"
+        placeholder="Technology Business"
+        [disabled]="true"
+      />
+      <label for="taxIdCompanyViewOnly"
+        >Tax ID <sup class="danger">*</sup></label
+      >
+
+      <input
+        pInputText
+        id="taxIdCompanyViewOnly"
+        aria-describedby="taxIdCompanyViewOnly-help"
+        name="taxIdCompanyViewOnly"
+        placeholder="#101020203030"
+        [disabled]="true"
+        type="number"
+      />
+      <label for="shortNameCompanyViewOnly">Short Name </label>
+
+      <input
+        pInputText
+        id="shortNameCompanyViewOnly"
+        aria-describedby="shortNameCompanyViewOnly-help"
+        name="shortNameCompanyViewOnly"
+        placeholder="GO"
+        [disabled]="true"
+      />
+    </form>
+    <form action="" *ngIf="addClientCompanyViewShowLegal">
+      <label for="legalFormLawCompanyViewOnly">Legal Form Law</label>
+      <p-multiselect
+        [options]="legalFormLaw"
+        [(ngModel)]="selectedLegalFormLawCompanyViewOnly"
+        optionLabel="name"
+        display="chip"
+        icon="pi pi-times"
+        name="legalFormLawCompanyViewOnly"
+        styleClass="w-full md:w-80"
+        [maxSelectedLabels]="999"
+        chipIcon="pi pi-times"
+        [disabled]="true"
+      />
+      <label for="legalFormCompanyViewOnly">Legal Form</label>
+      <p-multiselect
+        [options]="legalForm"
+        [(ngModel)]="selectedLegalFormCompanyViewOnly"
+        optionLabel="name"
+        display="chip"
+        icon="pi pi-times"
+        name="legalFormCompanyViewOnly"
+        styleClass="w-full md:w-80"
+        [maxSelectedLabels]="999"
+        chipIcon="pi pi-times"
+        [disabled]="true"
+      />
+      <label for="isStampCompanyViewOnly">is Stamp Duty?</label>
+      <p-select
+        [options]="isMain"
+        [(ngModel)]="selectedIsStampCompanyViewOnly"
+        optionLabel="name"
+        class="w-full md:w-56"
+        name="isStampCompanyViewOnly"
+        [disabled]="true"
+        placeholder="Yes"
+      />
+    </form>
+    <form action="" *ngIf="addClientCompanyViewShowBusiness">
+      <label for="mainShareAddClientViewOnly">Main Share</label>
+      <input
+        pInputText
+        id="mainShareAddClientViewOnly"
+        aria-describedby="mainShareAddClientViewOnly-help"
+        name="mainShareAddClientViewOnly"
+        placeholder="Main Share"
+        [disabled]="true"
+      />
+      <label for="marketShareAddClientViewOnly">Market Share %</label>
+      <input
+        pInputText
+        id="marketShareAddClientViewOnly"
+        aria-describedby="marketShareAddClientViewOnly-help"
+        name="marketShareAddClientViewOnly"
+        placeholder="58%"
+        [disabled]="true"
+      />
+      <label for="establishedYearAddClientViewOnly">Established Year</label>
+      <input
+        pInputText
+        id="establishedYearAddClientViewOnly"
+        aria-describedby="establishedYearAddClientViewOnly-help"
+        name="establishedYearAddClientViewOnly"
+        placeholder="2014"
+        [disabled]="true"
+      />
+      <label for="websiteAddClientViewOnly">Website</label>
+      <input
+        pInputText
+        id="websiteAddClientViewOnly"
+        aria-describedby="websiteAddClientViewOnly-help"
+        name="websiteAddClientViewOnly"
+        placeholder="https://www.google.com"
+        [disabled]="true"
+      />
+      <label for="marketSizeAddClientViewOnly">Market Size</label>
+      <input
+        pInputText
+        id="marketSizeAddClientViewOnly"
+        aria-describedby="marketSizeAddClientViewOnly-help"
+        name="marketSizeAddClientViewOnly"
+        placeholder="50M"
+        [disabled]="true"
+      />
+      <label for="numberOfEmployeesAddClientViewOnly"
+        >Number of Employees</label
+      >
+      <input
+        pInputText
+        id="numberOfEmployeesAddClientViewOnly"
+        aria-describedby="numberOfEmployeesAddClientViewOnly-help"
+        name="numberOfEmployeesAddClientViewOnly"
+        placeholder="50,000"
+        [disabled]="true"
+      />
+    </form>
+    <form action="" *ngIf="contactPersonDetailsViewShowForm">
+      <label for="nameInEnglishContactPersonDetailsView">Name in English</label>
+      <input
+        pInputText
+        id="nameInEnglishContactPersonDetailsView"
+        aria-describedby="nameInEnglishContactPersonDetailsView-help"
+        name="nameInEnglishContactPersonDetailsView"
+        placeholder="Mohamed"
+        [disabled]="true"
+      />
+      <label for="contactPersonDetailsNameArabicViewOnly">Name in Arabic</label>
+      <input
+        pInputText
+        id="contactPersonDetailsNameArabicViewOnly"
+        aria-describedby="contactPersonDetailsNameArabicViewOnly-help"
+        name="contactPersonDetailsNameArabicViewOnly"
+        placeholder="Yasser"
+        [disabled]="true"
+      />
+      <label for="titleInEnglishContactPersonDetailsViewOnly"
+        >Title in English</label
+      >
+      <input
+        pInputText
+        id="titleInEnglishContactPersonDetailsViewOnly"
+        aria-describedby="titleInEnglishContactPersonDetailsViewOnly-help"
+        name="titleInEnglishContactPersonDetailsViewOnly"
+        placeholder="Mou Yasser"
+        [disabled]="true"
+      />
+      <label for="titleInArabicContactPersonDetailsViewOnly"
+        >Title in Arabic</label
+      >
+      <input
+        pInputText
+        id="titleInArabicContactPersonDetailsViewOnly"
+        aria-describedby="titleInArabicContactPersonDetailsViewOnly-help"
+        name="titleInArabicContactPersonDetailsViewOnly"
+        placeholder="Mou Yasser"
+        [disabled]="true"
+      />
+      <label for="GenderIdContactPersonDetailsViewOnly">Gender ID</label>
+      <input
+        pInputText
+        id="GenderIdContactPersonDetailsViewOnly"
+        aria-describedby="GenderIdContactPersonDetailsViewOnly-help"
+        name="GenderIdContactPersonDetailsViewOnly"
+        placeholder="2"
+        [disabled]="true"
+      />
+      <label for="emailAddressContactPersonDetailsViewOnly"
+        >Email Address</label
+      >
+      <input
+        pInputText
+        id="emailAddressContactPersonDetailsViewOnly"
+        aria-describedby="emailAddressContactPersonDetailsViewOnly-help"
+        name="emailAddressContactPersonDetailsViewOnly"
+        placeholder="mohamedyasserrahmed@gmail.com"
+        [disabled]="true"
+      />
+      <label for="phoneNumberContactPersonDetailsViewOnly">Phone Number</label>
+      <input
+        pInputText
+        id="phoneNumberContactPersonDetailsViewOnly"
+        aria-describedby="phoneNumberContactPersonDetailsViewOnly-help"
+        name="phoneNumberContactPersonDetailsViewOnly"
+        placeholder="Enter Name"
+        [disabled]="true"
+      />
+      <label for="phoneTypeContactPersonDetailsViewOnly">Phone Type</label>
+      <input
+        pInputText
+        id="phoneTypeContactPersonDetailsViewOnly"
+        aria-describedby="phoneTypeContactPersonDetailsViewOnly-help"
+        name="phoneTypeContactPersonDetailsViewOnly"
+        placeholder="Phone Type"
+        [disabled]="true"
+      />
+      <label for="detailsEnglishContactPersonDetailsViewOnly"
+        >Details English</label
+      >
+      <input
+        pInputText
+        id="detailsEnglishContactPersonDetailsViewOnly"
+        aria-describedby="detailsEnglishContactPersonDetailsViewOnly-help"
+        name="detailsEnglishContactPersonDetailsViewOnly"
+        placeholder="Address Details"
+        [disabled]="true"
+      />
+      <label for="detailsArabicContactPersonDetailsViewOnly"
+        >Details Arabic</label
+      >
+      <input
+        pInputText
+        id="detailsArabicContactPersonDetailsViewOnly"
+        aria-describedby="detailsArabicContactPersonDetailsViewOnly-help"
+        name="detailsArabicContactPersonDetailsViewOnly"
+        placeholder="Address Details"
+        [disabled]="true"
+      />
+      <label for="contactPersonIdContactPersonDetailsViewOnly"
+        >Contact Person ID</label
+      >
+      <input
+        pInputText
+        id="contactPersonIdContactPersonDetailsViewOnly"
+        aria-describedby="contactPersonIdContactPersonDetailsViewOnly-help"
+        name="contactPersonIdContactPersonDetailsViewOnly"
+        placeholder="43"
+        [disabled]="true"
+      />
+      <label for="addressTypeIdContactPersonDetailsViewOnly"
+        >Address Type ID</label
+      >
+      <input
+        pInputText
+        id="addressTypeIdContactPersonDetailsViewOnly"
+        aria-describedby="addressTypeIdContactPersonDetailsViewOnly-help"
+        name="addressTypeIdContactPersonDetailsViewOnly"
+        placeholder="2"
+        [disabled]="true"
+      />
+      <label for="areaIdContactPersonDetailsViewOnly">Area ID</label>
+      <input
+        pInputText
+        id="areaIdContactPersonDetailsViewOnly"
+        aria-describedby="areaIdContactPersonDetailsViewOnly-help"
+        name="areaIdContactPersonDetailsViewOnly"
+        placeholder="Area"
+        [disabled]="true"
+      />
+      <div class="row">
+        <div class="col-sm">
+          <label for="isMainContactPersonDetailsViewOnly">IsMain</label>
+          <input
+            pInputText
+            id="isMainContactPersonDetailsViewOnly"
+            aria-describedby="isMainContactPersonDetailsViewOnly-help"
+            name="isMainContactPersonDetailsViewOnly"
+            class="d-block w-100"
+            placeholder="Yes"
+            [disabled]="true"
+          />
+        </div>
+        <div class="col-sm">
+          <label for="isFinanceContactPersonDetailsViewOnly">IsFinance</label>
+          <input
+            pInputText
+            id="isFinanceContactPersonDetailsViewOnly"
+            aria-describedby="isFinanceContactPersonDetailsViewOnly-help"
+            name="isFinanceContactPersonDetailsViewOnly"
+            placeholder="Yes"
+            [disabled]="true"
+            class="d-block w-100"
+          />
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm">
+          <label for="isAuthorizedSignContactPersonDetailsViewOnly"
+            >Is Authorized Sign</label
+          >
+          <input
+            pInputText
+            id="isAuthorizedSignContactPersonDetailsViewOnly"
+            aria-describedby="isAuthorizedSignContactPersonDetailsViewOnly-help"
+            name="isAuthorizedSignContactPersonDetailsViewOnly"
+            placeholder="Yes"
+            class="d-block w-100"
+            [disabled]="true"
+          />
+        </div>
+        <div class="col-sm">
+          <label for="isKeyManagerContactPersonDetailsViewOnly"
+            >Is Key Manager</label
+          >
+          <input
+            pInputText
+            id="isKeyManagerContactPersonDetailsViewOnly"
+            aria-describedby="isKeyManagerContactPersonDetailsViewOnly-help"
+            name="isKeyManagerContactPersonDetailsViewOnly"
+            placeholder="Yes"
+            [disabled]="true"
+            class="d-block w-100"
+          />
+        </div>
+      </div>
+    </form>
     <!--Forms Mandate Journey-->
     <ng-container
       *ngIf="addMandateShowBasicForm"
@@ -10183,6 +11007,124 @@
 
     <form
       [formGroup]="formGroup"
+      *ngIf="addMandateActionAuthorizationGroupForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="authorizationGroupId">Authorization Group<sup>*</sup></label>
+      <p-select
+        [options]="authorizationGroupsList"
+        optionLabel="name"
+        placeholder="Select Authorization Group"
+        formControlName="authorizationGroupId"
+        optionValue="id"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('authorizationGroupId')?.invalid &&
+            (formGroup.get('authorizationGroupId')?.dirty ||
+              formGroup.get('authorizationGroupId')?.touched)
+        }"
+      />
+      <label for="startDate">Start Date<sup class="danger">*</sup></label>
+      <shared-date-picker formControlName="startDate" inputId="startDate">
+      </shared-date-picker>
+
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="!editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Add Action Authorization Group"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Action Authorization Group"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate([`/lookups/view-mandate-action-authorizationGroups/${this.mandateStatusActionIdParam}`])"
+          />
+        </div>
+      </div>
+    </form>
+
+    <form
+      [formGroup]="formGroup"
+      *ngIf="addMandateActionNotificationGroupForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="notificationGroupId">Notification Group<sup>*</sup></label>
+      <p-select
+        [options]="notificationGroupsList"
+        optionLabel="name"
+        placeholder="Select Notification Group"
+        formControlName="notificationGroupId"
+        optionValue="id"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('notificationGroupId')?.invalid &&
+            (formGroup.get('notificationGroupId')?.dirty ||
+              formGroup.get('notificationGroupId')?.touched)
+        }"
+      />
+      <label for="startDate">Start Date<sup class="danger">*</sup></label>
+      <shared-date-picker formControlName="startDate" inputId="startDate">
+      </shared-date-picker>
+
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="!editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Add Action Notification Group"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Action Notification Group"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate([`/lookups/view-mandate-action-notificationGroups/${this.mandateStatusActionIdParam}`])"
+          />
+        </div>
+      </div>
+    </form>
+
+    <form
+      [formGroup]="formGroup"
       *ngIf="addConditionsLookupsForm"
       (ngSubmit)="onSubmit()"
     >
@@ -11267,6 +12209,38 @@
         </div>
       </div>
     </form>
+    <form action="" *ngIf="addClientDocumentTypesLookupsForm">
+      <label>Arabic Description<sup>*</sup></label>
+      <br />
+      <label for="codeMeetingTypesCommunication">Code<sup>*</sup></label>
+      <input
+        pInputText
+        id="codeMeetingTypesCommunication"
+        aria-describedby="codeMeetingTypesCommunication-help"
+        name="codeMeetingTypesCommunication"
+        placeholder="342425"
+      />
+      <label for="nameInEnglishMeetingTypesCommunication"
+        >Name in English<sup>*</sup></label
+      >
+      <input
+        pInputText
+        id="nameInEnglishMeetingTypesCommunication"
+        aria-describedby="nameInEnglishMeetingTypesCommunication-help"
+        name="nameInEnglishMeetingTypesCommunication"
+        placeholder="Enter Name"
+      />
+      <label for="nameInArabicMeetingTypesCommunication"
+        >Name in Arabic<sup>*</sup></label
+      >
+      <input
+        pInputText
+        id="nameInArabicMeetingTypesCommunication"
+        aria-describedby="nameInArabicMeetingTypesCommunication-help"
+        name="nameInArabicMeetingTypesCommunication"
+        placeholder="Enter Name"
+      />
+    </form>
 
     <form
       [formGroup]="formGroup"
@@ -11616,7 +12590,7 @@
       </div>
     </form>
     <!--Communication Forms-->
-    <form action="" *ngIf="addMeetingShowBasicForm">
+    <!-- <form action="" *ngIf="addMeetingShowBasicForm">
       <label for="clientNameAddMeeting">Client Name<sup>*</sup></label>
       <input
         pInputText
@@ -12411,7 +13385,7 @@
       </div>
     </form>
 
-    <form action="" *ngIf="addMeetingShowBusinessInformationForm">
+    <!-- <form action="" *ngIf="addMeetingShowBusinessInformationForm">
       <label for="startDateAddMeeting">Start Date<sup>*</sup></label>
       <shared-date-picker
         formControlName="startDateAddMeeting"

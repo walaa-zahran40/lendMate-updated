@@ -16,9 +16,9 @@
           'Introduce your Authorization Group core info quickly to users by fill up client details'
         "
         [formGroup]="addActionAuthorizationGroupsLookupsForm"
-        [addActionAuthorizationGroupForm]="true"
+        [addMandateActionAuthorizationGroupForm]="true"
         [editMode]="editMode"
-        (submitForm)="addOrEditActionAuthorizationGroups()"
+        (submitForm)="addOrEditMandateActionAuthorizationGroups()"
         [viewOnly]="viewOnly"
         [authorizationGroupsList]="authorizationGroupsList$ | async"
       ></app-form>

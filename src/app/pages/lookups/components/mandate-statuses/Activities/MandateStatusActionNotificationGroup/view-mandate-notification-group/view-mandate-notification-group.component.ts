@@ -6,51 +6,51 @@ import { TableComponent } from '../../../../../../../shared/components/table/tab
 import { NotificationGroup } from '../../../../../store/notification-groups/notification-groups.model';
 import { selectAllNotificationGroups } from '../../../../../store/notification-groups/notification-groups.selectors';
 import { loadAll as loadNotificationGroups} from '../../../../../store/notification-groups/notification-groups.actions';
-import { ActionNotificationGroup } from '../../../../../store/client-statuses-actions-activities/ClientStatusActionNotificationGroup/action-notification-group.model';
-import { ActionNotificationGroupsFacade } from '../../../../../store/client-statuses-actions-activities/ClientStatusActionNotificationGroup/action-notification-groups.facade';
+import { MandateActionNotificationGroup } from '../../../../../store/mandate-statuses-actions-activities/MandateStatusActionNotificationGroup/action-notification-group.model';
+import { MandateActionNotificationGroupsFacade } from '../../../../../store/mandate-statuses-actions-activities/MandateStatusActionNotificationGroup/action-notification-groups.facade';
 
 @Component({
-  selector: 'app-view-action-notificationg-group',
+  selector: 'app-view-mandate-notificationg-group',
   standalone: false,
-  templateUrl: './view-action-notification-group.component.html',
-  styleUrl: './view-action-notification-group.component.scss',
+  templateUrl: './view-mandate-notification-group.component.html',
+  styleUrl: './view-mandate-notification-group.component.scss',
 })
-export class ViewActionNotificationGroupsComponent {
-  tableDataInside: ActionNotificationGroup[] = [];
+export class ViewMandateActionNotificationGroupsComponent {
+  tableDataInside: MandateActionNotificationGroup[] = [];
   first2: number = 0;
   private destroy$ = new Subject<void>();
   rows: number = 10;
   showFilters: boolean = false;
-  clientStatusActionIdParam!: any;
+  mandateStatusActionIdParam!: any;
   @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
-    { field: 'notificationGroup', header: 'NotificationGroup' },
+    { field: 'notificationGroup', header: 'Notification Group' },
     { field: 'startDate', header: 'Start Date' },
   ];
   showDeleteModal: boolean = false;
   selectedActionNotificationGroupId: number | null = null;
-  originalActionNotificationGroups: ActionNotificationGroup[] = [];
-  filteredActionNotificationGroups: ActionNotificationGroup[] = [];
-  actionNotificationGroups$!: Observable<ActionNotificationGroup[]>;
+  originalActionNotificationGroups: MandateActionNotificationGroup[] = [];
+  filteredActionNotificationGroups: MandateActionNotificationGroup[] = [];
+  actionNotificationGroups$!: Observable<MandateActionNotificationGroup[]>;
   notificationGroupsList$!: Observable<NotificationGroup[]>;
 
   constructor(
     private router: Router,
-    private facade: ActionNotificationGroupsFacade,
+    private facade: MandateActionNotificationGroupsFacade,
     private route: ActivatedRoute,
     private store: Store
   ) {}
 
   ngOnInit() {
-    const raw = this.route.snapshot.paramMap.get('clientStatusActionId');
-    this.clientStatusActionIdParam = raw !== null ? Number(raw) : undefined;
-    this.facade.loadActionNotificationGroupsByClientStatusActionId(this.clientStatusActionIdParam);
-    this.actionNotificationGroups$ = this.facade.items$;
-
+    const raw = this.route.snapshot.paramMap.get('mandateStatusActionId');
+    this.mandateStatusActionIdParam = raw !== null ? Number(raw) : undefined;
+    
     this.store.dispatch(loadNotificationGroups({}));
-
     this.notificationGroupsList$ = this.store.select(selectAllNotificationGroups);
+    
+    this.facade.loadActionNotificationGroupsByMandateStatusActionId(this.mandateStatusActionIdParam);
+    this.actionNotificationGroups$ = this.facade.items$;
 
     combineLatest([
       this.actionNotificationGroups$,
@@ -62,8 +62,8 @@ export class ViewActionNotificationGroupsComponent {
             .map((actionNotificationGroup) => ({
               ...actionNotificationGroup,
               notificationGroup:
-                notificationGroupsList.find((c) => c.id === actionNotificationGroup.notificationGroupId)?.name ||
-                '—',
+                notificationGroupsList.find((c) => c.id === actionNotificationGroup.notificationGroupId)?.name
+                ,
             }))
             .sort((a, b) => b.id - a.id)
         ),
@@ -76,10 +76,10 @@ export class ViewActionNotificationGroupsComponent {
   }
 
   onAddActionNotificationGroup() {
-    const clientStatusActionIdParam = this.route.snapshot.paramMap.get('clientStatusActionId');
+    const mandateStatusActionIdParam = this.route.snapshot.paramMap.get('mandateStatusActionId');
 
-    this.router.navigate(['/lookups/add-action-notificationGroups'], {
-      queryParams: { mode: 'add', clientStatusActionId: clientStatusActionIdParam },
+    this.router.navigate(['/lookups/add-mandate-action-notificationGroups'], {
+      queryParams: { mode: 'add', mandateStatusActionId: mandateStatusActionIdParam },
     });
   }
 
@@ -102,7 +102,7 @@ export class ViewActionNotificationGroupsComponent {
       this.selectedActionNotificationGroupId
     );
     if (this.selectedActionNotificationGroupId !== null) {
-      this.facade.delete(this.selectedActionNotificationGroupId, this.clientStatusActionIdParam);
+      this.facade.delete(this.selectedActionNotificationGroupId, this.mandateStatusActionIdParam);
       console.log('[View] confirmDelete() – facade.delete() called');
     } else {
       console.warn('[View] confirmDelete() – no id to delete');
@@ -129,22 +129,22 @@ export class ViewActionNotificationGroupsComponent {
   onToggleFilters(value: boolean) {
     this.showFilters = value;
   }
-  onEditActionNotificationGroup(actionNotificationGroup: ActionNotificationGroup) {
+  onEditActionNotificationGroup(actionNotificationGroup: MandateActionNotificationGroup) {
     this.router.navigate(
-      ['/lookups/edit-action-notificationGroups', actionNotificationGroup.id],
+      ['/lookups/edit-mandate-action-notificationGroups', actionNotificationGroup.id],
       {
         queryParams: {
           mode: 'edit',
-          clientStatusActionId: this.clientStatusActionIdParam, // <-- use "currencyId" here
+          mandateStatusActionId: this.mandateStatusActionIdParam, // <-- use "currencyId" here
         },
       }
     );
   }
-  onViewActionNotificationGroup(ct: ActionNotificationGroup) {
-    this.router.navigate(['/lookups/edit-action-notificationGroups', ct.id], {
+  onViewActionNotificationGroup(ct: MandateActionNotificationGroup) {
+    this.router.navigate(['/lookups/edit-mandate-action-notificationGroups', ct.id], {
       queryParams: {
         mode: 'view',
-        clientStatusActionId: this.clientStatusActionIdParam, // <-- use "currencyId" here
+        mandateStatusActionId: this.mandateStatusActionIdParam, // <-- use "currencyId" here
       },
     });
   }

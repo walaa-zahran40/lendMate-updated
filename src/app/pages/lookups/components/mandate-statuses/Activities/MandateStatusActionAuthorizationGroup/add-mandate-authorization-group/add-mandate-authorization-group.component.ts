@@ -5,32 +5,32 @@ import { Store } from '@ngrx/store';
 import { Observable, Subject, takeUntil, filter } from 'rxjs';
 import { loadOfficers } from '../../../../../../organizations/store/officers/officers.actions';
 import { AuthorizationGroup } from '../../../../../store/authorization-groups/authorization-groups.model';
-import { ActionAuthorizationGroup } from '../../../../../store/client-statuses-actions-activities/ClientStatusActionAuthorizationGroup/action-authorization-group.model';
-import { ActionAuthorizationGroupsFacade } from '../../../../../store/client-statuses-actions-activities/ClientStatusActionAuthorizationGroup/action-authorization-groups.facade';
+import { MandateActionAuthorizationGroup } from '../../../../../store/mandate-statuses-actions-activities/MandateStatusActionAuthorizationGroup/action-authorization-group.model';
+import { MandateActionAuthorizationGroupsFacade } from '../../../../../store/mandate-statuses-actions-activities/MandateStatusActionAuthorizationGroup/action-authorization-groups.facade';
 import { selectAllAuthorizationGroups } from '../../../../../store/authorization-groups/authorization-groups.selectors';
 import { loadAll as loadAuthorizationGroups} from '../../../../../store/authorization-groups/authorization-groups.actions';
 
 @Component({
-  selector: 'app-add-action-authorization-group',
+  selector: 'app-add-mandate-authorization-group',
   standalone: false,
-  templateUrl: './add-action-authorization-group.component.html',
-  styleUrl: './add-action-authorization-group.component.scss',
+  templateUrl: './add-mandate-authorization-group.component.html',
+  styleUrl: './add-mandate-authorization-group.component.scss',
 })
-export class AddActionAuthorizationGroupsComponent {
+export class AddMandateActionAuthorizationGroupsComponent {
   mode!: 'add' | 'edit' | 'view';
   editMode: boolean = false;
   viewOnly = false;
   addActionAuthorizationGroupsLookupsForm!: FormGroup;
   retrivedId: any;
   authorizationGroupsList$!: Observable<AuthorizationGroup[]>;
-  clientStatusActionId: any;
+  mandateStatusActionId: any;
   recordId!: number;
   private destroy$ = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private facade: ActionAuthorizationGroupsFacade,
+    private facade: MandateActionAuthorizationGroupsFacade,
     private router: Router,
     private store: Store
   ) {}
@@ -39,7 +39,7 @@ export class AddActionAuthorizationGroupsComponent {
     console.log('🟢 ngOnInit start');
     // 1️⃣ Read route parameters
     console.log(this.route.snapshot, 'route');
-    this.clientStatusActionId = Number(this.route.snapshot.queryParams['clientStatusActionId']);
+    this.mandateStatusActionId = Number(this.route.snapshot.queryParams['mandateStatusActionId']);
 
     this.mode =
       (this.route.snapshot.queryParamMap.get('mode') as
@@ -49,7 +49,7 @@ export class AddActionAuthorizationGroupsComponent {
     this.editMode = this.mode === 'edit';
     this.viewOnly = this.mode === 'view';
     console.log('🔍 Params:', {
-      clientStatusActionId: this.clientStatusActionId,
+      mandateStatusActionId: this.mandateStatusActionId,
       mode: this.mode,
       editMode: this.editMode,
       viewOnly: this.viewOnly,
@@ -57,7 +57,7 @@ export class AddActionAuthorizationGroupsComponent {
 
     this.addActionAuthorizationGroupsLookupsForm = this.fb.group({
       id: [null],
-      clientStatusActionId: [null, [Validators.required]],
+      mandateStatusActionId: [null, [Validators.required]],
       authorizationGroupId: [null, [Validators.required]],
       startDate:  [null, [Validators.required]],
       isActive: [true],
@@ -75,9 +75,9 @@ export class AddActionAuthorizationGroupsComponent {
     // Patch for add mode
     if (this.mode === 'add') {
       this.addActionAuthorizationGroupsLookupsForm.patchValue({
-        clientStatusActionId: this.clientStatusActionId,
+        mandateStatusActionId: this.mandateStatusActionId,
       });
-      console.log('✏️ Add mode → patched clientStatusActionId:', this.clientStatusActionId);
+      console.log('✏️ Add mode → patched mandateStatusActionId:', this.mandateStatusActionId);
     }
 
     // Patch for edit/view mode
@@ -94,7 +94,7 @@ export class AddActionAuthorizationGroupsComponent {
           console.log('red', ct);
           this.addActionAuthorizationGroupsLookupsForm.patchValue({
             id: ct?.id,
-            clientStatusActionId: this.clientStatusActionId,
+            mandateStatusActionId: this.mandateStatusActionId,
             authorizationGroupId: ct?.authorizationGroupId,
             startDate:new Date(ct?.startDate),
             isActive: ct?.isActive,
@@ -103,8 +103,8 @@ export class AddActionAuthorizationGroupsComponent {
     }
   }
 
-  addOrEditActionAuthorizationGroups() {
-    const clientParamQP = this.route.snapshot.queryParamMap.get('clientStatusActionId');
+  addOrEditMandateActionAuthorizationGroups() {
+    const mandateParamQP = this.route.snapshot.queryParamMap.get('mandateStatusActionId');
 
     console.log('💥 addActionAuthorizationGroups() called');
     console.log('  viewOnly:', this.viewOnly);
@@ -126,21 +126,21 @@ export class AddActionAuthorizationGroupsComponent {
     }
 
     this.addActionAuthorizationGroupsLookupsForm.patchValue({
-      clientStatusActionId: clientParamQP,
+      mandateStatusActionId: mandateParamQP,
     });
 
-    const {authorizationGroupId, clientStatusActionId,startDate, isActive } =
+    const {authorizationGroupId, mandateStatusActionId,startDate, isActive } =
       this.addActionAuthorizationGroupsLookupsForm.value;
-    const payload: Partial<ActionAuthorizationGroup> = {
+    const payload: Partial<MandateActionAuthorizationGroup> = {
       authorizationGroupId,
-      clientStatusActionId,
+      mandateStatusActionId,
       startDate,
       isActive
     };
     console.log('  → payload object:', payload);
 
     const data = this.addActionAuthorizationGroupsLookupsForm
-      .value as Partial<ActionAuthorizationGroup>;
+      .value as Partial<MandateActionAuthorizationGroup>;
     console.log('📦 Payload going to facade:', data);
 
     // Double-check your route param
@@ -156,25 +156,23 @@ export class AddActionAuthorizationGroupsComponent {
       this.facade.update(data.id!, data);
     }
 
-    if (clientParamQP) {
-      console.log('➡️ Navigating back with PATH param:', clientParamQP);
+    if (mandateParamQP) {
+      console.log('➡️ Navigating back with PATH param:', mandateParamQP);
       this.router.navigate([
-        '/lookups/view-action-authorizationGroups',
-        clientParamQP,
+        '/lookups/view-mandate-action-authorizationGroups',
+        mandateParamQP,
       ]);
-    } else if (clientParamQP) {
+    } else if (mandateParamQP) {
       console.log(
         '➡️ Navigating back with QUERY param fallback:',
-        clientParamQP
+        mandateParamQP
       );
       this.router.navigate([
-        `/lookups/view-action-authorizationGroups/${clientParamQP}`,
+        `/lookups/view-mandate-action-authorizationGroups/${mandateParamQP}`,
       ]);
     } else {
-      console.error('❌ Cannot navigate back: clientStatusActionId is missing!');
+      console.error('❌ Cannot navigate back: mandateStatusActionId is missing!');
     }
-    // console.log('🧭 Navigating away to view-client-addresses');
-    // this.router.navigate(['/organizations/view-client-addresses']);
   }
 
   ngOnDestroy() {
