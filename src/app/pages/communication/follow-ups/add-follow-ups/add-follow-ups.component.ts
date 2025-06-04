@@ -17,7 +17,7 @@ export class AddFollowupsComponent implements OnInit, OnDestroy {
   viewOnly = false;
 
   // Reactive form
-  addFollowupForm!: FormGroup;
+  addFollowupsForm!: FormGroup;
 
   // Lists and IDs
   mode!: 'add' | 'edit' | 'view';
@@ -49,12 +49,12 @@ export class AddFollowupsComponent implements OnInit, OnDestroy {
     }
 
     // Build form with communicationId
-    this.addFollowupForm = this.fb.group({
+    this.addFollowupsForm = this.fb.group({
       phoneTypeId: [null, Validators.required],
       phoneNumber: [null, Validators.required],
     });
 
-    this.addFollowupForm.patchValue({
+    this.addFollowupsForm.patchValue({
       communicationId: this.route.snapshot.queryParamMap.get('communicationId'),
     });
 
@@ -66,7 +66,7 @@ export class AddFollowupsComponent implements OnInit, OnDestroy {
           filter((rec) => !!rec)
         )
         .subscribe((rec) => {
-          this.addFollowupForm.patchValue({
+          this.addFollowupsForm.patchValue({
             id: rec.id,
             communicationId: this.route.snapshot.queryParamMap.get('communicationId'),
             details: rec.details,
@@ -91,13 +91,13 @@ export class AddFollowupsComponent implements OnInit, OnDestroy {
     }
 
     // 5) Form validity
-    if (this.addFollowupForm.invalid) {
-      this.addFollowupForm.markAllAsTouched();
+    if (this.addFollowupsForm.invalid) {
+      this.addFollowupsForm.markAllAsTouched();
       return;
     }
 
     // 6) The actual payload
-    const formValue = this.addFollowupForm.value;
+    const formValue = this.addFollowupsForm.value;
 
     console.log('arwaa', formValue[0]);
     const data: Partial<Followup> = {
@@ -116,7 +116,7 @@ export class AddFollowupsComponent implements OnInit, OnDestroy {
     if (this.mode === 'add') {
       this.followupFacade.create(data);
     } else {
-      const formValue = this.addFollowupForm.value;
+      const formValue = this.addFollowupsForm.value;
 
       const updateData: Followup = {
         id: this.recordId,

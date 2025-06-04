@@ -78,7 +78,7 @@ import { FollowupsFacade } from '../../store/followups/followups.facade';
     onAddFollowup() {
       console.log('edioyt', this.communicationIdParam);
       const routeId = this.route.snapshot.paramMap.get('communicationId');
-      this.router.navigate(['communication/add-followups', routeId], {
+      this.router.navigate(['communication/add-follow-ups/', routeId], {
         queryParams: {
           mode: 'add',
           communicationId: this.communicationIdParam, // <-- use "communicationId" here
@@ -131,7 +131,7 @@ import { FollowupsFacade } from '../../store/followups/followups.facade';
     }
   
     onEditFollowup(followup: Followup) {
-      this.router.navigate(['communication/edit-followups', followup.id], {
+      this.router.navigate(['communication/edit-follow-ups', followup.id], {
         queryParams: {
           mode: 'edit',
           communicationId: this.communicationIdParam, // <-- use "communicationId" here
@@ -141,7 +141,7 @@ import { FollowupsFacade } from '../../store/followups/followups.facade';
   
     onViewFollowup(followup: Followup) {
       console.log('route', this.route.snapshot);
-      this.router.navigate(['communication/edit-followups', followup.id], {
+      this.router.navigate(['communication/edit-follow-ups', followup.id], {
         queryParams: {
           mode: 'view',
           communicationId: this.communicationIdParam, // <-- and here
