@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { filter, tap, take } from 'rxjs';
+import { CallsFacade } from '../store/calls/calls.facade';
 
 @Component({
   selector: 'app-wizard-communication',
@@ -10,10 +12,30 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class WizardCommunicationComponent {
   cards: any[] = [];
   originalCards: any[] = [];
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  private communicationId!: number;
+  routeId = this.route.snapshot.params['id'];
+
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private facade: CallsFacade
+  ) {}
   ngOnInit(): void {
-    console.log('thirs',this.route.snapshot);
-    const clientId = this.route.snapshot.paramMap.get('id');
+    console.log('thirs', this.route.snapshot);
+
+    const callId = +this.route.snapshot.paramMap.get('id')!;
+    this.facade.loadById(callId);
+
+    this.facade.selected$
+      .pipe(
+        filter((m) => !!m && m.id === callId), // make sure it’s the one we asked for
+        take(1),
+        tap((m) => (this.communicationId = m?.communicationId!)) // ← this is the one you need
+      )
+      .subscribe(() => this.buildCards());
+  }
+  private buildCards() {
+    const id = this.communicationId;
     this.originalCards = [
       {
         imgUrl: '/assets/images/shared/card/upload.svg',
@@ -21,7 +43,7 @@ export class WizardCommunicationComponent {
         title: 'Follow Ups',
         content:
           'Introduce your company core info quickly to users by fill up company details',
-        link: `communication/view-follow-ups/${clientId}`,
+        link: `communication/view-follow-ups/${id}/${this.routeId}`,
       },
       {
         imgUrl: '/assets/images/shared/card/add.svg',
@@ -29,10 +51,12 @@ export class WizardCommunicationComponent {
         title: 'Follow Up Points',
         content:
           'Introduce your company core info quickly to users by fill up company details',
-        link: `communication/view-follow-ups/${clientId}`,
+        link: `communication/view-follow-ups/${id}/${this.routeId}`,
       },
     ];
     this.cards = this.chunkArray(this.originalCards, 3);
+    console.log('🧩 Built cards:', this.originalCards);
+    console.log('🔀 Chunked cards:', this.cards);
   }
   onSearchClient(keyword: string) {
     const lower = keyword.toLowerCase();

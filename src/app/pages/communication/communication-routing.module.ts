@@ -52,23 +52,25 @@ const routes: Routes = [
     component: ViewMeetingsComponent,
   },
 
+  // Follow up
 
-  // Follow up 
   {
-    path: 'add-follow-ups/:communicationId',
+    path: 'add-follow-ups/:callId',
+    component: WizardComponent,
+  },
+  {
+    path: 'add-follow-ups/:id/:callId',
     component: AddFollowupsComponent,
   },
   {
-    path: 'edit-follow-ups/:id',
+    path: 'edit-follow-ups/:id/:callId',
     component: AddFollowupsComponent,
   },
   {
-    path: 'view-follow-ups/:communicationId',
+    path: 'view-follow-ups/:id/:callId',
     component: ViewFollowupsComponent,
   },
 
-
-  
   {
     path: 'add-follow-ups-points',
     component: AddFollowUpsPointsComponent,

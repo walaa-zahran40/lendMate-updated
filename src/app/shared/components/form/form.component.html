@@ -12446,12 +12446,13 @@
       </div>
     </form>
 
-    <form *ngIf="addFollowupsForm" (ngSubmit)="onSubmit()" [formGroup]="formGroup">
+    <form
+      *ngIf="addFollowupsForm"
+      (ngSubmit)="onSubmit()"
+      [formGroup]="formGroup"
+    >
       <label for="date">Date<sup>*</sup></label>
-      <shared-date-picker
-        formControlName="date"
-        inputId="date"
-      >
+      <shared-date-picker formControlName="date" inputId="date">
       </shared-date-picker>
       <div class="d-flex flex-column">
         <label for="details">Follow Up Details</label
@@ -12465,7 +12466,7 @@
         ></textarea>
       </div>
 
-        <div class="row justify-end">
+      <div class="row justify-end">
         <div
           class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 addressTypesDiv"
           *ngIf="!editMode"
@@ -12498,7 +12499,6 @@
           />
         </div>
       </div>
-
     </form>
 
     <form action="" *ngIf="addFollowUpsPointsCommunicationForm">
@@ -13152,7 +13152,7 @@
       </div>
     </form>
 
-    <!-- <form
+    <form
       [formGroup]="formGroup"
       *ngIf="addTeamOfficerORGForm"
       (ngSubmit)="onSubmit()"
@@ -13279,6 +13279,6 @@
           ></p-button>
         </div>
       </div>
-    </form> -->
+    </form>
   </div>
 </div>
