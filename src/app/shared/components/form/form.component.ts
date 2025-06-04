@@ -529,6 +529,7 @@ export class FormComponent implements OnInit, OnDestroy {
   departmentIdParam: any;
   teamIdParam: any;
   clientIdParam: any;
+  communicationIdParam: any;
   clientStatusActionIdParam: any;
   mandateStatusActionIdParam: any;
   @Input() addPaymentTypesLookupsForm!: boolean;
@@ -636,6 +637,7 @@ export class FormComponent implements OnInit, OnDestroy {
     // 18 years ago:
     this.maxDateOfBirth.setFullYear(this.maxDateOfBirth.getFullYear() - 18);
     this.id = this.route.snapshot.paramMap.get('clientId')!;
+    this.communicationIdParam = this.route.snapshot.paramMap.get('communicationId')!;
     this.clientDocId = this.route.snapshot.params['clientId'];
     this.clientId = this.route.snapshot.queryParams['clientId']!;
     this.currencyIdParam = this.route.snapshot.queryParams['currencyId'];
@@ -983,7 +985,8 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/communication/view-followup-points']);
   }
   viewFollowUps() {
-    this.router.navigate(['/communication/view-followups']);
+    console.log(this.communicationIdParam);
+    this.router.navigate([`/communication/view-follow-ups/{this.communicationIdParam}`]);
   }
   viewAssestType() {
     this.router.navigate(['/crm/clients/view-assest-type']);

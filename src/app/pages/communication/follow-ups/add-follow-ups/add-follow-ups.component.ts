@@ -50,7 +50,7 @@ export class AddFollowupsComponent implements OnInit, OnDestroy {
 
     // Build form with communicationId
     this.addFollowupsForm = this.fb.group({
-      details: [null, Validators.required],
+      details: [' ', Validators.required],
       date: [null, Validators.required],
     });
 
