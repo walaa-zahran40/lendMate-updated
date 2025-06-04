@@ -175,6 +175,7 @@ export class LeasingFinancialFormCompoundComponent {
           const manualExchangeRateControl =
             this.leasingFinancialCurrencyForm.get('manualExchangeRate');
           if (manualExchangeRateControl) {
+            manualExchangeRateControl.enable({ emitEvent: false });
             if (isChecked) {
               console.log('Enabling manualExchangeRate control.');
               manualExchangeRateControl.enable({ emitEvent: false });
@@ -453,6 +454,7 @@ export class LeasingFinancialFormCompoundComponent {
   onCheckboxChange(event: any) {
     const manualExchangeRateControl =
       this.leasingFinancialCurrencyForm.get('manualExchangeRate')!;
+    manualExchangeRateControl.enable({ emitEvent: false });
     if (event?.checked) {
       console.log(
         'Manual checkbox check detected. Enabling manualExchangeRate control.'
