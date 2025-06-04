@@ -50,8 +50,8 @@ export class AddFollowupsComponent implements OnInit, OnDestroy {
 
     // Build form with communicationId
     this.addFollowupsForm = this.fb.group({
-      phoneTypeId: [null, Validators.required],
-      phoneNumber: [null, Validators.required],
+      details: [null, Validators.required],
+      date: [null, Validators.required],
     });
 
     this.addFollowupsForm.patchValue({
@@ -136,8 +136,8 @@ export class AddFollowupsComponent implements OnInit, OnDestroy {
     }
     console.log('route', this.route.snapshot);
 
+    console.log('➡️ Navigating back with PATH param:', communicationIdParam);
     if (communicationIdParam) {
-      console.log('➡️ Navigating back with PATH param:', communicationIdParam);
       this.router.navigate(['/communication/view-follow-ups', communicationIdParam]);
     } else {
       console.error('❌ Cannot navigate back: communicationId is missing!');

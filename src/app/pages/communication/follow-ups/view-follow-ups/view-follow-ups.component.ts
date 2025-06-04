@@ -78,6 +78,7 @@ export class ViewFollowupsComponent implements OnInit, OnDestroy {
   onAddFollowup() {
     console.log('edioyt', this.communicationIdParam);
     const routeId = this.route.snapshot.paramMap.get('communicationId');
+    console.log(`route : ${routeId}` )
     this.router.navigate(['communication/add-follow-ups/', routeId], {
       queryParams: {
         mode: 'add',

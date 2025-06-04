@@ -55,19 +55,15 @@ const routes: Routes = [
   // Follow up
 
   {
-    path: 'add-follow-ups/:callId',
-    component: WizardComponent,
-  },
-  {
-    path: 'add-follow-ups/:id/:callId',
+    path: 'add-follow-ups/:communicationId',
     component: AddFollowupsComponent,
   },
   {
-    path: 'edit-follow-ups/:id/:callId',
+    path: 'edit-follow-ups/:id/:communicationId',
     component: AddFollowupsComponent,
   },
   {
-    path: 'view-follow-ups/:id/:callId',
+    path: 'view-follow-ups/:id/:communicationId',
     component: ViewFollowupsComponent,
   },
 
