@@ -1,70 +1,67 @@
 import { Component, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import { MandateStatus } from '../../../store/mandate-statuses/mandate-status.model';
-import { MandateStatusesFacade } from '../../../store/mandate-statuses/mandate-statuses.facade';
+// import { MandateStatuses } from '../../../../shared/interfaces/mandate-statuses.interface';
 import { Observable, Subject, takeUntil } from 'rxjs';
+import { Router } from '@angular/router';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
+import { MandateStatus } from '../../../store/mandate-statuses/mandate-statuses/mandate-status.model';
+import { MandateStatusesFacade } from '../../../store/mandate-statuses/mandate-statuses/mandate-statuses.facade';
 
 @Component({
-  selector: 'app-view-mandate-statuses',
+  selector: 'app-view-mandate-status',
   standalone: false,
   templateUrl: './view-mandate-statuses.component.html',
   styleUrl: './view-mandate-statuses.component.scss',
 })
 export class ViewMandateStatusesComponent {
   tableDataInside: MandateStatus[] = [];
-  first2 = 0;
-  rows = 10;
-  showFilters = false;
+  first2: number = 0;
   private destroy$ = new Subject<void>();
-
+  rows: number = 10;
+  showFilters: boolean = false;
   @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
-    { field: 'isinitial', header: 'Is Initial' },
+    { field: 'isInitial', header: 'Is Initial' },
   ];
-
-  showDeleteModal = false;
+  showDeleteModal: boolean = false;
   selectedMandateStatusId: number | null = null;
   originalMandateStatuses: MandateStatus[] = [];
   filteredMandateStatuses: MandateStatus[] = [];
   mandateStatuses$!: Observable<MandateStatus[]>;
 
   constructor(private router: Router, private facade: MandateStatusesFacade) {}
-
   ngOnInit() {
-    console.log('🟢 ngOnInit: start loading mandateStatuses');
     this.facade.loadAll();
     this.mandateStatuses$ = this.facade.items$;
 
     this.mandateStatuses$
       ?.pipe(takeUntil(this.destroy$))
-      ?.subscribe((mandate) => {
-        // products is now rentStructureType[], not any
-        const activeCodes = mandate.filter((code) => code.isActive);
-        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
+      .subscribe((mandateStatuses) => {
+        // mandateStatuses is now MandateStatus[], not any
+        const sorted = [...mandateStatuses].sort((a, b) => b.id - a.id);
         this.originalMandateStatuses = sorted;
         this.filteredMandateStatuses = [...sorted];
       });
   }
 
   onAddMandateStatus() {
-    this.router.navigate(['/lookups/add-mandate-statuses']);
+    this.router.navigate(['/lookups/add-mandate-status']);
   }
-
+  onAddSide(mandateStatusId: any) {
+    this.router.navigate(['/lookups/wizard-mandate-status', mandateStatusId]);
+  }
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
   }
-
-  onDeleteMandateStatus(currencyId: number): void {
+  onDeleteMandateStatus(companyTypeId: any): void {
     console.log(
       '[View] onDeleteMandateStatus() – opening modal for id=',
-      currencyId
+      companyTypeId
     );
-    this.selectedMandateStatusId = currencyId;
+    this.selectedMandateStatusId = companyTypeId;
     this.showDeleteModal = true;
   }
 
@@ -81,7 +78,6 @@ export class ViewMandateStatusesComponent {
     }
     this.resetDeleteModal();
   }
-
   cancelDelete() {
     this.resetDeleteModal();
   }
@@ -91,29 +87,25 @@ export class ViewMandateStatusesComponent {
     this.showDeleteModal = false;
     this.selectedMandateStatusId = null;
   }
-
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
     this.filteredMandateStatuses = this.originalMandateStatuses.filter(
-      (mandateStatus) =>
-        Object.values(mandateStatus).some((val) =>
+      (companyType) =>
+        Object.values(companyType).some((val) =>
           val?.toString().toLowerCase().includes(lower)
         )
     );
   }
-
   onToggleFilters(value: boolean) {
     this.showFilters = value;
   }
-
-  onEditMandateStatus(mandateStatus: MandateStatus) {
-    this.router.navigate(['/lookups/edit-mandate-statuses', mandateStatus.id], {
+  onEditMandateStatus(companyType: MandateStatus) {
+    this.router.navigate(['/lookups/edit-mandate-status', companyType.id], {
       queryParams: { mode: 'edit' },
     });
   }
-
-  onViewMandateStatus(mandateStatus: MandateStatus) {
-    this.router.navigate(['/lookups/edit-mandate-statuses', mandateStatus.id], {
+  onViewMandateStatus(ct: MandateStatus) {
+    this.router.navigate(['/lookups/edit-mandate-status', ct.id], {
       queryParams: { mode: 'view' },
     });
   }

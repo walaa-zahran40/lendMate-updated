@@ -8,7 +8,6 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { AddCompanyTypesComponent } from './components/company-types/add-company-types/add-company-types.component';
 import { AddFeeCalculationTypesComponent } from './components/fee-calculation-types/add-fee-calculation-types/add-fee-calculation-types.component';
-import { AddMandateStatusesComponent } from './components/mandate-statuses/add-mandate-statuses/add-mandate-statuses.component';
 import { AddInterestRateBenchmarksComponent } from './components/interest-rate-benchmarks/add-interest-rate-benchmarks/add-interest-rate-benchmarks.component';
 import { AddFeeTypesComponent } from './components/fee-types/add-fee-types/add-fee-types.component';
 import { AddPeriodUnitsComponent } from './components/period-units/add-period-units/add-period-units.component';
@@ -48,7 +47,6 @@ import { AddDocTypesComponent } from './components/doc-types/add-doc-types/add-d
 import { AddClientTypesComponent } from './components/client-types/add-client-types/add-client-types.component';
 import { ViewCompanyTypesComponent } from './components/company-types/view-company-types/view-company-types.component';
 import { ViewFeesCalculationTypesComponent } from './components/fee-calculation-types/view-fees-calculation-types/view-fees-calculation-types.component';
-import { ViewMandateStatusesComponent } from './components/mandate-statuses/view-mandate-statuses/view-mandate-statuses.component';
 import { ViewInterestRateBenchmarksComponent } from './components/interest-rate-benchmarks/view-interest-rate-benchmarks/view-interest-rate-benchmarks.component';
 import { ViewFeeTypesComponent } from './components/fee-types/view-fee-types/view-fee-types.component';
 import { ViewPeriodUnitsComponent } from './components/period-units/view-period-units/view-period-units.component';
@@ -135,8 +133,6 @@ import { reducer as SectorsReducer } from './store/sectors/sectors.reducer';
 import { SectorsEffects } from './store/sectors/sectors.effects';
 import { reducer as TmlOfficerTypesReducer } from './store/tml-officer-types/tml-officer-types.reducer';
 import { TmlOfficerTypesEffects } from './store/tml-officer-types/tml-officer-types.effects';
-import { MandateStatusesEffects } from './store/mandate-statuses/mandate-statuses.effects';
-import { mandateStatusesReducer } from './store/mandate-statuses/mandate-statuses.reducer';
 import { reducer as SubSectorsReducer } from './store/sub-sectors/sub-sectors.reducer';
 import { SubSectorsEffects } from './store/sub-sectors/sub-sectors.effects';
 import { reducer as docTypesReducer } from './store/doc-types/doc-types.reducer';
@@ -230,6 +226,15 @@ import { AddActionNotificationGroupsComponent } from './components/client-status
 import { ViewActionNotificationGroupsComponent } from './components/client-statuses/ClientStatusActionActivities/ClientStatusActionNotificationGroup/view-action-notification-group/view-action-notification-group.component';
 import { actionNotificationGroupsReducer } from './store/client-statuses-actions-activities/ClientStatusActionNotificationGroup/action-notification-groups.reducer';
 import { ActionNotificationGroupsEffects } from './store/client-statuses-actions-activities/ClientStatusActionNotificationGroup/action-notification-groups.effects';
+import { AddMandateStatusesComponent } from './components/mandate-statuses/add-mandate-status/add-mandate-status.component';
+import { ViewMandateStatusesComponent } from './components/mandate-statuses/view-mandate-statuses/view-mandate-statuses.component';
+import { AddMandateStatusActionsComponent } from './components/mandate-statuses/add-mandate-status-action/add-mandate-status-actions.component';
+import { ViewMandateStatusActionsComponent } from './components/mandate-statuses/view-mandate-status-actions/view-mandate-status-actions.component';
+import { MandateStatusesEffects } from './store/mandate-statuses/mandate-statuses/mandate-statuses.effects';
+import { mandateStatusesReducer } from './store/mandate-statuses/mandate-statuses/mandate-statuses.reducer';
+import { MandateStatusActionsEffects } from './store/mandate-statuses/mandate-statuses-actions/mandate-status-actions.effects';
+import { reducer as mandateStatusActionsReducer } from './store/mandate-statuses/mandate-statuses-actions/mandate-status-actions.reducer';
+import { WizardMandateStatusActionComponent } from './components/mandate-statuses/wizard-mandate-status-action/wizard-mandate-status-action.component';
 
 @NgModule({
   declarations: [
@@ -237,7 +242,6 @@ import { ActionNotificationGroupsEffects } from './store/client-statuses-actions
     AddCompanyTypesComponent,
     AddNotificationGroupsComponent,
     AddFeeCalculationTypesComponent,
-    AddMandateStatusesComponent,
     AddInterestRateBenchmarksComponent,
     AddFeeTypesComponent,
     AddNotificationGroupOfficersComponent,
@@ -288,7 +292,6 @@ import { ActionNotificationGroupsEffects } from './store/client-statuses-actions
     AddClientTypesComponent,
     ViewCompanyTypesComponent,
     ViewFeesCalculationTypesComponent,
-    ViewMandateStatusesComponent,
     ViewMeetingTypesComponent,
     ViewInterestRateBenchmarksComponent,
     ViewFeeTypesComponent,
@@ -336,7 +339,12 @@ import { ActionNotificationGroupsEffects } from './store/client-statuses-actions
     ViewClientStatusActionsComponent,
     ViewClientStatusesComponent,
     AddClientStatusesComponent,
+    AddMandateStatusActionsComponent,
+    ViewMandateStatusActionsComponent,
+    ViewMandateStatusesComponent,
+    AddMandateStatusesComponent,
     WizardClientStatusActionComponent,
+    WizardMandateStatusActionComponent,
     ViewCallTypesComponent,
     ViewCommunicationTypesComponent,
     ViewCallActionTypesComponent,
@@ -420,6 +428,8 @@ import { ActionNotificationGroupsEffects } from './store/client-statuses-actions
     EffectsModule.forFeature([TmlOfficerTypesEffects]),
     StoreModule.forFeature('mandateStatuses', mandateStatusesReducer),
     EffectsModule.forFeature([MandateStatusesEffects]),
+    StoreModule.forFeature('mandateStatusActions', mandateStatusActionsReducer),
+    EffectsModule.forFeature([MandateStatusActionsEffects]),
     StoreModule.forFeature('subSectors', SubSectorsReducer),
     EffectsModule.forFeature([SubSectorsEffects]),
     StoreModule.forFeature('clientStatuses', clientStatusesReducer),

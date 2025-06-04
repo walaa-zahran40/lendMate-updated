@@ -62,6 +62,7 @@ export enum EntityNames {
   MandatePaymentSetting = 'MandatePaymentSetting',
   Clone = 'Clone',
   MandateAdditionalTerm = 'MandateAdditionalTerm',
-
+  MandateStatusAction='MandateStatusAction',
+  
   Call = 'Call',
 }

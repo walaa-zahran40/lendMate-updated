@@ -4,7 +4,7 @@ import * as Actions from './mandate-statuses.actions';
 import * as Selectors from './mandate-statuses.selectors';
 import { Observable } from 'rxjs';
 import { MandateStatus } from './mandate-status.model';
-import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
+import { selectLastOperationSuccess } from '../../../../../shared/store/ui.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class MandateStatusesFacade {

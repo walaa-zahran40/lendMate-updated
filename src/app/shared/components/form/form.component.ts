@@ -511,6 +511,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addSignatoryOfficerORGForm!: boolean;
   @Input() addFeeCalculationTypesLookupsForm!: boolean;
   @Input() addMandateStatusesLookupsForm!: boolean;
+  @Input() addMandateStatusActionsLookupsForm!: boolean;
   @Input() addInterestRateBenchmarksLookupsForm!: boolean;
   @Input() addFeesTypesLookupsForm!: boolean;
   @Input() addGracePeriodUnitsLookupsForm!: boolean;
@@ -588,6 +589,7 @@ export class FormComponent implements OnInit, OnDestroy {
   filteredSubSectors$!: Observable<SubSectors[]>;
   @Input() operationName!: string;
   clientStatusIdParam!: any;
+  mandateStatusIdParam!: any;
   legalFormLaws$: Observable<LegalFormLaw[]> = this.facade.legalFormLaws$;
   legalForms$ = this.facadeLegalForms.items$;
 
@@ -641,6 +643,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.clientStatusActionIdParam =
       this.route.snapshot.queryParams['clientStatusActionId'];
     this.clientStatusIdParam = this.route.snapshot.params['id'];
+    this.mandateStatusIdParam = this.route.snapshot.params['id'];
     this.sub = this.formGroup?.valueChanges
       .pipe(debounceTime(300))
       .subscribe(() => {
@@ -1063,6 +1066,9 @@ export class FormComponent implements OnInit, OnDestroy {
   }
   viewClientStatusActions() {
     this.router.navigate(['/lookups/view-client-status-actions']);
+  }
+  viewMandateStatusActions() {
+    this.router.navigate(['/lookups/view-mandate-status-actions']);
   }
   viewActionAuthorizationGroup() {
     this.router.navigate([
