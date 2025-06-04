@@ -126,6 +126,7 @@ export class TableComponent {
   @Input() viewGovernerateTable!: boolean;
   @Input() viewRentStructureTypesTable!: boolean;
   @Input() viewCallActionTypesTable!: boolean;
+  @Input() viewFollowupTable!: boolean;
   @Input() viewCountriesTable!: boolean;
   @Input() viewAreasTable!: boolean;
   @Input() viewCallsTable!: boolean;

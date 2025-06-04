@@ -568,7 +568,7 @@
       class="custom-view m-0 float-right"
     />
     <p-button
-      *ngIf="addFollowUpsCommunicationForm"
+      *ngIf="addFollowupsForm"
       icon="pi pi-cog"
       iconPos="left"
       label="View Follow Ups"
@@ -13314,7 +13314,7 @@
       </div>
     </form>
 
-    <form action="" *ngIf="addFollowUpsCommunicationForm">
+    <form action="" *ngIf="addFollowupsForm">
       <label for="dateFollowUpsCommunication">Date<sup>*</sup></label>
       <shared-date-picker
         formControlName="dateFollowUpsCommunication"

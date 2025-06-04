@@ -1,11 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AddFollowUpsComponent } from './follow-ups/add-follow-ups/add-follow-ups.component';
+import { AddFollowupsComponent } from './follow-ups/add-follow-ups/add-follow-ups.component';
 import { AddFollowUpsPointsComponent } from './follow-ups-points/add-follow-ups-points/add-follow-ups-points.component';
 import { AddMeetingTypesComponent } from './meeting-types/add-meeting-types/add-meeting-types.component';
 import { AddCallTypesComponent } from './call-types/add-call-types/add-call-types.component';
 import { WizardComponent } from './meetings/wizard/wizard.component';
-import { ViewFollowUpsComponent } from './follow-ups/view-follow-ups/view-follow-ups.component';
 import { ViewFollowUpPointsComponent } from './follow-ups-points/view-follow-up-points/view-follow-up-points.component';
 import { ViewMeetingTypesComponent } from './meeting-types/view-meeting-types/view-meeting-types.component';
 import { ViewCallTypesComponent } from './call-types/view-call-types/view-call-types.component';
@@ -17,6 +16,7 @@ import { ViewCallsComponent } from './calls/view-calls/view-calls.component';
 import { WizardCommunicationComponent } from './wizard-communication/wizard-communication.component';
 import { AddMeetingsComponent } from './meetings/add-meetings/add-meetings.component';
 import { ViewMeetingsComponent } from './meetings/view-meetings/view-meetings.component';
+import { ViewFollowupsComponent } from './follow-ups/view-follow-ups/view-follow-ups.component';
 
 const routes: Routes = [
   //Calls
@@ -52,10 +52,23 @@ const routes: Routes = [
     component: ViewMeetingsComponent,
   },
 
+
+  // Follow up 
   {
-    path: 'add-follow-up',
-    component: AddFollowUpsComponent,
+    path: 'add-follow-ups/:communicationId',
+    component: AddFollowupsComponent,
   },
+  {
+    path: 'edit-follow-ups/:id',
+    component: AddFollowupsComponent,
+  },
+  {
+    path: 'view-follow-ups/:communicationId',
+    component: ViewFollowupsComponent,
+  },
+
+
+  
   {
     path: 'add-follow-ups-points',
     component: AddFollowUpsPointsComponent,
@@ -78,10 +91,7 @@ const routes: Routes = [
     path: 'view-asset-type-categories',
     component: ViewAssetTypeCategoriesComponent,
   },
-  {
-    path: 'view-followups',
-    component: ViewFollowUpsComponent,
-  },
+
   {
     path: 'view-followup-points',
     component: ViewFollowUpPointsComponent,
