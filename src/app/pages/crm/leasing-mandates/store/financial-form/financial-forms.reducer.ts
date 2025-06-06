@@ -1,19 +1,19 @@
 import { createReducer, on } from '@ngrx/store';
-import * as PaymentTimingTermActions from './payment-timing-terms..actions';
-import { adapter, initialState } from './payment-timing-terms..state';
+import * as FinancialFormActions from './financial-forms.actions';
+import { adapter, initialState, State } from './financial-forms.state';
 
-export const paymentTimingTermsReducer = createReducer(
+export const reducer = createReducer(
   initialState,
 
   // when you dispatch loadAll()
-  on(PaymentTimingTermActions.loadAll, (state) => ({
+  on(FinancialFormActions.loadAll, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
 
   // when your effect dispatches loadAllSuccess({ result })
-  on(PaymentTimingTermActions.loadAllSuccess, (state, { result }) =>
+  on(FinancialFormActions.loadAllSuccess, (state, { result }) =>
     adapter.setAll(result, {
       ...state,
       loading: false,
@@ -21,57 +21,56 @@ export const paymentTimingTermsReducer = createReducer(
     })
   ),
   // on failure
-  on(PaymentTimingTermActions.loadAllFailure, (state, { error }) => ({
+  on(FinancialFormActions.loadAllFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
   // create
-  on(PaymentTimingTermActions.createEntity, (state) => ({
+  on(FinancialFormActions.createEntity, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
-  on(PaymentTimingTermActions.createEntitySuccess, (state, { entity }) =>
+  on(FinancialFormActions.createEntitySuccess, (state, { entity }) =>
     adapter.addOne(entity, { ...state, loading: false })
   ),
-  on(PaymentTimingTermActions.createEntityFailure, (state, { error }) => ({
+  on(FinancialFormActions.createEntityFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
 
   // update
-  on(PaymentTimingTermActions.updateEntity, (state) => ({
+  on(FinancialFormActions.updateEntity, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
-  on(PaymentTimingTermActions.updateEntitySuccess, (state, { id, changes }) =>
+  on(FinancialFormActions.updateEntitySuccess, (state, { id, changes }) =>
     adapter.updateOne({ id, changes }, { ...state, loading: false })
   ),
-  on(PaymentTimingTermActions.updateEntityFailure, (state, { error }) => ({
+  on(FinancialFormActions.updateEntityFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
 
   // delete
-  on(PaymentTimingTermActions.deleteEntity, (state) => ({
+  on(FinancialFormActions.deleteEntity, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
-  on(PaymentTimingTermActions.deleteEntitySuccess, (state, { id }) =>
+  on(FinancialFormActions.deleteEntitySuccess, (state, { id }) =>
     adapter.removeOne(id, { ...state, loading: false })
   ),
-  on(PaymentTimingTermActions.deleteEntityFailure, (state, { error }) => ({
+  on(FinancialFormActions.deleteEntityFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
-  // identPaymentTimingTerm-calculation-types.reducer.ts
-  on(PaymentTimingTermActions.loadByIdSuccess, (state, { entity }) => {
+  on(FinancialFormActions.loadByIdSuccess, (state, { entity }) => {
     console.log('🗄️ Reducer: loadByIdSuccess, before:', {
       loadedId: state.loadedId,
       entities: state.entities,
@@ -80,7 +79,7 @@ export const paymentTimingTermsReducer = createReducer(
     const newState = adapter.upsertOne(entity, {
       ...state,
       loading: false,
-      loadedId: entity.id,
+      loadedId: entity.id ?? null,
     });
 
     console.log('🗄️ Reducer: loadByIdSuccess, after:', {
@@ -89,7 +88,11 @@ export const paymentTimingTermsReducer = createReducer(
     });
 
     return newState;
-  })
+  }),
+  on(FinancialFormActions.clearSelectedFinancialForm, (state) => ({
+    ...state,
+    loadedId: null,
+  }))
 );
 
 export const { selectAll, selectEntities, selectIds, selectTotal } =

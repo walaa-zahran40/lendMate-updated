@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Subject, Observable, take, takeUntil } from 'rxjs';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { PaymentTimingTerm } from '../../../store/payment-timing-terms/payment-timing-term.model';
-import { PaymentTimingTermsFacade } from '../../../store/payment-timing-terms/payment-timing-terms..facade';
+import { PaymentTimingTermsFacade } from '../../../store/payment-timing-terms/payment-timing-terms.facade';
 
 @Component({
   selector: 'app-view-payment-timing-terms',
@@ -29,7 +29,10 @@ export class ViewPaymentTimingTermsComponent {
   filteredPaymentTimingTerm: PaymentTimingTerm[] = [];
   PaymentTimingTerms$!: Observable<PaymentTimingTerm[]>;
 
-  constructor(private router: Router, private facade: PaymentTimingTermsFacade) {}
+  constructor(
+    private router: Router,
+    private facade: PaymentTimingTermsFacade
+  ) {}
   ngOnInit() {
     console.log('🟢 ngOnInit: start');
     this.PaymentTimingTerms$ = this.facade.all$;
@@ -40,13 +43,15 @@ export class ViewPaymentTimingTermsComponent {
     console.log('🟢 Calling loadAll() to fetch PaymentTimingTerms');
     this.facade.loadAll();
 
-    this.PaymentTimingTerms$?.pipe(takeUntil(this.destroy$))?.subscribe((payment) => {
-      // products is now rentStructureType[], not any
-      const activeCodes = payment.filter((code) => code.isActive);
-      const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
-      this.originalPaymentTimingTerm = sorted;
-      this.filteredPaymentTimingTerm = [...sorted];
-    });
+    this.PaymentTimingTerms$?.pipe(takeUntil(this.destroy$))?.subscribe(
+      (payment) => {
+        // products is now rentStructureType[], not any
+        const activeCodes = payment.filter((code) => code.isActive);
+        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
+        this.originalPaymentTimingTerm = sorted;
+        this.filteredPaymentTimingTerm = [...sorted];
+      }
+    );
   }
 
   onAddPaymentTimingTerm() {
@@ -90,19 +95,23 @@ export class ViewPaymentTimingTermsComponent {
   }
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
-    this.filteredPaymentTimingTerm = this.originalPaymentTimingTerm.filter((PaymentTimingTerms) =>
-      Object.values(PaymentTimingTerms).some((val) =>
-        val?.toString().toLowerCase().includes(lower)
-      )
+    this.filteredPaymentTimingTerm = this.originalPaymentTimingTerm.filter(
+      (PaymentTimingTerms) =>
+        Object.values(PaymentTimingTerms).some((val) =>
+          val?.toString().toLowerCase().includes(lower)
+        )
     );
   }
   onToggleFilters(value: boolean) {
     this.showFilters = value;
   }
   onEditPaymentTimingTerm(PaymentTimingTerm: PaymentTimingTerm) {
-    this.router.navigate(['/lookups/edit-payment-timing-terms', PaymentTimingTerm.id], {
-      queryParams: { mode: 'edit' },
-    });
+    this.router.navigate(
+      ['/lookups/edit-payment-timing-terms', PaymentTimingTerm.id],
+      {
+        queryParams: { mode: 'edit' },
+      }
+    );
   }
   onViewPaymentTimingTerm(ct: PaymentTimingTerm) {
     this.router.navigate(['/lookups/edit-payment-timing-terms', ct.id], {

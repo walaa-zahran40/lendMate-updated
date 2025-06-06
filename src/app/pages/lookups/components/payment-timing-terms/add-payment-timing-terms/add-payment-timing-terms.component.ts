@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { tap, filter, take } from 'rxjs';
 import { PaymentTimingTerm } from '../../../store/payment-timing-terms/payment-timing-term.model';
-import { PaymentTimingTermsFacade } from '../../../store/payment-timing-terms/payment-timing-terms..facade';
+import { PaymentTimingTermsFacade } from '../../../store/payment-timing-terms/payment-timing-terms.facade';
 
 @Component({
   selector: 'app-add-payment-timing-terms',
@@ -69,7 +69,9 @@ export class AddPaymentTimingTermsComponent {
         this.facade.selected$
           .pipe(
             tap((ct) => console.log('🔵 selected$ emission:', ct)),
-            filter((ct): ct is PaymentTimingTerm => !!ct && ct.id === this.clientId),
+            filter(
+              (ct): ct is PaymentTimingTerm => !!ct && ct.id === this.clientId
+            ),
             tap((ct) =>
               console.log('🔵 selected$ passed filter, patching form with:', ct)
             ),
@@ -107,7 +109,10 @@ export class AddPaymentTimingTermsComponent {
     console.log('  viewOnly:', this.viewOnly);
     console.log('  editMode:', this.editMode);
     console.log('  form valid:', this.addPaymentTimingTermsLookupsForm.valid);
-    console.log('  form touched:', this.addPaymentTimingTermsLookupsForm.touched);
+    console.log(
+      '  form touched:',
+      this.addPaymentTimingTermsLookupsForm.touched
+    );
     console.log(
       '  form raw value:',
       this.addPaymentTimingTermsLookupsForm.getRawValue()
@@ -130,7 +135,8 @@ export class AddPaymentTimingTermsComponent {
       return;
     }
 
-    const { name, nameAR, isActive } = this.addPaymentTimingTermsLookupsForm.value;
+    const { name, nameAR, isActive } =
+      this.addPaymentTimingTermsLookupsForm.value;
     const payload: Partial<PaymentTimingTerm> = { name, nameAR, isActive };
     console.log('  → payload object:', payload);
 

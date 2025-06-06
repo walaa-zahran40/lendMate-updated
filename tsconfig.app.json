@@ -4,14 +4,14 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
-    "types": [
-      "@angular/localize"
-    ]
+    "types": ["@angular/localize"],
+    "skipDefaultLibCheck": true
   },
-  "files": [
-    "src/main.ts"
-  ],
-  "include": [
-    "src/**/*.d.ts"
-  ]
+  "angularCompilerOptions": {
+    "strictTemplates": true,
+    "disableTypeScriptSizeLimit": true // <— needed here
+  },
+
+  "files": ["src/main.ts"],
+  "include": ["src/**/*.d.ts"]
 }

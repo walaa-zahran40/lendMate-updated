@@ -56,13 +56,13 @@ export enum EntityNames {
   ClientStatusAction = 'ClientStatusAction',
   ClientOfficerType = 'ClientOfficerType',
   AuthorizationGroup = 'AuthorizationGroup',
-  ClientWorkFlowAction='ClientWorkFlowAction',
+  ClientWorkFlowAction = 'ClientWorkFlowAction',
   //Mandates
   Mandate = 'Mandate',
   MandatePaymentSetting = 'MandatePaymentSetting',
   Clone = 'Clone',
   MandateAdditionalTerm = 'MandateAdditionalTerm',
-  MandateStatusAction='MandateStatusAction',
-  
+  MandateStatusAction = 'MandateStatusAction',
+  FinancialForm = 'FinancialForm',
   Call = 'Call',
 }

@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { PaymentTimingTermsService } from './payment-timing-terms..service';
-import * as ActionsList from './payment-timing-terms..actions';
+import { PaymentTimingTermsService } from './payment-timing-terms.service';
+import * as ActionsList from './payment-timing-terms.actions';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
 import { PaymentTimingTerm } from './payment-timing-term.model';
 
 @Injectable()
 export class PaymentTimingTermsEffects {
-  constructor(private actions$: Actions, private svc: PaymentTimingTermsService) {}
+  constructor(
+    private actions$: Actions,
+    private svc: PaymentTimingTermsService
+  ) {}
 
   loadAll$ = createEffect(() =>
     this.actions$.pipe(

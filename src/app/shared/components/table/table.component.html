@@ -80,6 +80,9 @@
           <span *ngSwitchCase="'balanceSheetdate'">
             {{ rowData[col.field] | date : "yyyy-MM-dd" }}
           </span>
+          <span *ngSwitchCase="'dueDate'">
+            {{ rowData[col.field] | date : "yyyy-MM-dd" }}
+          </span>
           <span *ngSwitchCase="'genderId'">
             {{ getGenderLabel(rowData.genderId) }}
           </span>

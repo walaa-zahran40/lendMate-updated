@@ -1,60 +1,106 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { combineLatest, map, Observable, Subject, takeUntil, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { loadAll } from '../../../../../lookups/store/payment-periods/payment-periods.actions';
 import { loadAll as loadAllGracePeriodUnits } from '../../../../../lookups/store/period-units/period-units.actions';
 import { loadAll as loadCurrencies } from '../../../../../lookups/store/currencies/currencies.actions';
 import { loadCurrencyExchangeRates } from '../../../../../lookups/store/currency-exchange-rates/currency-exchange-rates.actions';
+import { loadAll as loadInterestRateBenchmarks } from '../../../../../lookups/store/interest-rate-benchmarks/interest-rate-benchmarks.actions';
+import { loadAll as loadPaymentTimingTerms } from '../../../../../lookups/store/payment-timing-terms/payment-timing-terms.actions';
+import { loadAll as loadRentStructureTypes } from '../../../../../lookups/store/rent-structure-types/rent-structure-types.actions';
+import { loadAll as loadPaymentMethods } from '../../../../../lookups/store/payment-methods/payment-methods.actions';
+import { loadAll as loadPaymentMonthDays } from '../../../../../lookups/store/payment-month-days/payment-month-days.actions';
 
 import { PaymentPeriod } from '../../../../../lookups/store/payment-periods/payment-period.model';
 import { PaymentPeriodsFacade } from '../../../../../lookups/store/payment-periods/payment-periods.facade';
 import { Currency } from '../../../../../lookups/store/currencies/currency.model';
 import { Calculation } from '../../../../../../shared/interfaces/calculations.interface';
 import { PeriodUnit } from '../../../../../lookups/store/period-units/period-unit.model';
+import { InterestRateBenchMark } from '../../../../../lookups/store/interest-rate-benchmarks/interest-rate-benchmark.model';
+import { PaymentTimingTerm } from '../../../../../lookups/store/payment-timing-terms/payment-timing-term.model';
+import { CurrencyExchangeRate } from '../../../../../lookups/store/currency-exchange-rates/currency-exchange-rate.model';
+import { RentStructureType } from '../../../../../lookups/store/rent-structure-types/rent-structure-type.model';
+import { PaymentMethod } from '../../../../../lookups/store/payment-methods/payment-method.model';
+import { PaymentMonthDay } from '../../../../../lookups/store/payment-month-days/payment-month-day.model';
 
 import { GracePeriodUnitsFacade } from '../../../../../lookups/store/period-units/period-units.facade';
 import { CurrenciesFacade } from '../../../../../lookups/store/currencies/currencies.facade';
-import { CurrencyExchangeRate } from '../../../../../lookups/store/currency-exchange-rates/currency-exchange-rate.model';
 import { CurrencyExchangeRatesFacade } from '../../../../../lookups/store/currency-exchange-rates/currency-exchange-rates.facade';
+import { InterestRateBenchMarksFacade } from '../../../../../lookups/store/interest-rate-benchmarks/interest-rate-benchmarks.facade';
+import { PaymentTimingTermsFacade } from '../../../../../lookups/store/payment-timing-terms/payment-timing-terms.facade';
+import { RentStructureTypesFacade } from '../../../../../lookups/store/rent-structure-types/rent-structure-types.facade';
+import { PaymentMethodsFacade } from '../../../../../lookups/store/payment-methods/payment-methods.facade';
+import { PaymentMonthDaysFacade } from '../../../../../lookups/store/payment-month-days/payment-month-days.facade';
+import { FinancialForm } from '../../../store/financial-form/financial-form.model';
+import { FinancialFormsFacade } from '../../../store/financial-form/financial-forms.facade';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TableComponent } from '../../../../../../shared/components/table/table.component';
+import { selectCalculatedRowsForId } from '../../../store/financial-form/financial-forms.selectors';
 @Component({
   selector: 'app-leasing-financial-form-compound',
   standalone: false,
   templateUrl: './leasing-financial-form-compound.component.html',
   styleUrl: './leasing-financial-form-compound.component.scss',
 })
-export class LeasingFinancialFormCompoundComponent {
-  tableDataInside: Calculation[] = [];
+export class LeasingFinancialFormCompoundComponent implements OnDestroy {
+  tableDataInside: any[] = [];
   leasingFinancialBasicForm!: FormGroup;
   leasingFinancialRateForm!: FormGroup;
   leasingFinancialCurrencyForm!: FormGroup;
+  selectedGracePeriodUnit!: PeriodUnit;
+  selectedCurrency!: Currency;
+  currencyExchangeRateId: any;
+  filteredFinancialForms: any[] = [];
+  originalFinancialForms: any[] = [];
+  showFilters: boolean = false;
+  selectedFinancialFormId: number | null = null;
+  showDeleteModal: boolean = false;
+  first2: number = 0;
+  financialForm$ = this.facade.selected$;
+  @ViewChild('tableRef') tableRef!: TableComponent;
+  private destroy$ = new Subject<void>();
+  leasingMandateId: any;
+
   readonly colsInside = [
-    { field: 'code', header: 'Code' },
     { field: 'paymentNumber', header: 'Payment Number' },
     { field: 'dueDate', header: 'Due Date' },
     { field: 'balanceBefore', header: 'Balance Before' },
     { field: 'balanceAfter', header: 'Balance After' },
-    { field: 'insuranceOutcome', header: 'Insurance Outcome' },
+    { field: 'interest', header: 'Interest' },
     { field: 'principal', header: 'Principal' },
     { field: 'installment', header: 'Installment' },
-    { field: 'interest', header: 'Interest' },
-    { field: 'nameEN', header: 'Name EN' },
-    { field: 'nameAR', header: 'Name AR' },
+    { field: 'insuranceRate', header: 'Insurance Rate' },
   ];
   paymentPeriods$!: Observable<PaymentPeriod[]>;
   gracePeriodUnits$!: Observable<PeriodUnit[]>;
   currencies$!: Observable<Currency[]>;
   currencyExchangeRates$!: Observable<CurrencyExchangeRate[]>;
+  interestRateBenchMarks$!: Observable<InterestRateBenchMark[]>;
+  paymentTimeTerms$!: Observable<PaymentTimingTerm[]>;
+  rentStructures$!: Observable<RentStructureType[]>;
+  paymentMethods$!: Observable<PaymentMethod[]>;
+  paymentMonthDays$!: Observable<PaymentMonthDay[]>;
+  private currentMandateId!: number;
+  routeId = this.route.snapshot.params['leasingMandatesId'];
   constructor(
     private fb: FormBuilder,
     private paymentPeriodFacade: PaymentPeriodsFacade,
     private gracePeriodUnitFacade: GracePeriodUnitsFacade,
     private currenciesFacade: CurrenciesFacade,
     private currencyExchangeRatesFacade: CurrencyExchangeRatesFacade,
+    private interestRateFacade: InterestRateBenchMarksFacade,
+    private paymentTimingFacade: PaymentTimingTermsFacade,
+    private rentStructuresFacade: RentStructureTypesFacade,
+    private paymentMethodsFacade: PaymentMethodsFacade,
+    private paymentMonthDaysFacade: PaymentMonthDaysFacade,
+    private facade: FinancialFormsFacade,
+    private route: ActivatedRoute,
     private store: Store
   ) {}
   ngOnInit() {
+    this.facade.loadByLeasingMandateId(this.routeId);
     //Build Forms
     this.initializeLeasingFinancialBasicForm();
     this.initializeLeasingFinancialRatesForm();
@@ -66,11 +112,39 @@ export class LeasingFinancialFormCompoundComponent {
     this.store.dispatch(loadAllGracePeriodUnits({}));
     this.store.dispatch(loadCurrencies({}));
     this.store.dispatch(loadCurrencyExchangeRates());
-
+    this.store.dispatch(loadInterestRateBenchmarks({}));
+    this.store.dispatch(loadPaymentTimingTerms({}));
+    this.store.dispatch(loadRentStructureTypes({}));
+    this.store.dispatch(loadPaymentMethods({}));
+    this.store.dispatch(loadPaymentMonthDays({}));
     this.paymentPeriods$ = this.paymentPeriodFacade.all$;
     this.gracePeriodUnits$ = this.gracePeriodUnitFacade.all$;
     this.currencies$ = this.currenciesFacade.all$;
     this.currencyExchangeRates$ = this.currencyExchangeRatesFacade.items$;
+    this.interestRateBenchMarks$ = this.interestRateFacade.all$;
+    this.paymentTimeTerms$ = this.paymentTimingFacade.all$;
+    this.rentStructures$ = this.rentStructuresFacade.all$;
+    this.paymentMethods$ = this.paymentMethodsFacade.all$;
+    this.paymentMonthDays$ = this.paymentMonthDaysFacade.all$; // 1) Extract mandateId from route params
+
+    this.currentMandateId = +this.route.snapshot.params['leasingMandatesId'];
+    // 2) Subscribe to store→“calculatedRowsForId(currentMandateId)”
+    this.store
+      .select(selectCalculatedRowsForId(this.currentMandateId))
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((rows: Calculation[]) => {
+        // If this mandate already has rows (from a previous Calculate or Submit+refresh),
+        // populate the in-memory arrays so the table re-renders.
+        if (rows && rows.length > 0) {
+          this.tableDataInside = [...rows];
+          this.originalFinancialForms = [...rows];
+          this.filteredFinancialForms = [...rows];
+        }
+      });
+  }
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
   private initializeLeasingFinancialBasicForm() {
     this.leasingFinancialBasicForm = this.fb.group({
@@ -98,7 +172,7 @@ export class LeasingFinancialFormCompoundComponent {
       currencyId: [null, Validators.required],
       currencyExchangeRateId: [null, Validators.required],
       isManualExchangeRate: [true],
-      manualExchangeRate: [{ value: 0, disabled: true }],
+      manualExchangeRate: [{ value: 0, disabled: false }],
       indicativeRentals: [null, Validators.required],
       rent: [null, Validators.required],
       rvPercent: [null, Validators.required],
@@ -378,17 +452,19 @@ export class LeasingFinancialFormCompoundComponent {
     }
   }
   private updateRvAmount() {
+    // ✅ pull rvPercent from the currency form, not the basic form:
     const rvPercent =
-      this.leasingFinancialBasicForm.get('rvPercent')!.value || 0;
+      this.leasingFinancialCurrencyForm.get('rvPercent')!.value || 0;
+    // nfa still comes from the basic form
     const nfa = this.leasingFinancialBasicForm.get('nfa')!.value || 0;
-    debugger;
-    let calculatedRvAmount = nfa * (rvPercent / 100);
-    calculatedRvAmount = Math.round(calculatedRvAmount);
+
+    const calculatedRvAmount = Math.round(nfa * (rvPercent / 100));
 
     this.leasingFinancialCurrencyForm
       .get('rvAmount')!
       .setValue(calculatedRvAmount, { emitEvent: false });
   }
+
   private calculatePeriodInterestRate() {
     const interestRate =
       this.leasingFinancialRateForm.get('interestRate')?.value || 0;
@@ -451,10 +527,11 @@ export class LeasingFinancialFormCompoundComponent {
       .get('reservePaymentCount')
       ?.setValue(reservePaymentCount, { emitEvent: false });
   }
-  onCheckboxChange(event: any) {
+  onCheckboxChange(event: { originalEvent: Event; checked: boolean }) {
     const manualExchangeRateControl =
       this.leasingFinancialCurrencyForm.get('manualExchangeRate')!;
-    manualExchangeRateControl.enable({ emitEvent: false });
+
+    // Enable the control whenever the checkbox is toggled on
     if (event?.checked) {
       console.log(
         'Manual checkbox check detected. Enabling manualExchangeRate control.'
@@ -467,5 +544,298 @@ export class LeasingFinancialFormCompoundComponent {
       manualExchangeRateControl.reset(0, { emitEvent: false });
       manualExchangeRateControl.disable({ emitEvent: false });
     }
+  }
+  onPaymentPeriodSelected(event: PaymentPeriod) {
+    console.log('PaymentPeriod selected:', event);
+    const monthCount = event?.monthCount || 0;
+    console.log('Extracted MonthCount:', monthCount);
+    this.leasingFinancialRateForm
+      .get('paymentPeriodMonthCount')
+      ?.setValue(monthCount);
+    console.log('Updated form control paymentPeriodMonthCount:', monthCount);
+
+    this.calculateReservePaymentAmount();
+    this.calculateReservePaymentCount();
+  }
+  onGracePeriodUnitSelected(unit: any) {
+    console.log('Full Grace Period Unit object:', unit);
+    // If you only want the ID:
+    this.selectedGracePeriodUnit = unit.id;
+    console.log('Grace Period Unit ID:', this.selectedGracePeriodUnit);
+    // …do whatever calculations or form updates you need…
+  }
+  onCurrencySelected(event: any) {
+    console.log('Full selectedCurrency object:', event);
+    this.selectedCurrency = event.id;
+    console.log('selectedCurrency ID:', this.selectedCurrency);
+    // this.leasingFinancialCurrencyForm
+    //   .get('currencyId')
+    //   ?.setValue(this.selectedCurrency);
+  }
+  onCurrencyExchangeRateSelected(event: any) {
+    console.log('Full selectedCurrencyExchange object:', event);
+    this.currencyExchangeRateId = event?.id;
+    console.log('selectedCurrencyExchange ID:', this.currencyExchangeRateId);
+    // this.leasingFinancialCurrencyForm
+    //   .get('currencyExchangeRateId')
+    //   ?.setValue(this.currencyExchangeRateId);
+  }
+  onInterestRateBenchmarkSelected(
+    interestRateBenchmark: InterestRateBenchMark
+  ) {
+    console.log('Interest Rate Benchmark selected:', interestRateBenchmark);
+    // This time interestRateBenchmark.id is a real number
+    this.leasingFinancialCurrencyForm
+      .get('interestRateBenchmarkId')
+      ?.setValue(interestRateBenchmark.id);
+  }
+  onPaymentTimingTermSelected(paymentTimingTerm: PaymentTimingTerm) {
+    console.log('Payment Timing Term selected:', paymentTimingTerm);
+    // This time interestRateBenchmark.id is a real number
+    this.leasingFinancialCurrencyForm
+      .get('paymentTimingTermId')
+      ?.setValue(paymentTimingTerm.id);
+  }
+  onRentStructureSelected(rentStructure: RentStructureType) {
+    console.log('Rent Structure selected:', rentStructure);
+    this.leasingFinancialCurrencyForm
+      .get('rentStructureTypeId')
+      ?.setValue(rentStructure.id); // Update form control
+  }
+  onPaymentMethodSelected(paymentMethod: PaymentMethod) {
+    console.log('Payment Method selected:', paymentMethod);
+    this.leasingFinancialCurrencyForm
+      .get('paymentMethodId')
+      ?.setValue(paymentMethod.id); // Update form control
+  }
+  onPaymentMonthDaySelected(paymentMonthDay: PaymentMonthDay) {
+    console.log('PaymentMonthDay selected:', paymentMonthDay);
+    this.leasingFinancialCurrencyForm
+      .get('paymentMonthDayId')
+      ?.setValue(paymentMonthDay.id); // Update form control
+  }
+  /** Return true only if all three FormGroups are valid */
+
+  isAllValid(): boolean {
+    return (
+      this.leasingFinancialBasicForm.valid &&
+      this.leasingFinancialRateForm.valid &&
+      this.leasingFinancialCurrencyForm.valid
+    );
+  }
+  /** “Calculate” should run whatever calc logic you need on all three forms */
+  onCalculateAll(): void {
+    // Mark everything as touched so validation messages appear
+    this.leasingFinancialBasicForm.markAllAsTouched();
+    this.leasingFinancialRateForm.markAllAsTouched();
+    this.leasingFinancialCurrencyForm.markAllAsTouched();
+
+    if (!this.isAllValid()) {
+      return;
+    }
+
+    // 1) Ensure dependent fields are updated
+    this.updateNfaAndCalculations();
+    this.calculateReservePaymentAmount();
+    this.calculateReservePaymentCount();
+    this.updateRvPercent();
+    this.updateProvisionPercent();
+    this.updateProvisionAmount();
+    this.updateRvAmount();
+    this.buildTableData();
+    // 2) Build a single payload object conforming to FinancialForm
+    const basic = this.leasingFinancialBasicForm.value;
+    const rate = this.leasingFinancialRateForm.value;
+    const currency = this.leasingFinancialCurrencyForm.value;
+    console.log('basic', basic);
+    console.log('rate', rate);
+    console.log('currency', currency);
+    console.log('route', this.route.snapshot);
+    const leasingMandateId = this.route.snapshot.params['leasingMandatesId'];
+    const payload: Omit<FinancialForm, 'id'> = {
+      leasingMandateId: leasingMandateId,
+      assetCost: +basic.assetCost,
+      downPayment: +basic.downPayment,
+      percentOfFinance: +basic.percentOfFinance,
+      nfa: +basic.nfa,
+      interestRate: +rate.interestRate,
+      insuranceRate: +rate.insuranceRate,
+      tenor: +rate.tenor,
+      paymentPeriodId: +rate.paymentPeriodId.id,
+      paymentMonthDayID: +currency.paymentMonthDayID,
+      paymentMethodID: +currency.paymentMethodId,
+      rvAmount: +currency.rvAmount,
+      rvPercent: +currency.rvPercent,
+      provisionAmount: +currency.provisionAmount,
+      provisionPercent: +currency.provisionPercent,
+      reservePaymentAmount: +currency.reservePaymentAmount,
+      reservePaymentCount: +currency.reservePaymentCount,
+      currencyId: +currency.currencyId.id,
+      currencyExchangeRateId: +currency.currencyExchangeRateId.id,
+      isManualExchangeRate: currency.isManualExchangeRate,
+      manualSetExchangeRate: currency.manualExchangeRate
+        ? +currency.manualExchangeRate
+        : 0,
+      gracePeriodCount: +rate.gracePeriod,
+      gracePeriodUnitId: +rate.gracePeriodUnitId.id,
+      indicativeRentals: +currency.indicativeRentals,
+      rentStructureTypeId: +currency.rentStructureTypeId,
+      paymentTimingTermId: +currency.paymentTimingTermId,
+      interestRateBenchmarkId: +currency.interestRateBenchmarkId,
+      fixedInterestRate: +rate.interestRate, // assuming fixed = interestRate
+      startDate: basic.startDate,
+      years: +basic.years,
+      rent: +currency.rent,
+    };
+
+    // 3) Dispatch calculate via facade
+    this.facade.calculate(payload);
+  }
+
+  /** “Submit” should only fire once the user has validated everything and clicked */
+  onSubmitAll() {
+    if (
+      this.leasingFinancialBasicForm.invalid ||
+      this.leasingFinancialCurrencyForm.invalid ||
+      this.leasingFinancialRateForm.invalid
+    ) {
+      Object.keys(this.leasingFinancialBasicForm.controls).forEach((field) => {
+        const control = this.leasingFinancialBasicForm.get(field);
+        control?.markAsTouched({ onlySelf: true });
+      });
+      Object.keys(this.leasingFinancialCurrencyForm.controls).forEach(
+        (field) => {
+          const control = this.leasingFinancialCurrencyForm.get(field);
+          control?.markAsTouched({ onlySelf: true });
+        }
+      );
+      Object.keys(this.leasingFinancialRateForm.controls).forEach((field) => {
+        const control = this.leasingFinancialRateForm.get(field);
+        control?.markAsTouched({ onlySelf: true });
+      });
+      console.log('Form is invalid');
+      return;
+    }
+
+    // Extract only the IDs for dropdown fields
+    const formData = {
+      ...this.leasingFinancialBasicForm.getRawValue(),
+      ...this.leasingFinancialCurrencyForm.getRawValue(),
+      ...this.leasingFinancialRateForm.getRawValue(), // includes disabled fields
+      leasingMandateId: this.route.snapshot.params['leasingMandatesId'], // Ensure leasingMandateId is set here
+      paymentPeriodId:
+        this.leasingFinancialRateForm.get('paymentPeriodId')?.value?.id ||
+        this.leasingFinancialRateForm.get('paymentPeriodId')?.value,
+      currencyId:
+        this.leasingFinancialCurrencyForm.get('currencyId')?.value?.id ||
+        this.leasingFinancialCurrencyForm.get('currencyId')?.value,
+      currencyExchangeRateId:
+        this.leasingFinancialCurrencyForm.get('currencyExchangeRateId')?.value
+          ?.id ||
+        this.leasingFinancialCurrencyForm.get('currencyExchangeRateId')?.value,
+      gracePeriodUnitId:
+        this.leasingFinancialRateForm.get('gracePeriodUnitId')?.value?.id ||
+        this.leasingFinancialRateForm.get('gracePeriodUnitId')?.value,
+      interestRateBenchmarkId:
+        this.leasingFinancialCurrencyForm.get('interestRateBenchmarkId')?.value
+          ?.id ||
+        this.leasingFinancialCurrencyForm.get('interestRateBenchmarkId')?.value,
+      rentStructureTypeId:
+        this.leasingFinancialCurrencyForm.get('rentStructureTypeId')?.value
+          ?.id ||
+        this.leasingFinancialCurrencyForm.get('rentStructureTypeId')?.value,
+      paymentTimingTermId:
+        this.leasingFinancialCurrencyForm.get('paymentTimingTermId')?.value
+          ?.id ||
+        this.leasingFinancialCurrencyForm.get('paymentTimingTermId')?.value,
+      paymentMethodId:
+        this.leasingFinancialCurrencyForm.get('paymentMethodId')?.value?.id ||
+        this.leasingFinancialCurrencyForm.get('paymentMethodId')?.value,
+      paymentMonthDayID:
+        this.leasingFinancialCurrencyForm.get('paymentMonthDayID')?.value?.id ||
+        this.leasingFinancialCurrencyForm.get('paymentMonthDayID')?.value,
+      reservePaymentAmount: parseFloat(
+        (
+          this.leasingFinancialCurrencyForm.get('reservePaymentAmount')
+            ?.value || 0
+        ).toFixed(3)
+      ),
+      rvPercent: parseFloat(
+        (
+          this.leasingFinancialCurrencyForm.get('rvPercent')?.value || 0
+        ).toFixed(3)
+      ),
+      provisionPercent: parseFloat(
+        (
+          this.leasingFinancialCurrencyForm.get('provisionPercent')?.value || 0
+        ).toFixed(3)
+      ),
+    };
+    this.facade.create(formData);
+    console.log('Submitting form data:', formData);
+  }
+  // inside LeasingFinancialFormCompoundComponent (after onSubmitAll)
+
+  private buildTableData(): void {
+    // 1) Read raw form values
+    const basic = this.leasingFinancialBasicForm.value;
+    const rate = this.leasingFinancialRateForm.value;
+    const currency = this.leasingFinancialCurrencyForm.value;
+    const newRow = {
+      paymentNumber: this.tableDataInside.length + 1,
+      dueDate: basic.startDate,
+      balanceBefore: basic.assetCost,
+      balanceAfter: basic.assetCost - basic.downPayment,
+      interest:
+        (basic.assetCost - basic.downPayment) * (rate.interestRate / 100 / 12),
+      principal: basic.downPayment,
+      installment: currency.rent,
+      insuranceRate: rate.insuranceRate,
+    };
+    // 2) Construct an array of rows (e.g. amortization schedule, summary, etc.)
+    //    This is just an example; replace with your own logic.
+    this.tableDataInside.push(newRow);
+
+    // 3) Copy into “original” and “filtered” for the table
+    this.originalFinancialForms = this.tableDataInside;
+    this.filteredFinancialForms = [...this.tableDataInside];
+  }
+
+  onSearch(keyword: string) {
+    const lower = keyword.toLowerCase();
+    this.filteredFinancialForms = this.originalFinancialForms.filter(
+      (financial) =>
+        Object.values(financial).some((val) =>
+          val?.toString().toLowerCase().includes(lower)
+        )
+    );
+  }
+  onToggleFilters(value: boolean) {
+    this.showFilters = value;
+  }
+  confirmDelete() {
+    if (this.selectedFinancialFormId !== null) {
+      this.facade.delete(this.selectedFinancialFormId);
+    }
+    this.resetDeleteModal();
+  }
+
+  cancelDelete() {
+    this.resetDeleteModal();
+  }
+
+  resetDeleteModal() {
+    this.showDeleteModal = false;
+    this.selectedFinancialFormId = null;
+  }
+  onViewFinancialForms(financial: FinancialForm) {
+    console.log('financial view', financial);
+  }
+  onEditFinancialForm(financial: FinancialForm) {
+    console.log('financial edit', financial);
+  }
+  onDeleteFinancialForm(financialId: number): void {
+    this.selectedFinancialFormId = financialId;
+    this.showDeleteModal = true;
   }
 }

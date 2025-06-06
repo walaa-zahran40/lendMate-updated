@@ -39,6 +39,7 @@ import { LegalForm } from '../../interfaces/legal-form.interface';
 import { PhoneType } from '../../../pages/lookups/store/phone-types/phone-type.model';
 import { IdentificationType } from '../../../pages/lookups/store/identification-types/identification-type.model';
 import { PaymentPeriod } from '../../../pages/lookups/store/payment-periods/payment-period.model';
+import { Currency } from '../../../pages/lookups/store/currencies/currency.model';
 export interface IdentityEntry {
   identificationNumber: string;
   selectedIdentities: any[];
@@ -62,6 +63,9 @@ export class FormComponent implements OnInit, OnDestroy {
   @Output() addIdentity = new EventEmitter<void>();
   @Output() removeIdentity = new EventEmitter<number>();
   @Output() onCheckboxChange = new EventEmitter<any>();
+  selectedPaymentPeriod: any;
+  selectedGracePeriodUnit: any;
+
   @Input() phoneTypeOptions!: any;
   @Input() identityTypeOptions!: IdentificationType[];
   @Output() addPhoneType = new EventEmitter<void>();
@@ -151,12 +155,21 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() gracePeriodUnits: any;
   selectedLegalForm: any;
   @Output() sectorChanged = new EventEmitter<number>();
+  selectedCurrency: Currency | null = null;
 
   sectorsSafe$!: Observable<Sectors[]>;
   onChange: (value: any) => void = () => {};
   onTouched: () => void = () => {};
   @Output() selectionChanged = new EventEmitter<any>();
-
+  @Output() selectionChangedPaymentPeriod = new EventEmitter<any>();
+  @Output() selectionChangedGracePeriod = new EventEmitter<any>();
+  @Output() selectionChangedCurrency = new EventEmitter<any>();
+  @Output() selectionChangedCurrencyExchange = new EventEmitter<any>();
+  @Output() selectionChangedRateBenchmark = new EventEmitter<any>();
+  @Output() selectionChangedPaymentTimingTerm = new EventEmitter<any>();
+  @Output() selectionChangedRentStructure = new EventEmitter<any>();
+  @Output() selectionChangedPaymentMethod = new EventEmitter<any>();
+  @Output() selectionChangedPaymentMonthDay = new EventEmitter<any>();
   //ngModel Values
   value: string | undefined;
   value1: string | undefined;
@@ -292,6 +305,11 @@ export class FormComponent implements OnInit, OnDestroy {
   minDateOfBirth = new Date();
   selectedIsMain!: any;
   isActive!: any;
+  selectedPaymentTimingTerm: any;
+  selectedRentStructureType: any;
+  selectedPaymentMethod: any;
+  selectedPaymentMonthDay: any;
+
   selectedIsActive!: any;
   companyTypes!: any;
   shareHolderTypes!: any;
@@ -328,15 +346,15 @@ export class FormComponent implements OnInit, OnDestroy {
   selectedPaymentPeriods!: any;
   currencyExchangeRate!: any;
   selectedCurrencyExchangeRate!: any;
-  paymentMonthDays!: any;
+  @Input() paymentMonthDays!: any;
   selectedPaymentMonthDays!: any;
-  paymentMethods!: any;
+  @Input() paymentMethods!: any;
   selectedPaymentMethods!: any;
-  rentStructures!: any;
+  @Input() rentStructures!: any;
   selectedRentStructures!: any;
-  paymentTimeTerms!: any;
+  @Input() paymentTimeTerms!: any;
   selectedPaymentTimeTerms!: any;
-  interestRateBenchMarks!: any;
+  @Input() interestRateBenchMarks!: any;
   selectedInterestRateBenchMarks!: any;
   isManualExchangeRates!: any;
   selectedIsManualExchangeRates!: any;
@@ -637,7 +655,8 @@ export class FormComponent implements OnInit, OnDestroy {
     // 18 years ago:
     this.maxDateOfBirth.setFullYear(this.maxDateOfBirth.getFullYear() - 18);
     this.id = this.route.snapshot.paramMap.get('clientId')!;
-    this.communicationIdParam = this.route.snapshot.paramMap.get('communicationId')!;
+    this.communicationIdParam =
+      this.route.snapshot.paramMap.get('communicationId')!;
     this.clientDocId = this.route.snapshot.params['clientId'];
     this.clientId = this.route.snapshot.queryParams['clientId']!;
     this.currencyIdParam = this.route.snapshot.queryParams['currencyId'];
@@ -986,7 +1005,9 @@ export class FormComponent implements OnInit, OnDestroy {
   }
   viewFollowUps() {
     console.log(this.communicationIdParam);
-    this.router.navigate([`/communication/view-follow-ups/{this.communicationIdParam}`]);
+    this.router.navigate([
+      `/communication/view-follow-ups/{this.communicationIdParam}`,
+    ]);
   }
   viewAssestType() {
     this.router.navigate(['/crm/clients/view-assest-type']);
@@ -1089,7 +1110,7 @@ export class FormComponent implements OnInit, OnDestroy {
       `/lookups/view-action-notificationGroups/${this.clientStatusActionIdParam}`,
     ]);
   }
-   viewMandateActionAuthorizationGroup() {
+  viewMandateActionAuthorizationGroup() {
     this.router.navigate([
       `/lookups/view-mandate-action-authorizationGroups/${this.mandateStatusActionIdParam}`,
     ]);
@@ -1236,5 +1257,129 @@ export class FormComponent implements OnInit, OnDestroy {
   }
   closeNotificationGroups() {
     this.router.navigate(['/lookups/view-notification-group-officers']);
+  }
+  navigateAssetCat() {
+    this.router.navigate(['/lookups/view-asset-type-categories']);
+  }
+  navigateCurrencies() {
+    this.router.navigate(['/lookups/view-currencies']);
+  }
+  navigateActionNGroup() {
+    this.router.navigate([
+      `/lookups/view-action-notificationGroups/${this.clientStatusActionIdParam}`,
+    ]);
+  }
+  navigateSign() {
+    this.router.navigate(['/organizations/view-signatory-officers']);
+  }
+  navigateAuthorization() {
+    this.router.navigate(['/lookups/view-authorization-group-officers']);
+  }
+  onPaymentPeriodChange(event: { originalEvent: Event; value: any }) {
+    // Because we removed optionValue, `event.value` is the full PaymentPeriod object
+    this.selectedPaymentPeriod = event.value;
+    this.selectionChangedPaymentPeriod.emit(this.selectedPaymentPeriod);
+    this.onChange(this.selectedPaymentPeriod);
+    console.log('Selected Payment Period:', this.selectedPaymentPeriod);
+  }
+  onGracePeriodUnitChange(event: { originalEvent: Event; value: any }) {
+    // event.value is the full object (has name, id, etc.)
+    this.selectedGracePeriodUnit = event.value;
+    this.selectionChangedGracePeriod.emit(this.selectedGracePeriodUnit);
+    this.onChange(this.selectedGracePeriodUnit);
+    console.log('Selected Grace Period Unit:', this.selectedGracePeriodUnit);
+  }
+  onCurrencyChange(event: { originalEvent: Event; value: any }) {
+    this.selectedCurrency = event.value;
+    this.selectionChangedCurrency.emit(this.selectedCurrency);
+    this.onChange(this.selectedCurrency);
+    console.log('Selected Currency:', this.selectedCurrency);
+  }
+  onCurrencyExchangeRateChange(event: any) {
+    this.selectedCurrencyExchangeRate = event.value;
+
+    console.log('event', event);
+    this.selectionChangedCurrencyExchange.emit(
+      this.selectedCurrencyExchangeRate
+    );
+    this.onChange(this.selectedCurrencyExchangeRate);
+    console.log(
+      'Selected Currency Exchange Rate:',
+      this.selectedCurrencyExchangeRate
+    );
+  }
+  onInterestRateBenchmarkChange(event: { originalEvent: Event; value: any }) {
+    // event.value === the primitive ID (e.g. 10)
+    const selectedId = event.value;
+
+    // Find the full object from the array you passed in
+    const fullObj = this.interestRateBenchMarks?.find(
+      (b: any) => b.id === selectedId
+    );
+
+    // If you need to keep a local “selected” for template display,
+    // you could store the full object here:
+    this.selectedInterestRateBenchMarks = fullObj;
+
+    // Now emit the full object up to the parent
+    if (fullObj) {
+      this.selectionChangedRateBenchmark.emit(fullObj);
+      this.onChange(fullObj);
+    }
+
+    console.log('Selected Benchmark object:', fullObj);
+  }
+
+  onPaymentTimingTermChange(event: { originalEvent: Event; value: any }) {
+    // event.value === the primitive ID (e.g. 10)
+    const selectedId = event.value;
+    const fullObj = this.paymentTimeTerms?.find(
+      (b: any) => b.id === selectedId
+    );
+
+    this.selectedPaymentTimingTerm = fullObj;
+    if (fullObj) {
+      this.selectionChangedPaymentTimingTerm.emit(fullObj);
+      this.onChange(fullObj);
+    }
+    console.log('Selected Payment Term:', fullObj);
+  }
+  onRentStructureTypeChange(event: { originalEvent: Event; value: any }) {
+    // event.value === the primitive ID (e.g. 10)
+    const selectedId = event.value;
+    const fullObj = this.rentStructures?.find((b: any) => b.id === selectedId);
+
+    this.selectedRentStructureType = fullObj;
+    if (fullObj) {
+      this.selectionChangedRentStructure.emit(fullObj);
+      this.onChange(fullObj);
+    }
+    console.log('Selected selectionChangedRentStructure:', fullObj);
+  }
+  onPaymentMethodChange(event: { originalEvent: Event; value: any }) {
+    // event.value === the primitive ID (e.g. 10)
+    const selectedId = event.value;
+    const fullObj = this.paymentMethods?.find((b: any) => b.id === selectedId);
+
+    this.selectedPaymentMethod = fullObj;
+    if (fullObj) {
+      this.selectionChangedPaymentMethod.emit(fullObj);
+      this.onChange(fullObj);
+    }
+    console.log('Selected selectionChangedPaymentMethod:', fullObj);
+  }
+  onPaymentMonthDayChange(event: { originalEvent: Event; value: any }) {
+    // event.value === the primitive ID (e.g. 10)
+    const selectedId = event.value;
+    const fullObj = this.paymentMonthDays?.find(
+      (b: any) => b.id === selectedId
+    );
+
+    this.selectedPaymentMonthDay = fullObj;
+    if (fullObj) {
+      this.selectionChangedPaymentMonthDay.emit(fullObj);
+      this.onChange(fullObj);
+    }
+    console.log('Selected selectionChangedPaymentMonthDay:', fullObj);
   }
 }

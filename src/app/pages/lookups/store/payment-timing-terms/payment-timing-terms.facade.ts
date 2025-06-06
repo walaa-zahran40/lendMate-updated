@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { createSelector, Store } from '@ngrx/store';
-import * as Actions from './payment-timing-terms..actions';
-import * as Selectors from './payment-timing-terms..selectors';
+import * as Actions from './payment-timing-terms.actions';
+import * as Selectors from './payment-timing-terms.selectors';
 import { PaymentTimingTerm } from './payment-timing-term.model';
 import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
 

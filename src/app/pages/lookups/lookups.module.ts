@@ -193,8 +193,8 @@ import { AddPaymentPeriodsComponent } from './components/payment-periods/add-pay
 import { ViewPaymentPeriodsComponent } from './components/payment-periods/view-payment-periods/view-payment-periods.component';
 import { paymentPeriodReducer } from './store/payment-periods/payment-periods.reducer';
 import { PaymentPeriodsEffects } from './store/payment-periods/payment-periods.effects';
-import { paymentTimingTermsReducer } from './store/payment-timing-terms/payment-timing-terms..reducer';
-import { PaymentTimingTermsEffects } from './store/payment-timing-terms/payment-timing-terms..effects';
+import { paymentTimingTermsReducer } from './store/payment-timing-terms/payment-timing-terms.reducer';
+import { PaymentTimingTermsEffects } from './store/payment-timing-terms/payment-timing-terms.effects';
 import { ViewPaymentTimingTermsComponent } from './components/payment-timing-terms/view-payment-timing-terms/view-payment-timing-terms.component';
 import { AddPaymentTimingTermsComponent } from './components/payment-timing-terms/add-payment-timing-terms/add-payment-timing-terms.component';
 import { AddNotificationGroupsComponent } from './components/notification-groups/add-notification-groups/add-notification-groups.component';
@@ -517,7 +517,7 @@ import { ViewMandateActionNotificationGroupsComponent } from './components/manda
     ),
     EffectsModule.forFeature([ActionNotificationGroupsEffects]),
 
-     StoreModule.forFeature(
+    StoreModule.forFeature(
       'mandateActionAuthorizationGroups',
       mandateActionAuthorizationGroupsReducer
     ),

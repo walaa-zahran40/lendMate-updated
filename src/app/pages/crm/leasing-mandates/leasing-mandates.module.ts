@@ -25,6 +25,8 @@ import { AddMandateAdditionalTermsComponent } from './components/mandate-activit
 import { ClonesEffects } from './store/clone/clones.effects';
 import { reducer as clonesReducer } from './store/clone/clones.reducer';
 import { ViewChildMandatesComponent } from './components/mandate-activities/clone/view-child-mandates/view-child-mandates.component';
+import { FinancialFormsEffects } from './store/financial-form/financial-forms.effects';
+import { reducer as financialFormsReducer } from './store/financial-form/financial-forms.reducer';
 
 @NgModule({
   declarations: [
@@ -57,6 +59,8 @@ import { ViewChildMandatesComponent } from './components/mandate-activities/clon
       mandateAdditionalTermReducer
     ),
     EffectsModule.forFeature([MandateAdditionalTermsEffects]),
+    StoreModule.forFeature('financialForms', financialFormsReducer),
+    EffectsModule.forFeature([FinancialFormsEffects]),
   ],
 })
 export class LeasingMandatesModule {}
