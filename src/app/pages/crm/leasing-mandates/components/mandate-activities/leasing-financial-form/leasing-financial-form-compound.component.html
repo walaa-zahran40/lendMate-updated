@@ -4,7 +4,11 @@
   [viewOnly]="true"
   [header]="'Leasing Financial Form'"
 ></app-toolbar-form>
-<app-toolbar-compound></app-toolbar-compound>
+<app-toolbar-compound
+  [totalInstallments]="sumOfRate"
+  [totalInterest]="sumOfInterest"
+  [totalRent]="sumOfRent"
+></app-toolbar-compound>
 <div class="parent" style="zoom: 70%">
   <div class="div1">
     <div class="first-form">

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-toolbar-compound',
@@ -9,6 +9,9 @@ import { Component } from '@angular/core';
 export class ToolbarCompoundComponent {
   dateRange: Date[] | null = null;
   dateRangeLabel: string = 'Select date range';
+  @Input() totalInstallments: number = 0;
+  @Input() totalInterest: number = 0;
+  @Input() totalRent: number = 0;
 
   updateLabel() {
     if (this.dateRange && this.dateRange.length === 2) {
