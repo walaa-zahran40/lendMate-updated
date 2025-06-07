@@ -69,7 +69,6 @@ import { ViewUploadDocumentsComponent } from './components/client-activities/cli
 import { ClientActivityWizardComponent } from './components/client-activities/client-activity-wizard/client-activity-wizard.component';
 import { AddClientComponent } from './components/clients/company-individual/add-client/add-client.component';
 import { ViewClientsComponent } from './components/clients/company-individual/view-clients/view-clients.component';
-import { CompanyViewOnlyComponent } from './components/clients/company-view-only/company-view-only.component';
 import { ClientCentralBankInfoEffects } from './store/client-central-bank-info/client-central-bank.effects';
 import { ClientFilesEffects } from './store/client-file/client-files.effects';
 import { clientFilesReducer } from './store/client-file/client-files.reducer';
@@ -112,7 +111,6 @@ import { SubSectorEffects } from '../../lookups/store/sub-sector-drop-down/sub-s
     AddClientTaxAuthorityOfficesComponent,
     AddClientCentralBankInfoComponent,
     AddClientShareHoldersComponent,
-    CompanyViewOnlyComponent,
     ViewUploadDocumentsComponent,
     ViewClientAddressesComponent,
     ViewSalesTurnoverComponent,
