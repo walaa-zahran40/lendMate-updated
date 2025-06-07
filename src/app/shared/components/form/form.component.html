@@ -4,16 +4,32 @@
     <p class="tab-panel-paragraph">
       {{ description }}
     </p>
+    <!-- clients
+    <p-button
+      *ngIf="uploadDocumentsShowMain"
+      label="View Document Details"
+      icon="pi pi-cog"
+      (click)="viewDocumentDetails()"
+      class="custom-view m-0 float-right"
+    />
+    <p-button
+      *ngIf="addClientAddressesLookupsForm"
+      label="View Address Details"
+      icon="pi pi-cog"
+      (click)="viewClientAddressDetails()"
+      class="custom-view m-0 float-right"
+    />
+    <p-button
+      *ngIf="addSalesTurnoverForm"
+      label="View Sales Turnovers"
+      (click)="viewSalesTurnover()"
+      class="custom-view m-0 float-right"
+    />
+
     <p-button
       *ngIf="addDocTypesForm"
       label="View Document Types"
       (click)="viewDocTypes()"
-      class="custom-view m-0 float-right"
-    />
-    <p-button
-      *ngIf="uploadDocumentsShowMain"
-      label="View Document Details"
-      (click)="viewDocumentDetails()"
       class="custom-view m-0 float-right"
     />
 
@@ -313,18 +329,7 @@
       (click)="viewPaymentPeriods()"
       class="custom-view m-0 float-right"
     />
-    <p-button
-      *ngIf="addClientAddressesLookupsForm"
-      label="View Address Details"
-      (click)="viewClientAddressDetails()"
-      class="custom-view m-0 float-right"
-    />
-    <p-button
-      *ngIf="addSalesTurnoverForm"
-      label="View Sales Turnovers"
-      (click)="viewSalesTurnover()"
-      class="custom-view m-0 float-right"
-    />
+
     <p-button
       *ngIf="addPhoneNumbersShowMain"
       label="View Phone Numbers"
@@ -494,6 +499,7 @@
     <p-button
       *ngIf="addDepartmentManagerORGForm"
       label="View Manager"
+      icon="pi pi-cog"
       (click)="viewDepartmentManager()"
       class="custom-view m-0 float-right"
     />
@@ -679,7 +685,7 @@
       label="View Business Lines"
       class="custom-view m-0 float-right"
       (click)="viewBusinessLines()"
-    />
+    /> -->
   </div>
   <div class="div2" [ngClass]="{ span: applyReusable }">
     <!--client forms-->
@@ -12490,7 +12496,7 @@
         >
           <p-button
             type="submit"
-            label="Add Business Line"
+            label="Add Officer"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -12501,7 +12507,7 @@
         >
           <p-button
             type="submit"
-            label="Edit Business Line"
+            label="Edit Officer"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -12512,14 +12518,14 @@
           <p-button
             label="Close"
             class="custom-save m-0 float-right"
-            (click)="router.navigate(['/lookups/view-business-lines'])"
+            (click)="router.navigate(['/organizations/view-officers'])"
           />
         </div>
       </div>
     </form>
 
     <!--ORG Forms-->
-    <!-- <form
+    <form
       [formGroup]="formGroup"
       *ngIf="addDepartmentsORGForm"
       (ngSubmit)="onSubmit()"
@@ -12851,7 +12857,7 @@
       <label for="startDate">Start Date<sup class="danger">*</sup></label>
       <shared-date-picker formControlName="startDate" inputId="startDate">
       </shared-date-picker>
-
+      <br />
       <label for="officerId">Officer<sup>*</sup></label>
       <p-select
         [options]="officersList"
@@ -12968,6 +12974,6 @@
           ></p-button>
         </div>
       </div>
-    </form> -->
+    </form>
   </div>
 </div>
