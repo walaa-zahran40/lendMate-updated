@@ -65,7 +65,7 @@ export class ViewFollowupsComponent implements OnInit, OnDestroy {
         map(([followups]) => {
           console.log('📦 Raw followups:', followups);
 
-          return followups; //.sort((a) => a.id);
+          return followups;//.sort((a) => a.id);
         }),
         takeUntil(this.destroy$)
       )
@@ -83,7 +83,7 @@ export class ViewFollowupsComponent implements OnInit, OnDestroy {
 
     console.log(`route : ${routeId}`);
     this.router.navigate(
-      ['communication/add-follow-ups/', communicationId, routeId],
+      ['communication/add-follow-ups/', communicationId],
       {
         queryParams: {
           mode: 'add',

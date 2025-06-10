@@ -39,19 +39,19 @@ const routes: Routes = [
     component: WizardCommunicationComponent,
   },
   {
-    path: 'view-follow-ups/:id/:communicationId',
+    path: 'view-follow-ups/:communicationId',
     component: ViewFollowupsComponent,
   },
   {
-    path: 'wizard-followups/:id/:communicationId/:callId',
+    path: 'wizard-followups/:communicationId/:callId',
     component: WizardFollowupsComponent,
   },
   {
-    path: 'view-follow-up-points/:id/:communicationId/:callId',
+    path: 'view-follow-up-points/:communicationId/:callId',
     component: ViewFollowupPointsComponent,
   },
   {
-    path: 'add-follow-ups/:id/:communicationId',
+    path: 'add-follow-ups/:communicationId',
     component: AddFollowupsComponent,
   },
 
