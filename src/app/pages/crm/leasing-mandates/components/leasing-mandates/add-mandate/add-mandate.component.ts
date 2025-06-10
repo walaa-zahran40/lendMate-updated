@@ -74,6 +74,10 @@ export class AddMandateComponent {
   feeTypes$!: Observable<FeeType[]>;
   parentForm!: FormGroup;
   private destroy$ = new Subject<void>();
+  workFlowActionList: any[] = [];
+  selectedAction: string='';
+  public mandateId: any = null;
+  public leasingMandateId: any = null;
 
   constructor(
     private fb: FormBuilder,
@@ -171,6 +175,13 @@ export class AddMandateComponent {
         this.patchMandate(this.normalizeMandate(mandate))
       );
 
+    const idParam = this.route.snapshot.paramMap.get('leasingId');
+     if (!idParam) {
+      console.log('No edit/view mode detected, skipping load.');
+      return;
+    }
+    this.leasingMandateId = +idParam;
+
     this.basicForm
       .get('clientId')!
       .valueChanges.pipe(
@@ -190,6 +201,8 @@ export class AddMandateComponent {
       };
     }
   ) {
+    this.mandateId = m.mandateId;
+    console.log("rrrrrrrrrr",this.mandateId);
     const grace = m.mandateGracePeriodSettingView ?? {
       gracePeriodCount: null,
       gracePeriodUnitId: null,
@@ -265,6 +278,15 @@ export class AddMandateComponent {
       () => this.createMandateFeesGroup(),
       'mandateFees'
     );
+
+    this.workFlowActionList = m.allowedMandateWorkFlowActions?.map(action => ({
+      id: action.id,
+      label: action.name,
+      icon: 'pi pi-times',
+    }));
+    this.selectedAction= m.mandateCurrentWorkFlowAction.name??'';
+    console.log("✅ this.selectedAction", this.selectedAction);
+
   }
 
   private normalizeMandate(raw: any): Mandate & {
@@ -290,6 +312,41 @@ export class AddMandateComponent {
         },
     };
   }
+
+  handleWorkflowAction(event: { actionId: number, comment: string }): void {
+    const payload = {
+      mandateId: this.mandateId,
+      mandateStatusActionId: event.actionId,
+      comment: event.comment,
+      isCurrent: true
+    };
+
+    this.facade.performWorkflowAction(event.actionId,payload);
+    this.facade.workFlowActionSuccess$.subscribe({
+       next: () => {
+          console.log('Workflow action submitted successfully.');
+          this.refreshAllowedActions(); 
+        },
+    });
+  }
+
+  refreshAllowedActions(): void {
+    this.facade.loadById(this.leasingMandateId);
+    this.facade.selected$.subscribe({
+      next: (mandate) => {
+        var workFlowAction = [...mandate?.allowedMandateWorkFlowActions?? []]; 
+        this.workFlowActionList = workFlowAction.map(action => ({
+        id: action.id,
+        label: action.name,
+        icon: 'pi pi-times',
+      }));// clone to ensure change detection
+      },
+      error: err => {
+        console.error('Failed to refresh actions:', err);
+      }
+    });
+  }
+  
 
   buildMandateShowBasicForm(): void {
     this.addMandateShowBasicForm = this.fb.group({

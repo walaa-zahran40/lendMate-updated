@@ -10,7 +10,7 @@ import { Mandate } from '../../../pages/crm/leasing-mandates/store/leasing-manda
   styleUrls: ['./download-popup.component.scss'],
 })
 export class DownloadPopupComponent {
-  @Input() leasingMandates!: Mandate[];
+  @Input() leasingMandates!: any[];
   @Output() close = new EventEmitter<void>();
   @Output() download = new EventEmitter<Mandate>();
   @Input() contactPersons!: any;

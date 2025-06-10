@@ -126,4 +126,24 @@ export class MandatesEffects {
       map(() => ActionsList.loadAll({}))
     )
   );
+
+  performWorkflow$ = createEffect(() =>
+      this.actions$.pipe(
+        ofType(ActionsList.performWorkflowActionEntity),
+        mergeMap(({ id, changes }) =>
+          this.service.performWorkflowAction(id, changes).pipe(
+            mergeMap(() => [
+              ActionsList.performWorkflowActionEntitySuccess({ id, changes }),
+              ActionsList.entityOperationSuccess({
+                entity: EntityNames.MandateWorkFlowAction,
+                operation: 'update',
+              }),
+            ]),
+            catchError((error) =>
+              of(ActionsList.performWorkflowActionEntityFailure({ error }))
+            )
+          )
+        )
+      )
+    );
 }

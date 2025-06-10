@@ -5,6 +5,9 @@
     viewOnly ? 'View Mandates' : editMode ? 'Edit Mandate' : 'Add Mandate'
   "
   [viewOnly]="viewOnly || editMode ? true : false"
+  [selectedAction]="selectedAction"
+  [workFlowItems]="workFlowActionList"
+  (saveAction)="handleWorkflowAction($event)"
 ></app-toolbar-form>
 <form [formGroup]="parentForm" (ngSubmit)="onSubmit()">
   <p-tabs styleClass="p-3">
