@@ -61,6 +61,7 @@ import { DownloadPopupComponent } from './download-popup/download-popup.componen
 import { WorkflowDialogComponent } from './workflow-dialog/workflow-dialog.component';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { AddLegalFormLawsComponent } from './form/add-legal-form-laws/add-legal-form-laws.component';
+import { AddLegalFormsComponent } from './form/add-legal-forms/add-legal-forms.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +81,7 @@ import { AddLegalFormLawsComponent } from './form/add-legal-form-laws/add-legal-
     DownloadPopupComponent,
     WorkflowDialogComponent,
     AddLegalFormLawsComponent,
+    AddLegalFormsComponent,
   ],
   imports: [
     CommonModule,
@@ -148,6 +150,7 @@ import { AddLegalFormLawsComponent } from './form/add-legal-form-laws/add-legal-
     ToolbarCompoundComponent,
     WorkflowDialogComponent,
     AddLegalFormLawsComponent,
+    AddLegalFormsComponent,
   ],
 })
 export class ComponentsModule {}
