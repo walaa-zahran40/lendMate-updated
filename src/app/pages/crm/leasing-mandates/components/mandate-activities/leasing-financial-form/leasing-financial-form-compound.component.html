@@ -10,78 +10,37 @@
   [totalRent]="sumOfRent"
 ></app-toolbar-compound>
 <div class="parent" style="zoom: 70%">
-  <div class="div1">
-    <div class="first-form">
-      <app-form
-        [title]="'Basic Finance Information'"
-        [description]="
-          'Introduce your company core info quickly to users by fill up company details'
-        "
-        [leasingFinancialBasicForm]="true"
-        [formGroup]="leasingFinancialBasicForm"
-      ></app-form>
-    </div>
-    <div class="second-form">
-      <app-form
-        [title]="'Rates and Periods'"
-        [description]="
-          'Introduce your company core info quickly to users by fill up company details'
-        "
-        [leasingFinancialRateForm]="true"
-        [formGroup]="leasingFinancialRateForm"
-        [paymentPeriods]="paymentPeriods$ | async"
-        [gracePeriodUnits]="gracePeriodUnits$ | async"
-        (selectionChangedPaymentPeriod)="onPaymentPeriodSelected($event)"
-        (selectionChangedGracePeriod)="onGracePeriodUnitSelected($event)"
-      ></app-form>
-    </div>
-    <div class="third-form">
-      <div class="page-content">
-        <app-toolbar-table
-          [title]="'Leasing Financial Table'"
-          [customSpacing]="'custom-spacing'"
-          [exports]="true"
-          (searchChange)="onSearch($event)"
-          (toggleFiltersEvent)="onToggleFilters($event)"
-          (exportExcel)="tableRef.exportToExcel()"
-          (exportPDF)="tableRef.generatePdf()"
-          [btnAdd]="false"
-        ></app-toolbar-table>
-
-        <app-table
-          #tableRef
-          [cols]="colsInside"
-          [tableData]="filteredFinancialForms"
-          [edit]="false"
-          [view]="false"
-          [delete]="false"
-          [side]="false"
-          [download]="false"
-          [checkBox]="true"
-          [filters]="showFilters"
-          [uppercase]="'uppercase'"
-          [viewFinancialFormTable]="true"
-          (onDelete)="onDeleteFinancialForm($event)"
-          (onEdit)="onEditFinancialForm($event)"
-          (viewForm)="onViewFinancialForms($event)"
-        ></app-table>
-        <app-delete-module
-          [visible]="showDeleteModal"
-          (confirm)="confirmDelete()"
-          (cancel)="cancelDelete()"
-        ></app-delete-module>
-      </div>
-    </div>
+  <div class="first-form">
+    <app-form
+      [title]="'Basic Finance Information'"
+      [description]="
+        'Introduce your company core info quickly to users by fill up company details'
+      "
+      [leasingFinancialBasicForm]="true"
+      [formGroup]="leasingFinancialBasicForm"
+    ></app-form>
   </div>
-  <div class="div2">
-    <h2>Currency Information</h2>
-    <p>
-      Introduce your company core info quickly to users by fill up company
-      details
-    </p>
-
+  <div class="second-form">
+    <app-form
+      [title]="'Rates and Periods'"
+      [description]="
+        'Introduce your company core info quickly to users by fill up company details'
+      "
+      [leasingFinancialRateForm]="true"
+      [formGroup]="leasingFinancialRateForm"
+      [paymentPeriods]="paymentPeriods$ | async"
+      [gracePeriodUnits]="gracePeriodUnits$ | async"
+      (selectionChangedPaymentPeriod)="onPaymentPeriodSelected($event)"
+      (selectionChangedGracePeriod)="onGracePeriodUnitSelected($event)"
+    ></app-form>
+  </div>
+  <div class="third-form">
     <app-form
       class="form-currency"
+      [title]="'Currency Information'"
+      [description]="
+        'Introduce your company core info quickly to users by fill up company details'
+      "
       [leasingFinancialCurrencyForm]="true"
       [formGroup]="leasingFinancialCurrencyForm"
       [currencies]="currencies$ | async"
@@ -116,6 +75,43 @@
         (onClick)="onCalculateAll()"
         [disabled]="!isAllValid()"
       />
+    </div>
+  </div>
+  <div class="table">
+    <div class="page-content">
+      <app-toolbar-table
+        [title]="'Leasing Financial Table'"
+        [customSpacing]="'custom-spacing'"
+        [exports]="true"
+        (searchChange)="onSearch($event)"
+        (toggleFiltersEvent)="onToggleFilters($event)"
+        (exportExcel)="tableRef.exportToExcel()"
+        (exportPDF)="tableRef.generatePdf()"
+        [btnAdd]="false"
+      ></app-toolbar-table>
+
+      <app-table
+        #tableRef
+        [cols]="colsInside"
+        [tableData]="filteredFinancialForms"
+        [edit]="false"
+        [view]="false"
+        [delete]="false"
+        [side]="false"
+        [download]="false"
+        [checkBox]="true"
+        [filters]="showFilters"
+        [uppercase]="'uppercase'"
+        [viewFinancialFormTable]="true"
+        (onDelete)="onDeleteFinancialForm($event)"
+        (onEdit)="onEditFinancialForm($event)"
+        (viewForm)="onViewFinancialForms($event)"
+      ></app-table>
+      <app-delete-module
+        [visible]="showDeleteModal"
+        (confirm)="confirmDelete()"
+        (cancel)="cancelDelete()"
+      ></app-delete-module>
     </div>
   </div>
 </div>
