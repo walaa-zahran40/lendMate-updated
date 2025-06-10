@@ -43,7 +43,7 @@ export class ViewFollowupsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // 1) grab the param
     console.log('rrr', this.route.snapshot);
-    const raw = this.route.snapshot.paramMap.get('id');
+    const raw = this.route.snapshot.params['communicationId'];
     this.communicationIdParam = raw !== null ? Number(raw) : undefined;
     console.log(
       '[View] ngOnInit → communicationIdParam =',

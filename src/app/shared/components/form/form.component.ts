@@ -1009,9 +1009,8 @@ export class FormComponent implements OnInit, OnDestroy {
   }
   viewFollowUps() {
     console.log( "follow up clicked   " , this.communicationIdParam);
-    this.id = this.route.snapshot.params['id'];
     this.router.navigate([
-      `/communication/view-follow-ups/${this.communicationIdParam}/${this.id}`,
+      `/communication/view-follow-ups/${this.communicationIdParam}`,
     ]);
   }
   viewAssestType() {

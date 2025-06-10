@@ -63,7 +63,7 @@ const routes: Routes = [
     component: AddFollowupsComponent,
   },
   {
-    path: 'view-follow-ups/:id/:communicationId',
+    path: 'view-follow-ups/:communicationId',
     component: ViewFollowupsComponent,
   },
 

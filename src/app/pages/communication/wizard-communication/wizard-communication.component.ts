@@ -35,7 +35,7 @@ export class WizardCommunicationComponent {
       .subscribe(() => this.buildCards());
   }
   private buildCards() {
-    const id = this.communicationId;
+    const communicationId = this.communicationId;
     this.originalCards = [
       {
         imgUrl: '/assets/images/shared/card/upload.svg',
@@ -43,7 +43,7 @@ export class WizardCommunicationComponent {
         title: 'Follow Ups',
         content:
           'Introduce your company core info quickly to users by fill up company details',
-        link: `communication/view-follow-ups/${id}/${this.routeId}`,
+        link: `communication/view-follow-ups/${communicationId}`,
       },
       {
         imgUrl: '/assets/images/shared/card/add.svg',
@@ -51,7 +51,7 @@ export class WizardCommunicationComponent {
         title: 'Follow Up Points',
         content:
           'Introduce your company core info quickly to users by fill up company details',
-        link: `communication/view-follow-ups/${id}/${this.routeId}`,
+        link: `communication/view-follow-ups/${communicationId}`,
       },
     ];
     this.cards = this.chunkArray(this.originalCards, 3);
