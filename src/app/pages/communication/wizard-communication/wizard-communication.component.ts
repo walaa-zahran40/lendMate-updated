@@ -51,7 +51,7 @@ export class WizardCommunicationComponent {
         title: 'Follow Up Points',
         content:
           'Introduce your company core info quickly to users by fill up company details',
-        link: `communication/view-follow-ups/${communicationId}`,
+        link: `communication/view-follow-up-points/${communicationId}`,
       },
     ];
     this.cards = this.chunkArray(this.originalCards, 3);
