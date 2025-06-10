@@ -994,9 +994,6 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-followup-types']);
   }
 
-    viewFollowups() {
-    this.router.navigate([`/lookups/view-follow-ups/${this.communicationIdParam}`]);
-  }
 
   viewOfficers() {
     this.router.navigate(['/organizations/view-officers']);
@@ -1011,9 +1008,10 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/communication/view-followup-points']);
   }
   viewFollowUps() {
-    console.log(this.communicationIdParam);
+    console.log( "follow up clicked   " , this.communicationIdParam);
+    this.id = this.route.snapshot.params['id'];
     this.router.navigate([
-      `/communication/view-follow-ups/{this.communicationIdParam}`,
+      `/communication/view-follow-ups/${this.communicationIdParam}/${this.id}`,
     ]);
   }
   viewAssestType() {

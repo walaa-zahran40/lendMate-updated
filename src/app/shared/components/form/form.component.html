@@ -2539,7 +2539,7 @@
           <p-button
             label="Close"
             class="custom-save m-0 float-right"
-            (click)="router.navigate(['/lookups/view-followup-types'])"
+            (click)="viewFollowUps()"
           />
         </div>
       </div>
@@ -12416,12 +12416,13 @@
           <p-button
             label="Close"
             class="custom-save m-0 float-right"
-            (click)="router.navigate(['/communication/view-follow-ups' , this.communicationIdParam])"
+            (click)="viewFollowUps()"
           />
         </div>
       </div>
     </form>
 
+    
     <form
       [formGroup]="formGroup"
       (ngSubmit)="onSubmit()"
