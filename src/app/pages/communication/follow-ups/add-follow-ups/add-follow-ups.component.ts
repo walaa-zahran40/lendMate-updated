@@ -23,6 +23,7 @@ export class AddFollowupsComponent implements OnInit, OnDestroy {
   mode!: 'add' | 'edit' | 'view';
   parentClientId!: number;
   recordId!: number;
+  raw!: number;
   private destroy$ = new Subject<void>();
 
   communicationIdParam!: number; 
@@ -46,7 +47,8 @@ export class AddFollowupsComponent implements OnInit, OnDestroy {
     if (this.editMode || this.viewOnly) {
       console.log('route add', this.route.snapshot);
       this.recordId = Number(this.route.snapshot.params['communicationId']);
-      this.followupFacade.loadOne(this.recordId);
+      this.raw = Number(this.route.snapshot.params['id']);
+      this.followupFacade.loadOne(this.raw);
     }
 
     // Build form with communicationId
@@ -69,7 +71,7 @@ export class AddFollowupsComponent implements OnInit, OnDestroy {
         )
         .subscribe((rec) => {
           this.addFollowupsForm.patchValue({
-            id: rec.id,
+            id: this.raw,
             communicationId: this.route.snapshot.queryParamMap.get('communicationId'),
             topic: rec.topic,
             details: rec.details,
@@ -123,7 +125,7 @@ export class AddFollowupsComponent implements OnInit, OnDestroy {
       const formValue = this.addFollowupsForm.value;
 
       const updateData: Followup = {
-        id: this.recordId,
+        id: this.raw,
         communicationId: this.parentClientId,
         details: formValue.details,
         topic: formValue.topic,
@@ -137,7 +139,7 @@ export class AddFollowupsComponent implements OnInit, OnDestroy {
         updateData
       );
 
-      this.followupFacade.update(this.recordId, updateData);
+      this.followupFacade.update(this.raw, updateData);
     }
     console.log('route', this.route.snapshot);
 

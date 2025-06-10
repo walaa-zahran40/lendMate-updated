@@ -132,7 +132,7 @@ export class ViewFollowupsComponent implements OnInit, OnDestroy {
   }
 
   onEditFollowup(followup: Followup) {
-    this.router.navigate(['communication/edit-follow-ups', followup.id], {
+    this.router.navigate(['communication/edit-follow-ups', followup.id, followup.communicationId], {
       queryParams: {
         mode: 'edit',
         communicationId: this.communicationIdParam, // <-- use "communicationId" here
@@ -142,7 +142,7 @@ export class ViewFollowupsComponent implements OnInit, OnDestroy {
 
   onViewFollowup(followup: Followup) {
     console.log('route', this.route.snapshot);
-    this.router.navigate(['communication/edit-follow-ups', followup.id], {
+    this.router.navigate(['communication/edit-follow-ups', followup.id , followup.communicationId], {
       queryParams: {
         mode: 'view',
         communicationId: this.communicationIdParam, // <-- and here
