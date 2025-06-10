@@ -17,6 +17,7 @@ import { ViewMeetingsComponent } from './meetings/view-meetings/view-meetings.co
 import { ViewFollowupsComponent } from './follow-ups/view-follow-ups/view-follow-ups.component';
 import { ViewFollowupPointsComponent } from './follow-up-points/view-follow-up-points/view-follow-up-points.component';
 import { AddFollowupPointsComponent } from './follow-up-points/add-follow-up-points/add-follow-up-points.component';
+import { WizardFollowupsComponent } from './wizard-followups/wizard-followups.component';
 
 const routes: Routes = [
   //Calls
@@ -37,6 +38,27 @@ const routes: Routes = [
     path: 'wizard-communication/:id',
     component: WizardCommunicationComponent,
   },
+  {
+    path: 'view-follow-ups/:id/:communicationId',
+    component: ViewFollowupsComponent,
+  },
+  {
+    path: 'wizard-followups/:id/:communicationId/:callId',
+    component: WizardFollowupsComponent,
+  },
+  {
+    path: 'view-follow-up-points/:id/:communicationId/:callId',
+    component: ViewFollowupPointsComponent,
+  },
+  {
+    path: 'add-follow-ups/:id/:communicationId',
+    component: AddFollowupsComponent,
+  },
+
+  {
+    path: 'edit-follow-ups/:id/:communicationId',
+    component: AddFollowupsComponent,
+  },
 
   // meeting
   {
@@ -52,22 +74,7 @@ const routes: Routes = [
     component: ViewMeetingsComponent,
   },
 
-  // Follow up
-
-  {
-    path: 'add-follow-ups/:communicationId',
-    component: AddFollowupsComponent,
-  },
-  {
-    path: 'edit-follow-ups/:id/:communicationId',
-    component: AddFollowupsComponent,
-  },
-  {
-    path: 'view-follow-ups/:communicationId',
-    component: ViewFollowupsComponent,
-  },
-
-  // follow up points 
+  // follow up points
   {
     path: 'add-follow-up-points/:communicationId',
     component: AddFollowupPointsComponent,
@@ -76,11 +83,6 @@ const routes: Routes = [
     path: 'edit-follow-up-points/:id/:communicationId',
     component: AddFollowupPointsComponent,
   },
-  {
-    path: 'view-follow-up-points/:communicationId',
-    component: ViewFollowupPointsComponent,
-  },
-
 
   {
     path: 'add-meeting-types',

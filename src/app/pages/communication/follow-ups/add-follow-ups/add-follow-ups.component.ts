@@ -25,8 +25,8 @@ export class AddFollowupsComponent implements OnInit, OnDestroy {
   recordId!: number;
   raw!: number;
   private destroy$ = new Subject<void>();
-
-  communicationIdParam!: number; 
+  routeId: any;
+  communicationIdParam!: number;
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -72,7 +72,8 @@ export class AddFollowupsComponent implements OnInit, OnDestroy {
         .subscribe((rec) => {
           this.addFollowupsForm.patchValue({
             id: this.raw,
-            communicationId: this.route.snapshot.queryParamMap.get('communicationId'),
+            communicationId:
+              this.route.snapshot.queryParamMap.get('communicationId'),
             topic: rec.topic,
             details: rec.details,
             date: rec.date,
@@ -83,8 +84,11 @@ export class AddFollowupsComponent implements OnInit, OnDestroy {
 
   addOrEditFollowup() {
     console.log('🛣️ Route snapshot:', this.route.snapshot);
-    this.communicationIdParam = Number(this.route.snapshot.queryParamMap.get('communicationId'));
-    console.log(`🔍 QueryParams → communicationId = ${this.communicationIdParam}`);
+    this.communicationIdParam = Number(this.route.snapshot.paramMap.get('id'));
+    this.routeId = Number(this.route.snapshot.paramMap.get('communicationId'));
+    console.log(
+      `🔍 QueryParams → communicationId = ${this.communicationIdParam}`
+    );
     console.log(
       `⚙️ mode = ${this.mode}, editMode = ${this.editMode}, viewOnly = ${this.viewOnly}`
     );
@@ -129,7 +133,7 @@ export class AddFollowupsComponent implements OnInit, OnDestroy {
         communicationId: this.parentClientId,
         details: formValue.details,
         topic: formValue.topic,
-        date: formValue.date
+        date: formValue.date,
       };
 
       console.log(
@@ -143,9 +147,16 @@ export class AddFollowupsComponent implements OnInit, OnDestroy {
     }
     console.log('route', this.route.snapshot);
 
-    console.log('➡️ Navigating back with PATH param:', this.communicationIdParam);
+    console.log(
+      '➡️ Navigating back with PATH param:',
+      this.communicationIdParam
+    );
     if (this.communicationIdParam) {
-      this.router.navigate(['/communication/view-follow-ups', this.communicationIdParam]);
+      this.router.navigate([
+        '/communication/view-follow-ups',
+        this.communicationIdParam,
+        this.routeId,
+      ]);
     } else {
       console.error('❌ Cannot navigate back: communicationId is missing!');
     }

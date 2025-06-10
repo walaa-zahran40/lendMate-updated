@@ -65,7 +65,7 @@ export class ViewFollowupsComponent implements OnInit, OnDestroy {
         map(([followups]) => {
           console.log('📦 Raw followups:', followups);
 
-          return followups;//.sort((a) => a.id);
+          return followups; //.sort((a) => a.id);
         }),
         takeUntil(this.destroy$)
       )
@@ -78,16 +78,31 @@ export class ViewFollowupsComponent implements OnInit, OnDestroy {
 
   onAddFollowup() {
     console.log('edioyt', this.communicationIdParam);
-    const routeId = this.route.snapshot.paramMap.get('communicationId');
-    console.log(`route : ${routeId}` )
-    this.router.navigate(['communication/add-follow-ups/', routeId], {
-      queryParams: {
-        mode: 'add',
-        communicationId: this.communicationIdParam, // <-- use "communicationId" here
-      },
-    });
-  }
+    const communicationId = this.route.snapshot.paramMap.get('communicationId');
+    const routeId = this.route.snapshot.paramMap.get('id');
 
+    console.log(`route : ${routeId}`);
+    this.router.navigate(
+      ['communication/add-follow-ups/', communicationId, routeId],
+      {
+        queryParams: {
+          mode: 'add',
+          communicationId: this.communicationIdParam, // <-- use "communicationId" here
+        },
+      }
+    );
+  }
+  onAddSide(callId: any) {
+    const communicationId = this.route.snapshot.paramMap.get('communicationId');
+    const routeId = this.route.snapshot.paramMap.get('id');
+    console.log('call', callId, this.route.snapshot);
+    this.router.navigate([
+      '/communication/wizard-followups',
+      callId,
+      communicationId,
+      routeId,
+    ]);
+  }
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
@@ -132,21 +147,27 @@ export class ViewFollowupsComponent implements OnInit, OnDestroy {
   }
 
   onEditFollowup(followup: Followup) {
-    this.router.navigate(['communication/edit-follow-ups', followup.id, followup.communicationId], {
-      queryParams: {
-        mode: 'edit',
-        communicationId: this.communicationIdParam, // <-- use "communicationId" here
-      },
-    });
+    this.router.navigate(
+      ['communication/edit-follow-ups', followup.id, followup.communicationId],
+      {
+        queryParams: {
+          mode: 'edit',
+          communicationId: this.communicationIdParam, // <-- use "communicationId" here
+        },
+      }
+    );
   }
 
   onViewFollowup(followup: Followup) {
     console.log('route', this.route.snapshot);
-    this.router.navigate(['communication/edit-follow-ups', followup.id , followup.communicationId], {
-      queryParams: {
-        mode: 'view',
-        communicationId: this.communicationIdParam, // <-- and here
-      },
-    });
+    this.router.navigate(
+      ['communication/edit-follow-ups', followup.id, followup.communicationId],
+      {
+        queryParams: {
+          mode: 'view',
+          communicationId: this.communicationIdParam, // <-- and here
+        },
+      }
+    );
   }
 }
