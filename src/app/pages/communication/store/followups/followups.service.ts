@@ -33,7 +33,7 @@ export class FollowupsService {
   }
 
   getById(id: number): Observable<Followup> {
-  return this.http.get<Followup>(`${this.api}/Id`, {
+  return this.http.get<Followup>(`${this.api}/FollowupId`, {
     params: { id: id.toString() }
   });
 }

@@ -1,18 +1,18 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subject, Observable, combineLatest, of, map, takeUntil } from 'rxjs';
-import { Followup } from '../../store/followups/followup.model';
 import { TableComponent } from '../../../../shared/components/table/table.component';
-import { FollowupsFacade } from '../../store/followups/followups.facade';
+import { FollowupPoint } from '../../store/followup-points/followup-point.model';
+import { FollowupPointsFacade } from '../../store/followup-points/followup-points.facade';
 
 @Component({
-  selector: 'app-view-follow-ups',
+  selector: 'app-view-follow-up-points',
   standalone: false,
-  templateUrl: './view-follow-ups.component.html',
-  styleUrl: './view-follow-ups.component.scss',
+  templateUrl: './view-follow-up-points.component.html',
+  styleUrl: './view-follow-up-points.component.scss',
 })
-export class ViewFollowupsComponent implements OnInit, OnDestroy {
-  tableDataInside: Followup[] = [];
+export class ViewFollowupPointsComponent implements OnInit, OnDestroy {
+  tableDataInside: FollowupPoint[] = [];
   first2 = 0;
   rows = 10;
   showFilters = false;
@@ -28,15 +28,15 @@ export class ViewFollowupsComponent implements OnInit, OnDestroy {
   ];
 
   showDeleteModal = false;
-  selectedFollowupId: number | null = null;
-  originalFollowups: Followup[] = [];
-  filteredFollowups: Followup[] = [];
+  selectedFollowupPointId: number | null = null;
+  originalFollowupPoints: FollowupPoint[] = [];
+  filteredFollowupPoints: FollowupPoint[] = [];
 
-  followups$!: Observable<Followup[]>;
+  followups$!: Observable<FollowupPoint[]>;
 
   constructor(
     private router: Router,
-    private facade: FollowupsFacade,
+    private facade: FollowupPointsFacade,
     private route: ActivatedRoute
   ) {}
 
@@ -71,12 +71,12 @@ export class ViewFollowupsComponent implements OnInit, OnDestroy {
       )
       .subscribe((result) => {
         console.log('✅ Final result:', result);
-        this.filteredFollowups = result;
-        this.originalFollowups = result;
+        this.filteredFollowupPoints = result;
+        this.originalFollowupPoints = result;
       });
   }
 
-  onAddFollowup() {
+  onAddFollowupPoint() {
     console.log('edioyt', this.communicationIdParam);
     const routeId = this.route.snapshot.paramMap.get('communicationId');
     console.log(`route : ${routeId}` )
@@ -93,18 +93,18 @@ export class ViewFollowupsComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  onDeleteFollowup(clientPhoneNumberId: number): void {
+  onDeleteFollowupPoint(clientPhoneNumberId: number): void {
     console.log(
-      '[View] onDeleteFollowup() – opening modal for id=',
+      '[View] onDeleteFollowupPoint() – opening modal for id=',
       clientPhoneNumberId
     );
-    this.selectedFollowupId = clientPhoneNumberId;
+    this.selectedFollowupPointId = clientPhoneNumberId;
     this.showDeleteModal = true;
   }
 
   confirmDelete() {
-    if (this.selectedFollowupId != null) {
-      this.facade.delete(this.selectedFollowupId, this.communicationIdParam);
+    if (this.selectedFollowupPointId != null) {
+      this.facade.delete(this.selectedFollowupPointId, this.communicationIdParam);
     }
     this.resetDeleteModal();
   }
@@ -115,12 +115,12 @@ export class ViewFollowupsComponent implements OnInit, OnDestroy {
 
   resetDeleteModal() {
     this.showDeleteModal = false;
-    this.selectedFollowupId = null;
+    this.selectedFollowupPointId = null;
   }
 
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
-    this.filteredFollowups = this.originalFollowups.filter((clientSales) =>
+    this.filteredFollowupPoints = this.originalFollowupPoints.filter((clientSales) =>
       Object.values(clientSales).some((val) =>
         val?.toString().toLowerCase().includes(lower)
       )
@@ -131,7 +131,7 @@ export class ViewFollowupsComponent implements OnInit, OnDestroy {
     this.showFilters = value;
   }
 
-  onEditFollowup(followup: Followup) {
+  onEditFollowupPoint(followup: FollowupPoint) {
     this.router.navigate(['communication/edit-follow-ups', followup.id, followup.communicationId], {
       queryParams: {
         mode: 'edit',
@@ -140,7 +140,7 @@ export class ViewFollowupsComponent implements OnInit, OnDestroy {
     });
   }
 
-  onViewFollowup(followup: Followup) {
+  onViewFollowupPoint(followup: FollowupPoint) {
     console.log('route', this.route.snapshot);
     this.router.navigate(['communication/edit-follow-ups', followup.id , followup.communicationId], {
       queryParams: {

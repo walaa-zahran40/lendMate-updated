@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddFollowupsComponent } from './follow-ups/add-follow-ups/add-follow-ups.component';
-import { AddFollowUpsPointsComponent } from './follow-ups-points/add-follow-ups-points/add-follow-ups-points.component';
 import { AddMeetingTypesComponent } from './meeting-types/add-meeting-types/add-meeting-types.component';
 import { AddCallTypesComponent } from './call-types/add-call-types/add-call-types.component';
 import { WizardComponent } from './meetings/wizard/wizard.component';
-import { ViewFollowUpPointsComponent } from './follow-ups-points/view-follow-up-points/view-follow-up-points.component';
 import { ViewMeetingTypesComponent } from './meeting-types/view-meeting-types/view-meeting-types.component';
 import { ViewCallTypesComponent } from './call-types/view-call-types/view-call-types.component';
 import { SaveMeetingComponent } from './meetings/save-meeting/save-meeting.component';
@@ -17,6 +15,8 @@ import { WizardCommunicationComponent } from './wizard-communication/wizard-comm
 import { AddMeetingsComponent } from './meetings/add-meetings/add-meetings.component';
 import { ViewMeetingsComponent } from './meetings/view-meetings/view-meetings.component';
 import { ViewFollowupsComponent } from './follow-ups/view-follow-ups/view-follow-ups.component';
+import { ViewFollowupPointsComponent } from './follow-up-points/view-follow-up-points/view-follow-up-points.component';
+import { AddFollowupPointsComponent } from './follow-up-points/add-follow-up-points/add-follow-up-points.component';
 
 const routes: Routes = [
   //Calls
@@ -63,14 +63,25 @@ const routes: Routes = [
     component: AddFollowupsComponent,
   },
   {
-    path: 'view-follow-ups/:id/:communicationId',
+    path: 'view-follow-ups/:communicationId',
     component: ViewFollowupsComponent,
   },
 
+  // follow up points 
   {
-    path: 'add-follow-ups-points',
-    component: AddFollowUpsPointsComponent,
+    path: 'add-follow-up-points/:communicationId',
+    component: AddFollowupPointsComponent,
   },
+  {
+    path: 'edit-follow-up-points/:id/:communicationId',
+    component: AddFollowupPointsComponent,
+  },
+  {
+    path: 'view-follow-up-points/:communicationId',
+    component: ViewFollowupPointsComponent,
+  },
+
+
   {
     path: 'add-meeting-types',
     component: AddMeetingTypesComponent,
@@ -90,10 +101,6 @@ const routes: Routes = [
     component: ViewAssetTypeCategoriesComponent,
   },
 
-  {
-    path: 'view-followup-points',
-    component: ViewFollowUpPointsComponent,
-  },
   {
     path: 'view-meeting-types',
     component: ViewMeetingTypesComponent,

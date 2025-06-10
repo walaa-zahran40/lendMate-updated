@@ -510,7 +510,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addCallShowOfficersForm!: boolean;
   @Input() addCallShowBasicForm!: boolean;
   @Input() addFollowupsForm!: boolean;
-  @Input() addFollowUpsPointsCommunicationForm!: boolean;
+  @Input() addFollowupPointsForm!: boolean;
   @Input() addMeetingTypesCommunicationForm!: boolean;
   @Input() addFollowUpTypesCommunicationForm!: boolean;
   @Input() addCallTypesCommunicationForm!: boolean;
@@ -638,6 +638,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addClientGuarantorsLookupsForm!: boolean;
   routeId = this.route.snapshot.params['leasingId'];
   leasingRouteId = this.route.snapshot.params['leasingMandatesId'];
+  communicationId = this.route.snapshot.params['communicationId'];
 
   @Input() operationIdValue!: any;
   clientDocId!: any;
@@ -655,8 +656,9 @@ export class FormComponent implements OnInit, OnDestroy {
     // 18 years ago:
     this.maxDateOfBirth.setFullYear(this.maxDateOfBirth.getFullYear() - 18);
     this.id = this.route.snapshot.paramMap.get('clientId')!;
-    this.communicationIdParam =
-      this.route.snapshot.paramMap.get('communicationId')!;
+    this.communicationIdParam = this.route.snapshot.queryParams['communicationId'];
+
+  
     this.clientDocId = this.route.snapshot.params['clientId'];
     this.clientId = this.route.snapshot.queryParams['clientId']!;
     this.currencyIdParam = this.route.snapshot.queryParams['currencyId'];
@@ -991,6 +993,8 @@ export class FormComponent implements OnInit, OnDestroy {
   viewFollowupTypes() {
     this.router.navigate(['/lookups/view-followup-types']);
   }
+
+
   viewOfficers() {
     this.router.navigate(['/organizations/view-officers']);
   }
@@ -1004,9 +1008,9 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/communication/view-followup-points']);
   }
   viewFollowUps() {
-    console.log(this.communicationIdParam);
+    console.log( "follow up clicked   " , this.communicationIdParam);
     this.router.navigate([
-      `/communication/view-follow-ups/{this.communicationIdParam}`,
+      `/communication/view-follow-ups/${this.communicationIdParam}`,
     ]);
   }
   viewAssestType() {

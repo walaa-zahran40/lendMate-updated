@@ -5,12 +5,10 @@ import { ButtonModule } from 'primeng/button';
 import { TabsModule } from 'primeng/tabs';
 import { SharedModule } from '../../shared/shared.module';
 import { AddFollowupsComponent } from './follow-ups/add-follow-ups/add-follow-ups.component';
-import { AddFollowUpsPointsComponent } from './follow-ups-points/add-follow-ups-points/add-follow-ups-points.component';
 import { AddMeetingTypesComponent } from './meeting-types/add-meeting-types/add-meeting-types.component';
 import { AddCallTypesComponent } from './call-types/add-call-types/add-call-types.component';
 import { WizardComponent } from './meetings/wizard/wizard.component';
 import { ViewFollowupsComponent } from './follow-ups/view-follow-ups/view-follow-ups.component';
-import { ViewFollowUpPointsComponent } from './follow-ups-points/view-follow-up-points/view-follow-up-points.component';
 import { ViewMeetingTypesComponent } from './meeting-types/view-meeting-types/view-meeting-types.component';
 import { ViewCallTypesComponent } from './call-types/view-call-types/view-call-types.component';
 import { SaveMeetingComponent } from './meetings/save-meeting/save-meeting.component';
@@ -33,11 +31,15 @@ import { AddMeetingsComponent } from './meetings/add-meetings/add-meetings.compo
 import { ViewMeetingsComponent } from './meetings/view-meetings/view-meetings.component';
 import { followupsReducer } from './store/followups/followups.reducer';
 import { FollowupsEffects } from './store/followups/followups.effects';
+import { AddFollowupPointsComponent } from './follow-up-points/add-follow-up-points/add-follow-up-points.component';
+import { ViewFollowupPointsComponent } from './follow-up-points/view-follow-up-points/view-follow-up-points.component';
+import { followupPointsReducer } from './store/followup-points/followup-points.reducer';
+import { FollowupPointsEffects } from './store/followup-points/followup-points.effects';
 
 @NgModule({
   declarations: [
     AddFollowupsComponent,
-    AddFollowUpsPointsComponent,
+    AddFollowupPointsComponent,
     AddMeetingTypesComponent,
     AddCallsComponent,
     AddMeetingsComponent,
@@ -45,7 +47,7 @@ import { FollowupsEffects } from './store/followups/followups.effects';
     ViewMeetingsComponent,
     WizardComponent,
     ViewFollowupsComponent,
-    ViewFollowUpPointsComponent,
+    ViewFollowupPointsComponent,
     ViewMeetingTypesComponent,
     ViewCallsComponent,
     ViewMeetingsComponent,
@@ -74,10 +76,13 @@ import { FollowupsEffects } from './store/followups/followups.effects';
 
     StoreModule.forFeature('followups', followupsReducer),
     EffectsModule.forFeature([FollowupsEffects]),
+
+    StoreModule.forFeature('followupPoints', followupPointsReducer),
+    EffectsModule.forFeature([FollowupPointsEffects]),
   ],
   exports: [
     AddFollowupsComponent,
-    AddFollowUpsPointsComponent,
+    AddFollowupPointsComponent,
     AddMeetingTypesComponent,
     AddCallTypesComponent,
     AddCallsComponent,

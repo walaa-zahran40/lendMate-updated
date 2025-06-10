@@ -1,4 +1,4 @@
-export interface Followup {
+export interface FollowupPoint {
   id: number;
   communicationId: number;
   communication?: any;
