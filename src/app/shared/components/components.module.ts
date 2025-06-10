@@ -60,6 +60,7 @@ import { SharedDatePickerComponent } from './shared-date-picker/shared-date-pick
 import { DownloadPopupComponent } from './download-popup/download-popup.component';
 import { WorkflowDialogComponent } from './workflow-dialog/workflow-dialog.component';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { AddLegalFormLawsComponent } from './form/add-legal-form-laws/add-legal-form-laws.component';
 
 @NgModule({
   declarations: [
@@ -78,6 +79,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
     SharedDatePickerComponent,
     DownloadPopupComponent,
     WorkflowDialogComponent,
+    AddLegalFormLawsComponent,
   ],
   imports: [
     CommonModule,
@@ -145,6 +147,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
     ToolbarCardComponent,
     ToolbarCompoundComponent,
     WorkflowDialogComponent,
+    AddLegalFormLawsComponent,
   ],
 })
 export class ComponentsModule {}
