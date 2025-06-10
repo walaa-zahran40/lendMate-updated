@@ -37,4 +37,14 @@ export interface Mandate {
   mandateOfficers?: { officerId: number }[];
   validityUnitView?: any;
   mandateId?: any;
+  mandateCurrentWorkFlowAction?:any;
+  allowedMandateWorkFlowActions:any[];
+}
+
+export interface MandateWorkFlowAction {
+  id: number;
+  mandateStatusActionId?: number ;
+  mandateId?: number;
+  comment?: string;
+  isCurrent?:boolean;
 }

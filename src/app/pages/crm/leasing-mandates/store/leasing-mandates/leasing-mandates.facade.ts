@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { createSelector, Store } from '@ngrx/store';
 import * as Actions from './leasing-mandates.actions';
 import * as Selectors from './leasing-mandates.selectors';
-import { Mandate } from './leasing-mandate.model';
+import { Mandate, MandateWorkFlowAction } from './leasing-mandate.model';
 import { selectLastOperationSuccess } from '../../../../../shared/store/ui.selectors';
 
 @Injectable({ providedIn: 'root' })
@@ -19,6 +19,8 @@ export class MandatesFacade {
     )
   );
   operationSuccess$ = this.store.select(selectLastOperationSuccess);
+  workFlowActionSuccess$ = this.store.select(selectLastOperationSuccess);
+
   constructor(private store: Store) {}
 
   loadAll(pageNumber?: number) {
@@ -43,5 +45,8 @@ export class MandatesFacade {
 
   clearSelected() {
     this.store.dispatch(Actions.clearSelectedMandate());
+  }
+  performWorkflowAction(id: number, changes: Partial<MandateWorkFlowAction>) {
+    this.store.dispatch(Actions.performWorkflowActionEntity({ id, changes }));
   }
 }

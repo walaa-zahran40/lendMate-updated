@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Mandate } from './leasing-mandate.model';
+import { Mandate, MandateWorkFlowAction } from './leasing-mandate.model';
 
 export const loadAll = createAction(
   '[Mandates] Load All',
@@ -72,3 +72,16 @@ export const entityOperationSuccess = createAction(
   props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
 );
 export const clearSelectedMandate = createAction('[Mandates] Clear Selected');
+
+export const performWorkflowActionEntity = createAction(
+  '[MandatesOnboarding] PerformWorkflowAction',
+  props<{ id: number; changes: Partial<MandateWorkFlowAction> }>()
+);
+export const performWorkflowActionEntitySuccess = createAction(
+  '[MandatesOnboarding] PerformWorkflowAction Success',
+  props<{ id: number; changes: Partial<MandateWorkFlowAction> }>()
+);
+export const performWorkflowActionEntityFailure = createAction(
+  '[MandatesOnboarding] PerformWorkflowAction Failure',
+  props<{ error: any }>()
+);

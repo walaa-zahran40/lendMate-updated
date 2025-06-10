@@ -33,4 +33,6 @@ export interface Clone {
   mandateOfficers?: { officerId: number }[];
   validityUnitView?: any;
   mandateId?: any;
+  mandateCurrentWorkFlowAction?:any;
+  allowedMandateWorkFlowActions?:any[];
 }
