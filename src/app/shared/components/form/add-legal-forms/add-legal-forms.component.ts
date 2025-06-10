@@ -48,10 +48,10 @@ interface PageOperationGroup {
 }
 
 @Component({
-  selector: 'app-add-legal-forms',
+  selector: 'app-add-legal-form',
   standalone: false,
-  templateUrl: './add-legal-forms.component.html',
-  styleUrl: './add-legal-forms.component.scss',
+  templateUrl: './add-legal-form.component.html',
+  styleUrl: './add-legal-form.component.scss',
 })
 export class AddLegalFormsComponent implements OnInit, OnDestroy {
   @Input() formGroup: FormGroup = new FormGroup({});

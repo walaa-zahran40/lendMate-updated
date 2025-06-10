@@ -14,7 +14,7 @@
 ><p-tabs value="0" styleClass="p-3">
   <p-tabpanels>
     <p-tabpanel value="0">
-      <app-add-legal-forms
+      <app-add-legal-form
         [title]="'Main Information'"
         [description]="'Legal Forms'"
         [addLegalFormsForm]="true"
@@ -22,7 +22,7 @@
         (submitForm)="addOrEditLegalForm()"
         [editMode]="editMode"
         [viewOnly]="viewOnly"
-      ></app-add-legal-forms>
+      ></app-add-legal-form>
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>
