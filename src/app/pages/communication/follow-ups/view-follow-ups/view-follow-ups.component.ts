@@ -22,6 +22,7 @@ export class ViewFollowupsComponent implements OnInit, OnDestroy {
   @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
+    { field: 'topic', header: 'Topic' },
     { field: 'details', header: 'Details' },
     { field: 'date', header: 'Date' },
   ];
@@ -64,7 +65,7 @@ export class ViewFollowupsComponent implements OnInit, OnDestroy {
         map(([followups]) => {
           console.log('📦 Raw followups:', followups);
 
-          return followups.sort((a, b) => b.id - a.id);
+          return followups;//.sort((a) => a.id);
         }),
         takeUntil(this.destroy$)
       )

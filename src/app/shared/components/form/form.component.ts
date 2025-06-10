@@ -638,6 +638,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addClientGuarantorsLookupsForm!: boolean;
   routeId = this.route.snapshot.params['leasingId'];
   leasingRouteId = this.route.snapshot.params['leasingMandatesId'];
+  communicationId = this.route.snapshot.params['communicationId'];
 
   @Input() operationIdValue!: any;
   clientDocId!: any;

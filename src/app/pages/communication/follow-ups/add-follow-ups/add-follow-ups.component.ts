@@ -25,6 +25,7 @@ export class AddFollowupsComponent implements OnInit, OnDestroy {
   recordId!: number;
   private destroy$ = new Subject<void>();
 
+  communicationIdParam!: number; 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -50,6 +51,7 @@ export class AddFollowupsComponent implements OnInit, OnDestroy {
 
     // Build form with communicationId
     this.addFollowupsForm = this.fb.group({
+      topic: [' ', Validators.required],
       details: [' ', Validators.required],
       date: [null, Validators.required],
     });
@@ -69,6 +71,7 @@ export class AddFollowupsComponent implements OnInit, OnDestroy {
           this.addFollowupsForm.patchValue({
             id: rec.id,
             communicationId: this.route.snapshot.queryParamMap.get('communicationId'),
+            topic: rec.topic,
             details: rec.details,
             date: rec.date,
           });
@@ -78,8 +81,8 @@ export class AddFollowupsComponent implements OnInit, OnDestroy {
 
   addOrEditFollowup() {
     console.log('🛣️ Route snapshot:', this.route.snapshot);
-    const communicationIdParam = this.route.snapshot.queryParamMap.get('communicationId');
-    console.log(`🔍 QueryParams → communicationId = ${communicationIdParam}`);
+    this.communicationIdParam = Number(this.route.snapshot.queryParamMap.get('communicationId'));
+    console.log(`🔍 QueryParams → communicationId = ${this.communicationIdParam}`);
     console.log(
       `⚙️ mode = ${this.mode}, editMode = ${this.editMode}, viewOnly = ${this.viewOnly}`
     );
@@ -99,10 +102,11 @@ export class AddFollowupsComponent implements OnInit, OnDestroy {
     // 6) The actual payload
     const formValue = this.addFollowupsForm.value;
 
-    console.log('arwaa', formValue[0]);
+    console.log('arwaa', this.communicationIdParam);
     const data: Partial<Followup> = {
-      communicationId: Number(this.route.snapshot.paramMap.get('communicationId')),
+      communicationId: this.communicationIdParam,
       details: formValue.details,
+      topic: formValue.topic,
       date: formValue.date,
     };
 
@@ -122,6 +126,7 @@ export class AddFollowupsComponent implements OnInit, OnDestroy {
         id: this.recordId,
         communicationId: this.parentClientId,
         details: formValue.details,
+        topic: formValue.topic,
         date: formValue.date
       };
 
@@ -136,9 +141,9 @@ export class AddFollowupsComponent implements OnInit, OnDestroy {
     }
     console.log('route', this.route.snapshot);
 
-    console.log('➡️ Navigating back with PATH param:', communicationIdParam);
-    if (communicationIdParam) {
-      this.router.navigate(['/communication/view-follow-ups', communicationIdParam]);
+    console.log('➡️ Navigating back with PATH param:', this.communicationIdParam);
+    if (this.communicationIdParam) {
+      this.router.navigate(['/communication/view-follow-ups', this.communicationIdParam]);
     } else {
       console.error('❌ Cannot navigate back: communicationId is missing!');
     }

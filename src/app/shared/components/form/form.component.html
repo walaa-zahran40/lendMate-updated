@@ -12363,9 +12363,16 @@
       (ngSubmit)="onSubmit()"
       [formGroup]="formGroup"
     >
-      <label for="date">Date<sup>*</sup></label>
-      <shared-date-picker formControlName="date" inputId="date">
-      </shared-date-picker>
+  
+    <!-- Topic -->
+      <label for="topic">Topic <sup class="danger">*</sup></label>
+      <input
+        pInputText
+        id="topic"
+        placeholder="Topic"
+        formControlName="topic"
+      />
+      
       <div class="d-flex flex-column">
         <label for="details">Follow Up Details</label>
         <div>
@@ -12377,7 +12384,9 @@
           ></textarea>
         </div>
       </div>
-
+    <label for="date">Date<sup>*</sup></label>
+      <shared-date-picker formControlName="date" inputId="date">
+      </shared-date-picker>
       <div class="row justify-end">
         <div
           class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 addressTypesDiv"
