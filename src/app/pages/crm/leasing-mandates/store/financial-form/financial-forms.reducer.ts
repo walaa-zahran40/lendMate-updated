@@ -92,7 +92,32 @@ export const reducer = createReducer(
   on(FinancialFormActions.clearSelectedFinancialForm, (state) => ({
     ...state,
     loadedId: null,
-  }))
+  })),
+  // ─── Calculate Success ──────────────────────────────────────────────────
+  on(FinancialFormActions.calculateEntitySuccess, (state, { entity }) => {
+    const mandateId = entity.leasingMandateId!;
+    const rows = entity.payments ?? []; // ← your API’s array
+    return {
+      ...state,
+      calculatedRowsByMandate: {
+        ...state.calculatedRowsByMandate,
+        [mandateId]: rows,
+      },
+    };
+  }),
+
+  // ─── Create Success ─────────────────────────────────────────────────────
+  on(FinancialFormActions.createEntitySuccess, (state, { entity }) => {
+    const mandateId = entity.leasingMandateId!;
+    const rows = entity.payments ?? []; // ← same array on create
+    return {
+      ...state,
+      calculatedRowsByMandate: {
+        ...state.calculatedRowsByMandate,
+        [mandateId]: rows,
+      },
+    };
+  })
 );
 
 export const { selectAll, selectEntities, selectIds, selectTotal } =

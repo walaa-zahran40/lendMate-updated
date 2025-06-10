@@ -50,6 +50,6 @@ export const selectCalculatedRowsByMandateMap = createSelector(
 );
 export const selectCalculatedRowsForId = (mandateId: number) =>
   createSelector(
-    selectCalculatedRowsByMandateMap,
-    (map) => map[mandateId] || []
+    selectFeature,
+    (state) => state.calculatedRowsByMandate[mandateId] || []
   );

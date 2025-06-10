@@ -1,6 +1,6 @@
 import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { combineLatest, map, Observable, Subject, takeUntil, tap } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { loadAll } from '../../../../../lookups/store/payment-periods/payment-periods.actions';
@@ -62,7 +62,6 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
   @ViewChild('tableRef') tableRef!: TableComponent;
   private destroy$ = new Subject<void>();
   leasingMandateId: any;
-  private LOCAL_STORAGE_KEY_PREFIX = 'leasingFinancialForm:'; // prefix for localStorage keys
 
   readonly colsInside = [
     { field: 'paymentNumber', header: 'Payment Number' },
@@ -101,12 +100,6 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
     private store: Store
   ) {}
   ngOnInit() {
-    // 0) Determine current mandate ID from route
-    this.currentMandateId = +this.route.snapshot.params['leasingMandatesId'];
-
-    // 1) Try to restore from localStorage so that forms & table rehydrate immediately
-    this.loadFromLocalStorage(this.currentMandateId);
-
     this.facade.loadByLeasingMandateId(this.routeId);
     //Build Forms
     this.initializeLeasingFinancialBasicForm();
@@ -194,13 +187,9 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
       .select(selectCalculatedRowsForId(this.currentMandateId))
       .pipe(takeUntil(this.destroy$))
       .subscribe((rows: Calculation[]) => {
-        // If this mandate already has rows (from a previous Calculate or Submit+refresh),
-        // populate the in-memory arrays so the table re-renders.
-        if (rows && rows.length > 0) {
-          this.tableDataInside = [...rows];
-          this.originalFinancialForms = [...rows];
-          this.filteredFinancialForms = [...rows];
-        }
+        this.tableDataInside = [...rows];
+        this.originalFinancialForms = [...rows];
+        this.filteredFinancialForms = [...rows];
       });
   }
   ngOnDestroy() {
@@ -703,7 +692,6 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
     this.updateProvisionPercent();
     this.updateProvisionAmount();
     this.updateRvAmount();
-    this.buildTableData();
     // 2) Build a single payload object conforming to FinancialForm
     const basic = this.leasingFinancialBasicForm.value;
     const rate = this.leasingFinancialRateForm.value;
@@ -834,9 +822,6 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
     };
     this.facade.create(formData);
     console.log('Submitting form data:', formData);
-    // 2) Immediately save all three form values + tableDataInside to localStorage:
-    const mandateId = +this.route.snapshot.params['leasingMandatesId'];
-    this.saveToLocalStorage(mandateId);
   }
   // inside LeasingFinancialFormCompoundComponent (after onSubmitAll)
   get sumOfInterest(): number {
@@ -855,30 +840,6 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
     return this.tableDataInside
       .map((row) => row.insuranceRate || 0)
       .reduce((acc, cur) => acc + cur, 0);
-  }
-  private buildTableData(): void {
-    // 1) Read raw form values
-    const basic = this.leasingFinancialBasicForm.value;
-    const rate = this.leasingFinancialRateForm.value;
-    const currency = this.leasingFinancialCurrencyForm.value;
-    const newRow = {
-      paymentNumber: this.tableDataInside.length + 1,
-      dueDate: basic.startDate,
-      balanceBefore: basic.assetCost,
-      balanceAfter: basic.assetCost - basic.downPayment,
-      interest:
-        (basic.assetCost - basic.downPayment) * (rate.interestRate / 100 / 12),
-      principal: basic.downPayment,
-      installment: currency.rent,
-      insuranceRate: rate.insuranceRate,
-    };
-    // 2) Construct an array of rows (e.g. amortization schedule, summary, etc.)
-    //    This is just an example; replace with your own logic.
-    this.tableDataInside.push(newRow);
-
-    // 3) Copy into “original” and “filtered” for the table
-    this.originalFinancialForms = this.tableDataInside;
-    this.filteredFinancialForms = [...this.tableDataInside];
   }
 
   onSearch(keyword: string) {
@@ -922,65 +883,4 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
    * Saves the current forms + table rows into localStorage under
    * "leasingFinancialForm:<mandateId>".
    */
-  private saveToLocalStorage(mandateId: number) {
-    // 1) Grab all three form values as raw JS objects
-    const basic = this.leasingFinancialBasicForm.getRawValue();
-    const rate = this.leasingFinancialRateForm.getRawValue();
-    const currency = this.leasingFinancialCurrencyForm.getRawValue();
-
-    // 2) Grab the amortization rows
-    const rows = this.tableDataInside;
-
-    // 3) Build a single object and JSON.stringify it
-    const toSave = {
-      basic,
-      rate,
-      currency,
-      rows,
-    };
-
-    try {
-      localStorage.setItem(
-        `${this.LOCAL_STORAGE_KEY_PREFIX}${mandateId}`,
-        JSON.stringify(toSave)
-      );
-      console.log('🔒 Saved data to localStorage for mandate', mandateId);
-    } catch (e) {
-      console.warn(
-        '⚠️ Failed to save leasing financial form to localStorage:',
-        e
-      );
-    }
-  }
-  /**
-   * Attempts to load from localStorage under "leasingFinancialForm:<mandateId>".
-   * If found, patch all three sub-forms (without emitting events) and populate tableDataInside.
-   */
-  private loadFromLocalStorage(mandateId: number) {
-    const raw = localStorage.getItem(
-      `${this.LOCAL_STORAGE_KEY_PREFIX}${mandateId}`
-    );
-    if (!raw) {
-      return;
-    }
-
-    try {
-      const { basic, rate, currency, rows } = JSON.parse(raw);
-      // Patch each form (emitEvent: false so we don’t re-trigger valueChanges listeners):
-      this.leasingFinancialBasicForm.patchValue(basic, { emitEvent: false });
-      this.leasingFinancialRateForm.patchValue(rate, { emitEvent: false });
-      this.leasingFinancialCurrencyForm.patchValue(currency, {
-        emitEvent: false,
-      });
-
-      // Populate the table
-      this.tableDataInside = Array.isArray(rows) ? rows : [];
-      this.originalFinancialForms = [...this.tableDataInside];
-      this.filteredFinancialForms = [...this.tableDataInside];
-
-      console.log('🔄 Restored data from localStorage for mandate', mandateId);
-    } catch (e) {
-      console.warn('⚠️ Could not parse saved data for mandate', mandateId, e);
-    }
-  }
 }

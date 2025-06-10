@@ -18,6 +18,7 @@ export interface FinancialForm {
   provisionAmount?: number; // provision absolute
   provisionPercent?: number; // provision percentage
   reservePaymentAmount?: number; // reserve payment absolute
+  payments?: any;
   reservePaymentCount?: number; // reserve payment installments
   currencyId?: number; // lookup key
   currencyExchangeRateId?: number; // lookup key
