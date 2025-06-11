@@ -9,7 +9,7 @@
 <p-tabs value="0" styleClass="p-3">
   <p-tabpanels>
     <p-tabpanel value="0">
-      <app-form
+      <app-add-client-guarantors-form
         *ngIf="addClientGuarantorsLookupsForm"
         [title]="'Client Guarantor'"
         [description]="
@@ -22,7 +22,7 @@
         [clientsList]="clientsList$ | async"
         [addClientGuarantorsLookupsForm]="true"
       >
-      </app-form>
+      </app-add-client-guarantors-form>
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>
