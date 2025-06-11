@@ -44,7 +44,11 @@
       [resizable]="false"
       (onHide)="hideDialog()"
     >
-      <app-notification></app-notification>
-    </p-dialog>
+    
+    <app-notification></app-notification>
+  </p-dialog>
+  <span *ngIf="loginDisplay" class="btn btn-secondary" (click)="logout()"
+    ><i class="pi pi-sign-out" pTooltip="Sign Out"></i
+  ></span>
   </ng-template>
 </p-toolbar>

@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuToggleService } from '../../services/menu-toggle.service';
+import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
+import { PermissionService } from '../../../pages/login/store/permission.service';
+import { filter, takeUntil } from 'rxjs/operators';
+import { InteractionStatus } from '@azure/msal-browser';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -9,12 +14,31 @@ import { MenuToggleService } from '../../services/menu-toggle.service';
 })
 export class NavBarComponent implements OnInit {
   checked = true;
+  loginDisplay = false;
   darkMode: boolean = false;
   displayPopup = false;
 
-  constructor(private menuToggleService: MenuToggleService) {}
+  constructor(private menuToggleService: MenuToggleService,
+    private authService: MsalService,
+    private permissionService: PermissionService,
+    private msalBroadcastService: MsalBroadcastService,
+    private cookieService: CookieService
+  ) {}
   ngOnInit() {
     this.darkMode = false;
+     this.msalBroadcastService.inProgress$
+      .pipe(
+        filter(
+          (status: InteractionStatus) => status === InteractionStatus.None
+        ),
+      )
+      .subscribe(() => {
+        this.setLoginDisplay();
+      });
+  }
+
+  setLoginDisplay() {
+    this.loginDisplay = this.authService.instance.getAllAccounts().length > 0;
   }
   toggleMenu() {
     this.menuToggleService.toggleMenu();
@@ -37,5 +61,15 @@ export class NavBarComponent implements OnInit {
     this.darkMode = isDark;
 
     document.body.classList.toggle('dark-theme', isDark);
+  }
+
+   logout() {
+    this.authService.logoutRedirect({
+      postLogoutRedirectUri: '/',
+    });
+    this.permissionService.clearPermissions();
+    this.cookieService.delete('authToken');
+    this.cookieService.delete('username');
+    this.cookieService.delete('role');
   }
 }
