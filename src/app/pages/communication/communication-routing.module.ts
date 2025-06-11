@@ -43,7 +43,7 @@ const routes: Routes = [
     component: ViewFollowupsComponent,
   },
   {
-    path: 'wizard-followups/:communicationId/:callId',
+    path: 'wizard-followups/:followupId/:communicationId',
     component: WizardFollowupsComponent,
   },
   {

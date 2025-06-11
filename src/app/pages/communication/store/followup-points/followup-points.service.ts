@@ -53,10 +53,10 @@ export class FollowupPointsService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.api}/${id}`);
   }
-  getByCommunicationId(communicationId: number): Observable<FollowupPoint[]> {
+  getByCommunicationId(followupId: number): Observable<FollowupPoint[]> {
   return this.http.get<FollowupPoint[]>(
-    `${this.api}/communicationId`,
-    { params: { communicationId: communicationId.toString() } }
+    `${this.api}/followupId`,
+    { params: { followupId: followupId.toString() } }
   );
 }
 }

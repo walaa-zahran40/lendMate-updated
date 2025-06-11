@@ -26,7 +26,7 @@ export class AddFollowupPointsComponent implements OnInit, OnDestroy {
   raw!: number;
   private destroy$ = new Subject<void>();
 
-  communicationIdParam!: number; 
+  followupIdParam!: number; 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -42,24 +42,25 @@ export class AddFollowupPointsComponent implements OnInit, OnDestroy {
 
     // Read IDs
     this.parentClientId = Number(
-      this.route.snapshot.queryParamMap.get('communicationId')
+      this.route.snapshot.queryParamMap.get('followupId')
     );
     if (this.editMode || this.viewOnly) {
       console.log('route add', this.route.snapshot);
-      this.recordId = Number(this.route.snapshot.params['communicationId']);
+      this.recordId = Number(this.route.snapshot.params['followupId']);
       this.raw = Number(this.route.snapshot.params['id']);
       this.followupFacade.loadOne(this.raw);
     }
 
-    // Build form with communicationId
+    // Build form with followupId
     this.addFollowupPointsForm = this.fb.group({
       topic: [' ', Validators.required],
       details: [' ', Validators.required],
+      dueDate: [null, Validators.required],
       date: [null, Validators.required],
     });
 
     this.addFollowupPointsForm.patchValue({
-      communicationId: this.route.snapshot.queryParamMap.get('communicationId'),
+      followupId: this.route.snapshot.queryParamMap.get('followupId'),
     });
 
     // Patch for edit/view mode
@@ -72,10 +73,10 @@ export class AddFollowupPointsComponent implements OnInit, OnDestroy {
         .subscribe((rec) => {
           this.addFollowupPointsForm.patchValue({
             id: this.raw,
-            communicationId: this.route.snapshot.queryParamMap.get('communicationId'),
+            followupId: this.route.snapshot.queryParamMap.get('followupId'),
             topic: rec.topic,
             details: rec.details,
-            date: rec.date,
+            dueDate: rec.dueDate,
           });
         });
     }
@@ -83,8 +84,8 @@ export class AddFollowupPointsComponent implements OnInit, OnDestroy {
 
   addOrEditFollowupPoint() {
     console.log('🛣️ Route snapshot:', this.route.snapshot);
-    this.communicationIdParam = Number(this.route.snapshot.queryParamMap.get('communicationId'));
-    console.log(`🔍 QueryParams → communicationId = ${this.communicationIdParam}`);
+    this.followupIdParam = Number(this.route.snapshot.queryParamMap.get('followupId'));
+    console.log(`🔍 QueryParams → followupId = ${this.followupIdParam}`);
     console.log(
       `⚙️ mode = ${this.mode}, editMode = ${this.editMode}, viewOnly = ${this.viewOnly}`
     );
@@ -104,12 +105,12 @@ export class AddFollowupPointsComponent implements OnInit, OnDestroy {
     // 6) The actual payload
     const formValue = this.addFollowupPointsForm.value;
 
-    console.log('arwaa', this.communicationIdParam);
+    console.log('arwaa', this.followupIdParam);
     const data: Partial<FollowupPoint> = {
-      communicationId: this.communicationIdParam,
+      followUpId: this.followupIdParam,
       details: formValue.details,
       topic: formValue.topic,
-      date: formValue.date,
+      dueDate: formValue.dueDate,
     };
 
     console.log(
@@ -126,10 +127,15 @@ export class AddFollowupPointsComponent implements OnInit, OnDestroy {
 
       const updateData: FollowupPoint = {
         id: this.raw,
-        communicationId: this.parentClientId,
+        followUpId: this.parentClientId,
         details: formValue.details,
         topic: formValue.topic,
-        date: formValue.date
+        dueDate: formValue.dueDate,
+        officerId: 0,
+        contactPersonId: 0,
+        comments: '',
+        isDone: true,
+        isClientResponsibility: true
       };
 
       console.log(
@@ -143,11 +149,11 @@ export class AddFollowupPointsComponent implements OnInit, OnDestroy {
     }
     console.log('route', this.route.snapshot);
 
-    console.log('➡️ Navigating back with PATH param:', this.communicationIdParam);
-    if (this.communicationIdParam) {
-      this.router.navigate(['/communication/view-follow-up-points', this.communicationIdParam]);
+    console.log('➡️ Navigating back with PATH param:', this.followupIdParam);
+    if (this.followupIdParam) {
+      this.router.navigate(['/followup/view-follow-up-points', this.followupIdParam]);
     } else {
-      console.error('❌ Cannot navigate back: communicationId is missing!');
+      console.error('❌ Cannot navigate back: followupId is missing!');
     }
   }
 

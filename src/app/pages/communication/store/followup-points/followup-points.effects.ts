@@ -111,7 +111,7 @@ export class FollowupPointsEffects {
             // force-inject communicationId if missing
             const enriched: FollowupPoint = {
               ...serverReturned,
-              communicationId: data.communicationId!,
+              followUpId: data.followUpId!,
             };
             console.log('[Effect:update] enriched communication →', enriched);
             return FollowupPointActions.updateFollowupPointSuccess(
@@ -169,7 +169,7 @@ export class FollowupPointsEffects {
       // pull out the right number
       map((action) => {
         const Id =
-          'communication' in action ? action.communication.communicationId : action.communicationId;
+          'communication' in action ? action.communication.followUpId : action.communicationId;
         console.log('[RefreshList] extracted communicationId →', Id);
         return Id;
       }),

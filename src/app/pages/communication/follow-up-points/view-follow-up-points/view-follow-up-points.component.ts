@@ -24,7 +24,8 @@ export class ViewFollowupPointsComponent implements OnInit, OnDestroy {
   readonly colsInside = [
     { field: 'topic', header: 'Topic' },
     { field: 'details', header: 'Details' },
-    { field: 'date', header: 'Date' },
+    { field: 'dueDate', header: 'Due Date' },
+    { field: 'actualDate', header: 'Actual Date' },
   ];
 
   showDeleteModal = false;
@@ -132,20 +133,20 @@ export class ViewFollowupPointsComponent implements OnInit, OnDestroy {
   }
 
   onEditFollowupPoint(followup: FollowupPoint) {
-    this.router.navigate(['communication/edit-follow-ups', followup.id, followup.communicationId], {
+    this.router.navigate(['communication/edit-follow-ups', followup.id], {
       queryParams: {
         mode: 'edit',
-        communicationId: this.communicationIdParam, // <-- use "communicationId" here
+        followupId: followup.id // <-- use "communicationId" here
       },
     });
   }
 
   onViewFollowupPoint(followup: FollowupPoint) {
     console.log('route', this.route.snapshot);
-    this.router.navigate(['communication/edit-follow-ups', followup.id , followup.communicationId], {
+    this.router.navigate(['communication/edit-follow-ups', followup.id], {
       queryParams: {
         mode: 'view',
-        communicationId: this.communicationIdParam, // <-- and here
+        followupId: followup.id
       },
     });
   }

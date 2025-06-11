@@ -1,8 +1,16 @@
 export interface FollowupPoint {
   id: number;
-  communicationId: number;
-  communication?: any;
+  followUpId: number;
+  followUp?: any;
+  officerId: number;
+  officer?: any;
+  contactPersonId: number;
+  contactPerson?: any;
   topic: string;
   details: string;
-  date?: Date;
+  comments: string;
+  dueDate?: Date;
+  actualDate?: Date;
+  isDone : Boolean; 
+  isClientResponsibility : Boolean; 
 }

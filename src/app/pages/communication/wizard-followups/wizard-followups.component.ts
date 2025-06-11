@@ -13,6 +13,7 @@ export class WizardFollowupsComponent {
   cards: any[] = [];
   originalCards: any[] = [];
   routeId = this.route.snapshot.params['id'];
+  followupId = this.route.snapshot.params['followupId'];
   callId = this.route.snapshot.params['callId'];
   communicationId = this.route.snapshot.params['communicationId'];
 
@@ -22,7 +23,7 @@ export class WizardFollowupsComponent {
     private facade: CallsFacade
   ) {}
   ngOnInit(): void {
-    console.log('thirs', this.route.snapshot);
+    console.log('this', this.route.snapshot);
     this.buildCards();
   }
   private buildCards() {
@@ -34,7 +35,7 @@ export class WizardFollowupsComponent {
         title: 'Follow Up Points',
         content:
           'Introduce your company core info quickly to users by fill up company details',
-        link: `communication/view-follow-up-points/${this.callId}/${this.routeId}/${communicationId}`,
+        link: `communication/view-follow-up-points/${this.followupId}/${communicationId}`,
       },
     ];
     this.cards = this.chunkArray(this.originalCards, 3);
