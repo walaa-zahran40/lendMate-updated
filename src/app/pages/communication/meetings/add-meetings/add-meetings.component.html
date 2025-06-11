@@ -1,12 +1,13 @@
 <app-toolbar-form
-  [header]="'Follow Ups'"
+  [header]="'Meetings'"
   [backExists]="true"
+  [backIcon]="'back-icon'"
   [viewOnly]="false"
 ></app-toolbar-form>
 <p-tabs value="0" styleClass="p-3">
   <p-tabpanels>
     <p-tabpanel value="0">
-      <app-form
+      <app-add-meetings-form
         [title]="'Main Information'"
         [description]="'Meeting'"
         [addMeetingForm]="true"
@@ -28,7 +29,7 @@
         (addCommunicationOfficer)="addCommunicationOfficer()"
         (removeCommunicationAssetType)="removeCommunicationAssetType($event)"
         (addCommunicationAssetType)="addCommunicationAssetType()"
-      ></app-form>
+      ></app-add-meetings-form>
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>

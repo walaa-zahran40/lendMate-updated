@@ -5,7 +5,7 @@ import { ButtonModule } from 'primeng/button';
 import { TabsModule } from 'primeng/tabs';
 import { SharedModule } from '../../shared/shared.module';
 import { AddFollowupsComponent } from './follow-ups/add-follow-ups/add-follow-ups.component';
-import { WizardComponent } from './meetings/wizard/wizard.component';
+import { WizardComponent } from './wizard/wizard.component';
 import { ViewFollowupsComponent } from './follow-ups/view-follow-ups/view-follow-ups.component';
 import { SaveMeetingComponent } from './meetings/save-meeting/save-meeting.component';
 import { FullCalendarModule } from '@fullcalendar/angular';

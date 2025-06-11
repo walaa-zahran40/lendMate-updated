@@ -64,6 +64,7 @@ import { AddLegalFormLawsComponent } from './form/add-legal-form-laws/add-legal-
 import { AddLegalFormsComponent } from './form/add-legal-forms/add-legal-forms.component';
 import { AddCallFormComponent } from './form/add-call-form/add-call-form.component';
 import { AddFollowupsFormComponent } from './form/add-followups-form/add-followups-form.component';
+import { AddMeetingsFormComponent } from './form/add-meetings-form/add-meetings-form.component';
 
 @NgModule({
   declarations: [
@@ -86,6 +87,7 @@ import { AddFollowupsFormComponent } from './form/add-followups-form/add-followu
     AddLegalFormsComponent,
     AddCallFormComponent,
     AddFollowupsFormComponent,
+    AddMeetingsFormComponent,
   ],
   imports: [
     CommonModule,
@@ -157,6 +159,7 @@ import { AddFollowupsFormComponent } from './form/add-followups-form/add-followu
     AddLegalFormsComponent,
     AddCallFormComponent,
     AddFollowupsFormComponent,
+    AddMeetingsFormComponent,
   ],
 })
 export class ComponentsModule {}

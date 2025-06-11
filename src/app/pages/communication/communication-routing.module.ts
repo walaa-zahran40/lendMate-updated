@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddFollowupsComponent } from './follow-ups/add-follow-ups/add-follow-ups.component';
-import { WizardComponent } from './meetings/wizard/wizard.component';
+import { WizardComponent } from './wizard/wizard.component';
 import { SaveMeetingComponent } from './meetings/save-meeting/save-meeting.component';
 import { ViewAssetTypeCategoriesComponent } from '../lookups/components/asset-type-categories/view-asset-type-categories/view-asset-type-categories.component';
 import { AddCallsComponent } from './calls/add-calls/add-calls.component';
