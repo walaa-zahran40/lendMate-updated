@@ -36,6 +36,7 @@ import { ViewFollowupPointsComponent } from './follow-up-points/view-follow-up-p
 import { followupPointsReducer } from './store/followup-points/followup-points.reducer';
 import { FollowupPointsEffects } from './store/followup-points/followup-points.effects';
 import { WizardFollowupsComponent } from './wizard-followups/wizard-followups.component';
+import { WizardMeetingComponent } from './meetings/wizard-meeting/wizard-meeting.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { WizardFollowupsComponent } from './wizard-followups/wizard-followups.co
     SaveMeetingComponent,
     ViewMonitorFollowupsComponent,
     WizardCommunicationComponent,
-    WizardFollowupsComponent,
+    WizardMeetingComponent,
+    WizardFollowupsComponent
   ],
   imports: [
     CommonModule,

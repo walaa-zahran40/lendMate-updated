@@ -18,6 +18,7 @@ import { ViewFollowupsComponent } from './follow-ups/view-follow-ups/view-follow
 import { ViewFollowupPointsComponent } from './follow-up-points/view-follow-up-points/view-follow-up-points.component';
 import { AddFollowupPointsComponent } from './follow-up-points/add-follow-up-points/add-follow-up-points.component';
 import { WizardFollowupsComponent } from './wizard-followups/wizard-followups.component';
+import { WizardMeetingComponent } from './meetings/wizard-meeting/wizard-meeting.component';
 
 const routes: Routes = [
   //Calls
@@ -37,6 +38,11 @@ const routes: Routes = [
   {
     path: 'wizard-communication/:id',
     component: WizardCommunicationComponent,
+  },
+
+    {
+    path: 'wizard-meeting/:id',
+    component: WizardMeetingComponent,
   },
   {
     path: 'view-follow-ups/:communicationId',
