@@ -9,7 +9,7 @@
 <p-tabs value="0" styleClass="p-3">
   <p-tabpanels>
     <p-tabpanel value="0">
-      <app-form
+      <app-add-client-legals-form
         *ngIf="addClientLegalsLookupsForm"
         [title]="'Client  Legal'"
         [description]="
@@ -22,7 +22,7 @@
         [viewOnly]="viewOnly"
         [legalFormLawsList]="legalFormLawsList$ | async"
         [legalFormsList]="legalFormsList$ | async"
-      ></app-form>
+      ></app-add-client-legals-form>
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>

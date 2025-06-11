@@ -323,7 +323,6 @@
       class="custom-view m-0 float-right"
     />-->
 
-   
     <!-- <p-button
       *ngIf="addTaxAuthorityOfficeShowMain"
       label="View Tax Authority"
@@ -342,20 +341,10 @@
       label="View Client TML Officers"
       (click)="viewTMLOfficer()"
       class="custom-view m-0 float-right"
-    />
-    <p-button
-      *ngIf="addClientOfficerShowMain"
-      label="View Client Officers"
-      (click)="viewClientOfficer()"
-      class="custom-view m-0 float-right"
-    />
-    <p-button
-      *ngIf="addClientLegalShowMain"
-      label="View Client Legals"
-      (click)="viewClientLegal()"
-      class="custom-view m-0 float-right"
-    />
-    <p-button
+    />-->
+
+    <!--
+   <p-button
       *ngIf="addMandateShowOfficersForm"
       label="View Officers"
       (click)="viewOfficers()"
@@ -4683,7 +4672,6 @@
       </div>
     </form>
 
- 
     <form
       *ngIf="addMandateAdditionalTermForm"
       (ngSubmit)="onSubmit()"
@@ -5030,194 +5018,6 @@
             label="Close"
             class="custom-save m-0 float-right"
             (click)="router.navigate([`/crm/clients/view-client-tml-officers/${this.clientIdParam}`])"
-          />
-        </div>
-      </div>
-    </form>
-
-    <form
-      [formGroup]="formGroup"
-      *ngIf="addClientOfficerShowMain"
-      (ngSubmit)="onSubmit()"
-    >
-      <label for="detailes">Details in English<sup>*</sup></label>
-      <input
-        pInputText
-        id="detailes"
-        formControlName="detailes"
-        placeholder="Details in English"
-      />
-      <div
-        *ngIf="
-          formGroup.get('detailes')?.hasError('required') &&
-          formGroup.get('detailes')?.touched
-        "
-        class="p-error"
-      >
-        Details in English is required.
-      </div>
-      <label for="detailesAR">Details in Arabic<sup>*</sup></label>
-      <input
-        pInputText
-        id="detailesAR"
-        formControlName="detailesAR"
-        placeholder="Details in Arabic"
-      />
-      <div
-        *ngIf="
-          formGroup.get('detailesAR')?.hasError('required') &&
-          formGroup.get('detailesAR')?.touched
-        "
-        class="p-error"
-      >
-        Details in Arabic is required.
-      </div>
-      <label for="officerId">Officer Name<sup>*</sup></label>
-      <p-select
-        [options]="officersList"
-        optionLabel="name"
-        placeholder="Select Officer Name"
-        formControlName="officerId"
-        optionValue="id"
-        required
-        [ngClass]="{
-          'ng-invalid':
-            formGroup.get('officerId')?.invalid &&
-            (formGroup.get('officerId')?.dirty ||
-              formGroup.get('officerId')?.touched)
-        }"
-      />
-      <label for="clientOfficerTypeId">Client Officer Type<sup>*</sup></label>
-      <p-select
-        [options]="clientOfficerTypesList"
-        optionLabel="name"
-        placeholder="Select Client Officer Type"
-        formControlName="clientOfficerTypeId"
-        optionValue="id"
-        required
-        [ngClass]="{
-          'ng-invalid':
-            formGroup.get('clientOfficerTypeId')?.invalid &&
-            (formGroup.get('clientOfficerTypeId')?.dirty ||
-              formGroup.get('clientOfficerTypeId')?.touched)
-        }"
-      />
-      <div class="p-field">
-        <p-toggleSwitch
-          id="isMain"
-          formControlName="isMain"
-          label="is Main"
-        ></p-toggleSwitch>
-        <label for="isMain"> is Main</label>
-      </div>
-      <div class="row justify-end">
-        <div
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
-          *ngIf="!editMode && !viewOnly"
-        >
-          <p-button
-            type="submit"
-            label="Add Client Officer"
-            [disabled]="formGroup.invalid"
-            class="custom-save m-0 float-right"
-          ></p-button>
-        </div>
-        <div
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
-          *ngIf="editMode && !viewOnly"
-        >
-          <p-button
-            type="submit"
-            label="Edit Client Officer"
-            class="custom-save m-0 float-right"
-          ></p-button>
-        </div>
-        <div
-          *ngIf="viewOnly"
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
-        >
-          <p-button
-            label="Close"
-            class="custom-save m-0 float-right"
-            (click)="router.navigate([`/crm/clients/view-client-officers/${this.clientIdParam}`])"
-          />
-        </div>
-      </div>
-    </form>
-
-    <form
-      [formGroup]="formGroup"
-      *ngIf="addClientLegalShowMain"
-      (ngSubmit)="onSubmit()"
-    >
-      <label for="legalFormId">Legal Form<sup>*</sup></label>
-      <p-select
-        [options]="legalFormsList"
-        optionLabel="name"
-        placeholder="Select Legal Form"
-        formControlName="legalFormId"
-        optionValue="id"
-        required
-        [ngClass]="{
-          'ng-invalid':
-            formGroup.get('legalFormId')?.invalid &&
-            (formGroup.get('legalFormId')?.dirty ||
-              formGroup.get('legalFormId')?.touched)
-        }"
-      />
-      <label for="legalFormLawId">Legal Form Law<sup>*</sup></label>
-      <p-select
-        [options]="legalFormLawsList"
-        optionLabel="name"
-        placeholder="Select Legal Form Law"
-        formControlName="legalFormLawId"
-        optionValue="id"
-        required
-        [ngClass]="{
-          'ng-invalid':
-            formGroup.get('legalFormLawId')?.invalid &&
-            (formGroup.get('legalFormLawId')?.dirty ||
-              formGroup.get('legalFormLawId')?.touched)
-        }"
-      />
-      <div class="p-field">
-        <p-toggleSwitch
-          id="isStampDuty"
-          formControlName="isStampDuty"
-          label="is Stamp Duty"
-        ></p-toggleSwitch>
-        <label for="isStampDuty"> is Stamp Duty</label>
-      </div>
-      <div class="row justify-end">
-        <div
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
-          *ngIf="!editMode && !viewOnly"
-        >
-          <p-button
-            type="submit"
-            label="Add Client Legal"
-            [disabled]="formGroup.invalid"
-            class="custom-save m-0 float-right"
-          ></p-button>
-        </div>
-        <div
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
-          *ngIf="editMode && !viewOnly"
-        >
-          <p-button
-            type="submit"
-            label="Edit Client Legal"
-            class="custom-save m-0 float-right"
-          ></p-button>
-        </div>
-        <div
-          *ngIf="viewOnly"
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
-        >
-          <p-button
-            label="Close"
-            class="custom-save m-0 float-right"
-            (click)="router.navigate([`/crm/clients/view-client-legals/${this.clientIdParam}`])"
           />
         </div>
       </div>
