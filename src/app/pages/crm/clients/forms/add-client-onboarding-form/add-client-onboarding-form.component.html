@@ -14,135 +14,223 @@
   </div>
   <div class="div2" [ngClass]="{ span: applyReusable }">
     <form
+      class="div2"
+      [ngClass]="{ span: applyReusable }"
       [formGroup]="formGroup"
-      *ngIf="addClientAddressesLookupsForm"
-      (ngSubmit)="onSubmit()"
     >
-      <label for="addressTypeId">Address Type<sup>*</sup></label>
-      <p-select
-        [options]="addressTypesList"
-        optionLabel="name"
-        placeholder="Select Address Type"
-        formControlName="addressTypeId"
-        optionValue="id"
-        required
-        [ngClass]="{
-          'ng-invalid':
-            formGroup.get('addressTypeId')?.invalid &&
-            (formGroup.get('addressTypeId')?.dirty ||
-              formGroup.get('addressTypeId')?.touched)
-        }"
-      />
-      <label for="countryId">Country<sup>*</sup></label>
-      <p-select
-        [options]="countriesList"
-        optionLabel="name"
-        placeholder="Select Country"
-        formControlName="countryId"
-        optionValue="id"
-        required
-        [ngClass]="{
-          'ng-invalid':
-            formGroup.get('countryId')?.invalid &&
-            (formGroup.get('countryId')?.dirty ||
-              formGroup.get('countryId')?.touched)
-        }"
-      />
-      <label for="governorateId">Governorate<sup>*</sup></label>
-      <p-select
-        [options]="governoratesList"
-        optionLabel="name"
-        placeholder="Select governorate"
-        formControlName="governorateId"
-        optionValue="id"
-        required
-        [ngClass]="{
-          'ng-invalid':
-            formGroup.get('governorateId')?.invalid &&
-            (formGroup.get('governorateId')?.dirty ||
-              formGroup.get('governorateId')?.touched)
-        }"
-      />
-      <label for="areaId">Area<sup>*</sup></label>
-      <p-select
-        [options]="areasList"
-        optionLabel="name"
-        placeholder="Select Area"
-        formControlName="areaId"
-        optionValue="id"
-        required
-        [ngClass]="{
-          'ng-invalid':
-            formGroup.get('areaId')?.invalid &&
-            (formGroup.get('areaId')?.dirty || formGroup.get('areaId')?.touched)
-        }"
-      />
-      <label for="details">Details in English<sup>*</sup></label>
-      <input
-        pInputText
-        id="details"
-        formControlName="details"
-        placeholder="Details in English"
-      />
-      <div
-        *ngIf="
-          formGroup.get('details')?.hasError('required') &&
-          formGroup.get('details')?.touched
-        "
-        class="p-error"
-      >
-        Details in English is required.
-      </div>
-      <label for="detailsAR">Details in Arabic<sup>*</sup></label>
-      <input
-        pInputText
-        id="detailsAR"
-        formControlName="detailsAR"
-        placeholder="Details in Arabic"
-      />
-      <div
-        *ngIf="
-          formGroup.get('detailsAR')?.hasError('required') &&
-          formGroup.get('detailsAR')?.touched
-        "
-        class="p-error"
-      >
-        Details in Arabic is required.
-      </div>
+      <!-- Main Info -->
+      <ng-container *ngIf="addClientOnboardingForm">
+        <!-- Name in English -->
+        <label for="name">Name in English <sup class="danger">*</sup></label>
+        <input
+          pInputText
+          name="name"
+          formControlName="name"
+          placeholder="Name in English"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              formGroup.get('name')?.invalid && formGroup.get('name')?.touched
+          }"
+        />
 
-      <div class="row justify-end">
-        <div
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
-          *ngIf="!editMode && !viewOnly"
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('name')?.hasError('required') &&
+            formGroup.get('name')?.touched
+          "
         >
-          <p-button
-            type="submit"
-            label="Add Client Addresses"
-            [disabled]="formGroup.invalid"
-            class="custom-save m-0 float-right"
-          ></p-button>
-        </div>
-        <div
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
-          *ngIf="editMode && !viewOnly"
+          Name in English is required.
+        </small>
+        <br />
+
+        <!-- Name in Arabic -->
+        <label for="nameAR">Name in Arabic <sup class="danger">*</sup></label>
+        <input
+          pInputText
+          name="nameAR"
+          formControlName="nameAR"
+          placeholder="Name in Arabic"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              formGroup.get('nameAR')?.invalid &&
+              formGroup.get('nameAR')?.touched
+          }"
+          appOnlyArabic
+        />
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('nameAR')?.hasError('required') &&
+            formGroup.get('nameAR')?.touched
+          "
         >
-          <p-button
-            type="submit"
-            label="Edit Client Addresses"
-            class="custom-save m-0 float-right"
-          ></p-button>
-        </div>
-        <div
-          *ngIf="viewOnly && !editMode"
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
+          Name in Arabic is required.
+        </small>
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('nameAR')?.hasError('nonArabic') &&
+            formGroup.get('nameAR')?.touched
+          "
         >
-          <p-button
-            label="Close"
-            class="custom-save m-0 float-right"
-            (click)="router.navigate([`/crm/clients/view-client-addresses/${this.clientIdParam}`])"
-          />
+          Only Arabic characters are allowed.
+        </small>
+        <br />
+
+        <!-- Business Activity -->
+        <label for="businessActivity"
+          >Business Activity <sup class="danger">*</sup></label
+        >
+        <input
+          pInputText
+          name="businessActivity"
+          formControlName="businessActivity"
+          placeholder="Business Activity"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              formGroup.get('businessActivity')?.invalid &&
+              formGroup.get('businessActivity')?.touched
+          }"
+        />
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('businessActivity')?.hasError('required') &&
+            formGroup.get('businessActivity')?.touched
+          "
+        >
+          Business Activity is required.
+        </small>
+        <br />
+
+        <!-- Tax ID -->
+        <label for="taxId">Tax ID <sup class="danger">*</sup></label>
+        <input
+          pInputText
+          name="taxId"
+          formControlName="taxId"
+          placeholder="Tax ID"
+          type="number"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              formGroup.get('taxId')?.invalid && formGroup.get('taxId')?.touched
+          }"
+        />
+        <div
+          *ngIf="
+            formGroup.get('taxId')?.invalid && formGroup.get('taxId')?.touched
+          "
+        >
+          <small
+            class="p-error"
+            *ngIf="
+              formGroup.get('taxId')?.hasError('required') &&
+              formGroup.get('taxId')?.touched
+            "
+          >
+            Tax ID is required.
+          </small>
+          <br />
+          <small
+            class="p-error"
+            *ngIf="
+              formGroup.get('taxId')?.hasError('nonPositiveNumeric') &&
+              formGroup.get('taxId')?.touched
+            "
+          >
+            Only positive numeric characters are allowed.
+          </small>
+          <br />
         </div>
-      </div>
+
+        <!-- Short Name -->
+        <label for="shortName">Short Name <sup class="danger">*</sup></label>
+        <input
+          pInputText
+          name="shortName"
+          formControlName="shortName"
+          placeholder="Short Name"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              formGroup.get('shortName')?.invalid &&
+              formGroup.get('shortName')?.touched
+          }"
+        />
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('shortName')?.hasError('required') &&
+            formGroup.get('shortName')?.touched
+          "
+        >
+          Short Name is required.
+        </small>
+        <br />
+        <ng-container *ngIf="sectorsSafe$ | async as sectors">
+          <!-- Sector Dropdown -->
+          <label for="sectorDropdown"
+            >Select Sector<sup class="danger">*</sup></label
+          >
+
+          <p-select
+            [options]="sectors"
+            optionLabel="name"
+            placeholder="Select Sector"
+            formControlName="sectorId"
+            optionValue="id"
+            (onChange)="onSectorChange($event)"
+            required
+            [ngClass]="{
+              'ng-invalid':
+                formGroup.get('sectorId')?.invalid &&
+                (formGroup.get('sectorId')?.dirty ||
+                  formGroup.get('sectorId')?.touched)
+            }"
+          >
+          </p-select>
+
+          <!-- Validation message -->
+          <small
+            class="p-error"
+            style="color: var(--custom-red)"
+            *ngIf="
+              formGroup.get('sectorId')?.invalid &&
+              (formGroup.get('sectorId')?.dirty ||
+                formGroup.get('sectorId')?.touched)
+            "
+          >
+            Sector is required.
+          </small>
+        </ng-container>
+        <br />
+        <!-- Sub Sector Dropdown -->
+        <label for="subSectorDropdown">
+          Select Sub Sector<sup class="danger">*</sup>
+        </label>
+        <p-multiSelect
+          [options]="subSectorsList"
+          formControlName="subSectorIdList"
+          optionLabel="name"
+          optionValue="id"
+          placeholder="Select Sub Sector"
+          display="chip"
+          (onChange)="onSubSectorChange($event)"
+        ></p-multiSelect>
+
+        <div
+          class="p-error"
+          *ngIf="
+            formGroup.get('subSectorIdList')?.invalid &&
+            (formGroup.get('subSectorIdList')?.touched ||
+              formGroup.get('subSectorIdList')?.dirty)
+          "
+        >
+          Sub Sector is required.
+        </div>
+
+        <br />
+      </ng-container>
     </form>
   </div>
 </div>

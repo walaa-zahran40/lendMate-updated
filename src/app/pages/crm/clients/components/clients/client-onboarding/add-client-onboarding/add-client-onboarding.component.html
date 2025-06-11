@@ -29,7 +29,7 @@
           <p-step-panel [value]="1">
             <ng-template #content let-activateCallback="activateCallback">
               <div class="flex flex-col">
-                <app-form
+                <app-add-client-onboarding-form
                   [formGroup]="addClientForm"
                   [title]="'Main Information'"
                   [description]="
@@ -43,7 +43,7 @@
                   [selectedSubSectorId]="selectedSubSectorId"
                   (sectorChanged)="onSectorChanged($event)"
                   [viewOnly]="viewOnly && tabValue === 0"
-                ></app-form>
+                ></app-add-client-onboarding-form>
                 <div
                   class="col-sm-6 d-flex justify-end float-right margin-top p-0 w-100"
                 >
@@ -69,7 +69,7 @@
 
     <!-- Individual Tab -->
     <p-tabpanel [value]="1">
-      <app-form
+      <app-add-client-form
         [formGroup]="addClientFormIndividual"
         [title]="'Main Information'"
         [description]="
@@ -86,7 +86,7 @@
         [identityIndividual]="identityOptions"
         [viewOnly]="viewOnly && tabValue === 1"
         [editMode]="editMode"
-      ></app-form>
+      ></app-add-client-form>
 
       <div class="row justify-end">
         <div class="col-sm-12 col-md-6 d-flex justify-end margin-top">
