@@ -1,12 +1,13 @@
 <app-toolbar-form
-  [header]="'Follow Ups'"
+  [header]="'Calls'"
   [backExists]="true"
+  [backIcon]="'back-icon'"
   [viewOnly]="false"
-></app-toolbar-form> 
+></app-toolbar-form>
 <p-tabs value="0" styleClass="p-3">
   <p-tabpanels>
     <p-tabpanel value="0">
-      <app-form
+      <app-add-call-form
         [title]="'Main Information'"
         [description]="'Call'"
         [addCallForm]="true"
@@ -20,11 +21,13 @@
         [contactPersons]="contactPersons$ | async"
         [officersList]="officers$ | async"
         [viewOnly]="viewOnly"
-        (removeCommunicationContactPerson)="removeCommunicationContactPerson($event)"
+        (removeCommunicationContactPerson)="
+          removeCommunicationContactPerson($event)
+        "
         (addCommunicationContactPerson)="addCommunicationContactPerson()"
         (removeCommunicationOfficer)="removeCommunicationOfficer($event)"
         (addCommunicationOfficer)="addCommunicationOfficer()"
-      ></app-form>
+      ></app-add-call-form>
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>
