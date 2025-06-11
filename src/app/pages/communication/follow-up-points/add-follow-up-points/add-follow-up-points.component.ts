@@ -56,6 +56,7 @@ export class AddFollowupPointsComponent implements OnInit, OnDestroy {
      this.contactPersonsFacade.loadAll(); 
     this.contactPersons$ = this.contactPersonsFacade.items$;
 
+     this.communicationIdParam = Number(this.route.snapshot.params['communicationId']);
 
     // Read IDs
     this.parentClientId = Number(
@@ -63,7 +64,7 @@ export class AddFollowupPointsComponent implements OnInit, OnDestroy {
     );
     if (this.editMode || this.viewOnly) {
       console.log('route add', this.route.snapshot);
-      this.communicationIdParam = Number(this.route.snapshot.params['communicationId']);
+     
       this.recordId = Number(this.route.snapshot.params['followupId']);
       this.raw = Number(this.route.snapshot.params['id']);
       this.followupFacade.loadOne(this.raw);
@@ -180,7 +181,7 @@ export class AddFollowupPointsComponent implements OnInit, OnDestroy {
     }
     console.log('route', this.route.snapshot);
 
-    console.log('➡️ Navigating back with PATH param:', this.followupIdParam);
+    console.log('➡️ Navigating back with PATH param:', this.communicationIdParam);
     if (this.followupIdParam) {
       this.router.navigate(['/communication/view-follow-up-points', this.followupIdParam, this.communicationIdParam]);
     } else {
