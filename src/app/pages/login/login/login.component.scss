@@ -8,20 +8,18 @@
   border-radius: 20px;
   min-width: 30%;
   justify-content: space-evenly;
-  border: 2px solid #2ecc40;
-
 }
 h2 {
   font-family: "J-Medium";
   margin: 0;
   color: var(--light-blue);
 }
-h2 span{
-  font-family: 'J-Bold';
-    color: var(--light-green);;
+h2 span {
+  font-family: "J-Bold";
+  color: var(--light-green);
 }
 h2:nth-child(1) {
-    font-size: 55px;
+  font-size: 55px;
 }
 h2:nth-child(2) {
   font-family: "J-Bold";
@@ -37,7 +35,7 @@ h2:nth-child(2) {
   align-items: center;
 }
 ::ng-deep .p-inputtext {
-   width: 100%;
+  width: 100%;
 }
 ::ng-deep .p-float-label {
   width: 75%;
@@ -57,20 +55,17 @@ h2:nth-child(2) {
   margin: 0;
   display: flex;
   align-items: center;
-  font-family: 'J-Regular';
+  font-family: "J-Regular";
   font-size: 12px;
 }
 .loginFooter p span {
-  color: var(--light-green);;
+  color: var(--light-green);
   margin: 0 5px 0 0;
-  font-family: 'J-Bold';
+  font-family: "J-Bold";
   font-size: 14px;
 }
-svg.logLogo {
-  position: fixed;
-  width: 20%;
-  left: 50px;
-  top: 50px;
-  /* box-shadow: 0px 0px 15px 1px #2ecc4024;
-    border-radius: 10px; */
+@media screen and (max-width: 600px) {
+  svg {
+    width: 96%;
+  }
 }
