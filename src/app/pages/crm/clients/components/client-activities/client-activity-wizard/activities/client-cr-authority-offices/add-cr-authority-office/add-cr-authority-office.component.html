@@ -1,6 +1,10 @@
 <app-toolbar-form
   [header]="'Client CR Authority Office'"
-  [header]="editMode ? 'Edit Client CR Authority Office' : 'Add Client CR Authority Office'"
+  [header]="
+    editMode
+      ? 'Edit Client CR Authority Office'
+      : 'Add Client CR Authority Office'
+  "
   [backExists]="true"
   [viewOnly]="false"
   [backIcon]="'back-icon'"
@@ -9,7 +13,7 @@
 <p-tabs value="0" styleClass="p-3">
   <p-tabpanels>
     <p-tabpanel value="0">
-      <app-form
+      <app-add-client-cr-authority-offices-form
         *ngIf="addClientCRAuthorityOfficesLookupsForm"
         [title]="'Client CR Authority Office'"
         [description]="
@@ -21,7 +25,7 @@
         (submitForm)="addOrEditClientCRAuthorityOffices()"
         [viewOnly]="viewOnly"
         [authorityOfficesList]="authorityOfficesList$ | async"
-      ></app-form>
+      ></app-add-client-cr-authority-offices-form>
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>

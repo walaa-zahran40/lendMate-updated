@@ -331,12 +331,6 @@
     />-->
 
     <!-- <p-button
-      *ngIf="addCRAuthorityOfficeShowMain"
-      label="View CR Authority"
-      class="custom-view m-0 float-right"
-      (click)="viewCRAuthority()"
-    />
-    <p-button
       *ngIf="addTaxAuthorityOfficeShowMain"
       label="View Tax Authority"
       (click)="viewTaxAuthority()"
@@ -5770,72 +5764,6 @@
     </form>
 
    
-    <form
-      [formGroup]="formGroup"
-      *ngIf="addCRAuthorityOfficeShowMain"
-      (ngSubmit)="onSubmit()"
-    >
-      <label for="expiryDate">CR Expiry Date<sup class="danger">*</sup></label>
-      <shared-date-picker formControlName="expiryDate" inputId="expiryDate">
-      </shared-date-picker>
-
-      <label for="crNumber">CR Number<sup>*</sup></label>
-      <input
-        pInputText
-        id="crNumber"
-        formControlName="crNumber"
-        placeholder="Type"
-      />
-
-      <label for="crAuthorityOfficeId">CR Authority Office<sup>*</sup></label>
-      <p-select
-        [options]="authorityOfficesList"
-        optionLabel="name"
-        placeholder="Select CR Authority Office"
-        formControlName="crAuthorityOfficeId"
-        optionValue="id"
-        required
-        [ngClass]="{
-          'ng-invalid':
-            formGroup.get('crAuthorityOfficeId')?.invalid &&
-            (formGroup.get('crAuthorityOfficeId')?.dirty ||
-              formGroup.get('crAuthorityOfficeId')?.touched)
-        }"
-      />
-      <div class="row justify-end">
-        <div
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
-          *ngIf="!editMode && !viewOnly"
-        >
-          <p-button
-            type="submit"
-            label="Add CR Authority Office"
-            [disabled]="formGroup.invalid"
-            class="custom-save m-0 float-right"
-          ></p-button>
-        </div>
-        <div
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
-          *ngIf="editMode && !viewOnly"
-        >
-          <p-button
-            type="submit"
-            label="Edit CR Authority Office"
-            class="custom-save m-0 float-right"
-          ></p-button>
-        </div>
-        <div
-          *ngIf="viewOnly"
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
-        >
-          <p-button
-            label="Close"
-            class="custom-save m-0 float-right"
-            (click)="router.navigate([`/crm/clients/view-client-cr-authority-offices/${this.clientIdParam}`])"
-          />
-        </div>
-      </div>
-    </form>
     <form
       [formGroup]="formGroup"
       *ngIf="addTaxAuthorityOfficeShowMain"
