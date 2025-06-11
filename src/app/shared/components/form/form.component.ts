@@ -148,6 +148,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() clientOfficerTypesList: any;
   @Input() legalFormsList: any;
   @Input() legalFormLawsList: any;
+  @Input() addMandateFeeForm!: any;
   @Input() pageIds: any;
   @Input() authorizationGroupsList: any;
   @Input() notificationGroupsList: any;
@@ -656,9 +657,9 @@ export class FormComponent implements OnInit, OnDestroy {
     // 18 years ago:
     this.maxDateOfBirth.setFullYear(this.maxDateOfBirth.getFullYear() - 18);
     this.id = this.route.snapshot.paramMap.get('clientId')!;
-    this.communicationIdParam = this.route.snapshot.queryParams['communicationId'];
+    this.communicationIdParam =
+      this.route.snapshot.queryParams['communicationId'];
 
-  
     this.clientDocId = this.route.snapshot.params['clientId'];
     this.clientId = this.route.snapshot.queryParams['clientId']!;
     this.currencyIdParam = this.route.snapshot.queryParams['currencyId'];
@@ -994,7 +995,6 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-followup-types']);
   }
 
-
   viewOfficers() {
     this.router.navigate(['/organizations/view-officers']);
   }
@@ -1008,7 +1008,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/communication/view-followup-points']);
   }
   viewFollowUps() {
-    console.log( "follow up clicked   " , this.communicationIdParam);
+    console.log('follow up clicked   ', this.communicationIdParam);
     this.router.navigate([
       `/communication/view-follow-ups/${this.communicationIdParam}`,
     ]);

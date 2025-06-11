@@ -64,6 +64,13 @@ export class WizardComponent implements OnInit {
         content: 'Edit or review your Leasing Financial Form',
         link: `/crm/leasing-mandates/leasing-financial-form/${id}/${this.routeId}`,
       },
+      {
+        imgUrl: '/assets/images/shared/card/mandate-manage.svg',
+        imgAlt: 'mandate',
+        title: 'Mandate Fees',
+        content: 'Edit or review your Mandate Fees',
+        link: `/crm/leasing-mandates/view-mandate-fees/${id}/${this.routeId}`,
+      },
     ];
 
     this.cards = this.chunkArray(this.originalCards, 3);

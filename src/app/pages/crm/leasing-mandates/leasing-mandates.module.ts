@@ -6,13 +6,8 @@ import { AddChildMandateComponent } from './components/mandate-activities/clone/
 import { SharedModule } from '../../../shared/shared.module';
 import { TabsModule } from 'primeng/tabs';
 import { ButtonModule } from 'primeng/button';
-import { ViewMandatesComponent } from './components/leasing-mandates/view-mandates/view-mandates.component';
-import { ViewOfficersComponent } from './components/mandate-activities/view-officers/view-officers.component';
-import { ViewContactPersonsComponent } from './components/mandate-activities/view-contact-persons/view-contact-persons.component';
-import { ViewAssetTypeComponent } from './components/mandate-activities/view-asset-type/view-asset-type.component';
 import { WizardComponent } from './components/mandate-activities/wizard/wizard.component';
 import { LeasingFinancialFormCompoundComponent } from './components/mandate-activities/leasing-financial-form/leasing-financial-form-compound.component';
-import { ViewCalculationsComponent } from './components/mandate-activities/view-calculations/view-calculations.component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { reducer as leasingMandatesReducer } from './store/leasing-mandates/leasing-mandates.reducer';
@@ -24,24 +19,28 @@ import { ViewMandateAdditionalTermsComponent } from './components/mandate-activi
 import { AddMandateAdditionalTermsComponent } from './components/mandate-activities/mandate-additional-terms/add-mandate-additional-terms/add-mandate-additional-terms.component';
 import { ClonesEffects } from './store/clone/clones.effects';
 import { reducer as clonesReducer } from './store/clone/clones.reducer';
+
 import { ViewChildMandatesComponent } from './components/mandate-activities/clone/view-child-mandates/view-child-mandates.component';
 import { FinancialFormsEffects } from './store/financial-form/financial-forms.effects';
 import { reducer as financialFormsReducer } from './store/financial-form/financial-forms.reducer';
+import { ViewMandatesComponent } from './components/leasing-mandates/view-mandates/view-mandates.component';
+import { AddMandateFeeComponent } from './components/mandate-activities/mandate-fees/add-mandate-fee/add-mandate-fee.component';
+import { ViewMandateFeesComponent } from './components/mandate-activities/mandate-fees/view-mandate-fees/view-mandate-fees.component';
+import { MandateFeesEffects } from './store/mandate-fees/mandate-fees.effects';
+import { reducer as mandateFeesReducer } from './store/mandate-fees/mandate-fees.reducer';
 
 @NgModule({
   declarations: [
     AddMandateComponent,
     AddChildMandateComponent,
     AddMandateAdditionalTermsComponent,
-    ViewMandatesComponent,
-    ViewOfficersComponent,
-    ViewContactPersonsComponent,
     ViewMandateAdditionalTermsComponent,
-    ViewAssetTypeComponent,
     WizardComponent,
-    ViewCalculationsComponent,
     LeasingFinancialFormCompoundComponent,
     ViewChildMandatesComponent,
+    ViewMandatesComponent,
+    AddMandateFeeComponent,
+    ViewMandateFeesComponent,
   ],
   imports: [
     CommonModule,
@@ -52,6 +51,8 @@ import { reducer as financialFormsReducer } from './store/financial-form/financi
     ButtonModule,
     StoreModule.forFeature('mandates', leasingMandatesReducer),
     EffectsModule.forFeature([MandatesEffects]),
+    StoreModule.forFeature('mandateFees', mandateFeesReducer),
+    EffectsModule.forFeature([MandateFeesEffects]),
     StoreModule.forFeature('clones', clonesReducer),
     EffectsModule.forFeature([ClonesEffects]),
     StoreModule.forFeature(

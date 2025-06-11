@@ -31,8 +31,6 @@ import { AddClientComponent } from './clients/components/clients/company-individ
 import { ViewClientsComponent } from './clients/components/clients/company-individual/view-clients/view-clients.component';
 import { LeasingFinancialFormCompoundComponent } from './leasing-mandates/components/mandate-activities/leasing-financial-form/leasing-financial-form-compound.component';
 import { AddChildMandateComponent } from './leasing-mandates/components/mandate-activities/clone/add-child-mandate/add-child-mandate.component';
-import { ViewAssetTypeComponent } from './leasing-mandates/components/mandate-activities/view-asset-type/view-asset-type.component';
-import { ViewCalculationsComponent } from './leasing-mandates/components/mandate-activities/view-calculations/view-calculations.component';
 import { AddMandateComponent } from './leasing-mandates/components/leasing-mandates/add-mandate/add-mandate.component';
 import { ViewMandatesComponent } from './leasing-mandates/components/leasing-mandates/view-mandates/view-mandates.component';
 import { ViewGuarantorsComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-guarantors/view-client-guarantors/view-client-guarantor.component';
@@ -43,6 +41,8 @@ import { ViewClientLegalsComponent } from './clients/components/client-activitie
 import { AddMandateAdditionalTermsComponent } from './leasing-mandates/components/mandate-activities/mandate-additional-terms/add-mandate-additional-terms/add-mandate-additional-terms.component';
 import { ViewMandateAdditionalTermsComponent } from './leasing-mandates/components/mandate-activities/mandate-additional-terms/view-mandate-additional-terms/view-mandate-additional-terms.component';
 import { ViewChildMandatesComponent } from './leasing-mandates/components/mandate-activities/clone/view-child-mandates/view-child-mandates.component';
+import { AddMandateFeeComponent } from './leasing-mandates/components/mandate-activities/mandate-fees/add-mandate-fee/add-mandate-fee.component';
+import { ViewMandateFeesComponent } from './leasing-mandates/components/mandate-activities/mandate-fees/view-mandate-fees/view-mandate-fees.component';
 
 const routes: Routes = [
   /*Clients , Client Onboarding Routing*/
@@ -372,20 +372,25 @@ const routes: Routes = [
     path: 'leasing-mandates/view-mandate-additional-terms/:leasingId/:leasingMandatesId',
     component: ViewMandateAdditionalTermsComponent,
   },
+  // MandateFees
+  {
+    path: 'leasing-mandates/add-mandate-fee/:leasingId/:leasingMandatesId',
+    component: AddMandateFeeComponent,
+  },
+
+  {
+    path: 'leasing-mandates/edit-mandate-fee/:leasingId/:leasingMandatesId',
+    component: AddMandateFeeComponent,
+  },
+
+  {
+    path: 'leasing-mandates/view-mandate-fees/:leasingId/:leasingMandatesId',
+    component: ViewMandateFeesComponent,
+  },
   //Leasing Financial Form
   {
     path: 'leasing-mandates/leasing-financial-form/:leasingId/:leasingMandatesId',
     component: LeasingFinancialFormCompoundComponent,
-  },
-
-  {
-    path: 'leasing-mandates/view-asset-type',
-    component: ViewAssetTypeComponent,
-  },
-
-  {
-    path: 'leasing-mandates/view-calculations',
-    component: ViewCalculationsComponent,
   },
 ];
 

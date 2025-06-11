@@ -1,0 +1,29 @@
+<app-toolbar-form
+  [backExists]="true"
+  [backIcon]="'back-icon'"
+  [header]="
+    viewOnly
+      ? 'View Mandate Fees'
+      : editMode
+      ? 'Edit Mandate Fee'
+      : 'Add Mandate Fee'
+  "
+  [viewOnly]="viewOnly || editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-form
+        [title]="'Mandate Fees'"
+        [description]="
+          'Introduce your Central Bank Info core info quickly to users by fill up client details'
+        "
+        [formGroup]="addMandateFeeForm"
+        [addMandateFeeForm]="true"
+        [editMode]="editMode"
+        (submitForm)="onSubmit()"
+        [viewOnly]="viewOnly"
+      ></app-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>
