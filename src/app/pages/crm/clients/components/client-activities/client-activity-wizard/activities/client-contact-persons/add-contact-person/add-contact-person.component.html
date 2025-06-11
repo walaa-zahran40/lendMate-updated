@@ -1,7 +1,7 @@
 <p-tabs value="0" styleClass="p-3">
   <p-tabpanels>
     <p-tabpanel value="0">
-      <app-form
+      <app-add-client-contact-persons-form
         [title]="'Main Information'"
         [description]="'Client Contact Person'"
         [addClientContactPersonForm]="true"
@@ -19,7 +19,7 @@
         (addIdentity)="addIdentity()"
         (removePhoneType)="removePhoneType($event)"
         (addPhoneType)="addPhoneType()"
-      ></app-form>
+      ></app-add-client-contact-persons-form>
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>

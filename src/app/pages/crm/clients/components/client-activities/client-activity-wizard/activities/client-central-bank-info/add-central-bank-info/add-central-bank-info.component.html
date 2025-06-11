@@ -9,7 +9,7 @@
 <p-tabs value="0" styleClass="p-3">
   <p-tabpanels>
     <p-tabpanel value="0">
-      <app-add-central-bank-info-form
+      <app-add-client-central-bank-info-form
         *ngIf="addClientCentralBankInfoForm"
         [title]="'Central Bank Info'"
         [description]="
@@ -22,7 +22,7 @@
         [viewOnly]="viewOnly"
         [companyTypesList]="companyTypesList$ | async"
         [smeClientCodesList]="smeClientCodesList$ | async"
-      ></app-add-central-bank-info-form>
+      ></app-add-client-central-bank-info-form>
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>
