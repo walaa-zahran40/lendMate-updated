@@ -47,7 +47,7 @@ const routes: Routes = [
     component: WizardFollowupsComponent,
   },
   {
-    path: 'view-follow-up-points/:communicationId/:callId',
+    path: 'view-follow-up-points/:followupId/:communicationId',
     component: ViewFollowupPointsComponent,
   },
   {
@@ -56,7 +56,7 @@ const routes: Routes = [
   },
 
   {
-    path: 'edit-follow-ups/:id/:communicationId',
+    path: 'edit-follow-ups/:id/:followupId',
     component: AddFollowupsComponent,
   },
 
@@ -76,7 +76,7 @@ const routes: Routes = [
 
   // follow up points
   {
-    path: 'add-follow-up-points/:communicationId',
+    path: 'add-follow-up-points/:followupId',
     component: AddFollowupPointsComponent,
   },
   {

@@ -12,9 +12,7 @@ import { CallsFacade } from '../store/calls/calls.facade';
 export class WizardFollowupsComponent {
   cards: any[] = [];
   originalCards: any[] = [];
-  routeId = this.route.snapshot.params['id'];
   followupId = this.route.snapshot.params['followupId'];
-  callId = this.route.snapshot.params['callId'];
   communicationId = this.route.snapshot.params['communicationId'];
 
   constructor(

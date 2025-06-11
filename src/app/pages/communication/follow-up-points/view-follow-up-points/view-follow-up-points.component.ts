@@ -17,6 +17,7 @@ export class ViewFollowupPointsComponent implements OnInit, OnDestroy {
   rows = 10;
   showFilters = false;
   private destroy$ = new Subject<void>();
+  followupIdParam!: any;
   communicationIdParam!: any;
 
   @ViewChild('tableRef') tableRef!: TableComponent;
@@ -44,19 +45,20 @@ export class ViewFollowupPointsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // 1) grab the param
     console.log('rrr', this.route.snapshot);
-    const raw = this.route.snapshot.params['communicationId'];
-    this.communicationIdParam = raw !== null ? Number(raw) : undefined;
+    this.communicationIdParam = this.route.snapshot.params['communicationId'];
+    const raw = this.route.snapshot.params['followupId'];
+    this.followupIdParam = raw !== null ? Number(raw) : undefined;
     console.log(
-      '[View] ngOnInit → communicationIdParam =',
-      this.communicationIdParam
+      '[View] ngOnInit → followupIdParam =',
+      this.followupIdParam
     );
 
-    this.facade.loadByCommunicationId(this.communicationIdParam);
+    this.facade.loadByCommunicationId(this.followupIdParam);
     this.followups$ = this.facade.items$;
 
-    if (this.communicationIdParam == null || isNaN(this.communicationIdParam)) {
+    if (this.followupIdParam == null || isNaN(this.followupIdParam)) {
       console.error(
-        '❌ Missing or invalid communicationIdParam! Cannot load exchange rates.'
+        '❌ Missing or invalid followupIdParam! Cannot load exchange rates.'
       );
       return;
     }
@@ -78,13 +80,12 @@ export class ViewFollowupPointsComponent implements OnInit, OnDestroy {
   }
 
   onAddFollowupPoint() {
-    console.log('edioyt', this.communicationIdParam);
-    const routeId = this.route.snapshot.paramMap.get('communicationId');
+    const routeId = this.route.snapshot.paramMap.get('followupId');
     console.log(`route : ${routeId}` )
-    this.router.navigate(['communication/add-follow-ups/', routeId], {
+    this.router.navigate(['communication/add-follow-up-points', routeId], {
       queryParams: {
         mode: 'add',
-        communicationId: this.communicationIdParam, // <-- use "communicationId" here
+        followupId: routeId, 
       },
     });
   }
@@ -105,7 +106,7 @@ export class ViewFollowupPointsComponent implements OnInit, OnDestroy {
 
   confirmDelete() {
     if (this.selectedFollowupPointId != null) {
-      this.facade.delete(this.selectedFollowupPointId, this.communicationIdParam);
+      this.facade.delete(this.selectedFollowupPointId, this.followupIdParam);
     }
     this.resetDeleteModal();
   }
@@ -132,18 +133,18 @@ export class ViewFollowupPointsComponent implements OnInit, OnDestroy {
     this.showFilters = value;
   }
 
-  onEditFollowupPoint(followup: FollowupPoint) {
-    this.router.navigate(['communication/edit-follow-ups', followup.id], {
+  onEditFollowupPoint(followupPoint: FollowupPoint) {
+    this.router.navigate(['communication/edit-follow-up-points', followupPoint.id , this.followupIdParam], {
       queryParams: {
         mode: 'edit',
-        followupId: followup.id // <-- use "communicationId" here
+        followupId: this.followupIdParam // <-- use "followupId" here
       },
     });
   }
 
   onViewFollowupPoint(followup: FollowupPoint) {
     console.log('route', this.route.snapshot);
-    this.router.navigate(['communication/edit-follow-ups', followup.id], {
+    this.router.navigate(['communication/edit-follow-up-points', followup.id], {
       queryParams: {
         mode: 'view',
         followupId: followup.id
