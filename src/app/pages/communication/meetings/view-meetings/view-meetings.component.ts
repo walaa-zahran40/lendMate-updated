@@ -95,10 +95,9 @@ export class ViewMeetingsComponent {
     this.showDeleteModal = true;
   }
 
-   onAddSide(meetingId: any) {
-    this.router.navigate(['/communication/wizard-communication', meetingId]);
+   onAddSide(callId: any) {
+    this.router.navigate(['/communication/wizard-communication', callId]);
   }
-
   confirmDelete() {
     console.log(
       '[View] confirmDelete() – about to dispatch delete for id=',

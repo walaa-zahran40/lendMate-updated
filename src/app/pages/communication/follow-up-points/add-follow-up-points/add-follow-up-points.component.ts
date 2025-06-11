@@ -182,6 +182,7 @@ export class AddFollowupPointsComponent implements OnInit, OnDestroy {
     console.log('route', this.route.snapshot);
 
     console.log('➡️ Navigating back with PATH param:', this.communicationIdParam);
+    console.log('➡️ Navigating back with PATH param:', this.followupIdParam);
     if (this.followupIdParam) {
       this.router.navigate(['/communication/view-follow-up-points', this.followupIdParam, this.communicationIdParam]);
     } else {

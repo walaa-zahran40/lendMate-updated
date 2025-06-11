@@ -657,7 +657,7 @@ export class FormComponent implements OnInit, OnDestroy {
     // 18 years ago:
     this.maxDateOfBirth.setFullYear(this.maxDateOfBirth.getFullYear() - 18);
     this.id = this.route.snapshot.paramMap.get('clientId')!;
-    this.communicationIdParam = this.route.snapshot.queryParams['communicationId'];
+    this.communicationIdParam = this.route.snapshot.params['communicationId'];
     this.followupIdParam = this.route.snapshot.queryParams['followupId'];
 
   
@@ -1016,6 +1016,7 @@ export class FormComponent implements OnInit, OnDestroy {
 
    viewFollowUpPoints() {
     console.log( "follow up clicked   " , this.communicationIdParam);
+    console.log( "follow up clicked   " , this.followupIdParam);
     this.router.navigate([
       `/communication/view-follow-up-points/${this.followupIdParam}/${this.communicationIdParam}`,
     ]);
