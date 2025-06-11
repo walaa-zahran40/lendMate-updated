@@ -23,7 +23,7 @@
           <p-step-panel [value]="1">
             <ng-template #content let-activateCallback="activateCallback">
               <div class="flex flex-col">
-                <app-form
+                <app-add-client-form
                   [formGroup]="addClientForm"
                   [title]="'Main Information'"
                   [description]="
@@ -37,7 +37,7 @@
                   [selectedSubSectorId]="selectedSubSectorId"
                   (sectorChanged)="onSectorChanged($event)"
                   [viewOnly]="viewOnly && tabValue === 0"
-                ></app-form>
+                ></app-add-client-form>
                 <div
                   class="col-sm-6 d-flex justify-end float-right margin-top p-0 w-100"
                 >
@@ -55,14 +55,14 @@
           <p-step-panel [value]="2">
             <ng-template #content let-activateCallback="activateCallback">
               <div class="flex flex-col">
-                <app-form
+                <app-add-client-form
                   [formGroup]="addClientForm"
                   [title]="'Legal Information'"
                   [description]="'This information will be displayed publicly'"
                   [addClientShowLegal]="true"
                   [addClient]="true"
                   [viewOnly]="viewOnly && tabValue === 0"
-                ></app-form>
+                ></app-add-client-form>
 
                 <div class="row two-buttons margin-top">
                   <div class="col-sm-6">
@@ -88,14 +88,14 @@
           <p-step-panel [value]="3">
             <ng-template #content let-activateCallback="activateCallback">
               <div class="flex flex-col">
-                <app-form
+                <app-add-client-form
                   [formGroup]="addClientForm"
                   [title]="'Business Information'"
                   [description]="'This information will be displayed publicly'"
                   [addClientShowBusiness]="true"
                   [addClient]="true"
                   [viewOnly]="viewOnly && tabValue === 0"
-                ></app-form>
+                ></app-add-client-form>
 
                 <div class="row two-buttons margin-top">
                   <div class="col-sm-6">
@@ -129,7 +129,7 @@
 
     <!-- Individual Tab -->
     <p-tabpanel [value]="1">
-      <app-form
+      <app-add-client-form
         [formGroup]="addClientFormIndividual"
         [title]="'Main Information'"
         [description]="
@@ -146,7 +146,7 @@
         [identityIndividual]="identityOptions"
         [viewOnly]="viewOnly && tabValue === 1"
         [editMode]="editMode"
-      ></app-form>
+      ></app-add-client-form>
 
       <div class="row justify-end">
         <div class="col-sm-12 col-md-6 d-flex justify-end margin-top">
