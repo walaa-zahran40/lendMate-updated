@@ -1,12 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddFollowupsComponent } from './follow-ups/add-follow-ups/add-follow-ups.component';
-import { AddMeetingTypesComponent } from './meeting-types/add-meeting-types/add-meeting-types.component';
 import { WizardComponent } from './meetings/wizard/wizard.component';
-import { ViewMeetingTypesComponent } from './meeting-types/view-meeting-types/view-meeting-types.component';
 import { SaveMeetingComponent } from './meetings/save-meeting/save-meeting.component';
 import { ViewAssetTypeCategoriesComponent } from '../lookups/components/asset-type-categories/view-asset-type-categories/view-asset-type-categories.component';
-import { ViewMonitorFollowupsComponent } from './monitor-followups/view-monitor-followups/view-monitor-followups.component';
 import { AddCallsComponent } from './calls/add-calls/add-calls.component';
 import { ViewCallsComponent } from './calls/view-calls/view-calls.component';
 import { WizardCommunicationComponent } from './wizard-communication/wizard-communication.component';
@@ -83,11 +80,6 @@ const routes: Routes = [
   },
 
   {
-    path: 'add-meeting-types',
-    component: AddMeetingTypesComponent,
-  },
-
-  {
     path: 'view-meetings',
     component: ViewMeetingsComponent,
   },
@@ -98,21 +90,12 @@ const routes: Routes = [
   },
 
   {
-    path: 'view-meeting-types',
-    component: ViewMeetingTypesComponent,
-  },
-
-  {
     path: 'wizard',
     component: WizardComponent,
   },
   {
     path: 'save-meeting',
     component: SaveMeetingComponent,
-  },
-  {
-    path: 'view-monitor-followups',
-    component: ViewMonitorFollowupsComponent,
   },
 ];
 

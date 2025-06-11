@@ -5,17 +5,14 @@ import { ButtonModule } from 'primeng/button';
 import { TabsModule } from 'primeng/tabs';
 import { SharedModule } from '../../shared/shared.module';
 import { AddFollowupsComponent } from './follow-ups/add-follow-ups/add-follow-ups.component';
-import { AddMeetingTypesComponent } from './meeting-types/add-meeting-types/add-meeting-types.component';
 import { WizardComponent } from './meetings/wizard/wizard.component';
 import { ViewFollowupsComponent } from './follow-ups/view-follow-ups/view-follow-ups.component';
-import { ViewMeetingTypesComponent } from './meeting-types/view-meeting-types/view-meeting-types.component';
 import { SaveMeetingComponent } from './meetings/save-meeting/save-meeting.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarModule } from 'primeng/calendar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DialogModule } from 'primeng/dialog';
-import { ViewMonitorFollowupsComponent } from './monitor-followups/view-monitor-followups/view-monitor-followups.component';
 import { AddCallsComponent } from './calls/add-calls/add-calls.component';
 import { ViewCallsComponent } from './calls/view-calls/view-calls.component';
 import { StoreModule } from '@ngrx/store';
@@ -39,18 +36,15 @@ import { WizardFollowupsComponent } from './wizard-followups/wizard-followups.co
   declarations: [
     AddFollowupsComponent,
     AddFollowupPointsComponent,
-    AddMeetingTypesComponent,
     AddCallsComponent,
     AddMeetingsComponent,
     ViewMeetingsComponent,
     WizardComponent,
     ViewFollowupsComponent,
     ViewFollowupPointsComponent,
-    ViewMeetingTypesComponent,
     ViewCallsComponent,
     ViewMeetingsComponent,
     SaveMeetingComponent,
-    ViewMonitorFollowupsComponent,
     WizardCommunicationComponent,
     WizardFollowupsComponent,
   ],
@@ -81,7 +75,6 @@ import { WizardFollowupsComponent } from './wizard-followups/wizard-followups.co
   exports: [
     AddFollowupsComponent,
     AddFollowupPointsComponent,
-    AddMeetingTypesComponent,
     AddCallsComponent,
     AddMeetingsComponent,
   ],

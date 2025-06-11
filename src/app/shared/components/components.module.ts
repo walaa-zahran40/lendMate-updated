@@ -63,6 +63,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { AddLegalFormLawsComponent } from './form/add-legal-form-laws/add-legal-form-laws.component';
 import { AddLegalFormsComponent } from './form/add-legal-forms/add-legal-forms.component';
 import { AddCallFormComponent } from './form/add-call-form/add-call-form.component';
+import { AddFollowupsFormComponent } from './form/add-followups-form/add-followups-form.component';
 
 @NgModule({
   declarations: [
@@ -84,6 +85,7 @@ import { AddCallFormComponent } from './form/add-call-form/add-call-form.compone
     AddLegalFormLawsComponent,
     AddLegalFormsComponent,
     AddCallFormComponent,
+    AddFollowupsFormComponent,
   ],
   imports: [
     CommonModule,
@@ -154,6 +156,7 @@ import { AddCallFormComponent } from './form/add-call-form/add-call-form.compone
     AddLegalFormLawsComponent,
     AddLegalFormsComponent,
     AddCallFormComponent,
+    AddFollowupsFormComponent,
   ],
 })
 export class ComponentsModule {}
