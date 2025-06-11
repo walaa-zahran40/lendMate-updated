@@ -4,15 +4,15 @@
     <p class="tab-panel-paragraph">
       {{ description }}
     </p>
-    <!-- <p-button
+    <p-button
       *ngIf="uploadDocumentsShowMain"
       label="View Document Details"
       icon="pi pi-cog"
       (click)="viewDocumentDetails()"
       class="custom-view m-0 float-right"
-    />-->
+    />
 
-    <!-- <p-button
+    <p-button
       *ngIf="addSalesTurnoverForm"
       label="View Sales Turnovers"
       (click)="viewSalesTurnover()"
@@ -44,9 +44,9 @@
       label="View Company Types"
       (click)="viewCompanyTypes()"
       class="custom-view m-0 float-right"
-    />-->
+    />
 
-    <!--  <p-button
+    <p-button
       *ngIf="addFeeCalculationTypesLookupsForm"
       label="View Fees Calculation Type"
       (click)="viewFeesCalculationType()"
@@ -314,16 +314,16 @@
       label="View Phone Numbers"
       (click)="viewPhoneNumber()"
       class="custom-view m-0 float-right"
-    />-->
+    />
 
-    <!-- <p-button
+    <p-button
       *ngIf="addTaxAuthorityOfficeShowMain"
       label="View Tax Authority"
       (click)="viewTaxAuthority()"
       class="custom-view m-0 float-right"
     />
-  -->
-    <!--<p-button
+
+    <p-button
       *ngIf="addShareHolderShowMain"
       label="View Client Share Holders"
       (click)="viewShareHolder()"
@@ -334,10 +334,8 @@
       label="View Client TML Officers"
       (click)="viewTMLOfficer()"
       class="custom-view m-0 float-right"
-    />-->
-
-    <!--
-   <p-button
+    />
+    <p-button
       *ngIf="addMandateShowOfficersForm"
       label="View Officers"
       (click)="viewOfficers()"
@@ -355,9 +353,9 @@
       label="View Asset Types"
       (click)="viewAssetTypes()"
       class="custom-view m-0 float-right"
-    />-->
+    />
 
-    <!--  <p-button
+    <p-button
       *ngIf="addMeetingShowOfficersForm"
       label="View Officers"
       (click)="viewCompanyTypes()"
@@ -374,15 +372,15 @@
       label="View Asset Type"
       (click)="viewAssestType()"
       class="custom-view m-0 float-right"
-    />-->
+    />
 
-    <!--   <p-button
+    <!-- <p-button
       *ngIf="addFollowUpsPointsCommunicationForm"
       label="View Follow Ups Point"
       (click)="viewFollowUpsPoint()"
       class="custom-view m-0 float-right"
-    />
-   
+    /> -->
+
     <p-button
       *ngIf="addCallShowContactPersonsForm"
       label="View Contact Persons"
@@ -401,7 +399,7 @@
       (click)="viewFollowupTypes()"
       class="custom-view m-0 float-right"
     />
-   
+
     <p-button
       *ngIf="addDepartmentsORGForm"
       label="View Department"
@@ -502,8 +500,8 @@
       (click)="viewGracePeriod()"
       class="custom-view m-0 float-right"
     />
-  -->
-    <!-- <p-button
+
+    <p-button
       *ngIf="addRentStructureTypesLookupsForm"
       label="View Rent Structure"
       (click)="viewRentStructure()"
@@ -592,7 +590,7 @@
       label="View Business Lines"
       class="custom-view m-0 float-right"
       (click)="viewBusinessLines()"
-    /> -->
+    />
   </div>
   <div class="div2" [ngClass]="{ span: applyReusable }">
     <!--client forms-->
@@ -4511,8 +4509,6 @@
         </div>
       </div>
     </form>
-
-  
 
     <form
       [formGroup]="formGroup"
