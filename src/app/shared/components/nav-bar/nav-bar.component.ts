@@ -18,7 +18,8 @@ export class NavBarComponent implements OnInit {
   darkMode: boolean = false;
   displayPopup = false;
 
-  constructor(private menuToggleService: MenuToggleService,
+  constructor(
+    private menuToggleService: MenuToggleService,
     private authService: MsalService,
     private permissionService: PermissionService,
     private msalBroadcastService: MsalBroadcastService,
@@ -26,11 +27,9 @@ export class NavBarComponent implements OnInit {
   ) {}
   ngOnInit() {
     this.darkMode = false;
-     this.msalBroadcastService.inProgress$
+    this.msalBroadcastService.inProgress$
       .pipe(
-        filter(
-          (status: InteractionStatus) => status === InteractionStatus.None
-        ),
+        filter((status: InteractionStatus) => status === InteractionStatus.None)
       )
       .subscribe(() => {
         this.setLoginDisplay();
@@ -63,7 +62,7 @@ export class NavBarComponent implements OnInit {
     document.body.classList.toggle('dark-theme', isDark);
   }
 
-   logout() {
+  logout() {
     this.authService.logoutRedirect({
       postLogoutRedirectUri: '/',
     });
