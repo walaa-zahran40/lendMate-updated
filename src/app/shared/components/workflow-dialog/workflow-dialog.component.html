@@ -1,23 +1,38 @@
-
 <p-dialog
   header="Workflow Action: {{ selectedActionLabel }}"
   [(visible)]="visible"
   [modal]="true"
   [closable]="false"
   [style]="{ width: '400px' }"
-  (onHide)="onCancel()">
-
+  (onHide)="onCancel()"
+>
   <div class="p-fluid">
     <div class="p-field">
       <label for="comment">Comment</label>
-      <textarea id="comment" rows="4" [(ngModel)]="comment" class="p-inputtextarea"></textarea>
+      <textarea
+        id="comment"
+        rows="4"
+        [(ngModel)]="comment"
+        class="p-inputtextarea"
+      ></textarea>
     </div>
   </div>
 
   <ng-template pTemplate="footer">
-    <button pButton type="button" label="Cancel" icon="pi pi-times" class="p-button-text"
-            (click)="onCancel()"></button>
-    <button pButton type="button" label="Save" icon="pi pi-check"
-            (click)="onSave()"></button>
+    <button
+      pButton
+      type="button"
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="onCancel()"
+    ></button>
+    <button
+      pButton
+      type="button"
+      label="Save"
+      icon="pi pi-check"
+      (click)="onSave()"
+    ></button>
   </ng-template>
 </p-dialog>

@@ -4,15 +4,15 @@
     <p class="tab-panel-paragraph">
       {{ description }}
     </p>
-   <!-- <p-button
+    <!-- <p-button
       *ngIf="uploadDocumentsShowMain"
       label="View Document Details"
       icon="pi pi-cog"
       (click)="viewDocumentDetails()"
       class="custom-view m-0 float-right"
     />-->
-   
-   <!-- <p-button
+
+    <!-- <p-button
       *ngIf="addSalesTurnoverForm"
       label="View Sales Turnovers"
       (click)="viewSalesTurnover()"
@@ -347,13 +347,8 @@
       (click)="viewTaxAuthority()"
       class="custom-view m-0 float-right"
     />
-    <p-button
-      *ngIf="addCentralBankInfoShowMain"
-      label="View Central Bank Info"
-      (click)="viewCentralBankInfo()"
-      class="custom-view m-0 float-right"
-    />
-    <p-button
+  -->
+    <!--<p-button
       *ngIf="addShareHolderShowMain"
       label="View Client Share Holders"
       (click)="viewShareHolder()"
@@ -5478,7 +5473,6 @@
       </div>
     </form>
 
-  
     <form
       *ngIf="addSalesTurnoverForm"
       (ngSubmit)="onSubmit()"
@@ -6292,134 +6286,6 @@
       </div>
     </form>
 
-    <form
-      [formGroup]="formGroup"
-      *ngIf="addCentralBankInfoShowMain"
-      (ngSubmit)="onSubmit()"
-    >
-      <label for="balanceSheetdate">Balance Sheet Date</label>
-      <shared-date-picker
-        formControlName="balanceSheetdate"
-        inputId="balanceSheetdate"
-      >
-      </shared-date-picker>
-
-      <label for="companyTypeId">Company Type<sup>*</sup></label>
-      <p-select
-        [options]="companyTypesList"
-        optionLabel="name"
-        placeholder="Select Company Type"
-        formControlName="companyTypeId"
-        optionValue="id"
-        required
-        [ngClass]="{
-          'ng-invalid':
-            formGroup.get('companyTypeId')?.invalid &&
-            (formGroup.get('companyTypeId')?.dirty ||
-              formGroup.get('companyTypeId')?.touched)
-        }"
-      />
-
-      <label for="capital">Capital<sup>*</sup></label>
-      <input
-        pInputText
-        id="capital"
-        formControlName="capital"
-        placeholder="Capital"
-      />
-      <div
-        *ngIf="
-          formGroup.get('capital')?.hasError('required') &&
-          formGroup.get('capital')?.touched
-        "
-        class="p-error"
-      >
-        Capital is required.
-      </div>
-      <div
-        *ngIf="
-          formGroup.get('capital')?.hasError('pattern') &&
-          formGroup.get('capital')?.touched
-        "
-        class="p-error"
-      >
-        Please enter only Numbers.
-      </div>
-
-      <label for="iScoreSectore">Iscore Sector</label>
-      <input
-        pInputText
-        id="iScoreSectore"
-        formControlName="iScoreSectore"
-        placeholder="Iscore Sector"
-      />
-
-      <label for="cbeCustomerCode">CBE Customer Code<sup>*</sup></label>
-      <input
-        pInputText
-        id="cbeCustomerCode"
-        formControlName="cbeCustomerCode"
-        placeholder="CBE Customer Code"
-      />
-      <div
-        *ngIf="
-          formGroup.get('cbeCustomerCode')?.hasError('required') &&
-          formGroup.get('cbeCustomerCode')?.touched
-        "
-        class="p-error"
-      >
-        CBE Customer Code is required.
-      </div>
-
-      <label for="smeClientCodeId">SME Client Code <sup>*</sup></label>
-      <p-select
-        [options]="smeClientCodesList"
-        optionLabel="name"
-        placeholder="Select SME Client Code"
-        formControlName="smeClientCodeId"
-        optionValue="id"
-        required
-        [ngClass]="{
-          'ng-invalid':
-            formGroup.get('smeClientCodeId')?.invalid &&
-            (formGroup.get('smeClientCodeId')?.dirty ||
-              formGroup.get('smeClientCodeId')?.touched)
-        }"
-      />
-      <div class="row justify-end">
-        <div
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
-          *ngIf="!editMode && !viewOnly"
-        >
-          <p-button
-            type="submit"
-            label="Add Central Bank Info"
-            [disabled]="formGroup.invalid"
-            class="custom-save m-0 float-right"
-          ></p-button>
-        </div>
-        <div
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
-          *ngIf="editMode && !viewOnly"
-        >
-          <p-button
-            type="submit"
-            label="Edit Central Bank Info"
-            class="custom-save m-0 float-right"
-          ></p-button>
-        </div>
-        <div
-          *ngIf="viewOnly"
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
-        >
-          <p-button
-            label="Close"
-            class="custom-save m-0 float-right"
-            (click)="router.navigate([`/crm/clients/view-client-central-bank-info/${this.clientIdParam}`])"
-          />
-        </div>
-      </div>
-    </form>
     <form
       [formGroup]="formGroup"
       *ngIf="addShareHolderShowMain"

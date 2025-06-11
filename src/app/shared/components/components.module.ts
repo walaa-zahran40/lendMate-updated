@@ -60,12 +60,27 @@ import { SharedDatePickerComponent } from './shared-date-picker/shared-date-pick
 import { DownloadPopupComponent } from './download-popup/download-popup.component';
 import { WorkflowDialogComponent } from './workflow-dialog/workflow-dialog.component';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { AddLegalFormLawsComponent } from './form/add-legal-form-laws/add-legal-form-laws.component';
-import { AddLegalFormsComponent } from './form/add-legal-forms/add-legal-forms.component';
-import { AddCallFormComponent } from './form/add-call-form/add-call-form.component';
-import { AddFollowupsFormComponent } from './form/add-followups-form/add-followups-form.component';
-import { AddMeetingsFormComponent } from './form/add-meetings-form/add-meetings-form.component';
-import { AddClientAddressesFormComponent } from './form/add-client-addresses-form/add-client-addresses-form.component';
+import { AddLegalFormLawsComponent } from '../../pages/legals/forms/add-legal-form-laws/add-legal-form-laws.component';
+import { AddLegalFormsComponent } from '../../pages/legals/forms/add-legal-forms/add-legal-forms.component';
+import { AddCallFormComponent } from '../../pages/communication/forms/add-call-form/add-call-form.component';
+import { AddFollowupsFormComponent } from '../../pages/communication/forms/add-followups-form/add-followups-form.component';
+import { AddMeetingsFormComponent } from '../../pages/communication/forms/add-meetings-form/add-meetings-form.component';
+import { AddClientAddressesFormComponent } from '../../pages/crm/clients/forms/add-client-addresses-form/add-client-addresses-form.component';
+import { AddClientCentralBankInfoFormComponent } from '../../pages/crm/clients/forms/add-client-central-bank-info-form/add-client-central-bank-info-form.component';
+import { AddClientContactPersonsFormComponent } from '../../pages/crm/clients/forms/add-client-contact-persons-form/add-client-contact-persons-form.component';
+import { AddClientCrAuthorityOfficesFormComponent } from '../../pages/crm/clients/forms/add-client-cr-authority-offices-form/add-client-cr-authority-offices-form.component';
+import { AddClientGuarantorsFormComponent } from '../../pages/crm/clients/forms/add-client-guarantors-form/add-client-guarantors-form.component';
+import { AddClientIdentitiesFormComponent } from '../../pages/crm/clients/forms/add-client-identities-form/add-client-identities-form.component';
+import { AddClientLegalsFormComponent } from '../../pages/crm/clients/forms/add-client-legals-form/add-client-legals-form.component';
+import { AddClientOfficersFormComponent } from '../../pages/crm/clients/forms/add-client-officers-form/add-client-officers-form.component';
+import { AddClientPhoneNumbersFormComponent } from '../../pages/crm/clients/forms/add-client-phone-numbers-form/add-client-phone-numbers-form.component';
+import { AddClientSalesTurnoversFormComponent } from '../../pages/crm/clients/forms/add-client-sales-turnovers-form/add-client-sales-turnovers-form.component';
+import { AddClientShareHoldersFormComponent } from '../../pages/crm/clients/forms/add-client-share-holders-form/add-client-share-holders-form.component';
+import { AddClientTaxAuthorityOfficesFormComponent } from '../../pages/crm/clients/forms/add-client-tax-authority-offices-form/add-client-tax-authority-offices-form.component';
+import { AddClientTmlOfficersFormComponent } from '../../pages/crm/clients/forms/add-client-tml-officers-form/add-client-tml-officers-form.component';
+import { AddClientUploadDocumentsFormComponent } from '../../pages/crm/clients/forms/add-client-upload-documents-form/add-client-upload-documents-form.component';
+import { AddClientFormComponent } from '../../pages/crm/clients/forms/add-client-form/add-client-form.component';
+import { AddClientOnboardingFormComponent } from '../../pages/crm/clients/forms/add-client-onboarding-form/add-client-onboarding-form.component';
 
 @NgModule({
   declarations: [
@@ -90,6 +105,21 @@ import { AddClientAddressesFormComponent } from './form/add-client-addresses-for
     AddFollowupsFormComponent,
     AddMeetingsFormComponent,
     AddClientAddressesFormComponent,
+    AddClientCentralBankInfoFormComponent,
+    AddClientContactPersonsFormComponent,
+    AddClientCrAuthorityOfficesFormComponent,
+    AddClientGuarantorsFormComponent,
+    AddClientIdentitiesFormComponent,
+    AddClientLegalsFormComponent,
+    AddClientOfficersFormComponent,
+    AddClientPhoneNumbersFormComponent,
+    AddClientSalesTurnoversFormComponent,
+    AddClientShareHoldersFormComponent,
+    AddClientTaxAuthorityOfficesFormComponent,
+    AddClientTmlOfficersFormComponent,
+    AddClientUploadDocumentsFormComponent,
+    AddClientFormComponent,
+    AddClientOnboardingFormComponent,
   ],
   imports: [
     CommonModule,
@@ -163,6 +193,21 @@ import { AddClientAddressesFormComponent } from './form/add-client-addresses-for
     AddFollowupsFormComponent,
     AddMeetingsFormComponent,
     AddClientAddressesFormComponent,
+    AddClientCentralBankInfoFormComponent,
+    AddClientContactPersonsFormComponent,
+    AddClientCrAuthorityOfficesFormComponent,
+    AddClientGuarantorsFormComponent,
+    AddClientIdentitiesFormComponent,
+    AddClientLegalsFormComponent,
+    AddClientOfficersFormComponent,
+    AddClientPhoneNumbersFormComponent,
+    AddClientSalesTurnoversFormComponent,
+    AddClientShareHoldersFormComponent,
+    AddClientTaxAuthorityOfficesFormComponent,
+    AddClientTmlOfficersFormComponent,
+    AddClientUploadDocumentsFormComponent,
+    AddClientFormComponent,
+    AddClientOnboardingFormComponent,
   ],
 })
 export class ComponentsModule {}

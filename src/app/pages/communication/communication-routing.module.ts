@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AddFollowupsComponent } from './follow-ups/add-follow-ups/add-follow-ups.component';
-import { WizardComponent } from './wizard/wizard.component';
-import { SaveMeetingComponent } from './meetings/save-meeting/save-meeting.component';
+import { AddFollowupsComponent } from './components/follow-ups/add-follow-ups/add-follow-ups.component';
+import { WizardComponent } from './components/wizard/wizard.component';
+import { SaveMeetingComponent } from './components/meetings/save-meeting/save-meeting.component';
 import { ViewAssetTypeCategoriesComponent } from '../lookups/components/asset-type-categories/view-asset-type-categories/view-asset-type-categories.component';
-import { AddCallsComponent } from './calls/add-calls/add-calls.component';
-import { ViewCallsComponent } from './calls/view-calls/view-calls.component';
-import { WizardCommunicationComponent } from './wizard-communication/wizard-communication.component';
-import { AddMeetingsComponent } from './meetings/add-meetings/add-meetings.component';
-import { ViewMeetingsComponent } from './meetings/view-meetings/view-meetings.component';
-import { ViewFollowupsComponent } from './follow-ups/view-follow-ups/view-follow-ups.component';
-import { ViewFollowupPointsComponent } from './follow-up-points/view-follow-up-points/view-follow-up-points.component';
-import { AddFollowupPointsComponent } from './follow-up-points/add-follow-up-points/add-follow-up-points.component';
-import { WizardFollowupsComponent } from './wizard-followups/wizard-followups.component';
+import { AddCallsComponent } from './components/calls/add-calls/add-calls.component';
+import { ViewCallsComponent } from './components/calls/view-calls/view-calls.component';
+import { WizardCommunicationComponent } from './components/wizard-communication/wizard-communication.component';
+import { AddMeetingsComponent } from './components/meetings/add-meetings/add-meetings.component';
+import { ViewMeetingsComponent } from './components/meetings/view-meetings/view-meetings.component';
+import { ViewFollowupsComponent } from './components/follow-ups/view-follow-ups/view-follow-ups.component';
+import { ViewFollowupPointsComponent } from './components/follow-up-points/view-follow-up-points/view-follow-up-points.component';
+import { AddFollowupPointsComponent } from './components/follow-up-points/add-follow-up-points/add-follow-up-points.component';
+import { WizardFollowupsComponent } from './components/wizard-followups/wizard-followups.component';
 
 const routes: Routes = [
   //Calls
