@@ -65,6 +65,7 @@ import { AddLegalFormsComponent } from './form/add-legal-forms/add-legal-forms.c
 import { AddCallFormComponent } from './form/add-call-form/add-call-form.component';
 import { AddFollowupsFormComponent } from './form/add-followups-form/add-followups-form.component';
 import { AddMeetingsFormComponent } from './form/add-meetings-form/add-meetings-form.component';
+import { AddClientAddressesFormComponent } from './form/add-client-addresses-form/add-client-addresses-form.component';
 
 @NgModule({
   declarations: [
@@ -88,6 +89,7 @@ import { AddMeetingsFormComponent } from './form/add-meetings-form/add-meetings-
     AddCallFormComponent,
     AddFollowupsFormComponent,
     AddMeetingsFormComponent,
+    AddClientAddressesFormComponent,
   ],
   imports: [
     CommonModule,
@@ -160,6 +162,7 @@ import { AddMeetingsFormComponent } from './form/add-meetings-form/add-meetings-
     AddCallFormComponent,
     AddFollowupsFormComponent,
     AddMeetingsFormComponent,
+    AddClientAddressesFormComponent,
   ],
 })
 export class ComponentsModule {}

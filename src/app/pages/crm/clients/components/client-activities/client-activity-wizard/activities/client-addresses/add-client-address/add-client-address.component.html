@@ -9,7 +9,7 @@
 <p-tabs value="0" styleClass="p-3">
   <p-tabpanels>
     <p-tabpanel value="0">
-      <app-form
+      <app-add-client-addresses-form
         *ngIf="addClientAddressesLookupsForm"
         [title]="'Client Address'"
         [description]="
@@ -24,7 +24,7 @@
         [governoratesList]="filteredGovernorates"
         [areasList]="filteredAreas"
         [addressTypesList]="addressTypesList$ | async"
-      ></app-form>
+      ></app-add-client-addresses-form>
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>
