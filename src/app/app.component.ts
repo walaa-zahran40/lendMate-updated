@@ -1,5 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { SharedService } from './shared/services/shared.service';
+import { MSAL_GUARD_CONFIG, MsalBroadcastService, MsalGuardConfiguration, MsalService } from '@azure/msal-angular';
+import { filter, takeUntil } from 'rxjs/operators';
+import {
+  InteractionStatus,
+} from '@azure/msal-browser';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -7,7 +13,8 @@ import { SharedService } from './shared/services/shared.service';
   standalone: false,
   styleUrl: './app.component.scss',
 })
-export class AppComponent {
+export class AppComponent implements  OnInit, OnDestroy {
+  private readonly _destroying$ = new Subject<void>();
   popupVisible = false;
   offices: any;
   tmlOfficers: any;
@@ -15,7 +22,13 @@ export class AppComponent {
   selectedLanguages!: any;
   selectedTmlOfficers!: any;
   selectedOffices!: any;
-  constructor(private sharedService: SharedService) {}
+  constructor(private sharedService: SharedService,  
+    @Inject(MSAL_GUARD_CONFIG) private msalGuardConfig: MsalGuardConfiguration,
+    private authService: MsalService,
+    private msalBroadcastService: MsalBroadcastService) {}
+  ngOnDestroy(): void {
+    throw new Error('Method not implemented.');
+  }
 
   ngOnInit() {
     this.sharedService.popupVisible$.subscribe((visible) => {
@@ -31,6 +44,8 @@ export class AppComponent {
     this.selectedLanguages = [{ name: 'Office', code: 'office' }];
     this.selectedTmlOfficers = [{ name: '4.0 and up', code: '4aup' }];
     this.selectedOffices = [{ name: '4.0 and up', code: '4aup' }];
+
+    this.authService.handleRedirectObservable().subscribe(); 
   }
 
   closePopup() {
