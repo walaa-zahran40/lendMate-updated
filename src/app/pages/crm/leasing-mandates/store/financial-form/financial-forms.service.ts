@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, throwError, tap } from 'rxjs';
 import { FinancialForm } from './financial-form.model';
 import { environment } from '../../../../../../environments/environment';
+import { Calculation } from '../../../../../shared/interfaces/calculations.interface';
 
 @Injectable({ providedIn: 'root' })
 export class FinancialFormsService {
@@ -81,16 +82,15 @@ export class FinancialFormsService {
   /** POST calculate */
   calculate(payload: Omit<FinancialForm, 'id'>): Observable<FinancialForm> {
     return this.http
-      .post<FinancialForm>(
+      .post<Calculation[]>(
         `${this.baseUrl}/CalculateMandateFinancialActivity`,
         payload
       )
       .pipe(
-        tap((entity) => console.log('HTTP POST Calculate returned:', entity)),
-        catchError((err) => {
-          console.error('Error in calculate:', err);
-          return throwError(() => err);
-        })
+        map((rows) => ({
+          leasingMandateId: payload.leasingMandateId,
+          payments: rows,
+        }))
       );
   }
 

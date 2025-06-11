@@ -71,6 +71,9 @@
           <span *ngSwitchCase="'startDate'">
             {{ rowData[col.field] | date : "yyyy-MM-dd" }}
           </span>
+          <span *ngSwitchCase="'dueDate'">
+            {{ rowData[col.field] | date : "yyyy-MM-dd" : "UTC" }}</span
+          >
           <span *ngSwitchCase="'isinitial'">
             {{ rowData.isInitial ? "Yes" : "No" }}
           </span>
@@ -80,9 +83,7 @@
           <span *ngSwitchCase="'balanceSheetdate'">
             {{ rowData[col.field] | date : "yyyy-MM-dd" }}
           </span>
-          <span *ngSwitchCase="'dueDate'">
-            {{ rowData[col.field] | date : "yyyy-MM-dd" }}
-          </span>
+
           <span *ngSwitchCase="'genderId'">
             {{ getGenderLabel(rowData.genderId) }}
           </span>

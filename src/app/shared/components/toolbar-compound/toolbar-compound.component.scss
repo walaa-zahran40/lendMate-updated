@@ -12,6 +12,7 @@
     align-items: center;
     padding: 24px;
     justify-content: flex-start;
+    flex-direction: column;
     gap: 13px;
 
     strong {
@@ -41,6 +42,7 @@
     padding: 24px;
     justify-content: flex-start;
     gap: 13px;
+    flex-direction: column;
 
     strong {
       font-family: "epilogue", sans-serif;
@@ -69,6 +71,7 @@
     padding: 24px;
     justify-content: flex-start;
     gap: 13px;
+    flex-direction: column;
 
     strong {
       font-family: "epilogue", sans-serif;

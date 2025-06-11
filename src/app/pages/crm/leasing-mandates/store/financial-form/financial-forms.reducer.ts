@@ -95,13 +95,12 @@ export const reducer = createReducer(
   })),
   // ─── Calculate Success ──────────────────────────────────────────────────
   on(FinancialFormActions.calculateEntitySuccess, (state, { entity }) => {
-    const mandateId = entity.leasingMandateId!;
-    const rows = entity.payments ?? []; // ← your API’s array
+    const id = entity.leasingMandateId!;
     return {
       ...state,
       calculatedRowsByMandate: {
         ...state.calculatedRowsByMandate,
-        [mandateId]: rows,
+        [id]: entity.payments!,
       },
     };
   }),
