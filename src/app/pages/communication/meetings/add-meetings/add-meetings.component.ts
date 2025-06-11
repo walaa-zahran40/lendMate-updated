@@ -1,7 +1,16 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject, Observable, forkJoin, filter, take, takeUntil, map, distinctUntilChanged } from 'rxjs';
+import {
+  Subject,
+  Observable,
+  forkJoin,
+  filter,
+  take,
+  takeUntil,
+  map,
+  distinctUntilChanged,
+} from 'rxjs';
 import { MeetingsFacade } from '../../store/meetings/meetings.facade';
 import { Client } from '../../../crm/clients/store/_clients/allclients/client.model';
 import { ClientsFacade } from '../../../crm/clients/store/_clients/allclients/clients.facade';
@@ -17,7 +26,6 @@ import { ClientContactPerson } from '../../../crm/clients/store/client-contact-p
 import { AssetTypesFacade } from '../../../lookups/store/asset-types/asset-types.facade';
 import { AssetType } from '../../../lookups/store/asset-types/asset-type.model';
 import { start } from '@popperjs/core';
-
 
 @Component({
   selector: 'app-add-meetings',
@@ -45,7 +53,7 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
   officers$!: Observable<Officer[]>;
   communicationFlowTypes$!: Observable<CommunicationFlowType[]>;
   clients$!: Observable<Client[]>;
-  
+
   clientsList: Client[] = [];
 
   constructor(
@@ -79,17 +87,17 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
 
     this.officersFacade.loadAll();
     this.officers$ = this.officersFacade.items$;
-    
+
     this.contactPersonsFacade.loadAll();
 
-     this.contactPersons$ = this.contactPersonsFacade.items$.pipe(
-          map((list) => list || []));
+    this.contactPersons$ = this.contactPersonsFacade.items$.pipe(
+      map((list) => list || [])
+    );
 
     // Read mode and set flags
     this.mode = (this.route.snapshot.queryParamMap.get('mode') as any) ?? 'add';
     this.editMode = this.mode === 'edit';
     this.viewOnly = this.mode === 'view';
-
 
     // Build form with clientId
     this.addMeetingForm = this.fb.group({
@@ -98,20 +106,26 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
       communicationFlowId: [null],
       addressLocation: [null],
 
-      communicationContactPersons: this.fb.array([this.createContactPersonGroup()]),
-      communicationOfficers: this.fb.array([this.createCommunicationOfficerGroup()]),
-      communicationAssetTypes: this.fb.array([this.createCommunicationAssetTypeGroup()]),
+      communicationContactPersons: this.fb.array([
+        this.createContactPersonGroup(),
+      ]),
+      communicationOfficers: this.fb.array([
+        this.createCommunicationOfficerGroup(),
+      ]),
+      communicationAssetTypes: this.fb.array([
+        this.createCommunicationAssetTypeGroup(),
+      ]),
 
       topic: [null, Validators.required],
       details: [null],
-      startDate : [null, Validators.required],
-      endDate : [null, Validators.required],
+      startDate: [null, Validators.required],
+      endDate: [null, Validators.required],
       comments: [null],
     });
 
     // Patch for edit/view mode
     if (this.editMode || this.viewOnly) {
-      this.recordId = Number (this.route.snapshot.paramMap.get('id'));
+      this.recordId = Number(this.route.snapshot.paramMap.get('id'));
       this.meetingFacade.loadById(this.recordId);
       this.meetingFacade.selected$
         .pipe(
@@ -129,12 +143,12 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
               clientId: rec.clientId,
               meetingTypeId: rec.meetingTypeId,
               communicationFlowId: rec.communicationFlowId,
-              addressLocation : rec.addressLocation,
+              addressLocation: rec.addressLocation,
               topic: rec.topic,
               details: rec.details,
-              startDate : rec.startDate,
-              endDate : rec.endDate,
-              comments: rec.comments
+              startDate: rec.startDate,
+              endDate: rec.endDate,
+              comments: rec.comments,
             });
             console.log(
               '📝 After patchValue, form value:',
@@ -148,7 +162,7 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
             rec.communicationAssetTypes?.forEach((pp) => {
               assetArr.push(
                 this.fb.group({
-                  assetTypeId: [pp.assetTypeId, Validators.required],  
+                  assetTypeId: [pp.assetTypeId, Validators.required],
                 })
               );
             });
@@ -157,14 +171,17 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
             const idArr = this.addMeetingForm.get(
               'communicationOfficers'
             ) as FormArray;
-            console.log('👥 communicationContactPersons before clear:', idArr.length);
+            console.log(
+              '👥 communicationContactPersons before clear:',
+              idArr.length
+            );
             idArr.clear();
             rec.communicationOfficers?.forEach((ci) => {
               idArr.push(
                 this.fb.group({
-                   officerId: [ci.officerId, Validators.required],
-                   isAttend: [ci.isAttend, Validators.requiredTrue],
-                   isResponsible: [ci.isResponsible, Validators.requiredTrue],
+                  officerId: [ci.officerId, Validators.required],
+                  isAttend: [ci.isAttend, Validators.requiredTrue],
+                  isResponsible: [ci.isResponsible, Validators.requiredTrue],
                 })
               );
             });
@@ -177,13 +194,11 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
             rec.communicationContactPersons?.forEach((pp) => {
               phArr.push(
                 this.fb.group({
-                  contactPersonId: [pp.contactPersonId, Validators.required],  
-                  isAttend: [pp.isAttend, Validators.requiredTrue], 
+                  contactPersonId: [pp.contactPersonId, Validators.required],
+                  isAttend: [pp.isAttend, Validators.requiredTrue],
                 })
               );
             });
-
-            
           },
           error: (err) => {
             console.error('❌ Error loading meetings from facade:', err);
@@ -192,14 +207,14 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
     }
 
     this.addMeetingForm
-          .get('clientId')!
-          .valueChanges.pipe(
-            filter((id) => !!id),
-            distinctUntilChanged()
-          )
-          .subscribe((clientId) => {
-            this.contactPersonsFacade.loadByClientId(clientId);
-          });
+      .get('clientId')!
+      .valueChanges.pipe(
+        filter((id) => !!id),
+        distinctUntilChanged()
+      )
+      .subscribe((clientId) => {
+        this.contactPersonsFacade.loadByClientId(clientId);
+      });
   }
 
   get communicationContactPersons(): FormArray {
@@ -243,34 +258,33 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
     }
   }
 
-    removeCommunicationAssetType(i: number) {
+  removeCommunicationAssetType(i: number) {
     console.log('Removing identity group at index', i);
     if (this.assetTypes.length > 1) {
       this.assetTypes.removeAt(i);
     }
   }
 
-
-    createCommunicationAssetTypeGroup(): FormGroup {
-  return this.fb.group({
-    assetTypeId : [null, Validators.required]
-  });
-}
+  createCommunicationAssetTypeGroup(): FormGroup {
+    return this.fb.group({
+      assetTypeId: [null, Validators.required],
+    });
+  }
 
   createContactPersonGroup(): FormGroup {
-  return this.fb.group({
-    contactPersonId: [null, Validators.required],
-    isAttend: [true, Validators.requiredTrue],
-  });
-}
+    return this.fb.group({
+      contactPersonId: [null, Validators.required],
+      isAttend: [true, Validators.requiredTrue],
+    });
+  }
 
-createCommunicationOfficerGroup(): FormGroup {
-  return this.fb.group({
-    officerId: [null, Validators.required],
-    isAttend: [true, Validators.requiredTrue],
-    isResponsible: [true, Validators.requiredTrue],
-  });
-}
+  createCommunicationOfficerGroup(): FormGroup {
+    return this.fb.group({
+      officerId: [null, Validators.required],
+      isAttend: [true, Validators.requiredTrue],
+      isResponsible: [true, Validators.requiredTrue],
+    });
+  }
 
   addOrEditMeeting() {
     console.log('🛣️ Route snapshot:', this.route.snapshot);
@@ -293,7 +307,7 @@ createCommunicationOfficerGroup(): FormGroup {
     const contactPersonPayload = formValue.communicationContactPersons?.map(
       (i: any) => {
         const entry: any = {
-          contactPersonId : i.contactPersonId,
+          contactPersonId: i.contactPersonId,
           isAttend: i.isAttend,
         };
         return entry;
@@ -303,7 +317,7 @@ createCommunicationOfficerGroup(): FormGroup {
     const assetTypesPayload = formValue.communicationAssetTypes?.map(
       (i: any) => {
         const entry: any = {
-          assetTypeId : i.assetTypeId,
+          assetTypeId: i.assetTypeId,
         };
         return entry;
       }
@@ -312,7 +326,7 @@ createCommunicationOfficerGroup(): FormGroup {
     const communicationOfficersPayload = formValue.communicationOfficers?.map(
       (i: any) => {
         const entry: any = {
-          officerId : i.officerId,
+          officerId: i.officerId,
           isAttend: i.isAttend,
           isResponsible: i.isResponsible,
         };
@@ -325,7 +339,7 @@ createCommunicationOfficerGroup(): FormGroup {
       meetingTypeId: formValue.meetingTypeId,
       communicationFlowId: formValue.communicationFlowId,
 
-      addressLocation : formValue.addressLocation,
+      addressLocation: formValue.addressLocation,
       topic: formValue.topic,
       details: formValue.details,
       startDate: formValue.startDate,
@@ -334,7 +348,7 @@ createCommunicationOfficerGroup(): FormGroup {
 
       communicationOfficers: communicationOfficersPayload,
       communicationContactPersons: contactPersonPayload,
-      communicationAssetTypes: assetTypesPayload
+      communicationAssetTypes: assetTypesPayload,
     };
 
     console.log(
@@ -367,7 +381,7 @@ createCommunicationOfficerGroup(): FormGroup {
         addressLocation: formValue.addressLocation,
         reserveCar: formValue.reserveCar,
         driverName: formValue.driverName,
-        adminComments: formValue.adminComments
+        adminComments: formValue.adminComments,
       };
 
       console.log(
@@ -380,8 +394,8 @@ createCommunicationOfficerGroup(): FormGroup {
       this.meetingFacade.update(this.recordId, {
         ...updateData,
         communicationOfficers: communicationOfficersPayload,
-        communicationContactPersons : contactPersonPayload,
-        communicationAssetTypes : assetTypesPayload,
+        communicationContactPersons: contactPersonPayload,
+        communicationAssetTypes: assetTypesPayload,
       });
     }
     console.log('route', this.route.snapshot);
@@ -389,20 +403,19 @@ createCommunicationOfficerGroup(): FormGroup {
     this.router.navigate(['/communication/view-meetings']);
   }
 
-  
   get communicationOfficersArray(): FormArray {
-  return this.addMeetingForm.get('communicationOfficers') as FormArray;
-}
+    return this.addMeetingForm.get('communicationOfficers') as FormArray;
+  }
 
-get communicationContactPersonsArray(): FormArray {
-  return this.addMeetingForm.get('communicationContactPersons') as FormArray;
-}
+  get communicationContactPersonsArray(): FormArray {
+    return this.addMeetingForm.get('communicationContactPersons') as FormArray;
+  }
 
-get communicationAssetTypesArray(): FormArray {
-  return this.addMeetingForm.get('communicationAssetTypes') as FormArray;
-}
+  get communicationAssetTypesArray(): FormArray {
+    return this.addMeetingForm.get('communicationAssetTypes') as FormArray;
+  }
 
-ngOnDestroy() {
+  ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
   }

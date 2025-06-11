@@ -6,11 +6,9 @@ import { TabsModule } from 'primeng/tabs';
 import { SharedModule } from '../../shared/shared.module';
 import { AddFollowupsComponent } from './follow-ups/add-follow-ups/add-follow-ups.component';
 import { AddMeetingTypesComponent } from './meeting-types/add-meeting-types/add-meeting-types.component';
-import { AddCallTypesComponent } from './call-types/add-call-types/add-call-types.component';
 import { WizardComponent } from './meetings/wizard/wizard.component';
 import { ViewFollowupsComponent } from './follow-ups/view-follow-ups/view-follow-ups.component';
 import { ViewMeetingTypesComponent } from './meeting-types/view-meeting-types/view-meeting-types.component';
-import { ViewCallTypesComponent } from './call-types/view-call-types/view-call-types.component';
 import { SaveMeetingComponent } from './meetings/save-meeting/save-meeting.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarModule } from 'primeng/calendar';
@@ -44,7 +42,6 @@ import { WizardFollowupsComponent } from './wizard-followups/wizard-followups.co
     AddMeetingTypesComponent,
     AddCallsComponent,
     AddMeetingsComponent,
-    AddCallTypesComponent,
     ViewMeetingsComponent,
     WizardComponent,
     ViewFollowupsComponent,
@@ -52,7 +49,6 @@ import { WizardFollowupsComponent } from './wizard-followups/wizard-followups.co
     ViewMeetingTypesComponent,
     ViewCallsComponent,
     ViewMeetingsComponent,
-    ViewCallTypesComponent,
     SaveMeetingComponent,
     ViewMonitorFollowupsComponent,
     WizardCommunicationComponent,
@@ -86,7 +82,6 @@ import { WizardFollowupsComponent } from './wizard-followups/wizard-followups.co
     AddFollowupsComponent,
     AddFollowupPointsComponent,
     AddMeetingTypesComponent,
-    AddCallTypesComponent,
     AddCallsComponent,
     AddMeetingsComponent,
   ],

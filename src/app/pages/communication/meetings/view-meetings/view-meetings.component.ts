@@ -9,7 +9,6 @@ import { ClientsFacade } from '../../../crm/clients/store/_clients/allclients/cl
 import { MeetingType } from '../../../lookups/store/meeting-types/meeting-type.model';
 import { MeetingTypesFacade } from '../../../lookups/store/meeting-types/meeting-types.facade';
 
-
 @Component({
   selector: 'app-view-meetings',
   standalone: false,
@@ -42,40 +41,43 @@ export class ViewMeetingsComponent {
 
   constructor(
     private router: Router,
-     private facade: MeetingsFacade,
-     private clientsFacade: ClientsFacade,
-     private meetingTypesFacade: MeetingTypesFacade
-    ) {}
+    private facade: MeetingsFacade,
+    private clientsFacade: ClientsFacade,
+    private meetingTypesFacade: MeetingTypesFacade
+  ) {}
   ngOnInit() {
+    this.facade.loadAll();
+    this.meetings$ = this.facade.all$;
 
-     this.facade.loadAll(); 
-    this.meetings$ = this.facade.all$; 
+    this.clientsFacade.loadAll();
+    this.clients = this.clientsFacade.all$;
 
-    this.clientsFacade.loadAll(); 
-    this.clients = this.clientsFacade.all$; 
+    this.meetingTypesFacade.loadAll();
+    this.meetingTypes = this.meetingTypesFacade.all$;
 
-    this.meetingTypesFacade.loadAll(); 
-    this.meetingTypes = this.meetingTypesFacade.all$; 
+    combineLatest([this.meetings$, this.clients, this.meetingTypes])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(([meetings, clients, meetingTypes]) => {
+        const enriched: Meeting[] = meetings.map((meeting) => {
+          const client = clients.find(
+            (c) => c.id === meeting.communication?.clientId
+          );
+          const meetingType = meetingTypes.find(
+            (ct) => ct.id === meeting.meetingTypeId
+          );
+          return {
+            ...meeting,
+            clientName: client?.name || 'N/A',
+            meetingTypeName: meetingType?.name || 'N/A',
+            topic: meeting.communication?.topic,
+            date: meeting.communication?.date,
+          };
+        });
 
-  combineLatest([this.meetings$, this.clients, this.meetingTypes])
-  .pipe(takeUntil(this.destroy$))
-  .subscribe(([meetings, clients, meetingTypes]) => {
-    const enriched: Meeting[] = meetings.map(meeting => {
-      const client = clients.find(c => c.id === meeting.communication?.clientId);
-      const meetingType = meetingTypes.find(ct => ct.id === meeting.meetingTypeId);
-      return {
-        ...meeting,
-        clientName: client?.name || 'N/A',
-        meetingTypeName: meetingType?.name || 'N/A',
-        topic : meeting.communication?.topic,
-        date : meeting.communication?.date
-      };
-    });
-
-    const sorted = enriched.sort((a, b) => b.id - a.id);
-    this.originalMeetings = sorted;
-    this.filteredMeetings = [...sorted];
-    });
+        const sorted = enriched.sort((a, b) => b.id - a.id);
+        this.originalMeetings = sorted;
+        this.filteredMeetings = [...sorted];
+      });
   }
 
   onAddMeeting() {
@@ -87,15 +89,12 @@ export class ViewMeetingsComponent {
     this.destroy$.complete();
   }
   onDeleteMeeting(meetingId: any): void {
-    console.log(
-      '[View] onDeleteMeeting() – opening modal for id=',
-      meetingId
-    );
+    console.log('[View] onDeleteMeeting() – opening modal for id=', meetingId);
     this.selectedMeetingId = meetingId;
     this.showDeleteModal = true;
   }
 
-   onAddSide(meetingId: any) {
+  onAddSide(meetingId: any) {
     this.router.navigate(['/communication/wizard-communication', meetingId]);
   }
 
@@ -123,11 +122,10 @@ export class ViewMeetingsComponent {
   }
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
-    this.filteredMeetings = this.originalMeetings.filter(
-      (meeting) =>
-        Object.values(meeting).some((val) =>
-          val?.toString().toLowerCase().includes(lower)
-        )
+    this.filteredMeetings = this.originalMeetings.filter((meeting) =>
+      Object.values(meeting).some((val) =>
+        val?.toString().toLowerCase().includes(lower)
+      )
     );
   }
   onToggleFilters(value: boolean) {
