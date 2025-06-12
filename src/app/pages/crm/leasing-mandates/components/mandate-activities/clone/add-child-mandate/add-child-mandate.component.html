@@ -1,7 +1,7 @@
 <app-toolbar-form
   [backExists]="true"
   [backIcon]="'back-icon'"
-  [header]="viewOnly ? 'View Clones' : editMode ? 'Edit Clone' : 'Add Clone'"
+  [header]="viewOnly ? 'View Clone' : editMode ? 'Edit Clone' : 'Add Clone'"
   [viewOnly]="viewOnly || editMode ? true : false"
 ></app-toolbar-form>
 <form [formGroup]="parentForm" (ngSubmit)="onSubmit()">

@@ -1,5 +1,11 @@
 <app-toolbar-form
-  [header]="editMode ? 'Edit Sub Sector' : 'Add Sub Sector'"
+  [header]="
+    viewOnly
+      ? 'View Sub Sector'
+      : editMode
+      ? 'Edit Sub Sector'
+      : 'Add Sub Sector'
+  "
   [backExists]="true"
   [backIcon]="'back-icon'"
   [viewOnly]="editMode ? true : false"

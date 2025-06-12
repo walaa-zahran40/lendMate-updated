@@ -1,5 +1,5 @@
 <app-toolbar-form
-  [header]="editMode ? 'Edit Rent Structure Type' : 'Add Rent Structure Type'"
+  [header]="viewOnly ? 'View Sector' : editMode ? 'Edit Sector' : 'Add Sector'"
   [backExists]="true"
   [backIcon]="'back-icon'"
   [viewOnly]="editMode ? true : false"
@@ -11,7 +11,7 @@
         *ngIf="addSectorsLookupsForm"
         [title]="'Main Information'"
         [description]="
-          'Introduce your rent Structure Type core info quickly to users by fill up rent Structure Type details'
+          'Introduce your sector core info quickly to users by fill up sector details'
         "
         [formGroup]="addSectorsLookupsForm"
         [addSectorsLookupsForm]="true"

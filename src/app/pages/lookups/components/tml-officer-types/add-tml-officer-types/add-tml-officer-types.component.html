@@ -1,5 +1,11 @@
 <app-toolbar-form
-  [header]="editMode ? 'Edit TML Officer Type' : 'Add TML Officer Type'"
+  [header]="
+    viewOnly
+      ? 'View TML Officer Type'
+      : editMode
+      ? 'Edit TML Officer Type'
+      : 'Add TML Officer Type'
+  "
   [backExists]="true"
   [backIcon]="'back-icon'"
   [viewOnly]="editMode ? true : false"

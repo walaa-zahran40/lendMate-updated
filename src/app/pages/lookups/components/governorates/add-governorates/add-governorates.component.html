@@ -1,5 +1,11 @@
 <app-toolbar-form
-  [header]="editMode ? 'Edit Governorates' : 'Add Governorates'"
+  [header]="
+    viewOnly
+      ? 'View Governorate'
+      : editMode
+      ? 'Edit Governorate'
+      : 'Add Governorate'
+  "
   [backExists]="true"
   [backIcon]="'back-icon'"
   [viewOnly]="editMode ? true : false"
@@ -19,7 +25,6 @@
         (submitForm)="addOrEditGovernorates()"
         [viewOnly]="viewOnly"
         [countriesList]="countriesList$ | async"
- 
       ></app-form>
     </p-tabpanel>
   </p-tabpanels>

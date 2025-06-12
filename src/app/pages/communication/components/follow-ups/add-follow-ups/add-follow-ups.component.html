@@ -1,5 +1,7 @@
 <app-toolbar-form
-  [header]="'Follow Ups'"
+  [header]="
+    viewOnly ? 'View Follow Up' : editMode ? 'Edit Follow Up' : 'Add Follow Up'
+  "
   [backExists]="true"
   [backIcon]="'back-icon'"
   [viewOnly]="false"

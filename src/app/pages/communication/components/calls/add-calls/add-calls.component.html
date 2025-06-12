@@ -1,5 +1,5 @@
 <app-toolbar-form
-  [header]="'Calls'"
+  [header]="viewOnly ? 'View Call' : editMode ? 'Edit Call' : 'Add Call'"
   [backExists]="true"
   [backIcon]="'back-icon'"
   [viewOnly]="false"

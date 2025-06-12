@@ -1,6 +1,11 @@
 <app-toolbar-form
-  [header]="'Client Share Holder'"
-  [header]="editMode ? 'Edit Client Share Holder' : 'Add Client Share Holder'"
+  [header]="
+    viewOnly
+      ? 'View Client Share Holder'
+      : editMode
+      ? 'Edit Client Share Holder'
+      : 'Add Client Share Holder'
+  "
   [backExists]="true"
   [viewOnly]="false"
   [backIcon]="'back-icon'"

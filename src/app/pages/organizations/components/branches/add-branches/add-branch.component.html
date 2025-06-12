@@ -1,5 +1,5 @@
 <app-toolbar-form
-  [header]="editMode ? 'Edit Branch' : 'Add Branch'"
+  [header]="viewOnly ? 'View Branch' : editMode ? 'Edit Branch' : 'Add Branch'"
   [backExists]="true"
   [backIcon]="'back-icon'"
   [viewOnly]="editMode ? true : false"

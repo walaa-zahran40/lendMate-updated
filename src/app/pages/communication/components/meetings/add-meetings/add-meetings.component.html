@@ -1,5 +1,7 @@
 <app-toolbar-form
-  [header]="'Meetings'"
+  [header]="
+    viewOnly ? 'View Meeting' : editMode ? 'Edit Meeting' : 'Add Meeting'
+  "
   [backExists]="true"
   [backIcon]="'back-icon'"
   [viewOnly]="false"

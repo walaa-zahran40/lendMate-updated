@@ -1,6 +1,11 @@
 <app-toolbar-form
-  [header]="'Notification Group'"
-  [header]="editMode ? 'Edit Notification Group' : 'Add Notification Group'"
+  [header]="
+    viewOnly
+      ? 'View Notification Group'
+      : editMode
+      ? 'Edit Notification Group'
+      : 'Add Notification Group'
+  "
   [backExists]="true"
   [viewOnly]="false"
   [backIcon]="'back-icon'"

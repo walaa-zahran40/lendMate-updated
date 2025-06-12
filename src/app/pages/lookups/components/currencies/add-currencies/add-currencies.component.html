@@ -1,6 +1,7 @@
 <app-toolbar-form
-  [header]="'Currenies'"
-  [header]="editMode ? 'Edit Currency' : 'Add Currency'"
+  [header]="
+    viewOnly ? 'View Currency ' : editMode ? 'Edit Currency ' : 'Add Currency '
+  "
   [backExists]="true"
   [viewOnly]="false"
   [backIcon]="'back-icon'"

@@ -1,6 +1,11 @@
 <app-toolbar-form
-  [header]="'Role Claim'"
-  [header]="editMode ? 'Edit Role Claim' : 'Add Role Claim'"
+  [header]="
+    viewOnly
+      ? 'View Role Claim'
+      : editMode
+      ? 'Edit Role Claim'
+      : 'Add Role Claim'
+  "
   [backExists]="true"
   [viewOnly]="false"
   [backIcon]="'back-icon'"

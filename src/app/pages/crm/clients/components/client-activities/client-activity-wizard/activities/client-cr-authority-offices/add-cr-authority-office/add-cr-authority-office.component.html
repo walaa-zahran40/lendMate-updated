@@ -1,7 +1,8 @@
 <app-toolbar-form
-  [header]="'Client CR Authority Office'"
   [header]="
-    editMode
+    viewOnly
+      ? 'View Client CR Authority Office'
+      : editMode
       ? 'Edit Client CR Authority Office'
       : 'Add Client CR Authority Office'
   "

@@ -1,5 +1,11 @@
 <app-toolbar-form
-  [header]="editMode ? 'Edit Call Action Type' : 'Add Call Action Type'"
+  [header]="
+    viewOnly
+      ? 'View Call Action Type'
+      : editMode
+      ? 'Edit Call Action Type'
+      : 'Add Call Action Type'
+  "
   [backExists]="true"
   [backIcon]="'back-icon'"
   [viewOnly]="editMode ? true : false"

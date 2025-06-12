@@ -1,5 +1,7 @@
 <app-toolbar-form
-  [header]="editMode ? 'Edit Operation' : 'Add Operation'"
+  [header]="
+    viewOnly ? 'View Operation' : editMode ? 'Edit Operation' : 'Add Operation'
+  "
   [backExists]="true"
   [backIcon]="'back-icon'"
   [viewOnly]="editMode ? true : false"

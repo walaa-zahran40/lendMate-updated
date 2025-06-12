@@ -1,6 +1,10 @@
 <app-toolbar-form
   [header]="
-    editMode ? 'Edit Communication Flow Type' : 'Add Communication Flow Type'
+    viewOnly
+      ? 'View Communication Flow Type'
+      : editMode
+      ? 'Edit Communication Flow Type'
+      : 'Add Communication Flow Type'
   "
   [backExists]="true"
   [backIcon]="'back-icon'"

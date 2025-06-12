@@ -1,6 +1,11 @@
 <app-toolbar-form
-  [header]="'Client Identity'"
-  [header]="editMode ? 'Edit Client Identity' : 'Add Client Identity'"
+  [header]="
+    viewOnly
+      ? 'View Client Identity'
+      : editMode
+      ? 'Edit Client Identity'
+      : 'Add Client Identity'
+  "
   [backExists]="true"
   [viewOnly]="false"
   [backIcon]="'back-icon'"

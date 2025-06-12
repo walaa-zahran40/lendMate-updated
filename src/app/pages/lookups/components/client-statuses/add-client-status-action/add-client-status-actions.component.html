@@ -1,5 +1,11 @@
 <app-toolbar-form
-  [header]="editMode ? 'Edit Client Status Action' : 'Add Client Status Action'"
+  [header]="
+    viewOnly
+      ? 'View Client Status Action'
+      : editMode
+      ? 'Edit Client Status Action'
+      : 'Add Client Status Action'
+  "
   [backExists]="true"
   [backIcon]="'back-icon'"
   [viewOnly]="editMode ? true : false"

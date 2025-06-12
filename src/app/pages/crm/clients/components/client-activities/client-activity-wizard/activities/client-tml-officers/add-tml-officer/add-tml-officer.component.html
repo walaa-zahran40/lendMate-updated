@@ -1,6 +1,11 @@
 <app-toolbar-form
-  [header]="'Client TML Officer'"
-  [header]="editMode ? 'Edit Client TML Officer' : 'Add Client TML Officer'"
+  [header]="
+    viewOnly
+      ? 'View Client TML Officer'
+      : editMode
+      ? 'Edit Client TML Officer'
+      : 'Add Client TML Officer'
+  "
   [backExists]="true"
   [viewOnly]="false"
   [backIcon]="'back-icon'"

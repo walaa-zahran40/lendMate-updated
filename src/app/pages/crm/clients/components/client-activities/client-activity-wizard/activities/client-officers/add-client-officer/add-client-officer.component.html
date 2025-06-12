@@ -1,6 +1,11 @@
 <app-toolbar-form
-  [header]="'Client  Officer'"
-  [header]="editMode ? 'Edit Client  Officer' : 'Add Client  Officer'"
+  [header]="
+    viewOnly
+      ? 'View Client Officer'
+      : editMode
+      ? 'Edit Client Officer'
+      : 'Add Client Officer'
+  "
   [backExists]="true"
   [viewOnly]="false"
   [backIcon]="'back-icon'"

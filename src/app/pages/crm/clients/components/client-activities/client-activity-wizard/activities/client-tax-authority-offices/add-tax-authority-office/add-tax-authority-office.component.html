@@ -1,6 +1,11 @@
 <app-toolbar-form
-  [header]="'Client Tax Authority Office'"
-  [header]="editMode ? 'Edit Client Tax Authority Office' : 'Add Client Tax Authority Office'"
+  [header]="
+    viewOnly
+      ? 'View Tax Authority Office'
+      : editMode
+      ? 'Edit Tax Authority Office'
+      : 'Add Tax Authority Office'
+  "
   [backExists]="true"
   [viewOnly]="false"
   [backIcon]="'back-icon'"

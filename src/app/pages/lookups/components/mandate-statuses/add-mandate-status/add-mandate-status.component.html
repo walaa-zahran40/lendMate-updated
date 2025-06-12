@@ -1,5 +1,11 @@
 <app-toolbar-form
-  [header]="editMode ? 'Edit Mandate Status' : 'Add Mandate Status'"
+  [header]="
+    viewOnly
+      ? 'View Mandate Status'
+      : editMode
+      ? 'Edit Mandate Status'
+      : 'Add Mandate Status'
+  "
   [backExists]="true"
   [backIcon]="'back-icon'"
   [viewOnly]="editMode ? true : false"
@@ -10,9 +16,7 @@
       <app-form
         *ngIf="addMandateStatusesLookupsForm"
         [title]="'Main Information'"
-        [description]="
-          'Introduce your Mandate Statuses info quickly to users'
-        "
+        [description]="'Introduce your Mandate Statuses info quickly to users'"
         [formGroup]="addMandateStatusesLookupsForm"
         [addMandateStatusesLookupsForm]="true"
         [editMode]="editMode"
@@ -22,5 +26,3 @@
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>
- 
- 

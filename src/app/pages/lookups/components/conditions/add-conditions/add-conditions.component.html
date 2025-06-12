@@ -1,5 +1,11 @@
 <app-toolbar-form
-  [header]="editMode ? 'Edit Condition' : 'Add Condition'"
+  [header]="
+    viewOnly
+      ? 'View Condition '
+      : editMode
+      ? 'Edit Condition '
+      : 'Add Condition '
+  "
   [backExists]="true"
   [backIcon]="'back-icon'"
   [viewOnly]="editMode ? true : false"
@@ -14,7 +20,7 @@
           'Introduce your Conditions core info quickly to users by fill up details'
         "
         [formGroup]="addConditionsLookupsForm"
-        [conditionExpressions]="conditionExpressions$ | async"    
+        [conditionExpressions]="conditionExpressions$ | async"
         [addConditionsLookupsForm]="true"
         [editMode]="editMode"
         (submitForm)="addOrEditCondition()"

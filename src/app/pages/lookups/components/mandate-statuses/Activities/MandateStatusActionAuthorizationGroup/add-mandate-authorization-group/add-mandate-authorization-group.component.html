@@ -1,6 +1,11 @@
 <app-toolbar-form
-  [header]="'Authorization Group'"
-  [header]="editMode ? 'Edit Authorization Group' : 'Add Authorization Group'"
+  [header]="
+    viewOnly
+      ? 'View Authorization Group'
+      : editMode
+      ? 'Edit Authorization Group'
+      : 'Add Authorization Group'
+  "
   [backExists]="true"
   [viewOnly]="false"
   [backIcon]="'back-icon'"

@@ -1,5 +1,11 @@
 <app-toolbar-form
-  [header]="'Follow Ups'"
+  [header]="
+    viewOnly
+      ? 'View Phone Number'
+      : editMode
+      ? 'Edit Phone Number'
+      : 'Add Phone Number'
+  "
   [backExists]="true"
   [viewOnly]="false"
 ></app-toolbar-form>

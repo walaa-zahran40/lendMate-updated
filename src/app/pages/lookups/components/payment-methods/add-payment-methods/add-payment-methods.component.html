@@ -1,5 +1,11 @@
 <app-toolbar-form
-  [header]="editMode ? 'Edit Payment Method' : 'Add Payment Method'"
+  [header]="
+    viewOnly
+      ? 'View Payment Method'
+      : editMode
+      ? 'Edit Payment Method'
+      : 'Add Payment Method'
+  "
   [backExists]="true"
   [backIcon]="'back-icon'"
   [viewOnly]="editMode ? true : false"

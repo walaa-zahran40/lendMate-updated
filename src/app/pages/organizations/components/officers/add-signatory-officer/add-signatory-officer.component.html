@@ -1,6 +1,11 @@
 <app-toolbar-form
-  [header]="'Signatory Officer'"
-  [header]="editMode ? 'Edit Signatory Officer' : 'Add Signatory Officer'"
+  [header]="
+    viewOnly
+      ? 'View Signatory Officer'
+      : editMode
+      ? 'Edit Signatory Officer'
+      : 'Add Signatory Officer'
+  "
   [backExists]="true"
   [viewOnly]="false"
   [backIcon]="'back-icon'"

@@ -1,6 +1,11 @@
 <app-toolbar-form
-  [header]="'Currency Exchange Rate'"
-  [header]="editMode ? 'Edit Currency Exchange Rate' : 'Add Currency Exchange Rate'"
+  [header]="
+    viewOnly
+      ? 'View Currency Exchange Rate'
+      : editMode
+      ? 'Edit Currency Exchange Rate'
+      : 'Add Currency Exchange Rate'
+  "
   [backExists]="true"
   [viewOnly]="false"
   [backIcon]="'back-icon'"

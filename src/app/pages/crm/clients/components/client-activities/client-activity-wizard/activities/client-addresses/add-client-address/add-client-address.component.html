@@ -1,6 +1,11 @@
 <app-toolbar-form
-  [header]="'Client Address'"
-  [header]="editMode ? 'Edit Client Address' : 'Add Client Address'"
+  [header]="
+    viewOnly
+      ? 'View Client Address'
+      : editMode
+      ? 'Edit Client Address'
+      : 'Add Client Address'
+  "
   [backExists]="true"
   [viewOnly]="false"
   [backIcon]="'back-icon'"

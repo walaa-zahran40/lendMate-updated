@@ -1,5 +1,11 @@
 <app-toolbar-form
-  [header]="editMode ? 'Edit Document Type' : 'Add Document Type'"
+  [header]="
+    viewOnly
+      ? 'View Document Type'
+      : editMode
+      ? 'Edit Document Type'
+      : 'Add Document Type'
+  "
   [backExists]="true"
   [backIcon]="'back-icon'"
   [viewOnly]="editMode ? true : false"

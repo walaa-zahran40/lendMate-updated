@@ -1,6 +1,7 @@
 <app-toolbar-form
-  [header]="'Countries'"
-  [header]="editMode ? 'Edit Country' : 'Add Country'"
+  [header]="
+    viewOnly ? 'View Country ' : editMode ? 'Edit Country ' : 'Add Country '
+  "
   [backExists]="true"
   [viewOnly]="false"
   [backIcon]="'back-icon'"

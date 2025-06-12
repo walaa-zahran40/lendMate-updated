@@ -1,5 +1,11 @@
 <app-toolbar-form
-  [header]="editMode ? 'Edit Tax Office' : 'Add Tax Office'"
+  [header]="
+    viewOnly
+      ? 'View Tax Office'
+      : editMode
+      ? 'Edit Tax Office'
+      : 'Add Tax Office'
+  "
   [backExists]="true"
   [backIcon]="'back-icon'"
   [viewOnly]="editMode ? true : false"
@@ -18,7 +24,7 @@
         [editMode]="editMode"
         (submitForm)="addOrEditTaxOffices()"
         [viewOnly]="viewOnly"
-        [governoratesList] = "governoratesList$ | async"
+        [governoratesList]="governoratesList$ | async"
       ></app-form>
     </p-tabpanel>
   </p-tabpanels>
