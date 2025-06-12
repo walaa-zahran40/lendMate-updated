@@ -7,8 +7,12 @@
   <div class="main">
     <app-nav-bar></app-nav-bar>
     <p-toast></p-toast>
+    <p-confirmDialog
+      header="Please Confirm"
+      icon="pi pi-exclamation-triangle"
+    ></p-confirmDialog>
     <router-outlet></router-outlet>
-    </div>
+  </div>
 </div>
 <!-- Download Popup -->
 <div *ngIf="popupVisible" class="popup-overlay">
@@ -54,4 +58,3 @@
     <p-button label="Download" class="download-btn" />
   </div>
 </div>
-<p-confirmDialog class="confirmDialog"></p-confirmDialog>

@@ -25,10 +25,29 @@ import { LoaderInterceptor } from './shared/interceptors/loader.interceptor';
 import { uiReducer } from './shared/store/ui-state.reducer';
 import { ToastModule } from 'primeng/toast';
 import { ErrorInterceptor } from './shared/interceptors/error.interceptor';
-import { MSAL_GUARD_CONFIG, MSAL_INSTANCE, MSAL_INTERCEPTOR_CONFIG, MsalBroadcastService, MsalGuard, MsalGuardConfiguration, MsalInterceptor, MsalInterceptorConfiguration, MsalModule, MsalRedirectComponent, MsalService } from '@azure/msal-angular';
+import {
+  MSAL_GUARD_CONFIG,
+  MSAL_INSTANCE,
+  MSAL_INTERCEPTOR_CONFIG,
+  MsalBroadcastService,
+  MsalGuard,
+  MsalGuardConfiguration,
+  MsalInterceptor,
+  MsalInterceptorConfiguration,
+  MsalModule,
+  MsalRedirectComponent,
+  MsalService,
+} from '@azure/msal-angular';
 import { PermissionService } from './pages/login/store/permission.service';
-import { BrowserCacheLocation, InteractionType, IPublicClientApplication, LogLevel, PublicClientApplication } from '@azure/msal-browser';
+import {
+  BrowserCacheLocation,
+  InteractionType,
+  IPublicClientApplication,
+  LogLevel,
+  PublicClientApplication,
+} from '@azure/msal-browser';
 import { environment } from '../environments/environment';
+import { ConfirmLeaveEffects } from './shared/store/confirm-leave.effects';
 
 const isIE =
   window.navigator.userAgent.indexOf('MSIE ') > -1 ||
@@ -47,7 +66,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
       storeAuthStateInCookie: isIE,
     },
     system: {
-      allowPlatformBroker: false, 
+      allowPlatformBroker: false,
       loggerOptions: {
         loggerCallback: (level, message, containsPii) => {
           if (containsPii) return;
@@ -75,7 +94,9 @@ export function MSALInstanceFactory(): IPublicClientApplication {
 
 export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
   const protectedResourceMap = new Map<string, Array<string>>();
-  protectedResourceMap.set('https://graph.microsoft.com/v1.0/me', ['user.read']);
+  protectedResourceMap.set('https://graph.microsoft.com/v1.0/me', [
+    'user.read',
+  ]);
 
   return {
     interactionType: InteractionType.Redirect,
@@ -91,7 +112,6 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     },
   };
 }
-
 
 @NgModule({
   declarations: [AppComponent],
@@ -111,8 +131,8 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
     StoreModule.forFeature('ui', uiReducer),
+    EffectsModule.forRoot([ConfirmLeaveEffects]),
     MsalModule,
-  
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
@@ -150,7 +170,7 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
 
     ConfirmationService,
   ],
-  bootstrap: [AppComponent,MsalRedirectComponent],
+  bootstrap: [AppComponent, MsalRedirectComponent],
   exports: [SharedModule],
 })
 export class AppModule {}
