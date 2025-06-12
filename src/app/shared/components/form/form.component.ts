@@ -35,10 +35,7 @@ import { FileUpload } from 'primeng/fileupload';
 import { LegalFormLawFacade } from '../../../pages/legals/store/legal-form-law/legal-form-law.facade';
 import { LegalFormsFacade } from '../../../pages/legals/store/legal-forms/legal-forms.facade';
 import { PageOperation } from '../../../pages/organizations/store/page-operations/page-operation.model';
-import { LegalForm } from '../../interfaces/legal-form.interface';
-import { PhoneType } from '../../../pages/lookups/store/phone-types/phone-type.model';
 import { IdentificationType } from '../../../pages/lookups/store/identification-types/identification-type.model';
-import { PaymentPeriod } from '../../../pages/lookups/store/payment-periods/payment-period.model';
 import { Currency } from '../../../pages/lookups/store/currencies/currency.model';
 export interface IdentityEntry {
   identificationNumber: string;

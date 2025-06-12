@@ -84,7 +84,9 @@ export class AddFollowupsComponent implements OnInit, OnDestroy {
 
   addOrEditFollowup() {
     console.log('🛣️ Route snapshot:', this.route.snapshot);
-    this.communicationIdParam = Number(this.route.snapshot.paramMap.get('communicationId'));
+    this.communicationIdParam = Number(
+      this.route.snapshot.paramMap.get('communicationId')
+    );
     this.routeId = Number(this.route.snapshot.paramMap.get('communicationId'));
     console.log(
       `🔍 QueryParams → communicationId = ${this.communicationIdParam}`
@@ -151,6 +153,9 @@ export class AddFollowupsComponent implements OnInit, OnDestroy {
       '➡️ Navigating back with PATH param:',
       this.communicationIdParam
     );
+    if (this.addFollowupsForm.valid) {
+      this.addFollowupsForm.markAsPristine();
+    }
     if (this.communicationIdParam) {
       this.router.navigate([
         '/communication/view-follow-ups',
@@ -160,7 +165,10 @@ export class AddFollowupsComponent implements OnInit, OnDestroy {
       console.error('❌ Cannot navigate back: communicationId is missing!');
     }
   }
-
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addFollowupsForm.dirty;
+  }
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();

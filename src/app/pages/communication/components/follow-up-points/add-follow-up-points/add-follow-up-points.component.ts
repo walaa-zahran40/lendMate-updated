@@ -190,6 +190,9 @@ export class AddFollowupPointsComponent implements OnInit, OnDestroy {
       this.communicationIdParam
     );
     console.log('➡️ Navigating back with PATH param:', this.followupIdParam);
+    if (this.addFollowupPointsForm.valid) {
+      this.addFollowupPointsForm.markAsPristine();
+    }
     if (this.followupIdParam) {
       this.router.navigate([
         '/communication/view-follow-up-points',
@@ -199,6 +202,10 @@ export class AddFollowupPointsComponent implements OnInit, OnDestroy {
     } else {
       console.error('❌ Cannot navigate back: followupId is missing!');
     }
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addFollowupPointsForm.dirty;
   }
 
   ngOnDestroy() {

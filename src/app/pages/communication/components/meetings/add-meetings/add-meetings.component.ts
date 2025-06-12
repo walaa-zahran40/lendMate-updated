@@ -399,10 +399,15 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
       });
     }
     console.log('route', this.route.snapshot);
-
+    if (this.addMeetingForm.valid) {
+      this.addMeetingForm.markAsPristine();
+    }
     this.router.navigate(['/communication/view-meetings']);
   }
-
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addMeetingForm.dirty;
+  }
   get communicationOfficersArray(): FormArray {
     return this.addMeetingForm.get('communicationOfficers') as FormArray;
   }

@@ -18,6 +18,7 @@ import { WizardCommunicationComponent } from './components/wizard-communication/
 import { WizardFollowupsComponent } from './components/wizard-followups/wizard-followups.component';
 import { WizardComponent } from './components/wizard/wizard.component';
 import { WizardMeetingComponent } from './meetings/wizard-meeting/wizard-meeting.component';
+import { PendingChangesGuard } from '../../shared/guards/pending-changes.guard';
 const routes: Routes = [
   //Calls
   {
@@ -27,6 +28,7 @@ const routes: Routes = [
   {
     path: 'edit-calls/:id',
     component: AddCallsComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-calls',
@@ -62,6 +64,7 @@ const routes: Routes = [
   {
     path: 'edit-follow-ups/:id/:followupId',
     component: AddFollowupsComponent,
+    canDeactivate: [PendingChangesGuard],
   },
 
   // meeting
@@ -72,6 +75,7 @@ const routes: Routes = [
   {
     path: 'edit-meetings/:id',
     component: AddMeetingsComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-meetings',
@@ -86,6 +90,7 @@ const routes: Routes = [
   {
     path: 'edit-follow-up-points/:id/:communicationId',
     component: AddFollowupPointsComponent,
+    canDeactivate: [PendingChangesGuard],
   },
 
   {

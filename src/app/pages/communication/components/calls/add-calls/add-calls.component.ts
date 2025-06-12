@@ -354,10 +354,15 @@ export class AddCallsComponent implements OnInit, OnDestroy {
       });
     }
     console.log('route', this.route.snapshot);
-
+    if (this.addCallForm.valid) {
+      this.addCallForm.markAsPristine();
+    }
     this.router.navigate(['/communication/view-calls']);
   }
-
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addCallForm.dirty;
+  }
   get communicationOfficersArray(): FormArray {
     return this.addCallForm.get('communicationOfficers') as FormArray;
   }
