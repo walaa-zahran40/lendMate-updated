@@ -65,7 +65,7 @@ export class ViewFollowupsComponent implements OnInit, OnDestroy {
         map(([followups]) => {
           console.log('📦 Raw followups:', followups);
 
-          return followups; //.sort((a) => a.id);
+          return followups;//.sort((a) => a.id);
         }),
         takeUntil(this.destroy$)
       )
@@ -83,7 +83,7 @@ export class ViewFollowupsComponent implements OnInit, OnDestroy {
 
     console.log(`route : ${routeId}`);
     this.router.navigate(
-      ['communication/add-follow-ups/', communicationId, routeId],
+      ['communication/add-follow-ups/', communicationId],
       {
         queryParams: {
           mode: 'add',
@@ -92,17 +92,27 @@ export class ViewFollowupsComponent implements OnInit, OnDestroy {
       }
     );
   }
-  onAddSide(callId: any) {
+
+//   private selectedFollowupFromTable(): Followup | null {
+//   if (!this.selectedFollowup) {
+//     console.error('❌ No followup selected for wizard view.');
+//     return null;
+//   }
+//   return this.selectedFollowup;
+// }
+
+
+  onAddSide(followupId : any) {
     const communicationId = this.route.snapshot.paramMap.get('communicationId');
+    console.log("arwaaa" , followupId );
     const routeId = this.route.snapshot.paramMap.get('id');
-    console.log('call', callId, this.route.snapshot);
     this.router.navigate([
       '/communication/wizard-followups',
-      callId,
+      followupId,
       communicationId,
-      routeId,
     ]);
   }
+  
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();

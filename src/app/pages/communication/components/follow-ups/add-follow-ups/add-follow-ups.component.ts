@@ -84,7 +84,7 @@ export class AddFollowupsComponent implements OnInit, OnDestroy {
 
   addOrEditFollowup() {
     console.log('🛣️ Route snapshot:', this.route.snapshot);
-    this.communicationIdParam = Number(this.route.snapshot.paramMap.get('id'));
+    this.communicationIdParam = Number(this.route.snapshot.paramMap.get('communicationId'));
     this.routeId = Number(this.route.snapshot.paramMap.get('communicationId'));
     console.log(
       `🔍 QueryParams → communicationId = ${this.communicationIdParam}`
@@ -130,7 +130,7 @@ export class AddFollowupsComponent implements OnInit, OnDestroy {
 
       const updateData: Followup = {
         id: this.raw,
-        communicationId: this.parentClientId,
+        communicationId: this.communicationIdParam,
         details: formValue.details,
         topic: formValue.topic,
         date: formValue.date,
@@ -155,7 +155,6 @@ export class AddFollowupsComponent implements OnInit, OnDestroy {
       this.router.navigate([
         '/communication/view-follow-ups',
         this.communicationIdParam,
-        this.routeId,
       ]);
     } else {
       console.error('❌ Cannot navigate back: communicationId is missing!');

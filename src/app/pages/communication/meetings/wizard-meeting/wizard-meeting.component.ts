@@ -1,39 +1,50 @@
 import { Component } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { filter, take, tap } from 'rxjs';
-import { CallsFacade } from '../../store/calls/calls.facade';
+import { ActivatedRoute, Router } from '@angular/router';
+import { filter, tap, take } from 'rxjs';
+import { MeetingsFacade } from '../../store/meetings/meetings.facade';
 
 @Component({
-  selector: 'app-wizard-followups',
+  selector: 'app-wizard-meeting',
   standalone: false,
-  templateUrl: './wizard-followups.component.html',
-  styleUrl: './wizard-followups.component.scss',
+  templateUrl: './wizard-meeting.component.html',
+  styleUrl: './wizard-meeting.component.scss',
 })
-export class WizardFollowupsComponent {
+export class WizardMeetingComponent {
   cards: any[] = [];
   originalCards: any[] = [];
-  followupId = this.route.snapshot.params['followupId'];
-  communicationId = this.route.snapshot.params['communicationId'];
+  private communicationId!: number;
+  routeId = this.route.snapshot.params['id'];
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private facade: CallsFacade
+    private facade: MeetingsFacade
   ) {}
   ngOnInit(): void {
-    console.log('this', this.route.snapshot);
-    this.buildCards();
+    console.log('thirs', this.route.snapshot);
+
+    const meetingId = +this.route.snapshot.paramMap.get('id')!;
+    this.facade.loadById(meetingId);
+
+    this.facade.selected$
+      .pipe(
+        filter((m) => !!m && m.id === meetingId), // make sure it’s the one we asked for
+        take(1),
+        tap((m) => (this.communicationId = m?.communicationId!)) // ← this is the one you need
+      )
+      .subscribe(() => this.buildCards());
+
   }
   private buildCards() {
     const communicationId = this.communicationId;
     this.originalCards = [
       {
-        imgUrl: '/assets/images/shared/card/add.svg',
-        imgAlt: 'add',
-        title: 'Follow Up Points',
+        imgUrl: '/assets/images/shared/card/upload.svg',
+        imgAlt: 'upload',
+        title: 'Follow Ups',
         content:
           'Introduce your company core info quickly to users by fill up company details',
-        link: `communication/view-follow-up-points/${this.followupId}/${communicationId}`,
+        link: `communication/view-follow-ups/${communicationId}`,
       },
     ];
     this.cards = this.chunkArray(this.originalCards, 3);

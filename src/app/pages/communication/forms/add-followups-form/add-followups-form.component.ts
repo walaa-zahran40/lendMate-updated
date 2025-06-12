@@ -610,6 +610,7 @@ export class AddFollowupsFormComponent implements OnInit, OnDestroy {
   @Input() operationName!: string;
   clientStatusIdParam!: any;
   mandateStatusIdParam!: any;
+  followupIdParam!: any;
   legalFormLaws$: Observable<LegalFormLaw[]> = this.facade.legalFormLaws$;
   legalForms$ = this.facadeLegalForms.items$;
 
@@ -653,8 +654,8 @@ export class AddFollowupsFormComponent implements OnInit, OnDestroy {
     // 18 years ago:
     this.maxDateOfBirth.setFullYear(this.maxDateOfBirth.getFullYear() - 18);
     this.id = this.route.snapshot.paramMap.get('clientId')!;
-    this.communicationIdParam =
-      this.route.snapshot.queryParams['communicationId'];
+    this.communicationIdParam = this.route.snapshot.params['communicationId'];
+    this.followupIdParam = this.route.snapshot.params['followupId'];
 
     this.clientDocId = this.route.snapshot.params['clientId'];
     this.clientId = this.route.snapshot.queryParams['clientId']!;

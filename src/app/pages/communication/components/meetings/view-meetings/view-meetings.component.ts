@@ -95,7 +95,7 @@ export class ViewMeetingsComponent {
   }
 
   onAddSide(meetingId: any) {
-    this.router.navigate(['/communication/wizard-communication', meetingId]);
+    this.router.navigate(['/communication/wizard-meeting', meetingId]);
   }
 
   confirmDelete() {

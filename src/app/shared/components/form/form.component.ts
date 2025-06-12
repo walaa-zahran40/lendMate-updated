@@ -549,6 +549,7 @@ export class FormComponent implements OnInit, OnDestroy {
   teamIdParam: any;
   clientIdParam: any;
   communicationIdParam: any;
+  followupIdParam: any;
   clientStatusActionIdParam: any;
   mandateStatusActionIdParam: any;
   @Input() addPaymentTypesLookupsForm!: boolean;
@@ -657,8 +658,8 @@ export class FormComponent implements OnInit, OnDestroy {
     // 18 years ago:
     this.maxDateOfBirth.setFullYear(this.maxDateOfBirth.getFullYear() - 18);
     this.id = this.route.snapshot.paramMap.get('clientId')!;
-    this.communicationIdParam =
-      this.route.snapshot.queryParams['communicationId'];
+    this.communicationIdParam = this.route.snapshot.params['communicationId'];
+    this.followupIdParam = this.route.snapshot.queryParams['followupId'];
 
     this.clientDocId = this.route.snapshot.params['clientId'];
     this.clientId = this.route.snapshot.queryParams['clientId']!;
@@ -1004,13 +1005,19 @@ export class FormComponent implements OnInit, OnDestroy {
       this.viewContactPersons.emit(this.currentClientId);
     }
   }
-  viewFollowUpsPoint() {
-    this.router.navigate(['/communication/view-followup-points']);
-  }
+
   viewFollowUps() {
     console.log('follow up clicked   ', this.communicationIdParam);
     this.router.navigate([
       `/communication/view-follow-ups/${this.communicationIdParam}`,
+    ]);
+  }
+
+  viewFollowUpPoints() {
+    console.log('follow up clicked   ', this.communicationIdParam);
+    console.log('follow up clicked   ', this.followupIdParam);
+    this.router.navigate([
+      `/communication/view-follow-up-points/${this.followupIdParam}/${this.communicationIdParam}`,
     ]);
   }
   viewAssestType() {

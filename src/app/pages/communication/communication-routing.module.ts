@@ -13,6 +13,7 @@ import { ViewFollowupsComponent } from './components/follow-ups/view-follow-ups/
 import { ViewFollowupPointsComponent } from './components/follow-up-points/view-follow-up-points/view-follow-up-points.component';
 import { AddFollowupPointsComponent } from './components/follow-up-points/add-follow-up-points/add-follow-up-points.component';
 import { WizardFollowupsComponent } from './components/wizard-followups/wizard-followups.component';
+import { WizardMeetingComponent } from './meetings/wizard-meeting/wizard-meeting.component';
 
 const routes: Routes = [
   //Calls
@@ -33,25 +34,30 @@ const routes: Routes = [
     path: 'wizard-communication/:id',
     component: WizardCommunicationComponent,
   },
+
   {
-    path: 'view-follow-ups/:id/:communicationId',
+    path: 'wizard-meeting/:id',
+    component: WizardMeetingComponent,
+  },
+  {
+    path: 'view-follow-ups/:communicationId',
     component: ViewFollowupsComponent,
   },
   {
-    path: 'wizard-followups/:id/:communicationId/:callId',
+    path: 'wizard-followups/:followupId/:communicationId',
     component: WizardFollowupsComponent,
   },
   {
-    path: 'view-follow-up-points/:id/:communicationId/:callId',
+    path: 'view-follow-up-points/:followupId/:communicationId',
     component: ViewFollowupPointsComponent,
   },
   {
-    path: 'add-follow-ups/:id/:communicationId',
+    path: 'add-follow-ups/:communicationId',
     component: AddFollowupsComponent,
   },
 
   {
-    path: 'edit-follow-ups/:id/:communicationId',
+    path: 'edit-follow-ups/:id/:followupId',
     component: AddFollowupsComponent,
   },
 
@@ -71,7 +77,7 @@ const routes: Routes = [
 
   // follow up points
   {
-    path: 'add-follow-up-points/:communicationId',
+    path: 'add-follow-up-points/:followupId',
     component: AddFollowupPointsComponent,
   },
   {

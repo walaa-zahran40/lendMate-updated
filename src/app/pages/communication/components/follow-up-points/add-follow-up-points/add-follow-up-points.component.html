@@ -5,6 +5,8 @@
         [title]="'Main Information'"
         [description]="'Follow up Point'"
         [addFollowupPointsForm]="true"
+        [contactPersonsList]="contactPersons$ | async"
+        [officersList]="officers$ | async"
         [formGroup]="addFollowupPointsForm"
         (submitForm)="addOrEditFollowupPoint()"
         [editMode]="editMode"
