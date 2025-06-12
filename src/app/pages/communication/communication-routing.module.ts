@@ -1,20 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddFollowupsComponent } from './components/follow-ups/add-follow-ups/add-follow-ups.component';
-import { WizardComponent } from './components/wizard/wizard.component';
-import { SaveMeetingComponent } from './components/meetings/save-meeting/save-meeting.component';
 import { ViewAssetTypeCategoriesComponent } from '../lookups/components/asset-type-categories/view-asset-type-categories/view-asset-type-categories.component';
+import { AddCallTypesComponent } from '../lookups/components/call-types/add-call-types/add-call-types.component';
+import { ViewCallTypesComponent } from '../lookups/components/call-types/view-call-types/view-call-types.component';
+import { AddMeetingTypesComponent } from '../lookups/components/meeting-types/add-meeting-types/add-meeting-types.component';
+import { ViewMeetingTypesComponent } from '../lookups/components/meeting-types/view-meeting-types/view-meeting-types.component';
 import { AddCallsComponent } from './components/calls/add-calls/add-calls.component';
 import { ViewCallsComponent } from './components/calls/view-calls/view-calls.component';
-import { WizardCommunicationComponent } from './components/wizard-communication/wizard-communication.component';
-import { AddMeetingsComponent } from './components/meetings/add-meetings/add-meetings.component';
-import { ViewMeetingsComponent } from './components/meetings/view-meetings/view-meetings.component';
-import { ViewFollowupsComponent } from './components/follow-ups/view-follow-ups/view-follow-ups.component';
-import { ViewFollowupPointsComponent } from './components/follow-up-points/view-follow-up-points/view-follow-up-points.component';
 import { AddFollowupPointsComponent } from './components/follow-up-points/add-follow-up-points/add-follow-up-points.component';
+import { ViewFollowupPointsComponent } from './components/follow-up-points/view-follow-up-points/view-follow-up-points.component';
+import { ViewFollowupsComponent } from './components/follow-ups/view-follow-ups/view-follow-ups.component';
+import { AddMeetingsComponent } from './components/meetings/add-meetings/add-meetings.component';
+import { SaveMeetingComponent } from './components/meetings/save-meeting/save-meeting.component';
+import { ViewMeetingsComponent } from './components/meetings/view-meetings/view-meetings.component';
+import { WizardCommunicationComponent } from './components/wizard-communication/wizard-communication.component';
 import { WizardFollowupsComponent } from './components/wizard-followups/wizard-followups.component';
+import { WizardComponent } from './components/wizard/wizard.component';
 import { WizardMeetingComponent } from './meetings/wizard-meeting/wizard-meeting.component';
-
 const routes: Routes = [
   //Calls
   {
@@ -86,6 +89,15 @@ const routes: Routes = [
   },
 
   {
+    path: 'add-meeting-types',
+    component: AddMeetingTypesComponent,
+  },
+  {
+    path: 'add-call-types',
+    component: AddCallTypesComponent,
+  },
+
+  {
     path: 'view-meetings',
     component: ViewMeetingsComponent,
   },
@@ -95,6 +107,15 @@ const routes: Routes = [
     component: ViewAssetTypeCategoriesComponent,
   },
 
+  {
+    path: 'view-meeting-types',
+    component: ViewMeetingTypesComponent,
+  },
+
+  {
+    path: 'view-call-types',
+    component: ViewCallTypesComponent,
+  },
   {
     path: 'wizard',
     component: WizardComponent,
