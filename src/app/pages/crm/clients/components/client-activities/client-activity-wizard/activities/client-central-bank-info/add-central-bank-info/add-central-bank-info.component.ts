@@ -177,6 +177,9 @@ export class AddClientCentralBankInfoComponent {
       console.log('✏️ Dispatching UPDATE id=', data.id);
       this.facade.update(data.id!, data);
     }
+    if (this.addClientCentralBankInfoForm.valid) {
+      this.addClientCentralBankInfoForm.markAsPristine();
+    }
 
     if (clientParamQP) {
       console.log('➡️ Navigating back with PATH param:', clientParamQP);
@@ -195,6 +198,10 @@ export class AddClientCentralBankInfoComponent {
     } else {
       console.error('❌ Cannot navigate back: clientId is missing!');
     }
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addClientCentralBankInfoForm.dirty;
   }
 
   ngOnDestroy() {

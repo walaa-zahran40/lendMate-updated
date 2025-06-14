@@ -60,7 +60,7 @@ export class AddClientComponent implements OnInit, OnDestroy {
   individualTypeId!: number;
   individualBusinessId!: any;
   workFlowActionList: any[] = [];
-  selectedAction: string='';
+  selectedAction: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -317,15 +317,15 @@ export class AddClientComponent implements OnInit, OnDestroy {
       return;
     }
 
-     console.log("📍 Reached before workflow setup",client);
+    console.log('📍 Reached before workflow setup', client);
 
-    this.workFlowActionList = client.allowedActionsList?.map(action => ({
+    this.workFlowActionList = client.allowedActionsList?.map((action) => ({
       id: action.id,
       label: action.name,
       icon: 'pi pi-times',
     }));
-    this.selectedAction= client.currentStatusName??'';
-    console.log("✅ this.selectedAction", this.selectedAction);
+    this.selectedAction = client.currentStatusName ?? '';
+    console.log('✅ this.selectedAction', this.selectedAction);
 
     const sectorId = rawList[0].sectorId;
     console.log(`⏳ Would dispatch loadSectorById({ id: ${sectorId} })`);
@@ -363,20 +363,20 @@ export class AddClientComponent implements OnInit, OnDestroy {
       });
   }
 
-  handleWorkflowAction(event: { actionId: number, comment: string }): void {
+  handleWorkflowAction(event: { actionId: number; comment: string }): void {
     const payload = {
       clientId: this.clientId,
       clientStatusActionId: event.actionId,
       comment: event.comment,
-      isCurrent: true
+      isCurrent: true,
     };
 
-    this.clientsFacade.performWorkflowAction(event.actionId,payload);
+    this.clientsFacade.performWorkflowAction(event.actionId, payload);
     this.clientsFacade.workFlowActionSuccess$.subscribe({
-       next: () => {
-          console.log('Workflow action submitted successfully.');
-          this.refreshAllowedActions(); 
-        },
+      next: () => {
+        console.log('Workflow action submitted successfully.');
+        this.refreshAllowedActions();
+      },
     });
   }
 
@@ -384,19 +384,19 @@ export class AddClientComponent implements OnInit, OnDestroy {
     this.clientsFacade.loadById(this.clientId);
     this.clientsFacade.selected$.subscribe({
       next: (client) => {
-        var workFlowAction = [...client?.allowedActionsList?? []]; 
-        this.workFlowActionList = workFlowAction.map(action => ({
-        id: action.id,
-        label: action.name,
-        icon: 'pi pi-times',
-      }));// clone to ensure change detection
+        var workFlowAction = [...(client?.allowedActionsList ?? [])];
+        this.workFlowActionList = workFlowAction.map((action) => ({
+          id: action.id,
+          label: action.name,
+          icon: 'pi pi-times',
+        })); // clone to ensure change detection
       },
-      error: err => {
+      error: (err) => {
         console.error('Failed to refresh actions:', err);
-      }
+      },
     });
   }
-  
+
   saveInfo() {
     console.log('💾 saveInfo() start; valid?', this.addClientForm.valid);
     if (this.addClientForm.invalid) {
@@ -456,7 +456,9 @@ export class AddClientComponent implements OnInit, OnDestroy {
       };
       this.clientsFacade.create(payload);
     }
-
+    if (this.addClientForm.valid) {
+      this.addClientForm.markAsPristine();
+    }
     this.router.navigate(['/crm/clients/view-clients']);
   }
 
@@ -653,6 +655,12 @@ export class AddClientComponent implements OnInit, OnDestroy {
         clientIdentities: clientIdentitiesPayload,
       });
     }
+    if (this.addClientFormIndividual.valid) {
+      this.addClientFormIndividual.markAsPristine();
+    }
     this.router.navigate(['/crm/clients/view-clients']);
+  }
+  canDeactivate(): boolean {
+    return !this.addClientFormIndividual.dirty && !this.addClientForm.dirty;
   }
 }

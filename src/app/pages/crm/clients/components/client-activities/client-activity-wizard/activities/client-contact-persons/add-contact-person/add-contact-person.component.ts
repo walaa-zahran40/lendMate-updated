@@ -402,6 +402,9 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
       });
     }
     console.log('route', this.route.snapshot);
+    if (this.addClientContactPersonForm.valid) {
+      this.addClientContactPersonForm.markAsPristine();
+    }
 
     if (clientIdParam) {
       console.log('➡️ Navigating back with PATH param:', clientIdParam);
@@ -412,6 +415,10 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
     } else {
       console.error('❌ Cannot navigate back: clientId is missing!');
     }
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addClientContactPersonForm.dirty;
   }
 
   ngOnDestroy() {

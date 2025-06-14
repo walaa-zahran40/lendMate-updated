@@ -222,6 +222,9 @@ export class AddUploadDocumentsComponent implements OnInit {
         summary: 'Uploaded',
         detail: 'Document uploaded successfully',
       });
+      if (this.uploadForm.valid) {
+        this.uploadForm.markAsPristine();
+      }
 
       this.router.navigate(
         [`/crm/clients/view-upload-documents/${this.clientId}`],
@@ -231,6 +234,11 @@ export class AddUploadDocumentsComponent implements OnInit {
       );
     }
   }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.uploadForm.dirty;
+  }
+
   private formatDateWithoutTime(date: Date): string {
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, '0'); // month is 0-indexed

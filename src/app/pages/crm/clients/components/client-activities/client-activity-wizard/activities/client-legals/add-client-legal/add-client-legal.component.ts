@@ -101,10 +101,10 @@ export class AddClientLegalsComponent {
           this.addClientLegalsLookupsForm.patchValue({
             id: ct?.id,
             legalFormId: ct?.legalFormId,
-            legalFormLawId:ct?.legalFormLawId,
+            legalFormLawId: ct?.legalFormLawId,
             clientId: this.clientId,
             isActive: ct?.isActive,
-            isStampDuty: ct?.isStampDuty
+            isStampDuty: ct?.isStampDuty,
           });
         });
     }
@@ -117,10 +117,7 @@ export class AddClientLegalsComponent {
     console.log('  viewOnly:', this.viewOnly);
     console.log('  editMode:', this.editMode);
     console.log('  form valid:', this.addClientLegalsLookupsForm.valid);
-    console.log(
-      '  form touched:',
-      this.addClientLegalsLookupsForm.touched
-    );
+    console.log('  form touched:', this.addClientLegalsLookupsForm.touched);
     console.log(
       '  form raw value:',
       this.addClientLegalsLookupsForm.getRawValue()
@@ -136,7 +133,7 @@ export class AddClientLegalsComponent {
       clientId: clientParamQP,
     });
 
-    const {legalFormId,legalFormLawId,isStampDuty, clientId, isActive } =
+    const { legalFormId, legalFormLawId, isStampDuty, clientId, isActive } =
       this.addClientLegalsLookupsForm.value;
     const payload: Partial<ClientLegal> = {
       legalFormId,
@@ -147,8 +144,7 @@ export class AddClientLegalsComponent {
     };
     console.log('  → payload object:', payload);
 
-    const data = this.addClientLegalsLookupsForm
-      .value as Partial<ClientLegal>;
+    const data = this.addClientLegalsLookupsForm.value as Partial<ClientLegal>;
     console.log('📦 Payload going to facade:', data);
 
     // Double-check your route param
@@ -164,12 +160,12 @@ export class AddClientLegalsComponent {
       this.facade.update(data.id!, data);
     }
 
+    if (this.addClientLegalsLookupsForm.valid) {
+      this.addClientLegalsLookupsForm.markAsPristine();
+    }
     if (clientParamQP) {
       console.log('➡️ Navigating back with PATH param:', clientParamQP);
-      this.router.navigate([
-        '/crm/clients/view-client-legals',
-        clientParamQP,
-      ]);
+      this.router.navigate(['/crm/clients/view-client-legals', clientParamQP]);
     } else if (clientParamQP) {
       console.log(
         '➡️ Navigating back with QUERY param fallback:',
@@ -183,6 +179,10 @@ export class AddClientLegalsComponent {
     }
     // console.log('🧭 Navigating away to view-client-addresses');
     // this.router.navigate(['/organizations/view-client-addresses']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addClientLegalsLookupsForm.dirty;
   }
 
   ngOnDestroy() {

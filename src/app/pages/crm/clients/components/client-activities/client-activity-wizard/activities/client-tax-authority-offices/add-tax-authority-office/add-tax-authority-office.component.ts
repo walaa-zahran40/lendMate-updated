@@ -160,6 +160,9 @@ export class AddClientTaxAuthorityOfficesComponent {
       console.log('✏️ Dispatching UPDATE id=', data.id);
       this.facade.update(data.id!, data);
     }
+    if (this.addClientTaxAuthorityOfficesLookupsForm.valid) {
+      this.addClientTaxAuthorityOfficesLookupsForm.markAsPristine();
+    }
 
     if (clientParamQP) {
       console.log('➡️ Navigating back with PATH param:', clientParamQP);
@@ -180,6 +183,10 @@ export class AddClientTaxAuthorityOfficesComponent {
     }
     // console.log('🧭 Navigating away to view-client-addresses');
     // this.router.navigate(['/organizations/view-client-addresses']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addClientTaxAuthorityOfficesLookupsForm.dirty;
   }
 
   ngOnDestroy() {

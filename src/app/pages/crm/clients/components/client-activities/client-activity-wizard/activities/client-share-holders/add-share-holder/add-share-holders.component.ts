@@ -155,6 +155,9 @@ export class AddClientShareHoldersComponent {
       console.log('✏️ Dispatching UPDATE id=', data.id);
       this.facade.update(data.id!, data);
     }
+    if (this.addClientShareHoldersLookupsForm.valid) {
+      this.addClientShareHoldersLookupsForm.markAsPristine();
+    }
 
     if (clientParamQP) {
       console.log('➡️ Navigating back with PATH param:', clientParamQP);
@@ -175,6 +178,10 @@ export class AddClientShareHoldersComponent {
     }
     // console.log('🧭 Navigating away to view-client-addresses');
     // this.router.navigate(['/organizations/view-client-addresses']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addClientShareHoldersLookupsForm.dirty;
   }
 
   ngOnDestroy() {

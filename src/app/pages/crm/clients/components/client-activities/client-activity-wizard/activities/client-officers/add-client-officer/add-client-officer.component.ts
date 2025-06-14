@@ -8,7 +8,7 @@ import { selectOfficers } from '../../../../../../../../organizations/store/offi
 import { ClientOfficer } from '../../../../../../store/client-officers/client-officer.model';
 import { ClientOfficersFacade } from '../../../../../../store/client-officers/client-officers.facade';
 import { Officer } from '../../../../../../../../organizations/store/officers/officer.model';
-import { loadAll as LoadClientOfficerTypes} from '../../../../../../../../lookups/store/client-officer-types/client-officer-types.actions';
+import { loadAll as LoadClientOfficerTypes } from '../../../../../../../../lookups/store/client-officer-types/client-officer-types.actions';
 import { ClientOfficerType } from '../../../../../../../../lookups/store/client-officer-types/client-officer-type.model';
 import { selectAllClientOfficerTypes } from '../../../../../../../../lookups/store/client-officer-types/client-officer-types.selectors';
 
@@ -60,7 +60,7 @@ export class AddClientOfficersComponent {
 
     this.addClientOfficersLookupsForm = this.fb.group({
       id: [null],
-       detailes: [
+      detailes: [
         '',
         [Validators.required], // 2nd slot (sync)
       ],
@@ -84,7 +84,9 @@ export class AddClientOfficersComponent {
     this.store.dispatch(LoadClientOfficerTypes({}));
 
     this.officersList$ = this.store.select(selectOfficers);
-    this.clientOfficerTypesList$ = this.store.select(selectAllClientOfficerTypes);
+    this.clientOfficerTypesList$ = this.store.select(
+      selectAllClientOfficerTypes
+    );
 
     // Patch for add mode
     if (this.mode === 'add') {
@@ -109,12 +111,12 @@ export class AddClientOfficersComponent {
           this.addClientOfficersLookupsForm.patchValue({
             id: ct?.id,
             detailes: ct?.detailes,
-            detailesAR:ct?.detailesAR,
+            detailesAR: ct?.detailesAR,
             clientId: this.clientId,
             officerId: ct?.officerId,
             clientOfficerTypeId: ct?.clientOfficerTypeId,
             isActive: ct?.isActive,
-            isMain: ct?.isMain
+            isMain: ct?.isMain,
           });
         });
     }
@@ -127,10 +129,7 @@ export class AddClientOfficersComponent {
     console.log('  viewOnly:', this.viewOnly);
     console.log('  editMode:', this.editMode);
     console.log('  form valid:', this.addClientOfficersLookupsForm.valid);
-    console.log(
-      '  form touched:',
-      this.addClientOfficersLookupsForm.touched
-    );
+    console.log('  form touched:', this.addClientOfficersLookupsForm.touched);
     console.log(
       '  form raw value:',
       this.addClientOfficersLookupsForm.getRawValue()
@@ -146,8 +145,15 @@ export class AddClientOfficersComponent {
       clientId: clientParamQP,
     });
 
-    const {detailes, detailesAR,isMain,clientOfficerTypeId,officerId, clientId, isActive } =
-      this.addClientOfficersLookupsForm.value;
+    const {
+      detailes,
+      detailesAR,
+      isMain,
+      clientOfficerTypeId,
+      officerId,
+      clientId,
+      isActive,
+    } = this.addClientOfficersLookupsForm.value;
     const payload: Partial<ClientOfficer> = {
       detailes,
       detailesAR,
@@ -155,7 +161,7 @@ export class AddClientOfficersComponent {
       officerId,
       clientId,
       isActive,
-      isMain
+      isMain,
     };
     console.log('  → payload object:', payload);
 
@@ -176,6 +182,9 @@ export class AddClientOfficersComponent {
       this.facade.update(data.id!, data);
     }
 
+    if (this.addClientOfficersLookupsForm.valid) {
+      this.addClientOfficersLookupsForm.markAsPristine();
+    }
     if (clientParamQP) {
       console.log('➡️ Navigating back with PATH param:', clientParamQP);
       this.router.navigate([
@@ -195,6 +204,10 @@ export class AddClientOfficersComponent {
     }
     // console.log('🧭 Navigating away to view-client-addresses');
     // this.router.navigate(['/organizations/view-client-addresses']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addClientOfficersLookupsForm.dirty;
   }
 
   ngOnDestroy() {

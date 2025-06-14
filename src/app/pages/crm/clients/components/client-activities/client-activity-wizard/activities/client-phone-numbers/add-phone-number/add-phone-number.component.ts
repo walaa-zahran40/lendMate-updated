@@ -142,6 +142,9 @@ export class AddPhoneNumberComponent implements OnInit, OnDestroy {
       this.clientPhoneNumberFacade.update(this.recordId, updateData);
     }
     console.log('route', this.route.snapshot);
+    if (this.addClientPhoneNumberForm.valid) {
+      this.addClientPhoneNumberForm.markAsPristine();
+    }
 
     if (clientIdParam) {
       console.log('➡️ Navigating back with PATH param:', clientIdParam);
@@ -149,6 +152,10 @@ export class AddPhoneNumberComponent implements OnInit, OnDestroy {
     } else {
       console.error('❌ Cannot navigate back: clientId is missing!');
     }
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addClientPhoneNumberForm.dirty;
   }
 
   ngOnDestroy() {

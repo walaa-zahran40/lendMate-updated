@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -25,7 +25,7 @@ import { loadAll as loadAddressTypes } from '../../../../../../../../lookups/sto
   templateUrl: './add-client-address.component.html',
   styleUrl: './add-client-address.component.scss',
 })
-export class AddClientAddressesComponent {
+export class AddClientAddressesComponent implements OnInit {
   mode!: 'add' | 'edit' | 'view';
   editMode: boolean = false;
   viewOnly = false;
@@ -311,6 +311,9 @@ export class AddClientAddressesComponent {
       console.log('✏️ Dispatching UPDATE id=', data.id);
       this.facade.update(data.id!, data);
     }
+    if (this.addClientAddressesLookupsForm.valid) {
+      this.addClientAddressesLookupsForm.markAsPristine();
+    }
 
     if (clientParamQP) {
       console.log('➡️ Navigating back with PATH param:', clientParamQP);
@@ -333,6 +336,11 @@ export class AddClientAddressesComponent {
     // this.router.navigate(['/organizations/view-client-addresses']);
   }
 
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    console.log('🛡️ canDeactivate called');
+    return !this.addClientAddressesLookupsForm.dirty;
+  }
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();

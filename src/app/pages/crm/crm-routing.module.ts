@@ -43,6 +43,7 @@ import { ViewMandateAdditionalTermsComponent } from './leasing-mandates/componen
 import { ViewChildMandatesComponent } from './leasing-mandates/components/mandate-activities/clone/view-child-mandates/view-child-mandates.component';
 import { AddMandateFeeComponent } from './leasing-mandates/components/mandate-activities/mandate-fees/add-mandate-fee/add-mandate-fee.component';
 import { ViewMandateFeesComponent } from './leasing-mandates/components/mandate-activities/mandate-fees/view-mandate-fees/view-mandate-fees.component';
+import { PendingChangesGuard } from '../../shared/guards/pending-changes.guard';
 
 const routes: Routes = [
   /*Clients , Client Onboarding Routing*/
@@ -53,6 +54,7 @@ const routes: Routes = [
   {
     path: 'clients/edit-client-onboarding/:clientId',
     component: AddClientOnboardingComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'clients/view-clients-onboarding',
@@ -65,6 +67,7 @@ const routes: Routes = [
   {
     path: 'clients/edit-client/:clientId',
     component: AddClientComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'clients/view-clients',
@@ -88,6 +91,7 @@ const routes: Routes = [
   {
     path: 'clients/edit-upload-documents/:clientId/:documentId',
     component: AddUploadDocumentsComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'clients/view-documents/:clientId/:documentId',
@@ -109,6 +113,7 @@ const routes: Routes = [
   {
     path: 'clients/edit-client-addresses/:id',
     component: AddClientAddressesComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'clients/view-client-addresses/:clientId',
@@ -123,6 +128,7 @@ const routes: Routes = [
   {
     path: 'clients/edit-sales-turnover/:clientId',
     component: AddSalesTurnoverComponent,
+    canDeactivate: [PendingChangesGuard],
   },
 
   {
@@ -138,6 +144,7 @@ const routes: Routes = [
   {
     path: 'clients/edit-phone-number/:clientId',
     component: AddPhoneNumberComponent,
+    canDeactivate: [PendingChangesGuard],
   },
 
   {
@@ -154,6 +161,7 @@ const routes: Routes = [
   {
     path: 'clients/edit-client-Identity/:clientId',
     component: AddClientIdentityComponent,
+    canDeactivate: [PendingChangesGuard],
   },
 
   {
@@ -173,6 +181,7 @@ const routes: Routes = [
   {
     path: 'clients/edit-client-cr-authority-offices/:id',
     component: AddClientCRAuthorityOfficesComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'clients/view-client-cr-authority-offices/:clientId',
@@ -190,6 +199,7 @@ const routes: Routes = [
   {
     path: 'clients/edit-client-tax-authority-offices/:id',
     component: AddClientTaxAuthorityOfficesComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'clients/view-client-tax-authority-offices/:clientId',
@@ -207,6 +217,7 @@ const routes: Routes = [
   {
     path: 'clients/edit-client-central-bank-info/:id',
     component: AddClientCentralBankInfoComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'clients/view-client-central-bank-info/:clientId',
@@ -224,6 +235,7 @@ const routes: Routes = [
   {
     path: 'clients/edit-client-share-holder/:id',
     component: AddClientShareHoldersComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'clients/view-client-share-holders/:clientId',
@@ -241,6 +253,7 @@ const routes: Routes = [
   {
     path: 'clients/edit-client-tml-officers/:id',
     component: AddClientTMLOfficersComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'clients/view-client-tml-officers/:clientId',
@@ -258,6 +271,7 @@ const routes: Routes = [
   {
     path: 'clients/edit-client-officers/:id',
     component: AddClientOfficersComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'clients/view-client-officers/:clientId',
@@ -275,6 +289,7 @@ const routes: Routes = [
   {
     path: 'clients/edit-client-legals/:id',
     component: AddClientLegalsComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'clients/view-client-legals/:clientId',
@@ -289,6 +304,7 @@ const routes: Routes = [
   {
     path: 'clients/edit-contact-person/:clientId',
     component: AddContactPersonComponent,
+    canDeactivate: [PendingChangesGuard],
   },
 
   {
@@ -304,6 +320,7 @@ const routes: Routes = [
   {
     path: 'clients/edit-client-guarantor/:id',
     component: AddClientGuarantorComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'clients/view-client-guarantors/:clientId',
@@ -317,6 +334,7 @@ const routes: Routes = [
   {
     path: 'clients/edit-client-identity/:id',
     component: AddClientIdentityComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'clients/view-client-identities/:clientId',
@@ -334,6 +352,7 @@ const routes: Routes = [
   {
     path: 'leasing-mandates/edit-mandate/:leasingId',
     component: AddMandateComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'leasing-mandates/view-mandates/:leasingId',
@@ -352,6 +371,7 @@ const routes: Routes = [
   {
     path: 'leasing-mandates/edit-child-mandate/:leasingId/:leasingMandatesId',
     component: AddChildMandateComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'leasing-mandates/view-child-mandates/:leasingId/:leasingMandatesId',
@@ -366,6 +386,7 @@ const routes: Routes = [
   {
     path: 'leasing-mandates/edit-mandate-additional-term/:leasingId/:leasingMandatesId',
     component: AddMandateAdditionalTermsComponent,
+    canDeactivate: [PendingChangesGuard],
   },
 
   {
@@ -381,6 +402,7 @@ const routes: Routes = [
   {
     path: 'leasing-mandates/edit-mandate-fee/:leasingId/:leasingMandatesId',
     component: AddMandateFeeComponent,
+    canDeactivate: [PendingChangesGuard],
   },
 
   {

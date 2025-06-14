@@ -77,7 +77,7 @@ export class AddClientIdentityComponent implements OnInit, OnDestroy {
             clientId: this.route.snapshot.queryParamMap.get('clientId'),
             identificationTypeId: rec.identificationTypeId,
             identificationNumber: rec.identificationNumber,
-            isMain : rec.isMain 
+            isMain: rec.isMain,
           });
         });
     }
@@ -143,17 +143,26 @@ export class AddClientIdentityComponent implements OnInit, OnDestroy {
         updateData
       );
 
-      console.log("arwaaaaaaaa " , this.recordId)
+      console.log('arwaaaaaaaa ', this.recordId);
       this.clientIdentityFacade.update(this.recordId, updateData);
     }
     console.log('route', this.route.snapshot);
-
+    if (this.addClientIdentityForm.valid) {
+      this.addClientIdentityForm.markAsPristine();
+    }
     if (clientIdParam) {
       console.log('➡️ Navigating back with PATH param:', clientIdParam);
-      this.router.navigate(['/crm/clients/view-client-identity', clientIdParam]);
+      this.router.navigate([
+        '/crm/clients/view-client-identity',
+        clientIdParam,
+      ]);
     } else {
       console.error('❌ Cannot navigate back: clientId is missing!');
     }
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addClientIdentityForm.dirty;
   }
 
   ngOnDestroy() {

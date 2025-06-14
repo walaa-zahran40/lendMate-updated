@@ -135,6 +135,9 @@ export class AddSalesTurnoverComponent implements OnInit, OnDestroy {
       this.clientSalesoverFacade.update(this.recordId, updateData);
     }
     console.log('route', this.route.snapshot);
+    if (this.addSalesTurnoverForm.valid) {
+      this.addSalesTurnoverForm.markAsPristine();
+    }
 
     if (clientIdParam) {
       console.log('➡️ Navigating back with PATH param:', clientIdParam);
@@ -145,6 +148,10 @@ export class AddSalesTurnoverComponent implements OnInit, OnDestroy {
     } else {
       console.error('❌ Cannot navigate back: clientId is missing!');
     }
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addSalesTurnoverForm.dirty;
   }
 
   ngOnDestroy() {
