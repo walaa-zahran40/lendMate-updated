@@ -70,7 +70,9 @@ export class AddPaymentPeriodsComponent {
         this.facade.selected$
           .pipe(
             tap((ct) => console.log('🔵 selected$ emission:', ct)),
-            filter((ct): ct is PaymentPeriod => !!ct && ct.id === this.clientId),
+            filter(
+              (ct): ct is PaymentPeriod => !!ct && ct.id === this.clientId
+            ),
             tap((ct) =>
               console.log('🔵 selected$ passed filter, patching form with:', ct)
             ),
@@ -132,8 +134,14 @@ export class AddPaymentPeriodsComponent {
       return;
     }
 
-    const { name, nameAR, monthCount , isActive } = this.addPaymentPeriodsLookupsForm.value;
-    const payload: Partial<PaymentPeriod> = { name, nameAR, monthCount ,isActive };
+    const { name, nameAR, monthCount, isActive } =
+      this.addPaymentPeriodsLookupsForm.value;
+    const payload: Partial<PaymentPeriod> = {
+      name,
+      nameAR,
+      monthCount,
+      isActive,
+    };
     console.log('  → payload object:', payload);
 
     // Double-check your route param
@@ -141,9 +149,9 @@ export class AddPaymentPeriodsComponent {
     console.log('  route.snapshot.paramMap.get(clientId):', routeId);
 
     if (this.editMode) {
-      const { id, name, nameAR, monthCount ,  isActive } =
+      const { id, name, nameAR, monthCount, isActive } =
         this.addPaymentPeriodsLookupsForm.value;
-      const payload: PaymentPeriod = { id, name, nameAR, monthCount , isActive };
+      const payload: PaymentPeriod = { id, name, nameAR, monthCount, isActive };
       console.log(
         '🔄 Dispatching UPDATE id=',
         this.clientId,
@@ -155,8 +163,15 @@ export class AddPaymentPeriodsComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addPaymentPeriodsLookupsForm.valid) {
+      this.addPaymentPeriodsLookupsForm.markAsPristine();
+    }
 
     console.log('🧭 Navigating away to view-grace-periods');
     this.router.navigate(['/lookups/view-payment-periods']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addPaymentPeriodsLookupsForm.dirty;
   }
 }

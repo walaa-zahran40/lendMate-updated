@@ -156,8 +156,15 @@ export class AddDocTypesComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addDocTypesLookupsForm.valid) {
+      this.addDocTypesLookupsForm.markAsPristine();
+    }
 
     console.log('🧭 Navigating away to view-doc-types');
     this.router.navigate(['/lookups/view-document-types']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addDocTypesLookupsForm.dirty;
   }
 }

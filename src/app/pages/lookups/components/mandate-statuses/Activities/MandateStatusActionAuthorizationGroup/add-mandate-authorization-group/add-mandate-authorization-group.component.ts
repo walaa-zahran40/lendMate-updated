@@ -8,7 +8,7 @@ import { AuthorizationGroup } from '../../../../../store/authorization-groups/au
 import { MandateActionAuthorizationGroup } from '../../../../../store/mandate-statuses-actions-activities/MandateStatusActionAuthorizationGroup/action-authorization-group.model';
 import { MandateActionAuthorizationGroupsFacade } from '../../../../../store/mandate-statuses-actions-activities/MandateStatusActionAuthorizationGroup/action-authorization-groups.facade';
 import { selectAllAuthorizationGroups } from '../../../../../store/authorization-groups/authorization-groups.selectors';
-import { loadAll as loadAuthorizationGroups} from '../../../../../store/authorization-groups/authorization-groups.actions';
+import { loadAll as loadAuthorizationGroups } from '../../../../../store/authorization-groups/authorization-groups.actions';
 
 @Component({
   selector: 'app-add-mandate-authorization-group',
@@ -39,7 +39,9 @@ export class AddMandateActionAuthorizationGroupsComponent {
     console.log('🟢 ngOnInit start');
     // 1️⃣ Read route parameters
     console.log(this.route.snapshot, 'route');
-    this.mandateStatusActionId = Number(this.route.snapshot.queryParams['mandateStatusActionId']);
+    this.mandateStatusActionId = Number(
+      this.route.snapshot.queryParams['mandateStatusActionId']
+    );
 
     this.mode =
       (this.route.snapshot.queryParamMap.get('mode') as
@@ -59,7 +61,7 @@ export class AddMandateActionAuthorizationGroupsComponent {
       id: [null],
       mandateStatusActionId: [null, [Validators.required]],
       authorizationGroupId: [null, [Validators.required]],
-      startDate:  [null, [Validators.required]],
+      startDate: [null, [Validators.required]],
       isActive: [true],
     });
     console.log(
@@ -70,14 +72,19 @@ export class AddMandateActionAuthorizationGroupsComponent {
     console.log('🚀 Dispatching lookup loads');
     this.store.dispatch(loadAuthorizationGroups({}));
 
-    this.authorizationGroupsList$ = this.store.select(selectAllAuthorizationGroups);
+    this.authorizationGroupsList$ = this.store.select(
+      selectAllAuthorizationGroups
+    );
 
     // Patch for add mode
     if (this.mode === 'add') {
       this.addActionAuthorizationGroupsLookupsForm.patchValue({
         mandateStatusActionId: this.mandateStatusActionId,
       });
-      console.log('✏️ Add mode → patched mandateStatusActionId:', this.mandateStatusActionId);
+      console.log(
+        '✏️ Add mode → patched mandateStatusActionId:',
+        this.mandateStatusActionId
+      );
     }
 
     // Patch for edit/view mode
@@ -96,7 +103,7 @@ export class AddMandateActionAuthorizationGroupsComponent {
             id: ct?.id,
             mandateStatusActionId: this.mandateStatusActionId,
             authorizationGroupId: ct?.authorizationGroupId,
-            startDate:new Date(ct?.startDate),
+            startDate: new Date(ct?.startDate),
             isActive: ct?.isActive,
           });
         });
@@ -104,12 +111,17 @@ export class AddMandateActionAuthorizationGroupsComponent {
   }
 
   addOrEditMandateActionAuthorizationGroups() {
-    const mandateParamQP = this.route.snapshot.queryParamMap.get('mandateStatusActionId');
+    const mandateParamQP = this.route.snapshot.queryParamMap.get(
+      'mandateStatusActionId'
+    );
 
     console.log('💥 addActionAuthorizationGroups() called');
     console.log('  viewOnly:', this.viewOnly);
     console.log('  editMode:', this.editMode);
-    console.log('  form valid:', this.addActionAuthorizationGroupsLookupsForm.valid);
+    console.log(
+      '  form valid:',
+      this.addActionAuthorizationGroupsLookupsForm.valid
+    );
     console.log(
       '  form touched:',
       this.addActionAuthorizationGroupsLookupsForm.touched
@@ -129,13 +141,13 @@ export class AddMandateActionAuthorizationGroupsComponent {
       mandateStatusActionId: mandateParamQP,
     });
 
-    const {authorizationGroupId, mandateStatusActionId,startDate, isActive } =
+    const { authorizationGroupId, mandateStatusActionId, startDate, isActive } =
       this.addActionAuthorizationGroupsLookupsForm.value;
     const payload: Partial<MandateActionAuthorizationGroup> = {
       authorizationGroupId,
       mandateStatusActionId,
       startDate,
-      isActive
+      isActive,
     };
     console.log('  → payload object:', payload);
 
@@ -171,12 +183,21 @@ export class AddMandateActionAuthorizationGroupsComponent {
         `/lookups/view-mandate-action-authorizationGroups/${mandateParamQP}`,
       ]);
     } else {
-      console.error('❌ Cannot navigate back: mandateStatusActionId is missing!');
+      console.error(
+        '❌ Cannot navigate back: mandateStatusActionId is missing!'
+      );
+    }
+    if (this.addActionAuthorizationGroupsLookupsForm.valid) {
+      this.addActionAuthorizationGroupsLookupsForm.markAsPristine();
     }
   }
 
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addActionAuthorizationGroupsLookupsForm.dirty;
   }
 }

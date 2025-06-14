@@ -85,7 +85,10 @@ export class AddFollowupTypesComponent {
     console.log('  viewOnly:', this.viewOnly);
     console.log('  editMode:', this.editMode);
     console.log('  form valid:', this.addFollowUpTypesCommunicationForm.valid);
-    console.log('  form touched:', this.addFollowUpTypesCommunicationForm.touched);
+    console.log(
+      '  form touched:',
+      this.addFollowUpTypesCommunicationForm.touched
+    );
     console.log(
       '  form raw value:',
       this.addFollowUpTypesCommunicationForm.getRawValue()
@@ -108,7 +111,8 @@ export class AddFollowupTypesComponent {
       return;
     }
 
-    const { name, nameAR, isActive } = this.addFollowUpTypesCommunicationForm.value;
+    const { name, nameAR, isActive } =
+      this.addFollowUpTypesCommunicationForm.value;
     const payload: Partial<FollowupType> = { name, nameAR, isActive };
     console.log('  → payload object:', payload);
 
@@ -131,7 +135,14 @@ export class AddFollowupTypesComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addFollowUpTypesCommunicationForm.valid) {
+      this.addFollowUpTypesCommunicationForm.markAsPristine();
+    }
 
     this.router.navigate(['/lookups/view-followup-types']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addFollowUpTypesCommunicationForm.dirty;
   }
 }

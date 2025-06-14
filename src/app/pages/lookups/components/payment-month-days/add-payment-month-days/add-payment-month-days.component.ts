@@ -155,8 +155,15 @@ export class AddPaymentMonthDaysComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addPaymentMonthDaysLookupsForm.valid) {
+      this.addPaymentMonthDaysLookupsForm.markAsPristine();
+    }
 
     console.log('🧭 Navigating away to view-grace-periods');
     this.router.navigate(['/lookups/view-payment-month-days']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addPaymentMonthDaysLookupsForm.dirty;
   }
 }

@@ -154,8 +154,15 @@ export class AddSectorsComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addSectorsLookupsForm.valid) {
+      this.addSectorsLookupsForm.markAsPristine();
+    }
 
     console.log('🧭 Navigating away to view-grace-periods');
     this.router.navigate(['/lookups/view-sectors']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addSectorsLookupsForm.dirty;
   }
 }

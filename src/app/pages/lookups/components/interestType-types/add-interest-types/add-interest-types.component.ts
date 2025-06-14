@@ -132,7 +132,14 @@ export class AddInterestTypesComponent {
       this.facade.create(payload);
     }
     console.log('🧭 Navigating away to view-address-types');
+    if (this.addInterestTypesLookupsForm.valid) {
+      this.addInterestTypesLookupsForm.markAsPristine();
+    }
 
     this.router.navigate(['/lookups/view-interest-types']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addInterestTypesLookupsForm.dirty;
   }
 }

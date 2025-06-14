@@ -159,8 +159,15 @@ export class AddIdentificationTypesComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addIdentificationTypesLookupsForm.valid) {
+      this.addIdentificationTypesLookupsForm.markAsPristine();
+    }
 
     console.log('🧭 Navigating away to view-grace-periods');
     this.router.navigate(['/lookups/view-identification-types']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addIdentificationTypesLookupsForm.dirty;
   }
 }

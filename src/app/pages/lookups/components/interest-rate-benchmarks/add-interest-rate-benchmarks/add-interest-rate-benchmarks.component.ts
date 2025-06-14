@@ -163,8 +163,15 @@ export class AddInterestRateBenchmarksComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addInterestRateBenchmarkLookupsForm.valid) {
+      this.addInterestRateBenchmarkLookupsForm.markAsPristine();
+    }
 
     console.log('🧭 Navigating away to view-grace-periods');
     this.router.navigate(['/lookups/view-interest-rate-benchmarks']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addInterestRateBenchmarkLookupsForm.dirty;
   }
 }

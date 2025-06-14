@@ -31,10 +31,7 @@ export class AddConditionExpressionsComponent {
         '',
         [Validators.required], // 2nd slot (sync)
       ],
-      value: [
-        '',
-        [Validators.required],
-      ],
+      value: ['', [Validators.required]],
       operator: 0, // ← new hidden control
     });
 
@@ -85,7 +82,10 @@ export class AddConditionExpressionsComponent {
     console.log('  viewOnly:', this.viewOnly);
     console.log('  editMode:', this.editMode);
     console.log('  form valid:', this.addConditionExpressionsLookupsForm.valid);
-    console.log('  form touched:', this.addConditionExpressionsLookupsForm.touched);
+    console.log(
+      '  form touched:',
+      this.addConditionExpressionsLookupsForm.touched
+    );
     console.log(
       '  form raw value:',
       this.addConditionExpressionsLookupsForm.getRawValue()
@@ -108,8 +108,13 @@ export class AddConditionExpressionsComponent {
       return;
     }
 
-    const {fieldName, value, operator } = this.addConditionExpressionsLookupsForm.value;
-    const payload: Partial<ConditionExpression> = { fieldName, value, operator };
+    const { fieldName, value, operator } =
+      this.addConditionExpressionsLookupsForm.value;
+    const payload: Partial<ConditionExpression> = {
+      fieldName,
+      value,
+      operator,
+    };
     console.log('  → payload object:', payload);
 
     // Double-check your route param
@@ -117,9 +122,9 @@ export class AddConditionExpressionsComponent {
     console.log('  route.snapshot.paramMap.get(clientId):', routeId);
 
     if (this.editMode) {
-      const { id, fieldName, value, operator} =
+      const { id, fieldName, value, operator } =
         this.addConditionExpressionsLookupsForm.value;
-      const payload: ConditionExpression = { id, fieldName, value, operator};
+      const payload: ConditionExpression = { id, fieldName, value, operator };
       console.log(
         '🔄 Dispatching UPDATE id=',
         this.clientId,
@@ -132,7 +137,14 @@ export class AddConditionExpressionsComponent {
       this.facade.create(payload);
     }
     console.log('🧭 Navigating away to view-condition-expressions');
+    if (this.addConditionExpressionsLookupsForm.valid) {
+      this.addConditionExpressionsLookupsForm.markAsPristine();
+    }
 
     this.router.navigate(['/lookups/view-condition-expressions']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addConditionExpressionsLookupsForm.dirty;
   }
 }

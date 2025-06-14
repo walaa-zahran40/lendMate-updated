@@ -28,14 +28,14 @@ export class AddFeeTypesComponent {
     private route: ActivatedRoute,
     private facade: FeeTypesFacade,
     private router: Router,
-    private store: Store,
+    private store: Store
   ) {}
 
   ngOnInit() {
     //Select Box
     this.store.dispatch(loadAll({}));
     this.feeCalculationTypes$ = this.store.select(selectAllFeeCalculationTypes);
-    
+
     this.addFeesTypesLookupsForm = this.fb.group({
       id: [null],
       name: ['', [Validators.required]],
@@ -147,7 +147,14 @@ export class AddFeeTypesComponent {
     } else {
       this.facade.create(payload);
     }
+    if (this.addFeesTypesLookupsForm.valid) {
+      this.addFeesTypesLookupsForm.markAsPristine();
+    }
 
     this.router.navigate(['/lookups/view-fee-types']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addFeesTypesLookupsForm.dirty;
   }
 }

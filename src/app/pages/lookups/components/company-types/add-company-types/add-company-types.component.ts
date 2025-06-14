@@ -125,8 +125,15 @@ export class AddCompanyTypesComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addCompanyTypesLookupsForm.valid) {
+      this.addCompanyTypesLookupsForm.markAsPristine();
+    }
 
     console.log('🧭 Navigating away to view-company-types');
     this.router.navigate(['/lookups/view-company-types']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addCompanyTypesLookupsForm.dirty;
   }
 }

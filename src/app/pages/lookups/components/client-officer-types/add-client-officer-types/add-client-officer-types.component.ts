@@ -84,7 +84,10 @@ export class AddClientOfficerTypesComponent {
     console.log('  editMode:', this.editMode);
     console.log('  form valid:', this.addClientOfficerTypeForm.valid);
     console.log('  form touched:', this.addClientOfficerTypeForm.touched);
-    console.log('  form raw value:', this.addClientOfficerTypeForm.getRawValue());
+    console.log(
+      '  form raw value:',
+      this.addClientOfficerTypeForm.getRawValue()
+    );
 
     // Print individual control errors
     const nameCtrl = this.addClientOfficerTypeForm.get('name');
@@ -112,7 +115,8 @@ export class AddClientOfficerTypesComponent {
     console.log('  route.snapshot.paramMap.get(clientId):', routeId);
 
     if (this.editMode) {
-      const { id, name, nameAR, isActive } = this.addClientOfficerTypeForm.value;
+      const { id, name, nameAR, isActive } =
+        this.addClientOfficerTypeForm.value;
       const payload: ClientOfficerType = { id, name, nameAR, isActive };
       console.log(
         '🔄 Dispatching UPDATE id=',
@@ -125,8 +129,15 @@ export class AddClientOfficerTypesComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addClientOfficerTypeForm.valid) {
+      this.addClientOfficerTypeForm.markAsPristine();
+    }
 
     console.log('🧭 Navigating away to view-client-officer-types');
     this.router.navigate(['/lookups/view-client-officer-types']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addClientOfficerTypeForm.dirty;
   }
 }

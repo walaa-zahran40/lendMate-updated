@@ -118,7 +118,14 @@ export class AddAssetTypesComponent {
     this.editMode
       ? this.facade.update(id, payload)
       : this.facade.create(payload);
+    if (this.addAssetTypesLookupsForm.valid) {
+      this.addAssetTypesLookupsForm.markAsPristine();
+    }
 
     this.router.navigate(['/lookups/view-asset-types']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addAssetTypesLookupsForm.dirty;
   }
 }

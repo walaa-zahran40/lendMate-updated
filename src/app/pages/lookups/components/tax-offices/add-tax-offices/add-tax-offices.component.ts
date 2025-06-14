@@ -155,8 +155,15 @@ export class AddTaxOfficesComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addTaxOfficesLookupsForm.valid) {
+      this.addTaxOfficesLookupsForm.markAsPristine();
+    }
 
     console.log('🧭 Navigating away to view-tax-offices');
     this.router.navigate(['/lookups/view-tax-offices']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addTaxOfficesLookupsForm.dirty;
   }
 }

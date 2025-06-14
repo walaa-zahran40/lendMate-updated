@@ -159,8 +159,15 @@ export class AddPaymentTimingTermsComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addPaymentTimingTermsLookupsForm.valid) {
+      this.addPaymentTimingTermsLookupsForm.markAsPristine();
+    }
 
     console.log('🧭 Navigating away to view-grace-periods');
     this.router.navigate(['/lookups/view-payment-timing-terms']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addPaymentTimingTermsLookupsForm.dirty;
   }
 }

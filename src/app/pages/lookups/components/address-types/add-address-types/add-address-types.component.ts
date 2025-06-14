@@ -133,7 +133,14 @@ export class AddAddressTypesComponent {
       this.facade.create(payload);
     }
     console.log('🧭 Navigating away to view-address-types');
+    if (this.addAddressTypesLookupsForm.valid) {
+      this.addAddressTypesLookupsForm.markAsPristine();
+    }
 
     this.router.navigate(['/lookups/view-address-types']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addAddressTypesLookupsForm.dirty;
   }
 }

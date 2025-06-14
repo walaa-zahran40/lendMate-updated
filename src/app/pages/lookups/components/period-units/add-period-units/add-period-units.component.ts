@@ -154,8 +154,15 @@ export class AddPeriodUnitsComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addGracePeriodUnitsLookupsForm.valid) {
+      this.addGracePeriodUnitsLookupsForm.markAsPristine();
+    }
 
     console.log('🧭 Navigating away to view-grace-periods');
     this.router.navigate(['/lookups/view-period-units']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addGracePeriodUnitsLookupsForm.dirty;
   }
 }

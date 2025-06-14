@@ -132,8 +132,15 @@ export class AddClientStatusesComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addClientStatusesLookupsForm.valid) {
+      this.addClientStatusesLookupsForm.markAsPristine();
+    }
 
     console.log('🧭 Navigating away to view-client-statuses');
     this.router.navigate(['/lookups/view-client-statuses']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addClientStatusesLookupsForm.dirty;
   }
 }

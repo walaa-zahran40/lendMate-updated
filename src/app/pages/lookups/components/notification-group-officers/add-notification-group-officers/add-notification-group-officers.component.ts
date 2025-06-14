@@ -32,7 +32,7 @@ export class AddNotificationGroupOfficersComponent {
     private officersFacade: OfficersFacade,
     private notificationGroupsFacade: NotificationGroupsFacade,
     private router: Router,
-    private store: Store,
+    private store: Store
   ) {}
 
   ngOnInit() {
@@ -43,7 +43,7 @@ export class AddNotificationGroupOfficersComponent {
 
     this.officers$ = this.officersFacade.items$;
     this.officersFacade.loadAll();
-    
+
     this.addNotificationGroupOfficersLookupsForm = this.fb.group({
       id: [null],
       notificationGroup: [null],
@@ -54,8 +54,6 @@ export class AddNotificationGroupOfficersComponent {
       startDate: [null],
       endDate: [null],
     });
-
-
 
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
@@ -104,11 +102,8 @@ export class AddNotificationGroupOfficersComponent {
       return;
     }
 
-    const {
-      notificationGroupId,
-      officerId,
-      startDate
-    } = this.addNotificationGroupOfficersLookupsForm.value;
+    const { notificationGroupId, officerId, startDate } =
+      this.addNotificationGroupOfficersLookupsForm.value;
     const payload: Partial<NotificationGroupOfficer> = {
       notificationGroupId,
       officerId,
@@ -117,24 +112,27 @@ export class AddNotificationGroupOfficersComponent {
     const routeId = this.route.snapshot.paramMap.get('id');
 
     if (this.editMode) {
-      const {
-        id,
-         notificationGroupId,
-      officerId,
-      startDate
-      } = this.addNotificationGroupOfficersLookupsForm.value;
+      const { id, notificationGroupId, officerId, startDate } =
+        this.addNotificationGroupOfficersLookupsForm.value;
       const payload: NotificationGroupOfficer = {
         id,
-         notificationGroupId,
+        notificationGroupId,
         officerId,
-        startDate
+        startDate,
       };
 
       this.facade.update(id, payload);
     } else {
       this.facade.create(payload);
     }
+    if (this.addNotificationGroupOfficersLookupsForm.valid) {
+      this.addNotificationGroupOfficersLookupsForm.markAsPristine();
+    }
 
     this.router.navigate(['/lookups/view-notification-group-officers']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addNotificationGroupOfficersLookupsForm.dirty;
   }
 }

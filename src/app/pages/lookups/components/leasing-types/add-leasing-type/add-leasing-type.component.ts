@@ -153,8 +153,15 @@ export class AddLeasingTypeComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addLeasingTypesLookupsForm.valid) {
+      this.addLeasingTypesLookupsForm.markAsPristine();
+    }
 
     console.log('🧭 Navigating away to view-grace-periods');
     this.router.navigate(['/lookups/view-leasing-types']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addLeasingTypesLookupsForm.dirty;
   }
 }

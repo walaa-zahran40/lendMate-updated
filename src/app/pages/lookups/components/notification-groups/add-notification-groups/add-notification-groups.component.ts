@@ -85,7 +85,10 @@ export class AddNotificationGroupsComponent {
     console.log('  viewOnly:', this.viewOnly);
     console.log('  editMode:', this.editMode);
     console.log('  form valid:', this.addNotificationGroupsLookupsForm.valid);
-    console.log('  form touched:', this.addNotificationGroupsLookupsForm.touched);
+    console.log(
+      '  form touched:',
+      this.addNotificationGroupsLookupsForm.touched
+    );
     console.log(
       '  form raw value:',
       this.addNotificationGroupsLookupsForm.getRawValue()
@@ -108,7 +111,8 @@ export class AddNotificationGroupsComponent {
       return;
     }
 
-    const { name, nameAR, isActive } = this.addNotificationGroupsLookupsForm.value;
+    const { name, nameAR, isActive } =
+      this.addNotificationGroupsLookupsForm.value;
     const payload: Partial<NotificationGroup> = { name, nameAR, isActive };
     console.log('  → payload object:', payload);
 
@@ -132,7 +136,14 @@ export class AddNotificationGroupsComponent {
       this.facade.create(payload);
     }
     console.log('🧭 Navigating away to view-notification-groups');
+    if (this.addNotificationGroupsLookupsForm.valid) {
+      this.addNotificationGroupsLookupsForm.markAsPristine();
+    }
 
     this.router.navigate(['/lookups/view-notification-groups']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addNotificationGroupsLookupsForm.dirty;
   }
 }

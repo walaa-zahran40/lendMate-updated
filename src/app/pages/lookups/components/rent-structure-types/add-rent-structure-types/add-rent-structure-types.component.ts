@@ -159,8 +159,15 @@ export class AddRentStructureTypesComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addRentStructureTypesLookupsForm.valid) {
+      this.addRentStructureTypesLookupsForm.markAsPristine();
+    }
 
     console.log('🧭 Navigating away to view-grace-periods');
     this.router.navigate(['/lookups/view-rent-structure-types']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addRentStructureTypesLookupsForm.dirty;
   }
 }

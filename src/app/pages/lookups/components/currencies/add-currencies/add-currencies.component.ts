@@ -127,8 +127,15 @@ export class AddCurrenciesComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addCurrenciesLookupsForm.valid) {
+      this.addCurrenciesLookupsForm.markAsPristine();
+    }
 
     console.log('🧭 Navigating away to view-company-types');
     this.router.navigate(['/lookups/view-currencies']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addCurrenciesLookupsForm.dirty;
   }
 }

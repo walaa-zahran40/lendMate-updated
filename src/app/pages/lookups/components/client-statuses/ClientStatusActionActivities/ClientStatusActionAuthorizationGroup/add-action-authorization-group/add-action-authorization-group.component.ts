@@ -8,7 +8,7 @@ import { AuthorizationGroup } from '../../../../../store/authorization-groups/au
 import { ActionAuthorizationGroup } from '../../../../../store/client-statuses-actions-activities/ClientStatusActionAuthorizationGroup/action-authorization-group.model';
 import { ActionAuthorizationGroupsFacade } from '../../../../../store/client-statuses-actions-activities/ClientStatusActionAuthorizationGroup/action-authorization-groups.facade';
 import { selectAllAuthorizationGroups } from '../../../../../store/authorization-groups/authorization-groups.selectors';
-import { loadAll as loadAuthorizationGroups} from '../../../../../store/authorization-groups/authorization-groups.actions';
+import { loadAll as loadAuthorizationGroups } from '../../../../../store/authorization-groups/authorization-groups.actions';
 
 @Component({
   selector: 'app-add-action-authorization-group',
@@ -39,7 +39,9 @@ export class AddActionAuthorizationGroupsComponent {
     console.log('🟢 ngOnInit start');
     // 1️⃣ Read route parameters
     console.log(this.route.snapshot, 'route');
-    this.clientStatusActionId = Number(this.route.snapshot.queryParams['clientStatusActionId']);
+    this.clientStatusActionId = Number(
+      this.route.snapshot.queryParams['clientStatusActionId']
+    );
 
     this.mode =
       (this.route.snapshot.queryParamMap.get('mode') as
@@ -59,7 +61,7 @@ export class AddActionAuthorizationGroupsComponent {
       id: [null],
       clientStatusActionId: [null, [Validators.required]],
       authorizationGroupId: [null, [Validators.required]],
-      startDate:  [null, [Validators.required]],
+      startDate: [null, [Validators.required]],
       isActive: [true],
     });
     console.log(
@@ -70,14 +72,19 @@ export class AddActionAuthorizationGroupsComponent {
     console.log('🚀 Dispatching lookup loads');
     this.store.dispatch(loadAuthorizationGroups({}));
 
-    this.authorizationGroupsList$ = this.store.select(selectAllAuthorizationGroups);
+    this.authorizationGroupsList$ = this.store.select(
+      selectAllAuthorizationGroups
+    );
 
     // Patch for add mode
     if (this.mode === 'add') {
       this.addActionAuthorizationGroupsLookupsForm.patchValue({
         clientStatusActionId: this.clientStatusActionId,
       });
-      console.log('✏️ Add mode → patched clientStatusActionId:', this.clientStatusActionId);
+      console.log(
+        '✏️ Add mode → patched clientStatusActionId:',
+        this.clientStatusActionId
+      );
     }
 
     // Patch for edit/view mode
@@ -96,7 +103,7 @@ export class AddActionAuthorizationGroupsComponent {
             id: ct?.id,
             clientStatusActionId: this.clientStatusActionId,
             authorizationGroupId: ct?.authorizationGroupId,
-            startDate:new Date(ct?.startDate),
+            startDate: new Date(ct?.startDate),
             isActive: ct?.isActive,
           });
         });
@@ -104,12 +111,17 @@ export class AddActionAuthorizationGroupsComponent {
   }
 
   addOrEditActionAuthorizationGroups() {
-    const clientParamQP = this.route.snapshot.queryParamMap.get('clientStatusActionId');
+    const clientParamQP = this.route.snapshot.queryParamMap.get(
+      'clientStatusActionId'
+    );
 
     console.log('💥 addActionAuthorizationGroups() called');
     console.log('  viewOnly:', this.viewOnly);
     console.log('  editMode:', this.editMode);
-    console.log('  form valid:', this.addActionAuthorizationGroupsLookupsForm.valid);
+    console.log(
+      '  form valid:',
+      this.addActionAuthorizationGroupsLookupsForm.valid
+    );
     console.log(
       '  form touched:',
       this.addActionAuthorizationGroupsLookupsForm.touched
@@ -129,13 +141,13 @@ export class AddActionAuthorizationGroupsComponent {
       clientStatusActionId: clientParamQP,
     });
 
-    const {authorizationGroupId, clientStatusActionId,startDate, isActive } =
+    const { authorizationGroupId, clientStatusActionId, startDate, isActive } =
       this.addActionAuthorizationGroupsLookupsForm.value;
     const payload: Partial<ActionAuthorizationGroup> = {
       authorizationGroupId,
       clientStatusActionId,
       startDate,
-      isActive
+      isActive,
     };
     console.log('  → payload object:', payload);
 
@@ -171,10 +183,19 @@ export class AddActionAuthorizationGroupsComponent {
         `/lookups/view-action-authorizationGroups/${clientParamQP}`,
       ]);
     } else {
-      console.error('❌ Cannot navigate back: clientStatusActionId is missing!');
+      console.error(
+        '❌ Cannot navigate back: clientStatusActionId is missing!'
+      );
+    }
+    if (this.addActionAuthorizationGroupsLookupsForm.valid) {
+      this.addActionAuthorizationGroupsLookupsForm.markAsPristine();
     }
     // console.log('🧭 Navigating away to view-client-addresses');
     // this.router.navigate(['/organizations/view-client-addresses']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addActionAuthorizationGroupsLookupsForm.dirty;
   }
 
   ngOnDestroy() {

@@ -131,7 +131,14 @@ export class AddAssetTypeCategoriesComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addAssetTypeCategoriesLookupsForm.valid) {
+      this.addAssetTypeCategoriesLookupsForm.markAsPristine();
+    }
 
     this.router.navigate(['/lookups/view-asset-type-categories']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addAssetTypeCategoriesLookupsForm.dirty;
   }
 }

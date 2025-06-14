@@ -155,8 +155,15 @@ export class AddSMEClientCodesComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addSMEClientCodesLookupsForm.valid) {
+      this.addSMEClientCodesLookupsForm.markAsPristine();
+    }
 
     console.log('🧭 Navigating away to view-sme-client-code');
     this.router.navigate(['/lookups/view-sme-client-codes']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addSMEClientCodesLookupsForm.dirty;
   }
 }

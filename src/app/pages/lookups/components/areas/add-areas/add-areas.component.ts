@@ -161,7 +161,14 @@ export class AddAreasComponent {
     }
 
     console.log('🧭 Navigating away to view-areas');
+    if (this.addAreasLookupsForm.valid) {
+      this.addAreasLookupsForm.markAsPristine();
+    }
 
     this.router.navigate(['/lookups/view-areas']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addAreasLookupsForm.dirty;
   }
 }

@@ -29,7 +29,7 @@ export class AddAuthorizationGroupOfficersComponent {
     private officersFacade: OfficersFacade,
     private authorizationGroupsFacade: AuthorizationGroupsFacade,
     private router: Router,
-    private store: Store,
+    private store: Store
   ) {}
 
   ngOnInit() {
@@ -40,7 +40,7 @@ export class AddAuthorizationGroupOfficersComponent {
 
     this.officers$ = this.officersFacade.items$;
     this.officersFacade.loadAll();
-    
+
     this.addAuthorizationGroupOfficersLookupsForm = this.fb.group({
       id: [null],
       authorizationGroup: [null],
@@ -51,8 +51,6 @@ export class AddAuthorizationGroupOfficersComponent {
       startDate: [null],
       endDate: [null],
     });
-
-
 
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
@@ -101,11 +99,8 @@ export class AddAuthorizationGroupOfficersComponent {
       return;
     }
 
-    const {
-      authorizationGroupId,
-      officerId,
-      startDate
-    } = this.addAuthorizationGroupOfficersLookupsForm.value;
+    const { authorizationGroupId, officerId, startDate } =
+      this.addAuthorizationGroupOfficersLookupsForm.value;
     const payload: Partial<AuthorizationGroupOfficer> = {
       authorizationGroupId,
       officerId,
@@ -114,24 +109,27 @@ export class AddAuthorizationGroupOfficersComponent {
     const routeId = this.route.snapshot.paramMap.get('id');
 
     if (this.editMode) {
-      const {
-        id,
-         authorizationGroupId,
-      officerId,
-      startDate
-      } = this.addAuthorizationGroupOfficersLookupsForm.value;
+      const { id, authorizationGroupId, officerId, startDate } =
+        this.addAuthorizationGroupOfficersLookupsForm.value;
       const payload: AuthorizationGroupOfficer = {
         id,
-         authorizationGroupId,
+        authorizationGroupId,
         officerId,
-        startDate
+        startDate,
       };
 
       this.facade.update(id, payload);
     } else {
       this.facade.create(payload);
     }
+    if (this.addAuthorizationGroupOfficersLookupsForm.valid) {
+      this.addAuthorizationGroupOfficersLookupsForm.markAsPristine();
+    }
 
     this.router.navigate(['/lookups/view-authorization-group-officers']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addAuthorizationGroupOfficersLookupsForm.dirty;
   }
 }

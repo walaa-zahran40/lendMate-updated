@@ -157,8 +157,14 @@ export class AddFeeCalculationTypesComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
-
+    if (this.addFeeCalculationTypesLookupsForm.valid) {
+      this.addFeeCalculationTypesLookupsForm.markAsPristine();
+    }
     console.log('🧭 Navigating away to view-fee-calculation-types');
     this.router.navigate(['/lookups/view-fee-calculation-types']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addFeeCalculationTypesLookupsForm.dirty;
   }
 }

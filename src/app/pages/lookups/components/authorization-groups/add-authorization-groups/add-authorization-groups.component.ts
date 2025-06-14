@@ -86,7 +86,10 @@ export class AddAuthorizationGroupsComponent {
     console.log('  viewOnly:', this.viewOnly);
     console.log('  editMode:', this.editMode);
     console.log('  form valid:', this.addAuthorizationGroupsLookupsForm.valid);
-    console.log('  form touched:', this.addAuthorizationGroupsLookupsForm.touched);
+    console.log(
+      '  form touched:',
+      this.addAuthorizationGroupsLookupsForm.touched
+    );
     console.log(
       '  form raw value:',
       this.addAuthorizationGroupsLookupsForm.getRawValue()
@@ -109,7 +112,8 @@ export class AddAuthorizationGroupsComponent {
       return;
     }
 
-    const { name, nameAR, isActive } = this.addAuthorizationGroupsLookupsForm.value;
+    const { name, nameAR, isActive } =
+      this.addAuthorizationGroupsLookupsForm.value;
     const payload: Partial<AuthorizationGroup> = { name, nameAR, isActive };
     console.log('  → payload object:', payload);
 
@@ -133,7 +137,14 @@ export class AddAuthorizationGroupsComponent {
       this.facade.create(payload);
     }
     console.log('🧭 Navigating away to view-authorization-groups');
+    if (this.addAuthorizationGroupsLookupsForm.valid) {
+      this.addAuthorizationGroupsLookupsForm.markAsPristine();
+    }
 
     this.router.navigate(['/lookups/view-authorization-groups']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addAuthorizationGroupsLookupsForm.dirty;
   }
 }

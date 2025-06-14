@@ -156,10 +156,17 @@ export class AddCurrenciesExchangeComponent implements OnInit, OnDestroy {
     } else {
       console.error('❌ Cannot navigate back: currencyId is missing!');
     }
+    if (this.addCurrenciesExchangeForm.valid) {
+      this.addCurrenciesExchangeForm.markAsPristine();
+    }
   }
 
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addCurrenciesExchangeForm.dirty;
   }
 }

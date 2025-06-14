@@ -152,8 +152,15 @@ export class AddInsuredByComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addInsuredByLookupsForm.valid) {
+      this.addInsuredByLookupsForm.markAsPristine();
+    }
 
     console.log('🧭 Navigating away to view-grace-periods');
     this.router.navigate(['/lookups/view-insured-by']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addInsuredByLookupsForm.dirty;
   }
 }

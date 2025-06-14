@@ -124,7 +124,14 @@ export class AddBusinessLinesComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addBusinessLinesLookupsForm.valid) {
+      this.addBusinessLinesLookupsForm.markAsPristine();
+    }
 
     this.router.navigate(['/lookups/view-business-lines']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addBusinessLinesLookupsForm.dirty;
   }
 }

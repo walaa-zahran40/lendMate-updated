@@ -197,7 +197,14 @@ export class AddMandateStatusActionsComponent {
     }
 
     console.log('🧭 Navigating away to view-actions');
+    if (this.addMandateStatusActionsLookupsForm.valid) {
+      this.addMandateStatusActionsLookupsForm.markAsPristine();
+    }
 
     this.router.navigate(['/lookups/view-mandate-status-actions']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addMandateStatusActionsLookupsForm.dirty;
   }
 }

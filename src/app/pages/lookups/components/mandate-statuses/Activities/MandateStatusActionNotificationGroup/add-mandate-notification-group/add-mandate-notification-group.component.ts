@@ -6,7 +6,7 @@ import { Observable, Subject, takeUntil, filter } from 'rxjs';
 import { loadOfficers } from '../../../../../../organizations/store/officers/officers.actions';
 import { NotificationGroup } from '../../../../../store/notification-groups/notification-groups.model';
 import { selectAllNotificationGroups } from '../../../../../store/notification-groups/notification-groups.selectors';
-import { loadAll as loadNotificationGroups} from '../../../../../store/notification-groups/notification-groups.actions';
+import { loadAll as loadNotificationGroups } from '../../../../../store/notification-groups/notification-groups.actions';
 import { MandateActionNotificationGroupsFacade } from '../../../../../store/mandate-statuses-actions-activities/MandateStatusActionNotificationGroup/action-notification-groups.facade';
 import { MandateActionNotificationGroup } from '../../../../../store/mandate-statuses-actions-activities/MandateStatusActionNotificationGroup/action-notification-group.model';
 
@@ -39,7 +39,9 @@ export class AddMandateActionNotificationGroupsComponent {
     console.log('🟢 ngOnInit start');
     // 1️⃣ Read route parameters
     console.log(this.route.snapshot, 'route');
-    this.mandateStatusActionId = Number(this.route.snapshot.queryParams['mandateStatusActionId']);
+    this.mandateStatusActionId = Number(
+      this.route.snapshot.queryParams['mandateStatusActionId']
+    );
 
     this.mode =
       (this.route.snapshot.queryParamMap.get('mode') as
@@ -59,7 +61,7 @@ export class AddMandateActionNotificationGroupsComponent {
       id: [null],
       mandateStatusActionId: [null, [Validators.required]],
       notificationGroupId: [null, [Validators.required]],
-      startDate:  [null, [Validators.required]],
+      startDate: [null, [Validators.required]],
       isActive: [true],
     });
     console.log(
@@ -70,14 +72,19 @@ export class AddMandateActionNotificationGroupsComponent {
     console.log('🚀 Dispatching lookup loads');
     this.store.dispatch(loadNotificationGroups({}));
 
-    this.notificationGroupsList$ = this.store.select(selectAllNotificationGroups);
+    this.notificationGroupsList$ = this.store.select(
+      selectAllNotificationGroups
+    );
 
     // Patch for add mode
     if (this.mode === 'add') {
       this.addActionNotificationGroupsLookupsForm.patchValue({
         mandateStatusActionId: this.mandateStatusActionId,
       });
-      console.log('✏️ Add mode → patched mandateStatusActionId:', this.mandateStatusActionId);
+      console.log(
+        '✏️ Add mode → patched mandateStatusActionId:',
+        this.mandateStatusActionId
+      );
     }
 
     // Patch for edit/view mode
@@ -96,7 +103,7 @@ export class AddMandateActionNotificationGroupsComponent {
             id: ct?.id,
             mandateStatusActionId: this.mandateStatusActionId,
             notificationGroupId: ct?.notificationGroupId,
-            startDate:new Date(ct?.startDate),
+            startDate: new Date(ct?.startDate),
             isActive: ct?.isActive,
           });
         });
@@ -104,12 +111,17 @@ export class AddMandateActionNotificationGroupsComponent {
   }
 
   addOrEditMandateActionNotificationGroups() {
-    const mandateParamQP = this.route.snapshot.queryParamMap.get('mandateStatusActionId');
+    const mandateParamQP = this.route.snapshot.queryParamMap.get(
+      'mandateStatusActionId'
+    );
 
     console.log('💥 addActionNotificationGroups() called');
     console.log('  viewOnly:', this.viewOnly);
     console.log('  editMode:', this.editMode);
-    console.log('  form valid:', this.addActionNotificationGroupsLookupsForm.valid);
+    console.log(
+      '  form valid:',
+      this.addActionNotificationGroupsLookupsForm.valid
+    );
     console.log(
       '  form touched:',
       this.addActionNotificationGroupsLookupsForm.touched
@@ -129,13 +141,13 @@ export class AddMandateActionNotificationGroupsComponent {
       mandateStatusActionId: mandateParamQP,
     });
 
-    const {notificationGroupId, mandateStatusActionId,startDate, isActive } =
+    const { notificationGroupId, mandateStatusActionId, startDate, isActive } =
       this.addActionNotificationGroupsLookupsForm.value;
     const payload: Partial<MandateActionNotificationGroup> = {
       notificationGroupId,
       mandateStatusActionId,
       startDate,
-      isActive
+      isActive,
     };
     console.log('  → payload object:', payload);
 
@@ -171,8 +183,14 @@ export class AddMandateActionNotificationGroupsComponent {
         `/lookups/view-mandate-action-notificationGroups/${mandateParamQP}`,
       ]);
     } else {
-      console.error('❌ Cannot navigate back: mandateStatusActionId is missing!');
+      console.error(
+        '❌ Cannot navigate back: mandateStatusActionId is missing!'
+      );
     }
+    if (this.addActionNotificationGroupsLookupsForm.valid) {
+      this.addActionNotificationGroupsLookupsForm.markAsPristine();
+    }
+
     // console.log('🧭 Navigating away to view-mandate-addresses');
     // this.router.navigate(['/organizations/view-mandate-addresses']);
   }
@@ -180,5 +198,9 @@ export class AddMandateActionNotificationGroupsComponent {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addActionNotificationGroupsLookupsForm.dirty;
   }
 }

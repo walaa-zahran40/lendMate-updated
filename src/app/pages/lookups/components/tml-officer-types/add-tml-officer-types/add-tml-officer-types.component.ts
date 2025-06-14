@@ -155,8 +155,15 @@ export class AddTmlOfficerTypesComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addTmlOfficerTypesLookupsForm.valid) {
+      this.addTmlOfficerTypesLookupsForm.markAsPristine();
+    }
 
     console.log('🧭 Navigating away to view-grace-periods');
     this.router.navigate(['/lookups/view-tml-officer-types']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addTmlOfficerTypesLookupsForm.dirty;
   }
 }

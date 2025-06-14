@@ -124,8 +124,15 @@ export class AddCountriesComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addCountriesLookupsForm.valid) {
+      this.addCountriesLookupsForm.markAsPristine();
+    }
 
     console.log('🧭 Navigating away to view-countries');
     this.router.navigate(['/lookups/view-countries']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addCountriesLookupsForm.dirty;
   }
 }

@@ -6,7 +6,7 @@ import { Observable, Subject, takeUntil, filter } from 'rxjs';
 import { loadOfficers } from '../../../../../../organizations/store/officers/officers.actions';
 import { NotificationGroup } from '../../../../../store/notification-groups/notification-groups.model';
 import { selectAllNotificationGroups } from '../../../../../store/notification-groups/notification-groups.selectors';
-import { loadAll as loadNotificationGroups} from '../../../../../store/notification-groups/notification-groups.actions';
+import { loadAll as loadNotificationGroups } from '../../../../../store/notification-groups/notification-groups.actions';
 import { ActionNotificationGroupsFacade } from '../../../../../store/client-statuses-actions-activities/ClientStatusActionNotificationGroup/action-notification-groups.facade';
 import { ActionNotificationGroup } from '../../../../../store/client-statuses-actions-activities/ClientStatusActionNotificationGroup/action-notification-group.model';
 
@@ -39,7 +39,9 @@ export class AddActionNotificationGroupsComponent {
     console.log('🟢 ngOnInit start');
     // 1️⃣ Read route parameters
     console.log(this.route.snapshot, 'route');
-    this.clientStatusActionId = Number(this.route.snapshot.queryParams['clientStatusActionId']);
+    this.clientStatusActionId = Number(
+      this.route.snapshot.queryParams['clientStatusActionId']
+    );
 
     this.mode =
       (this.route.snapshot.queryParamMap.get('mode') as
@@ -59,7 +61,7 @@ export class AddActionNotificationGroupsComponent {
       id: [null],
       clientStatusActionId: [null, [Validators.required]],
       notificationGroupId: [null, [Validators.required]],
-      startDate:  [null, [Validators.required]],
+      startDate: [null, [Validators.required]],
       isActive: [true],
     });
     console.log(
@@ -70,14 +72,19 @@ export class AddActionNotificationGroupsComponent {
     console.log('🚀 Dispatching lookup loads');
     this.store.dispatch(loadNotificationGroups({}));
 
-    this.notificationGroupsList$ = this.store.select(selectAllNotificationGroups);
+    this.notificationGroupsList$ = this.store.select(
+      selectAllNotificationGroups
+    );
 
     // Patch for add mode
     if (this.mode === 'add') {
       this.addActionNotificationGroupsLookupsForm.patchValue({
         clientStatusActionId: this.clientStatusActionId,
       });
-      console.log('✏️ Add mode → patched clientStatusActionId:', this.clientStatusActionId);
+      console.log(
+        '✏️ Add mode → patched clientStatusActionId:',
+        this.clientStatusActionId
+      );
     }
 
     // Patch for edit/view mode
@@ -96,7 +103,7 @@ export class AddActionNotificationGroupsComponent {
             id: ct?.id,
             clientStatusActionId: this.clientStatusActionId,
             notificationGroupId: ct?.notificationGroupId,
-            startDate:new Date(ct?.startDate),
+            startDate: new Date(ct?.startDate),
             isActive: ct?.isActive,
           });
         });
@@ -104,12 +111,17 @@ export class AddActionNotificationGroupsComponent {
   }
 
   addOrEditActionNotificationGroups() {
-    const clientParamQP = this.route.snapshot.queryParamMap.get('clientStatusActionId');
+    const clientParamQP = this.route.snapshot.queryParamMap.get(
+      'clientStatusActionId'
+    );
 
     console.log('💥 addActionNotificationGroups() called');
     console.log('  viewOnly:', this.viewOnly);
     console.log('  editMode:', this.editMode);
-    console.log('  form valid:', this.addActionNotificationGroupsLookupsForm.valid);
+    console.log(
+      '  form valid:',
+      this.addActionNotificationGroupsLookupsForm.valid
+    );
     console.log(
       '  form touched:',
       this.addActionNotificationGroupsLookupsForm.touched
@@ -129,13 +141,13 @@ export class AddActionNotificationGroupsComponent {
       clientStatusActionId: clientParamQP,
     });
 
-    const {notificationGroupId, clientStatusActionId,startDate, isActive } =
+    const { notificationGroupId, clientStatusActionId, startDate, isActive } =
       this.addActionNotificationGroupsLookupsForm.value;
     const payload: Partial<ActionNotificationGroup> = {
       notificationGroupId,
       clientStatusActionId,
       startDate,
-      isActive
+      isActive,
     };
     console.log('  → payload object:', payload);
 
@@ -171,10 +183,20 @@ export class AddActionNotificationGroupsComponent {
         `/lookups/view-action-notificationGroups/${clientParamQP}`,
       ]);
     } else {
-      console.error('❌ Cannot navigate back: clientStatusActionId is missing!');
+      console.error(
+        '❌ Cannot navigate back: clientStatusActionId is missing!'
+      );
     }
+    if (this.addActionNotificationGroupsLookupsForm.valid) {
+      this.addActionNotificationGroupsLookupsForm.markAsPristine();
+    }
+
     // console.log('🧭 Navigating away to view-client-addresses');
     // this.router.navigate(['/organizations/view-client-addresses']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addActionNotificationGroupsLookupsForm.dirty;
   }
 
   ngOnDestroy() {

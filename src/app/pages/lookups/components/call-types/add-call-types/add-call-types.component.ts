@@ -123,8 +123,14 @@ export class AddCallTypesComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
-
+    if (this.addCallTypeForm.valid) {
+      this.addCallTypeForm.markAsPristine();
+    }
     console.log('🧭 Navigating away to view-call--types');
     this.router.navigate(['/lookups/view-call-types']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addCallTypeForm.dirty;
   }
 }

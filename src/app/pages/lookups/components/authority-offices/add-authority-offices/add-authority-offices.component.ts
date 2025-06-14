@@ -128,8 +128,15 @@ export class AddAuthorityOfficesComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addAuthorityOfficesLookupsForm.valid) {
+      this.addAuthorityOfficesLookupsForm.markAsPristine();
+    }
 
     console.log('🧭 Navigating away to view-address-types');
     this.router.navigate(['/lookups/view-authority-offices']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addAuthorityOfficesLookupsForm.dirty;
   }
 }

@@ -157,8 +157,15 @@ export class AddGovernoratesComponent implements OnInit {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addGovernoratesLookupsForm.valid) {
+      this.addGovernoratesLookupsForm.markAsPristine();
+    }
 
     console.log('🧭 Navigating away to view-governorates');
     this.router.navigate(['/lookups/view-governorates']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addGovernoratesLookupsForm.dirty;
   }
 }

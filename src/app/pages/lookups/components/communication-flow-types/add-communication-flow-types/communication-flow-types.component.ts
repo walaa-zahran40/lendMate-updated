@@ -137,8 +137,15 @@ export class AddCommunicationFlowTypesComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addCommunicationFlowTypesLookupsForm.valid) {
+      this.addCommunicationFlowTypesLookupsForm.markAsPristine();
+    }
 
     console.log('🧭 Navigating away to view communication flow types');
     this.router.navigate(['/lookups/view-communication-flow-types']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addCommunicationFlowTypesLookupsForm.dirty;
   }
 }

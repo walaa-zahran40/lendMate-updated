@@ -134,8 +134,15 @@ export class AddCommunicationTypesComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addCommunicationTypesLookupsForm.valid) {
+      this.addCommunicationTypesLookupsForm.markAsPristine();
+    }
 
     console.log('🧭 Navigating away to view communication  types');
     this.router.navigate(['/lookups/view-communication-types']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addCommunicationTypesLookupsForm.dirty;
   }
 }

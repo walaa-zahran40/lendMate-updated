@@ -125,8 +125,15 @@ export class AddCallActionTypesComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addCallActionTypeForm.valid) {
+      this.addCallActionTypeForm.markAsPristine();
+    }
 
     console.log('🧭 Navigating away to view-call-action-types');
     this.router.navigate(['/lookups/view-call-action-types']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addCallActionTypeForm.dirty;
   }
 }

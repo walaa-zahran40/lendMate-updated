@@ -123,8 +123,15 @@ export class AddClientTypesComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addClientTypeForm.valid) {
+      this.addClientTypeForm.markAsPristine();
+    }
 
     console.log('🧭 Navigating away to view client types');
     this.router.navigate(['/lookups/view-client-types']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addClientTypeForm.dirty;
   }
 }

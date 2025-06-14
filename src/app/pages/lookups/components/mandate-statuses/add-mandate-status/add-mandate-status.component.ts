@@ -31,7 +31,10 @@ export class AddMandateStatusesComponent {
         '',
         [Validators.required], // 2nd slot (sync)
       ],
-      nameAR: ['', [Validators.required, Validators.pattern(/^[\u0600-\u06FF\s]+$/)]],
+      nameAR: [
+        '',
+        [Validators.required, Validators.pattern(/^[\u0600-\u06FF\s]+$/)],
+      ],
       isActive: [true], // ← new hidden control
       isInitial: [false],
     });
@@ -132,8 +135,15 @@ export class AddMandateStatusesComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addMandateStatusesLookupsForm.valid) {
+      this.addMandateStatusesLookupsForm.markAsPristine();
+    }
 
     console.log('🧭 Navigating away to view-mandate-statuses');
     this.router.navigate(['/lookups/view-mandate-statuses']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addMandateStatusesLookupsForm.dirty;
   }
 }

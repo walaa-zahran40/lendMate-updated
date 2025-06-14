@@ -119,6 +119,7 @@ import { AddMandateActionAuthorizationGroupsComponent } from './components/manda
 import { ViewMandateActionAuthorizationGroupsComponent } from './components/mandate-statuses/Activities/MandateStatusActionAuthorizationGroup/view-mandate-authorization-group/view-mandate-authorization-group.component';
 import { AddMandateActionNotificationGroupsComponent } from './components/mandate-statuses/Activities/MandateStatusActionNotificationGroup/add-mandate-notification-group/add-mandate-notification-group.component';
 import { ViewMandateActionNotificationGroupsComponent } from './components/mandate-statuses/Activities/MandateStatusActionNotificationGroup/view-mandate-notification-group/view-mandate-notification-group.component';
+import { PendingChangesGuard } from '../../shared/guards/pending-changes.guard';
 
 const routes: Routes = [
   /**Lookup Module */
@@ -131,6 +132,7 @@ const routes: Routes = [
   {
     path: 'edit-followup-types/:id',
     component: AddFollowupTypesComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-followup-types',
@@ -145,6 +147,7 @@ const routes: Routes = [
   {
     path: 'edit-interest-types/:id',
     component: AddInterestTypesComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-interest-types',
@@ -159,6 +162,7 @@ const routes: Routes = [
   {
     path: 'edit-fee-ranges/:id',
     component: AddFeeRangesComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-fee-ranges',
@@ -173,6 +177,7 @@ const routes: Routes = [
   {
     path: 'edit-company-types/:id',
     component: AddCompanyTypesComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-company-types',
@@ -186,6 +191,7 @@ const routes: Routes = [
   {
     path: 'edit-workflow-action-types/:id',
     component: AddWorkFlowActionTypesComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-workflow-action-types',
@@ -199,6 +205,7 @@ const routes: Routes = [
   {
     path: 'edit-fee-calculation-types/:id',
     component: AddFeeCalculationTypesComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-fee-calculation-types',
@@ -212,6 +219,7 @@ const routes: Routes = [
   {
     path: 'edit-address-types/:id',
     component: AddAddressTypesComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-address-types',
@@ -225,6 +233,7 @@ const routes: Routes = [
   {
     path: 'edit-authority-offices/:id',
     component: AddAuthorityOfficesComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-authority-offices',
@@ -239,6 +248,7 @@ const routes: Routes = [
   {
     path: 'edit-countries/:id',
     component: AddCountriesComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-countries',
@@ -252,6 +262,7 @@ const routes: Routes = [
   {
     path: 'edit-sectors/:id',
     component: AddSectorsComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-sectors',
@@ -265,6 +276,7 @@ const routes: Routes = [
   {
     path: 'edit-sub-sectors/:id',
     component: AddSubSectorsComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-sub-sectors',
@@ -278,6 +290,7 @@ const routes: Routes = [
   {
     path: 'edit-tml-officer-types/:id',
     component: AddTmlOfficerTypesComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-tml-officer-types',
@@ -291,6 +304,7 @@ const routes: Routes = [
   {
     path: 'edit-call-action-types/:id',
     component: AddCallActionTypesComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-call-action-types',
@@ -304,6 +318,7 @@ const routes: Routes = [
   {
     path: 'edit-client-officer-types/:id',
     component: AddClientOfficerTypesComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-client-officer-types',
@@ -317,6 +332,7 @@ const routes: Routes = [
   {
     path: 'edit-areas/:id',
     component: AddAreasComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-areas',
@@ -330,6 +346,7 @@ const routes: Routes = [
   {
     path: 'edit-currencies/:id',
     component: AddCurrenciesComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-currencies',
@@ -347,6 +364,7 @@ const routes: Routes = [
   {
     path: 'edit-asset-type-categories/:id',
     component: AddAssetTypeCategoriesComponent,
+    canDeactivate: [PendingChangesGuard],
   },
 
   {
@@ -367,6 +385,7 @@ const routes: Routes = [
   {
     path: 'edit-currency-exchange-rates/:id',
     component: AddCurrenciesExchangeComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-currency-exchange-rates',
@@ -385,6 +404,7 @@ const routes: Routes = [
   {
     path: 'edit-asset-types/:id',
     component: AddAssetTypesComponent,
+    canDeactivate: [PendingChangesGuard],
   },
 
   {
@@ -400,6 +420,7 @@ const routes: Routes = [
   {
     path: 'edit-fee-types/:id',
     component: AddFeeTypesComponent,
+    canDeactivate: [PendingChangesGuard],
   },
 
   {
@@ -415,6 +436,7 @@ const routes: Routes = [
   {
     path: 'edit-call-types/:id',
     component: AddCallTypesComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-call-types',
@@ -429,6 +451,7 @@ const routes: Routes = [
   {
     path: 'edit-business-lines/:id',
     component: AddBusinessLinesComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-business-lines',
@@ -442,6 +465,7 @@ const routes: Routes = [
   {
     path: 'edit-client-types/:id',
     component: AddClientTypesComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-client-types',
@@ -455,6 +479,7 @@ const routes: Routes = [
   {
     path: 'edit-communication-flow-types/:id',
     component: AddCommunicationFlowTypesComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-communication-flow-types',
@@ -468,6 +493,7 @@ const routes: Routes = [
   {
     path: 'edit-communication-types/:id',
     component: AddCommunicationTypesComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-communication-types',
@@ -481,6 +507,7 @@ const routes: Routes = [
   {
     path: 'edit-period-units/:id',
     component: AddPeriodUnitsComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-period-units',
@@ -494,6 +521,7 @@ const routes: Routes = [
   {
     path: 'edit-identification-types/:id',
     component: AddIdentificationTypesComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-identification-types',
@@ -507,6 +535,7 @@ const routes: Routes = [
   {
     path: 'edit-insured-by/:id',
     component: AddInsuredByComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-insured-by',
@@ -520,6 +549,7 @@ const routes: Routes = [
   {
     path: 'edit-interest-rate-benchmarks/:id',
     component: AddInterestRateBenchmarksComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-interest-rate-benchmarks',
@@ -533,6 +563,7 @@ const routes: Routes = [
   {
     path: 'edit-leasing-types/:id',
     component: AddLeasingTypeComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-leasing-types',
@@ -546,6 +577,7 @@ const routes: Routes = [
   {
     path: 'edit-meeting-types/:id',
     component: AddMeetingTypesComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-meeting-types',
@@ -559,6 +591,7 @@ const routes: Routes = [
   {
     path: 'edit-payment-methods/:id',
     component: AddPaymentMethodsComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-payment-methods',
@@ -572,6 +605,7 @@ const routes: Routes = [
   {
     path: 'edit-payment-types/:id',
     component: AddPaymentTypesComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-payment-types',
@@ -586,6 +620,7 @@ const routes: Routes = [
   {
     path: 'edit-payment-periods/:id',
     component: AddPaymentPeriodsComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-payment-periods',
@@ -600,6 +635,7 @@ const routes: Routes = [
   {
     path: 'edit-payment-timing-terms/:id',
     component: AddPaymentTimingTermsComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-payment-timing-terms',
@@ -614,6 +650,7 @@ const routes: Routes = [
   {
     path: 'edit-payment-month-day/:id',
     component: AddPaymentMonthDaysComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-payment-month-days',
@@ -627,6 +664,7 @@ const routes: Routes = [
   {
     path: 'edit-phone-types/:id',
     component: AddPhoneTypesComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-phone-types',
@@ -640,6 +678,7 @@ const routes: Routes = [
   {
     path: 'edit-rent-structure-types/:id',
     component: AddRentStructureTypesComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-rent-structure-types',
@@ -653,6 +692,7 @@ const routes: Routes = [
   {
     path: 'edit-sme-client-code/:id',
     component: AddSMEClientCodesComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-sme-client-codes',
@@ -666,6 +706,7 @@ const routes: Routes = [
   {
     path: 'edit-document-types/:id',
     component: AddDocTypesComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-document-types',
@@ -683,6 +724,7 @@ const routes: Routes = [
   {
     path: 'edit-client-status/:id',
     component: AddClientStatusesComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-client-statuses',
@@ -699,6 +741,7 @@ const routes: Routes = [
   {
     path: 'edit-client-status-actions/:id',
     component: AddClientStatusActionsComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-client-status-actions',
@@ -717,6 +760,7 @@ const routes: Routes = [
   {
     path: 'edit-mandate-status/:id',
     component: AddMandateStatusesComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-mandate-statuses',
@@ -733,6 +777,7 @@ const routes: Routes = [
   {
     path: 'edit-mandate-status-actions/:id',
     component: AddMandateStatusActionsComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-mandate-status-actions',
@@ -747,6 +792,7 @@ const routes: Routes = [
   {
     path: 'edit-mandate-validity-unit/:id',
     component: AddMandateValidityUnitComponent,
+    canDeactivate: [PendingChangesGuard],
   },
 
   {
@@ -764,6 +810,7 @@ const routes: Routes = [
   {
     path: 'edit-products/:id',
     component: AddProductsComponent,
+    canDeactivate: [PendingChangesGuard],
   },
 
   {
@@ -773,6 +820,7 @@ const routes: Routes = [
   {
     path: 'edit-governorate/:id',
     component: AddGovernoratesComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'add-countries',
@@ -786,6 +834,7 @@ const routes: Routes = [
   {
     path: 'edit-tax-offices/:id',
     component: AddTaxOfficesComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'add-tml-officer-types',
@@ -845,6 +894,7 @@ const routes: Routes = [
   {
     path: 'edit-authorization-groups/:id',
     component: AddAuthorizationGroupsComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-authorization-groups',
@@ -859,6 +909,7 @@ const routes: Routes = [
   {
     path: 'edit-notification-groups/:id',
     component: AddNotificationGroupsComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-notification-groups',
@@ -873,6 +924,7 @@ const routes: Routes = [
   {
     path: 'edit-notification-group-officers/:id',
     component: AddNotificationGroupOfficersComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-notification-group-officers',
@@ -887,6 +939,7 @@ const routes: Routes = [
   {
     path: 'edit-condition-expressions/:id',
     component: AddConditionExpressionsComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-condition-expressions',
@@ -901,6 +954,7 @@ const routes: Routes = [
   {
     path: 'edit-conditions/:id',
     component: AddConditionsComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-conditions',
@@ -915,6 +969,7 @@ const routes: Routes = [
   {
     path: 'edit-authorization-group-officers/:id',
     component: AddAuthorizationGroupOfficersComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-authorization-group-officers',
@@ -932,6 +987,7 @@ const routes: Routes = [
   {
     path: 'edit-action-authorizationGroups/:id',
     component: AddActionAuthorizationGroupsComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-action-authorizationGroups/:clientStatusActionId',
@@ -948,13 +1004,14 @@ const routes: Routes = [
   {
     path: 'edit-action-notificationGroups/:id',
     component: AddActionNotificationGroupsComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-action-notificationGroups/:clientStatusActionId',
     component: ViewActionNotificationGroupsComponent,
   },
-  
-   {
+
+  {
     path: 'add-mandate-action-authorizationGroups',
     component: AddMandateActionAuthorizationGroupsComponent,
   },
@@ -965,6 +1022,7 @@ const routes: Routes = [
   {
     path: 'edit-mandate-action-authorizationGroups/:id',
     component: AddMandateActionAuthorizationGroupsComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-mandate-action-authorizationGroups/:mandateStatusActionId',
@@ -981,6 +1039,7 @@ const routes: Routes = [
   {
     path: 'edit-mandate-action-notificationGroups/:id',
     component: AddMandateActionNotificationGroupsComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-mandate-action-notificationGroups/:mandateStatusActionId',

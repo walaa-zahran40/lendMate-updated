@@ -153,8 +153,15 @@ export class AddMeetingTypesComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addMeetingTypesLookupsForm.valid) {
+      this.addMeetingTypesLookupsForm.markAsPristine();
+    }
 
     console.log('🧭 Navigating away to view-grace-periods');
     this.router.navigate(['/lookups/view-meeting-types']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addMeetingTypesLookupsForm.dirty;
   }
 }

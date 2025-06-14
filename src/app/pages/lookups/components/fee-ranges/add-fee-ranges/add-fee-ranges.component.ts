@@ -137,7 +137,14 @@ export class AddFeeRangesComponent {
     } else {
       this.facade.create(payload);
     }
+    if (this.addFeeRangesForm.valid) {
+      this.addFeeRangesForm.markAsPristine();
+    }
 
     this.router.navigate(['/lookups/view-fee-ranges']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addFeeRangesForm.dirty;
   }
 }

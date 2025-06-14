@@ -166,8 +166,15 @@ export class AddMandateValidityUnitComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addMandateValidityUnitLookupsForm.valid) {
+      this.addMandateValidityUnitLookupsForm.markAsPristine();
+    }
 
     console.log('🧭 Navigating away to view-mandate-validity-unit');
     this.router.navigate(['/lookups/view-mandate-validity-unit']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addMandateValidityUnitLookupsForm.dirty;
   }
 }

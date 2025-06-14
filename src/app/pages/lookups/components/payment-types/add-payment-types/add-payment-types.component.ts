@@ -153,8 +153,15 @@ export class AddPaymentTypesComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addPaymentTypesLookupsForm.valid) {
+      this.addPaymentTypesLookupsForm.markAsPristine();
+    }
 
     console.log('🧭 Navigating away to view-grace-periods');
     this.router.navigate(['/lookups/view-payment-types']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addPaymentTypesLookupsForm.dirty;
   }
 }

@@ -153,8 +153,15 @@ export class AddPhoneTypesComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addPhoneTypesLookupsForm.valid) {
+      this.addPhoneTypesLookupsForm.markAsPristine();
+    }
 
     console.log('🧭 Navigating away to view-grace-periods');
     this.router.navigate(['/lookups/view-phone-types']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addPhoneTypesLookupsForm.dirty;
   }
 }

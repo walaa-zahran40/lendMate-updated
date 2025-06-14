@@ -152,8 +152,15 @@ export class AddProductsComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addProductsLookupsForm.valid) {
+      this.addProductsLookupsForm.markAsPristine();
+    }
 
     console.log('🧭 Navigating away to view-products');
     this.router.navigate(['/lookups/view-products']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addProductsLookupsForm.dirty;
   }
 }

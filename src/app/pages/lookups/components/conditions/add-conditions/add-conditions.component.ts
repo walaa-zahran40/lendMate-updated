@@ -24,14 +24,12 @@ export class AddConditionsComponent {
     private route: ActivatedRoute,
     private facade: ConditionsFacade,
     private conditionExpressionsFacade: ConditionExpressionsFacade,
-    
+
     private router: Router
   ) {}
 
-
   ngOnInit() {
-
-    this.conditionExpressionsFacade.loadAll(); 
+    this.conditionExpressionsFacade.loadAll();
     this.conditionExpressions$ = this.conditionExpressionsFacade.all$;
 
     this.addConditionsLookupsForm = this.fb.group({
@@ -40,17 +38,11 @@ export class AddConditionsComponent {
         '',
         [Validators.required], // 2nd slot (sync)
       ],
-      functionName: [
-        '',
-        [Validators.required],
-      ],
-      conditionType:0, // ← new hidden control
-      conditionExpressionId:0, // ← new hidden control
+      functionName: ['', [Validators.required]],
+      conditionType: 0, // ← new hidden control
+      conditionExpressionId: 0, // ← new hidden control
     });
 
-
-
-    
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
       if (id) {
@@ -81,7 +73,7 @@ export class AddConditionsComponent {
               description: ct!.description,
               functionName: ct!.functionName,
               conditionTypeId: ct!.conditionType,
-              conditionExpressionId: ct!.conditionExpressionId
+              conditionExpressionId: ct!.conditionExpressionId,
             });
           });
       } else {
@@ -122,8 +114,14 @@ export class AddConditionsComponent {
       return;
     }
 
-    const { description, functionName, conditionType , conditionExpressionId } = this.addConditionsLookupsForm.value;
-    const payload: Partial<Condition> = {description, functionName, conditionType , conditionExpressionId};
+    const { description, functionName, conditionType, conditionExpressionId } =
+      this.addConditionsLookupsForm.value;
+    const payload: Partial<Condition> = {
+      description,
+      functionName,
+      conditionType,
+      conditionExpressionId,
+    };
     console.log('  → payload object:', payload);
 
     // Double-check your route param
@@ -131,9 +129,20 @@ export class AddConditionsComponent {
     console.log('  route.snapshot.paramMap.get(clientId):', routeId);
 
     if (this.editMode) {
-      const { id, description, functionName, conditionType , conditionExpressionId } =
-        this.addConditionsLookupsForm.value;
-      const payload: Condition = { id, description, functionName, conditionType , conditionExpressionId };
+      const {
+        id,
+        description,
+        functionName,
+        conditionType,
+        conditionExpressionId,
+      } = this.addConditionsLookupsForm.value;
+      const payload: Condition = {
+        id,
+        description,
+        functionName,
+        conditionType,
+        conditionExpressionId,
+      };
       console.log(
         '🔄 Dispatching UPDATE id=',
         this.clientId,
@@ -146,7 +155,14 @@ export class AddConditionsComponent {
       this.facade.create(payload);
     }
     console.log('🧭 Navigating away to view-conditions');
+    if (this.addConditionsLookupsForm.valid) {
+      this.addConditionsLookupsForm.markAsPristine();
+    }
 
     this.router.navigate(['/lookups/view-conditions']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addConditionsLookupsForm.dirty;
   }
 }
