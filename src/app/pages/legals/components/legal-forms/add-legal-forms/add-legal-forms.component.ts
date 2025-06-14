@@ -97,7 +97,13 @@ export class AddLegalFormsComponent {
     } else {
       this.facade.create(payload);
     }
-
+    if (this.addLegalFormsForm.valid) {
+      this.addLegalFormsForm.markAsPristine();
+    }
     this.router.navigate(['/legals/view-legal-forms']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addLegalFormsForm.dirty;
   }
 }

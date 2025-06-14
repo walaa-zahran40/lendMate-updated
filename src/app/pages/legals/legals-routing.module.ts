@@ -4,6 +4,7 @@ import { ViewLegalFormLawsComponent } from './components/legal-form-laws/view-le
 import { AddLegalFormLawsComponent } from './components/legal-form-laws/add-legal-form-laws/add-legal-form-laws.component';
 import { AddLegalFormsComponent } from './components/legal-forms/add-legal-forms/add-legal-forms.component';
 import { ViewLegalFormsComponent } from './components/legal-forms/view-legal-forms/view-legal-forms.component';
+import { PendingChangesGuard } from '../../shared/guards/pending-changes.guard';
 
 const routes: Routes = [
   // Legal form law
@@ -14,6 +15,7 @@ const routes: Routes = [
   {
     path: 'edit-legal-form-law/:id',
     component: AddLegalFormLawsComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-legal-form-laws',
@@ -28,6 +30,7 @@ const routes: Routes = [
   {
     path: 'edit-legal-form/:id',
     component: AddLegalFormsComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-legal-forms',

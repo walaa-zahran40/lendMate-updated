@@ -97,7 +97,14 @@ export class AddLegalFormLawsComponent {
     } else {
       this.facade.create(payload);
     }
+    if (this.addLegalFormLawsForm.valid) {
+      this.addLegalFormLawsForm.markAsPristine();
+    }
 
     this.router.navigate(['/legals/view-legal-form-laws']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addLegalFormLawsForm.dirty;
   }
 }
