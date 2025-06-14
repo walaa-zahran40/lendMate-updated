@@ -75,7 +75,7 @@ export class AddMandateComponent {
   parentForm!: FormGroup;
   private destroy$ = new Subject<void>();
   workFlowActionList: any[] = [];
-  selectedAction: string='';
+  selectedAction: string = '';
   public mandateId: any = null;
   public leasingMandateId: any = null;
 
@@ -176,7 +176,7 @@ export class AddMandateComponent {
       );
 
     const idParam = this.route.snapshot.paramMap.get('leasingId');
-     if (!idParam) {
+    if (!idParam) {
       console.log('No edit/view mode detected, skipping load.');
       return;
     }
@@ -202,7 +202,7 @@ export class AddMandateComponent {
     }
   ) {
     this.mandateId = m.mandateId;
-    console.log("rrrrrrrrrr",this.mandateId);
+    console.log('rrrrrrrrrr', this.mandateId);
     const grace = m.mandateGracePeriodSettingView ?? {
       gracePeriodCount: null,
       gracePeriodUnitId: null,
@@ -279,14 +279,15 @@ export class AddMandateComponent {
       'mandateFees'
     );
 
-    this.workFlowActionList = m.allowedMandateWorkFlowActions?.map(action => ({
-      id: action.id,
-      label: action.name,
-      icon: 'pi pi-times',
-    }));
-    this.selectedAction= m.mandateCurrentWorkFlowAction.name??'';
-    console.log("✅ this.selectedAction", this.selectedAction);
-
+    this.workFlowActionList = m.allowedMandateWorkFlowActions?.map(
+      (action) => ({
+        id: action.id,
+        label: action.name,
+        icon: 'pi pi-times',
+      })
+    );
+    this.selectedAction = m.mandateCurrentWorkFlowAction.name ?? '';
+    console.log('✅ this.selectedAction', this.selectedAction);
   }
 
   private normalizeMandate(raw: any): Mandate & {
@@ -313,20 +314,20 @@ export class AddMandateComponent {
     };
   }
 
-  handleWorkflowAction(event: { actionId: number, comment: string }): void {
+  handleWorkflowAction(event: { actionId: number; comment: string }): void {
     const payload = {
       mandateId: this.mandateId,
       mandateStatusActionId: event.actionId,
       comment: event.comment,
-      isCurrent: true
+      isCurrent: true,
     };
 
-    this.facade.performWorkflowAction(event.actionId,payload);
+    this.facade.performWorkflowAction(event.actionId, payload);
     this.facade.workFlowActionSuccess$.subscribe({
-       next: () => {
-          console.log('Workflow action submitted successfully.');
-          this.refreshAllowedActions(); 
-        },
+      next: () => {
+        console.log('Workflow action submitted successfully.');
+        this.refreshAllowedActions();
+      },
     });
   }
 
@@ -334,19 +335,20 @@ export class AddMandateComponent {
     this.facade.loadById(this.leasingMandateId);
     this.facade.selected$.subscribe({
       next: (mandate) => {
-        var workFlowAction = [...mandate?.allowedMandateWorkFlowActions?? []]; 
-        this.workFlowActionList = workFlowAction.map(action => ({
-        id: action.id,
-        label: action.name,
-        icon: 'pi pi-times',
-      }));// clone to ensure change detection
+        var workFlowAction = [
+          ...(mandate?.allowedMandateWorkFlowActions ?? []),
+        ];
+        this.workFlowActionList = workFlowAction.map((action) => ({
+          id: action.id,
+          label: action.name,
+          icon: 'pi pi-times',
+        })); // clone to ensure change detection
       },
-      error: err => {
+      error: (err) => {
         console.error('Failed to refresh actions:', err);
-      }
+      },
     });
   }
-  
 
   buildMandateShowBasicForm(): void {
     this.addMandateShowBasicForm = this.fb.group({
@@ -593,11 +595,36 @@ export class AddMandateComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
-
+    if (this.addMandateShowOfficersForm.valid) {
+      this.addMandateShowOfficersForm.markAsPristine();
+    }
+    if (this.addMandateShowBasicForm.valid) {
+      this.addMandateShowBasicForm.markAsPristine();
+    }
+    if (this.addMandateShowAssetTypeForm.valid) {
+      this.addMandateShowAssetTypeForm.markAsPristine();
+    }
+    if (this.addMandateShowContactPersonsForm.valid) {
+      this.addMandateShowContactPersonsForm.markAsPristine();
+    }
+    if (this.addMandateShowMoreInformationForm.valid) {
+      this.addMandateShowMoreInformationForm.markAsPristine();
+    }
     console.log('🧭 Navigating away to view-mandates');
     this.router.navigate(['/crm/leasing-mandates/view-mandates']);
   }
+
   navigateToView() {
     this.router.navigate(['/crm/leasing-mandates/view-mandates']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return (
+      !this.addMandateShowBasicForm.dirty &&
+      !this.addMandateShowOfficersForm.dirty &&
+      !this.addMandateShowContactPersonsForm.dirty &&
+      !this.addMandateShowMoreInformationForm.dirty &&
+      !this.addMandateShowAssetTypeForm.dirty
+    );
   }
 }

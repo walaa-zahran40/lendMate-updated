@@ -7,8 +7,14 @@
   <div class="main">
     <app-nav-bar></app-nav-bar>
     <p-toast></p-toast>
+    <p-confirmDialog
+      header="Unsaved Changes"
+      icon="pi pi-exclamation-triangle"
+      styleClass="unsaved-changes-dialog"
+      appendTo="body"
+    ></p-confirmDialog>
     <router-outlet></router-outlet>
-    </div>
+  </div>
 </div>
 <!-- Download Popup -->
 <div *ngIf="popupVisible" class="popup-overlay">
@@ -54,4 +60,3 @@
     <p-button label="Download" class="download-btn" />
   </div>
 </div>
-<p-confirmDialog class="confirmDialog"></p-confirmDialog>

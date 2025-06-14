@@ -836,6 +836,15 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
         ).toFixed(3)
       ),
     };
+    if (this.leasingFinancialBasicForm.valid) {
+      this.leasingFinancialBasicForm.markAsPristine();
+    }
+    if (this.leasingFinancialCurrencyForm.valid) {
+      this.leasingFinancialCurrencyForm.markAsPristine();
+    }
+    if (this.leasingFinancialRateForm.valid) {
+      this.leasingFinancialRateForm.markAsPristine();
+    }
     this.facade.create(formData);
     console.log('Submitting form data:', formData);
   }
@@ -895,8 +904,12 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
     this.selectedFinancialFormId = financialId;
     this.showDeleteModal = true;
   }
-  /**
-   * Saves the current forms + table rows into localStorage under
-   * "leasingFinancialForm:<mandateId>".
-   */
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return (
+      !this.leasingFinancialBasicForm.dirty &&
+      !this.leasingFinancialCurrencyForm.dirty &&
+      !this.leasingFinancialRateForm.dirty
+    );
+  }
 }

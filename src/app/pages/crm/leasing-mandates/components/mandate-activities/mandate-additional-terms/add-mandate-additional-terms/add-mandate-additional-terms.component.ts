@@ -161,6 +161,9 @@ export class AddMandateAdditionalTermsComponent {
       console.log('➕ Calling facade.create()');
       this.facade.create(createPayload);
     }
+    if (this.addMandateAdditionalTermForm.valid) {
+      this.addMandateAdditionalTermForm.markAsPristine();
+    }
 
     console.log('🧭 Navigating away to view-mandates');
     this.router.navigate([
@@ -172,5 +175,9 @@ export class AddMandateAdditionalTermsComponent {
     this.router.navigate([
       `/crm/leasing-mandates/view-mandate-additional-terms/${this.routeId}/${this.mandateRouteId}`,
     ]);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addMandateAdditionalTermForm.dirty;
   }
 }

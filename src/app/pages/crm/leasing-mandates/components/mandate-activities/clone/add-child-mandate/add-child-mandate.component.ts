@@ -556,6 +556,21 @@ export class AddChildMandateComponent {
       console.log('➕ Calling facade.create()');
       this.facade.create(createPayload);
     }
+    if (this.addMandateShowAssetTypeForm.valid) {
+      this.addMandateShowAssetTypeForm.markAsPristine();
+    }
+    if (this.addMandateShowBasicForm.valid) {
+      this.addMandateShowBasicForm.markAsPristine();
+    }
+    if (this.addMandateShowContactPersonsForm.valid) {
+      this.addMandateShowContactPersonsForm.markAsPristine();
+    }
+    if (this.addMandateShowMoreInformationForm.valid) {
+      this.addMandateShowMoreInformationForm.markAsPristine();
+    }
+    if (this.addMandateShowOfficersForm.valid) {
+      this.addMandateShowOfficersForm.markAsPristine();
+    }
 
     console.log('🧭 Navigating away to view-mandates');
     this.router.navigate([
@@ -567,5 +582,15 @@ export class AddChildMandateComponent {
     this.router.navigate([
       `/crm/leasing-mandates/view-child-mandates/${this.routeId}/${this.mandateRouteId}`,
     ]);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return (
+      !this.addMandateShowAssetTypeForm.dirty &&
+      !this.addMandateShowBasicForm.dirty &&
+      !this.addMandateShowContactPersonsForm.dirty &&
+      !this.addMandateShowMoreInformationForm.dirty &&
+      !this.addMandateShowOfficersForm.dirty
+    );
   }
 }

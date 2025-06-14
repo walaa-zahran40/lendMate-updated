@@ -259,3 +259,21 @@ body {
   background: var(--white-color-add) !important;
   color: var(--black-color) !important;
 }
+.unsaved-changes-dialog {
+  .p-dialog-header {
+    text-align: center;
+  }
+
+  .p-dialog-footer .p-confirmdialog-accept-button,
+  .p-dialog-footer .p-confirmdialog-accept-button:hover {
+    background-color: green !important;
+    border: none !important;
+    width: 130px !important;
+  }
+  .p-dialog-footer .p-confirmdialog-reject-button,
+  .p-dialog-footer .p-confirmdialog-reject-button:hover {
+    background-color: #dc2626 !important;
+    border: none !important;
+    width: 130px !important;
+  }
+}

@@ -155,6 +155,9 @@ export class AddMandateFeeComponent {
       console.log('➕ Calling facade.create()');
       this.facade.create(createPayload);
     }
+    if (this.addMandateFeeForm.valid) {
+      this.addMandateFeeForm.markAsPristine();
+    }
 
     console.log('🧭 Navigating away to view-mandates');
     this.router.navigate([
@@ -166,5 +169,9 @@ export class AddMandateFeeComponent {
     this.router.navigate([
       `/crm/leasing-mandates/view-mandate-fees/${this.routeId}/${this.mandateRouteId}`,
     ]);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addMandateFeeForm.dirty;
   }
 }
