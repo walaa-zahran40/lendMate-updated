@@ -38,6 +38,9 @@ import { FinancialFormsFacade } from '../../../store/financial-form/financial-fo
 import { ActivatedRoute, Router } from '@angular/router';
 import { TableComponent } from '../../../../../../shared/components/table/table.component';
 import { selectCalculatedRowsForId } from '../../../store/financial-form/financial-forms.selectors';
+import { MandatesFacade } from '../../../store/leasing-mandates/leasing-mandates.facade';
+import { Mandate } from '../../../store/leasing-mandates/leasing-mandate.model';
+import { loadById } from '../../../store/leasing-mandates/leasing-mandates.actions';
 @Component({
   selector: 'app-leasing-financial-form-compound',
   standalone: false,
@@ -83,7 +86,10 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
   paymentMethods$!: Observable<PaymentMethod[]>;
   paymentMonthDays$!: Observable<PaymentMonthDay[]>;
   private currentMandateId!: number;
+  selectedAction: string = '';
+  workFlowActionList: any[] = [];
   routeId = this.route.snapshot.params['leasingMandatesId'];
+  mandate!: any;
   constructor(
     private fb: FormBuilder,
     private paymentPeriodFacade: PaymentPeriodsFacade,
@@ -96,11 +102,13 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
     private paymentMethodsFacade: PaymentMethodsFacade,
     private paymentMonthDaysFacade: PaymentMonthDaysFacade,
     private facade: FinancialFormsFacade,
+    private mandateFacade: MandatesFacade,
     private route: ActivatedRoute,
     private store: Store
   ) {}
   ngOnInit() {
     this.facade.loadByLeasingMandateId(this.routeId);
+
     //Build Forms
     this.initializeLeasingFinancialBasicForm();
     this.initializeLeasingFinancialRatesForm();
@@ -126,6 +134,27 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
     this.rentStructures$ = this.rentStructuresFacade.all$;
     this.paymentMethods$ = this.paymentMethodsFacade.all$;
     this.paymentMonthDays$ = this.paymentMonthDaysFacade.all$; // 1) Extract mandateId from route params
+
+    this.mandate = this.mandateFacade.loadById(this.routeId);
+    this.mandateFacade.selected$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((form: Mandate | undefined) => {
+        if (form === undefined) {
+          return;
+        }
+        this.mandate = form;
+        this.workFlowActionList =
+          this.mandate.allowedMandateWorkFlowActions?.map(
+            (action: { id: any; name: any }) => ({
+              id: action.id,
+              label: action.name,
+              icon: 'pi pi-times',
+            })
+          );
+        this.selectedAction =
+          this.mandate.mandateCurrentWorkFlowAction.name ?? '';
+        console.log('✅ this.selectedAction', this.selectedAction);
+      });
 
     this.currentMandateId = +this.route.snapshot.params['leasingMandatesId'];
     // 4) Subscribe to facade.selected$ and patch the forms if backend data arrives:
@@ -239,6 +268,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
       paymentMonthDayID: [null, Validators.required],
     });
   }
+
   private setupFormListeners() {
     // Basic Finance Information Listeners
     this.leasingFinancialBasicForm
@@ -911,5 +941,45 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
       !this.leasingFinancialCurrencyForm.dirty &&
       !this.leasingFinancialRateForm.dirty
     );
+  }
+  /**
+   * Saves the current forms + table rows into localStorage under
+   * "leasingFinancialForm:<mandateId>".
+   */
+
+  handleWorkflowAction(event: { actionId: number; comment: string }): void {
+    const payload = {
+      mandateId: this.mandate.mandateId,
+      mandateStatusActionId: event.actionId,
+      comment: event.comment,
+      isCurrent: true,
+    };
+
+    this.mandateFacade.performWorkflowAction(event.actionId, payload);
+    this.mandateFacade.workFlowActionSuccess$.subscribe({
+      next: () => {
+        console.log('Workflow action submitted successfully.');
+        this.refreshAllowedActions();
+      },
+    });
+  }
+
+  refreshAllowedActions(): void {
+    this.mandateFacade.loadById(this.routeId);
+    this.mandateFacade.selected$.subscribe({
+      next: (mandate) => {
+        var workFlowAction = [
+          ...(mandate?.allowedMandateWorkFlowActions ?? []),
+        ];
+        this.workFlowActionList = workFlowAction.map((action) => ({
+          id: action.id,
+          label: action.name,
+          icon: 'pi pi-times',
+        })); // clone to ensure change detection
+      },
+      error: (err) => {
+        console.error('Failed to refresh actions:', err);
+      },
+    });
   }
 }
