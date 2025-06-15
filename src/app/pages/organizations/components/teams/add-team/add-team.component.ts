@@ -10,9 +10,8 @@ import { Team } from '../../../store/teams/team.model';
 import { loadDepartments } from '../../../../organizations/store/departments/departments.actions';
 import { selectDepartments } from '../../../../organizations/store/departments/departments.selectors';
 
-
 @Component({
- selector: 'app-add-team',
+  selector: 'app-add-team',
   standalone: false,
   templateUrl: './add-team.component.html',
   styleUrl: './add-team.component.scss',
@@ -30,13 +29,13 @@ export class AddTeamComponent {
     private route: ActivatedRoute,
     private facade: TeamsFacade,
     private router: Router,
-    private departmentFacade : DepartmentsFacade,
+    private departmentFacade: DepartmentsFacade
   ) {}
 
   ngOnInit() {
     //Select Box
- this.departmentFacade.loadAll();          
-   this.departments$ = this.departmentFacade.items$; 
+    this.departmentFacade.loadAll();
+    this.departments$ = this.departmentFacade.items$;
 
     this.addTeamORGForm = this.fb.group({
       id: [null],
@@ -92,26 +91,17 @@ export class AddTeamComponent {
       return;
     }
 
-    const {
-      name,
-      nameAR,
-      departmentId,
-    } = this.addTeamORGForm.value;
+    const { name, nameAR, departmentId } = this.addTeamORGForm.value;
     const payload: Partial<Team> = {
       name,
       nameAR,
-      departmentId
+      departmentId,
     };
     //const routeId = this.route.snapshot.paramMap.get('id');
 
     if (this.editMode) {
-      const {
-        id,
-        name,
-        nameAR,
-        departmentId,
-        isActive,
-      } = this.addTeamORGForm.value;
+      const { id, name, nameAR, departmentId, isActive } =
+        this.addTeamORGForm.value;
       const payload: Team = {
         id,
         name,
@@ -124,7 +114,14 @@ export class AddTeamComponent {
     } else {
       this.facade.create(payload);
     }
+    if (this.addTeamORGForm.valid) {
+      this.addTeamORGForm.markAsPristine();
+    }
 
     this.router.navigate(['/organizations/view-teams']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addTeamORGForm.dirty;
   }
 }

@@ -18,8 +18,8 @@ export class AddSignatoryOfficerComponent {
   viewOnly = false;
   addSignatoryOfficersLookupsForm!: FormGroup;
   clientId: any;
-  officers:Officer[]=[];
-  
+  officers: Officer[] = [];
+
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -27,11 +27,11 @@ export class AddSignatoryOfficerComponent {
     private route: ActivatedRoute,
     private facade: SignatoryOfficersFacade,
     private router: Router,
-    private officersFacade: OfficersFacade,
+    private officersFacade: OfficersFacade
   ) {}
 
   ngOnInit() {
-      this.addSignatoryOfficersLookupsForm = this.fb.group({
+    this.addSignatoryOfficersLookupsForm = this.fb.group({
       id: [null],
       officerId: [null, Validators.required],
       startDate: [null, Validators.required],
@@ -43,7 +43,7 @@ export class AddSignatoryOfficerComponent {
     this.officersFacade.items$
       .pipe(takeUntil(this.destroy$))
       .subscribe((list) => (this.officers = list));
-    
+
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
       if (id) {
@@ -61,14 +61,16 @@ export class AddSignatoryOfficerComponent {
         this.facade.loadById(this.clientId);
         this.facade.selected$
           .pipe(
-            filter((ct): ct is SignatoryOfficer => !!ct && ct.id === this.clientId),
+            filter(
+              (ct): ct is SignatoryOfficer => !!ct && ct.id === this.clientId
+            ),
             take(1)
           )
           .subscribe((ct) => {
             this.addSignatoryOfficersLookupsForm.patchValue({
               id: ct!.id,
               officerId: ct!.officerId,
-              startDate:new Date(ct!.startDate),
+              startDate: new Date(ct!.startDate),
               isActive: ct!.isActive,
             });
           });
@@ -87,8 +89,14 @@ export class AddSignatoryOfficerComponent {
     console.log('  viewOnly:', this.viewOnly);
     console.log('  editMode:', this.editMode);
     console.log('  form valid:', this.addSignatoryOfficersLookupsForm.valid);
-    console.log('  form touched:', this.addSignatoryOfficersLookupsForm.touched);
-    console.log('  form raw value:', this.addSignatoryOfficersLookupsForm.getRawValue());
+    console.log(
+      '  form touched:',
+      this.addSignatoryOfficersLookupsForm.touched
+    );
+    console.log(
+      '  form raw value:',
+      this.addSignatoryOfficersLookupsForm.getRawValue()
+    );
 
     // Print individual control errors
     const nameCtrl = this.addSignatoryOfficersLookupsForm.get('name');
@@ -116,7 +124,8 @@ export class AddSignatoryOfficerComponent {
     console.log('  route.snapshot.paramMap.get(clientId):', routeId);
 
     if (this.editMode) {
-      const { id, officerId, startDate } = this.addSignatoryOfficersLookupsForm.value;
+      const { id, officerId, startDate } =
+        this.addSignatoryOfficersLookupsForm.value;
       const payload: SignatoryOfficer = { id, officerId, startDate };
       console.log(
         '🔄 Dispatching UPDATE id=',
@@ -129,9 +138,15 @@ export class AddSignatoryOfficerComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addSignatoryOfficersLookupsForm.valid) {
+      this.addSignatoryOfficersLookupsForm.markAsPristine();
+    }
 
     console.log('🧭 Navigating away to view-signatory-officers');
     this.router.navigate(['/organizations/view-signatory-officers']);
   }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addSignatoryOfficersLookupsForm.dirty;
+  }
 }
-

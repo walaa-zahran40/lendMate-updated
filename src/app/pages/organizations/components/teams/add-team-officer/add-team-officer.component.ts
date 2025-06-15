@@ -1,4 +1,3 @@
-
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -47,9 +46,7 @@ export class AddTeamOfficerComponent implements OnInit, OnDestroy {
     this.viewOnly = this.mode === 'view';
 
     // Read IDs
-    this.parentTeamId = Number(
-      this.route.snapshot.queryParamMap.get('teamId')
-    );
+    this.parentTeamId = Number(this.route.snapshot.queryParamMap.get('teamId'));
     if (this.editMode || this.viewOnly) {
       this.recordId = Number(this.route.snapshot.paramMap.get('id'));
       this.teamFacade.loadOne(this.recordId);
@@ -59,7 +56,7 @@ export class AddTeamOfficerComponent implements OnInit, OnDestroy {
     this.addTeamORGForm = this.fb.group({
       teamId: [null, Validators.required],
       officerId: [null, Validators.required],
-      startDate: [null, Validators.required]
+      startDate: [null, Validators.required],
     });
 
     // Load branch dropdown
@@ -68,11 +65,9 @@ export class AddTeamOfficerComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((list) => (this.officers = list));
 
-   
-      this.addTeamORGForm.patchValue({
-        teamId: this.parentTeamId
-      });
-    
+    this.addTeamORGForm.patchValue({
+      teamId: this.parentTeamId,
+    });
 
     // Patch for edit/view mode
     if (this.editMode || this.viewOnly) {
@@ -87,13 +82,11 @@ export class AddTeamOfficerComponent implements OnInit, OnDestroy {
           this.addTeamORGForm.patchValue({
             id: rec.id,
             teamId: this.parentTeamId,
-            officerId : rec.officerId,
-            startDate: new Date(rec.startDate)
+            officerId: rec.officerId,
+            startDate: new Date(rec.startDate),
           });
-          
         });
     }
-
   }
 
   addOrEditTeamOfficer() {
@@ -126,45 +119,41 @@ export class AddTeamOfficerComponent implements OnInit, OnDestroy {
     const data = this.addTeamORGForm.value as Partial<TeamOfficer>;
 
     if (this.mode === 'add') {
-  this.teamFacade.create(data);
-} else {
-  const formValue = this.addTeamORGForm.value;
+      this.teamFacade.create(data);
+    } else {
+      const formValue = this.addTeamORGForm.value;
 
-  const updateData: TeamOfficer = {
-    id: this.recordId,
-    teamId: formValue.teamId,
-    officerId: formValue.officerId,
-    startDate: formValue.startDate
-  };
+      const updateData: TeamOfficer = {
+        id: this.recordId,
+        teamId: formValue.teamId,
+        officerId: formValue.officerId,
+        startDate: formValue.startDate,
+      };
 
-  console.log(
-    '🔄 Dispatching UPDATE id=',
-    this.recordId,
-    ' UPDATED payload=',
-    updateData
-  );
+      console.log(
+        '🔄 Dispatching UPDATE id=',
+        this.recordId,
+        ' UPDATED payload=',
+        updateData
+      );
 
-  this.teamFacade.update(this.recordId, updateData);
-}
-
+      this.teamFacade.update(this.recordId, updateData);
+    }
 
     // 8) Navigate back: try both query-param and path-param approaches
     if (teamIdParam) {
       console.log('➡️ Navigating back with PATH param:', teamIdParam);
-      this.router.navigate([
-        '/organizations/view-team-officers',
-        teamIdParam,
-      ]);
+      this.router.navigate(['/organizations/view-team-officers', teamIdParam]);
     } else if (teamIdParam) {
-      console.log(
-        '➡️ Navigating back with QUERY param fallback:',
-        teamIdParam
-      );
+      console.log('➡️ Navigating back with QUERY param fallback:', teamIdParam);
       this.router.navigate([
         `/organizations/view-team-officers/${teamIdParam}`,
       ]);
     } else {
       console.error('❌ Cannot navigate back: teamId is missing!');
+    }
+    if (this.addTeamORGForm.valid) {
+      this.addTeamORGForm.markAsPristine();
     }
   }
 
@@ -172,5 +161,8 @@ export class AddTeamOfficerComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addTeamORGForm.dirty;
+  }
 }
-

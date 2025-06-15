@@ -6,13 +6,10 @@ import {
   filter,
   take,
   combineLatest,
-  takeUntil,
   tap,
   map,
-  combineLatestWith,
   Observable,
 } from 'rxjs';
-import { RoleClaim } from '../../../store/roles/role-claims/role-claim.model';
 import { RoleClaimsFacade } from '../../../store/roles/role-claims/role-claims.facade';
 import { PageOperationsFacade } from '../../../store/page-operations/page-operations.facade';
 import { PagesFacade } from '../../../store/pages/pages.facade';
@@ -237,6 +234,9 @@ export class AddRoleClaimComponent {
       console.log(`✏️ Updating Role-Claim recordId=${this.recordId}`);
       this.facade.update(this.recordId, payload as any);
     }
+    if (this.addRoleClaimORGForm.valid) {
+      this.addRoleClaimORGForm.markAsPristine();
+    }
 
     // 6️⃣ Go back to list
     this.router.navigate(['/organizations/view-role-claims', roleId]);
@@ -245,5 +245,9 @@ export class AddRoleClaimComponent {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addRoleClaimORGForm.dirty;
   }
 }

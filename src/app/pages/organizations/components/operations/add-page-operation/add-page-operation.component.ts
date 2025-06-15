@@ -135,7 +135,14 @@ export class AddPageOperationComponent {
       this.facade.create(payload);
     }
     console.log('🧭 Navigating away to view-page-operations');
+    if (this.addPageOperationORGForm.valid) {
+      this.addPageOperationORGForm.markAsPristine();
+    }
 
     this.router.navigate(['/organizations/view-page-operations']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addPageOperationORGForm.dirty;
   }
 }

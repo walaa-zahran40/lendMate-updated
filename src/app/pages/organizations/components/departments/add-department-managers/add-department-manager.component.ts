@@ -9,7 +9,6 @@ import { DepartmentManagersFacade } from '../../../store/department-managers/dep
 import { Department } from '../../../store/departments/department.model';
 import { DepartmentsFacade } from '../../../store/departments/departments.facade';
 
-
 @Component({
   selector: 'app-add-department-manager',
   standalone: false,
@@ -29,10 +28,10 @@ export class AddDepartmentManagerComponent implements OnInit, OnDestroy {
   mode!: 'add' | 'edit' | 'view';
   parentDepartmentId!: number;
   recordId!: number;
-  officers:Officer[]=[];
+  officers: Officer[] = [];
 
   private destroy$ = new Subject<void>();
-  
+
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -47,7 +46,7 @@ export class AddDepartmentManagerComponent implements OnInit, OnDestroy {
     this.mode = (this.route.snapshot.queryParamMap.get('mode') as any) ?? 'add';
     this.editMode = this.mode === 'edit';
     this.viewOnly = this.mode === 'view';
-   
+
     // Read IDs
     this.parentDepartmentId = Number(
       this.route.snapshot.queryParamMap.get('departmentId')
@@ -65,7 +64,7 @@ export class AddDepartmentManagerComponent implements OnInit, OnDestroy {
       startDate: [null, Validators.required],
       isCurrent: [true],
     });
-   if (this.editMode) {
+    if (this.editMode) {
       console.log('ttt', this.editMode);
       this.addDepartmentManagerForm.get('officerId')?.disable();
     }
@@ -95,7 +94,7 @@ export class AddDepartmentManagerComponent implements OnInit, OnDestroy {
             id: rec.id,
             departmentId: this.parentDepartmentId,
             officerId: rec.officerId,
-            startDate:new Date(rec.startDate),
+            startDate: new Date(rec.startDate),
             isCurrent: rec!.isCurrent,
           });
         });
@@ -108,7 +107,8 @@ export class AddDepartmentManagerComponent implements OnInit, OnDestroy {
 
     // 2) Extract both paramMap and queryParamMap in parallel
     const idParam = this.route.snapshot.paramMap.get('id');
-    const departmentParamQP = this.route.snapshot.queryParamMap.get('departmentId');
+    const departmentParamQP =
+      this.route.snapshot.queryParamMap.get('departmentId');
 
     console.log(`🔍 QueryParams → departmentId = ${departmentParamQP}`);
 
@@ -162,10 +162,17 @@ export class AddDepartmentManagerComponent implements OnInit, OnDestroy {
     } else {
       console.error('❌ Cannot navigate back: departmentId is missing!');
     }
+    if (this.addDepartmentManagerForm.valid) {
+      this.addDepartmentManagerForm.markAsPristine();
+    }
   }
 
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addDepartmentManagerForm.dirty;
   }
 }

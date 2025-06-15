@@ -442,8 +442,16 @@ export class AddBranchAddressesComponent {
     } else {
       console.error('❌ Cannot navigate back: currencyId is missing!');
     }
+    if (this.addBranchAddressesLookupsForm.valid) {
+      this.addBranchAddressesLookupsForm.markAsPristine();
+    }
+
     // console.log('🧭 Navigating away to view-branch-addresses');
     // this.router.navigate(['/organizations/view-branch-addresses']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addBranchAddressesLookupsForm.dirty;
   }
 
   ngOnDestroy() {

@@ -144,7 +144,14 @@ export class AddOfficerComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addOfficersForm.valid) {
+      this.addOfficersForm.markAsPristine();
+    }
 
     this.router.navigate(['/organizations/view-officers']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addOfficersForm.dirty;
   }
 }

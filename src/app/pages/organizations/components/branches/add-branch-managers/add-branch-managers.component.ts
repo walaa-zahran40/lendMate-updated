@@ -157,10 +157,17 @@ export class AddBranchManagersComponent implements OnInit, OnDestroy {
     } else {
       console.error('❌ Cannot navigate back: branchId is missing!');
     }
+    if (this.addBranchManagerForm.valid) {
+      this.addBranchManagerForm.markAsPristine();
+    }
   }
 
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addBranchManagerForm.dirty;
   }
 }

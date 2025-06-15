@@ -155,10 +155,17 @@ export class AddBranchOfficersComponent implements OnInit, OnDestroy {
     } else {
       console.error('❌ Cannot navigate back: branchId is missing!');
     }
+    if (this.addBranchOfficerForm.valid) {
+      this.addBranchOfficerForm.markAsPristine();
+    }
   }
 
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addBranchOfficerForm.dirty;
   }
 }

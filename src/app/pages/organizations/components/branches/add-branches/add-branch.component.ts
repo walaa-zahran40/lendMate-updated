@@ -123,8 +123,15 @@ export class AddBranchComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addBranchLookupsForm.valid) {
+      this.addBranchLookupsForm.markAsPristine();
+    }
 
     console.log('🧭 Navigating away to view-branches');
     this.router.navigate(['/organizations/view-branches']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addBranchLookupsForm.dirty;
   }
 }

@@ -109,7 +109,14 @@ export class AddDepartmentComponent {
       console.log('➕ Dispatching CREATE payload=', payload);
       this.facade.create(payload);
     }
+    if (this.addDepartmentsForm.valid) {
+      this.addDepartmentsForm.markAsPristine();
+    }
 
     this.router.navigate(['/organizations/view-departments']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addDepartmentsForm.dirty;
   }
 }

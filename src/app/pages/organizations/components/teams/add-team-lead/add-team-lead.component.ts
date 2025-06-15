@@ -1,4 +1,3 @@
-
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -47,9 +46,7 @@ export class AddTeamLeadComponent implements OnInit, OnDestroy {
     this.viewOnly = this.mode === 'view';
 
     // Read IDs
-    this.parentTeamId = Number(
-      this.route.snapshot.queryParamMap.get('teamId')
-    );
+    this.parentTeamId = Number(this.route.snapshot.queryParamMap.get('teamId'));
     if (this.editMode || this.viewOnly) {
       this.recordId = Number(this.route.snapshot.paramMap.get('id'));
       this.teamLeadFacade.loadOne(this.recordId);
@@ -59,7 +56,7 @@ export class AddTeamLeadComponent implements OnInit, OnDestroy {
     this.addTeamLeadORGForm = this.fb.group({
       teamId: [null, Validators.required],
       officerId: [null, Validators.required],
-      startDate: [null, Validators.required]
+      startDate: [null, Validators.required],
     });
 
     // Load branch dropdown
@@ -68,11 +65,9 @@ export class AddTeamLeadComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((list) => (this.officers = list));
 
-   
-      this.addTeamLeadORGForm.patchValue({
-        teamId: this.parentTeamId
-      });
-    
+    this.addTeamLeadORGForm.patchValue({
+      teamId: this.parentTeamId,
+    });
 
     // Patch for edit/view mode
     if (this.editMode || this.viewOnly) {
@@ -87,13 +82,11 @@ export class AddTeamLeadComponent implements OnInit, OnDestroy {
           this.addTeamLeadORGForm.patchValue({
             id: rec.id,
             teamId: this.parentTeamId,
-            officerId : rec.officerId,
-            startDate: new Date(rec.startDate)
+            officerId: rec.officerId,
+            startDate: new Date(rec.startDate),
           });
-          
         });
     }
-
   }
 
   addOrEditTeamLeadOfficer() {
@@ -126,27 +119,26 @@ export class AddTeamLeadComponent implements OnInit, OnDestroy {
     const data = this.addTeamLeadORGForm.value as Partial<TeamLeadOfficer>;
 
     if (this.mode === 'add') {
-  this.teamLeadFacade.create(data);
-} else {
-  const formValue = this.addTeamLeadORGForm.value;
+      this.teamLeadFacade.create(data);
+    } else {
+      const formValue = this.addTeamLeadORGForm.value;
 
-  const updateData: TeamLeadOfficer = {
-    id: this.recordId,
-    teamId: formValue.teamId,
-    officerId: formValue.officerId,
-    startDate: formValue.startDate
-  };
+      const updateData: TeamLeadOfficer = {
+        id: this.recordId,
+        teamId: formValue.teamId,
+        officerId: formValue.officerId,
+        startDate: formValue.startDate,
+      };
 
-  console.log(
-    '🔄 Dispatching UPDATE id=',
-    this.recordId,
-    ' UPDATED payload=',
-    updateData
-  );
+      console.log(
+        '🔄 Dispatching UPDATE id=',
+        this.recordId,
+        ' UPDATED payload=',
+        updateData
+      );
 
-  this.teamLeadFacade.update(this.recordId, updateData);
-}
-
+      this.teamLeadFacade.update(this.recordId, updateData);
+    }
 
     // 8) Navigate back: try both query-param and path-param approaches
     if (teamIdParam) {
@@ -156,15 +148,15 @@ export class AddTeamLeadComponent implements OnInit, OnDestroy {
         teamIdParam,
       ]);
     } else if (teamIdParam) {
-      console.log(
-        '➡️ Navigating back with QUERY param fallback:',
-        teamIdParam
-      );
+      console.log('➡️ Navigating back with QUERY param fallback:', teamIdParam);
       this.router.navigate([
         `/organizations/view-team-lead-officers/${teamIdParam}`,
       ]);
     } else {
       console.error('❌ Cannot navigate back: teamId is missing!');
+    }
+    if (this.addTeamLeadORGForm.valid) {
+      this.addTeamLeadORGForm.markAsPristine();
     }
   }
 
@@ -172,5 +164,8 @@ export class AddTeamLeadComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addTeamLeadORGForm.dirty;
+  }
 }
-

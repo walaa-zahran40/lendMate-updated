@@ -139,7 +139,14 @@ export class AddRoleComponent {
       this.facade.create(payload);
     }
     console.log('🧭 Navigating away to view-roles');
+    if (this.addRoleORGForm.valid) {
+      this.addRoleORGForm.markAsPristine();
+    }
 
     this.router.navigate(['/organizations/view-roles']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addRoleORGForm.dirty;
   }
 }

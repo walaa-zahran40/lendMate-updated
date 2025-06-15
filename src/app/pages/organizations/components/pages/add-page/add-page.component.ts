@@ -180,11 +180,18 @@ export class AddPageComponent implements OnDestroy, OnInit {
       this.facade.create(payload);
     }
     console.log('🧭 Navigating away to view-pages');
+    if (this.addPageORGForm.valid) {
+      this.addPageORGForm.markAsPristine();
+    }
 
     this.router.navigate(['/organizations/view-pages']);
   }
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addPageORGForm.dirty;
   }
 }

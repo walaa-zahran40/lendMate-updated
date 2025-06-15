@@ -120,7 +120,14 @@ export class AddOperationComponent {
       this.facade.create(payload);
     }
     console.log('🧭 Navigating away to view-operations');
+    if (this.addOperationsORGForm.valid) {
+      this.addOperationsORGForm.markAsPristine();
+    }
 
     this.router.navigate(['/organizations/view-operations']);
+  }
+  /** Called by the guard. */
+  canDeactivate(): boolean {
+    return !this.addOperationsORGForm.dirty;
   }
 }
