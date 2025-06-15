@@ -3,6 +3,9 @@
   [backIcon]="'back-icon'"
   [viewOnly]="true"
   [header]="'Leasing Financial Form'"
+  [selectedAction]="selectedAction"
+  [workFlowItems]="workFlowActionList"
+  (saveAction)="handleWorkflowAction($event)"
 ></app-toolbar-form>
 <app-toolbar-compound
   [totalInstallments]="sumOfInstallments"
