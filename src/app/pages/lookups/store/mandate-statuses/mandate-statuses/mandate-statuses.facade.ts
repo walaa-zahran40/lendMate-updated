@@ -14,9 +14,7 @@ export class MandateStatusesFacade {
   total$: Observable<number> = this.store.select(
     Selectors.selectMandateStatusesTotal
   );
-  history$: Observable<MandateStatus[]> = this.store.select(
-    Selectors.selectMandateStatusesHistory
-  );
+
   current$: Observable<MandateStatus | undefined> = this.store.select(
     Selectors.selectCurrentMandateStatus
   );
@@ -34,9 +32,7 @@ export class MandateStatusesFacade {
   loadAll() {
     this.store.dispatch(Actions.loadMandateStatuses());
   }
-  loadHistory() {
-    this.store.dispatch(Actions.loadMandateStatusesHistory());
-  }
+
   loadOne(id: number) {
     this.store.dispatch(Actions.loadMandateStatus({ id }));
   }
@@ -48,5 +44,18 @@ export class MandateStatusesFacade {
   }
   delete(id: number) {
     this.store.dispatch(Actions.deleteMandateStatus({ id }));
+  }
+  //History management
+  history$ = this.store.select(Selectors.selectMandateStatusHistory);
+
+  readonly mandateStatusHistory$ = this.store.select(
+    Selectors.selectMandateStatusHistory
+  );
+  readonly mandateStatusHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadMandateStatusHistory());
   }
 }

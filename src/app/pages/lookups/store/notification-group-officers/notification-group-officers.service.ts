@@ -21,26 +21,58 @@ export class NotificationGroupOfficersService {
         map((resp) => resp.items), // ← pull off the `items` array here
         tap((items) => console.log('🚀 Mapped items:', items)),
         catchError((err) => {
-          console.error('🚀 HTTP error fetching NotificationGroupOfficers:', err);
+          console.error(
+            '🚀 HTTP error fetching NotificationGroupOfficers:',
+            err
+          );
           return throwError(() => err);
         })
       );
   }
 
   getById(id: number): Observable<NotificationGroupOfficer> {
-    return this.http.get<NotificationGroupOfficer>(`${this.baseUrl}/NotificationGroupOfficerId?id=${id}`);
+    return this.http.get<NotificationGroupOfficer>(
+      `${this.baseUrl}/NotificationGroupOfficerId?id=${id}`
+    );
   }
 
-
-  create(payload: Omit<NotificationGroupOfficer, 'id'>): Observable<NotificationGroupOfficer> {
-    return this.http.post<NotificationGroupOfficer>(`${this.baseUrl}/CreateNotificationGroupOfficer`, payload);
+  create(
+    payload: Omit<NotificationGroupOfficer, 'id'>
+  ): Observable<NotificationGroupOfficer> {
+    return this.http.post<NotificationGroupOfficer>(
+      `${this.baseUrl}/CreateNotificationGroupOfficer`,
+      payload
+    );
   }
 
-  update(id: number, changes: Partial<NotificationGroupOfficer>): Observable<void> {
+  update(
+    id: number,
+    changes: Partial<NotificationGroupOfficer>
+  ): Observable<void> {
     return this.http.put<void>(`${this.baseUrl}/${id}`, changes);
   }
 
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+  //History management
+  getAllHistory(): Observable<NotificationGroupOfficer[]> {
+    console.log('🚀 Service: calling GET …');
+    return this.http
+      .get<{ items: NotificationGroupOfficer[]; totalCount: number }>(
+        `${this.baseUrl}/GetAllNotificationGroupOfficersHistory`
+      )
+      .pipe(
+        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
+        map((resp) => resp.items), // ← pull off the `items` array here
+        tap((items) => console.log('🚀 Mapped items:', items)),
+        catchError((err) => {
+          console.error(
+            '🚀 HTTP error fetching NotificationGroupOfficers:',
+            err
+          );
+          return throwError(() => err);
+        })
+      );
   }
 }

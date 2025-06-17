@@ -89,7 +89,33 @@ export const conditionExpressionsReducer = createReducer(
     });
 
     return newState;
-  })
+  }),
+  //History management
+  on(ConditionExpressionActions.loadConditionExpressionHistory, (state) => ({
+    ...state,
+    historyLoaded: false,
+    historyError: null,
+  })),
+
+  on(
+    ConditionExpressionActions.loadConditionExpressionHistorySuccess,
+    (state, { history }) => ({
+      ...state,
+      history,
+      historyLoaded: true,
+    })
+  ),
+  on(
+    ConditionExpressionActions.loadConditionExpressionHistorySuccess,
+    (state, { history }) => {
+      console.log('✅ Reducer: history loaded', history); // add this
+      return {
+        ...state,
+        history: [...history],
+        historyLoaded: true,
+      };
+    }
+  )
 );
 
 export const { selectAll, selectEntities, selectIds, selectTotal } =

@@ -18,7 +18,7 @@ import { Individual } from '../../../../store/_clients/individuals/individual.mo
 import { ClientIdentityTypesFacade } from '../../../../store/client-identity-types/client-identity-types.facade';
 import { IndividualsFacade } from '../../../../store/_clients/individuals/individuals.facade';
 import { Client } from '../../../../store/_clients/allclients/client.model';
-import { selectAllSubSectors } from '../../../../../../lookups/store/sub-sector-drop-down/sub-sector.selectors';
+import { selectAllSubSectors } from '../../../../../../lookups/store/sub-sectors/sub-sectors.selectors';
 
 @Component({
   selector: 'app-add-client',

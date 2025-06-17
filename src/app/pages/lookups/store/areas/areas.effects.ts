@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AreasService } from './areas.service';
 import * as ActionsList from './areas.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { Area } from './area.model';
 import { EntityNames } from '../../../../shared/constants/entity-names';
 
@@ -114,7 +114,21 @@ export class AreasEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadAreaHistory())
+    )
+  );
+  // Load area history
+  loadAreaHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadAreaHistory),
+      switchMap(() =>
+        this.svc.getAllHistory().pipe(
+          map((history) => ActionsList.loadAreaHistorySuccess({ history })),
+          catchError((error) =>
+            of(ActionsList.loadAreaHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

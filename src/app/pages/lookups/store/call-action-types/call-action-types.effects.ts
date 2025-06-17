@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { CallActionTypesService } from './call-action-types.service';
 import * as ActionsList from './call-action-types.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { CallActionType } from './call-action-type.model';
 import { EntityNames } from '../../../../shared/constants/entity-names';
 
@@ -85,7 +85,7 @@ export class CallActionTypesEffects {
         this.svc.update(id, changes).pipe(
           mergeMap(() => [
             ActionsList.updateEntitySuccess({ id, changes }),
-            ActionsList.loadAll({}), // 👈 this is crucial
+            // ActionsList.loadAll({}), // 👈 this is crucial
             ActionsList.entityOperationSuccess({
               entity: EntityNames.CallActionType,
               operation: 'update',
@@ -115,7 +115,23 @@ export class CallActionTypesEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadCallActionTypeHistory())
+    )
+  );
+  // Load authorization group officer history
+  loadCallActionTypeHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadCallActionTypeHistory),
+      switchMap(() =>
+        this.svc.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadCallActionTypeHistorySuccess({ history })
+          ),
+          catchError((error) =>
+            of(ActionsList.loadCallActionTypeHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

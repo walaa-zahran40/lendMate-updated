@@ -5,6 +5,10 @@ export interface State extends EntityState<MeetingType> {
   loadedId: number | null; // ← add this
   loading: boolean;
   error: string | null;
+  //History management
+  history: MeetingType[];
+  historyLoaded: boolean;
+  historyError: any;
 }
 
 export const adapter: EntityAdapter<MeetingType> =
@@ -14,4 +18,7 @@ export const initialState: State = adapter.getInitialState({
   loadedId: null, // ← and set your initial value here
   loading: false,
   error: null,
+  history: [],
+  historyLoaded: false,
+  historyError: null,
 });

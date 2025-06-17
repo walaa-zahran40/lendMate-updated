@@ -1,13 +1,26 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Subject, Observable, combineLatest, map, takeUntil, take, filter } from 'rxjs';
+import {
+  Subject,
+  Observable,
+  combineLatest,
+  map,
+  takeUntil,
+  take,
+  filter,
+} from 'rxjs';
 import { TableComponent } from '../../../../../../../shared/components/table/table.component';
-import { AuthorizationGroup } from '../../../../../store/authorization-groups/authorization-groups.model';
+import { AuthorizationGroup } from '../../../../../store/authorization-groups/authorization-group.model';
 import { ActionAuthorizationGroup } from '../../../../../store/client-statuses-actions-activities/ClientStatusActionAuthorizationGroup/action-authorization-group.model';
 import { ActionAuthorizationGroupsFacade } from '../../../../../store/client-statuses-actions-activities/ClientStatusActionAuthorizationGroup/action-authorization-groups.facade';
 import { selectAllAuthorizationGroups } from '../../../../../store/authorization-groups/authorization-groups.selectors';
-import { loadAll as loadAuthorizationGroups} from '../../../../../store/authorization-groups/authorization-groups.actions';
+import { loadAll as loadAuthorizationGroups } from '../../../../../store/authorization-groups/authorization-groups.actions';
+import {
+  loadClientStatusActionAuthorizationGroupHistory,
+  loadClientStatusActionAuthorizationGroupHistoryFailure,
+  loadClientStatusActionAuthorizationGroupHistorySuccess,
+} from '../../../../../store/client-statuses-actions-activities/ClientStatusActionAuthorizationGroup/action-authorization-groups.actions';
 
 @Component({
   selector: 'app-view-action-authorizationg-group',
@@ -27,6 +40,7 @@ export class ViewActionAuthorizationGroupsComponent {
   readonly colsInside = [
     { field: 'authorizationGroup', header: 'AuthorizationGroup' },
     { field: 'startDate', header: 'Start Date' },
+    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedActionAuthorizationGroupId: number | null = null;
@@ -45,16 +59,24 @@ export class ViewActionAuthorizationGroupsComponent {
   ngOnInit() {
     const raw = this.route.snapshot.paramMap.get('clientStatusActionId');
     this.clientStatusActionIdParam = raw !== null ? Number(raw) : undefined;
-    this.facade.loadActionAuthorizationGroupsByClientStatusActionId(this.clientStatusActionIdParam);
-    this.store.dispatch(loadAuthorizationGroups({}));
+    this.facade.loadActionAuthorizationGroupsByClientStatusActionId(
+      this.clientStatusActionIdParam
+    );
+    this.store.dispatch(loadClientStatusActionAuthorizationGroupHistory());
 
-    this.actionAuthorizationGroups$ = this.facade.items$;
-    this.authorizationGroupsList$ = this.store.select(selectAllAuthorizationGroups);
+    this.actionAuthorizationGroups$ = this.facade.history$;
+    this.authorizationGroupsList$ = this.store.select(
+      selectAllAuthorizationGroups
+    );
 
-    this.actionAuthorizationGroups$.pipe(take(1)).subscribe(data => console.log('actionAuthorizationGroups$', data));
-    this.authorizationGroupsList$.pipe(take(1)).subscribe(data => console.log('authorizationGroupsList$', data));
+    this.actionAuthorizationGroups$
+      .pipe(take(1))
+      .subscribe((data) => console.log('actionAuthorizationGroups$', data));
+    this.authorizationGroupsList$
+      .pipe(take(1))
+      .subscribe((data) => console.log('authorizationGroupsList$', data));
 
-     this.setupAuthorizationGroupMapping();
+    this.setupAuthorizationGroupMapping();
   }
   private setupAuthorizationGroupMapping(): void {
     combineLatest([
@@ -62,13 +84,18 @@ export class ViewActionAuthorizationGroupsComponent {
       this.authorizationGroupsList$,
     ])
       .pipe(
-        filter(([actionGroups, groupList]) => actionGroups.length > 0 && groupList.length > 0),
+        filter(
+          ([actionGroups, groupList]) =>
+            actionGroups.length > 0 && groupList.length > 0
+        ),
         map(([actionAuthorizationGroups, authorizationGroupsList]) =>
           actionAuthorizationGroups
             .map((actionAuthorizationGroup) => ({
               ...actionAuthorizationGroup,
               authorizationGroup:
-                authorizationGroupsList.find((c) => c.id === actionAuthorizationGroup.authorizationGroupId)?.name || '—',
+                authorizationGroupsList.find(
+                  (c) => c.id === actionAuthorizationGroup.authorizationGroupId
+                )?.name || '—',
             }))
             .sort((a, b) => b.id - a.id)
         ),
@@ -81,10 +108,15 @@ export class ViewActionAuthorizationGroupsComponent {
   }
 
   onAddActionAuthorizationGroup() {
-    const clientStatusActionIdParam = this.route.snapshot.paramMap.get('clientStatusActionId');
+    const clientStatusActionIdParam = this.route.snapshot.paramMap.get(
+      'clientStatusActionId'
+    );
 
     this.router.navigate(['/lookups/add-action-authorizationGroups'], {
-      queryParams: { mode: 'add', clientStatusActionId: clientStatusActionIdParam },
+      queryParams: {
+        mode: 'add',
+        clientStatusActionId: clientStatusActionIdParam,
+      },
     });
   }
 
@@ -107,7 +139,10 @@ export class ViewActionAuthorizationGroupsComponent {
       this.selectedActionAuthorizationGroupId
     );
     if (this.selectedActionAuthorizationGroupId !== null) {
-      this.facade.delete(this.selectedActionAuthorizationGroupId, this.clientStatusActionIdParam);
+      this.facade.delete(
+        this.selectedActionAuthorizationGroupId,
+        this.clientStatusActionIdParam
+      );
       console.log('[View] confirmDelete() – facade.delete() called');
     } else {
       console.warn('[View] confirmDelete() – no id to delete');
@@ -125,16 +160,20 @@ export class ViewActionAuthorizationGroupsComponent {
   }
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
-    this.filteredActionAuthorizationGroups = this.originalActionAuthorizationGroups.filter((actionAuthorizationGroup) =>
-      Object.values(actionAuthorizationGroup).some((val) =>
-        val?.toString().toLowerCase().includes(lower)
-      )
-    );
+    this.filteredActionAuthorizationGroups =
+      this.originalActionAuthorizationGroups.filter(
+        (actionAuthorizationGroup) =>
+          Object.values(actionAuthorizationGroup).some((val) =>
+            val?.toString().toLowerCase().includes(lower)
+          )
+      );
   }
   onToggleFilters(value: boolean) {
     this.showFilters = value;
   }
-  onEditActionAuthorizationGroup(actionAuthorizationGroup: ActionAuthorizationGroup) {
+  onEditActionAuthorizationGroup(
+    actionAuthorizationGroup: ActionAuthorizationGroup
+  ) {
     this.router.navigate(
       ['/lookups/edit-action-authorizationGroups', actionAuthorizationGroup.id],
       {

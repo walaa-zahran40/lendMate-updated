@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { FeeCalculationTypesService } from './fee-calculation-types.service';
 import * as ActionsList from './fee-calculation-types.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { FeeCalculationType } from './fee-calculation-type.model';
 import { EntityNames } from '../../../../shared/constants/entity-names';
 
@@ -118,7 +118,24 @@ export class FeeCalculationTypesEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadFeeCalculationTypeHistory())
+    )
+  );
+  loadFeeCalculationTypeHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadFeeCalculationTypeHistory),
+      switchMap(() =>
+        this.svc.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadFeeCalculationTypeHistorySuccess({
+              history,
+            })
+          ),
+          catchError((error) =>
+            of(ActionsList.loadFeeCalculationTypeHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

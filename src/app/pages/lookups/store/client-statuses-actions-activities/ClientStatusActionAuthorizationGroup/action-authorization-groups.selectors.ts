@@ -2,7 +2,9 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { ActionAuthorizationGroupsState } from './action-authorization-groups.state';
 
 export const selectActionAuthorizationGroupsState =
-  createFeatureSelector<ActionAuthorizationGroupsState>('actionAuthorizationGroups');
+  createFeatureSelector<ActionAuthorizationGroupsState>(
+    'actionAuthorizationGroups'
+  );
 export const selectActionAuthorizationGroups = createSelector(
   selectActionAuthorizationGroupsState,
   (state) => state.items
@@ -26,4 +28,18 @@ export const selectActionAuthorizationGroupsLoading = createSelector(
 export const selectActionAuthorizationGroupsError = createSelector(
   selectActionAuthorizationGroupsState,
   (state) => state.error
+);
+// History management selectors
+export const selectClientStatusActionAuthorizationGroupHistoryState =
+  createFeatureSelector<ActionAuthorizationGroupsState>(
+    'clientStatusActionAuthorizationGroupHistory'
+  );
+
+export const selectClientStatusActionHistory = createSelector(
+  selectClientStatusActionAuthorizationGroupHistoryState,
+  (state) => state.history
+);
+export const selectHistoryLoaded = createSelector(
+  selectClientStatusActionAuthorizationGroupHistoryState,
+  (state) => state.historyLoaded
 );

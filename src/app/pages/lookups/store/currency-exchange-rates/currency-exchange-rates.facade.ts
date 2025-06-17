@@ -14,9 +14,7 @@ export class CurrencyExchangeRatesFacade {
   total$: Observable<number> = this.store.select(
     Selectors.selectCurrencyExchangeRatesTotal
   );
-  history$: Observable<CurrencyExchangeRate[]> = this.store.select(
-    Selectors.selectCurrencyExchangeRatesHistory
-  );
+
   current$: Observable<CurrencyExchangeRate | undefined> = this.store.select(
     Selectors.selectCurrentCurrencyExchangeRate
   );
@@ -34,9 +32,7 @@ export class CurrencyExchangeRatesFacade {
   loadAll() {
     this.store.dispatch(Actions.loadCurrencyExchangeRates());
   }
-  loadHistory() {
-    this.store.dispatch(Actions.loadCurrencyExchangeRatesHistory());
-  }
+
   loadOne(id: number) {
     this.store.dispatch(Actions.loadCurrencyExchangeRate({ id }));
   }
@@ -68,5 +64,18 @@ export class CurrencyExchangeRatesFacade {
     this.store.dispatch(
       Actions.loadCurrencyExchangeRatesByCurrencyId({ currencyId })
     );
+  }
+  //History management
+  history$ = this.store.select(Selectors.selectCurrencyExchangeRateHistory);
+
+  readonly currencyExchangeRateHistory$ = this.store.select(
+    Selectors.selectCurrencyExchangeRateHistory
+  );
+  readonly currencyExchangeRateHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadCurrencyExchangeRateHistory());
   }
 }

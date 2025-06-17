@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { createSelector, Store } from '@ngrx/store';
 import * as Actions from './address-types.actions';
 import * as Selectors from './address-types.selectors';
-import { AddressType } from './address-types.model';
+import { AddressType } from './address-type.model';
 import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors'; // adjust path if needed
 
 @Injectable({ providedIn: 'root' })
@@ -38,5 +38,14 @@ export class AddressTypesFacade {
 
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
+  }
+  // History management
+  readonly addressTypeHistory$ = this.store.select(Selectors.selectHistory);
+  readonly addressTypeHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadAddressTypeHistory());
   }
 }

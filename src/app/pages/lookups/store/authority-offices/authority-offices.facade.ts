@@ -39,4 +39,16 @@ export class AuthorityOfficesFacade {
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
   }
+  history$ = this.store.select(Selectors.selectAuthorityOfficeHistory);
+
+  readonly authorityOfficeHistory$ = this.store.select(
+    Selectors.selectAuthorityOfficeHistory
+  );
+  readonly authorityOfficeHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadAuthorityOfficeHistory());
+  }
 }

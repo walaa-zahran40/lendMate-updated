@@ -1,6 +1,9 @@
 import { createReducer, on } from '@ngrx/store';
 import * as Actions from './currency-exchange-rates.actions';
-import { initialCurrencyExchangeRatesState } from './currency-exchange-rates.state';
+import {
+  adapter,
+  initialCurrencyExchangeRatesState,
+} from './currency-exchange-rates.state';
 
 export const currencyExchangeRatesReducer = createReducer(
   initialCurrencyExchangeRatesState,
@@ -118,5 +121,28 @@ export const currencyExchangeRatesReducer = createReducer(
       error,
       loading: false,
     })
-  )
+  ),
+  //History management
+  on(Actions.loadCurrencyExchangeRateHistory, (state) => ({
+    ...state,
+    historyLoaded: false,
+    historyError: null,
+  })),
+
+  on(Actions.loadCurrencyExchangeRateHistorySuccess, (state, { history }) => ({
+    ...state,
+    history,
+    historyLoaded: true,
+  })),
+  on(Actions.loadCurrencyExchangeRateHistorySuccess, (state, { history }) => {
+    console.log('✅ Reducer: history loaded', history); // add this
+    return {
+      ...state,
+      history: [...history],
+      historyLoaded: true,
+    };
+  })
 );
+
+export const { selectAll, selectEntities, selectIds, selectTotal } =
+  adapter.getSelectors();

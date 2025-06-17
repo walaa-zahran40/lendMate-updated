@@ -9,32 +9,47 @@ export const actionAuthorizationGroupsReducer = createReducer(
     loading: true,
     error: null,
   })),
-  on(Actions.loadActionAuthorizationGroupsSuccess, (state, { items, totalCount }) => ({
-    ...state,
-    items,
-    totalCount,
-    loading: false,
-  })),
+  on(
+    Actions.loadActionAuthorizationGroupsSuccess,
+    (state, { items, totalCount }) => ({
+      ...state,
+      items,
+      totalCount,
+      loading: false,
+    })
+  ),
   on(Actions.loadActionAuthorizationGroupsFailure, (state, { error }) => ({
     ...state,
     error,
     loading: false,
   })),
 
-  on(Actions.loadActionAuthorizationGroupsHistory, (state) => ({
+  //History management
+  on(Actions.loadClientStatusActionAuthorizationGroupHistory, (state) => ({
     ...state,
-    loading: true,
+    historyLoaded: false,
+    historyError: null,
   })),
-  on(Actions.loadActionAuthorizationGroupsHistorySuccess, (state, { history }) => ({
-    ...state,
-    history,
-    loading: false,
-  })),
-  on(Actions.loadActionAuthorizationGroupsHistoryFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
-  })),
+
+  on(
+    Actions.loadClientStatusActionAuthorizationGroupHistorySuccess,
+    (state, { history }) => ({
+      ...state,
+      history,
+      historyLoaded: true,
+    })
+  ),
+  on(
+    Actions.loadClientStatusActionAuthorizationGroupHistorySuccess,
+    (state, { history }) => {
+      console.log('✅ Reducer: history loaded', history); // add this
+      return {
+        ...state,
+        history: [...history],
+        historyLoaded: true,
+      };
+    }
+  ),
 
   on(Actions.loadActionAuthorizationGroup, (state) => ({
     ...state,
@@ -100,14 +115,20 @@ export const actionAuthorizationGroupsReducer = createReducer(
     loading: true,
     error: null,
   })),
-  on(Actions.loadActionAuthorizationGroupsByClientStatusActionIdSuccess, (state, { items }) => ({
-    ...state,
-    items, // replace with just these rates
-    loading: false,
-  })),
-  on(Actions.loadActionAuthorizationGroupsByClientStatusActionIdFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
-  }))
+  on(
+    Actions.loadActionAuthorizationGroupsByClientStatusActionIdSuccess,
+    (state, { items }) => ({
+      ...state,
+      items, // replace with just these rates
+      loading: false,
+    })
+  ),
+  on(
+    Actions.loadActionAuthorizationGroupsByClientStatusActionIdFailure,
+    (state, { error }) => ({
+      ...state,
+      error,
+      loading: false,
+    })
+  )
 );

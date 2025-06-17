@@ -22,6 +22,7 @@ export class ViewSectorsComponent {
   readonly colsInside = [
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
+    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedSectorId: number | null = null;
@@ -32,18 +33,17 @@ export class ViewSectorsComponent {
   constructor(private router: Router, private facade: SectorsFacade) {}
   ngOnInit() {
     console.log('🟢 ngOnInit: start');
-    this.Sectors$ = this.facade.all$;
-    console.log('🟢 before loadAll, current store value:');
+    this.Sectors$ = this.facade.history$;
+    console.log('🟢 before loadHistory, current store value:');
     this.Sectors$.pipe(take(1)).subscribe((v) =>
       console.log('   store currently has:', v)
     );
-    console.log('🟢 Calling loadAll() to fetch Sectors');
-    this.facade.loadAll();
+    console.log('🟢 Calling loadHistory() to fetch Sectors');
+    this.facade.loadHistory();
 
     this.Sectors$?.pipe(takeUntil(this.destroy$))?.subscribe((sectors) => {
-      // sMEClientCodes is now SMEClientCode[], not any
-      const activeCodes = sectors.filter((code) => code.isActive);
-      const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
+      // sectors is now Sector[], not any
+      const sorted = [...sectors].sort((a, b) => b?.id - a?.id);
       this.originalSector = sorted;
       this.filteredSector = [...sorted];
     });

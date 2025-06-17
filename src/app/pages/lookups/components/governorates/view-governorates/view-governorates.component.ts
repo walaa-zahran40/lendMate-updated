@@ -27,6 +27,7 @@ export class ViewGovernoratesComponent {
     { field: 'nameAR', header: 'Name AR' },
     { field: 'aramex', header: 'Aramex' },
     { field: 'countryName', header: 'Country Name' },
+    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedGovernorateId: number | null = null;
@@ -41,10 +42,10 @@ export class ViewGovernoratesComponent {
     private store: Store
   ) {}
   ngOnInit() {
-    this.governorates$ = this.facade.all$;
+    this.governorates$ = this.facade.history$;
     this.countriesList$ = this.store.select(selectAllCountries);
-    this.facade.loadAll();
-    this.store.dispatch({ type: '[Countries] Load All' });
+    this.facade.loadHistory();
+    this.store.dispatch({ type: '[Countries] Load History' });
 
     combineLatest([this.governorates$, this.countriesList$])
       .pipe(

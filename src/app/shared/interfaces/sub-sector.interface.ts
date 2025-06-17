@@ -1,11 +1,11 @@
-import { Sectors } from './sectors.interface';
+import { Sector } from '../../pages/lookups/store/sectors/sector.model';
 
 export interface SubSectors {
   id?: number;
   sectorId?: number;
   isActive?: boolean;
   tenantId?: number;
-  sector?: Sectors;
+  sector?: Sector;
   code?: string;
   name?: string;
   nameAR?: string;

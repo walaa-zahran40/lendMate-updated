@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { NotificationGroupsService } from './notification-groups.service';
 import * as ActionsList from './notification-groups.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
-import { NotificationGroup } from './notification-groups.model';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
+import { NotificationGroup } from './notification-group.model';
 import { EntityNames } from '../../../../shared/constants/entity-names';
 
 @Injectable()
@@ -118,7 +118,24 @@ export class NotificationGroupsEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadNotificationGroupHistory())
+    )
+  );
+  loadNotificationGroupHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadNotificationGroupHistory),
+      switchMap(() =>
+        this.service.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadNotificationGroupHistorySuccess({
+              history,
+            })
+          ),
+          catchError((error) =>
+            of(ActionsList.loadNotificationGroupHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

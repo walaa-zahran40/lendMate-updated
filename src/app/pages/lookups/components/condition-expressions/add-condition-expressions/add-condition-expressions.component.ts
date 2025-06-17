@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { distinctUntilChanged, filter, take } from 'rxjs';
 import { ConditionExpressionsFacade } from '../../../store/condition-expressions/condition-expressions.facade';
-import { ConditionExpression } from '../../../store/condition-expressions/condition-expressions.model';
+import { ConditionExpression } from '../../../store/condition-expressions/condition-expression.model';
 
 @Component({
   selector: 'app-add-condition-expressions',

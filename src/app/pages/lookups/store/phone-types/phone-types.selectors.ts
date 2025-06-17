@@ -40,3 +40,15 @@ export const selectPhoneTypesTotalCount = createSelector(
   selectPhoneTypesFeature,
   (state) => state
 );
+// History management selectors
+export const selectPhoneTypeHistoryState =
+  createFeatureSelector<State>('phoneTypeHistory');
+
+export const selectPhoneTypeHistory = createSelector(
+  selectPhoneTypeHistoryState,
+  (state) => state.history
+);
+export const selectHistoryLoaded = createSelector(
+  selectPhoneTypeHistoryState,
+  (state) => state.historyLoaded
+);

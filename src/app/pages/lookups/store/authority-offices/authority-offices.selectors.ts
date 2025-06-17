@@ -40,3 +40,15 @@ export const selectAuthorityOfficesTotalCount = createSelector(
   selectAuthorityOfficesFeature,
   (state) => state
 );
+// History management selectors
+export const selectAuthorityOfficeState =
+  createFeatureSelector<State>('authorityOffices');
+
+export const selectAuthorityOfficeHistory = createSelector(
+  selectAuthorityOfficeState,
+  (state) => state.history
+);
+export const selectHistoryLoaded = createSelector(
+  selectAuthorityOfficeState,
+  (state) => state.historyLoaded
+);

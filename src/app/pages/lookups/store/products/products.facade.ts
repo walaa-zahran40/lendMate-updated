@@ -40,4 +40,15 @@ export class ProductsFacade {
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
   }
+  //History management
+  history$ = this.store.select(Selectors.selectProductHistory);
+
+  readonly productHistory$ = this.store.select(Selectors.selectProductHistory);
+  readonly productHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadProductHistory());
+  }
 }

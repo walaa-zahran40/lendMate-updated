@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, map, Observable, tap, throwError } from 'rxjs';
 import { ClientStatus } from './client-status.model';
 
 interface PagedResponse<T> {
@@ -33,7 +33,9 @@ export class ClientStatusesService {
   }
 
   getById(id: number): Observable<ClientStatus> {
-    return this.http.get<ClientStatus>(`${this.apiUrl}/ClientStatusId?clientStatusId=${id}`);
+    return this.http.get<ClientStatus>(
+      `${this.apiUrl}/ClientStatusId?clientStatusId=${id}`
+    );
   }
 
   create(data: Partial<ClientStatus>): Observable<ClientStatus> {
@@ -49,5 +51,22 @@ export class ClientStatusesService {
 
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+  //History management
+  getAllHistory(): Observable<ClientStatus[]> {
+    console.log('🚀 Service: calling GET …');
+    return this.http
+      .get<{ items: ClientStatus[]; totalCount: number }>(
+        `${this.baseUrl}/GetAllClientStatusesHistory`
+      )
+      .pipe(
+        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
+        map((resp) => resp.items), // ← pull off the `items` array here
+        tap((items) => console.log('🚀 Mapped items:', items)),
+        catchError((err) => {
+          console.error('🚀 HTTP error fetching ClientStatuses:', err);
+          return throwError(() => err);
+        })
+      );
   }
 }

@@ -7,13 +7,19 @@ export interface ActionNotificationGroupsState {
   loading: boolean;
   error: any;
   totalCount: number;
+  //History management
+  historyLoaded: boolean;
+  historyError: any;
 }
 
-export const initialActionNotificationGroupsState: ActionNotificationGroupsState = {
-  items: [],
-  history: [],
-  current: undefined,
-  loading: false,
-  error: null,
-  totalCount: 0,
-};
+export const initialActionNotificationGroupsState: ActionNotificationGroupsState =
+  {
+    items: [],
+    history: [],
+    historyLoaded: false,
+    historyError: null,
+    current: undefined,
+    loading: false,
+    error: null,
+    totalCount: 0,
+  };

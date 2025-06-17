@@ -40,4 +40,17 @@ export class PaymentTimingTermsFacade {
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
   }
+  //History management
+  history$ = this.store.select(Selectors.selectPaymentTimingTermHistory);
+
+  readonly paymentTimingTermHistory$ = this.store.select(
+    Selectors.selectPaymentTimingTermHistory
+  );
+  readonly paymentTimingTermHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadPaymentTimingTermHistory());
+  }
 }

@@ -71,3 +71,17 @@ export const entityOperationSuccess = createAction(
   '[Entity] Operation Success',
   props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
 );
+//History actions
+export const loadMandateValidityUnitHistory = createAction(
+  '[MandateValidityUnit/API] Load MandateValidityUnit History'
+);
+
+export const loadMandateValidityUnitHistorySuccess = createAction(
+  '[MandateValidityUnit/API] Load MandateValidityUnit History Success',
+  props<{ history: MandateValidityUnit[] }>()
+);
+
+export const loadMandateValidityUnitHistoryFailure = createAction(
+  '[MandateValidityUnit/API] Load CompanyFlowType History Failure',
+  props<{ error: any }>()
+);

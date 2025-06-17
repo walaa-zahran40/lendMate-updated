@@ -5,7 +5,6 @@ import { TableComponent } from '../../../../../shared/components/table/table.com
 import { InterestType } from '../../../store/interest-types/interest-type.model';
 import { InterestTypesFacade } from '../../../store/interest-types/interest-types.facade';
 
-
 @Component({
   selector: 'app-view-interest-types',
   standalone: false,
@@ -23,6 +22,7 @@ export class ViewInterestTypesComponent {
   readonly colsInside = [
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
+    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedInterestTypeId: number | null = null;
@@ -32,21 +32,22 @@ export class ViewInterestTypesComponent {
 
   constructor(private router: Router, private facade: InterestTypesFacade) {}
   ngOnInit() {
-    this.facade.loadAll();
+    this.facade.loadHistory();
     this.facade.operationSuccess$
       .pipe(
         takeUntil(this.destroy$),
         filter((op) => op?.entity === 'InterestType')
       )
-      .subscribe(() => this.facade.loadAll());
-    this.interestTypes$ = this.facade.all$;
+      .subscribe(() => this.facade.loadHistory());
+    this.interestTypes$ = this.facade.history$;
 
-    this.interestTypes$?.pipe(takeUntil(this.destroy$))?.subscribe((interest) => {
-      const activeCodes = interest.filter((code) => code.isActive);
-      const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
-      this.originalInterestTypes = sorted;
-      this.filteredInterestTypes = [...sorted];
-    });
+    this.interestTypes$
+      ?.pipe(takeUntil(this.destroy$))
+      ?.subscribe((interest) => {
+        const sorted = [...interest].sort((a, b) => b?.id - a?.id);
+        this.originalInterestTypes = sorted;
+        this.filteredInterestTypes = [...sorted];
+      });
   }
 
   onAddInterestType() {

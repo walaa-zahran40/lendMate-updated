@@ -22,6 +22,8 @@ export class ViewWorkFlowActionTypesComponent {
   readonly colsInside = [
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
+    { field: 'isActive', header: 'Is Active' },
+    { field: 'isDefault', header: 'Is Default' },
   ];
   showDeleteModal: boolean = false;
   selectedWorkflowActionTypeId: number | null = null;
@@ -36,17 +38,15 @@ export class ViewWorkFlowActionTypesComponent {
   ngOnInit(): void {
     console.log('🟢 ngOnInit: loading all…');
     // 1) dispatch the load
-    this.facade.loadAll();
+    this.facade.loadHistory();
 
     // 2) derive a single stream: filter by isActive, sort descending by id
     this.WorkflowActionTypes$ = (
-      this.facade.all$ as Observable<WorkflowActionType[]>
+      this.facade.history$ as Observable<WorkflowActionType[]>
     ).pipe(
       takeUntil(this.destroy$),
       tap((list) => console.log('🔄 raw list from store:', list)),
       // if you want to keep the “active” filter but default undefined→true:
-      map((list) => list.filter((i) => i.isActive ?? true)),
-      tap((filtered) => console.log('🔄 after filter:', filtered)),
       map((list) => [...list].sort((a, b) => b.id - a.id)),
       tap((sorted) => console.log('🔄 sorted descending:', sorted))
     );

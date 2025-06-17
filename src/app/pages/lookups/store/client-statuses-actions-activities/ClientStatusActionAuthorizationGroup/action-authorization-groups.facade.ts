@@ -14,12 +14,9 @@ export class ActionAuthorizationGroupsFacade {
   total$: Observable<number> = this.store.select(
     Selectors.selectActionAuthorizationGroupsTotal
   );
-  history$: Observable<ActionAuthorizationGroup[]> = this.store.select(
-    Selectors.selectActionAuthorizationGroupsHistory
-  );
-  current$: Observable<ActionAuthorizationGroup | undefined> = this.store.select(
-    Selectors.selectCurrentActionAuthorizationGroup
-  );
+
+  current$: Observable<ActionAuthorizationGroup | undefined> =
+    this.store.select(Selectors.selectCurrentActionAuthorizationGroup);
 
   loading$: Observable<boolean> = this.store.select(
     Selectors.selectActionAuthorizationGroupsLoading
@@ -34,8 +31,23 @@ export class ActionAuthorizationGroupsFacade {
   loadAll() {
     this.store.dispatch(Actions.loadActionAuthorizationGroups());
   }
-  loadHistory() {
-    this.store.dispatch(Actions.loadActionAuthorizationGroupsHistory());
+  //History management
+  history$ = this.store.select(
+    Selectors.selectActionAuthorizationGroupsHistory
+  );
+
+  readonly actionAuthorizationGroupsHistory$ = this.store.select(
+    Selectors.selectActionAuthorizationGroupsHistory
+  );
+
+  readonly actionAuthorizationGroupsHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(
+      Actions.loadClientStatusActionAuthorizationGroupHistory()
+    );
   }
   loadOne(id: number) {
     this.store.dispatch(Actions.loadActionAuthorizationGroup({ id }));
@@ -47,7 +59,9 @@ export class ActionAuthorizationGroupsFacade {
     this.store.dispatch(Actions.updateActionAuthorizationGroup({ id, data }));
   }
   /** NEW: dispatch the by-clientStatusActionId loader */
-  loadActionAuthorizationGroupsByClientStatusActionId(clientStatusActionId?: number) {
+  loadActionAuthorizationGroupsByClientStatusActionId(
+    clientStatusActionId?: number
+  ) {
     if (clientStatusActionId == null || isNaN(clientStatusActionId)) {
       console.error(
         '❌ Facade.loadActionAuthorizationGroupsByClientStatusActionId called with invalid id:',
@@ -55,14 +69,24 @@ export class ActionAuthorizationGroupsFacade {
       );
       return;
     }
-    this.store.dispatch(Actions.loadActionAuthorizationGroupsByClientStatusActionId({ clientStatusActionId }));
+    this.store.dispatch(
+      Actions.loadActionAuthorizationGroupsByClientStatusActionId({
+        clientStatusActionId,
+      })
+    );
   }
 
   /** UPDATED: now expects both id & parent clientStatusActionId */
   delete(id: number, clientStatusActionId: number) {
-    this.store.dispatch(Actions.deleteActionAuthorizationGroup({ id, clientStatusActionId }));
+    this.store.dispatch(
+      Actions.deleteActionAuthorizationGroup({ id, clientStatusActionId })
+    );
   }
   loadByClientStatusActionId(clientStatusActionId: number) {
-    this.store.dispatch(Actions.loadActionAuthorizationGroupsByClientStatusActionId({ clientStatusActionId }));
+    this.store.dispatch(
+      Actions.loadActionAuthorizationGroupsByClientStatusActionId({
+        clientStatusActionId,
+      })
+    );
   }
 }

@@ -21,18 +21,26 @@ export const clientStatusesReducer = createReducer(
     loading: false,
   })),
 
-  on(Actions.loadClientStatusesHistory, (state) => ({ ...state, loading: true })),
-  on(Actions.loadClientStatusesHistorySuccess, (state, { history }) => ({
+  //History management
+  on(Actions.loadClientStatusHistory, (state) => ({
     ...state,
-    history,
-    loading: false,
-  })),
-  on(Actions.loadClientStatusesHistoryFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
+    historyLoaded: false,
+    historyError: null,
   })),
 
+  on(Actions.loadClientStatusHistorySuccess, (state, { history }) => ({
+    ...state,
+    history,
+    historyLoaded: true,
+  })),
+  on(Actions.loadClientStatusHistorySuccess, (state, { history }) => {
+    console.log('✅ Reducer: history loaded', history); // add this
+    return {
+      ...state,
+      history: [...history],
+      historyLoaded: true,
+    };
+  }),
   on(Actions.loadClientStatus, (state) => ({ ...state, loading: true })),
   on(Actions.loadClientStatusSuccess, (state, { clientStatus }) => ({
     ...state,

@@ -89,6 +89,26 @@ export const reducer = createReducer(
     });
 
     return newState;
+  }),
+  //History management
+  on(ClientTypeActions.loadClientTypeHistory, (state) => ({
+    ...state,
+    historyLoaded: false,
+    historyError: null,
+  })),
+
+  on(ClientTypeActions.loadClientTypeHistorySuccess, (state, { history }) => ({
+    ...state,
+    history,
+    historyLoaded: true,
+  })),
+  on(ClientTypeActions.loadClientTypeHistorySuccess, (state, { history }) => {
+    console.log('✅ Reducer: history loaded', history); // add this
+    return {
+      ...state,
+      history: [...history],
+      historyLoaded: true,
+    };
   })
 );
 

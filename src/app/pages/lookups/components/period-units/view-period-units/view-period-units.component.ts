@@ -22,6 +22,7 @@ export class ViewPeriodUnitsComponent {
   readonly colsInside = [
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
+    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedGracePeriodUnitId: number | null = null;
@@ -32,20 +33,19 @@ export class ViewPeriodUnitsComponent {
   constructor(private router: Router, private facade: GracePeriodUnitsFacade) {}
   ngOnInit() {
     console.log('🟢 ngOnInit: start');
-    this.gracePeriodUnits$ = this.facade.all$;
-    console.log('🟢 before loadAll, current store value:');
+    this.gracePeriodUnits$ = this.facade.history$;
+    console.log('🟢 before loadHistory, current store value:');
     this.gracePeriodUnits$
       .pipe(take(1))
       .subscribe((v) => console.log('   store currently has:', v));
-    console.log('🟢 Calling loadAll() to fetch gracePeriodUnits');
-    this.facade.loadAll();
+    console.log('🟢 Calling loadHistory() to fetch gracePeriodUnits');
+    this.facade.loadHistory();
 
     this.gracePeriodUnits$
       ?.pipe(takeUntil(this.destroy$))
       ?.subscribe((periodUnits) => {
         // periodUnits is now rentStructureType[], not any
-        const activeCodes = periodUnits.filter((code) => code.isActive);
-        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
+        const sorted = [...periodUnits].sort((a, b) => b?.id - a?.id);
         this.originalGracePeriodUnit = sorted;
         this.filteredGracePeriodUnit = [...sorted];
       });

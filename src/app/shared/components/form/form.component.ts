@@ -22,14 +22,9 @@ import {
   Subscription,
   debounceTime,
 } from 'rxjs';
-import { Sectors } from '../../interfaces/sectors.interface';
 import { Store } from '@ngrx/store';
-import { selectAllSectors } from '../../../pages/lookups/store/sector-drop-down/sector.selectors';
-import { SubSectors } from '../../interfaces/sub-sector.interface';
-import { selectAllSubSectors } from '../../../pages/lookups/store/sub-sector-drop-down/sub-sector.selectors';
-import { LegalFormLaw } from '../../interfaces/legal-form-law.interface';
-import * as sectorsActions from '../../../pages/lookups/store/sector-drop-down/sector.actions';
-import * as subSectorsActions from '../../../pages/lookups/store/sub-sector-drop-down/sub-sector.actions';
+import * as sectorsActions from '../../../pages/lookups/store/sectors/sectors.actions';
+import * as subSectorsActions from '../../../pages/lookups/store/sub-sectors/sub-sectors.actions';
 import { setFormDirty } from '../../../pages/crm/clients/store/client-form/client-form.actions';
 import { FileUpload } from 'primeng/fileupload';
 import { LegalFormLawFacade } from '../../../pages/legals/store/legal-form-law/legal-form-law.facade';
@@ -37,6 +32,11 @@ import { LegalFormsFacade } from '../../../pages/legals/store/legal-forms/legal-
 import { PageOperation } from '../../../pages/organizations/store/page-operations/page-operation.model';
 import { IdentificationType } from '../../../pages/lookups/store/identification-types/identification-type.model';
 import { Currency } from '../../../pages/lookups/store/currencies/currency.model';
+import { Sector } from '../../../pages/lookups/store/sectors/sector.model';
+import { SubSector } from '../../../pages/lookups/store/sub-sectors/sub-sector.model';
+import { LegalFormLaw } from '../../../pages/legals/store/legal-form-laws/legal-form-law.model';
+import { selectAllSectors } from '../../../pages/lookups/store/sectors/sectors.selectors';
+import { selectAllSubSectors } from '../../../pages/lookups/store/sub-sectors/sub-sectors.selectors';
 export interface IdentityEntry {
   identificationNumber: string;
   selectedIdentities: any[];
@@ -155,7 +155,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Output() sectorChanged = new EventEmitter<number>();
   selectedCurrency: Currency | null = null;
 
-  sectorsSafe$!: Observable<Sectors[]>;
+  sectorsSafe$!: Observable<Sector[]>;
   onChange: (value: any) => void = () => {};
   onTouched: () => void = () => {};
   @Output() selectionChanged = new EventEmitter<any>();
@@ -608,11 +608,11 @@ export class FormComponent implements OnInit, OnDestroy {
 
   @Input() currentClientId?: number;
 
-  filteredSubSectors$!: Observable<SubSectors[]>;
+  filteredSubSectors$!: Observable<SubSector[]>;
   @Input() operationName!: string;
   clientStatusIdParam!: any;
   mandateStatusIdParam!: any;
-  legalFormLaws$: Observable<LegalFormLaw[]> = this.facade.legalFormLaws$;
+  legalFormLaws$: Observable<any[]> = this.facade.legalFormLaws$;
   legalForms$ = this.facadeLegalForms.items$;
 
   // legalForms$ = this.facadeLegalForms.legalForms$;
@@ -685,8 +685,8 @@ export class FormComponent implements OnInit, OnDestroy {
       this.addClientShowIndividual ||
       this.addClientOnboardingForm
     ) {
-      this.store.dispatch(sectorsActions.loadSectors());
-      this.store.dispatch(subSectorsActions.loadSubSectors());
+      this.store.dispatch(sectorsActions.loadAll({}));
+      this.store.dispatch(subSectorsActions.loadAll({}));
 
       this.sectorsSafe$ = this.store.select(selectAllSectors);
       const sectorCtrl = this.formGroup.get('sectorId');
@@ -705,8 +705,8 @@ export class FormComponent implements OnInit, OnDestroy {
         );
       }
       if (this.addClientShowMain) {
-        this.store.dispatch(sectorsActions.loadSectors());
-        this.store.dispatch(subSectorsActions.loadSubSectors());
+        this.store.dispatch(sectorsActions.loadAll({}));
+        this.store.dispatch(subSectorsActions.loadAll({}));
       }
       if (this.addClientShowLegal) {
         this.facade.loadLegalFormLaws();
@@ -743,7 +743,7 @@ export class FormComponent implements OnInit, OnDestroy {
       ?.pipe(
         take(1),
         map((sectors) => sectors.find((s) => s.id === selectedId)),
-        filter((sector): sector is Sectors => !!sector)
+        filter((sector): sector is Sector => !!sector)
       )
       .subscribe((sector) => {
         this.value = selectedId;

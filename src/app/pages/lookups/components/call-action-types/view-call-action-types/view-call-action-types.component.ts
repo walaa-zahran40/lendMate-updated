@@ -22,6 +22,7 @@ export class ViewCallActionTypesComponent {
   readonly colsInside = [
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
+    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedCallActionTypeId: number | null = null;
@@ -31,13 +32,12 @@ export class ViewCallActionTypesComponent {
 
   constructor(private router: Router, private facade: CallActionTypesFacade) {}
   ngOnInit() {
-    this.facade.loadAll();
-    this.callActionTypes$ = this.facade.all$;
+    this.facade.loadHistory();
+    this.callActionTypes$ = this.facade.history$;
 
     this.callActionTypes$?.pipe(takeUntil(this.destroy$))?.subscribe((call) => {
       // callActionTypes is now callActionTypes[], not any
-      const activeCodes = call.filter((code) => code.isActive);
-      const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
+      const sorted = [...call].sort((a, b) => b?.id - a?.id);
       this.originalCallActionTypes = sorted;
       this.filteredCallActionTypes = [...sorted];
     });

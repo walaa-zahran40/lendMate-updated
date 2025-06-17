@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, map, Observable, tap, throwError } from 'rxjs';
 import { MandateActionAuthorizationGroup } from './action-authorization-group.model';
 import { environment } from '../../../../../../environments/environment';
+import { ActionAuthorizationGroup } from '../../client-statuses-actions-activities/ClientStatusActionAuthorizationGroup/action-authorization-group.model';
 
 interface PagedResponse<T> {
   items: T[];
@@ -15,7 +16,9 @@ export class MandateActionAuthorizationGroupsService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(pageNumber?: number): Observable<PagedResponse<MandateActionAuthorizationGroup>> {
+  getAll(
+    pageNumber?: number
+  ): Observable<PagedResponse<MandateActionAuthorizationGroup>> {
     let params = new HttpParams();
     if (pageNumber != null) {
       params = params.set('pageNumber', pageNumber.toString());
@@ -33,10 +36,14 @@ export class MandateActionAuthorizationGroupsService {
   }
 
   getById(id: number): Observable<MandateActionAuthorizationGroup> {
-    return this.http.get<MandateActionAuthorizationGroup>(`${this.api}/MandateStatusActionAuthorizationGroupId?id=${id}`);
+    return this.http.get<MandateActionAuthorizationGroup>(
+      `${this.api}/MandateStatusActionAuthorizationGroupId?id=${id}`
+    );
   }
 
-  create(data: Partial<MandateActionAuthorizationGroup>): Observable<MandateActionAuthorizationGroup> {
+  create(
+    data: Partial<MandateActionAuthorizationGroup>
+  ): Observable<MandateActionAuthorizationGroup> {
     return this.http.post<MandateActionAuthorizationGroup>(
       `${this.api}/CreateMandateStatusActionAuthorizationGroup`,
       data
@@ -47,15 +54,40 @@ export class MandateActionAuthorizationGroupsService {
     id: number,
     data: Partial<MandateActionAuthorizationGroup>
   ): Observable<MandateActionAuthorizationGroup> {
-    return this.http.put<MandateActionAuthorizationGroup>(`${this.api}/${id}`, data);
+    return this.http.put<MandateActionAuthorizationGroup>(
+      `${this.api}/${id}`,
+      data
+    );
   }
 
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.api}/${id}`);
   }
-  getByMandateStatusActionId(mandateId: number): Observable<MandateActionAuthorizationGroup[]> {
+  getByMandateStatusActionId(
+    mandateId: number
+  ): Observable<MandateActionAuthorizationGroup[]> {
     return this.http.get<MandateActionAuthorizationGroup[]>(
       `${this.api}/GetMandateStatusActionAuthorizationGroupsByMandateStatusActionId?actionId=${mandateId}`
     );
+  }
+  //History management
+  getAllHistory(): Observable<ActionAuthorizationGroup[]> {
+    console.log('🚀 Service: calling GET …');
+    return this.http
+      .get<{ items: ActionAuthorizationGroup[]; totalCount: number }>(
+        `${this.api}/GetAllActionAuthorizationGroupsHistory`
+      )
+      .pipe(
+        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
+        map((resp) => resp.items), // ← pull off the `items` array here
+        tap((items) => console.log('🚀 Mapped items:', items)),
+        catchError((err) => {
+          console.error(
+            '🚀 HTTP error fetching ActionAuthorizationGroups:',
+            err
+          );
+          return throwError(() => err);
+        })
+      );
   }
 }

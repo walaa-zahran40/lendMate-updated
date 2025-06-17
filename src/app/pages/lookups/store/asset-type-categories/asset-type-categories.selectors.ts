@@ -18,7 +18,7 @@ export const selectAllAssetTypeCategories = createSelector(
   selectFeature,
   fromSlice.selectAll
 );
-export const selectAreaEntities = createSelector(
+export const selectAssetTypeCategoryEntities = createSelector(
   selectFeature,
   fromSlice.selectEntities
 );
@@ -44,4 +44,17 @@ export const selectCurrent = createSelector(
 export const selectAssetTypeCategoriesTotalCount = createSelector(
   selectAssetTypeCategoriesFeature,
   (state) => state
+);
+// History management selectors
+export const selectAssetTypeCategoryState = createFeatureSelector<State>(
+  'assetTypeCategories'
+);
+
+export const selectAssetTypeCategoryHistory = createSelector(
+  selectAssetTypeCategoryState,
+  (state) => state.history
+);
+export const selectHistoryLoaded = createSelector(
+  selectAssetTypeCategoryState,
+  (state) => state.historyLoaded
 );

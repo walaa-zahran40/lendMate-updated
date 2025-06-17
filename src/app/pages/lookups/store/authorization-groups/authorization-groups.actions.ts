@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { AuthorizationGroup } from './authorization-groups.model';
+import { AuthorizationGroup } from './authorization-group.model';
 
 export const loadAll = createAction(
   '[AuthorizationGroups] Load All',
@@ -70,4 +70,18 @@ export const deleteEntityFailure = createAction(
 export const entityOperationSuccess = createAction(
   '[Entity] Operation Success',
   props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
+);
+//History actions
+export const loadAuthorizationGroupHistory = createAction(
+  '[AuthorizationGroup/API] Load AuthorizationGroup History'
+);
+
+export const loadAuthorizationGroupHistorySuccess = createAction(
+  '[AuthorizationGroup/API] Load AuthorizationGroup History Success',
+  props<{ history: AuthorizationGroup[] }>()
+);
+
+export const loadAuthorizationGroupHistoryFailure = createAction(
+  '[AuthorizationGroup/API] Load AuthorizationGroup History Failure',
+  props<{ error: any }>()
 );

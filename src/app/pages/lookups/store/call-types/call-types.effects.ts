@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { CallTypesService } from './call-types.service';
 import * as ActionsList from './call-types.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { CallType } from './call-type.model';
 import { EntityNames } from '../../../../shared/constants/entity-names';
 
@@ -115,7 +115,21 @@ export class CallTypesEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadCallTypeHistory())
+    )
+  );
+  // Load authorization group officer history
+  loadCallTypeHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadCallTypeHistory),
+      switchMap(() =>
+        this.svc.getAllHistory().pipe(
+          map((history) => ActionsList.loadCallTypeHistorySuccess({ history })),
+          catchError((error) =>
+            of(ActionsList.loadCallTypeHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

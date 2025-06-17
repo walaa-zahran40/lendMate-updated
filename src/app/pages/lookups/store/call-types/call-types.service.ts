@@ -42,4 +42,21 @@ export class CallTypesService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
+  //History management
+  getAllHistory(): Observable<CallType[]> {
+    console.log('🚀 Service: calling GET …');
+    return this.http
+      .get<{ items: CallType[]; totalCount: number }>(
+        `${this.baseUrl}/GetAllCallTypesHistory`
+      )
+      .pipe(
+        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
+        map((resp) => resp.items), // ← pull off the `items` array here
+        tap((items) => console.log('🚀 Mapped items:', items)),
+        catchError((err) => {
+          console.error('🚀 HTTP error fetching CallTypes:', err);
+          return throwError(() => err);
+        })
+      );
+  }
 }

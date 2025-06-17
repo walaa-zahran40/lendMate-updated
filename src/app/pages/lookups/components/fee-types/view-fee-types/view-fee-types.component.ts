@@ -38,6 +38,7 @@ export class ViewFeeTypesComponent {
     { field: 'feeCalculationType', header: 'Fee Calculation Type' },
     { field: 'defaultPrecentage', header: 'Default Percentage' },
     { field: 'defaultAmount', header: 'Default Amount' },
+    { field: 'isActive', header: 'Is Active' },
   ];
 
   showDeleteModal = false;
@@ -54,11 +55,11 @@ export class ViewFeeTypesComponent {
 
   ngOnInit() {
     // Initialize observables
-    this.feeTypes$ = this.facade.all$;
+    this.feeTypes$ = this.facade.history$;
     this.feeCalcList$ = this.feecalcFacade.all$;
 
     // Trigger loading
-    this.facade.loadAll();
+    this.facade.loadHistory();
     this.feecalcFacade.loadAll();
 
     // Combine fee types with their corresponding calculation type names

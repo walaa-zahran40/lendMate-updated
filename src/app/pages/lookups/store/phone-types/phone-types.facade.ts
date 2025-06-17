@@ -40,4 +40,17 @@ export class PhoneTypesFacade {
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
   }
+  //History management
+  history$ = this.store.select(Selectors.selectPhoneTypeHistory);
+
+  readonly phoneTypeHistory$ = this.store.select(
+    Selectors.selectPhoneTypeHistory
+  );
+  readonly phoneTypeHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadPhoneTypeHistory());
+  }
 }

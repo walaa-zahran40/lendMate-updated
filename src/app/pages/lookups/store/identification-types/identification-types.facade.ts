@@ -42,4 +42,17 @@ export class IdentificationTypesFacade {
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
   }
+  //History management
+  history$ = this.store.select(Selectors.selectIdentificationTypeHistory);
+
+  readonly identificationTypeHistory$ = this.store.select(
+    Selectors.selectIdentificationTypeHistory
+  );
+  readonly identificationTypeHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadIdentificationTypeHistory());
+  }
 }

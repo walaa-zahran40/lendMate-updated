@@ -89,6 +89,29 @@ export const reducer = createReducer(
     });
 
     return newState;
+  }),
+  //History management
+  on(LeasingTypeActions.loadLeasingTypeHistory, (state) => ({
+    ...state,
+    historyLoaded: false,
+    historyError: null,
+  })),
+
+  on(
+    LeasingTypeActions.loadLeasingTypeHistorySuccess,
+    (state, { history }) => ({
+      ...state,
+      history,
+      historyLoaded: true,
+    })
+  ),
+  on(LeasingTypeActions.loadLeasingTypeHistorySuccess, (state, { history }) => {
+    console.log('✅ Reducer: history loaded', history); // add this
+    return {
+      ...state,
+      history: [...history],
+      historyLoaded: true,
+    };
   })
 );
 

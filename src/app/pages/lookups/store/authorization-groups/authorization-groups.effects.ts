@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AuthorizationGroupsService } from './authorization-groups.service';
 import * as ActionsList from './authorization-groups.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
-import { AuthorizationGroup } from './authorization-groups.model';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
+import { AuthorizationGroup } from './authorization-group.model';
 import { EntityNames } from '../../../../shared/constants/entity-names';
 
 @Injectable()
@@ -118,7 +118,23 @@ export class AuthorizationGroupsEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadAuthorizationGroupHistory())
+    )
+  );
+  // Load authorization group officer history
+  loadAuthorizationGroupOfficerHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadAuthorizationGroupHistory),
+      switchMap(() =>
+        this.service.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadAuthorizationGroupHistorySuccess({ history })
+          ),
+          catchError((error) =>
+            of(ActionsList.loadAuthorizationGroupHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

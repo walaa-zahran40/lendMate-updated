@@ -70,7 +70,7 @@ export const reducer = createReducer(
     loading: false,
     error,
   })),
-  // identCallActionType-calculation-types.reducer.ts
+  // identCallType-calculation-types.reducer.ts
   on(CallTypeActions.loadByIdSuccess, (state, { entity }) => {
     console.log('🗄️ Reducer: loadByIdSuccess, before:', {
       loadedId: state.loadedId,
@@ -89,6 +89,26 @@ export const reducer = createReducer(
     });
 
     return newState;
+  }),
+  //History management
+  on(CallTypeActions.loadCallTypeHistory, (state) => ({
+    ...state,
+    historyLoaded: false,
+    historyError: null,
+  })),
+
+  on(CallTypeActions.loadCallTypeHistorySuccess, (state, { history }) => ({
+    ...state,
+    history,
+    historyLoaded: true,
+  })),
+  on(CallTypeActions.loadCallTypeHistorySuccess, (state, { history }) => {
+    console.log('✅ Reducer: history loaded', history); // add this
+    return {
+      ...state,
+      history: [...history],
+      historyLoaded: true,
+    };
   })
 );
 

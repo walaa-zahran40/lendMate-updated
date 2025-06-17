@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { WorkflowActionTypesService } from './workflow-action-types.service';
 import * as ActionsList from './workflow-action-types.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { WorkflowActionType } from './workflow-action-type.model';
 
 @Injectable()
@@ -94,6 +94,33 @@ export class WorkflowActionTypesEffects {
         this.service.delete(id).pipe(
           map(() => ActionsList.deleteEntitySuccess({ id })),
           catchError((error) => of(ActionsList.deleteEntityFailure({ error })))
+        )
+      )
+    )
+  );
+  refreshList$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        ActionsList.createEntitySuccess,
+        ActionsList.updateEntitySuccess,
+        ActionsList.deleteEntitySuccess
+      ),
+      map(() => ActionsList.loadWorkflowActionTypeHistory())
+    )
+  );
+  loadWorkflowActionTypeHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadWorkflowActionTypeHistory),
+      switchMap(() =>
+        this.service.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadWorkflowActionTypeHistorySuccess({
+              history,
+            })
+          ),
+          catchError((error) =>
+            of(ActionsList.loadWorkflowActionTypeHistoryFailure({ error }))
+          )
         )
       )
     )

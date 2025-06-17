@@ -32,14 +32,18 @@ export const authorizationGroupOfficerReducer = createReducer(
     loading: true,
     error: null,
   })),
-  on(AuthorizationGroupOfficerActions.createEntitySuccess, (state, { entity }) =>
-    adapter.addOne(entity, { ...state, loading: false })
+  on(
+    AuthorizationGroupOfficerActions.createEntitySuccess,
+    (state, { entity }) => adapter.addOne(entity, { ...state, loading: false })
   ),
-  on(AuthorizationGroupOfficerActions.createEntityFailure, (state, { error }) => ({
-    ...state,
-    loading: false,
-    error,
-  })),
+  on(
+    AuthorizationGroupOfficerActions.createEntityFailure,
+    (state, { error }) => ({
+      ...state,
+      loading: false,
+      error,
+    })
+  ),
 
   // update
   on(AuthorizationGroupOfficerActions.updateEntity, (state) => ({
@@ -47,14 +51,19 @@ export const authorizationGroupOfficerReducer = createReducer(
     loading: true,
     error: null,
   })),
-  on(AuthorizationGroupOfficerActions.updateEntitySuccess, (state, { id, changes }) =>
-    adapter.updateOne({ id, changes }, { ...state, loading: false })
+  on(
+    AuthorizationGroupOfficerActions.updateEntitySuccess,
+    (state, { id, changes }) =>
+      adapter.updateOne({ id, changes }, { ...state, loading: false })
   ),
-  on(AuthorizationGroupOfficerActions.updateEntityFailure, (state, { error }) => ({
-    ...state,
-    loading: false,
-    error,
-  })),
+  on(
+    AuthorizationGroupOfficerActions.updateEntityFailure,
+    (state, { error }) => ({
+      ...state,
+      loading: false,
+      error,
+    })
+  ),
 
   // delete
   on(AuthorizationGroupOfficerActions.deleteEntity, (state) => ({
@@ -65,11 +74,14 @@ export const authorizationGroupOfficerReducer = createReducer(
   on(AuthorizationGroupOfficerActions.deleteEntitySuccess, (state, { id }) =>
     adapter.removeOne(id, { ...state, loading: false })
   ),
-  on(AuthorizationGroupOfficerActions.deleteEntityFailure, (state, { error }) => ({
-    ...state,
-    loading: false,
-    error,
-  })),
+  on(
+    AuthorizationGroupOfficerActions.deleteEntityFailure,
+    (state, { error }) => ({
+      ...state,
+      loading: false,
+      error,
+    })
+  ),
   // identCompanyActionType-types.reducer.ts
   on(AuthorizationGroupOfficerActions.loadByIdSuccess, (state, { entity }) => {
     console.log('🗄️ Reducer: loadByIdSuccess, before:', {
@@ -89,7 +101,36 @@ export const authorizationGroupOfficerReducer = createReducer(
     });
 
     return newState;
-  })
+  }),
+  //History management
+  on(
+    AuthorizationGroupOfficerActions.loadAuthorizationGroupOfficerHistory,
+    (state) => ({
+      ...state,
+      historyLoaded: false,
+      historyError: null,
+    })
+  ),
+
+  on(
+    AuthorizationGroupOfficerActions.loadAuthorizationGroupOfficerHistorySuccess,
+    (state, { history }) => ({
+      ...state,
+      history,
+      historyLoaded: true,
+    })
+  ),
+  on(
+    AuthorizationGroupOfficerActions.loadAuthorizationGroupOfficerHistorySuccess,
+    (state, { history }) => {
+      console.log('✅ Reducer: history loaded', history); // add this
+      return {
+        ...state,
+        history: [...history],
+        historyLoaded: true,
+      };
+    }
+  )
 );
 
 export const { selectAll, selectEntities, selectIds, selectTotal } =

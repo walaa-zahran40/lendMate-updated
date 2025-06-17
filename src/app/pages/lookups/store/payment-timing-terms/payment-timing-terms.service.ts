@@ -28,10 +28,14 @@ export class PaymentTimingTermsService {
   }
 
   getById(id: number): Observable<PaymentTimingTerm> {
-    return this.http.get<PaymentTimingTerm>(`${this.baseUrl}/PaymentTimingTermId?id=${id}`);
+    return this.http.get<PaymentTimingTerm>(
+      `${this.baseUrl}/PaymentTimingTermId?id=${id}`
+    );
   }
 
-  create(payload: Omit<PaymentTimingTerm, 'id'>): Observable<PaymentTimingTerm> {
+  create(
+    payload: Omit<PaymentTimingTerm, 'id'>
+  ): Observable<PaymentTimingTerm> {
     return this.http.post<PaymentTimingTerm>(
       `${this.baseUrl}/CreatePaymentTimingTerm`,
       payload
@@ -44,5 +48,22 @@ export class PaymentTimingTermsService {
 
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+  //History management
+  getAllHistory(): Observable<PaymentTimingTerm[]> {
+    console.log('🚀 Service: calling GET …');
+    return this.http
+      .get<{ items: PaymentTimingTerm[]; totalCount: number }>(
+        `${this.baseUrl}/GetAllPaymentTimingTermsHistory`
+      )
+      .pipe(
+        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
+        map((resp) => resp.items), // ← pull off the `items` array here
+        tap((items) => console.log('🚀 Mapped items:', items)),
+        catchError((err) => {
+          console.error('🚀 HTTP error fetching PaymentTimingTerms:', err);
+          return throwError(() => err);
+        })
+      );
   }
 }

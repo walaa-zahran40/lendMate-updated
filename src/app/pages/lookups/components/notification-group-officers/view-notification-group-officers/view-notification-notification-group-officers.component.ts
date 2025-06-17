@@ -30,12 +30,13 @@ export class ViewNotificationGroupOfficersComponent {
 
   @ViewChild('tableRef') tableRef!: TableComponent;
 
- readonly colsInside = [
-  { field: 'notificationGroupName', header: 'notification Group' },
-  { field: 'officerName', header: 'officer' },
-  { field: 'startDate', header: 'start Date' },
-  { field: 'isCurrent', header: 'isCurrent' },
-];
+  readonly colsInside = [
+    { field: 'notificationGroupName', header: 'notification Group' },
+    { field: 'officerName', header: 'officer' },
+    { field: 'startDate', header: 'start Date' },
+    { field: 'isCurrent', header: 'isCurrent' },
+    { field: 'isActive', header: 'isActive' },
+  ];
 
   showDeleteModal = false;
   selectedNotificationGroupOfficerId: number | null = null;
@@ -52,9 +53,9 @@ export class ViewNotificationGroupOfficersComponent {
   ) {}
 
   ngOnInit() {
-    this.notificationGroupOfficers$ = this.facade.all$;
-    this.facade.loadAll();
-    
+    this.notificationGroupOfficers$ = this.facade.history$;
+    this.facade.loadHistory();
+
     this.notificationGroupList$ = this.notificationGroupsFacade.all$;
     this.notificationGroupsFacade.loadAll();
 
@@ -62,42 +63,39 @@ export class ViewNotificationGroupOfficersComponent {
     this.officersFacade.loadAll();
 
     // Combine fee types with their corresponding calculation type names
-   combineLatest<[NotificationGroupOfficer[], any[], any[]]>([
-  this.notificationGroupOfficers$ ?? of([]),
-  this.notificationGroupList$ ?? of([]),
-  this.officersList$ ?? of([]),
-])
-  .pipe(
-    map(([notificationGroupOfficers, feeCalcTypes, officers]) => {
-      console.log('📦 Raw notificationGroups:', notificationGroupOfficers);
-      console.log('📦 Raw feeCalcTypes:', feeCalcTypes);
-      console.log('📦 Raw officers:', officers);
+    combineLatest<[NotificationGroupOfficer[], any[], any[]]>([
+      this.notificationGroupOfficers$ ?? of([]),
+      this.notificationGroupList$ ?? of([]),
+      this.officersList$ ?? of([]),
+    ])
+      .pipe(
+        map(([notificationGroupOfficers, feeCalcTypes, officers]) => {
+          console.log('📦 Raw notificationGroups:', notificationGroupOfficers);
+          console.log('📦 Raw feeCalcTypes:', feeCalcTypes);
+          console.log('📦 Raw officers:', officers);
 
-      return notificationGroupOfficers
-        .map((ss) => {
-          const groupMatch = feeCalcTypes.find(
-            (s) => s.id === ss.notificationGroupId
-          );
-          const officerMatch = officers.find(
-            (o) => o.id === ss.officerId
-          );
+          return notificationGroupOfficers
+            .map((ss) => {
+              const groupMatch = feeCalcTypes.find(
+                (s) => s.id === ss.notificationGroupId
+              );
+              const officerMatch = officers.find((o) => o.id === ss.officerId);
 
-          return {
-            ...ss,
-            notificationGroupName: groupMatch?.name || '—',
-            officerName: officerMatch?.name || '—',
-          };
-        })
-        .sort((a, b) => b.id - a.id);
-    }),
-    takeUntil(this.destroy$)
-  )
-  .subscribe((result) => {
-    console.log('🔄 Mapped Result:', result);
-    this.filteredNotificationGroupOfficers = result;
-    this.originalNotificationGroupOfficers = result;
-  });
-
+              return {
+                ...ss,
+                notificationGroupName: groupMatch?.name || '—',
+                officerName: officerMatch?.name || '—',
+              };
+            })
+            .sort((a, b) => b.id - a.id);
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((result) => {
+        console.log('🔄 Mapped Result:', result);
+        this.filteredNotificationGroupOfficers = result;
+        this.originalNotificationGroupOfficers = result;
+      });
   }
 
   onAddNotificationGroupOfficer() {
@@ -135,11 +133,12 @@ export class ViewNotificationGroupOfficersComponent {
 
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
-    this.filteredNotificationGroupOfficers = this.originalNotificationGroupOfficers.filter((notificationGroups) =>
-      Object.values(notificationGroups).some((val) =>
-        val?.toString().toLowerCase().includes(lower)
-      )
-    );
+    this.filteredNotificationGroupOfficers =
+      this.originalNotificationGroupOfficers.filter((notificationGroups) =>
+        Object.values(notificationGroups).some((val) =>
+          val?.toString().toLowerCase().includes(lower)
+        )
+      );
   }
 
   onToggleFilters(value: boolean) {
@@ -147,14 +146,20 @@ export class ViewNotificationGroupOfficersComponent {
   }
 
   onEditNotificationGroupOfficer(notificationGroups: NotificationGroupOfficer) {
-    this.router.navigate(['/lookups/edit-notification-group-officers', notificationGroups.id], {
-      queryParams: { mode: 'edit' },
-    });
+    this.router.navigate(
+      ['/lookups/edit-notification-group-officers', notificationGroups.id],
+      {
+        queryParams: { mode: 'edit' },
+      }
+    );
   }
 
   onViewNotificationGroupOfficer(notificationGroups: NotificationGroupOfficer) {
-    this.router.navigate(['/lookups/edit-notification-group-officers', notificationGroups.id], {
-      queryParams: { mode: 'view' },
-    });
+    this.router.navigate(
+      ['/lookups/edit-notification-group-officers', notificationGroups.id],
+      {
+        queryParams: { mode: 'view' },
+      }
+    );
   }
 }

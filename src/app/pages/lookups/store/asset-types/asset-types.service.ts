@@ -45,4 +45,21 @@ export class AssetTypesService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
+  //History management
+  getAllHistory(): Observable<AssetType[]> {
+    console.log('🚀 Service: calling GET …');
+    return this.http
+      .get<{ items: AssetType[]; totalCount: number }>(
+        `${this.baseUrl}/GetAllAssetTypesHistory`
+      )
+      .pipe(
+        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
+        map((resp) => resp.items), // ← pull off the `items` array here
+        tap((items) => console.log('🚀 Mapped items:', items)),
+        catchError((err) => {
+          console.error('🚀 HTTP error fetching AssetTypes:', err);
+          return throwError(() => err);
+        })
+      );
+  }
 }

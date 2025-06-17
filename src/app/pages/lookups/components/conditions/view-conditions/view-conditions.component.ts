@@ -1,11 +1,19 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject, Observable, takeUntil, filter, combineLatest, of, map } from 'rxjs';
+import {
+  Subject,
+  Observable,
+  takeUntil,
+  filter,
+  combineLatest,
+  of,
+  map,
+} from 'rxjs';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { Condition } from '../../../store/conditions/condition.model';
 import { ConditionsFacade } from '../../../store/conditions/conditions.facade';
 import { ConditionExpressionsFacade } from '../../../store/condition-expressions/condition-expressions.facade';
-import { ConditionExpression } from '../../../store/condition-expressions/condition-expressions.model';
+import { ConditionExpression } from '../../../store/condition-expressions/condition-expression.model';
 
 @Component({
   selector: 'app-view-conditions',
@@ -26,6 +34,7 @@ export class ViewConditionsComponent {
     { field: 'conditionTypeName', header: 'conditionType' },
     { field: 'fieldName', header: 'Expression Field Name' },
     { field: 'functionName', header: 'functionName' },
+    { field: 'isActive', header: 'Is Active' },
   ];
 
   showDeleteModal: boolean = false;
@@ -35,23 +44,23 @@ export class ViewConditionsComponent {
   conditions$!: Observable<Condition[]>;
   conditionExpressions$!: Observable<ConditionExpression[]>;
   readonly conditionTypes = [
-  { id: 1, value: 'Expression' },
-  { id: 2, value: 'Function' },
-  { id: 3, value: 'Both' }
-];
-  
+    { id: 1, value: 'Expression' },
+    { id: 2, value: 'Function' },
+    { id: 3, value: 'Both' },
+  ];
 
   constructor(
-    private router: Router, 
-    private facade: ConditionsFacade ,
-    private conditionExpressionsFacade: ConditionExpressionsFacade){}
+    private router: Router,
+    private facade: ConditionsFacade,
+    private conditionExpressionsFacade: ConditionExpressionsFacade
+  ) {}
 
   ngOnInit() {
     this.conditionExpressionsFacade.loadAll();
     this.conditionExpressions$ = this.conditionExpressionsFacade.all$;
-    
-    this.facade.loadAll();
-    this.conditions$ = this.facade.all$;
+
+    this.facade.loadHistory();
+    this.conditions$ = this.facade.history$;
 
     // Combine fee types with their corresponding calculation type names
     combineLatest<[Condition[], any[]]>([
@@ -67,9 +76,11 @@ export class ViewConditionsComponent {
             .map((ss) => {
               console.log('ss', ss);
               const match = conditionExpressions.find(
-                (s) => s.id === ss.conditionExpressionId,
+                (s) => s.id === ss.conditionExpressionId
               );
-              const type = this.conditionTypes.find(t => t.id === ss.conditionType);
+              const type = this.conditionTypes.find(
+                (t) => t.id === ss.conditionType
+              );
 
               console.log(
                 `🔍 Matching calc type for feeType ID ${ss.id} (feeCalculationTypeId: ${ss.conditionExpressionId}):`,
@@ -79,12 +90,13 @@ export class ViewConditionsComponent {
               return {
                 ...ss,
                 fieldName:
-                  conditionExpressions.find((s) => s.id === ss.conditionExpressionId)
-                    ?.fieldName || '—',
+                  conditionExpressions.find(
+                    (s) => s.id === ss.conditionExpressionId
+                  )?.fieldName || '—',
 
-                    conditionTypeName: type?.value || 'Unknown'
-                  };
-                })
+                conditionTypeName: type?.value || 'Unknown',
+              };
+            })
             .sort((a, b) => b.id - a.id);
         }),
         takeUntil(this.destroy$)
@@ -137,11 +149,10 @@ export class ViewConditionsComponent {
   }
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
-    this.filteredConditions = this.originalConditions.filter(
-      (condition) =>
-        Object.values(condition).some((val) =>
-          val?.toString().toLowerCase().includes(lower)
-        )
+    this.filteredConditions = this.originalConditions.filter((condition) =>
+      Object.values(condition).some((val) =>
+        val?.toString().toLowerCase().includes(lower)
+      )
     );
   }
   onToggleFilters(value: boolean) {

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { DocTypesService } from './doc-types.service';
 import * as ActionsList from './doc-types.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { DocType } from './doc-type.model';
 import { EntityNames } from '../../../../shared/constants/entity-names';
 
@@ -115,7 +115,24 @@ export class DocTypesEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadDocTypeHistory())
+    )
+  );
+  loadDocTypeHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadDocTypeHistory),
+      switchMap(() =>
+        this.svc.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadDocTypeHistorySuccess({
+              history,
+            })
+          ),
+          catchError((error) =>
+            of(ActionsList.loadDocTypeHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

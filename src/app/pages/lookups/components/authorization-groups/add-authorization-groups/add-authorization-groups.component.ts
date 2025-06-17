@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { distinctUntilChanged, filter, take } from 'rxjs';
 import { arabicOnlyValidator } from '../../../../../shared/validators/arabic-only.validator';
 import { AuthorizationGroupsFacade } from '../../../store/authorization-groups/authorization-groups.facade';
-import { AuthorizationGroup } from '../../../store/authorization-groups/authorization-groups.model';
+import { AuthorizationGroup } from '../../../store/authorization-groups/authorization-group.model';
 
 @Component({
   selector: 'app-add-authorization-groups',

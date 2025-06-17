@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { SMEClientCodesService } from './sme-client-codes.service';
 import * as ActionsList from './sme-client-codes.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
-import { SMEClientCode } from './sme-client-codes.model';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
+import { SMEClientCode } from './sme-client-code.model';
 
 @Injectable()
 export class SMEClientCodesEffects {
@@ -105,7 +105,24 @@ export class SMEClientCodesEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadSMEClientCodeHistory())
+    )
+  );
+  loadSMEClientCodeHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadSMEClientCodeHistory),
+      switchMap(() =>
+        this.service.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadSMEClientCodeHistorySuccess({
+              history,
+            })
+          ),
+          catchError((error) =>
+            of(ActionsList.loadSMEClientCodeHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

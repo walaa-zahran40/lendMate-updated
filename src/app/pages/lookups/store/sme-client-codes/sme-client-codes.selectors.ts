@@ -41,3 +41,16 @@ export const selectSMEClientCodesTotalCount = createSelector(
   selectSMEClientCodesFeature,
   (state) => state
 );
+// History management selectors
+export const selectSMEClientCodeHistoryState = createFeatureSelector<State>(
+  'sMEClientCodeHistory'
+);
+
+export const selectSMEClientCodeHistory = createSelector(
+  selectSMEClientCodeHistoryState,
+  (state) => state.history
+);
+export const selectHistoryLoaded = createSelector(
+  selectSMEClientCodeHistoryState,
+  (state) => state.historyLoaded
+);

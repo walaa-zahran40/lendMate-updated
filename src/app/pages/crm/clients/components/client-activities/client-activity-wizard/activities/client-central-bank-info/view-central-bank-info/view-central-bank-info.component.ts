@@ -7,7 +7,7 @@ import { CompanyType } from '../../../../../../../../lookups/store/company-types
 import { CompanyTypesFacade } from '../../../../../../../../lookups/store/company-types/company-types.facade';
 import { selectAllCompanyTypes } from '../../../../../../../../lookups/store/company-types/company-types.selectors';
 import { SMEClientCodesFacade } from '../../../../../../../../lookups/store/sme-client-codes/sme-client-codes.facade';
-import { SMEClientCode } from '../../../../../../../../lookups/store/sme-client-codes/sme-client-codes.model';
+import { SMEClientCode } from '../../../../../../../../lookups/store/sme-client-codes/sme-client-code.model';
 import { selectAllSMEClientCodes } from '../../../../../../../../lookups/store/sme-client-codes/sme-client-codes.selectors';
 import { ClientCentralBankInfoFacade } from '../../../../../../store/client-central-bank-info/client-central-bank.facade';
 import { ClientCentralBankInfo } from '../../../../../../store/client-central-bank-info/client-central-bank.model';

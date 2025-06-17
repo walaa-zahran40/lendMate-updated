@@ -21,26 +21,58 @@ export class AuthorizationGroupOfficersService {
         map((resp) => resp.items), // ← pull off the `items` array here
         tap((items) => console.log('🚀 Mapped items:', items)),
         catchError((err) => {
-          console.error('🚀 HTTP error fetching AuthorizationGroupOfficers:', err);
+          console.error(
+            '🚀 HTTP error fetching AuthorizationGroupOfficers:',
+            err
+          );
           return throwError(() => err);
         })
       );
   }
 
   getById(id: number): Observable<AuthorizationGroupOfficer> {
-    return this.http.get<AuthorizationGroupOfficer>(`${this.baseUrl}/AuthorizationGroupOfficerId?id=${id}`);
+    return this.http.get<AuthorizationGroupOfficer>(
+      `${this.baseUrl}/AuthorizationGroupOfficerId?id=${id}`
+    );
   }
 
-
-  create(payload: Omit<AuthorizationGroupOfficer, 'id'>): Observable<AuthorizationGroupOfficer> {
-    return this.http.post<AuthorizationGroupOfficer>(`${this.baseUrl}/CreateAuthorizationGroupOfficer`, payload);
+  create(
+    payload: Omit<AuthorizationGroupOfficer, 'id'>
+  ): Observable<AuthorizationGroupOfficer> {
+    return this.http.post<AuthorizationGroupOfficer>(
+      `${this.baseUrl}/CreateAuthorizationGroupOfficer`,
+      payload
+    );
   }
 
-  update(id: number, changes: Partial<AuthorizationGroupOfficer>): Observable<void> {
+  update(
+    id: number,
+    changes: Partial<AuthorizationGroupOfficer>
+  ): Observable<void> {
     return this.http.put<void>(`${this.baseUrl}/${id}`, changes);
   }
 
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+  //History management
+  getAllHistory(): Observable<AuthorizationGroupOfficer[]> {
+    console.log('🚀 Service: calling GET …');
+    return this.http
+      .get<{ items: AuthorizationGroupOfficer[]; totalCount: number }>(
+        `${this.baseUrl}/GetAllAuthorizationGroupOfficersHistory`
+      )
+      .pipe(
+        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
+        map((resp) => resp.items), // ← pull off the `items` array here
+        tap((items) => console.log('🚀 Mapped items:', items)),
+        catchError((err) => {
+          console.error(
+            '🚀 HTTP error fetching AuthorizationGroupOfficers:',
+            err
+          );
+          return throwError(() => err);
+        })
+      );
   }
 }

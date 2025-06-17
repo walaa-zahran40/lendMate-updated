@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { createSelector, Store } from '@ngrx/store';
 import * as Actions from './followup-types.actions';
-import * as Selectors from './folllowup-types.selectors';
-import { FollowupType } from './folllowup-types.model';
+import * as Selectors from './followup-types.selectors';
+import { FollowupType } from './folllowup-type.model';
 import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors'; // adjust path if needed
 
 @Injectable({ providedIn: 'root' })
@@ -38,5 +38,18 @@ export class FollowupTypesFacade {
 
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
+  }
+  //History management
+  history$ = this.store.select(Selectors.selectFollowUpTypeHistory);
+
+  readonly followUpTypeHistory$ = this.store.select(
+    Selectors.selectFollowUpTypeHistory
+  );
+  readonly followUpTypeHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadFollowUpTypeHistory());
   }
 }

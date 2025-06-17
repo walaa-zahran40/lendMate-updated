@@ -91,7 +91,36 @@ export const reducer = createReducer(
     });
 
     return newState;
-  })
+  }),
+  //History management
+  on(
+    CommunicationFlowTypeActions.loadCommunicationFlowTypeHistory,
+    (state) => ({
+      ...state,
+      historyLoaded: false,
+      historyError: null,
+    })
+  ),
+
+  on(
+    CommunicationFlowTypeActions.loadCommunicationFlowTypeHistorySuccess,
+    (state, { history }) => ({
+      ...state,
+      history,
+      historyLoaded: true,
+    })
+  ),
+  on(
+    CommunicationFlowTypeActions.loadCommunicationFlowTypeHistorySuccess,
+    (state, { history }) => {
+      console.log('✅ Reducer: history loaded', history); // add this
+      return {
+        ...state,
+        history: [...history],
+        historyLoaded: true,
+      };
+    }
+  )
 );
 
 export const { selectAll, selectEntities, selectIds, selectTotal } =

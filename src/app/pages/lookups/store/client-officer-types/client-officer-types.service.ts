@@ -33,7 +33,9 @@ export class ClientOfficerTypesService {
     );
   }
 
-  create(payload: Omit<ClientOfficerType, 'id'>): Observable<ClientOfficerType> {
+  create(
+    payload: Omit<ClientOfficerType, 'id'>
+  ): Observable<ClientOfficerType> {
     return this.http.post<ClientOfficerType>(
       `${this.baseUrl}/CreateClientOfficerType`,
       payload
@@ -46,5 +48,22 @@ export class ClientOfficerTypesService {
 
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+  //History management
+  getAllHistory(): Observable<ClientOfficerType[]> {
+    console.log('🚀 Service: calling GET …');
+    return this.http
+      .get<{ items: ClientOfficerType[]; totalCount: number }>(
+        `${this.baseUrl}/GetAllClientOfficerTypesHistory`
+      )
+      .pipe(
+        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
+        map((resp) => resp.items), // ← pull off the `items` array here
+        tap((items) => console.log('🚀 Mapped items:', items)),
+        catchError((err) => {
+          console.error('🚀 HTTP error fetching ClientOfficerTypes:', err);
+          return throwError(() => err);
+        })
+      );
   }
 }

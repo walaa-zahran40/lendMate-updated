@@ -34,6 +34,7 @@ export class ViewProductsComponent {
     { field: 'nameAR', header: 'Name AR' },
     { field: 'lisenceStartDate', header: 'Lisence Start Date' },
     { field: 'businessLineName', header: 'business Line' },
+    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedProductId: number | null = null;
@@ -50,11 +51,11 @@ export class ViewProductsComponent {
   ) {}
   ngOnInit() {
     // 1️⃣ kick off loads
-    this.facade.loadAll();
+    this.facade.loadHistory();
     this.businessLineFacade.loadAll();
 
     // 2️⃣ pull raw streams
-    const products$ = this.facade.all$;
+    const products$ = this.facade.history$;
     const businessLines$ = this.businessLineFacade.all$;
 
     // 3️⃣ combine, enrich, filter, sort, subscribe

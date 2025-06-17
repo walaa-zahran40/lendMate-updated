@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ConditionExpressionsService } from './condition-expressions.service';
 import * as ActionsList from './condition-expressions.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
-import { ConditionExpression } from './condition-expressions.model';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
+import { ConditionExpression } from './condition-expression.model';
 import { EntityNames } from '../../../../shared/constants/entity-names';
 
 @Injectable()
@@ -118,7 +118,23 @@ export class ConditionExpressionsEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadConditionExpressionHistory())
+    )
+  );
+  // Load authorization group officer history
+  loadConditionExpressionHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadConditionExpressionHistory),
+      switchMap(() =>
+        this.service.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadConditionExpressionHistorySuccess({ history })
+          ),
+          catchError((error) =>
+            of(ActionsList.loadConditionExpressionHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

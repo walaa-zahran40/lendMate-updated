@@ -39,3 +39,14 @@ export const selectCallTypesTotalCount = createSelector(
   selectCallTypesFeature,
   (state) => state
 );
+// History management selectors
+export const selectCallTypeState = createFeatureSelector<State>('callTypes');
+
+export const selectCallTypeHistory = createSelector(
+  selectCallTypeState,
+  (state) => state.history
+);
+export const selectHistoryLoaded = createSelector(
+  selectCallTypeState,
+  (state) => state.historyLoaded
+);

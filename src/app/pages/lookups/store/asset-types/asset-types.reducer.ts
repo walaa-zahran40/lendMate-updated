@@ -89,7 +89,33 @@ export const reducer = createReducer(
     });
 
     return newState;
-  })
+  }),
+  //History management
+  on(AssetTypeActions.loadAssetTypeHistory, (state) => ({
+    ...state,
+    historyLoaded: false,
+    historyError: null,
+  })),
+
+  on(AssetTypeActions.loadAssetTypeHistorySuccess, (state, { history }) => ({
+    ...state,
+    history,
+    historyLoaded: true,
+  })),
+  on(AssetTypeActions.loadAssetTypeHistorySuccess, (state, { history }) => {
+    console.log('✅ Reducer: history loaded', history); // add this
+    return {
+      ...state,
+      history: [...history],
+      historyLoaded: true,
+    };
+  }),
+
+  on(AssetTypeActions.loadAssetTypeHistoryFailure, (state, { error }) => ({
+    ...state,
+    historyError: error,
+    historyLoaded: false,
+  }))
 );
 
 export const { selectAll, selectEntities, selectIds, selectTotal } =

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { MandateStatusActionsService } from './mandate-status-actions.service';
 import * as ActionsList from './mandate-status-actions.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { MandateStatusAction } from './mandate-status-action.model';
 import { EntityNames } from '../../../../../shared/constants/entity-names';
 
@@ -117,7 +117,24 @@ export class MandateStatusActionsEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadMandateStatusActionHistory())
+    )
+  );
+  loadMandateStatusActionHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadMandateStatusActionHistory),
+      switchMap(() =>
+        this.svc.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadMandateStatusActionHistorySuccess({
+              history,
+            })
+          ),
+          catchError((error) =>
+            of(ActionsList.loadMandateStatusActionHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

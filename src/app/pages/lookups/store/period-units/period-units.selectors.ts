@@ -41,3 +41,15 @@ export const selectGracePeriodUnitsTotalCount = createSelector(
   selectGracePeriodUnitsFeature,
   (state) => state
 );
+// History management selectors
+export const selectPeriodUnitHistoryState =
+  createFeatureSelector<State>('periodUnitHistory');
+
+export const selectPeriodUnitHistory = createSelector(
+  selectPeriodUnitHistoryState,
+  (state) => state.history
+);
+export const selectHistoryLoaded = createSelector(
+  selectPeriodUnitHistoryState,
+  (state) => state.historyLoaded
+);

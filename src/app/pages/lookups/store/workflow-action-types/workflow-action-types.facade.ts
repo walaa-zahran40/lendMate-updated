@@ -45,4 +45,17 @@ export class WorkflowActionTypesFacade {
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
   }
+  //History management
+  history$ = this.store.select(Selectors.selectWorkflowActionTypeHistory);
+
+  readonly workflowActionTypeHistory$ = this.store.select(
+    Selectors.selectWorkflowActionTypeHistory
+  );
+  readonly workflowActionTypeHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadWorkflowActionTypeHistory());
+  }
 }

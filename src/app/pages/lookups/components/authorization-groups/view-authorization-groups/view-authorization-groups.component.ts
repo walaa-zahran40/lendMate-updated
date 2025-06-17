@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Subject, Observable, takeUntil, filter } from 'rxjs';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { AuthorizationGroupsFacade } from '../../../store/authorization-groups/authorization-groups.facade';
-import { AuthorizationGroup } from '../../../store/authorization-groups/authorization-groups.model';
+import { AuthorizationGroup } from '../../../store/authorization-groups/authorization-group.model';
 
 @Component({
   selector: 'app-view-authorization-groups',
@@ -22,6 +22,7 @@ export class ViewAuthorizationGroupsComponent {
   readonly colsInside = [
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
+    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedAuthorizationGroupId: number | null = null;
@@ -34,20 +35,19 @@ export class ViewAuthorizationGroupsComponent {
     private facade: AuthorizationGroupsFacade
   ) {}
   ngOnInit() {
-    this.facade.loadAll();
+    this.facade.loadHistory();
     this.facade.operationSuccess$
       .pipe(
         takeUntil(this.destroy$),
         filter((op) => op?.entity === 'AuthorizationGroup')
       )
-      .subscribe(() => this.facade.loadAll());
-    this.authorizationGroups$ = this.facade.all$;
+      .subscribe(() => this.facade.loadHistory());
+    this.authorizationGroups$ = this.facade.history$;
 
     this.authorizationGroups$
       ?.pipe(takeUntil(this.destroy$))
       ?.subscribe((address) => {
-        const activeCodes = address.filter((code) => code.isActive);
-        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
+        const sorted = [...address].sort((a, b) => b?.id - a?.id);
         this.originalAuthorizationGroups = sorted;
         this.filteredAuthorizationGroups = [...sorted];
       });

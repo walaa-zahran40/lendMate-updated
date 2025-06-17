@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Subject, Observable, takeUntil } from 'rxjs';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { SMEClientCodesFacade } from '../../../store/sme-client-codes/sme-client-codes.facade';
-import { SMEClientCode } from '../../../store/sme-client-codes/sme-client-codes.model';
+import { SMEClientCode } from '../../../store/sme-client-codes/sme-client-code.model';
 
 @Component({
   selector: 'app-view-sme-client-code',
@@ -24,6 +24,7 @@ export class ViewSMEClientCodesComponent {
     { field: 'nameAR', header: 'Name AR' },
     { field: 'lowerLimit', header: 'Lower Limit' },
     { field: 'upperLimit', header: 'Upper Limit' },
+    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedSMEClientCodeId: number | null = null;
@@ -33,15 +34,14 @@ export class ViewSMEClientCodesComponent {
 
   constructor(private router: Router, private facade: SMEClientCodesFacade) {}
   ngOnInit() {
-    this.facade.loadAll();
-    this.sMEClientCodes$ = this.facade.all$;
+    this.facade.loadHistory();
+    this.sMEClientCodes$ = this.facade.history$;
 
     this.sMEClientCodes$
       ?.pipe(takeUntil(this.destroy$))
       ?.subscribe((sMEClientCodes) => {
         // sMEClientCodes is now SMEClientCode[], not any
-        const activeCodes = sMEClientCodes.filter((code) => code.isActive);
-        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
+        const sorted = [...sMEClientCodes].sort((a, b) => b?.id - a?.id);
         this.originalSMEClientCodes = sorted;
         this.filteredSMEClientCodes = [...sorted];
       });

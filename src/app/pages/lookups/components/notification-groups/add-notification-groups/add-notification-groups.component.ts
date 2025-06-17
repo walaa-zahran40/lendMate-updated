@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { distinctUntilChanged, filter, take } from 'rxjs';
 import { NotificationGroupsFacade } from '../../../store/notification-groups/notification-groups.facade';
-import { NotificationGroup } from '../../../store/notification-groups/notification-groups.model';
+import { NotificationGroup } from '../../../store/notification-groups/notification-group.model';
 
 @Component({
   selector: 'app-add-notification-groups',

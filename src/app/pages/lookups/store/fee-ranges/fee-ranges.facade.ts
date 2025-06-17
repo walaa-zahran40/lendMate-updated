@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { createSelector, Store } from '@ngrx/store';
 import * as Actions from './fee-ranges.actions';
 import * as Selectors from './fee-ranges.selectors';
-import { FeeRange } from './fee-ranges.model';
+import { FeeRange } from './fee-range.model';
 import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors'; // adjust path if needed
 
 @Injectable({ providedIn: 'root' })
@@ -38,5 +38,18 @@ export class FeeRangesFacade {
 
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
+  }
+  //History management
+  history$ = this.store.select(Selectors.selectFeeRangeHistory);
+
+  readonly feeRangeHistory$ = this.store.select(
+    Selectors.selectFeeRangeHistory
+  );
+  readonly feeRangeHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadFeeRangeHistory());
   }
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ProductsService } from './products.service';
 import * as ActionsList from './products.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { Product } from './product.model';
 
 @Injectable()
@@ -102,7 +102,24 @@ export class ProductsEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadProductHistory())
+    )
+  );
+  loadProductHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadProductHistory),
+      switchMap(() =>
+        this.service.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadProductHistorySuccess({
+              history,
+            })
+          ),
+          catchError((error) =>
+            of(ActionsList.loadProductHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

@@ -28,7 +28,9 @@ export class InterestTypesService {
   }
 
   getById(id: number): Observable<InterestType> {
-    return this.http.get<InterestType>(`${this.baseUrl}/InterestTypeId?id=${id}`);
+    return this.http.get<InterestType>(
+      `${this.baseUrl}/InterestTypeId?id=${id}`
+    );
   }
 
   create(payload: Omit<InterestType, 'id'>): Observable<InterestType> {
@@ -44,5 +46,22 @@ export class InterestTypesService {
 
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+  //History management
+  getAllHistory(): Observable<InterestType[]> {
+    console.log('🚀 Service: calling GET …');
+    return this.http
+      .get<{ items: InterestType[]; totalCount: number }>(
+        `${this.baseUrl}/GetAllInterestTypesHistory`
+      )
+      .pipe(
+        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
+        map((resp) => resp.items), // ← pull off the `items` array here
+        tap((items) => console.log('🚀 Mapped items:', items)),
+        catchError((err) => {
+          console.error('🚀 HTTP error fetching InterestTypes:', err);
+          return throwError(() => err);
+        })
+      );
   }
 }

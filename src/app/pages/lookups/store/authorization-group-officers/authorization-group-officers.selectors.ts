@@ -2,11 +2,16 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromSlice from './authorization-group-officers.reducer';
 import { adapter, State } from './authorization-group-officers.state';
 
-export const selectFeature = createFeatureSelector<State>('authorizationGroupOfficers');
-export const selectAuthorizationGroupOfficersFeature = createFeatureSelector<State>('authorizationGroupOfficers');
+export const selectFeature = createFeatureSelector<State>(
+  'authorizationGroupOfficers'
+);
+export const selectAuthorizationGroupOfficersFeature =
+  createFeatureSelector<State>('authorizationGroupOfficers');
 
 // these come from your EntityAdapter
-const { selectEntities } = adapter.getSelectors(selectAuthorizationGroupOfficersFeature);
+const { selectEntities } = adapter.getSelectors(
+  selectAuthorizationGroupOfficersFeature
+);
 
 export const selectAllAuthorizationGroupOfficers = createSelector(
   selectFeature,
@@ -38,4 +43,16 @@ export const selectCurrent = createSelector(
 export const selectAuthorizationGroupOfficersTotalCount = createSelector(
   selectAuthorizationGroupOfficersFeature,
   (state) => state
+);
+// History management selectors
+export const selectAuthorizationGroupOfficerState =
+  createFeatureSelector<State>('authorizationGroupOfficers');
+
+export const selectAuthorizationGroupOfficerHistory = createSelector(
+  selectAuthorizationGroupOfficerState,
+  (state) => state.history
+);
+export const selectHistoryLoaded = createSelector(
+  selectAuthorizationGroupOfficerState,
+  (state) => state.historyLoaded
 );

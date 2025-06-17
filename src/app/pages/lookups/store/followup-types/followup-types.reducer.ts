@@ -89,6 +89,26 @@ export const followupTypesReducer = createReducer(
     });
 
     return newState;
+  }),
+  //History management
+  on(FollowupActions.loadFollowUpTypeHistory, (state) => ({
+    ...state,
+    historyLoaded: false,
+    historyError: null,
+  })),
+
+  on(FollowupActions.loadFollowUpTypeHistorySuccess, (state, { history }) => ({
+    ...state,
+    history,
+    historyLoaded: true,
+  })),
+  on(FollowupActions.loadFollowUpTypeHistorySuccess, (state, { history }) => {
+    console.log('✅ Reducer: history loaded', history); // add this
+    return {
+      ...state,
+      history: [...history],
+      historyLoaded: true,
+    };
   })
 );
 

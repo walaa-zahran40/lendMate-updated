@@ -23,6 +23,7 @@ export class ViewPaymentMonthDaysComponent {
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
     { field: 'value', header: 'Value' },
+    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedPaymentMonthDayId: number | null = null;
@@ -33,19 +34,18 @@ export class ViewPaymentMonthDaysComponent {
   constructor(private router: Router, private facade: PaymentMonthDaysFacade) {}
   ngOnInit() {
     console.log('🟢 ngOnInit: start');
-    this.PaymentMonthDays$ = this.facade.all$;
-    console.log('🟢 before loadAll, current store value:');
+    this.PaymentMonthDays$ = this.facade.history$;
+    console.log('🟢 before loadHistory, current store value:');
     this.PaymentMonthDays$.pipe(take(1)).subscribe((v) =>
       console.log('   store currently has:', v)
     );
-    console.log('🟢 Calling loadAll() to fetch PaymentMonthDays');
-    this.facade.loadAll();
+    console.log('🟢 Calling loadHistory() to fetch PaymentMonthDays');
+    this.facade.loadHistory();
 
     this.PaymentMonthDays$?.pipe(takeUntil(this.destroy$))?.subscribe(
       (payment) => {
         // products is now rentStructureType[], not any
-        const activeCodes = payment.filter((code) => code.isActive);
-        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
+        const sorted = [...payment].sort((a, b) => b?.id - a?.id);
         this.originalPaymentMonthDay = sorted;
         this.filteredPaymentMonthDay = [...sorted];
       }

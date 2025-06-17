@@ -89,6 +89,26 @@ export const interestTypeReducer = createReducer(
     });
 
     return newState;
+  }),
+  //History management
+  on(InterestActions.loadInterestTypeHistory, (state) => ({
+    ...state,
+    historyLoaded: false,
+    historyError: null,
+  })),
+
+  on(InterestActions.loadInterestTypeHistorySuccess, (state, { history }) => ({
+    ...state,
+    history,
+    historyLoaded: true,
+  })),
+  on(InterestActions.loadInterestTypeHistorySuccess, (state, { history }) => {
+    console.log('✅ Reducer: history loaded', history); // add this
+    return {
+      ...state,
+      history: [...history],
+      historyLoaded: true,
+    };
   })
 );
 

@@ -40,4 +40,17 @@ export class MeetingTypesFacade {
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
   }
+  //History management
+  history$ = this.store.select(Selectors.selectMeetingTypeHistory);
+
+  readonly meetingTypeHistory$ = this.store.select(
+    Selectors.selectMeetingTypeHistory
+  );
+  readonly meetingTypeHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadMeetingTypeHistory());
+  }
 }

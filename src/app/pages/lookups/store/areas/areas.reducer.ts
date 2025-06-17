@@ -89,7 +89,25 @@ export const reducer = createReducer(
     });
 
     return newState;
-  })
+  }),
+  //History management
+  on(AreaActions.loadAreaHistory, (state) => ({
+    ...state,
+    historyLoaded: false,
+    historyError: null,
+  })),
+
+  on(AreaActions.loadAreaHistorySuccess, (state, { history }) => ({
+    ...state,
+    history,
+    historyLoaded: true,
+  })),
+
+  on(AreaActions.loadAreaHistoryFailure, (state, { error }) => ({
+    ...state,
+    historyError: error,
+    historyLoaded: false,
+  }))
 );
 
 export const { selectAll, selectEntities, selectIds, selectTotal } =

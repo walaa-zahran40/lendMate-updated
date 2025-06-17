@@ -89,6 +89,26 @@ export const reducer = createReducer(
     });
 
     return newState;
+  }),
+  //History management
+  on(PhoneTypeActions.loadPhoneTypeHistory, (state) => ({
+    ...state,
+    historyLoaded: false,
+    historyError: null,
+  })),
+
+  on(PhoneTypeActions.loadPhoneTypeHistorySuccess, (state, { history }) => ({
+    ...state,
+    history,
+    historyLoaded: true,
+  })),
+  on(PhoneTypeActions.loadPhoneTypeHistorySuccess, (state, { history }) => {
+    console.log('✅ Reducer: history loaded', history); // add this
+    return {
+      ...state,
+      history: [...history],
+      historyLoaded: true,
+    };
   })
 );
 

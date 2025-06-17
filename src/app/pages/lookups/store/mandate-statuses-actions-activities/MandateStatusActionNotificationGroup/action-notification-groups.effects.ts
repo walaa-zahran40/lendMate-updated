@@ -1,6 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { mergeMap, map, catchError, tap, filter } from 'rxjs/operators';
+import {
+  mergeMap,
+  map,
+  catchError,
+  tap,
+  filter,
+  switchMap,
+} from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as MandateActionNotificationGroupActions from './action-notification-groups.actions';
 import { MandateActionNotificationGroupsService } from './action-notification-groups.service';
@@ -10,20 +17,26 @@ import { MandateActionNotificationGroup } from './action-notification-group.mode
 export class MandateActionNotificationGroupsEffects {
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(MandateActionNotificationGroupActions.loadMandateActionNotificationGroups),
+      ofType(
+        MandateActionNotificationGroupActions.loadMandateActionNotificationGroups
+      ),
       mergeMap(() =>
         this.service.getAll().pipe(
           map((resp) =>
-            MandateActionNotificationGroupActions.loadMandateActionNotificationGroupsSuccess({
-              items: resp.items,
-              totalCount: resp.totalCount,
-            })
+            MandateActionNotificationGroupActions.loadMandateActionNotificationGroupsSuccess(
+              {
+                items: resp.items,
+                totalCount: resp.totalCount,
+              }
+            )
           ),
           catchError((error) =>
             of(
-              MandateActionNotificationGroupActions.loadMandateActionNotificationGroupsFailure({
-                error,
-              })
+              MandateActionNotificationGroupActions.loadMandateActionNotificationGroupsFailure(
+                {
+                  error,
+                }
+              )
             )
           )
         )
@@ -33,19 +46,25 @@ export class MandateActionNotificationGroupsEffects {
 
   loadHistory$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(MandateActionNotificationGroupActions.loadMandateActionNotificationGroupsHistory),
+      ofType(
+        MandateActionNotificationGroupActions.loadMandateActionNotificationGroupsHistory
+      ),
       mergeMap(() =>
         this.service.getHistory().pipe(
           map((resp) =>
-            MandateActionNotificationGroupActions.loadMandateActionNotificationGroupsHistorySuccess({
-              history: resp.items,
-            })
+            MandateActionNotificationGroupActions.loadMandateActionNotificationGroupsHistorySuccess(
+              {
+                history: resp.items,
+              }
+            )
           ),
           catchError((error) =>
             of(
-              MandateActionNotificationGroupActions.loadMandateActionNotificationGroupsHistoryFailure({
-                error,
-              })
+              MandateActionNotificationGroupActions.loadMandateActionNotificationGroupsHistoryFailure(
+                {
+                  error,
+                }
+              )
             )
           )
         )
@@ -55,19 +74,25 @@ export class MandateActionNotificationGroupsEffects {
 
   loadOne$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(MandateActionNotificationGroupActions.loadMandateActionNotificationGroup),
+      ofType(
+        MandateActionNotificationGroupActions.loadMandateActionNotificationGroup
+      ),
       mergeMap(({ id }) =>
         this.service.getById(id).pipe(
           map((mandate) =>
-            MandateActionNotificationGroupActions.loadMandateActionNotificationGroupSuccess({
-              mandate,
-            })
+            MandateActionNotificationGroupActions.loadMandateActionNotificationGroupSuccess(
+              {
+                mandate,
+              }
+            )
           ),
           catchError((error) =>
             of(
-              MandateActionNotificationGroupActions.loadMandateActionNotificationGroupFailure({
-                error,
-              })
+              MandateActionNotificationGroupActions.loadMandateActionNotificationGroupFailure(
+                {
+                  error,
+                }
+              )
             )
           )
         )
@@ -77,19 +102,25 @@ export class MandateActionNotificationGroupsEffects {
 
   create$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(MandateActionNotificationGroupActions.createMandateActionNotificationGroup),
+      ofType(
+        MandateActionNotificationGroupActions.createMandateActionNotificationGroup
+      ),
       mergeMap(({ data }) =>
         this.service.create(data).pipe(
           map((mandate) =>
-            MandateActionNotificationGroupActions.createMandateActionNotificationGroupSuccess({
-              mandate,
-            })
+            MandateActionNotificationGroupActions.createMandateActionNotificationGroupSuccess(
+              {
+                mandate,
+              }
+            )
           ),
           catchError((error) =>
             of(
-              MandateActionNotificationGroupActions.createMandateActionNotificationGroupFailure({
-                error,
-              })
+              MandateActionNotificationGroupActions.createMandateActionNotificationGroupFailure(
+                {
+                  error,
+                }
+              )
             )
           )
         )
@@ -99,7 +130,9 @@ export class MandateActionNotificationGroupsEffects {
 
   update$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(MandateActionNotificationGroupActions.updateMandateActionNotificationGroup),
+      ofType(
+        MandateActionNotificationGroupActions.updateMandateActionNotificationGroup
+      ),
       tap(({ id, data }) =>
         console.log('[Effect:update] called with id=', id, 'data=', data)
       ),
@@ -112,15 +145,19 @@ export class MandateActionNotificationGroupsEffects {
               mandateStatusActionId: data.mandateStatusActionId!,
             };
             console.log('[Effect:update] enriched mandate →', enriched);
-            return MandateActionNotificationGroupActions.updateMandateActionNotificationGroupSuccess({
-              mandate: enriched,
-            });
+            return MandateActionNotificationGroupActions.updateMandateActionNotificationGroupSuccess(
+              {
+                mandate: enriched,
+              }
+            );
           }),
           catchError((error) =>
             of(
-              MandateActionNotificationGroupActions.updateMandateActionNotificationGroupFailure({
-                error,
-              })
+              MandateActionNotificationGroupActions.updateMandateActionNotificationGroupFailure(
+                {
+                  error,
+                }
+              )
             )
           )
         )
@@ -130,20 +167,26 @@ export class MandateActionNotificationGroupsEffects {
 
   delete$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(MandateActionNotificationGroupActions.deleteMandateActionNotificationGroup),
+      ofType(
+        MandateActionNotificationGroupActions.deleteMandateActionNotificationGroup
+      ),
       mergeMap(({ id, mandateStatusActionId }) =>
         this.service.delete(id).pipe(
           map(() =>
-            MandateActionNotificationGroupActions.deleteMandateActionNotificationGroupSuccess({
-              id,
-              mandateStatusActionId,
-            })
+            MandateActionNotificationGroupActions.deleteMandateActionNotificationGroupSuccess(
+              {
+                id,
+                mandateStatusActionId,
+              }
+            )
           ),
           catchError((error) =>
             of(
-              MandateActionNotificationGroupActions.deleteMandateActionNotificationGroupFailure({
-                error,
-              })
+              MandateActionNotificationGroupActions.deleteMandateActionNotificationGroupFailure(
+                {
+                  error,
+                }
+              )
             )
           )
         )
@@ -173,9 +216,11 @@ export class MandateActionNotificationGroupsEffects {
       // only continue if it’s a number
 
       map((mandateStatusActionId) =>
-        MandateActionNotificationGroupActions.loadMandateActionNotificationGroupsByMandateStatusActionId({
-          mandateStatusActionId,
-        })
+        MandateActionNotificationGroupActions.loadMandateActionNotificationGroupsByMandateStatusActionId(
+          {
+            mandateStatusActionId,
+          }
+        )
       )
     )
   );
@@ -184,37 +229,78 @@ export class MandateActionNotificationGroupsEffects {
    */
   loadByMandateStatusActionId$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(MandateActionNotificationGroupActions.loadMandateActionNotificationGroupsByMandateStatusActionId),
+      ofType(
+        MandateActionNotificationGroupActions.loadMandateActionNotificationGroupsByMandateStatusActionId
+      ),
 
       tap((action) =>
-        console.log('[Effect:loadByMandateStatusActionId] full action →', action)
+        console.log(
+          '[Effect:loadByMandateStatusActionId] full action →',
+          action
+        )
       ),
       tap(({ mandateStatusActionId }) =>
-        console.log('[Effect:loadByMandateStatusActionId] mandateStatusActionId →', mandateStatusActionId)
+        console.log(
+          '[Effect:loadByMandateStatusActionId] mandateStatusActionId →',
+          mandateStatusActionId
+        )
       ),
 
       mergeMap(({ mandateStatusActionId }) =>
         this.service.getByMandateStatusActionId(mandateStatusActionId).pipe(
           tap((items) =>
-            console.log('[Effect:loadByMandateStatusActionId] response →', items)
+            console.log(
+              '[Effect:loadByMandateStatusActionId] response →',
+              items
+            )
           ),
           map((items) =>
-            MandateActionNotificationGroupActions.loadMandateActionNotificationGroupsByMandateStatusActionIdSuccess({
-              items,
-            })
+            MandateActionNotificationGroupActions.loadMandateActionNotificationGroupsByMandateStatusActionIdSuccess(
+              {
+                items,
+              }
+            )
           ),
           catchError((error) =>
             of(
-              MandateActionNotificationGroupActions.loadMandateActionNotificationGroupsByMandateStatusActionIdFailure({
-                error,
-              })
+              MandateActionNotificationGroupActions.loadMandateActionNotificationGroupsByMandateStatusActionIdFailure(
+                {
+                  error,
+                }
+              )
             )
           )
         )
       )
     )
   );
-
+  loadMandateActionNotificationGroupHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        MandateActionNotificationGroupActions.loadMandateActionNotificationGroupHistory
+      ),
+      switchMap(() =>
+        this.service.getAllHistory().pipe(
+          map((history) =>
+            MandateActionNotificationGroupActions.loadMandateActionNotificationGroupHistorySuccess(
+              {
+                history,
+              }
+            )
+          ),
+          catchError((error) =>
+            of(
+              MandateActionNotificationGroupActions.loadMandateActionNotificationGroupHistoryFailure(
+                {
+                  error,
+                }
+              )
+            )
+          )
+        )
+      )
+    )
+  );
   constructor(
     private actions$: Actions,
     private service: MandateActionNotificationGroupsService

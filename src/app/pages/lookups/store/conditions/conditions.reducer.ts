@@ -1,19 +1,19 @@
 import { createReducer, on } from '@ngrx/store';
-import * as AddressTypeActions from './conditions.actions';
+import * as ConditionActions from './conditions.actions';
 import { adapter, initialState, State } from './conditions.state';
 
 export const conditionsReducer = createReducer(
   initialState,
 
   // when you dispatch loadAll()
-  on(AddressTypeActions.loadAll, (state) => ({
+  on(ConditionActions.loadAll, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
 
   // when your effect dispatches loadAllSuccess({ result })
-  on(AddressTypeActions.loadAllSuccess, (state, { result }) =>
+  on(ConditionActions.loadAllSuccess, (state, { result }) =>
     adapter.setAll(result, {
       ...state,
       loading: false,
@@ -21,57 +21,57 @@ export const conditionsReducer = createReducer(
     })
   ),
   // on failure
-  on(AddressTypeActions.loadAllFailure, (state, { error }) => ({
+  on(ConditionActions.loadAllFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
   // create
-  on(AddressTypeActions.createEntity, (state) => ({
+  on(ConditionActions.createEntity, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
-  on(AddressTypeActions.createEntitySuccess, (state, { entity }) =>
+  on(ConditionActions.createEntitySuccess, (state, { entity }) =>
     adapter.addOne(entity, { ...state, loading: false })
   ),
-  on(AddressTypeActions.createEntityFailure, (state, { error }) => ({
+  on(ConditionActions.createEntityFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
 
   // update
-  on(AddressTypeActions.updateEntity, (state) => ({
+  on(ConditionActions.updateEntity, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
-  on(AddressTypeActions.updateEntitySuccess, (state, { id, changes }) =>
+  on(ConditionActions.updateEntitySuccess, (state, { id, changes }) =>
     adapter.updateOne({ id, changes }, { ...state, loading: false })
   ),
-  on(AddressTypeActions.updateEntityFailure, (state, { error }) => ({
+  on(ConditionActions.updateEntityFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
 
   // delete
-  on(AddressTypeActions.deleteEntity, (state) => ({
+  on(ConditionActions.deleteEntity, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
-  on(AddressTypeActions.deleteEntitySuccess, (state, { id }) =>
+  on(ConditionActions.deleteEntitySuccess, (state, { id }) =>
     adapter.removeOne(id, { ...state, loading: false })
   ),
-  on(AddressTypeActions.deleteEntityFailure, (state, { error }) => ({
+  on(ConditionActions.deleteEntityFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
   // address-calculation-types.reducer.ts
-  on(AddressTypeActions.loadByIdSuccess, (state, { entity }) => {
+  on(ConditionActions.loadByIdSuccess, (state, { entity }) => {
     console.log('🗄️ Reducer: loadByIdSuccess, before:', {
       loadedId: state.loadedId,
       entities: state.entities,
@@ -89,6 +89,26 @@ export const conditionsReducer = createReducer(
     });
 
     return newState;
+  }),
+  //History management
+  on(ConditionActions.loadConditionHistory, (state) => ({
+    ...state,
+    historyLoaded: false,
+    historyError: null,
+  })),
+
+  on(ConditionActions.loadConditionHistorySuccess, (state, { history }) => ({
+    ...state,
+    history,
+    historyLoaded: true,
+  })),
+  on(ConditionActions.loadConditionHistorySuccess, (state, { history }) => {
+    console.log('✅ Reducer: history loaded', history); // add this
+    return {
+      ...state,
+      history: [...history],
+      historyLoaded: true,
+    };
   })
 );
 

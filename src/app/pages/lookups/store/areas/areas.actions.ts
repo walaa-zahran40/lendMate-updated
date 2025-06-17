@@ -75,3 +75,17 @@ export const entityOperationSuccess = createAction(
   '[Entity] Operation Success',
   props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
 );
+//History actions
+export const loadAreaHistory = createAction(
+  '[Area/API] Load Address Type History'
+);
+
+export const loadAreaHistorySuccess = createAction(
+  '[Area/API] Load Area History Success',
+  props<{ history: Area[] }>()
+);
+
+export const loadAreaHistoryFailure = createAction(
+  '[Area/API] Load Area History Failure',
+  props<{ error: any }>()
+);

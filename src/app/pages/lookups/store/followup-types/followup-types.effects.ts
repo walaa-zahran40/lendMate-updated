@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { FollowupTypesService } from './followup-types.service';
 import * as ActionsList from './followup-types.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
-import { FollowupType } from './folllowup-types.model';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
+import { FollowupType } from './folllowup-type.model';
 import { EntityNames } from '../../../../shared/constants/entity-names';
 
 @Injectable()
@@ -118,7 +118,24 @@ export class FollowupTypesEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadFollowUpTypeHistory())
+    )
+  );
+  loadFollowUpTypeHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadFollowUpTypeHistory),
+      switchMap(() =>
+        this.service.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadFollowUpTypeHistorySuccess({
+              history,
+            })
+          ),
+          catchError((error) =>
+            of(ActionsList.loadFollowUpTypeHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

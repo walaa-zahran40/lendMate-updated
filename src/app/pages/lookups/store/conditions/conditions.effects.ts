@@ -2,16 +2,13 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ConditionsService } from './conditions.service';
 import * as ActionsList from './conditions.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { Condition } from './condition.model';
 import { EntityNames } from '../../../../shared/constants/entity-names';
 
 @Injectable()
 export class ConditionsEffects {
-  constructor(
-    private actions$: Actions,
-    private service: ConditionsService
-  ) {}
+  constructor(private actions$: Actions, private service: ConditionsService) {}
 
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
@@ -118,7 +115,23 @@ export class ConditionsEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadConditionHistory())
+    )
+  );
+  // Load authorization group officer history
+  loadConditionHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadConditionHistory),
+      switchMap(() =>
+        this.service.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadConditionHistorySuccess({ history })
+          ),
+          catchError((error) =>
+            of(ActionsList.loadConditionHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

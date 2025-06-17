@@ -47,4 +47,21 @@ export class PhoneTypesService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
+  //History management
+  getAllHistory(): Observable<PhoneType[]> {
+    console.log('🚀 Service: calling GET …');
+    return this.http
+      .get<{ items: PhoneType[]; totalCount: number }>(
+        `${this.baseUrl}/GetAllPhoneTypesHistory`
+      )
+      .pipe(
+        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
+        map((resp) => resp.items), // ← pull off the `items` array here
+        tap((items) => console.log('🚀 Mapped items:', items)),
+        catchError((err) => {
+          console.error('🚀 HTTP error fetching PhoneTypes:', err);
+          return throwError(() => err);
+        })
+      );
+  }
 }

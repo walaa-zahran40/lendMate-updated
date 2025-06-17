@@ -41,4 +41,17 @@ export class MandateStatusActionsFacade {
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
   }
+  //History management
+  history$ = this.store.select(Selectors.selectMandateStatusActionHistory);
+
+  readonly mandateStatusActionHistory$ = this.store.select(
+    Selectors.selectMandateStatusActionHistory
+  );
+  readonly mandateStatusActionHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadMandateStatusActionHistory());
+  }
 }

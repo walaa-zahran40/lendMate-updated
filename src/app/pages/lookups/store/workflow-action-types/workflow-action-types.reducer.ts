@@ -89,7 +89,33 @@ export const reducer = createReducer(
     });
 
     return newState;
-  })
+  }),
+  //History management
+  on(WorkflowActionTypeActions.loadWorkflowActionTypeHistory, (state) => ({
+    ...state,
+    historyLoaded: false,
+    historyError: null,
+  })),
+
+  on(
+    WorkflowActionTypeActions.loadWorkflowActionTypeHistorySuccess,
+    (state, { history }) => ({
+      ...state,
+      history,
+      historyLoaded: true,
+    })
+  ),
+  on(
+    WorkflowActionTypeActions.loadWorkflowActionTypeHistorySuccess,
+    (state, { history }) => {
+      console.log('✅ Reducer: history loaded', history); // add this
+      return {
+        ...state,
+        history: [...history],
+        historyLoaded: true,
+      };
+    }
+  )
 );
 
 export const { selectAll, selectEntities, selectIds, selectTotal } =

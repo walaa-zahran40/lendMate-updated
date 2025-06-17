@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { TmlOfficerTypesService } from './tml-officer-types.service';
 import * as ActionsList from './tml-officer-types.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { TmlOfficerType } from './tml-officer-type.model';
 
 @Injectable()
@@ -91,6 +91,33 @@ export class TmlOfficerTypesEffects {
         this.svc.delete(id).pipe(
           map(() => ActionsList.deleteEntitySuccess({ id })),
           catchError((error) => of(ActionsList.deleteEntityFailure({ error })))
+        )
+      )
+    )
+  );
+  refreshList$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        ActionsList.createEntitySuccess,
+        ActionsList.updateEntitySuccess,
+        ActionsList.deleteEntitySuccess
+      ),
+      map(() => ActionsList.loadTmlOfficerTypeHistory())
+    )
+  );
+  loadTmlOfficerTypeHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadTmlOfficerTypeHistory),
+      switchMap(() =>
+        this.svc.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadTmlOfficerTypeHistorySuccess({
+              history,
+            })
+          ),
+          catchError((error) =>
+            of(ActionsList.loadTmlOfficerTypeHistoryFailure({ error }))
+          )
         )
       )
     )

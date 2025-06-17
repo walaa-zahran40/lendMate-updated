@@ -69,18 +69,21 @@ export const updateMandateActionAuthorizationGroupFailure = createAction(
 );
 
 // Load by MandateStatusActionId
-export const loadMandateActionAuthorizationGroupsByMandateStatusActionId = createAction(
-  '[MandateActionAuthorizationGroups] Load By MandateStatusActionId',
-  props<{ mandateStatusActionId: number }>()
-);
-export const loadMandateActionAuthorizationGroupsByMandateStatusActionIdSuccess = createAction(
-  '[MandateActionAuthorizationGroups] Load By MandateStatusActionId Success',
-  props<{ items: any }>()
-);
-export const loadMandateActionAuthorizationGroupsByMandateStatusActionIdFailure = createAction(
-  '[MandateActionAuthorizationGroups] Load By MandateStatusActionId Failure',
-  props<{ error: any }>()
-);
+export const loadMandateActionAuthorizationGroupsByMandateStatusActionId =
+  createAction(
+    '[MandateActionAuthorizationGroups] Load By MandateStatusActionId',
+    props<{ mandateStatusActionId: number }>()
+  );
+export const loadMandateActionAuthorizationGroupsByMandateStatusActionIdSuccess =
+  createAction(
+    '[MandateActionAuthorizationGroups] Load By MandateStatusActionId Success',
+    props<{ items: any }>()
+  );
+export const loadMandateActionAuthorizationGroupsByMandateStatusActionIdFailure =
+  createAction(
+    '[MandateActionAuthorizationGroups] Load By MandateStatusActionId Failure',
+    props<{ error: any }>()
+  );
 //Delete
 export const deleteMandateActionAuthorizationGroup = createAction(
   '[MandateActionAuthorizationGroups] Delete',
@@ -97,4 +100,18 @@ export const deleteMandateActionAuthorizationGroupFailure = createAction(
 export const entityOperationSuccess = createAction(
   '[Entity] Operation Success',
   props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
+);
+//History actions
+export const loadMandateActionAuthorizationGroupHistory = createAction(
+  '[MandateActionAuthorizationGroup/API] Load MandateActionAuthorizationGroup History'
+);
+
+export const loadMandateActionAuthorizationGroupHistorySuccess = createAction(
+  '[MandateActionAuthorizationGroup/API] Load MandateActionAuthorizationGroup History Success',
+  props<{ history: MandateActionAuthorizationGroup[] }>()
+);
+
+export const loadMandateActionAuthorizationGroupHistoryFailure = createAction(
+  '[MandateActionAuthorizationGroup/API] Load CompanyFlowType History Failure',
+  props<{ error: any }>()
 );

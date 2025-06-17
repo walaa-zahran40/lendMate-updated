@@ -90,10 +90,10 @@ import { clientLegalsReducer } from './store/client-legals/client-legals.reducer
 import { ClientLegalsEffects } from './store/client-legals/client-legals.effects';
 import { clientIdentityReducer } from './store/client-identities/client-identities.reducer';
 import { ClientIdentitiesEffects } from './store/client-identities/client-identities.effects';
-import { sectorReducer } from '../../lookups/store/sector-drop-down/sector.reducer';
-import { SectorEffects } from '../../lookups/store/sector-drop-down/sector.effects';
-import { subSectorReducer } from '../../lookups/store/sub-sector-drop-down/sub-sector.reducer';
-import { SubSectorEffects } from '../../lookups/store/sub-sector-drop-down/sub-sector.effects';
+import { reducer as sectorsReducer } from '../../lookups/store/sectors/sectors.reducer';
+import { SectorsEffects } from '../../lookups/store/sectors/sectors.effects';
+import { reducer as subSectorsReducer } from '../../lookups/store/sub-sectors/sub-sectors.reducer';
+import { SubSectorsEffects } from '../../lookups/store/sub-sectors/sub-sectors.effects';
 @NgModule({
   declarations: [
     AddClientComponent,
@@ -153,10 +153,10 @@ import { SubSectorEffects } from '../../lookups/store/sub-sector-drop-down/sub-s
     EffectsModule.forFeature([LeaveEffects]),
     StoreModule.forFeature('clientSalesTurnovers', clientSalesTurnoverReducer),
     EffectsModule.forFeature([ClientSalesTurnoversEffects]),
-    StoreModule.forFeature('sector', sectorReducer),
-    EffectsModule.forFeature([SectorEffects]),
-    StoreModule.forFeature('subSector', subSectorReducer),
-    EffectsModule.forFeature([SubSectorEffects]),
+    StoreModule.forFeature('sector', sectorsReducer),
+    EffectsModule.forFeature([SectorsEffects]),
+    StoreModule.forFeature('subSector', subSectorsReducer),
+    EffectsModule.forFeature([SubSectorsEffects]),
     StoreModule.forFeature('individuals', individualReducer),
     EffectsModule.forFeature([IndividualsEffects]),
     StoreModule.forFeature('clientFile', clientFilesReducer),

@@ -2,13 +2,16 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AuthorizationGroupOfficersService } from './authorization-group-officers.service';
 import * as ActionsList from './authorization-group-officers.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { AuthorizationGroupOfficer } from './authorization-group-officer.model';
 import { EntityNames } from '../../../../shared/constants/entity-names';
 
 @Injectable()
 export class AuthorizationGroupOfficersEffects {
-  constructor(private actions$: Actions, private svc: AuthorizationGroupOfficersService) {}
+  constructor(
+    private actions$: Actions,
+    private svc: AuthorizationGroupOfficersService
+  ) {}
 
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
@@ -115,7 +118,25 @@ export class AuthorizationGroupOfficersEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadAuthorizationGroupOfficerHistory())
+    )
+  );
+  // Load authorization group officer history
+  loadAuthorizationGroupOfficerHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadAuthorizationGroupOfficerHistory),
+      switchMap(() =>
+        this.svc.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadAuthorizationGroupOfficerHistorySuccess({ history })
+          ),
+          catchError((error) =>
+            of(
+              ActionsList.loadAuthorizationGroupOfficerHistoryFailure({ error })
+            )
+          )
+        )
+      )
     )
   );
 }

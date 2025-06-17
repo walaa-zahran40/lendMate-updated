@@ -2,13 +2,16 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { NotificationGroupOfficersService } from './notification-group-officers.service';
 import * as ActionsList from './notification-group-officers.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { NotificationGroupOfficer } from './notification-group-officer.model';
 import { EntityNames } from '../../../../shared/constants/entity-names';
 
 @Injectable()
 export class NotificationGroupOfficersEffects {
-  constructor(private actions$: Actions, private svc: NotificationGroupOfficersService) {}
+  constructor(
+    private actions$: Actions,
+    private svc: NotificationGroupOfficersService
+  ) {}
 
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
@@ -115,7 +118,26 @@ export class NotificationGroupOfficersEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadNotificationGroupOfficerHistory())
+    )
+  );
+  loadNotificationGroupOfficerHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadNotificationGroupOfficerHistory),
+      switchMap(() =>
+        this.svc.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadNotificationGroupOfficerHistorySuccess({
+              history,
+            })
+          ),
+          catchError((error) =>
+            of(
+              ActionsList.loadNotificationGroupOfficerHistoryFailure({ error })
+            )
+          )
+        )
+      )
     )
   );
 }

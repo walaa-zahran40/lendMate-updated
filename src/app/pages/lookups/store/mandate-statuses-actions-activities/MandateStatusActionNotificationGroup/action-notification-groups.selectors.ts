@@ -2,7 +2,9 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { MandateActionNotificationGroupsState } from './action-notification-groups.state';
 
 export const selectMandateActionNotificationGroupsState =
-  createFeatureSelector<MandateActionNotificationGroupsState>('mandateActionNotificationGroups');
+  createFeatureSelector<MandateActionNotificationGroupsState>(
+    'mandateActionNotificationGroups'
+  );
 export const selectMandateActionNotificationGroups = createSelector(
   selectMandateActionNotificationGroupsState,
   (state) => state.items
@@ -26,4 +28,18 @@ export const selectMandateActionNotificationGroupsLoading = createSelector(
 export const selectMandateActionNotificationGroupsError = createSelector(
   selectMandateActionNotificationGroupsState,
   (state) => state.error
+);
+// History management selectors
+export const selectMandateActionNotificationGroupHistoryState =
+  createFeatureSelector<MandateActionNotificationGroupsState>(
+    'mandateActionNotificationGroupHistory'
+  );
+
+export const selectMandateActionNotificationGroupHistory = createSelector(
+  selectMandateActionNotificationGroupHistoryState,
+  (state) => state.history
+);
+export const selectHistoryLoaded = createSelector(
+  selectMandateActionNotificationGroupHistoryState,
+  (state) => state.historyLoaded
 );

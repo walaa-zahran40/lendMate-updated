@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ClientStatusActionsService } from './client-status-actions.service';
 import * as ActionsList from './client-status-actions.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { ClientStatusAction } from './client-status-action.model';
 import { EntityNames } from '../../../../shared/constants/entity-names';
 
@@ -117,7 +117,23 @@ export class ClientStatusActionsEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadClientStatusActionHistory())
+    )
+  );
+  // Load authorization group officer history
+  loadClientStatusActionHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadClientStatusActionHistory),
+      switchMap(() =>
+        this.svc.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadClientStatusActionHistorySuccess({ history })
+          ),
+          catchError((error) =>
+            of(ActionsList.loadClientStatusActionHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

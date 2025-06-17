@@ -14,9 +14,19 @@ export class ActionNotificationGroupsFacade {
   total$: Observable<number> = this.store.select(
     Selectors.selectActionNotificationGroupsTotal
   );
-  history$: Observable<ActionNotificationGroup[]> = this.store.select(
+  //History management
+  history$ = this.store.select(Selectors.selectActionNotificationGroupsHistory);
+
+  readonly actionNotificationGroupsHistory$ = this.store.select(
     Selectors.selectActionNotificationGroupsHistory
   );
+  readonly actionNotificationGroupsHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadActionNotificationGroupsHistory());
+  }
   current$: Observable<ActionNotificationGroup | undefined> = this.store.select(
     Selectors.selectCurrentActionNotificationGroup
   );
@@ -34,9 +44,7 @@ export class ActionNotificationGroupsFacade {
   loadAll() {
     this.store.dispatch(Actions.loadActionNotificationGroups());
   }
-  loadHistory() {
-    this.store.dispatch(Actions.loadActionNotificationGroupsHistory());
-  }
+
   loadOne(id: number) {
     this.store.dispatch(Actions.loadActionNotificationGroup({ id }));
   }
@@ -47,7 +55,9 @@ export class ActionNotificationGroupsFacade {
     this.store.dispatch(Actions.updateActionNotificationGroup({ id, data }));
   }
   /** NEW: dispatch the by-clientStatusActionId loader */
-  loadActionNotificationGroupsByClientStatusActionId(clientStatusActionId?: number) {
+  loadActionNotificationGroupsByClientStatusActionId(
+    clientStatusActionId?: number
+  ) {
     if (clientStatusActionId == null || isNaN(clientStatusActionId)) {
       console.error(
         '❌ Facade.loadActionNotificationGroupsByClientStatusActionId called with invalid id:',
@@ -55,14 +65,24 @@ export class ActionNotificationGroupsFacade {
       );
       return;
     }
-    this.store.dispatch(Actions.loadActionNotificationGroupsByClientStatusActionId({ clientStatusActionId }));
+    this.store.dispatch(
+      Actions.loadActionNotificationGroupsByClientStatusActionId({
+        clientStatusActionId,
+      })
+    );
   }
 
   /** UPDATED: now expects both id & parent clientStatusActionId */
   delete(id: number, clientStatusActionId: number) {
-    this.store.dispatch(Actions.deleteActionNotificationGroup({ id, clientStatusActionId }));
+    this.store.dispatch(
+      Actions.deleteActionNotificationGroup({ id, clientStatusActionId })
+    );
   }
   loadByClientStatusActionId(clientStatusActionId: number) {
-    this.store.dispatch(Actions.loadActionNotificationGroupsByClientStatusActionId({ clientStatusActionId }));
+    this.store.dispatch(
+      Actions.loadActionNotificationGroupsByClientStatusActionId({
+        clientStatusActionId,
+      })
+    );
   }
 }

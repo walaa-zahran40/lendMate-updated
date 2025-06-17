@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { mergeMap, map, catchError } from 'rxjs/operators';
+import { mergeMap, map, catchError, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as ClientStatusActions from './client-statuses.actions';
 import { ClientStatusesService } from './client-statuses.service';
@@ -26,18 +26,17 @@ export class ClientStatusesEffects {
     )
   );
 
-  loadHistory$ = createEffect(() =>
+  // Load client status group officer history
+  loadClientStatusHistory$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ClientStatusActions.loadClientStatusesHistory),
-      mergeMap(() =>
-        this.service.getHistory().pipe(
-          map((resp) =>
-            ClientStatusActions.loadClientStatusesHistorySuccess({
-              history: resp.items,
-            })
+      ofType(ClientStatusActions.loadClientStatusHistory),
+      switchMap(() =>
+        this.service.getAllHistory().pipe(
+          map((history) =>
+            ClientStatusActions.loadClientStatusHistorySuccess({ history })
           ),
           catchError((error) =>
-            of(ClientStatusActions.loadClientStatusesHistoryFailure({ error }))
+            of(ClientStatusActions.loadClientStatusHistoryFailure({ error }))
           )
         )
       )

@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { distinctUntilChanged, filter, take } from 'rxjs';
 import { arabicOnlyValidator } from '../../../../../shared/validators/arabic-only.validator';
 import { AddressTypesFacade } from '../../../store/address-types/address-types.facade';
-import { AddressType } from '../../../store/address-types/address-types.model';
+import { AddressType } from '../../../store/address-types/address-type.model';
 
 @Component({
   selector: 'app-add-address-types',

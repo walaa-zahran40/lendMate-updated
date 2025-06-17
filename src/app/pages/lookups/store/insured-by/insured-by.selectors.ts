@@ -39,3 +39,15 @@ export const selectInsuredByTotalCount = createSelector(
   selectInsuredByFeature,
   (state) => state
 );
+// History management selectors
+export const selectInsuredByHistoryState =
+  createFeatureSelector<State>('insuredByHistory');
+
+export const selectInsuredByHistory = createSelector(
+  selectInsuredByHistoryState,
+  (state) => state.history
+);
+export const selectHistoryLoaded = createSelector(
+  selectInsuredByHistoryState,
+  (state) => state.historyLoaded
+);

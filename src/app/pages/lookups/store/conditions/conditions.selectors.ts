@@ -41,3 +41,15 @@ export const selectConditionsTotalCount = createSelector(
   selectConditionsFeature,
   (state) => state
 );
+// History management selectors
+export const selectConditionHistoryState =
+  createFeatureSelector<State>('conditionHistory');
+
+export const selectConditionHistory = createSelector(
+  selectConditionHistoryState,
+  (state) => state.history
+);
+export const selectHistoryLoaded = createSelector(
+  selectConditionHistoryState,
+  (state) => state.historyLoaded
+);

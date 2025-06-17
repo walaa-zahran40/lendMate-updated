@@ -73,14 +73,16 @@ export const loadActionNotificationGroupsByClientStatusActionId = createAction(
   '[ActionNotificationGroups] Load By ClientStatusActionId',
   props<{ clientStatusActionId: number }>()
 );
-export const loadActionNotificationGroupsByClientStatusActionIdSuccess = createAction(
-  '[ActionNotificationGroups] Load By ClientStatusActionId Success',
-  props<{ items: any }>()
-);
-export const loadActionNotificationGroupsByClientStatusActionIdFailure = createAction(
-  '[ActionNotificationGroups] Load By ClientStatusActionId Failure',
-  props<{ error: any }>()
-);
+export const loadActionNotificationGroupsByClientStatusActionIdSuccess =
+  createAction(
+    '[ActionNotificationGroups] Load By ClientStatusActionId Success',
+    props<{ items: any }>()
+  );
+export const loadActionNotificationGroupsByClientStatusActionIdFailure =
+  createAction(
+    '[ActionNotificationGroups] Load By ClientStatusActionId Failure',
+    props<{ error: any }>()
+  );
 //Delete
 export const deleteActionNotificationGroup = createAction(
   '[ActionNotificationGroups] Delete',
@@ -97,4 +99,18 @@ export const deleteActionNotificationGroupFailure = createAction(
 export const entityOperationSuccess = createAction(
   '[Entity] Operation Success',
   props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
+);
+//History actions
+export const loadActionNotificationGroupHistory = createAction(
+  '[ActionNotificationGroup/API] Load ActionNotificationGroup History'
+);
+
+export const loadActionNotificationGroupHistorySuccess = createAction(
+  '[ActionNotificationGroup/API] Load ActionNotificationGroup History Success',
+  props<{ history: ActionNotificationGroup[] }>()
+);
+
+export const loadActionNotificationGroupHistoryFailure = createAction(
+  '[ActionNotificationGroup/API] Load ActionNotificationGroup History Failure',
+  props<{ error: any }>()
 );

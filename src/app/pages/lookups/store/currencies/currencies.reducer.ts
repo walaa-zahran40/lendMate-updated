@@ -89,6 +89,26 @@ export const reducer = createReducer(
     });
 
     return newState;
+  }),
+  //History management
+  on(CurrencyActions.loadCurrencyHistory, (state) => ({
+    ...state,
+    historyLoaded: false,
+    historyError: null,
+  })),
+
+  on(CurrencyActions.loadCurrencyHistorySuccess, (state, { history }) => ({
+    ...state,
+    history,
+    historyLoaded: true,
+  })),
+  on(CurrencyActions.loadCurrencyHistorySuccess, (state, { history }) => {
+    console.log('✅ Reducer: history loaded', history); // add this
+    return {
+      ...state,
+      history: [...history],
+      historyLoaded: true,
+    };
   })
 );
 

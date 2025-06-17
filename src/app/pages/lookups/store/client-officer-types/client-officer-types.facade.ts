@@ -39,4 +39,17 @@ export class ClientOfficerTypesFacade {
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
   }
+  //History management
+  history$ = this.store.select(Selectors.selectClientOfficerTypeHistory);
+
+  readonly clientOfficerTypeHistory$ = this.store.select(
+    Selectors.selectClientOfficerTypeHistory
+  );
+  readonly clientOfficerTypeHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadClientOfficerTypeHistory());
+  }
 }

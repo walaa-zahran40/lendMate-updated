@@ -39,4 +39,17 @@ export class CommunicationTypesFacade {
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
   }
+  //History management
+  history$ = this.store.select(Selectors.selectCommunicationTypeHistory);
+
+  readonly communicationTypeHistory$ = this.store.select(
+    Selectors.selectCommunicationTypeHistory
+  );
+  readonly communicationTypeHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadCommunicationTypeHistory());
+  }
 }

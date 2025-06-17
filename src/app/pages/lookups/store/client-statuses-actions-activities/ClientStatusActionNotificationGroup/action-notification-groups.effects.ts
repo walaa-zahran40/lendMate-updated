@@ -1,6 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { mergeMap, map, catchError, tap, filter } from 'rxjs/operators';
+import {
+  mergeMap,
+  map,
+  catchError,
+  tap,
+  filter,
+  switchMap,
+} from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as ActionNotificationGroupActions from './action-notification-groups.actions';
 import { ActionNotificationGroupsService } from './action-notification-groups.service';
@@ -21,9 +28,11 @@ export class ActionNotificationGroupsEffects {
           ),
           catchError((error) =>
             of(
-              ActionNotificationGroupActions.loadActionNotificationGroupsFailure({
-                error,
-              })
+              ActionNotificationGroupActions.loadActionNotificationGroupsFailure(
+                {
+                  error,
+                }
+              )
             )
           )
         )
@@ -33,19 +42,25 @@ export class ActionNotificationGroupsEffects {
 
   loadHistory$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ActionNotificationGroupActions.loadActionNotificationGroupsHistory),
+      ofType(
+        ActionNotificationGroupActions.loadActionNotificationGroupsHistory
+      ),
       mergeMap(() =>
         this.service.getHistory().pipe(
           map((resp) =>
-            ActionNotificationGroupActions.loadActionNotificationGroupsHistorySuccess({
-              history: resp.items,
-            })
+            ActionNotificationGroupActions.loadActionNotificationGroupsHistorySuccess(
+              {
+                history: resp.items,
+              }
+            )
           ),
           catchError((error) =>
             of(
-              ActionNotificationGroupActions.loadActionNotificationGroupsHistoryFailure({
-                error,
-              })
+              ActionNotificationGroupActions.loadActionNotificationGroupsHistoryFailure(
+                {
+                  error,
+                }
+              )
             )
           )
         )
@@ -65,9 +80,11 @@ export class ActionNotificationGroupsEffects {
           ),
           catchError((error) =>
             of(
-              ActionNotificationGroupActions.loadActionNotificationGroupFailure({
-                error,
-              })
+              ActionNotificationGroupActions.loadActionNotificationGroupFailure(
+                {
+                  error,
+                }
+              )
             )
           )
         )
@@ -81,15 +98,19 @@ export class ActionNotificationGroupsEffects {
       mergeMap(({ data }) =>
         this.service.create(data).pipe(
           map((client) =>
-            ActionNotificationGroupActions.createActionNotificationGroupSuccess({
-              client,
-            })
+            ActionNotificationGroupActions.createActionNotificationGroupSuccess(
+              {
+                client,
+              }
+            )
           ),
           catchError((error) =>
             of(
-              ActionNotificationGroupActions.createActionNotificationGroupFailure({
-                error,
-              })
+              ActionNotificationGroupActions.createActionNotificationGroupFailure(
+                {
+                  error,
+                }
+              )
             )
           )
         )
@@ -112,15 +133,19 @@ export class ActionNotificationGroupsEffects {
               clientStatusActionId: data.clientStatusActionId!,
             };
             console.log('[Effect:update] enriched client →', enriched);
-            return ActionNotificationGroupActions.updateActionNotificationGroupSuccess({
-              client: enriched,
-            });
+            return ActionNotificationGroupActions.updateActionNotificationGroupSuccess(
+              {
+                client: enriched,
+              }
+            );
           }),
           catchError((error) =>
             of(
-              ActionNotificationGroupActions.updateActionNotificationGroupFailure({
-                error,
-              })
+              ActionNotificationGroupActions.updateActionNotificationGroupFailure(
+                {
+                  error,
+                }
+              )
             )
           )
         )
@@ -134,16 +159,20 @@ export class ActionNotificationGroupsEffects {
       mergeMap(({ id, clientStatusActionId }) =>
         this.service.delete(id).pipe(
           map(() =>
-            ActionNotificationGroupActions.deleteActionNotificationGroupSuccess({
-              id,
-              clientStatusActionId,
-            })
+            ActionNotificationGroupActions.deleteActionNotificationGroupSuccess(
+              {
+                id,
+                clientStatusActionId,
+              }
+            )
           ),
           catchError((error) =>
             of(
-              ActionNotificationGroupActions.deleteActionNotificationGroupFailure({
-                error,
-              })
+              ActionNotificationGroupActions.deleteActionNotificationGroupFailure(
+                {
+                  error,
+                }
+              )
             )
           )
         )
@@ -173,9 +202,11 @@ export class ActionNotificationGroupsEffects {
       // only continue if it’s a number
 
       map((clientStatusActionId) =>
-        ActionNotificationGroupActions.loadActionNotificationGroupsByClientStatusActionId({
-          clientStatusActionId,
-        })
+        ActionNotificationGroupActions.loadActionNotificationGroupsByClientStatusActionId(
+          {
+            clientStatusActionId,
+          }
+        )
       )
     )
   );
@@ -184,13 +215,18 @@ export class ActionNotificationGroupsEffects {
    */
   loadByClientStatusActionId$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ActionNotificationGroupActions.loadActionNotificationGroupsByClientStatusActionId),
+      ofType(
+        ActionNotificationGroupActions.loadActionNotificationGroupsByClientStatusActionId
+      ),
 
       tap((action) =>
         console.log('[Effect:loadByClientStatusActionId] full action →', action)
       ),
       tap(({ clientStatusActionId }) =>
-        console.log('[Effect:loadByClientStatusActionId] clientStatusActionId →', clientStatusActionId)
+        console.log(
+          '[Effect:loadByClientStatusActionId] clientStatusActionId →',
+          clientStatusActionId
+        )
       ),
 
       mergeMap(({ clientStatusActionId }) =>
@@ -199,22 +235,47 @@ export class ActionNotificationGroupsEffects {
             console.log('[Effect:loadByClientStatusActionId] response →', items)
           ),
           map((items) =>
-            ActionNotificationGroupActions.loadActionNotificationGroupsByClientStatusActionIdSuccess({
-              items,
-            })
+            ActionNotificationGroupActions.loadActionNotificationGroupsByClientStatusActionIdSuccess(
+              {
+                items,
+              }
+            )
           ),
           catchError((error) =>
             of(
-              ActionNotificationGroupActions.loadActionNotificationGroupsByClientStatusActionIdFailure({
-                error,
-              })
+              ActionNotificationGroupActions.loadActionNotificationGroupsByClientStatusActionIdFailure(
+                {
+                  error,
+                }
+              )
             )
           )
         )
       )
     )
   );
-
+  // Load authorization group officer history
+  loadActionNotificationGroupHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionNotificationGroupActions.loadActionNotificationGroupHistory),
+      switchMap(() =>
+        this.service.getAllHistory().pipe(
+          map((history) =>
+            ActionNotificationGroupActions.loadActionNotificationGroupHistorySuccess(
+              { history }
+            )
+          ),
+          catchError((error) =>
+            of(
+              ActionNotificationGroupActions.loadActionNotificationGroupHistoryFailure(
+                { error }
+              )
+            )
+          )
+        )
+      )
+    )
+  );
   constructor(
     private actions$: Actions,
     private service: ActionNotificationGroupsService

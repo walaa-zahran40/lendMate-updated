@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, takeUntil, filter } from 'rxjs';
 import { loadOfficers } from '../../../../../../organizations/store/officers/officers.actions';
-import { AuthorizationGroup } from '../../../../../store/authorization-groups/authorization-groups.model';
+import { AuthorizationGroup } from '../../../../../store/authorization-groups/authorization-group.model';
 import { ActionAuthorizationGroup } from '../../../../../store/client-statuses-actions-activities/ClientStatusActionAuthorizationGroup/action-authorization-group.model';
 import { ActionAuthorizationGroupsFacade } from '../../../../../store/client-statuses-actions-activities/ClientStatusActionAuthorizationGroup/action-authorization-groups.facade';
 import { selectAllAuthorizationGroups } from '../../../../../store/authorization-groups/authorization-groups.selectors';

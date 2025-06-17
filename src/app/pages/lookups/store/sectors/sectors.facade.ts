@@ -40,4 +40,15 @@ export class SectorsFacade {
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
   }
+  //History management
+  history$ = this.store.select(Selectors.selectSectorHistory);
+
+  readonly sectorHistory$ = this.store.select(Selectors.selectSectorHistory);
+  readonly sectorHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadSectorHistory());
+  }
 }

@@ -71,3 +71,17 @@ export const entityOperationSuccess = createAction(
   '[Entity] Operation Success',
   props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
 );
+//History actions
+export const loadClientOfficerTypeHistory = createAction(
+  '[ClientOfficerType/API] Load ClientOfficerType History'
+);
+
+export const loadClientOfficerTypeHistorySuccess = createAction(
+  '[ClientOfficerType/API] Load ClientOfficerType History Success',
+  props<{ history: ClientOfficerType[] }>()
+);
+
+export const loadClientOfficerTypeHistoryFailure = createAction(
+  '[ClientOfficerType/API] Load ClientOfficerType History Failure',
+  props<{ error: any }>()
+);

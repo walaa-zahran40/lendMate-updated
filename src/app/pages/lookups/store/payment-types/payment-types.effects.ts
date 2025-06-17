@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { PaymentTypesService } from './payment-types.service';
 import * as ActionsList from './payment-types.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { PaymentType } from './payment-type.model';
 
 @Injectable()
@@ -102,7 +102,24 @@ export class PaymentTypesEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadPaymentTypeHistory())
+    )
+  );
+  loadPaymentTypeHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadPaymentTypeHistory),
+      switchMap(() =>
+        this.svc.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadPaymentTypeHistorySuccess({
+              history,
+            })
+          ),
+          catchError((error) =>
+            of(ActionsList.loadPaymentTypeHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

@@ -71,3 +71,17 @@ export const entityOperationSuccess = createAction(
   '[Entity] Operation Success',
   props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
 );
+//History actions
+export const loadAuthorizationGroupOfficerHistory = createAction(
+  '[AuthorizationGroupOfficer/API] Load AuthorizationGroupOfficer History'
+);
+
+export const loadAuthorizationGroupOfficerHistorySuccess = createAction(
+  '[AuthorizationGroupOfficer/API] Load AuthorizationGroupOfficer History Success',
+  props<{ history: AuthorizationGroupOfficer[] }>()
+);
+
+export const loadAuthorizationGroupOfficerHistoryFailure = createAction(
+  '[AuthorizationGroupOfficer/API] Load AuthorizationGroupOfficer History Failure',
+  props<{ error: any }>()
+);

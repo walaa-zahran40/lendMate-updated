@@ -1,13 +1,23 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Subject, Observable, combineLatest, map, takeUntil, take, filter } from 'rxjs';
+import {
+  Subject,
+  Observable,
+  combineLatest,
+  map,
+  takeUntil,
+  take,
+  filter,
+} from 'rxjs';
 import { TableComponent } from '../../../../../../../shared/components/table/table.component';
-import { AuthorizationGroup } from '../../../../../store/authorization-groups/authorization-groups.model';
+import { AuthorizationGroup } from '../../../../../store/authorization-groups/authorization-group.model';
 import { MandateActionAuthorizationGroup } from '../../../../../store/mandate-statuses-actions-activities/MandateStatusActionAuthorizationGroup/action-authorization-group.model';
 import { MandateActionAuthorizationGroupsFacade } from '../../../../../store/mandate-statuses-actions-activities/MandateStatusActionAuthorizationGroup/action-authorization-groups.facade';
 import { selectAllAuthorizationGroups } from '../../../../../store/authorization-groups/authorization-groups.selectors';
-import { loadAll as loadAuthorizationGroups} from '../../../../../store/authorization-groups/authorization-groups.actions';
+import { loadAll as loadAuthorizationGroups } from '../../../../../store/authorization-groups/authorization-groups.actions';
+import { loadMandateActionAuthorizationGroupHistory } from '../../../../../store/mandate-statuses-actions-activities/MandateStatusActionAuthorizationGroup/action-authorization-groups.actions';
+import { selectActionAuthorizationGroupHistory } from '../../../../../store/mandate-statuses-actions-activities/MandateStatusActionAuthorizationGroup/action-authorization-groups.selectors';
 
 @Component({
   selector: 'app-view-mandate-authorizationg-group',
@@ -27,13 +37,14 @@ export class ViewMandateActionAuthorizationGroupsComponent {
   readonly colsInside = [
     { field: 'authorizationGroup', header: 'AuthorizationGroup' },
     { field: 'startDate', header: 'Start Date' },
+    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedActionAuthorizationGroupId: number | null = null;
   originalActionAuthorizationGroups: MandateActionAuthorizationGroup[] = [];
   filteredActionAuthorizationGroups: MandateActionAuthorizationGroup[] = [];
   actionAuthorizationGroups$!: Observable<MandateActionAuthorizationGroup[]>;
-  authorizationGroupsList$!: Observable<AuthorizationGroup[]>;
+  authorizationGroupsList$!: Observable<any[]>;
 
   constructor(
     private router: Router,
@@ -45,13 +56,17 @@ export class ViewMandateActionAuthorizationGroupsComponent {
   ngOnInit() {
     const raw = this.route.snapshot.paramMap.get('mandateStatusActionId');
     this.mandateStatusActionIdParam = raw !== null ? Number(raw) : undefined;
-    this.store.dispatch(loadAuthorizationGroups({}));
-    this.authorizationGroupsList$ = this.store.select(selectAllAuthorizationGroups);
+    this.store.dispatch(loadMandateActionAuthorizationGroupHistory());
+    this.authorizationGroupsList$ = this.store.select(
+      selectActionAuthorizationGroupHistory
+    );
 
-    this.facade.loadMandateActionAuthorizationGroupsByMandateStatusActionId(this.mandateStatusActionIdParam);
-    this.actionAuthorizationGroups$ = this.facade.items$;
+    this.facade.loadMandateActionAuthorizationGroupsByMandateStatusActionId(
+      this.mandateStatusActionIdParam
+    );
+    this.actionAuthorizationGroups$ = this.facade.history$;
 
-  combineLatest([
+    combineLatest([
       this.actionAuthorizationGroups$,
       this.authorizationGroupsList$,
     ])
@@ -60,9 +75,9 @@ export class ViewMandateActionAuthorizationGroupsComponent {
           actionAuthorizationGroups
             .map((actionAuthorizationGroup) => ({
               ...actionAuthorizationGroup,
-              authorizationGroup:
-                authorizationGroupsList.find((c) => c.id === actionAuthorizationGroup.authorizationGroupId)?.name
-                ,
+              authorizationGroup: authorizationGroupsList.find(
+                (c) => c.id === actionAuthorizationGroup.authorizationGroupId
+              )?.name,
             }))
             .sort((a, b) => b.id - a.id)
         ),
@@ -73,13 +88,17 @@ export class ViewMandateActionAuthorizationGroupsComponent {
         this.filteredActionAuthorizationGroups = [...enriched];
       });
   }
- 
 
   onAddActionAuthorizationGroup() {
-    const mandateStatusActionIdParam = this.route.snapshot.paramMap.get('mandateStatusActionId');
+    const mandateStatusActionIdParam = this.route.snapshot.paramMap.get(
+      'mandateStatusActionId'
+    );
 
     this.router.navigate(['/lookups/add-mandate-action-authorizationGroups'], {
-      queryParams: { mode: 'add', mandateStatusActionId: mandateStatusActionIdParam },
+      queryParams: {
+        mode: 'add',
+        mandateStatusActionId: mandateStatusActionIdParam,
+      },
     });
   }
 
@@ -102,7 +121,10 @@ export class ViewMandateActionAuthorizationGroupsComponent {
       this.selectedActionAuthorizationGroupId
     );
     if (this.selectedActionAuthorizationGroupId !== null) {
-      this.facade.delete(this.selectedActionAuthorizationGroupId, this.mandateStatusActionIdParam);
+      this.facade.delete(
+        this.selectedActionAuthorizationGroupId,
+        this.mandateStatusActionIdParam
+      );
       console.log('[View] confirmDelete() – facade.delete() called');
     } else {
       console.warn('[View] confirmDelete() – no id to delete');
@@ -120,18 +142,25 @@ export class ViewMandateActionAuthorizationGroupsComponent {
   }
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
-    this.filteredActionAuthorizationGroups = this.originalActionAuthorizationGroups.filter((actionAuthorizationGroup) =>
-      Object.values(actionAuthorizationGroup).some((val) =>
-        val?.toString().toLowerCase().includes(lower)
-      )
-    );
+    this.filteredActionAuthorizationGroups =
+      this.originalActionAuthorizationGroups.filter(
+        (actionAuthorizationGroup) =>
+          Object.values(actionAuthorizationGroup).some((val) =>
+            val?.toString().toLowerCase().includes(lower)
+          )
+      );
   }
   onToggleFilters(value: boolean) {
     this.showFilters = value;
   }
-  onEditActionAuthorizationGroup(actionAuthorizationGroup: MandateActionAuthorizationGroup) {
+  onEditActionAuthorizationGroup(
+    actionAuthorizationGroup: MandateActionAuthorizationGroup
+  ) {
     this.router.navigate(
-      ['/lookups/edit-mandate-action-authorizationGroups', actionAuthorizationGroup.id],
+      [
+        '/lookups/edit-mandate-action-authorizationGroups',
+        actionAuthorizationGroup.id,
+      ],
       {
         queryParams: {
           mode: 'edit',
@@ -141,11 +170,14 @@ export class ViewMandateActionAuthorizationGroupsComponent {
     );
   }
   onViewActionAuthorizationGroup(ct: MandateActionAuthorizationGroup) {
-    this.router.navigate(['/lookups/edit-mandate-action-authorizationGroups', ct.id], {
-      queryParams: {
-        mode: 'view',
-        mandateStatusActionId: this.mandateStatusActionIdParam, // <-- use "currencyId" here
-      },
-    });
+    this.router.navigate(
+      ['/lookups/edit-mandate-action-authorizationGroups', ct.id],
+      {
+        queryParams: {
+          mode: 'view',
+          mandateStatusActionId: this.mandateStatusActionIdParam, // <-- use "currencyId" here
+        },
+      }
+    );
   }
 }

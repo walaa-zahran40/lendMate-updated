@@ -1,9 +1,16 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject, Observable, takeUntil, filter } from 'rxjs';
+import {
+  Subject,
+  Observable,
+  takeUntil,
+  filter,
+  combineLatest,
+  take,
+} from 'rxjs';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { AddressTypesFacade } from '../../../store/address-types/address-types.facade';
-import { AddressType } from '../../../store/address-types/address-types.model';
+import { AddressType } from '../../../store/address-types/address-type.model';
 
 @Component({
   selector: 'app-view-address-types',
@@ -22,30 +29,27 @@ export class ViewAddressTypesComponent {
   readonly colsInside = [
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
+    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedAddressTypeId: number | null = null;
   originalAddressTypes: AddressType[] = [];
   filteredAddressTypes: AddressType[] = [];
   addressTypes$!: Observable<AddressType[]>;
+  history: AddressType[] = [];
 
   constructor(private router: Router, private facade: AddressTypesFacade) {}
   ngOnInit() {
-    this.facade.loadAll();
-    this.facade.operationSuccess$
-      .pipe(
-        takeUntil(this.destroy$),
-        filter((op) => op?.entity === 'AddressType')
-      )
-      .subscribe(() => this.facade.loadAll());
-    this.addressTypes$ = this.facade.all$;
+    // Load History
+    this.facade.loadHistory();
+    this.addressTypes$ = this.facade.addressTypeHistory$;
 
-    this.addressTypes$?.pipe(takeUntil(this.destroy$))?.subscribe((address) => {
-      const activeCodes = address.filter((code) => code.isActive);
-      const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
-      this.originalAddressTypes = sorted;
-      this.filteredAddressTypes = [...sorted];
-    });
+    // Optionally bind filtered list
+    this.facade.addressTypeHistory$
+      .pipe(filter((data) => !!data && data.length > 0))
+      .subscribe((data) => {
+        this.filteredAddressTypes = data;
+      });
   }
 
   onAddAddressType() {

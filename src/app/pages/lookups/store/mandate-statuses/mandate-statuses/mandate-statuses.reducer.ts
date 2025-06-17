@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import * as Actions from './mandate-statuses.actions';
-import { initialMandateStatusesState } from './mandate-statuses.state';
+import { adapter, initialMandateStatusesState } from './mandate-statuses.state';
 
 export const mandateStatusesReducer = createReducer(
   initialMandateStatusesState,
@@ -21,7 +21,10 @@ export const mandateStatusesReducer = createReducer(
     loading: false,
   })),
 
-  on(Actions.loadMandateStatusesHistory, (state) => ({ ...state, loading: true })),
+  on(Actions.loadMandateStatusesHistory, (state) => ({
+    ...state,
+    loading: true,
+  })),
   on(Actions.loadMandateStatusesHistorySuccess, (state, { history }) => ({
     ...state,
     history,
@@ -81,5 +84,28 @@ export const mandateStatusesReducer = createReducer(
     ...state,
     error,
     loading: false,
-  }))
+  })),
+  //History management
+  on(Actions.loadMandateStatusHistory, (state) => ({
+    ...state,
+    historyLoaded: false,
+    historyError: null,
+  })),
+
+  on(Actions.loadMandateStatusHistorySuccess, (state, { history }) => ({
+    ...state,
+    history,
+    historyLoaded: true,
+  })),
+  on(Actions.loadMandateStatusHistorySuccess, (state, { history }) => {
+    console.log('✅ Reducer: history loaded', history); // add this
+    return {
+      ...state,
+      history: [...history],
+      historyLoaded: true,
+    };
+  })
 );
+
+export const { selectAll, selectEntities, selectIds, selectTotal } =
+  adapter.getSelectors();

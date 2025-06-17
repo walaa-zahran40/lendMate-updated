@@ -28,3 +28,15 @@ export const selectMandateStatusesError = createSelector(
   (state) => state.error
 );
 
+// History management selectors
+export const selectMandateStatusHistoryState =
+  createFeatureSelector<MandateStatusesState>('mandateStatusHistory');
+
+export const selectMandateStatusHistory = createSelector(
+  selectMandateStatusHistoryState,
+  (state) => state.history
+);
+export const selectHistoryLoaded = createSelector(
+  selectMandateStatusHistoryState,
+  (state) => state.historyLoaded
+);

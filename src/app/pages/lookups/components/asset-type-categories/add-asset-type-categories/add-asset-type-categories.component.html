@@ -1,11 +1,21 @@
+<app-toolbar-form
+  [header]="
+    viewOnly
+      ? 'View Asset Type Category'
+      : editMode
+      ? 'Edit Asset Type Category'
+      : 'Add Asset Type Category'
+  "
+  [backExists]="true"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form>
 <p-tabs value="0" styleClass="p-3">
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
         [title]="'Main Information'"
-        [description]="
-          'Asset Type Categories'
-        "
+        [description]="'Asset Type Categories'"
         [addAssetTypeCategoriesLookupsForm]="true"
         [formGroup]="addAssetTypeCategoriesLookupsForm"
         (submitForm)="addOrEditAssetTypeCategory()"

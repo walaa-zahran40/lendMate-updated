@@ -42,4 +42,21 @@ export class FeeTypesService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
+  //History management
+  getAllHistory(): Observable<FeeType[]> {
+    console.log('🚀 Service: calling GET …');
+    return this.http
+      .get<{ items: FeeType[]; totalCount: number }>(
+        `${this.baseUrl}/GetAllFeeTypesHistory`
+      )
+      .pipe(
+        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
+        map((resp) => resp.items), // ← pull off the `items` array here
+        tap((items) => console.log('🚀 Mapped items:', items)),
+        catchError((err) => {
+          console.error('🚀 HTTP error fetching FeeTypes:', err);
+          return throwError(() => err);
+        })
+      );
+  }
 }

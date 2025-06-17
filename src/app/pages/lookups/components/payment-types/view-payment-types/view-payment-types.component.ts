@@ -22,6 +22,7 @@ export class ViewPaymentTypesComponent {
   readonly colsInside = [
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
+    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedPaymentTypeId: number | null = null;
@@ -32,18 +33,17 @@ export class ViewPaymentTypesComponent {
   constructor(private router: Router, private facade: PaymentTypesFacade) {}
   ngOnInit() {
     console.log('🟢 ngOnInit: start');
-    this.PaymentTypes$ = this.facade.all$;
-    console.log('🟢 before loadAll, current store value:');
+    this.PaymentTypes$ = this.facade.history$;
+    console.log('🟢 before loadHistory, current store value:');
     this.PaymentTypes$.pipe(take(1)).subscribe((v) =>
       console.log('   store currently has:', v)
     );
-    console.log('🟢 Calling loadAll() to fetch PaymentTypes');
-    this.facade.loadAll();
+    console.log('🟢 Calling loadHistory() to fetch PaymentTypes');
+    this.facade.loadHistory();
 
     this.PaymentTypes$?.pipe(takeUntil(this.destroy$))?.subscribe((payment) => {
       // products is now rentStructureType[], not any
-      const activeCodes = payment.filter((code) => code.isActive);
-      const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
+      const sorted = [...payment].sort((a, b) => b?.id - a?.id);
       this.originalPaymentType = sorted;
       this.filteredPaymentType = [...sorted];
     });

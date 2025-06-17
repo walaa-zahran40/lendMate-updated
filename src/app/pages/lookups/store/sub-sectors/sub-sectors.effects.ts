@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { SubSectorsService } from './sub-sectors.service';
 import * as ActionsList from './sub-sectors.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { SubSector } from './sub-sector.model';
 
 @Injectable()
@@ -102,7 +102,24 @@ export class SubSectorsEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadSubSectorHistory())
+    )
+  );
+  loadSubSectorHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadSubSectorHistory),
+      switchMap(() =>
+        this.svc.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadSubSectorHistorySuccess({
+              history,
+            })
+          ),
+          catchError((error) =>
+            of(ActionsList.loadSubSectorHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

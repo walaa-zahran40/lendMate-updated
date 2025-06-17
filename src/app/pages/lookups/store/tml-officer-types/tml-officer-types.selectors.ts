@@ -40,3 +40,16 @@ export const selectTmlOfficerTypesTotalCount = createSelector(
   selectTmlOfficerTypesFeature,
   (state) => state
 );
+// History management selectors
+export const selectTmlOfficerTypeHistoryState = createFeatureSelector<State>(
+  'tmlOfficerTypeHistory'
+);
+
+export const selectTmlOfficerTypeHistory = createSelector(
+  selectTmlOfficerTypeHistoryState,
+  (state) => state.history
+);
+export const selectHistoryLoaded = createSelector(
+  selectTmlOfficerTypeHistoryState,
+  (state) => state.historyLoaded
+);

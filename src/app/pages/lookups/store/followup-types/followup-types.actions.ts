@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { FollowupType } from './folllowup-types.model';
+import { FollowupType } from './folllowup-type.model';
 
 export const loadAll = createAction(
   '[FollowupTypes] Load All',
@@ -70,4 +70,18 @@ export const deleteEntityFailure = createAction(
 export const entityOperationSuccess = createAction(
   '[Entity] Operation Success',
   props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
+);
+//History actions
+export const loadFollowUpTypeHistory = createAction(
+  '[FollowUpType/API] Load FollowUpType History'
+);
+
+export const loadFollowUpTypeHistorySuccess = createAction(
+  '[FollowUpType/API] Load FollowUpType History Success',
+  props<{ history: FollowupType[] }>()
+);
+
+export const loadFollowUpTypeHistoryFailure = createAction(
+  '[FollowUpType/API] Load CompanyFlowType History Failure',
+  props<{ error: any }>()
 );

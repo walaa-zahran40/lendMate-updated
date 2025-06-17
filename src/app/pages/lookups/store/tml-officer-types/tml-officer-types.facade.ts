@@ -43,4 +43,17 @@ export class TmlOfficerTypesFacade {
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
   }
+  //History management
+  history$ = this.store.select(Selectors.selectTmlOfficerTypeHistory);
+
+  readonly tmlOfficerTypeHistory$ = this.store.select(
+    Selectors.selectTmlOfficerTypeHistory
+  );
+  readonly tmlOfficerTypeHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadTmlOfficerTypeHistory());
+  }
 }

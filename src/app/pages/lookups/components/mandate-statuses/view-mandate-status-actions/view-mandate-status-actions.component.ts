@@ -28,6 +28,7 @@ export class ViewMandateStatusActionsComponent {
     { field: 'nameAR', header: 'Name AR' },
     { field: 'statusInName', header: 'Status In' },
     { field: 'statusOutName', header: 'Sstatus Out' },
+    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedMandateStatusActionId: number | null = null;
@@ -44,8 +45,8 @@ export class ViewMandateStatusActionsComponent {
   ) {}
   ngOnInit() {
     console.log('rio', this.route.snapshot);
-    this.facade.loadAll();
-    this.mandateStatusActions$ = this.facade.all$;
+    this.facade.loadHistory();
+    this.mandateStatusActions$ = this.facade.history$;
 
     this.mandateStatusActions$
       .pipe(
@@ -65,7 +66,6 @@ export class ViewMandateStatusActionsComponent {
         this.originalMandateStatusActions = normalized;
         this.filteredMandateStatusActions = [...normalized];
       });
-   
   }
 
   onAddMandateStatusAction() {
@@ -111,12 +111,12 @@ export class ViewMandateStatusActionsComponent {
   }
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
-    this.filteredMandateStatusActions = this.originalMandateStatusActions.filter(
-      (mandateStatusAction) =>
+    this.filteredMandateStatusActions =
+      this.originalMandateStatusActions.filter((mandateStatusAction) =>
         Object.values(mandateStatusAction).some((val) =>
           val?.toString().toLowerCase().includes(lower)
         )
-    );
+      );
   }
   onToggleFilters(value: boolean) {
     this.showFilters = value;
@@ -135,6 +135,9 @@ export class ViewMandateStatusActionsComponent {
     });
   }
   onAddSide(mandateStatusActionId: any) {
-    this.router.navigate(['/lookups/wizard-mandate-status-action', mandateStatusActionId]);
+    this.router.navigate([
+      '/lookups/wizard-mandate-status-action',
+      mandateStatusActionId,
+    ]);
   }
 }

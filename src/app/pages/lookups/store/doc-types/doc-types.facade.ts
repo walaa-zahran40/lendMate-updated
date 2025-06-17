@@ -39,4 +39,15 @@ export class DocTypesFacade {
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
   }
+  //History management
+  history$ = this.store.select(Selectors.selectDocTypeHistory);
+
+  readonly docTypeHistory$ = this.store.select(Selectors.selectDocTypeHistory);
+  readonly docTypeHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadDocTypeHistory());
+  }
 }

@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { FeeRange } from './fee-ranges.model';
+import { FeeRange } from './fee-range.model';
 
 export const loadAll = createAction(
   '[FeeRanges] Load All',
@@ -70,4 +70,18 @@ export const deleteEntityFailure = createAction(
 export const entityOperationSuccess = createAction(
   '[Entity] Operation Success',
   props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
+);
+//History actions
+export const loadFeeRangeHistory = createAction(
+  '[FeeRange/API] Load FeeRange History'
+);
+
+export const loadFeeRangeHistorySuccess = createAction(
+  '[FeeRange/API] Load FeeRange History Success',
+  props<{ history: FeeRange[] }>()
+);
+
+export const loadFeeRangeHistoryFailure = createAction(
+  '[FeeRange/API] Load CompanyFlowType History Failure',
+  props<{ error: any }>()
 );

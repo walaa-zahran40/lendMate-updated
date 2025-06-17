@@ -39,4 +39,15 @@ export class FeeTypesFacade {
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
   }
+  //History management
+  history$ = this.store.select(Selectors.selectFeeTypeHistory);
+
+  readonly feeTypeHistory$ = this.store.select(Selectors.selectFeeTypeHistory);
+  readonly feeTypeHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadFeeTypeHistory());
+  }
 }

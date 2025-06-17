@@ -22,6 +22,7 @@ export class ViewCommunicationTypesComponent {
   readonly colsInside = [
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
+    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedCommunicationTypeId: number | null = null;
@@ -34,14 +35,13 @@ export class ViewCommunicationTypesComponent {
     private facade: CommunicationTypesFacade
   ) {}
   ngOnInit() {
-    this.facade.loadAll();
-    this.communicationTypes$ = this.facade.all$;
+    this.facade.loadHistory();
+    this.communicationTypes$ = this.facade.history$;
 
     this.communicationTypes$
       ?.pipe(takeUntil(this.destroy$))
       .subscribe((communicationTypes) => {
-        const activeOnly = communicationTypes.filter((ct) => ct.isActive); // 👈 filter here
-        const sorted = [...activeOnly].sort((a, b) => b.id - a.id);
+        const sorted = [...communicationTypes].sort((a, b) => b.id - a.id);
         this.originalCommunicationTypes = sorted;
         this.filteredCommunicationTypes = [...sorted];
       });

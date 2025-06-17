@@ -40,4 +40,17 @@ export class PaymentMethodsFacade {
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
   }
+  //History management
+  history$ = this.store.select(Selectors.selectPaymentMethodHistory);
+
+  readonly paymentMethodHistory$ = this.store.select(
+    Selectors.selectPaymentMethodHistory
+  );
+  readonly paymentMethodHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadPaymentMethodHistory());
+  }
 }

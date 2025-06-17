@@ -47,4 +47,21 @@ export class CallActionTypesService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
+  //History management
+  getAllHistory(): Observable<CallActionType[]> {
+    console.log('🚀 Service: calling GET …');
+    return this.http
+      .get<{ items: CallActionType[]; totalCount: number }>(
+        `${this.baseUrl}/GetAllCallActionTypeHistory`
+      )
+      .pipe(
+        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
+        map((resp) => resp.items), // ← pull off the `items` array here
+        tap((items) => console.log('🚀 Mapped items:', items)),
+        catchError((err) => {
+          console.error('🚀 HTTP error fetching CallActionTypes:', err);
+          return throwError(() => err);
+        })
+      );
+  }
 }

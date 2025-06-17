@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { PaymentTimingTermsService } from './payment-timing-terms.service';
 import * as ActionsList from './payment-timing-terms.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { PaymentTimingTerm } from './payment-timing-term.model';
 
 @Injectable()
@@ -105,7 +105,24 @@ export class PaymentTimingTermsEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadPaymentTimingTermHistory())
+    )
+  );
+  loadPaymentTimingTermHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadPaymentTimingTermHistory),
+      switchMap(() =>
+        this.svc.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadPaymentTimingTermHistorySuccess({
+              history,
+            })
+          ),
+          catchError((error) =>
+            of(ActionsList.loadPaymentTimingTermHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { SMEClientCode } from './sme-client-codes.model';
+import { SMEClientCode } from './sme-client-code.model';
 
 export const loadAll = createAction(
   '[SMEClientCodes] Load All',
@@ -70,4 +70,18 @@ export const deleteEntityFailure = createAction(
 export const entityOperationSuccess = createAction(
   '[Entity] Operation Success',
   props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
+);
+//History actions
+export const loadSMEClientCodeHistory = createAction(
+  '[SMEClientCode/API] Load SMEClientCode History'
+);
+
+export const loadSMEClientCodeHistorySuccess = createAction(
+  '[SMEClientCode/API] Load SMEClientCode History Success',
+  props<{ history: SMEClientCode[] }>()
+);
+
+export const loadSMEClientCodeHistoryFailure = createAction(
+  '[SMEClientCode/API] Load CompanyFlowType History Failure',
+  props<{ error: any }>()
 );

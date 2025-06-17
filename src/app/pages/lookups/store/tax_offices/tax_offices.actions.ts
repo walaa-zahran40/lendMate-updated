@@ -71,3 +71,17 @@ export const entityOperationSuccess = createAction(
   '[Entity] Operation Success',
   props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
 );
+//History actions
+export const loadTaxOfficeHistory = createAction(
+  '[TaxOffice/API] Load TaxOffice History'
+);
+
+export const loadTaxOfficeHistorySuccess = createAction(
+  '[TaxOffice/API] Load TaxOffice History Success',
+  props<{ history: TaxOffice[] }>()
+);
+
+export const loadTaxOfficeHistoryFailure = createAction(
+  '[TaxOffice/API] Load CompanyFlowType History Failure',
+  props<{ error: any }>()
+);

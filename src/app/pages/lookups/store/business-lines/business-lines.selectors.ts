@@ -40,3 +40,15 @@ export const selectBusinessLinesTotalCount = createSelector(
   selectBusinessLinesFeature,
   (state) => state
 );
+// History management selectors
+export const selectBusinessLineState =
+  createFeatureSelector<State>('businessLines');
+
+export const selectBusinessLineHistory = createSelector(
+  selectBusinessLineState,
+  (state) => state.history
+);
+export const selectHistoryLoaded = createSelector(
+  selectBusinessLineState,
+  (state) => state.historyLoaded
+);

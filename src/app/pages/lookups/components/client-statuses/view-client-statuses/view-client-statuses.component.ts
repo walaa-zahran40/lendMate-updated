@@ -24,6 +24,7 @@ export class ViewClientStatusesComponent {
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
     { field: 'isInitial', header: 'Is Initial' },
+    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedClientStatusId: number | null = null;
@@ -33,8 +34,8 @@ export class ViewClientStatusesComponent {
 
   constructor(private router: Router, private facade: ClientStatusesFacade) {}
   ngOnInit() {
-    this.facade.loadAll();
-    this.clientStatuses$ = this.facade.items$;
+    this.facade.loadHistory();
+    this.clientStatuses$ = this.facade.history$;
 
     this.clientStatuses$
       ?.pipe(takeUntil(this.destroy$))

@@ -12,16 +12,18 @@ export const loadClientStatusesFailure = createAction(
   props<{ error: any }>()
 );
 
-// Load history
-export const loadClientStatusesHistory = createAction(
-  '[ClientStatuses] Load History'
+//History actions
+export const loadClientStatusHistory = createAction(
+  '[ClientStatus/API] Load ClientStatus History'
 );
-export const loadClientStatusesHistorySuccess = createAction(
-  '[ClientStatuses] Load History Success',
+
+export const loadClientStatusHistorySuccess = createAction(
+  '[ClientStatus/API] Load ClientStatus History Success',
   props<{ history: ClientStatus[] }>()
 );
-export const loadClientStatusesHistoryFailure = createAction(
-  '[ClientStatuses] Load History Failure',
+
+export const loadClientStatusHistoryFailure = createAction(
+  '[ClientStatus/API] Load ClientStatus History Failure',
   props<{ error: any }>()
 );
 

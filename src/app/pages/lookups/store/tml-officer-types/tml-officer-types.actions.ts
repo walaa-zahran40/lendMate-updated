@@ -71,3 +71,17 @@ export const entityOperationSuccess = createAction(
   '[Entity] Operation Success',
   props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
 );
+//History actions
+export const loadTmlOfficerTypeHistory = createAction(
+  '[TmlOfficerType/API] Load TmlOfficerType History'
+);
+
+export const loadTmlOfficerTypeHistorySuccess = createAction(
+  '[TmlOfficerType/API] Load TmlOfficerType History Success',
+  props<{ history: TmlOfficerType[] }>()
+);
+
+export const loadTmlOfficerTypeHistoryFailure = createAction(
+  '[TmlOfficerType/API] Load CompanyFlowType History Failure',
+  props<{ error: any }>()
+);

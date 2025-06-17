@@ -23,6 +23,7 @@ export class ViewPaymentPeriodsComponent {
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
     { field: 'monthCount', header: 'Month Count' },
+    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedPaymentPeriodId: number | null = null;
@@ -33,21 +34,22 @@ export class ViewPaymentPeriodsComponent {
   constructor(private router: Router, private facade: PaymentPeriodsFacade) {}
   ngOnInit() {
     console.log('🟢 ngOnInit: start');
-    this.PaymentPeriods$ = this.facade.all$;
-    console.log('🟢 before loadAll, current store value:');
+    this.PaymentPeriods$ = this.facade.history$;
+    console.log('🟢 before loadHistory, current store value:');
     this.PaymentPeriods$.pipe(take(1)).subscribe((v) =>
       console.log('   store currently has:', v)
     );
-    console.log('🟢 Calling loadAll() to fetch PaymentPeriods');
-    this.facade.loadAll();
+    console.log('🟢 Calling loadHistory() to fetch PaymentPeriods');
+    this.facade.loadHistory();
 
-    this.PaymentPeriods$?.pipe(takeUntil(this.destroy$))?.subscribe((payment) => {
-      // products is now rentStructurePeriod[], not any
-      const activeCodes = payment.filter((code) => code.isActive);
-      const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
-      this.originalPaymentPeriod = sorted;
-      this.filteredPaymentPeriod = [...sorted];
-    });
+    this.PaymentPeriods$?.pipe(takeUntil(this.destroy$))?.subscribe(
+      (payment) => {
+        // products is now payment[], not any
+        const sorted = [...payment].sort((a, b) => b?.id - a?.id);
+        this.originalPaymentPeriod = sorted;
+        this.filteredPaymentPeriod = [...sorted];
+      }
+    );
   }
 
   onAddPaymentPeriod() {
@@ -91,10 +93,11 @@ export class ViewPaymentPeriodsComponent {
   }
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
-    this.filteredPaymentPeriod = this.originalPaymentPeriod.filter((PaymentPeriods) =>
-      Object.values(PaymentPeriods).some((val) =>
-        val?.toString().toLowerCase().includes(lower)
-      )
+    this.filteredPaymentPeriod = this.originalPaymentPeriod.filter(
+      (PaymentPeriods) =>
+        Object.values(PaymentPeriods).some((val) =>
+          val?.toString().toLowerCase().includes(lower)
+        )
     );
   }
   onToggleFilters(value: boolean) {

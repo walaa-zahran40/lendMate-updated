@@ -28,3 +28,17 @@ export const selectCurrencyExchangeRatesError = createSelector(
   (state) => state.error
 );
 
+// History management selectors
+export const selectCurrencyExchangeRateHistoryState =
+  createFeatureSelector<CurrencyExchangeRatesState>(
+    'currencyExchangeRateHistory'
+  );
+
+export const selectCurrencyExchangeRateHistory = createSelector(
+  selectCurrencyExchangeRateHistoryState,
+  (state) => state.history
+);
+export const selectHistoryLoaded = createSelector(
+  selectCurrencyExchangeRateHistoryState,
+  (state) => state.historyLoaded
+);

@@ -89,7 +89,33 @@ export const paymentTimingTermsReducer = createReducer(
     });
 
     return newState;
-  })
+  }),
+  //History management
+  on(PaymentTimingTermActions.loadPaymentTimingTermHistory, (state) => ({
+    ...state,
+    historyLoaded: false,
+    historyError: null,
+  })),
+
+  on(
+    PaymentTimingTermActions.loadPaymentTimingTermHistorySuccess,
+    (state, { history }) => ({
+      ...state,
+      history,
+      historyLoaded: true,
+    })
+  ),
+  on(
+    PaymentTimingTermActions.loadPaymentTimingTermHistorySuccess,
+    (state, { history }) => {
+      console.log('✅ Reducer: history loaded', history); // add this
+      return {
+        ...state,
+        history: [...history],
+        historyLoaded: true,
+      };
+    }
+  )
 );
 
 export const { selectAll, selectEntities, selectIds, selectTotal } =

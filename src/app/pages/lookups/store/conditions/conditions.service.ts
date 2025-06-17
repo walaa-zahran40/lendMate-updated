@@ -45,4 +45,21 @@ export class ConditionsService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
+  //History management
+  getAllHistory(): Observable<Condition[]> {
+    console.log('🚀 Service: calling GET …');
+    return this.http
+      .get<{ items: Condition[]; totalCount: number }>(
+        `${this.baseUrl}/GetAllConditionsHistory`
+      )
+      .pipe(
+        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
+        map((resp) => resp.items), // ← pull off the `items` array here
+        tap((items) => console.log('🚀 Mapped items:', items)),
+        catchError((err) => {
+          console.error('🚀 HTTP error fetching Conditions:', err);
+          return throwError(() => err);
+        })
+      );
+  }
 }

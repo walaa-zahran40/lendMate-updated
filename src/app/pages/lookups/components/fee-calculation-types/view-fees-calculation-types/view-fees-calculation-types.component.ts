@@ -22,6 +22,7 @@ export class ViewFeesCalculationTypesComponent {
   readonly colsInside = [
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
+    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedFeeCalculationTypeId: number | null = null;
@@ -35,20 +36,19 @@ export class ViewFeesCalculationTypesComponent {
   ) {}
   ngOnInit() {
     console.log('🟢 ngOnInit: start');
-    this.feeCalculationTypes$ = this.facade.all$;
+    this.feeCalculationTypes$ = this.facade.history$;
     console.log('🟢 before loadAll, current store value:');
     this.feeCalculationTypes$
       .pipe(take(1))
       .subscribe((v) => console.log('   store currently has:', v));
     console.log('🟢 Calling loadAll() to fetch feeCalculationTypes');
-    this.facade.loadAll();
+    this.facade.loadHistory();
 
     this.feeCalculationTypes$
       ?.pipe(takeUntil(this.destroy$))
       ?.subscribe((fee) => {
         // fee is now fee[], not any
-        const activeCodes = fee.filter((code) => code.isActive);
-        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
+        const sorted = [...fee].sort((a, b) => b?.id - a?.id);
         this.originalFeeCalculationType = sorted;
         this.filteredFeeCalculationType = [...sorted];
       });

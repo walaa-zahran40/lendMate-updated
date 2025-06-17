@@ -71,3 +71,17 @@ export const entityOperationSuccess = createAction(
   '[Entity] Operation Success',
   props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
 );
+//History actions
+export const loadPaymentPeriodHistory = createAction(
+  '[PaymentPeriod/API] Load PaymentPeriod History'
+);
+
+export const loadPaymentPeriodHistorySuccess = createAction(
+  '[PaymentPeriod/API] Load PaymentPeriod History Success',
+  props<{ history: PaymentPeriod[] }>()
+);
+
+export const loadPaymentPeriodHistoryFailure = createAction(
+  '[PaymentPeriod/API] Load CompanyFlowType History Failure',
+  props<{ error: any }>()
+);

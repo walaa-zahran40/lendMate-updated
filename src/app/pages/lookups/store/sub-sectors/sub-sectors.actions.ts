@@ -71,3 +71,17 @@ export const entityOperationSuccess = createAction(
   '[Entity] Operation Success',
   props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
 );
+//History actions
+export const loadSubSectorHistory = createAction(
+  '[SubSector/API] Load SubSector History'
+);
+
+export const loadSubSectorHistorySuccess = createAction(
+  '[SubSector/API] Load SubSector History Success',
+  props<{ history: SubSector[] }>()
+);
+
+export const loadSubSectorHistoryFailure = createAction(
+  '[SubSector/API] Load CompanyFlowType History Failure',
+  props<{ error: any }>()
+);

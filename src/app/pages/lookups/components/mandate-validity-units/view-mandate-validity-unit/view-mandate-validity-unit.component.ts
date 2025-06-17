@@ -24,6 +24,7 @@ export class ViewMandateValidityUnitComponent {
     { field: 'nameAR', header: 'Name AR' },
     { field: 'validationMinValue', header: 'Validation Min Value' },
     { field: 'validationMaxValue', header: 'Validation Max Value' },
+    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedMandateValidityUnitId: number | null = null;
@@ -36,15 +37,14 @@ export class ViewMandateValidityUnitComponent {
     private facade: MandateValidityUnitsFacade
   ) {}
   ngOnInit() {
-    this.facade.loadAll();
-    this.mandateValidityUnits$ = this.facade.all$;
+    this.facade.loadHistory();
+    this.mandateValidityUnits$ = this.facade.history$;
 
     this.mandateValidityUnits$
       ?.pipe(takeUntil(this.destroy$))
       ?.subscribe((mandate) => {
         // products is now rentStructureType[], not any
-        const activeCodes = mandate.filter((code) => code.isActive);
-        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
+        const sorted = [...mandate].sort((a, b) => b?.id - a?.id);
         this.originalMandateValidityUnits = sorted;
         this.filteredMandateValidityUnits = [...sorted];
       });

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AssetTypesService } from './asset-types.service';
 import * as ActionsList from './asset-types.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { AssetType } from './asset-type.model';
 import { EntityNames } from '../../../../shared/constants/entity-names';
 
@@ -115,7 +115,23 @@ export class AssetTypesEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadAssetTypeHistory())
+    )
+  );
+  // Load asset type  history
+  loadAssetType$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadAssetTypeHistory),
+      switchMap(() =>
+        this.svc.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadAssetTypeHistorySuccess({ history })
+          ),
+          catchError((error) =>
+            of(ActionsList.loadAssetTypeHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

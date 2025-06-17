@@ -39,4 +39,17 @@ export class CompanyTypesFacade {
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
   }
+  //History management
+  history$ = this.store.select(Selectors.selectCompanyTypeHistory);
+
+  readonly companyTypeHistory$ = this.store.select(
+    Selectors.selectCompanyTypeHistory
+  );
+  readonly companyTypeHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadCompanyTypeHistory());
+  }
 }

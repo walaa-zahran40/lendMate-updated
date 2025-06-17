@@ -69,18 +69,21 @@ export const updateMandateActionNotificationGroupFailure = createAction(
 );
 
 // Load by MandateStatusActionId
-export const loadMandateActionNotificationGroupsByMandateStatusActionId = createAction(
-  '[MandateActionNotificationGroups] Load By MandateStatusActionId',
-  props<{ mandateStatusActionId: number }>()
-);
-export const loadMandateActionNotificationGroupsByMandateStatusActionIdSuccess = createAction(
-  '[MandateActionNotificationGroups] Load By MandateStatusActionId Success',
-  props<{ items: any }>()
-);
-export const loadMandateActionNotificationGroupsByMandateStatusActionIdFailure = createAction(
-  '[MandateActionNotificationGroups] Load By MandateStatusActionId Failure',
-  props<{ error: any }>()
-);
+export const loadMandateActionNotificationGroupsByMandateStatusActionId =
+  createAction(
+    '[MandateActionNotificationGroups] Load By MandateStatusActionId',
+    props<{ mandateStatusActionId: number }>()
+  );
+export const loadMandateActionNotificationGroupsByMandateStatusActionIdSuccess =
+  createAction(
+    '[MandateActionNotificationGroups] Load By MandateStatusActionId Success',
+    props<{ items: any }>()
+  );
+export const loadMandateActionNotificationGroupsByMandateStatusActionIdFailure =
+  createAction(
+    '[MandateActionNotificationGroups] Load By MandateStatusActionId Failure',
+    props<{ error: any }>()
+  );
 //Delete
 export const deleteMandateActionNotificationGroup = createAction(
   '[MandateActionNotificationGroups] Delete',
@@ -97,4 +100,18 @@ export const deleteMandateActionNotificationGroupFailure = createAction(
 export const entityOperationSuccess = createAction(
   '[Entity] Operation Success',
   props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
+);
+//History actions
+export const loadMandateActionNotificationGroupHistory = createAction(
+  '[MandateActionNotificationGroup/API] Load MandateActionNotificationGroup History'
+);
+
+export const loadMandateActionNotificationGroupHistorySuccess = createAction(
+  '[MandateActionNotificationGroup/API] Load MandateActionNotificationGroup History Success',
+  props<{ history: MandateActionNotificationGroup[] }>()
+);
+
+export const loadMandateActionNotificationGroupHistoryFailure = createAction(
+  '[MandateActionNotificationGroup/API] Load CompanyFlowType History Failure',
+  props<{ error: any }>()
 );

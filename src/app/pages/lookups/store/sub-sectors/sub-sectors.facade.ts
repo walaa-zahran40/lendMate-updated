@@ -40,4 +40,17 @@ export class SubSectorsFacade {
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
   }
+  //History management
+  history$ = this.store.select(Selectors.selectSubSectorHistory);
+
+  readonly subSectorHistory$ = this.store.select(
+    Selectors.selectSubSectorHistory
+  );
+  readonly subSectorHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadSubSectorHistory());
+  }
 }

@@ -2,13 +2,16 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ClientOfficerTypesService } from './client-officer-types.service';
 import * as ActionsList from './client-officer-types.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { ClientOfficerType } from './client-officer-type.model';
 import { EntityNames } from '../../../../shared/constants/entity-names';
 
 @Injectable()
 export class ClientOfficerTypesEffects {
-  constructor(private actions$: Actions, private svc: ClientOfficerTypesService) {}
+  constructor(
+    private actions$: Actions,
+    private svc: ClientOfficerTypesService
+  ) {}
 
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
@@ -115,7 +118,23 @@ export class ClientOfficerTypesEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadClientOfficerTypeHistory())
+    )
+  );
+  // Load authorization group officer history
+  loadClientOfficerTypeHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadClientOfficerTypeHistory),
+      switchMap(() =>
+        this.svc.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadClientOfficerTypeHistorySuccess({ history })
+          ),
+          catchError((error) =>
+            of(ActionsList.loadClientOfficerTypeHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

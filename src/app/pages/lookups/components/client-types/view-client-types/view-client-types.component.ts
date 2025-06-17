@@ -22,6 +22,7 @@ export class ViewClientTypesComponent {
   readonly colsInside = [
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
+    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedClientTypeId: number | null = null;
@@ -32,14 +33,12 @@ export class ViewClientTypesComponent {
   constructor(private router: Router, private facade: ClientTypesFacade) {}
   ngOnInit() {
     this.facade.loadAll();
-    this.clientTypes$ = this.facade.all$;
+    this.clientTypes$ = this.facade.history$;
 
     this.clientTypes$
       ?.pipe(takeUntil(this.destroy$))
       .subscribe((clientTypes) => {
-        // clientTypes is now clientType[], not any
-        const activeOnly = clientTypes.filter((ct) => ct.isActive); // 👈 filter here
-        const sorted = [...activeOnly].sort((a, b) => b.id - a.id);
+        const sorted = [...clientTypes].sort((a, b) => b.id - a.id);
         this.originalClientTypes = sorted;
         this.filteredClientTypes = [...sorted];
       });

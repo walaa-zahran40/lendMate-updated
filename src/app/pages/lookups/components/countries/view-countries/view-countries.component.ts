@@ -23,6 +23,7 @@ export class ViewCountriesComponent {
     { field: 'nameAR', header: 'Name AR' },
     { field: 'code2', header: 'Code2' },
     { field: 'code3', header: 'Code3' },
+    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedCountryId: number | null = null;
@@ -32,13 +33,12 @@ export class ViewCountriesComponent {
 
   constructor(private router: Router, private facade: CountriesFacade) {}
   ngOnInit() {
-    this.facade.loadAll();
-    this.countries$ = this.facade.all$;
+    this.facade.loadHistory();
+    this.countries$ = this.facade.history$;
 
     this.countries$?.pipe(takeUntil(this.destroy$))?.subscribe((curr) => {
       // curr is now curr[], not any
-      const activeCodes = curr.filter((code) => code.isActive);
-      const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
+      const sorted = [...curr].sort((a, b) => b?.id - a?.id);
       this.originalCountries = sorted;
       this.filteredCountries = [...sorted];
     });

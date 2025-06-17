@@ -24,6 +24,7 @@ export class ViewBusinessLinesComponent {
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
     { field: 'lisenceStartDate', header: 'Lisence Start Date' },
+    { field: 'isActive', header: 'Is Active' },
   ];
 
   showDeleteModal = false;
@@ -36,15 +37,14 @@ export class ViewBusinessLinesComponent {
 
   ngOnInit() {
     console.log('🟢 ngOnInit: start loading businessLines');
-    this.facade.loadAll();
-    this.businessLines$ = this.facade.all$;
+    this.facade.loadHistory();
+    this.businessLines$ = this.facade.history$;
 
     this.businessLines$
       ?.pipe(takeUntil(this.destroy$))
       ?.subscribe((business) => {
         // products is now rentStructureType[], not any
-        const activeCodes = business.filter((code) => code.isActive);
-        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
+        const sorted = [...business].sort((a, b) => b?.id - a?.id);
         this.originalBusinessLines = sorted;
         this.filteredBusinessLines = [...sorted];
       });

@@ -45,4 +45,21 @@ export class GracePeriodUnitsService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
+  //History management
+  getAllHistory(): Observable<PeriodUnit[]> {
+    console.log('🚀 Service: calling GET …');
+    return this.http
+      .get<{ items: PeriodUnit[]; totalCount: number }>(
+        `${this.baseUrl}/GetAllPeriodUnitsHistory`
+      )
+      .pipe(
+        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
+        map((resp) => resp.items), // ← pull off the `items` array here
+        tap((items) => console.log('🚀 Mapped items:', items)),
+        catchError((err) => {
+          console.error('🚀 HTTP error fetching PeriodUnits:', err);
+          return throwError(() => err);
+        })
+      );
+  }
 }

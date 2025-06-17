@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, forkJoin, filter, take } from 'rxjs';
 import { arabicOnlyValidator } from '../../../../../../../../../shared/validators/arabic-only.validator';
-import { AddressType } from '../../../../../../../../lookups/store/address-types/address-types.model';
+import { AddressType } from '../../../../../../../../lookups/store/address-types/address-type.model';
 import { selectAllAddressTypes } from '../../../../../../../../lookups/store/address-types/address-types.selectors';
 import { Area } from '../../../../../../../../lookups/store/areas/area.model';
 import { loadAreas } from '../../../../../../../../lookups/store/areas/areas.actions';

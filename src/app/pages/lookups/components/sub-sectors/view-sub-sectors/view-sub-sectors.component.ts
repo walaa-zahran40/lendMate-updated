@@ -28,6 +28,7 @@ export class ViewSubSectorsComponent {
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
     { field: 'sectorName', header: 'Sector Name' },
+    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedSubSectorId: number | null = null;
@@ -43,11 +44,11 @@ export class ViewSubSectorsComponent {
   ) {}
   ngOnInit() {
     // 1) kick off both loads
-    this.facade.loadAll();
+    this.facade.loadHistory();
     this.sectorFacade.loadAll();
 
     // 2) pull the raw streams
-    this.SubSectors$ = this.facade.all$;
+    this.SubSectors$ = this.facade.history$;
     this.sectorsList$ = this.sectorFacade.all$;
 
     // 3) whenever either list changes, rebuild your display list
@@ -78,7 +79,7 @@ export class ViewSubSectorsComponent {
         // only react to the SubSector entity
         filter((op) => op?.entity === 'SubSector'),
         // you could further narrow to op.operation === 'create' if you like
-        tap(() => this.facade.loadAll()),
+        tap(() => this.facade.loadHistory()),
         takeUntil(this.destroy$)
       )
       .subscribe();

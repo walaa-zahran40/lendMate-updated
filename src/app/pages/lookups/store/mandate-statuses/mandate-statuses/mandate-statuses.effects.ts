@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { mergeMap, map, catchError } from 'rxjs/operators';
+import { mergeMap, map, catchError, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as MandateStatusActions from './mandate-statuses.actions';
 import { MandateStatusesService } from './mandate-statuses.service';
@@ -37,7 +37,9 @@ export class MandateStatusesEffects {
             })
           ),
           catchError((error) =>
-            of(MandateStatusActions.loadMandateStatusesHistoryFailure({ error }))
+            of(
+              MandateStatusActions.loadMandateStatusesHistoryFailure({ error })
+            )
           )
         )
       )
@@ -113,9 +115,27 @@ export class MandateStatusesEffects {
         MandateStatusActions.updateMandateStatusSuccess,
         MandateStatusActions.deleteMandateStatusSuccess
       ),
-      map(() => MandateStatusActions.loadMandateStatuses())
+      map(() => MandateStatusActions.loadMandateStatusHistory())
     )
   );
+  loadMandateStatusHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(MandateStatusActions.loadMandateStatusHistory),
+      switchMap(() =>
+        this.service.getAllHistory().pipe(
+          map((history) =>
+            MandateStatusActions.loadMandateStatusHistorySuccess({
+              history,
+            })
+          ),
+          catchError((error) =>
+            of(MandateStatusActions.loadMandateStatusHistoryFailure({ error }))
+          )
+        )
+      )
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private service: MandateStatusesService

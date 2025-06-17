@@ -39,3 +39,19 @@ export const selectAreasTotalCount = createSelector(
   selectAreasFeature,
   (state) => state
 );
+// History management selectors
+export const selectAreaState = createFeatureSelector<State>('areas');
+
+export const selectAreaHistory = createSelector(
+  selectAreaState,
+  (state) => state.history
+);
+export const selectHistoryLoaded = createSelector(
+  selectAreaState,
+  (state) => state.historyLoaded
+);
+
+export const selectHistoryError = createSelector(
+  selectAreaState,
+  (state) => state.historyError
+);

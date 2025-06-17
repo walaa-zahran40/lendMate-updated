@@ -35,11 +35,14 @@ export const notificationGroupOfficerReducer = createReducer(
   on(NotificationGroupOfficerActions.createEntitySuccess, (state, { entity }) =>
     adapter.addOne(entity, { ...state, loading: false })
   ),
-  on(NotificationGroupOfficerActions.createEntityFailure, (state, { error }) => ({
-    ...state,
-    loading: false,
-    error,
-  })),
+  on(
+    NotificationGroupOfficerActions.createEntityFailure,
+    (state, { error }) => ({
+      ...state,
+      loading: false,
+      error,
+    })
+  ),
 
   // update
   on(NotificationGroupOfficerActions.updateEntity, (state) => ({
@@ -47,14 +50,19 @@ export const notificationGroupOfficerReducer = createReducer(
     loading: true,
     error: null,
   })),
-  on(NotificationGroupOfficerActions.updateEntitySuccess, (state, { id, changes }) =>
-    adapter.updateOne({ id, changes }, { ...state, loading: false })
+  on(
+    NotificationGroupOfficerActions.updateEntitySuccess,
+    (state, { id, changes }) =>
+      adapter.updateOne({ id, changes }, { ...state, loading: false })
   ),
-  on(NotificationGroupOfficerActions.updateEntityFailure, (state, { error }) => ({
-    ...state,
-    loading: false,
-    error,
-  })),
+  on(
+    NotificationGroupOfficerActions.updateEntityFailure,
+    (state, { error }) => ({
+      ...state,
+      loading: false,
+      error,
+    })
+  ),
 
   // delete
   on(NotificationGroupOfficerActions.deleteEntity, (state) => ({
@@ -65,11 +73,14 @@ export const notificationGroupOfficerReducer = createReducer(
   on(NotificationGroupOfficerActions.deleteEntitySuccess, (state, { id }) =>
     adapter.removeOne(id, { ...state, loading: false })
   ),
-  on(NotificationGroupOfficerActions.deleteEntityFailure, (state, { error }) => ({
-    ...state,
-    loading: false,
-    error,
-  })),
+  on(
+    NotificationGroupOfficerActions.deleteEntityFailure,
+    (state, { error }) => ({
+      ...state,
+      loading: false,
+      error,
+    })
+  ),
   // identCompanyActionType-types.reducer.ts
   on(NotificationGroupOfficerActions.loadByIdSuccess, (state, { entity }) => {
     console.log('🗄️ Reducer: loadByIdSuccess, before:', {
@@ -89,7 +100,36 @@ export const notificationGroupOfficerReducer = createReducer(
     });
 
     return newState;
-  })
+  }),
+  //History management
+  on(
+    NotificationGroupOfficerActions.loadNotificationGroupOfficerHistory,
+    (state) => ({
+      ...state,
+      historyLoaded: false,
+      historyError: null,
+    })
+  ),
+
+  on(
+    NotificationGroupOfficerActions.loadNotificationGroupOfficerHistorySuccess,
+    (state, { history }) => ({
+      ...state,
+      history,
+      historyLoaded: true,
+    })
+  ),
+  on(
+    NotificationGroupOfficerActions.loadNotificationGroupOfficerHistorySuccess,
+    (state, { history }) => {
+      console.log('✅ Reducer: history loaded', history); // add this
+      return {
+        ...state,
+        history: [...history],
+        historyLoaded: true,
+      };
+    }
+  )
 );
 
 export const { selectAll, selectEntities, selectIds, selectTotal } =

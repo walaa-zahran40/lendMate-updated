@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { createSelector, Store } from '@ngrx/store';
 import * as Actions from './sme-client-codes.actions';
 import * as Selectors from './sme-client-codes.selectors';
-import { SMEClientCode } from './sme-client-codes.model';
+import { SMEClientCode } from './sme-client-code.model';
 import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
 
 @Injectable({ providedIn: 'root' })
@@ -39,5 +39,18 @@ export class SMEClientCodesFacade {
 
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
+  }
+  //History management
+  history$ = this.store.select(Selectors.selectSMEClientCodeHistory);
+
+  readonly sMEClientCodeHistory$ = this.store.select(
+    Selectors.selectSMEClientCodeHistory
+  );
+  readonly sMEClientCodeHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadSMEClientCodeHistory());
   }
 }

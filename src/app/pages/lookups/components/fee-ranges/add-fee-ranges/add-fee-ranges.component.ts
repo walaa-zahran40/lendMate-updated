@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { filter, take } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { FeeRangesFacade } from '../../../store/fee-ranges/fee-ranges.facade';
-import { FeeRange } from '../../../store/fee-ranges/fee-ranges.model';
+import { FeeRange } from '../../../store/fee-ranges/fee-range.model';
 import { FeeTypesFacade } from '../../../store/fee-types/fee-types.facade';
 
 @Component({

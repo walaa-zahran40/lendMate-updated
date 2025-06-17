@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, take } from 'rxjs';
-import { arabicOnlyValidator } from '../../../../../shared/validators/arabic-only.validator';
 import { AuthorityOfficesFacade } from '../../../store/authority-offices/authority-offices.facade';
 import { AuthorityOffice } from '../../../store/authority-offices/authority-office.model';
 

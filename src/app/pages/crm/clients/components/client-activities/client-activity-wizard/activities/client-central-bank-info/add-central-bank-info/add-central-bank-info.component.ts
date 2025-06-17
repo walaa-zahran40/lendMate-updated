@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subject, takeUntil, filter } from 'rxjs';
 import { CompanyType } from '../../../../../../../../lookups/store/company-types/company-type.model';
 import { selectAllCompanyTypes } from '../../../../../../../../lookups/store/company-types/company-types.selectors';
-import { SMEClientCode } from '../../../../../../../../lookups/store/sme-client-codes/sme-client-codes.model';
+import { SMEClientCode } from '../../../../../../../../lookups/store/sme-client-codes/sme-client-code.model';
 import { selectAllSMEClientCodes } from '../../../../../../../../lookups/store/sme-client-codes/sme-client-codes.selectors';
 import { ClientCentralBankInfoFacade } from '../../../../../../store/client-central-bank-info/client-central-bank.facade';
 import { ClientCentralBankInfo } from '../../../../../../store/client-central-bank-info/client-central-bank.model';

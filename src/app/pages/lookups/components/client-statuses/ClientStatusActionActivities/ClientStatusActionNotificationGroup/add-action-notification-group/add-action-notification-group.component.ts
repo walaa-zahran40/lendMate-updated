@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, takeUntil, filter } from 'rxjs';
 import { loadOfficers } from '../../../../../../organizations/store/officers/officers.actions';
-import { NotificationGroup } from '../../../../../store/notification-groups/notification-groups.model';
+import { NotificationGroup } from '../../../../../store/notification-groups/notification-group.model';
 import { selectAllNotificationGroups } from '../../../../../store/notification-groups/notification-groups.selectors';
 import { loadAll as loadNotificationGroups } from '../../../../../store/notification-groups/notification-groups.actions';
 import { ActionNotificationGroupsFacade } from '../../../../../store/client-statuses-actions-activities/ClientStatusActionNotificationGroup/action-notification-groups.facade';

@@ -89,6 +89,26 @@ export const feeRangesReducer = createReducer(
     });
 
     return newState;
+  }),
+  //History management
+  on(FeeRangeActions.loadFeeRangeHistory, (state) => ({
+    ...state,
+    historyLoaded: false,
+    historyError: null,
+  })),
+
+  on(FeeRangeActions.loadFeeRangeHistorySuccess, (state, { history }) => ({
+    ...state,
+    history,
+    historyLoaded: true,
+  })),
+  on(FeeRangeActions.loadFeeRangeHistorySuccess, (state, { history }) => {
+    console.log('✅ Reducer: history loaded', history); // add this
+    return {
+      ...state,
+      history: [...history],
+      historyLoaded: true,
+    };
   })
 );
 

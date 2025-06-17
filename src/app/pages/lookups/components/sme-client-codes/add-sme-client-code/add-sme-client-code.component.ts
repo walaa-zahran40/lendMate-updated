@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, take } from 'rxjs';
 import { arabicOnlyValidator } from '../../../../../shared/validators/arabic-only.validator';
-import { SMEClientCode } from '../../../store/sme-client-codes/sme-client-codes.model';
+import { SMEClientCode } from '../../../store/sme-client-codes/sme-client-code.model';
 import { SMEClientCodesFacade } from '../../../store/sme-client-codes/sme-client-codes.facade';
 
 @Component({

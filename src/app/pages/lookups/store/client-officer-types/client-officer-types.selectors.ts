@@ -7,7 +7,9 @@ export const selectClientOfficerTypesFeature =
   createFeatureSelector<State>('clientOfficerTypes');
 
 // these come from your EntityAdapter
-const { selectEntities } = adapter.getSelectors(selectClientOfficerTypesFeature);
+const { selectEntities } = adapter.getSelectors(
+  selectClientOfficerTypesFeature
+);
 
 export const selectAllClientOfficerTypes = createSelector(
   selectFeature,
@@ -39,4 +41,16 @@ export const selectCurrent = createSelector(
 export const selectClientOfficerTypesTotalCount = createSelector(
   selectClientOfficerTypesFeature,
   (state) => state
+);
+// History management selectors
+export const selectClientOfficerTypeState =
+  createFeatureSelector<State>('clientOfficerTypes');
+
+export const selectClientOfficerTypeHistory = createSelector(
+  selectClientOfficerTypeState,
+  (state) => state.history
+);
+export const selectHistoryLoaded = createSelector(
+  selectClientOfficerTypeState,
+  (state) => state.historyLoaded
 );

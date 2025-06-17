@@ -14,9 +14,7 @@ export class ClientStatusesFacade {
   total$: Observable<number> = this.store.select(
     Selectors.selectClientStatusesTotal
   );
-  history$: Observable<ClientStatus[]> = this.store.select(
-    Selectors.selectClientStatusesHistory
-  );
+
   current$: Observable<ClientStatus | undefined> = this.store.select(
     Selectors.selectCurrentClientStatus
   );
@@ -33,9 +31,20 @@ export class ClientStatusesFacade {
   loadAll() {
     this.store.dispatch(Actions.loadClientStatuses());
   }
-  loadHistory() {
-    this.store.dispatch(Actions.loadClientStatusesHistory());
+  //History management
+  history$ = this.store.select(Selectors.selectClientStatusHistory);
+
+  readonly clientStatusHistory$ = this.store.select(
+    Selectors.selectClientStatusHistory
+  );
+  readonly clientStatusHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadClientStatusHistory());
   }
+
   loadOne(id: number) {
     this.store.dispatch(Actions.loadClientStatus({ id }));
   }

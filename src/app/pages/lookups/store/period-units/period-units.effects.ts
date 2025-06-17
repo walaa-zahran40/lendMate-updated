@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { GracePeriodUnitsService } from './period-units.service';
 import * as ActionsList from './period-units.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { loadAllClientCentralBankInfo } from '../../../crm/clients/store/client-central-bank-info/client-central-bank.actions';
 import { PeriodUnit } from './period-unit.model';
 
@@ -106,7 +106,24 @@ export class GracePeriodUnitsEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadPeriodUnitHistory())
+    )
+  );
+  loadPeriodUnitHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadPeriodUnitHistory),
+      switchMap(() =>
+        this.svc.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadPeriodUnitHistorySuccess({
+              history,
+            })
+          ),
+          catchError((error) =>
+            of(ActionsList.loadPeriodUnitHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

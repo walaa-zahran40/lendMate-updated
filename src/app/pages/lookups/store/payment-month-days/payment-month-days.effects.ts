@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { PaymentMonthDaysService } from './payment-month-days.service';
 import * as ActionsList from './payment-month-days.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { PaymentMonthDay } from './payment-month-day.model';
 
 @Injectable()
@@ -115,7 +115,24 @@ export class PaymentMonthDaysEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadPaymentMonthDayHistory())
+    )
+  );
+  loadPaymentMonthDayHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadPaymentMonthDayHistory),
+      switchMap(() =>
+        this.service.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadPaymentMonthDayHistorySuccess({
+              history,
+            })
+          ),
+          catchError((error) =>
+            of(ActionsList.loadPaymentMonthDayHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

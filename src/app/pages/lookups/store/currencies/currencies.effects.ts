@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { CurrenciesService } from './currencies.service';
 import * as ActionsList from './currencies.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { Currency } from './currency.model';
 import { EntityNames } from '../../../../shared/constants/entity-names';
 
@@ -115,7 +115,21 @@ export class CurrenciesEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadCurrencyHistory())
+    )
+  );
+  // Load authorization group officer history
+  loadCurrencyHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadCurrencyHistory),
+      switchMap(() =>
+        this.svc.getAllHistory().pipe(
+          map((history) => ActionsList.loadCurrencyHistorySuccess({ history })),
+          catchError((error) =>
+            of(ActionsList.loadCurrencyHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

@@ -39,3 +39,15 @@ export const selectDocTypesTotalCount = createSelector(
   selectDocTypesFeature,
   (state) => state
 );
+// History management selectors
+export const selectDocTypeHistoryState =
+  createFeatureSelector<State>('docTypeHistory');
+
+export const selectDocTypeHistory = createSelector(
+  selectDocTypeHistoryState,
+  (state) => state.history
+);
+export const selectHistoryLoaded = createSelector(
+  selectDocTypeHistoryState,
+  (state) => state.historyLoaded
+);

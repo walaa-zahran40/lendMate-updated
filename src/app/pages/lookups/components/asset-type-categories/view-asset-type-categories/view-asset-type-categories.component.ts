@@ -24,6 +24,7 @@ export class ViewAssetTypeCategoriesComponent {
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
     { field: 'limit', header: 'Limit' },
+    { field: 'isActive', header: 'Is Active' },
   ];
 
   showDeleteModal = false;
@@ -37,17 +38,17 @@ export class ViewAssetTypeCategoriesComponent {
     private facade: AssetTypeCategoriesFacade
   ) {}
 
-  ngOnInit() {
-    console.log('🟢 ngOnInit: start loading assetTypeCategories');
-    this.facade.loadAll();
-    this.assetTypeCategories$ = this.facade.all$;
+  ngOnInit(): void {
+    console.log('🟢 ngOnInit: start loading assetTypeCategory history');
+
+    this.facade.loadHistory(); // ⬅️ New method in facade to dispatch loadAddressTypeHistory
+
+    this.assetTypeCategories$ = this.facade.history$; // ⬅️ Observable for history (not all$)
 
     this.assetTypeCategories$
       ?.pipe(takeUntil(this.destroy$))
       ?.subscribe((assetTypeCategories) => {
-        // products is now rentStructureType[], not any
-        const activeCodes = assetTypeCategories.filter((code) => code.isActive);
-        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
+        const sorted = [...assetTypeCategories].sort((a, b) => b?.id - a?.id);
         this.originalAssetTypeCategories = sorted;
         this.filteredAssetTypeCategories = [...sorted];
       });

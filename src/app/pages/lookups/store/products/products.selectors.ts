@@ -3,8 +3,7 @@ import * as fromSlice from './products.reducer';
 import { adapter, State } from './products.state';
 
 export const selectFeature = createFeatureSelector<State>('products');
-export const selectProductsFeature =
-  createFeatureSelector<State>('products');
+export const selectProductsFeature = createFeatureSelector<State>('products');
 
 // these come from your EntityAdapter
 const { selectAll, selectEntities, selectIds, selectTotal } =
@@ -40,4 +39,16 @@ export const selectCurrent = createSelector(
 export const selectProductsTotalCount = createSelector(
   selectProductsFeature,
   (state) => state
+);
+// History management selectors
+export const selectProductHistoryState =
+  createFeatureSelector<State>('productHistory');
+
+export const selectProductHistory = createSelector(
+  selectProductHistoryState,
+  (state) => state.history
+);
+export const selectHistoryLoaded = createSelector(
+  selectProductHistoryState,
+  (state) => state.historyLoaded
 );

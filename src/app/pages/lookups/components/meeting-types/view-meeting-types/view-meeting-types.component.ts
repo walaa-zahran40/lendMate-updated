@@ -22,6 +22,7 @@ export class ViewMeetingTypesComponent {
   readonly colsInside = [
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
+    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedMeetingTypeId: number | null = null;
@@ -32,18 +33,17 @@ export class ViewMeetingTypesComponent {
   constructor(private router: Router, private facade: MeetingTypesFacade) {}
   ngOnInit() {
     console.log('🟢 ngOnInit: start');
-    this.MeetingTypes$ = this.facade.all$;
-    console.log('🟢 before loadAll, current store value:');
+    this.MeetingTypes$ = this.facade.history$;
+    console.log('🟢 before loadHistory, current store value:');
     this.MeetingTypes$.pipe(take(1)).subscribe((v) =>
       console.log('   store currently has:', v)
     );
-    console.log('🟢 Calling loadAll() to fetch MeetingTypes');
-    this.facade.loadAll();
+    console.log('🟢 Calling loadHistory() to fetch MeetingTypes');
+    this.facade.loadHistory();
 
     this.MeetingTypes$?.pipe(takeUntil(this.destroy$))?.subscribe((meeting) => {
-      // products is now rentStructureType[], not any
-      const activeCodes = meeting.filter((code) => code.isActive);
-      const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
+      // products is now meeting[], not any
+      const sorted = [...meeting].sort((a, b) => b?.id - a?.id);
       this.originalMeetingType = sorted;
       this.filteredMeetingType = [...sorted];
     });

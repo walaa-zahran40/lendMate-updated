@@ -8,9 +8,13 @@ import { selectLastOperationSuccess } from '../../../../shared/store/ui.selector
 @Injectable({ providedIn: 'root' })
 export class NotificationGroupOfficersFacade {
   all$ = this.store.select(Selectors.selectAllNotificationGroupOfficers);
-  loading$ = this.store.select(Selectors.selectNotificationGroupOfficersLoading);
+  loading$ = this.store.select(
+    Selectors.selectNotificationGroupOfficersLoading
+  );
   error$ = this.store.select(Selectors.selectNotificationGroupOfficersError);
-  totalCount$ = this.store.select(Selectors.selectNotificationGroupOfficersTotalCount);
+  totalCount$ = this.store.select(
+    Selectors.selectNotificationGroupOfficersTotalCount
+  );
   selected$ = this.store.select(
     createSelector(
       Selectors.selectFeature,
@@ -38,5 +42,18 @@ export class NotificationGroupOfficersFacade {
 
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
+  }
+  //History management
+  history$ = this.store.select(Selectors.selectNotificationGroupOfficerHistory);
+
+  readonly notificationGroupOfficerHistory$ = this.store.select(
+    Selectors.selectNotificationGroupOfficerHistory
+  );
+  readonly notificationGroupOfficerHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadNotificationGroupOfficerHistory());
   }
 }

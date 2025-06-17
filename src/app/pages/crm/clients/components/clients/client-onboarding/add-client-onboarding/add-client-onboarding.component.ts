@@ -18,7 +18,7 @@ import { ClientsOnboardingFacade } from '../../../../store/_client-onboarding/al
 import { IndividualOnboardingsFacade } from '../../../../store/_client-onboarding/individuals/individuals-onboarding.facade';
 import { ClientOnboarding } from '../../../../store/_client-onboarding/allclients/client-onboarding.model';
 import { IndividualOnboarding } from '../../../../store/_client-onboarding/individuals/individual-onboarding.model';
-import { selectAllSubSectors } from '../../../../../../lookups/store/sub-sector-drop-down/sub-sector.selectors';
+import { selectAllSubSectors } from '../../../../../../lookups/store/sub-sectors/sub-sectors.selectors';
 import { selectAllClientStatusActions } from '../../../../../../lookups/store/client-statuses-actions/client-status-actions.selectors';
 
 @Component({

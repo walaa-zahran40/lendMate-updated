@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Subject, Observable, takeUntil, filter } from 'rxjs';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { NotificationGroupsFacade } from '../../../store/notification-groups/notification-groups.facade';
-import { NotificationGroup } from '../../../store/notification-groups/notification-groups.model';
+import { NotificationGroup } from '../../../store/notification-groups/notification-group.model';
 
 @Component({
   selector: 'app-view-notification-groups',
@@ -22,6 +22,7 @@ export class ViewNotificationGroupsComponent {
   readonly colsInside = [
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
+    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedNotificationGroupId: number | null = null;
@@ -34,20 +35,19 @@ export class ViewNotificationGroupsComponent {
     private facade: NotificationGroupsFacade
   ) {}
   ngOnInit() {
-    this.facade.loadAll();
+    this.facade.loadHistory();
     this.facade.operationSuccess$
       .pipe(
         takeUntil(this.destroy$),
         filter((op) => op?.entity === 'NotificationGroup')
       )
-      .subscribe(() => this.facade.loadAll());
-    this.notificationGroups$ = this.facade.all$;
+      .subscribe(() => this.facade.loadHistory());
+    this.notificationGroups$ = this.facade.history$;
 
     this.notificationGroups$
       ?.pipe(takeUntil(this.destroy$))
       ?.subscribe((address) => {
-        const activeCodes = address.filter((code) => code.isActive);
-        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
+        const sorted = [...address].sort((a, b) => b?.id - a?.id);
         this.originalNotificationGroups = sorted;
         this.filteredNotificationGroups = [...sorted];
       });

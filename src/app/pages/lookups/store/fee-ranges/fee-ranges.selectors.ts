@@ -3,8 +3,7 @@ import * as fromSlice from './fee-ranges.reducer';
 import { adapter, State } from './fee-ranges.state';
 
 export const selectFeature = createFeatureSelector<State>('feeRanges');
-export const selectFeeRangesFeature =
-  createFeatureSelector<State>('feeRanges');
+export const selectFeeRangesFeature = createFeatureSelector<State>('feeRanges');
 
 // these come from your EntityAdapter
 const { selectAll, selectEntities, selectIds, selectTotal } =
@@ -40,4 +39,16 @@ export const selectCurrent = createSelector(
 export const selectFeeRangesTotalCount = createSelector(
   selectFeeRangesFeature,
   (state) => state
+);
+// History management selectors
+export const selectFeeRangeHistoryState =
+  createFeatureSelector<State>('feeRangeHistory');
+
+export const selectFeeRangeHistory = createSelector(
+  selectFeeRangeHistoryState,
+  (state) => state.history
+);
+export const selectHistoryLoaded = createSelector(
+  selectFeeRangeHistoryState,
+  (state) => state.historyLoaded
 );

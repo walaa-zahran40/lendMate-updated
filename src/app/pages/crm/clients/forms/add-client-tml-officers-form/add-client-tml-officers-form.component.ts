@@ -22,14 +22,14 @@ import {
   Subscription,
   debounceTime,
 } from 'rxjs';
-import { Sectors } from '../../../../../shared/interfaces/sectors.interface';
+import { Sector } from '../../../../lookups/store/sectors/sector.model';
 import { Store } from '@ngrx/store';
-import { selectAllSectors } from '../../../../lookups/store/sector-drop-down/sector.selectors';
+import { selectAllSectors } from '../../../../lookups/store/sectors/sectors.selectors';
 import { SubSectors } from '../../../../../shared/interfaces/sub-sector.interface';
-import { selectAllSubSectors } from '../../../../lookups/store/sub-sector-drop-down/sub-sector.selectors';
+import { selectAllSubSectors } from '../../../../lookups/store/sub-sectors/sub-sectors.selectors';
 import { LegalFormLaw } from '../../../../../shared/interfaces/legal-form-law.interface';
-import * as sectorsActions from '../../../../lookups/store/sector-drop-down/sector.actions';
-import * as subSectorsActions from '../../../../lookups/store/sub-sector-drop-down/sub-sector.actions';
+import * as sectorsActions from '../../../../lookups/store/sectors/sectors.actions';
+import * as subSectorsActions from '../../../../lookups/store/sub-sectors/sub-sectors.actions';
 import { setFormDirty } from '../../store/client-form/client-form.actions';
 import { FileUpload } from 'primeng/fileupload';
 import { LegalFormLawFacade } from '../../../../legals/store/legal-form-law/legal-form-law.facade';
@@ -154,7 +154,7 @@ export class AddClientTmlOfficersFormComponent implements OnInit, OnDestroy {
   @Output() sectorChanged = new EventEmitter<number>();
   selectedCurrency: Currency | null = null;
 
-  sectorsSafe$!: Observable<Sectors[]>;
+  sectorsSafe$!: Observable<Sector[]>;
   onChange: (value: any) => void = () => {};
   onTouched: () => void = () => {};
   @Output() selectionChanged = new EventEmitter<any>();
@@ -681,8 +681,8 @@ export class AddClientTmlOfficersFormComponent implements OnInit, OnDestroy {
       this.addClientShowIndividual ||
       this.addClientOnboardingForm
     ) {
-      this.store.dispatch(sectorsActions.loadSectors());
-      this.store.dispatch(subSectorsActions.loadSubSectors());
+      this.store.dispatch(sectorsActions.loadAll({}));
+      this.store.dispatch(subSectorsActions.loadAll({}));
 
       this.sectorsSafe$ = this.store.select(selectAllSectors);
       const sectorCtrl = this.formGroup.get('sectorId');
@@ -701,8 +701,8 @@ export class AddClientTmlOfficersFormComponent implements OnInit, OnDestroy {
         );
       }
       if (this.addClientShowMain) {
-        this.store.dispatch(sectorsActions.loadSectors());
-        this.store.dispatch(subSectorsActions.loadSubSectors());
+        this.store.dispatch(sectorsActions.loadAll({}));
+        this.store.dispatch(subSectorsActions.loadAll({}));
       }
       if (this.addClientShowLegal) {
         this.facade.loadLegalFormLaws();
@@ -739,7 +739,7 @@ export class AddClientTmlOfficersFormComponent implements OnInit, OnDestroy {
       ?.pipe(
         take(1),
         map((sectors) => sectors.find((s) => s.id === selectedId)),
-        filter((sector): sector is Sectors => !!sector)
+        filter((sector): sector is Sector => !!sector)
       )
       .subscribe((sector) => {
         this.value = selectedId;

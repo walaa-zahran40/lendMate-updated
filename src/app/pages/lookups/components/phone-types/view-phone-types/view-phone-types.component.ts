@@ -22,6 +22,7 @@ export class ViewPhoneTypesComponent {
   readonly colsInside = [
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
+    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedPhoneTypeId: number | null = null;
@@ -32,19 +33,18 @@ export class ViewPhoneTypesComponent {
   constructor(private router: Router, private facade: PhoneTypesFacade) {}
   ngOnInit() {
     console.log('🟢 ngOnInit: start');
-    this.PhoneTypes$ = this.facade.all$;
-    console.log('🟢 before loadAll, current store value:');
+    this.PhoneTypes$ = this.facade.history$;
+    console.log('🟢 before loadHistory, current store value:');
     this.PhoneTypes$.pipe(take(1)).subscribe((v) =>
       console.log('   store currently has:', v)
     );
-    console.log('🟢 Calling loadAll() to fetch PhoneTypes');
-    this.facade.loadAll();
+    console.log('🟢 Calling loadHistory() to fetch PhoneTypes');
+    this.facade.loadHistory();
 
     this.PhoneTypes$?.pipe(takeUntil(this.destroy$))?.subscribe(
       (PhoneTypes) => {
         // PhoneTypes is now rentStructureType[], not any
-        const activeCodes = PhoneTypes.filter((code) => code.isActive);
-        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
+        const sorted = [...PhoneTypes].sort((a, b) => b?.id - a?.id);
         this.originalPhoneType = sorted;
         this.filteredPhoneType = [...sorted];
       }

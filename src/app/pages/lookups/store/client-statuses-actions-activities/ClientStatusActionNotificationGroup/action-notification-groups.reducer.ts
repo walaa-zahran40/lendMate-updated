@@ -9,12 +9,15 @@ export const actionNotificationGroupsReducer = createReducer(
     loading: true,
     error: null,
   })),
-  on(Actions.loadActionNotificationGroupsSuccess, (state, { items, totalCount }) => ({
-    ...state,
-    items,
-    totalCount,
-    loading: false,
-  })),
+  on(
+    Actions.loadActionNotificationGroupsSuccess,
+    (state, { items, totalCount }) => ({
+      ...state,
+      items,
+      totalCount,
+      loading: false,
+    })
+  ),
   on(Actions.loadActionNotificationGroupsFailure, (state, { error }) => ({
     ...state,
     error,
@@ -25,16 +28,22 @@ export const actionNotificationGroupsReducer = createReducer(
     ...state,
     loading: true,
   })),
-  on(Actions.loadActionNotificationGroupsHistorySuccess, (state, { history }) => ({
-    ...state,
-    history,
-    loading: false,
-  })),
-  on(Actions.loadActionNotificationGroupsHistoryFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
-  })),
+  on(
+    Actions.loadActionNotificationGroupsHistorySuccess,
+    (state, { history }) => ({
+      ...state,
+      history,
+      loading: false,
+    })
+  ),
+  on(
+    Actions.loadActionNotificationGroupsHistoryFailure,
+    (state, { error }) => ({
+      ...state,
+      error,
+      loading: false,
+    })
+  ),
 
   on(Actions.loadActionNotificationGroup, (state) => ({
     ...state,
@@ -100,14 +109,46 @@ export const actionNotificationGroupsReducer = createReducer(
     loading: true,
     error: null,
   })),
-  on(Actions.loadActionNotificationGroupsByClientStatusActionIdSuccess, (state, { items }) => ({
+  on(
+    Actions.loadActionNotificationGroupsByClientStatusActionIdSuccess,
+    (state, { items }) => ({
+      ...state,
+      items, // replace with just these rates
+      loading: false,
+    })
+  ),
+  on(
+    Actions.loadActionNotificationGroupsByClientStatusActionIdFailure,
+    (state, { error }) => ({
+      ...state,
+      error,
+      loading: false,
+    })
+  ),
+  //History management
+  on(Actions.loadActionNotificationGroupHistory, (state) => ({
     ...state,
-    items, // replace with just these rates
-    loading: false,
+    historyLoaded: false,
+    historyError: null,
   })),
-  on(Actions.loadActionNotificationGroupsByClientStatusActionIdFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
-  }))
+
+  on(
+    Actions.loadActionNotificationGroupHistorySuccess,
+    (state, { history }) => ({
+      ...state,
+      history,
+      historyLoaded: true,
+    })
+  ),
+  on(
+    Actions.loadActionNotificationGroupHistorySuccess,
+    (state, { history }) => {
+      console.log('✅ Reducer: history loaded', history); // add this
+      return {
+        ...state,
+        history: [...history],
+        historyLoaded: true,
+      };
+    }
+  )
 );

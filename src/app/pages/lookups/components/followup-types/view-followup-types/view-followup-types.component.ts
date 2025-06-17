@@ -3,8 +3,7 @@ import { Router } from '@angular/router';
 import { Subject, Observable, takeUntil, filter } from 'rxjs';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { FollowupTypesFacade } from '../../../store/followup-types/followup-types.facade';
-import { FollowupType } from '../../../store/followup-types/folllowup-types.model';
-
+import { FollowupType } from '../../../store/followup-types/folllowup-type.model';
 
 @Component({
   selector: 'app-view-followup-types',
@@ -23,6 +22,7 @@ export class ViewFollowUpTypesComponent {
   readonly colsInside = [
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
+    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedFollowupTypeId: number | null = null;
@@ -32,21 +32,22 @@ export class ViewFollowUpTypesComponent {
 
   constructor(private router: Router, private facade: FollowupTypesFacade) {}
   ngOnInit() {
-    this.facade.loadAll();
+    this.facade.loadHistory();
     this.facade.operationSuccess$
       .pipe(
         takeUntil(this.destroy$),
         filter((op) => op?.entity === 'FollowupType')
       )
-      .subscribe(() => this.facade.loadAll());
-    this.followupTypes$ = this.facade.all$;
+      .subscribe(() => this.facade.loadHistory());
+    this.followupTypes$ = this.facade.history$;
 
-    this.followupTypes$?.pipe(takeUntil(this.destroy$))?.subscribe((followup) => {
-      const activeCodes = followup.filter((code) => code.isActive);
-      const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
-      this.originalFollowupTypes = sorted;
-      this.filteredFollowupTypes = [...sorted];
-    });
+    this.followupTypes$
+      ?.pipe(takeUntil(this.destroy$))
+      ?.subscribe((followup) => {
+        const sorted = [...followup].sort((a, b) => b?.id - a?.id);
+        this.originalFollowupTypes = sorted;
+        this.filteredFollowupTypes = [...sorted];
+      });
   }
 
   onAddFollowupType() {

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { InterestTypesService } from './interest-types.service';
 import * as ActionsList from './interest-types.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { InterestType } from './interest-type.model';
 import { EntityNames } from '../../../../shared/constants/entity-names';
 
@@ -118,7 +118,24 @@ export class InterestTypesEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadInterestTypeHistory())
+    )
+  );
+  loadInterestTypeHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadInterestTypeHistory),
+      switchMap(() =>
+        this.service.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadInterestTypeHistorySuccess({
+              history,
+            })
+          ),
+          catchError((error) =>
+            of(ActionsList.loadInterestTypeHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

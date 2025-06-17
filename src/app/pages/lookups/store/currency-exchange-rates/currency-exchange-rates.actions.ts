@@ -99,3 +99,17 @@ export const entityOperationSuccess = createAction(
   '[Entity] Operation Success',
   props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
 );
+//History actions
+export const loadCurrencyExchangeRateHistory = createAction(
+  '[CurrencyExchangeRate/API] Load CurrencyExchangeRate History'
+);
+
+export const loadCurrencyExchangeRateHistorySuccess = createAction(
+  '[CurrencyExchangeRate/API] Load CurrencyExchangeRate History Success',
+  props<{ history: CurrencyExchangeRate[] }>()
+);
+
+export const loadCurrencyExchangeRateHistoryFailure = createAction(
+  '[CurrencyExchangeRate/API] Load CompanyFlowType History Failure',
+  props<{ error: any }>()
+);

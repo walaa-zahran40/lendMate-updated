@@ -2,9 +2,12 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromSlice from './condition-expressions.reducer';
 import { adapter, State } from './condition-expressions.state';
 
-export const selectFeature = createFeatureSelector<State>('conditionExpressions');
-export const selectConditionExpressionsFeature =
-  createFeatureSelector<State>('conditionExpressions');
+export const selectFeature = createFeatureSelector<State>(
+  'conditionExpressions'
+);
+export const selectConditionExpressionsFeature = createFeatureSelector<State>(
+  'conditionExpressions'
+);
 
 // these come from your EntityAdapter
 const { selectAll, selectEntities, selectIds, selectTotal } =
@@ -40,4 +43,16 @@ export const selectCurrent = createSelector(
 export const selectConditionExpressionsTotalCount = createSelector(
   selectConditionExpressionsFeature,
   (state) => state
+);
+// History management selectors
+export const selectConditionExpressionHistoryState =
+  createFeatureSelector<State>('conditionExpressionHistory');
+
+export const selectConditionExpressionHistory = createSelector(
+  selectConditionExpressionHistoryState,
+  (state) => state.history
+);
+export const selectHistoryLoaded = createSelector(
+  selectConditionExpressionHistoryState,
+  (state) => state.historyLoaded
 );

@@ -8,6 +8,7 @@ import { loadClientStatuses } from '../../../store/client-statuses/client-status
 import { selectClientStatuses } from '../../../store/client-statuses/client-statuses.selectors';
 import { ClientStatusAction } from '../../../store/client-statuses-actions/client-status-action.model';
 import { ClientStatusActionsFacade } from '../../../store/client-statuses-actions/client-status-actions.facade';
+import { loadClientStatusActionHistory } from '../../../store/client-statuses-actions/client-status-actions.actions';
 
 @Component({
   selector: 'app-view-client-status-actions',
@@ -27,7 +28,8 @@ export class ViewClientStatusActionsComponent {
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
     { field: 'statusInName', header: 'Status In' },
-    { field: 'statusOutName', header: 'Sstatus Out' },
+    { field: 'statusOutName', header: 'Status Out' },
+    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedClientStatusActionId: number | null = null;
@@ -45,8 +47,8 @@ export class ViewClientStatusActionsComponent {
   ngOnInit() {
     console.log('rio', this.route.snapshot);
     this.facade.loadAll();
-    this.clientStatusActions$ = this.facade.all$;
-    this.store.dispatch(loadClientStatuses());
+    this.clientStatusActions$ = this.facade.history$;
+    this.store.dispatch(loadClientStatusActionHistory());
     this.statusList$ = this.store.select(selectClientStatuses);
 
     combineLatest([this.clientStatusActions$, this.statusList$])
@@ -138,6 +140,9 @@ export class ViewClientStatusActionsComponent {
     });
   }
   onAddSide(clientStatusActionId: any) {
-    this.router.navigate(['/lookups/wizard-client-status-action', clientStatusActionId]);
+    this.router.navigate([
+      '/lookups/wizard-client-status-action',
+      clientStatusActionId,
+    ]);
   }
 }

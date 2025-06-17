@@ -1,13 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import {
-  combineLatest,
-  filter,
-  map,
-  Observable,
-  Subject,
-  takeUntil,
-  tap,
-} from 'rxjs';
+import { filter, map, Observable, Subject, takeUntil, tap } from 'rxjs';
 import { Router } from '@angular/router';
 
 import { TableComponent } from '../../../../../shared/components/table/table.component';
@@ -32,7 +24,7 @@ export class ViewAssetTypesComponent {
   readonly colsInside = [
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
-    { field: 'assetTypeCategory', header: 'Category' },
+    { field: 'isActive', header: 'Is Active' },
   ];
 
   showDeleteModal = false;
@@ -43,46 +35,21 @@ export class ViewAssetTypesComponent {
 
   constructor(private router: Router, private facade: AssetTypesFacade) {}
 
-  ngOnInit() {
-    // 1) kick off load + auto-reload on any AssetType create/update/delete
-    this.facade.loadAll();
-    this.facade.operationSuccess$
+  ngOnInit(): void {
+    // 1️⃣ Kick off loading AssetType history
+    this.facade.loadHistory(); // ⬅️ Replace `loadAll()` with `loadHistory()`
+
+    this.assetTypes$ = this.facade.history$;
+    this.assetTypes$
       .pipe(
-        filter((op) => op?.entity === 'AssetType'),
-        tap(() => this.facade.loadAll()),
+        filter((arr) => arr.length > 0), // ⬅️ ignore the initial empty array
         takeUntil(this.destroy$)
       )
-      .subscribe();
-
-    // 2) single, ordered pipeline:
-    this.facade.all$
-      .pipe(
-        takeUntil(this.destroy$),
-
-        // (a) log the raw stream
-        tap((raw) => console.log('1️⃣ raw assetTypes$', raw)),
-
-        // (b) keep only `isActive`
-        map((arr) => arr.filter((a) => a.isActive)),
-        tap((active) => console.log('2️⃣ after filter:', active)),
-
-        // (c) inject the category name
-        map((active) =>
-          active.map((a) => ({
-            ...a,
-            assetTypeCategory: a.assetTypeCategory?.name ?? '—',
-          }))
-        ),
-        tap((mapped) => console.log('3️⃣ after map:', mapped)),
-
-        // (d) sort newest first
-        map((mapped) => [...mapped].sort((a, b) => b.id - a.id)),
-        tap((sorted) => console.log('4️⃣ after sort:', sorted))
-      )
-      .subscribe((final) => {
-        this.originalAssetTypes = final;
-        this.filteredAssetTypes = [...final];
-        console.log('✅ final to table:', final);
+      .subscribe((assetTypes) => {
+        console.log('🟢 Loaded asset types:', assetTypes);
+        const sorted = [...assetTypes].sort((a, b) => b?.id - a?.id);
+        this.originalAssetTypes = sorted;
+        this.filteredAssetTypes = [...sorted];
       });
   }
 

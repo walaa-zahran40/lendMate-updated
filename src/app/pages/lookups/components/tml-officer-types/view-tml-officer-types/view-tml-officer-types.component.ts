@@ -22,6 +22,8 @@ export class ViewTmlOfficerTypesComponent {
   readonly colsInside = [
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
+    { field: 'isActive', header: 'Is Active' },
+    { field: 'isDefault', header: 'Is Default' },
   ];
   showDeleteModal: boolean = false;
   selectedTmlOfficerTypeId: number | null = null;
@@ -32,12 +34,13 @@ export class ViewTmlOfficerTypesComponent {
   constructor(private router: Router, private facade: TmlOfficerTypesFacade) {}
   ngOnInit() {
     console.log('🟢 ngOnInit: start');
-    this.TmlOfficerTypes$ = this.facade.all$ as Observable<TmlOfficerType[]>;
-    this.facade.loadAll();
+    this.TmlOfficerTypes$ = this.facade.history$ as Observable<
+      TmlOfficerType[]
+    >;
+    this.facade.loadHistory();
 
     this.TmlOfficerTypes$.pipe(takeUntil(this.destroy$)).subscribe((list) => {
-      const active = list.filter((i) => i.isActive);
-      this.originalTmlOfficerType = [...active].sort((a, b) => b.id - a.id);
+      this.originalTmlOfficerType = [...list].sort((a, b) => b.id - a.id);
       this.filteredTmlOfficerType = [...this.originalTmlOfficerType];
     });
   }

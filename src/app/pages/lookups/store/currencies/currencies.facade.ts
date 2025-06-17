@@ -39,4 +39,17 @@ export class CurrenciesFacade {
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
   }
+  //History management
+  history$ = this.store.select(Selectors.selectCurrencyHistory);
+
+  readonly currencyHistory$ = this.store.select(
+    Selectors.selectCurrencyHistory
+  );
+  readonly currencyHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadCurrencyHistory());
+  }
 }

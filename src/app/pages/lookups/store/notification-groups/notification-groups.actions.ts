@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { NotificationGroup } from './notification-groups.model';
+import { NotificationGroup } from './notification-group.model';
 
 export const loadAll = createAction(
   '[NotificationGroups] Load All',
@@ -70,4 +70,18 @@ export const deleteEntityFailure = createAction(
 export const entityOperationSuccess = createAction(
   '[Entity] Operation Success',
   props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
+);
+//History actions
+export const loadNotificationGroupHistory = createAction(
+  '[NotificationGroup/API] Load NotificationGroup History'
+);
+
+export const loadNotificationGroupHistorySuccess = createAction(
+  '[NotificationGroup/API] Load NotificationGroup History Success',
+  props<{ history: NotificationGroup[] }>()
+);
+
+export const loadNotificationGroupHistoryFailure = createAction(
+  '[NotificationGroup/API] Load CompanyFlowType History Failure',
+  props<{ error: any }>()
 );

@@ -22,6 +22,7 @@ export class ViewPaymentTimingTermsComponent {
   readonly colsInside = [
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
+    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedPaymentTimingTermId: number | null = null;
@@ -35,19 +36,18 @@ export class ViewPaymentTimingTermsComponent {
   ) {}
   ngOnInit() {
     console.log('🟢 ngOnInit: start');
-    this.PaymentTimingTerms$ = this.facade.all$;
-    console.log('🟢 before loadAll, current store value:');
+    this.PaymentTimingTerms$ = this.facade.history$;
+    console.log('🟢 before loadHistory, current store value:');
     this.PaymentTimingTerms$.pipe(take(1)).subscribe((v) =>
       console.log('   store currently has:', v)
     );
-    console.log('🟢 Calling loadAll() to fetch PaymentTimingTerms');
-    this.facade.loadAll();
+    console.log('🟢 Calling loadHistory() to fetch PaymentTimingTerms');
+    this.facade.loadHistory();
 
     this.PaymentTimingTerms$?.pipe(takeUntil(this.destroy$))?.subscribe(
       (payment) => {
-        // products is now rentStructureType[], not any
-        const activeCodes = payment.filter((code) => code.isActive);
-        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
+        // products is now payment[], not any
+        const sorted = [...payment].sort((a, b) => b?.id - a?.id);
         this.originalPaymentTimingTerm = sorted;
         this.filteredPaymentTimingTerm = [...sorted];
       }

@@ -40,4 +40,17 @@ export class PaymentMonthDaysFacade {
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
   }
+  //History management
+  history$ = this.store.select(Selectors.selectPaymentMonthDayHistory);
+
+  readonly paymentMonthDayHistory$ = this.store.select(
+    Selectors.selectPaymentMonthDayHistory
+  );
+  readonly paymentMonthDayHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadPaymentMonthDayHistory());
+  }
 }

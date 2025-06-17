@@ -22,6 +22,7 @@ export class ViewAuthorityOfficesComponent {
   readonly colsInside = [
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
+    { field: 'isActive', header: 'Active' },
   ];
   showDeleteModal: boolean = false;
   selectedAuthorityOfficeId: number | null = null;
@@ -31,15 +32,13 @@ export class ViewAuthorityOfficesComponent {
 
   constructor(private router: Router, private facade: AuthorityOfficesFacade) {}
   ngOnInit() {
-    this.facade.loadAll();
-    this.authorityOffices$ = this.facade.all$;
+    this.facade.loadHistory();
+    this.authorityOffices$ = this.facade.history$;
 
     this.authorityOffices$
       ?.pipe(takeUntil(this.destroy$))
       ?.subscribe((office) => {
-        // products is now rentStructureType[], not any
-        const activeCodes = office.filter((code) => code.isActive);
-        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
+        const sorted = [...office].sort((a, b) => b?.id - a?.id);
         this.originalAuthorityOffices = sorted;
         this.filteredAuthorityOffices = [...sorted];
       });

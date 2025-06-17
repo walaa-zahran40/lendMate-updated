@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AddressTypesService } from './address-types.service';
 import * as ActionsList from './address-types.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
-import { AddressType } from './address-types.model';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
+import { AddressType } from './address-type.model';
 import { EntityNames } from '../../../../shared/constants/entity-names';
 
 @Injectable()
@@ -118,7 +118,23 @@ export class AddressTypesEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadAddressTypeHistory())
+    )
+  );
+  // Load address type history
+  loadAddressTypeHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadAddressTypeHistory),
+      switchMap(() =>
+        this.service.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadAddressTypeHistorySuccess({ history })
+          ),
+          catchError((error) =>
+            of(ActionsList.loadAddressTypeHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

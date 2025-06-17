@@ -26,6 +26,7 @@ export class ViewCurrencyExchangeComponent implements OnInit, OnDestroy {
     { field: 'currency', header: 'Currency' },
     { field: 'exchangeDate', header: 'Exchange Date' },
     { field: 'exchangeRate', header: 'Exchange Rate' },
+    { field: 'isActive', header: 'Is Active' },
   ];
 
   showDeleteModal = false;
@@ -55,7 +56,7 @@ export class ViewCurrencyExchangeComponent implements OnInit, OnDestroy {
     // 2) dispatch the load (CORRECT: pass the number directly)
     this.facade.loadCurrencyExchangeRatesByCurrencyId(this.currencyIdParam);
     // 3) hook up the stream
-    this.currencyExchangeRates$ = this.facade.items$;
+    this.currencyExchangeRates$ = this.facade.history$;
 
     this.currencyExchangeRates$
       .pipe(
@@ -67,8 +68,7 @@ export class ViewCurrencyExchangeComponent implements OnInit, OnDestroy {
         )
       )
       .subscribe((currencies) => {
-        const activeCodes = currencies.filter((code) => code.isActive);
-        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
+        const sorted = [...currencies].sort((a, b) => b?.id - a?.id);
         this.originalCurrencyExchangeRates = sorted;
         this.filteredCurrencyExchangeRates = [...sorted];
       });

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { InsuredByService } from './insured-by.service';
 import * as ActionsList from './insured-by.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { InsuredBy } from './insured-by.model';
 
 @Injectable()
@@ -102,7 +102,24 @@ export class InsuredByEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadInsuredByHistory())
+    )
+  );
+  loadInsuredByHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadInsuredByHistory),
+      switchMap(() =>
+        this.svc.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadInsuredByHistorySuccess({
+              history,
+            })
+          ),
+          catchError((error) =>
+            of(ActionsList.loadInsuredByHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

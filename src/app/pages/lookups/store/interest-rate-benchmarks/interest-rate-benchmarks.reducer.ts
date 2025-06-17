@@ -91,7 +91,36 @@ export const reducer = createReducer(
     });
 
     return newState;
-  })
+  }),
+  //History management
+  on(
+    InterestRateBenchMarkActions.loadInterestRateBenchmarkHistory,
+    (state) => ({
+      ...state,
+      historyLoaded: false,
+      historyError: null,
+    })
+  ),
+
+  on(
+    InterestRateBenchMarkActions.loadInterestRateBenchmarkHistorySuccess,
+    (state, { history }) => ({
+      ...state,
+      history,
+      historyLoaded: true,
+    })
+  ),
+  on(
+    InterestRateBenchMarkActions.loadInterestRateBenchmarkHistorySuccess,
+    (state, { history }) => {
+      console.log('✅ Reducer: history loaded', history); // add this
+      return {
+        ...state,
+        history: [...history],
+        historyLoaded: true,
+      };
+    }
+  )
 );
 
 export const { selectAll, selectEntities, selectIds, selectTotal } =

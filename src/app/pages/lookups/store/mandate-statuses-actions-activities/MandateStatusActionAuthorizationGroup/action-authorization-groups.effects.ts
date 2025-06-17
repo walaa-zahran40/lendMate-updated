@@ -1,6 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { mergeMap, map, catchError, tap, filter } from 'rxjs/operators';
+import {
+  mergeMap,
+  map,
+  catchError,
+  tap,
+  filter,
+  switchMap,
+} from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as MandateActionAuthorizationGroupActions from './action-authorization-groups.actions';
 import { MandateActionAuthorizationGroupsService } from './action-authorization-groups.service';
@@ -10,20 +17,26 @@ import { MandateActionAuthorizationGroup } from './action-authorization-group.mo
 export class MandateActionAuthorizationGroupsEffects {
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(MandateActionAuthorizationGroupActions.loadMandateActionAuthorizationGroups),
+      ofType(
+        MandateActionAuthorizationGroupActions.loadMandateActionAuthorizationGroups
+      ),
       mergeMap(() =>
         this.service.getAll().pipe(
           map((resp) =>
-            MandateActionAuthorizationGroupActions.loadMandateActionAuthorizationGroupsSuccess({
-              items: resp.items,
-              totalCount: resp.totalCount,
-            })
+            MandateActionAuthorizationGroupActions.loadMandateActionAuthorizationGroupsSuccess(
+              {
+                items: resp.items,
+                totalCount: resp.totalCount,
+              }
+            )
           ),
           catchError((error) =>
             of(
-              MandateActionAuthorizationGroupActions.loadMandateActionAuthorizationGroupsFailure({
-                error,
-              })
+              MandateActionAuthorizationGroupActions.loadMandateActionAuthorizationGroupsFailure(
+                {
+                  error,
+                }
+              )
             )
           )
         )
@@ -33,19 +46,25 @@ export class MandateActionAuthorizationGroupsEffects {
 
   loadHistory$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(MandateActionAuthorizationGroupActions.loadMandateActionAuthorizationGroupsHistory),
+      ofType(
+        MandateActionAuthorizationGroupActions.loadMandateActionAuthorizationGroupsHistory
+      ),
       mergeMap(() =>
         this.service.getHistory().pipe(
           map((resp) =>
-            MandateActionAuthorizationGroupActions.loadMandateActionAuthorizationGroupsHistorySuccess({
-              history: resp.items,
-            })
+            MandateActionAuthorizationGroupActions.loadMandateActionAuthorizationGroupsHistorySuccess(
+              {
+                history: resp.items,
+              }
+            )
           ),
           catchError((error) =>
             of(
-              MandateActionAuthorizationGroupActions.loadMandateActionAuthorizationGroupsHistoryFailure({
-                error,
-              })
+              MandateActionAuthorizationGroupActions.loadMandateActionAuthorizationGroupsHistoryFailure(
+                {
+                  error,
+                }
+              )
             )
           )
         )
@@ -55,19 +74,25 @@ export class MandateActionAuthorizationGroupsEffects {
 
   loadOne$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(MandateActionAuthorizationGroupActions.loadMandateActionAuthorizationGroup),
+      ofType(
+        MandateActionAuthorizationGroupActions.loadMandateActionAuthorizationGroup
+      ),
       mergeMap(({ id }) =>
         this.service.getById(id).pipe(
           map((mandate) =>
-            MandateActionAuthorizationGroupActions.loadMandateActionAuthorizationGroupSuccess({
-              mandate,
-            })
+            MandateActionAuthorizationGroupActions.loadMandateActionAuthorizationGroupSuccess(
+              {
+                mandate,
+              }
+            )
           ),
           catchError((error) =>
             of(
-              MandateActionAuthorizationGroupActions.loadMandateActionAuthorizationGroupFailure({
-                error,
-              })
+              MandateActionAuthorizationGroupActions.loadMandateActionAuthorizationGroupFailure(
+                {
+                  error,
+                }
+              )
             )
           )
         )
@@ -77,19 +102,25 @@ export class MandateActionAuthorizationGroupsEffects {
 
   create$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(MandateActionAuthorizationGroupActions.createMandateActionAuthorizationGroup),
+      ofType(
+        MandateActionAuthorizationGroupActions.createMandateActionAuthorizationGroup
+      ),
       mergeMap(({ data }) =>
         this.service.create(data).pipe(
           map((mandate) =>
-            MandateActionAuthorizationGroupActions.createMandateActionAuthorizationGroupSuccess({
-              mandate,
-            })
+            MandateActionAuthorizationGroupActions.createMandateActionAuthorizationGroupSuccess(
+              {
+                mandate,
+              }
+            )
           ),
           catchError((error) =>
             of(
-              MandateActionAuthorizationGroupActions.createMandateActionAuthorizationGroupFailure({
-                error,
-              })
+              MandateActionAuthorizationGroupActions.createMandateActionAuthorizationGroupFailure(
+                {
+                  error,
+                }
+              )
             )
           )
         )
@@ -99,7 +130,9 @@ export class MandateActionAuthorizationGroupsEffects {
 
   update$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(MandateActionAuthorizationGroupActions.updateMandateActionAuthorizationGroup),
+      ofType(
+        MandateActionAuthorizationGroupActions.updateMandateActionAuthorizationGroup
+      ),
       tap(({ id, data }) =>
         console.log('[Effect:update] called with id=', id, 'data=', data)
       ),
@@ -112,15 +145,19 @@ export class MandateActionAuthorizationGroupsEffects {
               mandateStatusActionId: data.mandateStatusActionId!,
             };
             console.log('[Effect:update] enriched mandate →', enriched);
-            return MandateActionAuthorizationGroupActions.updateMandateActionAuthorizationGroupSuccess({
-              mandate: enriched,
-            });
+            return MandateActionAuthorizationGroupActions.updateMandateActionAuthorizationGroupSuccess(
+              {
+                mandate: enriched,
+              }
+            );
           }),
           catchError((error) =>
             of(
-              MandateActionAuthorizationGroupActions.updateMandateActionAuthorizationGroupFailure({
-                error,
-              })
+              MandateActionAuthorizationGroupActions.updateMandateActionAuthorizationGroupFailure(
+                {
+                  error,
+                }
+              )
             )
           )
         )
@@ -130,20 +167,26 @@ export class MandateActionAuthorizationGroupsEffects {
 
   delete$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(MandateActionAuthorizationGroupActions.deleteMandateActionAuthorizationGroup),
+      ofType(
+        MandateActionAuthorizationGroupActions.deleteMandateActionAuthorizationGroup
+      ),
       mergeMap(({ id, mandateStatusActionId }) =>
         this.service.delete(id).pipe(
           map(() =>
-            MandateActionAuthorizationGroupActions.deleteMandateActionAuthorizationGroupSuccess({
-              id,
-              mandateStatusActionId,
-            })
+            MandateActionAuthorizationGroupActions.deleteMandateActionAuthorizationGroupSuccess(
+              {
+                id,
+                mandateStatusActionId,
+              }
+            )
           ),
           catchError((error) =>
             of(
-              MandateActionAuthorizationGroupActions.deleteMandateActionAuthorizationGroupFailure({
-                error,
-              })
+              MandateActionAuthorizationGroupActions.deleteMandateActionAuthorizationGroupFailure(
+                {
+                  error,
+                }
+              )
             )
           )
         )
@@ -173,9 +216,11 @@ export class MandateActionAuthorizationGroupsEffects {
       // only continue if it’s a number
 
       map((mandateStatusActionId) =>
-        MandateActionAuthorizationGroupActions.loadMandateActionAuthorizationGroupsByMandateStatusActionId({
-          mandateStatusActionId,
-        })
+        MandateActionAuthorizationGroupActions.loadMandateActionAuthorizationGroupsByMandateStatusActionId(
+          {
+            mandateStatusActionId,
+          }
+        )
       )
     )
   );
@@ -184,30 +229,77 @@ export class MandateActionAuthorizationGroupsEffects {
    */
   loadByMandateStatusActionId$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(MandateActionAuthorizationGroupActions.loadMandateActionAuthorizationGroupsByMandateStatusActionId),
+      ofType(
+        MandateActionAuthorizationGroupActions.loadMandateActionAuthorizationGroupsByMandateStatusActionId
+      ),
 
       tap((action) =>
-        console.log('[Effect:loadByMandateStatusActionId] full action →', action)
+        console.log(
+          '[Effect:loadByMandateStatusActionId] full action →',
+          action
+        )
       ),
       tap(({ mandateStatusActionId }) =>
-        console.log('[Effect:loadByMandateStatusActionId] mandateStatusActionId →', mandateStatusActionId)
+        console.log(
+          '[Effect:loadByMandateStatusActionId] mandateStatusActionId →',
+          mandateStatusActionId
+        )
       ),
 
       mergeMap(({ mandateStatusActionId }) =>
         this.service.getByMandateStatusActionId(mandateStatusActionId).pipe(
           tap((items) =>
-            console.log('[Effect:loadByMandateStatusActionId] response →', items)
+            console.log(
+              '[Effect:loadByMandateStatusActionId] response →',
+              items
+            )
           ),
           map((items) =>
-            MandateActionAuthorizationGroupActions.loadMandateActionAuthorizationGroupsByMandateStatusActionIdSuccess({
-              items,
-            })
+            MandateActionAuthorizationGroupActions.loadMandateActionAuthorizationGroupsByMandateStatusActionIdSuccess(
+              {
+                items,
+              }
+            )
           ),
           catchError((error) =>
             of(
-              MandateActionAuthorizationGroupActions.loadMandateActionAuthorizationGroupsByMandateStatusActionIdFailure({
-                error,
-              })
+              MandateActionAuthorizationGroupActions.loadMandateActionAuthorizationGroupsByMandateStatusActionIdFailure(
+                {
+                  error,
+                }
+              )
+            )
+          )
+        )
+      )
+    )
+  );
+
+  loadMandateActionAuthorizationGroupHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        MandateActionAuthorizationGroupActions.loadMandateActionAuthorizationGroupHistory
+      ),
+      switchMap(() =>
+        this.service.getAllHistory().pipe(
+          map((history) =>
+            MandateActionAuthorizationGroupActions.loadMandateActionAuthorizationGroupHistorySuccess(
+              {
+                history: history.map((item: any) => ({
+                  ...item,
+                  mandateStatusActionId: item.mandateStatusActionId ?? null,
+                  mandateStatusAction: item.mandateStatusAction ?? null,
+                })),
+              }
+            )
+          ),
+          catchError((error) =>
+            of(
+              MandateActionAuthorizationGroupActions.loadMandateActionAuthorizationGroupHistoryFailure(
+                {
+                  error,
+                }
+              )
             )
           )
         )

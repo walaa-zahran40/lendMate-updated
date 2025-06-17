@@ -39,4 +39,16 @@ export class CallActionTypesFacade {
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
   }
+  history$ = this.store.select(Selectors.selectCallActionTypeHistory);
+
+  readonly callActionTypeHistory$ = this.store.select(
+    Selectors.selectCallActionTypeHistory
+  );
+  readonly callActionTypeHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadCallActionTypeHistory());
+  }
 }

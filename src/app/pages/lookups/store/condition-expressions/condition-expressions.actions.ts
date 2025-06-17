@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { ConditionExpression } from './condition-expressions.model';
+import { ConditionExpression } from './condition-expression.model';
 
 export const loadAll = createAction(
   '[ConditionExpressions] Load All',
@@ -70,4 +70,18 @@ export const deleteEntityFailure = createAction(
 export const entityOperationSuccess = createAction(
   '[Entity] Operation Success',
   props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
+);
+//History actions
+export const loadConditionExpressionHistory = createAction(
+  '[ConditionExpression/API] Load ConditionExpression History'
+);
+
+export const loadConditionExpressionHistorySuccess = createAction(
+  '[ConditionExpression/API] Load ConditionExpression History Success',
+  props<{ history: ConditionExpression[] }>()
+);
+
+export const loadConditionExpressionHistoryFailure = createAction(
+  '[ConditionExpression/API] Load CompanyFlowType History Failure',
+  props<{ error: any }>()
 );

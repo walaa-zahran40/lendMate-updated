@@ -40,3 +40,15 @@ export const selectGovernoratesTotalCount = createSelector(
   selectGovernoratesFeature,
   (state) => state
 );
+// History management selectors
+export const selectGovernorateHistoryState =
+  createFeatureSelector<State>('governorateHistory');
+
+export const selectGovernorateHistory = createSelector(
+  selectGovernorateHistoryState,
+  (state) => state.history
+);
+export const selectHistoryLoaded = createSelector(
+  selectGovernorateHistoryState,
+  (state) => state.historyLoaded
+);

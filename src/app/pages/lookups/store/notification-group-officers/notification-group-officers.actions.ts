@@ -71,3 +71,17 @@ export const entityOperationSuccess = createAction(
   '[Entity] Operation Success',
   props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
 );
+//History actions
+export const loadNotificationGroupOfficerHistory = createAction(
+  '[NotificationGroupOfficer/API] Load NotificationGroupOfficer History'
+);
+
+export const loadNotificationGroupOfficerHistorySuccess = createAction(
+  '[NotificationGroupOfficer/API] Load NotificationGroupOfficer History Success',
+  props<{ history: NotificationGroupOfficer[] }>()
+);
+
+export const loadNotificationGroupOfficerHistoryFailure = createAction(
+  '[NotificationGroupOfficer/API] Load CompanyFlowType History Failure',
+  props<{ error: any }>()
+);

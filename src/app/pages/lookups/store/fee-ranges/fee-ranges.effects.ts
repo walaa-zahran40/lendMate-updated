@@ -2,16 +2,13 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { FeeRangesService } from './fee-ranges.service';
 import * as ActionsList from './fee-ranges.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
-import { FeeRange } from './fee-ranges.model';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
+import { FeeRange } from './fee-range.model';
 import { EntityNames } from '../../../../shared/constants/entity-names';
 
 @Injectable()
 export class FeeRangesEffects {
-  constructor(
-    private actions$: Actions,
-    private service: FeeRangesService
-  ) {}
+  constructor(private actions$: Actions, private service: FeeRangesService) {}
 
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
@@ -118,7 +115,24 @@ export class FeeRangesEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadFeeRangeHistory())
+    )
+  );
+  loadFeeRangeHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadFeeRangeHistory),
+      switchMap(() =>
+        this.service.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadFeeRangeHistorySuccess({
+              history,
+            })
+          ),
+          catchError((error) =>
+            of(ActionsList.loadFeeRangeHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

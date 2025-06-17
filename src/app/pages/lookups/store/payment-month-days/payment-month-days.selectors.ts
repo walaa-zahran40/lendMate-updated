@@ -41,3 +41,16 @@ export const selectPaymentMonthDaysTotalCount = createSelector(
   selectPaymentMonthDaysFeature,
   (state) => state
 );
+// History management selectors
+export const selectPaymentMonthDayHistoryState = createFeatureSelector<State>(
+  'paymentMonthDayHistory'
+);
+
+export const selectPaymentMonthDayHistory = createSelector(
+  selectPaymentMonthDayHistoryState,
+  (state) => state.history
+);
+export const selectHistoryLoaded = createSelector(
+  selectPaymentMonthDayHistoryState,
+  (state) => state.historyLoaded
+);

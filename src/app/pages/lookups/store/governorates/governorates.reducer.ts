@@ -89,6 +89,28 @@ export const reducer = createReducer(
     });
 
     return newState;
+  }), //History management
+  on(GovernorateActions.loadGovernorateHistory, (state) => ({
+    ...state,
+    historyLoaded: false,
+    historyError: null,
+  })),
+
+  on(
+    GovernorateActions.loadGovernorateHistorySuccess,
+    (state, { history }) => ({
+      ...state,
+      history,
+      historyLoaded: true,
+    })
+  ),
+  on(GovernorateActions.loadGovernorateHistorySuccess, (state, { history }) => {
+    console.log('✅ Reducer: history loaded', history); // add this
+    return {
+      ...state,
+      history: [...history],
+      historyLoaded: true,
+    };
   })
 );
 

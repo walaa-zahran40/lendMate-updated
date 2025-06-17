@@ -11,6 +11,7 @@ export class AreasFacade {
   loading$ = this.store.select(Selectors.selectAreasLoading);
   error$ = this.store.select(Selectors.selectAreasError);
   totalCount$ = this.store.select(Selectors.selectAreasTotalCount);
+
   selected$ = this.store.select(
     createSelector(
       Selectors.selectFeature,
@@ -38,5 +39,16 @@ export class AreasFacade {
 
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
+  }
+  // History management
+  history$ = this.store.select(Selectors.selectAreaHistory);
+
+  readonly areaHistory$ = this.store.select(Selectors.selectAreaHistory);
+  readonly areaHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadAreaHistory());
   }
 }

@@ -39,4 +39,15 @@ export class CountriesFacade {
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
   }
+  //History management
+  history$ = this.store.select(Selectors.selectCountryHistory);
+
+  readonly countryHistory$ = this.store.select(Selectors.selectCountryHistory);
+  readonly countryHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadCountryHistory());
+  }
 }

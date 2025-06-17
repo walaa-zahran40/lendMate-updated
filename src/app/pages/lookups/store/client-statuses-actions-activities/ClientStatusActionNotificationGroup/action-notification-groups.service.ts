@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, map, Observable, tap, throwError } from 'rxjs';
 import { ActionNotificationGroup } from './action-notification-group.model';
 import { environment } from '../../../../../../environments/environment';
 
@@ -15,7 +15,9 @@ export class ActionNotificationGroupsService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(pageNumber?: number): Observable<PagedResponse<ActionNotificationGroup>> {
+  getAll(
+    pageNumber?: number
+  ): Observable<PagedResponse<ActionNotificationGroup>> {
     let params = new HttpParams();
     if (pageNumber != null) {
       params = params.set('pageNumber', pageNumber.toString());
@@ -33,10 +35,14 @@ export class ActionNotificationGroupsService {
   }
 
   getById(id: number): Observable<ActionNotificationGroup> {
-    return this.http.get<ActionNotificationGroup>(`${this.api}/ClientStatusActionNotificationGroupId?id=${id}`);
+    return this.http.get<ActionNotificationGroup>(
+      `${this.api}/ClientStatusActionNotificationGroupId?id=${id}`
+    );
   }
 
-  create(data: Partial<ActionNotificationGroup>): Observable<ActionNotificationGroup> {
+  create(
+    data: Partial<ActionNotificationGroup>
+  ): Observable<ActionNotificationGroup> {
     return this.http.post<ActionNotificationGroup>(
       `${this.api}/CreateClientStatusActionNotificationGroup`,
       data
@@ -53,9 +59,31 @@ export class ActionNotificationGroupsService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.api}/${id}`);
   }
-  getByClientStatusActionId(clientId: number): Observable<ActionNotificationGroup[]> {
+  getByClientStatusActionId(
+    clientId: number
+  ): Observable<ActionNotificationGroup[]> {
     return this.http.get<ActionNotificationGroup[]>(
       `${this.api}/GetClientStatusActionNotificationGroupsByClientStatusActionId?actionId=${clientId}`
     );
+  }
+  //History management
+  getAllHistory(): Observable<ActionNotificationGroup[]> {
+    console.log('🚀 Service: calling GET …');
+    return this.http
+      .get<{ items: ActionNotificationGroup[]; totalCount: number }>(
+        `${this.api}/GetAllActionNotificationGroupsHistory`
+      )
+      .pipe(
+        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
+        map((resp) => resp.items), // ← pull off the `items` array here
+        tap((items) => console.log('🚀 Mapped items:', items)),
+        catchError((err) => {
+          console.error(
+            '🚀 HTTP error fetching ActionNotificationGroups:',
+            err
+          );
+          return throwError(() => err);
+        })
+      );
   }
 }

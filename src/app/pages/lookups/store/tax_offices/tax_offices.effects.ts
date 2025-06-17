@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { TaxOfficesService } from './tax_offices.service';
 import * as ActionsList from './tax_offices.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { TaxOffice } from './tax_office.model';
 
 @Injectable()
@@ -102,7 +102,24 @@ export class TaxOfficesEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadTaxOfficeHistory())
+    )
+  );
+  loadTaxOfficeHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadTaxOfficeHistory),
+      switchMap(() =>
+        this.service.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadTaxOfficeHistorySuccess({
+              history,
+            })
+          ),
+          catchError((error) =>
+            of(ActionsList.loadTaxOfficeHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

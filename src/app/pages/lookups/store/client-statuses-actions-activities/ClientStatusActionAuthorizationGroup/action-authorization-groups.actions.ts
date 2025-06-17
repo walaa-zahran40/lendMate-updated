@@ -13,18 +13,22 @@ export const loadActionAuthorizationGroupsFailure = createAction(
   '[ActionAuthorizationGroups] Load All Failure',
   props<{ error: any }>()
 );
-// Load history
-export const loadActionAuthorizationGroupsHistory = createAction(
-  '[ActionAuthorizationGroups] Load History'
+//History actions
+export const loadClientStatusActionAuthorizationGroupHistory = createAction(
+  '[ClientStatusActionAuthorizationGroup/API] Load ClientStatusActionAuthorizationGroup History'
 );
-export const loadActionAuthorizationGroupsHistorySuccess = createAction(
-  '[ActionAuthorizationGroups] Load History Success',
-  props<{ history: ActionAuthorizationGroup[] }>()
-);
-export const loadActionAuthorizationGroupsHistoryFailure = createAction(
-  '[ActionAuthorizationGroups] Load History Failure',
-  props<{ error: any }>()
-);
+
+export const loadClientStatusActionAuthorizationGroupHistorySuccess =
+  createAction(
+    '[ClientStatusActionAuthorizationGroup/API] Load ClientStatusActionAuthorizationGroup History Success',
+    props<{ history: ActionAuthorizationGroup[] }>()
+  );
+
+export const loadClientStatusActionAuthorizationGroupHistoryFailure =
+  createAction(
+    '[ClientStatusActionAuthorizationGroup/API] Load ClientStatusActionAuthorizationGroup History Failure',
+    props<{ error: any }>()
+  );
 
 // Load by ID
 export const loadActionAuthorizationGroup = createAction(
@@ -73,14 +77,16 @@ export const loadActionAuthorizationGroupsByClientStatusActionId = createAction(
   '[ActionAuthorizationGroups] Load By ClientStatusActionId',
   props<{ clientStatusActionId: number }>()
 );
-export const loadActionAuthorizationGroupsByClientStatusActionIdSuccess = createAction(
-  '[ActionAuthorizationGroups] Load By ClientStatusActionId Success',
-  props<{ items: any }>()
-);
-export const loadActionAuthorizationGroupsByClientStatusActionIdFailure = createAction(
-  '[ActionAuthorizationGroups] Load By ClientStatusActionId Failure',
-  props<{ error: any }>()
-);
+export const loadActionAuthorizationGroupsByClientStatusActionIdSuccess =
+  createAction(
+    '[ActionAuthorizationGroups] Load By ClientStatusActionId Success',
+    props<{ items: any }>()
+  );
+export const loadActionAuthorizationGroupsByClientStatusActionIdFailure =
+  createAction(
+    '[ActionAuthorizationGroups] Load By ClientStatusActionId Failure',
+    props<{ error: any }>()
+  );
 //Delete
 export const deleteActionAuthorizationGroup = createAction(
   '[ActionAuthorizationGroups] Delete',

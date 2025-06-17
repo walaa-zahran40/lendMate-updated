@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { SectorsService } from './sectors.service';
 import * as ActionsList from './sectors.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { Sector } from './sector.model';
 
 @Injectable()
@@ -102,7 +102,24 @@ export class SectorsEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadSectorHistory())
+    )
+  );
+  loadSectorHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadSectorHistory),
+      switchMap(() =>
+        this.svc.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadSectorHistorySuccess({
+              history,
+            })
+          ),
+          catchError((error) =>
+            of(ActionsList.loadSectorHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

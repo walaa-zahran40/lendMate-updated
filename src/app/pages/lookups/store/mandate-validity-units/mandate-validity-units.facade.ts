@@ -42,4 +42,17 @@ export class MandateValidityUnitsFacade {
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
   }
+  //History management
+  history$ = this.store.select(Selectors.selectMandateValidityUnitHistory);
+
+  readonly mandateValidityUnitHistory$ = this.store.select(
+    Selectors.selectMandateValidityUnitHistory
+  );
+  readonly mandateValidityUnitHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadMandateValidityUnitHistory());
+  }
 }

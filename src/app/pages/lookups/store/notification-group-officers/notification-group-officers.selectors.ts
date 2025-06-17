@@ -2,11 +2,16 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromSlice from './notification-group-officers.reducer';
 import { adapter, State } from './notification-group-officers.state';
 
-export const selectFeature = createFeatureSelector<State>('notificationGroupOfficers');
-export const selectNotificationGroupOfficersFeature = createFeatureSelector<State>('notificationGroupOfficers');
+export const selectFeature = createFeatureSelector<State>(
+  'notificationGroupOfficers'
+);
+export const selectNotificationGroupOfficersFeature =
+  createFeatureSelector<State>('notificationGroupOfficers');
 
 // these come from your EntityAdapter
-const { selectEntities } = adapter.getSelectors(selectNotificationGroupOfficersFeature);
+const { selectEntities } = adapter.getSelectors(
+  selectNotificationGroupOfficersFeature
+);
 
 export const selectAllNotificationGroupOfficers = createSelector(
   selectFeature,
@@ -38,4 +43,16 @@ export const selectCurrent = createSelector(
 export const selectNotificationGroupOfficersTotalCount = createSelector(
   selectNotificationGroupOfficersFeature,
   (state) => state
+);
+// History management selectors
+export const selectNotificationGroupOfficerHistoryState =
+  createFeatureSelector<State>('notificationGroupOfficerHistory');
+
+export const selectNotificationGroupOfficerHistory = createSelector(
+  selectNotificationGroupOfficerHistoryState,
+  (state) => state.history
+);
+export const selectHistoryLoaded = createSelector(
+  selectNotificationGroupOfficerHistoryState,
+  (state) => state.historyLoaded
 );

@@ -41,4 +41,16 @@ export class AssetTypeCategoriesFacade {
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
   }
+  history$ = this.store.select(Selectors.selectAssetTypeCategoryHistory);
+
+  readonly assetTypeCategoryHistory$ = this.store.select(
+    Selectors.selectAssetTypeCategoryHistory
+  );
+  readonly assetTypeCategoryHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadAssetTypeCategoryHistory());
+  }
 }

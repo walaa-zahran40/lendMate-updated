@@ -44,3 +44,15 @@ export const selectWorkflowActionTypesTotalCount = createSelector(
   selectWorkflowActionTypesFeature,
   (state) => state
 );
+// History management selectors
+export const selectWorkflowActionTypeHistoryState =
+  createFeatureSelector<State>('workflowActionTypeHistory');
+
+export const selectWorkflowActionTypeHistory = createSelector(
+  selectWorkflowActionTypeHistoryState,
+  (state) => state.history
+);
+export const selectHistoryLoaded = createSelector(
+  selectWorkflowActionTypeHistoryState,
+  (state) => state.historyLoaded
+);

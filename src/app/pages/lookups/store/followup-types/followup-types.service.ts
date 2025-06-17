@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
-import { FollowupType } from './folllowup-types.model';
+import { FollowupType } from './folllowup-type.model';
 import { environment } from '../../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
@@ -28,7 +28,9 @@ export class FollowupTypesService {
   }
 
   getById(id: number): Observable<FollowupType> {
-    return this.http.get<FollowupType>(`${this.baseUrl}/FollowupTypeId?id=${id}`);
+    return this.http.get<FollowupType>(
+      `${this.baseUrl}/FollowupTypeId?id=${id}`
+    );
   }
 
   create(payload: Omit<FollowupType, 'id'>): Observable<FollowupType> {
@@ -44,5 +46,22 @@ export class FollowupTypesService {
 
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+  //History management
+  getAllHistory(): Observable<FollowupType[]> {
+    console.log('🚀 Service: calling GET …');
+    return this.http
+      .get<{ items: FollowupType[]; totalCount: number }>(
+        `${this.baseUrl}/GetAllFollowUpTypesHistory`
+      )
+      .pipe(
+        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
+        map((resp) => resp.items), // ← pull off the `items` array here
+        tap((items) => console.log('🚀 Mapped items:', items)),
+        catchError((err) => {
+          console.error('🚀 HTTP error fetching FollowUpTypes:', err);
+          return throwError(() => err);
+        })
+      );
   }
 }

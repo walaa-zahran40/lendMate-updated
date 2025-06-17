@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { GovernoratesService } from './governorates.service';
 import * as ActionsList from './governorates.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { Governorate } from './governorate.model';
 import { EntityNames } from '../../../../shared/constants/entity-names';
 
@@ -115,7 +115,24 @@ export class GovernoratesEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadGovernorateHistory())
+    )
+  );
+  loadGovernorateHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadGovernorateHistory),
+      switchMap(() =>
+        this.svc.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadGovernorateHistorySuccess({
+              history,
+            })
+          ),
+          catchError((error) =>
+            of(ActionsList.loadGovernorateHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

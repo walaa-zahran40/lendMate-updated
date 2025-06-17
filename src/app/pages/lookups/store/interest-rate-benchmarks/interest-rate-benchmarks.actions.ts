@@ -71,3 +71,17 @@ export const entityOperationSuccess = createAction(
   '[Entity] Operation Success',
   props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
 );
+//History actions
+export const loadInterestRateBenchmarkHistory = createAction(
+  '[InterestRateBenchmark/API] Load InterestRateBenchmark History'
+);
+
+export const loadInterestRateBenchmarkHistorySuccess = createAction(
+  '[InterestRateBenchmark/API] Load InterestRateBenchmark History Success',
+  props<{ history: InterestRateBenchMark[] }>()
+);
+
+export const loadInterestRateBenchmarkHistoryFailure = createAction(
+  '[InterestRateBenchmark/API] Load CompanyFlowType History Failure',
+  props<{ error: any }>()
+);

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { LeasingTypesService } from './leasing-types.service';
 import * as ActionsList from './leasing-types.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { LeasingType } from './leasing-type.model';
 
 @Injectable()
@@ -102,7 +102,24 @@ export class LeasingTypesEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadLeasingTypeHistory())
+    )
+  );
+  loadLeasingTypeHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadLeasingTypeHistory),
+      switchMap(() =>
+        this.svc.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadLeasingTypeHistorySuccess({
+              history,
+            })
+          ),
+          catchError((error) =>
+            of(ActionsList.loadLeasingTypeHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

@@ -7,11 +7,16 @@ export interface ClientStatusesState {
   loading: boolean;
   error: any;
   totalCount: number;
+  //History management
+  historyLoaded: boolean;
+  historyError: any;
 }
 
 export const initialClientStatusesState: ClientStatusesState = {
   items: [],
   history: [],
+  historyLoaded: false,
+  historyError: null,
   current: undefined,
   loading: false,
   error: null,

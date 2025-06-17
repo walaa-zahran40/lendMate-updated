@@ -14,12 +14,9 @@ export class MandateActionAuthorizationGroupsFacade {
   total$: Observable<number> = this.store.select(
     Selectors.selectMandateActionAuthorizationGroupsTotal
   );
-  history$: Observable<MandateActionAuthorizationGroup[]> = this.store.select(
-    Selectors.selectMandateActionAuthorizationGroupsHistory
-  );
-  current$: Observable<MandateActionAuthorizationGroup | undefined> = this.store.select(
-    Selectors.selectCurrentMandateActionAuthorizationGroup
-  );
+
+  current$: Observable<MandateActionAuthorizationGroup | undefined> =
+    this.store.select(Selectors.selectCurrentMandateActionAuthorizationGroup);
 
   loading$: Observable<boolean> = this.store.select(
     Selectors.selectMandateActionAuthorizationGroupsLoading
@@ -34,20 +31,24 @@ export class MandateActionAuthorizationGroupsFacade {
   loadAll() {
     this.store.dispatch(Actions.loadMandateActionAuthorizationGroups());
   }
-  loadHistory() {
-    this.store.dispatch(Actions.loadMandateActionAuthorizationGroupsHistory());
-  }
+
   loadOne(id: number) {
     this.store.dispatch(Actions.loadMandateActionAuthorizationGroup({ id }));
   }
   create(data: Partial<MandateActionAuthorizationGroup>) {
-    this.store.dispatch(Actions.createMandateActionAuthorizationGroup({ data }));
+    this.store.dispatch(
+      Actions.createMandateActionAuthorizationGroup({ data })
+    );
   }
   update(id: any, data: Partial<MandateActionAuthorizationGroup>) {
-    this.store.dispatch(Actions.updateMandateActionAuthorizationGroup({ id, data }));
+    this.store.dispatch(
+      Actions.updateMandateActionAuthorizationGroup({ id, data })
+    );
   }
   /** NEW: dispatch the by-mandateStatusActionId loader */
-  loadMandateActionAuthorizationGroupsByMandateStatusActionId(mandateStatusActionId?: number) {
+  loadMandateActionAuthorizationGroupsByMandateStatusActionId(
+    mandateStatusActionId?: number
+  ) {
     if (mandateStatusActionId == null || isNaN(mandateStatusActionId)) {
       console.error(
         '❌ Facade.loadMandateActionAuthorizationGroupsByMandateStatusActionId called with invalid id:',
@@ -55,14 +56,40 @@ export class MandateActionAuthorizationGroupsFacade {
       );
       return;
     }
-    this.store.dispatch(Actions.loadMandateActionAuthorizationGroupsByMandateStatusActionId({ mandateStatusActionId }));
+    this.store.dispatch(
+      Actions.loadMandateActionAuthorizationGroupsByMandateStatusActionId({
+        mandateStatusActionId,
+      })
+    );
   }
 
   /** UPDATED: now expects both id & parent mandateStatusActionId */
   delete(id: number, mandateStatusActionId: number) {
-    this.store.dispatch(Actions.deleteMandateActionAuthorizationGroup({ id, mandateStatusActionId }));
+    this.store.dispatch(
+      Actions.deleteMandateActionAuthorizationGroup({
+        id,
+        mandateStatusActionId,
+      })
+    );
   }
   loadByMandateStatusActionId(mandateStatusActionId: number) {
-    this.store.dispatch(Actions.loadMandateActionAuthorizationGroupsByMandateStatusActionId({ mandateStatusActionId }));
+    this.store.dispatch(
+      Actions.loadMandateActionAuthorizationGroupsByMandateStatusActionId({
+        mandateStatusActionId,
+      })
+    );
+  }
+  //History management
+  history$ = this.store.select(Selectors.selectActionAuthorizationGroupHistory);
+
+  readonly actionAuthorizationGroupHistory$ = this.store.select(
+    Selectors.selectActionAuthorizationGroupHistory
+  );
+  readonly actionAuthorizationGroupHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadMandateActionAuthorizationGroupHistory());
   }
 }

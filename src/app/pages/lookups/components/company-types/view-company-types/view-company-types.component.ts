@@ -22,6 +22,7 @@ export class ViewCompanyTypesComponent {
   readonly colsInside = [
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
+    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedCompanyTypeId: number | null = null;
@@ -31,14 +32,13 @@ export class ViewCompanyTypesComponent {
 
   constructor(private router: Router, private facade: CompanyTypesFacade) {}
   ngOnInit() {
-    this.facade.loadAll();
-    this.companyTypes$ = this.facade.all$;
+    this.facade.loadHistory();
+    this.companyTypes$ = this.facade.history$;
 
     this.companyTypes$
       ?.pipe(takeUntil(this.destroy$))
       .subscribe((companyTypes) => {
-        const activeOnly = companyTypes.filter((ct) => ct.isActive); // 👈 filter here
-        const sorted = [...activeOnly].sort((a, b) => b.id - a.id);
+        const sorted = [...companyTypes].sort((a, b) => b.id - a.id);
         this.originalCompanyTypes = sorted;
         this.filteredCompanyTypes = [...sorted];
       });

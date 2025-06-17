@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { MandateValidityUnitsService } from './mandate-validity-units.service';
 import * as ActionsList from './mandate-validity-units.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { MandateValidityUnit } from './mandate-validity-unit.model';
 
 @Injectable()
@@ -105,7 +105,24 @@ export class MandateValidityUnitsEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadMandateValidityUnitHistory())
+    )
+  );
+  loadMandateValidityUnitHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadMandateValidityUnitHistory),
+      switchMap(() =>
+        this.service.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadMandateValidityUnitHistorySuccess({
+              history,
+            })
+          ),
+          catchError((error) =>
+            of(ActionsList.loadMandateValidityUnitHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

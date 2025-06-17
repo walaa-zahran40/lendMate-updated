@@ -40,4 +40,17 @@ export class GracePeriodUnitsFacade {
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
   }
+  //History management
+  history$ = this.store.select(Selectors.selectPeriodUnitHistory);
+
+  readonly periodUnitHistory$ = this.store.select(
+    Selectors.selectPeriodUnitHistory
+  );
+  readonly periodUnitHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadPeriodUnitHistory());
+  }
 }

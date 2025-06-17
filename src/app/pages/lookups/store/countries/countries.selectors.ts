@@ -39,3 +39,15 @@ export const selectCountriesTotalCount = createSelector(
   selectCountriesFeature,
   (state) => state
 );
+// History management selectors
+export const selectCountryHistoryState =
+  createFeatureSelector<State>('countryHistory');
+
+export const selectCountryHistory = createSelector(
+  selectCountryHistoryState,
+  (state) => state.history
+);
+export const selectHistoryLoaded = createSelector(
+  selectCountryHistoryState,
+  (state) => state.historyLoaded
+);

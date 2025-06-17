@@ -75,3 +75,17 @@ export const entityOperationSuccess = createAction(
   '[Entity] Operation Success',
   props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
 );
+//History actions
+export const loadGovernorateHistory = createAction(
+  '[Governorate/API] Load Governorate History'
+);
+
+export const loadGovernorateHistorySuccess = createAction(
+  '[Governorate/API] Load Governorate History Success',
+  props<{ history: Governorate[] }>()
+);
+
+export const loadGovernorateHistoryFailure = createAction(
+  '[Governorate/API] Load CompanyFlowType History Failure',
+  props<{ error: any }>()
+);

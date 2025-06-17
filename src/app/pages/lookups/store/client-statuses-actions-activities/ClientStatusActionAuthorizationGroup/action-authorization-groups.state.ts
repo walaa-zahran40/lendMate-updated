@@ -7,13 +7,19 @@ export interface ActionAuthorizationGroupsState {
   loading: boolean;
   error: any;
   totalCount: number;
+  //History management
+  historyLoaded: boolean;
+  historyError: any;
 }
 
-export const initialActionAuthorizationGroupsState: ActionAuthorizationGroupsState = {
-  items: [],
-  history: [],
-  current: undefined,
-  loading: false,
-  error: null,
-  totalCount: 0,
-};
+export const initialActionAuthorizationGroupsState: ActionAuthorizationGroupsState =
+  {
+    items: [],
+    current: undefined,
+    loading: false,
+    error: null,
+    totalCount: 0,
+    history: [],
+    historyLoaded: false,
+    historyError: null,
+  };

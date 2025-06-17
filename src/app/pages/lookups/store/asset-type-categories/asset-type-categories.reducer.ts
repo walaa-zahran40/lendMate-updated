@@ -89,7 +89,31 @@ export const reducer = createReducer(
     });
 
     return newState;
-  })
+  }),
+  //History management
+  on(AssetTypeCategoryActions.loadAssetTypeCategoryHistory, (state) => ({
+    ...state,
+    historyLoaded: false,
+    historyError: null,
+  })),
+
+  on(
+    AssetTypeCategoryActions.loadAssetTypeCategoryHistorySuccess,
+    (state, { history }) => ({
+      ...state,
+      history,
+      historyLoaded: true,
+    })
+  ),
+
+  on(
+    AssetTypeCategoryActions.loadAssetTypeCategoryHistoryFailure,
+    (state, { error }) => ({
+      ...state,
+      historyError: error,
+      historyLoaded: false,
+    })
+  )
 );
 
 export const { selectAll, selectEntities, selectIds, selectTotal } =

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { BusinessLinesService } from './business-lines.service';
 import * as ActionsList from './business-lines.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { BusinessLine } from './business-line.model';
 import { EntityNames } from '../../../../shared/constants/entity-names';
 
@@ -115,7 +115,23 @@ export class BusinessLinesEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadBusinessLineHistory())
+    )
+  );
+  // Load authorization group officer history
+  loadBusinessLineOfficerHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadBusinessLineHistory),
+      switchMap(() =>
+        this.svc.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadBusinessLineHistorySuccess({ history })
+          ),
+          catchError((error) =>
+            of(ActionsList.loadBusinessLineHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

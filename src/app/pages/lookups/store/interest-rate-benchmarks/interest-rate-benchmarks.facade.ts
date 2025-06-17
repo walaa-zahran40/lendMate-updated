@@ -42,4 +42,17 @@ export class InterestRateBenchMarksFacade {
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
   }
+  //History management
+  history$ = this.store.select(Selectors.selectInterestRateBenchmarkHistory);
+
+  readonly interestRateBenchmarkHistory$ = this.store.select(
+    Selectors.selectInterestRateBenchmarkHistory
+  );
+  readonly interestRateBenchmarkHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadInterestRateBenchmarkHistory());
+  }
 }

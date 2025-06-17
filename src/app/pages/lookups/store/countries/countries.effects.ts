@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { CountriesService } from './countries.service';
 import * as ActionsList from './countries.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { Country } from './country.model';
 import { EntityNames } from '../../../../shared/constants/entity-names';
 
@@ -115,7 +115,21 @@ export class CountriesEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadCountryHistory())
+    )
+  );
+  // Load authorization group officer history
+  loadCountryHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadCountryHistory),
+      switchMap(() =>
+        this.svc.getAllHistory().pipe(
+          map((history) => ActionsList.loadCountryHistorySuccess({ history })),
+          catchError((error) =>
+            of(ActionsList.loadCountryHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

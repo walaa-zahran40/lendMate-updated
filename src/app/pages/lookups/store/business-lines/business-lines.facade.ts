@@ -39,4 +39,16 @@ export class BusinessLinesFacade {
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
   }
+  history$ = this.store.select(Selectors.selectBusinessLineHistory);
+
+  readonly businessLineHistory$ = this.store.select(
+    Selectors.selectBusinessLineHistory
+  );
+  readonly businessLineHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadBusinessLineHistory());
+  }
 }

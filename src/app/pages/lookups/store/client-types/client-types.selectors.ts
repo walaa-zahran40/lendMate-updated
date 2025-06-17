@@ -40,3 +40,15 @@ export const selectClientTypesTotalCount = createSelector(
   selectClientTypesFeature,
   (state) => state
 );
+// History management selectors
+export const selectClientTypeHistoryState =
+  createFeatureSelector<State>('clientTypeHistory');
+
+export const selectClientTypeHistory = createSelector(
+  selectClientTypeHistoryState,
+  (state) => state.history
+);
+export const selectHistoryLoaded = createSelector(
+  selectClientTypeHistoryState,
+  (state) => state.historyLoaded
+);

@@ -14,12 +14,9 @@ export class MandateActionNotificationGroupsFacade {
   total$: Observable<number> = this.store.select(
     Selectors.selectMandateActionNotificationGroupsTotal
   );
-  history$: Observable<MandateActionNotificationGroup[]> = this.store.select(
-    Selectors.selectMandateActionNotificationGroupsHistory
-  );
-  current$: Observable<MandateActionNotificationGroup | undefined> = this.store.select(
-    Selectors.selectCurrentMandateActionNotificationGroup
-  );
+
+  current$: Observable<MandateActionNotificationGroup | undefined> =
+    this.store.select(Selectors.selectCurrentMandateActionNotificationGroup);
 
   loading$: Observable<boolean> = this.store.select(
     Selectors.selectMandateActionNotificationGroupsLoading
@@ -34,9 +31,7 @@ export class MandateActionNotificationGroupsFacade {
   loadAll() {
     this.store.dispatch(Actions.loadMandateActionNotificationGroups());
   }
-  loadHistory() {
-    this.store.dispatch(Actions.loadMandateActionNotificationGroupsHistory());
-  }
+
   loadOne(id: number) {
     this.store.dispatch(Actions.loadMandateActionNotificationGroup({ id }));
   }
@@ -44,10 +39,14 @@ export class MandateActionNotificationGroupsFacade {
     this.store.dispatch(Actions.createMandateActionNotificationGroup({ data }));
   }
   update(id: any, data: Partial<MandateActionNotificationGroup>) {
-    this.store.dispatch(Actions.updateMandateActionNotificationGroup({ id, data }));
+    this.store.dispatch(
+      Actions.updateMandateActionNotificationGroup({ id, data })
+    );
   }
   /** NEW: dispatch the by-mandateStatusActionId loader */
-  loadActionNotificationGroupsByMandateStatusActionId(mandateStatusActionId?: number) {
+  loadActionNotificationGroupsByMandateStatusActionId(
+    mandateStatusActionId?: number
+  ) {
     if (mandateStatusActionId == null || isNaN(mandateStatusActionId)) {
       console.error(
         '❌ Facade.loadMandateActionNotificationGroupsByMandateStatusActionId called with invalid id:',
@@ -55,14 +54,42 @@ export class MandateActionNotificationGroupsFacade {
       );
       return;
     }
-    this.store.dispatch(Actions.loadMandateActionNotificationGroupsByMandateStatusActionId({ mandateStatusActionId }));
+    this.store.dispatch(
+      Actions.loadMandateActionNotificationGroupsByMandateStatusActionId({
+        mandateStatusActionId,
+      })
+    );
   }
 
   /** UPDATED: now expects both id & parent mandateStatusActionId */
   delete(id: number, mandateStatusActionId: number) {
-    this.store.dispatch(Actions.deleteMandateActionNotificationGroup({ id, mandateStatusActionId }));
+    this.store.dispatch(
+      Actions.deleteMandateActionNotificationGroup({
+        id,
+        mandateStatusActionId,
+      })
+    );
   }
   loadByMandateStatusActionId(mandateStatusActionId: number) {
-    this.store.dispatch(Actions.loadMandateActionNotificationGroupsByMandateStatusActionId({ mandateStatusActionId }));
+    this.store.dispatch(
+      Actions.loadMandateActionNotificationGroupsByMandateStatusActionId({
+        mandateStatusActionId,
+      })
+    );
+  }
+  //History management
+  history$ = this.store.select(
+    Selectors.selectMandateActionNotificationGroupHistory
+  );
+
+  readonly mandateActionNotificationHistory$ = this.store.select(
+    Selectors.selectMandateActionNotificationGroupHistory
+  );
+  readonly mandateActionNotificationHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadMandateActionNotificationGroupHistory());
   }
 }

@@ -39,4 +39,17 @@ export class ConditionsFacade {
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
   }
+  //History management
+  history$ = this.store.select(Selectors.selectConditionHistory);
+
+  readonly conditionHistory$ = this.store.select(
+    Selectors.selectConditionHistory
+  );
+  readonly conditionHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadConditionHistory());
+  }
 }

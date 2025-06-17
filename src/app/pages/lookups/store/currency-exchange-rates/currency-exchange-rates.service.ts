@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, map, Observable, tap, throwError } from 'rxjs';
 import { CurrencyExchangeRate } from './currency-exchange-rate.model';
 import { environment } from '../../../../../environments/environment';
 
@@ -61,5 +61,22 @@ export class CurrencyExchangeRatesService {
     return this.http.get<CurrencyExchangeRate[]>(
       `${this.api}/GetByCurrencyId/${currencyId}`
     );
+  }
+  //History management
+  getAllHistory(): Observable<CurrencyExchangeRate[]> {
+    console.log('🚀 Service: calling GET …');
+    return this.http
+      .get<{ items: CurrencyExchangeRate[]; totalCount: number }>(
+        `${this.api}/GetAllCurrenciesHistory`
+      )
+      .pipe(
+        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
+        map((resp) => resp.items), // ← pull off the `items` array here
+        tap((items) => console.log('🚀 Mapped items:', items)),
+        catchError((err) => {
+          console.error('🚀 HTTP error fetching Currencies:', err);
+          return throwError(() => err);
+        })
+      );
   }
 }

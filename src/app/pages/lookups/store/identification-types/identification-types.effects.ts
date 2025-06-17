@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { IdentificationTypesService } from './identification-types.service';
 import * as ActionsList from './identification-types.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { IdentificationType } from './identification-type.model';
 
 @Injectable()
@@ -105,7 +105,24 @@ export class IdentificationTypesEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadIdentificationTypeHistory())
+    )
+  );
+  loadIdentificationTypeHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadIdentificationTypeHistory),
+      switchMap(() =>
+        this.svc.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadIdentificationTypeHistorySuccess({
+              history,
+            })
+          ),
+          catchError((error) =>
+            of(ActionsList.loadIdentificationTypeHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

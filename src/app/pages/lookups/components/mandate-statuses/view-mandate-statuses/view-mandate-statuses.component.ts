@@ -24,6 +24,7 @@ export class ViewMandateStatusesComponent {
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
     { field: 'isInitial', header: 'Is Initial' },
+    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedMandateStatusId: number | null = null;
@@ -33,8 +34,8 @@ export class ViewMandateStatusesComponent {
 
   constructor(private router: Router, private facade: MandateStatusesFacade) {}
   ngOnInit() {
-    this.facade.loadAll();
-    this.mandateStatuses$ = this.facade.items$;
+    this.facade.loadHistory();
+    this.mandateStatuses$ = this.facade.history$;
 
     this.mandateStatuses$
       ?.pipe(takeUntil(this.destroy$))

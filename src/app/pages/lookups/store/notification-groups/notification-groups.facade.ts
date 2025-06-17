@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { createSelector, Store } from '@ngrx/store';
 import * as Actions from './notification-groups.actions';
 import * as Selectors from './notification-groups.selectors';
-import { NotificationGroup } from './notification-groups.model';
+import { NotificationGroup } from './notification-group.model';
 import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors'; // adjust path if needed
 
 @Injectable({ providedIn: 'root' })
@@ -38,5 +38,18 @@ export class NotificationGroupsFacade {
 
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
+  }
+  //History management
+  history$ = this.store.select(Selectors.selectNotificationGroupHistory);
+
+  readonly notificationGroupHistory$ = this.store.select(
+    Selectors.selectNotificationGroupHistory
+  );
+  readonly notificationGroupHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadNotificationGroupHistory());
   }
 }

@@ -1,13 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import {
-  combineLatest,
-  filter,
-  map,
-  Observable,
-  of,
-  Subject,
-  takeUntil,
-} from 'rxjs';
+import { combineLatest, map, of, Subject, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { AuthorizationGroupOfficer } from '../../../store/authorization-group-officers/authorization-group-officer.model';
@@ -30,12 +22,13 @@ export class ViewAuthorizationGroupOfficersComponent {
 
   @ViewChild('tableRef') tableRef!: TableComponent;
 
- readonly colsInside = [
-  { field: 'authorizationGroupName', header: 'authorization Group' },
-  { field: 'officerName', header: 'officer' },
-  { field: 'startDate', header: 'start Date' },
-  { field: 'isCurrent', header: 'isCurrent' },
-];
+  readonly colsInside = [
+    { field: 'authorizationGroupName', header: 'authorization Group' },
+    { field: 'officerName', header: 'officer' },
+    { field: 'startDate', header: 'start Date' },
+    { field: 'isCurrent', header: 'isCurrent' },
+    { field: 'isActive', header: 'Active' },
+  ];
 
   showDeleteModal = false;
   selectedAuthorizationGroupOfficerId: number | null = null;
@@ -52,9 +45,9 @@ export class ViewAuthorizationGroupOfficersComponent {
   ) {}
 
   ngOnInit() {
-    this.authorizationGroupOfficers$ = this.facade.all$;
-    this.facade.loadAll();
-    
+    this.authorizationGroupOfficers$ = this.facade.history$;
+    this.facade.loadHistory();
+
     this.authorizationGroupList$ = this.authorizationGroupsFacade.all$;
     this.authorizationGroupsFacade.loadAll();
 
@@ -62,42 +55,42 @@ export class ViewAuthorizationGroupOfficersComponent {
     this.officersFacade.loadAll();
 
     // Combine fee types with their corresponding calculation type names
-   combineLatest<[AuthorizationGroupOfficer[], any[], any[]]>([
-  this.authorizationGroupOfficers$ ?? of([]),
-  this.authorizationGroupList$ ?? of([]),
-  this.officersList$ ?? of([]),
-])
-  .pipe(
-    map(([authorizationGroupOfficers, feeCalcTypes, officers]) => {
-      console.log('📦 Raw authorizationGroups:', authorizationGroupOfficers);
-      console.log('📦 Raw feeCalcTypes:', feeCalcTypes);
-      console.log('📦 Raw officers:', officers);
-
-      return authorizationGroupOfficers
-        .map((ss) => {
-          const groupMatch = feeCalcTypes.find(
-            (s) => s.id === ss.authorizationGroupId
+    combineLatest<[AuthorizationGroupOfficer[], any[], any[]]>([
+      this.authorizationGroupOfficers$ ?? of([]),
+      this.authorizationGroupList$ ?? of([]),
+      this.officersList$ ?? of([]),
+    ])
+      .pipe(
+        map(([authorizationGroupOfficers, feeCalcTypes, officers]) => {
+          console.log(
+            '📦 Raw authorizationGroups:',
+            authorizationGroupOfficers
           );
-          const officerMatch = officers.find(
-            (o) => o.id === ss.officerId
-          );
+          console.log('📦 Raw feeCalcTypes:', feeCalcTypes);
+          console.log('📦 Raw officers:', officers);
 
-          return {
-            ...ss,
-            authorizationGroupName: groupMatch?.name || '—',
-            officerName: officerMatch?.name || '—',
-          };
-        })
-        .sort((a, b) => b.id - a.id);
-    }),
-    takeUntil(this.destroy$)
-  )
-  .subscribe((result) => {
-    console.log('🔄 Mapped Result:', result);
-    this.filteredAuthorizationGroupOfficers = result;
-    this.originalAuthorizationGroupOfficers = result;
-  });
+          return authorizationGroupOfficers
+            .map((ss) => {
+              const groupMatch = feeCalcTypes.find(
+                (s) => s.id === ss.authorizationGroupId
+              );
+              const officerMatch = officers.find((o) => o.id === ss.officerId);
 
+              return {
+                ...ss,
+                authorizationGroupName: groupMatch?.name || '—',
+                officerName: officerMatch?.name || '—',
+              };
+            })
+            .sort((a, b) => b.id - a.id);
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((result) => {
+        console.log('🔄 Mapped Result:', result);
+        this.filteredAuthorizationGroupOfficers = result;
+        this.originalAuthorizationGroupOfficers = result;
+      });
   }
 
   onAddAuthorizationGroupOfficer() {
@@ -135,26 +128,37 @@ export class ViewAuthorizationGroupOfficersComponent {
 
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
-    this.filteredAuthorizationGroupOfficers = this.originalAuthorizationGroupOfficers.filter((authorizationGroups) =>
-      Object.values(authorizationGroups).some((val) =>
-        val?.toString().toLowerCase().includes(lower)
-      )
-    );
+    this.filteredAuthorizationGroupOfficers =
+      this.originalAuthorizationGroupOfficers.filter((authorizationGroups) =>
+        Object.values(authorizationGroups).some((val) =>
+          val?.toString().toLowerCase().includes(lower)
+        )
+      );
   }
 
   onToggleFilters(value: boolean) {
     this.showFilters = value;
   }
 
-  onEditAuthorizationGroupOfficer(authorizationGroups: AuthorizationGroupOfficer) {
-    this.router.navigate(['/lookups/edit-authorization-group-officers', authorizationGroups.id], {
-      queryParams: { mode: 'edit' },
-    });
+  onEditAuthorizationGroupOfficer(
+    authorizationGroups: AuthorizationGroupOfficer
+  ) {
+    this.router.navigate(
+      ['/lookups/edit-authorization-group-officers', authorizationGroups.id],
+      {
+        queryParams: { mode: 'edit' },
+      }
+    );
   }
 
-  onViewAuthorizationGroupOfficer(authorizationGroups: AuthorizationGroupOfficer) {
-    this.router.navigate(['/lookups/edit-authorization-group-officers', authorizationGroups.id], {
-      queryParams: { mode: 'view' },
-    });
+  onViewAuthorizationGroupOfficer(
+    authorizationGroups: AuthorizationGroupOfficer
+  ) {
+    this.router.navigate(
+      ['/lookups/edit-authorization-group-officers', authorizationGroups.id],
+      {
+        queryParams: { mode: 'view' },
+      }
+    );
   }
 }

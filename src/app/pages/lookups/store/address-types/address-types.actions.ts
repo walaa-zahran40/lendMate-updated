@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { AddressType } from './address-types.model';
+import { AddressType } from './address-type.model';
 
 export const loadAll = createAction(
   '[AddressTypes] Load All',
@@ -70,4 +70,18 @@ export const deleteEntityFailure = createAction(
 export const entityOperationSuccess = createAction(
   '[Entity] Operation Success',
   props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
+);
+//History actions
+export const loadAddressTypeHistory = createAction(
+  '[AddressType/API] Load Address Type History'
+);
+
+export const loadAddressTypeHistorySuccess = createAction(
+  '[AddressType/API] Load Address Type History Success',
+  props<{ history: AddressType[] }>()
+);
+
+export const loadAddressTypeHistoryFailure = createAction(
+  '[AddressType/API] Load Address Type History Failure',
+  props<{ error: any }>()
 );

@@ -71,3 +71,17 @@ export const entityOperationSuccess = createAction(
   '[Entity] Operation Success',
   props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
 );
+//History actions
+export const loadInsuredByHistory = createAction(
+  '[InsuredBy/API] Load InsuredBy History'
+);
+
+export const loadInsuredByHistorySuccess = createAction(
+  '[InsuredBy/API] Load InsuredBy History Success',
+  props<{ history: InsuredBy[] }>()
+);
+
+export const loadInsuredByHistoryFailure = createAction(
+  '[InsuredBy/API] Load CompanyFlowType History Failure',
+  props<{ error: any }>()
+);

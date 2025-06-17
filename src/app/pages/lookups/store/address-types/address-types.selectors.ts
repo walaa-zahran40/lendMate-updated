@@ -41,3 +41,21 @@ export const selectAddressTypesTotalCount = createSelector(
   selectAddressTypesFeature,
   (state) => state
 );
+// History management selectors
+export const selectAddressTypeState =
+  createFeatureSelector<State>('addressTypes');
+
+export const selectHistory = createSelector(
+  selectAddressTypeState,
+  (state) => state.history
+);
+
+export const selectHistoryLoaded = createSelector(
+  selectAddressTypeState,
+  (state) => state.historyLoaded
+);
+
+export const selectHistoryError = createSelector(
+  selectAddressTypeState,
+  (state) => state.historyError
+);

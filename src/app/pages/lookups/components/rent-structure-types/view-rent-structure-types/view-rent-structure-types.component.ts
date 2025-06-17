@@ -22,6 +22,7 @@ export class ViewRentStructureTypesComponent {
   readonly colsInside = [
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
+    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedRentStructureTypeId: number | null = null;
@@ -35,19 +36,18 @@ export class ViewRentStructureTypesComponent {
   ) {}
   ngOnInit() {
     console.log('🟢 ngOnInit: start');
-    this.RentStructureTypes$ = this.facade.all$;
-    console.log('🟢 before loadAll, current store value:');
+    this.RentStructureTypes$ = this.facade.history$;
+    console.log('🟢 before loadHistory, current store value:');
     this.RentStructureTypes$.pipe(take(1)).subscribe((v) =>
       console.log('   store currently has:', v)
     );
-    console.log('🟢 Calling loadAll() to fetch RentStructureTypes');
-    this.facade.loadAll();
+    console.log('🟢 Calling loadHistory() to fetch RentStructureTypes');
+    this.facade.loadHistory();
 
     this.RentStructureTypes$?.pipe(takeUntil(this.destroy$))?.subscribe(
       (rentStructureTypes) => {
         // rentStructureTypes is now rentStructureType[], not any
-        const activeCodes = rentStructureTypes.filter((code) => code.isActive);
-        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
+        const sorted = [...rentStructureTypes].sort((a, b) => b?.id - a?.id);
         this.originalRentStructureType = sorted;
         this.filteredRentStructureType = [...sorted];
       }

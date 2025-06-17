@@ -3,11 +3,12 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subject, Observable, combineLatest, map, takeUntil } from 'rxjs';
 import { TableComponent } from '../../../../../../../shared/components/table/table.component';
-import { NotificationGroup } from '../../../../../store/notification-groups/notification-groups.model';
+import { NotificationGroup } from '../../../../../store/notification-groups/notification-group.model';
 import { selectAllNotificationGroups } from '../../../../../store/notification-groups/notification-groups.selectors';
-import { loadAll as loadNotificationGroups} from '../../../../../store/notification-groups/notification-groups.actions';
+import { loadAll as loadNotificationGroups } from '../../../../../store/notification-groups/notification-groups.actions';
 import { ActionNotificationGroup } from '../../../../../store/client-statuses-actions-activities/ClientStatusActionNotificationGroup/action-notification-group.model';
 import { ActionNotificationGroupsFacade } from '../../../../../store/client-statuses-actions-activities/ClientStatusActionNotificationGroup/action-notification-groups.facade';
+import { loadActionNotificationGroupHistory } from '../../../../../store/client-statuses-actions-activities/ClientStatusActionNotificationGroup/action-notification-groups.actions';
 
 @Component({
   selector: 'app-view-action-notificationg-group',
@@ -27,6 +28,7 @@ export class ViewActionNotificationGroupsComponent {
   readonly colsInside = [
     { field: 'notificationGroup', header: 'NotificationGroup' },
     { field: 'startDate', header: 'Start Date' },
+    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedActionNotificationGroupId: number | null = null;
@@ -45,12 +47,16 @@ export class ViewActionNotificationGroupsComponent {
   ngOnInit() {
     const raw = this.route.snapshot.paramMap.get('clientStatusActionId');
     this.clientStatusActionIdParam = raw !== null ? Number(raw) : undefined;
-    this.facade.loadActionNotificationGroupsByClientStatusActionId(this.clientStatusActionIdParam);
-    this.actionNotificationGroups$ = this.facade.items$;
+    this.facade.loadActionNotificationGroupsByClientStatusActionId(
+      this.clientStatusActionIdParam
+    );
+    this.actionNotificationGroups$ = this.facade.history$;
 
-    this.store.dispatch(loadNotificationGroups({}));
+    this.store.dispatch(loadActionNotificationGroupHistory());
 
-    this.notificationGroupsList$ = this.store.select(selectAllNotificationGroups);
+    this.notificationGroupsList$ = this.store.select(
+      selectAllNotificationGroups
+    );
 
     combineLatest([
       this.actionNotificationGroups$,
@@ -62,8 +68,9 @@ export class ViewActionNotificationGroupsComponent {
             .map((actionNotificationGroup) => ({
               ...actionNotificationGroup,
               notificationGroup:
-                notificationGroupsList.find((c) => c.id === actionNotificationGroup.notificationGroupId)?.name ||
-                '—',
+                notificationGroupsList.find(
+                  (c) => c.id === actionNotificationGroup.notificationGroupId
+                )?.name || '—',
             }))
             .sort((a, b) => b.id - a.id)
         ),
@@ -76,10 +83,15 @@ export class ViewActionNotificationGroupsComponent {
   }
 
   onAddActionNotificationGroup() {
-    const clientStatusActionIdParam = this.route.snapshot.paramMap.get('clientStatusActionId');
+    const clientStatusActionIdParam = this.route.snapshot.paramMap.get(
+      'clientStatusActionId'
+    );
 
     this.router.navigate(['/lookups/add-action-notificationGroups'], {
-      queryParams: { mode: 'add', clientStatusActionId: clientStatusActionIdParam },
+      queryParams: {
+        mode: 'add',
+        clientStatusActionId: clientStatusActionIdParam,
+      },
     });
   }
 
@@ -102,7 +114,10 @@ export class ViewActionNotificationGroupsComponent {
       this.selectedActionNotificationGroupId
     );
     if (this.selectedActionNotificationGroupId !== null) {
-      this.facade.delete(this.selectedActionNotificationGroupId, this.clientStatusActionIdParam);
+      this.facade.delete(
+        this.selectedActionNotificationGroupId,
+        this.clientStatusActionIdParam
+      );
       console.log('[View] confirmDelete() – facade.delete() called');
     } else {
       console.warn('[View] confirmDelete() – no id to delete');
@@ -120,16 +135,19 @@ export class ViewActionNotificationGroupsComponent {
   }
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
-    this.filteredActionNotificationGroups = this.originalActionNotificationGroups.filter((actionNotificationGroup) =>
-      Object.values(actionNotificationGroup).some((val) =>
-        val?.toString().toLowerCase().includes(lower)
-      )
-    );
+    this.filteredActionNotificationGroups =
+      this.originalActionNotificationGroups.filter((actionNotificationGroup) =>
+        Object.values(actionNotificationGroup).some((val) =>
+          val?.toString().toLowerCase().includes(lower)
+        )
+      );
   }
   onToggleFilters(value: boolean) {
     this.showFilters = value;
   }
-  onEditActionNotificationGroup(actionNotificationGroup: ActionNotificationGroup) {
+  onEditActionNotificationGroup(
+    actionNotificationGroup: ActionNotificationGroup
+  ) {
     this.router.navigate(
       ['/lookups/edit-action-notificationGroups', actionNotificationGroup.id],
       {

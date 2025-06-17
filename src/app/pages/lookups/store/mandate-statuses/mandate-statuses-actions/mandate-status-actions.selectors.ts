@@ -45,3 +45,15 @@ export const selectMandateStatusActionsTotalCount = createSelector(
   selectMandateStatusActionsFeature,
   (state) => state
 );
+// History management selectors
+export const selectMandateStatusActionHistoryState =
+  createFeatureSelector<State>('mandateStatusActionHistory');
+
+export const selectMandateStatusActionHistory = createSelector(
+  selectMandateStatusActionHistoryState,
+  (state) => state.history
+);
+export const selectHistoryLoaded = createSelector(
+  selectMandateStatusActionHistoryState,
+  (state) => state.historyLoaded
+);

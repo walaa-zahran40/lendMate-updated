@@ -1,6 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { mergeMap, map, catchError, tap, filter } from 'rxjs/operators';
+import {
+  mergeMap,
+  map,
+  catchError,
+  tap,
+  filter,
+  switchMap,
+} from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as ActionAuthorizationGroupActions from './action-authorization-groups.actions';
 import { ActionAuthorizationGroupsService } from './action-authorization-groups.service';
@@ -14,16 +21,20 @@ export class ActionAuthorizationGroupsEffects {
       mergeMap(() =>
         this.service.getAll().pipe(
           map((resp) =>
-            ActionAuthorizationGroupActions.loadActionAuthorizationGroupsSuccess({
-              items: resp.items,
-              totalCount: resp.totalCount,
-            })
+            ActionAuthorizationGroupActions.loadActionAuthorizationGroupsSuccess(
+              {
+                items: resp.items,
+                totalCount: resp.totalCount,
+              }
+            )
           ),
           catchError((error) =>
             of(
-              ActionAuthorizationGroupActions.loadActionAuthorizationGroupsFailure({
-                error,
-              })
+              ActionAuthorizationGroupActions.loadActionAuthorizationGroupsFailure(
+                {
+                  error,
+                }
+              )
             )
           )
         )
@@ -31,21 +42,26 @@ export class ActionAuthorizationGroupsEffects {
     )
   );
 
-  loadHistory$ = createEffect(() =>
+  // Load authorization group officer history
+  loadClientStatusActionAuthorizationGroupHistory$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ActionAuthorizationGroupActions.loadActionAuthorizationGroupsHistory),
-      mergeMap(() =>
-        this.service.getHistory().pipe(
-          map((resp) =>
-            ActionAuthorizationGroupActions.loadActionAuthorizationGroupsHistorySuccess({
-              history: resp.items,
-            })
+      ofType(
+        ActionAuthorizationGroupActions.loadClientStatusActionAuthorizationGroupHistory
+      ),
+      switchMap(() =>
+        this.service.getAllHistory().pipe(
+          map((history) =>
+            ActionAuthorizationGroupActions.loadClientStatusActionAuthorizationGroupHistorySuccess(
+              {
+                history,
+              }
+            )
           ),
           catchError((error) =>
             of(
-              ActionAuthorizationGroupActions.loadActionAuthorizationGroupsHistoryFailure({
-                error,
-              })
+              ActionAuthorizationGroupActions.loadClientStatusActionAuthorizationGroupHistoryFailure(
+                { error }
+              )
             )
           )
         )
@@ -59,15 +75,19 @@ export class ActionAuthorizationGroupsEffects {
       mergeMap(({ id }) =>
         this.service.getById(id).pipe(
           map((client) =>
-            ActionAuthorizationGroupActions.loadActionAuthorizationGroupSuccess({
-              client,
-            })
+            ActionAuthorizationGroupActions.loadActionAuthorizationGroupSuccess(
+              {
+                client,
+              }
+            )
           ),
           catchError((error) =>
             of(
-              ActionAuthorizationGroupActions.loadActionAuthorizationGroupFailure({
-                error,
-              })
+              ActionAuthorizationGroupActions.loadActionAuthorizationGroupFailure(
+                {
+                  error,
+                }
+              )
             )
           )
         )
@@ -81,15 +101,19 @@ export class ActionAuthorizationGroupsEffects {
       mergeMap(({ data }) =>
         this.service.create(data).pipe(
           map((client) =>
-            ActionAuthorizationGroupActions.createActionAuthorizationGroupSuccess({
-              client,
-            })
+            ActionAuthorizationGroupActions.createActionAuthorizationGroupSuccess(
+              {
+                client,
+              }
+            )
           ),
           catchError((error) =>
             of(
-              ActionAuthorizationGroupActions.createActionAuthorizationGroupFailure({
-                error,
-              })
+              ActionAuthorizationGroupActions.createActionAuthorizationGroupFailure(
+                {
+                  error,
+                }
+              )
             )
           )
         )
@@ -112,15 +136,19 @@ export class ActionAuthorizationGroupsEffects {
               clientStatusActionId: data.clientStatusActionId!,
             };
             console.log('[Effect:update] enriched client →', enriched);
-            return ActionAuthorizationGroupActions.updateActionAuthorizationGroupSuccess({
-              client: enriched,
-            });
+            return ActionAuthorizationGroupActions.updateActionAuthorizationGroupSuccess(
+              {
+                client: enriched,
+              }
+            );
           }),
           catchError((error) =>
             of(
-              ActionAuthorizationGroupActions.updateActionAuthorizationGroupFailure({
-                error,
-              })
+              ActionAuthorizationGroupActions.updateActionAuthorizationGroupFailure(
+                {
+                  error,
+                }
+              )
             )
           )
         )
@@ -134,16 +162,20 @@ export class ActionAuthorizationGroupsEffects {
       mergeMap(({ id, clientStatusActionId }) =>
         this.service.delete(id).pipe(
           map(() =>
-            ActionAuthorizationGroupActions.deleteActionAuthorizationGroupSuccess({
-              id,
-              clientStatusActionId,
-            })
+            ActionAuthorizationGroupActions.deleteActionAuthorizationGroupSuccess(
+              {
+                id,
+                clientStatusActionId,
+              }
+            )
           ),
           catchError((error) =>
             of(
-              ActionAuthorizationGroupActions.deleteActionAuthorizationGroupFailure({
-                error,
-              })
+              ActionAuthorizationGroupActions.deleteActionAuthorizationGroupFailure(
+                {
+                  error,
+                }
+              )
             )
           )
         )
@@ -173,9 +205,11 @@ export class ActionAuthorizationGroupsEffects {
       // only continue if it’s a number
 
       map((clientStatusActionId) =>
-        ActionAuthorizationGroupActions.loadActionAuthorizationGroupsByClientStatusActionId({
-          clientStatusActionId,
-        })
+        ActionAuthorizationGroupActions.loadActionAuthorizationGroupsByClientStatusActionId(
+          {
+            clientStatusActionId,
+          }
+        )
       )
     )
   );
@@ -184,13 +218,18 @@ export class ActionAuthorizationGroupsEffects {
    */
   loadByClientStatusActionId$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ActionAuthorizationGroupActions.loadActionAuthorizationGroupsByClientStatusActionId),
+      ofType(
+        ActionAuthorizationGroupActions.loadActionAuthorizationGroupsByClientStatusActionId
+      ),
 
       tap((action) =>
         console.log('[Effect:loadByClientStatusActionId] full action →', action)
       ),
       tap(({ clientStatusActionId }) =>
-        console.log('[Effect:loadByClientStatusActionId] clientStatusActionId →', clientStatusActionId)
+        console.log(
+          '[Effect:loadByClientStatusActionId] clientStatusActionId →',
+          clientStatusActionId
+        )
       ),
 
       mergeMap(({ clientStatusActionId }) =>
@@ -199,15 +238,19 @@ export class ActionAuthorizationGroupsEffects {
             console.log('[Effect:loadByClientStatusActionId] response →', items)
           ),
           map((items) =>
-            ActionAuthorizationGroupActions.loadActionAuthorizationGroupsByClientStatusActionIdSuccess({
-              items,
-            })
+            ActionAuthorizationGroupActions.loadActionAuthorizationGroupsByClientStatusActionIdSuccess(
+              {
+                items,
+              }
+            )
           ),
           catchError((error) =>
             of(
-              ActionAuthorizationGroupActions.loadActionAuthorizationGroupsByClientStatusActionIdFailure({
-                error,
-              })
+              ActionAuthorizationGroupActions.loadActionAuthorizationGroupsByClientStatusActionIdFailure(
+                {
+                  error,
+                }
+              )
             )
           )
         )

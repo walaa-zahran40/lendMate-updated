@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { CommunicationFlowTypesService } from './communication-flow-types.service';
 import * as ActionsList from './communication-flow-types.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { CommunicationFlowType } from './communication-flow-type.model';
 import { EntityNames } from '../../../../shared/constants/entity-names';
 
@@ -121,7 +121,23 @@ export class CommunicationFlowTypesEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadCommunicationFlowTypeHistory())
+    )
+  );
+  // Load authorization group officer history
+  loadCommunicationFlowTypeHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadCommunicationFlowTypeHistory),
+      switchMap(() =>
+        this.svc.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadCommunicationFlowTypeHistorySuccess({ history })
+          ),
+          catchError((error) =>
+            of(ActionsList.loadCommunicationFlowTypeHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

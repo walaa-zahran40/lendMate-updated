@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { InterestRateBenchMarksService } from './interest-rate-benchmarks.service';
 import * as ActionsList from './interest-rate-benchmarks.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { InterestRateBenchMark } from './interest-rate-benchmark.model';
 
 @Injectable()
@@ -105,7 +105,24 @@ export class InterestRateBenchMarksEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadInterestRateBenchmarkHistory())
+    )
+  );
+  loadInterestRateBenchmarkHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadInterestRateBenchmarkHistory),
+      switchMap(() =>
+        this.svc.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadInterestRateBenchmarkHistorySuccess({
+              history,
+            })
+          ),
+          catchError((error) =>
+            of(ActionsList.loadInterestRateBenchmarkHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

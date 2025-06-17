@@ -42,3 +42,16 @@ export const selectRentStructureTypesTotalCount = createSelector(
   selectRentStructureTypesFeature,
   (state) => state
 );
+// History management selectors
+export const selectRentStructureTypeHistoryState = createFeatureSelector<State>(
+  'rentStructureTypeHistory'
+);
+
+export const selectRentStructureTypeHistory = createSelector(
+  selectRentStructureTypeHistoryState,
+  (state) => state.history
+);
+export const selectHistoryLoaded = createSelector(
+  selectRentStructureTypeHistoryState,
+  (state) => state.historyLoaded
+);

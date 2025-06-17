@@ -39,4 +39,17 @@ export class GovernoratesFacade {
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
   }
+  //History management
+  history$ = this.store.select(Selectors.selectGovernorateHistory);
+
+  readonly governorateHistory$ = this.store.select(
+    Selectors.selectGovernorateHistory
+  );
+  readonly governorateHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadGovernorateHistory());
+  }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
-import { AuthorizationGroup } from './authorization-groups.model';
+import { AuthorizationGroup } from './authorization-group.model';
 import { environment } from '../../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
@@ -28,10 +28,14 @@ export class AuthorizationGroupsService {
   }
 
   getById(id: number): Observable<AuthorizationGroup> {
-    return this.http.get<AuthorizationGroup>(`${this.baseUrl}/AuthorizationGroupId?id=${id}`);
+    return this.http.get<AuthorizationGroup>(
+      `${this.baseUrl}/AuthorizationGroupId?id=${id}`
+    );
   }
 
-  create(payload: Omit<AuthorizationGroup, 'id'>): Observable<AuthorizationGroup> {
+  create(
+    payload: Omit<AuthorizationGroup, 'id'>
+  ): Observable<AuthorizationGroup> {
     return this.http.post<AuthorizationGroup>(
       `${this.baseUrl}/CreateAuthorizationGroup`,
       payload
@@ -44,5 +48,22 @@ export class AuthorizationGroupsService {
 
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+  //History management
+  getAllHistory(): Observable<AuthorizationGroup[]> {
+    console.log('🚀 Service: calling GET …');
+    return this.http
+      .get<{ items: AuthorizationGroup[]; totalCount: number }>(
+        `${this.baseUrl}/GetAllAuthorizationGroupsHistory`
+      )
+      .pipe(
+        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
+        map((resp) => resp.items), // ← pull off the `items` array here
+        tap((items) => console.log('🚀 Mapped items:', items)),
+        catchError((err) => {
+          console.error('🚀 HTTP error fetching AuthorizationGroups:', err);
+          return throwError(() => err);
+        })
+      );
   }
 }

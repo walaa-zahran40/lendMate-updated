@@ -22,6 +22,7 @@ export class ViewInterestRateBenchmarksComponent {
   readonly colsInside = [
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
+    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedInterestRateBenchMarkId: number | null = null;
@@ -35,19 +36,18 @@ export class ViewInterestRateBenchmarksComponent {
   ) {}
   ngOnInit() {
     console.log('🟢 ngOnInit: start');
-    this.InterestRateBenchmarks$ = this.facade.all$;
-    console.log('🟢 before loadAll, current store value:');
+    this.InterestRateBenchmarks$ = this.facade.history$;
+    console.log('🟢 before loadHistory, current store value:');
     this.InterestRateBenchmarks$.pipe(take(1)).subscribe((v) =>
       console.log('   store currently has:', v)
     );
-    console.log('🟢 Calling loadAll() to fetch InterestRateBenchMarks');
-    this.facade.loadAll();
+    console.log('🟢 Calling loadHistory() to fetch InterestRateBenchMarks');
+    this.facade.loadHistory();
 
     this.InterestRateBenchmarks$?.pipe(takeUntil(this.destroy$))?.subscribe(
       (interest) => {
         // interest is now interest[], not any
-        const activeCodes = interest.filter((code) => code.isActive);
-        const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
+        const sorted = [...interest].sort((a, b) => b?.id - a?.id);
         this.originalInterestRateBenchMark = sorted;
         this.filteredInterestRateBenchmarks = [...sorted];
       }

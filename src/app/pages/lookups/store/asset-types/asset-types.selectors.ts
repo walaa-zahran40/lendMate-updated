@@ -40,3 +40,14 @@ export const selectAssetTypesTotalCount = createSelector(
   selectAssetTypesFeature,
   (state) => state
 );
+// History management selectors
+export const selectAssetTypeState = createFeatureSelector<State>('assetTypes');
+
+export const selectAssetTypeHistory = createSelector(
+  selectAssetTypeState,
+  (state) => state.history
+);
+export const selectHistoryLoaded = createSelector(
+  selectAssetTypeState,
+  (state) => state.historyLoaded
+);

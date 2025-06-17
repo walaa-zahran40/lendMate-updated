@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { CompanyTypesService } from './company-types.service';
 import * as ActionsList from './company-types.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { CompanyType } from './company-type.model';
 import { EntityNames } from '../../../../shared/constants/entity-names';
 
@@ -115,7 +115,23 @@ export class CompanyTypesEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadCompanyTypeHistory())
+    )
+  );
+  // Load authorization group officer history
+  loadCompanyTypeHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadCompanyTypeHistory),
+      switchMap(() =>
+        this.svc.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadCompanyTypeHistorySuccess({ history })
+          ),
+          catchError((error) =>
+            of(ActionsList.loadCompanyTypeHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

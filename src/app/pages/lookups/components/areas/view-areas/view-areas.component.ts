@@ -20,6 +20,7 @@ export class ViewAreasComponent implements OnInit, OnDestroy {
     { field: 'governorateName', header: 'Governorate Name' },
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
+    { field: 'isActive', header: 'Active' },
   ];
 
   originalArea: Area[] = [];
@@ -38,7 +39,7 @@ export class ViewAreasComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // 1) load once
-    this.areasFacade.loadAll();
+    this.areasFacade.loadHistory();
     this.govFacade.loadAll();
 
     // 2) on any create/update/delete → reload
@@ -50,17 +51,17 @@ export class ViewAreasComponent implements OnInit, OnDestroy {
             op?.entity === 'Area' &&
             ['create', 'update', 'delete'].includes(op.operation)
         ),
-        tap(() => this.areasFacade.loadAll())
+        tap(() => this.areasFacade.loadHistory())
       )
       .subscribe();
 
     // 3) combine, filter active, map governorateName, sort desc, emit
-    combineLatest([this.areasFacade.all$, this.govFacade.all$])
+    combineLatest([this.areasFacade.history$, this.govFacade.all$])
       .pipe(
         takeUntil(this.destroy$),
         map(([areas, govs]) =>
           areas
-            .filter((a) => a.isActive)
+            // Remove isActive filter here since it's historical
             .map((a) => ({
               ...a,
               governorateName:

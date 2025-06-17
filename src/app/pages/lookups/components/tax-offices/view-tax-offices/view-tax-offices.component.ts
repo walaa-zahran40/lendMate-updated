@@ -34,6 +34,7 @@ export class ViewTaxOfficesComponent {
     { field: 'nameAR', header: 'Name AR' },
     { field: 'governorateName', header: 'Governorate Name' },
     { field: 'address', header: 'Address' },
+    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedTaxOfficeId: number | null = null;
@@ -49,11 +50,11 @@ export class ViewTaxOfficesComponent {
   ) {}
   ngOnInit() {
     // 1️⃣ grab both streams
-    this.taxOffices$ = this.facade.all$;
+    this.taxOffices$ = this.facade.history$;
     this.governoratesList$ = this.store.select(selectAllGovernorates);
 
     // 2️⃣ kick off the loads
-    this.facade.loadAll();
+    this.facade.loadHistory();
     this.store.dispatch({ type: '[Governorates] Load All' });
 
     // 3️⃣ combine, enrich, sort, and subscribe

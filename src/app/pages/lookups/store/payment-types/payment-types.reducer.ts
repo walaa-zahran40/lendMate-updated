@@ -89,6 +89,29 @@ export const reducer = createReducer(
     });
 
     return newState;
+  }),
+  //History management
+  on(PaymentTypeActions.loadPaymentTypeHistory, (state) => ({
+    ...state,
+    historyLoaded: false,
+    historyError: null,
+  })),
+
+  on(
+    PaymentTypeActions.loadPaymentTypeHistorySuccess,
+    (state, { history }) => ({
+      ...state,
+      history,
+      historyLoaded: true,
+    })
+  ),
+  on(PaymentTypeActions.loadPaymentTypeHistorySuccess, (state, { history }) => {
+    console.log('✅ Reducer: history loaded', history); // add this
+    return {
+      ...state,
+      history: [...history],
+      historyLoaded: true,
+    };
   })
 );
 

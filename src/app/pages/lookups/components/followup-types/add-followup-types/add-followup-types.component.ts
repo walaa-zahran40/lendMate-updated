@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { distinctUntilChanged, filter, take } from 'rxjs';
 import { FollowupTypesFacade } from '../../../store/followup-types/followup-types.facade';
-import { FollowupType } from '../../../store/followup-types/folllowup-types.model';
+import { FollowupType } from '../../../store/followup-types/folllowup-type.model';
 
 @Component({
   selector: 'app-add-followup-types',

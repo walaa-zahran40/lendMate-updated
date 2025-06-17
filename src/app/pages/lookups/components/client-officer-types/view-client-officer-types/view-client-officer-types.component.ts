@@ -22,6 +22,7 @@ export class ViewClientOfficerTypesComponent {
   readonly colsInside = [
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
+    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedClientOfficerTypeId: number | null = null;
@@ -29,18 +30,21 @@ export class ViewClientOfficerTypesComponent {
   filteredClientOfficerTypes: ClientOfficerType[] = [];
   clientOfficerTypes$!: Observable<ClientOfficerType[]>;
 
-  constructor(private router: Router, private facade: ClientOfficerTypesFacade) {}
+  constructor(
+    private router: Router,
+    private facade: ClientOfficerTypesFacade
+  ) {}
   ngOnInit() {
-    this.facade.loadAll();
-    this.clientOfficerTypes$ = this.facade.all$;
+    this.facade.loadHistory();
+    this.clientOfficerTypes$ = this.facade.history$;
 
-    this.clientOfficerTypes$?.pipe(takeUntil(this.destroy$))?.subscribe((call) => {
-      // clientOfficerTypes is now clientOfficerTypes[], not any
-      const activeCodes = call.filter((code) => code.isActive);
-      const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
-      this.originalClientOfficerTypes = sorted;
-      this.filteredClientOfficerTypes = [...sorted];
-    });
+    this.clientOfficerTypes$
+      ?.pipe(takeUntil(this.destroy$))
+      ?.subscribe((call) => {
+        const sorted = [...call].sort((a, b) => b?.id - a?.id);
+        this.originalClientOfficerTypes = sorted;
+        this.filteredClientOfficerTypes = [...sorted];
+      });
   }
 
   onAddClientOfficerType() {

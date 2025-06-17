@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AuthorityOfficesService } from './authority-offices.service';
 import * as ActionsList from './authority-offices.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { AuthorityOffice } from './authority-office.model';
 import { EntityNames } from '../../../../shared/constants/entity-names';
 
@@ -88,7 +88,7 @@ export class AuthorityOfficesEffects {
         this.svc.update(id, changes).pipe(
           mergeMap(() => [
             ActionsList.updateEntitySuccess({ id, changes }),
-            ActionsList.loadAll({}), // 👈 this is crucial
+            // ActionsList.loadAuthorityOfficeHistory(), // 👈 this is crucial
             ActionsList.entityOperationSuccess({
               entity: EntityNames.AuthorityOffice,
               operation: 'update',
@@ -118,7 +118,23 @@ export class AuthorityOfficesEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(() => ActionsList.loadAuthorityOfficeHistory())
+    )
+  );
+  // Load authority office history
+  loadAuthorityOffices$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadAuthorityOfficeHistory),
+      switchMap(() =>
+        this.svc.getAllHistory().pipe(
+          map((history) =>
+            ActionsList.loadAuthorityOfficeHistorySuccess({ history })
+          ),
+          catchError((error) =>
+            of(ActionsList.loadAuthorityOfficeHistoryFailure({ error }))
+          )
+        )
+      )
     )
   );
 }
