@@ -48,7 +48,7 @@ export class SharedDatePickerComponent implements ControlValueAccessor, OnInit {
   }
 
   writeValue(val: any) {
-    this.value = val ? new Date(val) : null;
+    this.value = val ? new Date(val, ) : null;
   }
 
   registerOnChange(fn: any) {
