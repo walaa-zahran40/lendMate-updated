@@ -307,7 +307,7 @@ export class AddCallsComponent implements OnInit, OnDestroy {
       topic: formValue.topic,
       comments: formValue.comments,
       details: formValue.details,
-      date: formValue.date,
+      date: new Date(formValue.date),
       communicationOfficers: communicationOfficersPayload,
       communicationContactPersons: contactPersonPayload,
     };
@@ -335,7 +335,7 @@ export class AddCallsComponent implements OnInit, OnDestroy {
         topic: formValue.topic,
         comments: formValue.comments,
         details: formValue.details,
-        date: formValue.date,
+         date: new Date(formValue.date),
         communicationOfficers: communicationOfficersPayload,
         communicationContactPersons: contactPersonPayload,
       };

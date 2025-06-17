@@ -93,13 +93,19 @@
       />
 
       <!-- Details -->
-      <label for="details">Details</label>
+      <label for="details">Details <sup class="danger">*</sup></label>
       <input
         pInputText
         id="details"
         placeholder="Details"
         formControlName="details"
-      />
+        [ngClass]="{
+          'ng-invalid':
+          formGroup.get('details')?.invalid &&
+          (formGroup.get('details')?.dirty ||
+          formGroup.get('details')?.touched)
+        }"
+        />
 
       <label for="date">Date<sup>*</sup></label>
       <shared-date-picker formControlName="date" inputId="date">
