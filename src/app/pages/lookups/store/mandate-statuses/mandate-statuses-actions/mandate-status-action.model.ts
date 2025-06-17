@@ -8,5 +8,6 @@ export interface MandateStatusAction {
   statusOutId: number;
   statusOut?:any;
   workflowActionTypeId: number;
+  workflowActionType?:any;
   isActive: boolean;
 }

@@ -80,7 +80,7 @@ export class AddConditionsComponent {
               id: ct!.id,
               description: ct!.description,
               functionName: ct!.functionName,
-              conditionTypeId: ct!.conditionType,
+              conditionType: ct!.conditionType,
               conditionExpressionId: ct!.conditionExpressionId
             });
           });

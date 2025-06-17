@@ -7662,6 +7662,14 @@
         }"
       >
       </p-select>
+      <div class="p-field" *ngIf="editMode">
+        <p-toggleSwitch
+          id="isActive"
+          formControlName="isActive"
+          label="is Active"
+        ></p-toggleSwitch>
+        <label for="isActive"> Active</label>
+      </div>
       <div class="row justify-end">
         <div
           class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"

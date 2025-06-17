@@ -98,10 +98,9 @@ export class AddMandateStatusActionsComponent {
               id: ct?.id,
               name: ct?.name,
               nameAR: ct?.nameAR,
-              statusInId: ct?.statusInId,
-              statusOutId: ct?.statusOutId,
-              workflowActionTypeId: ct?.workflowActionTypeId,
-              isActive: ct?.isActive,
+              statusInId: ct?.statusInId ?? ct?.statusIn.id,
+              statusOutId: ct?.statusOutId?? ct?.statusOut.id,
+              workflowActionTypeId: ct?.workflowActionTypeId?? ct?.workflowActionType.id,
             });
             console.log(
               '🔵 Form after patchValue:',
