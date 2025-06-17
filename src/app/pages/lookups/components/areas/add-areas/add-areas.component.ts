@@ -74,32 +74,26 @@ export class AddAreasComponent {
         this.clientId = +idParam!;
         this.facade.loadById(this.clientId);
 
-        // 5️⃣ Wait for BOTH the record and the lookup list before patching
-        combineLatest([
-          this.facade.selected$.pipe(
-            filter((ct) => !!ct && ct.id === this.clientId),
-            take(1)
-          ),
-          this.governoratesList$.pipe(
-            filter((list) => list.length > 0),
-            take(1)
-          ),
-        ])
-          .pipe(takeUntil(this.destroy$))
-          .subscribe(([ct, govs]) => {
-            this.addAreasLookupsForm.patchValue({
-              id: ct?.id,
-              name: ct?.name,
-              nameAR: ct?.nameAR,
-              governorateId: ct?.governorateId,
-              isActive: ct?.isActive,
+        this.facade.selected$
+            .pipe(
+              filter((ct) => !!ct && ct.id === this.clientId),
+                tap((ct) => {
+                //  ct?.governorateId = ct?.governorate.id;
+                console.log('📦 Selected Area:', ct);
+                console.log('📌 governorateId:', ct?.governorateId);
+              }),
+              take(1)
+            )
+            .subscribe((ct) => {
+              this.addAreasLookupsForm.patchValue({
+                id: ct?.id,
+                name: ct?.name,
+                nameAR: ct?.nameAR,
+                governorateId: ct?.governorateId ?? ct?.governorate?.id, // ✅ fallback
+                isActive: ct?.isActive,
+              });
             });
-            console.log(
-              '🔵 Form after patchValue:',
-              this.addAreasLookupsForm.value
-            );
-          });
-      }
+        }
     });
   }
 
