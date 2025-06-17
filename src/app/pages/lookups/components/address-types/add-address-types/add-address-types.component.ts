@@ -34,7 +34,7 @@ export class AddAddressTypesComponent {
       ],
       nameAR: [
         '',
-        [Validators.required, , Validators.pattern(/^[\u0600-\u06FF\s]+$/)],
+        [Validators.required, , Validators.pattern(/^[\u0600-\u06FF\s0-9\u0660-\u0669]+$/)],
       ],
       isActive: [true], // ← new hidden control
     });

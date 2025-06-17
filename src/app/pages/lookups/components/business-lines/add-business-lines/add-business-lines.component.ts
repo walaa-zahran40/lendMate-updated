@@ -30,7 +30,7 @@ export class AddBusinessLinesComponent {
       name: ['', [Validators.required]],
       nameAR: [
         '',
-        [Validators.required, , Validators.pattern(/^[\u0600-\u06FF\s]+$/)],
+        [Validators.required, , Validators.pattern(/^[\u0600-\u06FF\s0-9\u0660-\u0669]+$/)],
       ],
       lisenceStartDate: [null, [Validators.required]],
       isActive: [true],

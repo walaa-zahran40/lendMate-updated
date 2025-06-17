@@ -66,7 +66,7 @@ export class AddClientOfficersComponent {
       ],
       detailesAR: [
         '',
-        [Validators.required, , Validators.pattern(/^[\u0600-\u06FF\s]+$/)],
+        [Validators.required, , Validators.pattern(/^[\u0600-\u06FF\s0-9\u0660-\u0669]+$/)],
       ],
       clientId: [null, [Validators.required]],
       officerId: [null, [Validators.required]],
