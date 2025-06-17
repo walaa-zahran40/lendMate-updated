@@ -267,11 +267,11 @@ export class AddClientComponent implements OnInit, OnDestroy {
       isIscore: [false],
       mainShare: [null, [Validators.min(0)]],
       establishedYear: [
-        2000,
+        null,
         [Validators.pattern(/^(19|20)\d{2}$/), Validators.min(0)],
       ],
       website: [
-        'mansor.com',
+        '',
         [
           Validators.pattern(
             /^(https?:\/\/)?([\w\-]+\.)+[\w\-]{2,}(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/
