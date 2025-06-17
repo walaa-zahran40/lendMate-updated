@@ -22,7 +22,6 @@ export class ViewWorkFlowActionTypesComponent {
   readonly colsInside = [
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
-    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedWorkflowActionTypeId: number | null = null;
