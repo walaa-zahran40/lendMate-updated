@@ -142,7 +142,7 @@ export class AddCallsComponent implements OnInit, OnDestroy {
               topic: rec.topic,
               comments: rec.comments,
               details: rec.details,
-              date: new Date(rec.date),
+              date: rec.date,
             });
             console.log(
               '📝 After patchValue, form value:',
