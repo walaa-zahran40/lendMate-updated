@@ -47,7 +47,7 @@ export const selectMandateStatusActionsTotalCount = createSelector(
 );
 // History management selectors
 export const selectMandateStatusActionHistoryState =
-  createFeatureSelector<State>('mandateStatusActionHistory');
+  createFeatureSelector<State>('mandateStatusActions');
 
 export const selectMandateStatusActionHistory = createSelector(
   selectMandateStatusActionHistoryState,

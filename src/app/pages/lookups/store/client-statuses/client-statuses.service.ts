@@ -57,7 +57,7 @@ export class ClientStatusesService {
     console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: ClientStatus[]; totalCount: number }>(
-        `${this.baseUrl}/GetAllClientStatusesHistory`
+        `${this.apiUrl}/GetAllClientStatusesHistory`
       )
       .pipe(
         tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),

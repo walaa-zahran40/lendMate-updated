@@ -47,7 +47,7 @@ export class FeeRangesService {
     console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: FeeRange[]; totalCount: number }>(
-        `${this.baseUrl}/GetAllFeeRangesHistory`
+        `${this.baseUrl}/GetAllFeesRangesHistory`
       )
       .pipe(
         tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),

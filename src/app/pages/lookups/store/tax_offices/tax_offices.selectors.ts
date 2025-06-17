@@ -43,7 +43,7 @@ export const selectTaxOfficesTotalCount = createSelector(
 );
 // History management selectors
 export const selectTaxOfficeHistoryState =
-  createFeatureSelector<State>('taxOfficeHistory');
+  createFeatureSelector<State>('taxOffices');
 
 export const selectTaxOfficeHistory = createSelector(
   selectTaxOfficeHistoryState,

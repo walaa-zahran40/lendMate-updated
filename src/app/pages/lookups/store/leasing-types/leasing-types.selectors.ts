@@ -43,7 +43,7 @@ export const selectLeasingTypesTotalCount = createSelector(
 );
 // History management selectors
 export const selectLeasingTypeHistoryState =
-  createFeatureSelector<State>('leasingTypeHistory');
+  createFeatureSelector<State>('leasingTypes');
 
 export const selectLeasingTypeHistory = createSelector(
   selectLeasingTypeHistoryState,

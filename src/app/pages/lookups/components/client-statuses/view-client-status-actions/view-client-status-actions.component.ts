@@ -29,7 +29,6 @@ export class ViewClientStatusActionsComponent {
     { field: 'nameAR', header: 'Name AR' },
     { field: 'statusInName', header: 'Status In' },
     { field: 'statusOutName', header: 'Status Out' },
-    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedClientStatusActionId: number | null = null;
@@ -46,28 +45,79 @@ export class ViewClientStatusActionsComponent {
   ) {}
   ngOnInit() {
     console.log('rio', this.route.snapshot);
-    this.facade.loadAll();
+    this.facade.loadHistory();
     this.clientStatusActions$ = this.facade.history$;
+    this.facade.history$.subscribe((data) => {
+      console.log('📡 Facade history$ emitted:', data);
+    });
     this.store.dispatch(loadClientStatusActionHistory());
     this.statusList$ = this.store.select(selectClientStatuses);
 
     combineLatest([this.clientStatusActions$, this.statusList$])
       .pipe(
         takeUntil(this.destroy$),
-        map(([clientStatusActions, statusList]) =>
-          clientStatusActions
-            .filter((a) => a.isActive)
-            .map((a) => ({
-              ...a,
-              statusInName:
-                statusList.find((g) => g.id === a.statusInId)?.name || '—',
-              statusOutName:
-                statusList.find((g) => g.id === a.statusOutId)?.name || '—',
-            }))
-            .sort((a, b) => b.id - a.id)
-        )
+        map(([clientStatusActions, statusList]) => {
+          console.log(
+            '📥 clientStatusActions from facade:',
+            clientStatusActions
+          );
+          console.log('📥 statusList from store:', statusList);
+
+          return clientStatusActions
+            .filter((a) => {
+              console.log(
+                '🔎 Filtering by isActive – a.id:',
+                a.id,
+                '| isActive:',
+                a.isActive
+              );
+              return a.isActive;
+            })
+            .map((a) => {
+              console.log(
+                '🧩 Mapping ClientStatusAction – id:',
+                a.id,
+                '| statusInId:',
+                a.statusInId,
+                '| statusOutId:',
+                a.statusOutId
+              );
+
+              const statusInMatch = statusList.find((g) => {
+                console.log(
+                  '🔎 [statusIn] Checking g.id:',
+                  g.id,
+                  '| looking for:',
+                  a.statusInId
+                );
+                return g.id === a.statusInId;
+              });
+              console.log('✅ [statusIn] Match found:', statusInMatch);
+
+              const statusOutMatch = statusList.find((g) => {
+                console.log(
+                  '🔎 [statusOut] Checking g.id:',
+                  g.id,
+                  '| looking for:',
+                  a.statusOutId
+                );
+                return g.id === a.statusOutId;
+              });
+              console.log('✅ [statusOut] Match found:', statusOutMatch);
+
+              return {
+                ...a,
+                statusInName: statusInMatch?.name || '—',
+                statusOutName: statusOutMatch?.name || '—',
+              };
+            })
+            .sort((a, b) => b.id - a.id);
+        })
       )
+
       .subscribe((normalized) => {
+        console.log('✅ Normalized Client Status Actions:', normalized);
+
         this.originalClientStatusActions = normalized;
         this.filteredClientStatusActions = [...normalized];
       });

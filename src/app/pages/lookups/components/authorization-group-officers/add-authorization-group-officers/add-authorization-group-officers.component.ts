@@ -70,6 +70,7 @@ export class AddAuthorizationGroupOfficersComponent {
             take(1)
           )
           .subscribe((ct) => {
+            console.log('Selected Authorization Group Officer:', ct);
             this.addAuthorizationGroupOfficersLookupsForm.patchValue({
               id: ct!.id,
               authorizationGroup: ct!.authorizationGroup,

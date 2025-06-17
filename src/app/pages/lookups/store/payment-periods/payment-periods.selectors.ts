@@ -41,9 +41,8 @@ export const selectPaymentPeriodsTotalCount = createSelector(
   (state) => state
 );
 // History management selectors
-export const selectPaymentPeriodHistoryState = createFeatureSelector<State>(
-  'paymentPeriodHistory'
-);
+export const selectPaymentPeriodHistoryState =
+  createFeatureSelector<State>('paymentPeriods');
 
 export const selectPaymentPeriodHistory = createSelector(
   selectPaymentPeriodHistoryState,

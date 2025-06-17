@@ -35,7 +35,6 @@ export class ViewNotificationGroupOfficersComponent {
     { field: 'officerName', header: 'officer' },
     { field: 'startDate', header: 'start Date' },
     { field: 'isCurrent', header: 'isCurrent' },
-    { field: 'isActive', header: 'isActive' },
   ];
 
   showDeleteModal = false;

@@ -46,7 +46,7 @@ export const selectConditionExpressionsTotalCount = createSelector(
 );
 // History management selectors
 export const selectConditionExpressionHistoryState =
-  createFeatureSelector<State>('conditionExpressionHistory');
+  createFeatureSelector<State>('conditionExpressions');
 
 export const selectConditionExpressionHistory = createSelector(
   selectConditionExpressionHistoryState,

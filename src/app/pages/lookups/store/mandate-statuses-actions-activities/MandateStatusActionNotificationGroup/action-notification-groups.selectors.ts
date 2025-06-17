@@ -32,7 +32,7 @@ export const selectMandateActionNotificationGroupsError = createSelector(
 // History management selectors
 export const selectMandateActionNotificationGroupHistoryState =
   createFeatureSelector<MandateActionNotificationGroupsState>(
-    'mandateActionNotificationGroupHistory'
+    'mandateActionNotificationGroups'
   );
 
 export const selectMandateActionNotificationGroupHistory = createSelector(

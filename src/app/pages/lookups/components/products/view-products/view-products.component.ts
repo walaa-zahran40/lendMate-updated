@@ -71,8 +71,6 @@ export class ViewProductsComponent {
               bls.find((b) => b.id === p.businessLineId)?.name ?? '—',
           }))
         ),
-        // only active
-        map((list) => list.filter((p) => p.isActive)),
         // newest first
         map((list) => [...list].sort((a, b) => b.id - a.id)),
         takeUntil(this.destroy$)

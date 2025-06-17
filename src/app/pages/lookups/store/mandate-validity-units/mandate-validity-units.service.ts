@@ -54,7 +54,7 @@ export class MandateValidityUnitsService {
     console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: MandateValidityUnit[]; totalCount: number }>(
-        `${this.baseUrl}/GetAllMandateValidityUnitsHistory`
+        `${this.baseUrl}/GetAllValidityUnitsHistory`
       )
       .pipe(
         tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),

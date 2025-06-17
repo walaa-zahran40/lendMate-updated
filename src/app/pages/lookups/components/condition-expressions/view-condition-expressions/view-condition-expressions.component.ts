@@ -30,7 +30,6 @@ export class ViewConditionExpressionsComponent {
     { field: 'fieldName', header: 'Field Name' },
     { field: 'value', header: 'Value' },
     { field: 'operator', header: 'Operator' },
-    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedConditionExpressionId: number | null = null;

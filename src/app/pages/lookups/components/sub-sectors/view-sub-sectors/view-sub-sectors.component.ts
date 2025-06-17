@@ -58,7 +58,6 @@ export class ViewSubSectorsComponent {
         filter(([subs, sectors]) => sectors.length > 0),
         map(([subs, sectors]) =>
           subs
-            .filter((ss) => ss.isActive)
             .map((ss) => ({
               ...ss,
               sectorName:

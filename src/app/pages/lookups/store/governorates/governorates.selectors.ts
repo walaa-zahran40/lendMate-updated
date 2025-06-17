@@ -42,7 +42,7 @@ export const selectGovernoratesTotalCount = createSelector(
 );
 // History management selectors
 export const selectGovernorateHistoryState =
-  createFeatureSelector<State>('governorateHistory');
+  createFeatureSelector<State>('governorates');
 
 export const selectGovernorateHistory = createSelector(
   selectGovernorateHistoryState,

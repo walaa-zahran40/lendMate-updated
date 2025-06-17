@@ -27,7 +27,6 @@ export class ViewAuthorizationGroupOfficersComponent {
     { field: 'officerName', header: 'officer' },
     { field: 'startDate', header: 'start Date' },
     { field: 'isCurrent', header: 'isCurrent' },
-    { field: 'isActive', header: 'Active' },
   ];
 
   showDeleteModal = false;
@@ -48,11 +47,11 @@ export class ViewAuthorizationGroupOfficersComponent {
     this.authorizationGroupOfficers$ = this.facade.history$;
     this.facade.loadHistory();
 
-    this.authorizationGroupList$ = this.authorizationGroupsFacade.all$;
-    this.authorizationGroupsFacade.loadAll();
+    this.authorizationGroupList$ = this.authorizationGroupsFacade.history$;
+    this.authorizationGroupsFacade.loadHistory();
 
-    this.officersList$ = this.officersFacade.items$;
-    this.officersFacade.loadAll();
+    this.officersList$ = this.officersFacade.history$;
+    this.officersFacade.loadHistory();
 
     // Combine fee types with their corresponding calculation type names
     combineLatest<[AuthorizationGroupOfficer[], any[], any[]]>([

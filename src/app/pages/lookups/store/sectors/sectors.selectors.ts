@@ -40,8 +40,7 @@ export const selectSectorsTotalCount = createSelector(
   (state) => state
 );
 // History management selectors
-export const selectSectorHistoryState =
-  createFeatureSelector<State>('sectorHistory');
+export const selectSectorHistoryState = createFeatureSelector<State>('sectors');
 
 export const selectSectorHistory = createSelector(
   selectSectorHistoryState,

@@ -30,9 +30,7 @@ export const selectCurrencyExchangeRatesError = createSelector(
 
 // History management selectors
 export const selectCurrencyExchangeRateHistoryState =
-  createFeatureSelector<CurrencyExchangeRatesState>(
-    'currencyExchangeRateHistory'
-  );
+  createFeatureSelector<CurrencyExchangeRatesState>('currencyExchangeRates');
 
 export const selectCurrencyExchangeRateHistory = createSelector(
   selectCurrencyExchangeRateHistoryState,

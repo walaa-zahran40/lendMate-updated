@@ -42,9 +42,8 @@ export const selectFollowupTypesTotalCount = createSelector(
   (state) => state
 );
 // History management selectors
-export const selectFollowUpTypeHistoryState = createFeatureSelector<State>(
-  'followUpTypeHistory'
-);
+export const selectFollowUpTypeHistoryState =
+  createFeatureSelector<State>('followupTypes');
 
 export const selectFollowUpTypeHistory = createSelector(
   selectFollowUpTypeHistoryState,

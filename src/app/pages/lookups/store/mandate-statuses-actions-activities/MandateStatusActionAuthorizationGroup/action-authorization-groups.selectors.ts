@@ -32,7 +32,7 @@ export const selectMandateActionAuthorizationGroupsError = createSelector(
 // History management selectors
 export const selectActionAuthorizationGroupHistoryState =
   createFeatureSelector<MandateActionAuthorizationGroupsState>(
-    'actionAuthorizationGroupHistory'
+    'actionAuthorizationGroups'
   );
 
 export const selectActionAuthorizationGroupHistory = createSelector(

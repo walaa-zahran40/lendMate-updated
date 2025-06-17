@@ -46,7 +46,7 @@ export const selectIdentificationTypesTotalCount = createSelector(
 );
 // History management selectors
 export const selectIdentificationTypeHistoryState =
-  createFeatureSelector<State>('identificationTypeHistory');
+  createFeatureSelector<State>('identificationTypes');
 
 export const selectIdentificationTypeHistory = createSelector(
   selectIdentificationTypeHistoryState,

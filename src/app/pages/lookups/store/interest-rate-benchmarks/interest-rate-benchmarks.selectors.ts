@@ -47,7 +47,7 @@ export const selectInterestRateBenchmarksTotalCount = createSelector(
 );
 // History management selectors
 export const selectInterestRateBenchmarkHistoryState =
-  createFeatureSelector<State>('interestRateBenchmarkHistory');
+  createFeatureSelector<State>('interestRateBenchmarks');
 
 export const selectInterestRateBenchmarkHistory = createSelector(
   selectInterestRateBenchmarkHistoryState,

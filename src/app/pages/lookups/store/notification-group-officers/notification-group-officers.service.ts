@@ -60,7 +60,7 @@ export class NotificationGroupOfficersService {
     console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: NotificationGroupOfficer[]; totalCount: number }>(
-        `${this.baseUrl}/GetAllNotificationGroupOfficersHistory`
+        `${this.baseUrl}/GetAllNotificationGroupOfficersHistroy`
       )
       .pipe(
         tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),

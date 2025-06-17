@@ -26,7 +26,6 @@ export class ViewGovernoratesComponent {
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
     { field: 'aramex', header: 'Aramex' },
-    { field: 'countryName', header: 'Country Name' },
     { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
@@ -56,7 +55,6 @@ export class ViewGovernoratesComponent {
               countryName:
                 countries.find((c) => c.id === gov.countryId)?.name || '—',
             }))
-            .filter((gov) => gov.isActive)
             .sort((a, b) => b.id - a.id)
         ),
         takeUntil(this.destroy$)

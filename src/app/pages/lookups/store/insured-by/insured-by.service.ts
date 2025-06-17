@@ -50,7 +50,7 @@ export class InsuredByService {
     console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: InsuredBy[]; totalCount: number }>(
-        `${this.baseUrl}/GetAllInsuredBysHistory`
+        `${this.baseUrl}/GetAllInsuredByHistory`
       )
       .pipe(
         tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),

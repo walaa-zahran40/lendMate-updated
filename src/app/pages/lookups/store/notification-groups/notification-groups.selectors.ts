@@ -42,9 +42,8 @@ export const selectNotificationGroupsTotalCount = createSelector(
   (state) => state
 );
 // History management selectors
-export const selectNotificationGroupHistoryState = createFeatureSelector<State>(
-  'notificationGroupHistory'
-);
+export const selectNotificationGroupHistoryState =
+  createFeatureSelector<State>('notificationGroups');
 
 export const selectNotificationGroupHistory = createSelector(
   selectNotificationGroupHistoryState,

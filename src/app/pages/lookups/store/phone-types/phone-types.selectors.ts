@@ -42,7 +42,7 @@ export const selectPhoneTypesTotalCount = createSelector(
 );
 // History management selectors
 export const selectPhoneTypeHistoryState =
-  createFeatureSelector<State>('phoneTypeHistory');
+  createFeatureSelector<State>('phoneTypes');
 
 export const selectPhoneTypeHistory = createSelector(
   selectPhoneTypeHistoryState,

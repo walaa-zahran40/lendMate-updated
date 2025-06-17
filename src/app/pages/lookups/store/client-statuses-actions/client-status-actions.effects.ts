@@ -124,10 +124,13 @@ export class ClientStatusActionsEffects {
   loadClientStatusActionHistory$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActionsList.loadClientStatusActionHistory),
+      tap(() =>
+        console.log('🚀 [Effect] loadClientStatusActionHistory triggered')
+      ),
       switchMap(() =>
-        this.svc.getAllHistory().pipe(
-          map((history) =>
-            ActionsList.loadClientStatusActionHistorySuccess({ history })
+        this.svc.getAll().pipe(
+          map((items) =>
+            ActionsList.loadClientStatusActionHistorySuccess({ history: items })
           ),
           catchError((error) =>
             of(ActionsList.loadClientStatusActionHistoryFailure({ error }))

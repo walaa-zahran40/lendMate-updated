@@ -42,7 +42,7 @@ export const selectFeeRangesTotalCount = createSelector(
 );
 // History management selectors
 export const selectFeeRangeHistoryState =
-  createFeatureSelector<State>('feeRangeHistory');
+  createFeatureSelector<State>('feeRanges');
 
 export const selectFeeRangeHistory = createSelector(
   selectFeeRangeHistoryState,

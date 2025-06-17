@@ -28,7 +28,6 @@ export class ViewFeeRangesComponent {
     { field: 'criteriaField', header: 'Criteria Field' },
     { field: 'defaultPrecentage', header: 'Default Percentage' },
     { field: 'defaultAmount', header: 'Default Amount' },
-    { field: 'isActive', header: 'Is Active' },
   ];
 
   showDeleteModal = false;

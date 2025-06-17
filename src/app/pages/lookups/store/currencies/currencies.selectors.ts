@@ -42,7 +42,7 @@ export const selectCurrenciesTotalCount = createSelector(
 );
 // History management selectors
 export const selectCurrencyHistoryState =
-  createFeatureSelector<State>('currencyHistory');
+  createFeatureSelector<State>('currencies');
 
 export const selectCurrencyHistory = createSelector(
   selectCurrencyHistoryState,

@@ -42,7 +42,7 @@ export const selectProductsTotalCount = createSelector(
 );
 // History management selectors
 export const selectProductHistoryState =
-  createFeatureSelector<State>('productHistory');
+  createFeatureSelector<State>('products');
 
 export const selectProductHistory = createSelector(
   selectProductHistoryState,

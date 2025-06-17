@@ -23,7 +23,6 @@ export class ViewWorkFlowActionTypesComponent {
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
     { field: 'isActive', header: 'Is Active' },
-    { field: 'isDefault', header: 'Is Default' },
   ];
   showDeleteModal: boolean = false;
   selectedWorkflowActionTypeId: number | null = null;

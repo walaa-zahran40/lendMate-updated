@@ -30,7 +30,7 @@ export const selectMandateStatusesError = createSelector(
 
 // History management selectors
 export const selectMandateStatusHistoryState =
-  createFeatureSelector<MandateStatusesState>('mandateStatusHistory');
+  createFeatureSelector<MandateStatusesState>('mandateStatuses');
 
 export const selectMandateStatusHistory = createSelector(
   selectMandateStatusHistoryState,

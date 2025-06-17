@@ -47,7 +47,7 @@ export const selectCommunicationFlowTypesTotalCount = createSelector(
 );
 // History management selectors
 export const selectCommunicationFlowTypeHistoryState =
-  createFeatureSelector<State>('communicationFlowTypeHistory');
+  createFeatureSelector<State>('communicationFlowTypes');
 
 export const selectCommunicationFlowTypeHistory = createSelector(
   selectCommunicationFlowTypeHistoryState,

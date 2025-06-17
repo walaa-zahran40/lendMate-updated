@@ -42,7 +42,7 @@ export const selectSubSectorsTotalCount = createSelector(
 );
 // History management selectors
 export const selectSubSectorHistoryState =
-  createFeatureSelector<State>('subSectorHistory');
+  createFeatureSelector<State>('subSectors');
 
 export const selectSubSectorHistory = createSelector(
   selectSubSectorHistoryState,

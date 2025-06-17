@@ -41,7 +41,7 @@ export const selectFeeTypesTotalCount = createSelector(
 );
 // History management selectors
 export const selectFeeTypeHistoryState =
-  createFeatureSelector<State>('feeTypeHistory');
+  createFeatureSelector<State>('feeTypes');
 
 export const selectFeeTypeHistory = createSelector(
   selectFeeTypeHistoryState,

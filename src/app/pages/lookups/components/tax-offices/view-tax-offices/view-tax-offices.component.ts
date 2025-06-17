@@ -71,7 +71,6 @@ export class ViewTaxOfficesComponent {
                   governorates.find((g) => g.id === to.governorateId)?.name ||
                   '—',
               }))
-              .filter((to) => to.isActive) // keep only active
               .sort((a, b) => b.id - a.id) // newest first
         ),
         takeUntil(this.destroy$)

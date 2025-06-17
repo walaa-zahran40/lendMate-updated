@@ -42,9 +42,8 @@ export const selectInterestTypesTotalCount = createSelector(
   (state) => state
 );
 // History management selectors
-export const selectInterestTypeHistoryState = createFeatureSelector<State>(
-  'interestTypeHistory'
-);
+export const selectInterestTypeHistoryState =
+  createFeatureSelector<State>('interestTypes');
 
 export const selectInterestTypeHistory = createSelector(
   selectInterestTypeHistoryState,

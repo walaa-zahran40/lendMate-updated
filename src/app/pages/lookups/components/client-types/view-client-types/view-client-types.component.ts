@@ -32,7 +32,7 @@ export class ViewClientTypesComponent {
 
   constructor(private router: Router, private facade: ClientTypesFacade) {}
   ngOnInit() {
-    this.facade.loadAll();
+    this.facade.loadHistory();
     this.clientTypes$ = this.facade.history$;
 
     this.clientTypes$

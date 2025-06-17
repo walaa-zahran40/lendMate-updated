@@ -46,7 +46,7 @@ export const selectNotificationGroupOfficersTotalCount = createSelector(
 );
 // History management selectors
 export const selectNotificationGroupOfficerHistoryState =
-  createFeatureSelector<State>('notificationGroupOfficerHistory');
+  createFeatureSelector<State>('notificationGroupOfficers');
 
 export const selectNotificationGroupOfficerHistory = createSelector(
   selectNotificationGroupOfficerHistoryState,

@@ -46,7 +46,7 @@ export const selectMandateValidityUnitsTotalCount = createSelector(
 );
 // History management selectors
 export const selectMandateValidityUnitHistoryState =
-  createFeatureSelector<State>('mandateValidityUnitHistory');
+  createFeatureSelector<State>('mandateValidityUnits');
 
 export const selectMandateValidityUnitHistory = createSelector(
   selectMandateValidityUnitHistoryState,

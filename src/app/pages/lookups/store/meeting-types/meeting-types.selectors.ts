@@ -43,7 +43,7 @@ export const selectMeetingTypesTotalCount = createSelector(
 );
 // History management selectors
 export const selectMeetingTypeHistoryState =
-  createFeatureSelector<State>('meetingTypeHistory');
+  createFeatureSelector<State>('meetingTypes');
 
 export const selectMeetingTypeHistory = createSelector(
   selectMeetingTypeHistoryState,
