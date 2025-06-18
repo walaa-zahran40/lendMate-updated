@@ -46,7 +46,7 @@
         formControlName="title"
         name="TitleInEnglishContactPerson"
       />
-      <label for="TitleInArabicContactPerson">Title in Arabic</label>
+      <label   for="TitleInArabicContactPerson">Title in Arabic</label>
       <input
         pInputText
         id="TitleInArabicContactPerson"
@@ -93,23 +93,20 @@
               formControlName="phoneNumber"
               required
               placeholder="Phone Number"
-              [ngClass]="{
-                'ng-invalid ng-dirty':
-                  group.get('phoneNumber')?.invalid &&
-                  group.get('phoneNumber')?.touched
-              }"
-              [ngClass]="viewOnly ? 'disabled' : 'enabled'"
-            />
-            <small
-              class="p-error d-block"
-              *ngIf="
-                group.get('phoneNumber')?.invalid &&
-                group.get('phoneNumber')?.touched
-              "
-            >
-              Phone Number is required.
-            </small>
-          </div>
+              required
+    inputmode="numeric"             
+    pattern="[0-9]*"               
+    [ngClass]="{
+      'ng-invalid ng-dirty': group.get('phoneNumber')?.invalid && group.get('phoneNumber')?.touched
+    }"
+  />
+  <small class="p-error d-block" *ngIf="group.get('phoneNumber')?.hasError('required') && group.get('phoneNumber')?.touched">
+    Phone Number is required.
+  </small>
+  <small class="p-error d-block" *ngIf="group.get('phoneNumber')?.hasError('pattern') && group.get('phoneNumber')?.touched">
+    Only digits are allowed.
+  </small>
+</div>
 
           <!-- 2) Select Identity -->
           <div class="div-select flex-1 min-w-0">
@@ -282,7 +279,9 @@
         </div>
       </div>
 
-      <label for="addressTypeContactPerson"
+      <div> 
+      <div> 
+      <label  for="addressTypeContactPerson" 
         >Address Type<sup class="danger">*</sup></label
       >
       <p-select
@@ -296,7 +295,10 @@
         formControlName="addressTypeId"
         chipIcon="pi pi-times"
       />
-      <label for="countryContactPerson"
+      </div>
+            <div> 
+
+      <label class="p-0" for="countryContactPerson"
         >Country<sup class="danger">*</sup></label
       >
       <p-select
@@ -311,7 +313,10 @@
         formControlName="countryId"
         chipIcon="pi pi-times"
       />
-      <label for="governmentContactPerson"
+      </div>
+            <div> 
+
+      <label class="p-0" for="governmentContactPerson"
         >Governorate <sup class="danger">*</sup></label
       >
 
@@ -327,7 +332,10 @@
         formControlName="governorateId"
         chipIcon="pi pi-times"
       />
-      <label for="areasContactPerson">Area<sup class="danger">*</sup></label>
+      </div>
+            <div> 
+
+      <label class="p-0" for="areasContactPerson">Area<sup class="danger">*</sup></label>
       <p-select
         [options]="areas"
         optionValue="id"
@@ -340,7 +348,11 @@
         formControlName="areaId"
         chipIcon="pi pi-times"
       />
-      <label for="detailsEnglishContactPerson">Details in English</label>
+</div>
+</div>
+
+
+      <label class="p-0" for="detailsEnglishContactPerson">Details in English</label>
       <input
         pInputText
         id="detailsEnglishContactPerson"

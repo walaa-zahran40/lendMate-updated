@@ -225,7 +225,13 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
               phArr.push(
                 this.fb.group({
                   id: [pp.id],
-                  phoneNumber: [pp.phoneNumber, Validators.required],
+                  phoneNumber: [
+      pp.phoneNumber,
+      [
+        Validators.required,
+        Validators.pattern(/^[0-9]+$/)   // ← only digits, at least one
+      ]
+    ],
                   phoneTypeId: [pp.phoneTypeId, Validators.required],
                 })
               );
