@@ -17,6 +17,7 @@
   <ng-container *ngIf="conditions$ | async as conditions">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredConditions"
       [edit]="true"

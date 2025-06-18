@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil, forkJoin } from 'rxjs';
 import { Router } from '@angular/router';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { LegalFormLaw } from '../../../store/legal-form-laws/legal-form-law.model';
@@ -66,20 +66,6 @@ export class ViewLegalFormLawsComponent {
     this.showDeleteModal = true;
   }
 
-  confirmDelete() {
-    console.log(
-      '[View] confirmDelete() – about to dispatch delete for id=',
-      this.selectedLegalFormLawId
-    );
-    if (this.selectedLegalFormLawId !== null) {
-      this.facade.delete(this.selectedLegalFormLawId);
-      console.log('[View] confirmDelete() – facade.delete() called');
-    } else {
-      console.warn('[View] confirmDelete() – no id to delete');
-    }
-    this.resetDeleteModal();
-  }
-
   cancelDelete() {
     this.resetDeleteModal();
   }
@@ -114,5 +100,30 @@ export class ViewLegalFormLawsComponent {
     this.router.navigate(['/legals/edit-legal-form-law', legalFormLaw.id], {
       queryParams: { mode: 'view' },
     });
+  }
+  selectedIds: number[] = [];
+  confirmDelete() {
+    const deleteCalls = this.selectedIds.map((id) => this.facade.delete(id));
+
+    forkJoin(deleteCalls).subscribe({
+      next: () => {
+        this.selectedIds = [];
+        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.refreshCalls();
+      },
+      error: (err) => {
+        this.showDeleteModal = false; // STILL CLOSE IT
+      },
+    });
+  }
+
+  refreshCalls() {
+    this.facade.loadAll();
+    this.legalFormLaws$ = this.facade.items$;
+  }
+  onBulkDelete(ids: number[]) {
+    // Optionally confirm first
+    this.selectedIds = ids;
+    this.showDeleteModal = true;
   }
 }

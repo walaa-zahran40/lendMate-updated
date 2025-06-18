@@ -16,6 +16,7 @@
   <ng-container *ngIf="countries$ | async as countries">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredCountries"
       [edit]="true"

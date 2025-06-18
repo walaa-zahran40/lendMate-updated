@@ -39,4 +39,7 @@ export class CallsFacade {
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
   }
+  deleteBulk(ids: number[]) {
+    this.store.dispatch(Actions.deleteBulk({ ids }));
+  }
 }

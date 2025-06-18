@@ -9,6 +9,7 @@ import {
   takeUntil,
   take,
   filter,
+  forkJoin,
 } from 'rxjs';
 import { TableComponent } from '../../../../../../../shared/components/table/table.component';
 import { AuthorizationGroup } from '../../../../../store/authorization-groups/authorization-group.model';
@@ -133,22 +134,6 @@ export class ViewActionAuthorizationGroupsComponent {
     this.showDeleteModal = true;
   }
 
-  confirmDelete() {
-    console.log(
-      '[View] confirmDelete() – about to dispatch delete for id=',
-      this.selectedActionAuthorizationGroupId
-    );
-    if (this.selectedActionAuthorizationGroupId !== null) {
-      this.facade.delete(
-        this.selectedActionAuthorizationGroupId,
-        this.clientStatusActionIdParam
-      );
-      console.log('[View] confirmDelete() – facade.delete() called');
-    } else {
-      console.warn('[View] confirmDelete() – no id to delete');
-    }
-    this.resetDeleteModal();
-  }
   cancelDelete() {
     this.resetDeleteModal();
   }
@@ -191,5 +176,32 @@ export class ViewActionAuthorizationGroupsComponent {
         clientStatusActionId: this.clientStatusActionIdParam, // <-- use "currencyId" here
       },
     });
+  }
+  selectedIds: number[] = [];
+  confirmDelete() {
+    const deleteCalls = this.selectedIds.map((id) =>
+      this.facade.delete(id, this.clientStatusActionIdParam)
+    );
+
+    forkJoin(deleteCalls).subscribe({
+      next: () => {
+        this.selectedIds = [];
+        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.refreshCalls();
+      },
+      error: (err) => {
+        this.showDeleteModal = false; // STILL CLOSE IT
+      },
+    });
+  }
+
+  refreshCalls() {
+    this.facade.loadAll();
+    this.actionAuthorizationGroups$ = this.facade.items$;
+  }
+  onBulkDelete(ids: number[]) {
+    // Optionally confirm first
+    this.selectedIds = ids;
+    this.showDeleteModal = true;
   }
 }

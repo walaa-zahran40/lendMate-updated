@@ -13,9 +13,7 @@ export class CallsService {
   getAll(): Observable<Call[]> {
     console.log('🚀 Service: calling GET …');
     return this.http
-      .get<{ items: Call[]; totalCount: number }>(
-        `${this.baseUrl}/GetAllCalls`
-      )
+      .get<{ items: Call[]; totalCount: number }>(`${this.baseUrl}/GetAllCalls`)
       .pipe(
         tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
@@ -32,10 +30,7 @@ export class CallsService {
   }
 
   create(payload: Omit<Call, 'id'>): Observable<Call> {
-    return this.http.post<Call>(
-      `${this.baseUrl}/CreateCall`,
-      payload
-    );
+    return this.http.post<Call>(`${this.baseUrl}/CreateCall`, payload);
   }
 
   update(id: number, changes: Partial<Call>): Observable<void> {
@@ -44,5 +39,9 @@ export class CallsService {
 
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+  deleteBulk(ids: number[]): Observable<void> {
+    const params = new HttpParams().set('ids', ids.join(','));
+    return this.http.delete<void>(`${this.baseUrl}/DeleteBulk`, { params });
   }
 }

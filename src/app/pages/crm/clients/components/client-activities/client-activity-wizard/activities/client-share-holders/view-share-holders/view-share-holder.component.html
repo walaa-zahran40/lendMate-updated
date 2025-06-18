@@ -16,6 +16,7 @@
   <ng-container *ngIf="shareHolders$ | async as shareHolders">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredShareHolders"
       [edit]="true"

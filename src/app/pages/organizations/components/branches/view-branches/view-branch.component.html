@@ -18,6 +18,7 @@
   <ng-container *ngIf="branches$ | async as branches">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredBranches"
       [edit]="true"

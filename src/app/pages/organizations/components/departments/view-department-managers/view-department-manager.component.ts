@@ -3,6 +3,7 @@ import { TableComponent } from '../../../../../shared/components/table/table.com
 import {
   combineLatest,
   filter,
+  forkJoin,
   map,
   Observable,
   startWith,
@@ -164,14 +165,32 @@ export class ViewDepartmentManagerComponent implements OnInit, OnDestroy {
     this.showDeleteModal = true;
   }
 
+  selectedIds: number[] = [];
   confirmDelete() {
-    if (this.selectedDepartmentManagerId != null) {
-      this.facade.delete(
-        this.selectedDepartmentManagerId,
-        this.departmentIdParam
-      );
-    }
-    this.resetDeleteModal();
+    const deleteCalls = this.selectedIds.map((id) =>
+      this.facade.delete(id, this.departmentIdParam)
+    );
+
+    forkJoin(deleteCalls).subscribe({
+      next: () => {
+        this.selectedIds = [];
+        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.refreshCalls();
+      },
+      error: (err) => {
+        this.showDeleteModal = false; // STILL CLOSE IT
+      },
+    });
+  }
+
+  refreshCalls() {
+    this.facade.loadAll();
+    this.departmentManagers$ = this.facade.items$;
+  }
+  onBulkDelete(ids: number[]) {
+    // Optionally confirm first
+    this.selectedIds = ids;
+    this.showDeleteModal = true;
   }
 
   cancelDelete() {

@@ -1,13 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import {
-  Subject,
-  Observable,
-  takeUntil,
-  filter,
-  combineLatest,
-  take,
-} from 'rxjs';
+import { Subject, Observable, takeUntil, filter, forkJoin, take } from 'rxjs';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { AddressTypesFacade } from '../../../store/address-types/address-types.facade';
 import { AddressType } from '../../../store/address-types/address-type.model';
@@ -69,19 +62,6 @@ export class ViewAddressTypesComponent {
     this.showDeleteModal = true;
   }
 
-  confirmDelete() {
-    console.log(
-      '[View] confirmDelete() – about to dispatch delete for id=',
-      this.selectedAddressTypeId
-    );
-    if (this.selectedAddressTypeId !== null) {
-      this.facade.delete(this.selectedAddressTypeId);
-      console.log('[View] confirmDelete() – facade.delete() called');
-    } else {
-      console.warn('[View] confirmDelete() – no id to delete');
-    }
-    this.resetDeleteModal();
-  }
   cancelDelete() {
     this.resetDeleteModal();
   }
@@ -112,5 +92,30 @@ export class ViewAddressTypesComponent {
     this.router.navigate(['/lookups/edit-address-types', ct.id], {
       queryParams: { mode: 'view' },
     });
+  }
+  selectedIds: number[] = [];
+  confirmDelete() {
+    const deleteCalls = this.selectedIds.map((id) => this.facade.delete(id));
+
+    forkJoin(deleteCalls).subscribe({
+      next: () => {
+        this.selectedIds = [];
+        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.refreshCalls();
+      },
+      error: (err) => {
+        this.showDeleteModal = false; // STILL CLOSE IT
+      },
+    });
+  }
+
+  refreshCalls() {
+    this.facade.loadAll();
+    this.addressTypes$ = this.facade.all$;
+  }
+  onBulkDelete(ids: number[]) {
+    // Optionally confirm first
+    this.selectedIds = ids;
+    this.showDeleteModal = true;
   }
 }

@@ -175,6 +175,7 @@ export class TableComponent {
   @Output() onEdit = new EventEmitter<any>();
   @Output() onDelete = new EventEmitter<number>();
   @Output() onDownload = new EventEmitter<number>();
+  @Output() onBulkDelete = new EventEmitter<number[]>();
 
   checked: boolean = false;
   first2: number = 0;
@@ -346,5 +347,10 @@ export class TableComponent {
   /*View*/
   onView(rowData: any) {
     this.viewForm.emit(rowData);
+  }
+  handleBulkDelete() {
+    const idsToDelete = this.selectedRows.map((row) => row.id);
+    this.onBulkDelete.emit(idsToDelete);
+    this.selectedRows = [];
   }
 }

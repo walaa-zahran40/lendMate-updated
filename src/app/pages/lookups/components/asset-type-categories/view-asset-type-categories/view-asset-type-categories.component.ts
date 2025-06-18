@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil, forkJoin } from 'rxjs';
 import { Router } from '@angular/router';
 import { AssetTypeCategory } from '../../../store/asset-type-categories/asset-type-category.model';
 import { AssetTypeCategoriesFacade } from '../../../store/asset-type-categories/asset-type-categories.facade';
@@ -72,20 +72,6 @@ export class ViewAssetTypeCategoriesComponent {
     this.showDeleteModal = true;
   }
 
-  confirmDelete() {
-    console.log(
-      '[View] confirmDelete() – about to dispatch delete for id=',
-      this.selectedAssetTypeCategoryId
-    );
-    if (this.selectedAssetTypeCategoryId !== null) {
-      this.facade.delete(this.selectedAssetTypeCategoryId);
-      console.log('[View] confirmDelete() – facade.delete() called');
-    } else {
-      console.warn('[View] confirmDelete() – no id to delete');
-    }
-    this.resetDeleteModal();
-  }
-
   cancelDelete() {
     this.resetDeleteModal();
   }
@@ -125,5 +111,30 @@ export class ViewAssetTypeCategoriesComponent {
         queryParams: { mode: 'view' },
       }
     );
+  }
+  selectedIds: number[] = [];
+  confirmDelete() {
+    const deleteCalls = this.selectedIds.map((id) => this.facade.delete(id));
+
+    forkJoin(deleteCalls).subscribe({
+      next: () => {
+        this.selectedIds = [];
+        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.refreshCalls();
+      },
+      error: (err) => {
+        this.showDeleteModal = false; // STILL CLOSE IT
+      },
+    });
+  }
+
+  refreshCalls() {
+    this.facade.loadAll();
+    this.assetTypeCategories$ = this.facade.all$;
+  }
+  onBulkDelete(ids: number[]) {
+    // Optionally confirm first
+    this.selectedIds = ids;
+    this.showDeleteModal = true;
   }
 }

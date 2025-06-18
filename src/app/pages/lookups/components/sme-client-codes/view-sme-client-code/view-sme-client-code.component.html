@@ -17,6 +17,7 @@
   <ng-container *ngIf="sMEClientCodes$ | async as sMEClientCodes">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredSMEClientCodes"
       [edit]="true"

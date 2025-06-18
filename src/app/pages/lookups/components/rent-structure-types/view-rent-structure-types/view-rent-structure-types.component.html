@@ -17,6 +17,7 @@
   <ng-container *ngIf="RentStructureTypes$ | async as RentStructureTypes">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredRentStructureType"
       [edit]="true"

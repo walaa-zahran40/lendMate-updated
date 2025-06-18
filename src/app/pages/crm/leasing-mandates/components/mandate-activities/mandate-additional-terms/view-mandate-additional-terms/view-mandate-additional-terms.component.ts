@@ -5,7 +5,7 @@ import {
   combineLatest,
   filter,
   map,
-  take,
+  forkJoin,
   takeUntil,
   tap,
 } from 'rxjs';
@@ -99,13 +99,6 @@ export class ViewMandateAdditionalTermsComponent {
     this.showDeleteModal = true;
   }
 
-  confirmDelete() {
-    if (this.selectedMandateAdditionalTermId !== null) {
-      this.facade.delete(this.selectedMandateAdditionalTermId);
-    }
-    this.resetDeleteModal();
-  }
-
   cancelDelete() {
     this.resetDeleteModal();
   }
@@ -155,5 +148,30 @@ export class ViewMandateAdditionalTermsComponent {
         },
       }
     );
+  }
+  selectedIds: number[] = [];
+  confirmDelete() {
+    const deleteCalls = this.selectedIds.map((id) => this.facade.delete(id));
+
+    forkJoin(deleteCalls).subscribe({
+      next: () => {
+        this.selectedIds = [];
+        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.refreshCalls();
+      },
+      error: (err) => {
+        this.showDeleteModal = false; // STILL CLOSE IT
+      },
+    });
+  }
+
+  refreshCalls() {
+    this.facade.loadAll();
+    this.mandateAdditionalTerms$ = this.facade.all$;
+  }
+  onBulkDelete(ids: number[]) {
+    // Optionally confirm first
+    this.selectedIds = ids;
+    this.showDeleteModal = true;
   }
 }

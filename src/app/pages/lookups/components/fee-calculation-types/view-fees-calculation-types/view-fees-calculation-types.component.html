@@ -17,6 +17,7 @@
   <ng-container *ngIf="feeCalculationTypes$ | async as feeCalculationTypes">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredFeeCalculationType"
       [edit]="true"

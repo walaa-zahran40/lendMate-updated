@@ -17,6 +17,7 @@
   <ng-container *ngIf="WorkflowActionTypes$ | async as WorkflowActionTypes">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="WorkflowActionTypes$ | async"
       [edit]="true"

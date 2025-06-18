@@ -13,27 +13,29 @@
     (exportExcel)="tableRef.exportToExcel()"
     (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
+  <ng-container *ngIf="areas$ | async as areas">
+    <app-table
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredArea"
+      [edit]="true"
+      [delete]="true"
+      [side]="false"
+      [checkBox]="true"
+      [view]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewAreasTable]="true"
+      (onDelete)="onDeleteArea($event)"
+      (onEdit)="onEditArea($event)"
+      (viewForm)="onViewArea($event)"
+    ></app-table>
 
-  <app-table
-    #tableRef
-    [cols]="colsInside"
-    [tableData]="filteredArea"
-    [edit]="true"
-    [delete]="true"
-    [side]="false"
-    [checkBox]="true"
-    [view]="true"
-    [filters]="showFilters"
-    [uppercase]="'uppercase'"
-    [viewAreasTable]="true"
-    (onDelete)="onDeleteArea($event)"
-    (onEdit)="onEditArea($event)"
-    (viewForm)="onViewArea($event)"
-  ></app-table>
-
-  <app-delete-module
-    [visible]="showDeleteModal"
-    (confirm)="confirmDelete()"
-    (cancel)="cancelDelete()"
-  ></app-delete-module>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
 </div>

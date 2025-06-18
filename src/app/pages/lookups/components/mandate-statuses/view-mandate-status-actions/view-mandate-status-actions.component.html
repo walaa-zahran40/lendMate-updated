@@ -16,6 +16,7 @@
   <ng-container *ngIf="mandateStatusActions$ | async as mandateStatusActions">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredMandateStatusActions"
       [edit]="true"

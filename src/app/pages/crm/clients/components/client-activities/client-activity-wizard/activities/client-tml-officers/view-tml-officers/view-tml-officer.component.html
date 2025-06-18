@@ -16,6 +16,7 @@
   <ng-container *ngIf="tmlOfficers$ | async as tmlOfficers">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredTMLOfficers"
       [edit]="true"

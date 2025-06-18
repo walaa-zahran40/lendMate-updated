@@ -15,6 +15,7 @@
   ></app-toolbar-table>
   <app-table
     #tableRef
+    (onBulkDelete)="onBulkDelete($event)"
     [cols]="colsInside"
     [tableData]="filteredTeams"
     [edit]="true"

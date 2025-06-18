@@ -1,7 +1,14 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Subject, Observable, combineLatest, map, takeUntil } from 'rxjs';
+import {
+  Subject,
+  Observable,
+  combineLatest,
+  map,
+  takeUntil,
+  forkJoin,
+} from 'rxjs';
 import { TableComponent } from '../../../../../../../../../shared/components/table/table.component';
 import { loadOfficers } from '../../../../../../../../organizations/store/officers/officers.actions';
 import { selectOfficers } from '../../../../../../../../organizations/store/officers/officers.selectors';
@@ -54,18 +61,15 @@ export class ViewClientOfficersComponent {
 
     this.officersList$ = this.store.select(selectOfficers);
 
-    combineLatest([
-      this.clientOfficers$,
-      this.officersList$,
-    ])
+    combineLatest([this.clientOfficers$, this.officersList$])
       .pipe(
         map(([clientOfficers, officersList]) =>
           clientOfficers
             .map((clientOfficer) => ({
               ...clientOfficer,
               officer:
-                officersList.find((c) => c.id === clientOfficer.officerId)?.name ||
-                '—',
+                officersList.find((c) => c.id === clientOfficer.officerId)
+                  ?.name || '—',
             }))
             .filter((clientOfficer) => clientOfficer.isActive)
             .sort((a, b) => b.id - a.id)
@@ -99,19 +103,6 @@ export class ViewClientOfficersComponent {
     this.showDeleteModal = true;
   }
 
-  confirmDelete() {
-    console.log(
-      '[View] confirmDelete() – about to dispatch delete for id=',
-      this.selectedOfficerId
-    );
-    if (this.selectedOfficerId !== null) {
-      this.facade.delete(this.selectedOfficerId, this.clientIdParam);
-      console.log('[View] confirmDelete() – facade.delete() called');
-    } else {
-      console.warn('[View] confirmDelete() – no id to delete');
-    }
-    this.resetDeleteModal();
-  }
   cancelDelete() {
     this.resetDeleteModal();
   }
@@ -150,5 +141,32 @@ export class ViewClientOfficersComponent {
         clientId: this.clientIdParam, // <-- use "currencyId" here
       },
     });
+  }
+  selectedIds: number[] = [];
+  confirmDelete() {
+    const deleteCalls = this.selectedIds.map((id) =>
+      this.facade.delete(id, this.clientIdParam)
+    );
+
+    forkJoin(deleteCalls).subscribe({
+      next: () => {
+        this.selectedIds = [];
+        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.refreshCalls();
+      },
+      error: (err) => {
+        this.showDeleteModal = false; // STILL CLOSE IT
+      },
+    });
+  }
+
+  refreshCalls() {
+    this.facade.loadAll();
+    this.clientOfficers$ = this.facade.items$;
+  }
+  onBulkDelete(ids: number[]) {
+    // Optionally confirm first
+    this.selectedIds = ids;
+    this.showDeleteModal = true;
   }
 }

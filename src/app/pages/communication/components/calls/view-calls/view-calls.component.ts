@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject, Observable, takeUntil, filter, combineLatest } from 'rxjs';
+import { Subject, Observable, takeUntil, combineLatest, forkJoin } from 'rxjs';
 import { Call } from '../../../store/calls/call.model';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { CallsFacade } from '../../../store/calls/calls.facade';
@@ -93,19 +93,6 @@ export class ViewCallsComponent {
   onAddSide(callId: any) {
     this.router.navigate(['/communication/wizard-communication', callId]);
   }
-  confirmDelete() {
-    console.log(
-      '[View] confirmDelete() – about to dispatch delete for id=',
-      this.selectedCallId
-    );
-    if (this.selectedCallId !== null) {
-      this.facade.delete(this.selectedCallId);
-      console.log('[View] confirmDelete() – facade.delete() called');
-    } else {
-      console.warn('[View] confirmDelete() – no id to delete');
-    }
-    this.resetDeleteModal();
-  }
   cancelDelete() {
     this.resetDeleteModal();
   }
@@ -135,5 +122,31 @@ export class ViewCallsComponent {
     this.router.navigate(['/communication/edit-calls', ct.id], {
       queryParams: { mode: 'view' },
     });
+  }
+  selectedIds: number[] = [];
+  confirmDelete() {
+    const deleteCalls = this.selectedIds.map((id) => this.facade.delete(id));
+
+    forkJoin(deleteCalls).subscribe({
+      next: () => {
+        this.selectedIds = [];
+        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.refreshCalls();
+      },
+      error: (err) => {
+        this.showDeleteModal = false; // STILL CLOSE IT
+      },
+    });
+  }
+
+  refreshCalls() {
+    this.facade.loadAll();
+    this.calls$ = this.facade.all$;
+  }
+  onBulkDelete(ids: number[]) {
+    console.log('[View] onBulkDelete() – ids:', ids);
+    // Optionally confirm first
+    this.selectedIds = ids;
+    this.showDeleteModal = true;
   }
 }

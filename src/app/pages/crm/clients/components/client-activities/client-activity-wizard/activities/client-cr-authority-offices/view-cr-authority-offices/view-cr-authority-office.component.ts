@@ -1,7 +1,14 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Subject, Observable, combineLatest, map, takeUntil } from 'rxjs';
+import {
+  Subject,
+  Observable,
+  combineLatest,
+  map,
+  takeUntil,
+  forkJoin,
+} from 'rxjs';
 import { TableComponent } from '../../../../../../../../../shared/components/table/table.component';
 import { AuthorityOffice } from '../../../../../../../../lookups/store/authority-offices/authority-office.model';
 import { selectAllAuthorityOffices } from '../../../../../../../../lookups/store/authority-offices/authority-offices.selectors';
@@ -96,18 +103,32 @@ export class ViewCRAuthorityOfficesComponent {
     this.showDeleteModal = true;
   }
 
+  selectedIds: number[] = [];
   confirmDelete() {
-    console.log(
-      '[View] confirmDelete() – about to dispatch delete for id=',
-      this.selectedCRAuthorityOfficeId
+    const deleteCalls = this.selectedIds.map((id) =>
+      this.facade.delete(id, this.clientIdParam)
     );
-    if (this.selectedCRAuthorityOfficeId !== null) {
-      this.facade.delete(this.selectedCRAuthorityOfficeId, this.clientIdParam);
-      console.log('[View] confirmDelete() – facade.delete() called');
-    } else {
-      console.warn('[View] confirmDelete() – no id to delete');
-    }
-    this.resetDeleteModal();
+
+    forkJoin(deleteCalls).subscribe({
+      next: () => {
+        this.selectedIds = [];
+        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.refreshCalls();
+      },
+      error: (err) => {
+        this.showDeleteModal = false; // STILL CLOSE IT
+      },
+    });
+  }
+
+  refreshCalls() {
+    this.facade.loadAll();
+    this.cRAuthorityOffices$ = this.facade.items$;
+  }
+  onBulkDelete(ids: number[]) {
+    // Optionally confirm first
+    this.selectedIds = ids;
+    this.showDeleteModal = true;
   }
   cancelDelete() {
     this.resetDeleteModal();

@@ -87,8 +87,8 @@ import { AddAuthorizationGroupsComponent } from './components/authorization-grou
 import { ViewAuthorizationGroupsComponent } from './components/authorization-groups/view-authorization-groups/view-authorization-groups.component';
 import { AddFollowupTypesComponent } from './components/followup-types/add-followup-types/add-followup-types.component';
 import { ViewFollowUpTypesComponent } from './components/followup-types/view-followup-types/view-followup-types.component';
-import { AddInterestTypesComponent } from './components/interestType-types/add-interest-types/add-interest-types.component';
-import { ViewInterestTypesComponent } from './components/interestType-types/view-interest-types/view-interest-types.component';
+import { AddInterestTypesComponent } from './components/interest-types/add-interest-types/add-interest-types.component';
+import { ViewInterestTypesComponent } from './components/interest-types/view-interest-types/view-interest-types.component';
 import { AddFeeRangesComponent } from './components/fee-ranges/add-fee-ranges/add-fee-ranges.component';
 import { ViewFeeRangesComponent } from './components/fee-ranges/view-fee-ranges/view-fee-ranges.component';
 import { ViewPaymentPeriodsComponent } from './components/payment-periods/view-payment-periods/view-payment-periods.component';

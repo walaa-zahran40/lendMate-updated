@@ -17,6 +17,7 @@
   <ng-container *ngIf="PaymentTypes$ | async as PaymentTypes">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredPaymentType"
       [edit]="true"

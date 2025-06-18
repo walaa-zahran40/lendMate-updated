@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject, Observable, takeUntil, filter } from 'rxjs';
+import { Subject, Observable, takeUntil, filter, forkJoin } from 'rxjs';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { Operation } from '../../../store/operations/operation.model';
 import { OperationsFacade } from '../../../store/operations/operations.facade';
@@ -67,18 +67,30 @@ export class ViewOperationsComponent {
     this.showDeleteModal = true;
   }
 
+  selectedIds: number[] = [];
   confirmDelete() {
-    console.log(
-      '[View] confirmDelete() – about to dispatch delete for id=',
-      this.selectedOperationId
-    );
-    if (this.selectedOperationId !== null) {
-      this.facade.delete(this.selectedOperationId);
-      console.log('[View] confirmDelete() – facade.delete() called');
-    } else {
-      console.warn('[View] confirmDelete() – no id to delete');
-    }
-    this.resetDeleteModal();
+    const deleteCalls = this.selectedIds.map((id) => this.facade.delete(id));
+
+    forkJoin(deleteCalls).subscribe({
+      next: () => {
+        this.selectedIds = [];
+        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.refreshCalls();
+      },
+      error: (err) => {
+        this.showDeleteModal = false; // STILL CLOSE IT
+      },
+    });
+  }
+
+  refreshCalls() {
+    this.facade.loadAll();
+    this.operations$ = this.facade.all$;
+  }
+  onBulkDelete(ids: number[]) {
+    // Optionally confirm first
+    this.selectedIds = ids;
+    this.showDeleteModal = true;
   }
   cancelDelete() {
     this.resetDeleteModal();

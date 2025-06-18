@@ -8,6 +8,7 @@ import {
   tap,
   take,
   filter,
+  forkJoin,
 } from 'rxjs';
 import { TableComponent } from '../../../../../../shared/components/table/table.component';
 import { Mandate } from '../../../store/leasing-mandates/leasing-mandate.model';
@@ -194,13 +195,6 @@ export class ViewMandatesComponent {
     this.showDeleteModal = true;
   }
 
-  confirmDelete() {
-    if (this.selectedLeasingMandateId !== null) {
-      this.facade.delete(this.selectedLeasingMandateId);
-    }
-    this.resetDeleteModal();
-  }
-
   cancelDelete() {
     this.resetDeleteModal();
   }
@@ -244,5 +238,30 @@ export class ViewMandatesComponent {
     // you can kick off server download here, e.g.:
     // this.fileService.downloadMandatePdf(m.id).subscribe(...);
     this.onPopupClose();
+  }
+  selectedIds: number[] = [];
+  confirmDelete() {
+    const deleteCalls = this.selectedIds.map((id) => this.facade.delete(id));
+
+    forkJoin(deleteCalls).subscribe({
+      next: () => {
+        this.selectedIds = [];
+        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.refreshCalls();
+      },
+      error: (err) => {
+        this.showDeleteModal = false; // STILL CLOSE IT
+      },
+    });
+  }
+
+  refreshCalls() {
+    this.facade.loadAll();
+    this.leasingMandates$ = this.facade.all$;
+  }
+  onBulkDelete(ids: number[]) {
+    // Optionally confirm first
+    this.selectedIds = ids;
+    this.showDeleteModal = true;
   }
 }

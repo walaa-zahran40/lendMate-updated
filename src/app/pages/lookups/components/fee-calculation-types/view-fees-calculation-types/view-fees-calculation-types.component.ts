@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject, Observable, takeUntil, take } from 'rxjs';
+import { Subject, Observable, takeUntil, take, forkJoin } from 'rxjs';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { FeeCalculationType } from '../../../store/fee-calculation-types/fee-calculation-type.model';
 import { FeeCalculationTypesFacade } from '../../../store/fee-calculation-types/fee-calculation-types.facade';
@@ -71,18 +71,30 @@ export class ViewFeesCalculationTypesComponent {
     this.showDeleteModal = true;
   }
 
+  selectedIds: number[] = [];
   confirmDelete() {
-    console.log(
-      '[View] confirmDelete() – about to dispatch delete for id=',
-      this.selectedFeeCalculationTypeId
-    );
-    if (this.selectedFeeCalculationTypeId !== null) {
-      this.facade.delete(this.selectedFeeCalculationTypeId);
-      console.log('[View] confirmDelete() – facade.delete() called');
-    } else {
-      console.warn('[View] confirmDelete() – no id to delete');
-    }
-    this.resetDeleteModal();
+    const deleteCalls = this.selectedIds.map((id) => this.facade.delete(id));
+
+    forkJoin(deleteCalls).subscribe({
+      next: () => {
+        this.selectedIds = [];
+        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.refreshCalls();
+      },
+      error: (err) => {
+        this.showDeleteModal = false; // STILL CLOSE IT
+      },
+    });
+  }
+
+  refreshCalls() {
+    this.facade.loadAll();
+    this.feeCalculationTypes$ = this.facade.all$;
+  }
+  onBulkDelete(ids: number[]) {
+    // Optionally confirm first
+    this.selectedIds = ids;
+    this.showDeleteModal = true;
   }
   cancelDelete() {
     this.resetDeleteModal();

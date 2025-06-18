@@ -18,6 +18,7 @@
   <ng-container *ngIf="signatoryOfficers$ | async as signatoryOfficers">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredSignatoryOfficers"
       [edit]="true"

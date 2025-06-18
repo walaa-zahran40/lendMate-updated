@@ -17,6 +17,7 @@
   <ng-container *ngIf="legalFormLaws$ | async as legalFormLaws">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredLegalFormLaws"
       [edit]="true"

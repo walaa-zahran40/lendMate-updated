@@ -14,9 +14,12 @@
     (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
 
-  <ng-container *ngIf="notificationGroupOfficers$ | async as notificationGroupOfficers">
+  <ng-container
+    *ngIf="notificationGroupOfficers$ | async as notificationGroupOfficers"
+  >
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredNotificationGroupOfficers"
       [edit]="true"

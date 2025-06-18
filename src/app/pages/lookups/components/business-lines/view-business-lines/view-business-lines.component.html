@@ -17,6 +17,7 @@
   <ng-container *ngIf="businessLines$ | async as businessLines">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredBusinessLines"
       [edit]="true"
@@ -39,4 +40,3 @@
     ></app-delete-module>
   </ng-container>
 </div>
-

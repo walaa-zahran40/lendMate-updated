@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { combineLatest, map, of, Subject, takeUntil } from 'rxjs';
+import { combineLatest, map, of, Subject, takeUntil, forkJoin } from 'rxjs';
 import { Router } from '@angular/router';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { AuthorizationGroupOfficer } from '../../../store/authorization-group-officers/authorization-group-officer.model';
@@ -106,16 +106,6 @@ export class ViewAuthorizationGroupOfficersComponent {
     this.showDeleteModal = true;
   }
 
-  confirmDelete() {
-    if (this.selectedAuthorizationGroupOfficerId !== null) {
-      this.facade.delete(this.selectedAuthorizationGroupOfficerId);
-      console.log('[View] confirmDelete() – facade.delete() called');
-    } else {
-      console.warn('[View] confirmDelete() – no id to delete');
-    }
-    this.resetDeleteModal();
-  }
-
   cancelDelete() {
     this.resetDeleteModal();
   }
@@ -159,5 +149,30 @@ export class ViewAuthorizationGroupOfficersComponent {
         queryParams: { mode: 'view' },
       }
     );
+  }
+  selectedIds: number[] = [];
+  confirmDelete() {
+    const deleteCalls = this.selectedIds.map((id) => this.facade.delete(id));
+
+    forkJoin(deleteCalls).subscribe({
+      next: () => {
+        this.selectedIds = [];
+        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.refreshCalls();
+      },
+      error: (err) => {
+        this.showDeleteModal = false; // STILL CLOSE IT
+      },
+    });
+  }
+
+  refreshCalls() {
+    this.facade.loadAll();
+    this.authorizationGroupOfficers$ = this.facade.all$;
+  }
+  onBulkDelete(ids: number[]) {
+    // Optionally confirm first
+    this.selectedIds = ids;
+    this.showDeleteModal = true;
   }
 }

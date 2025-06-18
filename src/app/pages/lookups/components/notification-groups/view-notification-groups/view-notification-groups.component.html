@@ -17,6 +17,7 @@
   <ng-container *ngIf="notificationGroups$ | async as notificationGroups">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredNotificationGroups"
       [edit]="true"

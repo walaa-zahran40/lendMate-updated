@@ -17,6 +17,7 @@
   <ng-container *ngIf="roles$ | async as roles">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredRoles"
       [edit]="true"

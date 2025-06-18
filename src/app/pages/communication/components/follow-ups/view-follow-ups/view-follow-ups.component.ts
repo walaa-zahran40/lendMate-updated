@@ -1,6 +1,14 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subject, Observable, combineLatest, of, map, takeUntil } from 'rxjs';
+import {
+  Subject,
+  Observable,
+  combineLatest,
+  of,
+  map,
+  takeUntil,
+  forkJoin,
+} from 'rxjs';
 import { Followup } from '../../../store/followups/followup.model';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { FollowupsFacade } from '../../../store/followups/followups.facade';
@@ -65,7 +73,7 @@ export class ViewFollowupsComponent implements OnInit, OnDestroy {
         map(([followups]) => {
           console.log('📦 Raw followups:', followups);
 
-          return followups;//.sort((a) => a.id);
+          return followups; //.sort((a) => a.id);
         }),
         takeUntil(this.destroy$)
       )
@@ -82,29 +90,25 @@ export class ViewFollowupsComponent implements OnInit, OnDestroy {
     const routeId = this.route.snapshot.paramMap.get('id');
 
     console.log(`route : ${routeId}`);
-    this.router.navigate(
-      ['communication/add-follow-ups/', communicationId],
-      {
-        queryParams: {
-          mode: 'add',
-          communicationId: this.communicationIdParam, // <-- use "communicationId" here
-        },
-      }
-    );
+    this.router.navigate(['communication/add-follow-ups/', communicationId], {
+      queryParams: {
+        mode: 'add',
+        communicationId: this.communicationIdParam, // <-- use "communicationId" here
+      },
+    });
   }
 
-//   private selectedFollowupFromTable(): Followup | null {
-//   if (!this.selectedFollowup) {
-//     console.error('❌ No followup selected for wizard view.');
-//     return null;
-//   }
-//   return this.selectedFollowup;
-// }
+  //   private selectedFollowupFromTable(): Followup | null {
+  //   if (!this.selectedFollowup) {
+  //     console.error('❌ No followup selected for wizard view.');
+  //     return null;
+  //   }
+  //   return this.selectedFollowup;
+  // }
 
-
-  onAddSide(followupId : any) {
+  onAddSide(followupId: any) {
     const communicationId = this.route.snapshot.paramMap.get('communicationId');
-    console.log("arwaaa" , followupId );
+    console.log('arwaaa', followupId);
     const routeId = this.route.snapshot.paramMap.get('id');
     this.router.navigate([
       '/communication/wizard-followups',
@@ -112,7 +116,7 @@ export class ViewFollowupsComponent implements OnInit, OnDestroy {
       communicationId,
     ]);
   }
-  
+
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
@@ -125,13 +129,6 @@ export class ViewFollowupsComponent implements OnInit, OnDestroy {
     );
     this.selectedFollowupId = clientPhoneNumberId;
     this.showDeleteModal = true;
-  }
-
-  confirmDelete() {
-    if (this.selectedFollowupId != null) {
-      this.facade.delete(this.selectedFollowupId, this.communicationIdParam);
-    }
-    this.resetDeleteModal();
   }
 
   cancelDelete() {
@@ -179,5 +176,32 @@ export class ViewFollowupsComponent implements OnInit, OnDestroy {
         },
       }
     );
+  }
+  selectedIds: number[] = [];
+  confirmDelete() {
+    const deleteCalls = this.selectedIds.map((id) =>
+      this.facade.delete(id, this.communicationIdParam)
+    );
+
+    forkJoin(deleteCalls).subscribe({
+      next: () => {
+        this.selectedIds = [];
+        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.refreshCalls();
+      },
+      error: (err) => {
+        this.showDeleteModal = false; // STILL CLOSE IT
+      },
+    });
+  }
+
+  refreshCalls() {
+    this.facade.loadAll();
+    this.followups$ = this.facade.items$;
+  }
+  onBulkDelete(ids: number[]) {
+    // Optionally confirm first
+    this.selectedIds = ids;
+    this.showDeleteModal = true;
   }
 }

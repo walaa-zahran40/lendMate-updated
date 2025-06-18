@@ -1,6 +1,14 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
-import { combineLatest, map, Observable, Subject, takeUntil, tap } from 'rxjs';
+import {
+  combineLatest,
+  forkJoin,
+  map,
+  Observable,
+  Subject,
+  takeUntil,
+  tap,
+} from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OfficersFacade } from '../../../store/officers/officers.facade';
 import { Officer } from '../../../store/officers/officer.model';
@@ -106,13 +114,33 @@ export class ViewBranchOfficersComponent implements OnInit, OnDestroy {
     this.showDeleteModal = true;
   }
 
+  selectedIds: number[] = [];
   confirmDelete() {
-    if (this.selectedBranchOfficerId != null) {
-      this.facade.delete(this.selectedBranchOfficerId, this.branchIdParam);
-    }
-    this.resetDeleteModal();
+    const deleteCalls = this.selectedIds.map((id) =>
+      this.facade.delete(id, this.branchIdParam)
+    );
+
+    forkJoin(deleteCalls).subscribe({
+      next: () => {
+        this.selectedIds = [];
+        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.refreshCalls();
+      },
+      error: (err) => {
+        this.showDeleteModal = false; // STILL CLOSE IT
+      },
+    });
   }
 
+  refreshCalls() {
+    this.facade.loadAll();
+    this.branchOfficers$ = this.facade.items$;
+  }
+  onBulkDelete(ids: number[]) {
+    // Optionally confirm first
+    this.selectedIds = ids;
+    this.showDeleteModal = true;
+  }
   cancelDelete() {
     this.resetDeleteModal();
   }

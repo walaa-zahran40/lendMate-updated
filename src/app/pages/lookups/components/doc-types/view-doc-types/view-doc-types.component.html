@@ -17,6 +17,7 @@
   <ng-container *ngIf="docTypes$ | async as docTypes">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredDocType"
       [edit]="true"

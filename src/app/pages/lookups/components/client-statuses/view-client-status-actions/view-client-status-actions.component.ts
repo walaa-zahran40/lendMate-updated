@@ -1,10 +1,16 @@
 import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject, Observable, takeUntil, combineLatest, map } from 'rxjs';
+import {
+  Subject,
+  Observable,
+  takeUntil,
+  combineLatest,
+  map,
+  forkJoin,
+} from 'rxjs';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { ClientStatus } from '../../../store/client-statuses/client-status.model';
 import { Store } from '@ngrx/store';
-import { loadClientStatuses } from '../../../store/client-statuses/client-statuses.actions';
 import { selectClientStatuses } from '../../../store/client-statuses/client-statuses.selectors';
 import { ClientStatusAction } from '../../../store/client-statuses-actions/client-status-action.model';
 import { ClientStatusActionsFacade } from '../../../store/client-statuses-actions/client-status-actions.facade';
@@ -142,19 +148,6 @@ export class ViewClientStatusActionsComponent {
     this.showDeleteModal = true;
   }
 
-  confirmDelete() {
-    console.log(
-      '[View] confirmDelete() – about to dispatch delete for id=',
-      this.selectedClientStatusActionId
-    );
-    if (this.selectedClientStatusActionId !== null) {
-      this.facade.delete(this.selectedClientStatusActionId);
-      console.log('[View] confirmDelete() – facade.delete() called');
-    } else {
-      console.warn('[View] confirmDelete() – no id to delete');
-    }
-    this.resetDeleteModal();
-  }
   cancelDelete() {
     this.resetDeleteModal();
   }
@@ -194,5 +187,30 @@ export class ViewClientStatusActionsComponent {
       '/lookups/wizard-client-status-action',
       clientStatusActionId,
     ]);
+  }
+  selectedIds: number[] = [];
+  confirmDelete() {
+    const deleteCalls = this.selectedIds.map((id) => this.facade.delete(id));
+
+    forkJoin(deleteCalls).subscribe({
+      next: () => {
+        this.selectedIds = [];
+        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.refreshCalls();
+      },
+      error: (err) => {
+        this.showDeleteModal = false; // STILL CLOSE IT
+      },
+    });
+  }
+
+  refreshCalls() {
+    this.facade.loadAll();
+    this.clientStatusActions$ = this.facade.all$;
+  }
+  onBulkDelete(ids: number[]) {
+    // Optionally confirm first
+    this.selectedIds = ids;
+    this.showDeleteModal = true;
   }
 }

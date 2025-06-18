@@ -18,6 +18,7 @@
   <ng-container *ngIf="clientOfficerTypes$ | async as clientOfficerTypes">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredClientOfficerTypes"
       [edit]="true"

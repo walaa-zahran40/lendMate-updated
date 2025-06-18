@@ -67,6 +67,19 @@ export const deleteEntityFailure = createAction(
   '[Calls] Delete Failure',
   props<{ error: any }>()
 );
+export const deleteBulk = createAction(
+  '[Calls] Delete Bulk',
+  props<{ ids: number[] }>()
+);
+export const deleteBulkSuccess = createAction(
+  '[Calls] Delete Bulk Success',
+  props<{ ids: number[] }>()
+);
+export const deleteBulkFailure = createAction(
+  '[Calls] Delete Bulk Failure',
+  props<{ error: any }>()
+);
+
 export const entityOperationSuccess = createAction(
   '[Entity] Operation Success',
   props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()

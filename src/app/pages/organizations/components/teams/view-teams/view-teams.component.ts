@@ -4,11 +4,11 @@ import { Team } from '../../../store/teams/team.model';
 import { TeamsFacade } from '../../../store/teams/teams.facade';
 import { DepartmentsFacade } from '../../../store/departments/departments.facade';
 import { Component, ViewChild } from '@angular/core';
-import { combineLatest, map, of, Subject, takeUntil } from 'rxjs';
+import { combineLatest, forkJoin, map, of, Subject, takeUntil } from 'rxjs';
 import { selectDepartments } from '../../../store/departments/departments.selectors';
 
 @Component({
- selector: 'app-view-teams',
+  selector: 'app-view-teams',
   standalone: false,
   templateUrl: './view-teams.component.html',
   styleUrl: './view-teams.component.scss',
@@ -38,13 +38,13 @@ export class ViewTeamsComponent {
   constructor(
     private router: Router,
     private facade: TeamsFacade,
-    private departmentFacade : DepartmentsFacade
+    private departmentFacade: DepartmentsFacade
   ) {}
 
   ngOnInit() {
-    // Initialize observable     
-   this.departmentFacade.loadAll();          
-   this.departments$ = this.departmentFacade.items$; 
+    // Initialize observable
+    this.departmentFacade.loadAll();
+    this.departments$ = this.departmentFacade.items$;
 
     // Trigger loading
     this.facade.loadAll();
@@ -63,9 +63,7 @@ export class ViewTeamsComponent {
           return teams
             .map((ss) => {
               console.log('ss', ss);
-              const match = departments.find(
-                (s) => s.id === ss.departmentId
-              );
+              const match = departments.find((s) => s.id === ss.departmentId);
 
               console.log(
                 `🔍 Matching calc type for team ID ${ss.id} (departmentId: ${ss.departmentId}):`,
@@ -75,8 +73,8 @@ export class ViewTeamsComponent {
               return {
                 ...ss,
                 department:
-                  departments.find((s) => s.id === ss.departmentId)
-                    ?.name || '—',
+                  departments.find((s) => s.id === ss.departmentId)?.name ||
+                  '—',
               };
             })
             .filter((ft) => ft.isActive)
@@ -105,18 +103,34 @@ export class ViewTeamsComponent {
     this.showDeleteModal = true;
   }
 
-    onAddSide(teamId: any) {
+  onAddSide(teamId: any) {
     this.router.navigate(['/organizations/wizard-teams', teamId]);
   }
 
+  selectedIds: number[] = [];
   confirmDelete() {
-    if (this.selectedTeamId !== null) {
-      this.facade.delete(this.selectedTeamId);
-      console.log('[View] confirmDelete() – facade.delete() called');
-    } else {
-      console.warn('[View] confirmDelete() – no id to delete');
-    }
-    this.resetDeleteModal();
+    const deleteCalls = this.selectedIds.map((id) => this.facade.delete(id));
+
+    forkJoin(deleteCalls).subscribe({
+      next: () => {
+        this.selectedIds = [];
+        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.refreshCalls();
+      },
+      error: (err) => {
+        this.showDeleteModal = false; // STILL CLOSE IT
+      },
+    });
+  }
+
+  refreshCalls() {
+    this.facade.loadAll();
+    this.teams$ = this.facade.all$;
+  }
+  onBulkDelete(ids: number[]) {
+    // Optionally confirm first
+    this.selectedIds = ids;
+    this.showDeleteModal = true;
   }
 
   cancelDelete() {
@@ -153,4 +167,3 @@ export class ViewTeamsComponent {
     });
   }
 }
-

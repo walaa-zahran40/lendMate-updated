@@ -8,10 +8,7 @@ import { EntityNames } from '../../../../shared/constants/entity-names';
 
 @Injectable()
 export class CallsEffects {
-  constructor(
-    private actions$: Actions,
-    private service: CallsService
-  ) {}
+  constructor(private actions$: Actions, private service: CallsService) {}
 
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
@@ -107,6 +104,17 @@ export class CallsEffects {
         this.service.delete(id).pipe(
           map(() => ActionsList.deleteEntitySuccess({ id })),
           catchError((error) => of(ActionsList.deleteEntityFailure({ error })))
+        )
+      )
+    )
+  );
+  deleteBulk$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.deleteBulk),
+      mergeMap(({ ids }) =>
+        this.service.deleteBulk(ids).pipe(
+          map(() => ActionsList.deleteBulkSuccess({ ids })),
+          catchError((error) => of(ActionsList.deleteBulkFailure({ error })))
         )
       )
     )

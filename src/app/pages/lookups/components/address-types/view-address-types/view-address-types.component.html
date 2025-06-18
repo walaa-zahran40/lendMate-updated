@@ -17,6 +17,7 @@
   <ng-container *ngIf="addressTypes$ | async as addressTypes">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredAddressTypes"
       [edit]="true"

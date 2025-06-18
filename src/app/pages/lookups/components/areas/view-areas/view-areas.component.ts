@@ -1,6 +1,6 @@
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject, combineLatest } from 'rxjs';
+import { Subject, combineLatest, forkJoin, Observable } from 'rxjs';
 import { map, takeUntil, filter, tap } from 'rxjs/operators';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { Area } from '../../../store/areas/area.model';
@@ -22,6 +22,7 @@ export class ViewAreasComponent implements OnInit, OnDestroy {
     { field: 'nameAR', header: 'Name AR' },
     { field: 'isActive', header: 'Active' },
   ];
+  areas$!: Observable<Area[]>;
 
   originalArea: Area[] = [];
   filteredArea: Area[] = [];
@@ -89,13 +90,6 @@ export class ViewAreasComponent implements OnInit, OnDestroy {
     this.showDeleteModal = true;
   }
 
-  confirmDelete() {
-    if (this.selectedAreaId != null) {
-      this.areasFacade.delete(this.selectedAreaId);
-    }
-    this.resetDeleteModal();
-  }
-
   cancelDelete() {
     this.resetDeleteModal();
   }
@@ -133,5 +127,32 @@ export class ViewAreasComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+  selectedIds: number[] = [];
+  confirmDelete() {
+    const deleteCalls = this.selectedIds.map((id) =>
+      this.areasFacade.delete(id)
+    );
+
+    forkJoin(deleteCalls).subscribe({
+      next: () => {
+        this.selectedIds = [];
+        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.refreshCalls();
+      },
+      error: (err) => {
+        this.showDeleteModal = false; // STILL CLOSE IT
+      },
+    });
+  }
+
+  refreshCalls() {
+    this.areasFacade.loadAll();
+    this.areas$ = this.areasFacade.all$;
+  }
+  onBulkDelete(ids: number[]) {
+    // Optionally confirm first
+    this.selectedIds = ids;
+    this.showDeleteModal = true;
   }
 }

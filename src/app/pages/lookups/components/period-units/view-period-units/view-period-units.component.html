@@ -17,6 +17,7 @@
   <ng-container *ngIf="gracePeriodUnits$ | async as gracePeriodUnits">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredGracePeriodUnit"
       [edit]="true"

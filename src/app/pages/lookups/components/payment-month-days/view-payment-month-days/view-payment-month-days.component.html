@@ -17,6 +17,7 @@
   <ng-container *ngIf="PaymentMonthDays$ | async as PaymentMonthDays">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredPaymentMonthDay"
       [edit]="true"

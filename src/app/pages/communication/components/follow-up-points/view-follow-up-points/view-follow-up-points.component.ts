@@ -1,6 +1,14 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subject, Observable, combineLatest, of, map, takeUntil } from 'rxjs';
+import {
+  Subject,
+  Observable,
+  combineLatest,
+  of,
+  map,
+  takeUntil,
+  forkJoin,
+} from 'rxjs';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { FollowupPoint } from '../../../store/followup-points/followup-point.model';
 import { FollowupPointsFacade } from '../../../store/followup-points/followup-points.facade';
@@ -101,13 +109,6 @@ export class ViewFollowupPointsComponent implements OnInit, OnDestroy {
     this.showDeleteModal = true;
   }
 
-  confirmDelete() {
-    if (this.selectedFollowupPointId != null) {
-      this.facade.delete(this.selectedFollowupPointId, this.followupIdParam);
-    }
-    this.resetDeleteModal();
-  }
-
   cancelDelete() {
     this.resetDeleteModal();
   }
@@ -163,5 +164,32 @@ export class ViewFollowupPointsComponent implements OnInit, OnDestroy {
         },
       }
     );
+  }
+  selectedIds: number[] = [];
+  confirmDelete() {
+    const deleteCalls = this.selectedIds.map((id) =>
+      this.facade.delete(id, this.followupIdParam)
+    );
+
+    forkJoin(deleteCalls).subscribe({
+      next: () => {
+        this.selectedIds = [];
+        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.refreshCalls();
+      },
+      error: (err) => {
+        this.showDeleteModal = false; // STILL CLOSE IT
+      },
+    });
+  }
+
+  refreshCalls() {
+    this.facade.loadAll();
+    this.followups$ = this.facade.items$;
+  }
+  onBulkDelete(ids: number[]) {
+    // Optionally confirm first
+    this.selectedIds = ids;
+    this.showDeleteModal = true;
   }
 }

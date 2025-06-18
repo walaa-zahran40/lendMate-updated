@@ -17,6 +17,7 @@
   <ng-container *ngIf="clientPhoneNumbers$ | async as clientPhoneNumbers">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredClientPhoneNumbers"
       [edit]="true"

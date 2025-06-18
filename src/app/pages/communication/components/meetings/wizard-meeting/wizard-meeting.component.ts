@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, tap, take } from 'rxjs';
-import { MeetingsFacade } from '../../store/meetings/meetings.facade';
+import { MeetingsFacade } from '../../../store/meetings/meetings.facade';
 
 @Component({
   selector: 'app-wizard-meeting',
@@ -33,7 +33,6 @@ export class WizardMeetingComponent {
         tap((m) => (this.communicationId = m?.communicationId!)) // ← this is the one you need
       )
       .subscribe(() => this.buildCards());
-
   }
   private buildCards() {
     const communicationId = this.communicationId;

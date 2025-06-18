@@ -17,6 +17,7 @@
   <ng-container *ngIf="mandateValidityUnits$ | async as mandateValidityUnits">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredMandateValidityUnits"
       [edit]="true"

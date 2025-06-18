@@ -17,6 +17,7 @@
   <ng-container *ngIf="currencyExchangeRates$ | async as currencyExchangeRates">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredCurrencyExchangeRates"
       [edit]="true"

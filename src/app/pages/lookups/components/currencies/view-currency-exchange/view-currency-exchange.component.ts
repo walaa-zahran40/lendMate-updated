@@ -2,7 +2,14 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CurrencyExchange } from '../../../../../shared/interfaces/currency-exchange.interface';
 import { CurrencyExchangeRate } from '../../../store/currency-exchange-rates/currency-exchange-rate.model';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
-import { combineLatest, map, Observable, Subject, takeUntil, tap } from 'rxjs';
+import {
+  combineLatest,
+  map,
+  Observable,
+  Subject,
+  takeUntil,
+  forkJoin,
+} from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CurrencyExchangeRatesFacade } from '../../../store/currency-exchange-rates/currency-exchange-rates.facade';
 
@@ -96,16 +103,6 @@ export class ViewCurrencyExchangeComponent implements OnInit, OnDestroy {
     this.showDeleteModal = true;
   }
 
-  confirmDelete() {
-    if (this.selectedCurrencyExchangeRateId != null) {
-      this.facade.delete(
-        this.selectedCurrencyExchangeRateId,
-        this.currencyIdParam
-      );
-    }
-    this.resetDeleteModal();
-  }
-
   cancelDelete() {
     this.resetDeleteModal();
   }
@@ -152,5 +149,32 @@ export class ViewCurrencyExchangeComponent implements OnInit, OnDestroy {
         },
       }
     );
+  }
+  selectedIds: number[] = [];
+  confirmDelete() {
+    const deleteCalls = this.selectedIds.map((id) =>
+      this.facade.delete(id, this.currencyIdParam)
+    );
+
+    forkJoin(deleteCalls).subscribe({
+      next: () => {
+        this.selectedIds = [];
+        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.refreshCalls();
+      },
+      error: (err) => {
+        this.showDeleteModal = false; // STILL CLOSE IT
+      },
+    });
+  }
+
+  refreshCalls() {
+    this.facade.loadAll();
+    this.currencyExchangeRates$ = this.facade.items$;
+  }
+  onBulkDelete(ids: number[]) {
+    // Optionally confirm first
+    this.selectedIds = ids;
+    this.showDeleteModal = true;
   }
 }

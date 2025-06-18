@@ -14,9 +14,12 @@
     (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
 
-  <ng-container *ngIf="authorizationGroupOfficers$ | async as authorizationGroupOfficers">
+  <ng-container
+    *ngIf="authorizationGroupOfficers$ | async as authorizationGroupOfficers"
+  >
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredAuthorizationGroupOfficers"
       [edit]="true"

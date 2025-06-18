@@ -17,7 +17,7 @@ import { ViewMeetingsComponent } from './components/meetings/view-meetings/view-
 import { WizardCommunicationComponent } from './components/wizard-communication/wizard-communication.component';
 import { WizardFollowupsComponent } from './components/wizard-followups/wizard-followups.component';
 import { WizardComponent } from './components/wizard/wizard.component';
-import { WizardMeetingComponent } from './meetings/wizard-meeting/wizard-meeting.component';
+import { WizardMeetingComponent } from './components/meetings/wizard-meeting/wizard-meeting.component';
 import { PendingChangesGuard } from '../../shared/guards/pending-changes.guard';
 const routes: Routes = [
   //Calls

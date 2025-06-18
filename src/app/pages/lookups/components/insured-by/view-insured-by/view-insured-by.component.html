@@ -17,6 +17,7 @@
   <ng-container *ngIf="InsuredBy$ | async as InsuredBy">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredInsuredBy"
       [edit]="true"

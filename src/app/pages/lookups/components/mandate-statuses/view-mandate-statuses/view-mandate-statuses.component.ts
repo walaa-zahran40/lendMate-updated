@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 // import { MandateStatuses } from '../../../../shared/interfaces/mandate-statuses.interface';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { forkJoin, Observable, Subject, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { MandateStatus } from '../../../store/mandate-statuses/mandate-statuses/mandate-status.model';
@@ -66,18 +66,30 @@ export class ViewMandateStatusesComponent {
     this.showDeleteModal = true;
   }
 
+  selectedIds: number[] = [];
   confirmDelete() {
-    console.log(
-      '[View] confirmDelete() – about to dispatch delete for id=',
-      this.selectedMandateStatusId
-    );
-    if (this.selectedMandateStatusId !== null) {
-      this.facade.delete(this.selectedMandateStatusId);
-      console.log('[View] confirmDelete() – facade.delete() called');
-    } else {
-      console.warn('[View] confirmDelete() – no id to delete');
-    }
-    this.resetDeleteModal();
+    const deleteCalls = this.selectedIds.map((id) => this.facade.delete(id));
+
+    forkJoin(deleteCalls).subscribe({
+      next: () => {
+        this.selectedIds = [];
+        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.refreshCalls();
+      },
+      error: (err) => {
+        this.showDeleteModal = false; // STILL CLOSE IT
+      },
+    });
+  }
+
+  refreshCalls() {
+    this.facade.loadAll();
+    this.mandateStatuses$ = this.facade.items$;
+  }
+  onBulkDelete(ids: number[]) {
+    // Optionally confirm first
+    this.selectedIds = ids;
+    this.showDeleteModal = true;
   }
   cancelDelete() {
     this.resetDeleteModal();

@@ -17,6 +17,7 @@
   <ng-container *ngIf="Sectors$ | async as Sectors">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredSector"
       [edit]="true"

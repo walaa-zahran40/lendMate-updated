@@ -1,5 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
-import { combineLatest, map, Observable, pipe, Subject, takeUntil } from 'rxjs';
+import {
+  combineLatest,
+  forkJoin,
+  map,
+  Observable,
+  pipe,
+  Subject,
+  takeUntil,
+} from 'rxjs';
 import { Router } from '@angular/router';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { Governorate } from '../../../store/governorates/governorate.model';
@@ -82,18 +90,30 @@ export class ViewGovernoratesComponent {
     this.showDeleteModal = true;
   }
 
+  selectedIds: number[] = [];
   confirmDelete() {
-    console.log(
-      '[View] confirmDelete() – about to dispatch delete for id=',
-      this.selectedGovernorateId
-    );
-    if (this.selectedGovernorateId !== null) {
-      this.facade.delete(this.selectedGovernorateId);
-      console.log('[View] confirmDelete() – facade.delete() called');
-    } else {
-      console.warn('[View] confirmDelete() – no id to delete');
-    }
-    this.resetDeleteModal();
+    const deleteCalls = this.selectedIds.map((id) => this.facade.delete(id));
+
+    forkJoin(deleteCalls).subscribe({
+      next: () => {
+        this.selectedIds = [];
+        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.refreshCalls();
+      },
+      error: (err) => {
+        this.showDeleteModal = false; // STILL CLOSE IT
+      },
+    });
+  }
+
+  refreshCalls() {
+    this.facade.loadAll();
+    this.governorates$ = this.facade.all$;
+  }
+  onBulkDelete(ids: number[]) {
+    // Optionally confirm first
+    this.selectedIds = ids;
+    this.showDeleteModal = true;
   }
   cancelDelete() {
     this.resetDeleteModal();

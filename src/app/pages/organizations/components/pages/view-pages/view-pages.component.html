@@ -17,6 +17,7 @@
   <ng-container *ngIf="pages$ | async as pages">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredPages"
       [edit]="true"

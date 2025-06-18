@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject, combineLatest, takeUntil } from 'rxjs';
+import { Subject, combineLatest, takeUntil, forkJoin } from 'rxjs';
 import { TableComponent } from '../../../../../../../../../shared/components/table/table.component';
 import { DocTypesFacade } from '../../../../../../../../lookups/store/doc-types/doc-types.facade';
 import { ClientFile } from '../../../../../../store/client-file/client-file.model';
@@ -117,15 +117,6 @@ export class ViewUploadDocumentsComponent implements OnInit, OnDestroy {
     this.showDeleteModal = true;
   }
 
-  confirmDelete() {
-    console.log('[confirmDelete] selectedDocumentId=', this.selectedDocumentId);
-    if (this.selectedDocumentId !== null) {
-      this.facade.delete(this.selectedDocumentId, this.clientId);
-      console.log('[confirmDelete] facade.delete called');
-    }
-    this.resetDeleteModal();
-  }
-
   cancelDelete() {
     console.log('[cancelDelete]');
     this.resetDeleteModal();
@@ -174,5 +165,32 @@ export class ViewUploadDocumentsComponent implements OnInit, OnDestroy {
       ['/crm/clients/view-documents', this.clientId, doc.id],
       { queryParams: { mode: 'view' } }
     );
+  }
+  selectedIds: number[] = [];
+  confirmDelete() {
+    const deleteCalls = this.selectedIds.map((id) =>
+      this.facade.delete(id, this.clientId)
+    );
+
+    forkJoin(deleteCalls).subscribe({
+      next: () => {
+        this.selectedIds = [];
+        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.refreshCalls();
+      },
+      error: (err) => {
+        this.showDeleteModal = false; // STILL CLOSE IT
+      },
+    });
+  }
+
+  refreshCalls() {
+    this.facade.loadAll();
+    this.documents$ = this.facade.files$;
+  }
+  onBulkDelete(ids: number[]) {
+    // Optionally confirm first
+    this.selectedIds = ids;
+    this.showDeleteModal = true;
   }
 }

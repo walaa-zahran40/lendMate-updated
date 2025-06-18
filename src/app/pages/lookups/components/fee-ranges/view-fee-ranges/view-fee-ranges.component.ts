@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { combineLatest, map, of, Subject, takeUntil } from 'rxjs';
+import { combineLatest, forkJoin, map, of, Subject, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { FeeRange } from '../../../store/fee-ranges/fee-range.model';
@@ -107,16 +107,31 @@ export class ViewFeeRangesComponent {
     this.showDeleteModal = true;
   }
 
+  selectedIds: number[] = [];
   confirmDelete() {
-    if (this.selectedFeeRangeId !== null) {
-      this.facade.delete(this.selectedFeeRangeId);
-      console.log('[View] confirmDelete() – facade.delete() called');
-    } else {
-      console.warn('[View] confirmDelete() – no id to delete');
-    }
-    this.resetDeleteModal();
+    const deleteCalls = this.selectedIds.map((id) => this.facade.delete(id));
+
+    forkJoin(deleteCalls).subscribe({
+      next: () => {
+        this.selectedIds = [];
+        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.refreshCalls();
+      },
+      error: (err) => {
+        this.showDeleteModal = false; // STILL CLOSE IT
+      },
+    });
   }
 
+  refreshCalls() {
+    this.facade.loadAll();
+    this.feeRanges$ = this.facade.all$;
+  }
+  onBulkDelete(ids: number[]) {
+    // Optionally confirm first
+    this.selectedIds = ids;
+    this.showDeleteModal = true;
+  }
   cancelDelete() {
     this.resetDeleteModal();
   }

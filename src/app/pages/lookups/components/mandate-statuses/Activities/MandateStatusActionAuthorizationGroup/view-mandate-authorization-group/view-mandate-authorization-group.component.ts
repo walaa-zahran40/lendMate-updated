@@ -9,6 +9,7 @@ import {
   takeUntil,
   take,
   filter,
+  forkJoin,
 } from 'rxjs';
 import { TableComponent } from '../../../../../../../shared/components/table/table.component';
 import { AuthorizationGroup } from '../../../../../store/authorization-groups/authorization-group.model';
@@ -115,21 +116,32 @@ export class ViewMandateActionAuthorizationGroupsComponent {
     this.showDeleteModal = true;
   }
 
+  selectedIds: number[] = [];
   confirmDelete() {
-    console.log(
-      '[View] confirmDelete() – about to dispatch delete for id=',
-      this.selectedActionAuthorizationGroupId
+    const deleteCalls = this.selectedIds.map((id) =>
+      this.facade.delete(id, this.mandateStatusActionIdParam)
     );
-    if (this.selectedActionAuthorizationGroupId !== null) {
-      this.facade.delete(
-        this.selectedActionAuthorizationGroupId,
-        this.mandateStatusActionIdParam
-      );
-      console.log('[View] confirmDelete() – facade.delete() called');
-    } else {
-      console.warn('[View] confirmDelete() – no id to delete');
-    }
-    this.resetDeleteModal();
+
+    forkJoin(deleteCalls).subscribe({
+      next: () => {
+        this.selectedIds = [];
+        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.refreshCalls();
+      },
+      error: (err) => {
+        this.showDeleteModal = false; // STILL CLOSE IT
+      },
+    });
+  }
+
+  refreshCalls() {
+    this.facade.loadAll();
+    this.actionAuthorizationGroups$ = this.facade.items$;
+  }
+  onBulkDelete(ids: number[]) {
+    // Optionally confirm first
+    this.selectedIds = ids;
+    this.showDeleteModal = true;
   }
   cancelDelete() {
     this.resetDeleteModal();

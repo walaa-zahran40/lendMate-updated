@@ -16,6 +16,7 @@
   <ng-container *ngIf="branchAddresses$ | async as branchAddresses">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredBranchAddresses"
       [edit]="true"

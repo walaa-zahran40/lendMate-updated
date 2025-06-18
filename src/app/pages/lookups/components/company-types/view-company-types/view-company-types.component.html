@@ -17,6 +17,7 @@
   <ng-container *ngIf="companyTypes$ | async as companyTypes">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredCompanyTypes"
       [edit]="true"

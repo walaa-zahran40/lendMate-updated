@@ -17,6 +17,7 @@
   <ng-container *ngIf="taxOffices$ | async as taxOffices">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredTaxOffices"
       [edit]="true"

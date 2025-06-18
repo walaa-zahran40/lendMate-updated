@@ -1,7 +1,14 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { TeamLead } from '../../../../../shared/interfaces/team-lead.interface';
 import { TeamLeadOfficer } from '../../../store/teams/team-lead-officers/team-lead-officer.model';
-import { combineLatest, map, Observable, Subject, takeUntil } from 'rxjs';
+import {
+  combineLatest,
+  forkJoin,
+  map,
+  Observable,
+  Subject,
+  takeUntil,
+} from 'rxjs';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { TeamLeadOfficersFacade } from '../../../store/teams/team-lead-officers/team-lead-officers.facade';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,9 +17,8 @@ import { Store } from '@ngrx/store';
 import { Officer } from '../../../store/officers/officer.model';
 import { selectOfficers } from '../../../store/officers/officers.selectors';
 
-
 @Component({
-    selector: 'app-view-team-lead',
+  selector: 'app-view-team-lead',
   standalone: false,
   templateUrl: './view-team-lead.component.html',
   styleUrl: './view-team-lead.component.scss',
@@ -53,7 +59,7 @@ export class ViewTeamLeadComponent implements OnInit, OnDestroy {
     const raw = this.route.snapshot.paramMap.get('teamId');
     this.teamIdParam = raw !== null ? Number(raw) : undefined;
     console.log('[View] ngOnInit → teamIdParam =', this.teamIdParam);
-   
+
     if (this.teamIdParam == null || isNaN(this.teamIdParam)) {
       console.error(
         '❌ Missing or invalid teamIdParam! Cannot load exchange rates.'
@@ -71,9 +77,9 @@ export class ViewTeamLeadComponent implements OnInit, OnDestroy {
         map(([teamLeadOfficers, officers]) =>
           teamLeadOfficers
             .map((gov) => ({
-  ...gov,
-  managerName: gov.officer?.name || '—',
-}))
+              ...gov,
+              managerName: gov.officer?.name || '—',
+            }))
             .sort((a, b) => b.id - a.id)
         ),
         takeUntil(this.destroy$)
@@ -106,13 +112,33 @@ export class ViewTeamLeadComponent implements OnInit, OnDestroy {
     this.showDeleteModal = true;
   }
 
+  selectedIds: number[] = [];
   confirmDelete() {
-    if (this.selectedTeamLeadOfficerId != null) {
-      this.facade.delete(this.selectedTeamLeadOfficerId, this.teamIdParam);
-    }
-    this.resetDeleteModal();
+    const deleteCalls = this.selectedIds.map((id) =>
+      this.facade.delete(id, this.teamIdParam)
+    );
+
+    forkJoin(deleteCalls).subscribe({
+      next: () => {
+        this.selectedIds = [];
+        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.refreshCalls();
+      },
+      error: (err) => {
+        this.showDeleteModal = false; // STILL CLOSE IT
+      },
+    });
   }
 
+  refreshCalls() {
+    this.facade.loadAll();
+    this.teamLeadOfficers$ = this.facade.items$;
+  }
+  onBulkDelete(ids: number[]) {
+    // Optionally confirm first
+    this.selectedIds = ids;
+    this.showDeleteModal = true;
+  }
   cancelDelete() {
     this.resetDeleteModal();
   }

@@ -16,6 +16,7 @@
   <ng-container *ngIf="clientStatusActions$ | async as clientStatusActions">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredClientStatusActions"
       [edit]="true"

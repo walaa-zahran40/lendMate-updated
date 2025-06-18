@@ -13,9 +13,12 @@
     (exportExcel)="tableRef.exportToExcel()"
     (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <ng-container *ngIf="actionNotificationGroups$ | async as actionNotificationGroups">
+  <ng-container
+    *ngIf="actionNotificationGroups$ | async as actionNotificationGroups"
+  >
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredActionNotificationGroups"
       [edit]="true"

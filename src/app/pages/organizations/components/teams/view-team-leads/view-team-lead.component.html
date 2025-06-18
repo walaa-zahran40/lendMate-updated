@@ -17,6 +17,7 @@
   <ng-container *ngIf="teamLeadOfficers$ | async as teamLeadOfficers">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredTeamLeadOfficers"
       [edit]="true"

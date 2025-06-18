@@ -17,6 +17,7 @@
   <ng-container *ngIf="followupTypes$ | async as followupTypes">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredFollowupTypes"
       [edit]="true"

@@ -17,6 +17,7 @@
   <ng-container *ngIf="assetTypeCategories$ | async as assetTypeCategories">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredAssetTypeCategories"
       [edit]="true"

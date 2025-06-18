@@ -1,6 +1,14 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subject, Observable, combineLatest, of, map, takeUntil } from 'rxjs';
+import {
+  Subject,
+  Observable,
+  combineLatest,
+  of,
+  map,
+  takeUntil,
+  forkJoin,
+} from 'rxjs';
 import { TableComponent } from '../../../../../../../../../shared/components/table/table.component';
 import { PhoneType } from '../../../../../../../../lookups/store/phone-types/phone-type.model';
 import { PhoneTypesFacade } from '../../../../../../../../lookups/store/phone-types/phone-types.facade';
@@ -119,13 +127,6 @@ export class ViewPhoneNumberComponent implements OnInit, OnDestroy {
     this.showDeleteModal = true;
   }
 
-  confirmDelete() {
-    if (this.selectedClientPhoneNumberId != null) {
-      this.facade.delete(this.selectedClientPhoneNumberId, this.clientIdParam);
-    }
-    this.resetDeleteModal();
-  }
-
   cancelDelete() {
     this.resetDeleteModal();
   }
@@ -167,5 +168,32 @@ export class ViewPhoneNumberComponent implements OnInit, OnDestroy {
         clientId: this.clientIdParam, // <-- and here
       },
     });
+  }
+  selectedIds: number[] = [];
+  confirmDelete() {
+    const deleteCalls = this.selectedIds.map((id) =>
+      this.facade.delete(id, this.clientIdParam)
+    );
+
+    forkJoin(deleteCalls).subscribe({
+      next: () => {
+        this.selectedIds = [];
+        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.refreshCalls();
+      },
+      error: (err) => {
+        this.showDeleteModal = false; // STILL CLOSE IT
+      },
+    });
+  }
+
+  refreshCalls() {
+    this.facade.loadAll();
+    this.clientPhoneNumbers$ = this.facade.items$;
+  }
+  onBulkDelete(ids: number[]) {
+    // Optionally confirm first
+    this.selectedIds = ids;
+    this.showDeleteModal = true;
   }
 }

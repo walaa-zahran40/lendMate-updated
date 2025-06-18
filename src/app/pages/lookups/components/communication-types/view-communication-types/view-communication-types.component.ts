@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject, Observable, takeUntil } from 'rxjs';
+import { Subject, Observable, takeUntil, forkJoin } from 'rxjs';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { CommunicationType } from '../../../store/communication-types/communication-type.model';
 import { CommunicationTypesFacade } from '../../../store/communication-types/communication-types.facade';
@@ -66,19 +66,32 @@ export class ViewCommunicationTypesComponent {
     this.showDeleteModal = true;
   }
 
+  selectedIds: number[] = [];
   confirmDelete() {
-    console.log(
-      '[View] confirmDelete() – about to dispatch delete for id=',
-      this.selectedCommunicationTypeId
-    );
-    if (this.selectedCommunicationTypeId !== null) {
-      this.facade.delete(this.selectedCommunicationTypeId);
-      console.log('[View] confirmDelete() – facade.delete()');
-    } else {
-      console.warn('[View] confirmDelete() – no id to delete');
-    }
-    this.resetDeleteModal();
+    const deleteCalls = this.selectedIds.map((id) => this.facade.delete(id));
+
+    forkJoin(deleteCalls).subscribe({
+      next: () => {
+        this.selectedIds = [];
+        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.refreshCalls();
+      },
+      error: (err) => {
+        this.showDeleteModal = false; // STILL CLOSE IT
+      },
+    });
   }
+
+  refreshCalls() {
+    this.facade.loadAll();
+    this.communicationTypes$ = this.facade.all$;
+  }
+  onBulkDelete(ids: number[]) {
+    // Optionally confirm first
+    this.selectedIds = ids;
+    this.showDeleteModal = true;
+  }
+
   cancelDelete() {
     this.resetDeleteModal();
   }

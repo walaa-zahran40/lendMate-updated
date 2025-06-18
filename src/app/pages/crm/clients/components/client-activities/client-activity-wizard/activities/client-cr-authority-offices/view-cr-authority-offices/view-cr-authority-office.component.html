@@ -16,6 +16,7 @@
   <ng-container *ngIf="cRAuthorityOffices$ | async as cRAuthorityOffices">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredCRAuthorityOffices"
       [edit]="true"

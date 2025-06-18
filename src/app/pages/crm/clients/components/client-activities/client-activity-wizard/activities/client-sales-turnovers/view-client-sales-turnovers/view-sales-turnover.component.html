@@ -17,6 +17,7 @@
   <ng-container *ngIf="clientSalesTurnovers$ | async as clientSalesTurnovers">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredClientSalesTurnovers"
       [edit]="true"

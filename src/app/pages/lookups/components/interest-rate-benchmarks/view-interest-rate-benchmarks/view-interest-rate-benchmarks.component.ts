@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { InterestRateBenchMark } from '../../../store/interest-rate-benchmarks/interest-rate-benchmark.model';
 import { Router } from '@angular/router';
-import { Subject, Observable, take, takeUntil } from 'rxjs';
+import { Subject, Observable, take, takeUntil, forkJoin } from 'rxjs';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { InterestRateBenchMarksFacade } from '../../../store/interest-rate-benchmarks/interest-rate-benchmarks.facade';
 
@@ -71,21 +71,33 @@ export class ViewInterestRateBenchmarksComponent {
     this.showDeleteModal = true;
   }
 
+  selectedIds: number[] = [];
   confirmDelete() {
-    console.log(
-      '[View] confirmDelete() – about to dispatch delete for id=',
-      this.selectedInterestRateBenchMarkId
-    );
-    if (this.selectedInterestRateBenchMarkId !== null) {
-      this.facade.delete(this.selectedInterestRateBenchMarkId);
-      console.log('[View] confirmDelete() – facade.delete() called');
-    } else {
-      console.warn('[View] confirmDelete() – no id to delete');
-    }
-    this.resetDeleteModal();
+    const deleteCalls = this.selectedIds.map((id) => this.facade.delete(id));
+
+    forkJoin(deleteCalls).subscribe({
+      next: () => {
+        this.selectedIds = [];
+        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.refreshCalls();
+      },
+      error: (err) => {
+        this.showDeleteModal = false; // STILL CLOSE IT
+      },
+    });
   }
   cancelDelete() {
     this.resetDeleteModal();
+  }
+
+  refreshCalls() {
+    this.facade.loadAll();
+    this.InterestRateBenchmarks$ = this.facade.all$;
+  }
+  onBulkDelete(ids: number[]) {
+    // Optionally confirm first
+    this.selectedIds = ids;
+    this.showDeleteModal = true;
   }
 
   resetDeleteModal() {

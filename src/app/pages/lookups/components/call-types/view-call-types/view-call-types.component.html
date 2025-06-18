@@ -18,6 +18,7 @@
   <ng-container *ngIf="callTypes$ | async as callTypes">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredCallTypes"
       [edit]="true"

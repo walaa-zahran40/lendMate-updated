@@ -1,7 +1,14 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Subject, Observable, combineLatest, map, takeUntil } from 'rxjs';
+import {
+  Subject,
+  Observable,
+  combineLatest,
+  map,
+  takeUntil,
+  forkJoin,
+} from 'rxjs';
 import { TableComponent } from '../../../../../../../../../shared/components/table/table.component';
 import { Client } from '../../../../../../store/_clients/allclients/client.model';
 import { selectAllClients } from '../../../../../../store/_clients/allclients/clients.selectors';
@@ -95,19 +102,6 @@ export class ViewShareHoldersComponent {
     this.showDeleteModal = true;
   }
 
-  confirmDelete() {
-    console.log(
-      '[View] confirmDelete() – about to dispatch delete for id=',
-      this.selectedShareHolderId
-    );
-    if (this.selectedShareHolderId !== null) {
-      this.facade.delete(this.selectedShareHolderId, this.clientIdParam);
-      console.log('[View] confirmDelete() – facade.delete() called');
-    } else {
-      console.warn('[View] confirmDelete() – no id to delete');
-    }
-    this.resetDeleteModal();
-  }
   cancelDelete() {
     this.resetDeleteModal();
   }
@@ -147,5 +141,32 @@ export class ViewShareHoldersComponent {
         clientId: this.clientIdParam, // <-- use "currencyId" here
       },
     });
+  }
+  selectedIds: number[] = [];
+  confirmDelete() {
+    const deleteCalls = this.selectedIds.map((id) =>
+      this.facade.delete(id, this.clientIdParam)
+    );
+
+    forkJoin(deleteCalls).subscribe({
+      next: () => {
+        this.selectedIds = [];
+        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.refreshCalls();
+      },
+      error: (err) => {
+        this.showDeleteModal = false; // STILL CLOSE IT
+      },
+    });
+  }
+
+  refreshCalls() {
+    this.facade.loadAll();
+    this.shareHolders$ = this.facade.items$;
+  }
+  onBulkDelete(ids: number[]) {
+    // Optionally confirm first
+    this.selectedIds = ids;
+    this.showDeleteModal = true;
   }
 }

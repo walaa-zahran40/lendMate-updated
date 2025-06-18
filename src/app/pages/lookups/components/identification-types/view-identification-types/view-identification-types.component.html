@@ -17,6 +17,7 @@
   <ng-container *ngIf="IdentificationTypes$ | async as IdentificationTypes">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredIdentificationType"
       [edit]="true"

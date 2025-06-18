@@ -17,6 +17,7 @@
   <ng-container *ngIf="officers$ | async as officers">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredOfficers"
       [edit]="true"
@@ -30,7 +31,6 @@
       (onDelete)="onDeleteOfficer($event)"
       (onEdit)="onEditOfficer($event)"
       (viewForm)="onViewOfficer($event)"
-
     ></app-table>
     <app-delete-module
       [visible]="showDeleteModal"

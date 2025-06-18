@@ -18,6 +18,7 @@
   <ng-container *ngIf="communicationTypes$ | async as communicationTypes">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredCommunicationTypes"
       [edit]="true"

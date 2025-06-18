@@ -17,6 +17,7 @@
   <ng-container *ngIf="LeasingTypes$ | async as LeasingTypes">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredLeasingType"
       [edit]="true"

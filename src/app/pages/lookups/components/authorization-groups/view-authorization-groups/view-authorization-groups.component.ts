@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject, Observable, takeUntil, filter } from 'rxjs';
+import { Subject, Observable, takeUntil, filter, forkJoin } from 'rxjs';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { AuthorizationGroupsFacade } from '../../../store/authorization-groups/authorization-groups.facade';
 import { AuthorizationGroup } from '../../../store/authorization-groups/authorization-group.model';
@@ -70,19 +70,6 @@ export class ViewAuthorizationGroupsComponent {
     this.showDeleteModal = true;
   }
 
-  confirmDelete() {
-    console.log(
-      '[View] confirmDelete() – about to dispatch delete for id=',
-      this.selectedAuthorizationGroupId
-    );
-    if (this.selectedAuthorizationGroupId !== null) {
-      this.facade.delete(this.selectedAuthorizationGroupId);
-      console.log('[View] confirmDelete() – facade.delete() called');
-    } else {
-      console.warn('[View] confirmDelete() – no id to delete');
-    }
-    this.resetDeleteModal();
-  }
   cancelDelete() {
     this.resetDeleteModal();
   }
@@ -116,5 +103,30 @@ export class ViewAuthorizationGroupsComponent {
     this.router.navigate(['/lookups/edit-authorization-groups', ct.id], {
       queryParams: { mode: 'view' },
     });
+  }
+  selectedIds: number[] = [];
+  confirmDelete() {
+    const deleteCalls = this.selectedIds.map((id) => this.facade.delete(id));
+
+    forkJoin(deleteCalls).subscribe({
+      next: () => {
+        this.selectedIds = [];
+        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.refreshCalls();
+      },
+      error: (err) => {
+        this.showDeleteModal = false; // STILL CLOSE IT
+      },
+    });
+  }
+
+  refreshCalls() {
+    this.facade.loadAll();
+    this.authorizationGroups$ = this.facade.all$;
+  }
+  onBulkDelete(ids: number[]) {
+    // Optionally confirm first
+    this.selectedIds = ids;
+    this.showDeleteModal = true;
   }
 }

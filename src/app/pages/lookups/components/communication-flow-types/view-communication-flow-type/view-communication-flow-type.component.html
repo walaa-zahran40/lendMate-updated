@@ -20,6 +20,7 @@
   >
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredCommunicationFlowTypes"
       [edit]="true"

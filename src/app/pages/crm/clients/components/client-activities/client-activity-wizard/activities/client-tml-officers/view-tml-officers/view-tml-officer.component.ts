@@ -1,7 +1,14 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Subject, Observable, combineLatest, map, takeUntil } from 'rxjs';
+import {
+  Subject,
+  Observable,
+  combineLatest,
+  map,
+  takeUntil,
+  forkJoin,
+} from 'rxjs';
 import { TableComponent } from '../../../../../../../../../shared/components/table/table.component';
 import { TmlOfficerType } from '../../../../../../../../lookups/store/tml-officer-types/tml-officer-type.model';
 import { selectAllTmlOfficerTypes } from '../../../../../../../../lookups/store/tml-officer-types/tml-officer-types.selectors';
@@ -108,23 +115,6 @@ export class ViewTMLOfficersComponent {
     this.showDeleteModal = true;
   }
 
-  confirmDelete() {
-    console.log(
-      '[View] confirmDelete() – about to dispatch delete for id=',
-      this.selectedTMLOfficerId
-    );
-    if (this.selectedTMLOfficerId !== null) {
-      this.facade.delete(this.selectedTMLOfficerId, this.clientIdParam);
-      console.log('[View] confirmDelete() – facade.delete() called');
-    } else {
-      console.warn('[View] confirmDelete() – no id to delete');
-    }
-    this.resetDeleteModal();
-  }
-  cancelDelete() {
-    this.resetDeleteModal();
-  }
-
   resetDeleteModal() {
     console.log('[View] resetDeleteModal() – closing modal and clearing id');
     this.showDeleteModal = false;
@@ -159,5 +149,35 @@ export class ViewTMLOfficersComponent {
         clientId: this.clientIdParam, // <-- use "currencyId" here
       },
     });
+  }
+  selectedIds: number[] = [];
+  confirmDelete() {
+    const deleteCalls = this.selectedIds.map((id) =>
+      this.facade.delete(id, this.clientIdParam)
+    );
+
+    forkJoin(deleteCalls).subscribe({
+      next: () => {
+        this.selectedIds = [];
+        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.refreshCalls();
+      },
+      error: (err) => {
+        this.showDeleteModal = false; // STILL CLOSE IT
+      },
+    });
+  }
+  cancelDelete() {
+    this.resetDeleteModal();
+  }
+
+  refreshCalls() {
+    this.facade.loadAll();
+    this.tmlOfficers$ = this.facade.items$;
+  }
+  onBulkDelete(ids: number[]) {
+    // Optionally confirm first
+    this.selectedIds = ids;
+    this.showDeleteModal = true;
   }
 }

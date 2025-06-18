@@ -17,6 +17,7 @@
   <ng-container *ngIf="operations$ | async as operations">
     <app-table
       #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredOperations"
       [edit]="true"
