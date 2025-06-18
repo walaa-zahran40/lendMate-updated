@@ -58,7 +58,7 @@ export class ViewLegalFormsComponent {
       '[View] onDeleteLegalForm() – opening modal for id=',
       legalFormId
     );
-    this.selectedLegalFormId = legalFormId;
+    this.selectedIds = [legalFormId];
     this.showDeleteModal = true;
   }
 

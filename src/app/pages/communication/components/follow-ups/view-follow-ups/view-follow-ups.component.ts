@@ -127,7 +127,7 @@ export class ViewFollowupsComponent implements OnInit, OnDestroy {
       '[View] onDeleteFollowup() – opening modal for id=',
       clientPhoneNumberId
     );
-    this.selectedFollowupId = clientPhoneNumberId;
+    this.selectedIds = [clientPhoneNumberId];
     this.showDeleteModal = true;
   }
 

@@ -87,7 +87,7 @@ export class ViewCallsComponent {
   }
   onDeleteCall(callId: any): void {
     console.log('[View] onDeleteCall() – opening modal for id=', callId);
-    this.selectedCallId = callId;
+    this.selectedIds = [callId];
     this.showDeleteModal = true;
   }
   onAddSide(callId: any) {
