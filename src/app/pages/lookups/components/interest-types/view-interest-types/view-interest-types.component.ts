@@ -63,7 +63,7 @@ export class ViewInterestTypesComponent {
       '[View] onDeleteInterestType() – opening modal for id=',
       interestTypeId
     );
-    this.selectedInterestTypeId = interestTypeId;
+    this.selectedIds = [interestTypeId];
     this.showDeleteModal = true;
   }
 

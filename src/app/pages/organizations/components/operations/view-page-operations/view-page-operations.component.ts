@@ -73,7 +73,7 @@ export class ViewPageOperationsComponent {
       '[View] onDeletePageOperations() – opening modal for id=',
       pageOperationsId
     );
-    this.selectedPageOperationsId = pageOperationsId;
+    this.selectedIds = [pageOperationsId];
     this.showDeleteModal = true;
   }
 

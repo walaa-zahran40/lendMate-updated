@@ -63,7 +63,7 @@ export class ViewWorkFlowActionTypesComponent {
       '[View] onDeleteWorkflowActionType() – opening modal for id=',
       WorkflowActionTypeId
     );
-    this.selectedWorkflowActionTypeId = WorkflowActionTypeId;
+    this.selectedIds = [WorkflowActionTypeId];
     this.showDeleteModal = true;
   }
 

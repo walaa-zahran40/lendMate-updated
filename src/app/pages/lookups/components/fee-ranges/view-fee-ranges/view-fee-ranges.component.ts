@@ -103,7 +103,7 @@ export class ViewFeeRangesComponent {
   }
 
   onDeleteFeeRange(feeRangesId: number): void {
-    this.selectedFeeRangeId = feeRangesId;
+    this.selectedIds = [feeRangesId];
     this.showDeleteModal = true;
   }
 

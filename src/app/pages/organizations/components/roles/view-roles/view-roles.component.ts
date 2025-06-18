@@ -60,7 +60,7 @@ export class ViewRolesComponent {
   }
   onDeleteRole(roleId: any): void {
     console.log('[View] onDeleteRole() – opening modal for id=', roleId);
-    this.selectedRoleId = roleId;
+    this.selectedIds = [roleId];
     this.showDeleteModal = true;
   }
 

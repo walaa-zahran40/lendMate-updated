@@ -92,7 +92,7 @@ export class ViewProductsComponent {
   }
   onDeleteProduct(productId: any): void {
     console.log('[View] onDeleteProduct() – opening modal for id=', productId);
-    this.selectedProductId = productId;
+    this.selectedIds = [productId];
     this.showDeleteModal = true;
   }
 

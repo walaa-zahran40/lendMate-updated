@@ -90,7 +90,7 @@ export class ViewMandateStatusActionsComponent {
       '[View] onDeleteMandateStatusAction() – opening modal for id=',
       mandateStatusActionId
     );
-    this.selectedMandateStatusActionId = mandateStatusActionId;
+    this.selectedIds = [mandateStatusActionId];
     this.showDeleteModal = true;
   }
 

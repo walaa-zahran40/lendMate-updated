@@ -99,7 +99,7 @@ export class ViewTeamsComponent {
   }
 
   onDeleteTeam(teamsId: number): void {
-    this.selectedTeamId = teamsId;
+    this.selectedIds = [teamsId];
     this.showDeleteModal = true;
   }
 

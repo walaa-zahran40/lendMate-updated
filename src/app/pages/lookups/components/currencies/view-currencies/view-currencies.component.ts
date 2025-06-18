@@ -62,7 +62,7 @@ export class ViewCurrenciesComponent {
       '[View] onDeleteCurrency() – opening modal for id=',
       currencyId
     );
-    this.selectedCurrencyId = currencyId;
+    this.selectedIds = [currencyId];
     this.showDeleteModal = true;
   }
 

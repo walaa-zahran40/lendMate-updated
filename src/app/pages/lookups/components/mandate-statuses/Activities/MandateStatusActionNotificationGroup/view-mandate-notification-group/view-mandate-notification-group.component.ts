@@ -112,7 +112,7 @@ export class ViewMandateActionNotificationGroupsComponent {
       '[View] onDeleteActionNotificationGroup() – opening modal for id=',
       actionNotificationGroupId
     );
-    this.selectedActionNotificationGroupId = actionNotificationGroupId;
+    this.selectedIds = [actionNotificationGroupId];
     this.showDeleteModal = true;
   }
 

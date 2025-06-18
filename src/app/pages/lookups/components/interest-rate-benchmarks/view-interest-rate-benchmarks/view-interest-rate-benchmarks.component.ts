@@ -67,7 +67,7 @@ export class ViewInterestRateBenchmarksComponent {
       '[View] onDeleteInterestRateBenchMark() – opening modal for id=',
       InterestRateBenchMarkId
     );
-    this.selectedInterestRateBenchMarkId = InterestRateBenchMarkId;
+    this.selectedIds = [InterestRateBenchMarkId];
     this.showDeleteModal = true;
   }
 

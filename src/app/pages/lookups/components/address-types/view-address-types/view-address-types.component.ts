@@ -58,7 +58,7 @@ export class ViewAddressTypesComponent {
       '[View] onDeleteAddressType() – opening modal for id=',
       addressTypeId
     );
-    this.selectedAddressTypeId = addressTypeId;
+    this.selectedIds = [addressTypeId];
     this.showDeleteModal = true;
   }
 

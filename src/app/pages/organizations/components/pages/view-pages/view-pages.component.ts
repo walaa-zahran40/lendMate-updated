@@ -75,7 +75,7 @@ export class ViewPagesComponent {
   }
   onDeletePage(pageId: any): void {
     console.log('[View] onDeletePage() – opening modal for id=', pageId);
-    this.selectedPageId = pageId;
+    this.selectedIds = [pageId];
     this.showDeleteModal = true;
   }
 

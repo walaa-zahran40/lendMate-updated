@@ -65,7 +65,7 @@ export class ViewPaymentPeriodsComponent {
       '[View] onDeletePaymentPeriod() – opening modal for id=',
       PaymentPeriodId
     );
-    this.selectedPaymentPeriodId = PaymentPeriodId;
+    this.selectedIds = [PaymentPeriodId];
     this.showDeleteModal = true;
   }
 

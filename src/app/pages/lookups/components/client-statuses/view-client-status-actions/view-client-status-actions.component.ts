@@ -144,7 +144,7 @@ export class ViewClientStatusActionsComponent {
       '[View] onDeleteClientStatusAction() – opening modal for id=',
       clientStatusActionId
     );
-    this.selectedClientStatusActionId = clientStatusActionId;
+    this.selectedIds = [clientStatusActionId];
     this.showDeleteModal = true;
   }
 

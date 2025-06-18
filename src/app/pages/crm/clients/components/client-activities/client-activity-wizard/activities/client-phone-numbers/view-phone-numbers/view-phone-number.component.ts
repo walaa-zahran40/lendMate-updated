@@ -123,7 +123,7 @@ export class ViewPhoneNumberComponent implements OnInit, OnDestroy {
       '[View] onDeleteClientPhoneNumber() – opening modal for id=',
       clientPhoneNumberId
     );
-    this.selectedClientPhoneNumberId = clientPhoneNumberId;
+    this.selectedIds = [clientPhoneNumberId];
     this.showDeleteModal = true;
   }
 

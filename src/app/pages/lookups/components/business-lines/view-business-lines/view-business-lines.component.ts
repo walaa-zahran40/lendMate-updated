@@ -64,7 +64,7 @@ export class ViewBusinessLinesComponent {
       '[View] onDeleteBusinessLine() – opening modal for id=',
       businessLineId
     );
-    this.selectedbusinessLineId = businessLineId;
+    this.selectedIds = [businessLineId];
     this.showDeleteModal = true;
   }
 

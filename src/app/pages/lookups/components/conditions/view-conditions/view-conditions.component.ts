@@ -121,7 +121,7 @@ export class ViewConditionsComponent {
       '[View] onDeleteCondition() – opening modal for id=',
       conditionId
     );
-    this.selectedConditionId = conditionId;
+    this.selectedIds = [conditionId];
     this.showDeleteModal = true;
   }
 

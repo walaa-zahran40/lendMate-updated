@@ -93,7 +93,7 @@ export class ViewMandateFeesComponent {
     this.destroy$.complete();
   }
   onDeleteMandateFee(mandateFeesId: number): void {
-    this.selectedMandateFeeId = mandateFeesId;
+    this.selectedIds = [mandateFeesId];
     this.showDeleteModal = true;
   }
 

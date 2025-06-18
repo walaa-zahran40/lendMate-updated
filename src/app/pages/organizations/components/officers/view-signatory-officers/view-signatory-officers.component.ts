@@ -91,7 +91,7 @@ export class ViewSignatoryOfficersComponent {
       '[View] onDeleteSignatoryOfficer() – opening modal for id=',
       signatoryofficerId
     );
-    this.selectedSignatoryOfficerId = signatoryofficerId;
+    this.selectedIds = [signatoryofficerId];
     this.showDeleteModal = true;
   }
 

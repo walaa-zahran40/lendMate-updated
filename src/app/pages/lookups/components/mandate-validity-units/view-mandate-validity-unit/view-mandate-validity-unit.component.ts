@@ -63,7 +63,7 @@ export class ViewMandateValidityUnitComponent {
       '[View] onDeleteMandateValidityUnit() – opening modal for id=',
       mandateValidityUnitId
     );
-    this.selectedMandateValidityUnitId = mandateValidityUnitId;
+    this.selectedIds = [mandateValidityUnitId];
     this.showDeleteModal = true;
   }
 

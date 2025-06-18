@@ -104,7 +104,7 @@ export class ViewSubSectorsComponent {
       '[View] onDeleteSubSector() – opening modal for id=',
       SubSectorId
     );
-    this.selectedSubSectorId = SubSectorId;
+    this.selectedIds = [SubSectorId];
     this.showDeleteModal = true;
   }
 

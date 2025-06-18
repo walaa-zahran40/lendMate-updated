@@ -60,7 +60,7 @@ export class ViewOfficersComponent {
 
   onDeleteOfficer(officerId: number): void {
     console.log('[View] onDeleteOfficer() – opening modal for id=', officerId);
-    this.selectedOfficerId = officerId;
+    this.selectedIds = [officerId];
     this.showDeleteModal = true;
   }
 

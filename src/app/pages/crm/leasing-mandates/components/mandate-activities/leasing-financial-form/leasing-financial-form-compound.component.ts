@@ -1,6 +1,6 @@
 import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { forkJoin, Observable, Subject, takeUntil } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { loadAll } from '../../../../../lookups/store/payment-periods/payment-periods.actions';
@@ -909,13 +909,30 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
   onToggleFilters(value: boolean) {
     this.showFilters = value;
   }
+  selectedIds: number[] = [];
   confirmDelete() {
-    if (this.selectedFinancialFormId !== null) {
-      this.facade.delete(this.selectedFinancialFormId);
-    }
-    this.resetDeleteModal();
+    const deleteCalls = this.selectedIds.map((id) => this.facade.delete(id));
+
+    forkJoin(deleteCalls).subscribe({
+      next: () => {
+        this.selectedIds = [];
+        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.refreshCalls();
+      },
+      error: (err) => {
+        this.showDeleteModal = false; // STILL CLOSE IT
+      },
+    });
   }
 
+  refreshCalls() {
+    this.facade.loadAll();
+  }
+  onBulkDelete(ids: number[]) {
+    // Optionally confirm first
+    this.selectedIds = ids;
+    this.showDeleteModal = true;
+  }
   cancelDelete() {
     this.resetDeleteModal();
   }
@@ -931,7 +948,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
     console.log('financial edit', financial);
   }
   onDeleteFinancialForm(financialId: number): void {
-    this.selectedFinancialFormId = financialId;
+    this.selectedIds = [financialId];
     this.showDeleteModal = true;
   }
   /** Called by the guard. */

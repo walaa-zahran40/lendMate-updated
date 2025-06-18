@@ -67,7 +67,7 @@ export class ViewRentStructureTypesComponent {
       '[View] onDeleteRentStructureType() – opening modal for id=',
       RentStructureTypeId
     );
-    this.selectedRentStructureTypeId = RentStructureTypeId;
+    this.selectedIds = [RentStructureTypeId];
     this.showDeleteModal = true;
   }
 

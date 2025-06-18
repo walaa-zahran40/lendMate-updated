@@ -67,7 +67,7 @@ export class ViewFeesCalculationTypesComponent {
       '[View] onDeleteFeeCalculationType() – opening modal for id=',
       feeCalculationTypeId
     );
-    this.selectedFeeCalculationTypeId = feeCalculationTypeId;
+    this.selectedIds = [feeCalculationTypeId];
     this.showDeleteModal = true;
   }
 

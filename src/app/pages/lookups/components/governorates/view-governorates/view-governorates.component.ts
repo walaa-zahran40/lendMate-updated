@@ -86,7 +86,7 @@ export class ViewGovernoratesComponent {
       '[View] onDeleteGovernorate() – opening modal for id=',
       governorateId
     );
-    this.selectedGovernorateId = governorateId;
+    this.selectedIds = [governorateId];
     this.showDeleteModal = true;
   }
 

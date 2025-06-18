@@ -111,7 +111,7 @@ export class ViewBranchManagersComponent implements OnInit, OnDestroy {
       '[View] onDeleteBranchManager() – opening modal for id=',
       branchManagersId
     );
-    this.selectedBranchManagerId = branchManagersId;
+    this.selectedIds = [branchManagersId];
     this.showDeleteModal = true;
   }
 

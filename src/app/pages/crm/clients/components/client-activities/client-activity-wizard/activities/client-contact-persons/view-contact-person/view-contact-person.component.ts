@@ -127,7 +127,7 @@ export class ViewContactPersonComponent implements OnInit, OnDestroy {
       '[View] onDeleteClientContactPerson() – opening modal for id=',
       clientContactPersonId
     );
-    this.selectedClientContactPersonId = clientContactPersonId;
+    this.selectedIds = [clientContactPersonId];
     this.showDeleteModal = true;
   }
 

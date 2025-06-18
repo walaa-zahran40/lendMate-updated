@@ -57,7 +57,7 @@ export class ViewAuthorityOfficesComponent {
       '[View] onDeleteAuthorityOffice() – opening modal for id=',
       authorityOfficeId
     );
-    this.selectedAuthorityOfficeId = authorityOfficeId;
+    this.selectedIds = [authorityOfficeId];
     this.showDeleteModal = true;
   }
 

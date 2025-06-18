@@ -120,7 +120,7 @@ export class ViewClientCentralBankInfoComponent {
       '[View] onDeleteClientCentralBankInfo() – opening modal for id=',
       clientCentralBankInfoId
     );
-    this.selectedClientCentralBankInfoId = clientCentralBankInfoId;
+    this.selectedIds = [clientCentralBankInfoId];
     this.showDeleteModal = true;
   }
 

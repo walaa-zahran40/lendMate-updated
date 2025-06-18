@@ -62,7 +62,7 @@ export class ViewInsuredByComponent {
       '[View] onDeleteInsuredBy() – opening modal for id=',
       InsuredById
     );
-    this.selectedInsuredById = InsuredById;
+    this.selectedIds = [InsuredById];
     this.showDeleteModal = true;
   }
 

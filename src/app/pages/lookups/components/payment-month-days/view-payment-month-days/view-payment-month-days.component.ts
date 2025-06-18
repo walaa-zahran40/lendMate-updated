@@ -65,7 +65,7 @@ export class ViewPaymentMonthDaysComponent {
       '[View] onDeletePaymentMonthDay() – opening modal for id=',
       PaymentMonthDayId
     );
-    this.selectedPaymentMonthDayId = PaymentMonthDayId;
+    this.selectedIds = [PaymentMonthDayId];
     this.showDeleteModal = true;
   }
 

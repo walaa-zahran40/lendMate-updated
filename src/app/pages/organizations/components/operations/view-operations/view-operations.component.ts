@@ -63,7 +63,7 @@ export class ViewOperationsComponent {
       '[View] onDeleteOperation() – opening modal for id=',
       operationId
     );
-    this.selectedOperationId = operationId;
+    this.selectedIds = [operationId];
     this.showDeleteModal = true;
   }
 

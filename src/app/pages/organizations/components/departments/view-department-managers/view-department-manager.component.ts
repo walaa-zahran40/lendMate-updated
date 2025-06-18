@@ -161,7 +161,7 @@ export class ViewDepartmentManagerComponent implements OnInit, OnDestroy {
       '[View] onDeleteDepartmentManager() – opening modal for id=',
       departmentManagersId
     );
-    this.selectedDepartmentManagerId = departmentManagersId;
+    this.selectedIds = [departmentManagersId];
     this.showDeleteModal = true;
   }
 

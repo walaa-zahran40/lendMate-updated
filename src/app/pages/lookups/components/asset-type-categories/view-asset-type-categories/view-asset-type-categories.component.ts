@@ -68,7 +68,7 @@ export class ViewAssetTypeCategoriesComponent {
       '[View] onDeleteAssetTypeCategory() – opening modal for id=',
       assetTypeCategoriesId
     );
-    this.selectedAssetTypeCategoryId = assetTypeCategoriesId;
+    this.selectedIds = [assetTypeCategoriesId];
     this.showDeleteModal = true;
   }
 

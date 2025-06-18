@@ -95,7 +95,7 @@ export class ViewMandateAdditionalTermsComponent {
     this.destroy$.complete();
   }
   onDeleteMandateAdditionalTerm(mandateAdditionalTermsId: number): void {
-    this.selectedMandateAdditionalTermId = mandateAdditionalTermsId;
+    this.selectedIds = [mandateAdditionalTermsId];
     this.showDeleteModal = true;
   }
 

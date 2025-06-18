@@ -64,7 +64,7 @@ export class ViewPhoneTypesComponent {
       '[View] onDeletePhoneType() – opening modal for id=',
       PhoneTypeId
     );
-    this.selectedPhoneTypeId = PhoneTypeId;
+    this.selectedIds = [PhoneTypeId];
     this.showDeleteModal = true;
   }
 

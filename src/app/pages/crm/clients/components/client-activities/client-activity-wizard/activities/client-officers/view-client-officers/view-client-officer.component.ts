@@ -99,7 +99,7 @@ export class ViewClientOfficersComponent {
       '[View] onDeleteOfficere() – opening modal for id=',
       clientOfficerId
     );
-    this.selectedOfficerId = clientOfficerId;
+    this.selectedIds = [clientOfficerId];
     this.showDeleteModal = true;
   }
 

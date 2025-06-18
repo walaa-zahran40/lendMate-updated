@@ -54,7 +54,7 @@ export class ViewCountriesComponent {
   }
   onDeleteCountry(countryId: any): void {
     console.log('[View] onDeleteCountry() – opening modal for id=', countryId);
-    this.selectedCountryId = countryId;
+    this.selectedIds = [countryId];
     this.showDeleteModal = true;
   }
 

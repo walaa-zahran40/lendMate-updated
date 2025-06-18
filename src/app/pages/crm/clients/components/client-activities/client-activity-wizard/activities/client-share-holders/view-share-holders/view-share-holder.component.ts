@@ -98,7 +98,7 @@ export class ViewShareHoldersComponent {
       '[View] onDeleteShareHoldere() – opening modal for id=',
       shareHolderId
     );
-    this.selectedShareHolderId = shareHolderId;
+    this.selectedIds = [shareHolderId];
     this.showDeleteModal = true;
   }
 

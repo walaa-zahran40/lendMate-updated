@@ -113,7 +113,7 @@ export class ViewUploadDocumentsComponent implements OnInit, OnDestroy {
 
   onDeleteDocument(documentId: number): void {
     console.log('[onDeleteDocument] documentId=', documentId);
-    this.selectedDocumentId = documentId;
+    this.selectedIds = [documentId];
     this.showDeleteModal = true;
   }
 

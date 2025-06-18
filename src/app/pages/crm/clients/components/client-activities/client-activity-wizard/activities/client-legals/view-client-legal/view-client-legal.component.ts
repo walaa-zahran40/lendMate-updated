@@ -115,7 +115,7 @@ export class ViewClientLegalsComponent {
       '[View] onDeleteLegale() – opening modal for id=',
       clientLegalId
     );
-    this.selectedLegalId = clientLegalId;
+    this.selectedIds = [clientLegalId];
     this.showDeleteModal = true;
   }
 

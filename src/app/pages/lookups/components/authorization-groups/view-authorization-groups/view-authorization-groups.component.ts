@@ -66,7 +66,7 @@ export class ViewAuthorizationGroupsComponent {
       '[View] onDeleteAuthorizationGroup() – opening modal for id=',
       authorizationGroupId
     );
-    this.selectedAuthorizationGroupId = authorizationGroupId;
+    this.selectedIds = [authorizationGroupId];
     this.showDeleteModal = true;
   }
 

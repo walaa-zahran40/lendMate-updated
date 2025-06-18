@@ -74,7 +74,7 @@ export class ViewConditionExpressionsComponent {
       '[View] onDeleteConditionExpression() – opening modal for id=',
       conditionExpressionId
     );
-    this.selectedConditionExpressionId = conditionExpressionId;
+    this.selectedIds = [conditionExpressionId];
     this.showDeleteModal = true;
   }
 

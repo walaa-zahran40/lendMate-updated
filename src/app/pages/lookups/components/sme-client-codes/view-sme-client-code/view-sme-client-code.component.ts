@@ -60,7 +60,7 @@ export class ViewSMEClientCodesComponent {
       '[View] onDeleteSMEClientCode() – opening modal for id=',
       sMEClientCodeId
     );
-    this.selectedSMEClientCodeId = sMEClientCodeId;
+    this.selectedIds = [sMEClientCodeId];
     this.showDeleteModal = true;
   }
 

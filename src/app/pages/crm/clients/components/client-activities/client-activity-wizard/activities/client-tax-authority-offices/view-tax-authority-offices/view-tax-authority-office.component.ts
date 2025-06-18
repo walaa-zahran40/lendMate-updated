@@ -98,7 +98,7 @@ export class ViewTaxAuthorityOfficesComponent {
       '[View] onDeleteTaxOfficee() – opening modal for id=',
       taxOfficeId
     );
-    this.selectedTaxOfficeId = taxOfficeId;
+    this.selectedIds = [taxOfficeId];
     this.showDeleteModal = true;
   }
 

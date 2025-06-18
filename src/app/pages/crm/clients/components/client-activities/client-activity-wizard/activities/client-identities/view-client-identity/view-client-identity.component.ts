@@ -124,7 +124,7 @@ export class ViewClientIdentityComponent implements OnInit, OnDestroy {
       '[View] onDeleteClientIdentity() – opening modal for id=',
       clientIdentityId
     );
-    this.selectedClientIdentityId = clientIdentityId;
+    this.selectedIds = [clientIdentityId];
     this.showDeleteModal = true;
   }
 

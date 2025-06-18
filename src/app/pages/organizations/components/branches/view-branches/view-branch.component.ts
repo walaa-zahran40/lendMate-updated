@@ -54,7 +54,7 @@ export class ViewBranchComponent {
   }
   onDeleteBranchId(branchId: any): void {
     console.log('[View] onDeleteBranch() – opening modal for id=', branchId);
-    this.selectedBranchId = branchId;
+    this.selectedIds = [branchId];
     this.showDeleteModal = true;
   }
 

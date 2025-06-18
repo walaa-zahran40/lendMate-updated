@@ -67,7 +67,7 @@ export class ViewIdentificationTypesComponent {
       '[View] onDeleteIdentificationType() – opening modal for id=',
       IdentificationTypeId
     );
-    this.selectedIdentificationTypeId = IdentificationTypeId;
+    this.selectedIds = [IdentificationTypeId];
     this.showDeleteModal = true;
   }
 

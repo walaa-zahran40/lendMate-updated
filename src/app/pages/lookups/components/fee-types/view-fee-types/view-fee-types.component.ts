@@ -114,7 +114,7 @@ export class ViewFeeTypesComponent {
   }
 
   onDeleteFeeType(feeTypesId: number): void {
-    this.selectedFeeTypeId = feeTypesId;
+    this.selectedIds = [feeTypesId];
     this.showDeleteModal = true;
   }
   selectedIds: number[] = [];

@@ -99,7 +99,7 @@ export class ViewCRAuthorityOfficesComponent {
       '[View] onDeleteCRAuthorityOfficee() – opening modal for id=',
       cRAuthorityOfficeId
     );
-    this.selectedCRAuthorityOfficeId = cRAuthorityOfficeId;
+    this.selectedIds = [cRAuthorityOfficeId];
     this.showDeleteModal = true;
   }
 

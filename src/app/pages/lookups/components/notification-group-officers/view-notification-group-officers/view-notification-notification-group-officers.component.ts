@@ -108,7 +108,7 @@ export class ViewNotificationGroupOfficersComponent {
   }
 
   onDeleteNotificationGroupOfficer(notificationGroupsId: number): void {
-    this.selectedNotificationGroupOfficerId = notificationGroupsId;
+    this.selectedIds = [notificationGroupsId];
     this.showDeleteModal = true;
   }
 

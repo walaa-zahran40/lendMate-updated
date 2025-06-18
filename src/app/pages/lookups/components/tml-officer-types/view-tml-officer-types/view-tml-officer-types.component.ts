@@ -58,7 +58,7 @@ export class ViewTmlOfficerTypesComponent {
       '[View] onDeleteTmlOfficerType() – opening modal for id=',
       TmlOfficerTypeId
     );
-    this.selectedTmlOfficerTypeId = TmlOfficerTypeId;
+    this.selectedIds = [TmlOfficerTypeId];
     this.showDeleteModal = true;
   }
 

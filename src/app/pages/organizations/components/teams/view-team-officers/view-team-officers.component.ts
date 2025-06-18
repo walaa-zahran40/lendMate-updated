@@ -159,7 +159,7 @@ export class ViewTeamOfficersComponent implements OnInit, OnDestroy {
       '[View] onDeleteTeamOfficer() – opening modal for id=',
       teamOfficersId
     );
-    this.selectedTeamOfficerId = teamOfficersId;
+    this.selectedIds = [teamOfficersId];
     this.showDeleteModal = true;
   }
 

@@ -67,7 +67,7 @@ export class ViewPaymentTimingTermsComponent {
       '[View] onDeletePaymentTimingTerm() – opening modal for id=',
       PaymentTimingTermId
     );
-    this.selectedPaymentTimingTermId = PaymentTimingTermId;
+    this.selectedIds = [PaymentTimingTermId];
     this.showDeleteModal = true;
   }
 

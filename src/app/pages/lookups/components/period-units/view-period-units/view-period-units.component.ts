@@ -64,7 +64,7 @@ export class ViewPeriodUnitsComponent {
       '[View] onDeleteGracePeriodUnit() – opening modal for id=',
       gracePeriodUnitId
     );
-    this.selectedGracePeriodUnitId = gracePeriodUnitId;
+    this.selectedIds = [gracePeriodUnitId];
     this.showDeleteModal = true;
   }
 

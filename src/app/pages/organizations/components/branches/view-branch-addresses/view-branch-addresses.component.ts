@@ -91,7 +91,7 @@ export class ViewBranchAddressesComponent {
       '[View] onDeleteBranchAddress() – opening modal for id=',
       branchAddressId
     );
-    this.selectedBranchAddressId = branchAddressId;
+    this.selectedIds = [branchAddressId];
     this.showDeleteModal = true;
   }
 

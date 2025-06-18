@@ -57,7 +57,7 @@ export class ViewCompanyTypesComponent {
       '[View] onDeleteCompanyType() – opening modal for id=',
       companyTypeId
     );
-    this.selectedCompanyTypeId = companyTypeId;
+    this.selectedIds = [companyTypeId];
     this.showDeleteModal = true;
   }
 

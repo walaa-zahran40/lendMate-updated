@@ -111,7 +111,7 @@ export class ViewTMLOfficersComponent {
       '[View] onDeleteTMLOfficere() – opening modal for id=',
       tmlOfficerId
     );
-    this.selectedTMLOfficerId = tmlOfficerId;
+    this.selectedIds = [tmlOfficerId];
     this.showDeleteModal = true;
   }
 

@@ -86,7 +86,7 @@ export class ViewAreasComponent implements OnInit, OnDestroy {
   }
 
   onDeleteArea(id: number) {
-    this.selectedAreaId = id;
+    this.selectedIds = [id];
     this.showDeleteModal = true;
   }
 

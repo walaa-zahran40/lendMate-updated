@@ -128,7 +128,7 @@ export class ViewGuarantorsComponent {
       '[View] onDeleteGuarantore() – opening modal for id=',
       guarantorId
     );
-    this.selectedGuarantorId = guarantorId;
+    this.selectedIds = [guarantorId];
     this.showDeleteModal = true;
   }
 

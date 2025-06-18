@@ -57,7 +57,7 @@ export class ViewCallTypesComponent {
       '[View] onDeleteCallType() – opening modal for id=',
       callTypeId
     );
-    this.selectedCallTypeId = callTypeId;
+    this.selectedIds = [callTypeId];
     this.showDeleteModal = true;
   }
 

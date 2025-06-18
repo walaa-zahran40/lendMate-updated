@@ -63,7 +63,7 @@ export class ViewFollowUpTypesComponent {
       '[View] onDeleteFollowupType() – opening modal for id=',
       followupTypeId
     );
-    this.selectedFollowupTypeId = followupTypeId;
+    this.selectedIds = [followupTypeId];
     this.showDeleteModal = true;
   }
 

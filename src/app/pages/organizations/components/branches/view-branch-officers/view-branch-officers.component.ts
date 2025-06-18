@@ -110,7 +110,7 @@ export class ViewBranchOfficersComponent implements OnInit, OnDestroy {
       '[View] onDeleteBranchOfficer() – opening modal for id=',
       branchOfficersId
     );
-    this.selectedBranchOfficerId = branchOfficersId;
+    this.selectedIds = [branchOfficersId];
     this.showDeleteModal = true;
   }
 

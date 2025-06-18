@@ -62,7 +62,7 @@ export class ViewLeasingTypeComponent {
       '[View] onDeleteLeasingType() – opening modal for id=',
       LeasingTypeId
     );
-    this.selectedLeasingTypeId = LeasingTypeId;
+    this.selectedIds = [LeasingTypeId];
     this.showDeleteModal = true;
   }
 

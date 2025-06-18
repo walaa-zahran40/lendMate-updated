@@ -191,7 +191,7 @@ export class ViewMandatesComponent {
     this.destroy$.complete();
   }
   onDeleteLeasingMandate(leasingMandatesId: number): void {
-    this.selectedLeasingMandateId = leasingMandatesId;
+    this.selectedIds = [leasingMandatesId];
     this.showDeleteModal = true;
   }
 

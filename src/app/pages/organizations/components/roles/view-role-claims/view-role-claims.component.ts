@@ -96,7 +96,7 @@ export class ViewRoleClaimsComponent {
       '[View] onDeleteRoleClaim() – opening modal for id=',
       roleClaimId
     );
-    this.selectedRoleClaimId = roleClaimId;
+    this.selectedIds = [roleClaimId];
     this.showDeleteModal = true;
   }
 

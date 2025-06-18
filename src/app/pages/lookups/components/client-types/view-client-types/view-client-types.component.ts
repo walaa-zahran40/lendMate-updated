@@ -59,7 +59,7 @@ export class ViewClientTypesComponent {
       '[View] onDeleteClientType() – opening modal for id=',
       clientTypeId
     );
-    this.selectedClientTypeId = clientTypeId;
+    this.selectedIds = [clientTypeId];
     this.showDeleteModal = true;
   }
 

@@ -62,7 +62,7 @@ export class ViewPaymentTypesComponent {
       '[View] onDeletePaymentType() – opening modal for id=',
       PaymentTypeId
     );
-    this.selectedPaymentTypeId = PaymentTypeId;
+    this.selectedIds = [PaymentTypeId];
     this.showDeleteModal = true;
   }
 

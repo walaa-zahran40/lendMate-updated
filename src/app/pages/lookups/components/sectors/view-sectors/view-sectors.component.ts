@@ -59,7 +59,7 @@ export class ViewSectorsComponent {
   }
   onDeleteSector(SectorId: any): void {
     console.log('[View] onDeleteSector() – opening modal for id=', SectorId);
-    this.selectedSectorId = SectorId;
+    this.selectedIds = [SectorId];
     this.showDeleteModal = true;
   }
 

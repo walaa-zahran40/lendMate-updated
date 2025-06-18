@@ -62,7 +62,7 @@ export class ViewDepartmentsComponent {
       '[View] onDeleteDepartment() – opening modal for id=',
       departmentId
     );
-    this.selectedDepartmentId = departmentId;
+    this.selectedIds = [departmentId];
     this.showDeleteModal = true;
   }
 

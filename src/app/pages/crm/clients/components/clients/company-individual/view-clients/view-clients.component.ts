@@ -89,7 +89,7 @@ export class ViewClientsComponent {
     this.destroy$.complete();
   }
   onDeleteClient(clientId: number): void {
-    this.selectedClientId = clientId;
+    this.selectedIds = [clientId];
     this.showDeleteModal = true;
   }
 

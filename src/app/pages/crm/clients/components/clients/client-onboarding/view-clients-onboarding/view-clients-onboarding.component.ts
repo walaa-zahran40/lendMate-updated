@@ -86,7 +86,7 @@ export class ViewClientsOnboardingComponent {
     this.destroy$.complete();
   }
   onDeleteClient(clientId: number): void {
-    this.selectedClientId = clientId;
+    this.selectedIds = [clientId];
     this.showDeleteModal = true;
   }
 

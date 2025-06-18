@@ -62,7 +62,7 @@ export class ViewCommunicationFlowTypeComponent {
       '[View] onDeleteCommunicationFlowType() – opening modal for id=',
       communicationFlowTypeId
     );
-    this.selectedCommunicationFlowTypeId = communicationFlowTypeId;
+    this.selectedIds = [communicationFlowTypeId];
     this.showDeleteModal = true;
   }
 

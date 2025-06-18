@@ -62,7 +62,7 @@ export class ViewMeetingTypesComponent {
       '[View] onDeleteMeetingType() – opening modal for id=',
       MeetingTypeId
     );
-    this.selectedMeetingTypeId = MeetingTypeId;
+    this.selectedIds = [MeetingTypeId];
     this.showDeleteModal = true;
   }
 

@@ -102,7 +102,7 @@ export class ViewAuthorizationGroupOfficersComponent {
   }
 
   onDeleteAuthorizationGroupOfficer(authorizationGroupsId: number): void {
-    this.selectedAuthorizationGroupOfficerId = authorizationGroupsId;
+    this.selectedIds = [authorizationGroupsId];
     this.showDeleteModal = true;
   }
 

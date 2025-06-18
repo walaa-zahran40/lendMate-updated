@@ -60,7 +60,7 @@ export class ViewDocTypesComponent {
   }
   onDeleteDocType(docTypeId: any): void {
     console.log('[View] onDeleteDocType() – opening modal for id=', docTypeId);
-    this.selectedDocTypeId = docTypeId;
+    this.selectedIds = [docTypeId];
     this.showDeleteModal = true;
   }
 

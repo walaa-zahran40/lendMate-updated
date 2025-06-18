@@ -92,7 +92,7 @@ export class ViewSalesTurnoverComponent implements OnInit, OnDestroy {
       '[View] onDeleteClientSalesTurnover() – opening modal for id=',
       clientSalesTurnoverId
     );
-    this.selectedClientSalesTurnoverId = clientSalesTurnoverId;
+    this.selectedIds = [clientSalesTurnoverId];
     this.showDeleteModal = true;
   }
 
