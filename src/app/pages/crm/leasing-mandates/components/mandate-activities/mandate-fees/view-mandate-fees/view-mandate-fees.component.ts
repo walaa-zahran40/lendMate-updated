@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
+  Observable,
   Subject,
   combineLatest,
   filter,
@@ -23,15 +24,16 @@ export class ViewMandateFeesComponent {
   tableDataInside: MandateFee[] = [];
   first2: number = 0;
   private destroy$ = new Subject<void>();
-  mandateFees$ = this.facade.all$;
+  mandateFees$!: Observable<MandateFee[]>;
   rows: number = 10;
   showFilters: boolean = false;
   @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
-    { field: 'description', header: 'Description' },
-    { field: 'termKey', header: 'Term Key' },
+    { field: 'actualAmount', header: 'actualAmount' },
+    { field: 'actualPrecentage', header: 'actualPrecentage' },
   ];
+  
   showDeleteModal: boolean = false;
   selectedMandateFeeId: number | null = null;
   originalMandateFees: any[] = [];
@@ -48,7 +50,9 @@ export class ViewMandateFeesComponent {
   ) {}
   ngOnInit() {
     console.log('route', this.route.snapshot);
-    this.facade.loadById(this.routeId);
+    this.facade.loadByMandateId(this.routeId);
+    this.mandateFees$ = this.facade.items$; 
+
     combineLatest([this.mandateFees$])
       .pipe(
         takeUntil(this.destroy$),
@@ -99,7 +103,7 @@ export class ViewMandateFeesComponent {
 
   confirmDelete() {
     if (this.selectedMandateFeeId !== null) {
-      this.facade.delete(this.selectedMandateFeeId);
+      this.facade.delete(this.selectedMandateFeeId, this.routeId);
     }
     this.resetDeleteModal();
   }

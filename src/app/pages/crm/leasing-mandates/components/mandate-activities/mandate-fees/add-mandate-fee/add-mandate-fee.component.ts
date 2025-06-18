@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { filter, combineLatest } from 'rxjs';
+import { filter, combineLatest, Observable } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { MandateFeesFacade } from '../../../../store/mandate-fees/mandate-fees.facade';
 import { MandateFee } from '../../../../store/mandate-fees/mandate-fee.model';
+import { FeeTypesFacade } from '../../../../../../lookups/store/fee-types/fee-types.facade';
+import { FeeType } from '../../../../../../lookups/store/fee-types/fee-type.model';
 
 @Component({
   selector: 'app-add-mandate-fee',
@@ -17,13 +19,14 @@ export class AddMandateFeeComponent {
   editMode: boolean = false;
   viewOnly: boolean = false;
   addMandateFeeForm!: FormGroup;
+  feeTypes$! : Observable<FeeType[]>; 
   routeId = this.route.snapshot.params['leasingId'];
   mandateRouteId = this.route.snapshot.params['leasingMandatesId'];
   constructor(
     private fb: FormBuilder,
-    private store: Store,
     private route: ActivatedRoute,
     private facade: MandateFeesFacade,
+    private feeTypesFacade: FeeTypesFacade,
     private router: Router
   ) {}
 
@@ -32,12 +35,16 @@ export class AddMandateFeeComponent {
     console.log('routeId (leasingId):', this.routeId);
     console.log('mandateRouteId (leasingMandatesId):', this.mandateRouteId);
 
+    this.feeTypesFacade.loadAll(); 
+    this.feeTypes$ = this.feeTypesFacade.all$; 
+
     // 2️⃣ Combine into addMandateFeeForm
     this.addMandateFeeForm = this.fb.group({
       id: [null],
       mandateId: [this.mandateRouteId],
-      description: [null, Validators.required],
-      termKey: [null, Validators.required],
+      actualPrecentage: [null, Validators.required],
+      actualAmount: [null, Validators.required],
+      feeTypeId: [null, Validators.required],
     });
     // 2️⃣ pull the raw DB PK ("leasingMandatesId") out of the URL
     const leasingMandatesId = +this.route.snapshot.params['leasingId']!;
@@ -64,10 +71,10 @@ export class AddMandateFeeComponent {
           console.log('mode:', mode);
           this.editMode = mode === 'edit';
           this.viewOnly = mode === 'view';
-          this.facade.loadById(leasingMandatesId); // Load all terms for the mandate
+         
         }),
         switchMap(({ selectedItemId }) =>
-          this.facade.all$.pipe(
+          this.facade.items$.pipe(
             map((items) => items.find((item) => item.id === selectedItemId)),
             filter((item): item is MandateFee => !!item),
             take(1)
