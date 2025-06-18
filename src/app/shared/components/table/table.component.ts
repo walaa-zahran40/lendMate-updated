@@ -349,8 +349,12 @@ export class TableComponent {
     this.viewForm.emit(rowData);
   }
   handleBulkDelete() {
-    if (this.selectedRows.length <= 1) return;
+    if (this.selectedRows.length <= 1) {
+      return;
+    }
     const idsToDelete = this.selectedRows.map((row) => row.id);
     this.onBulkDelete.emit(idsToDelete);
+    // ✅ Immediately clear the selection to remove the button
+    this.selectedRows = [];
   }
 }

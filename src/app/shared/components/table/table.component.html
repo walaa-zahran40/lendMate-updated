@@ -1,6 +1,7 @@
-<div class="text-right mb-2" *ngIf="selectedRows && selectedRows.length > 1">
+<div class="text-right mb-2" *ngIf="(selectedRows?.length || 0) > 1">
   <button class="btn btn-danger" (click)="handleBulkDelete()">
-    Delete Selected ({{ selectedRows.length }})
+    Delete Selected
+    <!-- ({{ selectedRows.length }}) -->
   </button>
 </div>
 <p-table
