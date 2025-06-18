@@ -18,9 +18,8 @@
         [description]="'Mandate Fee'"
         [addMandateFeeForm]="true"
         [feeTypes]="feeTypes$ | async"
-        [officersList]="officers$ | async"
         [formGroup]="addMandateFeeForm"
-        (submitForm)="addOrEditMandateFee()"
+        (submitForm)="onSubmit()"
         [editMode]="editMode"
         [viewOnly]="viewOnly"
       ></app-form>

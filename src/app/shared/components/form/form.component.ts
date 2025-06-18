@@ -798,7 +798,9 @@ export class FormComponent implements OnInit, OnDestroy {
   }
 
    viewMandateFees() {
-    this.router.navigate(['/crm/clients/view-address']);
+    this.router.navigate([`/crm/leasing-mandates/view-mandate-fees/${this.routeId}/${this.leasingRouteId}`]);
+
+     
   } 
   viewCentralBankInfo() {
     this.router.navigate([
