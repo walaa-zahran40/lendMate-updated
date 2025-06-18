@@ -22,7 +22,9 @@
         (click)="onClose2Click()"
       ></p-button>
       {{ header }}
-      <span class="badge badge-warning" *ngIf="!viewOnly">Pending</span>
+      <span class="badge badge-warning" *ngIf="!viewOnly && !editMode"
+        >Pending</span
+      >
     </p>
   </ng-template>
 

@@ -232,11 +232,18 @@ body {
   border-color: #dc3545 !important;
   color: #fff !important;
 }
+.p-dialog {
+  background: var(--border-white) !important;
+  color: #000 !important;
+}
 .p-dialog-footer {
   justify-content: space-between !important;
   flex-direction: row-reverse;
 }
-
+.p-multiselect-list-container,
+.p-multiselect-option-selected {
+  background: var(--border-white) !important;
+}
 .p-dialog .p-dialog-close-button {
   float: right;
 }
@@ -248,14 +255,22 @@ body {
   flex-direction: column;
 }
 .p-datatable-filter-overlay-popover,
-.p-select:not(.p-disabled) {
+.p-select:not(.p-disabled),
+.p-datatable-filter-overlay-popover,
+.p-select:not(.p-disabled):hover,
+.p-paginator .p-select {
   background: var(--white-color-add) !important;
   color: var(--black-color) !important;
 }
 .p-check-box,
 .p-inputtext,
+.p-select-list,
 .p-select:not(.p-disabled),
-.p-paginator .p-select-label {
+.p-paginator .p-select-label,
+.p-select-option:not(.p-select-option-selected):not(.p-disabled).p-focus,
+.p-checkbox-input,
+.p-select-label,
+.p-tab:not(.p-tab-active):not(.p-disabled):hover {
   background: var(--white-color-add) !important;
   color: var(--black-color) !important;
 }

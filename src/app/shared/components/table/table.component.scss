@@ -24,6 +24,11 @@
     .p-datatable-popover-filter {
       background: transparent;
     }
+    .p-datatable-hoverable
+      .p-datatable-tbody
+      > tr:not(.p-datatable-row-selected):hover {
+      background: var(--bg-transparent);
+    }
     .p-paginator-page.p-paginator-page-selected {
       background-color: #007ad9 !important; /* Example: Corplease blue */
       color: white !important;
@@ -47,7 +52,7 @@
       color: #838383;
     }
     .p-checkbox-input {
-      background: var(--bg-transparent);
+      background: var(--white-color-add);
     }
     .p-datatable-tbody > tr > td.orange {
       color: #d99b37;
@@ -76,6 +81,9 @@
     .p-datatable-tbody > tr:nth-child(odd) {
       background: var(--bg-odd);
       border: 1px solid var(--border-table);
+    }
+    .p-dialog {
+      background: var(--white-color-add);
     }
 
     .p-datatable-tbody {
