@@ -1,17 +1,19 @@
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { MandateFee } from './mandate-fee.model';
 
-export interface State extends EntityState<MandateFee> {
-  loadedId: number | null; // ← add this
+export interface MandateFeesState {
+  items: MandateFee[];
+  history: MandateFee[];
+  current?: MandateFee;
   loading: boolean;
-  error: string | null;
+  error: any;
+  totalCount: number;
 }
 
-export const adapter: EntityAdapter<MandateFee> =
-  createEntityAdapter<MandateFee>();
-
-export const initialState: State = adapter.getInitialState({
-  loadedId: null, // ← and set your initial value here
+export const initialMandateFeesState: MandateFeesState = {
+  items: [],
+  history: [],
+  current: undefined,
   loading: false,
   error: null,
-});
+  totalCount: 0,
+};

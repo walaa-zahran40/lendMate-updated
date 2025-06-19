@@ -52,6 +52,14 @@
     />
 
     <p-button
+      *ngIf="addMandateFeeForm"
+      icon="pi pi-cog"
+      label="View Mandate Fees"
+      (click)="viewMandateFees()"
+      class="custom-view m-0 float-right"
+    />
+    
+    <p-button
       *ngIf="addFeeCalculationTypesLookupsForm"
       icon="pi pi-cog"
       label="View Fees Calculation Type"
@@ -7111,6 +7119,86 @@ icon="pi pi-cog"
         </div>
       </div>
     </form>
+
+
+    <form
+      [formGroup]="formGroup"
+      *ngIf="addMandateFeeForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="feeTypeId">Fee Type<sup>*</sup></label>
+      <p-select
+        [options]="feeTypes"
+        optionLabel="name"
+        placeholder="Select Fee Type"
+        formControlName="feeTypeId"
+        optionValue="id"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('feeTypeId')?.invalid &&
+            (formGroup.get('feeTypeId')?.dirty ||
+              formGroup.get('feeTypeId')?.touched)
+        }"
+      />
+    
+       <label for="actualAmount">Actual Amount<sup>*</sup></label>
+      <input
+        pInputText
+        id="actualAmount"
+        aria-describedby="actualAmount-help"
+        name="actualAmount"
+        placeholder="0"
+        type="number"
+        formControlName="actualAmount"
+      /> 
+
+         <label for="actualPrecentage">actual Percentage<sup>*</sup></label>
+      <input
+        pInputText
+        id="actualPrecentage"
+        aria-describedby="actualPrecentage-help"
+        name="actualPrecentage"
+        placeholder="0"
+        type="number"
+        formControlName="actualPrecentage"
+      /> 
+
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="!editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Add Mandate fee"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Mandate Fee"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate([`/crm/leasing-mandates/view-mandate-fees/${this.routeId}/${this.leasingRouteId}`])"
+          />
+        </div>
+      </div>
+    </form>
+
 
     <form
       [formGroup]="formGroup"

@@ -1,91 +1,102 @@
 import { createAction, props } from '@ngrx/store';
 import { MandateFee } from './mandate-fee.model';
 
-export const loadAll = createAction(
-  '[MandateFees] Load All',
-  props<{ pageNumber?: number }>()
-);
-export const loadAllSuccess = createAction(
-  '[MandateFees] Load All Success',
-  props<{ result: MandateFee[] }>()
-);
 
-export const loadAllFailure = createAction(
+// Load all
+export const loadMandateFees = createAction(
+  '[MandateFees] Load All'
+);
+export const loadMandateFeesSuccess = createAction(
+  '[MandateFees] Load All Success',
+  props<{ items: MandateFee[]; totalCount: number }>()
+);
+export const loadMandateFeesFailure = createAction(
   '[MandateFees] Load All Failure',
   props<{ error: any }>()
 );
-export const createMandateFee = createAction(
-  '[MandateFee] Create',
-  props<{ payload: Partial<MandateFee> }>()
-);
 
-export const createMandateFeeSuccess = createAction(
-  '[MandateFee] Create Success',
-  props<{ mandateAdditionalTerm: MandateFee }>()
+// Load history
+export const loadMandateFeesHistory = createAction(
+  '[MandateFees] Load History'
 );
-
-export const createMandateFeeFailure = createAction(
-  '[MandateFee] Create Failure',
+export const loadMandateFeesHistorySuccess = createAction(
+  '[MandateFees] Load History Success',
+  props<{ history: MandateFee[] }>()
+);
+export const loadMandateFeesHistoryFailure = createAction(
+  '[MandateFees] Load History Failure',
   props<{ error: any }>()
 );
 
-export const loadById = createAction(
-  '[MandateFees] Load By Id',
+// Load by ID
+export const loadMandateFee = createAction(
+  '[MandateFees] Load One',
   props<{ id: number }>()
 );
-export const loadByIdSuccess = createAction(
-  '[Mandate Additional Term] Load By Id Success',
-  props<{ entities: MandateFee[] }>() // <- changed from `{ entity }`
+export const loadMandateFeeSuccess = createAction(
+  '[MandateFees] Load One Success',
+  props<{ mandate: MandateFee }>()
 );
-
-export const loadByIdFailure = createAction(
-  '[MandateFees] Load By Id Failure',
+export const loadMandateFeeFailure = createAction(
+  '[MandateFees] Load One Failure',
   props<{ error: any }>()
 );
 
-export const createEntity = createAction(
+// Create
+export const createMandateFee = createAction(
   '[MandateFees] Create',
-  // allow all fields except id, but all optional
-  props<{ payload: Partial<Omit<MandateFee, 'id'>> }>()
+  props<{ data: Partial<MandateFee> }>()
 );
-export const createEntitySuccess = createAction(
+export const createMandateFeeSuccess = createAction(
   '[MandateFees] Create Success',
-  props<{ entity: MandateFee }>()
+  props<{ mandate: MandateFee }>()
 );
-export const createEntityFailure = createAction(
+export const createMandateFeeFailure = createAction(
   '[MandateFees] Create Failure',
   props<{ error: any }>()
 );
 
-export const updateEntity = createAction(
+// Update
+export const updateMandateFee = createAction(
   '[MandateFees] Update',
-  props<{ id: number; changes: Partial<MandateFee> }>()
+  props<{ id: number; data: Partial<MandateFee> }>()
 );
-export const updateEntitySuccess = createAction(
+export const updateMandateFeeSuccess = createAction(
   '[MandateFees] Update Success',
-  props<{ id: number; changes: Partial<MandateFee> }>()
+  props<{ mandate: MandateFee }>()
 );
-export const updateEntityFailure = createAction(
+export const updateMandateFeeFailure = createAction(
   '[MandateFees] Update Failure',
   props<{ error: any }>()
 );
 
-export const deleteEntity = createAction(
+// Load by MandateId
+export const loadMandateFeesByMandateId = createAction(
+  '[MandateFees] Load By MandateId',
+  props<{ mandateId: number }>()
+);
+export const loadMandateFeesByMandateIdSuccess = createAction(
+  '[MandateFees] Load By MandateId Success',
+  props<{ items: MandateFee[] }>()
+);
+export const loadMandateFeesByMandateIdFailure = createAction(
+  '[MandateFees] Load By MandateId Failure',
+  props<{ error: any }>()
+);
+//Delete
+export const deleteMandateFee = createAction(
   '[MandateFees] Delete',
-  props<{ id: number }>()
+  props<{ id: number; mandateId: number }>()
 );
-export const deleteEntitySuccess = createAction(
+export const deleteMandateFeeSuccess = createAction(
   '[MandateFees] Delete Success',
-  props<{ id: number }>()
+  props<{ id: number; mandateId: number }>()
 );
-export const deleteEntityFailure = createAction(
+export const deleteMandateFeeFailure = createAction(
   '[MandateFees] Delete Failure',
   props<{ error: any }>()
 );
 export const entityOperationSuccess = createAction(
   '[Entity] Operation Success',
   props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
-);
-export const clearSelectedMandateFee = createAction(
-  '[MandateFees] Clear Selected'
 );

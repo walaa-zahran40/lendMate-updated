@@ -27,7 +27,8 @@ import { ViewMandatesComponent } from './components/leasing-mandates/view-mandat
 import { AddMandateFeeComponent } from './components/mandate-activities/mandate-fees/add-mandate-fee/add-mandate-fee.component';
 import { ViewMandateFeesComponent } from './components/mandate-activities/mandate-fees/view-mandate-fees/view-mandate-fees.component';
 import { MandateFeesEffects } from './store/mandate-fees/mandate-fees.effects';
-import { reducer as mandateFeesReducer } from './store/mandate-fees/mandate-fees.reducer';
+import { mandateFeesReducer } from './store/mandate-fees/mandate-fees.reducer';
+
 
 @NgModule({
   declarations: [

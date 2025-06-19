@@ -145,7 +145,6 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() clientOfficerTypesList: any;
   @Input() legalFormsList: any;
   @Input() legalFormLawsList: any;
-  @Input() addMandateFeeForm!: any;
   @Input() pageIds: any;
   @Input() authorizationGroupsList: any;
   @Input() notificationGroupsList: any;
@@ -504,6 +503,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addMeetingShowOfficersForm!: boolean;
   @Input() addMeetingShowBasicForm!: boolean;
   @Input() addCallShowBusinessInformationForm!: boolean;
+  @Input() addMandateFeeForm!: boolean;
   @Input() addCallShowContactPersonsForm!: boolean;
   @Input() addCallShowOfficersForm!: boolean;
   @Input() addCallShowBasicForm!: boolean;
@@ -796,6 +796,12 @@ export class FormComponent implements OnInit, OnDestroy {
   viewAddress() {
     this.router.navigate(['/crm/clients/view-address']);
   }
+
+   viewMandateFees() {
+    this.router.navigate([`/crm/leasing-mandates/view-mandate-fees/${this.routeId}/${this.leasingRouteId}`]);
+
+     
+  } 
   viewCentralBankInfo() {
     this.router.navigate([
       `/crm/clients/view-client-central-bank-info/${this.clientId}`,

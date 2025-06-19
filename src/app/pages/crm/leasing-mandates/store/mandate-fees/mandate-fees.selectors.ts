@@ -1,46 +1,30 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import * as fromSlice from './mandate-fees.reducer';
-import { adapter, State } from './mandate-fees.state';
+import { MandateFeesState } from './mandate-fees.state';
 
-export const selectFeature = createFeatureSelector<State>(
-  'mandateAdditionalTerms'
+export const selectMandateFeesState =
+  createFeatureSelector<MandateFeesState>('mandateFees');
+export const selectMandateFees = createSelector(
+  selectMandateFeesState,
+  (state) => state.items
 );
-export const selectMandateFeesFeature = createFeatureSelector<State>(
-  'mandateAdditionalTerms'
+export const selectMandateFeesTotal = createSelector(
+  selectMandateFeesState,
+  (state) => state.totalCount
 );
-
-// these come from your EntityAdapter
-const { selectAll, selectEntities, selectIds, selectTotal } =
-  adapter.getSelectors(selectMandateFeesFeature);
-
-export const selectAllMandateFees = createSelector(
-  selectFeature,
-  fromSlice.selectAll
+export const selectMandateFeesHistory = createSelector(
+  selectMandateFeesState,
+  (state) => state.history
 );
-export const selectMandateFeeEntities = createSelector(
-  selectFeature,
-  fromSlice.selectEntities
+export const selectCurrentMandateFee = createSelector(
+  selectMandateFeesState,
+  (state) => state.current
 );
 export const selectMandateFeesLoading = createSelector(
-  selectFeature,
+  selectMandateFeesState,
   (state) => state.loading
 );
 export const selectMandateFeesError = createSelector(
-  selectFeature,
+  selectMandateFeesState,
   (state) => state.error
 );
 
-export const selectLoadedId = createSelector(
-  selectFeature,
-  (state) => state.loadedId
-);
-
-export const selectCurrent = createSelector(
-  selectEntities,
-  selectLoadedId,
-  (entities, id) => (id != null ? entities[id] : null)
-);
-export const selectMandateFeesTotalCount = createSelector(
-  selectMandateFeesFeature,
-  (state) => state
-);

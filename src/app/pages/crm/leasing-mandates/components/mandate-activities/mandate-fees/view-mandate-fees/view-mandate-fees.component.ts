@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
+  Observable,
   Subject,
   combineLatest,
   filter,
@@ -12,6 +13,7 @@ import {
 import { TableComponent } from '../../../../../../../shared/components/table/table.component';
 import { MandateFee } from '../../../../store/mandate-fees/mandate-fee.model';
 import { MandateFeesFacade } from '../../../../store/mandate-fees/mandate-fees.facade';
+import { FeeTypesFacade } from '../../../../../../lookups/store/fee-types/fee-types.facade';
 
 @Component({
   selector: 'app-view-mandate-fees',
@@ -23,15 +25,17 @@ export class ViewMandateFeesComponent {
   tableDataInside: MandateFee[] = [];
   first2: number = 0;
   private destroy$ = new Subject<void>();
-  mandateFees$ = this.facade.all$;
+  mandateFees$!: Observable<MandateFee[]>;
   rows: number = 10;
   showFilters: boolean = false;
   @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
-    { field: 'description', header: 'Description' },
-    { field: 'termKey', header: 'Term Key' },
+    { field: 'feeTypeName', header: 'Fee Type' },
+    { field: 'actualAmount', header: 'actualAmount' },
+    { field: 'actualPrecentage', header: 'actualPrecentage' },
   ];
+
   showDeleteModal: boolean = false;
   selectedMandateFeeId: number | null = null;
   originalMandateFees: any[] = [];
@@ -44,36 +48,35 @@ export class ViewMandateFeesComponent {
   constructor(
     private router: Router,
     private facade: MandateFeesFacade,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private feeTypesFacade: FeeTypesFacade
   ) {}
   ngOnInit() {
     console.log('route', this.route.snapshot);
-    this.facade.loadById(this.routeId);
-    combineLatest([this.mandateFees$])
+    this.facade.loadByMandateId(this.routeId);
+    this.mandateFees$ = this.facade.items$;
+
+    this.feeTypesFacade.loadAll();
+    const feeTypes$ = this.feeTypesFacade.all$;
+
+    combineLatest([this.mandateFees$, feeTypes$])
       .pipe(
         takeUntil(this.destroy$),
-
-        // 1️⃣ Log the raw mandates array
-        tap(([mandates]) => {
-          console.group('🚀 combineLatest payload');
-          console.log('Mandates:', mandates);
-          console.groupEnd();
-        }),
-
-        // 2️⃣ Now map & flatten clientName out of clientView
-        map(([mandates]) =>
+        map(([mandates, feeTypes]) =>
           mandates
             .slice()
             .sort((a, b) => b.id! - a.id!)
             .map((m) => {
+              const matchedFeeType = feeTypes.find(
+                (ft) => ft.id === m.feeTypeId
+              );
               return {
                 ...m,
+                feeTypeName: matchedFeeType?.name || 'Unknown',
               };
             })
         ),
-
-        // 3️⃣ Log the enriched array
-        tap((enriched) => console.log('Enriched tableDataInside:', enriched))
+        tap((enriched) => console.log('Table with FeeType Names:', enriched))
       )
       .subscribe((enriched) => {
         this.tableDataInside = enriched;
@@ -83,9 +86,16 @@ export class ViewMandateFeesComponent {
   }
 
   onAddMandateFee() {
-    this.router.navigate([
-      `/crm/leasing-mandates/add-mandate-fee/${this.routeId}/${this.leasingRouteId}`,
-    ]);
+    this.router.navigate(
+      [
+        `/crm/leasing-mandates/add-mandate-fee/${this.routeId}/${this.leasingRouteId}`,
+      ],
+      {
+        queryParams: {
+          leasingMandateId: this.route.snapshot.params['leasingMandatesId'],
+        },
+      }
+    );
   }
 
   ngOnDestroy() {
@@ -123,9 +133,11 @@ export class ViewMandateFeesComponent {
       {
         queryParams: {
           mode: 'edit',
+          leasingMandateId: this.route.snapshot.params['leasingMandatesId'],
         },
       }
     );
+    console.log('Arwa', this.route.snapshot.params['leasingMandatesId']);
   }
   onViewMandateFees(mandate: MandateFee) {
     console.log('mandate', mandate);
@@ -134,13 +146,16 @@ export class ViewMandateFeesComponent {
       {
         queryParams: {
           mode: 'view',
+          leasingMandateId: this.route.snapshot.params['leasingMandatesId'],
         },
       }
     );
   }
   selectedIds: number[] = [];
   confirmDelete() {
-    const deleteCalls = this.selectedIds.map((id) => this.facade.delete(id));
+    const deleteCalls = this.selectedIds.map((id) =>
+      this.facade.delete(id, this.routeId)
+    );
 
     forkJoin(deleteCalls).subscribe({
       next: () => {
@@ -156,7 +171,7 @@ export class ViewMandateFeesComponent {
 
   refreshCalls() {
     this.facade.loadAll();
-    this.mandateFees$ = this.facade.all$;
+    this.mandateFees$ = this.facade.items$;
   }
   onBulkDelete(ids: number[]) {
     // Optionally confirm first
