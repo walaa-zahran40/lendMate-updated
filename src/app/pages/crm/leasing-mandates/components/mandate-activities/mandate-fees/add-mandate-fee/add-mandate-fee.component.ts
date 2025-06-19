@@ -39,11 +39,11 @@ export class AddMandateFeeComponent {
 
 ngOnInit() {
 
-  this.finantialActivitiesFacade.loadByLeasingMandateId(Number(this.route.snapshot.paramMap.get('leasingMandatesId')));
+  console.log(this.route.snapshot);
+  console.log("leasingMandateId" , Number(this.route.snapshot.queryParams['leasingMandateId'])); 
+  this.finantialActivitiesFacade.loadByLeasingMandateId(Number(this.route.snapshot.queryParams['leasingMandateId']));
   this.finantialActivities = this.facade.current$; 
-  this.finantialActivitiesFacade.loadByLeasingMandateId(
-  Number(this.route.snapshot.paramMap.get('communicationId'))
-);
+  this.finantialActivitiesFacade.loadByLeasingMandateId(Number(this.route.snapshot.queryParams['leasingMandateId']));
 
 this.facade.current$
   .pipe(
@@ -67,7 +67,7 @@ this.facade.current$
 
   this.addMandateFeeForm = this.fb.group({
     id: [null],
-    mandateId: [this.mandateRouteId],
+    mandateId: [Number(this.route.snapshot.paramMap.get('leasingId'))],
     actualPrecentage: [null, Validators.required],
     actualAmount: [null, Validators.required],
     feeTypeId: [null, Validators.required],
@@ -110,12 +110,6 @@ this.facade.current$
   });
 }
 
-  private normalizeMandate(raw: any): MandateFee {
-    return {
-      ...raw,
-    };
-  }
-
   get basicForm(): FormGroup {
     return this.addMandateFeeForm?.get('basic')! as FormGroup;
   }
@@ -144,7 +138,7 @@ this.facade.current$
 
   navigateToView() {
     this.router.navigate([
-      `/crm/leasing-mandates/view-mandate-fees/${this.routeId}/${this.mandateRouteId}`,
+      `/crm/leasing-mandates/view-mandate-fees/${Number(this.route.snapshot.paramMap.get('leasingId'))}/${Number(this.route.snapshot.queryParams['leasingMandateId'])}`,
     ]);
   }
   /** Called by the guard. */
