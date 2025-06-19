@@ -183,17 +183,17 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
             interestRate: form.interestRate,
             insuranceRate: form.insuranceRate,
             tenor: form.tenor,
-            paymentPeriodId: { id: form.paymentPeriodId! },
+            paymentPeriodId: form.paymentPeriodDTO.id!,
             paymentPeriodMonthCount: form.paymentPeriodMonthCount,
             gracePeriod: form.gracePeriodCount,
-            gracePeriodUnitId: { id: form.gracePeriodUnitId! },
+            gracePeriodUnitId: form.gracePeriodUnitDTO.id!,
           },
           { emitEvent: false }
         );
         this.leasingFinancialCurrencyForm.patchValue(
           {
-            currencyId: { id: form.currencyId! },
-            currencyExchangeRateId: { id: form.currencyExchangeRateId! },
+            currencyId: form.currencyDTO.id!,
+            currencyExchangeRateId: form.currencyExchangeRateId!,
             isManualExchangeRate: form.isManualExchangeRate,
             manualExchangeRate: form.manualSetExchangeRate,
             indicativeRentals: form.indicativeRentals,
@@ -204,11 +204,11 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
             reservePaymentAmount: form.reservePaymentAmount,
             provisionAmount: form.provisionAmount,
             provisionPercent: form.provisionPercent,
-            interestRateBenchmarkId: form.interestRateBenchmarkId!,
-            paymentTimingTermId: form.paymentTimingTermId!,
-            rentStructureTypeId: form.rentStructureTypeId!,
-            paymentMethodId: form.paymentMethodID!,
-            paymentMonthDayID: form.paymentMonthDayID!,
+            interestRateBenchmarkId: form.interestRateBenchmarkDTO.id!,
+            paymentTimingTermId: form.paymentTimingTermDTO.id!,
+            rentStructureTypeId: form.rentStructureTypeDTO.id!,
+            paymentMethodId: form.paymentMethodDTO.id!,
+            paymentMonthDayID: form.paymentMonthDayDTO.id!,
           },
           { emitEvent: false }
         );

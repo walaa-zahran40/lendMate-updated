@@ -21,6 +21,12 @@ export interface FinancialForm {
   reservePaymentCount?: number; // reserve payment installments
   currencyId?: number; // lookup key
   currencyExchangeRateId?: number; // lookup key
+  currencyExchangeRate?: any;
+  paymentTimingTermDTO?: any;
+  rentStructureTypeDTO?: any;
+  paymentMonthDayDTO?: any;
+  interestRateBenchmarkDTO?: any;
+  paymentMethodDTO?: any;
   isManualExchangeRate?: boolean; // true/false
   manualSetExchangeRate?: number; // if manual
   gracePeriodCount?: number; // numeric
@@ -35,4 +41,7 @@ export interface FinancialForm {
   rent?: number; // calculated rental amount
   paymentPeriodMonthCount?: any;
   payments?: any;
+  paymentPeriodDTO?: any;
+  gracePeriodUnitDTO?: any;
+  currencyDTO?: any;
 }
