@@ -13,6 +13,7 @@ import {
 import { TableComponent } from '../../../../../../../shared/components/table/table.component';
 import { MandateFee } from '../../../../store/mandate-fees/mandate-fee.model';
 import { MandateFeesFacade } from '../../../../store/mandate-fees/mandate-fees.facade';
+import { FeeTypesFacade } from '../../../../../../lookups/store/fee-types/fee-types.facade';
 
 @Component({
   selector: 'app-view-mandate-fees',
@@ -30,6 +31,7 @@ export class ViewMandateFeesComponent {
   @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
+     { field: 'feeTypeName', header: 'Fee Type' } ,
     { field: 'actualAmount', header: 'actualAmount' },
     { field: 'actualPrecentage', header: 'actualPrecentage' },
   ];
@@ -46,44 +48,41 @@ export class ViewMandateFeesComponent {
   constructor(
     private router: Router,
     private facade: MandateFeesFacade,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+      private feeTypesFacade: FeeTypesFacade
   ) {}
   ngOnInit() {
+
     console.log('route', this.route.snapshot);
     this.facade.loadByMandateId(this.routeId);
     this.mandateFees$ = this.facade.items$; 
 
-    combineLatest([this.mandateFees$])
-      .pipe(
-        takeUntil(this.destroy$),
+    this.feeTypesFacade.loadAll();
+    const feeTypes$ = this.feeTypesFacade.all$;
 
-        // 1️⃣ Log the raw mandates array
-        tap(([mandates]) => {
-          console.group('🚀 combineLatest payload');
-          console.log('Mandates:', mandates);
-          console.groupEnd();
-        }),
+    combineLatest([this.mandateFees$, feeTypes$])
+  .pipe(
+    takeUntil(this.destroy$),
+    map(([mandates, feeTypes]) =>
+      mandates
+        .slice()
+        .sort((a, b) => b.id! - a.id!)
+        .map((m) => {
+          const matchedFeeType = feeTypes.find(ft => ft.id === m.feeTypeId);
+          return {
+            ...m,
+            feeTypeName: matchedFeeType?.name || 'Unknown'
+          };
+        })
+    ),
+    tap((enriched) => console.log('Table with FeeType Names:', enriched))
+  )
+  .subscribe((enriched) => {
+    this.tableDataInside = enriched;
+    this.originalMandateFees = enriched;
+    this.filteredMandateFees = enriched;
+  });
 
-        // 2️⃣ Now map & flatten clientName out of clientView
-        map(([mandates]) =>
-          mandates
-            .slice()
-            .sort((a, b) => b.id! - a.id!)
-            .map((m) => {
-              return {
-                ...m,
-              };
-            })
-        ),
-
-        // 3️⃣ Log the enriched array
-        tap((enriched) => console.log('Enriched tableDataInside:', enriched))
-      )
-      .subscribe((enriched) => {
-        this.tableDataInside = enriched;
-        this.originalMandateFees = enriched;
-        this.filteredMandateFees = enriched;
-      });
   }
 
   onAddMandateFee() {
