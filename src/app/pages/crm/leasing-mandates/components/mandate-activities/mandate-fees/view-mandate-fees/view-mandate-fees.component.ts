@@ -31,7 +31,7 @@ export class ViewMandateFeesComponent {
   @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
-     { field: 'feeTypeName', header: 'Fee Type' } ,
+    { field: 'feeTypeName', header: 'Fee Type' } ,
     { field: 'actualAmount', header: 'actualAmount' },
     { field: 'actualPrecentage', header: 'actualPrecentage' },
   ];
@@ -52,7 +52,6 @@ export class ViewMandateFeesComponent {
       private feeTypesFacade: FeeTypesFacade
   ) {}
   ngOnInit() {
-
     console.log('route', this.route.snapshot);
     this.facade.loadByMandateId(this.routeId);
     this.mandateFees$ = this.facade.items$; 

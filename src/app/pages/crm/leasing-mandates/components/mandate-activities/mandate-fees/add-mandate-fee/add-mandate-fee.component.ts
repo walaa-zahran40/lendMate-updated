@@ -27,6 +27,8 @@ export class AddMandateFeeComponent {
   finantialActivities : any ;  
   routeId = this.route.snapshot.params['leasingId'];
   mandateRouteId = this.route.snapshot.params['leasingMandatesId'];
+  mandateParam : any = 0 ; 
+  leasingmandateParam : any = 0;
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -38,6 +40,9 @@ export class AddMandateFeeComponent {
   ) {}
 
 ngOnInit() {
+
+  this.mandateParam = Number(this.route.snapshot.queryParams['leasingId']); 
+  this.leasingmandateParam = Number(this.route.snapshot.queryParams['leasingMandateId']); 
 
   console.log(this.route.snapshot);
   console.log("leasingMandateId" , Number(this.route.snapshot.queryParams['leasingMandateId'])); 
@@ -137,6 +142,7 @@ this.facade.current$
 
 
   navigateToView() {
+    console.log(this.route.snapshot)
     this.router.navigate([
       `/crm/leasing-mandates/view-mandate-fees/${Number(this.route.snapshot.paramMap.get('leasingId'))}/${Number(this.route.snapshot.queryParams['leasingMandateId'])}`,
     ]);
