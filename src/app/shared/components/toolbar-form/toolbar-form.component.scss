@@ -201,7 +201,7 @@
       background: transparent !important;
     }
     .p-button:not(:disabled):hover {
-      background-color: var(--bg-transparent) !important;
+      background-color: var(--border-white) !important;
     }
     .p-tab {
       font-family: var(--custom-font-family);
@@ -213,6 +213,11 @@
     .p-tab-active {
       border-color: var(--p-tabs-active-bar-background);
       color: var(--p-tabs-active-bar-background);
+    }
+    .p-splitbutton-button.p-button,
+    .p-button:not(:disabled) {
+      background: var(--border-white) !important;
+      color: #000 !important;
     }
     .p-inputtext {
       color: var(--custom-grey-bold);

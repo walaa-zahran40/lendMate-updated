@@ -108,6 +108,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
   ) {}
   ngOnInit() {
     this.facade.loadByLeasingMandateId(this.routeId);
+    console.log('🔄 Dispatching loadByLeasingMandateId with ID:', this.routeId);
 
     //Build Forms
     this.initializeLeasingFinancialBasicForm();
@@ -161,6 +162,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
     this.facade.selected$
       .pipe(takeUntil(this.destroy$))
       .subscribe((form: FinancialForm | undefined) => {
+        console.log('form', form);
         if (form === undefined) {
           return;
         }
@@ -210,6 +212,15 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
           },
           { emitEvent: false }
         );
+        console.log('forrrrr', form.payments);
+        if (form.payments?.length) {
+          console.log('✅ Using payments from backend form');
+          this.tableDataInside = [...form.payments];
+          this.originalFinancialForms = [...form.payments];
+          this.filteredFinancialForms = [...form.payments];
+        } else {
+          console.log('⏳ Waiting for calculated rows from selector...');
+        }
       });
 
     // 2) Subscribe to store→“calculatedRowsForId(currentMandateId)”
@@ -888,9 +899,13 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
   /** Sum of “installment” (i.e. “rent”) across all rows */
   get sumOfRent(): number {
     return this.tableDataInside
-      .map((row) => row.referenceRent || 0)
+      .map((row) => {
+        console.log('Row:', row); // 🔍 Log each row
+        return row.rent || 0;
+      })
       .reduce((acc, cur) => acc + cur, 0);
   }
+
   get sumOfInstallments(): number {
     return this.tableDataInside
       .map((row) => row.installment || 0)

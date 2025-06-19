@@ -89,6 +89,17 @@ export const reducer = createReducer(
 
     return newState;
   }),
+  on(
+    FinancialFormActions.loadByLeasingMandateIdSuccess,
+    (state, { entity }) => {
+      const newState = adapter.upsertOne(entity, {
+        ...state,
+        loadedId: entity.id ?? null,
+      });
+      console.log('📥 Reducer: Stored entity + loadedId =', entity.id);
+      return newState;
+    }
+  ),
   on(FinancialFormActions.clearSelectedFinancialForm, (state) => ({
     ...state,
     loadedId: null,

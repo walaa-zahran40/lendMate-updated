@@ -3,8 +3,8 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 export const routes: Routes = [
-  // { path: '', redirectTo: '/lookups/view-address-types', pathMatch: 'full' },
-    { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/lookups/view-address-types', pathMatch: 'full' },
+  // { path: '', redirectTo: '/login', pathMatch: 'full' },
 
   {
     path: 'login',
@@ -50,7 +50,7 @@ export const routes: Routes = [
   imports: [
     RouterModule.forRoot(routes, {
       preloadingStrategy: PreloadAllModules,
-      useHash:false
+      useHash: false,
     }),
   ],
   exports: [RouterModule],

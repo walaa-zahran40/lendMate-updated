@@ -82,6 +82,10 @@ export class FinancialFormsEffects {
           map((entity: FinancialForm) =>
             ActionsList.loadByLeasingMandateIdSuccess({ entity })
           ),
+          tap(({ entity }) => {
+            console.log('📥 GET by LeasingMandateId returned entity:', entity);
+            console.log('📄 Payments array:', entity?.payments);
+          }),
           catchError((err) =>
             of(ActionsList.loadByLeasingMandateIdFailure({ error: err }))
           )

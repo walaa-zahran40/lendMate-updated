@@ -18,7 +18,6 @@ export interface FinancialForm {
   provisionAmount?: number; // provision absolute
   provisionPercent?: number; // provision percentage
   reservePaymentAmount?: number; // reserve payment absolute
-  payments?: any;
   reservePaymentCount?: number; // reserve payment installments
   currencyId?: number; // lookup key
   currencyExchangeRateId?: number; // lookup key
@@ -35,4 +34,5 @@ export interface FinancialForm {
   years?: number; // number of years (if relevant)
   rent?: number; // calculated rental amount
   paymentPeriodMonthCount?: any;
+  payments?: any;
 }

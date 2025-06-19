@@ -262,6 +262,10 @@ body {
   background: var(--white-color-add) !important;
   color: var(--black-color) !important;
 }
+.p-tieredmenu-root-list,
+.p-tieredmenu-submenu {
+  font-size: 13px !important;
+}
 .p-check-box,
 .p-inputtext,
 .p-select-list,

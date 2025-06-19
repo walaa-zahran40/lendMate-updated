@@ -2,18 +2,20 @@
   <div class="row">
     <div class="col-sm">
       <p class="purple">
-        <strong>{{ totalInstallments }}</strong> <span>Total Installments</span>
+        <strong>{{ totalInstallments | number : "1.0-0" }}</strong>
+        <span>Total Installments</span>
       </p>
     </div>
     <div class="col-sm">
       <p class="green">
-        <strong>{{ totalInterest }}</strong>
+        <strong>{{ totalInterest | number : "1.0-0" }}</strong>
         <span>Total Interest </span>
       </p>
     </div>
     <div class="col-sm">
       <p class="blue">
-        <strong>{{ totalRent }}</strong> <span>Total Rent</span>
+        <strong>{{ totalRent | number : "1.0-0" }}</strong>
+        <span>Total Rent</span>
       </p>
     </div>
     <div class="col-sm-5 d-flex justify-content-end">

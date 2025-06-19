@@ -448,7 +448,6 @@ import { ViewMandateActionNotificationGroupsComponent } from './components/manda
     EffectsModule.forFeature([ClientStatusesEffects]),
     StoreModule.forFeature('docTypes', docTypesReducer),
     EffectsModule.forFeature([DocTypesEffects]),
-    EffectsModule.forFeature([AreasEffects]),
     StoreModule.forFeature('mandateValidityUnits', MandateValidityUnitsReducer),
     EffectsModule.forFeature([MandateValidityUnitsEffects]),
     StoreModule.forFeature('areas', AreasReducer),
