@@ -8,6 +8,9 @@ import { MandateFeesFacade } from '../../../../store/mandate-fees/mandate-fees.f
 import { MandateFee } from '../../../../store/mandate-fees/mandate-fee.model';
 import { FeeTypesFacade } from '../../../../../../lookups/store/fee-types/fee-types.facade';
 import { FeeType } from '../../../../../../lookups/store/fee-types/fee-type.model';
+import { FinancialFormsFacade } from '../../../../store/financial-form/financial-forms.facade';
+import { FinancialForm } from '../../../../store/financial-form/financial-form.model';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-add-mandate-fee',
@@ -21,6 +24,7 @@ export class AddMandateFeeComponent {
   addMandateFeeForm!: FormGroup;
     private destroy$ = new Subject<void>();
   feeTypes$! : Observable<FeeType[]>; 
+  finantialActivities : any ;  
   routeId = this.route.snapshot.params['leasingId'];
   mandateRouteId = this.route.snapshot.params['leasingMandatesId'];
   constructor(
@@ -28,10 +32,36 @@ export class AddMandateFeeComponent {
     private route: ActivatedRoute,
     private facade: MandateFeesFacade,
     private feeTypesFacade: FeeTypesFacade,
-    private router: Router
+    private finantialActivitiesFacade: FinancialFormsFacade,
+    private router: Router,
+    private messageService: MessageService
   ) {}
 
 ngOnInit() {
+
+  this.finantialActivitiesFacade.loadByLeasingMandateId(Number(this.route.snapshot.paramMap.get('leasingMandatesId')));
+  this.finantialActivities = this.facade.current$; 
+  this.finantialActivitiesFacade.loadByLeasingMandateId(
+  Number(this.route.snapshot.paramMap.get('communicationId'))
+);
+
+this.facade.current$
+  .pipe(
+    take(1),
+    tap((activities) => {
+      this.finantialActivities = activities;
+      if (!activities || (Array.isArray(activities) && activities.length === 0)) {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Missing Financial Activity',
+          detail: 'Please add financial activity first.',
+          life: 5000,
+        });
+      }
+    })
+  )
+  .subscribe();
+
   this.feeTypesFacade.loadAll(); 
   this.feeTypes$ = this.feeTypesFacade.all$; 
 
