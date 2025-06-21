@@ -24,7 +24,7 @@ import { Subject, filter, takeUntil } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { jwtDecode } from 'jwt-decode';
 import { environment } from '../../../../environments/environment';
-import { PermissionService } from '../store/permission.service';
+import { PermissionService } from '../store/permissions/permission.service';
 
 interface CustomJwtPayload {
   name: string;
@@ -59,31 +59,33 @@ export class LoginComponent implements OnInit, OnDestroy {
     document.documentElement.lang = savedLang;
     document.body.classList.toggle('arabic', isArabic);
   }
-  
+
   ngOnInit(): void {
-    console.log("after redirect");
+    console.log('after redirect');
     // this.authService.handleRedirectObservable();
     // this.authService.loginRedirect();
-    
 
     this.msalBroadcastService.inProgress$
-      .pipe(filter((status: InteractionStatus) => status === InteractionStatus.None)
-      ,takeUntil(this._destroying$))
+      .pipe(
+        filter(
+          (status: InteractionStatus) => status === InteractionStatus.None
+        ),
+        takeUntil(this._destroying$)
+      )
       .subscribe(async () => {
         await this.setLoginDisplay();
-    });
-    
-    
+      });
+
     this.msalBroadcastService.msalSubject$
-    .pipe(takeUntil(this._destroying$))
-    .subscribe((msg: EventMessage) => {
-      console.log('MSAL Event Type:', msg.error);
-      console.log('Full Event Message:', msg);
-      
-          if (msg.eventType === EventType.LOGIN_SUCCESS) {
-            this.handleLoginSuccess(msg);
-          }
-        });
+      .pipe(takeUntil(this._destroying$))
+      .subscribe((msg: EventMessage) => {
+        console.log('MSAL Event Type:', msg.error);
+        console.log('Full Event Message:', msg);
+
+        if (msg.eventType === EventType.LOGIN_SUCCESS) {
+          this.handleLoginSuccess(msg);
+        }
+      });
   }
 
   ngOnDestroy(): void {
@@ -91,7 +93,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     this._destroying$.complete();
   }
 
-  
   login() {
     // debugger;
     if (this.msalGuardConfig.authRequest) {
@@ -137,12 +138,14 @@ export class LoginComponent implements OnInit, OnDestroy {
         if (token) {
           try {
             const decoded = jwtDecode<CustomJwtPayload>(token);
-            const username = decoded[
-              'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
-            ];
-            const role = decoded[
-              'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
-            ];
+            const username =
+              decoded[
+                'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
+              ];
+            const role =
+              decoded[
+                'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
+              ];
 
             sessionStorage.setItem('authToken', token);
             sessionStorage.setItem('username', username);

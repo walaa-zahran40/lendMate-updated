@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuToggleService } from '../../services/menu-toggle.service';
 import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
-import { PermissionService } from '../../../pages/login/store/permission.service';
+import { PermissionService } from '../../../pages/login/store/permissions/permission.service';
 import { filter, takeUntil } from 'rxjs/operators';
 import { InteractionStatus } from '@azure/msal-browser';
 import { CookieService } from 'ngx-cookie-service';
@@ -17,6 +17,7 @@ export class NavBarComponent implements OnInit {
   loginDisplay = false;
   darkMode: boolean = false;
   displayPopup = false;
+  username: string = '';
 
   constructor(
     private menuToggleService: MenuToggleService,
@@ -33,10 +34,19 @@ export class NavBarComponent implements OnInit {
       )
       .subscribe(() => {
         this.setLoginDisplay();
+        this.setUsername();
       });
   }
-
-  setLoginDisplay() {
+  private setUsername() {
+    const accounts = this.authService.instance.getAllAccounts();
+    if (accounts.length > 0) {
+      // MSAL puts the display name into account.name
+      this.username = accounts[0].name || '';
+    } else {
+      this.username = '';
+    }
+  }
+  private setLoginDisplay() {
     this.loginDisplay = this.authService.instance.getAllAccounts().length > 0;
   }
   toggleMenu() {

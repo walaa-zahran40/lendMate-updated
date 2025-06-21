@@ -278,6 +278,10 @@ body {
   background: var(--white-color-add) !important;
   color: var(--black-color) !important;
 }
+.p-tieredmenu {
+  min-width: auto !important;
+  top: 106.725px !important;
+}
 .unsaved-changes-dialog {
   .p-dialog-header {
     text-align: center;

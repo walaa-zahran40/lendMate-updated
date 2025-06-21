@@ -26,7 +26,7 @@ import {
   MsalRedirectComponent,
 } from '@azure/msal-angular';
 import { environment } from '../../../environments/environment';
-import { PermissionService } from './store/permission.service';
+import { PermissionService } from './store/permissions/permission.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '../../shared/interceptors/auth.interceptor';
 

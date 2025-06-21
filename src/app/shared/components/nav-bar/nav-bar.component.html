@@ -4,16 +4,12 @@
       <p-avatar
         image="/assets/images/shared/navbar/toggle.svg"
         (click)="toggleMenu()"
+        *ngIf="username"
       />
-      <div>
+      <div *ngIf="username">
         <p class="welcome">Welcome</p>
         <p class="name">
-          <span>Mohamed Yasser</span>
-          <img
-            src="/assets/images/shared/navbar/arrow-bottom.svg"
-            alt="arrow-bottom"
-            class="d-inline-block"
-          />
+          <span>{{ username }}</span>
         </p>
       </div>
     </div>
@@ -33,10 +29,12 @@
     </div>
     <p class="language">العربيه</p>
     <p-avatar
+      *ngIf="loginDisplay"
       image="/assets/images/shared/navbar/notification-selected.svg"
       (click)="showDialog()"
     />
     <p-dialog
+      *ngIf="loginDisplay"
       [(visible)]="displayPopup"
       [modal]="true"
       [closable]="true"
@@ -44,11 +42,10 @@
       [resizable]="false"
       (onHide)="hideDialog()"
     >
-    
-    <app-notification></app-notification>
-  </p-dialog>
-  <span *ngIf="loginDisplay" class="btn btn-secondary" (click)="logout()"
-    ><i class="pi pi-sign-out" pTooltip="Sign Out"></i
-  ></span>
+      <app-notification></app-notification>
+    </p-dialog>
+    <span *ngIf="loginDisplay" class="btn btn-secondary" (click)="logout()"
+      ><i class="pi pi-sign-out" pTooltip="Sign Out"></i
+    ></span>
   </ng-template>
 </p-toolbar>

@@ -38,7 +38,7 @@ import {
   MsalRedirectComponent,
   MsalService,
 } from '@azure/msal-angular';
-import { PermissionService } from './pages/login/store/permission.service';
+import { PermissionService } from './pages/login/store/permissions/permission.service';
 import {
   BrowserCacheLocation,
   InteractionType,

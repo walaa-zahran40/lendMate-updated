@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { MenuToggleService } from '../../services/menu-toggle.service';
-import { filter, Subscription } from 'rxjs';
+import { filter, Subject, Subscription, takeUntil } from 'rxjs';
 import { MenuItem } from '../../interfaces/menu-item.interface';
 import { ActivatedRoute, NavigationEnd, Route, Router } from '@angular/router';
+import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
+import { InteractionStatus } from '@azure/msal-browser';
 
 @Component({
   selector: 'app-side-menu',
@@ -11,6 +13,8 @@ import { ActivatedRoute, NavigationEnd, Route, Router } from '@angular/router';
   styleUrl: './side-menu.component.scss',
 })
 export class SideMenuComponent {
+  isLoggedIn = false;
+
   menuItems = [
     { id: 'CRM', icon: 'pi pi-ico1', label: 'CRM' },
     { id: 'Business', icon: 'pi pi-ico2', label: 'Business' },
@@ -19,6 +23,7 @@ export class SideMenuComponent {
     { id: 'Settings', icon: 'pi pi-cog', label: 'Settings' },
   ];
   raw = this.route.snapshot.paramMap.get('teamId');
+  private destroy$ = new Subject<void>();
 
   activeMenu: string | null = null;
   activeMenuItem: string | null = null;
@@ -928,7 +933,8 @@ export class SideMenuComponent {
   constructor(
     private menuToggleService: MenuToggleService,
     private route: ActivatedRoute,
-    private router: Router
+    private authService: MsalService,
+    private msalBroadcastService: MsalBroadcastService
   ) {}
 
   ngOnInit() {
@@ -942,11 +948,23 @@ export class SideMenuComponent {
       this.raw = pm.get('teamId');
       this.clientId = pm.get('clientId');
     });
+    // 2) listen for MSAL ready events to update login flag
+    this.msalBroadcastService.inProgress$
+      .pipe(
+        filter((status) => status === InteractionStatus.None),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        const accounts = this.authService.instance.getAllAccounts();
+        this.isLoggedIn = accounts.length > 0;
+      });
   }
 
   ngOnDestroy() {
     // now unsubscribe the Subscription—not the Observable!
     this.toggleSub.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
   private getDeepestRoute(route: ActivatedRoute): ActivatedRoute {
     console.log('route', route);
