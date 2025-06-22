@@ -116,11 +116,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
 
     // 2) Set up value-change listeners, etc.
     this.setupFormListeners();
-    this.leasingFinancialCurrencyForm
-      .get('currencyExchangeRateId')!
-      .valueChanges.subscribe((val) =>
-        console.log('📊 [FormControl] currencyExchangeRateId →', val)
-      );
+
     // 3) Dispatch all lookups
     this.store.dispatch(loadAll({})); // payment periods
     this.store.dispatch(loadAllGracePeriodUnits({})); // grace units
@@ -155,6 +151,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
         takeUntil(this.destroy$)
       )
       .subscribe((form) => {
+        console.log('form', form);
         this.leasingFinancialBasicForm.patchValue(
           {
             assetCost: form.assetCost,
@@ -183,6 +180,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
         this.leasingFinancialCurrencyForm.patchValue(
           {
             currencyId: form.currencyDTO.id!,
+            currencyExchangeRateId: form.currencyExchangeRateDto.id!,
             isManualExchangeRate: form.isManualExchangeRate,
             manualExchangeRate: form.manualSetExchangeRate,
             indicativeRentals: form.indicativeRentals,
@@ -205,29 +203,6 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
 
     // 7) **Only once** both the form **and** the rates list are loaded,
     //    patch the currencyExchangeRateId so the <p-select> can match an option.
-    combineLatest([
-      this.facade.selected$.pipe(filter((f) => !!f)),
-      this.currencyExchangeRates$.pipe(filter((list) => list.length > 0)),
-    ])
-      .pipe(take(1))
-      .subscribe(([form, rates]) => {
-        console.log(
-          '🚀 Patching currencyExchangeRateId now:',
-          form.currencyExchangeRateId
-        );
-        this.leasingFinancialCurrencyForm.patchValue(
-          {
-            currencyExchangeRateId: +form.currencyExchangeRateId!,
-          },
-          { emitEvent: false }
-        );
-      });
-    console.log(
-      '🔧 After patch → formControl:',
-      this.leasingFinancialCurrencyForm.get('currencyExchangeRateId')!.value
-    );
-
-    // 8) Finally, subscribe to the calculated rows for your table
     this.store
       .select(selectCalculatedRowsForId(this.currentMandateId))
       .pipe(takeUntil(this.destroy$))

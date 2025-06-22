@@ -45,4 +45,5 @@ export interface FinancialForm {
   gracePeriodUnitDTO?: any;
   currencyDTO?: any;
   isManuaExchangeRate?: any;
+  currencyExchangeRateDto?: any;
 }

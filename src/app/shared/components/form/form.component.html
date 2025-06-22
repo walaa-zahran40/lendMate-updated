@@ -4093,8 +4093,8 @@ icon="pi pi-cog"
       *ngIf="addRoleClaimORGForm"
       (ngSubmit)="onSubmit()"
     >
-      <div *ngIf="pageOperationGroups$ | async as groups">
-        <div *ngFor="let group of groups" class="page‐group">
+      <div *ngIf="pageOperationGroups">
+        <div *ngFor="let group of pageOperationGroups" class="page‐group">
           <h4>Page : {{ group.pageName }}</h4>
           <div *ngFor="let op of group.pageOperations">
             Operation:
@@ -6187,8 +6187,8 @@ icon="pi pi-cog"
             formControlName="currencyExchangeRateId"
             placeholder="Currency Exchange Rate"
             [(ngModel)]="selectedCurrencyExchangeRate"
-            (ngModelChange)="onNgModelChange($event)"
-            (onChange)="selectionChangedCurrencyExchange.emit($event)"
+            (onChange)="onCurrencyExchangeRateChange($event)"
+            name="currencyExchangeRateId"
             styleClass="w-100"
             optionValue="id"
             optionLabel="exchangeRate"

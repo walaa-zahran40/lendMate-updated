@@ -20,12 +20,11 @@
         [description]="
           'Introduce your Role Claim core info quickly to users by fill up branch details'
         "
-        [pagesList]="(pagesList$ | async) ?? []"
         [operationsList]="(operationsList$ | async) ?? []"
         [formGroup]="addRoleClaimORGForm"
         [addRoleClaimORGForm]="true"
         [pageIds]="selectedPageIds"
-        [pageOperationGroups$]="pageOperationGroups$"
+        [pageOperationGroups]="pageOperationGroups$ | async"
         (submitForm)="addOrEditRoleClaim()"
         [viewOnly]="viewOnly"
       ></app-form>

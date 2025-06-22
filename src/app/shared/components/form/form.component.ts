@@ -92,7 +92,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() applyReusable: boolean = false;
   @Input() selectedFile!: any;
   @Input() title: string = '';
-  @Input() pageOperationGroups$!: Observable<PageOperationGroup[]>;
+  @Input() pageOperationGroups: any;
 
   @Input() description: string = '';
   @Input() addClientShowMain?: boolean;

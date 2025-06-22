@@ -57,67 +57,8 @@ export class AddRoleClaimComponent {
 
     // 2️⃣ Kick off loads: pages, page-operations, and this role’s claims
     console.log('Loading pages, operations, and role-claims...');
-    this.pagesFacade.loadAll();
     this.operationsFacade.loadAll();
     this.facade.loadRoleClaimsByRoleId(this.roleId); // ← new
-
-    // 3️⃣ Expose only “real” arrays
-    this.pagesList$ = this.pagesFacade.all$.pipe(
-      filter((pages) => pages.length > 0),
-      tap((list) => console.log('[pagesList$] first real array', list))
-    );
-    this.operationsList$ = this.operationsFacade.all$.pipe(
-      filter((ops) => ops.length > 0),
-      tap((list) => console.log('[operationsList$] first real array', list))
-    );
-
-    // 4️⃣ Build a grouped list of just this role’s page-operations
-    this.pageOperationGroups$ = combineLatest([
-      this.operationsFacade.all$.pipe(filter((ops) => ops.length > 0)),
-      this.facade.items$.pipe(filter((claims) => claims.length > 0)),
-    ]).pipe(
-      tap(([ops, claims]) => {
-        console.log('🔍 [DBG] all pageOps:', ops);
-        console.log('🔍 [DBG] roleClaims:', claims);
-      }),
-      map(([ops, claims]) => {
-        // 1️⃣ extract the real IDs from the nested pageOperation
-        const allowedIds = claims
-          .map((c) => {
-            const id = c.pageOperation?.id;
-            console.log(`🔍 [DBG] claim ${c.id} → pageOperation.id =`, id);
-            return id;
-          })
-          .filter((id): id is number => typeof id === 'number');
-
-        console.log('🔍 [DBG] allowedIds:', allowedIds);
-
-        // 2️⃣ pick matching ops (or all if none, for add-mode)
-        const toShow =
-          allowedIds.length > 0
-            ? ops.filter((po) => allowedIds.includes(po.id))
-            : ops;
-
-        console.log('🔍 [DBG] toShow pageOperations:', toShow);
-
-        // 3️⃣ group by page name
-        const byPage: Record<string, PageOperation[]> = {};
-        toShow.forEach((po) => {
-          const name = po.page!.name;
-          console.log(`🔍 [DBG] grouping op ${po.id} under page "${name}"`);
-          (byPage[name] ||= []).push(po);
-        });
-
-        // 4️⃣ build final array
-        const result = Object.entries(byPage).map(([pageName, pageOps]) => ({
-          pageName,
-          pageOperations: pageOps,
-        }));
-        console.log('🔍 [DBG] grouped result:', result);
-        return result;
-      }),
-      tap((groups) => console.log('👉 [pageOperationGroups$]', groups))
-    );
 
     // 5️⃣ Build the form
     this.addRoleClaimORGForm = this.fb.group({
