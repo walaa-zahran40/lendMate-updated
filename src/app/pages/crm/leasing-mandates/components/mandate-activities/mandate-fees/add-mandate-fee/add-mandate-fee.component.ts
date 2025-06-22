@@ -51,7 +51,7 @@ ngOnInit(): void {
   console.log("this.leasingmandateParam " , );
   this.finantialActivitiesFacade.loadByLeasingMandateId(this.leasingmandateParam);
     
-    this.facade.current$
+  this.facade.current$
       .pipe(
         take(1),
         tap((activity) => {
@@ -108,6 +108,8 @@ ngOnInit(): void {
 }
 
 }
+
+
  private patchMandate(m: MandateFee) {
   this.addMandateFeeForm.patchValue({
     id: m.id,
@@ -135,12 +137,36 @@ ngOnInit(): void {
 
   if (this.editMode) {
     this.facade.update(payload.id!, payload);
-  } else {
-    this.facade.create(payload);
-  }
 
-  this.addMandateFeeForm.markAsPristine();
-  this.navigateToView();
+    // ✅ Navigate immediately after update — no popup
+    this.navigateToView();
+  } else {
+    // 🔁 Create and wait until item appears in the list
+    this.facade.create(payload);
+
+    this.facade.items$
+      .pipe(
+        takeUntil(this.destroy$),
+        filter(items => items && items.length > 0),
+        map(items => items.some(item =>
+          item.mandateId === this.mandateParam &&
+          item.actualAmount === payload.actualAmount &&
+          item.actualPrecentage === payload.actualPrecentage
+        )),
+        filter(match => match),
+        take(1),
+        tap(() => {
+          // ✅ Only show popup for creation
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Saved',
+            detail: 'Mandate fee created successfully',
+          });
+          this.navigateToView();
+        })
+      )
+      .subscribe();
+  }
 }
 
 
