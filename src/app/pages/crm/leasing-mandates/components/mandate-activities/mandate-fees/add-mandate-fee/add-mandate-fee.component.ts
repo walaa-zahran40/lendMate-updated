@@ -39,20 +39,18 @@ export class AddMandateFeeComponent {
   ) {}
 
 ngOnInit(): void {
-  // Log route snapshot for debugging
   console.log('Route Snapshot:', this.route.snapshot);
 
-  // Extract route and query parameters
   this.mandateParam = Number(this.route.snapshot.queryParams['leasingId']);
   this.leasingmandateParam = Number(this.route.snapshot.params['leasingMandatesId']);
-  const feeId = Number(this.route.snapshot.params['id']); // Add this param in route config
+  const feeId = Number(this.route.snapshot.params['id']); // Make sure :id is in route
 
-  // Load dependent data
+  // Load required data
   this.finantialActivitiesFacade.loadByLeasingMandateId(this.leasingmandateParam);
   this.feeTypesFacade.loadAll();
   this.feeTypes$ = this.feeTypesFacade.all$;
 
-  // Build the form
+  // Form setup
   this.addMandateFeeForm = this.fb.group({
     id: [null],
     mandateId: [this.mandateParam],
@@ -61,16 +59,16 @@ ngOnInit(): void {
     feeTypeId: [null, Validators.required],
   });
 
-  // Load mandate fees for this leasing mandate
+  // Load specific item
   this.facade.loadOne(feeId);
 
-  // Listen to financial activities to check if missing
+  // Show warning if no financial activities
   this.facade.current$
     .pipe(
       take(1),
-      tap((activities) => {
-        this.finantialActivities = activities;
-        if (!activities || (Array.isArray(activities) && activities.length === 0)) {
+      tap((activity) => {
+        this.finantialActivities = activity;
+        if (!activity || (Array.isArray(activity) && activity.length === 0)) {
           this.messageService.add({
             severity: 'warn',
             summary: 'Missing Financial Activity',
@@ -82,16 +80,15 @@ ngOnInit(): void {
     )
     .subscribe();
 
-
-  // React to route + store state to set mode and patch data
+  // Patch form when item is loaded
   combineLatest([
     this.route.queryParamMap,
-    this.facade.items$
+    this.facade.current$
   ])
     .pipe(
-      map(([query, items]) => {
+      map(([query, item]) => {
         const mode = query.get('mode');
-        const matchedItem = items.find((item) => item.id === feeId);
+        const matchedItem = item && item.id === feeId ? item : null;
 
         return { mode, matchedItem };
       }),
@@ -103,7 +100,6 @@ ngOnInit(): void {
       take(1),
       tap(({ matchedItem }) => {
         this.patchMandate(matchedItem!);
-
         if (this.viewOnly) {
           this.addMandateFeeForm.disable();
         }
@@ -111,6 +107,7 @@ ngOnInit(): void {
     )
     .subscribe();
 }
+
 
  private patchMandate(m: MandateFee) {
   this.addMandateFeeForm.patchValue({
