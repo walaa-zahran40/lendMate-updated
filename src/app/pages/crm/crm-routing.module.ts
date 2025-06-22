@@ -399,13 +399,16 @@ const routes: Routes = [
     component: AddMandateFeeComponent,
   },
 
+  
   {
-    path: 'leasing-mandates/edit-mandate-fee/:leasingId/:leasingMandatesId',
+    path: 'leasing-mandates/edit-mandate-fee/:id/:leasingId/:leasingMandatesId',
     component: AddMandateFeeComponent,
     canDeactivate: [PendingChangesGuard],
   },
 
-  {
+
+
+    {
     path: 'leasing-mandates/view-mandate-fees/:leasingId/:leasingMandatesId',
     component: ViewMandateFeesComponent,
   },

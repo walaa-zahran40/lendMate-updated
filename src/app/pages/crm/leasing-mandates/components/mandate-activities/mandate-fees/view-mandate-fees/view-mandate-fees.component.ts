@@ -133,11 +133,10 @@ export class ViewMandateFeesComponent {
   onEditMandateFee(mandate: MandateFee) {
     console.log('mandate', mandate);
     this.router.navigate(
-      ['/crm/leasing-mandates/edit-mandate-fee', mandate.id, mandate.mandateId],
+      ['/crm/leasing-mandates/edit-mandate-fee', mandate.id,  this.route.snapshot.params['leasingId'], this.route.snapshot.params['leasingMandatesId']],
       {
         queryParams: {
-          mode: 'edit',
-          leasingMandateId : this.route.snapshot.params['leasingMandatesId']
+          mode: 'edit'
         },
       }
     );
@@ -146,13 +145,10 @@ export class ViewMandateFeesComponent {
   onViewMandateFees(mandate: MandateFee) {
     console.log('mandate', mandate);
     this.router.navigate(
-      ['/crm/leasing-mandates/add-mandate-fee', mandate.id, mandate.mandateId],
-      {
-        queryParams: {
-          mode: 'view',
-             leasingMandateId : this.route.snapshot.params['leasingMandatesId']
-        },
-      }
+      ['/crm/leasing-mandates/edit-mandate-fee', mandate.id,  this.route.snapshot.params['leasingId'], this.route.snapshot.params['leasingMandatesId']],
+     {
+      queryParams: { mode: 'view' },
+     }
     );
   }
 }

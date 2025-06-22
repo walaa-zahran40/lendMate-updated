@@ -9,7 +9,6 @@ import { MandateFee } from '../../../../store/mandate-fees/mandate-fee.model';
 import { FeeTypesFacade } from '../../../../../../lookups/store/fee-types/fee-types.facade';
 import { FeeType } from '../../../../../../lookups/store/fee-types/fee-type.model';
 import { FinancialFormsFacade } from '../../../../store/financial-form/financial-forms.facade';
-import { FinancialForm } from '../../../../store/financial-form/financial-form.model';
 import { MessageService } from 'primeng/api';
 
 @Component({
@@ -39,72 +38,80 @@ export class AddMandateFeeComponent {
     private messageService: MessageService
   ) {}
 
-ngOnInit() {
+ngOnInit(): void {
+  // Log route snapshot for debugging
+  console.log('Route Snapshot:', this.route.snapshot);
 
-  this.mandateParam = Number(this.route.snapshot.queryParams['leasingId']); 
-  this.leasingmandateParam = Number(this.route.snapshot.queryParams['leasingMandateId']); 
+  // Extract route and query parameters
+  this.mandateParam = Number(this.route.snapshot.queryParams['leasingId']);
+  this.leasingmandateParam = Number(this.route.snapshot.params['leasingMandatesId']);
+  const feeId = Number(this.route.snapshot.params['id']); // Add this param in route config
 
-  console.log(this.route.snapshot);
-  console.log("leasingMandateId" , Number(this.route.snapshot.queryParams['leasingMandateId'])); 
-  this.finantialActivitiesFacade.loadByLeasingMandateId(Number(this.route.snapshot.queryParams['leasingMandateId']));
-  this.finantialActivities = this.facade.current$; 
-  this.finantialActivitiesFacade.loadByLeasingMandateId(Number(this.route.snapshot.queryParams['leasingMandateId']));
+  // Load dependent data
+  this.finantialActivitiesFacade.loadByLeasingMandateId(this.leasingmandateParam);
+  this.feeTypesFacade.loadAll();
+  this.feeTypes$ = this.feeTypesFacade.all$;
 
-this.facade.current$
-  .pipe(
-    take(1),
-    tap((activities) => {
-      this.finantialActivities = activities;
-      if (!activities || (Array.isArray(activities) && activities.length === 0)) {
-        this.messageService.add({
-          severity: 'warn',
-          summary: 'Missing Financial Activity',
-          detail: 'Please add financial activity first.',
-          life: 5000,
-        });
-      }
-    })
-  )
-  .subscribe();
-
-  this.feeTypesFacade.loadAll(); 
-  this.feeTypes$ = this.feeTypesFacade.all$; 
-
+  // Build the form
   this.addMandateFeeForm = this.fb.group({
     id: [null],
-    mandateId: [Number(this.route.snapshot.paramMap.get('leasingId'))],
+    mandateId: [this.mandateParam],
     actualPrecentage: [null, Validators.required],
     actualAmount: [null, Validators.required],
     feeTypeId: [null, Validators.required],
   });
 
-  combineLatest({
-    params: this.route.paramMap,
-    query: this.route.queryParamMap,
-    items: this.facade.items$
-  })
+  // Load mandate fees for this leasing mandate
+  this.facade.loadOne(feeId);
+
+  // Listen to financial activities to check if missing
+  this.facade.current$
     .pipe(
-      map(({ params, query, items }) => {
+      take(1),
+      tap((activities) => {
+        this.finantialActivities = activities;
+        if (!activities || (Array.isArray(activities) && activities.length === 0)) {
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'Missing Financial Activity',
+            detail: 'Please add financial activity first.',
+            life: 5000,
+          });
+        }
+      })
+    )
+    .subscribe();
+
+
+  // React to route + store state to set mode and patch data
+  combineLatest([
+    this.route.queryParamMap,
+    this.facade.items$
+  ])
+    .pipe(
+      map(([query, items]) => {
         const mode = query.get('mode');
-        const selectedItemId = +params.get('leasingId')!;
-        const leasingMandatesId = +params.get('leasingMandatesId')!;
-        const matchedItem = items.find((item) => item.id === selectedItemId);
-        return { mode, selectedItemId, leasingMandatesId, matchedItem };
+        const matchedItem = items.find((item) => item.id === feeId);
+
+        return { mode, matchedItem };
       }),
       tap(({ mode }) => {
         this.editMode = mode === 'edit';
         this.viewOnly = mode === 'view';
       }),
       filter(({ matchedItem }) => !!matchedItem),
-      take(1)
+      take(1),
+      tap(({ matchedItem }) => {
+        this.patchMandate(matchedItem!);
+
+        if (this.viewOnly) {
+          this.addMandateFeeForm.disable();
+        }
+      })
     )
-    .subscribe(({ matchedItem }) => {
-      this.patchMandate(matchedItem!);
-      if (this.viewOnly) {
-        this.addMandateFeeForm.disable();
-      }
-    });
+    .subscribe();
 }
+
  private patchMandate(m: MandateFee) {
   this.addMandateFeeForm.patchValue({
     id: m.id,
@@ -144,7 +151,7 @@ this.facade.current$
   navigateToView() {
     console.log(this.route.snapshot)
     this.router.navigate([
-      `/crm/leasing-mandates/view-mandate-fees/${Number(this.route.snapshot.paramMap.get('leasingId'))}/${Number(this.route.snapshot.queryParams['leasingMandateId'])}`,
+      `/crm/leasing-mandates/view-mandate-fees/${Number(this.route.snapshot.paramMap.get('leasingId'))}/${Number(this.route.snapshot.params['leasingMandatesId'])}`,
     ]);
   }
   /** Called by the guard. */
