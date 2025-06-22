@@ -54,12 +54,13 @@ export class ViewMandateFeesComponent {
   ngOnInit() {
     console.log('route', this.route.snapshot);
     console.log('route', this.routeId);
-    this.mandateFees$ = this.facade.items$; 
-    this.facade.loadByMandateId(this.routeId);
 
+    
     this.feeTypesFacade.loadAll();
     const feeTypes$ = this.feeTypesFacade.all$;
-
+    
+    this.facade.loadByMandateId(this.routeId);
+    this.mandateFees$ = this.facade.items$; 
     combineLatest([this.mandateFees$, feeTypes$])
   .pipe(
     takeUntil(this.destroy$),
