@@ -651,6 +651,12 @@ export class FormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.formGroup
+      .get('currencyExchangeRateId')
+      ?.valueChanges.subscribe((v) =>
+        console.log('🧩 child control valueChanges →', v)
+      );
+
     this.minDateOfBirth.setFullYear(this.minDateOfBirth.getFullYear() - 100);
     // 18 years ago:
     this.maxDateOfBirth.setFullYear(this.maxDateOfBirth.getFullYear() - 18);
@@ -713,6 +719,7 @@ export class FormComponent implements OnInit, OnDestroy {
         this.facadeLegalForms.loadAll();
       }
     }
+
     // Combine sectorId changes with all sub-sectors
   }
   ngOnDestroy() {
@@ -797,11 +804,11 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/crm/clients/view-address']);
   }
 
-   viewMandateFees() {
-    this.router.navigate([`/crm/leasing-mandates/view-mandate-fees/${this.routeId}/${this.leasingRouteId}`]);
-
-     
-  } 
+  viewMandateFees() {
+    this.router.navigate([
+      `/crm/leasing-mandates/view-mandate-fees/${this.routeId}/${this.leasingRouteId}`,
+    ]);
+  }
   viewCentralBankInfo() {
     this.router.navigate([
       `/crm/clients/view-client-central-bank-info/${this.clientId}`,
@@ -1395,5 +1402,20 @@ export class FormComponent implements OnInit, OnDestroy {
       this.onChange(fullObj);
     }
     console.log('Selected selectionChangedPaymentMonthDay:', fullObj);
+  }
+  onSelect(event: any) {
+    console.log('[AppForm] p-select onChange event →', event);
+    console.log(
+      '[AppForm] before emit, control is →',
+      this.formGroup.get('currencyExchangeRateId')!.value
+    );
+    this.selectionChangedCurrencyExchange.emit(event);
+    console.log(
+      '[AppForm] after emit, control is →',
+      this.formGroup.get('currencyExchangeRateId')!.value
+    );
+  }
+  onNgModelChange(value: number) {
+    console.log('📊 [ngModelChange] selectedCurrencyExchangeRate →', value);
   }
 }

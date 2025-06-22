@@ -43,8 +43,7 @@ export class ViewRolesComponent {
 
     this.roles$?.pipe(takeUntil(this.destroy$))?.subscribe((address) => {
       // products is now rentStructureType[], not any
-      const activeCodes = address.filter((code) => code.isActive);
-      const sorted = [...activeCodes].sort((a, b) => b?.id - a?.id);
+      const sorted = [...address].sort((a, b) => b?.id - a?.id);
       this.originalRoles = sorted;
       this.filteredRoles = [...sorted];
     });

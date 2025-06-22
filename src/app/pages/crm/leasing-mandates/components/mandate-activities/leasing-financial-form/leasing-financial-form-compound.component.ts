@@ -1,7 +1,8 @@
 import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { forkJoin, Observable, Subject, takeUntil } from 'rxjs';
+import { combineLatest, forkJoin, Observable, Subject, takeUntil } from 'rxjs';
 import { Store } from '@ngrx/store';
+import { filter, take, withLatestFrom } from 'rxjs/operators';
 
 import { loadAll } from '../../../../../lookups/store/payment-periods/payment-periods.actions';
 import { loadAll as loadAllGracePeriodUnits } from '../../../../../lookups/store/period-units/period-units.actions';
@@ -106,26 +107,32 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
     private route: ActivatedRoute,
     private store: Store
   ) {}
-  ngOnInit() {
-    this.facade.loadByLeasingMandateId(this.routeId);
-    console.log('🔄 Dispatching loadByLeasingMandateId with ID:', this.routeId);
 
-    //Build Forms
+  ngOnInit() {
+    // 1) Build the three sub-forms
     this.initializeLeasingFinancialBasicForm();
     this.initializeLeasingFinancialRatesForm();
     this.initializeLeasingFinancialCurrencyForm();
-    //Setup Listeners
+
+    // 2) Set up value-change listeners, etc.
     this.setupFormListeners();
-    //Load Dropdowns
-    this.store.dispatch(loadAll({}));
-    this.store.dispatch(loadAllGracePeriodUnits({}));
-    this.store.dispatch(loadCurrencies({}));
-    this.store.dispatch(loadCurrencyExchangeRates());
+    this.leasingFinancialCurrencyForm
+      .get('currencyExchangeRateId')!
+      .valueChanges.subscribe((val) =>
+        console.log('📊 [FormControl] currencyExchangeRateId →', val)
+      );
+    // 3) Dispatch all lookups
+    this.store.dispatch(loadAll({})); // payment periods
+    this.store.dispatch(loadAllGracePeriodUnits({})); // grace units
+    this.store.dispatch(loadCurrencies({})); // currencies
+    this.store.dispatch(loadCurrencyExchangeRates()); // exchange rates
     this.store.dispatch(loadInterestRateBenchmarks({}));
     this.store.dispatch(loadPaymentTimingTerms({}));
     this.store.dispatch(loadRentStructureTypes({}));
     this.store.dispatch(loadPaymentMethods({}));
     this.store.dispatch(loadPaymentMonthDays({}));
+
+    // 4) Expose your Observables
     this.paymentPeriods$ = this.paymentPeriodFacade.all$;
     this.gracePeriodUnits$ = this.gracePeriodUnitFacade.all$;
     this.currencies$ = this.currenciesFacade.all$;
@@ -134,39 +141,20 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
     this.paymentTimeTerms$ = this.paymentTimingFacade.all$;
     this.rentStructures$ = this.rentStructuresFacade.all$;
     this.paymentMethods$ = this.paymentMethodsFacade.all$;
-    this.paymentMonthDays$ = this.paymentMonthDaysFacade.all$; // 1) Extract mandateId from route params
+    this.paymentMonthDays$ = this.paymentMonthDaysFacade.all$;
 
-    this.mandate = this.mandateFacade.loadById(this.routeId);
-    this.mandateFacade.selected$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((form: Mandate | undefined) => {
-        if (form === undefined) {
-          return;
-        }
-        this.mandate = form;
-        this.workFlowActionList =
-          this.mandate.allowedMandateWorkFlowActions?.map(
-            (action: { id: any; name: any }) => ({
-              id: action.id,
-              label: action.name,
-              icon: 'pi pi-times',
-            })
-          );
-        this.selectedAction =
-          this.mandate.mandateCurrentWorkFlowAction.name ?? '';
-        console.log('✅ this.selectedAction', this.selectedAction);
-      });
+    // 5) Load the financial form for this mandate
+    this.facade.loadByLeasingMandateId(
+      this.route.snapshot.params['leasingMandatesId']
+    );
 
-    this.currentMandateId = +this.route.snapshot.params['leasingMandatesId'];
-    // 4) Subscribe to facade.selected$ and patch the forms if backend data arrives:
+    // 6) Patch the two sub-forms (basic + rates) as soon as the form arrives
     this.facade.selected$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((form: FinancialForm | undefined) => {
-        console.log('form', form);
-        if (form === undefined) {
-          return;
-        }
-        // …patchValue on three sub-forms exactly as before (emitEvent: false).
+      .pipe(
+        filter((f) => !!f),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((form) => {
         this.leasingFinancialBasicForm.patchValue(
           {
             assetCost: form.assetCost,
@@ -178,6 +166,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
           },
           { emitEvent: false }
         );
+
         this.leasingFinancialRateForm.patchValue(
           {
             interestRate: form.interestRate,
@@ -190,10 +179,10 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
           },
           { emitEvent: false }
         );
+
         this.leasingFinancialCurrencyForm.patchValue(
           {
             currencyId: form.currencyDTO.id!,
-            currencyExchangeRateId: form.currencyExchangeRateId!,
             isManualExchangeRate: form.isManualExchangeRate,
             manualExchangeRate: form.manualSetExchangeRate,
             indicativeRentals: form.indicativeRentals,
@@ -212,27 +201,43 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
           },
           { emitEvent: false }
         );
-        console.log('forrrrr', form.payments);
-        if (form.payments?.length) {
-          console.log('✅ Using payments from backend form');
-          this.tableDataInside = [...form.payments];
-          this.originalFinancialForms = [...form.payments];
-          this.filteredFinancialForms = [...form.payments];
-        } else {
-          console.log('⏳ Waiting for calculated rows from selector...');
-        }
       });
 
-    // 2) Subscribe to store→“calculatedRowsForId(currentMandateId)”
+    // 7) **Only once** both the form **and** the rates list are loaded,
+    //    patch the currencyExchangeRateId so the <p-select> can match an option.
+    combineLatest([
+      this.facade.selected$.pipe(filter((f) => !!f)),
+      this.currencyExchangeRates$.pipe(filter((list) => list.length > 0)),
+    ])
+      .pipe(take(1))
+      .subscribe(([form, rates]) => {
+        console.log(
+          '🚀 Patching currencyExchangeRateId now:',
+          form.currencyExchangeRateId
+        );
+        this.leasingFinancialCurrencyForm.patchValue(
+          {
+            currencyExchangeRateId: +form.currencyExchangeRateId!,
+          },
+          { emitEvent: false }
+        );
+      });
+    console.log(
+      '🔧 After patch → formControl:',
+      this.leasingFinancialCurrencyForm.get('currencyExchangeRateId')!.value
+    );
+
+    // 8) Finally, subscribe to the calculated rows for your table
     this.store
       .select(selectCalculatedRowsForId(this.currentMandateId))
       .pipe(takeUntil(this.destroy$))
-      .subscribe((rows: Calculation[]) => {
+      .subscribe((rows) => {
         this.tableDataInside = [...rows];
         this.originalFinancialForms = [...rows];
         this.filteredFinancialForms = [...rows];
       });
   }
+
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
@@ -263,7 +268,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
       currencyId: [null, Validators.required],
       currencyExchangeRateId: [null, Validators.required],
       isManualExchangeRate: [true],
-      manualExchangeRate: [{ value: 0, disabled: false }],
+      manualExchangeRate: [{ value: null, disabled: true }],
       indicativeRentals: [null, Validators.required],
       rent: [null, Validators.required],
       rvPercent: [null, Validators.required],
@@ -664,14 +669,22 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
     //   .get('currencyId')
     //   ?.setValue(this.selectedCurrency);
   }
-  onCurrencyExchangeRateSelected(event: any) {
-    console.log('Full selectedCurrencyExchange object:', event);
-    this.currencyExchangeRateId = event?.id;
-    console.log('selectedCurrencyExchange ID:', this.currencyExchangeRateId);
-    // this.leasingFinancialCurrencyForm
-    //   .get('currencyExchangeRateId')
-    //   ?.setValue(this.currencyExchangeRateId);
+  onCurrencyExchangeRateSelected(event: {
+    originalEvent: Event;
+    value: number;
+  }) {
+    console.log('Full selectedCurrencyExchange event:', event);
+
+    // Grab the numeric ID from event.value
+    const id = event.value;
+    console.log('Exchange-Rate ID from event.value →', id);
+
+    // Update your reactive form control
+    this.leasingFinancialCurrencyForm
+      .get('currencyExchangeRateId')!
+      .setValue(id, { emitEvent: true });
   }
+
   onInterestRateBenchmarkSelected(
     interestRateBenchmark: InterestRateBenchMark
   ) {

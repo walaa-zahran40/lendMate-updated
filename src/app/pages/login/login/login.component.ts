@@ -154,7 +154,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             sessionStorage.setItem('decodedToken', JSON.stringify(decoded));
 
             this.permissionService.loadPermissions();
-            this.router.navigate(['/lookups/view-address-types']);
+            this.router.navigate(['/crm/clients/view-clients-onboarding']);
           } catch (error) {
             console.error('Error decoding token:', error);
             this.authService.logoutRedirect();
