@@ -87,11 +87,6 @@ export class ViewMandateFeesComponent {
   onAddMandateFee() {
     this.router.navigate([
       `/crm/leasing-mandates/add-mandate-fee/${this.routeId}/${this.leasingRouteId}`],
-       {
-        queryParams: {
-        leasingMandateId : this.route.snapshot.params['leasingMandatesId']
-        },
-      }
     );
   }
 
@@ -117,6 +112,7 @@ export class ViewMandateFeesComponent {
 
   resetDeleteModal() {
     this.showDeleteModal = false;
+
     this.selectedMandateFeeId = null;
   }
   onSearch(keyword: string) {
@@ -140,7 +136,6 @@ export class ViewMandateFeesComponent {
         },
       }
     );
-    console.log("Arwa" , this.route.snapshot.params['leasingMandatesId']);
   }
   onViewMandateFees(mandate: MandateFee) {
     console.log('mandate', mandate);

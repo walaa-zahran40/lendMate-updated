@@ -41,7 +41,7 @@ export class AddMandateFeeComponent {
 ngOnInit(): void {
   console.log('Route Snapshot:', this.route.snapshot);
 
-  this.mandateParam = Number(this.route.snapshot.queryParams['leasingId']);
+  this.mandateParam = Number(this.route.snapshot.params['leasingId']);
   this.leasingmandateParam = Number(this.route.snapshot.params['leasingMandatesId']);
   const feeId = Number(this.route.snapshot.params['id']); // Ensure this param exists in route config
   const mode = this.route.snapshot.queryParamMap.get('mode');
@@ -147,7 +147,7 @@ ngOnInit(): void {
   navigateToView() {
     console.log(this.route.snapshot)
     this.router.navigate([
-      `/crm/leasing-mandates/view-mandate-fees/${Number(this.route.snapshot.paramMap.get('leasingId'))}/${Number(this.route.snapshot.params['leasingMandatesId'])}`,
+      `/crm/leasing-mandates/view-mandate-fees/${Number(this.route.snapshot.params['leasingId'])}/${Number(this.route.snapshot.params['leasingMandatesId'])}`,
     ]);
   }
   /** Called by the guard. */
