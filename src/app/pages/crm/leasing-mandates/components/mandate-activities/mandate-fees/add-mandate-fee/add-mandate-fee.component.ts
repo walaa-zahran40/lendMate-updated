@@ -43,10 +43,32 @@ ngOnInit(): void {
 
   this.mandateParam = Number(this.route.snapshot.queryParams['leasingId']);
   this.leasingmandateParam = Number(this.route.snapshot.params['leasingMandatesId']);
-  const feeId = Number(this.route.snapshot.params['id']); // Make sure :id is in route
+  const feeId = Number(this.route.snapshot.params['id']); // Ensure this param exists in route config
+  const mode = this.route.snapshot.queryParamMap.get('mode');
+  this.editMode = mode === 'edit';
+  this.viewOnly = mode === 'view';
 
-  // Load required data
+  console.log("this.leasingmandateParam " , );
   this.finantialActivitiesFacade.loadByLeasingMandateId(this.leasingmandateParam);
+    
+    this.facade.current$
+      .pipe(
+        take(1),
+        tap((activity) => {
+          this.finantialActivities = activity;
+          if (!activity || (Array.isArray(activity) && activity.length === 0)) {
+            this.messageService.add({
+              severity: 'warn',
+              summary: 'Missing Financial Activity',
+              detail: 'Please add financial activity first.',
+              life: 5000,
+            });
+          }
+        })
+      )
+      .subscribe();
+
+  // Load fee types (used in all modes)
   this.feeTypesFacade.loadAll();
   this.feeTypes$ = this.feeTypesFacade.all$;
 
@@ -59,42 +81,19 @@ ngOnInit(): void {
     feeTypeId: [null, Validators.required],
   });
 
-  // Load specific item
+  // Always load the specific fee item (for view/edit)
+  if (!Number.isNaN(feeId)) {
   this.facade.loadOne(feeId);
 
-  // Show warning if no financial activities
-  this.facade.current$
-    .pipe(
-      take(1),
-      tap((activity) => {
-        this.finantialActivities = activity;
-        if (!activity || (Array.isArray(activity) && activity.length === 0)) {
-          this.messageService.add({
-            severity: 'warn',
-            summary: 'Missing Financial Activity',
-            detail: 'Please add financial activity first.',
-            life: 5000,
-          });
-        }
-      })
-    )
-    .subscribe();
-
-  // Patch form when item is loaded
+  // Patch form once current item is available
   combineLatest([
     this.route.queryParamMap,
     this.facade.current$
   ])
     .pipe(
       map(([query, item]) => {
-        const mode = query.get('mode');
         const matchedItem = item && item.id === feeId ? item : null;
-
-        return { mode, matchedItem };
-      }),
-      tap(({ mode }) => {
-        this.editMode = mode === 'edit';
-        this.viewOnly = mode === 'view';
+        return { matchedItem };
       }),
       filter(({ matchedItem }) => !!matchedItem),
       take(1),
@@ -108,7 +107,7 @@ ngOnInit(): void {
     .subscribe();
 }
 
-
+}
  private patchMandate(m: MandateFee) {
   this.addMandateFeeForm.patchValue({
     id: m.id,
