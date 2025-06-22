@@ -122,6 +122,9 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
     this.initializeLeasingFinancialBasicForm();
     this.initializeLeasingFinancialRatesForm();
     this.initializeLeasingFinancialCurrencyForm();
+    console.log('Basic', this.leasingFinancialBasicForm);
+    console.log('Rate', this.leasingFinancialRateForm);
+    console.log('Currency', this.leasingFinancialCurrencyForm);
 
     // 2) Set up value-change listeners, etc.
     this.setupFormListeners();
@@ -280,7 +283,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
       insuranceRate: [null, Validators.required],
       tenor: [null, Validators.required],
       paymentPeriodId: [null, Validators.required],
-      paymentPeriodMonthCount: [null, Validators.required],
+      paymentPeriodMonthCount: [null],
       gracePeriod: [null, Validators.required],
       gracePeriodUnitId: [null, Validators.required],
     });
@@ -698,7 +701,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
     console.log('Full selectedCurrencyExchange event:', event);
 
     // Grab the numeric ID from event.value
-    const id = event.value;
+    const id = event;
     console.log('Exchange-Rate ID from event.value →', id);
 
     // Update your reactive form control
@@ -757,80 +760,71 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
       this.leasingFinancialCurrencyForm.invalid ||
       this.leasingFinancialRateForm.invalid
     ) {
-      Object.keys(this.leasingFinancialBasicForm.controls).forEach((field) => {
-        const control = this.leasingFinancialBasicForm.get(field);
-        control?.markAsTouched({ onlySelf: true });
-      });
-      Object.keys(this.leasingFinancialCurrencyForm.controls).forEach(
-        (field) => {
-          const control = this.leasingFinancialCurrencyForm.get(field);
-          control?.markAsTouched({ onlySelf: true });
-        }
+      [
+        this.leasingFinancialBasicForm,
+        this.leasingFinancialCurrencyForm,
+        this.leasingFinancialRateForm,
+      ].forEach((form) =>
+        Object.keys(form.controls).forEach((field) =>
+          form.get(field)?.markAsTouched({ onlySelf: true })
+        )
       );
-      Object.keys(this.leasingFinancialRateForm.controls).forEach((field) => {
-        const control = this.leasingFinancialRateForm.get(field);
-        control?.markAsTouched({ onlySelf: true });
-      });
       console.log('Form is invalid');
       return;
     }
 
-    // Extract only the IDs for dropdown fields
-    const formData = {
-      ...this.leasingFinancialBasicForm.getRawValue(),
-      ...this.leasingFinancialCurrencyForm.getRawValue(),
-      ...this.leasingFinancialRateForm.getRawValue(), // includes disabled fields
-      leasingMandateId: this.route.snapshot.params['leasingMandatesId'], // Ensure leasingMandateId is set here
-      paymentPeriodId:
-        this.leasingFinancialRateForm.get('paymentPeriodId')?.value?.id ||
-        this.leasingFinancialRateForm.get('paymentPeriodId')?.value,
-      currencyId:
-        this.leasingFinancialCurrencyForm.get('currencyId')?.value?.id ||
-        this.leasingFinancialCurrencyForm.get('currencyId')?.value,
+    const rawBasic = this.leasingFinancialBasicForm.getRawValue();
+    const rawCurrency = this.leasingFinancialCurrencyForm.getRawValue();
+    const rawRate = this.leasingFinancialRateForm.getRawValue();
+
+    const payload = {
+      ...rawBasic,
+      ...rawRate,
+      ...rawCurrency,
+
+      // ID Fixes
+      leasingMandateId: +this.route.snapshot.params['leasingMandatesId'],
+      currencyId: rawCurrency.currencyId?.id || rawCurrency.currencyId,
       currencyExchangeRateId:
-        this.leasingFinancialCurrencyForm.get('currencyExchangeRateId')?.value
-          ?.id ||
-        this.leasingFinancialCurrencyForm.get('currencyExchangeRateId')?.value,
+        rawCurrency.currencyExchangeRateId?.id ||
+        rawCurrency.currencyExchangeRateId,
       gracePeriodUnitId:
-        this.leasingFinancialRateForm.get('gracePeriodUnitId')?.value?.id ||
-        this.leasingFinancialRateForm.get('gracePeriodUnitId')?.value,
+        rawRate.gracePeriodUnitId?.id || rawRate.gracePeriodUnitId,
       interestRateBenchmarkId:
-        this.leasingFinancialCurrencyForm.get('interestRateBenchmarkId')?.value
-          ?.id ||
-        this.leasingFinancialCurrencyForm.get('interestRateBenchmarkId')?.value,
+        rawCurrency.interestRateBenchmarkId?.id ||
+        rawCurrency.interestRateBenchmarkId,
       rentStructureTypeId:
-        this.leasingFinancialCurrencyForm.get('rentStructureTypeId')?.value
-          ?.id ||
-        this.leasingFinancialCurrencyForm.get('rentStructureTypeId')?.value,
+        rawCurrency.rentStructureTypeId?.id || rawCurrency.rentStructureTypeId,
       paymentTimingTermId:
-        this.leasingFinancialCurrencyForm.get('paymentTimingTermId')?.value
-          ?.id ||
-        this.leasingFinancialCurrencyForm.get('paymentTimingTermId')?.value,
-      paymentMethodId:
-        this.leasingFinancialCurrencyForm.get('paymentMethodId')?.value?.id ||
-        this.leasingFinancialCurrencyForm.get('paymentMethodId')?.value,
+        rawCurrency.paymentTimingTermId?.id || rawCurrency.paymentTimingTermId,
+      paymentMethodID:
+        rawCurrency.paymentMethodId?.id || rawCurrency.paymentMethodId,
       paymentMonthDayID:
-        this.leasingFinancialCurrencyForm.get('paymentMonthDayID')?.value?.id ||
-        this.leasingFinancialCurrencyForm.get('paymentMonthDayID')?.value,
-      reservePaymentAmount: parseFloat(
-        (
-          this.leasingFinancialCurrencyForm.get('reservePaymentAmount')
-            ?.value || 0
-        ).toFixed(3)
+        rawCurrency.paymentMonthDayID?.id || rawCurrency.paymentMonthDayID,
+      paymentPeriodId: rawRate.paymentPeriodId?.id || rawRate.paymentPeriodId,
+
+      // Field remap
+      isManuaExchangeRate: rawCurrency.isManualExchangeRate,
+      manualSetExchangeRate: rawCurrency.manualExchangeRate,
+
+      // Rounding if needed
+      reservePaymentAmount: +parseFloat(
+        rawCurrency.reservePaymentAmount || 0
+      ).toFixed(3),
+      rvPercent: +parseFloat(rawCurrency.rvPercent || 0).toFixed(3),
+      provisionPercent: +parseFloat(rawCurrency.provisionPercent || 0).toFixed(
+        3
       ),
-      rvPercent: parseFloat(
-        (
-          this.leasingFinancialCurrencyForm.get('rvPercent')?.value || 0
-        ).toFixed(3)
-      ),
-      provisionPercent: parseFloat(
-        (
-          this.leasingFinancialCurrencyForm.get('provisionPercent')?.value || 0
-        ).toFixed(3)
-      ),
+
+      // Cleanup
+      isManualExchangeRate: undefined,
+      manualExchangeRate: undefined,
+      paymentMethodId: undefined,
+      gracePeriod: undefined,
     };
-    this.facade.calculate(formData);
-    console.log('Submitting form data:', formData);
+
+    console.log('Submitting form data:', payload);
+    this.facade.calculate(payload);
   }
 
   /** “Submit” should only fire once the user has validated everything and clicked */
