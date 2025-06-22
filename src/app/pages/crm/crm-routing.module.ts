@@ -407,8 +407,7 @@ const routes: Routes = [
   },
 
 
-
-    {
+  {
     path: 'leasing-mandates/view-mandate-fees/:leasingId/:leasingMandatesId',
     component: ViewMandateFeesComponent,
   },

@@ -53,8 +53,9 @@ export class ViewMandateFeesComponent {
   ) {}
   ngOnInit() {
     console.log('route', this.route.snapshot);
-    this.facade.loadByMandateId(this.routeId);
+    console.log('route', this.routeId);
     this.mandateFees$ = this.facade.items$; 
+    this.facade.loadByMandateId(this.routeId);
 
     this.feeTypesFacade.loadAll();
     const feeTypes$ = this.feeTypesFacade.all$;
