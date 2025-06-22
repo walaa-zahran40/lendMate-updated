@@ -24,7 +24,7 @@
         [formGroup]="addRoleClaimORGForm"
         [addRoleClaimORGForm]="true"
         [pageIds]="selectedPageIds"
-        [pageOperationGroups]="pageOperationGroups$ | async"
+        [pageOperationGroups]="(pageOperationGroups$ | async) ?? []"
         (submitForm)="addOrEditRoleClaim()"
         [viewOnly]="viewOnly"
       ></app-form>

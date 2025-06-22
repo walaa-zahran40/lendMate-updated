@@ -66,7 +66,6 @@ import { departmentManagersReducer } from './store/department-managers/departmen
 import { TeamsEffects } from './store/teams/teams.effects';
 import { TeamsReducer } from './store/teams/teams.reducer';
 import { WizardRolesComponent } from './components/roles/wizard-roles/wizard-roles.component';
-import { ViewRoleClaimsComponent } from './components/roles/view-role-claims/view-role-claims.component';
 import { AddRoleClaimComponent } from './components/roles/add-role-claim/add-role-claim.component';
 import { teamLeadOfficersReducer } from './store/teams/team-lead-officers/team-lead-officers.reducer';
 import { TeamLeadOfficersEffects } from './store/teams/team-lead-officers/team-lead-officers.effects';
@@ -106,7 +105,6 @@ import { RoleClaimsEffects } from './store/roles/role-claims/role-claims.effects
     ViewRolesComponent,
     ViewTeamOfficersComponent,
     ViewOperationsComponent,
-    ViewRoleClaimsComponent,
     ViewPageOperationsComponent,
     ViewOfficersComponent,
     ViewOfficersComponent,
@@ -114,7 +112,6 @@ import { RoleClaimsEffects } from './store/roles/role-claims/role-claims.effects
     AddPageComponent,
     ViewPagesComponent,
     WizardRolesComponent,
-    ViewRoleClaimsComponent,
     AddRoleClaimComponent,
   ],
   imports: [

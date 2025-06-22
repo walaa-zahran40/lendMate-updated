@@ -14,4 +14,6 @@ export interface RoleClaim {
   roleId?: any;
   claimType?: string;
   claimValue?: string;
+  page?: any;
+  operation?: any;
 }

@@ -1,8 +1,15 @@
 import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { combineLatest, forkJoin, Observable, Subject, takeUntil } from 'rxjs';
+import {
+  combineLatest,
+  forkJoin,
+  Observable,
+  Subject,
+  takeUntil,
+  of,
+} from 'rxjs';
 import { Store } from '@ngrx/store';
-import { filter, take, withLatestFrom } from 'rxjs/operators';
+import { filter, take } from 'rxjs/operators';
 
 import { loadAll } from '../../../../../lookups/store/payment-periods/payment-periods.actions';
 import { loadAll as loadAllGracePeriodUnits } from '../../../../../lookups/store/period-units/period-units.actions';
@@ -140,9 +147,32 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
     this.paymentMonthDays$ = this.paymentMonthDaysFacade.all$;
 
     // 5) Load the financial form for this mandate
+
     this.facade.loadByLeasingMandateId(
       this.route.snapshot.params['leasingMandatesId']
     );
+
+    combineLatest([
+      this.currencyExchangeRatesFacade.items$.pipe(take(1)),
+      this.facade.selected$.pipe(
+        filter((f) => !!f),
+        take(1)
+      ),
+    ]).subscribe(([rates, form]) => {
+      const injectedRate = form.currencyExchangeRateDto;
+      const rateExists = rates.some((rate) => rate.id === injectedRate.id);
+
+      // Merge injectedRate only if not already in the list
+      const mergedRates = rateExists ? rates : [...rates, injectedRate];
+
+      // Assign merged list to the dropdown observable
+      this.currencyExchangeRates$ = of(mergedRates);
+
+      // Patch the value
+      this.leasingFinancialCurrencyForm.patchValue({
+        currencyExchangeRateId: injectedRate.id,
+      });
+    });
 
     // 6) Patch the two sub-forms (basic + rates) as soon as the form arrives
     this.facade.selected$

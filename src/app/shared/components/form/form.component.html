@@ -4094,19 +4094,21 @@ icon="pi pi-cog"
       (ngSubmit)="onSubmit()"
     >
       <div *ngIf="pageOperationGroups">
-        <div *ngFor="let group of pageOperationGroups" class="page‐group">
-          <h4>Page : {{ group.pageName }}</h4>
+        <div *ngFor="let group of pageOperationGroups">
+          <h4 class="page-name">Page: {{ group.pageName }}</h4>
+          &nbsp;&nbsp;
           <div *ngFor="let op of group.pageOperations">
-            Operation:
-            <label>
-              <input
-                type="checkbox"
-                [value]="op.id"
-                [checked]="formGroup.value.operationIds.includes(op.id)"
-                (change)="onOpToggle(op.id, $event.target)"
-              />
-              {{ op.operation?.name }}
-            </label>
+            <input
+              #checkbox
+              type="checkbox"
+              [value]="op.id"
+              [checked]="formGroup.get('operationIds')?.value?.includes(op.id)"
+              (change)="onOpToggle(op.id, checkbox.checked)"
+              style="width: 50px; height: 20px"
+            />
+            <span style="font-size: 18px; color: blue">{{
+              op.operation?.name
+            }}</span>
           </div>
         </div>
       </div>
@@ -6184,16 +6186,15 @@ icon="pi pi-cog"
 
           <p-select
             [options]="currencyExchangeRates"
+            [(ngModel)]="selectedCurrencyExchangeRate"
             formControlName="currencyExchangeRateId"
             placeholder="Currency Exchange Rate"
-            [(ngModel)]="selectedCurrencyExchangeRate"
-            (onChange)="onCurrencyExchangeRateChange($event)"
-            name="currencyExchangeRateId"
-            styleClass="w-100"
-            optionValue="id"
             optionLabel="exchangeRate"
+            optionValue="id"
+            name="currencyId"
+            styleClass="w-100"
+            (onChange)="onCurrencyExchangeRateChange($event)"
           />
-
           <small
             *ngIf="
               formGroup.get('currencyExchangeRateId')?.invalid &&

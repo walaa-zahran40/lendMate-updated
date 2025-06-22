@@ -20,7 +20,7 @@ export class WizardRolesComponent {
         title: 'Role Claims',
         content:
           'Introduce your role core info quickly to users by fill up role details',
-        link: `/organizations/view-role-claims/${roleId}`,
+        link: `/organizations/add-role-claim/${roleId}`,
       },
     ];
     this.cards = this.chunkArray(this.originalCards, 1);

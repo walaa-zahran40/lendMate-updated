@@ -15,4 +15,6 @@ export interface PageOperation {
     url: string;
   };
   isActive?: boolean;
+  pageOperations?: PageOperation[];
+  applicationRoleClaims?: any;
 }

@@ -29,7 +29,7 @@ export class WizardTeamsComponent {
           title: 'Team Members',
           content:
             'Introduce your company core info quickly to users by fill up company details',
-               link: `/organizations/view-team-officers/${teamId}`,
+          link: `/organizations/view-team-officers/${teamId}`,
         },
       ],
     ];

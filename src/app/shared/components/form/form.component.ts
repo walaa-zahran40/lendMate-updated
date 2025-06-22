@@ -92,7 +92,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() applyReusable: boolean = false;
   @Input() selectedFile!: any;
   @Input() title: string = '';
-  @Input() pageOperationGroups: any;
+  @Input() pageOperationGroups!: PageOperationGroup[];
 
   @Input() description: string = '';
   @Input() addClientShowMain?: boolean;
@@ -651,6 +651,8 @@ export class FormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    console.log('💡 pageOperationGroups input:', this.pageOperationGroups);
+
     this.formGroup
       .get('currencyExchangeRateId')
       ?.valueChanges.subscribe((v) =>

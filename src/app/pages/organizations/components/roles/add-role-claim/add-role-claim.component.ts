@@ -15,6 +15,7 @@ import { PageOperationsFacade } from '../../../store/page-operations/page-operat
 import { PagesFacade } from '../../../store/pages/pages.facade';
 import { Page } from '../../../store/pages/page.model';
 import { PageOperation } from '../../../store/page-operations/page-operation.model';
+import { PageOperationGroup } from '../../../store/page-operations/page-operation-group.model';
 
 @Component({
   selector: 'app-add-role-claim',
@@ -37,7 +38,7 @@ export class AddRoleClaimComponent {
   operationIdValue: number | null = null;
   pageName: string = '';
   selectedPageIds: any;
-  pageOperationGroups$: any;
+  pageOperationGroups$!: Observable<PageOperationGroup[]>;
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -52,7 +53,7 @@ export class AddRoleClaimComponent {
 
     // 1️⃣ Read route params
     console.log('Route snapshot:', this.route.snapshot);
-    this.roleId = Number(this.route.snapshot.queryParams['roleId']);
+    this.roleId = Number(this.route.snapshot.params['roleId']);
     console.log('Parsed roleId:', this.roleId);
 
     // 2️⃣ Kick off loads: pages, page-operations, and this role’s claims
@@ -68,6 +69,28 @@ export class AddRoleClaimComponent {
       isActive: [true],
     });
     console.log('Form built:', this.addRoleClaimORGForm.getRawValue());
+    this.facade.items$
+      .pipe(
+        filter((claims) => claims.length > 0),
+        take(1)
+      )
+      .subscribe((claims) => {
+        const enabledOperationIds = claims
+          .filter(
+            (claim) =>
+              claim.pageOperation?.id &&
+              claim.pageOperation.applicationRoleClaims?.some(
+                (c: any) => c.claimValue === 'true'
+              )
+          )
+          .map((claim) => claim.pageOperation!.id);
+
+        console.log('✅ Pre-selecting operationIds:', enabledOperationIds);
+
+        this.addRoleClaimORGForm
+          .get('operationIds')
+          ?.setValue(enabledOperationIds);
+      });
 
     // 6️⃣ Figure out add / edit / view
     this.mode = (this.route.snapshot.queryParamMap.get('mode') as any) ?? 'add';
@@ -78,6 +101,28 @@ export class AddRoleClaimComponent {
       editMode: this.editMode,
       viewOnly: this.viewOnly,
     });
+    if (this.mode === 'add') {
+      this.pageOperationGroups$ = this.operationsFacade.all$.pipe(
+        filter((ops) => ops.length > 0),
+        map((ops) => {
+          const grouped: Record<string, PageOperation[]> = {};
+
+          for (const op of ops) {
+            const pageName = op.page?.name;
+            if (!pageName) continue;
+            if (!grouped[pageName]) {
+              grouped[pageName] = [];
+            }
+            grouped[pageName].push(op);
+          }
+
+          return Object.entries(grouped).map(([pageName, pageOperations]) => ({
+            pageName,
+            pageOperations,
+          }));
+        })
+      );
+    }
 
     // ─── EDIT / VIEW mode ──────────────────────────────────────────────
     if (this.editMode || this.viewOnly) {
@@ -87,29 +132,30 @@ export class AddRoleClaimComponent {
 
       this.pageOperationGroups$ = combineLatest([
         this.operationsFacade.all$.pipe(filter((ops) => ops.length > 0)),
-        this.facade.items$.pipe(filter((cl) => cl.length > 0)),
+        this.facade.items$.pipe(filter((items) => items.length > 0)),
       ]).pipe(
         map(([ops, claims]) => {
-          const isEdit = this.mode !== 'add';
-          const allowedIds = claims.map((c) => c.pageOperation!.id);
+          const grouped: Record<string, PageOperation[]> = {};
 
-          const toShow = isEdit
-            ? ops.filter((po) => allowedIds.includes(po.id))
-            : ops;
+          claims.forEach((claim) => {
+            const pageName = claim.page?.name;
+            if (!pageName) return;
 
-          // now group `toShow` by page
-          const byPage = toShow.reduce<Record<string, PageOperation[]>>(
-            (acc, po) => {
-              const name = po.page!.name;
-              (acc[name] ||= []).push(po);
-              return acc;
-            },
-            {}
-          );
+            const op: PageOperation = {
+              id: claim.id,
+              page: claim.page,
+              operation: claim.operation,
+            };
 
-          return Object.entries(byPage).map(([pageName, pageOps]) => ({
+            if (!grouped[pageName]) {
+              grouped[pageName] = [];
+            }
+            grouped[pageName].push(op);
+          });
+
+          return Object.entries(grouped).map(([pageName, pageOperations]) => ({
             pageName,
-            pageOperations: pageOps,
+            pageOperations,
           }));
         })
       );
@@ -134,26 +180,22 @@ export class AddRoleClaimComponent {
       return;
     }
 
-    // 2️⃣ Ensure roleId is correct
-    const roleId = Number(this.route.snapshot.queryParamMap.get('roleId'));
-    this.addRoleClaimORGForm.patchValue({ roleId });
+    // 🔧 FIXED: Use existing roleId from earlier
+    this.addRoleClaimORGForm.patchValue({ roleId: this.roleId });
 
-    // 3️⃣ Extract operation IDs and isActive flag
     const { operationIds, isActive } = this.addRoleClaimORGForm.value as {
       operationIds: number[];
       isActive: boolean;
     };
 
-    // 4️⃣ Map into the server DTO
     const rolePageOperations = operationIds.map((pageOperationId) => ({
       pageOperationId,
-      value: isActive.toString(), // “true” or “false”
+      value: isActive.toString(),
     }));
 
-    const payload = { roleId, rolePageOperations };
+    const payload = { roleId: this.roleId, rolePageOperations };
     console.log('📦 payload →', payload);
 
-    // 5️⃣ Send to facade
     if (this.mode === 'add') {
       console.log('➕ Creating new Role-Claim');
       this.facade.create(payload);
@@ -161,12 +203,13 @@ export class AddRoleClaimComponent {
       console.log(`✏️ Updating Role-Claim recordId=${this.recordId}`);
       this.facade.update(this.recordId, payload as any);
     }
+
     if (this.addRoleClaimORGForm.valid) {
       this.addRoleClaimORGForm.markAsPristine();
     }
 
-    // 6️⃣ Go back to list
-    this.router.navigate(['/organizations/view-role-claims', roleId]);
+    // ✅ Use reliable roleId
+    this.router.navigate(['/organizations/view-roles']);
   }
 
   ngOnDestroy() {

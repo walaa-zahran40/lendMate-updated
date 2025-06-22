@@ -76,11 +76,15 @@ export class RoleClaimsEffects {
       ofType(RoleClaimActions.createRoleClaim),
       mergeMap(({ data }) =>
         this.service.create(data).pipe(
-          map((role) =>
-            RoleClaimActions.createRoleClaimSuccess({
-              role,
-            })
-          ),
+          map((serverReturned) => {
+            const enriched: RoleClaim = {
+              ...serverReturned,
+              roleId: data.roleId!, // ⬅️ explicitly inject it
+            };
+            return RoleClaimActions.createRoleClaimSuccess({
+              role: enriched,
+            });
+          }),
           catchError((error) =>
             of(
               RoleClaimActions.createRoleClaimFailure({
