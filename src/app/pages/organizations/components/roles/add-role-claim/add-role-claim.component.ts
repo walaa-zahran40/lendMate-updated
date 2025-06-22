@@ -79,20 +79,6 @@ export class AddRoleClaimComponent {
       viewOnly: this.viewOnly,
     });
 
-    // ─── ADD mode defaults ─────────────────────────────────────────────
-    if (this.mode === 'add') {
-      this.pagesList$
-        .pipe(
-          take(1), // only once
-          filter((pages) => pages.length > 0)
-        )
-        .subscribe((pages: any[]) => {
-          const defaultIds = pages.map((p) => p.id); // pick ALL pages
-          this.addRoleClaimORGForm.patchValue({ pageIds: defaultIds });
-          this.addRoleClaimORGForm.get('pageIds')?.disable();
-        });
-    }
-
     // ─── EDIT / VIEW mode ──────────────────────────────────────────────
     if (this.editMode || this.viewOnly) {
       this.recordId = Number(this.route.snapshot.paramMap.get('id'));
