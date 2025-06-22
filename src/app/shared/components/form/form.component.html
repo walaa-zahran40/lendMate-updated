@@ -6186,12 +6186,11 @@ icon="pi pi-cog"
 
           <p-select
             [options]="currencyExchangeRates"
-            [(ngModel)]="selectedCurrencyExchangeRate"
             formControlName="currencyExchangeRateId"
             placeholder="Currency Exchange Rate"
             optionLabel="exchangeRate"
             optionValue="id"
-            name="currencyId"
+            name="currencyExchangeRateId"
             styleClass="w-100"
             (onChange)="onCurrencyExchangeRateChange($event)"
           />

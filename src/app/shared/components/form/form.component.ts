@@ -1318,19 +1318,13 @@ export class FormComponent implements OnInit, OnDestroy {
     this.onChange(this.selectedCurrency);
     console.log('Selected Currency:', this.selectedCurrency);
   }
-  onCurrencyExchangeRateChange(event: any) {
+  onCurrencyExchangeRateChange(event: { originalEvent: Event; value: any }) {
     this.selectedCurrencyExchangeRate = event.value;
-
-    console.log('event', event);
-    this.selectionChangedCurrencyExchange.emit(
-      this.selectedCurrencyExchangeRate
-    );
-    this.onChange(this.selectedCurrencyExchangeRate);
-    console.log(
-      'Selected Currency Exchange Rate:',
-      this.selectedCurrencyExchangeRate
-    );
+    this.selectionChangedCurrency.emit(this.selectedCurrency);
+    this.onChange(this.selectedCurrency);
+    console.log('Selected Currency:', this.selectedCurrency);
   }
+
   onInterestRateBenchmarkChange(event: { originalEvent: Event; value: any }) {
     // event.value === the primitive ID (e.g. 10)
     const selectedId = event.value;

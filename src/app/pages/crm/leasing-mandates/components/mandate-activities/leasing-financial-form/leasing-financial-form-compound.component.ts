@@ -9,7 +9,7 @@ import {
   of,
 } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { filter, take } from 'rxjs/operators';
+import { filter, map, take } from 'rxjs/operators';
 
 import { loadAll } from '../../../../../lookups/store/payment-periods/payment-periods.actions';
 import { loadAll as loadAllGracePeriodUnits } from '../../../../../lookups/store/period-units/period-units.actions';
@@ -98,6 +98,8 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
   workFlowActionList: any[] = [];
   routeId = this.route.snapshot.params['leasingMandatesId'];
   mandate!: any;
+  private extraCurrencyRates: CurrencyExchangeRate[] = [];
+
   constructor(
     private fb: FormBuilder,
     private paymentPeriodFacade: PaymentPeriodsFacade,
@@ -151,7 +153,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
     this.facade.loadByLeasingMandateId(
       this.route.snapshot.params['leasingMandatesId']
     );
-
+    this.currencyExchangeRates$ = this.currencyExchangeRatesFacade.items$;
     combineLatest([
       this.currencyExchangeRatesFacade.items$.pipe(take(1)),
       this.facade.selected$.pipe(
@@ -160,17 +162,32 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
       ),
     ]).subscribe(([rates, form]) => {
       const injectedRate = form.currencyExchangeRateDto;
-      const rateExists = rates.some((rate) => rate.id === injectedRate.id);
+      const exists = rates.some((rate) => rate.id === injectedRate?.id);
 
-      // Merge injectedRate only if not already in the list
-      const mergedRates = rateExists ? rates : [...rates, injectedRate];
+      // Assign merged observable with full list
+      if (!exists && injectedRate) {
+        this.extraCurrencyRates = [injectedRate];
+      } else {
+        this.extraCurrencyRates = [];
+      }
 
-      // Assign merged list to the dropdown observable
-      this.currencyExchangeRates$ = of(mergedRates);
+      this.currencyExchangeRates$ = combineLatest([
+        this.currencyExchangeRatesFacade.items$,
+        of(this.extraCurrencyRates),
+      ]).pipe(
+        map(([storeRates, extras]) => {
+          const allRates = [...storeRates];
+          extras.forEach((r: any) => {
+            if (!allRates.find((x) => x.id === r.id)) {
+              allRates.push(r);
+            }
+          });
+          return allRates;
+        })
+      );
 
-      // Patch the value
       this.leasingFinancialCurrencyForm.patchValue({
-        currencyExchangeRateId: injectedRate.id,
+        currencyExchangeRateId: injectedRate?.id,
       });
     });
 
