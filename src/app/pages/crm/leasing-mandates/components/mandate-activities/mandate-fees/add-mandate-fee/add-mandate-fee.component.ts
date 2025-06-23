@@ -135,10 +135,11 @@ ngOnInit(): void {
 
   const payload: Partial<MandateFee> = this.addMandateFeeForm.value;
 
-  if (this.editMode) {
+   if (this.editMode) {
     this.facade.update(payload.id!, payload);
 
     // ✅ Navigate immediately after update — no popup
+    this.addMandateFeeForm.markAsPristine();
     this.navigateToView();
   } else {
     // 🔁 Create and wait until item appears in the list
@@ -162,7 +163,8 @@ ngOnInit(): void {
             summary: 'Saved',
             detail: 'Mandate fee created successfully',
           });
-          this.navigateToView();
+           this.addMandateFeeForm.markAsPristine();
+  this.navigateToView();
         })
       )
       .subscribe();
