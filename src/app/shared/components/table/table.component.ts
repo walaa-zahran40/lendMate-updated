@@ -29,6 +29,7 @@ import { PermissionService } from '../../../pages/login/store/permissions/permis
 export class TableComponent {
   @Input() editPermission!: string;
   @Input() deletePermission!: string;
+  @Input() viewPermission!: string | string[];
 
   @Input() tableData: any;
   @Input() cols: any[] = [];

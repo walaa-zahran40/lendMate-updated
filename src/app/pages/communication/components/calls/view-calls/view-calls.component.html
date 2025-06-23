@@ -1,6 +1,6 @@
 <div class="page-content">
   <app-toolbar-table
-    [addPermission]="'/crm/clients/add-client-onboarding/add'"
+    [addPermission]="'/communication/view-calls/Post'"
     [title]="'Calls'"
     [labelBtn]="'Add Call'"
     [iconBtn]="'plus-icon'"
@@ -18,8 +18,13 @@
 
   <ng-container *ngIf="calls$ | async as calls">
     <app-table
-      [editPermission]="'/crm/clients/add-client-onboarding/edit'"
-      [deletePermission]="'/crm/clients/add-client-onboarding/delete'"
+      [viewPermission]="[
+        '/communication/view-calls/Get',
+        '/communication/view-calls/GetAll',
+        '/communication/view-calls/GetAllHistory'
+      ]"
+      [editPermission]="'/communication/view-calls/Put'"
+      [deletePermission]="'/communication/view-calls/Delete'"
       #tableRef
       [cols]="colsInside"
       [tableData]="filteredCalls"
@@ -27,7 +32,6 @@
       [first]="first2"
       [checkBox]="true"
       (onBulkDelete)="onBulkDelete($event)"
-      [view]="true"
       [filters]="showFilters"
       [uppercase]="'uppercase'"
       [editPermission]="'/communication/add-calls/edit'"

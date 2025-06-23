@@ -18,6 +18,11 @@
   <!-- subscribe once to branches$ -->
   <ng-container *ngIf="signatoryOfficers$ | async as signatoryOfficers">
     <app-table
+      [viewPermission]="[
+        '/communication/view-calls/Get',
+        '/communication/view-calls/GetAll',
+        '/communication/view-calls/GetAllHistory'
+      ]"
       [editPermission]="'/crm/clients/add-client-onboarding/edit'"
       [deletePermission]="'/crm/clients/add-client-onboarding/delete'"
       #tableRef

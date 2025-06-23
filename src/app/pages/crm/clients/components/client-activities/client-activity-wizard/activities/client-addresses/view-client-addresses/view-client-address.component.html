@@ -16,6 +16,11 @@
   ></app-toolbar-table>
   <ng-container *ngIf="clientAddresses$ | async as clientAddresses">
     <app-table
+      [viewPermission]="[
+        '/communication/view-calls/Get',
+        '/communication/view-calls/GetAll',
+        '/communication/view-calls/GetAllHistory'
+      ]"
       [editPermission]="'/crm/clients/add-client-onboarding/edit'"
       [deletePermission]="'/crm/clients/add-client-onboarding/delete'"
       #tableRef

@@ -112,16 +112,18 @@
             (click)="onEdit.emit(rowData)"
           />
         </ng-container>
-        <img
-          src="/assets/images/shared/table/view.svg"
-          alt="view"
-          class="d-inline-block m-0"
-          *ngIf="view"
-          width="30px"
-          style="cursor: pointer"
-          height="20px"
-          (click)="onView(rowData)"
-        />
+        <ng-container *appHasPermission="viewPermission">
+          <img
+            src="/assets/images/shared/table/view.svg"
+            alt="view"
+            class="d-inline-block m-0"
+            *ngIf="view"
+            width="30px"
+            style="cursor: pointer"
+            height="20px"
+            (click)="onView(rowData)"
+          />
+        </ng-container>
         <ng-container *appHasPermission="deletePermission">
           <img
             src="/assets/images/shared/table/delete.svg"

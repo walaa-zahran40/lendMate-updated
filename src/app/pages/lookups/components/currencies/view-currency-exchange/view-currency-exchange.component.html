@@ -17,6 +17,11 @@
 
   <ng-container *ngIf="currencyExchangeRates$ | async as currencyExchangeRates">
     <app-table
+      [viewPermission]="[
+        '/communication/view-calls/Get',
+        '/communication/view-calls/GetAll',
+        '/communication/view-calls/GetAllHistory'
+      ]"
       [editPermission]="'/crm/clients/add-client-onboarding/edit'"
       [deletePermission]="'/crm/clients/add-client-onboarding/delete'"
       #tableRef
