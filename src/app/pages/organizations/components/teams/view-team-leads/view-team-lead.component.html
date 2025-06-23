@@ -12,6 +12,7 @@
     (toggleFiltersEvent)="onToggleFilters($event)"
     (exportExcel)="tableRef.exportToExcel()"
     (exportPDF)="tableRef.generatePdf()"
+    [addPermission]="'/communication/add-meetings/add'"
   ></app-toolbar-table>
 
   <ng-container *ngIf="teamLeadOfficers$ | async as teamLeadOfficers">

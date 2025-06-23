@@ -12,6 +12,7 @@
     (toggleFiltersEvent)="onToggleFilters($event)"
     (exportExcel)="tableRef.exportToExcel()"
     (exportPDF)="tableRef.generatePdf()"
+    [addPermission]="'/communication/add-calls/add'"
   ></app-toolbar-table>
 
   <ng-container *ngIf="calls$ | async as calls">
@@ -26,8 +27,8 @@
       [view]="true"
       [filters]="showFilters"
       [uppercase]="'uppercase'"
-      [editPermission]="'/communications/add-calls/edit'"
-      [deletePermission]="'/communications/add-calls/delete'"
+      [editPermission]="'/communication/add-calls/edit'"
+      [deletePermission]="'/communication/add-calls/delete'"
       [viewCallsTable]="true"
       (wizardBtn)="onAddSide($event)"
       (onDelete)="onDeleteCall($event)"

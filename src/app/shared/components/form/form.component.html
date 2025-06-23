@@ -506,13 +506,7 @@ icon="pi pi-cog"
       (click)="viewRoles()"
       class="custom-view m-0 float-right"
     />
-    <p-button
-      *ngIf="addRoleClaimORGForm"
-      icon="pi pi-cog"
-      label="View Role Claims"
-      (click)="viewRoleClaims()"
-      class="custom-view m-0 float-right"
-    />
+
     <p-button
       *ngIf="addOperationsORGForm"
       icon="pi pi-cog"
@@ -4161,32 +4155,6 @@ icon="pi pi-cog"
       *ngIf="addPageORGForm"
       (ngSubmit)="onSubmit()"
     >
-      <label for="page">Select Page<sup class="danger">*</sup></label>
-      <!--Select Box-->
-      <p-select
-        [options]="pagesList"
-        optionLabel="label"
-        optionValue="value"
-        placeholder="Select Page"
-        formControlName="page"
-        required
-        [ngClass]="{
-          'ng-invalid':
-            formGroup.get('page')?.invalid &&
-            (formGroup.get('page')?.dirty || formGroup.get('page')?.touched)
-        }"
-      >
-      </p-select>
-
-      <div
-        *ngIf="
-          formGroup.get('page')?.hasError('required') &&
-          formGroup.get('page')?.touched
-        "
-        class="p-error"
-      >
-        Governorate is required.
-      </div>
       <label for="name">Name in English<sup>*</sup></label>
       <input
         pInputText

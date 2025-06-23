@@ -8,7 +8,7 @@
       <button class="btn" (click)="goPrev()">
         <img src="/assets/images/calendar/prev.svg" alt="prev" />
       </button>
-      {{ currentMonth }}
+      {{ currentMonth || "" }}
       <button class="btn" (click)="goNext()">
         <img src="/assets/images/calendar/next.svg" alt="next" />
       </button>
@@ -50,11 +50,10 @@
       </div>
 
       <!-- Make sure to have a wrapping element that can resize -->
-      <p-datepicker [(ngModel)]="selectedDateForCalendar"></p-datepicker>
+      <!-- <p-datepicker [(ngModel)]="selectedDateForCalendar"></p-datepicker>
       <hr />
       <div class="meeting-type">
         <h5>Meeting Type</h5>
-        <!-- We iterate over an array of checkbox options in the component -->
         <div
           class="form-check mb-2"
           *ngFor="let type of meetingTypeOptions; let i = index"
@@ -70,7 +69,7 @@
             {{ type.label }}
           </label>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <!-- RIGHT COLUMN: FullCalendar -->

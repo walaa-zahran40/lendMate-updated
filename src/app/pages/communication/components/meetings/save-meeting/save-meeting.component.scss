@@ -1,7 +1,5 @@
 .row-toolbar {
   padding: 30px 5px 0px 20px;
-  border-bottom: 1px solid #d6ddeb;
-  zoom: 80%;
   .back-col {
     gap: 16px;
     .meeting-details {
@@ -78,6 +76,7 @@
 }
 .left-col {
   border: 1px solid var(--Lights-Border, #d6ddeb);
+  border-top: none;
   padding: 24px;
 }
 .btn-row {
@@ -95,11 +94,26 @@
 :host {
   &::ng-deep {
     zoom: 80%;
-
+    .fc .fc-scrollgrid-section,
+    .fc .fc-scrollgrid-section table,
+    .fc .fc-scrollgrid-section > td {
+      width: 100% !important;
+    }
+    .fc-theme-standard .fc-scrollgrid {
+      border-top: none !important;
+    }
+    .fc .fc-daygrid-body {
+      width: 100% !important;
+    }
+    .fc .fc-timegrid-body {
+      width: 100% !important;
+    }
     .fc-scroller {
       overflow-y: hidden !important;
     }
-
+    .fc .fc-daygrid-day-number {
+      text-decoration: none;
+    }
     .fc-scroller-liquid-absolute {
       overflow-y: hidden !important;
       padding-right: 0 !important;

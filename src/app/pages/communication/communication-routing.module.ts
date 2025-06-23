@@ -34,7 +34,7 @@ const routes: Routes = [
     path: 'view-calls',
     component: ViewCallsComponent,
   },
-  //Wizard
+  //Wizards
   {
     path: 'wizard-communication/:id',
     component: WizardCommunicationComponent,
@@ -45,6 +45,11 @@ const routes: Routes = [
     component: WizardMeetingComponent,
   },
   {
+    path: 'wizard',
+    component: WizardComponent,
+  },
+  //followups
+  {
     path: 'view-follow-ups/:communicationId',
     component: ViewFollowupsComponent,
   },
@@ -53,21 +58,48 @@ const routes: Routes = [
     component: WizardFollowupsComponent,
   },
   {
-    path: 'view-follow-up-points/:followupId/:communicationId',
-    component: ViewFollowupPointsComponent,
-  },
-  {
     path: 'add-follow-ups/:communicationId',
     component: AddFollowupsComponent,
   },
-
   {
     path: 'edit-follow-ups/:id/:followupId',
     component: AddFollowupsComponent,
     canDeactivate: [PendingChangesGuard],
   },
+  //followup points
+  {
+    path: 'view-follow-up-points/:followupId/:communicationId',
+    component: ViewFollowupPointsComponent,
+  },
+  {
+    path: 'add-follow-up-points/:followupId',
+    component: AddFollowupPointsComponent,
+  },
+  {
+    path: 'edit-follow-up-points/:id/:communicationId',
+    component: AddFollowupPointsComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
+  //meeting types
 
-  // meeting
+  {
+    path: 'add-meeting-types',
+    component: AddMeetingTypesComponent,
+  },
+  {
+    path: 'view-meeting-types',
+    component: ViewMeetingTypesComponent,
+  },
+  //call types
+  {
+    path: 'add-call-types',
+    component: AddCallTypesComponent,
+  },
+  {
+    path: 'view-call-types',
+    component: ViewCallTypesComponent,
+  },
+  // meetings
   {
     path: 'add-meetings',
     component: AddMeetingsComponent,
@@ -82,52 +114,15 @@ const routes: Routes = [
     component: ViewMeetingsComponent,
   },
 
-  // follow up points
   {
-    path: 'add-follow-up-points/:followupId',
-    component: AddFollowupPointsComponent,
+    path: 'save-meeting',
+    component: SaveMeetingComponent,
   },
-  {
-    path: 'edit-follow-up-points/:id/:communicationId',
-    component: AddFollowupPointsComponent,
-    canDeactivate: [PendingChangesGuard],
-  },
-
-  {
-    path: 'add-meeting-types',
-    component: AddMeetingTypesComponent,
-  },
-  {
-    path: 'add-call-types',
-    component: AddCallTypesComponent,
-  },
-
-  {
-    path: 'view-meetings',
-    component: ViewMeetingsComponent,
-  },
+  //asset type categories
 
   {
     path: 'view-asset-type-categories',
     component: ViewAssetTypeCategoriesComponent,
-  },
-
-  {
-    path: 'view-meeting-types',
-    component: ViewMeetingTypesComponent,
-  },
-
-  {
-    path: 'view-call-types',
-    component: ViewCallTypesComponent,
-  },
-  {
-    path: 'wizard',
-    component: WizardComponent,
-  },
-  {
-    path: 'save-meeting',
-    component: SaveMeetingComponent,
   },
 ];
 
