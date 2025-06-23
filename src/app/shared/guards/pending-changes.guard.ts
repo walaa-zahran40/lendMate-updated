@@ -6,7 +6,7 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ConfirmationService } from 'primeng/api';
-import { CanComponentDeactivate } from './can-component-deactivate';
+import { CanComponentDeactivate } from '../directives/can-component-deactivate.directive';
 
 @Injectable({ providedIn: 'root' })
 export class PendingChangesGuard

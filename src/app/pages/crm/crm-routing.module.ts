@@ -44,87 +44,62 @@ import { ViewChildMandatesComponent } from './leasing-mandates/components/mandat
 import { AddMandateFeeComponent } from './leasing-mandates/components/mandate-activities/mandate-fees/add-mandate-fee/add-mandate-fee.component';
 import { ViewMandateFeesComponent } from './leasing-mandates/components/mandate-activities/mandate-fees/view-mandate-fees/view-mandate-fees.component';
 import { PendingChangesGuard } from '../../shared/guards/pending-changes.guard';
-import { PermissionGuard } from '../../shared/guards/permission.guard';
 
 const routes: Routes = [
   /*Clients , Client Onboarding Routing*/
   {
     path: 'clients/add-client-onboarding',
     component: AddClientOnboardingComponent,
-    canActivate: [PermissionGuard],
-    data: { permission: '/crm/clients/add-client-onboarding/add' },
   },
   {
     path: 'clients/edit-client-onboarding/:clientId',
     component: AddClientOnboardingComponent,
     canDeactivate: [PendingChangesGuard],
-    canActivate: [PermissionGuard],
-    data: { permission: '/crm/clients/add-client-onboarding/edit' },
   },
   {
     path: 'clients/view-clients-onboarding',
     component: ViewClientsOnboardingComponent,
-    canActivate: [PermissionGuard],
-    data: { permission: '/crm/clients/add-client-onboarding/view' },
   },
   {
     path: 'clients/add-client',
     component: AddClientComponent,
-    canActivate: [PermissionGuard],
-    data: { permission: '/crm/clients/add-client/add' },
   },
   {
     path: 'clients/edit-client/:clientId',
     component: AddClientComponent,
     canDeactivate: [PendingChangesGuard],
-    canActivate: [PermissionGuard],
-    data: { permission: '/crm/clients/add-client/edit' },
   },
   {
     path: 'clients/view-clients',
     component: ViewClientsComponent,
-    canActivate: [PermissionGuard],
-    data: { permission: '/crm/clients/add-client/view' },
   },
   //Client Activities
   {
     path: 'clients/client-activity-wizard',
     component: ClientActivityWizardComponent,
-    canActivate: [PermissionGuard],
-    data: { permission: '/crm/clients/add-client/wizard' },
   },
   {
     path: 'clients/client-activity-wizard/:clientId',
     component: ClientActivityWizardComponent,
-    canActivate: [PermissionGuard],
-    data: { permission: '/crm/clients/add-client/wizard' },
   },
 
   /*Upload Documents*/
   {
     path: 'clients/add-upload-documents/:clientId',
     component: AddUploadDocumentsComponent,
-    canActivate: [PermissionGuard],
-    data: { permission: '/crm/clients/add-upload-documents/add' },
   },
   {
     path: 'clients/edit-upload-documents/:clientId/:documentId',
     component: AddUploadDocumentsComponent,
     canDeactivate: [PendingChangesGuard],
-    canActivate: [PermissionGuard],
-    data: { permission: '/crm/clients/add-upload-documents/edit' },
   },
   {
     path: 'clients/view-documents/:clientId/:documentId',
     component: AddUploadDocumentsComponent,
-    canActivate: [PermissionGuard],
-    data: { permission: '/crm/clients/add-upload-documents/view' },
   },
   {
     path: 'clients/view-upload-documents/:clientId',
     component: ViewUploadDocumentsComponent,
-    canActivate: [PermissionGuard],
-    data: { permission: '/crm/clients/add-upload-documents/view' },
   },
   //Client Addresses
   {
@@ -424,13 +399,11 @@ const routes: Routes = [
     component: AddMandateFeeComponent,
   },
 
-  
   {
     path: 'leasing-mandates/edit-mandate-fee/:id/:leasingId/:leasingMandatesId',
     component: AddMandateFeeComponent,
     canDeactivate: [PendingChangesGuard],
   },
-
 
   {
     path: 'leasing-mandates/view-mandate-fees/:leasingId/:leasingMandatesId',

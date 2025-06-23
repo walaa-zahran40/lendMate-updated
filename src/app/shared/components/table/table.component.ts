@@ -9,6 +9,7 @@ import { Store } from '@ngrx/store';
 import { loadAll } from '../../../pages/lookups/store/sectors/sectors.actions';
 import { selectAllSectors } from '../../../pages/lookups/store/sectors/sectors.selectors';
 import { RouteReuseStrategy } from '@angular/router';
+import { PermissionService } from '../../../pages/login/store/permissions/permission.service';
 // Attach the VFS and font definitions
 (pdfMake as any).vfs = pdfMakeVfs;
 (pdfMake as any).fonts = {
@@ -26,6 +27,9 @@ import { RouteReuseStrategy } from '@angular/router';
   styleUrl: './table.component.scss',
 })
 export class TableComponent {
+  @Input() editPermission!: string;
+  @Input() deletePermission!: string;
+
   @Input() tableData: any;
   @Input() cols: any[] = [];
   public selectedRows: any[] = [];
@@ -198,8 +202,8 @@ export class TableComponent {
   allGovernorates: any;
   constructor(
     private sharedService: SharedService,
-    private store: Store,
-    _reuseStrategy: RouteReuseStrategy
+    _reuseStrategy: RouteReuseStrategy,
+    public perms: PermissionService
   ) {
     _reuseStrategy.shouldReuseRoute = () => false;
   }

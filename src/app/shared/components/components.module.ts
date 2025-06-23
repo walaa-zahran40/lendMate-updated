@@ -81,6 +81,7 @@ import { AddClientTmlOfficersFormComponent } from '../../pages/crm/clients/forms
 import { AddClientUploadDocumentsFormComponent } from '../../pages/crm/clients/forms/add-client-upload-documents-form/add-client-upload-documents-form.component';
 import { AddClientFormComponent } from '../../pages/crm/clients/forms/add-client-form/add-client-form.component';
 import { AddClientOnboardingFormComponent } from '../../pages/crm/clients/forms/add-client-onboarding-form/add-client-onboarding-form.component';
+import { DirectivesModule } from '../directives/directives.module';
 
 @NgModule({
   declarations: [
@@ -129,6 +130,7 @@ import { AddClientOnboardingFormComponent } from '../../pages/crm/clients/forms/
     AvatarGroupModule,
     SelectModule,
     CalendarModule,
+    DirectivesModule,
     PaginatorModule,
     StepperModule,
     DatePickerModule,

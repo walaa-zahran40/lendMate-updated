@@ -1,5 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { PermissionService } from '../../../pages/login/store/permissions/permission.service';
 @Component({
   selector: 'app-toolbar-table',
   standalone: false,
@@ -22,7 +23,9 @@ export class ToolbarTableComponent {
   @Output() addBtn = new EventEmitter<void>();
   @Output() searchChange = new EventEmitter<string>();
   searchValue: string = '';
-  constructor(private location: Location) {}
+  @Input() addPermission!: string;
+
+  constructor(private location: Location, public perms: PermissionService) {}
   goBack() {
     this.location.back();
   }

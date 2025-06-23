@@ -19,8 +19,6 @@
       #tableRef
       [cols]="colsInside"
       [tableData]="filteredCalls"
-      [edit]="true"
-      [delete]="true"
       [side]="true"
       [first]="first2"
       [checkBox]="true"
@@ -28,6 +26,8 @@
       [view]="true"
       [filters]="showFilters"
       [uppercase]="'uppercase'"
+      [editPermission]="'/communications/add-calls/edit'"
+      [deletePermission]="'/communications/add-calls/delete'"
       [viewCallsTable]="true"
       (wizardBtn)="onAddSide($event)"
       (onDelete)="onDeleteCall($event)"

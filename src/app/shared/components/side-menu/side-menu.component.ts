@@ -966,13 +966,7 @@ export class SideMenuComponent {
     this.destroy$.next();
     this.destroy$.complete();
   }
-  private getDeepestRoute(route: ActivatedRoute): ActivatedRoute {
-    console.log('route', route);
-    while (route.firstChild) {
-      route = route.firstChild;
-    }
-    return route;
-  }
+
   toggleMenu(item: any) {
     this.activeMenu = this.activeMenu === item.id ? null : item.id;
     this.activeMenuItem = null;

@@ -104,13 +104,14 @@
           *ngIf="download"
           (click)="onDownload.emit(rowData)"
         />
-        <img
-          src="/assets/images/shared/table/edit.svg"
-          alt="edit"
-          class="d-inline-block mx-2 my-2"
-          *ngIf="edit"
-          (click)="onEdit.emit(rowData)"
-        />
+        <ng-container *appHasPermission="editPermission">
+          <img
+            src="/assets/images/shared/table/edit.svg"
+            alt="edit"
+            class="d-inline-block mx-2 my-2"
+            (click)="onEdit.emit(rowData)"
+          />
+        </ng-container>
         <img
           src="/assets/images/shared/table/view.svg"
           alt="view"
@@ -121,13 +122,14 @@
           height="20px"
           (click)="onView(rowData)"
         />
-        <img
-          src="/assets/images/shared/table/delete.svg"
-          class="d-inline-block mx-2 my-2"
-          alt="delete"
-          *ngIf="delete"
-          (click)="logAndDelete(rowData.id)"
-        />
+        <ng-container *appHasPermission="deletePermission">
+          <img
+            src="/assets/images/shared/table/delete.svg"
+            class="d-inline-block mx-2 my-2"
+            alt="delete"
+            (click)="logAndDelete(rowData.id)"
+          />
+        </ng-container>
         <img
           src="/assets/images/shared/table/side.svg"
           alt="side"

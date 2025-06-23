@@ -28,7 +28,7 @@
       </p-toggleswitch>
     </div>
     <p class="language">العربيه</p>
-    <p-avatar
+    <!-- <p-avatar
       *ngIf="loginDisplay"
       image="/assets/images/shared/navbar/notification-selected.svg"
       (click)="showDialog()"
@@ -43,7 +43,7 @@
       (onHide)="hideDialog()"
     >
       <app-notification></app-notification>
-    </p-dialog>
+    </p-dialog> -->
     <span *ngIf="loginDisplay" class="btn btn-secondary" (click)="logout()"
       ><i class="pi pi-sign-out" pTooltip="Sign Out"></i
     ></span>
