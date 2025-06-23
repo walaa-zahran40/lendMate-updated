@@ -34,7 +34,7 @@ export class MandateFeesService {
 
   getById(id: number): Observable<MandateFee> {
   return this.http.get<MandateFee>(`${this.api}/MandateFeeId`, {
-    params: { id: id.toString() }
+    params: { leasingMandate : id.toString() }
   });
 }
 

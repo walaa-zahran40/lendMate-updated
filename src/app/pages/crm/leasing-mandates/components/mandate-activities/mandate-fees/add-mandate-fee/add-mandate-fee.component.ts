@@ -9,7 +9,6 @@ import { MandateFee } from '../../../../store/mandate-fees/mandate-fee.model';
 import { FeeTypesFacade } from '../../../../../../lookups/store/fee-types/fee-types.facade';
 import { FeeType } from '../../../../../../lookups/store/fee-types/fee-type.model';
 import { FinancialFormsFacade } from '../../../../store/financial-form/financial-forms.facade';
-import { FinancialForm } from '../../../../store/financial-form/financial-form.model';
 import { MessageService } from 'primeng/api';
 
 @Component({
@@ -39,72 +38,78 @@ export class AddMandateFeeComponent {
     private messageService: MessageService
   ) {}
 
-ngOnInit() {
+ngOnInit(): void {
+  console.log('Route Snapshot:', this.route.snapshot);
 
-  this.mandateParam = Number(this.route.snapshot.queryParams['leasingId']); 
-  this.leasingmandateParam = Number(this.route.snapshot.queryParams['leasingMandateId']); 
+  this.mandateParam = Number(this.route.snapshot.params['leasingId']);
+  this.leasingmandateParam = Number(this.route.snapshot.params['leasingMandatesId']);
+  const feeId = Number(this.route.snapshot.params['id']); // Ensure this param exists in route config
+  const mode = this.route.snapshot.queryParamMap.get('mode');
+  this.editMode = mode === 'edit';
+  this.viewOnly = mode === 'view';
 
-  console.log(this.route.snapshot);
-  console.log("leasingMandateId" , Number(this.route.snapshot.queryParams['leasingMandateId'])); 
-  this.finantialActivitiesFacade.loadByLeasingMandateId(Number(this.route.snapshot.queryParams['leasingMandateId']));
-  this.finantialActivities = this.facade.current$; 
-  this.finantialActivitiesFacade.loadByLeasingMandateId(Number(this.route.snapshot.queryParams['leasingMandateId']));
+  console.log("this.leasingmandateParam " , );
+  this.finantialActivitiesFacade.loadByLeasingMandateId(this.leasingmandateParam);
+    
+  this.facade.current$
+      .pipe(
+        take(1),
+        tap((activity) => {
+          this.finantialActivities = activity;
+          if (!activity || (Array.isArray(activity) && activity.length === 0)) {
+            this.messageService.add({
+              severity: 'warn',
+              summary: 'Missing Financial Activity',
+              detail: 'Please add financial activity first.',
+              life: 5000,
+            });
+          }
+        })
+      )
+      .subscribe();
 
-this.facade.current$
-  .pipe(
-    take(1),
-    tap((activities) => {
-      this.finantialActivities = activities;
-      if (!activities || (Array.isArray(activities) && activities.length === 0)) {
-        this.messageService.add({
-          severity: 'warn',
-          summary: 'Missing Financial Activity',
-          detail: 'Please add financial activity first.',
-          life: 5000,
-        });
-      }
-    })
-  )
-  .subscribe();
+  // Load fee types (used in all modes)
+  this.feeTypesFacade.loadAll();
+  this.feeTypes$ = this.feeTypesFacade.all$;
 
-  this.feeTypesFacade.loadAll(); 
-  this.feeTypes$ = this.feeTypesFacade.all$; 
-
+  // Form setup
   this.addMandateFeeForm = this.fb.group({
     id: [null],
-    mandateId: [Number(this.route.snapshot.paramMap.get('leasingId'))],
+    mandateId: [this.mandateParam],
     actualPrecentage: [null, Validators.required],
     actualAmount: [null, Validators.required],
     feeTypeId: [null, Validators.required],
   });
 
-  combineLatest({
-    params: this.route.paramMap,
-    query: this.route.queryParamMap,
-    items: this.facade.items$
-  })
+  // Always load the specific fee item (for view/edit)
+  if (!Number.isNaN(feeId)) {
+  this.facade.loadOne(feeId);
+
+  // Patch form once current item is available
+  combineLatest([
+    this.route.queryParamMap,
+    this.facade.current$
+  ])
     .pipe(
-      map(({ params, query, items }) => {
-        const mode = query.get('mode');
-        const selectedItemId = +params.get('leasingId')!;
-        const leasingMandatesId = +params.get('leasingMandatesId')!;
-        const matchedItem = items.find((item) => item.id === selectedItemId);
-        return { mode, selectedItemId, leasingMandatesId, matchedItem };
-      }),
-      tap(({ mode }) => {
-        this.editMode = mode === 'edit';
-        this.viewOnly = mode === 'view';
+      map(([query, item]) => {
+        const matchedItem = item && item.id === feeId ? item : null;
+        return { matchedItem };
       }),
       filter(({ matchedItem }) => !!matchedItem),
-      take(1)
+      take(1),
+      tap(({ matchedItem }) => {
+        this.patchMandate(matchedItem!);
+        if (this.viewOnly) {
+          this.addMandateFeeForm.disable();
+        }
+      })
     )
-    .subscribe(({ matchedItem }) => {
-      this.patchMandate(matchedItem!);
-      if (this.viewOnly) {
-        this.addMandateFeeForm.disable();
-      }
-    });
+    .subscribe();
 }
+
+}
+
+
  private patchMandate(m: MandateFee) {
   this.addMandateFeeForm.patchValue({
     id: m.id,
@@ -130,21 +135,47 @@ this.facade.current$
 
   const payload: Partial<MandateFee> = this.addMandateFeeForm.value;
 
-  if (this.editMode) {
+   if (this.editMode) {
     this.facade.update(payload.id!, payload);
-  } else {
-    this.facade.create(payload);
-  }
 
-  this.addMandateFeeForm.markAsPristine();
+    // ✅ Navigate immediately after update — no popup
+    this.addMandateFeeForm.markAsPristine();
+    this.navigateToView();
+  } else {
+    // 🔁 Create and wait until item appears in the list
+    this.facade.create(payload);
+
+    this.facade.items$
+      .pipe(
+        takeUntil(this.destroy$),
+        filter(items => items && items.length > 0),
+        map(items => items.some(item =>
+          item.mandateId === this.mandateParam &&
+          item.actualAmount === payload.actualAmount &&
+          item.actualPrecentage === payload.actualPrecentage
+        )),
+        filter(match => match),
+        take(1),
+        tap(() => {
+          // ✅ Only show popup for creation
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Saved',
+            detail: 'Mandate fee created successfully',
+          });
+           this.addMandateFeeForm.markAsPristine();
   this.navigateToView();
+        })
+      )
+      .subscribe();
+  }
 }
 
 
   navigateToView() {
     console.log(this.route.snapshot)
     this.router.navigate([
-      `/crm/leasing-mandates/view-mandate-fees/${Number(this.route.snapshot.paramMap.get('leasingId'))}/${Number(this.route.snapshot.queryParams['leasingMandateId'])}`,
+      `/crm/leasing-mandates/view-mandate-fees/${Number(this.route.snapshot.params['leasingId'])}/${Number(this.route.snapshot.params['leasingMandatesId'])}`,
     ]);
   }
   /** Called by the guard. */

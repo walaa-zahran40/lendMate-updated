@@ -5,8 +5,10 @@ import {
   Subject,
   combineLatest,
   filter,
-  map,
   forkJoin,
+  map,
+  switchMap,
+  take,
   takeUntil,
   tap,
 } from 'rxjs';
@@ -51,51 +53,55 @@ export class ViewMandateFeesComponent {
     private route: ActivatedRoute,
     private feeTypesFacade: FeeTypesFacade
   ) {}
+
   ngOnInit() {
     console.log('route', this.route.snapshot);
-    this.facade.loadByMandateId(this.routeId);
-    this.mandateFees$ = this.facade.items$;
+
+    this.routeId = +this.route.snapshot.params['leasingId'];
+    this.leasingRouteId = +this.route.snapshot.params['leasingMandatesId'];
 
     this.feeTypesFacade.loadAll();
     const feeTypes$ = this.feeTypesFacade.all$;
 
-    combineLatest([this.mandateFees$, feeTypes$])
+    // 🔁 Keep loading mandate fees until data comes
+    this.facade.loadByMandateId(this.routeId);
+    this.mandateFees$ = this.facade.items$;
+
+    // 👇 Retry if data is not present
+    this.mandateFees$
       .pipe(
         takeUntil(this.destroy$),
-        map(([mandates, feeTypes]) =>
-          mandates
-            .slice()
-            .sort((a, b) => b.id! - a.id!)
-            .map((m) => {
-              const matchedFeeType = feeTypes.find(
-                (ft) => ft.id === m.feeTypeId
-              );
-              return {
-                ...m,
-                feeTypeName: matchedFeeType?.name || 'Unknown',
-              };
-            })
+        filter((fees) => !!fees && fees.length > 0), // 👈 Wait until data is there
+        switchMap((mandates) =>
+          combineLatest([this.mandateFees$, feeTypes$]).pipe(
+            map(([mandates, feeTypes]) =>
+              mandates
+                .slice()
+                .sort((a, b) => b.id! - a.id!)
+                .map((m) => ({
+                  ...m,
+                  feeTypeName:
+                    feeTypes.find((ft) => ft.id === m.feeTypeId)?.name ||
+                    'Unknown',
+                }))
+            )
+          )
         ),
-        tap((enriched) => console.log('Table with FeeType Names:', enriched))
+
+        tap((enriched) => {
+          console.log('Final enriched mandate fees:', enriched);
+          this.tableDataInside = enriched;
+          this.originalMandateFees = enriched;
+          this.filteredMandateFees = enriched;
+        })
       )
-      .subscribe((enriched) => {
-        this.tableDataInside = enriched;
-        this.originalMandateFees = enriched;
-        this.filteredMandateFees = enriched;
-      });
+      .subscribe();
   }
 
   onAddMandateFee() {
-    this.router.navigate(
-      [
-        `/crm/leasing-mandates/add-mandate-fee/${this.routeId}/${this.leasingRouteId}`,
-      ],
-      {
-        queryParams: {
-          leasingMandateId: this.route.snapshot.params['leasingMandatesId'],
-        },
-      }
-    );
+    this.router.navigate([
+      `/crm/leasing-mandates/add-mandate-fee/${this.routeId}/${this.leasingRouteId}`,
+    ]);
   }
 
   ngOnDestroy() {
@@ -113,6 +119,7 @@ export class ViewMandateFeesComponent {
 
   resetDeleteModal() {
     this.showDeleteModal = false;
+
     this.selectedMandateFeeId = null;
   }
   onSearch(keyword: string) {
@@ -129,7 +136,12 @@ export class ViewMandateFeesComponent {
   onEditMandateFee(mandate: MandateFee) {
     console.log('mandate', mandate);
     this.router.navigate(
-      ['/crm/leasing-mandates/edit-mandate-fee', mandate.id, mandate.mandateId],
+      [
+        '/crm/leasing-mandates/edit-mandate-fee',
+        mandate.id,
+        this.route.snapshot.params['leasingId'],
+        this.route.snapshot.params['leasingMandatesId'],
+      ],
       {
         queryParams: {
           mode: 'edit',
@@ -137,17 +149,18 @@ export class ViewMandateFeesComponent {
         },
       }
     );
-    console.log('Arwa', this.route.snapshot.params['leasingMandatesId']);
   }
   onViewMandateFees(mandate: MandateFee) {
     console.log('mandate', mandate);
     this.router.navigate(
-      ['/crm/leasing-mandates/add-mandate-fee', mandate.id, mandate.mandateId],
+      [
+        '/crm/leasing-mandates/edit-mandate-fee',
+        mandate.id,
+        this.route.snapshot.params['leasingId'],
+        this.route.snapshot.params['leasingMandatesId'],
+      ],
       {
-        queryParams: {
-          mode: 'view',
-          leasingMandateId: this.route.snapshot.params['leasingMandatesId'],
-        },
+        queryParams: { mode: 'view' },
       }
     );
   }
