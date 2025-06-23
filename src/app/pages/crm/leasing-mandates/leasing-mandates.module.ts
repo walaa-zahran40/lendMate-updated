@@ -29,7 +29,6 @@ import { ViewMandateFeesComponent } from './components/mandate-activities/mandat
 import { MandateFeesEffects } from './store/mandate-fees/mandate-fees.effects';
 import { mandateFeesReducer } from './store/mandate-fees/mandate-fees.reducer';
 
-
 @NgModule({
   declarations: [
     AddMandateComponent,

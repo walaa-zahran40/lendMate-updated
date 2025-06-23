@@ -9,6 +9,7 @@ import { PermissionService } from '../../pages/login/store/permissions/permissio
 
 @Directive({
   selector: '[appHasPermission]',
+  standalone: false,
 })
 export class HasPermissionDirective implements OnInit {
   /** can be either:

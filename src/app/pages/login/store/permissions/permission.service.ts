@@ -13,33 +13,49 @@ export class PermissionService {
   }
 
   public loadPermissions() {
-    const permissionsFromSession = sessionStorage.getItem('permissions');
-    console.log(permissionsFromSession);
-    if (permissionsFromSession) {
-      this.permissions = JSON.parse(permissionsFromSession);
-    } else {
-      const token = sessionStorage.getItem('authToken');
-      if (token) {
-        const decodedToken: any = jwtDecode(token);
-        this.permissions = decodedToken || {};
-        this.savePermissionsToSession();
-      }
+    const saved = sessionStorage.getItem('decodedToken');
+    if (saved) {
+      this.permissions = JSON.parse(saved);
+      return;
     }
+
+    const token = sessionStorage.getItem('authToken');
+    if (!token) {
+      this.permissions = {};
+      return;
+    }
+
+    const decoded: any = jwtDecode(token);
+    // Lower‐case all the claim keys
+    this.permissions = Object.entries(decoded).reduce((acc, [k, v]) => {
+      acc[k.toLowerCase()] = String(v);
+      return acc;
+    }, {} as Record<string, string>);
+
+    sessionStorage.setItem('decodedToken', JSON.stringify(this.permissions));
   }
 
   private savePermissionsToSession() {
-    sessionStorage.setItem('permissions', JSON.stringify(this.permissions));
+    sessionStorage.setItem('decodedToken', JSON.stringify(this.permissions));
   }
 
   // hasPermission(permission: string): boolean {
   //   return this.permissions[permission] === 'true';
   // }
-  public hasPermission(permission: string): boolean {
-    return this.permissions[permission] === 'true' ? true : false;
+  public hasPermission(input: string): boolean {
+    // normalize & split if they passed "a,b,c"
+    const keys = input
+      .split(',')
+      .map((k) => k.trim().toLowerCase())
+      .filter((k) => !!k);
+
+    // return true only if every key is present & === 'true'
+    return keys.length > 0 && keys.every((k) => this.permissions[k] === 'true');
   }
 
-  clearPermissions() {
+  public clearPermissions() {
     this.permissions = {};
-    sessionStorage.removeItem('permissions');
+    sessionStorage.removeItem('decodedToken');
+    sessionStorage.removeItem('decodedToken');
   }
 }
