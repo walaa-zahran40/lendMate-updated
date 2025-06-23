@@ -1,5 +1,6 @@
 <div class="page-content">
   <app-toolbar-table
+    [addPermission]="'/crm/clients/add-client-onboarding/add'"
     [title]="'Client Share Holders'"
     [labelBtn]="'Add Client Share Holder'"
     [iconBtn]="'plus-icon'"
@@ -15,6 +16,8 @@
   ></app-toolbar-table>
   <ng-container *ngIf="shareHolders$ | async as shareHolders">
     <app-table
+      [editPermission]="'/crm/clients/add-client-onboarding/edit'"
+      [deletePermission]="'/crm/clients/add-client-onboarding/delete'"
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"

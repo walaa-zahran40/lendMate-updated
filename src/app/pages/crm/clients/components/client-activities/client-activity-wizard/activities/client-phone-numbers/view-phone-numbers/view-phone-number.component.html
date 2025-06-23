@@ -1,5 +1,6 @@
 <div class="page-content">
   <app-toolbar-table
+    [addPermission]="'/crm/clients/add-client-onboarding/add'"
     [title]="'Client Phone Numbers'"
     [labelBtn]="'Add Client Phone Number'"
     [iconBtn]="'plus-icon'"
@@ -16,6 +17,8 @@
 
   <ng-container *ngIf="clientPhoneNumbers$ | async as clientPhoneNumbers">
     <app-table
+      [editPermission]="'/crm/clients/add-client-onboarding/edit'"
+      [deletePermission]="'/crm/clients/add-client-onboarding/delete'"
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"

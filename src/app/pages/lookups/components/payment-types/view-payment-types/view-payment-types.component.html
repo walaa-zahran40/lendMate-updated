@@ -1,5 +1,6 @@
 <div class="page-content">
   <app-toolbar-table
+    [addPermission]="'/crm/clients/add-client-onboarding/add'"
     [title]="'Payment Types'"
     [labelBtn]="'Add Payment Type'"
     [iconBtn]="'plus-icon'"
@@ -16,6 +17,8 @@
 
   <ng-container *ngIf="PaymentTypes$ | async as PaymentTypes">
     <app-table
+      [editPermission]="'/crm/clients/add-client-onboarding/edit'"
+      [deletePermission]="'/crm/clients/add-client-onboarding/delete'"
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"

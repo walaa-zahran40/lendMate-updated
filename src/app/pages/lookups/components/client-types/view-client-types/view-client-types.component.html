@@ -1,5 +1,6 @@
 <div class="page-content">
   <app-toolbar-table
+    [addPermission]="'/crm/clients/add-client-onboarding/add'"
     [title]="'Client Types'"
     [labelBtn]="'Add Client Type'"
     [iconBtn]="'plus-icon'"
@@ -17,6 +18,8 @@
   <!-- subscribe once to clientTypes$ -->
   <ng-container *ngIf="clientTypes$ | async as clientTypes">
     <app-table
+      [editPermission]="'/crm/clients/add-client-onboarding/edit'"
+      [deletePermission]="'/crm/clients/add-client-onboarding/delete'"
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"

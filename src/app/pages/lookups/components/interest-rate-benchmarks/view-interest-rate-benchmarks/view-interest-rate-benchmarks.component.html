@@ -1,5 +1,6 @@
 <div class="page-content">
   <app-toolbar-table
+    [addPermission]="'/crm/clients/add-client-onboarding/add'"
     [title]="'Interest Rate Benchmarks'"
     [labelBtn]="'Add Interest Rate Benchmark'"
     [iconBtn]="'plus-icon'"
@@ -18,6 +19,8 @@
     *ngIf="InterestRateBenchmarks$ | async as InterestRateBenchmarks"
   >
     <app-table
+      [editPermission]="'/crm/clients/add-client-onboarding/edit'"
+      [deletePermission]="'/crm/clients/add-client-onboarding/delete'"
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"

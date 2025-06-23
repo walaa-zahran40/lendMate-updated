@@ -123,10 +123,10 @@ export class AddRoleClaimComponent {
         })
       );
     }
+    this.recordId = Number(this.route.snapshot.paramMap.get('roleId'));
 
     // ─── EDIT / VIEW mode ──────────────────────────────────────────────
     if (this.editMode || this.viewOnly) {
-      this.recordId = Number(this.route.snapshot.paramMap.get('id'));
       console.log('Loading record id=', this.recordId);
       this.facade.loadOne(this.recordId);
 
@@ -194,15 +194,9 @@ export class AddRoleClaimComponent {
     }));
 
     const payload = { roleId: this.roleId, rolePageOperations };
-    console.log('📦 payload →', payload);
+    console.log('📦 payload →', payload, 'record', this.recordId);
 
-    if (this.mode === 'add') {
-      console.log('➕ Creating new Role-Claim');
-      this.facade.create(payload);
-    } else {
-      console.log(`✏️ Updating Role-Claim recordId=${this.recordId}`);
-      this.facade.update(this.recordId, payload as any);
-    }
+    this.facade.update(this.recordId, payload as any);
 
     if (this.addRoleClaimORGForm.valid) {
       this.addRoleClaimORGForm.markAsPristine();

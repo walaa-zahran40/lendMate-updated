@@ -1,5 +1,6 @@
 <div class="page-content">
   <app-toolbar-table
+    [addPermission]="'/crm/clients/add-client-onboarding/add'"
     [title]="'Action Authorization Group'"
     [labelBtn]="'Add Action Authorization Group'"
     [iconBtn]="'plus-icon'"
@@ -17,6 +18,8 @@
     *ngIf="actionAuthorizationGroups$ | async as actionAuthorizationGroups"
   >
     <app-table
+      [editPermission]="'/crm/clients/add-client-onboarding/edit'"
+      [deletePermission]="'/crm/clients/add-client-onboarding/delete'"
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"

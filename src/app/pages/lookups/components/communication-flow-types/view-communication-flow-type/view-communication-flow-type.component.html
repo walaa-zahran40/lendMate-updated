@@ -1,5 +1,6 @@
 <div class="page-content">
   <app-toolbar-table
+    [addPermission]="'/crm/clients/add-client-onboarding/add'"
     [title]="'Communication Flow Types'"
     [labelBtn]="'Add Communication Flow Type'"
     [iconBtn]="'plus-icon'"
@@ -19,6 +20,8 @@
     *ngIf="communicationFlowTypes$ | async as communicationFlowTypes"
   >
     <app-table
+      [editPermission]="'/crm/clients/add-client-onboarding/edit'"
+      [deletePermission]="'/crm/clients/add-client-onboarding/delete'"
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"

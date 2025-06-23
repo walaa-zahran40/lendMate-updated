@@ -1,5 +1,6 @@
 <div class="page-content">
   <app-toolbar-table
+    [addPermission]="'/crm/clients/add-client-onboarding/add'"
     [title]="'Mandate Fees'"
     [labelBtn]="'Add Mandate Fee'"
     [iconBtn]="'plus-icon'"
@@ -16,6 +17,8 @@
 
   <ng-container *ngIf="mandateFees$ | async as mandateFees">
     <app-table
+      [editPermission]="'/crm/clients/add-client-onboarding/edit'"
+      [deletePermission]="'/crm/clients/add-client-onboarding/delete'"
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"

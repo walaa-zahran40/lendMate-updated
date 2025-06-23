@@ -1,5 +1,6 @@
 <div class="page-content">
   <app-toolbar-table
+    [addPermission]="'/crm/clients/add-client-onboarding/add'"
     [title]="'Teams'"
     [labelBtn]="'Add Team'"
     [iconBtn]="'plus-icon'"
@@ -14,6 +15,8 @@
     (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
   <app-table
+    [editPermission]="'/crm/clients/add-client-onboarding/edit'"
+    [deletePermission]="'/crm/clients/add-client-onboarding/delete'"
     #tableRef
     (onBulkDelete)="onBulkDelete($event)"
     [cols]="colsInside"
