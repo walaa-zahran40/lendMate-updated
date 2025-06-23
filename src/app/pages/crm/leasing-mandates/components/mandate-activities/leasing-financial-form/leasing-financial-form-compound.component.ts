@@ -231,7 +231,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
           {
             currencyId: form.currencyDTO.id!,
             currencyExchangeRateId: form.currencyExchangeRateDto.id!,
-            isManualExchangeRate: form.isManualExchangeRate,
+            isManuaExchangeRate: form.isManuaExchangeRate,
             manualExchangeRate: form.manualSetExchangeRate,
             indicativeRentals: form.indicativeRentals,
             rent: form.rent,
@@ -292,7 +292,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
     this.leasingFinancialCurrencyForm = this.fb.group({
       currencyId: [null, Validators.required],
       currencyExchangeRateId: [null, Validators.required],
-      isManualExchangeRate: [true],
+      isManuaExchangeRate: [true],
       manualExchangeRate: [{ value: null, disabled: true }],
       indicativeRentals: [null, Validators.required],
       rent: [null, Validators.required],
@@ -364,7 +364,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
 
     // Currency and Manual Exchange Rate Listeners
     this.leasingFinancialCurrencyForm
-      .get('isManualExchangeRate')
+      .get('isManuaExchangeRate')
       ?.valueChanges.subscribe((isChecked: boolean) => {
         console.log('Checkbox checked:', isChecked);
         setTimeout(() => {
@@ -804,7 +804,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
       paymentPeriodId: rawRate.paymentPeriodId?.id || rawRate.paymentPeriodId,
 
       // Field remap
-      isManuaExchangeRate: rawCurrency.isManualExchangeRate,
+      isManuaExchangeRate: rawCurrency.isManuaExchangeRate,
       manualSetExchangeRate: rawCurrency.manualExchangeRate,
 
       // Rounding if needed
@@ -817,7 +817,6 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
       ),
 
       // Cleanup
-      isManualExchangeRate: undefined,
       manualExchangeRate: undefined,
       paymentMethodId: undefined,
       gracePeriod: undefined,
