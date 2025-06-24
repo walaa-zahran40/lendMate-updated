@@ -1,6 +1,6 @@
 <div class="page-content">
   <app-toolbar-table
-    [addPermission]="'/AddressTypes/post'"
+    [addPermission]="'/AddressTypes/Post'"
     [title]="'Address Types'"
     [labelBtn]="'Add Address Type'"
     [iconBtn]="'plus-icon'"
@@ -18,12 +18,12 @@
   <ng-container *ngIf="addressTypes$ | async as addressTypes">
     <app-table
       [viewPermission]="[
-        '/AddressTypes/get',
-        '/AddressTypes/getall',
-        '/AddressTypes/getallhistory'
+        '/AddressTypes/Get',
+        '/AddressTypes/GetAll',
+        '/AddressTypes/GetAllHistory'
       ]"
-      [editPermission]="'/AddressTypes/put'"
-      [deletePermission]="'/AddressTypes/delete'"
+      [editPermission]="'/AddressTypes/Put'"
+      [deletePermission]="'/AddressTypes/Delete'"
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"

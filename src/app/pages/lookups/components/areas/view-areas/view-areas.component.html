@@ -1,6 +1,6 @@
 <div class="page-content">
   <app-toolbar-table
-    [addPermission]="'/Areas/post'"
+    [addPermission]="'/Areas/Post'"
     [title]="'Areas'"
     [labelBtn]="'Add Area'"
     [iconBtn]="'plus-icon'"
@@ -16,9 +16,9 @@
   ></app-toolbar-table>
   <ng-container *ngIf="areas$ | async as areas">
     <app-table
-      [viewPermission]="['/Areas/get', '/Areas/getall', '/Areas/getallhistory']"
-      [editPermission]="'/Areas/put'"
-      [deletePermission]="'/Areas/delete'"
+      [viewPermission]="['/Areas/Get', '/Areas/GetAll', '/Areas/GetAllHistory']"
+      [editPermission]="'/Areas/Put'"
+      [deletePermission]="'/Areas/Delete'"
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"

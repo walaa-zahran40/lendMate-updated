@@ -12,15 +12,15 @@
     (toggleFiltersEvent)="onToggleFilters($event)"
     (exportExcel)="tableRef.exportToExcel()"
     (exportPDF)="tableRef.generatePdf()"
-    [addPermission]="'/Meetings/post'"
+    [addPermission]="'/Meetings/Post'"
   ></app-toolbar-table>
 
   <ng-container *ngIf="meetings$ | async as meetings">
     <app-table
       [viewPermission]="[
-        '/Meetings/get',
-        '/Meetings/getall',
-        '/Meetings/getallhistory'
+        '/Meetings/Get',
+        '/Meetings/GetAll',
+        '/Meetings/GetAllHistory'
       ]"
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
@@ -36,8 +36,8 @@
       (onDelete)="onDeleteMeeting($event)"
       (onEdit)="onEditMeeting($event)"
       (viewForm)="onViewMeeting($event)"
-      [editPermission]="'/Meetings/put'"
-      [deletePermission]="'/Meetings/delete'"
+      [editPermission]="'/Meetings/Put'"
+      [deletePermission]="'/Meetings/Delete'"
     ></app-table>
     <app-delete-module
       [visible]="showDeleteModal"

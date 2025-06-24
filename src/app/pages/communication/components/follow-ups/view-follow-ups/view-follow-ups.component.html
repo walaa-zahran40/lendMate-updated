@@ -6,7 +6,7 @@
     [backIcon]="'back-icon'"
     [backExists]="true"
     [customSpacing]="'custom-spacing'"
-    [addPermission]="'/Followups/post'"
+    [addPermission]="'/Followups/Post'"
     [exports]="true"
     (addBtn)="onAddFollowup()"
     (searchChange)="onSearch($event)"
@@ -18,12 +18,12 @@
   <ng-container *ngIf="followups$ | async as followups">
     <app-table
       [viewPermission]="[
-        '/Followups/get',
-        '/Followups/getall',
-        '/Followups/getallhistory'
+        '/Followups/Get',
+        '/Followups/GetAll',
+        '/Followups/GetAllHistory'
       ]"
-      [editPermission]="'/Followups/put'"
-      [deletePermission]="'/Followups/delete'"
+      [editPermission]="'/Followups/Put'"
+      [deletePermission]="'/Followups/Delete'"
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
@@ -31,8 +31,8 @@
       [side]="true"
       [first]="first2"
       [checkBox]="true"
-      [editPermission]="'/communication/add-follow-ups/put'"
-      [deletePermission]="'/communication/add-follow-ups/delete'"
+      [editPermission]="'/communication/add-follow-ups/Put'"
+      [deletePermission]="'/communication/add-follow-ups/Delete'"
       [filters]="showFilters"
       [uppercase]="'uppercase'"
       [viewFollowupTable]="true"

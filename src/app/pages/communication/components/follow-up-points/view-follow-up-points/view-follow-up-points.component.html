@@ -6,7 +6,7 @@
     [backIcon]="'back-icon'"
     [backExists]="true"
     [customSpacing]="'custom-spacing'"
-    [addPermission]="'/FollowUpPoints/post'"
+    [addPermission]="'/FollowUpPoints/Post'"
     [exports]="true"
     (addBtn)="onAddFollowupPoint()"
     (searchChange)="onSearch($event)"
@@ -18,9 +18,9 @@
   <ng-container *ngIf="followups$ | async as followups">
     <app-table
       [viewPermission]="[
-        '/FollowUpPoints/get',
-        '/FollowUpPoints/getall',
-        '/FollowUpPoints/getallhistory'
+        '/FollowUpPoints/Get',
+        '/FollowUpPoints/GetAll',
+        '/FollowUpPoints/GetAllHistory'
       ]"
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
@@ -28,8 +28,8 @@
       [tableData]="filteredFollowupPoints"
       [side]="false"
       [first]="first2"
-      [editPermission]="'/FollowUpPoints/put'"
-      [deletePermission]="'/FollowUpPoints/delete'"
+      [editPermission]="'/FollowUpPoints/Put'"
+      [deletePermission]="'/FollowUpPoints/Delete'"
       [checkBox]="true"
       [filters]="showFilters"
       [uppercase]="'uppercase'"

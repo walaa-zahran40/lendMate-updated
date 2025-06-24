@@ -1,6 +1,6 @@
 <div class="page-content">
   <app-toolbar-table
-    [addPermission]="'/ClientIdentities/post'"
+    [addPermission]="'/ClientIdentities/Post'"
     [title]="'Client Identities'"
     [labelBtn]="'Add Client Identity'"
     [iconBtn]="'plus-icon'"
@@ -18,12 +18,12 @@
   <ng-container *ngIf="clientIdentities$ | async as clientIdentities">
     <app-table
       [viewPermission]="[
-        '/ClientIdentities/get',
-        '/ClientIdentities/getall',
-        '/ClientIdentities/getallhistory'
+        '/ClientIdentities/Get',
+        '/ClientIdentities/GetAll',
+        '/ClientIdentities/GetAllHistory'
       ]"
-      [editPermission]="'/ClientIdentities/put'"
-      [deletePermission]="'/ClientIdentities/delete'"
+      [editPermission]="'/ClientIdentities/Put'"
+      [deletePermission]="'/ClientIdentities/Delete'"
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"

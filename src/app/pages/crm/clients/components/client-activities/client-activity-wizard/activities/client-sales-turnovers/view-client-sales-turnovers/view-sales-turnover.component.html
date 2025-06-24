@@ -1,6 +1,6 @@
 <div class="page-content">
   <app-toolbar-table
-    [addPermission]="'/ClientSalesTurnovers/post'"
+    [addPermission]="'/ClientSalesTurnovers/Post'"
     [title]="'Client Sales Turnovers'"
     [labelBtn]="'Add Client Sales Turnover'"
     [iconBtn]="'plus-icon'"
@@ -18,12 +18,12 @@
   <ng-container *ngIf="clientSalesTurnovers$ | async as clientSalesTurnovers">
     <app-table
       [viewPermission]="[
-        '/ClientSalesTurnovers/get',
-        '/ClientSalesTurnovers/getall',
-        '/ClientSalesTurnovers/getallhistory'
+        '/ClientSalesTurnovers/Get',
+        '/ClientSalesTurnovers/GetAll',
+        '/ClientSalesTurnovers/GetAllHistory'
       ]"
-      [editPermission]="'/ClientSalesTurnovers/put'"
-      [deletePermission]="'/ClientSalesTurnovers/delete'"
+      [editPermission]="'/ClientSalesTurnovers/Put'"
+      [deletePermission]="'/ClientSalesTurnovers/Delete'"
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"

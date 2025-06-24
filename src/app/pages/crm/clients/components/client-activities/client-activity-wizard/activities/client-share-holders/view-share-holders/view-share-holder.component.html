@@ -1,6 +1,6 @@
 <div class="page-content">
   <app-toolbar-table
-    [addPermission]="'/ClientShareHolders/post'"
+    [addPermission]="'/ClientShareHolders/Post'"
     [title]="'Client Share Holders'"
     [labelBtn]="'Add Client Share Holder'"
     [iconBtn]="'plus-icon'"
@@ -17,12 +17,12 @@
   <ng-container *ngIf="shareHolders$ | async as shareHolders">
     <app-table
       [viewPermission]="[
-        '/ClientShareHolders/get',
-        '/ClientShareHolders/getall',
-        '/ClientShareHolders/getallhistory'
+        '/ClientShareHolders/Get',
+        '/ClientShareHolders/GetAll',
+        '/ClientShareHolders/GetAllHistory'
       ]"
-      [editPermission]="'/ClientShareHolders/put'"
-      [deletePermission]="'/ClientShareHolders/delete'"
+      [editPermission]="'/ClientShareHolders/Put'"
+      [deletePermission]="'/ClientShareHolders/Delete'"
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"

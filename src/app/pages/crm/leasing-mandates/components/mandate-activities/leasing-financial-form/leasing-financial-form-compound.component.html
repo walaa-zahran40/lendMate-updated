@@ -83,7 +83,7 @@
   <div class="table">
     <div class="page-content">
       <app-toolbar-table
-        [addPermission]="'/MandateFinancialActivities/post'"
+        [addPermission]="'/MandateFinancialActivities/Post'"
         [title]="'Leasing Financial Table'"
         [customSpacing]="'custom-spacing'"
         [exports]="true"
@@ -96,12 +96,12 @@
 
       <app-table
         [viewPermission]="[
-          '/MandateFinancialActivities/get',
-          '/MandateFinancialActivities/getall',
-          '/MandateFinancialActivities/getallhistory'
+          '/MandateFinancialActivities/Get',
+          '/MandateFinancialActivities/GetAll',
+          '/MandateFinancialActivities/GetAllHistory'
         ]"
-        [editPermission]="'/MandateFinancialActivities/put'"
-        [deletePermission]="'/MandateFinancialActivities/delete'"
+        [editPermission]="'/MandateFinancialActivities/Put'"
+        [deletePermission]="'/MandateFinancialActivities/Delete'"
         #tableRef
         [cols]="colsInside"
         [tableData]="filteredFinancialForms"

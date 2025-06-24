@@ -1,6 +1,6 @@
 <div class="page-content">
   <app-toolbar-table
-    [addPermission]="'/MandateAdditionalTerms/post'"
+    [addPermission]="'/MandateAdditionalTerms/Post'"
     [title]="'Mandate Additional Terms'"
     [labelBtn]="'Add Mandate Additional Term'"
     [iconBtn]="'plus-icon'"
@@ -20,12 +20,12 @@
   >
     <app-table
       [viewPermission]="[
-        '/MandateAdditionalTerms/get',
-        '/MandateAdditionalTerms/getall',
-        '/MandateAdditionalTerms/getallhistory'
+        '/MandateAdditionalTerms/Get',
+        '/MandateAdditionalTerms/GetAll',
+        '/MandateAdditionalTerms/GetAllHistory'
       ]"
-      [editPermission]="'/MandateAdditionalTerms/put'"
-      [deletePermission]="'/MandateAdditionalTerms/delete'"
+      [editPermission]="'/MandateAdditionalTerms/Put'"
+      [deletePermission]="'/MandateAdditionalTerms/Delete'"
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"

@@ -1,6 +1,6 @@
 <div class="page-content">
   <app-toolbar-table
-    [addPermission]="'/LegalFormLaws/post'"
+    [addPermission]="'/LegalFormLaws/Post'"
     [title]="'Legal Form Laws'"
     [labelBtn]="'Add Legal Form Law'"
     [iconBtn]="'plus-icon'"
@@ -18,12 +18,12 @@
   <ng-container *ngIf="legalFormLaws$ | async as legalFormLaws">
     <app-table
       [viewPermission]="[
-        '/LegalFormLaws/get',
-        '/LegalFormLaws/getall',
-        '/LegalFormLaws/getallhistory'
+        '/LegalFormLaws/Get',
+        '/LegalFormLaws/GetAll',
+        '/LegalFormLaws/GetAllHistory'
       ]"
-      [editPermission]="'/LegalFormLaws/put'"
-      [deletePermission]="'/LegalFormLaws/delete'"
+      [editPermission]="'/LegalFormLaws/Put'"
+      [deletePermission]="'/LegalFormLaws/Delete'"
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"

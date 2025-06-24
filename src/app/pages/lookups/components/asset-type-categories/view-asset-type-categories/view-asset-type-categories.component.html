@@ -1,6 +1,6 @@
 <div class="page-content">
   <app-toolbar-table
-    [addPermission]="'/AssetTypeCategories/post'"
+    [addPermission]="'/AssetTypeCategories/Post'"
     [title]="'Asset Type Categories'"
     [labelBtn]="'Add Assest Type Categories'"
     [iconBtn]="'plus-icon'"
@@ -18,12 +18,12 @@
   <ng-container *ngIf="assetTypeCategories$ | async as assetTypeCategories">
     <app-table
       [viewPermission]="[
-        '/AssetTypeCategories/get',
-        '/AssetTypeCategories/getall',
-        '/AssetTypeCategories/getallhistory'
+        '/AssetTypeCategories/Get',
+        '/AssetTypeCategories/GetAll',
+        '/AssetTypeCategories/GetAllHistory'
       ]"
-      [editPermission]="'/AssetTypeCategories/put'"
-      [deletePermission]="'/AssetTypeCategories/delete'"
+      [editPermission]="'/AssetTypeCategories/Put'"
+      [deletePermission]="'/AssetTypeCategories/Delete'"
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
