@@ -47,22 +47,21 @@ export class SharedDatePickerComponent implements ControlValueAccessor, OnInit {
     return this.ngControl?.control as FormControl;
   }
 
- writeValue(val: any) {
-  if (!val) {
-    this.value = null;
-    return;
+  writeValue(val: any) {
+    if (!val) {
+      this.value = null;
+      return;
+    }
+    // if yyyy-MM-dd string
+    if (typeof val === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(val)) {
+      const [yyyy, mm, dd] = val.split('-').map(Number);
+      this.value = new Date(yyyy, mm - 1, dd); // local midnight
+    } else if (val instanceof Date) {
+      this.value = val;
+    } else {
+      this.value = new Date(val);
+    }
   }
-  // if yyyy-MM-dd string
-  if (typeof val === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(val)) {
-    const [yyyy, mm, dd] = val.split('-').map(Number);
-    this.value = new Date(yyyy, mm - 1, dd);  // local midnight
-  } else if (val instanceof Date) {
-    this.value = val;
-  } else {
-    this.value = new Date(val);
-  }
-}
-
 
   registerOnChange(fn: any) {
     this.onChange = fn;
@@ -77,15 +76,8 @@ export class SharedDatePickerComponent implements ControlValueAccessor, OnInit {
   }
 
   onSelect(d: Date) {
-  // build a yyyy-MM-dd string in LOCAL time
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
-  const dateString = `${y}-${m}-${day}`;
-
-  this.value = d;
-  this.onChange(dateString);  // <- send string, not Date
-  this.onTouched();
-}
-
+    this.value = d;
+    this.onChange(d); // ← send the Date!
+    this.onTouched();
+  }
 }
