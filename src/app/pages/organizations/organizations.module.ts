@@ -73,6 +73,7 @@ import { teamOfficersReducer } from './store/teams/team-officers/team-officers.r
 import { TeamOfficersEffects } from './store/teams/team-officers/team-officers.effects';
 import { roleClaimsReducer } from './store/roles/role-claims/role-claims.reducer';
 import { RoleClaimsEffects } from './store/roles/role-claims/role-claims.effects';
+import { PaginatorModule } from 'primeng/paginator';
 
 @NgModule({
   declarations: [
@@ -119,6 +120,7 @@ import { RoleClaimsEffects } from './store/roles/role-claims/role-claims.effects
     OrganizationsRoutingModule,
     SharedModule,
     TabsModule,
+    PaginatorModule,
     ButtonModule,
     StoreModule.forFeature('departments', DepartmentsReducer),
     EffectsModule.forFeature([DepartmentsEffects]),

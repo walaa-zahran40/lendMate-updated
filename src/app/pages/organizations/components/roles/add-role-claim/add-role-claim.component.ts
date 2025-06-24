@@ -39,6 +39,11 @@ export class AddRoleClaimComponent {
   pageName: string = '';
   selectedPageIds: any;
   pageOperationGroups$!: Observable<PageOperationGroup[]>;
+  // pagination state
+  first = 0; // index of the first record on current page
+  rows = 5; // how many groups per page
+  totalGroups = 0; // total number of groups
+  paginatedGroups: PageOperationGroup[] = [];
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -163,8 +168,28 @@ export class AddRoleClaimComponent {
       console.log('ViewOnly without id → disabling form');
       this.addRoleClaimORGForm.disable();
     }
+    this.pageOperationGroups$
+      .pipe(
+        filter((groups) => groups.length > 0),
+        take(1)
+      )
+      .subscribe((groups) => {
+        this.totalGroups = groups.length;
+        this.updatePage(groups);
+      });
   }
-
+  /** slice the current page out of the full list */
+  private updatePage(groups: PageOperationGroup[]) {
+    this.paginatedGroups = groups.slice(this.first, this.first + this.rows);
+  }
+  /** called by the paginator whenever page changes */
+  onPageChange(event: any) {
+    this.first = event.first;
+    this.rows = event.rows;
+    this.pageOperationGroups$
+      .pipe(take(1))
+      .subscribe((groups) => this.updatePage(groups));
+  }
   addOrEditRoleClaim() {
     console.log('💥 addRoleClaims() called');
     console.log('  mode:', this.mode);

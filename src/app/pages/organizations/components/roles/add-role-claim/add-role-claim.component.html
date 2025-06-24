@@ -24,10 +24,19 @@
         [formGroup]="addRoleClaimORGForm"
         [addRoleClaimORGForm]="true"
         [pageIds]="selectedPageIds"
-        [pageOperationGroups]="(pageOperationGroups$ | async) ?? []"
+        [pageOperationGroups]="paginatedGroups"
         (submitForm)="addOrEditRoleClaim()"
         [viewOnly]="viewOnly"
       ></app-form>
+      <!-- BOTTOM paginator (optional) -->
+      <p-paginator
+        [first]="first"
+        [rows]="rows"
+        [totalRecords]="totalGroups"
+        [rowsPerPageOptions]="[5, 10, 20]"
+        (onPageChange)="onPageChange($event)"
+        styleClass="mt-3"
+      ></p-paginator>
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>
