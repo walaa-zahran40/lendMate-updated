@@ -33,6 +33,7 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
+              "src/web.config",
               {
                 "glob": "**/*.ttf",
                 "input": "src/fonts/",
@@ -98,6 +99,7 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
+              "src/web.config",
               {
                 "glob": "**/*.ttf",
                 "input": "src/fonts/",
