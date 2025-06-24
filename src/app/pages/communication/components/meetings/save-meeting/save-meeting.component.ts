@@ -4,6 +4,8 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 import { FullCalendarComponent } from '@fullcalendar/angular';
+import { Router } from '@angular/router';
+
 const viewTypeMap: any = {
   month: 'dayGridMonth',
   week: 'timeGridWeek',
@@ -33,6 +35,8 @@ export class SaveMeetingComponent implements AfterViewInit {
       date1.getDate() === date2.getDate()
     );
   }
+  constructor(private route: Router) {}
+
   handleDateClick = (arg: DateClickArg) => {
     this.selectedDate = arg.date;
   };
@@ -171,8 +175,8 @@ export class SaveMeetingComponent implements AfterViewInit {
     // This is where you might open a modal or navigate to another page
     // or push a new event into the calendar.
     // For a quick example, let's just log a message:
-    console.log('Add Meeting button clicked!');
-    // Or you could do something like:
+    this.route.navigate(['/communication/add-meetings']);
+
     // this.calendarComponent.getApi().addEvent({
     //   title: 'New Meeting',
     //   start: new Date(),
@@ -181,11 +185,11 @@ export class SaveMeetingComponent implements AfterViewInit {
   }
   // onDateSelect(date: Event) {
   //   console.log('User picked date: ', date);
-  //   // If you want the calendar to jump to that date:
+  // If you want the calendar to jump to that date:
   //   const calendarApi = this.calendarComponent.getApi();
   //   calendarApi.gotoDate(date);
-  //   // Optionally switch to a day view if you want:
-  //   // calendarApi.changeView('timeGridDay', date);
+  // Optionally switch to a day view if you want:
+  // calendarApi.changeView('timeGridDay', date);
   // }
   goNext() {
     const calendarApi = this.calendarComponent.getApi();

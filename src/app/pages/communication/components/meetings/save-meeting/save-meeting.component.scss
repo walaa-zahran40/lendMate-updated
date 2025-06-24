@@ -44,6 +44,7 @@
     padding-bottom: 24px;
   }
 }
+
 .meeting-type {
   margin-top: 24px;
   h5 {
@@ -94,6 +95,11 @@
 :host {
   &::ng-deep {
     zoom: 80%;
+    a:hover {
+      background: #3788d8 !important ;
+      background-color: #3788d8 !important;
+    }
+
     .fc .fc-scrollgrid-section,
     .fc .fc-scrollgrid-section table,
     .fc .fc-scrollgrid-section > td {
