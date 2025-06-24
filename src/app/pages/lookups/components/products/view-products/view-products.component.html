@@ -1,6 +1,6 @@
 <div class="page-content">
   <app-toolbar-table
-    [addPermission]="'/crm/clients/add-client-onboarding/Post'"
+    [addPermission]="'/Products/Post'"
     [title]="'Products'"
     [labelBtn]="'Add Product'"
     [iconBtn]="'plus-icon'"
@@ -17,12 +17,12 @@
 
   <app-table
     [viewPermission]="[
-      '/communication/view-calls/Get',
-      '/communication/view-calls/GetAll',
-      '/communication/view-calls/GetAllHistory'
+      '/Products/Get',
+      '/Products/GetAll',
+      '/Products/GetAllHistory'
     ]"
-    [editPermission]="'/crm/clients/add-client-onboarding/Put'"
-    [deletePermission]="'/crm/clients/add-client-onboarding/Delete'"
+    [editPermission]="'/Products/Put'"
+    [deletePermission]="'/Products/Delete'"
     #tableRef
     (onBulkDelete)="onBulkDelete($event)"
     [cols]="colsInside"

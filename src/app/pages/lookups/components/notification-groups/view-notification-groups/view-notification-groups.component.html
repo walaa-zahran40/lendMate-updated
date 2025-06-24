@@ -1,6 +1,6 @@
 <div class="page-content">
   <app-toolbar-table
-    [addPermission]="'/crm/clients/add-client-onboarding/Post'"
+    [addPermission]="'/NotificationGroups/Post'"
     [title]="'Notification Groups'"
     [labelBtn]="'Add Notification Group'"
     [iconBtn]="'plus-icon'"
@@ -18,12 +18,12 @@
   <ng-container *ngIf="notificationGroups$ | async as notificationGroups">
     <app-table
       [viewPermission]="[
-        '/communication/view-calls/Get',
-        '/communication/view-calls/GetAll',
-        '/communication/view-calls/GetAllHistory'
+        '/NotificationGroups/Get',
+        '/NotificationGroups/GetAll',
+        '/NotificationGroups/GetAllHistory'
       ]"
-      [editPermission]="'/crm/clients/add-client-onboarding/Put'"
-      [deletePermission]="'/crm/clients/add-client-onboarding/Delete'"
+      [editPermission]="'/NotificationGroups/Put'"
+      [deletePermission]="'/NotificationGroups/Delete'"
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"

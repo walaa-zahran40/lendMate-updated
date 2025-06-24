@@ -1,6 +1,6 @@
 <div class="page-content">
   <app-toolbar-table
-    [addPermission]="'/crm/clients/add-client-onboarding/Post'"
+    [addPermission]="'/PeriodUnits/Post'"
     [title]="'Grace Period Units'"
     [labelBtn]="'Add Grace Period Unit'"
     [iconBtn]="'plus-icon'"
@@ -18,12 +18,12 @@
   <ng-container *ngIf="gracePeriodUnits$ | async as gracePeriodUnits">
     <app-table
       [viewPermission]="[
-        '/communication/view-calls/Get',
-        '/communication/view-calls/GetAll',
-        '/communication/view-calls/GetAllHistory'
+        '/PeriodUnits/Get',
+        '/PeriodUnits/GetAll',
+        '/PeriodUnits/GetAllHistory'
       ]"
-      [editPermission]="'/crm/clients/add-client-onboarding/Put'"
-      [deletePermission]="'/crm/clients/add-client-onboarding/Delete'"
+      [editPermission]="'/PeriodUnits/Put'"
+      [deletePermission]="'/PeriodUnits/Delete'"
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"

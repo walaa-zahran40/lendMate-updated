@@ -1,6 +1,6 @@
 <div class="page-content">
   <app-toolbar-table
-    [addPermission]="'/crm/clients/add-client-onboarding/Post'"
+    [addPermission]="'/PaymentMonthDays/Post'"
     [title]="'Payment Month Days'"
     [labelBtn]="'Add Payment Month Day'"
     [iconBtn]="'plus-icon'"
@@ -18,12 +18,12 @@
   <ng-container *ngIf="PaymentMonthDays$ | async as PaymentMonthDays">
     <app-table
       [viewPermission]="[
-        '/communication/view-calls/Get',
-        '/communication/view-calls/GetAll',
-        '/communication/view-calls/GetAllHistory'
+        '/PaymentMonthDays/Get',
+        '/PaymentMonthDays/GetAll',
+        '/PaymentMonthDays/GetAllHistory'
       ]"
-      [editPermission]="'/crm/clients/add-client-onboarding/Put'"
-      [deletePermission]="'/crm/clients/add-client-onboarding/Delete'"
+      [editPermission]="'/PaymentMonthDays/Put'"
+      [deletePermission]="'/PaymentMonthDays/Delete'"
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"

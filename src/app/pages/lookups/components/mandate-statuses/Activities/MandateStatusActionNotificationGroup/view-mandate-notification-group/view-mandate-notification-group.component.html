@@ -1,6 +1,6 @@
 <div class="page-content">
   <app-toolbar-table
-    [addPermission]="'/crm/clients/add-client-onboarding/Post'"
+    [addPermission]="'/MandateStatusActionNotificationGroups/Post'"
     [title]="'Action Notification Group'"
     [labelBtn]="'Add Action Notification Group'"
     [iconBtn]="'plus-icon'"
@@ -19,12 +19,12 @@
   >
     <app-table
       [viewPermission]="[
-        '/communication/view-calls/Get',
-        '/communication/view-calls/GetAll',
-        '/communication/view-calls/GetAllHistory'
+        '/MandateStatusActionNotificationGroups/Get',
+        '/MandateStatusActionNotificationGroups/GetAll',
+        '/MandateStatusActionNotificationGroups/GetAllHistory'
       ]"
-      [editPermission]="'/crm/clients/add-client-onboarding/Put'"
-      [deletePermission]="'/crm/clients/add-client-onboarding/Delete'"
+      [editPermission]="'/MandateStatusActionNotificationGroups/Put'"
+      [deletePermission]="'/MandateStatusActionNotificationGroups/Delete'"
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"

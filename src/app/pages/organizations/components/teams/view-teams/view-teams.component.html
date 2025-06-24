@@ -1,6 +1,6 @@
 <div class="page-content">
   <app-toolbar-table
-    [addPermission]="'/crm/clients/add-client-onboarding/Post'"
+    [addPermission]="'/Teams/Post'"
     [title]="'Teams'"
     [labelBtn]="'Add Team'"
     [iconBtn]="'plus-icon'"
@@ -15,13 +15,9 @@
     (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
   <app-table
-    [viewPermission]="[
-      '/communication/view-calls/Get',
-      '/communication/view-calls/GetAll',
-      '/communication/view-calls/GetAllHistory'
-    ]"
-    [editPermission]="'/crm/clients/add-client-onboarding/Put'"
-    [deletePermission]="'/crm/clients/add-client-onboarding/Delete'"
+    [viewPermission]="['/Teams/Get', '/Teams/GetAll', '/Teams/GetAllHistory']"
+    [editPermission]="'/Teams/Put'"
+    [deletePermission]="'/Teams/Delete'"
     #tableRef
     (onBulkDelete)="onBulkDelete($event)"
     [cols]="colsInside"

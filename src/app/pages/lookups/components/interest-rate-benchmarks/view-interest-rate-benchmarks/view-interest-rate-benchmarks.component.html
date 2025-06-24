@@ -1,6 +1,6 @@
 <div class="page-content">
   <app-toolbar-table
-    [addPermission]="'/crm/clients/add-client-onboarding/Post'"
+    [addPermission]="'/InterestRateBenchmarks/Post'"
     [title]="'Interest Rate Benchmarks'"
     [labelBtn]="'Add Interest Rate Benchmark'"
     [iconBtn]="'plus-icon'"
@@ -20,12 +20,12 @@
   >
     <app-table
       [viewPermission]="[
-        '/communication/view-calls/Get',
-        '/communication/view-calls/GetAll',
-        '/communication/view-calls/GetAllHistory'
+        '/InterestRateBenchmarks/Get',
+        '/InterestRateBenchmarks/GetAll',
+        '/InterestRateBenchmarks/GetAllHistory'
       ]"
-      [editPermission]="'/crm/clients/add-client-onboarding/Put'"
-      [deletePermission]="'/crm/clients/add-client-onboarding/Delete'"
+      [editPermission]="'/InterestRateBenchmarks/Put'"
+      [deletePermission]="'/InterestRateBenchmarks/Delete'"
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"

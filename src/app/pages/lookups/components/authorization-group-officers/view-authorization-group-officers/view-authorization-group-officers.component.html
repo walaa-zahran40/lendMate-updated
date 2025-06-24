@@ -1,6 +1,6 @@
 <div class="page-content">
   <app-toolbar-table
-    [addPermission]="'/crm/clients/add-client-onboarding/Post'"
+    [addPermission]="'/AuthorizationGroupOfficers/Post'"
     [title]="'AuthorizationGroupOfficers'"
     [labelBtn]="'Add Authorization Group Officer'"
     [iconBtn]="'plus-icon'"
@@ -20,12 +20,12 @@
   >
     <app-table
       [viewPermission]="[
-        '/communication/view-calls/Get',
-        '/communication/view-calls/GetAll',
-        '/communication/view-calls/GetAllHistory'
+        '/AuthorizationGroupOfficers/Get',
+        '/AuthorizationGroupOfficers/GetAll',
+        '/AuthorizationGroupOfficers/GetAllHistory'
       ]"
-      [editPermission]="'/crm/clients/add-client-onboarding/Put'"
-      [deletePermission]="'/crm/clients/add-client-onboarding/Delete'"
+      [editPermission]="'/AuthorizationGroupOfficers/Put'"
+      [deletePermission]="'/AuthorizationGroupOfficers/Delete'"
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
