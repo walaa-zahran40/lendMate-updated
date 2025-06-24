@@ -1,6 +1,6 @@
 <div class="page-content">
   <app-toolbar-table
-    [addPermission]="'/crm/clients/add-client-onboarding/add'"
+    [addPermission]="'/Clients/post'"
     [title]="'Client Onboarding'"
     [labelBtn]="'Add Client Onboarding'"
     [iconBtn]="'plus-icon'"
@@ -8,7 +8,6 @@
     [backExists]="true"
     [customSpacing]="'custom-spacing'"
     [exports]="true"
-    [addPermission]="'/crm/clients/add-client-onboarding/add'"
     (addBtn)="onAddClient()"
     (searchChange)="onSearch($event)"
     (toggleFiltersEvent)="onToggleFilters($event)"
@@ -19,12 +18,12 @@
   <ng-container *ngIf="clients$ | async as clients">
     <app-table
       [viewPermission]="[
-        '/communication/view-calls/Get',
-        '/communication/view-calls/GetAll',
-        '/communication/view-calls/GetAllHistory'
+        '/Clients/get',
+        '/Clients/getall',
+        '/Clients/getallhistory'
       ]"
-      [editPermission]="'/crm/clients/add-client-onboarding/edit'"
-      [deletePermission]="'/crm/clients/add-client-onboarding/delete'"
+      [editPermission]="'/Clients/put'"
+      [deletePermission]="'/Clients/delete'"
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
@@ -34,8 +33,6 @@
       [checkBox]="true"
       [filters]="showFilters"
       [uppercase]="'uppercase'"
-      [editPermission]="'/crm/clients/add-client-onboarding/edit'"
-      [deletePermission]="'/crm/clients/add-client-onboarding/delete'"
       [viewClientsOnboardingTable]="true"
       (onDelete)="onDeleteClient($event)"
       (onEdit)="onEditClient($event)"

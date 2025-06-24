@@ -1,6 +1,6 @@
 <div class="page-content">
   <app-toolbar-table
-    [addPermission]="'/crm/clients/add-client-onboarding/add'"
+    [addPermission]="'/MandateAdditionalTerms/post'"
     [title]="'Mandate Additional Terms'"
     [labelBtn]="'Add Mandate Additional Term'"
     [iconBtn]="'plus-icon'"
@@ -20,12 +20,12 @@
   >
     <app-table
       [viewPermission]="[
-        '/communication/view-calls/Get',
-        '/communication/view-calls/GetAll',
-        '/communication/view-calls/GetAllHistory'
+        '/MandateAdditionalTerms/get',
+        '/MandateAdditionalTerms/getall',
+        '/MandateAdditionalTerms/getallhistory'
       ]"
-      [editPermission]="'/crm/clients/add-client-onboarding/edit'"
-      [deletePermission]="'/crm/clients/add-client-onboarding/delete'"
+      [editPermission]="'/MandateAdditionalTerms/put'"
+      [deletePermission]="'/MandateAdditionalTerms/delete'"
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"

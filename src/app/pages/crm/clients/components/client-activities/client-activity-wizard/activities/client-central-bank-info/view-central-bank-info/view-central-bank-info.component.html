@@ -1,6 +1,6 @@
 <div class="page-content">
   <app-toolbar-table
-    [addPermission]="'/crm/clients/add-client-onboarding/add'"
+    [addPermission]="'/ClientCentralBanks/post'"
     [title]="'Client Central Bank Information'"
     [labelBtn]="'Add Client Central Bank Information'"
     [iconBtn]="'plus-icon'"
@@ -17,12 +17,12 @@
   <ng-container *ngIf="clientCentralBankInfo$ | async as clientCentralBankInfo">
     <app-table
       [viewPermission]="[
-        '/communication/view-calls/Get',
-        '/communication/view-calls/GetAll',
-        '/communication/view-calls/GetAllHistory'
+        '/ClientCentralBanks/get',
+        '/ClientCentralBanks/getall',
+        '/ClientCentralBanks/getallhistory'
       ]"
-      [editPermission]="'/crm/clients/add-client-onboarding/edit'"
-      [deletePermission]="'/crm/clients/add-client-onboarding/delete'"
+      [editPermission]="'/ClientCentralBanks/put'"
+      [deletePermission]="'/ClientCentralBanks/delete'"
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"

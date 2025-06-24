@@ -1,13 +1,12 @@
 <div class="page-content">
   <app-toolbar-table
-    [addPermission]="'/crm/clients/add-client-onboarding/add'"
     [title]="' Followup'"
     [labelBtn]="'Add  Followup'"
     [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
     [backExists]="true"
     [customSpacing]="'custom-spacing'"
-    [addPermission]="'/communication/add-follow-ups/add'"
+    [addPermission]="'/Followups/post'"
     [exports]="true"
     (addBtn)="onAddFollowup()"
     (searchChange)="onSearch($event)"
@@ -19,12 +18,12 @@
   <ng-container *ngIf="followups$ | async as followups">
     <app-table
       [viewPermission]="[
-        '/communication/view-calls/Get',
-        '/communication/view-calls/GetAll',
-        '/communication/view-calls/GetAllHistory'
+        '/Followups/get',
+        '/Followups/getall',
+        '/Followups/getallhistory'
       ]"
-      [editPermission]="'/crm/clients/add-client-onboarding/edit'"
-      [deletePermission]="'/crm/clients/add-client-onboarding/delete'"
+      [editPermission]="'/Followups/put'"
+      [deletePermission]="'/Followups/delete'"
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
@@ -32,7 +31,7 @@
       [side]="true"
       [first]="first2"
       [checkBox]="true"
-      [editPermission]="'/communication/add-follow-ups/edit'"
+      [editPermission]="'/communication/add-follow-ups/put'"
       [deletePermission]="'/communication/add-follow-ups/delete'"
       [filters]="showFilters"
       [uppercase]="'uppercase'"

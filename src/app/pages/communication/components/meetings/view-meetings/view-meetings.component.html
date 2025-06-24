@@ -1,6 +1,5 @@
 <div class="page-content">
   <app-toolbar-table
-    [addPermission]="'/crm/clients/add-client-onboarding/add'"
     [title]="'Meetings'"
     [labelBtn]="'Add Meeting'"
     [iconBtn]="'plus-icon'"
@@ -13,18 +12,16 @@
     (toggleFiltersEvent)="onToggleFilters($event)"
     (exportExcel)="tableRef.exportToExcel()"
     (exportPDF)="tableRef.generatePdf()"
-    [addPermission]="'/communication/add-meetings/add'"
+    [addPermission]="'/Meetings/post'"
   ></app-toolbar-table>
 
   <ng-container *ngIf="meetings$ | async as meetings">
     <app-table
       [viewPermission]="[
-        '/communication/view-calls/Get',
-        '/communication/view-calls/GetAll',
-        '/communication/view-calls/GetAllHistory'
+        '/Meetings/get',
+        '/Meetings/getall',
+        '/Meetings/getallhistory'
       ]"
-      [editPermission]="'/crm/clients/add-client-onboarding/edit'"
-      [deletePermission]="'/crm/clients/add-client-onboarding/delete'"
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
@@ -39,8 +36,8 @@
       (onDelete)="onDeleteMeeting($event)"
       (onEdit)="onEditMeeting($event)"
       (viewForm)="onViewMeeting($event)"
-      [editPermission]="'/communication/add-meetings/edit'"
-      [deletePermission]="'/communication/add-meetings/delete'"
+      [editPermission]="'/Meetings/put'"
+      [deletePermission]="'/Meetings/delete'"
     ></app-table>
     <app-delete-module
       [visible]="showDeleteModal"

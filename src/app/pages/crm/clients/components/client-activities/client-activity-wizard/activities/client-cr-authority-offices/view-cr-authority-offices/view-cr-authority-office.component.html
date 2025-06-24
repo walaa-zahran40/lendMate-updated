@@ -1,6 +1,6 @@
 <div class="page-content">
   <app-toolbar-table
-    [addPermission]="'/crm/clients/add-client-onboarding/add'"
+    [addPermission]="'/ClientCRAuthorityOffices/post'"
     [title]="'CR Authority Offices'"
     [labelBtn]="'Add CR Authority Office'"
     [iconBtn]="'plus-icon'"
@@ -17,12 +17,12 @@
   <ng-container *ngIf="cRAuthorityOffices$ | async as cRAuthorityOffices">
     <app-table
       [viewPermission]="[
-        '/communication/view-calls/Get',
-        '/communication/view-calls/GetAll',
-        '/communication/view-calls/GetAllHistory'
+        '/ClientCRAuthorityOffices/get',
+        '/ClientCRAuthorityOffices/getall',
+        '/ClientCRAuthorityOffices/getallhistory'
       ]"
-      [editPermission]="'/crm/clients/add-client-onboarding/edit'"
-      [deletePermission]="'/crm/clients/add-client-onboarding/delete'"
+      [editPermission]="'/ClientCRAuthorityOffices/put'"
+      [deletePermission]="'/ClientCRAuthorityOffices/delete'"
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"

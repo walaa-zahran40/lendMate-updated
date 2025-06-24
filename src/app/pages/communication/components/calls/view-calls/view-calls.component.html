@@ -12,18 +12,14 @@
     (toggleFiltersEvent)="onToggleFilters($event)"
     (exportExcel)="tableRef.exportToExcel()"
     (exportPDF)="tableRef.generatePdf()"
-    [addPermission]="'/communication/view-calls/post'"
+    [addPermission]="'/Calls/post'"
   ></app-toolbar-table>
 
   <ng-container *ngIf="calls$ | async as calls">
     <app-table
-      [viewPermission]="[
-        '/communication/view-calls/get',
-        '/communication/view-calls/getall',
-        '/communication/view-calls/getallhistory'
-      ]"
-      [editPermission]="'/communication/view-calls/put'"
-      [deletePermission]="'/communication/view-calls/delete'"
+      [viewPermission]="['/Calls/get', '/Calls/getall', '/Calls/getallhistory']"
+      [editPermission]="'/Calls/put'"
+      [deletePermission]="'/Calls/delete'"
       #tableRef
       [cols]="colsInside"
       [tableData]="filteredCalls"
