@@ -186,7 +186,9 @@
       color: var(--Neutrals-60, #7c8493);
       text-transform: uppercase;
     }
-
+    .fc .fc-col-header-cell-cushion:hover {
+      background: transparent !important;
+    }
     .fc-day-today .fc-day-name {
       background-color: #0a69bb;
       color: #fff;
