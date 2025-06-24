@@ -14,7 +14,7 @@ export class PermissionService {
 
   public loadPermissions() {
     const permissionsFromSession = sessionStorage.getItem('permissions');
-    console.log(permissionsFromSession);
+    // console.log(permissionsFromSession);
     if (permissionsFromSession) {
       this.permissions = JSON.parse(permissionsFromSession);
     } else {

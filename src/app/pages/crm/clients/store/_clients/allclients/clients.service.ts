@@ -11,15 +11,15 @@ export class ClientsService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<Client[]> {
-    console.log('🚀 Service: calling GET …');
+    // console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: Client[]; totalCount: number }>(
         `${this.baseUrl}/GetAllClients`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
+        // tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+        // tap((items) => console.log('🚀 Mapped items:', items)),
         catchError((err) => {
           console.error('🚀 HTTP error fetching Clients:', err);
           return throwError(() => err);
@@ -49,7 +49,13 @@ export class ClientsService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 
-  performWorkflowAction(id: number, changes: Partial<ClientWorkFlowAction>): Observable<void> {
-      return this.http.post<void>(`${environment.apiUrl}ClientWorkFlowActions/CreateClientWorkFlowAction`, changes);
+  performWorkflowAction(
+    id: number,
+    changes: Partial<ClientWorkFlowAction>
+  ): Observable<void> {
+    return this.http.post<void>(
+      `${environment.apiUrl}ClientWorkFlowActions/CreateClientWorkFlowAction`,
+      changes
+    );
   }
 }

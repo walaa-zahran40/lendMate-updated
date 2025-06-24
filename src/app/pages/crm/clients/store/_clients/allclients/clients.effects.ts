@@ -13,13 +13,13 @@ export class ClientsEffects {
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActionsList.loadAll),
-      tap(() => console.log('✨ Effect: loadAll action caught')),
+      // tap(() => console.log('✨ Effect: loadAll action caught')),
       mergeMap(() =>
         this.service.getAll().pipe(
-          tap((items) => console.log('✨ Service returned items:', items)),
+          // tap((items) => console.log('✨ Service returned items:', items)),
           map((items) => ActionsList.loadAllSuccess({ result: items })),
           catchError((err) => {
-            console.error('⚠️ Error loading clients', err);
+            // console.error('⚠️ Error loading clients', err);
             return of(ActionsList.loadAllFailure({ error: err }));
           })
         )
@@ -135,23 +135,23 @@ export class ClientsEffects {
     )
   );
 
-    performWorkflow$ = createEffect(() =>
-      this.actions$.pipe(
-        ofType(ActionsList.performWorkflowActionEntity),
-        mergeMap(({ id, changes }) =>
-          this.service.performWorkflowAction(id, changes).pipe(
-            mergeMap(() => [
-              ActionsList.performWorkflowActionEntitySuccess({ id, changes }),
-              ActionsList.entityOperationSuccess({
-                entity: EntityNames.ClientWorkFlowAction,
-                operation: 'update',
-              }),
-            ]),
-            catchError((error) =>
-              of(ActionsList.performWorkflowActionEntityFailure({ error }))
-            )
+  performWorkflow$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.performWorkflowActionEntity),
+      mergeMap(({ id, changes }) =>
+        this.service.performWorkflowAction(id, changes).pipe(
+          mergeMap(() => [
+            ActionsList.performWorkflowActionEntitySuccess({ id, changes }),
+            ActionsList.entityOperationSuccess({
+              entity: EntityNames.ClientWorkFlowAction,
+              operation: 'update',
+            }),
+          ]),
+          catchError((error) =>
+            of(ActionsList.performWorkflowActionEntityFailure({ error }))
           )
         )
       )
-    );
+    )
+  );
 }

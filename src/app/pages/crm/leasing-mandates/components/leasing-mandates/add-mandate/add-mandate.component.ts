@@ -98,7 +98,7 @@ export class AddMandateComponent {
   ) {}
 
   ngOnInit() {
-    // 1️⃣ Build all form‐groups (so that patchMandate always finds them)
+    // 1️⃣ Build all form‐groups
     this.buildMandateShowBasicForm();
     this.buildMandateShowOfficersForm();
     this.buildMandateShowContactPersonsForm();
@@ -112,7 +112,26 @@ export class AddMandateComponent {
       assets: this.addMandateShowAssetTypeForm,
       moreInfo: this.addMandateShowMoreInformationForm,
     });
-    // 3️⃣ Load your lookups…
+    // 3️⃣ Hook up client → contact-persons
+    this.basicForm
+      .get('clientId')!
+      .valueChanges.pipe(
+        filter((id) => !!id),
+        distinctUntilChanged(),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((clientId) => {
+        this.contactPersonsFacade.loadByClientId(clientId);
+      });
+
+    // 4️⃣ If you want the initial load on edit, do it here too
+    const initial = this.basicForm.get('clientId')!.value;
+    if (initial) {
+      this.contactPersonsFacade.loadByClientId(initial);
+    }
+
+    // 5️⃣ All your other setup (lookups, route handling, patching…)
+    //    no early returns that skip the clientId subscription
     this.store.dispatch(loadAll({}));
     this.store.dispatch(loadValidityUnits({}));
     this.store.dispatch(loadProducts({}));
@@ -181,17 +200,6 @@ export class AddMandateComponent {
       return;
     }
     this.leasingMandateId = +idParam;
-
-    this.basicForm
-      .get('clientId')!
-      .valueChanges.pipe(
-        filter((id) => !!id),
-        distinctUntilChanged()
-      )
-      .subscribe((clientId) => {
-        // load only that client’s people into “items”
-        this.contactPersonsFacade.loadByClientId(clientId);
-      });
   }
   private patchMandate(
     m: Mandate & {

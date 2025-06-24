@@ -350,6 +350,10 @@ const routes: Routes = [
     component: AddMandateComponent,
   },
   {
+    path: 'leasing-mandates/:leasingId/add-mandate',
+    component: AddMandateComponent,
+  },
+  {
     path: 'leasing-mandates/edit-mandate/:leasingId',
     component: AddMandateComponent,
     canDeactivate: [PendingChangesGuard],
