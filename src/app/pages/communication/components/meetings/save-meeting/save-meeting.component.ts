@@ -4,12 +4,14 @@ import {
   Component,
   ViewChild,
 } from '@angular/core';
-import { CalendarOptions, DatesSetArg } from '@fullcalendar/core/index.js';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { MeetingsFacade } from '../../../store/meetings/calendar/meetings.facade';
+import { CalendarOptions, DatesSetArg, EventInput } from '@fullcalendar/core';
 
 const viewTypeMap: any = {
   month: 'dayGridMonth',
@@ -40,8 +42,53 @@ export class SaveMeetingComponent implements AfterViewInit {
       date1.getDate() === date2.getDate()
     );
   }
-  constructor(private route: Router, private cd: ChangeDetectorRef) {}
+  constructor(
+    private route: Router,
+    private cd: ChangeDetectorRef,
+    private meetingsFacade: MeetingsFacade
+  ) {}
+  ngOnInit() {
+    // 1) tell NgRx to load the calendar
+    this.meetingsFacade.loadUserCalendar();
+    // 2) subscribe to the data and push into FullCalendar
+    this.subs.add(
+      this.meetingsFacade.calendar$.subscribe((items) => {
+        const events: EventInput[] = items.map((item) => {
+          const start = new Date(item.startDate);
+          const end = new Date(item.endDate);
+          const isMultiDay =
+            Math.floor(
+              (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)
+            ) >= 1;
 
+          // build your title to include the actual times:
+          const fmt = (d: Date) =>
+            d.toLocaleTimeString('en-US', {
+              hour: '2-digit',
+              minute: '2-digit',
+            });
+          const title = isMultiDay
+            ? `${item.topic} (${fmt(start)} → ${fmt(end)})`
+            : item.topic;
+
+          return {
+            id: String(item.id),
+            start,
+            end,
+            title,
+            allDay: isMultiDay,
+          };
+        });
+
+        // replace the whole events array:
+        this.calendarOptions = {
+          ...this.calendarOptions,
+          events,
+        };
+        this.cd.detectChanges();
+      })
+    );
+  }
   handleDateClick = (arg: DateClickArg) => {
     this.selectedDate = arg.date;
   };
@@ -74,25 +121,11 @@ export class SaveMeetingComponent implements AfterViewInit {
     weekends: true,
     headerToolbar: false,
     allDayText: 'GMT +07',
+    dateClick: this.handleDateClick,
+    datesSet: this.handleDatesSet.bind(this),
+
     locale: 'en-US',
-    events: [
-      {
-        title: 'Meeting',
-        start: new Date(2025, 2, 18, 19, 0, 0, 0),
-        end: new Date(2025, 2, 18, 20, 0, 0, 0),
-        extendedProps: {
-          members: [
-            { name: 'Alice', avatarUrl: '/assets/images/calendar/alice.svg' },
-            { name: 'Bob', avatarUrl: '/assets/images/calendar/bob.svg' },
-          ],
-        },
-      },
-      {
-        title: 'Meeting',
-        start: new Date(2025, 2, 19, 18, 0, 0, 0),
-        end: new Date(2025, 2, 19, 20, 0, 0, 0),
-      },
-    ],
+    events: [],
     eventContent: (arg) => {
       // Grab the event title, plus any extended props
       const event = arg.event;
@@ -131,9 +164,7 @@ export class SaveMeetingComponent implements AfterViewInit {
     },
 
     dayHeaderFormat: { weekday: 'short', day: 'numeric' },
-    dateClick: this.handleDateClick,
     dayCellClassNames: this.dayCellClassNames,
-    datesSet: this.handleDatesSet.bind(this),
     dayHeaderContent: (arg) => {
       const [dayName, dayNumber] = arg.text.split(' ');
       const uppercaseDayName = dayName.toUpperCase();
@@ -165,6 +196,7 @@ export class SaveMeetingComponent implements AfterViewInit {
     dayHeaderClassNames: this.dayHeaderClassNames,
     handleWindowResize: true,
   };
+  private subs = new Subscription();
 
   selectedDate: Date | null = null;
 
@@ -172,6 +204,9 @@ export class SaveMeetingComponent implements AfterViewInit {
     const calendarApi = this.calendarComponent.getApi();
     this.currentMonth = calendarApi.view.title;
     this.cd.detectChanges(); // re-runs change detection so the value is “locked in”
+  }
+  ngOnDestroy() {
+    this.subs.unsubscribe();
   }
   handleDatesSet(args: DatesSetArg) {
     this.currentMonth = args.view.title;
