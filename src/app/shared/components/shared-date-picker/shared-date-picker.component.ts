@@ -82,10 +82,16 @@ export class SharedDatePickerComponent implements ControlValueAccessor, OnInit {
   }
 
   onSelect(d: Date) {
-    // strip time and zone
-    const date = new Date(d.getFullYear(), d.getMonth(), d.getDate());
-    this.value = date;
-    this.onChange(date);
+    // build a UTC‐midnight date instead of local-midnight
+    const utcDate = new Date(
+      Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())
+    );
+
+    // update your UI…
+    this.value = utcDate;
+
+    // …and notify the form
+    this.onChange(utcDate);
     this.onTouched();
   }
 }
