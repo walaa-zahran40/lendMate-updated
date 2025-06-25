@@ -853,7 +853,12 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
     };
 
     console.log('Submitting form data:', payload);
-    this.facade.calculate(payload);
+    // const x =this.facade.calculate(payload);
+    this.facade.calculate(payload).subscribe((entity) => {
+      console.log('[Component] Received entity:', entity);
+      this.filteredFinancialForms = [...entity.payments];
+    });
+
   }
 
   /** “Submit” should only fire once the user has validated everything and clicked */
@@ -944,16 +949,11 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
     if (this.leasingFinancialRateForm.valid) {
       this.leasingFinancialRateForm.markAsPristine();
     }
-    this.facade.create(formData);
-    this.store
-      .select(selectCalculatedRowsForId(this.currentMandateId))
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((rows) => {
-        this.tableDataInside = [...rows];
-        this.originalFinancialForms = [...rows];
-        this.filteredFinancialForms = [...rows];
-      });
-    console.log('Submitting form data:', formData);
+   // this.facade.create(formData);
+    this.facade.create(formData).subscribe((entity) => {
+      console.log('[Component] Received entity:', entity);
+      this.filteredFinancialForms = [...entity.payments];
+    });
   }
   // inside LeasingFinancialFormCompoundComponent (after onSubmitAll)
   get sumOfInterest(): number {
