@@ -107,13 +107,15 @@ export const reducer = createReducer(
   // ─── Calculate Success ──────────────────────────────────────────────────
   on(FinancialFormActions.calculateEntitySuccess, (state, { entity }) => {
     const id = entity.leasingMandateId!;
-    return {
+    const updated = {
       ...state,
       calculatedRowsByMandate: {
         ...state.calculatedRowsByMandate,
         [id]: entity.payments!,
       },
     };
+    console.log('[Reducer] updated state for ID', id, updated.calculatedRowsByMandate[id]);
+    return updated;
   }),
 
   // ─── Create Success ─────────────────────────────────────────────────────

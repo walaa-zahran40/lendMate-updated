@@ -249,6 +249,15 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
           },
           { emitEvent: false }
         );
+
+        if (form.payments?.length) {
+          console.log('✅ Using payments from backend form');
+          this.tableDataInside = [...form.payments];
+          this.originalFinancialForms = [...form.payments];
+          this.filteredFinancialForms = [...form.payments];
+        } else {
+          console.log('⏳ Waiting for calculated rows from selector...');
+        }
       });
 
     // 7) **Only once** both the form **and** the rates list are loaded,
@@ -259,7 +268,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
       .subscribe((rows) => {
         this.tableDataInside = [...rows];
         this.originalFinancialForms = [...rows];
-        this.filteredFinancialForms = [...rows];
+        // this.filteredFinancialForms = [...rows];
       });
   }
 
@@ -426,9 +435,9 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
       });
 
     this.leasingFinancialRateForm
-      .get('paymentPeriodMonthCount')
+      .get('paymentPeriodId')
       ?.valueChanges.subscribe(() => {
-        console.log('MonthCount changed.');
+        console.log('paymentPeriodId');
         this.calculateReservePaymentAmount();
         this.calculateReservePaymentCount();
       });
@@ -466,9 +475,16 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
       this.leasingFinancialRateForm.get('insuranceRate')?.value || 0;
     const reservePaymentCount =
       this.leasingFinancialCurrencyForm.get('reservePaymentCount')?.value || 0;
-    const monthCount =
-      this.leasingFinancialRateForm.get('paymentPeriodMonthCount')?.value || 0;
+    const paymentPeriodId =
+      this.leasingFinancialRateForm.get('paymentPeriodId')?.value || 0;
+    let monthCount=0;
+    this.paymentPeriods$.pipe(take(1)).subscribe(periods => {
+        const match = periods.find(p => p.id === paymentPeriodId);
+        monthCount = match?.monthCount || 0;
 
+        console.log('Month Count:', monthCount);
+        // Use monthCount here
+      });
     console.log('Calculating ReservePaymentAmount with values:', {
       rent,
       assetCost,
@@ -591,8 +607,16 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
     const interestRate =
       this.leasingFinancialRateForm.get('interestRate')?.value || 0;
 
-    const monthCount =
-      this.leasingFinancialRateForm.get('paymentPeriodMonthCount')?.value || 0;
+    const paymentPeriodId =
+      this.leasingFinancialRateForm.get('paymentPeriodId')?.value || 0;
+    let monthCount=0;
+    this.paymentPeriods$.pipe(take(1)).subscribe(periods => {
+        const match = periods.find(p => p.id === paymentPeriodId);
+        monthCount = match?.monthCount || 0;
+
+        console.log('Month Count:', monthCount);
+        // Use monthCount here
+      });
 
     return ((interestRate / 100) * monthCount * 365) / 360 / 12;
   }
@@ -604,10 +628,16 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
       this.leasingFinancialRateForm.get('insuranceRate')?.value || 0;
     const reservePaymentAmount =
       this.leasingFinancialCurrencyForm.get('reservePaymentAmount')?.value || 0;
-    const monthCount =
-      this.leasingFinancialCurrencyForm.get('paymentPeriodMonthCount')?.value ||
-      0;
+      const paymentPeriodId =
+      this.leasingFinancialRateForm.get('paymentPeriodId')?.value || 0;
+    let monthCount=0;
+    this.paymentPeriods$.pipe(take(1)).subscribe(periods => {
+        const match = periods.find(p => p.id === paymentPeriodId);
+        monthCount = match?.monthCount || 0;
 
+        console.log('Month Count:', monthCount);
+        // Use monthCount here
+      });
     console.log('Calculating ReservePaymentCount with values:', {
       rent,
       assetCost,
@@ -823,7 +853,12 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
     };
 
     console.log('Submitting form data:', payload);
-    this.facade.calculate(payload);
+    // const x =this.facade.calculate(payload);
+    this.facade.calculate(payload).subscribe((entity) => {
+      console.log('[Component] Received entity:', entity);
+      this.filteredFinancialForms = [...entity.payments];
+    });
+
   }
 
   /** “Submit” should only fire once the user has validated everything and clicked */
@@ -914,8 +949,11 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
     if (this.leasingFinancialRateForm.valid) {
       this.leasingFinancialRateForm.markAsPristine();
     }
-    this.facade.create(formData);
-    console.log('Submitting form data:', formData);
+   // this.facade.create(formData);
+    this.facade.create(formData).subscribe((entity) => {
+      console.log('[Component] Received entity:', entity);
+      this.filteredFinancialForms = [...entity.payments];
+    });
   }
   // inside LeasingFinancialFormCompoundComponent (after onSubmitAll)
   get sumOfInterest(): number {
