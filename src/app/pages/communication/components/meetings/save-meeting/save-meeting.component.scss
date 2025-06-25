@@ -76,9 +76,7 @@
   justify-content: center;
 }
 .left-col {
-  border: 1px solid var(--Lights-Border, #d6ddeb);
   border-top: none;
-  padding: 24px;
 }
 .btn-row {
   color: #0a69bb;
@@ -244,7 +242,10 @@
       background: var(--bg-tab);
     }
     thead .fc-scroller-harness {
-      margin-top: 57px;
+      margin-top: 27px;
+    }
+    .fc-scrollgrid-sync-table tr {
+      height: 160px;
     }
     .p-datepicker {
       position: relative;

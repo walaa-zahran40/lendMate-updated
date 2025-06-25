@@ -1,4 +1,9 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ViewChild,
+} from '@angular/core';
 import { CalendarOptions, DatesSetArg } from '@fullcalendar/core/index.js';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -35,7 +40,7 @@ export class SaveMeetingComponent implements AfterViewInit {
       date1.getDate() === date2.getDate()
     );
   }
-  constructor(private route: Router) {}
+  constructor(private route: Router, private cd: ChangeDetectorRef) {}
 
   handleDateClick = (arg: DateClickArg) => {
     this.selectedDate = arg.date;
@@ -166,8 +171,8 @@ export class SaveMeetingComponent implements AfterViewInit {
   ngAfterViewInit() {
     const calendarApi = this.calendarComponent.getApi();
     this.currentMonth = calendarApi.view.title;
+    this.cd.detectChanges(); // re-runs change detection so the value is “locked in”
   }
-
   handleDatesSet(args: DatesSetArg) {
     this.currentMonth = args.view.title;
   }

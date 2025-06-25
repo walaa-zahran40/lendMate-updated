@@ -41,14 +41,7 @@
 <div class="container-fluid">
   <div class="row">
     <!-- LEFT COLUMN: date picker + add button -->
-    <div class="col-12 col-xl-3 mb-3 left-col">
-      <div
-        class="mb-3 d-flex justify-content-center align-items-center btn-row w-100"
-      >
-        <img src="/assets/images/calendar/add.svg" alt="add" />
-        <button (click)="onAddMeeting()">Add Meeting</button>
-      </div>
-
+    <div class="col-12 col-xl-3 left-col">
       <!-- Make sure to have a wrapping element that can resize -->
       <!-- <p-datepicker [(ngModel)]="selectedDateForCalendar"></p-datepicker>
       <hr />
@@ -72,8 +65,7 @@
       </div> -->
     </div>
 
-    <!-- RIGHT COLUMN: FullCalendar -->
-    <div class="col-12 col-xl-9" style="zoom: 80%">
+    <div class="col-12 col-xl-12" style="zoom: 90%">
       <full-calendar #calendar [options]="calendarOptions"></full-calendar>
     </div>
   </div>
