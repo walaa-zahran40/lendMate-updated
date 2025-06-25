@@ -4,6 +4,11 @@ import {
   Component,
   ViewChild,
 } from '@angular/core';
+import {
+  CalendarOptions,
+  DatesSetArg,
+  EventInput,
+} from '@fullcalendar/core/index.js';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
@@ -11,7 +16,6 @@ import { FullCalendarComponent } from '@fullcalendar/angular';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { MeetingsFacade } from '../../../store/meetings/calendar/meetings.facade';
-import { CalendarOptions, DatesSetArg, EventInput } from '@fullcalendar/core';
 
 const viewTypeMap: any = {
   month: 'dayGridMonth',
@@ -53,38 +57,22 @@ export class SaveMeetingComponent implements AfterViewInit {
     // 2) subscribe to the data and push into FullCalendar
     this.subs.add(
       this.meetingsFacade.calendar$.subscribe((items) => {
-        const events: EventInput[] = items.map((item) => {
-          const start = new Date(item.startDate);
-          const end = new Date(item.endDate);
-          const isMultiDay =
-            Math.floor(
-              (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)
-            ) >= 1;
+        const events: EventInput[] = items.map((item) => ({
+          id: item.id.toString(),
+          title: item.topic,
+          start: new Date(item.startDate),
+          end: new Date(item.endDate),
+          // you can add `extendedProps` here if you like:
+          extendedProps: { officers: item.communicationOfficers },
+        }));
+        // either replace the whole array:
+        this.calendarOptions = { ...this.calendarOptions, events };
+        // …or add via the API:
+        // const api = this.calendarComponent.getApi();
+        // api.removeAllEvents();
+        // api.addEventSource(events);
 
-          // build your title to include the actual times:
-          const fmt = (d: Date) =>
-            d.toLocaleTimeString('en-US', {
-              hour: '2-digit',
-              minute: '2-digit',
-            });
-          const title = isMultiDay
-            ? `${item.topic} (${fmt(start)} → ${fmt(end)})`
-            : item.topic;
-
-          return {
-            id: String(item.id),
-            start,
-            end,
-            title,
-            allDay: isMultiDay,
-          };
-        });
-
-        // replace the whole events array:
-        this.calendarOptions = {
-          ...this.calendarOptions,
-          events,
-        };
+        // if we're after init, trigger CD so the view updates
         this.cd.detectChanges();
       })
     );
@@ -204,9 +192,6 @@ export class SaveMeetingComponent implements AfterViewInit {
     const calendarApi = this.calendarComponent.getApi();
     this.currentMonth = calendarApi.view.title;
     this.cd.detectChanges(); // re-runs change detection so the value is “locked in”
-  }
-  ngOnDestroy() {
-    this.subs.unsubscribe();
   }
   handleDatesSet(args: DatesSetArg) {
     this.currentMonth = args.view.title;

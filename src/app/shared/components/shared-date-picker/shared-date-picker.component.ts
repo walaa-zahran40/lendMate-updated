@@ -6,6 +6,7 @@ import {
   OnInit,
   Self,
   Optional,
+  ViewChild,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -14,6 +15,7 @@ import {
   NG_VALUE_ACCESSOR,
   NgControl,
 } from '@angular/forms';
+import { Calendar } from 'primeng/calendar';
 
 @Component({
   selector: 'shared-date-picker',
@@ -27,6 +29,8 @@ export class SharedDatePickerComponent implements ControlValueAccessor, OnInit {
   @Input() inputId!: string;
   @Input() minDate?: Date;
   @Input() maxDate?: Date;
+  @ViewChild(Calendar) private calendar!: Calendar;
+
   value: Date | null = null;
   disabled = false;
 
@@ -41,7 +45,12 @@ export class SharedDatePickerComponent implements ControlValueAccessor, OnInit {
       this.ngControl.valueAccessor = this;
     }
   }
-
+  ngAfterViewInit() {
+    // Patch the missing `window` reference so bindDocumentResizeListener works
+    if (this.calendar) {
+      (this.calendar as any).window = window;
+    }
+  }
   ngOnInit(): void {}
   get control(): FormControl | null {
     return this.ngControl?.control as FormControl;
