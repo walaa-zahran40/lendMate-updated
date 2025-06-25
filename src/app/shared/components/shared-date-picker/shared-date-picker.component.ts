@@ -52,15 +52,21 @@ export class SharedDatePickerComponent implements ControlValueAccessor, OnInit {
       this.value = null;
       return;
     }
-    // if yyyy-MM-dd string
-    if (typeof val === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(val)) {
-      const [yyyy, mm, dd] = val.split('-').map(Number);
-      this.value = new Date(yyyy, mm - 1, dd); // local midnight
-    } else if (val instanceof Date) {
-      this.value = val;
+
+    let yyyy: number, mm: number, dd: number;
+    if (typeof val === 'string') {
+      // drop any time component, handle both “yyyy-MM-dd” and full ISO
+      const dateOnly = val.split('T')[0];
+      [yyyy, mm, dd] = dateOnly.split('-').map(Number);
     } else {
-      this.value = new Date(val);
+      const d = new Date(val);
+      yyyy = d.getFullYear();
+      mm = d.getMonth() + 1;
+      dd = d.getDate();
     }
+
+    // build a local‐time Date at 00:00
+    this.value = new Date(yyyy, mm - 1, dd);
   }
 
   registerOnChange(fn: any) {
@@ -76,8 +82,10 @@ export class SharedDatePickerComponent implements ControlValueAccessor, OnInit {
   }
 
   onSelect(d: Date) {
-    this.value = d;
-    this.onChange(d); // ← send the Date!
+    // strip time and zone
+    const date = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    this.value = date;
+    this.onChange(date);
     this.onTouched();
   }
 }
