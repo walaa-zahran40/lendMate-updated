@@ -724,7 +724,7 @@ icon="pi pi-cog"
             (onRemove)="onFileRemoved($event)"
             [showUploadButton]="false"
             [showCancelButton]="false"
-            accept=".pdf,.docx,.jpg"
+            accept=".pdf,.docx,.jpg,.xslx,.png"
             [ngClass]="viewOnly ? 'disabled' : 'enabled'"
           ></p-fileUpload>
 
@@ -732,7 +732,7 @@ icon="pi pi-cog"
           <div
             class="custom-upload-overlay"
             (click)="fileUploader.choose()"
-            *ngIf="!formGroup.get('file')?.value && !editMode && !viewOnly"
+            *ngIf="(!formGroup.get('file')?.value && !viewOnly) || editMode"
           >
             <span class="custom-icon"></span>
             <span>Click or drag file to upload</span>
