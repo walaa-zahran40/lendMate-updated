@@ -24,11 +24,11 @@ export class ViewClientsComponent {
   readonly colsInside = [
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
-    { field: 'shortName', header: 'Short Name' },
+    // { field: 'shortName', header: 'Short Name' },
     { field: 'businessActivity', header: 'Business Activity' },
     { field: 'isIscore', header: 'Iscore' },
     { field: 'taxId', header: 'Tax ID' },
-    { field: 'clientTypeCode', header: 'Type' },
+    // { field: 'clientTypeCode', header: 'Type' },
   ];
   showDeleteModal: boolean = false;
   selectedClientId: number | null = null;

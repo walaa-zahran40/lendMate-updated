@@ -15,6 +15,11 @@
 :host {
   --custom-red: #fc1e1e;
   &::ng-deep {
+    td {
+      white-space: normal;
+      word-break: break-all;
+      overflow-wrap: anywhere;
+    }
     img[alt="side"],
     img[alt="delete"],
     img[alt="edit"],
