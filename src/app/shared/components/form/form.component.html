@@ -4155,7 +4155,6 @@ icon="pi pi-cog"
       *ngIf="addPageORGForm"
       (ngSubmit)="onSubmit()"
     >
-     
       <label for="name">Name in English<sup>*</sup></label>
       <input
         pInputText
@@ -4460,7 +4459,25 @@ icon="pi pi-cog"
             formGroup.get('amount')?.invalid && formGroup.get('amount')?.touched
         }"
       />
-
+      <small
+        *ngIf="
+          formGroup.get('amount')?.hasError('required') &&
+          formGroup.get('amount')?.touched
+        "
+        class="p-error"
+      >
+        Amount is required.
+      </small>
+      <small
+        class="p-error"
+        *ngIf="
+          formGroup.get('amount')?.hasError('min') &&
+          formGroup.get('amount')?.touched
+        "
+      >
+        Amount must be positive.
+      </small>
+      <br />
       <label for="date"> Date<sup class="danger">*</sup></label>
       <shared-date-picker formControlName="date" inputId="date">
       </shared-date-picker>

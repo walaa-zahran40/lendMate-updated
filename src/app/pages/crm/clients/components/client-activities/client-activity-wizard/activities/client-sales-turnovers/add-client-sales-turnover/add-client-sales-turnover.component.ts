@@ -51,7 +51,7 @@ export class AddSalesTurnoverComponent implements OnInit, OnDestroy {
 
     // Build form with clientId
     this.addSalesTurnoverForm = this.fb.group({
-      amount: [null, Validators.required],
+      amount: [null, [Validators.required, Validators.min(0.01)]],
       date: [null, Validators.required],
     });
 
