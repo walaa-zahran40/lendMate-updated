@@ -49,6 +49,9 @@
   --custom-justify-content-between: space-between;
   --custom-flex-direction-row-reverse: row-reverse;
   &::ng-deep {
+    .p-select.p-disabled .p-select-label {
+      background: transparent !important;
+    }
     .p-tabs {
       padding: var(--custom-padding-right-10);
     }
