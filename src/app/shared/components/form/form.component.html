@@ -737,7 +737,7 @@ icon="pi pi-cog"
             <span class="custom-icon"></span>
             <span>Click or drag file to upload</span>
           </div>
-          <div *ngIf="viewOnly" class="mt-2">
+          <div *ngIf="viewOnly || editMode" class="mt-2">
             <span class="text-success">
               Uploaded:&nbsp;<strong>{{ selectedFile.name }}</strong>
             </span>
