@@ -1095,9 +1095,9 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-payment-types']);
   }
   viewDocumentDetails(): void {
-    this.router.navigate(['/crm/clients/view-upload-documents'], {
-      queryParams: { id: this.id },
-    });
+    this.router.navigate([
+      `/crm/clients/view-upload-documents/${this.clientDocId}`,
+    ]);
   }
   viewAssetTypes() {
     this.router.navigate(['/lookups/view-asset-types']);
@@ -1222,12 +1222,17 @@ export class FormComponent implements OnInit, OnDestroy {
   //   this.selectionChanged.emit(value);
   // }
   onFileSelected(event: any): void {
-    const file = event.files?.[0];
+    const file: File = event.files?.[0];
     if (file) {
-      console.log('[FormComponent] File selected:', file);
       this.formGroup.patchValue({ file });
-      this.formGroup.get('file')?.updateValueAndValidity();
+      this.formGroup.get('file')!.updateValueAndValidity();
     }
+  }
+
+  onFileRemoved(event: any): void {
+    // reset the form control
+    this.formGroup.patchValue({ file: null });
+    this.formGroup.get('file')!.updateValueAndValidity();
   }
   onAddClick() {
     if (

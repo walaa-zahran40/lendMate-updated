@@ -710,7 +710,8 @@ icon="pi pi-cog"
       </shared-date-picker>
       <div class="row upload-div">
         <div class="col-sm-3 p-0">
-          <h2 class="m-0">Upload File</h2>
+          <!-- show the heading only when there is NO file -->
+          <h2 class="m-0" *ngIf="!formGroup.get('file')?.value">Upload File</h2>
         </div>
         <div class="col-sm-9 upload-file-div">
           <p-fileUpload
@@ -720,25 +721,30 @@ icon="pi pi-cog"
             [auto]="true"
             customUpload="true"
             (onSelect)="onFileSelected($event)"
+            (onRemove)="onFileRemoved($event)"
             [showUploadButton]="false"
             [showCancelButton]="false"
             accept=".pdf,.docx,.jpg"
             [ngClass]="viewOnly ? 'disabled' : 'enabled'"
           ></p-fileUpload>
-          <div *ngIf="editMode || viewOnly" class="mt-2">
-            <span class="text-muted">
-              Previously uploaded file:
-              <strong>{{ selectedFile?.name }}</strong>
-            </span>
-          </div>
-          <!-- Add this custom div on top -->
+
+          <!-- overlay when there is NO file and not in edit/view mode -->
           <div
             class="custom-upload-overlay"
             (click)="fileUploader.choose()"
-            *ngIf="!editMode && !viewOnly"
+            *ngIf="!formGroup.get('file')?.value && !editMode && !viewOnly"
           >
             <span class="custom-icon"></span>
             <span>Click or drag file to upload</span>
+          </div>
+
+          <!-- once a file is present, show its name -->
+          <div *ngIf="formGroup.get('file')?.value" class="mt-2">
+            <span class="text-success">
+              Uploaded:&nbsp;<strong>{{
+                formGroup.get("file")?.value.name
+              }}</strong>
+            </span>
           </div>
         </div>
       </div>
