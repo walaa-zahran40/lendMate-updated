@@ -18,23 +18,20 @@ export class WizardComponent {
           imgUrl: '/assets/images/shared/card/details.svg',
           imgAlt: 'details',
           title: 'Meeting Details',
-          content:
-            'Introduce your company core info quickly to users by fill up company details',
+          content: '',
         },
         {
           imgUrl: '/assets/images/shared/card/followup.svg',
           imgAlt: 'followup',
           title: 'Follow Ups',
-          content:
-            'Introduce your company core info quickly to users by fill up company details',
+          content: '',
           link: '/communication/add-follow-up',
         },
         {
           imgUrl: '/assets/images/shared/card/followup.svg',
           imgAlt: 'followup',
           title: 'Follow Ups Points',
-          content:
-            'Introduce your company core info quickly to users by fill up company details',
+          content: '',
           link: '/communication/add-follow-ups-points',
         },
       ],

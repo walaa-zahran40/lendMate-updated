@@ -53,6 +53,7 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
   officers$!: Observable<Officer[]>;
   communicationFlowTypes$!: Observable<CommunicationFlowType[]>;
   clients$!: Observable<Client[]>;
+  raw = this.route.snapshot.paramMap.get('clientId');
 
   clientsList: Client[] = [];
 
@@ -402,7 +403,7 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
     if (this.addMeetingForm.valid) {
       this.addMeetingForm.markAsPristine();
     }
-    this.router.navigate(['/communication/view-meetings']);
+    this.router.navigate([`/communication/view-meetings/${this.raw}`]);
   }
   /** Called by the guard. */
   canDeactivate(): boolean {

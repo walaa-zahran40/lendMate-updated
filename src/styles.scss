@@ -194,6 +194,9 @@ body {
 }
 :host {
   &::ng-deep {
+    .p-tab {
+      font-weight: 500 !important;
+    }
     .p-dialog-content {
       flex-direction: column;
     }

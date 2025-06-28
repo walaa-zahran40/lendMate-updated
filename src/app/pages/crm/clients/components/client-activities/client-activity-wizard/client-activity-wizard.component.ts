@@ -18,32 +18,28 @@ export class ClientActivityWizardComponent {
         imgUrl: '/assets/images/shared/card/upload.svg',
         imgAlt: 'upload',
         title: 'Upload Documents',
-        content:
-          'Introduce your company core info quickly to users by fill up company details',
+        content: 'Upload Documents',
         link: `/crm/clients/view-upload-documents/${clientId}`,
       },
       {
         imgUrl: '/assets/images/shared/card/add.svg',
         imgAlt: 'add',
         title: 'Add Address',
-        content:
-          'Introduce your company core info quickly to users by fill up company details',
+        content: 'Add Address',
         link: `crm/clients/view-client-addresses/${clientId}`,
       },
       {
         imgUrl: '/assets/images/shared/card/sales.svg',
         imgAlt: 'sales',
         title: 'Sales Turnover',
-        content:
-          'Introduce your company core info quickly to users by fill up company details',
+        content: 'Sales Turnover',
         link: `/crm/clients/view-sales-turnovers/${clientId}`,
       },
       {
         imgUrl: '/assets/images/shared/card/phone.svg',
         imgAlt: 'phone',
         title: 'Phone Number',
-        content:
-          'Introduce your company core info quickly to users by fill up company details',
+        content: 'Phone Number',
         link: `/crm/clients/view-phone-numbers/${clientId}`,
       },
 
@@ -51,56 +47,49 @@ export class ClientActivityWizardComponent {
         imgUrl: '/assets/images/shared/card/cr.svg',
         imgAlt: 'cr',
         title: 'CR Authority Office',
-        content:
-          'Introduce your company core info quickly to users by fill up company details',
+        content: 'CR Authority Office',
         link: `/crm/clients/view-client-cr-authority-offices/${clientId}`,
       },
       {
         imgUrl: '/assets/images/shared/card/tax.svg',
         imgAlt: 'tax',
         title: 'TAX Authority Office',
-        content:
-          'Introduce your company core info quickly to users by fill up company details',
+        content: 'TAX Authority Office',
         link: `/crm/clients/view-client-tax-authority-offices/${clientId}`,
       },
       {
         imgUrl: '/assets/images/shared/card/central.svg',
         imgAlt: 'central',
         title: 'Central Bank Info',
-        content:
-          'Introduce your company core info quickly to users by fill up company details',
+        content: 'Central Bank Info',
         link: `/crm/clients/view-client-central-bank-info/${clientId}`,
       },
       {
         imgUrl: '/assets/images/shared/card/share.svg',
         imgAlt: 'share',
         title: 'Share Holders',
-        content:
-          'Introduce your company core info quickly to users by fill up company details',
+        content: 'Share Holders',
         link: `/crm/clients/view-client-share-holders/${clientId}`,
       },
       {
         imgUrl: '/assets/images/shared/card/tml.svg',
         imgAlt: 'tml',
         title: 'TML Officer',
-        content:
-          'Introduce your company core info quickly to users by fill up company details',
+        content: 'TML Officer',
         link: `/crm/clients/view-client-tml-officers/${clientId}`,
       },
       {
         imgUrl: '/assets/images/shared/card/contact.svg',
         imgAlt: 'contact',
         title: 'Contact Person',
-        content:
-          'Introduce your company core info quickly to users by fill up company details',
+        content: 'Contact Person',
         link: `/crm/clients/view-contact-persons/${clientId}`,
       },
       {
         imgUrl: '/assets/images/shared/card/mandate.svg',
         imgAlt: 'guarantor',
         title: 'Client Guarantors',
-        content:
-          'Introduce your company core info quickly to users by fill up company details',
+        content: 'Client Guarantors',
         link: `/crm/clients/view-client-guarantors/${clientId}`,
       },
 
@@ -108,25 +97,36 @@ export class ClientActivityWizardComponent {
         imgUrl: '/assets/images/shared/card/contact.svg',
         imgAlt: 'contact',
         title: 'Client Identities',
-        content:
-          'Introduce your company core info quickly to users by fill up company details',
+        content: 'Client Identities',
         link: `/crm/clients/view-client-identities/${clientId}`,
       },
       {
         imgUrl: '/assets/images/shared/card/share.svg',
         imgAlt: 'share',
         title: 'Client Officers',
-        content:
-          'Introduce your company core info quickly to users by fill up company details',
+        content: 'Client Officers',
         link: `/crm/clients/view-client-officers/${clientId}`,
       },
       {
         imgUrl: '/assets/images/shared/card/share.svg',
         imgAlt: 'share',
         title: 'Client Legals',
-        content:
-          'Introduce your company core info quickly to users by fill up company details',
+        content: 'Client Legals',
         link: `/crm/clients/view-client-legals/${clientId}`,
+      },
+      {
+        imgUrl: '/assets/images/shared/card/share.svg',
+        imgAlt: 'share',
+        title: 'Meetings',
+        content: 'Meetings',
+        link: `/communication/view-meetings/${clientId}`,
+      },
+      {
+        imgUrl: '/assets/images/shared/card/share.svg',
+        imgAlt: 'share',
+        title: 'Calls',
+        content: 'Calls',
+        link: `/communication/view-calls/${clientId}`,
       },
     ];
     this.cards = this.chunkArray(this.originalCards, 3);

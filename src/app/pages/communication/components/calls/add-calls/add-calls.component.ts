@@ -36,6 +36,7 @@ export class AddCallsComponent implements OnInit, OnDestroy {
   // Flags driven by mode
   editMode = false;
   viewOnly = false;
+  raw = this.route.snapshot.paramMap.get('clientId');
 
   // Reactive form
   addCallForm!: FormGroup;
@@ -335,7 +336,7 @@ export class AddCallsComponent implements OnInit, OnDestroy {
         topic: formValue.topic,
         comments: formValue.comments,
         details: formValue.details,
-         date: new Date(formValue.date),
+        date: new Date(formValue.date),
         communicationOfficers: communicationOfficersPayload,
         communicationContactPersons: contactPersonPayload,
       };
@@ -357,7 +358,7 @@ export class AddCallsComponent implements OnInit, OnDestroy {
     if (this.addCallForm.valid) {
       this.addCallForm.markAsPristine();
     }
-    this.router.navigate(['/communication/view-calls']);
+    this.router.navigate([`/communication/view-calls/${this.raw}`]);
   }
   /** Called by the guard. */
   canDeactivate(): boolean {
