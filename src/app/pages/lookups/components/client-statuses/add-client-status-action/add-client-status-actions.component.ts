@@ -58,11 +58,15 @@ export class AddClientStatusActionsComponent {
       name: ['', Validators.required],
       nameAR: [
         '',
-        [Validators.required, Validators.pattern(/^[\u0600-\u06FF\s0-9\u0660-\u0669]+$/)],
+        [
+          Validators.required,
+          Validators.pattern(/^[\u0600-\u06FF\s0-9\u0660-\u0669]+$/),
+        ],
       ],
       statusInId: [null, Validators.required],
       statusOutId: [null, Validators.required],
       workflowActionTypeId: [null, Validators.required],
+      isInitial: [null, Validators.required],
       isActive: [true],
     });
 
@@ -101,6 +105,7 @@ export class AddClientStatusActionsComponent {
               statusInId: ct?.statusInId,
               statusOutId: ct?.statusOutId,
               workflowActionTypeId: ct?.workflowActionTypeId,
+              isInitial: ct?.isInitial,
               isActive: ct?.isActive,
             });
             console.log(
@@ -149,6 +154,7 @@ export class AddClientStatusActionsComponent {
       statusInId,
       statusOutId,
       workflowActionTypeId,
+      isInitial,
       isActive,
     } = this.addClientStatusActionsLookupsForm.value;
     const payload: Partial<ClientStatusAction> = {
@@ -157,6 +163,7 @@ export class AddClientStatusActionsComponent {
       statusInId,
       statusOutId,
       workflowActionTypeId,
+      isInitial,
       isActive,
     };
     console.log('  → payload object:', payload);
@@ -174,6 +181,7 @@ export class AddClientStatusActionsComponent {
         statusInId,
         statusOutId,
         workflowActionTypeId,
+        isInitial,
       } = this.addClientStatusActionsLookupsForm.value;
       const payload: ClientStatusAction = {
         id,
@@ -182,6 +190,7 @@ export class AddClientStatusActionsComponent {
         statusInId,
         statusOutId,
         workflowActionTypeId,
+        isInitial,
         isActive,
       };
       console.log(
