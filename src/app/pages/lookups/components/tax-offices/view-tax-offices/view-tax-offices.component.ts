@@ -33,7 +33,7 @@ export class ViewTaxOfficesComponent {
   readonly colsInside = [
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
-    { field: 'governorateName', header: 'Governorate Name' },
+    // { field: 'governorateName', header: 'Governorate Name' },
     { field: 'address', header: 'Address' },
     { field: 'isActive', header: 'Is Active' },
   ];
