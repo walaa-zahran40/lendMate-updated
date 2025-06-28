@@ -199,6 +199,10 @@ body {
     .p-inputnumber {
       width: 100%;
     }
+    .p-select-option,
+    .p-multiselect-option {
+      color: var(--black-color) !important;
+    }
   }
 }
 /* global styles.scss */
@@ -274,9 +278,15 @@ body {
 .p-select-option:not(.p-select-option-selected):not(.p-disabled).p-focus,
 .p-checkbox-input,
 .p-select-label,
+.p-checkbox-box,
 .p-tab:not(.p-tab-active):not(.p-disabled):hover {
   background: var(--white-color-add) !important;
   color: var(--black-color) !important;
+}
+.p-multiselect-option:not(.p-multiselect-option-selected):not(
+    .p-disabled
+  ).p-focus {
+  background-color: var(--white-color-add) !important;
 }
 .p-tieredmenu {
   min-width: auto !important;

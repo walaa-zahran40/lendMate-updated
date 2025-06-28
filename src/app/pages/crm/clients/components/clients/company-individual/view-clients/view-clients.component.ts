@@ -26,9 +26,9 @@ export class ViewClientsComponent {
     { field: 'nameAR', header: 'Name AR' },
     // { field: 'shortName', header: 'Short Name' },
     { field: 'businessActivity', header: 'Business Activity' },
-    { field: 'isIscore', header: 'Iscore' },
-    { field: 'taxId', header: 'Tax ID' },
-    // { field: 'clientTypeCode', header: 'Type' },
+    // { field: 'isIscore', header: 'Iscore' },
+    // { field: 'taxId', header: 'Tax ID' },
+    { field: 'clientTypeCode', header: 'Type' },
   ];
   showDeleteModal: boolean = false;
   selectedClientId: number | null = null;

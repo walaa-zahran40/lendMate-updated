@@ -1,2 +1,10 @@
-* {
-}
+// :host {
+//   &::ng-deep {
+//     .p-datatable-tbody > tr:nth-child(odd) {
+//       background: transparent !important;
+//     }
+//     .p-datatable-tbody > tr > .imgs {
+//       padding: 20px 0;
+//     }
+//   }
+// }
