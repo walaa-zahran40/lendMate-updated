@@ -71,7 +71,7 @@ export class ActionNotificationGroupsService {
     console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: ActionNotificationGroup[]; totalCount: number }>(
-        `${this.api}/GetAllActionNotificationGroupsHistory`
+        `${this.api}/GetAllClientStatusActionNotificationGroupsHistory`
       )
       .pipe(
         tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),

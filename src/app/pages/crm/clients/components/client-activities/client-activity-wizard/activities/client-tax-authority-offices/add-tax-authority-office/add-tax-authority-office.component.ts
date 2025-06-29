@@ -8,6 +8,7 @@ import { selectAllTaxOffices } from '../../../../../../../../lookups/store/tax_o
 import { loadAll } from '../../../../../../store/client-identity-types/client-identity-types.actions';
 import { ClientTaxOfficesFacade } from '../../../../../../store/client-tax-office/client-tax-office.facade';
 import { ClientTaxOffice } from '../../../../../../store/client-tax-office/client-tax-office.model';
+import { TaxOfficesFacade } from '../../../../../../../../lookups/store/tax_offices/tax_offices.facade';
 
 @Component({
   selector: 'app-add-tax-authority-office',
@@ -30,6 +31,7 @@ export class AddClientTaxAuthorityOfficesComponent {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private facade: ClientTaxOfficesFacade,
+    private taxOfficesFacade: TaxOfficesFacade,
     private router: Router,
     private store: Store
   ) {}
@@ -70,7 +72,8 @@ export class AddClientTaxAuthorityOfficesComponent {
     console.log('🚀 Dispatching lookup loads');
     this.store.dispatch(loadAll({}));
 
-    this.taxOfficesList$ = this.store.select(selectAllTaxOffices);
+    this.taxOfficesFacade.loadAll(); 
+    this.taxOfficesList$ = this.taxOfficesFacade.all$; 
 
     // Patch for add mode
     if (this.mode === 'add') {
