@@ -38,7 +38,7 @@
   .pi-lookUps:before {
     content: url(/assets/icons/lookUps.svg);
   }
-  .p-panelmenu-item {
+  .p-panelmenu-item:read-write {
     background: var(--side-internal);
   }
   .pi-organizations:before {
