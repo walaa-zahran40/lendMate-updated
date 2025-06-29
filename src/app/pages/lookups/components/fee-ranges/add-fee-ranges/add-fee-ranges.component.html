@@ -2,12 +2,10 @@
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
-        [title]="'Main Information'"
-        [description]="
-          'Fees Ranges'
-        "
+        [title]="''"
+        [description]="'Fees Ranges'"
         [addFeeRangesForm]="true"
-        [feeTypes]="feeTypes$ | async"    
+        [feeTypes]="feeTypes$ | async"
         [formGroup]="addFeeRangesForm"
         (submitForm)="addOrEditFeeRange()"
         [editMode]="editMode"

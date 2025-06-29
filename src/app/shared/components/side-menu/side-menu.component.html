@@ -1,20 +1,25 @@
 <div class="side-menu-container" *ngIf="isLoggedIn">
   <div class="side-menu">
     <img class="logoS" src="/assets/logoS.svg" />
-    <button
-      class="menuItem"
-      *ngFor="let item of menuItems"
-      pButton
-      style="color: #7c8493"
-      icon="{{ item.icon }}"
-      class="menu-button"
-      (click)="toggleMenu(item)"
-      [ngClass]="{ active: activeMenu === item.id }"
-      [pTooltip]="item.label"
-      tooltipPosition="right"
-    ></button>
+    <ng-container *ngFor="let item of menuItems">
+      <button
+        *ngIf="hasPermission(item.permission)"
+        pButton
+        type="button"
+        class="menu-item menu-button"
+        [icon]="item.icon"
+        (click)="toggleMenu(item)"
+        [ngClass]="{ active: activeMenu === item.id }"
+        pTooltip="{{ item.label }}"
+        tooltipPosition="right"
+      ></button>
+    </ng-container>
   </div>
-  <div class="toggle-menu" *ngIf="activeMenu">
+
+  <div
+    class="toggle-menu"
+    *ngIf="activeMenu && (filteredMenuData[activeMenu]?.length || 0) > 0"
+  >
     <img class="logo" src="/assets/logo.svg" />
     <p-iconfield>
       <p-inputicon styleClass="pi pi-search" />
@@ -29,7 +34,9 @@
     </p-iconfield>
     <p-panelmenu
       [model]="
-        filteredMenuItems.length > 0 ? filteredMenuItems : getActiveMenuItems()
+        filteredMenuItems.length > 0
+          ? filteredMenuItems
+          : filteredMenuData[activeMenu]
       "
       [multiple]="false"
       (onNodeSelect)="setActiveMenuItem($event)"

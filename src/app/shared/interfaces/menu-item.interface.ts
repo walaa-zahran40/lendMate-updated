@@ -1,8 +1,8 @@
 export interface MenuItem {
+  id?: string;
   label: string;
   icon?: string;
   routerLink?: string;
   items?: MenuItem[];
-  /** the exact claim key in your JWT, e.g. "/Clients/GetAll" */
-  permissionKey?: string | string[];
+  permission?: string; // <-- which claim toggles *this* item
 }
