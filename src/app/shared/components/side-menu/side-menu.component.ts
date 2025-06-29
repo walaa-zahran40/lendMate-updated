@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MenuToggleService } from '../../services/menu-toggle.service';
 import { filter, Subject, Subscription, takeUntil } from 'rxjs';
 import { MenuItem } from '../../interfaces/menu-item.interface';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
 import { InteractionStatus } from '@azure/msal-browser';
 import { PermissionService } from '../../../pages/login/store/permissions/permission.service';
@@ -1053,74 +1053,88 @@ export class SideMenuComponent {
     private route: ActivatedRoute,
     private authService: MsalService,
     private msalBroadcastService: MsalBroadcastService,
-    private permissionService: PermissionService
+    private permissionService: PermissionService,
+    private router: Router
   ) {}
 
   ngOnInit() {
-    this.toggleSub = this.menuToggleService.toggle$.subscribe(
-      (isVisible) => (this.isVisible = isVisible)
-    );
+    // this.toggleSub = this.menuToggleService.toggle$.subscribe(
+    //   (isVisible) => (this.isVisible = isVisible)
+    // );
 
-    this.route.paramMap.subscribe((pm) => {
-      this.raw = pm.get('teamId');
-      this.clientId = pm.get('clientId');
-    });
+    // this.route.paramMap.subscribe((pm) => {
+    //   this.raw = pm.get('teamId');
+    //   this.clientId = pm.get('clientId');
+    // });
+    // 1) First, always re‐run applyPermissionFilter as soon as permissionsLoaded$ ever emits.
+    this.permissionService.permissionsLoaded$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.applyPermissionFilter();
+        console.log('[SideMenu] filteredTopLevel:', this.filteredTopLevel);
+      });
 
     this.msalBroadcastService.inProgress$
       .pipe(
         filter((status) => status === InteractionStatus.None),
         takeUntil(this.destroy$)
       )
-      .subscribe(() => this.handleMsalReady());
+      .subscribe(() => this.applyPermissionFilter());
+
     // NEW: whenever backend perms are loaded (or reloaded), rebuild menu
-    this.permsSub = this.permissionService.permissionsLoaded$.subscribe(() => {
-      this.applyPermissionFilter();
-    });
+    this.permsSub = this.permissionService.permissionsLoaded$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.applyPermissionFilter();
+      });
   }
-  private handleMsalReady() {
-    const accounts = this.authService.instance.getAllAccounts();
-    this.isLoggedIn = !!accounts?.length;
-    if (this.isLoggedIn) {
-      // still optional if you want to gate on AAD id_token claims
-      this.claims = accounts[0].idTokenClaims as any;
-      // initial filter
-      this.applyPermissionFilter();
-    }
-  }
+
   applyPermissionFilter() {
-    // 1) Filter the top‐level buttons:
+    // 1) Rebuild the top‐level buttons from menuItems + permissions:
     this.filteredTopLevel = this.menuItems.filter((item) =>
       this.hasPermission(item.permission)
     );
-    console.log('[SideMenu] filteredTopLevel:', this.filteredTopLevel);
 
-    // 2) For each section, prune out groups and leaves without permission:
+    // 2) Now build the nested menu data only for those sections:
     this.filteredMenuData = {};
+
     for (const section of this.filteredTopLevel) {
-      const rawGroups = this.menuData[section.id];
-      this.filteredMenuData[section.id] = rawGroups
-        .filter((group) => {
-          const key = Array.isArray(group.permission)
-            ? group.permission[0]
-            : group.permission;
-          return this.hasPermission(key);
-        })
-        .map((group) => ({
-          ...group,
-          items: group.items?.filter((leaf) => {
-            const key = Array.isArray(leaf.permission)
-              ? leaf.permission[0]
-              : leaf.permission;
-            return this.hasPermission(key);
-          }),
-        }))
-        .filter((group) => (group.items?.length ?? 0) > 0); // drop empty groups
+      const rawGroups = this.menuData[section.id] || [];
+      const kept: any[] = [];
+
+      for (const grp of rawGroups) {
+        // ——— Leaf entries (no children) ———
+        if (grp.routerLink) {
+          if (this.hasPermission(grp.permission)) {
+            kept.push(grp);
+          }
+          continue;
+        }
+
+        // ——— Real groups with children ———
+        if (!this.hasPermission(grp.permission)) {
+          continue;
+        }
+
+        // filter children down to those you’re allowed to see
+        const children = (grp.items || []).filter((i) =>
+          this.hasPermission(i.permission)
+        );
+
+        if (children.length) {
+          kept.push({ ...grp, items: children });
+        }
+      }
+
+      this.filteredMenuData[section.id] = kept;
     }
   }
 
-  hasPermission(claimKey?: string): boolean {
-    if (!claimKey) return true; // no guard = always show
-    return this.permissionService.hasPermission(claimKey);
+  hasPermission(key?: string): boolean {
+    if (!key) return true;
+    const ok = this.permissionService.hasPermission(key);
+    console.log(`[SideMenu] hasPermission(${key}) →`, ok);
+    return ok;
   }
   ngOnDestroy() {
     // now unsubscribe the Subscription—not the Observable!
@@ -1131,10 +1145,10 @@ export class SideMenuComponent {
   }
 
   toggleMenu(item: any) {
+    console.log('[SideMenu] Toggled to menu:', item.id);
     this.activeMenu = this.activeMenu === item.id ? null : item.id;
-    console.log('[SideMenu] Toggled to menu:', this.activeMenu);
+    this.activeMenuItem = null;
     this.filterMenuItems();
-    console.log('[SideMenu] filteredMenuItems:', this.filteredMenuItems);
   }
 
   getActiveLabel(): string {
@@ -1148,7 +1162,18 @@ export class SideMenuComponent {
   }
 
   setActiveMenuItem(event: any) {
-    this.activeMenuItem = event.node.label;
+    const node = event.node;
+    console.log('[SideMenu] Panel node selected:', node);
+    this.activeMenuItem = node.label;
+
+    if (node.routerLink) {
+      // routerLink in your model is a string; wrap it as an array
+      const link = Array.isArray(node.routerLink)
+        ? node.routerLink
+        : [node.routerLink];
+      console.log('[SideMenu] Navigating to', link);
+      this.router.navigate(link);
+    }
   }
   filterMenuItems() {
     const activeItems = this.getActiveMenuItems();

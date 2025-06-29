@@ -86,7 +86,8 @@ export class AddMeetingsFormComponent implements OnInit, OnDestroy {
   @Output() addGracePeriod = new EventEmitter<void>();
   @Output() removeGracePeriod = new EventEmitter<number>();
   @Output() viewContactPersons = new EventEmitter<number>();
-
+  datetime12h: Date[] | undefined;
+  datetime12h_1: Date[] | undefined;
   id!: string;
   @Input() applyReusable: boolean = false;
   @Input() selectedFile!: any;
