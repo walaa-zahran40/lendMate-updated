@@ -74,7 +74,7 @@ export class MandateActionNotificationGroupsService {
     console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: MandateActionNotificationGroup[]; totalCount: number }>(
-        `${this.api}/GetAllMandateActionNotificationGroupsHistory`
+        `${this.api}/GetAllMandateStatusActionNotificationGroupsHistory`
       )
       .pipe(
         tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),

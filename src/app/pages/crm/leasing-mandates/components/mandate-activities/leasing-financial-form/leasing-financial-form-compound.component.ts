@@ -270,6 +270,16 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
         this.originalFinancialForms = [...rows];
         // this.filteredFinancialForms = [...rows];
       });
+
+    const isManual = this.leasingFinancialCurrencyForm.get('isManuaExchangeRate')?.value;
+    const manualExchangeRateControl = this.leasingFinancialCurrencyForm.get('manualExchangeRate');
+    if (manualExchangeRateControl) {
+      if (isManual) {
+        manualExchangeRateControl.enable({ emitEvent: false });
+      } else {
+        manualExchangeRateControl.disable({ emitEvent: false });
+      }
+    }
   }
 
   ngOnDestroy() {
@@ -294,7 +304,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
       paymentPeriodId: [null, Validators.required],
       paymentPeriodMonthCount: [null],
       gracePeriod: [null, Validators.required],
-      gracePeriodUnitId: [null, Validators.required],
+      gracePeriodUnitId: [null],
     });
   }
   private initializeLeasingFinancialCurrencyForm() {
@@ -325,6 +335,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
       .get('assetCost')
       ?.valueChanges.subscribe(() => {
         console.log('AssetCost changed.');
+        this.recalculateAndValidateFinancialFields();
         this.updateNfaAndCalculations();
         this.calculateReservePaymentAmount();
       });
@@ -351,6 +362,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
       .get('rvPercent')
       ?.valueChanges.subscribe(() => {
         console.log('RVPercent changed.');
+        this.recalculateAndValidateFinancialFields();
         this.updateRvAmount();
         this.updateProvisionPercent();
         this.updateProvisionAmount();
@@ -368,6 +380,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
       .get('provisionPercent')
       ?.valueChanges.subscribe(() => {
         console.log('ProvisionPercent changed.');
+        this.recalculateAndValidateFinancialFields();
         this.updateProvisionAmount();
       });
 
@@ -441,6 +454,12 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
         this.calculateReservePaymentAmount();
         this.calculateReservePaymentCount();
       });
+
+    this.leasingFinancialBasicForm.get('percentOfFinance')?.valueChanges.subscribe(() => {
+      this.recalculateAndValidateFinancialFields();
+      this.updateNfaAndCalculations();
+      this.calculateReservePaymentAmount();
+    });
 
     // NFA Dependencies
     this.leasingFinancialBasicForm.get('nfa')?.valueChanges.subscribe(() => {
@@ -679,24 +698,36 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
       .get('reservePaymentCount')
       ?.setValue(reservePaymentCount, { emitEvent: false });
   }
-  onCheckboxChange(event: { originalEvent: Event; checked: boolean }) {
-    const manualExchangeRateControl =
-      this.leasingFinancialCurrencyForm.get('manualExchangeRate')!;
 
-    // Enable the control whenever the checkbox is toggled on
-    if (event?.checked) {
-      console.log(
-        'Manual checkbox check detected. Enabling manualExchangeRate control.'
-      );
+  onCheckboxChange(event: { originalEvent: Event; checked: boolean }) {
+    const manualExchangeRateControl = this.leasingFinancialCurrencyForm.get('manualExchangeRate');
+    if (!manualExchangeRateControl) return;
+
+    if (event.checked) {
       manualExchangeRateControl.enable({ emitEvent: false });
     } else {
-      console.log(
-        'Manual checkbox uncheck detected. Resetting and disabling manualExchangeRate control.'
-      );
-      manualExchangeRateControl.reset(0, { emitEvent: false });
+      manualExchangeRateControl.setValue(null, { emitEvent: false });
       manualExchangeRateControl.disable({ emitEvent: false });
     }
   }
+  // onCheckboxChange(event: { originalEvent: Event; checked: boolean }) {
+  //   const manualExchangeRateControl =
+  //     this.leasingFinancialCurrencyForm.get('manualExchangeRate')!;
+
+  //   // Enable the control whenever the checkbox is toggled on
+  //   if (event?.checked) {
+  //     console.log(
+  //       'Manual checkbox check detected. Enabling manualExchangeRate control.'
+  //     );
+  //     manualExchangeRateControl.enable({ emitEvent: false });
+  //   } else {
+  //     console.log(
+  //       'Manual checkbox uncheck detected. Resetting and disabling manualExchangeRate control.'
+  //     );
+  //     manualExchangeRateControl.reset(0, { emitEvent: false });
+  //     manualExchangeRateControl.disable({ emitEvent: false });
+  //   }
+  // }
   onPaymentPeriodSelected(event: PaymentPeriod) {
     console.log('PaymentPeriod selected:', event);
     const monthCount = event?.monthCount || 0;
@@ -776,12 +807,24 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
   }
   /** Return true only if all three FormGroups are valid */
 
+  // isAllValid(): boolean {
+  //   return (
+  //     this.leasingFinancialBasicForm.valid &&
+  //     this.leasingFinancialRateForm.valid &&
+  //     this.leasingFinancialCurrencyForm.valid
+  //   );
+  // }
   isAllValid(): boolean {
+    const form = this.leasingFinancialRateForm;
     return (
-      this.leasingFinancialBasicForm.valid &&
-      this.leasingFinancialRateForm.valid &&
-      this.leasingFinancialCurrencyForm.valid
-    );
+      (form.get('interestRate')?.valid ?? false) &&
+      (form.get('insuranceRate')?.valid ?? false) &&
+      (form.get('tenor')?.valid ?? false) &&
+      (form.get('paymentPeriodId')?.valid ?? false) &&
+      (form.get('gracePeriod')?.valid ?? false)
+    )
+    && this.leasingFinancialBasicForm.valid
+    && this.leasingFinancialCurrencyForm.valid;
   }
   /** “Calculate” should run whatever calc logic you need on all three forms */
   onCalculateAll(): void {
@@ -849,7 +892,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
       // Cleanup
       manualExchangeRate: undefined,
       paymentMethodId: undefined,
-      gracePeriod: undefined,
+      gracePeriodCount: rawRate.gracePeriod,
     };
 
     console.log('Submitting form data:', payload);
@@ -939,6 +982,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
           this.leasingFinancialCurrencyForm.get('provisionPercent')?.value || 0
         ).toFixed(3)
       ),
+      gracePeriodCount: this.leasingFinancialRateForm.get('gracePeriod')?.value || 0,
     };
     if (this.leasingFinancialBasicForm.valid) {
       this.leasingFinancialBasicForm.markAsPristine();
@@ -1079,5 +1123,24 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
         console.error('Failed to refresh actions:', err);
       },
     });
+  }
+
+  recalculateAndValidateFinancialFields(): void {
+    const assetCost = +this.leasingFinancialBasicForm.get('assetCost')?.value || 0;
+    const percentOfFinance = +this.leasingFinancialBasicForm.get('percentOfFinance')?.value || 0;
+    const downPayment = assetCost * (1 - (percentOfFinance / 100));
+    const nfa = assetCost - downPayment;
+    const rvPercent = +this.leasingFinancialCurrencyForm.get('rvPercent')?.value || 0;
+    const rvAmount = Math.round((rvPercent / 100) * nfa);
+    const provisionPercent = +this.leasingFinancialCurrencyForm.get('provisionPercent')?.value || 0;
+    const provisionAmount = provisionPercent / 100 * (nfa - rvAmount);
+
+    // Update form controls with recalculated values
+    this.leasingFinancialBasicForm.get('downPayment')?.setValue(downPayment, { emitEvent: false });
+    this.leasingFinancialBasicForm.get('nfa')?.setValue(nfa, { emitEvent: false });
+    this.leasingFinancialCurrencyForm.get('rvAmount')?.setValue(rvAmount, { emitEvent: false });
+    this.leasingFinancialCurrencyForm.get('provisionAmount')?.setValue(provisionAmount, { emitEvent: false });
+
+    // Optionally, add validation or error handling here
   }
 }

@@ -12,11 +12,10 @@ import {
 import { TableComponent } from '../../../../../../../shared/components/table/table.component';
 import { NotificationGroup } from '../../../../../store/notification-groups/notification-group.model';
 import { selectAllNotificationGroups } from '../../../../../store/notification-groups/notification-groups.selectors';
-import { loadAll as loadNotificationGroups } from '../../../../../store/notification-groups/notification-groups.actions';
+import { loadNotificationGroupHistory, loadAll as loadNotificationGroups } from '../../../../../store/notification-groups/notification-groups.actions';
 import { MandateActionNotificationGroup } from '../../../../../store/mandate-statuses-actions-activities/MandateStatusActionNotificationGroup/action-notification-group.model';
 import { MandateActionNotificationGroupsFacade } from '../../../../../store/mandate-statuses-actions-activities/MandateStatusActionNotificationGroup/action-notification-groups.facade';
-import { loadActionNotificationGroupHistory } from '../../../../../store/client-statuses-actions-activities/ClientStatusActionNotificationGroup/action-notification-groups.actions';
-import { selectActionNotificationGroupHistoryState } from '../../../../../store/client-statuses-actions-activities/ClientStatusActionNotificationGroup/action-notification-groups.selectors';
+import { loadMandateActionNotificationGroupHistory } from '../../../../../store/mandate-statuses-actions-activities/MandateStatusActionNotificationGroup/action-notification-groups.actions';
 import { selectActionAuthorizationGroupHistory } from '../../../../../store/mandate-statuses-actions-activities/MandateStatusActionAuthorizationGroup/action-authorization-groups.selectors';
 
 @Component({
@@ -57,7 +56,7 @@ export class ViewMandateActionNotificationGroupsComponent {
     const raw = this.route.snapshot.paramMap.get('mandateStatusActionId');
     this.mandateStatusActionIdParam = raw !== null ? Number(raw) : undefined;
 
-    this.store.dispatch(loadActionNotificationGroupHistory());
+    this.store.dispatch(loadNotificationGroupHistory());
     this.notificationGroupsList$ = this.store.select(
       selectActionAuthorizationGroupHistory
     );

@@ -5622,7 +5622,8 @@ icon="pi pi-cog"
             Grace Period Count is required.
           </small>
           <label for="gracePeriodUnitId" class="label-container">
-            Grace Period Unit<sup class="danger">*</sup>
+            Grace Period Unit
+            <!-- <sup class="danger">*</sup> -->
           </label>
           <p-select
             [options]="gracePeriodUnitsList"
@@ -5633,7 +5634,7 @@ icon="pi pi-cog"
             name="gracePeriodUnitId"
             styleClass="w-full md:w-80"
           />
-          <small
+          <!-- <small
             class="p-error d-block"
             *ngIf="
               formGroup.get('gracePeriodUnitId')?.invalid &&
@@ -5641,7 +5642,7 @@ icon="pi pi-cog"
             "
           >
             Grace Period Unit Required.
-          </small>
+          </small> -->
         </div>
       </div>
     </ng-container>
@@ -6207,7 +6208,7 @@ icon="pi pi-cog"
           <p-checkbox
             formControlName="isManuaExchangeRate"
             binary="true"
-            (onChange)="onCheckboxChange.emit()"
+           (onChange)="onCheckboxChange.emit($event)"
           ></p-checkbox>
         </div>
         <div class="col-sm">
