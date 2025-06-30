@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, Observable, takeUntil, combineLatest, forkJoin } from 'rxjs';
 import { Call } from '../../../store/calls/call.model';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
@@ -37,15 +37,17 @@ export class ViewCallsComponent {
 
   clients!: Observable<Client[]>;
   callTypes!: Observable<CallType[]>;
+  raw = this.route.snapshot.paramMap.get('clientId');
 
   constructor(
     private router: Router,
     private facade: CallsFacade,
     private clientsFacade: ClientsFacade,
-    private callTypesFacade: CallTypesFacade
+    private callTypesFacade: CallTypesFacade,
+    private route: ActivatedRoute
   ) {}
   ngOnInit() {
-    this.facade.loadAll();
+    this.facade.loadById(this.raw);
     this.calls$ = this.facade.all$;
 
     this.clientsFacade.loadAll();
@@ -78,7 +80,7 @@ export class ViewCallsComponent {
   }
 
   onAddCall() {
-    this.router.navigate(['/communication/add-calls']);
+    this.router.navigate([`/communication/add-calls/${this.raw}`]);
   }
 
   ngOnDestroy() {

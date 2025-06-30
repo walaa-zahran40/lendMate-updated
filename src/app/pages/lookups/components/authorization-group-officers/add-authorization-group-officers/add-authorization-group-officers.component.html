@@ -2,13 +2,11 @@
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
-        [title]="'Main Information'"
-        [description]="
-          'Authorization Group Officers'
-        "
+        [title]="''"
+        [description]="'Authorization Group Officers'"
         [addAuthorizationGroupOfficersLookupsForm]="true"
-        [authorizationGroups]="authorizationGroups$ | async"    
-        [officers]="officers$ | async"    
+        [authorizationGroups]="authorizationGroups$ | async"
+        [officers]="officers$ | async"
         [formGroup]="addAuthorizationGroupOfficersLookupsForm"
         (submitForm)="addOrEditAuthorizationGroupOfficer()"
         [editMode]="editMode"

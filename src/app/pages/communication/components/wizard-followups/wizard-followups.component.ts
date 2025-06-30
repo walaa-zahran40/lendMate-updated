@@ -31,8 +31,7 @@ export class WizardFollowupsComponent {
         imgUrl: '/assets/images/shared/card/add.svg',
         imgAlt: 'add',
         title: 'Follow Up Points',
-        content:
-          'Introduce your company core info quickly to users by fill up company details',
+        content: '',
         link: `communication/view-follow-up-points/${this.followupId}/${communicationId}`,
       },
     ];

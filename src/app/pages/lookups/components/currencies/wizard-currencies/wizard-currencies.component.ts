@@ -21,8 +21,7 @@ export class WizardCurrenciesComponent {
         imgUrl: '/assets/images/shared/card/currency.svg',
         imgAlt: 'currency Exchange',
         title: 'Currency Exchange',
-        content:
-          'Introduce your company core info quickly to users by fill up company details',
+        content: '',
         link: `/lookups/view-currency-exchange-rates/${currencyId}`,
       },
     ];

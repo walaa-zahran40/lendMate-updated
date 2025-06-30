@@ -42,6 +42,23 @@ export class ViewAreasComponent implements OnInit, OnDestroy {
     // 1) load once
     this.areasFacade.loadHistory();
     this.govFacade.loadAll();
+    // 2. expose the normalized & sorted list to the template...
+    this.areas$ = combineLatest([
+      this.areasFacade.history$,
+      this.govFacade.all$,
+    ]).pipe(
+      map(([areas, govs]) =>
+        areas
+          .map((a) => ({
+            ...a,
+            governorateName:
+              govs.find((g) => g.id === (a.governorate?.id ?? a.governorateId))
+                ?.name ?? '—',
+          }))
+          .sort((a, b) => b.id - a.id)
+      ),
+      tap((normalized) => (this.filteredArea = [...normalized])) // seed your filter
+    );
 
     // 2) on any create/update/delete → reload
     this.areasFacade.operationSuccess$
@@ -55,28 +72,6 @@ export class ViewAreasComponent implements OnInit, OnDestroy {
         tap(() => this.areasFacade.loadHistory())
       )
       .subscribe();
-
-    // 3) combine, filter active, map governorateName, sort desc, emit
-    combineLatest([this.areasFacade.history$, this.govFacade.all$])
-      .pipe(
-        takeUntil(this.destroy$),
-        map(([areas, govs]) =>
-          areas
-            // Remove isActive filter here since it's historical
-            .map((a) => ({
-              ...a,
-              governorateName:
-                govs.find(
-                  (g) => g.id === (a.governorate?.id ?? a.governorateId)
-                )?.name || '—',
-            }))
-            .sort((a, b) => b.id - a.id)
-        )
-      )
-      .subscribe((normalized) => {
-        this.originalArea = normalized;
-        this.filteredArea = [...normalized];
-      });
   }
 
   onAddArea() {

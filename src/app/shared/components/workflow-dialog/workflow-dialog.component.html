@@ -8,12 +8,12 @@
 >
   <div class="p-fluid">
     <div class="p-field">
-      <label for="comment">Comment</label>
+      <label for="comment">Write a Comment</label>
       <textarea
-        id="comment"
-        rows="4"
+        rows="5"
+        style="width: 100%"
+        pTextarea
         [(ngModel)]="comment"
-        class="p-inputtextarea"
       ></textarea>
     </div>
   </div>
@@ -31,6 +31,7 @@
       pButton
       type="button"
       label="Save"
+      class="p-button-text"
       icon="pi pi-check"
       (click)="onSave()"
     ></button>

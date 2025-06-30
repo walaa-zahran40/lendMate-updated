@@ -4,6 +4,7 @@ import { MenuItem } from 'primeng/api';
 @Component({
   standalone: false,
   selector: 'app-workflow-dialog',
+  styleUrl: './workflow-dialog.component.scss',
   templateUrl: './workflow-dialog.component.html',
 })
 export class WorkflowDialogComponent {

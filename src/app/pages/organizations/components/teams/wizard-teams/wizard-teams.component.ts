@@ -19,16 +19,14 @@ export class WizardTeamsComponent {
           imgUrl: '/assets/images/shared/card/department.svg',
           imgAlt: 'team Leads',
           title: 'Team Leads',
-          content:
-            'Introduce your company core info quickly to users by fill up company details',
+          content: '',
           link: `/organizations/view-team-lead-officers/${teamId}`,
         },
         {
           imgUrl: '/assets/images/shared/card/team.svg',
           imgAlt: 'team Members',
           title: 'Team Members',
-          content:
-            'Introduce your company core info quickly to users by fill up company details',
+          content: '',
           link: `/organizations/view-team-officers/${teamId}`,
         },
       ],

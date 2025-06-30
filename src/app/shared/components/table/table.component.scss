@@ -29,6 +29,9 @@
     .p-datatable-popover-filter {
       background: transparent;
     }
+    .p-checkbox-input:checked {
+      background: #33bd9d !important;
+    }
     .p-datatable-hoverable
       .p-datatable-tbody
       > tr:not(.p-datatable-row-selected):hover {

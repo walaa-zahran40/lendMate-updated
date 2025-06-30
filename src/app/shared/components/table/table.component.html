@@ -46,7 +46,7 @@
       </td>
       <td
         *ngFor="let col of cols"
-        class="pt-0"
+        class="pt-0 break-at-100"
         [ngClass]="{
           'value-true':
             rowData[col.field] === true || rowData[col.field] === 'yes',
@@ -99,7 +99,7 @@
         </ng-container>
       </td>
 
-      <td class="imgs pt-0">
+      <td class="imgs pt-0 break-at-100">
         <img
           src="/assets/images/shared/table/download.svg"
           alt="download"

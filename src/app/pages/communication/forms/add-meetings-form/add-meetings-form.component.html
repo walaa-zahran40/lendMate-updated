@@ -320,17 +320,24 @@
 
       <!-- Start Date -->
       <label for="startDate">Start Date<sup>*</sup></label>
-      <shared-date-picker
+
+      <p-calendar
+        inputId="calendar-12h"
+        [(ngModel)]="datetime12h"
         formControlName="startDate"
-        inputId="startDate"
-      ></shared-date-picker>
+        [showTime]="true"
+        [hourFormat]="'12'"
+      />
 
       <!-- End Date -->
       <label for="endDate">End Date<sup>*</sup></label>
-      <shared-date-picker
+      <p-calendar
+        inputId="calendar-12h"
+        [(ngModel)]="datetime12h_1"
         formControlName="endDate"
-        inputId="endDate"
-      ></shared-date-picker>
+        [showTime]="true"
+        [hourFormat]="'12'"
+      />
 
       <!-- Comments -->
       <label for="comments">Comments</label>

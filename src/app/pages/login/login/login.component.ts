@@ -18,7 +18,6 @@ import {
   EventMessage,
   RedirectRequest,
   EventType,
-  AuthenticationResult,
 } from '@azure/msal-browser';
 import { Subject, filter, takeUntil } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -130,44 +129,50 @@ export class LoginComponent implements OnInit, OnDestroy {
     const url = environment.apiUrl + 'auth/Login';
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    this.http.post(url, profile, { headers }).subscribe(
-      (response: any) => {
-        const token = response?.token;
-        const tokenKey = response?.tokenKey;
-
-        if (token) {
-          try {
-            const decoded = jwtDecode<CustomJwtPayload>(token);
-            const username =
-              decoded[
-                'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
-              ];
-            const role =
-              decoded[
-                'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
-              ];
-
-            sessionStorage.setItem('authToken', token);
-            sessionStorage.setItem('username', username);
-            sessionStorage.setItem('role', role);
-            sessionStorage.setItem('tokenKey', tokenKey);
-            sessionStorage.setItem('decodedToken', JSON.stringify(decoded));
-
-            this.permissionService.loadPermissions();
-            this.router.navigate(['/crm/clients/view-clients-onboarding']);
-          } catch (error) {
-            console.error('Error decoding token:', error);
+    this.http
+      .post<{ token: string; tokenKey: string }>(url, profile, { headers })
+      .subscribe(
+        ({ token, tokenKey }) => {
+          if (!token) {
+            console.error('Token not found in response');
             this.authService.logoutRedirect();
+            return;
           }
-        } else {
-          console.error('Token not found in response:', response);
+
+          // decode and stash identity
+          const decoded = jwtDecode<CustomJwtPayload>(token);
+          sessionStorage.setItem('authToken', token);
+          sessionStorage.setItem('tokenKey', tokenKey);
+          sessionStorage.setItem(
+            'username',
+            decoded[
+              'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'
+            ]
+          );
+          sessionStorage.setItem(
+            'role',
+            decoded[
+              'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
+            ]
+          );
+          sessionStorage.setItem('decodedToken', JSON.stringify(decoded));
+
+          // only navigate once permissions are available
+          const sub = this.permissionService.permissionsLoaded$.subscribe(
+            () => {
+              sub.unsubscribe();
+              console.log('directed');
+              this.router.navigate(['/crm/clients/view-clients-onboarding']);
+            }
+          );
+          // reload and broadcast API permissions
+          this.permissionService.loadPermissions();
+        },
+        (err) => {
+          console.error('Login request failed:', err);
+          this.authService.logoutRedirect();
         }
-      },
-      (error) => {
-        console.error('Login request failed:', error);
-        this.authService.logoutRedirect();
-      }
-    );
+      );
   }
 
   setLoginDisplay(): void {

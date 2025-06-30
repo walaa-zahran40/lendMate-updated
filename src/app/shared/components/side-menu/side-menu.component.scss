@@ -17,6 +17,12 @@
   .pi-ico6:before {
     content: url(/assets/icons/Ico6.svg);
   }
+  .menu-item:not(:disabled) {
+    color: #7c8493;
+  }
+  .menu-item:not(:disabled):hover {
+    color: #7c8493;
+  }
   .pi-settings:before {
     content: url(/assets/icons/settings.svg);
   }
@@ -31,6 +37,9 @@
   }
   .pi-lookUps:before {
     content: url(/assets/icons/lookUps.svg);
+  }
+  .p-panelmenu-item:read-write {
+    background: var(--side-internal);
   }
   .pi-organizations:before {
     content: url(/assets/icons/organizations.svg);

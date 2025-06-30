@@ -2,12 +2,12 @@
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
-        [title]="'Main Information'"
+        [title]="''"
         [description]="
-         'Introduce your Teams info quickly to users by fill up company details'
+          'Introduce your Teams info quickly to users by fill up company details'
         "
         [addTeamORGForm]="true"
-        [departments]="departments$ | async"    
+        [departments]="departments$ | async"
         [formGroup]="addTeamORGForm"
         (submitForm)="addOrEditTeam()"
         [editMode]="editMode"

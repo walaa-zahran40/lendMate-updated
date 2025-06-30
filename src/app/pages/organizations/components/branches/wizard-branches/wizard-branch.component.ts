@@ -18,24 +18,21 @@ export class WizardBranchComponent {
         imgUrl: '/assets/images/shared/card/branch.svg',
         imgAlt: 'branch Managers',
         title: 'Branch Managers',
-        content:
-          'Introduce your company core info quickly to users by fill up company details',
+        content: '',
         link: `/organizations/view-branch-managers/${branchId}`,
       },
       {
         imgUrl: '/assets/images/shared/card/branch.svg',
         imgAlt: 'branch Officers',
         title: 'Branch Officers',
-        content:
-          'Introduce your company core info quickly to users by fill up company details',
+        content: '',
         link: `/organizations/view-branch-officers/${branchId}`,
       },
       {
         imgUrl: '/assets/images/shared/card/address.svg',
         imgAlt: 'branch Address',
         title: 'Branch Address',
-        content:
-          'Introduce your company core info quickly to users by fill up company details',
+        content: '',
         link: `/organizations/view-branch-addresses/${branchId}`,
       },
     ];

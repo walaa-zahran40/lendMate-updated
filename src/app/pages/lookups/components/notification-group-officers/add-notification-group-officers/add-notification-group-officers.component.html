@@ -2,13 +2,11 @@
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
-        [title]="'Main Information'"
-        [description]="
-          'Notification Group Officers'
-        "
+        [title]="''"
+        [description]="'Notification Group Officers'"
         [addNotificationGroupOfficersLookupsForm]="true"
-        [notificationGroups]="notificationGroups$ | async"    
-        [officers]="officers$ | async"    
+        [notificationGroups]="notificationGroups$ | async"
+        [officers]="officers$ | async"
         [formGroup]="addNotificationGroupOfficersLookupsForm"
         (submitForm)="addOrEditNotificationGroupOfficer()"
         [editMode]="editMode"

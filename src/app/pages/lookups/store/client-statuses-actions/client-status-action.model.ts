@@ -6,5 +6,6 @@ export interface ClientStatusAction {
   statusInId: number;
   statusOutId: number;
   workflowActionTypeId: number;
+  isInitial: any;
   isActive: boolean;
 }

@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, Observable, takeUntil, forkJoin, combineLatest } from 'rxjs';
 import { Meeting } from '../../../store/meetings/meeting.model';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
@@ -38,15 +38,17 @@ export class ViewMeetingsComponent {
 
   clients!: Observable<Client[]>;
   meetingTypes!: Observable<MeetingType[]>;
+  raw = this.route.snapshot.paramMap.get('clientId');
 
   constructor(
     private router: Router,
     private facade: MeetingsFacade,
     private clientsFacade: ClientsFacade,
-    private meetingTypesFacade: MeetingTypesFacade
+    private meetingTypesFacade: MeetingTypesFacade,
+    private route: ActivatedRoute
   ) {}
   ngOnInit() {
-    this.facade.loadAll();
+    this.facade.loadById(this.raw);
     this.meetings$ = this.facade.all$;
 
     this.clientsFacade.loadAll();
@@ -81,7 +83,7 @@ export class ViewMeetingsComponent {
   }
 
   onAddMeeting() {
-    this.router.navigate(['/communication/add-meetings']);
+    this.router.navigate([`/communication/add-meetings/${this.raw}`]);
   }
 
   ngOnDestroy() {

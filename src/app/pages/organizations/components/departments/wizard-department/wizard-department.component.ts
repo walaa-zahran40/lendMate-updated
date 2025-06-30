@@ -18,8 +18,7 @@ export class WizardDepartmentComponent {
           imgUrl: '/assets/images/shared/card/department.svg',
           imgAlt: 'department Managers',
           title: 'Department Managers',
-          content:
-            'Introduce your company core info quickly to users by fill up company details',
+          content: '',
           link: `/organizations/view-department-managers/${this.departmentId}`,
         },
       ],

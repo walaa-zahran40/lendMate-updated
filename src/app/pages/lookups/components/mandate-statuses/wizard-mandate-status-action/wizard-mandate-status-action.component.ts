@@ -14,23 +14,23 @@ export class WizardMandateStatusActionComponent {
   constructor(private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    const mandateStatusActionId = this.route.snapshot.paramMap.get('mandateStatusActionId');
+    const mandateStatusActionId = this.route.snapshot.paramMap.get(
+      'mandateStatusActionId'
+    );
     console.log(this.route.snapshot.paramMap);
     this.originalCards = [
       {
         imgUrl: '/assets/images/shared/card/add-status.svg',
         imgAlt: 'add Authorization Group',
         title: 'Add Authorization Group',
-        content:
-          'Introduce your company core info quickly to users by fill up company details',
+        content: '',
         link: `/lookups/view-mandate-action-authorizationGroups/${mandateStatusActionId}`,
       },
-       {
+      {
         imgUrl: '/assets/images/shared/card/add-status.svg',
         imgAlt: 'add Notification Group',
         title: 'Add Notification Group',
-        content:
-          'Introduce your company core info quickly to users by fill up company details',
+        content: '',
         link: `/lookups/view-mandate-action-notificationGroups/${mandateStatusActionId}`,
       },
     ];

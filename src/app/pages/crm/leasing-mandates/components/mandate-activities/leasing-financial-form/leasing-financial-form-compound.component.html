@@ -16,9 +16,7 @@
   <div class="first-form">
     <app-form
       [title]="'Basic Finance Information'"
-      [description]="
-        'Introduce your company core info quickly to users by fill up company details'
-      "
+      [description]="''"
       [leasingFinancialBasicForm]="true"
       [formGroup]="leasingFinancialBasicForm"
     ></app-form>
@@ -26,9 +24,7 @@
   <div class="second-form">
     <app-form
       [title]="'Rates and Periods'"
-      [description]="
-        'Introduce your company core info quickly to users by fill up company details'
-      "
+      [description]="''"
       [leasingFinancialRateForm]="true"
       [formGroup]="leasingFinancialRateForm"
       [paymentPeriods]="paymentPeriods$ | async"
@@ -41,9 +37,7 @@
     <app-form
       class="form-currency"
       [title]="'Currency Information'"
-      [description]="
-        'Introduce your company core info quickly to users by fill up company details'
-      "
+      [description]="''"
       [leasingFinancialCurrencyForm]="true"
       [formGroup]="leasingFinancialCurrencyForm"
       [currencies]="currencies$ | async"

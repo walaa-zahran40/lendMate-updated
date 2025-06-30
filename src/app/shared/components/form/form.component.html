@@ -1,9 +1,9 @@
 <div class="parent">
   <div *ngIf="!contactPersonDetailsView" class="div1">
     <h2 class="m-0 title">{{ title }}</h2>
-    <p class="tab-panel-paragraph">
+    <!-- <p class="tab-panel-paragraph">
       {{ description }}
-    </p>
+    </p> -->
     <p-button
       *ngIf="uploadDocumentsShowMain"
       label="View Document Details"
@@ -6988,6 +6988,12 @@ icon="pi pi-cog"
         }"
       >
       </p-select>
+      <p-toggleSwitch
+        id="isInitial"
+        formControlName="isInitial"
+        label="is Initial"
+      ></p-toggleSwitch>
+      <label for="isInitial"> Initial<sup>*</sup> </label>
       <div class="row justify-end">
         <div
           class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"

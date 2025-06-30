@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { MenuToggleService } from '../../services/menu-toggle.service';
 import { filter, Subject, Subscription, takeUntil } from 'rxjs';
 import { MenuItem } from '../../interfaces/menu-item.interface';
-import { ActivatedRoute, NavigationEnd, Route, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
 import { InteractionStatus } from '@azure/msal-browser';
+import { PermissionService } from '../../../pages/login/store/permissions/permission.service';
 
 @Component({
   selector: 'app-side-menu',
@@ -14,16 +15,49 @@ import { InteractionStatus } from '@azure/msal-browser';
 })
 export class SideMenuComponent {
   isLoggedIn = false;
+  private permsSub!: Subscription;
 
-  menuItems = [
-    { id: 'CRM', icon: 'pi pi-ico1', label: 'CRM' },
-    { id: 'Calendar', icon: 'pi pi-ico2', label: 'Calendar' },
-    { id: 'Business', icon: 'pi pi-ico3', label: 'Business' },
-    // { id: 'Orders', icon: 'pi pi-ico4', label: 'Orders' },
-    { id: 'Settings', icon: 'pi pi-cog', label: 'Settings' },
+  menuItems: Array<{
+    id: string;
+    icon: string;
+    label: string;
+    permission?: string;
+  }> = [
+    {
+      id: 'CRM',
+      icon: 'pi pi-ico1',
+      label: 'CRM',
+      permission: '/Clients/GetAll',
+    },
+    {
+      id: 'Calendar',
+      icon: 'pi pi-ico2',
+      label: 'Calendar',
+      permission: '/Meetings/GetAll',
+    },
+    {
+      id: 'Business',
+      icon: 'pi pi-ico3',
+      label: 'Business',
+      permission: '/LeasingMandates/GetAll',
+    },
+    {
+      id: 'Settings',
+      icon: 'pi pi-cog',
+      label: 'Settings',
+      permission: '/ApplicationRoles/GetAll',
+    },
   ];
   raw = this.route.snapshot.paramMap.get('teamId');
   private destroy$ = new Subject<void>();
+  claims: Record<string, any> = {};
+  filteredTopLevel: Array<{
+    id: string;
+    icon: string;
+    label: string;
+    permission?: string;
+  }> = [];
+  filteredMenuData: Record<string, MenuItem[]> = {};
 
   activeMenu: string | null = null;
   activeMenuItem: string | null = null;
@@ -38,16 +72,19 @@ export class SideMenuComponent {
       {
         label: 'Client Operations',
         icon: 'pi pi-users',
+        permission: '/Clients/GetAll', // show this group if user can read clients
         items: [
           {
             label: 'Quick Onboarding',
             icon: 'pi pi-user-plus',
             routerLink: '/crm/clients/view-clients-onboarding',
+            permission: '/Clients/GetAll',
           },
           {
             label: 'Clients',
             icon: 'pi pi-user-plus',
             routerLink: '/crm/clients/view-clients',
+            permission: '/Clients/GetAll',
           },
           // {
           //   label: 'Client Address',
@@ -142,42 +179,42 @@ export class SideMenuComponent {
           // },
         ],
       },
-      {
-        label: 'Communication',
-        icon: 'pi pi-users',
-        items: [
-          {
-            label: 'Call',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-calls',
-          },
-          {
-            label: 'Meeting',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-meetings',
-          },
-          // {
-          //   label: 'FollowUp',
-          //   icon: 'pi pi-user-plus',
-          //   routerLink: '/communication/view-followups',
-          // },
-          // {
-          //   label: 'FollowUpPoints',
-          //   icon: 'pi pi-user-plus',
-          //   routerLink: '/communication/view-followup-points',
-          // },
-          // {
-          //   label: 'CommunicationFollowUp',
-          //   icon: 'pi pi-user-plus',
-          //   routerLink: '/communication/view-followups',
-          // },
-          // {
-          //   label: 'MonitorFollowUps',
-          //   icon: 'pi pi-user-plus',
-          //   routerLink: '/communication/view-monitor-followups',
-          // },
-        ],
-      },
+      // {
+      //   label: 'Communication',
+      //   icon: 'pi pi-users',
+      //   items: [
+      //     {
+      //       label: 'Call',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-calls',
+      //     },
+      //     {
+      //       label: 'Meeting',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-meetings',
+      //     },
+      // {
+      //   label: 'FollowUp',
+      //   icon: 'pi pi-user-plus',
+      //   routerLink: '/communication/view-followups',
+      // },
+      // {
+      //   label: 'FollowUpPoints',
+      //   icon: 'pi pi-user-plus',
+      //   routerLink: '/communication/view-followup-points',
+      // },
+      // {
+      //   label: 'CommunicationFollowUp',
+      //   icon: 'pi pi-user-plus',
+      //   routerLink: '/communication/view-followups',
+      // },
+      // {
+      //   label: 'MonitorFollowUps',
+      //   icon: 'pi pi-user-plus',
+      //   routerLink: '/communication/view-monitor-followups',
+      // },
+      //   ],
+      // },
       // {
       //   label: 'Vendors',
       //   icon: 'pi pi-users',
@@ -330,6 +367,7 @@ export class SideMenuComponent {
             label: 'Mandate',
             icon: 'pi pi-user-plus',
             routerLink: '/crm/leasing-mandates/view-mandates',
+            permission: '/LeasingMandates/GetAll',
           },
           // {
           //   label: 'MandateAdditionalTerm',
@@ -354,6 +392,7 @@ export class SideMenuComponent {
         label: 'Calendar',
         icon: 'pi pi-users',
         routerLink: '/communication/save-meeting',
+        permission: '/Meetings/GetAll',
       },
     ],
     // Assets: [
@@ -411,21 +450,25 @@ export class SideMenuComponent {
             label: 'BusinessLine',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-business-lines',
+            permission: '/BusinessLines/GetAll',
           },
           {
             label: 'Product',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-products',
+            permission: '/Products/GetAll',
           },
           {
             label: 'Sector',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-sectors',
+            permission: '/Sectors/GetAll',
           },
           {
             label: 'SubSector',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-sub-sectors',
+            permission: '/SubSectors/GetAll',
           },
           // {
           //   label: 'Tenants ',
@@ -442,22 +485,26 @@ export class SideMenuComponent {
             label: 'Branches',
             icon: 'pi pi-user-plus',
             routerLink: '/organizations/view-branches',
+            permission: '/Branches/GetAll',
           },
           {
             label: 'Departments',
             icon: 'pi pi-user-plus',
             routerLink: '/organizations/view-departments',
+            permission: '/Departments/GetAll',
           },
           {
             label: 'Officers',
             icon: 'pi pi-user-plus',
             routerLink: '/organizations/view-officers',
+            permission: '/Officers/GetAll',
           },
 
           {
             label: 'SignatoryOfficer',
             icon: 'pi pi-user-plus',
             routerLink: '/organizations/view-signatory-officers',
+            permission: '/SignatoryOfficers/GetAll',
           },
           // {
           //   label: 'TeamLeadOfficer',
@@ -474,6 +521,7 @@ export class SideMenuComponent {
             label: 'Teams',
             icon: 'pi pi-user-plus',
             routerLink: '/organizations/view-teams',
+            permission: '/Teams/GetAll',
           },
         ],
       },
@@ -485,26 +533,31 @@ export class SideMenuComponent {
             label: 'Legal Form',
             icon: 'pi pi-user-plus',
             routerLink: '/legals/view-legal-forms',
+            permission: '/LegalForms/GetAll',
           },
           {
             label: 'Legal Form Law',
             icon: 'pi pi-user-plus',
             routerLink: '/legals/view-legal-form-laws',
+            permission: '/LegalFormLaws/GetAll',
           },
           {
             label: 'CR Authority Office',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-authority-offices',
+            permission: '/CRAuthorityOffices/GetAll',
           },
           {
             label: 'Tax Office',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-tax-offices',
+            permission: '/TaxOffices/GetAll',
           },
           {
             label: 'SME Client Code',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-sme-client-codes',
+            permission: '/SMEClientCodes/GetAll',
           },
         ],
       },
@@ -516,6 +569,7 @@ export class SideMenuComponent {
             label: 'Application Roles',
             icon: 'pi pi-user-plus',
             routerLink: '/organizations/view-roles',
+            permission: '/ApplicationRoles/GetAll',
           },
           // {
           //   label: 'Application Role Claims',
@@ -536,16 +590,19 @@ export class SideMenuComponent {
             label: 'Page Operations',
             icon: 'pi pi-user-plus',
             routerLink: '/organizations/view-page-operations',
+            permission: '/PageOperations/GetAll',
           },
           {
             label: 'Operations ',
             icon: 'pi pi-user-plus',
             routerLink: '/organizations/view-operations',
+            permission: '/Operations/GetAll',
           },
           {
             label: 'Pages',
             icon: 'pi pi-user-plus',
             routerLink: '/organizations/view-pages',
+            permission: '/Pages/GetAll',
           },
         ],
       },
@@ -557,11 +614,13 @@ export class SideMenuComponent {
             label: 'ClientStatus',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-client-statuses',
+            permission: '/ClientStatuses/GetAll',
           },
           {
             label: 'ClientStatusAction',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-client-status-actions',
+            permission: '/ClientStatusActions/GetAll',
           },
           // {
           //   label: 'ClientStatusActionAuthorizationGroup',
@@ -603,11 +662,13 @@ export class SideMenuComponent {
             label: 'Mandate Status',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-mandate-statuses',
+            permission: '/MandateStatuses/GetAll',
           },
           {
             label: 'Mandate Status Action',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-mandate-status-actions',
+            permission: '/MandateStatusActions/GetAll',
           },
           // {
           //   label: 'MandateStatusActionAuthorizationGroup',
@@ -649,16 +710,19 @@ export class SideMenuComponent {
             label: 'FeesRange',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-fee-ranges',
+            permission: '/FeesRanges/GetAll',
           },
           {
             label: 'FeeCalculationType',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-fee-calculation-types',
+            permission: '/FeeCalculationTypes/GetAll',
           },
           {
             label: 'FeeType',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-fee-types',
+            permission: '/FeeTypes/GetAll',
           },
         ],
       },
@@ -670,47 +734,56 @@ export class SideMenuComponent {
             label: 'Address Types',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-address-types',
+            permission: '/AddressTypes/GetAll',
           },
           {
             label: 'Areas',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-areas',
+            permission: '/Areas/GetAll',
           },
           {
             label: 'Asset Types',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-asset-types',
+            permission: '/AssetTypes/GetAll',
           },
           {
             label: 'Asset Type Categories',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-asset-type-categories',
+            permission: '/AssetTypeCategories/GetAll',
           },
           {
             label: 'Authority Offices',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-authority-offices',
+            permission: '/CRAuthorityOffices/GetAll',
           },
           {
             label: 'Authorization Groups',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-authorization-groups',
+            permission: '/AuthorizationGroups/GetAll',
           },
 
           {
             label: 'Authorization Group Officers',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-authorization-group-officers',
+            permission: '/AuthorizationGroupOfficers/GetAll',
           },
           {
             label: 'Business Lines',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-business-lines',
+            permission: '/BusinessLines/GetAll',
           },
           {
             label: 'Call Action Types',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-call-action-types',
+            permission: '/CallActionTypes/GetAll',
           },
           // {
           //   label: 'Call Officer Types',
@@ -721,6 +794,7 @@ export class SideMenuComponent {
             label: 'Call Types',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-call-types',
+            permission: '/CallTypes/GetAll',
           },
 
           // {
@@ -732,94 +806,112 @@ export class SideMenuComponent {
             label: 'Client Types',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-client-types',
+            permission: '/ClientTypes/GetAll',
           },
           {
             label: 'Client Officer Types',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-client-officer-types',
+            permission: '/ClientOfficerTypes/GetAll',
           },
           {
             label: 'Communication Types',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-communication-types',
+            permission: '/CommunicationTypes/GetAll',
           },
           {
             label: 'Communication Flow Types',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-communication-flow-types',
+            permission: '/CommunicationFlowTypes/GetAll',
           },
           {
             label: 'Company Types',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-company-types',
+            permission: '/CompanyTypes/GetAll',
           },
           {
             label: 'Condition',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-conditions',
+            permission: '/Conditions/GetAll',
           },
           {
             label: 'Condition Expression',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-condition-expressions',
+            permission: '/ConditionExpressions/GetAll',
           },
           {
             label: 'Countries',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-countries',
+            permission: '/Countries/GetAll',
           },
           {
             label: 'Currencies',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-currencies',
+            permission: '/Currencies/GetAll',
           },
 
           {
             label: 'Document Types',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-document-types',
+            permission: '/DocumentTypes/GetAll',
           },
           {
             label: 'FollowUp Types',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-followup-types',
+            permission: '/FollowUpTypes/GetAll',
           },
           {
             label: 'Governorates',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-governorates',
+            permission: '/Governorates/GetAll',
           },
           {
             label: 'Identification Types',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-identification-types',
+            permission: '/IdentificationTypes/GetAll',
           },
           {
             label: 'Insured By',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-insured-by',
+            permission: '/InsuredBy/GetAll',
           },
           {
             label: 'Interest Rate Benchmarks',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-interest-rate-benchmarks',
+            permission: '/InterestRateBenchmarks/GetAll',
           },
           {
             label: 'Interest Types',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-interest-types',
+            permission: '/InterestTypes/GetAll',
           },
 
           {
             label: 'Fees Ranges',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-fee-ranges',
+            permission: '/FeesRanges/GetAll',
           },
 
           {
             label: 'Leasing Types',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-leasing-types',
+            permission: '/LeasingTypes/GetAll',
           },
           // {
           //   label: 'Mandate Payment Settings',
@@ -830,48 +922,57 @@ export class SideMenuComponent {
             label: 'Mandate Validity Unit',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-mandate-validity-unit',
+            permission: '/ValidityUnits/GetAll',
           },
           {
             label: 'Meeting Types',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-meeting-types',
+            permission: '/MeetingTypes/GetAll',
           },
           {
             label: 'Notification Group',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-notification-groups',
+            permission: '/NotificationGroups/GetAll',
           },
 
           {
             label: 'Notification Group Officers',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-notification-group-officers',
+            permission: '/NotificationGroupOfficers/GetAll',
           },
 
           {
             label: 'Payment Methods',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-payment-methods',
+            permission: '/PaymentMethods/GetAll',
           },
           {
             label: 'Payment Month Days',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-payment-month-days',
+            permission: '/PaymentMonthDays/GetAll',
           },
           {
             label: 'Payment Types',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-payment-types',
+            permission: '/PaymentTypes/GetAll',
           },
           {
             label: 'Payment Periods',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-payment-periods',
+            permission: '/PaymentPeriods/GetAll',
           },
           {
             label: 'Payment Timing Terms',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-payment-timing-terms',
+            permission: '/PaymentTimingTerms/GetAll',
           },
           // {
           //   label: 'Property',
@@ -887,51 +988,61 @@ export class SideMenuComponent {
             label: 'Period Units',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-period-units',
+            permission: '/PeriodUnits/GetAll',
           },
           {
             label: 'Phone Types',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-phone-types',
+            permission: '/PhoneTypes/GetAll',
           },
           {
             label: 'Products',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-products',
+            permission: '/Products/GetAll',
           },
           {
             label: 'Rent Structure Types',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-rent-structure-types',
+            permission: '/RentStructureTypes/GetAll',
           },
           {
             label: 'Sectors',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-sectors',
+            permission: '/Sectors/GetAll',
           },
           {
             label: 'SME Client Codes',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-sme-client-codes',
+            permission: '/SMEClientCodes/GetAll',
           },
           {
             label: 'Sub Sectors',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-sub-sectors',
+            permission: '/SubSectors/GetAll',
           },
           {
             label: 'Tax Offices',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-tax-offices',
+            permission: '/AssetTypes/GetAll',
           },
           {
             label: 'TML Officer Types',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-tml-officer-types',
+            permission: '/TMLOfficerTypes/GetAll',
           },
           {
             label: 'Workflow Action Types',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-workflow-action-types',
+            permission: '/WorkflowActionTypes/GetAll',
           },
         ],
       },
@@ -941,40 +1052,100 @@ export class SideMenuComponent {
     private menuToggleService: MenuToggleService,
     private route: ActivatedRoute,
     private authService: MsalService,
-    private msalBroadcastService: MsalBroadcastService
+    private msalBroadcastService: MsalBroadcastService,
+    private permissionService: PermissionService,
+    private router: Router
   ) {}
 
   ngOnInit() {
-    // subscribe and keep the Subscription object
-    this.toggleSub = this.menuToggleService.toggle$.subscribe(
-      (isVisible) => (this.isVisible = isVisible)
-    );
+    // this.toggleSub = this.menuToggleService.toggle$.subscribe(
+    //   (isVisible) => (this.isVisible = isVisible)
+    // );
 
-    // paramMap subscription as before
-    this.route.paramMap.subscribe((pm) => {
-      this.raw = pm.get('teamId');
-      this.clientId = pm.get('clientId');
-    });
-    // 2) listen for MSAL ready events to update login flag
+    // this.route.paramMap.subscribe((pm) => {
+    //   this.raw = pm.get('teamId');
+    //   this.clientId = pm.get('clientId');
+    // });
+    // 1) First, always re‐run applyPermissionFilter as soon as permissionsLoaded$ ever emits.
+    this.permissionService.permissionsLoaded$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.applyPermissionFilter();
+        console.log('[SideMenu] filteredTopLevel:', this.filteredTopLevel);
+      });
+
     this.msalBroadcastService.inProgress$
       .pipe(
         filter((status) => status === InteractionStatus.None),
         takeUntil(this.destroy$)
       )
+      .subscribe(() => this.applyPermissionFilter());
+
+    // NEW: whenever backend perms are loaded (or reloaded), rebuild menu
+    this.permsSub = this.permissionService.permissionsLoaded$
+      .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
-        const accounts = this.authService.instance.getAllAccounts();
-        this.isLoggedIn = accounts.length > 0;
+        this.applyPermissionFilter();
       });
   }
 
+  applyPermissionFilter() {
+    // 1) Rebuild the top‐level buttons from menuItems + permissions:
+    this.filteredTopLevel = this.menuItems.filter((item) =>
+      this.hasPermission(item.permission)
+    );
+
+    // 2) Now build the nested menu data only for those sections:
+    this.filteredMenuData = {};
+
+    for (const section of this.filteredTopLevel) {
+      const rawGroups = this.menuData[section.id] || [];
+      const kept: any[] = [];
+
+      for (const grp of rawGroups) {
+        // ——— Leaf entries (no children) ———
+        if (grp.routerLink) {
+          if (this.hasPermission(grp.permission)) {
+            kept.push(grp);
+          }
+          continue;
+        }
+
+        // ——— Real groups with children ———
+        if (!this.hasPermission(grp.permission)) {
+          continue;
+        }
+
+        // filter children down to those you’re allowed to see
+        const children = (grp.items || []).filter((i) =>
+          this.hasPermission(i.permission)
+        );
+
+        if (children.length) {
+          kept.push({ ...grp, items: children });
+        }
+      }
+
+      this.filteredMenuData[section.id] = kept;
+    }
+  }
+
+  hasPermission(key?: string): boolean {
+    if (!key) return true;
+    const ok = this.permissionService.hasPermission(key);
+    console.log(`[SideMenu] hasPermission(${key}) →`, ok);
+    return ok;
+  }
   ngOnDestroy() {
     // now unsubscribe the Subscription—not the Observable!
     this.toggleSub.unsubscribe();
     this.destroy$.next();
     this.destroy$.complete();
+    this.permsSub?.unsubscribe();
   }
 
   toggleMenu(item: any) {
+    console.log('[SideMenu] Toggled to menu:', item.id);
     this.activeMenu = this.activeMenu === item.id ? null : item.id;
     this.activeMenuItem = null;
     this.filterMenuItems();
@@ -991,7 +1162,18 @@ export class SideMenuComponent {
   }
 
   setActiveMenuItem(event: any) {
-    this.activeMenuItem = event.node.label;
+    const node = event.node;
+    console.log('[SideMenu] Panel node selected:', node);
+    this.activeMenuItem = node.label;
+
+    if (node.routerLink) {
+      // routerLink in your model is a string; wrap it as an array
+      const link = Array.isArray(node.routerLink)
+        ? node.routerLink
+        : [node.routerLink];
+      console.log('[SideMenu] Navigating to', link);
+      this.router.navigate(link);
+    }
   }
   filterMenuItems() {
     const activeItems = this.getActiveMenuItems();

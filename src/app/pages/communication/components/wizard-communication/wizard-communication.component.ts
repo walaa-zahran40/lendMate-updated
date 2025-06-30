@@ -41,8 +41,7 @@ export class WizardCommunicationComponent {
         imgUrl: '/assets/images/shared/card/upload.svg',
         imgAlt: 'upload',
         title: 'Follow Ups',
-        content:
-          'Introduce your company core info quickly to users by fill up company details',
+        content: '',
         link: `communication/view-follow-ups/${communicationId}`,
       },
     ];

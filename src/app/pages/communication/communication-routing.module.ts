@@ -26,12 +26,20 @@ const routes: Routes = [
     component: AddCallsComponent,
   },
   {
+    path: 'add-calls/:clientId',
+    component: AddCallsComponent,
+  },
+  {
     path: 'edit-calls/:id',
     component: AddCallsComponent,
     canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'view-calls',
+    component: ViewCallsComponent,
+  },
+  {
+    path: 'view-calls/:clientId',
     component: ViewCallsComponent,
   },
   //Wizards
@@ -105,6 +113,10 @@ const routes: Routes = [
     component: AddMeetingsComponent,
   },
   {
+    path: 'add-meetings/:clientId',
+    component: AddMeetingsComponent,
+  },
+  {
     path: 'edit-meetings/:id',
     component: AddMeetingsComponent,
     canDeactivate: [PendingChangesGuard],
@@ -113,7 +125,10 @@ const routes: Routes = [
     path: 'view-meetings',
     component: ViewMeetingsComponent,
   },
-
+  {
+    path: 'view-meetings/:clientId',
+    component: ViewMeetingsComponent,
+  },
   {
     path: 'save-meeting',
     component: SaveMeetingComponent,

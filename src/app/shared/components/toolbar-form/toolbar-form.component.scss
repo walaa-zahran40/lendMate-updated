@@ -51,7 +51,6 @@
   --custom-flex-direction-row-reverse: row-reverse;
   h2 {
     font-family: var(--custom-font-family-regular);
-    font-weight: var(--custom-font-weight-600);
     font-size: var(--custom-size-16);
     line-height: var(--custom-line-height-25);
   }
@@ -80,7 +79,6 @@
     flex-direction: var(--custom-flex-direction);
     label {
       font-family: var(--custom-font-family-regular);
-      font-weight: var(--custom-font-weight-600);
       font-size: var(--custom-size-16);
       line-height: var(--custom-line-height-25);
       color: var(--custom-grey-bold);
@@ -163,7 +161,6 @@
       border: 1px solid var(--custom-color);
       font-family: var(--custom-font-family-epilogue);
       font-size: var(--custom-font-size-14);
-      font-weight: var(--custom-font-weight-600);
       margin-bottom: var(--custom-margin-bottom-5);
       line-height: var(--custom-line-height-25);
       border-width: var(--custom-border-width);
@@ -205,7 +202,6 @@
     }
     .p-tab {
       font-family: var(--custom-font-family);
-      font-weight: var(--custom-font-weight-600);
       font-size: var(--custom-size-16);
       line-height: var(--custom-line-height-25);
       color: var(--custom-grey);

@@ -2,13 +2,11 @@
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
-        [title]="'Main Information'"
-        [description]="
-          'Business Lines'
-        "
+        [title]="''"
+        [description]="'Business Lines'"
         [addBusinessLinesLookupsForm]="true"
-        [formGroup]="addBusinessLinesLookupsForm" 
-        (submitForm)="addOrEditBusinessLine()"  
+        [formGroup]="addBusinessLinesLookupsForm"
+        (submitForm)="addOrEditBusinessLine()"
         [editMode]="editMode"
         [viewOnly]="viewOnly"
       ></app-form>
