@@ -18,23 +18,6 @@
       (ngSubmit)="onSubmit()"
       [formGroup]="formGroup"
     >
-      <!-- Client Name -->
-      <label for="clientId">Client Name <sup>*</sup></label>
-      <p-select
-        id="clientId"
-        [options]="clientsList"
-        optionLabel="name"
-        placeholder="Select Client"
-        formControlName="clientId"
-        optionValue="id"
-        [ngClass]="{
-          'ng-invalid':
-            formGroup.get('clientId')?.invalid &&
-            (formGroup.get('clientId')?.dirty ||
-              formGroup.get('clientId')?.touched)
-        }"
-      ></p-select>
-
       <!-- Meeting Type -->
       <label for="meetingTypeId">Meeting Type <sup>*</sup></label>
       <p-select
@@ -380,7 +363,7 @@
           <p-button
             label="Close"
             class="custom-save m-0 float-right"
-            (click)="router.navigate([`/communication/view-meetings`])"
+           (click)="router.navigate([`/communication/view-meetings`])"
           ></p-button>
         </div>
       </div>

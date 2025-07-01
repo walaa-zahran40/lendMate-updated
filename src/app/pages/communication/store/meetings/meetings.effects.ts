@@ -29,7 +29,26 @@ export class MeetingsEffects {
       )
     )
   );
+  loadByClientId$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadByClientId),
+      tap(({ id }) =>
+        console.log('🔄 Effect: loadById action caught for id=', id)
+      ),
+      mergeMap(({ id }) =>
+        this.service.getByClientId(id).pipe(
+          tap((entity) => console.log('🔄 Service.getById returned:', entity)),
+          map((entity) => ActionsList.loadByClientIdSuccess({ entity })),
+          catchError((error) => {
+            console.error('❌ Service.getById error:', error);
+            return of(ActionsList.loadByClientIdFailure({ error }));
+          })
+        )
+      )
+    )
+  );
 
+  
   loadById$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActionsList.loadById),
@@ -53,6 +72,20 @@ export class MeetingsEffects {
     () =>
       this.actions$.pipe(
         ofType(ActionsList.loadByIdSuccess),
+        tap(({ entity }) =>
+          console.log(
+            '✨ Effect: loadByIdSuccess action caught, entity:',
+            entity
+          )
+        )
+      ),
+    { dispatch: false }
+  );
+
+    loadByClientIdSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ActionsList.loadByClientIdSuccess),
         tap(({ entity }) =>
           console.log(
             '✨ Effect: loadByIdSuccess action caught, entity:',

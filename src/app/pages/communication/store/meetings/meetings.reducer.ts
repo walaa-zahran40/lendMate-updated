@@ -11,7 +11,7 @@ export const meetingsReducer = createReducer(
     loading: true,
     error: null,
   })),
-
+ 
   // when your effect dispatches loadAllSuccess({ result })
   on(MeetingActions.loadAllSuccess, (state, { result }) =>
     adapter.setAll(result, {

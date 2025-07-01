@@ -15,6 +15,11 @@ export const loadAllFailure = createAction(
   props<{ error: any }>()
 );
 
+export const loadByClientId = createAction(
+  '[Meetings] Load By Cliwnt Id',
+  props<{ id: number }>()
+);
+
 export const loadById = createAction(
   '[Meetings] Load By Id',
   props<{ id: number }>()
@@ -25,6 +30,15 @@ export const loadByIdSuccess = createAction(
 );
 export const loadByIdFailure = createAction(
   '[Meetings] Load By Id Failure',
+  props<{ error: any }>()
+);
+
+export const loadByClientIdSuccess = createAction(
+  '[Meetings] Load By Client Id Success',
+  props<{ entity: Meeting }>()
+);
+export const loadByClientIdFailure = createAction(
+  '[Meetings] Load By Client Id Failure',
   props<{ error: any }>()
 );
 

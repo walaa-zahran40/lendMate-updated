@@ -31,6 +31,10 @@ export class MeetingsService {
     return this.http.get<Meeting>(`${this.baseUrl}/MeetingId?callId=${id}`);
   }
 
+  getByClientId(id: number): Observable<Meeting> {
+    return this.http.get<Meeting>(`${this.baseUrl}/ClientId?ClientId=${id}`);
+  }
+
   create(payload: Omit<Meeting, 'id'>): Observable<Meeting> {
     return this.http.post<Meeting>(
       `${this.baseUrl}/CreateMeeting`,

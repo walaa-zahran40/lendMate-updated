@@ -28,6 +28,10 @@ export class MeetingsFacade {
     this.store.dispatch(Actions.loadById({ id }));
   }
 
+  loadByClientId(id: any) {
+    this.store.dispatch(Actions.loadByClientId({ id }));
+  }
+
   create(payload: Partial<Omit<Meeting, 'id'>>) {
     this.store.dispatch(Actions.createEntity({ payload }));
   }

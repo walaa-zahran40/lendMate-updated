@@ -48,7 +48,7 @@ export class ViewMeetingsComponent {
     private route: ActivatedRoute
   ) {}
   ngOnInit() {
-    this.facade.loadById(this.raw);
+    this.facade.loadByClientId(this.raw);
     this.meetings$ = this.facade.all$;
 
     this.clientsFacade.loadAll();
