@@ -19,7 +19,7 @@ import {
   RedirectRequest,
   EventType,
 } from '@azure/msal-browser';
-import { Subject, filter, takeUntil } from 'rxjs';
+import { Subject, filter, take, takeUntil } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { jwtDecode } from 'jwt-decode';
 import { environment } from '../../../../environments/environment';
@@ -157,16 +157,15 @@ export class LoginComponent implements OnInit, OnDestroy {
           );
           sessionStorage.setItem('decodedToken', JSON.stringify(decoded));
 
-          // only navigate once permissions are available
-          const sub = this.permissionService.permissionsLoaded$.subscribe(
-            () => {
-              sub.unsubscribe();
-              console.log('directed');
-              this.router.navigate(['/crm/clients/view-clients-onboarding']);
-            }
-          );
           // reload and broadcast API permissions
           this.permissionService.loadPermissions();
+          // navigate once and auto-unsubscribe
+          this.permissionService.permissionsLoaded$
+            .pipe(take(1))
+            .subscribe(() => {
+              console.log('directed');
+              this.router.navigate(['/crm/clients/view-clients-onboarding']);
+            });
         },
         (err) => {
           console.error('Login request failed:', err);
