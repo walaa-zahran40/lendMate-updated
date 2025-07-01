@@ -15,6 +15,7 @@ import { selectClientStatuses } from '../../../store/client-statuses/client-stat
 import { ClientStatusAction } from '../../../store/client-statuses-actions/client-status-action.model';
 import { ClientStatusActionsFacade } from '../../../store/client-statuses-actions/client-status-actions.facade';
 import { loadClientStatusActionHistory } from '../../../store/client-statuses-actions/client-status-actions.actions';
+import { ClientStatusesFacade } from '../../../store/client-statuses/client-statuses.facade';
 
 @Component({
   selector: 'app-view-client-status-actions',
@@ -46,88 +47,44 @@ export class ViewClientStatusActionsComponent {
   constructor(
     private router: Router,
     private facade: ClientStatusActionsFacade,
+    private clientStatuesFacade: ClientStatusesFacade,
     private store: Store,
     private route: ActivatedRoute
   ) {}
-  ngOnInit() {
-    console.log('rio', this.route.snapshot);
-    this.facade.loadHistory();
-    this.clientStatusActions$ = this.facade.history$;
-    this.facade.history$.subscribe((data) => {
-      console.log('📡 Facade history$ emitted:', data);
-    });
-    this.store.dispatch(loadClientStatusActionHistory());
-    this.statusList$ = this.store.select(selectClientStatuses);
+ngOnInit() {
+  this.facade.loadHistory();
+  this.store.dispatch(loadClientStatusActionHistory());
 
-    combineLatest([this.clientStatusActions$, this.statusList$])
-      .pipe(
-        takeUntil(this.destroy$),
-        map(([clientStatusActions, statusList]) => {
-          console.log(
-            '📥 clientStatusActions from facade:',
-            clientStatusActions
-          );
-          console.log('📥 statusList from store:', statusList);
+  this.clientStatusActions$ = this.facade.history$;
 
-          return clientStatusActions
-            .filter((a) => {
-              console.log(
-                '🔎 Filtering by isActive – a.id:',
-                a.id,
-                '| isActive:',
-                a.isActive
-              );
-              return a.isActive;
-            })
-            .map((a) => {
-              console.log(
-                '🧩 Mapping ClientStatusAction – id:',
-                a.id,
-                '| statusInId:',
-                a.statusInId,
-                '| statusOutId:',
-                a.statusOutId
-              );
+  this.clientStatuesFacade.loadHistory();
+  this.statusList$ =  this.clientStatuesFacade.history$;
 
-              const statusInMatch = statusList.find((g) => {
-                console.log(
-                  '🔎 [statusIn] Checking g.id:',
-                  g.id,
-                  '| looking for:',
-                  a.statusInId
-                );
-                return g.id === a.statusInId;
-              });
-              console.log('✅ [statusIn] Match found:', statusInMatch);
+  combineLatest([this.clientStatusActions$, this.statusList$])
+    .pipe(
+      takeUntil(this.destroy$),
+      map(([clientStatusActions, statusList]) =>
+        clientStatusActions
+          .filter((a) => a.isActive)
+          .map((a) => {
+            const statusIn = statusList.find((s) => s.id === a.statusInId);
+            const statusOut = statusList.find((s) => s.id === a.statusOutId);
 
-              const statusOutMatch = statusList.find((g) => {
-                console.log(
-                  '🔎 [statusOut] Checking g.id:',
-                  g.id,
-                  '| looking for:',
-                  a.statusOutId
-                );
-                return g.id === a.statusOutId;
-              });
-              console.log('✅ [statusOut] Match found:', statusOutMatch);
-
-              return {
-                ...a,
-                statusInName: statusInMatch?.name || '—',
-                statusOutName: statusOutMatch?.name || '—',
-              };
-            })
-            .sort((a, b) => b.id - a.id);
-        })
+            return {
+              ...a,
+              statusInName: statusIn?.name ?? '—',
+              statusOutName: statusOut?.name ?? '—',
+            };
+          })
+          .sort((a, b) => b.id - a.id)
       )
+    )
+    .subscribe((normalized) => {
+      this.originalClientStatusActions = normalized;
+      this.filteredClientStatusActions = [...normalized];
+    });
+}
 
-      .subscribe((normalized) => {
-        console.log('✅ Normalized Client Status Actions:', normalized);
-
-        this.originalClientStatusActions = normalized;
-        this.filteredClientStatusActions = [...normalized];
-      });
-  }
 
   onAddClientStatusAction() {
     console.log('🔍 [Component] onAddClientStatusAction');

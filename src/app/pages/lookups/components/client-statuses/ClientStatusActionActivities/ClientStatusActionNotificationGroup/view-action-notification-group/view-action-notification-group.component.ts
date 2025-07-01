@@ -16,6 +16,7 @@ import { loadAll as loadNotificationGroups } from '../../../../../store/notifica
 import { ActionNotificationGroup } from '../../../../../store/client-statuses-actions-activities/ClientStatusActionNotificationGroup/action-notification-group.model';
 import { ActionNotificationGroupsFacade } from '../../../../../store/client-statuses-actions-activities/ClientStatusActionNotificationGroup/action-notification-groups.facade';
 import { loadActionNotificationGroupHistory } from '../../../../../store/client-statuses-actions-activities/ClientStatusActionNotificationGroup/action-notification-groups.actions';
+import { NotificationGroupsFacade } from '../../../../../store/notification-groups/notification-groups.facade';
 
 @Component({
   selector: 'app-view-action-notificationg-group',
@@ -33,9 +34,9 @@ export class ViewActionNotificationGroupsComponent {
   @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
-    { field: 'notificationGroup', header: 'NotificationGroup' },
+    { field: 'notificationGroupName', header: 'Notification Group' },
     { field: 'startDate', header: 'Start Date' },
-    { field: 'isActive', header: 'Is Active' },
+    // { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedActionNotificationGroupId: number | null = null;
@@ -47,6 +48,7 @@ export class ViewActionNotificationGroupsComponent {
   constructor(
     private router: Router,
     private facade: ActionNotificationGroupsFacade,
+    private NotificationGroupFacade: NotificationGroupsFacade,
     private route: ActivatedRoute,
     private store: Store
   ) {}
@@ -61,32 +63,36 @@ export class ViewActionNotificationGroupsComponent {
 
     this.store.dispatch(loadActionNotificationGroupHistory());
 
-    this.notificationGroupsList$ = this.store.select(
-      selectAllNotificationGroups
-    );
+    this.NotificationGroupFacade.loadAll();
+    this.notificationGroupsList$ = this.NotificationGroupFacade.all$;
 
-    combineLatest([
-      this.actionNotificationGroups$,
-      this.notificationGroupsList$,
-    ])
-      .pipe(
-        map(([actionNotificationGroups, notificationGroupsList]) =>
-          actionNotificationGroups
-            .map((actionNotificationGroup) => ({
-              ...actionNotificationGroup,
-              notificationGroup:
-                notificationGroupsList.find(
-                  (c) => c.id === actionNotificationGroup.notificationGroupId
-                )?.name || '—',
-            }))
-            .sort((a, b) => b.id - a.id)
-        ),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((enriched) => {
-        this.originalActionNotificationGroups = enriched;
-        this.filteredActionNotificationGroups = [...enriched];
-      });
+  combineLatest([
+  this.actionNotificationGroups$,
+  this.notificationGroupsList$
+])
+  .pipe(
+    takeUntil(this.destroy$),
+    map(([actionNotificationGroups, notificationGroupsList]) =>
+      actionNotificationGroups
+        .map((item) => {
+          const matchedGroup = notificationGroupsList.find(
+            (group) =>
+              Number(group.id) === Number(item.notificationGroupId)
+          );
+
+          return {
+            ...item,
+            notificationGroupName: matchedGroup?.name ?? '—'
+          };
+        })
+        .sort((a, b) => b.id - a.id)
+    )
+  )
+  .subscribe((enriched) => {
+    this.originalActionNotificationGroups = enriched;
+    this.filteredActionNotificationGroups = [...enriched];
+  });
+
   }
 
   onAddActionNotificationGroup() {
