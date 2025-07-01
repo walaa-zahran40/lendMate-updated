@@ -30,13 +30,9 @@ const routes: Routes = [
     component: AddCallsComponent,
   },
   {
-    path: 'edit-calls/:id',
+    path: 'edit-calls/:id/:clientId',
     component: AddCallsComponent,
     canDeactivate: [PendingChangesGuard],
-  },
-  {
-    path: 'view-calls',
-    component: ViewCallsComponent,
   },
   {
     path: 'view-calls/:clientId',
