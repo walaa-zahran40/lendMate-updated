@@ -81,7 +81,7 @@
 
         <!-- Business Activity -->
         <label for="businessActivity"
-          >Business Activity <sup class="danger">*</sup></label
+          >Business Activity </label
         >
         <input
           pInputText
@@ -94,15 +94,6 @@
               formGroup.get('businessActivity')?.touched
           }"
         />
-        <small
-          class="p-error"
-          *ngIf="
-            formGroup.get('businessActivity')?.hasError('required') &&
-            formGroup.get('businessActivity')?.touched
-          "
-        >
-          Business Activity is required.
-        </small>
         <br />
 
         <!-- Tax ID -->
@@ -146,7 +137,7 @@
         </div>
 
         <!-- Short Name -->
-        <label for="shortName">Short Name <sup class="danger">*</sup></label>
+        <label for="shortName">Short Name </label>
         <input
           pInputText
           name="shortName"
@@ -158,15 +149,7 @@
               formGroup.get('shortName')?.touched
           }"
         />
-        <small
-          class="p-error"
-          *ngIf="
-            formGroup.get('shortName')?.hasError('required') &&
-            formGroup.get('shortName')?.touched
-          "
-        >
-          Short Name is required.
-        </small>
+      
         <br />
         <ng-container *ngIf="sectorsSafe$ | async as sectors">
           <!-- Sector Dropdown -->

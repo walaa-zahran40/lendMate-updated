@@ -73,7 +73,9 @@
 
         <!-- Business Activity -->
         <label for="businessActivity"
-          >Business Activity <sup class="danger">*</sup></label
+          >Business Activity 
+          <!-- <sup class="danger">*</sup> -->
+          </label
         >
         <input
           pInputText
@@ -86,7 +88,7 @@
               formGroup.get('businessActivity')?.touched
           }"
         />
-        <small
+        <!-- <small
           class="p-error"
           *ngIf="
             formGroup.get('businessActivity')?.hasError('required') &&
@@ -94,7 +96,7 @@
           "
         >
           Business Activity is required.
-        </small>
+        </small> -->
         <br />
 
         <!-- Tax ID -->
@@ -138,7 +140,7 @@
         </div>
 
         <!-- Short Name -->
-        <label for="shortName">Short Name <sup class="danger">*</sup></label>
+        <label for="shortName">Short Name </label>
         <input
           pInputText
           name="shortName"
@@ -150,7 +152,7 @@
               formGroup.get('shortName')?.touched
           }"
         />
-        <small
+        <!-- <small
           class="p-error"
           *ngIf="
             formGroup.get('shortName')?.hasError('required') &&
@@ -158,7 +160,7 @@
           "
         >
           Short Name is required.
-        </small>
+        </small> -->
         <br />
         <ng-container *ngIf="sectorsSafe$ | async as sectors">
           <!-- Sector Dropdown -->
@@ -505,7 +507,9 @@
       <br />
       <!-- Business Activity -->
       <label for="businessActivityIndividual"
-        >Business Activity<sup class="danger">*</sup></label
+        >Business Activity
+        <!-- <sup class="danger">*</sup> -->
+        </label
       >
       <input
         pInputText
@@ -513,13 +517,8 @@
         required
         formControlName="businessActivityIndividual"
         placeholder="Business Activity"
-        [ngClass]="{
-          'ng-invalid ng-dirty':
-            formGroup.get('businessActivityIndividual')?.invalid &&
-            formGroup.get('businessActivityIndividual')?.touched
-        }"
       />
-      <small
+      <!-- <small
         class="p-error"
         *ngIf="
           formGroup.get('businessActivityIndividual')?.invalid &&
@@ -527,11 +526,13 @@
         "
       >
         Business Activity is required.
-      </small>
+      </small> -->
       <br />
       <!--Short Name-->
       <label for="shortNameIndividual"
-        >Short Name <sup class="danger">*</sup></label
+        >Short Name 
+        <!-- <sup class="danger">*</sup> -->
+        </label
       >
       <input
         pInputText
@@ -544,7 +545,7 @@
             formGroup.get('shortNameIndividual')?.touched
         }"
       />
-      <small
+      <!-- <small
         class="p-error"
         *ngIf="
           formGroup.get('shortNameIndividual')?.hasError('required') &&
@@ -552,13 +553,15 @@
         "
       >
         Short Name is required.
-      </small>
+      </small> -->
       <br />
       <!-- Sector  -->
       <ng-container *ngIf="sectorsSafe$ | async as sectors">
         <!-- Sector Dropdown -->
         <label for="sectorDropdown"
-          >Select Sector<sup class="danger">*</sup></label
+          >Select Sector
+          <!-- <sup class="danger">*</sup> -->
+          </label
         >
 
         <p-select
@@ -579,7 +582,7 @@
         </p-select>
 
         <!-- Validation message -->
-        <small
+        <!-- <small
           class="p-error"
           style="color: var(--custom-red)"
           *ngIf="
@@ -589,14 +592,16 @@
           "
         >
           Sector is required.
-        </small>
+        </small> -->
       </ng-container>
 
       <br />
       <!-- Sub Sector -->
       <ng-container *ngIf="filteredSubSectors$ | async as subSectors">
         <label for="subSectorDropdown"
-          >Select Sub Sector<sup class="danger">*</sup></label
+          >Select Sub Sector
+          <!-- <sup class="danger">*</sup> -->
+          </label
         >
 
         <p-multiSelect
@@ -609,7 +614,7 @@
           (onChange)="onSubSectorChange($event)"
         ></p-multiSelect>
 
-        <div
+        <!-- <div
           class="p-error"
           style="color: var(--custom-red)"
           *ngIf="
@@ -618,25 +623,22 @@
           "
         >
           Sub Sector is required.
-        </div>
+        </div> -->
       </ng-container>
 
       <br />
       <!-- Email -->
-      <label for="emailIndividual">Email<sup class="danger">*</sup></label>
+      <label for="emailIndividual">Email
+        <!-- <sup class="danger">*</sup> -->
+      </label>
       <input
         pInputText
         name="emailIndividual"
         required
         formControlName="emailIndividual"
         placeholder="Email"
-        [ngClass]="{
-          'ng-invalid ng-dirty':
-            formGroup.get('emailIndividual')?.invalid &&
-            formGroup.get('emailIndividual')?.touched
-        }"
       />
-      <small
+      <!-- <small
         class="p-error"
         *ngIf="
           formGroup.get('emailIndividual')?.invalid &&
@@ -644,11 +646,13 @@
         "
       >
         Email is required.
-      </small>
+      </small> -->
       <br />
       <!--Job Title-->
       <label for="jobTitleIndividual"
-        >Job Title<sup class="danger">*</sup></label
+        >Job Title
+        <!-- <sup class="danger">*</sup> -->
+        </label
       >
       <input
         pInputText
@@ -656,13 +660,8 @@
         required
         formControlName="jobTitleIndividual"
         placeholder="Job Title"
-        [ngClass]="{
-          'ng-invalid ng-dirty':
-            formGroup.get('jobTitleIndividual')?.invalid &&
-            formGroup.get('jobTitleIndividual')?.touched
-        }"
       />
-      <small
+      <!-- <small
         class="p-error"
         *ngIf="
           formGroup.get('jobTitleIndividual')?.invalid &&
@@ -670,11 +669,13 @@
         "
       >
         Job Title is required.
-      </small>
+      </small> -->
       <br />
       <!-- Date of Birth -->
       <label for="dateOfBirthIndividual"
-        >Date of Birth<sup class="danger">*</sup></label
+        >Date of Birth
+        <!-- <sup class="danger">*</sup> -->
+        </label
       >
       <shared-date-picker
         formControlName="dateOfBirthIndividual"
@@ -684,7 +685,7 @@
       >
       </shared-date-picker>
 
-      <small
+      <!-- <small
         class="p-error"
         *ngIf="
           formGroup.get('dateOfBirthIndividual')?.invalid &&
@@ -692,10 +693,12 @@
         "
       >
         Date of Birth is required.
-      </small>
+      </small> -->
       <br />
       <!-- Gender -->
-      <label for="genderIndividual">Gender<sup class="danger">*</sup></label>
+      <label for="genderIndividual">Gender
+        <sup class="danger">*</sup>
+      </label>
       <p-select
         [options]="genders"
         name="genderIndividual"
@@ -705,11 +708,6 @@
         optionValue="id"
         placeholder="Select a Gender"
         class="w-full md:w-56"
-        [ngClass]="{
-          'ng-invalid ng-dirty':
-            formGroup.get('genderIndividual')?.invalid &&
-            formGroup.get('genderIndividual')?.touched
-        }"
       ></p-select>
       <small
         class="p-error"
