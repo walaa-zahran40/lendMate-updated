@@ -68,7 +68,7 @@ export class ViewCRAuthorityOfficesComponent {
             .map((authorityOffice) => ({
               ...authorityOffice,
               crAuthorityOffice:
-                authorityOfficesList.find((c) => c.id === authorityOffice.id)
+                authorityOfficesList.find((c) => c.id === authorityOffice.crAuthorityOfficeId)
                   ?.name || '—',
             }))
             // .filter((authorityOffice) => authorityOffice.isActive)
