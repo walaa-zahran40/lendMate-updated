@@ -159,7 +159,6 @@ export class ViewFollowupsComponent implements OnInit, OnDestroy {
       {
         queryParams: {
           mode: 'edit',
-          communicationId: this.communicationIdParam, // <-- use "communicationId" here
         },
       }
     );

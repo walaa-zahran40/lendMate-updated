@@ -36,18 +36,26 @@ export class AddFollowupsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // Read mode and set flags
-    this.mode = (this.route.snapshot.queryParamMap.get('mode') as any) ?? 'add';
+    this.mode = (this.route.snapshot.queryParamMap.get('mode') as any) || 'add';
     this.editMode = this.mode === 'edit';
     this.viewOnly = this.mode === 'view';
 
-    // Read IDs
-    this.parentClientId = Number(
-      this.route.snapshot.queryParamMap.get('communicationId')
-    );
+    // ALWAYS read the path param for communicationId:
+    const commRaw = this.route.snapshot.paramMap.get('communicationId');
+    if (!commRaw) {
+      console.error('Missing communicationId in URL!');
+      return;
+    }
+    this.communicationIdParam = Number(commRaw);
+    if (isNaN(this.communicationIdParam)) {
+      console.error('Invalid communicationId:', commRaw);
+      return;
+    }
+
     if (this.editMode || this.viewOnly) {
-      console.log('route add', this.route.snapshot);
-      this.recordId = Number(this.route.snapshot.params['communicationId']);
-      this.raw = Number(this.route.snapshot.params['id']);
+      // For edit, also read the ":id" param
+      const idRaw = this.route.snapshot.paramMap.get('id');
+      this.raw = idRaw ? Number(idRaw) : NaN;
       this.followupFacade.loadOne(this.raw);
     }
 
@@ -156,14 +164,14 @@ export class AddFollowupsComponent implements OnInit, OnDestroy {
     if (this.addFollowupsForm.valid) {
       this.addFollowupsForm.markAsPristine();
     }
-    if (this.communicationIdParam) {
-      this.router.navigate([
-        '/communication/view-follow-ups',
-        this.communicationIdParam,
-      ]);
-    } else {
-      console.error('❌ Cannot navigate back: communicationId is missing!');
+    if (!this.communicationIdParam || isNaN(this.communicationIdParam)) {
+      console.error('Cannot navigate: communicationId is invalid');
+      return;
     }
+    this.router.navigate([
+      '/communication/view-follow-ups',
+      this.communicationIdParam,
+    ]);
   }
   /** Called by the guard. */
   canDeactivate(): boolean {

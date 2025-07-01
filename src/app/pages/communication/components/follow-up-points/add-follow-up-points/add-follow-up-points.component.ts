@@ -45,6 +45,7 @@ export class AddFollowupPointsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    console.log('log', this.route.snapshot);
     // Read mode and set flags
     this.mode = (this.route.snapshot.queryParamMap.get('mode') as any) ?? 'add';
     this.editMode = this.mode === 'edit';
@@ -88,7 +89,16 @@ export class AddFollowupPointsComponent implements OnInit, OnDestroy {
     this.addFollowupPointsForm.patchValue({
       followupId: this.route.snapshot.queryParamMap.get('followupId'),
     });
+    if (this.editMode || this.viewOnly) {
+      // recordId (the follow-up-point’s own ID) comes from ':id'
+      this.raw = Number(this.route.snapshot.params['id']);
 
+      // If you still need the parent follow-upId as a queryParam,
+      // you can grab it here—but don’t confuse it with communicationIdParam.
+      this.followupIdParam = Number(
+        this.route.snapshot.queryParamMap.get('followupId')
+      );
+    }
     // Patch for edit/view mode
     if (this.editMode || this.viewOnly) {
       this.followupFacade.current$
@@ -167,6 +177,7 @@ export class AddFollowupPointsComponent implements OnInit, OnDestroy {
         details: formValue.details,
         topic: formValue.topic,
         dueDate: formValue.dueDate,
+        actualDate: formValue.actualDate,
         officerId: formValue.officerId,
         contactPersonId: formValue.contactPersonId,
         comments: formValue.comments,
@@ -176,12 +187,12 @@ export class AddFollowupPointsComponent implements OnInit, OnDestroy {
 
       console.log(
         '🔄 Dispatching UPDATE id=',
-        this.recordId,
+        this.route.snapshot.params['id'],
         ' UPDATED payload=',
         updateData
       );
 
-      this.followupFacade.update(this.raw, updateData);
+      this.followupFacade.update(this.route.snapshot.params['id'], updateData);
     }
     console.log('route', this.route.snapshot);
 

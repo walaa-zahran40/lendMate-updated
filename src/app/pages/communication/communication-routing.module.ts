@@ -66,7 +66,7 @@ const routes: Routes = [
     component: AddFollowupsComponent,
   },
   {
-    path: 'edit-follow-ups/:id/:followupId',
+    path: 'edit-follow-ups/:id/:communicationId',
     component: AddFollowupsComponent,
     canDeactivate: [PendingChangesGuard],
   },
@@ -76,7 +76,7 @@ const routes: Routes = [
     component: ViewFollowupPointsComponent,
   },
   {
-    path: 'add-follow-up-points/:followupId',
+    path: 'add-follow-up-points/:communicationId',
     component: AddFollowupPointsComponent,
   },
   {
@@ -118,7 +118,7 @@ const routes: Routes = [
     path: 'view-meetings/:clientId',
     component: ViewMeetingsComponent,
   },
-  
+
   {
     path: 'save-meeting',
     component: SaveMeetingComponent,

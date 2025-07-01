@@ -1071,7 +1071,7 @@ export class SideMenuComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         this.applyPermissionFilter();
-        console.log('[SideMenu] filteredTopLevel:', this.filteredTopLevel);
+        // console.log('[SideMenu] filteredTopLevel:', this.filteredTopLevel);
       });
 
     this.msalBroadcastService.inProgress$
@@ -1133,7 +1133,7 @@ export class SideMenuComponent {
   hasPermission(key?: string): boolean {
     if (!key) return true;
     const ok = this.permissionService.hasPermission(key);
-    console.log(`[SideMenu] hasPermission(${key}) →`, ok);
+    // console.log(`[SideMenu] hasPermission(${key}) →`, ok);
     return ok;
   }
   ngOnDestroy() {
@@ -1145,7 +1145,7 @@ export class SideMenuComponent {
   }
 
   toggleMenu(item: any) {
-    console.log('[SideMenu] Toggled to menu:', item.id);
+    // console.log('[SideMenu] Toggled to menu:', item.id);
     this.activeMenu = this.activeMenu === item.id ? null : item.id;
     this.activeMenuItem = null;
     this.filterMenuItems();
@@ -1163,7 +1163,7 @@ export class SideMenuComponent {
 
   setActiveMenuItem(event: any) {
     const node = event.node;
-    console.log('[SideMenu] Panel node selected:', node);
+    // console.log('[SideMenu] Panel node selected:', node);
     this.activeMenuItem = node.label;
 
     if (node.routerLink) {
@@ -1171,7 +1171,7 @@ export class SideMenuComponent {
       const link = Array.isArray(node.routerLink)
         ? node.routerLink
         : [node.routerLink];
-      console.log('[SideMenu] Navigating to', link);
+      // console.log('[SideMenu] Navigating to', link);
       this.router.navigate(link);
     }
   }
