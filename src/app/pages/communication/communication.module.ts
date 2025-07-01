@@ -69,6 +69,7 @@ import { MeetingsCalendarEffects } from './store/meetings/calendar/meetings.effe
 
     StoreModule.forFeature('meetings', meetingsReducer),
     EffectsModule.forFeature([MeetingsEffects]),
+    
     StoreModule.forFeature('meetingsCalendar', meetingsCalendarReducer),
     EffectsModule.forFeature([MeetingsCalendarEffects]),
 

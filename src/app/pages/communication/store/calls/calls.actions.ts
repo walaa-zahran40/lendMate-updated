@@ -28,6 +28,19 @@ export const loadByIdFailure = createAction(
   props<{ error: any }>()
 );
 
+export const loadByClientId = createAction(
+  '[Calls] Load By Client Id',
+  props<{ id: number }>()
+);
+export const loadByClientIdSuccess = createAction(
+  '[Calls] Load By Client Id Success',
+  props<{ entity: Call }>()
+);
+export const loadByClientIdFailure = createAction(
+  '[Calls] Load By Client Id Failure',
+  props<{ error: any }>()
+);
+
 export const createEntity = createAction(
   '[Calls] Create',
   // allow all fields except id, but all optional

@@ -26,8 +26,8 @@ export class ViewMeetingsComponent {
   readonly colsInside = [
     { field: 'topic', header: 'Topic' },
     { field: 'clientName', header: 'client' },
-    { field: 'meetingTypeName', header: 'meetingType' },
-    { field: 'startDate', header: 'startDate' },
+    { field: 'meetingTypeName', header: 'Meeting Type' },
+    { field: 'startDate', header: 'Start Date' },
     { field: 'endDate', header: 'End Date' },
   ];
   showDeleteModal: boolean = false;
@@ -48,8 +48,7 @@ export class ViewMeetingsComponent {
     private route: ActivatedRoute
   ) {}
   ngOnInit() {
-    this.facade.loadById(this.raw);
-    this.meetings$ = this.facade.all$;
+   
 
     this.clientsFacade.loadAll();
     this.clients = this.clientsFacade.all$;
@@ -57,29 +56,33 @@ export class ViewMeetingsComponent {
     this.meetingTypesFacade.loadAll();
     this.meetingTypes = this.meetingTypesFacade.all$;
 
-    combineLatest([this.meetings$, this.clients, this.meetingTypes])
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(([meetings, clients, meetingTypes]) => {
-        const enriched: Meeting[] = meetings.map((meeting) => {
-          const client = clients.find(
-            (c) => c.id === meeting.communication?.clientId
-          );
-          const meetingType = meetingTypes.find(
-            (ct) => ct.id === meeting.meetingTypeId
-          );
-          return {
-            ...meeting,
-            clientName: client?.name || 'N/A',
-            meetingTypeName: meetingType?.name || 'N/A',
-            topic: meeting.communication?.topic,
-            date: meeting.communication?.date,
-          };
-        });
+     this.facade.loadAll();
+    this.meetings$ = this.facade.all$;
 
-        const sorted = enriched.sort((a, b) => b.id - a.id);
-        this.originalMeetings = sorted;
-        this.filteredMeetings = [...sorted];
-      });
+   combineLatest([this.meetings$, this.clients, this.meetingTypes])
+   .pipe(takeUntil(this.destroy$))
+   .subscribe(([meetings, clients, meetingTypes]) => {
+    const filtered = meetings.filter(m => m.communication.clientId === Number(this.raw));
+
+    const enriched: Meeting[] = filtered.map((meeting) => {
+      const client = clients.find((c) => c.id === meeting.communication.clientId);
+      const meetingType = meetingTypes.find((ct) => ct.id === meeting.meetingTypeId);
+
+      return {
+        ...meeting,
+        clientName: client?.name || 'N/A',
+        meetingTypeName: meetingType?.name || 'N/A',
+        topic: meeting.communication?.topic,
+        startDate: meeting.startDate,
+        endDate: meeting.endDate
+      };
+    });
+
+    const sorted = enriched.sort((a, b) => b.id - a.id);
+    this.originalMeetings = sorted;
+    this.filteredMeetings = [...sorted];
+  });
+
   }
 
   onAddMeeting() {
@@ -121,12 +124,12 @@ export class ViewMeetingsComponent {
     this.showFilters = value;
   }
   onEditMeeting(meeting: Meeting) {
-    this.router.navigate(['/communication/edit-meetings', meeting.id], {
+    this.router.navigate(['/communication/edit-meetings', meeting.id , Number(this.raw)], {
       queryParams: { mode: 'edit' },
     });
   }
   onViewMeeting(ct: Meeting) {
-    this.router.navigate(['/communication/edit-meetings', ct.id], {
+    this.router.navigate(['/communication/edit-meetings', ct.id , Number(this.raw)], {
       queryParams: { mode: 'view' },
     });
   }
@@ -138,7 +141,7 @@ export class ViewMeetingsComponent {
       next: () => {
         this.selectedIds = [];
         this.showDeleteModal = false; // CLOSE MODAL HERE
-        this.refreshCalls();
+        this.refreshMeetings();
       },
       error: (err) => {
         this.showDeleteModal = false; // STILL CLOSE IT
@@ -146,8 +149,8 @@ export class ViewMeetingsComponent {
     });
   }
 
-  refreshCalls() {
-    this.facade.loadAll();
+  refreshMeetings() {
+    this.facade.loadByClientId(Number(this.raw));
     this.meetings$ = this.facade.all$;
   }
   onBulkDelete(ids: number[]) {

@@ -47,7 +47,7 @@ export class ViewCallsComponent {
     private route: ActivatedRoute
   ) {}
   ngOnInit() {
-    this.facade.loadById(this.raw);
+    this.facade.loadAll();
     this.calls$ = this.facade.all$;
 
     this.clientsFacade.loadAll();
@@ -57,21 +57,24 @@ export class ViewCallsComponent {
     this.callTypes = this.callTypesFacade.all$;
 
     combineLatest([this.calls$, this.clients, this.callTypes])
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(([calls, clients, callTypes]) => {
-        const enriched: Call[] = calls.map((call) => {
-          const client = clients.find(
-            (c) => c.id === call.communication?.clientId
-          );
-          const callType = callTypes.find((ct) => ct.id === call.callTypeId);
-          return {
-            ...call,
-            clientName: client?.name || 'N/A',
-            callTypeName: callType?.name || 'N/A',
-            topic: call.communication?.topic,
-            date: call.communication?.date,
-          };
-        });
+  .pipe(takeUntil(this.destroy$))
+  .subscribe(([calls, clients, callTypes]) => {
+    const filtered = calls.filter(
+      (call) => call.communication?.clientId === Number(this.raw)
+    ); // ✅ filter by raw clientId
+
+    const enriched: Call[] = filtered.map((call) => {
+      const client = clients.find((c) => c.id === call.communication?.clientId);
+      const callType = callTypes.find((ct) => ct.id === call.callTypeId);
+
+      return {
+        ...call,
+        clientName: client?.name || 'N/A',
+        callTypeName: callType?.name || 'N/A',
+        topic: call.communication?.topic,
+        date: call.communication?.date,
+      };
+    });
 
         const sorted = enriched.sort((a, b) => b.id - a.id);
         this.originalCalls = sorted;
@@ -116,12 +119,12 @@ export class ViewCallsComponent {
     this.showFilters = value;
   }
   onEditCall(call: Call) {
-    this.router.navigate(['/communication/edit-calls', call.id], {
+    this.router.navigate(['/communication/edit-calls', call.id, this.raw], {
       queryParams: { mode: 'edit' },
     });
   }
   onViewCall(ct: Call) {
-    this.router.navigate(['/communication/edit-calls', ct.id], {
+    this.router.navigate(['/communication/edit-calls', ct.id, this.raw], {
       queryParams: { mode: 'view' },
     });
   }

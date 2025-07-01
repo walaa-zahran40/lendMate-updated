@@ -30,13 +30,9 @@ const routes: Routes = [
     component: AddCallsComponent,
   },
   {
-    path: 'edit-calls/:id',
+    path: 'edit-calls/:id/:clientId',
     component: AddCallsComponent,
     canDeactivate: [PendingChangesGuard],
-  },
-  {
-    path: 'view-calls',
-    component: ViewCallsComponent,
   },
   {
     path: 'view-calls/:clientId',
@@ -108,27 +104,21 @@ const routes: Routes = [
     component: ViewCallTypesComponent,
   },
   // meetings
-  {
-    path: 'add-meetings',
-    component: AddMeetingsComponent,
-  },
+
   {
     path: 'add-meetings/:clientId',
     component: AddMeetingsComponent,
   },
   {
-    path: 'edit-meetings/:id',
+    path: 'edit-meetings/:id/:clientId',
     component: AddMeetingsComponent,
     canDeactivate: [PendingChangesGuard],
-  },
-  {
-    path: 'view-meetings',
-    component: ViewMeetingsComponent,
   },
   {
     path: 'view-meetings/:clientId',
     component: ViewMeetingsComponent,
   },
+  
   {
     path: 'save-meeting',
     component: SaveMeetingComponent,

@@ -15,23 +15,6 @@
   </div>
   <div class="div2" [ngClass]="{ span: applyReusable }">
     <form *ngIf="addCallForm" (ngSubmit)="onSubmit()" [formGroup]="formGroup">
-      <!-- Client Name -->
-      <label for="clientId">Client Name <sup>*</sup></label>
-      <p-select
-        id="clientId"
-        [options]="clientsList"
-        optionLabel="name"
-        placeholder="Select Client"
-        formControlName="clientId"
-        optionValue="id"
-        [ngClass]="{
-          'ng-invalid':
-            formGroup.get('clientId')?.invalid &&
-            (formGroup.get('clientId')?.dirty ||
-              formGroup.get('clientId')?.touched)
-        }"
-      ></p-select>
-
       <!-- Call Type -->
       <label for="callTypeId">Call Type <sup>*</sup></label>
       <p-select
@@ -324,7 +307,7 @@
           <p-button
             label="Close"
             class="custom-save m-0 float-right"
-            (click)="router.navigate([`/communication/view-calls`])"
+            (click)="viewCalls()"
           ></p-button>
         </div>
       </div>

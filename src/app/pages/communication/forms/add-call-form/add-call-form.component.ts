@@ -864,7 +864,7 @@ export class AddCallFormComponent implements OnInit, OnDestroy {
   }
 
   viewCalls() {
-    this.router.navigate([`/communication/view-calls`]);
+    this.router.navigate([`/communication/view-calls/${this.clientDocId}`]);
   }
 
   viewTeamOfficers() {

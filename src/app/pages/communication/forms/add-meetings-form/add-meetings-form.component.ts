@@ -842,7 +842,7 @@ export class AddMeetingsFormComponent implements OnInit, OnDestroy {
   }
 
   viewMeetings() {
-    this.router.navigate([`/communication/view-meetings`]);
+    this.router.navigate([`/communication/view-meetings/${this.clientDocId}`]);
   }
 
   viewMandateAdditionalTerms() {

@@ -80,8 +80,8 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
     this.assetTypesFacade.loadAll();
     this.assetTypes$ = this.assetTypesFacade.all$;
 
-    this.clientsFacade.loadAll();
-    this.clients$ = this.clientsFacade.all$;
+    // this.clientsFacade.loadAll();
+    // this.clients$ = this.clientsFacade.all$;
 
     this.communicationFlowTypesFacade.loadAll();
     this.communicationFlowTypes$ = this.communicationFlowTypesFacade.all$;
@@ -89,8 +89,9 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
     this.officersFacade.loadAll();
     this.officers$ = this.officersFacade.items$;
 
-    this.contactPersonsFacade.loadAll();
-
+    if (this.raw) {
+  this.contactPersonsFacade.loadByClientId(Number(this.raw));
+}
     this.contactPersons$ = this.contactPersonsFacade.items$.pipe(
       map((list) => list || [])
     );
@@ -102,7 +103,7 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
 
     // Build form with clientId
     this.addMeetingForm = this.fb.group({
-      clientId: [null, Validators.required],
+      clientId: this.raw,
       meetingTypeId: [null, Validators.required],
       communicationFlowId: [null],
       addressLocation: [null],
@@ -141,14 +142,14 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
             // 1) patch simple fields
             this.addMeetingForm.patchValue({
               id: rec.id,
-              clientId: rec.clientId,
+              clientId: this.raw,
               meetingTypeId: rec.meetingTypeId,
               communicationFlowId: rec.communicationFlowId,
               addressLocation: rec.addressLocation,
               topic: rec.topic,
               details: rec.details,
-              startDate: rec.startDate,
-              endDate: rec.endDate,
+               startDate: rec.startDate ? new Date(rec.startDate) : null,
+              endDate: rec.endDate ? new Date(rec.endDate) : null,
               comments: rec.comments,
             });
             console.log(
@@ -213,8 +214,8 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
         filter((id) => !!id),
         distinctUntilChanged()
       )
-      .subscribe((clientId) => {
-        this.contactPersonsFacade.loadByClientId(clientId);
+      .subscribe(() => {
+        this.contactPersonsFacade.loadByClientId(Number(this.raw));
       });
   }
 
@@ -336,7 +337,7 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
     );
 
     const data: Partial<Meeting> = {
-      clientId: formValue.clientId,
+      clientId: Number(this.raw),
       meetingTypeId: formValue.meetingTypeId,
       communicationFlowId: formValue.communicationFlowId,
 
@@ -368,7 +369,7 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
 
       const updateData: Meeting = {
         id: this.recordId,
-        clientId: formValue.clientId,
+        clientId: Number(this.raw),
         meetingTypeId: formValue.meetingTypeId,
         communicationFlowId: formValue.communicationFlowId,
         topic: formValue.topic,
@@ -409,6 +410,7 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
   canDeactivate(): boolean {
     return !this.addMeetingForm.dirty;
   }
+
   get communicationOfficersArray(): FormArray {
     return this.addMeetingForm.get('communicationOfficers') as FormArray;
   }
