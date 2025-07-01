@@ -76,9 +76,6 @@ export class AddCallsComponent implements OnInit, OnDestroy {
     this.callTypesFacade.loadAll();
     this.callTypes$ = this.callTypesFacade.all$;
 
-    this.clientsFacade.loadAll();
-    this.clients$ = this.clientsFacade.all$;
-
     this.callActionTypesFacade.loadAll();
     this.callActionTypes$ = this.callActionTypesFacade.all$;
 
@@ -88,8 +85,8 @@ export class AddCallsComponent implements OnInit, OnDestroy {
     this.officersFacade.loadAll();
     this.officers$ = this.officersFacade.items$;
 
-    this.contactPersonsFacade.loadAll();
-    // this.contactPersons$ = this.contactPersonsFacade.items$;
+    this.contactPersonsFacade.loadByClientId(Number(this.raw));
+    this.contactPersons$ = this.contactPersonsFacade.items$;
 
     this.contactPersons$ = this.contactPersonsFacade.items$.pipe(
       map((list) => list || [])
@@ -102,7 +99,7 @@ export class AddCallsComponent implements OnInit, OnDestroy {
 
     // Build form with clientId
     this.addCallForm = this.fb.group({
-      clientId: [null, Validators.required],
+      clientId: this.raw,
       callTypeId: [null, Validators.required],
       callActionTypeId: [null, Validators.required],
       communicationFlowId: [null],
@@ -136,7 +133,7 @@ export class AddCallsComponent implements OnInit, OnDestroy {
             // 1) patch simple fields
             this.addCallForm.patchValue({
               id: rec.id,
-              clientId: rec.clientId,
+              clientId: this.raw,
               callTypeId: rec.callTypeId,
               callActionTypeId: rec.callActionTypeId,
               communicationFlowId: rec.communicationFlowId,
@@ -208,7 +205,7 @@ export class AddCallsComponent implements OnInit, OnDestroy {
       )
       .subscribe((clientId) => {
         // load only that client’s people into “items”
-        this.contactPersonsFacade.loadByClientId(clientId);
+        this.contactPersonsFacade.loadByClientId(Number(this.raw));
       });
   }
 
@@ -301,7 +298,7 @@ export class AddCallsComponent implements OnInit, OnDestroy {
 
     console.log('arwaa', formValue[0]);
     const data: Partial<Call> = {
-      clientId: formValue.clientId,
+      clientId: Number(this.raw),
       callTypeId: formValue.callTypeId,
       callActionTypeId: formValue.callActionTypeId,
       communicationFlowId: formValue.communicationFlowId,
@@ -329,7 +326,7 @@ export class AddCallsComponent implements OnInit, OnDestroy {
 
       const updateData: Call = {
         id: this.recordId,
-        clientId: formValue.clientId,
+        clientId: Number(this.raw),
         callTypeId: formValue.callTypeId,
         callActionTypeId: formValue.callActionTypeId,
         communicationFlowId: formValue.communicationFlowId,

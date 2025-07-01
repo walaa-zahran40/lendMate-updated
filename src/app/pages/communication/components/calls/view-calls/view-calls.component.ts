@@ -47,7 +47,7 @@ export class ViewCallsComponent {
     private route: ActivatedRoute
   ) {}
   ngOnInit() {
-    this.facade.loadById(this.raw);
+    this.facade.loadByClientId(this.raw);
     this.calls$ = this.facade.all$;
 
     this.clientsFacade.loadAll();
