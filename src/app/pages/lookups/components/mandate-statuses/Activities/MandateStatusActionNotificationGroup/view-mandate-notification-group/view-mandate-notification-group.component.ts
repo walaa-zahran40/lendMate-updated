@@ -17,6 +17,7 @@ import { MandateActionNotificationGroup } from '../../../../../store/mandate-sta
 import { MandateActionNotificationGroupsFacade } from '../../../../../store/mandate-statuses-actions-activities/MandateStatusActionNotificationGroup/action-notification-groups.facade';
 import { loadMandateActionNotificationGroupHistory } from '../../../../../store/mandate-statuses-actions-activities/MandateStatusActionNotificationGroup/action-notification-groups.actions';
 import { selectActionAuthorizationGroupHistory } from '../../../../../store/mandate-statuses-actions-activities/MandateStatusActionAuthorizationGroup/action-authorization-groups.selectors';
+import { NotificationGroupsFacade } from '../../../../../store/notification-groups/notification-groups.facade';
 
 @Component({
   selector: 'app-view-mandate-notificationg-group',
@@ -36,7 +37,7 @@ export class ViewMandateActionNotificationGroupsComponent {
   readonly colsInside = [
     { field: 'notificationGroup', header: 'Notification Group' },
     { field: 'startDate', header: 'Start Date' },
-    { field: 'isActive', header: 'Is Active' },
+    // { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedActionNotificationGroupId: number | null = null;
@@ -48,6 +49,7 @@ export class ViewMandateActionNotificationGroupsComponent {
   constructor(
     private router: Router,
     private facade: MandateActionNotificationGroupsFacade,
+    private NotificationGroupFacade: NotificationGroupsFacade,
     private route: ActivatedRoute,
     private store: Store
   ) {}
@@ -56,15 +58,11 @@ export class ViewMandateActionNotificationGroupsComponent {
     const raw = this.route.snapshot.paramMap.get('mandateStatusActionId');
     this.mandateStatusActionIdParam = raw !== null ? Number(raw) : undefined;
 
-    this.store.dispatch(loadNotificationGroupHistory());
-    this.notificationGroupsList$ = this.store.select(
-      selectActionAuthorizationGroupHistory
-    );
+    this.NotificationGroupFacade.loadAll(); 
+    this.notificationGroupsList$ = this.NotificationGroupFacade.all$; 
 
-    this.facade.loadActionNotificationGroupsByMandateStatusActionId(
-      this.mandateStatusActionIdParam
-    );
-    this.actionNotificationGroups$ = this.facade.history$;
+    this.facade.loadActionNotificationGroupsByMandateStatusActionId(this.mandateStatusActionIdParam);
+    this.actionNotificationGroups$ = this.facade.items$;
 
     combineLatest([
       this.actionNotificationGroups$,
