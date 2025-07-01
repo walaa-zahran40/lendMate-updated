@@ -108,10 +108,11 @@ export class AddChildMandateComponent {
       moreInfo: this.addMandateShowMoreInformationForm,
     });
     // 2️⃣ pull the raw DB PK ("leasingMandatesId") out of the URL
-    const leasingMandatesId = +this.route.snapshot.params['leasingId']!;
+    const cloneId = +this.route.snapshot.paramMap.get('leasingMandatesId')!;
+    const parentMandateId = +this.route.snapshot.paramMap.get('leasingId')!;
 
     // 3️⃣ shove it into your basic form
-    this.basicForm.patchValue({ parentMandateId: leasingMandatesId });
+    this.basicForm.patchValue({ parentMandateId });
 
     // 3️⃣ Load your lookups…
     this.store.dispatch(loadAll({}));
@@ -145,53 +146,31 @@ export class AddChildMandateComponent {
     this.contactPersons$ = this.contactPersonsFacade.items$.pipe(
       map((list) => list || [])
     );
+    // 6) load the clone
+    this.facade.clearSelected();
+    this.facade.loadById(cloneId);
 
-    combineLatest({
-      params: this.route.paramMap,
-      query: this.route.queryParamMap,
-    })
+    // 7) when the clone arrives, patch the form
+    this.facade.selectedClone$
       .pipe(
-        map(({ params, query }) => ({
-          leasingId: +params.get('leasingId')!,
-          mode: query.get('mode'),
-        })),
-        filter(
-          ({ leasingId, mode }) =>
-            !!leasingId && (mode === 'edit' || mode === 'view')
-        ),
-        tap(({ leasingId, mode }) => {
-          // flip your flags exactly once, at the same time you load
-          this.editMode = mode === 'edit';
-          this.viewOnly = mode === 'view';
-          // ← clear out the old entity so selectedMandate$ doesn’t emit immediately
-          this.facade.clearSelected();
-          // now fetch afresh
-          this.facade.loadById(leasingId);
-        }),
-        switchMap(({ leasingId }) =>
-          this.facade.selected$.pipe(
-            filter((m) => m != null && m.id === leasingId),
-            take(1)
-          )
-        )
+        filter((c) => !!c && c.id === cloneId),
+        take(1)
       )
-      .subscribe((mandate: any) => {
-        this.patchMandate(this.normalizeMandate(mandate));
+      .subscribe((c) => {
+        this.patchMandate(this.normalizeMandate(c));
         if (this.viewOnly) {
           this.parentForm.disable();
         }
       });
 
+    // 8) finally wire up your client->contact listener
     this.basicForm
       .get('clientId')!
       .valueChanges.pipe(
         filter((id) => !!id),
         distinctUntilChanged()
       )
-      .subscribe((clientId) => {
-        // load only that client’s people into “items”
-        this.contactPersonsFacade.loadByClientId(clientId);
-      });
+      .subscribe((id) => this.contactPersonsFacade.loadByClientId(id));
   }
   private patchMandate(
     m: Mandate & {

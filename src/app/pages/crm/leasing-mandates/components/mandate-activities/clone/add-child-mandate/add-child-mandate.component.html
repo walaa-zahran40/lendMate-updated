@@ -1,8 +1,9 @@
 <app-toolbar-form
   [backExists]="true"
   [backIcon]="'back-icon'"
+  [viewOnly]="viewOnly"
   [header]="viewOnly ? 'View Clone' : editMode ? 'Edit Clone' : 'Add Clone'"
-  [viewOnly]="viewOnly || editMode ? true : false"
+  (back)="navigateToView()"
 ></app-toolbar-form>
 <form [formGroup]="parentForm" (ngSubmit)="onSubmit()">
   <p-tabs styleClass="p-3">
