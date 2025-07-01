@@ -148,8 +148,8 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
               addressLocation: rec.addressLocation,
               topic: rec.topic,
               details: rec.details,
-              startDate: rec.startDate,
-              endDate: rec.endDate,
+               startDate: rec.startDate ? new Date(rec.startDate) : null,
+              endDate: rec.endDate ? new Date(rec.endDate) : null,
               comments: rec.comments,
             });
             console.log(
@@ -410,6 +410,7 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
   canDeactivate(): boolean {
     return !this.addMeetingForm.dirty;
   }
+
   get communicationOfficersArray(): FormArray {
     return this.addMeetingForm.get('communicationOfficers') as FormArray;
   }
