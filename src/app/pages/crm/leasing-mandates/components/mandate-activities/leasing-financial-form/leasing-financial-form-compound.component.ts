@@ -156,6 +156,22 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
     this.facade.loadByLeasingMandateId(
       this.route.snapshot.params['leasingMandatesId']
     );
+
+    this.mandateFacade.selected$.pipe(takeUntil(this.destroy$))
+                              .subscribe((form: Mandate | undefined)=>{
+                                  if (form === undefined) {
+                                    return;
+                                  }
+                                  this.mandate = form; 
+                                  this.workFlowActionList = this.mandate.allowedMandateWorkFlowActions?.map((action: { id: any; name: any; }) => ({
+                                    id: action.id,
+                                    label: action.name,
+                                    icon: 'pi pi-times',
+                                  }));
+                                  this.selectedAction= this.mandate.mandateCurrentWorkFlowAction.name??'';
+                                  console.log("✅ this.selectedAction", this.selectedAction);
+                              })
+
     this.currencyExchangeRates$ = this.currencyExchangeRatesFacade.items$;
     combineLatest([
       this.currencyExchangeRatesFacade.items$.pipe(take(1)),
@@ -311,7 +327,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
     this.leasingFinancialCurrencyForm = this.fb.group({
       currencyId: [null, Validators.required],
       currencyExchangeRateId: [null, Validators.required],
-      isManuaExchangeRate: [true],
+      isManuaExchangeRate: [false],
       manualExchangeRate: [{ value: null, disabled: true }],
       indicativeRentals: [null, Validators.required],
       rent: [null, Validators.required],

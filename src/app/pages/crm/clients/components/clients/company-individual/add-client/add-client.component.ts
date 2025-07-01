@@ -255,10 +255,10 @@ export class AddClientComponent implements OnInit, OnDestroy {
   buildFormCompany(): void {
     this.addClientForm = this.fb.group({
       name: ['', Validators.required],
-      nameAR: ['', [Validators.required, arabicOnlyValidator()]],
-      businessActivity: ['', Validators.required],
+      nameAR: ['', [Validators.required, Validators.pattern(/^[\u0600-\u06FF\s0-9\u0660-\u0669]+$/)]],
+      businessActivity: [''],
       taxId: ['', [Validators.required, positiveNumberValidator()]],
-      shortName: ['', Validators.required],
+      shortName: [''],
       sectorId: [[], Validators.required],
       subSectorIdList: [[], Validators.required],
       legalFormLawId: [null],
@@ -466,14 +466,14 @@ export class AddClientComponent implements OnInit, OnDestroy {
   buildFormIndividual() {
     this.addClientFormIndividual = this.fb.group({
       nameEnglishIndividual: ['', Validators.required],
-      nameArabicIndividual: ['', [Validators.required, arabicOnlyValidator()]],
-      businessActivityIndividual: ['', Validators.required],
-      shortNameIndividual: ['', Validators.required],
-      sectorId: [[], Validators.required],
-      subSectorIdList: [[], Validators.required],
-      emailIndividual: ['', [Validators.required, Validators.email]],
-      jobTitleIndividual: ['', Validators.required],
-      dateOfBirthIndividual: [null, Validators.required],
+      nameArabicIndividual: ['', [Validators.required, Validators.pattern(/^[\u0600-\u06FF\s0-9\u0660-\u0669]+$/)]],
+      businessActivityIndividual: [''],
+      shortNameIndividual: [''],
+      sectorId: [[]],
+      subSectorIdList: [[]],
+      emailIndividual: [''],
+      jobTitleIndividual: [''],
+      dateOfBirthIndividual: [null],
       genderIndividual: [null, Validators.required],
       identities: this.fb.array([this.createIdentityGroup()]),
     });
@@ -580,18 +580,18 @@ export class AddClientComponent implements OnInit, OnDestroy {
   }
 
   saveInfoIndividual() {
-    console.log(
-      '💾 saveInfoIndividual() start; valid?',
-      this.addClientFormIndividual.valid
-    );
-    if (this.addClientFormIndividual.invalid) {
-      console.warn(
-        '❗ individual form invalid, errors:',
-        this.addClientFormIndividual.errors
-      );
-      this.addClientFormIndividual.markAllAsTouched();
-      return;
-    }
+    // console.log(
+    //   '💾 saveInfoIndividual() start; valid?',
+    //   this.addClientFormIndividual.valid
+    // );
+    // if (this.addClientFormIndividual.invalid) {
+    //   console.warn(
+    //     '❗ individual form invalid, errors:',
+    //     this.addClientFormIndividual.errors
+    //   );
+    //   this.addClientFormIndividual.markAllAsTouched();
+    //   return;
+    // }
 
     const formValue = this.addClientFormIndividual.value;
     console.log('[Form Raw getRawValue]', formValue);
