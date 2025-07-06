@@ -46,4 +46,5 @@ export interface FinancialForm {
   currencyDTO?: any;
   isManuaExchangeRate?: any;
   currencyExchangeRateDto?: any;
+  referenceRent?: any;
 }

@@ -508,7 +508,7 @@
 :host ::ng-deep input[disabled],
 :host ::ng-deep select[disabled],
 :host ::ng-deep textarea[disabled] {
-  background-color: #f5f5f5 !important;
+  background-color: #f8f8fd !important;
   color: #555; /* optional: make text slightly darker for contrast */
   cursor: not-allowed;
 }

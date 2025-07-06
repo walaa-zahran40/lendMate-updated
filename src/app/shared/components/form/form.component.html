@@ -6353,19 +6353,20 @@ icon="pi pi-cog"
           </small>
         </div>
         <div class="col-sm">
-          <label for="rent">Rent<sup>*</sup></label
+          <label for="referenceRent">Rent<sup>*</sup></label
           ><br />
           <p-inputNumber
-            id="rent"
-            formControlName="rent"
-            placeholder="Rent"
-            name="rent"
+            id="referenceRent"
+            formControlName="referenceRent"
+            placeholder="referenceRent"
+            name="referenceRent"
             class="w-100"
           ></p-inputNumber
           ><br />
           <small
             *ngIf="
-              formGroup.get('rent')?.invalid && formGroup.get('rent')?.touched
+              formGroup.get('referenceRent')?.invalid &&
+              formGroup.get('referenceRent')?.touched
             "
             class="p-error"
           >

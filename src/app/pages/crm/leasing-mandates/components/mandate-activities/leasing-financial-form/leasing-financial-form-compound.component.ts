@@ -82,6 +82,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
     { field: 'principal', header: 'Principal' },
     { field: 'installment', header: 'Installment' },
     { field: 'insuranceIncome', header: 'Insurance Income' },
+    { field: 'referenceRent', header: 'rent' },
   ];
   paymentPeriods$!: Observable<PaymentPeriod[]>;
   gracePeriodUnits$!: Observable<PeriodUnit[]>;
@@ -254,7 +255,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
             isManuaExchangeRate: form.isManuaExchangeRate,
             manualExchangeRate: form.manualSetExchangeRate,
             indicativeRentals: form.indicativeRentals,
-            rent: form.rent,
+            referenceRent: form.referenceRent,
             rvAmount: form.rvAmount,
             rvPercent: form.rvPercent,
             reservePaymentCount: form.reservePaymentCount,
@@ -337,7 +338,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
       isManuaExchangeRate: [false],
       manualExchangeRate: [{ value: null, disabled: true }],
       indicativeRentals: [null, Validators.required],
-      rent: [null, Validators.required],
+      referenceRent: [null, Validators.required],
       rvPercent: [null, Validators.required],
       rvAmount: [null, Validators.required],
       reservePaymentCount: [null, Validators.required],
@@ -433,7 +434,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
 
     // Rates and Periods Listeners
     this.leasingFinancialCurrencyForm
-      .get('rent')
+      .get('referenceRent')
       ?.valueChanges.subscribe(() => {
         console.log('Rent changed.');
         this.calculateReservePaymentAmount();
@@ -512,7 +513,8 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
     }
   }
   private calculateReservePaymentAmount() {
-    const rent = this.leasingFinancialCurrencyForm.get('rent')?.value || 0;
+    const referenceRent =
+      this.leasingFinancialCurrencyForm.get('referenceRent')?.value || 0;
     const assetCost =
       this.leasingFinancialBasicForm.get('assetCost')?.value || 0;
     const insuranceRate =
@@ -530,7 +532,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
       // Use monthCount here
     });
     console.log('Calculating ReservePaymentAmount with values:', {
-      rent,
+      referenceRent,
       assetCost,
       insuranceRate,
       reservePaymentCount,
@@ -548,7 +550,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
     const othersIncome = (assetCost * insuranceRate * monthCount) / 12;
     console.log('Calculated OthersIncome:', othersIncome);
 
-    if (rent + othersIncome === 0) {
+    if (referenceRent + othersIncome === 0) {
       console.log(
         'Rent + OthersIncome is 0. Unable to calculate ReservePaymentAmount.'
       );
@@ -559,7 +561,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
     }
 
     const reservePaymentAmount =
-      ((rent + othersIncome) * reservePaymentCount) / monthCount;
+      ((referenceRent + othersIncome) * reservePaymentCount) / monthCount;
     console.log('Calculated ReservePaymentAmount:', reservePaymentAmount);
     this.leasingFinancialCurrencyForm
       .get('reservePaymentAmount')
@@ -665,7 +667,8 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
     return ((interestRate / 100) * monthCount * 365) / 360 / 12;
   }
   private calculateReservePaymentCount() {
-    const rent = this.leasingFinancialCurrencyForm.get('rent')?.value || 0;
+    const referenceRent =
+      this.leasingFinancialCurrencyForm.get('referenceRent')?.value || 0;
     const assetCost =
       this.leasingFinancialBasicForm.get('assetCost')?.value || 0;
     const insuranceRate =
@@ -683,7 +686,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
       // Use monthCount here
     });
     console.log('Calculating ReservePaymentCount with values:', {
-      rent,
+      referenceRent,
       assetCost,
       insuranceRate,
       reservePaymentAmount,
@@ -701,7 +704,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
     const othersIncome = (assetCost * insuranceRate * monthCount) / 12;
     console.log('Calculated OthersIncome:', othersIncome);
 
-    if (rent + othersIncome === 0) {
+    if (referenceRent + othersIncome === 0) {
       console.log(
         'Rent + OthersIncome is 0. Unable to calculate ReservePaymentCount.'
       );
@@ -712,7 +715,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
     }
 
     const reservePaymentCount = Math.floor(
-      (reservePaymentAmount * monthCount) / (rent + othersIncome)
+      (reservePaymentAmount * monthCount) / (referenceRent + othersIncome)
     );
     console.log(
       'Calculated ReservePaymentCount (rounded):',
@@ -884,6 +887,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
       // ID Fixes
       leasingMandateId: +this.route.snapshot.params['leasingMandatesId'],
       currencyId: rawCurrency.currencyId?.id || rawCurrency.currencyId,
+      rent: rawCurrency.referenceRent,
       currencyExchangeRateId:
         rawCurrency.currencyExchangeRateId?.id ||
         rawCurrency.currencyExchangeRateId,
@@ -1027,7 +1031,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
   }
   // this is what your table actually uses:
   filteredFinancialForms: Array<{
-    rent?: number;
+    referenceRent?: number;
     interest?: number;
     installment?: number;
   }> = [];
@@ -1043,7 +1047,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
   // Sum of “rent”
   get sumOfRent(): number {
     return this.filteredFinancialForms.reduce(
-      (acc, row) => acc + (row.rent || 0),
+      (acc, row) => acc + (row.referenceRent || 0),
       0
     );
   }

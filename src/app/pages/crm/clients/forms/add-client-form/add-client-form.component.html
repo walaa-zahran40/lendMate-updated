@@ -824,6 +824,7 @@
             pButton
             type="button"
             icon="pi pi-plus"
+            *ngIf="!viewOnly"
             class="p-button-outlined p-button-sm"
             (click)="addIdentity.emit()"
           ></button>

@@ -36,7 +36,6 @@ export class ViewSubSectorsComponent {
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
     { field: 'sectorName', header: 'Sector Name' },
-    { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedSubSectorId: number | null = null;
