@@ -63,7 +63,6 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
   selectedGracePeriodUnit!: PeriodUnit;
   selectedCurrency!: Currency;
   currencyExchangeRateId: any;
-  filteredFinancialForms: any[] = [];
   originalFinancialForms: any[] = [];
   showFilters: boolean = false;
   selectedFinancialFormId: number | null = null;
@@ -157,20 +156,25 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
       this.route.snapshot.params['leasingMandatesId']
     );
 
-    this.mandateFacade.selected$.pipe(takeUntil(this.destroy$))
-                              .subscribe((form: Mandate | undefined)=>{
-                                  if (form === undefined) {
-                                    return;
-                                  }
-                                  this.mandate = form; 
-                                  this.workFlowActionList = this.mandate.allowedMandateWorkFlowActions?.map((action: { id: any; name: any; }) => ({
-                                    id: action.id,
-                                    label: action.name,
-                                    icon: 'pi pi-times',
-                                  }));
-                                  this.selectedAction= this.mandate.mandateCurrentWorkFlowAction.name??'';
-                                  console.log("✅ this.selectedAction", this.selectedAction);
-                              })
+    this.mandateFacade.selected$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((form: Mandate | undefined) => {
+        if (form === undefined) {
+          return;
+        }
+        this.mandate = form;
+        this.workFlowActionList =
+          this.mandate.allowedMandateWorkFlowActions?.map(
+            (action: { id: any; name: any }) => ({
+              id: action.id,
+              label: action.name,
+              icon: 'pi pi-times',
+            })
+          );
+        this.selectedAction =
+          this.mandate.mandateCurrentWorkFlowAction.name ?? '';
+        console.log('✅ this.selectedAction', this.selectedAction);
+      });
 
     this.currencyExchangeRates$ = this.currencyExchangeRatesFacade.items$;
     combineLatest([
@@ -235,18 +239,18 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
             interestRate: form.interestRate,
             insuranceRate: form.insuranceRate,
             tenor: form.tenor,
-            paymentPeriodId: form.paymentPeriodDTO.id!,
+            paymentPeriodId: form.paymentPeriodDTO?.id!,
             paymentPeriodMonthCount: form.paymentPeriodMonthCount,
             gracePeriod: form.gracePeriodCount,
-            gracePeriodUnitId: form.gracePeriodUnitDTO.id!,
+            gracePeriodUnitId: form.gracePeriodUnitDTO?.id!,
           },
           { emitEvent: false }
         );
 
         this.leasingFinancialCurrencyForm.patchValue(
           {
-            currencyId: form.currencyDTO.id!,
-            currencyExchangeRateId: form.currencyExchangeRateDto.id!,
+            currencyId: form.currencyDTO?.id!,
+            currencyExchangeRateId: form.currencyExchangeRateDto?.id!,
             isManuaExchangeRate: form.isManuaExchangeRate,
             manualExchangeRate: form.manualSetExchangeRate,
             indicativeRentals: form.indicativeRentals,
@@ -257,11 +261,11 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
             reservePaymentAmount: form.reservePaymentAmount,
             provisionAmount: form.provisionAmount,
             provisionPercent: form.provisionPercent,
-            interestRateBenchmarkId: form.interestRateBenchmarkDTO.id!,
-            paymentTimingTermId: form.paymentTimingTermDTO.id!,
-            rentStructureTypeId: form.rentStructureTypeDTO.id!,
-            paymentMethodId: form.paymentMethodDTO.id!,
-            paymentMonthDayID: form.paymentMonthDayDTO.id!,
+            interestRateBenchmarkId: form.interestRateBenchmarkDTO?.id!,
+            paymentTimingTermId: form.paymentTimingTermDTO?.id!,
+            rentStructureTypeId: form.rentStructureTypeDTO?.id!,
+            paymentMethodId: form.paymentMethodDTO?.id!,
+            paymentMonthDayID: form.paymentMonthDayDTO?.id!,
           },
           { emitEvent: false }
         );
@@ -287,8 +291,11 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
         // this.filteredFinancialForms = [...rows];
       });
 
-    const isManual = this.leasingFinancialCurrencyForm.get('isManuaExchangeRate')?.value;
-    const manualExchangeRateControl = this.leasingFinancialCurrencyForm.get('manualExchangeRate');
+    const isManual = this.leasingFinancialCurrencyForm.get(
+      'isManuaExchangeRate'
+    )?.value;
+    const manualExchangeRateControl =
+      this.leasingFinancialCurrencyForm.get('manualExchangeRate');
     if (manualExchangeRateControl) {
       if (isManual) {
         manualExchangeRateControl.enable({ emitEvent: false });
@@ -471,11 +478,13 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
         this.calculateReservePaymentCount();
       });
 
-    this.leasingFinancialBasicForm.get('percentOfFinance')?.valueChanges.subscribe(() => {
-      this.recalculateAndValidateFinancialFields();
-      this.updateNfaAndCalculations();
-      this.calculateReservePaymentAmount();
-    });
+    this.leasingFinancialBasicForm
+      .get('percentOfFinance')
+      ?.valueChanges.subscribe(() => {
+        this.recalculateAndValidateFinancialFields();
+        this.updateNfaAndCalculations();
+        this.calculateReservePaymentAmount();
+      });
 
     // NFA Dependencies
     this.leasingFinancialBasicForm.get('nfa')?.valueChanges.subscribe(() => {
@@ -512,14 +521,14 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
       this.leasingFinancialCurrencyForm.get('reservePaymentCount')?.value || 0;
     const paymentPeriodId =
       this.leasingFinancialRateForm.get('paymentPeriodId')?.value || 0;
-    let monthCount=0;
-    this.paymentPeriods$.pipe(take(1)).subscribe(periods => {
-        const match = periods.find(p => p.id === paymentPeriodId);
-        monthCount = match?.monthCount || 0;
+    let monthCount = 0;
+    this.paymentPeriods$.pipe(take(1)).subscribe((periods) => {
+      const match = periods.find((p) => p.id === paymentPeriodId);
+      monthCount = match?.monthCount || 0;
 
-        console.log('Month Count:', monthCount);
-        // Use monthCount here
-      });
+      console.log('Month Count:', monthCount);
+      // Use monthCount here
+    });
     console.log('Calculating ReservePaymentAmount with values:', {
       rent,
       assetCost,
@@ -644,14 +653,14 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
 
     const paymentPeriodId =
       this.leasingFinancialRateForm.get('paymentPeriodId')?.value || 0;
-    let monthCount=0;
-    this.paymentPeriods$.pipe(take(1)).subscribe(periods => {
-        const match = periods.find(p => p.id === paymentPeriodId);
-        monthCount = match?.monthCount || 0;
+    let monthCount = 0;
+    this.paymentPeriods$.pipe(take(1)).subscribe((periods) => {
+      const match = periods.find((p) => p.id === paymentPeriodId);
+      monthCount = match?.monthCount || 0;
 
-        console.log('Month Count:', monthCount);
-        // Use monthCount here
-      });
+      console.log('Month Count:', monthCount);
+      // Use monthCount here
+    });
 
     return ((interestRate / 100) * monthCount * 365) / 360 / 12;
   }
@@ -663,16 +672,16 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
       this.leasingFinancialRateForm.get('insuranceRate')?.value || 0;
     const reservePaymentAmount =
       this.leasingFinancialCurrencyForm.get('reservePaymentAmount')?.value || 0;
-      const paymentPeriodId =
+    const paymentPeriodId =
       this.leasingFinancialRateForm.get('paymentPeriodId')?.value || 0;
-    let monthCount=0;
-    this.paymentPeriods$.pipe(take(1)).subscribe(periods => {
-        const match = periods.find(p => p.id === paymentPeriodId);
-        monthCount = match?.monthCount || 0;
+    let monthCount = 0;
+    this.paymentPeriods$.pipe(take(1)).subscribe((periods) => {
+      const match = periods.find((p) => p.id === paymentPeriodId);
+      monthCount = match?.monthCount || 0;
 
-        console.log('Month Count:', monthCount);
-        // Use monthCount here
-      });
+      console.log('Month Count:', monthCount);
+      // Use monthCount here
+    });
     console.log('Calculating ReservePaymentCount with values:', {
       rent,
       assetCost,
@@ -716,7 +725,8 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
   }
 
   onCheckboxChange(event: { originalEvent: Event; checked: boolean }) {
-    const manualExchangeRateControl = this.leasingFinancialCurrencyForm.get('manualExchangeRate');
+    const manualExchangeRateControl =
+      this.leasingFinancialCurrencyForm.get('manualExchangeRate');
     if (!manualExchangeRateControl) return;
 
     if (event.checked) {
@@ -837,10 +847,10 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
       (form.get('insuranceRate')?.valid ?? false) &&
       (form.get('tenor')?.valid ?? false) &&
       (form.get('paymentPeriodId')?.valid ?? false) &&
-      (form.get('gracePeriod')?.valid ?? false)
-    )
-    && this.leasingFinancialBasicForm.valid
-    && this.leasingFinancialCurrencyForm.valid;
+      (form.get('gracePeriod')?.valid ?? false) &&
+      this.leasingFinancialBasicForm.valid &&
+      this.leasingFinancialCurrencyForm.valid
+    );
   }
   /** “Calculate” should run whatever calc logic you need on all three forms */
   onCalculateAll(): void {
@@ -917,7 +927,6 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
       console.log('[Component] Received entity:', entity);
       this.filteredFinancialForms = [...entity.payments];
     });
-
   }
 
   /** “Submit” should only fire once the user has validated everything and clicked */
@@ -998,7 +1007,8 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
           this.leasingFinancialCurrencyForm.get('provisionPercent')?.value || 0
         ).toFixed(3)
       ),
-      gracePeriodCount: this.leasingFinancialRateForm.get('gracePeriod')?.value || 0,
+      gracePeriodCount:
+        this.leasingFinancialRateForm.get('gracePeriod')?.value || 0,
     };
     if (this.leasingFinancialBasicForm.valid) {
       this.leasingFinancialBasicForm.markAsPristine();
@@ -1009,33 +1019,41 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
     if (this.leasingFinancialRateForm.valid) {
       this.leasingFinancialRateForm.markAsPristine();
     }
-   // this.facade.create(formData);
+    // this.facade.create(formData);
     this.facade.create(formData).subscribe((entity) => {
       console.log('[Component] Received entity:', entity);
       this.filteredFinancialForms = [...entity.payments];
     });
   }
-  // inside LeasingFinancialFormCompoundComponent (after onSubmitAll)
+  // this is what your table actually uses:
+  filteredFinancialForms: Array<{
+    rent?: number;
+    interest?: number;
+    installment?: number;
+  }> = [];
+
+  // Sum of interest
   get sumOfInterest(): number {
-    return this.tableDataInside
-      .map((row) => row.interest || 0)
-      .reduce((acc, cur) => acc + cur, 0);
+    return this.filteredFinancialForms.reduce(
+      (acc, row) => acc + (row.interest || 0),
+      0
+    );
   }
 
-  /** Sum of “installment” (i.e. “rent”) across all rows */
+  // Sum of “rent”
   get sumOfRent(): number {
-    return this.tableDataInside
-      .map((row) => {
-        console.log('Row:', row); // 🔍 Log each row
-        return row.rent || 0;
-      })
-      .reduce((acc, cur) => acc + cur, 0);
+    return this.filteredFinancialForms.reduce(
+      (acc, row) => acc + (row.rent || 0),
+      0
+    );
   }
 
+  // Sum of installments
   get sumOfInstallments(): number {
-    return this.tableDataInside
-      .map((row) => row.installment || 0)
-      .reduce((acc, cur) => acc + cur, 0);
+    return this.filteredFinancialForms.reduce(
+      (acc, row) => acc + (row.installment || 0),
+      0
+    );
   }
 
   onSearch(keyword: string) {
@@ -1142,20 +1160,32 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
   }
 
   recalculateAndValidateFinancialFields(): void {
-    const assetCost = +this.leasingFinancialBasicForm.get('assetCost')?.value || 0;
-    const percentOfFinance = +this.leasingFinancialBasicForm.get('percentOfFinance')?.value || 0;
-    const downPayment = assetCost * (1 - (percentOfFinance / 100));
+    const assetCost =
+      +this.leasingFinancialBasicForm.get('assetCost')?.value || 0;
+    const percentOfFinance =
+      +this.leasingFinancialBasicForm.get('percentOfFinance')?.value || 0;
+    const downPayment = assetCost * (1 - percentOfFinance / 100);
     const nfa = assetCost - downPayment;
-    const rvPercent = +this.leasingFinancialCurrencyForm.get('rvPercent')?.value || 0;
+    const rvPercent =
+      +this.leasingFinancialCurrencyForm.get('rvPercent')?.value || 0;
     const rvAmount = Math.round((rvPercent / 100) * nfa);
-    const provisionPercent = +this.leasingFinancialCurrencyForm.get('provisionPercent')?.value || 0;
-    const provisionAmount = provisionPercent / 100 * (nfa - rvAmount);
+    const provisionPercent =
+      +this.leasingFinancialCurrencyForm.get('provisionPercent')?.value || 0;
+    const provisionAmount = (provisionPercent / 100) * (nfa - rvAmount);
 
     // Update form controls with recalculated values
-    this.leasingFinancialBasicForm.get('downPayment')?.setValue(downPayment, { emitEvent: false });
-    this.leasingFinancialBasicForm.get('nfa')?.setValue(nfa, { emitEvent: false });
-    this.leasingFinancialCurrencyForm.get('rvAmount')?.setValue(rvAmount, { emitEvent: false });
-    this.leasingFinancialCurrencyForm.get('provisionAmount')?.setValue(provisionAmount, { emitEvent: false });
+    this.leasingFinancialBasicForm
+      .get('downPayment')
+      ?.setValue(downPayment, { emitEvent: false });
+    this.leasingFinancialBasicForm
+      .get('nfa')
+      ?.setValue(nfa, { emitEvent: false });
+    this.leasingFinancialCurrencyForm
+      .get('rvAmount')
+      ?.setValue(rvAmount, { emitEvent: false });
+    this.leasingFinancialCurrencyForm
+      .get('provisionAmount')
+      ?.setValue(provisionAmount, { emitEvent: false });
 
     // Optionally, add validation or error handling here
   }
