@@ -255,7 +255,13 @@ export class AddClientComponent implements OnInit, OnDestroy {
   buildFormCompany(): void {
     this.addClientForm = this.fb.group({
       name: ['', Validators.required],
-      nameAR: ['', [Validators.required, Validators.pattern(/^[\u0600-\u06FF\s0-9\u0660-\u0669]+$/)]],
+      nameAR: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(/^[\u0600-\u06FF\s0-9\u0660-\u0669]+$/),
+        ],
+      ],
       businessActivity: [''],
       taxId: ['', [Validators.required, positiveNumberValidator()]],
       shortName: [''],
@@ -466,7 +472,13 @@ export class AddClientComponent implements OnInit, OnDestroy {
   buildFormIndividual() {
     this.addClientFormIndividual = this.fb.group({
       nameEnglishIndividual: ['', Validators.required],
-      nameArabicIndividual: ['', [Validators.required, Validators.pattern(/^[\u0600-\u06FF\s0-9\u0660-\u0669]+$/)]],
+      nameArabicIndividual: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(/^[\u0600-\u06FF\s0-9\u0660-\u0669]+$/),
+        ],
+      ],
       businessActivityIndividual: [''],
       shortNameIndividual: [''],
       sectorId: [[]],
@@ -474,7 +486,7 @@ export class AddClientComponent implements OnInit, OnDestroy {
       emailIndividual: [''],
       jobTitleIndividual: [''],
       dateOfBirthIndividual: [null],
-      genderIndividual: [null, Validators.required],
+      genderIndividual: [1],
       identities: this.fb.array([this.createIdentityGroup()]),
     });
   }
