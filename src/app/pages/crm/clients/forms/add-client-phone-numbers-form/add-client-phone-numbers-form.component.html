@@ -24,6 +24,9 @@
       >
       <!--Select Box-->
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="phoneTypes"
         optionLabel="name"
         placeholder="Select Phone type"

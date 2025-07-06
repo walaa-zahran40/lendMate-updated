@@ -27,6 +27,9 @@
 
       <label for="companyTypeId">Company Type<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="companyTypesList"
         optionLabel="name"
         placeholder="Select Company Type"
@@ -94,6 +97,9 @@
 
       <label for="smeClientCodeId">SME Client Code <sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="smeClientCodesList"
         optionLabel="name"
         placeholder="Select SME Client Code"

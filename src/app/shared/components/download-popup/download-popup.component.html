@@ -9,6 +9,9 @@
     <form class="content" [formGroup]="downloadForm">
       <label for="contactPerson">Select Contact Person</label><br />
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         class="w-100"
         id="contactPerson"
         [options]="contactPersons"
@@ -20,6 +23,9 @@
       ><br />
       <label for="officer">Select Officer</label><br />
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         class="w-100"
         id="officer"
         [options]="officers"

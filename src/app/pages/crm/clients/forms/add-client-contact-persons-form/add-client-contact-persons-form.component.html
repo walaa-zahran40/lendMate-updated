@@ -46,7 +46,7 @@
         formControlName="title"
         name="TitleInEnglishContactPerson"
       />
-      <label   for="TitleInArabicContactPerson">Title in Arabic</label>
+      <label for="TitleInArabicContactPerson">Title in Arabic</label>
       <input
         pInputText
         id="TitleInArabicContactPerson"
@@ -57,6 +57,9 @@
       />
       <label for="genderContactPerson">Gender<sup class="danger">*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="genders"
         optionLabel="value"
         optionValue="id"
@@ -94,19 +97,33 @@
               required
               placeholder="Phone Number"
               required
-    inputmode="numeric"             
-    pattern="[0-9]*"               
-    [ngClass]="{
-      'ng-invalid ng-dirty': group.get('phoneNumber')?.invalid && group.get('phoneNumber')?.touched
-    }"
-  />
-  <small class="p-error d-block" *ngIf="group.get('phoneNumber')?.hasError('required') && group.get('phoneNumber')?.touched">
-    Phone Number is required.
-  </small>
-  <small class="p-error d-block" *ngIf="group.get('phoneNumber')?.hasError('pattern') && group.get('phoneNumber')?.touched">
-    Only digits are allowed.
-  </small>
-</div>
+              inputmode="numeric"
+              pattern="[0-9]*"
+              [ngClass]="{
+                'ng-invalid ng-dirty':
+                  group.get('phoneNumber')?.invalid &&
+                  group.get('phoneNumber')?.touched
+              }"
+            />
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('phoneNumber')?.hasError('required') &&
+                group.get('phoneNumber')?.touched
+              "
+            >
+              Phone Number is required.
+            </small>
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('phoneNumber')?.hasError('pattern') &&
+                group.get('phoneNumber')?.touched
+              "
+            >
+              Only digits are allowed.
+            </small>
+          </div>
 
           <!-- 2) Select Identity -->
           <div class="div-select flex-1 min-w-0">
@@ -114,6 +131,9 @@
               Select Phone Type<sup class="danger">*</sup>
             </label>
             <p-select
+              [filter]="true"
+              filterBy="name"
+              [showClear]="true"
               [options]="phoneTypeOptions"
               formControlName="phoneTypeId"
               name="phoneType"
@@ -204,6 +224,9 @@
               Select Identity<sup class="danger">*</sup>
             </label>
             <p-select
+              [filter]="true"
+              filterBy="name"
+              [showClear]="true"
               [options]="identityTypes"
               formControlName="selectedIdentities"
               name="identityType"
@@ -279,80 +302,92 @@
         </div>
       </div>
 
-      <div> 
-      <div> 
-      <label  for="addressTypeContactPerson" 
-        >Address Type<sup class="danger">*</sup></label
-      >
-      <p-select
-        [options]="addressTypes"
-        placeholder="Select Address Type"
-        optionValue="id"
-        display="chip"
-        optionLabel="name"
-        icon="pi pi-times"
-        name="addressTypeContactPerson"
-        formControlName="addressTypeId"
-        chipIcon="pi pi-times"
-      />
+      <div>
+        <div>
+          <label for="addressTypeContactPerson"
+            >Address Type<sup class="danger">*</sup></label
+          >
+          <p-select
+            [filter]="true"
+            filterBy="name"
+            [showClear]="true"
+            [options]="addressTypes"
+            placeholder="Select Address Type"
+            optionValue="id"
+            display="chip"
+            optionLabel="name"
+            icon="pi pi-times"
+            name="addressTypeContactPerson"
+            formControlName="addressTypeId"
+            chipIcon="pi pi-times"
+          />
+        </div>
+        <div>
+          <label class="p-0" for="countryContactPerson"
+            >Country<sup class="danger">*</sup></label
+          >
+          <p-select
+            [filter]="true"
+            filterBy="name"
+            [showClear]="true"
+            [options]="countries"
+            optionValue="id"
+            placeholder="Select country"
+            optionLabel="name"
+            display="chip"
+            icon="pi pi-times"
+            name="countryContactPerson"
+            styleClass="w-full md:w-80"
+            formControlName="countryId"
+            chipIcon="pi pi-times"
+          />
+        </div>
+        <div>
+          <label class="p-0" for="governmentContactPerson"
+            >Governorate <sup class="danger">*</sup></label
+          >
+
+          <p-select
+            [filter]="true"
+            filterBy="name"
+            [showClear]="true"
+            [options]="governorates"
+            optionValue="id"
+            placeholder="Select governorate"
+            optionLabel="name"
+            display="chip"
+            icon="pi pi-times"
+            name="governmentContactPerson"
+            styleClass="w-full md:w-80"
+            formControlName="governorateId"
+            chipIcon="pi pi-times"
+          />
+        </div>
+        <div>
+          <label class="p-0" for="areasContactPerson"
+            >Area<sup class="danger">*</sup></label
+          >
+          <p-select
+            [filter]="true"
+            filterBy="name"
+            [showClear]="true"
+            [options]="areas"
+            optionValue="id"
+            placeholder="Select Area"
+            optionLabel="name"
+            display="chip"
+            icon="pi pi-times"
+            name="areasContactPerson"
+            styleClass="w-full md:w-80"
+            formControlName="areaId"
+            chipIcon="pi pi-times"
+          />
+        </div>
       </div>
-            <div> 
 
-      <label class="p-0" for="countryContactPerson"
-        >Country<sup class="danger">*</sup></label
+      <label class="p-0" for="detailsEnglishContactPerson"
+        >Details in English</label
       >
-      <p-select
-        [options]="countries"
-        optionValue="id"
-        placeholder="Select country"
-        optionLabel="name"
-        display="chip"
-        icon="pi pi-times"
-        name="countryContactPerson"
-        styleClass="w-full md:w-80"
-        formControlName="countryId"
-        chipIcon="pi pi-times"
-      />
-      </div>
-            <div> 
-
-      <label class="p-0" for="governmentContactPerson"
-        >Governorate <sup class="danger">*</sup></label
-      >
-
-      <p-select
-        [options]="governorates"
-        optionValue="id"
-        placeholder="Select governorate"
-        optionLabel="name"
-        display="chip"
-        icon="pi pi-times"
-        name="governmentContactPerson"
-        styleClass="w-full md:w-80"
-        formControlName="governorateId"
-        chipIcon="pi pi-times"
-      />
-      </div>
-            <div> 
-
-      <label class="p-0" for="areasContactPerson">Area<sup class="danger">*</sup></label>
-      <p-select
-        [options]="areas"
-        optionValue="id"
-        placeholder="Select Area"
-        optionLabel="name"
-        display="chip"
-        icon="pi pi-times"
-        name="areasContactPerson"
-        styleClass="w-full md:w-80"
-        formControlName="areaId"
-        chipIcon="pi pi-times"
-      />
-</div>
-</div>
-
-
-      <label class="p-0" for="detailsEnglishContactPerson">Details in English</label>
       <input
         pInputText
         id="detailsEnglishContactPerson"

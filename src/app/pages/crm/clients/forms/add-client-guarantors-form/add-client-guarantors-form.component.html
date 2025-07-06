@@ -21,6 +21,9 @@
     >
       <label for="guarantorId">Guarantor Name<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="clientsList"
         optionLabel="name"
         placeholder="Select Guarantor"

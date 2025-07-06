@@ -52,6 +52,9 @@
       </div>
       <label for="officerId">Officer Name<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="officersList"
         optionLabel="name"
         placeholder="Select Officer Name"
@@ -67,6 +70,9 @@
       />
       <label for="clientOfficerTypeId">Client Officer Type<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="clientOfficerTypesList"
         optionLabel="name"
         placeholder="Select Client Officer Type"

@@ -21,6 +21,9 @@
     >
       <label for="addressTypeId">Address Type<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="addressTypesList"
         optionLabel="name"
         placeholder="Select Address Type"
@@ -36,6 +39,9 @@
       />
       <label for="countryId">Country<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="countriesList"
         optionLabel="name"
         placeholder="Select Country"
@@ -51,6 +57,9 @@
       />
       <label for="governorateId">Governorate<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="governoratesList"
         optionLabel="name"
         placeholder="Select governorate"
@@ -66,6 +75,9 @@
       />
       <label for="areaId">Area<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="areasList"
         optionLabel="name"
         placeholder="Select Area"

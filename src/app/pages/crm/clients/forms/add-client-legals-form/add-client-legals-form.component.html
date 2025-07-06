@@ -20,6 +20,9 @@
     >
       <label for="legalFormId">Legal Form<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="legalFormsList"
         optionLabel="name"
         placeholder="Select Legal Form"
@@ -35,6 +38,9 @@
       />
       <label for="legalFormLawId">Legal Form Law<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="legalFormLawsList"
         optionLabel="name"
         placeholder="Select Legal Form Law"

@@ -18,6 +18,9 @@
       <!-- Call Type -->
       <label for="callTypeId">Call Type <sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         id="callTypeId"
         [options]="callTypes"
         optionLabel="name"
@@ -35,6 +38,9 @@
       <!-- Call Action -->
       <label for="callActionTypeId">Call Action <sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         id="callActionTypeId"
         [options]="callActionTypes"
         optionLabel="name"
@@ -52,6 +58,9 @@
       <!-- Communication Flow -->
       <label for="communicationFlowId">Communication Flow <sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         id="communicationFlowId"
         [options]="communicationFlowTypes"
         optionLabel="name"
@@ -84,11 +93,11 @@
         formControlName="details"
         [ngClass]="{
           'ng-invalid':
-          formGroup.get('details')?.invalid &&
-          (formGroup.get('details')?.dirty ||
-          formGroup.get('details')?.touched)
+            formGroup.get('details')?.invalid &&
+            (formGroup.get('details')?.dirty ||
+              formGroup.get('details')?.touched)
         }"
-        />
+      />
 
       <label for="date">Date<sup>*</sup></label>
       <shared-date-picker formControlName="date" inputId="date">
@@ -118,6 +127,9 @@
               Select Officer <sup class="danger">*</sup>
             </label>
             <p-select
+              [filter]="true"
+              filterBy="name"
+              [showClear]="true"
               [options]="officersList"
               formControlName="officerId"
               placeholder="Select Officer"
@@ -212,6 +224,9 @@
               Select Contact Person <sup class="danger">*</sup>
             </label>
             <p-select
+              [filter]="true"
+              filterBy="name"
+              [showClear]="true"
               [options]="contactPersons"
               formControlName="contactPersonId"
               placeholder="Select Contact Person"

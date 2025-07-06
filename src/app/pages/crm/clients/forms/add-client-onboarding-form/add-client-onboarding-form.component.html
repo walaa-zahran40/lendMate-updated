@@ -80,9 +80,7 @@
         <br />
 
         <!-- Business Activity -->
-        <label for="businessActivity"
-          >Business Activity </label
-        >
+        <label for="businessActivity">Business Activity </label>
         <input
           pInputText
           name="businessActivity"
@@ -149,7 +147,7 @@
               formGroup.get('shortName')?.touched
           }"
         />
-      
+
         <br />
         <ng-container *ngIf="sectorsSafe$ | async as sectors">
           <!-- Sector Dropdown -->
@@ -158,6 +156,9 @@
           >
 
           <p-select
+            [filter]="true"
+            filterBy="name"
+            [showClear]="true"
             [options]="sectors"
             optionLabel="name"
             placeholder="Select Sector"

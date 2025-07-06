@@ -168,6 +168,9 @@
           >
 
           <p-select
+            [filter]="true"
+            filterBy="name"
+            [showClear]="true"
             [options]="sectors"
             optionLabel="name"
             placeholder="Select Sector"
@@ -232,6 +235,9 @@
         <label for="legalFormLawId">Legal Form Law</label>
         <ng-container *ngIf="legalFormLaws$ | async as laws">
           <p-select
+            [filter]="true"
+            filterBy="name"
+            [showClear]="true"
             [options]="laws"
             optionLabel="name"
             optionValue="id"
@@ -259,6 +265,9 @@
         <label for="legalFormId">Legal Form</label>
         <ng-container *ngIf="legalForms$ | async as forms">
           <p-select
+            [filter]="true"
+            filterBy="name"
+            [showClear]="true"
             [options]="forms"
             optionLabel="name"
             optionValue="id"
@@ -561,6 +570,9 @@
         </label>
 
         <p-select
+          [filter]="true"
+          filterBy="name"
+          [showClear]="true"
           [options]="sectors"
           optionLabel="name"
           placeholder="Select Sector"
@@ -692,6 +704,9 @@
       <!-- Gender -->
       <label for="genderIndividual">Gender</label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="genders"
         name="genderIndividual"
         formControlName="genderIndividual"
@@ -752,6 +767,9 @@
               Select Identity<sup class="danger">*</sup>
             </label>
             <p-select
+              [filter]="true"
+              filterBy="name"
+              [showClear]="true"
               [options]="identityIndividual"
               formControlName="selectedIdentities"
               name="identityType"

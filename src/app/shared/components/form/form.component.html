@@ -691,6 +691,9 @@ icon="pi pi-cog"
     >
       <label>Document Type<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="documents"
         optionLabel="name"
         optionValue="id"
@@ -3676,6 +3679,9 @@ icon="pi pi-cog"
       <label for="sectorId">Select Sector<sup class="danger">*</sup></label>
       <!--Select Box-->
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="sectorsList"
         optionLabel="name"
         placeholder="Select Sector"
@@ -3795,6 +3801,9 @@ icon="pi pi-cog"
       >
       <!--Select Box-->
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="governoratesList"
         optionLabel="name"
         placeholder="Select Governorate"
@@ -4361,6 +4370,9 @@ icon="pi pi-cog"
     >
       <label for="operationId">Operation<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="operationsList"
         optionLabel="name"
         placeholder="Select Operation"
@@ -4387,6 +4399,9 @@ icon="pi pi-cog"
 
       <label for="pageId">Page<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="pagesList"
         optionLabel="name"
         placeholder="Select Page"
@@ -4613,6 +4628,9 @@ icon="pi pi-cog"
 
       <label for="taxOfficeId">Tax Office<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="taxOfficesList"
         optionLabel="name"
         placeholder="Select Tax Office"
@@ -4669,6 +4687,9 @@ icon="pi pi-cog"
     >
       <label for="shareHolderId">Share Holder Name<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="clientsList"
         optionLabel="name"
         placeholder="Select Share Holder"
@@ -4731,6 +4752,9 @@ icon="pi pi-cog"
     >
       <label for="officerId">Officer Name<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="officersList"
         optionLabel="name"
         placeholder="Select Officer Name"
@@ -4746,6 +4770,9 @@ icon="pi pi-cog"
       />
       <label for="tmlOfficerTypeId">Officer Type<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="tmlOfficerTypesList"
         optionLabel="name"
         placeholder="Select Officer Type"
@@ -4804,6 +4831,9 @@ icon="pi pi-cog"
         >Client Name<sup>*</sup></label
       >
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="clientNames"
         formControlName="clientId"
         placeholder="Select Client Name"
@@ -4825,6 +4855,9 @@ icon="pi pi-cog"
         >Mandate Validity Unit<sup>*</sup></label
       >
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="validityUnits"
         formControlName="validityUnitId"
         placeholder="Select Mandate Validity Unit"
@@ -4846,6 +4879,9 @@ icon="pi pi-cog"
         >Product<sup>*</sup></label
       >
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="products"
         formControlName="productId"
         placeholder="Select Product"
@@ -4867,6 +4903,9 @@ icon="pi pi-cog"
         >Leasing Type<sup>*</sup></label
       >
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="leasingTypes"
         formControlName="leasingTypeId"
         placeholder="Select Leasing Type"
@@ -4888,6 +4927,9 @@ icon="pi pi-cog"
         >Insured By<sup>*</sup></label
       >
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="insuredBy"
         formControlName="insuredById"
         placeholder="Select Insured By"
@@ -4915,6 +4957,9 @@ icon="pi pi-cog"
         >Client Name<sup>*</sup></label
       >
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="clientNames"
         formControlName="clientId"
         placeholder="Select Client Name"
@@ -4936,6 +4981,9 @@ icon="pi pi-cog"
         >Mandate Validity Unit<sup>*</sup></label
       >
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="validityUnits"
         formControlName="validityUnitId"
         placeholder="Select Mandate Validity Unit"
@@ -4957,6 +5005,9 @@ icon="pi pi-cog"
         >Product<sup>*</sup></label
       >
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="products"
         formControlName="productId"
         placeholder="Select Product"
@@ -4978,6 +5029,9 @@ icon="pi pi-cog"
         >Leasing Type<sup>*</sup></label
       >
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="leasingTypes"
         formControlName="leasingTypeId"
         placeholder="Select Leasing Type"
@@ -4999,6 +5053,9 @@ icon="pi pi-cog"
         >Insured By<sup>*</sup></label
       >
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="insuredBy"
         formControlName="insuredById"
         placeholder="Select Insured By"
@@ -5034,6 +5091,9 @@ icon="pi pi-cog"
               Officer Name<sup class="danger">*</sup>
             </label>
             <p-select
+              [filter]="true"
+              filterBy="name"
+              [showClear]="true"
               [options]="officers"
               formControlName="officerId"
               placeholder="Select Officer"
@@ -5093,6 +5153,9 @@ icon="pi pi-cog"
               Officer Name<sup class="danger">*</sup>
             </label>
             <p-select
+              [filter]="true"
+              filterBy="name"
+              [showClear]="true"
               [options]="officers"
               formControlName="officerId"
               placeholder="Select Officer"
@@ -5152,6 +5215,9 @@ icon="pi pi-cog"
               Contact Person<sup class="danger">*</sup>
             </label>
             <p-select
+              [filter]="true"
+              filterBy="name"
+              [showClear]="true"
               [options]="contactPersonsList"
               formControlName="contactPersonId"
               placeholder="Select Contact Person"
@@ -5211,6 +5277,9 @@ icon="pi pi-cog"
               Contact Person<sup class="danger">*</sup>
             </label>
             <p-select
+              [filter]="true"
+              filterBy="name"
+              [showClear]="true"
               [options]="contactPersonsList"
               formControlName="contactPersonId"
               placeholder="Select Contact Person"
@@ -5271,6 +5340,9 @@ icon="pi pi-cog"
               Asset Type<sup class="danger">*</sup>
             </label>
             <p-select
+              [filter]="true"
+              filterBy="name"
+              [showClear]="true"
               [options]="assetTypesList"
               formControlName="assetTypeId"
               placeholder="Select Asset Type"
@@ -5351,6 +5423,9 @@ icon="pi pi-cog"
               Asset Type<sup class="danger">*</sup>
             </label>
             <p-select
+              [filter]="true"
+              filterBy="name"
+              [showClear]="true"
               [options]="assetTypesList"
               formControlName="assetTypeId"
               placeholder="Select Asset Type"
@@ -5510,6 +5585,9 @@ icon="pi pi-cog"
               Fee Type<sup class="danger">*</sup>
             </label>
             <p-select
+              [filter]="true"
+              filterBy="name"
+              [showClear]="true"
               [options]="feesList"
               formControlName="feeTypeId"
               placeholder="Select Fee Type"
@@ -5626,6 +5704,9 @@ icon="pi pi-cog"
             <!-- <sup class="danger">*</sup> -->
           </label>
           <p-select
+            [filter]="true"
+            filterBy="name"
+            [showClear]="true"
             [options]="gracePeriodUnitsList"
             formControlName="gracePeriodUnitId"
             placeholder="Select Grace Period Unit"
@@ -5742,6 +5823,9 @@ icon="pi pi-cog"
               Fee Type<sup class="danger">*</sup>
             </label>
             <p-select
+              [filter]="true"
+              filterBy="name"
+              [showClear]="true"
               [options]="feesList"
               formControlName="feeTypeId"
               placeholder="Select Fee Type"
@@ -5857,6 +5941,9 @@ icon="pi pi-cog"
             Grace Period Unit<sup class="danger">*</sup>
           </label>
           <p-select
+            [filter]="true"
+            filterBy="name"
+            [showClear]="true"
             [options]="gracePeriodUnitsList"
             formControlName="gracePeriodUnitId"
             placeholder="Select Grace Period Unit"
@@ -6080,6 +6167,9 @@ icon="pi pi-cog"
         <div class="col-sm">
           <label for="paymentPeriodId">Payment Period<sup>*</sup></label>
           <p-select
+            [filter]="true"
+            filterBy="name"
+            [showClear]="true"
             [options]="paymentPeriods"
             [(ngModel)]="selectedPaymentPeriod"
             formControlName="paymentPeriodId"
@@ -6125,6 +6215,9 @@ icon="pi pi-cog"
         <div class="col-sm">
           <label for="gracePeriodUnitId">Grace Period Unit<sup>*</sup></label>
           <p-select
+            [filter]="true"
+            filterBy="name"
+            [showClear]="true"
             [options]="gracePeriodUnits"
             formControlName="gracePeriodUnitId"
             [(ngModel)]="selectedGracePeriodUnit"
@@ -6156,6 +6249,9 @@ icon="pi pi-cog"
         <div class="col-sm">
           <label for="currencyId">Currency<sup>*</sup></label>
           <p-select
+            [filter]="true"
+            filterBy="name"
+            [showClear]="true"
             [options]="currencies"
             [(ngModel)]="selectedCurrency"
             formControlName="currencyId"
@@ -6182,6 +6278,9 @@ icon="pi pi-cog"
           >
 
           <p-select
+            [filter]="true"
+            filterBy="name"
+            [showClear]="true"
             [options]="currencyExchangeRates"
             formControlName="currencyExchangeRateId"
             placeholder="Currency Exchange Rate"
@@ -6208,7 +6307,7 @@ icon="pi pi-cog"
           <p-checkbox
             formControlName="isManuaExchangeRate"
             binary="true"
-           (onChange)="onCheckboxChange.emit($event)"
+            (onChange)="onCheckboxChange.emit($event)"
           ></p-checkbox>
         </div>
         <div class="col-sm">
@@ -6421,6 +6520,9 @@ icon="pi pi-cog"
             >Interest Rate Benchmark<sup>*</sup></label
           >
           <p-select
+            [filter]="true"
+            filterBy="name"
+            [showClear]="true"
             [options]="interestRateBenchMarks"
             [(ngModel)]="selectedInterestRateBenchMarks"
             formControlName="interestRateBenchmarkId"
@@ -6445,6 +6547,9 @@ icon="pi pi-cog"
         <div class="col-sm">
           <label for="paymentTimingTermId">Payment Time Term<sup>*</sup></label>
           <p-select
+            [filter]="true"
+            filterBy="name"
+            [showClear]="true"
             [options]="paymentTimeTerms"
             [(ngModel)]="selectedPaymentTimingTerm"
             formControlName="paymentTimingTermId"
@@ -6470,6 +6575,9 @@ icon="pi pi-cog"
         <div class="col-sm">
           <label for="rentStructureTypeId">Rent Structure<sup>*</sup></label>
           <p-select
+            [filter]="true"
+            filterBy="name"
+            [showClear]="true"
             [options]="rentStructures"
             formControlName="rentStructureTypeId"
             [(ngModel)]="selectedRentStructureType"
@@ -6492,6 +6600,9 @@ icon="pi pi-cog"
         <div class="col-sm">
           <label for="paymentMethodId">Payment Method<sup>*</sup></label>
           <p-select
+            [filter]="true"
+            filterBy="name"
+            [showClear]="true"
             [options]="paymentMethods"
             formControlName="paymentMethodId"
             [(ngModel)]="selectedPaymentMethod"
@@ -6516,6 +6627,9 @@ icon="pi pi-cog"
         <div class="col-sm-12">
           <label for="paymentMonthDayID">Payment Month Day<sup>*</sup></label>
           <p-select
+            [filter]="true"
+            filterBy="name"
+            [showClear]="true"
             [options]="paymentMonthDays"
             formControlName="paymentMonthDayID"
             optionLabel="name"
@@ -6585,6 +6699,9 @@ icon="pi pi-cog"
       </div>
       <label for="governorateId">Governorate<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="governoratesList"
         optionLabel="name"
         placeholder="Select Governorate"
@@ -6786,6 +6903,9 @@ icon="pi pi-cog"
     >
       <label for="countryId">Country ID<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="countriesList"
         optionLabel="name"
         placeholder="Select Country"
@@ -6945,6 +7065,9 @@ icon="pi pi-cog"
       </div>
       <label for="statusInId">Status In<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="statusList"
         placeholder="Select Status In"
         optionLabel="name"
@@ -6959,6 +7082,9 @@ icon="pi pi-cog"
       ></p-select>
       <label for="statusOutId">Status Out<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="statusList"
         optionLabel="name"
         placeholder="Select Status Out"
@@ -6974,6 +7100,9 @@ icon="pi pi-cog"
       ></p-select>
       <label for="workflowActionTypeId">Workflow Action Type<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="workflowActionTypeList"
         placeholder="Select Workflow Action Type"
         formControlName="workflowActionTypeId"
@@ -7131,6 +7260,9 @@ icon="pi pi-cog"
     >
       <label for="feeTypeId">Fee Type<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="feeTypes"
         optionLabel="name"
         placeholder="Select Fee Type"
@@ -7209,6 +7341,9 @@ icon="pi pi-cog"
     >
       <label for="authorizationGroupId">Authorization Group<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="authorizationGroupsList"
         optionLabel="name"
         placeholder="Select Authorization Group"
@@ -7268,6 +7403,9 @@ icon="pi pi-cog"
     >
       <label for="notificationGroupId">Notification Group<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="notificationGroupsList"
         optionLabel="name"
         placeholder="Select Notification Group"
@@ -7364,6 +7502,9 @@ icon="pi pi-cog"
 
       <label for="businessLineId">Business Line<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="businessLinesList"
         optionLabel="name"
         placeholder="Select Business Line"
@@ -7580,6 +7721,9 @@ icon="pi pi-cog"
       >
       <!--Select Box-->
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="assetTypeCategories"
         optionLabel="name"
         placeholder="Select Asset Category"
@@ -7792,6 +7936,9 @@ icon="pi pi-cog"
       </div>
       <label for="statusInId">Status In<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="statusList"
         placeholder="Select Status In"
         optionLabel="name"
@@ -7806,6 +7953,9 @@ icon="pi pi-cog"
       ></p-select>
       <label for="statusOutId">Status Out<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="statusList"
         optionLabel="name"
         placeholder="Select Status Out"
@@ -7821,6 +7971,9 @@ icon="pi pi-cog"
       ></p-select>
       <label for="workflowActionTypeId">Workflow Action Type<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="workflowActionTypeList"
         placeholder="Select Workflow Action Type"
         formControlName="workflowActionTypeId"
@@ -7885,6 +8038,9 @@ icon="pi pi-cog"
     >
       <label for="authorizationGroupId">Authorization Group<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="authorizationGroupsList"
         optionLabel="name"
         placeholder="Select Authorization Group"
@@ -7944,6 +8100,9 @@ icon="pi pi-cog"
     >
       <label for="notificationGroupId">Notification Group<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="notificationGroupsList"
         optionLabel="name"
         placeholder="Select Notification Group"
@@ -8014,6 +8173,9 @@ icon="pi pi-cog"
         >Condition Type<sup class="danger">*</sup></label
       >
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="conditionTypes"
         name="conditionType"
         formControlName="conditionType"
@@ -8043,6 +8205,9 @@ icon="pi pi-cog"
       >
       <!--Select Box-->
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="conditionExpressions"
         optionLabel="fieldName"
         placeholder="Select Condition Expression"
@@ -8169,6 +8334,9 @@ icon="pi pi-cog"
       >
       <!--Select Box-->
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="feeCalculationTypes"
         optionLabel="name"
         placeholder="Select fee calculation type"
@@ -8292,6 +8460,9 @@ icon="pi pi-cog"
       <label for="feeTypeId">Select Fee Type<sup class="danger">*</sup></label>
       <!--Select Box-->
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="feeTypes"
         optionLabel="name"
         placeholder="Select fee type"
@@ -8433,6 +8604,9 @@ icon="pi pi-cog"
       >
       <!--Select Box-->
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="notificationGroups"
         optionLabel="name"
         placeholder="Select Notification Group"
@@ -8461,6 +8635,9 @@ icon="pi pi-cog"
       <label for="officerId">Select Officer<sup class="danger">*</sup></label>
       <!--Select Box-->
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="officers"
         optionLabel="name"
         placeholder="Select Officer"
@@ -8535,6 +8712,9 @@ icon="pi pi-cog"
       >
       <!--Select Box-->
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="authorizationGroups"
         optionLabel="name"
         placeholder="Select Authorization Group"
@@ -8563,6 +8743,9 @@ icon="pi pi-cog"
       <label for="officerId">Select Officer<sup class="danger">*</sup></label>
       <!--Select Box-->
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="officers"
         optionLabel="name"
         placeholder="Select Officer"
@@ -8680,6 +8863,9 @@ icon="pi pi-cog"
       />
       <label for="isDefault">Default Currency<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="stamps"
         optionLabel="name"
         optionValue="id"
@@ -9081,6 +9267,9 @@ icon="pi pi-cog"
     >
       <label for="officerId">Officer<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="officersList"
         optionLabel="name"
         placeholder="Select officer"
@@ -9144,6 +9333,9 @@ icon="pi pi-cog"
     >
       <label for="countryId">Country<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="countriesList"
         optionLabel="name"
         placeholder="Select Country"
@@ -9160,6 +9352,9 @@ icon="pi pi-cog"
       />
       <label for="governorateId">Governorate<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="governoratesList"
         optionLabel="name"
         placeholder="Select governorate"
@@ -9176,6 +9371,9 @@ icon="pi pi-cog"
       />
       <label for="areaId">Area<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="areasList"
         optionLabel="name"
         placeholder="Select Area"
@@ -9267,6 +9465,9 @@ icon="pi pi-cog"
 
       <label for="managerId">Manager<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="officersList"
         optionLabel="name"
         placeholder="Select Manager"
@@ -9459,6 +9660,9 @@ icon="pi pi-cog"
 
       <label for="officerId">Officer <sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="officersList"
         optionLabel="name"
         placeholder="Select Manager"
@@ -9478,6 +9682,9 @@ icon="pi pi-cog"
           Contact Person<sup class="danger">*</sup>
         </label>
         <p-select
+          [filter]="true"
+          filterBy="name"
+          [showClear]="true"
           [options]="contactPersonsList"
           formControlName="contactPersonId"
           placeholder="Select Contact Person"
@@ -9756,6 +9963,9 @@ icon="pi pi-cog"
 
       <label for="officerId">Manager<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="officersList"
         optionLabel="name"
         placeholder="Select Manager"
@@ -9856,6 +10066,9 @@ icon="pi pi-cog"
         >Select department<sup class="danger">*</sup></label
       >
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="departments"
         optionLabel="name"
         placeholder="Select Department"
@@ -9936,6 +10149,9 @@ icon="pi pi-cog"
 
       <label for="officerId">Manager<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="officersList"
         optionLabel="name"
         placeholder="Select Manager"
@@ -9995,6 +10211,9 @@ icon="pi pi-cog"
       <br />
       <label for="officerId">Officer<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="officersList"
         optionLabel="name"
         placeholder="Select Manager"
@@ -10054,6 +10273,9 @@ icon="pi pi-cog"
 
       <label for="officerId">Officer<sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         [options]="officersList"
         optionLabel="name"
         placeholder="Select officer"

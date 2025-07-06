@@ -32,6 +32,9 @@
     <hr id="breaker" />
     <label>Select Office</label>
     <p-select
+      [filter]="true"
+      filterBy="name"
+      [showClear]="true"
       [options]="offices"
       [(ngModel)]="selectedOffices"
       optionLabel="name"
@@ -42,6 +45,9 @@
     <label>Select TML Officer</label>
 
     <p-select
+      [filter]="true"
+      filterBy="name"
+      [showClear]="true"
       [options]="tmlOfficers"
       [(ngModel)]="selectedTmlOfficers"
       optionLabel="name"
@@ -51,6 +57,9 @@
     <label>Select Language</label>
 
     <p-select
+      [filter]="true"
+      filterBy="name"
+      [showClear]="true"
       [options]="languages"
       [(ngModel)]="selectedLanguages"
       optionLabel="name"

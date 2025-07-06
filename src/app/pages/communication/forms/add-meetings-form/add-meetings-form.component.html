@@ -21,6 +21,9 @@
       <!-- Meeting Type -->
       <label for="meetingTypeId">Meeting Type <sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         id="meetingTypeId"
         [options]="meetingTypes"
         optionLabel="name"
@@ -38,6 +41,9 @@
       <!-- Communication Flow -->
       <label for="communicationFlowId">Communication Flow <sup>*</sup></label>
       <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
         id="communicationFlowId"
         [options]="communicationFlowTypes"
         optionLabel="name"
@@ -75,6 +81,9 @@
               Select Officer <sup class="danger">*</sup>
             </label>
             <p-select
+              [filter]="true"
+              filterBy="name"
+              [showClear]="true"
               [options]="officersList"
               formControlName="officerId"
               placeholder="Select Officer"
@@ -169,6 +178,9 @@
               Select Asset Type <sup class="danger">*</sup>
             </label>
             <p-select
+              [filter]="true"
+              filterBy="name"
+              [showClear]="true"
               [options]="assetTypes"
               formControlName="assetTypeId"
               placeholder="Select Asset Type"
@@ -218,6 +230,9 @@
               Select Contact Person <sup class="danger">*</sup>
             </label>
             <p-select
+              [filter]="true"
+              filterBy="name"
+              [showClear]="true"
               [options]="contactPersons"
               formControlName="contactPersonId"
               placeholder="Select Contact Person"
@@ -363,7 +378,7 @@
           <p-button
             label="Close"
             class="custom-save m-0 float-right"
-           (click)="viewMeetings()"
+            (click)="viewMeetings()"
           ></p-button>
         </div>
       </div>
