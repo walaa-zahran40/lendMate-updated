@@ -263,7 +263,13 @@ export class AddClientComponent implements OnInit, OnDestroy {
         ],
       ],
       businessActivity: [''],
-      taxId: ['', [Validators.required, positiveNumberValidator()]],
+      taxId: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('^[0-9]{3}-[0-9]{2}-[0-9]{4}$'),
+        ],
+      ],
       shortName: [''],
       sectorId: [[], Validators.required],
       subSectorIdList: [[], Validators.required],
