@@ -1,6 +1,6 @@
 <div class="side-menu-container">
   <div class="side-menu">
-    <img class="logoS" src="/assets/logoS.svg" />
+    <img class="logoS" src="/assets/images/shared/favico/svg_1.svg" />
     <ng-container *ngFor="let item of menuItems">
       <button
         *ngIf="hasPermission(item.permission)"
@@ -20,7 +20,7 @@
     class="toggle-menu"
     *ngIf="activeMenu && (filteredMenuData[activeMenu]?.length || 0) > 0"
   >
-    <img class="logo" src="/assets/logo.svg" />
+    <img class="logo" src="/assets/images/shared/favico/svg_1.svg" />
     <p-iconfield>
       <p-inputicon styleClass="pi pi-search" />
       <input
