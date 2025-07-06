@@ -106,6 +106,7 @@
                     <p-button
                       *ngIf="!viewOnly"
                       label="Save Information"
+                      [disabled]="this.addClientForm.invalid"
                       (click)="saveInfo()"
                       class="custom-save2 m-0 float-right"
                     ></p-button>
@@ -151,6 +152,7 @@
             *ngIf="!viewOnly"
             (click)="saveInfoIndividual()"
             label="Save Information"
+            [disabled]="this.addClientFormIndividual.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
           <p-button

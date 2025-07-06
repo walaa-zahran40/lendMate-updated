@@ -62,6 +62,10 @@
       cursor: var(--custom-cursor);
       color: var(--custom-color-white);
     }
+    .custom-save:disabled,
+    .custom-save2:disabled {
+      cursor: none;
+    }
     .custom-save2 {
       background: var(--p-tabs-active-bar-background);
       margin-left: var(--custom-position-auto);
