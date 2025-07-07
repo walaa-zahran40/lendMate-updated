@@ -259,9 +259,21 @@ export class AddClientOnboardingComponent implements OnInit, OnDestroy {
   buildFormCompany(): void {
     this.addClientForm = this.fb.group({
       name: ['', Validators.required],
-      nameAR: ['', [Validators.required, Validators.pattern(/^[\u0600-\u06FF\s0-9\u0660-\u0669]+$/)]],
+      nameAR: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(/^[\u0600-\u06FF\s0-9\u0660-\u0669]+$/),
+        ],
+      ],
       businessActivity: [''],
-      taxId: ['', [Validators.required, positiveNumberValidator()]],
+      taxId: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('^[0-9]{3}-[0-9]{2}-[0-9]{4}$'),
+        ],
+      ],
       shortName: [''],
       sectorId: [[], Validators.required],
       subSectorIdList: [[], Validators.required],
@@ -276,7 +288,7 @@ export class AddClientOnboardingComponent implements OnInit, OnDestroy {
         name: client.name,
         nameAR: client.nameAR,
         businessActivity: client.businessActivity,
-        taxId: +client.taxId!,
+        taxId: client.taxId!,
         shortName: client.shortName,
       });
       console.log('✅ static fields patched', this.addClientForm.getRawValue());
@@ -387,7 +399,7 @@ export class AddClientOnboardingComponent implements OnInit, OnDestroy {
         businessActivity: formValue.businessActivity,
         clientTypeId: 1,
         subSectorIdList: formValue.subSectorIdList,
-        taxId: String(formValue.taxId)
+        taxId: formValue.taxId,
       };
       this.clientsFacade.update(this.clientId, updatedClient);
     } else {
@@ -398,7 +410,7 @@ export class AddClientOnboardingComponent implements OnInit, OnDestroy {
         name: formValue.name,
         nameAR: formValue.nameAR,
         businessActivity: formValue.businessActivity,
-        taxId: String(formValue.taxId),
+        taxId: formValue.taxId,
         shortName: formValue.shortName,
         sectorId: formValue.sectorId,
         subSectorIdList: formValue.subSectorIdList,
@@ -416,7 +428,13 @@ export class AddClientOnboardingComponent implements OnInit, OnDestroy {
   buildFormIndividual() {
     this.addClientFormIndividual = this.fb.group({
       nameEnglishIndividual: ['', Validators.required],
-      nameArabicIndividual: ['', [Validators.required,Validators.pattern(/^[\u0600-\u06FF\s0-9\u0660-\u0669]+$/)]],
+      nameArabicIndividual: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(/^[\u0600-\u06FF\s0-9\u0660-\u0669]+$/),
+        ],
+      ],
       businessActivityIndividual: [''],
       shortNameIndividual: [''],
       sectorId: [[]],
@@ -424,7 +442,7 @@ export class AddClientOnboardingComponent implements OnInit, OnDestroy {
       emailIndividual: [''],
       jobTitleIndividual: [''],
       dateOfBirthIndividual: [null],
-      genderIndividual: [null,Validators.required],
+      genderIndividual: [null, Validators.required],
       identities: this.fb.array([this.createIdentityGroup()]),
     });
   }

@@ -3,8 +3,8 @@
     viewOnly
       ? 'View Clients Onboarding'
       : editMode
-      ? 'Edit Clients Onboarding'
-      : 'Add Clients Onboarding'
+      ? 'Edit Client Onboarding'
+      : 'Add Client Onboarding'
   "
   [backExists]="true"
   [backIcon]="'back-icon'"
@@ -51,6 +51,7 @@
                     *ngIf="!viewOnly"
                     label="Save Information"
                     (click)="saveInfo()"
+                    [disabled]="this.addClientForm.invalid"
                     class="custom-save2 m-0 float-right"
                   ></p-button>
                   <p-button
@@ -95,6 +96,7 @@
             (click)="saveInfoIndividual()"
             label="Save Information"
             class="custom-save m-0 float-right"
+            [disabled]="this.addClientFormIndividual.invalid"
           ></p-button>
           <p-button
             *ngIf="viewOnly"

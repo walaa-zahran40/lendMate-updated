@@ -16,9 +16,9 @@
   --custom-red: #fc1e1e;
   &::ng-deep {
     td {
-      white-space: normal;
-      word-break: break-all;
-      overflow-wrap: anywhere;
+      max-width: 300px; /* don’t let the box grow past 300px */
+      white-space: normal; /* allow lines to wrap */
+      overflow-wrap: break-word; /* break long words if they exceed the width */
     }
     img[alt="side"],
     img[alt="delete"],

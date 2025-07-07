@@ -101,7 +101,7 @@
           name="taxId"
           formControlName="taxId"
           placeholder="Tax ID"
-          type="number"
+          type="text"
           [ngClass]="{
             'ng-invalid ng-dirty':
               formGroup.get('taxId')?.invalid && formGroup.get('taxId')?.touched
@@ -121,17 +121,18 @@
           >
             Tax ID is required.
           </small>
+
           <br />
           <small
             class="p-error"
             *ngIf="
-              formGroup.get('taxId')?.hasError('nonPositiveNumeric') &&
+              formGroup.get('taxId')?.hasError('pattern') &&
               formGroup.get('taxId')?.touched
             "
           >
-            Only positive numeric characters are allowed.
+            Only positive numbers and dashes are allowed <br />& Format must be
+            3 digits, dash, 2 digits, dash, 4 digits (e.g. 123-45-6789).
           </small>
-          <br />
         </div>
 
         <!-- Short Name -->
