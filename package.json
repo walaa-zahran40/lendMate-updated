@@ -29,6 +29,7 @@
     "@fullcalendar/daygrid": "^6.1.15",
     "@fullcalendar/interaction": "^6.1.15",
     "@fullcalendar/list": "^6.1.15",
+    "@fullcalendar/moment-timezone": "^6.1.18",
     "@fullcalendar/timegrid": "^6.1.15",
     "@ng-bootstrap/ng-bootstrap": "^18.0.0",
     "@ngrx/effects": "^19.0.1",
