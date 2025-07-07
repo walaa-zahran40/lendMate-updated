@@ -62,9 +62,9 @@ import { WorkflowDialogComponent } from './workflow-dialog/workflow-dialog.compo
 import { InputNumberModule } from 'primeng/inputnumber';
 import { AddLegalFormLawsComponent } from '../../pages/legals/forms/add-legal-form-laws/add-legal-form-laws.component';
 import { AddLegalFormsComponent } from '../../pages/legals/forms/add-legal-forms/add-legal-forms.component';
-import { AddCallFormComponent } from '../../pages/communication/forms/add-call-form/add-call-form.component';
-import { AddFollowupsFormComponent } from '../../pages/communication/forms/add-followups-form/add-followups-form.component';
-import { AddMeetingsFormComponent } from '../../pages/communication/forms/add-meetings-form/add-meetings-form.component';
+import { AddCallFormComponent } from '../../pages/crm/clients/forms/add-client-call-form/add-call-form/add-call-form.component';
+import { AddFollowupsFormComponent } from '../../pages/crm/clients/forms/add-client-followups-form/add-followups-form/add-followups-form.component';
+import { AddMeetingsFormComponent } from '../../pages/crm/clients/forms/add-client-meetings-form/add-meetings-form/add-meetings-form.component';
 import { AddClientAddressesFormComponent } from '../../pages/crm/clients/forms/add-client-addresses-form/add-client-addresses-form.component';
 import { AddClientCentralBankInfoFormComponent } from '../../pages/crm/clients/forms/add-client-central-bank-info-form/add-client-central-bank-info-form.component';
 import { AddClientContactPersonsFormComponent } from '../../pages/crm/clients/forms/add-client-contact-persons-form/add-client-contact-persons-form.component';
