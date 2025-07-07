@@ -100,7 +100,7 @@
   .p-button:not(:disabled):hover {
     background: #e9ebfd !important;
     border: 0 !important;
-    color: inherit;
+    color: inherit !important;
   }
   button.menu-button.p-button.p-component.p-button-icon-only.active {
     background: var(--hover-side);
