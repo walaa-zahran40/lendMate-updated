@@ -23,33 +23,44 @@ export class ClientMandatesFacade {
   );
   operationSuccess$ = this.store.select(selectLastOperationSuccess);
   workFlowActionSuccess$ = this.store.select(selectLastOperationSuccess);
+  /** ➕ observable for the “current” mandate (by loadedId) */
+  currentMandate$ = this.store.select(Selectors.selectCurrent);
 
   constructor(private store: Store) {}
 
   loadAll(pageNumber?: number) {
     this.store.dispatch(Actions.loadAll({ pageNumber }));
   }
-
+  /** ➕ kicks off the load-by-leasing-id effect */
+  loadByLeasingId(id: number) {
+    this.store.dispatch(Actions.loadByLeasingId({ id }));
+  }
   loadById(id: number) {
     this.store.dispatch(Actions.loadById({ id }));
   }
 
-  create(payload: Partial<Omit<MandateDetail, 'id'>>) {
-    this.store.dispatch(Actions.createEntity({ payload }));
+  create(clientId: number, payload: any) {
+    this.store.dispatch(Actions.createEntity({ clientId, payload }));
   }
 
-  update(id: number, changes: Partial<MandateDetail>) {
-    this.store.dispatch(Actions.updateEntity({ id, changes }));
+  update(clientId: number, id: number, changes: Partial<MandateDetail>) {
+    this.store.dispatch(Actions.updateEntity({ clientId, id, changes }));
   }
 
-  delete(id: number) {
-    this.store.dispatch(Actions.deleteEntity({ id }));
+  delete(clientId: number, id: number) {
+    this.store.dispatch(Actions.deleteEntity({ clientId, id }));
   }
 
   clearSelected() {
     this.store.dispatch(Actions.clearSelectedMandate());
   }
-  performWorkflowAction(id: number, changes: Partial<MandateWorkflowAction>) {
-    this.store.dispatch(Actions.performWorkflowActionEntity({ id, changes }));
+  performWorkflowAction(
+    clientId: number,
+    id: number,
+    changes: Partial<MandateWorkflowAction>
+  ) {
+    this.store.dispatch(
+      Actions.performWorkflowActionEntity({ clientId, id, changes })
+    );
   }
 }

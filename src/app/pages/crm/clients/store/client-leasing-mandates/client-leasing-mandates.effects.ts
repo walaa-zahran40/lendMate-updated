@@ -50,35 +50,43 @@ export class MandatesEffects {
   create$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActionsList.createEntity),
-      mergeMap(({ payload }) => {
-        const dto = payload as Omit<MandateDetail, 'id'>;
-        return this.service.create(dto).pipe(
+      mergeMap(({ clientId, payload }) =>
+        this.service.create(payload).pipe(
           mergeMap((entity) => [
-            ActionsList.createEntitySuccess({ entity }),
+            ActionsList.createEntitySuccess({ clientId, entity }),
             ActionsList.entityOperationSuccess({
+              clientId,
               entity: EntityNames.Mandate,
               operation: 'create',
             }),
+            // kick off reload of this client's mandates:
+            ActionsList.loadById({ id: clientId }),
           ]),
-          catchError((error) => of(ActionsList.createEntityFailure({ error })))
-        );
-      })
+          catchError((error) =>
+            of(ActionsList.createEntityFailure({ clientId, error }))
+          )
+        )
+      )
     )
   );
 
   update$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActionsList.updateEntity),
-      mergeMap(({ id, changes }) =>
+      mergeMap(({ clientId, id, changes }) =>
         this.service.update(id, changes).pipe(
           mergeMap(() => [
-            ActionsList.updateEntitySuccess({ id, changes }),
+            ActionsList.updateEntitySuccess({ clientId, id, changes }),
             ActionsList.entityOperationSuccess({
+              clientId,
               entity: EntityNames.Mandate,
               operation: 'update',
             }),
+            ActionsList.loadById({ id: clientId }),
           ]),
-          catchError((error) => of(ActionsList.updateEntityFailure({ error })))
+          catchError((error) =>
+            of(ActionsList.updateEntityFailure({ clientId, error }))
+          )
         )
       )
     )
@@ -87,10 +95,20 @@ export class MandatesEffects {
   delete$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActionsList.deleteEntity),
-      mergeMap(({ id }) =>
+      mergeMap(({ clientId, id }) =>
         this.service.delete(id).pipe(
-          map(() => ActionsList.deleteEntitySuccess({ id })),
-          catchError((error) => of(ActionsList.deleteEntityFailure({ error })))
+          mergeMap(() => [
+            ActionsList.deleteEntitySuccess({ clientId, id }),
+            ActionsList.entityOperationSuccess({
+              clientId,
+              entity: EntityNames.MandateDetail,
+              operation: 'delete',
+            }),
+            ActionsList.loadById({ id: clientId }),
+          ]),
+          catchError((error) =>
+            of(ActionsList.deleteEntityFailure({ clientId, error }))
+          )
         )
       )
     )
@@ -102,24 +120,55 @@ export class MandatesEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAll({}))
+      map(({ clientId }) =>
+        // pass it _as_ the `id` param that loadById expects
+        ActionsList.loadById({ id: clientId })
+      )
     )
   );
-
+  /** ➕ effect to call getByLeasingId() */
+  loadByLeasingId$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadByLeasingId),
+      exhaustMap(({ id }) =>
+        this.service.getByLeasingId(id).pipe(
+          map((entity) => ActionsList.loadByLeasingIdSuccess({ entity })),
+          catchError((error) =>
+            of(ActionsList.loadByLeasingIdFailure({ error }))
+          )
+        )
+      )
+    )
+  );
   performWorkflow$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActionsList.performWorkflowActionEntity),
-      mergeMap(({ id, changes }) =>
+      mergeMap(({ clientId, id, changes }) =>
         this.service.performWorkflowAction(id, changes).pipe(
           mergeMap(() => [
-            ActionsList.performWorkflowActionEntitySuccess({ id, changes }),
+            // ① workflow action success
+            ActionsList.performWorkflowActionEntitySuccess({
+              clientId,
+              id,
+              changes,
+            }),
+            // ② generic op success (already expects clientId)
             ActionsList.entityOperationSuccess({
+              clientId,
               entity: EntityNames.MandateWorkFlowAction,
               operation: 'update',
             }),
+            // ③ finally reload that client’s mandates
+            ActionsList.loadById({ id: clientId }),
           ]),
           catchError((error) =>
-            of(ActionsList.performWorkflowActionEntityFailure({ error }))
+            of(
+              // now matches props<{clientId, error}>
+              ActionsList.performWorkflowActionEntityFailure({
+                clientId,
+                error,
+              })
+            )
           )
         )
       )

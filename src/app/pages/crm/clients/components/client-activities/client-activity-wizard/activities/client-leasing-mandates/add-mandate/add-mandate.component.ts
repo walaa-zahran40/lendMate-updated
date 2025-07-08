@@ -3,15 +3,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/internal/Observable';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  distinctUntilChanged,
-  filter,
-  map,
-  switchMap,
-  take,
-  takeUntil,
-  tap,
-} from 'rxjs/operators';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 
 //Models
 import { Client } from '../../../../../../../clients/store/_clients/allclients/client.model';
@@ -47,6 +39,7 @@ import { loadAll as loadAssetTypes } from '../../../../../../../../lookups/store
 import { loadAll as loadFeeTypes } from '../../../../../../../../lookups/store/fee-types/fee-types.actions';
 import { loadAll as loadGracePeriods } from '../../../../../../../../lookups/store/period-units/period-units.actions';
 import { combineLatest, Subject } from 'rxjs';
+import { ClientMandatesFacade } from '../../../../../../store/client-leasing-mandates/client-leasing-mandates.facade';
 
 @Component({
   selector: 'app-add-mandate',
@@ -78,7 +71,7 @@ export class AddMandateComponent {
   selectedAction: string = '';
   public mandateId: any = null;
   public leasingMandateId: any = null;
-
+  clientId = this.route.snapshot.params['clientId'];
   constructor(
     private fb: FormBuilder,
     private store: Store,
@@ -93,7 +86,7 @@ export class AddMandateComponent {
     private feeTypesFacade: FeeTypesFacade,
     private gracePeriodUnitsFacade: GracePeriodUnitsFacade,
     private route: ActivatedRoute,
-    private facade: MandatesFacade,
+    private facade: ClientMandatesFacade,
     private router: Router
   ) {}
 
@@ -113,22 +106,12 @@ export class AddMandateComponent {
       moreInfo: this.addMandateShowMoreInformationForm,
     });
     // 3️⃣ Hook up client → contact-persons
-    this.basicForm
-      .get('clientId')!
-      .valueChanges.pipe(
-        filter((id) => !!id),
-        distinctUntilChanged(),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((clientId) => {
-        this.contactPersonsFacade.loadByClientId(clientId);
-      });
+
+    this.contactPersonsFacade.loadByClientId(this.clientId);
 
     // 4️⃣ If you want the initial load on edit, do it here too
-    const initial = this.basicForm.get('clientId')!.value;
-    if (initial) {
-      this.contactPersonsFacade.loadByClientId(initial);
-    }
+
+    this.contactPersonsFacade.loadByClientId(this.clientId);
 
     // 5️⃣ All your other setup (lookups, route handling, patching…)
     //    no early returns that skip the clientId subscription
@@ -181,10 +164,10 @@ export class AddMandateComponent {
           // ← clear out the old entity so selectedMandate$ doesn’t emit immediately
           this.facade.clearSelected();
           // now fetch afresh
-          this.facade.loadById(leasingId);
+          this.facade.loadByLeasingId(leasingId);
         }),
         switchMap(({ leasingId }) =>
-          this.facade.selectedMandate$.pipe(
+          this.facade.selected$.pipe(
             filter((m) => m != null && m.id === leasingId),
             take(1)
           )
@@ -221,7 +204,7 @@ export class AddMandateComponent {
       basic: {
         id: m.id,
         parentMandateId: m.parentMandateId,
-        clientId: m.clientId ?? m.clientView?.clientId,
+        clientId: this.clientId,
         validityUnitId: m.validityUnitId ?? m.validityUnitView?.validityUnitId,
         productId: m.productId,
         leasingTypeId: m.leasingTypeId,
@@ -309,7 +292,7 @@ export class AddMandateComponent {
     return {
       ...raw,
       // pick flat IDs first, then fallback to the nested view-model…
-      clientId: raw?.clientId ?? raw?.clientView?.clientId,
+      clientId: this.clientId,
       validityUnitId:
         raw?.validityUnitId ?? raw?.validityUnitView?.validityUnitId,
       // if your back-end ever renames the grace-period prop,
@@ -324,13 +307,13 @@ export class AddMandateComponent {
 
   handleWorkflowAction(event: { actionId: number; comment: string }): void {
     const payload = {
-      mandateId: this.mandateId,
+      id: this.mandateId,
       mandateStatusActionId: event.actionId,
       comment: event.comment,
       isCurrent: true,
     };
 
-    this.facade.performWorkflowAction(event.actionId, payload);
+    this.facade.performWorkflowAction(this.clientId, this.mandateId, payload);
     this.facade.workFlowActionSuccess$.subscribe({
       next: () => {
         console.log('Workflow action submitted successfully.');
@@ -344,7 +327,7 @@ export class AddMandateComponent {
     this.facade.selected$.subscribe({
       next: (mandate) => {
         var workFlowAction = [
-          ...(mandate?.allowedMandateWorkFlowActions ?? []),
+          ...(mandate?.allowedMandateWorkflowActions ?? []),
         ];
         this.workFlowActionList = workFlowAction.map((action) => ({
           id: action.id,
@@ -362,7 +345,7 @@ export class AddMandateComponent {
     this.addMandateShowBasicForm = this.fb.group({
       id: [null],
       parentMandateId: [null],
-      clientId: [null, Validators.required],
+      // clientId: [null, Validators.required],
       validityUnitId: [null, Validators.required],
       productId: [null, Validators.required],
       leasingTypeId: [null, Validators.required],
@@ -554,8 +537,15 @@ export class AddMandateComponent {
       this.parentForm.value;
     const payload: Partial<Mandate> = {
       ...basic,
+      clientId: this.clientId,
       mandateOfficers: officers.mandateOfficers,
-      mandateContactPersons: contacts.mandateContactPersons,
+      mandateContactPersons: (contacts.mandateContactPersons || []).map(
+        (cp: any) => ({
+          contactPersonId: cp.contactPersonId,
+          contactPersonName: cp.contactPersonName || '',
+          contactPersonNameAr: cp.contactPersonNameAr || '',
+        })
+      ),
       mandateAssetTypes: assets.mandateAssetTypes,
 
       ...moreInfo,
@@ -576,7 +566,7 @@ export class AddMandateComponent {
       const payload = {
         id: basic.id,
         parentMandateId: basic.parentMandateId,
-        clientId: basic.clientId,
+        clientId: this.clientId,
         validityUnitId: basic.validityUnitId,
         productId: basic.productId,
         leasingTypeId: basic.leasingTypeId,
@@ -598,10 +588,10 @@ export class AddMandateComponent {
       };
 
       console.log('→ PUT payload:', payload);
-      this.facade.update(leaseId, payload);
+      this.facade.update(this.clientId, leaseId, payload);
     } else {
       console.log('➕ Dispatching CREATE payload=', payload);
-      this.facade.create(payload);
+      this.facade.create(this.clientId, payload);
     }
     if (this.addMandateShowOfficersForm.valid) {
       this.addMandateShowOfficersForm.markAsPristine();
@@ -619,7 +609,9 @@ export class AddMandateComponent {
       this.addMandateShowMoreInformationForm.markAsPristine();
     }
     console.log('🧭 Navigating away to view-mandates');
-    this.router.navigate(['/crm/leasing-mandates/view-mandates']);
+    this.router.navigate([
+      `/crm/leasing-mandates/view-mandates/${this.clientId}`,
+    ]);
   }
 
   navigateToView() {

@@ -45,7 +45,7 @@
       *ngIf="showDownloadPopup"
       [contactPersons]="contactPersonsDropdown"
       [officers]="officersDropdown"
-      [leasingMandates]="leasingMandates ? [leasingMandates] : []"
+      [leasingMandates]="selectedRowForDownload ? [selectedRowForDownload] : []"
       (close)="onPopupClose()"
       (download)="onPopupDownload($event)"
     ></app-download-popup>

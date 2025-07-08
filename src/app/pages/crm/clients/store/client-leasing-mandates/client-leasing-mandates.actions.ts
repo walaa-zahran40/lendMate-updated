@@ -17,6 +17,21 @@ export const loadAllFailure = createAction(
   '[MandatesDetail] Load All Failure',
   props<{ error: any }>()
 );
+/** Load one mandate by its leasing-mandate ID */
+export const loadByLeasingId = createAction(
+  '[Client Mandates] Load By LeasingId',
+  props<{ id: number }>()
+);
+
+export const loadByLeasingIdSuccess = createAction(
+  '[Client Mandates] Load By LeasingId Success',
+  props<{ entity: MandateDetail }>()
+);
+
+export const loadByLeasingIdFailure = createAction(
+  '[Client Mandates] Load By LeasingId Failure',
+  props<{ error: any }>()
+);
 
 export const loadById = createAction(
   '[MandatesDetail] Load By Id',
@@ -31,62 +46,101 @@ export const loadByIdFailure = createAction(
   props<{ error: any }>()
 );
 
+// CREATE
+
 export const createEntity = createAction(
   '[MandatesDetail] Create',
-  // allow all fields except id, but all optional
-  props<{ payload: Partial<Omit<MandateDetail, 'id'>> }>()
+  props<{
+    clientId: number;
+    payload: Partial<Omit<MandateDetail, 'id'>>;
+  }>()
 );
 export const createEntitySuccess = createAction(
   '[MandatesDetail] Create Success',
-  props<{ entity: MandateDetail }>()
+  props<{
+    clientId: number;
+    entity: MandateDetail;
+  }>()
 );
 export const createEntityFailure = createAction(
   '[MandatesDetail] Create Failure',
-  props<{ error: any }>()
+  props<{ clientId: number; error: any }>()
 );
 
+// UPDATE
 export const updateEntity = createAction(
   '[MandatesDetail] Update',
-  props<{ id: number; changes: Partial<MandateDetail> }>()
+  props<{
+    clientId: number;
+    id: number;
+    changes: Partial<MandateDetail>;
+  }>()
 );
 export const updateEntitySuccess = createAction(
   '[MandatesDetail] Update Success',
-  props<{ id: number; changes: Partial<MandateDetail> }>()
+  props<{
+    clientId: number;
+    id: number;
+    changes: Partial<MandateDetail>;
+  }>()
 );
 export const updateEntityFailure = createAction(
   '[MandatesDetail] Update Failure',
-  props<{ error: any }>()
+  props<{ clientId: number; error: any }>()
 );
 
+// DELETE
 export const deleteEntity = createAction(
   '[MandatesDetail] Delete',
-  props<{ id: number }>()
+  props<{ clientId: number; id: number }>()
 );
 export const deleteEntitySuccess = createAction(
   '[MandatesDetail] Delete Success',
-  props<{ id: number }>()
+  props<{ clientId: number; id: number }>()
 );
 export const deleteEntityFailure = createAction(
   '[MandatesDetail] Delete Failure',
-  props<{ error: any }>()
+  props<{ clientId: number; error: any }>()
 );
+
+// GENERIC OP SUCCESS (if you still need this)
 export const entityOperationSuccess = createAction(
   '[Entity] Operation Success',
-  props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
+  props<{
+    clientId: number;
+    entity: string;
+    operation: 'create' | 'update' | 'delete';
+  }>()
 );
 export const clearSelectedMandate = createAction(
   '[MandatesDetail] Clear Selected'
 );
 
+// include clientId on request
 export const performWorkflowActionEntity = createAction(
   '[MandatesOnboarding] PerformWorkflowAction',
-  props<{ id: number; changes: Partial<MandateWorkflowAction> }>()
+  props<{
+    clientId: number;
+    id: number;
+    changes: Partial<MandateWorkflowAction>;
+  }>()
 );
+
+// include clientId on success
 export const performWorkflowActionEntitySuccess = createAction(
   '[MandatesOnboarding] PerformWorkflowAction Success',
-  props<{ id: number; changes: Partial<MandateWorkflowAction> }>()
+  props<{
+    clientId: number;
+    id: number;
+    changes: Partial<MandateWorkflowAction>;
+  }>()
 );
+
+// include clientId on failure
 export const performWorkflowActionEntityFailure = createAction(
   '[MandatesOnboarding] PerformWorkflowAction Failure',
-  props<{ error: any }>()
+  props<{
+    clientId: number;
+    error: any;
+  }>()
 );

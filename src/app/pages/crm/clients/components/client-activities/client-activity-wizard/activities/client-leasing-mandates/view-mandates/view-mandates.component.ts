@@ -60,6 +60,7 @@ export class ViewMandatesComponent {
     private route: ActivatedRoute
   ) {}
   ngOnInit() {
+    console.log('client route', this.route.snapshot);
     this.facade.loadById(this.clientId);
 
     combineLatest([this.leasingMandates$, this.clients$])
@@ -85,15 +86,7 @@ export class ViewMandatesComponent {
               const fromClients = clients.find(
                 (c) => c.id === m.clientId
               )?.name;
-              console.log(
-                `🗺️ mapping mandate#${m.id}:`,
-                'clientView.name=',
-                fromMandate,
-                'm=',
-                m,
-                'clients lookup=',
-                fromClients
-              );
+
               return {
                 ...m,
               };
@@ -122,7 +115,7 @@ export class ViewMandatesComponent {
     // 1️⃣ Dispatch with the real clientId (not clientView.clientId)
     this.store.dispatch(
       loadClientContactPersonsByClientId({
-        clientId: mandate.clientView.clientId!,
+        clientId: mandate?.clientId!,
       })
     );
 
@@ -173,7 +166,9 @@ export class ViewMandatesComponent {
   }
 
   onAddLeasingMandate() {
-    this.router.navigate(['/crm/leasing-mandates/add-mandate']);
+    this.router.navigate([
+      `/crm/leasing-mandates/add-mandate/${this.clientId}`,
+    ]);
   }
   onAddSide(leasingMandatesId: any) {
     this.router.navigate([
@@ -195,6 +190,7 @@ export class ViewMandatesComponent {
   }
   onDeleteLeasingMandate(leasingMandatesId: number): void {
     this.selectedIds = [leasingMandatesId];
+    console.log('selected', this.selectedIds);
     this.showDeleteModal = true;
   }
 
@@ -219,19 +215,25 @@ export class ViewMandatesComponent {
     this.showFilters = value;
   }
   onEditLeasingMandate(mandate: MandateDetail) {
-    this.router.navigate(['/crm/leasing-mandates/edit-mandate', mandate.id], {
-      queryParams: {
-        mode: 'edit',
-      },
-    });
+    this.router.navigate(
+      [`/crm/leasing-mandates/edit-mandate`, mandate.id, this.clientId],
+      {
+        queryParams: {
+          mode: 'edit',
+        },
+      }
+    );
   }
   onViewLeasingMandates(mandate: MandateDetail) {
     console.log('mandate', mandate);
-    this.router.navigate(['/crm/leasing-mandates/view-mandates', mandate.id], {
-      queryParams: {
-        mode: 'view',
-      },
-    });
+    this.router.navigate(
+      ['/crm/leasing-mandates/view-mandates', mandate.id, this.clientId],
+      {
+        queryParams: {
+          mode: 'view',
+        },
+      }
+    );
   }
   onPopupClose() {
     this.showDownloadPopup = false;
@@ -244,18 +246,13 @@ export class ViewMandatesComponent {
   }
   selectedIds: number[] = [];
   confirmDelete() {
-    const deleteCalls = this.selectedIds.map((id) => this.facade.delete(id));
+    // dispatch one delete per selected ID
+    this.selectedIds.forEach((id) => this.facade.delete(this.clientId, id));
 
-    forkJoin(deleteCalls).subscribe({
-      next: () => {
-        this.selectedIds = [];
-        this.showDeleteModal = false; // CLOSE MODAL HERE
-        this.refreshCalls();
-      },
-      error: (err) => {
-        this.showDeleteModal = false; // STILL CLOSE IT
-      },
-    });
+    // then clear & close
+    this.selectedIds = [];
+    this.showDeleteModal = false;
+    this.refreshCalls();
   }
 
   refreshCalls() {

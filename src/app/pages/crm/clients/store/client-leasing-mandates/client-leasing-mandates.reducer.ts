@@ -92,7 +92,22 @@ export const reducer = createReducer(
   on(MandateActions.clearSelectedMandate, (state) => ({
     ...state,
     loadedId: null,
-  }))
+  })),
+  // ➕ reset loading state
+  on(MandateActions.loadByLeasingId, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
+
+  // ➕ upsert the single mandate into the entity cache
+  on(MandateActions.loadByLeasingIdSuccess, (state, { entity }) =>
+    adapter.upsertOne(entity, {
+      ...state,
+      loadedId: entity.id,
+      loading: false,
+    })
+  )
 );
 
 export const { selectAll, selectEntities, selectIds, selectTotal } =

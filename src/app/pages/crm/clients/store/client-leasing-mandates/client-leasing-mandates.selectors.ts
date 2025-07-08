@@ -37,6 +37,7 @@ export const selectCurrent = createSelector(
   selectLoadedId,
   (entities, id) => (id != null ? entities[id] : null)
 );
+
 export const selectMandatesTotalCount = createSelector(
   selectMandatesFeature,
   (state) => state

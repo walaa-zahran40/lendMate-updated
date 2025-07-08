@@ -16,11 +16,16 @@ export class MandatesService {
   getByClientId(id: number): Observable<MandateDetail> {
     return this.http.get<MandateDetail>(`${this.baseUrl}/GetByClientId/${id}`);
   }
-
-  create(payload: Omit<MandateDetail, 'id'>): Observable<MandateDetail> {
+  getByLeasingId(id: number): Observable<MandateDetail> {
+    return this.http.get<MandateDetail>(
+      `${this.baseUrl}/LeasingMandateId?leasingMandate=${id}`
+    );
+  }
+  // After — allow partial payloads:
+  create(dto: Partial<Omit<MandateDetail, 'id'>>): Observable<MandateDetail> {
     return this.http.post<MandateDetail>(
       `${this.baseUrl}/CreateLeasingMandate`,
-      payload
+      dto
     );
   }
 
