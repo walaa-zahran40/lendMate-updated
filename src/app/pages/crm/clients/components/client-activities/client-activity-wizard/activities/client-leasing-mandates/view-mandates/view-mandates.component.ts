@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   combineLatest,
   map,
@@ -10,15 +10,15 @@ import {
   filter,
   forkJoin,
 } from 'rxjs';
-import { TableComponent } from '../../../../../../shared/components/table/table.component';
-import { Mandate } from '../../../store/leasing-mandates/leasing-mandate.model';
-import { MandatesFacade } from '../../../store/leasing-mandates/leasing-mandates.facade';
-import { ClientsFacade } from '../../../../clients/store/_clients/allclients/clients.facade';
+import { TableComponent } from '../../../../../../../../../shared/components/table/table.component';
+import { ClientsFacade } from '../../../../../../store/_clients/allclients/clients.facade';
 import { Store } from '@ngrx/store';
-import { loadClientContactPersonsByClientId } from '../../../../../crm/clients/store/client-contact-persons/client-contact-persons.actions';
-import { ClientContactPersonsFacade } from '../../../../clients/store/client-contact-persons/client-contact-persons.facade';
-import { OfficersFacade } from '../../../../../organizations/store/officers/officers.facade';
-import { loadOfficers } from '../../../../../organizations/store/officers/officers.actions';
+import { loadClientContactPersonsByClientId } from '../../../../../../store/client-contact-persons/client-contact-persons.actions';
+import { ClientContactPersonsFacade } from '../../../../../../store/client-contact-persons/client-contact-persons.facade';
+import { OfficersFacade } from '../../../../../../../../organizations/store/officers/officers.facade';
+import { loadOfficers } from '../../../../../../../../organizations/store/officers/officers.actions';
+import { ClientMandatesFacade } from '../../../../../../store/client-leasing-mandates/client-leasing-mandates.facade';
+import { MandateDetail } from '../../../../../../store/client-leasing-mandates/client-leasing-mandate.model';
 
 @Component({
   selector: 'app-view-mandates',
@@ -27,40 +27,41 @@ import { loadOfficers } from '../../../../../organizations/store/officers/office
   styleUrl: './view-mandates.component.scss',
 })
 export class ViewMandatesComponent {
-  tableDataInside: Mandate[] = [];
+  tableDataInside: MandateDetail[] = [];
   first2: number = 0;
   private destroy$ = new Subject<void>();
-  leasingMandates$ = this.facade.all$;
+  leasingMandates$ = this.facade.all$; // this.store.select(selectAllMandates)
   rows: number = 10;
   showFilters: boolean = false;
   @ViewChild('tableRef') tableRef!: TableComponent;
   clients$ = this.clientsFacade.all$;
-  selectedRowForDownload: Mandate | null = null;
+  selectedRowForDownload: MandateDetail | null = null;
   showDownloadPopup = false;
 
   readonly colsInside = [
     { field: 'description', header: 'Description' },
-    { field: 'clientName', header: 'Client Name' },
-    { field: 'date', header: 'Start Date' },
+    { field: 'date', header: 'Date' },
   ];
   showDeleteModal: boolean = false;
   selectedLeasingMandateId: number | null = null;
   originalLeasingMandates: any[] = [];
-  filteredLeasingMandates: Mandate[] = [];
+  filteredLeasingMandates: MandateDetail[] = [];
   contactPersonsDropdown: any;
   officersDropdown: any[] = [];
   languagesDropdown: any[] = [];
-
+  clientId = this.route.snapshot.params['clientId'];
   constructor(
     private router: Router,
     private clientsFacade: ClientsFacade,
-    private facade: MandatesFacade,
+    private facade: ClientMandatesFacade,
     private store: Store,
     private facadeContact: ClientContactPersonsFacade,
-    private officersFacade: OfficersFacade
+    private officersFacade: OfficersFacade,
+    private route: ActivatedRoute
   ) {}
   ngOnInit() {
-    this.facade.loadAll();
+    this.facade.loadById(this.clientId);
+
     combineLatest([this.leasingMandates$, this.clients$])
       .pipe(
         takeUntil(this.destroy$),
@@ -74,8 +75,9 @@ export class ViewMandatesComponent {
         }),
 
         // 2️⃣ Now map & flatten clientName out of clientView
-        map(([mandates, clients]) =>
-          mandates
+        map(([mandates, clients]) => {
+          const mandatesArray = Array.isArray(mandates) ? mandates : [];
+          return mandatesArray
             .slice()
             .sort((a, b) => b.id! - a.id!)
             .map((m) => {
@@ -87,15 +89,16 @@ export class ViewMandatesComponent {
                 `🗺️ mapping mandate#${m.id}:`,
                 'clientView.name=',
                 fromMandate,
+                'm=',
+                m,
                 'clients lookup=',
                 fromClients
               );
               return {
                 ...m,
-                clientName: fromMandate ?? fromClients ?? '— unknown —',
               };
-            })
-        ),
+            });
+        }),
 
         // 3️⃣ Log the enriched array
         tap((enriched) => console.log('Enriched tableDataInside:', enriched))
@@ -215,14 +218,14 @@ export class ViewMandatesComponent {
   onToggleFilters(value: boolean) {
     this.showFilters = value;
   }
-  onEditLeasingMandate(mandate: Mandate) {
+  onEditLeasingMandate(mandate: MandateDetail) {
     this.router.navigate(['/crm/leasing-mandates/edit-mandate', mandate.id], {
       queryParams: {
         mode: 'edit',
       },
     });
   }
-  onViewLeasingMandates(mandate: Mandate) {
+  onViewLeasingMandates(mandate: MandateDetail) {
     console.log('mandate', mandate);
     this.router.navigate(['/crm/leasing-mandates/view-mandates', mandate.id], {
       queryParams: {
@@ -256,7 +259,7 @@ export class ViewMandatesComponent {
   }
 
   refreshCalls() {
-    this.facade.loadAll();
+    this.facade.loadById(this.clientId);
     this.leasingMandates$ = this.facade.all$;
   }
   onBulkDelete(ids: number[]) {

@@ -40,12 +40,12 @@
       (wizardBtn)="onAddSide($event)"
       (viewForm)="onViewLeasingMandates($event)"
       (onDownload)="onDownloadClick($event)"
-    ></app-table
-    ><app-download-popup
+    ></app-table>
+    <app-download-popup
       *ngIf="showDownloadPopup"
       [contactPersons]="contactPersonsDropdown"
       [officers]="officersDropdown"
-      [leasingMandates]="(leasingMandates$ | async) || []"
+      [leasingMandates]="leasingMandates ? [leasingMandates] : []"
       (close)="onPopupClose()"
       (download)="onPopupDownload($event)"
     ></app-download-popup>

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CrmRoutingModule } from '../crm-routing.module';
-import { AddMandateComponent } from './components/leasing-mandates/add-mandate/add-mandate.component';
 import { AddChildMandateComponent } from './components/mandate-activities/clone/add-child-mandate/add-child-mandate.component';
 import { SharedModule } from '../../../shared/shared.module';
 import { TabsModule } from 'primeng/tabs';
@@ -23,7 +22,7 @@ import { reducer as clonesReducer } from './store/clone/clones.reducer';
 import { ViewChildMandatesComponent } from './components/mandate-activities/clone/view-child-mandates/view-child-mandates.component';
 import { FinancialFormsEffects } from './store/financial-form/financial-forms.effects';
 import { reducer as financialFormsReducer } from './store/financial-form/financial-forms.reducer';
-import { ViewMandatesComponent } from './components/leasing-mandates/view-mandates/view-mandates.component';
+import { ViewMandatesComponent } from '../clients/components/client-activities/client-activity-wizard/activities/client-leasing-mandates/view-mandates/view-mandates.component';
 import { AddMandateFeeComponent } from './components/mandate-activities/mandate-fees/add-mandate-fee/add-mandate-fee.component';
 import { ViewMandateFeesComponent } from './components/mandate-activities/mandate-fees/view-mandate-fees/view-mandate-fees.component';
 import { MandateFeesEffects } from './store/mandate-fees/mandate-fees.effects';
@@ -31,14 +30,12 @@ import { mandateFeesReducer } from './store/mandate-fees/mandate-fees.reducer';
 
 @NgModule({
   declarations: [
-    AddMandateComponent,
     AddChildMandateComponent,
     AddMandateAdditionalTermsComponent,
     ViewMandateAdditionalTermsComponent,
     WizardComponent,
     LeasingFinancialFormCompoundComponent,
     ViewChildMandatesComponent,
-    ViewMandatesComponent,
     AddMandateFeeComponent,
     ViewMandateFeesComponent,
   ],

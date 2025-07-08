@@ -94,6 +94,11 @@ import { reducer as sectorsReducer } from '../../lookups/store/sectors/sectors.r
 import { SectorsEffects } from '../../lookups/store/sectors/sectors.effects';
 import { reducer as subSectorsReducer } from '../../lookups/store/sub-sectors/sub-sectors.reducer';
 import { SubSectorsEffects } from '../../lookups/store/sub-sectors/sub-sectors.effects';
+import { AddMandateComponent } from './components/client-activities/client-activity-wizard/activities/client-leasing-mandates/add-mandate/add-mandate.component';
+import { ViewMandatesComponent } from './components/client-activities/client-activity-wizard/activities/client-leasing-mandates/view-mandates/view-mandates.component';
+import { reducer as leasingMandatesReducer } from './store/client-leasing-mandates/client-leasing-mandates.reducer';
+import { MandatesEffects } from './store/client-leasing-mandates/client-leasing-mandates.effects';
+
 @NgModule({
   declarations: [
     AddClientComponent,
@@ -129,6 +134,8 @@ import { SubSectorsEffects } from '../../lookups/store/sub-sectors/sub-sectors.e
     ViewClientIdentityComponent,
     AddClientIdentityComponent,
     ViewClientsComponent,
+    AddMandateComponent,
+    ViewMandatesComponent,
   ],
   imports: [
     CommonModule,
@@ -143,6 +150,8 @@ import { SubSectorsEffects } from '../../lookups/store/sub-sectors/sub-sectors.e
     ReactiveFormsModule,
     StoreModule.forFeature('clients', clientsReducer),
     EffectsModule.forFeature([ClientsEffects]),
+    StoreModule.forFeature('mandatesClient', leasingMandatesReducer),
+    EffectsModule.forFeature([MandatesEffects]),
     StoreModule.forFeature('clientsOnboarding', clientsOnboardingReducer),
     EffectsModule.forFeature([ClientsOnboardingEffects]),
     StoreModule.forFeature('legalFormLaw', legalFormLawReducer),

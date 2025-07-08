@@ -31,8 +31,7 @@ import { AddClientComponent } from './clients/components/clients/company-individ
 import { ViewClientsComponent } from './clients/components/clients/company-individual/view-clients/view-clients.component';
 import { LeasingFinancialFormCompoundComponent } from './leasing-mandates/components/mandate-activities/leasing-financial-form/leasing-financial-form-compound.component';
 import { AddChildMandateComponent } from './leasing-mandates/components/mandate-activities/clone/add-child-mandate/add-child-mandate.component';
-import { AddMandateComponent } from './leasing-mandates/components/leasing-mandates/add-mandate/add-mandate.component';
-import { ViewMandatesComponent } from './leasing-mandates/components/leasing-mandates/view-mandates/view-mandates.component';
+import { ViewMandatesComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-leasing-mandates/view-mandates/view-mandates.component';
 import { ViewGuarantorsComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-guarantors/view-client-guarantors/view-client-guarantor.component';
 import { AddClientOfficersComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-officers/add-client-officer/add-client-officer.component';
 import { ViewClientOfficersComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-officers/view-client-officers/view-client-officer.component';
@@ -44,6 +43,7 @@ import { ViewChildMandatesComponent } from './leasing-mandates/components/mandat
 import { AddMandateFeeComponent } from './leasing-mandates/components/mandate-activities/mandate-fees/add-mandate-fee/add-mandate-fee.component';
 import { ViewMandateFeesComponent } from './leasing-mandates/components/mandate-activities/mandate-fees/view-mandate-fees/view-mandate-fees.component';
 import { PendingChangesGuard } from '../../shared/guards/pending-changes.guard';
+import { AddMandateComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-leasing-mandates/add-mandate/add-mandate.component';
 
 const routes: Routes = [
   /*Clients , Client Onboarding Routing*/
@@ -359,8 +359,8 @@ const routes: Routes = [
     canDeactivate: [PendingChangesGuard],
   },
   {
-    path: 'leasing-mandates/view-mandates/:leasingId',
-    component: AddMandateComponent,
+    path: 'leasing-mandates/view-mandates/:clientId',
+    component: ViewMandatesComponent,
   },
   //Mandate Activities
   //Clone

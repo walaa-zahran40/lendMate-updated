@@ -128,6 +128,13 @@ export class ClientActivityWizardComponent {
         content: 'Calls',
         link: `/communication/view-calls/${clientId}`,
       },
+      {
+        imgUrl: '/assets/images/shared/card/share.svg',
+        imgAlt: 'share',
+        title: 'Leasing Mandates',
+        content: 'Leasing Mandates',
+        link: `/crm/leasing-mandates/view-mandates/${clientId}`,
+      },
     ];
     this.cards = this.chunkArray(this.originalCards, 3);
   }
