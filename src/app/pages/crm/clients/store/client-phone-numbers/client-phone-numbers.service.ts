@@ -33,20 +33,22 @@ export class ClientPhoneNumbersService {
   }
 
   getById(id: number): Observable<ClientPhoneNumber> {
-  return this.http.get<ClientPhoneNumber>(`${this.api}/Id`, {
-    params: { id: id.toString() }
-  });
-}
-
+    return this.http.get<ClientPhoneNumber>(`${this.api}/Id`, {
+      params: { id: id.toString() },
+    });
+  }
 
   create(data: Partial<ClientPhoneNumber>): Observable<ClientPhoneNumber> {
     return this.http.post<ClientPhoneNumber>(
-      `${this.api}/CreateClientPhoneNumber`,
+      `${this.api}/CreateBulkClientPhoneNumber`,
       data
     );
   }
 
-  update(id: number, data: Partial<ClientPhoneNumber>): Observable<ClientPhoneNumber> {
+  update(
+    id: number,
+    data: Partial<ClientPhoneNumber>
+  ): Observable<ClientPhoneNumber> {
     return this.http.put<ClientPhoneNumber>(`${this.api}/${id}`, data);
   }
 
@@ -54,10 +56,8 @@ export class ClientPhoneNumbersService {
     return this.http.delete<void>(`${this.api}/${id}`);
   }
   getByClientId(clientId: number): Observable<ClientPhoneNumber[]> {
-  return this.http.get<ClientPhoneNumber[]>(
-    `${this.api}/ClientId`,
-    { params: { clientId: clientId.toString() } }
-  );
+    return this.http.get<ClientPhoneNumber[]>(`${this.api}/ClientId`, {
+      params: { clientId: clientId.toString() },
+    });
+  }
 }
-}
-
