@@ -324,6 +324,7 @@
         [showTime]="true"
         [hourFormat]="'24'"
         dateFormat="yy-mm-dd"
+        [minDate]="minStartDate"
         dataType="date"
       ></p-datepicker>
 
@@ -335,8 +336,15 @@
         [hourFormat]="'24'"
         dateFormat="yy-mm-dd"
         dataType="date"
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.hasError('endBeforeStart') &&
+            (formGroup.get('endDate')?.touched || formGroup.touched)
+        }"
       ></p-datepicker>
-
+      <small class="p-error" *ngIf="formGroup.hasError('endBeforeStart')">
+        End Date must be after Start Date.
+      </small>
       <!-- Comments -->
       <label for="comments">Comments</label>
       <input

@@ -61,6 +61,7 @@ export class AddMeetingsFormComponent implements OnInit, OnDestroy {
   @Output() onCheckboxChange = new EventEmitter<any>();
   selectedPaymentPeriod: any;
   selectedGracePeriodUnit: any;
+  @Input() minStartDate!: Date; // ← new
 
   @Input() phoneTypeOptions!: any;
   @Input() identityTypeOptions!: IdentificationType[];

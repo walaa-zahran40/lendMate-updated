@@ -20,6 +20,7 @@
         [formGroup]="addMeetingForm"
         (submitForm)="addOrEditMeeting()"
         [editMode]="editMode"
+        [minStartDate]="minStartDate"
         [contactPersons]="contactPersons$ | async"
         [officersList]="officers$ | async"
         [viewOnly]="viewOnly"

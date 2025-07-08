@@ -1,5 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormArray,
+  ValidatorFn,
+  AbstractControl,
+  ValidationErrors,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   Subject,
@@ -23,8 +31,6 @@ import { ClientContactPersonsFacade } from '../../../../../../store/client-conta
 import { ClientContactPerson } from '../../../../../../store/client-contact-persons/client-contact-person.model';
 import { AssetTypesFacade } from '../../../../../../../../lookups/store/asset-types/asset-types.facade';
 import { AssetType } from '../../../../../../../../lookups/store/asset-types/asset-type.model';
-import { start } from '@popperjs/core';
-import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-add-meetings',
@@ -45,6 +51,7 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
   parentClientId!: number;
   recordId!: number;
   private destroy$ = new Subject<void>();
+  minStartDate = new Date();
 
   meetingTypes$!: Observable<MeetingType[]>;
   assetTypes$!: Observable<AssetType[]>;
@@ -55,13 +62,13 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
   raw = this.route.snapshot.paramMap.get('clientId');
 
   clientsList: Client[] = [];
+  /** used by <p-datepicker [minDate]> */
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private meetingFacade: MeetingsFacade,
     private assetTypesFacade: AssetTypesFacade,
-    private datePipe: DatePipe,
     private meetingTypesFacade: MeetingTypesFacade,
     private communicationFlowTypesFacade: CommunicationFlowTypesFacade,
     private officersFacade: OfficersFacade,
@@ -101,28 +108,33 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
     this.viewOnly = this.mode === 'view';
 
     // Build form with clientId
-    this.addMeetingForm = this.fb.group({
-      clientId: this.raw,
-      meetingTypeId: [null, Validators.required],
-      communicationFlowId: [null],
-      addressLocation: [null],
+    this.addMeetingForm = this.fb.group(
+      {
+        clientId: this.raw,
+        meetingTypeId: [null, Validators.required],
+        communicationFlowId: [null],
+        addressLocation: [null],
 
-      communicationContactPersons: this.fb.array([
-        this.createContactPersonGroup(),
-      ]),
-      communicationOfficers: this.fb.array([
-        this.createCommunicationOfficerGroup(),
-      ]),
-      communicationAssetTypes: this.fb.array([
-        this.createCommunicationAssetTypeGroup(),
-      ]),
+        communicationContactPersons: this.fb.array([
+          this.createContactPersonGroup(),
+        ]),
+        communicationOfficers: this.fb.array([
+          this.createCommunicationOfficerGroup(),
+        ]),
+        communicationAssetTypes: this.fb.array([
+          this.createCommunicationAssetTypeGroup(),
+        ]),
 
-      topic: [null, Validators.required],
-      details: [null],
-      startDate: [null, Validators.required],
-      endDate: [null, Validators.required],
-      comments: [null],
-    });
+        topic: [null, Validators.required],
+        details: [null],
+        startDate: [null, Validators.required],
+        endDate: [null, Validators.required],
+        comments: [null],
+      },
+      {
+        validators: this.dateRangeValidator(), // see step 2
+      }
+    );
 
     // Patch for edit/view mode
     if (this.editMode || this.viewOnly) {
@@ -217,7 +229,14 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
         this.contactPersonsFacade.loadByClientId(Number(this.raw));
       });
   }
-
+  /** cross-field validator: end >= start */
+  dateRangeValidator(): ValidatorFn {
+    return (grp: AbstractControl): ValidationErrors | null => {
+      const start: Date = grp.get('startDate')!.value;
+      const end: Date = grp.get('endDate')!.value;
+      return start && end && end < start ? { endBeforeStart: true } : null;
+    };
+  }
   get communicationContactPersons(): FormArray {
     return this.addMeetingForm.get('communicationContactPersons') as FormArray;
   }
