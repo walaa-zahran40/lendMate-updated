@@ -134,8 +134,8 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
       genderId: [null, Validators.required],
       governorateId: [null],
       countryId: [null],
-      title: [null, Validators.required],
-      titleAR: [null, Validators.required],
+      title: [null],
+      titleAR: [null],
       email: [null, Validators.required],
       isAuthorizedSign: [true, Validators.required],
       isKeyManager: [true, Validators.required],
@@ -226,12 +226,12 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
                 this.fb.group({
                   id: [pp.id],
                   phoneNumber: [
-      pp.phoneNumber,
-      [
-        Validators.required,
-        Validators.pattern(/^[0-9]+$/)   // ← only digits, at least one
-      ]
-    ],
+                    pp.phoneNumber,
+                    [
+                      Validators.required,
+                      Validators.pattern(/^[0-9]+$/), // ← only digits, at least one
+                    ],
+                  ],
                   phoneTypeId: [pp.phoneTypeId, Validators.required],
                 })
               );
