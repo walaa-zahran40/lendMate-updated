@@ -57,10 +57,10 @@ export class ViewMandateActionAuthorizationGroupsComponent {
   ngOnInit() {
     const raw = this.route.snapshot.paramMap.get('mandateStatusActionId');
     this.mandateStatusActionIdParam = raw !== null ? Number(raw) : undefined;
-    this.store.dispatch(loadMandateActionAuthorizationGroupHistory());
-    this.authorizationGroupsList$ = this.store.select(
-      selectActionAuthorizationGroupHistory
-    );
+    // this.store.dispatch(loadMandateActionAuthorizationGroupHistory());
+    // this.authorizationGroupsList$ = this.store.select(
+    //   selectActionAuthorizationGroupHistory
+    // );
 
     this.facade.loadMandateActionAuthorizationGroupsByMandateStatusActionId(
       this.mandateStatusActionIdParam
