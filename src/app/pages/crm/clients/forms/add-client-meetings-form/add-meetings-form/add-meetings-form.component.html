@@ -319,23 +319,23 @@
       <!-- Start Date -->
       <label for="startDate">Start Date<sup>*</sup></label>
 
-      <p-calendar
-        inputId="calendar-12h"
-        [(ngModel)]="datetime12h"
+      <p-datepicker
         formControlName="startDate"
         [showTime]="true"
-        [hourFormat]="'12'"
-      />
+        [hourFormat]="'24'"
+        dateFormat="yy-mm-dd"
+        dataType="date"
+      ></p-datepicker>
 
       <!-- End Date -->
       <label for="endDate">End Date<sup>*</sup></label>
-      <p-calendar
-        inputId="calendar-12h"
-        [(ngModel)]="datetime12h_1"
+      <p-datepicker
         formControlName="endDate"
         [showTime]="true"
-        [hourFormat]="'12'"
-      />
+        [hourFormat]="'24'"
+        dateFormat="yy-mm-dd"
+        dataType="date"
+      ></p-datepicker>
 
       <!-- Comments -->
       <label for="comments">Comments</label>

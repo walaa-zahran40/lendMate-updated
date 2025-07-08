@@ -4,16 +4,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {
   Subject,
   Observable,
-  forkJoin,
   filter,
-  take,
   takeUntil,
   map,
   distinctUntilChanged,
 } from 'rxjs';
 import { MeetingsFacade } from '../../../../../../../../communication/store/meetings/meetings.facade';
 import { Client } from '../../../../../../store/_clients/allclients/client.model';
-import { ClientsFacade } from '../../../../../../store/_clients/allclients/clients.facade';
+import * as moment from 'moment-timezone';
 import { Officer } from '../../../../../../../../organizations/store/officers/officer.model';
 import { MeetingTypesFacade } from '../../../../../../../../lookups/store/meeting-types/meeting-types.facade';
 import { Meeting } from '../../../../../../../../communication/store/meetings/meeting.model';
@@ -26,6 +24,7 @@ import { ClientContactPerson } from '../../../../../../store/client-contact-pers
 import { AssetTypesFacade } from '../../../../../../../../lookups/store/asset-types/asset-types.facade';
 import { AssetType } from '../../../../../../../../lookups/store/asset-types/asset-type.model';
 import { start } from '@popperjs/core';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-add-meetings',
@@ -62,7 +61,7 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private meetingFacade: MeetingsFacade,
     private assetTypesFacade: AssetTypesFacade,
-    private clientsFacade: ClientsFacade,
+    private datePipe: DatePipe,
     private meetingTypesFacade: MeetingTypesFacade,
     private communicationFlowTypesFacade: CommunicationFlowTypesFacade,
     private officersFacade: OfficersFacade,
@@ -148,8 +147,8 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
               addressLocation: rec.addressLocation,
               topic: rec.topic,
               details: rec.details,
-              startDate: rec.startDate ? new Date(rec.startDate) : null,
-              endDate: rec.endDate ? new Date(rec.endDate) : null,
+              startDate: new Date(rec.startDate), // <-- turn ISO-string into Date
+              endDate: new Date(rec.endDate), // <-- turn ISO-string into Date
               comments: rec.comments,
             });
             console.log(
@@ -306,6 +305,13 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
 
     // 6) The actual payload
     const formValue = this.addMeetingForm.value;
+    const start = moment
+      .tz(formValue.startDate, 'Africa/Cairo')
+      .format('YYYY-MM-DDTHH:mm:ssZ');
+
+    const end = moment
+      .tz(formValue.endDate, 'Africa/Cairo')
+      .format('YYYY-MM-DDTHH:mm:ssZ');
     const contactPersonPayload = formValue.communicationContactPersons?.map(
       (i: any) => {
         const entry: any = {
@@ -344,8 +350,9 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
       addressLocation: formValue.addressLocation,
       topic: formValue.topic,
       details: formValue.details,
-      startDate: formValue.startDate,
-      endDate: formValue.endDate,
+      startDate: start,
+      endDate: end,
+
       comments: formValue.comments,
 
       communicationOfficers: communicationOfficersPayload,
@@ -377,8 +384,8 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
         details: formValue.details,
         communicationOfficers: communicationOfficersPayload,
         communicationContactPersons: contactPersonPayload,
-        startDate: formValue.startDate,
-        endDate: formValue.endDate,
+        startDate: start,
+        endDate: end,
         onlineURL: formValue.onlineURL,
         addressLocation: formValue.addressLocation,
         reserveCar: formValue.reserveCar,

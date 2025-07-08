@@ -68,8 +68,9 @@
     font-size: 30px;
   }
   .tab-panel-paragraph {
+    font-weight: 600;
     font-family: var(--custom-font-family-regular);
-    font-weight: var(--custom-font-weight-400);
+    font-weight: var(--custom-font-weight-600);
     font-size: var(--custom-size-16);
     line-height: var(--custom-line-height-25);
     color: var(--custom-grey);
@@ -251,7 +252,7 @@
       padding-left: var(--custom-size-12);
       border-radius: var(--custom-margin-0);
       font-family: var(--custom-font-family-regular);
-      font-weight: var(--custom-font-weight-400);
+      font-weight: var(--custom-font-weight-600);
       font-size: var(--custom-size-16);
       line-height: var(--custom-line-height-25);
       color: var(--p-tabs-active-bar-background);

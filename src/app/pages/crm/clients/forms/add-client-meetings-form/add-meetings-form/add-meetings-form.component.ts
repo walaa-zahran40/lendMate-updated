@@ -168,6 +168,9 @@ export class AddMeetingsFormComponent implements OnInit, OnDestroy {
   @Output() selectionChangedPaymentMethod = new EventEmitter<any>();
   @Output() selectionChangedPaymentMonthDay = new EventEmitter<any>();
   //ngModel Values
+  datetime24h_1: Date[] | undefined;
+  datetime24h_2: Date[] | undefined;
+
   value: string | undefined;
   value1: string | undefined;
   value2: string | undefined;

@@ -2,32 +2,32 @@ export interface Meeting {
   id: number;
   clientId: number;
   client?: any;
-  communicationId? : number;
-  communication? : any;
+  communicationId?: number;
+  communication?: any;
 
-  meetingTypeId : number;
-  meetingType? : any;
+  meetingTypeId: number;
+  meetingType?: any;
 
   communicationFlowId: string;
-  communicationFlow?: any; 
+  communicationFlow?: any;
 
-  startDate: Date ; 
-  endDate: Date ; 
-  onlineURL? : string;
-  addressLocation : string;
+  startDate: any;
+  endDate: any;
+  onlineURL?: string;
+  addressLocation: string;
   topic: string;
   details: string;
   comments: string;
 
-  reserveCar? : string ; 
-  driverName? : string ; 
-  adminComments? : string ; 
+  reserveCar?: string;
+  driverName?: string;
+  adminComments?: string;
 
   communicationOfficers: CommunicationOfficers[];
   communicationContactPersons: CommunicationContactPersons[];
   communicationAssetTypes?: CommunicationAssetTypes[];
 }
- 
+
 export interface CommunicationContactPersons {
   contactPersonId?: number;
   isAttend: boolean;
