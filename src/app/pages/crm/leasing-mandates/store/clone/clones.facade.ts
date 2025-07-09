@@ -44,4 +44,7 @@ export class ClonesFacade {
   clearSelected() {
     this.store.dispatch(Actions.clearSelectedClone());
   }
+  loadByClientId(clientId: number) {
+    this.store.dispatch(Actions.loadByClientId({ clientId }));
+  }
 }

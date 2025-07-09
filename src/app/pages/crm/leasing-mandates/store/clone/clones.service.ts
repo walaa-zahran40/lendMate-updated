@@ -45,5 +45,8 @@ export class ClonesService {
 
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  } //client Id
+  getByClientId(clientId: number): Observable<Clone[]> {
+    return this.http.get<Clone[]>(`${this.baseUrl}/GetByClientId/${clientId}`);
   }
 }

@@ -73,6 +73,8 @@ export class AddChildMandateComponent {
   parentForm!: FormGroup;
   routeId = this.route.snapshot.params['leasingId'];
   mandateRouteId = this.route.snapshot.params['leasingMandatesId'];
+  clientId = this.route.snapshot.params['clientId'];
+  show = false;
   constructor(
     private fb: FormBuilder,
     private store: Store,
@@ -92,7 +94,16 @@ export class AddChildMandateComponent {
   ) {}
 
   ngOnInit() {
-    console.log('riyte', this.route.snapshot);
+    console.log('show', this.show);
+    if (!this.clientId || (!this.clientId && this.editMode)) {
+      console.log("there isn't a client id");
+      this.show = true;
+    } else {
+      console.log('there is a client id');
+
+      this.show = false;
+    }
+    console.log('route', this.route.snapshot);
     // 1️⃣ Build all form‐groups (so that patchMandate always finds them)
     this.buildMandateShowBasicForm();
     this.buildMandateShowOfficersForm();
@@ -110,12 +121,15 @@ export class AddChildMandateComponent {
     // 2️⃣ pull the raw DB PK ("leasingMandatesId") out of the URL
     const cloneId = +this.route.snapshot.paramMap.get('leasingMandatesId')!;
     const parentMandateId = +this.route.snapshot.paramMap.get('leasingId')!;
+    const clientId = +this.route.snapshot.paramMap.get('clientId')!;
 
     // 3️⃣ shove it into your basic form
     this.basicForm.patchValue({ parentMandateId });
 
     // 3️⃣ Load your lookups…
-    this.store.dispatch(loadAll({}));
+    if (!this.clientId) {
+      this.store.dispatch(loadAll({}));
+    }
     this.store.dispatch(loadValidityUnits({}));
     this.store.dispatch(loadProducts({}));
     this.store.dispatch(loadLeasingTypes({}));
@@ -125,8 +139,9 @@ export class AddChildMandateComponent {
     this.store.dispatch(loadFeeTypes({}));
     this.store.dispatch(loadGracePeriods({}));
     //Clients Dropdown
-    this.clientNames$ = this.clientFacade.all$;
-    //Mandate Validity Units Dropdown
+    if (!this.clientId) {
+      this.clientNames$ = this.clientFacade.all$;
+    } //Mandate Validity Units Dropdown
     this.validityUnits$ = this.validityUnitFacade.all$;
     //Products Dropdown
     this.products$ = this.productFacade.all$;
@@ -150,27 +165,52 @@ export class AddChildMandateComponent {
     this.facade.clearSelected();
     this.facade.loadById(cloneId);
 
-    // 7) when the clone arrives, patch the form
-    this.facade.selectedClone$
-      .pipe(
-        filter((c) => !!c && c.id === cloneId),
-        take(1)
-      )
-      .subscribe((c) => {
-        this.patchMandate(this.normalizeMandate(c));
-        if (this.viewOnly) {
-          this.parentForm.disable();
-        }
-      });
-
+    if (!this.clientId) {
+      // 7) when the clone arrives, patch the form
+      this.facade.selectedClone$
+        .pipe(
+          filter((c) => !!c && c.id === cloneId),
+          take(1)
+        )
+        .subscribe((c) => {
+          this.patchMandate(this.normalizeMandate(c));
+          if (this.viewOnly) {
+            this.parentForm.disable();
+          }
+        });
+    } else {
+      // 7) when the clone arrives, patch the form
+      this.facade.selectedClone$
+        .pipe(
+          filter((c) => !!c && c.id === cloneId && c.clientId === clientId),
+          take(1)
+        )
+        .subscribe((c) => {
+          this.patchMandate(this.normalizeMandate(c));
+          if (this.viewOnly) {
+            this.parentForm.disable();
+          }
+        });
+    }
     // 8) finally wire up your client->contact listener
-    this.basicForm
-      .get('clientId')!
-      .valueChanges.pipe(
-        filter((id) => !!id),
-        distinctUntilChanged()
-      )
-      .subscribe((id) => this.contactPersonsFacade.loadByClientId(id));
+    if (!this.clientId) {
+      this.basicForm
+        .get('clientId')!
+        .valueChanges.pipe(
+          filter((id) => !!id),
+          distinctUntilChanged()
+        )
+        .subscribe((id) => this.contactPersonsFacade.loadByClientId(id));
+    } else {
+      this.contactPersonsFacade.loadByClientId(this.clientId);
+    }
+    const queryMode = this.route.snapshot.queryParamMap.get('mode');
+    this.editMode = queryMode === 'edit';
+    this.viewOnly = queryMode === 'view';
+
+    console.log('✅ Route Mode:', queryMode);
+    console.log('→ editMode:', this.editMode);
+    console.log('→ viewOnly:', this.viewOnly);
   }
   private patchMandate(
     m: Mandate & {
@@ -185,29 +225,57 @@ export class AddChildMandateComponent {
       gracePeriodUnitId: null,
     };
 
-    // 1️⃣ patch all of the flat values, _excluding_ the nested grace group
-    this.parentForm.patchValue({
-      basic: {
-        id: m.id,
-        parentMandateId: m.parentMandateId,
-        clientId: m.clientId ?? m.clientView?.clientId,
-        validityUnitId: m.validityUnitId ?? m.validityUnitView?.validityUnitId,
-        productId: m.productId,
-        leasingTypeId: m.leasingTypeId,
-        insuredById: m.insuredById,
-      },
-      moreInfo: {
-        date: m.date,
-        notes: m.notes,
-        description: m.description,
-        validityCount: m.validityCount,
-        indicativeRentals: m.indicativeRentals,
-        mandateGracePeriodSettingView: {
-          gracePeriodCount: grace.gracePeriodCount,
-          gracePeriodUnitId: grace.gracePeriodUnitId,
+    if (!this.clientId) {
+      // 1️⃣ patch all of the flat values, _excluding_ the nested grace group
+      this.parentForm.patchValue({
+        basic: {
+          id: m.id,
+          parentMandateId: m.parentMandateId,
+          clientId: m.clientId ?? m.clientView?.clientId,
+          validityUnitId:
+            m.validityUnitId ?? m.validityUnitView?.validityUnitId,
+          productId: m.productId,
+          leasingTypeId: m.leasingTypeId,
+          insuredById: m.insuredById,
         },
-      },
-    });
+        moreInfo: {
+          date: m.date,
+          notes: m.notes,
+          description: m.description,
+          validityCount: m.validityCount,
+          indicativeRentals: m.indicativeRentals,
+          mandateGracePeriodSettingView: {
+            gracePeriodCount: grace.gracePeriodCount,
+            gracePeriodUnitId: grace.gracePeriodUnitId,
+          },
+        },
+      });
+    } else {
+      // 1️⃣ patch all of the flat values, _excluding_ the nested grace group
+      this.parentForm.patchValue({
+        basic: {
+          id: m.id,
+          parentMandateId: m.parentMandateId,
+          clientId: this.clientId,
+          validityUnitId:
+            m.validityUnitId ?? m.validityUnitView?.validityUnitId,
+          productId: m.productId,
+          leasingTypeId: m.leasingTypeId,
+          insuredById: m.insuredById,
+        },
+        moreInfo: {
+          date: m.date,
+          notes: m.notes,
+          description: m.description,
+          validityCount: m.validityCount,
+          indicativeRentals: m.indicativeRentals,
+          mandateGracePeriodSettingView: {
+            gracePeriodCount: grace.gracePeriodCount,
+            gracePeriodUnitId: grace.gracePeriodUnitId,
+          },
+        },
+      });
+    }
     this.gracePeriodSettings.reset(); // clear any old values
 
     // 2️⃣ then explicitly set the nested grace-period group exactly once
@@ -265,32 +333,61 @@ export class AddChildMandateComponent {
       gracePeriodUnitId: number | null;
     };
   } {
-    return {
-      ...raw,
-      // pick flat IDs first, then fallback to the nested view-model…
-      clientId: raw?.clientId ?? raw?.clientView?.clientId,
-      validityUnitId:
-        raw?.validityUnitId ?? raw?.validityUnitView?.validityUnitId,
-      // if your back-end ever renames the grace-period prop,
-      // adjust the fallback here:
-      mandateGracePeriodSettingView: raw?.mandateGracePeriodSettingView ??
-        raw?.gracePeriodSettingView ?? {
-          gracePeriodCount: null,
-          gracePeriodUnitId: null,
-        },
-    };
+    if (!this.clientId) {
+      return {
+        ...raw,
+        // pick flat IDs first, then fallback to the nested view-model…
+        clientId: raw?.clientId ?? raw?.clientView?.clientId,
+        validityUnitId:
+          raw?.validityUnitId ?? raw?.validityUnitView?.validityUnitId,
+        // if your back-end ever renames the grace-period prop,
+        // adjust the fallback here:
+        mandateGracePeriodSettingView: raw?.mandateGracePeriodSettingView ??
+          raw?.gracePeriodSettingView ?? {
+            gracePeriodCount: null,
+            gracePeriodUnitId: null,
+          },
+      };
+    } else {
+      return {
+        ...raw,
+        // pick flat IDs first, then fallback to the nested view-model…
+        clientId: this.clientId,
+        validityUnitId:
+          raw?.validityUnitId ?? raw?.validityUnitView?.validityUnitId,
+        // if your back-end ever renames the grace-period prop,
+        // adjust the fallback here:
+        mandateGracePeriodSettingView: raw?.mandateGracePeriodSettingView ??
+          raw?.gracePeriodSettingView ?? {
+            gracePeriodCount: null,
+            gracePeriodUnitId: null,
+          },
+      };
+    }
   }
 
   buildMandateShowBasicForm(): void {
-    this.addMandateShowBasicForm = this.fb.group({
-      id: [null],
-      parentMandateId: [null],
-      clientId: [null, Validators.required],
-      validityUnitId: [null, Validators.required],
-      productId: [null, Validators.required],
-      leasingTypeId: [null, Validators.required],
-      insuredById: [null, Validators.required],
-    });
+    if (!this.clientId) {
+      this.addMandateShowBasicForm = this.fb.group({
+        id: [null],
+        parentMandateId: [null],
+        clientId: [null, Validators.required],
+        validityUnitId: [null, Validators.required],
+        productId: [null, Validators.required],
+        leasingTypeId: [null, Validators.required],
+        insuredById: [null, Validators.required],
+      });
+    } else {
+      this.addMandateShowBasicForm = this.fb.group({
+        id: [null],
+        parentMandateId: [null],
+        clientId: this.clientId,
+        validityUnitId: [null, Validators.required],
+        productId: [null, Validators.required],
+        leasingTypeId: [null, Validators.required],
+        insuredById: [null, Validators.required],
+      });
+    }
   }
   buildMandateShowOfficersForm(): void {
     this.addMandateShowOfficersForm = this.fb.group({
@@ -476,65 +573,134 @@ export class AddChildMandateComponent {
 
     const { assets, basic, contacts, officers, moreInfo } =
       this.parentForm.value;
-    const createPayload: Partial<Mandate> = {
-      ...basic,
-      mandateOfficers: officers.mandateOfficers,
-      mandateContactPersons: contacts.mandateContactPersons,
-      mandateAssetTypes: assets.mandateAssetTypes,
-      ...moreInfo,
-    };
-    console.log('  → assembled CREATE payload:', createPayload);
-
-    if (this.editMode) {
-      const leaseIdStr = this.route.snapshot.paramMap.get('leasingMandatesId');
-      const leaseId = leaseIdStr ? +leaseIdStr : null;
-      const mandateIdStr = this.route.snapshot.paramMap.get('leasingId');
-      const mandateId = mandateIdStr ? +mandateIdStr : null;
-
-      console.log(
-        '🔍 route param leasingId:',
-        leaseIdStr,
-        mandateIdStr,
-        'parsed →',
-        leaseId,
-        mandateIdStr
-      );
-
-      // Re-destructure to keep naming clear
-      const {
-        basic: b,
-        assets: a,
-        contacts: c,
-        officers: o,
-        moreInfo: m,
-      } = this.parentForm.value;
-      const updatePayload = {
-        id: b.id,
-        parentMandateId: b.parentMandateId,
-        clientId: b.clientId,
-        validityUnitId: b.validityUnitId,
-        productId: b.productId,
-        leasingTypeId: b.leasingTypeId,
-        insuredById: b.insuredById,
-        description: m.description,
-        date: m.date,
-        notes: m.notes,
-        validityCount: m.validityCount,
-        indicativeRentals: m.indicativeRentals,
-        mandateFees: m.mandateFees,
-        mandateGracePeriodSettingView: m.mandateGracePeriodSettingView,
-        mandateAssetTypes: a.mandateAssetTypes,
-        mandateContactPersons: c.mandateContactPersons,
-        mandateOfficers: o.mandateOfficers,
+    if (!this.clientId) {
+      const createPayload: Partial<Mandate> = {
+        ...basic,
+        mandateOfficers: officers.mandateOfficers,
+        mandateContactPersons: contacts.mandateContactPersons,
+        mandateAssetTypes: assets.mandateAssetTypes,
+        ...moreInfo,
       };
-      console.log('  → assembled UPDATE payload:', updatePayload);
+      console.log('  → assembled CREATE payload:', createPayload);
+      if (this.editMode) {
+        const leaseIdStr =
+          this.route.snapshot.paramMap.get('leasingMandatesId');
+        const leaseId = leaseIdStr ? +leaseIdStr : null;
+        const mandateIdStr = this.route.snapshot.paramMap.get('leasingId');
+        const mandateId = mandateIdStr ? +mandateIdStr : null;
 
-      console.log('✏️ Calling facade.update()');
-      this.facade.update(mandateId!, updatePayload);
+        console.log(
+          '🔍 route param leasingId:',
+          leaseIdStr,
+          mandateIdStr,
+          'parsed →',
+          leaseId,
+          mandateIdStr
+        );
+
+        // Re-destructure to keep naming clear
+        const {
+          basic: b,
+          assets: a,
+          contacts: c,
+          officers: o,
+          moreInfo: m,
+        } = this.parentForm.value;
+        const updatePayload = {
+          id: b.id,
+          parentMandateId: b.parentMandateId,
+          clientId: b.clientId,
+          validityUnitId: b.validityUnitId,
+          productId: b.productId,
+          leasingTypeId: b.leasingTypeId,
+          insuredById: b.insuredById,
+          description: m.description,
+          date: m.date,
+          notes: m.notes,
+          validityCount: m.validityCount,
+          indicativeRentals: m.indicativeRentals,
+          mandateFees: m.mandateFees,
+          mandateGracePeriodSettingView: m.mandateGracePeriodSettingView,
+          mandateAssetTypes: a.mandateAssetTypes,
+          mandateContactPersons: c.mandateContactPersons,
+          mandateOfficers: o.mandateOfficers,
+        };
+        console.log('  → assembled UPDATE payload:', updatePayload);
+
+        console.log('✏️ Calling facade.update()');
+        this.facade.update(mandateId!, updatePayload);
+      } else {
+        console.log('➕ Calling facade.create()');
+        this.facade.create(createPayload);
+      }
     } else {
-      console.log('➕ Calling facade.create()');
-      this.facade.create(createPayload);
+      const createPayload: Partial<Mandate> = {
+        ...basic,
+        clientId: this.clientId,
+        mandateOfficers: officers.mandateOfficers,
+        mandateContactPersons: contacts.mandateContactPersons,
+        mandateAssetTypes: assets.mandateAssetTypes,
+        ...moreInfo,
+      };
+      console.log('  → assembled CREATE clientId payload:', createPayload);
+      if (this.editMode) {
+        const leaseIdStr =
+          this.route.snapshot.paramMap.get('leasingMandatesId');
+        const leaseId = leaseIdStr ? +leaseIdStr : null;
+        const mandateIdStr = this.route.snapshot.paramMap.get('leasingId');
+        const mandateId = mandateIdStr ? +mandateIdStr : null;
+        const clientIdStr = this.route.snapshot.paramMap.get('clientId');
+        const clientId = clientIdStr ? +clientIdStr : null;
+
+        console.log(
+          '🔍 route param leasingId:',
+          leaseIdStr,
+          mandateIdStr,
+          'parsed →',
+          leaseId,
+          mandateIdStr,
+          'parsed 2 →',
+          clientId,
+          clientIdStr
+        );
+
+        // Re-destructure to keep naming clear
+        const {
+          basic: b,
+          assets: a,
+          contacts: c,
+          officers: o,
+          moreInfo: m,
+        } = this.parentForm.value;
+        const updatePayload = {
+          id: b.id,
+          parentMandateId: b.parentMandateId,
+          clientId: this.clientId,
+          validityUnitId: b.validityUnitId,
+          productId: b.productId,
+          leasingTypeId: b.leasingTypeId,
+          insuredById: b.insuredById,
+          description: m.description,
+          date: m.date,
+          notes: m.notes,
+          validityCount: m.validityCount,
+          indicativeRentals: m.indicativeRentals,
+          mandateFees: m.mandateFees,
+          mandateGracePeriodSettingView: m.mandateGracePeriodSettingView,
+          mandateAssetTypes: a.mandateAssetTypes,
+          mandateContactPersons: c.mandateContactPersons,
+          mandateOfficers: o.mandateOfficers,
+        };
+        console.log('  → assembled UPDATE payload:', updatePayload);
+
+        console.log('✏️ Calling facade.update()');
+        this.facade.update(mandateId!, updatePayload);
+      } else {
+        console.log('➕ Calling facade.create()');
+        this.facade.create(createPayload);
+      }
     }
+
     if (this.addMandateShowAssetTypeForm.valid) {
       this.addMandateShowAssetTypeForm.markAsPristine();
     }
@@ -553,13 +719,13 @@ export class AddChildMandateComponent {
 
     console.log('🧭 Navigating away to view-mandates');
     this.router.navigate([
-      `/crm/leasing-mandates/view-child-mandates/${this.routeId}/${this.mandateRouteId}`,
+      `/crm/leasing-mandates/view-child-mandates/${this.routeId}/${this.mandateRouteId}/${this.clientId}`,
     ]);
   }
 
   navigateToView() {
     this.router.navigate([
-      `/crm/leasing-mandates/view-child-mandates/${this.routeId}/${this.mandateRouteId}`,
+      `/crm/leasing-mandates/view-child-mandates/${this.routeId}/${this.mandateRouteId}/${this.clientId}`,
     ]);
   }
   /** Called by the guard. */

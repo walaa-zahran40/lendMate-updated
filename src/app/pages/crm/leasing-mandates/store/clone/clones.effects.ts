@@ -127,14 +127,27 @@ export class ClonesEffects {
       )
     )
   );
-  refreshList$ = createEffect(() =>
+  // refreshList$ = createEffect(() =>
+  //   this.actions$.pipe(
+  //     ofType(
+  //       ActionsList.createEntitySuccess,
+  //       ActionsList.updateEntitySuccess,
+  //       ActionsList.deleteEntitySuccess
+  //     ),
+  //     map(() => ActionsList.loadAll({}))
+  //   )
+  // );
+  loadByClientId$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(
-        ActionsList.createEntitySuccess,
-        ActionsList.updateEntitySuccess,
-        ActionsList.deleteEntitySuccess
-      ),
-      map(() => ActionsList.loadAll({}))
+      ofType(ActionsList.loadByClientId),
+      mergeMap(({ clientId }) =>
+        this.service.getByClientId(clientId).pipe(
+          map((result) => ActionsList.loadByClientIdSuccess({ result })),
+          catchError((error) =>
+            of(ActionsList.loadByClientIdFailure({ error }))
+          )
+        )
+      )
     )
   );
 }

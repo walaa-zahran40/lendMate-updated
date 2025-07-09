@@ -40,3 +40,7 @@ export const selectClonesTotalCount = createSelector(
   selectClonesFeature,
   (state) => state
 );
+export const selectMandatesByClientId = (clientId: number) =>
+  createSelector(selectAllClones, (mandates) =>
+    mandates.filter((m) => m.clientId === clientId)
+  );

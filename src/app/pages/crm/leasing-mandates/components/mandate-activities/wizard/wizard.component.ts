@@ -15,6 +15,8 @@ export class WizardComponent implements OnInit {
   originalCards: any[] = [];
 
   routeId = this.route.snapshot.params['leasingMandatesId'];
+  clientId = this.route.snapshot.params['clientId'];
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -48,7 +50,9 @@ export class WizardComponent implements OnInit {
         imgAlt: 'clone',
         title: 'Clone',
         content: 'Quickly spin up a copy of this mandate…',
-        link: `/crm/leasing-mandates/add-child-mandate/${id}/${this.routeId}`,
+        link: !this.clientId
+          ? `/crm/leasing-mandates/add-child-mandate/${id}/${this.routeId}`
+          : `/crm/leasing-mandates/add-child-mandate/${id}/${this.routeId}/${this.clientId}`,
       },
       {
         imgUrl: '/assets/images/shared/card/mandate-manage.svg',

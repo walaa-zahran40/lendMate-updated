@@ -4957,7 +4957,7 @@ icon="pi pi-cog"
       [formGroup]="formGroup"
       class="form-container"
     >
-      <label for="clientNameAddMandateBasic" class="label-container"
+      <label for="clientNameAddMandateBasic" *ngIf="show" class="label-container"
         >Client Name<sup>*</sup></label
       >
       <p-select
@@ -4967,7 +4967,7 @@ icon="pi pi-cog"
         [options]="clientNames"
         formControlName="clientId"
         placeholder="Select Client Name"
-        optionLabel="name"
+        optionLabel="name"*ngIf="show"
         optionValue="id"
         name="clientNameAddMandateBasic"
         styleClass="w-full md:w-80"

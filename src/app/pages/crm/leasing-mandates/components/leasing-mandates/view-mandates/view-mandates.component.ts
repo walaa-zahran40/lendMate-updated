@@ -235,11 +235,18 @@ export class ViewMandatesComponent {
     }
   }
   onAddSide(leasingMandatesId: any) {
-    this.router.navigate([
-      '/crm/leasing-mandates/leasing-mandate-wizard',
-      leasingMandatesId,
-      this.clientId,
-    ]);
+    if (this.clientId) {
+      this.router.navigate([
+        '/crm/leasing-mandates/leasing-mandate-wizard',
+        leasingMandatesId,
+        this.clientId,
+      ]);
+    } else {
+      this.router.navigate([
+        '/crm/leasing-mandates/leasing-mandate-wizard',
+        leasingMandatesId,
+      ]);
+    }
   }
   onDownloadClick(row: any) {
     console.log('clicked', row);

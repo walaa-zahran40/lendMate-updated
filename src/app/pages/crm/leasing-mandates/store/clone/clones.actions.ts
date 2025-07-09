@@ -86,3 +86,18 @@ export const entityOperationSuccess = createAction(
   props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
 );
 export const clearSelectedClone = createAction('[Clones] Clear Selected');
+//Client Id
+export const loadByClientId = createAction(
+  '[Clones] Load By ClientId',
+  props<{ clientId: number }>()
+);
+
+export const loadByClientIdSuccess = createAction(
+  '[Clones] Load By ClientId Success',
+  props<{ result: Clone[] }>()
+);
+
+export const loadByClientIdFailure = createAction(
+  '[Clones] Load By ClientId Failure',
+  props<{ error: any }>()
+);

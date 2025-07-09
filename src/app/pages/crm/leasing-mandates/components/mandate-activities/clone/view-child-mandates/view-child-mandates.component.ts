@@ -37,10 +37,11 @@ export class ViewChildMandatesComponent {
   clients$ = this.clientsFacade.all$;
   selectedRowForDownload: Clone | null = null;
   showDownloadPopup = false;
+  mode = this.route.snapshot.queryParams['mode'];
 
   readonly colsInside = [
+    { field: 'id', header: 'Id' },
     { field: 'description', header: 'Description' },
-    { field: 'clientName', header: 'Client Name' },
     { field: 'date', header: 'Start Date' },
   ];
   showDeleteModal: boolean = false;
@@ -52,6 +53,8 @@ export class ViewChildMandatesComponent {
   languagesDropdown: any[] = [];
   routeId = this.route.snapshot.params['leasingId'];
   leasingRouteId = this.route.snapshot.params['leasingMandatesId'];
+  clientId = this.route.snapshot.params['clientId'];
+
   constructor(
     private router: Router,
     private clientsFacade: ClientsFacade,
@@ -63,7 +66,12 @@ export class ViewChildMandatesComponent {
   ) {}
   ngOnInit() {
     console.log('route', this.route.snapshot);
-    this.facade.loadAll();
+    if (!this.clientId) {
+      this.facade.loadAll();
+    } else {
+      this.facade.loadByClientId(this.clientId);
+    }
+
     combineLatest([this.leasingMandates$, this.clients$])
       .pipe(
         takeUntil(this.destroy$),
@@ -120,11 +128,19 @@ export class ViewChildMandatesComponent {
     }
 
     // 1️⃣ Dispatch with the real clientId (not clientView.clientId)
-    this.store.dispatch(
-      loadClientContactPersonsByClientId({
-        clientId: mandate.clientView.clientId!,
-      })
-    );
+    if (!this.clientId) {
+      this.store.dispatch(
+        loadClientContactPersonsByClientId({
+          clientId: mandate.clientView.clientId!,
+        })
+      );
+    } else {
+      this.store.dispatch(
+        loadClientContactPersonsByClientId({
+          clientId: this.clientId!,
+        })
+      );
+    }
 
     // 2️⃣ Now wait until facadeContact.items$ emits a non-empty array
     this.facadeContact.items$
@@ -174,7 +190,7 @@ export class ViewChildMandatesComponent {
 
   onAddLeasingMandate() {
     this.router.navigate([
-      `/crm/leasing-mandates/add-child-mandate/${this.routeId}/${this.leasingRouteId}`,
+      `/crm/leasing-mandates/add-child-mandate/${this.routeId}/${this.leasingRouteId}/${this.clientId}`,
     ]);
   }
 
@@ -217,33 +233,66 @@ export class ViewChildMandatesComponent {
   }
   onEditLeasingMandate(mandate: Clone) {
     console.log('mandate', mandate);
-    this.router.navigate(
-      [
-        '/crm/leasing-mandates/edit-child-mandate',
-        mandate.id,
-        mandate.mandateId,
-      ],
-      {
-        queryParams: {
-          mode: 'edit',
-        },
-      }
-    );
+    this.mode = 'edit';
+    if (this.clientId) {
+      this.router.navigate(
+        [
+          '/crm/leasing-mandates/edit-child-mandate',
+          mandate.id,
+          mandate.mandateId,
+          this.clientId,
+        ],
+        {
+          queryParams: {
+            mode: 'edit',
+          },
+        }
+      );
+    } else {
+      this.router.navigate(
+        [
+          '/crm/leasing-mandates/edit-child-mandate',
+          mandate.id,
+          mandate.mandateId,
+        ],
+        {
+          queryParams: {
+            mode: 'edit',
+          },
+        }
+      );
+    }
   }
   onViewLeasingMandates(mandate: Clone) {
     console.log('mandate', mandate);
-    this.router.navigate(
-      [
-        '/crm/leasing-mandates/add-child-mandate',
-        mandate.id,
-        mandate.mandateId,
-      ],
-      {
-        queryParams: {
-          mode: 'view',
-        },
-      }
-    );
+    if (!this.clientId) {
+      this.router.navigate(
+        [
+          '/crm/leasing-mandates/add-child-mandate',
+          mandate.id,
+          mandate.mandateId,
+        ],
+        {
+          queryParams: {
+            mode: 'view',
+          },
+        }
+      );
+    } else {
+      this.router.navigate(
+        [
+          '/crm/leasing-mandates/add-child-mandate',
+          mandate.id,
+          mandate.mandateId,
+          this.clientId,
+        ],
+        {
+          queryParams: {
+            mode: 'view',
+          },
+        }
+      );
+    }
   }
   onPopupClose() {
     this.showDownloadPopup = false;
@@ -271,8 +320,12 @@ export class ViewChildMandatesComponent {
   }
 
   refreshCalls() {
-    this.facade.loadAll();
-    this.leasingMandates$ = this.facade.all$;
+    if (!this.clientId) {
+      this.facade.loadAll();
+      this.leasingMandates$ = this.facade.all$;
+    } else {
+      this.facade.loadByClientId(this.clientId);
+    }
   }
   onBulkDelete(ids: number[]) {
     // Optionally confirm first

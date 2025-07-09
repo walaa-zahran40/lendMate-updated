@@ -92,6 +92,25 @@ export const reducer = createReducer(
   on(CloneActions.clearSelectedClone, (state) => ({
     ...state,
     loadedId: null,
+  })),
+  on(CloneActions.loadByClientId, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
+
+  on(CloneActions.loadByClientIdSuccess, (state, { result }) =>
+    adapter.setAll(result, {
+      ...state,
+      loading: false,
+      error: null,
+    })
+  ),
+
+  on(CloneActions.loadByClientIdFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
   }))
 );
 
