@@ -48,12 +48,8 @@ export class ViewMandateAdditionalTermsComponent {
   ) {}
   ngOnInit() {
     console.log('route', this.route.snapshot);
-    if (
-      !this.facade.loadedId$ ||
-      this.facade.loadedId$ !== this.leasingRouteId
-    ) {
-      this.facade.loadById(this.leasingRouteId);
-    }
+    this.facade.loadById(this.leasingRouteId);
+
     combineLatest([this.mandateAdditionalTerms$])
       .pipe(
         takeUntil(this.destroy$),

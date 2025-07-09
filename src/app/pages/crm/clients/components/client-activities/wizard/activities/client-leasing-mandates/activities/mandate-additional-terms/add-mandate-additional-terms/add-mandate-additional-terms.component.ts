@@ -21,7 +21,6 @@ export class AddMandateAdditionalTermsComponent {
   mandateRouteId = this.route.snapshot.params['leasingMandatesId'];
   constructor(
     private fb: FormBuilder,
-    private store: Store,
     private route: ActivatedRoute,
     private facade: ClientsMandateAdditionalTermsFacade,
     private router: Router
