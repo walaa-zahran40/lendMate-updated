@@ -4827,7 +4827,10 @@ icon="pi pi-cog"
       [formGroup]="formGroup"
       class="form-container"
     >
-      <label for="clientNameAddMandateBasic" class="label-container"
+      <label
+        for="clientNameAddMandateBasic"
+        class="label-container"
+        *ngIf="show"
         >Client Name<sup>*</sup></label
       >
       <p-select
@@ -4839,6 +4842,7 @@ icon="pi pi-cog"
         placeholder="Select Client Name"
         optionLabel="name"
         optionValue="id"
+        *ngIf="show"
         name="clientNameAddMandateBasic"
         styleClass="w-full md:w-80"
       />

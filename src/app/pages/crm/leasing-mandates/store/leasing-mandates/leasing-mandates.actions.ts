@@ -85,3 +85,18 @@ export const performWorkflowActionEntityFailure = createAction(
   '[MandatesOnboarding] PerformWorkflowAction Failure',
   props<{ error: any }>()
 );
+//Client Id
+export const loadByClientId = createAction(
+  '[Mandates] Load By ClientId',
+  props<{ clientId: number }>()
+);
+
+export const loadByClientIdSuccess = createAction(
+  '[Mandates] Load By ClientId Success',
+  props<{ result: Mandate[] }>()
+);
+
+export const loadByClientIdFailure = createAction(
+  '[Mandates] Load By ClientId Failure',
+  props<{ error: any }>()
+);

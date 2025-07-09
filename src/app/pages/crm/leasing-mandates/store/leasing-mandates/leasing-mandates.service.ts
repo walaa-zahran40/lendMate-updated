@@ -48,7 +48,19 @@ export class MandatesService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 
-  performWorkflowAction(id: number, changes: Partial<MandateWorkFlowAction>): Observable<void> {
-      return this.http.post<void>(`${environment.apiUrl}MandateWorkFlowActions/CreateMandateWorkFlowAction`, changes);
+  performWorkflowAction(
+    id: number,
+    changes: Partial<MandateWorkFlowAction>
+  ): Observable<void> {
+    return this.http.post<void>(
+      `${environment.apiUrl}MandateWorkFlowActions/CreateMandateWorkFlowAction`,
+      changes
+    );
+  }
+  //client Id
+  getByClientId(clientId: number): Observable<Mandate[]> {
+    return this.http.get<Mandate[]>(
+      `${this.baseUrl}/GetByClientId/${clientId}`
+    );
   }
 }

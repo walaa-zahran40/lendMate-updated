@@ -92,6 +92,25 @@ export const reducer = createReducer(
   on(MandateActions.clearSelectedMandate, (state) => ({
     ...state,
     loadedId: null,
+  })),
+  on(MandateActions.loadByClientId, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
+
+  on(MandateActions.loadByClientIdSuccess, (state, { result }) =>
+    adapter.setAll(result, {
+      ...state,
+      loading: false,
+      error: null,
+    })
+  ),
+
+  on(MandateActions.loadByClientIdFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
   }))
 );
 

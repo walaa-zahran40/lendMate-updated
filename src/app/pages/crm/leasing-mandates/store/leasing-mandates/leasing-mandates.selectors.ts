@@ -40,3 +40,7 @@ export const selectMandatesTotalCount = createSelector(
   selectMandatesFeature,
   (state) => state
 );
+export const selectMandatesByClientId = (clientId: number) =>
+  createSelector(selectAllMandates, (mandates) =>
+    mandates.filter((m) => m.clientId === clientId)
+  );

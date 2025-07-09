@@ -39,8 +39,8 @@ export class ViewMandatesComponent {
   showDownloadPopup = false;
 
   readonly colsInside = [
+    { field: 'id', header: 'Id' },
     { field: 'description', header: 'Description' },
-    { field: 'clientName', header: 'Client Name' },
     { field: 'date', header: 'Start Date' },
   ];
   showDeleteModal: boolean = false;
@@ -110,6 +110,50 @@ export class ViewMandatesComponent {
         });
     } else {
       console.log('there is a client Id , Choose get by client id');
+      this.facade.loadByClientId(this.clientId);
+      combineLatest([this.leasingMandates$, this.clients$])
+        .pipe(
+          takeUntil(this.destroy$),
+
+          // 1️⃣ Log the raw mandates array
+          tap(([mandates, clients]) => {
+            console.group('🚀 combineLatest payload');
+            console.log('Mandates:', mandates);
+            console.log('Clients :', clients);
+            console.groupEnd();
+          }),
+
+          // 2️⃣ Now map & flatten clientName out of clientView
+          map(([mandates, clients]) =>
+            mandates
+              .slice()
+              .sort((a, b) => b.id! - a.id!)
+              .map((m) => {
+                const fromMandate = m.clientView?.clientName;
+                const fromClients = clients.find(
+                  (c) => c.id === m.clientId
+                )?.name;
+                console.log(
+                  `🗺️ mapping mandate#${m.id}:`,
+                  'clientView.name=',
+                  fromMandate,
+                  'clients lookup=',
+                  fromClients
+                );
+                return {
+                  ...m,
+                };
+              })
+          ),
+
+          // 3️⃣ Log the enriched array
+          tap((enriched) => console.log('Enriched tableDataInside:', enriched))
+        )
+        .subscribe((enriched) => {
+          this.tableDataInside = enriched;
+          this.originalLeasingMandates = enriched;
+          this.filteredLeasingMandates = enriched;
+        });
     }
   }
   private setupContactPersonsDropdown(): void {
@@ -176,7 +220,13 @@ export class ViewMandatesComponent {
   }
 
   onAddLeasingMandate() {
-    this.router.navigate(['/crm/leasing-mandates/add-mandate']);
+    if (this.clientId) {
+      this.router.navigate([
+        `/crm/leasing-mandates/add-mandate/${this.clientId}`,
+      ]);
+    } else {
+      this.router.navigate(['/crm/leasing-mandates/add-mandate']);
+    }
   }
   onAddSide(leasingMandatesId: any) {
     this.router.navigate([
@@ -222,11 +272,14 @@ export class ViewMandatesComponent {
     this.showFilters = value;
   }
   onEditLeasingMandate(mandate: Mandate) {
-    this.router.navigate(['/crm/leasing-mandates/edit-mandate', mandate.id], {
-      queryParams: {
-        mode: 'edit',
-      },
-    });
+    this.router.navigate(
+      ['/crm/leasing-mandates/edit-mandate', mandate.id, this.clientId],
+      {
+        queryParams: {
+          mode: 'edit',
+        },
+      }
+    );
   }
   onViewLeasingMandates(mandate: Mandate) {
     console.log('mandate', mandate);

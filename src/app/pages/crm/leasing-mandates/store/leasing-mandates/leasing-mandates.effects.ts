@@ -128,22 +128,35 @@ export class MandatesEffects {
   );
 
   performWorkflow$ = createEffect(() =>
-      this.actions$.pipe(
-        ofType(ActionsList.performWorkflowActionEntity),
-        mergeMap(({ id, changes }) =>
-          this.service.performWorkflowAction(id, changes).pipe(
-            mergeMap(() => [
-              ActionsList.performWorkflowActionEntitySuccess({ id, changes }),
-              ActionsList.entityOperationSuccess({
-                entity: EntityNames.MandateWorkFlowAction,
-                operation: 'update',
-              }),
-            ]),
-            catchError((error) =>
-              of(ActionsList.performWorkflowActionEntityFailure({ error }))
-            )
+    this.actions$.pipe(
+      ofType(ActionsList.performWorkflowActionEntity),
+      mergeMap(({ id, changes }) =>
+        this.service.performWorkflowAction(id, changes).pipe(
+          mergeMap(() => [
+            ActionsList.performWorkflowActionEntitySuccess({ id, changes }),
+            ActionsList.entityOperationSuccess({
+              entity: EntityNames.MandateWorkFlowAction,
+              operation: 'update',
+            }),
+          ]),
+          catchError((error) =>
+            of(ActionsList.performWorkflowActionEntityFailure({ error }))
           )
         )
       )
-    );
+    )
+  );
+  loadByClientId$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadByClientId),
+      mergeMap(({ clientId }) =>
+        this.service.getByClientId(clientId).pipe(
+          map((result) => ActionsList.loadByClientIdSuccess({ result })),
+          catchError((error) =>
+            of(ActionsList.loadByClientIdFailure({ error }))
+          )
+        )
+      )
+    )
+  );
 }

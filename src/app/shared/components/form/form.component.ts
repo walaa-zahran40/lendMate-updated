@@ -539,7 +539,8 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addActionAuthorizationGroupForm!: boolean;
   @Input() addActionNotificationGroupForm!: boolean;
   @Input() addCallForm!: boolean;
-
+  @Input() show: boolean = false;
+  @Input() editShow: boolean = false;
   currencyIdParam: any;
   branchIdParam: any;
   departmentIdParam: any;
@@ -651,6 +652,8 @@ export class FormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    console.log('route', this.route.snapshot);
+
     console.log('💡 pageOperationGroups input:', this.pageOperationGroups);
 
     this.formGroup

@@ -49,4 +49,7 @@ export class MandatesFacade {
   performWorkflowAction(id: number, changes: Partial<MandateWorkFlowAction>) {
     this.store.dispatch(Actions.performWorkflowActionEntity({ id, changes }));
   }
+  loadByClientId(clientId: number) {
+    this.store.dispatch(Actions.loadByClientId({ clientId }));
+  }
 }
