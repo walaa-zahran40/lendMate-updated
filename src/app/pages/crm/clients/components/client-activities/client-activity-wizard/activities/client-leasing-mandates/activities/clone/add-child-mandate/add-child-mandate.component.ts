@@ -3,48 +3,38 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/internal/Observable';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  distinctUntilChanged,
-  filter,
-  map,
-  switchMap,
-  take,
-  tap,
-} from 'rxjs/operators';
-import { combineLatest } from 'rxjs';
-//Models
-import { Client } from '../../../../../clients/store/_clients/allclients/client.model';
-import { MandateValidityUnit } from '../../../../../../lookups/store/mandate-validity-units/mandate-validity-unit.model';
-import { Product } from '../../../../../../lookups/store/products/product.model';
-import { LeasingType } from '../../../../../../lookups/store/leasing-types/leasing-type.model';
-import { InsuredBy } from '../../../../../../lookups/store/insured-by/insured-by.model';
-import { Officer } from '../../../../../../organizations/store/officers/officer.model';
-import { PeriodUnit } from '../../../../../../lookups/store/period-units/period-unit.model';
-import { FeeType } from '../../../../../../lookups/store/fee-types/fee-type.model';
-import { AssetType } from '../../../../../../lookups/store/asset-types/asset-type.model';
-import { Mandate } from '../../../../store/leasing-mandates/leasing-mandate.model';
-//Facades
-import { ClientsFacade } from '../../../../../clients/store/_clients/allclients/clients.facade';
-import { MandateValidityUnitsFacade } from '../../../../../../lookups/store/mandate-validity-units/mandate-validity-units.facade';
-import { ProductsFacade } from '../../../../../../lookups/store/products/products.facade';
-import { LeasingTypesFacade } from '../../../../../../lookups/store/leasing-types/leasing-types.facade';
-import { InsuredByFacade } from '../../../../../../lookups/store/insured-by/insured-by.facade';
-import { OfficersFacade } from '../../../../../../organizations/store/officers/officers.facade';
-import { ClientContactPersonsFacade } from '../../../../../clients/store/client-contact-persons/client-contact-persons.facade';
-import { FeeTypesFacade } from '../../../../../../lookups/store/fee-types/fee-types.facade';
-import { GracePeriodUnitsFacade } from '../../../../../../lookups/store/period-units/period-units.facade';
-import { AssetTypesFacade } from '../../../../../../lookups/store/asset-types/asset-types.facade';
-import { ClonesFacade } from '../../../../store/clone/clones.facade';
-//Actions
-import { loadAll } from '../../../../../clients/store/_clients/allclients/clients.actions';
-import { loadAll as loadValidityUnits } from '../../../../../../lookups/store/mandate-validity-units/mandate-validity-units.actions';
-import { loadAll as loadProducts } from '../../../../../../lookups/store/products/products.actions';
-import { loadAll as loadLeasingTypes } from '../../../../../../lookups/store/leasing-types/leasing-types.actions';
-import { loadAll as loadInsuredBy } from '../../../../../../lookups/store/insured-by/insured-by.actions';
-import { loadOfficers } from '../../../../../../organizations/store/officers/officers.actions';
-import { loadAll as loadAssetTypes } from '../../../../../../lookups/store/asset-types/asset-types.actions';
-import { loadAll as loadFeeTypes } from '../../../../../../lookups/store/fee-types/fee-types.actions';
-import { loadAll as loadGracePeriods } from '../../../../../../lookups/store/period-units/period-units.actions';
+import { distinctUntilChanged, filter, map, take } from 'rxjs/operators';
+
+import { loadAll } from './../../../../../../../../../clients/store/_clients/allclients/clients.actions';
+import { loadAll as loadValidityUnits } from '../../../../../../../../../../../pages/lookups/store/mandate-validity-units/mandate-validity-units.actions';
+import { loadAll as loadProducts } from '../../../../../../../../../../../pages/lookups/store/products/products.actions';
+import { loadAll as loadLeasingTypes } from '../../../../../../../../../../../pages/lookups/store/leasing-types/leasing-types.actions';
+import { loadAll as loadInsuredBy } from '../../../../../../../../../../../pages/lookups/store/insured-by/insured-by.actions';
+import { loadOfficers } from '../../../../../../../../../../../pages/organizations/store/officers/officers.actions';
+import { loadAll as loadAssetTypes } from '../../../../../../../../../../../pages/lookups/store/asset-types/asset-types.actions';
+import { loadAll as loadFeeTypes } from '../../../../../../../../../../../pages/lookups/store/fee-types/fee-types.actions';
+import { loadAll as loadGracePeriods } from '../../../../../../../../../../../pages/lookups/store/period-units/period-units.actions';
+import { AssetType } from '../../../../../../../../../../lookups/store/asset-types/asset-type.model';
+import { AssetTypesFacade } from '../../../../../../../../../../lookups/store/asset-types/asset-types.facade';
+import { FeeType } from '../../../../../../../../../../lookups/store/fee-types/fee-type.model';
+import { FeeTypesFacade } from '../../../../../../../../../../lookups/store/fee-types/fee-types.facade';
+import { InsuredByFacade } from '../../../../../../../../../../lookups/store/insured-by/insured-by.facade';
+import { InsuredBy } from '../../../../../../../../../../lookups/store/insured-by/insured-by.model';
+import { LeasingType } from '../../../../../../../../../../lookups/store/leasing-types/leasing-type.model';
+import { LeasingTypesFacade } from '../../../../../../../../../../lookups/store/leasing-types/leasing-types.facade';
+import { MandateValidityUnit } from '../../../../../../../../../../lookups/store/mandate-validity-units/mandate-validity-unit.model';
+import { MandateValidityUnitsFacade } from '../../../../../../../../../../lookups/store/mandate-validity-units/mandate-validity-units.facade';
+import { PeriodUnit } from '../../../../../../../../../../lookups/store/period-units/period-unit.model';
+import { GracePeriodUnitsFacade } from '../../../../../../../../../../lookups/store/period-units/period-units.facade';
+import { Product } from '../../../../../../../../../../lookups/store/products/product.model';
+import { ProductsFacade } from '../../../../../../../../../../lookups/store/products/products.facade';
+import { Officer } from '../../../../../../../../../../organizations/store/officers/officer.model';
+import { OfficersFacade } from '../../../../../../../../../../organizations/store/officers/officers.facade';
+import { ClonesFacade } from '../../../../../../../../../leasing-mandates/store/clone/clones.facade';
+import { Mandate } from '../../../../../../../../../leasing-mandates/store/leasing-mandates/leasing-mandate.model';
+import { Client } from '../../../../../../../../store/_clients/allclients/client.model';
+import { ClientsFacade } from '../../../../../../../../store/_clients/allclients/clients.facade';
+import { ClientContactPersonsFacade } from '../../../../../../../../store/client-contact-persons/client-contact-persons.facade';
 
 @Component({
   selector: 'app-add-child-mandate',
@@ -71,7 +61,7 @@ export class AddChildMandateComponent {
   gracePeriodUnits$!: Observable<PeriodUnit[]>;
   feeTypes$!: Observable<FeeType[]>;
   parentForm!: FormGroup;
-  routeId = this.route.snapshot.params['leasingId'];
+  routeId = this.route.snapshot.params['clientId'];
   mandateRouteId = this.route.snapshot.params['leasingMandatesId'];
   constructor(
     private fb: FormBuilder,
@@ -553,13 +543,13 @@ export class AddChildMandateComponent {
 
     console.log('🧭 Navigating away to view-mandates');
     this.router.navigate([
-      `/crm/leasing-mandates/view-child-mandates/${this.routeId}/${this.mandateRouteId}`,
+      `/crm/leasing-mandates/view-child-mandates/${this.mandateRouteId}/${this.routeId}`,
     ]);
   }
 
   navigateToView() {
     this.router.navigate([
-      `/crm/leasing-mandates/view-child-mandates/${this.routeId}/${this.mandateRouteId}`,
+      `/crm/leasing-mandates/view-child-mandates/${this.mandateRouteId}/${this.routeId}`,
     ]);
   }
   /** Called by the guard. */

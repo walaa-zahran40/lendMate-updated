@@ -98,6 +98,12 @@ import { AddMandateComponent } from './components/client-activities/client-activ
 import { ViewMandatesComponent } from './components/client-activities/client-activity-wizard/activities/client-leasing-mandates/view-mandates/view-mandates.component';
 import { reducer as leasingMandatesReducer } from './store/client-leasing-mandates/client-leasing-mandates.reducer';
 import { MandatesEffects } from './store/client-leasing-mandates/client-leasing-mandates.effects';
+import { WizardComponent } from './components/client-activities/client-activity-wizard/activities/client-leasing-mandates/wizard/wizard.component';
+import { AddChildMandateComponent } from './components/client-activities/client-activity-wizard/activities/client-leasing-mandates/activities/clone/add-child-mandate/add-child-mandate.component';
+import { ViewChildMandatesComponent } from './components/client-activities/client-activity-wizard/activities/client-leasing-mandates/activities/clone/view-child-mandates/view-child-mandates.component';
+import { LeasingFinancialFormCompoundComponent } from './components/client-activities/client-activity-wizard/activities/client-leasing-mandates/activities/leasing-financial-form/leasing-financial-form-compound.component';
+import { ClientsClonesEffects } from './store/client-leasing-mandates/activities/clone/client-clones.effects';
+import { reducer as clientsClonesReducer } from './store/client-leasing-mandates/activities/clone/client-clones.reducer';
 
 @NgModule({
   declarations: [
@@ -110,8 +116,12 @@ import { MandatesEffects } from './store/client-leasing-mandates/client-leasing-
     AddClientLegalsComponent,
     AddClientAddressesComponent,
     AddSalesTurnoverComponent,
+    AddChildMandateComponent,
+    ViewChildMandatesComponent,
+    LeasingFinancialFormCompoundComponent,
     AddContactPersonComponent,
     AddPhoneNumberComponent,
+    WizardComponent,
     AddClientCRAuthorityOfficesComponent,
     AddClientTaxAuthorityOfficesComponent,
     AddClientCentralBankInfoComponent,
@@ -199,6 +209,9 @@ import { MandatesEffects } from './store/client-leasing-mandates/client-leasing-
     EffectsModule.forFeature([ClientSalesTurnoversEffects]),
     StoreModule.forFeature('clientAddresses', clientAddressesReducer),
     EffectsModule.forFeature([ClientAddressesEffects]),
+    StoreModule.forFeature('clientsClones', clientsClonesReducer),
+    EffectsModule.forFeature([ClientsClonesEffects]),
+
     StoreModule.forFeature(
       'clientCRAuthorityOffices',
       clientCRAuthorityOfficesReducer

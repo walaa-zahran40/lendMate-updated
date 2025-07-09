@@ -11,44 +11,42 @@ import {
 import { Store } from '@ngrx/store';
 import { filter, map, take } from 'rxjs/operators';
 
-import { loadAll } from '../../../../../lookups/store/payment-periods/payment-periods.actions';
-import { loadAll as loadAllGracePeriodUnits } from '../../../../../lookups/store/period-units/period-units.actions';
-import { loadAll as loadCurrencies } from '../../../../../lookups/store/currencies/currencies.actions';
-import { loadCurrencyExchangeRates } from '../../../../../lookups/store/currency-exchange-rates/currency-exchange-rates.actions';
-import { loadAll as loadInterestRateBenchmarks } from '../../../../../lookups/store/interest-rate-benchmarks/interest-rate-benchmarks.actions';
-import { loadAll as loadPaymentTimingTerms } from '../../../../../lookups/store/payment-timing-terms/payment-timing-terms.actions';
-import { loadAll as loadRentStructureTypes } from '../../../../../lookups/store/rent-structure-types/rent-structure-types.actions';
-import { loadAll as loadPaymentMethods } from '../../../../../lookups/store/payment-methods/payment-methods.actions';
-import { loadAll as loadPaymentMonthDays } from '../../../../../lookups/store/payment-month-days/payment-month-days.actions';
+import { loadAll } from '../../../../../../../../../lookups/store/payment-periods/payment-periods.actions';
+import { loadAll as loadAllGracePeriodUnits } from '../../../../../../../../../lookups/store/period-units/period-units.actions';
+import { loadAll as loadCurrencies } from '../../../../../../../../../lookups/store/currencies/currencies.actions';
+import { loadCurrencyExchangeRates } from '../../../../../../../../../lookups/store/currency-exchange-rates/currency-exchange-rates.actions';
+import { loadAll as loadInterestRateBenchmarks } from '../../../../../../../../../lookups/store/interest-rate-benchmarks/interest-rate-benchmarks.actions';
+import { loadAll as loadPaymentTimingTerms } from '../../../../../../../../../lookups/store/payment-timing-terms/payment-timing-terms.actions';
+import { loadAll as loadRentStructureTypes } from '../../../../../../../../../lookups/store/rent-structure-types/rent-structure-types.actions';
+import { loadAll as loadPaymentMethods } from '../../../../../../../../../lookups/store/payment-methods/payment-methods.actions';
+import { loadAll as loadPaymentMonthDays } from '../../../../../../../../../lookups/store/payment-month-days/payment-month-days.actions';
 
-import { PaymentPeriod } from '../../../../../lookups/store/payment-periods/payment-period.model';
-import { PaymentPeriodsFacade } from '../../../../../lookups/store/payment-periods/payment-periods.facade';
-import { Currency } from '../../../../../lookups/store/currencies/currency.model';
-import { Calculation } from '../../../../../../shared/interfaces/calculations.interface';
-import { PeriodUnit } from '../../../../../lookups/store/period-units/period-unit.model';
-import { InterestRateBenchMark } from '../../../../../lookups/store/interest-rate-benchmarks/interest-rate-benchmark.model';
-import { PaymentTimingTerm } from '../../../../../lookups/store/payment-timing-terms/payment-timing-term.model';
-import { CurrencyExchangeRate } from '../../../../../lookups/store/currency-exchange-rates/currency-exchange-rate.model';
-import { RentStructureType } from '../../../../../lookups/store/rent-structure-types/rent-structure-type.model';
-import { PaymentMethod } from '../../../../../lookups/store/payment-methods/payment-method.model';
-import { PaymentMonthDay } from '../../../../../lookups/store/payment-month-days/payment-month-day.model';
+import { PaymentPeriod } from '../../../../../../../../../lookups/store/payment-periods/payment-period.model';
+import { PaymentPeriodsFacade } from '../../../../../../../../../lookups/store/payment-periods/payment-periods.facade';
+import { Currency } from '../../../../../../../../../lookups/store/currencies/currency.model';
+import { PeriodUnit } from '../../../../../../../../../lookups/store/period-units/period-unit.model';
+import { InterestRateBenchMark } from '../../../../../../../../../lookups/store/interest-rate-benchmarks/interest-rate-benchmark.model';
+import { PaymentTimingTerm } from '../../../../../../../../../lookups/store/payment-timing-terms/payment-timing-term.model';
+import { CurrencyExchangeRate } from '../../../../../../../../../lookups/store/currency-exchange-rates/currency-exchange-rate.model';
+import { RentStructureType } from '../../../../../../../../../lookups/store/rent-structure-types/rent-structure-type.model';
+import { PaymentMethod } from '../../../../../../../../../lookups/store/payment-methods/payment-method.model';
+import { PaymentMonthDay } from '../../../../../../../../../lookups/store/payment-month-days/payment-month-day.model';
 
-import { GracePeriodUnitsFacade } from '../../../../../lookups/store/period-units/period-units.facade';
-import { CurrenciesFacade } from '../../../../../lookups/store/currencies/currencies.facade';
-import { CurrencyExchangeRatesFacade } from '../../../../../lookups/store/currency-exchange-rates/currency-exchange-rates.facade';
-import { InterestRateBenchMarksFacade } from '../../../../../lookups/store/interest-rate-benchmarks/interest-rate-benchmarks.facade';
-import { PaymentTimingTermsFacade } from '../../../../../lookups/store/payment-timing-terms/payment-timing-terms.facade';
-import { RentStructureTypesFacade } from '../../../../../lookups/store/rent-structure-types/rent-structure-types.facade';
-import { PaymentMethodsFacade } from '../../../../../lookups/store/payment-methods/payment-methods.facade';
-import { PaymentMonthDaysFacade } from '../../../../../lookups/store/payment-month-days/payment-month-days.facade';
-import { FinancialForm } from '../../../store/financial-form/financial-form.model';
-import { FinancialFormsFacade } from '../../../store/financial-form/financial-forms.facade';
+import { GracePeriodUnitsFacade } from '../../../../../../../../../lookups/store/period-units/period-units.facade';
+import { CurrenciesFacade } from '../../../../../../../../../lookups/store/currencies/currencies.facade';
+import { CurrencyExchangeRatesFacade } from '../../../../../../../../../lookups/store/currency-exchange-rates/currency-exchange-rates.facade';
+import { InterestRateBenchMarksFacade } from '../../../../../../../../../lookups/store/interest-rate-benchmarks/interest-rate-benchmarks.facade';
+import { PaymentTimingTermsFacade } from '../../../../../../../../../lookups/store/payment-timing-terms/payment-timing-terms.facade';
+import { RentStructureTypesFacade } from '../../../../../../../../../lookups/store/rent-structure-types/rent-structure-types.facade';
+import { PaymentMethodsFacade } from '../../../../../../../../../lookups/store/payment-methods/payment-methods.facade';
+import { PaymentMonthDaysFacade } from '../../../../../../../../../lookups/store/payment-month-days/payment-month-days.facade';
+import { FinancialForm } from '../../../../../../../../leasing-mandates/store/financial-form/financial-form.model';
+import { FinancialFormsFacade } from '../../../../../../../../leasing-mandates/store/financial-form/financial-forms.facade';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TableComponent } from '../../../../../../shared/components/table/table.component';
-import { selectCalculatedRowsForId } from '../../../store/financial-form/financial-forms.selectors';
-import { MandatesFacade } from '../../../store/leasing-mandates/leasing-mandates.facade';
-import { Mandate } from '../../../store/leasing-mandates/leasing-mandate.model';
-import { loadById } from '../../../store/leasing-mandates/leasing-mandates.actions';
+import { TableComponent } from '../../../../../../../../../../shared/components/table/table.component';
+import { selectCalculatedRowsForId } from '../../../../../../../../leasing-mandates/store/financial-form/financial-forms.selectors';
+import { MandatesFacade } from '../../../../../../../../leasing-mandates/store/leasing-mandates/leasing-mandates.facade';
+import { Mandate } from '../../../../../../../../leasing-mandates/store/leasing-mandates/leasing-mandate.model';
 @Component({
   selector: 'app-leasing-financial-form-compound',
   standalone: false,

@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import {
   combineLatest,
   map,
@@ -9,16 +10,17 @@ import {
   take,
   filter,
   forkJoin,
+  switchMap,
 } from 'rxjs';
-import { TableComponent } from '../../../../../../../shared/components/table/table.component';
-import { Clone } from '../../../../store/clone/clone.model';
-import { ClonesFacade } from '../../../../store/clone/clones.facade';
-import { ClientsFacade } from '../../../../../clients/store/_clients/allclients/clients.facade';
-import { Store } from '@ngrx/store';
-import { loadClientContactPersonsByClientId } from '../../../../../../crm/clients/store/client-contact-persons/client-contact-persons.actions';
-import { ClientContactPersonsFacade } from '../../../../../clients/store/client-contact-persons/client-contact-persons.facade';
-import { OfficersFacade } from '../../../../../../organizations/store/officers/officers.facade';
-import { loadOfficers } from '../../../../../../organizations/store/officers/officers.actions';
+import { TableComponent } from '../../../../../../../../../../../shared/components/table/table.component';
+import { loadOfficers } from '../../../../../../../../../../organizations/store/officers/officers.actions';
+import { OfficersFacade } from '../../../../../../../../../../organizations/store/officers/officers.facade';
+import { Clone } from '../../../../../../../../../leasing-mandates/store/clone/clone.model';
+import { ClonesFacade } from '../../../../../../../../../leasing-mandates/store/clone/clones.facade';
+import { ClientsFacade } from '../../../../../../../../store/_clients/allclients/clients.facade';
+import { loadClientContactPersonsByClientId } from '../../../../../../../../store/client-contact-persons/client-contact-persons.actions';
+import { ClientContactPersonsFacade } from '../../../../../../../../store/client-contact-persons/client-contact-persons.facade';
+import { ClientsClonesFacade } from '../../../../../../../../store/client-leasing-mandates/activities/clone/client-clones.facade';
 
 @Component({
   selector: 'app-view-child-mandates',
@@ -50,12 +52,12 @@ export class ViewChildMandatesComponent {
   contactPersonsDropdown: any;
   officersDropdown: any[] = [];
   languagesDropdown: any[] = [];
-  routeId = this.route.snapshot.params['leasingId'];
+  routeId = this.route.snapshot.params['clientId'];
   leasingRouteId = this.route.snapshot.params['leasingMandatesId'];
   constructor(
     private router: Router,
     private clientsFacade: ClientsFacade,
-    private facade: ClonesFacade,
+    private facade: ClientsClonesFacade,
     private store: Store,
     private route: ActivatedRoute,
     private facadeContact: ClientContactPersonsFacade,
@@ -63,52 +65,58 @@ export class ViewChildMandatesComponent {
   ) {}
   ngOnInit() {
     console.log('route', this.route.snapshot);
-    this.facade.loadAll();
-    combineLatest([this.leasingMandates$, this.clients$])
+    const clientId = +this.route.snapshot.paramMap.get('clientId')!;
+
+    // ① kick off client-list + clone-by-client load
+    this.clientsFacade.loadAll();
+    this.officersFacade.loadAll(); // if you need officers too
+    this.facade.loadByClientId(clientId);
+
+    // 🔍 DEBUG: watch loading & error flags
+    this.facade.loading$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((loading) => console.log('🔄 clones loading:', loading));
+    this.facade.error$.pipe(takeUntil(this.destroy$)).subscribe((err) => {
+      if (err) console.error('❌ error loading clones:', err);
+    });
+
+    // 🔍 DEBUG: raw clones array
+    this.leasingMandates$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((list) => console.log('🗃️ raw clones list:', list));
+
+    // ② only proceed once we actually have clones + clients
+    this.leasingMandates$
       .pipe(
         takeUntil(this.destroy$),
-
-        // 1️⃣ Log the raw mandates array
-        tap(([mandates, clients]) => {
-          console.group('🚀 combineLatest payload');
-          console.log('Mandates:', mandates);
-          console.log('Clients :', clients);
-          console.groupEnd();
-        }),
-
-        // 2️⃣ Now map & flatten clientName out of clientView
-        map(([mandates, clients]) =>
-          mandates
-            .slice()
-            .sort((a, b) => b.id! - a.id!)
-            .map((m) => {
-              const fromMandate = m.clientView?.clientName;
-              const fromClients = clients.find(
-                (c) => c.id === m.clientId
-              )?.name;
-              console.log(
-                `🗺️ mapping mandate#${m.id}:`,
-                'clientView.name=',
-                fromMandate,
-                'clients lookup=',
-                fromClients
-              );
-              return {
-                ...m,
-                clientName: fromMandate ?? fromClients ?? '— unknown —',
-              };
-            })
-        ),
-
-        // 3️⃣ Log the enriched array
-        tap((enriched) => console.log('Enriched tableDataInside:', enriched))
+        filter((clones) => clones.length > 0),
+        switchMap((clones) =>
+          this.clients$.pipe(
+            filter((clients) => clients.length > 0),
+            take(1),
+            map((clients) =>
+              clones
+                .slice()
+                .sort((a, b) => b.id! - a.id!)
+                .map((m) => ({
+                  ...m,
+                  clientName:
+                    m.clientView?.clientName ??
+                    clients.find((c) => c.id === m.clientId)?.name ??
+                    '— unknown —',
+                }))
+            )
+          )
+        )
       )
       .subscribe((enriched) => {
+        console.log('✅ enriched tableDataInside:', enriched);
         this.tableDataInside = enriched;
         this.originalLeasingMandates = enriched;
         this.filteredLeasingMandates = enriched;
       });
   }
+
   private setupContactPersonsDropdown(): void {
     const mandate = this.selectedRowForDownload!;
     const saved = mandate.mandateContactPersons ?? []; // [{ contactPersonId: number }, …]

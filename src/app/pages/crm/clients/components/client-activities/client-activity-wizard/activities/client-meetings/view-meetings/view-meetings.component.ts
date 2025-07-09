@@ -61,7 +61,7 @@ export class ViewMeetingsComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(([meetings, clients, meetingTypes]) => {
         const filtered = meetings.filter(
-          (m) => m.communication.clientId === Number(this.raw)
+          (m) => m.communication?.clientId === Number(this.raw)
         );
 
         const enriched: Meeting[] = filtered.map((meeting) => {

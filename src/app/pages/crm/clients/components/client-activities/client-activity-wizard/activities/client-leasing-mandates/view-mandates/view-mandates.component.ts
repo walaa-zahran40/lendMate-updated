@@ -172,8 +172,7 @@ export class ViewMandatesComponent {
   }
   onAddSide(leasingMandatesId: any) {
     this.router.navigate([
-      '/crm/leasing-mandates/leasing-mandate-wizard',
-      leasingMandatesId,
+      `/crm/leasing-mandates/leasing-mandate-wizard/${leasingMandatesId}/${this.clientId}`,
     ]);
   }
   onDownloadClick(row: any) {

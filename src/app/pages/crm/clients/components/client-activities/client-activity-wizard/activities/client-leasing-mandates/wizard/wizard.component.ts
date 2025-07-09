@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MandatesFacade } from '../../../store/leasing-mandates/leasing-mandates.facade';
+import { MandatesFacade } from '../../../../../../../leasing-mandates/store/leasing-mandates/leasing-mandates.facade';
 import { filter, take, tap } from 'rxjs';
 
 @Component({
@@ -15,6 +15,8 @@ export class WizardComponent implements OnInit {
   originalCards: any[] = [];
 
   routeId = this.route.snapshot.params['leasingMandatesId'];
+  clientId = this.route.snapshot.params['clientId'];
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -48,28 +50,28 @@ export class WizardComponent implements OnInit {
         imgAlt: 'clone',
         title: 'Clone',
         content: 'Quickly spin up a copy of this mandate…',
-        link: `/crm/leasing-mandates/add-child-mandate/${id}/${this.routeId}`,
+        link: `/crm/leasing-mandates/add-child-mandate/${id}/${this.clientId}`,
       },
       {
         imgUrl: '/assets/images/shared/card/mandate-manage.svg',
         imgAlt: 'mandate',
         title: 'Mandate Additional Terms',
         content: 'Edit or review your mandate’s T&Cs…',
-        link: `/crm/leasing-mandates/view-mandate-additional-terms/${id}/${this.routeId}`,
+        link: `/crm/leasing-mandates/view-mandate-additional-terms/${id}/${this.clientId}`,
       },
       {
         imgUrl: '/assets/images/shared/card/mandate-manage.svg',
         imgAlt: 'mandate',
         title: 'Leasing Financial Form',
         content: 'Edit or review your Leasing Financial Form',
-        link: `/crm/leasing-mandates/leasing-financial-form/${id}/${this.routeId}`,
+        link: `/crm/leasing-mandates/leasing-financial-form/${id}/${this.clientId}`,
       },
       {
         imgUrl: '/assets/images/shared/card/mandate-manage.svg',
         imgAlt: 'mandate',
         title: 'Mandate Fees',
         content: 'Edit or review your Mandate Fees',
-        link: `/crm/leasing-mandates/view-mandate-fees/${id}/${this.routeId}`,
+        link: `/crm/leasing-mandates/view-mandate-fees/${id}/${this.clientId}`,
       },
     ];
 
