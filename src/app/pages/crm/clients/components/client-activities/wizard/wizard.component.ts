@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-client-activity-wizard',
+  selector: 'app-wizard',
   standalone: false,
-  templateUrl: './client-activity-wizard.component.html',
-  styleUrl: './client-activity-wizard.component.scss',
+  templateUrl: './wizard.component.html',
+  styleUrl: './wizard.component.scss',
 })
 export class ClientActivityWizardComponent {
   cards: any[] = [];

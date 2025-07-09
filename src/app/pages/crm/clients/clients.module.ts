@@ -44,29 +44,28 @@ import { reducer as clientsOnboardingReducer } from './store/_client-onboarding/
 import { IndividualOnboardingsEffects } from './store/_client-onboarding/individuals/individuals-onboarding.effects';
 import { ClientShareHoldersEffects } from './store/client-share-holders/client-share-holders.effects';
 import { clientShareHoldersReducer } from './store/client-share-holders/client-share-holders.reducer';
-import { AddClientAddressesComponent } from './components/client-activities/client-activity-wizard/activities/client-addresses/add-client-address/add-client-address.component';
-import { ViewClientAddressesComponent } from './components/client-activities/client-activity-wizard/activities/client-addresses/view-client-addresses/view-client-address.component';
-import { AddClientCentralBankInfoComponent } from './components/client-activities/client-activity-wizard/activities/client-central-bank-info/add-central-bank-info/add-central-bank-info.component';
-import { ViewClientCentralBankInfoComponent } from './components/client-activities/client-activity-wizard/activities/client-central-bank-info/view-central-bank-info/view-central-bank-info.component';
-import { AddContactPersonComponent } from './components/client-activities/client-activity-wizard/activities/client-contact-persons/add-contact-person/add-contact-person.component';
-import { AddClientCRAuthorityOfficesComponent } from './components/client-activities/client-activity-wizard/activities/client-cr-authority-offices/add-cr-authority-office/add-cr-authority-office.component';
-import { ViewCRAuthorityOfficesComponent } from './components/client-activities/client-activity-wizard/activities/client-cr-authority-offices/view-cr-authority-offices/view-cr-authority-office.component';
-import { AddClientGuarantorComponent } from './components/client-activities/client-activity-wizard/activities/client-guarantors/add-client-guarantor/add-client-guarantor.component';
-import { AddClientIdentityComponent } from './components/client-activities/client-activity-wizard/activities/client-identities/add-client-identity/add-client-identity.component';
-import { ViewClientIdentityComponent } from './components/client-activities/client-activity-wizard/activities/client-identities/view-client-identity/view-client-identity.component';
-import { AddPhoneNumberComponent } from './components/client-activities/client-activity-wizard/activities/client-phone-numbers/add-phone-number/add-phone-number.component';
-import { ViewPhoneNumberComponent } from './components/client-activities/client-activity-wizard/activities/client-phone-numbers/view-phone-numbers/view-phone-number.component';
-import { AddSalesTurnoverComponent } from './components/client-activities/client-activity-wizard/activities/client-sales-turnovers/add-client-sales-turnover/add-client-sales-turnover.component';
-import { ViewSalesTurnoverComponent } from './components/client-activities/client-activity-wizard/activities/client-sales-turnovers/view-client-sales-turnovers/view-sales-turnover.component';
-import { AddClientShareHoldersComponent } from './components/client-activities/client-activity-wizard/activities/client-share-holders/add-share-holder/add-share-holders.component';
-import { ViewShareHoldersComponent } from './components/client-activities/client-activity-wizard/activities/client-share-holders/view-share-holders/view-share-holder.component';
-import { AddClientTaxAuthorityOfficesComponent } from './components/client-activities/client-activity-wizard/activities/client-tax-authority-offices/add-tax-authority-office/add-tax-authority-office.component';
-import { ViewTaxAuthorityOfficesComponent } from './components/client-activities/client-activity-wizard/activities/client-tax-authority-offices/view-tax-authority-offices/view-tax-authority-office.component';
-import { AddClientTMLOfficersComponent } from './components/client-activities/client-activity-wizard/activities/client-tml-officers/add-tml-officer/add-tml-officer.component';
-import { ViewTMLOfficersComponent } from './components/client-activities/client-activity-wizard/activities/client-tml-officers/view-tml-officers/view-tml-officer.component';
-import { AddUploadDocumentsComponent } from './components/client-activities/client-activity-wizard/activities/client-upload-documents/add-upload-documents/add-upload-documents.component';
-import { ViewUploadDocumentsComponent } from './components/client-activities/client-activity-wizard/activities/client-upload-documents/view-upload-documents/view-upload-documents.component';
-import { ClientActivityWizardComponent } from './components/client-activities/client-activity-wizard/client-activity-wizard.component';
+import { AddClientAddressesComponent } from './components/client-activities/wizard/activities/client-addresses/add-client-address/add-client-address.component';
+import { ViewClientAddressesComponent } from './components/client-activities/wizard/activities/client-addresses/view-client-addresses/view-client-address.component';
+import { AddClientCentralBankInfoComponent } from './components/client-activities/wizard/activities/client-central-bank-info/add-central-bank-info/add-central-bank-info.component';
+import { ViewClientCentralBankInfoComponent } from './components/client-activities/wizard/activities/client-central-bank-info/view-central-bank-info/view-central-bank-info.component';
+import { AddContactPersonComponent } from './components/client-activities/wizard/activities/client-contact-persons/add-contact-person/add-contact-person.component';
+import { AddClientCRAuthorityOfficesComponent } from './components/client-activities/wizard/activities/client-cr-authority-offices/add-cr-authority-office/add-cr-authority-office.component';
+import { ViewCRAuthorityOfficesComponent } from './components/client-activities/wizard/activities/client-cr-authority-offices/view-cr-authority-offices/view-cr-authority-office.component';
+import { AddClientGuarantorComponent } from './components/client-activities/wizard/activities/client-guarantors/add-client-guarantor/add-client-guarantor.component';
+import { AddClientIdentityComponent } from './components/client-activities/wizard/activities/client-identities/add-client-identity/add-client-identity.component';
+import { ViewClientIdentityComponent } from './components/client-activities/wizard/activities/client-identities/view-client-identity/view-client-identity.component';
+import { AddPhoneNumberComponent } from './components/client-activities/wizard/activities/client-phone-numbers/add-phone-number/add-phone-number.component';
+import { ViewPhoneNumberComponent } from './components/client-activities/wizard/activities/client-phone-numbers/view-phone-numbers/view-phone-number.component';
+import { AddSalesTurnoverComponent } from './components/client-activities/wizard/activities/client-sales-turnovers/add-client-sales-turnover/add-client-sales-turnover.component';
+import { ViewSalesTurnoverComponent } from './components/client-activities/wizard/activities/client-sales-turnovers/view-client-sales-turnovers/view-sales-turnover.component';
+import { AddClientShareHoldersComponent } from './components/client-activities/wizard/activities/client-share-holders/add-share-holder/add-share-holders.component';
+import { ViewShareHoldersComponent } from './components/client-activities/wizard/activities/client-share-holders/view-share-holders/view-share-holder.component';
+import { AddClientTaxAuthorityOfficesComponent } from './components/client-activities/wizard/activities/client-tax-authority-offices/add-tax-authority-office/add-tax-authority-office.component';
+import { ViewTaxAuthorityOfficesComponent } from './components/client-activities/wizard/activities/client-tax-authority-offices/view-tax-authority-offices/view-tax-authority-office.component';
+import { AddClientTMLOfficersComponent } from './components/client-activities/wizard/activities/client-tml-officers/add-tml-officer/add-tml-officer.component';
+import { ViewTMLOfficersComponent } from './components/client-activities/wizard/activities/client-tml-officers/view-tml-officers/view-tml-officer.component';
+import { AddUploadDocumentsComponent } from './components/client-activities/wizard/activities/client-upload-documents/add-upload-documents/add-upload-documents.component';
+import { ViewUploadDocumentsComponent } from './components/client-activities/wizard/activities/client-upload-documents/view-upload-documents/view-upload-documents.component';
 import { AddClientComponent } from './components/clients/company-individual/add-client/add-client.component';
 import { ViewClientsComponent } from './components/clients/company-individual/view-clients/view-clients.component';
 import { ClientCentralBankInfoEffects } from './store/client-central-bank-info/client-central-bank.effects';
@@ -78,14 +77,14 @@ import { ClientGuarantorsEffects } from './store/client-guarantors/client-guaran
 import { clientGuarantorsReducer } from './store/client-guarantors/client-guarantors.reducer';
 import { ClientTMLOfficersEffects } from './store/client-tml-officers/client-tml-officers.effects';
 import { clientTMLOfficersReducer } from './store/client-tml-officers/client-tml-officers.reducer';
-import { ViewContactPersonComponent } from './components/client-activities/client-activity-wizard/activities/client-contact-persons/view-contact-person/view-contact-person.component';
-import { ViewGuarantorsComponent } from './components/client-activities/client-activity-wizard/activities/client-guarantors/view-client-guarantors/view-client-guarantor.component';
-import { AddClientOfficersComponent } from './components/client-activities/client-activity-wizard/activities/client-officers/add-client-officer/add-client-officer.component';
-import { ViewClientOfficersComponent } from './components/client-activities/client-activity-wizard/activities/client-officers/view-client-officers/view-client-officer.component';
+import { ViewContactPersonComponent } from './components/client-activities/wizard/activities/client-contact-persons/view-contact-person/view-contact-person.component';
+import { ViewGuarantorsComponent } from './components/client-activities/wizard/activities/client-guarantors/view-client-guarantors/view-client-guarantor.component';
+import { AddClientOfficersComponent } from './components/client-activities/wizard/activities/client-officers/add-client-officer/add-client-officer.component';
+import { ViewClientOfficersComponent } from './components/client-activities/wizard/activities/client-officers/view-client-officers/view-client-officer.component';
 import { clientOfficersReducer } from './store/client-officers/client-officers.reducer';
 import { ClientOfficersEffects } from './store/client-officers/client-officers.effects';
-import { AddClientLegalsComponent } from './components/client-activities/client-activity-wizard/activities/client-legals/add-client-legal/add-client-legal.component';
-import { ViewClientLegalsComponent } from './components/client-activities/client-activity-wizard/activities/client-legals/view-client-legal/view-client-legal.component';
+import { AddClientLegalsComponent } from './components/client-activities/wizard/activities/client-legals/add-client-legal/add-client-legal.component';
+import { ViewClientLegalsComponent } from './components/client-activities/wizard/activities/client-legals/view-client-legal/view-client-legal.component';
 import { clientLegalsReducer } from './store/client-legals/client-legals.reducer';
 import { ClientLegalsEffects } from './store/client-legals/client-legals.effects';
 import { clientIdentityReducer } from './store/client-identities/client-identities.reducer';
@@ -94,19 +93,22 @@ import { reducer as sectorsReducer } from '../../lookups/store/sectors/sectors.r
 import { SectorsEffects } from '../../lookups/store/sectors/sectors.effects';
 import { reducer as subSectorsReducer } from '../../lookups/store/sub-sectors/sub-sectors.reducer';
 import { SubSectorsEffects } from '../../lookups/store/sub-sectors/sub-sectors.effects';
-import { AddMandateComponent } from './components/client-activities/client-activity-wizard/activities/client-leasing-mandates/add-mandate/add-mandate.component';
-import { ViewMandatesComponent } from './components/client-activities/client-activity-wizard/activities/client-leasing-mandates/view-mandates/view-mandates.component';
+import { AddMandateComponent } from './components/client-activities/wizard/activities/client-leasing-mandates/add-mandate/add-mandate.component';
+import { ViewMandatesComponent } from './components/client-activities/wizard/activities/client-leasing-mandates/view-mandates/view-mandates.component';
 import { reducer as leasingMandatesReducer } from './store/client-leasing-mandates/client-leasing-mandates.reducer';
 import { MandatesEffects } from './store/client-leasing-mandates/client-leasing-mandates.effects';
-import { WizardComponent } from './components/client-activities/client-activity-wizard/activities/client-leasing-mandates/wizard/wizard.component';
-import { AddChildMandateComponent } from './components/client-activities/client-activity-wizard/activities/client-leasing-mandates/activities/clone/add-child-mandate/add-child-mandate.component';
-import { ViewChildMandatesComponent } from './components/client-activities/client-activity-wizard/activities/client-leasing-mandates/activities/clone/view-child-mandates/view-child-mandates.component';
-import { LeasingFinancialFormCompoundComponent } from './components/client-activities/client-activity-wizard/activities/client-leasing-mandates/activities/leasing-financial-form/leasing-financial-form-compound.component';
+import { WizardComponent } from './components/client-activities/wizard/activities/client-leasing-mandates/wizard/wizard.component';
+import { AddChildMandateComponent } from './components/client-activities/wizard/activities/client-leasing-mandates/activities/clone/add-child-mandate/add-child-mandate.component';
+import { ViewChildMandatesComponent } from './components/client-activities/wizard/activities/client-leasing-mandates/activities/clone/view-child-mandates/view-child-mandates.component';
+import { LeasingFinancialFormCompoundComponent } from './components/client-activities/wizard/activities/client-leasing-mandates/activities/leasing-financial-form/leasing-financial-form-compound.component';
 import { ClientsClonesEffects } from './store/client-leasing-mandates/activities/clone/client-clones.effects';
 import { reducer as clientsClonesReducer } from './store/client-leasing-mandates/activities/clone/client-clones.reducer';
 import { reducer as ClientsMandateAdditionalTermsReducer } from './store/client-leasing-mandates/activities/mandate-additional-terms/client-mandate-additional-terms.reducer';
 import { ClientsMandateAdditionalTermsEffects } from './store/client-leasing-mandates/activities/mandate-additional-terms/client-mandate-additional-terms.effects';
 import { debugState } from './store/client-leasing-mandates/activities/mandate-additional-terms/client-mandate-additional-terms.reducer';
+import { AddMandateAdditionalTermsComponent } from './components/client-activities/wizard/activities/client-leasing-mandates/activities/mandate-additional-terms/add-mandate-additional-terms/add-mandate-additional-terms.component';
+import { ViewMandateAdditionalTermsComponent } from './components/client-activities/wizard/activities/client-leasing-mandates/activities/mandate-additional-terms/view-mandate-additional-terms/view-mandate-additional-terms.component';
+import { ClientActivityWizardComponent } from './components/client-activities/wizard/wizard.component';
 
 @NgModule({
   declarations: [
@@ -117,6 +119,9 @@ import { debugState } from './store/client-leasing-mandates/activities/mandate-a
     AddClientTMLOfficersComponent,
     AddClientOfficersComponent,
     AddClientLegalsComponent,
+    AddMandateAdditionalTermsComponent,
+    ViewMandateAdditionalTermsComponent,
+
     AddClientAddressesComponent,
     AddSalesTurnoverComponent,
     AddChildMandateComponent,

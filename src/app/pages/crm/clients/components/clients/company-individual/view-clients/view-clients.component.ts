@@ -81,7 +81,7 @@ export class ViewClientsComponent {
     this.router.navigate(['/crm/clients/add-client']);
   }
   onAddSide(clientId: any) {
-    this.router.navigate(['/crm/clients/client-activity-wizard', clientId]);
+    this.router.navigate(['/crm/clients/wizard', clientId]);
   }
 
   ngOnDestroy() {

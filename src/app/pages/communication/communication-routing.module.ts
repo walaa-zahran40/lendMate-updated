@@ -1,23 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AddFollowupsComponent } from '../crm/clients/components/client-activities/client-activity-wizard/activities/client-follow-ups/add-follow-ups/add-follow-ups.component';
+import { AddFollowupsComponent } from '../crm/clients/components/client-activities/wizard/activities/client-follow-ups/add-follow-ups/add-follow-ups.component';
 import { ViewAssetTypeCategoriesComponent } from '../lookups/components/asset-type-categories/view-asset-type-categories/view-asset-type-categories.component';
 import { AddCallTypesComponent } from '../lookups/components/call-types/add-call-types/add-call-types.component';
 import { ViewCallTypesComponent } from '../lookups/components/call-types/view-call-types/view-call-types.component';
 import { AddMeetingTypesComponent } from '../lookups/components/meeting-types/add-meeting-types/add-meeting-types.component';
 import { ViewMeetingTypesComponent } from '../lookups/components/meeting-types/view-meeting-types/view-meeting-types.component';
-import { AddCallsComponent } from '../crm/clients/components/client-activities/client-activity-wizard/activities/client-calls/add-calls/add-calls.component';
-import { ViewCallsComponent } from '../crm/clients/components/client-activities/client-activity-wizard/activities/client-calls/view-calls/view-calls.component';
-import { AddFollowupPointsComponent } from '../crm/clients/components/client-activities/client-activity-wizard/activities/client-follow-up-points/add-follow-up-points/add-follow-up-points.component';
-import { ViewFollowupPointsComponent } from '../crm/clients/components/client-activities/client-activity-wizard/activities/client-follow-up-points/view-follow-up-points/view-follow-up-points.component';
-import { ViewFollowupsComponent } from '../crm/clients/components/client-activities/client-activity-wizard/activities/client-follow-ups/view-follow-ups/view-follow-ups.component';
-import { AddMeetingsComponent } from '../crm/clients/components/client-activities/client-activity-wizard/activities/client-meetings/add-meetings/add-meetings.component';
-import { SaveMeetingComponent } from '../crm/clients/components/client-activities/client-activity-wizard/activities/client-meetings/save-meeting/save-meeting.component';
-import { ViewMeetingsComponent } from '../crm/clients/components/client-activities/client-activity-wizard/activities/client-meetings/view-meetings/view-meetings.component';
+import { AddCallsComponent } from '../crm/clients/components/client-activities/wizard/activities/client-calls/add-calls/add-calls.component';
+import { ViewCallsComponent } from '../crm/clients/components/client-activities/wizard/activities/client-calls/view-calls/view-calls.component';
+import { AddFollowupPointsComponent } from '../crm/clients/components/client-activities/wizard/activities/client-follow-up-points/add-follow-up-points/add-follow-up-points.component';
+import { ViewFollowupPointsComponent } from '../crm/clients/components/client-activities/wizard/activities/client-follow-up-points/view-follow-up-points/view-follow-up-points.component';
+import { ViewFollowupsComponent } from '../crm/clients/components/client-activities/wizard/activities/client-follow-ups/view-follow-ups/view-follow-ups.component';
+import { AddMeetingsComponent } from '../crm/clients/components/client-activities/wizard/activities/client-meetings/add-meetings/add-meetings.component';
+import { SaveMeetingComponent } from '../crm/clients/components/client-activities/wizard/activities/client-meetings/save-meeting/save-meeting.component';
+import { ViewMeetingsComponent } from '../crm/clients/components/client-activities/wizard/activities/client-meetings/view-meetings/view-meetings.component';
 import { WizardCommunicationComponent } from './components/wizard-communication/wizard-communication.component';
 import { WizardFollowupsComponent } from './components/wizard-followups/wizard-followups.component';
 import { WizardComponent } from './components/wizard/wizard.component';
-import { WizardMeetingComponent } from '../crm/clients/components/client-activities/client-activity-wizard/activities/client-meetings/wizard-meeting/wizard-meeting.component';
+import { WizardMeetingComponent } from '../crm/clients/components/client-activities/wizard/activities/client-meetings/wizard-meeting/wizard-meeting.component';
 import { PendingChangesGuard } from '../../shared/guards/pending-changes.guard';
 const routes: Routes = [
   //Calls
