@@ -346,22 +346,35 @@ const routes: Routes = [
     component: ViewMandatesComponent,
   },
   {
+    path: 'leasing-mandates/view-mandates/:clientId',
+    component: ViewMandatesComponent,
+  },
+  {
     path: 'leasing-mandates/add-mandate',
     component: AddMandateComponent,
   },
   {
-    path: 'leasing-mandates/:leasingId/add-mandate',
+    path: 'leasing-mandates/add-mandate/:clientId',
     component: AddMandateComponent,
   },
+  // {
+  //   path: 'leasing-mandates/:leasingId/add-mandate',
+  //   component: AddMandateComponent,
+  // },
   {
     path: 'leasing-mandates/edit-mandate/:leasingId',
     component: AddMandateComponent,
     canDeactivate: [PendingChangesGuard],
   },
   {
-    path: 'leasing-mandates/view-mandates/:leasingId',
+    path: 'leasing-mandates/edit-mandate/:leasingId/:clientId',
     component: AddMandateComponent,
+    canDeactivate: [PendingChangesGuard],
   },
+  // {
+  //   path: 'leasing-mandates/view-mandates/:leasingId',
+  //   component: AddMandateComponent,
+  // },
   //Mandate Activities
   //Clone
   {
@@ -369,7 +382,15 @@ const routes: Routes = [
     component: WizardComponent,
   },
   {
+    path: 'leasing-mandates/leasing-mandate-wizard/:leasingMandatesId/:clientId',
+    component: WizardComponent,
+  },
+  {
     path: 'leasing-mandates/add-child-mandate/:leasingId/:leasingMandatesId',
+    component: AddChildMandateComponent,
+  },
+  {
+    path: 'leasing-mandates/add-child-mandate/:leasingId/:leasingMandatesId/:clientId',
     component: AddChildMandateComponent,
   },
   {
@@ -378,12 +399,25 @@ const routes: Routes = [
     canDeactivate: [PendingChangesGuard],
   },
   {
+    path: 'leasing-mandates/edit-child-mandate/:leasingId/:leasingMandatesId/:clientId',
+    component: AddChildMandateComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
+  {
     path: 'leasing-mandates/view-child-mandates/:leasingId/:leasingMandatesId',
+    component: ViewChildMandatesComponent,
+  },
+  {
+    path: 'leasing-mandates/view-child-mandates/:leasingId/:leasingMandatesId/:clientId',
     component: ViewChildMandatesComponent,
   },
   // Manage Mandate Terms
   {
     path: 'leasing-mandates/add-mandate-additional-term/:leasingId/:leasingMandatesId',
+    component: AddMandateAdditionalTermsComponent,
+  },
+  {
+    path: 'leasing-mandates/add-mandate-additional-term/:leasingId/:leasingMandatesId/:clientId',
     component: AddMandateAdditionalTermsComponent,
   },
 
@@ -392,9 +426,17 @@ const routes: Routes = [
     component: AddMandateAdditionalTermsComponent,
     canDeactivate: [PendingChangesGuard],
   },
-
+  {
+    path: 'leasing-mandates/edit-mandate-additional-term/:leasingId/:leasingMandatesId/:clientId',
+    component: AddMandateAdditionalTermsComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
   {
     path: 'leasing-mandates/view-mandate-additional-terms/:leasingId/:leasingMandatesId',
+    component: ViewMandateAdditionalTermsComponent,
+  },
+  {
+    path: 'leasing-mandates/view-mandate-additional-terms/:leasingId/:leasingMandatesId/:clientId',
     component: ViewMandateAdditionalTermsComponent,
   },
   // MandateFees
@@ -402,9 +444,17 @@ const routes: Routes = [
     path: 'leasing-mandates/add-mandate-fee/:leasingId/:leasingMandatesId',
     component: AddMandateFeeComponent,
   },
-
+  {
+    path: 'leasing-mandates/add-mandate-fee/:leasingId/:leasingMandatesId/:clientId',
+    component: AddMandateFeeComponent,
+  },
   {
     path: 'leasing-mandates/edit-mandate-fee/:id/:leasingId/:leasingMandatesId',
+    component: AddMandateFeeComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
+  {
+    path: 'leasing-mandates/edit-mandate-fee/:id/:leasingId/:leasingMandatesId/:clientId',
     component: AddMandateFeeComponent,
     canDeactivate: [PendingChangesGuard],
   },
@@ -413,9 +463,17 @@ const routes: Routes = [
     path: 'leasing-mandates/view-mandate-fees/:leasingId/:leasingMandatesId',
     component: ViewMandateFeesComponent,
   },
+  {
+    path: 'leasing-mandates/view-mandate-fees/:leasingId/:leasingMandatesId/:clientId',
+    component: ViewMandateFeesComponent,
+  },
   //Leasing Financial Form
   {
     path: 'leasing-mandates/leasing-financial-form/:leasingId/:leasingMandatesId',
+    component: LeasingFinancialFormCompoundComponent,
+  },
+  {
+    path: 'leasing-mandates/leasing-financial-form/:leasingId/:leasingMandatesId/:clientId',
     component: LeasingFinancialFormCompoundComponent,
   },
 ];

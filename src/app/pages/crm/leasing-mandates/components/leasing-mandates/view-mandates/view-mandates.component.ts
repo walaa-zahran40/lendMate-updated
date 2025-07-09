@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   combineLatest,
   map,
@@ -50,61 +50,67 @@ export class ViewMandatesComponent {
   contactPersonsDropdown: any;
   officersDropdown: any[] = [];
   languagesDropdown: any[] = [];
-
+  clientId = this.route.snapshot.params['clientId'];
   constructor(
     private router: Router,
     private clientsFacade: ClientsFacade,
     private facade: MandatesFacade,
     private store: Store,
     private facadeContact: ClientContactPersonsFacade,
-    private officersFacade: OfficersFacade
+    private officersFacade: OfficersFacade,
+    private route: ActivatedRoute
   ) {}
   ngOnInit() {
-    this.facade.loadAll();
-    combineLatest([this.leasingMandates$, this.clients$])
-      .pipe(
-        takeUntil(this.destroy$),
+    console.log('route', this.route.snapshot);
+    if (!this.clientId) {
+      this.facade.loadAll();
+      combineLatest([this.leasingMandates$, this.clients$])
+        .pipe(
+          takeUntil(this.destroy$),
 
-        // 1️⃣ Log the raw mandates array
-        tap(([mandates, clients]) => {
-          console.group('🚀 combineLatest payload');
-          console.log('Mandates:', mandates);
-          console.log('Clients :', clients);
-          console.groupEnd();
-        }),
+          // 1️⃣ Log the raw mandates array
+          tap(([mandates, clients]) => {
+            console.group('🚀 combineLatest payload');
+            console.log('Mandates:', mandates);
+            console.log('Clients :', clients);
+            console.groupEnd();
+          }),
 
-        // 2️⃣ Now map & flatten clientName out of clientView
-        map(([mandates, clients]) =>
-          mandates
-            .slice()
-            .sort((a, b) => b.id! - a.id!)
-            .map((m) => {
-              const fromMandate = m.clientView?.clientName;
-              const fromClients = clients.find(
-                (c) => c.id === m.clientId
-              )?.name;
-              console.log(
-                `🗺️ mapping mandate#${m.id}:`,
-                'clientView.name=',
-                fromMandate,
-                'clients lookup=',
-                fromClients
-              );
-              return {
-                ...m,
-                clientName: fromMandate ?? fromClients ?? '— unknown —',
-              };
-            })
-        ),
+          // 2️⃣ Now map & flatten clientName out of clientView
+          map(([mandates, clients]) =>
+            mandates
+              .slice()
+              .sort((a, b) => b.id! - a.id!)
+              .map((m) => {
+                const fromMandate = m.clientView?.clientName;
+                const fromClients = clients.find(
+                  (c) => c.id === m.clientId
+                )?.name;
+                console.log(
+                  `🗺️ mapping mandate#${m.id}:`,
+                  'clientView.name=',
+                  fromMandate,
+                  'clients lookup=',
+                  fromClients
+                );
+                return {
+                  ...m,
+                  clientName: fromMandate ?? fromClients ?? '— unknown —',
+                };
+              })
+          ),
 
-        // 3️⃣ Log the enriched array
-        tap((enriched) => console.log('Enriched tableDataInside:', enriched))
-      )
-      .subscribe((enriched) => {
-        this.tableDataInside = enriched;
-        this.originalLeasingMandates = enriched;
-        this.filteredLeasingMandates = enriched;
-      });
+          // 3️⃣ Log the enriched array
+          tap((enriched) => console.log('Enriched tableDataInside:', enriched))
+        )
+        .subscribe((enriched) => {
+          this.tableDataInside = enriched;
+          this.originalLeasingMandates = enriched;
+          this.filteredLeasingMandates = enriched;
+        });
+    } else {
+      console.log('there is a client Id , Choose get by client id');
+    }
   }
   private setupContactPersonsDropdown(): void {
     const mandate = this.selectedRowForDownload!;
