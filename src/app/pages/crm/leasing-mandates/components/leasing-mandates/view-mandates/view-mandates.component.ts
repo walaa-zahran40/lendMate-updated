@@ -165,14 +165,20 @@ export class ViewMandatesComponent {
       this.contactPersonsDropdown = [];
       return;
     }
-
-    // 1️⃣ Dispatch with the real clientId (not clientView.clientId)
-    this.store.dispatch(
-      loadClientContactPersonsByClientId({
-        clientId: mandate.clientView.clientId!,
-      })
-    );
-
+    if (!this.clientId) {
+      // 1️⃣ Dispatch with the real clientId (not clientView.clientId)
+      this.store.dispatch(
+        loadClientContactPersonsByClientId({
+          clientId: mandate.clientView.clientId!,
+        })
+      );
+    } else {
+      this.store.dispatch(
+        loadClientContactPersonsByClientId({
+          clientId: this.clientId!,
+        })
+      );
+    }
     // 2️⃣ Now wait until facadeContact.items$ emits a non-empty array
     this.facadeContact.items$
       .pipe(
@@ -232,10 +238,12 @@ export class ViewMandatesComponent {
     this.router.navigate([
       '/crm/leasing-mandates/leasing-mandate-wizard',
       leasingMandatesId,
+      this.clientId,
     ]);
   }
   onDownloadClick(row: any) {
     console.log('clicked', row);
+
     this.selectedRowForDownload = row;
     this.setupContactPersonsDropdown();
     this.setupOfficersDropdown();
