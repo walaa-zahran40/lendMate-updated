@@ -1,15 +1,31 @@
 import { Injectable } from '@angular/core';
 import { createSelector, Store } from '@ngrx/store';
-import * as Actions from './mandate-additional-terms.actions';
-import * as Selectors from './mandate-additional-terms.selectors';
-import { MandateAdditionalTerm } from './mandate-additional-term.model';
-import { selectLastOperationSuccess } from '../../../../../shared/store/ui.selectors';
+import * as Actions from './client-mandate-additional-terms.actions';
+import * as Selectors from './client-mandate-additional-terms.selectors';
+import { MandateAdditionalTerm } from './client-mandate-additional-term.model';
+import { selectLastOperationSuccess } from '../../../../../../../shared/store/ui.selectors';
+import { filter, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class MandateAdditionalTermsFacade {
-  readonly selectedMandateAdditionalTerm$ = this.store.select(
-    Selectors.selectCurrent
-  );
+  // Log absolutely everything (including null)
+  readonly selectedMandateAdditionalTerm$ = this.store
+    .select(Selectors.selectCurrent)
+    .pipe(
+      tap((term) =>
+        console.log('[Facade:selectedMandateAdditionalTerm$]', term)
+      )
+    );
+  // — or, only log real terms after nulls have been filtered out:
+  readonly selectedMandateAdditionalTermNonNull$ = this.store
+    .select(Selectors.selectCurrent)
+    .pipe(
+      filter((t): t is MandateAdditionalTerm => !!t),
+      tap((term) =>
+        console.log('[Facade:selectedMandateAdditionalTerm (non-null)]', term)
+      )
+    );
+
   all$ = this.store.select(Selectors.selectAllMandateAdditionalTerms);
   loading$ = this.store.select(Selectors.selectMandateAdditionalTermsLoading);
   error$ = this.store.select(Selectors.selectMandateAdditionalTermsError);
@@ -27,6 +43,10 @@ export class MandateAdditionalTermsFacade {
 
   loadAll(pageNumber?: number) {
     this.store.dispatch(Actions.loadAll({ pageNumber }));
+  }
+  /** new: fetch a single additional-term by its ID */
+  loadByAdditionalId(id: number) {
+    this.store.dispatch(Actions.loadByAdditionalId({ id }));
   }
 
   loadById(id: number) {

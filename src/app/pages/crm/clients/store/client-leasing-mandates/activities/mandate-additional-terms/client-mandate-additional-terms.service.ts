@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
-import { MandateAdditionalTerm } from './mandate-additional-term.model';
-import { environment } from '../../../../../../environments/environment';
+import { MandateAdditionalTerm } from './client-mandate-additional-term.model';
+import { environment } from '../../../../../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class MandateAdditionalTermsService {
@@ -31,7 +31,11 @@ export class MandateAdditionalTermsService {
       `${this.baseUrl}/MandateId?id=${id}`
     );
   }
-
+  getByMandateAdditionalId(id: number): Observable<MandateAdditionalTerm> {
+    return this.http.get<MandateAdditionalTerm>(
+      `${this.baseUrl}/MandateAdditionalTermId?id=${id}`
+    );
+  }
   create(
     payload: Omit<MandateAdditionalTerm, 'id'>
   ): Observable<MandateAdditionalTerm> {

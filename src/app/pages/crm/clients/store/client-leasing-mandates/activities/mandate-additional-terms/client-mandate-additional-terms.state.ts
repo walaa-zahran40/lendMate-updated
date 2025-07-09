@@ -1,5 +1,5 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { MandateAdditionalTerm } from './mandate-additional-term.model';
+import { MandateAdditionalTerm } from './client-mandate-additional-term.model';
 
 export interface State extends EntityState<MandateAdditionalTerm> {
   loadedId: number | null; // ← add this
