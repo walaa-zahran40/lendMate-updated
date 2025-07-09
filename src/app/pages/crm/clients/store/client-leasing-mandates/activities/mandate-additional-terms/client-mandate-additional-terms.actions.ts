@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { MandateAdditionalTerm } from './mandate-additional-term.model';
+import { MandateAdditionalTerm } from './client-mandate-additional-term.model';
 
 export const loadAll = createAction(
   '[MandateAdditionalTerms] Load All',
@@ -88,4 +88,17 @@ export const entityOperationSuccess = createAction(
 );
 export const clearSelectedMandateAdditionalTerm = createAction(
   '[MandateAdditionalTerms] Clear Selected'
+);
+// ─── Fetch one “additional term” by its own ID ─────────────────────────────
+export const loadByAdditionalId = createAction(
+  '[MandateAdditionalTerms] Load By Additional-Term Id',
+  props<{ id: number }>()
+);
+export const loadByAdditionalIdSuccess = createAction(
+  '[MandateAdditionalTerms] Load By Additional-Term Id Success',
+  props<{ entity: MandateAdditionalTerm }>()
+);
+export const loadByAdditionalIdFailure = createAction(
+  '[MandateAdditionalTerms] Load By Additional-Term Id Failure',
+  props<{ error: any }>()
 );

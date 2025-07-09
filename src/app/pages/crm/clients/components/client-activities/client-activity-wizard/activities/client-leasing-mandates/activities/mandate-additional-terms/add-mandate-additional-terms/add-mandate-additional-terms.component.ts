@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { filter, combineLatest } from 'rxjs';
+import { filter, combineLatest, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import { MandateAdditionalTermsFacade } from '../../../../../../../../../leasing-mandates/store/mandate-additional-terms/mandate-additional-terms.facade';
+import { MandateAdditionalTermsFacade } from '../../../../../../../../store/client-leasing-mandates/activities/mandate-additional-terms/client-mandate-additional-terms.facade';
 import { MandateAdditionalTerm } from '../../../../../../../../../leasing-mandates/store/mandate-additional-terms/mandate-additional-term.model';
 
 @Component({
@@ -17,7 +17,7 @@ export class AddMandateAdditionalTermsComponent {
   editMode: boolean = false;
   viewOnly: boolean = false;
   addMandateAdditionalTermForm!: FormGroup;
-  routeId = this.route.snapshot.params['leasingId'];
+  routeId = this.route.snapshot.params['clientId'];
   mandateRouteId = this.route.snapshot.params['leasingMandatesId'];
   constructor(
     private fb: FormBuilder,
@@ -29,74 +29,89 @@ export class AddMandateAdditionalTermsComponent {
 
   ngOnInit() {
     console.log('route', this.route.snapshot);
-    console.log('routeId (leasingId):', this.routeId);
-    console.log('mandateRouteId (leasingMandatesId):', this.mandateRouteId);
-
-    // 2️⃣ Combine into addMandateAdditionalTermForm
     this.addMandateAdditionalTermForm = this.fb.group({
       id: [null],
-      mandateId: [this.mandateRouteId],
-      description: [null, Validators.required],
+      mandateId: [null, Validators.required],
       termKey: [null, Validators.required],
-    });
-    // 2️⃣ pull the raw DB PK ("leasingMandatesId") out of the URL
-    const leasingMandatesId = +this.route.snapshot.params['leasingId']!;
-
-    // 3️⃣ shove it into your basic form
-    this.addMandateAdditionalTermForm.patchValue({
-      mandateId: leasingMandatesId,
+      description: [null, Validators.required],
     });
 
-    const routeParams$ = combineLatest({
-      params: this.route.paramMap,
-      query: this.route.queryParamMap,
-    }).pipe(
-      map(({ params, query }) => ({
-        leasingMandatesId: +params.get('leasingMandatesId')!,
-        selectedItemId: +params.get('leasingId')!, // this is the ID of the *item* (e.g. 2812)
-        mode: query.get('mode'),
-      }))
-    );
-
-    routeParams$
+    combineLatest({
+      pm: this.route.paramMap,
+      qm: this.route.queryParamMap,
+    })
       .pipe(
-        tap(({ leasingMandatesId, selectedItemId, mode }) => {
-          console.log('mode:', mode);
+        map(({ pm, qm }) => {
+          // parent mandate is always in leasingMandatesId
+          const mandateIdParam = pm.get('leasingMandatesId')!;
+          const mandateId = +mandateIdParam;
+
+          // termId only exists on edit routes
+          const termIdParam = pm.get('termId');
+          const termId = termIdParam ? +termIdParam : null;
+
+          const clientId = +pm.get('clientId')!;
+          const mode = qm.get('mode')!;
+
+          console.log('[map output]', { mandateId, termId, clientId, mode });
+
+          return { mandateId, termId, clientId, mode };
+        }),
+        tap(({ mandateId, termId, mode }) => {
           this.editMode = mode === 'edit';
           this.viewOnly = mode === 'view';
-          this.facade.loadById(leasingMandatesId); // Load all terms for the mandate
+
+          // patch parent mandate always
+          this.addMandateAdditionalTermForm.patchValue({ mandateId });
+
+          // only load if we're editing and we actually have a termId
+          if (this.editMode && termId != null) {
+            this.facade.loadByAdditionalId(termId);
+          }
         }),
-        switchMap(({ selectedItemId }) =>
-          this.facade.all$.pipe(
-            map((items) => items.find((item) => item.id === selectedItemId)),
-            filter((item): item is MandateAdditionalTerm => !!item),
-            take(1)
-          )
+
+        // if termId is null (create mode), immediately emit null
+        switchMap(({ termId }) =>
+          termId != null
+            ? this.facade.selectedMandateAdditionalTerm$.pipe(
+                filter(
+                  (t): t is MandateAdditionalTerm => !!t && t.id === termId
+                ),
+                take(1)
+              )
+            : of(null)
         )
       )
-      .subscribe((matchedItem) => {
-        console.log('✅ Found item to edit:', matchedItem);
-        this.patchMandate(this.normalizeMandate(matchedItem));
-        if (this.viewOnly) {
-          this.addMandateAdditionalTermForm.disable();
+      .subscribe((term) => {
+        if (term) {
+          // only patch when editing
+          this.addMandateAdditionalTermForm.patchValue({
+            id: term.id,
+            termKey: term.termKey,
+            description: term.description,
+          });
+          if (this.viewOnly) {
+            this.addMandateAdditionalTermForm.disable();
+          }
         }
       });
   }
-  private patchMandate(m: MandateAdditionalTerm) {
-    if (!m) {
-      console.warn('❌ patchMandate called with null/undefined mandate');
-      return;
-    }
 
-    console.log('📌 patching form with mandate:', m);
+  // private patchMandate(m: MandateAdditionalTerm) {
+  //   if (!m) {
+  //     console.warn('❌ patchMandate called with null/undefined mandate');
+  //     return;
+  //   }
 
-    this.addMandateAdditionalTermForm.patchValue({
-      id: m.id,
-      mandateId: m.mandateId,
-      description: m.description,
-      termKey: m.termKey,
-    });
-  }
+  //   console.log('📌 patching form with mandate:', m);
+
+  //   this.addMandateAdditionalTermForm.patchValue({
+  //     id: term.id,
+  //     mandateId: term.mandateId,
+  //     description: term.description,
+  //     termKey: term.termKey,
+  //   });
+  // }
 
   private normalizeMandate(raw: any): MandateAdditionalTerm {
     return {
@@ -108,75 +123,40 @@ export class AddMandateAdditionalTermsComponent {
     return this.addMandateAdditionalTermForm?.get('basic')! as FormGroup;
   }
   onSubmit() {
-    console.log('💥 addOrEditIdentificationTypes() called');
-    console.log('  viewOnly:', this.viewOnly);
-    console.log('  editMode:', this.editMode);
-    console.log('  form valid:', this.addMandateAdditionalTermForm.valid);
-    console.log('  form touched:', this.addMandateAdditionalTermForm.touched);
-    console.log(
-      '  form raw value:',
-      this.addMandateAdditionalTermForm.getRawValue()
-    );
-
     if (this.viewOnly) {
-      console.log('⚠️ viewOnly mode — aborting add');
       return;
     }
 
     if (this.addMandateAdditionalTermForm.invalid) {
-      console.warn('❌ Form is invalid — marking touched and aborting');
       this.addMandateAdditionalTermForm.markAllAsTouched();
-      console.log('  → form errors:', this.addMandateAdditionalTermForm.errors);
       return;
     }
 
-    const createPayload: Partial<MandateAdditionalTerm> =
+    const payload: Partial<MandateAdditionalTerm> =
       this.addMandateAdditionalTermForm.value;
-    console.log('  → assembled CREATE payload:', createPayload);
-
+    console.log('payload', payload);
     if (this.editMode) {
-      const leaseIdStr = this.route.snapshot.paramMap.get('leasingMandatesId');
-      const leaseId = leaseIdStr ? +leaseIdStr : null;
-      const mandateIdStr = this.route.snapshot.paramMap.get('leasingId');
-      const mandateId = mandateIdStr ? +mandateIdStr : null;
-
-      console.log(
-        '🔍 route param leasingId:',
-        leaseIdStr,
-        mandateIdStr,
-        'parsed →',
-        leaseId,
-        mandateIdStr
-      );
-
-      // Re-destructure to keep naming clear
-
-      const updatePayload = this.addMandateAdditionalTermForm.value;
-
-      console.log('  → assembled UPDATE payload:', updatePayload);
-
-      console.log('✏️ Calling facade.update()');
-      this.facade.update(mandateId!, updatePayload);
+      this.facade.update(payload.id!, payload);
     } else {
-      console.log('➕ Calling facade.create()');
-      this.facade.create(createPayload);
-    }
-    if (this.addMandateAdditionalTermForm.valid) {
-      this.addMandateAdditionalTermForm.markAsPristine();
+      this.facade.create(payload);
     }
 
-    console.log('🧭 Navigating away to view-mandates');
+    // mark clean and navigate back
+    this.addMandateAdditionalTermForm.markAsPristine();
+    const { leaseId, clientId } = {
+      leaseId: +this.route.snapshot.params['leasingMandatesId'],
+      clientId: +this.route.snapshot.params['clientId'],
+    };
     this.router.navigate([
-      `/crm/leasing-mandates/view-mandate-additional-terms/${this.routeId}/${this.mandateRouteId}`,
+      `/crm/leasing-mandates/view-mandate-additional-terms/${leaseId}/${clientId}`,
     ]);
   }
 
   navigateToView() {
     this.router.navigate([
-      `/crm/leasing-mandates/view-mandate-additional-terms/${this.routeId}/${this.mandateRouteId}`,
+      `/crm/leasing-mandates/view-mandate-additional-terms/${this.mandateRouteId}/${this.routeId}`,
     ]);
   }
-  /** Called by the guard. */
   canDeactivate(): boolean {
     return !this.addMandateAdditionalTermForm.dirty;
   }

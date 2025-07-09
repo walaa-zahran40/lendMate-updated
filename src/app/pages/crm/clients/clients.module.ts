@@ -104,6 +104,9 @@ import { ViewChildMandatesComponent } from './components/client-activities/clien
 import { LeasingFinancialFormCompoundComponent } from './components/client-activities/client-activity-wizard/activities/client-leasing-mandates/activities/leasing-financial-form/leasing-financial-form-compound.component';
 import { ClientsClonesEffects } from './store/client-leasing-mandates/activities/clone/client-clones.effects';
 import { reducer as clientsClonesReducer } from './store/client-leasing-mandates/activities/clone/client-clones.reducer';
+import { reducer as ClientsMandateAdditionalTermsReducer } from './store/client-leasing-mandates/activities/mandate-additional-terms/client-mandate-additional-terms.reducer';
+import { ClientsMandateAdditionalTermsEffects } from './store/client-leasing-mandates/activities/mandate-additional-terms/client-mandate-additional-terms.effects';
+import { debugState } from './store/client-leasing-mandates/activities/mandate-additional-terms/client-mandate-additional-terms.reducer';
 
 @NgModule({
   declarations: [
@@ -211,6 +214,12 @@ import { reducer as clientsClonesReducer } from './store/client-leasing-mandates
     EffectsModule.forFeature([ClientAddressesEffects]),
     StoreModule.forFeature('clientsClones', clientsClonesReducer),
     EffectsModule.forFeature([ClientsClonesEffects]),
+    StoreModule.forFeature(
+      'clientsMandateAdditionalTerms',
+      ClientsMandateAdditionalTermsReducer,
+      { metaReducers: [debugState] }
+    ),
+    EffectsModule.forFeature([ClientsMandateAdditionalTermsEffects]),
 
     StoreModule.forFeature(
       'clientCRAuthorityOffices',

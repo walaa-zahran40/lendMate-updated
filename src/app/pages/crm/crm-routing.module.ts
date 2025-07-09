@@ -393,7 +393,7 @@ const routes: Routes = [
   },
 
   {
-    path: 'leasing-mandates/edit-mandate-additional-term/:leasingMandatesId/:clientId',
+    path: 'leasing-mandates/edit-mandate-additional-term/:leasingMandatesId/:termId/:clientId',
     component: AddMandateAdditionalTermsComponent,
     canDeactivate: [PendingChangesGuard],
   },

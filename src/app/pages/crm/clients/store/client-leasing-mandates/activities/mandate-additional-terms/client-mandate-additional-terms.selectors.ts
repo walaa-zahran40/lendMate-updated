@@ -1,12 +1,12 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import * as fromSlice from './mandate-additional-terms.reducer';
-import { adapter, State } from './mandate-additional-terms.state';
+import * as fromSlice from './client-mandate-additional-terms.reducer';
+import { adapter, State } from './client-mandate-additional-terms.state';
 
 export const selectFeature = createFeatureSelector<State>(
-  'mandateAdditionalTerms'
+  'clientsMandateAdditionalTerms'
 );
 export const selectMandateAdditionalTermsFeature = createFeatureSelector<State>(
-  'mandateAdditionalTerms'
+  'clientsMandateAdditionalTerms'
 );
 
 // these come from your EntityAdapter

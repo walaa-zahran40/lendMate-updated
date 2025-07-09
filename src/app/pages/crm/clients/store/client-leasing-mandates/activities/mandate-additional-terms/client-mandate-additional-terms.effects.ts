@@ -1,15 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { MandateAdditionalTermsService } from './mandate-additional-terms.service';
-import * as ActionsList from './mandate-additional-terms.actions';
-import { catchError, exhaustMap, filter, map, mergeMap, of, tap } from 'rxjs';
-import { MandateAdditionalTerm } from './mandate-additional-term.model';
-import { EntityNames } from '../../../../../shared/constants/entity-names';
+import { MandateAdditionalTermsService } from './client-mandate-additional-terms.service';
+import * as ActionsList from './client-mandate-additional-terms.actions';
+import {
+  catchError,
+  exhaustMap,
+  mergeMap,
+  map,
+  filter,
+  tap,
+} from 'rxjs/operators';
+import { MandateAdditionalTerm } from './client-mandate-additional-term.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MandateAdditionalTermsFacade } from './mandate-additional-terms.facade';
+import { MandateAdditionalTermsFacade } from './client-mandate-additional-terms.facade';
+import { EntityNames } from '../../../../../../../shared/constants/entity-names';
+import { of } from 'rxjs';
 
 @Injectable()
-export class MandateAdditionalTermsEffects {
+export class ClientsMandateAdditionalTermsEffects {
   constructor(
     private actions$: Actions,
     private service: MandateAdditionalTermsService,
@@ -44,13 +52,8 @@ export class MandateAdditionalTermsEffects {
           tap((entity) =>
             console.log('[Effects] HTTP returned entity:', entity)
           ),
-          map((rawEntities) => {
-            // Convert object of keyed entities into array
-            const entities: MandateAdditionalTerm[] = Array.isArray(rawEntities)
-              ? rawEntities
-              : Object.values(rawEntities); // in case it's an object with keys 0,1,2,...
-
-            console.log('[Effects] normalized entities:', entities);
+          map((raw) => {
+            const entities = Array.isArray(raw) ? raw : [raw];
             return ActionsList.loadByIdSuccess({ entities });
           }),
           catchError((error) => {
@@ -108,20 +111,6 @@ export class MandateAdditionalTermsEffects {
     )
   );
 
-  // this listens for the *createMandateAdditionalTermSuccess* action
-  navigateOnCreateSuccess$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(ActionsList.createMandateAdditionalTermSuccess),
-        tap(({ mandateAdditionalTerm }) => {
-          const mandateId = mandateAdditionalTerm?.mandateId;
-          if (mandateId) {
-            this.mandatesFacade.loadById(mandateId);
-          }
-        })
-      ),
-    { dispatch: false }
-  );
   update$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActionsList.updateEntity),
@@ -151,42 +140,23 @@ export class MandateAdditionalTermsEffects {
       )
     )
   );
-  refreshList$ = createEffect(() =>
+  // ─── Load single additional-term by its ID ────────────────────────────────
+  loadByAdditionalId$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(
-        ActionsList.createEntitySuccess,
-        ActionsList.updateEntitySuccess,
-        ActionsList.deleteEntitySuccess
-      ),
-      map((action) => {
-        let mandateId: number | null = null;
-
-        if (
-          'mandateAdditionalTerm' in action &&
-          action.mandateAdditionalTerm &&
-          typeof action.mandateAdditionalTerm === 'object' &&
-          'mandateId' in action.mandateAdditionalTerm
-        ) {
-          // From createEntitySuccess
-          mandateId = (action.mandateAdditionalTerm as { mandateId: number })
-            .mandateId;
-        } else if ('changes' in action && action.changes?.mandateId) {
-          // From updateEntitySuccess
-          mandateId = action.changes.mandateId;
-        } else {
-          // You can optionally skip deleteEntitySuccess or handle it if needed
-          console.warn('⚠️ mandateId missing from action:', action);
-        }
-
-        if (mandateId == null) {
-          // Skip if mandateId not available
-          return { type: '[MandateAdditionalTerms] No-op' };
-        }
-
-        return ActionsList.loadById({ id: mandateId });
-      }),
-      // Optional: filter out No-op actions
-      filter((action) => action.type !== '[MandateAdditionalTerms] No-op')
+      ofType(ActionsList.loadByAdditionalId),
+      tap(({ id }) => console.log('[Effects] loadByAdditionalId → id=', id)),
+      exhaustMap(({ id }) =>
+        this.service.getByMandateAdditionalId(id).pipe(
+          tap((entity) =>
+            console.log('[Service] getByMandateAdditionalId returned', entity)
+          ),
+          map((entity) => ActionsList.loadByAdditionalIdSuccess({ entity })),
+          catchError((error) => {
+            console.error('[Effects] loadByAdditionalId FAILURE', error);
+            return of(ActionsList.loadByAdditionalIdFailure({ error }));
+          })
+        )
+      )
     )
   );
 }

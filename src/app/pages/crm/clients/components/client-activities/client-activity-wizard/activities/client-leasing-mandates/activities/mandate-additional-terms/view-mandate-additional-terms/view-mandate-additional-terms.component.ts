@@ -39,7 +39,7 @@ export class ViewMandateAdditionalTermsComponent {
   contactPersonsDropdown: any;
   officersDropdown: any[] = [];
   languagesDropdown: any[] = [];
-  routeId = this.route.snapshot.params['leasingId'];
+  routeId = this.route.snapshot.params['clientId'];
   leasingRouteId = this.route.snapshot.params['leasingMandatesId'];
   constructor(
     private router: Router,
@@ -86,7 +86,7 @@ export class ViewMandateAdditionalTermsComponent {
 
   onAddMandateAdditionalTerm() {
     this.router.navigate([
-      `/crm/leasing-mandates/add-mandate-additional-term/${this.routeId}/${this.leasingRouteId}`,
+      `/crm/leasing-mandates/add-mandate-additional-term/${this.leasingRouteId}/${this.routeId}`,
     ]);
   }
 
@@ -126,6 +126,7 @@ export class ViewMandateAdditionalTermsComponent {
         '/crm/leasing-mandates/edit-mandate-additional-term',
         mandate.id,
         mandate.mandateId,
+        mandate.mandate.clientId,
       ],
       {
         queryParams: {

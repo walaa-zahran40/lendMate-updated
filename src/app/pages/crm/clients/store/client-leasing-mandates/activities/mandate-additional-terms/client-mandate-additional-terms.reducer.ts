@@ -1,6 +1,10 @@
-import { createReducer, on } from '@ngrx/store';
-import * as MandateAdditionalTermActions from './mandate-additional-terms.actions';
-import { adapter, initialState, State } from './mandate-additional-terms.state';
+import { ActionReducer, createReducer, on } from '@ngrx/store';
+import * as MandateAdditionalTermActions from './client-mandate-additional-terms.actions';
+import {
+  adapter,
+  initialState,
+  State,
+} from './client-mandate-additional-terms.state';
 
 export const reducer = createReducer(
   initialState,
@@ -11,6 +15,24 @@ export const reducer = createReducer(
     loading: true,
     error: null,
   })),
+  on(
+    MandateAdditionalTermActions.loadByAdditionalIdSuccess,
+    (state, { entity }) =>
+      adapter.upsertOne(entity, {
+        ...state,
+        loadedId: entity.id,
+        loading: false,
+        error: null,
+      })
+  ),
+  on(
+    MandateAdditionalTermActions.loadByAdditionalIdFailure,
+    (state, { error }) => ({
+      ...state,
+      loading: false,
+      error,
+    })
+  ),
 
   // when your effect dispatches loadAllSuccess({ result })
   on(MandateAdditionalTermActions.loadAllSuccess, (state, { result }) =>
@@ -91,3 +113,12 @@ export const reducer = createReducer(
 
 export const { selectAll, selectEntities, selectIds, selectTotal } =
   adapter.getSelectors();
+export function debugState(reducer: ActionReducer<any>): ActionReducer<any> {
+  return function (state, action) {
+    console.log('[Reducer] action:', action.type, action);
+    const next = reducer(state, action);
+    console.log('[Reducer] next state.loadedId =', next.loadedId);
+    console.log('[Reducer] next state.entities =', next.entities);
+    return next;
+  };
+}
