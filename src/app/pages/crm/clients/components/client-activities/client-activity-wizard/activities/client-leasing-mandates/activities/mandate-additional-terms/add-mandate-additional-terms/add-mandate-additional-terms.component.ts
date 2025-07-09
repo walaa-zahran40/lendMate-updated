@@ -4,8 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { filter, combineLatest } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import { MandateAdditionalTermsFacade } from '../../../../store/mandate-additional-terms/mandate-additional-terms.facade';
-import { MandateAdditionalTerm } from '../../../../store/mandate-additional-terms/mandate-additional-term.model';
+import { MandateAdditionalTermsFacade } from '../../../../../../../../../leasing-mandates/store/mandate-additional-terms/mandate-additional-terms.facade';
+import { MandateAdditionalTerm } from '../../../../../../../../../leasing-mandates/store/mandate-additional-terms/mandate-additional-term.model';
 
 @Component({
   selector: 'app-add-mandate-additional-terms',

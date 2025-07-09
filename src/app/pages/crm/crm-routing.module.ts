@@ -36,10 +36,10 @@ import { AddClientOfficersComponent } from './clients/components/client-activiti
 import { ViewClientOfficersComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-officers/view-client-officers/view-client-officer.component';
 import { AddClientLegalsComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-legals/add-client-legal/add-client-legal.component';
 import { ViewClientLegalsComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-legals/view-client-legal/view-client-legal.component';
-import { AddMandateAdditionalTermsComponent } from './leasing-mandates/components/mandate-activities/mandate-additional-terms/add-mandate-additional-terms/add-mandate-additional-terms.component';
-import { ViewMandateAdditionalTermsComponent } from './leasing-mandates/components/mandate-activities/mandate-additional-terms/view-mandate-additional-terms/view-mandate-additional-terms.component';
-import { AddMandateFeeComponent } from './leasing-mandates/components/mandate-activities/mandate-fees/add-mandate-fee/add-mandate-fee.component';
-import { ViewMandateFeesComponent } from './leasing-mandates/components/mandate-activities/mandate-fees/view-mandate-fees/view-mandate-fees.component';
+import { AddMandateAdditionalTermsComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-leasing-mandates/activities/mandate-additional-terms/add-mandate-additional-terms/add-mandate-additional-terms.component';
+import { ViewMandateAdditionalTermsComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-leasing-mandates/activities/mandate-additional-terms/view-mandate-additional-terms/view-mandate-additional-terms.component';
+import { AddMandateFeeComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-leasing-mandates/activities/mandate-fees/add-mandate-fee/add-mandate-fee.component';
+import { ViewMandateFeesComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-leasing-mandates/activities/mandate-fees/view-mandate-fees/view-mandate-fees.component';
 import { PendingChangesGuard } from '../../shared/guards/pending-changes.guard';
 import { AddMandateComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-leasing-mandates/add-mandate/add-mandate.component';
 import { AddChildMandateComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-leasing-mandates/activities/clone/add-child-mandate/add-child-mandate.component';

@@ -9,9 +9,9 @@ import {
   takeUntil,
   tap,
 } from 'rxjs';
-import { TableComponent } from '../../../../../../../shared/components/table/table.component';
-import { MandateAdditionalTerm } from '../../../../store/mandate-additional-terms/mandate-additional-term.model';
-import { MandateAdditionalTermsFacade } from '../../../../store/mandate-additional-terms/mandate-additional-terms.facade';
+import { TableComponent } from '../../../../../../../../../../../shared/components/table/table.component';
+import { MandateAdditionalTerm } from '../../../../../../../../../leasing-mandates/store/mandate-additional-terms/mandate-additional-term.model';
+import { MandateAdditionalTermsFacade } from '../../../../../../../../../leasing-mandates/store/mandate-additional-terms/mandate-additional-terms.facade';
 
 @Component({
   selector: 'app-view-mandate-additional-terms',

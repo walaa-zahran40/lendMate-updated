@@ -12,10 +12,10 @@ import {
   takeUntil,
   tap,
 } from 'rxjs';
-import { TableComponent } from '../../../../../../../shared/components/table/table.component';
-import { MandateFee } from '../../../../store/mandate-fees/mandate-fee.model';
-import { MandateFeesFacade } from '../../../../store/mandate-fees/mandate-fees.facade';
-import { FeeTypesFacade } from '../../../../../../lookups/store/fee-types/fee-types.facade';
+import { TableComponent } from '../../../../../../../../../../../shared/components/table/table.component';
+import { MandateFee } from '../../../../../../../../../leasing-mandates/store/mandate-fees/mandate-fee.model';
+import { MandateFeesFacade } from '../../../../../../../../../leasing-mandates/store/mandate-fees/mandate-fees.facade';
+import { FeeTypesFacade } from '../../../../../../../../../../lookups/store/fee-types/fee-types.facade';
 
 @Component({
   selector: 'app-view-mandate-fees',

@@ -12,15 +12,15 @@ import { MandatesEffects } from './store/leasing-mandates/leasing-mandates.effec
 import { ReactiveFormsModule } from '@angular/forms';
 import { MandateAdditionalTermsEffects } from './store/mandate-additional-terms/mandate-additional-terms.effects';
 import { reducer as mandateAdditionalTermReducer } from './store/mandate-additional-terms/mandate-additional-terms.reducer';
-import { ViewMandateAdditionalTermsComponent } from './components/mandate-activities/mandate-additional-terms/view-mandate-additional-terms/view-mandate-additional-terms.component';
-import { AddMandateAdditionalTermsComponent } from './components/mandate-activities/mandate-additional-terms/add-mandate-additional-terms/add-mandate-additional-terms.component';
+import { ViewMandateAdditionalTermsComponent } from '../clients/components/client-activities/client-activity-wizard/activities/client-leasing-mandates/activities/mandate-additional-terms/view-mandate-additional-terms/view-mandate-additional-terms.component';
+import { AddMandateAdditionalTermsComponent } from '../clients/components/client-activities/client-activity-wizard/activities/client-leasing-mandates/activities/mandate-additional-terms/add-mandate-additional-terms/add-mandate-additional-terms.component';
 import { ClonesEffects } from './store/clone/clones.effects';
 import { reducer as clonesReducer } from './store/clone/clones.reducer';
 
 import { FinancialFormsEffects } from './store/financial-form/financial-forms.effects';
 import { reducer as financialFormsReducer } from './store/financial-form/financial-forms.reducer';
-import { AddMandateFeeComponent } from './components/mandate-activities/mandate-fees/add-mandate-fee/add-mandate-fee.component';
-import { ViewMandateFeesComponent } from './components/mandate-activities/mandate-fees/view-mandate-fees/view-mandate-fees.component';
+import { AddMandateFeeComponent } from '../clients/components/client-activities/client-activity-wizard/activities/client-leasing-mandates/activities/mandate-fees/add-mandate-fee/add-mandate-fee.component';
+import { ViewMandateFeesComponent } from '../clients/components/client-activities/client-activity-wizard/activities/client-leasing-mandates/activities/mandate-fees/view-mandate-fees/view-mandate-fees.component';
 import { MandateFeesEffects } from './store/mandate-fees/mandate-fees.effects';
 import { mandateFeesReducer } from './store/mandate-fees/mandate-fees.reducer';
 import { AddChildMandateComponent } from '../clients/components/client-activities/client-activity-wizard/activities/client-leasing-mandates/activities/clone/add-child-mandate/add-child-mandate.component';
