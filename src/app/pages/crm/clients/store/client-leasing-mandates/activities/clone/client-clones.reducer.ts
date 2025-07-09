@@ -95,21 +95,21 @@ export const reducer = createReducer(
     loading: true,
     error: null,
   })),
-  // ⬇️ upsert the single clone you just fetched
-  on(CloneActions.loadByClientIdSuccess, (state, { entity }) =>
-    adapter.upsertOne(entity, {
+  // After loadByClientIdSuccess, replace all in the store
+  on(CloneActions.loadByClientIdSuccess, (state, { result }) =>
+    adapter.setAll(result, {
       ...state,
       loading: false,
-      loadedId: entity.id ?? null,
+      error: null,
     })
   ),
-
   // ⬇️ error path
   on(CloneActions.loadByClientIdFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
+
   on(CloneActions.clearSelectedClone, (state) => ({
     ...state,
     loadedId: null,

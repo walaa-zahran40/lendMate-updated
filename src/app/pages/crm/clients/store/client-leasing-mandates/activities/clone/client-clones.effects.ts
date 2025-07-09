@@ -63,9 +63,8 @@ export class ClientsClonesEffects {
       ofType(ActionsList.loadByClientId),
       exhaustMap(({ id }) =>
         this.service.getByClientId(id).pipe(
-          // dispatch the array into your loadAllSuccess
           map((clones: Clone[]) =>
-            ActionsList.loadAllSuccess({ result: clones })
+            ActionsList.loadByClientIdSuccess({ result: clones })
           ),
           catchError((err) =>
             of(ActionsList.loadByClientIdFailure({ error: err }))
@@ -101,18 +100,11 @@ export class ClientsClonesEffects {
       )
     )
   );
-
-  // this listens for the *createCloneSuccess* action
-  navigateOnCreateSuccess$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(ActionsList.createCloneSuccess),
-        tap(() => {
-          // 1) re-fetch the full leasing-mandates list
-          this.mandatesFacade.loadAll();
-        })
-      ),
-    { dispatch: false }
+  reloadAfterCreate$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.createCloneSuccess),
+      map(({ clone }) => ActionsList.loadByClientId({ id: clone.clientId! }))
+    )
   );
   update$ = createEffect(() =>
     this.actions$.pipe(
@@ -141,16 +133,6 @@ export class ClientsClonesEffects {
           catchError((error) => of(ActionsList.deleteEntityFailure({ error })))
         )
       )
-    )
-  );
-  refreshList$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(
-        ActionsList.createEntitySuccess,
-        ActionsList.updateEntitySuccess,
-        ActionsList.deleteEntitySuccess
-      ),
-      map(() => ActionsList.loadAll({}))
     )
   );
 }

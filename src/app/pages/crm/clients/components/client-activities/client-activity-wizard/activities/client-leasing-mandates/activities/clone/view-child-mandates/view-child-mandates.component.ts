@@ -120,7 +120,7 @@ export class ViewChildMandatesComponent {
   private setupContactPersonsDropdown(): void {
     const mandate = this.selectedRowForDownload!;
     const saved = mandate.mandateContactPersons ?? []; // [{ contactPersonId: number }, …]
-
+    console.log('mandate', mandate);
     // if nothing was saved, short-circuit
     if (!saved.length) {
       this.contactPersonsDropdown = [];
@@ -130,7 +130,7 @@ export class ViewChildMandatesComponent {
     // 1️⃣ Dispatch with the real clientId (not clientView.clientId)
     this.store.dispatch(
       loadClientContactPersonsByClientId({
-        clientId: mandate.clientView.clientId!,
+        clientId: this.routeId!,
       })
     );
 
@@ -182,7 +182,7 @@ export class ViewChildMandatesComponent {
 
   onAddLeasingMandate() {
     this.router.navigate([
-      `/crm/leasing-mandates/add-child-mandate/${this.routeId}/${this.leasingRouteId}`,
+      `/crm/leasing-mandates/add-child-mandate/${this.leasingRouteId}/${this.routeId}`,
     ]);
   }
 
@@ -229,7 +229,7 @@ export class ViewChildMandatesComponent {
       [
         '/crm/leasing-mandates/edit-child-mandate',
         mandate.id,
-        mandate.mandateId,
+        mandate.clientId,
       ],
       {
         queryParams: {
@@ -241,11 +241,7 @@ export class ViewChildMandatesComponent {
   onViewLeasingMandates(mandate: Clone) {
     console.log('mandate', mandate);
     this.router.navigate(
-      [
-        '/crm/leasing-mandates/add-child-mandate',
-        mandate.id,
-        mandate.mandateId,
-      ],
+      ['/crm/leasing-mandates/add-child-mandate', mandate.id, mandate.clientId],
       {
         queryParams: {
           mode: 'view',

@@ -48,12 +48,14 @@ export const loadByClientId = createAction(
 );
 export const loadByClientIdSuccess = createAction(
   '[ClientsClones] Load By Client Id Success',
-  props<{ entity: Clone }>()
+  props<{ result: Clone[] }>()
 );
+
 export const loadByClientIdFailure = createAction(
   '[ClientsClones] Load By Client Id Failure',
   props<{ error: any }>()
 );
+
 export const createEntity = createAction(
   '[ClientsClones] Create',
   // allow all fields except id, but all optional
