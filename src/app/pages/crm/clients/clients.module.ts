@@ -109,6 +109,7 @@ import { debugState } from './store/client-leasing-mandates/activities/mandate-a
 import { AddMandateAdditionalTermsComponent } from './components/client-activities/wizard/activities/client-leasing-mandates/activities/mandate-additional-terms/add-mandate-additional-terms/add-mandate-additional-terms.component';
 import { ViewMandateAdditionalTermsComponent } from './components/client-activities/wizard/activities/client-leasing-mandates/activities/mandate-additional-terms/view-mandate-additional-terms/view-mandate-additional-terms.component';
 import { ClientActivityWizardComponent } from './components/client-activities/wizard/wizard.component';
+import { ViewMandateWorkFlowHistoryComponent } from './components/client-activities/wizard/activities/client-leasing-mandates/activities/mandate-work-flow-history/view-mandate-additional-terms/view-mandate-work-flow-history.component';
 
 @NgModule({
   declarations: [
@@ -121,6 +122,7 @@ import { ClientActivityWizardComponent } from './components/client-activities/wi
     AddClientLegalsComponent,
     AddMandateAdditionalTermsComponent,
     ViewMandateAdditionalTermsComponent,
+    ViewMandateWorkFlowHistoryComponent,
 
     AddClientAddressesComponent,
     AddSalesTurnoverComponent,

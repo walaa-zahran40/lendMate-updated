@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Mandate, MandateWorkFlowAction } from './leasing-mandate.model';
+import { Mandate, MandateWorkFlowAction, MandateWorkFlowHistory } from './leasing-mandate.model';
 
 export const loadAll = createAction(
   '[Mandates] Load All',
@@ -83,5 +83,20 @@ export const performWorkflowActionEntitySuccess = createAction(
 );
 export const performWorkflowActionEntityFailure = createAction(
   '[MandatesOnboarding] PerformWorkflowAction Failure',
+  props<{ error: any }>()
+);
+
+export const loadWorkflowHistory = createAction(
+  '[Mandates] Load Workflow History',
+  props<{ mandateId: number }>()
+);
+
+export const loadWorkflowHistorySuccess = createAction(
+  '[Mandates] Load Workflow History Success',
+  props<{ history: MandateWorkFlowHistory[] }>()
+);
+
+export const loadWorkflowHistoryFailure = createAction(
+  '[Mandates] Load Workflow History Failure',
   props<{ error: any }>()
 );

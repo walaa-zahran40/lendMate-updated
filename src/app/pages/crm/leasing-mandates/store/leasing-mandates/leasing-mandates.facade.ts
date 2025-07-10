@@ -12,6 +12,7 @@ export class MandatesFacade {
   loading$ = this.store.select(Selectors.selectMandatesLoading);
   error$ = this.store.select(Selectors.selectMandatesError);
   totalCount$ = this.store.select(Selectors.selectMandatesTotalCount);
+  workflowHistory$ = this.store.select(Selectors.selectWorkflowHistory);
   selected$ = this.store.select(
     createSelector(
       Selectors.selectFeature,
@@ -22,6 +23,10 @@ export class MandatesFacade {
   workFlowActionSuccess$ = this.store.select(selectLastOperationSuccess);
 
   constructor(private store: Store) {}
+
+  loadWorkflowHistory(mandateId: number) {
+  this.store.dispatch(Actions.loadWorkflowHistory({ mandateId }));
+}
 
   loadAll(pageNumber?: number) {
     this.store.dispatch(Actions.loadAll({ pageNumber }));

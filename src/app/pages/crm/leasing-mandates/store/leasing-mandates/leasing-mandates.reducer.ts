@@ -5,6 +5,31 @@ import { adapter, initialState, State } from './leasing-mandates.state';
 export const reducer = createReducer(
   initialState,
 
+  on(MandateActions.loadWorkflowHistorySuccess, (state, { history }) => ({
+  ...state,
+  workflowHistory: history,
+  loading: false,
+  error: null,
+})),
+on(MandateActions.loadWorkflowHistoryFailure, (state, { error }) => ({
+  ...state,
+  loading: false,
+  error,
+})),
+
+on(MandateActions.loadWorkflowHistorySuccess, (state, { history }) => ({
+  ...state,
+  workflowHistory: history,
+  loading: false,
+  error: null,
+})),
+on(MandateActions.loadWorkflowHistoryFailure, (state, { error }) => ({
+  ...state,
+  loading: false,
+  error,
+})),
+
+
   // when you dispatch loadAll()
   on(MandateActions.loadAll, (state) => ({
     ...state,
@@ -94,6 +119,7 @@ export const reducer = createReducer(
     loadedId: null,
   }))
 );
+
 
 export const { selectAll, selectEntities, selectIds, selectTotal } =
   adapter.getSelectors();

@@ -44,6 +44,7 @@ import { PendingChangesGuard } from '../../shared/guards/pending-changes.guard';
 import { AddMandateComponent } from './clients/components/client-activities/wizard/activities/client-leasing-mandates/add-mandate/add-mandate.component';
 import { AddChildMandateComponent } from './clients/components/client-activities/wizard/activities/client-leasing-mandates/activities/clone/add-child-mandate/add-child-mandate.component';
 import { ViewChildMandatesComponent } from './clients/components/client-activities/wizard/activities/client-leasing-mandates/activities/clone/view-child-mandates/view-child-mandates.component';
+import { ViewMandateWorkFlowHistoryComponent } from './clients/components/client-activities/wizard/activities/client-leasing-mandates/activities/mandate-work-flow-history/view-mandate-additional-terms/view-mandate-work-flow-history.component';
 
 const routes: Routes = [
   /*Clients , Client Onboarding Routing*/
@@ -398,6 +399,13 @@ const routes: Routes = [
     canDeactivate: [PendingChangesGuard],
   },
 
+  //Work flow history 
+   {
+    path: 'leasing-mandates/view-mandate-work-flow-history/:leasingMandatesId/:clientId',
+    component: ViewMandateWorkFlowHistoryComponent,
+  },
+
+  ///
   {
     path: 'leasing-mandates/view-mandate-additional-terms/:leasingMandatesId/:clientId',
     component: ViewMandateAdditionalTermsComponent,

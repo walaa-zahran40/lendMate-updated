@@ -9,6 +9,11 @@ export const selectMandatesFeature = createFeatureSelector<State>('mandates');
 const { selectAll, selectEntities, selectIds, selectTotal } =
   adapter.getSelectors(selectMandatesFeature);
 
+export const selectWorkflowHistory = createSelector(
+  selectMandatesFeature,
+  (state) => state.workflowHistory
+);
+
 export const selectAllMandates = createSelector(
   selectFeature,
   fromSlice.selectAll

@@ -139,6 +139,7 @@ export class TableComponent {
   @Input() viewAreasTable!: boolean;
   @Input() viewCallsTable!: boolean;
   @Input() viewMandateAdditionalTermsTable!: boolean;
+  @Input() viewMandateWorkFlowHistoryTable!: boolean;
   @Input() viewTaxOfficeTable!: boolean;
   @Input() viewAddDepartmentManagerTable!: boolean;
   @Input() viewTeamsTable!: boolean;

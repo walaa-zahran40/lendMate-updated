@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
-import { Mandate, MandateWorkFlowAction } from './leasing-mandate.model';
+import { Mandate, MandateWorkFlowAction, MandateWorkFlowHistory } from './leasing-mandate.model';
 import { environment } from '../../../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
@@ -51,4 +51,13 @@ export class MandatesService {
   performWorkflowAction(id: number, changes: Partial<MandateWorkFlowAction>): Observable<void> {
       return this.http.post<void>(`${environment.apiUrl}MandateWorkFlowActions/CreateMandateWorkFlowAction`, changes);
   }
+
+
+getWorkflowHistoryByMandateId(mandateId: number): Observable<MandateWorkFlowHistory[]> {
+  return this.http.get<MandateWorkFlowHistory[]>(
+    `${environment.apiUrl}MandateWorkFlowActions/MandateId?mandateId=${mandateId}`
+  );
 }
+
+}
+

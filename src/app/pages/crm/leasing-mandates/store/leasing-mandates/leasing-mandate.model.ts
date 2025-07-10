@@ -48,3 +48,17 @@ export interface MandateWorkFlowAction {
   comment?: string;
   isCurrent?:boolean;
 }
+
+
+export interface MandateWorkFlowHistory {
+  id: number;
+  mandateId: number;
+  officerId: number;
+  officerName: string;
+  officerNameAr: string;
+  mandateStatusActionId: number;
+  mandateStatusActionName: string;
+  mandateStatusActionNameAr: string;
+  comment: string;
+  date: string;
+}
