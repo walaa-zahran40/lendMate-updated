@@ -11,7 +11,7 @@ import {
 } from 'rxjs';
 import { TableComponent } from '../../../../../../../../../../../shared/components/table/table.component';
 import { MandateAdditionalTerm } from '../../../../../../../../../leasing-mandates/store/mandate-additional-terms/mandate-additional-term.model';
-import { MandateAdditionalTermsFacade } from '../../../../../../../../../leasing-mandates/store/mandate-additional-terms/mandate-additional-terms.facade';
+import { ClientsMandateAdditionalTermsFacade } from '../../../../../../../../store/client-leasing-mandates/activities/mandate-additional-terms/client-mandate-additional-terms.facade';
 
 @Component({
   selector: 'app-view-mandate-additional-terms',
@@ -43,12 +43,13 @@ export class ViewMandateAdditionalTermsComponent {
   leasingRouteId = this.route.snapshot.params['leasingMandatesId'];
   constructor(
     private router: Router,
-    private facade: MandateAdditionalTermsFacade,
+    private facade: ClientsMandateAdditionalTermsFacade,
     private route: ActivatedRoute
   ) {}
   ngOnInit() {
     console.log('route', this.route.snapshot);
     this.facade.loadById(this.leasingRouteId);
+
     combineLatest([this.mandateAdditionalTerms$])
       .pipe(
         takeUntil(this.destroy$),

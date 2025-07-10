@@ -78,7 +78,7 @@ export class ViewClientsOnboardingComponent {
     this.router.navigate(['/crm/clients/add-client-onboarding']);
   }
   onAddSide(clientId: any) {
-    this.router.navigate(['/crm/clients/client-activity-wizard', clientId]);
+    this.router.navigate(['/crm/clients/wizard', clientId]);
   }
 
   ngOnDestroy() {

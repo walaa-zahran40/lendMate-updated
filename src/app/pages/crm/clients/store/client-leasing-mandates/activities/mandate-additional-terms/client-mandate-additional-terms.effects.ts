@@ -9,12 +9,15 @@ import {
   map,
   filter,
   tap,
+  switchMap,
+  withLatestFrom,
 } from 'rxjs/operators';
 import { MandateAdditionalTerm } from './client-mandate-additional-term.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MandateAdditionalTermsFacade } from './client-mandate-additional-terms.facade';
 import { EntityNames } from '../../../../../../../shared/constants/entity-names';
 import { of } from 'rxjs';
+import { Store } from '@ngrx/store';
+import * as Selectors from './client-mandate-additional-terms.selectors';
 
 @Injectable()
 export class ClientsMandateAdditionalTermsEffects {
@@ -22,7 +25,7 @@ export class ClientsMandateAdditionalTermsEffects {
     private actions$: Actions,
     private service: MandateAdditionalTermsService,
     private router: Router,
-    private mandatesFacade: MandateAdditionalTermsFacade,
+    private store: Store,
     private route: ActivatedRoute
   ) {}
 
@@ -46,14 +49,21 @@ export class ClientsMandateAdditionalTermsEffects {
   loadById$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActionsList.loadById),
-      tap(({ id }) => console.log('[Effects] loadById caught, id=', id)),
-      exhaustMap(({ id }) =>
+      tap(({ id }) => console.log('🎯 Effect: loadById → HTTP for', id)),
+
+      // grab the currently‐loaded ID from the store
+      withLatestFrom(this.store.select(Selectors.selectLoadedId)),
+
+      // only continue if they're *different*
+      filter(([{ id }, loadedId]) => id !== loadedId),
+
+      // now it's safe to fetch
+      tap(([{ id }]) => console.log('[Effects] loadById → fetching id=', id)),
+      switchMap(([{ id }]) =>
         this.service.getById(id).pipe(
-          tap((entity) =>
-            console.log('[Effects] HTTP returned entity:', entity)
-          ),
-          map((raw) => {
-            const entities = Array.isArray(raw) ? raw : [raw];
+          tap((data) => console.log('[Service] getById returned', data)),
+          map((data) => {
+            const entities = Array.isArray(data) ? data : [data];
             return ActionsList.loadByIdSuccess({ entities });
           }),
           catchError((error) => {

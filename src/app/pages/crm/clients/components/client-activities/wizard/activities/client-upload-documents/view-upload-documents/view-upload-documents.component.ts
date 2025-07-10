@@ -154,10 +154,7 @@ export class ViewUploadDocumentsComponent implements OnInit, OnDestroy {
 
   onAddSide(_documentId: any) {
     console.log('[onAddSide] reopening client wizard for', this.clientId);
-    this.router.navigate([
-      '/crm/clients/client-activity-wizard',
-      this.clientId,
-    ]);
+    this.router.navigate(['/crm/clients/wizard', this.clientId]);
   }
   onViewDocument(doc: any) {
     console.log('[onViewDocument] doc=', doc);

@@ -81,7 +81,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
     { field: 'principal', header: 'Principal' },
     { field: 'installment', header: 'Installment' },
     { field: 'insuranceIncome', header: 'Insurance Income' },
-    { field: 'rent', header: 'rent' },
+    // { field: 'installment', header: 'rent' },
   ];
   paymentPeriods$!: Observable<PaymentPeriod[]>;
   gracePeriodUnits$!: Observable<PeriodUnit[]>;

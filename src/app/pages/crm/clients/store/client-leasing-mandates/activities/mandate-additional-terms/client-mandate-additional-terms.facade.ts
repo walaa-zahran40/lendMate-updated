@@ -5,9 +5,10 @@ import * as Selectors from './client-mandate-additional-terms.selectors';
 import { MandateAdditionalTerm } from './client-mandate-additional-term.model';
 import { selectLastOperationSuccess } from '../../../../../../../shared/store/ui.selectors';
 import { filter, tap } from 'rxjs';
+import { selectLoadedId } from './client-mandate-additional-terms.selectors';
 
 @Injectable({ providedIn: 'root' })
-export class MandateAdditionalTermsFacade {
+export class ClientsMandateAdditionalTermsFacade {
   // Log absolutely everything (including null)
   readonly selectedMandateAdditionalTerm$ = this.store
     .select(Selectors.selectCurrent)
@@ -25,6 +26,7 @@ export class MandateAdditionalTermsFacade {
         console.log('[Facade:selectedMandateAdditionalTerm (non-null)]', term)
       )
     );
+  readonly loadedId$ = this.store.select(selectLoadedId); // ← ADD THIS
 
   all$ = this.store.select(Selectors.selectAllMandateAdditionalTerms);
   loading$ = this.store.select(Selectors.selectMandateAdditionalTermsLoading);
@@ -38,6 +40,7 @@ export class MandateAdditionalTermsFacade {
       (state) => state.entities[state.loadedId!] // or however you track it
     )
   );
+
   operationSuccess$ = this.store.select(selectLastOperationSuccess);
   constructor(private store: Store) {}
 

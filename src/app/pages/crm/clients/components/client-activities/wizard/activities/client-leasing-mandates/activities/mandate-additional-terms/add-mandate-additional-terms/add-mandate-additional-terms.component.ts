@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { filter, combineLatest, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import { MandateAdditionalTermsFacade } from '../../../../../../../../store/client-leasing-mandates/activities/mandate-additional-terms/client-mandate-additional-terms.facade';
+import { ClientsMandateAdditionalTermsFacade } from '../../../../../../../../store/client-leasing-mandates/activities/mandate-additional-terms/client-mandate-additional-terms.facade';
 import { MandateAdditionalTerm } from '../../../../../../../../../leasing-mandates/store/mandate-additional-terms/mandate-additional-term.model';
 
 @Component({
@@ -21,9 +21,8 @@ export class AddMandateAdditionalTermsComponent {
   mandateRouteId = this.route.snapshot.params['leasingMandatesId'];
   constructor(
     private fb: FormBuilder,
-    private store: Store,
     private route: ActivatedRoute,
-    private facade: MandateAdditionalTermsFacade,
+    private facade: ClientsMandateAdditionalTermsFacade,
     private router: Router
   ) {}
 
