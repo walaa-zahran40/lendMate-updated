@@ -116,16 +116,6 @@ export class MandatesEffects {
       )
     )
   );
-  refreshList$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(
-        ActionsList.createEntitySuccess,
-        ActionsList.updateEntitySuccess,
-        ActionsList.deleteEntitySuccess
-      ),
-      map(() => ActionsList.loadAll({}))
-    )
-  );
 
   performWorkflow$ = createEffect(() =>
     this.actions$.pipe(
