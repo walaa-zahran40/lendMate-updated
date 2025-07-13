@@ -6,6 +6,7 @@ import { Subject, takeUntil, tap, filter, take } from 'rxjs';
 import { DocTypesFacade } from '../../../../../../../../lookups/store/doc-types/doc-types.facade';
 import { ClientFile } from '../../../../../../store/client-file/client-file.model';
 import { ClientFilesFacade } from '../../../../../../store/client-file/client-files.facade';
+import { ClientFilesService } from '../../../../../../store/client-file/client-files.service';
 
 @Component({
   selector: 'app-add-upload-documents',
@@ -31,7 +32,8 @@ export class AddUploadDocumentsComponent implements OnInit {
     private facade: ClientFilesFacade,
     private router: Router,
     private facadeDocumentTypes: DocTypesFacade,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private svc: ClientFilesService
   ) {}
 
   ngOnInit() {
@@ -109,7 +111,7 @@ export class AddUploadDocumentsComponent implements OnInit {
               expiryDate: doc.expiryDate,
             });
 
-            this.selectedFile = { name: doc.fileName } as File;
+            this.selectedFile = doc as any;
             console.log(
               '[current$ subscribe] selectedFile set to →',
               this.selectedFile
@@ -124,23 +126,48 @@ export class AddUploadDocumentsComponent implements OnInit {
         });
     }
   }
+  encodePathToHex(path: string | undefined | null): string {
+    if (!path) {
+      console.warn('[encodePathToHex] Input path is empty or undefined');
+      return '';
+    }
+
+    return Array.from(path)
+      .map((char) => char.charCodeAt(0).toString(16).padStart(2, '0'))
+      .join('');
+  }
+
   downloadFile() {
-    if (!this.documentId) return;
+    if (!this.documentId) {
+      console.error('No documentId for download');
+      return;
+    }
 
-    // Assuming your file path is available in the `current$` ClientFile
-    this.facade.current$.pipe(take(1)).subscribe((file) => {
-      if (!file?.filePath) return;
-
-      const link = document.createElement('a');
-      link.href = file.filePath.replace(/^D:\//i, ''); // Remove 'D:/' (case-insensitive)
-      console.log('[Download] File path:', link.href);
-      link.target = '_blank';
-      link.download = file.fileName || 'document';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+    // call the backend Download action
+    this.svc.download(this.documentId).subscribe({
+      next: (blob) => {
+        // figure out the filename (from your patched `selectedFile.fileName`)
+        const filename =
+          (this.selectedFile as any).fileName || `file-${this.documentId}`;
+        // trigger browser save
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.click();
+        window.URL.revokeObjectURL(url);
+      },
+      error: (err) => {
+        console.error('Download failed', err);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Download error',
+          detail: 'Could not download the document.',
+        });
+      },
     });
   }
+
   onFileSelected(event: any) {
     let file: File | undefined;
 

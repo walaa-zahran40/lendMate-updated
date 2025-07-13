@@ -58,7 +58,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() viewOnly = false;
   companyLegalDetail: CompanyLegalDetails = {};
   @Output() addIdentity = new EventEmitter<void>();
-  @Output() downloadFile = new EventEmitter<void>();
+  @Output() downloadFile = new EventEmitter<any>();
 
   @Output() removeIdentity = new EventEmitter<number>();
   @Output() onCheckboxChange = new EventEmitter<any>();

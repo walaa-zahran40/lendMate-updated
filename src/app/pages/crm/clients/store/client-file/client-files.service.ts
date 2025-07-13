@@ -39,6 +39,12 @@ export class ClientFilesService {
   create(data: Partial<ClientFile>): Observable<ClientFile> {
     return this.http.post<ClientFile>(`${this.api}/CreateClientFile`, data);
   }
+  download(clientFileId: number): Observable<Blob> {
+    return this.http.get(`${this.api}/ClientFileId?id=${clientFileId}`, {
+      params: new HttpParams().set('id', clientFileId.toString()),
+      responseType: 'blob',
+    });
+  }
 
   update(id: number, data: Partial<ClientFile>): Observable<ClientFile> {
     return this.http.put<ClientFile>(`${this.api}/${id}`, data);
