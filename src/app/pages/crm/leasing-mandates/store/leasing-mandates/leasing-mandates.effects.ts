@@ -136,6 +136,19 @@ export class MandatesEffects {
       )
     )
   );
+  loadWorkflowHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadWorkflowHistory),
+      mergeMap(({ mandateId }) =>
+        this.service.getWorkflowHistoryByMandateId(mandateId).pipe(
+          map((history) => ActionsList.loadWorkflowHistorySuccess({ history })),
+          catchError((error) =>
+            of(ActionsList.loadWorkflowHistoryFailure({ error }))
+          )
+        )
+      )
+    )
+  );
   loadByClientId$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActionsList.loadByClientId),

@@ -44,3 +44,7 @@ export const selectMandatesByClientId = (clientId: number) =>
   createSelector(selectAllMandates, (mandates) =>
     mandates.filter((m) => m.clientId === clientId)
   );
+export const selectWorkflowHistory = createSelector(
+  selectMandatesFeature,
+  (state) => state.workflowHistory
+);

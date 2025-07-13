@@ -1,8 +1,4 @@
-import { AssetType } from '../../../../lookups/store/asset-types/asset-type.model';
-import { FeeType } from '../../../../lookups/store/fee-types/fee-type.model';
 import { PeriodUnit } from '../../../../lookups/store/period-units/period-unit.model';
-import { Officer } from '../../../../organizations/store/officers/officer.model';
-import { ClientContactPerson } from '../../../clients/store/client-contact-persons/client-contact-person.model';
 
 export interface Mandate {
   id?: number;
@@ -37,14 +33,26 @@ export interface Mandate {
   mandateOfficers?: { officerId: number }[];
   validityUnitView?: any;
   mandateId?: any;
-  mandateCurrentWorkFlowAction?:any;
-  allowedMandateWorkFlowActions:any[];
+  mandateCurrentWorkFlowAction?: any;
+  allowedMandateWorkFlowActions: any[];
 }
 
 export interface MandateWorkFlowAction {
   id: number;
-  mandateStatusActionId?: number ;
+  mandateStatusActionId?: number;
   mandateId?: number;
   comment?: string;
-  isCurrent?:boolean;
+  isCurrent?: boolean;
+}
+export interface MandateWorkFlowHistory {
+  id: number;
+  mandateId: number;
+  officerId: number;
+  officerName: string;
+  officerNameAr: string;
+  mandateStatusActionId: number;
+  mandateStatusActionName: string;
+  mandateStatusActionNameAr: string;
+  comment: string;
+  date: string;
 }

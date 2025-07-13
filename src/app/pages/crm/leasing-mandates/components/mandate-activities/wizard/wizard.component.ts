@@ -75,6 +75,13 @@ export class WizardComponent implements OnInit {
         content: 'Edit or review your Mandate Fees',
         link: `/crm/leasing-mandates/view-mandate-fees/${id}/${this.routeId}`,
       },
+      {
+        imgUrl: '/assets/images/shared/card/mandate-manage.svg',
+        imgAlt: 'mandate',
+        title: 'Mandate Work Flow History',
+        content: 'Edit or review your Mandate Fees',
+        link: `/crm/leasing-mandates/view-mandate-work-flow-history/${id}/${this.clientId}`,
+      },
     ];
 
     this.cards = this.chunkArray(this.originalCards, 3);

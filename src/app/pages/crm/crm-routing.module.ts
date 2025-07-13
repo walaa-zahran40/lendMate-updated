@@ -44,6 +44,7 @@ import { ViewChildMandatesComponent } from './leasing-mandates/components/mandat
 import { AddMandateFeeComponent } from './leasing-mandates/components/mandate-activities/mandate-fees/add-mandate-fee/add-mandate-fee.component';
 import { ViewMandateFeesComponent } from './leasing-mandates/components/mandate-activities/mandate-fees/view-mandate-fees/view-mandate-fees.component';
 import { PendingChangesGuard } from '../../shared/guards/pending-changes.guard';
+import { ViewMandateWorkFlowHistoryComponent } from './leasing-mandates/components/mandate-activities/view-mandate-workflow-history/view-mandate-work-flow-history.component';
 
 const routes: Routes = [
   /*Clients , Client Onboarding Routing*/
@@ -475,6 +476,11 @@ const routes: Routes = [
   {
     path: 'leasing-mandates/leasing-financial-form/:leasingId/:leasingMandatesId/:clientId',
     component: LeasingFinancialFormCompoundComponent,
+  },
+  //Work flow history
+  {
+    path: 'leasing-mandates/view-mandate-work-flow-history/:leasingMandatesId/:clientId',
+    component: ViewMandateWorkFlowHistoryComponent,
   },
 ];
 

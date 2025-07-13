@@ -111,6 +111,29 @@ export const reducer = createReducer(
     ...state,
     loading: false,
     error,
+  })),
+  on(MandateActions.loadWorkflowHistorySuccess, (state, { history }) => ({
+    ...state,
+    workflowHistory: history,
+    loading: false,
+    error: null,
+  })),
+  on(MandateActions.loadWorkflowHistoryFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
+  })),
+
+  on(MandateActions.loadWorkflowHistorySuccess, (state, { history }) => ({
+    ...state,
+    workflowHistory: history,
+    loading: false,
+    error: null,
+  })),
+  on(MandateActions.loadWorkflowHistoryFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
   }))
 );
 

@@ -28,6 +28,7 @@ import { AddMandateFeeComponent } from './components/mandate-activities/mandate-
 import { ViewMandateFeesComponent } from './components/mandate-activities/mandate-fees/view-mandate-fees/view-mandate-fees.component';
 import { MandateFeesEffects } from './store/mandate-fees/mandate-fees.effects';
 import { mandateFeesReducer } from './store/mandate-fees/mandate-fees.reducer';
+import { ViewMandateWorkFlowHistoryComponent } from './components/mandate-activities/view-mandate-workflow-history/view-mandate-work-flow-history.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { mandateFeesReducer } from './store/mandate-fees/mandate-fees.reducer';
     LeasingFinancialFormCompoundComponent,
     ViewChildMandatesComponent,
     ViewMandatesComponent,
+    ViewMandateWorkFlowHistoryComponent,
     AddMandateFeeComponent,
     ViewMandateFeesComponent,
   ],

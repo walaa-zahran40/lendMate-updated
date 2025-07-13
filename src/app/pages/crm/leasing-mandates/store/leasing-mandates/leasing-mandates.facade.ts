@@ -18,6 +18,8 @@ export class MandatesFacade {
       (state) => state.entities[state.loadedId!] // or however you track it
     )
   );
+  workflowHistory$ = this.store.select(Selectors.selectWorkflowHistory);
+
   operationSuccess$ = this.store.select(selectLastOperationSuccess);
   workFlowActionSuccess$ = this.store.select(selectLastOperationSuccess);
 
@@ -30,7 +32,9 @@ export class MandatesFacade {
   loadById(id: number) {
     this.store.dispatch(Actions.loadById({ id }));
   }
-
+  loadWorkflowHistory(mandateId: number) {
+    this.store.dispatch(Actions.loadWorkflowHistory({ mandateId }));
+  }
   create(payload: Partial<Omit<Mandate, 'id'>>) {
     this.store.dispatch(Actions.createEntity({ payload }));
   }

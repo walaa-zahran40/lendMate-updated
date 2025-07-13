@@ -30,6 +30,7 @@ export class TableComponent {
   @Input() editPermission!: string;
   @Input() deletePermission!: string;
   @Input() viewPermission!: string | string[];
+  @Input() viewMandateWorkFlowHistoryTable!: boolean;
 
   @Input() tableData: any;
   @Input() cols: any[] = [];
