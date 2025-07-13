@@ -479,7 +479,7 @@ const routes: Routes = [
   },
   //Work flow history
   {
-    path: 'leasing-mandates/view-mandate-work-flow-history/:leasingMandatesId/:clientId',
+    path: 'leasing-mandates/view-mandate-work-flow-history/:leasingId/:leasingMandatesId',
     component: ViewMandateWorkFlowHistoryComponent,
   },
 ];

@@ -80,7 +80,7 @@ export class WizardComponent implements OnInit {
         imgAlt: 'mandate',
         title: 'Mandate Work Flow History',
         content: 'Edit or review your Mandate Fees',
-        link: `/crm/leasing-mandates/view-mandate-work-flow-history/${id}/${this.clientId}`,
+        link: `/crm/leasing-mandates/view-mandate-work-flow-history/${id}/${this.routeId}`,
       },
     ];
 
