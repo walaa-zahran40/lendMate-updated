@@ -124,7 +124,23 @@ export class AddUploadDocumentsComponent implements OnInit {
         });
     }
   }
+  downloadFile() {
+    if (!this.documentId) return;
 
+    // Assuming your file path is available in the `current$` ClientFile
+    this.facade.current$.pipe(take(1)).subscribe((file) => {
+      if (!file?.filePath) return;
+
+      const link = document.createElement('a');
+      link.href = file.filePath.replace(/^D:\//i, ''); // Remove 'D:/' (case-insensitive)
+      console.log('[Download] File path:', link.href);
+      link.target = '_blank';
+      link.download = file.fileName || 'document';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+  }
   onFileSelected(event: any) {
     let file: File | undefined;
 

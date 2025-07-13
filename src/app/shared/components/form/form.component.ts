@@ -58,6 +58,8 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() viewOnly = false;
   companyLegalDetail: CompanyLegalDetails = {};
   @Output() addIdentity = new EventEmitter<void>();
+  @Output() downloadFile = new EventEmitter<void>();
+
   @Output() removeIdentity = new EventEmitter<number>();
   @Output() onCheckboxChange = new EventEmitter<any>();
   selectedPaymentPeriod: any;
@@ -748,6 +750,9 @@ export class FormComponent implements OnInit, OnDestroy {
   }
   get mandateGracePeriodSettingView(): FormGroup {
     return this.formGroup.get('mandateGracePeriodSettingView') as FormGroup;
+  }
+  onDownloadClick() {
+    this.downloadFile.emit(); // ✅ this is correct
   }
   onSectorChange(event: any) {
     const selectedId = event.value;

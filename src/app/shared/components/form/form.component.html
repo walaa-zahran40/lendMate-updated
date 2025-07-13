@@ -742,9 +742,16 @@ icon="pi pi-cog"
           </div>
           <div *ngIf="viewOnly || editMode" class="mt-2">
             <span class="text-success">
-              Uploaded:&nbsp;<strong>{{ selectedFile.name }}</strong>
+              Uploaded:&nbsp;<strong>{{ selectedFile?.name }}</strong>
             </span>
           </div>
+          <p-button
+            label="Download"
+            icon="pi pi-download"
+            class="p-button-secondary ml-2"
+            (onClick)="onDownloadClick()"
+            *ngIf="viewOnly && selectedFile"
+          ></p-button>
           <!-- once a file is present, show its name -->
           <div *ngIf="formGroup.get('file')?.value" class="mt-2">
             <span class="text-success">
@@ -4957,7 +4964,10 @@ icon="pi pi-cog"
       [formGroup]="formGroup"
       class="form-container"
     >
-      <label for="clientNameAddMandateBasic" *ngIf="show" class="label-container"
+      <label
+        for="clientNameAddMandateBasic"
+        *ngIf="show"
+        class="label-container"
         >Client Name<sup>*</sup></label
       >
       <p-select
@@ -4967,7 +4977,8 @@ icon="pi pi-cog"
         [options]="clientNames"
         formControlName="clientId"
         placeholder="Select Client Name"
-        optionLabel="name"*ngIf="show"
+        optionLabel="name"
+        *ngIf="show"
         optionValue="id"
         name="clientNameAddMandateBasic"
         styleClass="w-full md:w-80"
