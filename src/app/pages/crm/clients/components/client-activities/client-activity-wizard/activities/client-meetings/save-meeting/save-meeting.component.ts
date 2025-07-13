@@ -16,6 +16,7 @@ import { FullCalendarComponent } from '@fullcalendar/angular';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { MeetingsFacade } from '../../../../../../../../communication/store/meetings/calendar/meetings.facade';
+import { Location } from '@angular/common';
 
 const viewTypeMap: any = {
   month: 'dayGridMonth',
@@ -49,7 +50,8 @@ export class SaveMeetingComponent implements AfterViewInit {
   constructor(
     private route: Router,
     private cd: ChangeDetectorRef,
-    private meetingsFacade: MeetingsFacade
+    private meetingsFacade: MeetingsFacade,
+    private location: Location
   ) {}
   ngOnInit() {
     // 1) tell NgRx to load the calendar
@@ -108,7 +110,6 @@ export class SaveMeetingComponent implements AfterViewInit {
     initialView: 'timeGridWeek',
     weekends: true,
     headerToolbar: false,
-    allDayText: 'GMT +07',
     dateClick: this.handleDateClick,
     datesSet: this.handleDatesSet.bind(this),
 
@@ -179,8 +180,6 @@ export class SaveMeetingComponent implements AfterViewInit {
     },
     height: 'auto',
     contentHeight: 'auto',
-    slotDuration: '01:00:00',
-    slotLabelInterval: '01:00',
     dayHeaderClassNames: this.dayHeaderClassNames,
     handleWindowResize: true,
   };
@@ -189,9 +188,14 @@ export class SaveMeetingComponent implements AfterViewInit {
   selectedDate: Date | null = null;
 
   ngAfterViewInit() {
-    const calendarApi = this.calendarComponent.getApi();
-    this.currentMonth = calendarApi.view.title;
-    this.cd.detectChanges(); // re-runs change detection so the value is “locked in”
+    const api = this.calendarComponent?.getApi();
+    if (api) {
+      this.currentMonth = api.view.title;
+      this.cd.detectChanges();
+    }
+  }
+  goBack() {
+    this.location.back();
   }
   handleDatesSet(args: DatesSetArg) {
     this.currentMonth = args.view.title;
