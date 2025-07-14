@@ -100,6 +100,9 @@
     .p-tabs {
       padding: var(--custom-padding-right-10);
     }
+    .p-splitbutton:hover {
+      background: transparent !important;
+    }
     .p-button {
       background: var(--p-tabs-active-bar-background);
       border-radius: var(--custom-size-8);

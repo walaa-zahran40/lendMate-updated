@@ -1,11 +1,11 @@
 import { createAction, props } from '@ngrx/store';
-import { MandateFee } from './mandate-fee.model';
-
+import {
+  CalculationConfigurationByFeeType,
+  MandateFee,
+} from './mandate-fee.model';
 
 // Load all
-export const loadMandateFees = createAction(
-  '[MandateFees] Load All'
-);
+export const loadMandateFees = createAction('[MandateFees] Load All');
 export const loadMandateFeesSuccess = createAction(
   '[MandateFees] Load All Success',
   props<{ items: MandateFee[]; totalCount: number }>()
@@ -99,4 +99,17 @@ export const deleteMandateFeeFailure = createAction(
 export const entityOperationSuccess = createAction(
   '[Entity] Operation Success',
   props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
+);
+// Load calc config
+export const loadCalcConfig = createAction(
+  '[MandateFees] Load Calculation Config',
+  props<{ feeTypeId: number }>()
+);
+export const loadCalcConfigSuccess = createAction(
+  '[MandateFees] Load Calculation Config Success',
+  props<{ config: CalculationConfigurationByFeeType }>()
+);
+export const loadCalcConfigFailure = createAction(
+  '[MandateFees] Load Calculation Config Failure',
+  props<{ error: any }>()
 );

@@ -37,18 +37,12 @@ export class MandateFeesEffects {
       mergeMap(() =>
         this.service.getHistory().pipe(
           map((resp) =>
-            MandateFeeActions.loadMandateFeesHistorySuccess(
-              {
-                history: resp.items,
-              }
-            )
+            MandateFeeActions.loadMandateFeesHistorySuccess({
+              history: resp.items,
+            })
           ),
           catchError((error) =>
-            of(
-              MandateFeeActions.loadMandateFeesHistoryFailure(
-                { error }
-              )
-            )
+            of(MandateFeeActions.loadMandateFeesHistoryFailure({ error }))
           )
         )
       )
@@ -114,9 +108,9 @@ export class MandateFeesEffects {
               mandateId: data.mandateId!,
             };
             console.log('[Effect:update] enriched mandate →', enriched);
-            return MandateFeeActions.updateMandateFeeSuccess(
-              { mandate: enriched }
-            );
+            return MandateFeeActions.updateMandateFeeSuccess({
+              mandate: enriched,
+            });
           }),
           catchError((error) =>
             of(
@@ -168,16 +162,13 @@ export class MandateFeesEffects {
 
       // pull out the right number
       map((action) => {
-        const Id =
-          'mandate' in action ? action.mandate.id : action.mandateId;
+        const Id = 'mandate' in action ? action.mandate.id : action.mandateId;
         console.log('[RefreshList] extracted mandateId →', Id);
         return Id;
       }),
 
       // only continue if it’s a number
-      filter(
-        (mandateId): mandateId is number => typeof mandateId === 'number'
-      ),
+      filter((mandateId): mandateId is number => typeof mandateId === 'number'),
 
       map((mandateId) =>
         MandateFeeActions.loadMandateFeesByMandateId({
@@ -207,15 +198,26 @@ export class MandateFeesEffects {
             console.log('[Effect:loadByMandateId] response →', items)
           ),
           map((items) =>
-            MandateFeeActions.loadMandateFeesByMandateIdSuccess(
-              { items }
-            )
+            MandateFeeActions.loadMandateFeesByMandateIdSuccess({ items })
           ),
           catchError((error) =>
+            of(MandateFeeActions.loadMandateFeesByMandateIdFailure({ error }))
+          )
+        )
+      )
+    )
+  );
+  loadCalcConfig$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(MandateFeeActions.loadCalcConfig),
+      mergeMap(({ feeTypeId }) =>
+        this.service.getCalculationConfigurationByFeeTypeId(feeTypeId).pipe(
+          map((config) => MandateFeeActions.loadCalcConfigSuccess({ config })),
+          catchError((error) =>
             of(
-              MandateFeeActions.loadMandateFeesByMandateIdFailure(
-                { error }
-              )
+              MandateFeeActions.loadCalcConfigFailure({
+                error,
+              })
             )
           )
         )
@@ -223,8 +225,5 @@ export class MandateFeesEffects {
     )
   );
 
-  constructor(
-    private actions$: Actions,
-    private service: MandateFeesService
-  ) {}
+  constructor(private actions$: Actions, private service: MandateFeesService) {}
 }

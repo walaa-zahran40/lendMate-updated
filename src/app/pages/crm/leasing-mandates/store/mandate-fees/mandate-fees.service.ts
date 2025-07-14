@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { MandateFee } from './mandate-fee.model';
+import {
+  CalculationConfigurationByFeeType,
+  MandateFee,
+} from './mandate-fee.model';
 import { environment } from '../../../../../../environments/environment';
 
 interface PagedResponse<T> {
@@ -33,17 +36,13 @@ export class MandateFeesService {
   }
 
   getById(id: number): Observable<MandateFee> {
-  return this.http.get<MandateFee>(`${this.api}/MandateFeeId`, {
-    params: { leasingMandate : id.toString() }
-  });
-}
-
+    return this.http.get<MandateFee>(`${this.api}/MandateFeeId`, {
+      params: { leasingMandate: id.toString() },
+    });
+  }
 
   create(data: Partial<MandateFee>): Observable<MandateFee> {
-    return this.http.post<MandateFee>(
-      `${this.api}/CreateMandateFee`,
-      data
-    );
+    return this.http.post<MandateFee>(`${this.api}/CreateMandateFee`, data);
   }
 
   update(id: number, data: Partial<MandateFee>): Observable<MandateFee> {
@@ -54,10 +53,16 @@ export class MandateFeesService {
     return this.http.delete<void>(`${this.api}/${id}`);
   }
   getByMandateId(mandateId: number): Observable<MandateFee[]> {
-  return this.http.get<MandateFee[]>(
-    `${this.api}/mandateId`,
-    { params: { mandateId: mandateId.toString() } }
-  );
+    return this.http.get<MandateFee[]>(`${this.api}/mandateId`, {
+      params: { mandateId: mandateId.toString() },
+    });
+  }
+  getCalculationConfigurationByFeeTypeId(
+    feeTypeId: number
+  ): Observable<CalculationConfigurationByFeeType> {
+    return this.http.get<CalculationConfigurationByFeeType>(
+      `${environment.apiUrl}FeeTypes/CalculationConfigurationByFeeTypeId`,
+      { params: { Id: feeTypeId.toString() } }
+    );
+  }
 }
-}
-

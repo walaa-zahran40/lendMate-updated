@@ -9,15 +9,12 @@ export const mandateFeesReducer = createReducer(
     loading: true,
     error: null,
   })),
-  on(
-    Actions.loadMandateFeesSuccess,
-    (state, { items, totalCount }) => ({
-      ...state,
-      items,
-      totalCount,
-      loading: false,
-    })
-  ),
+  on(Actions.loadMandateFeesSuccess, (state, { items, totalCount }) => ({
+    ...state,
+    items,
+    totalCount,
+    loading: false,
+  })),
   on(Actions.loadMandateFeesFailure, (state, { error }) => ({
     ...state,
     error,
@@ -103,20 +100,29 @@ export const mandateFeesReducer = createReducer(
     loading: true,
     error: null,
   })),
-  on(
-    Actions.loadMandateFeesByMandateIdSuccess,
-    (state, { items }) => ({
-      ...state,
-      items, // replace with just these rates
-      loading: false,
-    })
-  ),
-  on(
-    Actions.loadMandateFeesByMandateIdFailure,
-    (state, { error }) => ({
-      ...state,
-      error,
-      loading: false,
-    })
-  )
+  on(Actions.loadMandateFeesByMandateIdSuccess, (state, { items }) => ({
+    ...state,
+    items, // replace with just these rates
+    loading: false,
+  })),
+  on(Actions.loadMandateFeesByMandateIdFailure, (state, { error }) => ({
+    ...state,
+    error,
+    loading: false,
+  })),
+  on(Actions.loadCalcConfig, (state) => ({
+    ...state,
+    calcConfigLoading: true,
+    calcConfigError: null,
+  })),
+  on(Actions.loadCalcConfigSuccess, (state, { config }) => ({
+    ...state,
+    calcConfig: config,
+    calcConfigLoading: false,
+  })),
+  on(Actions.loadCalcConfigFailure, (state, { error }) => ({
+    ...state,
+    calcConfigLoading: false,
+    calcConfigError: error,
+  }))
 );
