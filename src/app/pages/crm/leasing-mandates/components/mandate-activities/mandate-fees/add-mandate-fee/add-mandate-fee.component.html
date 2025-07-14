@@ -26,37 +26,45 @@
       <!-- display the formula once loaded -->
       <div class="mt-4">
         <label class="font-semibold">Calculation Formula:&nbsp;</label>
-        <!-- 1) No fee type chosen yet -->
-        <ng-template #chooseType>
-          <em>Choose a fee type to see its formula.</em>
-        </ng-template>
-
-        <!-- 2) Fee type chosen but no formula/config -->
-        <ng-template #noFormula>
-          <em>There is no calculation formula here.</em>
-        </ng-template>
-
-        <!-- 3) Once a fee type is chosen, show formula + base amount (or fall back to #noFormula) -->
         <ng-container
           *ngIf="addMandateFeeForm.get('feeTypeId')!.value; else chooseType"
         >
+          <!-- only bind when there *is* a feeCalculationConfiguration -->
           <ng-container
             *ngIf="
-              (calcConfig$ | async)?.feeCalculationConfiguration as cfg;
+              (calcConfig$ | async)?.feeCalculationConfiguration as fcc;
               else noFormula
             "
           >
+            <!-- now `fcc` is guaranteed non-null -->
             <div>
-              <label class="font-semibold">Actual Amount:</label>
-              <div>{{ cfg.calculationFormula }}</div>
+              <label class="font-semibold">Formula:</label>
+              <div>{{ fcc.calculationFormula }}</div>
             </div>
 
             <div class="mt-2">
               <label class="font-semibold">Base Amount:</label>
-              <div>{{ cfg.parameterMappings["BaseAmount"] }}</div>
+              <div>{{ displayConfig?.baseAmount | number : "1.0-2" }}</div>
+            </div>
+
+            <div class="mt-2">
+              <label class="font-semibold">Actual Amount:</label>
+              <div>
+                {{
+                  addMandateFeeForm.get("actualAmount")?.value
+                    | number : "1.4-4"
+                }}
+              </div>
             </div>
           </ng-container>
         </ng-container>
+
+        <ng-template #chooseType>
+          <em>Choose a fee type to see its formula.</em>
+        </ng-template>
+        <ng-template #noFormula>
+          <em>There is no calculation formula here.</em>
+        </ng-template>
       </div>
     </p-tabpanel>
   </p-tabpanels>
