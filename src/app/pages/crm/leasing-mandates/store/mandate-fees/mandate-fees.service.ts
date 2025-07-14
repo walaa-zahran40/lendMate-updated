@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {
-  CalculationConfigurationByFeeType,
-  MandateFee,
-} from './mandate-fee.model';
+import { MandateFee } from './mandate-fee.model';
 import { environment } from '../../../../../../environments/environment';
 
 interface PagedResponse<T> {
@@ -56,13 +53,5 @@ export class MandateFeesService {
     return this.http.get<MandateFee[]>(`${this.api}/mandateId`, {
       params: { mandateId: mandateId.toString() },
     });
-  }
-  getCalculationConfigurationByFeeTypeId(
-    feeTypeId: number
-  ): Observable<CalculationConfigurationByFeeType> {
-    return this.http.get<CalculationConfigurationByFeeType>(
-      `${environment.apiUrl}FeeTypes/CalculationConfigurationByFeeTypeId`,
-      { params: { Id: feeTypeId.toString() } }
-    );
   }
 }

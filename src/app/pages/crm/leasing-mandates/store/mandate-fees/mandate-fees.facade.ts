@@ -26,9 +26,6 @@ export class MandateFeesFacade {
   );
   error$: Observable<any> = this.store.select(Selectors.selectMandateFeesError);
   operationSuccess$ = this.store.select(selectLastOperationSuccess);
-  calcConfig$ = this.store.select(Selectors.selectCalcConfig);
-  calcConfigLoading$ = this.store.select(Selectors.selectCalcConfigLoading);
-  calcConfigError$ = this.store.select(Selectors.selectCalcConfigError);
   constructor(private store: Store) {}
 
   loadAll() {
@@ -64,8 +61,5 @@ export class MandateFeesFacade {
   }
   loadByMandateId(mandateId: number) {
     this.store.dispatch(Actions.loadMandateFeesByMandateId({ mandateId }));
-  }
-  loadCalcConfig(feeTypeId: number) {
-    this.store.dispatch(Actions.loadCalcConfig({ feeTypeId }));
   }
 }

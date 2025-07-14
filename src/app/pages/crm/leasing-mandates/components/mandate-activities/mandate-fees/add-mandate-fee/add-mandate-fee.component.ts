@@ -5,14 +5,12 @@ import { filter, combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import { map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { MandateFeesFacade } from '../../../../store/mandate-fees/mandate-fees.facade';
-import {
-  CalculationConfigurationByFeeType,
-  MandateFee,
-} from '../../../../store/mandate-fees/mandate-fee.model';
+import { MandateFee } from '../../../../store/mandate-fees/mandate-fee.model';
 import { FeeTypesFacade } from '../../../../../../lookups/store/fee-types/fee-types.facade';
 import { FeeType } from '../../../../../../lookups/store/fee-types/fee-type.model';
 import { FinancialFormsFacade } from '../../../../store/financial-form/financial-forms.facade';
 import { MessageService } from 'primeng/api';
+import { CalculationConfigurationByFeeType } from '../../../../store/financial-form/financial-form.model';
 
 @Component({
   selector: 'app-add-mandate-fee',
@@ -96,8 +94,10 @@ export class AddMandateFeeComponent {
     this.addMandateFeeForm
       .get('feeTypeId')!
       .valueChanges.pipe(filter((id) => !!id))
-      .subscribe((feeTypeId: number) => this.facade.loadCalcConfig(feeTypeId));
-    this.calcConfig$ = this.facade.calcConfig$;
+      .subscribe((feeTypeId: number) =>
+        this.finantialActivitiesFacade.loadCalcConfig(feeTypeId)
+      );
+    this.calcConfig$ = this.finantialActivitiesFacade.calcConfig$;
 
     // Always load the specific fee item (for view/edit)
     if (!Number.isNaN(feeId)) {

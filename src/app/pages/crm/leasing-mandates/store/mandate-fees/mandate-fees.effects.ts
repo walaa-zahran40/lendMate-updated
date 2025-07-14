@@ -207,23 +207,6 @@ export class MandateFeesEffects {
       )
     )
   );
-  loadCalcConfig$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(MandateFeeActions.loadCalcConfig),
-      mergeMap(({ feeTypeId }) =>
-        this.service.getCalculationConfigurationByFeeTypeId(feeTypeId).pipe(
-          map((config) => MandateFeeActions.loadCalcConfigSuccess({ config })),
-          catchError((error) =>
-            of(
-              MandateFeeActions.loadCalcConfigFailure({
-                error,
-              })
-            )
-          )
-        )
-      )
-    )
-  );
 
   constructor(private actions$: Actions, private service: MandateFeesService) {}
 }

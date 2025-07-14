@@ -27,15 +27,3 @@ export const selectMandateFeesError = createSelector(
   selectMandateFeesState,
   (state) => state.error
 );
-export const selectCalcConfig = createSelector(
-  selectMandateFeesState,
-  (state) => state.calcConfig
-);
-export const selectCalcConfigLoading = createSelector(
-  selectMandateFeesState,
-  (state) => state.calcConfigLoading
-);
-export const selectCalcConfigError = createSelector(
-  selectMandateFeesState,
-  (state) => state.calcConfigError
-);

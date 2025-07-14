@@ -114,7 +114,11 @@ export const reducer = createReducer(
         [id]: entity.payments!,
       },
     };
-    console.log('[Reducer] updated state for ID', id, updated.calculatedRowsByMandate[id]);
+    console.log(
+      '[Reducer] updated state for ID',
+      id,
+      updated.calculatedRowsByMandate[id]
+    );
     return updated;
   }),
 
@@ -129,7 +133,22 @@ export const reducer = createReducer(
         [mandateId]: rows,
       },
     };
-  })
+  }),
+  on(FinancialFormActions.loadCalcConfig, (state) => ({
+    ...state,
+    calcConfigLoading: true,
+    calcConfigError: null,
+  })),
+  on(FinancialFormActions.loadCalcConfigSuccess, (state, { config }) => ({
+    ...state,
+    calcConfig: config,
+    calcConfigLoading: false,
+  })),
+  on(FinancialFormActions.loadCalcConfigFailure, (state, { error }) => ({
+    ...state,
+    calcConfigLoading: false,
+    calcConfigError: error,
+  }))
 );
 
 export const { selectAll, selectEntities, selectIds, selectTotal } =

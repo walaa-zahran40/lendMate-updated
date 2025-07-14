@@ -3,7 +3,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, throwError, tap } from 'rxjs';
-import { FinancialForm } from './financial-form.model';
+import {
+  CalculationConfigurationByFeeType,
+  FinancialForm,
+} from './financial-form.model';
 import { environment } from '../../../../../../environments/environment';
 import { Calculation } from '../../../../../shared/interfaces/calculations.interface';
 
@@ -113,6 +116,14 @@ export class FinancialFormsService {
         console.error('Error in delete:', err);
         return throwError(() => err);
       })
+    );
+  }
+  getCalculationConfigurationByFeeTypeId(
+    feeTypeId: number
+  ): Observable<CalculationConfigurationByFeeType> {
+    return this.http.get<CalculationConfigurationByFeeType>(
+      `${environment.apiUrl}FeeTypes/CalculationConfigurationByFeeTypeId`,
+      { params: { Id: feeTypeId.toString() } }
     );
   }
 }

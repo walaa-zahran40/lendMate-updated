@@ -53,3 +53,15 @@ export const selectCalculatedRowsForId = (mandateId: number) =>
     selectFeature,
     (state) => state.calculatedRowsByMandate[mandateId] || []
   );
+export const selectCalcConfig = createSelector(
+  selectFeature,
+  (state) => state.calcConfig
+);
+export const selectCalcConfigLoading = createSelector(
+  selectFeature,
+  (state) => state.calcConfigLoading
+);
+export const selectCalcConfigError = createSelector(
+  selectFeature,
+  (state) => state.calcConfigError
+);

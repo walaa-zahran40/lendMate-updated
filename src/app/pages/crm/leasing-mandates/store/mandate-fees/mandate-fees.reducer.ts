@@ -109,20 +109,5 @@ export const mandateFeesReducer = createReducer(
     ...state,
     error,
     loading: false,
-  })),
-  on(Actions.loadCalcConfig, (state) => ({
-    ...state,
-    calcConfigLoading: true,
-    calcConfigError: null,
-  })),
-  on(Actions.loadCalcConfigSuccess, (state, { config }) => ({
-    ...state,
-    calcConfig: config,
-    calcConfigLoading: false,
-  })),
-  on(Actions.loadCalcConfigFailure, (state, { error }) => ({
-    ...state,
-    calcConfigLoading: false,
-    calcConfigError: error,
   }))
 );

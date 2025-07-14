@@ -1,7 +1,10 @@
 // src/app/features/financial-forms/financial-forms.actions.ts
 
 import { createAction, props } from '@ngrx/store';
-import { FinancialForm } from './financial-form.model';
+import {
+  CalculationConfigurationByFeeType,
+  FinancialForm,
+} from './financial-form.model';
 import { Calculation } from '../../../../../shared/interfaces/calculations.interface';
 
 // ─── Load All ───────────────────────────────────────────────────────────────
@@ -114,4 +117,17 @@ export const clearSelectedFinancialForm = createAction(
 export const financialFormCalculatedRowsSaved = createAction(
   '[FinancialForms] Calculated Rows Saved',
   props<{ rows: Calculation[] }>()
+);
+// Load calc config
+export const loadCalcConfig = createAction(
+  '[MandateFees] Load Calculation Config',
+  props<{ feeTypeId: number }>()
+);
+export const loadCalcConfigSuccess = createAction(
+  '[MandateFees] Load Calculation Config Success',
+  props<{ config: CalculationConfigurationByFeeType }>()
+);
+export const loadCalcConfigFailure = createAction(
+  '[MandateFees] Load Calculation Config Failure',
+  props<{ error: any }>()
 );

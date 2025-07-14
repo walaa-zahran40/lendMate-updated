@@ -204,4 +204,21 @@ export class FinancialFormsEffects {
       ),
     { dispatch: false }
   );
+  loadCalcConfig$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadCalcConfig),
+      mergeMap(({ feeTypeId }) =>
+        this.service.getCalculationConfigurationByFeeTypeId(feeTypeId).pipe(
+          map((config) => ActionsList.loadCalcConfigSuccess({ config })),
+          catchError((error) =>
+            of(
+              ActionsList.loadCalcConfigFailure({
+                error,
+              })
+            )
+          )
+        )
+      )
+    )
+  );
 }

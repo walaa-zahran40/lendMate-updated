@@ -1,7 +1,4 @@
-import {
-  CalculationConfigurationByFeeType,
-  MandateFee,
-} from './mandate-fee.model';
+import { MandateFee } from './mandate-fee.model';
 
 export interface MandateFeesState {
   items: MandateFee[];
@@ -10,9 +7,6 @@ export interface MandateFeesState {
   loading: boolean;
   error: any;
   totalCount: number;
-  calcConfig: CalculationConfigurationByFeeType | null;
-  calcConfigLoading: boolean;
-  calcConfigError: any;
 }
 
 export const initialMandateFeesState: MandateFeesState = {
@@ -22,7 +16,4 @@ export const initialMandateFeesState: MandateFeesState = {
   loading: false,
   error: null,
   totalCount: 0,
-  calcConfig: null,
-  calcConfigLoading: false,
-  calcConfigError: null,
 };
