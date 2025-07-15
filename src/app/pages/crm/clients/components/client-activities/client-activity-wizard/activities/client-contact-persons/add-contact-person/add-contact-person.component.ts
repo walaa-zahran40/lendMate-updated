@@ -62,7 +62,29 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    //Drop Down Lists
+    // Build form with clientId
+    this.addClientContactPersonForm = this.fb.group({
+      name: [null, Validators.required],
+      nameAR: [null, Validators.required],
+      genderId: [null, Validators.required],
+      governorateId: [null],
+      countryId: [null],
+      title: [null],
+      titleAR: [null],
+      email: [null, Validators.required],
+      isAuthorizedSign: [true, Validators.required],
+      isKeyManager: [true, Validators.required],
+      isFinance: [true, Validators.required],
+      areaId: [null],
+      addressTypeId: [null],
+      addressDetails: [null],
+      addressDetailsAr: [null],
+      identities: this.fb.array([this.createIdentityGroup()]),
+      phoneTypes: this.fb.array([this.createPhoneTypeGroup()]),
+    });
+    // wire up cascades
+    this.setupCascadingDropdowns();
+
     // Load all facade data
     this.addressTypesFacade.loadAll();
     this.addressTypes$ = this.addressTypesFacade.all$;
@@ -110,6 +132,18 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
       this.countriesList = countries;
       this.governoratesList = governorates;
       this.areasList = areas;
+      // seed your filters to whatever is already selected
+      const selCountry =
+        this.addClientContactPersonForm.get('countryId')!.value;
+      this.filteredGovernorates = selCountry
+        ? governorates.filter((g) => g.countryId === selCountry)
+        : governorates;
+
+      const selGov =
+        this.addClientContactPersonForm.get('governorateId')!.value;
+      this.filteredAreas = selGov
+        ? areas.filter((a) => a.governorate.id === selGov)
+        : areas;
     });
 
     // Read mode and set flags
@@ -126,27 +160,6 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
       this.recordId = Number(this.route.snapshot.params['clientId']);
       this.clientContactPersonFacade.loadOne(this.recordId);
     }
-
-    // Build form with clientId
-    this.addClientContactPersonForm = this.fb.group({
-      name: [null, Validators.required],
-      nameAR: [null, Validators.required],
-      genderId: [null, Validators.required],
-      governorateId: [null],
-      countryId: [null],
-      title: [null],
-      titleAR: [null],
-      email: [null, Validators.required],
-      isAuthorizedSign: [true, Validators.required],
-      isKeyManager: [true, Validators.required],
-      isFinance: [true, Validators.required],
-      areaId: [null],
-      addressTypeId: [null],
-      addressDetails: [null],
-      addressDetailsAr: [null],
-      identities: this.fb.array([this.createIdentityGroup()]),
-      phoneTypes: this.fb.array([this.createPhoneTypeGroup()]),
-    });
 
     this.addClientContactPersonForm.patchValue({
       clientId: this.route.snapshot.queryParamMap.get('clientId'),
@@ -247,6 +260,29 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
 
   get identities(): FormArray {
     return this.addClientContactPersonForm.get('identities') as FormArray;
+  }
+  private setupCascadingDropdowns(): void {
+    // When country changes, filter governorates
+    this.addClientContactPersonForm
+      .get('countryId')!
+      .valueChanges.subscribe((countryId: number) => {
+        this.filteredGovernorates = this.governoratesList.filter(
+          (g) => g.countryId === countryId
+        );
+        this.addClientContactPersonForm.get('governorateId')!.reset();
+        this.filteredAreas = [];
+        this.addClientContactPersonForm.get('areaId')!.reset();
+      });
+
+    // When governorate changes, filter areas
+    this.addClientContactPersonForm
+      .get('governorateId')!
+      .valueChanges.subscribe((govId: number) => {
+        this.filteredAreas = this.areasList.filter(
+          (a) => a.governorate.id === govId
+        );
+        this.addClientContactPersonForm.get('areaId')!.reset();
+      });
   }
 
   addIdentity() {
