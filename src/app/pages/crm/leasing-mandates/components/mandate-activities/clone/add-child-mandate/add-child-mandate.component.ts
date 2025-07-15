@@ -3,15 +3,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/internal/Observable';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  distinctUntilChanged,
-  filter,
-  map,
-  switchMap,
-  take,
-  tap,
-} from 'rxjs/operators';
-import { combineLatest } from 'rxjs';
+import { distinctUntilChanged, filter, map, take } from 'rxjs/operators';
 //Models
 import { Client } from '../../../../../clients/store/_clients/allclients/client.model';
 import { MandateValidityUnit } from '../../../../../../lookups/store/mandate-validity-units/mandate-validity-unit.model';
@@ -718,15 +710,27 @@ export class AddChildMandateComponent {
     }
 
     console.log('🧭 Navigating away to view-mandates');
-    this.router.navigate([
-      `/crm/leasing-mandates/view-child-mandates/${this.routeId}/${this.mandateRouteId}/${this.clientId}`,
-    ]);
+    if (!this.clientId) {
+      this.router.navigate([
+        `/crm/leasing-mandates/view-child-mandates/${this.routeId}/${this.mandateRouteId}`,
+      ]);
+    } else {
+      this.router.navigate([
+        `/crm/leasing-mandates/view-child-mandates/${this.routeId}/${this.mandateRouteId}/${this.clientId}`,
+      ]);
+    }
   }
 
   navigateToView() {
-    this.router.navigate([
-      `/crm/leasing-mandates/view-child-mandates/${this.routeId}/${this.mandateRouteId}/${this.clientId}`,
-    ]);
+    if (!this.clientId) {
+      this.router.navigate([
+        `/crm/leasing-mandates/view-child-mandates/${this.routeId}/${this.mandateRouteId}`,
+      ]);
+    } else {
+      this.router.navigate([
+        `/crm/leasing-mandates/view-child-mandates/${this.routeId}/${this.mandateRouteId}/${this.clientId}`,
+      ]);
+    }
   }
   /** Called by the guard. */
   canDeactivate(): boolean {

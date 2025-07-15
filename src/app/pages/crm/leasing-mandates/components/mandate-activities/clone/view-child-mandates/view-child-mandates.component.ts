@@ -189,9 +189,15 @@ export class ViewChildMandatesComponent {
   }
 
   onAddLeasingMandate() {
-    this.router.navigate([
-      `/crm/leasing-mandates/add-child-mandate/${this.routeId}/${this.leasingRouteId}/${this.clientId}`,
-    ]);
+    if (!this.clientId) {
+      this.router.navigate([
+        `/crm/leasing-mandates/add-child-mandate/${this.routeId}/${this.leasingRouteId}`,
+      ]);
+    } else {
+      this.router.navigate([
+        `/crm/leasing-mandates/add-child-mandate/${this.routeId}/${this.leasingRouteId}/${this.clientId}`,
+      ]);
+    }
   }
 
   onDownloadClick(row: any) {
