@@ -169,7 +169,7 @@ export class ViewMandatesComponent {
       // 1️⃣ Dispatch with the real clientId (not clientView.clientId)
       this.store.dispatch(
         loadClientContactPersonsByClientId({
-          clientId: mandate.clientView.clientId!,
+          clientId: mandate.clientView?.clientId!,
         })
       );
     } else {
@@ -287,14 +287,22 @@ export class ViewMandatesComponent {
     this.showFilters = value;
   }
   onEditLeasingMandate(mandate: Mandate) {
-    this.router.navigate(
-      ['/crm/leasing-mandates/edit-mandate', mandate.id, this.clientId],
-      {
+    if (this.clientId) {
+      this.router.navigate(
+        ['/crm/leasing-mandates/edit-mandate', mandate.id, this.clientId],
+        {
+          queryParams: {
+            mode: 'edit',
+          },
+        }
+      );
+    } else {
+      this.router.navigate(['/crm/leasing-mandates/edit-mandate', mandate.id], {
         queryParams: {
           mode: 'edit',
         },
-      }
-    );
+      });
+    }
   }
   onViewLeasingMandates(mandate: Mandate) {
     console.log('mandate', mandate);
