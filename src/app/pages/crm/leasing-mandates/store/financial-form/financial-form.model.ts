@@ -71,7 +71,7 @@ export interface CalculationConfigurationByFeeType {
   name: string;
   nameAR: string;
   defaultAmount: number;
-  defaultPrecentage: number;
+  defaultPercentage: number;
   feeCalculationConfiguration: FeeCalculationConfiguration;
   feeCalculationType: FeeCalculationType;
   isActive: boolean;

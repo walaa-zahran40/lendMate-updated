@@ -6,8 +6,8 @@ export interface FeeType {
   description: string;
   descriptionAR: string;
   defaultAmount: number;
-  defaultPrecentage : number;
-  feeCalculationTypeId : number;
-  feeCalculationType? : any;
+  defaultPercentage: number;
+  feeCalculationTypeId: number;
+  feeCalculationType?: any;
   isActive?: boolean;
 }

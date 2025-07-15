@@ -37,7 +37,7 @@ export class ViewFeeTypesComponent {
     { field: 'description', header: 'Description' },
     { field: 'descriptionAR', header: 'Description AR' },
     { field: 'feeCalculationType', header: 'Fee Calculation Type' },
-    { field: 'defaultPrecentage', header: 'Default Percentage' },
+    { field: 'defaultPercentage', header: 'Default Percentage' },
     { field: 'defaultAmount', header: 'Default Amount' },
     { field: 'isActive', header: 'Is Active' },
   ];

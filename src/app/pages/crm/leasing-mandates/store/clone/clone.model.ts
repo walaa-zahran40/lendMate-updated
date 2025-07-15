@@ -26,13 +26,13 @@ export interface Clone {
   mandateFees?: {
     feeTypeId: number;
     actualAmount?: number;
-    actualPrecentage?: number;
+    actualPercentage?: number;
   }[];
   mandateGracePeriodSettingView?: PeriodUnit;
   mandateContactPersons?: { contactPersonId: number }[];
   mandateOfficers?: { officerId: number }[];
   validityUnitView?: any;
   mandateId?: any;
-  mandateCurrentWorkFlowAction?:any;
-  allowedMandateWorkFlowActions?:any[];
+  mandateCurrentWorkFlowAction?: any;
+  allowedMandateWorkFlowActions?: any[];
 }

@@ -44,7 +44,7 @@ export class AddFeeTypesComponent {
       descriptionAR: [null],
       feeCalculationType: [null],
       feeCalculationTypeId: [null],
-      defaultPrecentage: [0],
+      defaultPercentage: [0],
       defaultAmount: [0],
       isDefault: [true],
       isActive: [true],
@@ -77,7 +77,7 @@ export class AddFeeTypesComponent {
               feeCalculationType: ct!.feeCalculationType,
               feeCalculationTypeId: ct!.feeCalculationTypeId,
               defaultAmount: ct!.defaultAmount,
-              defaultPrecentage: ct!.defaultPrecentage,
+              defaultPercentage: ct!.defaultPercentage,
             });
           });
       } else {
@@ -106,7 +106,7 @@ export class AddFeeTypesComponent {
       descriptionAR,
       feeCalculationTypeId,
       defaultAmount,
-      defaultPrecentage,
+      defaultPercentage,
     } = this.addFeesTypesLookupsForm.value;
     const payload: Partial<FeeType> = {
       name,
@@ -115,7 +115,7 @@ export class AddFeeTypesComponent {
       descriptionAR,
       feeCalculationTypeId,
       defaultAmount,
-      defaultPrecentage,
+      defaultPercentage,
     };
     const routeId = this.route.snapshot.paramMap.get('id');
 
@@ -128,7 +128,7 @@ export class AddFeeTypesComponent {
         descriptionAR,
         feeCalculationTypeId,
         defaultAmount,
-        defaultPrecentage,
+        defaultPercentage,
         isActive,
       } = this.addFeesTypesLookupsForm.value;
       const payload: FeeType = {
@@ -139,7 +139,7 @@ export class AddFeeTypesComponent {
         descriptionAR,
         feeCalculationTypeId,
         defaultAmount,
-        defaultPrecentage,
+        defaultPercentage,
         isActive,
       };
 

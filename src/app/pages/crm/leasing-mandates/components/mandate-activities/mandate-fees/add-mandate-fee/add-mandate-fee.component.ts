@@ -80,7 +80,7 @@ export class AddMandateFeeComponent {
     this.addMandateFeeForm = this.fb.group({
       id: [null],
       mandateId: [this.leasingMandateId],
-      actualPrecentage: [null, Validators.required],
+      actualPercentage: [null, Validators.required],
       actualAmount: [{ value: null, disabled: true }, Validators.required],
       feeTypeId: [null, Validators.required],
     });
@@ -103,7 +103,7 @@ export class AddMandateFeeComponent {
     // —————————————————————————————
     this.subs.add(
       this.addMandateFeeForm
-        .get('actualPrecentage')!
+        .get('actualPercentage')!
         .valueChanges.pipe(
           // only numbers
           filter((pct): pct is number => pct != null && !isNaN(pct)),
@@ -191,7 +191,7 @@ export class AddMandateFeeComponent {
       .valueChanges.pipe(
         tap(() => {
           this.addMandateFeeForm
-            .get('actualPrecentage')!
+            .get('actualPercentage')!
             .reset(null, { emitEvent: false });
           this.addMandateFeeForm
             .get('actualAmount')!
@@ -272,7 +272,7 @@ export class AddMandateFeeComponent {
       id: m.id,
       mandateId: m.mandateId,
       actualAmount: m.actualAmount,
-      actualPrecentage: m.actualPrecentage,
+      actualPercentage: m.actualPercentage,
       feeTypeId: m.feeTypeId,
     });
   }
@@ -324,7 +324,7 @@ export class AddMandateFeeComponent {
               (item) =>
                 item.mandateId === this.mandateParam &&
                 item.actualAmount === payload.actualAmount &&
-                item.actualPrecentage === payload.actualPrecentage
+                item.actualPercentage === payload.actualPercentage
             )
           ),
           filter((match) => match),

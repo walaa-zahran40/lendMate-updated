@@ -26,7 +26,7 @@ export interface Mandate {
   mandateFees?: {
     feeTypeId: number;
     actualAmount?: number;
-    actualPrecentage?: number;
+    actualPercentage?: number;
   }[];
   mandateGracePeriodSettingView?: PeriodUnit;
   mandateContactPersons?: { contactPersonId: number }[];

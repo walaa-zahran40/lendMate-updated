@@ -26,7 +26,7 @@ export class ViewFeeRangesComponent {
     { field: 'lowerBound', header: 'Lower Bound' },
     { field: 'upperBound', header: 'Upper Bound' },
     { field: 'criteriaField', header: 'Criteria Field' },
-    { field: 'defaultPrecentage', header: 'Default Percentage' },
+    { field: 'defaultPercentage', header: 'Default Percentage' },
     { field: 'defaultAmount', header: 'Default Amount' },
   ];
 

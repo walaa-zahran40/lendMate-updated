@@ -4,5 +4,5 @@ export interface MandateFee {
   mandate: any;
   feeTypeId?: any;
   actualAmount?: any;
-  actualPrecentage?: any;
+  actualPercentage?: any;
 }

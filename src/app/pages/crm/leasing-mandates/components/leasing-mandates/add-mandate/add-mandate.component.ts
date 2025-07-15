@@ -610,7 +610,7 @@ export class AddMandateComponent {
     return this.fb.group({
       feeTypeId: [null],
       actualAmount: [null],
-      actualPrecentage: [null],
+      actualPercentage: [null],
     });
   }
 

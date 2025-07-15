@@ -35,7 +35,7 @@ export class ViewMandateFeesComponent {
   readonly colsInside = [
     { field: 'feeTypeName', header: 'Fee Type' },
     { field: 'actualAmount', header: 'Actual Amount' },
-    { field: 'actualPrecentage', header: 'Actual Percentage' },
+    { field: 'actualPercentage', header: 'Actual Percentage' },
   ];
 
   showDeleteModal: boolean = false;
