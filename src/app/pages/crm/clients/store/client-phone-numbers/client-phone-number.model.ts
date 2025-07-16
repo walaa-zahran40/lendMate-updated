@@ -1,9 +1,12 @@
 export interface ClientPhoneNumber {
-  id: number;
-  clientId: number;
+  id?: number;
+  clientId?: number;
   client?: any;
-   phoneTypeId: number;
+  phoneTypeId?: number;
   phoneType?: any;
-  phoneNumber : number;
-  isActive : boolean;
+  phoneNumbers?: number[];
+  phoneNumber?: any;
+
+  createClientPhoneNumbers?: any[];
+  isActive: boolean;
 }

@@ -22,6 +22,8 @@
         (submitForm)="addOrEditClientPhoneNumber()"
         [editMode]="editMode"
         [viewOnly]="viewOnly"
+        (removePhoneNumber)="removePhoneNumber($event)"
+        (addPhoneNumber)="addPhoneNumber()"
       ></app-add-client-phone-numbers-form>
     </p-tabpanel>
   </p-tabpanels>

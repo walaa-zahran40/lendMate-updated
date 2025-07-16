@@ -1,6 +1,10 @@
 import { createReducer, on } from '@ngrx/store';
 import * as Actions from './client-phone-numbers.actions';
 import { initialClientPhoneNumbersState } from './client-phone-numbers.state';
+import { createEntityAdapter } from '@ngrx/entity';
+import { ClientPhoneNumber } from './client-phone-number.model';
+
+export const adapter = createEntityAdapter<ClientPhoneNumber>();
 
 export const clientPhoneNumberReducer = createReducer(
   initialClientPhoneNumbersState,
@@ -9,15 +13,12 @@ export const clientPhoneNumberReducer = createReducer(
     loading: true,
     error: null,
   })),
-  on(
-    Actions.loadClientPhoneNumbersSuccess,
-    (state, { items, totalCount }) => ({
-      ...state,
-      items,
-      totalCount,
-      loading: false,
-    })
-  ),
+  on(Actions.loadClientPhoneNumbersSuccess, (state, { items, totalCount }) => ({
+    ...state,
+    items,
+    totalCount,
+    loading: false,
+  })),
   on(Actions.loadClientPhoneNumbersFailure, (state, { error }) => ({
     ...state,
     error,
@@ -103,20 +104,27 @@ export const clientPhoneNumberReducer = createReducer(
     loading: true,
     error: null,
   })),
-  on(
-    Actions.loadClientPhoneNumbersByClientIdSuccess,
-    (state, { items }) => ({
-      ...state,
-      items, // replace with just these rates
-      loading: false,
-    })
-  ),
-  on(
-    Actions.loadClientPhoneNumbersByClientIdFailure,
-    (state, { error }) => ({
-      ...state,
-      error,
-      loading: false,
-    })
-  )
+  on(Actions.loadClientPhoneNumbersByClientIdSuccess, (state, { items }) => ({
+    ...state,
+    items, // replace with just these rates
+    loading: false,
+  })),
+  on(Actions.loadClientPhoneNumbersByClientIdFailure, (state, { error }) => ({
+    ...state,
+    error,
+    loading: false,
+  })),
+  // Remove adapter usage and update state manually for consistency
+  // Add new client to items array
+  on(Actions.createClientPhoneNumberSuccess, (state, { client }) => ({
+    ...state,
+    items: [...state.items, client],
+    loading: false,
+  })),
+  // Update client in items array
+  on(Actions.updateClientPhoneNumberSuccess, (state, { client }) => ({
+    ...state,
+    items: state.items.map((ct) => (ct.id === client.id ? client : ct)),
+    loading: false,
+  }))
 );

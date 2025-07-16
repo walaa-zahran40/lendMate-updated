@@ -33,9 +33,7 @@ export class ClientPhoneNumbersService {
   }
 
   getById(id: number): Observable<ClientPhoneNumber> {
-    return this.http.get<ClientPhoneNumber>(`${this.api}/Id`, {
-      params: { id: id.toString() },
-    });
+    return this.http.get<ClientPhoneNumber>(`${this.api}/Id?id=${id}`);
   }
 
   create(data: Partial<ClientPhoneNumber>): Observable<ClientPhoneNumber> {

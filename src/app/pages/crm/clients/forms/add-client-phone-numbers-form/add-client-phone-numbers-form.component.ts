@@ -75,6 +75,8 @@ export class AddClientPhoneNumbersFormComponent implements OnInit, OnDestroy {
 
   @Output() addCommunicationContactPerson = new EventEmitter<void>();
   @Output() removeCommunicationContactPerson = new EventEmitter<number>();
+  @Output() addPhoneNumber = new EventEmitter<void>();
+  @Output() removePhoneNumber = new EventEmitter<number>();
 
   @Output() addOfficer = new EventEmitter<void>();
   @Output() removeOfficer = new EventEmitter<number>();
@@ -1378,5 +1380,8 @@ export class AddClientPhoneNumbersFormComponent implements OnInit, OnDestroy {
       this.onChange(fullObj);
     }
     console.log('Selected selectionChangedPaymentMonthDay:', fullObj);
+  }
+  get createClientPhoneNumbers(): FormArray {
+    return this.formGroup.get('createClientPhoneNumbers') as FormArray;
   }
 }

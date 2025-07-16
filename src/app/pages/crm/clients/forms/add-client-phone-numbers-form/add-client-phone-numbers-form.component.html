@@ -19,53 +19,77 @@
       (ngSubmit)="onSubmit()"
       [formGroup]="formGroup"
     >
-      <label for="phoneTypeId"
-        >Select Phone Type<sup class="danger">*</sup></label
-      >
-      <!--Select Box-->
-      <p-select
-        [filter]="true"
-        filterBy="name"
-        [showClear]="true"
-        [options]="phoneTypes"
-        optionLabel="name"
-        placeholder="Select Phone type"
-        formControlName="phoneTypeId"
-        optionValue="id"
-        required
-        [ngClass]="{
-          'ng-invalid':
-            formGroup.get('phoneTypeId')?.invalid &&
-            (formGroup.get('phoneTypeId')?.dirty ||
-              formGroup.get('phoneTypeId')?.touched)
-        }"
-      >
-      </p-select>
+      <div formArrayName="createClientPhoneNumbers" class="mt-4">
+        <div
+          *ngFor="
+            let group of createClientPhoneNumbers?.controls;
+            let i = index
+          "
+          [formGroupName]="i"
+          class="parent2-individual2 mt-2 flex items-start gap-2 align-items-center flex-wrap"
+        >
+          <label for="phoneTypeId"
+            >Select Phone Type<sup class="danger">*</sup></label
+          >
+          <!--Select Box-->
+          <p-select
+            [filter]="true"
+            filterBy="name"
+            [showClear]="true"
+            [options]="phoneTypes"
+            optionLabel="name"
+            placeholder="Select Phone type"
+            formControlName="phoneTypeId"
+            optionValue="id"
+            required
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+          >
+          </p-select>
 
-      <div
-        *ngIf="
-          formGroup.get('phoneTypeId')?.hasError('required') &&
-          formGroup.get('phoneTypeId')?.touched
-        "
-        class="p-error"
-      >
-        Phone Type is required.
+          <div
+            *ngIf="
+              formGroup.get('phoneTypeId')?.hasError('required') &&
+              formGroup.get('phoneTypeId')?.touched
+            "
+            class="p-error"
+          >
+            Phone Type is required.
+          </div>
+
+          <label for="phoneNumber"
+            >Phone Number <sup class="danger">*</sup></label
+          >
+          <input
+            pInputText
+            name="phoneNumber"
+            formControlName="phoneNumber"
+            placeholder="phoneNumber"
+            type="string"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+          />
+          <!-- 4) Add another Phone Number -->
+          <button
+            pButton
+            type="button"
+            icon="pi pi-plus"
+            class="p-button-outlined p-button-sm p-plus"
+            (click)="addPhoneNumber.emit()"
+            *ngIf="!viewOnly && !editMode"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+          ></button>
+
+          <!-- 5) Remove this Phone Number -->
+          <button
+            pButton
+            type="button"
+            icon="pi pi-trash"
+            class="p-button-danger p-button-sm p-remove"
+            *ngIf="phoneTypes.length > 1 && !viewOnly && !editMode"
+            (click)="removePhoneNumber.emit(i)"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+          ></button>
+        </div>
       </div>
-
-      <label for="phoneNumber">Number <sup class="danger">*</sup></label>
-      <input
-        pInputText
-        name="phoneNumber"
-        formControlName="phoneNumber"
-        placeholder="phoneNumber"
-        type="string"
-        [ngClass]="{
-          'ng-invalid ng-dirty':
-            formGroup.get('phoneNumber')?.invalid &&
-            formGroup.get('phoneNumber')?.touched
-        }"
-      />
-
       <div class="row justify-end">
         <div
           class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 currenciesDiv"

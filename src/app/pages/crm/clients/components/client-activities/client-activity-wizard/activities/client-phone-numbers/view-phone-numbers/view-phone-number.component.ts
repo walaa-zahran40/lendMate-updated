@@ -91,7 +91,7 @@ export class ViewPhoneNumberComponent implements OnInit, OnDestroy {
               };
             })
             .filter((ft) => ft.isActive)
-            .sort((a, b) => b.id - a.id);
+            .sort((a, b) => (b?.id ?? 0) - (a?.id ?? 0));
         }),
         takeUntil(this.destroy$)
       )
