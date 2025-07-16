@@ -21,8 +21,6 @@ export class WizardCommunicationComponent {
     private facade: CallsFacade
   ) {}
   ngOnInit(): void {
-    console.log('thirs', this.route.snapshot);
-
     const callId = +this.route.snapshot.paramMap.get('id')!;
     this.facade.loadById(callId);
 
@@ -46,8 +44,6 @@ export class WizardCommunicationComponent {
       },
     ];
     this.cards = this.chunkArray(this.originalCards, 3);
-    console.log('🧩 Built cards:', this.originalCards);
-    console.log('🔀 Chunked cards:', this.cards);
   }
   onSearchClient(keyword: string) {
     const lower = keyword.toLowerCase();
@@ -58,8 +54,6 @@ export class WizardCommunicationComponent {
     );
 
     this.cards = this.chunkArray(filtered, 3); // 3 per row
-    console.log('Original Cards:', this.originalCards);
-    console.log('Chunked Cards:', this.cards);
   }
   chunkArray(arr: any[], chunkSize: number): any[][] {
     const result = [];

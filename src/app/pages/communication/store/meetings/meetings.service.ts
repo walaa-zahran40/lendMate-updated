@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
 import { Meeting } from './meeting.model';
 import { environment } from '../../../../../environments/environment';
@@ -11,17 +11,13 @@ export class MeetingsService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<Meeting[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: Meeting[]; totalCount: number }>(
         `${this.baseUrl}/GetAllMeetings`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
-        map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+        map((resp) => resp.items),
         catchError((err) => {
-          console.error('🚀 HTTP error fetching Meetings:', err);
           return throwError(() => err);
         })
       );
@@ -36,10 +32,7 @@ export class MeetingsService {
   }
 
   create(payload: Omit<Meeting, 'id'>): Observable<Meeting> {
-    return this.http.post<Meeting>(
-      `${this.baseUrl}/CreateMeeting`,
-      payload
-    );
+    return this.http.post<Meeting>(`${this.baseUrl}/CreateMeeting`, payload);
   }
 
   update(id: number, changes: Partial<Meeting>): Observable<void> {

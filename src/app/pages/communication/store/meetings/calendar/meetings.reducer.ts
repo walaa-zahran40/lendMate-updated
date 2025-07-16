@@ -4,12 +4,10 @@ import { MeetingCalendarItem } from './meeting-calendar-item.model';
 
 export interface State {
   calendar: MeetingCalendarItem[];
-  // ... other slices
 }
 
 export const initialState: State = {
   calendar: [],
-  // ...
 };
 
 export const meetingsCalendarReducer = createReducer(
@@ -18,5 +16,4 @@ export const meetingsCalendarReducer = createReducer(
     ...state,
     calendar,
   }))
-  // handle failure if you like
 );

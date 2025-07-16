@@ -11,7 +11,7 @@ export const meetingsReducer = createReducer(
     loading: true,
     error: null,
   })),
- 
+
   // when your effect dispatches loadAllSuccess({ result })
   on(MeetingActions.loadAllSuccess, (state, { result }) =>
     adapter.setAll(result, {
@@ -70,22 +70,11 @@ export const meetingsReducer = createReducer(
     loading: false,
     error,
   })),
-  // address-calculation-types.reducer.ts
   on(MeetingActions.loadByIdSuccess, (state, { entity }) => {
-    console.log('🗄️ Reducer: loadByIdSuccess, before:', {
-      loadedId: state.loadedId,
-      entities: state.entities,
-    });
-
     const newState = adapter.upsertOne(entity, {
       ...state,
       loading: false,
       loadedId: entity.id,
-    });
-
-    console.log('🗄️ Reducer: loadByIdSuccess, after:', {
-      loadedId: newState.loadedId,
-      entities: newState.entities,
     });
 
     return newState;

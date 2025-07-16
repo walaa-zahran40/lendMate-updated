@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 import { FollowupPoint } from './followup-point.model';
 import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
 
-
 @Injectable({ providedIn: 'root' })
 export class FollowupPointsFacade {
   items$: Observable<FollowupPoint[]> = this.store.select(
@@ -50,13 +49,11 @@ export class FollowupPointsFacade {
   /** NEW: dispatch the by-communicationId loader */
   loadFollowupPointsByClientId(communicationId?: number) {
     if (communicationId == null || isNaN(communicationId)) {
-      console.error(
-        '❌ Facade.loadFollowupPointsByClientId called with invalid id:',
-        communicationId
-      );
       return;
     }
-    this.store.dispatch(Actions.loadFollowupPointsByCommunicationId({ communicationId }));
+    this.store.dispatch(
+      Actions.loadFollowupPointsByCommunicationId({ communicationId })
+    );
   }
 
   /** UPDATED: now expects both id & parent communicationId */
@@ -64,6 +61,8 @@ export class FollowupPointsFacade {
     this.store.dispatch(Actions.deleteFollowupPoint({ id, communicationId }));
   }
   loadByCommunicationId(communicationId: number) {
-    this.store.dispatch(Actions.loadFollowupPointsByCommunicationId({ communicationId }));
+    this.store.dispatch(
+      Actions.loadFollowupPointsByCommunicationId({ communicationId })
+    );
   }
 }

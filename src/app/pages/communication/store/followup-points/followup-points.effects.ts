@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { mergeMap, map, catchError, tap, filter } from 'rxjs/operators';
+import { mergeMap, map, catchError, filter } from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as FollowupPointActions from './followup-points.actions';
 import { FollowupPointsService } from './followup-points.service';
@@ -37,18 +37,12 @@ export class FollowupPointsEffects {
       mergeMap(() =>
         this.service.getHistory().pipe(
           map((resp) =>
-            FollowupPointActions.loadFollowupPointsHistorySuccess(
-              {
-                history: resp.items,
-              }
-            )
+            FollowupPointActions.loadFollowupPointsHistorySuccess({
+              history: resp.items,
+            })
           ),
           catchError((error) =>
-            of(
-              FollowupPointActions.loadFollowupPointsHistoryFailure(
-                { error }
-              )
-            )
+            of(FollowupPointActions.loadFollowupPointsHistoryFailure({ error }))
           )
         )
       )
@@ -102,9 +96,7 @@ export class FollowupPointsEffects {
   update$ = createEffect(() =>
     this.actions$.pipe(
       ofType(FollowupPointActions.updateFollowupPoint),
-      tap(({ id, data }) =>
-        console.log('[Effect:update] called with id=', id, 'data=', data)
-      ),
+
       mergeMap(({ id, data }) =>
         this.service.update(id, data).pipe(
           map((serverReturned) => {
@@ -113,10 +105,9 @@ export class FollowupPointsEffects {
               ...serverReturned,
               followUpId: data.followUpId!,
             };
-            console.log('[Effect:update] enriched communication →', enriched);
-            return FollowupPointActions.updateFollowupPointSuccess(
-              { communication: enriched }
-            );
+            return FollowupPointActions.updateFollowupPointSuccess({
+              communication: enriched,
+            });
           }),
           catchError((error) =>
             of(
@@ -162,21 +153,19 @@ export class FollowupPointsEffects {
         FollowupPointActions.deleteFollowupPointSuccess
       ),
 
-      tap((action) =>
-        console.log('[RefreshList] triggered by action:', action)
-      ),
-
       // pull out the right number
       map((action) => {
         const Id =
-          'communication' in action ? action.communication.followUpId : action.communicationId;
-        console.log('[RefreshList] extracted communicationId →', Id);
+          'communication' in action
+            ? action.communication.followUpId
+            : action.communicationId;
         return Id;
       }),
 
       // only continue if it’s a number
       filter(
-        (communicationId): communicationId is number => typeof communicationId === 'number'
+        (communicationId): communicationId is number =>
+          typeof communicationId === 'number'
       ),
 
       map((communicationId) =>
@@ -194,28 +183,18 @@ export class FollowupPointsEffects {
     this.actions$.pipe(
       ofType(FollowupPointActions.loadFollowupPointsByCommunicationId),
 
-      tap((action) =>
-        console.log('[Effect:loadByCommunicationId] full action →', action)
-      ),
-      tap(({ communicationId }) =>
-        console.log('[Effect:loadByCommunicationId] communicationId →', communicationId)
-      ),
-
       mergeMap(({ communicationId }) =>
         this.service.getByCommunicationId(communicationId).pipe(
-          tap((items) =>
-            console.log('[Effect:loadByCommunicationId] response →', items)
-          ),
           map((items) =>
-            FollowupPointActions.loadFollowupPointsByCommunicationIdSuccess(
-              { items }
-            )
+            FollowupPointActions.loadFollowupPointsByCommunicationIdSuccess({
+              items,
+            })
           ),
           catchError((error) =>
             of(
-              FollowupPointActions.loadFollowupPointsByCommunicationIdFailure(
-                { error }
-              )
+              FollowupPointActions.loadFollowupPointsByCommunicationIdFailure({
+                error,
+              })
             )
           )
         )

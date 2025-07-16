@@ -5,7 +5,6 @@ import { ButtonModule } from 'primeng/button';
 import { TabsModule } from 'primeng/tabs';
 import { SharedModule } from '../../shared/shared.module';
 import { AddFollowupsComponent } from '../crm/clients/components/client-activities/client-activity-wizard/activities/client-follow-ups/add-follow-ups/add-follow-ups.component';
-import { WizardComponent } from './components/wizard/wizard.component';
 import { ViewFollowupsComponent } from '../crm/clients/components/client-activities/client-activity-wizard/activities/client-follow-ups/view-follow-ups/view-follow-ups.component';
 import { SaveMeetingComponent } from '../crm/clients/components/client-activities/client-activity-wizard/activities/client-meetings/save-meeting/save-meeting.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
@@ -42,7 +41,6 @@ import { MeetingsCalendarEffects } from './store/meetings/calendar/meetings.effe
     AddCallsComponent,
     AddMeetingsComponent,
     ViewMeetingsComponent,
-    WizardComponent,
     ViewFollowupsComponent,
     ViewFollowupPointsComponent,
     ViewCallsComponent,

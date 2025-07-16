@@ -3,7 +3,7 @@ import { createSelector, Store } from '@ngrx/store';
 import * as Actions from './calls.actions';
 import * as Selectors from './calls.selectors';
 import { Call } from './call.model';
-import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors'; // adjust path if needed
+import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class CallsFacade {
@@ -14,7 +14,7 @@ export class CallsFacade {
   selected$ = this.store.select(
     createSelector(
       Selectors.selectFeature,
-      (state) => state.entities[state.loadedId!] // or however you track it
+      (state) => state.entities[state.loadedId!]
     )
   );
   operationSuccess$ = this.store.select(selectLastOperationSuccess);
@@ -28,11 +28,9 @@ export class CallsFacade {
     this.store.dispatch(Actions.loadById({ id }));
   }
 
-  
   loadByClientId(id: any) {
     this.store.dispatch(Actions.loadByClientId({ id }));
   }
-
 
   create(payload: Partial<Omit<Call, 'id'>>) {
     this.store.dispatch(Actions.createEntity({ payload }));

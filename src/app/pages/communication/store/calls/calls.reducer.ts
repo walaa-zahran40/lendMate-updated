@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import * as AddressActions from './calls.actions';
-import { adapter, initialState, State } from './calls.state';
+import { adapter, initialState } from './calls.state';
 
 export const callsReducer = createReducer(
   initialState,
@@ -72,20 +72,10 @@ export const callsReducer = createReducer(
   })),
   // address-calculation-types.reducer.ts
   on(AddressActions.loadByIdSuccess, (state, { entity }) => {
-    console.log('🗄️ Reducer: loadByIdSuccess, before:', {
-      loadedId: state.loadedId,
-      entities: state.entities,
-    });
-
     const newState = adapter.upsertOne(entity, {
       ...state,
       loading: false,
       loadedId: entity.id,
-    });
-
-    console.log('🗄️ Reducer: loadByIdSuccess, after:', {
-      loadedId: newState.loadedId,
-      entities: newState.entities,
     });
 
     return newState;

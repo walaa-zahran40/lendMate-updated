@@ -9,15 +9,12 @@ export const followupPointsReducer = createReducer(
     loading: true,
     error: null,
   })),
-  on(
-    Actions.loadFollowupPointsSuccess,
-    (state, { items, totalCount }) => ({
-      ...state,
-      items,
-      totalCount,
-      loading: false,
-    })
-  ),
+  on(Actions.loadFollowupPointsSuccess, (state, { items, totalCount }) => ({
+    ...state,
+    items,
+    totalCount,
+    loading: false,
+  })),
   on(Actions.loadFollowupPointsFailure, (state, { error }) => ({
     ...state,
     error,
@@ -75,7 +72,9 @@ export const followupPointsReducer = createReducer(
   })),
   on(Actions.updateFollowupPointSuccess, (state, { communication }) => ({
     ...state,
-    items: state.items.map((ct) => (ct.id === communication.id ? communication : ct)),
+    items: state.items.map((ct) =>
+      ct.id === communication.id ? communication : ct
+    ),
     loading: false,
   })),
   on(Actions.updateFollowupPointFailure, (state, { error }) => ({
@@ -107,7 +106,7 @@ export const followupPointsReducer = createReducer(
     Actions.loadFollowupPointsByCommunicationIdSuccess,
     (state, { items }) => ({
       ...state,
-      items, // replace with just these rates
+      items,
       loading: false,
     })
   ),

@@ -3,12 +3,9 @@ import * as fromSlice from './meetings.reducer';
 import { adapter, State } from './meetings.state';
 
 export const selectFeature = createFeatureSelector<State>('meetings');
-export const selectMeetingsFeature =
-  createFeatureSelector<State>('meetings');
+export const selectMeetingsFeature = createFeatureSelector<State>('meetings');
 
-// these come from your EntityAdapter
-const { selectAll, selectEntities, selectIds, selectTotal } =
-  adapter.getSelectors(selectMeetingsFeature);
+const { selectEntities } = adapter.getSelectors(selectMeetingsFeature);
 
 export const selectAllMeetings = createSelector(
   selectFeature,

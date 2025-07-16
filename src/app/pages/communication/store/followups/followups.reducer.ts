@@ -9,15 +9,12 @@ export const followupsReducer = createReducer(
     loading: true,
     error: null,
   })),
-  on(
-    Actions.loadFollowupsSuccess,
-    (state, { items, totalCount }) => ({
-      ...state,
-      items,
-      totalCount,
-      loading: false,
-    })
-  ),
+  on(Actions.loadFollowupsSuccess, (state, { items, totalCount }) => ({
+    ...state,
+    items,
+    totalCount,
+    loading: false,
+  })),
   on(Actions.loadFollowupsFailure, (state, { error }) => ({
     ...state,
     error,
@@ -75,7 +72,9 @@ export const followupsReducer = createReducer(
   })),
   on(Actions.updateFollowupSuccess, (state, { communication }) => ({
     ...state,
-    items: state.items.map((ct) => (ct.id === communication.id ? communication : ct)),
+    items: state.items.map((ct) =>
+      ct.id === communication.id ? communication : ct
+    ),
     loading: false,
   })),
   on(Actions.updateFollowupFailure, (state, { error }) => ({
@@ -103,20 +102,14 @@ export const followupsReducer = createReducer(
     loading: true,
     error: null,
   })),
-  on(
-    Actions.loadFollowupsByCommunicationIdSuccess,
-    (state, { items }) => ({
-      ...state,
-      items, // replace with just these rates
-      loading: false,
-    })
-  ),
-  on(
-    Actions.loadFollowupsByCommunicationIdFailure,
-    (state, { error }) => ({
-      ...state,
-      error,
-      loading: false,
-    })
-  )
+  on(Actions.loadFollowupsByCommunicationIdSuccess, (state, { items }) => ({
+    ...state,
+    items,
+    loading: false,
+  })),
+  on(Actions.loadFollowupsByCommunicationIdFailure, (state, { error }) => ({
+    ...state,
+    error,
+    loading: false,
+  }))
 );

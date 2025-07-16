@@ -2,27 +2,21 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { MeetingsService } from './meetings.service';
 import * as ActionsList from './meetings.actions';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of } from 'rxjs';
 import { Meeting } from './meeting.model';
 import { EntityNames } from '../../../../shared/constants/entity-names';
 
 @Injectable()
 export class MeetingsEffects {
-  constructor(
-    private actions$: Actions,
-    private service: MeetingsService
-  ) {}
+  constructor(private actions$: Actions, private service: MeetingsService) {}
 
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActionsList.loadAll),
-      tap(() => console.log('✨ Effect: loadAll action caught')),
       mergeMap(() =>
         this.service.getAll().pipe(
-          tap((items) => console.log('✨ Service returned items:', items)),
           map((items) => ActionsList.loadAllSuccess({ result: items })),
           catchError((err) => {
-            console.error('⚠️ Error loading addressTypes', err);
             return of(ActionsList.loadAllFailure({ error: err }));
           })
         )
@@ -32,15 +26,11 @@ export class MeetingsEffects {
   loadByClientId$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActionsList.loadByClientId),
-      tap(({ id }) =>
-        console.log('🔄 Effect: loadById action caught for id=', id)
-      ),
+
       mergeMap(({ id }) =>
         this.service.getByClientId(id).pipe(
-          tap((entity) => console.log('🔄 Service.getById returned:', entity)),
           map((entity) => ActionsList.loadByClientIdSuccess({ entity })),
           catchError((error) => {
-            console.error('❌ Service.getById error:', error);
             return of(ActionsList.loadByClientIdFailure({ error }));
           })
         )
@@ -48,19 +38,14 @@ export class MeetingsEffects {
     )
   );
 
-  
   loadById$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActionsList.loadById),
-      tap(({ id }) =>
-        console.log('🔄 Effect: loadById action caught for id=', id)
-      ),
+
       mergeMap(({ id }) =>
         this.service.getById(id).pipe(
-          tap((entity) => console.log('🔄 Service.getById returned:', entity)),
           map((entity) => ActionsList.loadByIdSuccess({ entity })),
           catchError((error) => {
-            console.error('❌ Service.getById error:', error);
             return of(ActionsList.loadByIdFailure({ error }));
           })
         )
@@ -69,30 +54,12 @@ export class MeetingsEffects {
   );
 
   loadByIdSuccess$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(ActionsList.loadByIdSuccess),
-        tap(({ entity }) =>
-          console.log(
-            '✨ Effect: loadByIdSuccess action caught, entity:',
-            entity
-          )
-        )
-      ),
+    () => this.actions$.pipe(ofType(ActionsList.loadByIdSuccess)),
     { dispatch: false }
   );
 
-    loadByClientIdSuccess$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(ActionsList.loadByClientIdSuccess),
-        tap(({ entity }) =>
-          console.log(
-            '✨ Effect: loadByIdSuccess action caught, entity:',
-            entity
-          )
-        )
-      ),
+  loadByClientIdSuccess$ = createEffect(
+    () => this.actions$.pipe(ofType(ActionsList.loadByClientIdSuccess)),
     { dispatch: false }
   );
 

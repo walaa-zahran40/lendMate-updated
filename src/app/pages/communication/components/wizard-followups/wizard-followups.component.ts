@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { filter, take, tap } from 'rxjs';
-import { CallsFacade } from '../../store/calls/calls.facade';
 
 @Component({
   selector: 'app-wizard-followups',
@@ -15,13 +13,8 @@ export class WizardFollowupsComponent {
   followupId = this.route.snapshot.params['followupId'];
   communicationId = this.route.snapshot.params['communicationId'];
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private facade: CallsFacade
-  ) {}
+  constructor(private router: Router, private route: ActivatedRoute) {}
   ngOnInit(): void {
-    console.log('this', this.route.snapshot);
     this.buildCards();
   }
   private buildCards() {
@@ -36,8 +29,6 @@ export class WizardFollowupsComponent {
       },
     ];
     this.cards = this.chunkArray(this.originalCards, 3);
-    console.log('🧩 Built cards:', this.originalCards);
-    console.log('🔀 Chunked cards:', this.cards);
   }
   onSearchClient(keyword: string) {
     const lower = keyword.toLowerCase();
@@ -48,8 +39,6 @@ export class WizardFollowupsComponent {
     );
 
     this.cards = this.chunkArray(filtered, 3); // 3 per row
-    console.log('Original Cards:', this.originalCards);
-    console.log('Chunked Cards:', this.cards);
   }
   chunkArray(arr: any[], chunkSize: number): any[][] {
     const result = [];

@@ -6,12 +6,9 @@ import { Observable } from 'rxjs';
 import { Followup } from './followup.model';
 import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
 
-
 @Injectable({ providedIn: 'root' })
 export class FollowupsFacade {
-  items$: Observable<Followup[]> = this.store.select(
-    Selectors.selectFollowups
-  );
+  items$: Observable<Followup[]> = this.store.select(Selectors.selectFollowups);
   total$: Observable<number> = this.store.select(
     Selectors.selectFollowupsTotal
   );
@@ -25,9 +22,7 @@ export class FollowupsFacade {
   loading$: Observable<boolean> = this.store.select(
     Selectors.selectFollowupsLoading
   );
-  error$: Observable<any> = this.store.select(
-    Selectors.selectFollowupsError
-  );
+  error$: Observable<any> = this.store.select(Selectors.selectFollowupsError);
   operationSuccess$ = this.store.select(selectLastOperationSuccess);
 
   constructor(private store: Store) {}
@@ -47,23 +42,21 @@ export class FollowupsFacade {
   update(id: any, data: Partial<Followup>) {
     this.store.dispatch(Actions.updateFollowup({ id, data }));
   }
-  /** NEW: dispatch the by-communicationId loader */
   loadFollowupsByClientId(communicationId?: number) {
     if (communicationId == null || isNaN(communicationId)) {
-      console.error(
-        '❌ Facade.loadFollowupsByClientId called with invalid id:',
-        communicationId
-      );
       return;
     }
-    this.store.dispatch(Actions.loadFollowupsByCommunicationId({ communicationId }));
+    this.store.dispatch(
+      Actions.loadFollowupsByCommunicationId({ communicationId })
+    );
   }
 
-  /** UPDATED: now expects both id & parent communicationId */
   delete(id: number, communicationId: number) {
     this.store.dispatch(Actions.deleteFollowup({ id, communicationId }));
   }
   loadByCommunicationId(communicationId: number) {
-    this.store.dispatch(Actions.loadFollowupsByCommunicationId({ communicationId }));
+    this.store.dispatch(
+      Actions.loadFollowupsByCommunicationId({ communicationId })
+    );
   }
 }

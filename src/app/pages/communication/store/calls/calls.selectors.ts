@@ -3,12 +3,10 @@ import * as fromSlice from './calls.reducer';
 import { adapter, State } from './calls.state';
 
 export const selectFeature = createFeatureSelector<State>('calls');
-export const selectCallsFeature =
-  createFeatureSelector<State>('calls');
+export const selectCallsFeature = createFeatureSelector<State>('calls');
 
 // these come from your EntityAdapter
-const { selectAll, selectEntities, selectIds, selectTotal } =
-  adapter.getSelectors(selectCallsFeature);
+const { selectEntities } = adapter.getSelectors(selectCallsFeature);
 
 export const selectAllCalls = createSelector(
   selectFeature,

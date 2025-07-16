@@ -16,7 +16,6 @@ import { SaveMeetingComponent } from '../crm/clients/components/client-activitie
 import { ViewMeetingsComponent } from '../crm/clients/components/client-activities/client-activity-wizard/activities/client-meetings/view-meetings/view-meetings.component';
 import { WizardCommunicationComponent } from './components/wizard-communication/wizard-communication.component';
 import { WizardFollowupsComponent } from './components/wizard-followups/wizard-followups.component';
-import { WizardComponent } from './components/wizard/wizard.component';
 import { WizardMeetingComponent } from '../crm/clients/components/client-activities/client-activity-wizard/activities/client-meetings/wizard-meeting/wizard-meeting.component';
 import { PendingChangesGuard } from '../../shared/guards/pending-changes.guard';
 const routes: Routes = [
@@ -48,10 +47,7 @@ const routes: Routes = [
     path: 'wizard-meeting/:id',
     component: WizardMeetingComponent,
   },
-  {
-    path: 'wizard',
-    component: WizardComponent,
-  },
+
   //followups
   {
     path: 'view-follow-ups/:communicationId',

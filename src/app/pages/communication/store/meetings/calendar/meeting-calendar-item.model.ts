@@ -1,7 +1,7 @@
 export interface MeetingCalendarItem {
   id: number;
   clientId: number;
-  startDate: string; // "2025-07-10T21:00:00"
+  startDate: string;
   endDate: string;
   topic: string;
   details?: string;

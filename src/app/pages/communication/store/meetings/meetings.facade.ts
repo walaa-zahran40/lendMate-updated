@@ -3,7 +3,7 @@ import { createSelector, Store } from '@ngrx/store';
 import * as Actions from './meetings.actions';
 import * as Selectors from './meetings.selectors';
 import { Meeting } from './meeting.model';
-import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors'; // adjust path if needed
+import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class MeetingsFacade {
@@ -14,7 +14,7 @@ export class MeetingsFacade {
   selected$ = this.store.select(
     createSelector(
       Selectors.selectFeature,
-      (state) => state.entities[state.loadedId!] // or however you track it
+      (state) => state.entities[state.loadedId!]
     )
   );
   operationSuccess$ = this.store.select(selectLastOperationSuccess);
