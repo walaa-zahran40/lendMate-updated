@@ -350,12 +350,6 @@ export class AddMandateComponent {
         () => this.createAssetTypeGroup(),
         'mandateAssetTypes'
       );
-      resetArray(
-        this.mandateFees,
-        m.mandateFees || [],
-        () => this.createMandateFeesGroup(),
-        'mandateFees'
-      );
 
       this.workFlowActionList = m.allowedMandateWorkFlowActions?.map(
         (action) => ({
@@ -437,12 +431,6 @@ export class AddMandateComponent {
         m.mandateAssetTypes || [],
         () => this.createAssetTypeGroup(),
         'mandateAssetTypes'
-      );
-      resetArray(
-        this.mandateFees,
-        m.mandateFees || [],
-        () => this.createMandateFeesGroup(),
-        'mandateFees'
       );
 
       this.workFlowActionList = m.allowedMandateWorkFlowActions?.map(
@@ -601,16 +589,8 @@ export class AddMandateComponent {
       description: [null, Validators.required],
       validityCount: [null, Validators.required],
       indicativeRentals: [null, Validators.required],
-      mandateFees: this.fb.array([this.createMandateFeesGroup()]),
       mandateGracePeriodSettingView:
         this.createMandateGracePeriodSettingGroup(),
-    });
-  }
-  createMandateFeesGroup(): FormGroup {
-    return this.fb.group({
-      feeTypeId: [null],
-      actualAmount: [null],
-      actualPercentage: [null],
     });
   }
 
@@ -654,17 +634,7 @@ export class AddMandateComponent {
       this.mandateAssetTypes.removeAt(i);
     }
   }
-  addFee() {
-    console.log('Adding new mandate Fees group');
-    this.mandateFees?.push(this.createMandateFeesGroup());
-  }
 
-  removeFee(i: number) {
-    console.log('Removing mandate Fees at index', i);
-    if (this.mandateFees.length > 1) {
-      this.mandateFees.removeAt(i);
-    }
-  }
   get mandateOfficers(): FormArray {
     return this.addMandateShowOfficersForm.get('mandateOfficers') as FormArray;
   }
@@ -678,11 +648,7 @@ export class AddMandateComponent {
       'mandateAssetTypes'
     ) as FormArray;
   }
-  get mandateFees(): FormArray {
-    return this.addMandateShowMoreInformationForm.get(
-      'mandateFees'
-    ) as FormArray;
-  }
+
   // → update to:
 
   get officersForm(): FormGroup {
@@ -777,7 +743,6 @@ export class AddMandateComponent {
           notes: moreInfo.notes,
           validityCount: moreInfo.validityCount,
           indicativeRentals: moreInfo.indicativeRentals,
-          mandateFees: moreInfo.mandateFees,
           mandateGracePeriodSettingView: moreInfo.mandateGracePeriodSettingView,
 
           // your array groups, renamed to match the API
@@ -867,7 +832,6 @@ export class AddMandateComponent {
           notes: moreInfo.notes,
           validityCount: moreInfo.validityCount,
           indicativeRentals: moreInfo.indicativeRentals,
-          mandateFees: moreInfo.mandateFees,
           mandateGracePeriodSettingView: moreInfo.mandateGracePeriodSettingView,
 
           // your array groups, renamed to match the API

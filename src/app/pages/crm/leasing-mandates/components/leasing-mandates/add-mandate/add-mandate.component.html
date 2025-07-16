@@ -81,10 +81,7 @@
         [formGroup]="moreInfoForm"
         [editMode]="editMode"
         [viewOnly]="viewOnly"
-        (removeFee)="removeFee($event)"
-        (addFee)="addFee()"
         [gracePeriodUnitsList]="gracePeriodUnits$ | async"
-        [feesList]="feeTypes$ | async"
       ></app-form>
       <button
         class="submit"

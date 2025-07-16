@@ -309,12 +309,6 @@ export class AddChildMandateComponent {
       () => this.createAssetTypeGroup(),
       'mandateAssetTypes'
     );
-    resetArray(
-      this.mandateFees,
-      m.mandateFees || [],
-      () => this.createMandateFeesGroup(),
-      'mandateFees'
-    );
   }
 
   private normalizeMandate(raw: any): Mandate & {
@@ -425,16 +419,8 @@ export class AddChildMandateComponent {
       description: [null, Validators.required],
       validityCount: [null, Validators.required],
       indicativeRentals: [null, Validators.required],
-      mandateFees: this.fb.array([this.createMandateFeesGroup()]),
       mandateGracePeriodSettingView:
         this.createMandateGracePeriodSettingGroup(),
-    });
-  }
-  createMandateFeesGroup(): FormGroup {
-    return this.fb.group({
-      feeTypeId: [null],
-      actualAmount: [null],
-      actualPercentage: [null],
     });
   }
 
@@ -478,17 +464,7 @@ export class AddChildMandateComponent {
       this.mandateAssetTypes.removeAt(i);
     }
   }
-  addFee() {
-    console.log('Adding new mandate Fees group');
-    this.mandateFees?.push(this.createMandateFeesGroup());
-  }
 
-  removeFee(i: number) {
-    console.log('Removing mandate Fees at index', i);
-    if (this.mandateFees.length > 1) {
-      this.mandateFees.removeAt(i);
-    }
-  }
   get mandateOfficers(): FormArray {
     return this.addMandateShowOfficersForm.get('mandateOfficers') as FormArray;
   }
@@ -502,11 +478,7 @@ export class AddChildMandateComponent {
       'mandateAssetTypes'
     ) as FormArray;
   }
-  get mandateFees(): FormArray {
-    return this.addMandateShowMoreInformationForm.get(
-      'mandateFees'
-    ) as FormArray;
-  }
+
   // → update to:
 
   get officersForm(): FormGroup {
@@ -611,7 +583,6 @@ export class AddChildMandateComponent {
           notes: m.notes,
           validityCount: m.validityCount,
           indicativeRentals: m.indicativeRentals,
-          mandateFees: m.mandateFees,
           mandateGracePeriodSettingView: m.mandateGracePeriodSettingView,
           mandateAssetTypes: a.mandateAssetTypes,
           mandateContactPersons: c.mandateContactPersons,
@@ -677,7 +648,6 @@ export class AddChildMandateComponent {
           notes: m.notes,
           validityCount: m.validityCount,
           indicativeRentals: m.indicativeRentals,
-          mandateFees: m.mandateFees,
           mandateGracePeriodSettingView: m.mandateGracePeriodSettingView,
           mandateAssetTypes: a.mandateAssetTypes,
           mandateContactPersons: c.mandateContactPersons,
