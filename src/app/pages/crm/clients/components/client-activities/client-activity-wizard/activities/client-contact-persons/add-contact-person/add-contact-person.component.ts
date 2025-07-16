@@ -26,6 +26,7 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
   // Flags driven by mode
   editMode = false;
   viewOnly = false;
+  private ignoreCascades = false;
 
   // Reactive form
   addClientContactPersonForm!: FormGroup;
@@ -174,41 +175,57 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
         )
         .subscribe({
           next: (rec) => {
-            console.log('💾 Loaded contact-person record:', rec);
-            console.log('🔑 rec keys:', Object.keys(rec));
+            const form = this.addClientContactPersonForm;
 
-            // 1) patch simple fields
-            this.addClientContactPersonForm.patchValue({
-              id: rec.id,
-              clientId: this.route.snapshot.queryParamMap.get('clientId'),
-              name: rec.name,
-              nameAR: rec.nameAR,
-              genderId: rec.genderId,
-              title: rec.title,
-              titleAR: rec.titleAR,
-              email: rec.email,
-              isAuthorizedSign: rec.isAuthorizedSign,
-              isKeyManager: rec.isKeyManager,
-              isFinance: rec.isFinance,
-              areaId: rec.areaId,
-              governorateId: rec.governorateId,
-              countryId: rec.countryId,
-              addressTypeId: rec.addressTypeId,
-              addressDetails: rec.addressDetails,
-              addressDetailsAr: rec.addressDetailsAr,
-            });
-            console.log(
-              '📝 After patchValue, form value:',
-              this.addClientContactPersonForm.value
+            // 1) Disable our cascades temporarily
+            this.ignoreCascades = true;
+
+            // 2) Country → rebuild governorates
+            form
+              .get('countryId')!
+              .patchValue(rec.countryId, { emitEvent: false });
+            this.filteredGovernorates = this.governoratesList.filter(
+              (g) => g.countryId === rec.countryId
             );
 
-            // 2) identities
-            const idArr = this.addClientContactPersonForm.get(
-              'identities'
-            ) as FormArray;
-            console.log('👥 identities before clear:', idArr.length);
+            // 3) Governorate → rebuild areas
+            form
+              .get('governorateId')!
+              .patchValue(rec.governorateId, { emitEvent: false });
+            this.filteredAreas = this.areasList.filter(
+              (a) => a.governorate.id === rec.governorateId
+            );
+
+            // 4) Area
+            form.get('areaId')!.patchValue(rec.areaId, { emitEvent: false });
+
+            // 5) All other scalar fields
+            form.patchValue(
+              {
+                id: rec.id,
+                clientId: this.parentClientId,
+                name: rec.name,
+                nameAR: rec.nameAR,
+                genderId: rec.genderId,
+                title: rec.title,
+                titleAR: rec.titleAR,
+                email: rec.email,
+                isAuthorizedSign: rec.isAuthorizedSign,
+                isKeyManager: rec.isKeyManager,
+                isFinance: rec.isFinance,
+                addressTypeId: rec.addressTypeId,
+                addressDetails: rec.addressDetails,
+                addressDetailsAr: rec.addressDetailsAr,
+              },
+              { emitEvent: false }
+            );
+
+            // 6) Re-enable cascades
+            this.ignoreCascades = false;
+
+            // 7) Now rebuild identities & phoneTypes FormArrays as before…
+            const idArr = form.get('identities') as FormArray;
             idArr.clear();
-            console.log('👥 identities after clear:', idArr.length);
             rec.contactPersonIdentities?.forEach((ci) => {
               idArr.push(
                 this.fb.group({
@@ -225,35 +242,23 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
                 })
               );
             });
-            console.log('👥 identities after rebuild:', idArr.length);
 
-            // 3) phone types
-            const phArr = this.addClientContactPersonForm.get(
-              'phoneTypes'
-            ) as FormArray;
-            console.log('📞 phoneTypes before clear:', phArr.length);
+            const phArr = form.get('phoneTypes') as FormArray;
             phArr.clear();
-            console.log('📞 phoneTypes after clear:', phArr.length);
             rec.contactPersonPhoneNumbers?.forEach((pp) => {
               phArr.push(
                 this.fb.group({
                   id: [pp.id],
                   phoneNumber: [
                     pp.phoneNumber,
-                    [
-                      Validators.required,
-                      Validators.pattern(/^[0-9]+$/), // ← only digits, at least one
-                    ],
+                    [Validators.required, Validators.pattern(/^[0-9]+$/)],
                   ],
                   phoneTypeId: [pp.phoneTypeId, Validators.required],
                 })
               );
             });
-            console.log('📞 phoneTypes after rebuild:', phArr.length);
           },
-          error: (err) => {
-            console.error('❌ Error loading contact-person from facade:', err);
-          },
+          error: (err) => console.error(err),
         });
     }
   }
