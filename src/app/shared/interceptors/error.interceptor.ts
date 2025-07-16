@@ -20,7 +20,6 @@ export class ErrorInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       catchError((err: HttpErrorResponse) => {
-        // Only show for 4xx and 5xx status codes
         if (err.status >= 400 && err.status < 600) {
           const detail = err.error?.message || err.message || 'Unknown error';
           this.messageService.add({

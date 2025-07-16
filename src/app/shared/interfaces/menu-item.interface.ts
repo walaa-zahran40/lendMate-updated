@@ -4,5 +4,5 @@ export interface MenuItem {
   icon?: string;
   routerLink?: string;
   items?: MenuItem[];
-  permission?: string; // <-- which claim toggles *this* item
+  permission?: string;
 }

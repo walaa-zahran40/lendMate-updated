@@ -1,5 +1,4 @@
 export enum EntityNames {
-  //Clients and Lookups
   AssetType = 'AssetType',
   NotificationGroupOfficer = 'NotificationGroupOfficer',
   AuthorizationGroupOfficer = 'AuthorizationGroupOfficer',
@@ -57,7 +56,6 @@ export enum EntityNames {
   ClientOfficerType = 'ClientOfficerType',
   AuthorizationGroup = 'AuthorizationGroup',
   ClientWorkFlowAction = 'ClientWorkFlowAction',
-  //Mandates
   Mandate = 'Mandate',
   MandatePaymentSetting = 'MandatePaymentSetting',
   Clone = 'Clone',
