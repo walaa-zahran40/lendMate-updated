@@ -64,12 +64,6 @@
     .upload-delete .p-button {
       background: transparent !important;
     }
-    // .p-fileupload-header {
-    //   background: url(/assets/images/shared/forms/Logo.svg) !important;
-    //   background-repeat: no-repeat !important;
-    //   background-position: center center;
-    //   height: 50vh;
-    // }
 
     .p-fileupload-choose-button {
       visibility: hidden;
@@ -698,7 +692,7 @@ form {
   }
 
   .div2-individual {
-    flex: 1; // this makes the multiselect take full width
+    flex: 1;
   }
 
   .div3-individual {

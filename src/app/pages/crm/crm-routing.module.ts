@@ -358,10 +358,7 @@ const routes: Routes = [
     path: 'leasing-mandates/add-mandate/:clientId',
     component: AddMandateComponent,
   },
-  // {
-  //   path: 'leasing-mandates/:leasingId/add-mandate',
-  //   component: AddMandateComponent,
-  // },
+
   {
     path: 'leasing-mandates/edit-mandate/:leasingId',
     component: AddMandateComponent,
@@ -372,10 +369,7 @@ const routes: Routes = [
     component: AddMandateComponent,
     canDeactivate: [PendingChangesGuard],
   },
-  // {
-  //   path: 'leasing-mandates/view-mandates/:leasingId',
-  //   component: AddMandateComponent,
-  // },
+
   //Mandate Activities
   //Clone
   {

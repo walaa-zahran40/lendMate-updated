@@ -202,7 +202,6 @@ export class AddClientAddressesComponent implements OnInit {
               this.filteredAreas.length
             );
 
-            // view-only?
             if (this.viewOnly) {
               console.log('🔐 viewOnly → disabling form');
               this.addClientAddressesLookupsForm.disable();
@@ -233,10 +232,6 @@ export class AddClientAddressesComponent implements OnInit {
         if (!isGovernorateValid) {
           this.addClientAddressesLookupsForm.get('governorateId')?.reset();
         }
-
-        // Reset and clear areas
-        // this.filteredAreas = [];
-        // this.addClientAddressesLookupsForm.get('areaId')?.reset();
       });
 
     // When governorate changes, filter areas
@@ -299,11 +294,9 @@ export class AddClientAddressesComponent implements OnInit {
       .value as Partial<ClientAddress>;
     console.log('📦 Payload going to facade:', data);
 
-    // Double-check your route param
     const routeId = this.route.snapshot.paramMap.get('id');
     console.log('  route.snapshot.paramMap.get(retrivedId):', routeId);
 
-    // 7) Create vs. update
     if (this.mode === 'add') {
       console.log('➕ Dispatching CREATE');
       this.facade.create(payload);
@@ -332,8 +325,6 @@ export class AddClientAddressesComponent implements OnInit {
     } else {
       console.error('❌ Cannot navigate back: clientId is missing!');
     }
-    // console.log('🧭 Navigating away to view-client-addresses');
-    // this.router.navigate(['/organizations/view-client-addresses']);
   }
 
   /** Called by the guard. */

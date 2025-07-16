@@ -14,7 +14,7 @@ export class CallsService {
     return this.http
       .get<{ items: Call[]; totalCount: number }>(`${this.baseUrl}/GetAllCalls`)
       .pipe(
-        map((resp) => resp.items), // ← pull off the `items` array here
+        map((resp) => resp.items),
         catchError((err) => {
           return throwError(() => err);
         })

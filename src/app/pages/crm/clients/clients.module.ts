@@ -161,8 +161,6 @@ import { SubSectorsEffects } from '../../lookups/store/sub-sectors/sub-sectors.e
     EffectsModule.forFeature([IndividualsEffects]),
     StoreModule.forFeature('clientFile', clientFilesReducer),
     EffectsModule.forFeature([ClientFilesEffects]),
-    // StoreModule.forFeature('documentTypes', documentTypeReducer),
-    // EffectsModule.forFeature([DocumentTypesEffects]),
 
     EffectsModule.forFeature([ClientCentralBankInfoEffects]),
     StoreModule.forFeature(

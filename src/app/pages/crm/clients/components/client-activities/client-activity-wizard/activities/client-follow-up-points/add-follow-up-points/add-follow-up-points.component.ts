@@ -16,14 +16,11 @@ import { ClientContactPerson } from '../../../../../../store/client-contact-pers
   styleUrl: './add-follow-up-points.component.scss',
 })
 export class AddFollowupPointsComponent implements OnInit, OnDestroy {
-  // Flags driven by mode
   editMode = false;
   viewOnly = false;
 
-  // Reactive form
   addFollowupPointsForm!: FormGroup;
 
-  // Lists and IDs
   mode!: 'add' | 'edit' | 'view';
   parentClientId!: number;
   recordId!: number;
@@ -46,7 +43,6 @@ export class AddFollowupPointsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     console.log('log', this.route.snapshot);
-    // Read mode and set flags
     this.mode = (this.route.snapshot.queryParamMap.get('mode') as any) ?? 'add';
     this.editMode = this.mode === 'edit';
     this.viewOnly = this.mode === 'view';
@@ -61,7 +57,6 @@ export class AddFollowupPointsComponent implements OnInit, OnDestroy {
       this.route.snapshot.params['communicationId']
     );
 
-    // Read IDs
     this.parentClientId = Number(
       this.route.snapshot.queryParamMap.get('followupId')
     );
@@ -73,7 +68,6 @@ export class AddFollowupPointsComponent implements OnInit, OnDestroy {
       this.followupFacade.loadOne(this.raw);
     }
 
-    // Build form with followupId
     this.addFollowupPointsForm = this.fb.group({
       topic: [' ', Validators.required],
       details: [' '],
@@ -90,16 +84,12 @@ export class AddFollowupPointsComponent implements OnInit, OnDestroy {
       followupId: this.route.snapshot.queryParamMap.get('followupId'),
     });
     if (this.editMode || this.viewOnly) {
-      // recordId (the follow-up-point’s own ID) comes from ':id'
       this.raw = Number(this.route.snapshot.params['id']);
 
-      // If you still need the parent follow-upId as a queryParam,
-      // you can grab it here—but don’t confuse it with communicationIdParam.
       this.followupIdParam = Number(
         this.route.snapshot.queryParamMap.get('followupId')
       );
     }
-    // Patch for edit/view mode
     if (this.editMode || this.viewOnly) {
       this.followupFacade.current$
         .pipe(
@@ -132,19 +122,16 @@ export class AddFollowupPointsComponent implements OnInit, OnDestroy {
       `⚙️ mode = ${this.mode}, editMode = ${this.editMode}, viewOnly = ${this.viewOnly}`
     );
 
-    // 4) Early return in view-only
     if (this.viewOnly) {
       console.warn('🚫 viewOnly mode — aborting submit');
       return;
     }
 
-    // 5) Form validity
     if (this.addFollowupPointsForm.invalid) {
       this.addFollowupPointsForm.markAllAsTouched();
       return;
     }
 
-    // 6) The actual payload
     const formValue = this.addFollowupPointsForm.value;
 
     console.log('arwaa', this.followupIdParam);
@@ -214,7 +201,6 @@ export class AddFollowupPointsComponent implements OnInit, OnDestroy {
       console.error('❌ Cannot navigate back: followupId is missing!');
     }
   }
-  /** Called by the guard. */
   canDeactivate(): boolean {
     return !this.addFollowupPointsForm.dirty;
   }

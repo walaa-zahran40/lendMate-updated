@@ -4,16 +4,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {
   Subject,
   Observable,
-  forkJoin,
   filter,
-  take,
   takeUntil,
   map,
   distinctUntilChanged,
 } from 'rxjs';
 import { CallsFacade } from '../../../../../../../../communication/store/calls/calls.facade';
 import { Client } from '../../../../../../store/_clients/allclients/client.model';
-import { ClientsFacade } from '../../../../../../store/_clients/allclients/clients.facade';
 import { Officer } from '../../../../../../../../organizations/store/officers/officer.model';
 import { CallTypesFacade } from '../../../../../../../../lookups/store/call-types/call-types.facade';
 import { Call } from '../../../../../../../../communication/store/calls/call.model';
@@ -33,15 +30,12 @@ import { ClientContactPerson } from '../../../../../../store/client-contact-pers
   styleUrl: './add-calls.component.scss',
 })
 export class AddCallsComponent implements OnInit, OnDestroy {
-  // Flags driven by mode
   editMode = false;
   viewOnly = false;
   raw = this.route.snapshot.paramMap.get('clientId');
 
-  // Reactive form
   addCallForm!: FormGroup;
 
-  // Lists and IDs
   mode!: 'add' | 'edit' | 'view';
   parentClientId!: number;
   recordId!: number;
@@ -60,7 +54,6 @@ export class AddCallsComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private callFacade: CallsFacade,
-    private clientsFacade: ClientsFacade,
     private callTypesFacade: CallTypesFacade,
     private callActionTypesFacade: CallActionTypesFacade,
     private communicationFlowTypesFacade: CommunicationFlowTypesFacade,
@@ -71,8 +64,6 @@ export class AddCallsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    //Drop Down Lists
-    // Load all facade data
     this.callTypesFacade.loadAll();
     this.callTypes$ = this.callTypesFacade.all$;
 
@@ -92,12 +83,10 @@ export class AddCallsComponent implements OnInit, OnDestroy {
       map((list) => list || [])
     );
 
-    // Read mode and set flags
     this.mode = (this.route.snapshot.queryParamMap.get('mode') as any) ?? 'add';
     this.editMode = this.mode === 'edit';
     this.viewOnly = this.mode === 'view';
 
-    // Build form with clientId
     this.addCallForm = this.fb.group({
       clientId: this.raw,
       callTypeId: [null, Validators.required],
@@ -116,7 +105,6 @@ export class AddCallsComponent implements OnInit, OnDestroy {
       ]),
     });
 
-    // Patch for edit/view mode
     if (this.editMode || this.viewOnly) {
       this.recordId = Number(this.route.snapshot.paramMap.get('id'));
       this.callFacade.loadById(this.recordId);
@@ -130,7 +118,6 @@ export class AddCallsComponent implements OnInit, OnDestroy {
             console.log('💾 Loaded calls record:', rec);
             console.log('🔑 rec keys:', Object.keys(rec));
 
-            // 1) patch simple fields
             this.addCallForm.patchValue({
               id: rec.id,
               clientId: this.raw,
@@ -147,7 +134,6 @@ export class AddCallsComponent implements OnInit, OnDestroy {
               this.addCallForm.value
             );
 
-            // 2) communicationContactPersons
             const idArr = this.addCallForm.get(
               'communicationOfficers'
             ) as FormArray;
@@ -174,7 +160,6 @@ export class AddCallsComponent implements OnInit, OnDestroy {
               idArr.length
             );
 
-            // 3) phone types
             const phArr = this.addCallForm.get(
               'communicationContactPersons'
             ) as FormArray;
@@ -203,8 +188,7 @@ export class AddCallsComponent implements OnInit, OnDestroy {
         filter((id) => !!id),
         distinctUntilChanged()
       )
-      .subscribe((clientId) => {
-        // load only that client’s people into “items”
+      .subscribe(() => {
         this.contactPersonsFacade.loadByClientId(Number(this.raw));
       });
   }
@@ -260,19 +244,16 @@ export class AddCallsComponent implements OnInit, OnDestroy {
     console.log('🛣️ Route snapshot:', this.route.snapshot);
     const recordId = this.route.snapshot.queryParamMap.get('id');
 
-    // 4) Early return in view-only
     if (this.viewOnly) {
       console.warn('🚫 viewOnly mode — aborting submit');
       return;
     }
 
-    // 5) Form validity
     if (this.addCallForm.invalid) {
       this.addCallForm.markAllAsTouched();
       return;
     }
 
-    // 6) The actual payload
     const formValue = this.addCallForm.value;
     const contactPersonPayload = formValue.communicationContactPersons?.map(
       (i: any) => {
@@ -310,13 +291,6 @@ export class AddCallsComponent implements OnInit, OnDestroy {
       communicationContactPersons: contactPersonPayload,
     };
 
-    console.log(
-      '🔄 Dispatching UPDATE id=',
-      this.recordId,
-      ' created  payload=',
-      data
-    );
-
     if (this.mode === 'add') {
       this.callFacade.create({
         ...data,
@@ -338,13 +312,6 @@ export class AddCallsComponent implements OnInit, OnDestroy {
         communicationContactPersons: contactPersonPayload,
       };
 
-      console.log(
-        '🔄 Dispatching UPDATE id=',
-        this.recordId,
-        ' UPDATED payload=',
-        updateData
-      );
-
       this.callFacade.update(this.recordId, {
         ...updateData,
         communicationOfficers: communicationOfficersPayload,
@@ -357,7 +324,6 @@ export class AddCallsComponent implements OnInit, OnDestroy {
     }
     this.router.navigate([`/communication/view-calls/${this.raw}`]);
   }
-  /** Called by the guard. */
   canDeactivate(): boolean {
     return !this.addCallForm.dirty;
   }

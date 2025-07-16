@@ -36,7 +36,6 @@ export class AddClientCRAuthorityOfficesComponent {
 
   ngOnInit(): void {
     console.log('🟢 ngOnInit start');
-    // 1️⃣ Read route parameters
     console.log(this.route.snapshot, 'route');
     this.clientId = Number(this.route.snapshot.queryParams['clientId']);
 
@@ -66,13 +65,11 @@ export class AddClientCRAuthorityOfficesComponent {
       '🛠️ Form initialized with defaults:',
       this.addClientCRAuthorityOfficesLookupsForm.value
     );
-    // 2️⃣ Dispatch actions to load lookup data
     console.log('🚀 Dispatching lookup loads');
     this.store.dispatch(loadAllAuthorityOffice({}));
 
     this.authorityOfficesList$ = this.store.select(selectAllAuthorityOffices);
 
-    // Patch for add mode
     if (this.mode === 'add') {
       this.addClientCRAuthorityOfficesLookupsForm.patchValue({
         clientId: this.clientId,
@@ -80,7 +77,6 @@ export class AddClientCRAuthorityOfficesComponent {
       console.log('✏️ Add mode → patched clientId:', this.clientId);
     }
 
-    // Patch for edit/view mode
     if (this.editMode || this.viewOnly) {
       this.recordId = Number(this.route.snapshot.paramMap.get('id'));
       this.facade.loadOne(this.recordId);
@@ -148,11 +144,9 @@ export class AddClientCRAuthorityOfficesComponent {
       .value as Partial<ClientCRAuthorityOffice>;
     console.log('📦 Payload going to facade:', data);
 
-    // Double-check your route param
     const routeId = this.route.snapshot.paramMap.get('id');
     console.log('  route.snapshot.paramMap.get(retrivedId):', routeId);
 
-    // 7) Create vs. update
     if (this.mode === 'add') {
       console.log('➕ Dispatching CREATE');
       this.facade.create(payload);
@@ -181,10 +175,7 @@ export class AddClientCRAuthorityOfficesComponent {
     } else {
       console.error('❌ Cannot navigate back: clientId is missing!');
     }
-    // console.log('🧭 Navigating away to view-client-addresses');
-    // this.router.navigate(['/organizations/view-client-addresses']);
   }
-  /** Called by the guard. */
   canDeactivate(): boolean {
     return !this.addClientCRAuthorityOfficesLookupsForm.dirty;
   }

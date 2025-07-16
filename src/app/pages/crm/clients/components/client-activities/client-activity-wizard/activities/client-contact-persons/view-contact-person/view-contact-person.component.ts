@@ -59,7 +59,6 @@ export class ViewContactPersonComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    // 1) grab the param
     const raw = this.route.snapshot.paramMap.get('clientId');
     this.clientIdParam = raw !== null ? Number(raw) : undefined;
     console.log('[View] ngOnInit → clientIdParam =', this.clientIdParam);
@@ -81,7 +80,6 @@ export class ViewContactPersonComponent implements OnInit, OnDestroy {
         map(([clientContactPersons, phoneTypes]) =>
           clientContactPersons
             .map((ss) => {
-              // Join multiple numbers if you like, or just take the first:
               const numbers = ss.contactPersonPhoneNumbers
                 ?.map((p) => p.phoneNumber)
                 .join(', ');
@@ -91,7 +89,6 @@ export class ViewContactPersonComponent implements OnInit, OnDestroy {
 
               return {
                 ...ss,
-                // <-- add this:
                 phoneNumber: numbers,
                 phoneTypeName: matchedPhoneType?.name ?? '—',
               };
@@ -159,7 +156,7 @@ export class ViewContactPersonComponent implements OnInit, OnDestroy {
     this.router.navigate(['/crm/clients/add-contact-person', clientSales.id], {
       queryParams: {
         mode: 'edit',
-        clientId: this.clientIdParam, // <-- use "clientId" here
+        clientId: this.clientIdParam,
       },
     });
   }
@@ -169,7 +166,7 @@ export class ViewContactPersonComponent implements OnInit, OnDestroy {
     this.router.navigate(['/crm/clients/add-contact-person', clientSales.id], {
       queryParams: {
         mode: 'view',
-        clientId: this.clientIdParam, // <-- and here
+        clientId: this.clientIdParam,
       },
     });
   }
@@ -182,11 +179,11 @@ export class ViewContactPersonComponent implements OnInit, OnDestroy {
     forkJoin(deleteCalls).subscribe({
       next: () => {
         this.selectedIds = [];
-        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.showDeleteModal = false;
         this.refreshCalls();
       },
       error: (err) => {
-        this.showDeleteModal = false; // STILL CLOSE IT
+        this.showDeleteModal = false;
       },
     });
   }
@@ -196,7 +193,6 @@ export class ViewContactPersonComponent implements OnInit, OnDestroy {
     this.clientContactPersons$ = this.facade.items$;
   }
   onBulkDelete(ids: number[]) {
-    // Optionally confirm first
     this.selectedIds = ids;
     this.showDeleteModal = true;
   }

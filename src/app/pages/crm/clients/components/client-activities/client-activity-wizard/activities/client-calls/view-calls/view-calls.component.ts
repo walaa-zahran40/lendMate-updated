@@ -61,8 +61,7 @@ export class ViewCallsComponent {
       .subscribe(([calls, clients, callTypes]) => {
         const filtered = calls.filter(
           (call) => call.communication?.clientId === Number(this.raw)
-        ); // ✅ filter by raw clientId
-
+        );
         const enriched: Call[] = filtered.map((call) => {
           const client = clients.find(
             (c) => c.id === call.communication?.clientId
@@ -137,11 +136,11 @@ export class ViewCallsComponent {
     forkJoin(deleteCalls).subscribe({
       next: () => {
         this.selectedIds = [];
-        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.showDeleteModal = false;
         this.refreshCalls();
       },
       error: (err) => {
-        this.showDeleteModal = false; // STILL CLOSE IT
+        this.showDeleteModal = false;
       },
     });
   }
@@ -152,7 +151,6 @@ export class ViewCallsComponent {
   }
   onBulkDelete(ids: number[]) {
     console.log('[View] onBulkDelete() – ids:', ids);
-    // Optionally confirm first
     this.selectedIds = ids;
     this.showDeleteModal = true;
   }

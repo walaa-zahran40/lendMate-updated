@@ -40,7 +40,6 @@ export class AddClientCentralBankInfoComponent {
 
   ngOnInit(): void {
     console.log('🟢 ngOnInit start');
-    // 1️⃣ Read route parameters
     console.log(this.route.snapshot, 'route');
     this.clientId = Number(this.route.snapshot.queryParams['clientId']);
 
@@ -73,15 +72,12 @@ export class AddClientCentralBankInfoComponent {
       '🛠️ Form initialized with defaults:',
       this.addClientCentralBankInfoForm.value
     );
-    // 2️⃣ Dispatch actions to load lookup data
     console.log('🚀 Dispatching lookup loads');
     this.store.dispatch(loadCompanyTypes({}));
     this.store.dispatch(loadSMEClientCodes({}));
-    // 3️⃣ Grab lookup streams
     this.companyTypesList$ = this.store.select(selectAllCompanyTypes);
     this.smeClientCodesList$ = this.store.select(selectAllSMEClientCodes);
 
-    // Patch for add mode
     if (this.mode === 'add') {
       this.addClientCentralBankInfoForm.patchValue({
         clientId: this.clientId,
@@ -89,7 +85,6 @@ export class AddClientCentralBankInfoComponent {
       console.log('✏️ Add mode → patched clientId:', this.clientId);
     }
 
-    // Patch for edit/view mode
     if (this.editMode || this.viewOnly) {
       this.recordId = Number(this.route.snapshot.paramMap.get('id'));
       this.facade.loadOne(this.recordId);
@@ -165,11 +160,9 @@ export class AddClientCentralBankInfoComponent {
       .value as Partial<ClientCentralBankInfo>;
     console.log('📦 Payload going to facade:', data);
 
-    // Double-check your route param
     const routeId = this.route.snapshot.paramMap.get('id');
     console.log('  route.snapshot.paramMap.get(retrivedId):', routeId);
 
-    // 7) Create vs. update
     if (this.mode === 'add') {
       console.log('➕ Dispatching CREATE');
       this.facade.create(payload);

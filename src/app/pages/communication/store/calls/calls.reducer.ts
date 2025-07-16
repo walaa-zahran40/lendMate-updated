@@ -5,14 +5,12 @@ import { adapter, initialState } from './calls.state';
 export const callsReducer = createReducer(
   initialState,
 
-  // when you dispatch loadAll()
   on(AddressActions.loadAll, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
 
-  // when your effect dispatches loadAllSuccess({ result })
   on(AddressActions.loadAllSuccess, (state, { result }) =>
     adapter.setAll(result, {
       ...state,
@@ -20,13 +18,11 @@ export const callsReducer = createReducer(
       error: null,
     })
   ),
-  // on failure
   on(AddressActions.loadAllFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
-  // create
   on(AddressActions.createEntity, (state) => ({
     ...state,
     loading: true,
@@ -41,7 +37,6 @@ export const callsReducer = createReducer(
     error,
   })),
 
-  // update
   on(AddressActions.updateEntity, (state) => ({
     ...state,
     loading: true,
@@ -56,7 +51,6 @@ export const callsReducer = createReducer(
     error,
   })),
 
-  // delete
   on(AddressActions.deleteEntity, (state) => ({
     ...state,
     loading: true,
@@ -70,7 +64,6 @@ export const callsReducer = createReducer(
     loading: false,
     error,
   })),
-  // address-calculation-types.reducer.ts
   on(AddressActions.loadByIdSuccess, (state, { entity }) => {
     const newState = adapter.upsertOne(entity, {
       ...state,

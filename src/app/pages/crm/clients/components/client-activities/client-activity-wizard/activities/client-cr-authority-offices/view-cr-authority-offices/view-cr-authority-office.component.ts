@@ -68,10 +68,10 @@ export class ViewCRAuthorityOfficesComponent {
             .map((authorityOffice) => ({
               ...authorityOffice,
               crAuthorityOffice:
-                authorityOfficesList.find((c) => c.id === authorityOffice.crAuthorityOfficeId)
-                  ?.name || '—',
+                authorityOfficesList.find(
+                  (c) => c.id === authorityOffice.crAuthorityOfficeId
+                )?.name || '—',
             }))
-            // .filter((authorityOffice) => authorityOffice.isActive)
             .sort((a, b) => b.id - a.id)
         ),
         takeUntil(this.destroy$)
@@ -112,11 +112,11 @@ export class ViewCRAuthorityOfficesComponent {
     forkJoin(deleteCalls).subscribe({
       next: () => {
         this.selectedIds = [];
-        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.showDeleteModal = false;
         this.refreshCalls();
       },
       error: (err) => {
-        this.showDeleteModal = false; // STILL CLOSE IT
+        this.showDeleteModal = false;
       },
     });
   }
@@ -126,7 +126,6 @@ export class ViewCRAuthorityOfficesComponent {
     this.cRAuthorityOffices$ = this.facade.items$;
   }
   onBulkDelete(ids: number[]) {
-    // Optionally confirm first
     this.selectedIds = ids;
     this.showDeleteModal = true;
   }
@@ -157,7 +156,7 @@ export class ViewCRAuthorityOfficesComponent {
       {
         queryParams: {
           mode: 'edit',
-          clientId: this.clientIdParam, // <-- use "currencyId" here
+          clientId: this.clientIdParam,
         },
       }
     );
@@ -168,7 +167,7 @@ export class ViewCRAuthorityOfficesComponent {
       {
         queryParams: {
           mode: 'view',
-          clientId: this.clientIdParam, // <-- use "currencyId" here
+          clientId: this.clientIdParam,
         },
       }
     );

@@ -10,7 +10,6 @@ import { ClientsFacade } from '../../../../store/_clients/allclients/clients.fac
   selector: 'app-view-clients',
   standalone: false,
   templateUrl: './view-clients.component.html',
-  styleUrl: './view-clients.component.scss',
 })
 export class ViewClientsComponent {
   tableDataInside: Client[] = [];

@@ -44,7 +44,6 @@ export const loadByClientIdFailure = createAction(
 
 export const createEntity = createAction(
   '[Meetings] Create',
-  // allow all fields except id, but all optional
   props<{ payload: Partial<Omit<Meeting, 'id'>> }>()
 );
 export const createEntitySuccess = createAction(

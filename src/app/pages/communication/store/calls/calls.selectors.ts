@@ -5,7 +5,6 @@ import { adapter, State } from './calls.state';
 export const selectFeature = createFeatureSelector<State>('calls');
 export const selectCallsFeature = createFeatureSelector<State>('calls');
 
-// these come from your EntityAdapter
 const { selectEntities } = adapter.getSelectors(selectCallsFeature);
 
 export const selectAllCalls = createSelector(

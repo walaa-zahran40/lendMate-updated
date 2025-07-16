@@ -100,7 +100,6 @@ export class FollowupPointsEffects {
       mergeMap(({ id, data }) =>
         this.service.update(id, data).pipe(
           map((serverReturned) => {
-            // force-inject communicationId if missing
             const enriched: FollowupPoint = {
               ...serverReturned,
               followUpId: data.followUpId!,
@@ -144,7 +143,6 @@ export class FollowupPointsEffects {
     )
   );
 
-  // After any create/update/delete success: reload by communicationId
   refreshList$ = createEffect(() =>
     this.actions$.pipe(
       ofType(
@@ -153,7 +151,6 @@ export class FollowupPointsEffects {
         FollowupPointActions.deleteFollowupPointSuccess
       ),
 
-      // pull out the right number
       map((action) => {
         const Id =
           'communication' in action
@@ -162,7 +159,6 @@ export class FollowupPointsEffects {
         return Id;
       }),
 
-      // only continue if it’s a number
       filter(
         (communicationId): communicationId is number =>
           typeof communicationId === 'number'
@@ -176,9 +172,6 @@ export class FollowupPointsEffects {
     )
   );
 
-  /**
-   * The “by‐communicationId” loader
-   */
   loadByCommunicationId$ = createEffect(() =>
     this.actions$.pipe(
       ofType(FollowupPointActions.loadFollowupPointsByCommunicationId),

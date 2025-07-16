@@ -23,15 +23,12 @@ import { ClientContactPersonsFacade } from '../../../../../../store/client-conta
   styleUrl: './add-contact-person.component.scss',
 })
 export class AddContactPersonComponent implements OnInit, OnDestroy {
-  // Flags driven by mode
   editMode = false;
   viewOnly = false;
   private ignoreCascades = false;
 
-  // Reactive form
   addClientContactPersonForm!: FormGroup;
 
-  // Lists and IDs
   mode!: 'add' | 'edit' | 'view';
   parentClientId!: number;
   recordId!: number;
@@ -63,7 +60,6 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    // Build form with clientId
     this.addClientContactPersonForm = this.fb.group({
       name: [null, Validators.required],
       nameAR: [null, Validators.required],
@@ -83,10 +79,8 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
       identities: this.fb.array([this.createIdentityGroup()]),
       phoneTypes: this.fb.array([this.createPhoneTypeGroup()]),
     });
-    // wire up cascades
     this.setupCascadingDropdowns();
 
-    // Load all facade data
     this.addressTypesFacade.loadAll();
     this.addressTypes$ = this.addressTypesFacade.all$;
 
@@ -105,7 +99,6 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
     this.identityTypesFacade.loadAll();
     this.identityTypes$ = this.identityTypesFacade.all$;
 
-    // Wait for the lists to be populated, then assign them
     forkJoin({
       countries: this.countries$.pipe(
         filter((l) => l.length > 0),
@@ -120,20 +113,9 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
         take(1)
       ),
     }).subscribe(({ countries, governorates, areas }) => {
-      console.log(
-        '✅ Lookups loaded:',
-        countries.length,
-        'countries,',
-        governorates.length,
-        'governorates,',
-        areas.length,
-        'areas'
-      );
-
       this.countriesList = countries;
       this.governoratesList = governorates;
       this.areasList = areas;
-      // seed your filters to whatever is already selected
       const selCountry =
         this.addClientContactPersonForm.get('countryId')!.value;
       this.filteredGovernorates = selCountry
@@ -147,12 +129,10 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
         : areas;
     });
 
-    // Read mode and set flags
     this.mode = (this.route.snapshot.queryParamMap.get('mode') as any) ?? 'add';
     this.editMode = this.mode === 'edit';
     this.viewOnly = this.mode === 'view';
 
-    // Read IDs
     this.parentClientId = Number(
       this.route.snapshot.queryParamMap.get('clientId')
     );
@@ -166,7 +146,6 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
       clientId: this.route.snapshot.queryParamMap.get('clientId'),
     });
 
-    // Patch for edit/view mode
     if (this.editMode || this.viewOnly) {
       this.clientContactPersonFacade.current$
         .pipe(
@@ -177,10 +156,8 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
           next: (rec) => {
             const form = this.addClientContactPersonForm;
 
-            // 1) Disable our cascades temporarily
             this.ignoreCascades = true;
 
-            // 2) Country → rebuild governorates
             form
               .get('countryId')!
               .patchValue(rec.countryId, { emitEvent: false });
@@ -188,7 +165,6 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
               (g) => g.countryId === rec.countryId
             );
 
-            // 3) Governorate → rebuild areas
             form
               .get('governorateId')!
               .patchValue(rec.governorateId, { emitEvent: false });
@@ -196,10 +172,8 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
               (a) => a.governorate.id === rec.governorateId
             );
 
-            // 4) Area
             form.get('areaId')!.patchValue(rec.areaId, { emitEvent: false });
 
-            // 5) All other scalar fields
             form.patchValue(
               {
                 id: rec.id,
@@ -220,10 +194,8 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
               { emitEvent: false }
             );
 
-            // 6) Re-enable cascades
             this.ignoreCascades = false;
 
-            // 7) Now rebuild identities & phoneTypes FormArrays as before…
             const idArr = form.get('identities') as FormArray;
             idArr.clear();
             rec.contactPersonIdentities?.forEach((ci) => {
@@ -267,7 +239,6 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
     return this.addClientContactPersonForm.get('identities') as FormArray;
   }
   private setupCascadingDropdowns(): void {
-    // When country changes, filter governorates
     this.addClientContactPersonForm
       .get('countryId')!
       .valueChanges.subscribe((countryId: number) => {
@@ -279,7 +250,6 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
         this.addClientContactPersonForm.get('areaId')!.reset();
       });
 
-    // When governorate changes, filter areas
     this.addClientContactPersonForm
       .get('governorateId')!
       .valueChanges.subscribe((govId: number) => {
@@ -338,19 +308,16 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
     console.log('🛣️ Route snapshot:', this.route.snapshot);
     const clientIdParam = this.route.snapshot.queryParamMap.get('clientId');
 
-    // 4) Early return in view-only
     if (this.viewOnly) {
       console.warn('🚫 viewOnly mode — aborting submit');
       return;
     }
 
-    // 5) Form validity
     if (this.addClientContactPersonForm.invalid) {
       this.addClientContactPersonForm.markAllAsTouched();
       return;
     }
 
-    // 6) The actual payload
     const formValue = this.addClientContactPersonForm.value;
     const contactPersonIdentitiesPayload = formValue.identities?.map(
       (i: any) => {
@@ -393,8 +360,6 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
       isFinance: formValue.isFinance,
       areaId: formValue.areaId,
       addressTypeId: formValue.addressTypeId,
-      //governorateId : formValue.governorateId,
-      //countryId : formValue.countryId,
       addressDetails: formValue.addressDetails,
       addressDetailsAr: formValue.addressDetailsAr,
       clientContactPersonIdentities: contactPersonIdentitiesPayload,
@@ -429,8 +394,6 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
         isFinance: formValue.isFinance,
         areaId: formValue.areaId,
         addressTypeId: formValue.addressTypeId,
-        //governorateId : formValue.governorateId,
-        //countryId : formValue.countryId,
         addressDetails: formValue.addressDetails,
         addressDetailsAr: formValue.addressDetailsAr,
       };
@@ -463,7 +426,6 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
       console.error('❌ Cannot navigate back: clientId is missing!');
     }
   }
-  /** Called by the guard. */
   canDeactivate(): boolean {
     return !this.addClientContactPersonForm.dirty;
   }

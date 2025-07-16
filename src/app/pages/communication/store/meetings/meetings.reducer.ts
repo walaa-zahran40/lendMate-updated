@@ -5,14 +5,12 @@ import { adapter, initialState } from './meetings.state';
 export const meetingsReducer = createReducer(
   initialState,
 
-  // when you dispatch loadAll()
   on(MeetingActions.loadAll, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
 
-  // when your effect dispatches loadAllSuccess({ result })
   on(MeetingActions.loadAllSuccess, (state, { result }) =>
     adapter.setAll(result, {
       ...state,
@@ -20,13 +18,11 @@ export const meetingsReducer = createReducer(
       error: null,
     })
   ),
-  // on failure
   on(MeetingActions.loadAllFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
-  // create
   on(MeetingActions.createEntity, (state) => ({
     ...state,
     loading: true,
@@ -41,7 +37,6 @@ export const meetingsReducer = createReducer(
     error,
   })),
 
-  // update
   on(MeetingActions.updateEntity, (state) => ({
     ...state,
     loading: true,
@@ -56,7 +51,6 @@ export const meetingsReducer = createReducer(
     error,
   })),
 
-  // delete
   on(MeetingActions.deleteEntity, (state) => ({
     ...state,
     loading: true,

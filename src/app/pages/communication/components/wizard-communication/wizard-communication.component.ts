@@ -26,9 +26,9 @@ export class WizardCommunicationComponent {
 
     this.facade.selected$
       .pipe(
-        filter((m) => !!m && m.id === callId), // make sure it’s the one we asked for
+        filter((m) => !!m && m.id === callId),
         take(1),
-        tap((m) => (this.communicationId = m?.communicationId!)) // ← this is the one you need
+        tap((m) => (this.communicationId = m?.communicationId!))
       )
       .subscribe(() => this.buildCards());
   }
@@ -53,7 +53,7 @@ export class WizardCommunicationComponent {
       )
     );
 
-    this.cards = this.chunkArray(filtered, 3); // 3 per row
+    this.cards = this.chunkArray(filtered, 3);
   }
   chunkArray(arr: any[], chunkSize: number): any[][] {
     const result = [];

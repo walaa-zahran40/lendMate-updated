@@ -146,7 +146,7 @@ export class ClientActivityWizardComponent {
       )
     );
 
-    this.cards = this.chunkArray(filtered, 3); // 3 per row
+    this.cards = this.chunkArray(filtered, 3);
     console.log('Original Cards:', this.originalCards);
     console.log('Chunked Cards:', this.cards);
   }

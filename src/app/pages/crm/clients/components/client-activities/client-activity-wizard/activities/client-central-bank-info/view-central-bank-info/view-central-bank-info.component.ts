@@ -151,7 +151,7 @@ export class ViewClientCentralBankInfoComponent {
       {
         queryParams: {
           mode: 'edit',
-          clientId: this.clientIdParam, // <-- use "currencyId" here
+          clientId: this.clientIdParam,
         },
       }
     );
@@ -162,7 +162,7 @@ export class ViewClientCentralBankInfoComponent {
       {
         queryParams: {
           mode: 'view',
-          clientId: this.clientIdParam, // <-- use "currencyId" here
+          clientId: this.clientIdParam,
         },
       }
     );
@@ -176,11 +176,11 @@ export class ViewClientCentralBankInfoComponent {
     forkJoin(deleteCalls).subscribe({
       next: () => {
         this.selectedIds = [];
-        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.showDeleteModal = false;
         this.refreshCalls();
       },
-      error: (err) => {
-        this.showDeleteModal = false; // STILL CLOSE IT
+      error: () => {
+        this.showDeleteModal = false;
       },
     });
   }
@@ -190,7 +190,6 @@ export class ViewClientCentralBankInfoComponent {
     this.clientCentralBankInfo$ = this.facade.items$;
   }
   onBulkDelete(ids: number[]) {
-    // Optionally confirm first
     this.selectedIds = ids;
     this.showDeleteModal = true;
   }

@@ -38,7 +38,7 @@ export class WizardFollowupsComponent {
       )
     );
 
-    this.cards = this.chunkArray(filtered, 3); // 3 per row
+    this.cards = this.chunkArray(filtered, 3);
   }
   chunkArray(arr: any[], chunkSize: number): any[][] {
     const result = [];

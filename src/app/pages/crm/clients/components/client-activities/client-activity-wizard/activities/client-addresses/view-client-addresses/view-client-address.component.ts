@@ -130,7 +130,7 @@ export class ViewClientAddressesComponent {
       {
         queryParams: {
           mode: 'edit',
-          clientId: this.clientIdParam, // <-- use "currencyId" here
+          clientId: this.clientIdParam,
         },
       }
     );
@@ -139,7 +139,7 @@ export class ViewClientAddressesComponent {
     this.router.navigate(['/crm/clients/edit-client-addresses', ct.id], {
       queryParams: {
         mode: 'view',
-        clientId: this.clientIdParam, // <-- use "currencyId" here
+        clientId: this.clientIdParam,
       },
     });
   }
@@ -152,11 +152,11 @@ export class ViewClientAddressesComponent {
     forkJoin(deleteCalls).subscribe({
       next: () => {
         this.selectedIds = [];
-        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.showDeleteModal = false;
         this.refreshCalls();
       },
       error: (err) => {
-        this.showDeleteModal = false; // STILL CLOSE IT
+        this.showDeleteModal = false;
       },
     });
   }
@@ -166,7 +166,6 @@ export class ViewClientAddressesComponent {
     this.clientAddresses$ = this.facade.items$;
   }
   onBulkDelete(ids: number[]) {
-    // Optionally confirm first
     this.selectedIds = ids;
     this.showDeleteModal = true;
   }
