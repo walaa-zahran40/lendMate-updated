@@ -64,7 +64,7 @@ export class ViewMeetingsComponent {
       .subscribe(([meetings, clients, meetingTypes]) => {
         const original = meetings;
         const filtered = meetings.filter(
-          (m) => m.communication.clientId === Number(this.raw)
+          (m) => m.communication?.clientId === Number(this.raw)
         );
 
         const originalEnriched = original.map((meeting) => {
@@ -110,7 +110,11 @@ export class ViewMeetingsComponent {
   }
 
   onAddMeeting() {
-    this.router.navigate([`/communication/add-meetings/${this.raw}`]);
+    if (!this.raw) {
+      this.router.navigate([`/communication/add-meetings`]);
+    } else {
+      this.router.navigate([`/communication/add-meetings/${this.raw}`]);
+    }
   }
 
   ngOnDestroy() {
@@ -148,20 +152,32 @@ export class ViewMeetingsComponent {
     this.showFilters = value;
   }
   onEditMeeting(meeting: Meeting) {
-    this.router.navigate(
-      ['/communication/edit-meetings', meeting.id, Number(this.raw)],
-      {
+    if (this.raw) {
+      this.router.navigate(
+        ['/communication/edit-meetings', meeting.id, Number(this.raw)],
+        {
+          queryParams: { mode: 'edit' },
+        }
+      );
+    } else {
+      this.router.navigate(['/communication/edit-meetings', meeting.id], {
         queryParams: { mode: 'edit' },
-      }
-    );
+      });
+    }
   }
   onViewMeeting(ct: Meeting) {
-    this.router.navigate(
-      ['/communication/edit-meetings', ct.id, Number(this.raw)],
-      {
+    if (this.raw) {
+      this.router.navigate(
+        ['/communication/edit-meetings', ct.id, Number(this.raw)],
+        {
+          queryParams: { mode: 'view' },
+        }
+      );
+    } else {
+      this.router.navigate(['/communication/edit-meetings', ct.id], {
         queryParams: { mode: 'view' },
-      }
-    );
+      });
+    }
   }
   selectedIds: number[] = [];
   confirmDelete() {
@@ -180,8 +196,13 @@ export class ViewMeetingsComponent {
   }
 
   refreshMeetings() {
-    this.facade.loadByClientId(Number(this.raw));
-    this.meetings$ = this.facade.all$;
+    if (this.raw) {
+      this.facade.loadByClientId(Number(this.raw));
+      this.meetings$ = this.facade.all$;
+    } else {
+      this.facade.loadAll();
+      this.meetings$ = this.facade.all$;
+    }
   }
   onBulkDelete(ids: number[]) {
     // Optionally confirm first
