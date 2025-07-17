@@ -25,7 +25,7 @@
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
-      [tableData]="filteredMeetings"
+      [tableData]="raw ? filteredMeetings : filteredMeetingsOriginal"
       [side]="true"
       [first]="first2"
       [checkBox]="true"

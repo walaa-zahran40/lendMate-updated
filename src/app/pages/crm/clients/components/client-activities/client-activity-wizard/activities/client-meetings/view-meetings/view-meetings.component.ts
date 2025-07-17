@@ -34,6 +34,8 @@ export class ViewMeetingsComponent {
   selectedMeetingId: number | null = null;
   originalMeetings: Meeting[] = [];
   filteredMeetings: Meeting[] = [];
+  filteredMeetingsOriginal: any;
+  originalMeetingsNotFiltered: any;
   meetings$!: Observable<Meeting[]>;
 
   clients!: Observable<Client[]>;
@@ -60,10 +62,27 @@ export class ViewMeetingsComponent {
     combineLatest([this.meetings$, this.clients, this.meetingTypes])
       .pipe(takeUntil(this.destroy$))
       .subscribe(([meetings, clients, meetingTypes]) => {
+        const original = meetings;
         const filtered = meetings.filter(
           (m) => m.communication.clientId === Number(this.raw)
         );
 
+        const originalEnriched = original.map((meeting) => {
+          const client = clients.find(
+            (c) => c.id === meeting.communication.clientId
+          );
+          const meetingType = meetingTypes.find(
+            (ct) => ct.id === meeting.meetingTypeId
+          );
+          return {
+            ...meeting,
+            clientName: client?.name || 'N/A',
+            meetingTypeName: meetingType?.name || 'N/A',
+            topic: meeting.communication?.topic,
+            startDate: meeting.startDate,
+            endDate: meeting.endDate,
+          };
+        });
         const enriched: Meeting[] = filtered.map((meeting) => {
           const client = clients.find(
             (c) => c.id === meeting.communication.clientId
@@ -83,6 +102,8 @@ export class ViewMeetingsComponent {
         });
 
         const sorted = enriched.sort((a, b) => b.id - a.id);
+        this.originalMeetingsNotFiltered = originalEnriched;
+        this.filteredMeetingsOriginal = [...originalEnriched];
         this.originalMeetings = sorted;
         this.filteredMeetings = [...sorted];
       });

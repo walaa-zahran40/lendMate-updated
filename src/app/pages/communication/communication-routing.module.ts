@@ -106,7 +106,16 @@ const routes: Routes = [
     component: AddMeetingsComponent,
   },
   {
+    path: 'add-meetings',
+    component: AddMeetingsComponent,
+  },
+  {
     path: 'edit-meetings/:id/:clientId',
+    component: AddMeetingsComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
+  {
+    path: 'edit-meetings/:id',
     component: AddMeetingsComponent,
     canDeactivate: [PendingChangesGuard],
   },
@@ -114,7 +123,10 @@ const routes: Routes = [
     path: 'view-meetings/:clientId',
     component: ViewMeetingsComponent,
   },
-
+  {
+    path: 'view-meetings',
+    component: ViewMeetingsComponent,
+  },
   {
     path: 'save-meeting',
     component: SaveMeetingComponent,

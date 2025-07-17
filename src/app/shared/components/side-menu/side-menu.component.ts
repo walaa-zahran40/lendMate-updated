@@ -179,42 +179,43 @@ export class SideMenuComponent {
           // },
         ],
       },
-      // {
-      //   label: 'Communication',
-      //   icon: 'pi pi-users',
-      //   items: [
-      //     {
-      //       label: 'Call',
-      //       icon: 'pi pi-user-plus',
-      //       routerLink: '/communication/view-calls',
-      //     },
-      //     {
-      //       label: 'Meeting',
-      //       icon: 'pi pi-user-plus',
-      //       routerLink: '/communication/view-meetings',
-      //     },
-      // {
-      //   label: 'FollowUp',
-      //   icon: 'pi pi-user-plus',
-      //   routerLink: '/communication/view-followups',
-      // },
-      // {
-      //   label: 'FollowUpPoints',
-      //   icon: 'pi pi-user-plus',
-      //   routerLink: '/communication/view-followup-points',
-      // },
-      // {
-      //   label: 'CommunicationFollowUp',
-      //   icon: 'pi pi-user-plus',
-      //   routerLink: '/communication/view-followups',
-      // },
-      // {
-      //   label: 'MonitorFollowUps',
-      //   icon: 'pi pi-user-plus',
-      //   routerLink: '/communication/view-monitor-followups',
-      // },
-      //   ],
-      // },
+      {
+        label: 'Communication',
+        icon: 'pi pi-users',
+        items: [
+          // {
+          //   label: 'Call',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/communication/view-calls',
+          // },
+          {
+            label: 'Meeting',
+            icon: 'pi pi-user-plus',
+            routerLink: '/communication/view-meetings',
+            permission: '/Meetings/GetAll',
+          },
+          // {
+          //   label: 'FollowUp',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/communication/view-followups',
+          // },
+          // {
+          //   label: 'FollowUpPoints',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/communication/view-followup-points',
+          // },
+          // {
+          //   label: 'CommunicationFollowUp',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/communication/view-followups',
+          // },
+          // {
+          //   label: 'MonitorFollowUps',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/communication/view-monitor-followups',
+          // },
+        ],
+      },
       // {
       //   label: 'Vendors',
       //   icon: 'pi pi-users',
