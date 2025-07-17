@@ -24,7 +24,6 @@ import { loadAll as loadPaymentMonthDays } from '../../../../../lookups/store/pa
 import { PaymentPeriod } from '../../../../../lookups/store/payment-periods/payment-period.model';
 import { PaymentPeriodsFacade } from '../../../../../lookups/store/payment-periods/payment-periods.facade';
 import { Currency } from '../../../../../lookups/store/currencies/currency.model';
-import { Calculation } from '../../../../../../shared/interfaces/calculations.interface';
 import { PeriodUnit } from '../../../../../lookups/store/period-units/period-unit.model';
 import { InterestRateBenchMark } from '../../../../../lookups/store/interest-rate-benchmarks/interest-rate-benchmark.model';
 import { PaymentTimingTerm } from '../../../../../lookups/store/payment-timing-terms/payment-timing-term.model';
@@ -48,7 +47,6 @@ import { TableComponent } from '../../../../../../shared/components/table/table.
 import { selectCalculatedRowsForId } from '../../../store/financial-form/financial-forms.selectors';
 import { MandatesFacade } from '../../../store/leasing-mandates/leasing-mandates.facade';
 import { Mandate } from '../../../store/leasing-mandates/leasing-mandate.model';
-import { loadById } from '../../../store/leasing-mandates/leasing-mandates.actions';
 @Component({
   selector: 'app-leasing-financial-form-compound',
   standalone: false,
@@ -79,7 +77,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
     { field: 'balanceBefore', header: 'Balance Before' },
     { field: 'balanceAfter', header: 'Balance After' },
     { field: 'interest', header: 'Interest' },
-    { field: 'principal', header: 'Principal' },
+    // { field: 'principal', header: 'Principal' },
     { field: 'installment', header: 'Installment' },
     { field: 'insuranceIncome', header: 'Insurance Income' },
   ];
@@ -254,7 +252,7 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
             isManuaExchangeRate: form.isManuaExchangeRate,
             manualExchangeRate: form.manualSetExchangeRate,
             indicativeRentals: form.indicativeRentals,
-            referenceRent: form.referenceRent,
+            referenceRent: form.rent,
             rvAmount: form.rvAmount,
             rvPercent: form.rvPercent,
             reservePaymentCount: form.reservePaymentCount,
@@ -1044,12 +1042,12 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
   }
 
   // Sum of “rent”
-  get sumOfRent(): number {
-    return this.filteredFinancialForms.reduce(
-      (acc, row) => acc + (row.referenceRent || 0),
-      0
-    );
-  }
+  // get sumOfRent(): number {
+  //   return this.filteredFinancialForms.reduce(
+  //     (acc, row) => acc + (row.referenceRent || 0),
+  //     0
+  //   );
+  // }
 
   // Sum of installments
   get sumOfInstallments(): number {
