@@ -116,8 +116,8 @@ export class AddClientAddressesComponent implements OnInit {
       // 5️⃣ Build the form
       this.addClientAddressesLookupsForm = this.fb.group({
         id: [null],
-        details: ['', [Validators.required]],
-        detailsAR: ['', [Validators.required, arabicOnlyValidator]],
+        details: [''],
+        detailsAR: ['', [arabicOnlyValidator]],
         areaId: [null, [Validators.required]],
         governorateId: [null, [Validators.required]],
         countryId: [null, [Validators.required]],

@@ -90,38 +90,21 @@
             (formGroup.get('areaId')?.dirty || formGroup.get('areaId')?.touched)
         }"
       />
-      <label for="details">Details in English<sup>*</sup></label>
+      <label for="details">Details in English</label>
       <input
         pInputText
         id="details"
         formControlName="details"
         placeholder="Details in English"
       />
-      <div
-        *ngIf="
-          formGroup.get('details')?.hasError('required') &&
-          formGroup.get('details')?.touched
-        "
-        class="p-error"
-      >
-        Details in English is required.
-      </div>
-      <label for="detailsAR">Details in Arabic<sup>*</sup></label>
+
+      <label for="detailsAR">Details in Arabic</label>
       <input
         pInputText
         id="detailsAR"
         formControlName="detailsAR"
         placeholder="Details in Arabic"
       />
-      <div
-        *ngIf="
-          formGroup.get('detailsAR')?.hasError('required') &&
-          formGroup.get('detailsAR')?.touched
-        "
-        class="p-error"
-      >
-        Details in Arabic is required.
-      </div>
 
       <div class="row justify-end">
         <div
