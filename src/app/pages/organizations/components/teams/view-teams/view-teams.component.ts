@@ -25,7 +25,7 @@ export class ViewTeamsComponent {
   readonly colsInside = [
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
-    { field: 'department', header: 'Department' },
+    // { field: 'department', header: 'Department' },
   ];
 
   showDeleteModal = false;
