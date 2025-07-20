@@ -125,7 +125,7 @@ export class AddUploadDocumentsComponent implements OnInit {
             // 2. compute a “public” URL for preview:
             const rawPath = doc.filePath; // e.g. "D:\uploads\Clients-2034\…"
             const normalized = rawPath?.replace(/\\/g, '/'); // "D:/uploads/Clients-2034/…"
-            const relative = normalized?.replace(/^[A-Za-z]:/, ''); // "/uploads/Clients-2034/…"
+            const relative = 'D:' + normalized?.replace(/^[A-Za-z]:/, ''); // "/uploads/Clients-2034/…"
             this.previewUrl = `${environment.apiUrl2}${relative}`; // e.g. "https://api.corplease.com/uploads/…"
             console.log('preview Url', this.previewUrl);
             if (this.viewMode) {
