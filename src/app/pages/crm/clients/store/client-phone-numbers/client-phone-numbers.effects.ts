@@ -37,17 +37,15 @@ export class ClientPhoneNumbersEffects {
       mergeMap(() =>
         this.service.getHistory().pipe(
           map((resp) =>
-            ClientPhoneNumberActions.loadClientPhoneNumbersHistorySuccess(
-              {
-                history: resp.items,
-              }
-            )
+            ClientPhoneNumberActions.loadClientPhoneNumbersHistorySuccess({
+              history: resp.items,
+            })
           ),
           catchError((error) =>
             of(
-              ClientPhoneNumberActions.loadClientPhoneNumbersHistoryFailure(
-                { error }
-              )
+              ClientPhoneNumberActions.loadClientPhoneNumbersHistoryFailure({
+                error,
+              })
             )
           )
         )
@@ -114,9 +112,9 @@ export class ClientPhoneNumbersEffects {
               clientId: data.clientId!,
             };
             console.log('[Effect:update] enriched client →', enriched);
-            return ClientPhoneNumberActions.updateClientPhoneNumberSuccess(
-              { client: enriched }
-            );
+            return ClientPhoneNumberActions.updateClientPhoneNumberSuccess({
+              client: enriched,
+            });
           }),
           catchError((error) =>
             of(
@@ -168,16 +166,22 @@ export class ClientPhoneNumbersEffects {
 
       // pull out the right number
       map((action) => {
-        const clientId =
-          'client' in action ? action.client.clientId : action.clientId;
+        // handle both the array and single-object cases
+        let clientId: number;
+        const payload = (action as any).client;
+
+        if (Array.isArray(payload)) {
+          clientId = payload[0]?.clientId;
+        } else {
+          clientId = payload?.clientId;
+        }
+
         console.log('[RefreshList] extracted clientId →', clientId);
         return clientId;
       }),
 
       // only continue if it’s a number
-      filter(
-        (clientId): clientId is number => typeof clientId === 'number'
-      ),
+      filter((clientId): clientId is number => typeof clientId === 'number'),
 
       map((clientId) =>
         ClientPhoneNumberActions.loadClientPhoneNumbersByClientId({
@@ -207,15 +211,15 @@ export class ClientPhoneNumbersEffects {
             console.log('[Effect:loadByClientId] response →', items)
           ),
           map((items) =>
-            ClientPhoneNumberActions.loadClientPhoneNumbersByClientIdSuccess(
-              { items }
-            )
+            ClientPhoneNumberActions.loadClientPhoneNumbersByClientIdSuccess({
+              items,
+            })
           ),
           catchError((error) =>
             of(
-              ClientPhoneNumberActions.loadClientPhoneNumbersByClientIdFailure(
-                { error }
-              )
+              ClientPhoneNumberActions.loadClientPhoneNumbersByClientIdFailure({
+                error,
+              })
             )
           )
         )
