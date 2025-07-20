@@ -29,12 +29,7 @@ export class SideMenuComponent {
       label: 'CRM',
       permission: '/Clients/GetAll',
     },
-    {
-      id: 'Calendar',
-      icon: 'pi pi-ico2',
-      label: 'Calendar',
-      permission: '/Meetings/GetAll',
-    },
+
     {
       id: 'Business',
       icon: 'pi pi-ico3',
@@ -177,6 +172,18 @@ export class SideMenuComponent {
           //   icon: 'pi pi-user-plus',
           //   routerLink: '/crm/clients/view-contact-persons',
           // },
+        ],
+      },
+      {
+        label: 'Communication',
+        icon: 'pi pi-users',
+        items: [
+          {
+            label: 'Calendar',
+            icon: 'pi pi-users',
+            routerLink: '/communication/save-meeting',
+            permission: '/Meetings/GetAll',
+          },
         ],
       },
       // {
@@ -387,14 +394,7 @@ export class SideMenuComponent {
         ],
       },
     ],
-    Calendar: [
-      {
-        label: 'Calendar',
-        icon: 'pi pi-users',
-        routerLink: '/communication/save-meeting',
-        permission: '/Meetings/GetAll',
-      },
-    ],
+
     // Assets: [
     //   {
     //     label: 'Leasing',

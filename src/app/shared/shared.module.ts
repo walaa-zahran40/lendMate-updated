@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { ComponentsModule } from './components/components.module';
 import { ServicesModule } from './services/services.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HasPermissionDirective } from './directives/has-permission.directive';
 import { DirectivesModule } from './directives/directives.module';
+import { MonthYearPipe } from './components/pipes/month-year.pipe';
 
 @NgModule({
   declarations: [],
@@ -14,8 +14,11 @@ import { DirectivesModule } from './directives/directives.module';
     ComponentsModule,
     ServicesModule,
     ReactiveFormsModule,
+    MonthYearPipe,
     DirectivesModule,
   ],
-  exports: [ComponentsModule, ServicesModule, DirectivesModule],
+  providers: [DatePipe], // <-- needed for the pipe to inject DatePipe
+
+  exports: [ComponentsModule, ServicesModule, DirectivesModule, MonthYearPipe],
 })
 export class SharedModule {}

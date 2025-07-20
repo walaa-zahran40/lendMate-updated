@@ -1,4 +1,4 @@
-<div class="row row-toolbar w-100">
+<div class="row row-toolbar w-100" style="zoom: 80%">
   <div class="col-sm align-items-center d-flex back-col">
     <img
       src="/assets/images/shared/table/back.svg"
@@ -13,7 +13,7 @@
       <button class="btn" (click)="goPrev()">
         <img src="/assets/images/calendar/prev.svg" alt="prev" />
       </button>
-      {{ currentMonth || "" }}
+      {{ (currentMonth | monthYear) || "" }}
       <button class="btn" (click)="goNext()">
         <img src="/assets/images/calendar/next.svg" alt="next" />
       </button>
