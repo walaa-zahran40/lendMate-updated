@@ -232,31 +232,37 @@ export class AddUploadDocumentsComponent implements OnInit {
         ? documentTypeIds.id
         : documentTypeIds;
 
-    if (this.editMode || this.viewMode) {
-      // 🎯 EDIT MODE: Send JSON body, not FormData
-      this.uploadForm.get('documentTypeIds')?.disable();
-      const updatePayload = {
-        id: this.documentId!, // required
-        clientId: this.clientId, // required
-        fileId: docTypeId, // map documentTypeIds -> fileId
-        expiryDate: this.formatDateWithoutTime(expiryDate),
-      };
+    if (this.editMode) {
+      // 🆕 in edit mode, if there's a fresh File, send it in a FormData
+      if (file instanceof File) {
+        const formData = new FormData();
+        formData.append('id', this.documentId!.toString());
+        formData.append('clientId', this.clientId.toString());
+        formData.append('documentTypeId', docTypeId.toString());
+        formData.append('expiryDate', this.formatDateWithoutTime(expiryDate));
+        formData.append('file', file);
 
-      console.log('[Edit Mode] Sending update payload:', updatePayload);
-
-      this.facade.update(this.documentId!, updatePayload);
+        // assume you add this service/facade method:
+        this.facade.update(this.documentId!, formData);
+      } else {
+        // no file chosen — fall back to JSON-only update
+        const updatePayload = {
+          id: this.documentId!,
+          clientId: this.clientId,
+          fileId: docTypeId,
+          expiryDate: this.formatDateWithoutTime(expiryDate),
+        };
+        this.facade.update(this.documentId!, updatePayload);
+      }
 
       this.messageService.add({
         severity: 'success',
         summary: 'Updated',
         detail: 'Document updated successfully',
       });
-
       this.router.navigate(
         [`/crm/clients/view-upload-documents/${this.clientId}`],
-        {
-          queryParams: { id: this.clientId },
-        }
+        { queryParams: { id: this.clientId } }
       );
     } else {
       // 🎯 ADD MODE: Upload new file with FormData
@@ -306,7 +312,14 @@ export class AddUploadDocumentsComponent implements OnInit {
   canDeactivate(): boolean {
     return !this.uploadForm.dirty;
   }
+  onFileRemoved(event: any) {
+    // clear the form control
+    this.uploadForm.get('file')!.reset();
 
+    // clear the selectedFile & preview
+    this.selectedFile = undefined as any;
+    this.previewUrl = undefined;
+  }
   private formatDateWithoutTime(date: Date): string {
     const d = date instanceof Date ? date : new Date(date);
 

@@ -726,16 +726,18 @@ icon="pi pi-cog"
             (onSelect)="onFileSelected($event)"
             (onRemove)="onFileRemoved($event)"
             [showUploadButton]="false"
-            [showCancelButton]="false"
+            [showCancelButton]="!viewOnly"
+            (onRemove)="onFileRemoved($event)"
+            [disabled]="viewOnly || editMode"
             accept=".pdf,.docx,.jpg,.xslx,.png"
-            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+            [ngClass]="viewOnly || editMode ? 'disabled' : 'enabled'"
           ></p-fileUpload>
 
           <!-- overlay when there is NO file and not in edit/view mode -->
           <div
             class="custom-upload-overlay"
             (click)="fileUploader.choose()"
-            *ngIf="(!formGroup.get('file')?.value && !viewOnly) || editMode"
+            *ngIf="!formGroup.get('file')?.value && !viewOnly"
           >
             <span class="custom-icon"></span>
           </div>

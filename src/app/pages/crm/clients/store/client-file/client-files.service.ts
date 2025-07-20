@@ -41,6 +41,7 @@ export class ClientFilesService {
   }
 
   update(id: number, data: Partial<ClientFile>): Observable<ClientFile> {
+    // existing JSON PUT
     return this.http.put<ClientFile>(`${this.api}/${id}`, data);
   }
   downloadByPathHex(pathHex: string): Observable<Blob> {

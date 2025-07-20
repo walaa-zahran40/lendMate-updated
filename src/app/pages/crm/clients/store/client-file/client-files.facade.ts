@@ -57,7 +57,7 @@ export class ClientFilesFacade {
     this.store.dispatch(Actions.createClientFile({ data }));
   }
 
-  update(id: number, data: Partial<ClientFile>) {
+  update(id: number, data: Partial<ClientFile> | any) {
     this.store.dispatch(Actions.updateClientFile({ id, data }));
   }
 
