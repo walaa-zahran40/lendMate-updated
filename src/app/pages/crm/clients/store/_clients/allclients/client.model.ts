@@ -29,8 +29,8 @@ export interface Client {
 
 export interface ClientWorkFlowAction {
   id: number;
-  clientStatusActionId?: number ;
+  clientStatusActionId?: number;
   clientId?: number;
   comment?: string;
-  isCurrent?:boolean;
+  isCurrent?: boolean;
 }

@@ -267,7 +267,7 @@ export class AddClientComponent implements OnInit, OnDestroy {
         '',
         [
           Validators.required,
-          Validators.pattern('^[0-9]{3}-[0-9]{2}-[0-9]{4}$'),
+          Validators.pattern('^[0-9]{3}-[0-9]{3}-[0-9]{3}$'),
         ],
       ],
       shortName: [''],
