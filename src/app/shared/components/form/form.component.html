@@ -744,6 +744,11 @@ icon="pi pi-cog"
               Uploaded:&nbsp;<strong>{{ selectedFile?.fileName }}</strong>
             </span>
           </div>
+                <!-- once previewUrl is set, show the image -->
+      <div *ngIf="previewUrl" class="document-preview">
+        <img [src]="previewUrl" alt="Document preview" />
+      </div>
+
           <p-button
             label="Download"
             icon="pi pi-download"

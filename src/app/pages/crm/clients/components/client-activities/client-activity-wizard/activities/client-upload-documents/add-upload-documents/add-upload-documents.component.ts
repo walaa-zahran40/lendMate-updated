@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { Subject, takeUntil, tap, filter, take } from 'rxjs';
+import { Subject, takeUntil, tap, filter, take, Observable } from 'rxjs';
 import { DocTypesFacade } from '../../../../../../../../lookups/store/doc-types/doc-types.facade';
 import { ClientFile } from '../../../../../../store/client-file/client-file.model';
 import { ClientFilesFacade } from '../../../../../../store/client-file/client-files.facade';
 import { ClientFilesService } from '../../../../../../store/client-file/client-files.service';
+import { environment } from '../../../../../../../../../../environments/environment';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-add-upload-documents',
@@ -19,12 +21,14 @@ export class AddUploadDocumentsComponent implements OnInit {
   selectedFile!: File;
   selectedDocuments: any[] = [];
   expiryDate!: Date;
+  preview: any;
   documentId!: number | null;
   editMode: boolean = false;
   viewMode: boolean = false;
   uploadForm!: FormGroup;
   documentTypes: any[] = [];
   private destroy$ = new Subject<void>();
+  previewUrl?: string;
 
   constructor(
     private fb: FormBuilder,
@@ -33,7 +37,7 @@ export class AddUploadDocumentsComponent implements OnInit {
     private router: Router,
     private facadeDocumentTypes: DocTypesFacade,
     private messageService: MessageService,
-    private svc: ClientFilesService
+    private http: HttpClient
   ) {}
 
   ngOnInit() {
@@ -101,6 +105,8 @@ export class AddUploadDocumentsComponent implements OnInit {
         )
         .subscribe({
           next: (doc) => {
+            const hex = this.encodePathToHex(doc.filePath);
+            console.log('hex', hex);
             console.log('[current$ subscribe] received doc →', doc);
             this.uploadForm.patchValue({
               documentTypeIds: doc.documentTypeId,
@@ -137,19 +143,32 @@ export class AddUploadDocumentsComponent implements OnInit {
       .join('');
   }
 
-  downloadFile() {
-    if (!this.documentId) {
-      console.error('No documentId for download');
-      return;
-    }
+  downloadFile(preview = false) {
+    this.preview = true;
+    // 1) normalize slashes
+    const rawPath = (this.selectedFile as any).filePath;
+    const normalized = rawPath.replace(/\\/g, '/');
+    console.log('normalized:', normalized);
 
-    // call the backend Download action
-    this.svc.download(this.documentId).subscribe({
+    // 2) strip drive letter (anything before the first colon)
+    //    -> "/uploads/Clients-2034/Identity/…"
+    const relativePath = normalized.replace(/^[A-Za-z]:/, '');
+
+    // 3) build the real URL your server exposes
+    //    adjust `environment.fileServerUrl` (or hardcode) to match your API/static-hosting
+    const fileUrl = `${environment.apiUrl2}${relativePath}`;
+    console.log('fileUrl:', fileUrl);
+
+    // 4) fetch it (or open directly)
+    this.http.get(fileUrl, { responseType: 'blob' }).subscribe({
       next: (blob) => {
-        // figure out the filename (from your patched `selectedFile.fileName`)
-        const filename =
-          (this.selectedFile as any).fileName || `file-${this.documentId}`;
-        // trigger browser save
+        const blobUrl = window.URL.createObjectURL(blob);
+
+        console.log('preview');
+        // show it in an <img>
+        this.previewUrl = blobUrl;
+        console.log('prev', this.previewUrl);
+        const filename = (this.selectedFile as any).fileName;
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;

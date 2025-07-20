@@ -348,6 +348,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() paymentMonthDays!: any;
   selectedPaymentMonthDays!: any;
   @Input() paymentMethods!: any;
+  @Input() previewUrl:any;
   selectedPaymentMethods!: any;
   @Input() rentStructures!: any;
   selectedRentStructures!: any;

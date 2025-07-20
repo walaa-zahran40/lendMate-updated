@@ -39,17 +39,15 @@ export class ClientFilesService {
   create(data: Partial<ClientFile>): Observable<ClientFile> {
     return this.http.post<ClientFile>(`${this.api}/CreateClientFile`, data);
   }
-  download(clientFileId: number): Observable<Blob> {
-    return this.http.get(`${this.api}/ClientFileId?id=${clientFileId}`, {
-      params: new HttpParams().set('id', clientFileId.toString()),
-      responseType: 'blob',
-    });
-  }
 
   update(id: number, data: Partial<ClientFile>): Observable<ClientFile> {
     return this.http.put<ClientFile>(`${this.api}/${id}`, data);
   }
-
+  downloadByPathHex(pathHex: string): Observable<Blob> {
+    // adjust the URL to whatever your backend expects
+    const url = `${environment.redirectUri}${pathHex}`;
+    return this.http.get(url, { responseType: 'blob' });
+  }
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.api}/${id}`);
   }
