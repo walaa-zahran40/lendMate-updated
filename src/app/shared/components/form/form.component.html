@@ -747,8 +747,12 @@ icon="pi pi-cog"
             </span>
           </div>
           <!-- once previewUrl is set, show the image -->
-          <div *ngIf="previewUrl" class="document-preview">
-            <img [src]="previewUrl" alt="Document preview" />
+          <div *ngIf="previewUrl" class="document-preview mt-3">
+            <img
+              [src]="previewUrl"
+              alt="Document preview"
+              style="max-width: 200px; max-height: 200px; object-fit: contain"
+            />
           </div>
 
           <!-- <p-button

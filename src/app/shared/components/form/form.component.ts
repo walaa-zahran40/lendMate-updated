@@ -348,7 +348,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() paymentMonthDays!: any;
   selectedPaymentMonthDays!: any;
   @Input() paymentMethods!: any;
-  @Input() previewUrl:any;
+  @Input() previewUrl: any;
   selectedPaymentMethods!: any;
   @Input() rentStructures!: any;
   selectedRentStructures!: any;
@@ -1230,12 +1230,16 @@ export class FormComponent implements OnInit, OnDestroy {
   //   this.onTouched();
   //   this.selectionChanged.emit(value);
   // }
-  onFileSelected(event: any): void {
-    const file: File = event.files?.[0];
-    if (file) {
-      this.formGroup.patchValue({ file });
-      this.formGroup.get('file')!.updateValueAndValidity();
+  onFileSelected(event: any) {
+    const file: File = event.files?.[0] ?? event.target?.files?.[0];
+    if (!file) {
+      this.formGroup.patchValue({ file: null });
+      this.onFileSelect.emit(null);
+      return;
     }
+
+    this.formGroup.patchValue({ file });
+    this.onFileSelect.emit(file);
   }
 
   onFileRemoved(event: any): void {

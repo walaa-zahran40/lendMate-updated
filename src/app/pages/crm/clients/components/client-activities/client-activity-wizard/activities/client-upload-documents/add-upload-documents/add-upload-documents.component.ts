@@ -28,7 +28,7 @@ export class AddUploadDocumentsComponent implements OnInit {
   uploadForm!: FormGroup;
   documentTypes: any[] = [];
   private destroy$ = new Subject<void>();
-  previewUrl?: string;
+  previewUrl?: any;
 
   constructor(
     private fb: FormBuilder,
@@ -118,16 +118,18 @@ export class AddUploadDocumentsComponent implements OnInit {
             });
 
             this.selectedFile = doc as any;
+            // 2) compute a “public” URL for preview:
+            const rawPath = doc.filePath?.replace(/\\/g, '/'); // normalize slashes
+            const relative = rawPath?.replace(/^[A-Za-z]:/, ''); // strip drive letter
+            const full = `${environment.redirectUri}${relative}`;
+            // 4) encode spaces etc
+            this.previewUrl = encodeURI(full);
+
+            console.log('preview Url', this.previewUrl);
             console.log(
               '[current$ subscribe] selectedFile set to →',
               this.selectedFile
             );
-            // 2. compute a “public” URL for preview:
-            const rawPath = doc.filePath; // e.g. "D:\uploads\Clients-2034\…"
-            const normalized = rawPath?.replace(/\\/g, '/'); // "D:/uploads/Clients-2034/…"
-            const relative = 'D:' + normalized?.replace(/^[A-Za-z]:/, ''); // "/uploads/Clients-2034/…"
-            this.previewUrl = `${environment.apiUrl2}${relative}`; // e.g. "https://api.corplease.com/uploads/…"
-            console.log('preview Url', this.previewUrl);
             if (this.viewMode) {
               console.log('[Init] viewMode active, disabling form');
               this.uploadForm.disable({ emitEvent: false });
@@ -137,6 +139,7 @@ export class AddUploadDocumentsComponent implements OnInit {
           complete: () => console.log('[current$ subscribe] complete'),
         });
     }
+    console.log('preee', this.previewUrl);
   }
   encodePathToHex(path: string | undefined | null): string {
     if (!path) {
@@ -193,21 +196,18 @@ export class AddUploadDocumentsComponent implements OnInit {
   //   });
   // }
 
-  onFileSelected(event: any) {
-    let file: File | undefined;
+  onFileSelected(file: File | null) {
+    // clear old preview
+    if (this.previewUrl) URL.revokeObjectURL(this.previewUrl);
+    this.previewUrl = null;
 
-    // If it's PrimeNG p-fileupload (advanced mode), they pass { files: File[] }
-    if (event.files && Array.isArray(event.files)) {
-      file = event.files[0];
-    }
-    // If it's a native <input type="file">, they pass a DOM Event
-    else if (event.target && event.target.files) {
-      file = event.target.files[0];
+    if (!file) {
+      this.uploadForm.get('file')!.reset();
+      return;
     }
 
-    if (file) {
-      this.uploadForm.get('file')!.setValue(file);
-    }
+    this.uploadForm.get('file')!.setValue(file);
+    this.previewUrl = URL.createObjectURL(file);
   }
 
   addDocument() {
@@ -313,12 +313,11 @@ export class AddUploadDocumentsComponent implements OnInit {
     return !this.uploadForm.dirty;
   }
   onFileRemoved(event: any) {
-    // clear the form control
     this.uploadForm.get('file')!.reset();
-
-    // clear the selectedFile & preview
-    this.selectedFile = undefined as any;
-    this.previewUrl = undefined;
+    if (this.previewUrl) {
+      URL.revokeObjectURL(this.previewUrl);
+      this.previewUrl = undefined;
+    }
   }
   private formatDateWithoutTime(date: Date): string {
     const d = date instanceof Date ? date : new Date(date);
