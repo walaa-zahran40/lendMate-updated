@@ -122,6 +122,12 @@ export class AddUploadDocumentsComponent implements OnInit {
               '[current$ subscribe] selectedFile set to →',
               this.selectedFile
             );
+            // 2. compute a “public” URL for preview:
+            const rawPath = doc.filePath; // e.g. "D:\uploads\Clients-2034\…"
+            const normalized = rawPath?.replace(/\\/g, '/'); // "D:/uploads/Clients-2034/…"
+            const relative = normalized?.replace(/^[A-Za-z]:/, ''); // "/uploads/Clients-2034/…"
+            this.previewUrl = `${environment.apiUrl2}${relative}`; // e.g. "https://api.corplease.com/uploads/…"
+            console.log('preview Url', this.previewUrl);
             if (this.viewMode) {
               console.log('[Init] viewMode active, disabling form');
               this.uploadForm.disable({ emitEvent: false });
@@ -143,49 +149,49 @@ export class AddUploadDocumentsComponent implements OnInit {
       .join('');
   }
 
-  downloadFile(preview = false) {
-    this.preview = true;
-    // 1) normalize slashes
-    const rawPath = (this.selectedFile as any).filePath;
-    const normalized = rawPath.replace(/\\/g, '/');
-    console.log('normalized:', normalized);
+  // downloadFile(preview = false) {
+  //   this.preview = true;
+  //   // 1) normalize slashes
+  //   const rawPath = (this.selectedFile as any).filePath;
+  //   const normalized = rawPath.replace(/\\/g, '/');
+  //   console.log('normalized:', normalized);
 
-    // 2) strip drive letter (anything before the first colon)
-    //    -> "/uploads/Clients-2034/Identity/…"
-    const relativePath = normalized.replace(/^[A-Za-z]:/, '');
+  //   // 2) strip drive letter (anything before the first colon)
+  //   //    -> "/uploads/Clients-2034/Identity/…"
+  //   const relativePath = normalized.replace(/^[A-Za-z]:/, '');
 
-    // 3) build the real URL your server exposes
-    //    adjust `environment.fileServerUrl` (or hardcode) to match your API/static-hosting
-    const fileUrl = `${environment.apiUrl2}${relativePath}`;
-    console.log('fileUrl:', fileUrl);
+  //   // 3) build the real URL your server exposes
+  //   //    adjust `environment.fileServerUrl` (or hardcode) to match your API/static-hosting
+  //   const fileUrl = `${environment.apiUrl2}${relativePath}`;
+  //   console.log('fileUrl:', fileUrl);
 
-    // 4) fetch it (or open directly)
-    this.http.get(fileUrl, { responseType: 'blob' }).subscribe({
-      next: (blob) => {
-        const blobUrl = window.URL.createObjectURL(blob);
+  //   // 4) fetch it (or open directly)
+  //   this.http.get(fileUrl, { responseType: 'blob' }).subscribe({
+  //     next: (blob) => {
+  //       const blobUrl = window.URL.createObjectURL(blob);
 
-        console.log('preview');
-        // show it in an <img>
-        this.previewUrl = blobUrl;
-        console.log('prev', this.previewUrl);
-        const filename = (this.selectedFile as any).fileName;
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = filename;
-        a.click();
-        window.URL.revokeObjectURL(url);
-      },
-      error: (err) => {
-        console.error('Download failed', err);
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Download error',
-          detail: 'Could not download the document.',
-        });
-      },
-    });
-  }
+  //       console.log('preview');
+  //       // show it in an <img>
+  //       this.previewUrl = blobUrl;
+  //       console.log('prev', this.previewUrl);
+  //       const filename = (this.selectedFile as any).fileName;
+  //       const url = window.URL.createObjectURL(blob);
+  //       const a = document.createElement('a');
+  //       a.href = url;
+  //       a.download = filename;
+  //       a.click();
+  //       window.URL.revokeObjectURL(url);
+  //     },
+  //     error: (err) => {
+  //       console.error('Download failed', err);
+  //       this.messageService.add({
+  //         severity: 'error',
+  //         summary: 'Download error',
+  //         detail: 'Could not download the document.',
+  //       });
+  //     },
+  //   });
+  // }
 
   onFileSelected(event: any) {
     let file: File | undefined;

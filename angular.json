@@ -38,6 +38,11 @@
                 "glob": "**/*.ttf",
                 "input": "src/fonts/",
                 "output": "/fonts/"
+              },
+              {
+                "glob": "**/*",
+                "input": "D:/uploads",
+                "output": "/uploads"
               }
             ],
             "styles": [

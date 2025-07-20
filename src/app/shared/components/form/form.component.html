@@ -744,18 +744,18 @@ icon="pi pi-cog"
               Uploaded:&nbsp;<strong>{{ selectedFile?.fileName }}</strong>
             </span>
           </div>
-                <!-- once previewUrl is set, show the image -->
-      <div *ngIf="previewUrl" class="document-preview">
-        <img [src]="previewUrl" alt="Document preview" />
-      </div>
+          <!-- once previewUrl is set, show the image -->
+          <div *ngIf="previewUrl" class="document-preview">
+            <img [src]="previewUrl" alt="Document preview" />
+          </div>
 
-          <p-button
+          <!-- <p-button
             label="Download"
             icon="pi pi-download"
             class="p-button-secondary ml-2"
             (onClick)="onDownloadClick()"
             *ngIf="viewOnly && selectedFile"
-          ></p-button>
+          ></p-button> -->
           <!-- once a file is present, show its name -->
           <div *ngIf="formGroup.get('file')?.value" class="mt-2">
             <span class="text-success">
