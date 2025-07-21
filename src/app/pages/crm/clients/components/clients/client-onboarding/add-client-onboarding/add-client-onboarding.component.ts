@@ -82,6 +82,8 @@ export class AddClientOnboardingComponent implements OnInit, OnDestroy {
     // Build company form
     try {
       this.buildFormCompany();
+      // subscribe to every control’s valueChanges:
+
       console.log('✅ buildFormCompany done', this.addClientForm.controls);
     } catch (e) {
       console.error('❌ buildFormCompany threw', e);
@@ -90,6 +92,8 @@ export class AddClientOnboardingComponent implements OnInit, OnDestroy {
     // Build individual form
     try {
       this.buildFormIndividual();
+      console.log('✅ individual done', this.addClientForm.controls);
+
       console.log(
         '✅ buildFormIndividual done',
         this.addClientFormIndividual.value
@@ -278,6 +282,20 @@ export class AddClientOnboardingComponent implements OnInit, OnDestroy {
       sectorId: [[], Validators.required],
       subSectorIdList: [[], Validators.required],
     });
+    Object.keys(this.addClientForm.controls).forEach((controlName) => {
+      const ctrl = this.addClientForm.get(controlName)!;
+      ctrl.valueChanges.subscribe((value) => {
+        console.log(
+          `[CompanyForm] ${controlName}:`,
+          `value=`,
+          value,
+          `→ valid?`,
+          ctrl.valid,
+          'form',
+          this.addClientForm.valid
+        );
+      });
+    });
   }
 
   private patchForm(client: ClientOnboarding): void {
@@ -442,9 +460,25 @@ export class AddClientOnboardingComponent implements OnInit, OnDestroy {
       emailIndividual: [''],
       jobTitleIndividual: [''],
       dateOfBirthIndividual: [null],
-      genderIndividual: [null, Validators.required],
+      genderIndividual: [null],
       identities: this.fb.array([this.createIdentityGroup()]),
     });
+    Object.keys(this.addClientFormIndividual.controls).forEach(
+      (controlName) => {
+        const ctrl = this.addClientFormIndividual.get(controlName)!;
+        ctrl.valueChanges.subscribe((value) => {
+          console.log(
+            `[IndividualForm] ${controlName}:`,
+            `value=`,
+            value,
+            `→ valid?`,
+            ctrl.valid,
+            'form',
+            this.addClientFormIndividual.valid
+          );
+        });
+      }
+    );
   }
 
   addIdentity() {

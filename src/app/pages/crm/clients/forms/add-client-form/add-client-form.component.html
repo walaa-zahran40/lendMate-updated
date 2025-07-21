@@ -522,7 +522,6 @@
       <input
         pInputText
         name="businessActivityIndividual"
-        required
         formControlName="businessActivityIndividual"
         placeholder="Business Activity"
       />
@@ -546,11 +545,6 @@
         name="shortNameIndividual"
         formControlName="shortNameIndividual"
         placeholder="Short Name"
-        [ngClass]="{
-          'ng-invalid ng-dirty':
-            formGroup.get('shortNameIndividual')?.invalid &&
-            formGroup.get('shortNameIndividual')?.touched
-        }"
       />
       <!-- <small
         class="p-error"
@@ -580,13 +574,6 @@
           formControlName="sectorId"
           optionValue="id"
           (onChange)="onSectorChange($event)"
-          required
-          [ngClass]="{
-            'ng-invalid':
-              formGroup.get('sectorId')?.invalid &&
-              (formGroup.get('sectorId')?.dirty ||
-                formGroup.get('sectorId')?.touched)
-          }"
         >
         </p-select>
 
@@ -643,7 +630,6 @@
       <input
         pInputText
         name="emailIndividual"
-        required
         formControlName="emailIndividual"
         placeholder="Email"
       />
@@ -665,7 +651,6 @@
       <input
         pInputText
         name="jobTitleIndividual"
-        required
         formControlName="jobTitleIndividual"
         placeholder="Job Title"
       />
@@ -711,21 +696,12 @@
         [options]="genders"
         name="genderIndividual"
         formControlName="genderIndividual"
-        required
         optionLabel="value"
         optionValue="id"
         placeholder="Select a Gender"
         class="w-full md:w-56"
       ></p-select>
-      <small
-        class="p-error"
-        *ngIf="
-          formGroup.get('genderIndividual')?.invalid &&
-          formGroup.get('genderIndividual')?.touched
-        "
-      >
-        Gender is required.
-      </small>
+
       <br />
       <!-- Identification Number -->
       <!-- Dynamic Identification Entries -->

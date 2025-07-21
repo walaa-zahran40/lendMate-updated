@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Route, Router } from '@angular/router';
-import { CompanyLegalDetails } from '../../../../../../shared/interfaces/company-legal-details.interface';
+import { CompanyLegalDetails } from '../../../../../shared/interfaces/company-legal-details.interface';
 import {
   take,
   map,
@@ -22,21 +22,21 @@ import {
   Subscription,
   debounceTime,
 } from 'rxjs';
-import { Sector } from '../../../../../lookups/store/sectors/sector.model';
+import { Sector } from '../../../../lookups/store/sectors/sector.model';
 import { Store } from '@ngrx/store';
-import { selectAllSectors } from '../../../../../lookups/store/sectors/sectors.selectors';
-import { SubSectors } from '../../../../../../shared/interfaces/sub-sector.interface';
-import { selectAllSubSectors } from '../../../../../lookups/store/sub-sectors/sub-sectors.selectors';
-import { LegalFormLaw } from '../../../../../../shared/interfaces/legal-form-law.interface';
-import * as sectorsActions from '../../../../../lookups/store/sectors/sectors.actions';
-import * as subSectorsActions from '../../../../../lookups/store/sub-sectors/sub-sectors.actions';
-import { setFormDirty } from '../../../store/client-form/client-form.actions';
+import { selectAllSectors } from '../../../../lookups/store/sectors/sectors.selectors';
+import { SubSectors } from '../../../../../shared/interfaces/sub-sector.interface';
+import { selectAllSubSectors } from '../../../../lookups/store/sub-sectors/sub-sectors.selectors';
+import { LegalFormLaw } from '../../../../../shared/interfaces/legal-form-law.interface';
+import * as sectorsActions from '../../../../lookups/store/sectors/sectors.actions';
+import * as subSectorsActions from '../../../../lookups/store/sub-sectors/sub-sectors.actions';
+import { setFormDirty } from '../../store/client-form/client-form.actions';
 import { FileUpload } from 'primeng/fileupload';
-import { LegalFormLawFacade } from '../../../../../legals/store/legal-form-law/legal-form-law.facade';
-import { LegalFormsFacade } from '../../../../../legals/store/legal-forms/legal-forms.facade';
-import { PageOperation } from '../../../../../organizations/store/page-operations/page-operation.model';
-import { IdentificationType } from '../../../../../lookups/store/identification-types/identification-type.model';
-import { Currency } from '../../../../../lookups/store/currencies/currency.model';
+import { LegalFormLawFacade } from '../../../../legals/store/legal-form-law/legal-form-law.facade';
+import { LegalFormsFacade } from '../../../../legals/store/legal-forms/legal-forms.facade';
+import { PageOperation } from '../../../../organizations/store/page-operations/page-operation.model';
+import { IdentificationType } from '../../../../lookups/store/identification-types/identification-type.model';
+import { Currency } from '../../../../lookups/store/currencies/currency.model';
 export interface IdentityEntry {
   identificationNumber: string;
   selectedIdentities: any[];
