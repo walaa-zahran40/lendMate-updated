@@ -72,7 +72,7 @@ export class AddFollowupPointsComponent implements OnInit, OnDestroy {
       topic: [' ', Validators.required],
       details: [' '],
       dueDate: [null, Validators.required],
-      actualDate: [null, Validators.required],
+      actualDate: [null],
       officerId: [null, Validators.required],
       contactPersonId: [null, Validators.required],
       comments: [null],
