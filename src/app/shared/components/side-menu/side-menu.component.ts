@@ -37,8 +37,14 @@ export class SideMenuComponent {
       permission: '/LeasingMandates/GetAll',
     },
     {
+      id: 'Contracts',
+      icon: 'pi pi-ico6',
+      label: 'Contracts',
+      // permission: '/Contracts/GetAll',
+    },
+    {
       id: 'Settings',
-      icon: 'pi pi-cog',
+      icon: 'pi pi-ico5',
       label: 'Settings',
       permission: '/ApplicationRoles/GetAll',
     },
@@ -178,6 +184,12 @@ export class SideMenuComponent {
         label: 'Communication',
         icon: 'pi pi-users',
         items: [
+          {
+            label: 'Meetings',
+            icon: 'pi pi-users',
+            routerLink: '/communication/add-meeting',
+            permission: '/Meetings/GetAll',
+          },
           {
             label: 'Calendar',
             icon: 'pi pi-users',
@@ -394,7 +406,14 @@ export class SideMenuComponent {
         ],
       },
     ],
-
+    Contracts: [
+      {
+        label: 'Contracts',
+        icon: 'pi pi-users',
+        routerLink: '/contracts/view-contracts',
+        // permission: '/Contracts/GetAll',
+      },
+    ],
     // Assets: [
     //   {
     //     label: 'Leasing',
