@@ -18,6 +18,8 @@ import { WizardCommunicationComponent } from './components/wizard-communication/
 import { WizardFollowupsComponent } from './components/wizard-followups/wizard-followups.component';
 import { WizardMeetingComponent } from '../crm/clients/components/client-activities/client-activity-wizard/activities/client-meetings/wizard-meeting/wizard-meeting.component';
 import { PendingChangesGuard } from '../../shared/guards/pending-changes.guard';
+import { ViewMeetingsSideMenuComponent } from './components/meetings/view-meetings/view-meetings-sidemenu.component';
+import { AddMeetingsSideMenuComponent } from './components/meetings/add-meetings/add-meetings-sidemenu.component';
 const routes: Routes = [
   //Calls
   {
@@ -106,7 +108,16 @@ const routes: Routes = [
     component: AddMeetingsComponent,
   },
   {
+    path: 'add-meetings',
+    component: AddMeetingsSideMenuComponent,
+  },
+  {
     path: 'edit-meetings/:id/:clientId',
+    component: AddMeetingsComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
+  {
+    path: 'edit-meetings/:id',
     component: AddMeetingsComponent,
     canDeactivate: [PendingChangesGuard],
   },
@@ -114,7 +125,10 @@ const routes: Routes = [
     path: 'view-meetings/:clientId',
     component: ViewMeetingsComponent,
   },
-
+  {
+    path: 'view-meetings',
+    component: ViewMeetingsSideMenuComponent,
+  },
   {
     path: 'save-meeting',
     component: SaveMeetingComponent,

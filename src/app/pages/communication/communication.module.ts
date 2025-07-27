@@ -33,11 +33,18 @@ import { WizardFollowupsComponent } from './components/wizard-followups/wizard-f
 import { WizardMeetingComponent } from '../crm/clients/components/client-activities/client-activity-wizard/activities/client-meetings/wizard-meeting/wizard-meeting.component';
 import { meetingsCalendarReducer } from './store/meetings/calendar/meetings.reducer';
 import { MeetingsCalendarEffects } from './store/meetings/calendar/meetings.effects';
+import { ViewMeetingsSideMenuComponent } from './components/meetings/view-meetings/view-meetings-sidemenu.component';
+import { SelectModule } from 'primeng/select';
+import { DatePickerModule } from 'primeng/datepicker';
+import { DebugControlDirective } from '../../shared/directives/debug-control.directive';
+import { AddMeetingsSideMenuComponent } from './components/meetings/add-meetings/add-meetings-sidemenu.component';
+import { AddMeetingsSideMenuFormComponent } from './forms/add-client-meetings-form/add-meetings-form/add-meetings-sidemenu-form.component';
 
 @NgModule({
   declarations: [
     AddFollowupsComponent,
     AddFollowupPointsComponent,
+    DebugControlDirective,
     AddCallsComponent,
     AddMeetingsComponent,
     ViewMeetingsComponent,
@@ -49,6 +56,9 @@ import { MeetingsCalendarEffects } from './store/meetings/calendar/meetings.effe
     WizardCommunicationComponent,
     WizardMeetingComponent,
     WizardFollowupsComponent,
+    AddMeetingsSideMenuComponent,
+    ViewMeetingsSideMenuComponent,
+    AddMeetingsSideMenuFormComponent,
   ],
   imports: [
     CommonModule,
@@ -62,6 +72,8 @@ import { MeetingsCalendarEffects } from './store/meetings/calendar/meetings.effe
     FormsModule,
     ReactiveFormsModule,
     DialogModule,
+    SelectModule,
+    DatePickerModule,
     StoreModule.forFeature('calls', callsReducer),
     EffectsModule.forFeature([CallsEffects]),
 
@@ -82,6 +94,10 @@ import { MeetingsCalendarEffects } from './store/meetings/calendar/meetings.effe
     AddFollowupPointsComponent,
     AddCallsComponent,
     AddMeetingsComponent,
+    AddMeetingsSideMenuComponent,
+    AddMeetingsSideMenuFormComponent,
+    ViewMeetingsSideMenuComponent,
+    DebugControlDirective,
   ],
 })
 export class CommunicationModule {}

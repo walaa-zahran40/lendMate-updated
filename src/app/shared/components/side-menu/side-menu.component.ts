@@ -187,7 +187,7 @@ export class SideMenuComponent {
           {
             label: 'Meetings',
             icon: 'pi pi-users',
-            routerLink: '/communication/add-meeting',
+            routerLink: '/communication/view-meetings',
             permission: '/Meetings/GetAll',
           },
           {
