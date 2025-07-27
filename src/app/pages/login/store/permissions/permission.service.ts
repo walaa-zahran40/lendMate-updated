@@ -17,40 +17,62 @@ export class PermissionService {
   }
 
   public loadPermissions(): void {
+    console.log('[Permissions] Starting to load permissions...');
+
     const stored = sessionStorage.getItem('permissions');
     if (stored) {
+      console.log('[Permissions] Found cached permissions in sessionStorage');
       this.permissions = JSON.parse(stored);
+      console.log('[Permissions] Loaded from session:', this.permissions);
     } else {
-      // 2) decode the backend token (from auth/Login)
+      console.log(
+        '[Permissions] No cached permissions found. Decoding tokens...'
+      );
+
       const backendToken = sessionStorage.getItem('authToken');
       let backendClaims = {};
+
       if (backendToken) {
         try {
           backendClaims = jwtDecode(backendToken) as any;
-        } catch {
-          /* ignore */
+          console.log('[Permissions] Decoded backend token:', backendClaims);
+        } catch (error) {
+          console.warn('[Permissions] Failed to decode backend token:', error);
         }
+      } else {
+        console.warn('[Permissions] No backend token found in sessionStorage');
       }
-      // 3) if any of our four top-level perms are missing, fall back to idTokenClaims
+
       const account = this.msal.instance.getAllAccounts()[0];
       const aadClaims = (account?.idTokenClaims as any) || {};
-      const needFallback = [
+      console.log('[Permissions] AAD Claims:', aadClaims);
+
+      const topLevelPerms = [
         '/Clients/GetAll',
         '/Meetings/GetAll',
         '/LeasingMandates/GetAll',
         '/ApplicationRoles/GetAll',
-      ].some((k) => !(backendClaims as any)[k]);
+      ];
 
-      // 4) merge: backendClaims wins, then fallback to aadClaims
+      const needFallback = topLevelPerms.some(
+        (k) => !(backendClaims as any)[k]
+      );
+      console.log(`[Permissions] Need fallback to AAD claims? ${needFallback}`);
+
+      // Merge logic: backendClaims take priority
       this.permissions = {
         ...(needFallback ? aadClaims : {}),
         ...backendClaims,
       };
+
+      console.log('[Permissions] Final merged permissions:', this.permissions);
+
       sessionStorage.setItem('permissions', JSON.stringify(this.permissions));
+      console.log('[Permissions] Saved to sessionStorage');
     }
 
-    // this.next() will now replay to *any* subscriber, new or old
     this.permissionsLoaded$.next();
+    console.log('[Permissions] permissionsLoaded$ emitted');
   }
 
   public hasPermission(key: string): boolean {

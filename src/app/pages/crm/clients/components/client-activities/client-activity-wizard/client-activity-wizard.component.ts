@@ -135,6 +135,13 @@ export class ClientActivityWizardComponent {
         content: 'Leasing Mandates',
         link: `/crm/leasing-mandates/view-mandates/${clientId}`,
       },
+      {
+        imgUrl: '/assets/images/shared/card/upload.svg',
+        imgAlt: 'upload',
+        title: 'Contracts',
+        content: 'Contracts',
+        link: `/crm/clients/view-contracts/${clientId}`,
+      },
     ];
     this.cards = this.chunkArray(this.originalCards, 3);
   }
