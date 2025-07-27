@@ -5,7 +5,7 @@
       {{ description }}
     </p>
     <p-button
-      *ngIf="addMeetingForm"
+      *ngIf="addMeetingSideMenuForm"
       icon="pi pi-cog"
       label="View Meetings"
       (click)="viewMeetings()"
@@ -14,10 +14,29 @@
   </div>
   <div class="div2" [ngClass]="{ span: applyReusable }">
     <form
-      *ngIf="addMeetingForm"
+      *ngIf="addMeetingSideMenuForm"
       (ngSubmit)="onSubmit()"
       [formGroup]="formGroup"
     >
+      <!--Client Name-->
+      <label for="clientId">Client Name <sup>*</sup></label>
+      <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
+        id="clientId"
+        [options]="clientsList"
+        optionLabel="name"
+        placeholder="Select Client"
+        formControlName="clientId"
+        optionValue="id"
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('clientId')?.invalid &&
+            (formGroup.get('clientId')?.dirty ||
+              formGroup.get('clientId')?.touched)
+        }"
+      ></p-select>
       <!-- Meeting Type -->
       <label for="meetingTypeId">Meeting Type <sup>*</sup></label>
       <p-select
@@ -320,12 +339,13 @@
       />
 
       <!-- Details -->
-      <label for="details">Details</label>
+      <label for="details">Details<sup>*</sup></label>
       <input
         pInputText
         id="details"
         placeholder="Details"
         formControlName="details"
+        required
       />
 
       <!-- Start Date -->

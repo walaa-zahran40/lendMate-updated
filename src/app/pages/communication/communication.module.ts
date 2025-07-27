@@ -38,7 +38,6 @@ import { SelectModule } from 'primeng/select';
 import { DatePickerModule } from 'primeng/datepicker';
 import { DebugControlDirective } from '../../shared/directives/debug-control.directive';
 import { AddMeetingsSideMenuComponent } from './components/meetings/add-meetings/add-meetings-sidemenu.component';
-import { AddMeetingsSideMenuFormComponent } from './forms/add-client-meetings-form/add-meetings-form/add-meetings-sidemenu-form.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +57,6 @@ import { AddMeetingsSideMenuFormComponent } from './forms/add-client-meetings-fo
     WizardFollowupsComponent,
     AddMeetingsSideMenuComponent,
     ViewMeetingsSideMenuComponent,
-    AddMeetingsSideMenuFormComponent,
   ],
   imports: [
     CommonModule,
@@ -95,7 +93,6 @@ import { AddMeetingsSideMenuFormComponent } from './forms/add-client-meetings-fo
     AddCallsComponent,
     AddMeetingsComponent,
     AddMeetingsSideMenuComponent,
-    AddMeetingsSideMenuFormComponent,
     ViewMeetingsSideMenuComponent,
     DebugControlDirective,
   ],

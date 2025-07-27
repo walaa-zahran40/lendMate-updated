@@ -82,6 +82,7 @@ import { AddClientUploadDocumentsFormComponent } from '../../pages/crm/clients/f
 import { AddClientFormComponent } from '../../pages/crm/clients/forms/add-client-form/add-client-form.component';
 import { AddClientOnboardingFormComponent } from '../../pages/crm/clients/forms/add-client-onboarding-form/add-client-onboarding-form.component';
 import { DirectivesModule } from '../directives/directives.module';
+import { AddMeetingsSideMenuFormComponent } from '../../pages/communication/forms/add-client-meetings-form/add-meetings-form/add-meetings-sidemenu-form.component';
 
 @NgModule({
   declarations: [
@@ -105,6 +106,7 @@ import { DirectivesModule } from '../directives/directives.module';
     AddCallFormComponent,
     AddFollowupsFormComponent,
     AddMeetingsFormComponent,
+    AddMeetingsSideMenuFormComponent,
     AddClientAddressesFormComponent,
     AddClientCentralBankInfoFormComponent,
     AddClientContactPersonsFormComponent,
@@ -194,6 +196,8 @@ import { DirectivesModule } from '../directives/directives.module';
     AddCallFormComponent,
     AddFollowupsFormComponent,
     AddMeetingsFormComponent,
+    AddMeetingsSideMenuFormComponent,
+
     AddClientAddressesFormComponent,
     AddClientCentralBankInfoFormComponent,
     AddClientContactPersonsFormComponent,

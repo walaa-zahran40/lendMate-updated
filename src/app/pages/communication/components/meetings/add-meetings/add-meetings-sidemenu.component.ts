@@ -31,6 +31,7 @@ import { Officer } from '../../../../organizations/store/officers/officer.model'
 import { OfficersFacade } from '../../../../organizations/store/officers/officers.facade';
 import { Meeting } from '../../../store/meetings/meeting.model';
 import { MeetingsFacade } from '../../../store/meetings/meetings.facade';
+import { ClientsFacade } from '../../../../crm/clients/store/_clients/allclients/clients.facade';
 
 @Component({
   selector: 'app-add-meetings-sidemenu',
@@ -44,7 +45,7 @@ export class AddMeetingsSideMenuComponent implements OnInit, OnDestroy {
   viewOnly = false;
 
   // Reactive form
-  addMeetingForm!: FormGroup;
+  addMeetingSideMenuForm!: FormGroup;
 
   // Lists and IDs
   mode!: 'add' | 'edit' | 'view';
@@ -59,7 +60,6 @@ export class AddMeetingsSideMenuComponent implements OnInit, OnDestroy {
   officers$!: Observable<Officer[]>;
   communicationFlowTypes$!: Observable<CommunicationFlowType[]>;
   clients$!: Observable<Client[]>;
-  raw = this.route.snapshot.paramMap.get('clientId');
 
   clientsList: Client[] = [];
   /** used by <p-datepicker [minDate]> */
@@ -73,7 +73,7 @@ export class AddMeetingsSideMenuComponent implements OnInit, OnDestroy {
     private communicationFlowTypesFacade: CommunicationFlowTypesFacade,
     private officersFacade: OfficersFacade,
     private contactPersonsFacade: ClientContactPersonsFacade,
-
+    private clientsFacade: ClientsFacade,
     private router: Router
   ) {}
 
@@ -86,8 +86,8 @@ export class AddMeetingsSideMenuComponent implements OnInit, OnDestroy {
     this.assetTypesFacade.loadAll();
     this.assetTypes$ = this.assetTypesFacade.all$;
 
-    // this.clientsFacade.loadAll();
-    // this.clients$ = this.clientsFacade.all$;
+    this.clientsFacade.loadAll();
+    this.clients$ = this.clientsFacade.all$;
 
     this.communicationFlowTypesFacade.loadAll();
     this.communicationFlowTypes$ = this.communicationFlowTypesFacade.all$;
@@ -95,12 +95,7 @@ export class AddMeetingsSideMenuComponent implements OnInit, OnDestroy {
     this.officersFacade.loadAll();
     this.officers$ = this.officersFacade.items$;
 
-    if (this.raw) {
-      this.contactPersonsFacade.loadByClientId(Number(this.raw));
-    }
-    this.contactPersons$ = this.contactPersonsFacade.items$.pipe(
-      map((list) => list || [])
-    );
+    // this.contactPersonsFacade.loadByClientId(this.clientId);
 
     // Read mode and set flags
     this.mode = (this.route.snapshot.queryParamMap.get('mode') as any) ?? 'add';
@@ -108,9 +103,9 @@ export class AddMeetingsSideMenuComponent implements OnInit, OnDestroy {
     this.viewOnly = this.mode === 'view';
 
     // Build form with clientId
-    this.addMeetingForm = this.fb.group(
+    this.addMeetingSideMenuForm = this.fb.group(
       {
-        clientId: this.raw,
+        clientId: [null, Validators.required],
         meetingTypeId: [null, Validators.required],
         communicationFlowId: [null],
         addressLocation: [null],
@@ -126,7 +121,7 @@ export class AddMeetingsSideMenuComponent implements OnInit, OnDestroy {
         ]),
 
         topic: [null, Validators.required],
-        details: [null],
+        details: [null, Validators.required],
         startDate: [null, Validators.required],
         endDate: [null, Validators.required],
         comments: [null],
@@ -135,7 +130,6 @@ export class AddMeetingsSideMenuComponent implements OnInit, OnDestroy {
         validators: this.dateRangeValidator(), // see step 2
       }
     );
-
     // Patch for edit/view mode
     if (this.editMode || this.viewOnly) {
       this.recordId = Number(this.route.snapshot.paramMap.get('id'));
@@ -151,9 +145,9 @@ export class AddMeetingsSideMenuComponent implements OnInit, OnDestroy {
             console.log('🔑 rec keys:', Object.keys(rec));
 
             // 1) patch simple fields
-            this.addMeetingForm.patchValue({
+            this.addMeetingSideMenuForm.patchValue({
               id: rec.id,
-              clientId: this.raw,
+              clientId: rec.clientId,
               meetingTypeId: rec.meetingTypeId,
               communicationFlowId: rec.communicationFlowId,
               addressLocation: rec.addressLocation,
@@ -165,10 +159,10 @@ export class AddMeetingsSideMenuComponent implements OnInit, OnDestroy {
             });
             console.log(
               '📝 After patchValue, form value:',
-              this.addMeetingForm.value
+              this.addMeetingSideMenuForm.value
             );
 
-            const assetArr = this.addMeetingForm.get(
+            const assetArr = this.addMeetingSideMenuForm.get(
               'communicationAssetTypes'
             ) as FormArray;
             assetArr.clear();
@@ -181,7 +175,7 @@ export class AddMeetingsSideMenuComponent implements OnInit, OnDestroy {
             });
 
             // 2) communicationContactPersons
-            const idArr = this.addMeetingForm.get(
+            const idArr = this.addMeetingSideMenuForm.get(
               'communicationOfficers'
             ) as FormArray;
             console.log(
@@ -200,7 +194,7 @@ export class AddMeetingsSideMenuComponent implements OnInit, OnDestroy {
             });
 
             // 3) phone types
-            const phArr = this.addMeetingForm.get(
+            const phArr = this.addMeetingSideMenuForm.get(
               'communicationContactPersons'
             ) as FormArray;
             phArr.clear();
@@ -219,14 +213,17 @@ export class AddMeetingsSideMenuComponent implements OnInit, OnDestroy {
         });
     }
 
-    this.addMeetingForm
+    this.addMeetingSideMenuForm
       .get('clientId')!
       .valueChanges.pipe(
         filter((id) => !!id),
         distinctUntilChanged()
       )
-      .subscribe(() => {
-        this.contactPersonsFacade.loadByClientId(Number(this.raw));
+      .subscribe((id) => {
+        this.contactPersonsFacade.loadByClientId(Number(id));
+        this.contactPersons$ = this.contactPersonsFacade.items$.pipe(
+          map((list) => list || [])
+        );
       });
   }
   /** cross-field validator: end >= start */
@@ -238,7 +235,9 @@ export class AddMeetingsSideMenuComponent implements OnInit, OnDestroy {
     };
   }
   get communicationContactPersons(): FormArray {
-    return this.addMeetingForm.get('communicationContactPersons') as FormArray;
+    return this.addMeetingSideMenuForm.get(
+      'communicationContactPersons'
+    ) as FormArray;
   }
 
   addCommunicationContactPerson() {
@@ -254,11 +253,15 @@ export class AddMeetingsSideMenuComponent implements OnInit, OnDestroy {
   }
 
   get officers(): FormArray {
-    return this.addMeetingForm.get('communicationOfficers') as FormArray;
+    return this.addMeetingSideMenuForm.get(
+      'communicationOfficers'
+    ) as FormArray;
   }
 
   get assetTypes(): FormArray {
-    return this.addMeetingForm.get('communicationAssetTypes') as FormArray;
+    return this.addMeetingSideMenuForm.get(
+      'communicationAssetTypes'
+    ) as FormArray;
   }
 
   addCommunicationOfficer() {
@@ -308,7 +311,6 @@ export class AddMeetingsSideMenuComponent implements OnInit, OnDestroy {
 
   addOrEditMeeting() {
     console.log('🛣️ Route snapshot:', this.route.snapshot);
-    const recordId = this.route.snapshot.queryParamMap.get('id');
 
     // 4) Early return in view-only
     if (this.viewOnly) {
@@ -317,13 +319,13 @@ export class AddMeetingsSideMenuComponent implements OnInit, OnDestroy {
     }
 
     // 5) Form validity
-    if (this.addMeetingForm.invalid) {
-      this.addMeetingForm.markAllAsTouched();
+    if (this.addMeetingSideMenuForm.invalid) {
+      this.addMeetingSideMenuForm.markAllAsTouched();
       return;
     }
 
     // 6) The actual payload
-    const formValue = this.addMeetingForm.value;
+    const formValue = this.addMeetingSideMenuForm.value;
     const start = moment
       .tz(formValue.startDate, 'Africa/Cairo')
       .format('YYYY-MM-DDTHH:mm:ssZ');
@@ -362,7 +364,7 @@ export class AddMeetingsSideMenuComponent implements OnInit, OnDestroy {
     );
 
     const data: Partial<Meeting> = {
-      clientId: Number(this.raw),
+      clientId: formValue.clientId,
       meetingTypeId: formValue.meetingTypeId,
       communicationFlowId: formValue.communicationFlowId,
 
@@ -391,11 +393,11 @@ export class AddMeetingsSideMenuComponent implements OnInit, OnDestroy {
         ...data,
       });
     } else {
-      const formValue = this.addMeetingForm.value;
+      const formValue = this.addMeetingSideMenuForm.value;
 
       const updateData: Meeting = {
         id: this.recordId,
-        clientId: Number(this.raw),
+        clientId: formValue.clientId,
         meetingTypeId: formValue.meetingTypeId,
         communicationFlowId: formValue.communicationFlowId,
         topic: formValue.topic,
@@ -427,26 +429,32 @@ export class AddMeetingsSideMenuComponent implements OnInit, OnDestroy {
       });
     }
     console.log('route', this.route.snapshot);
-    if (this.addMeetingForm.valid) {
-      this.addMeetingForm.markAsPristine();
+    if (this.addMeetingSideMenuForm.valid) {
+      this.addMeetingSideMenuForm.markAsPristine();
     }
-    this.router.navigate([`/communication/view-meetings/${this.raw}`]);
+    this.router.navigate([`/communication/view-meetings`]);
   }
   /** Called by the guard. */
   canDeactivate(): boolean {
-    return !this.addMeetingForm.dirty;
+    return !this.addMeetingSideMenuForm.dirty;
   }
 
   get communicationOfficersArray(): FormArray {
-    return this.addMeetingForm.get('communicationOfficers') as FormArray;
+    return this.addMeetingSideMenuForm.get(
+      'communicationOfficers'
+    ) as FormArray;
   }
 
   get communicationContactPersonsArray(): FormArray {
-    return this.addMeetingForm.get('communicationContactPersons') as FormArray;
+    return this.addMeetingSideMenuForm.get(
+      'communicationContactPersons'
+    ) as FormArray;
   }
 
   get communicationAssetTypesArray(): FormArray {
-    return this.addMeetingForm.get('communicationAssetTypes') as FormArray;
+    return this.addMeetingSideMenuForm.get(
+      'communicationAssetTypes'
+    ) as FormArray;
   }
 
   ngOnDestroy() {

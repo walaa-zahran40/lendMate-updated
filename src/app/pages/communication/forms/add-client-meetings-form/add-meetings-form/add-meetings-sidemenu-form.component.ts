@@ -129,6 +129,8 @@ export class AddMeetingsSideMenuFormComponent implements OnInit, OnDestroy {
   @Input() feeTypes: any;
   @Input() assetTypes: any;
   @Input() meetingTypes: any;
+  @Input() clients: any;
+
   @Input() authorizationGroups: any;
   @Input() areasList: any;
   @Input() currencies: any;
@@ -499,7 +501,7 @@ export class AddMeetingsSideMenuFormComponent implements OnInit, OnDestroy {
   @Input() leasingFinancialCurrencyForm!: boolean;
   @Input() leasingFinancialRateForm!: boolean;
   @Input() leasingFinancialBasicForm!: boolean;
-  @Input() addMeetingForm!: boolean;
+  @Input() addMeetingSideMenuForm!: boolean;
   @Input() addCompanyTypesLookupsForm!: boolean;
   @Input() addMeetingShowBusinessInformationForm!: boolean;
   @Input() addMeetingShowAssetTypeForm!: boolean;
@@ -846,7 +848,7 @@ export class AddMeetingsSideMenuFormComponent implements OnInit, OnDestroy {
   }
 
   viewMeetings() {
-    this.router.navigate([`/communication/view-meetings/${this.clientDocId}`]);
+    this.router.navigate([`/communication/view-meetings`]);
   }
 
   viewMandateAdditionalTerms() {

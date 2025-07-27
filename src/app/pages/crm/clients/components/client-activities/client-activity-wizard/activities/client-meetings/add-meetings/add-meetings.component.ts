@@ -126,7 +126,7 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
         ]),
 
         topic: [null, Validators.required],
-        details: [null],
+        details: [null, Validators.required],
         startDate: [null, Validators.required],
         endDate: [null, Validators.required],
         comments: [null],

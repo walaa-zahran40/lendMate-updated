@@ -118,7 +118,7 @@ const routes: Routes = [
   },
   {
     path: 'edit-meetings/:id',
-    component: AddMeetingsComponent,
+    component: AddMeetingsSideMenuComponent,
     canDeactivate: [PendingChangesGuard],
   },
   {

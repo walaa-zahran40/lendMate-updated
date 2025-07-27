@@ -62,7 +62,7 @@ export class ViewMeetingsSideMenuComponent {
       .subscribe(([meetings, clients, meetingTypes]) => {
         const enriched: Meeting[] = meetings.map((meeting) => {
           const client = clients.find(
-            (c) => c.id === meeting.communication.clientId
+            (c) => c.id === meeting.communication?.clientId
           );
           const meetingType = meetingTypes.find(
             (ct) => ct.id === meeting.meetingTypeId
@@ -123,20 +123,15 @@ export class ViewMeetingsSideMenuComponent {
     this.showFilters = value;
   }
   onEditMeeting(meeting: Meeting) {
-    this.router.navigate(
-      ['/communication/edit-meetings', meeting.id, Number(this.raw)],
-      {
-        queryParams: { mode: 'edit' },
-      }
-    );
+    console.log('meeting', meeting);
+    this.router.navigate(['/communication/edit-meetings', meeting.id], {
+      queryParams: { mode: 'edit' },
+    });
   }
   onViewMeeting(ct: Meeting) {
-    this.router.navigate(
-      ['/communication/edit-meetings', ct.id, Number(this.raw)],
-      {
-        queryParams: { mode: 'view' },
-      }
-    );
+    this.router.navigate(['/communication/edit-meetings', ct.id], {
+      queryParams: { mode: 'view' },
+    });
   }
   selectedIds: number[] = [];
   confirmDelete() {

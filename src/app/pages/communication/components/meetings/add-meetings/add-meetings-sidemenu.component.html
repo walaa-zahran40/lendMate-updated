@@ -9,15 +9,15 @@
 <p-tabs value="0" styleClass="p-3">
   <p-tabpanels>
     <p-tabpanel value="0">
-      <app-add-meetings-form
+      <app-add-meetings-sidemenu-form
         [title]="''"
         [description]="'Meeting'"
-        [addMeetingForm]="true"
+        [addMeetingSideMenuForm]="true"
         [clientsList]="clients$ | async"
         [meetingTypes]="meetingTypes$ | async"
         [assetTypes]="assetTypes$ | async"
         [communicationFlowTypes]="communicationFlowTypes$ | async"
-        [formGroup]="addMeetingForm"
+        [formGroup]="addMeetingSideMenuForm"
         (submitForm)="addOrEditMeeting()"
         [editMode]="editMode"
         [minStartDate]="minStartDate"
@@ -32,7 +32,7 @@
         (addCommunicationOfficer)="addCommunicationOfficer()"
         (removeCommunicationAssetType)="removeCommunicationAssetType($event)"
         (addCommunicationAssetType)="addCommunicationAssetType()"
-      ></app-add-meetings-form>
+      ></app-add-meetings-sidemenu-form>
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>
