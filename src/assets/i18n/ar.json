@@ -1,4 +1,7 @@
 {
-  "HELLO": "مرحبا",
-  "WELCOME": "مرحبًا بك في تطبيقنا"
+  "UNSAVED_CHANGES_HEADER": "تغييرات غير محفوظة",
+  "CONFIRM_LEAVE_MESSAGE": "لديك تغييرات غير محفوظة. هل تريد المغادرة دون حفظ؟",
+  "CONFIRM_LEAVE_HEADER": "تغييرات غير محفوظة",
+  "CONFIRM_LEAVE_ACCEPT": "نعم، غادر",
+  "CONFIRM_LEAVE_REJECT": "لا، ابقَ"
 }

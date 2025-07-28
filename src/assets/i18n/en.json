@@ -1,4 +1,7 @@
 {
-  "HELLO": "Hello",
-  "WELCOME": "Welcome to our app"
+  "UNSAVED_CHANGES_HEADER": "Unsaved Changes",
+  "CONFIRM_LEAVE_MESSAGE": "You have unsaved changes. Leave without saving?",
+  "CONFIRM_LEAVE_HEADER": "Unsaved Changes",
+  "CONFIRM_LEAVE_ACCEPT": "Yes, Leave",
+  "CONFIRM_LEAVE_REJECT": "No, Stay"
 }

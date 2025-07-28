@@ -1,8 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SharedService } from './shared/services/shared.service';
 import { MsalService } from '@azure/msal-angular';
-import { Subject } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +9,6 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
-  private readonly _destroying$ = new Subject<void>();
   popupVisible = false;
 
   constructor(

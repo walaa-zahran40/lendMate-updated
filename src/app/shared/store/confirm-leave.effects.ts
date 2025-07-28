@@ -4,6 +4,7 @@ import { concatMap, Observable, of } from 'rxjs';
 import { ConfirmationService } from 'primeng/api';
 import { confirmLeave, leaveConfirmed, leaveCanceled } from './ui.actions';
 import { Action } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
 export class ConfirmLeaveEffects {
@@ -14,9 +15,9 @@ export class ConfirmLeaveEffects {
         () =>
           new Observable<Action>((observer) => {
             this.confirmation.confirm({
-              message: 'You have unsaved changes. Leave without saving?',
-              acceptLabel: 'Yes, Leave',
-              rejectLabel: 'No, Stay',
+              message: this.translate.instant('CONFIRM_LEAVE_MESSAGE'),
+              acceptLabel: this.translate.instant('CONFIRM_LEAVE_ACCEPT'),
+              rejectLabel: this.translate.instant('CONFIRM_LEAVE_REJECT'),
               accept: () => {
                 observer.next(leaveConfirmed());
                 observer.complete();
@@ -33,6 +34,7 @@ export class ConfirmLeaveEffects {
 
   constructor(
     private actions$: Actions,
-    private confirmation: ConfirmationService
+    private confirmation: ConfirmationService,
+    private translate: TranslateService
   ) {}
 }

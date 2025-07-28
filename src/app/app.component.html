@@ -8,7 +8,7 @@
     <app-nav-bar></app-nav-bar>
     <p-toast></p-toast>
     <p-confirmDialog
-      header="Unsaved Changes"
+      [header]="'UNSAVED_CHANGES_HEADER' | translate"
       icon="pi pi-exclamation-triangle"
       styleClass="unsaved-changes-dialog"
       appendTo="body"

@@ -7,12 +7,16 @@ import {
 import { Observable } from 'rxjs';
 import { ConfirmationService } from 'primeng/api';
 import { CanComponentDeactivate } from '../directives/can-component-deactivate.directive';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({ providedIn: 'root' })
 export class PendingChangesGuard
   implements CanDeactivate<CanComponentDeactivate>
 {
-  constructor(private confirmation: ConfirmationService) {}
+  constructor(
+    private confirmation: ConfirmationService,
+    private translate: TranslateService
+  ) {}
 
   canDeactivate(
     component: CanComponentDeactivate,
@@ -25,9 +29,9 @@ export class PendingChangesGuard
     }
     return new Promise<boolean>((resolve) => {
       this.confirmation.confirm({
-        message: 'You have unsaved changes. Discard and leave?',
-        acceptLabel: 'Yes',
-        rejectLabel: 'No',
+        message: this.translate.instant('CONFIRM_LEAVE_MESSAGE'),
+        acceptLabel: this.translate.instant('CONFIRM_LEAVE_ACCEPT'),
+        rejectLabel: this.translate.instant('CONFIRM_LEAVE_REJECT'),
         accept: () => resolve(true),
         reject: () => resolve(false),
       });
