@@ -21,18 +21,19 @@ export class WizardClientStatusActionComponent {
       {
         imgUrl: '/assets/images/shared/card/add-status.svg',
         imgAlt: 'add Authorization Group',
-        title: 'Add Authorization Group',
-        content: '',
+        title: 'LOOKUP.ADD_AUTHORIZATION_GROUP',
+        content: 'LOOKUP.ADD_AUTHORIZATION_GROUP_DESC',
         link: `/lookups/view-action-authorizationGroups/${clientStatusActionId}`,
       },
       {
         imgUrl: '/assets/images/shared/card/add-status.svg',
         imgAlt: 'add Notification Group',
-        title: 'Add Notification Group',
-        content: '',
+        title: 'LOOKUP.ADD_NOTIFICATION_GROUP',
+        content: 'LOOKUP.ADD_NOTIFICATION_GROUP_DESC',
         link: `/lookups/view-action-notificationGroups/${clientStatusActionId}`,
       },
     ];
+
     this.cards = this.chunkArray(this.originalCards, 3);
   }
   onSearchClientStatusAction(keyword: string) {

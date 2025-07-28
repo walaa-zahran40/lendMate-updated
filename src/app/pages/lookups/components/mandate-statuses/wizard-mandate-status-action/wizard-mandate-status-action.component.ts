@@ -22,18 +22,19 @@ export class WizardMandateStatusActionComponent {
       {
         imgUrl: '/assets/images/shared/card/add-status.svg',
         imgAlt: 'add Authorization Group',
-        title: 'Add Authorization Group',
-        content: '',
+        title: 'MANDATE.ADD_AUTHORIZATION_GROUP',
+        content: 'MANDATE.ADD_AUTHORIZATION_GROUP_DESC',
         link: `/lookups/view-mandate-action-authorizationGroups/${mandateStatusActionId}`,
       },
       {
         imgUrl: '/assets/images/shared/card/add-status.svg',
         imgAlt: 'add Notification Group',
-        title: 'Add Notification Group',
-        content: '',
+        title: 'MANDATE.ADD_NOTIFICATION_GROUP',
+        content: 'MANDATE.ADD_NOTIFICATION_GROUP_DESC',
         link: `/lookups/view-mandate-action-notificationGroups/${mandateStatusActionId}`,
       },
     ];
+
     this.cards = this.chunkArray(this.originalCards, 3);
   }
   onSearchMandateStatusAction(keyword: string) {

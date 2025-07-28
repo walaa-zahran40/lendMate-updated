@@ -23,11 +23,12 @@ export class WizardFollowupsComponent {
       {
         imgUrl: '/assets/images/shared/card/add.svg',
         imgAlt: 'add',
-        title: 'Follow Up Points',
-        content: '',
+        title: 'COMMUNICATION.FOLLOW_UP_POINTS',
+        content: 'COMMUNICATION.FOLLOW_UP_POINTS_DESC',
         link: `communication/view-follow-up-points/${this.followupId}/${communicationId}`,
       },
     ];
+
     this.cards = this.chunkArray(this.originalCards, 3);
   }
   onSearchClient(keyword: string) {

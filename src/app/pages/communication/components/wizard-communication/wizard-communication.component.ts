@@ -38,11 +38,12 @@ export class WizardCommunicationComponent {
       {
         imgUrl: '/assets/images/shared/card/upload.svg',
         imgAlt: 'upload',
-        title: 'Follow Ups',
-        content: '',
+        title: 'COMMUNICATION.FOLLOW_UPS',
+        content: 'COMMUNICATION.FOLLOW_UPS_DESC',
         link: `communication/view-follow-ups/${communicationId}`,
       },
     ];
+
     this.cards = this.chunkArray(this.originalCards, 3);
   }
   onSearchClient(keyword: string) {

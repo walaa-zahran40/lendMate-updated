@@ -48,8 +48,8 @@ export class WizardComponent implements OnInit {
       {
         imgUrl: '/assets/images/shared/card/clone.svg',
         imgAlt: 'clone',
-        title: 'Clone',
-        content: 'Quickly spin up a copy of this mandate…',
+        title: 'MANDATE.CLONE',
+        content: 'MANDATE.CLONE_DESC',
         link: !this.clientId
           ? `/crm/leasing-mandates/add-child-mandate/${id}/${this.routeId}`
           : `/crm/leasing-mandates/add-child-mandate/${id}/${this.routeId}/${this.clientId}`,
@@ -57,29 +57,29 @@ export class WizardComponent implements OnInit {
       {
         imgUrl: '/assets/images/shared/card/mandate-manage.svg',
         imgAlt: 'mandate',
-        title: 'Mandate Additional Terms',
-        content: 'Edit or review your mandate’s T&Cs…',
+        title: 'MANDATE.ADDITIONAL_TERMS',
+        content: 'MANDATE.ADDITIONAL_TERMS_DESC',
         link: `/crm/leasing-mandates/view-mandate-additional-terms/${id}/${this.routeId}`,
       },
       {
         imgUrl: '/assets/images/shared/card/mandate-manage.svg',
         imgAlt: 'mandate',
-        title: 'Leasing Financial Form',
-        content: 'Edit or review your Leasing Financial Form',
+        title: 'MANDATE.FINANCIAL_FORM',
+        content: 'MANDATE.FINANCIAL_FORM_DESC',
         link: `/crm/leasing-mandates/leasing-financial-form/${id}/${this.routeId}`,
       },
       {
         imgUrl: '/assets/images/shared/card/mandate-manage.svg',
         imgAlt: 'mandate',
-        title: 'Mandate Fees',
-        content: 'Edit or review your Mandate Fees',
+        title: 'MANDATE.FEES',
+        content: 'MANDATE.FEES_DESC',
         link: `/crm/leasing-mandates/view-mandate-fees/${id}/${this.routeId}`,
       },
       {
         imgUrl: '/assets/images/shared/card/mandate-manage.svg',
         imgAlt: 'mandate',
-        title: 'Mandate Work Flow History',
-        content: 'Edit or review your Mandate Fees',
+        title: 'MANDATE.WORKFLOW_HISTORY',
+        content: 'MANDATE.WORKFLOW_HISTORY_DESC',
         link: `/crm/leasing-mandates/view-mandate-work-flow-history/${id}/${this.routeId}`,
       },
     ];

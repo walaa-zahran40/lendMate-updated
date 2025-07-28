@@ -17,9 +17,8 @@ export class WizardRolesComponent {
       {
         imgUrl: '/assets/images/shared/card/branch.svg',
         imgAlt: 'role Claims',
-        title: 'Role Claims',
-        content:
-          'Introduce your role core info quickly to users by fill up role details',
+        title: 'ORGANIZATION.ROLE_CLAIMS',
+        content: 'ORGANIZATION.ROLE_CLAIMS_DESC',
         link: `/organizations/add-role-claim/${roleId}`,
       },
     ];

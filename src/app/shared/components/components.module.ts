@@ -83,6 +83,7 @@ import { AddClientFormComponent } from '../../pages/crm/clients/forms/add-client
 import { AddClientOnboardingFormComponent } from '../../pages/crm/clients/forms/add-client-onboarding-form/add-client-onboarding-form.component';
 import { DirectivesModule } from '../directives/directives.module';
 import { AddMeetingsSideMenuFormComponent } from '../../pages/communication/forms/add-client-meetings-form/add-meetings-form/add-meetings-sidemenu-form.component';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -173,6 +174,7 @@ import { AddMeetingsSideMenuFormComponent } from '../../pages/communication/form
     TieredMenuModule,
     PanelMenuModule,
     ReactiveFormsModule,
+    TranslateModule,
   ],
   providers: [DatePipe, AsyncPipe, MessageService],
   exports: [

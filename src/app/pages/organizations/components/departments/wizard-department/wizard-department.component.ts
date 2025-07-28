@@ -17,8 +17,8 @@ export class WizardDepartmentComponent {
         {
           imgUrl: '/assets/images/shared/card/department.svg',
           imgAlt: 'department Managers',
-          title: 'Department Managers',
-          content: '',
+          title: 'ORGANIZATION.DEPARTMENT_MANAGERS',
+          content: 'ORGANIZATION.DEPARTMENT_MANAGERS_DESC',
           link: `/organizations/view-department-managers/${this.departmentId}`,
         },
       ],

@@ -17,25 +17,26 @@ export class WizardBranchComponent {
       {
         imgUrl: '/assets/images/shared/card/branch.svg',
         imgAlt: 'branch Managers',
-        title: 'Branch Managers',
-        content: '',
+        title: 'ORGANIZATION.BRANCH_MANAGERS',
+        content: 'ORGANIZATION.BRANCH_MANAGERS_DESC',
         link: `/organizations/view-branch-managers/${branchId}`,
       },
       {
         imgUrl: '/assets/images/shared/card/branch.svg',
         imgAlt: 'branch Officers',
-        title: 'Branch Officers',
-        content: '',
+        title: 'ORGANIZATION.BRANCH_OFFICERS',
+        content: 'ORGANIZATION.BRANCH_OFFICERS_DESC',
         link: `/organizations/view-branch-officers/${branchId}`,
       },
       {
         imgUrl: '/assets/images/shared/card/address.svg',
         imgAlt: 'branch Address',
-        title: 'Branch Address',
-        content: '',
+        title: 'ORGANIZATION.BRANCH_ADDRESS',
+        content: 'ORGANIZATION.BRANCH_ADDRESS_DESC',
         link: `/organizations/view-branch-addresses/${branchId}`,
       },
     ];
+
     this.cards = this.chunkArray(this.originalCards, 3);
   }
   onSearchBranch(keyword: string) {

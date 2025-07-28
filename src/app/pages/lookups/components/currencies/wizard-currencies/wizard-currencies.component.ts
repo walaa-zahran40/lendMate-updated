@@ -20,11 +20,12 @@ export class WizardCurrenciesComponent {
       {
         imgUrl: '/assets/images/shared/card/currency.svg',
         imgAlt: 'currency Exchange',
-        title: 'Currency Exchange',
-        content: '',
+        title: 'LOOKUP.CURRENCY_EXCHANGE',
+        content: 'LOOKUP.CURRENCY_EXCHANGE_DESC',
         link: `/lookups/view-currency-exchange-rates/${currencyId}`,
       },
     ];
+
     this.cards = this.chunkArray(this.originalCards, 3);
   }
   navigateTo(link: string) {

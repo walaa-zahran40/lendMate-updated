@@ -3,5 +3,71 @@
   "CONFIRM_LEAVE_MESSAGE": "You have unsaved changes. Leave without saving?",
   "CONFIRM_LEAVE_HEADER": "Unsaved Changes",
   "CONFIRM_LEAVE_ACCEPT": "Yes, Leave",
-  "CONFIRM_LEAVE_REJECT": "No, Stay"
+  "CONFIRM_LEAVE_REJECT": "No, Stay",
+  "CARD": {
+    "UPLOAD_DOCUMENTS": "Upload Documents",
+    "ADD_ADDRESS": "Add Address",
+    "SALES_TURNOVER": "Sales Turnover",
+    "PHONE_NUMBER": "Phone Number",
+    "CR_AUTHORITY": "CR Authority Office",
+    "TAX_AUTHORITY": "TAX Authority Office",
+    "CENTRAL_BANK_INFO": "Central Bank Info",
+    "SHARE_HOLDERS": "Share Holders",
+    "TML_OFFICER": "TML Officer",
+    "CONTACT_PERSON": "Contact Person",
+    "CLIENT_GUARANTORS": "Client Guarantors",
+    "CLIENT_IDENTITIES": "Client Identities",
+    "CLIENT_OFFICERS": "Client Officers",
+    "CLIENT_LEGALS": "Client Legals",
+    "MEETINGS": "Meetings",
+    "CALLS": "Calls",
+    "LEASING_MANDATES": "Leasing Mandates",
+    "CONTRACTS": "Contracts"
+  },
+  "MANDATE": {
+    "CLONE": "Clone",
+    "CLONE_DESC": "Quickly spin up a copy of this mandate…",
+    "ADDITIONAL_TERMS": "Mandate Additional Terms",
+    "ADDITIONAL_TERMS_DESC": "Edit or review your mandate’s T&Cs…",
+    "FINANCIAL_FORM": "Leasing Financial Form",
+    "FINANCIAL_FORM_DESC": "Edit or review your Leasing Financial Form",
+    "FEES": "Mandate Fees",
+    "FEES_DESC": "Edit or review your Mandate Fees",
+    "WORKFLOW_HISTORY": "Mandate Work Flow History",
+    "WORKFLOW_HISTORY_DESC": "Edit or review your Mandate Work Flow History",
+    "ADD_AUTHORIZATION_GROUP": "Add Authorization Group",
+    "ADD_AUTHORIZATION_GROUP_DESC": "Assign or manage authorization groups for this mandate action",
+    "ADD_NOTIFICATION_GROUP": "Add Notification Group",
+    "ADD_NOTIFICATION_GROUP_DESC": "Assign or manage notification groups for this mandate action"
+  },
+  "COMMUNICATION": {
+    "FOLLOW_UPS": "Follow Ups",
+    "FOLLOW_UPS_DESC": "Track and manage communication follow-up activities",
+    "FOLLOW_UP_POINTS": "Follow Up Points",
+    "FOLLOW_UP_POINTS_DESC": "Detailed action points related to follow-ups"
+  },
+  "LOOKUP": {
+    "CURRENCY_EXCHANGE": "Currency Exchange",
+    "CURRENCY_EXCHANGE_DESC": "View or manage currency exchange rates",
+    "ADD_AUTHORIZATION_GROUP": "Add Authorization Group",
+    "ADD_AUTHORIZATION_GROUP_DESC": "Assign or manage authorization groups for this action",
+    "ADD_NOTIFICATION_GROUP": "Add Notification Group",
+    "ADD_NOTIFICATION_GROUP_DESC": "Assign or manage notification groups for this action"
+  },
+  "ORGANIZATION": {
+    "DEPARTMENT_MANAGERS": "Department Managers",
+    "DEPARTMENT_MANAGERS_DESC": "View and manage managers assigned to this department",
+    "TEAM_LEADS": "Team Leads",
+    "TEAM_LEADS_DESC": "View and manage team leaders assigned to this team",
+    "TEAM_MEMBERS": "Team Members",
+    "TEAM_MEMBERS_DESC": "View and manage members of this team",
+    "BRANCH_MANAGERS": "Branch Managers",
+    "BRANCH_MANAGERS_DESC": "View and manage managers assigned to this branch",
+    "BRANCH_OFFICERS": "Branch Officers",
+    "BRANCH_OFFICERS_DESC": "View and manage officers of this branch",
+    "BRANCH_ADDRESS": "Branch Address",
+    "BRANCH_ADDRESS_DESC": "View and manage the address of this branch",
+    "ROLE_CLAIMS": "Role Claims",
+    "ROLE_CLAIMS_DESC": "Introduce your role core info quickly to users by filling out role details"
+  }
 }

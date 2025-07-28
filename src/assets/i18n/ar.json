@@ -3,5 +3,71 @@
   "CONFIRM_LEAVE_MESSAGE": "لديك تغييرات غير محفوظة. هل تريد المغادرة دون حفظ؟",
   "CONFIRM_LEAVE_HEADER": "تغييرات غير محفوظة",
   "CONFIRM_LEAVE_ACCEPT": "نعم، غادر",
-  "CONFIRM_LEAVE_REJECT": "لا، ابقَ"
+  "CONFIRM_LEAVE_REJECT": "لا، ابقَ",
+  "CARD": {
+    "UPLOAD_DOCUMENTS": "تحميل المستندات",
+    "ADD_ADDRESS": "إضافة العنوان",
+    "SALES_TURNOVER": "حجم المبيعات",
+    "PHONE_NUMBER": "رقم الهاتف",
+    "CR_AUTHORITY": "مكتب السجل التجاري",
+    "TAX_AUTHORITY": "مكتب الضرائب",
+    "CENTRAL_BANK_INFO": "معلومات البنك المركزي",
+    "SHARE_HOLDERS": "المساهمون",
+    "TML_OFFICER": "مسؤول TML",
+    "CONTACT_PERSON": "جهة الاتصال",
+    "CLIENT_GUARANTORS": "ضامني العميل",
+    "CLIENT_IDENTITIES": "هويات العميل",
+    "CLIENT_OFFICERS": "موظفو العميل",
+    "CLIENT_LEGALS": "الشؤون القانونية للعميل",
+    "MEETINGS": "الاجتماعات",
+    "CALLS": "المكالمات",
+    "LEASING_MANDATES": "تفويضات التأجير",
+    "CONTRACTS": "العقود"
+  },
+  "MANDATE": {
+    "CLONE": "نسخ التفويض",
+    "CLONE_DESC": "إنشاء نسخة من هذا التفويض بسرعة…",
+    "ADDITIONAL_TERMS": "الشروط الإضافية للتفويض",
+    "ADDITIONAL_TERMS_DESC": "تعديل أو مراجعة الشروط والأحكام الخاصة بالتفويض…",
+    "FINANCIAL_FORM": "النموذج المالي للتأجير",
+    "FINANCIAL_FORM_DESC": "تعديل أو مراجعة النموذج المالي للتأجير",
+    "FEES": "رسوم التفويض",
+    "FEES_DESC": "تعديل أو مراجعة رسوم التفويض",
+    "WORKFLOW_HISTORY": "سجل سير عمل التفويض",
+    "WORKFLOW_HISTORY_DESC": "تعديل أو مراجعة سجل سير عمل التفويض",
+    "ADD_AUTHORIZATION_GROUP": "إضافة مجموعة تفويض",
+    "ADD_AUTHORIZATION_GROUP_DESC": "تعيين أو إدارة مجموعات التفويض لإجراء هذا التفويض",
+    "ADD_NOTIFICATION_GROUP": "إضافة مجموعة إشعارات",
+    "ADD_NOTIFICATION_GROUP_DESC": "تعيين أو إدارة مجموعات الإشعارات لإجراء هذا التفويض"
+  },
+  "COMMUNICATION": {
+    "FOLLOW_UPS": "المتابعات",
+    "FOLLOW_UPS_DESC": "تتبع وإدارة أنشطة المتابعة الخاصة بالتواصل",
+    "FOLLOW_UP_POINTS": "نقاط المتابعة",
+    "FOLLOW_UP_POINTS_DESC": "نقاط الإجراءات التفصيلية المتعلقة بالمتابعة"
+  },
+  "LOOKUP": {
+    "CURRENCY_EXCHANGE": "تحويل العملات",
+    "CURRENCY_EXCHANGE_DESC": "عرض أو إدارة أسعار صرف العملات",
+    "ADD_AUTHORIZATION_GROUP": "إضافة مجموعة تفويض",
+    "ADD_AUTHORIZATION_GROUP_DESC": "تعيين أو إدارة مجموعات التفويض لهذا الإجراء",
+    "ADD_NOTIFICATION_GROUP": "إضافة مجموعة إشعارات",
+    "ADD_NOTIFICATION_GROUP_DESC": "تعيين أو إدارة مجموعات الإشعارات لهذا الإجراء"
+  },
+  "ORGANIZATION": {
+    "DEPARTMENT_MANAGERS": "مديرو الأقسام",
+    "DEPARTMENT_MANAGERS_DESC": "عرض وإدارة المديرين المعيّنين لهذا القسم",
+    "TEAM_LEADS": "قادة الفريق",
+    "TEAM_LEADS_DESC": "عرض وإدارة قادة الفريق المعيّنين لهذا الفريق",
+    "TEAM_MEMBERS": "أعضاء الفريق",
+    "TEAM_MEMBERS_DESC": "عرض وإدارة أعضاء هذا الفريق",
+    "BRANCH_MANAGERS": "مديرو الفرع",
+    "BRANCH_MANAGERS_DESC": "عرض وإدارة المديرين المعيّنين لهذا الفرع",
+    "BRANCH_OFFICERS": "موظفو الفرع",
+    "BRANCH_OFFICERS_DESC": "عرض وإدارة موظفي هذا الفرع",
+    "BRANCH_ADDRESS": "عنوان الفرع",
+    "BRANCH_ADDRESS_DESC": "عرض وإدارة عنوان هذا الفرع",
+    "ROLE_CLAIMS": "صلاحيات الدور",
+    "ROLE_CLAIMS_DESC": "عرّف معلومات الدور الأساسية للمستخدمين بسرعة من خلال تعبئة تفاصيل الدور"
+  }
 }
