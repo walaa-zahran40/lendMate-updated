@@ -69,5 +69,10 @@
     "BRANCH_ADDRESS_DESC": "View and manage the address of this branch",
     "ROLE_CLAIMS": "Role Claims",
     "ROLE_CLAIMS_DESC": "Introduce your role core info quickly to users by filling out role details"
+  },
+  "DIALOG": {
+    "DELETE_CONFIRMATION": "Are you sure to delete?",
+    "YES": "Yes",
+    "NO": "No"
   }
 }

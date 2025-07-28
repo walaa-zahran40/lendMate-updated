@@ -50,5 +50,17 @@
       font-weight: 500;
       line-height: 150%; /* 40.615px */
     }
+    .p-dialog-footer {
+      [dir="ltr"] & {
+        display: flex;
+        flex-direction: row;
+      }
+
+      // flipped RTL layout
+      [dir="rtl"] & {
+        display: flex;
+        flex-direction: row;
+      }
+    }
   }
 }
