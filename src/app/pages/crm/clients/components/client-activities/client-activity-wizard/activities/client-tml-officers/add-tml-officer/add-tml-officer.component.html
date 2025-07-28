@@ -16,10 +16,8 @@
     <p-tabpanel value="0">
       <app-form
         *ngIf="addClientTMLOfficersLookupsForm"
-        [title]="'Client TML Officer'"
-        [description]="
-          'Introduce your Client TML Officer core info quickly to users by fill up client details'
-        "
+        [title]="'CLIENT_TML_OFFICER.TITLE'"
+        [description]="'CLIENT_TML_OFFICER.DESCRIPTION'"
         [formGroup]="addClientTMLOfficersLookupsForm"
         [addTMLOfficerShowMain]="true"
         [editMode]="editMode"

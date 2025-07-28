@@ -16,10 +16,8 @@
     <p-tabpanel value="0">
       <app-form
         *ngIf="addRoleClaimORGForm"
-        [title]="'Role Claim'"
-        [description]="
-          'Introduce your Role Claim core info quickly to users by fill up branch details'
-        "
+        [title]="'ROLE_CLAIM.TITLE'"
+        [description]="'ROLE_CLAIM.DESCRIPTION'"
         [operationsList]="(operationsList$ | async) ?? []"
         [formGroup]="addRoleClaimORGForm"
         [addRoleClaimORGForm]="true"

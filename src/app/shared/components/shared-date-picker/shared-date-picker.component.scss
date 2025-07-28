@@ -135,7 +135,7 @@
       padding-bottom: var(--custom-size-8);
       padding-left: var(--custom-size-16);
       border: var(--custom-border);
-      font-family: var(--custom-font-family-regular);
+
       font-weight: var(--custom-font-weight);
       font-size: var(--custom-font-size-13);
       line-height: var(--custom-font-size-24);
@@ -283,7 +283,7 @@
       background: var(--custom-color-white);
       padding-left: var(--custom-size-12);
       border-radius: var(--custom-margin-0);
-      font-family: var(--custom-font-family-regular);
+
       font-weight: var(--custom-font-weight-600);
       font-size: var(--custom-size-16);
       line-height: var(--custom-line-height-25);
@@ -532,7 +532,6 @@
   text-align: center;
 }
 h2 {
-  font-family: var(--custom-font-family-regular);
   font-size: var(--custom-size-16);
 }
 
@@ -581,7 +580,7 @@ p.client {
 }
 .tab-panel-paragraph {
   font-weight: 600;
-  font-family: var(--custom-font-family-regular);
+
   font-weight: var(--custom-font-weight-600);
   font-size: var(--custom-size-16);
   line-height: var(--custom-line-height-25);
@@ -594,7 +593,6 @@ p.client {
 }
 form {
   label {
-    font-family: var(--custom-font-family-regular);
     font-size: var(--custom-size-16);
     color: var(--custom-grey-bold);
     white-space: nowrap;

@@ -16,16 +16,16 @@
 <div class="parent" style="zoom: 70%">
   <div class="first-form">
     <app-form
-      [title]="'Basic Finance Information'"
-      [description]="''"
+      [title]="'LEASING_FINANCIAL.BASIC.TITLE'"
+      [description]="'LEASING_FINANCIAL.BASIC.DESCRIPTION'"
       [leasingFinancialBasicForm]="true"
       [formGroup]="leasingFinancialBasicForm"
     ></app-form>
   </div>
   <div class="second-form">
     <app-form
-      [title]="'Rates and Periods'"
-      [description]="''"
+      [title]="'LEASING_FINANCIAL.RATES.TITLE'"
+      [description]="'LEASING_FINANCIAL.RATES.DESCRIPTION'"
       [leasingFinancialRateForm]="true"
       [formGroup]="leasingFinancialRateForm"
       [paymentPeriods]="paymentPeriods$ | async"
@@ -37,8 +37,8 @@
   <div class="third-form">
     <app-form
       class="form-currency"
-      [title]="'Currency Information'"
-      [description]="''"
+      [title]="'LEASING_FINANCIAL.CURRENCY.TITLE'"
+      [description]="'LEASING_FINANCIAL.CURRENCY.DESCRIPTION'"
       [leasingFinancialCurrencyForm]="true"
       [formGroup]="leasingFinancialCurrencyForm"
       [currencies]="currencies$ | async"

@@ -28,7 +28,7 @@
       padding-bottom: var(--custom-size-8);
       padding-left: var(--custom-size-16);
       border: var(--custom-border);
-      font-family: var(--custom-font-family-regular);
+
       font-weight: var(--custom-font-weight);
       font-size: var(--custom-font-size-13);
       line-height: var(--custom-font-size-24);
@@ -233,7 +233,7 @@
       padding-bottom: var(--custom-size-8);
       padding-left: var(--custom-size-16);
       border: var(--custom-border);
-      font-family: var(--custom-font-family-regular);
+
       font-weight: var(--custom-font-weight);
       font-size: var(--custom-font-size-13);
       line-height: var(--custom-font-size-24);
@@ -342,7 +342,7 @@
       background: var(--custom-color-white);
       padding-left: var(--custom-size-12);
       border-radius: var(--custom-margin-0);
-      font-family: var(--custom-font-family-regular);
+
       font-weight: var(--custom-font-weight-600);
       font-size: var(--custom-size-16);
       line-height: var(--custom-line-height-25);
@@ -414,7 +414,6 @@
   }
 }
 h2 {
-  font-family: var(--custom-font-family-regular);
   font-size: var(--custom-size-16);
   line-height: var(--custom-line-height-25);
 }
@@ -432,7 +431,7 @@ p.client {
 }
 .tab-panel-paragraph {
   font-weight: 600;
-  font-family: var(--custom-font-family-regular);
+
   font-weight: var(--custom-font-weight-600);
   font-size: var(--custom-size-16);
   line-height: var(--custom-line-height-25);
@@ -442,7 +441,6 @@ form {
   display: var(--custom-display);
   flex-direction: var(--custom-flex-direction);
   label {
-    font-family: var(--custom-font-family-regular);
     font-size: var(--custom-size-16);
     line-height: var(--custom-line-height-25);
     color: var(--custom-grey-bold);

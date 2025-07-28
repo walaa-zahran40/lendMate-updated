@@ -1,9 +1,9 @@
 <div class="parent">
   <div *ngIf="!contactPersonDetailsView" class="div1">
-    <h2 class="m-0 title">{{ title }}</h2>
-    <!-- <p class="tab-panel-paragraph">
-      {{ description }}
-    </p> -->
+    <h2 class="m-0 title">{{ title | translate }}</h2>
+    <p class="tab-panel-paragraph">
+      {{ description | translate }}
+    </p>
     <p-button
       *ngIf="uploadDocumentsShowMain"
       label="View Document Details"

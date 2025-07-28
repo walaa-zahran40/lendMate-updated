@@ -34,7 +34,6 @@ import { IdentificationType } from '../../../pages/lookups/store/identification-
 import { Currency } from '../../../pages/lookups/store/currencies/currency.model';
 import { Sector } from '../../../pages/lookups/store/sectors/sector.model';
 import { SubSector } from '../../../pages/lookups/store/sub-sectors/sub-sector.model';
-import { LegalFormLaw } from '../../../pages/legals/store/legal-form-laws/legal-form-law.model';
 import { selectAllSectors } from '../../../pages/lookups/store/sectors/sectors.selectors';
 import { selectAllSubSectors } from '../../../pages/lookups/store/sub-sectors/sub-sectors.selectors';
 export interface IdentityEntry {

@@ -38,7 +38,31 @@
     "ADD_AUTHORIZATION_GROUP": "Add Authorization Group",
     "ADD_AUTHORIZATION_GROUP_DESC": "Assign or manage authorization groups for this mandate action",
     "ADD_NOTIFICATION_GROUP": "Add Notification Group",
-    "ADD_NOTIFICATION_GROUP_DESC": "Assign or manage notification groups for this mandate action"
+    "ADD_NOTIFICATION_GROUP_DESC": "Assign or manage notification groups for this mandate action",
+    "BASIC_INFO": {
+      "TITLE": "Basic Information",
+      "DESCRIPTION": "Fill in the key details that define the mandate's core parameters including client, product, validity period, leasing type, and insurance information."
+    },
+    "OFFICERS": {
+      "TITLE": "Officers",
+      "DESCRIPTION": "This information will be displayed publicly and should reflect accurate officer records assigned to this mandate."
+    },
+    "CONTACT_PERSONS": {
+      "TITLE": "Contact Persons",
+      "DESCRIPTION": "This information will be displayed publicly and should reflect the correct client contact persons involved in the mandate."
+    },
+    "ASSET_TYPE": {
+      "TITLE": "Asset Type",
+      "DESCRIPTION": "This information will be displayed publicly and should represent the types of assets relevant to this mandate."
+    },
+    "MORE_INFO": {
+      "TITLE": "More Information",
+      "DESCRIPTION": "Provide additional configuration such as grace period settings and other optional mandate details."
+    },
+    "MANDATE_ADDITIONAL_TERMS": {
+      "TITLE": "Mandate Additional Terms",
+      "DESCRIPTION": "Specify additional mandate terms and conditions such as regulatory, procedural, or special requirements associated with the leasing mandate."
+    }
   },
   "COMMUNICATION": {
     "FOLLOW_UPS": "Follow Ups",
@@ -82,5 +106,62 @@
     "PLACEHOLDER_CONTACT": "Choose Contact Person",
     "PLACEHOLDER_OFFICER": "Choose Officer",
     "BUTTON": "Download"
+  },
+  "CONTACT_PERSON": {
+    "TITLE": "Contact Person Details"
+  },
+  "CLIENT_TAX_AUTHORITY": {
+    "TITLE": "Client Tax Authority Office",
+    "DESCRIPTION": "Introduce your Client Tax Authority Office core info quickly to users by filling in client details"
+  },
+  "CLIENT_TML_OFFICER": {
+    "TITLE": "Client TML Officer",
+    "DESCRIPTION": "Introduce your Client TML Officer core info quickly to users by filling in client details"
+  },
+  "LEASING_FINANCIAL": {
+    "BASIC": {
+      "TITLE": "Basic Finance Information",
+      "DESCRIPTION": "Enter the essential financial parameters such as lease amount, duration, and type for this mandate."
+    },
+    "RATES": {
+      "TITLE": "Rates and Periods",
+      "DESCRIPTION": "Configure financial rates, payment intervals, and grace period settings related to the leasing mandate."
+    },
+    "CURRENCY": {
+      "TITLE": "Currency Information",
+      "DESCRIPTION": "Specify financial settings including currency, exchange rate, interest benchmarks, and payment structure for the leasing mandate."
+    }
+  },
+  "ASSET_TYPE_CATEGORIES": {
+    "TITLE": "Asset Type Categories",
+    "DESCRIPTION": "Manage and classify asset types by grouping them into logical categories for easier organization and processing."
+  },
+  "AUTHORIZATION_GROUP": {
+    "TITLE": "Authorization Group",
+    "DESCRIPTION": "Introduce your Authorization Group core info quickly to users by filling in the necessary client-related details."
+  },
+  "NOTIFICATION_GROUP": {
+    "TITLE": "Notification Group",
+    "DESCRIPTION": "Introduce your Notification Group core info quickly to users by filling in the necessary client-related details."
+  },
+  "SHARE_HOLDER": {
+    "TITLE": "Client Share Holder",
+    "DESCRIPTION": "Introduce your Client Share Holder core info quickly to users by filling in the necessary client-related details."
+  },
+  "MANDATE_AUTH_GROUP": {
+    "TITLE": "Authorization Group",
+    "DESCRIPTION": "Introduce your Authorization Group core info quickly to users by filling in the mandate-related details."
+  },
+  "MANDATE_NOTIFICATION_GROUP": {
+    "TITLE": "Notification Group",
+    "DESCRIPTION": "Introduce your Notification Group core info quickly to users by filling in the mandate-related details."
+  },
+  "BRANCH_ADDRESS": {
+    "TITLE": "Branch Address",
+    "DESCRIPTION": "Introduce your Branch Address core info quickly to users by filling in branch details."
+  },
+  "ROLE_CLAIM": {
+    "TITLE": "Role Claim",
+    "DESCRIPTION": "Introduce your Role Claim core info quickly to users by filling in the role details."
   }
 }
