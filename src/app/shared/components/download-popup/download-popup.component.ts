@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MandatePrintOutService } from '../../../pages/crm/leasing-mandates/store/mandate-printout/mandate-printout.service';
 import { Mandate } from '../../../pages/crm/leasing-mandates/store/leasing-mandates/leasing-mandate.model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-download-popup',
@@ -16,14 +17,21 @@ export class DownloadPopupComponent {
   @Input() contactPersons!: any;
   @Input() officers!: any;
   downloadForm: FormGroup;
+  optionLabelKey = 'name';
 
   constructor(
     private fb: FormBuilder,
-    private mandatePrintOutService: MandatePrintOutService
+    private mandatePrintOutService: MandatePrintOutService,
+    private translate: TranslateService
   ) {
     this.downloadForm = this.fb.group({
       contactPersons: [null],
       officers: [null],
+    });
+    this.setOptionLabelKey(this.translate.currentLang);
+
+    this.translate.onLangChange.subscribe((event) => {
+      this.setOptionLabelKey(event.lang);
     });
   }
 
@@ -70,5 +78,8 @@ export class DownloadPopupComponent {
           );
         }
       );
+  }
+  private setOptionLabelKey(lang: string) {
+    this.optionLabelKey = lang === 'ar' ? 'nameAR' : 'name';
   }
 }

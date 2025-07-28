@@ -74,5 +74,13 @@
     "DELETE_CONFIRMATION": "هل أنت متأكد أنك تريد الحذف؟",
     "YES": "نعم",
     "NO": "لا"
+  },
+  "DOWNLOAD": {
+    "TITLE": "تنزيل",
+    "SELECT_CONTACT_PERSON": "اختر جهة الاتصال",
+    "SELECT_OFFICER": "اختر الموظف",
+    "PLACEHOLDER_CONTACT": "اختر جهة الاتصال",
+    "PLACEHOLDER_OFFICER": "اختر الموظف",
+    "BUTTON": "تنزيل"
   }
 }

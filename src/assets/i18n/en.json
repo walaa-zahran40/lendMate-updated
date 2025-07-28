@@ -74,5 +74,13 @@
     "DELETE_CONFIRMATION": "Are you sure to delete?",
     "YES": "Yes",
     "NO": "No"
+  },
+  "DOWNLOAD": {
+    "TITLE": "Download",
+    "SELECT_CONTACT_PERSON": "Select Contact Person",
+    "SELECT_OFFICER": "Select Officer",
+    "PLACEHOLDER_CONTACT": "Choose Contact Person",
+    "PLACEHOLDER_OFFICER": "Choose Officer",
+    "BUTTON": "Download"
   }
 }
