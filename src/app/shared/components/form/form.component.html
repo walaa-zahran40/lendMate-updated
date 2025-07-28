@@ -6,7 +6,7 @@
     </p>
     <p-button
       *ngIf="uploadDocumentsShowMain"
-      label="View Document Details"
+      [label]="'BUTTONS.VIEW_DOCUMENT_DETAILS' | translate"
       icon="pi pi-cog"
       (click)="viewDocumentDetails()"
       class="custom-view m-0 float-right"

@@ -107,7 +107,7 @@
     }
     .officers-check {
       color: #25324b;
-      font-family: "epilogue";
+
       font-size: 16px;
       font-style: normal;
       font-weight: 500;
@@ -516,9 +516,12 @@
   color: #555; /* optional: make text slightly darker for contrast */
   cursor: not-allowed;
 }
-.div1 .custom-view {
-  float: left;
+.custom-view {
+  display: block;
+  margin-inline-start: auto;
+  float: inline-start;
 }
+
 .upload-div {
   padding: 40px 10px;
 }

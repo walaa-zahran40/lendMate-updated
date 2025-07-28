@@ -204,6 +204,7 @@ body {
     .p-tab {
       font-weight: 500 !important;
     }
+
     .p-dialog-content {
       flex-direction: column;
     }
@@ -316,6 +317,13 @@ body {
 .p-tieredmenu {
   min-width: auto !important;
   top: 106.725px !important;
+}
+[dir="ltr"] .custom-view .p-button {
+  flex-direction: row !important;
+}
+
+[dir="rtl"] .custom-view .p-button {
+  flex-direction: row-reverse !important;
 }
 .unsaved-changes-dialog {
   .p-dialog-header {

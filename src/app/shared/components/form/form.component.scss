@@ -110,7 +110,7 @@
     }
     .officers-check {
       color: #25324b;
-      font-family: "epilogue";
+
       font-size: 16px;
       font-style: normal;
       font-weight: 500;
@@ -386,7 +386,7 @@
       background: transparent;
       color: var(--p-tabs-active-bar-background);
       border: 1px solid #ccccf5;
-      font-family: "epilogue";
+
       font-weight: 500;
       font-size: 16px;
       line-height: 25.6px;
@@ -521,9 +521,12 @@
   color: #555; /* optional: make text slightly darker for contrast */
   cursor: not-allowed;
 }
-.div1 .custom-view {
-  float: left;
+.custom-view {
+  display: block;
+  margin-inline-start: auto;
+  float: inline-start;
 }
+
 .upload-div {
   padding: 40px 10px;
 }

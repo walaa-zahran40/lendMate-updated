@@ -517,7 +517,15 @@
   cursor: not-allowed;
 }
 .div1 .custom-view {
-  float: left;
+  // default LTR layout
+  [dir="ltr"] & {
+    float: left;
+  }
+
+  // flipped RTL layout
+  [dir="rtl"] & {
+    float: right;
+  }
 }
 .upload-div {
   padding: 40px 10px;
