@@ -23,13 +23,23 @@
   align-items: center;
 }
 /*language*/
-.language {
+.language-ar {
   font-family: "almarai", sans-serif;
   color: rgba(0, 0, 0, 1);
   font-weight: 500;
   font-size: 16px;
   line-height: 17.86px;
   margin-bottom: 0;
+  cursor: pointer;
+}
+.language-en {
+  font-family: "poppins", sans-serif;
+  color: rgba(0, 0, 0, 1);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 17.86px;
+  margin-bottom: 0;
+  cursor: pointer;
 }
 .language {
   color: var(--filter-text);

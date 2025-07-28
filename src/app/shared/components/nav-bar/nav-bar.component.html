@@ -27,7 +27,21 @@
         </ng-template>
       </p-toggleswitch>
     </div>
-    <p class="language">العربيه</p>
+    <p
+      class="language-en"
+      *ngIf="currentLang !== 'en'"
+      (click)="switchLang('en')"
+    >
+      &nbsp;&nbsp;&nbsp;English&nbsp;&nbsp;&nbsp;
+    </p>
+
+    <p
+      class="language-ar"
+      *ngIf="currentLang !== 'ar'"
+      (click)="switchLang('ar')"
+    >
+      &nbsp;&nbsp;&nbsp;العربيه&nbsp;&nbsp;&nbsp;
+    </p>
     <!-- <p-avatar
       *ngIf="loginDisplay"
       image="/assets/images/shared/navbar/notification-selected.svg"

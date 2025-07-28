@@ -5,6 +5,7 @@ import { PermissionService } from '../../../pages/login/store/permissions/permis
 import { filter, takeUntil } from 'rxjs/operators';
 import { InteractionStatus } from '@azure/msal-browser';
 import { CookieService } from 'ngx-cookie-service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-nav-bar',
@@ -18,14 +19,23 @@ export class NavBarComponent implements OnInit {
   darkMode: boolean = false;
   displayPopup = false;
   username: string = '';
+  currentLang = 'en'; // Default
 
   constructor(
     private menuToggleService: MenuToggleService,
     private authService: MsalService,
     private permissionService: PermissionService,
     private msalBroadcastService: MsalBroadcastService,
-    private cookieService: CookieService
-  ) {}
+    private cookieService: CookieService,
+    private translate: TranslateService
+  ) {
+    translate.addLangs(['en', 'ar']);
+    translate.setDefaultLang('en');
+
+    const browserLang = translate.getBrowserLang();
+    this.translate.use(this.currentLang);
+    this.updateHtmlLangAndDir(this.currentLang);
+  }
   ngOnInit() {
     this.darkMode = false;
     this.msalBroadcastService.inProgress$
@@ -36,6 +46,15 @@ export class NavBarComponent implements OnInit {
         this.setLoginDisplay();
         this.setUsername();
       });
+  }
+  switchLang(lang: string) {
+    this.currentLang = lang;
+    this.translate.use(lang);
+    this.updateHtmlLangAndDir(lang);
+  }
+  private updateHtmlLangAndDir(lang: string) {
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
   }
   private setUsername() {
     const accounts = this.authService.instance.getAllAccounts();

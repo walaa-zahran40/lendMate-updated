@@ -60,6 +60,12 @@
   box-sizing: border-box;
   border: none;
 }
+html[dir="rtl"] {
+  body {
+    direction: rtl;
+    text-align: right;
+  }
+}
 body {
   font-family: "poppins", sans-serif;
   height: 100vh;

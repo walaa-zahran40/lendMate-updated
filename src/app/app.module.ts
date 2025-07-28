@@ -1,12 +1,15 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { AppRoutingModule, routes } from './app-routing.module';
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PagesModule } from './pages/pages.module';
 import { SharedModule } from './shared/shared.module';
 import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import {
   HTTP_INTERCEPTORS,
+  HttpClient,
   HttpClientModule,
   provideHttpClient,
 } from '@angular/common/http';
@@ -98,18 +101,21 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     },
   };
 }
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     SharedModule,
     PagesModule,
     NgbModule,
     SelectModule,
     FormsModule,
-    HttpClientModule,
     BrowserAnimationsModule,
     ConfirmDialogModule,
     ButtonModule,
@@ -119,6 +125,15 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     StoreModule.forFeature('ui', uiReducer),
     EffectsModule.forRoot([ConfirmLeaveEffects]),
     MsalModule,
+
+    // ✅ Move TranslateModule.forRoot() here
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+    }),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
@@ -146,14 +161,12 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     MsalGuard,
     MsalBroadcastService,
     provideHttpClient(),
-
     providePrimeNG({
       theme: {
         preset: Aura,
       },
     }),
     MessageService,
-
     ConfirmationService,
   ],
   bootstrap: [AppComponent, MsalRedirectComponent],
