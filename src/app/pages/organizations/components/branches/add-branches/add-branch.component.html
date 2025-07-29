@@ -9,9 +9,8 @@
     <p-tabpanel value="0">
       <app-form
         *ngIf="addBranchLookupsForm"
-        [description]="
-          'Introduce your branch core info quickly to users by fill up branch details'
-        "
+        [title]="'FORM.BRANCH.TITLE'"
+        [description]="'FORM.BRANCH.DESCRIPTION'"
         [formGroup]="addBranchLookupsForm"
         [addBranchLookupsForm]="true"
         [editMode]="editMode"

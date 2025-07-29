@@ -15,9 +15,8 @@
     <p-tabpanel value="0">
       <app-form
         *ngIf="addPaymentMonthDaysLookupsForm"
-        [description]="
-          'Introduce your payment Month Day core info quickly to users by fill up payment Month Day details'
-        "
+        [title]="'FORM.PAYMENT_MONTH_DAYS.TITLE'"
+        [description]="'FORM.PAYMENT_MONTH_DAYS.DESCRIPTION'"
         [formGroup]="addPaymentMonthDaysLookupsForm"
         [addPaymentMonthDaysLookupsForm]="true"
         [editMode]="editMode"

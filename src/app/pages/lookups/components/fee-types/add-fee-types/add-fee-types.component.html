@@ -2,7 +2,8 @@
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
-        [description]="'Fees Types'"
+        [title]="'FORM.FEE_TYPES.TITLE'"
+        [description]="'FORM.FEE_TYPES.DESCRIPTION'"
         [addFeesTypesLookupsForm]="true"
         [feeCalculationTypes]="feeCalculationTypes$ | async"
         [formGroup]="addFeesTypesLookupsForm"

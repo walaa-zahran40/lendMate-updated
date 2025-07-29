@@ -9,9 +9,8 @@
     <p-tabpanel value="0">
       <app-form
         *ngIf="addAreasLookupsForm"
-        [description]="
-          'Introduce your area core info quickly to users by fill up area details'
-        "
+        [title]="'FORM.AREA.TITLE'"
+        [description]="'FORM.AREA.DESCRIPTION'"
         [formGroup]="addAreasLookupsForm"
         [addAreasLookupsForm]="true"
         [editMode]="editMode"

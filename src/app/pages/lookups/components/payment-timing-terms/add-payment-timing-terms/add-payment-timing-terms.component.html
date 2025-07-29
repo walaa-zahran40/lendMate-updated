@@ -15,9 +15,8 @@
     <p-tabpanel value="0">
       <app-form
         *ngIf="addPaymentTimingTermsLookupsForm"
-        [description]="
-          'Introduce your payment Timing Term core info quickly to users by fill up payment TimingTerm details'
-        "
+        [title]="'FORM.PAYMENT_TIMING_TERMS.TITLE'"
+        [description]="'FORM.PAYMENT_TIMING_TERMS.DESCRIPTION'"
         [formGroup]="addPaymentTimingTermsLookupsForm"
         [addPaymentTimingTermsLookupsForm]="true"
         [editMode]="editMode"

@@ -2,7 +2,8 @@
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
-        [description]="'Business Lines'"
+        [title]="'FORM.BUSINESS_LINE.TITLE'"
+        [description]="'FORM.BUSINESS_LINE.DESCRIPTION'"
         [addBusinessLinesLookupsForm]="true"
         [formGroup]="addBusinessLinesLookupsForm"
         (submitForm)="addOrEditBusinessLine()"

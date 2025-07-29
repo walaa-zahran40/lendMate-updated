@@ -1,8 +1,21 @@
-<p-tabs value="0" styleClass="p-3">
+<app-toolbar-form
+  [header]="
+    viewOnly
+      ? 'View Team Lead Officers'
+      : editMode
+      ? 'Edit Team Lead Officer'
+      : 'Add Team Lead Officer'
+  "
+  [backExists]="true"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form
+><p-tabs value="0" styleClass="p-3">
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
-        [description]="'Team Lead Officer'"
+        [title]="'FORM.TEAM_LEAD.TITLE'"
+        [description]="'FORM.TEAM_LEAD.DESCRIPTION'"
         [addTeamLeadORGForm]="true"
         [officersList]="officers"
         [formGroup]="addTeamLeadORGForm"

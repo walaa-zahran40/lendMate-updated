@@ -15,9 +15,8 @@
     <p-tabpanel value="0">
       <app-form
         *ngIf="addLeasingTypesLookupsForm"
-        [description]="
-          'Introduce your leasing Type core info quickly to users by fill up leasing Type details'
-        "
+        [title]="'FORM.LEASING_TYPE.TITLE'"
+        [description]="'FORM.LEASING_TYPE.DESCRIPTION'"
         [formGroup]="addLeasingTypesLookupsForm"
         [addLeasingTypesLookupsForm]="true"
         [editMode]="editMode"

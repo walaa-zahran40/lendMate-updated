@@ -15,7 +15,7 @@
     <p-button
       *ngIf="addSalesTurnoverForm"
       icon="pi pi-cog"
-      label="View Sales Turnovers"
+      [label]="'BUTTONS.VIEW_SALES_TURNOVERS' | translate"
       (click)="viewSalesTurnover()"
       class="custom-view m-0 float-right"
     />
@@ -23,7 +23,7 @@
     <p-button
       *ngIf="addDocTypesForm"
       icon="pi pi-cog"
-      label="View Document Types"
+      [label]="'BUTTONS.VIEW_DOCUMENT_TYPES' | translate"
       (click)="viewDocTypes()"
       class="custom-view m-0 float-right"
     />
@@ -31,7 +31,7 @@
     <p-button
       *ngIf="addMandateAdditionalTermForm"
       icon="pi pi-cog"
-      label="View Mandate Terms Details"
+      [label]="'BUTTONS.VIEW_MANDATE_TERMS_DETAILS' | translate"
       (click)="viewMandateAdditionalTerms()"
       class="custom-view m-0 float-right"
     />
@@ -39,14 +39,14 @@
     <p-button
       *ngIf="addPageORGForm"
       icon="pi pi-cog"
-      label="View Page Details"
+      [label]="'BUTTONS.VIEW_PAGE_DETAILS' | translate"
       (click)="viewPageDetails()"
       class="custom-view m-0 float-right"
     />
     <p-button
       *ngIf="addCompanyTypesLookupsForm"
       icon="pi pi-cog"
-      label="View Company Types"
+      [label]="'BUTTONS.VIEW_COMPANY_TYPES' | translate"
       (click)="viewCompanyTypes()"
       class="custom-view m-0 float-right"
     />
@@ -54,7 +54,7 @@
     <p-button
       *ngIf="addMandateFeeForm"
       icon="pi pi-cog"
-      label="View Mandate Fees"
+      [label]="'BUTTONS.VIEW_MANDATE_FEES' | translate"
       (click)="viewMandateFees()"
       class="custom-view m-0 float-right"
     />
@@ -62,46 +62,46 @@
     <p-button
       *ngIf="addFeeCalculationTypesLookupsForm"
       icon="pi pi-cog"
-      label="View Fees Calculation Type"
+      [label]="'BUTTONS.VIEW_FEES_CALCULATION_TYPE' | translate"
       (click)="viewFeesCalculationType()"
       class="custom-view m-0 float-right"
     />
     <p-button
       *ngIf="addClientGuarantorsShowIndividual"
-      label="View Client Guarantors"
+      [label]="'BUTTONS.VIEW_CLIENT_GUARANTORS' | translate"
       (click)="viewClientGuarantors()"
       class="custom-view m-0 float-right"
     />
     <p-button
       *ngIf="addClientIdentities"
-      label="View Client Identities"
+      [label]="'BUTTONS.VIEW_CLIENT_IDENTITIES' | translate"
       class="custom-view m-0 float-right"
     />
     <p-button
       *ngIf="addCommunicationFlowTypesLookupsForm"
       icon="pi pi-cog"
-      label="View Communication Flow Type"
+      [label]="'BUTTONS.VIEW_COMMUNICATION_FLOW_TYPE' | translate"
       (click)="viewCommunicationFlowType()"
       class="custom-view m-0 float-right"
     />
     <p-button
       *ngIf="addCallActionTypeLookupsForm"
       icon="pi pi-cog"
-      label="View Call Action Type"
+      [label]="'BUTTONS.VIEW_CALL_ACTION_TYPE' | translate"
       (click)="viewCallActionType()"
       class="custom-view m-0 float-right"
     />
     <p-button
       *ngIf="addClientOfficerTypeLookupsForm"
       icon="pi pi-cog"
-      label="View Client Officer Type"
+      [label]="'BUTTONS.VIEW_CLIENT_OFFICER_TYPE' | translate"
       (click)="viewClientOfficerType()"
       class="custom-view m-0 float-right"
     />
     <p-button
       *ngIf="addCommunicationTypesLookupsForm"
       icon="pi pi-cog"
-      label="View Communication Types"
+      [label]="'BUTTONS.VIEW_COMMUNICATION_TYPES' | translate"
       (click)="viewCommunicationTypes()"
       class="custom-view m-0 float-right"
     />

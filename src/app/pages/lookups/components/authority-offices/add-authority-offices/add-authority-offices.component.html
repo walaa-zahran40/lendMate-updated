@@ -15,9 +15,8 @@
     <p-tabpanel value="0">
       <app-form
         *ngIf="addAuthorityOfficesLookupsForm"
-        [description]="
-          'Introduce your authority office core info quickly to users by fill up authority office details'
-        "
+        [title]="'FORM.AUTHORITY_OFFICES.TITLE'"
+        [description]="'FORM.AUTHORITY_OFFICES.DESCRIPTION'"
         [formGroup]="addAuthorityOfficesLookupsForm"
         [addAuthorityOfficesLookupsForm]="true"
         [editMode]="editMode"

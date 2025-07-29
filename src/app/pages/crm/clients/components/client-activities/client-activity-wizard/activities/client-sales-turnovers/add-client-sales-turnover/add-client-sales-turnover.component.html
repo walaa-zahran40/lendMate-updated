@@ -14,7 +14,8 @@
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
-        [description]="'Client Sales Turnover'"
+        [title]="'FORM.CLIENT_SALES_TURNOVER.TITLE'"
+        [description]="'FORM.CLIENT_SALES_TURNOVER.DESCRIPTION'"
         [addSalesTurnoverForm]="true"
         [formGroup]="addSalesTurnoverForm"
         (submitForm)="addOrEditClientSalesTurnover()"

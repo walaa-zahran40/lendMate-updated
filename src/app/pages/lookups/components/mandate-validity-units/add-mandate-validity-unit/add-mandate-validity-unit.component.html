@@ -15,9 +15,8 @@
     <p-tabpanel value="0">
       <app-form
         *ngIf="addMandateValidityUnitLookupsForm"
-        [description]="
-          'Introduce your address core info quickly to users by fill up address details'
-        "
+        [title]="'FORM.MANDATE_VALIDITY_UNIT.TITLE'"
+        [description]="'FORM.MANDATE_VALIDITY_UNIT.DESCRIPTION'"
         [formGroup]="addMandateValidityUnitLookupsForm"
         [addMandateValidityUnitLookupsForm]="true"
         [editMode]="editMode"

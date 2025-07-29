@@ -15,9 +15,8 @@
     <p-tabpanel value="0">
       <app-form
         *ngIf="addInterestRateBenchmarkLookupsForm"
-        [description]="
-          'Introduce your interest Rate Benchmark core info quickly to users by fill up interest Rate Benchmark details'
-        "
+        [title]="'FORM.INTEREST_RATE_BENCHMARK.TITLE'"
+        [description]="'FORM.INTEREST_RATE_BENCHMARK.DESCRIPTION'"
         [formGroup]="addInterestRateBenchmarkLookupsForm"
         [addInterestRateBenchmarksLookupsForm]="true"
         [editMode]="editMode"

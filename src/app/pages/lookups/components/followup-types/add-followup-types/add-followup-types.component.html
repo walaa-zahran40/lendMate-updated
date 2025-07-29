@@ -14,9 +14,8 @@
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
-        [description]="
-          'Introduce your Followup core info quickly to users by fill up Followup details'
-        "
+        [title]="'FORM.FOLLOWUP_TYPES.TITLE'"
+        [description]="'FORM.FOLLOWUP_TYPES.DESCRIPTION'"
         [formGroup]="addFollowUpTypesCommunicationForm"
         [addFollowUpTypesCommunicationForm]="true"
         [editMode]="editMode"

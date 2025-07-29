@@ -15,9 +15,8 @@
     <p-tabpanel value="0">
       <app-form
         *ngIf="addIdentificationTypesLookupsForm"
-        [description]="
-          'Introduce your identification Type core info quickly to users by fill up identification Type details'
-        "
+        [title]="'FORM.IDENTIFICATION_TYPES.TITLE'"
+        [description]="'FORM.IDENTIFICATION_TYPES.DESCRIPTION'"
         [formGroup]="addIdentificationTypesLookupsForm"
         [addIdentificationTypesLookupsForm]="true"
         [editMode]="editMode"

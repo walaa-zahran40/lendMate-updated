@@ -14,7 +14,8 @@
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
-        [description]="'Mandate Fee'"
+        [title]="'FORM.MANDATE_FEE.TITLE'"
+        [description]="'FORM.MANDATE_FEE.DESCRIPTION'"
         [addMandateFeeForm]="true"
         [feeTypes]="feeTypes$ | async"
         [formGroup]="addMandateFeeForm"

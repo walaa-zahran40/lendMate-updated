@@ -15,7 +15,8 @@
     <p-tabpanel value="0">
       <app-form
         *ngIf="addCompanyTypesLookupsForm"
-        [description]="''"
+        [title]="'FORM.COMPANY_TYPE.TITLE'"
+        [description]="'FORM.COMPANY_TYPE.DESCRIPTION'"
         [formGroup]="addCompanyTypesLookupsForm"
         [addCompanyTypesLookupsForm]="true"
         [editMode]="editMode"

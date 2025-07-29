@@ -15,9 +15,8 @@
     <p-tabpanel value="0">
       <app-form
         *ngIf="addRentStructureTypesLookupsForm"
-        [description]="
-          'Introduce your rent Structure Type core info quickly to users by fill up rent Structure Type details'
-        "
+        [title]="'FORM.RENT_STRUCTURE_TYPES.TITLE'"
+        [description]="'FORM.RENT_STRUCTURE_TYPES.DESCRIPTION'"
         [formGroup]="addRentStructureTypesLookupsForm"
         [addRentStructureTypesLookupsForm]="true"
         [editMode]="editMode"

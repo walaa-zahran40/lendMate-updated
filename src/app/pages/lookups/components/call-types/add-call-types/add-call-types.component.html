@@ -15,9 +15,8 @@
     <p-tabpanel value="0">
       <app-form
         *ngIf="addCallTypeForm"
-        [description]="
-          'Introduce your call  Type core info quickly to users by fill up call  Type details'
-        "
+        [title]="'FORM.CALL_TYPE.TITLE'"
+        [description]="'FORM.CALL_TYPE.DESCRIPTION'"
         [formGroup]="addCallTypeForm"
         [addcallTypesLookupsForm]="true"
         [editMode]="editMode"

@@ -15,9 +15,8 @@
     <p-tabpanel value="0">
       <app-form
         *ngIf="addPaymentMethodsLookupsForm"
-        [description]="
-          'Introduce your payment Method core info quickly to users by fill up payment Method details'
-        "
+        [title]="'FORM.PAYMENT_METHODS.TITLE'"
+        [description]="'FORM.PAYMENT_METHODS.DESCRIPTION'"
         [formGroup]="addPaymentMethodsLookupsForm"
         [addPaymentMethodsLookupsForm]="true"
         [editMode]="editMode"

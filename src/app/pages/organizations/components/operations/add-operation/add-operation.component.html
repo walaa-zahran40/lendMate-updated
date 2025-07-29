@@ -11,9 +11,8 @@
     <p-tabpanel value="0">
       <app-form
         *ngIf="addOperationsORGForm"
-        [description]="
-          'Introduce your operation core info quickly to users by fill up operation details'
-        "
+        [title]="'FORM.OPERATION.TITLE'"
+        [description]="'FORM.OPERATION.DESCRIPTION'"
         [formGroup]="addOperationsORGForm"
         [addOperationsORGForm]="true"
         [editMode]="editMode"

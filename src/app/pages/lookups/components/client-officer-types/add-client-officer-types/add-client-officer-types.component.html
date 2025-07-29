@@ -15,9 +15,8 @@
     <p-tabpanel value="0">
       <app-form
         *ngIf="addClientOfficerTypeForm"
-        [description]="
-          'Introduce your call Action Type core info quickly to users by fill up call Action Type details'
-        "
+        [title]="'FORM.CLIENT_OFFICER_TYPE.TITLE'"
+        [description]="'FORM.CLIENT_OFFICER_TYPE.DESCRIPTION'"
         [formGroup]="addClientOfficerTypeForm"
         [addClientOfficerTypeLookupsForm]="true"
         [editMode]="editMode"

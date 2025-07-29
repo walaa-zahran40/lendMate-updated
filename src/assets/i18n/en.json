@@ -251,5 +251,291 @@
     "VIEW_BRANCH_OFFICERS": "View Branch Officers",
     "VIEW_BRANCH_MANAGERS": "View Branch Managers",
     "VIEW_BUSINESS_LINES": "View Business Lines"
+  },
+  "FORM": {
+    "UPLOAD_DOCUMENTS": {
+      "TITLE": "Upload Documents",
+      "DESCRIPTION": "Fill in document details"
+    },
+    "FOLLOWUP_POINT": {
+      "TITLE": "Follow-up Point",
+      "DESCRIPTION": "Fill in the follow-up point details"
+    },
+    "CLIENT_SALES_TURNOVER": {
+      "TITLE": "Client Sales Turnover",
+      "DESCRIPTION": "Fill in client sales turnover details"
+    },
+    "MANDATE_FEE": {
+      "TITLE": "Mandate Fee",
+      "DESCRIPTION": "Fill in the fee structure for the mandate"
+    },
+    "ADDRESS_TYPE": {
+      "TITLE": "Address Type",
+      "DESCRIPTION": "Introduce your address core info quickly to users by filling in the address details"
+    },
+    "AREA": {
+      "TITLE": "Area",
+      "DESCRIPTION": "Introduce your area core info quickly to users by filling in area details"
+    },
+    "ASSET_TYPES": {
+      "TITLE": "Asset Types",
+      "DESCRIPTION": "Introduce your asset types core info quickly to users by filling in asset type details"
+    },
+    "AUTHORITY_OFFICES": {
+      "TITLE": "Authority Office",
+      "DESCRIPTION": "Introduce your authority office core info quickly to users by filling in authority office details"
+    },
+    "AUTH_GROUP_OFFICERS": {
+      "TITLE": "Authorization Group Officers",
+      "DESCRIPTION": "Assign officers to specific authorization groups to define access control and responsibilities"
+    },
+    "AUTHORIZATION_GROUP": {
+      "TITLE": "Authorization Group",
+      "DESCRIPTION": "Define and manage access control groups for streamlined permissions and workflows"
+    },
+    "BUSINESS_LINE": {
+      "TITLE": "Business Line",
+      "DESCRIPTION": "Provide and manage core business line information"
+    },
+    "CALL_ACTION_TYPE": {
+      "TITLE": "Call Action Type",
+      "DESCRIPTION": "Introduce your Call Action Type core info quickly to users by filling in the details"
+    },
+    "CALL_TYPE": {
+      "TITLE": "Call Type",
+      "DESCRIPTION": "Introduce your Call Type core info quickly to users by filling in the call type details"
+    },
+    "CLIENT_OFFICER_TYPE": {
+      "TITLE": "Client Officer Type",
+      "DESCRIPTION": "Introduce your Client Officer Type core info quickly to users by filling in the officer type details"
+    },
+    "CLIENT_STATUSES": {
+      "TITLE": "Client Statuses",
+      "DESCRIPTION": "Introduce your Client Statuses info quickly to users"
+    },
+    "CLIENT_STATUS_ACTIONS": {
+      "TITLE": "Client Status Actions",
+      "DESCRIPTION": "Introduce your Client Status Actions core info quickly to users by filling in the details"
+    },
+    "CLIENT_TYPE": {
+      "TITLE": "Client Type",
+      "DESCRIPTION": "Introduce your Client Type core info quickly to users by filling in the client type details"
+    },
+    "COMM_FLOW_TYPE": {
+      "TITLE": "Communication Flow Type",
+      "DESCRIPTION": "Introduce your Communication Flow Type core info quickly to users by filling in the communication flow type details"
+    },
+    "COMM_TYPE": {
+      "TITLE": "Communication Type",
+      "DESCRIPTION": "Introduce your Communication Type core info quickly to users by filling in the communication type details"
+    },
+    "COMPANY_TYPE": {
+      "TITLE": "Company Type",
+      "DESCRIPTION": "Introduce your Company Type core info quickly to users by filling in the company type details"
+    },
+    "CONDITION_EXPRESSION": {
+      "TITLE": "Condition Expression",
+      "DESCRIPTION": "Introduce your Condition Expression core info quickly to users by filling in the condition expression details"
+    },
+    "CONDITION": {
+      "TITLE": "Condition",
+      "DESCRIPTION": "Introduce your Condition core info quickly to users by filling in the details"
+    },
+    "COUNTRY": {
+      "TITLE": "Country",
+      "DESCRIPTION": "Introduce your country core info quickly to users by filling in the details"
+    },
+    "CURRENCY": {
+      "TITLE": "Currency",
+      "DESCRIPTION": "Introduce your currency core info quickly to users by filling in currency details"
+    },
+    "CURRENCY_EXCHANGE": {
+      "TITLE": "Currency Exchange",
+      "DESCRIPTION": "Provide the currency exchange details for accurate financial tracking and conversion"
+    },
+    "DOC_TYPES": {
+      "TITLE": "Document Types",
+      "DESCRIPTION": "Define the types of documents required for this workflow or entity"
+    },
+    "FEE_CALCULATION_TYPES": {
+      "TITLE": "Fee Calculation Types",
+      "DESCRIPTION": "Define the available methods used to calculate various fees"
+    },
+    "FEE_RANGES": {
+      "TITLE": "Fee Ranges",
+      "DESCRIPTION": "Specify minimum and maximum ranges for applicable fees"
+    },
+    "FEE_TYPES": {
+      "TITLE": "Fee Types",
+      "DESCRIPTION": "Define the various types of fees applicable in your workflow"
+    },
+    "FOLLOWUP_TYPES": {
+      "TITLE": "Follow-up Types",
+      "DESCRIPTION": "Introduce your follow-up type core info quickly to users by filling in the follow-up details"
+    },
+    "GOVERNORATES": {
+      "TITLE": "Governorates",
+      "DESCRIPTION": "Introduce Governorate info quickly to users by filling in the governorate details"
+    },
+    "IDENTIFICATION_TYPES": {
+      "TITLE": "Identification Types",
+      "DESCRIPTION": "Introduce your identification type core info quickly to users by filling in identification type details"
+    },
+    "INSURED_BY": {
+      "TITLE": "Insured By",
+      "DESCRIPTION": "Introduce your insured by core info quickly to users by filling in insured by details"
+    },
+    "INTEREST_RATE_BENCHMARK": {
+      "TITLE": "Interest Rate Benchmark",
+      "DESCRIPTION": "Introduce your interest rate benchmark core info quickly to users by filling in the details"
+    },
+    "INTEREST_TYPE": {
+      "TITLE": "Interest Type",
+      "DESCRIPTION": "Introduce your interest type core info quickly to users by filling in the details"
+    },
+    "LEASING_TYPE": {
+      "TITLE": "Leasing Type",
+      "DESCRIPTION": "Introduce your leasing type core info quickly to users by filling in the leasing type details"
+    },
+    "MANDATE_STATUSES": {
+      "TITLE": "Mandate Statuses",
+      "DESCRIPTION": "Introduce your mandate statuses info quickly to users by filling in the relevant details"
+    },
+    "MANDATE_STATUS_ACTIONS": {
+      "TITLE": "Mandate Status Actions",
+      "DESCRIPTION": "Introduce your mandate status action info quickly to users by filling in the relevant details"
+    },
+    "MANDATE_VALIDITY_UNIT": {
+      "TITLE": "Mandate Validity Unit",
+      "DESCRIPTION": "Introduce your mandate validity unit information quickly to users by filling in the required details"
+    },
+    "MEETING_TYPES": {
+      "TITLE": "Meeting Type",
+      "DESCRIPTION": "Introduce your meeting type core info quickly to users by filling up meeting type details"
+    },
+    "NOTIFICATION_GROUP_OFFICERS": {
+      "TITLE": "Notification Group Officers",
+      "DESCRIPTION": "Introduce your notification group officer details quickly by filling up the required officer and group information"
+    },
+    "NOTIFICATION_GROUPS": {
+      "TITLE": "Notification Groups",
+      "DESCRIPTION": "Introduce your notification group core info quickly by filling in the group details"
+    },
+    "PAYMENT_METHODS": {
+      "TITLE": "Payment Methods",
+      "DESCRIPTION": "Introduce your payment method core info quickly by filling in the method details"
+    },
+    "PAYMENT_MONTH_DAYS": {
+      "TITLE": "Payment Month Days",
+      "DESCRIPTION": "Introduce your payment month day core info quickly to users by filling in the details"
+    },
+    "PAYMENT_PERIODS": {
+      "TITLE": "Payment Periods",
+      "DESCRIPTION": "Introduce your payment period core info quickly to users by filling in the details"
+    },
+    "PAYMENT_TIMING_TERMS": {
+      "TITLE": "Payment Timing Terms",
+      "DESCRIPTION": "Introduce your payment timing term details clearly by filling in the required information"
+    },
+    "PAYMENT_TYPES": {
+      "TITLE": "Payment Types",
+      "DESCRIPTION": "Introduce your payment type core information by filling in the payment type details"
+    },
+    "GRACE_PERIOD_UNITS": {
+      "TITLE": "Grace Period Units",
+      "DESCRIPTION": "Introduce your grace period unit core information by filling in the grace period unit details"
+    },
+    "PHONE_TYPES": {
+      "TITLE": "Phone Types",
+      "DESCRIPTION": "Introduce your phone type core information by filling in the phone type details"
+    },
+    "PRODUCTS": {
+      "TITLE": "Products",
+      "DESCRIPTION": "Introduce your product core information quickly by filling in product details"
+    },
+    "RENT_STRUCTURE_TYPES": {
+      "TITLE": "Rent Structure Types",
+      "DESCRIPTION": "Introduce your Rent Structure Type core info quickly by filling in rent structure type details"
+    },
+    "SECTORS": {
+      "TITLE": "Sectors",
+      "DESCRIPTION": "Introduce your sector core info quickly by filling in sector details"
+    },
+    "SME_CLIENT_CODES": {
+      "TITLE": "SME Client Code",
+      "DESCRIPTION": "Introduce your SME Client Code core info quickly by filling in the details"
+    },
+    "SUB_SECTORS": {
+      "TITLE": "Sub Sector",
+      "DESCRIPTION": "Introduce your sub sector core info quickly by filling in sub sector details"
+    },
+    "TAX_OFFICES": {
+      "TITLE": "Tax Office",
+      "DESCRIPTION": "Introduce your tax office core info quickly by filling in tax office details"
+    },
+    "TML_OFFICER_TYPE": {
+      "TITLE": "TML Officer Type",
+      "DESCRIPTION": "Introduce your TML Officer Type core info quickly by filling in the details"
+    },
+    "WORKFLOW_ACTION_TYPE": {
+      "TITLE": "Workflow Action Type",
+      "DESCRIPTION": "Introduce your Workflow Action Type core info quickly by filling in the details"
+    },
+    "BRANCH_MANAGER": {
+      "TITLE": "Branch Manager",
+      "DESCRIPTION": "Add or update branch manager information quickly by filling in the required details"
+    },
+    "BRANCH_OFFICER": {
+      "TITLE": "Branch Officer",
+      "DESCRIPTION": "Add or update branch officer information quickly by filling in the required details"
+    },
+    "BRANCH": {
+      "TITLE": "Branch",
+      "DESCRIPTION": "Introduce your branch core info quickly to users by filling in branch details"
+    },
+    "DEPARTMENT_MANAGER": {
+      "TITLE": "Department Manager",
+      "DESCRIPTION": "Introduce your department manager info quickly to users by filling in manager details"
+    },
+    "DEPARTMENT": {
+      "TITLE": "Department",
+      "DESCRIPTION": "Introduce your department info quickly to users by filling in department details"
+    },
+    "OFFICER": {
+      "TITLE": "Officer",
+      "DESCRIPTION": "Introduce your officer information quickly by filling in officer details"
+    },
+    "SIGNATORY_OFFICER": {
+      "TITLE": "Signatory Officer",
+      "DESCRIPTION": "Introduce your signatory officer information quickly by filling in the officer's details"
+    },
+    "OPERATION": {
+      "TITLE": "Operation",
+      "DESCRIPTION": "Introduce your operation core info quickly to users by filling in operation details"
+    },
+    "PAGE_OPERATION": {
+      "TITLE": "Page Operation",
+      "DESCRIPTION": "Introduce your page operation core info quickly to users by filling in page operation details"
+    },
+    "TEAM_MEMBER": {
+      "TITLE": "Team Member",
+      "DESCRIPTION": "Introduce your team member's core info quickly to users by filling in the necessary details"
+    },
+    "TEAM_LEAD": {
+      "TITLE": "Team Lead Officer",
+      "DESCRIPTION": "Introduce your team lead officer's core info quickly to users by filling in relevant details"
+    },
+    "TEAM": {
+      "TITLE": "Team",
+      "DESCRIPTION": "Introduce your team's core info quickly to users by filling in company details"
+    },
+    "ROLE": {
+      "TITLE": "Role",
+      "DESCRIPTION": "Introduce your role core info quickly to users by filling in role details"
+    },
+    "PAGE": {
+      "TITLE": "Page",
+      "DESCRIPTION": "Introduce your page core info quickly to users by filling in page details"
+    }
   }
 }

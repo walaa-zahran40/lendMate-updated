@@ -15,9 +15,8 @@
     <p-tabpanel value="0">
       <app-form
         *ngIf="addClientTypeForm"
-        [description]="
-          'Introduce your client  Type core info quickly to users by fill up client  Type details'
-        "
+        [title]="'FORM.CLIENT_TYPE.TITLE'"
+        [description]="'FORM.CLIENT_TYPE.DESCRIPTION'"
         [formGroup]="addClientTypeForm"
         [addClientTypesLookupsForm]="true"
         [editMode]="editMode"

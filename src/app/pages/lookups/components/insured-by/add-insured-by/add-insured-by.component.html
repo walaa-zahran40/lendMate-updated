@@ -15,9 +15,8 @@
     <p-tabpanel value="0">
       <app-form
         *ngIf="addInsuredByLookupsForm"
-        [description]="
-          'Introduce your insured By core info quickly to users by fill up insured By details'
-        "
+        [title]="'FORM.INSURED_BY.TITLE'"
+        [description]="'FORM.INSURED_BY.DESCRIPTION'"
         [formGroup]="addInsuredByLookupsForm"
         [addInsuredByLookupsForm]="true"
         [editMode]="editMode"

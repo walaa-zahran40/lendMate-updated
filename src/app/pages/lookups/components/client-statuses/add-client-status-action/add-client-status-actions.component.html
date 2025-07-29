@@ -15,9 +15,8 @@
     <p-tabpanel value="0">
       <app-form
         *ngIf="addClientStatusActionsLookupsForm"
-        [description]="
-          'Introduce your area core info quickly to users by fill up area details'
-        "
+        [title]="'FORM.CLIENT_STATUS_ACTIONS.TITLE'"
+        [description]="'FORM.CLIENT_STATUS_ACTIONS.DESCRIPTION'"
         [formGroup]="addClientStatusActionsLookupsForm"
         [addStatusActionsLookupsForm]="true"
         [editMode]="editMode"

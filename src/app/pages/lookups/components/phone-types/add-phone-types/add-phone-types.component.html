@@ -15,9 +15,8 @@
     <p-tabpanel value="0">
       <app-form
         *ngIf="addPhoneTypesLookupsForm"
-        [description]="
-          'Introduce your phone Type core info quickly to users by fill up phone Type details'
-        "
+        [title]="'FORM.PHONE_TYPES.TITLE'"
+        [description]="'FORM.PHONE_TYPES.DESCRIPTION'"
         [formGroup]="addPhoneTypesLookupsForm"
         [addPhoneTypesLookupsForm]="true"
         [editMode]="editMode"

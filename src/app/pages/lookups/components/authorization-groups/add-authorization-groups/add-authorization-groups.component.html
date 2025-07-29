@@ -15,9 +15,8 @@
     <p-tabpanel value="0">
       <app-form
         *ngIf="addAuthorizationGroupsLookupsForm"
-        [description]="
-          'Introduce your address core info quickly to users by fill up address details'
-        "
+        [title]="'FORM.AUTHORIZATION_GROUP.TITLE'"
+        [description]="'FORM.AUTHORIZATION_GROUP.DESCRIPTION'"
         [formGroup]="addAuthorizationGroupsLookupsForm"
         [addAuthorizationGroupsLookupsForm]="true"
         [editMode]="editMode"

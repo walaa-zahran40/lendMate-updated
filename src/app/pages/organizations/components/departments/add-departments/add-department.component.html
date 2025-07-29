@@ -14,7 +14,8 @@
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
-        [description]="'Departments '"
+        [title]="'FORM.DEPARTMENT.TITLE'"
+        [description]="'FORM.DEPARTMENT.DESCRIPTION'"
         [addDepartmentsORGForm]="true"
         [formGroup]="addDepartmentsForm"
         (submitForm)="addOrEditDepartment()"

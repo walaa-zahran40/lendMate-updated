@@ -14,7 +14,8 @@
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
-        [description]="'Follow up Point'"
+        [title]="'FORM.FOLLOWUP_POINT.TITLE'"
+        [description]="'FORM.FOLLOWUP_POINT.DESCRIPTION'"
         [addFollowupPointsForm]="true"
         [contactPersonsList]="contactPersons$ | async"
         [officersList]="officers$ | async"

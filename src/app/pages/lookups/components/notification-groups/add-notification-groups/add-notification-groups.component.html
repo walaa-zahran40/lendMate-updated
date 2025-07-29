@@ -15,9 +15,8 @@
     <p-tabpanel value="0">
       <app-form
         *ngIf="addNotificationGroupsLookupsForm"
-        [description]="
-          'Introduce your address core info quickly to users by fill up address details'
-        "
+        [title]="'FORM.NOTIFICATION_GROUPS.TITLE'"
+        [description]="'FORM.NOTIFICATION_GROUPS.DESCRIPTION'"
         [formGroup]="addNotificationGroupsLookupsForm"
         [addNotificationGroupsLookupsForm]="true"
         [editMode]="editMode"

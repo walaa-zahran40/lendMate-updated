@@ -12,7 +12,8 @@
     <p-tabpanel value="0">
       <app-form
         *ngIf="addCountriesLookupsForm"
-        [description]="''"
+        [title]="'FORM.COUNTRY.TITLE'"
+        [description]="'FORM.COUNTRY.DESCRIPTION'"
         [formGroup]="addCountriesLookupsForm"
         [addCountriesLookupsForm]="true"
         [editMode]="editMode"

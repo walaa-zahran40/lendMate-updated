@@ -15,9 +15,8 @@
     <p-tabpanel value="0">
       <app-form
         *ngIf="addConditionExpressionsLookupsForm"
-        [description]="
-          'Introduce your address core info quickly to users by fill up address details'
-        "
+        [title]="'FORM.CONDITION_EXPRESSION.TITLE'"
+        [description]="'FORM.CONDITION_EXPRESSION.DESCRIPTION'"
         [formGroup]="addConditionExpressionsLookupsForm"
         [addConditionExpressionsLookupsForm]="true"
         [editMode]="editMode"

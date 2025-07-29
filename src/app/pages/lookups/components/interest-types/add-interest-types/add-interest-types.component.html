@@ -15,9 +15,8 @@
     <p-tabpanel value="0">
       <app-form
         *ngIf="addInterestTypesLookupsForm"
-        [description]="
-          'Introduce your address core info quickly to users by fill up address details'
-        "
+        [title]="'FORM.INTEREST_TYPE.TITLE'"
+        [description]="'FORM.INTEREST_TYPE.DESCRIPTION'"
         [formGroup]="addInterestTypesLookupsForm"
         [addInterestTypesLookupsForm]="true"
         [editMode]="editMode"

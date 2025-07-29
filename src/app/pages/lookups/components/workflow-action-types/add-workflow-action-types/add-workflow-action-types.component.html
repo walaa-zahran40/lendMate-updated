@@ -15,9 +15,8 @@
     <p-tabpanel value="0">
       <app-form
         *ngIf="addWorkFlowActionTypesLookupsForm"
-        [description]="
-          'Introduce your workflow Action Type core info quickly to users by fill up workflow Action Type details'
-        "
+        [title]="'FORM.WORKFLOW_ACTION_TYPE.TITLE'"
+        [description]="'FORM.WORKFLOW_ACTION_TYPE.DESCRIPTION'"
         [formGroup]="addWorkFlowActionTypesLookupsForm"
         [addWorkFlowActionTypesLookupsForm]="true"
         [editMode]="editMode"

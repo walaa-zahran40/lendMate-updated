@@ -15,9 +15,8 @@
     <p-tabpanel value="0">
       <app-form
         *ngIf="addTmlOfficerTypesLookupsForm"
-        [description]="
-          'Introduce your tML Officer Type core info quickly to users by fill up tML Officer Type details'
-        "
+        [title]="'FORM.TML_OFFICER_TYPE.TITLE'"
+        [description]="'FORM.TML_OFFICER_TYPE.DESCRIPTION'"
         [formGroup]="addTmlOfficerTypesLookupsForm"
         [addTmlOfficerTypeLookupsForm]="true"
         [editMode]="editMode"

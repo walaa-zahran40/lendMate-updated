@@ -15,7 +15,8 @@
     <p-tabpanel value="0">
       <app-form
         *ngIf="addClientStatusesLookupsForm"
-        [description]="'Introduce your Client Statuses info quickly to users'"
+        [title]="'FORM.CLIENT_STATUSES.TITLE'"
+        [description]="'FORM.CLIENT_STATUSES.DESCRIPTION'"
         [formGroup]="addClientStatusesLookupsForm"
         [addClientStatusesLookupsForm]="true"
         [editMode]="editMode"

@@ -15,9 +15,8 @@
     <p-tabpanel value="0">
       <app-form
         *ngIf="addSubSectorsLookupsForm"
-        [description]="
-          'Introduce your sub Sector core info quickly to users by fill up sub Sector details'
-        "
+        [title]="'FORM.SUB_SECTORS.TITLE'"
+        [description]="'FORM.SUB_SECTORS.DESCRIPTION'"
         [formGroup]="addSubSectorsLookupsForm"
         [addSubSectorsLookupsForm]="true"
         [editMode]="editMode"

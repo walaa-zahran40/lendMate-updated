@@ -15,9 +15,8 @@
     <p-tabpanel value="0">
       <app-form
         *ngIf="addCommunicationTypesLookupsForm"
-        [description]="
-          'Introduce your communication  Type core info quickly to users by fill up communication  Type details'
-        "
+        [title]="'FORM.COMM_TYPE.TITLE'"
+        [description]="'FORM.COMM_TYPE.DESCRIPTION'"
         [formGroup]="addCommunicationTypesLookupsForm"
         [addCommunicationTypesLookupsForm]="true"
         [editMode]="editMode"

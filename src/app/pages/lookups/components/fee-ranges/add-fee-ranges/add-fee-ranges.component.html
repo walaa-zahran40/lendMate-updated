@@ -2,7 +2,8 @@
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
-        [description]="'Fees Ranges'"
+        [title]="'FORM.FEE_RANGES.TITLE'"
+        [description]="'FORM.FEE_RANGES.DESCRIPTION'"
         [addFeeRangesForm]="true"
         [feeTypes]="feeTypes$ | async"
         [formGroup]="addFeeRangesForm"

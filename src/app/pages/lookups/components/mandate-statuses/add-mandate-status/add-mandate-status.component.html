@@ -15,7 +15,8 @@
     <p-tabpanel value="0">
       <app-form
         *ngIf="addMandateStatusesLookupsForm"
-        [description]="'Introduce your Mandate Statuses info quickly to users'"
+        [title]="'FORM.MANDATE_STATUSES.TITLE'"
+        [description]="'FORM.MANDATE_STATUSES.DESCRIPTION'"
         [formGroup]="addMandateStatusesLookupsForm"
         [addMandateStatusesLookupsForm]="true"
         [editMode]="editMode"

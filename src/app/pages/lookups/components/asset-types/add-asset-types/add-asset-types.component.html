@@ -14,7 +14,8 @@
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
-        [description]="'Asset Types'"
+        [title]="'FORM.ASSET_TYPES.TITLE'"
+        [description]="'FORM.ASSET_TYPES.DESCRIPTION'"
         [addAssetTypesLookupsForm]="true"
         [assetTypeCategories]="(assetTypeCategories$ | async) || []"
         [formGroup]="addAssetTypesLookupsForm"

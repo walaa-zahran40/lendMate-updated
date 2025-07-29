@@ -15,9 +15,8 @@
     <p-tabpanel value="0">
       <app-form
         *ngIf="addGracePeriodUnitsLookupsForm"
-        [description]="
-          'Introduce your grace period unit core info quickly to users by fill up grace period unit details'
-        "
+        [title]="'FORM.GRACE_PERIOD_UNITS.TITLE'"
+        [description]="'FORM.GRACE_PERIOD_UNITS.DESCRIPTION'"
         [formGroup]="addGracePeriodUnitsLookupsForm"
         [addGracePeriodUnitsLookupsForm]="true"
         [editMode]="editMode"

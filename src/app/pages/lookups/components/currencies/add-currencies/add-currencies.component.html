@@ -11,10 +11,8 @@
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-form
-        [description]="
-          'Introduce your Currency core info quickly to users by fill up Currency
-details'
-        "
+        [title]="'FORM.CURRENCY.TITLE'"
+        [description]="'FORM.CURRENCY.DESCRIPTION'"
         [addCurrenciesLookupsForm]="true"
         [formGroup]="addCurrenciesLookupsForm"
         (submitForm)="addOrEditCurrency()"

@@ -15,9 +15,8 @@
     <p-tabpanel value="0">
       <app-form
         *ngIf="addGovernoratesLookupsForm"
-        [description]="
-          'Introduce Governorate info quickly to users by fill up Governorate details'
-        "
+        [title]="'FORM.GOVERNORATES.TITLE'"
+        [description]="'FORM.GOVERNORATES.DESCRIPTION'"
         [formGroup]="addGovernoratesLookupsForm"
         [addGovernoratesLookupsForm]="true"
         [editMode]="editMode"

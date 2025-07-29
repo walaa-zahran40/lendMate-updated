@@ -15,9 +15,8 @@
     <p-tabpanel value="0">
       <app-form
         *ngIf="addSMEClientCodesLookupsForm"
-        [description]="
-          'Introduce your address core info quickly to users by fill up address details'
-        "
+        [title]="'FORM.SME_CLIENT_CODES.TITLE'"
+        [description]="'FORM.SME_CLIENT_CODES.DESCRIPTION'"
         [formGroup]="addSMEClientCodesLookupsForm"
         [addSMEClientCodeLookupsForm]="true"
         [editMode]="editMode"

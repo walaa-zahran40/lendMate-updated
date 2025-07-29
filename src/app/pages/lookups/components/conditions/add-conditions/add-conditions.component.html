@@ -15,9 +15,8 @@
     <p-tabpanel value="0">
       <app-form
         *ngIf="addConditionsLookupsForm"
-        [description]="
-          'Introduce your Conditions core info quickly to users by fill up details'
-        "
+        [title]="'FORM.CONDITION.TITLE'"
+        [description]="'FORM.CONDITION.DESCRIPTION'"
         [formGroup]="addConditionsLookupsForm"
         [conditionExpressions]="conditionExpressions$ | async"
         [addConditionsLookupsForm]="true"
