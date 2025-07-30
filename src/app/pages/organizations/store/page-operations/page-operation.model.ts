@@ -12,6 +12,7 @@ export interface PageOperation {
   operation?: {
     id: number;
     name: string;
+    nameAR?: string;
     url: string;
   };
   isActive?: boolean;

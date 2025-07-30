@@ -9,12 +9,12 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Route, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CompanyLegalDetails } from '../../interfaces/company-legal-details.interface';
+import { TranslateService } from '@ngx-translate/core';
 import {
   take,
   map,
-  tap,
   filter,
   Observable,
   combineLatest,
@@ -58,6 +58,8 @@ export class FormComponent implements OnInit, OnDestroy {
   companyLegalDetail: CompanyLegalDetails = {};
   @Output() addIdentity = new EventEmitter<void>();
   @Output() downloadFile = new EventEmitter<any>();
+  optionLabelKey = 'name';
+  filterByField = 'name';
 
   @Output() removeIdentity = new EventEmitter<number>();
   @Output() onCheckboxChange = new EventEmitter<any>();
@@ -254,6 +256,7 @@ export class FormComponent implements OnInit, OnDestroy {
   selectedDocuments!: any;
   @Input() documents: any[] = [];
   @ViewChild('fileUploader') fileUploader!: FileUpload;
+  operationField: 'name' | 'nameAR' = 'name';
 
   selectedAreas!: any;
   codes!: any;
@@ -650,8 +653,18 @@ export class FormComponent implements OnInit, OnDestroy {
     private facade: LegalFormLawFacade,
     private facadeLegalForms: LegalFormsFacade,
     private route: ActivatedRoute,
-    public router: Router
-  ) {}
+    public router: Router,
+    private translate: TranslateService
+  ) {
+    this.setOptionLabelKey(this.translate.currentLang);
+    this.setFilterByBasedOnLanguage();
+    this.setOperationBasedOnLanguage();
+    this.translate.onLangChange.subscribe((event) => {
+      this.setOptionLabelKey(event.lang);
+      this.setFilterByBasedOnLanguage();
+      this.setOperationBasedOnLanguage();
+    });
+  }
 
   ngOnInit() {
     console.log('route', this.route.snapshot);
@@ -732,6 +745,10 @@ export class FormComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
+  private setFilterByBasedOnLanguage(): void {
+    this.filterByField =
+      this.translate.currentLang === 'ar' ? 'nameAR' : 'name';
+  }
 
   get identities(): FormArray {
     return this.formGroup.get('identities') as FormArray;
@@ -753,6 +770,9 @@ export class FormComponent implements OnInit, OnDestroy {
   }
   onDownloadClick() {
     this.downloadFile.emit(); // ✅ this is correct
+  }
+  private setOptionLabelKey(lang: string) {
+    this.optionLabelKey = lang === 'ar' ? 'nameAR' : 'name';
   }
   onSectorChange(event: any) {
     const selectedId = event.value;
@@ -1429,6 +1449,11 @@ export class FormComponent implements OnInit, OnDestroy {
       '[AppForm] after emit, control is →',
       this.formGroup.get('currencyExchangeRateId')!.value
     );
+  }
+
+  private setOperationBasedOnLanguage(): void {
+    this.operationField =
+      this.translate.currentLang === 'ar' ? 'nameAR' : 'name';
   }
   onNgModelChange(value: number) {
     console.log('📊 [ngModelChange] selectedCurrencyExchangeRate →', value);

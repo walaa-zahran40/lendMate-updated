@@ -165,6 +165,18 @@
     "DESCRIPTION": "Introduce your Role Claim core info quickly to users by filling in the role details."
   },
   "BUTTONS": {
+    "SUBMIT": "Submit",
+    "CLOSE": "Close",
+    "ADD_ROLE_CLAIM": "Add Role Claim",
+    "EDIT_ROLE_CLAIM": "Edit Role Claim",
+    "ADD_ROLE": "Add Role",
+    "EDIT_ROLE": "Edit Role",
+    "ADD_AREA": "Add Area",
+    "ADD_DOCUMENT_TYPE": "Add Document Type",
+    "EDIT_DOCUMENT_TYPE": "Edit Document Type",
+    "EDIT_AREA": "Edit Area",
+    "ADD_SUB_SECTOR": "Add Sub Sector",
+    "EDIT_SUB_SECTOR": "Edit Sub Sector",
     "VIEW_DOCUMENT_DETAILS": "View Document Details",
     "VIEW_SALES_TURNOVERS": "View Sales Turnovers",
     "VIEW_DOCUMENT_TYPES": "View Document Types",
@@ -253,6 +265,49 @@
     "VIEW_BUSINESS_LINES": "View Business Lines"
   },
   "FORM": {
+    "SHARED": {
+      "LABEL_VALUE": "Value",
+      "PLACEHOLDER_DAY_RANGE": "Enter a value between 1 and 31",
+      "ERRORS": {
+        "VALUE_REQUIRED": "Value is required."
+      }
+    },
+    "RELATED_FILE_PATH": {
+      "LABEL": "Related File Path",
+      "PLACEHOLDER": "Enter related file path",
+      "ERROR_REQUIRED": "Related File Path is required."
+    },
+    "PAYMENT_MONTH_DAY": {
+      "ADD": "Add Payment Month Day",
+      "EDIT": "Edit Payment Month Day"
+    },
+
+    "COMPANY_TYPES": {
+      "NAME_EN": "Name in English",
+      "PLACEHOLDER_NAME_EN": "Enter Name",
+      "LABEL_NAME_AR": "Name in Arabic",
+      "PLACEHOLDER_NAME_AR": "Enter Name in Arabic",
+      "LABEL_IS_ACTIVE": "Active",
+      "BUTTON_ADD": "Add Company Type",
+      "BUTTON_EDIT": "Edit Company Type",
+      "ERRORS": {
+        "NAME_EN_REQUIRED": "Name in English is required.",
+        "NAME_AR_REQUIRED": "Name in Arabic is required.",
+        "NAME_AR_PATTERN": "Please enter only Arabic letters."
+      }
+    },
+    "DOCUMENT_TYPE": {
+      "LABEL_NORMALIZED_NAME": "Normalized Name",
+      "PLACEHOLDER_NORMALIZED_NAME": "Enter Normalized Name",
+      "VALIDATION_REQUIRED_NORMALIZED_NAME": "Normalized Name is required."
+    },
+    "UPLOAD_DOCUMENT": {
+      "DOCUMENT_TYPE": "Document Type",
+      "EXPIRY_DATE": "Expiry Date",
+      "UPLOAD_FILE": "Upload File",
+      "UPLOADED": "Uploaded",
+      "PLACEHOLDER_DOCUMENT_TYPE": "Select document type"
+    },
     "UPLOAD_DOCUMENTS": {
       "TITLE": "Upload Documents",
       "DESCRIPTION": "Fill in document details"
@@ -271,7 +326,9 @@
     },
     "ADDRESS_TYPE": {
       "TITLE": "Address Type",
-      "DESCRIPTION": "Introduce your address core info quickly to users by filling in the address details"
+      "DESCRIPTION": "Introduce your address core info quickly to users by filling in the address details",
+      "ADD": "Add Address Type",
+      "EDIT": "Edit Address Type"
     },
     "AREA": {
       "TITLE": "Area",
@@ -291,7 +348,9 @@
     },
     "AUTHORIZATION_GROUP": {
       "TITLE": "Authorization Group",
-      "DESCRIPTION": "Define and manage access control groups for streamlined permissions and workflows"
+      "DESCRIPTION": "Define and manage access control groups for streamlined permissions and workflows",
+      "ADD": "Add Authorization Group",
+      "EDIT": "Edit Authorization Group"
     },
     "BUSINESS_LINE": {
       "TITLE": "Business Line",
@@ -299,15 +358,21 @@
     },
     "CALL_ACTION_TYPE": {
       "TITLE": "Call Action Type",
-      "DESCRIPTION": "Introduce your Call Action Type core info quickly to users by filling in the details"
+      "DESCRIPTION": "Introduce your Call Action Type core info quickly to users by filling in the details",
+      "BUTTON_ADD": "Add Call Action Type",
+      "BUTTON_EDIT": "Edit Call Action Type"
     },
     "CALL_TYPE": {
       "TITLE": "Call Type",
-      "DESCRIPTION": "Introduce your Call Type core info quickly to users by filling in the call type details"
+      "DESCRIPTION": "Introduce your Call Type core info quickly to users by filling in the call type details",
+      "BUTTON_ADD": "Add Call Type",
+      "BUTTON_EDIT": "Edit Call Type"
     },
     "CLIENT_OFFICER_TYPE": {
       "TITLE": "Client Officer Type",
-      "DESCRIPTION": "Introduce your Client Officer Type core info quickly to users by filling in the officer type details"
+      "DESCRIPTION": "Introduce your Client Officer Type core info quickly to users by filling in the officer type details",
+      "BUTTON_ADD": "Add Client Officer Type",
+      "BUTTON_EDIT": "Edit Client Officer Type"
     },
     "CLIENT_STATUSES": {
       "TITLE": "Client Statuses",
@@ -319,15 +384,21 @@
     },
     "CLIENT_TYPE": {
       "TITLE": "Client Type",
-      "DESCRIPTION": "Introduce your Client Type core info quickly to users by filling in the client type details"
+      "DESCRIPTION": "Introduce your Client Type core info quickly to users by filling in the client type details",
+      "BUTTON_ADD": "Add Client Type",
+      "BUTTON_EDIT": "Edit Client Type"
     },
     "COMM_FLOW_TYPE": {
       "TITLE": "Communication Flow Type",
-      "DESCRIPTION": "Introduce your Communication Flow Type core info quickly to users by filling in the communication flow type details"
+      "DESCRIPTION": "Introduce your Communication Flow Type core info quickly to users by filling in the communication flow type details",
+      "BUTTON_ADD": "Add Communication Flow Type",
+      "BUTTON_EDIT": "Edit Communication Flow Type"
     },
     "COMM_TYPE": {
       "TITLE": "Communication Type",
-      "DESCRIPTION": "Introduce your Communication Type core info quickly to users by filling in the communication type details"
+      "DESCRIPTION": "Introduce your Communication Type core info quickly to users by filling in the communication type details",
+      "BUTTON_ADD": "Add Communication Type",
+      "BUTTON_EDIT": "Edit Communication Type"
     },
     "COMPANY_TYPE": {
       "TITLE": "Company Type",
@@ -335,7 +406,12 @@
     },
     "CONDITION_EXPRESSION": {
       "TITLE": "Condition Expression",
-      "DESCRIPTION": "Introduce your Condition Expression core info quickly to users by filling in the condition expression details"
+      "DESCRIPTION": "Introduce your Condition Expression core info quickly to users by filling in the condition expression details",
+      "LABEL_OPERATOR": "Operator",
+      "PLACEHOLDER_OPERATOR": "Enter operator",
+      "VALIDATION_OPERATOR_REQUIRED": "Operator is required.",
+      "BUTTON_ADD": "Add Condition Expression",
+      "BUTTON_EDIT": "Edit Condition Expression"
     },
     "CONDITION": {
       "TITLE": "Condition",
@@ -377,25 +453,46 @@
       "TITLE": "Governorates",
       "DESCRIPTION": "Introduce Governorate info quickly to users by filling in the governorate details"
     },
+    "GOVERNORATE": {
+      "LABEL_SELECT": "Select Governorate",
+      "PLACEHOLDER_SELECT": "Select Governorate",
+      "ERROR_REQUIRED": "Governorate is required."
+    },
+    "FEE_CALCULATION_TYPE": {
+      "ADD": "Add Fee Calculation Type",
+      "EDIT": "Edit Fee Calculation Type"
+    },
+    "IDENTIFICATION_TYPE": {
+      "BUTTON_ADD": "Add Identification Type",
+      "BUTTON_EDIT": "Edit Identification Type"
+    },
     "IDENTIFICATION_TYPES": {
       "TITLE": "Identification Types",
       "DESCRIPTION": "Introduce your identification type core info quickly to users by filling in identification type details"
     },
     "INSURED_BY": {
       "TITLE": "Insured By",
-      "DESCRIPTION": "Introduce your insured by core info quickly to users by filling in insured by details"
+      "DESCRIPTION": "Introduce your insured by core info quickly to users by filling in insured by details",
+      "BUTTON_ADD": "Add Insured By",
+      "BUTTON_EDIT": "Edit Insured By"
     },
     "INTEREST_RATE_BENCHMARK": {
       "TITLE": "Interest Rate Benchmark",
-      "DESCRIPTION": "Introduce your interest rate benchmark core info quickly to users by filling in the details"
+      "DESCRIPTION": "Introduce your interest rate benchmark core info quickly to users by filling in the details",
+      "BUTTON_ADD": "Add Interest Rate Benchmark",
+      "BUTTON_EDIT": "Edit Interest Rate Benchmark"
     },
     "INTEREST_TYPE": {
       "TITLE": "Interest Type",
-      "DESCRIPTION": "Introduce your interest type core info quickly to users by filling in the details"
+      "DESCRIPTION": "Introduce your interest type core info quickly to users by filling in the details",
+      "BUTTON_ADD": "Add Interest Type",
+      "BUTTON_EDIT": "Edit Interest Type"
     },
     "LEASING_TYPE": {
       "TITLE": "Leasing Type",
-      "DESCRIPTION": "Introduce your leasing type core info quickly to users by filling in the leasing type details"
+      "DESCRIPTION": "Introduce your leasing type core info quickly to users by filling in the leasing type details",
+      "BUTTON_ADD": "Add Leasing Type",
+      "BUTTON_EDIT": "Edit Leasing Type"
     },
     "MANDATE_STATUSES": {
       "TITLE": "Mandate Statuses",
@@ -413,6 +510,10 @@
       "TITLE": "Meeting Type",
       "DESCRIPTION": "Introduce your meeting type core info quickly to users by filling up meeting type details"
     },
+    "MEETING_TYPE": {
+      "BUTTON_ADD": "Add Meeting Type",
+      "BUTTON_EDIT": "Edit Meeting Type"
+    },
     "NOTIFICATION_GROUP_OFFICERS": {
       "TITLE": "Notification Group Officers",
       "DESCRIPTION": "Introduce your notification group officer details quickly by filling up the required officer and group information"
@@ -421,9 +522,26 @@
       "TITLE": "Notification Groups",
       "DESCRIPTION": "Introduce your notification group core info quickly by filling in the group details"
     },
+    "NOTIFICATION_GROUP": {
+      "ADD": "Add Notification Group",
+      "EDIT": "Edit Notification Group"
+    },
+    "FOLLOWUP_TYPE": {
+      "ADD": "Add Followup Type",
+      "EDIT": "Edit Followup Type"
+    },
+
+    "AUTHORITY_OFFICE": {
+      "ADD": "Add Authority Office",
+      "EDIT": "Edit Authority Office"
+    },
     "PAYMENT_METHODS": {
       "TITLE": "Payment Methods",
       "DESCRIPTION": "Introduce your payment method core info quickly by filling in the method details"
+    },
+    "PAYMENT_METHOD": {
+      "BUTTON_ADD": "Add Payment Method",
+      "BUTTON_EDIT": "Edit Payment Method"
     },
     "PAYMENT_MONTH_DAYS": {
       "TITLE": "Payment Month Days",
@@ -433,21 +551,43 @@
       "TITLE": "Payment Periods",
       "DESCRIPTION": "Introduce your payment period core info quickly to users by filling in the details"
     },
+    "PAYMENT_PERIOD": {
+      "BUTTON_ADD": "Add Payment Period",
+      "BUTTON_EDIT": "Edit Payment Period"
+    },
     "PAYMENT_TIMING_TERMS": {
       "TITLE": "Payment Timing Terms",
       "DESCRIPTION": "Introduce your payment timing term details clearly by filling in the required information"
+    },
+    "PAYMENT_TIMING_TERM": {
+      "BUTTON_ADD": "Add Payment Timing Term",
+      "BUTTON_EDIT": "Edit Payment Timing Term",
+      "LABEL_MONTH_COUNT": "Month count",
+      "PLACEHOLDER_MONTH_COUNT": "Enter Month Count"
     },
     "PAYMENT_TYPES": {
       "TITLE": "Payment Types",
       "DESCRIPTION": "Introduce your payment type core information by filling in the payment type details"
     },
+    "PAYMENT_TYPE": {
+      "BUTTON_ADD": "Add Payment Type",
+      "BUTTON_EDIT": "Edit Payment Type"
+    },
     "GRACE_PERIOD_UNITS": {
       "TITLE": "Grace Period Units",
       "DESCRIPTION": "Introduce your grace period unit core information by filling in the grace period unit details"
     },
+    "GRACE_PERIOD_UNIT": {
+      "BUTTON_ADD": "Add Grace Period Unit",
+      "BUTTON_EDIT": "Edit Grace Period Unit"
+    },
     "PHONE_TYPES": {
       "TITLE": "Phone Types",
       "DESCRIPTION": "Introduce your phone type core information by filling in the phone type details"
+    },
+    "PHONE_TYPE": {
+      "BUTTON_ADD": "Add Phone Type",
+      "BUTTON_EDIT": "Edit Phone Type"
     },
     "PRODUCTS": {
       "TITLE": "Products",
@@ -457,9 +597,19 @@
       "TITLE": "Rent Structure Types",
       "DESCRIPTION": "Introduce your Rent Structure Type core info quickly by filling in rent structure type details"
     },
+    "RENT_STRUCTURE_TYPE": {
+      "BUTTON_ADD": "Add Rent Structure Type",
+      "BUTTON_EDIT": "Edit Rent Structure Type"
+    },
     "SECTORS": {
       "TITLE": "Sectors",
-      "DESCRIPTION": "Introduce your sector core info quickly by filling in sector details"
+      "DESCRIPTION": "Introduce your sector core info quickly by filling in sector details",
+      "BUTTON_ADD": "Add Sector",
+      "BUTTON_EDIT": "Edit Sector"
+    },
+    "TML_OFFICER_TYPES": {
+      "BUTTON_ADD": "Add Tml Officer Type",
+      "BUTTON_EDIT": "Edit Tml Officer Type"
     },
     "SME_CLIENT_CODES": {
       "TITLE": "SME Client Code",
@@ -467,7 +617,10 @@
     },
     "SUB_SECTORS": {
       "TITLE": "Sub Sector",
-      "DESCRIPTION": "Introduce your sub sector core info quickly by filling in sub sector details"
+      "DESCRIPTION": "Introduce your sub sector core info quickly by filling in sub sector details",
+      "LABEL_SECTOR": "Select Sector",
+      "PLACEHOLDER_SECTOR": "Select Sector",
+      "ERROR_SECTOR_REQUIRED": "Sector Id is required."
     },
     "TAX_OFFICES": {
       "TITLE": "Tax Office",
@@ -479,7 +632,9 @@
     },
     "WORKFLOW_ACTION_TYPE": {
       "TITLE": "Workflow Action Type",
-      "DESCRIPTION": "Introduce your Workflow Action Type core info quickly by filling in the details"
+      "DESCRIPTION": "Introduce your Workflow Action Type core info quickly by filling in the details",
+      "ADD": "Add Workflow Action Type",
+      "EDIT": "Edit Workflow Action Type"
     },
     "BRANCH_MANAGER": {
       "TITLE": "Branch Manager",
@@ -491,7 +646,15 @@
     },
     "BRANCH": {
       "TITLE": "Branch",
-      "DESCRIPTION": "Introduce your branch core info quickly to users by filling in branch details"
+      "DESCRIPTION": "Introduce your branch core info quickly to users by filling in branch details",
+      "ADD": "Add Branch",
+      "EDIT": "Edit Branch"
+    },
+    "COMMON": {
+      "FIELD_NAME": "Field Name",
+      "PLACEHOLDER_FIELD_NAME": "Enter Field Name",
+      "VALIDATION_FIELD_NAME_REQUIRED": "Field name is required.",
+      "PLACEHOLDER_VALUE": "Enter value"
     },
     "DEPARTMENT_MANAGER": {
       "TITLE": "Department Manager",
