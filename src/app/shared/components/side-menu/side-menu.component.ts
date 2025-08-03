@@ -386,13 +386,13 @@ export class SideMenuComponent {
       {
         label: 'Assets',
         icon: 'pi pi-users',
-        routerLink: '/assets/view-assets',
+        routerLink: '/purchasing/assets/view-assets',
         // permission: '/Assets/GetAll',
       },
       {
-        label: 'PO',
+        label: 'Purchasing Orders',
         icon: 'pi pi-users',
-        routerLink: '/po/view-po',
+        routerLink: '/purchasing/purchasing-orders/view-purchasing-orders',
         // permission: '/PO/GetAll',
       },
       // {
