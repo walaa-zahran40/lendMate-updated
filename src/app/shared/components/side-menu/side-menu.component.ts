@@ -29,19 +29,24 @@ export class SideMenuComponent {
       label: 'CRM',
       permission: '/Clients/GetAll',
     },
-
+    {
+      id: 'Purchasing',
+      icon: 'pi pi-ico4',
+      label: 'Purchasing',
+      // permission: '/Purchasing/GetAll',
+    },
     {
       id: 'Business',
       icon: 'pi pi-ico3',
       label: 'Business',
       permission: '/LeasingMandates/GetAll',
     },
-    {
-      id: 'Contracts',
-      icon: 'pi pi-ico6',
-      label: 'Contracts',
-      // permission: '/Contracts/GetAll',
-    },
+    // {
+    //   id: 'Contracts',
+    //   icon: 'pi pi-ico6',
+    //   label: 'Contracts',
+    //   // permission: '/Contracts/GetAll',
+    // },
     {
       id: 'Settings',
       icon: 'pi pi-ico5',
@@ -197,6 +202,198 @@ export class SideMenuComponent {
             permission: '/Meetings/GetAll',
           },
         ],
+      },
+      // {
+      //   label: 'Communication',
+      //   icon: 'pi pi-users',
+      //   items: [
+      //     {
+      //       label: 'Call',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-calls',
+      //     },
+      //     {
+      //       label: 'Meeting',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-meetings',
+      //     },
+      // {
+      //   label: 'FollowUp',
+      //   icon: 'pi pi-user-plus',
+      //   routerLink: '/communication/view-followups',
+      // },
+      // {
+      //   label: 'FollowUpPoints',
+      //   icon: 'pi pi-user-plus',
+      //   routerLink: '/communication/view-followup-points',
+      // },
+      // {
+      //   label: 'CommunicationFollowUp',
+      //   icon: 'pi pi-user-plus',
+      //   routerLink: '/communication/view-followups',
+      // },
+      // {
+      //   label: 'MonitorFollowUps',
+      //   icon: 'pi pi-user-plus',
+      //   routerLink: '/communication/view-monitor-followups',
+      // },
+      //   ],
+      // },
+      // {
+      //   label: 'Vendors',
+      //   icon: 'pi pi-users',
+      //   items: [
+      //     {
+      //       label: 'Vendors',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorAddress',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorCompanyBusinessDetails',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorCRAuthorityOffice',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorDocumentType',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorIdentity',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorLegal',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorOfficer',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorPhoneNumber',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorShareHolder',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorFile',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorTaxOffice',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'ContactPerson',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //   ],
+      // },
+      // {
+      //   label: 'Guarantors',
+      //   icon: 'pi pi-users',
+      //   items: [
+      //     {
+      //       label: 'Guarantors',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorAddress',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorCompanyBusinessDetails',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorCRAuthorityOffice',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorDocumentType',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorIdentity',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorLegal',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorOfficer',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorPhoneNumber',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorShareHolder',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorFile',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorTaxOffice',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'ContactPerson',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //   ],
+      // },
+    ],
+    Purchasing: [
+      {
+        label: 'Assets',
+        icon: 'pi pi-users',
+        routerLink: '/assets/view-assets',
+        // permission: '/Assets/GetAll',
+      },
+      {
+        label: 'PO',
+        icon: 'pi pi-users',
+        routerLink: '/po/view-po',
+        // permission: '/PO/GetAll',
       },
       // {
       //   label: 'Communication',
