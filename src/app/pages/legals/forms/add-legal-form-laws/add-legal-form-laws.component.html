@@ -20,7 +20,12 @@
       (ngSubmit)="onSubmit()"
     >
       <label for="name">Name in English<sup>*</sup></label>
-      <input pInputText id="name" formControlName="name" placeholder="Type" />
+      <input
+        pInputText
+        id="name"
+        formControlName="name"
+        [placeholder]="'FORM.COMPANY_TYPES.PLACEHOLDER_NAME_EN' | translate"
+      />
       <div
         *ngIf="
           formGroup.get('name')?.hasError('required') &&
@@ -36,7 +41,7 @@
         pInputText
         id="nameAR"
         formControlName="nameAR"
-        placeholder="Type"
+        [placeholder]="'FORM.COMPANY_TYPES.PLACEHOLDER_NAME_AR' | translate"
       />
       <div
         *ngIf="

@@ -41,7 +41,7 @@ export interface IdentityEntry {
   selectedIdentities: any[];
   isMain: boolean;
 }
-interface PageOperationGroup {
+export interface PageOperationGroup {
   pageName: string;
   pageOperations: PageOperation[];
 }
@@ -1454,6 +1454,12 @@ export class FormComponent implements OnInit, OnDestroy {
   private setOperationBasedOnLanguage(): void {
     this.operationField =
       this.translate.currentLang === 'ar' ? 'nameAR' : 'name';
+  }
+  getLocalizedName(obj?: any): string {
+    if (!obj) return '';
+    return this.translate.currentLang === 'ar'
+      ? obj.nameAR ?? obj.name
+      : obj.name;
   }
   onNgModelChange(value: number) {
     console.log('📊 [ngModelChange] selectedCurrencyExchangeRate →', value);

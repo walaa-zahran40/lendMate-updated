@@ -364,6 +364,7 @@
 
     <p-button
       *ngIf="addPhoneNumbersShowMain"
+      icon="pi pi-cog"
       [label]="'BUTTONS.VIEW_PHONE_NUMBERS' | translate"
       (click)="viewPhoneNumber()"
       class="custom-view m-0 float-right"
@@ -371,6 +372,7 @@
 
     <p-button
       *ngIf="addTaxAuthorityOfficeShowMain"
+      icon="pi pi-cog"
       [label]="'BUTTONS.VIEW_TAX_AUTHORITY' | translate"
       (click)="viewTaxAuthority()"
       class="custom-view m-0 float-right"
@@ -378,12 +380,14 @@
 
     <p-button
       *ngIf="addShareHolderShowMain"
+      icon="pi pi-cog"
       [label]="'BUTTONS.VIEW_CLIENT_SHARE_HOLDERS' | translate"
       (click)="viewShareHolder()"
       class="custom-view m-0 float-right"
     />
     <p-button
       *ngIf="addTMLOfficerShowMain"
+      icon="pi pi-cog"
       [label]="'BUTTONS.VIEW_CLIENT_TML_OFFICERS' | translate"
       (click)="viewTMLOfficer()"
       class="custom-view m-0 float-right"
@@ -4378,7 +4382,8 @@ icon="pi pi-cog"
       <div *ngIf="pageOperationGroups">
         <div *ngFor="let group of pageOperationGroups">
           <h4 class="page-name">
-            {{ "FORM.PAGE.TITLE" | translate }}: {{ group.pageName }}
+            {{ "FORM.PAGE.TITLE" | translate }}:
+            {{ getLocalizedName(group.pageOperations[0].page) }}
           </h4>
           &nbsp;&nbsp;
           <div *ngFor="let op of group.pageOperations">
@@ -4390,9 +4395,9 @@ icon="pi pi-cog"
               (change)="onOpToggle(op.id, checkbox.checked)"
               style="width: 50px; height: 20px"
             />
-            <span style="font-size: 18px; color: blue">{{
-              op.operation?.name
-            }}</span>
+            <span style="font-size: 18px; color: blue">
+              {{ getLocalizedName(op.operation) }}
+            </span>
           </div>
         </div>
       </div>
@@ -4414,7 +4419,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Add Role Claim"
+            [label]="'BUTTONS.ADD_ROLE_CLAIM' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -4425,7 +4430,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Edit Role Claim"
+            [label]="'BUTTONS.EDIT_ROLE_CLAIM' | translate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -4484,12 +4489,14 @@ icon="pi pi-cog"
       >
         {{ "FORM.COMPANY_TYPES.ERRORS.NAME_AR_REQUIRED" | translate }}
       </div>
-      <label for="url">URL<sup>*</sup></label>
+      <label for="url">
+        {{ "FORM.PAGE.LABEL_URL" | translate }}<sup>*</sup>
+      </label>
       <input
         pInputText
         id="url"
         formControlName="url"
-        placeholder="Enter URL"
+        [placeholder]="'FORM.PAGE.PLACEHOLDER_URL' | translate"
       />
       <div
         *ngIf="
@@ -4498,7 +4505,7 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        URL is required.
+        {{ "FORM.PAGE.ERROR_REQUIRED_URL" | translate }}
       </div>
       <div class="p-field" *ngIf="editMode">
         <p-toggleSwitch
@@ -4517,7 +4524,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Add Page"
+            [label]="'BUTTONS.ADD_PAGE' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -4528,7 +4535,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Edit Page"
+            [label]="'BUTTONS.ADD_PAGE' | translate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -4569,12 +4576,14 @@ icon="pi pi-cog"
         {{ "FORM.COMPANY_TYPES.ERRORS.NAME_EN_REQUIRED" | translate }}
       </div>
 
-      <label for="url">URL<sup>*</sup></label>
+      <label for="url">
+        {{ "FORM.PAGE.LABEL_URL" | translate }}<sup>*</sup>
+      </label>
       <input
         pInputText
         id="url"
         formControlName="url"
-        placeholder="Enter URL"
+        [placeholder]="'FORM.PAGE.PLACEHOLDER_URL' | translate"
       />
       <div
         *ngIf="
@@ -4583,14 +4592,16 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        URL is required.
+        {{ "FORM.PAGE.ERROR_REQUIRED_URL" | translate }}
       </div>
-      <label for="description">Description<sup>*</sup></label>
+      <label for="description">
+        {{ "FORM.PAGE.LABEL_DESCRIPTION" | translate }}<sup>*</sup></label
+      >
       <input
         pInputText
         id="description"
         formControlName="description"
-        placeholder="Enter Description"
+        [placeholder]="'FORM.PAGE.PLACEHOLDER_DESCRIPTION' | translate"
       />
       <div
         *ngIf="
@@ -4599,7 +4610,7 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        Description is required.
+        {{ "FORM.PAGE.ERROR_DESCRIPTION_REQUIRED" | translate }}
       </div>
       <div class="p-field" *ngIf="editMode">
         <p-toggleSwitch
@@ -4618,7 +4629,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Add Operation"
+            [label]="'BUTTONS.ADD_OPERATION' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -4629,7 +4640,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Edit Operation"
+            [label]="'BUTTONS.EDIT_OPERATION' | translate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -4651,14 +4662,17 @@ icon="pi pi-cog"
       *ngIf="addPageOperationORGForm"
       (ngSubmit)="onSubmit()"
     >
-      <label for="operationId">Operation<sup>*</sup></label>
+      <label for="operationId"
+        >{{ "FORM.OPERATION_PAGE.LABEL_OPERATION" | translate
+        }}<sup>*</sup></label
+      >
       <p-select
         [filter]="true"
         [filterBy]="filterByField"
         [showClear]="true"
         [options]="operationsList"
         [optionLabel]="optionLabelKey"
-        placeholder="Select Operation"
+        [placeholder]="'FORM.OPERATION_PAGE.PLACEHOLDER_OPERATION' | translate"
         formControlName="operationId"
         optionValue="id"
         required
@@ -4677,17 +4691,19 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        Operation is required.
+        {{ "FORM.OPERATION_PAGE.ERROR_OPERATION_REQUIRED" | translate }}
       </div>
 
-      <label for="pageId">Page<sup>*</sup></label>
+      <label for="pageId">
+        {{ "FORM.OPERATION_PAGE.LABEL_PAGE" | translate }}<sup>*</sup>
+      </label>
       <p-select
         [filter]="true"
         [filterBy]="filterByField"
         [showClear]="true"
         [options]="pagesList"
         [optionLabel]="optionLabelKey"
-        placeholder="Select Page"
+        [placeholder]="'FORM.OPERATION_PAGE.PLACEHOLDER_PAGE' | translate"
         formControlName="pageId"
         optionValue="id"
         required
@@ -4705,7 +4721,7 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        Page is required.
+        {{ "FORM.OPERATION_PAGE.ERROR_PAGE_REQUIRED" | translate }}
       </div>
       <div class="p-field" *ngIf="editMode">
         <p-toggleSwitch
@@ -4724,7 +4740,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Add Operation"
+            [label]="'BUTTONS.ADD_OPERATION' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -4735,7 +4751,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Edit Operation"
+            [label]="'BUTTONS.EDIT_OPERATION' | translate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -4757,12 +4773,15 @@ icon="pi pi-cog"
       (ngSubmit)="onSubmit()"
       [formGroup]="formGroup"
     >
-      <label for="amount">Amount<sup class="danger">*</sup></label>
+      <label for="amount">
+        {{ "FORM.SALES_TURNOVER.LABEL_AMOUNT" | translate
+        }}<sup class="danger">*</sup>
+      </label>
       <input
         pInputText
         name="amount"
         formControlName="amount"
-        placeholder="Amount"
+        [placeholder]="'FORM.SALES_TURNOVER.PLACEHOLDER_AMOUNT' | translate"
         type="number"
         [ngClass]="{
           'ng-invalid ng-dirty':
@@ -4776,7 +4795,7 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        Amount is required.
+        {{ "FORM.SALES_TURNOVER.ERROR_REQUIRED_AMOUNT" | translate }}
       </small>
       <small
         class="p-error"
@@ -4785,10 +4804,13 @@ icon="pi pi-cog"
           formGroup.get('amount')?.touched
         "
       >
-        Amount must be positive.
+        {{ "FORM.SALES_TURNOVER.ERROR_MIN_AMOUNT" | translate }}
       </small>
       <br />
-      <label for="date"> Date<sup class="danger">*</sup></label>
+      <label for="date">
+        {{ "FORM.SALES_TURNOVER.LABEL_DATE" | translate
+        }}<sup class="danger">*</sup></label
+      >
       <shared-date-picker formControlName="date" inputId="date">
       </shared-date-picker>
 
@@ -4799,7 +4821,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Add Sales Turnover"
+            [label]="'BUTTONS.ADD_SALES_TURNOVER' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -4810,7 +4832,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Edit Sales turnover "
+            [label]="'BUTTONS.EDIT_SALES_TURNOVER' | translate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -4832,12 +4854,15 @@ icon="pi pi-cog"
       (ngSubmit)="onSubmit()"
       [formGroup]="formGroup"
     >
-      <label for="termKey">Term Key <sup class="danger">*</sup></label>
+      <label for="termKey"
+        >{{ "FORM.MANDATE_TERM.LABEL_TERM_KEY" | translate }}
+        <sup class="danger">*</sup></label
+      >
       <input
         pInputText
         name="termKey"
         formControlName="termKey"
-        placeholder="termKey"
+        [placeholder]="'FORM.MANDATE_TERM.PLACEHOLDER_TERM_KEY' | translate"
         type="string"
         [ngClass]="{
           'ng-invalid ng-dirty':
@@ -4846,12 +4871,15 @@ icon="pi pi-cog"
         }"
       />
 
-      <label for="description">Description</label>
+      <label for="description">
+        {{ "FORM.MANDATE_TERM.LABEL_DESCRIPTION" | translate
+        }}<sup class="danger">*</sup>
+      </label>
       <input
         pInputText
         name="description"
         formControlName="description"
-        placeholder="description"
+        [placeholder]="'FORM.MANDATE_TERM.PLACEHOLDER_DESCRIPTION' | translate"
         type="string"
         [ngClass]="{
           'ng-invalid ng-dirty':
@@ -4867,7 +4895,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Add Mandate Term"
+            [label]="'BUTTONS.ADD_MANDATE_TERM' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -4878,7 +4906,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Edit Mandate Term"
+            [label]="'BUTTONS.EDIT_MANDATE_TERM' | translate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -4900,25 +4928,32 @@ icon="pi pi-cog"
       *ngIf="addTaxAuthorityOfficeShowMain"
       (ngSubmit)="onSubmit()"
     >
-      <label for="expiryDate">CR Expiry Date<sup class="danger">*</sup></label>
+      <label for="expiryDate">
+        {{ "FORM.TAX_AUTHORITY.LABEL_CR_EXPIRY_DATE" | translate
+        }}<sup class="danger">*</sup>
+      </label>
       <shared-date-picker formControlName="expiryDate" inputId="expiryDate">
       </shared-date-picker>
-      <label for="taxCardNumber">Tax Number<sup>*</sup></label>
+      <label for="taxCardNumber">
+        {{ "FORM.TAX_AUTHORITY.LABEL_TAX_NUMBER" | translate }}<sup>*</sup>
+      </label>
       <input
         pInputText
         id="taxCardNumber"
         formControlName="taxCardNumber"
-        placeholder="Type"
+        [placeholder]="'FORM.TAX_AUTHORITY.PLACEHOLDER_TAX_NUMBER' | translate"
       />
 
-      <label for="taxOfficeId">Tax Office<sup>*</sup></label>
+      <label for="taxOfficeId">
+        {{ "FORM.TAX_AUTHORITY.LABEL_TAX_OFFICE" | translate }}<sup>*</sup>
+      </label>
       <p-select
         [filter]="true"
         [filterBy]="filterByField"
         [showClear]="true"
         [options]="taxOfficesList"
         [optionLabel]="optionLabelKey"
-        placeholder="Select Tax Office"
+        [placeholder]="'FORM.TAX_AUTHORITY.PLACEHOLDER_TAX_OFFICE' | translate"
         formControlName="taxOfficeId"
         optionValue="id"
         required
@@ -4937,7 +4972,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Add Tax Authority Office"
+            [label]="'BUTTONS.ADD_TAX_AUTHORITY_OFFICE' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -4948,7 +4983,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Edit Tax Authority Office"
+            [label]="'BUTTONS.EDIT_TAX_AUTHORITY_OFFICE' | translate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -4970,14 +5005,16 @@ icon="pi pi-cog"
       *ngIf="addShareHolderShowMain"
       (ngSubmit)="onSubmit()"
     >
-      <label for="shareHolderId">Share Holder Name<sup>*</sup></label>
+      <label for="shareHolderId">
+        {{ "FORM.SHARE_HOLDER.LABEL_NAME" | translate }}<sup>*</sup>
+      </label>
       <p-select
         [filter]="true"
         [filterBy]="filterByField"
         [showClear]="true"
         [options]="clientsList"
         [optionLabel]="optionLabelKey"
-        placeholder="Select Share Holder"
+        [placeholder]="'FORM.SHARE_HOLDER.PLACEHOLDER_SELECT_NAME' | translate"
         formControlName="shareHolderId"
         optionValue="id"
         required
@@ -4988,12 +5025,14 @@ icon="pi pi-cog"
               formGroup.get('shareHolderId')?.touched)
         }"
       />
-      <label for="percentage">Share Holder Percentage<sup>*</sup></label>
+      <label for="percentage">
+        {{ "FORM.SHARE_HOLDER.LABEL_PERCENTAGE" | translate }}<sup>*</sup>
+      </label>
       <input
         pInputText
         id="percentage"
         formControlName="percentage"
-        placeholder="Type"
+        [placeholder]="'FORM.SHARE_HOLDER.PLACEHOLDER_PERCENTAGE' | translate"
       />
       <div class="row justify-end">
         <div
@@ -5002,7 +5041,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Add Share Holder"
+            [label]="'BUTTONS.ADD_SHARE_HOLDER' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -5013,7 +5052,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Edit Share Holder"
+            [label]="'BUTTONS.EDIT_SHARE_HOLDER' | translate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -5116,15 +5155,16 @@ icon="pi pi-cog"
         for="clientNameAddMandateBasic"
         class="label-container"
         *ngIf="show"
-        >Client Name<sup>*</sup></label
       >
+        {{ "FORM.MANDATE.LABEL_CLIENT_NAME" | translate }}<sup>*</sup>
+      </label>
       <p-select
         [filter]="true"
         [filterBy]="filterByField"
         [showClear]="true"
         [options]="clientNames"
         formControlName="clientId"
-        placeholder="Select Client Name"
+        [placeholder]="'FORM.MANDATE.PLACEHOLDER_CLIENT_NAME' | translate"
         [optionLabel]="optionLabelKey"
         optionValue="id"
         *ngIf="show"
@@ -5138,18 +5178,18 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        Client is required.
+        {{ "FORM.MANDATE.ERROR_CLIENT_REQUIRED" | translate }}
       </div>
-      <label for="validityUnitAddMandateBasic" class="label-container"
-        >Mandate Validity Unit<sup>*</sup></label
-      >
+      <label for="validityUnitAddMandateBasic" class="label-container">
+        {{ "FORM.MANDATE.LABEL_VALIDITY_UNIT" | translate }}<sup>*</sup>
+      </label>
       <p-select
         [filter]="true"
         [filterBy]="filterByField"
         [showClear]="true"
         [options]="validityUnits"
         formControlName="validityUnitId"
-        placeholder="Select Mandate Validity Unit"
+        [placeholder]="'FORM.MANDATE.PLACEHOLDER_VALIDITY_UNIT' | translate"
         [optionLabel]="optionLabelKey"
         name="validityUnitAddMandateBasic"
         styleClass="w-full md:w-80"
@@ -5162,18 +5202,18 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        Mandate Validity Unit is required.
+        {{ "FORM.MANDATE.ERROR_VALIDITY_UNIT_REQUIRED" | translate }}
       </div>
-      <label for="productAddMandateBasic" class="label-container"
-        >Product<sup>*</sup></label
-      >
+      <label for="productAddMandateBasic" class="label-container">
+        {{ "FORM.MANDATE.LABEL_PRODUCT" | translate }}<sup>*</sup>
+      </label>
       <p-select
         [filter]="true"
         [filterBy]="filterByField"
         [showClear]="true"
         [options]="products"
         formControlName="productId"
-        placeholder="Select Product"
+        [placeholder]="'FORM.MANDATE.PLACEHOLDER_PRODUCT' | translate"
         [optionLabel]="optionLabelKey"
         optionValue="id"
         name="productAddMandateBasic"
@@ -5186,18 +5226,18 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        Product is required.
+        {{ "FORM.MANDATE.ERROR_PRODUCT_REQUIRED" | translate }}
       </div>
-      <label for="leasingTypesAddMandateBasic" class="label-container"
-        >Leasing Type<sup>*</sup></label
-      >
+      <label for="leasingTypesAddMandateBasic" class="label-container">
+        {{ "FORM.MANDATE.LABEL_LEASING_TYPE" | translate }}<sup>*</sup>
+      </label>
       <p-select
         [filter]="true"
         [filterBy]="filterByField"
         [showClear]="true"
         [options]="leasingTypes"
         formControlName="leasingTypeId"
-        placeholder="Select Leasing Type"
+        [placeholder]="'FORM.MANDATE.PLACEHOLDER_LEASING_TYPE' | translate"
         [optionLabel]="optionLabelKey"
         name="leasingTypesAddMandateBasic"
         styleClass="w-full md:w-80"
@@ -5210,10 +5250,10 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        Leasing Type is required.
+        {{ "FORM.MANDATE.ERROR_LEASING_TYPE_REQUIRED" | translate }}
       </div>
-      <label for="insuredByAddMandateBasic" class="label-container"
-        >Insured By<sup>*</sup></label
+      <label for="insuredByAddMandateBasic" class="label-container">
+        {{ "FORM.MANDATE.LABEL_INSURED_BY" | translate }}<sup>*</sup></label
       >
       <p-select
         [filter]="true"
@@ -5221,7 +5261,7 @@ icon="pi pi-cog"
         [showClear]="true"
         [options]="insuredBy"
         formControlName="insuredById"
-        placeholder="Select Insured By"
+        [placeholder]="'FORM.MANDATE.PLACEHOLDER_INSURED_BY' | translate"
         [optionLabel]="optionLabelKey"
         optionValue="id"
         name="insuredByAddMandateBasic"
@@ -5234,7 +5274,7 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        Insured By is required.
+        {{ "FORM.MANDATE.ERROR_INSURED_BY_REQUIRED" | translate }}
       </div>
     </ng-container>
     <ng-container
@@ -5242,19 +5282,21 @@ icon="pi pi-cog"
       [formGroup]="formGroup"
       class="form-container"
     >
+      <!-- Client Name -->
       <label
         for="clientNameAddMandateBasic"
         *ngIf="show"
         class="label-container"
-        >Client Name<sup>*</sup></label
       >
+        {{ "FORM.MANDATE.LABEL_CLIENT_NAME" | translate }}<sup>*</sup>
+      </label>
       <p-select
         [filter]="true"
         [filterBy]="filterByField"
         [showClear]="true"
         [options]="clientNames"
         formControlName="clientId"
-        placeholder="Select Client Name"
+        [placeholder]="'FORM.MANDATE.PLACEHOLDER_CLIENT_NAME' | translate"
         [optionLabel]="optionLabelKey"
         *ngIf="show"
         optionValue="id"
@@ -5268,18 +5310,20 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        Client is required.
+        {{ "FORM.MANDATE.ERROR_CLIENT_REQUIRED" | translate }}
       </div>
-      <label for="validityUnitAddMandateBasic" class="label-container"
-        >Mandate Validity Unit<sup>*</sup></label
-      >
+
+      <!-- Mandate Validity Unit -->
+      <label for="validityUnitAddMandateBasic" class="label-container">
+        {{ "FORM.MANDATE.LABEL_VALIDITY_UNIT" | translate }}<sup>*</sup>
+      </label>
       <p-select
         [filter]="true"
         [filterBy]="filterByField"
         [showClear]="true"
         [options]="validityUnits"
         formControlName="validityUnitId"
-        placeholder="Select Mandate Validity Unit"
+        [placeholder]="'FORM.MANDATE.PLACEHOLDER_VALIDITY_UNIT' | translate"
         [optionLabel]="optionLabelKey"
         name="validityUnitAddMandateBasic"
         styleClass="w-full md:w-80"
@@ -5292,18 +5336,20 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        Mandate Validity Unit is required.
+        {{ "FORM.MANDATE.ERROR_VALIDITY_UNIT_REQUIRED" | translate }}
       </div>
-      <label for="productAddMandateBasic" class="label-container"
-        >Product<sup>*</sup></label
-      >
+
+      <!-- Product -->
+      <label for="productAddMandateBasic" class="label-container">
+        {{ "FORM.MANDATE.LABEL_PRODUCT" | translate }}<sup>*</sup>
+      </label>
       <p-select
         [filter]="true"
         [filterBy]="filterByField"
         [showClear]="true"
         [options]="products"
         formControlName="productId"
-        placeholder="Select Product"
+        [placeholder]="'FORM.MANDATE.PLACEHOLDER_PRODUCT' | translate"
         [optionLabel]="optionLabelKey"
         optionValue="id"
         name="productAddMandateBasic"
@@ -5316,18 +5362,20 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        Product is required.
+        {{ "FORM.MANDATE.ERROR_PRODUCT_REQUIRED" | translate }}
       </div>
-      <label for="leasingTypesAddMandateBasic" class="label-container"
-        >Leasing Type<sup>*</sup></label
-      >
+
+      <!-- Leasing Type -->
+      <label for="leasingTypesAddMandateBasic" class="label-container">
+        {{ "FORM.MANDATE.LABEL_LEASING_TYPE" | translate }}<sup>*</sup>
+      </label>
       <p-select
         [filter]="true"
         [filterBy]="filterByField"
         [showClear]="true"
         [options]="leasingTypes"
         formControlName="leasingTypeId"
-        placeholder="Select Leasing Type"
+        [placeholder]="'FORM.MANDATE.PLACEHOLDER_LEASING_TYPE' | translate"
         [optionLabel]="optionLabelKey"
         name="leasingTypesAddMandateBasic"
         styleClass="w-full md:w-80"
@@ -5340,18 +5388,20 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        Leasing Type is required.
+        {{ "FORM.MANDATE.ERROR_LEASING_TYPE_REQUIRED" | translate }}
       </div>
-      <label for="insuredByAddMandateBasic" class="label-container"
-        >Insured By<sup>*</sup></label
-      >
+
+      <!-- Insured By -->
+      <label for="insuredByAddMandateBasic" class="label-container">
+        {{ "FORM.MANDATE.LABEL_INSURED_BY" | translate }}<sup>*</sup>
+      </label>
       <p-select
         [filter]="true"
         [filterBy]="filterByField"
         [showClear]="true"
         [options]="insuredBy"
         formControlName="insuredById"
-        placeholder="Select Insured By"
+        [placeholder]="'FORM.MANDATE.PLACEHOLDER_INSURED_BY' | translate"
         [optionLabel]="optionLabelKey"
         optionValue="id"
         name="insuredByAddMandateBasic"
@@ -5364,9 +5414,10 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        Insured By is required.
+        {{ "FORM.MANDATE.ERROR_INSURED_BY_REQUIRED" | translate }}
       </div>
     </ng-container>
+
     <ng-container
       *ngIf="addMandateShowOfficersForm"
       id="mandateOfficersForm"
@@ -5381,7 +5432,8 @@ icon="pi pi-cog"
           <!-- 1) officer Name -->
           <div class="div-number flex-1 min-w-0">
             <label for="officerId" class="p-0" class="label-container">
-              Officer Name<sup class="danger">*</sup>
+              {{ "FORM.MANDATE.LABEL_OFFICER_NAME" | translate
+              }}<sup class="danger">*</sup>
             </label>
             <p-select
               [filter]="true"
@@ -5389,7 +5441,9 @@ icon="pi pi-cog"
               [showClear]="true"
               [options]="officers"
               formControlName="officerId"
-              placeholder="Select Officer"
+              [placeholder]="
+                'FORM.MANDATE.PLACEHOLDER_SELECT_OFFICER' | translate
+              "
               [optionLabel]="optionLabelKey"
               optionValue="id"
               name="officerId"
@@ -5402,7 +5456,7 @@ icon="pi pi-cog"
                 group.get('officerId')?.touched
               "
             >
-              Officer Name is required.
+              {{ "FORM.MANDATE.ERROR_OFFICER_REQUIRED" | translate }}
             </small>
           </div>
           <!-- 4) Add another Officer -->
@@ -5443,7 +5497,8 @@ icon="pi pi-cog"
           <!-- 1) officer Name -->
           <div class="div-number flex-1 min-w-0">
             <label for="officerId" class="p-0" class="label-container">
-              Officer Name<sup class="danger">*</sup>
+              {{ "FORM.MANDATE.LABEL_OFFICER_NAME" | translate
+              }}<sup class="danger">*</sup>
             </label>
             <p-select
               [filter]="true"
@@ -5451,7 +5506,9 @@ icon="pi pi-cog"
               [showClear]="true"
               [options]="officers"
               formControlName="officerId"
-              placeholder="Select Officer"
+              [placeholder]="
+                'FORM.MANDATE.PLACEHOLDER_SELECT_OFFICER' | translate
+              "
               [optionLabel]="optionLabelKey"
               optionValue="id"
               name="officerId"
@@ -5464,7 +5521,7 @@ icon="pi pi-cog"
                 group.get('officerId')?.touched
               "
             >
-              Officer Name is required.
+              {{ "FORM.MANDATE.ERROR_OFFICER_REQUIRED" | translate }}
             </small>
           </div>
           <!-- 4) Add another Officer -->
@@ -5505,7 +5562,8 @@ icon="pi pi-cog"
           <!-- 1) contact PersonsName -->
           <div class="div-number flex-1 min-w-0">
             <label for="contactPersonId" class="label-container">
-              Contact Person<sup class="danger">*</sup>
+              {{ "FORM.MANDATE.LABEL_CONTACT_PERSON" | translate }}
+              <sup class="danger">*</sup>
             </label>
             <p-select
               [filter]="true"
@@ -5513,7 +5571,9 @@ icon="pi pi-cog"
               [showClear]="true"
               [options]="contactPersonsList"
               formControlName="contactPersonId"
-              placeholder="Select Contact Person"
+              [placeholder]="
+                'FORM.MANDATE.PLACEHOLDER_SELECT_CONTACT_PERSON' | translate
+              "
               [optionLabel]="optionLabelKey"
               optionValue="id"
               name="contactPersonId"
@@ -5526,7 +5586,7 @@ icon="pi pi-cog"
                 group.get('contactPersonId')?.touched
               "
             >
-              Contact Person is required.
+              {{ "FORM.MANDATE.ERROR_CONTACT_PERSON_REQUIRED" | translate }}
             </small>
           </div>
           <!-- 4) Add another Contact Person -->
@@ -5567,7 +5627,8 @@ icon="pi pi-cog"
           <!-- 1) contact PersonsName -->
           <div class="div-number flex-1 min-w-0">
             <label for="contactPersonId" class="label-container">
-              Contact Person<sup class="danger">*</sup>
+              {{ "FORM.MANDATE.LABEL_CONTACT_PERSON" | translate }}
+              <sup class="danger">*</sup>
             </label>
             <p-select
               [filter]="true"
@@ -5575,7 +5636,9 @@ icon="pi pi-cog"
               [showClear]="true"
               [options]="contactPersonsList"
               formControlName="contactPersonId"
-              placeholder="Select Contact Person"
+              [placeholder]="
+                'FORM.MANDATE.PLACEHOLDER_SELECT_CONTACT_PERSON' | translate
+              "
               [optionLabel]="optionLabelKey"
               optionValue="id"
               name="contactPersonId"
@@ -5588,7 +5651,7 @@ icon="pi pi-cog"
                 group.get('contactPersonId')?.touched
               "
             >
-              Contact Person is required.
+              {{ "FORM.MANDATE.ERROR_CONTACT_PERSON_REQUIRED" | translate }}
             </small>
           </div>
           <!-- 4) Add another Contact Person -->
@@ -5630,7 +5693,8 @@ icon="pi pi-cog"
           <!-- 1) Asset Type -->
           <div class="div-number flex-1 min-w-0">
             <label for="assetTypeId" class="label-container">
-              Asset Type<sup class="danger">*</sup>
+              {{ "FORM.MANDATE.LABEL_ASSET_TYPE" | translate
+              }}<sup class="danger">*</sup>
             </label>
             <p-select
               [filter]="true"
@@ -5638,7 +5702,9 @@ icon="pi pi-cog"
               [showClear]="true"
               [options]="assetTypesList"
               formControlName="assetTypeId"
-              placeholder="Select Asset Type"
+              [placeholder]="
+                'FORM.MANDATE.PLACEHOLDER_SELECT_ASSET_TYPE' | translate
+              "
               [optionLabel]="optionLabelKey"
               optionValue="id"
               name="assetTypeId"
@@ -5651,10 +5717,11 @@ icon="pi pi-cog"
                 group.get('assetType')?.touched
               "
             >
-              Asset Type is required.
+              {{ "FORM.MANDATE.ERROR_ASSET_TYPE_REQUIRED" | translate }}
             </small>
             <label for="assetsTypeDescription" class="label-container">
-              Asset Type Description<sup class="danger">*</sup>
+              {{ "FORM.MANDATE.LABEL_ASSET_TYPE_DESCRIPTION" | translate }}
+              <sup class="danger">*</sup>
             </label>
             <input
               pInputText
@@ -5662,7 +5729,9 @@ icon="pi pi-cog"
               aria-describedby="assetsTypeDescription-help"
               name="assetsTypeDescription"
               formControlName="assetsTypeDescription"
-              placeholder="Asset Type Description"
+              [placeholder]="
+                'FORM.MANDATE.PLACEHOLDER_ASSET_TYPE_DESCRIPTION' | translate
+              "
               class="d-block w-100"
             />
             <small
@@ -5672,7 +5741,9 @@ icon="pi pi-cog"
                 group.get('assetsTypeDescription')?.touched
               "
             >
-              Asset Type Description.
+              {{
+                "FORM.MANDATE.ERROR_ASSET_TYPE_DESCRIPTION_REQUIRED" | translate
+              }}
             </small>
           </div>
           <!-- 4) Add another Asset Type -->
@@ -5713,7 +5784,8 @@ icon="pi pi-cog"
           <!-- 1) Asset Type -->
           <div class="div-number flex-1 min-w-0">
             <label for="assetTypeId" class="label-container">
-              Asset Type<sup class="danger">*</sup>
+              {{ "FORM.MANDATE.LABEL_ASSET_TYPE" | translate }}
+              <sup class="danger">*</sup>
             </label>
             <p-select
               [filter]="true"
@@ -5721,7 +5793,9 @@ icon="pi pi-cog"
               [showClear]="true"
               [options]="assetTypesList"
               formControlName="assetTypeId"
-              placeholder="Select Asset Type"
+              [placeholder]="
+                'FORM.MANDATE.PLACEHOLDER_SELECT_ASSET_TYPE' | translate
+              "
               [optionLabel]="optionLabelKey"
               optionValue="id"
               name="assetTypeId"
@@ -5734,10 +5808,11 @@ icon="pi pi-cog"
                 group.get('assetType')?.touched
               "
             >
-              Asset Type is required.
+              {{ "FORM.MANDATE.ERROR_ASSET_TYPE_REQUIRED" | translate }}
             </small>
             <label for="assetsTypeDescription" class="label-container">
-              Asset Type Description<sup class="danger">*</sup>
+              {{ "FORM.MANDATE.LABEL_ASSET_TYPE_DESCRIPTION" | translate }}
+              <sup class="danger">*</sup>
             </label>
             <input
               pInputText
@@ -5745,7 +5820,9 @@ icon="pi pi-cog"
               aria-describedby="assetsTypeDescription-help"
               name="assetsTypeDescription"
               formControlName="assetsTypeDescription"
-              placeholder="Asset Type Description"
+              [placeholder]="
+                'FORM.MANDATE.PLACEHOLDER_ASSET_TYPE_DESCRIPTION' | translate
+              "
               class="d-block w-100"
             />
             <small
@@ -5755,7 +5832,9 @@ icon="pi pi-cog"
                 group.get('assetsTypeDescription')?.touched
               "
             >
-              Asset Type Description.
+              {{
+                "FORM.MANDATE.ERROR_ASSET_TYPE_DESCRIPTION_REQUIRED" | translate
+              }}
             </small>
           </div>
           <!-- 4) Add another Asset Type -->
@@ -5787,7 +5866,9 @@ icon="pi pi-cog"
       [formGroup]="formGroup"
       id="addMandateShowMoreInformationForm"
     >
-      <label for="date" class="label-container">Date <sup>*</sup></label>
+      <label for="date" class="label-container">
+        {{ "FORM.MANDATE.LABEL_DATE" | translate }} <sup>*</sup>
+      </label>
       <shared-date-picker inputId="date" formControlName="date">
         <small
           class="p-error d-block"
@@ -5795,13 +5876,14 @@ icon="pi pi-cog"
             formGroup.get('date')?.invalid && formGroup.get('date')?.touched
           "
         >
-          Date is required.
+          {{ "FORM.MANDATE.ERROR_DATE_REQUIRED" | translate }}
         </small> </shared-date-picker
       ><br />
-      <label for="notes" class="label-container">Notes<sup>*</sup></label
+      <label for="notes" class="label-container">
+        {{ "FORM.MANDATE.LABEL_NOTES" | translate }}<sup>*</sup></label
       ><input
         pInputText
-        placeholder="Notes"
+        placeholder="{{ 'FORM.MANDATE.PLACEHOLDER_NOTES' | translate }}"
         formControlName="notes"
         name="notes"
       />
@@ -5811,15 +5893,15 @@ icon="pi pi-cog"
           formGroup.get('notes')?.invalid && formGroup.get('notes')?.touched
         "
       >
-        Notes is required.
+        {{ "FORM.MANDATE.ERROR_NOTES_REQUIRED" | translate }}
       </small>
 
-      <label for="description" class="label-container"
-        >Description<sup>*</sup></label
+      <label for="description" class="label-container">
+        {{ "FORM.MANDATE.LABEL_DESCRIPTION" | translate }}<sup>*</sup> </label
       ><input
         pInputText
         name="description"
-        placeholder="Description"
+        placeholder="{{ 'FORM.MANDATE.PLACEHOLDER_DESCRIPTION' | translate }}"
         formControlName="description"
       />
       <small
@@ -5829,15 +5911,18 @@ icon="pi pi-cog"
           formGroup.get('description')?.touched
         "
       >
-        Description is required.
+        {{ "FORM.MANDATE.ERROR_DESCRIPTION_REQUIRED" | translate }}
       </small>
-      <label for="validityCount" class="label-container"
-        >Validity Count<sup>*</sup></label
+      <label for="validityCount" class="label-container">
+        {{ "FORM.MANDATE.LABEL_VALIDITY_COUNT" | translate
+        }}<sup>*</sup> </label
       ><input
         type="number"
         formControlName="validityCount"
         pInputText
-        placeholder="Validity Count"
+        placeholder="{{
+          'FORM.MANDATE.PLACEHOLDER_VALIDITY_COUNT' | translate
+        }}"
       />
       <small
         class="p-error d-block"
@@ -5846,15 +5931,18 @@ icon="pi pi-cog"
           formGroup.get('validityCount')?.touched
         "
       >
-        Validity Count is required. </small
+        {{ "FORM.MANDATE.ERROR_VALIDITY_COUNT_REQUIRED" | translate }} </small
       ><br />
       <label for="indicativeRentals" class="label-container"
-        >Indicative Rentals<sup>*</sup></label
+        >{{ "FORM.MANDATE.LABEL_INDICATIVE_RENTALS" | translate
+        }}<sup>*</sup></label
       >
       <input
         type="number"
         formControlName="indicativeRentals"
-        placeholder="Indicative Rentals"
+        placeholder="{{
+          'FORM.MANDATE.PLACEHOLDER_INDICATIVE_RENTALS' | translate
+        }}"
         pInputText
       />
       <small
@@ -5864,14 +5952,15 @@ icon="pi pi-cog"
           formGroup.get('indicativeRentals')?.touched
         "
       >
-        Indicative Rentals is required.
+        {{ "FORM.MANDATE.ERROR_INDICATIVE_RENTALS_REQUIRED" | translate }}
       </small>
 
       <div formGroupName="mandateGracePeriodSettingView" class="mt-4">
         <!-- 1) Grace Period Count -->
         <div class="div-number flex-1 min-w-0">
           <label for="gracePeriodCount" class="label-container">
-            Grace Period Count<sup class="danger">*</sup>
+            {{ "FORM.MANDATE.LABEL_GRACE_PERIOD_COUNT" | translate
+            }}<sup>*</sup>
           </label>
           <input
             pInputText
@@ -5880,7 +5969,9 @@ icon="pi pi-cog"
             aria-describedby="gracePeriodCount-help"
             name="gracePeriodCount"
             formControlName="gracePeriodCount"
-            placeholder="Grace Period Count"
+            placeholder="{{
+              'FORM.MANDATE.PLACEHOLDER_GRACE_PERIOD_COUNT' | translate
+            }}"
             class="d-block w-100"
           />
 
@@ -5891,10 +5982,10 @@ icon="pi pi-cog"
               formGroup.get('gracePeriodCount')?.touched
             "
           >
-            Grace Period Count is required.
+            {{ "FORM.MANDATE.ERROR_GRACE_PERIOD_COUNT_REQUIRED" | translate }}
           </small>
           <label for="gracePeriodUnitId" class="label-container">
-            Grace Period Unit
+            {{ "FORM.MANDATE.LABEL_GRACE_PERIOD_UNIT" | translate }}
             <!-- <sup class="danger">*</sup> -->
           </label>
           <p-select
@@ -5903,7 +5994,9 @@ icon="pi pi-cog"
             [showClear]="true"
             [options]="gracePeriodUnitsList"
             formControlName="gracePeriodUnitId"
-            placeholder="Select Grace Period Unit"
+            [placeholder]="
+              'FORM.MANDATE.PLACEHOLDER_GRACE_PERIOD_UNIT' | translate
+            "
             [optionLabel]="optionLabelKey"
             optionValue="id"
             name="gracePeriodUnitId"
@@ -5926,7 +6019,9 @@ icon="pi pi-cog"
       [formGroup]="formGroup"
       id="addChildMandateShowMoreInformationForm"
     >
-      <label for="date" class="label-container">Date <sup>*</sup></label>
+      <label for="date" class="label-container">
+        {{ "FORM.MANDATE.LABEL_DATE" | translate }} <sup>*</sup>
+      </label>
       <shared-date-picker inputId="date" formControlName="date">
         <small
           class="p-error d-block"
@@ -5934,13 +6029,14 @@ icon="pi pi-cog"
             formGroup.get('date')?.invalid && formGroup.get('date')?.touched
           "
         >
-          Date is required.
+          {{ "FORM.MANDATE.ERROR_DATE_REQUIRED" | translate }}
         </small>
       </shared-date-picker>
-      <label for="notes" class="label-container">Notes<sup>*</sup></label
+      <label for="notes" class="label-container"
+        >{{ "FORM.MANDATE.LABEL_NOTES" | translate }}<sup>*</sup></label
       ><input
         pInputText
-        placeholder="Notes"
+        placeholder="{{ 'FORM.MANDATE.PLACEHOLDER_NOTES' | translate }}"
         formControlName="notes"
         name="notes"
       />
@@ -5950,15 +6046,15 @@ icon="pi pi-cog"
           formGroup.get('notes')?.invalid && formGroup.get('notes')?.touched
         "
       >
-        Notes is required.
+        {{ "FORM.MANDATE.ERROR_NOTES_REQUIRED" | translate }}
       </small>
 
       <label for="description" class="label-container"
-        >Description<sup>*</sup></label
+        >{{ "FORM.MANDATE.LABEL_DESCRIPTION" | translate }}<sup>*</sup></label
       ><input
         pInputText
         name="description"
-        placeholder="Description"
+        placeholder="{{ 'FORM.MANDATE.PLACEHOLDER_DESCRIPTION' | translate }}"
         formControlName="description"
       />
       <small
@@ -5968,15 +6064,18 @@ icon="pi pi-cog"
           formGroup.get('description')?.touched
         "
       >
-        Description is required.
+        {{ "FORM.MANDATE.ERROR_DESCRIPTION_REQUIRED" | translate }}
       </small>
-      <label for="validityCount" class="label-container"
-        >Validity Count<sup>*</sup></label
+      <label for="validityCount" class="label-container">
+        {{ "FORM.MANDATE.LABEL_VALIDITY_COUNT" | translate
+        }}<sup>*</sup> </label
       ><input
         type="number"
         formControlName="validityCount"
         pInputText
-        placeholder="Validity Count"
+        placeholder="{{
+          'FORM.MANDATE.PLACEHOLDER_VALIDITY_COUNT' | translate
+        }}"
       />
       <small
         class="p-error d-block"
@@ -5985,15 +6084,18 @@ icon="pi pi-cog"
           formGroup.get('validityCount')?.touched
         "
       >
-        Validity Count is required. </small
+        {{ "FORM.MANDATE.ERROR_VALIDITY_COUNT_REQUIRED" | translate }} </small
       ><br />
       <label for="indicativeRentals" class="label-container"
-        >Indicative Rentals<sup>*</sup></label
+        >{{ "FORM.MANDATE.LABEL_INDICATIVE_RENTALS" | translate
+        }}<sup>*</sup></label
       >
       <input
         type="number"
         formControlName="indicativeRentals"
-        placeholder="Indicative Rentals"
+        placeholder="{{
+          'FORM.MANDATE.PLACEHOLDER_INDICATIVE_RENTALS' | translate
+        }}"
         pInputText
       />
       <small
@@ -6003,14 +6105,15 @@ icon="pi pi-cog"
           formGroup.get('indicativeRentals')?.touched
         "
       >
-        Indicative Rentals is required.
+        {{ "FORM.MANDATE.ERROR_INDICATIVE_RENTALS_REQUIRED" | translate }}
       </small>
 
       <div formGroupName="mandateGracePeriodSettingView" class="mt-4">
         <!-- 1) Grace Period Count -->
         <div class="div-number flex-1 min-w-0">
           <label for="gracePeriodCount" class="label-container">
-            Grace Period Count<sup class="danger">*</sup>
+            {{ "FORM.MANDATE.LABEL_GRACE_PERIOD_COUNT" | translate
+            }}<sup>*</sup>
           </label>
           <input
             pInputText
@@ -6019,7 +6122,9 @@ icon="pi pi-cog"
             aria-describedby="gracePeriodCount-help"
             name="gracePeriodCount"
             formControlName="gracePeriodCount"
-            placeholder="Grace Period Count"
+            placeholder="{{
+              'FORM.MANDATE.PLACEHOLDER_GRACE_PERIOD_COUNT' | translate
+            }}"
             class="d-block w-100"
           />
 
@@ -6030,10 +6135,10 @@ icon="pi pi-cog"
               formGroup.get('gracePeriodCount')?.touched
             "
           >
-            Grace Period Count is required.
+            {{ "FORM.MANDATE.ERROR_GRACE_PERIOD_COUNT_REQUIRED" | translate }}
           </small>
           <label for="gracePeriodUnitId" class="label-container">
-            Grace Period Unit<sup class="danger">*</sup>
+            {{ "FORM.MANDATE.LABEL_GRACE_PERIOD_UNIT" | translate }}
           </label>
           <p-select
             [filter]="true"
@@ -6041,21 +6146,14 @@ icon="pi pi-cog"
             [showClear]="true"
             [options]="gracePeriodUnitsList"
             formControlName="gracePeriodUnitId"
-            placeholder="Select Grace Period Unit"
+            [placeholder]="
+              'FORM.MANDATE.PLACEHOLDER_GRACE_PERIOD_UNIT' | translate
+            "
             [optionLabel]="optionLabelKey"
             optionValue="id"
             name="gracePeriodUnitId"
             styleClass="w-full md:w-80"
           />
-          <small
-            class="p-error d-block"
-            *ngIf="
-              formGroup.get('gracePeriodUnitId')?.invalid &&
-              formGroup.get('gracePeriodUnitId')?.touched
-            "
-          >
-            Grace Period Unit Required.
-          </small>
         </div>
       </div>
     </ng-container>
@@ -6068,11 +6166,13 @@ icon="pi pi-cog"
     >
       <div class="row w-100">
         <div class="col-sm">
-          <label for="assetCost">Asset Cost<sup>*</sup></label>
+          <label for="assetCost">
+            {{ "LEASE.ASSET_COST" | translate }}<sup>*</sup>
+          </label>
           <br />
           <p-inputNumber
             formControlName="assetCost"
-            placeholder="Asset Cost"
+            [placeholder]="'LEASE.ASSET_COST' | translate"
             class="w-100"
             name="assetCost"
           ></p-inputNumber
@@ -6084,17 +6184,19 @@ icon="pi pi-cog"
             "
             class="p-error"
           >
-            Asset Cost is required.
+            {{ "LEASE.ASSET_COST_REQUIRED" | translate }}
           </small>
         </div>
         <div class="col-sm">
-          <label for="downPayment">Down Payment<sup>*</sup></label>
+          <label for="downPayment"
+            >{{ "LEASE.DOWN_PAYMENT" | translate }}<sup>*</sup></label
+          >
           <br />
           <p-inputNumber
             formControlName="downPayment"
             name="downPayment"
             class="w-100"
-            placeholder="Down Payment"
+            [placeholder]="'LEASE.DOWN_PAYMENT' | translate"
           ></p-inputNumber
           ><br />
 
@@ -6105,13 +6207,15 @@ icon="pi pi-cog"
             "
             class="p-error"
           >
-            Down Payment is required.
+            {{ "LEASE.DOWN_PAYMENT_REQUIRED" | translate }}
           </small>
         </div>
       </div>
       <div class="row w-100">
         <div class="col-sm">
-          <label for="percentOfFinance">Percent of Finance<sup>*</sup> </label>
+          <label for="percentOfFinance"
+            >{{ "LEASE.PERCENT_FINANCE" | translate }}<sup>*</sup>
+          </label>
           <br />
           <p-inputNumber
             formControlName="percentOfFinance"
@@ -6123,7 +6227,7 @@ icon="pi pi-cog"
             [minFractionDigits]="2"
             [maxFractionDigits]="2"
             name="percentOfFinance"
-            placeholder="Percent of Finance"
+            [placeholder]="'LEASE.PERCENT_FINANCE' | translate"
           ></p-inputNumber
           ><br />
           <small
@@ -6133,15 +6237,15 @@ icon="pi pi-cog"
             "
             class="p-error"
           >
-            Percent of Finance is required.
+            {{ "LEASE.PERCENT_FINANCE_REQUIRED" | translate }}
           </small>
         </div>
         <div class="col-sm">
-          <label for="nfa">NFA<sup>*</sup></label>
+          <label for="nfa">{{ "LEASE.NFA" | translate }}<sup>*</sup></label>
           <br />
           <p-inputNumber
             formControlName="nfa"
-            placeholder="NFA"
+            [placeholder]="'LEASE.NFA' | translate"
             class="w-100"
             name="nfa"
           ></p-inputNumber
@@ -6152,19 +6256,19 @@ icon="pi pi-cog"
             "
             class="p-error"
           >
-            NFA is required.
+            {{ "LEASE.NFA_REQUIRED" | translate }}
           </small>
         </div>
       </div>
       <div class="row w-100">
         <div class="col-sm">
-          <label for="years">Years<sup>*</sup></label
+          <label for="years">{{ "LEASE.YEARS" | translate }}<sup>*</sup></label
           ><br />
           <p-inputNumber
             formControlName="years"
             class="w-100"
             name="years"
-            placeholder="Years"
+            [placeholder]="'LEASE.YEARS' | translate"
           ></p-inputNumber
           ><br />
           <small
@@ -6173,11 +6277,13 @@ icon="pi pi-cog"
             "
             class="p-error"
           >
-            Years is required.
+            {{ "LEASE.YEARS_REQUIRED" | translate }}
           </small>
         </div>
         <div class="col-sm">
-          <label for="startDate">Start Date<sup>*</sup></label>
+          <label for="startDate"
+            >{{ "LEASE.START_DATE" | translate }}<sup>*</sup></label
+          >
           <shared-date-picker formControlName="startDate" inputId="startDate">
           </shared-date-picker>
         </div>
@@ -6190,11 +6296,12 @@ icon="pi pi-cog"
     >
       <div class="row w-100">
         <div class="col-sm">
-          <label for="interestRate">Interest Rate<sup>*</sup></label
+          <label for="interestRate"
+            >{{ "LEASE.INTEREST_RATE" | translate }}<sup>*</sup></label
           ><br />
           <p-inputNumber
             formControlName="interestRate"
-            placeholder="Interest Rate"
+            [placeholder]="'LEASE.INTEREST_RATE' | translate"
             suffix="%"
             class="w-100"
             mode="decimal"
@@ -6210,11 +6317,12 @@ icon="pi pi-cog"
             "
             class="p-error"
           >
-            Interest Rate is required.
+            {{ "LEASE.INTEREST_RATE_REQUIRED" | translate }}
           </small>
         </div>
         <div class="col-sm">
-          <label for="insuranceRate">Insurance Rate<sup>*</sup></label
+          <label for="insuranceRate"
+            >{{ "LEASE.INSURANCE_RATE" | translate }}<sup>*</sup></label
           ><br />
           <p-inputNumber
             formControlName="insuranceRate"
@@ -6223,7 +6331,7 @@ icon="pi pi-cog"
             [min]="0"
             [minFractionDigits]="2"
             [maxFractionDigits]="2"
-            placeholder="Insurance Rate"
+            [placeholder]="'LEASE.INSURANCE_RATE' | translate"
             class="w-100"
           ></p-inputNumber
           ><br />
@@ -6234,19 +6342,19 @@ icon="pi pi-cog"
             "
             class="p-error"
           >
-            Insurance Rate is required.
+            {{ "LEASE.INSURANCE_RATE_REQUIRED" | translate }}
           </small>
         </div>
       </div>
       <div class="row w-100">
         <div class="col-sm">
-          <label for="tenor">Tenor <sup>*</sup></label
+          <label for="tenor">{{ "LEASE.TENOR" | translate }} <sup>*</sup></label
           ><br />
           <p-inputNumber
             formControlName="tenor"
             [min]="1"
             class="w-100"
-            placeholder="Tenor"
+            [placeholder]="'LEASE.TENOR' | translate"
             name="tenor"
           ></p-inputNumber
           ><br />
@@ -6256,11 +6364,13 @@ icon="pi pi-cog"
             "
             class="p-error"
           >
-            Tenor is required.
+            {{ "LEASE.TENOR_REQUIRED" | translate }}
           </small>
         </div>
         <div class="col-sm">
-          <label for="paymentPeriodId">Payment Period<sup>*</sup></label>
+          <label for="paymentPeriodId"
+            >{{ "LEASE.PAYMENT_PERIOD" | translate }}<sup>*</sup></label
+          >
           <p-select
             [filter]="true"
             [filterBy]="filterByField"
@@ -6272,7 +6382,7 @@ icon="pi pi-cog"
             [optionLabel]="optionLabelKey"
             class="w-100"
             name="paymentPeriodId"
-            placeholder="Payment Period"
+            [placeholder]="'LEASE.PAYMENT_PERIOD' | translate"
             (onChange)="onPaymentPeriodChange($event)"
           /><br />
           <small
@@ -6282,18 +6392,19 @@ icon="pi pi-cog"
             "
             class="p-error"
           >
-            Payment Period is required.
+            {{ "LEASE.PAYMENT_PERIOD_REQUIRED" | translate }}
           </small>
         </div>
       </div>
       <div class="row w-100">
         <div class="col-sm">
-          <label for="gracePeriod">Grace Period Count<sup>*</sup></label
+          <label for="gracePeriod"
+            >{{ "LEASE.GRACE_PERIOD" | translate }}<sup>*</sup></label
           ><br />
           <p-inputNumber
             formControlName="gracePeriod"
             class="w-100"
-            placeholder="Grace Period Count"
+            [placeholder]="'LEASE.GRACE_PERIOD' | translate"
             name="gracePeriod"
           ></p-inputNumber
           ><br />
@@ -6304,11 +6415,13 @@ icon="pi pi-cog"
             "
             class="p-error"
           >
-            Grace Period Count is required.
+            {{ "LEASE.GRACE_PERIOD_REQUIRED" | translate }}
           </small>
         </div>
         <div class="col-sm">
-          <label for="gracePeriodUnitId">Grace Period Unit<sup>*</sup></label>
+          <label for="gracePeriodUnitId"
+            >{{ "LEASE.GRACE_PERIOD_UNIT" | translate }}<sup>*</sup></label
+          >
           <p-select
             [filter]="true"
             [filterBy]="filterByField"
@@ -6319,7 +6432,7 @@ icon="pi pi-cog"
             optionValue="id"
             [optionLabel]="optionLabelKey"
             name="gracePeriodUnitId"
-            placeholder="Grace Period Unit"
+            [placeholder]="'LEASE.GRACE_PERIOD_UNIT' | translate"
             class="w-100"
             (onChange)="onGracePeriodUnitChange($event)"
           ></p-select>
@@ -6330,7 +6443,7 @@ icon="pi pi-cog"
             "
             class="p-error"
           >
-            Grace Period Unit is required.
+            {{ "LEASE.GRACE_PERIOD_UNIT_REQUIRED" | translate }}
           </small>
         </div>
       </div>
@@ -6342,7 +6455,9 @@ icon="pi pi-cog"
     >
       <div class="row w-100">
         <div class="col-sm">
-          <label for="currencyId">Currency<sup>*</sup></label>
+          <label for="currencyId"
+            >{{ "LEASE_CURRENCY.CURRENCY" | translate }}<sup>*</sup></label
+          >
           <p-select
             [filter]="true"
             [filterBy]="filterByField"
@@ -6350,7 +6465,7 @@ icon="pi pi-cog"
             [options]="currencies"
             [(ngModel)]="selectedCurrency"
             formControlName="currencyId"
-            placeholder="Currency"
+            [placeholder]="'LEASE_CURRENCY.CURRENCY' | translate"
             [optionLabel]="optionLabelKey"
             optionValue="id"
             name="currencyId"
@@ -6364,12 +6479,13 @@ icon="pi pi-cog"
             "
             class="p-error"
           >
-            Currency is required.
+            {{ "LEASE_CURRENCY.CURRENCY_REQUIRED" | translate }}
           </small>
         </div>
         <div class="col-sm">
           <label for="currencyExchangeRateId"
-            >Currency Exchange Rate<sup>*</sup></label
+            >{{ "LEASE_CURRENCY.CURRENCY_EXCHANGE_RATE" | translate
+            }}<sup>*</sup></label
           >
 
           <p-select
@@ -6378,7 +6494,7 @@ icon="pi pi-cog"
             [showClear]="true"
             [options]="currencyExchangeRates"
             formControlName="currencyExchangeRateId"
-            placeholder="Currency Exchange Rate"
+            [placeholder]="'LEASE_CURRENCY.CURRENCY_EXCHANGE_RATE' | translate"
             optionLabel="exchangeRate"
             optionValue="id"
             name="currencyExchangeRateId"
@@ -6392,13 +6508,16 @@ icon="pi pi-cog"
             "
             class="p-error"
           >
-            Currency Exchange Rate is required.
+            {{ "LEASE_CURRENCY.CURRENCY_EXCHANGE_RATE_REQUIRED" | translate }}
           </small>
         </div>
       </div>
       <div class="row w-100">
         <div class="col-sm">
-          <label for="isManuaExchangeRate">Is Manual Exchange Rate</label><br />
+          <label for="isManuaExchangeRate">{{
+            "LEASE_CURRENCY.IS_MANUAL_EXCHANGE_RATE" | translate
+          }}</label
+          ><br />
           <p-checkbox
             formControlName="isManuaExchangeRate"
             binary="true"
@@ -6407,11 +6526,12 @@ icon="pi pi-cog"
         </div>
         <div class="col-sm">
           <label for="manualExchangeRate"
-            >Manual Exchange Rate<sup>*</sup></label
+            >{{ "LEASE_CURRENCY.MANUAL_EXCHANGE_RATE" | translate
+            }}<sup>*</sup></label
           >
           <p-inputNumber
             formControlName="manualExchangeRate"
-            placeholder="Manual Exchange Rate"
+            [placeholder]="'LEASE_CURRENCY.MANUAL_EXCHANGE_RATE' | translate"
             name="manualExchangeRate"
             class="w-100"
           ></p-inputNumber>
@@ -6422,18 +6542,20 @@ icon="pi pi-cog"
             "
             class="p-error"
           >
-            Manual Exchange Rate is required.
+            {{ "LEASE_CURRENCY.MANUAL_EXCHANGE_RATE_REQUIRED" | translate }}
           </small>
         </div>
       </div>
       <div class="row w-100">
         <div class="col-sm">
-          <label for="indicativeRentals">Indicative Rentals<sup>*</sup></label
+          <label for="indicativeRentals"
+            >{{ "LEASE_CURRENCY.INDICATIVE_RENTALS" | translate
+            }}<sup>*</sup></label
           ><br />
           <p-inputNumber
             formControlName="indicativeRentals"
             name="indicativeRentals"
-            placeholder="Indicative Rentals"
+            [placeholder]="'LEASE_CURRENCY.INDICATIVE_RENTALS' | translate"
             class="w-100"
           ></p-inputNumber
           ><br />
@@ -6444,16 +6566,17 @@ icon="pi pi-cog"
             "
             class="p-error"
           >
-            Indicative Rentals is required.
+            {{ "LEASE_CURRENCY.INDICATIVE_RENTALS_REQUIRED" | translate }}
           </small>
         </div>
         <div class="col-sm">
-          <label for="referenceRent">Rent<sup>*</sup></label
+          <label for="referenceRent"
+            >{{ "LEASE_CURRENCY.RENT" | translate }}<sup>*</sup></label
           ><br />
           <p-inputNumber
             id="referenceRent"
             formControlName="referenceRent"
-            placeholder="Rent"
+            [placeholder]="'LEASE_CURRENCY.RENT' | translate"
             name="referenceRent"
             class="w-100"
           ></p-inputNumber
@@ -6465,13 +6588,14 @@ icon="pi pi-cog"
             "
             class="p-error"
           >
-            Rent is required.
+            {{ "LEASE_CURRENCY.RENT_REQUIRED" | translate }}
           </small>
         </div>
       </div>
       <div class="row w-100">
         <div class="col-sm">
-          <label for="rvPercent">RV Percent<sup>*</sup></label
+          <label for="rvPercent"
+            >{{ "LEASE_CURRENCY.RV_PERCENT" | translate }}<sup>*</sup></label
           ><br />
           <p-inputNumber
             formControlName="rvPercent"
@@ -6481,7 +6605,7 @@ icon="pi pi-cog"
             mode="decimal"
             [minFractionDigits]="2"
             [maxFractionDigits]="2"
-            placeholder="RV Percent"
+            [placeholder]="'LEASE_CURRENCY.RV_PERCENT' | translate"
             name="rvPercent"
             class="w-100"
           ></p-inputNumber
@@ -6493,16 +6617,17 @@ icon="pi pi-cog"
             "
             class="p-error"
           >
-            RV Percent is required.
+            {{ "LEASE_CURRENCY.RV_PERCENT_REQUIRED" | translate }}
           </small>
         </div>
         <div class="col-sm">
-          <label for="rvAmount">RV Amount<sup>*</sup></label
+          <label for="rvAmount"
+            >{{ "LEASE_CURRENCY.RV_AMOUNT" | translate }}<sup>*</sup></label
           ><br />
           <p-inputNumber
             formControlName="rvAmount"
             name="rvAmount"
-            placeholder="RV Amount"
+            [placeholder]="'LEASE_CURRENCY.RV_AMOUNT' | translate"
             class="w-100"
           ></p-inputNumber
           ><br />
@@ -6513,20 +6638,21 @@ icon="pi pi-cog"
             "
             class="p-error"
           >
-            RV Amount is required.
+            {{ "LEASE_CURRENCY.RV_AMOUNT_REQUIRED" | translate }}
           </small>
         </div>
       </div>
       <div class="row w-100">
         <div class="col-sm">
           <label for="reservePaymentCount"
-            >Reserve Payment Count <sup>*</sup></label
+            >{{ "LEASE_CURRENCY.RESERVE_PAYMENT_COUNT" | translate }}
+            <sup>*</sup></label
           ><br />
           <p-inputNumber
             id="reservePaymentCount"
             formControlName="reservePaymentCount"
             name="reservePaymentCount"
-            placeholder="Reserve Payment Count"
+            [placeholder]="'LEASE_CURRENCY.RESERVE_PAYMENT_COUNT' | translate"
             class="w-100"
           ></p-inputNumber
           ><br />
@@ -6537,18 +6663,19 @@ icon="pi pi-cog"
             "
             class="p-error"
           >
-            Reserve Payment Count is required.
+            {{ "LEASE_CURRENCY.RESERVE_PAYMENT_COUNT_REQUIRED" | translate }}
           </small>
         </div>
         <div class="col-sm">
           <label for="reservePaymentAmount"
-            >Reserve Payment Amount<sup>*</sup></label
+            >{{ "LEASE_CURRENCY.RESERVE_PAYMENT_AMOUNT" | translate
+            }}<sup>*</sup></label
           ><br />
           <p-inputNumber
             id="reservePaymentAmount"
             formControlName="reservePaymentAmount"
             name="reservePaymentAmount"
-            placeholder="Reserve Payment Amount"
+            [placeholder]="'LEASE_CURRENCY.RESERVE_PAYMENT_AMOUNT' | translate"
             class="w-100"
           ></p-inputNumber
           ><br />
@@ -6559,13 +6686,15 @@ icon="pi pi-cog"
             "
             class="p-error"
           >
-            Reserve Payment Amount is required.
+            {{ "LEASE_CURRENCY.RESERVE_PAYMENT_AMOUNT_REQUIRED" | translate }}
           </small>
         </div>
       </div>
       <div class="row w-100">
         <div class="col-sm">
-          <label for="provisionPercent">Provision Percent<sup>*</sup></label
+          <label for="provisionPercent"
+            >{{ "LEASE_CURRENCY.PROVISION_PERCENT" | translate
+            }}<sup>*</sup></label
           ><br />
           <p-inputNumber
             formControlName="provisionPercent"
@@ -6575,7 +6704,7 @@ icon="pi pi-cog"
             [minFractionDigits]="2"
             [maxFractionDigits]="2"
             name="provisionPercent"
-            placeholder="Provision Percent"
+            [placeholder]="'LEASE_CURRENCY.PROVISION_PERCENT' | translate"
             class="w-100"
           ></p-inputNumber
           ><br />
@@ -6586,16 +6715,18 @@ icon="pi pi-cog"
             "
             class="p-error"
           >
-            Provision Percent is required.
+            {{ "LEASE_CURRENCY.PROVISION_PERCENT_REQUIRED" | translate }}
           </small>
         </div>
         <div class="col-sm">
-          <label for="provisionAmount">Provision Amount<sup>*</sup></label
+          <label for="provisionAmount"
+            >{{ "LEASE_CURRENCY.PROVISION_AMOUNT" | translate
+            }}<sup>*</sup></label
           ><br />
           <p-inputNumber
             formControlName="provisionAmount"
             name="provisionAmount"
-            placeholder="Provision Amount"
+            [placeholder]="'LEASE_CURRENCY.PROVISION_AMOUNT' | translate"
             class="w-100"
           ></p-inputNumber
           ><br />
@@ -6606,15 +6737,17 @@ icon="pi pi-cog"
             "
             class="p-error"
           >
-            Provision Amount is required.
+            {{ "LEASE_CURRENCY.PROVISION_AMOUNT_REQUIRED" | translate }}
           </small>
         </div>
       </div>
       <div class="row w-100">
         <div class="col-sm">
           <label for="interestRateBenchmarkId"
-            >Interest Rate Benchmark<sup>*</sup></label
+            >{{ "LEASE_CURRENCY.INTEREST_RATE_BENCHMARK" | translate
+            }}<sup>*</sup></label
           >
+
           <p-select
             [filter]="true"
             [filterBy]="filterByField"
@@ -6626,7 +6759,7 @@ icon="pi pi-cog"
             optionValue="id"
             class="w-100"
             name="interestRateBenchmarkId"
-            placeholder="Interest Rate Benchmark"
+            [placeholder]="'LEASE_CURRENCY.INTEREST_RATE_BENCHMARK' | translate"
             (onChange)="onInterestRateBenchmarkChange($event)"
           /><br />
 
@@ -6637,11 +6770,14 @@ icon="pi pi-cog"
             "
             class="p-error"
           >
-            Interest Rate Benchmark is required.
+            {{ "LEASE_CURRENCY.INTEREST_RATE_BENCHMARK_REQUIRED" | translate }}
           </small>
         </div>
         <div class="col-sm">
-          <label for="paymentTimingTermId">Payment Time Term<sup>*</sup></label>
+          <label for="paymentTimingTermId"
+            >{{ "LEASE_CURRENCY.PAYMENT_TIME_TERM" | translate
+            }}<sup>*</sup></label
+          >
           <p-select
             [filter]="true"
             [filterBy]="filterByField"
@@ -6654,7 +6790,7 @@ icon="pi pi-cog"
             optionValue="id"
             class="w-100"
             name="paymentTimingTermId"
-            placeholder="Payment Time Term"
+            [placeholder]="'LEASE_CURRENCY.PAYMENT_TIME_TERM' | translate"
           />
           <small
             *ngIf="
@@ -6663,13 +6799,16 @@ icon="pi pi-cog"
             "
             class="p-error"
           >
-            Payment Time Term is required.
+            {{ "LEASE_CURRENCY.PAYMENT_TIME_TERM_REQUIRED" | translate }}
           </small>
         </div>
       </div>
       <div class="row w-100">
         <div class="col-sm">
-          <label for="rentStructureTypeId">Rent Structure<sup>*</sup></label>
+          <label for="rentStructureTypeId"
+            >{{ "LEASE_CURRENCY.RENT_STRUCTURE" | translate
+            }}<sup>*</sup></label
+          >
           <p-select
             [filter]="true"
             [filterBy]="filterByField"
@@ -6682,7 +6821,7 @@ icon="pi pi-cog"
             class="w-100"
             name="rentStructureTypeId"
             (onChange)="onRentStructureTypeChange($event)"
-            placeholder="Rent Structure"
+            [placeholder]="'LEASE_CURRENCY.RENT_STRUCTURE' | translate"
           /><small
             *ngIf="
               formGroup.get('rentStructureTypeId')?.invalid &&
@@ -6690,11 +6829,14 @@ icon="pi pi-cog"
             "
             class="p-error"
           >
-            Rent Structure is required.
+            {{ "LEASE_CURRENCY.RENT_STRUCTURE_REQUIRED" | translate }}
           </small>
         </div>
         <div class="col-sm">
-          <label for="paymentMethodId">Payment Method<sup>*</sup></label>
+          <label for="paymentMethodId"
+            >{{ "LEASE_CURRENCY.PAYMENT_METHOD" | translate
+            }}<sup>*</sup></label
+          >
           <p-select
             [filter]="true"
             [filterBy]="filterByField"
@@ -6706,7 +6848,7 @@ icon="pi pi-cog"
             optionValue="id"
             class="w-100"
             name="paymentMethodId"
-            placeholder="Payment Method"
+            [placeholder]="'LEASE_CURRENCY.PAYMENT_METHOD' | translate"
             (onChange)="onPaymentMethodChange($event)"
           /><small
             *ngIf="
@@ -6715,13 +6857,16 @@ icon="pi pi-cog"
             "
             class="p-error"
           >
-            Payment Method is required.
+            {{ "LEASE_CURRENCY.PAYMENT_METHOD_REQUIRED" | translate }}
           </small>
         </div>
       </div>
       <div class="row w-100">
         <div class="col-sm-12">
-          <label for="paymentMonthDayID">Payment Month Day<sup>*</sup></label>
+          <label for="paymentMonthDayID"
+            >{{ "LEASE_CURRENCY.PAYMENT_MONTH_DAY" | translate
+            }}<sup>*</sup></label
+          >
           <p-select
             [filter]="true"
             [filterBy]="filterByField"
@@ -6732,7 +6877,7 @@ icon="pi pi-cog"
             optionValue="id"
             class="w-100"
             name="paymentMonthDayID"
-            placeholder="Payment Month Day"
+            [placeholder]="'LEASE_CURRENCY.PAYMENT_MONTH_DAY' | translate"
             (onChange)="onPaymentMonthDayChange($event)"
           /><small
             *ngIf="
@@ -6741,7 +6886,7 @@ icon="pi pi-cog"
             "
             class="p-error"
           >
-            Payment Month Day is required.
+            {{ "LEASE_CURRENCY.PAYMENT_MONTH_DAY_REQUIRED" | translate }}
           </small>
         </div>
       </div>
@@ -6797,14 +6942,16 @@ icon="pi pi-cog"
       >
         {{ "FORM.COMPANY_TYPES.ERRORS.NAME_AR_PATTERN" | translate }}
       </div>
-      <label for="governorateId">Governorate<sup>*</sup></label>
+      <label for="governorateId"
+        >{{ "FORM.GOVERNORATE.LABEL_SELECT" | translate }}<sup>*</sup></label
+      >
       <p-select
         [filter]="true"
         [filterBy]="filterByField"
         [showClear]="true"
         [options]="governoratesList"
         [optionLabel]="optionLabelKey"
-        placeholder="Select Governorate"
+        [placeholder]="'FORM.GOVERNORATE.PLACEHOLDER_SELECT' | translate"
         formControlName="governorateId"
         optionValue="id"
         (onChange)="onSectorChange($event)"
@@ -6816,12 +6963,21 @@ icon="pi pi-cog"
               formGroup.get('governorateId')?.touched)
         }"
       />
-      <label for="address">Address<sup>*</sup></label>
+      <div
+        *ngIf="
+          formGroup.get('governorateId')?.hasError('required') &&
+          formGroup.get('governorateId')?.touched
+        "
+        class="p-error"
+      >
+        {{ "FORM.GOVERNORATE.ERROR_REQUIRED" | translate }}
+      </div>
+      <label for="address">{{ "FORM.ADDRESS" | translate }}<sup>*</sup></label>
       <input
         pInputText
         id="address"
         formControlName="address"
-        placeholder="Address"
+        [placeholder]="'FORM.ADDRESS' | translate"
       />
       <div
         *ngIf="
@@ -6830,7 +6986,7 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        Address is required.
+        {{ "FORM.ADDRESS_REQUIRED" | translate }}
       </div>
       <div class="p-field" *ngIf="editMode">
         <p-toggleSwitch
@@ -6849,7 +7005,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Add Tax Office"
+            [label]="'BUTTONS.ADD_TAX_OFFICE' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -6860,7 +7016,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Edit Tax Office"
+            [label]="'BUTTONS.EDIT_TAX_OFFICE' | translate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -6927,12 +7083,12 @@ icon="pi pi-cog"
       >
         {{ "FORM.COMPANY_TYPES.ERRORS.NAME_AR_PATTERN" | translate }}
       </div>
-      <label for="code2">Code2<sup>*</sup></label>
+      <label for="code2">{{ "FORM.CODE2" | translate }}<sup>*</sup></label>
       <input
         pInputText
         id="code2"
         formControlName="code2"
-        placeholder="Code2"
+        [placeholder]="'FORM.CODE2' | translate"
       />
       <div
         *ngIf="
@@ -6941,14 +7097,14 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        code2 in Arabic is required.
+        {{ "FORM.CODE2_REQUIRED" | translate }}
       </div>
-      <label for="code3">Code3<sup>*</sup></label>
+      <label for="code3">{{ "FORM.CODE3" | translate }}<sup>*</sup></label>
       <input
         pInputText
         id="code3"
         formControlName="code3"
-        placeholder="Code3"
+        [placeholder]="'FORM.CODE3' | translate"
       />
       <div
         *ngIf="
@@ -6957,7 +7113,7 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        code3 in Arabic is required.
+        {{ "FORM.CODE3_REQUIRED" | translate }}
       </div>
       <div class="p-field" *ngIf="editMode">
         <p-toggleSwitch
@@ -6976,7 +7132,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Add Country"
+            [label]="'BUTTONS.ADD_COUNTRY' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -6987,7 +7143,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Edit Country"
+            [label]="'BUTTONS.EDIT_COUNTRY' | translate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -7009,14 +7165,16 @@ icon="pi pi-cog"
       *ngIf="addGovernoratesLookupsForm"
       (ngSubmit)="onSubmit()"
     >
-      <label for="countryId">Country ID<sup>*</sup></label>
+      <label for="countryId"
+        >{{ "COUNTRY.COUNTRY_ID" | translate }}<sup>*</sup></label
+      >
       <p-select
         [filter]="true"
         [filterBy]="filterByField"
         [showClear]="true"
         [options]="countriesList"
         [optionLabel]="optionLabelKey"
-        placeholder="Select Country"
+        [placeholder]="'COUNTRY.SELECT_COUNTRY' | translate"
         formControlName="countryId"
         optionValue="id"
         (onChange)="onSectorChange($event)"
@@ -7028,10 +7186,24 @@ icon="pi pi-cog"
               formGroup.get('countryId')?.touched)
         }"
       />
+      <div
+        *ngIf="
+          formGroup.get('countryId')?.hasError('required') &&
+          formGroup.get('countryId')?.touched
+        "
+        class="p-error"
+      >
+        {{ "COUNTRY.COUNTRY_REQUIRED" | translate }}
+      </div>
       <label for="name"
         >{{ "FORM.COMPANY_TYPES.NAME_EN" | translate }}<sup>*</sup></label
       >
-      <input pInputText id="name" formControlName="name" placeholder="Type" />
+      <input
+        pInputText
+        id="name"
+        formControlName="name"
+        [placeholder]="'FORM.COMPANY_TYPES.PLACEHOLDER_NAME_EN' | translate"
+      />
       <div
         *ngIf="
           formGroup.get('name')?.hasError('required') &&
@@ -7048,7 +7220,7 @@ icon="pi pi-cog"
         pInputText
         id="nameAR"
         formControlName="nameAR"
-        placeholder="Type"
+        [placeholder]="'FORM.COMPANY_TYPES.PLACEHOLDER_NAME_AR' | translate"
       />
       <div
         *ngIf="
@@ -7069,12 +7241,14 @@ icon="pi pi-cog"
         {{ "FORM.COMPANY_TYPES.ERRORS.NAME_AR_PATTERN" | translate }}
       </div>
 
-      <label for="aramex">Aramix<sup>*</sup></label>
+      <label for="aramex"
+        >{{ "GOVERNORATE.ARAMEX" | translate }}<sup>*</sup></label
+      >
       <input
         pInputText
         id="aramex"
         formControlName="aramex"
-        placeholder="Type"
+        [placeholder]="'GOVERNORATE.ARAMEX_PLACEHOLDER' | translate"
       />
       <div
         *ngIf="
@@ -7083,7 +7257,7 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        Aramex in English is required.
+        {{ "GOVERNORATE.ARAMEX_REQUIRED" | translate }}
       </div>
       <div class="p-field" *ngIf="editMode">
         <p-toggleSwitch
@@ -7102,7 +7276,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Add Governorate"
+      [label]="'GOVERNORATE.ADD' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -7113,7 +7287,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Edit Governorate"
+      [label]="'GOVERNORATE.EDIT' | translate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -7591,7 +7765,12 @@ icon="pi pi-cog"
       <label for="name"
         >{{ "FORM.COMPANY_TYPES.NAME_EN" | translate }}<sup>*</sup></label
       >
-      <input pInputText id="name" formControlName="name" placeholder="Type" />
+      <input
+        pInputText
+        id="name"
+        formControlName="name"
+        [placeholder]="'FORM.COMPANY_TYPES.PLACEHOLDER_NAME_EN' | translate"
+      />
       <div
         *ngIf="
           formGroup.get('name')?.hasError('required') &&
@@ -7608,7 +7787,7 @@ icon="pi pi-cog"
         pInputText
         id="nameAR"
         formControlName="nameAR"
-        placeholder="Type"
+        [placeholder]="'FORM.COMPANY_TYPES.PLACEHOLDER_NAME_AR' | translate"
       />
       <div
         *ngIf="
@@ -7943,7 +8122,12 @@ icon="pi pi-cog"
       <label for="name"
         >{{ "FORM.COMPANY_TYPES.NAME_EN" | translate }}<sup>*</sup></label
       >
-      <input pInputText id="name" formControlName="name" placeholder="Type" />
+      <input
+        pInputText
+        id="name"
+        formControlName="name"
+        [placeholder]="'FORM.COMPANY_TYPES.PLACEHOLDER_NAME_EN' | translate"
+      />
       <div
         *ngIf="
           formGroup.get('name')?.hasError('required') &&
@@ -7961,7 +8145,7 @@ icon="pi pi-cog"
         pInputText
         id="nameAR"
         formControlName="nameAR"
-        placeholder="Type"
+        [placeholder]="'FORM.COMPANY_TYPES.PLACEHOLDER_NAME_AR' | translate"
       />
       <div
         *ngIf="
@@ -8973,7 +9157,12 @@ icon="pi pi-cog"
       <label for="name"
         >{{ "FORM.COMPANY_TYPES.NAME_EN" | translate }}<sup>*</sup></label
       >
-      <input pInputText id="name" formControlName="name" placeholder="Type" />
+      <input
+        pInputText
+        id="name"
+        formControlName="name"
+        [placeholder]="'FORM.COMPANY_TYPES.PLACEHOLDER_NAME_EN' | translate"
+      />
       <div
         *ngIf="
           formGroup.get('name')?.hasError('required') &&
@@ -8991,7 +9180,7 @@ icon="pi pi-cog"
         pInputText
         id="nameAR"
         formControlName="nameAR"
-        placeholder="Type"
+        [placeholder]="'FORM.COMPANY_TYPES.PLACEHOLDER_NAME_AR' | translate"
       />
       <div
         *ngIf="
@@ -9798,13 +9987,12 @@ icon="pi pi-cog"
       </div>
     </form>
     <!--Communication Forms-->
-
+    <!-- 
     <form
       *ngIf="addFollowupPointsForm"
       (ngSubmit)="onSubmit()"
       [formGroup]="formGroup"
     >
-      <!-- Topic -->
       <label for="topic">Topic <sup class="danger">*</sup></label>
       <input
         pInputText
@@ -9928,9 +10116,9 @@ icon="pi pi-cog"
           />
         </div>
       </div>
-    </form>
+    </form> -->
 
-    <form
+    <!-- <form
       [formGroup]="formGroup"
       (ngSubmit)="onSubmit()"
       *ngIf="addOfficerORGForm"
@@ -10039,10 +10227,10 @@ icon="pi pi-cog"
           />
         </div>
       </div>
-    </form>
+    </form> -->
 
     <!--ORG Forms-->
-    <form
+    <!-- <form
       [formGroup]="formGroup"
       *ngIf="addDepartmentsORGForm"
       (ngSubmit)="onSubmit()"
@@ -10050,7 +10238,8 @@ icon="pi pi-cog"
       <label for="name"
         >{{ "FORM.COMPANY_TYPES.NAME_EN" | translate }}<sup>*</sup></label
       >
-      <input pInputText id="name" formControlName="name" placeholder="Type" />
+      <input pInputText id="name" formControlName="name"         [placeholder]="'FORM.COMPANY_TYPES.PLACEHOLDER_NAME_EN' | translate"
+ />
       <div
         *ngIf="
           formGroup.get('name')?.hasError('required') &&
@@ -10064,12 +10253,8 @@ icon="pi pi-cog"
       <label for="nameAR"
         >{{ "FORM.COMPANY_TYPES.LABEL_NAME_AR" | translate }}<sup>*</sup></label
       >
-      <input
-        pInputText
-        id="nameAR"
-        formControlName="nameAR"
-        placeholder="Type"
-      />
+      <input pInputText id="nameAR" formControlName="nameAR"         [placeholder]="'FORM.COMPANY_TYPES.PLACEHOLDER_NAME_AR' | translate"
+ />
       <div
         *ngIf="
           formGroup.get('nameAR')?.hasError('required') &&
@@ -10130,8 +10315,8 @@ icon="pi pi-cog"
           />
         </div>
       </div>
-    </form>
-    <form
+    </form> -->
+    <!-- <form
       [formGroup]="formGroup"
       *ngIf="addDepartmentManagerORGForm"
       (ngSubmit)="onSubmit()"
@@ -10200,9 +10385,9 @@ icon="pi pi-cog"
           ></p-button>
         </div>
       </div>
-    </form>
+    </form> -->
 
-    <form
+    <!-- <form
       [formGroup]="formGroup"
       *ngIf="addTeamORGForm"
       (ngSubmit)="onSubmit()"
@@ -10319,9 +10504,9 @@ icon="pi pi-cog"
           />
         </div>
       </div>
-    </form>
+    </form> -->
 
-    <form
+    <!-- <form
       [formGroup]="formGroup"
       *ngIf="addTeamLeadORGForm"
       (ngSubmit)="onSubmit()"
@@ -10381,9 +10566,9 @@ icon="pi pi-cog"
           ></p-button>
         </div>
       </div>
-    </form>
+    </form> -->
 
-    <form
+    <!-- <form
       [formGroup]="formGroup"
       *ngIf="addTeamOfficerORGForm"
       (ngSubmit)="onSubmit()"
@@ -10443,9 +10628,9 @@ icon="pi pi-cog"
           ></p-button>
         </div>
       </div>
-    </form>
+    </form> -->
 
-    <form
+    <!-- <form
       [formGroup]="formGroup"
       *ngIf="addSignatoryOfficerORGForm"
       (ngSubmit)="onSubmit()"
@@ -10514,6 +10699,6 @@ icon="pi pi-cog"
           ></p-button>
         </div>
       </div>
-    </form>
+    </form> -->
   </div>
 </div>
