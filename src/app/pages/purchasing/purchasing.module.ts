@@ -15,13 +15,18 @@ import { ViewAssetsComponent } from './components/assets/view-assets/view-assets
 import { AddAssetComponent } from './components/assets/add-asset/add-asset.component';
 import { ViewPurchasingOrdersComponent } from './components/purchasing-orders/view-purchasing-orders/view-purchasing-orders.component';
 import { AddPurchasingOrderComponent } from './components/purchasing-orders/add-purchasing-order/add-purchasing-order.component';
+import { ComponentsModule } from '../../shared/components/components.module';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { AssetsEffects } from './store/assets/assets.effects';
+import { reducer as assetsReducer } from './store/assets/assets.reducer';
 
 @NgModule({
   declarations: [
     ViewAssetsComponent,
     AddAssetComponent,
     ViewPurchasingOrdersComponent,
-    AddPurchasingOrderComponent
+    AddPurchasingOrderComponent,
   ],
   imports: [
     CommonModule,
@@ -35,9 +40,17 @@ import { AddPurchasingOrderComponent } from './components/purchasing-orders/add-
     FormsModule,
     ReactiveFormsModule,
     DialogModule,
+    ComponentsModule,
     SelectModule,
     DatePickerModule,
+    StoreModule.forFeature('assets', assetsReducer),
+    EffectsModule.forFeature([AssetsEffects]),
   ],
-  exports: [],
+  exports: [
+    ViewAssetsComponent,
+    AddAssetComponent,
+    ViewPurchasingOrdersComponent,
+    AddPurchasingOrderComponent,
+  ],
 })
 export class PurchasingModule {}
