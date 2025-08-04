@@ -4,6 +4,62 @@
   "CONFIRM_LEAVE_HEADER": "تغييرات غير محفوظة",
   "CONFIRM_LEAVE_ACCEPT": "نعم، غادر",
   "CONFIRM_LEAVE_REJECT": "لا، ابقَ",
+  "AUTH_GROUP": {
+    "AUTHORIZATION_GROUP": "مجموعة التفويض",
+    "SELECT_AUTHORIZATION_GROUP": "اختر مجموعة التفويض",
+    "START_DATE": "تاريخ البدء",
+    "ADD": "إضافة مجموعة التفويض الإجرائية",
+    "EDIT": "تعديل مجموعة التفويض الإجرائية"
+  },
+  "NOTIF_GROUP": {
+    "NOTIFICATION_GROUP": "مجموعة الإشعارات",
+    "SELECT_NOTIFICATION_GROUP": "اختر مجموعة الإشعارات",
+    "START_DATE": "تاريخ البدء",
+    "ADD": "إضافة مجموعة الإشعارات الإجرائية",
+    "EDIT": "تعديل مجموعة الإشعارات الإجرائية"
+  },
+  "BUSINESS_LINE": {
+    "BUSINESS_LINE": "قطاع الأعمال",
+    "SELECT_BUSINESS_LINE": "اختر قطاع الأعمال"
+  },
+  "COMMON": {
+    "DATE_OF_BIRTH": "تاريخ الميلاد"
+  },
+  "PRODUCT": {
+    "ADD_PRODUCT": "إضافة منتج",
+    "EDIT_PRODUCT": "تعديل المنتج"
+  },
+  "ASSET_CATEGORY": {
+    "LIMIT": "الحد",
+    "IS_ACTIVE": "نشط",
+    "ACTIVE": "نشط",
+    "ADD": "إضافة فئة نوع الأصل",
+    "EDIT": "تعديل فئة نوع الأصل"
+  },
+  "STATUS_ACTION": {
+    "STATUS_IN": "الحالة المدخلة",
+    "SELECT_STATUS_IN": "اختر الحالة المدخلة",
+    "STATUS_OUT": "الحالة المخرجة",
+    "SELECT_STATUS_OUT": "اختر الحالة المخرجة",
+    "WORKFLOW_ACTION_TYPE": "نوع إجراء سير العمل",
+    "SELECT_WORKFLOW_ACTION_TYPE": "اختر نوع الإجراء",
+    "IS_INITIAL": "هل هو ابتدائي؟",
+    "INITIAL_LABEL": "ابتدائي",
+    "ADD": "إضافة إجراء حالة",
+    "EDIT": "تعديل إجراء حالة"
+  },
+  "CLIENT_STATUS": {
+    "ADD": "إضافة حالة عميل",
+    "EDIT": "تعديل حالة عميل"
+  },
+  "MANDATE_FEES": {
+    "FEE_TYPE": "نوع الرسوم",
+    "SELECT_FEE_TYPE": "اختر نوع الرسوم",
+    "ACTUAL_AMOUNT": "المبلغ الفعلي",
+    "ACTUAL_PERCENTAGE": "النسبة الفعلية",
+    "ADD": "إضافة رسوم التفويض",
+    "EDIT": "تعديل رسوم التفويض"
+  },
   "CARD": {
     "UPLOAD_DOCUMENTS": "تحميل المستندات",
     "ADD_ADDRESS": "إضافة العنوان",

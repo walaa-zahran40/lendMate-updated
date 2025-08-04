@@ -4,6 +4,55 @@
   "CONFIRM_LEAVE_HEADER": "Unsaved Changes",
   "CONFIRM_LEAVE_ACCEPT": "Yes, Leave",
   "CONFIRM_LEAVE_REJECT": "No, Stay",
+  "CLIENT_STATUS": {
+    "ADD": "Add Client Status",
+    "EDIT": "Edit Client Status"
+  },
+  "BUSINESS_LINE": {
+    "BUSINESS_LINE": "Business Line",
+    "SELECT_BUSINESS_LINE": "Select Business Line"
+  },
+  "ASSET_CATEGORY": {
+    "LIMIT": "Limit",
+    "IS_ACTIVE": "Is Active",
+    "ACTIVE": "Active",
+    "ADD": "Add Asset Type Category",
+    "EDIT": "Edit Asset Type Category"
+  },
+  "PRODUCT": {
+    "ADD_PRODUCT": "Add Product",
+    "EDIT_PRODUCT": "Edit Product"
+  },
+  "COMMON": {
+    "DATE_OF_BIRTH": "Date of Birth"
+  },
+  "AUTH_GROUP": {
+    "AUTHORIZATION_GROUP": "Authorization Group",
+    "SELECT_AUTHORIZATION_GROUP": "Select Authorization Group",
+    "START_DATE": "Start Date",
+    "ADD": "Add Action Authorization Group",
+    "EDIT": "Edit Action Authorization Group"
+  },
+  "NOTIF_GROUP": {
+    "NOTIFICATION_GROUP": "Notification Group",
+    "SELECT_NOTIFICATION_GROUP": "Select Notification Group",
+    "START_DATE": "Start Date",
+    "ADD": "Add Action Notification Group",
+    "EDIT": "Edit Action Notification Group"
+  },
+
+  "STATUS_ACTION": {
+    "STATUS_IN": "Status In",
+    "SELECT_STATUS_IN": "Select Status In",
+    "STATUS_OUT": "Status Out",
+    "SELECT_STATUS_OUT": "Select Status Out",
+    "WORKFLOW_ACTION_TYPE": "Workflow Action Type",
+    "SELECT_WORKFLOW_ACTION_TYPE": "Select Workflow Action Type",
+    "IS_INITIAL": "Is Initial",
+    "INITIAL_LABEL": "Initial",
+    "ADD": "Add Status Action",
+    "EDIT": "Edit Status Action"
+  },
   "CARD": {
     "UPLOAD_DOCUMENTS": "Upload Documents",
     "ADD_ADDRESS": "Add Address",
@@ -235,6 +284,14 @@
     "ARAMEX_REQUIRED": "Aramex in English is required.",
     "ADD": "Add Governorate",
     "EDIT": "Edit Governorate"
+  },
+  "MANDATE_FEES": {
+    "FEE_TYPE": "Fee Type",
+    "SELECT_FEE_TYPE": "Select Fee Type",
+    "ACTUAL_AMOUNT": "Actual Amount",
+    "ACTUAL_PERCENTAGE": "Actual Percentage",
+    "ADD": "Add Mandate Fee",
+    "EDIT": "Edit Mandate Fee"
   },
   "BUTTONS": {
     "SUBMIT": "Submit",

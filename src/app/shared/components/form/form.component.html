@@ -7276,7 +7276,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-      [label]="'GOVERNORATE.ADD' | translate"
+            [label]="'GOVERNORATE.ADD' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -7287,7 +7287,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-      [label]="'GOVERNORATE.EDIT' | translate"
+            [label]="'GOVERNORATE.EDIT' | translate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -7344,7 +7344,7 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        nameAR in Arabic is required.
+        {{ "FORM.COMPANY_TYPES.ERRORS.NAME_AR_REQUIRED" | translate }}
       </div>
       <div
         *ngIf="
@@ -7355,13 +7355,16 @@ icon="pi pi-cog"
       >
         {{ "FORM.COMPANY_TYPES.ERRORS.NAME_AR_PATTERN" | translate }}
       </div>
-      <label for="statusInId">Status In<sup>*</sup></label>
+      <label for="statusInId"
+        >{{ "STATUS_ACTION.STATUS_IN" | translate }}<sup>*</sup></label
+      >
+
       <p-select
         [filter]="true"
         [filterBy]="filterByField"
         [showClear]="true"
         [options]="statusList"
-        placeholder="Select Status In"
+        [placeholder]="'STATUS_ACTION.SELECT_STATUS_IN' | translate"
         [optionLabel]="optionLabelKey"
         optionValue="id"
         [ngClass]="{
@@ -7372,14 +7375,16 @@ icon="pi pi-cog"
         }"
         formControlName="statusInId"
       ></p-select>
-      <label for="statusOutId">Status Out<sup>*</sup></label>
+      <label for="statusOutId"
+        >{{ "STATUS_ACTION.STATUS_OUT" | translate }}<sup>*</sup></label
+      >
       <p-select
         [filter]="true"
         [filterBy]="filterByField"
         [showClear]="true"
         [options]="statusList"
         [optionLabel]="optionLabelKey"
-        placeholder="Select Status Out"
+        [placeholder]="'STATUS_ACTION.SELECT_STATUS_OUT' | translate"
         formControlName="statusOutId"
         optionValue="id"
         required
@@ -7390,13 +7395,17 @@ icon="pi pi-cog"
               formGroup.get('statusOutId')?.touched)
         }"
       ></p-select>
-      <label for="workflowActionTypeId">Workflow Action Type<sup>*</sup></label>
+      <label for="workflowActionTypeId"
+        >{{ "STATUS_ACTION.WORKFLOW_ACTION_TYPE" | translate
+        }}<sup>*</sup></label
+      >
+
       <p-select
         [filter]="true"
         [filterBy]="filterByField"
         [showClear]="true"
         [options]="workflowActionTypeList"
-        placeholder="Select Workflow Action Type"
+        [placeholder]="'STATUS_ACTION.SELECT_WORKFLOW_ACTION_TYPE' | translate"
         formControlName="workflowActionTypeId"
         optionValue="id"
         [optionLabel]="optionLabelKey"
@@ -7412,9 +7421,11 @@ icon="pi pi-cog"
       <p-toggleSwitch
         id="isInitial"
         formControlName="isInitial"
-        label="is Initial"
       ></p-toggleSwitch>
-      <label for="isInitial"> Initial<sup>*</sup> </label>
+      <label for="isInitial"
+        >{{ "STATUS_ACTION.INITIAL_LABEL" | translate }}<sup>*</sup></label
+      >
+
       <div class="row justify-end">
         <div
           class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
@@ -7422,7 +7433,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Add Status Action"
+            [label]="'STATUS_ACTION.ADD' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -7433,7 +7444,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Edit Status Action"
+            [label]="'STATUS_ACTION.Edit ' | translate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -7479,7 +7490,7 @@ icon="pi pi-cog"
         pInputText
         id="nameAR"
         formControlName="nameAR"
-        [placeholder]="'FORM.COMPANY_TYPES.PLACEHOLDER_NAME_EN' | translate"
+        [placeholder]="'FORM.COMPANY_TYPES.PLACEHOLDER_NAME_AR' | translate"
       />
       <div
         *ngIf="
@@ -7502,9 +7513,10 @@ icon="pi pi-cog"
       <p-toggleSwitch
         id="isInitial"
         formControlName="isInitial"
-        label="is Initial"
       ></p-toggleSwitch>
-      <label for="isInitial"> Initial</label>
+      <label for="isInitial"
+        >{{ "STATUS_ACTION.INITIAL_LABEL" | translate }}<sup>*</sup></label
+      >
 
       <div class="p-field" *ngIf="editMode">
         <p-toggleSwitch
@@ -7523,7 +7535,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Add Client Status"
+            [label]="'CLIENT_STATUS.ADD' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -7534,7 +7546,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Edit Client Status"
+            [label]="'CLIENT_STATUS.EDIT' | translate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -7556,14 +7568,16 @@ icon="pi pi-cog"
       *ngIf="addMandateFeeForm"
       (ngSubmit)="onSubmit()"
     >
-      <label for="feeTypeId">Fee Type<sup>*</sup></label>
+      <label for="feeTypeId"
+        >{{ "MANDATE_FEES.FEE_TYPE" | translate }}<sup>*</sup></label
+      >
       <p-select
         [filter]="true"
         [filterBy]="filterByField"
         [showClear]="true"
         [options]="feeTypes"
         [optionLabel]="optionLabelKey"
-        placeholder="Select Fee Type"
+        [placeholder]="'MANDATE_FEES.SELECT_FEE_TYPE' | translate"
         formControlName="feeTypeId"
         optionValue="id"
         required
@@ -7575,25 +7589,29 @@ icon="pi pi-cog"
         }"
       />
 
-      <label for="actualAmount">Actual Amount<sup>*</sup></label>
+      <label for="actualAmount"
+        >{{ "MANDATE_FEES.ACTUAL_AMOUNT" | translate }}<sup>*</sup></label
+      >
       <input
         pInputText
         id="actualAmount"
         aria-describedby="actualAmount-help"
         name="actualAmount"
-        placeholder="Actual Amount"
+        [placeholder]="'MANDATE_FEES.ACTUAL_AMOUNT' | translate"
         type="number"
         formControlName="actualAmount"
         [ngClass]="'disabled'"
       />
 
-      <label for="actualPercentage">Actual Percentage<sup>*</sup></label>
+      <label for="actualPercentage"
+        >{{ "MANDATE_FEES.ACTUAL_PERCENTAGE" | translate }}<sup>*</sup></label
+      >
       <input
         pInputText
         id="actualPercentage"
         aria-describedby="actualPercentage-help"
         name="actualPercentage"
-        placeholder="Actual Percentage"
+        [placeholder]="'MANDATE_FEES.ACTUAL_PERCENTAGE' | translate"
         type="number"
         formControlName="actualPercentage"
       />
@@ -7605,7 +7623,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Add Mandate fee"
+            [label]="'MANDATE_FEES.ADD' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -7616,7 +7634,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Edit Mandate Fee"
+            [label]="'MANDATE_FEES.EDIT' | translate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -7638,14 +7656,16 @@ icon="pi pi-cog"
       *ngIf="addActionAuthorizationGroupForm"
       (ngSubmit)="onSubmit()"
     >
-      <label for="authorizationGroupId">Authorization Group<sup>*</sup></label>
+      <label for="authorizationGroupId">
+        {{ "AUTH_GROUP.AUTHORIZATION_GROUP" | translate }}<sup>*</sup>
+      </label>
       <p-select
         [filter]="true"
         [filterBy]="filterByField"
         [showClear]="true"
         [options]="authorizationGroupsList"
         [optionLabel]="optionLabelKey"
-        placeholder="Select Authorization Group"
+        [placeholder]="'AUTH_GROUP.SELECT_AUTHORIZATION_GROUP' | translate"
         formControlName="authorizationGroupId"
         optionValue="id"
         required
@@ -7656,7 +7676,9 @@ icon="pi pi-cog"
               formGroup.get('authorizationGroupId')?.touched)
         }"
       />
-      <label for="startDate">Start Date<sup class="danger">*</sup></label>
+      <label for="startDate">
+        {{ "AUTH_GROUP.START_DATE" | translate }}<sup class="danger">*</sup>
+      </label>
       <shared-date-picker formControlName="startDate" inputId="startDate">
       </shared-date-picker>
 
@@ -7667,7 +7689,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Add Action Authorization Group"
+            [label]="'AUTH_GROUP.ADD' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -7678,7 +7700,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Edit Action Authorization Group"
+            [label]="'AUTH_GROUP.EDIT' | translate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -7700,14 +7722,16 @@ icon="pi pi-cog"
       *ngIf="addActionNotificationGroupForm"
       (ngSubmit)="onSubmit()"
     >
-      <label for="notificationGroupId">Notification Group<sup>*</sup></label>
+      <label for="notificationGroupId">
+        {{ "NOTIF_GROUP.NOTIFICATION_GROUP" | translate }}<sup>*</sup>
+      </label>
       <p-select
         [filter]="true"
         [filterBy]="filterByField"
         [showClear]="true"
         [options]="notificationGroupsList"
         [optionLabel]="optionLabelKey"
-        placeholder="Select Notification Group"
+        [placeholder]="'NOTIF_GROUP.SELECT_NOTIFICATION_GROUP' | translate"
         formControlName="notificationGroupId"
         optionValue="id"
         required
@@ -7718,7 +7742,9 @@ icon="pi pi-cog"
               formGroup.get('notificationGroupId')?.touched)
         }"
       />
-      <label for="startDate">Start Date<sup class="danger">*</sup></label>
+      <label for="startDate">
+        {{ "AUTH_GROUP.START_DATE" | translate }}<sup class="danger">*</sup>
+      </label>
       <shared-date-picker formControlName="startDate" inputId="startDate">
       </shared-date-picker>
 
@@ -7729,7 +7755,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Add Action Notification Group"
+            [label]="'NOTIF_GROUP.ADD' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -7740,7 +7766,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Edit Action Notification Group"
+            [label]="'NOTIF_GROUP.EDIT' | translate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -7808,14 +7834,16 @@ icon="pi pi-cog"
         {{ "FORM.COMPANY_TYPES.ERRORS.NAME_AR_PATTERN" | translate }}
       </div>
 
-      <label for="businessLineId">Business Line<sup>*</sup></label>
+      <label for="businessLineId">
+        {{ "BUSINESS_LINE.BUSINESS_LINE" | translate }}<sup>*</sup>
+      </label>
       <p-select
         [filter]="true"
         [filterBy]="filterByField"
         [showClear]="true"
         [options]="businessLinesList"
         [optionLabel]="optionLabelKey"
-        placeholder="Select Business Line"
+        [placeholder]="'BUSINESS_LINE.SELECT_BUSINESS_LINE' | translate"
         formControlName="businessLineId"
         optionValue="id"
         (onChange)="onSectorChange($event)"
@@ -7827,9 +7855,9 @@ icon="pi pi-cog"
               formGroup.get('businessLineId')?.touched)
         }"
       />
-      <label for="lisenceStartDate"
-        >Date of Birth<sup class="danger">*</sup></label
-      >
+      <label for="lisenceStartDate">
+        {{ "COMMON.DATE_OF_BIRTH" | translate }}<sup class="danger">*</sup>
+      </label>
       <shared-date-picker
         formControlName="lisenceStartDate"
         inputId="lisenceStartDate"
@@ -7853,7 +7881,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Add Product"
+      [label]="'PRODUCT.ADD_PRODUCT' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -7864,7 +7892,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Edit Product"
+      [label]="'PRODUCT.EDIT_PRODUCT' | translate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -7928,7 +7956,8 @@ icon="pi pi-cog"
         {{ "FORM.COMPANY_TYPES.ERRORS.NAME_AR_PATTERN" | translate }}
       </div>
 
-      <label for="limit">Limit<sup>*</sup></label>
+      <label for="limit">  {{ 'ASSET_CATEGORY.LIMIT' | translate }}<sup>*</sup>
+</label>
       <input
         pInputText
         id="limit"
@@ -7943,9 +7972,8 @@ icon="pi pi-cog"
         <p-toggleSwitch
           id="isActive"
           formControlName="isActive"
-          label="is Active"
         ></p-toggleSwitch>
-        <label for="isActive"> Active</label>
+  <label for="isActive"> {{ 'ASSET_CATEGORY.ACTIVE' | translate }}</label>
       </div>
       <div class="row justify-end">
         <div
@@ -7954,7 +7982,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Add Asset Type Category"
+      [label]="'ASSET_CATEGORY.ADD' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -7965,7 +7993,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Edit Asset Type Category"
+      [label]="'ASSET_CATEGORY.EDIT' | translate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -8169,9 +8197,10 @@ icon="pi pi-cog"
       <p-toggleSwitch
         id="isInitial"
         formControlName="isInitial"
-        label="is Initial"
       ></p-toggleSwitch>
-      <label for="isInitial"> Initial</label>
+      <label for="isInitial"
+        >{{ "STATUS_ACTION.INITIAL_LABEL" | translate }}<sup>*</sup></label
+      >
 
       <div class="p-field" for="isActive" *ngIf="editMode">
         <p-toggleSwitch
@@ -8256,7 +8285,7 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        nameAR in Arabic is required.
+        {{ "FORM.COMPANY_TYPES.ERRORS.NAME_AR_REQUIRED" | translate }}
       </div>
       <div
         *ngIf="
@@ -8267,13 +8296,16 @@ icon="pi pi-cog"
       >
         {{ "FORM.COMPANY_TYPES.ERRORS.NAME_AR_PATTERN" | translate }}
       </div>
-      <label for="statusInId">Status In<sup>*</sup></label>
+      <label for="statusInId"
+        >{{ "STATUS_ACTION.STATUS_IN" | translate }}<sup>*</sup></label
+      >
+
       <p-select
         [filter]="true"
         [filterBy]="filterByField"
         [showClear]="true"
         [options]="statusList"
-        placeholder="Select Status In"
+        [placeholder]="'STATUS_ACTION.SELECT_STATUS_IN' | translate"
         [optionLabel]="optionLabelKey"
         optionValue="id"
         [ngClass]="{
@@ -8284,14 +8316,16 @@ icon="pi pi-cog"
         }"
         formControlName="statusInId"
       ></p-select>
-      <label for="statusOutId">Status Out<sup>*</sup></label>
+      <label for="statusOutId"
+        >{{ "STATUS_ACTION.STATUS_OUT" | translate }}<sup>*</sup></label
+      >
       <p-select
         [filter]="true"
         [filterBy]="filterByField"
         [showClear]="true"
         [options]="statusList"
         [optionLabel]="optionLabelKey"
-        placeholder="Select Status Out"
+        [placeholder]="'STATUS_ACTION.SELECT_STATUS_OUT' | translate"
         formControlName="statusOutId"
         optionValue="id"
         required
@@ -8302,13 +8336,17 @@ icon="pi pi-cog"
               formGroup.get('statusOutId')?.touched)
         }"
       ></p-select>
-      <label for="workflowActionTypeId">Workflow Action Type<sup>*</sup></label>
+      <label for="workflowActionTypeId"
+        >{{ "STATUS_ACTION.WORKFLOW_ACTION_TYPE" | translate
+        }}<sup>*</sup></label
+      >
+
       <p-select
         [filter]="true"
         [filterBy]="filterByField"
         [showClear]="true"
         [options]="workflowActionTypeList"
-        placeholder="Select Workflow Action Type"
+        [placeholder]="'STATUS_ACTION.SELECT_WORKFLOW_ACTION_TYPE' | translate"
         formControlName="workflowActionTypeId"
         optionValue="id"
         [optionLabel]="optionLabelKey"
@@ -8371,14 +8409,16 @@ icon="pi pi-cog"
       *ngIf="addMandateActionAuthorizationGroupForm"
       (ngSubmit)="onSubmit()"
     >
-      <label for="authorizationGroupId">Authorization Group<sup>*</sup></label>
+      <label for="authorizationGroupId">
+        {{ "AUTH_GROUP.AUTHORIZATION_GROUP" | translate }}<sup>*</sup>
+      </label>
       <p-select
         [filter]="true"
         [filterBy]="filterByField"
         [showClear]="true"
         [options]="authorizationGroupsList"
         [optionLabel]="optionLabelKey"
-        placeholder="Select Authorization Group"
+        [placeholder]="'AUTH_GROUP.SELECT_AUTHORIZATION_GROUP' | translate"
         formControlName="authorizationGroupId"
         optionValue="id"
         required
@@ -8389,7 +8429,9 @@ icon="pi pi-cog"
               formGroup.get('authorizationGroupId')?.touched)
         }"
       />
-      <label for="startDate">Start Date<sup class="danger">*</sup></label>
+      <label for="startDate">
+        {{ "AUTH_GROUP.START_DATE" | translate }}<sup class="danger">*</sup>
+      </label>
       <shared-date-picker formControlName="startDate" inputId="startDate">
       </shared-date-picker>
 
@@ -8400,7 +8442,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Add Action Authorization Group"
+            [label]="'AUTH_GROUP.ADD' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -8411,7 +8453,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Edit Action Authorization Group"
+            [label]="'AUTH_GROUP.EDIT' | translate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -8433,7 +8475,9 @@ icon="pi pi-cog"
       *ngIf="addMandateActionNotificationGroupForm"
       (ngSubmit)="onSubmit()"
     >
-      <label for="notificationGroupId">Notification Group<sup>*</sup></label>
+      <label for="notificationGroupId">
+        {{ "NOTIF_GROUP.NOTIFICATION_GROUP" | translate }}<sup>*</sup>
+      </label>
       <p-select
         [filter]="true"
         [filterBy]="filterByField"
@@ -8451,7 +8495,9 @@ icon="pi pi-cog"
               formGroup.get('notificationGroupId')?.touched)
         }"
       />
-      <label for="startDate">Start Date<sup class="danger">*</sup></label>
+      <label for="startDate">
+        {{ "AUTH_GROUP.START_DATE" | translate }}<sup class="danger">*</sup>
+      </label>
       <shared-date-picker formControlName="startDate" inputId="startDate">
       </shared-date-picker>
 
@@ -8804,7 +8850,7 @@ icon="pi pi-cog"
         [showClear]="true"
         [options]="feeTypes"
         [optionLabel]="optionLabelKey"
-        placeholder="Select fee type"
+        [placeholder]="'MANDATE_FEES.SELECT_FEE_TYPE' | translate"
         formControlName="feeTypeId"
         optionValue="id"
         (onChange)="onSectorChange($event)"
@@ -9002,7 +9048,9 @@ icon="pi pi-cog"
         Officer is required.
       </div>
 
-      <label for="startDate">Start Date<sup class="danger">*</sup></label>
+      <label for="startDate">
+        {{ "AUTH_GROUP.START_DATE" | translate }}<sup class="danger">*</sup>
+      </label>
       <shared-date-picker formControlName="startDate" inputId="startDate">
       </shared-date-picker>
 
@@ -9056,7 +9104,7 @@ icon="pi pi-cog"
         [showClear]="true"
         [options]="authorizationGroups"
         [optionLabel]="optionLabelKey"
-        placeholder="Select Authorization Group"
+        [placeholder]="'AUTH_GROUP.SELECT_AUTHORIZATION_GROUP' | translate"
         formControlName="authorizationGroupId"
         optionValue="id"
         required
@@ -9110,7 +9158,9 @@ icon="pi pi-cog"
         Officer is required.
       </div>
 
-      <label for="startDate">Start Date<sup class="danger">*</sup></label>
+      <label for="startDate">
+        {{ "AUTH_GROUP.START_DATE" | translate }}<sup class="danger">*</sup>
+      </label>
       <shared-date-picker formControlName="startDate" inputId="startDate">
       </shared-date-picker>
 
@@ -9819,7 +9869,9 @@ icon="pi pi-cog"
       *ngIf="addBranchManagersLookupsForm"
       (ngSubmit)="onSubmit()"
     >
-      <label for="startDate">Start Date<sup class="danger">*</sup></label>
+      <label for="startDate">
+        {{ "AUTH_GROUP.START_DATE" | translate }}<sup class="danger">*</sup>
+      </label>
       <shared-date-picker formControlName="startDate" inputId="startDate">
       </shared-date-picker>
 
@@ -10321,7 +10373,9 @@ icon="pi pi-cog"
       *ngIf="addDepartmentManagerORGForm"
       (ngSubmit)="onSubmit()"
     >
-      <label for="startDate">Start Date<sup class="danger">*</sup></label>
+      <label for="startDate">
+  {{ 'AUTH_GROUP.START_DATE' | translate }}<sup class="danger">*</sup>
+</label>>
       <shared-date-picker formControlName="startDate" inputId="startDate">
       </shared-date-picker>
 
@@ -10511,7 +10565,9 @@ icon="pi pi-cog"
       *ngIf="addTeamLeadORGForm"
       (ngSubmit)="onSubmit()"
     >
-      <label for="startDate">Start Date<sup class="danger">*</sup></label>
+      <label for="startDate">
+  {{ 'AUTH_GROUP.START_DATE' | translate }}<sup class="danger">*</sup>
+</label>>
       <shared-date-picker formControlName="startDate" inputId="startDate">
       </shared-date-picker>
 
@@ -10573,7 +10629,9 @@ icon="pi pi-cog"
       *ngIf="addTeamOfficerORGForm"
       (ngSubmit)="onSubmit()"
     >
-      <label for="startDate">Start Date<sup class="danger">*</sup></label>
+      <label for="startDate">
+  {{ 'AUTH_GROUP.START_DATE' | translate }}<sup class="danger">*</sup>
+</label>>
       <shared-date-picker formControlName="startDate" inputId="startDate">
       </shared-date-picker>
       <br />
@@ -10635,7 +10693,9 @@ icon="pi pi-cog"
       *ngIf="addSignatoryOfficerORGForm"
       (ngSubmit)="onSubmit()"
     >
-      <label for="startDate">Start Date<sup class="danger">*</sup></label>
+      <label for="startDate">
+  {{ 'AUTH_GROUP.START_DATE' | translate }}<sup class="danger">*</sup>
+</label>>
       <shared-date-picker formControlName="startDate" inputId="startDate">
       </shared-date-picker>
 
