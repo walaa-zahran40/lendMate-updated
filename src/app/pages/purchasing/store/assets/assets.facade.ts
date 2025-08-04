@@ -3,7 +3,7 @@ import { createSelector, Store } from '@ngrx/store';
 import * as Actions from './assets.actions';
 import * as Selectors from './assets.selectors';
 import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors'; // adjust path if needed
-import { Asset } from './asset.model';
+import { Asset, AssetWorkFlowAction } from './asset.model';
 
 @Injectable({ providedIn: 'root' })
 export class AssetsFacade {
@@ -18,6 +18,8 @@ export class AssetsFacade {
     )
   );
   operationSuccess$ = this.store.select(selectLastOperationSuccess);
+  workFlowActionSuccess$ = this.store.select(selectLastOperationSuccess);
+
   constructor(private store: Store) {}
 
   loadAll(pageNumber?: number) {
@@ -38,6 +40,12 @@ export class AssetsFacade {
 
   delete(id: number) {
     this.store.dispatch(Actions.deleteEntity({ id }));
+  }
+  clearSelected() {
+    this.store.dispatch(Actions.clearSelectedClient());
+  }
+  performWorkflowAction(id: number, changes: Partial<AssetWorkFlowAction>) {
+    this.store.dispatch(Actions.performWorkflowActionEntity({ id, changes }));
   }
   // History management
   readonly assetHistory$ = this.store.select(Selectors.selectHistory);

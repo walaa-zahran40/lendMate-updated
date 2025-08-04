@@ -1,1 +1,104 @@
-<p>add-asset works!</p>
+<app-toolbar-form
+  [header]="viewOnly ? 'View Asset' : editMode ? 'Edit Asset' : 'Add Asset'"
+  [backExists]="true"
+  [backIcon]="'back-icon'"
+  [viewOnly]="false"
+  [selectedAction]="selectedAction"
+  [workFlowItems]="workFlowActionList"
+  (saveAction)="handleWorkflowAction($event)"
+></app-toolbar-form>
+
+<p-tabs styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel>
+      <p-stepper [value]="1" class="basis-[50rem] mb-2">
+        <p-step-panels>
+          <!-- Step 1: General Info -->
+          <p-step-panel [value]="1">
+            <ng-template #content let-activateCallback="activateCallback">
+              <div class="flex flex-col">
+                <!-- <app-add-client-form
+                  [formGroup]="addClientForm"
+                  [description]="''"
+                  [addClientShowMain]="true"
+                  [addClient]="true"
+                  [sectorsList]="sectorsList"
+                  [subSectorsList]="subSectorsList"
+                  [selectedSectorId]="selectedSectorId"
+                  [selectedSubSectorId]="selectedSubSectorId"
+                  (sectorChanged)="onSectorChanged($event)"
+                  [viewOnly]="viewOnly && tabValue === 0"
+                ></app-add-client-form> -->
+                <div
+                  class="col-sm-6 d-flex justify-end float-right margin-top p-0 w-100"
+                >
+                  <p-button
+                    class="custom-save m-0"
+                    label="Next"
+                    (click)="activateCallback(2)"
+                  ></p-button>
+                </div>
+              </div>
+            </ng-template>
+          </p-step-panel>
+
+          <!-- Step 2 -->
+          <p-step-panel [value]="2">
+            <ng-template #content let-activateCallback="activateCallback">
+              <div class="flex flex-col">
+                <div class="row two-buttons margin-top">
+                  <div class="col-sm-6">
+                    <p-button
+                      label="Previous"
+                      class="custom-back"
+                      (click)="activateCallback(1)"
+                    ></p-button>
+                  </div>
+                  <div class="col-sm-6 m-0">
+                    <p-button
+                      label="Next"
+                      (click)="activateCallback(3)"
+                      class="custom-save m-0 float-right"
+                    ></p-button>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </p-step-panel>
+
+          <!-- Step 3 -->
+          <p-step-panel [value]="3">
+            <ng-template #content let-activateCallback="activateCallback">
+              <div class="flex flex-col">
+                <div class="row two-buttons margin-top">
+                  <div class="col-sm-6">
+                    <p-button
+                      label="Previous"
+                      (click)="activateCallback(2)"
+                      class="custom-back d-flex justify-start"
+                    ></p-button>
+                  </div>
+                  <div class="col-sm-6 m-0">
+                    <p-button
+                      *ngIf="!viewOnly"
+                      label="Save Information"
+                      [disabled]="this.addAssetForm.invalid"
+                      (click)="saveInfo()"
+                      class="custom-save2 m-0 float-right"
+                    ></p-button>
+                    <p-button
+                      *ngIf="viewOnly"
+                      (click)="close()"
+                      label="Close"
+                      class="custom-save m-0 float-right"
+                    ></p-button>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </p-step-panel>
+        </p-step-panels>
+      </p-stepper>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

@@ -20,6 +20,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { AssetsEffects } from './store/assets/assets.effects';
 import { reducer as assetsReducer } from './store/assets/assets.reducer';
+import { StepperModule } from 'primeng/stepper';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { reducer as assetsReducer } from './store/assets/assets.reducer';
     ComponentsModule,
     SelectModule,
     DatePickerModule,
+    StepperModule,
     StoreModule.forFeature('assets', assetsReducer),
     EffectsModule.forFeature([AssetsEffects]),
   ],
