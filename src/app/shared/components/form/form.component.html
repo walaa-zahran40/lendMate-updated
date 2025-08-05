@@ -8063,9 +8063,10 @@ icon="pi pi-cog"
       >
         {{ "FORM.COMPANY_TYPES.ERRORS.NAME_AR_PATTERN" | translate }}
       </div>
-      <label for="assetTypeCategoryId"
-        >Select Asset Type Category<sup class="danger">*</sup></label
-      >
+      <label for="assetTypeCategoryId">
+        {{ "ASSET_TYPE.SELECT_CATEGORY" | translate
+        }}<sup class="danger">*</sup>
+      </label>
       <!--Select Box-->
       <p-select
         [filter]="true"
@@ -8073,7 +8074,7 @@ icon="pi pi-cog"
         [showClear]="true"
         [options]="assetTypeCategories"
         [optionLabel]="optionLabelKey"
-        placeholder="Select Asset Category"
+        [placeholder]="'ASSET_TYPE.PLACEHOLDER_CATEGORY' | translate"
         formControlName="assetTypeCategoryId"
         optionValue="id"
         (onChange)="onSectorChange($event)"
@@ -8094,7 +8095,7 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        Asset Type Category is required.
+        {{ "ASSET_TYPE.REQUIRED_CATEGORY" | translate }}
       </div>
 
       <div class="p-field" *ngIf="editMode">
@@ -8115,7 +8116,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Add Asset Type"
+            [label]="'ASSET_TYPE.ADD' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -8127,7 +8128,7 @@ icon="pi pi-cog"
       >
         <p-button
           type="submit"
-          label="Edit Asset Type"
+          [label]="'ASSET_TYPE.EDIT' | translate"
           class="custom-save m-0 float-right"
         ></p-button>
       </div>
@@ -8207,9 +8208,10 @@ icon="pi pi-cog"
         <p-toggleSwitch
           id="isActive"
           formControlName="isActive"
-          label="is Active"
         ></p-toggleSwitch>
-        <label for="isActive"> Active</label>
+        <label for="isActive">
+          {{ "ASSET_CATEGORY.IS_ACTIVE" | translate }}</label
+        >
       </div>
       <div class="row justify-end">
         <div
@@ -8218,7 +8220,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Add Mandate status"
+            [label]="'MANDATE_STATUS.ADD' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -8229,7 +8231,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Edit Mandate Status"
+            [label]="'MANDATE_STATUS.EDIT' | translate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -8377,7 +8379,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Add Mandate Status Action"
+            [label]="'MANDATE_STATUS_ACTION.ADD' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -8388,7 +8390,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Edit Mandate Status Action"
+            [label]="'MANDATE_STATUS_ACTION.EDIT' | translate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -8485,7 +8487,7 @@ icon="pi pi-cog"
         [showClear]="true"
         [options]="notificationGroupsList"
         [optionLabel]="optionLabelKey"
-        placeholder="Select Notification Group"
+        placeholder="{{ 'NOTIF_GROUP.PLACEHOLDER' | translate }}"
         formControlName="notificationGroupId"
         optionValue="id"
         required
@@ -8496,6 +8498,15 @@ icon="pi pi-cog"
               formGroup.get('notificationGroupId')?.touched)
         }"
       />
+      <div
+        *ngIf="
+          formGroup.get('notificationGroupId')?.hasError('required') &&
+          formGroup.get('notificationGroupId')?.touched
+        "
+        class="p-error"
+      >
+        {{ "NOTIF_GROUP.REQUIRED" | translate }}
+      </div>
       <label for="startDate">
         {{ "AUTH_GROUP.START_DATE" | translate }}<sup class="danger">*</sup>
       </label>
@@ -8509,7 +8520,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Add Action Notification Group"
+            [label]="'BUTTONS.ADD_ACTION_NOTIFICATION_GROUP' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -8520,7 +8531,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Edit Action Notification Group"
+            [label]="'BUTTONS.EDIT_ACTION_NOTIFICATION_GROUP' | translate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -8543,17 +8554,17 @@ icon="pi pi-cog"
       (ngSubmit)="onSubmit()"
     >
       <!-- Name in English -->
-      <label for="description">Description</label>
+      <label for="description">{{ "CONDITION.DESCRIPTION" | translate }}</label>
       <input
         pInputText
         id="description"
         formControlName="description"
-        placeholder="description"
+        [placeholder]="'CONDITION.DESCRIPTION' | translate"
       />
 
-      <label for="conditionType"
-        >Condition Type<sup class="danger">*</sup></label
-      >
+      <label for="conditionType">
+        {{ "CONDITION.CONDITION_TYPE" | translate }}<sup class="danger">*</sup>
+      </label>
       <p-select
         [filter]="true"
         [filterBy]="filterByField"
@@ -8564,7 +8575,7 @@ icon="pi pi-cog"
         required
         optionLabel="value"
         optionValue="id"
-        placeholder="Select a conditionType"
+        [placeholder]="'CONDITION.SELECT_CONDITION_TYPE' | translate"
         class="w-full md:w-56"
         [ngClass]="{
           'ng-invalid ng-dirty':
@@ -8579,12 +8590,13 @@ icon="pi pi-cog"
           formGroup.get('conditionType')?.touched
         "
       >
-        Condition Type is required.
+        {{ "CONDITION.REQUIRED_CONDITION_TYPE" | translate }}
       </small>
 
-      <label for="conditionExpressionId"
-        >Select Condition Expression<sup class="danger">*</sup></label
-      >
+      <label for="conditionExpressionId">
+        {{ "CONDITION.CONDITION_EXPRESSION" | translate
+        }}<sup class="danger">*</sup>
+      </label>
       <!--Select Box-->
       <p-select
         [filter]="true"
@@ -8592,7 +8604,7 @@ icon="pi pi-cog"
         [showClear]="true"
         [options]="conditionExpressions"
         optionLabel="fieldName"
-        placeholder="Select Condition Expression"
+        [placeholder]="'CONDITION.SELECT_CONDITION_EXPRESSION' | translate"
         formControlName="conditionExpressionId"
         optionValue="id"
         required
@@ -8612,17 +8624,19 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        Condition Expression is required.
+        {{ "CONDITION.REQUIRED_CONDITION_EXPRESSION" | translate }}
       </div>
 
       <!-- Description -->
-      <label for="functionName">Function Name<sup>*</sup></label>
+      <label for="functionName">
+        {{ "CONDITION.FUNCTION_NAME" | translate }}<sup>*</sup>
+      </label>
       <div>
         <textarea
           pInputText
           id="functionName"
           formControlName="functionName"
-          placeholder="Function Name"
+          [placeholder]="'CONDITION.FUNCTION_NAME' | translate"
         ></textarea>
       </div>
 
@@ -8633,7 +8647,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Add Condition"
+            [label]="'BUTTONS.ADD_CONDITION' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -8644,7 +8658,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Edit Condition"
+            [label]="'BUTTONS.EDIT_CONDITION' | translate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -8715,9 +8729,9 @@ icon="pi pi-cog"
         {{ "FORM.COMPANY_TYPES.ERRORS.NAME_AR_PATTERN" | translate }}
       </div>
 
-      <label for="feeCalculationTypeId"
-        >Select Asset Type Category<sup class="danger">*</sup></label
-      >
+      <label for="feeCalculationTypeId">
+        {{ "FEE.FEE_CALCULATION_TYPE" | translate }}<sup class="danger">*</sup>
+      </label>
       <!--Select Box-->
       <p-select
         [filter]="true"
@@ -8725,7 +8739,7 @@ icon="pi pi-cog"
         [showClear]="true"
         [options]="feeCalculationTypes"
         [optionLabel]="optionLabelKey"
-        placeholder="Select fee calculation type"
+        [placeholder]="'FEE.SELECT_CALC_TYPE' | translate"
         formControlName="feeCalculationTypeId"
         optionValue="id"
         (onChange)="onSectorChange($event)"
@@ -8746,31 +8760,37 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        Asset Type Category is required.
+        {{ "FEE.CALC_TYPE_REQUIRED" | translate }}
       </div>
 
       <!-- Description -->
-      <label for="description">Description<sup>*</sup></label>
+      <label for="description">
+        {{ "FEE.DESCRIPTION" | translate }}<sup>*</sup>
+      </label>
       <div>
         <textarea
           pInputText
           id="description"
           formControlName="description"
-          placeholder="Enter Description"
+          [placeholder]="'FEE.DESCRIPTION_PLACEHOLDER' | translate"
         ></textarea>
       </div>
       <!-- Arabic Description -->
-      <label for="descriptionAR">Arabic Description<sup>*</sup></label>
+      <label for="descriptionAR">
+        {{ "FEE.DESCRIPTION_AR" | translate }}<sup>*</sup>
+      </label>
       <div>
         <textarea
           pInputText
           id="descriptionAR"
           formControlName="descriptionAR"
-          placeholder="Enter Arabic Description"
+          [placeholder]="'FEE.DESCRIPTION_AR_PLACEHOLDER' | translate"
         ></textarea>
       </div>
 
-      <label for="defaultAmount">Default Amount<sup>*</sup></label>
+      <label for="defaultAmount">
+        {{ "FEE.DEFAULT_AMOUNT" | translate }}<sup>*</sup>
+      </label>
       <div>
         <!-- Default Amount -->
         <input
@@ -8779,11 +8799,13 @@ icon="pi pi-cog"
           aria-describedby="defaultAmount-help"
           name="defaultAmount"
           formControlName="defaultAmount"
-          placeholder="Enter Default Amount"
+          [placeholder]="'FEE.DEFAULT_AMOUNT_PLACEHOLDER' | translate"
         />
       </div>
 
-      <label for="defaultPercentage">Default Percentage<sup>*</sup></label>
+      <label for="defaultPercentage">
+        {{ "FEE.DEFAULT_PERCENTAGE" | translate }}<sup>*</sup>
+      </label>
       <div>
         <!-- Default Percentage -->
         <input
@@ -8792,16 +8814,17 @@ icon="pi pi-cog"
           aria-describedby="defaultPercentage-help"
           name="defaultPercentage"
           formControlName="defaultPercentage"
-          placeholder="Enter Default Percentage"
+          [placeholder]="'FEE.DEFAULT_PERCENTAGE_PLACEHOLDER' | translate"
         />
       </div>
       <div class="p-field" for="isActive" *ngIf="editMode">
         <p-toggleSwitch
           id="isActive"
           formControlName="isActive"
-          label="is Active"
         ></p-toggleSwitch>
-        <label for="isActive"> Active</label>
+        <label for="isActive">
+          {{ "ASSET_CATEGORY.IS_ACTIVE" | translate }}</label
+        >
       </div>
       <div class="row justify-end">
         <div
@@ -8810,7 +8833,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Add Fee Type"
+            [label]="'BUTTONS.ADD_FEE_TYPE' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -8821,7 +8844,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Edit Fee Type"
+            [label]="'BUTTONS.EDIT_FEE_TYPE' | translate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -8843,7 +8866,9 @@ icon="pi pi-cog"
       *ngIf="addFeeRangesForm"
       (ngSubmit)="onSubmit()"
     >
-      <label for="feeTypeId">Select Fee Type<sup class="danger">*</sup></label>
+      <label for="feeTypeId">
+        {{ "FEE_TYPE.SELECT_FEE_TYPE" | translate }}<sup class="danger">*</sup>
+      </label>
       <!--Select Box-->
       <p-select
         [filter]="true"
@@ -8872,10 +8897,12 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        Fee Type is required.
+        {{ "FORM.FEE_TYPE_REQUIRED" | translate }}
       </div>
 
-      <label for="lowerBound">LowerBound Amount<sup>*</sup></label>
+      <label for="lowerBound"
+        >{{ "FORM.LOWER_BOUND" | translate }}<sup>*</sup></label
+      >
       <div>
         <!-- Default Amount -->
         <input
@@ -8884,11 +8911,13 @@ icon="pi pi-cog"
           aria-describedby="lowerBound-help"
           name="lowerBound"
           formControlName="lowerBound"
-          placeholder="Enter lowerBound"
+          [placeholder]="'FORM.PLACEHOLDER_LOWER_BOUND' | translate"
         />
       </div>
 
-      <label for="upperBound">UpperBound Amount<sup>*</sup></label>
+      <label for="upperBound"
+        >{{ "FORM.UPPER_BOUND" | translate }}<sup>*</sup></label
+      >
       <div>
         <!-- Default Amount -->
         <input
@@ -8897,17 +8926,19 @@ icon="pi pi-cog"
           aria-describedby="upperBound-help"
           name="upperBound"
           formControlName="upperBound"
-          placeholder="Enter upperBound Amount"
+          [placeholder]="'FORM.PLACEHOLDER_UPPER_BOUND' | translate"
         />
       </div>
 
       <!-- Name in English -->
-      <label for="criteriaField">criteria Field<sup>*</sup></label>
+      <label for="criteriaField"
+        >{{ "FORM.CRITERIA_FIELD" | translate }}<sup>*</sup></label
+      >
       <input
         pInputText
         id="criteriaField"
         formControlName="criteriaField"
-        placeholder="criteriaField"
+        [placeholder]="'FORM.PLACEHOLDER_CRITERIA_FIELD' | translate"
       />
       <div
         *ngIf="
@@ -8916,10 +8947,10 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        criteriaField is required.
+        {{ "FORM.CRITERIA_FIELD_REQUIRED" | translate }}
       </div>
 
-      <label for="defaultAmount">Default Amount</label>
+      <label for="defaultAmount">{{ "FORM.DEFAULT_AMOUNT" | translate }}</label>
       <div>
         <!-- Default Amount -->
         <input
@@ -8928,11 +8959,13 @@ icon="pi pi-cog"
           aria-describedby="defaultAmount-help"
           name="defaultAmount"
           formControlName="defaultAmount"
-          placeholder="Enter Default Amount"
+          [placeholder]="'FORM.PLACEHOLDER_DEFAULT_AMOUNT' | translate"
         />
       </div>
 
-      <label for="defaultPercentage">Default Percentage</label>
+      <label for="defaultPercentage">{{
+        "FORM.DEFAULT_PERCENTAGE" | translate
+      }}</label>
       <div>
         <!-- Default Percentage -->
         <input
@@ -8941,7 +8974,7 @@ icon="pi pi-cog"
           aria-describedby="defaultPercentage-help"
           name="defaultPercentage"
           formControlName="defaultPercentage"
-          placeholder="Enter Default Percentage"
+          [placeholder]="'FORM.PLACEHOLDER_DEFAULT_PERCENTAGE' | translate"
         />
       </div>
 
@@ -8952,7 +8985,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Add Fee Range"
+            [label]="'BUTTONS.ADD_FEE_RANGE' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -8963,7 +8996,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Edit Fee Range"
+            [label]="'BUTTONS.EDIT_FEE_RANGE' | translate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -8985,9 +9018,10 @@ icon="pi pi-cog"
       *ngIf="addNotificationGroupOfficersLookupsForm"
       (ngSubmit)="onSubmit()"
     >
-      <label for="notificationGroupId"
-        >Select Notification Group<sup class="danger">*</sup></label
-      >
+      <label for="notificationGroupId">
+        {{ "FORM.NOTIFICATION_GROUP.LABEL" | translate
+        }}<sup class="danger">*</sup>
+      </label>
       <!--Select Box-->
       <p-select
         [filter]="true"
@@ -8995,7 +9029,7 @@ icon="pi pi-cog"
         [showClear]="true"
         [options]="notificationGroups"
         [optionLabel]="optionLabelKey"
-        placeholder="Select Notification Group"
+        [placeholder]="'FORM.NOTIFICATION_GROUP.PLACEHOLDER' | translate"
         formControlName="notificationGroupId"
         optionValue="id"
         required
@@ -9015,10 +9049,12 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        Notification Group is required.
+        {{ "FORM.NOTIFICATION_GROUP.ERROR_REQUIRED" | translate }}
       </div>
 
-      <label for="officerId">Select Officer<sup class="danger">*</sup></label>
+      <label for="officerId">
+        {{ "FORM.OFFICER.LABEL" | translate }}<sup class="danger">*</sup>
+      </label>
       <!--Select Box-->
       <p-select
         [filter]="true"
@@ -9026,7 +9062,7 @@ icon="pi pi-cog"
         [showClear]="true"
         [options]="officers"
         [optionLabel]="optionLabelKey"
-        placeholder="Select Officer"
+        [placeholder]="'FORM.OFFICER.PLACEHOLDER' | translate"
         formControlName="officerId"
         optionValue="id"
         required
@@ -9046,7 +9082,7 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        Officer is required.
+        {{ "FORM.OFFICER.ERROR_REQUIRED" | translate }}
       </div>
 
       <label for="startDate">
@@ -9062,7 +9098,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Add Notification Group Officer"
+            [label]="'BUTTONS.ADD_NOTIFICATION_GROUP_OFFICER' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -9073,7 +9109,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Edit Notification Group Officer"
+            [label]="'BUTTONS.EDIT_NOTIFICATION_GROUP_OFFICER' | translate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -9096,7 +9132,8 @@ icon="pi pi-cog"
       (ngSubmit)="onSubmit()"
     >
       <label for="authorizationGroupId"
-        >Select Authorization Group<sup class="danger">*</sup></label
+        >{{ "AUTH_GROUP.SELECT_AUTHORIZATION_GROUP"
+        }}<sup class="danger">*</sup></label
       >
       <!--Select Box-->
       <p-select
@@ -9125,10 +9162,12 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        Authorization Group is required.
+        {{ "FORM.AUTHORIZATION_GROUP.ERROR_REQUIRED" | translate }}
       </div>
 
-      <label for="officerId">Select Officer<sup class="danger">*</sup></label>
+      <label for="officerId">
+        {{ "FORM.OFFICER.LABEL" | translate }}<sup class="danger">*</sup>
+      </label>
       <!--Select Box-->
       <p-select
         [filter]="true"
@@ -9136,7 +9175,7 @@ icon="pi pi-cog"
         [showClear]="true"
         [options]="officers"
         [optionLabel]="optionLabelKey"
-        placeholder="Select Officer"
+        [placeholder]="'FORM.OFFICER.PLACEHOLDER' | translate"
         formControlName="officerId"
         optionValue="id"
         required
@@ -9156,7 +9195,7 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        Officer is required.
+        {{ "FORM.OFFICER.ERROR_REQUIRED" | translate }}
       </div>
 
       <label for="startDate">
@@ -9172,7 +9211,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Add Authorization Group Officer"
+            [label]="'AUTH_GROUP_OFFICER.ADD' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -9183,7 +9222,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Edit Authorization Group Officer"
+            [label]="'AUTH_GROUP_OFFICER.EDIT' | translate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -9251,16 +9290,18 @@ icon="pi pi-cog"
       >
         {{ "FORM.COMPANY_TYPES.ERRORS.NAME_AR_PATTERN" | translate }}
       </div>
-      <label for="iso">ISO Code<sup>*</sup></label>
+      <label for="iso"> {{ "CURRENCY.ISO" | translate }}<sup>*</sup> </label>
       <input
         pInputText
         id="iso"
         aria-describedby="iso-help"
         name="iso"
         formControlName="iso"
-        placeholder="ISO Code"
+        [placeholder]="'CURRENCY.ISO_PLACEHOLDER' | translate"
       />
-      <label for="isDefault">Default Currency<sup>*</sup></label>
+      <label for="isDefault">
+        {{ "CURRENCY.DEFAULT" | translate }}<sup>*</sup>
+      </label>
       <p-select
         [filter]="true"
         [filterBy]="filterByField"
@@ -9268,7 +9309,7 @@ icon="pi pi-cog"
         [options]="stamps"
         [optionLabel]="optionLabelKey"
         optionValue="id"
-        placeholder="Default Currency"
+        [placeholder]="'CURRENCY.DEFAULT_PLACEHOLDER' | translate"
         formControlName="isDefault"
         class="w-full md:w-56"
       />
@@ -9276,9 +9317,10 @@ icon="pi pi-cog"
         <p-toggleSwitch
           id="isActive"
           formControlName="isActive"
-          label="is Active"
         ></p-toggleSwitch>
-        <label for="isActive"> Active</label>
+        <label for="isActive">
+          {{ "ASSET_CATEGORY.IS_ACTIVE" | translate }}</label
+        >
       </div>
       <div class="row justify-end">
         <div
@@ -9287,7 +9329,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Add Currency"
+            [label]="'CURRENCY.ADD' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -9298,7 +9340,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Edit Currency"
+            [label]="'CURRENCY.EDIT' | translate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -9320,16 +9362,21 @@ icon="pi pi-cog"
       (ngSubmit)="onSubmit()"
     >
       <!-- Date picker -->
-      <label for="exchangeDate">Exchange Date<sup class="danger">*</sup></label>
+      <label for="exchangeDate">
+        {{ "CURRENCY.EXCHANGE_DATE" | translate }}<sup class="danger">*</sup>
+      </label>
       <shared-date-picker formControlName="exchangeDate" inputId="exchangeDate">
       </shared-date-picker>
 
-      <label for="exchangeRate">Exchange Rate<sup class="danger">*</sup></label>
+      <label for="exchangeRate">
+        {{ "CURRENCY_EXCHANGE.EXCHANGE_RATE" | translate
+        }}<sup class="danger">*</sup>
+      </label>
       <input
         pInputText
         name="exchangeRate"
         formControlName="exchangeRate"
-        placeholder="Exchange Rate"
+        [placeholder]="'CURRENCY_EXCHANGE.EXCHANGE_RATE' | translate"
         type="number"
         [ngClass]="{
           'ng-invalid ng-dirty':
@@ -9345,23 +9392,25 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        Exchange Rate is required.
+        {{ "CURRENCY_EXCHANGE.EXCHANGE_RATE_REQUIRED" | translate }}
       </div>
       <div class="p-field" for="isCurrent" *ngIf="editMode">
         <p-toggleSwitch
           id="isCurrent"
           formControlName="isCurrent"
-          label="is Active"
         ></p-toggleSwitch>
-        <label for="isCurrent"> Current</label>
+        <label for="isCurrent">
+          {{ "CURRENCY_EXCHANGE.IS_CURRENT" | translate }}
+        </label>
       </div>
       <div class="p-field" for="isActive" *ngIf="editMode">
         <p-toggleSwitch
           id="isActive"
           formControlName="isActive"
-          label="is Active"
         ></p-toggleSwitch>
-        <label for="isActive"> Active</label>
+        <label for="isActive">
+          {{ "ASSET_CATEGORY.IS_ACTIVE" | translate }}</label
+        >
       </div>
       <div class="row justify-end">
         <div
@@ -9370,7 +9419,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Add Currency Exchange Rate"
+            [label]="'CURRENCY_EXCHANGE.ADD_BUTTON' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -9381,7 +9430,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Edit Currency Exchange Rate"
+            [label]="'CURRENCY_EXCHANGE.EDIT_BUTTON' | translate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -9428,7 +9477,7 @@ icon="pi pi-cog"
         pInputText
         id="nameAR"
         formControlName="nameAR"
-        [placeholder]="'FORM.COMPANY_TYPES.PLACEHOLDER_NAME_EN' | translate"
+        [placeholder]="'FORM.COMPANY_TYPES.PLACEHOLDER_NAME_AR' | translate"
       />
       <div
         *ngIf="
@@ -9449,12 +9498,14 @@ icon="pi pi-cog"
         {{ "FORM.COMPANY_TYPES.ERRORS.NAME_AR_PATTERN" | translate }}
       </div>
 
-      <label for="validationMinValue">Validation Min Value<sup>*</sup></label>
+      <label for="validationMinValue">
+        {{ "VALIDATION.MIN_VALUE" | translate }}<sup>*</sup>
+      </label>
       <input
         pInputText
         id="validationMinValue"
         formControlName="validationMinValue"
-        placeholder="Enter Validation Min Value"
+        [placeholder]="'VALIDATION.MIN_PLACEHOLDER' | translate"
         type="number"
       />
       <div
@@ -9464,15 +9515,17 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        Validation Min Value is required.
+        {{ "VALIDATION.MIN_REQUIRED" | translate }}
       </div>
 
-      <label for="validationMaxValue">Validation Max Value<sup>*</sup></label>
+      <label for="validationMaxValue">
+        {{ "VALIDATION.MAX_VALUE" | translate }}<sup>*</sup>
+      </label>
       <input
         pInputText
         id="validationMaxValue"
         formControlName="validationMaxValue"
-        placeholder="Enter Validation Max Value"
+        [placeholder]="'VALIDATION.MAX_PLACEHOLDER' | translate"
         type="number"
       />
       <div
@@ -9482,13 +9535,16 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        Validation Max Value is required.
+        {{ "VALIDATION.MAX_REQUIRED" | translate }}
       </div>
       <div
         *ngIf="formGroup.get('validationMaxValue')?.errors?.['min']"
         class="p-error"
       >
-        Minimum value is {{ formGroup.get("validationMinValue")?.value }}
+        {{
+          "VALIDATION.MIN_VALUE_IS"
+            | translate : { value: formGroup.get("validationMinValue")?.value }
+        }}
       </div>
 
       <div class="p-field" *ngIf="editMode">
@@ -9865,7 +9921,7 @@ icon="pi pi-cog"
         </div>
       </div>
     </form>
-    <form
+    <!-- <form
       [formGroup]="formGroup"
       *ngIf="addBranchManagersLookupsForm"
       (ngSubmit)="onSubmit()"
@@ -9936,9 +9992,9 @@ icon="pi pi-cog"
           ></p-button>
         </div>
       </div>
-    </form>
+    </form> -->
 
-    <form
+    <!-- <form
       [formGroup]="formGroup"
       *ngIf="addBusinessLinesLookupsForm"
       (ngSubmit)="onSubmit()"
@@ -10003,7 +10059,7 @@ icon="pi pi-cog"
           formControlName="isActive"
           label="is Active"
         ></p-toggleSwitch>
-        <label for="isActive"> Active</label>
+        <label for="isActive"> {{ "ASSET_CATEGORY.IS_ACTIVE" | translate }}</label>
       </div>
       <div class="row justify-end">
         <div
@@ -10038,7 +10094,7 @@ icon="pi pi-cog"
           />
         </div>
       </div>
-    </form>
+    </form> -->
     <!--Communication Forms-->
     <!-- 
     <form
@@ -10245,7 +10301,7 @@ icon="pi pi-cog"
           formControlName="isActive"
           label="is Active"
         ></p-toggleSwitch>
-        <label for="isActive"> Active</label>
+        <label for="isActive"> {{ "ASSET_CATEGORY.IS_ACTIVE" | translate }}</label>
       </div>
       <div class="row justify-end">
         <div
@@ -10333,7 +10389,7 @@ icon="pi pi-cog"
           formControlName="isActive"
           label="is Active"
         ></p-toggleSwitch>
-        <label for="isActive"> Active</label>
+        <label for="isActive"> {{ "ASSET_CATEGORY.IS_ACTIVE" | translate }}</label>
       </div>
       <div class="row justify-end">
         <div
@@ -10524,7 +10580,7 @@ icon="pi pi-cog"
           formControlName="isActive"
           label="is Active"
         ></p-toggleSwitch>
-        <label for="isActive"> Active</label>
+        <label for="isActive"> {{ "ASSET_CATEGORY.IS_ACTIVE" | translate }}</label>
       </div>
       <div class="row justify-end">
         <div

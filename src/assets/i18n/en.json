@@ -37,6 +37,8 @@
     "NOTIFICATION_GROUP": "Notification Group",
     "SELECT_NOTIFICATION_GROUP": "Select Notification Group",
     "START_DATE": "Start Date",
+    "PLACEHOLDER": "Select Notification Group",
+    "REQUIRED": "Notification Group is required.",
     "ADD": "Add Action Notification Group",
     "EDIT": "Edit Action Notification Group"
   },
@@ -285,6 +287,26 @@
     "ADD": "Add Governorate",
     "EDIT": "Edit Governorate"
   },
+  "FEE": {
+    "FEE_CALCULATION_TYPE": "Select Fee Calculation Type",
+    "SELECT_CALC_TYPE": "Select Fee Calculation Type",
+    "CALC_TYPE_REQUIRED": "Fee Calculation Type is required.",
+    "DESCRIPTION": "Description",
+    "DESCRIPTION_PLACEHOLDER": "Enter Description",
+    "DESCRIPTION_AR": "Arabic Description",
+    "DESCRIPTION_AR_PLACEHOLDER": "Enter Arabic Description",
+    "DEFAULT_AMOUNT": "Default Amount",
+    "DEFAULT_AMOUNT_PLACEHOLDER": "Enter Default Amount",
+    "DEFAULT_PERCENTAGE": "Default Percentage",
+    "DEFAULT_PERCENTAGE_PLACEHOLDER": "Enter Default Percentage"
+  },
+  "ASSET_TYPE": {
+    "SELECT_CATEGORY": "Select Asset Type Category",
+    "PLACEHOLDER_CATEGORY": "Select Asset Category",
+    "REQUIRED_CATEGORY": "Asset Type Category is required.",
+    "ADD": "Add Asset Type",
+    "EDIT": "Edit Asset Type"
+  },
   "MANDATE_FEES": {
     "FEE_TYPE": "Fee Type",
     "SELECT_FEE_TYPE": "Select Fee Type",
@@ -293,9 +315,19 @@
     "ADD": "Add Mandate Fee",
     "EDIT": "Edit Mandate Fee"
   },
+  "FEE_TYPE": {
+    "SELECT_FEE_TYPE": "Select Fee Type"
+  },
   "BUTTONS": {
     "SUBMIT": "Submit",
     "CLOSE": "Close",
+    "ADD_NOTIFICATION_GROUP_OFFICER": "Add Notification Group Officer",
+    "EDIT_NOTIFICATION_GROUP_OFFICER": "Edit Notification Group Officer",
+
+    "ADD_ACTION_NOTIFICATION_GROUP": "Add Action Notification Group",
+    "EDIT_ACTION_NOTIFICATION_GROUP": "Edit Action Notification Group",
+    "ADD_FEE_TYPE": "Add Fee Type",
+    "EDIT_FEE_TYPE": "Edit Fee Type",
     "ADD_COUNTRY": "Add Country",
     "EDIT_COUNTRY": "Edit Country",
     "ADD_TAX_OFFICE": "Add Tax Office",
@@ -388,6 +420,9 @@
     "VIEW_PAGE_OPERATION": "View Page Operation",
     "VIEW_OFFICER": "View Officer",
     "VIEW_SIGNATORY_OFFICER": "View Signatory Officer",
+    "ADD_CONDITION": "Add Condition",
+    "EDIT_CONDITION": "Edit Condition",
+
     "VIEW_MANDATE_STATUSES": "View Mandate Statuses",
     "VIEW_INTEREST_RATE_BENCHMARKS": "View Interest Rate Benchmarks",
     "VIEW_FEES_TYPES": "View Fees Types",
@@ -406,10 +441,74 @@
     "VIEW_BRANCH_ADDRESSES": "View Branch Addresses",
     "VIEW_BRANCH_OFFICERS": "View Branch Officers",
     "VIEW_BRANCH_MANAGERS": "View Branch Managers",
-    "VIEW_BUSINESS_LINES": "View Business Lines"
+    "VIEW_BUSINESS_LINES": "View Business Lines",
+    "ADD_FEE_RANGE": "Add Fee Range",
+    "EDIT_FEE_RANGE": "Edit Fee Range"
   },
+  "CONDITION": {
+    "DESCRIPTION": "Description",
+    "CONDITION_TYPE": "Condition Type",
+    "SELECT_CONDITION_TYPE": "Select a condition type",
+    "REQUIRED_CONDITION_TYPE": "Condition Type is required.",
+    "CONDITION_EXPRESSION": "Select Condition Expression",
+    "SELECT_CONDITION_EXPRESSION": "Select Condition Expression",
+    "REQUIRED_CONDITION_EXPRESSION": "Condition Expression is required.",
+    "FUNCTION_NAME": "Function Name"
+  },
+
+  "MANDATE_STATUS": {
+    "ADD": "Add Mandate Status",
+    "EDIT": "Edit Mandate Status"
+  },
+  "MANDATE_STATUS_ACTION": {
+    "ADD": "Add Mandate Status Action",
+    "EDIT": "Edit Mandate Status Action"
+  },
+  "AUTH_GROUP_OFFICER": {
+    "ADD": "Add Authorization Group Officer",
+    "EDIT": "Edit Authorization Group Officer"
+  },
+  "CURRENCY": {
+    "ISO": "ISO Code",
+    "ISO_PLACEHOLDER": "Enter ISO Code",
+    "DEFAULT": "Default Currency",
+    "DEFAULT_PLACEHOLDER": "Select Default Currency",
+    "ADD": "Add Currency",
+    "EDIT": "Edit Currency",
+    "EXCHANGE_DATE": "Exchange Date"
+  },
+  "VALIDATION": {
+    "MIN_VALUE": "Validation Min Value",
+    "MAX_VALUE": "Validation Max Value",
+    "MIN_PLACEHOLDER": "Enter Validation Min Value",
+    "MAX_PLACEHOLDER": "Enter Validation Max Value",
+    "MIN_REQUIRED": "Validation Min Value is required.",
+    "MAX_REQUIRED": "Validation Max Value is required.",
+    "MIN_VALUE_IS": "Minimum value is {{value}}"
+  },
+  "CURRENCY_EXCHANGE": {
+    "EXCHANGE_RATE": "Exchange Rate",
+    "EXCHANGE_RATE_REQUIRED": "Exchange Rate is required.",
+    "IS_CURRENT": "Current",
+    "ADD_BUTTON": "Add Currency Exchange Rate",
+    "EDIT_BUTTON": "Edit Currency Exchange Rate"
+  },
+
   "FORM": {
     "CODE2": "Code2",
+    "FEE_TYPE_REQUIRED": "Fee Type is required.",
+    "LOWER_BOUND": "LowerBound Amount",
+    "UPPER_BOUND": "UpperBound Amount",
+    "CRITERIA_FIELD": "Criteria Field",
+    "CRITERIA_FIELD_REQUIRED": "Criteria Field is required.",
+    "DEFAULT_AMOUNT": "Default Amount",
+    "DEFAULT_PERCENTAGE": "Default Percentage",
+
+    "PLACEHOLDER_LOWER_BOUND": "Enter LowerBound",
+    "PLACEHOLDER_UPPER_BOUND": "Enter UpperBound Amount",
+    "PLACEHOLDER_CRITERIA_FIELD": "Enter Criteria Field",
+    "PLACEHOLDER_DEFAULT_AMOUNT": "Enter Default Amount",
+    "PLACEHOLDER_DEFAULT_PERCENTAGE": "Enter Default Percentage",
     "CODE2_REQUIRED": "Code2 in Arabic is required.",
     "CODE3": "Code3",
     "CODE3_REQUIRED": "Code3 in Arabic is required.",
@@ -590,7 +689,8 @@
       "TITLE": "Authorization Group",
       "DESCRIPTION": "Define and manage access control groups for streamlined permissions and workflows",
       "ADD": "Add Authorization Group",
-      "EDIT": "Edit Authorization Group"
+      "EDIT": "Edit Authorization Group",
+      "ERROR_REQUIRED": "Authorization Group is required."
     },
     "BUSINESS_LINE": {
       "TITLE": "Business Line",
@@ -764,7 +864,10 @@
     },
     "NOTIFICATION_GROUP": {
       "ADD": "Add Notification Group",
-      "EDIT": "Edit Notification Group"
+      "EDIT": "Edit Notification Group",
+      "LABEL": "Select Notification Group",
+      "PLACEHOLDER": "Select Notification Group",
+      "ERROR_REQUIRED": "Notification Group is required."
     },
     "FOLLOWUP_TYPE": {
       "ADD": "Add Followup Type",
@@ -906,7 +1009,10 @@
     },
     "OFFICER": {
       "TITLE": "Officer",
-      "DESCRIPTION": "Introduce your officer information quickly by filling in officer details"
+      "DESCRIPTION": "Introduce your officer information quickly by filling in officer details",
+      "LABEL": "Select Officer",
+      "PLACEHOLDER": "Select Officer",
+      "ERROR_REQUIRED": "Officer is required."
     },
     "SIGNATORY_OFFICER": {
       "TITLE": "Signatory Officer",

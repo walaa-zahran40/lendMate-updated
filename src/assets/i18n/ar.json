@@ -15,6 +15,8 @@
     "NOTIFICATION_GROUP": "مجموعة الإشعارات",
     "SELECT_NOTIFICATION_GROUP": "اختر مجموعة الإشعارات",
     "START_DATE": "تاريخ البدء",
+    "PLACEHOLDER": "اختر مجموعة الإشعارات",
+    "REQUIRED": "مجموعة الإشعارات مطلوبة.",
     "ADD": "إضافة مجموعة الإشعارات الإجرائية",
     "EDIT": "تعديل مجموعة الإشعارات الإجرائية"
   },
@@ -220,6 +222,14 @@
     "TITLE": "صلاحيات الدور",
     "DESCRIPTION": "قدّم معلومات صلاحيات الدور الأساسية بسرعة للمستخدمين عن طريق تعبئة تفاصيل الدور."
   },
+  "MANDATE_STATUS": {
+    "ADD": "إضافة حالة التفويض",
+    "EDIT": "تعديل حالة التفويض"
+  },
+  "MANDATE_STATUS_ACTION": {
+    "ADD": "إضافة إجراء حالة تفويض",
+    "EDIT": "تعديل إجراء حالة تفويض"
+  },
   "LEASE": {
     "ASSET_COST": "تكلفة الأصل",
     "ASSET_COST_REQUIRED": "تكلفة الأصل مطلوبة.",
@@ -280,9 +290,48 @@
     "PAYMENT_MONTH_DAY": "يوم الدفع في الشهر",
     "PAYMENT_MONTH_DAY_REQUIRED": "يوم الدفع في الشهر مطلوب."
   },
+  "CONDITION": {
+    "DESCRIPTION": "الوصف",
+    "CONDITION_TYPE": "نوع الشرط",
+    "SELECT_CONDITION_TYPE": "اختر نوع الشرط",
+    "REQUIRED_CONDITION_TYPE": "نوع الشرط مطلوب.",
+    "CONDITION_EXPRESSION": "تعبير الشرط",
+    "SELECT_CONDITION_EXPRESSION": "اختر تعبير الشرط",
+    "REQUIRED_CONDITION_EXPRESSION": "تعبير الشرط مطلوب.",
+    "FUNCTION_NAME": "اسم الدالة"
+  },
+  "FEE": {
+    "FEE_CALCULATION_TYPE": "اختر نوع حساب الرسوم",
+    "SELECT_CALC_TYPE": "اختر نوع حساب الرسوم",
+    "CALC_TYPE_REQUIRED": "نوع حساب الرسوم مطلوب.",
+    "DESCRIPTION": "الوصف",
+    "DESCRIPTION_PLACEHOLDER": "ادخل الوصف",
+    "DESCRIPTION_AR": "الوصف بالعربية",
+    "DESCRIPTION_AR_PLACEHOLDER": "ادخل الوصف بالعربية",
+    "DEFAULT_AMOUNT": "القيمة الافتراضية",
+    "DEFAULT_AMOUNT_PLACEHOLDER": "ادخل القيمة الافتراضية",
+    "DEFAULT_PERCENTAGE": "النسبة الافتراضية",
+    "DEFAULT_PERCENTAGE_PLACEHOLDER": "ادخل النسبة الافتراضية"
+  },
+  "FEE_TYPE": {
+    "SELECT_FEE_TYPE": "اختر نوع الرسوم"
+  },
   "BUTTONS": {
     "SUBMIT": "إرسال",
     "CLOSE": "إغلاق",
+    "ADD_CONDITION": "إضافة شرط",
+    "EDIT_CONDITION": "تعديل شرط",
+    "ADD_FEE_TYPE": "إضافة نوع الرسوم",
+    "ADD_NOTIFICATION_GROUP_OFFICER": "إضافة ضابط مجموعة الإشعارات",
+    "EDIT_NOTIFICATION_GROUP_OFFICER": "تعديل ضابط مجموعة الإشعارات",
+
+    "EDIT_FEE_TYPE": "تعديل نوع الرسوم",
+    "ADD_FEE_RANGE": "إضافة نطاق رسوم",
+    "EDIT_FEE_RANGE": "تعديل نطاق رسوم",
+
+    "ADD_ACTION_NOTIFICATION_GROUP": "إضافة مجموعة إشعار الإجراء",
+    "EDIT_ACTION_NOTIFICATION_GROUP": "تعديل مجموعة إشعار الإجراء",
+
     "ADD_COUNTRY": "إضافة دولة",
     "EDIT_COUNTRY": "تعديل الدولة",
     "ADD_TAX_OFFICE": "إضافة مكتب ضرائب",
@@ -394,6 +443,13 @@
     "VIEW_BUSINESS_LINES": "عرض خطوط الأعمال",
     "VIEW_ASSETS": "عرض الأصول"
   },
+  "ASSET_TYPE": {
+    "SELECT_CATEGORY": "اختر فئة نوع الأصل",
+    "PLACEHOLDER_CATEGORY": "اختر فئة الأصل",
+    "REQUIRED_CATEGORY": "فئة نوع الأصل مطلوبة.",
+    "ADD": "إضافة نوع أصل",
+    "EDIT": "تعديل نوع الأصل"
+  },
   "COUNTRY": {
     "COUNTRY_ID": "رمز الدولة",
     "SELECT_COUNTRY": "اختر الدولة",
@@ -406,10 +462,52 @@
     "ADD": "إضافة محافظة",
     "EDIT": "تعديل المحافظة"
   },
+  "AUTH_GROUP_OFFICER": {
+    "ADD": "إضافة مسؤول مجموعة التفويض",
+    "EDIT": "تعديل مسؤول مجموعة التفويض"
+  },
+  "CURRENCY_EXCHANGE": {
+    "EXCHANGE_RATE": "سعر الصرف",
+    "EXCHANGE_RATE_REQUIRED": "سعر الصرف مطلوب.",
+    "IS_CURRENT": "الحالي",
+    "ADD_BUTTON": "إضافة سعر صرف العملة",
+    "EDIT_BUTTON": "تعديل سعر صرف العملة"
+  },
+  "VALIDATION": {
+    "MIN_VALUE": "القيمة الدنيا للتحقق",
+    "MAX_VALUE": "القيمة القصوى للتحقق",
+    "MIN_PLACEHOLDER": "أدخل القيمة الدنيا للتحقق",
+    "MAX_PLACEHOLDER": "أدخل القيمة القصوى للتحقق",
+    "MIN_REQUIRED": "القيمة الدنيا للتحقق مطلوبة.",
+    "MAX_REQUIRED": "القيمة القصوى للتحقق مطلوبة.",
+    "MIN_VALUE_IS": "القيمة الدنيا هي {{value}}"
+  },
+  "CURRENCY": {
+    "ISO": "رمز ISO",
+    "ISO_PLACEHOLDER": "أدخل رمز ISO",
+    "DEFAULT": "العملة الافتراضية",
+    "DEFAULT_PLACEHOLDER": "اختر العملة الافتراضية",
+    "ADD": "إضافة عملة",
+    "EDIT": "تعديل العملة",
+    "EXCHANGE_DATE": "تاريخ الصرف"
+  },
   "FORM": {
     "CODE2": "الرمز 2",
     "CODE2_REQUIRED": "الرمز 2 باللغة العربية مطلوب.",
     "CODE3": "الرمز 3",
+    "FEE_TYPE_REQUIRED": "نوع الرسوم مطلوب.",
+    "LOWER_BOUND": "الحد الأدنى",
+    "UPPER_BOUND": "الحد الأقصى",
+    "CRITERIA_FIELD": "حقل المعايير",
+    "CRITERIA_FIELD_REQUIRED": "حقل المعايير مطلوب.",
+    "DEFAULT_AMOUNT": "القيمة الافتراضية",
+    "DEFAULT_PERCENTAGE": "النسبة الافتراضية",
+
+    "PLACEHOLDER_LOWER_BOUND": "أدخل الحد الأدنى",
+    "PLACEHOLDER_UPPER_BOUND": "أدخل الحد الأقصى",
+    "PLACEHOLDER_CRITERIA_FIELD": "أدخل حقل المعايير",
+    "PLACEHOLDER_DEFAULT_AMOUNT": "أدخل القيمة الافتراضية",
+    "PLACEHOLDER_DEFAULT_PERCENTAGE": "أدخل النسبة الافتراضية",
     "CODE3_REQUIRED": "الرمز 3 باللغة العربية مطلوب.",
     "ADDRESS": "العنوان",
     "ADDRESS_REQUIRED": "العنوان مطلوب.",
@@ -585,13 +683,17 @@
     },
     "AUTHORIZATION_GROUP": {
       "TITLE": "مجموعة التفويض",
+      "ERROR_REQUIRED": "مجموعة التفويض مطلوبة.",
       "DESCRIPTION": "قم بتعريف وإدارة مجموعات التحكم في الوصول لتسهيل الصلاحيات وتدفق العمل",
       "ADD": "إضافة مجموعة التفويض",
       "EDIT": "تعديل مجموعة التفويض"
     },
     "NOTIFICATION_GROUP": {
       "ADD": "إضافة مجموعة الإشعارات",
-      "EDIT": "تعديل مجموعة الإشعارات"
+      "EDIT": "تعديل مجموعة الإشعارات",
+      "LABEL": "اختر مجموعة الإشعارات",
+      "PLACEHOLDER": "اختر مجموعة الإشعارات",
+      "ERROR_REQUIRED": "مجموعة الإشعارات مطلوبة."
     },
     "FOLLOWUP_TYPE": {
       "ADD": "إضافة نوع المتابعة",
@@ -902,7 +1004,10 @@
     },
     "OFFICER": {
       "TITLE": "الموظف",
-      "DESCRIPTION": "قم بإدخال معلومات الموظف بسرعة من خلال تعبئة تفاصيل الموظف"
+      "DESCRIPTION": "قم بإدخال معلومات الموظف بسرعة من خلال تعبئة تفاصيل الموظف",
+      "LABEL": "اختر الموظف",
+      "PLACEHOLDER": "اختر الموظف",
+      "ERROR_REQUIRED": "الموظف مطلوب."
     },
     "SIGNATORY_OFFICER": {
       "TITLE": "الموظف المخول بالتوقيع",
