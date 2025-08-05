@@ -1,8 +1,8 @@
 export interface Asset {
   id: number;
   code?: string;
-  name: string;
-  nameAR: string;
+  description: string;
+  descriptionAr: string;
   isActive: boolean;
   allowedActionsList: any[];
   currentStatusName?: string | null;

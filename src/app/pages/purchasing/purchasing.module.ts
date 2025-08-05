@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FullCalendarModule } from '@fullcalendar/angular';
-import { SharedModule } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -21,6 +20,10 @@ import { StoreModule } from '@ngrx/store';
 import { AssetsEffects } from './store/assets/assets.effects';
 import { reducer as assetsReducer } from './store/assets/assets.reducer';
 import { StepperModule } from 'primeng/stepper';
+import { AddAssetFormComponent } from './forms/add-asset-form/add-asset-form.component';
+import { InputTextModule } from 'primeng/inputtext';
+import { TranslateModule } from '@ngx-translate/core';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -39,8 +42,10 @@ import { StepperModule } from 'primeng/stepper';
     CheckboxModule,
     CalendarModule,
     FormsModule,
+    InputTextModule,
     ReactiveFormsModule,
     DialogModule,
+    TranslateModule,
     ComponentsModule,
     SelectModule,
     DatePickerModule,

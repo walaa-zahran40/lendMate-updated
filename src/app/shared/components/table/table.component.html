@@ -66,36 +66,38 @@
             {{ rowData[col.field] }}
           </span>
           <span *ngSwitchCase="'expiryDate'">
-            {{ rowData[col.field] | date : "yyyy-MM-dd" }}
+            {{ rowData[col.field] | date : "yyyy-MM-dd HH:mm" }}
           </span>
           <span *ngSwitchCase="'lisenceStartDate'">
-            {{ rowData[col.field] | date : "yyyy-MM-dd" }}
+            {{ rowData[col.field] | date : "yyyy-MM-dd HH:mm" }}
           </span>
           <span *ngSwitchCase="'exchangeDate'">
-            {{ rowData[col.field] | date : "yyyy-MM-dd" }}
+            {{ rowData[col.field] | date : "yyyy-MM-dd HH:mm" }}
           </span>
           <span *ngSwitchCase="'startDate'">
-            {{ rowData[col.field] | date : "yyyy-MM-dd" }}
+            {{ rowData[col.field] | date : "yyyy-MM-dd HH:mm" }}
           </span>
           <span *ngSwitchCase="'actualDate'">
-            {{ rowData[col.field] | date : "yyyy-MM-dd" }}
+            {{ rowData[col.field] | date : "yyyy-MM-dd HH:mm" }}
           </span>
           <span *ngSwitchCase="'endDate'">
-            {{ rowData[col.field] | date : "yyyy-MM-dd" }}
+            {{ rowData[col.field] | date : "yyyy-MM-dd HH:mm" }}
           </span>
           <span *ngSwitchCase="'dueDate'">
-            {{ rowData[col.field] | date : "yyyy-MM-dd" : "UTC" }}</span
+            {{ rowData[col.field] | date : "yyyy-MM-dd HH:mm" : "UTC" }}</span
           >
           <span *ngSwitchCase="'isinitial'">
             {{ rowData.isInitial ? "Yes" : "No" }}
           </span>
           <span *ngSwitchCase="'date'">
-            {{ rowData[col.field] | date : "yyyy-MM-dd" }}
+            {{ rowData[col.field] | date : "yyyy-MM-dd HH:mm" }}
           </span>
           <span *ngSwitchCase="'balanceSheetdate'">
-            {{ rowData[col.field] | date : "yyyy-MM-dd" }}
+            {{ rowData[col.field] | date : "yyyy-MM-dd HH:mm" }}
           </span>
-
+          <span *ngSwitchCase="'dateAcquired'">
+            {{ rowData[col.field] | date : "yyyy-MM-dd HH:mm" }}
+          </span>
           <span *ngSwitchCase="'genderId'">
             {{ getGenderLabel(rowData.genderId) }}
           </span>

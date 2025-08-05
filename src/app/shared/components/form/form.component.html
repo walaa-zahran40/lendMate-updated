@@ -7881,7 +7881,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-      [label]="'PRODUCT.ADD_PRODUCT' | translate"
+            [label]="'PRODUCT.ADD_PRODUCT' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -7892,7 +7892,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-      [label]="'PRODUCT.EDIT_PRODUCT' | translate"
+            [label]="'PRODUCT.EDIT_PRODUCT' | translate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -7956,8 +7956,9 @@ icon="pi pi-cog"
         {{ "FORM.COMPANY_TYPES.ERRORS.NAME_AR_PATTERN" | translate }}
       </div>
 
-      <label for="limit">  {{ 'ASSET_CATEGORY.LIMIT' | translate }}<sup>*</sup>
-</label>
+      <label for="limit">
+        {{ "ASSET_CATEGORY.LIMIT" | translate }}<sup>*</sup>
+      </label>
       <input
         pInputText
         id="limit"
@@ -7973,7 +7974,7 @@ icon="pi pi-cog"
           id="isActive"
           formControlName="isActive"
         ></p-toggleSwitch>
-  <label for="isActive"> {{ 'ASSET_CATEGORY.ACTIVE' | translate }}</label>
+        <label for="isActive"> {{ "ASSET_CATEGORY.ACTIVE" | translate }}</label>
       </div>
       <div class="row justify-end">
         <div
@@ -7982,7 +7983,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-      [label]="'ASSET_CATEGORY.ADD' | translate"
+            [label]="'ASSET_CATEGORY.ADD' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -7993,7 +7994,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-      [label]="'ASSET_CATEGORY.EDIT' | translate"
+            [label]="'ASSET_CATEGORY.EDIT' | translate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>

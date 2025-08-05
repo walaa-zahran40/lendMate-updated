@@ -84,6 +84,7 @@ import { AddClientOnboardingFormComponent } from '../../pages/crm/clients/forms/
 import { DirectivesModule } from '../directives/directives.module';
 import { AddMeetingsSideMenuFormComponent } from '../../pages/communication/forms/add-client-meetings-form/add-meetings-form/add-meetings-sidemenu-form.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { AddAssetFormComponent } from '../../pages/purchasing/forms/add-asset-form/add-asset-form.component';
 
 @NgModule({
   declarations: [
@@ -104,6 +105,8 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
     WorkflowDialogComponent,
     AddLegalFormLawsComponent,
     AddLegalFormsComponent,
+    AddAssetFormComponent,
+
     AddCallFormComponent,
     AddFollowupsFormComponent,
     AddMeetingsFormComponent,
@@ -180,6 +183,8 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
   exports: [
     TableComponent,
     ToolbarFormComponent,
+    AddAssetFormComponent,
+
     SideMenuComponent,
     NavBarComponent,
     NotificationComponent,

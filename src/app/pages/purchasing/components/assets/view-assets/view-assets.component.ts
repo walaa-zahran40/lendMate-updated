@@ -20,8 +20,9 @@ export class ViewAssetsComponent {
   @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
-    { field: 'name', header: 'Name EN' },
-    { field: 'nameAR', header: 'Name AR' },
+    { field: 'description', header: 'Description' },
+    { field: 'descriptionAr', header: 'Description AR' },
+    { field: 'dateAcquired', header: 'Date Acquired' },
     { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;

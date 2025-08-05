@@ -380,6 +380,7 @@
     "VIEW_DEPARTMENT": "View Department",
     "VIEW_MANAGER": "View Manager",
     "VIEW_TEAMS": "View Teams",
+    "VIEW_ASSETS": "View Assets",
     "VIEW_TEAM_LEADS": "View Team Leads",
     "VIEW_TEAM_MEMBERS": "View Team Members",
     "VIEW_ROLES": "View Roles",
@@ -572,6 +573,10 @@
     "ASSET_TYPES": {
       "TITLE": "Asset Types",
       "DESCRIPTION": "Introduce your asset types core info quickly to users by filling in asset type details"
+    },
+    "ASSETS": {
+      "TITLE": "Assets",
+      "DESCRIPTION": "Introduce your assets core info quickly to users by filling in asset  details"
     },
     "AUTHORITY_OFFICES": {
       "TITLE": "Authority Office",

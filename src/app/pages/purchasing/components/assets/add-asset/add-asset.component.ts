@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Store } from '@ngrx/store';
 import { filter, Observable, take } from 'rxjs';
 import { AssetsFacade } from '../../../store/assets/assets.facade';
 import { Asset } from '../../../store/assets/asset.model';
+import { AssetType } from '../../../../lookups/store/asset-types/asset-type.model';
+import { AssetTypesFacade } from '../../../../lookups/store/asset-types/asset-types.facade';
 
 @Component({
   selector: 'app-add-asset',
@@ -14,7 +15,6 @@ import { Asset } from '../../../store/assets/asset.model';
 })
 export class AddAssetComponent {
   addAssetForm!: FormGroup;
-  addAsset = true;
   selectedAssetType: any;
   dropdownAssetTypeItems: any[] = [];
   selectedAsset$!: Observable<any>;
@@ -26,12 +26,13 @@ export class AddAssetComponent {
   viewOnly = false;
   workFlowActionList: any[] = [];
   selectedAction: string = '';
+  assetTypes$!: Observable<AssetType[]>;
 
   constructor(
     private fb: FormBuilder,
-    private store: Store,
     private route: ActivatedRoute,
     private assetsFacade: AssetsFacade,
+    private assetTypesFacade: AssetTypesFacade,
     private router: Router
   ) {}
 
@@ -41,51 +42,9 @@ export class AddAssetComponent {
       queryParams: this.route.snapshot.queryParams,
     });
 
-    // Build asset form
-    try {
-      this.buildAssetForm();
-      console.log('✅ buildAssetForm done', this.addAssetForm.value);
-    } catch (e) {
-      console.error('❌ buildAssetForm threw', e);
-    }
-
-    // Detect edit/view mode
-    console.log('Detecting mode & id…');
-    console.log('route snapshot:', this.route.snapshot);
-    const idParam = this.route.snapshot.paramMap.get('assetId');
-    const mode = this.route.snapshot.queryParams['mode']; // 'edit' | 'view'
-    const type = this.route.snapshot.queryParams['type'];
-    console.log('→ idParam:', idParam, 'mode:', mode, 'type:', type);
-
-    if (!idParam || (mode !== 'edit' && mode !== 'view')) {
-      console.log('No edit/view mode detected, skipping load.');
-      return;
-    }
-
-    this.assetId = +idParam;
-    this.editMode = mode === 'edit';
-    this.viewOnly = mode === 'view';
-    console.log(`Mode = ${mode}, assetId = ${this.assetId}`);
-
-    // Company path
-    this.assetsFacade.loadById(this.assetId);
-    this.assetsFacade.selected$
-      .pipe(
-        filter((c): c is Asset => !!c && c.id === this.assetId),
-        take(1)
-      )
-      .subscribe({
-        next: (asset) => {
-          console.log('Loaded asset:', asset);
-          this.patchForm(asset);
-
-          if (this.viewOnly) {
-            this.addAssetForm.disable();
-          }
-        },
-        error: (err) => console.error('❌ assetsFacade.selected$ error:', err),
-        complete: () => console.log('✔️ assetsFacade.selected$ complete'),
-      });
+    this.buildAssetForm();
+    this.assetTypesFacade.loadAll();
+    this.assetTypes$ = this.assetTypesFacade.all$;
   }
 
   ngOnDestroy(): void {
@@ -101,14 +60,17 @@ export class AddAssetComponent {
   // Company form
   buildAssetForm(): void {
     this.addAssetForm = this.fb.group({
-      name: ['', Validators.required],
-      nameAR: [
+      id: [null],
+      description: ['', Validators.required],
+      descriptionAr: [
         '',
         [
           Validators.required,
           Validators.pattern(/^[\u0600-\u06FF\s0-9\u0660-\u0669]+$/),
         ],
       ],
+      dateAcquired: [null, Validators.required],
+      assetTypeId: ['', Validators.required],
     });
   }
 
@@ -117,8 +79,8 @@ export class AddAssetComponent {
     try {
       this.addAssetForm.patchValue({
         id: asset.id,
-        name: asset.name,
-        nameAR: asset.nameAR,
+        description: asset.description,
+        descriptionAr: asset.descriptionAr,
       });
       console.log('✅ static fields patched', this.addAssetForm.getRawValue());
     } catch (e) {
@@ -187,8 +149,8 @@ export class AddAssetComponent {
       console.log('✏️ update mode payload:', formValue);
       const updatedAsset = {
         id: this.assetId,
-        name: formValue.name,
-        nameAR: formValue.nameAR,
+        description: formValue.description,
+        descriptionAr: formValue.descriptionAr,
       };
       this.assetsFacade.update(this.assetId, updatedAsset);
     } else {
@@ -196,8 +158,8 @@ export class AddAssetComponent {
       const payload = {
         assetTypeId: 1,
         id: this.assetId,
-        name: formValue.name,
-        nameAR: formValue.nameAR,
+        description: formValue.description,
+        descriptionAr: formValue.descriptionAr,
       };
       this.assetsFacade.create(payload);
     }

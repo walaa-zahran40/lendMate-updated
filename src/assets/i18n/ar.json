@@ -391,7 +391,8 @@
     "VIEW_BRANCH_ADDRESSES": "عرض عناوين الفروع",
     "VIEW_BRANCH_OFFICERS": "عرض موظفي الفروع",
     "VIEW_BRANCH_MANAGERS": "عرض مديري الفروع",
-    "VIEW_BUSINESS_LINES": "عرض خطوط الأعمال"
+    "VIEW_BUSINESS_LINES": "عرض خطوط الأعمال",
+    "VIEW_ASSETS": "عرض الأصول"
   },
   "COUNTRY": {
     "COUNTRY_ID": "رمز الدولة",
@@ -569,6 +570,10 @@
     "ASSET_TYPES": {
       "TITLE": "أنواع الأصول",
       "DESCRIPTION": "أدخل معلومات أنواع الأصول الأساسية بسرعة عن طريق ملء تفاصيل نوع الأصل"
+    },
+    "ASSETS": {
+      "TITLE": "الأصول",
+      "DESCRIPTION": "أدخل معلومات  الأصول الأساسية بسرعة عن طريق ملء تفاصيل  الأصل"
     },
     "AUTHORITY_OFFICES": {
       "TITLE": "مكتب الجهة المختصة",
