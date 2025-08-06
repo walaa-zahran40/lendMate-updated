@@ -45,17 +45,20 @@
                 <ng-container [ngSwitch]="selectedAssetTypeForm">
                   <app-add-vehicle-form
                     *ngSwitchCase="'vehicle'"
-                    [formGroup]="addAssetForm"
+                    [formGroup]="addVehicleForm"
+                    [addAssetShowInfo]="true"
                   ></app-add-vehicle-form>
 
                   <app-add-property-form
                     *ngSwitchCase="'property'"
-                    [formGroup]="addAssetForm"
+                    [formGroup]="addPropertyForm"
+                    [addAssetShowInfo]="true"
                   ></app-add-property-form>
 
                   <app-add-equipment-form
                     *ngSwitchCase="'equipment'"
-                    [formGroup]="addAssetForm"
+                    [formGroup]="addEquipmentForm"
+                    [addAssetShowInfo]="true"
                   ></app-add-equipment-form>
 
                   <div *ngSwitchDefault class="p-error">

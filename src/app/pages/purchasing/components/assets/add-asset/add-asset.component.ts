@@ -15,6 +15,9 @@ import { AssetTypesFacade } from '../../../../lookups/store/asset-types/asset-ty
 })
 export class AddAssetComponent {
   addAssetForm!: FormGroup;
+  addVehicleForm!: FormGroup;
+  addPropertyForm!: FormGroup;
+  addEquipmentForm!: FormGroup;
   selectedAssetType: any;
   dropdownAssetTypeItems: any[] = [];
   selectedAsset$!: Observable<any>;
@@ -24,6 +27,7 @@ export class AddAssetComponent {
   public activeTabIndex = 0; // 0 = company, 1 = individual
   individualCode!: any;
   viewOnly = false;
+  addAssetShowInfo = false;
   workFlowActionList: any[] = [];
   selectedAction: string = '';
   assetTypes$!: Observable<AssetType[]>;
@@ -53,6 +57,9 @@ export class AddAssetComponent {
     });
 
     this.buildAssetForm();
+    this.buildVehicleForm();
+    this.buildEquipmentForm();
+    this.buildPropertyForm();
     this.assetTypesFacade.loadAll();
     this.assetTypes$ = this.assetTypesFacade.all$;
     this.addAssetForm
@@ -80,7 +87,6 @@ export class AddAssetComponent {
     this.router.navigate(['/purchasing/assets/view-assets']);
   }
 
-  // Company form
   buildAssetForm(): void {
     this.addAssetForm = this.fb.group({
       id: [null],
@@ -94,7 +100,45 @@ export class AddAssetComponent {
       agreementId: ['', Validators.required],
     });
   }
-
+  buildEquipmentForm(): void {
+    this.addEquipmentForm = this.fb.group({
+      id: [null],
+      description: ['', Validators.required],
+      descriptionAr: [
+        '',
+        [Validators.required, Validators.pattern(/^[\u0600-\u06FF\s]+$/)],
+      ],
+      dateAcquired: [null, Validators.required],
+      assetTypeId: ['', Validators.required],
+      agreementId: ['', Validators.required],
+    });
+  }
+  buildPropertyForm(): void {
+    this.addPropertyForm = this.fb.group({
+      id: [null],
+      description: ['', Validators.required],
+      descriptionAr: [
+        '',
+        [Validators.required, Validators.pattern(/^[\u0600-\u06FF\s]+$/)],
+      ],
+      dateAcquired: [null, Validators.required],
+      assetTypeId: ['', Validators.required],
+      agreementId: ['', Validators.required],
+    });
+  }
+  buildVehicleForm(): void {
+    this.addVehicleForm = this.fb.group({
+      id: [null],
+      description: ['', Validators.required],
+      descriptionAr: [
+        '',
+        [Validators.required, Validators.pattern(/^[\u0600-\u06FF\s]+$/)],
+      ],
+      dateAcquired: [null, Validators.required],
+      assetTypeId: ['', Validators.required],
+      agreementId: ['', Validators.required],
+    });
+  }
   private patchForm(asset: Asset): void {
     console.log('🛠️ patchForm() start', asset);
     try {

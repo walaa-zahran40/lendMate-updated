@@ -94,10 +94,7 @@ export class AddAssetFormComponent implements OnInit, OnDestroy {
 
   @Input() description: string = '';
   @Input() addAssetShowMain?: boolean;
-  @Input() addAssetShowLegal?: boolean;
-  @Input() addAssetShowBusiness?: boolean;
-  @Input() addAssetOnboardingForm?: boolean;
-  @Input() addAssetShowIndividual?: boolean;
+  @Input() addAssetShowInfo?: boolean;
   @Input() addAsset?: boolean;
   //Select Box
   @Input() sectorsList: any;
@@ -670,38 +667,6 @@ export class AddAssetFormComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.store.dispatch(setFormDirty({ dirty: this.formGroup.dirty }));
       });
-
-    if (
-      this.addAssetShowMain ||
-      this.addAssetShowBusiness ||
-      this.addAssetShowLegal ||
-      this.addAssetShowIndividual ||
-      this.addAssetOnboardingForm
-    ) {
-      this.sectorsSafe$ = this.store.select(selectAllSectors);
-      const sectorCtrl = this.formGroup.get('sectorId');
-      if (sectorCtrl) {
-        this.filteredSubSectors$ = combineLatest([
-          this.formGroup
-            ?.get('sectorId')!
-            .valueChanges.pipe(
-              startWith(this.formGroup.get('sectorId')!.value)
-            ),
-          this.store.select(selectAllSubSectors),
-        ]).pipe(
-          map(([sectorId, subSectors]) =>
-            subSectors.filter((s) => s.sectorId === sectorId)
-          )
-        );
-      }
-      if (this.addAssetShowMain) {
-      }
-      if (this.addAssetShowLegal) {
-        this.facade.loadLegalFormLaws();
-        this.facadeLegalForms.loadAll();
-      }
-    }
-    // Combine sectorId changes with all sub-sectors
   }
   ngOnDestroy() {
     this.sub.unsubscribe();
