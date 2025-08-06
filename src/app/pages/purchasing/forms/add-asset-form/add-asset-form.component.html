@@ -69,7 +69,7 @@
       <small
         class="p-error"
         *ngIf="
-          formGroup.get('descriptionAr')?.hasError('nonArabic') &&
+          formGroup.get('descriptionAr')?.hasError('pattern') &&
           formGroup.get('descriptionAr')?.touched
         "
       >
@@ -110,6 +110,29 @@
         "
       >
         Asset Type is required.
+      </small>
+      <br />
+      <label for="agreementId">Agreement Id <sup class="danger">*</sup></label>
+      <input
+        pInputText
+        name="agreementId"
+        formControlName="agreementId"
+        placeholder="Agreement Id"
+        [ngClass]="{
+          'ng-invalid ng-dirty':
+            formGroup.get('agreementId')?.invalid &&
+            formGroup.get('agreementId')?.touched
+        }"
+      />
+
+      <small
+        class="p-error"
+        *ngIf="
+          formGroup.get('agreementId')?.hasError('required') &&
+          formGroup.get('agreementId')?.touched
+        "
+      >
+        Agreement Id is required.
       </small>
       <br />
     </form>

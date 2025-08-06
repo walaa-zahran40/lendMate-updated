@@ -64,13 +64,11 @@ export class AddAssetComponent {
       description: ['', Validators.required],
       descriptionAr: [
         '',
-        [
-          Validators.required,
-          Validators.pattern(/^[\u0600-\u06FF\s0-9\u0660-\u0669]+$/),
-        ],
+        [Validators.required, Validators.pattern(/^[\u0600-\u06FF\s]+$/)],
       ],
       dateAcquired: [null, Validators.required],
       assetTypeId: ['', Validators.required],
+      agreementId: ['', Validators.required],
     });
   }
 
