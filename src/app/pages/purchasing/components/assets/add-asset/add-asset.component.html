@@ -42,6 +42,26 @@
           <p-step-panel [value]="2">
             <ng-template #content let-activateCallback="activateCallback">
               <div class="flex flex-col">
+                <ng-container [ngSwitch]="selectedAssetTypeForm">
+                  <app-add-vehicle-form
+                    *ngSwitchCase="'vehicle'"
+                    [formGroup]="addAssetForm"
+                  ></app-add-vehicle-form>
+
+                  <app-add-property-form
+                    *ngSwitchCase="'property'"
+                    [formGroup]="addAssetForm"
+                  ></app-add-property-form>
+
+                  <app-add-equipment-form
+                    *ngSwitchCase="'equipment'"
+                    [formGroup]="addAssetForm"
+                  ></app-add-equipment-form>
+
+                  <div *ngSwitchDefault class="p-error">
+                    No form available for the selected asset type.
+                  </div>
+                </ng-container>
                 <div class="row two-buttons margin-top">
                   <div class="col-sm-6">
                     <p-button
@@ -54,38 +74,6 @@
                     <p-button
                       label="Next"
                       (click)="activateCallback(3)"
-                      class="custom-save m-0 float-right"
-                    ></p-button>
-                  </div>
-                </div>
-              </div>
-            </ng-template>
-          </p-step-panel>
-
-          <!-- Step 3 -->
-          <p-step-panel [value]="3">
-            <ng-template #content let-activateCallback="activateCallback">
-              <div class="flex flex-col">
-                <div class="row two-buttons margin-top">
-                  <div class="col-sm-6">
-                    <p-button
-                      label="Previous"
-                      (click)="activateCallback(2)"
-                      class="custom-back d-flex justify-start"
-                    ></p-button>
-                  </div>
-                  <div class="col-sm-6 m-0">
-                    <p-button
-                      *ngIf="!viewOnly"
-                      label="Save Information"
-                      [disabled]="this.addAssetForm.invalid"
-                      (click)="saveInfo()"
-                      class="custom-save2 m-0 float-right"
-                    ></p-button>
-                    <p-button
-                      *ngIf="viewOnly"
-                      (click)="close()"
-                      label="Close"
                       class="custom-save m-0 float-right"
                     ></p-button>
                   </div>

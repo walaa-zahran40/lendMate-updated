@@ -27,6 +27,16 @@ export class AddAssetComponent {
   workFlowActionList: any[] = [];
   selectedAction: string = '';
   assetTypes$!: Observable<AssetType[]>;
+  assetTypeComponentMap: Record<string, string> = {
+    PASS_VEH: 'vehicle',
+    COMM_VEH: 'vehicle',
+    IT_EQUIP: 'equipment',
+    OTH_EQUIP: 'equipment',
+    PLANT_MACH: 'equipment',
+    RE_LAND: 'property',
+    RE_BUILD: 'property',
+  };
+  selectedAssetTypeCode: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -45,11 +55,24 @@ export class AddAssetComponent {
     this.buildAssetForm();
     this.assetTypesFacade.loadAll();
     this.assetTypes$ = this.assetTypesFacade.all$;
+    this.addAssetForm
+      .get('assetTypeId')
+      ?.valueChanges.subscribe((selectedId: number) => {
+        this.assetTypes$.pipe(take(1)).subscribe((types) => {
+          const selected = types.find((type) => type.id === selectedId);
+          this.selectedAssetTypeCode = selected?.code ?? null;
+          console.log('Selected asset type code:', this.selectedAssetTypeCode);
+        });
+      });
   }
 
   ngOnDestroy(): void {
     console.log('🗑️ ngOnDestroy: clearing selected asset');
     this.assetsFacade.clearSelected();
+  }
+  get selectedAssetTypeForm(): string | null {
+    if (!this.selectedAssetTypeCode) return null;
+    return this.assetTypeComponentMap[this.selectedAssetTypeCode] ?? null;
   }
 
   close() {

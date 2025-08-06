@@ -85,6 +85,9 @@ import { DirectivesModule } from '../directives/directives.module';
 import { AddMeetingsSideMenuFormComponent } from '../../pages/communication/forms/add-client-meetings-form/add-meetings-form/add-meetings-sidemenu-form.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AddAssetFormComponent } from '../../pages/purchasing/forms/add-asset-form/add-asset-form.component';
+import { AddVehicleFormComponent } from '../../pages/purchasing/forms/add-vehicle-form/add-vehicle-form.component';
+import { AddPropertyFormComponent } from '../../pages/purchasing/forms/add-property-form/add-property-form.component';
+import { AddEquipmentFormComponent } from '../../pages/purchasing/forms/add-equipment-form/add-equipment-form.component';
 
 @NgModule({
   declarations: [
@@ -106,7 +109,9 @@ import { AddAssetFormComponent } from '../../pages/purchasing/forms/add-asset-fo
     AddLegalFormLawsComponent,
     AddLegalFormsComponent,
     AddAssetFormComponent,
-
+    AddVehicleFormComponent,
+    AddPropertyFormComponent,
+    AddEquipmentFormComponent,
     AddCallFormComponent,
     AddFollowupsFormComponent,
     AddMeetingsFormComponent,
@@ -184,7 +189,9 @@ import { AddAssetFormComponent } from '../../pages/purchasing/forms/add-asset-fo
     TableComponent,
     ToolbarFormComponent,
     AddAssetFormComponent,
-
+    AddVehicleFormComponent,
+    AddPropertyFormComponent,
+    AddEquipmentFormComponent,
     SideMenuComponent,
     NavBarComponent,
     NotificationComponent,
