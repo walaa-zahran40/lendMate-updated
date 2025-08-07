@@ -9564,7 +9564,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Add Mandate Validity Unit"
+            [label]="'BUTTONS.ADD_MANDATE_VALIDITY_UNIT' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -9575,7 +9575,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Edit Mandate Validity Unit"
+            [label]="'BUTTONS.EDIT_MANDATE_VALIDITY_UNIT' | translate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -9622,7 +9622,7 @@ icon="pi pi-cog"
         pInputText
         id="nameAR"
         formControlName="nameAR"
-        [placeholder]="'FORM.COMPANY_TYPES.PLACEHOLDER_NAME_EN' | translate"
+        [placeholder]="'FORM.COMPANY_TYPES.PLACEHOLDER_NAME_AR' | translate"
       />
       <div
         *ngIf="
@@ -9643,12 +9643,14 @@ icon="pi pi-cog"
         {{ "FORM.COMPANY_TYPES.ERRORS.NAME_AR_PATTERN" | translate }}
       </div>
 
-      <label for="lowerLimit">Lower Limit<sup>*</sup></label>
+      <label for="lowerLimit">
+        {{ "SME_CODE.LOWER_LIMIT" | translate }}<sup>*</sup>
+      </label>
       <input
         pInputText
         id="lowerLimit"
         formControlName="lowerLimit"
-        placeholder="Enter Lower Limit"
+        [placeholder]="'SME_CODE.PLACEHOLDER_LOWER_LIMIT' | translate"
         type="number"
       />
       <div
@@ -9658,15 +9660,17 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        Lower Limit is required.
+        {{ "SME_CODE.VALIDATION.LOWER_LIMIT_REQUIRED" | translate }}
       </div>
 
-      <label for="upperLimit">Upper Limit<sup>*</sup></label>
+      <label for="upperLimit">
+        {{ "SME_CODE.UPPER_LIMIT" | translate }}<sup>*</sup>
+      </label>
       <input
         pInputText
         id="upperLimit"
         formControlName="upperLimit"
-        placeholder="Enter Upper Limit"
+        [placeholder]="'SME_CODE.PLACEHOLDER_UPPER_LIMIT' | translate"
         type="number"
       />
       <div
@@ -9676,10 +9680,13 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        Upper Limit is required.
+        {{ "SME_CODE.VALIDATION.UPPER_LIMIT_REQUIRED" | translate }}
       </div>
       <div *ngIf="formGroup.get('upperLimit')?.errors?.['min']" class="p-error">
-        Minimum value is {{ formGroup.get("upperLimit")?.value }}
+        {{ "SME_CODE.VALIDATION.UPPER_LIMIT_MIN" | translate }}
+        {{
+    formGroup.get('upperLimit')?.errors?.['min'].min
+        }}
       </div>
 
       <div class="p-field" *ngIf="editMode">
@@ -9699,7 +9706,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Add SME Client Code"
+            [label]="'BUTTONS.ADD_SME_CLIENT_CODE' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -9710,7 +9717,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Edit SME Client Code"
+            [label]="'BUTTONS.EDIT_SME_CLIENT_CODE' | translate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -9732,14 +9739,16 @@ icon="pi pi-cog"
       *ngIf="addBranchOfficersLookupsForm"
       (ngSubmit)="onSubmit()"
     >
-      <label for="officerId">Officer<sup>*</sup></label>
+      <label for="officerId">
+        {{ "BRANCH_OFFICER.OFFICER" | translate }}<sup>*</sup>
+      </label>
       <p-select
         [filter]="true"
         [filterBy]="filterByField"
         [showClear]="true"
         [options]="officersList"
         [optionLabel]="optionLabelKey"
-        placeholder="Select officer"
+        [placeholder]="'BRANCH_OFFICER.PLACEHOLDER_OFFICER' | translate"
         formControlName="officerId"
         optionValue="id"
         (onChange)="onSectorChange($event)"
@@ -9751,13 +9760,25 @@ icon="pi pi-cog"
               formGroup.get('officerId')?.touched)
         }"
       />
+      <div
+        *ngIf="
+          formGroup.get('officerId')?.hasError('required') &&
+          formGroup.get('officerId')?.touched
+        "
+        class="p-error"
+      >
+        {{ "BRANCH_OFFICER.VALIDATION.OFFICER_REQUIRED" | translate }}
+      </div>
+
       <div class="p-field" for="isCurrent" *ngIf="editMode">
         <p-toggleSwitch
           id="isCurrent"
           formControlName="isCurrent"
           label="is Active"
         ></p-toggleSwitch>
-        <label for="isCurrent"> Current</label>
+        <label for="isCurrent">
+          {{ "BRANCH_OFFICER.IS_CURRENT" | translate }}
+        </label>
       </div>
       <div class="row justify-end">
         <div
@@ -9766,7 +9787,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Add Branch Officer"
+            [label]="'BUTTONS.ADD_BRANCH_OFFICER' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -9777,7 +9798,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Edit Branch Officer"
+            [label]="'BUTTONS.EDIT_BRANCH_OFFICER' | translate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -9798,14 +9819,16 @@ icon="pi pi-cog"
       *ngIf="addBranchAddressesLookupsForm"
       (ngSubmit)="onSubmit()"
     >
-      <label for="countryId">Country<sup>*</sup></label>
+      <label for="countryId">
+        {{ "BRANCH_ADDRESS.COUNTRY" | translate }}<sup>*</sup>
+      </label>
       <p-select
         [filter]="true"
         [filterBy]="filterByField"
         [showClear]="true"
         [options]="countriesList"
         [optionLabel]="optionLabelKey"
-        placeholder="Select Country"
+        [placeholder]="'BRANCH_ADDRESS.PLACEHOLDER_COUNTRY' | translate"
         formControlName="countryId"
         optionValue="id"
         (onChange)="onSectorChange($event)"
@@ -9817,14 +9840,16 @@ icon="pi pi-cog"
               formGroup.get('countryId')?.touched)
         }"
       />
-      <label for="governorateId">Governorate<sup>*</sup></label>
+      <label for="governorateId">
+        {{ "BRANCH_ADDRESS.GOVERNORATE" | translate }}<sup>*</sup>
+      </label>
       <p-select
         [filter]="true"
         [filterBy]="filterByField"
         [showClear]="true"
         [options]="governoratesList"
         [optionLabel]="optionLabelKey"
-        placeholder="Select governorate"
+    [placeholder]="'BRANCH_ADDRESS.PLACEHOLDER_GOVERNORATE' | translate"
         formControlName="governorateId"
         optionValue="id"
         (onChange)="onSectorChange($event)"
@@ -9836,14 +9861,15 @@ icon="pi pi-cog"
               formGroup.get('governorateId')?.touched)
         }"
       />
-      <label for="areaId">Area<sup>*</sup></label>
+      <label for="areaId">    {{ 'BRANCH_ADDRESS.AREA' | translate }}<sup>*</sup>
+</label>
       <p-select
         [filter]="true"
         [filterBy]="filterByField"
         [showClear]="true"
         [options]="areasList"
         [optionLabel]="optionLabelKey"
-        placeholder="Select Area"
+    [placeholder]="'BRANCH_ADDRESS.PLACEHOLDER_AREA' | translate"
         formControlName="areaId"
         optionValue="id"
         (onChange)="onSectorChange($event)"
@@ -9854,12 +9880,13 @@ icon="pi pi-cog"
             (formGroup.get('areaId')?.dirty || formGroup.get('areaId')?.touched)
         }"
       />
-      <label for="details">Details in English<sup>*</sup></label>
+      <label for="details">    {{ 'BRANCH_ADDRESS.DETAILS_EN' | translate }}<sup>*</sup>
+</label>
       <input
         pInputText
         id="details"
         formControlName="details"
-        placeholder="Type"
+    [placeholder]="'BRANCH_ADDRESS.PLACEHOLDER_DETAILS_EN' | translate"
       />
       <div
         *ngIf="
@@ -9868,14 +9895,15 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        Details in English is required.
+    {{ 'BRANCH_ADDRESS.VALIDATION.DETAILS_EN_REQUIRED' | translate }}
       </div>
-      <label for="detailsAR">DetailsAr in Arabic<sup>*</sup></label>
+      <label for="detailsAR">    {{ 'BRANCH_ADDRESS.DETAILS_AR' | translate }}<sup>*</sup>
+</label>
       <input
         pInputText
         id="detailsAR"
         formControlName="detailsAR"
-        placeholder="Type"
+    [placeholder]="'BRANCH_ADDRESS.PLACEHOLDER_DETAILS_AR' | translate"
       />
       <div
         *ngIf="
@@ -9884,7 +9912,7 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-        Details in Arabic is required.
+    {{ 'BRANCH_ADDRESS.VALIDATION.DETAILS_AR_REQUIRED' | translate }}
       </div>
 
       <div class="row justify-end">
@@ -9894,7 +9922,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Add Branch Addresses"
+        [label]="'BUTTONS.ADD_BRANCH_ADDRESS' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -9905,7 +9933,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-            label="Edit Branch Addresses"
+        [label]="'BUTTONS.EDIT_BRANCH_ADDRESS' | translate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>

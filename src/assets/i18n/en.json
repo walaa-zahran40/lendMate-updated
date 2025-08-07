@@ -209,7 +209,21 @@
   },
   "BRANCH_ADDRESS": {
     "TITLE": "Branch Address",
-    "DESCRIPTION": "Introduce your Branch Address core info quickly to users by filling in branch details."
+    "DESCRIPTION": "Introduce your Branch Address core info quickly to users by filling in branch details.",
+    "COUNTRY": "Country",
+    "GOVERNORATE": "Governorate",
+    "AREA": "Area",
+    "DETAILS_EN": "Details in English",
+    "DETAILS_AR": "Details in Arabic",
+    "PLACEHOLDER_COUNTRY": "Select Country",
+    "PLACEHOLDER_GOVERNORATE": "Select Governorate",
+    "PLACEHOLDER_AREA": "Select Area",
+    "PLACEHOLDER_DETAILS_EN": "Enter address in English",
+    "PLACEHOLDER_DETAILS_AR": "Enter address in Arabic",
+    "VALIDATION": {
+      "DETAILS_EN_REQUIRED": "Details in English is required.",
+      "DETAILS_AR_REQUIRED": "Details in Arabic is required."
+    }
   },
   "ROLE_CLAIM": {
     "TITLE": "Role Claim",
@@ -318,12 +332,36 @@
   "FEE_TYPE": {
     "SELECT_FEE_TYPE": "Select Fee Type"
   },
+  "SME_CODE": {
+    "LOWER_LIMIT": "Lower Limit",
+    "UPPER_LIMIT": "Upper Limit",
+    "PLACEHOLDER_LOWER_LIMIT": "Enter Lower Limit",
+    "PLACEHOLDER_UPPER_LIMIT": "Enter Upper Limit",
+    "VALIDATION": {
+      "LOWER_LIMIT_REQUIRED": "Lower Limit is required.",
+      "UPPER_LIMIT_REQUIRED": "Upper Limit is required.",
+      "UPPER_LIMIT_MIN": "Minimum value is"
+    }
+  },
+  "BRANCH_OFFICER": {
+    "OFFICER": "Officer",
+    "PLACEHOLDER_OFFICER": "Select Officer",
+    "IS_CURRENT": "Current",
+    "VALIDATION": {
+      "OFFICER_REQUIRED": "Officer is required."
+    }
+  },
+
   "BUTTONS": {
     "SUBMIT": "Submit",
     "CLOSE": "Close",
+    "ADD_BRANCH_OFFICER": "Add Branch Officer",
+    "EDIT_BRANCH_OFFICER": "Edit Branch Officer",
+
     "ADD_NOTIFICATION_GROUP_OFFICER": "Add Notification Group Officer",
     "EDIT_NOTIFICATION_GROUP_OFFICER": "Edit Notification Group Officer",
-
+    "ADD_SME_CLIENT_CODE": "Add SME Client Code",
+    "EDIT_SME_CLIENT_CODE": "Edit SME Client Code",
     "ADD_ACTION_NOTIFICATION_GROUP": "Add Action Notification Group",
     "EDIT_ACTION_NOTIFICATION_GROUP": "Edit Action Notification Group",
     "ADD_FEE_TYPE": "Add Fee Type",
@@ -422,6 +460,8 @@
     "VIEW_SIGNATORY_OFFICER": "View Signatory Officer",
     "ADD_CONDITION": "Add Condition",
     "EDIT_CONDITION": "Edit Condition",
+    "ADD_MANDATE_VALIDITY_UNIT": "Add Mandate Validity Unit",
+    "EDIT_MANDATE_VALIDITY_UNIT": "Edit Mandate Validity Unit",
 
     "VIEW_MANDATE_STATUSES": "View Mandate Statuses",
     "VIEW_INTEREST_RATE_BENCHMARKS": "View Interest Rate Benchmarks",
@@ -443,7 +483,9 @@
     "VIEW_BRANCH_MANAGERS": "View Branch Managers",
     "VIEW_BUSINESS_LINES": "View Business Lines",
     "ADD_FEE_RANGE": "Add Fee Range",
-    "EDIT_FEE_RANGE": "Edit Fee Range"
+    "EDIT_FEE_RANGE": "Edit Fee Range",
+    "ADD_BRANCH_ADDRESS": "Add Branch Address",
+    "EDIT_BRANCH_ADDRESS": "Edit Branch Address"
   },
   "CONDITION": {
     "DESCRIPTION": "Description",

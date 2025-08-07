@@ -216,7 +216,21 @@
   },
   "BRANCH_ADDRESS": {
     "TITLE": "عنوان الفرع",
-    "DESCRIPTION": "قدّم معلومات عنوان الفرع الأساسية بسرعة للمستخدمين عن طريق تعبئة تفاصيل الفرع."
+    "DESCRIPTION": "قدّم معلومات عنوان الفرع الأساسية بسرعة للمستخدمين عن طريق تعبئة تفاصيل الفرع.",
+    "COUNTRY": "الدولة",
+    "GOVERNORATE": "المحافظة",
+    "AREA": "المنطقة",
+    "DETAILS_EN": "العنوان باللغة الإنجليزية",
+    "DETAILS_AR": "العنوان باللغة العربية",
+    "PLACEHOLDER_COUNTRY": "اختر الدولة",
+    "PLACEHOLDER_GOVERNORATE": "اختر المحافظة",
+    "PLACEHOLDER_AREA": "اختر المنطقة",
+    "PLACEHOLDER_DETAILS_EN": "أدخل العنوان بالإنجليزية",
+    "PLACEHOLDER_DETAILS_AR": "أدخل العنوان بالعربية",
+    "VALIDATION": {
+      "DETAILS_EN_REQUIRED": "العنوان بالإنجليزية مطلوب.",
+      "DETAILS_AR_REQUIRED": "العنوان بالعربية مطلوب."
+    }
   },
   "ROLE_CLAIM": {
     "TITLE": "صلاحيات الدور",
@@ -316,22 +330,45 @@
   "FEE_TYPE": {
     "SELECT_FEE_TYPE": "اختر نوع الرسوم"
   },
+  "SME_CODE": {
+    "LOWER_LIMIT": "الحد الأدنى",
+    "UPPER_LIMIT": "الحد الأقصى",
+    "PLACEHOLDER_LOWER_LIMIT": "أدخل الحد الأدنى",
+    "PLACEHOLDER_UPPER_LIMIT": "أدخل الحد الأقصى",
+    "VALIDATION": {
+      "LOWER_LIMIT_REQUIRED": "الحد الأدنى مطلوب.",
+      "UPPER_LIMIT_REQUIRED": "الحد الأقصى مطلوب.",
+      "UPPER_LIMIT_MIN": "القيمة الدنيا هي"
+    }
+  },
+  "BRANCH_OFFICER": {
+    "OFFICER": "الضابط",
+    "PLACEHOLDER_OFFICER": "اختر الضابط",
+    "IS_CURRENT": "نشط",
+    "VALIDATION": {
+      "OFFICER_REQUIRED": "الضابط مطلوب."
+    }
+  },
+
   "BUTTONS": {
     "SUBMIT": "إرسال",
+    "ADD_BRANCH_OFFICER": "إضافة ضابط فرع",
+    "EDIT_BRANCH_OFFICER": "تعديل ضابط فرع",
+
     "CLOSE": "إغلاق",
+    "ADD_SME_CLIENT_CODE": "إضافة كود عميل SME",
+    "EDIT_SME_CLIENT_CODE": "تعديل كود عميل SME",
+
     "ADD_CONDITION": "إضافة شرط",
     "EDIT_CONDITION": "تعديل شرط",
     "ADD_FEE_TYPE": "إضافة نوع الرسوم",
     "ADD_NOTIFICATION_GROUP_OFFICER": "إضافة ضابط مجموعة الإشعارات",
     "EDIT_NOTIFICATION_GROUP_OFFICER": "تعديل ضابط مجموعة الإشعارات",
-
     "EDIT_FEE_TYPE": "تعديل نوع الرسوم",
     "ADD_FEE_RANGE": "إضافة نطاق رسوم",
     "EDIT_FEE_RANGE": "تعديل نطاق رسوم",
-
     "ADD_ACTION_NOTIFICATION_GROUP": "إضافة مجموعة إشعار الإجراء",
     "EDIT_ACTION_NOTIFICATION_GROUP": "تعديل مجموعة إشعار الإجراء",
-
     "ADD_COUNTRY": "إضافة دولة",
     "EDIT_COUNTRY": "تعديل الدولة",
     "ADD_TAX_OFFICE": "إضافة مكتب ضرائب",
@@ -351,6 +388,9 @@
     "ADD_ROLE": "إضافة دور",
     "EDIT_ROLE": "تعديل الدور",
     "ADD_PAGE": "إضافة صفحة",
+    "ADD_MANDATE_VALIDITY_UNIT": "إضافة وحدة صلاحية التفويض",
+    "EDIT_MANDATE_VALIDITY_UNIT": "تعديل وحدة صلاحية التفويض",
+
     "EDIT_PAGE": "تعديل الصفحة",
     "ADD_DOCUMENT_TYPE": "إضافة نوع المستند",
     "EDIT_DOCUMENT_TYPE": "تعديل نوع المستند",
@@ -425,6 +465,9 @@
     "VIEW_INTEREST_RATE_BENCHMARKS": "عرض معايير سعر الفائدة",
     "VIEW_FEES_TYPES": "عرض أنواع الرسوم",
     "VIEW_FEES_RANGES": "عرض نطاقات الرسوم",
+    "ADD_BRANCH_ADDRESS": "إضافة عنوان فرع",
+    "EDIT_BRANCH_ADDRESS": "تعديل عنوان فرع",
+
     "VIEW_GRACE_PERIOD": "عرض فترة السماح",
     "VIEW_RENT_STRUCTURE": "عرض هيكل الإيجار",
     "VIEW_CURRENCIES": "عرض العملات",
