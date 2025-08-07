@@ -243,6 +243,7 @@ import { mandateActionNotificationGroupsReducer } from './store/mandate-statuses
 import { MandateActionNotificationGroupsEffects } from './store/mandate-statuses-actions-activities/MandateStatusActionNotificationGroup/action-notification-groups.effects';
 import { ViewMandateActionAuthorizationGroupsComponent } from './components/mandate-statuses/Activities/MandateStatusActionAuthorizationGroup/view-mandate-authorization-group/view-mandate-authorization-group.component';
 import { ViewMandateActionNotificationGroupsComponent } from './components/mandate-statuses/Activities/MandateStatusActionNotificationGroup/view-mandate-notification-group/view-mandate-notification-group.component';
+import { AddVehicleManufacturerComponent } from './components/vehicle-manufacturers/add-vehicle-manufacturer/add-vehicle-manufacturer.component';
 
 @NgModule({
   declarations: [
@@ -371,6 +372,7 @@ import { ViewMandateActionNotificationGroupsComponent } from './components/manda
     ViewMandateActionAuthorizationGroupsComponent,
     AddMandateActionNotificationGroupsComponent,
     ViewMandateActionNotificationGroupsComponent,
+    AddVehicleManufacturerComponent,
   ],
   imports: [
     CommonModule,
@@ -579,6 +581,7 @@ import { ViewMandateActionNotificationGroupsComponent } from './components/manda
     AddActionNotificationGroupsComponent,
     AddMandateActionAuthorizationGroupsComponent,
     AddMandateActionNotificationGroupsComponent,
+    AddVehicleManufacturerComponent,
   ],
 })
 export class LookupsModule {}
