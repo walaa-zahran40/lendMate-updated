@@ -31,9 +31,7 @@
               <div class="flex flex-col">
                 <app-add-client-onboarding-form
                   [formGroup]="addClientForm"
-                  [description]="
-                    'Introduce your company core info quickly to users by fill up company details'
-                  "
+                  [description]="'CLIENT.FORM.DESCRIPTION_COMPANY' | translate"
                   [addClientOnboardingForm]="true"
                   [addClient]="true"
                   [sectorsList]="sectorsList"
@@ -48,7 +46,7 @@
                 >
                   <p-button
                     *ngIf="!viewOnly"
-                    label="Save Information"
+                    [label]="'BUTTONS.SAVE_INFO' | translate"
                     (click)="saveInfo()"
                     [disabled]="this.addClientForm.invalid"
                     class="custom-save2 m-0 float-right"
@@ -56,7 +54,7 @@
                   <p-button
                     *ngIf="viewOnly"
                     (click)="close()"
-                    label="Close"
+                    [label]="'BUTTONS.CLOSE' | translate"
                     class="custom-save m-0 float-right"
                   ></p-button>
                 </div>
@@ -71,9 +69,7 @@
     <p-tabpanel [value]="1">
       <app-add-client-form
         [formGroup]="addClientFormIndividual"
-        [description]="
-          'Introduce your individual core info quickly to users by fill up individual details'
-        "
+        [description]="'CLIENT.FORM.DESCRIPTION_INDIVIDUAL' | translate"
         [addClientShowIndividual]="true"
         [addClient]="true"
         [sectorsList]="sectorsList"

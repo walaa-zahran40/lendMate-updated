@@ -94,6 +94,7 @@ import { reducer as sectorsReducer } from '../../lookups/store/sectors/sectors.r
 import { SectorsEffects } from '../../lookups/store/sectors/sectors.effects';
 import { reducer as subSectorsReducer } from '../../lookups/store/sub-sectors/sub-sectors.reducer';
 import { SubSectorsEffects } from '../../lookups/store/sub-sectors/sub-sectors.effects';
+import { TranslateModule } from '@ngx-translate/core';
 @NgModule({
   declarations: [
     AddClientComponent,
@@ -136,6 +137,7 @@ import { SubSectorsEffects } from '../../lookups/store/sub-sectors/sub-sectors.e
     StepperModule,
     ButtonModule,
     TabsModule,
+    TranslateModule,
     ConfirmDialogModule,
     FileUploadModule,
     IconField,

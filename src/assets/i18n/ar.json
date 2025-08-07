@@ -349,11 +349,17 @@
       "OFFICER_REQUIRED": "الضابط مطلوب."
     }
   },
-
+  "CLIENT": {
+    "FORM": {
+      "DESCRIPTION_INDIVIDUAL": "قدّم معلوماتك الشخصية الأساسية للمستخدمين بسرعة من خلال تعبئة التفاصيل الفردية.",
+      "DESCRIPTION_COMPANY": "قدّم معلومات شركتك الأساسية للمستخدمين بسرعة من خلال تعبئة تفاصيل الشركة"
+    }
+  },
   "BUTTONS": {
     "SUBMIT": "إرسال",
     "ADD_BRANCH_OFFICER": "إضافة ضابط فرع",
     "EDIT_BRANCH_OFFICER": "تعديل ضابط فرع",
+    "SAVE_INFO": "حفظ المعلومات",
 
     "CLOSE": "إغلاق",
     "ADD_SME_CLIENT_CODE": "إضافة كود عميل SME",
@@ -535,6 +541,26 @@
     "EXCHANGE_DATE": "تاريخ الصرف"
   },
   "FORM": {
+    "LABELS": {
+      "BUSINESS_ACTIVITY": "النشاط التجاري",
+      "TAX_ID": "الرقم الضريبي",
+      "SHORT_NAME": "الاسم المختصر",
+      "SECTOR": "اختر القطاع",
+      "SUB_SECTOR": "اختر القطاع الفرعي"
+    },
+    "PLACEHOLDERS": {
+      "BUSINESS_ACTIVITY": "النشاط التجاري",
+      "TAX_ID": "الرقم الضريبي",
+      "SHORT_NAME": "الاسم المختصر",
+      "SECTOR": "اختر القطاع",
+      "SUB_SECTOR": "اختر القطاع الفرعي"
+    },
+    "ERRORS": {
+      "TAX_ID_REQUIRED": "الرقم الضريبي مطلوب.",
+      "TAX_ID_PATTERN": "يسمح فقط بالأرقام الموجبة والشرطات. التنسيق: 123-435-678.",
+      "SECTOR_REQUIRED": "القطاع مطلوب.",
+      "SUB_SECTOR_REQUIRED": "القطاع الفرعي مطلوب."
+    },
     "CODE2": "الرمز 2",
     "CODE2_REQUIRED": "الرمز 2 باللغة العربية مطلوب.",
     "CODE3": "الرمز 3",

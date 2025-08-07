@@ -1,8 +1,8 @@
 <div class="parent">
   <div *ngIf="!contactPersonDetailsView" class="div1">
-    <h2 class="m-0 title">{{ title }}</h2>
+    <h2 class="m-0 title">{{ title | translate }}</h2>
     <p class="tab-panel-paragraph">
-      {{ description }}
+      {{ description | translate }}
     </p>
   </div>
   <div class="div2" [ngClass]="{ span: applyReusable }">
@@ -14,62 +14,53 @@
       <!-- Main Info -->
       <ng-container *ngIf="addClientShowMain">
         <!-- Name in English -->
-        <label for="name">Name in English <sup class="danger">*</sup></label>
+        <label for="name"
+          >{{ "FORM.COMPANY_TYPES.NAME_EN" | translate }}<sup>*</sup></label
+        >
         <input
           pInputText
-          name="name"
+          id="name"
           formControlName="name"
-          placeholder="Name in English"
-          [ngClass]="{
-            'ng-invalid ng-dirty':
-              formGroup.get('name')?.invalid && formGroup.get('name')?.touched
-          }"
+          [placeholder]="'FORM.COMPANY_TYPES.PLACEHOLDER_NAME_EN' | translate"
         />
-
-        <small
-          class="p-error"
+        <div
           *ngIf="
             formGroup.get('name')?.hasError('required') &&
             formGroup.get('name')?.touched
           "
+          class="p-error"
         >
-          Name in English is required.
-        </small>
-        <br />
+          {{ "FORM.COMPANY_TYPES.ERRORS.NAME_EN_REQUIRED" | translate }}
+        </div>
 
-        <!-- Name in Arabic -->
-        <label for="nameAR">Name in Arabic <sup class="danger">*</sup></label>
+        <label for="nameAR"
+          >{{ "FORM.COMPANY_TYPES.LABEL_NAME_AR" | translate
+          }}<sup>*</sup></label
+        >
         <input
           pInputText
-          name="nameAR"
+          id="nameAR"
           formControlName="nameAR"
-          placeholder="Name in Arabic"
-          [ngClass]="{
-            'ng-invalid ng-dirty':
-              formGroup.get('nameAR')?.invalid &&
-              formGroup.get('nameAR')?.touched
-          }"
-          appOnlyArabic
+          [placeholder]="'FORM.COMPANY_TYPES.PLACEHOLDER_NAME_AR' | translate"
         />
-        <small
-          class="p-error"
+        <div
           *ngIf="
             formGroup.get('nameAR')?.hasError('required') &&
             formGroup.get('nameAR')?.touched
           "
-        >
-          Name in Arabic is required.
-        </small>
-        <small
           class="p-error"
+        >
+          {{ "FORM.COMPANY_TYPES.ERRORS.NAME_AR_REQUIRED" | translate }}
+        </div>
+        <div
           *ngIf="
-            formGroup.get('nameAR')?.hasError('nonArabic') &&
+            formGroup.get('nameAR')?.hasError('pattern') &&
             formGroup.get('nameAR')?.touched
           "
+          class="p-error"
         >
-          Only Arabic characters are allowed.
-        </small>
-        <br />
+          {{ "FORM.COMPANY_TYPES.ERRORS.NAME_AR_PATTERN" | translate }}
+        </div>
 
         <!-- Business Activity -->
         <label for="businessActivity"

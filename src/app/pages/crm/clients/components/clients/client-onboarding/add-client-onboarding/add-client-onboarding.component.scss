@@ -33,6 +33,9 @@
       font-size: var(--custom-font-size-13);
       line-height: var(--custom-font-size-24);
     }
+    .p-tablist-active-bar {
+      background: transparent !important;
+    }
     .p-tablist-tab-list {
       background: var(--bg-transparent);
     }

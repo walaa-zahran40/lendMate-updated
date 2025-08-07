@@ -485,7 +485,14 @@
     "ADD_FEE_RANGE": "Add Fee Range",
     "EDIT_FEE_RANGE": "Edit Fee Range",
     "ADD_BRANCH_ADDRESS": "Add Branch Address",
-    "EDIT_BRANCH_ADDRESS": "Edit Branch Address"
+    "EDIT_BRANCH_ADDRESS": "Edit Branch Address",
+    "SAVE_INFO": "Save Information"
+  },
+  "CLIENT": {
+    "FORM": {
+      "DESCRIPTION_INDIVIDUAL": "Quickly introduce your core personal information by filling out your individual details.",
+      "DESCRIPTION_COMPANY": "Introduce your company core info quickly to users by fill up company details"
+    }
   },
   "CONDITION": {
     "DESCRIPTION": "Description",
@@ -539,6 +546,26 @@
   "FORM": {
     "CODE2": "Code2",
     "FEE_TYPE_REQUIRED": "Fee Type is required.",
+    "LABELS": {
+      "BUSINESS_ACTIVITY": "Business Activity",
+      "TAX_ID": "Tax ID",
+      "SHORT_NAME": "Short Name",
+      "SECTOR": "Select Sector",
+      "SUB_SECTOR": "Select Sub Sector"
+    },
+    "PLACEHOLDERS": {
+      "BUSINESS_ACTIVITY": "Business Activity",
+      "TAX_ID": "Tax ID",
+      "SHORT_NAME": "Short Name",
+      "SECTOR": "Select Sector",
+      "SUB_SECTOR": "Select Sub Sector"
+    },
+    "ERRORS": {
+      "TAX_ID_REQUIRED": "Tax ID is required.",
+      "TAX_ID_PATTERN": "Only positive numbers and dashes are allowed. Format must be 3 digits, dash, 3 digits, dash, 3 digits (e.g. 123-435-678).",
+      "SECTOR_REQUIRED": "Sector is required.",
+      "SUB_SECTOR_REQUIRED": "Sub Sector is required."
+    },
     "LOWER_BOUND": "LowerBound Amount",
     "UPPER_BOUND": "UpperBound Amount",
     "CRITERIA_FIELD": "Criteria Field",

@@ -37,6 +37,7 @@ import { LegalFormsFacade } from '../../../../legals/store/legal-forms/legal-for
 import { IdentificationType } from '../../../../lookups/store/identification-types/identification-type.model';
 import { Currency } from '../../../../lookups/store/currencies/currency.model';
 import { PageOperation } from '../../../../organizations/store/page-operations/page-operation.model';
+import { TranslateService } from '@ngx-translate/core';
 export interface IdentityEntry {
   identificationNumber: string;
   selectedIdentities: any[];
@@ -57,6 +58,8 @@ export class AddClientOnboardingFormComponent implements OnInit, OnDestroy {
   @Input() formGroup: FormGroup = new FormGroup({});
   @Input() viewOnly = false;
   companyLegalDetail: CompanyLegalDetails = {};
+  optionLabelKey = 'name';
+
   @Output() addIdentity = new EventEmitter<void>();
   @Output() removeIdentity = new EventEmitter<number>();
   @Output() onCheckboxChange = new EventEmitter<any>();
@@ -644,8 +647,14 @@ export class AddClientOnboardingFormComponent implements OnInit, OnDestroy {
     private facade: LegalFormLawFacade,
     private facadeLegalForms: LegalFormsFacade,
     private route: ActivatedRoute,
-    public router: Router
-  ) {}
+    public router: Router,
+    private translate: TranslateService
+  ) {
+    this.setOptionLabelKey(this.translate.currentLang);
+    this.translate.onLangChange.subscribe((event) => {
+      this.setOptionLabelKey(event.lang);
+    });
+  }
 
   ngOnInit() {
     this.minDateOfBirth.setFullYear(this.minDateOfBirth.getFullYear() - 100);
@@ -1378,5 +1387,8 @@ export class AddClientOnboardingFormComponent implements OnInit, OnDestroy {
       this.onChange(fullObj);
     }
     console.log('Selected selectionChangedPaymentMonthDay:', fullObj);
+  }
+  private setOptionLabelKey(lang: string) {
+    this.optionLabelKey = lang === 'ar' ? 'nameAR' : 'name';
   }
 }
