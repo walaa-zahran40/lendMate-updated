@@ -1,6 +1,6 @@
 <div class="parent">
   <div *ngIf="!contactPersonDetailsView" class="div1">
-    <h2 class="m-0 title">{{ title }}</h2>
+    <h2 class="m-0 title">{{ title | translate }}</h2>
     <p class="tab-panel-paragraph">
       {{ description | translate }}
     </p>
@@ -41,6 +41,37 @@
           "
         >
           Vehicle Manufacturer is required.
+        </small>
+        <br />
+        <label for="vehiclesModelId"
+          >Vehicle Model<sup class="danger">*</sup></label
+        >
+        <p-select
+          [filter]="true"
+          filterBy="name"
+          [showClear]="true"
+          id="vehiclesModelId"
+          [options]="vehicleModels"
+          optionLabel="name"
+          placeholder="Select Vehicle Model"
+          formControlName="vehiclesModelId"
+          optionValue="id"
+          [ngClass]="{
+            'ng-invalid':
+              formGroup.get('vehiclesModelId')?.invalid &&
+              (formGroup.get('vehiclesModelId')?.dirty ||
+                formGroup.get('vehiclesModelId')?.touched)
+          }"
+        ></p-select>
+
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('vehiclesModelId')?.hasError('required') &&
+            formGroup.get('vehiclesModelId')?.touched
+          "
+        >
+          Vehicle Model is required.
         </small>
         <br />
       </ng-container>

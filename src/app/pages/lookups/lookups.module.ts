@@ -247,6 +247,10 @@ import { AddVehicleManufacturerComponent } from './components/vehicle-manufactur
 import { ViewVehicleManufacturersComponent } from './components/vehicle-manufacturers/view-vehicle-manufacturers/view-vehicle-manufacturers.component';
 import { reducer as vehicleManufacturersReducer } from './store/vehicle-manufacturers/vehicle-manufacturers.reducer';
 import { VehicleManufacturersEffects } from './store/vehicle-manufacturers/vehicle-manufacturers.effects';
+import { VehicleModelsEffects } from './store/vehicle-models/vehicle-models.effects';
+import { reducer as vehicleModelsReducer } from './store/vehicle-models/vehicle-models.reducer';
+import { AddVehicleModelComponent } from './components/vehicle-models/add-vehicle-model/add-vehicle-model.component';
+import { ViewVehicleModelsComponent } from './components/vehicle-models/view-vehicle-models/view-vehicle-models.component';
 
 @NgModule({
   declarations: [
@@ -377,6 +381,8 @@ import { VehicleManufacturersEffects } from './store/vehicle-manufacturers/vehic
     ViewMandateActionNotificationGroupsComponent,
     AddVehicleManufacturerComponent,
     ViewVehicleManufacturersComponent,
+    AddVehicleModelComponent,
+    ViewVehicleModelsComponent,
   ],
   imports: [
     CommonModule,
@@ -388,6 +394,8 @@ import { VehicleManufacturersEffects } from './store/vehicle-manufacturers/vehic
     FileUploadModule,
     StoreModule.forFeature('vehicleManufacturers', vehicleManufacturersReducer),
     EffectsModule.forFeature([VehicleManufacturersEffects]),
+    StoreModule.forFeature('vehicleModels', vehicleModelsReducer),
+    EffectsModule.forFeature([VehicleModelsEffects]),
 
     StoreModule.forFeature('companyTypes', companyTypesReducer),
     EffectsModule.forFeature([CompanyTypesEffects]),
@@ -591,6 +599,8 @@ import { VehicleManufacturersEffects } from './store/vehicle-manufacturers/vehic
     AddMandateActionAuthorizationGroupsComponent,
     AddMandateActionNotificationGroupsComponent,
     AddVehicleManufacturerComponent,
+    AddVehicleModelComponent,
+    ViewVehicleModelsComponent,
   ],
 })
 export class LookupsModule {}

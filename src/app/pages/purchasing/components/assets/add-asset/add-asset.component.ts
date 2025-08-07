@@ -8,6 +8,8 @@ import { AssetType } from '../../../../lookups/store/asset-types/asset-type.mode
 import { AssetTypesFacade } from '../../../../lookups/store/asset-types/asset-types.facade';
 import { VehicleManufacturer } from '../../../../lookups/store/vehicle-manufacturers/vehicle-manufacturer.model';
 import { VehicleManufacturersFacade } from '../../../../lookups/store/vehicle-manufacturers/vehicle-manufacturers.facade';
+import { VehicleModel } from '../../../../lookups/store/vehicle-models/vehicle-model.model';
+import { VehicleModelsFacade } from '../../../../lookups/store/vehicle-models/vehicle-models.facade';
 
 @Component({
   selector: 'app-add-asset',
@@ -32,6 +34,7 @@ export class AddAssetComponent {
   addAssetShowInfo = false;
   assetTypes$!: Observable<AssetType[]>;
   vehicleManufacturers$!: Observable<VehicleManufacturer[]>;
+  vehicleModels$!: Observable<VehicleModel[]>;
   assetTypeComponentMap: Record<string, string> = {
     PASS_VEH: 'vehicle',
     COMM_VEH: 'vehicle',
@@ -49,6 +52,7 @@ export class AddAssetComponent {
     private assetsFacade: AssetsFacade,
     private assetTypesFacade: AssetTypesFacade,
     private vehicleManufacturersFacade: VehicleManufacturersFacade,
+    private vehicleModelsFacade: VehicleModelsFacade,
     private router: Router
   ) {}
 
@@ -66,6 +70,9 @@ export class AddAssetComponent {
     this.assetTypes$ = this.assetTypesFacade.all$;
     this.vehicleManufacturersFacade.loadAll();
     this.vehicleManufacturers$ = this.vehicleManufacturersFacade.all$;
+    this.vehicleModelsFacade.loadAll();
+    this.vehicleModels$ = this.vehicleModelsFacade.all$;
+
     this.addAssetForm
       .get('assetTypeId')
       ?.valueChanges.subscribe((selectedId: number) => {
@@ -134,10 +141,7 @@ export class AddAssetComponent {
     this.addVehicleForm = this.fb.group({
       id: [null],
       vehiclesManufactureId: ['', Validators.required],
-      descriptionAr: [
-        '',
-        [Validators.required, Validators.pattern(/^[\u0600-\u06FF\s]+$/)],
-      ],
+      vehiclesModelId: ['', Validators.required],
       dateAcquired: [null, Validators.required],
       assetTypeId: ['', Validators.required],
       agreementId: ['', Validators.required],

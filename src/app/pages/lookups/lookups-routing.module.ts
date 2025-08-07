@@ -122,6 +122,8 @@ import { ViewMandateActionNotificationGroupsComponent } from './components/manda
 import { PendingChangesGuard } from '../../shared/guards/pending-changes.guard';
 import { AddVehicleManufacturerComponent } from './components/vehicle-manufacturers/add-vehicle-manufacturer/add-vehicle-manufacturer.component';
 import { ViewVehicleManufacturersComponent } from './components/vehicle-manufacturers/view-vehicle-manufacturers/view-vehicle-manufacturers.component';
+import { AddVehicleModelComponent } from './components/vehicle-models/add-vehicle-model/add-vehicle-model.component';
+import { ViewVehicleModelsComponent } from './components/vehicle-models/view-vehicle-models/view-vehicle-models.component';
 
 const routes: Routes = [
   /**Lookup Module */
@@ -153,6 +155,20 @@ const routes: Routes = [
   {
     path: 'view-vehicle-manufacturers',
     component: ViewVehicleManufacturersComponent,
+  },
+  //Vehicle Models
+  {
+    path: 'add-vehicle-model',
+    component: AddVehicleModelComponent,
+  },
+  {
+    path: 'edit-vehicle-model/:id',
+    component: AddVehicleModelComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
+  {
+    path: 'view-vehicle-models',
+    component: ViewVehicleModelsComponent,
   },
 
   //Interest Types

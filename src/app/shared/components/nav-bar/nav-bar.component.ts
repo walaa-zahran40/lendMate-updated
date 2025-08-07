@@ -19,7 +19,7 @@ export class NavBarComponent implements OnInit {
   darkMode: boolean = false;
   displayPopup = false;
   username: string = '';
-  currentLang = 'ar'; // Default
+  currentLang = 'en'; // Default
 
   constructor(
     private menuToggleService: MenuToggleService,
@@ -30,7 +30,7 @@ export class NavBarComponent implements OnInit {
     private translate: TranslateService
   ) {
     translate.addLangs(['en', 'ar']);
-    translate.setDefaultLang('ar');
+    translate.setDefaultLang('en');
     this.translate.use(this.currentLang);
     this.updateHtmlLangAndDir(this.currentLang);
   }

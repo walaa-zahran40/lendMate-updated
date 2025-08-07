@@ -1,0 +1,48 @@
+<div class="page-content">
+  <!-- [addPermission]="'/VehicleModels/Post'" -->
+  <app-toolbar-table
+    [title]="'Vehicle Models'"
+    [labelBtn]="'Add Vehicle Model'"
+    [addPermission]="'/Meetings/Post'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddVehicleModel()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="VehicleModels$ | async as VehicleModels">
+    <app-table
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [viewPermission]="[
+        '/Meetings/Get',
+        '/Meetings/GetAll',
+        '/Meetings/GetAllHistory'
+      ]"
+      [editPermission]="'/Meetings/Put'"
+      [deletePermission]="'/Meetings/Delete'"
+      [cols]="colsInside"
+      [tableData]="filteredVehicleModel"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewVehicleModelLookupsTable]="true"
+      (onDelete)="onDeleteVehicleModel($event)"
+      (onEdit)="onEditVehicleModel($event)"
+      (viewForm)="onViewVehicleModel($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

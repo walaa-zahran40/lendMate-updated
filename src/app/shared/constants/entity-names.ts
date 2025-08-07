@@ -67,4 +67,5 @@ export enum EntityNames {
   Call = 'Call',
   MandateFee = 'MandateFee',
   Asset = 'Asset',
+  VehicleModel = 'VehicleModel',
 }

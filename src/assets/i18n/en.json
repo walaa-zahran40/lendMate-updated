@@ -546,6 +546,11 @@
   "FORM": {
     "CODE2": "Code2",
     "FEE_TYPE_REQUIRED": "Fee Type is required.",
+    "VEHICLES": {
+      "TITLE": "Vehicles",
+      "DESCRIPTION": "Introduce your vehicles core info quickly to users by filling in vehicle  details"
+    },
+
     "LABELS": {
       "BUSINESS_ACTIVITY": "Business Activity",
       "TAX_ID": "Tax ID",

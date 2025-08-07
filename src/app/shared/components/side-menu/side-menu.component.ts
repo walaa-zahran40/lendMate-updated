@@ -976,6 +976,7 @@ export class SideMenuComponent {
             routerLink: '/lookups/view-authority-offices',
             permission: '/CRAuthorityOffices/GetAll',
           },
+
           {
             label: 'Authorization Groups',
             icon: 'pi pi-user-plus',
@@ -1253,6 +1254,18 @@ export class SideMenuComponent {
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-tml-officer-types',
             permission: '/TMLOfficerTypes/GetAll',
+          },
+          {
+            label: 'Vehicle Models',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-vehicle-models',
+            permission: '/CRAuthorityOffices/GetAll',
+          },
+          {
+            label: 'Vehicle Manufacturers',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-vehicle-manufacturers',
+            permission: '/CRAuthorityOffices/GetAll',
           },
           {
             label: 'Workflow Action Types',

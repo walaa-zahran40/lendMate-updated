@@ -1,47 +1,55 @@
 import {
   Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
   OnInit,
+  OnDestroy,
+  Input,
   Output,
-  SimpleChanges,
+  EventEmitter,
   ViewChild,
+  SimpleChanges,
 } from '@angular/core';
 import { FormGroup, FormArray, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import { FileUpload } from 'primeng/fileupload';
 import {
   Observable,
   Subscription,
   debounceTime,
-  take,
+  combineLatest,
+  startWith,
   map,
+  take,
   filter,
 } from 'rxjs';
 import { CompanyLegalDetails } from '../../../../shared/interfaces/company-legal-details.interface';
-import { LegalFormLaw } from '../../../../shared/interfaces/legal-form-law.interface';
-import { SubSectors } from '../../../../shared/interfaces/sub-sector.interface';
 import { setFormDirty } from '../../../crm/clients/store/client-form/client-form.actions';
 import { LegalFormLawFacade } from '../../../legals/store/legal-form-law/legal-form-law.facade';
 import { LegalFormsFacade } from '../../../legals/store/legal-forms/legal-forms.facade';
-import { Currency } from '../../../lookups/store/currencies/currency.model';
-import { IdentificationType } from '../../../lookups/store/identification-types/identification-type.model';
-import { Sector } from '../../../lookups/store/sectors/sector.model';
 import { PageOperationGroup } from '../../../organizations/store/page-operations/page-operation-group.model';
+import { Currency } from '../../store/currencies/currency.model';
+import { IdentificationType } from '../../store/identification-types/identification-type.model';
+import { Sector } from '../../store/sectors/sector.model';
+import { selectAllSectors } from '../../store/sectors/sectors.selectors';
+import { SubSector } from '../../store/sub-sectors/sub-sector.model';
+import { selectAllSubSectors } from '../../store/sub-sectors/sub-sectors.selectors';
 
 @Component({
-  selector: 'app-add-vehicle-form',
+  selector: 'app-vehicle-model-form',
   standalone: false,
-  templateUrl: './add-vehicle-form.component.html',
-  styleUrl: './add-vehicle-form.component.scss',
+  templateUrl: './vehicle-model-form.component.html',
+  styleUrl: './vehicle-model-form.component.scss',
 })
-export class AddVehicleFormComponent implements OnInit, OnDestroy {
+export class VehicleModelFormComponent implements OnInit, OnDestroy {
   @Input() formGroup: FormGroup = new FormGroup({});
   @Input() viewOnly = false;
   companyLegalDetail: CompanyLegalDetails = {};
   @Output() addIdentity = new EventEmitter<void>();
+  @Output() downloadFile = new EventEmitter<any>();
+  optionLabelKey = 'name';
+  filterByField = 'name';
+
   @Output() removeIdentity = new EventEmitter<number>();
   @Output() onCheckboxChange = new EventEmitter<any>();
   selectedPaymentPeriod: any;
@@ -76,12 +84,15 @@ export class AddVehicleFormComponent implements OnInit, OnDestroy {
   @Input() applyReusable: boolean = false;
   @Input() selectedFile!: any;
   @Input() title: string = '';
-  @Input() pageOperationGroups$!: Observable<PageOperationGroup[]>;
+  @Input() pageOperationGroups!: PageOperationGroup[];
 
   @Input() description: string = '';
-  @Input() addAssetShowMain?: boolean;
-  @Input() addAssetShowInfo?: boolean;
-  @Input() addAsset?: boolean;
+  @Input() addClientShowMain?: boolean;
+  @Input() addClientShowLegal?: boolean;
+  @Input() addClientShowBusiness?: boolean;
+  @Input() addClientOnboardingForm?: boolean;
+  @Input() addClientShowIndividual?: boolean;
+  @Input() addClient?: boolean;
   //Select Box
   @Input() sectorsList: any;
   @Input() businessLinesList: any;
@@ -92,7 +103,7 @@ export class AddVehicleFormComponent implements OnInit, OnDestroy {
   @Input() addressTypes: any;
   @Input() authorityOfficesList: any;
   @Input() companyTypesList: any;
-  @Input() smeAssetCodesList: any;
+  @Input() smeClientCodesList: any;
   @Input() taxOfficesList: any;
   @Input() assetTypeCategories: any;
   @Input() feeCalculationTypes: any;
@@ -107,8 +118,8 @@ export class AddVehicleFormComponent implements OnInit, OnDestroy {
   @Input() teamDepartments: any;
   @Input() governoratesList: any;
   @Input() feeTypes: any;
+  @Input() assetTypes: any;
   @Input() vehicleManufacturers: any;
-  @Input() vehicleModels: any;
   @Input() meetingTypes: any;
   @Input() authorizationGroups: any;
   @Input() areasList: any;
@@ -122,9 +133,9 @@ export class AddVehicleFormComponent implements OnInit, OnDestroy {
   @Input() legalFormId: number | null = null;
   @Input() conditionExpressions: any;
   @Input() officersList: any;
-  @Input() assetsList: any;
+  @Input() clientsList: any;
   @Input() tmlOfficerTypesList: any;
-  @Input() assetOfficerTypesList: any;
+  @Input() clientOfficerTypesList: any;
   @Input() legalFormsList: any;
   @Input() legalFormLawsList: any;
   @Input() pageIds: any;
@@ -235,6 +246,7 @@ export class AddVehicleFormComponent implements OnInit, OnDestroy {
   selectedDocuments!: any;
   @Input() documents: any[] = [];
   @ViewChild('fileUploader') fileUploader!: FileUpload;
+  operationField: 'name' | 'nameAR' = 'name';
 
   selectedAreas!: any;
   codes!: any;
@@ -294,7 +306,7 @@ export class AddVehicleFormComponent implements OnInit, OnDestroy {
   shareHolderTypes!: any;
   officerNames!: any;
   officerTypes!: any;
-  @Input() assetNames!: any;
+  @Input() clientNames!: any;
   @Input() validityUnits!: any;
   @Input() products!: any;
   @Input() leasingTypes!: any;
@@ -306,7 +318,7 @@ export class AddVehicleFormComponent implements OnInit, OnDestroy {
   @Input() contactPersons!: any;
   @Input() callTypes!: any;
   @Input() gracePeriodUnitsList!: any;
-  selectedAssetNames!: any;
+  selectedClientNames!: any;
   selectedMandateValidityUnit!: any;
   selectedProducts!: any;
   exchangeRateCurrencies!: any;
@@ -328,6 +340,7 @@ export class AddVehicleFormComponent implements OnInit, OnDestroy {
   @Input() paymentMonthDays!: any;
   selectedPaymentMonthDays!: any;
   @Input() paymentMethods!: any;
+  @Input() previewUrl: any;
   selectedPaymentMethods!: any;
   @Input() rentStructures!: any;
   selectedRentStructures!: any;
@@ -431,19 +444,19 @@ export class AddVehicleFormComponent implements OnInit, OnDestroy {
   //inputs
   @Input() titleIndividual!: string;
   @Input() descriptionIndividual!: string;
-  @Input() addAssetAddressesLookupsForm!: boolean;
-  @Input() assetOnboardingCompanyShowMain!: boolean;
-  @Input() assetOnboardingIndividualShowMain!: boolean;
+  @Input() addVehicleModelsLookupsForm!: boolean;
+  @Input() clientOnboardingCompanyShowMain!: boolean;
+  @Input() clientOnboardingIndividualShowMain!: boolean;
   @Input() addCRAuthorityOfficeShowMain!: boolean;
   @Input() uploadDocumentsShowMain!: any;
   @Input() addSalesShowMain!: boolean;
   @Input() addPhoneNumbersShowMain!: boolean;
-  @Input() addAssetPhoneNumberForm!: boolean;
-  @Input() addAssetIdentityForm!: boolean;
-  @Input() addAssetContactPersonForm!: boolean;
+  @Input() addClientPhoneNumberForm!: boolean;
+  @Input() addClientIdentityForm!: boolean;
+  @Input() addClientContactPersonForm!: boolean;
   @Input() addContactPersonShowMain!: boolean;
-  @Input() assetOnboarding!: boolean;
-  @Input() assetOnboardingShowIndividual!: boolean;
+  @Input() clientOnboarding!: boolean;
+  @Input() clientOnboardingShowIndividual!: boolean;
   @Input() addTaxAuthorityOfficeShowMain!: boolean;
   @Input() addCentralBankInfoShowMain!: boolean;
   @Input() addShareHolderShowMain!: boolean;
@@ -451,9 +464,9 @@ export class AddVehicleFormComponent implements OnInit, OnDestroy {
   @Input() statusList: any;
   @Input() communicationFlowTypes: any;
   @Input() workflowActionTypeList: any;
-  @Input() addAssetCompanyViewShowMain!: boolean;
-  @Input() addAssetCompanyViewShowLegal!: boolean;
-  @Input() addAssetCompanyViewShowBusiness!: boolean;
+  @Input() addClientCompanyViewShowMain!: boolean;
+  @Input() addClientCompanyViewShowLegal!: boolean;
+  @Input() addClientCompanyViewShowBusiness!: boolean;
   @Input() contactPersonDetailsView!: boolean;
   @Input() contactPersonDetailsViewShowForm!: boolean;
   //Leasing Mandates
@@ -485,11 +498,12 @@ export class AddVehicleFormComponent implements OnInit, OnDestroy {
   @Input() addMeetingShowOfficersForm!: boolean;
   @Input() addMeetingShowBasicForm!: boolean;
   @Input() addCallShowBusinessInformationForm!: boolean;
+  @Input() addMandateFeeForm!: boolean;
   @Input() addCallShowContactPersonsForm!: boolean;
   @Input() addCallShowOfficersForm!: boolean;
   @Input() addCallShowBasicForm!: boolean;
   @Input() addFollowupsForm!: boolean;
-  @Input() addFollowUpsPointsCommunicationForm!: boolean;
+  @Input() addFollowupPointsForm!: boolean;
   @Input() addMeetingTypesCommunicationForm!: boolean;
   @Input() addFollowUpTypesCommunicationForm!: boolean;
   @Input() addCallTypesCommunicationForm!: boolean;
@@ -520,14 +534,16 @@ export class AddVehicleFormComponent implements OnInit, OnDestroy {
   @Input() addActionAuthorizationGroupForm!: boolean;
   @Input() addActionNotificationGroupForm!: boolean;
   @Input() addCallForm!: boolean;
-
+  @Input() show: boolean = false;
+  @Input() editShow: boolean = false;
   currencyIdParam: any;
   branchIdParam: any;
   departmentIdParam: any;
   teamIdParam: any;
-  assetIdParam: any;
+  clientIdParam: any;
   communicationIdParam: any;
-  assetStatusActionIdParam: any;
+  followupIdParam: any;
+  clientStatusActionIdParam: any;
   mandateStatusActionIdParam: any;
   @Input() addPaymentTypesLookupsForm!: boolean;
   @Input() addPaymentTimingTermsLookupsForm!: boolean;
@@ -537,7 +553,7 @@ export class AddVehicleFormComponent implements OnInit, OnDestroy {
   @Input() addInsuredByLookupsForm!: boolean;
   @Input() addLeasingTypesLookupsForm!: boolean;
   @Input() addMandateValidityUnitLookupsForm!: boolean;
-  @Input() addAssetDocumentTypesLookupsForm!: boolean;
+  @Input() addClientDocumentTypesLookupsForm!: boolean;
   @Input() addBranchLookupsForm!: boolean;
   @Input() addBranchManagersLookupsForm!: boolean;
   @Input() addBusinessLinesLookupsForm!: boolean;
@@ -547,10 +563,11 @@ export class AddVehicleFormComponent implements OnInit, OnDestroy {
   @Input() addAssetTypeCategoriesLookupsForm!: boolean;
   @Input() addProductsLookupsForm!: boolean;
   @Input() addSectorsLookupsForm!: boolean;
-  @Input() addAssetStatusesLookupsForm!: boolean;
+  @Input() addClientStatusesLookupsForm!: boolean;
   @Input() addStatusActionsLookupsForm!: boolean;
-  @Input() addSMEAssetCodeLookupsForm!: boolean;
+  @Input() addSMEClientCodeLookupsForm!: boolean;
   @Input() addSubSectorsLookupsForm!: boolean;
+  @Input() addClientTypesLookupsForm!: boolean;
   @Input() addAuthorityOfficesLookupsForm!: boolean;
   @Input() addPhoneTypesLookupsForm!: boolean;
   @Input() addAddressTypesLookupsForm!: boolean;
@@ -572,26 +589,26 @@ export class AddVehicleFormComponent implements OnInit, OnDestroy {
   @Input() addcallTypesLookupsForm!: boolean;
   @Input() addCommunicationTypesLookupsForm!: boolean;
   @Input() addCallActionTypeLookupsForm!: boolean;
-  @Input() addAssetOfficerTypeLookupsForm!: boolean;
-  @Input() addAssetGuarantorsShowIndividual!: boolean;
-  @Input() addAssetIdentities!: boolean;
+  @Input() addClientOfficerTypeLookupsForm!: boolean;
+  @Input() addClientGuarantorsShowIndividual!: boolean;
+  @Input() addClientIdentities!: boolean;
   @Input() addWorkFlowActionTypesLookupsForm!: boolean;
   @Input() addLegalFormLawsForm!: boolean;
   @Input() addLegalFormsForm!: boolean;
   @Input() addOfficersForm!: boolean;
-  @Input() addAssetOfficerShowMain!: boolean;
-  @Input() addAssetLegalShowMain!: boolean;
+  @Input() addClientOfficerShowMain!: boolean;
+  @Input() addClientLegalShowMain!: boolean;
   @Input() addDepartmentsForm!: boolean;
   @Input() addMandateActionAuthorizationGroupForm!: boolean;
   @Input() addMandateActionNotificationGroupForm!: boolean;
 
-  @Input() currentAssetId?: number;
+  @Input() currentClientId?: number;
 
-  filteredSubSectors$!: Observable<SubSectors[]>;
+  filteredSubSectors$!: Observable<SubSector[]>;
   @Input() operationName!: string;
-  assetStatusIdParam!: any;
+  clientStatusIdParam!: any;
   mandateStatusIdParam!: any;
-  legalFormLaws$: Observable<LegalFormLaw[]> = this.facade.legalFormLaws$;
+  legalFormLaws$: Observable<any[]> = this.facade.legalFormLaws$;
   legalForms$ = this.facadeLegalForms.items$;
 
   // legalForms$ = this.facadeLegalForms.legalForms$;
@@ -613,41 +630,61 @@ export class AddVehicleFormComponent implements OnInit, OnDestroy {
   @Input() pagesList: any;
   @Input() operationsList: any;
   @Input() operationsList$!: any;
-  @Input() addAssetGuarantorsLookupsForm!: boolean;
+  @Input() addClientGuarantorsLookupsForm!: boolean;
   routeId = this.route.snapshot.params['leasingId'];
   leasingRouteId = this.route.snapshot.params['leasingMandatesId'];
+  communicationId = this.route.snapshot.params['communicationId'];
 
   @Input() operationIdValue!: any;
-  assetDocId!: any;
-  assetId: any;
+  clientDocId!: any;
+  clientId: any;
   constructor(
     private store: Store,
     private facade: LegalFormLawFacade,
     private facadeLegalForms: LegalFormsFacade,
     private route: ActivatedRoute,
-    public router: Router
-  ) {}
+    public router: Router,
+    private translate: TranslateService
+  ) {
+    this.setOptionLabelKey(this.translate.currentLang);
+    this.setFilterByBasedOnLanguage();
+    this.setOperationBasedOnLanguage();
+    this.translate.onLangChange.subscribe((event) => {
+      this.setOptionLabelKey(event.lang);
+      this.setFilterByBasedOnLanguage();
+      this.setOperationBasedOnLanguage();
+    });
+  }
 
   ngOnInit() {
-    console.log('vehicle form');
+    console.log('route', this.route.snapshot);
+
+    console.log('💡 pageOperationGroups input:', this.pageOperationGroups);
+
+    this.formGroup
+      .get('currencyExchangeRateId')
+      ?.valueChanges.subscribe((v) =>
+        console.log('🧩 child control valueChanges →', v)
+      );
 
     this.minDateOfBirth.setFullYear(this.minDateOfBirth.getFullYear() - 100);
     // 18 years ago:
     this.maxDateOfBirth.setFullYear(this.maxDateOfBirth.getFullYear() - 18);
-    this.id = this.route.snapshot.paramMap.get('assetId')!;
-    this.communicationIdParam =
-      this.route.snapshot.paramMap.get('communicationId')!;
-    this.assetDocId = this.route.snapshot.params['assetId'];
-    this.assetId = this.route.snapshot.queryParams['assetId']!;
+    this.id = this.route.snapshot.paramMap.get('clientId')!;
+    this.communicationIdParam = this.route.snapshot.params['communicationId'];
+    this.followupIdParam = this.route.snapshot.queryParams['followupId'];
+
+    this.clientDocId = this.route.snapshot.params['clientId'];
+    this.clientId = this.route.snapshot.queryParams['clientId']!;
     this.currencyIdParam = this.route.snapshot.queryParams['currencyId'];
     this.branchIdParam = this.route.snapshot.queryParams['branchId'];
     this.departmentIdParam = this.route.snapshot.queryParams['departmentId'];
     this.teamIdParam = this.route.snapshot.queryParams['teamId'];
     this.roleIdParam = this.route.snapshot.queryParams['roleId'];
-    this.assetIdParam = this.route.snapshot.queryParams['assetId'];
-    this.assetStatusActionIdParam =
-      this.route.snapshot.queryParams['assetStatusActionId'];
-    this.assetStatusIdParam = this.route.snapshot.params['id'];
+    this.clientIdParam = this.route.snapshot.queryParams['clientId'];
+    this.clientStatusActionIdParam =
+      this.route.snapshot.queryParams['clientStatusActionId'];
+    this.clientStatusIdParam = this.route.snapshot.params['id'];
     this.mandateStatusIdParam = this.route.snapshot.params['id'];
     this.mandateStatusActionIdParam =
       this.route.snapshot.queryParams['mandateStatusActionId'];
@@ -656,9 +693,45 @@ export class AddVehicleFormComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.store.dispatch(setFormDirty({ dirty: this.formGroup.dirty }));
       });
+
+    if (
+      this.addClientShowMain ||
+      this.addClientShowBusiness ||
+      this.addClientShowLegal ||
+      this.addClientShowIndividual ||
+      this.addClientOnboardingForm
+    ) {
+      this.sectorsSafe$ = this.store.select(selectAllSectors);
+      const sectorCtrl = this.formGroup.get('sectorId');
+      if (sectorCtrl) {
+        this.filteredSubSectors$ = combineLatest([
+          this.formGroup
+            ?.get('sectorId')!
+            .valueChanges.pipe(
+              startWith(this.formGroup.get('sectorId')!.value)
+            ),
+          this.store.select(selectAllSubSectors),
+        ]).pipe(
+          map(([sectorId, subSectors]) =>
+            subSectors.filter((s) => s.sectorId === sectorId)
+          )
+        );
+      }
+
+      if (this.addClientShowLegal) {
+        this.facade.loadLegalFormLaws();
+        this.facadeLegalForms.loadAll();
+      }
+    }
+
+    // Combine sectorId changes with all sub-sectors
   }
   ngOnDestroy() {
     this.sub.unsubscribe();
+  }
+  private setFilterByBasedOnLanguage(): void {
+    this.filterByField =
+      this.translate.currentLang === 'ar' ? 'nameAR' : 'name';
   }
 
   get identities(): FormArray {
@@ -678,6 +751,12 @@ export class AddVehicleFormComponent implements OnInit, OnDestroy {
   }
   get mandateGracePeriodSettingView(): FormGroup {
     return this.formGroup.get('mandateGracePeriodSettingView') as FormGroup;
+  }
+  onDownloadClick() {
+    this.downloadFile.emit(); // ✅ this is correct
+  }
+  private setOptionLabelKey(lang: string) {
+    this.optionLabelKey = lang === 'ar' ? 'nameAR' : 'name';
   }
   onSectorChange(event: any) {
     const selectedId = event.value;
@@ -735,10 +814,92 @@ export class AddVehicleFormComponent implements OnInit, OnDestroy {
     this.companyLegalDetail.legalFormId = event?.id;
     console.log('Legal Form selected:', event?.id);
   }
-  viewAssets() {
-    this.router.navigate(['/purchasing/assets/view-assets']);
+  viewAddress() {
+    this.router.navigate(['/crm/clients/view-address']);
   }
 
+  viewMandateFees() {
+    this.router.navigate([
+      `/crm/leasing-mandates/view-mandate-fees/${this.routeId}/${this.leasingRouteId}`,
+    ]);
+  }
+  viewCentralBankInfo() {
+    this.router.navigate([
+      `/crm/clients/view-client-central-bank-info/${this.clientId}`,
+    ]);
+  }
+  viewCRAuthority() {
+    this.router.navigate([
+      `/crm/clients/view-client-cr-authority-offices/${this.clientId}`,
+    ]);
+  }
+  viewBusinessLines() {
+    this.router.navigate(['/lookups/view-business-lines']);
+  }
+
+  viewConditions() {
+    this.router.navigate(['/lookups/view-conditions']);
+  }
+
+  viewAuthorizationOfficersGroup() {
+    this.router.navigate(['/lookups/view-authorization-group-officers']);
+  }
+
+  viewConditionExpressions() {
+    this.router.navigate(['/lookups/view-condition-expressions']);
+  }
+
+  viewNotificationOfficersGroup() {
+    this.router.navigate(['/lookups/view-notification-group-officers']);
+  }
+
+  viewInterestTypes() {
+    this.router.navigate(['/lookups/view-interest-types']);
+  }
+
+  viewFeesRnages() {
+    this.router.navigate(['/lookups/view-fee-ranges']);
+  }
+
+  viewPaymentPeriods() {
+    this.router.navigate(['/lookups/view-payment-periods']);
+  }
+
+  viewBranchManagers() {
+    this.router.navigate([
+      `/organizations/view-branch-managers/${this.branchIdParam}`,
+    ]);
+  }
+
+  viewMeetings() {
+    this.router.navigate([`/communication/view-meetings`]);
+  }
+
+  viewMandateAdditionalTerms() {
+    this.router.navigate([
+      `/crm/leasing-mandates/view-mandate-additional-terms/${this.routeId}/${this.leasingRouteId}`,
+    ]);
+  }
+
+  viewDepartmentManager() {
+    this.router.navigate([]);
+  }
+
+  viewTeamLeadOfficers() {
+    this.router.navigate([
+      `/organizations/view-team-lead-officers/${this.teamIdParam}`,
+    ]);
+  }
+
+  viewCalls() {
+    this.router.navigate([`/communication/view-calls`]);
+  }
+
+  viewTeamOfficers() {
+    this.router.navigate([
+      `/organizations/view-team-officers/${this.teamIdParam}`,
+    ]);
+  }
   onOpToggle(opId: number, checked: any) {
     const ctrl = this.formGroup.get('operationIds')!;
     const selected: number[] = [...ctrl.value];
@@ -762,8 +923,8 @@ export class AddVehicleFormComponent implements OnInit, OnDestroy {
   viewBranch() {
     this.router.navigate(['/organizations/view-branches']);
   }
-  viewAssetDocument() {
-    this.router.navigate(['/lookups/view-asset-document-types']);
+  viewClientDocument() {
+    this.router.navigate(['/lookups/view-client-document-types']);
   }
   viewMandateValidity() {
     this.router.navigate(['/lookups/view-mandate-validity-unit']);
@@ -838,16 +999,16 @@ export class AddVehicleFormComponent implements OnInit, OnDestroy {
     ]);
   }
   viewTeamMember() {
-    this.router.navigate(['/crm/assets/view-team-member']);
+    this.router.navigate(['/crm/clients/view-team-member']);
   }
   viewTeamLead() {
-    this.router.navigate(['/crm/assets/view-team-lead']);
+    this.router.navigate(['/crm/clients/view-team-lead']);
   }
   viewTeams() {
     this.router.navigate(['organizations/view-teams']);
   }
   viewManager() {
-    this.router.navigate(['/crm/assets/view-manager']);
+    this.router.navigate(['/crm/clients/view-manager']);
   }
   viewDepartment() {
     this.router.navigate(['/organizations/view-departments']);
@@ -858,26 +1019,33 @@ export class AddVehicleFormComponent implements OnInit, OnDestroy {
   viewFollowupTypes() {
     this.router.navigate(['/lookups/view-followup-types']);
   }
+
   viewOfficers() {
     this.router.navigate(['/organizations/view-officers']);
   }
   onViewContactPersonsClick() {
-    console.log('Asset ID:', this.currentAssetId);
-    if (this.currentAssetId) {
-      this.viewContactPersons.emit(this.currentAssetId);
+    console.log('Client ID:', this.currentClientId);
+    if (this.currentClientId) {
+      this.viewContactPersons.emit(this.currentClientId);
     }
   }
-  viewFollowUpsPoint() {
-    this.router.navigate(['/communication/view-followup-points']);
-  }
+
   viewFollowUps() {
-    console.log(this.communicationIdParam);
+    console.log('follow up clicked   ', this.communicationIdParam);
     this.router.navigate([
-      `/communication/view-follow-ups/{this.communicationIdParam}`,
+      `/communication/view-follow-ups/${this.communicationIdParam}`,
+    ]);
+  }
+
+  viewFollowUpPoints() {
+    console.log('follow up clicked   ', this.communicationIdParam);
+    console.log('follow up clicked   ', this.followupIdParam);
+    this.router.navigate([
+      `/communication/view-follow-up-points/${this.followupIdParam}/${this.communicationIdParam}`,
     ]);
   }
   viewAssestType() {
-    this.router.navigate(['/crm/assets/view-assest-type']);
+    this.router.navigate(['/crm/clients/view-assest-type']);
   }
   viewCompanyTypes() {
     this.router.navigate(['/lookups/view-company-types']);
@@ -885,49 +1053,56 @@ export class AddVehicleFormComponent implements OnInit, OnDestroy {
   viewLegalFormLaw() {
     this.router.navigate(['/legals/view-legal-form-laws']);
   }
+  viewVehicleModels() {
+    this.router.navigate(['/lookups/view-vehicle-models']);
+  }
   viewLegalForm() {
     this.router.navigate(['/legals/view-legal-forms']);
   }
   viewTMLOfficer() {
     this.router.navigate([
-      `/crm/assets/view-asset-tml-officers/${this.assetId}`,
+      `/crm/clients/view-client-tml-officers/${this.clientId}`,
     ]);
   }
-  viewAssetOfficer() {
-    this.router.navigate([`/crm/assets/view-asset-officers/${this.assetId}`]);
+  viewClientOfficer() {
+    this.router.navigate([
+      `/crm/clients/view-client-officers/${this.clientId}`,
+    ]);
   }
-  viewAssetLegal() {
-    this.router.navigate([`/crm/assets/view-asset-legals/${this.assetId}`]);
+  viewClientLegal() {
+    this.router.navigate([`/crm/clients/view-client-legals/${this.clientId}`]);
   }
   viewShareHolder() {
     this.router.navigate([
-      `/crm/assets/view-asset-share-holders/${this.assetId}`,
+      `/crm/clients/view-client-share-holders/${this.clientId}`,
     ]);
   }
   viewTaxAuthority() {
     this.router.navigate([
-      `/crm/assets/view-asset-tax-authority-offices/${this.assetId}`,
+      `/crm/clients/view-client-tax-authority-offices/${this.clientId}`,
     ]);
   }
   viewContactDetails() {
-    this.router.navigate([`/crm/assets/view-contact-persons/${this.assetId}`]);
+    this.router.navigate([
+      `/crm/clients/view-contact-persons/${this.clientId}`,
+    ]);
   }
   viewPhoneNumber() {
-    this.router.navigate([`/crm/assets/view-phone-numbers/${this.assetId}`]);
+    this.router.navigate([`/crm/clients/view-phone-numbers/${this.clientId}`]);
   }
   viewSalesTurnover() {
-    console.log('hello from arwa ', this.assetId);
-    this.router.navigate(['/crm/assets/view-sales-turnovers/', this.assetId]);
+    console.log('hello from arwa ', this.clientId);
+    this.router.navigate(['/crm/clients/view-sales-turnovers/', this.clientId]);
   }
-  viewAssetAddressDetails() {
+  viewClientAddressDetails() {
     this.router.navigate([
-      `/crm/assets/view-asset-addresses/${this.assetIdParam}`,
+      `/crm/clients/view-client-addresses/${this.clientIdParam}`,
     ]);
   }
 
-  viewAssetIdentity() {
+  viewClientIdentity() {
     this.router.navigate([
-      `/crm/assets/view-asset-identity/${this.assetIdParam}`,
+      `/crm/clients/view-client-identity/${this.clientIdParam}`,
     ]);
   }
 
@@ -935,11 +1110,13 @@ export class AddVehicleFormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-payment-types']);
   }
   viewDocumentDetails(): void {
-    this.router.navigate(['/crm/assets/view-upload-documents'], {
-      queryParams: { id: this.id },
-    });
+    this.router.navigate([
+      `/crm/clients/view-upload-documents/${this.clientDocId}`,
+    ]);
   }
-
+  viewAssetTypes() {
+    this.router.navigate(['/lookups/view-asset-types']);
+  }
   viewAssetTypeCategories() {
     this.router.navigate(['/lookups/view-asset-type-categories']);
   }
@@ -952,23 +1129,23 @@ export class AddVehicleFormComponent implements OnInit, OnDestroy {
   viewSectors() {
     this.router.navigate(['/lookups/view-sectors']);
   }
-  viewAssetStatuses() {
-    this.router.navigate(['/lookups/view-asset-statuses']);
+  viewClientStatuses() {
+    this.router.navigate(['/lookups/view-client-statuses']);
   }
-  viewAssetStatusActions() {
-    this.router.navigate(['/lookups/view-asset-status-actions']);
+  viewClientStatusActions() {
+    this.router.navigate(['/lookups/view-client-status-actions']);
   }
   viewMandateStatusActions() {
     this.router.navigate(['/lookups/view-mandate-status-actions']);
   }
   viewActionAuthorizationGroup() {
     this.router.navigate([
-      `/lookups/view-action-authorizationGroups/${this.assetStatusActionIdParam}`,
+      `/lookups/view-action-authorizationGroups/${this.clientStatusActionIdParam}`,
     ]);
   }
   viewActionNotificationGroup() {
     this.router.navigate([
-      `/lookups/view-action-notificationGroups/${this.assetStatusActionIdParam}`,
+      `/lookups/view-action-notificationGroups/${this.clientStatusActionIdParam}`,
     ]);
   }
   viewMandateActionAuthorizationGroup() {
@@ -981,14 +1158,14 @@ export class AddVehicleFormComponent implements OnInit, OnDestroy {
       `/lookups/view-mandate-action-notificationGroups/${this.mandateStatusActionIdParam}`,
     ]);
   }
-  viewSMEAssetCode() {
-    this.router.navigate(['/lookups/view-sme-asset-codes']);
+  viewSMEClientCode() {
+    this.router.navigate(['/lookups/view-sme-client-codes']);
   }
   viewSubSectors() {
     this.router.navigate(['/lookups/view-sub-sectors']);
   }
-  viewAssetTypes() {
-    this.router.navigate(['/lookups/view-asset-types']);
+  viewClientTypes() {
+    this.router.navigate(['/lookups/view-client-types']);
   }
   viewAuthorityOffices() {
     this.router.navigate(['/lookups/view-authority-offices']);
@@ -1032,8 +1209,8 @@ export class AddVehicleFormComponent implements OnInit, OnDestroy {
   viewCallActionType() {
     this.router.navigate(['/lookups/view-call-action-types']);
   }
-  viewAssetOfficerType() {
-    this.router.navigate(['/lookups/view-asset-officer-types']);
+  viewClientOfficerType() {
+    this.router.navigate(['/lookups/view-client-officer-types']);
   }
   viewCommunicationFlowType() {
     this.router.navigate(['/lookups/view-communication-flow-types']);
@@ -1041,9 +1218,9 @@ export class AddVehicleFormComponent implements OnInit, OnDestroy {
   viewWorkFlowActionTypes() {
     this.router.navigate(['/lookups/view-workflow-action-types']);
   }
-  viewAssetGuarantors() {
+  viewClientGuarantors() {
     this.router.navigate([
-      `/crm/assets/view-asset-guarantors/${this.assetIdParam}`,
+      `/crm/clients/view-client-guarantors/${this.clientIdParam}`,
     ]);
   }
   onSubSectorChange(event: any): void {
@@ -1059,13 +1236,22 @@ export class AddVehicleFormComponent implements OnInit, OnDestroy {
   //   this.onTouched();
   //   this.selectionChanged.emit(value);
   // }
-  onFileSelected(event: any): void {
-    const file = event.files?.[0];
-    if (file) {
-      console.log('[FormComponent] File selected:', file);
-      this.formGroup.patchValue({ file });
-      this.formGroup.get('file')?.updateValueAndValidity();
+  onFileSelected(event: any) {
+    const file: File = event.files?.[0] ?? event.target?.files?.[0];
+    if (!file) {
+      this.formGroup.patchValue({ file: null });
+      this.onFileSelect.emit(null);
+      return;
     }
+
+    this.formGroup.patchValue({ file });
+    this.onFileSelect.emit(file);
+  }
+
+  onFileRemoved(event: any): void {
+    // reset the form control
+    this.formGroup.patchValue({ file: null });
+    this.formGroup.get('file')!.updateValueAndValidity();
   }
   onAddClick() {
     if (
@@ -1114,7 +1300,7 @@ export class AddVehicleFormComponent implements OnInit, OnDestroy {
 
   close() {
     console.log('route', this.route.snapshot);
-    this.router.navigate([`/crm/assets/view-upload-documents/${this.id}`]);
+    this.router.navigate([`/crm/clients/view-upload-documents/${this.id}`]);
   }
   closeNotificationGroups() {
     this.router.navigate(['/lookups/view-notification-group-officers']);
@@ -1127,7 +1313,7 @@ export class AddVehicleFormComponent implements OnInit, OnDestroy {
   }
   navigateActionNGroup() {
     this.router.navigate([
-      `/lookups/view-action-notificationGroups/${this.assetStatusActionIdParam}`,
+      `/lookups/view-action-notificationGroups/${this.clientStatusActionIdParam}`,
     ]);
   }
   navigateSign() {
@@ -1156,19 +1342,15 @@ export class AddVehicleFormComponent implements OnInit, OnDestroy {
     this.onChange(this.selectedCurrency);
     console.log('Selected Currency:', this.selectedCurrency);
   }
-  onCurrencyExchangeRateChange(event: any) {
+  onCurrencyExchangeRateChange(event: { originalEvent: Event; value: any }) {
     this.selectedCurrencyExchangeRate = event.value;
-
-    console.log('event', event);
     this.selectionChangedCurrencyExchange.emit(
       this.selectedCurrencyExchangeRate
     );
     this.onChange(this.selectedCurrencyExchangeRate);
-    console.log(
-      'Selected Currency Exchange Rate:',
-      this.selectedCurrencyExchangeRate
-    );
+    console.log('Selected Currency:', this.selectedCurrencyExchangeRate);
   }
+
   onInterestRateBenchmarkChange(event: { originalEvent: Event; value: any }) {
     // event.value === the primitive ID (e.g. 10)
     const selectedId = event.value;
@@ -1242,5 +1424,31 @@ export class AddVehicleFormComponent implements OnInit, OnDestroy {
       this.onChange(fullObj);
     }
     console.log('Selected selectionChangedPaymentMonthDay:', fullObj);
+  }
+  onSelect(event: any) {
+    console.log('[AppForm] p-select onChange event →', event);
+    console.log(
+      '[AppForm] before emit, control is →',
+      this.formGroup.get('currencyExchangeRateId')!.value
+    );
+    this.selectionChangedCurrencyExchange.emit(event);
+    console.log(
+      '[AppForm] after emit, control is →',
+      this.formGroup.get('currencyExchangeRateId')!.value
+    );
+  }
+
+  private setOperationBasedOnLanguage(): void {
+    this.operationField =
+      this.translate.currentLang === 'ar' ? 'nameAR' : 'name';
+  }
+  getLocalizedName(obj?: any): string {
+    if (!obj) return '';
+    return this.translate.currentLang === 'ar'
+      ? obj.nameAR ?? obj.name
+      : obj.name;
+  }
+  onNgModelChange(value: number) {
+    console.log('📊 [ngModelChange] selectedCurrencyExchangeRate →', value);
   }
 }

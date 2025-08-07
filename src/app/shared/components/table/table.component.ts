@@ -78,6 +78,7 @@ export class TableComponent {
   @Input() viewTaxAuthorityOfficeTable!: boolean;
   @Input() viewAuthorityOfficesTable!: boolean;
   @Input() viewMandateFeesTable!: boolean;
+  @Input() viewVehicleModelLookupsTable!: boolean;
   @Input() viewVehicleManufacturerLookupsTable!: boolean;
   @Input() viewCentralBankInfoTable!: boolean;
   @Input() viewShareHolderTable!: boolean;
