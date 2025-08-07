@@ -44,6 +44,7 @@
                     *ngSwitchCase="'vehicle'"
                     [formGroup]="addVehicleForm"
                     [addAssetShowInfo]="true"
+                    [vehicleManufacturers]="vehicleManufacturers$ | async"
                   ></app-add-vehicle-form>
 
                   <app-add-property-form

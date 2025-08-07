@@ -6,6 +6,8 @@ import { AssetsFacade } from '../../../store/assets/assets.facade';
 import { Asset } from '../../../store/assets/asset.model';
 import { AssetType } from '../../../../lookups/store/asset-types/asset-type.model';
 import { AssetTypesFacade } from '../../../../lookups/store/asset-types/asset-types.facade';
+import { VehicleManufacturer } from '../../../../lookups/store/vehicle-manufacturers/vehicle-manufacturer.model';
+import { VehicleManufacturersFacade } from '../../../../lookups/store/vehicle-manufacturers/vehicle-manufacturers.facade';
 
 @Component({
   selector: 'app-add-asset',
@@ -29,6 +31,7 @@ export class AddAssetComponent {
   viewOnly = false;
   addAssetShowInfo = false;
   assetTypes$!: Observable<AssetType[]>;
+  vehicleManufacturers$!: Observable<VehicleManufacturer[]>;
   assetTypeComponentMap: Record<string, string> = {
     PASS_VEH: 'vehicle',
     COMM_VEH: 'vehicle',
@@ -45,6 +48,7 @@ export class AddAssetComponent {
     private route: ActivatedRoute,
     private assetsFacade: AssetsFacade,
     private assetTypesFacade: AssetTypesFacade,
+    private vehicleManufacturersFacade: VehicleManufacturersFacade,
     private router: Router
   ) {}
 
@@ -60,6 +64,8 @@ export class AddAssetComponent {
     this.buildPropertyForm();
     this.assetTypesFacade.loadAll();
     this.assetTypes$ = this.assetTypesFacade.all$;
+    this.vehicleManufacturersFacade.loadAll();
+    this.vehicleManufacturers$ = this.vehicleManufacturersFacade.all$;
     this.addAssetForm
       .get('assetTypeId')
       ?.valueChanges.subscribe((selectedId: number) => {
@@ -128,6 +134,13 @@ export class AddAssetComponent {
     this.addVehicleForm = this.fb.group({
       id: [null],
       vehiclesManufactureId: ['', Validators.required],
+      descriptionAr: [
+        '',
+        [Validators.required, Validators.pattern(/^[\u0600-\u06FF\s]+$/)],
+      ],
+      dateAcquired: [null, Validators.required],
+      assetTypeId: ['', Validators.required],
+      agreementId: ['', Validators.required],
     });
   }
   private patchForm(asset: Asset): void {

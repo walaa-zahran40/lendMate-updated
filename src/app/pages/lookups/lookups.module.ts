@@ -244,6 +244,9 @@ import { MandateActionNotificationGroupsEffects } from './store/mandate-statuses
 import { ViewMandateActionAuthorizationGroupsComponent } from './components/mandate-statuses/Activities/MandateStatusActionAuthorizationGroup/view-mandate-authorization-group/view-mandate-authorization-group.component';
 import { ViewMandateActionNotificationGroupsComponent } from './components/mandate-statuses/Activities/MandateStatusActionNotificationGroup/view-mandate-notification-group/view-mandate-notification-group.component';
 import { AddVehicleManufacturerComponent } from './components/vehicle-manufacturers/add-vehicle-manufacturer/add-vehicle-manufacturer.component';
+import { ViewVehicleManufacturersComponent } from './components/vehicle-manufacturers/view-vehicle-manufacturers/view-vehicle-manufacturers.component';
+import { reducer as vehicleManufacturersReducer } from './store/vehicle-manufacturers/vehicle-manufacturers.reducer';
+import { VehicleManufacturersEffects } from './store/vehicle-manufacturers/vehicle-manufacturers.effects';
 
 @NgModule({
   declarations: [
@@ -373,6 +376,7 @@ import { AddVehicleManufacturerComponent } from './components/vehicle-manufactur
     AddMandateActionNotificationGroupsComponent,
     ViewMandateActionNotificationGroupsComponent,
     AddVehicleManufacturerComponent,
+    ViewVehicleManufacturersComponent,
   ],
   imports: [
     CommonModule,
@@ -382,6 +386,9 @@ import { AddVehicleManufacturerComponent } from './components/vehicle-manufactur
     ButtonModule,
     TabsModule,
     FileUploadModule,
+    StoreModule.forFeature('vehicleManufacturers', vehicleManufacturersReducer),
+    EffectsModule.forFeature([VehicleManufacturersEffects]),
+
     StoreModule.forFeature('companyTypes', companyTypesReducer),
     EffectsModule.forFeature([CompanyTypesEffects]),
     StoreModule.forFeature('feeCalculationTypes', feeCalcReducer),
@@ -548,12 +555,14 @@ import { AddVehicleManufacturerComponent } from './components/vehicle-manufactur
     AddClientTypesComponent,
     AddMeetingTypesComponent,
     AddInsuredByComponent,
+
     AddLeasingTypeComponent,
     AddMandateValidityUnitComponent,
     AddDocTypesComponent,
     AddBusinessLinesComponent,
     AddAssetTypesComponent,
     AddAssetTypeCategoriesComponent,
+    ViewVehicleManufacturersComponent,
 
     AddProductsComponent,
     AddSectorsComponent,

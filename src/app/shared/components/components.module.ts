@@ -88,6 +88,7 @@ import { AddAssetFormComponent } from '../../pages/purchasing/forms/add-asset-fo
 import { AddVehicleFormComponent } from '../../pages/purchasing/forms/add-vehicle-form/add-vehicle-form.component';
 import { AddPropertyFormComponent } from '../../pages/purchasing/forms/add-property-form/add-property-form.component';
 import { AddEquipmentFormComponent } from '../../pages/purchasing/forms/add-equipment-form/add-equipment-form.component';
+import { VehicleManufacturerFormComponent } from '../../pages/lookups/forms/vehicle-manufacturer-form/vehicle-manufacturer-form.component';
 
 @NgModule({
   declarations: [
@@ -132,6 +133,7 @@ import { AddEquipmentFormComponent } from '../../pages/purchasing/forms/add-equi
     AddClientUploadDocumentsFormComponent,
     AddClientFormComponent,
     AddClientOnboardingFormComponent,
+    VehicleManufacturerFormComponent,
   ],
   imports: [
     CommonModule,
@@ -194,6 +196,8 @@ import { AddEquipmentFormComponent } from '../../pages/purchasing/forms/add-equi
     AddEquipmentFormComponent,
     SideMenuComponent,
     NavBarComponent,
+    VehicleManufacturerFormComponent,
+
     NotificationComponent,
     DeleteModuleComponent,
     FormComponent,

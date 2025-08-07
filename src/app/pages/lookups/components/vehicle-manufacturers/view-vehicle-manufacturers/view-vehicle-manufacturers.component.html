@@ -1,0 +1,48 @@
+<div class="page-content">
+  <!-- [addPermission]="'/VehicleManufacturers/Post'" -->
+  <app-toolbar-table
+    [title]="'Vehicle Manufacturers'"
+    [labelBtn]="'Add Vehicle Manufacturer'"
+    [addPermission]="'/Meetings/Post'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddVehicleManufacturer()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="VehicleManufacturers$ | async as VehicleManufacturers">
+    <app-table
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [viewPermission]="[
+        '/Meetings/Get',
+        '/Meetings/GetAll',
+        '/Meetings/GetAllHistory'
+      ]"
+      [editPermission]="'/Meetings/Put'"
+      [deletePermission]="'/Meetings/Delete'"
+      [cols]="colsInside"
+      [tableData]="filteredVehicleManufacturer"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewVehicleManufacturerLookupsTable]="true"
+      (onDelete)="onDeleteVehicleManufacturer($event)"
+      (onEdit)="onEditVehicleManufacturer($event)"
+      (viewForm)="onViewVehicleManufacturer($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

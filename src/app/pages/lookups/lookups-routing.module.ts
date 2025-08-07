@@ -120,6 +120,8 @@ import { ViewMandateActionAuthorizationGroupsComponent } from './components/mand
 import { AddMandateActionNotificationGroupsComponent } from './components/mandate-statuses/Activities/MandateStatusActionNotificationGroup/add-mandate-notification-group/add-mandate-notification-group.component';
 import { ViewMandateActionNotificationGroupsComponent } from './components/mandate-statuses/Activities/MandateStatusActionNotificationGroup/view-mandate-notification-group/view-mandate-notification-group.component';
 import { PendingChangesGuard } from '../../shared/guards/pending-changes.guard';
+import { AddVehicleManufacturerComponent } from './components/vehicle-manufacturers/add-vehicle-manufacturer/add-vehicle-manufacturer.component';
+import { ViewVehicleManufacturersComponent } from './components/vehicle-manufacturers/view-vehicle-manufacturers/view-vehicle-manufacturers.component';
 
 const routes: Routes = [
   /**Lookup Module */
@@ -137,6 +139,20 @@ const routes: Routes = [
   {
     path: 'view-followup-types',
     component: ViewFollowUpTypesComponent,
+  },
+  //Vehicle Manufacturers
+  {
+    path: 'add-vehicle-manufacturer',
+    component: AddVehicleManufacturerComponent,
+  },
+  {
+    path: 'edit-vehicle-manufacturer/:id',
+    component: AddVehicleManufacturerComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
+  {
+    path: 'view-vehicle-manufacturers',
+    component: ViewVehicleManufacturersComponent,
   },
 
   //Interest Types
