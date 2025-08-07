@@ -11,126 +11,39 @@
       [ngClass]="{ span: applyReusable }"
       [formGroup]="formGroup"
     >
-      <ng-container *ngIf="addAssetShowInfo"
-        ><label for="description"
-          >Description <sup class="danger">*</sup></label
+      <ng-container *ngIf="addAssetShowInfo">
+        <label for="vehiclesManufactureId"
+          >Vehicle Manufacturer<sup class="danger">*</sup></label
         >
-        <input
-          pInputText
-          name="description"
-          formControlName="description"
-          placeholder="Description"
-          [ngClass]="{
-            'ng-invalid ng-dirty':
-              formGroup.get('description')?.invalid &&
-              formGroup.get('description')?.touched
-          }" />
-
-        <small
-          class="p-error"
-          *ngIf="
-            formGroup.get('description')?.hasError('required') &&
-            formGroup.get('description')?.touched
-          "
-        >
-          Description is required.
-        </small>
-        <br />
-
-        <label for="descriptionAr"
-          >Description in Arabic <sup class="danger">*</sup></label
-        >
-        <input
-          pInputText
-          name="descriptionAr"
-          formControlName="descriptionAr"
-          placeholder="Description in Arabic"
-          [ngClass]="{
-            'ng-invalid ng-dirty':
-              formGroup.get('descriptionAr')?.invalid &&
-              formGroup.get('descriptionAr')?.touched
-          }"
-          appOnlyArabic />
-        <small
-          class="p-error"
-          *ngIf="
-            formGroup.get('descriptionAr')?.hasError('required') &&
-            formGroup.get('descriptionAr')?.touched
-          "
-        >
-          Description in Arabic is required.
-        </small>
-        <small
-          class="p-error"
-          *ngIf="
-            formGroup.get('descriptionAr')?.hasError('pattern') &&
-            formGroup.get('descriptionAr')?.touched
-          "
-        >
-          Only Arabic characters are allowed.
-        </small>
-        <br />
-        <label for="dateAcquired"
-          >Date Acquired <sup class="danger">*</sup></label
-        >
-        <shared-date-picker formControlName="dateAcquired" inputId="date">
-        </shared-date-picker>
-
-        <br />
-        <label for="assetTypeId">Asset Type <sup class="danger">*</sup></label>
         <p-select
           [filter]="true"
           filterBy="name"
           [showClear]="true"
-          id="assetTypeId"
-          [options]="assetTypes"
+          id="vehiclesManufactureId"
+          [options]="vehicleManufacturers"
           optionLabel="name"
-          placeholder="Select Asset Type"
-          formControlName="assetTypeId"
+          placeholder="Select Vehicle Manufacturer"
+          formControlName="vehiclesManufactureId"
           optionValue="id"
           [ngClass]="{
             'ng-invalid':
-              formGroup.get('assetTypeId')?.invalid &&
-              (formGroup.get('assetTypeId')?.dirty ||
-                formGroup.get('assetTypeId')?.touched)
+              formGroup.get('vehiclesManufactureId')?.invalid &&
+              (formGroup.get('vehiclesManufactureId')?.dirty ||
+                formGroup.get('vehiclesManufactureId')?.touched)
           }"
         ></p-select>
 
         <small
           class="p-error"
           *ngIf="
-            formGroup.get('assetTypeId')?.hasError('required') &&
-            formGroup.get('assetTypeId')?.touched
+            formGroup.get('vehiclesManufactureId')?.hasError('required') &&
+            formGroup.get('vehiclesManufactureId')?.touched
           "
         >
-          Asset Type is required.
+          Vehicle Manufacturer is required.
         </small>
         <br />
-        <label for="agreementId"
-          >Agreement Id <sup class="danger">*</sup></label
-        >
-        <input
-          pInputText
-          name="agreementId"
-          formControlName="agreementId"
-          placeholder="Agreement Id"
-          [ngClass]="{
-            'ng-invalid ng-dirty':
-              formGroup.get('agreementId')?.invalid &&
-              formGroup.get('agreementId')?.touched
-          }" />
-
-        <small
-          class="p-error"
-          *ngIf="
-            formGroup.get('agreementId')?.hasError('required') &&
-            formGroup.get('agreementId')?.touched
-          "
-        >
-          Agreement Id is required.
-        </small>
-        <br
-      /></ng-container>
+      </ng-container>
     </form>
   </div>
 </div>

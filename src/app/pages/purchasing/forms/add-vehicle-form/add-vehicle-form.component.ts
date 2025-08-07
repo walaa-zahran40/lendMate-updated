@@ -107,7 +107,7 @@ export class AddVehicleFormComponent implements OnInit, OnDestroy {
   @Input() teamDepartments: any;
   @Input() governoratesList: any;
   @Input() feeTypes: any;
-  @Input() assetTypes: any;
+  @Input() vehicleManufacturers: any;
   @Input() meetingTypes: any;
   @Input() authorizationGroups: any;
   @Input() areasList: any;

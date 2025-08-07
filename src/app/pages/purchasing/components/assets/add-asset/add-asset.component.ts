@@ -28,8 +28,6 @@ export class AddAssetComponent {
   individualCode!: any;
   viewOnly = false;
   addAssetShowInfo = false;
-  workFlowActionList: any[] = [];
-  selectedAction: string = '';
   assetTypes$!: Observable<AssetType[]>;
   assetTypeComponentMap: Record<string, string> = {
     PASS_VEH: 'vehicle',
@@ -129,14 +127,7 @@ export class AddAssetComponent {
   buildVehicleForm(): void {
     this.addVehicleForm = this.fb.group({
       id: [null],
-      description: ['', Validators.required],
-      descriptionAr: [
-        '',
-        [Validators.required, Validators.pattern(/^[\u0600-\u06FF\s]+$/)],
-      ],
-      dateAcquired: [null, Validators.required],
-      assetTypeId: ['', Validators.required],
-      agreementId: ['', Validators.required],
+      vehiclesManufactureId: ['', Validators.required],
     });
   }
   private patchForm(asset: Asset): void {
@@ -154,49 +145,7 @@ export class AddAssetComponent {
 
     console.log('📍 Reached before workflow setup', asset);
 
-    this.workFlowActionList = asset.allowedActionsList?.map((action) => ({
-      id: action.id,
-      label: action.name,
-      icon: 'pi pi-times',
-    }));
-    this.selectedAction = asset.currentStatusName ?? '';
-    console.log('✅ this.selectedAction', this.selectedAction);
-
     // this.store.dispatch(loadSectorById({ id: sectorId }));
-  }
-
-  handleWorkflowAction(event: { actionId: number; comment: string }): void {
-    const payload = {
-      assetId: this.assetId,
-      assetStatusActionId: event.actionId,
-      comment: event.comment,
-      isCurrent: true,
-    };
-
-    this.assetsFacade.performWorkflowAction(event.actionId, payload);
-    this.assetsFacade.workFlowActionSuccess$.subscribe({
-      next: () => {
-        console.log('Workflow action submitted successfully.');
-        this.refreshAllowedActions();
-      },
-    });
-  }
-
-  refreshAllowedActions(): void {
-    this.assetsFacade.loadById(this.assetId);
-    this.assetsFacade.selected$.subscribe({
-      next: (asset) => {
-        var workFlowAction = [...(asset?.allowedActionsList ?? [])];
-        this.workFlowActionList = workFlowAction.map((action) => ({
-          id: action.id,
-          label: action.name,
-          icon: 'pi pi-times',
-        })); // clone to ensure change detection
-      },
-      error: (err) => {
-        console.error('Failed to refresh actions:', err);
-      },
-    });
   }
 
   saveInfo() {

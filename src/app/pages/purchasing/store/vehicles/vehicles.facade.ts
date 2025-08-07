@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { createSelector, Store } from '@ngrx/store';
-import * as Actions from './assets.actions';
-import * as Selectors from './assets.selectors';
+import * as Actions from './vehicles.actions';
+import * as Selectors from './vehicles.selectors';
 import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors'; // adjust path if needed
-import { Asset } from './asset.model';
+import { Asset, AssetWorkFlowAction } from './vehicle.model';
 
 @Injectable({ providedIn: 'root' })
 export class AssetsFacade {
@@ -43,6 +43,9 @@ export class AssetsFacade {
   }
   clearSelected() {
     this.store.dispatch(Actions.clearSelectedClient());
+  }
+  performWorkflowAction(id: number, changes: Partial<AssetWorkFlowAction>) {
+    this.store.dispatch(Actions.performWorkflowActionEntity({ id, changes }));
   }
   // History management
   readonly assetHistory$ = this.store.select(Selectors.selectHistory);

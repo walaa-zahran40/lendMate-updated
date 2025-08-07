@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Asset } from './asset.model';
+import { Asset, AssetWorkFlowAction } from './vehicle.model';
 
 export const loadAll = createAction(
   '[Assets] Load All',
@@ -79,6 +79,14 @@ export const loadAssetHistory = createAction(
 export const loadAssetHistorySuccess = createAction(
   '[Asset/API] Load Address Type History Success',
   props<{ history: Asset[] }>()
+);
+export const performWorkflowActionEntity = createAction(
+  '[Assets] PerformWorkflowAction',
+  props<{ id: number; changes: Partial<AssetWorkFlowAction> }>()
+);
+export const performWorkflowActionEntitySuccess = createAction(
+  '[Assets] PerformWorkflowAction Success',
+  props<{ id: number; changes: Partial<AssetWorkFlowAction> }>()
 );
 export const performWorkflowActionEntityFailure = createAction(
   '[Assets] PerformWorkflowAction Failure',
