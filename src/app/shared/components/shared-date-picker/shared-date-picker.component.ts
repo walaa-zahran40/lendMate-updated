@@ -1,20 +1,13 @@
 import {
   Component,
-  forwardRef,
   Input,
-  Injector,
   OnInit,
   Self,
   Optional,
   ViewChild,
 } from '@angular/core';
-import {
-  AbstractControl,
-  ControlValueAccessor,
-  FormControl,
-  NG_VALUE_ACCESSOR,
-  NgControl,
-} from '@angular/forms';
+import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 import { Calendar } from 'primeng/calendar';
 
 @Component({
@@ -36,22 +29,37 @@ export class SharedDatePickerComponent implements ControlValueAccessor, OnInit {
 
   onTouched = () => {};
   onChange = (_: any) => {};
+  dateFormat: string = 'dd-MM-yy'; // default for English
 
   constructor(
-    private injector: Injector,
+    private translate: TranslateService,
     @Self() @Optional() public ngControl: NgControl
   ) {
     if (this.ngControl != null) {
       this.ngControl.valueAccessor = this;
     }
   }
+  ngOnInit(): void {
+    const lang = this.translate.currentLang || this.translate.getDefaultLang();
+    this.setDateFormat(lang);
+
+    this.translate.onLangChange.subscribe((event) => {
+      this.setDateFormat(event.lang);
+    });
+  }
+  private setDateFormat(lang: string) {
+    this.dateFormat =
+      this.translate.currentLang === 'ar' ? 'yy/mm/dd' : 'dd-mm-yy';
+    console.log('date', this.dateFormat);
+  }
+
   ngAfterViewInit() {
     // Patch the missing `window` reference so bindDocumentResizeListener works
     if (this.calendar) {
       (this.calendar as any).window = window;
     }
   }
-  ngOnInit(): void {}
+
   get control(): FormControl | null {
     return this.ngControl?.control as FormControl;
   }

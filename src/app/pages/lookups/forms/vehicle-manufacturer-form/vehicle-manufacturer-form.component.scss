@@ -217,7 +217,6 @@
     }
 
     .p-tab {
-      font-family: var(--custom-font-family);
       font-size: var(--custom-size-16);
       line-height: var(--custom-line-height-25);
       color: var(--custom-grey);
@@ -578,7 +577,6 @@ h2 {
   flex-direction: column;
 }
 p.client {
-  font-family: var(--custom-font-family);
   font-weight: var(--custom-font-weight);
   font-size: var(--custom-font-size-24);
   line-height: var(--custom-line-height);

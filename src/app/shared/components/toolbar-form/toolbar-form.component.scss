@@ -54,7 +54,6 @@
     line-height: var(--custom-line-height-25);
   }
   p.client {
-    font-family: var(--custom-font-family);
     font-weight: var(--custom-font-weight);
     color: var(--filter-text);
     font-size: var(--custom-font-size-24);
@@ -203,7 +202,6 @@
       background-color: var(--border-white) !important;
     }
     .p-tab {
-      font-family: var(--custom-font-family);
       font-size: var(--custom-size-16);
       line-height: var(--custom-line-height-25);
       color: var(--custom-grey);

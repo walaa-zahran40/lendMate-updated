@@ -63,15 +63,15 @@
         </div>
 
         <!-- Business Activity -->
-        <label for="businessActivity"
-          >Business Activity
-          <!-- <sup class="danger">*</sup> -->
-        </label>
+        <label for="businessActivity">{{
+          "FORM.BUSINESS_ACTIVITY" | translate
+        }}</label>
+
         <input
           pInputText
           name="businessActivity"
           formControlName="businessActivity"
-          placeholder="Business Activity"
+          [placeholder]="'FORM.BUSINESS_ACTIVITY' | translate"
           [ngClass]="{
             'ng-invalid ng-dirty':
               formGroup.get('businessActivity')?.invalid &&
@@ -90,12 +90,14 @@
         <br />
 
         <!-- Tax ID -->
-        <label for="taxId">Tax ID <sup class="danger">*</sup></label>
+        <label for="taxId"
+          >{{ "FORM.TAX_ID" | translate }} <sup class="danger">*</sup></label
+        >
         <input
           pInputText
           name="taxId"
           formControlName="taxId"
-          placeholder="Tax ID"
+          [placeholder]="'FORM.TAX_ID' | translate"
           type="text"
           [ngClass]="{
             'ng-invalid ng-dirty':
@@ -114,7 +116,7 @@
               formGroup.get('taxId')?.touched
             "
           >
-            Tax ID is required.
+            {{ "FORM.VALIDATIONS.REQUIRED" | translate }}
           </small>
 
           <br />
@@ -125,23 +127,17 @@
               formGroup.get('taxId')?.touched
             "
           >
-            Only positive numbers and dashes are allowed <br />& Format must be
-            3 digits, dash, 3 digits, dash, 3 digits (e.g. 123-453-679).
+            {{ "FORM.VALIDATIONS.TAX_ID_PATTERN" | translate }}
           </small>
         </div>
 
         <!-- Short Name -->
-        <label for="shortName">Short Name </label>
+        <label for="shortName"> {{ "FORM.SHORT_NAME" | translate }} </label>
         <input
           pInputText
           name="shortName"
           formControlName="shortName"
-          placeholder="Short Name"
-          [ngClass]="{
-            'ng-invalid ng-dirty':
-              formGroup.get('shortName')?.invalid &&
-              formGroup.get('shortName')?.touched
-          }"
+          [placeholder]="'FORM.PLACEHOLDERS.SHORT_NAME' | translate"
         />
         <!-- <small
           class="p-error"
@@ -155,17 +151,17 @@
         <br />
         <ng-container *ngIf="sectorsSafe$ | async as sectors">
           <!-- Sector Dropdown -->
-          <label for="sectorDropdown"
-            >Select Sector<sup class="danger">*</sup></label
-          >
+          <label for="sectorDropdown">
+            {{ "FORM.LABELS.SECTOR" | translate }} <sup class="danger">*</sup>
+          </label>
 
           <p-select
             [filter]="true"
             filterBy="name"
             [showClear]="true"
             [options]="sectors"
-            optionLabel="name"
-            placeholder="Select Sector"
+            [optionLabel]="optionLabelKey"
+            [placeholder]="'FORM.PLACEHOLDERS.SECTOR' | translate"
             formControlName="sectorId"
             optionValue="id"
             (onChange)="onSectorChange($event)"
@@ -189,20 +185,20 @@
                 formGroup.get('sectorId')?.touched)
             "
           >
-            Sector is required.
+            {{ "FORM.ERRORS.SECTOR_REQUIRED" | translate }}
           </small>
         </ng-container>
         <br />
         <!-- Sub Sector Dropdown -->
         <label for="subSectorDropdown">
-          Select Sub Sector<sup class="danger">*</sup>
+          {{ "FORM.LABELS.SUB_SECTOR" | translate }} <sup class="danger">*</sup>
         </label>
         <p-multiSelect
           [options]="subSectorsList"
           formControlName="subSectorIdList"
-          optionLabel="name"
+          [optionLabel]="optionLabelKey"
           optionValue="id"
-          placeholder="Select Sub Sector"
+          [placeholder]="'FORM.PLACEHOLDERS.SUB_SECTOR' | translate"
           display="chip"
           (onChange)="onSubSectorChange($event)"
         ></p-multiSelect>
@@ -215,7 +211,7 @@
               formGroup.get('subSectorIdList')?.dirty)
           "
         >
-          Sub Sector is required.
+          {{ "FORM.ERRORS.SUB_SECTOR_REQUIRED" | translate }}
         </div>
 
         <br />
@@ -455,87 +451,88 @@
     <form class="div2" [formGroup]="formGroup" *ngIf="addClientShowIndividual">
       <!-- Name in English -->
       <label for="nameEnglishIndividual"
-        >Name in English<sup class="danger">*</sup></label
+        >{{ "FORM.COMPANY_TYPES.NAME_EN" | translate }}<sup>*</sup></label
       >
       <input
         pInputText
-        name="nameEnglishIndividual"
-        required
+        id="nameEnglishIndividual"
         formControlName="nameEnglishIndividual"
-        placeholder="Name in English"
-        [ngClass]="{
-          'ng-invalid ng-dirty':
-            formGroup.get('nameEnglishIndividual')?.invalid &&
-            formGroup.get('nameEnglishIndividual')?.touched
-        }"
+        [placeholder]="'FORM.COMPANY_TYPES.PLACEHOLDER_NAME_EN' | translate"
       />
-      <small
-        class="p-error"
+      <div
         *ngIf="
-          formGroup.get('nameEnglishIndividual')?.invalid &&
+          formGroup.get('nameEnglishIndividual')?.hasError('required') &&
           formGroup.get('nameEnglishIndividual')?.touched
         "
+        class="p-error"
       >
-        Name in English is required.
-      </small>
-      <br />
-      <!-- Name in Arabic -->
+        {{ "FORM.COMPANY_TYPES.ERRORS.NAME_EN_REQUIRED" | translate }}
+      </div>
+
       <label for="nameArabicIndividual"
-        >Name in Arabic<sup class="danger">*</sup></label
+        >{{ "FORM.COMPANY_TYPES.LABEL_NAME_AR" | translate }}<sup>*</sup></label
       >
       <input
         pInputText
-        name="nameArabicIndividual"
-        required
+        id="nameArabicIndividual"
         formControlName="nameArabicIndividual"
-        placeholder="Name in Arabic"
-        [ngClass]="{
-          'ng-invalid ng-dirty':
-            formGroup.get('nameArabicIndividual')?.invalid &&
-            formGroup.get('nameArabicIndividual')?.touched
-        }"
+        [placeholder]="'FORM.COMPANY_TYPES.PLACEHOLDER_NAME_AR' | translate"
       />
-      <small
-        class="p-error"
+      <div
         *ngIf="
-          formGroup.get('nameArabicIndividual')?.invalid &&
+          formGroup.get('nameArabicIndividual')?.hasError('required') &&
           formGroup.get('nameArabicIndividual')?.touched
         "
+        class="p-error"
       >
-        Name in Arabic is required.
-      </small>
-      <br />
+        {{ "FORM.COMPANY_TYPES.ERRORS.NAME_AR_REQUIRED" | translate }}
+      </div>
+      <div
+        *ngIf="
+          formGroup.get('nameArabicIndividual')?.hasError('pattern') &&
+          formGroup.get('nameArabicIndividual')?.touched
+        "
+        class="p-error"
+      >
+        {{ "FORM.COMPANY_TYPES.ERRORS.NAME_AR_PATTERN" | translate }}
+      </div>
+
       <!-- Business Activity -->
-      <label for="businessActivityIndividual"
-        >Business Activity
-        <!-- <sup class="danger">*</sup> -->
-      </label>
+      <label for="businessActivityIndividual">{{
+        "FORM.BUSINESS_ACTIVITY" | translate
+      }}</label>
+
       <input
         pInputText
         name="businessActivityIndividual"
         formControlName="businessActivityIndividual"
-        placeholder="Business Activity"
+        [placeholder]="'FORM.BUSINESS_ACTIVITY' | translate"
+        [ngClass]="{
+          'ng-invalid ng-dirty':
+            formGroup.get('businessActivityIndividual')?.invalid &&
+            formGroup.get('businessActivityIndividual')?.touched
+        }"
       />
       <!-- <small
-        class="p-error"
-        *ngIf="
-          formGroup.get('businessActivityIndividual')?.invalid &&
-          formGroup.get('businessActivityIndividual')?.touched
-        "
-      >
-        Business Activity is required.
-      </small> -->
+          class="p-error"
+          *ngIf="
+            formGroup.get('businessActivity')?.hasError('required') &&
+            formGroup.get('businessActivity')?.touched
+          "
+        >
+          Business Activity is required.
+        </small> -->
       <br />
+
       <!--Short Name-->
-      <label for="shortNameIndividual"
-        >Short Name
-        <!-- <sup class="danger">*</sup> -->
-      </label>
+      <label for="shortNameIndividual">{{
+        "FORM.LABELS.SHORT_NAME" | translate
+      }}</label>
       <input
         pInputText
         name="shortNameIndividual"
         formControlName="shortNameIndividual"
-        placeholder="Short Name"
+        [placeholder]="'FORM.PLACEHOLDERS.SHORT_NAME' | translate"
       />
       <!-- <small
         class="p-error"
@@ -550,18 +547,17 @@
       <!-- Sector  -->
       <ng-container *ngIf="sectorsSafe$ | async as sectors">
         <!-- Sector Dropdown -->
-        <label for="sectorDropdown"
-          >Select Sector
-          <!-- <sup class="danger">*</sup> -->
-        </label>
+        <label for="sectorDropdown">{{
+          "FORM.LABELS.SECTOR" | translate
+        }}</label>
 
         <p-select
           [filter]="true"
           filterBy="name"
           [showClear]="true"
           [options]="sectors"
-          optionLabel="name"
-          placeholder="Select Sector"
+          [optionLabel]="optionLabelKey"
+          [placeholder]="'FORM.PLACEHOLDERS.SECTOR' | translate"
           formControlName="sectorId"
           optionValue="id"
           (onChange)="onSectorChange($event)"
@@ -585,17 +581,16 @@
       <br />
       <!-- Sub Sector -->
       <ng-container *ngIf="filteredSubSectors$ | async as subSectors">
-        <label for="subSectorDropdown"
-          >Select Sub Sector
-          <!-- <sup class="danger">*</sup> -->
-        </label>
+        <label for="subSectorDropdown">{{
+          "FORM.LABELS.SUB_SECTOR" | translate
+        }}</label>
 
         <p-multiSelect
           [options]="subSectorsList"
           formControlName="subSectorIdList"
-          optionLabel="name"
+          [optionLabel]="optionLabelKey"
           optionValue="id"
-          placeholder="Select Sub Sector"
+          [placeholder]="'FORM.PLACEHOLDERS.SUB_SECTOR' | translate"
           display="chip"
           (onChange)="onSubSectorChange($event)"
         ></p-multiSelect>
@@ -614,15 +609,12 @@
 
       <br />
       <!-- Email -->
-      <label for="emailIndividual"
-        >Email
-        <!-- <sup class="danger">*</sup> -->
-      </label>
+      <label for="emailIndividual">{{ "FORM.LABELS.EMAIL" | translate }}</label>
       <input
         pInputText
         name="emailIndividual"
         formControlName="emailIndividual"
-        placeholder="Email"
+        [placeholder]="'FORM.PLACEHOLDERS.EMAIL' | translate"
       />
       <!-- <small
         class="p-error"
@@ -635,15 +627,14 @@
       </small> -->
       <br />
       <!--Job Title-->
-      <label for="jobTitleIndividual"
-        >Job Title
-        <!-- <sup class="danger">*</sup> -->
-      </label>
+      <label for="jobTitleIndividual">{{
+        "FORM.LABELS.JOB_TITLE" | translate
+      }}</label>
       <input
         pInputText
         name="jobTitleIndividual"
         formControlName="jobTitleIndividual"
-        placeholder="Job Title"
+        [placeholder]="'FORM.PLACEHOLDERS.JOB_TITLE' | translate"
       />
       <!-- <small
         class="p-error"
@@ -656,10 +647,10 @@
       </small> -->
       <br />
       <!-- Date of Birth -->
-      <label for="dateOfBirthIndividual"
-        >Date of Birth
-        <!-- <sup class="danger">*</sup> -->
-      </label>
+      <label for="dateOfBirthIndividual">{{
+        "FORM.LABELS.DOB" | translate
+      }}</label>
+
       <shared-date-picker
         formControlName="dateOfBirthIndividual"
         inputId="dateOfBirthIndividual"
@@ -668,18 +659,11 @@
       >
       </shared-date-picker>
 
-      <!-- <small
-        class="p-error"
-        *ngIf="
-          formGroup.get('dateOfBirthIndividual')?.invalid &&
-          formGroup.get('dateOfBirthIndividual')?.touched
-        "
-      >
-        Date of Birth is required.
-      </small> -->
       <br />
       <!-- Gender -->
-      <label for="genderIndividual">Gender</label>
+      <label for="genderIndividual">{{
+        "FORM.LABELS.GENDER" | translate
+      }}</label>
       <p-select
         [filter]="true"
         filterBy="name"
@@ -689,7 +673,7 @@
         formControlName="genderIndividual"
         optionLabel="value"
         optionValue="id"
-        placeholder="Select a Gender"
+        [placeholder]="'FORM.PLACEHOLDERS.GENDER' | translate"
         class="w-full md:w-56"
       ></p-select>
 
@@ -705,13 +689,14 @@
           <!-- 1) Identification Number -->
           <div class="div-number flex-1 min-w-0">
             <label for="identificationNumber" class="p-0">
-              Identification Number<sup class="danger">*</sup>
+              {{ "FORM.LABELS.IDENTITY_NUMBER" | translate
+              }}<sup class="danger">*</sup>
             </label>
             <input
               pInputText
               formControlName="identificationNumber"
               required
-              placeholder="Identification Number"
+              [placeholder]="'FORM.PLACEHOLDERS.IDENTITY_NUMBER' | translate"
               [ngClass]="{
                 'ng-invalid ng-dirty':
                   group.get('identificationNumber')?.invalid &&
@@ -725,14 +710,15 @@
                 group.get('identificationNumber')?.touched
               "
             >
-              Identification Number is required.
+              {{ "FORM.ERRORS.IDENTITY_REQUIRED" | translate }}
             </small>
           </div>
 
           <!-- 2) Select Identity -->
           <div class="div-select flex-1 min-w-0">
             <label for="identityType" class="p-0">
-              Select Identity<sup class="danger">*</sup>
+              {{ "FORM.LABELS.IDENTITY_TYPE" | translate
+              }}<sup class="danger">*</sup>
             </label>
             <p-select
               [filter]="true"
@@ -741,8 +727,8 @@
               [options]="identityIndividual"
               formControlName="selectedIdentities"
               name="identityType"
-              placeholder="Select Identity"
-              optionLabel="name"
+              [placeholder]="'FORM.PLACEHOLDERS.IDENTITY_TYPE' | translate"
+              [optionLabel]="optionLabelKey"
               optionValue="id"
               required
               class="m-0"
@@ -759,14 +745,16 @@
                 group.get('selectedIdentities')?.touched
               "
             >
-              Identity is required.
+              {{ "FORM.ERRORS.IDENTITY_TYPE_REQUIRED" | translate }}
             </small>
           </div>
 
           <!-- 3) Is Main toggle -->
           <!-- 3) Is Main toggle -->
           <div class="div-main flex items-center flex-column">
-            <label for="isMain" class="p-0"> Is Main </label>
+            <label for="isMain" class="p-0">
+              {{ "FORM.LABELS.IS_MAIN" | translate }}
+            </label>
             <p-toggleswitch
               formControlName="isMain"
               name="isMain"
@@ -783,7 +771,7 @@
                 group.get('isMain')?.invalid && group.get('isMain')?.touched
               "
             >
-              You must choose if this is main.
+              {{ "FORM.ERRORS.IS_MAIN_REQUIRED" | translate }}
             </small>
           </div>
 

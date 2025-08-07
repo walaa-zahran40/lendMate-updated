@@ -222,6 +222,9 @@
   --custom-justify-content-between: space-between;
   --custom-flex-direction-row-reverse: row-reverse;
   &::ng-deep {
+    .p-tablist-active-bar {
+      background: transparent !important;
+    }
     .p-tabs {
       padding: var(--custom-padding-right-10);
       zoom: 80%;
@@ -301,7 +304,6 @@
     }
 
     .p-tab {
-      font-family: var(--custom-font-family);
       font-size: var(--custom-size-16);
       line-height: var(--custom-line-height-25);
       color: var(--custom-grey);
@@ -418,7 +420,6 @@ h2 {
   line-height: var(--custom-line-height-25);
 }
 p.client {
-  font-family: var(--custom-font-family);
   font-weight: var(--custom-font-weight);
   font-size: var(--custom-font-size-24);
   line-height: var(--custom-line-height);
@@ -429,6 +430,7 @@ p.client {
 .pi-angle-left {
   font-size: 30px;
 }
+
 .tab-panel-paragraph {
   width: 80%;
 

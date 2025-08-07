@@ -7,13 +7,13 @@
   [inputId]="inputId"
   [minDate]="minDate"
   [maxDate]="maxDate"
-  dateFormat="dd-MM-yy"
-  placeholder="Select Date"
+  [dateFormat]="dateFormat"
+  [placeholder]="'FORM.LABELS.DATE' | translate"
 ></p-datepicker>
 
 <small
   *ngIf="control?.hasError('required') && control?.touched"
   class="p-error"
 >
-  Date is required.
+  {{ "FORM.ERRORS.DATE_REQUIRED" | translate }}
 </small>

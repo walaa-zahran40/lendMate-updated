@@ -489,6 +489,8 @@
     "SAVE_INFO": "Save Information"
   },
   "CLIENT": {
+    "COMPANY": "Company",
+    "INDIVIDUAL": "Individual",
     "FORM": {
       "DESCRIPTION_INDIVIDUAL": "Quickly introduce your core personal information by filling out your individual details.",
       "DESCRIPTION_COMPANY": "Introduce your company core info quickly to users by fill up company details"
@@ -544,32 +546,78 @@
   },
 
   "FORM": {
+    "LABELS": {
+      "DATE": "Select Date",
+      "SHORT_NAME": "Short Name",
+      "SECTOR": "Select Sector",
+      "SUB_SECTOR": "Select Sub Sector",
+      "EMAIL": "Email",
+      "JOB_TITLE": "Job Title",
+      "DOB": "Date of Birth",
+      "GENDER": "Gender",
+      "IDENTITY_NUMBER": "Identification Number",
+      "IDENTITY_TYPE": "Select Identity",
+      "IS_MAIN": "Is Main",
+      "BUSINESS_ACTIVITY": "Business Activity",
+      "TAX_ID": "Tax ID"
+    },
     "CODE2": "Code2",
     "FEE_TYPE_REQUIRED": "Fee Type is required.",
     "VEHICLES": {
       "TITLE": "Vehicles",
       "DESCRIPTION": "Introduce your vehicles core info quickly to users by filling in vehicle  details"
     },
-
-    "LABELS": {
-      "BUSINESS_ACTIVITY": "Business Activity",
-      "TAX_ID": "Tax ID",
-      "SHORT_NAME": "Short Name",
-      "SECTOR": "Select Sector",
-      "SUB_SECTOR": "Select Sub Sector"
+    "BUSINESS_ACTIVITY": "Business Activity",
+    "TAX_ID": "Tax ID",
+    "SHORT_NAME": "Short Name",
+    "SECTOR": "Select Sector",
+    "SUB_SECTOR": "Select Sub Sector",
+    "ISCORE": "Is Iscore?",
+    "LEGAL_FORM_LAW": "Legal Form Law",
+    "LEGAL_FORM": "Legal Form",
+    "STAMP_DUTY": "Is Stamp Duty",
+    "MAIN_SHARE": "Main Share",
+    "ESTABLISHED_YEAR": "Established Year",
+    "WEBSITE": "Website",
+    "MARKET_SHARE": "Market Share %",
+    "MARKET_SIZE": "Market Size",
+    "EMPLOYEES_NO": "Number of Employees",
+    "NAME_EN": "Name in English",
+    "NAME_AR": "Name in Arabic",
+    "EMAIL": "Email",
+    "JOB_TITLE": "Job Title",
+    "DOB": "Date of Birth",
+    "GENDER": "Gender",
+    "IDENTITY_NUMBER": "Identification Number",
+    "SELECT_IDENTITY": "Select Identity",
+    "IS_MAIN": "Is Main",
+    "VALIDATIONS": {
+      "REQUIRED": "is required.",
+      "TAX_ID_PATTERN": "Only positive numbers and dashes are allowed. Format must be 123-456-789.",
+      "NEGATIVE": "Value cannot be negative.",
+      "MAX_100": "Cannot exceed 100%.",
+      "YEAR_PATTERN": "Enter a valid year (e.g. 2005).",
+      "URL_PATTERN": "Enter a valid website URL."
     },
     "PLACEHOLDERS": {
       "BUSINESS_ACTIVITY": "Business Activity",
       "TAX_ID": "Tax ID",
-      "SHORT_NAME": "Short Name",
-      "SECTOR": "Select Sector",
-      "SUB_SECTOR": "Select Sub Sector"
+      "EMAIL": "Email",
+      "JOB_TITLE": "Job Title",
+      "DOB": "Date of Birth",
+      "IDENTITY_NUMBER": "Identification Number",
+      "IDENTITY_TYPE": "Select Identity",
+      "GENDER": "Select Gender"
     },
     "ERRORS": {
+      "DATE_REQUIRED": "Date is required.",
       "TAX_ID_REQUIRED": "Tax ID is required.",
       "TAX_ID_PATTERN": "Only positive numbers and dashes are allowed. Format must be 3 digits, dash, 3 digits, dash, 3 digits (e.g. 123-435-678).",
       "SECTOR_REQUIRED": "Sector is required.",
-      "SUB_SECTOR_REQUIRED": "Sub Sector is required."
+      "SUB_SECTOR_REQUIRED": "Sub Sector is required.",
+      "IDENTITY_REQUIRED": "Identification Number is required.",
+      "IDENTITY_TYPE_REQUIRED": "Identity is required.",
+      "IS_MAIN_REQUIRED": "You must choose if this is main."
     },
     "LOWER_BOUND": "LowerBound Amount",
     "UPPER_BOUND": "UpperBound Amount",
@@ -1128,5 +1176,9 @@
       "PLACEHOLDER_DESCRIPTION": "Enter Description",
       "ERROR_DESCRIPTION_REQUIRED": "Description is required."
     }
+  },
+  "GENDER": {
+    "MALE": "Male",
+    "FEMALE": "Female"
   }
 }

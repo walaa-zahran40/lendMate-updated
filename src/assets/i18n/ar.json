@@ -353,14 +353,17 @@
     "FORM": {
       "DESCRIPTION_INDIVIDUAL": "قدّم معلوماتك الشخصية الأساسية للمستخدمين بسرعة من خلال تعبئة التفاصيل الفردية.",
       "DESCRIPTION_COMPANY": "قدّم معلومات شركتك الأساسية للمستخدمين بسرعة من خلال تعبئة تفاصيل الشركة"
-    }
+    },
+    "COMPANY": "شركة",
+    "INDIVIDUAL": "فرد"
   },
   "BUTTONS": {
     "SUBMIT": "إرسال",
+    "SAVE_INFO": "حفظ المعلومات",
     "ADD_BRANCH_OFFICER": "إضافة ضابط فرع",
     "EDIT_BRANCH_OFFICER": "تعديل ضابط فرع",
-    "SAVE_INFO": "حفظ المعلومات",
-
+    "ADD_IDENTITY": "إضافة هوية",
+    "REMOVE_IDENTITY": "حذف الهوية",
     "CLOSE": "إغلاق",
     "ADD_SME_CLIENT_CODE": "إضافة كود عميل SME",
     "EDIT_SME_CLIENT_CODE": "تعديل كود عميل SME",
@@ -541,26 +544,77 @@
     "EXCHANGE_DATE": "تاريخ الصرف"
   },
   "FORM": {
-    "LABELS": {
-      "BUSINESS_ACTIVITY": "النشاط التجاري",
-      "TAX_ID": "الرقم الضريبي",
-      "SHORT_NAME": "الاسم المختصر",
-      "SECTOR": "اختر القطاع",
-      "SUB_SECTOR": "اختر القطاع الفرعي"
-    },
+    "BUSINESS_ACTIVITY": "النشاط التجاري",
+    "TAX_ID": "الرقم الضريبي",
+    "SHORT_NAME": "الاسم المختصر",
+    "SECTOR": "اختر القطاع",
+    "SUB_SECTOR": "اختر القطاع الفرعي",
+    "ISCORE": "هل يوجد iScore؟",
+    "LEGAL_FORM_LAW": "قانون الشكل القانوني",
+    "LEGAL_FORM": "الشكل القانوني",
+    "STAMP_DUTY": "هل يوجد رسم دمغة؟",
+    "MAIN_SHARE": "النسبة الرئيسية",
+    "ESTABLISHED_YEAR": "سنة التأسيس",
     "PLACEHOLDERS": {
       "BUSINESS_ACTIVITY": "النشاط التجاري",
       "TAX_ID": "الرقم الضريبي",
       "SHORT_NAME": "الاسم المختصر",
       "SECTOR": "اختر القطاع",
-      "SUB_SECTOR": "اختر القطاع الفرعي"
+      "SUB_SECTOR": "اختر القطاع الفرعي",
+      "EMAIL": "البريد الإلكتروني",
+      "JOB_TITLE": "المسمى الوظيفي",
+      "DOB": "تاريخ الميلاد",
+      "IDENTITY_NUMBER": "رقم الهوية",
+      "IDENTITY_TYPE": "اختر نوع الهوية",
+      "GENDER": "اختر النوع"
     },
     "ERRORS": {
+      "DATE_REQUIRED": "التاريخ مطلوب",
+      "IDENTITY_REQUIRED": "رقم الهوية مطلوب.",
+      "IDENTITY_TYPE_REQUIRED": "نوع الهوية مطلوب.",
+      "IS_MAIN_REQUIRED": "يجب تحديد ما إذا كانت الهوية رئيسية.",
       "TAX_ID_REQUIRED": "الرقم الضريبي مطلوب.",
       "TAX_ID_PATTERN": "يسمح فقط بالأرقام الموجبة والشرطات. التنسيق: 123-435-678.",
       "SECTOR_REQUIRED": "القطاع مطلوب.",
       "SUB_SECTOR_REQUIRED": "القطاع الفرعي مطلوب."
     },
+    "WEBSITE": "الموقع الإلكتروني",
+    "MARKET_SHARE": "الحصة السوقية %",
+    "MARKET_SIZE": "حجم السوق",
+    "EMPLOYEES_NO": "عدد الموظفين",
+    "NAME_EN": "الاسم باللغة الإنجليزية",
+    "NAME_AR": "الاسم باللغة العربية",
+    "EMAIL": "البريد الإلكتروني",
+    "JOB_TITLE": "المسمى الوظيفي",
+    "DOB": "تاريخ الميلاد",
+    "GENDER": "الجنس",
+    "IDENTITY_NUMBER": "رقم الهوية",
+    "SELECT_IDENTITY": "اختر نوع الهوية",
+    "IS_MAIN": "رئيسي؟",
+    "VALIDATIONS": {
+      "REQUIRED": "مطلوب.",
+      "TAX_ID_PATTERN": "مسموح فقط بالأرقام الموجبة والشرطات. يجب أن يكون التنسيق 123-456-789.",
+      "NEGATIVE": "القيمة لا يمكن أن تكون سالبة.",
+      "MAX_100": "لا يمكن أن تتجاوز 100٪.",
+      "YEAR_PATTERN": "أدخل سنة صحيحة (مثال: 2005).",
+      "URL_PATTERN": "أدخل رابط موقع إلكتروني صحيح."
+    },
+    "LABELS": {
+      "BUSINESS_ACTIVITY": "النشاط التجاري",
+      "TAX_ID": "الرقم الضريبي",
+      "EMAIL": "البريد الإلكتروني",
+      "JOB_TITLE": "المسمى الوظيفي",
+      "DOB": "تاريخ الميلاد",
+      "GENDER": "النوع",
+      "SHORT_NAME": "الاسم المختصر",
+      "IDENTITY_NUMBER": "رقم الهوية",
+      "IDENTITY_TYPE": "اختر نوع الهوية",
+      "IS_MAIN": "رئيسي",
+      "SECTOR": "اختر القطاع",
+      "SUB_SECTOR": "اختر القطاع الفرعي",
+      "DATE": "اختر التاريخ"
+    },
+
     "CODE2": "الرمز 2",
     "CODE2_REQUIRED": "الرمز 2 باللغة العربية مطلوب.",
     "CODE3": "الرمز 3",
@@ -1121,5 +1175,9 @@
       "PLACEHOLDER_DESCRIPTION": "أدخل الوصف",
       "ERROR_DESCRIPTION_REQUIRED": "الوصف مطلوب."
     }
+  },
+  "GENDER": {
+    "MALE": "ذكر",
+    "FEMALE": "أنثى"
   }
 }
