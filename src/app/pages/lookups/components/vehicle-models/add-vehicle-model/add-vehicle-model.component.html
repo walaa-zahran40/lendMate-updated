@@ -21,6 +21,7 @@
         [addVehicleModelsLookupsForm]="true"
         [editMode]="editMode"
         (submitForm)="addOrEditVehicleModels()"
+        [vehicleManufacturers]="vehicleManufacturers$ | async"
         [viewOnly]="viewOnly"
       ></app-vehicle-model-form>
     </p-tabpanel>

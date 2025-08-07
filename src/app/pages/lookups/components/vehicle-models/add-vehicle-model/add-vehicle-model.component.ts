@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { tap, filter, take } from 'rxjs';
+import { tap, filter, take, Observable } from 'rxjs';
 import { VehicleModelsFacade } from '../../../store/vehicle-models/vehicle-models.facade';
 import { VehicleModel } from '../../../store/vehicle-models/vehicle-model.model';
+import { VehicleManufacturer } from '../../../store/vehicle-manufacturers/vehicle-manufacturer.model';
+import { VehicleManufacturersFacade } from '../../../store/vehicle-manufacturers/vehicle-manufacturers.facade';
 
 @Component({
   selector: 'app-add-vehicle-model',
@@ -16,12 +18,14 @@ export class AddVehicleModelComponent {
   viewOnly = false;
   addVehicleModelsLookupsForm!: FormGroup;
   clientId: any;
+  vehicleManufacturers$!: Observable<VehicleManufacturer[]>;
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private facade: VehicleModelsFacade,
-    private router: Router
+    private router: Router,
+    private facadeManufacturer: VehicleManufacturersFacade
   ) {}
 
   ngOnInit() {
@@ -38,8 +42,12 @@ export class AddVehicleModelComponent {
           Validators.pattern(/^[\u0600-\u06FF\s0-9\u0660-\u0669]+$/),
         ],
       ],
+      vehiclesManufactureId: ['', Validators.required],
       isActive: [true], // ← new hidden control
     });
+    this.facadeManufacturer.loadAll();
+    this.vehicleManufacturers$ = this.facadeManufacturer.all$;
+
     console.log(
       '🔵 Form initialized with default values:',
       this.addVehicleModelsLookupsForm.value
@@ -83,6 +91,7 @@ export class AddVehicleModelComponent {
               id: ct!.id,
               name: ct!.name,
               nameAR: ct!.nameAR,
+              vehiclesManufactureId: ct!.vehiclesManufactureId,
               isActive: ct!.isActive,
             });
             console.log(
@@ -133,8 +142,14 @@ export class AddVehicleModelComponent {
       return;
     }
 
-    const { name, nameAR, isActive } = this.addVehicleModelsLookupsForm.value;
-    const payload: Partial<VehicleModel> = { name, nameAR, isActive };
+    const { name, nameAR, vehiclesManufactureId, isActive } =
+      this.addVehicleModelsLookupsForm.value;
+    const payload: Partial<VehicleModel> = {
+      name,
+      nameAR,
+      vehiclesManufactureId,
+      isActive,
+    };
     console.log('  → payload object:', payload);
 
     // Double-check your route param

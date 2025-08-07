@@ -22,6 +22,7 @@ export class ViewVehicleModelsComponent {
   readonly colsInside = [
     { field: 'name', header: 'Name EN' },
     { field: 'nameAR', header: 'Name AR' },
+    // { field: 'vehiclesManufactureId', header: 'Vehicle Manufacturer' },
     { field: 'isActive', header: 'Is Active' },
   ];
   showDeleteModal: boolean = false;
