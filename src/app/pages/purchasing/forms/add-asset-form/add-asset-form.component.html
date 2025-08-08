@@ -113,28 +113,28 @@
           Asset Type is required.
         </small>
         <br />
-        <label for="agreementId"
-          >Agreement Id <sup class="danger">*</sup></label
+        <label for="leasingAgreementId"
+          >Leasing Agreement Id <sup class="danger">*</sup></label
         >
         <input
           pInputText
-          name="agreementId"
-          formControlName="agreementId"
-          placeholder="Agreement Id"
+          name="leasingAgreementId"
+          formControlName="leasingAgreementId"
+          placeholder="Leasing Agreement Id"
           [ngClass]="{
             'ng-invalid ng-dirty':
-              formGroup.get('agreementId')?.invalid &&
-              formGroup.get('agreementId')?.touched
+              formGroup.get('leasingAgreementId')?.invalid &&
+              formGroup.get('leasingAgreementId')?.touched
           }" />
 
         <small
           class="p-error"
           *ngIf="
-            formGroup.get('agreementId')?.hasError('required') &&
-            formGroup.get('agreementId')?.touched
+            formGroup.get('leasingAgreementId')?.hasError('required') &&
+            formGroup.get('leasingAgreementId')?.touched
           "
         >
-          Agreement Id is required.
+          Leasing Agreement Id is required.
         </small>
         <br
       /></ng-container>

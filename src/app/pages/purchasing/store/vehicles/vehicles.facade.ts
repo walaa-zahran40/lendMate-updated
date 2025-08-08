@@ -3,14 +3,14 @@ import { createSelector, Store } from '@ngrx/store';
 import * as Actions from './vehicles.actions';
 import * as Selectors from './vehicles.selectors';
 import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors'; // adjust path if needed
-import { Asset, AssetWorkFlowAction } from './vehicle.model';
+import { Vehicle } from './vehicle.model';
 
 @Injectable({ providedIn: 'root' })
-export class AssetsFacade {
-  all$ = this.store.select(Selectors.selectAllAssets);
-  loading$ = this.store.select(Selectors.selectAssetsLoading);
-  error$ = this.store.select(Selectors.selectAssetsError);
-  totalCount$ = this.store.select(Selectors.selectAssetsTotalCount);
+export class VehiclesFacade {
+  all$ = this.store.select(Selectors.selectAllVehicles);
+  loading$ = this.store.select(Selectors.selectVehiclesLoading);
+  error$ = this.store.select(Selectors.selectVehiclesError);
+  totalCount$ = this.store.select(Selectors.selectVehiclesTotalCount);
   selected$ = this.store.select(
     createSelector(
       Selectors.selectFeature,
@@ -30,11 +30,11 @@ export class AssetsFacade {
     this.store.dispatch(Actions.loadById({ id }));
   }
 
-  create(payload: Partial<Omit<Asset, 'id'>>) {
+  create(payload: Partial<Omit<Vehicle, 'id'>>) {
     this.store.dispatch(Actions.createEntity({ payload }));
   }
 
-  update(id: number, changes: Partial<Asset>) {
+  update(id: number, changes: Partial<Vehicle>) {
     this.store.dispatch(Actions.updateEntity({ id, changes }));
   }
 
@@ -44,16 +44,13 @@ export class AssetsFacade {
   clearSelected() {
     this.store.dispatch(Actions.clearSelectedClient());
   }
-  performWorkflowAction(id: number, changes: Partial<AssetWorkFlowAction>) {
-    this.store.dispatch(Actions.performWorkflowActionEntity({ id, changes }));
-  }
   // History management
-  readonly assetHistory$ = this.store.select(Selectors.selectHistory);
-  readonly assetHistoryLoaded$ = this.store.select(
+  readonly vehicleHistory$ = this.store.select(Selectors.selectHistory);
+  readonly vehicleHistoryLoaded$ = this.store.select(
     Selectors.selectHistoryLoaded
   );
 
   loadHistory(): void {
-    this.store.dispatch(Actions.loadAssetHistory());
+    this.store.dispatch(Actions.loadVehicleHistory());
   }
 }

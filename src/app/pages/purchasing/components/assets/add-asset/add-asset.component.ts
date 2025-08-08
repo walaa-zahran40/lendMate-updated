@@ -10,6 +10,7 @@ import { VehicleManufacturer } from '../../../../lookups/store/vehicle-manufactu
 import { VehicleManufacturersFacade } from '../../../../lookups/store/vehicle-manufacturers/vehicle-manufacturers.facade';
 import { VehicleModel } from '../../../../lookups/store/vehicle-models/vehicle-model.model';
 import { VehicleModelsFacade } from '../../../../lookups/store/vehicle-models/vehicle-models.facade';
+import { VehiclesFacade } from '../../../store/vehicles/vehicles.facade';
 
 @Component({
   selector: 'app-add-asset',
@@ -53,6 +54,7 @@ export class AddAssetComponent {
     private assetTypesFacade: AssetTypesFacade,
     private vehicleManufacturersFacade: VehicleManufacturersFacade,
     private vehicleModelsFacade: VehicleModelsFacade,
+    private vehiclesFacade: VehiclesFacade,
     private router: Router
   ) {}
 
@@ -108,7 +110,7 @@ export class AddAssetComponent {
       ],
       dateAcquired: [null, Validators.required],
       assetTypeId: ['', Validators.required],
-      agreementId: ['', Validators.required],
+      leasingAgreementId: ['', Validators.required],
     });
   }
   buildEquipmentForm(): void {
@@ -121,7 +123,7 @@ export class AddAssetComponent {
       ],
       dateAcquired: [null, Validators.required],
       assetTypeId: ['', Validators.required],
-      agreementId: ['', Validators.required],
+      leasingAgreementId: ['', Validators.required],
     });
   }
   buildPropertyForm(): void {
@@ -134,7 +136,7 @@ export class AddAssetComponent {
       ],
       dateAcquired: [null, Validators.required],
       assetTypeId: ['', Validators.required],
-      agreementId: ['', Validators.required],
+      leasingAgreementId: ['', Validators.required],
     });
   }
   buildVehicleForm(): void {
@@ -142,9 +144,18 @@ export class AddAssetComponent {
       id: [null],
       vehiclesManufactureId: ['', Validators.required],
       vehiclesModelId: ['', Validators.required],
-      dateAcquired: [null, Validators.required],
-      assetTypeId: ['', Validators.required],
-      agreementId: ['', Validators.required],
+      modelCategory: ['', Validators.required],
+      capacity: ['', Validators.required],
+      horsepower: ['', Validators.required],
+      color: ['', Validators.required],
+      chasisNumber: ['', Validators.required],
+      motorNumber: ['', Validators.required],
+      keyId: ['', Validators.required],
+      geerChoice: ['', Validators.required],
+      manufactureYear: ['', Validators.required],
+      currentValue: ['', Validators.required],
+      isRequiredMaintenance: [true, Validators.required],
+      isRequiredKMReading: [true, Validators.required],
     });
   }
   private patchForm(asset: Asset): void {
@@ -165,39 +176,87 @@ export class AddAssetComponent {
     // this.store.dispatch(loadSectorById({ id: sectorId }));
   }
 
-  saveInfo() {
-    console.log('💾 saveInfo() start; valid?', this.addAssetForm.valid);
+  saveInfo(): void {
+    const formType = this.selectedAssetTypeForm;
+
+    if (!formType) {
+      console.error('No asset type selected.');
+      return;
+    }
+
     if (this.addAssetForm.invalid) {
-      console.warn('❗ form invalid, errors:', this.addAssetForm.errors);
       this.addAssetForm.markAllAsTouched();
       return;
     }
 
-    const formValue = this.addAssetForm.value;
-    console.log('→ formValue:', formValue);
+    let payload = { ...this.addAssetForm.value };
 
-    if (this.editMode) {
-      console.log('✏️ update mode payload:', formValue);
-      const updatedAsset = {
-        id: this.assetId,
-        description: formValue.description,
-        descriptionAr: formValue.descriptionAr,
-      };
-      this.assetsFacade.update(this.assetId, updatedAsset);
-    } else {
-      console.log('🆕 create mode payload:', formValue);
-      const payload = {
-        assetTypeId: 1,
-        id: this.assetId,
-        description: formValue.description,
-        descriptionAr: formValue.descriptionAr,
-      };
-      this.assetsFacade.create(payload);
+    switch (formType) {
+      case 'vehicle':
+        if (this.addVehicleForm.invalid) {
+          this.addVehicleForm.markAllAsTouched();
+          return;
+        }
+        payload = { ...payload, ...this.addVehicleForm.value };
+        break;
+
+      case 'property':
+        if (this.addPropertyForm.invalid) {
+          this.addPropertyForm.markAllAsTouched();
+          return;
+        }
+        payload = { ...payload, ...this.addPropertyForm.value };
+        break;
+
+      case 'equipment':
+        if (this.addEquipmentForm.invalid) {
+          this.addEquipmentForm.markAllAsTouched();
+          return;
+        }
+        payload = { ...payload, ...this.addEquipmentForm.value };
+        break;
     }
-    if (this.addAssetForm.valid) {
-      this.addAssetForm.markAsPristine();
-    }
+
+    console.log(
+      this.editMode ? '✏️ Updating asset:' : '🆕 Creating asset:',
+      payload
+    );
+
+    this.handleSave(formType, payload);
+    this.addAssetForm.markAsPristine();
     this.router.navigate(['/purchasing/assets/view-assets']);
+  }
+
+  private handleSave(formType: string, payload: any): void {
+    switch (formType) {
+      case 'vehicle':
+        if (this.editMode) {
+          this.vehiclesFacade.update(this.assetId, payload);
+        } else {
+          this.vehiclesFacade.create(payload);
+        }
+        break;
+
+      case 'property':
+        // if (this.editMode) {
+        //   this.propertiesFacade.update(this.assetId, payload);
+        // } else {
+        //   this.propertiesFacade.create(payload);
+        // }
+        break;
+
+      case 'equipment':
+        // if (this.editMode) {
+        //   this.equipmentsFacade.update(this.assetId, payload);
+        // } else {
+        //   this.equipmentsFacade.create(payload);
+        // }
+        break;
+
+      default:
+        console.error('🚫 No handler implemented for asset type:', formType);
+        break;
+    }
   }
 
   canDeactivate(): boolean {

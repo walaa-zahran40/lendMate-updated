@@ -1,70 +1,70 @@
 import { createAction, props } from '@ngrx/store';
-import { Asset, AssetWorkFlowAction } from './vehicle.model';
+import { Vehicle } from './vehicle.model';
 
 export const loadAll = createAction(
-  '[Assets] Load All',
+  '[Vehicles] Load All',
   props<{ pageNumber?: number }>()
 );
 export const loadAllSuccess = createAction(
-  '[Assets] Load All Success',
-  props<{ result: Asset[] }>()
+  '[Vehicles] Load All Success',
+  props<{ result: Vehicle[] }>()
 );
 
 export const loadAllFailure = createAction(
-  '[Assets] Load All Failure',
+  '[Vehicles] Load All Failure',
   props<{ error: any }>()
 );
 
 export const loadById = createAction(
-  '[Assets] Load By Id',
+  '[Vehicles] Load By Id',
   props<{ id: number }>()
 );
 export const loadByIdSuccess = createAction(
-  '[Assets] Load By Id Success',
-  props<{ entity: Asset }>()
+  '[Vehicles] Load By Id Success',
+  props<{ entity: Vehicle }>()
 );
 export const loadByIdFailure = createAction(
-  '[Assets] Load By Id Failure',
+  '[Vehicles] Load By Id Failure',
   props<{ error: any }>()
 );
 
 export const createEntity = createAction(
-  '[Assets] Create',
+  '[Vehicles] Create',
   // allow all fields except id, but all optional
-  props<{ payload: Partial<Omit<Asset, 'id'>> }>()
+  props<{ payload: Partial<Omit<Vehicle, 'id'>> }>()
 );
 export const createEntitySuccess = createAction(
-  '[Assets] Create Success',
-  props<{ entity: Asset }>()
+  '[Vehicles] Create Success',
+  props<{ entity: Vehicle }>()
 );
 export const createEntityFailure = createAction(
-  '[Assets] Create Failure',
+  '[Vehicles] Create Failure',
   props<{ error: any }>()
 );
 
 export const updateEntity = createAction(
-  '[Assets] Update',
-  props<{ id: number; changes: Partial<Asset> }>()
+  '[Vehicles] Update',
+  props<{ id: number; changes: Partial<Vehicle> }>()
 );
 export const updateEntitySuccess = createAction(
-  '[Assets] Update Success',
-  props<{ id: number; changes: Partial<Asset> }>()
+  '[Vehicles] Update Success',
+  props<{ id: number; changes: Partial<Vehicle> }>()
 );
 export const updateEntityFailure = createAction(
-  '[Assets] Update Failure',
+  '[Vehicles] Update Failure',
   props<{ error: any }>()
 );
 
 export const deleteEntity = createAction(
-  '[Assets] Delete',
+  '[Vehicles] Delete',
   props<{ id: number }>()
 );
 export const deleteEntitySuccess = createAction(
-  '[Assets] Delete Success',
+  '[Vehicles] Delete Success',
   props<{ id: number }>()
 );
 export const deleteEntityFailure = createAction(
-  '[Assets] Delete Failure',
+  '[Vehicles] Delete Failure',
   props<{ error: any }>()
 );
 export const entityOperationSuccess = createAction(
@@ -72,29 +72,17 @@ export const entityOperationSuccess = createAction(
   props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
 );
 //History actions
-export const loadAssetHistory = createAction(
-  '[Asset/API] Load Address Type History'
+export const loadVehicleHistory = createAction(
+  '[Vehicle/API] Load Address Type History'
 );
 
-export const loadAssetHistorySuccess = createAction(
-  '[Asset/API] Load Address Type History Success',
-  props<{ history: Asset[] }>()
+export const loadVehicleHistorySuccess = createAction(
+  '[Vehicle/API] Load Address Type History Success',
+  props<{ history: Vehicle[] }>()
 );
-export const performWorkflowActionEntity = createAction(
-  '[Assets] PerformWorkflowAction',
-  props<{ id: number; changes: Partial<AssetWorkFlowAction> }>()
-);
-export const performWorkflowActionEntitySuccess = createAction(
-  '[Assets] PerformWorkflowAction Success',
-  props<{ id: number; changes: Partial<AssetWorkFlowAction> }>()
-);
-export const performWorkflowActionEntityFailure = createAction(
-  '[Assets] PerformWorkflowAction Failure',
-  props<{ error: any }>()
-);
-export const clearSelectedClient = createAction('[Assets] Clear Selected');
+export const clearSelectedClient = createAction('[Vehicles] Clear Selected');
 
-export const loadAssetHistoryFailure = createAction(
-  '[Asset/API] Load Address Type History Failure',
+export const loadVehicleHistoryFailure = createAction(
+  '[Vehicle/API] Load Address Type History Failure',
   props<{ error: any }>()
 );

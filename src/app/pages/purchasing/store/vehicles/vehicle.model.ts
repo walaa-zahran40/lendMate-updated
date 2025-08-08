@@ -1,16 +1,22 @@
-export interface Asset {
+export interface Vehicle {
   id: number;
-  code?: string;
   description: string;
   descriptionAr: string;
-  isActive: boolean;
-  allowedActionsList: any[];
-  currentStatusName?: string | null;
-}
-export interface AssetWorkFlowAction {
-  id: number;
-  assetStatusActionId?: number;
-  assetId?: number;
-  comment?: string;
-  isCurrent?: boolean;
+  dateAcquired: Date;
+  leasingAgreementId: number;
+  vehiclesManufactureId: number;
+  vehiclesModelId: number;
+  assetTypeId: number;
+  modelCategory: string;
+  manufactureYear: number;
+  currentValue: number;
+  capacity: string;
+  horsepower: string;
+  color: string;
+  chasisNumber: string;
+  motorNumber: string;
+  keyId: string;
+  geerChoice: string;
+  isRequiredMaintenance: boolean;
+  isRequiredKMReading: boolean;
 }

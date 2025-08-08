@@ -3,12 +3,12 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as ActionsList from './vehicles.actions';
 import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { EntityNames } from '../../../../shared/constants/entity-names';
-import { Asset } from './vehicle.model';
-import { AssetsService } from './vehicles.service';
+import { Vehicle } from './vehicle.model';
+import { VehiclesService } from './vehicles.service';
 
 @Injectable()
-export class AssetsEffects {
-  constructor(private actions$: Actions, private service: AssetsService) {}
+export class VehiclesEffects {
+  constructor(private actions$: Actions, private service: VehiclesService) {}
 
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
@@ -19,7 +19,7 @@ export class AssetsEffects {
           tap((items) => console.log('✨ Service returned items:', items)),
           map((items) => ActionsList.loadAllSuccess({ result: items })),
           catchError((err) => {
-            console.error('⚠️ Error loading assets', err);
+            console.error('⚠️ Error loading vehicles', err);
             return of(ActionsList.loadAllFailure({ error: err }));
           })
         )
@@ -64,12 +64,12 @@ export class AssetsEffects {
     this.actions$.pipe(
       ofType(ActionsList.createEntity),
       mergeMap(({ payload }) => {
-        const dto = payload as Omit<Asset, 'id'>;
+        const dto = payload as Omit<Vehicle, 'id'>;
         return this.service.create(dto).pipe(
           mergeMap((entity) => [
             ActionsList.createEntitySuccess({ entity }),
             ActionsList.entityOperationSuccess({
-              entity: EntityNames.Asset,
+              entity: EntityNames.Vehicle,
               operation: 'create',
             }),
           ]),
@@ -87,7 +87,7 @@ export class AssetsEffects {
           mergeMap(() => [
             ActionsList.updateEntitySuccess({ id, changes }),
             ActionsList.entityOperationSuccess({
-              entity: EntityNames.Asset,
+              entity: EntityNames.Vehicle,
               operation: 'update',
             }),
           ]),
@@ -115,18 +115,18 @@ export class AssetsEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAssetHistory())
+      map(() => ActionsList.loadVehicleHistory())
     )
   );
   // Load address type history
-  loadAssetHistory$ = createEffect(() =>
+  loadVehicleHistory$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ActionsList.loadAssetHistory),
+      ofType(ActionsList.loadVehicleHistory),
       switchMap(() =>
         this.service.getAllHistory().pipe(
-          map((history) => ActionsList.loadAssetHistorySuccess({ history })),
+          map((history) => ActionsList.loadVehicleHistorySuccess({ history })),
           catchError((error) =>
-            of(ActionsList.loadAssetHistoryFailure({ error }))
+            of(ActionsList.loadVehicleHistoryFailure({ error }))
           )
         )
       )

@@ -2,26 +2,26 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromSlice from './vehicles.reducer';
 import { adapter, State } from './vehicles.state';
 
-export const selectFeature = createFeatureSelector<State>('assets');
-export const selectAssetsFeature = createFeatureSelector<State>('assets');
+export const selectFeature = createFeatureSelector<State>('vehicles');
+export const selectVehiclesFeature = createFeatureSelector<State>('vehicles');
 
 // these come from your EntityAdapter
 const { selectAll, selectEntities, selectIds, selectTotal } =
-  adapter.getSelectors(selectAssetsFeature);
+  adapter.getSelectors(selectVehiclesFeature);
 
-export const selectAllAssets = createSelector(
+export const selectAllVehicles = createSelector(
   selectFeature,
   fromSlice.selectAll
 );
-export const selectAssetEntities = createSelector(
+export const selectVehicleEntities = createSelector(
   selectFeature,
   fromSlice.selectEntities
 );
-export const selectAssetsLoading = createSelector(
+export const selectVehiclesLoading = createSelector(
   selectFeature,
   (state) => state.loading
 );
-export const selectAssetsError = createSelector(
+export const selectVehiclesError = createSelector(
   selectFeature,
   (state) => state.error
 );
@@ -36,24 +36,24 @@ export const selectCurrent = createSelector(
   selectLoadedId,
   (entities, id) => (id != null ? entities[id] : null)
 );
-export const selectAssetsTotalCount = createSelector(
-  selectAssetsFeature,
+export const selectVehiclesTotalCount = createSelector(
+  selectVehiclesFeature,
   (state) => state
 );
 // History management selectors
-export const selectAssetState = createFeatureSelector<State>('assets');
+export const selectVehicleState = createFeatureSelector<State>('vehicles');
 
 export const selectHistory = createSelector(
-  selectAssetState,
+  selectVehicleState,
   (state) => state.history
 );
 
 export const selectHistoryLoaded = createSelector(
-  selectAssetState,
+  selectVehicleState,
   (state) => state.historyLoaded
 );
 
 export const selectHistoryError = createSelector(
-  selectAssetState,
+  selectVehicleState,
   (state) => state.historyError
 );

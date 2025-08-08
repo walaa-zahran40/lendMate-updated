@@ -76,8 +76,24 @@
                   </div>
                   <div class="col-sm-6 m-0">
                     <p-button
-                      label="Next"
-                      (click)="activateCallback(3)"
+                      *ngIf="!viewOnly"
+                      label="Save Information"
+                      [disabled]="
+                        addAssetForm.invalid ||
+                        (selectedAssetTypeForm === 'vehicle' &&
+                          addVehicleForm.invalid) ||
+                        (selectedAssetTypeForm === 'property' &&
+                          addPropertyForm.invalid) ||
+                        (selectedAssetTypeForm === 'equipment' &&
+                          addEquipmentForm.invalid)
+                      "
+                      (click)="saveInfo()"
+                      class="custom-save2 m-0 float-right"
+                    ></p-button>
+                    <p-button
+                      *ngIf="viewOnly"
+                      (click)="close()"
+                      label="Close"
                       class="custom-save m-0 float-right"
                     ></p-button>
                   </div>

@@ -1,19 +1,19 @@
 import { createReducer, on } from '@ngrx/store';
-import * as AssetActions from './vehicles.actions';
+import * as VehicleActions from './vehicles.actions';
 import { adapter, initialState, State } from './vehicles.state';
 
 export const reducer = createReducer(
   initialState,
 
   // when you dispatch loadAll()
-  on(AssetActions.loadAll, (state) => ({
+  on(VehicleActions.loadAll, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
 
   // when your effect dispatches loadAllSuccess({ result })
-  on(AssetActions.loadAllSuccess, (state, { result }) =>
+  on(VehicleActions.loadAllSuccess, (state, { result }) =>
     adapter.setAll(result, {
       ...state,
       loading: false,
@@ -21,57 +21,57 @@ export const reducer = createReducer(
     })
   ),
   // on failure
-  on(AssetActions.loadAllFailure, (state, { error }) => ({
+  on(VehicleActions.loadAllFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
   // create
-  on(AssetActions.createEntity, (state) => ({
+  on(VehicleActions.createEntity, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
-  on(AssetActions.createEntitySuccess, (state, { entity }) =>
+  on(VehicleActions.createEntitySuccess, (state, { entity }) =>
     adapter.addOne(entity, { ...state, loading: false })
   ),
-  on(AssetActions.createEntityFailure, (state, { error }) => ({
+  on(VehicleActions.createEntityFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
 
   // update
-  on(AssetActions.updateEntity, (state) => ({
+  on(VehicleActions.updateEntity, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
-  on(AssetActions.updateEntitySuccess, (state, { id, changes }) =>
+  on(VehicleActions.updateEntitySuccess, (state, { id, changes }) =>
     adapter.updateOne({ id, changes }, { ...state, loading: false })
   ),
-  on(AssetActions.updateEntityFailure, (state, { error }) => ({
+  on(VehicleActions.updateEntityFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
 
   // delete
-  on(AssetActions.deleteEntity, (state) => ({
+  on(VehicleActions.deleteEntity, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
-  on(AssetActions.deleteEntitySuccess, (state, { id }) =>
+  on(VehicleActions.deleteEntitySuccess, (state, { id }) =>
     adapter.removeOne(id, { ...state, loading: false })
   ),
-  on(AssetActions.deleteEntityFailure, (state, { error }) => ({
+  on(VehicleActions.deleteEntityFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
-  // asset-calculation-types.reducer.ts
-  on(AssetActions.loadByIdSuccess, (state, { entity }) => {
+  // vehicle-calculation-types.reducer.ts
+  on(VehicleActions.loadByIdSuccess, (state, { entity }) => {
     console.log('🗄️ Reducer: loadByIdSuccess, before:', {
       loadedId: state.loadedId,
       entities: state.entities,
@@ -91,19 +91,19 @@ export const reducer = createReducer(
     return newState;
   }),
   //History management
-  on(AssetActions.loadAssetHistory, (state) => ({
+  on(VehicleActions.loadVehicleHistory, (state) => ({
     ...state,
     historyLoaded: false,
     historyError: null,
   })),
 
-  on(AssetActions.loadAssetHistorySuccess, (state, { history }) => ({
+  on(VehicleActions.loadVehicleHistorySuccess, (state, { history }) => ({
     ...state,
     history,
     historyLoaded: true,
   })),
 
-  on(AssetActions.loadAssetHistoryFailure, (state, { error }) => ({
+  on(VehicleActions.loadVehicleHistoryFailure, (state, { error }) => ({
     ...state,
     historyError: error,
     historyLoaded: false,

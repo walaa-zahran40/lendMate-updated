@@ -20,10 +20,11 @@ import { StoreModule } from '@ngrx/store';
 import { AssetsEffects } from './store/assets/assets.effects';
 import { reducer as assetsReducer } from './store/assets/assets.reducer';
 import { StepperModule } from 'primeng/stepper';
-import { AddAssetFormComponent } from './forms/add-asset-form/add-asset-form.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../../shared/shared.module';
+import { VehiclesEffects } from './store/vehicles/vehicles.effects';
+import { reducer as vehiclesReducer } from './store/vehicles/vehicles.reducer';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,8 @@ import { SharedModule } from '../../shared/shared.module';
     StepperModule,
     StoreModule.forFeature('assets', assetsReducer),
     EffectsModule.forFeature([AssetsEffects]),
+    StoreModule.forFeature('vehicles', vehiclesReducer),
+    EffectsModule.forFeature([VehiclesEffects]),
   ],
   exports: [
     ViewAssetsComponent,
