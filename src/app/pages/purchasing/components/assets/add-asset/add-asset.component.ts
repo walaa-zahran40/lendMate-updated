@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { filter, Observable, take } from 'rxjs';
+import { combineLatest, filter, firstValueFrom, Observable, take } from 'rxjs';
 import { AssetsFacade } from '../../../store/assets/assets.facade';
 import { Asset } from '../../../store/assets/asset.model';
 import { AssetType } from '../../../../lookups/store/asset-types/asset-type.model';
@@ -68,13 +68,18 @@ export class AddAssetComponent {
     this.buildVehicleForm();
     this.buildEquipmentForm();
     this.buildPropertyForm();
+
+    // Load lookups
     this.assetTypesFacade.loadAll();
     this.assetTypes$ = this.assetTypesFacade.all$;
+
     this.vehicleManufacturersFacade.loadAll();
     this.vehicleManufacturers$ = this.vehicleManufacturersFacade.all$;
+
     this.vehicleModelsFacade.loadAll();
     this.vehicleModels$ = this.vehicleModelsFacade.all$;
 
+    // Keep your code that updates selectedAssetTypeCode when user changes dropdown
     this.addAssetForm
       .get('assetTypeId')
       ?.valueChanges.subscribe((selectedId: number) => {
@@ -84,12 +89,123 @@ export class AddAssetComponent {
           console.log('Selected asset type code:', this.selectedAssetTypeCode);
         });
       });
+
+    // 👇 EDIT MODE: if there’s an id in route/query, load and patch
+    this.assetId =
+      this.route.snapshot.params['id'] ??
+      this.route.snapshot.queryParams['assetId'];
+    this.editMode = !!this.assetId;
+
+    if (this.editMode) {
+      this.patchOnEdit(+this.assetId);
+    }
   }
 
   ngOnDestroy(): void {
     console.log('🗑️ ngOnDestroy: clearing selected asset');
     this.assetsFacade.clearSelected();
   }
+  private patchOnEdit(id: number) {
+    // 1) make sure the asset is loaded (adapt to your facade API)
+    this.assetsFacade.loadById(id);
+
+    // 2) combine what we need:
+    // - the asset itself
+    // - asset types (to resolve code -> which specific form)
+    // - vehicle lookups (so p-selects have options before we set values)
+    const asset$ = this.assetsFacade.selected$; // or selectById$(id)
+    const types$ = this.assetTypes$;
+    const vehLookups$ = combineLatest([
+      this.vehicleManufacturers$,
+      this.vehicleModels$,
+    ]).pipe(take(1));
+
+    combineLatest([asset$, types$])
+      .pipe(
+        filter(([asset, types]) => !!asset && !!types?.length),
+        take(1)
+      )
+      .subscribe(async ([asset, types]) => {
+        // 3) resolve assetType code & selected form
+        const type = types.find((t) => t.id === asset?.assetTypeId);
+        this.selectedAssetTypeCode = type?.code ?? null; // this drives your ngSwitch via getter
+
+        // 4) patch common fields (safe to do immediately)
+        this.patchCommonForm(asset!);
+
+        // 5) patch specific form
+        const formType = this.selectedAssetTypeForm; // 'vehicle' | 'property' | 'equipment' | null
+        if (!formType) return;
+
+        // If it's vehicle, wait for lookups to be present before patching select values
+        if (formType === 'vehicle') {
+          await firstValueFrom(vehLookups$);
+          this.patchVehicleForm(asset as any); // adjust type to your vehicle payload interface
+        } else if (formType === 'property') {
+          this.patchPropertyForm(asset as any);
+        } else if (formType === 'equipment') {
+          this.patchEquipmentForm(asset as any);
+        }
+
+        // Optionally jump to Step 2 on edit:
+        // if you control the stepper via a variable, set it here, e.g. this.activeStep = 2;
+        // (Your template uses activateCallback; if you want programmatic navigation,
+        // expose a variable for p-stepper instead of the hardcoded [value]="1".)
+      });
+  }
+  private patchCommonForm(asset: Asset): void {
+    this.addAssetForm.patchValue({
+      id: asset.id,
+      description: asset.description,
+      descriptionAr: asset.descriptionAr,
+      dateAcquired: asset['dateAcquired']
+        ? new Date(asset['dateAcquired'])
+        : null,
+      assetTypeId: asset['assetTypeId'],
+      leasingAgreementId: asset['leasingAgreementId'],
+    });
+    // If the assetTypeId is set, your valueChanges above will auto-set selectedAssetTypeCode
+  }
+
+  private patchVehicleForm(vehicle: any): void {
+    // Expecting backend fields; map them to your form control names
+    this.addVehicleForm.patchValue({
+      vehiclesManufactureId: vehicle.vehiclesManufactureId,
+      vehiclesModelId: vehicle.vehiclesModelId,
+      modelCategory: vehicle.modelCategory,
+      capacity: vehicle.capacity,
+      horsepower: vehicle.horsepower,
+      color: vehicle.color,
+      chasisNumber: vehicle.chasisNumber,
+      motorNumber: vehicle.motorNumber,
+      keyId: vehicle.keyId,
+      geerChoice: vehicle.geerChoice,
+      manufactureYear: vehicle.manufactureYear,
+      currentValue: vehicle.currentValue,
+      isRequiredMaintenance: !!vehicle.isRequiredMaintenance,
+      isRequiredKMReading: !!vehicle.isRequiredKMReading,
+    });
+  }
+
+  private patchPropertyForm(property: any): void {
+    // Add property-specific mappings here
+    this.addPropertyForm.patchValue({
+      // id: property.id,  // usually not needed here (already in common)
+      // e.g., deedNumber: property.deedNumber,
+      // area: property.area,
+      // address: property.address,
+    });
+  }
+
+  private patchEquipmentForm(equipment: any): void {
+    // Add equipment-specific mappings here
+    this.addEquipmentForm.patchValue({
+      // serialNumber: equipment.serialNumber,
+      // brand: equipment.brand,
+      // model: equipment.model,
+    });
+  }
+
   get selectedAssetTypeForm(): string | null {
     if (!this.selectedAssetTypeCode) return null;
     return this.assetTypeComponentMap[this.selectedAssetTypeCode] ?? null;

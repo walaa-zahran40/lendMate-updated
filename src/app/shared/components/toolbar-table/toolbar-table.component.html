@@ -22,7 +22,7 @@
     </p-iconfield>
     <p-button
       icon="custom-icon"
-      label="Show Filters"
+      [label]="showFilters ? 'Hide Filters' : 'Show Filters'"
       styleClass="filter"
       (click)="toggleFilters()"
       *ngIf="exports"

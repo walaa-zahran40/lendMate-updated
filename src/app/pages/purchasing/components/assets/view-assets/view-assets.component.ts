@@ -54,36 +54,38 @@ export class ViewAssetsComponent {
     private assetTypesFacade: AssetTypesFacade
   ) {}
   ngOnInit() {
-    // Load History
     this.facade.loadAll();
-    this.assetTypesFacade.loadAll(); // loads asset types
-
-    this.assets$ = this.facade.all$;
+    this.assetTypesFacade.loadAll();
 
     this.assets$ = combineLatest([
       this.facade.all$, // Asset[]
       this.assetTypesFacade.all$, // AssetType[]
     ]).pipe(
-      filter(([assets, types]) => !!assets?.length && !!types?.length),
+      filter(
+        ([assets, types]) => Array.isArray(assets) && Array.isArray(types)
+      ),
       map(([assets, types]) => {
         const typeMap = new Map(types.map((t) => [t.id, t.name]));
-        return assets.map((a) => ({
+        const vm = assets.map((a) => ({
           ...a,
           assetTypeName: typeMap.get(a.assetTypeId) ?? '-',
         }));
+        return vm; // AssetViewModel[]
       }),
-      tap((data) => (this.filteredAssets = data)),
+      tap((vm) => {
+        this.allAssets = vm; // <-- needed for onSearch
+        this.filteredAssets = vm; // <-- drives the table
+      }),
       shareReplay(1)
     );
-  }
-
-  onAddAsset() {
-    this.router.navigate(['/purchasing/assets/add-asset']);
   }
 
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+  onAddAsset() {
+    this.router.navigate(['/purchasing/assets/add-asset']);
   }
   onDeleteAsset(assetId: any): void {
     console.log('[View] onDeleteAsset() – opening modal for id=', assetId);
@@ -108,7 +110,6 @@ export class ViewAssetsComponent {
     }
     this.filteredAssets = this.allAssets.filter(
       (a) =>
-        (a.code ?? '').toLowerCase().includes(q) ||
         (a.description ?? '').toLowerCase().includes(q) ||
         (a.descriptionAr ?? '').toLowerCase().includes(q) ||
         (a.assetTypeName ?? '').toLowerCase().includes(q)
