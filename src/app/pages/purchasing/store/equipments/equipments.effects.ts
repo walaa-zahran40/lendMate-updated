@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import * as ActionsList from './vehicles.actions';
+import * as ActionsList from './equipments.actions';
 import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { EntityNames } from '../../../../shared/constants/entity-names';
-import { Vehicle } from './vehicle.model';
-import { VehiclesService } from './vehicles.service';
+import { Equipment } from './equipment.model';
+import { EquipmentsService } from './equipments.service';
 
 @Injectable()
-export class VehiclesEffects {
-  constructor(private actions$: Actions, private service: VehiclesService) {}
+export class EquipmentsEffects {
+  constructor(private actions$: Actions, private service: EquipmentsService) {}
 
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
@@ -19,7 +19,7 @@ export class VehiclesEffects {
           tap((items) => console.log('✨ Service returned items:', items)),
           map((items) => ActionsList.loadAllSuccess({ result: items })),
           catchError((err) => {
-            console.error('⚠️ Error loading vehicles', err);
+            console.error('⚠️ Error loading equipments', err);
             return of(ActionsList.loadAllFailure({ error: err }));
           })
         )
@@ -64,12 +64,12 @@ export class VehiclesEffects {
     this.actions$.pipe(
       ofType(ActionsList.createEntity),
       mergeMap(({ payload }) => {
-        const dto = payload as Omit<Vehicle, 'id'>;
+        const dto = payload as Omit<Equipment, 'id'>;
         return this.service.create(dto).pipe(
           mergeMap((entity) => [
             ActionsList.createEntitySuccess({ entity }),
             ActionsList.entityOperationSuccess({
-              entity: EntityNames.Vehicle,
+              entity: EntityNames.Equipment,
               operation: 'create',
             }),
           ]),
@@ -87,7 +87,7 @@ export class VehiclesEffects {
           mergeMap(() => [
             ActionsList.updateEntitySuccess({ id, changes }),
             ActionsList.entityOperationSuccess({
-              entity: EntityNames.Vehicle,
+              entity: EntityNames.Equipment,
               operation: 'update',
             }),
           ]),
@@ -108,25 +108,27 @@ export class VehiclesEffects {
       )
     )
   );
-  // refreshList$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(
-  //       ActionsList.createEntitySuccess,
-  //       ActionsList.updateEntitySuccess,
-  //       ActionsList.deleteEntitySuccess
-  //     ),
-  //     map(() => ActionsList.loadVehicleHistory())
-  //   )
-  // );
-  // Load address type history
-  loadVehicleHistory$ = createEffect(() =>
+  refreshList$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ActionsList.loadVehicleHistory),
+      ofType(
+        ActionsList.createEntitySuccess,
+        ActionsList.updateEntitySuccess,
+        ActionsList.deleteEntitySuccess
+      ),
+      map(() => ActionsList.loadEquipmentHistory())
+    )
+  );
+  // Load address type history
+  loadEquipmentHistory$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadEquipmentHistory),
       switchMap(() =>
         this.service.getAllHistory().pipe(
-          map((history) => ActionsList.loadVehicleHistorySuccess({ history })),
+          map((history) =>
+            ActionsList.loadEquipmentHistorySuccess({ history })
+          ),
           catchError((error) =>
-            of(ActionsList.loadVehicleHistoryFailure({ error }))
+            of(ActionsList.loadEquipmentHistoryFailure({ error }))
           )
         )
       )

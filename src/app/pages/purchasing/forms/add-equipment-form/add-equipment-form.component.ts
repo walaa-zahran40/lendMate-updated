@@ -107,7 +107,8 @@ export class AddEquipmentFormComponent implements OnInit, OnDestroy {
   @Input() teamDepartments: any;
   @Input() governoratesList: any;
   @Input() feeTypes: any;
-  @Input() assetTypes: any;
+  @Input() vehicleManufacturers: any;
+  @Input() vehicleModels: any;
   @Input() meetingTypes: any;
   @Input() authorizationGroups: any;
   @Input() areasList: any;
@@ -628,7 +629,8 @@ export class AddEquipmentFormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    console.log('equipment form');
+    console.log('vehicle form');
+
     this.minDateOfBirth.setFullYear(this.minDateOfBirth.getFullYear() - 100);
     // 18 years ago:
     this.maxDateOfBirth.setFullYear(this.maxDateOfBirth.getFullYear() - 18);

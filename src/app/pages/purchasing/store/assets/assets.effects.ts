@@ -115,7 +115,7 @@ export class AssetsEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadAssetHistory())
+      map(() => ActionsList.loadAll({}))
     )
   );
   // Load address type history

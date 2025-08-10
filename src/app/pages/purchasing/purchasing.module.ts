@@ -25,7 +25,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../../shared/shared.module';
 import { VehiclesEffects } from './store/vehicles/vehicles.effects';
 import { reducer as vehiclesReducer } from './store/vehicles/vehicles.reducer';
-
+import { EquipmentsEffects } from './store/equipments/equipments.effects';
+import { reducer as equipmentsReducer } from './store/equipments/equipments.reducer';
 @NgModule({
   declarations: [
     ViewAssetsComponent,
@@ -55,6 +56,8 @@ import { reducer as vehiclesReducer } from './store/vehicles/vehicles.reducer';
     EffectsModule.forFeature([AssetsEffects]),
     StoreModule.forFeature('vehicles', vehiclesReducer),
     EffectsModule.forFeature([VehiclesEffects]),
+    StoreModule.forFeature('equipments', equipmentsReducer),
+    EffectsModule.forFeature([EquipmentsEffects]),
   ],
   exports: [
     ViewAssetsComponent,
