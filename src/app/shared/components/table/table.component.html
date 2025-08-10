@@ -66,37 +66,37 @@
             {{ rowData[col.field] }}
           </span>
           <span *ngSwitchCase="'expiryDate'">
-            {{ rowData[col.field] | date : "yyyy-MM-dd HH:mm" }}
+            {{ rowData[col.field] | date : "yyyy-MM-dd" }}
           </span>
           <span *ngSwitchCase="'lisenceStartDate'">
-            {{ rowData[col.field] | date : "yyyy-MM-dd HH:mm" }}
+            {{ rowData[col.field] | date : "yyyy-MM-dd" }}
           </span>
           <span *ngSwitchCase="'exchangeDate'">
-            {{ rowData[col.field] | date : "yyyy-MM-dd HH:mm" }}
+            {{ rowData[col.field] | date : "yyyy-MM-dd" }}
           </span>
           <span *ngSwitchCase="'startDate'">
             {{ rowData[col.field] | date : "yyyy-MM-dd HH:mm" }}
           </span>
           <span *ngSwitchCase="'actualDate'">
-            {{ rowData[col.field] | date : "yyyy-MM-dd HH:mm" }}
+            {{ rowData[col.field] | date : "yyyy-MM-dd" }}
           </span>
           <span *ngSwitchCase="'endDate'">
             {{ rowData[col.field] | date : "yyyy-MM-dd HH:mm" }}
           </span>
           <span *ngSwitchCase="'dueDate'">
-            {{ rowData[col.field] | date : "yyyy-MM-dd HH:mm" : "UTC" }}</span
+            {{ rowData[col.field] | date : "yyyy-MM-dd" }}</span
           >
           <span *ngSwitchCase="'isinitial'">
             {{ rowData.isInitial ? "Yes" : "No" }}
           </span>
           <span *ngSwitchCase="'date'">
-            {{ rowData[col.field] | date : "yyyy-MM-dd HH:mm" }}
+            {{ rowData[col.field] | date : "yyyy-MM-dd" }}
           </span>
           <span *ngSwitchCase="'balanceSheetdate'">
-            {{ rowData[col.field] | date : "yyyy-MM-dd HH:mm" }}
+            {{ rowData[col.field] | date : "yyyy-MM-dd" }}
           </span>
           <span *ngSwitchCase="'dateAcquired'">
-            {{ rowData[col.field] | date : "yyyy-MM-dd HH:mm" }}
+            {{ rowData[col.field] | date : "yyyy-MM-dd" }}
           </span>
           <span *ngSwitchCase="'genderId'">
             {{ getGenderLabel(rowData.genderId) }}

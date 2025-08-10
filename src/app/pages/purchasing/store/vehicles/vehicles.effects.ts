@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as ActionsList from './vehicles.actions';
+import * as AssetsActions from '../assets/assets.actions';
+
 import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { EntityNames } from '../../../../shared/constants/entity-names';
 import { Vehicle } from './vehicle.model';
@@ -76,6 +78,13 @@ export class VehiclesEffects {
           catchError((error) => of(ActionsList.createEntityFailure({ error })))
         );
       })
+    )
+  );
+  // After vehicle creation, refresh assets list
+  createSuccessRefreshAssets$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.createEntitySuccess),
+      map(() => AssetsActions.loadAll({})) // <— see next snippet
     )
   );
 
