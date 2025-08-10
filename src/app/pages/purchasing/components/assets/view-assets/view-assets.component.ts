@@ -1,9 +1,23 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject, Observable, filter, forkJoin } from 'rxjs';
+import {
+  Subject,
+  Observable,
+  filter,
+  forkJoin,
+  combineLatest,
+  map,
+  tap,
+  shareReplay,
+} from 'rxjs';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
-import { Asset } from '../../../store/assets/asset.model';
+import {
+  Asset,
+  AssetType,
+  AssetViewModel,
+} from '../../../store/assets/asset.model';
 import { AssetsFacade } from '../../../store/assets/assets.facade';
+import { AssetTypesFacade } from '../../../../lookups/store/asset-types/asset-types.facade';
 
 @Component({
   selector: 'app-view-assets',
@@ -13,37 +27,54 @@ import { AssetsFacade } from '../../../store/assets/assets.facade';
 })
 export class ViewAssetsComponent {
   tableDataInside: Asset[] = [];
-  first2: number = 0;
   private destroy$ = new Subject<void>();
   rows: number = 10;
-  showFilters: boolean = false;
   @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
-    { field: 'description', header: 'Description' },
-    { field: 'descriptionAr', header: 'Description AR' },
+    { field: 'assetTypeName', header: 'Asset Type' },
+    { field: 'description', header: 'Description (EN)' },
+    { field: 'descriptionAr', header: 'الوصف (AR)' },
     { field: 'dateAcquired', header: 'Date Acquired' },
-    { field: 'isActive', header: 'Is Active' },
+    { field: 'isActive', header: 'Active' },
   ];
-  showDeleteModal: boolean = false;
-  selectedAssetId: number | null = null;
-  originalAssets: Asset[] = [];
-  filteredAssets: Asset[] = [];
-  assets$!: Observable<Asset[]>;
-  history: Asset[] = [];
 
-  constructor(private router: Router, private facade: AssetsFacade) {}
+  selectedAssetId: number | null = null;
+  allAssets: AssetViewModel[] = [];
+  filteredAssets: Asset[] = [];
+  history: Asset[] = [];
+  assets$!: Observable<Asset[]>;
+  showFilters = false;
+  first2 = 0;
+  showDeleteModal = false;
+
+  constructor(
+    private router: Router,
+    private facade: AssetsFacade,
+    private assetTypesFacade: AssetTypesFacade
+  ) {}
   ngOnInit() {
     // Load History
     this.facade.loadAll();
+    this.assetTypesFacade.loadAll(); // loads asset types
+
     this.assets$ = this.facade.all$;
 
-    // Optionally bind filtered list
-    this.facade.all$
-      .pipe(filter((data) => !!data && data.length > 0))
-      .subscribe((data) => {
-        this.filteredAssets = data;
-      });
+    this.assets$ = combineLatest([
+      this.facade.all$, // Asset[]
+      this.assetTypesFacade.all$, // AssetType[]
+    ]).pipe(
+      filter(([assets, types]) => !!assets?.length && !!types?.length),
+      map(([assets, types]) => {
+        const typeMap = new Map(types.map((t) => [t.id, t.name]));
+        return assets.map((a) => ({
+          ...a,
+          assetTypeName: typeMap.get(a.assetTypeId) ?? '-',
+        }));
+      }),
+      tap((data) => (this.filteredAssets = data)),
+      shareReplay(1)
+    );
   }
 
   onAddAsset() {
@@ -69,12 +100,18 @@ export class ViewAssetsComponent {
     this.showDeleteModal = false;
     this.selectedAssetId = null;
   }
-  onSearch(keyword: string) {
-    const lower = keyword.toLowerCase();
-    this.filteredAssets = this.originalAssets.filter((asset) =>
-      Object.values(asset).some((val) =>
-        val?.toString().toLowerCase().includes(lower)
-      )
+  onSearch(term: string) {
+    const q = (term || '').toLowerCase().trim();
+    if (!q) {
+      this.filteredAssets = this.allAssets.slice();
+      return;
+    }
+    this.filteredAssets = this.allAssets.filter(
+      (a) =>
+        (a.code ?? '').toLowerCase().includes(q) ||
+        (a.description ?? '').toLowerCase().includes(q) ||
+        (a.descriptionAr ?? '').toLowerCase().includes(q) ||
+        (a.assetTypeName ?? '').toLowerCase().includes(q)
     );
   }
   onToggleFilters(value: boolean) {
