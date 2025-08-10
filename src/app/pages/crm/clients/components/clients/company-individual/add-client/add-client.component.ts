@@ -8,8 +8,6 @@ import {
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
-import { arabicOnlyValidator } from '../../../../../../../shared/validators/arabic-only.validator';
-import { positiveNumberValidator } from '../../../../../../../shared/validators/positive-only.validator';
 import { Observable, filter, take, map, tap } from 'rxjs';
 import { SubSectors } from '../../../../../../../shared/interfaces/sub-sector.interface';
 import { Sector } from '../../../../../../lookups/store/sectors/sector.model';

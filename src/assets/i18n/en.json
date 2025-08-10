@@ -486,7 +486,59 @@
     "EDIT_FEE_RANGE": "Edit Fee Range",
     "ADD_BRANCH_ADDRESS": "Add Branch Address",
     "EDIT_BRANCH_ADDRESS": "Edit Branch Address",
+    "NEXT": "Next",
+    "PREVIOUS": "Previous",
     "SAVE_INFO": "Save Information"
+  },
+  "CLIENT_FORM": {
+    "BUSINESS_INFORMATION": {
+      "TITLE": "Business Information",
+      "DESCRIPTION": "This information will be displayed publicly"
+    },
+    "INDIVIDUAL_CORE_INFO": {
+      "DESCRIPTION": "Introduce your individual core info quickly to users by filling up individual details"
+    },
+    "LEGAL_INFORMATION": {
+      "TITLE": "Legal Information",
+      "DESCRIPTION": "This information will be displayed publicly"
+    }
+  },
+  "LEGAL": {
+    "LEGAL_FORM_LAW": "Legal Form Law",
+    "LEGAL_FORM": "Legal Form",
+    "IS_STAMP_DUTY": "Is Stamp Duty",
+    "PLACEHOLDERS": {
+      "LEGAL_FORM_LAW": "Select Legal Form Law",
+      "LEGAL_FORM": "Select Legal Form"
+    },
+    "ERRORS": {
+      "LEGAL_FORM_LAW_REQUIRED": "Legal Form Law is required.",
+      "LEGAL_FORM_REQUIRED": "Legal Form is required."
+    }
+  },
+  "BUSINESS": {
+    "MAIN_SHARE": "Main Share",
+    "ESTABLISHED_YEAR": "Established Year",
+    "WEBSITE": "Website",
+    "MARKET_SHARE": "Market Share %",
+    "MARKET_SIZE": "Market Size",
+    "EMPLOYEES_NO": "Number of Employees",
+    "PLACEHOLDERS": {
+      "MAIN_SHARE": "Main Share",
+      "ESTABLISHED_YEAR": "Established Year",
+      "WEBSITE": "Website",
+      "MARKET_SHARE": "Market Share",
+      "MARKET_SIZE": "Market Size",
+      "EMPLOYEES_NO": "Number of Employees"
+    },
+    "ERRORS": {
+      "NON_NEGATIVE": "Value cannot be negative.",
+      "YEAR_PATTERN": "Enter a valid year (e.g. 2005).",
+      "URL_PATTERN": "Enter a valid website URL.",
+      "MAX_100": "Cannot exceed 100%.",
+      "MARKET_SIZE_NEG": "Market size cannot be negative.",
+      "EMPLOYEES_NEG": "Number of employees cannot be negative."
+    }
   },
   "CLIENT": {
     "COMPANY": "Company",

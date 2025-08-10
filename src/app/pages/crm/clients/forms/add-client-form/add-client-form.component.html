@@ -216,21 +216,24 @@
 
         <br />
         <p-toggleswitch formControlName="isIscore" name="isIscore" />&nbsp;
-        <label for="isIscore">Is Iscore?</label><br />
+        <label for="isIscore">{{ "FORM.ISCORE" | translate }}</label
+        ><br />
       </ng-container>
       <!-- Legal Info -->
       <ng-container *ngIf="addClientShowLegal">
-        <label for="legalFormLawId">Legal Form Law</label>
+        <label for="legalFormLawId">
+          {{ "LEGAL.LEGAL_FORM_LAW" | translate }}
+        </label>
         <ng-container *ngIf="legalFormLaws$ | async as laws">
           <p-select
             [filter]="true"
             filterBy="name"
             [showClear]="true"
             [options]="laws"
-            optionLabel="name"
+            [optionLabel]="optionLabelKey"
             optionValue="id"
             formControlName="legalFormLawId"
-            placeholder="Select Legal Form Law"
+            [placeholder]="'LEGAL.PLACEHOLDERS.LEGAL_FORM_LAW' | translate"
             (onChange)="onLegalFormLawSelectionChange($event)"
             [ngClass]="{
               'ng-invalid':
@@ -248,19 +251,19 @@
               formGroup.get('legalFormLawId')?.touched)
           "
         >
-          Legal Form Law is required.
+          {{ "LEGAL.ERRORS.LEGAL_FORM_LAW_REQUIRED" | translate }}
         </small>
-        <label for="legalFormId">Legal Form</label>
+        <label for="legalFormId"> {{ "LEGAL.LEGAL_FORM" | translate }} </label>
         <ng-container *ngIf="legalForms$ | async as forms">
           <p-select
             [filter]="true"
             filterBy="name"
             [showClear]="true"
             [options]="forms"
-            optionLabel="name"
+            [optionLabel]="optionLabelKey"
             optionValue="id"
             formControlName="legalFormId"
-            placeholder="Select Legal Form"
+            [placeholder]="'LEGAL.PLACEHOLDERS.LEGAL_FORM' | translate"
             [ngClass]="{
               'ng-invalid':
                 formGroup.get('legalFormId')?.invalid &&
@@ -277,24 +280,26 @@
               formGroup.get('legalFormId')?.touched)
           "
         >
-          Legal Form is required.
+          {{ "LEGAL.ERRORS.LEGAL_FORM_REQUIRED" | translate }}
         </small>
 
         <p-toggleswitch
           formControlName="isStampDuty"
           name="isStampDuty"
         />&nbsp;
-        <label for="isStampDuty">Is Stamp Duty</label>
+        <label for="isStampDuty">
+          {{ "LEGAL.IS_STAMP_DUTY" | translate }}
+        </label>
       </ng-container>
       <!-- Business Info -->
       <ng-container *ngIf="addClientShowBusiness">
         <!-- Main Share -->
-        <label for="mainShare">Main Share </label>
+        <label for="mainShare"> {{ "BUSINESS.MAIN_SHARE" | translate }} </label>
         <input
           pInputText
           id="mainShare"
           formControlName="mainShare"
-          placeholder="Main Share"
+          [placeholder]="'BUSINESS.PLACEHOLDERS.MAIN_SHARE' | translate"
           appNoNegative
           type="number"
         />
@@ -308,17 +313,20 @@
           <small
             class="p-error"
             *ngIf="formGroup.get('mainShare')?.errors?.['min']"
-            >Value cannot be negative.</small
           >
+            {{ "BUSINESS.ERRORS.NON_NEGATIVE" | translate }}
+          </small>
         </div>
 
         <!-- Established Year -->
-        <label for="establishedYear">Established Year </label>
+        <label for="establishedYear">
+          {{ "BUSINESS.ESTABLISHED_YEAR" | translate }}
+        </label>
         <input
           pInputText
           id="establishedYear"
           formControlName="establishedYear"
-          placeholder="Established Year"
+          [placeholder]="'BUSINESS.PLACEHOLDERS.ESTABLISHED_YEAR' | translate"
           appNoNegative
           type="number"
         />
@@ -332,24 +340,25 @@
           <small
             class="p-error"
             *ngIf="formGroup.get('establishedYear')?.errors?.['min']"
-            >Value cannot be negative.</small
+          >
+            {{ "BUSINESS.ERRORS.NON_NEGATIVE" | translate }} </small
           ><br />
           <small
             class="p-error"
             *ngIf="formGroup.get('establishedYear')?.errors?.['pattern']"
           >
-            Enter a valid year (e.g. 2005).
+            {{ "BUSINESS.ERRORS.YEAR_PATTERN" | translate }}
           </small>
         </div>
 
         <!-- Website -->
-        <label for="website">Website </label>
+        <label for="website"> {{ "BUSINESS.WEBSITE" | translate }} </label>
         <input
           pInputText
           type="url"
           id="website"
           formControlName="website"
-          placeholder="Website"
+          [placeholder]="'BUSINESS.PLACEHOLDERS.WEBSITE' | translate"
         />
 
         <div
@@ -362,19 +371,22 @@
           <small
             class="p-error"
             *ngIf="formGroup.get('website')?.errors?.['pattern']"
-            >Enter a valid website URL.</small
           >
+            {{ "BUSINESS.ERRORS.URL_PATTERN" | translate }}
+          </small>
         </div>
 
         <!-- Market Share -->
-        <label for="marketShare">Market Share %</label>
+        <label for="marketShare">
+          {{ "BUSINESS.MARKET_SHARE" | translate }}
+        </label>
         <input
           pInputText
           min="0"
           type="number"
           id="marketShare"
           formControlName="marketShare"
-          placeholder="Market Share"
+          [placeholder]="'BUSINESS.PLACEHOLDERS.MARKET_SHARE' | translate"
           appNoNegative
         />
         <div
@@ -387,25 +399,29 @@
           <small
             class="p-error"
             *ngIf="formGroup.get('marketShare')?.errors?.['min']"
-            >Cannot be negative.</small
+          >
+            {{ "BUSINESS.ERRORS.NON_NEGATIVE" | translate }} </small
           ><br />
 
           <small
             class="p-error"
             *ngIf="formGroup.get('marketShare')?.errors?.['max']"
-            >Cannot exceed 100%.</small
           >
+            {{ "BUSINESS.ERRORS.MAX_100" | translate }}
+          </small>
         </div>
 
         <!-- Market Size -->
-        <label for="marketSize">Market Size</label>
+        <label for="marketSize">
+          {{ "BUSINESS.MARKET_SIZE" | translate }}
+        </label>
         <input
           pInputText
           min="0"
           type="number"
           id="marketSize"
           formControlName="marketSize"
-          placeholder="Market Size"
+          [placeholder]="'BUSINESS.PLACEHOLDERS.MARKET_SIZE' | translate"
           appNoNegative
         />
         <div
@@ -418,19 +434,21 @@
           <small
             class="p-error"
             *ngIf="formGroup.get('marketSize')?.errors?.['min']"
-            >Market size cannot be negative.</small
+            >{{ "BUSINESS.ERRORS.MARKET_SIZE_NEG" | translate }}</small
           >
         </div>
 
         <!-- Number of Employees -->
-        <label for="employeesNo">Number of Employees </label>
+        <label for="employeesNo">
+          {{ "BUSINESS.EMPLOYEES_NO" | translate }}
+        </label>
         <input
           pInputText
           min="0"
           type="number"
           id="employeesNo"
           formControlName="employeesNo"
-          placeholder="Number of Employees"
+          [placeholder]="'BUSINESS.PLACEHOLDERS.EMPLOYEES_NO' | translate"
           appNoNegative
         />
         <div
@@ -443,7 +461,7 @@
           <small
             class="p-error"
             *ngIf="formGroup.get('employeesNo')?.errors?.['min']"
-            >Number of employees cannot be negative.</small
+            >{{ "BUSINESS.ERRORS.EMPLOYEES_NEG" | translate }}</small
           >
         </div>
       </ng-container>

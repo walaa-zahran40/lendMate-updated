@@ -367,7 +367,8 @@
     "CLOSE": "إغلاق",
     "ADD_SME_CLIENT_CODE": "إضافة كود عميل SME",
     "EDIT_SME_CLIENT_CODE": "تعديل كود عميل SME",
-
+    "NEXT": "التالي",
+    "PREVIOUS": "السابق",
     "ADD_CONDITION": "إضافة شرط",
     "EDIT_CONDITION": "تعديل شرط",
     "ADD_FEE_TYPE": "إضافة نوع الرسوم",
@@ -494,6 +495,56 @@
     "VIEW_BRANCH_MANAGERS": "عرض مديري الفروع",
     "VIEW_BUSINESS_LINES": "عرض خطوط الأعمال",
     "VIEW_ASSETS": "عرض الأصول"
+  },
+  "CLIENT_FORM": {
+    "BUSINESS_INFORMATION": {
+      "TITLE": "المعلومات التجارية",
+      "DESCRIPTION": "سيتم عرض هذه المعلومات علنًا"
+    },
+    "INDIVIDUAL_CORE_INFO": {
+      "DESCRIPTION": "قدم معلوماتك الأساسية الفردية بسرعة للمستخدمين عن طريق إدخال التفاصيل الفردية"
+    },
+    "LEGAL_INFORMATION": {
+      "TITLE": "المعلومات القانونية",
+      "DESCRIPTION": "سيتم عرض هذه المعلومات علنًا"
+    }
+  },
+  "LEGAL": {
+    "LEGAL_FORM_LAW": "قانون الشكل القانوني",
+    "LEGAL_FORM": "الشكل القانوني",
+    "IS_STAMP_DUTY": "رسوم دمغة؟",
+    "PLACEHOLDERS": {
+      "LEGAL_FORM_LAW": "اختر قانون الشكل القانوني",
+      "LEGAL_FORM": "اختر الشكل القانوني"
+    },
+    "ERRORS": {
+      "LEGAL_FORM_LAW_REQUIRED": "قانون الشكل القانوني مطلوب.",
+      "LEGAL_FORM_REQUIRED": "الشكل القانوني مطلوب."
+    }
+  },
+  "BUSINESS": {
+    "MAIN_SHARE": "الحصة الرئيسية",
+    "ESTABLISHED_YEAR": "سنة التأسيس",
+    "WEBSITE": "الموقع الإلكتروني",
+    "MARKET_SHARE": "الحصة السوقية ٪",
+    "MARKET_SIZE": "حجم السوق",
+    "EMPLOYEES_NO": "عدد الموظفين",
+    "PLACEHOLDERS": {
+      "MAIN_SHARE": "أدخل الحصة الرئيسية",
+      "ESTABLISHED_YEAR": "أدخل سنة التأسيس",
+      "WEBSITE": "أدخل الموقع الإلكتروني",
+      "MARKET_SHARE": "أدخل الحصة السوقية",
+      "MARKET_SIZE": "أدخل حجم السوق",
+      "EMPLOYEES_NO": "أدخل عدد الموظفين"
+    },
+    "ERRORS": {
+      "NON_NEGATIVE": "لا يمكن أن تكون القيمة سالبة.",
+      "YEAR_PATTERN": "أدخل سنة صحيحة (مثال: 2005).",
+      "URL_PATTERN": "أدخل رابط موقع صحيح.",
+      "MAX_100": "لا يمكن أن تتجاوز 100٪.",
+      "MARKET_SIZE_NEG": "لا يمكن أن يكون حجم السوق سالبًا.",
+      "EMPLOYEES_NEG": "لا يمكن أن يكون عدد الموظفين سالبًا."
+    }
   },
   "ASSET_TYPE": {
     "SELECT_CATEGORY": "اختر فئة نوع الأصل",

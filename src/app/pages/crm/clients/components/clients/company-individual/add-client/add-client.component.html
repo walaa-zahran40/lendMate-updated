@@ -44,7 +44,7 @@
                 >
                   <p-button
                     class="custom-save m-0"
-                    label="Next"
+                    [label]="'BUTTONS.NEXT' | translate"
                     (click)="activateCallback(2)"
                   ></p-button>
                 </div>
@@ -58,8 +58,10 @@
               <div class="flex flex-col">
                 <app-add-client-form
                   [formGroup]="addClientForm"
-                  [title]="'Legal Information'"
-                  [description]="'This information will be displayed publicly'"
+                  [title]="'CLIENT_FORM.LEGAL_INFORMATION.TITLE' | translate"
+                  [description]="
+                    'CLIENT_FORM.LEGAL_INFORMATION.DESCRIPTION' | translate
+                  "
                   [addClientShowLegal]="true"
                   [addClient]="true"
                   [viewOnly]="viewOnly && tabValue === 0"
@@ -68,14 +70,14 @@
                 <div class="row two-buttons margin-top">
                   <div class="col-sm-6">
                     <p-button
-                      label="Previous"
+                      [label]="'BUTTONS.PREVIOUS' | translate"
                       class="custom-back"
                       (click)="activateCallback(1)"
                     ></p-button>
                   </div>
                   <div class="col-sm-6 m-0">
                     <p-button
-                      label="Next"
+                      [label]="'BUTTONS.NEXT' | translate"
                       (click)="activateCallback(3)"
                       class="custom-save m-0 float-right"
                     ></p-button>
@@ -91,8 +93,10 @@
               <div class="flex flex-col">
                 <app-add-client-form
                   [formGroup]="addClientForm"
-                  [title]="'Business Information'"
-                  [description]="'This information will be displayed publicly'"
+                  [title]="'CLIENT_FORM.BUSINESS_INFORMATION.TITLE' | translate"
+                  [description]="
+                    'CLIENT_FORM.BUSINESS_INFORMATION.DESCRIPTION' | translate
+                  "
                   [addClientShowBusiness]="true"
                   [addClient]="true"
                   [viewOnly]="viewOnly && tabValue === 0"
@@ -101,7 +105,7 @@
                 <div class="row two-buttons margin-top">
                   <div class="col-sm-6">
                     <p-button
-                      label="Previous"
+                      [label]="'BUTTONS.PREVIOUS' | translate"
                       (click)="activateCallback(2)"
                       class="custom-back d-flex justify-start"
                     ></p-button>
@@ -109,7 +113,7 @@
                   <div class="col-sm-6 m-0">
                     <p-button
                       *ngIf="!viewOnly"
-                      label="Save Information"
+                      [label]="'BUTTONS.SAVE_INFO' | translate"
                       [disabled]="this.addClientForm.invalid"
                       (click)="saveInfo()"
                       class="custom-save2 m-0 float-right"
@@ -134,7 +138,7 @@
       <app-add-client-form
         [formGroup]="addClientFormIndividual"
         [description]="
-          'Introduce your individual core info quickly to users by fill up individual details'
+          'CLIENT_FORM.INDIVIDUAL_CORE_INFO.DESCRIPTION' | translate
         "
         [addClientShowIndividual]="true"
         [addClient]="true"
@@ -154,7 +158,7 @@
           <p-button
             *ngIf="!viewOnly"
             (click)="saveInfoIndividual()"
-            label="Save Information"
+            [label]="'BUTTONS.SAVE_INFO' | translate"
             [disabled]="this.addClientFormIndividual.invalid"
             class="custom-save m-0 float-right"
           ></p-button>

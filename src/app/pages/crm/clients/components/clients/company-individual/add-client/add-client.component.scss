@@ -61,6 +61,7 @@
       font-size: var(--custom-font-size-18);
       cursor: var(--custom-cursor);
       color: var(--custom-color-white);
+      float: inline-end;
     }
     .custom-save:disabled,
     .custom-save2:disabled {
@@ -72,6 +73,7 @@
       margin-right: var(--custom-position-28);
       text-align: var(--custom-position-center);
       padding: 14px 27px;
+      float: inline-end;
       font-size: var(--custom-font-size-18);
       cursor: var(--custom-cursor);
       color: var(--custom-color-white);
