@@ -44,7 +44,9 @@ export class AssetsService {
       );
   }
   getById(id: number): Observable<Asset> {
-    return this.http.get<Asset>(`${this.baseUrl}/AssetId?id=${id}`);
+    return this.http.get<Asset>(
+      `${this.baseUrl}/AssetTypeId?assetTypeId=${id}`
+    );
   }
 
   create(payload: Omit<Asset, 'id'>): Observable<Asset> {
