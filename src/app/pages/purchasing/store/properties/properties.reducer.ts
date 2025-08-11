@@ -1,19 +1,19 @@
 import { createReducer, on } from '@ngrx/store';
-import * as EquipmentActions from './equipments.actions';
-import { adapter, initialState, State } from './equipments.state';
+import * as PropertyActions from './properties.actions';
+import { adapter, initialState, State } from './properties.state';
 
 export const reducer = createReducer(
   initialState,
 
   // when you dispatch loadAll()
-  on(EquipmentActions.loadAll, (state) => ({
+  on(PropertyActions.loadAll, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
 
   // when your effect dispatches loadAllSuccess({ result })
-  on(EquipmentActions.loadAllSuccess, (state, { result }) =>
+  on(PropertyActions.loadAllSuccess, (state, { result }) =>
     adapter.setAll(result, {
       ...state,
       loading: false,
@@ -21,57 +21,57 @@ export const reducer = createReducer(
     })
   ),
   // on failure
-  on(EquipmentActions.loadAllFailure, (state, { error }) => ({
+  on(PropertyActions.loadAllFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
   // create
-  on(EquipmentActions.createEntity, (state) => ({
+  on(PropertyActions.createEntity, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
-  on(EquipmentActions.createEntitySuccess, (state, { entity }) =>
+  on(PropertyActions.createEntitySuccess, (state, { entity }) =>
     adapter.addOne(entity, { ...state, loading: false })
   ),
-  on(EquipmentActions.createEntityFailure, (state, { error }) => ({
+  on(PropertyActions.createEntityFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
 
   // update
-  on(EquipmentActions.updateEntity, (state) => ({
+  on(PropertyActions.updateEntity, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
-  on(EquipmentActions.updateEntitySuccess, (state, { id, changes }) =>
+  on(PropertyActions.updateEntitySuccess, (state, { id, changes }) =>
     adapter.updateOne({ id, changes }, { ...state, loading: false })
   ),
-  on(EquipmentActions.updateEntityFailure, (state, { error }) => ({
+  on(PropertyActions.updateEntityFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
 
   // delete
-  on(EquipmentActions.deleteEntity, (state) => ({
+  on(PropertyActions.deleteEntity, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
-  on(EquipmentActions.deleteEntitySuccess, (state, { id }) =>
+  on(PropertyActions.deleteEntitySuccess, (state, { id }) =>
     adapter.removeOne(id, { ...state, loading: false })
   ),
-  on(EquipmentActions.deleteEntityFailure, (state, { error }) => ({
+  on(PropertyActions.deleteEntityFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
-  // equipment-calculation-types.reducer.ts
-  on(EquipmentActions.loadByIdSuccess, (state, { entity }) => {
+  // property-calculation-types.reducer.ts
+  on(PropertyActions.loadByIdSuccess, (state, { entity }) => {
     console.log('🗄️ Reducer: loadByIdSuccess, before:', {
       loadedId: state.loadedId,
       entities: state.entities,
@@ -91,24 +91,24 @@ export const reducer = createReducer(
     return newState;
   }),
   //History management
-  on(EquipmentActions.loadEquipmentHistory, (state) => ({
+  on(PropertyActions.loadPropertyHistory, (state) => ({
     ...state,
     historyLoaded: false,
     historyError: null,
   })),
 
-  on(EquipmentActions.loadEquipmentHistorySuccess, (state, { history }) => ({
+  on(PropertyActions.loadPropertyHistorySuccess, (state, { history }) => ({
     ...state,
     history,
     historyLoaded: true,
   })),
 
-  on(EquipmentActions.loadEquipmentHistoryFailure, (state, { error }) => ({
+  on(PropertyActions.loadPropertyHistoryFailure, (state, { error }) => ({
     ...state,
     historyError: error,
     historyLoaded: false,
   })),
-  on(EquipmentActions.loadByIdSuccess, (state, { entity }) => {
+  on(PropertyActions.loadByIdSuccess, (state, { entity }) => {
     const newState = adapter.upsertOne(entity, {
       ...state,
       loading: false,

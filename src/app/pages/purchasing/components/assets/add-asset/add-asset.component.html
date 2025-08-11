@@ -2,7 +2,7 @@
   [header]="viewOnly ? 'View Asset' : editMode ? 'Edit Asset' : 'Add Asset'"
   [backExists]="true"
   [backIcon]="'back-icon'"
-  [viewOnly]="false"
+  [viewOnly]="viewOnly"
 ></app-toolbar-form>
 
 <p-tabs styleClass="p-3">
@@ -26,17 +26,35 @@
                   class="col-sm-6 d-flex justify-end float-right margin-top p-0 w-100"
                 >
                   <p-button
+                    *ngIf="viewOnly"
+                    class="custom-save m-0"
+                    label="Close"
+                    (click)="close()"
+                  >
+                  </p-button>
+
+                  <p-button
+                    *ngIf="!viewOnly && needsSecondStep"
                     class="custom-save m-0"
                     [label]="'BUTTONS.NEXT' | translate"
                     (click)="activateCallback(2)"
                   ></p-button>
+                  <!-- Save right away when there is NO step 2 (Property) -->
+                  <p-button
+                    *ngIf="!viewOnly && !needsSecondStep"
+                    class="custom-save m-0"
+                    [label]="'BUTTONS.SAVE_INFO' | translate"
+                    [disabled]="addAssetForm.invalid"
+                    (click)="saveInfo()"
+                  >
+                  </p-button>
                 </div>
               </div>
             </ng-template>
           </p-step-panel>
 
           <!-- Step 2 -->
-          <p-step-panel [value]="2">
+          <p-step-panel [value]="2" *ngIf="needsSecondStep">
             <ng-template #content let-activateCallback="activateCallback">
               <div class="flex flex-col">
                 <ng-container [ngSwitch]="selectedAssetTypeForm">
@@ -48,18 +66,14 @@
                     [addAssetShowInfo]="true"
                     [vehicleManufacturers]="vehicleManufacturers$ | async"
                     [vehicleModels]="vehicleModels$ | async"
+                    [viewOnly]="viewOnly"
                   ></app-add-vehicle-form>
-
-                  <app-add-property-form
-                    *ngSwitchCase="'property'"
-                    [formGroup]="addPropertyForm"
-                    [addAssetShowInfo]="true"
-                  ></app-add-property-form>
 
                   <app-add-equipment-form
                     *ngSwitchCase="'equipment'"
                     [formGroup]="addEquipmentForm"
                     [addAssetShowInfo]="true"
+                    [viewOnly]="viewOnly"
                   ></app-add-equipment-form>
 
                   <div *ngSwitchDefault class="p-error">
@@ -82,8 +96,6 @@
                         addAssetForm.invalid ||
                         (selectedAssetTypeForm === 'vehicle' &&
                           addVehicleForm.invalid) ||
-                        (selectedAssetTypeForm === 'property' &&
-                          addPropertyForm.invalid) ||
                         (selectedAssetTypeForm === 'equipment' &&
                           addEquipmentForm.invalid)
                       "

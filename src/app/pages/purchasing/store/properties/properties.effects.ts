@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import * as ActionsList from './equipments.actions';
+import * as ActionsList from './properties.actions';
 import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { EntityNames } from '../../../../shared/constants/entity-names';
-import { Equipment } from './equipment.model';
-import { EquipmentsService } from './equipments.service';
+import { Property } from './property.model';
+import { PropertiesService } from './properties.service';
 
 @Injectable()
-export class EquipmentsEffects {
-  constructor(private actions$: Actions, private service: EquipmentsService) {}
+export class PropertiesEffects {
+  constructor(private actions$: Actions, private service: PropertiesService) {}
 
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
@@ -19,7 +19,7 @@ export class EquipmentsEffects {
           tap((items) => console.log('✨ Service returned items:', items)),
           map((items) => ActionsList.loadAllSuccess({ result: items })),
           catchError((err) => {
-            console.error('⚠️ Error loading equipments', err);
+            console.error('⚠️ Error loading properties', err);
             return of(ActionsList.loadAllFailure({ error: err }));
           })
         )
@@ -64,12 +64,12 @@ export class EquipmentsEffects {
     this.actions$.pipe(
       ofType(ActionsList.createEntity),
       mergeMap(({ payload }) => {
-        const dto = payload as Omit<Equipment, 'id'>;
+        const dto = payload as Omit<Property, 'id'>;
         return this.service.create(dto).pipe(
           mergeMap((entity) => [
             ActionsList.createEntitySuccess({ entity }),
             ActionsList.entityOperationSuccess({
-              entity: EntityNames.Equipment,
+              entity: EntityNames.Property,
               operation: 'create',
             }),
           ]),
@@ -87,7 +87,7 @@ export class EquipmentsEffects {
           mergeMap(() => [
             ActionsList.updateEntitySuccess({ id, changes }),
             ActionsList.entityOperationSuccess({
-              entity: EntityNames.Equipment,
+              entity: EntityNames.Property,
               operation: 'update',
             }),
           ]),
@@ -119,16 +119,14 @@ export class EquipmentsEffects {
   //   )
   // );
   // Load address type history
-  loadEquipmentHistory$ = createEffect(() =>
+  loadPropertyHistory$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ActionsList.loadEquipmentHistory),
+      ofType(ActionsList.loadPropertyHistory),
       switchMap(() =>
         this.service.getAllHistory().pipe(
-          map((history) =>
-            ActionsList.loadEquipmentHistorySuccess({ history })
-          ),
+          map((history) => ActionsList.loadPropertyHistorySuccess({ history })),
           catchError((error) =>
-            of(ActionsList.loadEquipmentHistoryFailure({ error }))
+            of(ActionsList.loadPropertyHistoryFailure({ error }))
           )
         )
       )
@@ -138,19 +136,20 @@ export class EquipmentsEffects {
     this.actions$.pipe(
       ofType(ActionsList.loadByAssetId),
       tap(({ assetId }) =>
-        console.log('[EquipmentsEffects] loadByAssetId caught', { assetId })
+        console.log(
+          '🔄 Effect: loadByAssetId action caught for assetId=',
+          assetId
+        )
       ),
       mergeMap(({ assetId }) =>
         this.service.getByAssetId(assetId).pipe(
           tap((entity) =>
-            console.log(
-              '[EquipmentsEffects] service.getByAssetId -> entity',
-              entity
-            )
+            console.log('🔄 Service.getByAssetId returned:', entity)
           ),
+          // Reuse the same reducer branch as loadByIdSuccess to upsert & set loadedId
           map((entity) => ActionsList.loadByIdSuccess({ entity })),
           catchError((error) => {
-            console.error('[EquipmentsEffects] getByAssetId error', error);
+            console.error('❌ Service.getByAssetId error:', error);
             return of(ActionsList.loadByAssetIdFailure({ error }));
           })
         )

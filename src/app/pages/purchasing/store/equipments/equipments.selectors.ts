@@ -58,3 +58,11 @@ export const selectHistoryError = createSelector(
   selectEquipmentState,
   (state) => state.historyError
 );
+export const selectEquipmentByAssetId = (assetId: number) =>
+  createSelector(selectEntities, (entities) => {
+    const arr = Object.values(entities ?? {});
+    const hit = arr.find((e: any) => e?.assetId === assetId);
+    // DEBUG
+    console.log('[Selectors] selectEquipmentByAssetId', { assetId, hit });
+    return hit ?? null;
+  });

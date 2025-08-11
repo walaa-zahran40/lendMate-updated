@@ -27,6 +27,9 @@ import { VehiclesEffects } from './store/vehicles/vehicles.effects';
 import { reducer as vehiclesReducer } from './store/vehicles/vehicles.reducer';
 import { EquipmentsEffects } from './store/equipments/equipments.effects';
 import { reducer as equipmentsReducer } from './store/equipments/equipments.reducer';
+import { PropertiesEffects } from './store/properties/properties.effects';
+import { reducer as propertiesReducer } from './store/properties/properties.reducer';
+
 @NgModule({
   declarations: [
     ViewAssetsComponent,
@@ -58,6 +61,8 @@ import { reducer as equipmentsReducer } from './store/equipments/equipments.redu
     EffectsModule.forFeature([VehiclesEffects]),
     StoreModule.forFeature('equipments', equipmentsReducer),
     EffectsModule.forFeature([EquipmentsEffects]),
+    StoreModule.forFeature('properties', propertiesReducer),
+    EffectsModule.forFeature([PropertiesEffects]),
   ],
   exports: [
     ViewAssetsComponent,

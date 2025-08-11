@@ -11,13 +11,13 @@ import {
   shareReplay,
 } from 'rxjs';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
-import {
-  Asset,
-  AssetType,
-  AssetViewModel,
-} from '../../../store/assets/asset.model';
+import { Asset, AssetViewModel } from '../../../store/assets/asset.model';
 import { AssetsFacade } from '../../../store/assets/assets.facade';
 import { AssetTypesFacade } from '../../../../lookups/store/asset-types/asset-types.facade';
+interface AssetRowVM extends Asset {
+  assetTypeName: string;
+  assetTypeCode: string | null; // <-- STRING code like "IT_EQUIP"
+}
 
 @Component({
   selector: 'app-view-assets',
@@ -40,7 +40,7 @@ export class ViewAssetsComponent {
   ];
 
   selectedAssetId: number | null = null;
-  allAssets: AssetViewModel[] = [];
+  allAssets: AssetRowVM[] = [];
   filteredAssets: Asset[] = [];
   history: Asset[] = [];
   assets$!: Observable<Asset[]>;
@@ -65,10 +65,12 @@ export class ViewAssetsComponent {
         ([assets, types]) => Array.isArray(assets) && Array.isArray(types)
       ),
       map(([assets, types]) => {
-        const typeMap = new Map(types.map((t) => [t.id, t.name]));
+        const nameMap = new Map(types.map((t) => [t.id, t.name]));
+        const codeMap = new Map(types.map((t) => [t.id, t.code])); // <-- add this
         const vm = assets.map((a) => ({
           ...a,
-          assetTypeName: typeMap.get(a.assetTypeId) ?? '-',
+          assetTypeName: nameMap.get(a.assetTypeId) ?? '-',
+          assetTypeCode: codeMap.get(a.assetTypeId) ?? null, // <-- add this
         }));
         return vm; // AssetViewModel[]
       }),
@@ -104,30 +106,30 @@ export class ViewAssetsComponent {
   }
   onSearch(term: string) {
     const q = (term || '').toLowerCase().trim();
-    if (!q) {
-      this.filteredAssets = this.allAssets.slice();
-      return;
-    }
-    this.filteredAssets = this.allAssets.filter(
-      (a) =>
-        (a.description ?? '').toLowerCase().includes(q) ||
-        (a.descriptionAr ?? '').toLowerCase().includes(q) ||
-        (a.assetTypeName ?? '').toLowerCase().includes(q)
-    );
+    this.filteredAssets = !q
+      ? this.allAssets.slice()
+      : this.allAssets.filter(
+          (a) =>
+            (a.description ?? '').toLowerCase().includes(q) ||
+            (a.descriptionAr ?? '').toLowerCase().includes(q) ||
+            (a.assetTypeName ?? '').toLowerCase().includes(q)
+        );
   }
   onToggleFilters(value: boolean) {
     this.showFilters = value;
   }
-  onEditAsset(asset: Asset) {
+  onEditAsset(asset: AssetViewModel) {
     this.router.navigate(['/purchasing/assets/edit-asset', asset.id], {
-      queryParams: { mode: 'edit' },
+      queryParams: { mode: 'edit', typeCode: asset.assetTypeCode },
     });
   }
-  onViewAsset(ct: Asset) {
-    this.router.navigate(['/purchasing/assets/edit-asset', ct.id], {
-      queryParams: { mode: 'view' },
+
+  onViewAsset(asset: AssetViewModel) {
+    this.router.navigate(['/purchasing/assets/edit-asset', asset.id], {
+      queryParams: { mode: 'view', typeCode: asset.assetTypeCode },
     });
   }
+
   selectedIds: number[] = [];
   confirmDelete() {
     const deleteCalls = this.selectedIds.map((id) => this.facade.delete(id));

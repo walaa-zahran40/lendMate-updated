@@ -629,7 +629,7 @@ export class AddEquipmentFormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    console.log('vehicle form');
+    console.log('equip form');
 
     this.minDateOfBirth.setFullYear(this.minDateOfBirth.getFullYear() - 100);
     // 18 years ago:

@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { createSelector, Store } from '@ngrx/store';
-import * as Actions from './equipments.actions';
-import * as Selectors from './equipments.selectors';
+import * as Actions from './properties.actions';
+import * as Selectors from './properties.selectors';
 import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors'; // adjust path if needed
-import { Equipment } from './equipment.model';
+import { Property } from './property.model';
 
 @Injectable({ providedIn: 'root' })
-export class EquipmentsFacade {
-  all$ = this.store.select(Selectors.selectAllEquipments);
-  loading$ = this.store.select(Selectors.selectEquipmentsLoading);
-  error$ = this.store.select(Selectors.selectEquipmentsError);
-  totalCount$ = this.store.select(Selectors.selectEquipmentsTotalCount);
+export class propertiesFacade {
+  all$ = this.store.select(Selectors.selectAllProperties);
+  loading$ = this.store.select(Selectors.selectPropertiesLoading);
+  error$ = this.store.select(Selectors.selectPropertiesError);
+  totalCount$ = this.store.select(Selectors.selectPropertiesTotalCount);
   selected$ = this.store.select(
     createSelector(
       Selectors.selectFeature,
@@ -30,11 +30,11 @@ export class EquipmentsFacade {
     this.store.dispatch(Actions.loadById({ id }));
   }
 
-  create(payload: Partial<Omit<Equipment, 'id'>>) {
+  create(payload: Partial<Omit<Property, 'id'>>) {
     this.store.dispatch(Actions.createEntity({ payload }));
   }
 
-  update(id: number, changes: Partial<Equipment>) {
+  update(id: number, changes: Partial<Property>) {
     this.store.dispatch(Actions.updateEntity({ id, changes }));
   }
 
@@ -45,21 +45,18 @@ export class EquipmentsFacade {
     this.store.dispatch(Actions.clearSelectedClient());
   }
   // History management
-  readonly equipmentHistory$ = this.store.select(Selectors.selectHistory);
-  readonly equipmentHistoryLoaded$ = this.store.select(
+  readonly propertyHistory$ = this.store.select(Selectors.selectHistory);
+  readonly propertyHistoryLoaded$ = this.store.select(
     Selectors.selectHistoryLoaded
   );
 
   loadHistory(): void {
-    this.store.dispatch(Actions.loadEquipmentHistory());
+    this.store.dispatch(Actions.loadPropertyHistory());
   }
   selectedByAssetId(assetId: number) {
-    console.log('[EquipmentsFacade] selectedByAssetId subscribe', { assetId });
-    return this.store.select(Selectors.selectEquipmentByAssetId(assetId));
+    return this.store.select(Selectors.selectByAssetId(assetId));
   }
-
   loadByAssetId(assetId: number) {
-    console.log('[EquipmentsFacade] dispatch loadByAssetId', { assetId });
     this.store.dispatch(Actions.loadByAssetId({ assetId }));
   }
 }

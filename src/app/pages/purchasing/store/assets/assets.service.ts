@@ -43,9 +43,25 @@ export class AssetsService {
         })
       );
   }
+  // assets.service.ts
   getById(id: number): Observable<Asset> {
-    return this.http.get<Asset>(
-      `${this.baseUrl}/AssetTypeId?assetTypeId=${id}`
+    const url = `${this.baseUrl}/AssetId?id=${id}`; // <- check endpoint name
+    console.log('[AssetsService] GET', url);
+    return this.http.get<any>(url).pipe(
+      tap((raw) => console.log('[AssetsService] raw response:', raw)),
+      // 🔧 If your API wraps the entity, unwrap it here:
+      map((raw) => {
+        // common patterns – adjust to your backend
+        if (raw?.item) return raw.item; // { item: Asset }
+        if (raw?.data) return raw.data; // { data: Asset }
+        if (Array.isArray(raw)) return raw[0]; // [Asset]
+        return raw as Asset; // plain Asset
+      }),
+      tap((entity) => console.log('[AssetsService] mapped Asset:', entity)),
+      catchError((err) => {
+        console.error('[AssetsService] GET FAIL', err);
+        return throwError(() => err);
+      })
     );
   }
 

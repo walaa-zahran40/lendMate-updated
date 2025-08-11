@@ -29,6 +29,14 @@ export class VehiclesFacade {
   loadById(id: number) {
     this.store.dispatch(Actions.loadById({ id }));
   }
+  // vehicles.facade.ts
+  selectedByAssetId(assetId: number) {
+    return this.store.select(Selectors.selectByAssetId(assetId));
+  }
+  // If your API is by assetId, add this. If not, keep loadById(assetId).
+  loadByAssetId(assetId: number) {
+    this.loadById(assetId);
+  }
 
   create(payload: Partial<Omit<Vehicle, 'id'>>) {
     this.store.dispatch(Actions.createEntity({ payload }));

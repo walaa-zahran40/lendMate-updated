@@ -72,24 +72,21 @@ export const reducer = createReducer(
   })),
   // asset-calculation-types.reducer.ts
   on(AssetActions.loadByIdSuccess, (state, { entity }) => {
-    console.log('🗄️ Reducer: loadByIdSuccess, before:', {
-      loadedId: state.loadedId,
-      entities: state.entities,
-    });
-
-    const newState = adapter.upsertOne(entity, {
+    const safeId = entity?.id;
+    if (safeId == null) {
+      console.warn(
+        '🟡 loadByIdSuccess with missing entity.id. Skipping loadedId update.',
+        entity
+      );
+      return adapter.upsertOne(entity as any, { ...state, loading: false });
+    }
+    return adapter.upsertOne(entity, {
       ...state,
       loading: false,
-      loadedId: entity.id,
+      loadedId: safeId,
     });
-
-    console.log('🗄️ Reducer: loadByIdSuccess, after:', {
-      loadedId: newState.loadedId,
-      entities: newState.entities,
-    });
-
-    return newState;
   }),
+
   //History management
   on(AssetActions.loadAssetHistory, (state) => ({
     ...state,

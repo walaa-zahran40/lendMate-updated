@@ -1,70 +1,70 @@
 import { createAction, props } from '@ngrx/store';
-import { Equipment } from './equipment.model';
+import { Property } from './property.model';
 
 export const loadAll = createAction(
-  '[Equipments] Load All',
+  '[properties] Load All',
   props<{ pageNumber?: number }>()
 );
 export const loadAllSuccess = createAction(
-  '[Equipments] Load All Success',
-  props<{ result: Equipment[] }>()
+  '[properties] Load All Success',
+  props<{ result: Property[] }>()
 );
 
 export const loadAllFailure = createAction(
-  '[Equipments] Load All Failure',
+  '[properties] Load All Failure',
   props<{ error: any }>()
 );
 
 export const loadById = createAction(
-  '[Equipments] Load By Id',
+  '[properties] Load By Id',
   props<{ id: number }>()
 );
 export const loadByIdSuccess = createAction(
-  '[Equipments] Load By Id Success',
-  props<{ entity: Equipment }>()
+  '[properties] Load By Id Success',
+  props<{ entity: Property }>()
 );
 export const loadByIdFailure = createAction(
-  '[Equipments] Load By Id Failure',
+  '[properties] Load By Id Failure',
   props<{ error: any }>()
 );
 
 export const createEntity = createAction(
-  '[Equipments] Create',
+  '[properties] Create',
   // allow all fields except id, but all optional
-  props<{ payload: Partial<Omit<Equipment, 'id'>> }>()
+  props<{ payload: Partial<Omit<Property, 'id'>> }>()
 );
 export const createEntitySuccess = createAction(
-  '[Equipments] Create Success',
-  props<{ entity: Equipment }>()
+  '[properties] Create Success',
+  props<{ entity: Property }>()
 );
 export const createEntityFailure = createAction(
-  '[Equipments] Create Failure',
+  '[properties] Create Failure',
   props<{ error: any }>()
 );
 
 export const updateEntity = createAction(
-  '[Equipments] Update',
-  props<{ id: number; changes: Partial<Equipment> }>()
+  '[properties] Update',
+  props<{ id: number; changes: Partial<Property> }>()
 );
 export const updateEntitySuccess = createAction(
-  '[Equipments] Update Success',
-  props<{ id: number; changes: Partial<Equipment> }>()
+  '[properties] Update Success',
+  props<{ id: number; changes: Partial<Property> }>()
 );
 export const updateEntityFailure = createAction(
-  '[Equipments] Update Failure',
+  '[properties] Update Failure',
   props<{ error: any }>()
 );
 
 export const deleteEntity = createAction(
-  '[Equipments] Delete',
+  '[properties] Delete',
   props<{ id: number }>()
 );
 export const deleteEntitySuccess = createAction(
-  '[Equipments] Delete Success',
+  '[properties] Delete Success',
   props<{ id: number }>()
 );
 export const deleteEntityFailure = createAction(
-  '[Equipments] Delete Failure',
+  '[properties] Delete Failure',
   props<{ error: any }>()
 );
 export const entityOperationSuccess = createAction(
@@ -72,31 +72,31 @@ export const entityOperationSuccess = createAction(
   props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
 );
 //History actions
-export const loadEquipmentHistory = createAction(
-  '[Equipment/API] Load Address Type History'
+export const loadPropertyHistory = createAction(
+  '[Property/API] Load Address Type History'
 );
 
-export const loadEquipmentHistorySuccess = createAction(
-  '[Equipment/API] Load Address Type History Success',
-  props<{ history: Equipment[] }>()
+export const loadPropertyHistorySuccess = createAction(
+  '[Property/API] Load Address Type History Success',
+  props<{ history: Property[] }>()
 );
-export const clearSelectedClient = createAction('[Equipments] Clear Selected');
+export const clearSelectedClient = createAction('[properties] Clear Selected');
 
-export const loadEquipmentHistoryFailure = createAction(
-  '[Equipment/API] Load Address Type History Failure',
+export const loadPropertyHistoryFailure = createAction(
+  '[Property/API] Load Address Type History Failure',
   props<{ error: any }>()
 );
 export const loadByAssetId = createAction(
-  '[Equipments] Load By Asset Id',
+  '[properties] Load By Asset Id',
   props<{ assetId: number }>()
 );
 
 export const loadByAssetIdSuccess = createAction(
-  '[Equipments] Load By Asset Id Success',
-  props<{ entity: Equipment }>()
+  '[properties] Load By Asset Id Success',
+  props<{ entity: Property }>()
 );
 
 export const loadByAssetIdFailure = createAction(
-  '[Equipments] Load By Asset Id Failure',
+  '[properties] Load By Asset Id Failure',
   props<{ error: any }>()
 );

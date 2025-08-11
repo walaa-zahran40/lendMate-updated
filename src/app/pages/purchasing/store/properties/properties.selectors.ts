@@ -1,27 +1,28 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import * as fromSlice from './vehicles.reducer';
-import { adapter, State } from './vehicles.state';
+import * as fromSlice from './properties.reducer';
+import { adapter, State } from './properties.state';
 
-export const selectFeature = createFeatureSelector<State>('vehicles');
-export const selectVehiclesFeature = createFeatureSelector<State>('vehicles');
+export const selectFeature = createFeatureSelector<State>('properties');
+export const selectPropertiesFeature =
+  createFeatureSelector<State>('properties');
 
 // these come from your EntityAdapter
 const { selectAll, selectEntities, selectIds, selectTotal } =
-  adapter.getSelectors(selectVehiclesFeature);
+  adapter.getSelectors(selectPropertiesFeature);
 
-export const selectAllVehicles = createSelector(
+export const selectAllProperties = createSelector(
   selectFeature,
   fromSlice.selectAll
 );
-export const selectVehicleEntities = createSelector(
+export const selectPropertyEntities = createSelector(
   selectFeature,
   fromSlice.selectEntities
 );
-export const selectVehiclesLoading = createSelector(
+export const selectPropertiesLoading = createSelector(
   selectFeature,
   (state) => state.loading
 );
-export const selectVehiclesError = createSelector(
+export const selectPropertiesError = createSelector(
   selectFeature,
   (state) => state.error
 );
@@ -36,29 +37,32 @@ export const selectCurrent = createSelector(
   selectLoadedId,
   (entities, id) => (id != null ? entities[id] : null)
 );
-export const selectVehiclesTotalCount = createSelector(
-  selectVehiclesFeature,
+export const selectPropertiesTotalCount = createSelector(
+  selectPropertiesFeature,
   (state) => state
 );
 // History management selectors
-export const selectVehicleState = createFeatureSelector<State>('vehicles');
+export const selectPropertiestate = createFeatureSelector<State>('properties');
 
 export const selectHistory = createSelector(
-  selectVehicleState,
+  selectPropertiestate,
   (state) => state.history
 );
 
 export const selectHistoryLoaded = createSelector(
-  selectVehicleState,
+  selectPropertiestate,
   (state) => state.historyLoaded
 );
 
 export const selectHistoryError = createSelector(
-  selectVehicleState,
+  selectPropertiestate,
   (state) => state.historyError
 );
 export const selectByAssetId = (assetId: number) =>
   createSelector(
     selectAll,
-    (list) => list.find((v) => v.id === assetId /* or v.assetId */) || null
+    (list) =>
+      list.find(
+        (e) => e.id === assetId /* or e.assetId if your model has it */
+      ) || null
   );

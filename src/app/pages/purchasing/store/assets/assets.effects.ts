@@ -27,18 +27,28 @@ export class AssetsEffects {
     )
   );
 
+  // assets.effects.ts
   loadById$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActionsList.loadById),
-      tap(({ id }) =>
-        console.log('🔄 Effect: loadById action caught for id=', id)
-      ),
+      tap(({ id }) => console.log('[AssetsEffects] loadById', { id })),
       mergeMap(({ id }) =>
         this.service.getById(id).pipe(
-          tap((entity) => console.log('🔄 Service.getById returned:', entity)),
-          map((entity) => ActionsList.loadByIdSuccess({ entity })),
+          tap((entity) =>
+            console.log('[AssetsEffects] service.getById ->', entity)
+          ),
+          map((entity) => {
+            if (!entity || typeof entity !== 'object' || entity.id == null) {
+              console.error(
+                '[AssetsEffects] Invalid entity from service:',
+                entity
+              );
+              throw new Error('Invalid Asset payload (missing id)');
+            }
+            return ActionsList.loadByIdSuccess({ entity });
+          }),
           catchError((error) => {
-            console.error('❌ Service.getById error:', error);
+            console.error('[AssetsEffects] getById error', error);
             return of(ActionsList.loadByIdFailure({ error }));
           })
         )

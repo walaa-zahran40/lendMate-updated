@@ -12,6 +12,7 @@ export enum EntityNames {
   ConditionExpression = 'ConditionExpression',
   Condition = 'Condition',
   Equipment = 'Equipment',
+  Property = 'Property',
   FeeRange = 'FeeRange',
   Vehicle = 'Vehicle',
   VehicleManufacturer = 'VehicleManufacturer',

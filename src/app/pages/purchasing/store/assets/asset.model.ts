@@ -16,6 +16,7 @@ export interface AssetType {
 
 // view model (what you bind to the table)
 export interface AssetViewModel extends Asset {
+  assetTypeCode: number;
   assetTypeName: string;
   assetTypeNameAr?: string;
   dateAcquiredObj?: Date; // convenient if you need a Date object

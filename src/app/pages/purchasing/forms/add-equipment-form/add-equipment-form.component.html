@@ -12,254 +12,53 @@
       [formGroup]="formGroup"
     >
       <ng-container *ngIf="addAssetShowInfo">
-        <label for="vehiclesManufactureId"
-          >Vehicle Manufacturer<sup class="danger">*</sup></label
-        >
-        <p-select
-          [filter]="true"
-          filterBy="name"
-          [showClear]="true"
-          id="vehiclesManufactureId"
-          [options]="vehicleManufacturers"
-          optionLabel="name"
-          placeholder="Select Vehicle Manufacturer"
-          formControlName="vehiclesManufactureId"
-          optionValue="id"
-          [ngClass]="{
-            'ng-invalid':
-              formGroup.get('vehiclesManufactureId')?.invalid &&
-              (formGroup.get('vehiclesManufactureId')?.dirty ||
-                formGroup.get('vehiclesManufactureId')?.touched)
-          }"
-        ></p-select>
-
-        <small
-          class="p-error"
-          *ngIf="
-            formGroup.get('vehiclesManufactureId')?.hasError('required') &&
-            formGroup.get('vehiclesManufactureId')?.touched
-          "
-        >
-          Vehicle Manufacturer is required.
-        </small>
-        <br />
-        <label for="vehiclesModelId"
-          >Vehicle Model<sup class="danger">*</sup></label
-        >
-        <p-select
-          [filter]="true"
-          filterBy="name"
-          [showClear]="true"
-          id="vehiclesModelId"
-          [options]="vehicleModels"
-          optionLabel="name"
-          placeholder="Select Vehicle Model"
-          formControlName="vehiclesModelId"
-          optionValue="id"
-          [ngClass]="{
-            'ng-invalid':
-              formGroup.get('vehiclesModelId')?.invalid &&
-              (formGroup.get('vehiclesModelId')?.dirty ||
-                formGroup.get('vehiclesModelId')?.touched)
-          }"
-        ></p-select>
-
-        <small
-          class="p-error"
-          *ngIf="
-            formGroup.get('vehiclesModelId')?.hasError('required') &&
-            formGroup.get('vehiclesModelId')?.touched
-          "
-        >
-          Vehicle Model is required.
-        </small>
-        <br />
-        <label for="modelCategory"
-          >Model Category <sup class="danger">*</sup></label
+        <label for="machineManufacture"
+          >Machine Manufacturer<sup class="danger">*</sup></label
         >
         <input
           pInputText
-          name="modelCategory"
-          formControlName="modelCategory"
-          placeholder="Model Category"
+          name="machineManufacture"
+          formControlName="machineManufacture"
+          placeholder="Machine Manufacturer"
           [ngClass]="{
             'ng-invalid ng-dirty':
-              formGroup.get('modelCategory')?.invalid &&
-              formGroup.get('modelCategory')?.touched
+              formGroup.get('machineManufacture')?.invalid &&
+              formGroup.get('machineManufacture')?.touched
+          }"
+        />
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('machineManufacture')?.hasError('required') &&
+            formGroup.get('machineManufacture')?.touched
+          "
+        >
+          Machine Manufacturer is required.
+        </small>
+        <br />
+        <label for="modelDescription"
+          >Model Description<sup class="danger">*</sup></label
+        >
+        <input
+          pInputText
+          name="modelDescription"
+          formControlName="modelDescription"
+          placeholder="Model Description"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              formGroup.get('modelDescription')?.invalid &&
+              formGroup.get('modelDescription')?.touched
           }"
         />
 
         <small
           class="p-error"
           *ngIf="
-            formGroup.get('modelCategory')?.hasError('required') &&
-            formGroup.get('modelCategory')?.touched
+            formGroup.get('modelDescription')?.hasError('required') &&
+            formGroup.get('modelDescription')?.touched
           "
         >
-          Model Category is required.
-        </small>
-        <br />
-        <label for="capacity">Capacity <sup class="danger">*</sup></label>
-        <input
-          pInputText
-          name="capacity"
-          formControlName="capacity"
-          placeholder="Capacity"
-          [ngClass]="{
-            'ng-invalid ng-dirty':
-              formGroup.get('capacity')?.invalid &&
-              formGroup.get('capacity')?.touched
-          }"
-        />
-
-        <small
-          class="p-error"
-          *ngIf="
-            formGroup.get('capacity')?.hasError('required') &&
-            formGroup.get('capacity')?.touched
-          "
-        >
-          Capacity is required.
-        </small>
-        <br />
-        <label for="horsepower">Horse power <sup class="danger">*</sup></label>
-        <input
-          pInputText
-          name="horsepower"
-          formControlName="horsepower"
-          placeholder="Horse power"
-          [ngClass]="{
-            'ng-invalid ng-dirty':
-              formGroup.get('horsepower')?.invalid &&
-              formGroup.get('horsepower')?.touched
-          }"
-        />
-
-        <small
-          class="p-error"
-          *ngIf="
-            formGroup.get('horsepower')?.hasError('required') &&
-            formGroup.get('horsepower')?.touched
-          "
-        >
-          Horse power is required.
-        </small>
-        <br />
-        <label for="color">Color <sup class="danger">*</sup></label>
-        <input
-          pInputText
-          name="color"
-          formControlName="color"
-          placeholder="Color"
-          [ngClass]="{
-            'ng-invalid ng-dirty':
-              formGroup.get('color')?.invalid && formGroup.get('color')?.touched
-          }"
-        />
-
-        <small
-          class="p-error"
-          *ngIf="
-            formGroup.get('color')?.hasError('required') &&
-            formGroup.get('color')?.touched
-          "
-        >
-          Color is required.
-        </small>
-        <br />
-        <label for="chasisNumber"
-          >Chasis Number <sup class="danger">*</sup></label
-        >
-        <input
-          pInputText
-          name="chasisNumber"
-          formControlName="chasisNumber"
-          placeholder="Chasis Number"
-          [ngClass]="{
-            'ng-invalid ng-dirty':
-              formGroup.get('chasisNumber')?.invalid &&
-              formGroup.get('chasisNumber')?.touched
-          }"
-        />
-
-        <small
-          class="p-error"
-          *ngIf="
-            formGroup.get('chasisNumber')?.hasError('required') &&
-            formGroup.get('chasisNumber')?.touched
-          "
-        >
-          Chasis Number is required.
-        </small>
-        <br />
-        <label for="motorNumber"
-          >Motor Number <sup class="danger">*</sup></label
-        >
-        <input
-          pInputText
-          name="motorNumber"
-          formControlName="motorNumber"
-          placeholder="Motor Number"
-          [ngClass]="{
-            'ng-invalid ng-dirty':
-              formGroup.get('motorNumber')?.invalid &&
-              formGroup.get('motorNumber')?.touched
-          }"
-        />
-
-        <small
-          class="p-error"
-          *ngIf="
-            formGroup.get('motorNumber')?.hasError('required') &&
-            formGroup.get('motorNumber')?.touched
-          "
-        >
-          Motor Number is required.
-        </small>
-        <br />
-        <label for="keyId">Key Id <sup class="danger">*</sup></label>
-        <input
-          pInputText
-          name="keyId"
-          formControlName="keyId"
-          placeholder="Key Id"
-          [ngClass]="{
-            'ng-invalid ng-dirty':
-              formGroup.get('keyId')?.invalid && formGroup.get('keyId')?.touched
-          }"
-        />
-
-        <small
-          class="p-error"
-          *ngIf="
-            formGroup.get('keyId')?.hasError('required') &&
-            formGroup.get('keyId')?.touched
-          "
-        >
-          Key Id is required.
-        </small>
-        <br />
-        <label for="geerChoice">Geer Choice <sup class="danger">*</sup></label>
-        <input
-          pInputText
-          name="geerChoice"
-          formControlName="geerChoice"
-          placeholder="Geer Choice"
-          [ngClass]="{
-            'ng-invalid ng-dirty':
-              formGroup.get('geerChoice')?.invalid &&
-              formGroup.get('geerChoice')?.touched
-          }"
-        />
-
-        <small
-          class="p-error"
-          *ngIf="
-            formGroup.get('geerChoice')?.hasError('required') &&
-            formGroup.get('geerChoice')?.touched
-          "
-        >
-          Geer Choice is required.
+          Model Description is required.
         </small>
         <br />
         <label for="manufactureYear"
@@ -270,7 +69,6 @@
           name="manufactureYear"
           formControlName="manufactureYear"
           placeholder="Manufacture Year"
-          type="number"
           [ngClass]="{
             'ng-invalid ng-dirty':
               formGroup.get('manufactureYear')?.invalid &&
@@ -286,6 +84,31 @@
           "
         >
           Manufacture Year is required.
+        </small>
+        <br />
+        <label for="serialNumber"
+          >Serial Number <sup class="danger">*</sup></label
+        >
+        <input
+          pInputText
+          name="serialNumber"
+          formControlName="serialNumber"
+          placeholder="SerialNumber"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              formGroup.get('serialNumber')?.invalid &&
+              formGroup.get('serialNumber')?.touched
+          }"
+        />
+
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('serialNumber')?.hasError('required') &&
+            formGroup.get('serialNumber')?.touched
+          "
+        >
+          Serial Number is required.
         </small>
         <br />
         <label for="currentValue"
@@ -314,41 +137,6 @@
           Current Value is required.
         </small>
         <br />
-        <p-toggleSwitch
-          id="isRequiredMaintenance"
-          formControlName="isRequiredMaintenance"
-        ></p-toggleSwitch>
-        &nbsp;<label for="isRequiredMaintenance">
-          Is Required Maintenance<sup>*</sup></label
-        >
-        <br />
-        <small
-          class="p-error"
-          *ngIf="
-            formGroup.get('isRequiredMaintenance')?.hasError('required') &&
-            formGroup.get('isRequiredMaintenance')?.touched
-          "
-        >
-          Is Required Maintenance is required.
-        </small>
-        <br />
-        <p-toggleSwitch
-          id="isRequiredKMReading"
-          formControlName="isRequiredKMReading"
-        ></p-toggleSwitch>
-        &nbsp;<label for="isRequiredKMReading">
-          Is Required KM Reading<sup>*</sup></label
-        >
-        <br />
-        <small
-          class="p-error"
-          *ngIf="
-            formGroup.get('isRequiredKMReading')?.hasError('required') &&
-            formGroup.get('isRequiredKMReading')?.touched
-          "
-        >
-          Is Required KM Reading is required.
-        </small>
       </ng-container>
     </form>
   </div>

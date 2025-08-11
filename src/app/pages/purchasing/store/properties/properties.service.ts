@@ -1,57 +1,63 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
-import { Vehicle } from './vehicle.model';
+import { Property } from './property.model';
 
 @Injectable({ providedIn: 'root' })
-export class VehiclesService {
-  private baseUrl = `${environment.apiUrl}Vehicles`;
+export class PropertiesService {
+  private baseUrl = `${environment.apiUrl}MachinesAndProperties`;
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<Vehicle[]> {
+  getAll(): Observable<Property[]> {
     console.log('🚀 Service: calling GET …');
     return this.http
-      .get<{ items: Vehicle[]; totalCount: number }>(
-        `${this.baseUrl}/GetAllVehicles`
+      .get<{ items: Property[]; totalCount: number }>(
+        `${this.baseUrl}/GetAllProperties`
       )
       .pipe(
         tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
         tap((items) => console.log('🚀 Mapped items:', items)),
         catchError((err) => {
-          console.error('🚀 HTTP error fetching Vehicles:', err);
+          console.error('🚀 HTTP error fetching Properties:', err);
           return throwError(() => err);
         })
       );
   }
   //History management
-  getAllHistory(): Observable<Vehicle[]> {
+  getAllHistory(): Observable<Property[]> {
     console.log('🚀 Service: calling GET …');
     return this.http
-      .get<{ items: Vehicle[]; totalCount: number }>(
-        `${this.baseUrl}/GetAllPassengerVehiclesHistory`
+      .get<{ items: Property[]; totalCount: number }>(
+        `${this.baseUrl}/GetAllPassengerPropertiesHistory`
       )
       .pipe(
         tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
         tap((items) => console.log('🚀 Mapped items:', items)),
         catchError((err) => {
-          console.error('🚀 HTTP error fetching Vehicles:', err);
+          console.error('🚀 HTTP error fetching Properties:', err);
           return throwError(() => err);
         })
       );
   }
-  getByAssetId(id: number): Observable<Vehicle> {
-    return this.http.get<Vehicle>(`${this.baseUrl}/assetId?assetId=${id}`);
+  getById(id: number): Observable<Property> {
+    return this.http.get<Property>(`${this.baseUrl}/PropertyId?id=${id}`);
+  }
+  getByAssetId(id: number): Observable<Property> {
+    return this.http.get<Property>(`${this.baseUrl}/assetId?assetId=${id}`);
   }
 
-  create(payload: Omit<Vehicle, 'id'>): Observable<Vehicle> {
-    return this.http.post<Vehicle>(`${this.baseUrl}/CreateVehicle`, payload);
+  create(payload: Omit<Property, 'id'>): Observable<Property> {
+    return this.http.post<Property>(
+      `${this.baseUrl}/CreateMachinesAndProperty`,
+      payload
+    );
   }
 
-  update(id: number, changes: Partial<Vehicle>): Observable<void> {
+  update(id: number, changes: Partial<Property>): Observable<void> {
     return this.http.put<void>(`${this.baseUrl}/${id}`, changes);
   }
 

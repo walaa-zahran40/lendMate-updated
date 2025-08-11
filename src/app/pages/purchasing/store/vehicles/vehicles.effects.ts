@@ -29,14 +29,14 @@ export class VehiclesEffects {
     )
   );
 
-  loadById$ = createEffect(() =>
+  loadByAssetId$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActionsList.loadById),
       tap(({ id }) =>
         console.log('🔄 Effect: loadById action caught for id=', id)
       ),
       mergeMap(({ id }) =>
-        this.service.getById(id).pipe(
+        this.service.getByAssetId(id).pipe(
           tap((entity) => console.log('🔄 Service.getById returned:', entity)),
           map((entity) => ActionsList.loadByIdSuccess({ entity })),
           catchError((error) => {
