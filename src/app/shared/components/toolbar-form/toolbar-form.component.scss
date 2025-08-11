@@ -183,6 +183,7 @@
     .backIcon {
       border: none !important;
     }
+
     .backIcon {
       border-radius: 0 !important;
       border: none !important;
@@ -355,5 +356,11 @@
         padding: 10px !important;
       }
     }
+  }
+}
+:host::ng-deep {
+  html[dir="rtl"] .back-icon {
+    transform: rotate(180deg);
+    display: inline-block; /* needed for transform to work on pseudo-element */
   }
 }

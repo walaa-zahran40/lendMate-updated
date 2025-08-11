@@ -38,6 +38,7 @@ import { SelectModule } from 'primeng/select';
 import { DatePickerModule } from 'primeng/datepicker';
 import { DebugControlDirective } from '../../shared/directives/debug-control.directive';
 import { AddMeetingsSideMenuComponent } from './components/meetings/add-meetings/add-meetings-sidemenu.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { AddMeetingsSideMenuComponent } from './components/meetings/add-meetings
     CommunicationRoutingModule,
     SharedModule,
     TabsModule,
+    TranslateModule,
     ButtonModule,
     FullCalendarModule,
     CheckboxModule,

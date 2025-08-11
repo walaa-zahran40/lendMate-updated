@@ -27,7 +27,7 @@ export class ToolbarFormComponent {
   comment: string = '';
   showCommentDialog = false;
   defaultAction = true;
-  @Input() header!: string | boolean;
+  @Input() header!: string;
   @Input() backExists!: boolean;
   @Input() viewOnly!: boolean;
   @Input() editMode: boolean = false;

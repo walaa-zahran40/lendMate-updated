@@ -7,7 +7,7 @@
         *ngIf="username"
       />
       <div *ngIf="username">
-        <p class="welcome">Welcome</p>
+        <p class="welcome">{{ "NAVBAR.WELCOME" | translate }}</p>
         <p class="name">
           <span>{{ username }}</span>
         </p>
@@ -23,24 +23,26 @@
       >
         <ng-template #handle let-checked="checked">
           <i [ngClass]="['!text-xs', 'pi', checked ? 'moon' : 'sun']"></i>
-          <span class="text-toggle">{{ checked ? "Dark" : "Light" }}</span>
+          <span class="text-toggle">{{
+            checked ? ("NAVBAR.DARK" | translate) : ("NAVBAR.LIGHT" | translate)
+          }}</span>
         </ng-template>
       </p-toggleswitch>
     </div>
     <p
-      class="language-en"
+      class="language-ar"
       *ngIf="currentLang !== 'en'"
       (click)="switchLang('en')"
     >
-      &nbsp;&nbsp;&nbsp;English&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;{{ "NAVBAR.ENGLISH" | translate }}&nbsp;&nbsp;&nbsp;
     </p>
 
     <p
-      class="language-ar"
+      class="language-en"
       *ngIf="currentLang !== 'ar'"
       (click)="switchLang('ar')"
     >
-      &nbsp;&nbsp;&nbsp;العربيه&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;{{ "NAVBAR.ARABIC" | translate }}&nbsp;&nbsp;&nbsp;
     </p>
     <!-- <p-avatar
       *ngIf="loginDisplay"
@@ -59,7 +61,10 @@
       <app-notification></app-notification>
     </p-dialog> -->
     <span *ngIf="loginDisplay" class="btn btn-secondary" (click)="logout()"
-      ><i class="pi pi-sign-out" pTooltip="Sign Out"></i
+      ><i
+        class="pi pi-sign-out"
+        pTooltip="{{ 'NAVBAR.SIGN_OUT' | translate }}"
+      ></i
     ></span>
   </ng-template>
 </p-toolbar>

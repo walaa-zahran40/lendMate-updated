@@ -1,5 +1,11 @@
 <app-toolbar-form
-  [header]="viewOnly ? 'View Call' : editMode ? 'Edit Call' : 'Add Call'"
+  [header]="
+    viewOnly
+      ? ('CALL.HEADER_VIEW' | translate)
+      : editMode
+      ? ('CALL.HEADER_EDIT' | translate)
+      : ('CALL.HEADER_ADD' | translate)
+  "
   [backExists]="true"
   [backIcon]="'back-icon'"
   [viewOnly]="false"
@@ -8,7 +14,7 @@
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-add-call-form
-        [description]="'Call'"
+        [description]="'CALL.DESCRIPTION' | translate"
         [addCallForm]="true"
         [clientsList]="clients$ | async"
         [callTypes]="callTypes$ | async"

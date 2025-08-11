@@ -8,6 +8,23 @@
     "ADD": "Add Client Status",
     "EDIT": "Edit Client Status"
   },
+  "NAVBAR": {
+    "WELCOME": "Welcome",
+    "DARK": "Dark",
+    "LIGHT": "Light",
+    "ENGLISH": "English",
+    "ARABIC": "Arabic",
+    "SIGN_OUT": "Sign Out"
+  },
+  "WORKFLOW": {
+    "ACTIONS": "Workflow Actions"
+  },
+  "CALL": {
+    "HEADER_ADD": "Add Call",
+    "HEADER_EDIT": "Edit Call",
+    "HEADER_VIEW": "View Call",
+    "DESCRIPTION": "Call"
+  },
   "BUSINESS_LINE": {
     "BUSINESS_LINE": "Business Line",
     "SELECT_BUSINESS_LINE": "Select Business Line"

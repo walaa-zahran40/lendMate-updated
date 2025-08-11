@@ -11,6 +11,23 @@
     "ADD": "إضافة مجموعة التفويض الإجرائية",
     "EDIT": "تعديل مجموعة التفويض الإجرائية"
   },
+  "NAVBAR": {
+    "WELCOME": "مرحبا",
+    "DARK": "داكن",
+    "LIGHT": "فاتح",
+    "ENGLISH": "الإنجليزية",
+    "ARABIC": "العربية",
+    "SIGN_OUT": "تسجيل الخروج"
+  },
+  "WORKFLOW": {
+    "ACTIONS": "إجراءات سير العمل"
+  },
+  "CALL": {
+    "HEADER_ADD": "إضافة مكالمة",
+    "HEADER_EDIT": "تعديل مكالمة",
+    "HEADER_VIEW": "عرض مكالمة",
+    "DESCRIPTION": "مكالمة"
+  },
   "NOTIF_GROUP": {
     "NOTIFICATION_GROUP": "مجموعة الإشعارات",
     "SELECT_NOTIFICATION_GROUP": "اختر مجموعة الإشعارات",
