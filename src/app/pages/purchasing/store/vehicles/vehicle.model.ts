@@ -19,4 +19,5 @@ export interface Vehicle {
   geerChoice: string;
   isRequiredMaintenance: boolean;
   isRequiredKMReading: boolean;
+  assetId?: number;
 }

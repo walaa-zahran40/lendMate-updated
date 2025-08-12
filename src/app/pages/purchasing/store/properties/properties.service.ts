@@ -6,7 +6,7 @@ import { Property } from './property.model';
 
 @Injectable({ providedIn: 'root' })
 export class PropertiesService {
-  private baseUrl = `${environment.apiUrl}MachinesAndProperties`;
+  private baseUrl = `${environment.apiUrl}RealEstates`;
 
   constructor(private http: HttpClient) {}
 
@@ -47,12 +47,12 @@ export class PropertiesService {
     return this.http.get<Property>(`${this.baseUrl}/PropertyId?id=${id}`);
   }
   getByAssetId(id: number): Observable<Property> {
-    return this.http.get<Property>(`${this.baseUrl}/assetId?assetId=${id}`);
+    return this.http.get<Property>(`${this.baseUrl}/RealEstateId?id=${id}`);
   }
 
   create(payload: Omit<Property, 'id'>): Observable<Property> {
     return this.http.post<Property>(
-      `${this.baseUrl}/CreateMachinesAndProperty`,
+      `${this.baseUrl}/CreateRealEstate`,
       payload
     );
   }

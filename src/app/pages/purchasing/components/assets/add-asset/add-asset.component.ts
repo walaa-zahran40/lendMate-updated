@@ -2,16 +2,21 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
+  BehaviorSubject,
+  catchError,
   combineLatest,
   filter,
   firstValueFrom,
   map,
+  merge,
   Observable,
   of,
+  race,
   startWith,
   take,
   tap,
-  withLatestFrom,
+  timeout,
+  timer,
 } from 'rxjs';
 import { AssetsFacade } from '../../../store/assets/assets.facade';
 import { AssetType } from '../../../../lookups/store/asset-types/asset-type.model';
@@ -79,6 +84,8 @@ export class AddAssetComponent {
     RE_LAND: 'property',
     RE_BUILD: 'property',
   };
+  private originalFormType: FormType | null = null;
+
   selectedAssetTypeCode: string | null = null;
   private DEBUG = true;
   private d(...args: any[]) {
@@ -90,21 +97,22 @@ export class AddAssetComponent {
     equipment: true,
     property: false, // <-- single-step
   };
+  private formType$ = new BehaviorSubject<FormType | null>(null);
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
+    private router: Router,
+    private vehicleModelsFacade: VehicleModelsFacade,
     private assetsFacade: AssetsFacade,
     private assetTypesFacade: AssetTypesFacade,
     private vehicleManufacturersFacade: VehicleManufacturersFacade,
-    private vehicleModelsFacade: VehicleModelsFacade,
     private vehiclesFacade: VehiclesFacade,
-    private router: Router,
     private equipmentsFacade: EquipmentsFacade,
     private propertiesFacade: propertiesFacade
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     console.log('🔧 ngOnInit start', {
       snapshot: this.route.snapshot,
       queryParams: this.route.snapshot.queryParams,
@@ -125,48 +133,64 @@ export class AddAssetComponent {
     this.vehicleModelsFacade.loadAll();
     this.vehicleModels$ = this.vehicleModelsFacade.all$;
 
-    // Watch assetTypeId (initial + user changes)
-    this.addAssetForm
-      .get('assetTypeId')
-      ?.valueChanges.pipe(
-        startWith(this.addAssetForm.get('assetTypeId')?.value),
-        withLatestFrom(this.assetTypes$)
-      )
-      .subscribe(([selectedId, types]) => {
-        const selected = types?.find((t) => t.id === selectedId);
-        this.selectedAssetTypeCode = selected?.code ?? null; // PASS_VEH -> 'vehicle' via your map
-      });
+    const assetTypeIdCtrl = this.addAssetForm.get('assetTypeId')!;
+    combineLatest([
+      assetTypeIdCtrl.valueChanges.pipe(startWith(assetTypeIdCtrl.value)),
+      this.assetTypes$,
+    ]).subscribe(([selectedId, types]) => {
+      const selected = types?.find((t) => t.id === selectedId);
+      const nextCode = selected?.code ?? null;
+      const nextFormType = nextCode
+        ? (this.assetTypeComponentMap[nextCode] as FormType)
+        : null;
+      this.selectedAssetTypeCode = nextCode;
+      if (nextFormType) {
+        // push new type to stream used by patch/save logic
+        this.formType$.next(nextFormType);
 
-    // Read id + typeCode directly
+        // 🔁 Clear other detail forms to avoid accidental "update" on old record
+        this.resetDetailFormsFor(nextFormType);
+      }
+    });
+
     this.assetId =
       this.route.snapshot.params['id'] ??
       this.route.snapshot.queryParams['assetId'];
-    const mode = this.route.snapshot.queryParams['mode'] as string | undefined;
-    this.viewOnly = mode === 'view';
-
-    console.log('route', this.route.snapshot);
     const typeCodeFromRoute = this.route.snapshot.queryParams['typeCode'] as
       | string
       | undefined;
+    if (typeCodeFromRoute) this.selectedAssetTypeCode = typeCodeFromRoute;
 
-    if (typeCodeFromRoute) {
-      // Example: PASS_VEH / IT_EQUIP / RE_BUILD...
-      this.selectedAssetTypeCode = typeCodeFromRoute;
-    }
-
-    // Only allow editing when NOT in view mode
+    this.viewOnly = this.route.snapshot.queryParams['mode'] === 'view';
     this.editMode = !!this.assetId && !this.viewOnly;
+
     if (this.editMode || this.viewOnly) {
-      // both view & edit need data
-      this.patchOnEdit(+this.assetId);
-    }
-    if (this.viewOnly) {
-      // disable after patch so valueChanges (for assetTypeId -> code) have already fired
-      this.addAssetForm.disable({ emitEvent: false });
-      this.addVehicleForm.disable({ emitEvent: false });
-      this.addEquipmentForm.disable({ emitEvent: false });
-      this.addPropertyForm.disable({ emitEvent: false });
-      this.d('[AddAsset] View mode: all forms disabled');
+      console.log('[gate] before detect:', {
+        assetId: this.assetId,
+        selectedAssetTypeCode: this.selectedAssetTypeCode,
+        selectedAssetTypeForm: this.selectedAssetTypeForm,
+      });
+      if (!this.selectedAssetTypeForm) {
+        const decided = await this.detectFormType(+this.assetId);
+        // reflect both the code & the raw form type
+        this.formType$.next(decided);
+      } else {
+        this.formType$.next(this.selectedAssetTypeForm as FormType);
+      }
+      const decided = !this.selectedAssetTypeForm
+        ? await this.detectFormType(+this.assetId)
+        : (this.selectedAssetTypeForm as FormType);
+
+      this.originalFormType = decided; // 👈 remember original
+      this.formType$.next(decided);
+      await this.patchOnEdit(+this.assetId);
+
+      if (this.viewOnly) {
+        this.addAssetForm.disable({ emitEvent: false });
+        this.addVehicleForm.disable({ emitEvent: false });
+        this.addEquipmentForm.disable({ emitEvent: false });
+        this.addPropertyForm.disable({ emitEvent: false });
+      }
     }
   }
 
@@ -174,6 +198,124 @@ export class AddAssetComponent {
     console.log('🗑️ ngOnDestroy: clearing selected asset');
     this.assetsFacade.clearSelected();
   }
+  private resetDetailFormsFor(t: FormType) {
+    const nullId = () => ({ id: null });
+
+    if (t === 'vehicle') {
+      this.addEquipmentForm.reset(nullId());
+      this.addPropertyForm.reset(nullId());
+    } else if (t === 'equipment') {
+      this.addVehicleForm.reset(nullId());
+      this.addPropertyForm.reset(nullId());
+    } else if (t === 'property') {
+      this.addVehicleForm.reset(nullId());
+      this.addEquipmentForm.reset(nullId());
+    }
+
+    // keep base form values; only ensure detail ids are null for the inactive ones
+    this.addVehicleForm.patchValue({
+      id: this.addVehicleForm.value?.id ?? null,
+    });
+    this.addEquipmentForm.patchValue({
+      id: this.addEquipmentForm.value?.id ?? null,
+    });
+    this.addPropertyForm.patchValue({
+      id: this.addPropertyForm.value?.id ?? null,
+    });
+  }
+
+  private async detectFormType(assetId: number): Promise<FormType> {
+    console.log('🧭 detectFormType start for assetId=', assetId);
+
+    // Kick off all 3 loads (in case effects depend on first subscription)
+    this.vehiclesFacade.loadByAssetId(assetId);
+    this.equipmentsFacade.loadByAssetId(assetId);
+    this.propertiesFacade.loadByAssetId(assetId);
+
+    const vehicle$ = this.vehiclesFacade.selectedByAssetId(assetId).pipe(
+      tap((v) => console.log('🔔 vehicle selectedByAssetId emitted:', v)),
+      filter(Boolean),
+      take(1),
+      map(() => 'vehicle' as FormType)
+    );
+    const equipment$ = this.equipmentsFacade.selectedByAssetId(assetId).pipe(
+      tap((e) => console.log('🔔 equipment selectedByAssetId emitted:', e)),
+      filter(Boolean),
+      take(1),
+      map(() => 'equipment' as FormType)
+    );
+    const property$ = this.propertiesFacade.selectedByAssetId(assetId).pipe(
+      tap((p) => console.log('🔔 property selectedByAssetId emitted:', p)),
+      filter(Boolean),
+      take(1),
+      map(() => 'property' as FormType)
+    );
+
+    // Race the first emission vs. a timeout
+    const result = await firstValueFrom(
+      race(
+        merge(vehicle$, equipment$, property$),
+        timer(8000).pipe(map(() => null))
+      )
+    );
+
+    if (!result) {
+      console.warn('⏳ detectFormType timed out after 8s—falling back.');
+
+      // Prefer an explicit route hint if present
+      if (this.selectedAssetTypeCode) {
+        const fallback =
+          (this.assetTypeComponentMap[
+            this.selectedAssetTypeCode
+          ] as FormType) ?? null;
+        if (fallback) {
+          console.log(
+            '🛟 Using fallback based on selectedAssetTypeCode:',
+            this.selectedAssetTypeCode,
+            '→',
+            fallback
+          );
+          return fallback;
+        }
+      }
+
+      // As a last resort, default to 'vehicle' (or choose what makes sense)
+      console.log('🛟 Using hard fallback to "vehicle".');
+      return 'vehicle';
+    }
+
+    console.log('✅ detectFormType decided:', result);
+    this.selectedAssetTypeCode =
+      Object.keys(this.assetTypeComponentMap).find(
+        (k) => this.assetTypeComponentMap[k] === result
+      ) ?? this.selectedAssetTypeCode; // keep existing code if mapping not found
+    this.setCodeFromFormType(result);
+    this.formType$.next(result);
+
+    return result;
+  }
+  private setCodeFromFormType(t: FormType) {
+    // pick a stable code for each type
+    const defaults: Record<FormType, string> = {
+      vehicle: 'PASS_VEH',
+      equipment: 'IT_EQUIP',
+      property: 'RE_LAND',
+    };
+    this.selectedAssetTypeCode = defaults[t];
+  }
+  // helper
+  private get currentFormType(): FormType | null {
+    return (this.selectedAssetTypeForm as FormType) ?? null;
+  }
+
+  get typeChanged(): boolean {
+    return (
+      !!this.originalFormType &&
+      !!this.currentFormType &&
+      this.originalFormType !== this.currentFormType
+    );
+  }
+
   get needsSecondStep(): boolean {
     const t = this.selectedAssetTypeForm as FormType | null;
     return !!t && this.detailsStepMap[t];
@@ -182,13 +324,32 @@ export class AddAssetComponent {
   private strategies: Record<FormType, AssetFormStrategy> = {
     vehicle: {
       ensureLookupsLoaded: () =>
-        combineLatest([this.vehicleManufacturers$, this.vehicleModels$]).pipe(
+        combineLatest([
+          this.assetTypes$.pipe(
+            filter((a) => (a?.length ?? 0) > 0),
+            take(1)
+          ),
+          this.vehicleManufacturers$.pipe(startWith([])),
+          this.vehicleModels$.pipe(startWith([])),
+        ]).pipe(
+          tap(([mans, mods]) => console.log('🔍 lookups:', { mans, mods })),
+          filter(
+            ([types, mans, mods]) =>
+              (types?.length ?? 0) > 0 &&
+              (mans?.length ?? 0) > 0 &&
+              (mods?.length ?? 0) > 0
+          ),
+
           take(1)
         ),
       loadSpecificByAssetId: (assetId) =>
         this.vehiclesFacade.loadByAssetId(assetId),
       specific$: (assetId) => this.vehiclesFacade.selectedByAssetId(assetId),
-      patchSpecificForm: (v) => this.patchVehicleForm(v),
+      patchSpecificForm: (v) => {
+        // 👇 patch both from same payload
+        this.patchAssetFormFromSpecific(v);
+        this.patchVehicleFormOnly(v);
+      },
       create: (p) => this.vehiclesFacade.create(p),
       update: (id, p) => this.vehiclesFacade.update(id, p),
       success$: this.vehiclesFacade.operationSuccess$.pipe(
@@ -198,11 +359,18 @@ export class AddAssetComponent {
       entityName: EntityNames.Vehicle, // 👈
     },
     property: {
-      ensureLookupsLoaded: () => of(true).pipe(take(1)),
+      ensureLookupsLoaded: () =>
+        this.assetTypes$.pipe(
+          filter((a) => (a?.length ?? 0) > 0),
+          take(1)
+        ),
       loadSpecificByAssetId: (assetId) =>
         this.propertiesFacade.loadByAssetId(assetId),
       specific$: (assetId) => this.propertiesFacade.selectedByAssetId(assetId),
-      patchSpecificForm: (p) => this.patchPropertyForm(p),
+      patchSpecificForm: (p) => {
+        this.patchAssetFormFromSpecific(p);
+        this.patchPropertyFormOnly(p);
+      },
       create: (p) => this.propertiesFacade.create(p),
       update: (id, p) => this.propertiesFacade.update(id, p),
       success$: this.propertiesFacade.operationSuccess$.pipe(
@@ -212,11 +380,18 @@ export class AddAssetComponent {
       entityName: EntityNames.Property, // 👈
     },
     equipment: {
-      ensureLookupsLoaded: () => of(true).pipe(take(1)),
+      ensureLookupsLoaded: () =>
+        this.assetTypes$.pipe(
+          filter((a) => (a?.length ?? 0) > 0),
+          take(1)
+        ),
       loadSpecificByAssetId: (assetId) =>
         this.equipmentsFacade.loadByAssetId(assetId),
       specific$: (assetId) => this.equipmentsFacade.selectedByAssetId(assetId),
-      patchSpecificForm: (e) => this.patchEquipmentForm(e),
+      patchSpecificForm: (e) => {
+        this.patchAssetFormFromSpecific(e);
+        this.patchEquipmentFormOnly(e);
+      },
       create: (p) => this.equipmentsFacade.create(p),
       update: (id, p) => this.equipmentsFacade.update(id, p),
       success$: this.equipmentsFacade.operationSuccess$.pipe(
@@ -228,141 +403,149 @@ export class AddAssetComponent {
   };
 
   private async patchOnEdit(assetId: number) {
+    console.log('[patchOnEdit] enter', {
+      assetId,
+      patching: this.patching,
+      formType: this.selectedAssetTypeForm,
+    });
     if (this.patching) {
-      console.warn('[AddAsset] patchOnEdit already running — skip');
+      console.warn('[patchOnEdit] SKIP: already patching=true');
       return;
     }
     this.patching = true;
-
+    console.time('[patchOnEdit] duration');
     try {
-      this.d('patchOnEdit:start', {
-        assetId,
-        selectedAssetTypeCode: this.selectedAssetTypeCode,
-      });
-
-      const formType = this.selectedAssetTypeForm as FormType | null;
-      if (!formType) {
-        console.error(
-          '[AddAsset] ❌ No form type (typeCode) provided in route.'
-        );
-        return;
-      }
-
+      const formType = await firstValueFrom(
+        this.formType$.pipe(
+          filter((t): t is FormType => !!t),
+          take(1)
+        )
+      );
       const strat = this.strategies[formType];
       if (!strat) {
-        console.error('[AddAsset] ❌ No strategy for formType=', formType);
+        console.error('[patchOnEdit] ABORT: no strategy for', formType);
+        return;
+      }
+      console.log('[patchOnEdit] strategy picked:', strat.entityName);
+
+      // --- ensureLookupsLoaded debugging
+      console.log('[patchOnEdit] waiting ensureLookupsLoaded…');
+
+      await firstValueFrom(
+        strat.ensureLookupsLoaded().pipe(
+          tap(() => console.log('[patchOnEdit] ensureLookupsLoaded emitted')),
+          timeout({ each: 8000 }),
+          catchError((err) => {
+            console.warn(
+              '[patchOnEdit] ensureLookupsLoaded timeout/err → continue',
+              err
+            );
+            return of(true);
+          }),
+          take(1)
+        )
+      );
+
+      // --- specific$ debugging
+      const specificOnce$ = strat
+        .specific$(assetId)
+        .pipe(filter(Boolean), take(1));
+
+      console.log('[patchOnEdit] dispatch loadSpecificByAssetId', assetId);
+      strat.loadSpecificByAssetId(assetId);
+
+      console.log('[patchOnEdit] waiting specificOnce$…');
+      const specific = await firstValueFrom(specificOnce$); // no race with timer
+
+      if (!specific) {
+        console.error('[patchOnEdit] ABORT: no specific entity received');
         return;
       }
 
-      console.time(`[AddAsset] ensureLookupsLoaded:${formType}`);
-      await firstValueFrom(strat.ensureLookupsLoaded());
-      console.timeEnd(`[AddAsset] ensureLookupsLoaded:${formType}`);
-
-      // 👉 Subscribe FIRST so we can’t miss the emission
-      this.d(`[AddAsset] Pre-subscribing to specific$ (${formType})`, {
-        assetId,
-      });
-      const specificOnce$ = strat.specific$(assetId).pipe(
-        tap((v) => this.d(`[AddAsset] specific$ (${formType}) tick:`, v)),
-        filter(Boolean),
-        take(1)
-      );
-
-      // Now dispatch the load
-      this.d(`[AddAsset] Dispatch loadSpecificByAssetId (${formType})`, {
-        assetId,
-      });
-      strat.loadSpecificByAssetId(assetId);
-
-      console.time(`[AddAsset] waitSpecific:${formType}`);
-      const specific = await firstValueFrom(specificOnce$);
-      console.timeEnd(`[AddAsset] waitSpecific:${formType}`);
-      this.d(`[AddAsset] specific$ emitted (${formType}):`, specific);
-
-      // For logging: pick the correct form
-      const targetForm =
-        formType === 'vehicle'
-          ? this.addVehicleForm
-          : formType === 'property'
-          ? this.addPropertyForm
-          : this.addEquipmentForm;
-
-      this.d(
-        `[AddAsset] Before patch (${formType}):`,
-        targetForm.getRawValue()
-      );
+      console.log('[patchOnEdit] patching forms…');
       strat.patchSpecificForm(specific as any);
-      this.d(
-        `[AddAsset] After patch (${formType}):`,
-        targetForm.getRawValue(),
-        'status:',
-        targetForm.status
-      );
-    } catch (err) {
-      console.error('[AddAsset] patchOnEdit error:', err);
+
+      console.log('✅ patched asset:', this.addAssetForm.getRawValue());
+      if (formType === 'vehicle') {
+        console.log('✅ patched vehicle:', this.addVehicleForm.getRawValue());
+      } else if (formType === 'equipment') {
+        console.log(
+          '✅ patched equipment:',
+          this.addEquipmentForm.getRawValue()
+        );
+      } else if (formType === 'property') {
+        console.log('✅ patched property:', this.addPropertyForm.getRawValue());
+      }
     } finally {
+      console.timeEnd('[patchOnEdit] duration');
       this.patching = false;
+      console.log('[patchOnEdit] exit; patching reset to', this.patching);
     }
   }
 
-  private patchVehicleForm(vehicle: any): void {
-    // Expecting backend fields; map them to your form control names
+  /** Step‑1: asset fields patched from specific payload */
+  private patchAssetFormFromSpecific(x: any): void {
+    console.log('📥 patchAssetFormFromSpecific() called with:', x);
     this.addAssetForm.patchValue({
-      id: vehicle.id,
-      description: vehicle.description,
-      descriptionAr: vehicle.descriptionAr,
-      dateAcquired: vehicle.dateAcquired,
-      leasingAgreementId: vehicle.leasingAgreementId,
-      assetTypeId: vehicle.assetTypeId,
+      id: x.assetId, // 👈 assetId goes here
+      description: x.description,
+      descriptionAr: x.descriptionAr,
+      dateAcquired: x.dateAcquired,
+      leasingAgreementId: x.leasingAgreementId,
+      assetTypeId: x.assetTypeId,
     });
+    console.log(
+      '✅ addAssetForm after patch:',
+      this.addAssetForm.getRawValue()
+    );
+  }
+
+  /** Step‑2: vehicle specifics */
+  private patchVehicleFormOnly(v: any): void {
+    console.log('📥 patchVehicleFormOnly() called with:', v);
+    const toNum = (x: any) => (x === null || x === undefined ? x : +x);
     this.addVehicleForm.patchValue({
-      id: vehicle.id,
-      vehiclesManufactureId: vehicle.vehiclesManufactureId,
-      vehiclesModelId: vehicle.vehiclesModelId,
-      modelCategory: vehicle.modelCategory,
-      capacity: vehicle.capacity,
-      horsepower: vehicle.horsepower,
-      color: vehicle.color,
-      chasisNumber: vehicle.chasisNumber,
-      motorNumber: vehicle.motorNumber,
-      keyId: vehicle.keyId,
-      geerChoice: vehicle.geerChoice,
-      manufactureYear: vehicle.manufactureYear,
-      currentValue: vehicle.currentValue,
-      isRequiredMaintenance: !!vehicle.isRequiredMaintenance,
-      isRequiredKMReading: !!vehicle.isRequiredKMReading,
+      id: v.id, // 👈 vehicle id
+      vehiclesManufactureId: v.vehiclesManufactureId,
+      vehiclesModelId: toNum(v.vehiclesModelId),
+      modelCategory: v.modelCategory,
+      capacity: v.capacity,
+      horsepower: v.horsepower,
+      color: v.color,
+      chasisNumber: v.chasisNumber,
+      motorNumber: v.motorNumber,
+      keyId: v.keyId,
+      geerChoice: v.geerChoice,
+      manufactureYear: v.manufactureYear,
+      currentValue: v.currentValue,
+      isRequiredMaintenance: !!v.isRequiredMaintenance,
+      isRequiredKMReading: !!v.isRequiredKMReading,
     });
+    console.log(
+      '✅ addVehicleForm after patch:',
+      this.addVehicleForm.getRawValue()
+    );
   }
-  private patchEquipmentForm(equipment: any): void {
-    console.log('patch equip form');
-    // Expecting backend fields; map them to your form control names
-    this.addAssetForm.patchValue({
-      id: equipment.id,
-      description: equipment.description,
-      descriptionAr: equipment.descriptionAr,
-      dateAcquired: equipment.dateAcquired,
-      leasingAgreementId: equipment.leasingAgreementId,
-      assetTypeId: equipment.assetTypeId,
-    });
+
+  /** Step‑2: equipment specifics */
+  private patchEquipmentFormOnly(e: any): void {
     this.addEquipmentForm.patchValue({
-      id: equipment.id,
-      machineManufacture: equipment.machineManufacture,
-      modelDescription: equipment.modelDescription,
-      manufactureYear: equipment.manufactureYear,
-      serialNumber: equipment.serialNumber,
-      currentValue: equipment.currentValue,
-    });
-  }
-  private patchPropertyForm(property: any): void {
-    // Add property-specific mappings here
-    this.addPropertyForm.patchValue({
-      // id: property.id,  // usually not needed here (already in common)
-      // e.g., deedNumber: property.deedNumber,
-      // area: property.area,
-      // address: property.address,
+      id: e.id, // 👈 equipment id
+      machineManufacture: e.machineManufacture,
+      modelDescription: e.modelDescription,
+      manufactureYear: e.manufactureYear,
+      serialNumber: e.serialNumber,
+      currentValue: e.currentValue,
     });
   }
 
+  /** Step‑2: property specifics (sample) */
+  private patchPropertyFormOnly(p: any): void {
+    this.addPropertyForm.patchValue({
+      id: p.id, // 👈 property id
+      // add property‑specific fields here when you have them
+    });
+  }
   get selectedAssetTypeForm(): string | null {
     if (!this.selectedAssetTypeCode) return null;
     return this.assetTypeComponentMap[this.selectedAssetTypeCode] ?? null;
@@ -429,7 +612,6 @@ export class AddAssetComponent {
       isRequiredKMReading: [true, Validators.required],
     });
   }
-
   saveInfo(): void {
     const formType = this.selectedAssetTypeForm as FormType | null;
     if (!formType) return;
@@ -439,37 +621,71 @@ export class AddAssetComponent {
       return;
     }
 
-    let payload = { ...this.addAssetForm.value };
+    // common values + date normalization
+    const common = this.addAssetForm.getRawValue();
+    const asset = {
+      ...common,
+      // normalize date if needed
+      dateAcquired:
+        common.dateAcquired instanceof Date
+          ? common.dateAcquired.toISOString()
+          : common.dateAcquired,
+    };
+
+    let payload: any = asset;
+
     if (formType === 'vehicle') {
       if (this.addVehicleForm.invalid) {
         this.addVehicleForm.markAllAsTouched();
         return;
       }
-      payload = { ...payload, ...this.addVehicleForm.value };
-    } else {
+      payload = {
+        ...asset,
+        ...this.addVehicleForm.getRawValue(),
+      };
+    } else if (formType === 'equipment') {
       if (this.addEquipmentForm.invalid) {
         this.addEquipmentForm.markAllAsTouched();
         return;
       }
-      payload = { ...payload, ...this.addEquipmentForm.value };
+      const eq = this.addEquipmentForm.getRawValue();
+      payload = {
+        ...asset,
+        ...eq,
+        // coerce numeric fields if your API requires numbers
+        currentValue:
+          eq.currentValue != null ? +eq.currentValue : eq.currentValue,
+        manufactureYear:
+          eq.manufactureYear != null ? eq.manufactureYear : eq.manufactureYear,
+      };
+    } else if (formType === 'property') {
+      // single-step: asset only
+      const pr = this.addPropertyForm.getRawValue();
+
+      payload = { ...asset, id: pr.id };
     }
 
     const strat = this.strategies[formType];
+    const doCreate = !this.editMode || this.typeChanged;
     const opWanted: CrudOp = this.editMode ? 'update' : 'create';
 
-    // const successSub = strat.success$
-    //   .pipe(
-    //     filter(
-    //       (e) => e.entity === strat.entityName && e.operation === opWanted
-    //     ),
-    //     take(1)
-    //   )
-    //   .subscribe(() => {
-    //     this.assetsFacade.loadAll();
-    //     this.router.navigate(['/purchasing/assets/view-assets']);
-    //   });
-
-    if (this.editMode) {
+    // navigate after success
+    const sub = strat.success$
+      .pipe(
+        filter(
+          (e) => e.entity === strat.entityName && e.operation === opWanted
+        ),
+        take(1)
+      )
+      .subscribe(() => {
+        this.assetsFacade.loadAll();
+        this.router.navigate(['/purchasing/assets/view-assets']);
+      });
+    // remove detail ids for create
+    if (doCreate) {
+      delete payload.id; // detail id
+    } else {
+      // UPDATE: pick specific id from the current detail form
       const specificId =
         formType === 'equipment'
           ? this.addEquipmentForm.value.id
@@ -477,18 +693,30 @@ export class AddAssetComponent {
           ? this.addVehicleForm.value.id
           : this.addPropertyForm.value.id;
 
-      // safety log
-      this.d(
-        '[AddAsset] update with specificId:',
-        specificId,
-        'payload:',
-        payload
-      );
-
+      this.d('[AddAsset] update id:', specificId);
       strat.update(specificId, payload);
-    } else {
-      strat.create(payload);
+      this.addAssetForm.markAsPristine();
+      return;
     }
+
+    // remove id fields for create
+    if (!this.editMode) {
+      delete payload.id;
+      // also remove detail-form ids if present
+      if (formType === 'vehicle') delete payload.id;
+      if (formType === 'equipment') delete payload.id;
+    }
+
+    // log before sending
+    this.d('[AddAsset] final payload:', payload);
+
+    if (this.editMode && this.assetId) {
+      payload.assetId = +this.assetId; // if your API expects it
+    }
+
+    this.d('[AddAsset] final payload (create):', payload);
+    strat.create(payload);
+    this.router.navigate(['/purchasing/assets/view-assets']);
 
     this.addAssetForm.markAsPristine();
   }

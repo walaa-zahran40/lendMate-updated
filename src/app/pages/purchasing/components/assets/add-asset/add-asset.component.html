@@ -20,13 +20,14 @@
                   [addAssetShowMain]="true"
                   *ngIf="addAssetForm"
                   [assetTypes]="assetTypes$ | async"
+                  [editMode]="editMode"
                   [viewOnly]="viewOnly"
                 ></app-add-asset-form>
                 <div
                   class="col-sm-6 d-flex justify-end float-right margin-top p-0 w-100"
                 >
                   <p-button
-                    *ngIf="viewOnly"
+                    *ngIf="viewOnly && !needsSecondStep"
                     class="custom-save m-0"
                     label="Close"
                     (click)="close()"
@@ -34,7 +35,7 @@
                   </p-button>
 
                   <p-button
-                    *ngIf="!viewOnly && needsSecondStep"
+                    *ngIf="needsSecondStep"
                     class="custom-save m-0"
                     [label]="'BUTTONS.NEXT' | translate"
                     (click)="activateCallback(2)"
@@ -66,6 +67,7 @@
                     [addAssetShowInfo]="true"
                     [vehicleManufacturers]="vehicleManufacturers$ | async"
                     [vehicleModels]="vehicleModels$ | async"
+                    [editMode]="editMode"
                     [viewOnly]="viewOnly"
                   ></app-add-vehicle-form>
 
@@ -73,6 +75,7 @@
                     *ngSwitchCase="'equipment'"
                     [formGroup]="addEquipmentForm"
                     [addAssetShowInfo]="true"
+                    [editMode]="editMode"
                     [viewOnly]="viewOnly"
                   ></app-add-equipment-form>
 

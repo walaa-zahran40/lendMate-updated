@@ -60,5 +60,12 @@ export const selectHistoryError = createSelector(
 export const selectByAssetId = (assetId: number) =>
   createSelector(
     selectAll,
-    (list) => list.find((v) => v.id === assetId /* or v.assetId */) || null
+    (list) =>
+      list.find(
+        (v: any) =>
+          // be defensive about backend casing
+          v.assetId === assetId ||
+          v.AssetId === assetId ||
+          v.assetID === assetId
+      ) || null
   );
