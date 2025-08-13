@@ -1,43 +1,42 @@
 <div class="page-content">
   <app-toolbar-table
-    [addPermission]="'/AddressTypes/Post'"
-    [title]="'Assets'"
-    [labelBtn]="'Add Asset'"
+    [addPermission]="'/LegalFormLaws/Post'"
+    [title]="'Legal Form Laws'"
+    [labelBtn]="'Add Legal Form Law'"
     [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
     [backExists]="true"
     [customSpacing]="'custom-spacing'"
     [exports]="true"
-    (addBtn)="onAddAsset()"
+    (addBtn)="onAddLegalFormLaw()"
     (searchChange)="onSearch($event)"
     (toggleFiltersEvent)="onToggleFilters($event)"
     (exportExcel)="tableRef.exportToExcel()"
     (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
 
-  <ng-container *ngIf="assets$ | async as assets">
+  <ng-container *ngIf="legalFormLaws$ | async as legalFormLaws">
     <app-table
       [viewPermission]="[
-        '/AddressTypes/Get',
-        '/AddressTypes/GetAll',
-        '/AddressTypes/GetAllHistory'
+        '/LegalFormLaws/Get',
+        '/LegalFormLaws/GetAll',
+        '/LegalFormLaws/GetAllHistory'
       ]"
-      [editPermission]="'/AddressTypes/Put'"
-      [deletePermission]="'/AddressTypes/Delete'"
+      [editPermission]="'/LegalFormLaws/Put'"
+      [deletePermission]="'/LegalFormLaws/Delete'"
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
-      [tableData]="filteredAssets"
-      [side]="true"
+      [tableData]="filteredLegalFormLaws"
+      [side]="false"
       [first]="first2"
       [checkBox]="true"
       [filters]="showFilters"
       [uppercase]="'uppercase'"
-      [viewAddressTypesTable]="true"
-      (onDelete)="onDeleteAsset($event)"
-      (wizardBtn)="onAddSide($event)"
-      (onEdit)="onEditAsset($event)"
-      (viewForm)="onViewAsset($event)"
+      [viewLegalFormLawsTable]="true"
+      (onDelete)="onDeleteLegalFormLaw($event)"
+      (onEdit)="onEditLegalFormLaw($event)"
+      (viewForm)="onViewLegalFormLaw($event)"
     ></app-table>
     <app-delete-module
       [visible]="showDeleteModal"

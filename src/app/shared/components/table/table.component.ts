@@ -30,13 +30,10 @@ export class TableComponent {
   @Input() editPermission!: string;
   @Input() deletePermission!: string;
   @Input() viewPermission!: string | string[];
-  @Input() viewMandateWorkFlowHistoryTable!: boolean;
-
   @Input() tableData: any;
   @Input() cols: any[] = [];
   public selectedRows: any[] = [];
   @Input() col1Name!: string;
-  @Input() viewRoleClaimsTable!: boolean;
   @Input() col2Name!: string;
   @Input() col3Name!: string;
   @Input() col4Name!: string;
@@ -46,7 +43,6 @@ export class TableComponent {
   @Input() col8Name!: string;
   @Input() col9Name!: string;
   @Input() col10Name!: string;
-  @Input() viewClientsOnboardingTable!: boolean;
   @Input() edit!: boolean;
   @Input() delete!: boolean;
   @Input() side!: boolean;
@@ -62,6 +58,10 @@ export class TableComponent {
   @Input() viewSalesTurnoverTable!: boolean;
   @Input() viewUploadDocumentsTable!: boolean;
   @Input() viewClientAddressesTable!: boolean;
+  @Input() viewClientsOnboardingTable!: boolean;
+  @Input() viewRoleClaimsTable!: boolean;
+  @Input() viewMandateWorkFlowHistoryTable!: boolean;
+  @Input() viewLicenseInformationTable!: boolean;
   @Input() viewTurnOverTable!: boolean;
   @Input() viewCommunicationFlowTypesTable!: boolean;
   @Input() viewCommunicationTypesTable!: boolean;

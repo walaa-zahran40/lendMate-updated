@@ -129,6 +129,9 @@ export class ViewAssetsComponent {
       queryParams: { mode: 'view', typeCode: asset.assetTypeCode },
     });
   }
+  onAddSide(assetId: any) {
+    this.router.navigate(['/purchasing/assets/wizard-asset', assetId]);
+  }
 
   selectedIds: number[] = [];
   confirmDelete() {
