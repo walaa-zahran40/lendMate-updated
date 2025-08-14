@@ -1,0 +1,145 @@
+<div class="parent">
+  <div *ngIf="!contactPersonDetailsView" class="div1">
+    <h2 class="m-0 title">{{ title | translate }}</h2>
+    <p class="tab-panel-paragraph">
+      {{ description | translate }}
+    </p>
+    <p-button
+      *ngIf="addLicenseInformationForm"
+      [label]="'View License Information Details'"
+      icon="pi pi-cog"
+      (click)="viewLicenseInformationDetails()"
+      class="custom-view m-0 float-right"
+    />
+  </div>
+  <div class="div2" [ngClass]="{ span: applyReusable }">
+    <form
+      class="div2"
+      [ngClass]="{ span: applyReusable }"
+      [formGroup]="formGroup"
+    >
+      <ng-container *ngIf="addLicenseInformationForm">
+        <label for="licenseNumber"
+          >License Number<sup class="danger">*</sup></label
+        >
+        <input
+          pInputText
+          name="licenseNumber"
+          formControlName="licenseNumber"
+          placeholder="License Number"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              formGroup.get('licenseNumber')?.invalid &&
+              formGroup.get('licenseNumber')?.touched
+          }"
+        />
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('licenseNumber')?.hasError('required') &&
+            formGroup.get('licenseNumber')?.touched
+          "
+        >
+          License Number is required.
+        </small>
+        <br />
+        <label for="licenseTypeId"
+          >License Type<sup class="danger">*</sup></label
+        >
+        <p-select
+          [filter]="true"
+          filterBy="name"
+          [showClear]="true"
+          id="licenseTypeId"
+          [options]="licenseTypes"
+          optionLabel="name"
+          placeholder="Select License Type"
+          formControlName="licenseTypeId"
+          optionValue="id"
+          [ngClass]="{
+            'ng-invalid':
+              formGroup.get('licenseTypeId')?.invalid &&
+              (formGroup.get('licenseTypeId')?.dirty ||
+                formGroup.get('licenseTypeId')?.touched)
+          }"
+        ></p-select>
+
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('licenseTypeId')?.hasError('required') &&
+            formGroup.get('licenseTypeId')?.touched
+          "
+        >
+          License Type is required.
+        </small>
+        <br />
+        <label for="licenseProviderId"
+          >License Provider <sup class="danger">*</sup></label
+        >
+        <p-select
+          [filter]="true"
+          filterBy="name"
+          [showClear]="true"
+          id="licenseProviderId"
+          [options]="licenseProviders"
+          optionLabel="name"
+          placeholder="Select License Provider"
+          formControlName="licenseProviderId"
+          optionValue="id"
+          [ngClass]="{
+            'ng-invalid':
+              formGroup.get('licenseProviderId')?.invalid &&
+              (formGroup.get('licenseProviderId')?.dirty ||
+                formGroup.get('licenseProviderId')?.touched)
+          }"
+        ></p-select>
+
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('licenseProviderId')?.hasError('required') &&
+            formGroup.get('licenseProviderId')?.touched
+          "
+        >
+          License Provider is required.
+        </small>
+        <br />
+        <label for="startDate">Start Date <sup class="danger">*</sup></label>
+        <shared-date-picker formControlName="startDate" inputId="date">
+        </shared-date-picker>
+
+        <br />
+        <label for="endDate">End Date <sup class="danger">*</sup></label>
+        <shared-date-picker formControlName="endDate" inputId="date">
+        </shared-date-picker>
+
+        <br />
+        <label for="licenseInUseBy"
+          >License In Use By<sup class="danger">*</sup></label
+        >
+        <input
+          pInputText
+          name="licenseInUseBy"
+          formControlName="licenseInUseBy"
+          placeholder="License In Use By"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              formGroup.get('licenseInUseBy')?.invalid &&
+              formGroup.get('licenseInUseBy')?.touched
+          }"
+        />
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('licenseInUseBy')?.hasError('required') &&
+            formGroup.get('licenseInUseBy')?.touched
+          "
+        >
+          License In Use By is required.
+        </small>
+        <br />
+      </ng-container>
+    </form>
+  </div>
+</div>

@@ -90,6 +90,7 @@ import { AddPropertyFormComponent } from '../../pages/purchasing/forms/add-prope
 import { AddEquipmentFormComponent } from '../../pages/purchasing/forms/add-equipment-form/add-equipment-form.component';
 import { VehicleManufacturerFormComponent } from '../../pages/lookups/forms/vehicle-manufacturer-form/vehicle-manufacturer-form.component';
 import { VehicleModelFormComponent } from '../../pages/lookups/forms/vehicle-model-form/vehicle-model-form.component';
+import { AddLicenseInfoFormComponent } from '../../pages/purchasing/forms/add-license-info-form/add-license-info-form.component';
 
 @NgModule({
   declarations: [
@@ -136,6 +137,7 @@ import { VehicleModelFormComponent } from '../../pages/lookups/forms/vehicle-mod
     AddClientOnboardingFormComponent,
     VehicleManufacturerFormComponent,
     VehicleModelFormComponent,
+    AddLicenseInfoFormComponent,
   ],
   imports: [
     CommonModule,
@@ -234,6 +236,7 @@ import { VehicleModelFormComponent } from '../../pages/lookups/forms/vehicle-mod
     AddClientUploadDocumentsFormComponent,
     AddClientFormComponent,
     AddClientOnboardingFormComponent,
+    AddLicenseInfoFormComponent,
   ],
 })
 export class ComponentsModule {}

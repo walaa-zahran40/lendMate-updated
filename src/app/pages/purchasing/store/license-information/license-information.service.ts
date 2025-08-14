@@ -6,7 +6,7 @@ import { LicenseInformation } from './license-information.model';
 
 @Injectable({ providedIn: 'root' })
 export class LicenseInformationService {
-  private baseUrl = `${environment.apiUrl}LicenseInformation`;
+  private baseUrl = `${environment.apiUrl}VehicleLicenses`;
 
   constructor(private http: HttpClient) {}
 
@@ -14,7 +14,7 @@ export class LicenseInformationService {
     console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: LicenseInformation[]; totalCount: number }>(
-        `${this.baseUrl}/GetAllLicenseInformation`
+        `${this.baseUrl}/GetAllVehicleLicenses`
       )
       .pipe(
         tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),

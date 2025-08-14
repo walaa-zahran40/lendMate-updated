@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, Observable, takeUntil, forkJoin } from 'rxjs';
 import { TableComponent } from '../../../../../../../shared/components/table/table.component';
 import { LicenseInformation } from '../../../../../store/license-information/license-information.model';
@@ -21,8 +21,10 @@ export class ViewLicenseInformationComponent {
   @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
-    { field: 'name', header: 'Name EN' },
-    { field: 'nameAR', header: 'Name AR' },
+    { field: 'licenseNumber', header: 'License Number' },
+    { field: 'startDate', header: 'Start Date' },
+    { field: 'endDate', header: 'End Date' },
+    { field: 'licenseInUseBy', header: 'In Use By' },
   ];
 
   showDeleteModal = false;
@@ -30,13 +32,15 @@ export class ViewLicenseInformationComponent {
   originalLicenseInformation: LicenseInformation[] = [];
   filteredLicenseInformation: LicenseInformation[] = [];
   licenseInformation$!: Observable<LicenseInformation[]>;
-
+  routeId = this.route.snapshot.params['id'];
   constructor(
     private router: Router,
-    private facade: LicenseInformationFacade
+    private facade: LicenseInformationFacade,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
+    console.log('route', this.route.snapshot);
     this.facade.loadAll();
     this.licenseInformation$ = this.facade.all$;
 
@@ -53,7 +57,7 @@ export class ViewLicenseInformationComponent {
 
   onAddLicenseInformation() {
     this.router.navigate([
-      '/purchasing/assets/activities/add-license-information',
+      `/purchasing/assets/activities/add-license-information/${this.routeId}`,
     ]);
   }
 
