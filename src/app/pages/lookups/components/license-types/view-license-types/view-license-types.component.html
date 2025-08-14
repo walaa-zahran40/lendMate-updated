@@ -1,0 +1,47 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/LeasingTypes/Post'"
+    [title]="'License Types'"
+    [labelBtn]="'Add License Type'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddLicenseType()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="LicenseTypes$ | async as LicenseTypes">
+    <app-table
+      [viewPermission]="[
+        '/LeasingTypes/Get',
+        '/LeasingTypes/GetAll',
+        '/LeasingTypes/GetAllHistory'
+      ]"
+      [editPermission]="'/LeasingTypes/Put'"
+      [deletePermission]="'/LeasingTypes/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredLicenseType"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewLicenseTypesLookupTable]="true"
+      (onDelete)="onDeleteLicenseType($event)"
+      (onEdit)="onEditLicenseType($event)"
+      (viewForm)="onViewLicenseType($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

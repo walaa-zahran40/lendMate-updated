@@ -25,6 +25,7 @@ export class ViewLicenseInformationComponent {
     { field: 'startDate', header: 'Start Date' },
     { field: 'endDate', header: 'End Date' },
     { field: 'licenseInUseBy', header: 'In Use By' },
+    { field: 'isActive', header: 'Is Active' },
   ];
 
   showDeleteModal = false;

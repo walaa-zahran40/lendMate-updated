@@ -251,6 +251,10 @@ import { VehicleModelsEffects } from './store/vehicle-models/vehicle-models.effe
 import { reducer as vehicleModelsReducer } from './store/vehicle-models/vehicle-models.reducer';
 import { AddVehicleModelComponent } from './components/vehicle-models/add-vehicle-model/add-vehicle-model.component';
 import { ViewVehicleModelsComponent } from './components/vehicle-models/view-vehicle-models/view-vehicle-models.component';
+import { AddLicenseTypeComponent } from './components/license-types/add-license-type/add-license-type.component';
+import { ViewLicenseTypesComponent } from './components/license-types/view-license-types/view-license-types.component';
+import { LicenseTypesEffects } from './store/license-types/license-types.effects';
+import { reducer as licenseTypesReducer } from './store/license-types/license-types.reducer';
 
 @NgModule({
   declarations: [
@@ -383,6 +387,8 @@ import { ViewVehicleModelsComponent } from './components/vehicle-models/view-veh
     ViewVehicleManufacturersComponent,
     AddVehicleModelComponent,
     ViewVehicleModelsComponent,
+    ViewLicenseTypesComponent,
+    AddLicenseTypeComponent,
   ],
   imports: [
     CommonModule,
@@ -396,7 +402,6 @@ import { ViewVehicleModelsComponent } from './components/vehicle-models/view-veh
     EffectsModule.forFeature([VehicleManufacturersEffects]),
     StoreModule.forFeature('vehicleModels', vehicleModelsReducer),
     EffectsModule.forFeature([VehicleModelsEffects]),
-
     StoreModule.forFeature('companyTypes', companyTypesReducer),
     EffectsModule.forFeature([CompanyTypesEffects]),
     StoreModule.forFeature('feeCalculationTypes', feeCalcReducer),
@@ -422,6 +427,8 @@ import { ViewVehicleModelsComponent } from './components/vehicle-models/view-veh
     EffectsModule.forFeature([CommunicationFlowTypesEffects]),
     StoreModule.forFeature('communicationTypes', communicationTypesReducer),
     EffectsModule.forFeature([CommunicationTypesEffects]),
+    StoreModule.forFeature('licenseTypes', licenseTypesReducer),
+    EffectsModule.forFeature([LicenseTypesEffects]),
     StoreModule.forFeature('gracePeriodUnits', gracePeriodUnitsReducer),
     EffectsModule.forFeature([GracePeriodUnitsEffects]),
     StoreModule.forFeature('identificationTypes', IdentificationTypesReducer),
@@ -532,7 +539,6 @@ import { ViewVehicleModelsComponent } from './components/vehicle-models/view-veh
       actionNotificationGroupsReducer
     ),
     EffectsModule.forFeature([ActionNotificationGroupsEffects]),
-
     StoreModule.forFeature(
       'mandateActionAuthorizationGroups',
       mandateActionAuthorizationGroupsReducer
@@ -563,7 +569,6 @@ import { ViewVehicleModelsComponent } from './components/vehicle-models/view-veh
     AddClientTypesComponent,
     AddMeetingTypesComponent,
     AddInsuredByComponent,
-
     AddLeasingTypeComponent,
     AddMandateValidityUnitComponent,
     AddDocTypesComponent,
@@ -571,7 +576,6 @@ import { ViewVehicleModelsComponent } from './components/vehicle-models/view-veh
     AddAssetTypesComponent,
     AddAssetTypeCategoriesComponent,
     ViewVehicleManufacturersComponent,
-
     AddProductsComponent,
     AddSectorsComponent,
     AddSMEClientCodesComponent,
@@ -601,6 +605,8 @@ import { ViewVehicleModelsComponent } from './components/vehicle-models/view-veh
     AddVehicleManufacturerComponent,
     AddVehicleModelComponent,
     ViewVehicleModelsComponent,
+    ViewLicenseTypesComponent,
+    AddLicenseTypeComponent,
   ],
 })
 export class LookupsModule {}

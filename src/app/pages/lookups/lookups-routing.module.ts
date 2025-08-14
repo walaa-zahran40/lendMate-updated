@@ -124,6 +124,8 @@ import { AddVehicleManufacturerComponent } from './components/vehicle-manufactur
 import { ViewVehicleManufacturersComponent } from './components/vehicle-manufacturers/view-vehicle-manufacturers/view-vehicle-manufacturers.component';
 import { AddVehicleModelComponent } from './components/vehicle-models/add-vehicle-model/add-vehicle-model.component';
 import { ViewVehicleModelsComponent } from './components/vehicle-models/view-vehicle-models/view-vehicle-models.component';
+import { AddLicenseTypeComponent } from './components/license-types/add-license-type/add-license-type.component';
+import { ViewLicenseTypesComponent } from './components/license-types/view-license-types/view-license-types.component';
 
 const routes: Routes = [
   /**Lookup Module */
@@ -600,6 +602,20 @@ const routes: Routes = [
   {
     path: 'view-leasing-types',
     component: ViewLeasingTypeComponent,
+  },
+  //License Types
+  {
+    path: 'add-license-type',
+    component: AddLicenseTypeComponent,
+  },
+  {
+    path: 'edit-license-type/:id',
+    component: AddLicenseTypeComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
+  {
+    path: 'view-license-types',
+    component: ViewLicenseTypesComponent,
   },
   //Meeting Types
   {

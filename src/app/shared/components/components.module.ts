@@ -91,6 +91,7 @@ import { AddEquipmentFormComponent } from '../../pages/purchasing/forms/add-equi
 import { VehicleManufacturerFormComponent } from '../../pages/lookups/forms/vehicle-manufacturer-form/vehicle-manufacturer-form.component';
 import { VehicleModelFormComponent } from '../../pages/lookups/forms/vehicle-model-form/vehicle-model-form.component';
 import { AddLicenseInfoFormComponent } from '../../pages/purchasing/forms/add-license-info-form/add-license-info-form.component';
+import { LicenseTypeFormComponent } from '../../pages/lookups/forms/license-type-form/license-type-form.component';
 
 @NgModule({
   declarations: [
@@ -138,6 +139,7 @@ import { AddLicenseInfoFormComponent } from '../../pages/purchasing/forms/add-li
     VehicleManufacturerFormComponent,
     VehicleModelFormComponent,
     AddLicenseInfoFormComponent,
+    LicenseTypeFormComponent,
   ],
   imports: [
     CommonModule,
@@ -219,7 +221,7 @@ import { AddLicenseInfoFormComponent } from '../../pages/purchasing/forms/add-li
     AddFollowupsFormComponent,
     AddMeetingsFormComponent,
     AddMeetingsSideMenuFormComponent,
-
+    LicenseTypeFormComponent,
     AddClientAddressesFormComponent,
     AddClientCentralBankInfoFormComponent,
     AddClientContactPersonsFormComponent,

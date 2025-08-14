@@ -57,6 +57,7 @@ export class TableComponent {
   @Input() viewClientTable!: boolean;
   @Input() viewSalesTurnoverTable!: boolean;
   @Input() viewUploadDocumentsTable!: boolean;
+  @Input() viewLicenseTypesLookupTable!: boolean;
   @Input() viewClientAddressesTable!: boolean;
   @Input() viewClientsOnboardingTable!: boolean;
   @Input() viewRoleClaimsTable!: boolean;

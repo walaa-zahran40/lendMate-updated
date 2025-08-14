@@ -41,12 +41,12 @@ export class SideMenuComponent {
       label: 'Business',
       permission: '/LeasingMandates/GetAll',
     },
-    // {
-    //   id: 'Contracts',
-    //   icon: 'pi pi-ico6',
-    //   label: 'Contracts',
-    //   // permission: '/Contracts/GetAll',
-    // },
+    {
+      id: 'Assets',
+      icon: 'pi pi-ico6',
+      label: 'Assets',
+      permission: '/LeasingMandates/GetAll',
+    },
     {
       id: 'Settings',
       icon: 'pi pi-ico5',
@@ -611,34 +611,14 @@ export class SideMenuComponent {
         // permission: '/Contracts/GetAll',
       },
     ],
-    // Assets: [
-    //   {
-    //     label: 'Leasing',
-    //     icon: 'pi pi-users',
-    //     items: [
-    //       {
-    //         label: 'Vehicle',
-    //         icon: 'pi pi-user-plus',
-    //         routerLink: '/crm/leasing-mandates/view-manage-mandate-termss',
-    //       },
-    //       {
-    //         label: 'Machinery and Equipments',
-    //         icon: 'pi pi-user-plus',
-    //         routerLink: '/crm/leasing-mandates/view-manage-mandate-termss',
-    //       },
-    //       {
-    //         label: 'Real Estate',
-    //         icon: 'pi pi-user-plus',
-    //         routerLink: '/crm/leasing-mandates/view-manage-mandate-termss',
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     label: 'Insurance Policies',
-    //     icon: 'pi pi-users',
-    //     routerLink: '/crm/leasing-mandates/view-manage-mandate-termss',
-    //   },
-    // ],
+    Assets: [
+      {
+        label: 'Assets',
+        icon: 'pi pi-users',
+        routerLink: '/purchasing/assets/view-assets',
+        // permission: '/Assets/GetAll',
+      },
+    ],
     // Orders: [
     //   {
     //     label: 'Leasing',
@@ -1129,6 +1109,12 @@ export class SideMenuComponent {
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-leasing-types',
             permission: '/LeasingTypes/GetAll',
+          },
+          {
+            label: 'License Types',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-license-types',
+            // permission: '/LeasingTypes/GetAll',
           },
           // {
           //   label: 'Mandate Payment Settings',
