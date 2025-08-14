@@ -102,7 +102,10 @@ export class ViewLicenseInformationComponent {
 
   onEditLicenseInformation(licenseInformation: LicenseInformation) {
     this.router.navigate(
-      ['/legals/edit-legal-form-law', licenseInformation.id],
+      [
+        '/purchasing/assets/activities/edit-license-information',
+        licenseInformation.id,
+      ],
       {
         queryParams: { mode: 'edit' },
       }
@@ -111,7 +114,10 @@ export class ViewLicenseInformationComponent {
 
   onViewLicenseInformation(licenseInformation: LicenseInformation) {
     this.router.navigate(
-      ['/legals/edit-legal-form-law', licenseInformation.id],
+      [
+        '/purchasing/assets/activities/edit-license-information',
+        licenseInformation.id,
+      ],
       {
         queryParams: { mode: 'view' },
       }

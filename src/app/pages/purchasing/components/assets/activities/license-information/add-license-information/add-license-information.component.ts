@@ -1,9 +1,13 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { filter, Subject, take } from 'rxjs';
+import { filter, Observable, Subject, take } from 'rxjs';
 import { LicenseInformationFacade } from '../../../../../store/license-information/license-information.facade';
 import { LicenseInformation } from '../../../../../store/license-information/license-information.model';
+import { LicenseType } from '../../../../../../lookups/store/license-types/license-type.model';
+import { LicenseTypesFacade } from '../../../../../../lookups/store/license-types/license-types.facade';
+import { LicenseProvidersFacade } from '../../../../../../lookups/store/license-providers/license-providers.facade';
+import { LicenseProvider } from '../../../../../../lookups/store/license-providers/license-provider.model';
 
 @Component({
   selector: 'app-add-license-information',
@@ -20,19 +24,27 @@ export class AddLicenseInformationComponent {
   routeId: any;
   recordId!: number;
   private destroy$ = new Subject<void>();
-
+  licenseTypes$!: Observable<LicenseType[]>;
+  licenseProviders$!: Observable<LicenseProvider[]>;
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private facade: LicenseInformationFacade,
-    private router: Router
+    private router: Router,
+    private facadeLicenseTypes: LicenseTypesFacade,
+    private facadeLicenseProviders: LicenseProvidersFacade
   ) {}
 
   ngOnInit(): void {
     console.log('🟢 ngOnInit start');
     // 1️⃣ Read route parameters
     console.log(this.route.snapshot, 'route');
-    this.routeId = Number(this.route.snapshot.queryParams['routeId']);
+    this.facadeLicenseTypes.loadAll();
+    this.licenseTypes$ = this.facadeLicenseTypes.all$;
+    this.facadeLicenseProviders.loadAll();
+    this.licenseProviders$ = this.facadeLicenseProviders.all$;
+
+    this.routeId = Number(this.route.snapshot.params['id']);
 
     this.mode =
       (this.route.snapshot.queryParamMap.get('mode') as
@@ -57,6 +69,7 @@ export class AddLicenseInformationComponent {
       startDate: [null, Validators.required],
       endDate: [null, Validators.required],
       licenseInUseBy: [null, Validators.required],
+      isActive: [true],
     });
     console.log(
       '🛠️ Form initialized with defaults:',
@@ -93,6 +106,7 @@ export class AddLicenseInformationComponent {
             startDate: ct?.startDate,
             endDate: ct?.endDate,
             licenseInUseBy: ct?.licenseInUseBy,
+            isActive: ct?.isActive,
           });
           console.log(
             '📝 Form after patchValue:',
@@ -110,7 +124,7 @@ export class AddLicenseInformationComponent {
   }
 
   addOrEditLicenseInformation() {
-    const assetParam = this.route.snapshot.queryParamMap.get('routeId');
+    const assetParam = this.route.snapshot.paramMap.get('id');
 
     console.log('💥 addLicenseInformation() called');
     console.log('  viewOnly:', this.viewOnly);
@@ -139,6 +153,7 @@ export class AddLicenseInformationComponent {
       startDate,
       endDate,
       licenseInUseBy,
+      isActive,
     } = this.addLicenseInformationForm.value;
     const payload: Partial<LicenseInformation> = {
       licenseNumber,
@@ -147,6 +162,7 @@ export class AddLicenseInformationComponent {
       startDate,
       endDate,
       licenseInUseBy,
+      isActive,
     };
     console.log('  → payload object:', payload);
 
@@ -168,20 +184,9 @@ export class AddLicenseInformationComponent {
       this.addLicenseInformationForm.markAsPristine();
     }
 
-    if (assetParam) {
-      console.log('➡️ Navigating back with PATH param:', assetParam);
-      this.router.navigate([
-        '/purchasing/assets/activities/view-license-information',
-        assetParam,
-      ]);
-    } else if (assetParam) {
-      console.log('➡️ Navigating back with QUERY param fallback:', assetParam);
-      this.router.navigate([
-        `/purchasing/assets/activities/view-license-information/${assetParam}`,
-      ]);
-    } else {
-      console.error('❌ Cannot navigate back: routeId is missing!');
-    }
+    this.router.navigate([
+      `/purchasing/assets/activities/view-license-information/${assetParam}`,
+    ]);
   }
   close() {
     console.log('Navigating back to view-license-information');

@@ -6,4 +6,5 @@ export interface LicenseInformation {
   startDate: string;
   endDate: string;
   licenseInUseBy: string;
+  isActive?: boolean;
 }

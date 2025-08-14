@@ -139,6 +139,16 @@
           License In Use By is required.
         </small>
         <br />
+        <div class="p-field" for="isActive" *ngIf="editMode">
+          <p-toggleSwitch
+            id="isActive"
+            formControlName="isActive"
+            label="is Active"
+          ></p-toggleSwitch>
+          &nbsp;<label for="isActive">
+            {{ "ASSET_CATEGORY.IS_ACTIVE" | translate }}</label
+          >
+        </div>
       </ng-container>
     </form>
   </div>

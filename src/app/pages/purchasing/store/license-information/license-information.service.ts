@@ -31,7 +31,7 @@ export class LicenseInformationService {
     console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: LicenseInformation[]; totalCount: number }>(
-        `${this.baseUrl}/GetAllLicenseInformationHistory`
+        `${this.baseUrl}/GetAllVehicleLicensesHistory`
       )
       .pipe(
         tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
@@ -45,7 +45,7 @@ export class LicenseInformationService {
   }
   // licenseInformation.service.ts
   getById(id: number): Observable<LicenseInformation> {
-    const url = `${this.baseUrl}/LicenseInformationId?id=${id}`; // <- check endpoint name
+    const url = `${this.baseUrl}/VehicleLicenseId?vehicleLicenseId=${id}`; // <- check endpoint name
     console.log('[LicenseInformationService] GET', url);
     return this.http.get<any>(url).pipe(
       tap((raw) =>
@@ -76,7 +76,7 @@ export class LicenseInformationService {
     payload: Omit<LicenseInformation, 'id'>
   ): Observable<LicenseInformation> {
     return this.http.post<LicenseInformation>(
-      `${this.baseUrl}/CreateLicenseInformation`,
+      `${this.baseUrl}/CreateVehicleLicense`,
       payload
     );
   }

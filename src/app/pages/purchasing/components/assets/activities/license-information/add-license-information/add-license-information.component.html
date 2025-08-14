@@ -20,6 +20,8 @@
         [description]="
           'Introduce your License Information core info quickly to users by fill up client details'
         "
+        [licenseTypes]="licenseTypes$ | async"
+        [licenseProviders]="licenseProviders$ | async"
         [formGroup]="addLicenseInformationForm"
         [addLicenseInformationForm]="true"
         [editMode]="editMode"

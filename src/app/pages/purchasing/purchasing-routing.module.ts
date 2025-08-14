@@ -55,6 +55,18 @@ const routes: Routes = [
     path: 'assets/activities/add-license-information/:id',
     component: AddLicenseInformationComponent,
   },
+  {
+    path: 'assets/activities/edit-evaluation-information/:id',
+    component: AddEvaluationInformationComponent,
+  },
+  {
+    path: 'assets/activities/edit-workflow-status/:id',
+    component: AddWorkflowStatusComponent,
+  },
+  {
+    path: 'assets/activities/edit-license-information/:id',
+    component: AddLicenseInformationComponent,
+  },
 
   //Purchasing Orders
   {
