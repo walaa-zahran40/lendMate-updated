@@ -127,6 +127,7 @@ export class TableComponent {
   @Input() viewBusinessLinesTable!: boolean;
   @Input() viewAssetTypesTable!: boolean;
   @Input() viewConditionsTable!: boolean;
+  @Input() viewLicenseProvidersLookupTable!: boolean;
   @Input() viewConditionExpressionsTable!: boolean;
   @Input() viewAssetTypeCategoriesTable!: boolean;
   @Input() viewSectorsTable!: boolean;

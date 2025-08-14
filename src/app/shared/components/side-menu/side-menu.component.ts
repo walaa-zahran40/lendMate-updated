@@ -1116,6 +1116,12 @@ export class SideMenuComponent {
             routerLink: '/lookups/view-license-types',
             // permission: '/LeasingTypes/GetAll',
           },
+          {
+            label: 'License Providers',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-license-providers',
+            // permission: '/LeasingProviders/GetAll',
+          },
           // {
           //   label: 'Mandate Payment Settings',
           //   icon: 'pi pi-user-plus',

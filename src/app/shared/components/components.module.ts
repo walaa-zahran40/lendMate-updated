@@ -92,6 +92,7 @@ import { VehicleManufacturerFormComponent } from '../../pages/lookups/forms/vehi
 import { VehicleModelFormComponent } from '../../pages/lookups/forms/vehicle-model-form/vehicle-model-form.component';
 import { AddLicenseInfoFormComponent } from '../../pages/purchasing/forms/add-license-info-form/add-license-info-form.component';
 import { LicenseTypeFormComponent } from '../../pages/lookups/forms/license-type-form/license-type-form.component';
+import { LicenseProviderFormComponent } from '../../pages/lookups/forms/license-provider-form/license-provider-form.component';
 
 @NgModule({
   declarations: [
@@ -140,6 +141,7 @@ import { LicenseTypeFormComponent } from '../../pages/lookups/forms/license-type
     VehicleModelFormComponent,
     AddLicenseInfoFormComponent,
     LicenseTypeFormComponent,
+    LicenseProviderFormComponent,
   ],
   imports: [
     CommonModule,
@@ -194,6 +196,7 @@ import { LicenseTypeFormComponent } from '../../pages/lookups/forms/license-type
   ],
   providers: [DatePipe, AsyncPipe, MessageService],
   exports: [
+    LicenseProviderFormComponent,
     TableComponent,
     ToolbarFormComponent,
     AddAssetFormComponent,

@@ -255,6 +255,10 @@ import { AddLicenseTypeComponent } from './components/license-types/add-license-
 import { ViewLicenseTypesComponent } from './components/license-types/view-license-types/view-license-types.component';
 import { LicenseTypesEffects } from './store/license-types/license-types.effects';
 import { reducer as licenseTypesReducer } from './store/license-types/license-types.reducer';
+import { LicenseProvidersEffects } from './store/license-providers/license-providers.effects';
+import { reducer as licenseProvidersReducer } from './store/license-providers/license-providers.reducer';
+import { AddLicenseProviderComponent } from './components/license-providers/add-license-provider/add-license-provider.component';
+import { ViewLicenseProvidersComponent } from './components/license-providers/view-license-providers/view-license-providers.component';
 
 @NgModule({
   declarations: [
@@ -389,6 +393,8 @@ import { reducer as licenseTypesReducer } from './store/license-types/license-ty
     ViewVehicleModelsComponent,
     ViewLicenseTypesComponent,
     AddLicenseTypeComponent,
+    AddLicenseProviderComponent,
+    ViewLicenseProvidersComponent,
   ],
   imports: [
     CommonModule,
@@ -549,6 +555,8 @@ import { reducer as licenseTypesReducer } from './store/license-types/license-ty
       mandateActionNotificationGroupsReducer
     ),
     EffectsModule.forFeature([MandateActionNotificationGroupsEffects]),
+    EffectsModule.forFeature([LicenseProvidersEffects]),
+    StoreModule.forFeature('licenseProviders', licenseProvidersReducer),
   ],
   exports: [
     AddMandateStatusesComponent,
@@ -607,6 +615,8 @@ import { reducer as licenseTypesReducer } from './store/license-types/license-ty
     ViewVehicleModelsComponent,
     ViewLicenseTypesComponent,
     AddLicenseTypeComponent,
+    AddLicenseProviderComponent,
+    ViewLicenseProvidersComponent,
   ],
 })
 export class LookupsModule {}
