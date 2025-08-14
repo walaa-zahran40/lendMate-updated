@@ -1,0 +1,96 @@
+<div class="parent">
+  <div *ngIf="!contactPersonDetailsView" class="div1">
+    <h2 class="m-0 title">{{ title | translate }}</h2>
+    <p class="tab-panel-paragraph">
+      {{ description | translate }}
+    </p>
+    <p-button
+      *ngIf="addEvaluationInformationForm"
+      [label]="'View Evaluation Information Details'"
+      icon="pi pi-cog"
+      (click)="viewEvaluationInformationDetails()"
+      class="custom-view m-0 float-right"
+    />
+  </div>
+  <div class="div2" [ngClass]="{ span: applyReusable }">
+    <form
+      class="div2"
+      [ngClass]="{ span: applyReusable }"
+      [formGroup]="formGroup"
+    >
+      <ng-container *ngIf="addEvaluationInfoForm">
+        <label for="evaluatorId">Evaluator<sup class="danger">*</sup></label>
+        <p-select
+          [filter]="true"
+          filterBy="name"
+          [showClear]="true"
+          id="evaluatorId"
+          [options]="evaluators"
+          optionLabel="name"
+          placeholder="Select Evaluator"
+          formControlName="evaluatorId"
+          optionValue="id"
+          [ngClass]="{
+            'ng-invalid':
+              formGroup.get('evaluatorId')?.invalid &&
+              (formGroup.get('evaluatorId')?.dirty ||
+                formGroup.get('evaluatorId')?.touched)
+          }"
+        ></p-select>
+
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('evaluatorId')?.hasError('required') &&
+            formGroup.get('evaluatorId')?.touched
+          "
+        >
+          Evaluator is required.
+        </small>
+        <br />
+
+        <label for="assetEvaluationDescription"
+          >Asset Evaluation Description<sup class="danger">*</sup></label
+        >
+        <input
+          pInputText
+          name="assetEvaluationDescription"
+          formControlName="assetEvaluationDescription"
+          placeholder="Asset Evaluation Description"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              formGroup.get('assetEvaluationDescription')?.invalid &&
+              formGroup.get('assetEvaluationDescription')?.touched
+          }"
+        />
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('assetEvaluationDescription')?.hasError('required') &&
+            formGroup.get('assetEvaluationDescription')?.touched
+          "
+        >
+          Asset Evaluation Description is required.
+        </small>
+        <br />
+        <label for="evaluationDate"
+          >Evaluation Date <sup class="danger">*</sup></label
+        >
+        <shared-date-picker formControlName="evaluationDate" inputId="date">
+        </shared-date-picker>
+
+        <br />
+        <div class="p-field" for="isActive" *ngIf="editMode">
+          <p-toggleSwitch
+            id="isActive"
+            formControlName="isActive"
+            label="is Active"
+          ></p-toggleSwitch>
+          &nbsp;<label for="isActive">
+            {{ "ASSET_CATEGORY.IS_ACTIVE" | translate }}</label
+          >
+        </div>
+      </ng-container>
+    </form>
+  </div>
+</div>

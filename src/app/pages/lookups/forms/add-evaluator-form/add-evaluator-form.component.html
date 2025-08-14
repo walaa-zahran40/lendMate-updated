@@ -1,0 +1,112 @@
+<div class="parent">
+  <div *ngIf="!contactPersonDetailsView" class="div1">
+    <h2 class="m-0 title">{{ title | translate }}</h2>
+    <p class="tab-panel-paragraph">
+      {{ description | translate }}
+    </p>
+    <p-button
+      *ngIf="addEvaluatorsLookupsForm"
+      [label]="'View Evaluator Details'"
+      icon="pi pi-cog"
+      (click)="viewEvaluatorDetails()"
+      class="custom-view m-0 float-right"
+    />
+  </div>
+  <div class="div2" [ngClass]="{ span: applyReusable }">
+    <form
+      [formGroup]="formGroup"
+      *ngIf="addEvaluatorsLookupsForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="name"
+        >{{ "FORM.COMPANY_TYPES.NAME_EN" | translate }}<sup>*</sup></label
+      >
+      <input
+        pInputText
+        id="name"
+        formControlName="name"
+        [placeholder]="'FORM.COMPANY_TYPES.PLACEHOLDER_NAME_EN' | translate"
+      />
+      <div
+        *ngIf="
+          formGroup.get('name')?.hasError('required') &&
+          formGroup.get('name')?.touched
+        "
+        class="p-error"
+      >
+        {{ "FORM.COMPANY_TYPES.ERRORS.NAME_EN_REQUIRED" | translate }}
+      </div>
+
+      <label for="nameAR"
+        >{{ "FORM.COMPANY_TYPES.LABEL_NAME_AR" | translate }}<sup>*</sup></label
+      >
+      <input
+        pInputText
+        id="nameAR"
+        formControlName="nameAR"
+        [placeholder]="'FORM.COMPANY_TYPES.PLACEHOLDER_NAME_AR' | translate"
+      />
+      <div
+        *ngIf="
+          formGroup.get('nameAR')?.hasError('required') &&
+          formGroup.get('nameAR')?.touched
+        "
+        class="p-error"
+      >
+        {{ "FORM.COMPANY_TYPES.ERRORS.NAME_AR_REQUIRED" | translate }}
+      </div>
+      <div
+        *ngIf="
+          formGroup.get('nameAR')?.hasError('pattern') &&
+          formGroup.get('nameAR')?.touched
+        "
+        class="p-error"
+      >
+        {{ "FORM.COMPANY_TYPES.ERRORS.NAME_AR_PATTERN" | translate }}
+      </div>
+      <div class="p-field" *ngIf="editMode">
+        <p-toggleSwitch
+          id="isActive"
+          formControlName="isActive"
+          [ngClass]="{ disabled: viewOnly }"
+        ></p-toggleSwitch>
+        <label for="isActive">{{
+          "FORM.COMPANY_TYPES.LABEL_IS_ACTIVE" | translate
+        }}</label>
+      </div>
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyProvidersDiv"
+          *ngIf="!editMode"
+        >
+          <p-button
+            type="submit"
+            [label]="'Add Evaluator'"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyProvidersDiv"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            [label]="'Edit Evaluator'"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyProvidersDiv"
+        >
+          <p-button
+            [label]="'BUTTONS.CLOSE' | translate"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate(['/lookups/view-evaluators'])"
+          />
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

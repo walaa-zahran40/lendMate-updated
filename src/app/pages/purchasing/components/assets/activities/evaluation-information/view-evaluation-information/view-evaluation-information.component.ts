@@ -1,9 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, Observable, takeUntil, forkJoin } from 'rxjs';
 import { TableComponent } from '../../../../../../../shared/components/table/table.component';
-import { LegalFormLawsFacade } from '../../../../../../legals/store/legal-form-laws/legal-form-laws.facade';
-import { LegalFormLaw } from '../../../../../../legals/store/legal-form-laws/legal-form-law.model';
+import { LicenseInformationFacade } from '../../../../../store/license-information/license-information.facade';
+import { LicenseInformation } from '../../../../../store/license-information/license-information.model';
 
 @Component({
   selector: 'app-view-evaluation-information',
@@ -12,7 +12,7 @@ import { LegalFormLaw } from '../../../../../../legals/store/legal-form-laws/leg
   styleUrl: './view-evaluation-information.component.scss',
 })
 export class ViewEvaluationInformationComponent {
-  tableDataInside: LegalFormLaw[] = [];
+  tableDataInside: LicenseInformation[] = [];
   first2 = 0;
   rows = 10;
   showFilters = false;
@@ -21,35 +21,45 @@ export class ViewEvaluationInformationComponent {
   @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
-    { field: 'name', header: 'Name EN' },
-    { field: 'nameAR', header: 'Name AR' },
+    { field: 'licenseNumber', header: 'License Number' },
+    { field: 'startDate', header: 'Start Date' },
+    { field: 'endDate', header: 'End Date' },
+    { field: 'licenseInUseBy', header: 'In Use By' },
+    { field: 'isActive', header: 'Is Active' },
   ];
 
   showDeleteModal = false;
-  selectedLegalFormLawId: number | null = null;
-  originalLegalFormLaws: LegalFormLaw[] = [];
-  filteredLegalFormLaws: LegalFormLaw[] = [];
-  legalFormLaws$!: Observable<LegalFormLaw[]>;
-
-  constructor(private router: Router, private facade: LegalFormLawsFacade) {}
+  selectedLicenseInformationId: number | null = null;
+  originalLicenseInformation: LicenseInformation[] = [];
+  filteredLicenseInformation: LicenseInformation[] = [];
+  licenseInformation$!: Observable<LicenseInformation[]>;
+  routeId = this.route.snapshot.params['id'];
+  constructor(
+    private router: Router,
+    private facade: LicenseInformationFacade,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
+    console.log('route', this.route.snapshot);
     this.facade.loadAll();
-    this.legalFormLaws$ = this.facade.items$;
+    this.licenseInformation$ = this.facade.all$;
 
-    this.legalFormLaws$
+    this.licenseInformation$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((legalFormLaws) => {
-        const activeCodes = legalFormLaws.filter((code) => code.isActive);
-        const sorted = [...activeCodes].sort((a, b) => b.id - a.id);
-        console.log('🟢 sorted legalFormLaws:', sorted);
-        this.originalLegalFormLaws = sorted;
-        this.filteredLegalFormLaws = [...sorted];
+      .subscribe((licenseInformation) => {
+        // const activeCodes = licenseInformation.filter((code) => code.isActive);
+        const sorted = licenseInformation.sort((a, b) => b.id - a.id);
+        // console.log('🟢 sorted licenseInformation:', sorted);
+        this.originalLicenseInformation = sorted;
+        this.filteredLicenseInformation = [...sorted];
       });
   }
 
-  onAddLegalFormLaw() {
-    this.router.navigate(['/legals/add-legal-form-law']);
+  onAddLicenseInformation() {
+    this.router.navigate([
+      `/purchasing/assets/activities/add-license-information/${this.routeId}`,
+    ]);
   }
 
   ngOnDestroy() {
@@ -57,12 +67,12 @@ export class ViewEvaluationInformationComponent {
     this.destroy$.complete();
   }
 
-  onDeleteLegalFormLaw(legalFormLawId: number): void {
+  onDeleteLicenseInformation(licenseInformationId: number): void {
     console.log(
-      '[View] onDeleteLegalFormLaw() – opening modal for id=',
-      legalFormLawId
+      '[View] onDeleteLicenseInformation() – opening modal for id=',
+      licenseInformationId
     );
-    this.selectedIds = [legalFormLawId];
+    this.selectedIds = [licenseInformationId];
     this.showDeleteModal = true;
   }
 
@@ -73,14 +83,14 @@ export class ViewEvaluationInformationComponent {
   resetDeleteModal() {
     console.log('[View] resetDeleteModal() – closing modal and clearing id');
     this.showDeleteModal = false;
-    this.selectedLegalFormLawId = null;
+    this.selectedLicenseInformationId = null;
   }
 
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
-    this.filteredLegalFormLaws = this.originalLegalFormLaws.filter(
-      (legalFormLaw) =>
-        Object.values(legalFormLaw).some((val) =>
+    this.filteredLicenseInformation = this.originalLicenseInformation.filter(
+      (licenseInformation) =>
+        Object.values(licenseInformation).some((val) =>
           val?.toString().toLowerCase().includes(lower)
         )
     );
@@ -90,16 +100,28 @@ export class ViewEvaluationInformationComponent {
     this.showFilters = value;
   }
 
-  onEditLegalFormLaw(legalFormLaw: LegalFormLaw) {
-    this.router.navigate(['/legals/edit-legal-form-law', legalFormLaw.id], {
-      queryParams: { mode: 'edit' },
-    });
+  onEditLicenseInformation(licenseInformation: LicenseInformation) {
+    this.router.navigate(
+      [
+        '/purchasing/assets/activities/edit-license-information',
+        licenseInformation.id,
+      ],
+      {
+        queryParams: { mode: 'edit' },
+      }
+    );
   }
 
-  onViewLegalFormLaw(legalFormLaw: LegalFormLaw) {
-    this.router.navigate(['/legals/edit-legal-form-law', legalFormLaw.id], {
-      queryParams: { mode: 'view' },
-    });
+  onViewLicenseInformation(licenseInformation: LicenseInformation) {
+    this.router.navigate(
+      [
+        '/purchasing/assets/activities/edit-license-information',
+        licenseInformation.id,
+      ],
+      {
+        queryParams: { mode: 'view' },
+      }
+    );
   }
   selectedIds: number[] = [];
   confirmDelete() {
@@ -119,7 +141,7 @@ export class ViewEvaluationInformationComponent {
 
   refreshCalls() {
     this.facade.loadAll();
-    this.legalFormLaws$ = this.facade.items$;
+    this.licenseInformation$ = this.facade.all$;
   }
   onBulkDelete(ids: number[]) {
     // Optionally confirm first

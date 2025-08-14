@@ -1,42 +1,42 @@
 <div class="page-content">
   <app-toolbar-table
     [addPermission]="'/Meetings/Post'"
-    [title]="'License Information'"
-    [labelBtn]="'Add License Information'"
+    [title]="'Evaluators'"
+    [labelBtn]="'Add Evaluator'"
     [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
     [backExists]="true"
     [customSpacing]="'custom-spacing'"
     [exports]="true"
-    (addBtn)="onAddLicenseInformation()"
+    (addBtn)="onAddEvaluator()"
     (searchChange)="onSearch($event)"
     (toggleFiltersEvent)="onToggleFilters($event)"
     (exportExcel)="tableRef.exportToExcel()"
     (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
 
-  <ng-container *ngIf="licenseInformation$ | async as licenseInformation">
+  <ng-container *ngIf="evaluators$ | async as evaluators">
     <app-table
       [viewPermission]="[
-        '/LegalFormLaws/Get',
-        '/LegalFormLaws/GetAll',
-        '/LegalFormLaws/GetAllHistory'
+        '/Meetings/Get',
+        '/Meetings/GetAll',
+        '/Meetings/GetAllHistory'
       ]"
-      [editPermission]="'/LegalFormLaws/Put'"
-      [deletePermission]="'/LegalFormLaws/Delete'"
+      [editPermission]="'/Meetings/Put'"
+      [deletePermission]="'/Meetings/Delete'"
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
-      [tableData]="filteredLicenseInformation"
+      [tableData]="filteredEvaluators"
       [side]="false"
       [first]="first2"
       [checkBox]="true"
       [filters]="showFilters"
       [uppercase]="'uppercase'"
-      [viewLicenseInformationTable]="true"
-      (onDelete)="onDeleteLicenseInformation($event)"
-      (onEdit)="onEditLicenseInformation($event)"
-      (viewForm)="onViewLicenseInformation($event)"
+      [viewEvaluatorsTable]="true"
+      (onDelete)="onDeleteEvaluator($event)"
+      (onEdit)="onEditEvaluator($event)"
+      (viewForm)="onViewEvaluator($event)"
     ></app-table>
     <app-delete-module
       [visible]="showDeleteModal"

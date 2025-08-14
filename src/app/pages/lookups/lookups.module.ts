@@ -259,6 +259,10 @@ import { LicenseProvidersEffects } from './store/license-providers/license-provi
 import { reducer as licenseProvidersReducer } from './store/license-providers/license-providers.reducer';
 import { AddLicenseProviderComponent } from './components/license-providers/add-license-provider/add-license-provider.component';
 import { ViewLicenseProvidersComponent } from './components/license-providers/view-license-providers/view-license-providers.component';
+import { EvaluatorsEffects } from './store/evaluators/evaluators.effects';
+import { evaluatorsReducer } from './store/evaluators/evaluators.reducer';
+import { AddEvaluatorComponent } from './components/evaluators/add-evaluator/add-evaluator.component';
+import { ViewEvaluatorsComponent } from './components/evaluators/view-evaluators/view-evaluators.component';
 
 @NgModule({
   declarations: [
@@ -395,6 +399,8 @@ import { ViewLicenseProvidersComponent } from './components/license-providers/vi
     AddLicenseTypeComponent,
     AddLicenseProviderComponent,
     ViewLicenseProvidersComponent,
+    AddEvaluatorComponent,
+    ViewEvaluatorsComponent,
   ],
   imports: [
     CommonModule,
@@ -557,6 +563,8 @@ import { ViewLicenseProvidersComponent } from './components/license-providers/vi
     EffectsModule.forFeature([MandateActionNotificationGroupsEffects]),
     EffectsModule.forFeature([LicenseProvidersEffects]),
     StoreModule.forFeature('licenseProviders', licenseProvidersReducer),
+    EffectsModule.forFeature([EvaluatorsEffects]),
+    StoreModule.forFeature('evaluators', evaluatorsReducer),
   ],
   exports: [
     AddMandateStatusesComponent,

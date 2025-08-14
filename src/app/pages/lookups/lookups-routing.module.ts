@@ -128,6 +128,8 @@ import { AddLicenseTypeComponent } from './components/license-types/add-license-
 import { ViewLicenseTypesComponent } from './components/license-types/view-license-types/view-license-types.component';
 import { AddLicenseProviderComponent } from './components/license-providers/add-license-provider/add-license-provider.component';
 import { ViewLicenseProvidersComponent } from './components/license-providers/view-license-providers/view-license-providers.component';
+import { AddEvaluatorComponent } from './components/evaluators/add-evaluator/add-evaluator.component';
+import { ViewEvaluatorsComponent } from './components/evaluators/view-evaluators/view-evaluators.component';
 
 const routes: Routes = [
   /**Lookup Module */
@@ -159,6 +161,20 @@ const routes: Routes = [
   {
     path: 'view-vehicle-manufacturers',
     component: ViewVehicleManufacturersComponent,
+  },
+  //Evaluators
+  {
+    path: 'add-evaluator',
+    component: AddEvaluatorComponent,
+  },
+  {
+    path: 'edit-evaluator/:id',
+    component: AddEvaluatorComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
+  {
+    path: 'view-evaluators',
+    component: ViewEvaluatorsComponent,
   },
   //Vehicle Models
   {

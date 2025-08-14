@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { filter, take } from 'rxjs';
-import { arabicOnlyValidator } from '../../../../../../../shared/validators/arabic-only.validator';
-import { LegalFormLawsFacade } from '../../../../../../legals/store/legal-form-laws/legal-form-laws.facade';
-import { LegalFormLaw } from '../../../../../../legals/store/legal-form-laws/legal-form-law.model';
+import { filter, Observable, Subject, take } from 'rxjs';
+import { EvaluationInformationFacade } from '../../../../../store/evaluation-information/evaluation-information.facade';
+import { EvaluationInformation } from '../../../../../store/evaluation-information/evaluation-information.model';
 
 @Component({
   selector: 'app-add-evaluation-information',
@@ -13,98 +12,180 @@ import { LegalFormLaw } from '../../../../../../legals/store/legal-form-laws/leg
   styleUrl: './add-evaluation-information.component.scss',
 })
 export class AddEvaluationInformationComponent {
+  mode!: 'add' | 'edit' | 'view';
   editMode: boolean = false;
   viewOnly = false;
-  addLegalFormLawsForm!: FormGroup;
-  clientId: any;
-
+  addEvaluationInformationForm!: FormGroup;
+  retrivedId: any;
+  routeId: any;
+  recordId!: number;
+  private destroy$ = new Subject<void>();
+  evaluators$!: Observable<EvaluationInformation[]>;
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private facade: LegalFormLawsFacade,
+    private facade: EvaluationInformationFacade,
     private router: Router
   ) {}
 
-  ngOnInit() {
-    this.addLegalFormLawsForm = this.fb.group({
+  ngOnInit(): void {
+    console.log('🟢 ngOnInit start');
+    // 1️⃣ Read route parameters
+    console.log(this.route.snapshot, 'route');
+    this.facade.loadAll();
+    this.evaluators$ = this.facade.all$;
+
+    this.routeId = Number(this.route.snapshot.params['id']);
+
+    this.mode =
+      (this.route.snapshot.queryParamMap.get('mode') as
+        | 'add'
+        | 'edit'
+        | 'view') ?? 'add';
+    this.editMode = this.mode === 'edit';
+    this.viewOnly = this.mode === 'view';
+    console.log('🔍 Params:', {
+      routeId: this.routeId,
+      mode: this.mode,
+      editMode: this.editMode,
+      viewOnly: this.viewOnly,
+    });
+
+    // 5️⃣ Build the form
+    this.addEvaluationInformationForm = this.fb.group({
       id: [null],
-      name: ['', [Validators.required]],
-      nameAR: ['', [Validators.required, arabicOnlyValidator]],
+      evaluatorId: [null, Validators.required],
+      assetId: [null, Validators.required],
+      assetEvaluationDescription: [null, Validators.required],
+      evaluationDate: [null, Validators.required],
       isActive: [true],
     });
+    console.log(
+      '🛠️ Form initialized with defaults:',
+      this.addEvaluationInformationForm.value
+    );
 
-    this.route.paramMap.subscribe((params) => {
-      const id = params.get('id');
-      if (id) {
-        this.editMode = true;
-        this.clientId = +id;
+    // 6️⃣ If add mode, seed routeId
+    if (this.mode === 'add') {
+      this.addEvaluationInformationForm.patchValue({
+        routeId: this.routeId,
+      });
+      console.log('✏️ Add mode → patched routeId:', this.routeId);
+    }
+    // 8️⃣ If editing or viewing, load & patch
+    if (this.editMode || this.viewOnly) {
+      console.log('edit ', this.editMode, 'route', this.route.snapshot);
+      this.recordId = Number(this.route.snapshot.paramMap.get('id'));
+      console.log('🔄 Loading existing record id=', this.recordId);
+      this.facade.loadById(this.recordId);
 
-        console.log(this.viewOnly);
-
-        this.viewOnly = this.route.snapshot.queryParams['mode'] === 'view';
-        if (this.viewOnly) {
-          this.addLegalFormLawsForm.disable();
-        }
-
-        this.facade.loadOne(this.clientId);
-        this.facade.current$
-          .pipe(
-            filter((ct): ct is LegalFormLaw => !!ct && ct.id === this.clientId),
-            take(1)
-          )
-          .subscribe((ct) => {
-            this.addLegalFormLawsForm.patchValue({
-              id: ct!.id,
-              name: ct!.name,
-              nameAR: ct!.nameAR,
-              isActive: ct!.isActive,
-            });
+      this.facade.selected$
+        .pipe(
+          filter((ct) => !!ct && ct.id === this.recordId),
+          take(1)
+        )
+        .subscribe((ct) => {
+          console.log('🛰️ facade.current$ emitted:', ct);
+          // patch form
+          this.addEvaluationInformationForm.patchValue({
+            id: ct?.id,
+            evaluatorId: ct?.evaluatorId,
+            assetId: ct?.assetId,
+            assetEvaluationDescription: ct?.assetEvaluationDescription,
+            evaluationDate: ct?.evaluationDate,
+            isActive: ct?.isActive,
           });
-      } else {
-        this.viewOnly = this.route.snapshot.queryParams['mode'] === 'view';
-        if (this.viewOnly) {
-          this.addLegalFormLawsForm.disable();
-        }
-      }
-    });
+          console.log(
+            '📝 Form after patchValue:',
+            this.addEvaluationInformationForm.value
+          );
+          if (this.viewOnly) {
+            console.log('🔐 viewOnly → disabling form');
+            this.addEvaluationInformationForm.disable();
+          }
+        });
+    } else if (this.viewOnly) {
+      console.log('🔐 viewOnly (no id) → disabling form');
+      this.addEvaluationInformationForm.disable();
+    }
   }
 
-  addOrEditLegalFormLaw() {
-    if (this.viewOnly) {
+  addOrEditEvaluationInformation() {
+    const assetParam = this.route.snapshot.paramMap.get('id');
+
+    console.log('💥 addEvaluationInformation() called');
+    console.log('  viewOnly:', this.viewOnly);
+    console.log('  editMode:', this.editMode);
+    console.log('  form valid:', this.addEvaluationInformationForm.valid);
+    console.log('  form touched:', this.addEvaluationInformationForm.touched);
+    console.log(
+      '  form raw value:',
+      this.addEvaluationInformationForm.getRawValue()
+    );
+
+    if (this.addEvaluationInformationForm.invalid) {
+      console.warn('❌ Form is invalid — marking touched and aborting');
+      this.addEvaluationInformationForm.markAllAsTouched();
       return;
     }
 
-    if (this.addLegalFormLawsForm.invalid) {
-      this.addLegalFormLawsForm.markAllAsTouched();
-      return;
-    }
+    this.addEvaluationInformationForm.patchValue({
+      routeId: assetParam,
+    });
 
-    const { name, nameAR } = this.addLegalFormLawsForm.value;
-    const payload: Partial<LegalFormLaw> = { name, nameAR };
+    const {
+      evaluatorId,
+      assetId,
+      assetEvaluationDescription,
+      evaluationDate,
+
+      isActive,
+    } = this.addEvaluationInformationForm.value;
+    const payload: Partial<EvaluationInformation> = {
+      evaluatorId,
+      assetId,
+      assetEvaluationDescription,
+      evaluationDate,
+
+      isActive,
+    };
     console.log('  → payload object:', payload);
 
-    if (this.editMode) {
-      const { id, name, nameAR, isActive } = this.addLegalFormLawsForm.value;
-      const payload: LegalFormLaw = {
-        id,
-        name,
-        nameAR,
-        isActive,
-        code: '',
-      };
+    const data = this.addEvaluationInformationForm
+      .value as Partial<EvaluationInformation>;
+    console.log('📦 Payload going to facade:', data);
 
-      this.facade.update(id, payload);
-    } else {
+    const routeId = this.route.snapshot.paramMap.get('id');
+    console.log('  route.snapshot.paramMap.get(retrivedId):', routeId);
+
+    if (this.mode === 'add') {
+      console.log('➕ Dispatching CREATE');
       this.facade.create(payload);
+    } else {
+      console.log('✏️ Dispatching UPDATE id=', data.id);
+      this.facade.update(data.id!, data);
     }
-    if (this.addLegalFormLawsForm.valid) {
-      this.addLegalFormLawsForm.markAsPristine();
+    if (this.addEvaluationInformationForm.valid) {
+      this.addEvaluationInformationForm.markAsPristine();
     }
 
-    this.router.navigate(['/legals/view-legal-form-laws']);
+    this.router.navigate([
+      `/purchasing/assets/activities/view-evaluation-information/${assetParam}`,
+    ]);
+  }
+  close() {
+    console.log('Navigating back to view-evaluation-information');
+    this.router.navigate([
+      `/purchasing/assets/activities/view-evaluation-information/${this.routeId}`,
+    ]);
   }
   /** Called by the guard. */
   canDeactivate(): boolean {
-    return !this.addLegalFormLawsForm.dirty;
+    console.log('🛡️ canDeactivate called');
+    return !this.addEvaluationInformationForm.dirty;
+  }
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

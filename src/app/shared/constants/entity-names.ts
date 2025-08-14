@@ -13,6 +13,7 @@ export enum EntityNames {
   Condition = 'Condition',
   Equipment = 'Equipment',
   Property = 'Property',
+  EvaluationInformation = 'EvaluationInformation',
   FeeRange = 'FeeRange',
   Vehicle = 'Vehicle',
   VehicleManufacturer = 'VehicleManufacturer',
@@ -72,4 +73,5 @@ export enum EntityNames {
   Asset = 'Asset',
   VehicleModel = 'VehicleModel',
   LicenseInformation = 'LicenseInformation',
+  Evaluator = 'Evaluator',
 }

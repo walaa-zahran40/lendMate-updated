@@ -654,6 +654,7 @@ export class SideMenuComponent {
             routerLink: '/lookups/view-products',
             permission: '/Products/GetAll',
           },
+
           {
             label: 'Sector',
             icon: 'pi pi-user-plus',
@@ -1059,6 +1060,12 @@ export class SideMenuComponent {
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-document-types',
             permission: '/DocumentTypes/GetAll',
+          },
+          {
+            label: 'Evaluators',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-evaluators',
+            // permission: '/Products/GetAll',
           },
           {
             label: 'FollowUp Types',

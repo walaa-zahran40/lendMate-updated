@@ -62,6 +62,7 @@ export class TableComponent {
   @Input() viewClientsOnboardingTable!: boolean;
   @Input() viewRoleClaimsTable!: boolean;
   @Input() viewMandateWorkFlowHistoryTable!: boolean;
+  @Input() viewEvaluatorsTable!: boolean;
   @Input() viewLicenseInformationTable!: boolean;
   @Input() viewTurnOverTable!: boolean;
   @Input() viewCommunicationFlowTypesTable!: boolean;
