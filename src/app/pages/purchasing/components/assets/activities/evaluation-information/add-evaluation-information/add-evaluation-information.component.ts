@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { filter, Observable, Subject, take } from 'rxjs';
 import { EvaluationInformationFacade } from '../../../../../store/evaluation-information/evaluation-information.facade';
 import { EvaluationInformation } from '../../../../../store/evaluation-information/evaluation-information.model';
+import { EvaluatorsFacade } from '../../../../../../lookups/store/evaluators/evaluators.facade';
+import { Evaluator } from '../../../../../../lookups/store/evaluators/evaluator.model';
 
 @Component({
   selector: 'app-add-evaluation-information',
@@ -20,11 +22,12 @@ export class AddEvaluationInformationComponent {
   routeId: any;
   recordId!: number;
   private destroy$ = new Subject<void>();
-  evaluators$!: Observable<EvaluationInformation[]>;
+  evaluators$!: Observable<Evaluator[]>;
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private facade: EvaluationInformationFacade,
+    private evaluatorFacade: EvaluatorsFacade,
     private router: Router
   ) {}
 
@@ -32,8 +35,8 @@ export class AddEvaluationInformationComponent {
     console.log('🟢 ngOnInit start');
     // 1️⃣ Read route parameters
     console.log(this.route.snapshot, 'route');
-    this.facade.loadAll();
-    this.evaluators$ = this.facade.all$;
+    this.evaluatorFacade.loadAll();
+    this.evaluators$ = this.evaluatorFacade.all$;
 
     this.routeId = Number(this.route.snapshot.params['id']);
 
@@ -55,7 +58,7 @@ export class AddEvaluationInformationComponent {
     this.addEvaluationInformationForm = this.fb.group({
       id: [null],
       evaluatorId: [null, Validators.required],
-      assetId: [null, Validators.required],
+      assetId: [null],
       assetEvaluationDescription: [null, Validators.required],
       evaluationDate: [null, Validators.required],
       isActive: [true],
@@ -68,7 +71,7 @@ export class AddEvaluationInformationComponent {
     // 6️⃣ If add mode, seed routeId
     if (this.mode === 'add') {
       this.addEvaluationInformationForm.patchValue({
-        routeId: this.routeId,
+        assetId: this.routeId,
       });
       console.log('✏️ Add mode → patched routeId:', this.routeId);
     }
@@ -90,7 +93,7 @@ export class AddEvaluationInformationComponent {
           this.addEvaluationInformationForm.patchValue({
             id: ct?.id,
             evaluatorId: ct?.evaluatorId,
-            assetId: ct?.assetId,
+            assetId: this.routeId,
             assetEvaluationDescription: ct?.assetEvaluationDescription,
             evaluationDate: ct?.evaluationDate,
             isActive: ct?.isActive,
@@ -146,7 +149,6 @@ export class AddEvaluationInformationComponent {
       assetId,
       assetEvaluationDescription,
       evaluationDate,
-
       isActive,
     };
     console.log('  → payload object:', payload);

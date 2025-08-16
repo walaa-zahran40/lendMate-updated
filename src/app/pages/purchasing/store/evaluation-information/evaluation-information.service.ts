@@ -6,7 +6,7 @@ import { EvaluationInformation } from './evaluation-information.model';
 
 @Injectable({ providedIn: 'root' })
 export class EvaluationInformationService {
-  private baseUrl = `${environment.apiUrl}VehicleEvaluations`;
+  private baseUrl = `${environment.apiUrl}AssetEvaluations`;
 
   constructor(private http: HttpClient) {}
 
@@ -14,7 +14,7 @@ export class EvaluationInformationService {
     console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: EvaluationInformation[]; totalCount: number }>(
-        `${this.baseUrl}/GetAllVehicleEvaluations`
+        `${this.baseUrl}/GetAllAssetEvaluations`
       )
       .pipe(
         tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
@@ -31,7 +31,7 @@ export class EvaluationInformationService {
     console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: EvaluationInformation[]; totalCount: number }>(
-        `${this.baseUrl}/GetAllVehicleEvaluationsHistory`
+        `${this.baseUrl}/GetAllAssetEvaluationsHistory`
       )
       .pipe(
         tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
@@ -45,7 +45,7 @@ export class EvaluationInformationService {
   }
   // evaluationInformation.service.ts
   getById(id: number): Observable<EvaluationInformation> {
-    const url = `${this.baseUrl}/VehicleEvaluationId?vehicleEvaluationId=${id}`; // <- check endpoint name
+    const url = `${this.baseUrl}/AssetEvaluationId?assetEvaluationId=${id}`; // <- check endpoint name
     console.log('[EvaluationInformationService] GET', url);
     return this.http.get<any>(url).pipe(
       tap((raw) =>
@@ -76,7 +76,7 @@ export class EvaluationInformationService {
     payload: Omit<EvaluationInformation, 'id'>
   ): Observable<EvaluationInformation> {
     return this.http.post<EvaluationInformation>(
-      `${this.baseUrl}/CreateVehicleEvaluation`,
+      `${this.baseUrl}/CreateAssetEvaluation`,
       payload
     );
   }

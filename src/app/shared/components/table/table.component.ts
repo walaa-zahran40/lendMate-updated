@@ -154,6 +154,7 @@ export class TableComponent {
   @Input() viewFeesRangeTable!: boolean;
   @Input() viewOperationsTable!: boolean;
   @Input() viewPageOperationsTable!: boolean;
+  @Input() viewEvaluationInformationTable!: boolean;
   @Input() viewOfficersLookupsTable!: boolean;
   @Input() viewSignatoryOfficersTable!: boolean;
   @Input() viewMeetingsTable!: boolean;

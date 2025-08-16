@@ -68,6 +68,9 @@
           <span *ngSwitchCase="'expiryDate'">
             {{ rowData[col.field] | date : "yyyy-MM-dd" }}
           </span>
+          <span *ngSwitchCase="'evaluationDate'">
+            {{ rowData[col.field] | date : "yyyy-MM-dd" }}
+          </span>
           <span *ngSwitchCase="'lisenceStartDate'">
             {{ rowData[col.field] | date : "yyyy-MM-dd" }}
           </span>

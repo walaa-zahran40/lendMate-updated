@@ -1,21 +1,21 @@
 <div class="page-content">
   <app-toolbar-table
     [addPermission]="'/Meetings/Post'"
-    [title]="'License Information'"
-    [labelBtn]="'Add License Information'"
+    [title]="'Evaluation Information'"
+    [labelBtn]="'Add Evaluation Information'"
     [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
     [backExists]="true"
     [customSpacing]="'custom-spacing'"
     [exports]="true"
-    (addBtn)="onAddLicenseInformation()"
+    (addBtn)="onAddEvaluationInformation()"
     (searchChange)="onSearch($event)"
     (toggleFiltersEvent)="onToggleFilters($event)"
     (exportExcel)="tableRef.exportToExcel()"
     (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
 
-  <ng-container *ngIf="licenseInformation$ | async as licenseInformation">
+  <ng-container *ngIf="evaluationInformation$ | async as evaluationInformation">
     <app-table
       [viewPermission]="[
         '/LegalFormLaws/Get',
@@ -27,16 +27,16 @@
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
-      [tableData]="filteredLicenseInformation"
+      [tableData]="filteredEvaluationInformation"
       [side]="false"
       [first]="first2"
       [checkBox]="true"
       [filters]="showFilters"
       [uppercase]="'uppercase'"
-      [viewLicenseInformationTable]="true"
-      (onDelete)="onDeleteLicenseInformation($event)"
-      (onEdit)="onEditLicenseInformation($event)"
-      (viewForm)="onViewLicenseInformation($event)"
+      [viewEvaluationInformationTable]="true"
+      (onDelete)="onDeleteEvaluationInformation($event)"
+      (onEdit)="onEditEvaluationInformation($event)"
+      (viewForm)="onViewEvaluationInformation($event)"
     ></app-table>
     <app-delete-module
       [visible]="showDeleteModal"

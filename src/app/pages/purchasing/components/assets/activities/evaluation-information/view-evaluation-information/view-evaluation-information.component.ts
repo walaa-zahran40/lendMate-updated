@@ -2,8 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, Observable, takeUntil, forkJoin } from 'rxjs';
 import { TableComponent } from '../../../../../../../shared/components/table/table.component';
-import { LicenseInformationFacade } from '../../../../../store/license-information/license-information.facade';
-import { LicenseInformation } from '../../../../../store/license-information/license-information.model';
+import { EvaluationInformationFacade } from '../../../../../store/evaluation-information/evaluation-information.facade';
+import { EvaluationInformation } from '../../../../../store/evaluation-information/evaluation-information.model';
 
 @Component({
   selector: 'app-view-evaluation-information',
@@ -12,7 +12,7 @@ import { LicenseInformation } from '../../../../../store/license-information/lic
   styleUrl: './view-evaluation-information.component.scss',
 })
 export class ViewEvaluationInformationComponent {
-  tableDataInside: LicenseInformation[] = [];
+  tableDataInside: EvaluationInformation[] = [];
   first2 = 0;
   rows = 10;
   showFilters = false;
@@ -21,44 +21,45 @@ export class ViewEvaluationInformationComponent {
   @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
-    { field: 'licenseNumber', header: 'License Number' },
-    { field: 'startDate', header: 'Start Date' },
-    { field: 'endDate', header: 'End Date' },
-    { field: 'licenseInUseBy', header: 'In Use By' },
+    {
+      field: 'assetEvaluationDescription',
+      header: 'Asset Evaluation Description',
+    },
+    { field: 'evaluationDate', header: 'Evaluation Date' },
     { field: 'isActive', header: 'Is Active' },
   ];
 
   showDeleteModal = false;
-  selectedLicenseInformationId: number | null = null;
-  originalLicenseInformation: LicenseInformation[] = [];
-  filteredLicenseInformation: LicenseInformation[] = [];
-  licenseInformation$!: Observable<LicenseInformation[]>;
+  selectedEvaluationInformationId: number | null = null;
+  originalEvaluationInformation: EvaluationInformation[] = [];
+  filteredEvaluationInformation: EvaluationInformation[] = [];
+  evaluationInformation$!: Observable<EvaluationInformation[]>;
   routeId = this.route.snapshot.params['id'];
   constructor(
     private router: Router,
-    private facade: LicenseInformationFacade,
+    private facade: EvaluationInformationFacade,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
     console.log('route', this.route.snapshot);
     this.facade.loadAll();
-    this.licenseInformation$ = this.facade.all$;
+    this.evaluationInformation$ = this.facade.all$;
 
-    this.licenseInformation$
+    this.evaluationInformation$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((licenseInformation) => {
-        // const activeCodes = licenseInformation.filter((code) => code.isActive);
-        const sorted = licenseInformation.sort((a, b) => b.id - a.id);
-        // console.log('🟢 sorted licenseInformation:', sorted);
-        this.originalLicenseInformation = sorted;
-        this.filteredLicenseInformation = [...sorted];
+      .subscribe((evaluationInformation) => {
+        // const activeCodes = evaluationInformation.filter((code) => code.isActive);
+        const sorted = evaluationInformation.sort((a, b) => b.id - a.id);
+        // console.log('🟢 sorted evaluationInformation:', sorted);
+        this.originalEvaluationInformation = sorted;
+        this.filteredEvaluationInformation = [...sorted];
       });
   }
 
-  onAddLicenseInformation() {
+  onAddEvaluationInformation() {
     this.router.navigate([
-      `/purchasing/assets/activities/add-license-information/${this.routeId}`,
+      `/purchasing/assets/activities/add-evaluation-information/${this.routeId}`,
     ]);
   }
 
@@ -67,12 +68,12 @@ export class ViewEvaluationInformationComponent {
     this.destroy$.complete();
   }
 
-  onDeleteLicenseInformation(licenseInformationId: number): void {
+  onDeleteEvaluationInformation(evaluationInformationId: number): void {
     console.log(
-      '[View] onDeleteLicenseInformation() – opening modal for id=',
-      licenseInformationId
+      '[View] onDeleteEvaluationInformation() – opening modal for id=',
+      evaluationInformationId
     );
-    this.selectedIds = [licenseInformationId];
+    this.selectedIds = [evaluationInformationId];
     this.showDeleteModal = true;
   }
 
@@ -83,28 +84,28 @@ export class ViewEvaluationInformationComponent {
   resetDeleteModal() {
     console.log('[View] resetDeleteModal() – closing modal and clearing id');
     this.showDeleteModal = false;
-    this.selectedLicenseInformationId = null;
+    this.selectedEvaluationInformationId = null;
   }
 
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
-    this.filteredLicenseInformation = this.originalLicenseInformation.filter(
-      (licenseInformation) =>
-        Object.values(licenseInformation).some((val) =>
+    this.filteredEvaluationInformation =
+      this.originalEvaluationInformation.filter((evaluationInformation) =>
+        Object.values(evaluationInformation).some((val) =>
           val?.toString().toLowerCase().includes(lower)
         )
-    );
+      );
   }
 
   onToggleFilters(value: boolean) {
     this.showFilters = value;
   }
 
-  onEditLicenseInformation(licenseInformation: LicenseInformation) {
+  onEditEvaluationInformation(evaluationInformation: EvaluationInformation) {
     this.router.navigate(
       [
-        '/purchasing/assets/activities/edit-license-information',
-        licenseInformation.id,
+        '/purchasing/assets/activities/edit-evaluation-information',
+        evaluationInformation.id,
       ],
       {
         queryParams: { mode: 'edit' },
@@ -112,11 +113,11 @@ export class ViewEvaluationInformationComponent {
     );
   }
 
-  onViewLicenseInformation(licenseInformation: LicenseInformation) {
+  onViewEvaluationInformation(evaluationInformation: EvaluationInformation) {
     this.router.navigate(
       [
-        '/purchasing/assets/activities/edit-license-information',
-        licenseInformation.id,
+        '/purchasing/assets/activities/edit-evaluation-information',
+        evaluationInformation.id,
       ],
       {
         queryParams: { mode: 'view' },
@@ -141,7 +142,7 @@ export class ViewEvaluationInformationComponent {
 
   refreshCalls() {
     this.facade.loadAll();
-    this.licenseInformation$ = this.facade.all$;
+    this.evaluationInformation$ = this.facade.all$;
   }
   onBulkDelete(ids: number[]) {
     // Optionally confirm first
