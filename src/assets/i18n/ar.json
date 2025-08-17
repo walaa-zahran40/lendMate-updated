@@ -139,11 +139,95 @@
       "DESCRIPTION": "حدد الشروط والأحكام الإضافية المتعلقة بالتفويض مثل المتطلبات التنظيمية أو الإجرائية أو الخاصة المرتبطة بالتأجير."
     }
   },
+  "SIDEMENU": { "SEARCH": "بحث" },
+  "MENU": {
+    "CRM": "إدارة العملاء",
+    "PURCHASING": "المشتريات",
+    "BUSINESS": "الأعمال",
+    "ASSETS": "الأصول",
+    "SETTINGS": "الإعدادات"
+  },
+  "CRM": {
+    "CLIENT_OPERATIONS": "عمليات العملاء",
+    "QUICK_ONBOARDING": "إنهاء إجراءات سريعة",
+    "CLIENTS": "العملاء"
+  },
   "COMMUNICATION": {
+    "_ROOT": "التواصل",
+    "MEETINGS": "الاجتماعات",
+    "CALENDAR": "التقويم",
     "FOLLOW_UPS": "المتابعات",
     "FOLLOW_UPS_DESC": "تتبع وإدارة أنشطة المتابعة الخاصة بالتواصل",
     "FOLLOW_UP_POINTS": "نقاط المتابعة",
     "FOLLOW_UP_POINTS_DESC": "نقاط الإجراءات التفصيلية المتعلقة بالمتابعة"
+  },
+  "PURCHASING": {
+    "ASSETS": "الأصول",
+    "PURCHASING_ORDERS": "أوامر الشراء"
+  },
+  "CONTRACTS": { "CONTRACTS": "العقود" },
+  "ASSETS": { "ASSETS": "الأصول" },
+  "SETTINGS": {
+    "GENERAL": "عام",
+    "ORGANIZATIONS": "الهيكل التنظيمي",
+    "LEGALS": "الشؤون القانونية",
+    "SECURITY": "الأمان",
+    "CLIENT_WORKFLOW": "سير عمل العميل",
+    "MANDATE_WORKFLOW": "سير عمل التفويض",
+    "FEES": "الرسوم",
+    "LOOKUPS": "المعاجم"
+  },
+  "LOOKUPS": {
+    "BUSINESS_LINES": "خطوط الأعمال",
+    "PRODUCTS": "المنتجات",
+    "SECTORS": "القطاعات",
+    "SUB_SECTORS": "القطاعات الفرعية",
+    "ADDRESS_TYPES": "أنواع العناوين",
+    "AREAS": "المناطق",
+    "ASSET_TYPES": "أنواع الأصول",
+    "ASSET_TYPE_CATEGORIES": "فئات أنواع الأصول",
+    "AUTHORIZATION_GROUPS": "مجموعات التفويض",
+    "AUTHORIZATION_GROUP_OFFICERS": "موظفو مجموعة التفويض",
+    "CALL_ACTION_TYPES": "أنواع إجراءات المكالمات",
+    "CALL_TYPES": "أنواع المكالمات",
+    "CLIENT_TYPES": "أنواع العملاء",
+    "CLIENT_OFFICER_TYPES": "أنواع موظفي العميل",
+    "COMM_TYPES": "أنواع التواصل",
+    "COMM_FLOW_TYPES": "أنواع تدفق التواصل",
+    "COMPANY_TYPES": "أنواع الشركات",
+    "CONDITIONS": "الشروط",
+    "CONDITION_EXPRESSIONS": "تعابير الشروط",
+    "COUNTRIES": "الدول",
+    "CURRENCIES": "العملات",
+    "DOCUMENT_TYPES": "أنواع المستندات",
+    "EVALUATORS": "المقيمون",
+    "FOLLOWUP_TYPES": "أنواع المتابعة",
+    "GOVERNORATES": "المحافظات",
+    "ID_TYPES": "أنواع الهوية",
+    "INSURED_BY": "مؤمّن بواسطة",
+    "IR_BENCHMARKS": "مؤشرات سعر الفائدة",
+    "INTEREST_TYPES": "أنواع الفائدة",
+    "LEASING_TYPES": "أنواع التأجير",
+    "LICENSE_TYPES": "أنواع التراخيص",
+    "LICENSE_PROVIDERS": "مزودو التراخيص",
+    "VALIDITY_UNIT": "وحدة صلاحية التفويض",
+    "MEETING_TYPES": "أنواع الاجتماعات",
+    "NOTIFICATION_GROUPS": "مجموعات الإشعارات",
+    "NOTIFICATION_GROUP_OFFICERS": "موظفو مجموعة الإشعارات",
+    "PAYMENT_METHODS": "طرق الدفع",
+    "PAYMENT_MONTH_DAYS": "أيام الشهر للدفع",
+    "PAYMENT_TYPES": "أنواع الدفع",
+    "PAYMENT_PERIODS": "فترات الدفع",
+    "PAYMENT_TIMING_TERMS": "شروط توقيت الدفع",
+    "PERIOD_UNITS": "وحدات المدة",
+    "PHONE_TYPES": "أنواع الهواتف",
+    "RENT_STRUCTURE_TYPES": "أنواع هيكل الإيجار",
+    "SME_CLIENT_CODES": "أكواد عملاء المشروعات الصغيرة",
+    "TAX_OFFICES": "مكاتب الضرائب",
+    "TML_OFFICER_TYPES": "أنواع موظفي TML",
+    "VEHICLE_MODELS": "طرز المركبات",
+    "VEHICLE_MANUFACTURERS": "مصنّعو المركبات",
+    "WORKFLOW_ACTION_TYPES": "أنواع إجراءات سير العمل"
   },
   "LOOKUP": {
     "CURRENCY_EXCHANGE": "تحويل العملات",
@@ -153,7 +237,40 @@
     "ADD_NOTIFICATION_GROUP": "إضافة مجموعة إشعارات",
     "ADD_NOTIFICATION_GROUP_DESC": "تعيين أو إدارة مجموعات الإشعارات لهذا الإجراء"
   },
+  "LEGALS": {
+    "LEGAL_FORMS": "النموذج القانوني",
+    "LEGAL_FORM_LAWS": "قانون النموذج القانوني",
+    "CR_OFFICES": "مكاتب السجل التجاري",
+    "TAX_OFFICES": "مكاتب الضرائب",
+    "SME_CLIENT_CODES": "أكواد عملاء المشروعات الصغيرة"
+  },
+  "SECURITY": {
+    "APPLICATION_ROLES": "أدوار التطبيق",
+    "PAGE_OPERATIONS": "عمليات الصفحات",
+    "OPERATIONS": "العمليات",
+    "PAGES": "الصفحات"
+  },
+  "CLIENT_WORKFLOW": {
+    "CLIENT_STATUS": "حالة العميل",
+    "CLIENT_STATUS_ACTION": "إجراء حالة العميل"
+  },
+  "MANDATE_WORKFLOW": {
+    "MANDATE_STATUS": "حالة التفويض",
+    "MANDATE_STATUS_ACTION": "إجراء حالة التفويض"
+  },
+  "FEES": {
+    "FEE_RANGES": "نطاقات الرسوم",
+    "FEE_CALC_TYPES": "أنواع احتساب الرسوم",
+    "FEE_TYPES": "أنواع الرسوم"
+  },
+
   "ORGANIZATION": {
+    "BRANCHES": "الفروع",
+    "DEPARTMENTS": "الأقسام",
+    "OFFICERS": "الموظفون",
+    "SIGNATORY": "الموظفون المخولون بالتوقيع",
+
+    "TEAMS": "الفرق",
     "DEPARTMENT_MANAGERS": "مديرو الأقسام",
     "DEPARTMENT_MANAGERS_DESC": "عرض وإدارة المديرين المعيّنين لهذا القسم",
     "TEAM_LEADS": "قادة الفريق",
@@ -544,6 +661,8 @@
     "ESTABLISHED_YEAR": "سنة التأسيس",
     "WEBSITE": "الموقع الإلكتروني",
     "MARKET_SHARE": "الحصة السوقية ٪",
+    "LEASING": "التأجير",
+    "MANDATE": "تفويض",
     "MARKET_SIZE": "حجم السوق",
     "EMPLOYEES_NO": "عدد الموظفين",
     "PLACEHOLDERS": {

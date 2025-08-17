@@ -8,6 +8,124 @@
     "ADD": "Add Client Status",
     "EDIT": "Edit Client Status"
   },
+  "SIDEMENU": { "SEARCH": "Search" },
+  "MENU": {
+    "CRM": "CRM",
+    "PURCHASING": "Purchasing",
+    "BUSINESS": "Business",
+    "ASSETS": "Assets",
+    "SETTINGS": "Settings"
+  },
+  "CRM": {
+    "CLIENT_OPERATIONS": "Client Operations",
+    "QUICK_ONBOARDING": "Quick Onboarding",
+    "CLIENTS": "Clients"
+  },
+  "COMMUNICATION": {
+    "_ROOT": "Communication",
+    "MEETINGS": "Meetings",
+    "CALENDAR": "Calendar",
+    "FOLLOW_UPS": "Follow Ups",
+    "FOLLOW_UPS_DESC": "Track and manage communication follow-up activities",
+    "FOLLOW_UP_POINTS": "Follow Up Points",
+    "FOLLOW_UP_POINTS_DESC": "Detailed action points related to follow-ups"
+  },
+  "PURCHASING": {
+    "ASSETS": "Assets",
+    "PURCHASING_ORDERS": "Purchasing Orders"
+  },
+
+  "CONTRACTS": { "CONTRACTS": "Contracts" },
+  "ASSETS": { "ASSETS": "Assets" },
+  "SETTINGS": {
+    "GENERAL": "General",
+    "ORGANIZATIONS": "Organizations",
+    "LEGALS": "Legals",
+    "SECURITY": "Security",
+    "CLIENT_WORKFLOW": "Client Workflow",
+    "MANDATE_WORKFLOW": "Mandate Workflow",
+    "FEES": "Fees",
+    "LOOKUPS": "Lookups"
+  },
+  "FEES": {
+    "FEE_RANGES": "Fees Range",
+    "FEE_CALC_TYPES": "Fee Calculation Type",
+    "FEE_TYPES": "Fee Type"
+  },
+  "SECURITY": {
+    "APPLICATION_ROLES": "Application Roles",
+    "PAGE_OPERATIONS": "Page Operations",
+    "OPERATIONS": "Operations",
+    "PAGES": "Pages"
+  },
+  "CLIENT_WORKFLOW": {
+    "CLIENT_STATUS": "Client Status",
+    "CLIENT_STATUS_ACTION": "Client Status Action"
+  },
+  "MANDATE_WORKFLOW": {
+    "MANDATE_STATUS": "Mandate Status",
+    "MANDATE_STATUS_ACTION": "Mandate Status Action"
+  },
+  "LEGALS": {
+    "LEGAL_FORMS": "Legal Form",
+    "LEGAL_FORM_LAWS": "Legal Form Law",
+    "CR_OFFICES": "CR Authority Office",
+    "TAX_OFFICES": "Tax Office",
+    "SME_CLIENT_CODES": "SME Client Code"
+  },
+  "LOOKUPS": {
+    "BUSINESS_LINES": "Business Lines",
+    "PRODUCTS": "Products",
+    "SECTORS": "Sectors",
+    "SUB_SECTORS": "Sub Sectors",
+    "ADDRESS_TYPES": "Address Types",
+    "AREAS": "Areas",
+    "ASSET_TYPES": "Asset Types",
+    "ASSET_TYPE_CATEGORIES": "Asset Type Categories",
+    "AUTHORIZATION_GROUPS": "Authorization Groups",
+    "AUTHORIZATION_GROUP_OFFICERS": "Authorization Group Officers",
+    "CALL_ACTION_TYPES": "Call Action Types",
+    "CALL_TYPES": "Call Types",
+    "CLIENT_TYPES": "Client Types",
+    "CLIENT_OFFICER_TYPES": "Client Officer Types",
+    "COMM_TYPES": "Communication Types",
+    "COMM_FLOW_TYPES": "Communication Flow Types",
+    "COMPANY_TYPES": "Company Types",
+    "CONDITIONS": "Conditions",
+    "CONDITION_EXPRESSIONS": "Condition Expressions",
+    "COUNTRIES": "Countries",
+    "CURRENCIES": "Currencies",
+    "DOCUMENT_TYPES": "Document Types",
+    "EVALUATORS": "Evaluators",
+    "FOLLOWUP_TYPES": "Follow Up Types",
+    "GOVERNORATES": "Governorates",
+    "ID_TYPES": "Identification Types",
+    "INSURED_BY": "Insured By",
+    "IR_BENCHMARKS": "Interest Rate Benchmarks",
+    "INTEREST_TYPES": "Interest Types",
+    "LEASING_TYPES": "Leasing Types",
+    "LICENSE_TYPES": "License Types",
+    "LICENSE_PROVIDERS": "License Providers",
+    "VALIDITY_UNIT": "Mandate Validity Unit",
+    "MEETING_TYPES": "Meeting Types",
+    "NOTIFICATION_GROUPS": "Notification Groups",
+    "NOTIFICATION_GROUP_OFFICERS": "Notification Group Officers",
+    "PAYMENT_METHODS": "Payment Methods",
+    "PAYMENT_MONTH_DAYS": "Payment Month Days",
+    "PAYMENT_TYPES": "Payment Types",
+    "PAYMENT_PERIODS": "Payment Periods",
+    "PAYMENT_TIMING_TERMS": "Payment Timing Terms",
+    "PERIOD_UNITS": "Period Units",
+    "PHONE_TYPES": "Phone Types",
+    "RENT_STRUCTURE_TYPES": "Rent Structure Types",
+    "SME_CLIENT_CODES": "SME Client Codes",
+    "TAX_OFFICES": "Tax Offices",
+    "TML_OFFICER_TYPES": "TML Officer Types",
+    "VEHICLE_MODELS": "Vehicle Models",
+    "VEHICLE_MANUFACTURERS": "Vehicle Manufacturers",
+    "WORKFLOW_ACTION_TYPES": "Workflow Action Types"
+  },
+
   "NAVBAR": {
     "WELCOME": "Welcome",
     "DARK": "Dark",
@@ -132,12 +250,6 @@
       "DESCRIPTION": "Specify additional mandate terms and conditions such as regulatory, procedural, or special requirements associated with the leasing mandate."
     }
   },
-  "COMMUNICATION": {
-    "FOLLOW_UPS": "Follow Ups",
-    "FOLLOW_UPS_DESC": "Track and manage communication follow-up activities",
-    "FOLLOW_UP_POINTS": "Follow Up Points",
-    "FOLLOW_UP_POINTS_DESC": "Detailed action points related to follow-ups"
-  },
   "LOOKUP": {
     "CURRENCY_EXCHANGE": "Currency Exchange",
     "CURRENCY_EXCHANGE_DESC": "View or manage currency exchange rates",
@@ -147,6 +259,12 @@
     "ADD_NOTIFICATION_GROUP_DESC": "Assign or manage notification groups for this action"
   },
   "ORGANIZATION": {
+    "BRANCHES": "Branches",
+    "DEPARTMENTS": "Departments",
+    "OFFICERS": "Officers",
+    "TEAMS": "Teams",
+    "SIGNATORY": "Signatory Officers",
+
     "DEPARTMENT_MANAGERS": "Department Managers",
     "DEPARTMENT_MANAGERS_DESC": "View and manage managers assigned to this department",
     "TEAM_LEADS": "Team Leads",
@@ -539,6 +657,8 @@
     "WEBSITE": "Website",
     "MARKET_SHARE": "Market Share %",
     "MARKET_SIZE": "Market Size",
+    "LEASING": "Leasing",
+    "MANDATE": "Mandate",
     "EMPLOYEES_NO": "Number of Employees",
     "PLACEHOLDERS": {
       "MAIN_SHARE": "Main Share",

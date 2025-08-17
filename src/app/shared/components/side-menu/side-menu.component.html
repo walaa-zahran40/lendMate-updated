@@ -10,7 +10,7 @@
         [icon]="item.icon"
         (click)="toggleMenu(item)"
         [ngClass]="{ active: activeMenu === item.id }"
-        pTooltip="{{ item.label }}"
+        [pTooltip]="item.i18nKey | translate"
         tooltipPosition="right"
       ></button>
     </ng-container>
@@ -26,7 +26,7 @@
       <input
         type="text"
         pInputText
-        placeholder="Search"
+        [placeholder]="'SIDEMENU.SEARCH' | translate"
         [(ngModel)]="searchTerm"
         (input)="filterMenuItems()"
         class="search-input"
@@ -34,9 +34,9 @@
     </p-iconfield>
     <p-panelmenu
       [model]="
-        filteredMenuItems.length > 0
-          ? filteredMenuItems
-          : filteredMenuData[activeMenu]
+        filteredMenuItemsLocalized.length > 0
+          ? filteredMenuItemsLocalized
+          : localizeModel(filteredMenuData[activeMenu] || [])
       "
       [multiple]="false"
       (onNodeSelect)="setActiveMenuItem($event)"
