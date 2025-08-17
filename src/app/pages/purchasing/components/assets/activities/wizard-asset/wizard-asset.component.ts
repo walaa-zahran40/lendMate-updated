@@ -26,13 +26,13 @@ export class WizardAssetComponent {
         content: 'Evaluation Information',
         link: `purchasing/assets/activities/view-evaluation-information/${this.assetId}`,
       },
-      {
-        imgUrl: '/assets/images/shared/card/add.svg',
-        imgAlt: 'add',
-        title: 'Workflow & Status',
-        content: 'Workflow & Status',
-        link: `purchasing/assets/activities/view-workflow-status/${this.assetId}`,
-      },
+      // {
+      //   imgUrl: '/assets/images/shared/card/add.svg',
+      //   imgAlt: 'add',
+      //   title: 'Workflow & Status',
+      //   content: 'Workflow & Status',
+      //   link: `purchasing/assets/activities/view-workflow-status/${this.assetId}`,
+      // },
       {
         imgUrl: '/assets/images/shared/card/branch.svg',
         imgAlt: 'branch',
