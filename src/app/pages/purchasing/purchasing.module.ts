@@ -40,6 +40,8 @@ import { LicenseInformationEffects } from './store/license-information/license-i
 import { reducer as licenseInformationReducer } from './store/license-information/license-information.reducer';
 import { EvaluationInformationEffects } from './store/evaluation-information/evaluation-information.effects';
 import { reducer as evaluationInformationReducer } from './store/evaluation-information/evaluation-information.reducer';
+import { PurchasingOrdersEffects } from './store/purchasing-orders/purchasing-orders.effects';
+import { reducer as purchasingOrdersReducer } from './store/purchasing-orders/purchasing-orders.reducer';
 
 @NgModule({
   declarations: [
@@ -87,7 +89,10 @@ import { reducer as evaluationInformationReducer } from './store/evaluation-info
       'evaluationInformation',
       evaluationInformationReducer
     ),
+
     EffectsModule.forFeature([EvaluationInformationEffects]),
+    EffectsModule.forFeature([PurchasingOrdersEffects]),
+    StoreModule.forFeature('purchasingOrders', purchasingOrdersReducer),
   ],
   exports: [
     ViewAssetsComponent,

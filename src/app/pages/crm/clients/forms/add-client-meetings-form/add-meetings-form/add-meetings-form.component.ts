@@ -27,7 +27,6 @@ import { Store } from '@ngrx/store';
 import { selectAllSectors } from '../../../../../lookups/store/sectors/sectors.selectors';
 import { SubSectors } from '../../../../../../shared/interfaces/sub-sector.interface';
 import { selectAllSubSectors } from '../../../../../lookups/store/sub-sectors/sub-sectors.selectors';
-import { LegalFormLaw } from '../../../../../../shared/interfaces/legal-form-law.interface';
 import * as sectorsActions from '../../../../../lookups/store/sectors/sectors.actions';
 import * as subSectorsActions from '../../../../../lookups/store/sub-sectors/sub-sectors.actions';
 import { setFormDirty } from '../../../store/client-form/client-form.actions';
@@ -37,6 +36,7 @@ import { LegalFormsFacade } from '../../../../../legals/store/legal-forms/legal-
 import { IdentificationType } from '../../../../../lookups/store/identification-types/identification-type.model';
 import { Currency } from '../../../../../lookups/store/currencies/currency.model';
 import { PageOperation } from '../../../../../organizations/store/page-operations/page-operation.model';
+import { LegalFormLaw } from '../../../../../legals/store/legal-form-laws/legal-form-law.model';
 export interface IdentityEntry {
   identificationNumber: string;
   selectedIdentities: any[];

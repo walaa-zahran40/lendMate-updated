@@ -26,7 +26,7 @@ import * as subSectorsActions from '../../../../lookups/store/sub-sectors/sub-se
 import { Store } from '@ngrx/store';
 import { FileUpload } from 'primeng/fileupload';
 import { CompanyLegalDetails } from '../../../../../shared/interfaces/company-legal-details.interface';
-import { LegalFormLaw } from '../../../../../shared/interfaces/legal-form-law.interface';
+import { LegalFormLaw } from '../../../../legals/store/legal-form-laws/legal-form-law.model';
 import { SubSectors } from '../../../../../shared/interfaces/sub-sector.interface';
 import { setFormDirty } from '../../../../crm/clients/store/client-form/client-form.actions';
 import { LegalFormLawFacade } from '../../../../legals/store/legal-form-law/legal-form-law.facade';

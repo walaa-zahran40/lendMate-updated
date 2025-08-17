@@ -21,7 +21,6 @@ import {
   filter,
 } from 'rxjs';
 import { CompanyLegalDetails } from '../../../../shared/interfaces/company-legal-details.interface';
-import { LegalFormLaw } from '../../../../shared/interfaces/legal-form-law.interface';
 import { SubSectors } from '../../../../shared/interfaces/sub-sector.interface';
 import { setFormDirty } from '../../../crm/clients/store/client-form/client-form.actions';
 import { LegalFormLawFacade } from '../../../legals/store/legal-form-law/legal-form-law.facade';
@@ -591,7 +590,6 @@ export class AddVehicleFormComponent implements OnInit, OnDestroy {
   @Input() operationName!: string;
   assetStatusIdParam!: any;
   mandateStatusIdParam!: any;
-  legalFormLaws$: Observable<LegalFormLaw[]> = this.facade.legalFormLaws$;
   legalForms$ = this.facadeLegalForms.items$;
 
   // legalForms$ = this.facadeLegalForms.legalForms$;

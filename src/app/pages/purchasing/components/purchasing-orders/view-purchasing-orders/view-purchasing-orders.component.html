@@ -1,1 +1,47 @@
-<p>view-purchasing-orders works!</p>
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/Meetings/Post'"
+    [title]="'Purchasing Orders'"
+    [labelBtn]="'Add Purchasing Order'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddPurchasingOrder()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="purchasingOrders$ | async as purchasingOrders">
+    <app-table
+      [viewPermission]="[
+        '/Meetings/Get',
+        '/Meetings/GetAll',
+        '/Meetings/GetAllHistory'
+      ]"
+      [editPermission]="'/Meetings/Put'"
+      [deletePermission]="'/Meetings/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredPurchasingOrders"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewPurchasingOrdersTable]="true"
+      (onDelete)="onDeletePurchasingOrder($event)"
+      (onEdit)="onEditPurchasingOrder($event)"
+      (viewForm)="onViewPurchasingOrder($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

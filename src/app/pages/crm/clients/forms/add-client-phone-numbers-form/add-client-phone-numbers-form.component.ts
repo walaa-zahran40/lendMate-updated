@@ -27,7 +27,7 @@ import { Store } from '@ngrx/store';
 import { selectAllSectors } from '../../../../lookups/store/sectors/sectors.selectors';
 import { SubSectors } from '../../../../../shared/interfaces/sub-sector.interface';
 import { selectAllSubSectors } from '../../../../lookups/store/sub-sectors/sub-sectors.selectors';
-import { LegalFormLaw } from '../../../../../shared/interfaces/legal-form-law.interface';
+import { LegalFormLaw } from '../../../../legals/store/legal-form-laws/legal-form-law.model';
 import * as sectorsActions from '../../../../lookups/store/sectors/sectors.actions';
 import * as subSectorsActions from '../../../../lookups/store/sub-sectors/sub-sectors.actions';
 import { setFormDirty } from '../../store/client-form/client-form.actions';
