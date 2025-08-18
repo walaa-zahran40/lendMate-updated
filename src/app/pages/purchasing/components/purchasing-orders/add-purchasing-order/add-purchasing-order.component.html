@@ -1,1 +1,27 @@
-<p>add-purchasing-order works!</p>
+<app-toolbar-form
+  [backExists]="true"
+  [backIcon]="'back-icon'"
+  [viewOnly]="false"
+  [header]="
+    viewOnly
+      ? 'View Purchasing Order'
+      : editMode
+      ? 'Edit Purchasing Order'
+      : 'Add Purchasing Order'
+  "
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-add-purchasing-order-form
+        [description]="'Purchasing Orders'"
+        [addPurchasingOrdersForm]="true"
+        [formGroup]="addPurchasingOrdersForm"
+        (submitForm)="addOrEditPurchasingOrder()"
+        [editMode]="editMode"
+        [viewOnly]="viewOnly"
+      ></app-add-purchasing-order-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

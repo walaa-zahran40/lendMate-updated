@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as ActionsList from './purchasing-orders.actions';
 import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { EntityNames } from '../../../../shared/constants/entity-names';
-import { PurchasingOrder } from './purchasing-order.model';
+import { PurchaseOrder } from './purchasing-order.model';
 import { PurchasingOrdersService } from './purchasing-orders.service';
 
 @Injectable()
@@ -79,7 +79,7 @@ export class PurchasingOrdersEffects {
     this.actions$.pipe(
       ofType(ActionsList.createEntity),
       mergeMap(({ payload }) => {
-        const dto = payload as Omit<PurchasingOrder, 'id'>;
+        const dto = payload as Omit<PurchaseOrder, 'id'>;
         return this.service.create(dto).pipe(
           mergeMap((entity) => [
             ActionsList.createEntitySuccess({ entity }),

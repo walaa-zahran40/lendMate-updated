@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject, Observable, takeUntil, forkJoin } from 'rxjs';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
-import { PurchasingOrder } from '../../../store/purchasing-orders/purchasing-order.model';
+import { PurchaseOrder } from '../../../store/purchasing-orders/purchasing-order.model';
 import { PurchasingOrdersFacade } from '../../../store/purchasing-orders/purchasing-orders.facade';
 
 @Component({
@@ -12,7 +12,7 @@ import { PurchasingOrdersFacade } from '../../../store/purchasing-orders/purchas
   styleUrl: './view-purchasing-orders.component.scss',
 })
 export class ViewPurchasingOrdersComponent {
-  tableDataInside: PurchasingOrder[] = [];
+  tableDataInside: PurchaseOrder[] = [];
   first2 = 0;
   rows = 10;
   showFilters = false;
@@ -21,15 +21,16 @@ export class ViewPurchasingOrdersComponent {
   @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
-    { field: 'name', header: 'Name EN' },
-    { field: 'nameAR', header: 'Name AR' },
+    { field: 'number', header: 'Number' },
+    { field: 'date', header: 'Date' },
+    { field: 'isActive', header: 'is Active' },
   ];
 
   showDeleteModal = false;
   selectedPurchasingOrderId: number | null = null;
-  originalPurchasingOrders: PurchasingOrder[] = [];
-  filteredPurchasingOrders: PurchasingOrder[] = [];
-  purchasingOrders$!: Observable<PurchasingOrder[]>;
+  originalPurchasingOrders: PurchaseOrder[] = [];
+  filteredPurchasingOrders: PurchaseOrder[] = [];
+  purchasingOrders$!: Observable<PurchaseOrder[]>;
 
   constructor(private router: Router, private facade: PurchasingOrdersFacade) {}
 
@@ -49,7 +50,9 @@ export class ViewPurchasingOrdersComponent {
   }
 
   onAddPurchasingOrder() {
-    this.router.navigate(['/legals/add-legal-form-law']);
+    this.router.navigate([
+      '/purchasing/purchasing-orders/add-purchasing-order',
+    ]);
   }
 
   ngOnDestroy() {
@@ -90,13 +93,13 @@ export class ViewPurchasingOrdersComponent {
     this.showFilters = value;
   }
 
-  onEditPurchasingOrder(purchasingOrder: PurchasingOrder) {
+  onEditPurchasingOrder(purchasingOrder: PurchaseOrder) {
     this.router.navigate(['/legals/edit-legal-form-law', purchasingOrder.id], {
       queryParams: { mode: 'edit' },
     });
   }
 
-  onViewPurchasingOrder(purchasingOrder: PurchasingOrder) {
+  onViewPurchasingOrder(purchasingOrder: PurchaseOrder) {
     this.router.navigate(['/legals/edit-legal-form-law', purchasingOrder.id], {
       queryParams: { mode: 'view' },
     });

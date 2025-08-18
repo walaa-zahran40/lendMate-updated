@@ -95,6 +95,7 @@ import { LicenseTypeFormComponent } from '../../pages/lookups/forms/license-type
 import { LicenseProviderFormComponent } from '../../pages/lookups/forms/license-provider-form/license-provider-form.component';
 import { AddEvaluationInfoFormComponent } from '../../pages/purchasing/forms/add-evaluation-info-form/add-evaluation-info-form.component';
 import { AddEvaluatorFormComponent } from '../../pages/lookups/forms/add-evaluator-form/add-evaluator-form.component';
+import { AddPurchasingOrderComponent } from '../../pages/purchasing/forms/add-purchasing-order-form/add-purchasing-order-form.component';
 
 @NgModule({
   declarations: [
@@ -146,6 +147,7 @@ import { AddEvaluatorFormComponent } from '../../pages/lookups/forms/add-evaluat
     LicenseProviderFormComponent,
     AddEvaluationInfoFormComponent,
     AddEvaluatorFormComponent,
+    AddPurchasingOrderComponent,
   ],
   imports: [
     CommonModule,
@@ -248,6 +250,7 @@ import { AddEvaluatorFormComponent } from '../../pages/lookups/forms/add-evaluat
     AddClientFormComponent,
     AddClientOnboardingFormComponent,
     AddLicenseInfoFormComponent,
+    AddPurchasingOrderComponent,
   ],
 })
 export class ComponentsModule {}

@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { PurchasingOrder } from './purchasing-order.model';
+import { PurchaseOrder } from './purchasing-order.model';
 
 export const loadAll = createAction(
   '[PurchasingOrders] Load All',
@@ -7,7 +7,7 @@ export const loadAll = createAction(
 );
 export const loadAllSuccess = createAction(
   '[PurchasingOrders] Load All Success',
-  props<{ result: PurchasingOrder[] }>()
+  props<{ result: PurchaseOrder[] }>()
 );
 
 export const loadAllFailure = createAction(
@@ -21,7 +21,7 @@ export const loadById = createAction(
 );
 export const loadByIdSuccess = createAction(
   '[PurchasingOrders] Load By Id Success',
-  props<{ entity: PurchasingOrder }>()
+  props<{ entity: PurchaseOrder }>()
 );
 export const loadByIdFailure = createAction(
   '[PurchasingOrders] Load By Id Failure',
@@ -31,11 +31,11 @@ export const loadByIdFailure = createAction(
 export const createEntity = createAction(
   '[PurchasingOrders] Create',
   // allow all fields except id, but all optional
-  props<{ payload: Partial<Omit<PurchasingOrder, 'id'>> }>()
+  props<{ payload: Partial<Omit<PurchaseOrder, 'id'>> }>()
 );
 export const createEntitySuccess = createAction(
   '[PurchasingOrders] Create Success',
-  props<{ entity: PurchasingOrder }>()
+  props<{ entity: PurchaseOrder }>()
 );
 export const createEntityFailure = createAction(
   '[PurchasingOrders] Create Failure',
@@ -44,11 +44,11 @@ export const createEntityFailure = createAction(
 
 export const updateEntity = createAction(
   '[PurchasingOrders] Update',
-  props<{ id: number; changes: Partial<PurchasingOrder> }>()
+  props<{ id: number; changes: Partial<PurchaseOrder> }>()
 );
 export const updateEntitySuccess = createAction(
   '[PurchasingOrders] Update Success',
-  props<{ id: number; changes: Partial<PurchasingOrder> }>()
+  props<{ id: number; changes: Partial<PurchaseOrder> }>()
 );
 export const updateEntityFailure = createAction(
   '[PurchasingOrders] Update Failure',
@@ -78,7 +78,7 @@ export const loadPurchasingOrderHistory = createAction(
 
 export const loadPurchasingOrderHistorySuccess = createAction(
   '[PurchasingOrder/API] Load Address Type History Success',
-  props<{ history: PurchasingOrder[] }>()
+  props<{ history: PurchaseOrder[] }>()
 );
 export const performWorkflowActionEntityFailure = createAction(
   '[PurchasingOrders] PerformWorkflowAction Failure',

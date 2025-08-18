@@ -1,23 +1,34 @@
-export interface PurchasingOrder {
-  id: number;
-  assetTypeId: number;
-  description: string;
-  descriptionAr: string;
-  dateAcquired: string; // ISO date string
-  leasingAgreementId: number;
-  isActive: boolean;
-  code?: string;
-}
-export interface PurchasingOrderType {
-  id: number;
-  name: string; // or 'description' if your API uses that
-  nameAr?: string;
+export interface PurchaseOrderFinancialActivity {
+  assetId: number;
+  taxAmount: number;
+  purchasePrice: number;
+  salesPrice: number;
+  stickerPrice: number;
+  netValue: number;
+  assetCount: number;
+  paymentTypeId: number;
+  paymentPeriodUnitId: number;
+  depreciationValue: number;
+  provisionAmount: number;
+  downPayment: number;
+  isLetterOfGuaranteeAmount: boolean;
+  letterOfGuaranteeAmount: string;
 }
 
-// view model (what you bind to the table)
-export interface PurchasingOrderViewModel extends PurchasingOrder {
-  assetTypeCode: number;
-  assetTypeName: string;
-  assetTypeNameAr?: string;
-  dateAcquiredObj?: Date; // convenient if you need a Date object
+export interface PurchaseOrder {
+  id: number;
+  firstClaimStatusId: number;
+  date: string; // ISO string, e.g. "2025-08-18T06:26:39.617Z"
+  currencyId: number;
+  leasingAgreementId: number;
+  deliveryWithin: number;
+  deliveryWithinUnitId: number;
+  vendorId: number;
+  vendorAddressId: number;
+  deliveryLocationDetails: string;
+  purchaseOrderFinancialActivities: PurchaseOrderFinancialActivity[];
+  officerId: number;
+  firstSignatoryOfficerId: number;
+  secondSignatoryOfficerId: number;
+  isActive: boolean;
 }

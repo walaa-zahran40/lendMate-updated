@@ -11,6 +11,7 @@ import { ViewLicenseInformationComponent } from './components/assets/activities/
 import { AddEvaluationInformationComponent } from './components/assets/activities/evaluation-information/add-evaluation-information/add-evaluation-information.component';
 import { AddLicenseInformationComponent } from './components/assets/activities/license-information/add-license-information/add-license-information.component';
 import { AddWorkflowStatusComponent } from './components/assets/activities/workflow-status/add-workflow-status/add-workflow-status.component';
+import { AddPurchasingOrderComponent } from './components/purchasing-orders/add-purchasing-order/add-purchasing-order.component';
 
 const routes: Routes = [
   //Assets
@@ -72,6 +73,10 @@ const routes: Routes = [
   {
     path: 'purchasing-orders/view-purchasing-orders',
     component: ViewPurchasingOrdersComponent,
+  },
+  {
+    path: 'purchasing-orders/add-purchasing-order',
+    component: AddPurchasingOrderComponent,
   },
 ];
 

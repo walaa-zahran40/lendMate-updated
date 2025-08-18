@@ -3,7 +3,7 @@ import { createSelector, Store } from '@ngrx/store';
 import * as Actions from './purchasing-orders.actions';
 import * as Selectors from './purchasing-orders.selectors';
 import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors'; // adjust path if needed
-import { PurchasingOrder } from './purchasing-order.model';
+import { PurchaseOrder } from './purchasing-order.model';
 
 @Injectable({ providedIn: 'root' })
 export class PurchasingOrdersFacade {
@@ -30,11 +30,11 @@ export class PurchasingOrdersFacade {
     this.store.dispatch(Actions.loadById({ id }));
   }
 
-  create(payload: Partial<Omit<PurchasingOrder, 'id'>>) {
+  create(payload: Partial<Omit<PurchaseOrder, 'id'>>) {
     this.store.dispatch(Actions.createEntity({ payload }));
   }
 
-  update(id: number, changes: Partial<PurchasingOrder>) {
+  update(id: number, changes: Partial<PurchaseOrder>) {
     this.store.dispatch(Actions.updateEntity({ id, changes }));
   }
 
