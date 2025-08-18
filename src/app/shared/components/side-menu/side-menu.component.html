@@ -28,16 +28,12 @@
         pInputText
         [placeholder]="'SIDEMENU.SEARCH' | translate"
         [(ngModel)]="searchTerm"
-        (input)="filterMenuItems()"
+        (ngModelChange)="onSearchChange($event)"
         class="search-input"
       />
     </p-iconfield>
     <p-panelmenu
-      [model]="
-        filteredMenuItemsLocalized.length > 0
-          ? filteredMenuItemsLocalized
-          : localizeModel(filteredMenuData[activeMenu] || [])
-      "
+      [model]="displayModel"
       [multiple]="false"
       (onNodeSelect)="setActiveMenuItem($event)"
     ></p-panelmenu>

@@ -66,6 +66,15 @@ html[dir="rtl"] {
     text-align: right;
     font-family: "almarai", sans-serif;
   }
+  button.menu-button.p-button.p-component.p-button-icon-only.active::before {
+    left: auto;
+    right: -0.7px;
+  }
+  button.menu-button.p-button.p-component.p-button-icon-only.active
+    span.p-button-icon.pi::after {
+    right: auto;
+    left: 10px;
+  }
 }
 body {
   font-family: "poppins", sans-serif;
@@ -233,6 +242,19 @@ body {
 html[dir="rtl"] .back-icon {
   transform: rotate(180deg);
   display: inline-block; /* needed for transform to work on pseudo-element */
+}
+[dir="rtl"] .pi-chevron-right,
+[dir="rtl"] .pi-angle-right {
+  transform: rotate(180deg);
+}
+
+.p-panelmenu-header:not(.p-panelmenu-header-active)
+  .p-panelmenu-header-content
+  .p-panelmenu-submenu-icon:dir(rtl) {
+  transform: none !important; /* reset global flip */
+}
+html[dir="rtl"].p-panelmenu-header-link .p-iconwrapper {
+  margin-right: auto;
 }
 html[dir="rtl"] .p-splitbutton-button.p-button {
   flex-direction: row;

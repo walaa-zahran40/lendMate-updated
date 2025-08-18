@@ -1,6 +1,12 @@
 import { Component } from '@angular/core';
-import { MenuToggleService } from '../../services/menu-toggle.service';
-import { filter, Subject, Subscription, takeUntil } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  Subject,
+  Subscription,
+  takeUntil,
+} from 'rxjs';
 import { MenuItem } from '../../interfaces/menu-item.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
@@ -40,6 +46,11 @@ export class SideMenuComponent {
   isLoggedIn = false;
   private permsSub!: Subscription;
   private destroyed$ = new Subject<void>();
+  private activeLocalized: any[] = []; // localized model for current section (no search)
+  filteredMenuItemsLocalized: any[] = []; // localized filtered results
+  displayModel: any[] = []; // what the template binds to
+
+  private search$ = new Subject<string>(); // debounced search stream
 
   menuItems: TopButton[] = [
     {
@@ -1088,7 +1099,6 @@ export class SideMenuComponent {
   activeMenu: string | null = null;
 
   constructor(
-    private menuToggleService: MenuToggleService,
     private route: ActivatedRoute,
     private translate: TranslateService,
     private msalBroadcastService: MsalBroadcastService,
@@ -1099,8 +1109,17 @@ export class SideMenuComponent {
     this.translate.onLangChange
       .pipe(takeUntil(this.destroyed$))
       .subscribe(() => {
-        this.filterMenuItems(); // rebuilds localized lists too
+        this.rebuildActiveLocalized();
+        this.applySearch(this.searchTerm);
       });
+    // Debounce search input
+    this.search$
+      .pipe(
+        takeUntil(this.destroyed$),
+        debounceTime(150),
+        distinctUntilChanged()
+      )
+      .subscribe((term) => this.applySearch(term));
   }
 
   ngOnInit() {
@@ -1129,24 +1148,34 @@ export class SideMenuComponent {
 
     // NEW: whenever backend perms are loaded (or reloaded), rebuild menu
     this.applyPermissionFilter();
-    this.filterMenuItems();
+    this.onSectionChanged(); // compute activeLocalized + displayModel
   }
   ngOnDestroy() {
     this.destroyed$.next();
     this.destroyed$.complete();
     this.toggleSub.unsubscribe();
-    this.destroy$.next();
-    this.destroy$.complete();
     this.permsSub?.unsubscribe();
   }
+  /** call this whenever activeMenu or permissions/language changes */
+  private rebuildActiveLocalized() {
+    const raw = this.getActiveMenuItems(); // raw with i18nKey
+    this.activeLocalized = this.localizeModel(raw); // once
+  }
+  /** maintain the final model for the template */
+  private updateDisplayModel() {
+    // show filtered results if present, else full active section
+    this.displayModel =
+      this.filteredMenuItemsLocalized.length > 0
+        ? this.filteredMenuItemsLocalized
+        : this.activeLocalized;
+  }
+
   localizeModel(groups: any[] = []) {
     const t = (k: string) => this.translate.instant(k);
     return groups.map((g) => {
-      // leaf group (has routerLink directly)
       if (g.routerLink) {
         return { label: t(g.i18nKey), icon: g.icon, routerLink: g.routerLink };
       }
-      // group with children
       return {
         label: t(g.i18nKey),
         icon: g.icon,
@@ -1185,12 +1214,13 @@ export class SideMenuComponent {
       }
 
       this.filteredMenuData[section.id] = kept;
+      this.rebuildActiveLocalized();
+      this.updateDisplayModel();
     }
 
     // refresh localized list for the currently active menu
     this.filterMenuItems();
   }
-  filteredMenuItemsLocalized: any[] = [];
 
   filterMenuItems() {
     const active = this.getActiveMenuItems(); // raw (with i18nKey)
@@ -1230,10 +1260,49 @@ export class SideMenuComponent {
       ] || []
     );
   }
+  /** when user switches top section */
   toggleMenu(item: TopButton) {
     this.activeMenu = this.activeMenu === item.id ? null : item.id;
-    this.filterMenuItems();
+    this.onSectionChanged();
   }
+  private onSectionChanged() {
+    this.rebuildActiveLocalized();
+    this.applySearch(this.searchTerm); // reuse current term
+  }
+  onSearchChange(value: string) {
+    this.search$.next(value ?? '');
+  }
+  private applySearch(term: string) {
+    this.searchTerm = term ?? '';
+    const searchLower = this.searchTerm.toLowerCase().trim();
+
+    if (!searchLower) {
+      this.filteredMenuItemsLocalized = [];
+      this.updateDisplayModel();
+      return;
+    }
+
+    // We filter against already localized (translated) labels!
+    const filterNode = (node: any): any | null => {
+      // leaf
+      if (!node.items) {
+        return node.label.toLowerCase().includes(searchLower) ? node : null;
+      }
+      // group
+      const kids = (node.items || []).map(filterNode).filter(Boolean);
+      if (node.label.toLowerCase().includes(searchLower) || kids.length) {
+        return { ...node, items: kids };
+      }
+      return null;
+    };
+
+    this.filteredMenuItemsLocalized = this.activeLocalized
+      .map(filterNode)
+      .filter(Boolean) as any[];
+
+    this.updateDisplayModel();
+  }
+
   getActiveLabel(): string {
     const key =
       this.menuItems.find((i) => i.id === this.activeMenu)?.i18nKey || '';
