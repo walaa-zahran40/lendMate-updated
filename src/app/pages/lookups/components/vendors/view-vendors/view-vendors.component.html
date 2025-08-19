@@ -1,0 +1,45 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/Products/Post'"
+    [title]="'Vendors'"
+    [labelBtn]="'Add Vendor'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddVendor()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <app-table
+    [viewPermission]="[
+      '/Products/Get',
+      '/Products/GetAll',
+      '/Products/GetAllHistory'
+    ]"
+    [editPermission]="'/Products/Put'"
+    [deletePermission]="'/Products/Delete'"
+    #tableRef
+    (onBulkDelete)="onBulkDelete($event)"
+    [cols]="colsInside"
+    [tableData]="filteredVendors"
+    [side]="false"
+    [first]="first2"
+    [checkBox]="true"
+    [filters]="showFilters"
+    [uppercase]="'uppercase'"
+    [viewVendorsTable]="true"
+    (onDelete)="onDeleteVendor($event)"
+    (onEdit)="onEditVendor($event)"
+    (viewForm)="onViewVendor($event)"
+  ></app-table>
+  <app-delete-module
+    [visible]="showDeleteModal"
+    (confirm)="confirmDelete()"
+    (cancel)="cancelDelete()"
+  ></app-delete-module>
+</div>

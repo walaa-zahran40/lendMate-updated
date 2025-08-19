@@ -1,0 +1,23 @@
+<app-toolbar-form
+  [header]="viewOnly ? 'View Vendor' : editMode ? 'Edit Vendor' : 'Add Vendor'"
+  [backExists]="true"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-vendor-form
+        *ngIf="addVendorsLookupsForm"
+        [title]="'Vendor Title'"
+        [description]="'Vendor Description'"
+        [formGroup]="addVendorsLookupsForm"
+        [addVendorsLookupsForm]="true"
+        [subSectorsData]="subSectorsList$ | async"
+        [editMode]="editMode"
+        (submitForm)="addOrEditVendor()"
+        [viewOnly]="viewOnly"
+      ></app-vendor-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

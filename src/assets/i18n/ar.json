@@ -180,6 +180,9 @@
   "LOOKUPS": {
     "BUSINESS_LINES": "خطوط الأعمال",
     "PRODUCTS": "المنتجات",
+    "VENDORS": "البائعين",
+
+    "FIRST_CLAIM_STATUSES": "حالات المطالبة الأولى",
     "SECTORS": "القطاعات",
     "SUB_SECTORS": "القطاعات الفرعية",
     "ADDRESS_TYPES": "أنواع العناوين",

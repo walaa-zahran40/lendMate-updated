@@ -46,7 +46,142 @@
       >
         First Claim Status is required.
       </div>
+      <label for="date">Date<sup>*</sup></label>
+      <shared-date-picker formControlName="date" inputId="date">
+      </shared-date-picker>
 
+      <br />
+      <label for="currencyId">Currency<sup>*</sup></label>
+      <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
+        id="currencyId"
+        [options]="currencies"
+        optionLabel="name"
+        placeholder="Select Currency"
+        formControlName="currencyId"
+        optionValue="id"
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('currencyId')?.invalid &&
+            (formGroup.get('currencyId')?.dirty ||
+              formGroup.get('currencyId')?.touched)
+        }"
+      ></p-select>
+      <div
+        *ngIf="
+          formGroup.get('currencyId')?.hasError('required') &&
+          formGroup.get('currencyId')?.touched
+        "
+        class="p-error"
+      >
+        Currency is required.
+      </div>
+      <label for="leasingAgreementId"
+        >Leasing Agreement Id <sup class="danger">*</sup></label
+      >
+      <input
+        pInputText
+        name="leasingAgreementId"
+        formControlName="leasingAgreementId"
+        placeholder="Leasing Agreement Id"
+        [ngClass]="{
+          'ng-invalid ng-dirty':
+            formGroup.get('leasingAgreementId')?.invalid &&
+            formGroup.get('leasingAgreementId')?.touched
+        }"
+      />
+
+      <small
+        class="p-error"
+        *ngIf="
+          formGroup.get('leasingAgreementId')?.hasError('required') &&
+          formGroup.get('leasingAgreementId')?.touched
+        "
+      >
+        Leasing Agreement Id is required.
+      </small>
+      <br />
+      <label for="deliveryWithin"
+        >Delivery Within <sup class="danger">*</sup></label
+      >
+      <input
+        pInputText
+        name="deliveryWithin"
+        formControlName="deliveryWithin"
+        placeholder="Leasing Agreement Id"
+        [ngClass]="{
+          'ng-invalid ng-dirty':
+            formGroup.get('deliveryWithin')?.invalid &&
+            formGroup.get('deliveryWithin')?.touched
+        }"
+      />
+
+      <small
+        class="p-error"
+        *ngIf="
+          formGroup.get('deliveryWithin')?.hasError('required') &&
+          formGroup.get('deliveryWithin')?.touched
+        "
+      >
+        Delivery Within is required.
+      </small>
+      <br />
+      <label for="deliveryWithinUnitId">Delivery Within Unit<sup>*</sup></label>
+      <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
+        id="deliveryWithinUnitId"
+        [options]="deliveryWithInUnits"
+        optionLabel="name"
+        placeholder="Select Delivery Within Unit"
+        formControlName="deliveryWithinUnitId"
+        optionValue="id"
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('deliveryWithinUnitId')?.invalid &&
+            (formGroup.get('deliveryWithinUnitId')?.dirty ||
+              formGroup.get('deliveryWithinUnitId')?.touched)
+        }"
+      ></p-select>
+      <div
+        *ngIf="
+          formGroup.get('deliveryWithinUnitId')?.hasError('required') &&
+          formGroup.get('deliveryWithinUnitId')?.touched
+        "
+        class="p-error"
+      >
+        Delivery Within Unit is required.
+      </div>
+      <label for="vendorId">Vendor<sup>*</sup></label>
+      <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
+        id="vendorId"
+        [options]="vendors"
+        optionLabel="name"
+        placeholder="Select Vendor"
+        formControlName="vendorId"
+        optionValue="id"
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('vendorId')?.invalid &&
+            (formGroup.get('vendorId')?.dirty ||
+              formGroup.get('vendorId')?.touched)
+        }"
+      ></p-select>
+      <div
+        *ngIf="
+          formGroup.get('vendorId')?.hasError('required') &&
+          formGroup.get('vendorId')?.touched
+        "
+        class="p-error"
+      >
+        Vendor is required.
+      </div>
       <div class="p-field" for="isActive" *ngIf="editMode">
         <p-toggleSwitch
           id="isActive"

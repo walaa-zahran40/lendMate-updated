@@ -96,6 +96,8 @@ import { LicenseProviderFormComponent } from '../../pages/lookups/forms/license-
 import { AddEvaluationInfoFormComponent } from '../../pages/purchasing/forms/add-evaluation-info-form/add-evaluation-info-form.component';
 import { AddEvaluatorFormComponent } from '../../pages/lookups/forms/add-evaluator-form/add-evaluator-form.component';
 import { AddPurchasingOrderComponent } from '../../pages/purchasing/forms/add-purchasing-order-form/add-purchasing-order-form.component';
+import { FirstClaimStatusFormComponent } from '../../pages/lookups/forms/first-claim-status-form/first-claim-status-form.component';
+import { VendorFormComponent } from '../../pages/lookups/forms/vendor-form/vendor-form.component';
 
 @NgModule({
   declarations: [
@@ -113,6 +115,8 @@ import { AddPurchasingOrderComponent } from '../../pages/purchasing/forms/add-pu
     GlobalSpinnerComponent,
     SharedDatePickerComponent,
     DownloadPopupComponent,
+    VendorFormComponent,
+
     WorkflowDialogComponent,
     AddLegalFormLawsComponent,
     AddLegalFormsComponent,
@@ -148,6 +152,7 @@ import { AddPurchasingOrderComponent } from '../../pages/purchasing/forms/add-pu
     AddEvaluationInfoFormComponent,
     AddEvaluatorFormComponent,
     AddPurchasingOrderComponent,
+    FirstClaimStatusFormComponent,
   ],
   imports: [
     CommonModule,
@@ -251,6 +256,8 @@ import { AddPurchasingOrderComponent } from '../../pages/purchasing/forms/add-pu
     AddClientOnboardingFormComponent,
     AddLicenseInfoFormComponent,
     AddPurchasingOrderComponent,
+    FirstClaimStatusFormComponent,
+    VendorFormComponent,
   ],
 })
 export class ComponentsModule {}

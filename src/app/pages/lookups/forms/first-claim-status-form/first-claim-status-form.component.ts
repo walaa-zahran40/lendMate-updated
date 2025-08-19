@@ -1,16 +1,17 @@
 import {
   Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
   OnInit,
+  OnDestroy,
+  Input,
   Output,
-  SimpleChanges,
+  EventEmitter,
   ViewChild,
+  SimpleChanges,
 } from '@angular/core';
 import { FormGroup, FormArray, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import { FileUpload } from 'primeng/fileupload';
 import {
   Observable,
@@ -23,29 +24,32 @@ import {
   filter,
 } from 'rxjs';
 import { CompanyLegalDetails } from '../../../../shared/interfaces/company-legal-details.interface';
-import { SubSectors } from '../../../../shared/interfaces/sub-sector.interface';
 import { setFormDirty } from '../../../crm/clients/store/client-form/client-form.actions';
 import { LegalFormLawFacade } from '../../../legals/store/legal-form-law/legal-form-law.facade';
-import { LegalFormLaw } from '../../../legals/store/legal-form-laws/legal-form-law.model';
 import { LegalFormsFacade } from '../../../legals/store/legal-forms/legal-forms.facade';
-import { Currency } from '../../../lookups/store/currencies/currency.model';
-import { IdentificationType } from '../../../lookups/store/identification-types/identification-type.model';
-import { Sector } from '../../../lookups/store/sectors/sector.model';
-import { selectAllSectors } from '../../../lookups/store/sectors/sectors.selectors';
-import { selectAllSubSectors } from '../../../lookups/store/sub-sectors/sub-sectors.selectors';
 import { PageOperationGroup } from '../../../organizations/store/page-operations/page-operation-group.model';
+import { Currency } from '../../store/currencies/currency.model';
+import { IdentificationType } from '../../store/identification-types/identification-type.model';
+import { Sector } from '../../store/sectors/sector.model';
+import { selectAllSectors } from '../../store/sectors/sectors.selectors';
+import { SubSector } from '../../store/sub-sectors/sub-sector.model';
+import { selectAllSubSectors } from '../../store/sub-sectors/sub-sectors.selectors';
 
 @Component({
-  selector: 'app-add-purchasing-order-form',
+  selector: 'app-first-claim-status-form',
   standalone: false,
-  templateUrl: './add-purchasing-order-form.component.html',
-  styleUrl: './add-purchasing-order-form.component.scss',
+  templateUrl: './first-claim-status-form.component.html',
+  styleUrl: './first-claim-status-form.component.scss',
 })
-export class AddPurchasingOrderComponent implements OnInit, OnDestroy {
+export class FirstClaimStatusFormComponent implements OnInit, OnDestroy {
   @Input() formGroup: FormGroup = new FormGroup({});
   @Input() viewOnly = false;
   companyLegalDetail: CompanyLegalDetails = {};
   @Output() addIdentity = new EventEmitter<void>();
+  @Output() downloadFile = new EventEmitter<any>();
+  optionLabelKey = 'name';
+  filterByField = 'name';
+
   @Output() removeIdentity = new EventEmitter<number>();
   @Output() onCheckboxChange = new EventEmitter<any>();
   selectedPaymentPeriod: any;
@@ -80,7 +84,7 @@ export class AddPurchasingOrderComponent implements OnInit, OnDestroy {
   @Input() applyReusable: boolean = false;
   @Input() selectedFile!: any;
   @Input() title: string = '';
-  @Input() pageOperationGroups$!: Observable<PageOperationGroup[]>;
+  @Input() pageOperationGroups!: PageOperationGroup[];
 
   @Input() description: string = '';
   @Input() addClientShowMain?: boolean;
@@ -115,12 +119,11 @@ export class AddPurchasingOrderComponent implements OnInit, OnDestroy {
   @Input() governoratesList: any;
   @Input() feeTypes: any;
   @Input() assetTypes: any;
+  @Input() vehicleManufacturers: any;
   @Input() meetingTypes: any;
   @Input() authorizationGroups: any;
   @Input() areasList: any;
   @Input() currencies: any;
-  @Input() deliveryWithInUnits: any;
-  @Input() vendors: any;
   @Input() currencyExchangeRates: any;
   @Input() manualExchangeRates: any;
   @Input() selectedSectorId: number | null = null;
@@ -130,7 +133,6 @@ export class AddPurchasingOrderComponent implements OnInit, OnDestroy {
   @Input() legalFormId: number | null = null;
   @Input() conditionExpressions: any;
   @Input() officersList: any;
-  @Input() firstClaimStatuses: any;
   @Input() clientsList: any;
   @Input() tmlOfficerTypesList: any;
   @Input() clientOfficerTypesList: any;
@@ -244,6 +246,7 @@ export class AddPurchasingOrderComponent implements OnInit, OnDestroy {
   selectedDocuments!: any;
   @Input() documents: any[] = [];
   @ViewChild('fileUploader') fileUploader!: FileUpload;
+  operationField: 'name' | 'nameAR' = 'name';
 
   selectedAreas!: any;
   codes!: any;
@@ -337,6 +340,7 @@ export class AddPurchasingOrderComponent implements OnInit, OnDestroy {
   @Input() paymentMonthDays!: any;
   selectedPaymentMonthDays!: any;
   @Input() paymentMethods!: any;
+  @Input() previewUrl: any;
   selectedPaymentMethods!: any;
   @Input() rentStructures!: any;
   selectedRentStructures!: any;
@@ -440,7 +444,7 @@ export class AddPurchasingOrderComponent implements OnInit, OnDestroy {
   //inputs
   @Input() titleIndividual!: string;
   @Input() descriptionIndividual!: string;
-  @Input() addClientAddressesLookupsForm!: boolean;
+  @Input() addVehicleModelsLookupsForm!: boolean;
   @Input() clientOnboardingCompanyShowMain!: boolean;
   @Input() clientOnboardingIndividualShowMain!: boolean;
   @Input() addCRAuthorityOfficeShowMain!: boolean;
@@ -448,7 +452,6 @@ export class AddPurchasingOrderComponent implements OnInit, OnDestroy {
   @Input() addSalesShowMain!: boolean;
   @Input() addPhoneNumbersShowMain!: boolean;
   @Input() addClientPhoneNumberForm!: boolean;
-  @Input() addPurchasingOrdersForm!: boolean;
   @Input() addClientIdentityForm!: boolean;
   @Input() addClientContactPersonForm!: boolean;
   @Input() addContactPersonShowMain!: boolean;
@@ -495,11 +498,12 @@ export class AddPurchasingOrderComponent implements OnInit, OnDestroy {
   @Input() addMeetingShowOfficersForm!: boolean;
   @Input() addMeetingShowBasicForm!: boolean;
   @Input() addCallShowBusinessInformationForm!: boolean;
+  @Input() addMandateFeeForm!: boolean;
   @Input() addCallShowContactPersonsForm!: boolean;
   @Input() addCallShowOfficersForm!: boolean;
   @Input() addCallShowBasicForm!: boolean;
   @Input() addFollowupsForm!: boolean;
-  @Input() addFollowUpsPointsCommunicationForm!: boolean;
+  @Input() addFollowupPointsForm!: boolean;
   @Input() addMeetingTypesCommunicationForm!: boolean;
   @Input() addFollowUpTypesCommunicationForm!: boolean;
   @Input() addCallTypesCommunicationForm!: boolean;
@@ -530,13 +534,15 @@ export class AddPurchasingOrderComponent implements OnInit, OnDestroy {
   @Input() addActionAuthorizationGroupForm!: boolean;
   @Input() addActionNotificationGroupForm!: boolean;
   @Input() addCallForm!: boolean;
-
+  @Input() show: boolean = false;
+  @Input() editShow: boolean = false;
   currencyIdParam: any;
   branchIdParam: any;
   departmentIdParam: any;
   teamIdParam: any;
   clientIdParam: any;
   communicationIdParam: any;
+  followupIdParam: any;
   clientStatusActionIdParam: any;
   mandateStatusActionIdParam: any;
   @Input() addPaymentTypesLookupsForm!: boolean;
@@ -561,7 +567,9 @@ export class AddPurchasingOrderComponent implements OnInit, OnDestroy {
   @Input() addStatusActionsLookupsForm!: boolean;
   @Input() addSMEClientCodeLookupsForm!: boolean;
   @Input() addSubSectorsLookupsForm!: boolean;
+  @Input() firstClaimStatuses!: any;
   @Input() addClientTypesLookupsForm!: boolean;
+  @Input() addFirstClaimStatusesForm!: boolean;
   @Input() addAuthorityOfficesLookupsForm!: boolean;
   @Input() addPhoneTypesLookupsForm!: boolean;
   @Input() addAddressTypesLookupsForm!: boolean;
@@ -598,11 +606,11 @@ export class AddPurchasingOrderComponent implements OnInit, OnDestroy {
 
   @Input() currentClientId?: number;
 
-  filteredSubSectors$!: Observable<SubSectors[]>;
+  filteredSubSectors$!: Observable<SubSector[]>;
   @Input() operationName!: string;
   clientStatusIdParam!: any;
   mandateStatusIdParam!: any;
-  legalFormLaws$: Observable<LegalFormLaw[]> = this.facade.legalFormLaws$;
+  legalFormLaws$: Observable<any[]> = this.facade.legalFormLaws$;
   legalForms$ = this.facadeLegalForms.items$;
 
   // legalForms$ = this.facadeLegalForms.legalForms$;
@@ -627,6 +635,7 @@ export class AddPurchasingOrderComponent implements OnInit, OnDestroy {
   @Input() addClientGuarantorsLookupsForm!: boolean;
   routeId = this.route.snapshot.params['leasingId'];
   leasingRouteId = this.route.snapshot.params['leasingMandatesId'];
+  communicationId = this.route.snapshot.params['communicationId'];
 
   @Input() operationIdValue!: any;
   clientDocId!: any;
@@ -636,16 +645,37 @@ export class AddPurchasingOrderComponent implements OnInit, OnDestroy {
     private facade: LegalFormLawFacade,
     private facadeLegalForms: LegalFormsFacade,
     private route: ActivatedRoute,
-    public router: Router
-  ) {}
+    public router: Router,
+    private translate: TranslateService
+  ) {
+    this.setOptionLabelKey(this.translate.currentLang);
+    this.setFilterByBasedOnLanguage();
+    this.setOperationBasedOnLanguage();
+    this.translate.onLangChange.subscribe((event) => {
+      this.setOptionLabelKey(event.lang);
+      this.setFilterByBasedOnLanguage();
+      this.setOperationBasedOnLanguage();
+    });
+  }
 
   ngOnInit() {
+    console.log('route', this.route.snapshot);
+
+    console.log('💡 pageOperationGroups input:', this.pageOperationGroups);
+
+    this.formGroup
+      .get('currencyExchangeRateId')
+      ?.valueChanges.subscribe((v) =>
+        console.log('🧩 child control valueChanges →', v)
+      );
+
     this.minDateOfBirth.setFullYear(this.minDateOfBirth.getFullYear() - 100);
     // 18 years ago:
     this.maxDateOfBirth.setFullYear(this.maxDateOfBirth.getFullYear() - 18);
     this.id = this.route.snapshot.paramMap.get('clientId')!;
-    this.communicationIdParam =
-      this.route.snapshot.paramMap.get('communicationId')!;
+    this.communicationIdParam = this.route.snapshot.params['communicationId'];
+    this.followupIdParam = this.route.snapshot.queryParams['followupId'];
+
     this.clientDocId = this.route.snapshot.params['clientId'];
     this.clientId = this.route.snapshot.queryParams['clientId']!;
     this.currencyIdParam = this.route.snapshot.queryParams['currencyId'];
@@ -695,10 +725,15 @@ export class AddPurchasingOrderComponent implements OnInit, OnDestroy {
         this.facadeLegalForms.loadAll();
       }
     }
+
     // Combine sectorId changes with all sub-sectors
   }
   ngOnDestroy() {
     this.sub.unsubscribe();
+  }
+  private setFilterByBasedOnLanguage(): void {
+    this.filterByField =
+      this.translate.currentLang === 'ar' ? 'nameAR' : 'name';
   }
 
   get identities(): FormArray {
@@ -718,6 +753,12 @@ export class AddPurchasingOrderComponent implements OnInit, OnDestroy {
   }
   get mandateGracePeriodSettingView(): FormGroup {
     return this.formGroup.get('mandateGracePeriodSettingView') as FormGroup;
+  }
+  onDownloadClick() {
+    this.downloadFile.emit(); // ✅ this is correct
+  }
+  private setOptionLabelKey(lang: string) {
+    this.optionLabelKey = lang === 'ar' ? 'nameAR' : 'name';
   }
   onSectorChange(event: any) {
     const selectedId = event.value;
@@ -775,8 +816,14 @@ export class AddPurchasingOrderComponent implements OnInit, OnDestroy {
     this.companyLegalDetail.legalFormId = event?.id;
     console.log('Legal Form selected:', event?.id);
   }
-  viewAddress() {
-    this.router.navigate(['/crm/clients/view-address']);
+  viewFirstClaimStatuses() {
+    this.router.navigate(['/lookups/view-first-claim-statuses']);
+  }
+
+  viewMandateFees() {
+    this.router.navigate([
+      `/crm/leasing-mandates/view-mandate-fees/${this.routeId}/${this.leasingRouteId}`,
+    ]);
   }
   viewCentralBankInfo() {
     this.router.navigate([
@@ -974,6 +1021,7 @@ export class AddPurchasingOrderComponent implements OnInit, OnDestroy {
   viewFollowupTypes() {
     this.router.navigate(['/lookups/view-followup-types']);
   }
+
   viewOfficers() {
     this.router.navigate(['/organizations/view-officers']);
   }
@@ -983,13 +1031,19 @@ export class AddPurchasingOrderComponent implements OnInit, OnDestroy {
       this.viewContactPersons.emit(this.currentClientId);
     }
   }
-  viewFollowUpsPoint() {
-    this.router.navigate(['/communication/view-followup-points']);
-  }
+
   viewFollowUps() {
-    console.log(this.communicationIdParam);
+    console.log('follow up clicked   ', this.communicationIdParam);
     this.router.navigate([
-      `/communication/view-follow-ups/{this.communicationIdParam}`,
+      `/communication/view-follow-ups/${this.communicationIdParam}`,
+    ]);
+  }
+
+  viewFollowUpPoints() {
+    console.log('follow up clicked   ', this.communicationIdParam);
+    console.log('follow up clicked   ', this.followupIdParam);
+    this.router.navigate([
+      `/communication/view-follow-up-points/${this.followupIdParam}/${this.communicationIdParam}`,
     ]);
   }
   viewAssestType() {
@@ -1000,6 +1054,9 @@ export class AddPurchasingOrderComponent implements OnInit, OnDestroy {
   }
   viewLegalFormLaw() {
     this.router.navigate(['/legals/view-legal-form-laws']);
+  }
+  viewVehicleModels() {
+    this.router.navigate(['/lookups/view-vehicle-models']);
   }
   viewLegalForm() {
     this.router.navigate(['/legals/view-legal-forms']);
@@ -1055,9 +1112,9 @@ export class AddPurchasingOrderComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-payment-types']);
   }
   viewDocumentDetails(): void {
-    this.router.navigate(['/crm/clients/view-upload-documents'], {
-      queryParams: { id: this.id },
-    });
+    this.router.navigate([
+      `/crm/clients/view-upload-documents/${this.clientDocId}`,
+    ]);
   }
   viewAssetTypes() {
     this.router.navigate(['/lookups/view-asset-types']);
@@ -1163,9 +1220,9 @@ export class AddPurchasingOrderComponent implements OnInit, OnDestroy {
   viewWorkFlowActionTypes() {
     this.router.navigate(['/lookups/view-workflow-action-types']);
   }
-  viewPurchasingOrders() {
+  viewClientGuarantors() {
     this.router.navigate([
-      '/purchasing/purchasing-orders/view-purchasing-orders',
+      `/crm/clients/view-client-guarantors/${this.clientIdParam}`,
     ]);
   }
   onSubSectorChange(event: any): void {
@@ -1181,13 +1238,22 @@ export class AddPurchasingOrderComponent implements OnInit, OnDestroy {
   //   this.onTouched();
   //   this.selectionChanged.emit(value);
   // }
-  onFileSelected(event: any): void {
-    const file = event.files?.[0];
-    if (file) {
-      console.log('[FormComponent] File selected:', file);
-      this.formGroup.patchValue({ file });
-      this.formGroup.get('file')?.updateValueAndValidity();
+  onFileSelected(event: any) {
+    const file: File = event.files?.[0] ?? event.target?.files?.[0];
+    if (!file) {
+      this.formGroup.patchValue({ file: null });
+      this.onFileSelect.emit(null);
+      return;
     }
+
+    this.formGroup.patchValue({ file });
+    this.onFileSelect.emit(file);
+  }
+
+  onFileRemoved(event: any): void {
+    // reset the form control
+    this.formGroup.patchValue({ file: null });
+    this.formGroup.get('file')!.updateValueAndValidity();
   }
   onAddClick() {
     if (
@@ -1278,19 +1344,15 @@ export class AddPurchasingOrderComponent implements OnInit, OnDestroy {
     this.onChange(this.selectedCurrency);
     console.log('Selected Currency:', this.selectedCurrency);
   }
-  onCurrencyExchangeRateChange(event: any) {
+  onCurrencyExchangeRateChange(event: { originalEvent: Event; value: any }) {
     this.selectedCurrencyExchangeRate = event.value;
-
-    console.log('event', event);
     this.selectionChangedCurrencyExchange.emit(
       this.selectedCurrencyExchangeRate
     );
     this.onChange(this.selectedCurrencyExchangeRate);
-    console.log(
-      'Selected Currency Exchange Rate:',
-      this.selectedCurrencyExchangeRate
-    );
+    console.log('Selected Currency:', this.selectedCurrencyExchangeRate);
   }
+
   onInterestRateBenchmarkChange(event: { originalEvent: Event; value: any }) {
     // event.value === the primitive ID (e.g. 10)
     const selectedId = event.value;
@@ -1364,5 +1426,31 @@ export class AddPurchasingOrderComponent implements OnInit, OnDestroy {
       this.onChange(fullObj);
     }
     console.log('Selected selectionChangedPaymentMonthDay:', fullObj);
+  }
+  onSelect(event: any) {
+    console.log('[AppForm] p-select onChange event →', event);
+    console.log(
+      '[AppForm] before emit, control is →',
+      this.formGroup.get('currencyExchangeRateId')!.value
+    );
+    this.selectionChangedCurrencyExchange.emit(event);
+    console.log(
+      '[AppForm] after emit, control is →',
+      this.formGroup.get('currencyExchangeRateId')!.value
+    );
+  }
+
+  private setOperationBasedOnLanguage(): void {
+    this.operationField =
+      this.translate.currentLang === 'ar' ? 'nameAR' : 'name';
+  }
+  getLocalizedName(obj?: any): string {
+    if (!obj) return '';
+    return this.translate.currentLang === 'ar'
+      ? obj.nameAR ?? obj.name
+      : obj.name;
+  }
+  onNgModelChange(value: number) {
+    console.log('📊 [ngModelChange] selectedCurrencyExchangeRate →', value);
   }
 }

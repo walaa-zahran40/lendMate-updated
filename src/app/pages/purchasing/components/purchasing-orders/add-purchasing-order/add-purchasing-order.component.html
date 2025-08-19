@@ -19,6 +19,10 @@
         [addPurchasingOrdersForm]="true"
         [formGroup]="addPurchasingOrdersForm"
         (submitForm)="addOrEditPurchasingOrder()"
+        [firstClaimStatuses]="firstClaimStatuses$ | async"
+        [currencies]="currencies$ | async"
+        [deliveryWithInUnits]="deliveryWithInUnits$ | async"
+        [vendors]="vendors$ | async"
         [editMode]="editMode"
         [viewOnly]="viewOnly"
       ></app-add-purchasing-order-form>

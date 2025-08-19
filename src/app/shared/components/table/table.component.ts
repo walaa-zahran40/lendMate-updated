@@ -33,6 +33,7 @@ export class TableComponent {
   @Input() tableData: any;
   @Input() cols: any[] = [];
   public selectedRows: any[] = [];
+  @Input() viewVendorsTable!: any;
   @Input() col1Name!: string;
   @Input() col2Name!: string;
   @Input() col3Name!: string;

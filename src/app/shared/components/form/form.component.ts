@@ -108,6 +108,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() sectorsList: any;
   @Input() businessLinesList: any;
   @Input() departments: any;
+  @Input() subSectorsData: any;
   @Input() subSectorsList: any[] = [];
   @Input() countriesList: any;
   @Input() addressTypesList: any;

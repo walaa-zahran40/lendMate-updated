@@ -130,6 +130,10 @@ import { AddLicenseProviderComponent } from './components/license-providers/add-
 import { ViewLicenseProvidersComponent } from './components/license-providers/view-license-providers/view-license-providers.component';
 import { AddEvaluatorComponent } from './components/evaluators/add-evaluator/add-evaluator.component';
 import { ViewEvaluatorsComponent } from './components/evaluators/view-evaluators/view-evaluators.component';
+import { AddFirstClaimStatusComponent } from './components/first-claim-status/add-first-claim-status/add-first-claim-status.component';
+import { ViewFirstClaimStatusesComponent } from './components/first-claim-status/view-first-claim-statuses/view-first-claim-statuses.component';
+import { ViewVendorsComponent } from './components/vendors/view-vendors/view-vendors.component';
+import { AddVendorComponent } from './components/vendors/add-vendor/add-vendor.component';
 
 const routes: Routes = [
   /**Lookup Module */
@@ -175,6 +179,34 @@ const routes: Routes = [
   {
     path: 'view-evaluators',
     component: ViewEvaluatorsComponent,
+  },
+  //First Claim Statuses
+  {
+    path: 'add-first-claim-status',
+    component: AddFirstClaimStatusComponent,
+  },
+  {
+    path: 'edit-first-claim-status/:id',
+    component: AddFirstClaimStatusComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
+  {
+    path: 'view-first-claim-statuses',
+    component: ViewFirstClaimStatusesComponent,
+  },
+  //Vendors
+  {
+    path: 'add-vendor',
+    component: AddVendorComponent,
+  },
+  {
+    path: 'edit-vendor/:id',
+    component: AddVendorComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
+  {
+    path: 'view-vendors',
+    component: ViewVendorsComponent,
   },
   //Vehicle Models
   {

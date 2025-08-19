@@ -263,6 +263,14 @@ import { EvaluatorsEffects } from './store/evaluators/evaluators.effects';
 import { evaluatorsReducer } from './store/evaluators/evaluators.reducer';
 import { AddEvaluatorComponent } from './components/evaluators/add-evaluator/add-evaluator.component';
 import { ViewEvaluatorsComponent } from './components/evaluators/view-evaluators/view-evaluators.component';
+import { AddFirstClaimStatusComponent } from './components/first-claim-status/add-first-claim-status/add-first-claim-status.component';
+import { ViewFirstClaimStatusesComponent } from './components/first-claim-status/view-first-claim-statuses/view-first-claim-statuses.component';
+import { FirstClaimStatusesEffects } from './store/first-claim-statuses/first-claim-statuses.effects';
+import { reducer as firstClaimStatusesReducer } from './store/first-claim-statuses/first-claim-statuses.reducer';
+import { AddVendorComponent } from './components/vendors/add-vendor/add-vendor.component';
+import { ViewVendorsComponent } from './components/vendors/view-vendors/view-vendors.component';
+import { VendorsEffects } from './store/vendors/vendors.effects';
+import { reducer as vendorsReducer } from './store/vendors/vendors.reducer';
 
 @NgModule({
   declarations: [
@@ -401,6 +409,10 @@ import { ViewEvaluatorsComponent } from './components/evaluators/view-evaluators
     ViewLicenseProvidersComponent,
     AddEvaluatorComponent,
     ViewEvaluatorsComponent,
+    AddFirstClaimStatusComponent,
+    ViewFirstClaimStatusesComponent,
+    AddVendorComponent,
+    ViewVendorsComponent,
   ],
   imports: [
     CommonModule,
@@ -565,6 +577,10 @@ import { ViewEvaluatorsComponent } from './components/evaluators/view-evaluators
     StoreModule.forFeature('licenseProviders', licenseProvidersReducer),
     EffectsModule.forFeature([EvaluatorsEffects]),
     StoreModule.forFeature('evaluators', evaluatorsReducer),
+    EffectsModule.forFeature([FirstClaimStatusesEffects]),
+    StoreModule.forFeature('firstClaimStatuses', firstClaimStatusesReducer),
+    EffectsModule.forFeature([VendorsEffects]),
+    StoreModule.forFeature('vendors', vendorsReducer),
   ],
   exports: [
     AddMandateStatusesComponent,
@@ -625,6 +641,8 @@ import { ViewEvaluatorsComponent } from './components/evaluators/view-evaluators
     AddLicenseTypeComponent,
     AddLicenseProviderComponent,
     ViewLicenseProvidersComponent,
+    AddFirstClaimStatusComponent,
+    ViewFirstClaimStatusesComponent,
   ],
 })
 export class LookupsModule {}

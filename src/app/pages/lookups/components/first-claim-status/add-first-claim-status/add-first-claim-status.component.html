@@ -1,0 +1,15 @@
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-first-claim-status-form
+        [title]="'First Claim Status'"
+        [description]="'First Claim Status Description'"
+        [addFirstClaimStatusesForm]="true"
+        [formGroup]="addFirstClaimStatusesForm"
+        (submitForm)="addOrEditFirstClaimStatus()"
+        [editMode]="editMode"
+        [viewOnly]="viewOnly"
+      ></app-first-claim-status-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

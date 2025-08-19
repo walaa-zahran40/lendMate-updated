@@ -69,12 +69,12 @@ export class SideMenuComponent {
       permission: '/LeasingMandates/GetAll',
     },
 
-    {
-      id: 'Assets',
-      icon: 'pi pi-ico6',
-      i18nKey: 'MENU.ASSETS',
-      permission: '/LeasingMandates/GetAll',
-    },
+    // {
+    //   id: 'Assets',
+    //   icon: 'pi pi-ico6',
+    //   i18nKey: 'MENU.ASSETS',
+    //   permission: '/LeasingMandates/GetAll',
+    // },
 
     {
       id: 'Settings',
@@ -539,13 +539,13 @@ export class SideMenuComponent {
         routerLink: '/contracts/view-contracts',
       },
     ],
-    Assets: [
-      {
-        i18nKey: 'ASSETS.ASSETS',
-        icon: 'pi pi-users',
-        routerLink: '/purchasing/assets/view-assets',
-      },
-    ],
+    // Assets: [
+    //   {
+    //     i18nKey: 'ASSETS.ASSETS',
+    //     icon: 'pi pi-users',
+    //     routerLink: '/purchasing/assets/view-assets',
+    //   },
+    // ],
     // Orders: [
     //   {
     //     label: 'Leasing',
@@ -910,6 +910,12 @@ export class SideMenuComponent {
             routerLink: '/lookups/view-evaluators',
           },
           {
+            i18nKey: 'LOOKUPS.FIRST_CLAIM_STATUSES',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-first-claim-statuses',
+            permission: '/FollowUpTypes/GetAll',
+          },
+          {
             i18nKey: 'LOOKUPS.FOLLOWUP_TYPES',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-followup-types',
@@ -1080,6 +1086,12 @@ export class SideMenuComponent {
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-vehicle-manufacturers',
             permission: '/CRAuthorityOffices/GetAll',
+          },
+          {
+            i18nKey: 'LOOKUPS.VENDORS',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-vendors',
+            permission: '/FollowUpTypes/GetAll',
           },
           {
             i18nKey: 'LOOKUPS.WORKFLOW_ACTION_TYPES',

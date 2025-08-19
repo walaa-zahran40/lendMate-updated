@@ -76,6 +76,7 @@
   "LOOKUPS": {
     "BUSINESS_LINES": "Business Lines",
     "PRODUCTS": "Products",
+    "VENDORS": "Vendors",
     "SECTORS": "Sectors",
     "SUB_SECTORS": "Sub Sectors",
     "ADDRESS_TYPES": "Address Types",
@@ -97,6 +98,7 @@
     "CURRENCIES": "Currencies",
     "DOCUMENT_TYPES": "Document Types",
     "EVALUATORS": "Evaluators",
+    "FIRST_CLAIM_STATUSES": "First Claim Statuses",
     "FOLLOWUP_TYPES": "Follow Up Types",
     "GOVERNORATES": "Governorates",
     "ID_TYPES": "Identification Types",
@@ -492,7 +494,7 @@
     "CLOSE": "Close",
     "ADD_BRANCH_OFFICER": "Add Branch Officer",
     "EDIT_BRANCH_OFFICER": "Edit Branch Officer",
-
+    "VIEW_FIRST_CLAIM_STATUSES": "View First Claim Statuses",
     "ADD_NOTIFICATION_GROUP_OFFICER": "Add Notification Group Officer",
     "EDIT_NOTIFICATION_GROUP_OFFICER": "Edit Notification Group Officer",
     "ADD_SME_CLIENT_CODE": "Add SME Client Code",
@@ -881,7 +883,10 @@
       "PLACEHOLDER_INSURED_BY": "Select Insured By",
       "ERROR_INSURED_BY_REQUIRED": "Insured By is required."
     },
-
+    "FIRST_CLAIM_STATUSES": {
+      "BUTTON_ADD": "Add First Claim Status",
+      "BUTTON_EDIT": "Edit First Claim Status"
+    },
     "SHARE_HOLDER": {
       "LABEL_NAME": "Share Holder Name",
       "PLACEHOLDER_SELECT_NAME": "Select Share Holder",

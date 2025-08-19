@@ -1,14 +1,13 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { filter, Observable, take } from 'rxjs';
+import { filter, take } from 'rxjs';
 import { arabicOnlyValidator } from '../../../../../shared/validators/arabic-only.validator';
 import { FeeTypesFacade } from '../../../store/fee-types/fee-types.facade';
 import { Store } from '@ngrx/store';
 import { FeeType } from '../../../store/fee-types/fee-type.model';
 import { loadAll } from '../../../store/fee-calculation-types/fee-calculation-types.actions';
 import { selectAllFeeCalculationTypes } from '../../../store/fee-calculation-types/fee-calculation-types.selectors';
-import { FeeCalculationTypesFacade } from '../../../store/fee-calculation-types/fee-calculation-types.facade';
 
 @Component({
   selector: 'app-add-fee-types',
