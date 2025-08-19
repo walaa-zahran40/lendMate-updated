@@ -1,1 +1,31 @@
-<p>add-vendor-address works!</p>
+<app-toolbar-form
+  [header]="
+    viewOnly
+      ? 'View Vendor Address'
+      : editMode
+      ? 'Edit Vendor Address'
+      : 'Add Vendor Address'
+  "
+  [backExists]="true"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-vendor-address-form
+        *ngIf="addVendorAddressesLookupsForm"
+        [title]="'Vendor Address Title'"
+        [description]="'Vendor Address Description'"
+        [formGroup]="addVendorAddressesLookupsForm"
+        [addVendorAddressesLookupsForm]="true"
+        [editMode]="editMode"
+        [vendors]="vendors$ | async"
+        [addressTypes]="addressTypes$ | async"
+        [areas]="areas$ | async"
+        (submitForm)="addOrEditVendorAddresses()"
+        [viewOnly]="viewOnly"
+      ></app-vendor-address-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

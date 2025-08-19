@@ -98,6 +98,7 @@ import { AddEvaluatorFormComponent } from '../../pages/lookups/forms/add-evaluat
 import { AddPurchasingOrderComponent } from '../../pages/purchasing/forms/add-purchasing-order-form/add-purchasing-order-form.component';
 import { FirstClaimStatusFormComponent } from '../../pages/lookups/forms/first-claim-status-form/first-claim-status-form.component';
 import { VendorFormComponent } from '../../pages/lookups/forms/vendor-form/vendor-form.component';
+import { VendorAddressFormComponent } from '../../pages/lookups/forms/vendor-address-form/vendor-address-form.component';
 
 @NgModule({
   declarations: [
@@ -143,6 +144,7 @@ import { VendorFormComponent } from '../../pages/lookups/forms/vendor-form/vendo
     AddClientTmlOfficersFormComponent,
     AddClientUploadDocumentsFormComponent,
     AddClientFormComponent,
+    VendorAddressFormComponent,
     AddClientOnboardingFormComponent,
     VehicleManufacturerFormComponent,
     VehicleModelFormComponent,
@@ -210,6 +212,7 @@ import { VendorFormComponent } from '../../pages/lookups/forms/vendor-form/vendo
     LicenseProviderFormComponent,
     AddEvaluatorFormComponent,
     TableComponent,
+    VendorAddressFormComponent,
     ToolbarFormComponent,
     AddEvaluationInfoFormComponent,
     AddAssetFormComponent,
