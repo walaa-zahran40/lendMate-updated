@@ -10,8 +10,8 @@ import {
   forkJoin,
 } from 'rxjs';
 import { TableComponent } from '../../../../../../../../../shared/components/table/table.component';
-import { TaxOffice } from '../../../../../../../../lookups/store/tax_offices/tax_office.model';
-import { selectAllTaxOffices } from '../../../../../../../../lookups/store/tax_offices/tax_offices.selectors';
+import { TaxOffice } from '../../../../../../../../lookups/store/tax-offices/tax-office.model';
+import { selectAllTaxOffices } from '../../../../../../../../lookups/store/tax-offices/tax-offices.selectors';
 import { loadAll } from '../../../../../../store/client-identity-types/client-identity-types.actions';
 import { ClientTaxOfficesFacade } from '../../../../../../store/client-tax-office/client-tax-office.facade';
 import { ClientTaxOffice } from '../../../../../../store/client-tax-office/client-tax-office.model';

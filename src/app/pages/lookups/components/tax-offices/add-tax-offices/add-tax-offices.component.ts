@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TaxOfficesFacade } from '../../../store/tax_offices/tax_offices.facade';
+import { TaxOfficesFacade } from '../../../store/tax-offices/tax-offices.facade';
 import { filter, Observable, take } from 'rxjs';
 import { arabicOnlyValidator } from '../../../../../shared/validators/arabic-only.validator';
-import { TaxOffice } from '../../../store/tax_offices/tax_office.model';
+import { TaxOffice } from '../../../store/tax-offices/tax-office.model';
 import { Governorate } from '../../../store/governorates/governorate.model';
 import { Store } from '@ngrx/store';
 import { loadAll } from '../../../store/governorates/governorates.actions';

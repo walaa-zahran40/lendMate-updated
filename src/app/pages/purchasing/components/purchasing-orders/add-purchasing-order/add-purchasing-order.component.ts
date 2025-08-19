@@ -52,6 +52,7 @@ export class AddPurchasingOrderComponent {
       deliveryWithin: [0, [Validators.required]],
       deliveryWithinUnitId: ['', [Validators.required]],
       vendorId: ['', [Validators.required]],
+      vendorAddressId: ['', [Validators.required]],
       isActive: [true],
     });
     this.firstClaimFacade.loadAll();

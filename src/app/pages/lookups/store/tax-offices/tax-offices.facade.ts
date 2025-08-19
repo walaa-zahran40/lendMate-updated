@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { createSelector, Store } from '@ngrx/store';
-import * as Actions from './tax_offices.actions';
-import * as Selectors from './tax_offices.selectors';
-import { TaxOffice } from './tax_office.model';
+import * as Actions from './tax-offices.actions';
+import * as Selectors from './tax-offices.selectors';
+import { TaxOffice } from './tax-office.model';
 import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
 
 @Injectable({ providedIn: 'root' })

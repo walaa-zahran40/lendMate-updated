@@ -1,46 +1,44 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
-import { TaxOffice } from './tax_office.model';
+import { VendorAddress } from './vendor-address.model';
 import { environment } from '../../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
-export class TaxOfficesService {
-  private baseUrl = `${environment.apiUrl}TaxOffices`;
+export class VendorAddressesService {
+  private baseUrl = `${environment.apiUrl}VendorAddresses`;
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<TaxOffice[]> {
+  getAll(): Observable<VendorAddress[]> {
     console.log('🚀 Service: calling GET …');
     return this.http
-      .get<{ items: TaxOffice[]; totalCount: number }>(
-        `${this.baseUrl}/GetAllTaxOffices`
+      .get<{ items: VendorAddress[]; totalCount: number }>(
+        `${this.baseUrl}/GetAllVendorAddresses`
       )
       .pipe(
         tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
         tap((items) => console.log('🚀 Mapped items:', items)),
         catchError((err) => {
-          console.error('🚀 HTTP error fetching TaxOffices:', err);
+          console.error('🚀 HTTP error fetching VendorAddresses:', err);
           return throwError(() => err);
         })
       );
   }
 
-  getById(id: number): Observable<TaxOffice> {
-    return this.http.get<TaxOffice>(
-      `${this.baseUrl}/TaxOfficeId?taxOfficeId=${id}`
-    );
+  getById(id: number): Observable<VendorAddress> {
+    return this.http.get<VendorAddress>(`${this.baseUrl}/id?id=${id}`);
   }
 
-  create(payload: Omit<TaxOffice, 'id'>): Observable<TaxOffice> {
-    return this.http.post<TaxOffice>(
-      `${this.baseUrl}/CreateTaxOffice`,
+  create(payload: Omit<VendorAddress, 'id'>): Observable<VendorAddress> {
+    return this.http.post<VendorAddress>(
+      `${this.baseUrl}/CreateVendorAddress`,
       payload
     );
   }
 
-  update(id: number, changes: Partial<TaxOffice>): Observable<void> {
+  update(id: number, changes: Partial<VendorAddress>): Observable<void> {
     return this.http.put<void>(`${this.baseUrl}/${id}`, changes);
   }
 
@@ -48,18 +46,18 @@ export class TaxOfficesService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
   //History management
-  getAllHistory(): Observable<TaxOffice[]> {
+  getAllHistory(): Observable<VendorAddress[]> {
     console.log('🚀 Service: calling GET …');
     return this.http
-      .get<{ items: TaxOffice[]; totalCount: number }>(
-        `${this.baseUrl}/GetAllTaxOfficesHistory`
+      .get<{ items: VendorAddress[]; totalCount: number }>(
+        `${this.baseUrl}/GetAllVendorAddressesHistory`
       )
       .pipe(
         tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
         tap((items) => console.log('🚀 Mapped items:', items)),
         catchError((err) => {
-          console.error('🚀 HTTP error fetching TaxOffices:', err);
+          console.error('🚀 HTTP error fetching VendorAddresses:', err);
           return throwError(() => err);
         })
       );

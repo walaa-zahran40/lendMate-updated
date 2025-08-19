@@ -1,70 +1,70 @@
 import { createAction, props } from '@ngrx/store';
-import { TaxOffice } from './tax_office.model';
+import { VendorAddress } from './vendor-address.model';
 
 export const loadAll = createAction(
-  '[TaxOffices] Load All',
+  '[VendorAddresses] Load All',
   props<{ pageNumber?: number }>()
 );
 export const loadAllSuccess = createAction(
-  '[TaxOffices] Load All Success',
-  props<{ result: TaxOffice[] }>()
+  '[VendorAddresses] Load All Success',
+  props<{ result: VendorAddress[] }>()
 );
 
 export const loadAllFailure = createAction(
-  '[TaxOffices] Load All Failure',
+  '[VendorAddresses] Load All Failure',
   props<{ error: any }>()
 );
 
 export const loadById = createAction(
-  '[TaxOffices] Load By Id',
+  '[VendorAddresses] Load By Id',
   props<{ id: number }>()
 );
 export const loadByIdSuccess = createAction(
-  '[TaxOffices] Load By Id Success',
-  props<{ entity: TaxOffice }>()
+  '[VendorAddresses] Load By Id Success',
+  props<{ entity: VendorAddress }>()
 );
 export const loadByIdFailure = createAction(
-  '[TaxOffices] Load By Id Failure',
+  '[VendorAddresses] Load By Id Failure',
   props<{ error: any }>()
 );
 
 export const createEntity = createAction(
-  '[TaxOffices] Create',
+  '[VendorAddresses] Create',
   // allow all fields except id, but all optional
-  props<{ payload: Partial<Omit<TaxOffice, 'id'>> }>()
+  props<{ payload: Partial<Omit<VendorAddress, 'id'>> }>()
 );
 export const createEntitySuccess = createAction(
-  '[TaxOffices] Create Success',
-  props<{ entity: TaxOffice }>()
+  '[VendorAddresses] Create Success',
+  props<{ entity: VendorAddress }>()
 );
 export const createEntityFailure = createAction(
-  '[TaxOffices] Create Failure',
+  '[VendorAddresses] Create Failure',
   props<{ error: any }>()
 );
 
 export const updateEntity = createAction(
-  '[TaxOffices] Update',
-  props<{ id: number; changes: Partial<TaxOffice> }>()
+  '[VendorAddresses] Update',
+  props<{ id: number; changes: Partial<VendorAddress> }>()
 );
 export const updateEntitySuccess = createAction(
-  '[TaxOffices] Update Success',
-  props<{ id: number; changes: Partial<TaxOffice> }>()
+  '[VendorAddresses] Update Success',
+  props<{ id: number; changes: Partial<VendorAddress> }>()
 );
 export const updateEntityFailure = createAction(
-  '[TaxOffices] Update Failure',
+  '[VendorAddresses] Update Failure',
   props<{ error: any }>()
 );
 
 export const deleteEntity = createAction(
-  '[TaxOffices] Delete',
+  '[VendorAddresses] Delete',
   props<{ id: number }>()
 );
 export const deleteEntitySuccess = createAction(
-  '[TaxOffices] Delete Success',
+  '[VendorAddresses] Delete Success',
   props<{ id: number }>()
 );
 export const deleteEntityFailure = createAction(
-  '[TaxOffices] Delete Failure',
+  '[VendorAddresses] Delete Failure',
   props<{ error: any }>()
 );
 export const entityOperationSuccess = createAction(
@@ -72,16 +72,16 @@ export const entityOperationSuccess = createAction(
   props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
 );
 //History actions
-export const loadTaxOfficeHistory = createAction(
-  '[TaxOffice/API] Load TaxOffice History'
+export const loadVendorAddressHistory = createAction(
+  '[VendorAddress/API] Load VendorAddress History'
 );
 
-export const loadTaxOfficeHistorySuccess = createAction(
-  '[TaxOffice/API] Load TaxOffice History Success',
-  props<{ history: TaxOffice[] }>()
+export const loadVendorAddressHistorySuccess = createAction(
+  '[VendorAddress/API] Load VendorAddress History Success',
+  props<{ history: VendorAddress[] }>()
 );
 
-export const loadTaxOfficeHistoryFailure = createAction(
-  '[TaxOffice/API] Load CompanyFlowType History Failure',
+export const loadVendorAddressHistoryFailure = createAction(
+  '[VendorAddress/API] Load CompanyFlowType History Failure',
   props<{ error: any }>()
 );

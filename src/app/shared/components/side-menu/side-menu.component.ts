@@ -1094,6 +1094,12 @@ export class SideMenuComponent {
             permission: '/FollowUpTypes/GetAll',
           },
           {
+            i18nKey: 'Vendor Addresses',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-vendor-addresses',
+            permission: '/FollowUpTypes/GetAll',
+          },
+          {
             i18nKey: 'LOOKUPS.WORKFLOW_ACTION_TYPES',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-workflow-action-types',

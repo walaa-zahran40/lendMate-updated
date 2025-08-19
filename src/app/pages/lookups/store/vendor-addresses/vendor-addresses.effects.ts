@@ -1,24 +1,24 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { TaxOfficesService } from './tax_offices.service';
-import * as ActionsList from './tax_offices.actions';
+import { VendorAddressesService } from './vendor-addresses.service';
+import * as ActionsList from './vendor-addresses.actions';
 import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
-import { TaxOffice } from './tax_office.model';
+import { VendorAddress } from './vendor-address.model';
 
 @Injectable()
-export class TaxOfficesEffects {
-  constructor(private actions$: Actions, private service: TaxOfficesService) {}
+export class VendorAddressesEffects {
+  constructor(private actions$: Actions, private svc: VendorAddressesService) {}
 
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActionsList.loadAll),
       tap(() => console.log('✨ Effect: loadAll action caught')),
       mergeMap(() =>
-        this.service.getAll().pipe(
+        this.svc.getAll().pipe(
           tap((items) => console.log('✨ Service returned items:', items)),
           map((items) => ActionsList.loadAllSuccess({ result: items })),
           catchError((err) => {
-            console.error('⚠️ Error loading taxOffices', err);
+            console.error('⚠️ Error loading vendorAddresses', err);
             return of(ActionsList.loadAllFailure({ error: err }));
           })
         )
@@ -33,7 +33,7 @@ export class TaxOfficesEffects {
         console.log('🔄 Effect: loadById action caught for id=', id)
       ),
       mergeMap(({ id }) =>
-        this.service.getById(id).pipe(
+        this.svc.getById(id).pipe(
           tap((entity) => console.log('🔄 Service.getById returned:', entity)),
           map((entity) => ActionsList.loadByIdSuccess({ entity })),
           catchError((error) => {
@@ -62,9 +62,9 @@ export class TaxOfficesEffects {
     this.actions$.pipe(
       ofType(ActionsList.createEntity),
       mergeMap(({ payload }) => {
-        // payload is Partial<Omit<TaxOffice,'id'>>, but our service needs the full DTO shape
-        const dto = payload as Omit<TaxOffice, 'id'>;
-        return this.service.create(dto).pipe(
+        // payload is Partial<Omit<VendorAddress,'id'>>, but our service needs the full DTO shape
+        const dto = payload as Omit<VendorAddress, 'id'>;
+        return this.svc.create(dto).pipe(
           map((entity) => ActionsList.createEntitySuccess({ entity })),
           catchError((error) => of(ActionsList.createEntityFailure({ error })))
         );
@@ -76,7 +76,7 @@ export class TaxOfficesEffects {
     this.actions$.pipe(
       ofType(ActionsList.updateEntity),
       mergeMap(({ id, changes }) =>
-        this.service.update(id, changes).pipe(
+        this.svc.update(id, changes).pipe(
           map(() => ActionsList.updateEntitySuccess({ id, changes })),
           catchError((error) => of(ActionsList.updateEntityFailure({ error })))
         )
@@ -88,7 +88,7 @@ export class TaxOfficesEffects {
     this.actions$.pipe(
       ofType(ActionsList.deleteEntity),
       mergeMap(({ id }) =>
-        this.service.delete(id).pipe(
+        this.svc.delete(id).pipe(
           map(() => ActionsList.deleteEntitySuccess({ id })),
           catchError((error) => of(ActionsList.deleteEntityFailure({ error })))
         )
@@ -102,21 +102,21 @@ export class TaxOfficesEffects {
         ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
-      map(() => ActionsList.loadTaxOfficeHistory())
+      map(() => ActionsList.loadVendorAddressHistory())
     )
   );
-  loadTaxOfficeHistory$ = createEffect(() =>
+  loadVendorAddressHistory$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ActionsList.loadTaxOfficeHistory),
+      ofType(ActionsList.loadVendorAddressHistory),
       switchMap(() =>
-        this.service.getAllHistory().pipe(
+        this.svc.getAllHistory().pipe(
           map((history) =>
-            ActionsList.loadTaxOfficeHistorySuccess({
+            ActionsList.loadVendorAddressHistorySuccess({
               history,
             })
           ),
           catchError((error) =>
-            of(ActionsList.loadTaxOfficeHistoryFailure({ error }))
+            of(ActionsList.loadVendorAddressHistoryFailure({ error }))
           )
         )
       )

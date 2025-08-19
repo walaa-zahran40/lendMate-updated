@@ -1,19 +1,19 @@
 import { createReducer, on } from '@ngrx/store';
-import * as TaxOfficeActions from './tax_offices.actions';
-import { adapter, initialState, State } from './tax_offices.state';
+import * as VendorAddressActions from './vendor-addresses.actions';
+import { adapter, initialState } from './vendor-addresses.state';
 
 export const reducer = createReducer(
   initialState,
 
   // when you dispatch loadAll()
-  on(TaxOfficeActions.loadAll, (state) => ({
+  on(VendorAddressActions.loadAll, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
 
   // when your effect dispatches loadAllSuccess({ result })
-  on(TaxOfficeActions.loadAllSuccess, (state, { result }) =>
+  on(VendorAddressActions.loadAllSuccess, (state, { result }) =>
     adapter.setAll(result, {
       ...state,
       loading: false,
@@ -21,57 +21,57 @@ export const reducer = createReducer(
     })
   ),
   // on failure
-  on(TaxOfficeActions.loadAllFailure, (state, { error }) => ({
+  on(VendorAddressActions.loadAllFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
   // create
-  on(TaxOfficeActions.createEntity, (state) => ({
+  on(VendorAddressActions.createEntity, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
-  on(TaxOfficeActions.createEntitySuccess, (state, { entity }) =>
+  on(VendorAddressActions.createEntitySuccess, (state, { entity }) =>
     adapter.addOne(entity, { ...state, loading: false })
   ),
-  on(TaxOfficeActions.createEntityFailure, (state, { error }) => ({
+  on(VendorAddressActions.createEntityFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
 
   // update
-  on(TaxOfficeActions.updateEntity, (state) => ({
+  on(VendorAddressActions.updateEntity, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
-  on(TaxOfficeActions.updateEntitySuccess, (state, { id, changes }) =>
+  on(VendorAddressActions.updateEntitySuccess, (state, { id, changes }) =>
     adapter.updateOne({ id, changes }, { ...state, loading: false })
   ),
-  on(TaxOfficeActions.updateEntityFailure, (state, { error }) => ({
+  on(VendorAddressActions.updateEntityFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
 
   // delete
-  on(TaxOfficeActions.deleteEntity, (state) => ({
+  on(VendorAddressActions.deleteEntity, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
-  on(TaxOfficeActions.deleteEntitySuccess, (state, { id }) =>
+  on(VendorAddressActions.deleteEntitySuccess, (state, { id }) =>
     adapter.removeOne(id, { ...state, loading: false })
   ),
-  on(TaxOfficeActions.deleteEntityFailure, (state, { error }) => ({
+  on(VendorAddressActions.deleteEntityFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
-  // address-calculation-types.reducer.ts
-  on(TaxOfficeActions.loadByIdSuccess, (state, { entity }) => {
+  // identVendorAddress-calculation-types.reducer.ts
+  on(VendorAddressActions.loadByIdSuccess, (state, { entity }) => {
     console.log('🗄️ Reducer: loadByIdSuccess, before:', {
       loadedId: state.loadedId,
       entities: state.entities,
@@ -91,25 +91,31 @@ export const reducer = createReducer(
     return newState;
   }),
   //History management
-  on(TaxOfficeActions.loadTaxOfficeHistory, (state) => ({
+  on(VendorAddressActions.loadVendorAddressHistory, (state) => ({
     ...state,
     historyLoaded: false,
     historyError: null,
   })),
 
-  on(TaxOfficeActions.loadTaxOfficeHistorySuccess, (state, { history }) => ({
-    ...state,
-    history,
-    historyLoaded: true,
-  })),
-  on(TaxOfficeActions.loadTaxOfficeHistorySuccess, (state, { history }) => {
-    console.log('✅ Reducer: history loaded', history); // add this
-    return {
+  on(
+    VendorAddressActions.loadVendorAddressHistorySuccess,
+    (state, { history }) => ({
       ...state,
-      history: [...history],
+      history,
       historyLoaded: true,
-    };
-  })
+    })
+  ),
+  on(
+    VendorAddressActions.loadVendorAddressHistorySuccess,
+    (state, { history }) => {
+      console.log('✅ Reducer: history loaded', history); // add this
+      return {
+        ...state,
+        history: [...history],
+        historyLoaded: true,
+      };
+    }
+  )
 );
 
 export const { selectAll, selectEntities, selectIds, selectTotal } =

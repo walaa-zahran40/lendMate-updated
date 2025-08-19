@@ -3,12 +3,12 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, takeUntil, filter } from 'rxjs';
-import { TaxOffice } from '../../../../../../../../lookups/store/tax_offices/tax_office.model';
-import { selectAllTaxOffices } from '../../../../../../../../lookups/store/tax_offices/tax_offices.selectors';
+import { TaxOffice } from '../../../../../../../../lookups/store/tax-offices/tax-office.model';
+import { selectAllTaxOffices } from '../../../../../../../../lookups/store/tax-offices/tax-offices.selectors';
 import { loadAll } from '../../../../../../store/client-identity-types/client-identity-types.actions';
 import { ClientTaxOfficesFacade } from '../../../../../../store/client-tax-office/client-tax-office.facade';
 import { ClientTaxOffice } from '../../../../../../store/client-tax-office/client-tax-office.model';
-import { TaxOfficesFacade } from '../../../../../../../../lookups/store/tax_offices/tax_offices.facade';
+import { TaxOfficesFacade } from '../../../../../../../../lookups/store/tax-offices/tax-offices.facade';
 
 @Component({
   selector: 'app-add-tax-authority-office',
@@ -72,8 +72,8 @@ export class AddClientTaxAuthorityOfficesComponent {
     console.log('🚀 Dispatching lookup loads');
     this.store.dispatch(loadAll({}));
 
-    this.taxOfficesFacade.loadAll(); 
-    this.taxOfficesList$ = this.taxOfficesFacade.all$; 
+    this.taxOfficesFacade.loadAll();
+    this.taxOfficesList$ = this.taxOfficesFacade.all$;
 
     // Patch for add mode
     if (this.mode === 'add') {

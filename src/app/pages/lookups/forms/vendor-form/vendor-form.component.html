@@ -85,6 +85,7 @@
         formControlName="subSectorIdList"
         [options]="subSectorsData"
         optionLabel="name"
+        display="chip"
         optionValue="id"
         placeholder="Select Sub Sector"
       >
@@ -139,7 +140,7 @@
           <p-button
             [label]="'BUTTONS.CLOSE' | translate"
             class="custom-save m-0 float-right"
-            (click)="router.navigate(['/lookups/view-first-claim-statuses'])"
+            (click)="router.navigate(['/lookups/view-vendors'])"
           />
         </div>
       </div>

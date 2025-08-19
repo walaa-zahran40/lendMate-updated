@@ -15,7 +15,8 @@
   <p-tabpanels>
     <p-tabpanel value="0">
       <app-add-purchasing-order-form
-        [description]="'Purchasing Orders'"
+        [description]="'Reference Information Description'"
+        [title]="'Reference Information'"
         [addPurchasingOrdersForm]="true"
         [formGroup]="addPurchasingOrdersForm"
         (submitForm)="addOrEditPurchasingOrder()"

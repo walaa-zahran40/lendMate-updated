@@ -182,6 +182,33 @@
       >
         Vendor is required.
       </div>
+      <label for="vendorAddressId">Vendor Address<sup>*</sup></label>
+      <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
+        id="vendorAddressId"
+        [options]="vendors"
+        optionLabel="name"
+        placeholder="Select Vendor Address"
+        formControlName="vendorAddressId"
+        optionValue="id"
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('vendorAddressId')?.invalid &&
+            (formGroup.get('vendorAddressId')?.dirty ||
+              formGroup.get('vendorAddressId')?.touched)
+        }"
+      ></p-select>
+      <div
+        *ngIf="
+          formGroup.get('vendorAddressId')?.hasError('required') &&
+          formGroup.get('vendorAddressId')?.touched
+        "
+        class="p-error"
+      >
+        Vendor Address is required.
+      </div>
       <div class="p-field" for="isActive" *ngIf="editMode">
         <p-toggleSwitch
           id="isActive"

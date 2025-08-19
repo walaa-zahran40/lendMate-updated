@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import * as fromSlice from './tax_offices.reducer';
-import { adapter, State } from './tax_offices.state';
+import * as fromSlice from './tax-offices.reducer';
+import { adapter, State } from './tax-offices.state';
 
 export const selectFeature = createFeatureSelector<State>('taxOffices');
 export const selectTaxOfficesFeature =

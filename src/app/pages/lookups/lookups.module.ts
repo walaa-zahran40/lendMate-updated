@@ -147,8 +147,8 @@ import { reducer as WorkflowActionTypesReducer } from './store/workflow-action-t
 import { WorkflowActionTypesEffects } from './store/workflow-action-types/workflow-action-types.effects';
 import { reducer as governoratesReducer } from './store/governorates/governorates.reducer';
 import { GovernoratesEffects } from './store/governorates/governorates.effects';
-import { TaxOfficesEffects } from './store/tax_offices/tax_offices.effects';
-import { reducer as taxOfficesReducer } from './store/tax_offices/tax_offices.reducer';
+import { TaxOfficesEffects } from './store/tax-offices/tax-offices.effects';
+import { reducer as taxOfficesReducer } from './store/tax-offices/tax-offices.reducer';
 import { AddWorkFlowActionTypesComponent } from './components/workflow-action-types/add-workflow-action-types/add-workflow-action-types.component';
 import { ViewWorkFlowActionTypesComponent } from './components/workflow-action-types/view-workflow-action-types/view-workflow-action-types.component';
 import { CurrencyExchangeRatesEffects } from './store/currency-exchange-rates/currency-exchange-rates.effects';
@@ -271,7 +271,10 @@ import { AddVendorComponent } from './components/vendors/add-vendor/add-vendor.c
 import { ViewVendorsComponent } from './components/vendors/view-vendors/view-vendors.component';
 import { VendorsEffects } from './store/vendors/vendors.effects';
 import { reducer as vendorsReducer } from './store/vendors/vendors.reducer';
-
+import { AddVendorAddressComponent } from './components/vendor-addresses/add-vendor-address/add-vendor-address.component';
+import { ViewVendorAddressesComponent } from './components/vendor-addresses/view-vendor-addresses/view-vendor-addresses.component';
+import { VendorAddressesEffects } from './store/vendor-addresses/vendor-addresses.effects';
+import { reducer as vendorAddressesReducer } from './store/vendor-addresses/vendor-addresses.reducer';
 @NgModule({
   declarations: [
     AddTmlOfficerTypesComponent,
@@ -413,6 +416,8 @@ import { reducer as vendorsReducer } from './store/vendors/vendors.reducer';
     ViewFirstClaimStatusesComponent,
     AddVendorComponent,
     ViewVendorsComponent,
+    AddVendorAddressComponent,
+    ViewVendorAddressesComponent,
   ],
   imports: [
     CommonModule,
@@ -581,6 +586,8 @@ import { reducer as vendorsReducer } from './store/vendors/vendors.reducer';
     StoreModule.forFeature('firstClaimStatuses', firstClaimStatusesReducer),
     EffectsModule.forFeature([VendorsEffects]),
     StoreModule.forFeature('vendors', vendorsReducer),
+    EffectsModule.forFeature([VendorAddressesEffects]),
+    StoreModule.forFeature('vendorAddresses', vendorAddressesReducer),
   ],
   exports: [
     AddMandateStatusesComponent,
@@ -605,6 +612,9 @@ import { reducer as vendorsReducer } from './store/vendors/vendors.reducer';
     AddMandateValidityUnitComponent,
     AddDocTypesComponent,
     AddBusinessLinesComponent,
+    AddVendorAddressComponent,
+    ViewVendorAddressesComponent,
+
     AddAssetTypesComponent,
     AddAssetTypeCategoriesComponent,
     ViewVehicleManufacturersComponent,

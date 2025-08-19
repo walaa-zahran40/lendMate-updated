@@ -134,6 +134,8 @@ import { AddFirstClaimStatusComponent } from './components/first-claim-status/ad
 import { ViewFirstClaimStatusesComponent } from './components/first-claim-status/view-first-claim-statuses/view-first-claim-statuses.component';
 import { ViewVendorsComponent } from './components/vendors/view-vendors/view-vendors.component';
 import { AddVendorComponent } from './components/vendors/add-vendor/add-vendor.component';
+import { AddVendorAddressComponent } from './components/vendor-addresses/add-vendor-address/add-vendor-address.component';
+import { ViewVendorAddressesComponent } from './components/vendor-addresses/view-vendor-addresses/view-vendor-addresses.component';
 
 const routes: Routes = [
   /**Lookup Module */
@@ -207,6 +209,20 @@ const routes: Routes = [
   {
     path: 'view-vendors',
     component: ViewVendorsComponent,
+  },
+  //Vendor Addresses
+  {
+    path: 'add-vendor-address',
+    component: AddVendorAddressComponent,
+  },
+  {
+    path: 'edit-vendor-address/:id',
+    component: AddVendorAddressComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
+  {
+    path: 'view-vendor-addresses',
+    component: ViewVendorAddressesComponent,
   },
   //Vehicle Models
   {

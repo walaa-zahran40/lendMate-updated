@@ -10,8 +10,8 @@ import {
   forkJoin,
 } from 'rxjs';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
-import { TaxOfficesFacade } from '../../../store/tax_offices/tax_offices.facade';
-import { TaxOffice } from '../../../store/tax_offices/tax_office.model';
+import { TaxOfficesFacade } from '../../../store/tax-offices/tax-offices.facade';
+import { TaxOffice } from '../../../store/tax-offices/tax-office.model';
 import { Governorate } from '../../../store/governorates/governorate.model';
 import { Store } from '@ngrx/store';
 import { selectAllGovernorates } from '../../../store/governorates/governorates.selectors';

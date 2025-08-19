@@ -44,6 +44,7 @@ export class TableComponent {
   @Input() col8Name!: string;
   @Input() col9Name!: string;
   @Input() col10Name!: string;
+  @Input() viewVendorAddressesLookupsTable!: boolean;
   @Input() edit!: boolean;
   @Input() delete!: boolean;
   @Input() side!: boolean;
