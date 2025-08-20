@@ -97,7 +97,7 @@ export class SideMenuComponent {
     CRM: [
       {
         i18nKey: 'CRM.CLIENT_OPERATIONS',
-        icon: 'pi pi-users',
+
         permission: '/Clients/GetAll', // show this group if user can read clients
         items: [
           {
@@ -116,17 +116,17 @@ export class SideMenuComponent {
       },
       {
         i18nKey: 'COMMUNICATION._ROOT',
-        icon: 'pi pi-users',
+
         items: [
           {
             i18nKey: 'COMMUNICATION.MEETINGS',
-            icon: 'pi pi-users',
+
             routerLink: '/communication/view-meetings',
             permission: '/Meetings/GetAll',
           },
           {
             i18nKey: 'COMMUNICATION.CALENDAR',
-            icon: 'pi pi-users',
+
             routerLink: '/communication/save-meeting',
             permission: '/Meetings/GetAll',
           },
@@ -134,7 +134,7 @@ export class SideMenuComponent {
       },
       // {
       //   label: 'Communication',
-      //   icon: 'pi pi-users',
+      //
       //   items: [
       //     {
       //       label: 'Call',
@@ -170,7 +170,7 @@ export class SideMenuComponent {
       // },
       // {
       //   label: 'Vendors',
-      //   icon: 'pi pi-users',
+      //
       //   items: [
       //     {
       //       label: 'Vendors',
@@ -241,7 +241,7 @@ export class SideMenuComponent {
       // },
       // {
       //   label: 'Guarantors',
-      //   icon: 'pi pi-users',
+      //
       //   items: [
       //     {
       //       label: 'Guarantors',
@@ -314,18 +314,18 @@ export class SideMenuComponent {
     Purchasing: [
       {
         i18nKey: 'PURCHASING.ASSETS',
-        icon: 'pi pi-users',
+
         routerLink: '/purchasing/assets/view-assets',
       },
       {
         i18nKey: 'PURCHASING.PURCHASING_ORDERS',
-        icon: 'pi pi-users',
+
         routerLink: '/purchasing/purchasing-orders/view-purchasing-orders',
       },
 
       // {
       //   label: 'Communication',
-      //   icon: 'pi pi-users',
+      //
       //   items: [
       //     {
       //       label: 'Call',
@@ -361,7 +361,7 @@ export class SideMenuComponent {
       // },
       // {
       //   label: 'Vendors',
-      //   icon: 'pi pi-users',
+      //
       //   items: [
       //     {
       //       label: 'Vendors',
@@ -432,7 +432,7 @@ export class SideMenuComponent {
       // },
       // {
       //   label: 'Guarantors',
-      //   icon: 'pi pi-users',
+      //
       //   items: [
       //     {
       //       label: 'Guarantors',
@@ -505,7 +505,7 @@ export class SideMenuComponent {
     Business: [
       {
         i18nKey: 'BUSINESS.LEASING',
-        icon: 'pi pi-users',
+
         items: [
           {
             i18nKey: 'BUSINESS.MANDATE',
@@ -535,21 +535,21 @@ export class SideMenuComponent {
     Contracts: [
       {
         i18nKey: 'CONTRACTS.CONTRACTS',
-        icon: 'pi pi-users',
+
         routerLink: '/contracts/view-contracts',
       },
     ],
     // Assets: [
     //   {
     //     i18nKey: 'ASSETS.ASSETS',
-    //     icon: 'pi pi-users',
+    //
     //     routerLink: '/purchasing/assets/view-assets',
     //   },
     // ],
     // Orders: [
     //   {
     //     label: 'Leasing',
-    //     icon: 'pi pi-users',
+    //
     //     items: [
     //       {
     //         label: 'Purchasing Order',
@@ -562,7 +562,7 @@ export class SideMenuComponent {
     Settings: [
       {
         i18nKey: 'SETTINGS.GENERAL',
-        icon: 'pi pi-users',
+
         items: [
           // {
           //   label: 'AppSettings',
@@ -603,7 +603,7 @@ export class SideMenuComponent {
       },
       {
         i18nKey: 'SETTINGS.ORGANIZATIONS',
-        icon: 'pi pi-users',
+
         items: [
           {
             i18nKey: 'ORGANIZATION.BRANCHES',
@@ -652,7 +652,7 @@ export class SideMenuComponent {
       },
       {
         i18nKey: 'SETTINGS.LEGALS',
-        icon: 'pi pi-users',
+
         items: [
           {
             i18nKey: 'LEGALS.LEGAL_FORMS',
@@ -688,7 +688,7 @@ export class SideMenuComponent {
       },
       {
         i18nKey: 'SETTINGS.SECURITY',
-        icon: 'pi pi-users',
+
         items: [
           {
             i18nKey: 'SECURITY.APPLICATION_ROLES',
@@ -734,7 +734,7 @@ export class SideMenuComponent {
       },
       {
         i18nKey: 'SETTINGS.CLIENT_WORKFLOW',
-        icon: 'pi pi-users',
+
         items: [
           {
             i18nKey: 'CLIENT_WORKFLOW.CLIENT_STATUS',
@@ -752,7 +752,7 @@ export class SideMenuComponent {
       },
       {
         i18nKey: 'SETTINGS.MANDATE_WORKFLOW',
-        icon: 'pi pi-users',
+
         items: [
           {
             i18nKey: 'MANDATE_WORKFLOW.MANDATE_STATUS',
@@ -770,7 +770,7 @@ export class SideMenuComponent {
       },
       {
         i18nKey: 'SETTINGS.FEES',
-        icon: 'pi pi-users',
+
         items: [
           {
             i18nKey: 'FEES.FEE_RANGES',
@@ -794,7 +794,7 @@ export class SideMenuComponent {
       },
       {
         i18nKey: 'SETTINGS.LOOKUPS',
-        icon: 'pi pi-users',
+
         items: [
           {
             i18nKey: 'LOOKUPS.ADDRESS_TYPES',

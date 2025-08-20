@@ -9,6 +9,9 @@ export const loadAllSuccess = createAction(
   '[PurchasingOrders] Load All Success',
   props<{ result: PurchaseOrder[] }>()
 );
+export const clearSelectedClient = createAction(
+  '[PurchasingOrders] Clear Selected'
+);
 
 export const loadAllFailure = createAction(
   '[PurchasingOrders] Load All Failure',
@@ -83,9 +86,6 @@ export const loadPurchasingOrderHistorySuccess = createAction(
 export const performWorkflowActionEntityFailure = createAction(
   '[PurchasingOrders] PerformWorkflowAction Failure',
   props<{ error: any }>()
-);
-export const clearSelectedClient = createAction(
-  '[PurchasingOrders] Clear Selected'
 );
 
 export const loadPurchasingOrderHistoryFailure = createAction(

@@ -12,13 +12,14 @@ export interface PurchaseOrderFinancialActivity {
   provisionAmount: number;
   downPayment: number;
   isLetterOfGuaranteeAmount: boolean;
-  letterOfGuaranteeAmount: string;
+  letterOfGuaranteeAmount: string | null; // allow null from GET
 }
 
 export interface PurchaseOrder {
   id: number;
   firstClaimStatusId: number;
-  date: string; // ISO string, e.g. "2025-08-18T06:26:39.617Z"
+  number?: string | null;
+  date: string; // ISO
   currencyId: number;
   leasingAgreementId: number;
   deliveryWithin: number;

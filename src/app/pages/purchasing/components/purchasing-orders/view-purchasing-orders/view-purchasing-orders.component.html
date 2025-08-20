@@ -28,7 +28,7 @@
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
       [tableData]="filteredPurchasingOrders"
-      [side]="false"
+      [side]="true"
       [first]="first2"
       [checkBox]="true"
       [filters]="showFilters"
@@ -37,6 +37,7 @@
       (onDelete)="onDeletePurchasingOrder($event)"
       (onEdit)="onEditPurchasingOrder($event)"
       (viewForm)="onViewPurchasingOrder($event)"
+      (wizardBtn)="onAddSide($event)"
     ></app-table>
     <app-delete-module
       [visible]="showDeleteModal"

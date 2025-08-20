@@ -39,6 +39,27 @@
     }
   }
   &::ng-deep {
+    .custom-save {
+      background: var(--p-tabs-active-bar-background);
+      margin-left: var(--custom-position-auto);
+      margin-right: var(--custom-position-28);
+      text-align: var(--custom-position-center);
+      padding: 14px 71px;
+      font-size: var(--custom-font-size-18);
+      cursor: var(--custom-cursor);
+      color: var(--custom-color-white);
+      float: inline-end;
+    }
+    .custom-back .p-button {
+      padding: 14px 50px !important;
+    }
+    .custom-back .p-button:hover {
+      border: 1px solid var(--p-tabs-active-bar-background) !important;
+    }
+    .custom-save:disabled,
+    .custom-save2:disabled {
+      cursor: none;
+    }
     .p-button {
       flex-direction: var(--custom-flex-direction-row-reverse);
       background: var(--custom-background-transparent);

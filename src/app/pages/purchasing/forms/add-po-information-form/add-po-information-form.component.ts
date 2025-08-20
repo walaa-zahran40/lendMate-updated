@@ -36,12 +36,12 @@ import { selectAllSubSectors } from '../../../lookups/store/sub-sectors/sub-sect
 import { PageOperationGroup } from '../../../organizations/store/page-operations/page-operation-group.model';
 
 @Component({
-  selector: 'app-add-purchasing-order-form',
+  selector: 'app-add-po-information-form',
   standalone: false,
-  templateUrl: './add-purchasing-order-form.component.html',
-  styleUrl: './add-purchasing-order-form.component.scss',
+  templateUrl: './add-po-information-form.component.html',
+  styleUrl: './add-po-information-form.component.scss',
 })
-export class AddPurchasingOrderComponent implements OnInit, OnDestroy {
+export class AddPOInformationFormComponent implements OnInit, OnDestroy {
   @Input() formGroup: FormGroup = new FormGroup({});
   @Input() viewOnly = false;
   companyLegalDetail: CompanyLegalDetails = {};
@@ -131,7 +131,9 @@ export class AddPurchasingOrderComponent implements OnInit, OnDestroy {
   @Input() legalFormId: number | null = null;
   @Input() conditionExpressions: any;
   @Input() officersList: any;
-  @Input() firstClaimStatuses: any;
+  @Input() assets: any;
+  @Input() paymentTypes: any;
+  @Input() paymentPeriodUnits: any;
   @Input() clientsList: any;
   @Input() tmlOfficerTypesList: any;
   @Input() clientOfficerTypesList: any;
@@ -449,7 +451,7 @@ export class AddPurchasingOrderComponent implements OnInit, OnDestroy {
   @Input() addSalesShowMain!: boolean;
   @Input() addPhoneNumbersShowMain!: boolean;
   @Input() addClientPhoneNumberForm!: boolean;
-  @Input() addPurchasingOrdersForm!: boolean;
+  @Input() addPOInformationForm!: boolean;
   @Input() addClientIdentityForm!: boolean;
   @Input() addClientContactPersonForm!: boolean;
   @Input() addContactPersonShowMain!: boolean;

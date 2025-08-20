@@ -1,0 +1,120 @@
+<div class="parent">
+  <div *ngIf="!contactPersonDetailsView" class="div1">
+    <h2 class="m-0 title">{{ title }}</h2>
+    <p class="tab-panel-paragraph">
+      {{ description }}
+    </p>
+    <p-button
+      *ngIf="addSignatoryForm"
+      icon="pi pi-cog"
+      label="View Purchasing Order"
+      icon="pi pi-cog"
+      (click)="viewPurchasingOrders()"
+      class="custom-view m-0 float-right"
+    />
+  </div>
+  <div class="div2" [ngClass]="{ span: applyReusable }">
+    <form
+      [formGroup]="formGroup"
+      *ngIf="addSignatoryForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="officerId">Officer<sup>*</sup></label>
+      <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
+        id="officerId"
+        [options]="officers"
+        optionLabel="name"
+        placeholder="Select Officer"
+        formControlName="officerId"
+        optionValue="id"
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('officerId')?.invalid &&
+            (formGroup.get('officerId')?.dirty ||
+              formGroup.get('officerId')?.touched)
+        }"
+      ></p-select>
+      <div
+        *ngIf="
+          formGroup.get('officerId')?.hasError('required') &&
+          formGroup.get('officerId')?.touched
+        "
+        class="p-error"
+      >
+        Officer is required.
+      </div>
+      <label for="firstSignatoryOfficerId"
+        >First Signatory Officer<sup>*</sup></label
+      >
+      <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
+        id="firstSignatoryOfficerId"
+        [options]="firstSignatoryOfficers"
+        optionLabel="officer.name"
+        placeholder="Select First Signatory Officer"
+        formControlName="firstSignatoryOfficerId"
+        optionValue="id"
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('firstSignatoryOfficerId')?.invalid &&
+            (formGroup.get('firstSignatoryOfficerId')?.dirty ||
+              formGroup.get('firstSignatoryOfficerId')?.touched)
+        }"
+      ></p-select>
+      <div
+        *ngIf="
+          formGroup.get('firstSignatoryOfficerId')?.hasError('required') &&
+          formGroup.get('firstSignatoryOfficerId')?.touched
+        "
+        class="p-error"
+      >
+        First Signatory Officer is required.
+      </div>
+      <label for="secondSignatoryOfficerId"
+        >Second Signatory Officer<sup>*</sup></label
+      >
+      <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
+        id="secondSignatoryOfficerId"
+        [options]="secondSignatoryOfficers"
+        optionLabel="officer.name"
+        placeholder="Select Second Signatory Officer"
+        formControlName="secondSignatoryOfficerId"
+        optionValue="id"
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('secondSignatoryOfficerId')?.invalid &&
+            (formGroup.get('secondSignatoryOfficerId')?.dirty ||
+              formGroup.get('secondSignatoryOfficerId')?.touched)
+        }"
+      ></p-select>
+      <div
+        *ngIf="
+          formGroup.get('secondSignatoryOfficerId')?.hasError('required') &&
+          formGroup.get('secondSignatoryOfficerId')?.touched
+        "
+        class="p-error"
+      >
+        Second Signatory Officer is required.
+      </div>
+
+      <div class="p-field" for="isActive" *ngIf="editMode">
+        <p-toggleSwitch
+          id="isActive"
+          formControlName="isActive"
+          label="is Active"
+        ></p-toggleSwitch>
+        <label for="isActive">
+          {{ "ASSET_CATEGORY.IS_ACTIVE" | translate }}</label
+        >
+      </div>
+    </form>
+  </div>
+</div>

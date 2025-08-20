@@ -102,6 +102,10 @@ export const reducer = createReducer(
       historyLoaded: true,
     })
   ),
+  on(PurchasingOrderActions.clearSelectedClient, (state) => ({
+    ...state,
+    loadedId: null,
+  })),
 
   on(
     PurchasingOrderActions.loadPurchasingOrderHistoryFailure,

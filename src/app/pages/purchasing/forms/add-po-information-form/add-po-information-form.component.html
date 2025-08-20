@@ -1,0 +1,366 @@
+<div class="parent">
+  <div *ngIf="!contactPersonDetailsView" class="div1">
+    <h2 class="m-0 title">{{ title }}</h2>
+    <p class="tab-panel-paragraph">
+      {{ description }}
+    </p>
+    <p-button
+      *ngIf="addPOInformationForm"
+      icon="pi pi-cog"
+      label="View Purchasing Order"
+      icon="pi pi-cog"
+      (click)="viewPurchasingOrders()"
+      class="custom-view m-0 float-right"
+    />
+  </div>
+  <div class="div2" [ngClass]="{ span: applyReusable }">
+    <form
+      [formGroup]="formGroup"
+      *ngIf="addPOInformationForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="assetId">Asset<sup>*</sup></label>
+      <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
+        id="assetId"
+        [options]="assets"
+        optionLabel="description"
+        placeholder="Select Asset"
+        formControlName="assetId"
+        optionValue="id"
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('assetId')?.invalid &&
+            (formGroup.get('assetId')?.dirty ||
+              formGroup.get('assetId')?.touched)
+        }"
+      ></p-select>
+      <div
+        *ngIf="
+          formGroup.get('assetId')?.hasError('required') &&
+          formGroup.get('assetId')?.touched
+        "
+        class="p-error"
+      >
+        Asset is required.
+      </div>
+      <label for="taxAmount">Tax Amount<sup>*</sup></label>
+      <input
+        pInputText
+        name="taxAmount"
+        formControlName="taxAmount"
+        type="number"
+        placeholder="Tax Amount"
+        [ngClass]="{
+          'ng-invalid ng-dirty':
+            formGroup.get('taxAmount')?.invalid &&
+            formGroup.get('taxAmount')?.touched
+        }"
+      />
+
+      <small
+        class="p-error"
+        *ngIf="
+          formGroup.get('taxAmount')?.hasError('required') &&
+          formGroup.get('taxAmount')?.touched
+        "
+      >
+        Tax Amount is required.
+      </small>
+      <br />
+      <label for="purchasePrice">Purchase Price<sup>*</sup></label>
+      <input
+        pInputText
+        name="purchasePrice"
+        formControlName="purchasePrice"
+        type="number"
+        placeholder="Purchase Price"
+        [ngClass]="{
+          'ng-invalid ng-dirty':
+            formGroup.get('purchasePrice')?.invalid &&
+            formGroup.get('purchasePrice')?.touched
+        }"
+      />
+
+      <small
+        class="p-error"
+        *ngIf="
+          formGroup.get('purchasePrice')?.hasError('required') &&
+          formGroup.get('purchasePrice')?.touched
+        "
+      >
+        Purchase Price is required.
+      </small>
+      <br />
+      <label for="salesPrice">Sales Price<sup>*</sup></label>
+      <input
+        pInputText
+        name="salesPrice"
+        formControlName="salesPrice"
+        type="number"
+        placeholder="Sales Price"
+        [ngClass]="{
+          'ng-invalid ng-dirty':
+            formGroup.get('salesPrice')?.invalid &&
+            formGroup.get('salesPrice')?.touched
+        }"
+      />
+
+      <small
+        class="p-error"
+        *ngIf="
+          formGroup.get('salesPrice')?.hasError('required') &&
+          formGroup.get('salesPrice')?.touched
+        "
+      >
+        Sales Price is required.
+      </small>
+      <br />
+      <label for="stickerPrice">Sticker Price<sup>*</sup></label>
+      <input
+        pInputText
+        name="stickerPrice"
+        formControlName="stickerPrice"
+        type="number"
+        placeholder="Sticker Price"
+        [ngClass]="{
+          'ng-invalid ng-dirty':
+            formGroup.get('stickerPrice')?.invalid &&
+            formGroup.get('stickerPrice')?.touched
+        }"
+      />
+
+      <small
+        class="p-error"
+        *ngIf="
+          formGroup.get('stickerPrice')?.hasError('required') &&
+          formGroup.get('stickerPrice')?.touched
+        "
+      >
+        Sticker Price is required.
+      </small>
+      <br />
+      <label for="netValue">Net Value<sup>*</sup></label>
+      <input
+        pInputText
+        name="netValue"
+        formControlName="netValue"
+        type="number"
+        placeholder="Net Value"
+        [ngClass]="{
+          'ng-invalid ng-dirty':
+            formGroup.get('netValue')?.invalid &&
+            formGroup.get('netValue')?.touched
+        }"
+      />
+
+      <small
+        class="p-error"
+        *ngIf="
+          formGroup.get('netValue')?.hasError('required') &&
+          formGroup.get('netValue')?.touched
+        "
+      >
+        Net Value is required.
+      </small>
+      <br />
+      <label for="assetCount">Asset Count<sup>*</sup></label>
+      <input
+        pInputText
+        name="assetCount"
+        formControlName="assetCount"
+        type="number"
+        placeholder="Asset Count"
+        [ngClass]="{
+          'ng-invalid ng-dirty':
+            formGroup.get('assetCount')?.invalid &&
+            formGroup.get('assetCount')?.touched
+        }"
+      />
+
+      <small
+        class="p-error"
+        *ngIf="
+          formGroup.get('assetCount')?.hasError('required') &&
+          formGroup.get('assetCount')?.touched
+        "
+      >
+        Asset Count is required.
+      </small>
+      <br />
+      <label for="paymentTypeId">Payment Type<sup>*</sup></label>
+      <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
+        id="paymentTypeId"
+        [options]="paymentTypes"
+        optionLabel="name"
+        placeholder="Select Payment Type"
+        formControlName="paymentTypeId"
+        optionValue="id"
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('paymentTypeId')?.invalid &&
+            (formGroup.get('paymentTypeId')?.dirty ||
+              formGroup.get('paymentTypeId')?.touched)
+        }"
+      ></p-select>
+      <div
+        *ngIf="
+          formGroup.get('paymentTypeId')?.hasError('required') &&
+          formGroup.get('paymentTypeId')?.touched
+        "
+        class="p-error"
+      >
+        Payment Type is required.
+      </div>
+      <br />
+      <label for="paymentPeriodUnitId">Payment Period Unit<sup>*</sup></label>
+      <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
+        id="paymentPeriodUnitId"
+        [options]="paymentPeriodUnits"
+        optionLabel="name"
+        placeholder="Select Payment Period Unit"
+        formControlName="paymentPeriodUnitId"
+        optionValue="id"
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('paymentPeriodUnitId')?.invalid &&
+            (formGroup.get('paymentPeriodUnitId')?.dirty ||
+              formGroup.get('paymentPeriodUnitId')?.touched)
+        }"
+      ></p-select>
+      <div
+        *ngIf="
+          formGroup.get('paymentPeriodUnitId')?.hasError('required') &&
+          formGroup.get('paymentPeriodUnitId')?.touched
+        "
+        class="p-error"
+      >
+        Payment Period Unit is required.
+      </div>
+      <label for="depreciationValue">Depreciation Value<sup>*</sup></label>
+      <input
+        pInputText
+        name="depreciationValue"
+        formControlName="depreciationValue"
+        type="number"
+        placeholder="Depreciation Value"
+        [ngClass]="{
+          'ng-invalid ng-dirty':
+            formGroup.get('depreciationValue')?.invalid &&
+            formGroup.get('depreciationValue')?.touched
+        }"
+      />
+
+      <small
+        class="p-error"
+        *ngIf="
+          formGroup.get('depreciationValue')?.hasError('required') &&
+          formGroup.get('depreciationValue')?.touched
+        "
+      >
+        Depreciation Value is required.
+      </small>
+      <br />
+      <label for="provisionAmount">Provision Amount<sup>*</sup></label>
+      <input
+        pInputText
+        name="provisionAmount"
+        formControlName="provisionAmount"
+        type="number"
+        placeholder="Provision Amount"
+        [ngClass]="{
+          'ng-invalid ng-dirty':
+            formGroup.get('provisionAmount')?.invalid &&
+            formGroup.get('provisionAmount')?.touched
+        }"
+      />
+
+      <small
+        class="p-error"
+        *ngIf="
+          formGroup.get('provisionAmount')?.hasError('required') &&
+          formGroup.get('provisionAmount')?.touched
+        "
+      >
+        Provision Amount is required.
+      </small>
+      <br />
+      <label for="downPayment">Down Payment<sup>*</sup></label>
+      <input
+        pInputText
+        name="downPayment"
+        formControlName="downPayment"
+        type="number"
+        placeholder="Down Payment"
+        [ngClass]="{
+          'ng-invalid ng-dirty':
+            formGroup.get('downPayment')?.invalid &&
+            formGroup.get('downPayment')?.touched
+        }"
+      />
+
+      <small
+        class="p-error"
+        *ngIf="
+          formGroup.get('downPayment')?.hasError('required') &&
+          formGroup.get('downPayment')?.touched
+        "
+      >
+        Down Payment is required.
+      </small>
+      <br />
+
+      <p-toggleSwitch
+        id="isLetterOfGuaranteeAmount"
+        formControlName="isLetterOfGuaranteeAmount"
+      ></p-toggleSwitch>
+      &nbsp;<label for="isLetterOfGuaranteeAmount">
+        Is Letter Of Guarantee Amount</label
+      >
+      <br />
+      <div *ngIf="formGroup.get('isLetterOfGuaranteeAmount')?.value">
+        <label for="letterOfGuaranteeAmount"
+          >Letter Of Guarantee Amount<sup>*</sup></label
+        >
+        <input
+          pInputText
+          id="letterOfGuaranteeAmount"
+          formControlName="letterOfGuaranteeAmount"
+          placeholder="Letter Of Guarantee Amount"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              formGroup.get('letterOfGuaranteeAmount')?.invalid &&
+              formGroup.get('letterOfGuaranteeAmount')?.touched
+          }"
+        />
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('letterOfGuaranteeAmount')?.hasError('required') &&
+            formGroup.get('letterOfGuaranteeAmount')?.touched
+          "
+        >
+          Letter Of Guarantee Amount is required.
+        </small>
+      </div>
+      <div class="p-field" for="isActive" *ngIf="editMode">
+        <p-toggleSwitch
+          id="isActive"
+          formControlName="isActive"
+          label="is Active"
+        ></p-toggleSwitch>
+        <label for="isActive">
+          {{ "ASSET_CATEGORY.IS_ACTIVE" | translate }}</label
+        >
+      </div>
+    </form>
+  </div>
+</div>

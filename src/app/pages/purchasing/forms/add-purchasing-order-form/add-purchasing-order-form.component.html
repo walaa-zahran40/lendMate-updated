@@ -110,7 +110,7 @@
         pInputText
         name="deliveryWithin"
         formControlName="deliveryWithin"
-        placeholder="Leasing Agreement Id"
+        placeholder="Delivery Within"
         [ngClass]="{
           'ng-invalid ng-dirty':
             formGroup.get('deliveryWithin')?.invalid &&
@@ -188,8 +188,8 @@
         filterBy="name"
         [showClear]="true"
         id="vendorAddressId"
-        [options]="vendors"
-        optionLabel="name"
+        [options]="vendorAddresses"
+        optionLabel="details"
         placeholder="Select Vendor Address"
         formControlName="vendorAddressId"
         optionValue="id"
@@ -209,6 +209,31 @@
       >
         Vendor Address is required.
       </div>
+      <label for="deliveryLocationDetails"
+        >Delivery Location Details <sup class="danger">*</sup></label
+      >
+      <input
+        pInputText
+        name="deliveryLocationDetails"
+        formControlName="deliveryLocationDetails"
+        placeholder="Enter Delivery Location Details"
+        [ngClass]="{
+          'ng-invalid ng-dirty':
+            formGroup.get('deliveryLocationDetails')?.invalid &&
+            formGroup.get('deliveryLocationDetails')?.touched
+        }"
+      />
+
+      <small
+        class="p-error"
+        *ngIf="
+          formGroup.get('deliveryLocationDetails')?.hasError('required') &&
+          formGroup.get('deliveryLocationDetails')?.touched
+        "
+      >
+        Delivery Location Details are required.
+      </small>
+      <br />
       <div class="p-field" for="isActive" *ngIf="editMode">
         <p-toggleSwitch
           id="isActive"
@@ -218,43 +243,6 @@
         <label for="isActive">
           {{ "ASSET_CATEGORY.IS_ACTIVE" | translate }}</label
         >
-      </div>
-      <div class="row justify-end">
-        <div
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 currenciesDiv"
-          *ngIf="!editMode"
-        >
-          <p-button
-            type="submit"
-            label="Add Purchasing Order"
-            [disabled]="formGroup.invalid"
-            class="custom-save m-0 float-right"
-          ></p-button>
-        </div>
-        <div
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
-          *ngIf="editMode && !viewOnly"
-        >
-          <p-button
-            type="submit"
-            label="Edit Purchasing Order"
-            class="custom-save m-0 float-right"
-          ></p-button>
-        </div>
-        <div
-          *ngIf="viewOnly"
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
-        >
-          <p-button
-            label="Close"
-            class="custom-save m-0 float-right"
-            (click)="
-              router.navigate([
-                '/purchasing/purchasing-orders/view-purchasing-order'
-              ])
-            "
-          />
-        </div>
       </div>
     </form>
   </div>

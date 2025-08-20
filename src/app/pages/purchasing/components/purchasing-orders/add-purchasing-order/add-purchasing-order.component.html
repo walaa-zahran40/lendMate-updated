@@ -9,24 +9,124 @@
       ? 'Edit Purchasing Order'
       : 'Add Purchasing Order'
   "
-  [viewOnly]="editMode ? true : false"
 ></app-toolbar-form>
 <p-tabs value="0" styleClass="p-3">
   <p-tabpanels>
     <p-tabpanel value="0">
-      <app-add-purchasing-order-form
-        [description]="'Reference Information Description'"
-        [title]="'Reference Information'"
-        [addPurchasingOrdersForm]="true"
-        [formGroup]="addPurchasingOrdersForm"
-        (submitForm)="addOrEditPurchasingOrder()"
-        [firstClaimStatuses]="firstClaimStatuses$ | async"
-        [currencies]="currencies$ | async"
-        [deliveryWithInUnits]="deliveryWithInUnits$ | async"
-        [vendors]="vendors$ | async"
-        [editMode]="editMode"
-        [viewOnly]="viewOnly"
-      ></app-add-purchasing-order-form>
+      <p-stepper [value]="1" class="basis-[50rem] mb-2">
+        <p-step-panels>
+          <p-step-panel [value]="1">
+            <ng-template #content let-activateCallback="activateCallback">
+              <div class="flex flex-col">
+                <app-add-purchasing-order-form
+                  [description]="'Reference Information Description'"
+                  [title]="'Reference Information'"
+                  [addPurchasingOrdersForm]="true"
+                  [formGroup]="addPurchasingOrdersForm"
+                  (submitForm)="addOrEditPurchasingOrder()"
+                  [firstClaimStatuses]="firstClaimStatuses$ | async"
+                  [currencies]="currencies$ | async"
+                  [deliveryWithInUnits]="deliveryWithInUnits$ | async"
+                  [vendors]="vendors$ | async"
+                  [vendorAddresses]="vendorAddresses$ | async"
+                  [editMode]="editMode"
+                  [viewOnly]="viewOnly"
+                ></app-add-purchasing-order-form>
+                <div
+                  class="col-sm-6 d-flex justify-end float-right margin-top p-0 mt-5 w-100"
+                >
+                  <p-button
+                    class="custom-save m-0"
+                    [label]="'BUTTONS.NEXT' | translate"
+                    (click)="activateCallback(2)"
+                  ></p-button>
+                </div>
+              </div>
+            </ng-template>
+          </p-step-panel>
+          <!-- Step 2: Legal Info -->
+          <p-step-panel [value]="2">
+            <ng-template #content let-activateCallback="activateCallback">
+              <div class="flex flex-col">
+                <app-add-po-information-form
+                  [formGroup]="addPOInformationForm"
+                  [title]="'PO Information'"
+                  [description]="'PO Information Description'"
+                  [assets]="assets$ | async"
+                  [paymentTypes]="paymentTypes$ | async"
+                  [paymentPeriodUnits]="paymentPeriodUnits$ | async"
+                  [addPOInformationForm]="true"
+                  [viewOnly]="viewOnly"
+                ></app-add-po-information-form>
+
+                <div class="row two-buttons mt-5">
+                  <div class="col-sm-6">
+                    <p-button
+                      [label]="'BUTTONS.PREVIOUS' | translate"
+                      class="custom-back"
+                      (click)="activateCallback(1)"
+                    ></p-button>
+                  </div>
+                  <div class="col-sm-6 m-0">
+                    <p-button
+                      [label]="'BUTTONS.NEXT' | translate"
+                      (click)="activateCallback(3)"
+                      class="custom-save m-0 float-right"
+                    ></p-button>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </p-step-panel>
+
+          <!-- Step 3: Business Info -->
+          <p-step-panel [value]="3">
+            <ng-template #content let-activateCallback="activateCallback">
+              <div class="flex flex-col">
+                <app-add-signatory-form
+                  [formGroup]="addSignatoryForm"
+                  [title]="'Signatory Information'"
+                  [description]="'Signatory Information Description'"
+                  [addSignatoryForm]="true"
+                  [officers]="officers$ | async"
+                  [firstSignatoryOfficers]="firstSignatoryOfficers$ | async"
+                  [secondSignatoryOfficers]="secondSignatoryOfficers$ | async"
+                  [viewOnly]="viewOnly"
+                ></app-add-signatory-form>
+
+                <div class="row two-buttons mt-5">
+                  <div class="col-sm-6">
+                    <p-button
+                      [label]="'BUTTONS.PREVIOUS' | translate"
+                      (click)="activateCallback(2)"
+                      class="custom-back d-flex justify-start"
+                    ></p-button>
+                  </div>
+                  <div class="col-sm-6 m-0">
+                    <p-button
+                      *ngIf="!viewOnly"
+                      [label]="'BUTTONS.SAVE_INFO' | translate"
+                      [disabled]="
+                        this.addPurchasingOrdersForm.invalid ||
+                        this.addPOInformationForm.invalid ||
+                        this.addSignatoryForm.invalid
+                      "
+                      (click)="addOrEditPurchasingOrder()"
+                      class="custom-save m-0 float-right"
+                    ></p-button>
+                    <p-button
+                      *ngIf="viewOnly"
+                      (click)="close()"
+                      label="Close"
+                      class="custom-save m-0 float-right"
+                    ></p-button>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </p-step-panel>
+        </p-step-panels>
+      </p-stepper>
     </p-tabpanel>
   </p-tabpanels>
 </p-tabs>

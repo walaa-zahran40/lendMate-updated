@@ -99,10 +99,13 @@ import { AddPurchasingOrderComponent } from '../../pages/purchasing/forms/add-pu
 import { FirstClaimStatusFormComponent } from '../../pages/lookups/forms/first-claim-status-form/first-claim-status-form.component';
 import { VendorFormComponent } from '../../pages/lookups/forms/vendor-form/vendor-form.component';
 import { VendorAddressFormComponent } from '../../pages/lookups/forms/vendor-address-form/vendor-address-form.component';
+import { AddPOInformationFormComponent } from '../../pages/purchasing/forms/add-po-information-form/add-po-information-form.component';
+import { AddSignatoryFormComponent } from '../../pages/purchasing/forms/add-signatory-form/add-signatory-form.component';
 
 @NgModule({
   declarations: [
     TableComponent,
+    AddPOInformationFormComponent,
     SideMenuComponent,
     NavBarComponent,
     DeleteModuleComponent,
@@ -114,6 +117,7 @@ import { VendorAddressFormComponent } from '../../pages/lookups/forms/vendor-add
     ToolbarCardComponent,
     ToolbarCompoundComponent,
     GlobalSpinnerComponent,
+    AddSignatoryFormComponent,
     SharedDatePickerComponent,
     DownloadPopupComponent,
     VendorFormComponent,
@@ -261,6 +265,8 @@ import { VendorAddressFormComponent } from '../../pages/lookups/forms/vendor-add
     AddPurchasingOrderComponent,
     FirstClaimStatusFormComponent,
     VendorFormComponent,
+    AddPOInformationFormComponent,
+    AddSignatoryFormComponent,
   ],
 })
 export class ComponentsModule {}

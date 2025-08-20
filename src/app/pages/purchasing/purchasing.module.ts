@@ -20,8 +20,6 @@ import { AddPurchasingOrderComponent } from './components/purchasing-orders/add-
 import { WizardAssetComponent } from './components/assets/activities/wizard-asset/wizard-asset.component';
 import { ViewEvaluationInformationComponent } from './components/assets/activities/evaluation-information/view-evaluation-information/view-evaluation-information.component';
 import { AddEvaluationInformationComponent } from './components/assets/activities/evaluation-information/add-evaluation-information/add-evaluation-information.component';
-import { AddWorkflowStatusComponent } from './components/assets/activities/workflow-status/add-workflow-status/add-workflow-status.component';
-import { ViewWorkflowStatusComponent } from './components/assets/activities/workflow-status/view-workflow-status/view-workflow-status.component';
 import { ViewLicenseInformationComponent } from './components/assets/activities/license-information/view-license-information/view-license-information.component';
 import { AddLicenseInformationComponent } from './components/assets/activities/license-information/add-license-information/add-license-information.component';
 import { AssetsEffects } from './store/assets/assets.effects';
@@ -42,6 +40,9 @@ import { EvaluationInformationEffects } from './store/evaluation-information/eva
 import { reducer as evaluationInformationReducer } from './store/evaluation-information/evaluation-information.reducer';
 import { PurchasingOrdersEffects } from './store/purchasing-orders/purchasing-orders.effects';
 import { reducer as purchasingOrdersReducer } from './store/purchasing-orders/purchasing-orders.reducer';
+import { WizardPurchasingOrdersComponent } from './components/purchasing-orders/activities/wizard-purchasing-orders/wizard-purchasing-orders.component';
+import { AddPurchasingOrdersFileComponent } from './components/purchasing-orders/activities/purchasing-orders-files/add-purchasing-orders-file/add-purchasing-orders-file.component';
+import { ViewPurchasingOrdersFilesComponent } from './components/purchasing-orders/activities/purchasing-orders-files/view-purchasing-orders-files/view-purchasing-orders-files.component';
 
 @NgModule({
   declarations: [
@@ -52,10 +53,11 @@ import { reducer as purchasingOrdersReducer } from './store/purchasing-orders/pu
     WizardAssetComponent,
     ViewEvaluationInformationComponent,
     AddEvaluationInformationComponent,
-    AddWorkflowStatusComponent,
-    ViewWorkflowStatusComponent,
     ViewLicenseInformationComponent,
     AddLicenseInformationComponent,
+    WizardPurchasingOrdersComponent,
+    AddPurchasingOrdersFileComponent,
+    ViewPurchasingOrdersFilesComponent,
   ],
   imports: [
     CommonModule,
@@ -102,8 +104,6 @@ import { reducer as purchasingOrdersReducer } from './store/purchasing-orders/pu
     WizardAssetComponent,
     ViewEvaluationInformationComponent,
     AddEvaluationInformationComponent,
-    AddWorkflowStatusComponent,
-    ViewWorkflowStatusComponent,
     ViewLicenseInformationComponent,
     AddLicenseInformationComponent,
   ],

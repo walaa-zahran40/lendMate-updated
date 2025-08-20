@@ -78,7 +78,12 @@ export class ViewPurchasingOrdersComponent {
     this.showDeleteModal = false;
     this.selectedPurchasingOrderId = null;
   }
-
+  onAddSide(event: any) {
+    this.router.navigate([
+      '/purchasing/purchasing-orders/wizard-purchasing-order',
+      event,
+    ]);
+  }
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
     this.filteredPurchasingOrders = this.originalPurchasingOrders.filter(
@@ -94,15 +99,27 @@ export class ViewPurchasingOrdersComponent {
   }
 
   onEditPurchasingOrder(purchasingOrder: PurchaseOrder) {
-    this.router.navigate(['/legals/edit-legal-form-law', purchasingOrder.id], {
-      queryParams: { mode: 'edit' },
-    });
+    this.router.navigate(
+      [
+        '/purchasing/purchasing-orders/edit-purchasing-order',
+        purchasingOrder.id,
+      ],
+      {
+        queryParams: { mode: 'edit' },
+      }
+    );
   }
 
   onViewPurchasingOrder(purchasingOrder: PurchaseOrder) {
-    this.router.navigate(['/legals/edit-legal-form-law', purchasingOrder.id], {
-      queryParams: { mode: 'view' },
-    });
+    this.router.navigate(
+      [
+        '/purchasing/purchasing-orders/edit-purchasing-order',
+        purchasingOrder.id,
+      ],
+      {
+        queryParams: { mode: 'view' },
+      }
+    );
   }
   selectedIds: number[] = [];
   confirmDelete() {

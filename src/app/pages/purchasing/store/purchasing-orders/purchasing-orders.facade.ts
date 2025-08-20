@@ -44,6 +44,7 @@ export class PurchasingOrdersFacade {
   clearSelected() {
     this.store.dispatch(Actions.clearSelectedClient());
   }
+
   // History management
   readonly assetHistory$ = this.store.select(Selectors.selectHistory);
   readonly assetHistoryLoaded$ = this.store.select(
