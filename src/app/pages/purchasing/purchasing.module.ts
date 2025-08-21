@@ -42,7 +42,9 @@ import { PurchasingOrdersEffects } from './store/purchasing-orders/purchasing-or
 import { reducer as purchasingOrdersReducer } from './store/purchasing-orders/purchasing-orders.reducer';
 import { WizardPurchasingOrdersComponent } from './components/purchasing-orders/activities/wizard-purchasing-orders/wizard-purchasing-orders.component';
 import { AddPurchasingOrdersFileComponent } from './components/purchasing-orders/activities/purchasing-orders-files/add-purchasing-orders-file/add-purchasing-orders-file.component';
-import { ViewPurchasingOrdersFilesComponent } from './components/purchasing-orders/activities/purchasing-orders-files/view-purchasing-orders-files/view-purchasing-orders-files.component';
+import { ViewPurchasingOrderFilesComponent } from './components/purchasing-orders/activities/purchasing-orders-files/view-purchasing-orders-files/view-purchasing-orders-files.component';
+import { PurchasingOrderFilesEffects } from './store/purchasing-order-files/purchasing-order-files.effects';
+import { reducer as purchasingOrderFilesReducer } from './store/purchasing-order-files/purchasing-order-files.reducer';
 
 @NgModule({
   declarations: [
@@ -57,7 +59,7 @@ import { ViewPurchasingOrdersFilesComponent } from './components/purchasing-orde
     AddLicenseInformationComponent,
     WizardPurchasingOrdersComponent,
     AddPurchasingOrdersFileComponent,
-    ViewPurchasingOrdersFilesComponent,
+    ViewPurchasingOrderFilesComponent,
   ],
   imports: [
     CommonModule,
@@ -95,6 +97,8 @@ import { ViewPurchasingOrdersFilesComponent } from './components/purchasing-orde
     EffectsModule.forFeature([EvaluationInformationEffects]),
     EffectsModule.forFeature([PurchasingOrdersEffects]),
     StoreModule.forFeature('purchasingOrders', purchasingOrdersReducer),
+    EffectsModule.forFeature([PurchasingOrderFilesEffects]),
+    StoreModule.forFeature('purchasingOrderFiles', purchasingOrderFilesReducer),
   ],
   exports: [
     ViewAssetsComponent,
@@ -106,6 +110,7 @@ import { ViewPurchasingOrdersFilesComponent } from './components/purchasing-orde
     AddEvaluationInformationComponent,
     ViewLicenseInformationComponent,
     AddLicenseInformationComponent,
+    ViewPurchasingOrderFilesComponent,
   ],
 })
 export class PurchasingModule {}

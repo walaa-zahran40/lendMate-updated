@@ -11,7 +11,7 @@ import { AddEvaluationInformationComponent } from './components/assets/activitie
 import { AddLicenseInformationComponent } from './components/assets/activities/license-information/add-license-information/add-license-information.component';
 import { AddPurchasingOrderComponent } from './components/purchasing-orders/add-purchasing-order/add-purchasing-order.component';
 import { WizardPurchasingOrdersComponent } from './components/purchasing-orders/activities/wizard-purchasing-orders/wizard-purchasing-orders.component';
-import { ViewPurchasingOrdersFilesComponent } from './components/purchasing-orders/activities/purchasing-orders-files/view-purchasing-orders-files/view-purchasing-orders-files.component';
+import { ViewPurchasingOrderFilesComponent } from './components/purchasing-orders/activities/purchasing-orders-files/view-purchasing-orders-files/view-purchasing-orders-files.component';
 import { AddPurchasingOrdersFileComponent } from './components/purchasing-orders/activities/purchasing-orders-files/add-purchasing-orders-file/add-purchasing-orders-file.component';
 
 const routes: Routes = [
@@ -80,8 +80,8 @@ const routes: Routes = [
     component: WizardPurchasingOrdersComponent,
   },
   {
-    path: 'purchasing-orders/activities/view-purchasing-orders-files/:id',
-    component: ViewPurchasingOrdersFilesComponent,
+    path: 'purchasing-orders/activities/view-purchasing-order-files/:id',
+    component: ViewPurchasingOrderFilesComponent,
   },
 
   {

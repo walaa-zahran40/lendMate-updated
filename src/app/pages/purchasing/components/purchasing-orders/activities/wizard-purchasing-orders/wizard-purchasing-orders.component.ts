@@ -22,9 +22,9 @@ export class WizardPurchasingOrdersComponent {
       {
         imgUrl: '/assets/images/shared/card/upload.svg',
         imgAlt: 'upload',
-        title: 'Purchasing Orders Files',
-        content: 'Purchasing Orders Files',
-        link: `purchasing/purchasing-orders/activities/view-purchasing-orders-files/${this.assetId}`,
+        title: 'Purchasing Order Files',
+        content: 'Purchasing Order Files',
+        link: `purchasing/purchasing-orders/activities/view-purchasing-order-files/${this.assetId}`,
       },
       // {
       //   imgUrl: '/assets/images/shared/card/add.svg',

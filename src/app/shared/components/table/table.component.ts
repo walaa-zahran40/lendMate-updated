@@ -68,6 +68,7 @@ export class TableComponent {
   @Input() viewLicenseInformationTable!: boolean;
   @Input() viewTurnOverTable!: boolean;
   @Input() viewCommunicationFlowTypesTable!: boolean;
+  @Input() viewPurchasingOrderFilesTable!: boolean;
   @Input() viewCommunicationTypesTable!: boolean;
   @Input() viewAddressTypesTable!: boolean;
   @Input() ViewAuthorizationGroupsComponent!: boolean;

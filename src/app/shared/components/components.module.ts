@@ -101,10 +101,12 @@ import { VendorFormComponent } from '../../pages/lookups/forms/vendor-form/vendo
 import { VendorAddressFormComponent } from '../../pages/lookups/forms/vendor-address-form/vendor-address-form.component';
 import { AddPOInformationFormComponent } from '../../pages/purchasing/forms/add-po-information-form/add-po-information-form.component';
 import { AddSignatoryFormComponent } from '../../pages/purchasing/forms/add-signatory-form/add-signatory-form.component';
+import { AddPurchasingOrderFileComponent } from '../../pages/purchasing/forms/add-purchasing-order-file-form/add-purchasing-order-file-form.component';
 
 @NgModule({
   declarations: [
     TableComponent,
+    AddPurchasingOrderFileComponent,
     AddPOInformationFormComponent,
     SideMenuComponent,
     NavBarComponent,
@@ -213,6 +215,7 @@ import { AddSignatoryFormComponent } from '../../pages/purchasing/forms/add-sign
   ],
   providers: [DatePipe, AsyncPipe, MessageService],
   exports: [
+    AddPurchasingOrderFileComponent,
     LicenseProviderFormComponent,
     AddEvaluatorFormComponent,
     TableComponent,

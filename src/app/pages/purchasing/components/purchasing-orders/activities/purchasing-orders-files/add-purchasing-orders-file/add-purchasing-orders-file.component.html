@@ -1,1 +1,51 @@
-<p>add-purchasing-orders-file works!</p>
+<app-toolbar-form
+  [backExists]="true"
+  [backIcon]="'back-icon'"
+  [viewOnly]="false"
+  [header]="
+    viewOnly
+      ? 'View Purchasing Order File'
+      : editMode
+      ? 'Edit Purchasing Order File'
+      : 'Add Purchasing Order File'
+  "
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-add-purchasing-order-file-form
+        [title]="'Purchasing Order File'"
+        [description]="'Purchasing Order File Description'"
+        [addPurchasingOrderFileForm]="true"
+        [formGroup]="addPurchasingOrderFileForm"
+        (submitForm)="addOrEditPurchasingOrderFile()"
+        [purchaseOrders]="purchaseOrders$ | async"
+        [documentTypes]="documentTypes$ | async"
+        [editMode]="editMode"
+        [viewOnly]="viewOnly"
+      ></app-add-purchasing-order-file-form>
+      <div
+        class="col-sm-6 d-flex mt-5 justify-end float-right margin-top p-0 w-100"
+      >
+        <p-button
+          *ngIf="viewOnly"
+          class="custom-save m-0"
+          label="Close"
+          (click)="close()"
+        >
+        </p-button>
+
+        <!-- Save right away when there is NO step 2 (Property) -->
+        <p-button
+          *ngIf="!viewOnly"
+          class="custom-save m-0"
+          [label]="'BUTTONS.SAVE_INFO' | translate"
+          [disabled]="addPurchasingOrderFileForm.invalid"
+          (click)="addOrEditPurchasingOrderFile()"
+        >
+        </p-button>
+      </div>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

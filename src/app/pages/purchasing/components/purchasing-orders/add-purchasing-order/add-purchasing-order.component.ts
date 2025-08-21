@@ -327,7 +327,7 @@ export class AddPurchasingOrderComponent {
       vendorId: num(header.vendorId),
       vendorAddressId: num(header.vendorAddressId),
       deliveryLocationDetails: (header.deliveryLocationDetails ?? '').trim(),
-
+      isActive: header.isActive,
       purchaseOrderFinancialActivities: [
         {
           assetId: num(fin.assetId),

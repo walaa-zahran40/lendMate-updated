@@ -1,0 +1,91 @@
+<div class="parent">
+  <div *ngIf="!contactPersonDetailsView" class="div1">
+    <h2 class="m-0 title">{{ title }}</h2>
+    <p class="tab-panel-paragraph">
+      {{ description }}
+    </p>
+    <p-button
+      *ngIf="addPurchasingOrderFileForm"
+      icon="pi pi-cog"
+      label="View Purchasing Order File"
+      icon="pi pi-cog"
+      (click)="viewPurchasingOrderFiles()"
+      class="custom-view m-0 float-right"
+    />
+  </div>
+  <div class="div2" [ngClass]="{ span: applyReusable }">
+    <form
+      [formGroup]="formGroup"
+      *ngIf="addPurchasingOrderFileForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="purchaseOrderId"
+        >Purchase Order <sup class="danger">*</sup></label
+      >
+      <p-select
+        [filter]="true"
+        filterBy="number"
+        [showClear]="true"
+        id="purchaseOrderId"
+        [options]="purchaseOrders"
+        [readonly]="true"
+        optionLabel="number"
+        placeholder="Select Purchase Order"
+        formControlName="purchaseOrderId"
+        optionValue="id"
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('purchaseOrderId')?.invalid &&
+            (formGroup.get('purchaseOrderId')?.dirty ||
+              formGroup.get('purchaseOrderId')?.touched)
+        }"
+      ></p-select>
+
+      <small
+        class="p-error"
+        *ngIf="
+          formGroup.get('purchaseOrderId')?.hasError('required') &&
+          formGroup.get('purchaseOrderId')?.touched
+        "
+      >
+        Purchase Order is required.
+      </small>
+      <br />
+      <label for="documentTypeId"
+        >Document Type <sup class="danger">*</sup></label
+      >
+      <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
+        id="documentTypeId"
+        [options]="documentTypes"
+        [readonly]="false"
+        optionLabel="name"
+        placeholder="Select Document Type"
+        formControlName="documentTypeId"
+        optionValue="id"
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('documetTypeId')?.invalid &&
+            (formGroup.get('documetTypeId')?.dirty ||
+              formGroup.get('documetTypeId')?.touched)
+        }"
+      ></p-select>
+
+      <small
+        class="p-error"
+        *ngIf="
+          formGroup.get('documetTypeId')?.hasError('required') &&
+          formGroup.get('documetTypeId')?.touched
+        "
+      >
+        Document Type is required.
+      </small>
+      <br />
+      <label for="expiryDate">Expiry Date <sup class="danger">*</sup></label>
+      <shared-date-picker formControlName="expiryDate" inputId="date">
+      </shared-date-picker>
+    </form>
+  </div>
+</div>
