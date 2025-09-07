@@ -69,12 +69,6 @@
       background: transparent !important;
     }
 
-    .p-fileupload-choose-button {
-      visibility: hidden;
-    }
-    .p-fileupload-advanced {
-      border: none !important;
-    }
     .p-multiselect-label.p-placeholder {
       background: var(--bg-transparent);
       color: inherit;
@@ -88,6 +82,20 @@
     }
     .p-toggleswitch {
       top: 7px;
+    }
+    .p-button:not(:disabled):hover,
+    .p-button-secondary:hover,
+    .p-button-secondary {
+      color: #fff !important;
+    }
+    .p-button-danger,
+    .p-button-danger:hover,
+    .p-button-danger:not(:disabled):hover {
+      background: transparent !important;
+      color: red !important;
+    }
+    .p-button-text:not(:disabled) {
+      color: #fff !important;
     }
     .p-toggleswitch.p-toggleswitch-checked .p-toggleswitch-slider,
     .p-toggleswitch.p-toggleswitch-checked .p-toggleswitch-slider:hover,
@@ -414,6 +422,7 @@
     .add-btn .p-button:not(:disabled):hover {
       background: var(--p-tabs-active-bar-background) !important;
     }
+
     /*responsiveness*/
     @media only screen and (max-width: 1541px) and (min-width: 981px) {
       .div-contact-person {

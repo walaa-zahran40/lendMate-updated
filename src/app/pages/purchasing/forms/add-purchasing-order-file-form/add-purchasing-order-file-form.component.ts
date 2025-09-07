@@ -8,11 +8,12 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
+import { FileUploadEvent } from 'primeng/fileupload';
+import { FileSelectEvent } from 'primeng/fileupload';
 
 import { FormGroup, FormArray, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { FileUpload } from 'primeng/fileupload';
 import {
   Observable,
   Subscription,
@@ -35,6 +36,16 @@ import { Sector } from '../../../lookups/store/sectors/sector.model';
 import { selectAllSectors } from '../../../lookups/store/sectors/sectors.selectors';
 import { selectAllSubSectors } from '../../../lookups/store/sub-sectors/sub-sectors.selectors';
 import { PageOperationGroup } from '../../../organizations/store/page-operations/page-operation-group.model';
+import { FileUpload } from 'primeng/fileupload';
+import { MessageService } from 'primeng/api';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+
+type PreviewItem = {
+  name: string;
+  type: string;
+  url: string; // object URL
+  safeUrl?: SafeResourceUrl; // for iframe/embed
+};
 
 @Component({
   selector: 'app-add-purchasing-order-file-form',
@@ -639,7 +650,9 @@ export class AddPurchasingOrderFileComponent implements OnInit, OnDestroy {
     private facade: LegalFormLawFacade,
     private facadeLegalForms: LegalFormsFacade,
     private route: ActivatedRoute,
-    public router: Router
+    private messageService: MessageService,
+    public router: Router,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit() {
@@ -701,6 +714,9 @@ export class AddPurchasingOrderFileComponent implements OnInit, OnDestroy {
     // Combine sectorId changes with all sub-sectors
   }
   ngOnDestroy() {
+    // cleanup any remaining URLs
+    for (const p of this.previews) URL.revokeObjectURL(p.url);
+
     this.sub.unsubscribe();
   }
 
@@ -1173,7 +1189,7 @@ export class AddPurchasingOrderFileComponent implements OnInit, OnDestroy {
   }
   viewPurchasingOrderFiles() {
     this.router.navigate([
-      `/purchasing/purchasing-orders/activities/view-purchasing-order-files/${this.clientStatusActionIdParam}`,
+      `/purchasing/purchasing-orders/activities/view-purchasing-order-files/${this.mandateStatusIdParam}`,
     ]);
   }
   onSubSectorChange(event: any): void {
@@ -1372,5 +1388,37 @@ export class AddPurchasingOrderFileComponent implements OnInit, OnDestroy {
       this.onChange(fullObj);
     }
     console.log('Selected selectionChangedPaymentMonthDay:', fullObj);
+  }
+  //Uploader
+  previews: PreviewItem[] = [];
+
+  uploadedFiles: any[] = [];
+  onUpload(event: FileUploadEvent) {
+    for (let file of event.files) {
+      this.uploadedFiles.push(file);
+    }
+
+    this.messageService.add({
+      severity: 'info',
+      summary: 'File Uploaded',
+      detail: '',
+    });
+  }
+  onSelect(event: FileSelectEvent) {
+    for (const file of event.files ?? []) {
+      const url = URL.createObjectURL(file);
+      const item: PreviewItem = { name: file.name, type: file.type, url };
+
+      // PDFs in iframe need a SafeResourceUrl
+      if (file.type === 'application/pdf') {
+        item.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+      }
+
+      this.previews.push(item);
+    }
+  }
+  removePreview(item: PreviewItem) {
+    this.previews = this.previews.filter((p) => p !== item);
+    URL.revokeObjectURL(item.url);
   }
 }
