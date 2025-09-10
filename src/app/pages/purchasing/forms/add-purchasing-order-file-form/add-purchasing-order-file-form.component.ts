@@ -43,8 +43,9 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 type PreviewItem = {
   name: string;
   type: string;
-  url: string; // object URL
-  safeUrl?: SafeResourceUrl; // for iframe/embed
+  url: string;
+  file: File;
+  safeUrl?: SafeResourceUrl;
 };
 
 @Component({
@@ -62,7 +63,6 @@ export class AddPurchasingOrderFileComponent implements OnInit, OnDestroy {
   @Output() onCheckboxChange = new EventEmitter<any>();
   selectedPaymentPeriod: any;
   selectedGracePeriodUnit: any;
-
   @Input() phoneTypeOptions!: any;
   @Input() identityTypeOptions!: IdentificationType[];
   @Output() addPhoneType = new EventEmitter<void>();
@@ -173,76 +173,8 @@ export class AddPurchasingOrderFileComponent implements OnInit, OnDestroy {
   @Output() selectionChangedPaymentMethod = new EventEmitter<any>();
   @Output() selectionChangedPaymentMonthDay = new EventEmitter<any>();
   //ngModel Values
-  value: string | undefined;
-  value1: string | undefined;
-  value2: string | undefined;
-  value3: string | undefined;
-  value4: string | undefined;
-  value5: string | undefined;
-  value6: string | undefined;
-  value7: string | undefined;
-  value8: string | undefined;
-  value9: string | undefined;
-  value10: string | undefined;
-  value11: string | undefined;
-  value12: string | undefined;
-  value13: string | undefined;
-  value14: string | undefined;
-  value15: string | undefined;
-  value16: string | undefined;
-  value17: string | undefined;
-  value19: string | undefined;
-  value20: string | undefined;
-  value21: string | undefined;
-  value22: string | undefined;
-  value23: string | undefined;
-  value24: string | undefined;
-  value25: string | undefined;
-  value26: string | undefined;
-  value27: string | undefined;
-  value28: string | undefined;
-  value29: string | undefined;
-  value30: string | undefined;
-  value31: string | undefined;
-  value32: string | undefined;
-  value33: string | undefined;
-  value34: string | undefined;
-  value35: string | undefined;
-  value36: string | undefined;
-  value37: string | undefined;
-  value38: string | undefined;
-  value39: string | undefined;
-  value40: string | undefined;
-  value41: string | undefined;
-  value42: string | undefined;
-  value43: string | undefined;
-  value44: string | undefined;
-  value45: string | undefined;
-  value46: string | undefined;
-  value47: string | undefined;
-  value48: string | undefined;
-  value49: string | undefined;
-  value50: string | undefined;
-  value51: string | undefined;
-  value52: string | undefined;
-  value53: string | undefined;
-  value54: string | undefined;
-  value55: string | undefined;
-  value56: string | undefined;
-  value57: string | undefined;
-  value58: string | undefined;
-  value59: string | undefined;
-  value60: string | undefined;
-  value61: string | undefined;
-  value62: string | undefined;
-  value63: string | undefined;
-  value64: string | undefined;
-  value65: string | undefined;
-  value66: string | undefined;
-  value67: string | undefined;
-  value68: string | undefined;
-  value69: string | undefined;
-  value70: string | undefined;
+  @ViewChild('fileUploader') fileUploader!: FileUpload;
+
   //options
   sectors!: any;
   crAuthorityOffices!: any;
@@ -257,7 +189,6 @@ export class AddPurchasingOrderFileComponent implements OnInit, OnDestroy {
   selectedCurrencyExchangeLookups!: any;
   selectedDocuments!: any;
   @Input() documents: any[] = [];
-  @ViewChild('fileUploader') fileUploader!: FileUpload;
 
   selectedAreas!: any;
   codes!: any;
@@ -711,7 +642,9 @@ export class AddPurchasingOrderFileComponent implements OnInit, OnDestroy {
         this.facadeLegalForms.loadAll();
       }
     }
-    // Combine sectorId changes with all sub-sectors
+    if (!Array.isArray(this.formGroup.get('file')?.value)) {
+      this.formGroup.get('file')?.setValue([]);
+    }
   }
   ngOnDestroy() {
     // cleanup any remaining URLs
@@ -738,29 +671,7 @@ export class AddPurchasingOrderFileComponent implements OnInit, OnDestroy {
   get mandateGracePeriodSettingView(): FormGroup {
     return this.formGroup.get('mandateGracePeriodSettingView') as FormGroup;
   }
-  onSectorChange(event: any) {
-    const selectedId = event.value;
-    this.sectorsSafe$
-      ?.pipe(
-        take(1),
-        map((sectors) => sectors.find((s) => s.id === selectedId)),
-        filter((sector): sector is Sector => !!sector)
-      )
-      .subscribe((sector) => {
-        this.value = selectedId;
-        this.onChange(this.value);
-        this.onTouched();
-        this.selectionChanged.emit(sector);
-        this.sectorChanged.emit(selectedId);
-        // ← add this block to clear sub-sector selections:
-        const subCtrl = this.formGroup.get('subSectorIdList');
-        if (subCtrl) {
-          subCtrl.setValue([]); // remove all IDs
-          subCtrl.markAsUntouched(); // reset touched state if you like
-          subCtrl.updateValueAndValidity();
-        }
-      });
-  }
+
   get operationsLabel(): string {
     if (!this.operationsList || this.operationsList.length === 0) {
       return 'Select an operation';
@@ -1392,33 +1303,57 @@ export class AddPurchasingOrderFileComponent implements OnInit, OnDestroy {
   //Uploader
   previews: PreviewItem[] = [];
 
-  uploadedFiles: any[] = [];
-  onUpload(event: FileUploadEvent) {
-    for (let file of event.files) {
-      this.uploadedFiles.push(file);
-    }
-
-    this.messageService.add({
-      severity: 'info',
-      summary: 'File Uploaded',
-      detail: '',
-    });
-  }
   onSelect(event: FileSelectEvent) {
-    for (const file of event.files ?? []) {
-      const url = URL.createObjectURL(file);
-      const item: PreviewItem = { name: file.name, type: file.type, url };
+    const files: File[] = event.files ?? [];
+    const current: File[] = [...(this.formGroup.get('file')?.value ?? [])];
 
-      // PDFs in iframe need a SafeResourceUrl
+    for (const file of files) {
+      const url = URL.createObjectURL(file);
+      const item: PreviewItem = { name: file.name, type: file.type, url, file };
       if (file.type === 'application/pdf') {
         item.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
       }
-
       this.previews.push(item);
+      current.push(file);
     }
+
+    this.formGroup.get('file')?.setValue(current);
+    this.formGroup.get('file')?.markAsDirty();
+    this.formGroup.get('file')?.updateValueAndValidity();
   }
+
   removePreview(item: PreviewItem) {
-    this.previews = this.previews.filter((p) => p !== item);
-    URL.revokeObjectURL(item.url);
+    // 1) UI list: remove only this item
+    const idxPrev = this.previews.findIndex((p) => p === item);
+    if (idxPrev > -1) {
+      URL.revokeObjectURL(this.previews[idxPrev].url);
+      this.previews.splice(idxPrev, 1);
+    }
+
+    // 2) Form control (File[])
+    const current: File[] = this.formGroup.get('file')?.value ?? [];
+    const next = current.filter((f) => f !== item.file);
+    this.formGroup.get('file')?.setValue(next);
+    this.formGroup.get('file')?.markAsDirty();
+    this.formGroup.get('file')?.updateValueAndValidity();
+
+    // 3) PrimeNG internal queue
+    if (this.fileUploader?.files) {
+      const i = this.fileUploader.files.findIndex(
+        (f) =>
+          f === item.file ||
+          (f.name === item.name &&
+            f.size === item.file.size &&
+            f.type === item.file.type)
+      );
+      if (i > -1) {
+        this.fileUploader.files.splice(i, 1);
+      }
+
+      // When nothing left, clear the native input and internal state
+      if (this.fileUploader.files.length === 0) {
+        this.fileUploader.clear(); // clears the input value & queue
+      }
+    }
   }
 }

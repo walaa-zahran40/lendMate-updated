@@ -54,17 +54,15 @@ export class PurchaseOrderFilesService {
     );
   }
 
-  create(
-    payload: Omit<PurchaseOrderFile, 'id'>
-  ): Observable<PurchaseOrderFile> {
+  create(body: FormData | Partial<PurchaseOrderFile>) {
     return this.http.post<PurchaseOrderFile>(
       `${this.baseUrl}/CreatePurchaseOrderFile`,
-      payload
+      body
     );
   }
 
-  update(id: number, changes: Partial<PurchaseOrderFile>): Observable<void> {
-    return this.http.put<void>(`${this.baseUrl}/${id}`, changes);
+  update(id: number, body: FormData | Partial<PurchaseOrderFile>) {
+    return this.http.put<void>(`${this.baseUrl}/${id}`, body);
   }
 
   delete(id: number): Observable<void> {

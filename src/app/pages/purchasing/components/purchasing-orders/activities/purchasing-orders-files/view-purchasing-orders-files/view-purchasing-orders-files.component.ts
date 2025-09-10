@@ -51,6 +51,7 @@ export class ViewPurchasingOrderFilesComponent {
 
   ngOnInit() {
     this.facade.loadAll();
+    this.purchasingOrderFiles$ = this.facade.all$;
 
     this.facadePurchasingOrders.loadAll();
     this.purchaseOrders$ = this.facadePurchasingOrders.all$.pipe(
@@ -162,7 +163,6 @@ export class ViewPurchasingOrderFilesComponent {
       next: () => {
         this.selectedIds = [];
         this.showDeleteModal = false; // CLOSE MODAL HERE
-        this.refreshCalls();
       },
       error: (err) => {
         this.showDeleteModal = false; // STILL CLOSE IT
@@ -170,10 +170,6 @@ export class ViewPurchasingOrderFilesComponent {
     });
   }
 
-  refreshCalls() {
-    this.facade.loadAll();
-    this.purchasingOrderFiles$ = this.facade.all$;
-  }
   onBulkDelete(ids: number[]) {
     // Optionally confirm first
     this.selectedIds = ids;

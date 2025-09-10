@@ -65,6 +65,7 @@ export class AddPurchasingOrdersFileComponent {
       purchaseOrderId: [null, Validators.required],
       documentTypeId: [null, Validators.required],
       expiryDate: [null, Validators.required],
+      file: [null, this.viewOnly ? [] : Validators.required],
     });
     console.log(
       '🛠️ Form initialized with defaults:',
@@ -115,6 +116,10 @@ export class AddPurchasingOrdersFileComponent {
           if (this.viewOnly) {
             console.log('🔐 viewOnly → disabling form');
             this.addPurchasingOrderFileForm.disable();
+            this.addPurchasingOrderFileForm.get('file')?.clearValidators();
+            this.addPurchasingOrderFileForm
+              .get('file')
+              ?.updateValueAndValidity({ emitEvent: false });
           }
         });
     } else if (this.viewOnly) {
@@ -124,17 +129,7 @@ export class AddPurchasingOrdersFileComponent {
   }
 
   addOrEditPurchasingOrderFile() {
-    const assetParam = this.route.snapshot.paramMap.get('id');
-
-    console.log('💥 addPurchaseOrderFile() called');
-    console.log('  viewOnly:', this.viewOnly);
-    console.log('  editMode:', this.editMode);
-    console.log('  form valid:', this.addPurchasingOrderFileForm.valid);
-    console.log('  form touched:', this.addPurchasingOrderFileForm.touched);
-    console.log(
-      '  form raw value:',
-      this.addPurchasingOrderFileForm.getRawValue()
-    );
+    const routeId = this.route.snapshot.paramMap.get('id');
 
     if (this.addPurchasingOrderFileForm.invalid) {
       console.warn('❌ Form is invalid — marking touched and aborting');
@@ -142,41 +137,48 @@ export class AddPurchasingOrdersFileComponent {
       return;
     }
 
-    this.addPurchasingOrderFileForm.patchValue({
-      routeId: assetParam,
-    });
+    // Use rawValue because purchaseOrderId is disabled in add-mode
+    const raw = this.addPurchasingOrderFileForm.getRawValue();
+    const { id, purchaseOrderId, documentTypeId, expiryDate, file } = raw;
+    const fileValue = this.addPurchasingOrderFileForm.get('file')?.value;
+    const files: File[] = Array.isArray(fileValue)
+      ? fileValue
+      : fileValue
+      ? [fileValue]
+      : [];
 
-    const { purchaseOrderId, fileId, expiryDate } =
-      this.addPurchasingOrderFileForm.value;
-    const payload: Partial<PurchaseOrderFile> = {
-      purchaseOrderId,
-      fileId,
-      expiryDate,
-    };
-    console.log('  → payload object:', payload);
+    if (this.mode === 'add' && files.length === 0) {
+      console.warn('No file selected.');
+      // optionally show a toast here
+      return;
+    }
 
-    const data = this.addPurchasingOrderFileForm
-      .value as Partial<PurchaseOrderFile>;
-    console.log('📦 Payload going to facade:', data);
-
-    const routeId = this.route.snapshot.paramMap.get('id');
-    console.log('  route.snapshot.paramMap.get(retrivedId):', routeId);
+    const fd = new FormData();
+    if (id != null) fd.append('id', String(id));
+    fd.append('purchaseOrderId', String(purchaseOrderId));
+    fd.append('documentTypeId', String(documentTypeId));
+    fd.append('expiryDate', this.formatDateWithoutTime(expiryDate));
+    for (const f of files) fd.append('file', f);
 
     if (this.mode === 'add') {
-      console.log('➕ Dispatching CREATE');
-      this.facade.create(payload);
+      this.facade.create(fd as any);
     } else {
-      console.log('✏️ Dispatching UPDATE id=', data.id);
-      this.facade.update(data.id!, data);
-    }
-    if (this.addPurchasingOrderFileForm.valid) {
-      this.addPurchasingOrderFileForm.markAsPristine();
+      this.facade.update(id!, fd as any);
     }
 
+    this.addPurchasingOrderFileForm.markAsPristine();
     this.router.navigate([
-      `/purchasing/purchasing-orders/activities/view-purchasing-order-files/${assetParam}`,
+      `/purchasing/purchasing-orders/activities/view-purchasing-order-files/${routeId}`,
     ]);
   }
+  private formatDateWithoutTime(date: Date | string): string {
+    const d = date instanceof Date ? date : new Date(date);
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+  }
+
   close() {
     console.log('Navigating back to view-purchasing-order-files');
     this.router.navigate([

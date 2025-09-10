@@ -1,7 +1,6 @@
 <app-toolbar-form
   [backExists]="true"
   [backIcon]="'back-icon'"
-  [viewOnly]="false"
   [header]="
     viewOnly
       ? 'View Purchasing Order File'
@@ -9,7 +8,7 @@
       ? 'Edit Purchasing Order File'
       : 'Add Purchasing Order File'
   "
-  [viewOnly]="editMode ? true : false"
+  [viewOnly]="viewOnly"
 ></app-toolbar-form>
 <p-tabs value="0" styleClass="p-3">
   <p-tabpanels>

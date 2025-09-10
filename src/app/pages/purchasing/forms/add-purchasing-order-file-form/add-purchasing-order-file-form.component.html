@@ -67,17 +67,17 @@
         optionValue="id"
         [ngClass]="{
           'ng-invalid':
-            formGroup.get('documetTypeId')?.invalid &&
-            (formGroup.get('documetTypeId')?.dirty ||
-              formGroup.get('documetTypeId')?.touched)
+            formGroup.get('documentTypeId')?.invalid &&
+            (formGroup.get('documentTypeId')?.dirty ||
+              formGroup.get('documentTypeId')?.touched)
         }"
       ></p-select>
 
       <small
         class="p-error"
         *ngIf="
-          formGroup.get('documetTypeId')?.hasError('required') &&
-          formGroup.get('documetTypeId')?.touched
+          formGroup.get('documentTypeId')?.hasError('required') &&
+          formGroup.get('documentTypeId')?.touched
         "
       >
         Document Type is required.
@@ -89,14 +89,17 @@
       <div class="my-5">
         <p-toast />
         <p-fileupload
+          #fileUploader
           name="files[]"
-          [showUploadButton]="false"
-          (onUpload)="onUpload($event)"
-          (onSelect)="onSelect($event)"
           [multiple]="true"
+          [showUploadButton]="false"
+          (onSelect)="onSelect($event)"
           maxFileSize="1000000"
-          mode="advanced"
+          mode="basic"
+          [auto]="false"
+          [customUpload]="true"
           [previewWidth]="100"
+          styleClass="w-full"
         >
           <ng-template #empty>
             <div>Drag and drop files to here to upload.</div>
