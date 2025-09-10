@@ -62,6 +62,9 @@ export class AddPurchasingOrderFileComponent implements OnInit, OnDestroy {
   @Output() removeIdentity = new EventEmitter<number>();
   @Output() onCheckboxChange = new EventEmitter<any>();
   selectedPaymentPeriod: any;
+  @Input() existingFileName?: string;
+  @Input() existingFileUrl?: string; // optional, only if you have a download endpoint
+
   selectedGracePeriodUnit: any;
   @Input() phoneTypeOptions!: any;
   @Input() identityTypeOptions!: IdentificationType[];
@@ -69,6 +72,7 @@ export class AddPurchasingOrderFileComponent implements OnInit, OnDestroy {
   @Output() removePhoneType = new EventEmitter<number>();
   @Output() addCommunicationOfficer = new EventEmitter<void>();
   @Output() removeCommunicationOfficer = new EventEmitter<number>();
+  @Input() existingFileId?: number;
 
   @Output() addCommunicationAssetType = new EventEmitter<void>();
   @Output() removeCommunicationAssetType = new EventEmitter<number>();
@@ -576,6 +580,7 @@ export class AddPurchasingOrderFileComponent implements OnInit, OnDestroy {
   @Input() operationIdValue!: any;
   clientDocId!: any;
   clientId: any;
+
   constructor(
     private store: Store,
     private facade: LegalFormLawFacade,

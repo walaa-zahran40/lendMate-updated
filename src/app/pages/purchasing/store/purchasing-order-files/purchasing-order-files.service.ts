@@ -45,12 +45,7 @@ export class PurchaseOrderFilesService {
   }
   getById(id: number): Observable<PurchaseOrderFile> {
     return this.http.get<PurchaseOrderFile>(
-      `${this.baseUrl}/PurchaseOrderFileId?id${id}`
-    );
-  }
-  getByAssetId(id: number): Observable<PurchaseOrderFile> {
-    return this.http.get<PurchaseOrderFile>(
-      `${this.baseUrl}/PurchaseOrderId?clientId=${id}`
+      `${this.baseUrl}/PurchaseOrderFileId?id=${id}`
     );
   }
 

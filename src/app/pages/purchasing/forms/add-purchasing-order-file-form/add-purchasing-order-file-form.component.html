@@ -88,6 +88,19 @@
       </shared-date-picker>
       <div class="my-5">
         <p-toast />
+        <div *ngIf="editMode && existingFileName" class="mb-2">
+          <i class="pi pi-paperclip mr-2"></i>
+          <a
+            *ngIf="existingFileUrl; else justName"
+            [href]="existingFileUrl"
+            target="_blank"
+            rel="noopener"
+          >
+            {{ existingFileName }}
+          </a>
+          <ng-template #justName>{{ existingFileName }}</ng-template>
+        </div>
+
         <p-fileupload
           #fileUploader
           name="files[]"

@@ -26,6 +26,11 @@ export class AddPurchasingOrdersFileComponent {
   purchaseOrders$!: Observable<PurchaseOrder[]>;
   documentTypes$!: Observable<DocType[]>;
   private destroy$ = new Subject<void>();
+  currentRecord?: PurchaseOrderFile | null = null; // <— add this
+  existingFileName?: string;
+  existingFileId?: number;
+  existingFileUrl?: string;
+
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -40,14 +45,22 @@ export class AddPurchasingOrdersFileComponent {
     // 1️⃣ Read route parameters
     console.log(this.route.snapshot, 'route');
     this.routeId = Number(this.route.snapshot.params['id']);
-
     this.mode =
       (this.route.snapshot.queryParamMap.get('mode') as
         | 'add'
         | 'edit'
         | 'view') ?? 'add';
+
     this.editMode = this.mode === 'edit';
     this.viewOnly = this.mode === 'view';
+    const routeParamId = Number(this.route.snapshot.params['id']);
+
+    if (this.editMode || this.viewOnly) {
+      this.recordId = routeParamId; // file id
+    } else {
+      this.routeId = routeParamId; // purchase order id for add
+    }
+
     console.log('🔍 Params:', {
       routeId: this.routeId,
       mode: this.mode,
@@ -65,7 +78,7 @@ export class AddPurchasingOrdersFileComponent {
       purchaseOrderId: [null, Validators.required],
       documentTypeId: [null, Validators.required],
       expiryDate: [null, Validators.required],
-      file: [null, this.viewOnly ? [] : Validators.required],
+      file: [[], this.editMode || this.viewOnly ? [] : Validators.required],
     });
     console.log(
       '🛠️ Form initialized with defaults:',
@@ -90,41 +103,45 @@ export class AddPurchasingOrdersFileComponent {
     }
     // 8️⃣ If editing or viewing, load & patch
     if (this.editMode || this.viewOnly) {
-      console.log('edit ', this.editMode, 'route', this.route.snapshot);
-      this.recordId = Number(this.route.snapshot.paramMap.get('id'));
-      console.log('🔄 Loading existing record id=', this.recordId);
       this.facade.loadById(this.recordId);
 
       this.facade.selected$
         .pipe(
-          filter((ct) => !!ct && ct.id === this.recordId),
+          filter(
+            (ct): ct is PurchaseOrderFile => !!ct && ct.id === this.recordId
+          ),
           take(1)
         )
         .subscribe((ct) => {
-          console.log('🛰️ facade.current$ emitted:', ct);
-          // patch form
+          this.currentRecord = ct; // keep a ref for submit
+
           this.addPurchasingOrderFileForm.patchValue({
-            id: ct?.id,
-            purchaseOrderId: this.routeId,
-            documentTypeId: ct?.documentTypeId,
-            // expiryDate: ct?.expiryDate,
+            id: ct.id,
+            purchaseOrderId: ct.purchaseOrderId, // <-- from entity
+            documentTypeId: ct.documentTypeId,
+            expiryDate: ct.expiryDate ? new Date(ct.expiryDate) : null,
           });
-          console.log(
-            '📝 Form after patchValue:',
-            this.addPurchasingOrderFileForm.value
-          );
-          if (this.viewOnly) {
-            console.log('🔐 viewOnly → disabling form');
-            this.addPurchasingOrderFileForm.disable();
-            this.addPurchasingOrderFileForm.get('file')?.clearValidators();
-            this.addPurchasingOrderFileForm
-              .get('file')
-              ?.updateValueAndValidity({ emitEvent: false });
-          }
+          this.existingFileName = ct.fileName;
+          this.existingFileId = ct.fileId; // if you have a download endpoint, build a URL from this
+          this.existingFileUrl = ct.filePath;
+
+          // In edit/view, do NOT force file selection
+          const fileCtrl = this.addPurchasingOrderFileForm.get('file')!;
+          fileCtrl.clearValidators();
+          fileCtrl.updateValueAndValidity({ emitEvent: false });
+
+          if (this.viewOnly)
+            this.addPurchasingOrderFileForm.disable({ emitEvent: false });
         });
     } else if (this.viewOnly) {
-      console.log('🔐 viewOnly (no id) → disabling form');
-      this.addPurchasingOrderFileForm.disable();
+      // ADD mode: seed the purchaseOrderId from route
+      this.addPurchasingOrderFileForm.patchValue({
+        purchaseOrderId: this.routeId,
+      });
+      // keep it disabled in add if you want it read-only
+      this.addPurchasingOrderFileForm
+        .get('purchaseOrderId')
+        ?.disable({ emitEvent: false });
     }
   }
 
@@ -139,7 +156,7 @@ export class AddPurchasingOrdersFileComponent {
 
     // Use rawValue because purchaseOrderId is disabled in add-mode
     const raw = this.addPurchasingOrderFileForm.getRawValue();
-    const { id, purchaseOrderId, documentTypeId, expiryDate, file } = raw;
+    const { id, purchaseOrderId, documentTypeId, expiryDate } = raw;
     const fileValue = this.addPurchasingOrderFileForm.get('file')?.value;
     const files: File[] = Array.isArray(fileValue)
       ? fileValue
@@ -156,9 +173,17 @@ export class AddPurchasingOrdersFileComponent {
     const fd = new FormData();
     if (id != null) fd.append('id', String(id));
     fd.append('purchaseOrderId', String(purchaseOrderId));
-    fd.append('documentTypeId', String(documentTypeId));
+    if (documentTypeId != null)
+      fd.append('documentTypeId', String(documentTypeId));
     fd.append('expiryDate', this.formatDateWithoutTime(expiryDate));
     for (const f of files) fd.append('file', f);
+    if (
+      this.editMode &&
+      files.length === 0 &&
+      this.currentRecord?.fileId != null
+    ) {
+      fd.append('fileId', String(this.currentRecord.fileId));
+    }
 
     if (this.mode === 'add') {
       this.facade.create(fd as any);

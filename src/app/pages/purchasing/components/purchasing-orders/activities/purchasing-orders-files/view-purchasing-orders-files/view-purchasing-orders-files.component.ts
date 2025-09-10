@@ -135,7 +135,7 @@ export class ViewPurchasingOrderFilesComponent {
   onEditPurchasingOrderFile(purchasingOrderFile: PurchaseOrderFile) {
     this.router.navigate(
       [
-        '/purchasing/purchasing-orders/edit-purchasing-order',
+        '/purchasing/purchasing-orders/activities/edit-purchasing-orders-file/',
         purchasingOrderFile.id,
       ],
       {
