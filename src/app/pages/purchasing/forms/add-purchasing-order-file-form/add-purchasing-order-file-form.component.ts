@@ -38,7 +38,11 @@ import { selectAllSubSectors } from '../../../lookups/store/sub-sectors/sub-sect
 import { PageOperationGroup } from '../../../organizations/store/page-operations/page-operation-group.model';
 import { FileUpload } from 'primeng/fileupload';
 import { MessageService } from 'primeng/api';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import {
+  DomSanitizer,
+  SafeResourceUrl,
+  SafeUrl,
+} from '@angular/platform-browser';
 
 type PreviewItem = {
   name: string;
@@ -166,6 +170,8 @@ export class AddPurchasingOrderFileComponent implements OnInit, OnDestroy {
   sectorsSafe$!: Observable<Sector[]>;
   onChange: (value: any) => void = () => {};
   onTouched: () => void = () => {};
+  existingFileSafeUrl?: SafeUrl;
+
   @Output() selectionChanged = new EventEmitter<any>();
   @Output() selectionChangedPaymentPeriod = new EventEmitter<any>();
   @Output() selectionChangedGracePeriod = new EventEmitter<any>();
@@ -774,6 +780,22 @@ export class AddPurchasingOrderFileComponent implements OnInit, OnDestroy {
   viewDepartmentManager() {
     this.router.navigate([]);
   }
+  private toUncFileUrl(input?: string | null): string {
+    if (!input) return '';
+
+    if (input.startsWith('file:///')) {
+      return 'file://srvhqtest02/' + input.replace(/^file:\/\/\//, '');
+    }
+
+    let p = input.replace(/\\/g, '/'); // D:\uploads\... -> D:/uploads/...
+    p = p.replace(/^[A-Za-z]:/, ''); // strip drive letter
+    if (!p.startsWith('/')) p = '/' + p; // ensure leading slash
+    return 'file://srvhqtest02' + p; // file://srvhqtest02/uploads/...
+  }
+
+  private encodeUrl(u: string): string {
+    return u ? encodeURI(u) : '';
+  }
 
   viewTeamLeadOfficers() {
     this.router.navigate([
@@ -1150,6 +1172,12 @@ export class AddPurchasingOrderFileComponent implements OnInit, OnDestroy {
       } else {
         this.formGroup.enable();
       }
+    }
+    if (changes['existingFileUrl']) {
+      const raw = changes['existingFileUrl'].currentValue as string | undefined;
+      const unc = this.toUncFileUrl(raw);
+      const encoded = this.encodeUrl(unc);
+      this.existingFileSafeUrl = this.sanitizer.bypassSecurityTrustUrl(encoded);
     }
   }
   onSubmit(): void {

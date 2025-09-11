@@ -91,8 +91,8 @@
         <div *ngIf="(editMode || viewOnly) && existingFileName" class="mb-2">
           <i class="pi pi-paperclip mr-2"></i>
           <a
-            *ngIf="existingFileUrl; else justName"
-            [href]="existingFileUrl"
+            *ngIf="existingFileSafeUrl; else justName"
+            [href]="existingFileSafeUrl"
             target="_blank"
             rel="noopener"
           >
