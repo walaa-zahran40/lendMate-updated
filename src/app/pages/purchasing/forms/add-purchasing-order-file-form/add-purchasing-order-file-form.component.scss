@@ -53,6 +53,10 @@
       background-color: #f8f8fd !important;
       color: var(--p-select-disabled-color) !important;
     }
+    .p-fileupload-filename {
+      display: none !important;
+    }
+
     .p-tabs {
       padding: var(--custom-padding-right-10);
     }

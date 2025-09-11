@@ -18,15 +18,16 @@
         [description]="'Purchasing Order File Description'"
         [addPurchasingOrderFileForm]="true"
         [formGroup]="addPurchasingOrderFileForm"
-        [existingFileName]="existingFileName"
-        [existingFileId]="existingFileId"
-        [existingFileUrl]="existingFileUrl"
+        [existingFileName]="(record$ | async)?.fileName"
+        [existingFileId]="(record$ | async)?.fileId"
+        [existingFileUrl]="(record$ | async)?.filePath"
         (submitForm)="addOrEditPurchasingOrderFile()"
         [purchaseOrders]="purchaseOrders$ | async"
         [documentTypes]="documentTypes$ | async"
         [editMode]="editMode"
         [viewOnly]="viewOnly"
       ></app-add-purchasing-order-file-form>
+
       <div
         class="col-sm-6 d-flex mt-5 justify-end float-right margin-top p-0 w-100"
       >

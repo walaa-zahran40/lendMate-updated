@@ -9,6 +9,11 @@ export const loadAllSuccess = createAction(
   '[PurchasingOrderFiles] Load All Success',
   props<{ result: PurchaseOrderFile[] }>()
 );
+export const createEntityBinary = createAction(
+  '[PurchasingOrderFiles] Create (Binary)',
+  props<{ formData: FormData }>()
+);
+
 export const clearSelectedClient = createAction(
   '[PurchasingOrderFiles] Clear Selected'
 );

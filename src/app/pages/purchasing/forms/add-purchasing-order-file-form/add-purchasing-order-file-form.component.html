@@ -60,11 +60,11 @@
         [showClear]="true"
         id="documentTypeId"
         [options]="documentTypes"
-        [readonly]="false"
+        dataKey="id"
         optionLabel="name"
+        optionValue="id"
         placeholder="Select Document Type"
         formControlName="documentTypeId"
-        optionValue="id"
         [ngClass]="{
           'ng-invalid':
             formGroup.get('documentTypeId')?.invalid &&
@@ -86,9 +86,9 @@
       <label for="expiryDate">Expiry Date <sup class="danger">*</sup></label>
       <shared-date-picker formControlName="expiryDate" inputId="date">
       </shared-date-picker>
-      <div class="my-5">
+      <div class="my-5" [ngClass]="{ 'edit-mode': editMode }">
         <p-toast />
-        <div *ngIf="editMode && existingFileName" class="mb-2">
+        <div *ngIf="(editMode || viewOnly) && existingFileName" class="mb-2">
           <i class="pi pi-paperclip mr-2"></i>
           <a
             *ngIf="existingFileUrl; else justName"
@@ -102,6 +102,7 @@
         </div>
 
         <p-fileupload
+          *ngIf="!editMode && !viewOnly"
           #fileUploader
           name="files[]"
           [multiple]="true"

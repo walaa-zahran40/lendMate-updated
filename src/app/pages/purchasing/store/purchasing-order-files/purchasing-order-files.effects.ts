@@ -12,6 +12,23 @@ export class PurchasingOrderFilesEffects {
     private actions$: Actions,
     private service: PurchaseOrderFilesService
   ) {}
+  createBinary$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.createEntityBinary),
+      switchMap(({ formData }) =>
+        this.service.create(formData).pipe(
+          mergeMap((entity) => [
+            ActionsList.createEntitySuccess({ entity }),
+            ActionsList.entityOperationSuccess({
+              entity: EntityNames.PurchasingOrderFile,
+              operation: 'create',
+            }),
+          ]),
+          catchError((error) => of(ActionsList.createEntityFailure({ error })))
+        )
+      )
+    )
+  );
 
   loadAll$ = createEffect(() =>
     this.actions$.pipe(

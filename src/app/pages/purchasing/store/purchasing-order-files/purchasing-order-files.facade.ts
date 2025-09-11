@@ -27,6 +27,9 @@ export class PurchasingOrderFilesFacade {
   loadAll(pageNumber?: number) {
     this.store.dispatch(Actions.loadAll({ pageNumber }));
   }
+  createBinary(formData: FormData) {
+    this.store.dispatch(Actions.createEntityBinary({ formData }));
+  }
 
   loadById(id: number) {
     this.store.dispatch(Actions.loadById({ id }));
