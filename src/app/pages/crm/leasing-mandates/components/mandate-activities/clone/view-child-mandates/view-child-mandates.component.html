@@ -40,14 +40,14 @@
       (viewForm)="onViewLeasingMandates($event)"
       (onDownload)="onDownloadClick($event)"
     ></app-table
-    ><app-download-popup
+    ><app-download-popup-mandate
       *ngIf="showDownloadPopup"
       [contactPersons]="contactPersonsDropdown"
       [officers]="officersDropdown"
       [leasingMandates]="(leasingMandates$ | async) || []"
       (close)="onPopupClose()"
       (download)="onPopupDownload($event)"
-    ></app-download-popup>
+    ></app-download-popup-mandate>
     <app-delete-module
       [visible]="showDeleteModal"
       (confirm)="confirmDelete()"

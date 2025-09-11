@@ -1389,4 +1389,64 @@ export class AddPurchasingOrderFileComponent implements OnInit, OnDestroy {
       }
     }
   }
+  onFileLinkClick(e: MouseEvent) {
+    // let the default <a> click happen; if the browser blocks it, we show a tip
+    window.setTimeout(() => {
+      this.messageService.add({
+        severity: 'info',
+        summary: 'If the file didn’t open',
+        detail:
+          'Your browser may block file:// links from a web app. Click "Copy path" and paste it in File Explorer.',
+        life: 8000,
+      });
+    }, 700);
+  } /** Copies a Windows UNC path so the user can paste it in File Explorer. */
+  copyNetworkPath() {
+    const raw = this.existingFileUrl || ''; // e.g. "file://srvhqtest02/uploads/..." OR "D:\\uploads\\...\\file.pdf" OR "/uploads/..."
+    const unc = this.toWindowsUncPath(raw);
+    if (!unc) return;
+
+    navigator.clipboard.writeText(unc).then(
+      () =>
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Path copied',
+          detail: 'Paste into File Explorer (Win+E → address bar).',
+          life: 4000,
+        }),
+      () =>
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Could not copy',
+          detail: 'Select and copy the path manually.',
+          life: 4000,
+        })
+    );
+  }
+
+  /** Converts stored paths to a Windows UNC path like: \\srvhqtest02\uploads\...\file.pdf */
+  private toWindowsUncPath(input: string): string {
+    if (!input) return '';
+
+    // case 1: already a file:// UNC like file://srvhqtest02/uploads/...
+    if (input.startsWith('file://')) {
+      // strip "file://" and convert slashes to backslashes, ensure two leading backslashes
+      const noScheme = input.replace(/^file:\/\//, ''); // srvhqtest02/uploads/...
+      const win = noScheme.replace(/\//g, '\\'); // srvhqtest02\uploads\...
+      return win.startsWith('\\\\') ? win : `\\\\${win}`;
+    }
+
+    // case 2: windows drive path like D:\uploads\...
+    if (/^[A-Za-z]:\\/.test(input)) {
+      // drop drive, map to server share root (adjust if your share differs)
+      const withoutDrive = input.replace(/^[A-Za-z]:\\?/, ''); // uploads\...\file.pdf
+      return `\\\\srvhqtest02\\${withoutDrive}`;
+    }
+
+    // case 3: relative or POSIX-like "/uploads/..." -> \\srvhqtest02\uploads\...
+    let p = input;
+    if (p.startsWith('/')) p = p.slice(1);
+    p = p.replace(/\//g, '\\');
+    return `\\\\srvhqtest02\\${p}`;
+  }
 }

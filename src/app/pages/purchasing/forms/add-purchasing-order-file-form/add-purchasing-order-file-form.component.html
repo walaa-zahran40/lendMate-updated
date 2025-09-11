@@ -87,19 +87,33 @@
       <shared-date-picker formControlName="expiryDate" inputId="date">
       </shared-date-picker>
       <div class="my-5" [ngClass]="{ 'edit-mode': editMode }">
-        <p-toast />
         <div *ngIf="(editMode || viewOnly) && existingFileName" class="mb-2">
           <i class="pi pi-paperclip mr-2"></i>
+
           <a
             *ngIf="existingFileSafeUrl; else justName"
             [href]="existingFileSafeUrl"
             target="_blank"
             rel="noopener"
+            (click)="onFileLinkClick($event)"
           >
             {{ existingFileName }}
           </a>
+
+          <button
+            type="button"
+            pButton
+            class="p-button-text p-0 ml-2"
+            (click)="copyNetworkPath()"
+          >
+            Copy path
+          </button>
+
           <ng-template #justName>{{ existingFileName }}</ng-template>
         </div>
+
+        <!-- You already have this somewhere in the page -->
+        <p-toast></p-toast>
 
         <p-fileupload
           *ngIf="!editMode && !viewOnly"
