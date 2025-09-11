@@ -298,8 +298,10 @@
     "TITLE": "تنزيل",
     "SELECT_CONTACT_PERSON": "اختر جهة الاتصال",
     "SELECT_OFFICER": "اختر الموظف",
+    "SELECT_PURCHASING_ORDER": "اختر أمر الشراء",
     "PLACEHOLDER_CONTACT": "اختر جهة الاتصال",
     "PLACEHOLDER_OFFICER": "اختر الموظف",
+    "PLACEHOLDER_PURCHASING_ORDER": "اختر أمر الشراء",
     "BUTTON": "تنزيل"
   },
   "CONTACT_PERSON": {

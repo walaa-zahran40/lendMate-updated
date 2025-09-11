@@ -1,0 +1,16 @@
+<div class="overlay">
+  <div class="popup">
+    <div class="header">
+      <h3>{{ "DOWNLOAD.TITLE" | translate }}</h3>
+      <button class="close-btn" (click)="onClose()">
+        <img src="/assets/images/shared/download-popup/close.svg" />
+      </button>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary w-100" (click)="onDownload()">
+        {{ "DOWNLOAD.BUTTON" | translate }}
+      </button>
+    </div>
+  </div>
+</div>

@@ -27,6 +27,8 @@ export interface PurchaseOrder {
   vendorId: number;
   vendorAddressId: number;
   deliveryLocationDetails: string;
+  purchaseOrders?: { purchaseOrderId: number }[];
+
   purchaseOrderFinancialActivities: PurchaseOrderFinancialActivity[];
   officerId: number;
   firstSignatoryOfficerId: number;

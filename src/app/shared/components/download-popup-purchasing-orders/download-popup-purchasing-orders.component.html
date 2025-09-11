@@ -1,0 +1,25 @@
+<div class="overlay">
+  <div class="popup">
+    <div class="header">
+      <h3>{{ "DOWNLOAD.TITLE" | translate }}</h3>
+      <button class="close-btn" (click)="onClose()">
+        <img src="/assets/images/shared/download-popup/close.svg" />
+      </button>
+    </div>
+
+    <div class="actions">
+      <button
+        class="btn btn-primary w-100"
+        (click)="onDownload()"
+        [disabled]="loading"
+      >
+        <ng-container *ngIf="!loading; else loadingTpl">
+          {{ "DOWNLOAD.BUTTON" | translate }}
+        </ng-container>
+        <ng-template #loadingTpl>
+          {{ "DOWNLOADING" | translate }}
+        </ng-template>
+      </button>
+    </div>
+  </div>
+</div>

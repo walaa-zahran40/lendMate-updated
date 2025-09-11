@@ -57,7 +57,7 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { GlobalSpinnerComponent } from './global-spinner/global-spinner.component';
 import { SharedDatePickerComponent } from './shared-date-picker/shared-date-picker.component';
-import { DownloadPopupComponent } from './download-popup/download-popup.component';
+import { DownloadPopupMandateComponent } from './download-popup-mandate/download-popup-mandate.component';
 import { WorkflowDialogComponent } from './workflow-dialog/workflow-dialog.component';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { AddLegalFormLawsComponent } from '../../pages/legals/forms/add-legal-form-laws/add-legal-form-laws.component';
@@ -102,6 +102,7 @@ import { VendorAddressFormComponent } from '../../pages/lookups/forms/vendor-add
 import { AddPOInformationFormComponent } from '../../pages/purchasing/forms/add-po-information-form/add-po-information-form.component';
 import { AddSignatoryFormComponent } from '../../pages/purchasing/forms/add-signatory-form/add-signatory-form.component';
 import { AddPurchasingOrderFileComponent } from '../../pages/purchasing/forms/add-purchasing-order-file-form/add-purchasing-order-file-form.component';
+import { DownloadPopupPurchasingOrdersComponent } from './download-popup-purchasing-orders/download-popup-purchasing-orders.component';
 
 @NgModule({
   declarations: [
@@ -121,7 +122,7 @@ import { AddPurchasingOrderFileComponent } from '../../pages/purchasing/forms/ad
     GlobalSpinnerComponent,
     AddSignatoryFormComponent,
     SharedDatePickerComponent,
-    DownloadPopupComponent,
+    DownloadPopupMandateComponent,
     VendorFormComponent,
 
     WorkflowDialogComponent,
@@ -161,6 +162,7 @@ import { AddPurchasingOrderFileComponent } from '../../pages/purchasing/forms/ad
     AddEvaluatorFormComponent,
     AddPurchasingOrderComponent,
     FirstClaimStatusFormComponent,
+    DownloadPopupPurchasingOrdersComponent,
   ],
   imports: [
     CommonModule,
@@ -237,7 +239,7 @@ import { AddPurchasingOrderFileComponent } from '../../pages/purchasing/forms/ad
     CardComponent,
     ToastModule,
     GlobalSpinnerComponent,
-    DownloadPopupComponent,
+    DownloadPopupMandateComponent,
     ToolbarCardComponent,
     ToolbarCompoundComponent,
     WorkflowDialogComponent,
@@ -270,6 +272,7 @@ import { AddPurchasingOrderFileComponent } from '../../pages/purchasing/forms/ad
     VendorFormComponent,
     AddPOInformationFormComponent,
     AddSignatoryFormComponent,
+    DownloadPopupPurchasingOrdersComponent,
   ],
 })
 export class ComponentsModule {}

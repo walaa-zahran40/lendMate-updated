@@ -7,7 +7,6 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest, filter, Observable, startWith, take } from 'rxjs';
-import { LegalFormLaw } from '../../../../legals/store/legal-form-laws/legal-form-law.model';
 import { PurchasingOrdersFacade } from '../../../store/purchasing-orders/purchasing-orders.facade';
 import { PurchaseOrder } from '../../../store/purchasing-orders/purchasing-order.model';
 import { FirstClaimStatus } from '../../../../lookups/store/first-claim-statuses/first-claim-status.model';

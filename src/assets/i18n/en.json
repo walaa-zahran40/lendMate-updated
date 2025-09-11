@@ -291,8 +291,10 @@
     "TITLE": "Download",
     "SELECT_CONTACT_PERSON": "Select Contact Person",
     "SELECT_OFFICER": "Select Officer",
+    "SELECT_PURCHASING_ORDER": "Select Purchasing Order",
     "PLACEHOLDER_CONTACT": "Choose Contact Person",
     "PLACEHOLDER_OFFICER": "Choose Officer",
+    "PLACEHOLDER_PURCHASING_ORDER": "Choose Purchasing Order",
     "BUTTON": "Download"
   },
   "CONTACT_PERSON": {

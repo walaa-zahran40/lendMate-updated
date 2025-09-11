@@ -30,6 +30,8 @@
       [tableData]="filteredPurchasingOrders"
       [side]="true"
       [first]="first2"
+      [download]="true"
+      (onDownload)="onDownloadClick($event)"
       [checkBox]="true"
       [filters]="showFilters"
       [uppercase]="'uppercase'"
@@ -39,6 +41,15 @@
       (viewForm)="onViewPurchasingOrder($event)"
       (wizardBtn)="onAddSide($event)"
     ></app-table>
+    <app-download-popup-purchasing-orders
+      *ngIf="showDownloadPopup"
+      (close)="onPopupClose()"
+      (download)="onPopupDownload($event)"
+      [purchaseOrderId]="selectedRowForDownload?.id ?? 0"
+      [purchaseOrderNumber]="selectedRowForDownload?.number ?? undefined"
+    >
+      ></app-download-popup-purchasing-orders
+    >
     <app-delete-module
       [visible]="showDeleteModal"
       (confirm)="confirmDelete()"

@@ -17,8 +17,11 @@ export class ViewPurchasingOrdersComponent {
   rows = 10;
   showFilters = false;
   private destroy$ = new Subject<void>();
+  purchaseOrdersDropdown: any;
 
   @ViewChild('tableRef') tableRef!: TableComponent;
+  selectedRowForDownload: PurchaseOrder | null = null;
+  showDownloadPopup = false;
 
   readonly colsInside = [
     { field: 'number', header: 'Number' },
@@ -49,6 +52,21 @@ export class ViewPurchasingOrdersComponent {
       });
   }
 
+  onDownloadClick(row: any) {
+    console.log('clicked', row);
+
+    this.selectedRowForDownload = row;
+    this.showDownloadPopup = true;
+  }
+  onPopupClose() {
+    this.showDownloadPopup = false;
+    this.selectedRowForDownload = null;
+  }
+  onPopupDownload(m: any) {
+    // you can kick off server download here, e.g.:
+    // this.fileService.downloadMandatePdf(m.id).subscribe(...);
+    this.onPopupClose();
+  }
   onAddPurchasingOrder() {
     this.router.navigate([
       '/purchasing/purchasing-orders/add-purchasing-order',
@@ -121,6 +139,7 @@ export class ViewPurchasingOrdersComponent {
       }
     );
   }
+
   selectedIds: number[] = [];
   confirmDelete() {
     const deleteCalls = this.selectedIds.map((id) => this.facade.delete(id));

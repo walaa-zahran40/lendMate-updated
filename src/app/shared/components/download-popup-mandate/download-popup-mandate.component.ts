@@ -5,12 +5,12 @@ import { Mandate } from '../../../pages/crm/leasing-mandates/store/leasing-manda
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-download-popup',
+  selector: 'app-download-popup-mandate',
   standalone: false,
-  templateUrl: './download-popup.component.html',
-  styleUrls: ['./download-popup.component.scss'],
+  templateUrl: './download-popup-mandate.component.html',
+  styleUrls: ['./download-popup-mandate.component.scss'],
 })
-export class DownloadPopupComponent {
+export class DownloadPopupMandateComponent {
   @Input() leasingMandates!: any[];
   @Output() close = new EventEmitter<void>();
   @Output() download = new EventEmitter<Mandate>();
@@ -56,7 +56,12 @@ export class DownloadPopupComponent {
     }
 
     this.mandatePrintOutService
-      .printOutInPdfFormat(leasingMandateId, officers, contactPersons)
+      .printOutInPdfFormatByLang(
+        leasingMandateId,
+        this.translate.currentLang,
+        officers,
+        contactPersons
+      )
       .subscribe(
         (pdfBlob: Blob) => {
           const url = window.URL.createObjectURL(
