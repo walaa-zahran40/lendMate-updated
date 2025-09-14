@@ -33,6 +33,22 @@
       font-size: var(--custom-font-size-13);
       line-height: var(--custom-font-size-24);
     }
+    .zoom {
+      zoom: 80%;
+    }
+    .next {
+      padding: 10px 50px !important;
+    }
+    .next:hover {
+      color: #fff !important;
+    }
+    .p-step-title {
+      color: rgba(10, 105, 187, 1) !important;
+      font-weight: 600 !important;
+    }
+    .p-step:has(~ .p-step-active) .p-stepper-separator {
+      background-color: rgba(10, 105, 187, 1) !important;
+    }
     .p-tablist-tab-list {
       background: var(--bg-transparent);
     }

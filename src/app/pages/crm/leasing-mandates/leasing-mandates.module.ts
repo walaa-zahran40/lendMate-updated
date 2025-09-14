@@ -29,6 +29,7 @@ import { ViewMandateFeesComponent } from './components/mandate-activities/mandat
 import { MandateFeesEffects } from './store/mandate-fees/mandate-fees.effects';
 import { mandateFeesReducer } from './store/mandate-fees/mandate-fees.reducer';
 import { ViewMandateWorkFlowHistoryComponent } from './components/mandate-activities/view-mandate-workflow-history/view-mandate-work-flow-history.component';
+import { StepperModule } from 'primeng/stepper';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { ViewMandateWorkFlowHistoryComponent } from './components/mandate-activi
     ReactiveFormsModule,
     SharedModule,
     TabsModule,
+    StepperModule,
     ButtonModule,
     StoreModule.forFeature('mandates', leasingMandatesReducer),
     EffectsModule.forFeature([MandatesEffects]),

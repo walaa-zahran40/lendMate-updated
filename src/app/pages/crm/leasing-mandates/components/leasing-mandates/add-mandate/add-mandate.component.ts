@@ -444,6 +444,27 @@ export class AddMandateComponent {
       console.log('✅ this.selectedAction', this.selectedAction);
     }
   }
+  nextStep(nextCallback: { emit: () => void }, group: FormGroup) {
+    if (group?.valid || this.viewOnly) {
+      nextCallback?.emit();
+    } else {
+      this.markGroupTouched(group);
+    }
+  }
+  prevStep(prevCallback: { emit: () => void }) {
+    prevCallback.emit();
+  }
+  private markGroupTouched(group: FormGroup) {
+    Object.values(group.controls).forEach((ctrl: any) => {
+      if (ctrl?.controls) {
+        // nested group/array
+        this.markGroupTouched(ctrl);
+      } else {
+        ctrl?.markAsTouched();
+        ctrl?.updateValueAndValidity({ onlySelf: true });
+      }
+    });
+  }
 
   private normalizeMandate(raw: any): Mandate & {
     clientId: number;

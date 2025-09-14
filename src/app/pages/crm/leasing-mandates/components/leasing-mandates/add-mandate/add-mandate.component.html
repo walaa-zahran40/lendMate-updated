@@ -1,116 +1,198 @@
-<app-toolbar-form
-  [backExists]="true"
-  [backIcon]="'back-icon'"
-  [header]="
-    viewOnly ? 'View Mandates' : editMode ? 'Edit Mandates' : 'Add Mandates'
-  "
-  [viewOnly]="viewOnly || editMode ? true : false"
-  [selectedAction]="selectedAction"
-  [workFlowItems]="workFlowActionList"
-  (saveAction)="handleWorkflowAction($event)"
-></app-toolbar-form>
-<form [formGroup]="parentForm" (ngSubmit)="onSubmit()">
-  <p-tabs styleClass="p-3">
-    <p-tabpanel header="Basic">
-      <app-form
-        [title]="'MANDATE.BASIC_INFO.TITLE'"
-        [description]="'MANDATE.BASIC_INFO.DESCRIPTION'"
-        [addMandateShowBasicForm]="true"
-        [formGroup]="basicForm"
-        [show]="show"
-        [editShow]="editShow"
-        [editMode]="editMode"
-        [viewOnly]="viewOnly"
-        [clientNames]="clientNames$ | async"
-        [validityUnits]="validityUnits$ | async"
-        [products]="products$ | async"
-        [leasingTypes]="leasingTypes$ | async"
-        [insuredBy]="insuredBy$ | async"
-      />
+<form [formGroup]="parentForm" (ngSubmit)="onSubmit()" class="zoom">
+  <p-stepper [linear]="true" [value]="1">
+    <!-- Step 1: Basic -->
+    <p-step-list>
+      <p-step [value]="1">Basic</p-step>
+      <p-step [value]="2">Officers</p-step>
+      <p-step [value]="3">Contact Persons</p-step>
+      <p-step [value]="4">Asset Types</p-step>
+      <p-step [value]="5">More Information</p-step>
+    </p-step-list>
+    <p-step-panels>
+      <p-step-panel header="Basic" [value]="1">
+        <ng-template #content let-activateCallback="activateCallback">
+          <app-form
+            [title]="'MANDATE.BASIC_INFO.TITLE'"
+            [description]="'MANDATE.BASIC_INFO.DESCRIPTION'"
+            [addMandateShowBasicForm]="true"
+            [formGroup]="basicForm"
+            [show]="show"
+            [editShow]="editShow"
+            [editMode]="editMode"
+            [viewOnly]="viewOnly"
+            [clientNames]="clientNames$ | async"
+            [validityUnits]="validityUnits$ | async"
+            [products]="products$ | async"
+            [leasingTypes]="leasingTypes$ | async"
+            [insuredBy]="insuredBy$ | async"
+          ></app-form>
 
-      <hr />
-    </p-tabpanel>
-    <p-tabpanel header="Officers">
-      <app-form
-        [title]="'MANDATE.OFFICERS.TITLE'"
-        [description]="'MANDATE.OFFICERS.DESCRIPTION'"
-        [addMandateShowOfficersForm]="true"
-        [formGroup]="officersForm"
-        [editMode]="editMode"
-        [viewOnly]="viewOnly"
-        [officers]="officers$ | async"
-        (removeOfficer)="removeOfficer($event)"
-        (addOfficer)="addOfficer()"
-      ></app-form>
-      <hr />
-    </p-tabpanel>
-    <p-tabpanel header="Contact Persons">
-      <app-form
-        [title]="'MANDATE.CONTACT_PERSONS.TITLE'"
-        [description]="'MANDATE.CONTACT_PERSONS.DESCRIPTION'"
-        [addMandateShowContactPersonsForm]="true"
-        [formGroup]="contactsForm"
-        [editMode]="editMode"
-        [viewOnly]="viewOnly"
-        [contactPersonsList]="contactPersons$ | async"
-        (removeContactPerson)="removeContactPerson($event)"
-        [currentClientId]="basicForm.get('clientId')?.value"
-        (addContactPerson)="addContactPerson()"
-        (viewContactPersons)="viewContactPersons($event)"
-      ></app-form>
+          <div class="flex justify-end gap-2 mt-4">
+            <button
+              pButton
+              type="button"
+              label="Next"
+              class="next"
+              (click)="activateCallback(2)"
+              [disabled]="viewOnly"
+            ></button>
+          </div>
+        </ng-template>
+      </p-step-panel>
 
-      <hr />
-    </p-tabpanel>
-    <p-tabpanel header="Asset Types">
-      <app-form
-        [title]="'MANDATE.ASSET_TYPE.TITLE'"
-        [description]="'MANDATE.ASSET_TYPE.DESCRIPTION'"
-        [addMandateShowAssetTypeForm]="true"
-        [formGroup]="assetsForm"
-        [editMode]="editMode"
-        [viewOnly]="viewOnly"
-        [assetTypesList]="assetTypes$ | async"
-        (removeAssetType)="removeAssetType($event)"
-        (addAssetType)="addAssetType()"
-      />
+      <!-- Step 2: Officers -->
+      <p-step-panel header="Officers" [value]="2">
+        <ng-template #content let-activateCallback="activateCallback">
+          <app-form
+            [title]="'MANDATE.OFFICERS.TITLE'"
+            [description]="'MANDATE.OFFICERS.DESCRIPTION'"
+            [addMandateShowOfficersForm]="true"
+            [formGroup]="officersForm"
+            [editMode]="editMode"
+            [viewOnly]="viewOnly"
+            [officers]="officers$ | async"
+            (removeOfficer)="removeOfficer($event)"
+            (addOfficer)="addOfficer()"
+          ></app-form>
 
-      <hr />
-    </p-tabpanel>
-    <p-tabpanel header="More Information">
-      <app-form
-        [title]="'MANDATE.MORE_INFO.TITLE'"
-        [description]="'MANDATE.MORE_INFO.DESCRIPTION'"
-        [addMandateShowMoreInformationForm]="true"
-        [formGroup]="moreInfoForm"
-        [editMode]="editMode"
-        [viewOnly]="viewOnly"
-        [gracePeriodUnitsList]="gracePeriodUnits$ | async"
-      ></app-form>
-      <button
-        class="submit"
-        *ngIf="!editMode && !viewOnly"
-        pButton
-        type="submit"
-        label="Add Mandate"
-        style="float: right"
-      ></button>
-      <button
-        class="submit"
-        *ngIf="editMode && !viewOnly"
-        pButton
-        type="submit"
-        label="Edit Mandate"
-        style="float: right"
-      ></button>
-      <button
-        class="submit"
-        pButton
-        type="button"
-        label="Close"
-        style="float: right"
-        (click)="navigateToView()"
-        *ngIf="!editMode && viewOnly"
-      ></button>
-    </p-tabpanel>
-  </p-tabs>
+          <div class="flex justify-between gap-2 mt-4">
+            <button
+              pButton
+              type="button"
+              label="Back"
+              (click)="activateCallback(1)"
+              class="next"
+            ></button>
+            <button
+              pButton
+              type="button"
+              label="Next"
+              (click)="activateCallback(3)"
+              class="next"
+              [disabled]="viewOnly"
+            ></button>
+          </div>
+        </ng-template>
+      </p-step-panel>
+
+      <!-- Step 3: Contact Persons -->
+      <p-step-panel header="Contact Persons" [value]="3">
+        <ng-template #content let-activateCallback="activateCallback">
+          <app-form
+            [title]="'MANDATE.CONTACT_PERSONS.TITLE'"
+            [description]="'MANDATE.CONTACT_PERSONS.DESCRIPTION'"
+            [addMandateShowContactPersonsForm]="true"
+            [formGroup]="contactsForm"
+            [editMode]="editMode"
+            [viewOnly]="viewOnly"
+            [contactPersonsList]="contactPersons$ | async"
+            (removeContactPerson)="removeContactPerson($event)"
+            [currentClientId]="basicForm.get('clientId')?.value"
+            (addContactPerson)="addContactPerson()"
+            (viewContactPersons)="viewContactPersons($event)"
+          ></app-form>
+
+          <div class="flex justify-between gap-2 mt-4">
+            <button
+              pButton
+              type="button"
+              label="Back"
+              class="next"
+              (click)="activateCallback(2)"
+            ></button>
+            <button
+              pButton
+              type="button"
+              label="Next"
+              class="next"
+              (click)="activateCallback(4)"
+              [disabled]="viewOnly"
+            ></button>
+          </div>
+        </ng-template>
+      </p-step-panel>
+
+      <!-- Step 4: Asset Types -->
+      <p-step-panel header="Asset Types" [value]="4">
+        <ng-template #content let-activateCallback="activateCallback">
+          <app-form
+            [title]="'MANDATE.ASSET_TYPE.TITLE'"
+            [description]="'MANDATE.ASSET_TYPE.DESCRIPTION'"
+            [addMandateShowAssetTypeForm]="true"
+            [formGroup]="assetsForm"
+            [editMode]="editMode"
+            [viewOnly]="viewOnly"
+            [assetTypesList]="assetTypes$ | async"
+            (removeAssetType)="removeAssetType($event)"
+            (addAssetType)="addAssetType()"
+          ></app-form>
+
+          <div class="flex justify-between gap-2 mt-4">
+            <button
+              pButton
+              type="button"
+              class="next"
+              label="Back"
+              (click)="activateCallback(3)"
+            ></button>
+            <button
+              pButton
+              type="button"
+              class="next"
+              label="Next"
+              (click)="activateCallback(5)"
+              [disabled]="viewOnly"
+            ></button>
+          </div>
+        </ng-template>
+      </p-step-panel>
+
+      <!-- Step 5: More Information (Final Save) -->
+      <p-step-panel header="More Information" [value]="5">
+        <ng-template #content let-activateCallback="activateCallback">
+          <app-form
+            [title]="'MANDATE.MORE_INFO.TITLE'"
+            [description]="'MANDATE.MORE_INFO.DESCRIPTION'"
+            [addMandateShowMoreInformationForm]="true"
+            [formGroup]="moreInfoForm"
+            [editMode]="editMode"
+            [viewOnly]="viewOnly"
+            [gracePeriodUnitsList]="gracePeriodUnits$ | async"
+          ></app-form>
+
+          <div class="flex justify-between gap-2 mt-4">
+            <button
+              pButton
+              type="button"
+              label="Back"
+              class="next"
+              (click)="activateCallback(4)"
+            ></button>
+
+            <!-- single save at the end -->
+            <ng-container *ngIf="!viewOnly">
+              <button
+                class="submit"
+                pButton
+                class="next"
+                type="submit"
+                [label]="editMode ? 'Edit Mandate' : 'Add Mandate'"
+              ></button>
+            </ng-container>
+
+            <!-- close in view-only -->
+            <button
+              class="submit"
+              pButton
+              type="button"
+              label="Close"
+              class="next"
+              (click)="navigateToView()"
+              *ngIf="viewOnly"
+            ></button>
+          </div>
+        </ng-template>
+      </p-step-panel>
+    </p-step-panels>
+  </p-stepper>
 </form>
