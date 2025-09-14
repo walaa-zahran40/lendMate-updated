@@ -63,6 +63,7 @@
         dataKey="id"
         optionLabel="name"
         optionValue="id"
+        [disabled]="editMode || viewOnly"
         placeholder="Select Document Type"
         formControlName="documentTypeId"
         [ngClass]="{

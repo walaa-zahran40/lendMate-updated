@@ -8,6 +8,13 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
+import {
+  DomSanitizer,
+  SafeResourceUrl,
+  SafeUrl,
+} from '@angular/platform-browser';
+import { FileSelectEvent } from 'primeng/fileupload';
+
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CompanyLegalDetails } from '../../interfaces/company-legal-details.interface';
@@ -36,6 +43,7 @@ import { Sector } from '../../../pages/lookups/store/sectors/sector.model';
 import { SubSector } from '../../../pages/lookups/store/sub-sectors/sub-sector.model';
 import { selectAllSectors } from '../../../pages/lookups/store/sectors/sectors.selectors';
 import { selectAllSubSectors } from '../../../pages/lookups/store/sub-sectors/sub-sectors.selectors';
+import { MessageService } from 'primeng/api';
 export interface IdentityEntry {
   identificationNumber: string;
   selectedIdentities: any[];
@@ -45,6 +53,13 @@ export interface PageOperationGroup {
   pageName: string;
   pageOperations: PageOperation[];
 }
+type PreviewItem = {
+  name: string;
+  type: string;
+  url: string;
+  file: File;
+  safeUrl?: SafeResourceUrl;
+};
 
 @Component({
   selector: 'app-form',
@@ -60,6 +75,9 @@ export class FormComponent implements OnInit, OnDestroy {
   @Output() downloadFile = new EventEmitter<any>();
   optionLabelKey = 'name';
   filterByField = 'name';
+  @Input() existingFileName?: string;
+  @Input() existingFileUrl?: string; // optional, only if you have a download endpoint
+  @Input() existingFileId?: number;
 
   @Output() removeIdentity = new EventEmitter<number>();
   @Output() onCheckboxChange = new EventEmitter<any>();
@@ -311,7 +329,7 @@ export class FormComponent implements OnInit, OnDestroy {
   selectedRentStructureType: any;
   selectedPaymentMethod: any;
   selectedPaymentMonthDay: any;
-
+  existingFileSafeUrl?: SafeUrl;
   selectedIsActive!: any;
   companyTypes!: any;
   shareHolderTypes!: any;
@@ -645,7 +663,7 @@ export class FormComponent implements OnInit, OnDestroy {
   routeId = this.route.snapshot.params['leasingId'];
   leasingRouteId = this.route.snapshot.params['leasingMandatesId'];
   communicationId = this.route.snapshot.params['communicationId'];
-
+  previews: PreviewItem[] = [];
   @Input() operationIdValue!: any;
   clientDocId!: any;
   clientId: any;
@@ -655,6 +673,9 @@ export class FormComponent implements OnInit, OnDestroy {
     private facadeLegalForms: LegalFormsFacade,
     private route: ActivatedRoute,
     public router: Router,
+    private messageService: MessageService,
+    private sanitizer: DomSanitizer,
+
     private translate: TranslateService
   ) {
     this.setOptionLabelKey(this.translate.currentLang);
@@ -744,6 +765,9 @@ export class FormComponent implements OnInit, OnDestroy {
     // Combine sectorId changes with all sub-sectors
   }
   ngOnDestroy() {
+    // cleanup any remaining URLs
+    for (const p of this.previews) URL.revokeObjectURL(p.url);
+
     this.sub.unsubscribe();
   }
   private setFilterByBasedOnLanguage(): void {
@@ -1199,6 +1223,60 @@ export class FormComponent implements OnInit, OnDestroy {
   viewCountries() {
     this.router.navigate(['/lookups/view-countries']);
   }
+  /** Copies a Windows UNC path so the user can paste it in File Explorer. */
+  copyPath() {
+    const raw = this.existingFileUrl || ''; // e.g. "file://srvhqtest02/uploads/..." OR "D:\\uploads\\...\\file.pdf" OR "/uploads/..."
+    const unc = this.toWindowsUncPath(raw);
+    if (!unc) return;
+
+    navigator.clipboard.writeText(unc).then(
+      () =>
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Path copied',
+          detail: 'Paste into New Tab ',
+          life: 4000,
+        }),
+      () =>
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Could not copy',
+          detail: 'Select and copy the path manually.',
+          life: 4000,
+        })
+    );
+  }
+  /** Converts stored paths to a Windows UNC path like: \\srvhqtest02\uploads\...\file.pdf */
+  private toWindowsUncPath(input: string): string {
+    if (!input) return '';
+
+    // 1) Remove scheme/host if present
+    let rest = input;
+
+    // file://srvhqtest02/...  -> keep only the path part
+    rest = rest.replace(/^file:\/\/srvhqtest02\/?/i, '');
+
+    // file:///D:/... or file:///uploads/... -> strip "file:///"
+    rest = rest.replace(/^file:\/\/\//i, '');
+
+    // generic file://something/... -> strip "file://something/"
+    rest = rest.replace(/^file:\/\/[^/]+\/?/i, '');
+
+    // 2) Normalize slashes
+    rest = rest.replace(/\\/g, '/');
+
+    // 3) Strip any leading drive letter like "D:" or "/D:"
+    rest = rest.replace(/^\/?[A-Za-z]:/, '');
+
+    // 4) Ensure single leading slash
+    if (!rest.startsWith('/')) rest = '/' + rest;
+
+    // 5) Collapse duplicate slashes (just in case)
+    rest = rest.replace(/\/{2,}/g, '/'); // remove trailing slash if any
+    rest = rest.replace(/D:/g, '');
+    // 6) Return canonical UNC file URL (no drive)
+    return `file://srvhqtest02${rest}`;
+  }
   viewIdentificationTypes() {
     this.router.navigate(['/lookups/view-identification-types']);
   }
@@ -1289,7 +1367,30 @@ export class FormComponent implements OnInit, OnDestroy {
         this.formGroup.enable();
       }
     }
+    if (changes['existingFileUrl']) {
+      const raw = changes['existingFileUrl'].currentValue as string | undefined;
+      const unc = this.toUncFileUrl(raw);
+      const encoded = this.encodeUrl(unc);
+      this.existingFileSafeUrl = this.sanitizer.bypassSecurityTrustUrl(encoded);
+    }
   }
+  private toUncFileUrl(input?: string | null): string {
+    if (!input) return '';
+
+    if (input.startsWith('file:///')) {
+      return 'file://srvhqtest02/' + input.replace(/^file:\/\/\//, '');
+    }
+
+    let p = input.replace(/\\/g, '/'); // D:\uploads\... -> D:/uploads/...
+    p = p.replace(/^[A-Za-z]:/, ''); // strip drive letter
+    if (!p.startsWith('/')) p = '/' + p; // ensure leading slash
+    return 'file://srvhqtest02' + p; // file://srvhqtest02/uploads/...
+  }
+
+  private encodeUrl(u: string): string {
+    return u ? encodeURI(u) : '';
+  }
+
   onSubmit(): void {
     if (this.formGroup.invalid) {
       // mark everything so the errors become visible
@@ -1329,6 +1430,52 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate([
       `/lookups/view-action-notificationGroups/${this.clientStatusActionIdParam}`,
     ]);
+  }
+  removePreview(item: PreviewItem) {
+    // 1) UI list: remove only this item
+    const idxPrev = this.previews.findIndex((p) => p === item);
+    if (idxPrev > -1) {
+      URL.revokeObjectURL(this.previews[idxPrev].url);
+      this.previews.splice(idxPrev, 1);
+    }
+
+    // 2) Form control (File[])
+    const current: File[] = this.formGroup.get('file')?.value ?? [];
+    const next = current.filter((f) => f !== item.file);
+    this.formGroup.get('file')?.setValue(next);
+    this.formGroup.get('file')?.markAsDirty();
+    this.formGroup.get('file')?.updateValueAndValidity();
+
+    // 3) PrimeNG internal queue
+    if (this.fileUploader?.files) {
+      const i = this.fileUploader.files.findIndex(
+        (f) =>
+          f === item.file ||
+          (f.name === item.name &&
+            f.size === item.file.size &&
+            f.type === item.file.type)
+      );
+      if (i > -1) {
+        this.fileUploader.files.splice(i, 1);
+      }
+
+      // When nothing left, clear the native input and internal state
+      if (this.fileUploader.files.length === 0) {
+        this.fileUploader.clear(); // clears the input value & queue
+      }
+    }
+  }
+  onFileLinkClick(e: MouseEvent) {
+    // let the default <a> click happen; if the browser blocks it, we show a tip
+    window.setTimeout(() => {
+      this.messageService.add({
+        severity: 'info',
+        summary: 'If the file didn’t open',
+        detail:
+          'Your browser may block file:// links from a web app. Click "Copy path" and paste it in File Explorer.',
+        life: 8000,
+      });
+    }, 700);
   }
   navigateSign() {
     this.router.navigate(['/organizations/view-signatory-officers']);
@@ -1439,17 +1586,23 @@ export class FormComponent implements OnInit, OnDestroy {
     }
     console.log('Selected selectionChangedPaymentMonthDay:', fullObj);
   }
-  onSelect(event: any) {
-    console.log('[AppForm] p-select onChange event →', event);
-    console.log(
-      '[AppForm] before emit, control is →',
-      this.formGroup.get('currencyExchangeRateId')!.value
-    );
-    this.selectionChangedCurrencyExchange.emit(event);
-    console.log(
-      '[AppForm] after emit, control is →',
-      this.formGroup.get('currencyExchangeRateId')!.value
-    );
+  onSelect(event: FileSelectEvent) {
+    const files: File[] = event.files ?? [];
+    const current: File[] = [...(this.formGroup.get('file')?.value ?? [])];
+
+    for (const file of files) {
+      const url = URL.createObjectURL(file);
+      const item: PreviewItem = { name: file.name, type: file.type, url, file };
+      if (file.type === 'application/pdf') {
+        item.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+      }
+      this.previews.push(item);
+      current.push(file);
+    }
+
+    this.formGroup.get('file')?.setValue(current);
+    this.formGroup.get('file')?.markAsDirty();
+    this.formGroup.get('file')?.updateValueAndValidity();
   }
 
   private setOperationBasedOnLanguage(): void {

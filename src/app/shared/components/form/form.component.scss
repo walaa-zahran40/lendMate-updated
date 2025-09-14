@@ -49,9 +49,14 @@
   --custom-justify-content-between: space-between;
   --custom-flex-direction-row-reverse: row-reverse;
   &::ng-deep {
-    .p-select.p-disabled .p-select-label {
-      background: transparent !important;
+    #purchaseOrderId {
+      background-color: #f8f8fd !important;
+      color: var(--p-select-disabled-color) !important;
     }
+    .p-fileupload-filename {
+      display: none !important;
+    }
+
     .p-tabs {
       padding: var(--custom-padding-right-10);
     }
@@ -81,6 +86,20 @@
     }
     .p-toggleswitch {
       top: 7px;
+    }
+    .p-button:not(:disabled):hover,
+    .p-button-secondary:hover,
+    .p-button-secondary {
+      color: #fff !important;
+    }
+    .p-button-danger,
+    .p-button-danger:hover,
+    .p-button-danger:not(:disabled):hover {
+      background: transparent !important;
+      color: red !important;
+    }
+    .p-button-text:not(:disabled) {
+      color: #fff !important;
     }
     .p-toggleswitch.p-toggleswitch-checked .p-toggleswitch-slider,
     .p-toggleswitch.p-toggleswitch-checked .p-toggleswitch-slider:hover,
@@ -371,8 +390,6 @@
 
     .title {
       color: var(--filter-text);
-      font-weight: 600;
-      margin-bottom: 20px !important;
     }
     .custom-view .p-button {
       padding: 10px;
@@ -409,6 +426,7 @@
     .add-btn .p-button:not(:disabled):hover {
       background: var(--p-tabs-active-bar-background) !important;
     }
+
     /*responsiveness*/
     @media only screen and (max-width: 1541px) and (min-width: 981px) {
       .div-contact-person {
@@ -561,7 +579,7 @@ h2 {
   color: var(--custom-red);
 }
 .div1 {
-  padding: 24px 10px;
+  padding: 24px 0;
 }
 .div2 {
   grid-column: span 2 / span 2;
@@ -734,8 +752,4 @@ form {
       left: 0px !important;
     }
   }
-}
-.page-name {
-  font-weight: 600;
-  font-size: 20px;
 }

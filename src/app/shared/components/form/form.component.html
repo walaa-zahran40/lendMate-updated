@@ -703,7 +703,7 @@ icon="pi pi-cog"
         [options]="documents"
         [optionLabel]="optionLabelKey"
         optionValue="id"
-        formControlName="documentTypeIds"
+        formControlName="documentTypeId"
         [placeholder]="
           'FORM.UPLOAD_DOCUMENT.PLACEHOLDER_DOCUMENT_TYPE' | translate
         "
@@ -721,68 +721,88 @@ icon="pi pi-cog"
         [ngClass]="viewOnly ? 'disabled' : 'enabled'"
       >
       </shared-date-picker>
-      <div class="row upload-div">
-        <div class="col-sm-3 p-0">
-          <!-- show the heading only when there is NO file -->
-          <h2 class="m-0" *ngIf="!formGroup.get('file')?.value">
-            {{ "FORM.UPLOAD_DOCUMENT.UPLOAD_FILE" | translate }}
-          </h2>
-        </div>
-        <div class="col-sm-9 upload-file-div">
-          <p-fileUpload
-            #fileUploader
-            name="file"
-            class="upload-delete"
-            [auto]="true"
-            customUpload="true"
-            (onSelect)="onFileSelected($event)"
-            (onRemove)="onFileRemoved($event)"
-            [showUploadButton]="false"
-            [showCancelButton]="!viewOnly"
-            (onRemove)="onFileRemoved($event)"
-            [disabled]="viewOnly || editMode"
-            accept=".pdf,.docx,.jpg,.xslx,.png"
-            [ngClass]="viewOnly || editMode ? 'disabled' : 'enabled'"
-          ></p-fileUpload>
+      <div class="my-5" [ngClass]="{ 'edit-mode': editMode }">
+        <div *ngIf="(editMode || viewOnly) && existingFileName" class="mb-2">
+          <i class="pi pi-paperclip mr-2"></i>
 
-          <!-- overlay when there is NO file and not in edit/view mode -->
-          <div
-            class="custom-upload-overlay"
-            (click)="fileUploader.choose()"
-            *ngIf="!formGroup.get('file')?.value && !viewOnly"
+          <a
+            *ngIf="existingFileSafeUrl; else justName"
+            [href]="existingFileSafeUrl"
+            target="_blank"
+            rel="noopener"
+            (click)="onFileLinkClick($event)"
           >
-            <span class="custom-icon"></span>
-          </div>
-          <div *ngIf="selectedFile" class="mt-2">
-            <span class="text-success">
-              {{ "FORM.UPLOAD_DOCUMENT.UPLOADED" | translate }}: &nbsp;<strong
-                >{{ selectedFile?.fileName }}</strong
-              >
-            </span>
-          </div>
-          <!-- once previewUrl is set, show the image -->
-          <div *ngIf="previewUrl" class="document-preview mt-3">
-            <img
-              [src]="previewUrl"
-              alt="Document preview"
-              style="max-width: 200px; max-height: 200px; object-fit: contain"
-            />
-          </div>
+            {{ existingFileName }}
+          </a>
+          <br /><br />
+          <button
+            type="button"
+            pButton
+            label="Copy Path"
+            class="p-button-text py-3 px-4 ml-2"
+            (click)="copyPath()"
+          ></button>
 
-          <!-- <p-button
-            label="Download"
-            icon="pi pi-download"
-            class="p-button-secondary ml-2"
-            (onClick)="onDownloadClick()"
-            *ngIf="viewOnly && selectedFile"
-          ></p-button> -->
-          <!-- once a file is present, show its name -->
-          <div *ngIf="formGroup.get('file')?.value" class="mt-2">
-            <span class="text-success">
-              {{ "FORM.UPLOAD_DOCUMENT.UPLOADED" | translate }}: &nbsp;<strong
-                >{{ formGroup.get("file")?.value.name }}</strong
-              >
-            </span>
+          <ng-template #justName>{{ existingFileName }}</ng-template>
+        </div>
+
+        <!-- You already have this somewhere in the page -->
+        <p-toast></p-toast>
+
+        <p-fileupload
+          *ngIf="!editMode && !viewOnly"
+          #fileUploader
+          name="files[]"
+          [multiple]="true"
+          [showUploadButton]="false"
+          (onSelect)="onSelect($event)"
+          maxFileSize="1000000"
+          mode="basic"
+          [auto]="false"
+          [customUpload]="true"
+          [previewWidth]="100"
+          styleClass="w-full"
+        >
+          <ng-template #empty>
+            <div>Drag and drop files to here to upload.</div>
+          </ng-template> </p-fileupload
+        ><!-- Custom preview list -->
+        <div class="mt-3 grid grid-nogutter gap-3">
+          <div *ngFor="let p of previews" class="p-2 border-round surface-100">
+            <div class="font-medium mb-2">{{ p.name }}</div>
+
+            <!-- Images -->
+            <img
+              *ngIf="p.type.startsWith('image/')"
+              [src]="p.url"
+              alt="{{ p.name }}"
+              style="max-width: 320px; max-height: 240px; display: block"
+            />
+
+            <!-- PDFs -->
+            <iframe
+              *ngIf="p.type === 'application/pdf'"
+              [src]="p.safeUrl"
+              style="width: 100%; height: 420px; border: none"
+            ></iframe>
+
+            <!-- Fallback for other types -->
+            <div
+              *ngIf="
+                !p.type.startsWith('image/') && p.type !== 'application/pdf'
+              "
+            >
+              <i class="pi pi-file mr-2"></i> No inline preview available.
+              <a [href]="p.url" download>Download</a>
+            </div>
+
+            <button
+              pButton
+              type="button"
+              label="Remove"
+              class="p-button-text mt-2"
+              (click)="removePreview(p)"
+            ></button>
           </div>
         </div>
       </div>
@@ -9814,7 +9834,7 @@ icon="pi pi-cog"
         </div>
       </div>
     </form>
-    <form
+    <!-- <form
       [formGroup]="formGroup"
       *ngIf="addBranchAddressesLookupsForm"
       (ngSubmit)="onSubmit()"
@@ -9849,7 +9869,7 @@ icon="pi pi-cog"
         [showClear]="true"
         [options]="governoratesList"
         [optionLabel]="optionLabelKey"
-    [placeholder]="'BRANCH_ADDRESS.PLACEHOLDER_GOVERNORATE' | translate"
+        [placeholder]="'BRANCH_ADDRESS.PLACEHOLDER_GOVERNORATE' | translate"
         formControlName="governorateId"
         optionValue="id"
         (onChange)="onSectorChange($event)"
@@ -9861,15 +9881,16 @@ icon="pi pi-cog"
               formGroup.get('governorateId')?.touched)
         }"
       />
-      <label for="areaId">    {{ 'BRANCH_ADDRESS.AREA' | translate }}<sup>*</sup>
-</label>
+      <label for="areaId">
+        {{ "BRANCH_ADDRESS.AREA" | translate }}<sup>*</sup>
+      </label>
       <p-select
         [filter]="true"
         [filterBy]="filterByField"
         [showClear]="true"
         [options]="areasList"
         [optionLabel]="optionLabelKey"
-    [placeholder]="'BRANCH_ADDRESS.PLACEHOLDER_AREA' | translate"
+        [placeholder]="'BRANCH_ADDRESS.PLACEHOLDER_AREA' | translate"
         formControlName="areaId"
         optionValue="id"
         (onChange)="onSectorChange($event)"
@@ -9880,13 +9901,14 @@ icon="pi pi-cog"
             (formGroup.get('areaId')?.dirty || formGroup.get('areaId')?.touched)
         }"
       />
-      <label for="details">    {{ 'BRANCH_ADDRESS.DETAILS_EN' | translate }}<sup>*</sup>
-</label>
+      <label for="details">
+        {{ "BRANCH_ADDRESS.DETAILS_EN" | translate }}<sup>*</sup>
+      </label>
       <input
         pInputText
         id="details"
         formControlName="details"
-    [placeholder]="'BRANCH_ADDRESS.PLACEHOLDER_DETAILS_EN' | translate"
+        [placeholder]="'BRANCH_ADDRESS.PLACEHOLDER_DETAILS_EN' | translate"
       />
       <div
         *ngIf="
@@ -9895,15 +9917,16 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-    {{ 'BRANCH_ADDRESS.VALIDATION.DETAILS_EN_REQUIRED' | translate }}
+        {{ "BRANCH_ADDRESS.VALIDATION.DETAILS_EN_REQUIRED" | translate }}
       </div>
-      <label for="detailsAR">    {{ 'BRANCH_ADDRESS.DETAILS_AR' | translate }}<sup>*</sup>
-</label>
+      <label for="detailsAR">
+        {{ "BRANCH_ADDRESS.DETAILS_AR" | translate }}<sup>*</sup>
+      </label>
       <input
         pInputText
         id="detailsAR"
         formControlName="detailsAR"
-    [placeholder]="'BRANCH_ADDRESS.PLACEHOLDER_DETAILS_AR' | translate"
+        [placeholder]="'BRANCH_ADDRESS.PLACEHOLDER_DETAILS_AR' | translate"
       />
       <div
         *ngIf="
@@ -9912,7 +9935,7 @@ icon="pi pi-cog"
         "
         class="p-error"
       >
-    {{ 'BRANCH_ADDRESS.VALIDATION.DETAILS_AR_REQUIRED' | translate }}
+        {{ "BRANCH_ADDRESS.VALIDATION.DETAILS_AR_REQUIRED" | translate }}
       </div>
 
       <div class="row justify-end">
@@ -9922,7 +9945,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-        [label]="'BUTTONS.ADD_BRANCH_ADDRESS' | translate"
+            [label]="'BUTTONS.ADD_BRANCH_ADDRESS' | translate"
             [disabled]="formGroup.invalid"
             class="custom-save m-0 float-right"
           ></p-button>
@@ -9933,7 +9956,7 @@ icon="pi pi-cog"
         >
           <p-button
             type="submit"
-        [label]="'BUTTONS.EDIT_BRANCH_ADDRESS' | translate"
+            [label]="'BUTTONS.EDIT_BRANCH_ADDRESS' | translate"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
@@ -9948,7 +9971,7 @@ icon="pi pi-cog"
           />
         </div>
       </div>
-    </form>
+    </form> -->
     <!-- <form
       [formGroup]="formGroup"
       *ngIf="addBranchManagersLookupsForm"

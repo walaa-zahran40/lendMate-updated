@@ -6,6 +6,7 @@ export interface ClientFile {
   expiryDate?: any;
   fileName?: string;
   documentTypeId?: number;
+
   documentTypeName?: string;
   documentTypeNameAr?: string;
 }

@@ -166,6 +166,11 @@ export class AddPurchasingOrdersFileComponent {
             docCtrl.setValue(documentTypeId, { emitEvent: false });
             docCtrl.updateValueAndValidity({ emitEvent: false });
 
+            // 🔒 Disable document type in edit mode
+            if (this.editMode) {
+              docCtrl.disable({ emitEvent: false });
+            }
+
             // Existing file info for child display
             this.existingFileName = ct.fileName ?? undefined;
             this.existingFileId = ct.fileId ?? undefined;

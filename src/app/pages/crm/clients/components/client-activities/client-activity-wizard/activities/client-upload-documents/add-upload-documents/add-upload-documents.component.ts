@@ -1,14 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { Subject, takeUntil, tap, filter, take, Observable } from 'rxjs';
+import {
+  Subject,
+  takeUntil,
+  filter,
+  take,
+  Observable,
+  map,
+  combineLatest,
+} from 'rxjs';
 import { DocTypesFacade } from '../../../../../../../../lookups/store/doc-types/doc-types.facade';
 import { ClientFile } from '../../../../../../store/client-file/client-file.model';
 import { ClientFilesFacade } from '../../../../../../store/client-file/client-files.facade';
-import { ClientFilesService } from '../../../../../../store/client-file/client-files.service';
-import { environment } from '../../../../../../../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { DocType } from '../../../../../../../../lookups/store/doc-types/doc-type.model';
 
 @Component({
   selector: 'app-add-upload-documents',
@@ -29,6 +36,16 @@ export class AddUploadDocumentsComponent implements OnInit {
   documentTypes: any[] = [];
   private destroy$ = new Subject<void>();
   previewUrl?: any;
+  record$!: Observable<ClientFile | undefined>;
+  recordId!: number;
+  mode!: 'add' | 'edit' | 'view';
+  viewOnly = false;
+  documentTypes$!: Observable<DocType[]>;
+  currentRecord?: ClientFile | null = null;
+  routeId: any;
+  existingFileName?: string;
+  existingFileId?: number;
+  existingFileUrl?: string;
 
   constructor(
     private fb: FormBuilder,
@@ -37,110 +54,131 @@ export class AddUploadDocumentsComponent implements OnInit {
     private router: Router,
     private facadeDocumentTypes: DocTypesFacade,
     private messageService: MessageService,
-    private http: HttpClient
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
-    console.log('[Route Snapshot] Full Params:', this.route.snapshot.paramMap);
+    // ===== 1) Resolve routing + mode =====
+    const routeIdParam = Number(this.route.snapshot.params['id']); // can be PO id (add) or File id (edit/view)
+    const qpMode =
+      (this.route.snapshot.queryParamMap.get('mode') as
+        | 'add'
+        | 'edit'
+        | 'view') ?? 'add';
 
-    this.clientId = +this.route.snapshot.paramMap.get('clientId')!;
-    const fileIdParam = this.route.snapshot.paramMap.get('documentId');
-    this.documentId = fileIdParam ? +fileIdParam : null;
-    this.editMode = !!this.documentId;
-    // NEW: detect ?mode=view
-    const mode = this.route.snapshot.queryParamMap.get('mode');
-    this.viewMode = mode === 'view';
-    this.editMode = !!this.documentId && !this.viewMode;
+    // If there is an explicit :documentId param, prefer it in edit/view paths
+    const documentIdParam = this.route.snapshot.paramMap.get('documentId');
+    const docIdCandidate = documentIdParam
+      ? Number(documentIdParam)
+      : routeIdParam;
 
-    console.log('[Init] viewMode=', this.viewMode, 'editMode=', this.editMode);
-    console.log('[Init] clientId:', this.clientId);
-    console.log('[Init] documentId:', this.documentId);
-    console.log('[Init] editMode:', this.editMode);
+    this.mode = qpMode;
+    this.viewMode = qpMode === 'view';
+    this.editMode = qpMode === 'edit';
 
+    // In edit/view, the route id represents the FILE id; in add, it's the parent PO id
+    if (this.editMode || this.viewMode) {
+      this.recordId = docIdCandidate;
+      this.documentId = docIdCandidate;
+    } else {
+      this.routeId = routeIdParam;
+    }
+
+    // Always present in your route
+    this.clientId = Number(this.route.snapshot.paramMap.get('clientId')!);
+
+    // ===== 2) Build form (file required only in ADD) =====
     this.uploadForm = this.fb.group({
-      documentTypeIds: [null, Validators.required],
+      documentTypeId: [null, Validators.required],
       expiryDate: [null, Validators.required],
       file: [null, this.editMode || this.viewMode ? [] : Validators.required],
     });
-    console.log('[Init] Route Snapshot params:', this.route.snapshot.params);
-    console.log(
-      '[Init] Route Snapshot queryParams:',
-      this.route.snapshot.queryParams
+
+    // ===== 3) Load and normalize document types =====
+    this.facadeDocumentTypes.loadAll();
+    this.documentTypes$ = this.facadeDocumentTypes.all$.pipe(
+      map((arr) =>
+        Array.isArray(arr) ? arr.map((d) => ({ ...d, id: Number(d.id) })) : []
+      )
     );
 
-    console.log('[Init] Dispatching loadDocumentTypes()');
-
-    this.facadeDocumentTypes.loadAll();
-    this.facadeDocumentTypes.all$
+    // keep a local cache if you need it elsewhere
+    this.documentTypes$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((types) => {
-        console.log(
-          '[UploadDocumentsComponent] documentTypes$ emitted:',
-          types
-        );
-        this.documentTypes = types;
-      });
-    this.uploadForm.get('documentTypeIds')?.enable();
+      .subscribe((types) => (this.documentTypes = types));
 
-    if (this.editMode || this.viewMode) {
-      console.log('doc', this.documentId);
-      this.facade.loadOne(this.documentId!); // ✅ correct call
-      this.uploadForm.get('documentTypeIds')?.disable();
-
-      console.log(
-        '[Init] about to subscribe to facade.current$ for clientId=',
-        this.clientId
-      );
-      this.facade.current$
-        .pipe(
-          tap((c) => console.log('[current$] raw emission →', c)),
-          filter((c): c is ClientFile => {
-            const pass = !!c && c.id === this.documentId;
-            console.log(
-              `[current$] filtering: c?.id=${c?.id}  === documentId? → ${pass}`
-            );
-            return pass;
-          }),
-          take(1)
-        )
-        .subscribe({
-          next: (doc) => {
-            const hex = this.encodePathToHex(doc.filePath);
-            console.log('hex', hex);
-            console.log('[current$ subscribe] received doc →', doc);
-            this.uploadForm.patchValue({
-              documentTypeIds: doc.documentTypeId,
-              expiryDate: new Date(doc.expiryDate),
-            });
-            console.log('[current$ subscribe] patched form with', {
-              documentTypeId: doc.documentTypeId,
-              expiryDate: doc.expiryDate,
-            });
-
-            this.selectedFile = doc as any;
-            // 2) compute a “public” URL for preview:
-            const rawPath = doc.filePath?.replace(/\\/g, '/'); // normalize slashes
-            const relative = rawPath?.replace(/^[A-Za-z]:/, ''); // strip drive letter
-            const full = `${environment.redirectUri}${relative}`;
-            // 4) encode spaces etc
-            this.previewUrl = encodeURI(full);
-
-            console.log('preview Url', this.previewUrl);
-            console.log(
-              '[current$ subscribe] selectedFile set to →',
-              this.selectedFile
-            );
-            if (this.viewMode) {
-              console.log('[Init] viewMode active, disabling form');
-              this.uploadForm.disable({ emitEvent: false });
-            }
-          },
-          error: (err) => console.error('[current$ subscribe] error →', err),
-          complete: () => console.log('[current$ subscribe] complete'),
-        });
+    // ===== 4) ADD mode early exit (enable controls) =====
+    if (!this.editMode && !this.viewMode) {
+      this.uploadForm.get('documentTypeId')?.enable({ emitEvent: false });
+      return;
     }
-    console.log('preee', this.previewUrl);
+
+    // ===== 5) EDIT / VIEW: fetch record, then patch once docTypes are ready =====
+    this.facade.loadOne(this.documentId!);
+    this.record$ = this.facade.current$;
+
+    const recordReady$ = this.record$.pipe(
+      filter((ct): ct is ClientFile => !!ct && ct.documentTypeId != null)
+    );
+    const docTypesReady$ = this.documentTypes$.pipe(
+      filter((arr) => Array.isArray(arr) && arr.length > 0)
+    );
+
+    combineLatest([recordReady$, docTypesReady$])
+      .pipe(take(1))
+      .subscribe({
+        next: ([ct]) => {
+          this.currentRecord = ct;
+
+          // Coerce to expected types for controls/components
+          const documentTypeId = Number(ct.documentTypeId);
+          const expiry = ct.expiryDate
+            ? new Date(ct.expiryDate as string)
+            : null;
+
+          // 1) Patch BEFORE disabling any control
+          this.uploadForm.patchValue(
+            {
+              id: ct.id,
+              documentTypeId, // number to match optionValue="id"
+              expiryDate: expiry,
+              file: null, // never prefill file input
+            },
+            { emitEvent: false }
+          );
+
+          // 2) Help PrimeNG resolve selected option
+          const docCtrl = this.uploadForm.get('documentTypeId')!;
+          docCtrl.setValue(documentTypeId, { emitEvent: false });
+          docCtrl.updateValueAndValidity({ emitEvent: false });
+
+          // 3) Populate existing file info for child preview/links
+          this.existingFileName = ct.fileName ?? undefined;
+          this.existingFileId = ct.fileId ?? undefined;
+          this.existingFileUrl = ct.filePath ?? undefined;
+
+          // 4) Adjust enable/disable AFTER patching
+          if (this.viewMode) {
+            this.uploadForm.disable({ emitEvent: false });
+          } else {
+            // Edit: allow changing expiry, lock doc type
+            docCtrl.disable({ emitEvent: false });
+            this.uploadForm.get('expiryDate')?.enable({ emitEvent: false });
+            this.uploadForm.get('file')?.enable({ emitEvent: false });
+          }
+
+          // 5) File control has no validators in edit/view
+          const fileCtrl = this.uploadForm.get('file')!;
+          fileCtrl.clearValidators();
+          fileCtrl.updateValueAndValidity({ emitEvent: false });
+
+          // mark for change detection (OnPush safety)
+          this.cdr.markForCheck();
+        },
+        error: (e) => console.error('❌ Failed to patch edit/view form:', e),
+      });
   }
+
   encodePathToHex(path: string | undefined | null): string {
     if (!path) {
       console.warn('[encodePathToHex] Input path is empty or undefined');
@@ -211,48 +249,65 @@ export class AddUploadDocumentsComponent implements OnInit {
   }
 
   addDocument() {
+    // Block in pure view mode
     if (this.viewMode) {
-      console.warn('AddDocument called in viewMode – no action taken');
+      console.warn('[addDocument] called in view mode; skipping.');
       return;
     }
-    console.log('Entered addDocument method');
 
+    // If the doc type control is disabled (edit/view), temporarily enable to read its value
+    const docTypeCtrl = this.uploadForm.get('documentTypeId');
+    const wasDocTypeDisabled = !!docTypeCtrl?.disabled;
+    if (wasDocTypeDisabled) docTypeCtrl?.enable({ emitEvent: false });
+
+    // Validate
     if (this.uploadForm.invalid) {
       this.uploadForm.markAllAsTouched();
+      if (wasDocTypeDisabled) docTypeCtrl?.disable({ emitEvent: false });
       return;
     }
-    this.uploadForm.get('documentTypeIds')?.enable();
 
-    const { documentTypeIds, expiryDate, file } = this.uploadForm.value;
-    console.log('Form values:', { documentTypeIds, expiryDate, file });
+    // Read raw values safely
+    const { documentTypeId, expiryDate, file } = this.uploadForm.getRawValue();
 
-    // Normalize the documentTypeId field
-    const docTypeId =
-      typeof documentTypeIds === 'object'
-        ? documentTypeIds.id
-        : documentTypeIds;
+    // Normalize documentTypeId (might be an object or a number)
+    const docTypeId: number =
+      typeof documentTypeId === 'object' && documentTypeId
+        ? Number(documentTypeId.id)
+        : Number(documentTypeId);
+
+    // Normalize file(s) to an array
+    const files: File[] = Array.isArray(file) ? file : file ? [file] : [];
+
+    // Helper: format date (you already have formatDateWithoutTime on the class)
+    const expiry = this.formatDateWithoutTime(expiryDate);
 
     if (this.editMode) {
-      // 🆕 in edit mode, if there's a fresh File, send it in a FormData
-      if (file instanceof File) {
+      // EDIT: update metadata, and optionally upload a new binary if provided
+      if (files.length > 0) {
+        // ➜ multipart update with file(s)
         const formData = new FormData();
-        formData.append('id', this.documentId!.toString());
-        formData.append('clientId', this.clientId.toString());
-        formData.append('documentTypeId', docTypeId.toString());
-        formData.append('expiryDate', this.formatDateWithoutTime(expiryDate));
-        formData.append('file', file);
+        formData.append('id', String(this.documentId!));
+        formData.append('clientId', String(this.clientId));
+        formData.append('documentTypeId', String(docTypeId));
+        formData.append('expiryDate', expiry);
 
-        // assume you add this service/facade method:
-        this.facade.update(this.documentId!, formData);
+        // If backend expects ONE file under key "file", use the first:
+        formData.append('file', files[0]);
+
+        // If backend supports multiple, use this instead:
+        // for (const f of files) formData.append('files', f);
+
+        this.facade.update(this.documentId!, formData as any);
       } else {
-        // no file chosen — fall back to JSON-only update
-        const updatePayload = {
+        // ➜ JSON-only update (no new binary selected)
+        const payload = {
           id: this.documentId!,
           clientId: this.clientId,
-          fileId: docTypeId,
-          expiryDate: this.formatDateWithoutTime(expiryDate),
+          documentTypeId: docTypeId,
+          expiryDate: expiry,
         };
-        this.facade.update(this.documentId!, updatePayload);
+        this.facade.update(this.documentId!, payload);
       }
 
       this.messageService.add({
@@ -260,35 +315,36 @@ export class AddUploadDocumentsComponent implements OnInit {
         summary: 'Updated',
         detail: 'Document updated successfully',
       });
+
+      if (this.uploadForm.valid) this.uploadForm.markAsPristine();
+
       this.router.navigate(
         [`/crm/clients/view-upload-documents/${this.clientId}`],
         { queryParams: { id: this.clientId } }
       );
     } else {
-      // 🎯 ADD MODE: Upload new file with FormData
-      if (!file) {
-        console.error('No file selected for upload.');
+      // ADD: must have at least one file
+      if (files.length === 0) {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'File required',
+          detail: 'Please choose a file to upload.',
+        });
+        if (wasDocTypeDisabled) docTypeCtrl?.disable({ emitEvent: false });
         return;
       }
 
       const formData = new FormData();
-      formData.append('clientId', this.clientId.toString());
-      formData.append('expiryDate', this.formatDateWithoutTime(expiryDate));
-      formData.append('documentTypeId', docTypeId.toString());
-      formData.append('file', file);
+      formData.append('clientId', String(this.clientId));
+      formData.append('documentTypeId', String(docTypeId));
+      formData.append('expiryDate', expiry);
 
-      console.log('[Add Mode] Sending FormData upload...');
+      // If backend expects ONE file under key "file":
+      formData.append('file', files[0]);
 
-      // If facade.create only accepts Partial<ClientFile>, convert FormData to object:
-      // const payload: Partial<ClientFile> = {
-      //   clientId: this.clientId,
-      //   expiryDate: this.formatDateWithoutTime(expiryDate),
-      //   documentTypeId: docTypeId,
-      //   file: file
-      // };
-      // this.facade.create(payload);
+      // If backend supports multiple files, switch to:
+      // for (const f of files) formData.append('files', f);
 
-      // If facade.create can be updated to accept FormData, update its type signature.
       this.facade.create(formData as any);
 
       this.messageService.add({
@@ -296,18 +352,19 @@ export class AddUploadDocumentsComponent implements OnInit {
         summary: 'Uploaded',
         detail: 'Document uploaded successfully',
       });
-      if (this.uploadForm.valid) {
-        this.uploadForm.markAsPristine();
-      }
+
+      if (this.uploadForm.valid) this.uploadForm.markAsPristine();
 
       this.router.navigate(
         [`/crm/clients/view-upload-documents/${this.clientId}`],
-        {
-          queryParams: { id: this.clientId },
-        }
+        { queryParams: { id: this.clientId } }
       );
     }
+
+    // Restore disabled state of doc type if we changed it
+    if (wasDocTypeDisabled) docTypeCtrl?.disable({ emitEvent: false });
   }
+
   /** Called by the guard. */
   canDeactivate(): boolean {
     return !this.uploadForm.dirty;
@@ -321,13 +378,11 @@ export class AddUploadDocumentsComponent implements OnInit {
   }
   private formatDateWithoutTime(date: Date): string {
     const d = date instanceof Date ? date : new Date(date);
-
-    if (isNaN(d.getTime())) {
+    if (isNaN(d.getTime()))
       throw new Error(`Invalid date passed to formatDateWithoutTime: ${date}`);
-    }
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // month is 0-indexed
-    const day = date.getDate().toString().padStart(2, '0');
+    const year = d.getFullYear();
+    const month = (d.getMonth() + 1).toString().padStart(2, '0');
+    const day = d.getDate().toString().padStart(2, '0');
     return `${year}-${month}-${day}`;
   }
 }

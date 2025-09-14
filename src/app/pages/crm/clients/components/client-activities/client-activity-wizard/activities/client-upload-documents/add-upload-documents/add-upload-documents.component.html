@@ -11,17 +11,18 @@
     <p-tabpanel value="0">
       <app-form
         *ngIf="uploadForm"
-        [selectedFile]="selectedFile"
-        [formGroup]="uploadForm"
-        [documents]="documentTypes"
-        [editMode]="editMode"
-        [viewOnly]="viewMode"
         [title]="'FORM.UPLOAD_DOCUMENTS.TITLE'"
         [description]="'FORM.UPLOAD_DOCUMENTS.DESCRIPTION'"
         [uploadDocumentsShowMain]="true"
+        [selectedFile]="selectedFile"
+        [formGroup]="uploadForm"
+        [existingFileName]="(record$ | async)?.fileName"
+        [existingFileId]="(record$ | async)?.fileId"
+        [existingFileUrl]="(record$ | async)?.filePath"
         (submitForm)="addDocument()"
-        (onFileSelect)="onFileSelected($event)"
-        [previewUrl]="previewUrl"
+        [documents]="documentTypes"
+        [editMode]="editMode"
+        [viewOnly]="viewMode"
       ></app-form>
     </p-tabpanel>
   </p-tabpanels>

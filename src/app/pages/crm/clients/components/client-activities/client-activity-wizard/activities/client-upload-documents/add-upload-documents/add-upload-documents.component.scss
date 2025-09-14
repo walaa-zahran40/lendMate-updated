@@ -21,6 +21,23 @@
   --custom-background-transparent: transparent;
   --custom-font-epilogue-regular: "epilogue";
   --custom-font-weight-600: 600;
+  h2 {
+    font-family: var(--custom-font-epilogue-regular);
+    font-size: var(--custom-size-16);
+    line-height: var(--custom-line-height-25);
+  }
+  p {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 25.6px;
+    color: #7c8493;
+  }
+  @media only screen and (max-width: 600px) {
+    .companyTypesDiv {
+      padding-right: 0;
+      padding-left: 0;
+    }
+  }
   &::ng-deep {
     .p-button {
       flex-direction: var(--custom-flex-direction-row-reverse);
@@ -36,16 +53,10 @@
       font-size: var(--custom-font-size-13);
       line-height: var(--custom-font-size-24);
     }
-    .p-tabs {
-      padding: var(--custom-padding-right-10);
-      zoom: 80%;
-    }
+
     .p-button:not(:disabled):hover {
       background: var(--p-tabs-active-bar-background) !important;
       border: none;
-    }
-    .p-fileupload-choose-button:not(:disabled):hover {
-      background: transparent !important;
     }
     .custom-next {
       background: var(--p-tabs-active-bar-background);
@@ -64,7 +75,7 @@
       margin-left: var(--custom-position-auto);
       margin-right: var(--custom-position-28);
       text-align: var(--custom-position-center);
-      padding: 14px 27px;
+      padding: 14px 73px;
       font-size: var(--custom-font-size-18);
       cursor: var(--custom-cursor);
       color: var(--custom-color-white);
@@ -149,20 +160,9 @@
         width: var(--custom-width-100);
       }
     }
+    .p-tabs {
+      padding: var(--custom-padding-right-10);
+      zoom: 80%;
+    }
   }
-}
-h2 {
-  font-family: var(--custom-font-epilogue-regular);
-  font-size: var(--custom-size-16);
-  line-height: var(--custom-line-height-25);
-}
-p {
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 25.6px;
-  color: #7c8493;
-}
-hr {
-  margin-top: 32px;
-  margin-bottom: 32px;
 }

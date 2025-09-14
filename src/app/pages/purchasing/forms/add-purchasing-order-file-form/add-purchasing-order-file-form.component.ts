@@ -1411,7 +1411,7 @@ export class AddPurchasingOrderFileComponent implements OnInit, OnDestroy {
         this.messageService.add({
           severity: 'success',
           summary: 'Path copied',
-          detail: 'Paste into File Explorer (Win+E → address bar).',
+          detail: 'Paste into New Tab ',
           life: 4000,
         }),
       () =>
