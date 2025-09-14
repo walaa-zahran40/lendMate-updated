@@ -1401,7 +1401,7 @@ export class AddPurchasingOrderFileComponent implements OnInit, OnDestroy {
       });
     }, 700);
   } /** Copies a Windows UNC path so the user can paste it in File Explorer. */
-  copyNetworkPath() {
+  copyPath() {
     const raw = this.existingFileUrl || ''; // e.g. "file://srvhqtest02/uploads/..." OR "D:\\uploads\\...\\file.pdf" OR "/uploads/..."
     const unc = this.toWindowsUncPath(raw);
     if (!unc) return;
@@ -1428,25 +1428,31 @@ export class AddPurchasingOrderFileComponent implements OnInit, OnDestroy {
   private toWindowsUncPath(input: string): string {
     if (!input) return '';
 
-    // case 1: already a file:// UNC like file://srvhqtest02/uploads/...
-    if (input.startsWith('file://')) {
-      // strip "file://" and convert slashes to backslashes, ensure two leading backslashes
-      const noScheme = input.replace(/^file:\/\//, ''); // srvhqtest02/uploads/...
-      const win = noScheme.replace(/\//g, '\\'); // srvhqtest02\uploads\...
-      return win.startsWith('\\\\') ? win : `\\\\${win}`;
-    }
+    // 1) Remove scheme/host if present
+    let rest = input;
 
-    // case 2: windows drive path like D:\uploads\...
-    if (/^[A-Za-z]:\\/.test(input)) {
-      // drop drive, map to server share root (adjust if your share differs)
-      const withoutDrive = input.replace(/^[A-Za-z]:\\?/, ''); // uploads\...\file.pdf
-      return `\\\\srvhqtest02\\${withoutDrive}`;
-    }
+    // file://srvhqtest02/...  -> keep only the path part
+    rest = rest.replace(/^file:\/\/srvhqtest02\/?/i, '');
 
-    // case 3: relative or POSIX-like "/uploads/..." -> \\srvhqtest02\uploads\...
-    let p = input;
-    if (p.startsWith('/')) p = p.slice(1);
-    p = p.replace(/\//g, '\\');
-    return `\\\\srvhqtest02\\${p}`;
+    // file:///D:/... or file:///uploads/... -> strip "file:///"
+    rest = rest.replace(/^file:\/\/\//i, '');
+
+    // generic file://something/... -> strip "file://something/"
+    rest = rest.replace(/^file:\/\/[^/]+\/?/i, '');
+
+    // 2) Normalize slashes
+    rest = rest.replace(/\\/g, '/');
+
+    // 3) Strip any leading drive letter like "D:" or "/D:"
+    rest = rest.replace(/^\/?[A-Za-z]:/, '');
+
+    // 4) Ensure single leading slash
+    if (!rest.startsWith('/')) rest = '/' + rest;
+
+    // 5) Collapse duplicate slashes (just in case)
+    rest = rest.replace(/\/{2,}/g, '/'); // remove trailing slash if any
+    rest = rest.replace(/D:/g, '');
+    // 6) Return canonical UNC file URL (no drive)
+    return `file://srvhqtest02${rest}`;
   }
 }

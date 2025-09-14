@@ -99,15 +99,14 @@
           >
             {{ existingFileName }}
           </a>
-
+          <br /><br />
           <button
             type="button"
             pButton
-            class="p-button-text p-0 ml-2"
-            (click)="copyNetworkPath()"
-          >
-            Copy path
-          </button>
+            label="Copy Path"
+            class="p-button-text py-3 px-4 ml-2"
+            (click)="copyPath()"
+          ></button>
 
           <ng-template #justName>{{ existingFileName }}</ng-template>
         </div>

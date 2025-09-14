@@ -60,7 +60,12 @@ export class SideMenuComponent {
       permission: '/Clients/GetAll',
     },
 
-    { id: 'Purchasing', icon: 'pi pi-ico4', i18nKey: 'MENU.PURCHASING' },
+    {
+      id: 'Purchasing',
+      icon: 'pi pi-ico4',
+      i18nKey: 'MENU.PURCHASING',
+      permission: '/Clients/GetAll',
+    },
 
     {
       id: 'Business',
