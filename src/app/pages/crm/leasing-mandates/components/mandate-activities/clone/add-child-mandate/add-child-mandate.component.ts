@@ -231,7 +231,7 @@ export class AddChildMandateComponent {
           insuredById: m.insuredById,
         },
         moreInfo: {
-          date: m.date,
+          date: String(m.date),
           notes: m.notes,
           description: m.description,
           validityCount: m.validityCount,
@@ -256,7 +256,7 @@ export class AddChildMandateComponent {
           insuredById: m.insuredById,
         },
         moreInfo: {
-          date: m.date,
+          date: String(m.date),
           notes: m.notes,
           description: m.description,
           validityCount: m.validityCount,
@@ -415,6 +415,7 @@ export class AddChildMandateComponent {
   buildMandateShowMoreInformationForm(): void {
     this.addMandateShowMoreInformationForm = this.fb.group({
       date: [null, Validators.required],
+      expirationDate: [null, Validators.required],
       notes: [null, Validators.required],
       description: [null, Validators.required],
       validityCount: [null, Validators.required],
@@ -579,7 +580,8 @@ export class AddChildMandateComponent {
           leasingTypeId: b.leasingTypeId,
           insuredById: b.insuredById,
           description: m.description,
-          date: m.date,
+          date: String(m.date),
+          expirationDate: String(m.expirationDate),
           notes: m.notes,
           validityCount: m.validityCount,
           indicativeRentals: m.indicativeRentals,
@@ -644,7 +646,9 @@ export class AddChildMandateComponent {
           leasingTypeId: b.leasingTypeId,
           insuredById: b.insuredById,
           description: m.description,
-          date: m.date,
+          date: String(m.date),
+          expirationDate: String(m.expirationDate),
+
           notes: m.notes,
           validityCount: m.validityCount,
           indicativeRentals: m.indicativeRentals,

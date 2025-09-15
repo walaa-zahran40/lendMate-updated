@@ -7,6 +7,7 @@ import {
   distinctUntilChanged,
   filter,
   map,
+  startWith,
   switchMap,
   take,
   takeUntil,
@@ -47,7 +48,6 @@ import { loadAll as loadAssetTypes } from '../../../../../lookups/store/asset-ty
 import { loadAll as loadFeeTypes } from '../../../../../lookups/store/fee-types/fee-types.actions';
 import { loadAll as loadGracePeriods } from '../../../../../lookups/store/period-units/period-units.actions';
 import { combineLatest, Subject } from 'rxjs';
-import { loadByClientId } from '../../../store/leasing-mandates/leasing-mandates.actions';
 
 @Component({
   selector: 'app-add-mandate',
@@ -225,6 +225,7 @@ export class AddMandateComponent {
         return;
       }
       this.leasingMandateId = +idParam;
+      this.moreInfoForm.get('expireDate')!.disable();
     } else {
       combineLatest({
         params: this.route.paramMap,
@@ -298,11 +299,16 @@ export class AddMandateComponent {
           insuredById: m.insuredById,
         },
         moreInfo: {
-          date: m.date,
+          date: m.date ? new Date(m.date) : null,
           notes: m.notes,
+          validityDay: m.validityDay ?? null,
           description: m.description,
           validityCount: m.validityCount,
+          downPayment: m.downPayment,
+          nfa: m.nfa,
+          assetCost: m.assetCost,
           indicativeRentals: m.indicativeRentals,
+          percentOfFinance: m.percentOfFinance,
           mandateGracePeriodSettingView: {
             gracePeriodCount: grace.gracePeriodCount,
             gracePeriodUnitId: grace.gracePeriodUnitId,
@@ -380,10 +386,14 @@ export class AddMandateComponent {
           insuredById: m.insuredById,
         },
         moreInfo: {
-          date: m.date,
+          date: m.date ? new Date(m.date) : null,
           notes: m.notes,
           description: m.description,
           validityCount: m.validityCount,
+          downPayment: m.downPayment,
+          assetCost: m.assetCost,
+          nfa: m.nfa,
+          percentOfFinance: m.percentOfFinance,
           indicativeRentals: m.indicativeRentals,
           mandateGracePeriodSettingView: {
             gracePeriodCount: grace.gracePeriodCount,
@@ -579,6 +589,68 @@ export class AddMandateComponent {
       ]),
     });
   }
+  buildMandateShowAssetTypeForm(): void {
+    this.addMandateShowAssetTypeForm = this.fb.group({
+      mandateAssetTypes: this.fb.array([this.createAssetTypeGroup()]),
+    });
+  }
+  buildMandateShowMoreInformationForm(): void {
+    this.addMandateShowMoreInformationForm = this.fb.group({
+      date: [null, Validators.required],
+      expireDate: [{ value: null, disabled: true }, Validators.required],
+      validityDay: [null, Validators.required],
+      notes: [null],
+      description: [null, Validators.required],
+      assetCost: [null, Validators.required],
+      downPayment: [null, Validators.required],
+      nfa: [null, Validators.required],
+      percentOfFinance: [null, Validators.required],
+      validityCount: [null, Validators.required],
+      indicativeRentals: [null, Validators.required],
+      mandateGracePeriodSettingView:
+        this.createMandateGracePeriodSettingGroup(),
+    });
+    this.wireUpExpireDateAutoCalc(); // ⬅️ add this
+  }
+  /** Auto-calc expireDate = date + validityDay, whenever either changes. */
+  private wireUpExpireDateAutoCalc(): void {
+    const grp = this.addMandateShowMoreInformationForm;
+    const dateCtrl = grp.get('date')!;
+    const daysCtrl = grp.get('validityDay')!;
+    const expCtrl = grp.get('expireDate')!;
+
+    combineLatest([
+      dateCtrl.valueChanges.pipe(startWith(dateCtrl.value)),
+      daysCtrl.valueChanges.pipe(startWith(daysCtrl.value)),
+    ])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(([dateVal, daysVal]) => {
+        const d = this.toDate(dateVal);
+        const days = this.toInt(daysVal);
+        if (d && days !== null && days >= 0) {
+          const exp = this.addDays(d, days);
+          // keep it disabled and avoid loops
+          expCtrl.setValue(exp, { emitEvent: false });
+        } else {
+          expCtrl.setValue(null, { emitEvent: false });
+        }
+      });
+  }
+  // --- tiny helpers ---
+  private toDate(v: any): Date | null {
+    if (!v) return null;
+    return v instanceof Date ? v : new Date(v);
+  }
+  private toInt(v: any): number | null {
+    const n = Number(v);
+    return Number.isFinite(n) ? n : null;
+  }
+  private addDays(d: Date, days: number): Date {
+    const out = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    out.setDate(out.getDate() + days);
+    return out;
+  }
+
   createMandateOfficerGroup(): FormGroup {
     return this.fb.group({
       id: [],
@@ -591,27 +663,10 @@ export class AddMandateComponent {
     });
   }
 
-  buildMandateShowAssetTypeForm(): void {
-    this.addMandateShowAssetTypeForm = this.fb.group({
-      mandateAssetTypes: this.fb.array([this.createAssetTypeGroup()]),
-    });
-  }
   createAssetTypeGroup(): FormGroup {
     return this.fb.group({
       assetTypeId: ['', Validators.required],
       assetsTypeDescription: [null, Validators.required],
-    });
-  }
-
-  buildMandateShowMoreInformationForm(): void {
-    this.addMandateShowMoreInformationForm = this.fb.group({
-      date: [null, Validators.required],
-      notes: [null, Validators.required],
-      description: [null, Validators.required],
-      validityCount: [null, Validators.required],
-      indicativeRentals: [null, Validators.required],
-      mandateGracePeriodSettingView:
-        this.createMandateGracePeriodSettingGroup(),
     });
   }
 
@@ -727,7 +782,8 @@ export class AddMandateComponent {
       }
 
       const { assets, basic, contacts, officers, moreInfo } =
-        this.parentForm.value;
+        this.parentForm.getRawValue();
+
       const payload: Partial<Mandate> = {
         ...basic,
         mandateOfficers: officers.mandateOfficers,
@@ -761,6 +817,12 @@ export class AddMandateComponent {
           // from your "moreInfo" group
           description: moreInfo.description,
           date: moreInfo.date,
+          expireDate: moreInfo.expireDate,
+          validityDay: +moreInfo.validityDay,
+          nfa: moreInfo.nfa,
+          percentOfFinance: moreInfo.percentOfFinance,
+          downPayment: moreInfo.downPayment,
+          assetCost: moreInfo.assetCost,
           notes: moreInfo.notes,
           validityCount: moreInfo.validityCount,
           indicativeRentals: moreInfo.indicativeRentals,
@@ -850,6 +912,12 @@ export class AddMandateComponent {
           // from your "moreInfo" group
           description: moreInfo.description,
           date: moreInfo.date,
+          expireDate: moreInfo.expireDate,
+          validityDay: +moreInfo.validityDay,
+          nfa: moreInfo.nfa,
+          percentOfFinance: moreInfo.percentOfFinance,
+          downPayment: moreInfo.downPayment,
+          assetCost: moreInfo.assetCost,
           notes: moreInfo.notes,
           validityCount: moreInfo.validityCount,
           indicativeRentals: moreInfo.indicativeRentals,

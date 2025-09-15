@@ -3,7 +3,9 @@ import { PeriodUnit } from '../../../../lookups/store/period-units/period-unit.m
 export interface Clone {
   id?: number;
   description?: string;
-  date?: Date;
+  expirationDate?: string;
+
+  date?: string;
   clientId?: number;
   clientView?: any;
   parentMandateId?: number;

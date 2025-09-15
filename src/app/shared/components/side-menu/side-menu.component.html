@@ -1,41 +1,43 @@
-<div class="side-menu-container">
-  <div class="side-menu">
-    <img class="logoS" src="/assets/images/shared/favico/svg_1.svg" />
-    <ng-container *ngFor="let item of menuItems">
-      <button
-        *ngIf="hasPermission(item.permission)"
-        pButton
-        type="button"
-        class="menu-item menu-button"
-        [icon]="item.icon"
-        (click)="toggleMenu(item)"
-        [ngClass]="{ active: activeMenu === item.id }"
-        [pTooltip]="item.i18nKey | translate"
-        tooltipPosition="right"
-      ></button>
-    </ng-container>
-  </div>
+<ng-container *ngIf="isVisible">
+  <div class="side-menu-container">
+    <div class="side-menu">
+      <img class="logoS" src="/assets/images/shared/favico/svg_1.svg" />
+      <ng-container *ngFor="let item of menuItems">
+        <button
+          *ngIf="hasPermission(item.permission)"
+          pButton
+          type="button"
+          class="menu-item menu-button"
+          [icon]="item.icon"
+          (click)="toggleMenu(item)"
+          [ngClass]="{ active: activeMenu === item.id }"
+          [pTooltip]="item.i18nKey | translate"
+          tooltipPosition="right"
+        ></button>
+      </ng-container>
+    </div>
 
-  <div
-    class="toggle-menu"
-    *ngIf="activeMenu && (filteredMenuData[activeMenu]?.length || 0) > 0"
-  >
-    <img class="logo" src="/assets/images/shared/favico/svg_1.svg" />
-    <p-iconfield>
-      <p-inputicon styleClass="pi pi-search" />
-      <input
-        type="text"
-        pInputText
-        [placeholder]="'SIDEMENU.SEARCH' | translate"
-        [(ngModel)]="searchTerm"
-        (ngModelChange)="onSearchChange($event)"
-        class="search-input"
-      />
-    </p-iconfield>
-    <p-panelmenu
-      [model]="displayModel"
-      [multiple]="false"
-      (onNodeSelect)="setActiveMenuItem($event)"
-    ></p-panelmenu>
+    <div
+      class="toggle-menu"
+      *ngIf="activeMenu && (filteredMenuData[activeMenu]?.length || 0) > 0"
+    >
+      <img class="logo" src="/assets/images/shared/favico/svg_1.svg" />
+      <p-iconfield>
+        <p-inputicon styleClass="pi pi-search" />
+        <input
+          type="text"
+          pInputText
+          [placeholder]="'SIDEMENU.SEARCH' | translate"
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="onSearchChange($event)"
+          class="search-input"
+        />
+      </p-iconfield>
+      <p-panelmenu
+        [model]="displayModel"
+        [multiple]="false"
+        (onNodeSelect)="setActiveMenuItem($event)"
+      ></p-panelmenu>
+    </div>
   </div>
-</div>
+</ng-container>

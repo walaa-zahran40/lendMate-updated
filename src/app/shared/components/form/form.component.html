@@ -5886,53 +5886,201 @@ icon="pi pi-cog"
       [formGroup]="formGroup"
       id="addMandateShowMoreInformationForm"
     >
-      <label for="date" class="label-container">
-        {{ "FORM.MANDATE.LABEL_DATE" | translate }} <sup>*</sup>
-      </label>
-      <shared-date-picker inputId="date" formControlName="date">
-        <small
-          class="p-error d-block"
-          *ngIf="
-            formGroup.get('date')?.invalid && formGroup.get('date')?.touched
-          "
-        >
-          {{ "FORM.MANDATE.ERROR_DATE_REQUIRED" | translate }}
-        </small> </shared-date-picker
-      ><br />
-      <label for="notes" class="label-container">
-        {{ "FORM.MANDATE.LABEL_NOTES" | translate }}<sup>*</sup></label
-      ><input
-        pInputText
-        placeholder="{{ 'FORM.MANDATE.PLACEHOLDER_NOTES' | translate }}"
-        formControlName="notes"
-        name="notes"
-      />
-      <small
-        class="p-error d-block"
-        *ngIf="
-          formGroup.get('notes')?.invalid && formGroup.get('notes')?.touched
-        "
-      >
-        {{ "FORM.MANDATE.ERROR_NOTES_REQUIRED" | translate }}
-      </small>
-
-      <label for="description" class="label-container">
-        {{ "FORM.MANDATE.LABEL_DESCRIPTION" | translate }}<sup>*</sup> </label
-      ><input
-        pInputText
-        name="description"
-        placeholder="{{ 'FORM.MANDATE.PLACEHOLDER_DESCRIPTION' | translate }}"
-        formControlName="description"
-      />
-      <small
-        class="p-error d-block"
-        *ngIf="
-          formGroup.get('description')?.invalid &&
-          formGroup.get('description')?.touched
-        "
-      >
-        {{ "FORM.MANDATE.ERROR_DESCRIPTION_REQUIRED" | translate }}
-      </small>
+      <div class="row">
+        <div class="col-sm-6">
+          <label for="description" class="label-container">
+            {{ "FORM.MANDATE.LABEL_DESCRIPTION" | translate
+            }}<sup>*</sup> </label
+          ><input
+            pInputText
+            name="description"
+            placeholder="{{
+              'FORM.MANDATE.PLACEHOLDER_DESCRIPTION' | translate
+            }}"
+            formControlName="description"
+          />
+          <small
+            class="p-error d-block"
+            *ngIf="
+              formGroup.get('description')?.invalid &&
+              formGroup.get('description')?.touched
+            "
+          >
+            {{ "FORM.MANDATE.ERROR_DESCRIPTION_REQUIRED" | translate }}
+          </small>
+        </div>
+        <div class="col-sm-6">
+          <label for="date" class="label-container">
+            {{ "FORM.MANDATE.LABEL_DATE" | translate }} <sup>*</sup>
+          </label>
+          <shared-date-picker inputId="date" formControlName="date">
+          </shared-date-picker
+          ><br />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <label for="validityDay" class="label-container">
+            {{ "FORM.MANDATE.LABEL_VALIDITY_DAYS" | translate }}
+            <sup>*</sup>
+          </label>
+          <input
+            pInputText
+            id="validityDay"
+            aria-describedby="validityDay-help"
+            name="validityDay"
+            formControlName="validityDay"
+            [placeholder]="'FORM.MANDATE.PLACEHOLDER_VALIDITY_DAYS' | translate"
+            class="d-block w-100"
+          />
+          <small
+            class="p-error d-block"
+            *ngIf="
+              formGroup.get('validityDay')?.invalid &&
+              formGroup.get('validityDay')?.touched
+            "
+          >
+            {{ "FORM.MANDATE.ERROR_VALIDITY_DAYS_REQUIRED" | translate }}
+          </small>
+        </div>
+        <div class="col-sm-6">
+          <label for="date" class="label-container">
+            {{ "FORM.MANDATE.LABEL_EXPIRATION_DATE" | translate }} <sup>*</sup>
+          </label>
+          <shared-date-picker
+            inputId="date"
+            formControlName="expireDate"
+            [readOnly]="true"
+          ></shared-date-picker>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <label for="notes" class="label-container">
+            {{ "FORM.MANDATE.LABEL_NOTES" | translate }}</label
+          ><input
+            pInputText
+            placeholder="{{ 'FORM.MANDATE.PLACEHOLDER_NOTES' | translate }}"
+            formControlName="notes"
+            name="notes"
+          />
+        </div>
+        <div class="col-sm-6">
+          <label for="indicativeRentals" class="label-container"
+            >{{ "FORM.MANDATE.LABEL_INDICATIVE_RENTALS" | translate
+            }}<sup>*</sup></label
+          >
+          <input
+            type="number"
+            formControlName="indicativeRentals"
+            placeholder="{{
+              'FORM.MANDATE.PLACEHOLDER_INDICATIVE_RENTALS' | translate
+            }}"
+            pInputText
+          />
+          <small
+            class="p-error d-block"
+            *ngIf="
+              formGroup.get('indicativeRentals')?.invalid &&
+              formGroup.get('indicativeRentals')?.touched
+            "
+          >
+            {{ "FORM.MANDATE.ERROR_INDICATIVE_RENTALS_REQUIRED" | translate }}
+          </small>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <label for="assetCost" class="label-container"
+            >{{ "FORM.MANDATE.LABEL_ASSET_COST" | translate
+            }}<sup>*</sup></label
+          >
+          <input
+            type="number"
+            formControlName="assetCost"
+            placeholder="{{
+              'FORM.MANDATE.PLACEHOLDER_ASSET_COST' | translate
+            }}"
+            pInputText
+          />
+          <small
+            class="p-error d-block"
+            *ngIf="
+              formGroup.get('assetCost')?.invalid &&
+              formGroup.get('assetCost')?.touched
+            "
+          >
+            {{ "FORM.MANDATE.ERROR_ASSET_COST_REQUIRED" | translate }}
+          </small>
+        </div>
+        <div class="col-sm-6">
+          <label for="downPayment" class="label-container"
+            >{{ "FORM.MANDATE.LABEL_DOWN_PAYMENT" | translate
+            }}<sup>*</sup></label
+          >
+          <input
+            type="number"
+            formControlName="downPayment"
+            placeholder="{{
+              'FORM.MANDATE.PLACEHOLDER_DOWN_PAYMENT' | translate
+            }}"
+            pInputText
+          />
+          <small
+            class="p-error d-block"
+            *ngIf="
+              formGroup.get('downPayment')?.invalid &&
+              formGroup.get('downPayment')?.touched
+            "
+          >
+            {{ "FORM.MANDATE.ERROR_DOWN_PAYMENT_REQUIRED" | translate }}
+          </small>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <label for="percentOfFinance" class="label-container"
+            >{{ "FORM.MANDATE.LABEL_PERCENT_OF_FINANCE" | translate
+            }}<sup>*</sup></label
+          >
+          <input
+            type="number"
+            formControlName="percentOfFinance"
+            placeholder="{{
+              'FORM.MANDATE.PLACEHOLDER_PERCENT_OF_FINANCE' | translate
+            }}"
+            pInputText
+          />
+          <small
+            class="p-error d-block"
+            *ngIf="
+              formGroup.get('percentOfFinance')?.invalid &&
+              formGroup.get('percentOfFinance')?.touched
+            "
+          >
+            {{ "FORM.MANDATE.ERROR_PERCENT_OF_FINANCE_REQUIRED" | translate }}
+          </small>
+        </div>
+        <div class="col-sm-6">
+          <label for="nfa" class="label-container"
+            >{{ "FORM.MANDATE.LABEL_NFA" | translate }}<sup>*</sup></label
+          >
+          <input
+            type="number"
+            formControlName="nfa"
+            placeholder="{{ 'FORM.MANDATE.PLACEHOLDER_NFA' | translate }}"
+            pInputText
+          />
+          <small
+            class="p-error d-block"
+            *ngIf="
+              formGroup.get('nfa')?.invalid && formGroup.get('nfa')?.touched
+            "
+          >
+            {{ "FORM.MANDATE.ERROR_NFA_REQUIRED" | translate }}
+          </small>
+        </div>
+      </div>
       <label for="validityCount" class="label-container">
         {{ "FORM.MANDATE.LABEL_VALIDITY_COUNT" | translate
         }}<sup>*</sup> </label
@@ -5953,27 +6101,6 @@ icon="pi pi-cog"
       >
         {{ "FORM.MANDATE.ERROR_VALIDITY_COUNT_REQUIRED" | translate }} </small
       ><br />
-      <label for="indicativeRentals" class="label-container"
-        >{{ "FORM.MANDATE.LABEL_INDICATIVE_RENTALS" | translate
-        }}<sup>*</sup></label
-      >
-      <input
-        type="number"
-        formControlName="indicativeRentals"
-        placeholder="{{
-          'FORM.MANDATE.PLACEHOLDER_INDICATIVE_RENTALS' | translate
-        }}"
-        pInputText
-      />
-      <small
-        class="p-error d-block"
-        *ngIf="
-          formGroup.get('indicativeRentals')?.invalid &&
-          formGroup.get('indicativeRentals')?.touched
-        "
-      >
-        {{ "FORM.MANDATE.ERROR_INDICATIVE_RENTALS_REQUIRED" | translate }}
-      </small>
 
       <div formGroupName="mandateGracePeriodSettingView" class="mt-4">
         <!-- 1) Grace Period Count -->

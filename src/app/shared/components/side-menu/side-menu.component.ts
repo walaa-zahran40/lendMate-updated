@@ -13,6 +13,7 @@ import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
 import { InteractionStatus } from '@azure/msal-browser';
 import { PermissionService } from '../../../pages/login/store/permissions/permission.service';
 import { TranslateService } from '@ngx-translate/core';
+import { MenuToggleService } from '../../services/menu-toggle.service';
 type MenuLeaf = {
   i18nKey: string;
   icon?: string;
@@ -1126,6 +1127,7 @@ export class SideMenuComponent {
     private translate: TranslateService,
     private msalBroadcastService: MsalBroadcastService,
     private permissionService: PermissionService,
+    private menuToggleService: MenuToggleService,
     private router: Router
   ) {
     // Rebuild localized model on language change
@@ -1155,6 +1157,9 @@ export class SideMenuComponent {
     //   this.clientId = pm.get('clientId');
     // });
     // 1) First, always re‐run applyPermissionFilter as soon as permissionsLoaded$ ever emits.
+    this.menuToggleService.visible$
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((v) => (this.isVisible = v));
     this.permissionService.permissionsLoaded$
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
@@ -1243,6 +1248,10 @@ export class SideMenuComponent {
 
     // refresh localized list for the currently active menu
     this.filterMenuItems();
+  }
+  toggleSection(item: TopButton) {
+    this.activeMenu = this.activeMenu === item.id ? null : item.id;
+    this.onSectionChanged();
   }
 
   filterMenuItems() {

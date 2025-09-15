@@ -22,6 +22,7 @@ export class SharedDatePickerComponent implements ControlValueAccessor, OnInit {
   @Input() inputId!: string;
   @Input() minDate?: Date;
   @Input() maxDate?: Date;
+  @Input() readOnly: boolean = false;
   @ViewChild(Calendar) private calendar!: Calendar;
 
   value: Date | null = null;

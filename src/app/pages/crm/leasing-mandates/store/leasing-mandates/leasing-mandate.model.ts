@@ -3,7 +3,8 @@ import { PeriodUnit } from '../../../../lookups/store/period-units/period-unit.m
 export interface Mandate {
   id?: number;
   description?: string;
-  date?: Date;
+  date?: string;
+  expireDate?: string;
   clientId?: number;
   clientView?: any;
   parentMandateId?: number;
@@ -12,10 +13,15 @@ export interface Mandate {
   notes?: string;
   productId?: number;
   assets?: any;
+  downPayment?: number;
+  assetCost?: number;
+  percentOfFinance?: number;
+  validityDay?: number;
   basic?: any;
   contacts?: any;
   officers?: any;
   moreInfo?: any;
+  nfa?: number;
   indicativeRentals?: number;
   leasingTypeId?: number;
   insuredById?: number;
