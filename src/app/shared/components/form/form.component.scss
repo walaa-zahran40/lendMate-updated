@@ -274,7 +274,9 @@
       border-radius: var(--custom-margin-0);
       border: 1px solid var(--custom-color-grey-light);
       background: var(--bg-transparent);
+      margin-bottom: 0px !important;
     }
+
     #mandateOfficersForm .add-btn .p-button,
     #mandateContactPersonsForm .add-btn .p-button,
     #mandateAssetTypeForm .add-btn .p-button {

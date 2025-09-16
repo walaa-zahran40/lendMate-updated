@@ -22,6 +22,9 @@ export interface Mandate {
   officers?: any;
   moreInfo?: any;
   nfa?: number;
+  interestRate: number;
+  insuranceRate: number;
+
   indicativeRentals?: number;
   leasingTypeId?: number;
   insuredById?: number;

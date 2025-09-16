@@ -52,7 +52,7 @@
     />
 
     <p-button
-      *ngIf="addMandateFeeForm"
+      *ngIf="addMandateShowFeeForm"
       icon="pi pi-cog"
       [label]="'BUTTONS.VIEW_MANDATE_FEES' | translate"
       (click)="viewMandateFees()"
@@ -5171,130 +5171,149 @@ icon="pi pi-cog"
       [formGroup]="formGroup"
       class="form-container"
     >
-      <label
-        for="clientNameAddMandateBasic"
-        class="label-container"
-        *ngIf="show"
-      >
-        {{ "FORM.MANDATE.LABEL_CLIENT_NAME" | translate }}<sup>*</sup>
-      </label>
-      <p-select
-        [filter]="true"
-        [filterBy]="filterByField"
-        [showClear]="true"
-        [options]="clientNames"
-        formControlName="clientId"
-        [placeholder]="'FORM.MANDATE.PLACEHOLDER_CLIENT_NAME' | translate"
-        [optionLabel]="optionLabelKey"
-        optionValue="id"
-        *ngIf="show"
-        name="clientNameAddMandateBasic"
-        styleClass="w-full md:w-80"
-      />
-      <div
-        *ngIf="
-          formGroup.get('clientId')?.hasError('required') &&
-          formGroup.get('clientId')?.touched
-        "
-        class="p-error"
-      >
-        {{ "FORM.MANDATE.ERROR_CLIENT_REQUIRED" | translate }}
+      <div class="row">
+        <div class="col-sm-6">
+          <label
+            for="clientNameAddMandateBasic"
+            class="label-container"
+            *ngIf="show"
+          >
+            {{ "FORM.MANDATE.LABEL_CLIENT_NAME" | translate }}<sup>*</sup>
+          </label>
+          <p-select
+            [filter]="true"
+            [filterBy]="filterByField"
+            [showClear]="true"
+            [options]="clientNames"
+            formControlName="clientId"
+            [placeholder]="'FORM.MANDATE.PLACEHOLDER_CLIENT_NAME' | translate"
+            [optionLabel]="optionLabelKey"
+            optionValue="id"
+            *ngIf="show"
+            name="clientNameAddMandateBasic"
+            styleClass="w-full md:w-80"
+          />
+          <div
+            *ngIf="
+              formGroup.get('clientId')?.hasError('required') &&
+              formGroup.get('clientId')?.touched
+            "
+            class="p-error"
+          >
+            {{ "FORM.MANDATE.ERROR_CLIENT_REQUIRED" | translate }}
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <label for="leasingTypesAddMandateBasic" class="label-container">
+            {{ "FORM.MANDATE.LABEL_LEASING_TYPE" | translate }}<sup>*</sup>
+          </label>
+          <p-select
+            [filter]="true"
+            [filterBy]="filterByField"
+            [showClear]="true"
+            [options]="leasingTypes"
+            formControlName="leasingTypeId"
+            [placeholder]="'FORM.MANDATE.PLACEHOLDER_LEASING_TYPE' | translate"
+            [optionLabel]="optionLabelKey"
+            name="leasingTypesAddMandateBasic"
+            styleClass="w-full md:w-80"
+            optionValue="id"
+          />
+          <div
+            *ngIf="
+              formGroup.get('leasingTypeId')?.hasError('required') &&
+              formGroup.get('leasingTypeId')?.touched
+            "
+            class="p-error"
+          >
+            {{ "FORM.MANDATE.ERROR_LEASING_TYPE_REQUIRED" | translate }}
+          </div>
+        </div>
       </div>
-      <label for="validityUnitAddMandateBasic" class="label-container">
-        {{ "FORM.MANDATE.LABEL_VALIDITY_UNIT" | translate }}<sup>*</sup>
-      </label>
-      <p-select
-        [filter]="true"
-        [filterBy]="filterByField"
-        [showClear]="true"
-        [options]="validityUnits"
-        formControlName="validityUnitId"
-        [placeholder]="'FORM.MANDATE.PLACEHOLDER_VALIDITY_UNIT' | translate"
-        [optionLabel]="optionLabelKey"
-        name="validityUnitAddMandateBasic"
-        styleClass="w-full md:w-80"
-        optionValue="id"
-      />
-      <div
-        *ngIf="
-          formGroup.get('validityUnitId')?.hasError('required') &&
-          formGroup.get('validityUnitId')?.touched
-        "
-        class="p-error"
-      >
-        {{ "FORM.MANDATE.ERROR_VALIDITY_UNIT_REQUIRED" | translate }}
+      <div class="row">
+        <div class="col-sm-6">
+          <label for="insuredByAddMandateBasic" class="label-container">
+            {{ "FORM.MANDATE.LABEL_INSURED_BY" | translate }}<sup>*</sup></label
+          >
+          <p-select
+            [filter]="true"
+            [filterBy]="filterByField"
+            [showClear]="true"
+            [options]="insuredBy"
+            formControlName="insuredById"
+            [placeholder]="'FORM.MANDATE.PLACEHOLDER_INSURED_BY' | translate"
+            [optionLabel]="optionLabelKey"
+            optionValue="id"
+            name="insuredByAddMandateBasic"
+            styleClass="w-full md:w-80"
+          />
+          <div
+            *ngIf="
+              formGroup.get('insuredById')?.hasError('required') &&
+              formGroup.get('insuredById')?.touched
+            "
+            class="p-error"
+          >
+            {{ "FORM.MANDATE.ERROR_INSURED_BY_REQUIRED" | translate }}
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <label for="date" class="label-container">
+            {{ "FORM.MANDATE.LABEL_DATE" | translate }} <sup>*</sup>
+          </label>
+          <shared-date-picker inputId="date" formControlName="date">
+          </shared-date-picker>
+        </div>
       </div>
-      <label for="productAddMandateBasic" class="label-container">
-        {{ "FORM.MANDATE.LABEL_PRODUCT" | translate }}<sup>*</sup>
-      </label>
-      <p-select
-        [filter]="true"
-        [filterBy]="filterByField"
-        [showClear]="true"
-        [options]="products"
-        formControlName="productId"
-        [placeholder]="'FORM.MANDATE.PLACEHOLDER_PRODUCT' | translate"
-        [optionLabel]="optionLabelKey"
-        optionValue="id"
-        name="productAddMandateBasic"
-        styleClass="w-full md:w-80"
-      />
-      <div
-        *ngIf="
-          formGroup.get('productId')?.hasError('required') &&
-          formGroup.get('productId')?.touched
-        "
-        class="p-error"
-      >
-        {{ "FORM.MANDATE.ERROR_PRODUCT_REQUIRED" | translate }}
+      <div class="row">
+        <div class="col-sm-6">
+          <label for="validityDay" class="label-container">
+            {{ "FORM.MANDATE.LABEL_VALIDITY_DAYS" | translate }}
+            <sup>*</sup>
+          </label>
+          <input
+            pInputText
+            id="validityDay"
+            aria-describedby="validityDay-help"
+            name="validityDay"
+            formControlName="validityDay"
+            [placeholder]="'FORM.MANDATE.PLACEHOLDER_VALIDITY_DAYS' | translate"
+            class="d-block w-100"
+          />
+          <small
+            class="p-error d-block"
+            *ngIf="
+              formGroup.get('validityDay')?.invalid &&
+              formGroup.get('validityDay')?.touched
+            "
+          >
+            {{ "FORM.MANDATE.ERROR_VALIDITY_DAYS_REQUIRED" | translate }}
+          </small>
+        </div>
+        <div class="col-sm-6">
+          <label for="date" class="label-container">
+            {{ "FORM.MANDATE.LABEL_EXPIRATION_DATE" | translate }} <sup>*</sup>
+          </label>
+          <shared-date-picker
+            inputId="date"
+            formControlName="expireDate"
+            [readOnly]="true"
+          ></shared-date-picker>
+        </div>
       </div>
-      <label for="leasingTypesAddMandateBasic" class="label-container">
-        {{ "FORM.MANDATE.LABEL_LEASING_TYPE" | translate }}<sup>*</sup>
-      </label>
-      <p-select
-        [filter]="true"
-        [filterBy]="filterByField"
-        [showClear]="true"
-        [options]="leasingTypes"
-        formControlName="leasingTypeId"
-        [placeholder]="'FORM.MANDATE.PLACEHOLDER_LEASING_TYPE' | translate"
-        [optionLabel]="optionLabelKey"
-        name="leasingTypesAddMandateBasic"
-        styleClass="w-full md:w-80"
-        optionValue="id"
-      />
-      <div
-        *ngIf="
-          formGroup.get('leasingTypeId')?.hasError('required') &&
-          formGroup.get('leasingTypeId')?.touched
-        "
-        class="p-error"
-      >
-        {{ "FORM.MANDATE.ERROR_LEASING_TYPE_REQUIRED" | translate }}
-      </div>
-      <label for="insuredByAddMandateBasic" class="label-container">
-        {{ "FORM.MANDATE.LABEL_INSURED_BY" | translate }}<sup>*</sup></label
-      >
-      <p-select
-        [filter]="true"
-        [filterBy]="filterByField"
-        [showClear]="true"
-        [options]="insuredBy"
-        formControlName="insuredById"
-        [placeholder]="'FORM.MANDATE.PLACEHOLDER_INSURED_BY' | translate"
-        [optionLabel]="optionLabelKey"
-        optionValue="id"
-        name="insuredByAddMandateBasic"
-        styleClass="w-full md:w-80"
-      />
-      <div
-        *ngIf="
-          formGroup.get('insuredById')?.hasError('required') &&
-          formGroup.get('insuredById')?.touched
-        "
-        class="p-error"
-      >
-        {{ "FORM.MANDATE.ERROR_INSURED_BY_REQUIRED" | translate }}
+      <div class="row">
+        <div class="col-sm-12">
+          <label for="notes" class="label-container">
+            {{ "FORM.MANDATE.LABEL_NOTES" | translate }}</label
+          ><br /><textarea
+            rows="5"
+            pTextarea
+            [autoResize]="true"
+            formControlName="notes"
+            class="w-100"
+            placeholder="{{ 'FORM.MANDATE.PLACEHOLDER_NOTES' | translate }}"
+          ></textarea>
+        </div>
       </div>
     </ng-container>
     <ng-container
@@ -5733,8 +5752,8 @@ icon="pi pi-cog"
             <small
               class="p-error d-block"
               *ngIf="
-                group.get('assetType')?.invalid &&
-                group.get('assetType')?.touched
+                group.get('assetTypeId')?.invalid &&
+                group.get('assetTypeId')?.touched
               "
             >
               {{ "FORM.MANDATE.ERROR_ASSET_TYPE_REQUIRED" | translate }}
@@ -5882,115 +5901,12 @@ icon="pi pi-cog"
       </div>
     </ng-container>
     <ng-container
-      *ngIf="addMandateShowMoreInformationForm"
+      *ngIf="addMandateShowFinancialActivityOneForm"
       [formGroup]="formGroup"
-      id="addMandateShowMoreInformationForm"
+      id="addMandateShowFinancialActivityOneForm"
     >
       <div class="row">
-        <div class="col-sm-6">
-          <label for="description" class="label-container">
-            {{ "FORM.MANDATE.LABEL_DESCRIPTION" | translate
-            }}<sup>*</sup> </label
-          ><input
-            pInputText
-            name="description"
-            placeholder="{{
-              'FORM.MANDATE.PLACEHOLDER_DESCRIPTION' | translate
-            }}"
-            formControlName="description"
-          />
-          <small
-            class="p-error d-block"
-            *ngIf="
-              formGroup.get('description')?.invalid &&
-              formGroup.get('description')?.touched
-            "
-          >
-            {{ "FORM.MANDATE.ERROR_DESCRIPTION_REQUIRED" | translate }}
-          </small>
-        </div>
-        <div class="col-sm-6">
-          <label for="date" class="label-container">
-            {{ "FORM.MANDATE.LABEL_DATE" | translate }} <sup>*</sup>
-          </label>
-          <shared-date-picker inputId="date" formControlName="date">
-          </shared-date-picker
-          ><br />
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-6">
-          <label for="validityDay" class="label-container">
-            {{ "FORM.MANDATE.LABEL_VALIDITY_DAYS" | translate }}
-            <sup>*</sup>
-          </label>
-          <input
-            pInputText
-            id="validityDay"
-            aria-describedby="validityDay-help"
-            name="validityDay"
-            formControlName="validityDay"
-            [placeholder]="'FORM.MANDATE.PLACEHOLDER_VALIDITY_DAYS' | translate"
-            class="d-block w-100"
-          />
-          <small
-            class="p-error d-block"
-            *ngIf="
-              formGroup.get('validityDay')?.invalid &&
-              formGroup.get('validityDay')?.touched
-            "
-          >
-            {{ "FORM.MANDATE.ERROR_VALIDITY_DAYS_REQUIRED" | translate }}
-          </small>
-        </div>
-        <div class="col-sm-6">
-          <label for="date" class="label-container">
-            {{ "FORM.MANDATE.LABEL_EXPIRATION_DATE" | translate }} <sup>*</sup>
-          </label>
-          <shared-date-picker
-            inputId="date"
-            formControlName="expireDate"
-            [readOnly]="true"
-          ></shared-date-picker>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-6">
-          <label for="notes" class="label-container">
-            {{ "FORM.MANDATE.LABEL_NOTES" | translate }}</label
-          ><input
-            pInputText
-            placeholder="{{ 'FORM.MANDATE.PLACEHOLDER_NOTES' | translate }}"
-            formControlName="notes"
-            name="notes"
-          />
-        </div>
-        <div class="col-sm-6">
-          <label for="indicativeRentals" class="label-container"
-            >{{ "FORM.MANDATE.LABEL_INDICATIVE_RENTALS" | translate
-            }}<sup>*</sup></label
-          >
-          <input
-            type="number"
-            formControlName="indicativeRentals"
-            placeholder="{{
-              'FORM.MANDATE.PLACEHOLDER_INDICATIVE_RENTALS' | translate
-            }}"
-            pInputText
-          />
-          <small
-            class="p-error d-block"
-            *ngIf="
-              formGroup.get('indicativeRentals')?.invalid &&
-              formGroup.get('indicativeRentals')?.touched
-            "
-          >
-            {{ "FORM.MANDATE.ERROR_INDICATIVE_RENTALS_REQUIRED" | translate }}
-          </small>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-4">
           <label for="assetCost" class="label-container"
             >{{ "FORM.MANDATE.LABEL_ASSET_COST" | translate
             }}<sup>*</sup></label
@@ -6013,7 +5929,7 @@ icon="pi pi-cog"
             {{ "FORM.MANDATE.ERROR_ASSET_COST_REQUIRED" | translate }}
           </small>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-4">
           <label for="downPayment" class="label-container"
             >{{ "FORM.MANDATE.LABEL_DOWN_PAYMENT" | translate
             }}<sup>*</sup></label
@@ -6036,9 +5952,7 @@ icon="pi pi-cog"
             {{ "FORM.MANDATE.ERROR_DOWN_PAYMENT_REQUIRED" | translate }}
           </small>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-4">
           <label for="percentOfFinance" class="label-container"
             >{{ "FORM.MANDATE.LABEL_PERCENT_OF_FINANCE" | translate
             }}<sup>*</sup></label
@@ -6061,7 +5975,9 @@ icon="pi pi-cog"
             {{ "FORM.MANDATE.ERROR_PERCENT_OF_FINANCE_REQUIRED" | translate }}
           </small>
         </div>
-        <div class="col-sm-6">
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
           <label for="nfa" class="label-container"
             >{{ "FORM.MANDATE.LABEL_NFA" | translate }}<sup>*</sup></label
           >
@@ -6080,84 +5996,604 @@ icon="pi pi-cog"
             {{ "FORM.MANDATE.ERROR_NFA_REQUIRED" | translate }}
           </small>
         </div>
-      </div>
-      <label for="validityCount" class="label-container">
-        {{ "FORM.MANDATE.LABEL_VALIDITY_COUNT" | translate
-        }}<sup>*</sup> </label
-      ><input
-        type="number"
-        formControlName="validityCount"
-        pInputText
-        placeholder="{{
-          'FORM.MANDATE.PLACEHOLDER_VALIDITY_COUNT' | translate
-        }}"
-      />
-      <small
-        class="p-error d-block"
-        *ngIf="
-          formGroup.get('validityCount')?.invalid &&
-          formGroup.get('validityCount')?.touched
-        "
-      >
-        {{ "FORM.MANDATE.ERROR_VALIDITY_COUNT_REQUIRED" | translate }} </small
-      ><br />
-
-      <div formGroupName="mandateGracePeriodSettingView" class="mt-4">
-        <!-- 1) Grace Period Count -->
-        <div class="div-number flex-1 min-w-0">
-          <label for="gracePeriodCount" class="label-container">
-            {{ "FORM.MANDATE.LABEL_GRACE_PERIOD_COUNT" | translate
-            }}<sup>*</sup>
-          </label>
+        <div class="col-sm-4">
+          <label for="years" class="label-container"
+            >{{ "FORM.MANDATE.LABEL_YEARS" | translate }}<sup>*</sup></label
+          >
           <input
-            pInputText
             type="number"
-            id="gracePeriodCount"
-            aria-describedby="gracePeriodCount-help"
-            name="gracePeriodCount"
-            formControlName="gracePeriodCount"
-            placeholder="{{
-              'FORM.MANDATE.PLACEHOLDER_GRACE_PERIOD_COUNT' | translate
-            }}"
-            class="d-block w-100"
+            formControlName="years"
+            placeholder="{{ 'FORM.MANDATE.PLACEHOLDER_YEARS' | translate }}"
+            pInputText
           />
-
           <small
             class="p-error d-block"
             *ngIf="
-              formGroup.get('gracePeriodCount')?.invalid &&
-              formGroup.get('gracePeriodCount')?.touched
+              formGroup.get('years')?.invalid && formGroup.get('years')?.touched
             "
           >
-            {{ "FORM.MANDATE.ERROR_GRACE_PERIOD_COUNT_REQUIRED" | translate }}
+            {{ "FORM.MANDATE.ERROR_YEARS_REQUIRED" | translate }}
           </small>
-          <label for="gracePeriodUnitId" class="label-container">
-            {{ "FORM.MANDATE.LABEL_GRACE_PERIOD_UNIT" | translate }}
-            <!-- <sup class="danger">*</sup> -->
-          </label>
+        </div>
+        <div class="col-sm-4">
+          <label for="startDate" class="label-container"
+            >{{ "FORM.MANDATE.LABEL_START_DATE" | translate
+            }}<sup>*</sup></label
+          >
+          <shared-date-picker
+            formControlName="startDate"
+            inputId="date"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+          >
+          </shared-date-picker>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-4">
+          <label for="interestRate" class="label-container"
+            >{{ "FORM.MANDATE.LABEL_INTEREST_RATE" | translate
+            }}<sup>*</sup></label
+          >
+          <input
+            type="number"
+            formControlName="interestRate"
+            placeholder="{{
+              'FORM.MANDATE.PLACEHOLDER_INTEREST_RATE' | translate
+            }}"
+            pInputText
+          />
+          <small
+            class="p-error d-block"
+            *ngIf="
+              formGroup.get('interestRate')?.invalid &&
+              formGroup.get('interestRate')?.touched
+            "
+          >
+            {{ "FORM.MANDATE.ERROR_INTEREST_RATE_REQUIRED" | translate }}
+          </small>
+        </div>
+        <div class="col-sm-4">
+          <label for="insuranceRate" class="label-container"
+            >{{ "FORM.MANDATE.LABEL_INSURANCE_RATE" | translate
+            }}<sup>*</sup></label
+          >
+          <input
+            type="number"
+            formControlName="insuranceRate"
+            placeholder="{{
+              'FORM.MANDATE.PLACEHOLDER_INSURANCE_RATE' | translate
+            }}"
+            pInputText
+          />
+          <small
+            class="p-error d-block"
+            *ngIf="
+              formGroup.get('insuranceRate')?.invalid &&
+              formGroup.get('insuranceRate')?.touched
+            "
+          >
+            {{ "FORM.MANDATE.ERROR_INSURANCE_RATE_REQUIRED" | translate }}
+          </small>
+        </div>
+        <div class="col-sm-4">
+          <label for="tenor" class="label-container"
+            >{{ "FORM.MANDATE.LABEL_TENOR" | translate }}<sup>*</sup></label
+          >
+          <input
+            type="number"
+            formControlName="tenor"
+            placeholder="{{ 'FORM.MANDATE.PLACEHOLDER_TENOR' | translate }}"
+            pInputText
+          />
+          <small
+            class="p-error d-block"
+            *ngIf="
+              formGroup.get('tenor')?.invalid && formGroup.get('tenor')?.touched
+            "
+          >
+            {{ "FORM.MANDATE.ERROR_TENOR_REQUIRED" | translate }}
+          </small>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <label for="paymentPeriodId" class="label-container"
+            >{{ "FORM.MANDATE.LABEL_PAYMENT_PERIOD" | translate
+            }}<sup>*</sup></label
+          >
           <p-select
             [filter]="true"
             [filterBy]="filterByField"
             [showClear]="true"
-            [options]="gracePeriodUnitsList"
-            formControlName="gracePeriodUnitId"
+            [options]="paymentPeriods"
+            [optionLabel]="optionLabelKey"
+            optionValue="id"
+            formControlName="paymentPeriodId"
             [placeholder]="
-              'FORM.MANDATE.PLACEHOLDER_GRACE_PERIOD_UNIT' | translate
+              'FORM.MANDATE.PLACEHOLDER_PAYMENT_PERIOD' | translate
+            "
+            [disabled]="editMode || viewOnly"
+            [ngClass]="editMode || viewOnly ? 'disabled' : 'enabled'"
+          >
+          </p-select>
+          <small
+            class="p-error d-block"
+            *ngIf="
+              formGroup.get('paymentPeriodId')?.invalid &&
+              formGroup.get('paymentPeriodId')?.touched
+            "
+          >
+            {{ "FORM.MANDATE.ERROR_PAYMENT_PERIOD_REQUIRED" | translate }}
+          </small>
+        </div>
+        <div class="col-sm-4">
+          <label for="gracePeriodInDays" class="label-container"
+            >{{ "FORM.MANDATE.LABEL_GRACE_PERIOD_DAYS" | translate
+            }}<sup>*</sup></label
+          >
+          <input
+            type="number"
+            formControlName="gracePeriodInDays"
+            placeholder="{{
+              'FORM.MANDATE.PLACEHOLDER_GRACE_PERIOD_DAYS' | translate
+            }}"
+            pInputText
+          />
+          <small
+            class="p-error d-block"
+            *ngIf="
+              formGroup.get('gracePeriodInDays')?.invalid &&
+              formGroup.get('gracePeriodInDays')?.touched
+            "
+          >
+            {{ "FORM.MANDATE.ERROR_GRACE_PERIOD_DAYS_REQUIRED" | translate }}
+          </small>
+        </div>
+        <div class="col-sm-4">
+          <label for="currencyId" class="label-container"
+            >{{ "FORM.MANDATE.LABEL_CURRENCY" | translate }}<sup>*</sup></label
+          >
+          <p-select
+            [filter]="true"
+            [filterBy]="filterByField"
+            [showClear]="true"
+            [options]="currencies"
+            formControlName="currencyId"
+            [placeholder]="
+              'FORM.MANDATE.PLACEHOLDER_SELECT_CURRENCY' | translate
             "
             [optionLabel]="optionLabelKey"
             optionValue="id"
-            name="gracePeriodUnitId"
+            name="currencyId"
             styleClass="w-full md:w-80"
           />
-          <!-- <small
+          <small
             class="p-error d-block"
             *ngIf="
-              formGroup.get('gracePeriodUnitId')?.invalid &&
-              formGroup.get('gracePeriodUnitId')?.touched
+              formGroup.get('currencyId')?.invalid &&
+              formGroup.get('currencyId')?.touched
             "
           >
-            Grace Period Unit Required.
-          </small> -->
+            {{ "FORM.MANDATE.ERROR_CURRENCY_REQUIRED" | translate }}
+          </small>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <label for="currencyExchangeRateId" class="label-container"
+            >{{ "FORM.MANDATE.LABEL_CURRENCY_EXCHANGE_RATE" | translate
+            }}<sup>*</sup></label
+          >
+          <p-select
+            [filter]="true"
+            [filterBy]="filterByField"
+            [showClear]="true"
+            [options]="currencyExchangeRates"
+            formControlName="currencyExchangeRateId"
+            [placeholder]="
+              'FORM.MANDATE.PLACEHOLDER_SELECT_CURRENCY_EXCHANGE_RATE'
+                | translate
+            "
+            [optionLabel]="optionLabelKey"
+            optionValue="id"
+            name="currencyExchangeRateId"
+            styleClass="w-full md:w-80"
+          />
+          <small
+            class="p-error d-block"
+            *ngIf="
+              formGroup.get('currencyExchangeRateId')?.invalid &&
+              formGroup.get('currencyExchangeRateId')?.touched
+            "
+          >
+            {{
+              "FORM.MANDATE.ERROR_CURRENCY_EXCHANGE_RATE_REQUIRED" | translate
+            }}
+          </small>
+        </div>
+        <div class="col-sm-4 p-4">
+          <p-checkbox
+            formControlName="isManuaExchangeRate"
+            binary="true"
+            (onChange)="onCheckboxChange.emit($event)"
+          ></p-checkbox
+          >&nbsp;
+          <label for="isManuaExchangeRate" class="label-container"
+            >{{ "LEASE_CURRENCY.IS_MANUAL_EXCHANGE_RATE" | translate }}?<sup
+              >*</sup
+            ></label
+          >
+        </div>
+        <div class="col-sm-4">
+          <label for="manualSetExchangeRate" class="label-container"
+            >{{ "LEASE_CURRENCY.MANUAL_EXCHANGE_RATE" | translate
+            }}<sup>*</sup></label
+          >
+          <input
+            type="number"
+            formControlName="manualSetExchangeRate"
+            placeholder="{{
+              'LEASE_CURRENCY.MANUAL_EXCHANGE_RATE' | translate
+            }}"
+            pInputText
+          />
+          <small
+            *ngIf="
+              formGroup.get('manualSetExchangeRate')?.invalid &&
+              formGroup.get('manualSetExchangeRate')?.touched
+            "
+            class="p-error"
+          >
+            {{ "LEASE_CURRENCY.MANUAL_EXCHANGE_RATE_REQUIRED" | translate }}
+          </small>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container
+      *ngIf="addMandateShowFinancialActivityTwoForm"
+      [formGroup]="formGroup"
+      id="addMandateShowFinancialActivityTwoForm"
+    >
+      <div class="row">
+        <div class="col-sm-4">
+          <label for="indicativeRentals" class="label-container"
+            >{{ "FORM.MANDATE.LABEL_INDICATIVE_RENTALS" | translate
+            }}<sup>*</sup></label
+          >
+          <input
+            type="number"
+            formControlName="indicativeRentals"
+            placeholder="{{
+              'FORM.MANDATE.PLACEHOLDER_INDICATIVE_RENTALS' | translate
+            }}"
+            pInputText
+          />
+          <small
+            class="p-error d-block"
+            *ngIf="
+              formGroup.get('indicativeRentals')?.invalid &&
+              formGroup.get('indicativeRentals')?.touched
+            "
+          >
+            {{ "FORM.MANDATE.ERROR_INDICATIVE_RENTALS_REQUIRED" | translate }}
+          </small>
+        </div>
+        <div class="col-sm-4">
+          <label for="rent" class="label-container"
+            >{{ "FORM.MANDATE.LABEL_RENT" | translate }}<sup>*</sup></label
+          >
+          <input
+            type="number"
+            formControlName="rent"
+            placeholder="{{ 'FORM.MANDATE.PLACEHOLDER_RENT' | translate }}"
+            pInputText
+          />
+          <small
+            class="p-error d-block"
+            *ngIf="
+              formGroup.get('rent')?.invalid && formGroup.get('rent')?.touched
+            "
+          >
+            {{ "FORM.MANDATE.ERROR_RENT_REQUIRED" | translate }}
+          </small>
+        </div>
+        <div class="col-sm-4">
+          <label for="rvPercent" class="label-container"
+            >{{ "FORM.MANDATE.LABEL_RV_PERCENT" | translate
+            }}<sup>*</sup></label
+          >
+          <input
+            type="number"
+            formControlName="rvPercent"
+            placeholder="{{
+              'FORM.MANDATE.PLACEHOLDER_RV_PERCENT' | translate
+            }}"
+            pInputText
+          />
+          <small
+            class="p-error d-block"
+            *ngIf="
+              formGroup.get('rvPercent')?.invalid &&
+              formGroup.get('rvPercent')?.touched
+            "
+          >
+            {{ "FORM.MANDATE.ERROR_RV_PERCENT_REQUIRED" | translate }}
+          </small>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <label for="rvAmount" class="label-container"
+            >{{ "FORM.MANDATE.LABEL_RV_AMOUNT" | translate }}<sup>*</sup></label
+          >
+          <input
+            type="number"
+            formControlName="rvAmount"
+            placeholder="{{ 'FORM.MANDATE.PLACEHOLDER_RV_AMOUNT' | translate }}"
+            pInputText
+          />
+          <small
+            class="p-error d-block"
+            *ngIf="
+              formGroup.get('rvAmount')?.invalid &&
+              formGroup.get('rvAmount')?.touched
+            "
+          >
+            {{ "FORM.MANDATE.ERROR_RV_AMOUNT_REQUIRED" | translate }}
+          </small>
+        </div>
+        <div class="col-sm-4">
+          <label for="reservePaymentCount" class="label-container"
+            >{{ "FORM.MANDATE.LABEL_RESERVE_PAYMENT_COUNT" | translate
+            }}<sup>*</sup></label
+          >
+          <input
+            type="number"
+            formControlName="reservePaymentCount"
+            placeholder="{{
+              'FORM.MANDATE.PLACEHOLDER_RESERVE_PAYMENT_COUNT' | translate
+            }}"
+            pInputText
+          />
+          <small
+            class="p-error d-block"
+            *ngIf="
+              formGroup.get('reservePaymentCount')?.invalid &&
+              formGroup.get('reservePaymentCount')?.touched
+            "
+          >
+            {{
+              "FORM.MANDATE.ERROR_RESERVE_PAYMENT_COUNT_REQUIRED" | translate
+            }}
+          </small>
+        </div>
+        <div class="col-sm-4">
+          <label for="reservePaymentAmount" class="label-container"
+            >{{ "FORM.MANDATE.LABEL_RESERVE_PAYMENT_AMOUNT" | translate
+            }}<sup>*</sup></label
+          >
+          <input
+            type="number"
+            formControlName="reservePaymentAmount"
+            placeholder="{{
+              'FORM.MANDATE.PLACEHOLDER_RESERVE_PAYMENT_AMOUNT' | translate
+            }}"
+            pInputText
+          />
+          <small
+            class="p-error d-block"
+            *ngIf="
+              formGroup.get('reservePaymentAmount')?.invalid &&
+              formGroup.get('reservePaymentAmount')?.touched
+            "
+          >
+            {{
+              "FORM.MANDATE.ERROR_RESERVE_PAYMENT_AMOUNT_REQUIRED" | translate
+            }}
+          </small>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <label for="provisionPercent" class="label-container"
+            >{{ "FORM.MANDATE.LABEL_PROVISION_PERCENT" | translate
+            }}<sup>*</sup></label
+          >
+          <input
+            type="number"
+            formControlName="provisionPercent"
+            placeholder="{{
+              'FORM.MANDATE.PLACEHOLDER_PROVISION_PERCENT' | translate
+            }}"
+            pInputText
+          />
+          <small
+            class="p-error d-block"
+            *ngIf="
+              formGroup.get('provisionPercent')?.invalid &&
+              formGroup.get('provisionPercent')?.touched
+            "
+          >
+            {{ "FORM.MANDATE.ERROR_PROVISION_PERCENT_REQUIRED" | translate }}
+          </small>
+        </div>
+        <div class="col-sm-4">
+          <label for="provisionAmount" class="label-container"
+            >{{ "FORM.MANDATE.LABEL_PROVISION_AMOUNT" | translate
+            }}<sup>*</sup></label
+          >
+          <input
+            type="number"
+            formControlName="provisionAmount"
+            placeholder="{{
+              'FORM.MANDATE.PLACEHOLDER_PROVISION_AMOUNT' | translate
+            }}"
+            pInputText
+          />
+          <small
+            class="p-error d-block"
+            *ngIf="
+              formGroup.get('provisionAmount')?.invalid &&
+              formGroup.get('provisionAmount')?.touched
+            "
+          >
+            {{ "FORM.MANDATE.ERROR_PROVISION_AMOUNT_REQUIRED" | translate }}
+          </small>
+        </div>
+        <div class="col-sm-4">
+          <label for="interestRateBenchmarkId" class="label-container"
+            >{{ "FORM.MANDATE.LABEL_INTEREST_RATE_BENCHMARK" | translate
+            }}<sup>*</sup></label
+          >
+          <p-select
+            [filter]="true"
+            [filterBy]="filterByField"
+            [showClear]="true"
+            [options]="interestRateBenchMarks"
+            [optionLabel]="optionLabelKey"
+            optionValue="id"
+            formControlName="interestRateBenchmarkId"
+            [placeholder]="
+              'FORM.MANDATE.PLACEHOLDER_INTEREST_RATE_BENCHMARK' | translate
+            "
+            [disabled]="editMode || viewOnly"
+            [ngClass]="editMode || viewOnly ? 'disabled' : 'enabled'"
+          >
+          </p-select>
+          <small
+            class="p-error d-block"
+            *ngIf="
+              formGroup.get('interestRateBenchmarkId')?.invalid &&
+              formGroup.get('interestRateBenchmarkId')?.touched
+            "
+          >
+            {{
+              "FORM.MANDATE.ERROR_INTEREST_RATE_BENCHMARK_REQUIRED" | translate
+            }}
+          </small>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <label for="paymentTimingTermId" class="label-container"
+            >{{ "FORM.MANDATE.LABEL_PAYMENT_TIMING_TERM" | translate
+            }}<sup>*</sup></label
+          >
+          <p-select
+            [filter]="true"
+            [filterBy]="filterByField"
+            [showClear]="true"
+            [options]="currencyExchangeRates"
+            formControlName="paymentTimingTermId"
+            [placeholder]="
+              'FORM.MANDATE.PLACEHOLDER_SELECT_PAYMENT_TIMING_TERM' | translate
+            "
+            [optionLabel]="optionLabelKey"
+            optionValue="id"
+            name="paymentTimingTermId"
+            styleClass="w-full md:w-80"
+          />
+          <small
+            class="p-error d-block"
+            *ngIf="
+              formGroup.get('paymentTimingTermId')?.invalid &&
+              formGroup.get('paymentTimingTermId')?.touched
+            "
+          >
+            {{ "FORM.MANDATE.ERROR_PAYMENT_TIMING_TERM_REQUIRED" | translate }}
+          </small>
+        </div>
+        <div class="col-sm-4">
+          <label for="rentStructureTypeId" class="label-container"
+            >{{ "FORM.MANDATE.LABEL_RENT_STRUCTURE_TYPE" | translate
+            }}<sup>*</sup></label
+          >
+          <p-select
+            [filter]="true"
+            [filterBy]="filterByField"
+            [showClear]="true"
+            [options]="currencies"
+            formControlName="rentStructureTypeId"
+            [placeholder]="
+              'FORM.MANDATE.PLACEHOLDER_SELECT_RENT_STRUCTURE_TYPE' | translate
+            "
+            [optionLabel]="optionLabelKey"
+            optionValue="id"
+            name="rentStructureTypeId"
+            styleClass="w-full md:w-80"
+          />
+          <small
+            class="p-error d-block"
+            *ngIf="
+              formGroup.get('rentStructureTypeId')?.invalid &&
+              formGroup.get('rentStructureTypeId')?.touched
+            "
+          >
+            {{ "FORM.MANDATE.ERROR_RENT_STRUCTURE_TYPE_REQUIRED" | translate }}
+          </small>
+        </div>
+        <div class="col-sm-4">
+          <label for="paymentMethodID" class="label-container"
+            >{{ "FORM.MANDATE.LABEL_PAYMENT_METHOD" | translate
+            }}<sup>*</sup></label
+          >
+          <p-select
+            [filter]="true"
+            [filterBy]="filterByField"
+            [showClear]="true"
+            [options]="paymentMethods"
+            [optionLabel]="optionLabelKey"
+            optionValue="id"
+            formControlName="paymentMethodID"
+            [placeholder]="
+              'FORM.MANDATE.PLACEHOLDER_PAYMENT_METHOD' | translate
+            "
+            [disabled]="editMode || viewOnly"
+            [ngClass]="editMode || viewOnly ? 'disabled' : 'enabled'"
+          >
+          </p-select>
+          <small
+            class="p-error d-block"
+            *ngIf="
+              formGroup.get('paymentMethodID')?.invalid &&
+              formGroup.get('paymentMethodID')?.touched
+            "
+          >
+            {{ "FORM.MANDATE.ERROR_PAYMENT_METHOD_REQUIRED" | translate }}
+          </small>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm">
+          <label for="paymentMonthDayID" class="label-container"
+            >{{ "FORM.MANDATE.LABEL_PAYMENT_PERIOD" | translate
+            }}<sup>*</sup></label
+          >
+          <p-select
+            [filter]="true"
+            [filterBy]="filterByField"
+            [showClear]="true"
+            [options]="paymentMonthDays"
+            [optionLabel]="optionLabelKey"
+            optionValue="id"
+            formControlName="paymentMonthDayID"
+            [placeholder]="
+              'FORM.MANDATE.PLACEHOLDER_PAYMENT_PERIOD' | translate
+            "
+            [disabled]="editMode || viewOnly"
+            [ngClass]="editMode || viewOnly ? 'disabled' : 'enabled'"
+          >
+          </p-select>
+          <small
+            class="p-error d-block"
+            *ngIf="
+              formGroup.get('paymentMonthDayID')?.invalid &&
+              formGroup.get('paymentMonthDayID')?.touched
+            "
+          >
+            {{ "FORM.MANDATE.ERROR_PAYMENT_PERIOD_REQUIRED" | translate }}
+          </small>
         </div>
       </div>
     </ng-container>
@@ -6659,40 +7095,7 @@ icon="pi pi-cog"
           </small>
         </div>
       </div>
-      <div class="row w-100">
-        <div class="col-sm">
-          <label for="isManuaExchangeRate">{{
-            "LEASE_CURRENCY.IS_MANUAL_EXCHANGE_RATE" | translate
-          }}</label
-          ><br />
-          <p-checkbox
-            formControlName="isManuaExchangeRate"
-            binary="true"
-            (onChange)="onCheckboxChange.emit($event)"
-          ></p-checkbox>
-        </div>
-        <div class="col-sm">
-          <label for="manualExchangeRate"
-            >{{ "LEASE_CURRENCY.MANUAL_EXCHANGE_RATE" | translate
-            }}<sup>*</sup></label
-          >
-          <p-inputNumber
-            formControlName="manualExchangeRate"
-            [placeholder]="'LEASE_CURRENCY.MANUAL_EXCHANGE_RATE' | translate"
-            name="manualExchangeRate"
-            class="w-100"
-          ></p-inputNumber>
-          <small
-            *ngIf="
-              formGroup.get('manualExchangeRate')?.invalid &&
-              formGroup.get('manualExchangeRate')?.touched
-            "
-            class="p-error"
-          >
-            {{ "LEASE_CURRENCY.MANUAL_EXCHANGE_RATE_REQUIRED" | translate }}
-          </small>
-        </div>
-      </div>
+      <div class="row w-100"></div>
       <div class="row w-100">
         <div class="col-sm">
           <label for="indicativeRentals"
@@ -7712,88 +8115,113 @@ icon="pi pi-cog"
 
     <form
       [formGroup]="formGroup"
-      *ngIf="addMandateFeeForm"
+      *ngIf="addMandateShowFeeForm"
       (ngSubmit)="onSubmit()"
     >
-      <label for="feeTypeId"
-        >{{ "MANDATE_FEES.FEE_TYPE" | translate }}<sup>*</sup></label
-      >
-      <p-select
-        [filter]="true"
-        [filterBy]="filterByField"
-        [showClear]="true"
-        [options]="feeTypes"
-        [optionLabel]="optionLabelKey"
-        [placeholder]="'MANDATE_FEES.SELECT_FEE_TYPE' | translate"
-        formControlName="feeTypeId"
-        optionValue="id"
-        required
-        [ngClass]="{
-          'ng-invalid':
-            formGroup.get('feeTypeId')?.invalid &&
-            (formGroup.get('feeTypeId')?.dirty ||
-              formGroup.get('feeTypeId')?.touched)
-        }"
-      />
-
-      <label for="actualAmount"
-        >{{ "MANDATE_FEES.ACTUAL_AMOUNT" | translate }}<sup>*</sup></label
-      >
-      <input
-        pInputText
-        id="actualAmount"
-        aria-describedby="actualAmount-help"
-        name="actualAmount"
-        [placeholder]="'MANDATE_FEES.ACTUAL_AMOUNT' | translate"
-        type="number"
-        formControlName="actualAmount"
-        [ngClass]="'disabled'"
-      />
-
-      <label for="actualPercentage"
-        >{{ "MANDATE_FEES.ACTUAL_PERCENTAGE" | translate }}<sup>*</sup></label
-      >
-      <input
-        pInputText
-        id="actualPercentage"
-        aria-describedby="actualPercentage-help"
-        name="actualPercentage"
-        [placeholder]="'MANDATE_FEES.ACTUAL_PERCENTAGE' | translate"
-        type="number"
-        formControlName="actualPercentage"
-      />
-
-      <div class="row justify-end">
+      <div formArrayName="mandateFees">
         <div
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
-          *ngIf="!editMode && !viewOnly"
+          *ngFor="let group of mandateFees?.controls; let i = index"
+          [formGroupName]="i"
+          class="parent2-individual2 mt-2 flex items-start gap-4 align-items-center flex-wrap"
         >
-          <p-button
-            type="submit"
-            [label]="'MANDATE_FEES.ADD' | translate"
-            [disabled]="formGroup.invalid"
-            class="custom-save m-0 float-right"
-          ></p-button>
-        </div>
-        <div
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
-          *ngIf="editMode && !viewOnly"
-        >
-          <p-button
-            type="submit"
-            [label]="'MANDATE_FEES.EDIT' | translate"
-            class="custom-save m-0 float-right"
-          ></p-button>
-        </div>
-        <div
-          *ngIf="viewOnly"
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
-        >
-          <p-button
-            [label]="'BUTTONS.CLOSE' | translate"
-            class="custom-save m-0 float-right"
-            (click)="router.navigate([`/crm/leasing-mandates/view-mandate-fees/${this.routeId}/${this.leasingRouteId}`])"
-          />
+          <!-- 1) Fee Type -->
+          <div class="div-number flex-1 min-w-0">
+            <label for="feeTypeId"
+              >{{ "MANDATE_FEES.FEE_TYPE" | translate }}<sup>*</sup></label
+            >
+            <p-select
+              [filter]="true"
+              [filterBy]="filterByField"
+              [showClear]="true"
+              [options]="feeTypes"
+              [optionLabel]="optionLabelKey"
+              [placeholder]="'MANDATE_FEES.SELECT_FEE_TYPE' | translate"
+              formControlName="feeTypeId"
+              optionValue="id"
+              required
+              [ngClass]="{
+                'ng-invalid':
+                  formGroup.get('feeTypeId')?.invalid &&
+                  (formGroup.get('feeTypeId')?.dirty ||
+                    formGroup.get('feeTypeId')?.touched)
+              }"
+            />
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('feeTypeId')?.invalid &&
+                group.get('feeTypeId')?.touched
+              "
+            >
+              {{ "FORM.MANDATE.ERROR_FEE_TYPE_REQUIRED" | translate }}
+            </small>
+            <label for="actualAmount"
+              >{{ "MANDATE_FEES.ACTUAL_AMOUNT" | translate }}<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="actualAmount"
+              aria-describedby="actualAmount-help"
+              name="actualAmount"
+              [placeholder]="'MANDATE_FEES.ACTUAL_AMOUNT' | translate"
+              type="number"
+              formControlName="actualAmount"
+              [ngClass]="'disabled'"
+            />
+
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('actualAmount')?.invalid &&
+                group.get('actualAmount')?.touched
+              "
+            >
+              {{ "FORM.MANDATE.ERROR_ACTUAL_AMOUNT_REQUIRED" | translate }}
+            </small>
+            <label for="actualPercentage"
+              >{{ "MANDATE_FEES.ACTUAL_PERCENTAGE" | translate
+              }}<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="actualPercentage"
+              aria-describedby="actualPercentage-help"
+              name="actualPercentage"
+              [placeholder]="'MANDATE_FEES.ACTUAL_PERCENTAGE' | translate"
+              type="number"
+              formControlName="actualPercentage"
+            />
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('actualPercentage')?.invalid &&
+                group.get('actualPercentage')?.touched
+              "
+            >
+              {{ "FORM.MANDATE.ERROR_ACTUAL_PERCENTAGE_REQUIRED" | translate }}
+            </small>
+          </div>
+          <!-- 4) Add another Fee  -->
+          <button
+            pButton
+            type="button"
+            icon="pi pi-plus"
+            class="p-button-outlined p-button-sm p-plus"
+            (click)="addFee.emit()"
+            *ngIf="!viewOnly"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+          ></button>
+
+          <!-- 5) Remove this Fee  -->
+          <button
+            pButton
+            type="button"
+            icon="pi pi-trash"
+            class="p-button-danger p-button-sm p-remove"
+            *ngIf="mandateFees.length > 1 && !viewOnly"
+            (click)="removeFee.emit(i)"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+          ></button>
         </div>
       </div>
     </form>
@@ -9503,12 +9931,11 @@ icon="pi pi-cog"
         </div>
       </div>
     </form>
-    <form
+    <!-- <form
       [formGroup]="formGroup"
       *ngIf="addCurrenciesExchangeLookupsForm"
       (ngSubmit)="onSubmit()"
     >
-      <!-- Date picker -->
       <label for="exchangeDate">
         {{ "CURRENCY.EXCHANGE_DATE" | translate }}<sup class="danger">*</sup>
       </label>
@@ -9592,8 +10019,8 @@ icon="pi pi-cog"
           ></p-button>
         </div>
       </div>
-    </form>
-    <form
+    </form> -->
+    <!-- <form
       [formGroup]="formGroup"
       *ngIf="addMandateValidityUnitLookupsForm"
       (ngSubmit)="onSubmit()"
@@ -9737,8 +10164,8 @@ icon="pi pi-cog"
           />
         </div>
       </div>
-    </form>
-    <form
+    </form> -->
+    <!-- <form
       [formGroup]="formGroup"
       *ngIf="addSMEClientCodeLookupsForm"
       (ngSubmit)="onSubmit()"
@@ -9879,9 +10306,9 @@ icon="pi pi-cog"
           />
         </div>
       </div>
-    </form>
+    </form> -->
 
-    <form
+    <!-- <form
       [formGroup]="formGroup"
       *ngIf="addBranchOfficersLookupsForm"
       (ngSubmit)="onSubmit()"
@@ -9960,7 +10387,7 @@ icon="pi pi-cog"
           ></p-button>
         </div>
       </div>
-    </form>
+    </form> -->
     <!-- <form
       [formGroup]="formGroup"
       *ngIf="addBranchAddressesLookupsForm"

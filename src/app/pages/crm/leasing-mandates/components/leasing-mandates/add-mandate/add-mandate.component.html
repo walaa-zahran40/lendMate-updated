@@ -3,10 +3,10 @@
     <!-- Step 1: Basic -->
     <p-step-list>
       <p-step [value]="1">Basic</p-step>
-      <p-step [value]="2">Officers</p-step>
-      <p-step [value]="3">Contact Persons</p-step>
-      <p-step [value]="4">Asset Types</p-step>
-      <p-step [value]="5">More Information</p-step>
+      <p-step [value]="2">Asset Types</p-step>
+      <p-step [value]="3">Fees</p-step>
+      <p-step [value]="4">Financial Activities (1)</p-step>
+      <p-step [value]="5">Financial Activities (2)</p-step>
     </p-step-list>
     <p-step-panels>
       <p-step-panel header="Basic" [value]="1">
@@ -15,14 +15,12 @@
             [title]="'MANDATE.BASIC_INFO.TITLE'"
             [description]="'MANDATE.BASIC_INFO.DESCRIPTION'"
             [addMandateShowBasicForm]="true"
-            [formGroup]="basicForm"
+            [formGroup]="addMandateShowBasicForm"
             [show]="show"
             [editShow]="editShow"
             [editMode]="editMode"
             [viewOnly]="viewOnly"
             [clientNames]="clientNames$ | async"
-            [validityUnits]="validityUnits$ | async"
-            [products]="products$ | async"
             [leasingTypes]="leasingTypes$ | async"
             [insuredBy]="insuredBy$ | async"
           ></app-form>
@@ -40,80 +38,8 @@
         </ng-template>
       </p-step-panel>
 
-      <!-- Step 2: Officers -->
-      <p-step-panel header="Officers" [value]="2">
-        <ng-template #content let-activateCallback="activateCallback">
-          <app-form
-            [title]="'MANDATE.OFFICERS.TITLE'"
-            [description]="'MANDATE.OFFICERS.DESCRIPTION'"
-            [addMandateShowOfficersForm]="true"
-            [formGroup]="officersForm"
-            [editMode]="editMode"
-            [viewOnly]="viewOnly"
-            [officers]="officers$ | async"
-            (removeOfficer)="removeOfficer($event)"
-            (addOfficer)="addOfficer()"
-          ></app-form>
-
-          <div class="flex justify-between gap-2 mt-4">
-            <button
-              pButton
-              type="button"
-              label="Back"
-              (click)="activateCallback(1)"
-              class="next"
-            ></button>
-            <button
-              pButton
-              type="button"
-              label="Next"
-              (click)="activateCallback(3)"
-              class="next"
-              [disabled]="viewOnly"
-            ></button>
-          </div>
-        </ng-template>
-      </p-step-panel>
-
-      <!-- Step 3: Contact Persons -->
-      <p-step-panel header="Contact Persons" [value]="3">
-        <ng-template #content let-activateCallback="activateCallback">
-          <app-form
-            [title]="'MANDATE.CONTACT_PERSONS.TITLE'"
-            [description]="'MANDATE.CONTACT_PERSONS.DESCRIPTION'"
-            [addMandateShowContactPersonsForm]="true"
-            [formGroup]="contactsForm"
-            [editMode]="editMode"
-            [viewOnly]="viewOnly"
-            [contactPersonsList]="contactPersons$ | async"
-            (removeContactPerson)="removeContactPerson($event)"
-            [currentClientId]="basicForm.get('clientId')?.value"
-            (addContactPerson)="addContactPerson()"
-            (viewContactPersons)="viewContactPersons($event)"
-          ></app-form>
-
-          <div class="flex justify-between gap-2 mt-4">
-            <button
-              pButton
-              type="button"
-              label="Back"
-              class="next"
-              (click)="activateCallback(2)"
-            ></button>
-            <button
-              pButton
-              type="button"
-              label="Next"
-              class="next"
-              (click)="activateCallback(4)"
-              [disabled]="viewOnly"
-            ></button>
-          </div>
-        </ng-template>
-      </p-step-panel>
-
-      <!-- Step 4: Asset Types -->
-      <p-step-panel header="Asset Types" [value]="4">
+      <!-- Step 2: Asset Types -->
+      <p-step-panel header="Asset Types" [value]="2">
         <ng-template #content let-activateCallback="activateCallback">
           <app-form
             [title]="'MANDATE.ASSET_TYPE.TITLE'"
@@ -133,31 +59,93 @@
               type="button"
               class="next"
               label="Back"
-              (click)="activateCallback(3)"
+              (click)="activateCallback(1)"
             ></button>
             <button
               pButton
               type="button"
               class="next"
               label="Next"
-              (click)="activateCallback(5)"
+              (click)="activateCallback(3)"
               [disabled]="viewOnly"
             ></button>
           </div>
         </ng-template>
       </p-step-panel>
-
-      <!-- Step 5: More Information (Final Save) -->
-      <p-step-panel header="More Information" [value]="5">
+      <!-- Step 3: Fees -->
+      <p-step-panel header="Fees" [value]="3">
         <ng-template #content let-activateCallback="activateCallback">
           <app-form
-            [title]="'MANDATE.MORE_INFO.TITLE'"
-            [description]="'MANDATE.MORE_INFO.DESCRIPTION'"
-            [addMandateShowMoreInformationForm]="true"
-            [formGroup]="moreInfoForm"
+            [title]="'FORM.MANDATE.FEES'"
+            [description]="'FORM.MANDATE.FEES_DESCRIPTION'"
+            [addMandateShowFeeForm]="true"
+            [formGroup]="addMandateShowFeeForm"
             [editMode]="editMode"
             [viewOnly]="viewOnly"
-            [gracePeriodUnitsList]="gracePeriodUnits$ | async"
+            (removeFee)="removeFee($event)"
+            (addFee)="addFee()"
+          ></app-form>
+
+          <div class="flex justify-between gap-2 mt-4">
+            <button
+              pButton
+              type="button"
+              label="Back"
+              class="next"
+              (click)="activateCallback(2)"
+            ></button>
+            <button
+              pButton
+              type="button"
+              label="Next"
+              class="next"
+              (click)="activateCallback(4)"
+            ></button>
+          </div>
+        </ng-template>
+      </p-step-panel>
+      <!-- Step 4: Financial Activities (1) -->
+      <p-step-panel header="Financial Activities (1)" [value]="4">
+        <ng-template #content let-activateCallback="activateCallback">
+          <app-form
+            [title]="'FORM.MANDATE.FINANCIAL_ACTIVITIES.TITLE'"
+            [description]="'FORM.MANDATE.FINANCIAL_ACTIVITIES.DESCRIPTION'"
+            [addMandateShowFinancialActivityOneForm]="true"
+            [formGroup]="addMandateShowFinancialActivityOneForm"
+            [editMode]="editMode"
+            [viewOnly]="viewOnly"
+          ></app-form>
+
+          <div class="flex justify-between gap-2 mt-4">
+            <button
+              pButton
+              type="button"
+              label="Back"
+              class="next"
+              (click)="activateCallback(3)"
+            ></button>
+            <button
+              pButton
+              type="button"
+              label="Next"
+              class="next"
+              (click)="activateCallback(5)"
+            ></button>
+          </div>
+        </ng-template>
+      </p-step-panel>
+
+      <!-- Step 5: Financial Activities (2) -->
+
+      <p-step-panel header="Financial Activities (2)" [value]="5">
+        <ng-template #content let-activateCallback="activateCallback">
+          <app-form
+            [title]="'FORM.MANDATE.FINANCIAL_ACTIVITIES.TITLE'"
+            [description]="'FORM.MANDATE.FINANCIAL_ACTIVITIES.DESCRIPTION'"
+            [addMandateShowFinancialActivityTwoForm]="true"
+            [formGroup]="addMandateShowFinancialActivityTwoForm"
+            [editMode]="editMode"
+            [viewOnly]="viewOnly"
           ></app-form>
 
           <div class="flex justify-between gap-2 mt-4">
