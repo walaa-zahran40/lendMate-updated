@@ -5298,6 +5298,7 @@ icon="pi pi-cog"
             inputId="date"
             formControlName="expireDate"
             [readOnly]="true"
+            [ngClass]="'disabled'"
           ></shared-date-picker>
         </div>
       </div>
@@ -6163,7 +6164,7 @@ icon="pi pi-cog"
             [placeholder]="
               'FORM.MANDATE.PLACEHOLDER_SELECT_CURRENCY' | translate
             "
-            [optionLabel]="optionLabelKey"
+            [optionLabel]="'optionLabelKey'"
             optionValue="id"
             name="currencyId"
             styleClass="w-full md:w-80"
@@ -6191,14 +6192,12 @@ icon="pi pi-cog"
             [showClear]="true"
             [options]="currencyExchangeRates"
             formControlName="currencyExchangeRateId"
-            [placeholder]="
-              'FORM.MANDATE.PLACEHOLDER_SELECT_CURRENCY_EXCHANGE_RATE'
-                | translate
-            "
-            [optionLabel]="optionLabelKey"
+            [placeholder]="'LEASE_CURRENCY.CURRENCY_EXCHANGE_RATE' | translate"
+            optionLabel="exchangeRate"
             optionValue="id"
             name="currencyExchangeRateId"
-            styleClass="w-full md:w-80"
+            styleClass="w-100"
+            (onChange)="onCurrencyExchangeRateChange($event)"
           />
           <small
             class="p-error d-block"
@@ -6484,7 +6483,7 @@ icon="pi pi-cog"
             [filter]="true"
             [filterBy]="filterByField"
             [showClear]="true"
-            [options]="currencyExchangeRates"
+            [options]="paymentTimingTerms"
             formControlName="paymentTimingTermId"
             [placeholder]="
               'FORM.MANDATE.PLACEHOLDER_SELECT_PAYMENT_TIMING_TERM' | translate
@@ -6513,7 +6512,7 @@ icon="pi pi-cog"
             [filter]="true"
             [filterBy]="filterByField"
             [showClear]="true"
-            [options]="currencies"
+            [options]="rentStructureTypes"
             formControlName="rentStructureTypeId"
             [placeholder]="
               'FORM.MANDATE.PLACEHOLDER_SELECT_RENT_STRUCTURE_TYPE' | translate
@@ -6567,7 +6566,7 @@ icon="pi pi-cog"
       <div class="row">
         <div class="col-sm">
           <label for="paymentMonthDayID" class="label-container"
-            >{{ "FORM.MANDATE.LABEL_PAYMENT_PERIOD" | translate
+            >{{ "FORM.MANDATE.LABEL_PAYMENT_MONTH_DAY" | translate
             }}<sup>*</sup></label
           >
           <p-select
@@ -6579,7 +6578,7 @@ icon="pi pi-cog"
             optionValue="id"
             formControlName="paymentMonthDayID"
             [placeholder]="
-              'FORM.MANDATE.PLACEHOLDER_PAYMENT_PERIOD' | translate
+              'FORM.MANDATE.PLACEHOLDER_PAYMENT_MONTH_DAY' | translate
             "
             [disabled]="editMode || viewOnly"
             [ngClass]="editMode || viewOnly ? 'disabled' : 'enabled'"
@@ -8166,7 +8165,6 @@ icon="pi pi-cog"
               [placeholder]="'MANDATE_FEES.ACTUAL_AMOUNT' | translate"
               type="number"
               formControlName="actualAmount"
-              [ngClass]="'disabled'"
             />
 
             <small

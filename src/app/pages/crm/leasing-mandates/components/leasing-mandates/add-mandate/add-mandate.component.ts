@@ -34,6 +34,20 @@ import { loadAll as loadInsuredBy } from '../../../../../lookups/store/insured-b
 import { loadAll as loadAssetTypes } from '../../../../../lookups/store/asset-types/asset-types.actions';
 import { loadAll as loadFeeTypes } from '../../../../../lookups/store/fee-types/fee-types.actions';
 import { combineLatest, Subject } from 'rxjs';
+import { CurrencyExchangeRate } from '../../../../../lookups/store/currency-exchange-rates/currency-exchange-rate.model';
+import { CurrencyExchangeRatesFacade } from '../../../../../lookups/store/currency-exchange-rates/currency-exchange-rates.facade';
+import { Currency } from '../../../../../lookups/store/currencies/currency.model';
+import { CurrenciesFacade } from '../../../../../lookups/store/currencies/currencies.facade';
+import { PaymentPeriod } from '../../../../../lookups/store/payment-periods/payment-period.model';
+import { PaymentPeriodsFacade } from '../../../../../lookups/store/payment-periods/payment-periods.facade';
+import { PaymentMethod } from '../../../../../lookups/store/payment-methods/payment-method.model';
+import { PaymentMethodsFacade } from '../../../../../lookups/store/payment-methods/payment-methods.facade';
+import { RentStructureType } from '../../../../../lookups/store/rent-structure-types/rent-structure-type.model';
+import { RentStructureTypesFacade } from '../../../../../lookups/store/rent-structure-types/rent-structure-types.facade';
+import { PaymentTimingTermsFacade } from '../../../../../lookups/store/payment-timing-terms/payment-timing-terms.facade';
+import { PaymentTimingTerm } from '../../../../../lookups/store/payment-timing-terms/payment-timing-term.model';
+import { InterestRateBenchMark } from '../../../../../lookups/store/interest-rate-benchmarks/interest-rate-benchmark.model';
+import { InterestRateBenchMarksFacade } from '../../../../../lookups/store/interest-rate-benchmarks/interest-rate-benchmarks.facade';
 
 @Component({
   selector: 'app-add-mandate',
@@ -54,6 +68,13 @@ export class AddMandateComponent {
   insuredBy$!: Observable<InsuredBy[]>;
   assetTypes$!: Observable<AssetType[]>;
   feeTypes$!: Observable<FeeType[]>;
+  currencyExchangeRates$!: Observable<CurrencyExchangeRate[]>;
+  currencies$!: Observable<Currency[]>;
+  paymentPeriods$!: Observable<PaymentPeriod[]>;
+  paymentMethods$!: Observable<PaymentMethod[]>;
+  rentStructureTypes$!: Observable<RentStructureType[]>;
+  paymentTimingTerms$!: Observable<PaymentTimingTerm[]>;
+  interestRateBenchmarks$!: Observable<InterestRateBenchMark[]>;
   parentForm!: FormGroup;
   private destroy$ = new Subject<void>();
   workFlowActionList: any[] = [];
@@ -72,8 +93,15 @@ export class AddMandateComponent {
     private insuredByFacade: InsuredByFacade,
     private assetTypesFacade: AssetTypesFacade,
     private feeTypesFacade: FeeTypesFacade,
-    private route: ActivatedRoute,
     private facade: MandatesFacade,
+    private currencyExchangeRateFacade: CurrencyExchangeRatesFacade,
+    private currenciesFacade: CurrenciesFacade,
+    private paymentPeriodsFacade: PaymentPeriodsFacade,
+    private paymentMethodsFacade: PaymentMethodsFacade,
+    private rentStructureTypesFacade: RentStructureTypesFacade,
+    private paymentTimingTermsFacade: PaymentTimingTermsFacade,
+    private interestRateBenchmarksFacade: InterestRateBenchMarksFacade,
+    private route: ActivatedRoute,
     private router: Router
   ) {}
 
@@ -110,6 +138,7 @@ export class AddMandateComponent {
       this.store.dispatch(loadAll({}));
     }
     this.store.dispatch(loadLeasingTypes({}));
+
     this.store.dispatch(loadInsuredBy({}));
     this.store.dispatch(loadAssetTypes({}));
     this.store.dispatch(loadFeeTypes({}));
@@ -125,6 +154,27 @@ export class AddMandateComponent {
     this.assetTypes$ = this.assetTypesFacade.all$;
     //Fee Types Dropdown
     this.feeTypes$ = this.feeTypesFacade.all$;
+    //Currency Exchange Rates Dropdown
+    this.currencyExchangeRateFacade.loadAll();
+    this.currencyExchangeRates$ = this.currencyExchangeRateFacade.items$;
+    //Currencies Dropdown
+    this.currenciesFacade.loadAll();
+    this.currencies$ = this.currenciesFacade.all$;
+    //Payment Periods Dropdown
+    this.paymentPeriodsFacade.loadAll();
+    this.paymentPeriods$ = this.paymentPeriodsFacade.all$;
+    //Payment Methods Dropdown
+    this.paymentMethodsFacade.loadAll();
+    this.paymentMethods$ = this.paymentMethodsFacade.all$;
+    //Rent Structure Types Dropdown
+    this.rentStructureTypesFacade.loadAll();
+    this.rentStructureTypes$ = this.rentStructureTypesFacade.all$;
+    //Payment Timing Terms Dropdown
+    this.paymentTimingTermsFacade.loadAll();
+    this.paymentTimingTerms$ = this.paymentTimingTermsFacade.all$;
+    //Interest Rate Benchmarks Dropdown
+    this.interestRateBenchmarksFacade.loadAll();
+    this.interestRateBenchmarks$ = this.interestRateBenchmarksFacade.all$;
 
     if (!this.clientId) {
       combineLatest({

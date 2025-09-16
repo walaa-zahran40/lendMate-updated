@@ -302,6 +302,9 @@ export class FormComponent implements OnInit, OnDestroy {
   selectedLegalFormLawCompanyViewOnly!: any;
   selectedLegalFormCompanyViewOnly!: any;
   selectedIsStampCompanyViewOnly!: any;
+  @Input() paymentTimingTerms!: any;
+  @Input() interestRateBenchmarks!: any;
+
   stamps!: any;
   genders = [
     { id: 1, value: 'Male' },
@@ -325,6 +328,7 @@ export class FormComponent implements OnInit, OnDestroy {
   minDateOfBirth = new Date();
   selectedIsMain!: any;
   isActive!: any;
+  @Input() rentStructureTypes!: any;
   selectedPaymentTimingTerm: any;
   selectedRentStructureType: any;
   selectedPaymentMethod: any;
