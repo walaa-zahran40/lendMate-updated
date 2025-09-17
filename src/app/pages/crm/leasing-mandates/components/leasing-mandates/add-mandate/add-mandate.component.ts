@@ -48,6 +48,8 @@ import { PaymentTimingTermsFacade } from '../../../../../lookups/store/payment-t
 import { PaymentTimingTerm } from '../../../../../lookups/store/payment-timing-terms/payment-timing-term.model';
 import { InterestRateBenchMark } from '../../../../../lookups/store/interest-rate-benchmarks/interest-rate-benchmark.model';
 import { InterestRateBenchMarksFacade } from '../../../../../lookups/store/interest-rate-benchmarks/interest-rate-benchmarks.facade';
+import { PaymentMonthDay } from '../../../../../lookups/store/payment-month-days/payment-month-day.model';
+import { PaymentMonthDaysFacade } from '../../../../../lookups/store/payment-month-days/payment-month-days.facade';
 
 @Component({
   selector: 'app-add-mandate',
@@ -75,6 +77,7 @@ export class AddMandateComponent {
   rentStructureTypes$!: Observable<RentStructureType[]>;
   paymentTimingTerms$!: Observable<PaymentTimingTerm[]>;
   interestRateBenchmarks$!: Observable<InterestRateBenchMark[]>;
+  paymentMonthDays$!: Observable<PaymentMonthDay[]>;
   parentForm!: FormGroup;
   private destroy$ = new Subject<void>();
   workFlowActionList: any[] = [];
@@ -84,6 +87,7 @@ export class AddMandateComponent {
   clientId = this.route.snapshot.params['clientId'];
   show = false;
   editShow = false;
+  private paymentPeriodsCache: PaymentPeriod[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -101,6 +105,7 @@ export class AddMandateComponent {
     private rentStructureTypesFacade: RentStructureTypesFacade,
     private paymentTimingTermsFacade: PaymentTimingTermsFacade,
     private interestRateBenchmarksFacade: InterestRateBenchMarksFacade,
+    private paymentMonthDaysFacade: PaymentMonthDaysFacade,
     private route: ActivatedRoute,
     private router: Router
   ) {}
@@ -116,14 +121,14 @@ export class AddMandateComponent {
       this.show = false;
     }
 
-    // 1️⃣ Build all form‐groups
+    // 1) Build all sub-forms
     this.buildMandateShowBasicForm();
     this.buildMandateShowAssetTypeForm();
     this.buildMandateShowFeeForm();
     this.buildMandateShowFinancialActivity1Form();
     this.buildMandateShowFinancialActivity2Form();
 
-    // 2️⃣ Combine into parentForm
+    // 2) Create the parent form
     this.parentForm = this.fb.group({
       basic: this.addMandateShowBasicForm,
       assets: this.addMandateShowAssetTypeForm,
@@ -132,6 +137,11 @@ export class AddMandateComponent {
       financialActivities2: this.addMandateShowFinancialActivityTwoForm,
     });
 
+    // 3) Wire listeners and do initial recompute
+    this.setupCalcListeners();
+    this.recalcNfaAndPercent();
+    this.recalcRvAndProvision();
+    this.recalcReserveAmounts();
     // 5️⃣ All your other setup (lookups, route handling, patching…)
     //    no early returns that skip the clientId subscription
     if (!this.clientId) {
@@ -163,6 +173,9 @@ export class AddMandateComponent {
     //Payment Periods Dropdown
     this.paymentPeriodsFacade.loadAll();
     this.paymentPeriods$ = this.paymentPeriodsFacade.all$;
+    this.paymentPeriods$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((list) => (this.paymentPeriodsCache = list ?? []));
     //Payment Methods Dropdown
     this.paymentMethodsFacade.loadAll();
     this.paymentMethods$ = this.paymentMethodsFacade.all$;
@@ -175,7 +188,9 @@ export class AddMandateComponent {
     //Interest Rate Benchmarks Dropdown
     this.interestRateBenchmarksFacade.loadAll();
     this.interestRateBenchmarks$ = this.interestRateBenchmarksFacade.all$;
-
+    //Payment Month Days Dropdown
+    this.paymentMonthDaysFacade.loadAll();
+    this.paymentMonthDays$ = this.paymentMonthDaysFacade.all$;
     if (!this.clientId) {
       combineLatest({
         params: this.route.paramMap,
@@ -259,127 +274,105 @@ export class AddMandateComponent {
       this.leasingMandateId = +idParam;
     }
   }
-  private patchMandate(m: Mandate) {
-    if (!this.clientId) {
-      this.mandateId = m.mandateId;
-
-      // 1️⃣ patch all of the flat values, _excluding_ the nested grace group
-      this.parentForm.patchValue({
-        basic: {
-          id: m.id,
-          parentMandateId: m.parentMandateId,
-          clientId: m.clientId ?? m.clientView?.clientId,
-          leasingTypeId: m.leasingTypeId,
-          insuredById: m.insuredById,
-        },
-        financialActivities: {
-          date: m.date ? new Date(m.date) : null,
-          notes: m.notes,
-          validityDay: m.validityDay ?? null,
-          description: m.description,
-          downPayment: m.downPayment,
-          interestRate: m.interestRate,
-          insuranceRate: m.insuranceRate,
-
-          nfa: m.nfa,
-          assetCost: m.assetCost,
-          indicativeRentals: m.indicativeRentals,
-          percentOfFinance: m.percentOfFinance,
-        },
-      });
-
-      // 4️⃣ now reset your FormArrays exactly as before…
-      const resetArray = (
-        fa: FormArray,
-        items: any[],
-        factory: () => FormGroup,
-        name: string
-      ) => {
-        fa.clear();
-        items.forEach((item) => {
-          const fg = factory();
-          fg.patchValue(item);
-          fa.push(fg);
-        });
-      };
-
-      resetArray(
-        this.mandateAssetTypes,
-        m.mandateAssetTypes || [],
-        () => this.createAssetTypeGroup(),
-        'mandateAssetTypes'
-      );
-
-      this.workFlowActionList = m.allowedMandateWorkFlowActions?.map(
-        (action) => ({
-          id: action.id,
-          label: action.name,
-          icon: 'pi pi-times',
-        })
-      );
-      this.selectedAction = m.mandateCurrentWorkFlowAction.name ?? '';
-      console.log('✅ this.selectedAction', this.selectedAction);
-    } else {
-      this.mandateId = m.mandateId;
-
-      // 1️⃣ patch all of the flat values, _excluding_ the nested grace group
-      this.parentForm.patchValue({
-        basic: {
-          id: m.id,
-          parentMandateId: m.parentMandateId,
-          clientId: this.clientId,
-          leasingTypeId: m.leasingTypeId,
-          insuredById: m.insuredById,
-        },
-        financialActivities: {
-          date: m.date ? new Date(m.date) : null,
-          notes: m.notes,
-          description: m.description,
-          validityCount: m.validityCount,
-          downPayment: m.downPayment,
-          interestRate: m.interestRate,
-          insuranceRate: m.insuranceRate,
-
-          assetCost: m.assetCost,
-          nfa: m.nfa,
-          percentOfFinance: m.percentOfFinance,
-          indicativeRentals: m.indicativeRentals,
-        },
-      });
-
-      // 4️⃣ now reset your FormArrays exactly as before…
-      const resetArray = (
-        fa: FormArray,
-        items: any[],
-        factory: () => FormGroup,
-        name: string
-      ) => {
-        fa.clear();
-        items.forEach((item) => {
-          const fg = factory();
-          fg.patchValue(item);
-          fa.push(fg);
-        });
-      };
-
-      resetArray(
-        this.mandateAssetTypes,
-        m.mandateAssetTypes || [],
-        () => this.createAssetTypeGroup(),
-        'mandateAssetTypes'
-      );
-
-      this.workFlowActionList = m.allowedMandateWorkFlowActions?.map(
-        (action) => ({
-          id: action.id,
-          label: action.name,
-          icon: 'pi pi-times',
-        })
-      );
-      this.selectedAction = m.mandateCurrentWorkFlowAction.name ?? '';
-      console.log('✅ this.selectedAction', this.selectedAction);
-    }
+  private getMonthCount(): number {
+    const pid = +this.fa1.get('paymentPeriodId')?.value || 0;
+    if (!pid) return 0;
+    return this.paymentPeriodsCache.find((p) => p.id === pid)?.monthCount ?? 0;
   }
+  private patchMandate(m: Mandate) {
+    this.mandateId = m.mandateId;
+
+    // basic
+    this.addMandateShowBasicForm.patchValue({
+      id: m.id,
+      parentMandateId: m.parentMandateId,
+      clientId: this.clientId ?? m.clientId ?? m.clientView?.clientId,
+      leasingTypeId: m.leasingTypeId,
+      insuredById: m.insuredById,
+      date: m.date ? new Date(m.date) : null,
+      validityDay: m.validityDay ?? null,
+      expireDate: m.expireDate ? new Date(m.expireDate) : null,
+      notes: m.notes,
+    });
+
+    // fa1
+    this.addMandateShowFinancialActivityOneForm.patchValue({
+      assetCost: m.assetCost,
+      downPayment: m.downPayment,
+      percentOfFinance: m.percentOfFinance,
+      nfa: m.nfa,
+      years: m.years,
+      startDate: m.startDate ? new Date(m.startDate) : null,
+      interestRate: m.interestRate,
+      insuranceRate: m.insuranceRate,
+      tenor: m.tenor,
+      paymentPeriodId: m.paymentPeriodId,
+      gracePeriodInDays: m.gracePeriodInDays,
+      currencyId: m.currencyId,
+      currencyExchangeRateId: m.currencyExchangeRateId,
+      isManuaExchangeRate: m.isManuaExchangeRate,
+      manualSetExchangeRate: m.manualSetExchangeRate,
+    });
+    const manual = !!m.isManuaExchangeRate;
+    const manualCtrl = this.addMandateShowFinancialActivityOneForm.get(
+      'manualSetExchangeRate'
+    );
+    if (manual) manualCtrl?.enable({ emitEvent: false });
+    else manualCtrl?.disable({ emitEvent: false });
+    // recompute derived fields after patch
+    this.recalcNfaAndPercent();
+    this.recalcRvAndProvision();
+    this.recalcReserveAmounts();
+
+    // fa2
+    this.addMandateShowFinancialActivityTwoForm.patchValue({
+      indicativeRentals: m.indicativeRentals,
+      rent: m.rent,
+      rvPercent: m.rvPercent,
+      rvAmount: m.rvAmount,
+      reservePaymentCount: m.reservePaymentCount,
+      reservePaymentAmount: m.reservePaymentAmount,
+      provisionPercent: m.provisionPercent,
+      provisionAmount: m.provisionAmount,
+      interestRateBenchmarkId: m.interestRateBenchmarkId,
+      paymentTimingTermId: m.paymentTimingTermId,
+      rentStructureTypeId: m.rentStructureTypeId,
+      paymentMethodID: m.paymentMethodId, // Id -> ID back to control
+      paymentMonthDayID: m.paymentMonthDayId, // Id -> ID back to control
+    });
+
+    // arrays
+    const resetArray = (
+      fa: FormArray,
+      items: any[],
+      factory: () => FormGroup
+    ) => {
+      fa.clear();
+      (items || []).forEach((item) => {
+        const fg = factory();
+        fg.patchValue(item);
+        fa.push(fg);
+      });
+    };
+
+    resetArray(this.mandateAssetTypes, m.mandateAssetTypes || [], () =>
+      this.createAssetTypeGroup()
+    );
+
+    const feesFa = this.addMandateShowFeeForm.get('mandateFees') as FormArray;
+    resetArray(feesFa, m.mandateFees || [], () => this.createFeeGroup());
+
+    // workflow UI bits (unchanged)
+    this.workFlowActionList = (m.allowedMandateWorkFlowActions ?? []).map(
+      (a) => ({
+        id: a.id,
+        label: a.name,
+        icon: 'pi pi-times',
+      })
+    );
+    this.selectedAction = m.mandateCurrentWorkFlowAction?.name ?? '';
+  }
+
   nextStep(nextCallback: { emit: () => void }, group: FormGroup) {
     if (group?.valid || this.viewOnly) {
       nextCallback?.emit();
@@ -516,8 +509,8 @@ export class AddMandateComponent {
       gracePeriodInDays: [null, Validators.required],
       currencyId: [null, Validators.required],
       currencyExchangeRateId: [null, Validators.required],
-      isManuaExchangeRate: [null, Validators.required],
-      manualSetExchangeRate: [null, Validators.required],
+      isManuaExchangeRate: [false], // ✅ boolean
+      manualSetExchangeRate: [{ value: null, disabled: true }], // ✅ disabled initially
     });
   }
   buildMandateShowFinancialActivity2Form(): void {
@@ -621,10 +614,12 @@ export class AddMandateComponent {
     // this never returns null at runtime, so we assert with `!` then cast
     return this.parentForm.get('assets')! as FormGroup;
   }
-  get financialActivityForm(): FormGroup {
-    // the `!` tells TS “I guarantee there’s a value here”
-    // and the `as FormGroup` tells it the exact type
-    return this.parentForm.get('financialActivity')! as FormGroup;
+  // ✅ do NOT reach into parentForm here
+  get fa1(): FormGroup {
+    return this.addMandateShowFinancialActivityOneForm;
+  }
+  get fa2(): FormGroup {
+    return this.addMandateShowFinancialActivityTwoForm;
   }
 
   get basicForm(): FormGroup {
@@ -645,186 +640,27 @@ export class AddMandateComponent {
     }
   }
   onSubmit() {
-    if (!this.clientId) {
-      console.log('💥 addOrEditIdentificationTypes() called');
-      console.log('  viewOnly:', this.viewOnly);
-      console.log('  editMode:', this.editMode);
-      console.log('  form valid:', this.parentForm.valid);
-      console.log('  form touched:', this.parentForm.touched);
-      console.log('  form raw value:', this.parentForm.getRawValue());
+    if (this.viewOnly) return;
 
-      if (this.viewOnly) {
-        console.log('⚠️ viewOnly mode — aborting add');
-        return;
-      }
-
-      if (this.parentForm.invalid) {
-        console.warn('❌ Form is invalid — marking touched and aborting');
-        this.parentForm.markAllAsTouched();
-        return;
-      }
-
-      const { assets, basic, financialActivities } =
-        this.parentForm.getRawValue();
-
-      const payload: Partial<Mandate> = {
-        ...basic,
-        mandateAssetTypes: assets.mandateAssetTypes,
-
-        ...financialActivities,
-      };
-      console.log('  → payload object:', payload);
-
-      // Double-check your route param
-      // console.log('  route.snapshot.paramMap.get(clientId):', routeId);
-
-      if (this.editMode) {
-        const leaseId = +this.route.snapshot.paramMap.get('leasingId')!;
-
-        // pull out each group
-        const { basic, assets, financialActivities } = this.parentForm.value;
-        console.log('ffff', this.parentForm.value);
-        // build the flat payload
-        const payload = {
-          id: basic.id,
-          parentMandateId: basic.parentMandateId,
-          clientId: basic.clientId,
-          leasingTypeId: basic.leasingTypeId,
-          insuredById: basic.insuredById,
-
-          // from your "financialActivities" group
-          description: financialActivities.description,
-          date: financialActivities.date,
-          expireDate: financialActivities.expireDate,
-          validityDay: +financialActivities.validityDay,
-          nfa: financialActivities.nfa,
-          percentOfFinance: financialActivities.percentOfFinance,
-          downPayment: financialActivities.downPayment,
-          assetCost: financialActivities.assetCost,
-          notes: financialActivities.notes,
-          validityCount: financialActivities.validityCount,
-          indicativeRentals: financialActivities.indicativeRentals,
-          mandateGracePeriodSettingView:
-            financialActivities.mandateGracePeriodSettingView,
-
-          // your array groups, renamed to match the API
-          mandateAssetTypes: assets.mandateAssetTypes,
-        };
-
-        console.log('→ PUT payload:', payload);
-        this.facade.update(leaseId, payload);
-      } else {
-        console.log('➕ Dispatching CREATE payload=', payload);
-        this.facade.create(payload);
-      }
-
-      if (this.addMandateShowBasicForm.valid) {
-        this.addMandateShowBasicForm.markAsPristine();
-      }
-      if (this.addMandateShowAssetTypeForm.valid) {
-        this.addMandateShowAssetTypeForm.markAsPristine();
-      }
-
-      if (this.addMandateShowFinancialActivityOneForm.valid) {
-        this.addMandateShowFinancialActivityOneForm.markAsPristine();
-      }
-      console.log('🧭 Navigating away to view-mandates');
-      this.router.navigate(['/crm/leasing-mandates/view-mandates']);
-    } else {
-      console.log('💥 addOrEditIdentificationTypes() called');
-      console.log('  viewOnly:', this.viewOnly);
-      console.log('  editMode:', this.editMode);
-      console.log('  form valid:', this.parentForm.valid);
-      console.log('  form touched:', this.parentForm.touched);
-      console.log('  form raw value:', this.parentForm.getRawValue());
-
-      if (this.viewOnly) {
-        console.log('⚠️ viewOnly mode — aborting add');
-        return;
-      }
-
-      if (this.parentForm.invalid) {
-        console.warn('❌ Form is invalid — marking touched and aborting');
-        this.parentForm.markAllAsTouched();
-        return;
-      }
-
-      const { assets, basic, contacts, officers, financialActivities } =
-        this.parentForm.value;
-      const payload: Partial<Mandate> = {
-        ...basic,
-        clientId: this.clientId,
-        mandateOfficers: officers.mandateOfficers,
-        mandateContactPersons: contacts.mandateContactPersons,
-        mandateAssetTypes: assets.mandateAssetTypes,
-
-        ...financialActivities,
-      };
-      console.log('  → payload object:', payload);
-
-      // Double-check your route param
-      // console.log('  route.snapshot.paramMap.get(clientId):', routeId);
-
-      if (this.editMode) {
-        const leaseId = +this.route.snapshot.paramMap.get('leasingId')!;
-
-        // pull out each group
-        const { basic, assets, contacts, officers, financialActivities } =
-          this.parentForm.value;
-        console.log('ffff', this.parentForm.value);
-        // build the flat payload
-        const payload = {
-          id: basic.id,
-          parentMandateId: basic.parentMandateId,
-          clientId: this.clientId,
-          validityUnitId: basic.validityUnitId,
-          productId: basic.productId,
-          leasingTypeId: basic.leasingTypeId,
-          insuredById: basic.insuredById,
-
-          // from your "financialActivities" group
-          description: financialActivities.description,
-          date: financialActivities.date,
-          expireDate: financialActivities.expireDate,
-          validityDay: +financialActivities.validityDay,
-          nfa: financialActivities.nfa,
-          percentOfFinance: financialActivities.percentOfFinance,
-          downPayment: financialActivities.downPayment,
-          assetCost: financialActivities.assetCost,
-          notes: financialActivities.notes,
-          validityCount: financialActivities.validityCount,
-          indicativeRentals: financialActivities.indicativeRentals,
-          mandateGracePeriodSettingView:
-            financialActivities.mandateGracePeriodSettingView,
-
-          // your array groups, renamed to match the API
-          mandateAssetTypes: assets.mandateAssetTypes,
-          mandateContactPersons: contacts.mandateContactPersons,
-          mandateOfficers: officers.mandateOfficers,
-        };
-
-        console.log('→ PUT payload:', payload);
-        this.facade.update(leaseId, payload);
-      } else {
-        console.log('➕ Dispatching CREATE payload=', payload);
-        this.facade.create(payload);
-      }
-
-      if (this.addMandateShowBasicForm.valid) {
-        this.addMandateShowBasicForm.markAsPristine();
-      }
-      if (this.addMandateShowAssetTypeForm.valid) {
-        this.addMandateShowAssetTypeForm.markAsPristine();
-      }
-
-      if (this.addMandateShowFinancialActivityOneForm.valid) {
-        this.addMandateShowFinancialActivityOneForm.markAsPristine();
-      }
-      console.log('🧭 Navigating away to view-mandates');
-      this.router.navigate([
-        `/crm/leasing-mandates/view-mandates/${this.clientId}`,
-      ]);
+    if (this.parentForm.invalid) {
+      this.parentForm.markAllAsTouched();
+      return;
     }
+
+    const payload = this.mapToPayload();
+
+    if (this.editMode) {
+      const leaseId = +this.route.snapshot.paramMap.get('leasingId')!;
+      this.facade.update(leaseId, payload);
+    } else {
+      this.facade.create(payload);
+    }
+
+    // (optional) mark clean
+    this.addMandateShowBasicForm.markAsPristine();
+    this.addMandateShowAssetTypeForm.markAsPristine();
+    this.addMandateShowFinancialActivityOneForm.markAsPristine();
+    this.addMandateShowFinancialActivityTwoForm.markAsPristine();
   }
 
   navigateToView() {
@@ -843,5 +679,272 @@ export class AddMandateComponent {
       !this.addMandateShowFinancialActivityOneForm.dirty &&
       !this.addMandateShowAssetTypeForm.dirty
     );
+  }
+  private mapToPayload(): Partial<Mandate> {
+    const basic = this.addMandateShowBasicForm.getRawValue(); // includes disabled expireDate
+    const fa1 = this.addMandateShowFinancialActivityOneForm.getRawValue();
+    const fa2 = this.addMandateShowFinancialActivityTwoForm.getRawValue();
+    const assets = this.addMandateShowAssetTypeForm.getRawValue();
+    const fees = this.addMandateShowFeeForm.getRawValue();
+
+    return {
+      // --- basic ---
+      description: undefined, // add a form control for description later if your API requires it
+      date: basic.date,
+      clientId: this.clientId ?? basic.clientId,
+      parentMandateId: basic.parentMandateId,
+      leasingTypeId: basic.leasingTypeId,
+      validityDay: basic.validityDay,
+      expireDate: basic.expireDate,
+      notes: basic.notes,
+      insuredById: basic.insuredById,
+
+      // --- financialActivities1 ---
+      assetCost: fa1.assetCost,
+      downPayment: fa1.downPayment,
+      percentOfFinance: fa1.percentOfFinance,
+      nfa: fa1.nfa,
+      interestRate: fa1.interestRate,
+      insuranceRate: fa1.insuranceRate,
+      tenor: fa1.tenor,
+      paymentPeriodId: fa1.paymentPeriodId,
+      gracePeriodInDays: fa1.gracePeriodInDays,
+      currencyId: fa1.currencyId,
+      currencyExchangeRateId: fa1.currencyExchangeRateId,
+      manualSetExchangeRate: fa1.manualSetExchangeRate,
+      isManuaExchangeRate: fa1.isManuaExchangeRate,
+      startDate: fa1.startDate,
+      years: fa1.years,
+
+      // --- financialActivities2 ---
+      indicativeRentals: fa2.indicativeRentals,
+      rent: fa2.rent,
+      rvAmount: fa2.rvAmount,
+      rvPercent: fa2.rvPercent,
+      provisionAmount: fa2.provisionAmount,
+      provisionPercent: fa2.provisionPercent,
+      reservePaymentAmount: fa2.reservePaymentAmount,
+      reservePaymentCount: fa2.reservePaymentCount,
+      interestRateBenchmarkId: fa2.interestRateBenchmarkId,
+      rentStructureTypeId: fa2.rentStructureTypeId,
+      paymentTimingTermId: fa2.paymentTimingTermId,
+      paymentMethodId: fa2.paymentMethodID, // ID -> Id for API
+      paymentMonthDayId: fa2.paymentMonthDayID,
+
+      // --- arrays ---
+      mandateAssetTypes: assets.mandateAssetTypes,
+      mandateFees: fees.mandateFees,
+    };
+  }
+  // Add inside AddMandateComponent (class body)
+  private setupCalcListeners(): void {
+    // === FA1: Core finance ===
+    this.fa1.get('assetCost')?.valueChanges.subscribe(() => {
+      this.recalcNfaAndPercent();
+      this.recalcReserveAmounts();
+    });
+
+    this.fa1.get('downPayment')?.valueChanges.subscribe(() => {
+      this.recalcNfaAndPercent();
+      this.recalcReserveAmounts();
+    });
+
+    this.fa1.get('percentOfFinance')?.valueChanges.subscribe(() => {
+      this.recalcNfaAndPercent();
+      this.recalcReserveAmounts();
+    });
+
+    this.fa1.get('insuranceRate')?.valueChanges.subscribe(() => {
+      this.recalcReserveAmounts();
+    });
+
+    this.fa1.get('paymentPeriodId')?.valueChanges.subscribe(() => {
+      this.recalcReserveAmounts();
+    });
+
+    // Toggle manual exchange rate box
+    this.fa1
+      .get('isManuaExchangeRate')
+      ?.valueChanges.subscribe((checked: boolean) => {
+        const ctrl = this.fa1.get('manualSetExchangeRate');
+        if (!ctrl) return;
+        if (checked) ctrl.enable({ emitEvent: false });
+        else {
+          ctrl.setValue(0, { emitEvent: false });
+          ctrl.disable({ emitEvent: false });
+        }
+      });
+
+    // === FA2: RV / Provision / Reserve ===
+    this.fa2.get('rvAmount')?.valueChanges.subscribe(() => {
+      this.calcRvPercentFromAmount();
+      this.calcProvisionPercent(); // depends on nfa & rv
+      this.calcProvisionAmount();
+    });
+
+    this.fa2.get('rvPercent')?.valueChanges.subscribe(() => {
+      this.calcRvAmountFromPercent();
+      this.calcProvisionPercent();
+      this.calcProvisionAmount();
+    });
+
+    this.fa2.get('provisionAmount')?.valueChanges.subscribe(() => {
+      this.calcProvisionPercent();
+    });
+
+    this.fa2.get('provisionPercent')?.valueChanges.subscribe(() => {
+      this.calcProvisionAmount();
+    });
+
+    this.fa2.get('rent')?.valueChanges.subscribe(() => {
+      this.recalcReserveAmounts();
+    });
+
+    this.fa2.get('reservePaymentAmount')?.valueChanges.subscribe(() => {
+      this.calcReservePaymentCount();
+    });
+
+    this.fa2.get('reservePaymentCount')?.valueChanges.subscribe(() => {
+      this.calcReservePaymentAmount();
+    });
+  }
+  // Add inside AddMandateComponent (class body)
+
+  // --- small helpers ---
+  private num(v: any, def = 0): number {
+    const n = +v;
+    return Number.isFinite(n) ? n : def;
+  }
+  private round(n: number, dp = 3): number {
+    return +parseFloat(String(n)).toFixed(dp);
+  }
+
+  /** Get monthCount for a paymentPeriodId from the store once, then call cb. */
+  private withMonthCount(cb: (monthCount: number) => void): void {
+    const pid = this.num(this.fa1.get('paymentPeriodId')?.value);
+    if (!pid) return cb(0);
+    this.paymentPeriods$?.pipe(take(1)).subscribe((periods) => {
+      const mm = periods?.find((p) => p.id === pid)?.monthCount ?? 0;
+      cb(this.num(mm));
+    });
+  }
+
+  // --- NFA & % of finance ---
+  private recalcNfaAndPercent(): void {
+    const assetCost = this.num(this.fa1.get('assetCost')?.value);
+    let downPayment = this.num(this.fa1.get('downPayment')?.value);
+    let percentOfFinance = this.num(this.fa1.get('percentOfFinance')?.value);
+
+    if (assetCost > 0 && percentOfFinance > 0 && downPayment === 0) {
+      downPayment = assetCost * (1 - percentOfFinance / 100);
+      this.fa1.get('downPayment')?.setValue(downPayment, { emitEvent: false });
+    } else if (assetCost > 0 && downPayment > 0) {
+      percentOfFinance = ((assetCost - downPayment) / assetCost) * 100;
+      this.fa1
+        .get('percentOfFinance')
+        ?.setValue(percentOfFinance, { emitEvent: false });
+    }
+
+    const nfa = Math.max(assetCost - downPayment, 0);
+    this.fa1.get('nfa')?.setValue(nfa, { emitEvent: false });
+
+    this.recalcRvAndProvision();
+  }
+
+  // --- RV & Provision ---
+  private recalcRvAndProvision(): void {
+    this.calcRvAmountFromPercent();
+    this.calcProvisionPercent();
+    this.calcProvisionAmount();
+  }
+  private calcRvPercentFromAmount(): void {
+    const rvAmount = this.num(this.fa2.get('rvAmount')?.value);
+    const nfa = this.num(this.fa1.get('nfa')?.value);
+    const rvPercent = nfa > 0 ? (rvAmount / nfa) * 100 : 0;
+    this.fa2
+      .get('rvPercent')
+      ?.setValue(this.round(rvPercent), { emitEvent: false });
+  }
+
+  private calcRvAmountFromPercent(): void {
+    const rvPercent = this.num(this.fa2.get('rvPercent')?.value);
+    const nfa = this.num(this.fa1.get('nfa')?.value);
+    const rvAmount = nfa * (rvPercent / 100);
+    this.fa2
+      .get('rvAmount')
+      ?.setValue(this.round(rvAmount), { emitEvent: false });
+  }
+
+  private calcProvisionPercent(): void {
+    const provisionAmount = this.num(this.fa2.get('provisionAmount')?.value);
+    const nfa = this.num(this.fa1.get('nfa')?.value);
+    const rvAmount = this.num(this.fa2.get('rvAmount')?.value);
+    const denom = nfa - rvAmount;
+    const pct = denom > 0 ? (provisionAmount / denom) * 100 : 0;
+    this.fa2
+      .get('provisionPercent')
+      ?.setValue(this.round(pct), { emitEvent: false });
+  }
+
+  private calcProvisionAmount(): void {
+    const provisionPercent = this.num(this.fa2.get('provisionPercent')?.value);
+    const nfa = this.num(this.fa1.get('nfa')?.value);
+    const rvAmount = this.num(this.fa2.get('rvAmount')?.value);
+    const denom = nfa - rvAmount;
+    const amt = denom > 0 ? (provisionPercent / 100) * denom : 0;
+    this.fa2
+      .get('provisionAmount')
+      ?.setValue(this.round(amt), { emitEvent: false });
+  }
+
+  // --- Reserve payment amount/count (same logic you used) ---
+  private recalcReserveAmounts(): void {
+    this.calcReservePaymentAmount(); // reuses current monthCount
+  }
+  /** Compute reservePaymentAmount given count, rent, insurance, period length. */
+  private calcReservePaymentAmount(): void {
+    const rent = this.num(this.fa2.get('rent')?.value);
+    const assetCost = this.num(this.fa1.get('assetCost')?.value);
+    const insuranceRate = this.num(this.fa1.get('insuranceRate')?.value);
+    const reserveCount = this.num(this.fa2.get('reservePaymentCount')?.value);
+    const monthCount = this.getMonthCount();
+
+    if (!monthCount) {
+      this.fa2.get('reservePaymentAmount')?.setValue(0, { emitEvent: false });
+      return;
+    }
+
+    const othersIncome = (assetCost * insuranceRate * monthCount) / 12;
+    const denom = rent + othersIncome;
+    const amount = denom ? (denom * reserveCount) / monthCount : 0;
+
+    this.fa2
+      .get('reservePaymentAmount')
+      ?.setValue(this.round(amount), { emitEvent: false });
+  }
+
+  /** Compute reservePaymentCount given amount, rent, insurance, period length. */
+  private calcReservePaymentCount(): void {
+    const rent = this.num(this.fa2.get('rent')?.value);
+    const assetCost = this.num(this.fa1.get('assetCost')?.value);
+    const insuranceRate = this.num(this.fa1.get('insuranceRate')?.value);
+    const reserveAmount = this.num(this.fa2.get('reservePaymentAmount')?.value);
+    const monthCount = this.getMonthCount();
+
+    if (!monthCount) {
+      this.fa2.get('reservePaymentCount')?.setValue(0, { emitEvent: false });
+      return;
+    }
+
+    const othersIncome = (assetCost * insuranceRate * monthCount) / 12;
+    const denom = rent + othersIncome;
+    const count = denom ? Math.floor((reserveAmount * monthCount) / denom) : 0;
+
+    this.fa2.get('reservePaymentCount')?.setValue(count, { emitEvent: false });
+  }
+  private calcPeriodInterestRate(): number {
+    const annual = this.num(this.fa1.get('interestRate')?.value);
+    const m = this.getMonthCount();
+    return m ? ((annual / 100) * m * 365) / 360 / 12 : 0;
   }
 }

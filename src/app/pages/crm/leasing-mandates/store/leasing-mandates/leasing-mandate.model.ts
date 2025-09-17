@@ -24,6 +24,27 @@ export interface Mandate {
   nfa?: number;
   interestRate: number;
   insuranceRate: number;
+  tenor?: number;
+  paymentPeriodId?: number;
+  gracePeriodInDays?: number;
+  currencyId?: number;
+  currencyExchangeRateId?: number;
+  manualSetExchangeRate?: number;
+  isManuaExchangeRate?: boolean;
+  startDate?: string;
+  years?: number;
+  rent?: number;
+  rvAmount?: number;
+  rvPercent?: number;
+  provisionAmount?: number;
+  provisionPercent?: number;
+  reservePaymentAmount?: number;
+  reservePaymentCount?: number;
+  interestRateBenchmarkId?: number;
+  rentStructureTypeId?: number;
+  paymentTimingTermId?: number;
+  paymentMethodId?: number;
+  paymentMonthDayId?: number;
 
   indicativeRentals?: number;
   leasingTypeId?: number;

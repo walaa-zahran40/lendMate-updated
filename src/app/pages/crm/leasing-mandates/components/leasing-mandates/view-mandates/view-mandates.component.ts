@@ -331,7 +331,7 @@ export class ViewMandatesComponent {
         this.showDeleteModal = false; // CLOSE MODAL HERE
         this.refreshCalls();
       },
-      error: (err) => {
+      error: () => {
         this.showDeleteModal = false; // STILL CLOSE IT
       },
     });
