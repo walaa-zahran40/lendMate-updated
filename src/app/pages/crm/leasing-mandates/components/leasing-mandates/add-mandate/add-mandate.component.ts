@@ -1,5 +1,12 @@
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Observable } from 'rxjs/internal/Observable';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -50,6 +57,18 @@ import { InterestRateBenchMark } from '../../../../../lookups/store/interest-rat
 import { InterestRateBenchMarksFacade } from '../../../../../lookups/store/interest-rate-benchmarks/interest-rate-benchmarks.facade';
 import { PaymentMonthDay } from '../../../../../lookups/store/payment-month-days/payment-month-day.model';
 import { PaymentMonthDaysFacade } from '../../../../../lookups/store/payment-month-days/payment-month-days.facade';
+import {
+  calcDownFromPercent,
+  calcNfa,
+  calcPercentFromDown,
+  calcPeriodInterestRate,
+  calcProvisionAmount,
+  calcProvisionPercent,
+  calcReservePaymentAmount,
+  calcReservePaymentCount,
+  calcRvAmount,
+  calcRvPercent,
+} from '../../../../../../shared/utils/leasing-calcs.util';
 
 @Component({
   selector: 'app-add-mandate',
@@ -88,6 +107,17 @@ export class AddMandateComponent {
   show = false;
   editShow = false;
   private paymentPeriodsCache: PaymentPeriod[] = [];
+  steps = [1, 2, 3, 4, 5];
+  stepTitles = [
+    'Basic',
+    'Asset Types',
+    'Fees',
+    'Financial Activities (1)',
+    'Financial Activities (2)',
+  ];
+  totalSteps = this.steps.length;
+  currentStep = 1;
+  isSubmitting = false;
 
   constructor(
     private fb: FormBuilder,
@@ -274,6 +304,56 @@ export class AddMandateComponent {
       this.leasingMandateId = +idParam;
     }
   }
+  /** Progress bar width in %, discrete per step. */
+  get progressWidth(): number {
+    if (!this.totalSteps) return 0;
+    return (this.currentStep / this.totalSteps) * 100; // step 1 => 20% for 5 steps
+  }
+  get segmentWidth(): number {
+    return 20;
+  }
+
+  get thumbLeft(): number {
+    if (!this.totalSteps) return 0;
+    const pos = (this.currentStep - 1) * (100 / this.totalSteps);
+    return Math.min(pos, 100 - this.segmentWidth);
+  }
+
+  /** Return the current step's form group to validate navigation. */
+  get currentStepForm(): FormGroup | null {
+    switch (this.currentStep) {
+      case 1:
+        return this.addMandateShowBasicForm;
+      case 2:
+        return this.addMandateShowAssetTypeForm;
+      case 3:
+        return this.addMandateShowFeeForm;
+      case 4:
+        return this.addMandateShowFinancialActivityOneForm;
+      case 5:
+        return this.addMandateShowFinancialActivityTwoForm;
+      default:
+        return null;
+    }
+  }
+
+  /** Block Next unless current step is valid (or view-only). */
+  get canMoveNext(): boolean {
+    if (this.viewOnly) return true;
+    const fg = this.currentStepForm;
+    return !!fg && fg.valid;
+  }
+  next(): void {
+    if (this.currentStep >= this.totalSteps) return;
+    this.currentStepForm?.markAllAsTouched();
+    this.currentStep++;
+  }
+
+  previous(): void {
+    if (this.currentStep <= 1) return;
+    this.currentStep--;
+  }
+
   private getMonthCount(): number {
     const pid = +this.fa1.get('paymentPeriodId')?.value || 0;
     if (!pid) return 0;
@@ -639,28 +719,66 @@ export class AddMandateComponent {
       this.mandateFees.removeAt(i);
     }
   }
-  onSubmit() {
-    if (this.viewOnly) return;
 
-    if (this.parentForm.invalid) {
-      this.parentForm.markAllAsTouched();
-      return;
+  private logStepStatuses(): void {
+    const log = (label: string, g: FormGroup) =>
+      console.log(
+        `${label} -> touched=${g.touched}, dirty=${g.dirty}, valid=${g.valid}, status=${g.status}`,
+        g.errors
+      );
+
+    log('Step1 basic', this.addMandateShowBasicForm);
+    log('Step2 assets', this.addMandateShowAssetTypeForm);
+    log('Step3 fees', this.addMandateShowFeeForm);
+    log('Step4 FA1', this.addMandateShowFinancialActivityOneForm);
+    log('Step5 FA2', this.addMandateShowFinancialActivityTwoForm);
+    console.log(
+      'ParentForm -> touched=%s, dirty=%s, valid=%s, status=%s',
+      this.parentForm.touched,
+      this.parentForm.dirty,
+      this.parentForm.valid,
+      this.parentForm.status,
+      this.parentForm.errors
+    );
+  }
+
+  /** Deep log of every control (FormGroup/FormArray/FormControl) with its path */
+  private logControlTree(ctrl: AbstractControl, path = 'parentForm'): void {
+    const head = `${path} -> touched=${ctrl.touched}, dirty=${ctrl.dirty}, valid=${ctrl.valid}, status=${ctrl.status}`;
+    if (ctrl instanceof FormGroup) {
+      console.log(head, ctrl.errors);
+      Object.keys(ctrl.controls).forEach((k) =>
+        this.logControlTree(ctrl.controls[k], `${path}.${k}`)
+      );
+    } else if (ctrl instanceof FormArray) {
+      console.log(`${head} [Array length=${ctrl.length}]`, ctrl.errors);
+      ctrl.controls.forEach((c, i) => this.logControlTree(c, `${path}[${i}]`));
+    } else if (ctrl instanceof FormControl) {
+      console.log(`${head}, value=`, ctrl.value, 'errors=', ctrl.errors);
     }
+  }
 
-    const payload = this.mapToPayload();
-
-    if (this.editMode) {
-      const leaseId = +this.route.snapshot.paramMap.get('leasingId')!;
-      this.facade.update(leaseId, payload);
-    } else {
-      this.facade.create(payload);
+  /** Optional: find the first invalid control path to focus/highlight */
+  private findFirstInvalidPath(
+    ctrl: AbstractControl,
+    path = 'parentForm'
+  ): string | null {
+    if (ctrl.valid) return null;
+    if (ctrl instanceof FormGroup) {
+      for (const k of Object.keys(ctrl.controls)) {
+        const p = this.findFirstInvalidPath(ctrl.controls[k], `${path}.${k}`);
+        if (p) return p;
+      }
+      return path;
     }
-
-    // (optional) mark clean
-    this.addMandateShowBasicForm.markAsPristine();
-    this.addMandateShowAssetTypeForm.markAsPristine();
-    this.addMandateShowFinancialActivityOneForm.markAsPristine();
-    this.addMandateShowFinancialActivityTwoForm.markAsPristine();
+    if (ctrl instanceof FormArray) {
+      for (let i = 0; i < ctrl.length; i++) {
+        const p = this.findFirstInvalidPath(ctrl.at(i), `${path}[${i}]`);
+        if (p) return p;
+      }
+      return path;
+    }
+    return path; // FormControl
   }
 
   navigateToView() {
@@ -761,6 +879,12 @@ export class AddMandateComponent {
     this.fa1.get('paymentPeriodId')?.valueChanges.subscribe(() => {
       this.recalcReserveAmounts();
     });
+    this.fa1.get('interestRate')?.valueChanges.subscribe(() => {
+      this.calcPeriodInterestRate();
+    });
+    this.fa1.get('paymentPeriodId')?.valueChanges.subscribe(() => {
+      this.calcPeriodInterestRate();
+    });
 
     // Toggle manual exchange rate box
     this.fa1
@@ -829,122 +953,156 @@ export class AddMandateComponent {
     });
   }
 
-  // --- NFA & % of finance ---
+  // --- NFA & % of finance (FA1) ---
   private recalcNfaAndPercent(): void {
-    const assetCost = this.num(this.fa1.get('assetCost')?.value);
-    let downPayment = this.num(this.fa1.get('downPayment')?.value);
-    let percentOfFinance = this.num(this.fa1.get('percentOfFinance')?.value);
+    const assetCost = this.fa1.get('assetCost')?.value;
+    const downPayment = this.fa1.get('downPayment')?.value;
+    const percentOfFinance = this.fa1.get('percentOfFinance')?.value;
 
-    if (assetCost > 0 && percentOfFinance > 0 && downPayment === 0) {
-      downPayment = assetCost * (1 - percentOfFinance / 100);
-      this.fa1.get('downPayment')?.setValue(downPayment, { emitEvent: false });
-    } else if (assetCost > 0 && downPayment > 0) {
-      percentOfFinance = ((assetCost - downPayment) / assetCost) * 100;
-      this.fa1
-        .get('percentOfFinance')
-        ?.setValue(percentOfFinance, { emitEvent: false });
+    let dp = +downPayment || 0;
+    let p = +percentOfFinance || 0;
+
+    if (+assetCost > 0 && p > 0 && dp === 0) {
+      dp = calcDownFromPercent(assetCost, p);
+      this.fa1.get('downPayment')?.setValue(dp, { emitEvent: false });
+    } else if (+assetCost > 0 && dp > 0) {
+      p = calcPercentFromDown(assetCost, dp);
+      this.fa1.get('percentOfFinance')?.setValue(p, { emitEvent: false });
     }
 
-    const nfa = Math.max(assetCost - downPayment, 0);
+    const nfa = calcNfa(assetCost, dp);
     this.fa1.get('nfa')?.setValue(nfa, { emitEvent: false });
-
     this.recalcRvAndProvision();
   }
-
-  // --- RV & Provision ---
+  // --- RV & Provision (FA2) ---
   private recalcRvAndProvision(): void {
     this.calcRvAmountFromPercent();
     this.calcProvisionPercent();
     this.calcProvisionAmount();
   }
+
   private calcRvPercentFromAmount(): void {
-    const rvAmount = this.num(this.fa2.get('rvAmount')?.value);
-    const nfa = this.num(this.fa1.get('nfa')?.value);
-    const rvPercent = nfa > 0 ? (rvAmount / nfa) * 100 : 0;
-    this.fa2
-      .get('rvPercent')
-      ?.setValue(this.round(rvPercent), { emitEvent: false });
+    const nfa = this.fa1.get('nfa')?.value;
+    const rvAmount = this.fa2.get('rvAmount')?.value;
+    const pct = calcRvPercent(nfa, rvAmount);
+    this.fa2.get('rvPercent')?.setValue(pct, { emitEvent: false });
   }
 
   private calcRvAmountFromPercent(): void {
-    const rvPercent = this.num(this.fa2.get('rvPercent')?.value);
-    const nfa = this.num(this.fa1.get('nfa')?.value);
-    const rvAmount = nfa * (rvPercent / 100);
-    this.fa2
-      .get('rvAmount')
-      ?.setValue(this.round(rvAmount), { emitEvent: false });
+    const nfa = this.fa1.get('nfa')?.value;
+    const rvPercent = this.fa2.get('rvPercent')?.value;
+    const amt = calcRvAmount(nfa, rvPercent);
+    this.fa2.get('rvAmount')?.setValue(amt, { emitEvent: false });
   }
-
   private calcProvisionPercent(): void {
-    const provisionAmount = this.num(this.fa2.get('provisionAmount')?.value);
-    const nfa = this.num(this.fa1.get('nfa')?.value);
-    const rvAmount = this.num(this.fa2.get('rvAmount')?.value);
-    const denom = nfa - rvAmount;
-    const pct = denom > 0 ? (provisionAmount / denom) * 100 : 0;
-    this.fa2
-      .get('provisionPercent')
-      ?.setValue(this.round(pct), { emitEvent: false });
+    const nfa = this.fa1.get('nfa')?.value;
+    const rvAmount = this.fa2.get('rvAmount')?.value;
+    const provAmt = this.fa2.get('provisionAmount')?.value;
+    const pct = calcProvisionPercent(nfa, rvAmount, provAmt);
+    this.fa2.get('provisionPercent')?.setValue(pct, { emitEvent: false });
   }
 
   private calcProvisionAmount(): void {
-    const provisionPercent = this.num(this.fa2.get('provisionPercent')?.value);
-    const nfa = this.num(this.fa1.get('nfa')?.value);
-    const rvAmount = this.num(this.fa2.get('rvAmount')?.value);
-    const denom = nfa - rvAmount;
-    const amt = denom > 0 ? (provisionPercent / 100) * denom : 0;
-    this.fa2
-      .get('provisionAmount')
-      ?.setValue(this.round(amt), { emitEvent: false });
+    const nfa = this.fa1.get('nfa')?.value;
+    const rvAmount = this.fa2.get('rvAmount')?.value;
+    const provPct = this.fa2.get('provisionPercent')?.value;
+    const amt = calcProvisionAmount(nfa, rvAmount, provPct);
+    this.fa2.get('provisionAmount')?.setValue(amt, { emitEvent: false });
   }
 
-  // --- Reserve payment amount/count (same logic you used) ---
+  // --- Reserve (FA2) ---
   private recalcReserveAmounts(): void {
-    this.calcReservePaymentAmount(); // reuses current monthCount
+    this.calcReservePaymentAmount();
   }
-  /** Compute reservePaymentAmount given count, rent, insurance, period length. */
+
   private calcReservePaymentAmount(): void {
-    const rent = this.num(this.fa2.get('rent')?.value);
-    const assetCost = this.num(this.fa1.get('assetCost')?.value);
-    const insuranceRate = this.num(this.fa1.get('insuranceRate')?.value);
-    const reserveCount = this.num(this.fa2.get('reservePaymentCount')?.value);
-    const monthCount = this.getMonthCount();
+    const rent = this.fa2.get('rent')?.value;
+    const assetCost = this.fa1.get('assetCost')?.value;
+    const insuranceRate = this.fa1.get('insuranceRate')?.value;
+    const reserveCount = this.fa2.get('reservePaymentCount')?.value;
+    const monthCount = this.getMonthCount(); // you already cache this
 
-    if (!monthCount) {
-      this.fa2.get('reservePaymentAmount')?.setValue(0, { emitEvent: false });
-      return;
-    }
-
-    const othersIncome = (assetCost * insuranceRate * monthCount) / 12;
-    const denom = rent + othersIncome;
-    const amount = denom ? (denom * reserveCount) / monthCount : 0;
-
+    const amount = calcReservePaymentAmount(
+      reserveCount,
+      rent,
+      assetCost,
+      insuranceRate,
+      monthCount
+    );
     this.fa2
       .get('reservePaymentAmount')
-      ?.setValue(this.round(amount), { emitEvent: false });
+      ?.setValue(amount, { emitEvent: false });
   }
 
-  /** Compute reservePaymentCount given amount, rent, insurance, period length. */
   private calcReservePaymentCount(): void {
-    const rent = this.num(this.fa2.get('rent')?.value);
-    const assetCost = this.num(this.fa1.get('assetCost')?.value);
-    const insuranceRate = this.num(this.fa1.get('insuranceRate')?.value);
-    const reserveAmount = this.num(this.fa2.get('reservePaymentAmount')?.value);
-    const monthCount = this.getMonthCount();
+    const rent = this.fa2.get('rent')?.value;
+    const assetCost = this.fa1.get('assetCost')?.value;
+    const insuranceRate = this.fa1.get('insuranceRate')?.value;
+    const reserveAmount = this.fa2.get('reservePaymentAmount')?.value;
+    const monthCount = 0;
 
-    if (!monthCount) {
-      this.fa2.get('reservePaymentCount')?.setValue(0, { emitEvent: false });
+    const count = calcReservePaymentCount(
+      reserveAmount,
+      rent,
+      assetCost,
+      insuranceRate,
+      monthCount
+    );
+    this.fa2.get('reservePaymentCount')?.setValue(count, { emitEvent: false });
+  }
+
+  private calcPeriodInterestRate(): number {
+    const annual = this.fa1.get('interestRate')?.value;
+    const m = this.getMonthCount();
+    const value = calcPeriodInterestRate(annual, m);
+
+    // save into a control if you want to persist it
+    this.fa1.get('periodInterestRate')?.setValue(value, { emitEvent: false });
+
+    return value;
+  }
+
+  onSubmit() {
+    if (this.isSubmitting) return;
+    this.isSubmitting = true;
+
+    // mark + validate
+    this.parentForm.markAllAsTouched();
+    this.parentForm.updateValueAndValidity({ emitEvent: true });
+    this.addMandateShowFinancialActivityTwoForm.updateValueAndValidity({
+      emitEvent: true,
+    }); // because updateOn: 'submit'
+
+    // 🔎 logs
+    console.log('===== SUBMIT DEBUG =====');
+    this.logStepStatuses();
+    this.logControlTree(this.parentForm);
+    const firstBad = this.findFirstInvalidPath(this.parentForm);
+    if (!this.viewOnly && this.parentForm.invalid) {
+      console.warn('First invalid control:', firstBad);
+      return;
+    }
+    if (this.viewOnly) return;
+
+    if (this.parentForm.invalid) {
+      this.parentForm.markAllAsTouched();
       return;
     }
 
-    const othersIncome = (assetCost * insuranceRate * monthCount) / 12;
-    const denom = rent + othersIncome;
-    const count = denom ? Math.floor((reserveAmount * monthCount) / denom) : 0;
+    const payload = this.mapToPayload();
 
-    this.fa2.get('reservePaymentCount')?.setValue(count, { emitEvent: false });
-  }
-  private calcPeriodInterestRate(): number {
-    const annual = this.num(this.fa1.get('interestRate')?.value);
-    const m = this.getMonthCount();
-    return m ? ((annual / 100) * m * 365) / 360 / 12 : 0;
+    if (this.editMode) {
+      const leaseId = +this.route.snapshot.paramMap.get('leasingId')!;
+      this.facade.update(leaseId, payload);
+    } else {
+      this.facade.create(payload);
+    }
+
+    // (optional) mark clean
+    this.addMandateShowBasicForm.markAsPristine();
+    this.addMandateShowAssetTypeForm.markAsPristine();
+    this.addMandateShowFinancialActivityOneForm.markAsPristine();
+    this.addMandateShowFinancialActivityTwoForm.markAsPristine();
+    this.isSubmitting = false;
   }
 }

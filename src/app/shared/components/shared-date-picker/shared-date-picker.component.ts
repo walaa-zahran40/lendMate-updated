@@ -26,7 +26,7 @@ export class SharedDatePickerComponent implements ControlValueAccessor, OnInit {
   @ViewChild(Calendar) private calendar!: Calendar;
 
   value: Date | null = null;
-  disabled = false;
+  @Input() disabled = false;
 
   onTouched = () => {};
   onChange = (_: any) => {};

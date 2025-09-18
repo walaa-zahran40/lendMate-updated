@@ -1,195 +1,150 @@
+<!-- Bring in Bootstrap 4 (or your global bundle) -->
+
 <form [formGroup]="parentForm" (ngSubmit)="onSubmit()" class="zoom">
-  <p-stepper [linear]="true" [value]="1">
-    <!-- Step 1: Basic -->
-    <p-step-list>
-      <p-step [value]="1">Basic</p-step>
-      <p-step [value]="2">Asset Types</p-step>
-      <p-step [value]="3">Fees</p-step>
-      <p-step [value]="4">Financial Activities (1)</p-step>
-      <p-step [value]="5">Financial Activities (2)</p-step>
-    </p-step-list>
-    <p-step-panels>
-      <p-step-panel header="Basic" [value]="1">
-        <ng-template #content let-activateCallback="activateCallback">
-          <app-form
-            [title]="'MANDATE.BASIC_INFO.TITLE'"
-            [description]="'MANDATE.BASIC_INFO.DESCRIPTION'"
-            [addMandateShowBasicForm]="true"
-            [formGroup]="addMandateShowBasicForm"
-            [show]="show"
-            [editShow]="editShow"
-            [editMode]="editMode"
-            [viewOnly]="viewOnly"
-            [clientNames]="clientNames$ | async"
-            [leasingTypes]="leasingTypes$ | async"
-            [insuredBy]="insuredBy$ | async"
-          ></app-form>
+  <!-- Progress bar -->
+  <div class="step-progress mb-4">
+    <div
+      class="step-progress__thumb"
+      [style.width.%]="segmentWidth"
+      [style.left.%]="thumbLeft"
+    ></div>
+  </div>
+  <!-- Step indicators (discrete "stepper" look) -->
+  <div class="mb-3">
+    <ul class="stepper d-flex justify-content-between list-unstyled px-1">
+      <li
+        *ngFor="let s of steps"
+        [class.active]="s <= currentStep"
+        class="text-center flex-fill"
+      >
+        <!-- <div class="circle mx-auto">{{ s }}</div> -->
+        <p class="d-block">
+          {{ stepTitles[s - 1] }}
+        </p>
+      </li>
+    </ul>
+  </div>
+  <!-- STEP 1: Basic -->
+  <div *ngIf="currentStep === 1">
+    <app-form
+      [title]="'MANDATE.BASIC_INFO.TITLE'"
+      [description]="'MANDATE.BASIC_INFO.DESCRIPTION'"
+      [addMandateShowBasicForm]="true"
+      [formGroup]="addMandateShowBasicForm"
+      [show]="show"
+      [editShow]="editShow"
+      [editMode]="editMode"
+      [viewOnly]="viewOnly"
+      [clientNames]="clientNames$ | async"
+      [leasingTypes]="leasingTypes$ | async"
+      [insuredBy]="insuredBy$ | async"
+    ></app-form>
+  </div>
 
-          <div class="flex justify-end gap-2 mt-4">
-            <button
-              pButton
-              type="button"
-              label="Next"
-              class="next"
-              (click)="activateCallback(2)"
-              [disabled]="viewOnly"
-            ></button>
-          </div>
-        </ng-template>
-      </p-step-panel>
+  <!-- STEP 2: Asset Types -->
+  <div *ngIf="currentStep === 2">
+    <app-form
+      [title]="'MANDATE.ASSET_TYPE.TITLE'"
+      [description]="'MANDATE.ASSET_TYPE.DESCRIPTION'"
+      [addMandateShowAssetTypeForm]="true"
+      [formGroup]="assetsForm"
+      [editMode]="editMode"
+      [viewOnly]="viewOnly"
+      [assetTypesList]="assetTypes$ | async"
+      (removeAssetType)="removeAssetType($event)"
+      (addAssetType)="addAssetType()"
+    ></app-form>
+  </div>
 
-      <!-- Step 2: Asset Types -->
-      <p-step-panel header="Asset Types" [value]="2">
-        <ng-template #content let-activateCallback="activateCallback">
-          <app-form
-            [title]="'MANDATE.ASSET_TYPE.TITLE'"
-            [description]="'MANDATE.ASSET_TYPE.DESCRIPTION'"
-            [addMandateShowAssetTypeForm]="true"
-            [formGroup]="assetsForm"
-            [editMode]="editMode"
-            [viewOnly]="viewOnly"
-            [assetTypesList]="assetTypes$ | async"
-            (removeAssetType)="removeAssetType($event)"
-            (addAssetType)="addAssetType()"
-          ></app-form>
+  <!-- STEP 3: Fees -->
+  <div *ngIf="currentStep === 3">
+    <app-form
+      [title]="'FORM.MANDATE.FEES'"
+      [description]="'FORM.MANDATE.FEES_DESCRIPTION'"
+      [addMandateShowFeeForm]="true"
+      [feeTypes]="feeTypes$ | async"
+      [formGroup]="addMandateShowFeeForm"
+      [editMode]="editMode"
+      [viewOnly]="viewOnly"
+      (removeFee)="removeFee($event)"
+      (addFee)="addFee()"
+    ></app-form>
+  </div>
 
-          <div class="flex justify-between gap-2 mt-4">
-            <button
-              pButton
-              type="button"
-              class="next"
-              label="Back"
-              (click)="activateCallback(1)"
-            ></button>
-            <button
-              pButton
-              type="button"
-              class="next"
-              label="Next"
-              (click)="activateCallback(3)"
-              [disabled]="viewOnly"
-            ></button>
-          </div>
-        </ng-template>
-      </p-step-panel>
-      <!-- Step 3: Fees -->
-      <p-step-panel header="Fees" [value]="3">
-        <ng-template #content let-activateCallback="activateCallback">
-          <app-form
-            [title]="'FORM.MANDATE.FEES'"
-            [description]="'FORM.MANDATE.FEES_DESCRIPTION'"
-            [addMandateShowFeeForm]="true"
-            [feeTypes]="feeTypes$ | async"
-            [formGroup]="addMandateShowFeeForm"
-            [editMode]="editMode"
-            [viewOnly]="viewOnly"
-            (removeFee)="removeFee($event)"
-            (addFee)="addFee()"
-          ></app-form>
+  <!-- STEP 4: Financial Activities (1) -->
+  <div *ngIf="currentStep === 4">
+    <app-form
+      [title]="'FORM.MANDATE.FINANCIAL_ACTIVITIES.TITLE'"
+      [description]="'FORM.MANDATE.FINANCIAL_ACTIVITIES.DESCRIPTION'"
+      [addMandateShowFinancialActivityOneForm]="true"
+      [formGroup]="addMandateShowFinancialActivityOneForm"
+      [paymentPeriods]="paymentPeriods$ | async"
+      [currencies]="currencies$ | async"
+      [currencyExchangeRates]="currencyExchangeRates$ | async"
+      [editMode]="editMode"
+      [viewOnly]="viewOnly"
+    ></app-form>
+  </div>
 
-          <div class="flex justify-between gap-2 mt-4">
-            <button
-              pButton
-              type="button"
-              label="Back"
-              class="next"
-              (click)="activateCallback(2)"
-            ></button>
-            <button
-              pButton
-              type="button"
-              label="Next"
-              class="next"
-              (click)="activateCallback(4)"
-            ></button>
-          </div>
-        </ng-template>
-      </p-step-panel>
-      <!-- Step 4: Financial Activities (1) -->
-      <p-step-panel header="Financial Activities (1)" [value]="4">
-        <ng-template #content let-activateCallback="activateCallback">
-          <app-form
-            [title]="'FORM.MANDATE.FINANCIAL_ACTIVITIES.TITLE'"
-            [description]="'FORM.MANDATE.FINANCIAL_ACTIVITIES.DESCRIPTION'"
-            [addMandateShowFinancialActivityOneForm]="true"
-            [formGroup]="addMandateShowFinancialActivityOneForm"
-            [paymentPeriods]="paymentPeriods$ | async"
-            [currencies]="currencies$ | async"
-            [currencyExchangeRates]="currencyExchangeRates$ | async"
-            [editMode]="editMode"
-            [viewOnly]="viewOnly"
-          ></app-form>
+  <!-- STEP 5: Financial Activities (2) -->
+  <div *ngIf="currentStep === 5">
+    <app-form
+      [title]="'FORM.MANDATE.FINANCIAL_ACTIVITIES.TITLE'"
+      [description]="'FORM.MANDATE.FINANCIAL_ACTIVITIES.DESCRIPTION'"
+      [addMandateShowFinancialActivityTwoForm]="true"
+      [formGroup]="addMandateShowFinancialActivityTwoForm"
+      [interestRateBenchMarks]="interestRateBenchmarks$ | async"
+      [paymentTimingTerms]="paymentTimingTerms$ | async"
+      [rentStructureTypes]="rentStructureTypes$ | async"
+      [paymentMethods]="paymentMethods$ | async"
+      [paymentMonthDays]="paymentMonthDays$ | async"
+      [editMode]="editMode"
+      [viewOnly]="viewOnly"
+    ></app-form>
+  </div>
 
-          <div class="flex justify-between gap-2 mt-4">
-            <button
-              pButton
-              type="button"
-              label="Back"
-              class="next"
-              (click)="activateCallback(3)"
-            ></button>
-            <button
-              pButton
-              type="button"
-              label="Next"
-              class="next"
-              (click)="activateCallback(5)"
-            ></button>
-          </div>
-        </ng-template>
-      </p-step-panel>
+  <!-- Navigation -->
+  <div class="d-flex justify-content-between mt-4">
+    <button
+      type="button"
+      class="btn btn-outline-primary"
+      (click)="previous()"
+      [disabled]="currentStep === 1"
+    >
+      Back
+    </button>
 
-      <!-- Step 5: Financial Activities (2) -->
+    <div>
+      <!-- Next (hidden on last step) -->
+      <button
+        type="button"
+        class="btn btn-primary mr-2"
+        (click)="next()"
+        *ngIf="currentStep < totalSteps"
+        [disabled]="viewOnly"
+      >
+        Next
+      </button>
 
-      <p-step-panel header="Financial Activities (2)" [value]="5">
-        <ng-template #content let-activateCallback="activateCallback">
-          <app-form
-            [title]="'FORM.MANDATE.FINANCIAL_ACTIVITIES.TITLE'"
-            [description]="'FORM.MANDATE.FINANCIAL_ACTIVITIES.DESCRIPTION'"
-            [addMandateShowFinancialActivityTwoForm]="true"
-            [formGroup]="addMandateShowFinancialActivityTwoForm"
-            [interestRateBenchMarks]="interestRateBenchmarks$ | async"
-            [paymentTimingTerms]="paymentTimingTerms$ | async"
-            [rentStructureTypes]="rentStructureTypes$ | async"
-            [paymentMethods]="paymentMethods$ | async"
-            [paymentMonthDays]="paymentMonthDays$ | async"
-            [editMode]="editMode"
-            [viewOnly]="viewOnly"
-          ></app-form>
+      <!-- Submit (only on last step, and not view-only) -->
+      <button
+        type="submit"
+        class="btn btn-success"
+        *ngIf="currentStep === totalSteps && !viewOnly"
+        (click)="onSubmit()"
+      >
+        {{ editMode ? "Edit Mandate" : "Add Mandate" }}
+      </button>
 
-          <div class="flex justify-between gap-2 mt-4">
-            <button
-              pButton
-              type="button"
-              label="Back"
-              class="next"
-              (click)="activateCallback(4)"
-            ></button>
-
-            <!-- single save at the end -->
-            <ng-container *ngIf="!viewOnly">
-              <button
-                class="submit"
-                pButton
-                class="next"
-                type="submit"
-                [label]="editMode ? 'Edit Mandate' : 'Add Mandate'"
-              ></button>
-            </ng-container>
-
-            <!-- close in view-only -->
-            <button
-              class="submit"
-              pButton
-              type="button"
-              label="Close"
-              class="next"
-              (click)="navigateToView()"
-              *ngIf="viewOnly"
-            ></button>
-          </div>
-        </ng-template>
-      </p-step-panel>
-    </p-step-panels>
-  </p-stepper>
+      <!-- Close (only on last step, view-only) -->
+      <button
+        type="button"
+        class="btn btn-secondary"
+        *ngIf="currentStep === totalSteps && viewOnly"
+        (click)="navigateToView()"
+      >
+        Close
+      </button>
+    </div>
+  </div>
 </form>

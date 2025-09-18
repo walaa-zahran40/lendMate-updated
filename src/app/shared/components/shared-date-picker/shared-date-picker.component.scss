@@ -92,6 +92,10 @@
     .desc {
       color: var(--secondary-color);
     }
+    .disabled {
+      pointer-events: none;
+      opacity: 0.5;
+    }
     .p-textarea {
       background: var(--bg-transparent);
       color: var(--secondary-color);

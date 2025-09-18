@@ -9,6 +9,8 @@
   [maxDate]="maxDate"
   [dateFormat]="dateFormat"
   [placeholder]="'FORM.LABELS.DATE' | translate"
+  [ngClass]="{ disabled: disabled }"
+  [inputStyleClass]="disabled ? 'disabled' : ''"
 ></p-datepicker>
 
 <small

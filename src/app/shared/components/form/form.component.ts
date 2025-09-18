@@ -674,6 +674,8 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() operationIdValue!: any;
   clientDocId!: any;
   clientId: any;
+  @Input() submitAttempted = false;
+
   constructor(
     private store: Store,
     private facade: LegalFormLawFacade,
