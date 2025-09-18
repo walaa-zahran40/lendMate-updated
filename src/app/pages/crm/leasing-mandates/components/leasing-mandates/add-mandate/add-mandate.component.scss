@@ -461,7 +461,6 @@
   font-weight: 600;
 }
 .flex-fill p {
-  width: 100px;
   margin: 0 auto;
 }
 .flex-fill.active {
@@ -475,26 +474,27 @@
   height: 57px;
   border: 1px solid rgba(10, 105, 187, 1);
   border-radius: 0px;
-  padding: 14px 27px;
+  width: 20%;
 }
 .btn-primary {
   height: 57px;
   background-color: rgba(10, 105, 187, 1);
   border-radius: 0px;
-  padding: 14px 27px;
+  width: 20%;
 }
 .btn-outline-primary:hover {
   height: 57px;
   background-color: rgba(10, 105, 187, 1);
   color: #fff;
   border-radius: 0px;
-  padding: 14px 27px;
+  width: 20%;
 }
-.btn-success {
+.btn-success,
+.btn-success:focus {
   background-color: rgba(10, 105, 187, 1);
   opacity: 1;
   border-radius: 0px;
-  padding: 14px 27px;
+  width: 20%;
 }
 h2 {
   font-size: var(--custom-size-16);

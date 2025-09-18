@@ -71,28 +71,16 @@
     ></app-form>
   </div>
 
-  <!-- STEP 4: Financial Activities (1) -->
+  <!-- STEP 4: Financial Activities  -->
   <div *ngIf="currentStep === 4">
     <app-form
       [title]="'FORM.MANDATE.FINANCIAL_ACTIVITIES.TITLE'"
       [description]="'FORM.MANDATE.FINANCIAL_ACTIVITIES.DESCRIPTION'"
-      [addMandateShowFinancialActivityOneForm]="true"
-      [formGroup]="addMandateShowFinancialActivityOneForm"
+      [addMandateShowFinancialActivityForm]="true"
+      [formGroup]="addMandateShowFinancialActivityForm"
       [paymentPeriods]="paymentPeriods$ | async"
       [currencies]="currencies$ | async"
       [currencyExchangeRates]="currencyExchangeRates$ | async"
-      [editMode]="editMode"
-      [viewOnly]="viewOnly"
-    ></app-form>
-  </div>
-
-  <!-- STEP 5: Financial Activities (2) -->
-  <div *ngIf="currentStep === 5">
-    <app-form
-      [title]="'FORM.MANDATE.FINANCIAL_ACTIVITIES.TITLE'"
-      [description]="'FORM.MANDATE.FINANCIAL_ACTIVITIES.DESCRIPTION'"
-      [addMandateShowFinancialActivityTwoForm]="true"
-      [formGroup]="addMandateShowFinancialActivityTwoForm"
       [interestRateBenchMarks]="interestRateBenchmarks$ | async"
       [paymentTimingTerms]="paymentTimingTerms$ | async"
       [rentStructureTypes]="rentStructureTypes$ | async"
@@ -104,47 +92,51 @@
   </div>
 
   <!-- Navigation -->
-  <div class="d-flex justify-content-between mt-4">
+  <div
+    class="d-flex mt-4"
+    [ngClass]="{
+      'justify-content-end': currentStep === 1,
+      'justify-content-between': currentStep > 1
+    }"
+  >
     <button
       type="button"
       class="btn btn-outline-primary"
       (click)="previous()"
-      [disabled]="currentStep === 1"
+      [hidden]="currentStep === 1"
     >
       Back
     </button>
 
-    <div>
-      <!-- Next (hidden on last step) -->
-      <button
-        type="button"
-        class="btn btn-primary mr-2"
-        (click)="next()"
-        *ngIf="currentStep < totalSteps"
-        [disabled]="viewOnly"
-      >
-        Next
-      </button>
+    <!-- Next (hidden on last step) -->
+    <button
+      type="button"
+      class="btn btn-primary mr-2"
+      (click)="next()"
+      *ngIf="currentStep < totalSteps"
+      [disabled]="viewOnly"
+    >
+      Next
+    </button>
 
-      <!-- Submit (only on last step, and not view-only) -->
-      <button
-        type="submit"
-        class="btn btn-success"
-        *ngIf="currentStep === totalSteps && !viewOnly"
-        (click)="onSubmit()"
-      >
-        {{ editMode ? "Edit Mandate" : "Add Mandate" }}
-      </button>
+    <!-- Submit (only on last step, and not view-only) -->
+    <button
+      type="submit"
+      class="btn btn-success"
+      *ngIf="currentStep === totalSteps && !viewOnly"
+      (click)="onSubmit()"
+    >
+      {{ editMode ? "Edit Mandate" : "Add Mandate" }}
+    </button>
 
-      <!-- Close (only on last step, view-only) -->
-      <button
-        type="button"
-        class="btn btn-secondary"
-        *ngIf="currentStep === totalSteps && viewOnly"
-        (click)="navigateToView()"
-      >
-        Close
-      </button>
-    </div>
+    <!-- Close (only on last step, view-only) -->
+    <button
+      type="button"
+      class="btn btn-secondary"
+      *ngIf="currentStep === totalSteps && viewOnly"
+      (click)="navigateToView()"
+    >
+      Close
+    </button>
   </div>
 </form>

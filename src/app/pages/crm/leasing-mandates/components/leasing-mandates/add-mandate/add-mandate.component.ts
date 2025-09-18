@@ -77,11 +77,20 @@ import {
   styleUrl: './add-mandate.component.scss',
 })
 export class AddMandateComponent {
+  workFlowActionList: any[] = [];
+  selectedAction: string = '';
+  public mandateId: any = null;
+  public leasingMandateId: any = null;
+  clientId = this.route.snapshot.params['clientId'];
+  show = false;
+  editShow = false;
+  private paymentPeriodsCache: PaymentPeriod[] = [];
+  isSubmitting = false;
+  parentForm!: FormGroup;
   addMandateShowBasicForm!: FormGroup;
   addMandateShowAssetTypeForm!: FormGroup;
-  addMandateShowFinancialActivityOneForm!: FormGroup;
-  addMandateShowFinancialActivityTwoForm!: FormGroup;
   addMandateShowFeeForm!: FormGroup;
+  addMandateShowFinancialActivityForm!: FormGroup;
   editMode: boolean = false;
   viewOnly: boolean = false;
   clientNames$!: Observable<Client[]>;
@@ -97,27 +106,11 @@ export class AddMandateComponent {
   paymentTimingTerms$!: Observable<PaymentTimingTerm[]>;
   interestRateBenchmarks$!: Observable<InterestRateBenchMark[]>;
   paymentMonthDays$!: Observable<PaymentMonthDay[]>;
-  parentForm!: FormGroup;
   private destroy$ = new Subject<void>();
-  workFlowActionList: any[] = [];
-  selectedAction: string = '';
-  public mandateId: any = null;
-  public leasingMandateId: any = null;
-  clientId = this.route.snapshot.params['clientId'];
-  show = false;
-  editShow = false;
-  private paymentPeriodsCache: PaymentPeriod[] = [];
-  steps = [1, 2, 3, 4, 5];
-  stepTitles = [
-    'Basic',
-    'Asset Types',
-    'Fees',
-    'Financial Activities (1)',
-    'Financial Activities (2)',
-  ];
+  steps = [1, 2, 3, 4];
+  stepTitles = ['Basic', 'Asset Types', 'Fees', 'Financial Activities'];
   totalSteps = this.steps.length;
   currentStep = 1;
-  isSubmitting = false;
 
   constructor(
     private fb: FormBuilder,
@@ -147,7 +140,6 @@ export class AddMandateComponent {
       this.show = true;
     } else {
       console.log('there is a client id');
-
       this.show = false;
     }
 
@@ -155,16 +147,14 @@ export class AddMandateComponent {
     this.buildMandateShowBasicForm();
     this.buildMandateShowAssetTypeForm();
     this.buildMandateShowFeeForm();
-    this.buildMandateShowFinancialActivity1Form();
-    this.buildMandateShowFinancialActivity2Form();
+    this.buildMandateShowFinancialActivityForm();
 
     // 2) Create the parent form
     this.parentForm = this.fb.group({
       basic: this.addMandateShowBasicForm,
       assets: this.addMandateShowAssetTypeForm,
       fees: this.addMandateShowFeeForm,
-      financialActivities1: this.addMandateShowFinancialActivityOneForm,
-      financialActivities2: this.addMandateShowFinancialActivityTwoForm,
+      financialActivities: this.addMandateShowFinancialActivityForm,
     });
 
     // 3) Wire listeners and do initial recompute
@@ -310,7 +300,7 @@ export class AddMandateComponent {
     return (this.currentStep / this.totalSteps) * 100; // step 1 => 20% for 5 steps
   }
   get segmentWidth(): number {
-    return 20;
+    return 100 / this.totalSteps;
   }
 
   get thumbLeft(): number {
@@ -329,9 +319,7 @@ export class AddMandateComponent {
       case 3:
         return this.addMandateShowFeeForm;
       case 4:
-        return this.addMandateShowFinancialActivityOneForm;
-      case 5:
-        return this.addMandateShowFinancialActivityTwoForm;
+        return this.addMandateShowFinancialActivityForm;
       default:
         return null;
     }
@@ -376,7 +364,7 @@ export class AddMandateComponent {
     });
 
     // fa1
-    this.addMandateShowFinancialActivityOneForm.patchValue({
+    this.addMandateShowFinancialActivityForm.patchValue({
       assetCost: m.assetCost,
       downPayment: m.downPayment,
       percentOfFinance: m.percentOfFinance,
@@ -394,7 +382,7 @@ export class AddMandateComponent {
       manualSetExchangeRate: m.manualSetExchangeRate,
     });
     const manual = !!m.isManuaExchangeRate;
-    const manualCtrl = this.addMandateShowFinancialActivityOneForm.get(
+    const manualCtrl = this.addMandateShowFinancialActivityForm.get(
       'manualSetExchangeRate'
     );
     if (manual) manualCtrl?.enable({ emitEvent: false });
@@ -404,8 +392,8 @@ export class AddMandateComponent {
     this.recalcRvAndProvision();
     this.recalcReserveAmounts();
 
-    // fa2
-    this.addMandateShowFinancialActivityTwoForm.patchValue({
+    // fa1
+    this.addMandateShowFinancialActivityForm.patchValue({
       indicativeRentals: m.indicativeRentals,
       rent: m.rent,
       rvPercent: m.rvPercent,
@@ -574,8 +562,8 @@ export class AddMandateComponent {
       assetsTypeDescription: [null, Validators.required],
     });
   }
-  buildMandateShowFinancialActivity1Form(): void {
-    this.addMandateShowFinancialActivityOneForm = this.fb.group({
+  buildMandateShowFinancialActivityForm(): void {
+    this.addMandateShowFinancialActivityForm = this.fb.group({
       assetCost: [null, Validators.required],
       downPayment: [null, Validators.required],
       percentOfFinance: [null, Validators.required],
@@ -589,12 +577,8 @@ export class AddMandateComponent {
       gracePeriodInDays: [null, Validators.required],
       currencyId: [null, Validators.required],
       currencyExchangeRateId: [null, Validators.required],
-      isManuaExchangeRate: [false], // ✅ boolean
-      manualSetExchangeRate: [{ value: null, disabled: true }], // ✅ disabled initially
-    });
-  }
-  buildMandateShowFinancialActivity2Form(): void {
-    this.addMandateShowFinancialActivityTwoForm = this.fb.group({
+      isManuaExchangeRate: [false],
+      manualSetExchangeRate: [{ value: null, disabled: true }],
       indicativeRentals: [null, Validators.required],
       rent: [null, Validators.required],
       rvPercent: [null, Validators.required],
@@ -610,6 +594,7 @@ export class AddMandateComponent {
       paymentMonthDayID: [null, Validators.required],
     });
   }
+
   //   mandateAssetTypes: this.fb.array([this.createAssetTypeGroup()]),
   // mandateFees: this.fb.array([this.createFeeGroup()]),
 
@@ -696,10 +681,7 @@ export class AddMandateComponent {
   }
   // ✅ do NOT reach into parentForm here
   get fa1(): FormGroup {
-    return this.addMandateShowFinancialActivityOneForm;
-  }
-  get fa2(): FormGroup {
-    return this.addMandateShowFinancialActivityTwoForm;
+    return this.addMandateShowFinancialActivityForm;
   }
 
   get basicForm(): FormGroup {
@@ -730,8 +712,7 @@ export class AddMandateComponent {
     log('Step1 basic', this.addMandateShowBasicForm);
     log('Step2 assets', this.addMandateShowAssetTypeForm);
     log('Step3 fees', this.addMandateShowFeeForm);
-    log('Step4 FA1', this.addMandateShowFinancialActivityOneForm);
-    log('Step5 FA2', this.addMandateShowFinancialActivityTwoForm);
+    log('Step4 FA1', this.addMandateShowFinancialActivityForm);
     console.log(
       'ParentForm -> touched=%s, dirty=%s, valid=%s, status=%s',
       this.parentForm.touched,
@@ -794,14 +775,13 @@ export class AddMandateComponent {
   canDeactivate(): boolean {
     return (
       !this.addMandateShowBasicForm.dirty &&
-      !this.addMandateShowFinancialActivityOneForm.dirty &&
+      !this.addMandateShowFinancialActivityForm.dirty &&
       !this.addMandateShowAssetTypeForm.dirty
     );
   }
   private mapToPayload(): Partial<Mandate> {
     const basic = this.addMandateShowBasicForm.getRawValue(); // includes disabled expireDate
-    const fa1 = this.addMandateShowFinancialActivityOneForm.getRawValue();
-    const fa2 = this.addMandateShowFinancialActivityTwoForm.getRawValue();
+    const fa1 = this.addMandateShowFinancialActivityForm.getRawValue();
     const assets = this.addMandateShowAssetTypeForm.getRawValue();
     const fees = this.addMandateShowFeeForm.getRawValue();
 
@@ -835,19 +815,19 @@ export class AddMandateComponent {
       years: fa1.years,
 
       // --- financialActivities2 ---
-      indicativeRentals: fa2.indicativeRentals,
-      rent: fa2.rent,
-      rvAmount: fa2.rvAmount,
-      rvPercent: fa2.rvPercent,
-      provisionAmount: fa2.provisionAmount,
-      provisionPercent: fa2.provisionPercent,
-      reservePaymentAmount: fa2.reservePaymentAmount,
-      reservePaymentCount: fa2.reservePaymentCount,
-      interestRateBenchmarkId: fa2.interestRateBenchmarkId,
-      rentStructureTypeId: fa2.rentStructureTypeId,
-      paymentTimingTermId: fa2.paymentTimingTermId,
-      paymentMethodId: fa2.paymentMethodID, // ID -> Id for API
-      paymentMonthDayId: fa2.paymentMonthDayID,
+      indicativeRentals: fa1.indicativeRentals,
+      rent: fa1.rent,
+      rvAmount: fa1.rvAmount,
+      rvPercent: fa1.rvPercent,
+      provisionAmount: fa1.provisionAmount,
+      provisionPercent: fa1.provisionPercent,
+      reservePaymentAmount: fa1.reservePaymentAmount,
+      reservePaymentCount: fa1.reservePaymentCount,
+      interestRateBenchmarkId: fa1.interestRateBenchmarkId,
+      rentStructureTypeId: fa1.rentStructureTypeId,
+      paymentTimingTermId: fa1.paymentTimingTermId,
+      paymentMethodId: fa1.paymentMethodID, // ID -> Id for API
+      paymentMonthDayId: fa1.paymentMonthDayID,
 
       // --- arrays ---
       mandateAssetTypes: assets.mandateAssetTypes,
@@ -899,36 +879,36 @@ export class AddMandateComponent {
         }
       });
 
-    // === FA2: RV / Provision / Reserve ===
-    this.fa2.get('rvAmount')?.valueChanges.subscribe(() => {
+    // === FA1: RV / Provision / Reserve ===
+    this.fa1.get('rvAmount')?.valueChanges.subscribe(() => {
       this.calcRvPercentFromAmount();
       this.calcProvisionPercent(); // depends on nfa & rv
       this.calcProvisionAmount();
     });
 
-    this.fa2.get('rvPercent')?.valueChanges.subscribe(() => {
+    this.fa1.get('rvPercent')?.valueChanges.subscribe(() => {
       this.calcRvAmountFromPercent();
       this.calcProvisionPercent();
       this.calcProvisionAmount();
     });
 
-    this.fa2.get('provisionAmount')?.valueChanges.subscribe(() => {
+    this.fa1.get('provisionAmount')?.valueChanges.subscribe(() => {
       this.calcProvisionPercent();
     });
 
-    this.fa2.get('provisionPercent')?.valueChanges.subscribe(() => {
+    this.fa1.get('provisionPercent')?.valueChanges.subscribe(() => {
       this.calcProvisionAmount();
     });
 
-    this.fa2.get('rent')?.valueChanges.subscribe(() => {
+    this.fa1.get('rent')?.valueChanges.subscribe(() => {
       this.recalcReserveAmounts();
     });
 
-    this.fa2.get('reservePaymentAmount')?.valueChanges.subscribe(() => {
+    this.fa1.get('reservePaymentAmount')?.valueChanges.subscribe(() => {
       this.calcReservePaymentCount();
     });
 
-    this.fa2.get('reservePaymentCount')?.valueChanges.subscribe(() => {
+    this.fa1.get('reservePaymentCount')?.valueChanges.subscribe(() => {
       this.calcReservePaymentAmount();
     });
   }
@@ -974,7 +954,7 @@ export class AddMandateComponent {
     this.fa1.get('nfa')?.setValue(nfa, { emitEvent: false });
     this.recalcRvAndProvision();
   }
-  // --- RV & Provision (FA2) ---
+  // --- RV & Provision (FA1) ---
   private recalcRvAndProvision(): void {
     this.calcRvAmountFromPercent();
     this.calcProvisionPercent();
@@ -983,43 +963,43 @@ export class AddMandateComponent {
 
   private calcRvPercentFromAmount(): void {
     const nfa = this.fa1.get('nfa')?.value;
-    const rvAmount = this.fa2.get('rvAmount')?.value;
+    const rvAmount = this.fa1.get('rvAmount')?.value;
     const pct = calcRvPercent(nfa, rvAmount);
-    this.fa2.get('rvPercent')?.setValue(pct, { emitEvent: false });
+    this.fa1.get('rvPercent')?.setValue(pct, { emitEvent: false });
   }
 
   private calcRvAmountFromPercent(): void {
     const nfa = this.fa1.get('nfa')?.value;
-    const rvPercent = this.fa2.get('rvPercent')?.value;
+    const rvPercent = this.fa1.get('rvPercent')?.value;
     const amt = calcRvAmount(nfa, rvPercent);
-    this.fa2.get('rvAmount')?.setValue(amt, { emitEvent: false });
+    this.fa1.get('rvAmount')?.setValue(amt, { emitEvent: false });
   }
   private calcProvisionPercent(): void {
     const nfa = this.fa1.get('nfa')?.value;
-    const rvAmount = this.fa2.get('rvAmount')?.value;
-    const provAmt = this.fa2.get('provisionAmount')?.value;
+    const rvAmount = this.fa1.get('rvAmount')?.value;
+    const provAmt = this.fa1.get('provisionAmount')?.value;
     const pct = calcProvisionPercent(nfa, rvAmount, provAmt);
-    this.fa2.get('provisionPercent')?.setValue(pct, { emitEvent: false });
+    this.fa1.get('provisionPercent')?.setValue(pct, { emitEvent: false });
   }
 
   private calcProvisionAmount(): void {
     const nfa = this.fa1.get('nfa')?.value;
-    const rvAmount = this.fa2.get('rvAmount')?.value;
-    const provPct = this.fa2.get('provisionPercent')?.value;
+    const rvAmount = this.fa1.get('rvAmount')?.value;
+    const provPct = this.fa1.get('provisionPercent')?.value;
     const amt = calcProvisionAmount(nfa, rvAmount, provPct);
-    this.fa2.get('provisionAmount')?.setValue(amt, { emitEvent: false });
+    this.fa1.get('provisionAmount')?.setValue(amt, { emitEvent: false });
   }
 
-  // --- Reserve (FA2) ---
+  // --- Reserve (FA1) ---
   private recalcReserveAmounts(): void {
     this.calcReservePaymentAmount();
   }
 
   private calcReservePaymentAmount(): void {
-    const rent = this.fa2.get('rent')?.value;
+    const rent = this.fa1.get('rent')?.value;
     const assetCost = this.fa1.get('assetCost')?.value;
     const insuranceRate = this.fa1.get('insuranceRate')?.value;
-    const reserveCount = this.fa2.get('reservePaymentCount')?.value;
+    const reserveCount = this.fa1.get('reservePaymentCount')?.value;
     const monthCount = this.getMonthCount(); // you already cache this
 
     const amount = calcReservePaymentAmount(
@@ -1029,16 +1009,16 @@ export class AddMandateComponent {
       insuranceRate,
       monthCount
     );
-    this.fa2
+    this.fa1
       .get('reservePaymentAmount')
       ?.setValue(amount, { emitEvent: false });
   }
 
   private calcReservePaymentCount(): void {
-    const rent = this.fa2.get('rent')?.value;
+    const rent = this.fa1.get('rent')?.value;
     const assetCost = this.fa1.get('assetCost')?.value;
     const insuranceRate = this.fa1.get('insuranceRate')?.value;
-    const reserveAmount = this.fa2.get('reservePaymentAmount')?.value;
+    const reserveAmount = this.fa1.get('reservePaymentAmount')?.value;
     const monthCount = 0;
 
     const count = calcReservePaymentCount(
@@ -1048,7 +1028,7 @@ export class AddMandateComponent {
       insuranceRate,
       monthCount
     );
-    this.fa2.get('reservePaymentCount')?.setValue(count, { emitEvent: false });
+    this.fa1.get('reservePaymentCount')?.setValue(count, { emitEvent: false });
   }
 
   private calcPeriodInterestRate(): number {
@@ -1069,7 +1049,7 @@ export class AddMandateComponent {
     // mark + validate
     this.parentForm.markAllAsTouched();
     this.parentForm.updateValueAndValidity({ emitEvent: true });
-    this.addMandateShowFinancialActivityTwoForm.updateValueAndValidity({
+    this.addMandateShowFinancialActivityForm.updateValueAndValidity({
       emitEvent: true,
     }); // because updateOn: 'submit'
 
@@ -1101,8 +1081,7 @@ export class AddMandateComponent {
     // (optional) mark clean
     this.addMandateShowBasicForm.markAsPristine();
     this.addMandateShowAssetTypeForm.markAsPristine();
-    this.addMandateShowFinancialActivityOneForm.markAsPristine();
-    this.addMandateShowFinancialActivityTwoForm.markAsPristine();
+    this.addMandateShowFinancialActivityForm.markAsPristine();
     this.isSubmitting = false;
   }
 }

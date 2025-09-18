@@ -175,7 +175,7 @@ export class FormComponent implements OnInit, OnDestroy {
   selectedLegalForm: any;
   @Output() sectorChanged = new EventEmitter<number>();
   selectedCurrency: Currency | null = null;
-
+  @Input() addMandateShowFinancialActivityForm!: boolean;
   sectorsSafe$!: Observable<Sector[]>;
   onChange: (value: any) => void = () => {};
   onTouched: () => void = () => {};
@@ -547,8 +547,6 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addTeamLeadORGForm!: boolean;
   @Input() addMandateShowFeeForm!: boolean;
   @Input() addRoleClaimORGForm!: boolean;
-  @Input() addMandateShowFinancialActivityOneForm!: boolean;
-  @Input() addMandateShowFinancialActivityTwoForm!: boolean;
   @Input() addCommunicationFlowTypesLookupsForm!: boolean;
   @Input() addTeamOfficerORGForm!: boolean;
   @Input() addRoleORGForm!: boolean;
