@@ -75,7 +75,6 @@
       margin-left: var(--custom-position-auto);
       margin-right: var(--custom-position-28);
       text-align: var(--custom-position-center);
-      padding: 14px 71px;
       font-size: var(--custom-font-size-18);
       cursor: var(--custom-cursor);
       color: var(--custom-color-white);
@@ -328,7 +327,7 @@
     }
     .p-inputtext {
       color: var(--custom-grey-bold);
-      margin-bottom: var(--custom-size-16);
+      margin-bottom: 0;
       padding: var(--custom-size-12) var(--custom-size-16);
       border-radius: var(--custom-margin-0);
       border: 1px solid var(--custom-color-grey-light);
@@ -360,9 +359,7 @@
       line-height: var(--custom-line-height-25);
       color: var(--p-tabs-active-bar-background);
     }
-    .p-toolbar {
-      padding-right: var(--custom-position-28) !important;
-    }
+
     .p-splitbutton {
       width: 100%;
       flex-direction: row-reverse;
@@ -474,27 +471,27 @@
   height: 57px;
   border: 1px solid rgba(10, 105, 187, 1);
   border-radius: 0px;
-  width: 20%;
+  width: 157px;
 }
 .btn-primary {
   height: 57px;
   background-color: rgba(10, 105, 187, 1);
   border-radius: 0px;
-  width: 20%;
+  width: 157px;
 }
 .btn-outline-primary:hover {
   height: 57px;
   background-color: rgba(10, 105, 187, 1);
   color: #fff;
   border-radius: 0px;
-  width: 20%;
+  width: 157px;
 }
 .btn-success,
 .btn-success:focus {
   background-color: rgba(10, 105, 187, 1);
   opacity: 1;
   border-radius: 0px;
-  width: 20%;
+  width: 157px;
 }
 h2 {
   font-size: var(--custom-size-16);
@@ -538,4 +535,26 @@ form {
 }
 .p-plus {
   background-color: red;
+}
+.parent {
+  padding: 40px 10px;
+
+  .first-form,
+  .third-form {
+    border: 1px solid #aaabab;
+    margin-bottom: 50px;
+    padding: 20px;
+  }
+  .second-form {
+    border: 1px solid #aaabab;
+    padding: 20px;
+  }
+}
+.page-content {
+  margin-top: 10px;
+}
+.buttons {
+  display: flex;
+  justify-content: end;
+  margin: 50px 0px;
 }

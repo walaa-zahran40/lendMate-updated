@@ -173,8 +173,7 @@
     <img
       src="/assets/images/shared/table/notfound.jpg"
       alt="no data"
-      width="30%"
-      style="margin: 260px auto 0px auto"
+      [ngClass]="{ 'no-data': customTable }"
     />
     <h4 style="margin: 0">No Data Found</h4>
   </div>

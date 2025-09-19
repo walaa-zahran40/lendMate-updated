@@ -1,8 +1,4 @@
 .container-fluid {
-  padding: 0 35px;
-  margin-top: 50px;
-  margin-bottom: 48px;
-  zoom: 70%;
   .row {
     align-items: center;
   }
@@ -12,7 +8,6 @@
     align-items: center;
     padding: 24px;
     justify-content: flex-start;
-    flex-direction: column;
     gap: 13px;
 
     strong {
@@ -41,7 +36,6 @@
     padding: 24px;
     justify-content: flex-start;
     gap: 13px;
-    flex-direction: column;
 
     strong {
       font-size: 45px;
@@ -69,7 +63,6 @@
     padding: 24px;
     justify-content: flex-start;
     gap: 13px;
-    flex-direction: column;
 
     strong {
       font-size: 45px;

@@ -348,3 +348,14 @@
     }
   }
 }
+.page-content-custom {
+  padding: 0;
+}
+img[alt="no data"] {
+  display: block;
+  margin: 260px auto 0px auto;
+  width: 30%;
+}
+.no-data {
+  margin: 0 auto !important;
+}

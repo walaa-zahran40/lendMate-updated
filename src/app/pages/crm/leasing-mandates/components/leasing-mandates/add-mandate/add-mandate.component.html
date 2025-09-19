@@ -73,27 +73,125 @@
 
   <!-- STEP 4: Financial Activities  -->
   <div *ngIf="currentStep === 4">
-    <app-form
-      [title]="'FORM.MANDATE.FINANCIAL_ACTIVITIES.TITLE'"
-      [description]="'FORM.MANDATE.FINANCIAL_ACTIVITIES.DESCRIPTION'"
-      [addMandateShowFinancialActivityForm]="true"
-      [formGroup]="addMandateShowFinancialActivityForm"
-      [paymentPeriods]="paymentPeriods$ | async"
-      [currencies]="currencies$ | async"
-      [currencyExchangeRates]="currencyExchangeRates$ | async"
-      [interestRateBenchMarks]="interestRateBenchmarks$ | async"
-      [paymentTimingTerms]="paymentTimingTerms$ | async"
-      [rentStructureTypes]="rentStructureTypes$ | async"
-      [paymentMethods]="paymentMethods$ | async"
-      [paymentMonthDays]="paymentMonthDays$ | async"
-      [editMode]="editMode"
-      [viewOnly]="viewOnly"
-    ></app-form>
+    <app-toolbar-compound
+      [totalInstallments]="sumOfInstallments"
+      [totalInterest]="sumOfInterest"
+      [totalRent]="sumOfRent"
+    ></app-toolbar-compound>
+    <div class="row parent">
+      <div class="col-sm">
+        <div class="first-form">
+          <app-form
+            [title]="'LEASING_FINANCIAL.BASIC.TITLE'"
+            [description]="'LEASING_FINANCIAL.BASIC.DESCRIPTION'"
+            [leasingFinancialBasicForm]="true"
+            [formGroup]="leasingFinancialBasicForm"
+            [financialCustom]="true"
+          ></app-form>
+        </div>
+        <div class="second-form">
+          <app-form
+            [title]="'LEASING_FINANCIAL.RATES.TITLE'"
+            [description]="'LEASING_FINANCIAL.RATES.DESCRIPTION'"
+            [leasingFinancialRateForm]="true"
+            [formGroup]="leasingFinancialRateForm"
+            [paymentPeriods]="paymentPeriods$ | async"
+            [gracePeriodUnits]="gracePeriodUnits$ | async"
+            [financialCustom]="true"
+            (selectionChangedPaymentPeriod)="onPaymentPeriodSelected($event)"
+            (selectionChangedGracePeriod)="onGracePeriodUnitSelected($event)"
+          ></app-form>
+        </div>
+        <div class="table">
+          <div class="page-content p-0">
+            <app-toolbar-table
+              [title]="'Leasing Financial Table'"
+              [customSpacing]="'custom-spacing'"
+              [exports]="true"
+              (searchChange)="onSearch($event)"
+              (toggleFiltersEvent)="onToggleFilters($event)"
+              (exportExcel)="tableRef.exportToExcel()"
+              (exportPDF)="tableRef.generatePdf()"
+              [btnAdd]="false"
+            ></app-toolbar-table>
+
+            <app-table
+              #tableRef
+              [cols]="colsInside"
+              [tableData]="filteredFinancialForms"
+              [edit]="false"
+              [view]="false"
+              [delete]="false"
+              [side]="false"
+              [download]="false"
+              [checkBox]="true"
+              [filters]="showFilters"
+              [uppercase]="'uppercase'"
+              [viewFinancialFormTable]="true"
+              (onDelete)="onDeleteFinancialForm($event)"
+              (onEdit)="onEditFinancialForm($event)"
+              (viewForm)="onViewFinancialForms($event)"
+              [customTable]="true"
+            ></app-table>
+            <app-delete-module
+              [visible]="showDeleteModal"
+              (confirm)="confirmDelete()"
+              (cancel)="cancelDelete()"
+            ></app-delete-module>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm">
+        <div class="third-form">
+          <app-form
+            class="form-currency"
+            [title]="'LEASING_FINANCIAL.CURRENCY.TITLE'"
+            [description]="'LEASING_FINANCIAL.CURRENCY.DESCRIPTION'"
+            [leasingFinancialCurrencyForm]="true"
+            [formGroup]="leasingFinancialCurrencyForm"
+            [currencies]="currencies$ | async"
+            [currencyExchangeRates]="currencyExchangeRates$ | async"
+            (onCheckboxChange)="onCheckboxChange($event)"
+            [interestRateBenchMarks]="interestRateBenchMarks$ | async"
+            [paymentTimeTerms]="paymentTimingTerms$ | async"
+            [rentStructures]="rentStructures$ | async"
+            [paymentMethods]="paymentMethods$ | async"
+            [paymentMonthDays]="paymentMonthDays$ | async"
+            (selectionChangedCurrency)="onCurrencySelected($event)"
+            (selectionChangedCurrencyExchange)="
+              onCurrencyExchangeRateSelected($event)
+            "
+            (selectionChangedRateBenchmark)="
+              onInterestRateBenchmarkSelected($event)
+            "
+            (selectionChangedPaymentTimingTerm)="
+              onPaymentTimingTermSelected($event)
+            "
+            (selectionChangedRentStructure)="onRentStructureSelected($event)"
+            (selectionChangedPaymentMethod)="onPaymentMethodSelected($event)"
+            (selectionChangedPaymentMonthDay)="
+              onPaymentMonthDaySelected($event)
+            "
+            [financialCustom]="true"
+            [currencyCustom]="true"
+          ></app-form>
+
+          <div class="buttons">
+            <p-button
+              label="Calculate"
+              class="custom-calculate custom-save m-0"
+              (onClick)="onCalculateAll()"
+              [disabled]="!isAllValid()"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Navigation -->
   <div
-    class="d-flex mt-4"
+    class="d-flex my-4"
     [ngClass]="{
       'justify-content-end': currentStep === 1,
       'justify-content-between': currentStep > 1
@@ -124,7 +222,6 @@
       type="submit"
       class="btn btn-success"
       *ngIf="currentStep === totalSteps && !viewOnly"
-      (click)="onSubmit()"
     >
       {{ editMode ? "Edit Mandate" : "Add Mandate" }}
     </button>

@@ -673,7 +673,8 @@ export class FormComponent implements OnInit, OnDestroy {
   clientDocId!: any;
   clientId: any;
   @Input() submitAttempted = false;
-
+  @Input() financialCustom!: boolean;
+  @Input() currencyCustom!: boolean;
   constructor(
     private store: Store,
     private facade: LegalFormLawFacade,
@@ -699,12 +700,6 @@ export class FormComponent implements OnInit, OnDestroy {
     console.log('route', this.route.snapshot);
 
     console.log('💡 pageOperationGroups input:', this.pageOperationGroups);
-
-    this.formGroup
-      .get('currencyExchangeRateId')
-      ?.valueChanges.subscribe((v) =>
-        console.log('🧩 child control valueChanges →', v)
-      );
 
     this.minDateOfBirth.setFullYear(this.minDateOfBirth.getFullYear() - 100);
     // 18 years ago:

@@ -1,7 +1,15 @@
-<div class="parent">
+<div class="parent" [ngClass]="{ 'parent-custom': currencyCustom }">
   <div *ngIf="!contactPersonDetailsView" class="div1">
-    <h2 class="m-0 title">{{ title | translate }}</h2>
-    <p class="tab-panel-paragraph">
+    <h2 class="m-0 title" [ngClass]="{ 'title-custom': financialCustom }">
+      {{ title | translate }}
+    </h2>
+    <p
+      class="tab-panel-paragraph"
+      [ngClass]="{
+        'paragraph-custom': financialCustom,
+        'p-custom': currencyCustom
+      }"
+    >
       {{ description | translate }}
     </p>
     <p-button
@@ -6975,53 +6983,56 @@ icon="pi pi-cog"
       </div>
       <div class="row w-100">
         <div class="col-sm">
-          <label for="gracePeriod"
-            >{{ "LEASE.GRACE_PERIOD" | translate }}<sup>*</sup></label
-          ><br />
-          <p-inputNumber
-            formControlName="gracePeriod"
-            class="w-100"
-            [placeholder]="'LEASE.GRACE_PERIOD' | translate"
-            name="gracePeriod"
-          ></p-inputNumber
-          ><br />
-          <small
-            *ngIf="
-              formGroup.get('gracePeriod')?.invalid &&
-              formGroup.get('gracePeriod')?.touched
-            "
-            class="p-error"
+          <label for="gracePeriodInDays" class="label-container"
+            >{{ "FORM.MANDATE.LABEL_GRACE_PERIOD_DAYS" | translate
+            }}<sup>*</sup></label
           >
-            {{ "LEASE.GRACE_PERIOD_REQUIRED" | translate }}
+
+          <input
+            type="number"
+            formControlName="gracePeriodInDays"
+            placeholder="{{
+              'FORM.MANDATE.PLACEHOLDER_GRACE_PERIOD_DAYS' | translate
+            }}"
+            pInputText
+          />
+
+          <small
+            class="p-error d-block"
+            *ngIf="
+              formGroup.get('gracePeriodInDays')?.invalid &&
+              formGroup.get('gracePeriodInDays')?.touched
+            "
+          >
+            {{ "FORM.MANDATE.ERROR_GRACE_PERIOD_DAYS_REQUIRED" | translate }}
           </small>
         </div>
         <div class="col-sm">
-          <label for="gracePeriodUnitId"
-            >{{ "LEASE.GRACE_PERIOD_UNIT" | translate }}<sup>*</sup></label
-          >
-          <p-select
-            [filter]="true"
-            [filterBy]="filterByField"
-            [showClear]="true"
-            [options]="gracePeriodUnits"
-            formControlName="gracePeriodUnitId"
-            [(ngModel)]="selectedGracePeriodUnit"
-            optionValue="id"
-            [optionLabel]="optionLabelKey"
-            name="gracePeriodUnitId"
-            [placeholder]="'LEASE.GRACE_PERIOD_UNIT' | translate"
-            class="w-100"
-            (onChange)="onGracePeriodUnitChange($event)"
-          ></p-select>
-          <small
-            *ngIf="
-              formGroup.get('gracePeriodUnitId')?.invalid &&
-              formGroup.get('gracePeriodUnitId')?.touched
-            "
-            class="p-error"
-          >
-            {{ "LEASE.GRACE_PERIOD_UNIT_REQUIRED" | translate }}
-          </small>
+          <div class="col-sm">
+            <label for="fixedInterestRate"
+              >{{ "LEASE.FIXED_INTEREST_RATE" | translate }}<sup>*</sup></label
+            ><br />
+            <p-inputNumber
+              formControlName="fixedInterestRate"
+              [placeholder]="'LEASE.FIXED_INTEREST_RATE' | translate"
+              suffix="%"
+              class="w-100"
+              mode="decimal"
+              [min]="0"
+              [minFractionDigits]="2"
+              [maxFractionDigits]="2"
+            ></p-inputNumber
+            ><br />
+            <small
+              *ngIf="
+                formGroup.get('fixedInterestRate')?.invalid &&
+                formGroup.get('fixedInterestRate')?.touched
+              "
+              class="p-error"
+            >
+              {{ "LEASE.FIXED_INTEREST_RATE_REQUIRED" | translate }}
+            </small>
+          </div>
         </div>
       </div>
     </form>
@@ -7089,7 +7100,44 @@ icon="pi pi-cog"
           </small>
         </div>
       </div>
-      <div class="row w-100"></div>
+      <div class="row w-100">
+        <div class="col-sm-6">
+          <p-checkbox
+            formControlName="isManuaExchangeRate"
+            binary="true"
+            (onChange)="onCheckboxChange.emit($event)"
+          ></p-checkbox
+          >&nbsp;
+          <label for="isManuaExchangeRate" class="label-container"
+            >{{ "LEASE_CURRENCY.IS_MANUAL_EXCHANGE_RATE" | translate }}?<sup
+              >*</sup
+            ></label
+          >
+        </div>
+        <div class="col-sm-6">
+          <label for="manualSetExchangeRate" class="label-container"
+            >{{ "LEASE_CURRENCY.MANUAL_EXCHANGE_RATE" | translate
+            }}<sup>*</sup></label
+          >
+          <input
+            type="number"
+            formControlName="manualSetExchangeRate"
+            placeholder="{{
+              'LEASE_CURRENCY.MANUAL_EXCHANGE_RATE' | translate
+            }}"
+            pInputText
+          />
+          <small
+            *ngIf="
+              formGroup.get('manualSetExchangeRate')?.invalid &&
+              formGroup.get('manualSetExchangeRate')?.touched
+            "
+            class="p-error"
+          >
+            {{ "LEASE_CURRENCY.MANUAL_EXCHANGE_RATE_REQUIRED" | translate }}
+          </small>
+        </div>
+      </div>
       <div class="row w-100">
         <div class="col-sm">
           <label for="indicativeRentals"

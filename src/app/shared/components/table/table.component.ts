@@ -47,6 +47,7 @@ export class TableComponent {
   @Input() viewVendorAddressesLookupsTable!: boolean;
   @Input() edit!: boolean;
   @Input() delete!: boolean;
+  @Input() customTable!: boolean;
   @Input() side!: boolean;
   @Input() download!: boolean;
   @Input() checkBox!: boolean;
