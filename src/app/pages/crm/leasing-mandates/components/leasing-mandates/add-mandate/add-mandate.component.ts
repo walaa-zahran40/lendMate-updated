@@ -48,7 +48,7 @@ import { loadAll as loadPaymentMethods } from '../../../../../lookups/store/paym
 import { loadAll as loadPaymentMonthDays } from '../../../../../lookups/store/payment-month-days/payment-month-days.actions';
 import { loadAll as loadAllGracePeriodUnits } from '../../../../../lookups/store/period-units/period-units.actions';
 import { loadAll as loadCurrencies } from '../../../../../lookups/store/currencies/currencies.actions';
-import { combineLatest, forkJoin, of, Subject } from 'rxjs';
+import { combineLatest, forkJoin, merge, of, Subject } from 'rxjs';
 import { CurrencyExchangeRate } from '../../../../../lookups/store/currency-exchange-rates/currency-exchange-rate.model';
 import { CurrencyExchangeRatesFacade } from '../../../../../lookups/store/currency-exchange-rates/currency-exchange-rates.facade';
 import { Currency } from '../../../../../lookups/store/currencies/currency.model';
@@ -85,6 +85,8 @@ import { FinancialForm } from '../../../store/financial-form/financial-form.mode
 import { FinancialFormsFacade } from '../../../store/financial-form/financial-forms.facade';
 import { selectCalculatedRowsForId } from '../../../store/financial-form/financial-forms.selectors';
 import { PaymentsRequest } from '../../../store/financial-form/payments-request.model';
+import { Actions, ofType } from '@ngrx/effects';
+import * as MandateActions from '../../../store/leasing-mandates/leasing-mandates.actions';
 
 @Component({
   selector: 'app-add-mandate',
@@ -140,7 +142,7 @@ export class AddMandateComponent {
   first2: number = 0;
   financialForm$ = this.facade.selected$;
   @ViewChild('tableRef') tableRef!: TableComponent;
-
+  private allowLeaveAfterSave = false;
   readonly colsInside = [
     { field: 'paymentNumber', header: 'Payment Number' },
     { field: 'dueDate', header: 'Due Date' },
@@ -184,7 +186,8 @@ export class AddMandateComponent {
     private interestRateFacade: InterestRateBenchMarksFacade,
     private paymentTimingFacade: PaymentTimingTermsFacade,
     private rentStructuresFacade: RentStructureTypesFacade,
-    private financialFormsFacade: FinancialFormsFacade
+    private financialFormsFacade: FinancialFormsFacade,
+    private actions$: Actions
   ) {}
   ngOnInit() {
     console.log('show', this.show);
@@ -533,6 +536,85 @@ export class AddMandateComponent {
         manualSetExchangeRateControl.disable({ emitEvent: false });
       }
     }
+    // ⬇️ when create succeeds → go back to View Mandates
+    const navigateToList = () => {
+      const tree = this.clientId
+        ? ['/crm/leasing-mandates/view-mandates', this.clientId]
+        : ['/crm/leasing-mandates/view-mandates'];
+
+      console.log('[Navigate] Preparing to navigate to:', tree);
+
+      // Important: allow the guard
+      this.allowLeaveAfterSave = true;
+      this.markAllPristine();
+
+      // (optional) ensure latest list from backend
+      console.log('[Navigate] Reloading list before navigation…');
+      this.facade.loadAll();
+
+      this.router.navigate(tree).then(
+        (ok) => console.log('[Navigate] router.navigate resolved. ok=', ok),
+        (err) => console.error('[Navigate] router.navigate rejected:', err)
+      );
+    };
+
+    // 1) Success via createEntitySuccess
+    this.facade.createSuccess$.pipe(takeUntil(this.destroy$)).subscribe({
+      next: (entity) => {
+        console.log('[Create Success] entity:', entity);
+        this.isSubmitting = false;
+        navigateToList();
+      },
+      error: (e) => {
+        console.error('[Create Success] stream error:', e);
+        this.isSubmitting = false;
+      },
+    });
+
+    // 2) Generic operation success (create/update)
+    this.facade.operationSuccess$
+      .pipe(
+        takeUntil(this.destroy$),
+        tap((s) => console.log('[Op Success] lastOperation:', s)),
+        filter(
+          (s) =>
+            !!s &&
+            s.entity === 'Mandate' &&
+            (s.operation === 'create' || s.operation === 'update')
+        )
+      )
+      .subscribe(() => {
+        console.log('[Op Success] Matched Mandate create/update. Navigating…');
+        this.isSubmitting = false;
+        navigateToList();
+      });
+
+    // 3) Also log any error$ from mandates slice so we see failures
+    this.facade.error$.pipe(takeUntil(this.destroy$)).subscribe((err) => {
+      if (err) {
+        console.error('[Mandates Error] from store slice:', err);
+        this.isSubmitting = false;
+      }
+    });
+    this.actions$
+      .pipe(
+        takeUntil(this.destroy$),
+        ofType(MandateActions.createEntitySuccess as any)
+      )
+      .subscribe(() => {
+        this.isSubmitting = false;
+        this.navigateToList();
+      });
+
+    this.actions$
+      .pipe(
+        takeUntil(this.destroy$),
+        ofType(MandateActions.createEntityFailure as any)
+      )
+      .subscribe((err) => {
+        console.error('[Create] failed:', err);
+        this.isSubmitting = false;
+      });
   }
   ngOnDestroy() {
     this.destroy$.next();
@@ -1398,39 +1480,129 @@ export class AddMandateComponent {
   onSubmit() {
     if (this.isSubmitting) return;
     this.isSubmitting = true;
+    console.log('[Submit] Start. editMode=', this.editMode);
 
-    // Validate all steps/forms
+    // Validate all forms
     this.parentForm.markAllAsTouched();
     this.parentForm.updateValueAndValidity();
-
     const financialInvalid =
       this.leasingFinancialBasicForm.invalid ||
       this.leasingFinancialCurrencyForm.invalid ||
       this.leasingFinancialRateForm.invalid;
 
     if (this.viewOnly || this.parentForm.invalid || financialInvalid) {
+      console.warn('[Submit] Blocked.', {
+        viewOnly: this.viewOnly,
+        parentInvalid: this.parentForm.invalid,
+        financialInvalid,
+      });
       this.isSubmitting = false;
       return;
     }
 
+    // One-shot listeners for this submit
+    const success$ = merge(
+      this.actions$.pipe(ofType(MandateActions.createEntitySuccess as any)),
+      this.actions$.pipe(ofType(MandateActions.updateEntitySuccess as any)),
+      // fallback in case your slice emits a generic op success
+      this.facade.operationSuccess$.pipe(
+        filter(
+          (s: any) =>
+            !!s &&
+            s.entity === 'Mandate' &&
+            (s.operation === 'create' || s.operation === 'update')
+        )
+      )
+    ).pipe(take(1));
+
+    const failure$ = merge(
+      this.actions$.pipe(ofType(MandateActions.createEntityFailure as any)),
+      this.actions$.pipe(ofType(MandateActions.updateEntityFailure as any)),
+      this.facade.error$.pipe(filter(Boolean))
+    ).pipe(take(1));
+
+    const cleanupAndGoHome = () => {
+      this.isSubmitting = false;
+      // let the guard through & tidy forms
+      this.allowLeaveAfterSave = true;
+      this.markAllPristine();
+      this.facade.loadAll();
+      this.navigateToList();
+    };
+
+    // Subscribe BEFORE dispatch so we don't miss a fast response
+    const successSub = success$.subscribe({
+      next: (evt) => {
+        console.log('[Submit] Success event:', evt);
+        cleanupAndGoHome();
+      },
+      error: (e) => {
+        console.error('[Submit] success$ stream error:', e);
+        this.isSubmitting = false;
+      },
+    });
+
+    const failureSub = failure$.subscribe({
+      next: (err) => {
+        console.error('[Submit] Failure event:', err);
+        this.isSubmitting = false;
+        // optional: show a toast here
+      },
+      error: (e) => {
+        console.error('[Submit] failure$ stream error:', e);
+        this.isSubmitting = false;
+      },
+    });
+
     try {
       const payload = this.buildCreatePayload();
-
+      console.log('[Submit] Payload →', payload);
       if (this.editMode) {
-        // If you also want single-payload update, map to your API for update here:
         const leaseId = +this.route.snapshot.paramMap.get('leasingId')!;
         this.facade.update(leaseId, payload);
-        this.isSubmitting = false;
       } else {
-        // ✅ Single call only — includes all 4 steps data
         this.facade.create(payload);
-        this.isSubmitting = false;
       }
     } catch (err) {
-      console.error('[Component] onSubmit error:', err);
+      console.error('[Submit] build payload failed:', err);
       this.isSubmitting = false;
+      // prevent leaks if we threw before any action could fire
+      successSub.unsubscribe();
+      failureSub.unsubscribe();
     }
   }
+
+  private buildListCommands(): (string | number)[] {
+    const base = '/crm/leasing-mandates/view-mandates';
+    const id = this.clientId; // may be string | number | undefined
+    if (id === null || id === undefined || id === '') {
+      return [base]; // ✅ only a string
+    }
+    const numId = Number(id);
+    return Number.isFinite(numId) ? [base, numId] : [base, String(id)]; // ✅ string|number only
+  }
+  private navigateToList = () => {
+    const cmds = this.buildListCommands();
+    console.log('[Navigate] commands=', cmds);
+
+    // extra guard: make sure we didn’t accidentally put a Date/object in there
+    const bad = cmds.find(
+      (c) => typeof c !== 'string' && typeof c !== 'number'
+    );
+    if (bad !== undefined) {
+      console.error('[Navigate] invalid segment detected:', bad);
+      return; // don’t navigate with bad commands
+    }
+
+    this.allowLeaveAfterSave = true;
+    this.markAllPristine();
+    this.facade.loadAll();
+
+    this.router.navigate(cmds).then(
+      (ok) => console.log('[Navigate] ok=', ok),
+      (err) => console.error('[Navigate] failed:', err)
+    );
+  };
 
   // Leasing Financials form
   private initializeLeasingFinancialBasicForm() {
@@ -1823,16 +1995,28 @@ export class AddMandateComponent {
   }
   /** Called by the guard. */
   canDeactivate(): boolean {
-    return (
-      !this.leasingFinancialBasicForm.dirty &&
-      !this.leasingFinancialCurrencyForm.dirty &&
-      !this.leasingFinancialRateForm.dirty &&
-      //financial activity form
-      !this.addMandateShowBasicForm.dirty &&
-      !this.addMandateShowAssetTypeForm.dirty &&
-      !this.addMandateShowFeeForm.dirty
+    const dirty =
+      this.leasingFinancialBasicForm.dirty ||
+      this.leasingFinancialCurrencyForm.dirty ||
+      this.leasingFinancialRateForm.dirty ||
+      this.addMandateShowBasicForm.dirty ||
+      this.addMandateShowAssetTypeForm.dirty ||
+      this.addMandateShowFeeForm.dirty;
+
+    console.log(
+      '[Guard] canDeactivate? allowLeaveAfterSave=',
+      this.allowLeaveAfterSave,
+      'dirty=',
+      dirty
     );
+
+    // If we just saved successfully, let navigation through
+    if (this.allowLeaveAfterSave) return true;
+
+    // Original behavior
+    return !dirty;
   }
+
   private setWorkFlowActions(mandate?: Mandate | null): void {
     const list = [...(mandate?.allowedMandateWorkFlowActions ?? [])];
     this.workFlowActionList = list.map((a) => ({
@@ -1853,5 +2037,28 @@ export class AddMandateComponent {
       next: (mandate) => this.setWorkFlowActions(mandate),
       error: (err) => console.error('Failed to refresh actions:', err),
     });
+  } // helper: mark all forms pristine (call after successful save)
+  private markAllPristine(): void {
+    const mark = (fg: FormGroup | FormArray) => {
+      fg.markAsPristine();
+      fg.markAsUntouched();
+      Object.values(fg.controls).forEach((ctrl: any) => {
+        if (ctrl?.controls) mark(ctrl);
+        else {
+          ctrl.markAsPristine();
+          ctrl.markAsUntouched();
+        }
+      });
+    };
+
+    console.log('[Forms] Marking all forms pristine before navigation...');
+    mark(this.leasingFinancialBasicForm);
+    mark(this.leasingFinancialCurrencyForm);
+    mark(this.leasingFinancialRateForm);
+    mark(this.addMandateShowBasicForm);
+    mark(this.addMandateShowAssetTypeForm);
+    mark(this.addMandateShowFeeForm);
+    // parent as well
+    if (this.parentForm) mark(this.parentForm);
   }
 }

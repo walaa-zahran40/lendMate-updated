@@ -14,21 +14,16 @@ export class MandatesService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<Mandate[]> {
-    console.log('🚀 Service: calling GET …');
+  getAll(pageNumber?: number): Observable<Mandate[]> {
+    let params = new HttpParams();
+    if (pageNumber != null) params = params.set('pageNumber', pageNumber);
+
     return this.http
       .get<{ items: Mandate[]; totalCount: number }>(
-        `${this.baseUrl}/GetAllLeasingMandates`
+        `${this.baseUrl}/GetAllLeasingMandates`,
+        { params }
       )
-      .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
-        map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
-        catchError((err) => {
-          console.error('🚀 HTTP error fetching Mandates:', err);
-          return throwError(() => err);
-        })
-      );
+      .pipe(map((resp) => resp.items));
   }
 
   getById(id: number): Observable<Mandate> {

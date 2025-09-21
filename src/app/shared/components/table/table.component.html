@@ -101,6 +101,9 @@
           <span *ngSwitchCase="'dateAcquired'">
             {{ rowData[col.field] | date : "yyyy-MM-dd" }}
           </span>
+          <span *ngSwitchCase="'expireDate'">
+            {{ rowData[col.field] | date : "yyyy-MM-dd" }}
+          </span>
           <span *ngSwitchCase="'genderId'">
             {{ getGenderLabel(rowData.genderId) }}
           </span>

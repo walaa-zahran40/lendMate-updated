@@ -42,6 +42,10 @@ export class ViewMandatesComponent {
     { field: 'id', header: 'Id' },
     { field: 'description', header: 'Description' },
     { field: 'date', header: 'Start Date' },
+    { field: 'expireDate', header: 'Expiry Date' },
+    { field: 'validityDay', header: 'Validity Day' },
+    { field: 'gracePeriodInDays', header: 'Grace Period In Days' },
+    { field: 'indicativeRentals', header: 'Indicative Rentals' },
   ];
   showDeleteModal: boolean = false;
   selectedLeasingMandateId: number | null = null;
