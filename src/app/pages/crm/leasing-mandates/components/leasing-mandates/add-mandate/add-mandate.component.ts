@@ -99,7 +99,7 @@ export class AddMandateComponent {
   selectedAction: string = '';
   public mandateId: any = null;
   public leasingMandateId: any = null;
-  clientId = this.route.snapshot.params['clientId'];
+  clientId = +this.route.snapshot.params['clientId'];
   show = false;
   editShow = false;
   private paymentPeriodsCache: PaymentPeriod[] = [];
@@ -538,8 +538,8 @@ export class AddMandateComponent {
     }
     // ⬇️ when create succeeds → go back to View Mandates
     const navigateToList = () => {
-      const tree = this.clientId
-        ? ['/crm/leasing-mandates/view-mandates', this.clientId]
+      const tree = +this.clientId
+        ? ['/crm/leasing-mandates/view-mandates', +this.clientId]
         : ['/crm/leasing-mandates/view-mandates'];
 
       console.log('[Navigate] Preparing to navigate to:', tree);
@@ -550,7 +550,6 @@ export class AddMandateComponent {
 
       // (optional) ensure latest list from backend
       console.log('[Navigate] Reloading list before navigation…');
-      this.facade.loadAll();
 
       this.router.navigate(tree).then(
         (ok) => console.log('[Navigate] router.navigate resolved. ok=', ok),
@@ -799,7 +798,7 @@ export class AddMandateComponent {
       this.addMandateShowBasicForm = this.fb.group({
         id: [null],
         parentMandateId: [null],
-        clientId: this.clientId,
+        clientId: +this.clientId,
         leasingTypeId: [null, Validators.required],
         insuredById: [null, Validators.required],
         date: [null, Validators.required],
@@ -1574,29 +1573,32 @@ export class AddMandateComponent {
 
   private buildListCommands(): (string | number)[] {
     const base = '/crm/leasing-mandates/view-mandates';
-    const id = this.clientId; // may be string | number | undefined
-    if (id === null || id === undefined || id === '') {
-      return [base]; // ✅ only a string
+    const id = this.clientId; // already parsed with '+', may be NaN
+
+    // If clientId is missing/NaN → navigate to the generic list
+    if (typeof id !== 'number' || !Number.isFinite(id)) {
+      return [base];
     }
-    const numId = Number(id);
-    return Number.isFinite(numId) ? [base, numId] : [base, String(id)]; // ✅ string|number only
+
+    // Otherwise route to the client-scoped list
+    return [base, id];
   }
   private navigateToList = () => {
     const cmds = this.buildListCommands();
-    console.log('[Navigate] commands=', cmds);
+    const hasClient = cmds.length === 2; // ['/..../view-mandates', clientId]
 
-    // extra guard: make sure we didn’t accidentally put a Date/object in there
-    const bad = cmds.find(
-      (c) => typeof c !== 'string' && typeof c !== 'number'
-    );
-    if (bad !== undefined) {
-      console.error('[Navigate] invalid segment detected:', bad);
-      return; // don’t navigate with bad commands
-    }
+    console.log('[Navigate] commands=', cmds);
 
     this.allowLeaveAfterSave = true;
     this.markAllPristine();
-    this.facade.loadAll();
+
+    // 🔑 Load only what the destination list needs
+    if (hasClient) {
+      this.facade.loadByClientId(this.clientId);
+    } else {
+      // If your list page loads itself on init, you can remove this line entirely.
+      this.facade.loadAll();
+    }
 
     this.router.navigate(cmds).then(
       (ok) => console.log('[Navigate] ok=', ok),

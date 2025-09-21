@@ -5211,7 +5211,7 @@ icon="pi pi-cog"
             {{ "FORM.MANDATE.ERROR_CLIENT_REQUIRED" | translate }}
           </div>
         </div>
-        <div class="col-sm-6">
+        <div [ngClass]="{ 'col-sm-12': !show, 'col-sm-6': show }">
           <label for="leasingTypesAddMandateBasic" class="label-container">
             {{ "FORM.MANDATE.LABEL_LEASING_TYPE" | translate }}<sup>*</sup>
           </label>
