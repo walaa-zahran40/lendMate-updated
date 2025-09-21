@@ -6,6 +6,7 @@ import {
   FinancialForm,
 } from './financial-form.model';
 import { Calculation } from '../../../../../shared/interfaces/calculations.interface';
+import { PaymentsRequest } from './payments-request.model';
 
 // ─── Load All ───────────────────────────────────────────────────────────────
 export const loadAll = createAction(
@@ -50,17 +51,20 @@ export const loadByLeasingMandateIdFailure = createAction(
 );
 
 // ─── Calculate ────────────────────────────────────────────────────────────────
+// actions.ts
 export const calculateEntity = createAction(
-  '[FinancialForms] Calculate',
-  props<{ payload: Omit<FinancialForm, 'id'> }>()
+  '[Leasing] Calculate Entity',
+  props<{ payload: PaymentsRequest; requestId: string }>()
 );
+
 export const calculateEntitySuccess = createAction(
-  '[FinancialForms] Calculate Success',
-  props<{ entity: FinancialForm }>()
+  '[Leasing] Calculate Entity Success',
+  props<{ entity: FinancialForm; requestId: string }>()
 );
+
 export const calculateEntityFailure = createAction(
-  '[FinancialForms] Calculate Failure',
-  props<{ error: any }>()
+  '[Leasing] Calculate Entity Failure',
+  props<{ error: unknown; requestId: string }>()
 );
 
 // ─── Create ──────────────────────────────────────────────────────────────────

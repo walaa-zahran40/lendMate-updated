@@ -84,6 +84,7 @@ import { GracePeriodUnitsFacade } from '../../../../../lookups/store/period-unit
 import { FinancialForm } from '../../../store/financial-form/financial-form.model';
 import { FinancialFormsFacade } from '../../../store/financial-form/financial-forms.facade';
 import { selectCalculatedRowsForId } from '../../../store/financial-form/financial-forms.selectors';
+import { PaymentsRequest } from '../../../store/financial-form/payments-request.model';
 
 @Component({
   selector: 'app-add-mandate',
@@ -1669,14 +1670,9 @@ export class AddMandateComponent {
   //   );
   // }
   isAllValid(): boolean {
-    const form = this.leasingFinancialRateForm;
     return (
-      (form.get('interestRate')?.valid ?? false) &&
-      (form.get('insuranceRate')?.valid ?? false) &&
-      (form.get('tenor')?.valid ?? false) &&
-      (form.get('paymentPeriodId')?.valid ?? false) &&
-      (form.get('gracePeriodInDays')?.valid ?? false) &&
       this.leasingFinancialBasicForm.valid &&
+      this.leasingFinancialRateForm.valid &&
       this.leasingFinancialCurrencyForm.valid
     );
   }
@@ -1692,88 +1688,57 @@ export class AddMandateComponent {
         this.leasingFinancialCurrencyForm,
         this.leasingFinancialRateForm,
       ].forEach((form) =>
-        Object.keys(form.controls).forEach((field) =>
-          form.get(field)?.markAsTouched({ onlySelf: true })
+        Object.keys(form.controls).forEach((c) =>
+          form.get(c)?.markAsTouched({ onlySelf: true })
         )
       );
       console.log('Form is invalid');
       return;
     }
 
-    const rawBasic = this.leasingFinancialBasicForm.getRawValue();
-    const rawCurrency = this.leasingFinancialCurrencyForm.getRawValue();
-    const rawRate = this.leasingFinancialRateForm.getRawValue();
+    const b = this.leasingFinancialBasicForm.getRawValue();
+    const r = this.leasingFinancialRateForm.getRawValue();
+    const c = this.leasingFinancialCurrencyForm.getRawValue();
 
-    // 1) Strip UI-only / alias fields via destructuring
-    const {
-      manualExchangeRate, // UI control; we'll map to manualSetExchangeRate
-      paymentMethodId, // avoid leaking lowercase alias
-      paymentMonthDayID, // we will map explicitly below
-      currencyId: _curId, // remove to avoid double spreading; we’ll map
-      currencyExchangeRateId: _curRateId, // same
-      interestRateBenchmarkId: _benchId, // same
-      rentStructureTypeId: _rentStructId, // same
-      paymentTimingTermId: _timingId, // same
-      reservePaymentAmount: _reserveAmount, // we'll round explicitly
-      rvPercent: _rvPct, // round explicitly
-      provisionPercent: _provPct, // round explicitly
-      referenceRent: _referenceRent, // we'll map to 'rent'
-      ...currencyRest
-    } = rawCurrency;
+    const to3 = (x: any) => +parseFloat(x ?? 0).toFixed(3);
+    const toISO = (d: any) =>
+      d instanceof Date ? d.toISOString() : new Date(d).toISOString();
 
-    const {
-      gracePeriodInDays, // API expects gracePeriodCount
-      gracePeriodUnitId: _gpUnitId, // we’ll map to numeric id
-      paymentPeriodId: _periodId, // we’ll map to numeric id
-      periodInterestRate: _pir, // derived; include only if API needs it
-      ...rateRest
-    } = rawRate;
+    const payload: PaymentsRequest = {
+      assetCost: +b.assetCost,
+      downPayment: +b.downPayment,
+      percentOfFinance: +b.percentOfFinance,
+      nfa: +b.nfa,
 
-    // 2) Helpers to pull numeric IDs if an object was selected
-    const getId = (v: any) => (v && typeof v === 'object' ? v.id : v);
-    // 3) Build the payload once, with correct names and rounding
-    const payload = {
-      ...rawBasic,
-      ...rateRest,
-      ...currencyRest, // safe: we stripped fields we’re remapping
+      interestRate: +r.interestRate,
+      insuranceRate: +r.insuranceRate,
+      tenor: +r.tenor,
+      paymentPeriodId: +r.paymentPeriodId,
 
-      leasingMandateId: +this.route.snapshot.params['leasingMandatesId'],
+      rvAmount: +c.rvAmount,
+      rvPercent: to3(c.rvPercent),
 
-      // IDs (normalized whether the control holds an object or a number)
-      currencyId: getId(rawCurrency.currencyId),
-      currencyExchangeRateId: getId(rawCurrency.currencyExchangeRateId),
-      gracePeriodUnitId: getId(rawRate.gracePeriodUnitId),
-      interestRateBenchmarkId: getId(rawCurrency.interestRateBenchmarkId),
-      rentStructureTypeId: getId(rawCurrency.rentStructureTypeId),
-      paymentTimingTermId: getId(rawCurrency.paymentTimingTermId),
-      paymentMethodID: getId(rawCurrency.paymentMethodId ?? paymentMethodId),
-      paymentMonthDayID: getId(
-        rawCurrency.paymentMonthDayID ?? paymentMonthDayID
-      ),
-      paymentPeriodId: getId(rawRate.paymentPeriodId),
+      provisionAmount: +c.provisionAmount,
+      provisionPercent: to3(c.provisionPercent),
 
-      // Field remaps
-      rent: _referenceRent, // map referenceRent -> rent
-      isManuaExchangeRate: rawCurrency.isManuaExchangeRate, // keep your current key
-      manualSetExchangeRate: manualExchangeRate, // single, correct mapping
+      reservePaymentAmount: to3(c.reservePaymentAmount),
 
-      // Rounding
-      reservePaymentAmount: +parseFloat(
-        rawCurrency.reservePaymentAmount ?? 0
-      ).toFixed(3),
-      rvPercent: +parseFloat(rawCurrency.rvPercent ?? 0).toFixed(3),
-      provisionPercent: +parseFloat(rawCurrency.provisionPercent ?? 0).toFixed(
-        3
-      ),
+      // ✅ correct key name for API (was gracePeriodCount before)
+      gracePeriodInDays: +r.gracePeriodInDays,
 
-      // Grace period count (choose your canonical source)
-      gracePeriodCount: gracePeriodInDays ?? rawRate.gracePeriod ?? 0,
+      paymentTimingTermId: +c.paymentTimingTermId,
+      startDate: toISO(b.startDate), // ✅ send ISO string
+      rent: +c.referenceRent, // ✅ map referenceRent → rent
     };
 
-    console.log('Submitting form data:', payload);
-    this.financialFormsFacade.calculate(payload).subscribe((entity) => {
-      console.log('[Component] Received entity:', entity);
-      this.filteredFinancialForms = [...entity.payments];
+    console.log('Submitting PaymentsRequest:', payload);
+
+    this.financialFormsFacade.calculate(payload).subscribe({
+      next: (entity) => {
+        console.log('[Component] Received entity:', entity);
+        this.filteredFinancialForms = [...(entity?.payments ?? [])];
+      },
+      error: (err) => console.error('Calculate failed:', err),
     });
   }
 

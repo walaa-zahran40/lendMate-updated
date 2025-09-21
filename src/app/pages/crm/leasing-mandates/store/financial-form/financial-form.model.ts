@@ -76,3 +76,4 @@ export interface CalculationConfigurationByFeeType {
   feeCalculationType: FeeCalculationType;
   isActive: boolean;
 }
+// models/payments-request.model.ts

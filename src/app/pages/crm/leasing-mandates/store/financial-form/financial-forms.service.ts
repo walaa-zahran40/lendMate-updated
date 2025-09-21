@@ -1,18 +1,18 @@
 // src/app/features/financial-forms/financial-forms.service.ts
 
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, Observable, throwError, tap } from 'rxjs';
 import {
   CalculationConfigurationByFeeType,
   FinancialForm,
 } from './financial-form.model';
 import { environment } from '../../../../../../environments/environment';
-import { Calculation } from '../../../../../shared/interfaces/calculations.interface';
+import { PaymentsRequest } from './payments-request.model';
 
 @Injectable({ providedIn: 'root' })
 export class FinancialFormsService {
-  private baseUrl = `${environment.apiUrl}MandateFinancialActivities`;
+  private baseUrl = `${environment.apiUrl}LeasingMandates`;
 
   constructor(private http: HttpClient) {}
 
@@ -82,19 +82,9 @@ export class FinancialFormsService {
       );
   }
 
-  /** POST calculate */
-  calculate(payload: Omit<FinancialForm, 'id'>): Observable<FinancialForm> {
-    return this.http
-      .post<Calculation[]>(
-        `${this.baseUrl}/CalculateMandateFinancialActivity`,
-        payload
-      )
-      .pipe(
-        map((rows) => ({
-          leasingMandateId: payload.leasingMandateId,
-          payments: rows,
-        }))
-      );
+  calculate(payload: PaymentsRequest): Observable<FinancialForm> {
+    // Angular will set Content-Type: application/json automatically
+    return this.http.post<FinancialForm>(`${this.baseUrl}/Payments`, payload);
   }
 
   /** PUT update by id */

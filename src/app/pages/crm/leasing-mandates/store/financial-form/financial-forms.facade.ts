@@ -4,8 +4,20 @@ import * as Actions from './financial-forms.actions';
 import * as Selectors from './financial-forms.selectors';
 import { FinancialForm } from './financial-form.model';
 import { selectLastOperationSuccess } from '../../../../../shared/store/ui.selectors';
-import { filter, first, map } from 'rxjs';
+import {
+  catchError,
+  filter,
+  first,
+  map,
+  Observable,
+  race,
+  take,
+  throwError,
+} from 'rxjs';
+import { timeout } from 'rxjs/operators';
+
 import { Actions as effectAction, ofType } from '@ngrx/effects';
+import { PaymentsRequest } from './payments-request.model';
 
 @Injectable({ providedIn: 'root' })
 export class FinancialFormsFacade {
@@ -48,17 +60,39 @@ export class FinancialFormsFacade {
       first() // auto-completes after first match
     );
   }
-  calculate(payload: Omit<FinancialForm, 'id'>) {
-    this.store.dispatch(Actions.calculateEntity({ payload }));
-    return this.actions$.pipe(
-      ofType(Actions.calculateEntitySuccess),
-      filter(
-        ({ entity }) => entity.leasingMandateId === payload.leasingMandateId
-      ),
-      map(({ entity }) => entity),
-      first() // auto-completes after first match
+  genRequestId(): string {
+    // Use crypto if available; fall back to a simple random id
+    return (
+      globalThis.crypto?.randomUUID?.() ??
+      `req_${Date.now()}_${Math.random().toString(36).slice(2)}`
     );
   }
+  calculate(payload: PaymentsRequest): Observable<FinancialForm> {
+    const requestId = this.genRequestId();
+
+    this.store.dispatch(Actions.calculateEntity({ payload, requestId }));
+
+    const success$ = this.actions$.pipe(
+      ofType(Actions.calculateEntitySuccess),
+      filter((a) => a.requestId === requestId),
+      map((a) => a.entity)
+    );
+
+    const failure$ = this.actions$.pipe(
+      ofType(Actions.calculateEntityFailure),
+      filter((a) => a.requestId === requestId),
+      map((a) => {
+        throw a.error;
+      })
+    );
+
+    return race(success$, failure$).pipe(
+      timeout(15000),
+      take(1),
+      catchError((err) => throwError(() => err))
+    );
+  }
+
   update(id: number, changes: Partial<FinancialForm>) {
     this.store.dispatch(Actions.updateEntity({ id, changes }));
   }

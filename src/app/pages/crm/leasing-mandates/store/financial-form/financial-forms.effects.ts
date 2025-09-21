@@ -1,18 +1,19 @@
-// src/app/features/financial-forms/financial-forms.effects.ts
-
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { FinancialFormsService } from './financial-forms.service';
 import * as ActionsList from './financial-forms.actions';
 import {
   catchError,
-  exhaustMap,
+  filter,
+  first,
   map,
-  mergeMap,
+  Observable,
   of,
-  switchMap,
-  tap,
+  race,
+  take,
+  throwError,
 } from 'rxjs';
+import { exhaustMap, mergeMap, switchMap, tap, timeout } from 'rxjs/operators'; // ✅ correct
 import { FinancialForm } from './financial-form.model';
 import { EntityNames } from '../../../../../shared/constants/entity-names';
 
@@ -98,19 +99,13 @@ export class FinancialFormsEffects {
   calculateEntity$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActionsList.calculateEntity),
-      tap(({ payload }) =>
-        console.log('[Effects] calculateEntity caught, payload=', payload)
-      ),
-      exhaustMap(({ payload }) =>
+      exhaustMap(({ payload, requestId }) =>
         this.service.calculate(payload).pipe(
-          tap((entity) =>
-            console.log('[Effects] HTTP returned entity (calculate):', entity)
+          map((entity) =>
+            ActionsList.calculateEntitySuccess({ entity, requestId })
           ),
-          map((entity: FinancialForm) =>
-            ActionsList.calculateEntitySuccess({ entity })
-          ),
-          catchError((err) =>
-            of(ActionsList.calculateEntityFailure({ error: err }))
+          catchError((error) =>
+            of(ActionsList.calculateEntityFailure({ error, requestId }))
           )
         )
       )
