@@ -158,6 +158,7 @@ export class AddMandateComponent {
   routeId = this.route.snapshot.params['leasingMandatesId'];
   mandate!: any;
   private extraCurrencyRates: CurrencyExchangeRate[] = [];
+  selectedIds: number[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -195,11 +196,11 @@ export class AddMandateComponent {
       this.show = false;
     }
 
-    // 1) Build all sub-forms
+    //Build all sub-forms
     this.buildMandateShowBasicForm();
     this.buildMandateShowAssetTypeForm();
     this.buildMandateShowFeeForm();
-    // 1) Build the three sub-forms
+    //Build the three sub-forms
     this.initializeLeasingFinancialBasicForm();
     this.initializeLeasingFinancialRatesForm();
     this.initializeLeasingFinancialCurrencyForm();
@@ -207,13 +208,12 @@ export class AddMandateComponent {
     console.log('Rate', this.leasingFinancialRateForm);
     console.log('Currency', this.leasingFinancialCurrencyForm);
 
-    // 2) Create the parent form
+    //Create the parent form
     this.parentForm = this.fb.group({
       basic: this.addMandateShowBasicForm,
       assets: this.addMandateShowAssetTypeForm,
       fees: this.addMandateShowFeeForm,
 
-      // ✅ use the three distinct financial forms here
       financialActivities: this.fb.group({
         basic: this.leasingFinancialBasicForm,
         rates: this.leasingFinancialRateForm,
@@ -221,8 +221,8 @@ export class AddMandateComponent {
       }),
     });
 
-    // 5️⃣ All your other setup (lookups, route handling, patching…)
-    //    no early returns that skip the clientId subscription
+    //All your other setup (lookups, route handling, patching…)
+    //no early returns that skip the clientId subscription
     if (!this.clientId) {
       this.store.dispatch(loadAll({}));
     }
@@ -272,7 +272,7 @@ export class AddMandateComponent {
     this.paymentMonthDays$ = this.paymentMonthDaysFacade.all$;
     //leasing financial form
 
-    //  Set up value-change listeners, etc.
+    //Set up value-change listeners, etc.
     this.setupFormListeners();
     if (!this.clientId) {
       combineLatest({
@@ -357,7 +357,7 @@ export class AddMandateComponent {
       this.leasingMandateId = +idParam;
     }
 
-    // 3) Dispatch all lookups
+    //Dispatch all lookups
     this.store.dispatch(loadAll({})); // payment periods
     this.store.dispatch(loadAllGracePeriodUnits({})); // grace units
     this.store.dispatch(loadCurrencies({})); // currencies
@@ -368,7 +368,7 @@ export class AddMandateComponent {
     this.store.dispatch(loadPaymentMethods({}));
     this.store.dispatch(loadPaymentMonthDays({}));
 
-    // 4) Expose your Observables
+    //Expose your Observables
     this.paymentPeriods$ = this.paymentPeriodsFacade.all$;
     this.gracePeriodUnits$ = this.gracePeriodUnitFacade.all$;
     this.currencies$ = this.currenciesFacade.all$;
@@ -379,7 +379,7 @@ export class AddMandateComponent {
     this.paymentMethods$ = this.paymentMethodsFacade.all$;
     this.paymentMonthDays$ = this.paymentMonthDaysFacade.all$;
 
-    // 5) Load the financial form for this mandate
+    //Load the financial form for this mandate
 
     this.financialFormsFacade.loadByLeasingMandateId(
       this.route.snapshot.params['leasingMandatesId']
@@ -416,7 +416,7 @@ export class AddMandateComponent {
       const injectedRate = form.currencyExchangeRateDto;
       const exists = rates.some((rate) => rate.id === injectedRate?.id);
 
-      // Assign merged observable with full list
+      //Assign merged observable with full list
       if (!exists && injectedRate) {
         this.extraCurrencyRates = [injectedRate];
       } else {
@@ -443,7 +443,7 @@ export class AddMandateComponent {
       });
     });
 
-    // 6) Patch the two sub-forms (basic + rates) as soon as the form arrives
+    //Patch the two sub-forms (basic + rates) as soon as the form arrives
     this.financialFormsFacade.selected$
       .pipe(
         filter((f) => !!f),
@@ -468,18 +468,18 @@ export class AddMandateComponent {
             interestRate: form.interestRate,
             insuranceRate: form.insuranceRate,
             tenor: form.tenor,
-            paymentPeriodId: form.paymentPeriodDTO?.id!,
+            paymentPeriodId: form.paymentPeriodDTO?.id ?? null,
             paymentPeriodMonthCount: form.paymentPeriodMonthCount,
             gracePeriodInDays: form.gracePeriodCount,
-            gracePeriodUnitId: form.gracePeriodUnitDTO?.id!,
+            gracePeriodUnitId: form.gracePeriodUnitDTO?.id ?? null,
           },
           { emitEvent: false }
         );
 
         this.leasingFinancialCurrencyForm.patchValue(
           {
-            currencyId: form.currencyDTO?.id!,
-            currencyExchangeRateId: form.currencyExchangeRateDto?.id!,
+            currencyId: form.currencyDTO?.id ?? null,
+            currencyExchangeRateId: form.currencyExchangeRateDto?.id ?? null,
             isManuaExchangeRate: form.isManuaExchangeRate,
             manualSetExchangeRate: form.manualSetExchangeRate,
             indicativeRentals: form.indicativeRentals,
@@ -490,11 +490,11 @@ export class AddMandateComponent {
             reservePaymentAmount: form.reservePaymentAmount,
             provisionAmount: form.provisionAmount,
             provisionPercent: form.provisionPercent,
-            interestRateBenchmarkId: form.interestRateBenchmarkDTO?.id!,
-            paymentTimingTermId: form.paymentTimingTermDTO?.id!,
-            rentStructureTypeId: form.rentStructureTypeDTO?.id!,
-            paymentMethodId: form.paymentMethodDTO?.id!,
-            paymentMonthDayID: form.paymentMonthDayDTO?.id!,
+            interestRateBenchmarkId: form.interestRateBenchmarkDTO?.id ?? null,
+            paymentTimingTermId: form.paymentTimingTermDTO?.id ?? null,
+            rentStructureTypeId: form.rentStructureTypeDTO?.id ?? null,
+            paymentMethodId: form.paymentMethodDTO?.id ?? null,
+            paymentMonthDayID: form.paymentMonthDayDTO?.id ?? null,
           },
           { emitEvent: false }
         );
@@ -509,15 +509,15 @@ export class AddMandateComponent {
         }
       });
 
-    // 7) **Only once** both the form **and** the rates list are loaded,
-    //    patch the currencyExchangeRateId so the <p-select> can match an option.
+    //Only once both the form and the rates list are loaded,
+    //patch the currencyExchangeRateId so the <p-select> can match an option.
     this.store
       .select(selectCalculatedRowsForId(this.currentMandateId))
       .pipe(takeUntil(this.destroy$))
       .subscribe((rows) => {
         this.tableDataInside = [...rows];
         this.originalFinancialForms = [...rows];
-        // this.filteredFinancialForms = [...rows];
+        //this.filteredFinancialForms = [...rows];
       });
 
     const isManual = this.leasingFinancialCurrencyForm.get(
@@ -539,7 +539,7 @@ export class AddMandateComponent {
     this.destroy$.complete();
   }
 
-  /** Progress bar width in %, discrete per step. */
+  // Progress bar width in %, discrete per step.
   get progressWidth(): number {
     if (!this.totalSteps) return 0;
     return (this.currentStep / this.totalSteps) * 100; // step 1 => 20% for 5 steps
@@ -554,7 +554,7 @@ export class AddMandateComponent {
     return Math.min(pos, 100 - this.segmentWidth);
   }
 
-  /** Return the current step's form group to validate navigation. */
+  //Return the current step's form group to validate navigation.
   get currentStepForm(): FormGroup | null {
     switch (this.currentStep) {
       case 1:
@@ -570,7 +570,7 @@ export class AddMandateComponent {
     }
   }
 
-  /** Block Next unless current step is valid (or view-only). */
+  //Block Next unless current step is valid (or view-only).
   get canMoveNext(): boolean {
     if (this.viewOnly) return true;
     const fg = this.currentStepForm;
@@ -587,12 +587,6 @@ export class AddMandateComponent {
     this.currentStep--;
   }
 
-  private getMonthCount(): number {
-    const pid =
-      +this.addMandateShowBasicForm.get('paymentPeriodId')?.value || 0;
-    if (!pid) return 0;
-    return this.paymentPeriodsCache.find((p) => p.id === pid)?.monthCount ?? 0;
-  }
   private patchMandate(m: Mandate) {
     this.mandateId = m.mandateId;
 
@@ -752,10 +746,7 @@ export class AddMandateComponent {
     });
   }
 
-  //   mandateAssetTypes: this.fb.array([this.createAssetTypeGroup()]),
-  // mandateFees: this.fb.array([this.createFeeGroup()]),
-
-  /** Auto-calc expireDate = date + validityDay, whenever either changes. */
+  // Auto-calc expireDate = date + validityDay, whenever either changes.
   private wireUpExpireDateAutoCalc(): void {
     const grp = this.addMandateShowBasicForm;
     const dateCtrl = grp.get('date')!;
@@ -1342,7 +1333,7 @@ export class AddMandateComponent {
       clientId: this.clientId ?? idOf(basic.clientId),
       parentMandateId: basic.parentMandateId,
       leasingTypeId: idOf(basic.leasingTypeId),
-      validityDay: basic.validityDay,
+      validityDay: +basic.validityDay,
       expireDate: basic.expireDate, // comes from disabled control -> getRawValue() captures it
       notes: basic.notes,
 
@@ -1757,7 +1748,7 @@ export class AddMandateComponent {
     );
   }
 
-  // Sum of “rent”
+  // Sum of rent
   get sumOfRent(): number {
     return this.filteredFinancialForms.reduce(
       (acc, row) => acc + (row.referenceRent || 0),
@@ -1782,10 +1773,11 @@ export class AddMandateComponent {
         )
     );
   }
+
   onToggleFilters(value: boolean) {
     this.showFilters = value;
   }
-  selectedIds: number[] = [];
+
   confirmDelete() {
     const deleteCalls = this.selectedIds.map((id) =>
       this.financialFormsFacade.delete(id)

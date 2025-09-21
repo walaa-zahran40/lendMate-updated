@@ -25,7 +25,7 @@
     </ul>
   </div>
   <!-- STEP 1: Basic -->
-  <div *ngIf="currentStep === 1">
+  <div [hidden]="currentStep !== 1">
     <app-form
       [title]="'MANDATE.BASIC_INFO.TITLE'"
       [description]="'MANDATE.BASIC_INFO.DESCRIPTION'"
@@ -42,7 +42,7 @@
   </div>
 
   <!-- STEP 2: Asset Types -->
-  <div *ngIf="currentStep === 2">
+  <div [hidden]="currentStep !== 2">
     <app-form
       [title]="'MANDATE.ASSET_TYPE.TITLE'"
       [description]="'MANDATE.ASSET_TYPE.DESCRIPTION'"
@@ -57,7 +57,7 @@
   </div>
 
   <!-- STEP 3: Fees -->
-  <div *ngIf="currentStep === 3">
+  <div [hidden]="currentStep !== 3">
     <app-form
       [title]="'FORM.MANDATE.FEES'"
       [description]="'FORM.MANDATE.FEES_DESCRIPTION'"
@@ -72,7 +72,7 @@
   </div>
 
   <!-- STEP 4: Financial Activities  -->
-  <div *ngIf="currentStep === 4">
+  <div [hidden]="currentStep !== 4">
     <app-toolbar-compound
       [totalInstallments]="sumOfInstallments"
       [totalInterest]="sumOfInterest"
@@ -218,10 +218,20 @@
       Next
     </button>
 
-    <!-- Submit (only on last step, and not view-only) -->
+    <!-- Submit -->
     <button
       type="submit"
       class="btn btn-success"
+      [disabled]="
+        addMandateShowBasicForm.invalid ||
+        addMandateShowAssetTypeForm.invalid ||
+        addMandateShowFeeForm.invalid ||
+        leasingFinancialBasicForm.invalid ||
+        leasingFinancialRateForm.invalid ||
+        leasingFinancialCurrencyForm.invalid ||
+        isSubmitting ||
+        viewOnly
+      "
       *ngIf="currentStep === totalSteps && !viewOnly"
     >
       {{ editMode ? "Edit Mandate" : "Add Mandate" }}
