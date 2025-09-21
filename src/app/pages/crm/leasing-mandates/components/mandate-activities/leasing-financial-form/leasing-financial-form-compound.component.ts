@@ -924,9 +924,13 @@ export class LeasingFinancialFormCompoundComponent implements OnDestroy {
 
     console.log('Submitting form data:', payload);
     // const x =this.facade.calculate(payload);
-    this.facade.calculate(payload).subscribe((entity) => {
-      console.log('[Component] Received entity:', entity);
-      this.filteredFinancialForms = [...entity.payments];
+    this.facade.calculate(payload).subscribe({
+      next: (rows) => {
+        console.log('[Component] Received rows:', rows);
+        this.filteredFinancialForms = [...rows]; // rows is already PaymentRow[]
+        this.originalFinancialForms = [...rows];
+      },
+      error: (err) => console.error('Calculate failed:', err),
     });
   }
 

@@ -105,22 +105,12 @@ export const reducer = createReducer(
     loadedId: null,
   })),
   // ─── Calculate Success ──────────────────────────────────────────────────
-  on(FinancialFormActions.calculateEntitySuccess, (state, { entity }) => {
-    const id = entity.leasingMandateId!;
-    const updated = {
-      ...state,
-      calculatedRowsByMandate: {
-        ...state.calculatedRowsByMandate,
-        [id]: entity.payments!,
-      },
-    };
-    console.log(
-      '[Reducer] updated state for ID',
-      id,
-      updated.calculatedRowsByMandate[id]
-    );
-    return updated;
-  }),
+  on(FinancialFormActions.calculateEntitySuccess, (state, { rows }) => ({
+    ...state,
+    calculatedRows: rows,
+    loading: false,
+    error: null,
+  })),
 
   // ─── Create Success ─────────────────────────────────────────────────────
   on(FinancialFormActions.createEntitySuccess, (state, { entity }) => {

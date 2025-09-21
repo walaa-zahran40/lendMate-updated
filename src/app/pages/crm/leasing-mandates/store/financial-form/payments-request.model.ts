@@ -18,3 +18,16 @@ export interface PaymentsRequest {
   startDate: string; // ISO
   rent: number;
 }
+export interface PaymentRow {
+  paymentNumber: number;
+  dueDate: string; // ISO date string from API
+  balanceBefore: number;
+  balanceAfter: number;
+  rent: number;
+  interest: number;
+  principal: number;
+  installment: number;
+  insuranceIncome: number;
+  referenceRent: number;
+  referencePercent: number;
+}

@@ -82,9 +82,8 @@ export class FinancialFormsService {
       );
   }
 
-  calculate(payload: PaymentsRequest): Observable<FinancialForm> {
-    // Angular will set Content-Type: application/json automatically
-    return this.http.post<FinancialForm>(`${this.baseUrl}/Payments`, payload);
+  calculate(payload: PaymentsRequest): Observable<any[]> {
+    return this.http.post<any[]>(`${this.baseUrl}/Payments`, payload);
   }
 
   /** PUT update by id */

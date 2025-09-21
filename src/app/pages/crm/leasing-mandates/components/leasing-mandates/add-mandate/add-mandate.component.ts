@@ -1734,9 +1734,9 @@ export class AddMandateComponent {
     console.log('Submitting PaymentsRequest:', payload);
 
     this.financialFormsFacade.calculate(payload).subscribe({
-      next: (entity) => {
-        console.log('[Component] Received entity:', entity);
-        this.filteredFinancialForms = [...(entity?.payments ?? [])];
+      next: (rows) => {
+        this.filteredFinancialForms = [...rows];
+        this.originalFinancialForms = [...rows];
       },
       error: (err) => console.error('Calculate failed:', err),
     });

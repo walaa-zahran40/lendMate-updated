@@ -17,7 +17,7 @@ import {
 import { timeout } from 'rxjs/operators';
 
 import { Actions as effectAction, ofType } from '@ngrx/effects';
-import { PaymentsRequest } from './payments-request.model';
+import { PaymentRow, PaymentsRequest } from './payments-request.model';
 
 @Injectable({ providedIn: 'root' })
 export class FinancialFormsFacade {
@@ -67,15 +67,14 @@ export class FinancialFormsFacade {
       `req_${Date.now()}_${Math.random().toString(36).slice(2)}`
     );
   }
-  calculate(payload: PaymentsRequest): Observable<FinancialForm> {
+  calculate(payload: PaymentsRequest): Observable<PaymentRow[]> {
     const requestId = this.genRequestId();
-
     this.store.dispatch(Actions.calculateEntity({ payload, requestId }));
 
     const success$ = this.actions$.pipe(
       ofType(Actions.calculateEntitySuccess),
       filter((a) => a.requestId === requestId),
-      map((a) => a.entity)
+      map((a) => a.rows) // ⬅️ CHANGED
     );
 
     const failure$ = this.actions$.pipe(
@@ -86,11 +85,7 @@ export class FinancialFormsFacade {
       })
     );
 
-    return race(success$, failure$).pipe(
-      timeout(15000),
-      take(1),
-      catchError((err) => throwError(() => err))
-    );
+    return race(success$, failure$).pipe(take(1));
   }
 
   update(id: number, changes: Partial<FinancialForm>) {

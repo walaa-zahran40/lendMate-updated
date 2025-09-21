@@ -558,3 +558,8 @@ form {
   justify-content: end;
   margin: 50px 0px;
 }
+.table {
+  overflow-y: auto;
+  height: 115vh;
+  display: block;
+}

@@ -16,6 +16,7 @@ import {
 import { exhaustMap, mergeMap, switchMap, tap, timeout } from 'rxjs/operators'; // ✅ correct
 import { FinancialForm } from './financial-form.model';
 import { EntityNames } from '../../../../../shared/constants/entity-names';
+import { PaymentRow } from './payments-request.model';
 
 @Injectable()
 export class FinancialFormsEffects {
@@ -101,8 +102,8 @@ export class FinancialFormsEffects {
       ofType(ActionsList.calculateEntity),
       exhaustMap(({ payload, requestId }) =>
         this.service.calculate(payload).pipe(
-          map((entity) =>
-            ActionsList.calculateEntitySuccess({ entity, requestId })
+          map((rows: PaymentRow[]) =>
+            ActionsList.calculateEntitySuccess({ rows, requestId })
           ),
           catchError((error) =>
             of(ActionsList.calculateEntityFailure({ error, requestId }))
@@ -175,16 +176,16 @@ export class FinancialFormsEffects {
     () =>
       this.actions$.pipe(
         ofType(ActionsList.calculateEntitySuccess),
-        tap(({ entity }) =>
-          console.log(
-            '[Effects] calculateEntitySuccess caught, entity:',
-            entity
-          )
-        )
+        tap(({ rows, requestId }) => {
+          console.log('[Effects] calculateEntitySuccess caught', {
+            requestId,
+            rowsCount: rows?.length ?? 0,
+            firstRow: rows?.[0],
+          });
+        })
       ),
     { dispatch: false }
   );
-
   // ─── (Optional) Handle loadByLeasingMandateIdSuccess for logging ─────────────
   loadByLeasingMandateIdSuccess$ = createEffect(
     () =>
