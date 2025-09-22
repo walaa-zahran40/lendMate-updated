@@ -623,7 +623,6 @@ export class AddMandateComponent {
   }
 
   private patchMandate(m: Mandate) {
-    this.mandateId = (m as any)?.mandateId ?? this.mandateId;
     this.leasingMandateId = (m as any)?.id ?? this.leasingMandateId;
 
     // ===== BASIC (already in your code) =====
@@ -1556,10 +1555,6 @@ export class AddMandateComponent {
 
     if (this.editMode && Number.isFinite(leasingMandateId)) {
       payload.id = leasingMandateId; // leasing mandate id in the body
-    }
-
-    if (this.mandateId) {
-      payload.mandateId = this.mandateId; // parent mandate id
     }
 
     return payload;
