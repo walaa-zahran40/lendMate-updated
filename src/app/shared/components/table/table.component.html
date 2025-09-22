@@ -116,10 +116,7 @@
           alt="download"
           title="download"
           class="d-inline-block mx-2 my-2"
-          *ngIf="
-            download &&
-            (!viewLeasingMandateTable || rowData?.parentMandateId == null)
-          "
+          *ngIf="download"
           (click)="onDownload.emit(rowData)"
         />
         <ng-container *appHasPermission="editPermission">
