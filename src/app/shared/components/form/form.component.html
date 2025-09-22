@@ -11374,5 +11374,85 @@ icon="pi pi-cog"
         </div>
       </div>
     </form> -->
+    <!--Mandate Officers-->
+    <form
+      [formGroup]="formGroup"
+      *ngIf="addMandateOfficerForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="officerId"
+        >{{ "FORM.LABELS.OFFICER_NAME" | translate }}<sup>*</sup></label
+      >
+      <p-select
+        [filter]="true"
+        [filterBy]="filterByField"
+        [showClear]="true"
+        [options]="officersList"
+        [optionLabel]="optionLabelKey"
+        placeholder="Select Officer"
+        formControlName="officerId"
+        optionValue="id"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('officerId')?.invalid &&
+            (formGroup.get('officerId')?.dirty ||
+              formGroup.get('officerId')?.touched)
+        }"
+      />
+      <div
+        *ngIf="
+          formGroup.get('officerId')?.hasError('required') &&
+          formGroup.get('officerId')?.touched
+        "
+        class="p-error"
+      >
+        {{ "FORM.ERRORS.OFFICER_REQUIRED" | translate }}
+      </div>
+
+      <div class="p-field" *ngIf="editMode">
+        <p-toggleSwitch
+          id="isActive"
+          formControlName="isActive"
+          [ngClass]="{ disabled: viewOnly }"
+        ></p-toggleSwitch>
+        <label for="isActive">{{
+          "FORM.COMPANY_TYPES.LABEL_IS_ACTIVE" | translate
+        }}</label>
+      </div>
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 addressTypesDiv"
+          *ngIf="!editMode"
+        >
+          <p-button
+            type="submit"
+            [label]="'BUTTONS.ADD_OFFICER' | translate"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 addressTypesDiv"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            [label]="'BUTTONS.EDIT_OFFICER' | translate"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 addressTypesDiv"
+        >
+          <p-button
+            [label]="'BUTTONS.CLOSE' | translate"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate([`/crm/leasing-mandates/view-mandate-officers/${this.route.snapshot.params['leasingId']}/${this.route.snapshot.params['leasingMandatesId']}`])"
+          />
+        </div>
+      </div>
+    </form>
   </div>
 </div>

@@ -501,6 +501,9 @@
   "BUTTONS": {
     "SUBMIT": "Submit",
     "CLOSE": "Close",
+    "ADD_OFFICER": "Add Officer",
+    "EDIT_OFFICER": "Edit Officer",
+
     "ADD_BRANCH_OFFICER": "Add Branch Officer",
     "EDIT_BRANCH_OFFICER": "Edit Branch Officer",
     "VIEW_FIRST_CLAIM_STATUSES": "View First Claim Statuses",
@@ -759,7 +762,8 @@
       "IDENTITY_TYPE": "Select Identity",
       "IS_MAIN": "Is Main",
       "BUSINESS_ACTIVITY": "Business Activity",
-      "TAX_ID": "Tax ID"
+      "TAX_ID": "Tax ID",
+      "OFFICER_NAME": "Officer Name"
     },
     "CODE2": "Code2",
     "FEE_TYPE_REQUIRED": "Fee Type is required.",
@@ -817,7 +821,8 @@
       "SUB_SECTOR_REQUIRED": "Sub Sector is required.",
       "IDENTITY_REQUIRED": "Identification Number is required.",
       "IDENTITY_TYPE_REQUIRED": "Identity is required.",
-      "IS_MAIN_REQUIRED": "You must choose if this is main."
+      "IS_MAIN_REQUIRED": "You must choose if this is main.",
+      "OFFICER_REQUIRED": "Officer is required."
     },
     "LOWER_BOUND": "LowerBound Amount",
     "UPPER_BOUND": "UpperBound Amount",

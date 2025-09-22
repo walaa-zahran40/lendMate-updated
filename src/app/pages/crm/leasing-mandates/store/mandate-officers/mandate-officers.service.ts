@@ -27,9 +27,15 @@ export class MandateOfficersService {
       );
   }
   getById(id: number): Observable<MandateOfficer> {
-    return this.http.get<MandateOfficer>(`${this.baseUrl}/MandateId?id=${id}`);
+    return this.http.get<MandateOfficer>(
+      `${this.baseUrl}/MandateOfficerId?leasingMandate=${id}`
+    );
   }
-
+  getByMandateId(id: number): Observable<MandateOfficer> {
+    return this.http.get<MandateOfficer>(
+      `${this.baseUrl}/MandateId?mandateId=${id}`
+    );
+  }
   create(payload: Omit<MandateOfficer, 'id'>): Observable<MandateOfficer> {
     return this.http.post<MandateOfficer>(
       `${this.baseUrl}/CreateMandateOfficer`,

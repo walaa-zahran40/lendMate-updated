@@ -76,12 +76,11 @@ export class MandateOfficersEffects {
     { dispatch: false }
   );
 
-  // this listens for the *createMandateOfficer* action
+  // effects: create$
   create$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ActionsList.createMandateOfficer), // ← use the action creator imported above
+      ofType(ActionsList.createMandateOfficer),
       mergeMap(({ payload }) => {
-        // Ensure mandateId is present and not undefined
         if (payload.mandateId === undefined) {
           return of(
             ActionsList.createMandateOfficerFailure({
@@ -89,17 +88,21 @@ export class MandateOfficersEffects {
             })
           );
         }
-        // Cast payload to Omit<MandateOfficer, "id">
         const createPayload = {
           ...payload,
           mandateId: payload.mandateId as number,
         } as Omit<MandateOfficer, 'id'>;
+
         return this.service.create(createPayload).pipe(
-          map((result) =>
+          mergeMap((result) => [
             ActionsList.createMandateOfficerSuccess({
               mandateOMandateOfficer: result,
-            })
-          ),
+            }),
+            ActionsList.entityOperationSuccess({
+              entity: EntityNames.MandateOfficer,
+              operation: 'create',
+            }), // ✅ add this
+          ]),
           catchError((error) =>
             of(ActionsList.createMandateOfficerFailure({ error }))
           )

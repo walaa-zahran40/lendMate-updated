@@ -550,6 +550,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addCommunicationFlowTypesLookupsForm!: boolean;
   @Input() addTeamOfficerORGForm!: boolean;
   @Input() addRoleORGForm!: boolean;
+  @Input() addMandateOfficerForm!: boolean;
   @Input() addOperationsORGForm!: boolean;
   @Input() addPageOperationORGForm!: boolean;
   @Input() addOfficerORGForm!: boolean;
@@ -679,7 +680,7 @@ export class FormComponent implements OnInit, OnDestroy {
     private store: Store,
     private facade: LegalFormLawFacade,
     private facadeLegalForms: LegalFormsFacade,
-    private route: ActivatedRoute,
+    public route: ActivatedRoute,
     public router: Router,
     private messageService: MessageService,
     private sanitizer: DomSanitizer,

@@ -59,28 +59,36 @@ export class WizardComponent implements OnInit {
         imgAlt: 'mandate',
         title: 'MANDATE.ADDITIONAL_TERMS',
         content: 'MANDATE.ADDITIONAL_TERMS_DESC',
-        link: `/crm/leasing-mandates/view-mandate-additional-terms/${id}/${this.routeId}`,
+        link: !this.clientId
+          ? `/crm/leasing-mandates/view-mandate-additional-terms/${id}/${this.routeId}`
+          : `/crm/leasing-mandates/view-mandate-additional-terms/${id}/${this.routeId}/${this.clientId}`,
       },
       {
         imgUrl: '/assets/images/shared/card/mandate-manage.svg',
         imgAlt: 'mandate',
         title: 'MANDATE.MANDATE_OFFICERS',
         content: 'MANDATE.MANDATE_OFFICERS_DESC',
-        link: `/crm/leasing-mandates/view-mandate-officers/${id}/${this.routeId}`,
+        link: !this.clientId
+          ? `/crm/leasing-mandates/view-mandate-officers/${id}/${this.routeId}`
+          : `/crm/leasing-mandates/view-mandate-officers/${id}/${this.routeId}/${this.clientId}`,
       },
       {
         imgUrl: '/assets/images/shared/card/mandate-manage.svg',
         imgAlt: 'mandate',
         title: 'MANDATE.MANDATE_CONTACT_PERSONS',
         content: 'MANDATE.MANDATE_CONTACT_PERSONS_DESC',
-        link: `/crm/leasing-mandates/view-mandate-contact-persons/${id}/${this.routeId}`,
+        link: !this.clientId
+          ? `/crm/leasing-mandates/view-mandate-contact-persons/${id}/${this.routeId}`
+          : `/crm/leasing-mandates/view-mandate-contact-persons/${id}/${this.routeId}/${this.clientId}`,
       },
       {
         imgUrl: '/assets/images/shared/card/mandate-manage.svg',
         imgAlt: 'mandate',
         title: 'MANDATE.WORKFLOW_HISTORY',
         content: 'MANDATE.WORKFLOW_HISTORY_DESC',
-        link: `/crm/leasing-mandates/view-mandate-work-flow-history/${id}/${this.routeId}`,
+        link: !this.clientId
+          ? `/crm/leasing-mandates/view-mandate-workflow-history/${id}/${this.routeId}`
+          : `/crm/leasing-mandates/view-mandate-workflow-history/${id}/${this.routeId}/${this.clientId}`,
       },
     ];
 
