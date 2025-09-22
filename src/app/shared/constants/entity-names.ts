@@ -78,4 +78,5 @@ export enum EntityNames {
   VehicleModel = 'VehicleModel',
   LicenseInformation = 'LicenseInformation',
   Evaluator = 'Evaluator',
+  MandateOfficer = 'MandateOfficer',
 }

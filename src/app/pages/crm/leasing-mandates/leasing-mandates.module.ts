@@ -19,16 +19,16 @@ import { ViewMandateAdditionalTermsComponent } from './components/mandate-activi
 import { AddMandateAdditionalTermsComponent } from './components/mandate-activities/mandate-additional-terms/add-mandate-additional-terms/add-mandate-additional-terms.component';
 import { ClonesEffects } from './store/clone/clones.effects';
 import { reducer as clonesReducer } from './store/clone/clones.reducer';
+import { reducer as mandateOfficersReducer } from './store/mandate-officers/mandate-officers.reducer';
 
 import { FinancialFormsEffects } from './store/financial-form/financial-forms.effects';
 import { reducer as financialFormsReducer } from './store/financial-form/financial-forms.reducer';
 import { ViewMandatesComponent } from './components/leasing-mandates/view-mandates/view-mandates.component';
-import { MandateFeesEffects } from './store/mandate-fees/mandate-fees.effects';
-import { mandateFeesReducer } from './store/mandate-fees/mandate-fees.reducer';
 import { ViewMandateWorkFlowHistoryComponent } from './components/mandate-activities/view-mandate-workflow-history/view-mandate-work-flow-history.component';
 import { StepperModule } from 'primeng/stepper';
 import { AddMandateOfficerComponent } from './components/mandate-activities/mandate-officers/add-mandate-officer/add-mandate-officer.component';
 import { ViewMandateOfficersComponent } from './components/mandate-activities/mandate-officers/view-mandate-officers/view-mandate-officers.component';
+import { MandateOfficersEffects } from './store/mandate-officers/mandate-officers.effects';
 
 @NgModule({
   declarations: [
@@ -53,8 +53,8 @@ import { ViewMandateOfficersComponent } from './components/mandate-activities/ma
     ButtonModule,
     StoreModule.forFeature('mandates', leasingMandatesReducer),
     EffectsModule.forFeature([MandatesEffects]),
-    StoreModule.forFeature('mandateFees', mandateFeesReducer),
-    EffectsModule.forFeature([MandateFeesEffects]),
+    StoreModule.forFeature('mandateOfficers', mandateOfficersReducer),
+    EffectsModule.forFeature([MandateOfficersEffects]),
     StoreModule.forFeature('clones', clonesReducer),
     EffectsModule.forFeature([ClonesEffects]),
     StoreModule.forFeature(

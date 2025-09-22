@@ -1,23 +1,21 @@
 <div class="page-content">
   <app-toolbar-table
     [addPermission]="'/MandateAdditionalTerms/Post'"
-    [title]="'Mandate Additional Terms'"
-    [labelBtn]="'Add Mandate Additional Term'"
+    [title]="'Mandate Officers'"
+    [labelBtn]="'Add Mandate Officer'"
     [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
     [backExists]="true"
     [customSpacing]="'custom-spacing'"
     [exports]="true"
-    (addBtn)="onAddMandateAdditionalTerm()"
+    (addBtn)="onAddMandateOfficer()"
     (searchChange)="onSearch($event)"
     (toggleFiltersEvent)="onToggleFilters($event)"
     (exportExcel)="tableRef.exportToExcel()"
     (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
 
-  <ng-container
-    *ngIf="mandateAdditionalTerms$ | async as mandateAdditionalTerms"
-  >
+  <ng-container *ngIf="mandateOfficers$ | async as mandateOfficers">
     <app-table
       [viewPermission]="[
         '/MandateAdditionalTerms/Get',
@@ -29,17 +27,17 @@
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
-      [tableData]="filteredMandateAdditionalTerms"
+      [tableData]="filteredMandateOfficers"
       [side]="false"
       [download]="false"
       [first]="first2"
       [checkBox]="true"
       [filters]="showFilters"
       [uppercase]="'uppercase'"
-      [viewMandateAdditionalTermsTable]="true"
-      (onDelete)="onDeleteMandateAdditionalTerm($event)"
-      (onEdit)="onEditMandateAdditionalTerm($event)"
-      (viewForm)="onViewMandateAdditionalTerms($event)"
+      [viewMandateOfficersTable]="true"
+      (onDelete)="onDeleteMandateOfficer($event)"
+      (onEdit)="onEditMandateOfficer($event)"
+      (viewForm)="onViewMandateOfficers($event)"
     ></app-table>
     <app-delete-module
       [visible]="showDeleteModal"
