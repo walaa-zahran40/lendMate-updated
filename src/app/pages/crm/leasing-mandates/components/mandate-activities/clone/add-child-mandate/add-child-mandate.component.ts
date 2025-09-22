@@ -22,17 +22,17 @@ import {
 
 //Models
 import { Client } from '../../../../../clients/store/_clients/allclients/client.model';
-import { LeasingType } from '../../../../../../../pages/lookups/store/leasing-types/leasing-type.model';
-import { InsuredBy } from '../../../../../../../pages/lookups/store/insured-by/insured-by.model';
-import { FeeType } from '../../../../../../../pages/lookups/store/fee-types/fee-type.model';
-import { AssetType } from '../../../../../../../pages/lookups/store/asset-types/asset-type.model';
+import { LeasingType } from '../../../../../../lookups/store/leasing-types/leasing-type.model';
+import { InsuredBy } from '../../../../../../lookups/store/insured-by/insured-by.model';
+import { FeeType } from '../../../../../../lookups/store/fee-types/fee-type.model';
+import { AssetType } from '../../../../../../lookups/store/asset-types/asset-type.model';
 import { Mandate } from '../../../../store/leasing-mandates/leasing-mandate.model';
 //Facades
 import { ClientsFacade } from '../../../../../clients/store/_clients/allclients/clients.facade';
-import { LeasingTypesFacade } from '../../../../../../../pages/lookups/store/leasing-types/leasing-types.facade';
-import { InsuredByFacade } from '../../../../../../../pages/lookups/store/insured-by/insured-by.facade';
-import { FeeTypesFacade } from '../../../../../../../pages/lookups/store/fee-types/fee-types.facade';
-import { AssetTypesFacade } from '../../../../../../../pages/lookups/store/asset-types/asset-types.facade';
+import { LeasingTypesFacade } from '../../../../../../lookups/store/leasing-types/leasing-types.facade';
+import { InsuredByFacade } from '../../../../../../lookups/store/insured-by/insured-by.facade';
+import { FeeTypesFacade } from '../../../../../../lookups/store/fee-types/fee-types.facade';
+import { AssetTypesFacade } from '../../../../../../lookups/store/asset-types/asset-types.facade';
 import { MandatesFacade } from '../../../../store/leasing-mandates/leasing-mandates.facade';
 //Actions
 import { loadAll } from '../../../../../clients/store/_clients/allclients/clients.actions';
@@ -70,7 +70,7 @@ import {
   calcRvAmount,
   calcRvPercent,
 } from '../../../../../../../shared/utils/leasing-calcs.util';
-import { PeriodUnit } from '../../../../../../../pages/lookups/store/period-units/period-unit.model';
+import { PeriodUnit } from '../../../../../../lookups/store/period-units/period-unit.model';
 import { TableComponent } from '../../../../../../../shared/components/table/table.component';
 import { loadCurrencyExchangeRates } from '../../../../../../lookups/store/currency-exchange-rates/currency-exchange-rates.actions';
 import { GracePeriodUnitsFacade } from '../../../../../../lookups/store/period-units/period-units.facade';
@@ -85,7 +85,7 @@ import * as MandateActions from '../../../../store/leasing-mandates/leasing-mand
   selector: 'app-add-child-mandate',
   standalone: false,
   templateUrl: './add-child-mandate.component.html',
-  styleUrl: './add-child-mandate.component.scss',
+  styleUrls: ['./add-child-mandate.component.scss'],
 })
 export class AddChildMandateComponent {
   workFlowActionList: any[] = [];
@@ -93,7 +93,6 @@ export class AddChildMandateComponent {
   public mandateId: any = null;
   public leasingMandateId: any = null;
   raw = this.route.snapshot.paramMap.get('clientId');
-  leasingId = this.route.snapshot.paramMap.get('leasingId');
   clientId: number | undefined = this.raw ? Number(this.raw) : undefined;
   show = false;
   editShow = false;
@@ -292,6 +291,10 @@ export class AddChildMandateComponent {
 
             // ← clear out the old entity so selectedMandate$ doesn’t emit immediately
             this.facade.clearSelected();
+            // now fetch afresh
+            this.facade.loadById(
+              this.route.snapshot.params['leasingMandatesId']
+            );
           }),
           switchMap(({ leasingId }) =>
             this.facade.selectedMandate$.pipe(
@@ -621,7 +624,7 @@ export class AddChildMandateComponent {
     // ===== BASIC (already in your code) =====
     this.addMandateShowBasicForm.patchValue({
       id: m.id,
-      parentMandateId: this.leasingId,
+      parentMandateId: this.route.snapshot.params['leasingId'],
       clientId: this.clientId ?? m.clientId ?? (m as any)?.clientView?.clientId,
       leasingTypeId: (m as any)?.leasingTypeId,
       insuredById: (m as any)?.insuredById,
@@ -844,7 +847,7 @@ export class AddChildMandateComponent {
     if (!this.clientId) {
       this.addMandateShowBasicForm = this.fb.group({
         id: [null],
-        parentMandateId: [this.leasingId],
+        parentMandateId: [this.route.snapshot.params['leasingId']],
         clientId: [null, Validators.required],
         leasingTypeId: [null, Validators.required],
         insuredById: [null, Validators.required],
@@ -856,7 +859,7 @@ export class AddChildMandateComponent {
     } else {
       this.addMandateShowBasicForm = this.fb.group({
         id: [null],
-        parentMandateId: [this.leasingId],
+        parentMandateId: [this.route.snapshot.params['leasingId']],
         clientId: +this.clientId,
         leasingTypeId: [null, Validators.required],
         insuredById: [null, Validators.required],
@@ -1479,7 +1482,7 @@ export class AddChildMandateComponent {
       description: basic.description ?? 'string',
       date: basic.date,
       clientId: resolvedClientId,
-      parentMandateId: this.leasingId,
+      parentMandateId: this.route.snapshot.params['leasingId'],
       leasingTypeId: idOf(basic.leasingTypeId),
       validityDay: +basic.validityDay,
       expireDate: basic.expireDate,

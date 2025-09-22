@@ -116,7 +116,10 @@
           alt="download"
           title="download"
           class="d-inline-block mx-2 my-2"
-          *ngIf="download"
+          *ngIf="
+            download &&
+            (!viewLeasingMandateTable || rowData?.parentMandateId == null)
+          "
           (click)="onDownload.emit(rowData)"
         />
         <ng-container *appHasPermission="editPermission">
@@ -153,7 +156,10 @@
           src="/assets/images/shared/table/side.svg"
           alt="side"
           class="d-inline-block mx-2 my-2"
-          *ngIf="side"
+          *ngIf="
+            side &&
+            (!viewLeasingMandateTable || rowData?.parentMandateId == null)
+          "
           title="activities"
           (click)="wizardBtn.emit(rowData.id)"
         />

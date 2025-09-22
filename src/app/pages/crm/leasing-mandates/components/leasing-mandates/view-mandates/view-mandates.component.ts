@@ -46,6 +46,7 @@ export class ViewMandatesComponent {
     { field: 'validityDay', header: 'Validity Day' },
     { field: 'gracePeriodInDays', header: 'Grace Period In Days' },
     { field: 'indicativeRentals', header: 'Indicative Rentals' },
+    { field: 'mandateKind', header: 'Mandate Type' }, // 👈 NEW (Parent / Child / Clone)
   ];
   showDeleteModal: boolean = false;
   selectedLeasingMandateId: number | null = null;
@@ -91,6 +92,7 @@ export class ViewMandatesComponent {
                   m.clientView?.clientName ??
                   clients.find((c) => c.id === m.clientId)?.name ??
                   '— unknown —',
+                mandateKind: this.getMandateKind(m), // 👈 add it here
               }))
           ),
 
@@ -136,6 +138,7 @@ export class ViewMandatesComponent {
                 );
                 return {
                   ...m,
+                  mandateKind: this.getMandateKind(m), // 👈 add it here too
                 };
               })
           ),
@@ -332,5 +335,9 @@ export class ViewMandatesComponent {
     // Optionally confirm first
     this.selectedIds = ids;
     this.showDeleteModal = true;
+  }
+  private getMandateKind(m: any): 'Parent' | 'Child' | 'Clone' {
+    if (m?.isClone === true || m?.clonedFromMandateId != null) return 'Clone';
+    return m?.parentMandateId != null ? 'Child' : 'Parent';
   }
 }

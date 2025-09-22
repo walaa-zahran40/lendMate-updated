@@ -715,6 +715,13 @@ export class AddMandateComponent {
         ? this.paymentPeriodsCache.find((p) => p.id === pid)?.monthCount ?? null
         : null;
 
+      console.log(
+        '[Edit] paymentPeriodId =',
+        pid,
+        '→ monthCount =',
+        monthCount
+      ); // 👈 add this
+
       this.leasingFinancialRateForm.patchValue(
         {
           paymentPeriodId: pid,
@@ -1361,33 +1368,7 @@ export class AddMandateComponent {
       this.updateProvisionAmount();
     });
   }
-  private computeDownPayment(): void {
-    console.log('down payment compute');
-    const assetCost = +this.leasingFinancialBasicForm.get('assetCost')?.value;
-    const percentOfFinance =
-      +this.leasingFinancialBasicForm.get('percentOfFinance')?.value;
-    let downPayment = assetCost * (1 - percentOfFinance / 100);
-    this.leasingFinancialBasicForm.get('downPayment')?.setValue(downPayment);
-  }
-  private computeNFA(): void {
-    console.log('NFA payment compute');
-    const assetCost = +this.leasingFinancialBasicForm.get('assetCost')?.value;
-    const downPayment =
-      +this.leasingFinancialBasicForm.get('downPayment')?.value;
 
-    const nfa = assetCost - downPayment;
-    this.leasingFinancialBasicForm.get('nfa')?.setValue(nfa);
-  }
-
-  private setPeriodInterestRate(): void {
-    const interestRate =
-      +this.leasingFinancialRateForm.get('interestRate')?.value || 0;
-    const monthCount = this.getMonthCountFromRates();
-    const value = ((interestRate / 100) * monthCount * 365) / 360 / 12;
-    this.leasingFinancialRateForm
-      .get('periodInterestRate')
-      ?.setValue(value, { emitEvent: false });
-  }
   private getMonthCountFromRates(): number {
     const pid =
       +this.leasingFinancialRateForm.get('paymentPeriodId')?.value || 0;
@@ -1399,65 +1380,6 @@ export class AddMandateComponent {
   private num(v: any, def = 0): number {
     const n = +v;
     return Number.isFinite(n) ? n : def;
-  }
-  private round(n: number, dp = 3): number {
-    return +parseFloat(String(n)).toFixed(dp);
-  }
-
-  /** Get monthCount for a paymentPeriodId from the store once, then call cb. */
-  private withMonthCount(cb: (monthCount: number) => void): void {
-    const pid = this.num(
-      this.addMandateShowBasicForm.get('paymentPeriodId')?.value
-    );
-    if (!pid) return cb(0);
-    this.paymentPeriods$?.pipe(take(1)).subscribe((periods) => {
-      const mm = periods?.find((p) => p.id === pid)?.monthCount ?? 0;
-      cb(this.num(mm));
-    });
-  }
-
-  // --- RV & Provision (ADDMANDATESHOWBASICFORM) ---
-  private recalcRvAndProvision(): void {
-    this.calcRvAmountFromPercent();
-    this.calcProvisionPercent();
-    this.calcProvisionAmount();
-  }
-
-  private calcRvPercentFromAmount(): void {
-    const nfa = this.addMandateShowBasicForm.get('nfa')?.value;
-    const rvAmount = this.addMandateShowBasicForm.get('rvAmount')?.value;
-    const pct = calcRvPercent(nfa, rvAmount);
-    this.addMandateShowBasicForm
-      .get('rvPercent')
-      ?.setValue(pct, { emitEvent: false });
-  }
-
-  private calcRvAmountFromPercent(): void {
-    const nfa = this.addMandateShowBasicForm.get('nfa')?.value;
-    const rvPercent = this.addMandateShowBasicForm.get('rvPercent')?.value;
-    const amt = calcRvAmount(nfa, rvPercent);
-    this.addMandateShowBasicForm
-      .get('rvAmount')
-      ?.setValue(amt, { emitEvent: false });
-  }
-  private calcProvisionPercent(): void {
-    const nfa = this.addMandateShowBasicForm.get('nfa')?.value;
-    const rvAmount = this.addMandateShowBasicForm.get('rvAmount')?.value;
-    const provAmt = this.addMandateShowBasicForm.get('provisionAmount')?.value;
-    const pct = calcProvisionPercent(nfa, rvAmount, provAmt);
-    this.addMandateShowBasicForm
-      .get('provisionPercent')
-      ?.setValue(pct, { emitEvent: false });
-  }
-
-  private calcProvisionAmount(): void {
-    const nfa = this.addMandateShowBasicForm.get('nfa')?.value;
-    const rvAmount = this.addMandateShowBasicForm.get('rvAmount')?.value;
-    const provPct = this.addMandateShowBasicForm.get('provisionPercent')?.value;
-    const amt = calcProvisionAmount(nfa, rvAmount, provPct);
-    this.addMandateShowBasicForm
-      .get('provisionAmount')
-      ?.setValue(amt, { emitEvent: false });
   }
 
   /** Build the single payload for `facade.create(...)` */

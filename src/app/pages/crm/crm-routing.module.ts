@@ -350,6 +350,10 @@ const routes: Routes = [
     component: ViewMandatesComponent,
   },
   {
+    path: 'leasing-mandates/view-mandates/:clientId/:leasingId',
+    component: ViewMandatesComponent,
+  },
+  {
     path: 'leasing-mandates/add-mandate',
     component: AddMandateComponent,
   },

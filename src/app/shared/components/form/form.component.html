@@ -60,14 +60,6 @@
     />
 
     <p-button
-      *ngIf="addMandateShowFeeForm"
-      icon="pi pi-cog"
-      [label]="'BUTTONS.VIEW_MANDATE_FEES' | translate"
-      (click)="viewMandateFees()"
-      class="custom-view m-0 float-right"
-    />
-
-    <p-button
       *ngIf="addFeeCalculationTypesLookupsForm"
       icon="pi pi-cog"
       [label]="'BUTTONS.VIEW_FEES_CALCULATION_TYPE' | translate"
@@ -413,13 +405,6 @@
       [label]="'BUTTONS.VIEW_CONTACT_PERSONS' | translate"
       [disabled]="!currentClientId"
       (click)="viewContactPersons.emit(currentClientId)"
-      class="custom-view m-0 float-right"
-    />
-    <p-button
-      *ngIf="addMandateShowAssetTypeForm"
-      icon="pi pi-cog"
-      [label]="'BUTTONS.VIEW_ASSET_TYPES' | translate"
-      (click)="viewAssetTypes()"
       class="custom-view m-0 float-right"
     />
 
