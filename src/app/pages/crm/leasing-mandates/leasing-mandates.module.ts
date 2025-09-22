@@ -20,7 +20,6 @@ import { AddMandateAdditionalTermsComponent } from './components/mandate-activit
 import { ClonesEffects } from './store/clone/clones.effects';
 import { reducer as clonesReducer } from './store/clone/clones.reducer';
 
-import { ViewChildMandatesComponent } from './components/mandate-activities/clone/view-child-mandates/view-child-mandates.component';
 import { FinancialFormsEffects } from './store/financial-form/financial-forms.effects';
 import { reducer as financialFormsReducer } from './store/financial-form/financial-forms.reducer';
 import { ViewMandatesComponent } from './components/leasing-mandates/view-mandates/view-mandates.component';
@@ -39,7 +38,6 @@ import { StepperModule } from 'primeng/stepper';
     ViewMandateAdditionalTermsComponent,
     WizardComponent,
     LeasingFinancialFormCompoundComponent,
-    ViewChildMandatesComponent,
     ViewMandatesComponent,
     ViewMandateWorkFlowHistoryComponent,
     AddMandateFeeComponent,

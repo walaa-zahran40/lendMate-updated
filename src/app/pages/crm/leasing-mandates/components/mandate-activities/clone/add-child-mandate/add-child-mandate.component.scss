@@ -33,6 +33,24 @@
       font-size: var(--custom-font-size-13);
       line-height: var(--custom-font-size-24);
     }
+
+    .zoom {
+      zoom: 80%;
+    }
+    .next {
+      padding: 10px 50px !important;
+    }
+    .next:hover {
+      color: #fff !important;
+    }
+    .p-step-title {
+      color: rgba(10, 105, 187, 1) !important;
+      font-weight: 600 !important;
+    }
+    .p-step:has(~ .p-step-active) .p-stepper-separator {
+      background-color: rgba(10, 105, 187, 1) !important;
+    }
+
     .p-tablist-tab-list {
       background: var(--bg-transparent);
     }
@@ -57,7 +75,6 @@
       margin-left: var(--custom-position-auto);
       margin-right: var(--custom-position-28);
       text-align: var(--custom-position-center);
-      padding: 14px 71px;
       font-size: var(--custom-font-size-18);
       cursor: var(--custom-cursor);
       color: var(--custom-color-white);
@@ -310,7 +327,7 @@
     }
     .p-inputtext {
       color: var(--custom-grey-bold);
-      margin-bottom: var(--custom-size-16);
+      margin-bottom: 0;
       padding: var(--custom-size-12) var(--custom-size-16);
       border-radius: var(--custom-margin-0);
       border: 1px solid var(--custom-color-grey-light);
@@ -342,9 +359,7 @@
       line-height: var(--custom-line-height-25);
       color: var(--p-tabs-active-bar-background);
     }
-    .p-toolbar {
-      padding-right: var(--custom-position-28) !important;
-    }
+
     .p-splitbutton {
       width: 100%;
       flex-direction: row-reverse;
@@ -358,6 +373,12 @@
     .custom-next .p-button {
       padding-block: 0;
     }
+    .table {
+      overflow-y: auto;
+      height: 110vh;
+      display: block;
+    }
+
     .p-button {
       border-radius: 0;
     }
@@ -410,6 +431,73 @@
     }
   }
 }
+.progress {
+  border-radius: 24px;
+  height: 17px;
+  background: rgba(242, 242, 242, 1);
+}
+.progress-bar {
+  background: rgba(10, 105, 187, 1);
+}
+.step-progress {
+  position: relative;
+  height: 16px;
+  background: rgba(242, 242, 242, 1);
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.step-progress__thumb {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: rgba(10, 105, 187, 1);
+  border-radius: 24px;
+  transition: left 280ms ease; /* smooth move */
+}
+
+.flex-fill {
+  color: rgba(165, 165, 165, 1);
+  font-size: 16px;
+  font-family: "poppins", sans-serif;
+  line-height: 120%;
+  font-weight: 600;
+}
+.flex-fill p {
+  margin: 0 auto;
+}
+.flex-fill.active {
+  color: rgba(10, 105, 187, 1);
+  font-size: 16px;
+  font-family: "poppins", sans-serif;
+  line-height: 120%;
+  font-weight: 600;
+}
+.btn-outline-primary {
+  height: 57px;
+  border: 1px solid rgba(10, 105, 187, 1);
+  border-radius: 0px;
+  width: 157px;
+}
+.btn-primary {
+  height: 57px;
+  background-color: rgba(10, 105, 187, 1);
+  border-radius: 0px;
+  width: 157px;
+}
+.btn-outline-primary:hover {
+  height: 57px;
+  background-color: rgba(10, 105, 187, 1);
+  color: #fff;
+  border-radius: 0px;
+  width: 157px;
+}
+.btn-success,
+.btn-success:focus {
+  background-color: rgba(10, 105, 187, 1);
+  border-radius: 0px;
+  width: 157px;
+}
 h2 {
   font-size: var(--custom-size-16);
   line-height: var(--custom-line-height-25);
@@ -452,4 +540,26 @@ form {
 }
 .p-plus {
   background-color: red;
+}
+.parent {
+  padding: 40px 10px;
+
+  .first-form,
+  .third-form {
+    border: 1px solid #aaabab;
+    margin-bottom: 50px;
+    padding: 20px;
+  }
+  .second-form {
+    border: 1px solid #aaabab;
+    padding: 20px;
+  }
+}
+.page-content {
+  margin-top: 10px;
+}
+.buttons {
+  display: flex;
+  justify-content: end;
+  margin: 50px 0px;
 }

@@ -40,7 +40,6 @@ import { AddClientLegalsComponent } from './clients/components/client-activities
 import { ViewClientLegalsComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-legals/view-client-legal/view-client-legal.component';
 import { AddMandateAdditionalTermsComponent } from './leasing-mandates/components/mandate-activities/mandate-additional-terms/add-mandate-additional-terms/add-mandate-additional-terms.component';
 import { ViewMandateAdditionalTermsComponent } from './leasing-mandates/components/mandate-activities/mandate-additional-terms/view-mandate-additional-terms/view-mandate-additional-terms.component';
-import { ViewChildMandatesComponent } from './leasing-mandates/components/mandate-activities/clone/view-child-mandates/view-child-mandates.component';
 import { AddMandateFeeComponent } from './leasing-mandates/components/mandate-activities/mandate-fees/add-mandate-fee/add-mandate-fee.component';
 import { ViewMandateFeesComponent } from './leasing-mandates/components/mandate-activities/mandate-fees/view-mandate-fees/view-mandate-fees.component';
 import { PendingChangesGuard } from '../../shared/guards/pending-changes.guard';
@@ -398,14 +397,7 @@ const routes: Routes = [
     component: AddChildMandateComponent,
     canDeactivate: [PendingChangesGuard],
   },
-  {
-    path: 'leasing-mandates/view-child-mandates/:leasingId/:leasingMandatesId',
-    component: ViewChildMandatesComponent,
-  },
-  {
-    path: 'leasing-mandates/view-child-mandates/:leasingId/:leasingMandatesId/:clientId',
-    component: ViewChildMandatesComponent,
-  },
+
   // Manage Mandate Terms
   {
     path: 'leasing-mandates/add-mandate-additional-term/:leasingId/:leasingMandatesId',

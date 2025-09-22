@@ -65,14 +65,8 @@ import { InterestRateBenchMarksFacade } from '../../../../../lookups/store/inter
 import { PaymentMonthDay } from '../../../../../lookups/store/payment-month-days/payment-month-day.model';
 import { PaymentMonthDaysFacade } from '../../../../../lookups/store/payment-month-days/payment-month-days.facade';
 import {
-  calcDownFromPercent,
-  calcNfa,
-  calcPercentFromDown,
-  calcPeriodInterestRate,
   calcProvisionAmount,
   calcProvisionPercent,
-  calcReservePaymentAmount,
-  calcReservePaymentCount,
   calcRvAmount,
   calcRvPercent,
 } from '../../../../../../shared/utils/leasing-calcs.util';
