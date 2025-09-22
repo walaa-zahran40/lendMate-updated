@@ -39,10 +39,10 @@ export class SignatoryOfficersService {
       payload
     );
   }
-
   update(id: number, changes: Partial<SignatoryOfficer>): Observable<void> {
     if (id == null) throw new Error('update() called without id');
-    return this.http.put<void>(`${this.baseUrl}/${id}`, changes);
+    const body: SignatoryOfficer = { ...(changes as any), id }; // 👈 force id
+    return this.http.put<void>(`${this.baseUrl}/${id}`, body);
   }
 
   delete(id: number): Observable<void> {

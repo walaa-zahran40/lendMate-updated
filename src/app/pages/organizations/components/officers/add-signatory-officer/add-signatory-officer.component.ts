@@ -66,6 +66,7 @@ export class AddSignatoryOfficerComponent {
             ),
             take(1)
           )
+
           .subscribe((ct) => {
             this.addSignatoryOfficersLookupsForm.patchValue({
               id: ct!.id,
@@ -104,10 +105,15 @@ export class AddSignatoryOfficerComponent {
     console.log('  name.errors:', nameCtrl?.errors);
     console.log('  nameAR.errors:', nameARCtrl?.errors);
 
-    if (this.viewOnly) {
-      console.log('⚠️ viewOnly mode — aborting add');
+    if (this.viewOnly) return;
+    if (this.addSignatoryOfficersLookupsForm.invalid) {
+      this.addSignatoryOfficersLookupsForm.markAllAsTouched();
       return;
     }
+
+    const routeId = +this.route.snapshot.paramMap.get('id')!; // edit mode has this
+    const { officerId, startDate, isActive } =
+      this.addSignatoryOfficersLookupsForm.getRawValue();
 
     if (this.addSignatoryOfficersLookupsForm.invalid) {
       console.warn('❌ Form is invalid — marking touched and aborting');
@@ -115,27 +121,28 @@ export class AddSignatoryOfficerComponent {
       return;
     }
 
-    const { officerId, startDate } = this.addSignatoryOfficersLookupsForm.value;
     const payload: Partial<SignatoryOfficer> = { officerId, startDate };
     console.log('  → payload object:', payload);
 
-    // Double-check your route param
-    const routeId = this.route.snapshot.paramMap.get('id');
     console.log('  route.snapshot.paramMap.get(clientId):', routeId);
 
     if (this.editMode) {
-      const { id, officerId, startDate } =
-        this.addSignatoryOfficersLookupsForm.value;
-      const payload: SignatoryOfficer = { id, officerId, startDate };
-      console.log(
-        '🔄 Dispatching UPDATE id=',
-        this.clientId,
-        ' payload=',
-        payload
-      );
-      this.facade.update(id, payload);
+      const routeId = +this.route.snapshot.paramMap.get('id')!;
+      const { officerId, startDate, isActive } =
+        this.addSignatoryOfficersLookupsForm.getRawValue();
+      const payload: SignatoryOfficer = {
+        id: routeId,
+        officerId,
+        startDate,
+        isActive,
+      };
+      this.facade.update(routeId, payload);
     } else {
-      console.log('➕ Dispatching CREATE payload=', payload);
+      const payload: Partial<SignatoryOfficer> = {
+        officerId,
+        startDate,
+        isActive,
+      };
       this.facade.create(payload);
     }
     if (this.addSignatoryOfficersLookupsForm.valid) {

@@ -88,7 +88,6 @@ export class SignatoryOfficersEffects {
         this.svc.update(id, changes).pipe(
           mergeMap(() => [
             ActionsList.updateEntitySuccess({ id, changes }),
-            ActionsList.loadAll({}), // 👈 this is crucial
             ActionsList.entityOperationSuccess({
               entity: EntityNames.SignatoryOfficer,
               operation: 'update',
@@ -116,7 +115,7 @@ export class SignatoryOfficersEffects {
     this.actions$.pipe(
       ofType(
         ActionsList.createEntitySuccess,
-        ActionsList.updateEntitySuccess,
+        // ActionsList.updateEntitySuccess,
         ActionsList.deleteEntitySuccess
       ),
       map(() => ActionsList.loadAll({}))
