@@ -74,6 +74,10 @@ import { TeamOfficersEffects } from './store/teams/team-officers/team-officers.e
 import { roleClaimsReducer } from './store/roles/role-claims/role-claims.reducer';
 import { RoleClaimsEffects } from './store/roles/role-claims/role-claims.effects';
 import { PaginatorModule } from 'primeng/paginator';
+import { TranslateModule } from '@ngx-translate/core';
+import { ToggleSwitchModule } from 'primeng/toggleswitch';
+import { FormsModule } from '@angular/forms';
+import { SelectModule } from 'primeng/select';
 
 @NgModule({
   declarations: [
@@ -121,6 +125,10 @@ import { PaginatorModule } from 'primeng/paginator';
     SharedModule,
     TabsModule,
     PaginatorModule,
+    SelectModule,
+    FormsModule,
+    TranslateModule,
+    ToggleSwitchModule,
     ButtonModule,
     StoreModule.forFeature('departments', DepartmentsReducer),
     EffectsModule.forFeature([DepartmentsEffects]),
@@ -159,7 +167,6 @@ import { PaginatorModule } from 'primeng/paginator';
   ],
   exports: [
     AddDepartmentComponent,
-    AddOfficerComponent,
     AddDepartmentManagerComponent,
     AddTeamComponent,
     AddTeamLeadComponent,
@@ -169,7 +176,33 @@ import { PaginatorModule } from 'primeng/paginator';
     AddPageOperationComponent,
     AddOfficerComponent,
     AddSignatoryOfficerComponent,
+    ViewDepartmentsComponent,
+    WizardDepartmentComponent,
     ViewDepartmentManagerComponent,
+    ViewTeamsComponent,
+    WizardTeamsComponent,
+    ViewTeamLeadComponent,
+    AddBranchComponent,
+    ViewBranchAddressesComponent,
+    AddBranchAddressesComponent,
+    AddBranchComponent,
+    ViewBranchManagersComponent,
+    AddBranchManagersComponent,
+    AddBranchOfficersComponent,
+    ViewBranchComponent,
+    WizardBranchComponent,
+    ViewBranchOfficersComponent,
+    ViewRolesComponent,
+    ViewTeamOfficersComponent,
+    ViewOperationsComponent,
+    ViewPageOperationsComponent,
+    ViewOfficersComponent,
+    ViewOfficersComponent,
+    ViewSignatoryOfficersComponent,
+    AddPageComponent,
+    ViewPagesComponent,
+    WizardRolesComponent,
+    AddRoleClaimComponent,
   ],
 })
 export class OrganizationsModule {}

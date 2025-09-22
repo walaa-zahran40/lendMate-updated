@@ -28,14 +28,20 @@ export class SignatoryOfficersService {
   }
 
   getById(id: number): Observable<SignatoryOfficer> {
-    return this.http.get<SignatoryOfficer>(`${this.baseUrl}/SignatoryOfficerId?id=${id}`);
+    return this.http.get<SignatoryOfficer>(
+      `${this.baseUrl}/SignatoryOfficerId?id=${id}`
+    );
   }
 
   create(payload: Omit<SignatoryOfficer, 'id'>): Observable<SignatoryOfficer> {
-    return this.http.post<SignatoryOfficer>(`${this.baseUrl}/CreateSignatoryOfficer`, payload);
+    return this.http.post<SignatoryOfficer>(
+      `${this.baseUrl}/CreateSignatoryOfficer`,
+      payload
+    );
   }
 
   update(id: number, changes: Partial<SignatoryOfficer>): Observable<void> {
+    if (id == null) throw new Error('update() called without id');
     return this.http.put<void>(`${this.baseUrl}/${id}`, changes);
   }
 

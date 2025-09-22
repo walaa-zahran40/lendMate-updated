@@ -8,7 +8,10 @@ import { EntityNames } from '../../../../shared/constants/entity-names';
 
 @Injectable()
 export class SignatoryOfficersEffects {
-  constructor(private actions$: Actions, private svc: SignatoryOfficersService) {}
+  constructor(
+    private actions$: Actions,
+    private svc: SignatoryOfficersService
+  ) {}
 
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
@@ -110,13 +113,13 @@ export class SignatoryOfficersEffects {
   );
 
   refreshList$ = createEffect(() =>
-      this.actions$.pipe(
-        ofType(
-          ActionsList.createEntitySuccess,
-          ActionsList.updateEntitySuccess,
-          ActionsList.deleteEntitySuccess
-        ),
-        map(() => ActionsList.loadAll({}))
-      )
-    );
+    this.actions$.pipe(
+      ofType(
+        ActionsList.createEntitySuccess,
+        ActionsList.updateEntitySuccess,
+        ActionsList.deleteEntitySuccess
+      ),
+      map(() => ActionsList.loadAll({}))
+    )
+  );
 }

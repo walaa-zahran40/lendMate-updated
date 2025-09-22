@@ -103,6 +103,7 @@ import { AddPOInformationFormComponent } from '../../pages/purchasing/forms/add-
 import { AddSignatoryFormComponent } from '../../pages/purchasing/forms/add-signatory-form/add-signatory-form.component';
 import { AddPurchasingOrderFileComponent } from '../../pages/purchasing/forms/add-purchasing-order-file-form/add-purchasing-order-file-form.component';
 import { DownloadPopupPurchasingOrdersComponent } from './download-popup-purchasing-orders/download-popup-purchasing-orders.component';
+import { FormSignatoryOfficerComponent } from '../../pages/organizations/forms/form-signatory-officer/form-signatory-officer.component';
 
 @NgModule({
   declarations: [
@@ -162,6 +163,7 @@ import { DownloadPopupPurchasingOrdersComponent } from './download-popup-purchas
     AddEvaluatorFormComponent,
     AddPurchasingOrderComponent,
     FirstClaimStatusFormComponent,
+    FormSignatoryOfficerComponent,
     DownloadPopupPurchasingOrdersComponent,
   ],
   imports: [
@@ -272,6 +274,7 @@ import { DownloadPopupPurchasingOrdersComponent } from './download-popup-purchas
     VendorFormComponent,
     AddPOInformationFormComponent,
     AddSignatoryFormComponent,
+    FormSignatoryOfficerComponent,
     DownloadPopupPurchasingOrdersComponent,
   ],
 })
