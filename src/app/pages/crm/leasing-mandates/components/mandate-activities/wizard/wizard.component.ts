@@ -64,15 +64,15 @@ export class WizardComponent implements OnInit {
       {
         imgUrl: '/assets/images/shared/card/mandate-manage.svg',
         imgAlt: 'mandate',
-        title: 'MANDATE OFFICERS',
-        content: 'MANDATE.OFFICERS_DESC',
+        title: 'MANDATE.MANDATE_OFFICERS',
+        content: 'MANDATE.MANDATE_OFFICERS_DESC',
         link: `/crm/leasing-mandates/view-mandate-officers/${id}/${this.routeId}`,
       },
       {
         imgUrl: '/assets/images/shared/card/mandate-manage.svg',
         imgAlt: 'mandate',
-        title: 'MANDATE CONTACT_PERSONS',
-        content: 'MANDATE.CONTACT_PERSONS_DESC',
+        title: 'MANDATE.MANDATE_CONTACT_PERSONS',
+        content: 'MANDATE.MANDATE_CONTACT_PERSONS_DESC',
         link: `/crm/leasing-mandates/view-mandate-contact-persons/${id}/${this.routeId}`,
       },
       {

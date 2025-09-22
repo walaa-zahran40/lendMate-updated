@@ -1,43 +1,45 @@
 <div class="page-content">
   <app-toolbar-table
-    [addPermission]="'/MandateFees/Post'"
-    [title]="'Mandate Fees'"
-    [labelBtn]="'Add Mandate Fee'"
+    [addPermission]="'/MandateAdditionalTerms/Post'"
+    [title]="'Mandate Additional Terms'"
+    [labelBtn]="'Add Mandate Additional Term'"
     [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
     [backExists]="true"
     [customSpacing]="'custom-spacing'"
     [exports]="true"
-    (addBtn)="onAddMandateFee()"
+    (addBtn)="onAddMandateAdditionalTerm()"
     (searchChange)="onSearch($event)"
     (toggleFiltersEvent)="onToggleFilters($event)"
     (exportExcel)="tableRef.exportToExcel()"
     (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
 
-  <ng-container *ngIf="mandateFees$ | async as mandateFees">
+  <ng-container
+    *ngIf="mandateAdditionalTerms$ | async as mandateAdditionalTerms"
+  >
     <app-table
       [viewPermission]="[
-        '/MandateFees/Get',
-        '/MandateFees/GetAll',
-        '/MandateFees/GetAllHistory'
+        '/MandateAdditionalTerms/Get',
+        '/MandateAdditionalTerms/GetAll',
+        '/MandateAdditionalTerms/GetAllHistory'
       ]"
-      [editPermission]="'/MandateFees/Put'"
-      [deletePermission]="'/MandateFees/Delete'"
+      [editPermission]="'/MandateAdditionalTerms/Put'"
+      [deletePermission]="'/MandateAdditionalTerms/Delete'"
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
-      [tableData]="filteredMandateFees"
+      [tableData]="filteredMandateAdditionalTerms"
       [side]="false"
       [download]="false"
       [first]="first2"
       [checkBox]="true"
       [filters]="showFilters"
       [uppercase]="'uppercase'"
-      [viewMandateFeesTable]="true"
-      (onDelete)="onDeleteMandateFee($event)"
-      (onEdit)="onEditMandateFee($event)"
-      (viewForm)="onViewMandateFees($event)"
+      [viewMandateAdditionalTermsTable]="true"
+      (onDelete)="onDeleteMandateAdditionalTerm($event)"
+      (onEdit)="onEditMandateAdditionalTerm($event)"
+      (viewForm)="onViewMandateAdditionalTerms($event)"
     ></app-table>
     <app-delete-module
       [visible]="showDeleteModal"

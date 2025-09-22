@@ -40,10 +40,10 @@ import { AddClientLegalsComponent } from './clients/components/client-activities
 import { ViewClientLegalsComponent } from './clients/components/client-activities/client-activity-wizard/activities/client-legals/view-client-legal/view-client-legal.component';
 import { AddMandateAdditionalTermsComponent } from './leasing-mandates/components/mandate-activities/mandate-additional-terms/add-mandate-additional-terms/add-mandate-additional-terms.component';
 import { ViewMandateAdditionalTermsComponent } from './leasing-mandates/components/mandate-activities/mandate-additional-terms/view-mandate-additional-terms/view-mandate-additional-terms.component';
-import { AddMandateFeeComponent } from './leasing-mandates/components/mandate-activities/mandate-fees/add-mandate-fee/add-mandate-fee.component';
-import { ViewMandateFeesComponent } from './leasing-mandates/components/mandate-activities/mandate-fees/view-mandate-fees/view-mandate-fees.component';
 import { PendingChangesGuard } from '../../shared/guards/pending-changes.guard';
 import { ViewMandateWorkFlowHistoryComponent } from './leasing-mandates/components/mandate-activities/view-mandate-workflow-history/view-mandate-work-flow-history.component';
+import { AddMandateOfficerComponent } from './leasing-mandates/components/mandate-activities/mandate-officers/add-mandate-officer/add-mandate-officer.component';
+import { ViewMandateOfficersComponent } from './leasing-mandates/components/mandate-activities/mandate-officers/view-mandate-officers/view-mandate-officers.component';
 
 const routes: Routes = [
   /*Clients , Client Onboarding Routing*/
@@ -430,33 +430,33 @@ const routes: Routes = [
     path: 'leasing-mandates/view-mandate-additional-terms/:leasingId/:leasingMandatesId/:clientId',
     component: ViewMandateAdditionalTermsComponent,
   },
-  // MandateFees
+  // Manage Officers
   {
-    path: 'leasing-mandates/add-mandate-fee/:leasingId/:leasingMandatesId',
-    component: AddMandateFeeComponent,
+    path: 'leasing-mandates/add-mandate-officer/:leasingId/:leasingMandatesId',
+    component: AddMandateOfficerComponent,
   },
   {
-    path: 'leasing-mandates/add-mandate-fee/:leasingId/:leasingMandatesId/:clientId',
-    component: AddMandateFeeComponent,
-  },
-  {
-    path: 'leasing-mandates/edit-mandate-fee/:id/:leasingId/:leasingMandatesId',
-    component: AddMandateFeeComponent,
-    canDeactivate: [PendingChangesGuard],
-  },
-  {
-    path: 'leasing-mandates/edit-mandate-fee/:id/:leasingId/:leasingMandatesId/:clientId',
-    component: AddMandateFeeComponent,
-    canDeactivate: [PendingChangesGuard],
+    path: 'leasing-mandates/add-mandate-officer/:leasingId/:leasingMandatesId/:clientId',
+    component: AddMandateOfficerComponent,
   },
 
   {
-    path: 'leasing-mandates/view-mandate-fees/:leasingId/:leasingMandatesId',
-    component: ViewMandateFeesComponent,
+    path: 'leasing-mandates/edit-mandate-officer/:leasingId/:leasingMandatesId',
+    component: AddMandateOfficerComponent,
+    canDeactivate: [PendingChangesGuard],
   },
   {
-    path: 'leasing-mandates/view-mandate-fees/:leasingId/:leasingMandatesId/:clientId',
-    component: ViewMandateFeesComponent,
+    path: 'leasing-mandates/edit-mandate-officer/:leasingId/:leasingMandatesId/:clientId',
+    component: AddMandateOfficerComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
+  {
+    path: 'leasing-mandates/view-mandate-officers/:leasingId/:leasingMandatesId',
+    component: ViewMandateOfficersComponent,
+  },
+  {
+    path: 'leasing-mandates/view-mandate-officers/:leasingId/:leasingMandatesId/:clientId',
+    component: ViewMandateOfficersComponent,
   },
   //Leasing Financial Form
   {

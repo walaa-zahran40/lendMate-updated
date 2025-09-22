@@ -23,12 +23,12 @@ import { reducer as clonesReducer } from './store/clone/clones.reducer';
 import { FinancialFormsEffects } from './store/financial-form/financial-forms.effects';
 import { reducer as financialFormsReducer } from './store/financial-form/financial-forms.reducer';
 import { ViewMandatesComponent } from './components/leasing-mandates/view-mandates/view-mandates.component';
-import { AddMandateFeeComponent } from './components/mandate-activities/mandate-fees/add-mandate-fee/add-mandate-fee.component';
-import { ViewMandateFeesComponent } from './components/mandate-activities/mandate-fees/view-mandate-fees/view-mandate-fees.component';
 import { MandateFeesEffects } from './store/mandate-fees/mandate-fees.effects';
 import { mandateFeesReducer } from './store/mandate-fees/mandate-fees.reducer';
 import { ViewMandateWorkFlowHistoryComponent } from './components/mandate-activities/view-mandate-workflow-history/view-mandate-work-flow-history.component';
 import { StepperModule } from 'primeng/stepper';
+import { AddMandateOfficerComponent } from './components/mandate-activities/mandate-officers/add-mandate-officer/add-mandate-officer.component';
+import { ViewMandateOfficersComponent } from './components/mandate-activities/mandate-officers/view-mandate-officers/view-mandate-officers.component';
 
 @NgModule({
   declarations: [
@@ -40,8 +40,8 @@ import { StepperModule } from 'primeng/stepper';
     LeasingFinancialFormCompoundComponent,
     ViewMandatesComponent,
     ViewMandateWorkFlowHistoryComponent,
-    AddMandateFeeComponent,
-    ViewMandateFeesComponent,
+    AddMandateOfficerComponent,
+    ViewMandateOfficersComponent,
   ],
   imports: [
     CommonModule,

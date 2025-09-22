@@ -218,6 +218,11 @@
     "ADDITIONAL_TERMS": "Mandate Additional Terms",
     "ADDITIONAL_TERMS_DESC": "Edit or review your mandate’s T&Cs…",
     "FINANCIAL_FORM": "Leasing Financial Form",
+    "MANDATE_OFFICERS": "Mandate Officers",
+    "MANDATE_CONTACT_PERSONS": "Mandate Contact Persons",
+    "MANDATE_OFFICERS_DESC": "Mandate Officers Description",
+    "MANDATE_CONTACT_PERSONS_DESC": "Mandate Contact Persons Description",
+
     "FINANCIAL_FORM_DESC": "Edit or review your Leasing Financial Form",
     "FEES": "Mandate Fees",
     "FEES_DESC": "Edit or review your Mandate Fees",
@@ -840,6 +845,7 @@
     "MANDATE": {
       "LABEL_OFFICER_NAME": "Officer Name",
       "LABEL_ASSET_TYPE": "Asset Type",
+
       "FINANCIAL_ACTIVITIES.TITLE": "Financial Activities",
       "FINANCIAL_ACTIVITIES.DESCRIPTION": "Define the financial parameters for this mandate",
       "PLACEHOLDER_SELECT_ASSET_TYPE": "Select Asset Type",

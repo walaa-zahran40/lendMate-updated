@@ -101,6 +101,12 @@
   },
   "MANDATE": {
     "CLONE": "نسخ التفويض",
+    "MANDATE_OFFICERS": "ضباط التفويض",
+    "MANDATE_OFFICERS_DESC": " وصف ضباط التفويض",
+
+    "MANDATE_CONTACT_PERSONS": "جهات اتصال التفويض",
+    "MANDATE_CONTACT_PERSONS_DESC": " وصف جهات اتصال التفويض ",
+
     "CLONE_DESC": "إنشاء نسخة من هذا التفويض بسرعة…",
     "ADDITIONAL_TERMS": "الشروط الإضافية للتفويض",
     "ADDITIONAL_TERMS_DESC": "تعديل أو مراجعة الشروط والأحكام الخاصة بالتفويض…",
@@ -837,6 +843,7 @@
     },
     "MANDATE": {
       "LABEL_CLIENT_NAME": "اسم العميل",
+
       "PLACEHOLDER_CLIENT_NAME": "اختر اسم العميل",
       "ERROR_CLIENT_REQUIRED": "اسم العميل مطلوب.",
       "LABEL_VALIDITY_UNIT": "وحدة صلاحية التفويض",
