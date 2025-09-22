@@ -12,7 +12,6 @@ import { Store } from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   filter,
-  finalize,
   map,
   startWith,
   switchMap,
@@ -99,7 +98,8 @@ export class AddMandateComponent {
   selectedAction: string = '';
   public mandateId: any = null;
   public leasingMandateId: any = null;
-  clientId = +this.route.snapshot.params['clientId'];
+  raw = this.route.snapshot.paramMap.get('clientId');
+  clientId: number | undefined = this.raw ? Number(this.raw) : undefined;
   show = false;
   editShow = false;
   private paymentPeriodsCache: PaymentPeriod[] = [];
@@ -157,10 +157,11 @@ export class AddMandateComponent {
   interestRateBenchMarks$!: Observable<InterestRateBenchMark[]>;
   rentStructures$!: Observable<RentStructureType[]>;
   private currentMandateId!: number;
-  routeId = this.route.snapshot.params['leasingMandatesId'];
+  routeId = this.route.snapshot.params['leasingId'];
   mandate!: any;
   private extraCurrencyRates: CurrencyExchangeRate[] = [];
   selectedIds: number[] = [];
+  private patchedStep4FromMandate = false;
 
   constructor(
     private fb: FormBuilder,
@@ -384,9 +385,10 @@ export class AddMandateComponent {
 
     //Load the financial form for this mandate
 
-    this.financialFormsFacade.loadByLeasingMandateId(
-      this.route.snapshot.params['leasingMandatesId']
-    );
+    // const leasingId = Number(this.route.snapshot.paramMap.get('leasingId'));
+    // if (Number.isFinite(leasingId)) {
+    //   this.financialFormsFacade.loadByLeasingMandateId(leasingId);
+    // }
 
     this.facade.selected$
       .pipe(takeUntil(this.destroy$))
@@ -453,62 +455,14 @@ export class AddMandateComponent {
         takeUntil(this.destroy$)
       )
       .subscribe((form) => {
-        console.log('form', form);
-        this.leasingFinancialBasicForm.patchValue(
-          {
-            assetCost: form.assetCost,
-            downPayment: form.downPayment,
-            percentOfFinance: form.percentOfFinance,
-            nfa: form.nfa,
-            startDate: form.startDate,
-            years: form.years,
-          },
-          { emitEvent: false }
-        );
-
-        this.leasingFinancialRateForm.patchValue(
-          {
-            interestRate: form.interestRate,
-            insuranceRate: form.insuranceRate,
-            tenor: form.tenor,
-            paymentPeriodId: form.paymentPeriodDTO?.id ?? null,
-            paymentPeriodMonthCount: form.paymentPeriodMonthCount,
-            gracePeriodInDays: form.gracePeriodCount,
-            gracePeriodUnitId: form.gracePeriodUnitDTO?.id ?? null,
-          },
-          { emitEvent: false }
-        );
-
-        this.leasingFinancialCurrencyForm.patchValue(
-          {
-            currencyId: form.currencyDTO?.id ?? null,
-            currencyExchangeRateId: form.currencyExchangeRateDto?.id ?? null,
-            isManuaExchangeRate: form.isManuaExchangeRate,
-            manualSetExchangeRate: form.manualSetExchangeRate,
-            indicativeRentals: form.indicativeRentals,
-            referenceRent: form.rent,
-            rvAmount: form.rvAmount,
-            rvPercent: form.rvPercent,
-            reservePaymentCount: form.reservePaymentCount,
-            reservePaymentAmount: form.reservePaymentAmount,
-            provisionAmount: form.provisionAmount,
-            provisionPercent: form.provisionPercent,
-            interestRateBenchmarkId: form.interestRateBenchmarkDTO?.id ?? null,
-            paymentTimingTermId: form.paymentTimingTermDTO?.id ?? null,
-            rentStructureTypeId: form.rentStructureTypeDTO?.id ?? null,
-            paymentMethodId: form.paymentMethodDTO?.id ?? null,
-            paymentMonthDayID: form.paymentMonthDayDTO?.id ?? null,
-          },
-          { emitEvent: false }
-        );
-
-        if (form.payments?.length) {
-          console.log('✅ Using payments from backend form');
-          this.tableDataInside = [...form.payments];
-          this.originalFinancialForms = [...form.payments];
-          this.filteredFinancialForms = [...form.payments];
-        } else {
-          console.log('⏳ Waiting for calculated rows from selector...');
+        if (this.patchedStep4FromMandate) {
+          // still OK to use its payments if you want:
+          if (form?.payments?.length && !this.originalFinancialForms?.length) {
+            this.tableDataInside = [...form.payments];
+            this.originalFinancialForms = [...form.payments];
+            this.filteredFinancialForms = [...form.payments];
+          }
+          return;
         }
       });
 
@@ -538,7 +492,7 @@ export class AddMandateComponent {
     }
     // ⬇️ when create succeeds → go back to View Mandates
     const navigateToList = () => {
-      const tree = +this.clientId
+      const tree = this.clientId
         ? ['/crm/leasing-mandates/view-mandates', +this.clientId]
         : ['/crm/leasing-mandates/view-mandates'];
 
@@ -669,19 +623,19 @@ export class AddMandateComponent {
   }
 
   private patchMandate(m: Mandate) {
-    this.mandateId = m.mandateId;
+    this.mandateId = (m as any)?.mandateId ?? this.mandateId;
+    this.leasingMandateId = (m as any)?.id ?? this.leasingMandateId;
 
-    // basic
+    // ===== BASIC (already in your code) =====
     this.addMandateShowBasicForm.patchValue({
       id: m.id,
       parentMandateId: m.parentMandateId,
-      clientId: this.clientId ?? m.clientId ?? m.clientView?.clientId,
-      leasingTypeId: m.leasingTypeId,
-      insuredById: m.insuredById,
+      clientId: this.clientId ?? m.clientId ?? (m as any)?.clientView?.clientId,
+      leasingTypeId: (m as any)?.leasingTypeId,
+      insuredById: (m as any)?.insuredById,
       date: m.date ? new Date(m.date) : null,
-      validityDay: m.validityDay ?? null,
-      expireDate: m.expireDate ? new Date(m.expireDate) : null,
-      notes: m.notes,
+      validityDay: (m as any)?.validityDay ?? null,
+      notes: (m as any)?.notes,
     });
 
     const manual = !!m.isManuaExchangeRate;
@@ -690,8 +644,7 @@ export class AddMandateComponent {
     );
     if (manual) manualCtrl?.enable({ emitEvent: false });
     else manualCtrl?.disable({ emitEvent: false });
-
-    // arrays
+    // ===== ARRAYS (already in your code) =====
     const resetArray = (
       fa: FormArray,
       items: any[],
@@ -700,19 +653,133 @@ export class AddMandateComponent {
       fa.clear();
       (items || []).forEach((item) => {
         const fg = factory();
-        fg.patchValue(item);
+        fg.patchValue(item, { emitEvent: false });
         fa.push(fg);
       });
     };
-
-    resetArray(this.mandateAssetTypes, m.mandateAssetTypes || [], () =>
-      this.createAssetTypeGroup()
+    resetArray(
+      this.mandateAssetTypes,
+      (m as any)?.mandateAssetTypes || [],
+      () => this.createAssetTypeGroup()
+    );
+    resetArray(this.mandateFees, (m as any)?.mandateFees || [], () =>
+      this.createFeeGroup()
     );
 
-    const feesFa = this.addMandateShowFeeForm.get('mandateFees') as FormArray;
-    resetArray(feesFa, m.mandateFees || [], () => this.createFeeGroup());
+    // ===== STEP 4: Patch from mandatePaymentSettings and mandate/leasingMandate =====
+    const settings = Array.isArray((m as any)?.mandatePaymentSettings)
+      ? (m as any).mandatePaymentSettings[0]
+      : null;
 
-    // workflow UI bits (unchanged)
+    const leasingMandate =
+      (m as any)?.leasingMandate ?? settings?.mandate?.leasingMandate ?? null; // tolerate shapes
+    const mandateNode =
+      (m as any)?.mandate ?? leasingMandate?.mandate ?? (m as any);
+
+    if (settings) {
+      // currency + payments selection (Step 4 → Currency group)
+      const currencyId = settings?.currencyExchangeRate?.currencyId ?? null;
+
+      this.leasingFinancialCurrencyForm.patchValue(
+        {
+          currencyId,
+          currencyExchangeRateId: settings?.currencyExchangeRateId ?? null,
+          isManuaExchangeRate: !!settings?.isManuaExchangeRate,
+          manualSetExchangeRate: settings?.manualSetExchangeRate ?? null,
+          reservePaymentAmount: m.reservePaymentAmount ?? null,
+          reservePaymentCount: m.reservePaymentCount ?? null,
+          paymentMethodId: settings?.paymentMethodId ?? null,
+          paymentMonthDayID: settings?.paymentMonthDayId ?? null,
+          provisionPercent: m.provisionPercent ?? null,
+          provisionAmount: m.provisionAmount ?? null,
+          // from mandate or leasingMandate nodes:
+          interestRateBenchmarkId: mandateNode?.interestRateBenchmarkId ?? null,
+          paymentTimingTermId: m.paymentTimingTermId ?? null,
+          rentStructureTypeId: m.rentStructureTypeId ?? null,
+          indicativeRentals: m.indicativeRentals ?? null,
+          referenceRent: m.rent ?? null,
+          rvPercent: m.rvPercent ?? null,
+          rvAmount: m.rvAmount ?? null,
+        },
+        { emitEvent: false }
+      );
+
+      // enable/disable manual rate textbox to match the flag
+      const manualCtrl = this.leasingFinancialCurrencyForm.get(
+        'manualSetExchangeRate'
+      );
+      if (settings?.isManuaExchangeRate)
+        manualCtrl?.enable({ emitEvent: false });
+      else {
+        manualCtrl?.disable({ emitEvent: false });
+        // keep its value if you want it shown disabled; or reset(null) if you prefer cleared
+        // manualCtrl?.reset(null, { emitEvent: false });
+      }
+
+      // rates group (Step 4 → Rates group)
+      const pid = settings?.paymentPeriodId ?? null;
+      const monthCount = pid
+        ? this.paymentPeriodsCache.find((p) => p.id === pid)?.monthCount ?? null
+        : null;
+
+      this.leasingFinancialRateForm.patchValue(
+        {
+          paymentPeriodId: pid,
+          paymentPeriodMonthCount: monthCount,
+          gracePeriodInDays:
+            mandateNode?.gracePeriodInDays ??
+            (m as any)?.gracePeriodInDays ??
+            null,
+          interestRate: m.interestRate ?? null,
+          insuranceRate: m.insuranceRate ?? null,
+          tenor: m.tenor ?? null,
+          fixedInterestRate: m.fixedInterestRate ?? null,
+        },
+        { emitEvent: false }
+      );
+
+      // basic finance (Step 4 → Basic group): only patch if your API returns them
+      this.leasingFinancialBasicForm.patchValue(
+        {
+          assetCost: (m as any)?.assetCost ?? null,
+          downPayment: (m as any)?.downPayment ?? null,
+          percentOfFinance: (m as any)?.percentOfFinance ?? null,
+          nfa: (m as any)?.nfa ?? null,
+          years: (m as any)?.years ?? null,
+          startDate: (m as any)?.startDate
+            ? new Date((m as any)?.startDate)
+            : null,
+        },
+        { emitEvent: false }
+      );
+
+      // recompute any derived field (periodInterestRate) after patching
+      this.calculatePeriodInterestRate();
+
+      this.patchedStep4FromMandate = true;
+    }
+
+    // ===== TABLE rows from API payments =====
+    // Your GET includes a flat `payments` array – use it if present.
+    const apiPayments = (m as any)?.payments;
+    if (Array.isArray(apiPayments) && apiPayments.length) {
+      const rows = apiPayments.map((p: any) => ({
+        paymentNumber: p.paymentNumber,
+        dueDate: p.dueDate ? new Date(p.dueDate) : null,
+        balanceBefore: p.balanceBefore,
+        balanceAfter: p.balanceAfter,
+        interest: p.interest,
+        installment: p.installment,
+        insuranceIncome: p.insuranceIncome,
+        referenceRent: p.referenceRent,
+      }));
+
+      this.tableDataInside = rows;
+      this.originalFinancialForms = [...rows];
+      this.filteredFinancialForms = [...rows];
+    }
+
+    // ===== Workflow bits (unchanged) =====
     this.workFlowActionList = (m.allowedMandateWorkFlowActions ?? []).map(
       (a) => ({
         id: a.id,
@@ -720,7 +787,7 @@ export class AddMandateComponent {
         icon: 'pi pi-times',
       })
     );
-    this.selectedAction = m.mandateCurrentWorkFlowAction?.name ?? '';
+    this.selectedAction = (m as any)?.mandateCurrentWorkFlowAction?.name ?? '';
   }
 
   nextStep(nextCallback: { emit: () => void }, group: FormGroup) {
@@ -857,8 +924,17 @@ export class AddMandateComponent {
     return v instanceof Date ? v : new Date(v);
   }
   private toInt(v: any): number | null {
+    if (v === '' || v == null) return null;
     const n = Number(v);
     return Number.isFinite(n) ? n : null;
+  }
+  private toDateOnlyString(v: Date | string | null): string | null {
+    if (!v) return null;
+    const d = v instanceof Date ? v : new Date(v);
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const dd = String(d.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
   }
   private addDays(d: Date, days: number): Date {
     const out = new Date(d.getFullYear(), d.getMonth(), d.getDate());
@@ -1393,49 +1469,43 @@ export class AddMandateComponent {
 
   /** Build the single payload for `facade.create(...)` */
   private buildCreatePayload(): any {
-    // ✅ always use getRawValue() so disabled controls (like expireDate / manualSetExchangeRate) are included
     const basic = this.addMandateShowBasicForm.getRawValue();
     const assets = this.addMandateShowAssetTypeForm.getRawValue();
     const fees = this.addMandateShowFeeForm.getRawValue();
-
     const finBasic = this.leasingFinancialBasicForm.getRawValue();
     const finRate = this.leasingFinancialRateForm.getRawValue();
     const finCurr = this.leasingFinancialCurrencyForm.getRawValue();
+    const resolvedClientId = this.resolveClientId(basic);
+    if (resolvedClientId == null) {
+      throw new Error('Client is required'); // or show a toast and return
+    }
 
-    // If some selects bind whole objects, normalize to IDs
     const idOf = (v: any) => (v && typeof v === 'object' ? v.id : v);
-    // optional: 3dp rounding for money-like fields
     const to3 = (n: any) => +parseFloat(n ?? 0).toFixed(3);
 
-    return {
-      // ===== Step 1: Basic Mandate =====
-      description: basic.description ?? 'string', // or null if not used
-      date: basic.date, // ISO string or Date (Angular HttpClient will serialize)
-      clientId: this.clientId ?? idOf(basic.clientId),
+    const payload: any = {
+      description: basic.description ?? 'string',
+      date: basic.date,
+      clientId: resolvedClientId,
       parentMandateId: basic.parentMandateId,
       leasingTypeId: idOf(basic.leasingTypeId),
       validityDay: +basic.validityDay,
-      expireDate: basic.expireDate, // comes from disabled control -> getRawValue() captures it
+      expireDate: basic.expireDate,
       notes: basic.notes,
 
-      // ===== Step 4.A: Currency (has a couple of fields you listed near top) =====
       indicativeRentals: finCurr.indicativeRentals,
       insuredById: idOf(basic.insuredById),
 
-      // ===== Step 4.B: Basic financials =====
       assetCost: finBasic.assetCost,
       downPayment: finBasic.downPayment,
       percentOfFinance: finBasic.percentOfFinance,
       nfa: finBasic.nfa,
 
-      // ===== Step 4.C: Rates =====
       interestRate: finRate.interestRate,
       insuranceRate: finRate.insuranceRate,
       tenor: finRate.tenor,
       paymentPeriodId: idOf(finRate.paymentPeriodId),
 
-      // ===== Step 4.D: Currency (continued) =====
-      // NOTE: API expects lowerCamelCase: paymentMonthDayId / paymentMethodId
       paymentMonthDayId: idOf(finCurr.paymentMonthDayID),
       paymentMethodId: idOf(finCurr.paymentMethodId),
       interestRateBenchmarkId: idOf(finCurr.interestRateBenchmarkId),
@@ -1454,9 +1524,7 @@ export class AddMandateComponent {
       manualSetExchangeRate: finCurr.manualSetExchangeRate ?? 0,
       isManuaExchangeRate: !!finCurr.isManuaExchangeRate,
 
-      // Name in your JSON is `gracePeriodInDays`
       gracePeriodInDays: finRate.gracePeriodInDays,
-
       rentStructureTypeId: idOf(finCurr.rentStructureTypeId),
       paymentTimingTermId: idOf(finCurr.paymentTimingTermId),
 
@@ -1464,17 +1532,37 @@ export class AddMandateComponent {
       years: finBasic.years,
       rent: finCurr.referenceRent,
 
-      // ===== Step 2 & 3: Arrays =====
       mandateAssetTypes: (assets.mandateAssetTypes ?? []).map((a: any) => ({
+        // include id if editing existing row
+        id: a.id ?? undefined,
         assetTypeId: idOf(a.assetTypeId),
         assetsTypeDescription: a.assetsTypeDescription,
       })),
       mandateFees: (fees.mandateFees ?? []).map((f: any) => ({
+        id: f.id ?? undefined,
         feeTypeId: idOf(f.feeTypeId),
         actualAmount: f.actualAmount,
         actualPercentage: f.actualPercentage,
       })),
     };
+
+    // === IMPORTANT: add IDs for update ===
+    const leasingMandateIdFromRoute = Number(
+      this.route.snapshot.paramMap.get('leasingId')
+    );
+    const leasingMandateId = Number.isFinite(leasingMandateIdFromRoute)
+      ? leasingMandateIdFromRoute
+      : this.leasingMandateId;
+
+    if (this.editMode && Number.isFinite(leasingMandateId)) {
+      payload.id = leasingMandateId; // leasing mandate id in the body
+    }
+
+    if (this.mandateId) {
+      payload.mandateId = this.mandateId; // parent mandate id
+    }
+
+    return payload;
   }
   onSubmit() {
     if (this.isSubmitting) return;
@@ -1593,7 +1681,11 @@ export class AddMandateComponent {
     this.markAllPristine();
 
     // 🔑 Load only what the destination list needs
-    if (hasClient) {
+    if (
+      hasClient &&
+      typeof this.clientId === 'number' &&
+      Number.isFinite(this.clientId)
+    ) {
       this.facade.loadByClientId(this.clientId);
     } else {
       // If your list page loads itself on init, you can remove this line entirely.
@@ -2062,5 +2154,33 @@ export class AddMandateComponent {
     mark(this.addMandateShowFeeForm);
     // parent as well
     if (this.parentForm) mark(this.parentForm);
+  }
+  private resolveClientId(basic: any): number | null {
+    const fromRoute = this.clientId;
+    if (Number.isFinite(fromRoute)) return Number(fromRoute);
+
+    const v = basic?.clientId;
+    const fromForm = v && typeof v === 'object' ? v.id : v;
+    return Number.isFinite(Number(fromForm)) ? Number(fromForm) : null;
+  } // Normalize "id or {id:...}" → number|null
+  private toNumId(v: any): number | null {
+    const raw = v && typeof v === 'object' ? v.id : v;
+    const n = Number(raw);
+    return Number.isFinite(n) ? n : null;
+  }
+
+  // Reset a FormArray with mapped items
+  private resetArrayWith<T>(
+    fa: FormArray,
+    items: T[] | undefined | null,
+    factory: () => FormGroup,
+    mapItem: (x: T) => any
+  ): void {
+    fa.clear();
+    (items ?? []).forEach((it) => {
+      const fg = factory();
+      fg.patchValue(mapItem(it), { emitEvent: false });
+      fa.push(fg);
+    });
   }
 }

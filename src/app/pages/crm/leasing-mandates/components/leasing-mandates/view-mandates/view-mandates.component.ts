@@ -84,24 +84,14 @@ export class ViewMandatesComponent {
           map(([mandates, clients]) =>
             mandates
               .slice()
-              .sort((a, b) => b.id! - a.id!)
-              .map((m) => {
-                const fromMandate = m.clientView?.clientName;
-                const fromClients = clients.find(
-                  (c) => c.id === m.clientId
-                )?.name;
-                console.log(
-                  `🗺️ mapping mandate#${m.id}:`,
-                  'clientView.name=',
-                  fromMandate,
-                  'clients lookup=',
-                  fromClients
-                );
-                return {
-                  ...m,
-                  clientName: fromMandate ?? fromClients ?? '— unknown —',
-                };
-              })
+              .sort((a, b) => (b.id ?? 0) - (a.id ?? 0))
+              .map((m) => ({
+                ...m,
+                clientName:
+                  m.clientView?.clientName ??
+                  clients.find((c) => c.id === m.clientId)?.name ??
+                  '— unknown —',
+              }))
           ),
 
           // 3️⃣ Log the enriched array
@@ -160,43 +150,30 @@ export class ViewMandatesComponent {
         });
     }
   }
+  private getClientIdFrom(m?: Mandate | null): number | null {
+    return this.clientId ?? m?.clientId ?? null;
+  }
+
   private setupContactPersonsDropdown(): void {
     const mandate = this.selectedRowForDownload!;
-    const saved = mandate.mandateContactPersons ?? []; // [{ contactPersonId: number }, …]
-
-    // if nothing was saved, short-circuit
-    if (!saved.length) {
+    const realClientId = this.getClientIdFrom(mandate);
+    if (!realClientId) {
       this.contactPersonsDropdown = [];
       return;
     }
-    if (!this.clientId) {
-      // 1️⃣ Dispatch with the real clientId (not clientView.clientId)
-      this.store.dispatch(
-        loadClientContactPersonsByClientId({
-          clientId: mandate.clientView?.clientId!,
-        })
-      );
-    } else {
-      this.store.dispatch(
-        loadClientContactPersonsByClientId({
-          clientId: this.clientId!,
-        })
-      );
-    }
-    // 2️⃣ Now wait until facadeContact.items$ emits a non-empty array
+
+    this.store.dispatch(
+      loadClientContactPersonsByClientId({ clientId: realClientId })
+    );
     this.facadeContact.items$
       .pipe(
-        filter((list) => list.length > 0), // skip the initial []
-        take(1) // then complete
+        filter((list) => list.length > 0),
+        take(1)
       )
       .subscribe((all) => {
-        // 3️⃣ Filter down to only the ones this mandate saved
+        const saved = mandate.mandateContactPersons ?? [];
         this.contactPersonsDropdown = all.filter((cp) =>
           saved.some((sel) => sel.contactPersonId === cp.id)
-        );
-        console.log(
-          '✅ contacts dropdown after load:',
-          this.contactPersonsDropdown
         );
       });
   }
@@ -239,18 +216,15 @@ export class ViewMandatesComponent {
     }
   }
   onAddSide(leasingMandatesId: any) {
-    if (this.clientId) {
-      this.router.navigate([
-        '/crm/leasing-mandates/leasing-mandate-wizard',
-        leasingMandatesId,
-        this.clientId,
-      ]);
-    } else {
-      this.router.navigate([
-        '/crm/leasing-mandates/leasing-mandate-wizard',
-        leasingMandatesId,
-      ]);
-    }
+    const realClientId = this.clientId ?? null; // from route if present
+    const cmds = realClientId
+      ? [
+          '/crm/leasing-mandates/leasing-mandate-wizard',
+          leasingMandatesId,
+          realClientId,
+        ]
+      : ['/crm/leasing-mandates/leasing-mandate-wizard', leasingMandatesId];
+    this.router.navigate(cmds);
   }
   onDownloadClick(row: any) {
     console.log('clicked', row);
@@ -290,24 +264,33 @@ export class ViewMandatesComponent {
   onToggleFilters(value: boolean) {
     this.showFilters = value;
   }
-  onEditLeasingMandate(mandate: Mandate) {
-    if (this.clientId) {
-      this.router.navigate(
-        ['/crm/leasing-mandates/edit-mandate', mandate.id, this.clientId],
-        {
-          queryParams: {
-            mode: 'edit',
-          },
-        }
-      );
-    } else {
-      this.router.navigate(['/crm/leasing-mandates/edit-mandate', mandate.id], {
-        queryParams: {
-          mode: 'edit',
-        },
-      });
+  onEditLeasingMandate(rowOrId: Mandate | number) {
+    // normalize the id
+    const leasingId = typeof rowOrId === 'number' ? rowOrId : rowOrId?.id;
+
+    if (!leasingId && leasingId !== 0) {
+      console.error('[Edit] No leasingId provided from table emit:', rowOrId);
+      return; // or show a toast
     }
+
+    // get clientId from route first, fallback to row (if object)
+    const routeClientIdRaw = this.route.snapshot.paramMap.get('clientId');
+    const routeClientId = routeClientIdRaw ? Number(routeClientIdRaw) : NaN;
+    const rowClientId =
+      typeof rowOrId === 'number' ? null : rowOrId?.clientId ?? null;
+
+    const realClientId = Number.isFinite(routeClientId)
+      ? routeClientId
+      : rowClientId;
+
+    const cmds =
+      realClientId != null
+        ? ['/crm/leasing-mandates/edit-mandate', leasingId, realClientId]
+        : ['/crm/leasing-mandates/edit-mandate', leasingId];
+
+    this.router.navigate(cmds, { queryParams: { mode: 'edit' } });
   }
+
   onViewLeasingMandates(mandate: Mandate) {
     console.log('mandate', mandate);
     this.router.navigate(['/crm/leasing-mandates/view-mandates', mandate.id], {

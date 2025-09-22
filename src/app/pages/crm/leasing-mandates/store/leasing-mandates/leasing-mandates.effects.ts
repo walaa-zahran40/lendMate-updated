@@ -10,45 +10,55 @@ import { EntityNames } from '../../../../../shared/constants/entity-names';
 export class MandatesEffects {
   constructor(private actions$: Actions, private service: MandatesService) {}
 
+  normalizeMandate = (raw: any): Mandate => ({
+    ...raw,
+    // prefer flat clientId; else take it from clientView
+    clientId: raw?.clientId ?? raw?.clientView?.clientId ?? null,
+  });
+
+  // Load all
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActionsList.loadAll),
       mergeMap(({ pageNumber }) =>
         this.service.getAll(pageNumber).pipe(
-          map((items) => ActionsList.loadAllSuccess({ result: items })),
+          map((items) => items.map(this.normalizeMandate)),
+          map((result) => ActionsList.loadAllSuccess({ result })),
           catchError((err) => of(ActionsList.loadAllFailure({ error: err })))
         )
       )
     )
   );
 
+  // Load by id
   loadById$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActionsList.loadById),
-      tap(({ id }) => console.log('[Effects] loadById caught, id=', id)),
       exhaustMap(({ id }) =>
         this.service.getById(id).pipe(
-          tap((entity) =>
-            console.log('[Effects] HTTP returned entity:', entity)
-          ),
-          map((raw) => {
-            // Rebuild the entity with a guaranteed subSectorIdList
-            const entity: Mandate = {
-              ...raw,
-            };
-
-            console.log('[Effects] normalized entity:', entity);
-            return ActionsList.loadByIdSuccess({ entity });
-          }),
-          catchError((error) => {
-            console.error('[Effects] loadById FAILURE', error);
-            return of(ActionsList.loadByIdFailure({ error }));
-          })
+          map((raw) => this.normalizeMandate(raw)),
+          map((entity) => ActionsList.loadByIdSuccess({ entity })),
+          catchError((error) => of(ActionsList.loadByIdFailure({ error })))
         )
       )
     )
   );
 
+  // Load by client id (normalize too, for consistency)
+  loadByClientId$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActionsList.loadByClientId),
+      mergeMap(({ clientId }) =>
+        this.service.getByClientId(clientId).pipe(
+          map((result) => result.map(this.normalizeMandate)),
+          map((result) => ActionsList.loadByClientIdSuccess({ result })),
+          catchError((error) =>
+            of(ActionsList.loadByClientIdFailure({ error }))
+          )
+        )
+      )
+    )
+  );
   loadByIdSuccess$ = createEffect(
     () =>
       this.actions$.pipe(
@@ -139,19 +149,6 @@ export class MandatesEffects {
           map((history) => ActionsList.loadWorkflowHistorySuccess({ history })),
           catchError((error) =>
             of(ActionsList.loadWorkflowHistoryFailure({ error }))
-          )
-        )
-      )
-    )
-  );
-  loadByClientId$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ActionsList.loadByClientId),
-      mergeMap(({ clientId }) =>
-        this.service.getByClientId(clientId).pipe(
-          map((result) => ActionsList.loadByClientIdSuccess({ result })),
-          catchError((error) =>
-            of(ActionsList.loadByClientIdFailure({ error }))
           )
         )
       )
