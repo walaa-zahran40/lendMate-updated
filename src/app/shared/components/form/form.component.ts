@@ -90,7 +90,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Output() removePhoneType = new EventEmitter<number>();
   @Output() addCommunicationOfficer = new EventEmitter<void>();
   @Output() removeCommunicationOfficer = new EventEmitter<number>();
-
+  @Input() addMandateContactPersonForm!: boolean;
   @Output() addCommunicationAssetType = new EventEmitter<void>();
   @Output() removeCommunicationAssetType = new EventEmitter<number>();
 

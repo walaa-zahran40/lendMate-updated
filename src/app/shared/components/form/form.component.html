@@ -11374,6 +11374,91 @@ icon="pi pi-cog"
         </div>
       </div>
     </form> -->
+    <!--Mandate ContactPersons-->
+    <form
+      [formGroup]="formGroup"
+      *ngIf="addMandateContactPersonForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="contactPersonId"
+        >{{ "FORM.LABELS.CONTACT_PERSON_NAME" | translate }}<sup>*</sup></label
+      >
+      <p-select
+        [filter]="true"
+        [filterBy]="filterByField"
+        [showClear]="true"
+        [options]="contactPersonsList"
+        [optionLabel]="optionLabelKey"
+        placeholder="Select Contact Person"
+        formControlName="contactPersonId"
+        optionValue="id"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('contactPersonId')?.invalid &&
+            (formGroup.get('contactPersonId')?.dirty ||
+              formGroup.get('contactPersonId')?.touched)
+        }"
+      />
+      <div
+        *ngIf="
+          formGroup.get('contactPersonId')?.hasError('required') &&
+          formGroup.get('contactPersonId')?.touched
+        "
+        class="p-error"
+      >
+        {{ "FORM.MANDATE.ERROR_CONTACT_PERSON_REQUIRED" | translate }}
+      </div>
+
+      <div class="p-field" *ngIf="editMode">
+        <p-toggleSwitch
+          id="isActive"
+          formControlName="isActive"
+          [ngClass]="{ disabled: viewOnly }"
+        ></p-toggleSwitch>
+        <label for="isActive">{{
+          "FORM.COMPANY_TYPES.LABEL_IS_ACTIVE" | translate
+        }}</label>
+      </div>
+      <div class="row justify-end">
+        <!-- Add only in ADD mode -->
+        <div
+          *ngIf="!editMode && !viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 addressTypesDiv"
+        >
+          <p-button
+            type="submit"
+            [label]="'BUTTONS.ADD_CONTACT_PERSON' | translate"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+
+        <!-- Edit only in EDIT mode -->
+        <div
+          *ngIf="editMode && !viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 addressTypesDiv"
+        >
+          <p-button
+            type="submit"
+            [label]="'BUTTONS.EDIT_CONTACT_PERSON' | translate"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+
+        <!-- Close only in VIEW mode -->
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 addressTypesDiv"
+        >
+          <p-button
+            [label]="'BUTTONS.CLOSE' | translate"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate([`/crm/leasing-mandates/view-mandate-contact-persons/${this.route.snapshot.params['leasingId']}/${this.route.snapshot.params['leasingMandatesId']}`])"
+          />
+        </div>
+      </div>
+    </form>
     <!--Mandate Officers-->
     <form
       [formGroup]="formGroup"

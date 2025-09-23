@@ -1,0 +1,28 @@
+<app-toolbar-form
+  [backExists]="true"
+  [backIcon]="'back-icon'"
+  [header]="
+    viewOnly
+      ? 'View Mandate Contact Person'
+      : editMode
+      ? 'Edit Mandate Contact Person'
+      : 'Add Mandate Contact Person'
+  "
+  [viewOnly]="viewOnly || editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-form
+        [title]="'MANDATE.MANDATE_CONTACT_PERSONS'"
+        [description]="'MANDATE.MANDATE_CONTACT_PERSONS_DESC'"
+        [formGroup]="addMandateContactPersonForm"
+        [addMandateContactPersonForm]="true"
+        [editMode]="editMode"
+        (submitForm)="onSubmit()"
+        [viewOnly]="viewOnly"
+        [contactPersonsList]="contactPersons$ | async"
+      ></app-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

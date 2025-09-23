@@ -1,15 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { CurrencyExchange } from '../../../../../shared/interfaces/currency-exchange.interface';
 import { CurrencyExchangeRate } from '../../../store/currency-exchange-rates/currency-exchange-rate.model';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
-import {
-  combineLatest,
-  map,
-  Observable,
-  Subject,
-  takeUntil,
-  forkJoin,
-} from 'rxjs';
+import { map, Observable, Subject, takeUntil, forkJoin } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CurrencyExchangeRatesFacade } from '../../../store/currency-exchange-rates/currency-exchange-rates.facade';
 

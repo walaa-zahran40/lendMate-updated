@@ -30,6 +30,11 @@ import { ViewMandateOfficersComponent } from './components/mandate-activities/ma
 import { MandateOfficersEffects } from './store/mandate-officers/mandate-officers.effects';
 import { mandateOfficersFeatureKey } from './store/mandate-officers/mandate-officers.state';
 import { mandateOfficersReducer } from './store/mandate-officers/mandate-officers.reducer';
+import { MandateContactPersonsEffects } from './store/mandate-contact-persons/mandate-contact-persons.effects';
+import { mandateContactPersonsFeatureKey } from './store/mandate-contact-persons/mandate-contact-persons.state';
+import { mandateContactPersonsReducer } from './store/mandate-contact-persons/mandate-contact-persons.reducer';
+import { AddMandateContactPersonComponent } from './components/mandate-activities/mandate-contact-persons/add-mandate-contact-person/add-mandate-contact-person.component';
+import { ViewMandateContactPersonsComponent } from './components/mandate-activities/mandate-contact-persons/view-mandate-contact-persons/view-mandate-contact-persons.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +48,8 @@ import { mandateOfficersReducer } from './store/mandate-officers/mandate-officer
     ViewMandateWorkFlowHistoryComponent,
     AddMandateOfficerComponent,
     ViewMandateOfficersComponent,
+    AddMandateContactPersonComponent,
+    ViewMandateContactPersonsComponent,
   ],
   imports: [
     CommonModule,
@@ -56,6 +63,12 @@ import { mandateOfficersReducer } from './store/mandate-officers/mandate-officer
     EffectsModule.forFeature([MandatesEffects]),
     StoreModule.forFeature(mandateOfficersFeatureKey, mandateOfficersReducer),
     EffectsModule.forFeature([MandateOfficersEffects]),
+    StoreModule.forFeature(
+      mandateContactPersonsFeatureKey,
+      mandateContactPersonsReducer
+    ),
+    EffectsModule.forFeature([MandateContactPersonsEffects]),
+
     StoreModule.forFeature('clones', clonesReducer),
     EffectsModule.forFeature([ClonesEffects]),
     StoreModule.forFeature(

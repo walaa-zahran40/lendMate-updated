@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { TeamLead } from '../../../../../shared/interfaces/team-lead.interface';
 import { TeamLeadOfficer } from '../../../store/teams/team-lead-officers/team-lead-officer.model';
 import {
   combineLatest,

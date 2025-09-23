@@ -44,6 +44,8 @@ import { PendingChangesGuard } from '../../shared/guards/pending-changes.guard';
 import { ViewMandateWorkFlowHistoryComponent } from './leasing-mandates/components/mandate-activities/view-mandate-workflow-history/view-mandate-work-flow-history.component';
 import { AddMandateOfficerComponent } from './leasing-mandates/components/mandate-activities/mandate-officers/add-mandate-officer/add-mandate-officer.component';
 import { ViewMandateOfficersComponent } from './leasing-mandates/components/mandate-activities/mandate-officers/view-mandate-officers/view-mandate-officers.component';
+import { AddMandateContactPersonComponent } from './leasing-mandates/components/mandate-activities/mandate-contact-persons/add-mandate-contact-person/add-mandate-contact-person.component';
+import { ViewMandateContactPersonsComponent } from './leasing-mandates/components/mandate-activities/mandate-contact-persons/view-mandate-contact-persons/view-mandate-contact-persons.component';
 
 const routes: Routes = [
   /*Clients , Client Onboarding Routing*/
@@ -481,7 +483,57 @@ const routes: Routes = [
     path: 'leasing-mandates/view-mandate-officers/:leasingId/:leasingMandatesId/:mandateOfficerId',
     component: ViewMandateOfficersComponent, // if you ever need deep-link to highlight one
   },
+  // Mandate Contact Persons
+  {
+    path: 'leasing-mandates/mandate-contact-persons/add/:leasingId/:leasingMandatesId',
+    component: AddMandateContactPersonComponent,
+  },
+  {
+    path: 'leasing-mandates/mandate-contact-persons/edit/:leasingId/:leasingMandatesId/:mandateContact-personId',
+    component: AddMandateContactPersonComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
+  {
+    path: 'leasing-mandates/mandate-contact-persons/view/:leasingId/:leasingMandatesId/:mandateContact-personId',
+    component: AddMandateContactPersonComponent,
+  },
 
+  // Contact-persons list for a mandate (keep)
+  {
+    path: 'leasing-mandates/view-mandate-contact-persons/:leasingId/:leasingMandatesId',
+    component: ViewMandateContactPersonsComponent,
+  },
+  // ------------------------------
+  // Backward-compat (optional)
+  // ------------------------------
+
+  // OLD add routes → point to Add component
+  {
+    path: 'leasing-mandates/add-mandate-contact-person/:leasingId/:leasingMandatesId',
+    component: AddMandateContactPersonComponent,
+  },
+  {
+    path: 'leasing-mandates/add-mandate-contact-person/:leasingId/:leasingMandatesId/:mandateContact-personId',
+    component: AddMandateContactPersonComponent,
+  },
+
+  // OLD edit routes → point to Add component with guard
+  {
+    path: 'leasing-mandates/edit-mandate-contact-person/:leasingId/:leasingMandatesId',
+    component: AddMandateContactPersonComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
+  {
+    path: 'leasing-mandates/edit-mandate-contact-person/:leasingId/:leasingMandatesId/:mandateContact-personId',
+    component: AddMandateContactPersonComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
+
+  // OLD list routes (kept)
+  {
+    path: 'leasing-mandates/view-mandate-contact-persons/:leasingId/:leasingMandatesId/:mandateContact-personId',
+    component: ViewMandateContactPersonsComponent, // if you ever need deep-link to highlight one
+  },
   //Leasing Financial Form
   {
     path: 'leasing-mandates/leasing-financial-form/:leasingId/:leasingMandatesId',

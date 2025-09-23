@@ -503,6 +503,8 @@
     "CLOSE": "Close",
     "ADD_OFFICER": "Add Officer",
     "EDIT_OFFICER": "Edit Officer",
+    "ADD_CONTACT_PERSON": "Add Contact Person",
+    "EDIT_CONTACT_PERSON": "Edit Contact Person",
 
     "ADD_BRANCH_OFFICER": "Add Branch Officer",
     "EDIT_BRANCH_OFFICER": "Edit Branch Officer",
@@ -763,7 +765,8 @@
       "IS_MAIN": "Is Main",
       "BUSINESS_ACTIVITY": "Business Activity",
       "TAX_ID": "Tax ID",
-      "OFFICER_NAME": "Officer Name"
+      "OFFICER_NAME": "Officer Name",
+      "CONTACT_PERSON_NAME": "Contact Person Name"
     },
     "CODE2": "Code2",
     "FEE_TYPE_REQUIRED": "Fee Type is required.",
