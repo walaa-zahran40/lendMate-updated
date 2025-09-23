@@ -40,7 +40,7 @@ export class ViewMandateOfficersComponent implements OnInit, OnDestroy {
 
   // show name in the grid
   readonly colsInside = [
-    { field: 'clientName', header: 'Client' }, // ✅ new
+    // { field: 'clientName', header: 'Client' }, // ✅ new
     { field: 'officerName', header: 'Officer' }, // 👈 use officerName
   ];
 

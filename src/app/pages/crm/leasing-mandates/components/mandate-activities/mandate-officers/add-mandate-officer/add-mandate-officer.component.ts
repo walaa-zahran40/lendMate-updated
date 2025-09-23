@@ -11,6 +11,7 @@ import {
   Observable,
   Subject,
   takeUntil,
+  EMPTY,
 } from 'rxjs';
 import { MandateOfficer } from '../../../../store/mandate-officers/mandate-officer.model';
 import { MandateOfficersFacade } from '../../../../store/mandate-officers/mandate-officers.facade';
@@ -44,7 +45,15 @@ export class AddMandateOfficerComponent implements OnInit, OnDestroy {
     private facade: MandateOfficersFacade,
     private officersFacade: OfficersFacade,
     private router: Router
-  ) {}
+  ) {
+    // Build form: mandateId must equal leasingId
+    this.addMandateOfficerForm = this.fb.group({
+      id: [null],
+      mandateId: [this.leasingId, Validators.required], // <-- from leasingId
+      officerId: [null, Validators.required],
+      isActive: [true],
+    });
+  }
 
   ngOnInit() {
     // Read params once
@@ -56,18 +65,10 @@ export class AddMandateOfficerComponent implements OnInit, OnDestroy {
       this.route.snapshot.paramMap.get('mandateOfficerId')
     );
 
-    // Build form: mandateId must equal leasingId
-    this.addMandateOfficerForm = this.fb.group({
-      id: [null],
-      mandateId: [this.leasingId, Validators.required], // <-- from leasingId
-      officerId: [null, Validators.required],
-    });
-
     // Load officers dropdown
     this.officersFacade.loadAll();
     this.officers$ = this.officersFacade.items$;
 
-    // React to route changes (params + query)
     const route$ = combineLatest({
       params: this.route.paramMap,
       url: this.route.url,
@@ -76,11 +77,10 @@ export class AddMandateOfficerComponent implements OnInit, OnDestroy {
         const leasingId = this.num(params.get('leasingId'));
         const leasingMandatesId = this.num(params.get('leasingMandatesId'));
         const mandateOfficerId = this.num(params.get('mandateOfficerId'));
-
         const isView = url.some((s) => s.path === 'view'); // /.../view/...
-        const isEdit = !!mandateOfficerId && !isView; // /.../edit/... has id
+        const isEdit = !!mandateOfficerId && !isView; // /.../edit/:id
 
-        // mandateId in payload should follow leasingId
+        // payload mandateId follows leasingId
         const mandateId = leasingId;
 
         return {
@@ -92,38 +92,41 @@ export class AddMandateOfficerComponent implements OnInit, OnDestroy {
           isView,
         };
       }),
-      tap(({ mandateId, isEdit, isView }) => {
+      tap(({ mandateId, isView, isEdit }) => {
         this.editMode = isEdit;
         this.viewOnly = isView;
 
         if (mandateId != null) {
           this.addMandateOfficerForm.patchValue({ mandateId });
         }
+
+        // apply disable/enable immediately on mode change
+        if (this.viewOnly) {
+          this.addMandateOfficerForm.disable({ emitEvent: false });
+        } else {
+          this.addMandateOfficerForm.enable({ emitEvent: false });
+        }
+      }),
+      switchMap(({ mandateOfficerId, isView, isEdit }) => {
+        // For both edit and view, load the row when :mandateOfficerId exists
+        if (mandateOfficerId == null || (!isEdit && !isView)) return EMPTY;
+
+        this.facade.loadOne(mandateOfficerId); // dispatch
+
+        // read it from store and patch once it arrives
+        return this.facade.selectById(mandateOfficerId).pipe(
+          filter((x): x is MandateOfficer => !!x),
+          take(1)
+        );
       })
     );
 
-    // If editing/viewing, find the record by :mandateOfficerId from the by-mandate list
-    // After the route$ definition:
-    route$
-      .pipe(
-        tap(({ mandateOfficerId, isEdit }) => {
-          if (isEdit && mandateOfficerId != null) {
-            this.facade.loadOne(mandateOfficerId); // fire the single fetch
-          }
-        }),
-        switchMap(({ mandateOfficerId, isEdit }) => {
-          if (!isEdit || mandateOfficerId == null) return [];
-          return this.facade.selectById(mandateOfficerId).pipe(
-            filter((x): x is MandateOfficer => !!x),
-            take(1)
-          );
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((officer) => {
-        this.patchMandate(officer);
-        if (this.viewOnly) this.addMandateOfficerForm.disable();
-      });
+    route$.pipe(takeUntil(this.destroy$)).subscribe((officer) => {
+      this.patchMandate(officer);
+      // ensure disabled in view (idempotent)
+      if (this.viewOnly)
+        this.addMandateOfficerForm.disable({ emitEvent: false });
+    });
   }
 
   ngOnDestroy(): void {

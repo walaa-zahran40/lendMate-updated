@@ -11421,9 +11421,10 @@ icon="pi pi-cog"
         }}</label>
       </div>
       <div class="row justify-end">
+        <!-- Add only in ADD mode -->
         <div
+          *ngIf="!editMode && !viewOnly"
           class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 addressTypesDiv"
-          *ngIf="!editMode"
         >
           <p-button
             type="submit"
@@ -11432,9 +11433,11 @@ icon="pi pi-cog"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
+
+        <!-- Edit only in EDIT mode -->
         <div
-          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 addressTypesDiv"
           *ngIf="editMode && !viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 addressTypesDiv"
         >
           <p-button
             type="submit"
@@ -11442,6 +11445,8 @@ icon="pi pi-cog"
             class="custom-save m-0 float-right"
           ></p-button>
         </div>
+
+        <!-- Close only in VIEW mode -->
         <div
           *ngIf="viewOnly"
           class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 addressTypesDiv"

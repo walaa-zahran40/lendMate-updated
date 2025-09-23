@@ -2,7 +2,8 @@ import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { MandateOfficersActions as A } from './mandate-officers.actions';
 import { MandateOfficersService } from './mandate-officers.service';
-import { catchError, map, mergeMap, of, switchMap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
+import { MandateOfficer } from './mandate-officer.model';
 
 @Injectable()
 export class MandateOfficersEffects {
@@ -62,12 +63,35 @@ export class MandateOfficersEffects {
     )
   );
 
+  // mandate-officers.effects.ts
   update$ = createEffect(() =>
     this.actions$.pipe(
       ofType(A.updateRequested),
       mergeMap(({ dto }) =>
         this.api.update(dto).pipe(
-          map((officer) => A.updateSucceeded({ officer })),
+          tap((resp) => {
+            console.log('[MandateOfficersEffects] update response:', resp);
+            console.log('[MandateOfficersEffects] dto used for update:', dto);
+          }),
+          // If backend returns null/void or misses fields, synthesize from dto
+          map((resp) => {
+            const officer =
+              resp && typeof resp === 'object'
+                ? resp
+                : {
+                    id: dto.id,
+                    mandateId: dto.mandateId,
+                    officerId: dto.officerId,
+                  };
+            return officer as MandateOfficer;
+          }),
+          mergeMap((officer) => {
+            const mandateId = officer?.mandateId ?? dto.mandateId; // ✅ fallback
+            return [
+              A.updateSucceeded({ officer }),
+              A.loadByMandateRequested({ mandateId }),
+            ];
+          }),
           catchError((err) => of(A.updateFailed({ error: this.errMsg(err) })))
         )
       )
