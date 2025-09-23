@@ -70,13 +70,15 @@ export class AddMandateOfficerComponent implements OnInit, OnDestroy {
     // React to route changes (params + query)
     const route$ = combineLatest({
       params: this.route.paramMap,
-      query: this.route.queryParamMap,
+      url: this.route.url,
     }).pipe(
-      map(({ params, query }) => {
+      map(({ params, url }) => {
         const leasingId = this.num(params.get('leasingId'));
         const leasingMandatesId = this.num(params.get('leasingMandatesId'));
         const mandateOfficerId = this.num(params.get('mandateOfficerId'));
-        const mode = (query.get('mode') || 'add').toLowerCase();
+
+        const isView = url.some((s) => s.path === 'view'); // /.../view/...
+        const isEdit = !!mandateOfficerId && !isView; // /.../edit/... has id
 
         // mandateId in payload should follow leasingId
         const mandateId = leasingId;
@@ -86,37 +88,40 @@ export class AddMandateOfficerComponent implements OnInit, OnDestroy {
           leasingMandatesId,
           mandateOfficerId,
           mandateId,
-          mode,
+          isEdit,
+          isView,
         };
       }),
-      tap(({ mode, mandateId }) => {
-        this.editMode = mode === 'edit';
-        this.viewOnly = mode === 'view';
+      tap(({ mandateId, isEdit, isView }) => {
+        this.editMode = isEdit;
+        this.viewOnly = isView;
 
-        // keep form mandateId synced to leasingId
-        if (mandateId != null)
+        if (mandateId != null) {
           this.addMandateOfficerForm.patchValue({ mandateId });
-
-        // load by mandateId (which equals leasingId)
-        // if (mandateId != null) this.facade.loadByMandate(mandateId);
+        }
       })
     );
 
     // If editing/viewing, find the record by :mandateOfficerId from the by-mandate list
+    // After the route$ definition:
     route$
       .pipe(
-        switchMap(({ mandateId, mandateOfficerId }) => {
-          if (mandateId == null || mandateOfficerId == null) return [];
-          return this.facade.selectOfficersByMandate(mandateId).pipe(
-            map((items) => items.find((x) => x.id === mandateOfficerId)),
+        tap(({ mandateOfficerId, isEdit }) => {
+          if (isEdit && mandateOfficerId != null) {
+            this.facade.loadOne(mandateOfficerId); // fire the single fetch
+          }
+        }),
+        switchMap(({ mandateOfficerId, isEdit }) => {
+          if (!isEdit || mandateOfficerId == null) return [];
+          return this.facade.selectById(mandateOfficerId).pipe(
             filter((x): x is MandateOfficer => !!x),
             take(1)
           );
         }),
         takeUntil(this.destroy$)
       )
-      .subscribe((item) => {
-        this.patchMandate(item);
+      .subscribe((officer) => {
+        this.patchMandate(officer);
         if (this.viewOnly) this.addMandateOfficerForm.disable();
       });
   }

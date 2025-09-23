@@ -1,9 +1,14 @@
 import { Component, ViewChild, OnDestroy, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subject, takeUntil, tap, map, Observable } from 'rxjs';
+import { Subject, takeUntil, tap, map, Observable, combineLatest } from 'rxjs';
 import { TableComponent } from '../../../../../../../shared/components/table/table.component';
+import { Officer } from '../../../../../../organizations/store/officers/officer.model';
+import { OfficersFacade } from '../../../../../../organizations/store/officers/officers.facade';
 import { MandateOfficer } from '../../../../store/mandate-officers/mandate-officer.model';
 import { MandateOfficersFacade } from '../../../../store/mandate-officers/mandate-officers.facade';
+import { MandatesFacade } from '../../../../store/leasing-mandates/leasing-mandates.facade';
+
+type TableRow = MandateOfficer & { officerName: string }; // 👈 enriched row
 
 @Component({
   selector: 'app-view-mandate-officers',
@@ -18,22 +23,25 @@ export class ViewMandateOfficersComponent implements OnInit, OnDestroy {
   rows = 10;
   showFilters = false;
 
-  // route params
-  leasingIdParam!: number | undefined; // NEW
-  mandateIdParam!: number | undefined;
+  leasingIdParam!: number | undefined; // domain mandateId for API
+  mandateIdParam!: number | undefined; // URL helper only
 
   showDeleteModal = false;
   selectedMandateOfficerId: number | null = null;
   selectedIds: number[] = [];
 
-  originalMandateOfficers: MandateOfficer[] = [];
-  filteredMandateOfficers: MandateOfficer[] = [];
+  // enriched lists used by the table + search
+  originalMandateOfficers: TableRow[] = [];
+  filteredMandateOfficers: TableRow[] = [];
 
+  // source streams
   mandateOfficers$!: Observable<MandateOfficer[]>;
+  officers$!: Observable<Officer[]>;
 
+  // show name in the grid
   readonly colsInside = [
-    { field: 'mandateId', header: 'Mandate' },
-    { field: 'officerId', header: 'Officer' },
+    { field: 'clientName', header: 'Client' }, // ✅ new
+    { field: 'officerName', header: 'Officer' }, // 👈 use officerName
   ];
 
   private destroy$ = new Subject<void>();
@@ -41,6 +49,8 @@ export class ViewMandateOfficersComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private facade: MandateOfficersFacade,
+    private officersFacade: OfficersFacade,
+    private leasingMandatesFacade: MandatesFacade,
     private route: ActivatedRoute
   ) {}
 
@@ -49,7 +59,7 @@ export class ViewMandateOfficersComponent implements OnInit, OnDestroy {
     const lmsRaw = this.route.snapshot.paramMap.get('leasingMandatesId');
 
     this.leasingIdParam = leasingRaw !== null ? Number(leasingRaw) : undefined; // e.g. 41
-    this.mandateIdParam = lmsRaw !== null ? Number(lmsRaw) : undefined; // e.g. 2102 (for URL only)
+    this.mandateIdParam = lmsRaw !== null ? Number(lmsRaw) : undefined; // e.g. 2102
 
     if (
       this.leasingIdParam == null ||
@@ -59,17 +69,53 @@ export class ViewMandateOfficersComponent implements OnInit, OnDestroy {
     )
       return;
 
-    // ✅ Use leasingId for API calls because backend expects mandateId
-    const mandateIdForApi = this.leasingIdParam;
+    // load officers list once (for dictionary)
+    this.officersFacade.loadAll();
+    this.officers$ = this.officersFacade.items$;
 
+    // load mandate officers by domain mandateId (= leasingId)
+    const mandateIdForApi = this.leasingIdParam;
     this.facade.loadByMandate(mandateIdForApi);
     this.mandateOfficers$ =
       this.facade.selectOfficersByMandate(mandateIdForApi);
+    this.leasingMandatesFacade.loadAll();
 
-    this.mandateOfficers$.pipe(/* ... */).subscribe((sorted) => {
-      this.originalMandateOfficers = sorted;
-      this.filteredMandateOfficers = [...sorted];
-    });
+    // JOIN: enrich rows with officerName
+    const mandate$ = this.leasingMandatesFacade.all$.pipe(
+      map(
+        (list: any[]) =>
+          list.find((m) => m.mandateId === mandateIdForApi) ?? null
+      )
+    );
+    combineLatest([this.mandateOfficers$, this.officers$, mandate$])
+      .pipe(
+        map(([rows, officers, mandate]): TableRow[] => {
+          const officerDict = new Map<number, Officer>(
+            officers.map((o) => [o.id as number, o])
+          );
+          const clientName =
+            mandate?.clientView?.clientName ??
+            mandate?.clientView?.clientNameAr ??
+            '';
+
+          return [...rows]
+            .map((r) => ({
+              ...r,
+              officerName:
+                (officerDict.get(r.officerId)?.name as string) ??
+                (officerDict.get(r.officerId) as any)?.fullName ??
+                `#${r.officerId}`,
+              clientName, // ✅ same client for all rows in this mandate
+            }))
+            .sort((a, b) => (b?.id ?? 0) - (a?.id ?? 0));
+        }),
+        tap((sorted) => {
+          this.originalMandateOfficers = sorted;
+          this.filteredMandateOfficers = [...sorted];
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
   }
 
   ngOnDestroy() {
@@ -77,8 +123,7 @@ export class ViewMandateOfficersComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  // —— Routing updated to match new config ——
-
+  // ——— navigation (unchanged) ———
   onAddMandateOfficer() {
     if (this.leasingIdParam == null || this.mandateIdParam == null) return;
     this.router.navigate([
@@ -94,7 +139,7 @@ export class ViewMandateOfficersComponent implements OnInit, OnDestroy {
       '/crm/leasing-mandates/mandate-officers/edit',
       this.leasingIdParam,
       this.mandateIdParam,
-      officer.id, // :mandateOfficerId
+      officer.id,
     ]);
   }
 
@@ -104,7 +149,7 @@ export class ViewMandateOfficersComponent implements OnInit, OnDestroy {
       '/crm/leasing-mandates/mandate-officers/view',
       this.leasingIdParam,
       this.mandateIdParam,
-      officer.id, // :mandateOfficerId
+      officer.id,
     ]);
   }
 
@@ -126,8 +171,8 @@ export class ViewMandateOfficersComponent implements OnInit, OnDestroy {
     this.selectedIds.forEach((id) => this.facade.delete(id));
     this.showDeleteModal = false;
     this.selectedIds = [];
-    if (this.mandateIdParam != null)
-      this.facade.loadByMandate(this.mandateIdParam);
+    if (this.leasingIdParam != null)
+      this.facade.loadByMandate(this.leasingIdParam); // use domain id
   }
 
   resetDeleteModal() {
@@ -154,7 +199,7 @@ export class ViewMandateOfficersComponent implements OnInit, OnDestroy {
   }
 
   refreshCalls() {
-    if (this.mandateIdParam != null)
-      this.facade.loadByMandate(this.mandateIdParam);
+    if (this.leasingIdParam != null)
+      this.facade.loadByMandate(this.leasingIdParam);
   }
 }

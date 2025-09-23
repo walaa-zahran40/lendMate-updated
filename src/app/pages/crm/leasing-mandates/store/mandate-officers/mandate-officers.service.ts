@@ -28,7 +28,7 @@ export class MandateOfficersService {
   // GET /MandateOfficerId?leasingMandate={id}
   // NOTE: The API name is confusing; this endpoint returns a single item by its own id.
   getByMandateOfficerId(id: number): Observable<MandateOfficer> {
-    const params = new HttpParams().set('leasingMandate', id); // matches your swagger
+    const params = new HttpParams().set('id', id); // matches your swagger
     return this.http.get<MandateOfficer>(`${API_BASE}/MandateOfficerId`, {
       params,
     });

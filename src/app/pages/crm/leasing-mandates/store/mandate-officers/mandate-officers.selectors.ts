@@ -64,3 +64,5 @@ export const selectDeleteLoading = createSelector(
   selectFeatureState,
   (s) => s.deleteLoading
 );
+export const selectOfficerById = (id: number) =>
+  createSelector(selectOfficerEntities, (ents) => ents[id] ?? null);

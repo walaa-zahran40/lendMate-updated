@@ -45,6 +45,9 @@ export class MandateOfficersFacade {
   update(dto: UpdateMandateOfficerDto) {
     this.store.dispatch(A.updateRequested({ dto }));
   }
+  selectById(id: number) {
+    return this.store.select(Sel.selectOfficerById(id));
+  }
 
   delete(id: number) {
     this.store.dispatch(A.deleteRequested({ id }));
