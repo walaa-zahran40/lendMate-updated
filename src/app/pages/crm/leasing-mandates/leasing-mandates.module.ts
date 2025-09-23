@@ -19,7 +19,6 @@ import { ViewMandateAdditionalTermsComponent } from './components/mandate-activi
 import { AddMandateAdditionalTermsComponent } from './components/mandate-activities/mandate-additional-terms/add-mandate-additional-terms/add-mandate-additional-terms.component';
 import { ClonesEffects } from './store/clone/clones.effects';
 import { reducer as clonesReducer } from './store/clone/clones.reducer';
-import { reducer as mandateOfficersReducer } from './store/mandate-officers/mandate-officers.reducer';
 
 import { FinancialFormsEffects } from './store/financial-form/financial-forms.effects';
 import { reducer as financialFormsReducer } from './store/financial-form/financial-forms.reducer';
@@ -29,6 +28,8 @@ import { StepperModule } from 'primeng/stepper';
 import { AddMandateOfficerComponent } from './components/mandate-activities/mandate-officers/add-mandate-officer/add-mandate-officer.component';
 import { ViewMandateOfficersComponent } from './components/mandate-activities/mandate-officers/view-mandate-officers/view-mandate-officers.component';
 import { MandateOfficersEffects } from './store/mandate-officers/mandate-officers.effects';
+import { mandateOfficersFeatureKey } from './store/mandate-officers/mandate-officers.state';
+import { mandateOfficersReducer } from './store/mandate-officers/mandate-officers.reducer';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,7 @@ import { MandateOfficersEffects } from './store/mandate-officers/mandate-officer
     ButtonModule,
     StoreModule.forFeature('mandates', leasingMandatesReducer),
     EffectsModule.forFeature([MandatesEffects]),
-    StoreModule.forFeature('mandateOfficers', mandateOfficersReducer),
+    StoreModule.forFeature(mandateOfficersFeatureKey, mandateOfficersReducer),
     EffectsModule.forFeature([MandateOfficersEffects]),
     StoreModule.forFeature('clones', clonesReducer),
     EffectsModule.forFeature([ClonesEffects]),

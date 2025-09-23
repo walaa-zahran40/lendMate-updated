@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -9,6 +9,8 @@ import {
   filter,
   take,
   Observable,
+  Subject,
+  takeUntil,
 } from 'rxjs';
 import { MandateOfficer } from '../../../../store/mandate-officers/mandate-officer.model';
 import { MandateOfficersFacade } from '../../../../store/mandate-officers/mandate-officers.facade';
@@ -21,13 +23,21 @@ import { Officer } from '../../../../../../organizations/store/officers/officer.
   templateUrl: './add-mandate-officer.component.html',
   styleUrl: './add-mandate-officer.component.scss',
 })
-export class AddMandateOfficerComponent {
-  editMode: boolean = false;
-  viewOnly: boolean = false;
+export class AddMandateOfficerComponent implements OnInit, OnDestroy {
+  editMode = false;
+  viewOnly = false;
+
   addMandateOfficerForm!: FormGroup;
+
   officers$!: Observable<Officer[]>;
-  routeId = this.route.snapshot.params['leasingId'];
-  mandateRouteId = this.route.snapshot.params['leasingMandatesId'];
+
+  // route context
+  leasingId!: number | undefined; // source of TRUTH for mandateId in payload
+  leasingMandatesId!: number | undefined; // still used for the list page URL
+  mandateOfficerId!: number | undefined;
+
+  private destroy$ = new Subject<void>();
+
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -37,152 +47,138 @@ export class AddMandateOfficerComponent {
   ) {}
 
   ngOnInit() {
-    console.log('route', this.route.snapshot);
-    console.log('routeId (leasingId):', this.routeId);
-    console.log('mandateRouteId (leasingMandatesId):', this.mandateRouteId);
-    // 2️⃣ Combine into addMandateOfficerForm
+    // Read params once
+    this.leasingId = this.num(this.route.snapshot.paramMap.get('leasingId'));
+    this.leasingMandatesId = this.num(
+      this.route.snapshot.paramMap.get('leasingMandatesId')
+    );
+    this.mandateOfficerId = this.num(
+      this.route.snapshot.paramMap.get('mandateOfficerId')
+    );
+
+    // Build form: mandateId must equal leasingId
     this.addMandateOfficerForm = this.fb.group({
       id: [null],
-      mandateId: [this.mandateRouteId],
+      mandateId: [this.leasingId, Validators.required], // <-- from leasingId
       officerId: [null, Validators.required],
     });
-    // 2️⃣ pull the raw DB PK ("leasingMandatesId") out of the URL
-    const leasingMandatesId = +this.route.snapshot.params['leasingId']!;
+
+    // Load officers dropdown
     this.officersFacade.loadAll();
     this.officers$ = this.officersFacade.items$;
 
-    // 3️⃣ shove it into your basic form
-    this.addMandateOfficerForm.patchValue({
-      mandateId: leasingMandatesId,
-    });
-
-    const routeParams$ = combineLatest({
+    // React to route changes (params + query)
+    const route$ = combineLatest({
       params: this.route.paramMap,
       query: this.route.queryParamMap,
     }).pipe(
-      map(({ params, query }) => ({
-        leasingMandatesId: +params.get('leasingMandatesId')!,
-        selectedItemId: +params.get('leasingId')!, // this is the ID of the *item* (e.g. 2812)
-        mode: query.get('mode'),
-      }))
+      map(({ params, query }) => {
+        const leasingId = this.num(params.get('leasingId'));
+        const leasingMandatesId = this.num(params.get('leasingMandatesId'));
+        const mandateOfficerId = this.num(params.get('mandateOfficerId'));
+        const mode = (query.get('mode') || 'add').toLowerCase();
+
+        // mandateId in payload should follow leasingId
+        const mandateId = leasingId;
+
+        return {
+          leasingId,
+          leasingMandatesId,
+          mandateOfficerId,
+          mandateId,
+          mode,
+        };
+      }),
+      tap(({ mode, mandateId }) => {
+        this.editMode = mode === 'edit';
+        this.viewOnly = mode === 'view';
+
+        // keep form mandateId synced to leasingId
+        if (mandateId != null)
+          this.addMandateOfficerForm.patchValue({ mandateId });
+
+        // load by mandateId (which equals leasingId)
+        if (mandateId != null) this.facade.loadByMandate(mandateId);
+      })
     );
 
-    routeParams$
+    // If editing/viewing, find the record by :mandateOfficerId from the by-mandate list
+    route$
       .pipe(
-        tap(({ leasingMandatesId, mode }) => {
-          console.log('mode:', mode);
-          this.editMode = mode === 'edit';
-          this.viewOnly = mode === 'view';
-          this.facade.loadById(leasingMandatesId); // Load all terms for the mandate
-        }),
-        switchMap(({ selectedItemId }) =>
-          this.facade.all$.pipe(
-            map((items) => items.find((item) => item.id === selectedItemId)),
-            filter((item): item is MandateOfficer => !!item),
+        switchMap(({ mandateId, mandateOfficerId }) => {
+          if (mandateId == null || mandateOfficerId == null) return [];
+          return this.facade.selectOfficersByMandate(mandateId).pipe(
+            map((items) => items.find((x) => x.id === mandateOfficerId)),
+            filter((x): x is MandateOfficer => !!x),
             take(1)
-          )
-        )
+          );
+        }),
+        takeUntil(this.destroy$)
       )
-      .subscribe((matchedItem) => {
-        console.log('✅ Found item to edit:', matchedItem);
-        this.patchMandate(this.normalizeMandate(matchedItem));
-        if (this.viewOnly) {
-          this.addMandateOfficerForm.disable();
-        }
+      .subscribe((item) => {
+        this.patchMandate(item);
+        if (this.viewOnly) this.addMandateOfficerForm.disable();
       });
   }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   private patchMandate(m: MandateOfficer) {
-    if (!m) {
-      console.warn('❌ patchMandate called with null/undefined mandate');
-      return;
-    }
-
-    console.log('📌 patching form with mandate:', m);
-
     this.addMandateOfficerForm.patchValue({
       id: m.id,
-      mandateId: m.mandateId,
+      mandateId: m.mandateId, // already equals leasingId by our convention
       officerId: m.officerId,
     });
   }
 
-  private normalizeMandate(raw: any): MandateOfficer {
-    return {
-      ...raw,
-    };
-  }
-
-  get basicForm(): FormGroup {
-    return this.addMandateOfficerForm?.get('basic')! as FormGroup;
-  }
   onSubmit() {
-    console.log('💥 addOrEditIdentificationTypes() called');
-    console.log('  viewOnly:', this.viewOnly);
-    console.log('  editMode:', this.editMode);
-    console.log('  form valid:', this.addMandateOfficerForm.valid);
-    console.log('  form touched:', this.addMandateOfficerForm.touched);
-    console.log('  form raw value:', this.addMandateOfficerForm.getRawValue());
-
-    if (this.viewOnly) {
-      console.log('⚠️ viewOnly mode — aborting add');
-      return;
-    }
+    if (this.viewOnly) return;
 
     if (this.addMandateOfficerForm.invalid) {
-      console.warn('❌ Form is invalid — marking touched and aborting');
       this.addMandateOfficerForm.markAllAsTouched();
-      console.log('  → form errors:', this.addMandateOfficerForm.errors);
       return;
     }
 
-    const createPayload: Partial<MandateOfficer> =
-      this.addMandateOfficerForm.value;
-    console.log('  → assembled CREATE payload:', createPayload);
+    const { id, mandateId, officerId } =
+      this.addMandateOfficerForm.getRawValue() as MandateOfficer;
+
+    // Ensure mandateId is leasingId before sending (defensive)
+    const payloadMandateId = this.leasingId ?? mandateId;
 
     if (this.editMode) {
-      const leaseIdStr = this.route.snapshot.paramMap.get('leasingMandatesId');
-      const leaseId = leaseIdStr ? +leaseIdStr : null;
-      const mandateIdStr = this.route.snapshot.paramMap.get('leasingId');
-      const mandateId = mandateIdStr ? +mandateIdStr : null;
-
-      console.log(
-        '🔍 route param leasingId:',
-        leaseIdStr,
-        mandateIdStr,
-        'parsed →',
-        leaseId,
-        mandateIdStr
-      );
-
-      // Re-destructure to keep naming clear
-
-      const updatePayload = this.addMandateOfficerForm.value;
-
-      console.log('  → assembled UPDATE payload:', updatePayload);
-
-      console.log('✏️ Calling facade.update()');
-      this.facade.update(mandateId!, updatePayload);
+      this.facade.update({ id, mandateId: payloadMandateId!, officerId });
     } else {
-      console.log('➕ Calling facade.create()');
-      this.facade.create(createPayload);
-    }
-    if (this.addMandateOfficerForm.valid) {
-      this.addMandateOfficerForm.markAsPristine();
+      this.facade.create({ mandateId: payloadMandateId!, officerId });
     }
 
-    console.log('🧭 Navigating away to view-mandates');
-    this.router.navigate([
-      `/crm/leasing-mandates/view-mandate-officers/${this.routeId}/${this.mandateRouteId}`,
-    ]);
+    this.addMandateOfficerForm.markAsPristine();
+    this.navigateToView();
   }
 
   navigateToView() {
+    // URL still expects both leasingId and leasingMandatesId
+    const leasingId =
+      this.leasingId ?? this.num(this.route.snapshot.paramMap.get('leasingId'));
+    const leasingMandatesId =
+      this.leasingMandatesId ??
+      this.num(this.route.snapshot.paramMap.get('leasingMandatesId'));
+
     this.router.navigate([
-      `/crm/leasing-mandates/view-mandate-officers/${this.routeId}/${this.mandateRouteId}`,
+      `/crm/leasing-mandates/view-mandate-officers/${leasingId}/${leasingMandatesId}`,
     ]);
   }
-  /** Called by the guard. */
+
+  /** Guard hook */
   canDeactivate(): boolean {
     return !this.addMandateOfficerForm.dirty;
+  }
+
+  private num(v: string | null): number | undefined {
+    if (v == null) return undefined;
+    const n = Number(v);
+    return Number.isFinite(n) ? n : undefined;
   }
 }

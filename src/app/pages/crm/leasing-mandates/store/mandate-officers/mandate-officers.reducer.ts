@@ -1,88 +1,135 @@
-import { createReducer, on } from '@ngrx/store';
-import * as MandateOfficerActions from './mandate-officers.actions';
-import { adapter, initialState, State } from './mandate-officers.state';
+import { createFeature, createReducer, on } from '@ngrx/store';
+import {
+  initialState,
+  mandateOfficerAdapter,
+  mandateOfficersFeatureKey,
+} from './mandate-officers.state';
+import { MandateOfficersActions as A } from './mandate-officers.actions';
 
-export const reducer = createReducer(
+export const mandateOfficersReducer = createReducer(
   initialState,
 
-  // when you dispatch loadAll()
-  on(MandateOfficerActions.loadAll, (state) => ({
+  // List
+  on(A.loadAllRequested, (state) => ({
     ...state,
-    loading: true,
-    error: null,
+    listLoading: true,
+    listError: null,
   })),
-
-  // when your effect dispatches loadAllSuccess({ result })
-  on(MandateOfficerActions.loadAllSuccess, (state, { result }) =>
-    adapter.setAll(result, {
-      ...state,
-      loading: false,
-      error: null,
-    })
-  ),
-  // on failure
-  on(MandateOfficerActions.loadAllFailure, (state, { error }) => ({
-    ...state,
-    loading: false,
-    error,
-  })),
-  // create
-  on(MandateOfficerActions.createEntity, (state) => ({
-    ...state,
-    loading: true,
-    error: null,
-  })),
-  on(MandateOfficerActions.createEntitySuccess, (state, { entity }) =>
-    adapter.addOne(entity, { ...state, loading: false })
-  ),
-  on(MandateOfficerActions.createEntityFailure, (state, { error }) => ({
-    ...state,
-    loading: false,
-    error,
-  })),
-
-  // update
-  on(MandateOfficerActions.updateEntity, (state) => ({
-    ...state,
-    loading: true,
-    error: null,
-  })),
-  on(MandateOfficerActions.updateEntitySuccess, (state, { id, changes }) =>
-    adapter.updateOne({ id, changes }, { ...state, loading: false })
-  ),
-  on(MandateOfficerActions.updateEntityFailure, (state, { error }) => ({
-    ...state,
-    loading: false,
-    error,
-  })),
-
-  // delete
-  on(MandateOfficerActions.deleteEntity, (state) => ({
-    ...state,
-    loading: true,
-    error: null,
-  })),
-  on(MandateOfficerActions.deleteEntitySuccess, (state, { id }) =>
-    adapter.removeOne(id, { ...state, loading: false })
-  ),
-  on(MandateOfficerActions.deleteEntityFailure, (state, { error }) => ({
-    ...state,
-    loading: false,
-    error,
-  })),
-  on(MandateOfficerActions.loadByIdSuccess, (state, { entities }) => {
-    const firstId = entities.length > 0 ? entities[0].id : null;
-    return adapter.setAll(entities, {
-      ...state,
-      loadedId: firstId, // ✅ Set the selected ID so selected$ can resolve it
-    });
+  on(A.loadAllSucceeded, (state, { response, pageNumber }) => {
+    const next = mandateOfficerAdapter.upsertMany(response.items, state);
+    return {
+      ...next,
+      listLoading: false,
+      listTotalCount: response.totalCount,
+      listPageNumber: pageNumber ?? null,
+    };
   }),
-
-  on(MandateOfficerActions.clearSelectedMandateOfficer, (state) => ({
+  on(A.loadAllFailed, (state, { error }) => ({
     ...state,
-    loadedId: null,
+    listLoading: false,
+    listError: error,
+  })),
+
+  // By mandate
+  on(A.loadByMandateRequested, (state) => ({
+    ...state,
+    byMandateLoading: true,
+    byMandateError: null,
+  })),
+  on(A.loadByMandateSucceeded, (state, { mandateId, officers }) => {
+    const next = mandateOfficerAdapter.upsertMany(officers, state);
+    return {
+      ...next,
+      byMandateLoading: false,
+      byMandateMap: {
+        ...next.byMandateMap,
+        [mandateId]: officers.map((o) => o.id),
+      },
+    };
+  }),
+  on(A.loadByMandateFailed, (state, { error }) => ({
+    ...state,
+    byMandateLoading: false,
+    byMandateError: error,
+  })),
+
+  // Single
+  on(A.loadOneRequested, (state) => ({
+    ...state,
+    singleLoading: true,
+    singleError: null,
+  })),
+  on(A.loadOneSucceeded, (state, { officer }) => ({
+    ...mandateOfficerAdapter.upsertOne(officer, state),
+    singleLoading: false,
+  })),
+  on(A.loadOneFailed, (state, { error }) => ({
+    ...state,
+    singleLoading: false,
+    singleError: error,
+  })),
+
+  // Create
+  on(A.createRequested, (state) => ({
+    ...state,
+    createLoading: true,
+    createError: null,
+  })),
+  on(A.createSucceeded, (state, { officer }) => ({
+    ...mandateOfficerAdapter.addOne(officer, state),
+    createLoading: false,
+  })),
+  on(A.createFailed, (state, { error }) => ({
+    ...state,
+    createLoading: false,
+    createError: error,
+  })),
+
+  // Update
+  on(A.updateRequested, (state) => ({
+    ...state,
+    updateLoading: true,
+    updateError: null,
+  })),
+  on(A.updateSucceeded, (state, { officer }) => ({
+    ...mandateOfficerAdapter.upsertOne(officer, state),
+    updateLoading: false,
+  })),
+  on(A.updateFailed, (state, { error }) => ({
+    ...state,
+    updateLoading: false,
+    updateError: error,
+  })),
+
+  // Delete
+  on(A.deleteRequested, (state) => ({
+    ...state,
+    deleteLoading: true,
+    deleteError: null,
+  })),
+  on(A.deleteSucceeded, (state, { id }) => ({
+    ...mandateOfficerAdapter.removeOne(id, state),
+    deleteLoading: false,
+  })),
+  on(A.deleteFailed, (state, { error }) => ({
+    ...state,
+    deleteLoading: false,
+    deleteError: error,
+  })),
+
+  // Utility
+  on(A.clearErrors, (state) => ({
+    ...state,
+    listError: null,
+    byMandateError: null,
+    singleError: null,
+    createError: null,
+    updateError: null,
+    deleteError: null,
   }))
 );
 
-export const { selectAll, selectEntities, selectIds, selectTotal } =
-  adapter.getSelectors();
+export const mandateOfficersFeature = createFeature({
+  name: mandateOfficersFeatureKey,
+  reducer: mandateOfficersReducer,
+});

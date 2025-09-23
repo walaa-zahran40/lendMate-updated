@@ -1,53 +1,60 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { catchError, map, Observable, tap, throwError } from 'rxjs';
-import { MandateOfficer } from './mandate-officer.model';
-import { environment } from '../../../../../../environments/environment';
+import { inject, Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import {
+  CreateMandateOfficerDto,
+  MandateOfficer,
+  PagedResponse,
+  UpdateMandateOfficerDto,
+} from './mandate-officer.model';
+
+// If you already have environments, swap this for environment.apiBaseUrl
+const API_BASE = 'https://lendmate.corplease.com.eg:7070/api/MandateOfficers';
 
 @Injectable({ providedIn: 'root' })
 export class MandateOfficersService {
-  private baseUrl = `${environment.apiUrl}MandateOfficers`;
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
-
-  getAll(): Observable<MandateOfficer[]> {
-    console.log('🚀 Service: calling GET …');
-    return this.http
-      .get<{ items: MandateOfficer[]; totalCount: number }>(
-        `${this.baseUrl}/GetAllMandateOfficers`
-      )
-      .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
-        map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
-        catchError((err) => {
-          console.error('🚀 HTTP error fetching Mandates:', err);
-          return throwError(() => err);
-        })
-      );
-  }
-  getById(id: number): Observable<MandateOfficer> {
-    return this.http.get<MandateOfficer>(
-      `${this.baseUrl}/MandateOfficerId?leasingMandate=${id}`
+  // GET /GetAllMandateOfficers?pageNumber
+  getAll(pageNumber?: number): Observable<PagedResponse<MandateOfficer>> {
+    let params = new HttpParams();
+    if (pageNumber != null) params = params.set('pageNumber', pageNumber);
+    return this.http.get<PagedResponse<MandateOfficer>>(
+      `${API_BASE}/GetAllMandateOfficers`,
+      { params }
     );
   }
-  getByMandateId(id: number): Observable<MandateOfficer> {
-    return this.http.get<MandateOfficer>(
-      `${this.baseUrl}/MandateId?mandateId=${id}`
-    );
+
+  // GET /MandateOfficerId?leasingMandate={id}
+  // NOTE: The API name is confusing; this endpoint returns a single item by its own id.
+  getByMandateOfficerId(id: number): Observable<MandateOfficer> {
+    const params = new HttpParams().set('leasingMandate', id); // matches your swagger
+    return this.http.get<MandateOfficer>(`${API_BASE}/MandateOfficerId`, {
+      params,
+    });
   }
-  create(payload: Omit<MandateOfficer, 'id'>): Observable<MandateOfficer> {
+
+  // GET /MandateId?mandateId={mandateId}
+  getByMandateId(mandateId: number): Observable<MandateOfficer[]> {
+    const params = new HttpParams().set('mandateId', mandateId);
+    return this.http.get<MandateOfficer[]>(`${API_BASE}/MandateId`, { params });
+  }
+
+  // POST /CreateMandateOfficer
+  create(dto: CreateMandateOfficerDto): Observable<MandateOfficer> {
     return this.http.post<MandateOfficer>(
-      `${this.baseUrl}/CreateMandateOfficer`,
-      payload
+      `${API_BASE}/CreateMandateOfficer`,
+      dto
     );
   }
 
-  update(id: number, changes: Partial<MandateOfficer>): Observable<void> {
-    return this.http.put<void>(`${this.baseUrl}/${id}`, changes);
+  // PUT /{id}
+  update(dto: UpdateMandateOfficerDto): Observable<MandateOfficer> {
+    return this.http.put<MandateOfficer>(`${API_BASE}/${dto.id}`, dto);
   }
 
+  // DELETE /{id}
   delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+    return this.http.delete<void>(`${API_BASE}/${id}`);
   }
 }

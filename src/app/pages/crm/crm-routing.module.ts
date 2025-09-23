@@ -430,34 +430,58 @@ const routes: Routes = [
     path: 'leasing-mandates/view-mandate-additional-terms/:leasingId/:leasingMandatesId/:clientId',
     component: ViewMandateAdditionalTermsComponent,
   },
-  // Manage Officers
+  // Manage Officers (new, consistent)
+  {
+    path: 'leasing-mandates/mandate-officers/add/:leasingId/:leasingMandatesId',
+    component: AddMandateOfficerComponent,
+  },
+  {
+    path: 'leasing-mandates/mandate-officers/edit/:leasingId/:leasingMandatesId/:mandateOfficerId',
+    component: AddMandateOfficerComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
+  {
+    path: 'leasing-mandates/mandate-officers/view/:leasingId/:leasingMandatesId/:mandateOfficerId',
+    component: AddMandateOfficerComponent,
+  },
+
+  // Officers list for a mandate (keep)
+  {
+    path: 'leasing-mandates/view-mandate-officers/:leasingId/:leasingMandatesId',
+    component: ViewMandateOfficersComponent,
+  },
+  // ------------------------------
+  // Backward-compat (optional)
+  // ------------------------------
+
+  // OLD add routes → point to Add component
   {
     path: 'leasing-mandates/add-mandate-officer/:leasingId/:leasingMandatesId',
     component: AddMandateOfficerComponent,
   },
   {
-    path: 'leasing-mandates/add-mandate-officer/:leasingId/:leasingMandatesId/:clientId',
+    path: 'leasing-mandates/add-mandate-officer/:leasingId/:leasingMandatesId/:mandateOfficerId',
     component: AddMandateOfficerComponent,
   },
 
+  // OLD edit routes → point to Add component with guard
   {
     path: 'leasing-mandates/edit-mandate-officer/:leasingId/:leasingMandatesId',
     component: AddMandateOfficerComponent,
     canDeactivate: [PendingChangesGuard],
   },
   {
-    path: 'leasing-mandates/edit-mandate-officer/:leasingId/:leasingMandatesId/:clientId',
+    path: 'leasing-mandates/edit-mandate-officer/:leasingId/:leasingMandatesId/:mandateOfficerId',
     component: AddMandateOfficerComponent,
     canDeactivate: [PendingChangesGuard],
   },
+
+  // OLD list routes (kept)
   {
-    path: 'leasing-mandates/view-mandate-officers/:leasingId/:leasingMandatesId',
-    component: ViewMandateOfficersComponent,
+    path: 'leasing-mandates/view-mandate-officers/:leasingId/:leasingMandatesId/:mandateOfficerId',
+    component: ViewMandateOfficersComponent, // if you ever need deep-link to highlight one
   },
-  {
-    path: 'leasing-mandates/view-mandate-officers/:leasingId/:leasingMandatesId/:clientId',
-    component: ViewMandateOfficersComponent,
-  },
+
   //Leasing Financial Form
   {
     path: 'leasing-mandates/leasing-financial-form/:leasingId/:leasingMandatesId',

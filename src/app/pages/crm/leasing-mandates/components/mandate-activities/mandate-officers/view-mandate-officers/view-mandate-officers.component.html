@@ -15,7 +15,7 @@
     (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
 
-  <ng-container *ngIf="mandateOfficers$ | async as mandateOfficers">
+  <ng-container *ngIf="mandateOfficers$ | async">
     <app-table
       [viewPermission]="[
         '/MandateAdditionalTerms/Get',
@@ -29,16 +29,16 @@
       [cols]="colsInside"
       [tableData]="filteredMandateOfficers"
       [side]="false"
-      [download]="false"
       [first]="first2"
       [checkBox]="true"
       [filters]="showFilters"
       [uppercase]="'uppercase'"
-      [viewMandateOfficersTable]="true"
+      [viewSalesTurnoverTable]="true"
       (onDelete)="onDeleteMandateOfficer($event)"
       (onEdit)="onEditMandateOfficer($event)"
-      (viewForm)="onViewMandateOfficers($event)"
+      (viewForm)="onViewMandateOfficer($event)"
     ></app-table>
+
     <app-delete-module
       [visible]="showDeleteModal"
       (confirm)="confirmDelete()"

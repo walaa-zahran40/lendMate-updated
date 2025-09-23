@@ -1,47 +1,56 @@
-import { Injectable } from '@angular/core';
-import { createSelector, Store } from '@ngrx/store';
-import * as Actions from './mandate-officers.actions';
-import * as Selectors from './mandate-officers.selectors';
-import { MandateOfficer } from './mandate-officer.model';
-import { selectLastOperationSuccess } from '../../../../../shared/store/ui.selectors';
+import { inject, Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { MandateOfficersActions as A } from './mandate-officers.actions';
+import * as Sel from './mandate-officers.selectors';
+import {
+  CreateMandateOfficerDto,
+  UpdateMandateOfficerDto,
+} from './mandate-officer.model';
 
 @Injectable({ providedIn: 'root' })
 export class MandateOfficersFacade {
-  readonly selectedMandateOfficer$ = this.store.select(Selectors.selectCurrent);
-  all$ = this.store.select(Selectors.selectAllMandateOfficers);
-  loading$ = this.store.select(Selectors.selectMandateOfficersLoading);
-  error$ = this.store.select(Selectors.selectMandateOfficersError);
-  totalCount$ = this.store.select(Selectors.selectMandateOfficersTotalCount);
-  selected$ = this.store.select(
-    createSelector(
-      Selectors.selectFeature,
-      (state) => state.entities[state.loadedId!] // or however you track it
-    )
-  );
-  operationSuccess$ = this.store.select(selectLastOperationSuccess);
-  constructor(private store: Store) {}
+  private store = inject(Store);
 
+  // selectors
+  all$ = this.store.select(Sel.selectAllOfficers);
+  listLoading$ = this.store.select(Sel.selectListLoading);
+  listError$ = this.store.select(Sel.selectListError);
+  listPageNumber$ = this.store.select(Sel.selectListPageNumber);
+  listTotalCount$ = this.store.select(Sel.selectListTotalCount);
+
+  byMandateLoading$ = this.store.select(Sel.selectByMandateLoading);
+  byMandateError$ = this.store.select(Sel.selectByMandateError);
+
+  selectOfficersByMandate(mandateId: number) {
+    return this.store.select(Sel.selectOfficersByMandate(mandateId));
+  }
+
+  // commands
   loadAll(pageNumber?: number) {
-    this.store.dispatch(Actions.loadAll({ pageNumber }));
+    this.store.dispatch(A.loadAllRequested({ pageNumber }));
   }
 
-  loadById(id: number) {
-    this.store.dispatch(Actions.loadById({ id }));
+  loadByMandate(mandateId: number) {
+    this.store.dispatch(A.loadByMandateRequested({ mandateId }));
   }
 
-  create(payload: Partial<Omit<MandateOfficer, 'id'>>) {
-    this.store.dispatch(Actions.createMandateOfficer({ payload }));
+  loadOne(mandateOfficerId: number) {
+    this.store.dispatch(A.loadOneRequested({ mandateOfficerId }));
   }
 
-  update(id: number, changes: Partial<MandateOfficer>) {
-    this.store.dispatch(Actions.updateEntity({ id, changes }));
+  create(dto: CreateMandateOfficerDto) {
+    this.store.dispatch(A.createRequested({ dto }));
+  }
+
+  update(dto: UpdateMandateOfficerDto) {
+    this.store.dispatch(A.updateRequested({ dto }));
   }
 
   delete(id: number) {
-    this.store.dispatch(Actions.deleteEntity({ id }));
+    this.store.dispatch(A.deleteRequested({ id }));
   }
 
-  clearSelected() {
-    this.store.dispatch(Actions.clearSelectedMandateOfficer());
+  clearErrors() {
+    this.store.dispatch(A.clearErrors());
   }
 }

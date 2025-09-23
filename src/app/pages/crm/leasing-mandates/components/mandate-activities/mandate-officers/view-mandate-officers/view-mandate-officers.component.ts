@@ -1,6 +1,6 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnDestroy, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subject, combineLatest, takeUntil, tap, map, forkJoin } from 'rxjs';
+import { Subject, takeUntil, tap, map, Observable } from 'rxjs';
 import { TableComponent } from '../../../../../../../shared/components/table/table.component';
 import { MandateOfficer } from '../../../../store/mandate-officers/mandate-officer.model';
 import { MandateOfficersFacade } from '../../../../store/mandate-officers/mandate-officers.facade';
@@ -11,81 +11,110 @@ import { MandateOfficersFacade } from '../../../../store/mandate-officers/mandat
   templateUrl: './view-mandate-officers.component.html',
   styleUrl: './view-mandate-officers.component.scss',
 })
-export class ViewMandateOfficersComponent {
-  tableDataInside: MandateOfficer[] = [];
-  first2: number = 0;
-  private destroy$ = new Subject<void>();
-  mandateOfficers$ = this.facade.all$;
-  rows: number = 10;
-  showFilters: boolean = false;
+export class ViewMandateOfficersComponent implements OnInit, OnDestroy {
   @ViewChild('tableRef') tableRef!: TableComponent;
+
+  first2 = 0;
+  rows = 10;
+  showFilters = false;
+
+  // route params
+  leasingIdParam!: number | undefined; // NEW
+  mandateIdParam!: number | undefined;
+
+  showDeleteModal = false;
+  selectedMandateOfficerId: number | null = null;
+  selectedIds: number[] = [];
+
+  originalMandateOfficers: MandateOfficer[] = [];
+  filteredMandateOfficers: MandateOfficer[] = [];
+
+  mandateOfficers$!: Observable<MandateOfficer[]>;
 
   readonly colsInside = [
     { field: 'mandateId', header: 'Mandate' },
     { field: 'officerId', header: 'Officer' },
   ];
-  showDeleteModal: boolean = false;
-  selectedMandateOfficerId: number | null = null;
-  originalMandateOfficers: any[] = [];
-  filteredMandateOfficers: MandateOfficer[] = [];
-  contactPersonsDropdown: any;
-  officersDropdown: any[] = [];
-  languagesDropdown: any[] = [];
-  routeId = this.route.snapshot.params['leasingId'];
-  leasingRouteId = this.route.snapshot.params['leasingMandatesId'];
+
+  private destroy$ = new Subject<void>();
+
   constructor(
     private router: Router,
     private facade: MandateOfficersFacade,
     private route: ActivatedRoute
   ) {}
+
   ngOnInit() {
-    console.log('route', this.route.snapshot);
-    this.facade.loadById(this.leasingRouteId);
-    combineLatest([this.mandateOfficers$])
-      .pipe(
-        takeUntil(this.destroy$),
+    const leasingRaw = this.route.snapshot.paramMap.get('leasingId');
+    const lmsRaw = this.route.snapshot.paramMap.get('leasingMandatesId');
 
-        // 1️⃣ Log the raw mandates array
-        tap(([mandates]) => {
-          console.group('🚀 combineLatest payload');
-          console.log('Mandates:', mandates);
-          console.groupEnd();
-        }),
+    this.leasingIdParam = leasingRaw !== null ? Number(leasingRaw) : undefined; // e.g. 41
+    this.mandateIdParam = lmsRaw !== null ? Number(lmsRaw) : undefined; // e.g. 2102 (for URL only)
 
-        // 2️⃣ Now map & flatten clientName out of clientView
-        map(([mandates]) =>
-          mandates
-            .slice()
-            .sort((a, b) => b.id! - a.id!)
-            .map((m) => {
-              return {
-                ...m,
-              };
-            })
-        ),
+    if (
+      this.leasingIdParam == null ||
+      isNaN(this.leasingIdParam) ||
+      this.mandateIdParam == null ||
+      isNaN(this.mandateIdParam)
+    )
+      return;
 
-        // 3️⃣ Log the enriched array
-        tap((enriched) => console.log('Enriched tableDataInside:', enriched))
-      )
-      .subscribe((enriched) => {
-        this.tableDataInside = enriched;
-        this.originalMandateOfficers = enriched;
-        this.filteredMandateOfficers = enriched;
-      });
-  }
+    // ✅ Use leasingId for API calls because backend expects mandateId
+    const mandateIdForApi = this.leasingIdParam;
 
-  onAddMandateOfficer() {
-    this.router.navigate([
-      `/crm/leasing-mandates/add-mandate-officer/${this.routeId}/${this.leasingRouteId}`,
-    ]);
+    this.facade.loadByMandate(mandateIdForApi);
+    this.mandateOfficers$ =
+      this.facade.selectOfficersByMandate(mandateIdForApi);
+
+    this.mandateOfficers$.pipe(/* ... */).subscribe((sorted) => {
+      this.originalMandateOfficers = sorted;
+      this.filteredMandateOfficers = [...sorted];
+    });
   }
 
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
   }
-  onDeleteMandateOfficer(mandateOfficersId: number): void {
-    this.selectedIds = [mandateOfficersId];
+
+  // —— Routing updated to match new config ——
+
+  onAddMandateOfficer() {
+    if (this.leasingIdParam == null || this.mandateIdParam == null) return;
+    this.router.navigate([
+      '/crm/leasing-mandates/mandate-officers/add',
+      this.leasingIdParam,
+      this.mandateIdParam,
+    ]);
+  }
+
+  onEditMandateOfficer(officer: MandateOfficer) {
+    if (this.leasingIdParam == null || this.mandateIdParam == null) return;
+    this.router.navigate([
+      '/crm/leasing-mandates/mandate-officers/edit',
+      this.leasingIdParam,
+      this.mandateIdParam,
+      officer.id, // :mandateOfficerId
+    ]);
+  }
+
+  onViewMandateOfficer(officer: MandateOfficer) {
+    if (this.leasingIdParam == null || this.mandateIdParam == null) return;
+    this.router.navigate([
+      '/crm/leasing-mandates/mandate-officers/view',
+      this.leasingIdParam,
+      this.mandateIdParam,
+      officer.id, // :mandateOfficerId
+    ]);
+  }
+
+  onDeleteMandateOfficer(id: number): void {
+    this.selectedIds = [id];
+    this.showDeleteModal = true;
+  }
+
+  onBulkDelete(ids: number[]) {
+    this.selectedIds = ids;
     this.showDeleteModal = true;
   }
 
@@ -93,75 +122,39 @@ export class ViewMandateOfficersComponent {
     this.resetDeleteModal();
   }
 
+  confirmDelete() {
+    this.selectedIds.forEach((id) => this.facade.delete(id));
+    this.showDeleteModal = false;
+    this.selectedIds = [];
+    if (this.mandateIdParam != null)
+      this.facade.loadByMandate(this.mandateIdParam);
+  }
+
   resetDeleteModal() {
     this.showDeleteModal = false;
     this.selectedMandateOfficerId = null;
+    this.selectedIds = [];
   }
+
   onSearch(keyword: string) {
-    const lower = keyword.toLowerCase();
-    this.filteredMandateOfficers = this.originalMandateOfficers.filter(
-      (mandate) =>
-        Object.values(mandate).some((val) =>
-          val?.toString().toLowerCase().includes(lower)
-        )
+    const lower = keyword?.toLowerCase() ?? '';
+    if (!lower) {
+      this.filteredMandateOfficers = [...this.originalMandateOfficers];
+      return;
+    }
+    this.filteredMandateOfficers = this.originalMandateOfficers.filter((row) =>
+      Object.values(row).some((val) =>
+        val?.toString().toLowerCase().includes(lower)
+      )
     );
   }
+
   onToggleFilters(value: boolean) {
     this.showFilters = value;
   }
-  onEditMandateOfficer(mandate: MandateOfficer) {
-    console.log('mandate', mandate);
-    this.router.navigate(
-      [
-        '/crm/leasing-mandates/edit-mandate-officer',
-        mandate.id,
-        mandate.mandateId,
-      ],
-      {
-        queryParams: {
-          mode: 'edit',
-        },
-      }
-    );
-  }
-  onViewMandateOfficers(mandate: MandateOfficer) {
-    console.log('mandate', mandate);
-    this.router.navigate(
-      [
-        '/crm/leasing-mandates/add-mandate-officer',
-        mandate.id,
-        mandate.mandateId,
-      ],
-      {
-        queryParams: {
-          mode: 'view',
-        },
-      }
-    );
-  }
-  selectedIds: number[] = [];
-  confirmDelete() {
-    const deleteCalls = this.selectedIds.map((id) => this.facade.delete(id));
-
-    forkJoin(deleteCalls).subscribe({
-      next: () => {
-        this.selectedIds = [];
-        this.showDeleteModal = false; // CLOSE MODAL HERE
-        this.refreshCalls();
-      },
-      error: (err) => {
-        this.showDeleteModal = false; // STILL CLOSE IT
-      },
-    });
-  }
 
   refreshCalls() {
-    this.facade.loadAll();
-    this.mandateOfficers$ = this.facade.all$;
-  }
-  onBulkDelete(ids: number[]) {
-    // Optionally confirm first
-    this.selectedIds = ids;
-    this.showDeleteModal = true;
+    if (this.mandateIdParam != null)
+      this.facade.loadByMandate(this.mandateIdParam);
   }
 }
