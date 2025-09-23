@@ -98,7 +98,7 @@ export class AddMandateOfficerComponent implements OnInit, OnDestroy {
           this.addMandateOfficerForm.patchValue({ mandateId });
 
         // load by mandateId (which equals leasingId)
-        if (mandateId != null) this.facade.loadByMandate(mandateId);
+        // if (mandateId != null) this.facade.loadByMandate(mandateId);
       })
     );
 
@@ -129,7 +129,7 @@ export class AddMandateOfficerComponent implements OnInit, OnDestroy {
   private patchMandate(m: MandateOfficer) {
     this.addMandateOfficerForm.patchValue({
       id: m.id,
-      mandateId: m.mandateId, // already equals leasingId by our convention
+      mandateId: m.mandateId,
       officerId: m.officerId,
     });
   }

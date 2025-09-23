@@ -52,7 +52,10 @@ export class MandateOfficersEffects {
       ofType(A.createRequested),
       mergeMap(({ dto }) =>
         this.api.create(dto).pipe(
-          map((officer) => A.createSucceeded({ officer })),
+          mergeMap((officer) => [
+            A.createSucceeded({ officer }),
+            A.loadByMandateRequested({ mandateId: officer.mandateId }),
+          ]),
           catchError((err) => of(A.createFailed({ error: this.errMsg(err) })))
         )
       )

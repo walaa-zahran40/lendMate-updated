@@ -75,10 +75,21 @@ export const mandateOfficersReducer = createReducer(
     createLoading: true,
     createError: null,
   })),
-  on(A.createSucceeded, (state, { officer }) => ({
-    ...mandateOfficerAdapter.addOne(officer, state),
-    createLoading: false,
-  })),
+  on(A.createSucceeded, (state, { officer }) => {
+    const next = mandateOfficerAdapter.addOne(officer, state);
+
+    const currIds = next.byMandateMap[officer.mandateId] ?? [];
+    const byMandateMap = currIds.includes(officer.id)
+      ? next.byMandateMap
+      : { ...next.byMandateMap, [officer.mandateId]: [...currIds, officer.id] };
+
+    return {
+      ...next,
+      createLoading: false,
+      byMandateMap,
+    };
+  }),
+
   on(A.createFailed, (state, { error }) => ({
     ...state,
     createLoading: false,
@@ -91,10 +102,31 @@ export const mandateOfficersReducer = createReducer(
     updateLoading: true,
     updateError: null,
   })),
-  on(A.updateSucceeded, (state, { officer }) => ({
-    ...mandateOfficerAdapter.upsertOne(officer, state),
-    updateLoading: false,
-  })),
+  on(A.updateSucceeded, (state, { officer }) => {
+    const prev = state.entities[officer.id];
+    const next = mandateOfficerAdapter.upsertOne(officer, state);
+    if (!prev) return { ...next, updateLoading: false };
+
+    let byMandateMap = next.byMandateMap;
+
+    // remove from old
+    if (prev.mandateId !== officer.mandateId) {
+      const oldList = (byMandateMap[prev.mandateId] ?? []).filter(
+        (x) => x !== officer.id
+      );
+      // add to new
+      const newList = [...(byMandateMap[officer.mandateId] ?? []), officer.id];
+
+      byMandateMap = {
+        ...byMandateMap,
+        [prev.mandateId]: oldList,
+        [officer.mandateId]: Array.from(new Set(newList)),
+      };
+    }
+
+    return { ...next, updateLoading: false, byMandateMap };
+  }),
+
   on(A.updateFailed, (state, { error }) => ({
     ...state,
     updateLoading: false,
@@ -107,10 +139,22 @@ export const mandateOfficersReducer = createReducer(
     deleteLoading: true,
     deleteError: null,
   })),
-  on(A.deleteSucceeded, (state, { id }) => ({
-    ...mandateOfficerAdapter.removeOne(id, state),
-    deleteLoading: false,
-  })),
+  on(A.deleteSucceeded, (state, { id }) => {
+    // Find officer to remove from the map
+    const officer = state.entities[id];
+    const next = mandateOfficerAdapter.removeOne(id, state);
+    if (!officer) return { ...next, deleteLoading: false };
+
+    const currIds = next.byMandateMap[officer.mandateId] ?? [];
+    const filtered = currIds.filter((x) => x !== id);
+    const byMandateMap = {
+      ...next.byMandateMap,
+      [officer.mandateId]: filtered,
+    };
+
+    return { ...next, deleteLoading: false, byMandateMap };
+  }),
+
   on(A.deleteFailed, (state, { error }) => ({
     ...state,
     deleteLoading: false,
