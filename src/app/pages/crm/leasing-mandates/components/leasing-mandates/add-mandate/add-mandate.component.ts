@@ -64,12 +64,6 @@ import { InterestRateBenchMark } from '../../../../../lookups/store/interest-rat
 import { InterestRateBenchMarksFacade } from '../../../../../lookups/store/interest-rate-benchmarks/interest-rate-benchmarks.facade';
 import { PaymentMonthDay } from '../../../../../lookups/store/payment-month-days/payment-month-day.model';
 import { PaymentMonthDaysFacade } from '../../../../../lookups/store/payment-month-days/payment-month-days.facade';
-import {
-  calcProvisionAmount,
-  calcProvisionPercent,
-  calcRvAmount,
-  calcRvPercent,
-} from '../../../../../../shared/utils/leasing-calcs.util';
 import { PeriodUnit } from '../../../../../lookups/store/period-units/period-unit.model';
 import { TableComponent } from '../../../../../../shared/components/table/table.component';
 import { loadCurrencyExchangeRates } from '../../../../../lookups/store/currency-exchange-rates/currency-exchange-rates.actions';
