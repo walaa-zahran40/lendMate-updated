@@ -6918,23 +6918,28 @@ icon="pi pi-cog"
       </div>
       <div class="row w-100">
         <div class="col-sm">
-          <label for="tenor">{{ "LEASE.TENOR" | translate }} <sup>*</sup></label
+          <label for="fixedInterestRate"
+            >{{ "LEASE.FIXED_INTEREST_RATE" | translate }}<sup>*</sup></label
           ><br />
           <p-inputNumber
-            formControlName="tenor"
-            [min]="1"
+            formControlName="fixedInterestRate"
+            [placeholder]="'LEASE.FIXED_INTEREST_RATE' | translate"
+            suffix="%"
             class="w-100"
-            [placeholder]="'LEASE.TENOR' | translate"
-            name="tenor"
+            mode="decimal"
+            [min]="0"
+            [minFractionDigits]="2"
+            [maxFractionDigits]="2"
           ></p-inputNumber
           ><br />
           <small
             *ngIf="
-              formGroup.get('tenor')?.invalid && formGroup.get('tenor')?.touched
+              formGroup.get('fixedInterestRate')?.invalid &&
+              formGroup.get('fixedInterestRate')?.touched
             "
             class="p-error"
           >
-            {{ "LEASE.TENOR_REQUIRED" | translate }}
+            {{ "LEASE.FIXED_INTEREST_RATE_REQUIRED" | translate }}
           </small>
         </div>
         <div class="col-sm">
@@ -6994,28 +6999,25 @@ icon="pi pi-cog"
         </div>
         <div class="col-sm">
           <div class="col-sm">
-            <label for="fixedInterestRate"
-              >{{ "LEASE.FIXED_INTEREST_RATE" | translate }}<sup>*</sup></label
+            <label for="tenor"
+              >{{ "LEASE.TENOR" | translate }} <sup>*</sup></label
             ><br />
             <p-inputNumber
-              formControlName="fixedInterestRate"
-              [placeholder]="'LEASE.FIXED_INTEREST_RATE' | translate"
-              suffix="%"
+              formControlName="tenor"
+              [min]="1"
               class="w-100"
-              mode="decimal"
-              [min]="0"
-              [minFractionDigits]="2"
-              [maxFractionDigits]="2"
+              [placeholder]="'LEASE.TENOR' | translate"
+              name="tenor"
             ></p-inputNumber
             ><br />
             <small
               *ngIf="
-                formGroup.get('fixedInterestRate')?.invalid &&
-                formGroup.get('fixedInterestRate')?.touched
+                formGroup.get('tenor')?.invalid &&
+                formGroup.get('tenor')?.touched
               "
               class="p-error"
             >
-              {{ "LEASE.FIXED_INTEREST_RATE_REQUIRED" | translate }}
+              {{ "LEASE.TENOR_REQUIRED" | translate }}
             </small>
           </div>
         </div>

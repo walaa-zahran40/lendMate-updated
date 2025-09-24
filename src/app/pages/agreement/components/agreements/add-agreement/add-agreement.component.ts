@@ -6,6 +6,7 @@ import {
   Validators,
   AbstractControl,
   FormControl,
+  ValidationErrors,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Actions, ofType } from '@ngrx/effects';
@@ -61,8 +62,6 @@ import { PeriodUnit } from '../../../../lookups/store/period-units/period-unit.m
 import { GracePeriodUnitsFacade } from '../../../../lookups/store/period-units/period-units.facade';
 import { RentStructureType } from '../../../../lookups/store/rent-structure-types/rent-structure-type.model';
 import { RentStructureTypesFacade } from '../../../../lookups/store/rent-structure-types/rent-structure-types.facade';
-import { loadAll } from '../../../../lookups/store/sectors/sectors.actions';
-import { loadAll as loadLeasingTypes } from '../../../../lookups/store/leasing-types/leasing-types.actions';
 import { loadAll as loadInsuredBy } from '../../../../lookups/store/insured-by/insured-by.actions';
 import { loadAll as loadAssetTypes } from '../../../../lookups/store/asset-types/asset-types.actions';
 import { loadAll as loadFeeTypes } from '../../../../lookups/store/fee-types/fee-types.actions';
@@ -74,6 +73,8 @@ import { loadAll as loadPaymentMonthDays } from '../../../../lookups/store/payme
 import { loadAll as loadAllGracePeriodUnits } from '../../../../lookups/store/period-units/period-units.actions';
 import { loadAll as loadCurrencies } from '../../../../lookups/store/currencies/currencies.actions';
 import * as MandateActions from '../../../../crm/leasing-mandates/store/leasing-mandates/leasing-mandates.actions';
+import { Branch } from '../../../../organizations/store/branches/branch.model';
+import { BranchesFacade } from '../../../../organizations/store/branches/branches.facade';
 
 @Component({
   selector: 'app-add-agreement',
@@ -110,6 +111,8 @@ export class AddAgreementComponent {
   rentStructureTypes$!: Observable<RentStructureType[]>;
   paymentTimingTerms$!: Observable<PaymentTimingTerm[]>;
   paymentMonthDays$!: Observable<PaymentMonthDay[]>;
+  branches$!: Observable<Branch[]>;
+
   private destroy$ = new Subject<void>();
   steps = [1, 2, 3, 4];
   stepTitles = [
@@ -163,6 +166,7 @@ export class AddAgreementComponent {
     private leasingTypeFacade: LeasingTypesFacade,
     private insuredByFacade: InsuredByFacade,
     private assetTypesFacade: AssetTypesFacade,
+    private branchesFacade: BranchesFacade,
     private feeTypesFacade: FeeTypesFacade,
     private facade: MandatesFacade,
     private currenciesFacade: CurrenciesFacade,
@@ -192,9 +196,17 @@ export class AddAgreementComponent {
       console.log('there is a client id');
       this.show = false;
     }
-
+    //Dropdowns
+    this.clientFacade.loadAll();
+    this.clientNames$ = this.clientFacade.all$;
+    this.leasingTypeFacade.loadAll();
+    this.leasingTypes$ = this.leasingTypeFacade.all$;
+    this.insuredByFacade.loadAll();
+    this.insuredBy$ = this.insuredByFacade.all$;
+    this.branchesFacade.loadAll();
+    this.branches$ = this.branchesFacade.all$;
     //Build all sub-forms
-    this.buildMandateShowBasicForm();
+    this.buildAgreementShowMainForm();
     this.buildMandateShowAssetTypeForm();
     this.buildMandateShowFeeForm();
     //Build the three sub-forms
@@ -218,24 +230,12 @@ export class AddAgreementComponent {
       }),
     });
 
-    //All your other setup (lookups, route handling, patching…)
-    //no early returns that skip the clientId subscription
-    if (!this.clientId) {
-      this.store.dispatch(loadAll({}));
-    }
-    this.store.dispatch(loadLeasingTypes({}));
-
-    this.store.dispatch(loadInsuredBy({}));
     this.store.dispatch(loadAssetTypes({}));
     this.store.dispatch(loadFeeTypes({}));
-    //Clients Dropdown
-    if (!this.clientId) {
-      this.clientNames$ = this.clientFacade.all$;
-    }
+
     //Leasing Types Dropdown
     this.leasingTypes$ = this.leasingTypeFacade.all$;
     //Insured By Dropdown
-    this.insuredBy$ = this.insuredByFacade.all$;
     //Asset Type Dropdown
     this.assetTypes$ = this.assetTypesFacade.all$;
     //Fee Types Dropdown
@@ -355,7 +355,6 @@ export class AddAgreementComponent {
     }
 
     //Dispatch all lookups
-    this.store.dispatch(loadAll({})); // payment periods
     this.store.dispatch(loadAllGracePeriodUnits({})); // grace units
     this.store.dispatch(loadCurrencies({})); // currencies
     this.store.dispatch(loadCurrencyExchangeRates()); // exchange rates
@@ -847,35 +846,63 @@ export class AddAgreementComponent {
     });
   }
 
-  buildMandateShowBasicForm(): void {
-    if (!this.clientId) {
-      this.addAgreementShowMainInformationForm = this.fb.group({
+  buildAgreementShowMainForm(): void {
+    this.addAgreementShowMainInformationForm = this.fb.group(
+      {
         id: [null],
         parentMandateId: [null],
         clientId: [null, Validators.required],
         leasingTypeId: [null, Validators.required],
         insuredById: [null, Validators.required],
         date: [null, Validators.required],
-        validityDay: [null, Validators.required],
-        expireDate: [{ value: null, disabled: true }, Validators.required],
+        endDate: [null, Validators.required],
+        branchId: [null, Validators.required],
         notes: [null],
+      },
+      { validators: [this.endAfterStartValidator('date', 'endDate')] }
+    ); // keep endDate in sync when date changes (optional)
+    this.addAgreementShowMainInformationForm
+      .get('date')
+      ?.valueChanges.subscribe(() => {
+        this.addAgreementShowMainInformationForm
+          .get('endDate')
+          ?.updateValueAndValidity({ onlySelf: true });
       });
-    } else {
-      this.addAgreementShowMainInformationForm = this.fb.group({
-        id: [null],
-        parentMandateId: [null],
-        clientId: +this.clientId,
-        leasingTypeId: [null, Validators.required],
-        insuredById: [null, Validators.required],
-        date: [null, Validators.required],
-        validityDay: [null, Validators.required],
-        expireDate: [{ value: null, disabled: true }, Validators.required],
-        notes: [null],
-      });
-    }
-    this.wireUpExpireDateAutoCalc();
   }
+  endAfterStartValidator(startKey: string, endKey: string) {
+    return (group: AbstractControl): ValidationErrors | null => {
+      const g = group as FormGroup;
+      const start = g.get(startKey)?.value as Date | null;
+      const end = g.get(endKey)?.value as Date | null;
 
+      if (!start || !end) return null; // "required" will handle empties
+
+      // compare as date-only (ignore time)
+      const startOnly = new Date(
+        start.getFullYear(),
+        start.getMonth(),
+        start.getDate()
+      );
+      const endOnly = new Date(
+        end.getFullYear(),
+        end.getMonth(),
+        end.getDate()
+      );
+
+      const isValid = endOnly.getTime() > startOnly.getTime();
+      // attach the error to endDate control for easier UI display
+      const endCtrl = g.get(endKey)!;
+      if (!isValid) {
+        endCtrl.setErrors({ ...(endCtrl.errors || {}), endBeforeStart: true });
+      } else {
+        if (endCtrl.hasError('endBeforeStart')) {
+          const { endBeforeStart, ...rest } = endCtrl.errors || {};
+          endCtrl.setErrors(Object.keys(rest).length ? rest : null);
+        }
+      }
+      return null; // return null so form-level stays valid except for control error
+    };
+  }
   buildMandateShowAssetTypeForm(): void {
     this.addMandateShowAssetTypeForm = this.fb.group({
       mandateAssetTypes: this.fb.array([this.createAssetTypeGroup()]),
@@ -893,30 +920,6 @@ export class AddAgreementComponent {
     });
   }
 
-  // Auto-calc expireDate = date + validityDay, whenever either changes.
-  private wireUpExpireDateAutoCalc(): void {
-    const grp = this.addAgreementShowMainInformationForm;
-    const dateCtrl = grp.get('date')!;
-    const daysCtrl = grp.get('validityDay')!;
-    const expCtrl = grp.get('expireDate')!;
-
-    combineLatest([
-      dateCtrl.valueChanges.pipe(startWith(dateCtrl.value)),
-      daysCtrl.valueChanges.pipe(startWith(daysCtrl.value)),
-    ])
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(([dateVal, daysVal]) => {
-        const d = this.toDate(dateVal);
-        const days = this.toInt(daysVal);
-        if (d && days !== null && days >= 0) {
-          const exp = this.addDays(d, days);
-          // keep it disabled and avoid loops
-          expCtrl.setValue(exp, { emitEvent: false });
-        } else {
-          expCtrl.setValue(null, { emitEvent: false });
-        }
-      });
-  }
   // --- tiny helpers ---
   private toDate(v: any): Date | null {
     if (!v) return null;

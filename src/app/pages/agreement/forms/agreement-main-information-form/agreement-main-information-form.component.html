@@ -29,7 +29,7 @@
       <div class="row">
         <div class="col-sm-6">
           <label
-            for="clientNameAddMandateBasic"
+            for="clientNameAddAgreementMain"
             class="label-container"
             *ngIf="show"
           >
@@ -45,7 +45,7 @@
             [optionLabel]="optionLabelKey"
             optionValue="id"
             *ngIf="show"
-            name="clientNameAddMandateBasic"
+            name="clientNameAddAgreementMain"
             styleClass="w-full md:w-80"
           />
           <div
@@ -59,7 +59,7 @@
           </div>
         </div>
         <div [ngClass]="{ 'col-sm-12': !show, 'col-sm-6': show }">
-          <label for="leasingTypesAddMandateBasic" class="label-container">
+          <label for="leasingTypesAddAgreementMain" class="label-container">
             {{ "FORM.MANDATE.LABEL_LEASING_TYPE" | translate }}<sup>*</sup>
           </label>
           <p-select
@@ -70,7 +70,7 @@
             formControlName="leasingTypeId"
             [placeholder]="'FORM.MANDATE.PLACEHOLDER_LEASING_TYPE' | translate"
             [optionLabel]="optionLabelKey"
-            name="leasingTypesAddMandateBasic"
+            name="leasingTypesAddAgreementMain"
             styleClass="w-full md:w-80"
             optionValue="id"
           />
@@ -87,7 +87,7 @@
       </div>
       <div class="row">
         <div class="col-sm-6">
-          <label for="insuredByAddMandateBasic" class="label-container">
+          <label for="insuredByAddAgreementMain" class="label-container">
             {{ "FORM.MANDATE.LABEL_INSURED_BY" | translate }}<sup>*</sup></label
           >
           <p-select
@@ -99,7 +99,7 @@
             [placeholder]="'FORM.MANDATE.PLACEHOLDER_INSURED_BY' | translate"
             [optionLabel]="optionLabelKey"
             optionValue="id"
-            name="insuredByAddMandateBasic"
+            name="insuredByAddAgreementMain"
             styleClass="w-full md:w-80"
           />
           <div
@@ -114,7 +114,7 @@
         </div>
         <div class="col-sm-6">
           <label for="date" class="label-container">
-            {{ "FORM.MANDATE.LABEL_DATE" | translate }} <sup>*</sup>
+            {{ "FORM.AGREEMENT.LABEL_DATE" | translate }} <sup>*</sup>
           </label>
           <shared-date-picker inputId="date" formControlName="date">
           </shared-date-picker>
@@ -122,40 +122,54 @@
       </div>
       <div class="row">
         <div class="col-sm-6">
-          <label for="validityDay" class="label-container">
-            {{ "FORM.MANDATE.LABEL_VALIDITY_DAYS" | translate }}
-            <sup>*</sup>
-          </label>
-          <input
-            pInputText
-            id="validityDay"
-            aria-describedby="validityDay-help"
-            name="validityDay"
-            formControlName="validityDay"
-            [placeholder]="'FORM.MANDATE.PLACEHOLDER_VALIDITY_DAYS' | translate"
-            class="d-block w-100"
-          />
-          <small
-            class="p-error d-block"
-            *ngIf="
-              formGroup.get('validityDay')?.invalid &&
-              formGroup.get('validityDay')?.touched
-            "
-          >
-            {{ "FORM.MANDATE.ERROR_VALIDITY_DAYS_REQUIRED" | translate }}
-          </small>
-        </div>
-        <div class="col-sm-6">
-          <label for="date" class="label-container">
-            {{ "FORM.MANDATE.LABEL_EXPIRATION_DATE" | translate }} <sup>*</sup>
+          <label for="endDate" class="label-container">
+            {{ "FORM.AGREEMENT.LABEL_END_DATE" | translate }} <sup>*</sup>
           </label>
           <shared-date-picker
             inputId="date"
-            formControlName="expireDate"
-            [readOnly]="true"
-            [ngClass]="'disabled'"
+            formControlName="endDate"
+            [minDate]="formGroup.get('date')?.value || null"
           ></shared-date-picker>
         </div>
+        <div class="col-sm-6">
+          <label for="branchId" class="label-container">
+            {{ "FORM.AGREEMENT.LABEL_BRANCH" | translate }} <sup>*</sup>
+          </label>
+          <p-select
+            [filter]="true"
+            [filterBy]="filterByField"
+            [showClear]="true"
+            [options]="branches"
+            formControlName="branchId"
+            [placeholder]="'FORM.AGREEMENT.PLACEHOLDER_BRANCH' | translate"
+            [optionLabel]="optionLabelKey"
+            optionValue="id"
+            *ngIf="show"
+            styleClass="w-full md:w-80"
+          />
+          <div
+            *ngIf="
+              formGroup.get('branchId')?.hasError('required') &&
+              formGroup.get('branchId')?.touched
+            "
+            class="p-error"
+          >
+            {{ "FORM.AGREEMENT.ERROR_BRANCH_REQUIRED" | translate }}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <label for="portfolioId" class="label-container">
+            {{ "FORM.AGREEMENT.LABEL_PORTFOLIO" | translate }} <sup>*</sup>
+          </label>
+          <shared-date-picker
+            inputId="date"
+            formControlName="endDate"
+            [minDate]="formGroup.get('date')?.value || null"
+          ></shared-date-picker>
+        </div>
+        <div class="col-sm-6"></div>
       </div>
       <div class="row">
         <div class="col-sm-12">

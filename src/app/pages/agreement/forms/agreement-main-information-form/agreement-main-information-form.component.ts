@@ -151,6 +151,7 @@ export class AgreementMainInformationFormComponent
   @Input() authorizationGroups: any;
   @Input() areasList: any;
   @Input() currencies: any;
+  @Input() branches: any;
   @Input() currencyExchangeRates: any;
   @Input() manualExchangeRates: any;
   @Input() selectedSectorId: number | null = null;
