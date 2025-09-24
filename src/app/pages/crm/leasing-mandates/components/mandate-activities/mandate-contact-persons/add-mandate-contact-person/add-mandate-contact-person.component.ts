@@ -12,11 +12,16 @@ import {
   filter,
   take,
   takeUntil,
+  catchError,
+  of,
 } from 'rxjs';
 import { ClientContactPerson } from '../../../../../clients/store/client-contact-persons/client-contact-person.model';
 import { MandateContactPerson } from '../../../../store/mandate-contact-persons/mandate-contact-person.model';
 import { MandateContactPersonsFacade } from '../../../../store/mandate-contact-persons/mandate-contact-persons.facade';
 import { ClientContactPersonsFacade } from '../../../../../clients/store/client-contact-persons/client-contact-persons.facade';
+import { MandatesFacade } from '../../../../store/leasing-mandates/leasing-mandates.facade';
+import { Mandate } from '../../../../store/leasing-mandates/leasing-mandate.model';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-add-mandate-contact-person',
@@ -32,9 +37,8 @@ export class AddMandateContactPersonComponent {
 
   contactPersons$!: Observable<ClientContactPerson[]>;
 
-  // route context
-  leasingId!: number | undefined; // source of TRUTH for mandateId in payload
-  leasingMandatesId!: number | undefined; // still used for the list page URL
+  leasingId!: number | undefined;
+  leasingMandatesId!: number | undefined;
   mandateContactPersonId!: number | undefined;
 
   private destroy$ = new Subject<void>();
@@ -44,12 +48,13 @@ export class AddMandateContactPersonComponent {
     private route: ActivatedRoute,
     private facade: MandateContactPersonsFacade,
     private contactPersonsFacade: ClientContactPersonsFacade,
+    private http: HttpClient,
     private router: Router
   ) {
     // Build form: mandateId must equal leasingId
     this.addMandateContactPersonForm = this.fb.group({
       id: [null],
-      mandateId: [this.leasingId, Validators.required], // <-- from leasingId
+      mandateId: [this.leasingId, Validators.required],
       contactPersonId: [null, Validators.required],
       isActive: [true],
     });
@@ -65,10 +70,36 @@ export class AddMandateContactPersonComponent {
       this.route.snapshot.paramMap.get('mandateContactPersonId')
     );
 
-    // Load contactPersons dropdown
-    this.contactPersonsFacade.loadByClientId(this.leasingId!);
-    this.contactPersons$ = this.contactPersonsFacade.items$;
+    // ✅ One-time fetch: mandate → clientId → contact persons
+    if (this.leasingMandatesId != null) {
+      this.http
+        .get(
+          `https://lendmate.corplease.com.eg:7070/api/LeasingMandates/LeasingMandateId?leasingMandate=${
+            this.leasingMandatesId?.toString() ?? ''
+          }`
+        )
+        .pipe(
+          take(1),
+          map(
+            (m: any) =>
+              (m?.clientId ?? m?.clientView?.clientId ?? null) as number | null
+          ),
+          filter((cid): cid is number => Number.isFinite(cid)),
+          switchMap((clientId) => {
+            // This dispatch hits: GET /api/ContactPersons/{ClientId}
+            this.contactPersonsFacade.loadByClientId(clientId);
+            return this.contactPersonsFacade.items$.pipe(take(1));
+          }),
+          catchError((err) => {
+            console.error('[Mandate→ClientId] failed:', err);
+            return of([]);
+          })
+        )
+        .subscribe();
+    }
 
+    // bind dropdown
+    this.contactPersons$ = this.contactPersonsFacade.items$;
     const route$ = combineLatest({
       params: this.route.paramMap,
       url: this.route.url,
@@ -110,17 +141,12 @@ export class AddMandateContactPersonComponent {
         }
       }),
       switchMap(({ mandateContactPersonId, isView, isEdit }) => {
-        // For both edit and view, load the row when :mandateContactPersonId exists
         if (mandateContactPersonId == null || (!isEdit && !isView))
           return EMPTY;
-
-        this.facade.loadOne(mandateContactPersonId); // dispatch
-
-        // read it from store and patch once it arrives
-        return this.facade.selectById(mandateContactPersonId).pipe(
-          filter((x): x is MandateContactPerson => !!x),
-          take(1)
-        );
+        this.facade.loadOne(mandateContactPersonId);
+        return this.facade
+          .selectById(mandateContactPersonId)
+          .pipe(filter(Boolean), take(1));
       })
     );
 

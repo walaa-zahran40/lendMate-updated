@@ -6,8 +6,7 @@ export const selectFeature = createFeatureSelector<State>('mandates');
 export const selectMandatesFeature = createFeatureSelector<State>('mandates');
 
 // these come from your EntityAdapter
-const { selectAll, selectEntities, selectIds, selectTotal } =
-  adapter.getSelectors(selectMandatesFeature);
+const { selectEntities } = adapter.getSelectors(selectMandatesFeature);
 
 export const selectAllMandates = createSelector(
   selectFeature,
