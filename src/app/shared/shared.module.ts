@@ -17,7 +17,7 @@ import { MonthYearPipe } from './components/pipes/month-year.pipe';
     MonthYearPipe,
     DirectivesModule,
   ],
-  providers: [DatePipe], // <-- needed for the pipe to inject DatePipe
+  providers: [DatePipe],
 
   exports: [ComponentsModule, ServicesModule, DirectivesModule, MonthYearPipe],
 })

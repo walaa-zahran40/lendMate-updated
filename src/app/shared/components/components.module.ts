@@ -104,6 +104,7 @@ import { AddSignatoryFormComponent } from '../../pages/purchasing/forms/add-sign
 import { AddPurchasingOrderFileComponent } from '../../pages/purchasing/forms/add-purchasing-order-file-form/add-purchasing-order-file-form.component';
 import { DownloadPopupPurchasingOrdersComponent } from './download-popup-purchasing-orders/download-popup-purchasing-orders.component';
 import { FormSignatoryOfficerComponent } from '../../pages/organizations/forms/form-signatory-officer/form-signatory-officer.component';
+import { AgreementMainInformationFormComponent } from '../../pages/agreement/forms/agreement-main-information-form/agreement-main-information-form.component';
 
 @NgModule({
   declarations: [
@@ -125,7 +126,7 @@ import { FormSignatoryOfficerComponent } from '../../pages/organizations/forms/f
     SharedDatePickerComponent,
     DownloadPopupMandateComponent,
     VendorFormComponent,
-
+    AgreementMainInformationFormComponent,
     WorkflowDialogComponent,
     AddLegalFormLawsComponent,
     AddLegalFormsComponent,
@@ -276,6 +277,7 @@ import { FormSignatoryOfficerComponent } from '../../pages/organizations/forms/f
     AddSignatoryFormComponent,
     FormSignatoryOfficerComponent,
     DownloadPopupPurchasingOrdersComponent,
+    AgreementMainInformationFormComponent,
   ],
 })
 export class ComponentsModule {}

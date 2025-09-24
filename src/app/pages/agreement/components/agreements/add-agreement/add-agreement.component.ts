@@ -93,7 +93,7 @@ export class AddAgreementComponent {
   private paymentPeriodsCache: PaymentPeriod[] = [];
   isSubmitting = false;
   parentForm!: FormGroup;
-  addMandateShowBasicForm!: FormGroup;
+  addAgreementShowMainInformationForm!: FormGroup;
   addMandateShowAssetTypeForm!: FormGroup;
   addMandateShowFeeForm!: FormGroup;
   editMode: boolean = false;
@@ -112,7 +112,12 @@ export class AddAgreementComponent {
   paymentMonthDays$!: Observable<PaymentMonthDay[]>;
   private destroy$ = new Subject<void>();
   steps = [1, 2, 3, 4];
-  stepTitles = ['Basic', 'Asset Types', 'Fees', 'Financial Activities'];
+  stepTitles = [
+    'Main Information',
+    'Asset Types',
+    'Fees',
+    'Financial Activities',
+  ];
   totalSteps = this.steps.length;
   currentStep = 1;
   //leasing financial form
@@ -202,7 +207,7 @@ export class AddAgreementComponent {
 
     //Create the parent form
     this.parentForm = this.fb.group({
-      basic: this.addMandateShowBasicForm,
+      basic: this.addAgreementShowMainInformationForm,
       assets: this.addMandateShowAssetTypeForm,
       fees: this.addMandateShowFeeForm,
 
@@ -581,7 +586,7 @@ export class AddAgreementComponent {
   get currentStepForm(): FormGroup | null {
     switch (this.currentStep) {
       case 1:
-        return this.addMandateShowBasicForm;
+        return this.addAgreementShowMainInformationForm;
       case 2:
         return this.addMandateShowAssetTypeForm;
       case 3:
@@ -614,7 +619,7 @@ export class AddAgreementComponent {
     this.leasingMandateId = (m as any)?.id ?? this.leasingMandateId;
 
     // ===== BASIC (already in your code) =====
-    this.addMandateShowBasicForm.patchValue({
+    this.addAgreementShowMainInformationForm.patchValue({
       id: m.id,
       parentMandateId: m.parentMandateId,
       clientId: this.clientId ?? m.clientId ?? (m as any)?.clientView?.clientId,
@@ -844,7 +849,7 @@ export class AddAgreementComponent {
 
   buildMandateShowBasicForm(): void {
     if (!this.clientId) {
-      this.addMandateShowBasicForm = this.fb.group({
+      this.addAgreementShowMainInformationForm = this.fb.group({
         id: [null],
         parentMandateId: [null],
         clientId: [null, Validators.required],
@@ -856,7 +861,7 @@ export class AddAgreementComponent {
         notes: [null],
       });
     } else {
-      this.addMandateShowBasicForm = this.fb.group({
+      this.addAgreementShowMainInformationForm = this.fb.group({
         id: [null],
         parentMandateId: [null],
         clientId: +this.clientId,
@@ -890,7 +895,7 @@ export class AddAgreementComponent {
 
   // Auto-calc expireDate = date + validityDay, whenever either changes.
   private wireUpExpireDateAutoCalc(): void {
-    const grp = this.addMandateShowBasicForm;
+    const grp = this.addAgreementShowMainInformationForm;
     const dateCtrl = grp.get('date')!;
     const daysCtrl = grp.get('validityDay')!;
     const expCtrl = grp.get('expireDate')!;
@@ -1004,7 +1009,7 @@ export class AddAgreementComponent {
         g.errors
       );
 
-    log('Step1 basic', this.addMandateShowBasicForm);
+    log('Step1 basic', this.addAgreementShowMainInformationForm);
     log('Step2 assets', this.addMandateShowAssetTypeForm);
     log('Step3 fees', this.addMandateShowFeeForm);
     console.log(
@@ -1378,7 +1383,7 @@ export class AddAgreementComponent {
 
   /** Build the single payload for `facade.create(...)` */
   private buildCreatePayload(): any {
-    const basic = this.addMandateShowBasicForm.getRawValue();
+    const basic = this.addAgreementShowMainInformationForm.getRawValue();
     const assets = this.addMandateShowAssetTypeForm.getRawValue();
     const fees = this.addMandateShowFeeForm.getRawValue();
     const finBasic = this.leasingFinancialBasicForm.getRawValue();
@@ -1998,7 +2003,7 @@ export class AddAgreementComponent {
       this.leasingFinancialBasicForm.dirty ||
       this.leasingFinancialCurrencyForm.dirty ||
       this.leasingFinancialRateForm.dirty ||
-      this.addMandateShowBasicForm.dirty ||
+      this.addAgreementShowMainInformationForm.dirty ||
       this.addMandateShowAssetTypeForm.dirty ||
       this.addMandateShowFeeForm.dirty;
 
@@ -2054,7 +2059,7 @@ export class AddAgreementComponent {
     mark(this.leasingFinancialBasicForm);
     mark(this.leasingFinancialCurrencyForm);
     mark(this.leasingFinancialRateForm);
-    mark(this.addMandateShowBasicForm);
+    mark(this.addAgreementShowMainInformationForm);
     mark(this.addMandateShowAssetTypeForm);
     mark(this.addMandateShowFeeForm);
     // parent as well

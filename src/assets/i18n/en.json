@@ -8,6 +8,10 @@
     "ADD": "Add Client Status",
     "EDIT": "Edit Client Status"
   },
+  "AGREEMENT": {
+    "MAIN_INFORMATION_TITLE": "Main Information Title",
+    "MAIN_INFORMATION_DESC": "Fill in the key details that define the agreement's core parameters including client, product, validity period, leasing type, and insurance information."
+  },
   "SIDEMENU": { "SEARCH": "Search" },
   "MENU": {
     "CRM": "CRM",
@@ -547,6 +551,7 @@
     "VIEW_DOCUMENT_TYPES": "View Document Types",
     "VIEW_MANDATE_TERMS_DETAILS": "View Mandate Terms Details",
     "VIEW_PAGE_DETAILS": "View Page Details",
+    "VIEW_AGREEMENT_DETAILS": "View Agreement Details",
     "VIEW_COMPANY_TYPES": "View Company Types",
     "VIEW_MANDATE_FEES": "View Mandate Fees",
     "VIEW_FEES_CALCULATION_TYPE": "View Fees Calculation Type",

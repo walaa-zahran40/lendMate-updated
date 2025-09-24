@@ -1,0 +1,176 @@
+<div class="parent" [ngClass]="{ 'parent-custom': currencyCustom }">
+  <div *ngIf="!contactPersonDetailsView" class="div1">
+    <h2 class="m-0 title" [ngClass]="{ 'title-custom': financialCustom }">
+      {{ title | translate }}
+    </h2>
+    <p
+      class="tab-panel-paragraph"
+      [ngClass]="{
+        'paragraph-custom': financialCustom,
+        'p-custom': currencyCustom
+      }"
+    >
+      {{ description | translate }}
+    </p>
+    <p-button
+      *ngIf="addAgreementShowMainInformationForm"
+      [label]="'BUTTONS.VIEW_AGREEMENT_DETAILS' | translate"
+      icon="pi pi-cog"
+      (click)="viewAgreementDetails()"
+      class="custom-view m-0 float-right"
+    />
+  </div>
+  <div class="div2" [ngClass]="{ span: applyReusable }">
+    <ng-container
+      *ngIf="addAgreementShowMainInformationForm"
+      [formGroup]="formGroup"
+      class="form-container"
+    >
+      <div class="row">
+        <div class="col-sm-6">
+          <label
+            for="clientNameAddMandateBasic"
+            class="label-container"
+            *ngIf="show"
+          >
+            {{ "FORM.MANDATE.LABEL_CLIENT_NAME" | translate }}<sup>*</sup>
+          </label>
+          <p-select
+            [filter]="true"
+            [filterBy]="filterByField"
+            [showClear]="true"
+            [options]="clientNames"
+            formControlName="clientId"
+            [placeholder]="'FORM.MANDATE.PLACEHOLDER_CLIENT_NAME' | translate"
+            [optionLabel]="optionLabelKey"
+            optionValue="id"
+            *ngIf="show"
+            name="clientNameAddMandateBasic"
+            styleClass="w-full md:w-80"
+          />
+          <div
+            *ngIf="
+              formGroup.get('clientId')?.hasError('required') &&
+              formGroup.get('clientId')?.touched
+            "
+            class="p-error"
+          >
+            {{ "FORM.MANDATE.ERROR_CLIENT_REQUIRED" | translate }}
+          </div>
+        </div>
+        <div [ngClass]="{ 'col-sm-12': !show, 'col-sm-6': show }">
+          <label for="leasingTypesAddMandateBasic" class="label-container">
+            {{ "FORM.MANDATE.LABEL_LEASING_TYPE" | translate }}<sup>*</sup>
+          </label>
+          <p-select
+            [filter]="true"
+            [filterBy]="filterByField"
+            [showClear]="true"
+            [options]="leasingTypes"
+            formControlName="leasingTypeId"
+            [placeholder]="'FORM.MANDATE.PLACEHOLDER_LEASING_TYPE' | translate"
+            [optionLabel]="optionLabelKey"
+            name="leasingTypesAddMandateBasic"
+            styleClass="w-full md:w-80"
+            optionValue="id"
+          />
+          <div
+            *ngIf="
+              formGroup.get('leasingTypeId')?.hasError('required') &&
+              formGroup.get('leasingTypeId')?.touched
+            "
+            class="p-error"
+          >
+            {{ "FORM.MANDATE.ERROR_LEASING_TYPE_REQUIRED" | translate }}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <label for="insuredByAddMandateBasic" class="label-container">
+            {{ "FORM.MANDATE.LABEL_INSURED_BY" | translate }}<sup>*</sup></label
+          >
+          <p-select
+            [filter]="true"
+            [filterBy]="filterByField"
+            [showClear]="true"
+            [options]="insuredBy"
+            formControlName="insuredById"
+            [placeholder]="'FORM.MANDATE.PLACEHOLDER_INSURED_BY' | translate"
+            [optionLabel]="optionLabelKey"
+            optionValue="id"
+            name="insuredByAddMandateBasic"
+            styleClass="w-full md:w-80"
+          />
+          <div
+            *ngIf="
+              formGroup.get('insuredById')?.hasError('required') &&
+              formGroup.get('insuredById')?.touched
+            "
+            class="p-error"
+          >
+            {{ "FORM.MANDATE.ERROR_INSURED_BY_REQUIRED" | translate }}
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <label for="date" class="label-container">
+            {{ "FORM.MANDATE.LABEL_DATE" | translate }} <sup>*</sup>
+          </label>
+          <shared-date-picker inputId="date" formControlName="date">
+          </shared-date-picker>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <label for="validityDay" class="label-container">
+            {{ "FORM.MANDATE.LABEL_VALIDITY_DAYS" | translate }}
+            <sup>*</sup>
+          </label>
+          <input
+            pInputText
+            id="validityDay"
+            aria-describedby="validityDay-help"
+            name="validityDay"
+            formControlName="validityDay"
+            [placeholder]="'FORM.MANDATE.PLACEHOLDER_VALIDITY_DAYS' | translate"
+            class="d-block w-100"
+          />
+          <small
+            class="p-error d-block"
+            *ngIf="
+              formGroup.get('validityDay')?.invalid &&
+              formGroup.get('validityDay')?.touched
+            "
+          >
+            {{ "FORM.MANDATE.ERROR_VALIDITY_DAYS_REQUIRED" | translate }}
+          </small>
+        </div>
+        <div class="col-sm-6">
+          <label for="date" class="label-container">
+            {{ "FORM.MANDATE.LABEL_EXPIRATION_DATE" | translate }} <sup>*</sup>
+          </label>
+          <shared-date-picker
+            inputId="date"
+            formControlName="expireDate"
+            [readOnly]="true"
+            [ngClass]="'disabled'"
+          ></shared-date-picker>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <label for="notes" class="label-container">
+            {{ "FORM.MANDATE.LABEL_NOTES" | translate }}</label
+          ><br /><textarea
+            rows="5"
+            pTextarea
+            [autoResize]="true"
+            formControlName="notes"
+            class="w-100"
+            placeholder="{{ 'FORM.MANDATE.PLACEHOLDER_NOTES' | translate }}"
+          ></textarea>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

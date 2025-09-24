@@ -24,11 +24,11 @@
   </div>
   <!-- STEP 1: Basic -->
   <div [hidden]="currentStep !== 1">
-    <app-form
-      [title]="'MANDATE.BASIC_INFO.TITLE'"
-      [description]="'MANDATE.BASIC_INFO.DESCRIPTION'"
-      [addMandateShowBasicForm]="true"
-      [formGroup]="addMandateShowBasicForm"
+    <app-agreement-main-information-form
+      [title]="'AGREEMENT.MAIN_INFORMATION_TITLE'"
+      [description]="'AGREEMENT.MAIN_INFORMATION_DESC'"
+      [addAgreementShowMainInformationForm]="true"
+      [formGroup]="addAgreementShowMainInformationForm"
       [show]="show"
       [editShow]="editShow"
       [editMode]="editMode"
@@ -36,7 +36,7 @@
       [clientNames]="clientNames$ | async"
       [leasingTypes]="leasingTypes$ | async"
       [insuredBy]="insuredBy$ | async"
-    ></app-form>
+    ></app-agreement-main-information-form>
   </div>
 
   <!-- STEP 2: Asset Types -->
@@ -221,7 +221,7 @@
       type="submit"
       class="btn btn-success"
       [disabled]="
-        addMandateShowBasicForm.invalid ||
+        addAgreementShowMainInformationForm.invalid ||
         addMandateShowAssetTypeForm.invalid ||
         addMandateShowFeeForm.invalid ||
         leasingFinancialBasicForm.invalid ||
