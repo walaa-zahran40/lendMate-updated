@@ -14,7 +14,8 @@
     "PURCHASING": "Purchasing",
     "BUSINESS": "Business",
     "ASSETS": "Assets",
-    "SETTINGS": "Settings"
+    "SETTINGS": "Settings",
+    "AGREEMENT": "Agreement"
   },
   "CRM": {
     "CLIENT_OPERATIONS": "Client Operations",

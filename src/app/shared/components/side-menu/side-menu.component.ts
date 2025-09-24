@@ -75,12 +75,12 @@ export class SideMenuComponent {
       permission: '/LeasingMandates/GetAll',
     },
 
-    // {
-    //   id: 'Assets',
-    //   icon: 'pi pi-ico6',
-    //   i18nKey: 'MENU.ASSETS',
-    //   permission: '/LeasingMandates/GetAll',
-    // },
+    {
+      id: 'Agreement',
+      icon: 'pi pi-ico6',
+      i18nKey: 'MENU.AGREEMENT',
+      permission: '/LeasingMandates/GetAll',
+    },
 
     {
       id: 'Settings',
@@ -1112,6 +1112,13 @@ export class SideMenuComponent {
             permission: '/WorkflowActionTypes/GetAll',
           },
         ],
+      },
+    ],
+    Agreement: [
+      {
+        i18nKey: 'MENU.AGREEMENT',
+
+        routerLink: '/agreement/view-agreements',
       },
     ],
   };

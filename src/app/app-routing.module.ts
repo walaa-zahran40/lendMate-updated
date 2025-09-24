@@ -46,6 +46,13 @@ export const routes: Routes = [
         (m) => m.PurchasingModule
       ),
   },
+  {
+    path: 'agreement',
+    loadChildren: () =>
+      import('./pages/agreement/agreement.module').then(
+        (m) => m.AgreementModule
+      ),
+  },
   { path: 'not-found', component: NotFoundComponent },
   { path: '**', redirectTo: '/not-found' },
 ];
