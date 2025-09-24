@@ -70,6 +70,7 @@ export class TableComponent {
   @Input() viewMandateContactPersonsTable!: boolean;
   @Input() viewTurnOverTable!: boolean;
   @Input() viewMandateOfficersTable!: boolean;
+  @Input() viewAgreementsTable!: boolean;
   @Input() viewCommunicationFlowTypesTable!: boolean;
   @Input() viewPurchasingOrderFilesTable!: boolean;
   @Input() viewCommunicationTypesTable!: boolean;

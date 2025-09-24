@@ -1,0 +1,47 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/LegalFormLaws/Post'"
+    [title]="'Agreements'"
+    [labelBtn]="'Add Agreement'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddAgreement()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="agreements$ | async as agreements">
+    <app-table
+      [viewPermission]="[
+        '/LegalFormLaws/Get',
+        '/LegalFormLaws/GetAll',
+        '/LegalFormLaws/GetAllHistory'
+      ]"
+      [editPermission]="'/LegalFormLaws/Put'"
+      [deletePermission]="'/LegalFormLaws/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredAgreements"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewAgreementsTable]="true"
+      (onDelete)="onDeleteAgreement($event)"
+      (onEdit)="onEditAgreement($event)"
+      (viewForm)="onViewAgreement($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

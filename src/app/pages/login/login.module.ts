@@ -5,33 +5,9 @@ import { LoginRoutingModule } from './login-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
-import {
-  IPublicClientApplication,
-  PublicClientApplication,
-  InteractionType,
-  BrowserCacheLocation,
-  LogLevel,
-} from '@azure/msal-browser';
-import {
-  MsalGuard,
-  MsalInterceptor,
-  MsalBroadcastService,
-  MsalInterceptorConfiguration,
-  MsalModule,
-  MsalService,
-  MSAL_GUARD_CONFIG,
-  MSAL_INSTANCE,
-  MSAL_INTERCEPTOR_CONFIG,
-  MsalGuardConfiguration,
-  MsalRedirectComponent,
-} from '@azure/msal-angular';
-import { environment } from '../../../environments/environment';
-import { PermissionService } from './store/permissions/permission.service';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthInterceptor } from '../../shared/interceptors/auth.interceptor';
 
 // const isIE =
-//   window.navigator.userAgent.indexOf('MSIE ') > -1 ||
+//   window.navigator.userA.subscribe({ error: e => messageService.addgent.indexOf('MSIE ') > -1 ||
 //   window.navigator.userAgent.indexOf('Trident/') > -1;
 
 // export function MSALInstanceFactory(): IPublicClientApplication {

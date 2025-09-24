@@ -21,7 +21,8 @@ export class ErrorInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError((err: HttpErrorResponse) => {
         if (err.status >= 400 && err.status < 600) {
-          const detail = err.error?.message || err.message || 'Unknown error';
+          const raw = err.error?.message ?? err.message ?? 'Unknown error';
+          const detail = typeof raw === 'string' ? raw : JSON.stringify(raw);
           this.messageService.add({
             severity: 'error',
             summary: `Error ${err.status}`,
