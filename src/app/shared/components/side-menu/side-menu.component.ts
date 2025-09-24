@@ -1117,7 +1117,6 @@ export class SideMenuComponent {
     Agreement: [
       {
         i18nKey: 'MENU.AGREEMENT',
-
         routerLink: '/agreement/view-agreements',
       },
     ],
