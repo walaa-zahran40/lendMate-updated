@@ -61,14 +61,21 @@ export class AddMandateContactPersonComponent {
   }
 
   ngOnInit() {
-    // Read params once
-    this.leasingId = this.num(this.route.snapshot.paramMap.get('leasingId'));
-    this.leasingMandatesId = this.num(
+    // ---- read params (with fallbacks) ----
+    const getNum = (v: string | null) => {
+      const n = Number(v);
+      return Number.isFinite(n) ? n : undefined;
+    };
+
+    // support both ":mandateContactPersonId" and generic ":id"
+    const getMandateCPId = () =>
+      getNum(this.route.snapshot.paramMap.get('mandateContactPersonId')) ??
+      getNum(this.route.snapshot.paramMap.get('id'));
+    this.leasingId = getNum(this.route.snapshot.paramMap.get('leasingId'));
+    this.leasingMandatesId = getNum(
       this.route.snapshot.paramMap.get('leasingMandatesId')
     );
-    this.mandateContactPersonId = this.num(
-      this.route.snapshot.paramMap.get('mandateContactPersonId')
-    );
+    this.mandateContactPersonId = getMandateCPId();
 
     // ✅ One-time fetch: mandate → clientId → contact persons
     if (this.leasingMandatesId != null) {
@@ -80,19 +87,20 @@ export class AddMandateContactPersonComponent {
         )
         .pipe(
           take(1),
-          map(
-            (m: any) =>
-              (m?.clientId ?? m?.clientView?.clientId ?? null) as number | null
-          ),
-          filter((cid): cid is number => Number.isFinite(cid)),
-          switchMap((clientId) => {
-            // This dispatch hits: GET /api/ContactPersons/{ClientId}
-            this.contactPersonsFacade.loadByClientId(clientId);
-            return this.contactPersonsFacade.items$.pipe(take(1));
+          map((m) => {
+            const mandate = m as {
+              clientId?: number;
+              clientView?: { clientId?: number };
+            };
+            return (mandate?.clientId ??
+              mandate?.clientView?.clientId ??
+              null) as number | null;
           }),
+          filter((cid): cid is number => Number.isFinite(cid)),
+          tap((clientId) => this.contactPersonsFacade.loadByClientId(clientId)),
           catchError((err) => {
             console.error('[Mandate→ClientId] failed:', err);
-            return of([]);
+            return of(null);
           })
         )
         .subscribe();
@@ -100,62 +108,82 @@ export class AddMandateContactPersonComponent {
 
     // bind dropdown
     this.contactPersons$ = this.contactPersonsFacade.items$;
-    const route$ = combineLatest({
+    // ---- MODE & basic form patch should always run (separate subscription) ----
+    const mode$ = combineLatest({
       params: this.route.paramMap,
       url: this.route.url,
     }).pipe(
       map(({ params, url }) => {
-        const leasingId = this.num(params.get('leasingId'));
-        const leasingMandatesId = this.num(params.get('leasingMandatesId'));
-        const mandateContactPersonId = this.num(
-          params.get('mandateContactPersonId')
-        );
-        const isView = url.some((s) => s.path === 'view'); // /.../view/...
-        const isEdit = !!mandateContactPersonId && !isView; // /.../edit/:id
+        const leasingId = getNum(params.get('leasingId'));
+        const mandateContactPersonId =
+          getNum(params.get('mandateContactPersonId')) ??
+          getNum(params.get('id'));
 
-        // payload mandateId follows leasingId
-        const mandateId = leasingId;
+        // robust detection: prefer routeConfig path, else url segments
+        const routePath = this.route.snapshot.routeConfig?.path ?? '';
+        const segments = url.map((s) => s.path);
+        const isView =
+          routePath.includes('/view') ||
+          segments.includes('view') ||
+          routePath.includes('view-mandate-contact-persons');
+        const isEdit =
+          routePath.includes('/edit') ||
+          segments.includes('edit') ||
+          (!!mandateContactPersonId && !isView);
 
-        return {
-          leasingId,
-          leasingMandatesId,
-          mandateContactPersonId,
-          mandateId,
-          isEdit,
-          isView,
-        };
+        return { leasingId, mandateContactPersonId, isView, isEdit };
       }),
-      tap(({ mandateId, isView, isEdit }) => {
+      tap(({ leasingId, isView, isEdit }) => {
         this.editMode = isEdit;
         this.viewOnly = isView;
 
-        if (mandateId != null) {
-          this.addMandateContactPersonForm.patchValue({ mandateId });
+        if (leasingId != null) {
+          this.addMandateContactPersonForm.patchValue(
+            { mandateId: leasingId },
+            { emitEvent: false }
+          );
         }
 
-        // apply disable/enable immediately on mode change
+        // Apply disable/enable right away (idempotent)
         if (this.viewOnly) {
           this.addMandateContactPersonForm.disable({ emitEvent: false });
         } else {
           this.addMandateContactPersonForm.enable({ emitEvent: false });
         }
-      }),
-      switchMap(({ mandateContactPersonId, isView, isEdit }) => {
-        if (mandateContactPersonId == null || (!isEdit && !isView))
-          return EMPTY;
-        this.facade.loadOne(mandateContactPersonId);
-        return this.facade
-          .selectById(mandateContactPersonId)
-          .pipe(filter(Boolean), take(1));
       })
     );
 
-    route$.pipe(takeUntil(this.destroy$)).subscribe((contactPerson) => {
-      this.patchMandate(contactPerson);
-      // ensure disabled in view (idempotent)
-      if (this.viewOnly)
-        this.addMandateContactPersonForm.disable({ emitEvent: false });
-    });
+    // subscribe so the tap above always executes
+    mode$.pipe(takeUntil(this.destroy$)).subscribe();
+
+    // ---- When editing/viewing, wait for BOTH entity and options, then patch ----
+    const entity$ = combineLatest({
+      params: this.route.paramMap,
+      url: this.route.url,
+    }).pipe(
+      switchMap(({ params, url }) => {
+        const id =
+          Number(params.get('mandateContactPersonId')) ||
+          Number(params.get('id')) ||
+          undefined;
+        const isView = url.map((s) => s.path).includes('view');
+        const isEdit = !!id && !isView;
+        if (!id || (!isEdit && !isView)) return EMPTY;
+        this.facade.loadOne(id);
+        return this.facade.selectById(id).pipe(filter(Boolean));
+      })
+    );
+    combineLatest([entity$, this.contactPersons$])
+      .pipe(takeUntil(this.destroy$), take(1))
+      .subscribe(([mcp]) => {
+        // ensure options exist, then patch
+        this.patchMandate(mcp);
+
+        // enforce readonly if view mode
+        if (this.viewOnly) {
+          this.addMandateContactPersonForm.disable({ emitEvent: false });
+        }
+      });
   }
 
   ngOnDestroy(): void {
@@ -204,7 +232,7 @@ export class AddMandateContactPersonComponent {
       this.num(this.route.snapshot.paramMap.get('leasingMandatesId'));
 
     this.router.navigate([
-      `/crm/leasing-mandates/view-mandate-contactPersons/${leasingId}/${leasingMandatesId}`,
+      `/crm/leasing-mandates/view-mandate-contact-persons/${leasingId}/${leasingMandatesId}`,
     ]);
   }
 

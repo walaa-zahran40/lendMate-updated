@@ -29,7 +29,7 @@ export class MandateContactPersonsService {
   // GET /MandateContactPersonId?leasingMandate={id}
   // NOTE: The API name is confusing; this endpoint returns a single item by its own id.
   getByMandateContactPersonId(id: number): Observable<MandateContactPerson> {
-    const params = new HttpParams().set('id', id); // matches your swagger
+    const params = new HttpParams().set('leasingMandate', id); // matches your swagger
     return this.http.get<MandateContactPerson>(
       `${API_BASE}/MandateContactPersonId`,
       {

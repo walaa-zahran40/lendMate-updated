@@ -489,12 +489,12 @@ const routes: Routes = [
     component: AddMandateContactPersonComponent,
   },
   {
-    path: 'leasing-mandates/mandate-contact-persons/edit/:leasingId/:leasingMandatesId/:mandateContact-personId',
+    path: 'leasing-mandates/mandate-contact-persons/edit/:leasingId/:leasingMandatesId/:mandateContactPersonId',
     component: AddMandateContactPersonComponent,
     canDeactivate: [PendingChangesGuard],
   },
   {
-    path: 'leasing-mandates/mandate-contact-persons/view/:leasingId/:leasingMandatesId/:mandateContact-personId',
+    path: 'leasing-mandates/mandate-contact-persons/view/:leasingId/:leasingMandatesId/:mandateContactPersonId',
     component: AddMandateContactPersonComponent,
   },
 
@@ -513,7 +513,7 @@ const routes: Routes = [
     component: AddMandateContactPersonComponent,
   },
   {
-    path: 'leasing-mandates/add-mandate-contact-person/:leasingId/:leasingMandatesId/:mandateContact-personId',
+    path: 'leasing-mandates/add-mandate-contact-person/:leasingId/:leasingMandatesId/:mandateContactPersonId',
     component: AddMandateContactPersonComponent,
   },
 
@@ -524,14 +524,14 @@ const routes: Routes = [
     canDeactivate: [PendingChangesGuard],
   },
   {
-    path: 'leasing-mandates/edit-mandate-contact-person/:leasingId/:leasingMandatesId/:mandateContact-personId',
+    path: 'leasing-mandates/edit-mandate-contact-person/:leasingId/:leasingMandatesId/:mandateContactPersonId',
     component: AddMandateContactPersonComponent,
     canDeactivate: [PendingChangesGuard],
   },
 
   // OLD list routes (kept)
   {
-    path: 'leasing-mandates/view-mandate-contact-persons/:leasingId/:leasingMandatesId/:mandateContact-personId',
+    path: 'leasing-mandates/view-mandate-contact-persons/:leasingId/:leasingMandatesId/:mandateContactPersonId',
     component: ViewMandateContactPersonsComponent, // if you ever need deep-link to highlight one
   },
   //Leasing Financial Form
