@@ -25,7 +25,6 @@ import {
   forkJoin,
 } from 'rxjs';
 import { FinancialForm } from '../../../../crm/leasing-mandates/store/financial-form/financial-form.model';
-
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { Client } from '../../../../crm/clients/store/_clients/allclients/client.model';
 import { ClientsFacade } from '../../../../crm/clients/store/_clients/allclients/clients.facade';
@@ -34,7 +33,6 @@ import { AssetTypesFacade } from '../../../../lookups/store/asset-types/asset-ty
 import { CurrenciesFacade } from '../../../../lookups/store/currencies/currencies.facade';
 import { Currency } from '../../../../lookups/store/currencies/currency.model';
 import { CurrencyExchangeRate } from '../../../../lookups/store/currency-exchange-rates/currency-exchange-rate.model';
-import { loadCurrencyExchangeRates } from '../../../../lookups/store/currency-exchange-rates/currency-exchange-rates.actions';
 import { CurrencyExchangeRatesFacade } from '../../../../lookups/store/currency-exchange-rates/currency-exchange-rates.facade';
 import { FeeType } from '../../../../lookups/store/fee-types/fee-type.model';
 import { FeeTypesFacade } from '../../../../lookups/store/fee-types/fee-types.facade';
@@ -56,14 +54,6 @@ import { PeriodUnit } from '../../../../lookups/store/period-units/period-unit.m
 import { GracePeriodUnitsFacade } from '../../../../lookups/store/period-units/period-units.facade';
 import { RentStructureType } from '../../../../lookups/store/rent-structure-types/rent-structure-type.model';
 import { RentStructureTypesFacade } from '../../../../lookups/store/rent-structure-types/rent-structure-types.facade';
-import { loadAll as loadAssetTypes } from '../../../../lookups/store/asset-types/asset-types.actions';
-import { loadAll as loadInterestRateBenchmarks } from '../../../../lookups/store/interest-rate-benchmarks/interest-rate-benchmarks.actions';
-import { loadAll as loadPaymentTimingTerms } from '../../../../lookups/store/payment-timing-terms/payment-timing-terms.actions';
-import { loadAll as loadRentStructureTypes } from '../../../../lookups/store/rent-structure-types/rent-structure-types.actions';
-import { loadAll as loadPaymentMethods } from '../../../../lookups/store/payment-methods/payment-methods.actions';
-import { loadAll as loadPaymentMonthDays } from '../../../../lookups/store/payment-month-days/payment-month-days.actions';
-import { loadAll as loadAllGracePeriodUnits } from '../../../../lookups/store/period-units/period-units.actions';
-import { loadAll as loadCurrencies } from '../../../../lookups/store/currencies/currencies.actions';
 import * as AgreementActions from '../../../store/agreements/agreements.actions';
 import { Branch } from '../../../../organizations/store/branches/branch.model';
 import { BranchesFacade } from '../../../../organizations/store/branches/branches.facade';
@@ -216,9 +206,29 @@ export class AddAgreementComponent {
     this.portfolios$ = this.portfoliosFacade.all$;
     this.businessSourcesFacade.loadAll();
     this.businessSources$ = this.businessSourcesFacade.all$;
+    this.assetTypesFacade.loadAll();
+    this.assetTypes$ = this.assetTypesFacade.all$;
     this.feeTypesFacade.loadAll();
     this.feeTypes$ = this.feeTypesFacade.all$;
-
+    this.paymentPeriodsFacade.loadAll();
+    this.paymentPeriods$ = this.paymentPeriodsFacade.all$;
+    this.paymentPeriods$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((list) => (this.paymentPeriodsCache = list ?? []));
+    this.currenciesFacade.loadAll();
+    this.currencies$ = this.currenciesFacade.all$;
+    this.currencyExchangeRatesFacade.loadAll();
+    this.currencyExchangeRates$ = this.currencyExchangeRatesFacade.items$;
+    this.interestRateBenchmarksFacade.loadAll();
+    this.interestRateBenchMarks$ = this.interestRateBenchmarksFacade.all$;
+    this.paymentTimingTermsFacade.loadAll();
+    this.paymentTimingTerms$ = this.paymentTimingTermsFacade.all$;
+    this.rentStructureTypesFacade.loadAll();
+    this.rentStructures$ = this.rentStructureTypesFacade.all$;
+    this.paymentMethodsFacade.loadAll();
+    this.paymentMethods$ = this.paymentMethodsFacade.all$;
+    this.paymentMonthDaysFacade.loadAll();
+    this.paymentMonthDays$ = this.paymentMonthDaysFacade.all$;
     //Build all sub-forms
     this.buildAgreementShowMainForm();
     this.buildAgreementShowAssetTypeForm();
@@ -243,42 +253,6 @@ export class AddAgreementComponent {
         currency: this.leasingFinancialCurrencyForm,
       }),
     });
-
-    this.store.dispatch(loadAssetTypes({}));
-
-    //Leasing Types Dropdown
-    this.leasingTypes$ = this.leasingTypeFacade.all$;
-    //Insured By Dropdown
-    //Asset Type Dropdown
-    this.assetTypes$ = this.assetTypesFacade.all$;
-    //Currency Exchange Rates Dropdown
-    this.currencyExchangeRatesFacade.loadAll();
-    this.currencyExchangeRates$ = this.currencyExchangeRatesFacade.items$;
-    //Currencies Dropdown
-    this.currenciesFacade.loadAll();
-    this.currencies$ = this.currenciesFacade.all$;
-    //Payment Periods Dropdown
-    this.paymentPeriodsFacade.loadAll();
-    this.paymentPeriods$ = this.paymentPeriodsFacade.all$;
-    this.paymentPeriods$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((list) => (this.paymentPeriodsCache = list ?? []));
-    //Payment Methods Dropdown
-    this.paymentMethodsFacade.loadAll();
-    this.paymentMethods$ = this.paymentMethodsFacade.all$;
-    //Rent Structure Types Dropdown
-    this.rentStructureTypesFacade.loadAll();
-    this.rentStructures$ = this.rentStructureTypesFacade.all$;
-    //Payment Timing Terms Dropdown
-    this.paymentTimingTermsFacade.loadAll();
-    this.paymentTimingTerms$ = this.paymentTimingTermsFacade.all$;
-    //Interest Rate Benchmarks Dropdown
-    this.interestRateBenchmarksFacade.loadAll();
-    this.interestRateBenchMarks$ = this.interestRateBenchmarksFacade.all$;
-    //Payment Month Days Dropdown
-    this.paymentMonthDaysFacade.loadAll();
-    this.paymentMonthDays$ = this.paymentMonthDaysFacade.all$;
-    //leasing financial form
 
     //Set up value-change listeners, etc.
     this.setupFormListeners();
@@ -363,14 +337,6 @@ export class AddAgreementComponent {
     }
 
     //Dispatch all lookups
-    this.store.dispatch(loadAllGracePeriodUnits({})); // grace units
-    this.store.dispatch(loadCurrencies({})); // currencies
-    this.store.dispatch(loadCurrencyExchangeRates()); // exchange rates
-    this.store.dispatch(loadInterestRateBenchmarks({}));
-    this.store.dispatch(loadPaymentTimingTerms({}));
-    this.store.dispatch(loadRentStructureTypes({}));
-    this.store.dispatch(loadPaymentMethods({}));
-    this.store.dispatch(loadPaymentMonthDays({}));
 
     //Expose your Observables
     this.paymentPeriods$ = this.paymentPeriodsFacade.all$;

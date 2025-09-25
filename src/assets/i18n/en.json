@@ -809,9 +809,9 @@
       "LABEL_ASSET_DESCRIPTION": "Asset Description",
       "ERROR_ASSET_DESCRIPTION_REQUIRED": "Asset Description is required",
       "PLACEHOLDER_ASSET_DESCRIPTION": "Enter Asset Description",
-      "LABEL_ASSET_DESCRIPTION_AR": "Asset Description",
-      "ERROR_ASSET_DESCRIPTION_AR_REQUIRED": "Asset Description is required",
-      "PLACEHOLDER_ASSET_DESCRIPTION_AR": "Enter Asset Description",
+      "LABEL_ASSET_DESCRIPTION_AR": "Asset Description AR",
+      "ERROR_ASSET_DESCRIPTION_AR_REQUIRED": "Asset Description AR is required",
+      "PLACEHOLDER_ASSET_DESCRIPTION_AR": "Enter Asset Description AR",
 
       "LABEL_FEE_TYPE": "Fee Type",
       "ERROR_FEE_TYPE_REQUIRED": "Fee Type is required",
