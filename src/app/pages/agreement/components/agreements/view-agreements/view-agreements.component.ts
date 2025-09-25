@@ -20,10 +20,7 @@ export class ViewAgreementsComponent {
 
   @ViewChild('tableRef') tableRef!: TableComponent;
 
-  readonly colsInside = [
-    { field: 'name', header: 'Name EN' },
-    { field: 'nameAR', header: 'Name AR' },
-  ];
+  readonly colsInside = [{ field: 'date', header: 'Agreement Date' }];
 
   showDeleteModal = false;
   selectedAgreementId: number | null = null;
