@@ -22,7 +22,6 @@ import {
   switchMap,
   take,
   of,
-  startWith,
   merge,
   forkJoin,
 } from 'rxjs';
@@ -62,7 +61,6 @@ import { PeriodUnit } from '../../../../lookups/store/period-units/period-unit.m
 import { GracePeriodUnitsFacade } from '../../../../lookups/store/period-units/period-units.facade';
 import { RentStructureType } from '../../../../lookups/store/rent-structure-types/rent-structure-type.model';
 import { RentStructureTypesFacade } from '../../../../lookups/store/rent-structure-types/rent-structure-types.facade';
-import { loadAll as loadInsuredBy } from '../../../../lookups/store/insured-by/insured-by.actions';
 import { loadAll as loadAssetTypes } from '../../../../lookups/store/asset-types/asset-types.actions';
 import { loadAll as loadFeeTypes } from '../../../../lookups/store/fee-types/fee-types.actions';
 import { loadAll as loadInterestRateBenchmarks } from '../../../../lookups/store/interest-rate-benchmarks/interest-rate-benchmarks.actions';
@@ -75,6 +73,10 @@ import { loadAll as loadCurrencies } from '../../../../lookups/store/currencies/
 import * as MandateActions from '../../../../crm/leasing-mandates/store/leasing-mandates/leasing-mandates.actions';
 import { Branch } from '../../../../organizations/store/branches/branch.model';
 import { BranchesFacade } from '../../../../organizations/store/branches/branches.facade';
+import { Portfolio } from '../../../../lookups/store/portfolios/portfolio.model';
+import { PortfoliosFacade } from '../../../../lookups/store/portfolios/portfolios.facade';
+import { BusinessSource } from '../../../../lookups/store/business-sources/business-source.model';
+import { BusinessSourcesFacade } from '../../../../lookups/store/business-sources/business-sources.facade';
 
 @Component({
   selector: 'app-add-agreement',
@@ -83,6 +85,15 @@ import { BranchesFacade } from '../../../../organizations/store/branches/branche
   styleUrl: './add-agreement.component.scss',
 })
 export class AddAgreementComponent {
+  /*Dropdowns*/
+  //Main Info Form
+  clientNames$!: Observable<Client[]>;
+  leasingTypes$!: Observable<LeasingType[]>;
+  insuredBy$!: Observable<InsuredBy[]>;
+  branches$!: Observable<Branch[]>;
+  portfolios$!: Observable<Portfolio[]>;
+  businessSources$!: Observable<BusinessSource[]>;
+  //Agreement Assets Form
   workFlowActionList: any[] = [];
   selectedAction: string = '';
   public mandateId: any = null;
@@ -99,9 +110,6 @@ export class AddAgreementComponent {
   addMandateShowFeeForm!: FormGroup;
   editMode: boolean = false;
   viewOnly: boolean = false;
-  clientNames$!: Observable<Client[]>;
-  leasingTypes$!: Observable<LeasingType[]>;
-  insuredBy$!: Observable<InsuredBy[]>;
   assetTypes$!: Observable<AssetType[]>;
   feeTypes$!: Observable<FeeType[]>;
   currencyExchangeRates$!: Observable<CurrencyExchangeRate[]>;
@@ -111,13 +119,11 @@ export class AddAgreementComponent {
   rentStructureTypes$!: Observable<RentStructureType[]>;
   paymentTimingTerms$!: Observable<PaymentTimingTerm[]>;
   paymentMonthDays$!: Observable<PaymentMonthDay[]>;
-  branches$!: Observable<Branch[]>;
-
   private destroy$ = new Subject<void>();
   steps = [1, 2, 3, 4];
   stepTitles = [
     'Main Information',
-    'Asset Types',
+    'Agreement Assets',
     'Fees',
     'Financial Activities',
   ];
@@ -185,7 +191,9 @@ export class AddAgreementComponent {
     private paymentTimingFacade: PaymentTimingTermsFacade,
     private rentStructuresFacade: RentStructureTypesFacade,
     private financialFormsFacade: FinancialFormsFacade,
-    private actions$: Actions
+    private actions$: Actions,
+    private portfoliosFacade: PortfoliosFacade,
+    private businessSourcesFacade: BusinessSourcesFacade
   ) {}
   ngOnInit() {
     console.log('show', this.show);
@@ -205,6 +213,13 @@ export class AddAgreementComponent {
     this.insuredBy$ = this.insuredByFacade.all$;
     this.branchesFacade.loadAll();
     this.branches$ = this.branchesFacade.all$;
+    this.portfoliosFacade.loadAll();
+    this.portfolios$ = this.portfoliosFacade.all$;
+    this.portfoliosFacade.loadAll();
+    this.portfolios$ = this.portfoliosFacade.all$;
+    this.businessSourcesFacade.loadAll();
+    this.businessSources$ = this.businessSourcesFacade.all$;
+
     //Build all sub-forms
     this.buildAgreementShowMainForm();
     this.buildMandateShowAssetTypeForm();
@@ -857,6 +872,9 @@ export class AddAgreementComponent {
         date: [null, Validators.required],
         endDate: [null, Validators.required],
         branchId: [null, Validators.required],
+        portfolioId: [null, Validators.required],
+        businessSourceId: [null, Validators.required],
+        deliveryNumber: [null, Validators.required],
         notes: [null],
       },
       { validators: [this.endAfterStartValidator('date', 'endDate')] }

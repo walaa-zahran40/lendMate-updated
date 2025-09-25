@@ -68,6 +68,7 @@ export class AgreementMainInformationFormComponent
 {
   @Input() formGroup: FormGroup = new FormGroup({});
   @Input() viewOnly = false;
+  @Input() addAgreementShowAssetsForm!: boolean;
   companyLegalDetail: CompanyLegalDetails = {};
   @Output() addIdentity = new EventEmitter<void>();
   @Output() downloadFile = new EventEmitter<any>();
@@ -152,6 +153,8 @@ export class AgreementMainInformationFormComponent
   @Input() areasList: any;
   @Input() currencies: any;
   @Input() branches: any;
+  @Input() portfolios: any;
+  @Input() businessSources: any;
   @Input() currencyExchangeRates: any;
   @Input() manualExchangeRates: any;
   @Input() selectedSectorId: number | null = null;

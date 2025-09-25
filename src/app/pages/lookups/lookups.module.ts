@@ -275,6 +275,11 @@ import { AddVendorAddressComponent } from './components/vendor-addresses/add-ven
 import { ViewVendorAddressesComponent } from './components/vendor-addresses/view-vendor-addresses/view-vendor-addresses.component';
 import { VendorAddressesEffects } from './store/vendor-addresses/vendor-addresses.effects';
 import { reducer as vendorAddressesReducer } from './store/vendor-addresses/vendor-addresses.reducer';
+import { PortfoliosEffects } from './store/portfolios/portfolios.effects';
+import { reducer as portfoliosReducer } from './store/portfolios/portfolios.reducer';
+import { BusinessSourcesEffects } from './store/business-sources/business-sources.effects';
+import { reducer as businessSourcesReducer } from './store/business-sources/business-sources.reducer';
+
 @NgModule({
   declarations: [
     AddTmlOfficerTypesComponent,
@@ -429,6 +434,10 @@ import { reducer as vendorAddressesReducer } from './store/vendor-addresses/vend
     FileUploadModule,
     StoreModule.forFeature('vehicleManufacturers', vehicleManufacturersReducer),
     EffectsModule.forFeature([VehicleManufacturersEffects]),
+
+    StoreModule.forFeature('portfolios', portfoliosReducer),
+    EffectsModule.forFeature([PortfoliosEffects]),
+
     StoreModule.forFeature('vehicleModels', vehicleModelsReducer),
     EffectsModule.forFeature([VehicleModelsEffects]),
     StoreModule.forFeature('companyTypes', companyTypesReducer),
@@ -449,6 +458,9 @@ import { reducer as vendorAddressesReducer } from './store/vendor-addresses/vend
     EffectsModule.forFeature([BusinessLinesEffects]),
     StoreModule.forFeature('clientTypes', clientTypesReducer),
     EffectsModule.forFeature([ClientTypesEffects]),
+    StoreModule.forFeature('businessSources', businessSourcesReducer),
+    EffectsModule.forFeature([BusinessSourcesEffects]),
+
     StoreModule.forFeature(
       'communicationFlowTypes',
       communicationFlowTypesReducer

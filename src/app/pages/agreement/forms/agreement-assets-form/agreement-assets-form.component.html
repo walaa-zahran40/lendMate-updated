@@ -1,0 +1,89 @@
+<ng-container
+  *ngIf="addMandateShowAssetTypeForm"
+  id="mandateAssetTypeForm"
+  [formGroup]="formGroup"
+>
+  <div formArrayName="mandateAssetTypes">
+    <div
+      *ngFor="let group of mandateAssetTypes?.controls; let i = index"
+      [formGroupName]="i"
+      class="parent2-individual2 mt-2 flex items-start gap-4 align-items-center flex-wrap"
+    >
+      <!-- 1) Asset Type -->
+      <div class="div-number flex-1 min-w-0">
+        <label for="assetTypeId" class="label-container">
+          {{ "FORM.MANDATE.LABEL_ASSET_TYPE" | translate
+          }}<sup class="danger">*</sup>
+        </label>
+        <p-select
+          [filter]="true"
+          [filterBy]="filterByField"
+          [showClear]="true"
+          [options]="assetTypesList"
+          formControlName="assetTypeId"
+          [placeholder]="
+            'FORM.MANDATE.PLACEHOLDER_SELECT_ASSET_TYPE' | translate
+          "
+          [optionLabel]="optionLabelKey"
+          optionValue="id"
+          name="assetTypeId"
+          styleClass="w-full md:w-80"
+        />
+        <small
+          class="p-error d-block"
+          *ngIf="
+            group.get('assetTypeId')?.invalid &&
+            group.get('assetTypeId')?.touched
+          "
+        >
+          {{ "FORM.MANDATE.ERROR_ASSET_TYPE_REQUIRED" | translate }}
+        </small>
+        <label for="assetsTypeDescription" class="label-container">
+          {{ "FORM.MANDATE.LABEL_ASSET_TYPE_DESCRIPTION" | translate }}
+          <sup class="danger">*</sup>
+        </label>
+        <input
+          pInputText
+          id="assetsTypeDescription"
+          aria-describedby="assetsTypeDescription-help"
+          name="assetsTypeDescription"
+          formControlName="assetsTypeDescription"
+          [placeholder]="
+            'FORM.MANDATE.PLACEHOLDER_ASSET_TYPE_DESCRIPTION' | translate
+          "
+          class="d-block w-100"
+        />
+        <small
+          class="p-error d-block"
+          *ngIf="
+            group.get('assetsTypeDescription')?.invalid &&
+            group.get('assetsTypeDescription')?.touched
+          "
+        >
+          {{ "FORM.MANDATE.ERROR_ASSET_TYPE_DESCRIPTION_REQUIRED" | translate }}
+        </small>
+      </div>
+      <!-- 4) Add another Asset Type -->
+      <button
+        pButton
+        type="button"
+        icon="pi pi-plus"
+        class="p-button-outlined p-button-sm p-plus"
+        (click)="addAssetType.emit()"
+        *ngIf="!viewOnly"
+        [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+      ></button>
+
+      <!-- 5) Remove this Asset Type -->
+      <button
+        pButton
+        type="button"
+        icon="pi pi-trash"
+        class="p-button-danger p-button-sm p-remove"
+        *ngIf="mandateAssetTypes.length > 1 && !viewOnly"
+        (click)="removeAssetType.emit(i)"
+        [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+      ></button>
+    </div>
+  </div>
+</ng-container>

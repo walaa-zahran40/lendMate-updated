@@ -788,7 +788,16 @@
       "ERROR_BRANCH_REQUIRED": "Branch is required",
       "LABEL_PORTFOLIO": "Portfolio",
       "ERROR_PORTFOLIO_REQUIRED": "Portfolio is required",
-      "PLACEHOLDER_PORTFOLIO": "Enter Portfolio"
+      "PLACEHOLDER_PORTFOLIO": "Enter Portfolio",
+      "LABEL_BUSINESS_SOURCE": "Business Source",
+      "ERROR_BUSINESS_SOURCE_REQUIRED": "Business Source is required",
+      "PLACEHOLDER_BUSINESS_SOURCE": "Enter Business Source",
+      "LABEL_DELIVERY_NUMBER": "Delivery Number",
+      "ERROR_DELIVERY_NUMBER_REQUIRED": "Delivery Number is required",
+      "PLACEHOLDER_DELIVERY_NUMBER": "Enter Delivery Number",
+      "LABEL_DELIVERY_TIME": "Delivery Time",
+      "ERROR_DELIVERY_TIME_REQUIRED": "Delivery Time is required",
+      "PLACEHOLDER_DELIVERY_TIME": "Enter Delivery Time"
     },
     "BUSINESS_ACTIVITY": "Business Activity",
     "TAX_ID": "Tax ID",

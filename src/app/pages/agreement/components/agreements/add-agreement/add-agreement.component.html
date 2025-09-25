@@ -37,22 +37,24 @@
       [leasingTypes]="leasingTypes$ | async"
       [insuredBy]="insuredBy$ | async"
       [branches]="branches$ | async"
+      [portfolios]="portfolios$ | async"
+      [businessSources]="businessSources$ | async"
     ></app-agreement-main-information-form>
   </div>
 
-  <!-- STEP 2: Asset Types -->
+  <!-- STEP 2: Agreement Assets -->
   <div [hidden]="currentStep !== 2">
-    <app-form
-      [title]="'MANDATE.ASSET_TYPE.TITLE'"
-      [description]="'MANDATE.ASSET_TYPE.DESCRIPTION'"
-      [addMandateShowAssetTypeForm]="true"
+    <app-agreement-assets-form
+      [title]="'AGREEMENT.AGREEMENT_ASSETS.TITLE'"
+      [description]="'AGREEMENT.AGREEMENT_ASSETS.DESCRIPTION'"
+      [addAgreementShowAssetsForm]="true"
       [formGroup]="assetsForm"
       [editMode]="editMode"
       [viewOnly]="viewOnly"
       [assetTypesList]="assetTypes$ | async"
       (removeAssetType)="removeAssetType($event)"
       (addAssetType)="addAssetType()"
-    ></app-form>
+    ></app-agreement-assets-form>
   </div>
 
   <!-- STEP 3: Fees -->
