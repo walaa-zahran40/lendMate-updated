@@ -133,13 +133,13 @@ export class ClientActivityWizardComponent {
         content: 'CARD.LEASING_MANDATES',
         link: `/crm/leasing-mandates/view-mandates/${clientId}`,
       },
-      {
-        imgUrl: '/assets/images/shared/card/upload.svg',
-        imgAlt: 'upload',
-        title: 'CARD.CONTRACTS',
-        content: 'CARD.CONTRACTS',
-        link: `/crm/clients/view-contracts/${clientId}`,
-      },
+      // {
+      //   imgUrl: '/assets/images/shared/card/upload.svg',
+      //   imgAlt: 'upload',
+      //   title: 'CARD.CONTRACTS',
+      //   content: 'CARD.CONTRACTS',
+      //   link: `/crm/clients/view-contracts/${clientId}`,
+      // },
     ];
 
     this.cards = this.chunkArray(this.originalCards, 3);
