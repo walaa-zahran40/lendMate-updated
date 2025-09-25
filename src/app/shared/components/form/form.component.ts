@@ -83,7 +83,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Output() onCheckboxChange = new EventEmitter<any>();
   selectedPaymentPeriod: any;
   selectedGracePeriodUnit: any;
-
+  @Input() addAgreementShowFeeForm!: boolean;
   @Input() phoneTypeOptions!: any;
   @Input() identityTypeOptions!: IdentificationType[];
   @Output() addPhoneType = new EventEmitter<void>();

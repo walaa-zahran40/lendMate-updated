@@ -62,10 +62,14 @@ export interface CreateLeasingAgreementRequest {
 }
 
 export interface LeasingAgreement extends CreateLeasingAgreementRequest {
-  id: number; // server id
+  id?: number; // server id
   status?: string; // workflow status
   createdAt?: string;
   updatedAt?: string;
+  isManuaExchangeRate: any;
+  indicativeRentals: any;
+  fixedInterestRate: any;
+  allowedAgreementWorkFlowActions: any;
 }
 
 export interface WorkflowActionRequest {

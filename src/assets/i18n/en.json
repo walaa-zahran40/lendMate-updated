@@ -10,7 +10,9 @@
   },
   "AGREEMENT": {
     "MAIN_INFORMATION_TITLE": "Main Information Title",
-    "MAIN_INFORMATION_DESC": "Fill in the key details that define the agreement's core parameters including client, product, validity period, leasing type, and insurance information."
+    "MAIN_INFORMATION_DESC": "Fill in the key details that define the agreement's core parameters including client, product, validity period, leasing type, and insurance information.",
+    "AGREEMENT_ASSETS_TITLE": "Agreement Assets Title",
+    "AGREEMENT_ASSETS_DESCRIPTION": "Fill in the key details that define the agreement asset's core parameters "
   },
   "SIDEMENU": { "SEARCH": "Search" },
   "MENU": {
@@ -797,7 +799,29 @@
       "PLACEHOLDER_DELIVERY_NUMBER": "Enter Delivery Number",
       "LABEL_DELIVERY_TIME": "Delivery Time",
       "ERROR_DELIVERY_TIME_REQUIRED": "Delivery Time is required",
-      "PLACEHOLDER_DELIVERY_TIME": "Enter Delivery Time"
+      "PLACEHOLDER_DELIVERY_TIME": "Enter Delivery Time",
+      "FEES": "Fees Title",
+      "FEES_DESCRIPTION": "Fill in document details",
+
+      "LABEL_ASSET_TYPE": "Asset Type",
+      "ERROR_ASSET_TYPE_REQUIRED": "Asset Type is required",
+      "PLACEHOLDER_ASSET_TYPE": "Enter Asset Type",
+      "LABEL_ASSET_DESCRIPTION": "Asset Description",
+      "ERROR_ASSET_DESCRIPTION_REQUIRED": "Asset Description is required",
+      "PLACEHOLDER_ASSET_DESCRIPTION": "Enter Asset Description",
+      "LABEL_ASSET_DESCRIPTION_AR": "Asset Description",
+      "ERROR_ASSET_DESCRIPTION_AR_REQUIRED": "Asset Description is required",
+      "PLACEHOLDER_ASSET_DESCRIPTION_AR": "Enter Asset Description",
+
+      "LABEL_FEE_TYPE": "Fee Type",
+      "ERROR_FEE_TYPE_REQUIRED": "Fee Type is required",
+      "PLACEHOLDER_SELECT_FEE_TYPE": "Enter Fee Type",
+      "LABEL_ACTUAL_AMOUNT": "Actual Amount",
+      "ERROR_ACTUAL_AMOUNT_REQUIRED": "Actual Amount is required",
+      "PLACEHOLDER_ACTUAL_AMOUNT": "Enter Actual Amount",
+      "LABEL_ACTUAL_PERCENTAGE": "Actual Percentage",
+      "ERROR_ACTUAL_PERCENTAGE_REQUIRED": "Actual Percentage is required",
+      "PLACEHOLDER_ACTUAL_PERCENTAGE": "Enter Actual Percentage"
     },
     "BUSINESS_ACTIVITY": "Business Activity",
     "TAX_ID": "Tax ID",

@@ -58,12 +58,12 @@ type PreviewItem = {
 };
 
 @Component({
-  selector: 'app-agreement-assets-form',
+  selector: 'app-agreement-fee-form',
   standalone: false,
-  templateUrl: './agreement-assets-form.component.html',
-  styleUrl: './agreement-assets-form.component.scss',
+  templateUrl: './agreement-fee-form.component.html',
+  styleUrl: './agreement-fee-form.component.scss',
 })
-export class AgreementAssetsFormComponent implements OnInit, OnDestroy {
+export class AgreementFeeFormComponent implements OnInit, OnDestroy {
   @Input() formGroup: FormGroup = new FormGroup({});
   @Input() viewOnly = false;
   companyLegalDetail: CompanyLegalDetails = {};
@@ -79,7 +79,7 @@ export class AgreementAssetsFormComponent implements OnInit, OnDestroy {
   @Output() onCheckboxChange = new EventEmitter<any>();
   selectedPaymentPeriod: any;
   selectedGracePeriodUnit: any;
-  @Input() addAgreementShowAssetsForm!: boolean;
+  @Input() addAgreementShowFeeForm!: boolean;
   @Input() phoneTypeOptions!: any;
   @Input() identityTypeOptions!: IdentificationType[];
   @Output() addPhoneType = new EventEmitter<void>();
@@ -544,7 +544,6 @@ export class AgreementAssetsFormComponent implements OnInit, OnDestroy {
   @Input() addDepartmentManagerORGForm!: boolean;
   @Input() addTeamORGForm!: boolean;
   @Input() addTeamLeadORGForm!: boolean;
-  @Input() addAgreementShowFeeForm!: boolean;
   @Input() addRoleClaimORGForm!: boolean;
   @Input() addCommunicationFlowTypesLookupsForm!: boolean;
   @Input() addTeamOfficerORGForm!: boolean;

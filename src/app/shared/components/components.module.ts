@@ -106,6 +106,8 @@ import { DownloadPopupPurchasingOrdersComponent } from './download-popup-purchas
 import { FormSignatoryOfficerComponent } from '../../pages/organizations/forms/form-signatory-officer/form-signatory-officer.component';
 import { AgreementMainInformationFormComponent } from '../../pages/agreement/forms/agreement-main-information-form/agreement-main-information-form.component';
 import { AgreementAssetsFormComponent } from '../../pages/agreement/forms/agreement-assets-form/agreement-assets-form.component';
+import { AgreementFeeFormComponent } from '../../pages/agreement/forms/agreement-fee-form/agreement-fee-form.component';
+import { LeasingFinancialBasicFormComponent } from '../../pages/agreement/forms/leasing-financial-basic-form/leasing-financial-basic-form.component';
 
 @NgModule({
   declarations: [
@@ -168,6 +170,8 @@ import { AgreementAssetsFormComponent } from '../../pages/agreement/forms/agreem
     FormSignatoryOfficerComponent,
     DownloadPopupPurchasingOrdersComponent,
     AgreementAssetsFormComponent,
+    AgreementFeeFormComponent,
+    LeasingFinancialBasicFormComponent,
   ],
   imports: [
     CommonModule,
@@ -281,6 +285,8 @@ import { AgreementAssetsFormComponent } from '../../pages/agreement/forms/agreem
     DownloadPopupPurchasingOrdersComponent,
     AgreementMainInformationFormComponent,
     AgreementAssetsFormComponent,
+    AgreementFeeFormComponent,
+    LeasingFinancialBasicFormComponent,
   ],
 })
 export class ComponentsModule {}

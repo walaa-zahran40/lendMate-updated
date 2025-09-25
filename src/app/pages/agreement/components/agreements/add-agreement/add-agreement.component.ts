@@ -22,18 +22,13 @@ import {
   switchMap,
   take,
   of,
-  merge,
   forkJoin,
 } from 'rxjs';
+import { FinancialForm } from '../../../../crm/leasing-mandates/store/financial-form/financial-form.model';
+
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { Client } from '../../../../crm/clients/store/_clients/allclients/client.model';
 import { ClientsFacade } from '../../../../crm/clients/store/_clients/allclients/clients.facade';
-import { FinancialForm } from '../../../../crm/leasing-mandates/store/financial-form/financial-form.model';
-import { FinancialFormsFacade } from '../../../../crm/leasing-mandates/store/financial-form/financial-forms.facade';
-import { selectCalculatedRowsForId } from '../../../../crm/leasing-mandates/store/financial-form/financial-forms.selectors';
-import { PaymentsRequest } from '../../../../crm/leasing-mandates/store/financial-form/payments-request.model';
-import { Mandate } from '../../../../crm/leasing-mandates/store/leasing-mandates/leasing-mandate.model';
-import { MandatesFacade } from '../../../../crm/leasing-mandates/store/leasing-mandates/leasing-mandates.facade';
 import { AssetType } from '../../../../lookups/store/asset-types/asset-type.model';
 import { AssetTypesFacade } from '../../../../lookups/store/asset-types/asset-types.facade';
 import { CurrenciesFacade } from '../../../../lookups/store/currencies/currencies.facade';
@@ -62,7 +57,6 @@ import { GracePeriodUnitsFacade } from '../../../../lookups/store/period-units/p
 import { RentStructureType } from '../../../../lookups/store/rent-structure-types/rent-structure-type.model';
 import { RentStructureTypesFacade } from '../../../../lookups/store/rent-structure-types/rent-structure-types.facade';
 import { loadAll as loadAssetTypes } from '../../../../lookups/store/asset-types/asset-types.actions';
-import { loadAll as loadFeeTypes } from '../../../../lookups/store/fee-types/fee-types.actions';
 import { loadAll as loadInterestRateBenchmarks } from '../../../../lookups/store/interest-rate-benchmarks/interest-rate-benchmarks.actions';
 import { loadAll as loadPaymentTimingTerms } from '../../../../lookups/store/payment-timing-terms/payment-timing-terms.actions';
 import { loadAll as loadRentStructureTypes } from '../../../../lookups/store/rent-structure-types/rent-structure-types.actions';
@@ -70,13 +64,18 @@ import { loadAll as loadPaymentMethods } from '../../../../lookups/store/payment
 import { loadAll as loadPaymentMonthDays } from '../../../../lookups/store/payment-month-days/payment-month-days.actions';
 import { loadAll as loadAllGracePeriodUnits } from '../../../../lookups/store/period-units/period-units.actions';
 import { loadAll as loadCurrencies } from '../../../../lookups/store/currencies/currencies.actions';
-import * as MandateActions from '../../../../crm/leasing-mandates/store/leasing-mandates/leasing-mandates.actions';
+import * as AgreementActions from '../../../store/agreements/agreements.actions';
 import { Branch } from '../../../../organizations/store/branches/branch.model';
 import { BranchesFacade } from '../../../../organizations/store/branches/branches.facade';
 import { Portfolio } from '../../../../lookups/store/portfolios/portfolio.model';
 import { PortfoliosFacade } from '../../../../lookups/store/portfolios/portfolios.facade';
 import { BusinessSource } from '../../../../lookups/store/business-sources/business-source.model';
 import { BusinessSourcesFacade } from '../../../../lookups/store/business-sources/business-sources.facade';
+import { LeasingAgreementsFacade } from '../../../store/agreements/agreements.facade';
+import { FinancialFormsFacade } from '../../../../crm/leasing-mandates/store/financial-form/financial-forms.facade';
+import { LeasingAgreement } from '../../../store/agreements/agreement.model';
+import { selectCalculatedRowsForId } from '../../../../crm/leasing-mandates/store/financial-form/financial-forms.selectors';
+import { PaymentsRequest } from '../../../../crm/leasing-mandates/store/financial-form/payments-request.model';
 
 @Component({
   selector: 'app-add-agreement',
@@ -86,18 +85,18 @@ import { BusinessSourcesFacade } from '../../../../lookups/store/business-source
 })
 export class AddAgreementComponent {
   /*Dropdowns*/
-  //Main Info Form
   clientNames$!: Observable<Client[]>;
   leasingTypes$!: Observable<LeasingType[]>;
   insuredBy$!: Observable<InsuredBy[]>;
   branches$!: Observable<Branch[]>;
   portfolios$!: Observable<Portfolio[]>;
   businessSources$!: Observable<BusinessSource[]>;
-  //Agreement Assets Form
+  assetTypes$!: Observable<AssetType[]>;
+  feeTypes$!: Observable<FeeType[]>;
   workFlowActionList: any[] = [];
   selectedAction: string = '';
-  public mandateId: any = null;
-  public leasingMandateId: any = null;
+  public agreementId: any = null;
+  public leasingAgreementId: any = null;
   raw = this.route.snapshot.paramMap.get('clientId');
   clientId: number | undefined = this.raw ? Number(this.raw) : undefined;
   show = false;
@@ -106,12 +105,10 @@ export class AddAgreementComponent {
   isSubmitting = false;
   parentForm!: FormGroup;
   addAgreementShowMainInformationForm!: FormGroup;
-  addMandateShowAssetTypeForm!: FormGroup;
-  addMandateShowFeeForm!: FormGroup;
+  addAgreementShowAssetTypeForm!: FormGroup;
+  addAgreementShowFeeForm!: FormGroup;
   editMode: boolean = false;
   viewOnly: boolean = false;
-  assetTypes$!: Observable<AssetType[]>;
-  feeTypes$!: Observable<FeeType[]>;
   currencyExchangeRates$!: Observable<CurrencyExchangeRate[]>;
   currencies$!: Observable<Currency[]>;
   paymentPeriods$!: Observable<PaymentPeriod[]>;
@@ -158,12 +155,12 @@ export class AddAgreementComponent {
   gracePeriodUnits$!: Observable<PeriodUnit[]>;
   interestRateBenchMarks$!: Observable<InterestRateBenchMark[]>;
   rentStructures$!: Observable<RentStructureType[]>;
-  private currentMandateId!: number;
+  private currentAgreementId!: number;
   routeId = this.route.snapshot.params['leasingId'];
-  mandate!: any;
+  agreement!: any;
   private extraCurrencyRates: CurrencyExchangeRate[] = [];
   selectedIds: number[] = [];
-  private patchedStep4FromMandate = false;
+  private patchedStep4FromAgreement = false;
 
   constructor(
     private fb: FormBuilder,
@@ -174,7 +171,7 @@ export class AddAgreementComponent {
     private assetTypesFacade: AssetTypesFacade,
     private branchesFacade: BranchesFacade,
     private feeTypesFacade: FeeTypesFacade,
-    private facade: MandatesFacade,
+    private facade: LeasingAgreementsFacade,
     private currenciesFacade: CurrenciesFacade,
     private paymentPeriodsFacade: PaymentPeriodsFacade,
     private paymentMethodsFacade: PaymentMethodsFacade,
@@ -219,11 +216,13 @@ export class AddAgreementComponent {
     this.portfolios$ = this.portfoliosFacade.all$;
     this.businessSourcesFacade.loadAll();
     this.businessSources$ = this.businessSourcesFacade.all$;
+    this.feeTypesFacade.loadAll();
+    this.feeTypes$ = this.feeTypesFacade.all$;
 
     //Build all sub-forms
     this.buildAgreementShowMainForm();
-    this.buildMandateShowAssetTypeForm();
-    this.buildMandateShowFeeForm();
+    this.buildAgreementShowAssetTypeForm();
+    this.buildAgreementShowFeeForm();
     //Build the three sub-forms
     this.initializeLeasingFinancialBasicForm();
     this.initializeLeasingFinancialRatesForm();
@@ -235,8 +234,8 @@ export class AddAgreementComponent {
     //Create the parent form
     this.parentForm = this.fb.group({
       basic: this.addAgreementShowMainInformationForm,
-      assets: this.addMandateShowAssetTypeForm,
-      fees: this.addMandateShowFeeForm,
+      assets: this.addAgreementShowAssetTypeForm,
+      fees: this.addAgreementShowFeeForm,
 
       financialActivities: this.fb.group({
         basic: this.leasingFinancialBasicForm,
@@ -246,15 +245,12 @@ export class AddAgreementComponent {
     });
 
     this.store.dispatch(loadAssetTypes({}));
-    this.store.dispatch(loadFeeTypes({}));
 
     //Leasing Types Dropdown
     this.leasingTypes$ = this.leasingTypeFacade.all$;
     //Insured By Dropdown
     //Asset Type Dropdown
     this.assetTypes$ = this.assetTypesFacade.all$;
-    //Fee Types Dropdown
-    this.feeTypes$ = this.feeTypesFacade.all$;
     //Currency Exchange Rates Dropdown
     this.currencyExchangeRatesFacade.loadAll();
     this.currencyExchangeRates$ = this.currencyExchangeRatesFacade.items$;
@@ -303,20 +299,18 @@ export class AddAgreementComponent {
             this.editMode = mode === 'edit';
             this.viewOnly = mode === 'view';
 
-            // ← clear out the old entity so selectedMandate$ doesn’t emit immediately
-            this.facade.clearSelected();
             // now fetch afresh
             this.facade.loadById(leasingId);
           }),
           switchMap(({ leasingId }) =>
-            this.facade.selectedMandate$.pipe(
+            this.facade.selected$.pipe(
               filter((m) => m != null && m.id === leasingId),
               take(1)
             )
           )
         )
-        .subscribe((mandate: any) =>
-          this.patchMandate(this.normalizeMandate(mandate))
+        .subscribe((agreement: any) =>
+          this.patchAgreement(this.normalizeAgreement(agreement))
         );
 
       const idParam = this.route.snapshot.paramMap.get('leasingId');
@@ -324,7 +318,7 @@ export class AddAgreementComponent {
         console.log('No edit/view mode detected, skipping load.');
         return;
       }
-      this.leasingMandateId = +idParam;
+      this.leasingAgreementId = +idParam;
     } else {
       combineLatest({
         params: this.route.paramMap,
@@ -343,13 +337,12 @@ export class AddAgreementComponent {
             console.log('✅ clientId presence → show =', this.show);
             this.editMode = mode === 'edit';
             this.viewOnly = mode === 'view';
-            this.facade.clearSelected();
             // now fetch afresh
             this.facade.loadById(leasingId);
-            this.facade.loadByClientId(clientId);
+            this.facade.loadByClient(clientId);
           }),
           switchMap(({ leasingId, clientId }) =>
-            this.facade.selectedMandate$.pipe(
+            this.facade.selected$.pipe(
               filter(
                 (m) => !!m && m.id === leasingId && m.clientId === clientId
               ),
@@ -357,8 +350,8 @@ export class AddAgreementComponent {
             )
           )
         )
-        .subscribe((mandate: any) =>
-          this.patchMandate(this.normalizeMandate(mandate))
+        .subscribe((agreement: any) =>
+          this.patchAgreement(this.normalizeAgreement(agreement))
         );
 
       const idParam = this.route.snapshot.paramMap.get('leasingId');
@@ -366,7 +359,7 @@ export class AddAgreementComponent {
         console.log('No edit/view mode detected, skipping load.');
         return;
       }
-      this.leasingMandateId = +idParam;
+      this.leasingAgreementId = +idParam;
     }
 
     //Dispatch all lookups
@@ -390,22 +383,22 @@ export class AddAgreementComponent {
     this.paymentMethods$ = this.paymentMethodsFacade.all$;
     this.paymentMonthDays$ = this.paymentMonthDaysFacade.all$;
 
-    //Load the financial form for this mandate
+    //Load the financial form for this agreement
 
     // const leasingId = Number(this.route.snapshot.paramMap.get('leasingId'));
     // if (Number.isFinite(leasingId)) {
-    //   this.financialFormsFacade.loadByLeasingMandateId(leasingId);
+    //   this.financialFormsFacade.loadByLeasingAgreementId(leasingId);
     // }
 
     this.facade.selected$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((form: Mandate | undefined) => {
+      .subscribe((form: LeasingAgreement | null) => {
         if (form === undefined) {
           return;
         }
-        this.mandate = form;
+        this.agreement = form;
         this.workFlowActionList =
-          this.mandate.allowedMandateWorkFlowActions?.map(
+          this.agreement.allowedAgreementWorkFlowActions?.map(
             (action: { id: any; name: any }) => ({
               id: action.id,
               label: action.name,
@@ -413,7 +406,7 @@ export class AddAgreementComponent {
             })
           );
         this.selectedAction =
-          this.mandate.mandateCurrentWorkFlowAction.name ?? '';
+          this.agreement.agreementCurrentWorkFlowAction.name ?? '';
         console.log('✅ this.selectedAction', this.selectedAction);
       });
 
@@ -462,7 +455,7 @@ export class AddAgreementComponent {
         takeUntil(this.destroy$)
       )
       .subscribe((form) => {
-        if (this.patchedStep4FromMandate) {
+        if (this.patchedStep4FromAgreement) {
           // still OK to use its payments if you want:
           if (form?.payments?.length && !this.originalFinancialForms?.length) {
             this.tableDataInside = [...form.payments];
@@ -476,7 +469,7 @@ export class AddAgreementComponent {
     //Only once both the form and the rates list are loaded,
     //patch the currencyExchangeRateId so the <p-select> can match an option.
     this.store
-      .select(selectCalculatedRowsForId(this.currentMandateId))
+      .select(selectCalculatedRowsForId(this.currentAgreementId))
       .pipe(takeUntil(this.destroy$))
       .subscribe((rows) => {
         this.tableDataInside = [...rows];
@@ -497,11 +490,11 @@ export class AddAgreementComponent {
         manualSetExchangeRateControl.disable({ emitEvent: false });
       }
     }
-    // ⬇️ when create succeeds → go back to View Mandates
+    // ⬇️ when create succeeds → go back to View Agreements
     const navigateToList = () => {
       const tree = this.clientId
-        ? ['/crm/leasing-mandates/view-mandates', +this.clientId]
-        : ['/crm/leasing-mandates/view-mandates'];
+        ? ['/crm/leasing-agreements/view-agreements', +this.clientId]
+        : ['/crm/leasing-agreements/view-agreements'];
 
       console.log('[Navigate] Preparing to navigate to:', tree);
 
@@ -518,48 +511,17 @@ export class AddAgreementComponent {
       );
     };
 
-    // 1) Success via createEntitySuccess
-    this.facade.createSuccess$.pipe(takeUntil(this.destroy$)).subscribe({
-      next: (entity) => {
-        console.log('[Create Success] entity:', entity);
-        this.isSubmitting = false;
-        navigateToList();
-      },
-      error: (e) => {
-        console.error('[Create Success] stream error:', e);
-        this.isSubmitting = false;
-      },
-    });
-
-    // 2) Generic operation success (create/update)
-    this.facade.operationSuccess$
-      .pipe(
-        takeUntil(this.destroy$),
-        tap((s) => console.log('[Op Success] lastOperation:', s)),
-        filter(
-          (s) =>
-            !!s &&
-            s.entity === 'Mandate' &&
-            (s.operation === 'create' || s.operation === 'update')
-        )
-      )
-      .subscribe(() => {
-        console.log('[Op Success] Matched Mandate create/update. Navigating…');
-        this.isSubmitting = false;
-        navigateToList();
-      });
-
-    // 3) Also log any error$ from mandates slice so we see failures
+    // 3) Also log any error$ from agreements slice so we see failures
     this.facade.error$.pipe(takeUntil(this.destroy$)).subscribe((err) => {
       if (err) {
-        console.error('[Mandates Error] from store slice:', err);
+        console.error('[Agreements Error] from store slice:', err);
         this.isSubmitting = false;
       }
     });
     this.actions$
       .pipe(
         takeUntil(this.destroy$),
-        ofType(MandateActions.createEntitySuccess as any)
+        ofType(AgreementActions.LeasingAgreementsActions.createSuccess as any)
       )
       .subscribe(() => {
         this.isSubmitting = false;
@@ -569,7 +531,7 @@ export class AddAgreementComponent {
     this.actions$
       .pipe(
         takeUntil(this.destroy$),
-        ofType(MandateActions.createEntityFailure as any)
+        ofType(AgreementActions.LeasingAgreementsActions.createFailure as any)
       )
       .subscribe((err) => {
         console.error('[Create] failed:', err);
@@ -602,9 +564,9 @@ export class AddAgreementComponent {
       case 1:
         return this.addAgreementShowMainInformationForm;
       case 2:
-        return this.addMandateShowAssetTypeForm;
+        return this.addAgreementShowAssetTypeForm;
       case 3:
-        return this.addMandateShowFeeForm;
+        return this.addAgreementShowFeeForm;
       case 4:
         return null;
       default:
@@ -629,21 +591,34 @@ export class AddAgreementComponent {
     this.currentStep--;
   }
 
-  private patchMandate(m: Mandate) {
-    this.leasingMandateId = (m as any)?.id ?? this.leasingMandateId;
+  private patchAgreement(m: LeasingAgreement) {
+    this.leasingAgreementId = (m as any)?.id ?? this.leasingAgreementId;
 
-    // ===== BASIC (already in your code) =====
     this.addAgreementShowMainInformationForm.patchValue({
       id: m.id,
-      parentMandateId: m.parentMandateId,
       clientId: this.clientId ?? m.clientId ?? (m as any)?.clientView?.clientId,
       leasingTypeId: (m as any)?.leasingTypeId,
       insuredById: (m as any)?.insuredById,
       date: m.date ? new Date(m.date) : null,
-      validityDay: (m as any)?.validityDay ?? null,
+      endDate: m.endDate ? new Date(m.endDate) : null,
+      branchId: (m as any)?.branchId,
+      portfolioId: (m as any)?.portfolioId,
+      businessSourceId: (m as any)?.businessSourceId,
+      deliveryNumber: (m as any)?.deliveryNumber,
       notes: (m as any)?.notes,
     });
-
+    this.addAgreementShowAssetTypeForm.patchValue({
+      id: m.id,
+      assetTypeId: (m as any)?.assetTypeId,
+      assetDescription: (m as any)?.assetDescription,
+      assetDescriptionAR: (m as any)?.assetDescriptionAR,
+    });
+    this.addAgreementShowFeeForm.patchValue({
+      id: m.id,
+      feeTypeId: (m as any)?.feeTypeId,
+      actualAmount: (m as any)?.actualAmount,
+      actualPercentage: (m as any)?.actualPercentage,
+    });
     const manual = !!m.isManuaExchangeRate;
     const manualCtrl = this.leasingFinancialCurrencyForm.get(
       'manualSetExchangeRate'
@@ -664,23 +639,25 @@ export class AddAgreementComponent {
       });
     };
     resetArray(
-      this.mandateAssetTypes,
-      (m as any)?.mandateAssetTypes || [],
+      this.agreementAssetTypes,
+      (m as any)?.agreementAssetTypes || [],
       () => this.createAssetTypeGroup()
     );
-    resetArray(this.mandateFees, (m as any)?.mandateFees || [], () =>
+    resetArray(this.agreementFees, (m as any)?.agreementFees || [], () =>
       this.createFeeGroup()
     );
 
-    // ===== STEP 4: Patch from mandatePaymentSettings and mandate/leasingMandate =====
-    const settings = Array.isArray((m as any)?.mandatePaymentSettings)
-      ? (m as any).mandatePaymentSettings[0]
+    // ===== STEP 4: Patch from agreementPaymentSettings and agreement/leasingAgreement =====
+    const settings = Array.isArray((m as any)?.agreementPaymentSettings)
+      ? (m as any).agreementPaymentSettings[0]
       : null;
 
-    const leasingMandate =
-      (m as any)?.leasingMandate ?? settings?.mandate?.leasingMandate ?? null; // tolerate shapes
-    const mandateNode =
-      (m as any)?.mandate ?? leasingMandate?.mandate ?? (m as any);
+    const leasingAgreement =
+      (m as any)?.leasingAgreement ??
+      settings?.agreement?.leasingAgreement ??
+      null; // tolerate shapes
+    const agreementNode =
+      (m as any)?.agreement ?? leasingAgreement?.agreement ?? (m as any);
 
     if (settings) {
       // currency + payments selection (Step 4 → Currency group)
@@ -698,8 +675,9 @@ export class AddAgreementComponent {
           paymentMonthDayID: settings?.paymentMonthDayId ?? null,
           provisionPercent: m.provisionPercent ?? null,
           provisionAmount: m.provisionAmount ?? null,
-          // from mandate or leasingMandate nodes:
-          interestRateBenchmarkId: mandateNode?.interestRateBenchmarkId ?? null,
+          // from agreement or leasingAgreement nodes:
+          interestRateBenchmarkId:
+            agreementNode?.interestRateBenchmarkId ?? null,
           paymentTimingTermId: m.paymentTimingTermId ?? null,
           rentStructureTypeId: m.rentStructureTypeId ?? null,
           indicativeRentals: m.indicativeRentals ?? null,
@@ -738,9 +716,8 @@ export class AddAgreementComponent {
       this.leasingFinancialRateForm.patchValue(
         {
           paymentPeriodId: pid,
-          paymentPeriodMonthCount: monthCount,
           gracePeriodInDays:
-            mandateNode?.gracePeriodInDays ??
+            agreementNode?.gracePeriodInDays ??
             (m as any)?.gracePeriodInDays ??
             null,
           interestRate: m.interestRate ?? null,
@@ -759,9 +736,12 @@ export class AddAgreementComponent {
           percentOfFinance: (m as any)?.percentOfFinance ?? null,
           nfa: (m as any)?.nfa ?? null,
           years: (m as any)?.years ?? null,
-          startDate: (m as any)?.startDate
-            ? new Date((m as any)?.startDate)
+          firstBookingDate: (m as any)?.firstBookingDate
+            ? new Date((m as any)?.firstBookingDate)
             : null,
+          isRentInArrear: (m as any)?.isRentInArrear ?? null,
+          isFixedContractEnd: (m as any)?.isFixedContractEnd ?? null,
+          isFixedRent: (m as any)?.isFixedRent ?? null,
         },
         { emitEvent: false }
       );
@@ -769,7 +749,7 @@ export class AddAgreementComponent {
       // recompute any derived field (periodInterestRate) after patching
       this.calculatePeriodInterestRate();
 
-      this.patchedStep4FromMandate = true;
+      this.patchedStep4FromAgreement = true;
     }
 
     // ===== TABLE rows from API payments =====
@@ -793,14 +773,15 @@ export class AddAgreementComponent {
     }
 
     // ===== Workflow bits (unchanged) =====
-    this.workFlowActionList = (m.allowedMandateWorkFlowActions ?? []).map(
-      (a) => ({
+    this.workFlowActionList = (m.allowedAgreementWorkFlowActions ?? []).map(
+      (a: any) => ({
         id: a.id,
         label: a.name,
         icon: 'pi pi-times',
       })
     );
-    this.selectedAction = (m as any)?.mandateCurrentWorkFlowAction?.name ?? '';
+    this.selectedAction =
+      (m as any)?.agreementCurrentWorkFlowAction?.name ?? '';
   }
 
   nextStep(nextCallback: { emit: () => void }, group: FormGroup) {
@@ -825,7 +806,7 @@ export class AddAgreementComponent {
     });
   }
 
-  private normalizeMandate(raw: any): Mandate & {
+  private normalizeAgreement(raw: any): LeasingAgreement & {
     clientId: number;
   } {
     if (!this.clientId) {
@@ -845,27 +826,17 @@ export class AddAgreementComponent {
 
   handleWorkflowAction(event: { actionId: number; comment: string }): void {
     const payload = {
-      mandateId: this.mandateId,
-      mandateStatusActionId: event.actionId,
+      agreementId: this.agreementId,
+      agreementStatusActionId: event.actionId,
       comment: event.comment,
       isCurrent: true,
     };
-
-    this.facade.performWorkflowAction(event.actionId, payload);
-    this.facade.workFlowActionSuccess$.pipe(take(1)).subscribe({
-      next: () => {
-        console.log('Workflow action submitted successfully.');
-        this.refreshAllowedActions();
-      },
-      error: (err) => console.error('Workflow action failed:', err),
-    });
   }
 
   buildAgreementShowMainForm(): void {
     this.addAgreementShowMainInformationForm = this.fb.group(
       {
         id: [null],
-        parentMandateId: [null],
         clientId: [null, Validators.required],
         leasingTypeId: [null, Validators.required],
         insuredById: [null, Validators.required],
@@ -921,20 +892,27 @@ export class AddAgreementComponent {
       return null; // return null so form-level stays valid except for control error
     };
   }
-  buildMandateShowAssetTypeForm(): void {
-    this.addMandateShowAssetTypeForm = this.fb.group({
-      mandateAssetTypes: this.fb.array([this.createAssetTypeGroup()]),
+  buildAgreementShowAssetTypeForm(): void {
+    this.addAgreementShowAssetTypeForm = this.fb.group({
+      agreementAssetTypes: this.fb.array([this.createAssetTypeGroup()]),
     });
   }
-  buildMandateShowFeeForm(): void {
-    this.addMandateShowFeeForm = this.fb.group({
-      mandateFees: this.fb.array([this.createFeeGroup()]),
+  buildAgreementShowFeeForm(): void {
+    this.addAgreementShowFeeForm = this.fb.group({
+      agreementFees: this.fb.array([this.createFeeGroup()]),
     });
   }
   createAssetTypeGroup(): FormGroup {
     return this.fb.group({
       assetTypeId: ['', Validators.required],
-      assetsTypeDescription: [null, Validators.required],
+      assetDescription: [null, Validators.required],
+      assetDescriptionAR: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(/^[\u0600-\u06FF\s0-9\u0660-\u0669]+$/),
+        ],
+      ],
     });
   }
 
@@ -962,13 +940,13 @@ export class AddAgreementComponent {
     return out;
   }
 
-  createMandateOfficerGroup(): FormGroup {
+  createAgreementOfficerGroup(): FormGroup {
     return this.fb.group({
       id: [],
       officerId: [null, Validators.required],
     });
   }
-  createMandateContactPersonGroup(): FormGroup {
+  createAgreementContactPersonGroup(): FormGroup {
     return this.fb.group({
       contactPersonId: ['', Validators.required],
     });
@@ -984,19 +962,19 @@ export class AddAgreementComponent {
 
   addAssetType() {
     console.log('Adding new Asset Type group');
-    this.mandateAssetTypes?.push(this.createAssetTypeGroup());
+    this.agreementAssetTypes?.push(this.createAssetTypeGroup());
   }
 
   removeAssetType(i: number) {
     console.log('Removing Asset Type at index', i);
-    if (this.mandateAssetTypes.length > 1) {
-      this.mandateAssetTypes.removeAt(i);
+    if (this.agreementAssetTypes.length > 1) {
+      this.agreementAssetTypes.removeAt(i);
     }
   }
 
-  get mandateAssetTypes(): FormArray {
-    return this.addMandateShowAssetTypeForm.get(
-      'mandateAssetTypes'
+  get agreementAssetTypes(): FormArray {
+    return this.addAgreementShowAssetTypeForm.get(
+      'agreementAssetTypes'
     ) as FormArray;
   }
 
@@ -1008,18 +986,18 @@ export class AddAgreementComponent {
   get basicForm(): FormGroup {
     return this.parentForm?.get('basic')! as FormGroup;
   }
-  get mandateFees(): FormArray {
-    return this.addMandateShowFeeForm.get('mandateFees') as FormArray;
+  get agreementFees(): FormArray {
+    return this.addAgreementShowFeeForm.get('agreementFees') as FormArray;
   }
   addFee() {
-    console.log('Adding new mandate Fees group');
-    this.mandateFees?.push(this.createFeeGroup());
+    console.log('Adding new agreement Fees group');
+    this.agreementFees?.push(this.createFeeGroup());
   }
 
   removeFee(i: number) {
-    console.log('Removing mandate Fees at index', i);
-    if (this.mandateFees.length > 1) {
-      this.mandateFees.removeAt(i);
+    console.log('Removing agreement Fees at index', i);
+    if (this.agreementFees.length > 1) {
+      this.agreementFees.removeAt(i);
     }
   }
 
@@ -1031,8 +1009,8 @@ export class AddAgreementComponent {
       );
 
     log('Step1 basic', this.addAgreementShowMainInformationForm);
-    log('Step2 assets', this.addMandateShowAssetTypeForm);
-    log('Step3 fees', this.addMandateShowFeeForm);
+    log('Step2 assets', this.addAgreementShowAssetTypeForm);
+    log('Step3 fees', this.addAgreementShowFeeForm);
     console.log(
       'ParentForm -> touched=%s, dirty=%s, valid=%s, status=%s',
       this.parentForm.touched,
@@ -1084,10 +1062,10 @@ export class AddAgreementComponent {
 
   navigateToView() {
     if (!this.clientId) {
-      this.router.navigate(['/crm/leasing-mandates/view-mandates']);
+      this.router.navigate(['/crm/leasing-agreements/view-agreements']);
     } else {
       this.router.navigate([
-        `/crm/leasing-mandates/view-mandates/${this.clientId}`,
+        `/crm/leasing-agreements/view-agreements/${this.clientId}`,
       ]);
     }
   }
@@ -1405,8 +1383,8 @@ export class AddAgreementComponent {
   /** Build the single payload for `facade.create(...)` */
   private buildCreatePayload(): any {
     const basic = this.addAgreementShowMainInformationForm.getRawValue();
-    const assets = this.addMandateShowAssetTypeForm.getRawValue();
-    const fees = this.addMandateShowFeeForm.getRawValue();
+    const assets = this.addAgreementShowAssetTypeForm.getRawValue();
+    const fees = this.addAgreementShowFeeForm.getRawValue();
     const finBasic = this.leasingFinancialBasicForm.getRawValue();
     const finRate = this.leasingFinancialRateForm.getRawValue();
     const finCurr = this.leasingFinancialCurrencyForm.getRawValue();
@@ -1419,15 +1397,14 @@ export class AddAgreementComponent {
     const to3 = (n: any) => +parseFloat(n ?? 0).toFixed(3);
 
     const payload: any = {
-      description: basic.description ?? 'string',
       date: basic.date,
       clientId: resolvedClientId,
-      parentMandateId: basic.parentMandateId,
       leasingTypeId: idOf(basic.leasingTypeId),
-      validityDay: +basic.validityDay,
-      expireDate: basic.expireDate,
+      endDate: basic.endDate,
       notes: basic.notes,
-
+      branchId: basic.branchId,
+      portfolioId: basic.portfolioId,
+      businessSourceId: basic.businessSourceId,
       indicativeRentals: finCurr.indicativeRentals,
       insuredById: idOf(basic.insuredById),
 
@@ -1444,7 +1421,7 @@ export class AddAgreementComponent {
       paymentMonthDayId: idOf(finCurr.paymentMonthDayID),
       paymentMethodId: idOf(finCurr.paymentMethodId),
       interestRateBenchmarkId: idOf(finCurr.interestRateBenchmarkId),
-
+      deliveryNumber: basic.deliveryNumber,
       rvAmount: finCurr.rvAmount,
       rvPercent: to3(finCurr.rvPercent),
 
@@ -1463,17 +1440,21 @@ export class AddAgreementComponent {
       rentStructureTypeId: idOf(finCurr.rentStructureTypeId),
       paymentTimingTermId: idOf(finCurr.paymentTimingTermId),
 
-      startDate: finBasic.startDate,
+      firstBookingDate: finBasic.firstBookingDate,
       years: finBasic.years,
       rent: finCurr.referenceRent,
+      isRentInArrear: basic.isRentInArrear,
+      isFixedContractEnd: basic.isFixedContractEnd,
+      isFixedRent: basic.isFixedRent,
 
-      mandateAssetTypes: (assets.mandateAssetTypes ?? []).map((a: any) => ({
+      agreementAssets: (assets.agreementAssetTypes ?? []).map((a: any) => ({
         // include id if editing existing row
         id: a.id ?? undefined,
         assetTypeId: idOf(a.assetTypeId),
-        assetsTypeDescription: a.assetsTypeDescription,
+        assetDescription: a.assetDescription,
+        assetDescriptionAR: a.assetDescriptionAR,
       })),
-      mandateFees: (fees.mandateFees ?? []).map((f: any) => ({
+      agreementFees: (fees.agreementFees ?? []).map((f: any) => ({
         id: f.id ?? undefined,
         feeTypeId: idOf(f.feeTypeId),
         actualAmount: f.actualAmount,
@@ -1482,15 +1463,15 @@ export class AddAgreementComponent {
     };
 
     // === IMPORTANT: add IDs for update ===
-    const leasingMandateIdFromRoute = Number(
+    const leasingAgreementIdFromRoute = Number(
       this.route.snapshot.paramMap.get('leasingId')
     );
-    const leasingMandateId = Number.isFinite(leasingMandateIdFromRoute)
-      ? leasingMandateIdFromRoute
-      : this.leasingMandateId;
+    const leasingAgreementId = Number.isFinite(leasingAgreementIdFromRoute)
+      ? leasingAgreementIdFromRoute
+      : this.leasingAgreementId;
 
-    if (this.editMode && Number.isFinite(leasingMandateId)) {
-      payload.id = leasingMandateId; // leasing mandate id in the body
+    if (this.editMode && Number.isFinite(leasingAgreementId)) {
+      payload.id = leasingAgreementId; // leasing agreement id in the body
     }
 
     return payload;
@@ -1518,27 +1499,6 @@ export class AddAgreementComponent {
       return;
     }
 
-    // One-shot listeners for this submit
-    const success$ = merge(
-      this.actions$.pipe(ofType(MandateActions.createEntitySuccess as any)),
-      this.actions$.pipe(ofType(MandateActions.updateEntitySuccess as any)),
-      // fallback in case your slice emits a generic op success
-      this.facade.operationSuccess$.pipe(
-        filter(
-          (s: any) =>
-            !!s &&
-            s.entity === 'Mandate' &&
-            (s.operation === 'create' || s.operation === 'update')
-        )
-      )
-    ).pipe(take(1));
-
-    const failure$ = merge(
-      this.actions$.pipe(ofType(MandateActions.createEntityFailure as any)),
-      this.actions$.pipe(ofType(MandateActions.updateEntityFailure as any)),
-      this.facade.error$.pipe(filter(Boolean))
-    ).pipe(take(1));
-
     const cleanupAndGoHome = () => {
       this.isSubmitting = false;
       // let the guard through & tidy forms
@@ -1547,30 +1507,6 @@ export class AddAgreementComponent {
       this.facade.loadAll();
       this.navigateToList();
     };
-
-    // Subscribe BEFORE dispatch so we don't miss a fast response
-    const successSub = success$.subscribe({
-      next: (evt) => {
-        console.log('[Submit] Success event:', evt);
-        cleanupAndGoHome();
-      },
-      error: (e) => {
-        console.error('[Submit] success$ stream error:', e);
-        this.isSubmitting = false;
-      },
-    });
-
-    const failureSub = failure$.subscribe({
-      next: (err) => {
-        console.error('[Submit] Failure event:', err);
-        this.isSubmitting = false;
-        // optional: show a toast here
-      },
-      error: (e) => {
-        console.error('[Submit] failure$ stream error:', e);
-        this.isSubmitting = false;
-      },
-    });
 
     try {
       const payload = this.buildCreatePayload();
@@ -1584,14 +1520,11 @@ export class AddAgreementComponent {
     } catch (err) {
       console.error('[Submit] build payload failed:', err);
       this.isSubmitting = false;
-      // prevent leaks if we threw before any action could fire
-      successSub.unsubscribe();
-      failureSub.unsubscribe();
     }
   }
 
   private buildListCommands(): (string | number)[] {
-    const base = '/crm/leasing-mandates/view-mandates';
+    const base = '/crm/leasing-agreements/view-agreements';
     const id = this.clientId; // already parsed with '+', may be NaN
 
     // If clientId is missing/NaN → navigate to the generic list
@@ -1604,7 +1537,7 @@ export class AddAgreementComponent {
   }
   private navigateToList = () => {
     const cmds = this.buildListCommands();
-    const hasClient = cmds.length === 2; // ['/..../view-mandates', clientId]
+    const hasClient = cmds.length === 2; // ['/..../view-agreements', clientId]
 
     console.log('[Navigate] commands=', cmds);
 
@@ -1617,7 +1550,7 @@ export class AddAgreementComponent {
       typeof this.clientId === 'number' &&
       Number.isFinite(this.clientId)
     ) {
-      this.facade.loadByClientId(this.clientId);
+      this.facade.loadByClient(this.clientId);
     } else {
       // If your list page loads itself on init, you can remove this line entirely.
       this.facade.loadAll();
@@ -1637,7 +1570,10 @@ export class AddAgreementComponent {
       percentOfFinance: [null, Validators.required],
       nfa: [null, Validators.required],
       years: [null, Validators.required],
-      startDate: [null, Validators.required],
+      firstBookingDate: [null, Validators.required],
+      isRentInArrear: [true, Validators.required],
+      isFixedContractEnd: [true, Validators.required],
+      isFixedRent: [true, Validators.required],
     });
   }
   private initializeLeasingFinancialRatesForm() {
@@ -1753,24 +1689,7 @@ export class AddAgreementComponent {
       manualSetExchangeRateControl.disable({ emitEvent: false });
     }
   }
-  // onCheckboxChange(event: { originalEvent: Event; checked: boolean }) {
-  //   const manualSetExchangeRateControl =
-  //     this.leasingFinancialCurrencyForm.get('manualSetExchangeRate')!;
 
-  //   // Enable the control whenever the checkbox is toggled on
-  //   if (event?.checked) {
-  //     console.log(
-  //       'Manual checkbox check detected. Enabling manualSetExchangeRate control.'
-  //     );
-  //     manualSetExchangeRateControl.enable({ emitEvent: false });
-  //   } else {
-  //     console.log(
-  //       'Manual checkbox uncheck detected. Resetting and disabling manualSetExchangeRate control.'
-  //     );
-  //     manualSetExchangeRateControl.reset(0, { emitEvent: false });
-  //     manualSetExchangeRateControl.disable({ emitEvent: false });
-  //   }
-  // }
   onPaymentPeriodSelected(event: PaymentPeriod) {
     console.log('PaymentPeriod selected:', event);
     const monthCount = event?.monthCount || 0;
@@ -1915,7 +1834,7 @@ export class AddAgreementComponent {
       gracePeriodInDays: +r.gracePeriodInDays,
 
       paymentTimingTermId: +c.paymentTimingTermId,
-      startDate: toISO(b.startDate), // ✅ send ISO string
+      firstBookingDate: b.firstBookingDate,
       rent: +c.referenceRent, // ✅ map referenceRent → rent
     };
 
@@ -2025,8 +1944,8 @@ export class AddAgreementComponent {
       this.leasingFinancialCurrencyForm.dirty ||
       this.leasingFinancialRateForm.dirty ||
       this.addAgreementShowMainInformationForm.dirty ||
-      this.addMandateShowAssetTypeForm.dirty ||
-      this.addMandateShowFeeForm.dirty;
+      this.addAgreementShowAssetTypeForm.dirty ||
+      this.addAgreementShowFeeForm.dirty;
 
     console.log(
       '[Guard] canDeactivate? allowLeaveAfterSave=',
@@ -2042,8 +1961,8 @@ export class AddAgreementComponent {
     return !dirty;
   }
 
-  private setWorkFlowActions(mandate?: Mandate | null): void {
-    const list = [...(mandate?.allowedMandateWorkFlowActions ?? [])];
+  private setWorkFlowActions(agreement?: LeasingAgreement | null): void {
+    const list = [...(agreement?.allowedAgreementWorkFlowActions ?? [])];
     this.workFlowActionList = list.map((a) => ({
       id: a.id,
       label: a.name,
@@ -2051,15 +1970,15 @@ export class AddAgreementComponent {
     }));
   }
   refreshAllowedActions(): void {
-    const id = this.leasingMandateId ?? this.routeId;
+    const id = this.leasingAgreementId ?? this.routeId;
     if (!id) {
-      console.warn('refreshAllowedActions: no mandate id available');
+      console.warn('refreshAllowedActions: no agreement id available');
       return;
     }
 
     this.facade.loadById(id);
     this.facade.selected$.pipe(take(1)).subscribe({
-      next: (mandate) => this.setWorkFlowActions(mandate),
+      next: (agreement) => this.setWorkFlowActions(agreement),
       error: (err) => console.error('Failed to refresh actions:', err),
     });
   } // helper: mark all forms pristine (call after successful save)
@@ -2081,8 +2000,8 @@ export class AddAgreementComponent {
     mark(this.leasingFinancialCurrencyForm);
     mark(this.leasingFinancialRateForm);
     mark(this.addAgreementShowMainInformationForm);
-    mark(this.addMandateShowAssetTypeForm);
-    mark(this.addMandateShowFeeForm);
+    mark(this.addAgreementShowAssetTypeForm);
+    mark(this.addAgreementShowFeeForm);
     // parent as well
     if (this.parentForm) mark(this.parentForm);
   }

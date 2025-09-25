@@ -42,7 +42,7 @@ export class ViewAgreementsComponent {
     this.agreements$ = this.facade.all$;
 
     this.agreements$.pipe(takeUntil(this.destroy$)).subscribe((agreements) => {
-      const sorted = agreements.sort((a, b) => b.id - a.id);
+      const sorted = agreements.sort((a, b) => b.id! - a.id!);
       console.log('🟢 sorted agreements:', sorted);
       this.originalAgreements = sorted;
       this.filteredAgreements = [...sorted];

@@ -45,8 +45,8 @@
   <!-- STEP 2: Agreement Assets -->
   <div [hidden]="currentStep !== 2">
     <app-agreement-assets-form
-      [title]="'AGREEMENT.AGREEMENT_ASSETS.TITLE'"
-      [description]="'AGREEMENT.AGREEMENT_ASSETS.DESCRIPTION'"
+      [title]="'AGREEMENT.AGREEMENT_ASSETS_TITLE'"
+      [description]="'AGREEMENT.AGREEMENT_ASSETS_DESCRIPTION'"
       [addAgreementShowAssetsForm]="true"
       [formGroup]="assetsForm"
       [editMode]="editMode"
@@ -59,17 +59,17 @@
 
   <!-- STEP 3: Fees -->
   <div [hidden]="currentStep !== 3">
-    <app-form
-      [title]="'FORM.MANDATE.FEES'"
-      [description]="'FORM.MANDATE.FEES_DESCRIPTION'"
-      [addMandateShowFeeForm]="true"
-      [formGroup]="addMandateShowFeeForm"
+    <app-agreement-fee-form
+      [title]="'FORM.AGREEMENT.FEES'"
+      [description]="'FORM.AGREEMENT.FEES_DESCRIPTION'"
+      [addAgreementShowFeeForm]="true"
+      [formGroup]="addAgreementShowFeeForm"
       [feeTypes]="feeTypes$ | async"
       [editMode]="editMode"
       [viewOnly]="viewOnly"
       (removeFee)="removeFee($event)"
       (addFee)="addFee()"
-    ></app-form>
+    ></app-agreement-fee-form>
   </div>
 
   <!-- STEP 4: Financial Activities  -->
@@ -82,13 +82,13 @@
     <div class="row parent">
       <div class="col-sm">
         <div class="first-form">
-          <app-form
+          <app-leasing-financial-basic-form
             [title]="'LEASING_FINANCIAL.BASIC.TITLE'"
             [description]="'LEASING_FINANCIAL.BASIC.DESCRIPTION'"
             [leasingFinancialBasicForm]="true"
             [formGroup]="leasingFinancialBasicForm"
             [financialCustom]="true"
-          ></app-form>
+          ></app-leasing-financial-basic-form>
         </div>
         <div class="second-form">
           <app-form
@@ -225,8 +225,8 @@
       class="btn btn-success"
       [disabled]="
         addAgreementShowMainInformationForm.invalid ||
-        addMandateShowAssetTypeForm.invalid ||
-        addMandateShowFeeForm.invalid ||
+        addAgreementShowAssetTypeForm.invalid ||
+        addAgreementShowFeeForm.invalid ||
         leasingFinancialBasicForm.invalid ||
         leasingFinancialRateForm.invalid ||
         leasingFinancialCurrencyForm.invalid ||
@@ -235,7 +235,7 @@
       "
       *ngIf="currentStep === totalSteps && !viewOnly"
     >
-      {{ editMode ? "Edit Mandate" : "Add Mandate" }}
+      {{ editMode ? "Edit Agreement" : "Add Agreement" }}
     </button>
 
     <!-- Close (only on last step, view-only) -->

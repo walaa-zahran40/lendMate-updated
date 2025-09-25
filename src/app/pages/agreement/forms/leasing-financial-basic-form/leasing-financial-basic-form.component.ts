@@ -58,12 +58,12 @@ type PreviewItem = {
 };
 
 @Component({
-  selector: 'app-agreement-assets-form',
+  selector: 'app-leasing-financial-basic-form',
   standalone: false,
-  templateUrl: './agreement-assets-form.component.html',
-  styleUrl: './agreement-assets-form.component.scss',
+  templateUrl: './leasing-financial-basic-form.component.html',
+  styleUrl: './leasing-financial-basic-form.component.scss',
 })
-export class AgreementAssetsFormComponent implements OnInit, OnDestroy {
+export class LeasingFinancialBasicFormComponent implements OnInit, OnDestroy {
   @Input() formGroup: FormGroup = new FormGroup({});
   @Input() viewOnly = false;
   companyLegalDetail: CompanyLegalDetails = {};
@@ -79,14 +79,14 @@ export class AgreementAssetsFormComponent implements OnInit, OnDestroy {
   @Output() onCheckboxChange = new EventEmitter<any>();
   selectedPaymentPeriod: any;
   selectedGracePeriodUnit: any;
-  @Input() addAgreementShowAssetsForm!: boolean;
+  @Input() addAgreementShowFeeForm!: boolean;
   @Input() phoneTypeOptions!: any;
   @Input() identityTypeOptions!: IdentificationType[];
   @Output() addPhoneType = new EventEmitter<void>();
   @Output() removePhoneType = new EventEmitter<number>();
   @Output() addCommunicationOfficer = new EventEmitter<void>();
   @Output() removeCommunicationOfficer = new EventEmitter<number>();
-  @Input() addAgreementContactPersonForm!: boolean;
+  @Input() addMandateContactPersonForm!: boolean;
   @Output() addCommunicationAssetType = new EventEmitter<void>();
   @Output() removeCommunicationAssetType = new EventEmitter<number>();
 
@@ -149,9 +149,6 @@ export class AgreementAssetsFormComponent implements OnInit, OnDestroy {
   @Input() authorizationGroups: any;
   @Input() areasList: any;
   @Input() currencies: any;
-  @Input() branches: any;
-  @Input() portfolios: any;
-  @Input() businessSources: any;
   @Input() currencyExchangeRates: any;
   @Input() manualExchangeRates: any;
   @Input() selectedSectorId: number | null = null;
@@ -174,7 +171,7 @@ export class AgreementAssetsFormComponent implements OnInit, OnDestroy {
   selectedLegalForm: any;
   @Output() sectorChanged = new EventEmitter<number>();
   selectedCurrency: Currency | null = null;
-  @Input() addAgreementShowFinancialActivityForm!: boolean;
+  @Input() addMandateShowFinancialActivityForm!: boolean;
   sectorsSafe$!: Observable<Sector[]>;
   onChange: (value: any) => void = () => {};
   onTouched: () => void = () => {};
@@ -351,7 +348,7 @@ export class AgreementAssetsFormComponent implements OnInit, OnDestroy {
   @Input() callTypes!: any;
   @Input() gracePeriodUnitsList!: any;
   selectedClientNames!: any;
-  selectedAgreementValidityUnit!: any;
+  selectedMandateValidityUnit!: any;
   selectedProducts!: any;
   exchangeRateCurrencies!: any;
   selectedExchangeRateCurrencies!: any;
@@ -359,12 +356,12 @@ export class AgreementAssetsFormComponent implements OnInit, OnDestroy {
   selectedLeasingTypes!: any;
   actions!: any;
   selectedActions!: any;
-  officerTypesAgreements!: any;
-  selectedOfficerTypesAgreement!: any;
-  selectedAssestTypesAgreement!: any;
-  assestTypesAgreements!: any;
-  selectedContactPersonTypesAgreement!: any;
-  contactPersonTypesAgreements!: any;
+  officerTypesMandates!: any;
+  selectedOfficerTypesMandate!: any;
+  selectedAssestTypesMandate!: any;
+  assestTypesMandates!: any;
+  selectedContactPersonTypesMandate!: any;
+  contactPersonTypesMandates!: any;
   selectedGracePeriodUnits!: any;
   selectedPaymentPeriods!: any;
   currencyExchangeRate!: any;
@@ -501,24 +498,24 @@ export class AgreementAssetsFormComponent implements OnInit, OnDestroy {
   @Input() addClientCompanyViewShowBusiness!: boolean;
   @Input() contactPersonDetailsView!: boolean;
   @Input() contactPersonDetailsViewShowForm!: boolean;
-  //Leasing Agreements
-  @Input() addAgreementShowMoreInformationForm!: boolean;
-  @Input() addAgreementShowAssetTypeForm!: boolean;
-  @Input() addAgreementShowContactPersonsForm!: boolean;
-  @Input() addAgreementShowOfficersForm!: boolean;
-  @Input() addAgreementShowMainInformationForm!: boolean;
-  //Child Leasing Agreements
-  @Input() addChildAgreementShowBasicForm!: boolean;
-  @Input() addChildAgreementShowContactPersonsForm!: boolean;
-  @Input() addChildAgreementShowOfficersForm!: boolean;
-  @Input() addChildAgreementShowMoreInformationForm!: boolean;
-  @Input() addChildAgreementShowAssetTypeForm!: boolean;
+  //Leasing Mandates
+  @Input() addMandateShowMoreInformationForm!: boolean;
+  @Input() addMandateShowAssetTypeForm!: boolean;
+  @Input() addMandateShowContactPersonsForm!: boolean;
+  @Input() addMandateShowOfficersForm!: boolean;
+  @Input() addMandateShowBasicForm!: boolean;
+  //Child Leasing Mandates
+  @Input() addChildMandateShowBasicForm!: boolean;
+  @Input() addChildMandateShowContactPersonsForm!: boolean;
+  @Input() addChildMandateShowOfficersForm!: boolean;
+  @Input() addChildMandateShowMoreInformationForm!: boolean;
+  @Input() addChildMandateShowAssetTypeForm!: boolean;
   //----
   @Input() addConditionsLookupsForm!: boolean;
   @Input() addCallActionTypeForm!: boolean;
-  @Input() addAgreementAdditionalTermForm!: boolean;
+  @Input() addMandateAdditionalTermForm!: boolean;
   @Input() addConditionExpressionsLookupsForm!: boolean;
-  @Input() addManageAgreementTermsForm!: boolean;
+  @Input() addManageMandateTermsForm!: boolean;
   @Input() leasingFinancialCurrencyForm!: boolean;
   @Input() leasingFinancialRateForm!: boolean;
   @Input() leasingFinancialBasicForm!: boolean;
@@ -530,7 +527,7 @@ export class AgreementAssetsFormComponent implements OnInit, OnDestroy {
   @Input() addMeetingShowOfficersForm!: boolean;
   @Input() addMeetingShowBasicForm!: boolean;
   @Input() addCallShowBusinessInformationForm!: boolean;
-  @Input() addAgreementFeeForm!: boolean;
+  @Input() addMandateFeeForm!: boolean;
   @Input() addCallShowContactPersonsForm!: boolean;
   @Input() addCallShowOfficersForm!: boolean;
   @Input() addCallShowBasicForm!: boolean;
@@ -544,19 +541,19 @@ export class AgreementAssetsFormComponent implements OnInit, OnDestroy {
   @Input() addDepartmentManagerORGForm!: boolean;
   @Input() addTeamORGForm!: boolean;
   @Input() addTeamLeadORGForm!: boolean;
-  @Input() addAgreementShowFeeForm!: boolean;
+  @Input() addMandateShowFeeForm!: boolean;
   @Input() addRoleClaimORGForm!: boolean;
   @Input() addCommunicationFlowTypesLookupsForm!: boolean;
   @Input() addTeamOfficerORGForm!: boolean;
   @Input() addRoleORGForm!: boolean;
-  @Input() addAgreementOfficerForm!: boolean;
+  @Input() addMandateOfficerForm!: boolean;
   @Input() addOperationsORGForm!: boolean;
   @Input() addPageOperationORGForm!: boolean;
   @Input() addOfficerORGForm!: boolean;
   @Input() addSignatoryOfficerORGForm!: boolean;
   @Input() addFeeCalculationTypesLookupsForm!: boolean;
-  @Input() addAgreementStatusesLookupsForm!: boolean;
-  @Input() addAgreementStatusActionsLookupsForm!: boolean;
+  @Input() addMandateStatusesLookupsForm!: boolean;
+  @Input() addMandateStatusActionsLookupsForm!: boolean;
   @Input() addInterestRateBenchmarksLookupsForm!: boolean;
   @Input() addFeesTypesLookupsForm!: boolean;
   @Input() addGracePeriodUnitsLookupsForm!: boolean;
@@ -578,7 +575,7 @@ export class AgreementAssetsFormComponent implements OnInit, OnDestroy {
   communicationIdParam: any;
   followupIdParam: any;
   clientStatusActionIdParam: any;
-  agreementStatusActionIdParam: any;
+  mandateStatusActionIdParam: any;
   @Input() addPaymentTypesLookupsForm!: boolean;
   @Input() addPaymentTimingTermsLookupsForm!: boolean;
   @Input() addPaymentPeriodsLookupsForm!: boolean;
@@ -586,7 +583,7 @@ export class AgreementAssetsFormComponent implements OnInit, OnDestroy {
   @Input() addMeetingTypesLookupsForm!: boolean;
   @Input() addInsuredByLookupsForm!: boolean;
   @Input() addLeasingTypesLookupsForm!: boolean;
-  @Input() addAgreementValidityUnitLookupsForm!: boolean;
+  @Input() addMandateValidityUnitLookupsForm!: boolean;
   @Input() addClientDocumentTypesLookupsForm!: boolean;
   @Input() addBranchLookupsForm!: boolean;
   @Input() addBranchManagersLookupsForm!: boolean;
@@ -633,15 +630,15 @@ export class AgreementAssetsFormComponent implements OnInit, OnDestroy {
   @Input() addClientOfficerShowMain!: boolean;
   @Input() addClientLegalShowMain!: boolean;
   @Input() addDepartmentsForm!: boolean;
-  @Input() addAgreementActionAuthorizationGroupForm!: boolean;
-  @Input() addAgreementActionNotificationGroupForm!: boolean;
+  @Input() addMandateActionAuthorizationGroupForm!: boolean;
+  @Input() addMandateActionNotificationGroupForm!: boolean;
 
   @Input() currentClientId?: number;
 
   filteredSubSectors$!: Observable<SubSector[]>;
   @Input() operationName!: string;
   clientStatusIdParam!: any;
-  agreementStatusIdParam!: any;
+  mandateStatusIdParam!: any;
   legalFormLaws$: Observable<any[]> = this.facade.legalFormLaws$;
   legalForms$ = this.facadeLegalForms.items$;
 
@@ -666,7 +663,7 @@ export class AgreementAssetsFormComponent implements OnInit, OnDestroy {
   @Input() operationsList$!: any;
   @Input() addClientGuarantorsLookupsForm!: boolean;
   routeId = this.route.snapshot.params['leasingId'];
-  leasingRouteId = this.route.snapshot.params['leasingAgreementsId'];
+  leasingRouteId = this.route.snapshot.params['leasingMandatesId'];
   communicationId = this.route.snapshot.params['communicationId'];
   previews: PreviewItem[] = [];
   @Input() operationIdValue!: any;
@@ -719,9 +716,9 @@ export class AgreementAssetsFormComponent implements OnInit, OnDestroy {
     this.clientStatusActionIdParam =
       this.route.snapshot.queryParams['clientStatusActionId'];
     this.clientStatusIdParam = this.route.snapshot.params['id'];
-    this.agreementStatusIdParam = this.route.snapshot.params['id'];
-    this.agreementStatusActionIdParam =
-      this.route.snapshot.queryParams['agreementStatusActionId'];
+    this.mandateStatusIdParam = this.route.snapshot.params['id'];
+    this.mandateStatusActionIdParam =
+      this.route.snapshot.queryParams['mandateStatusActionId'];
     this.sub = this.formGroup?.valueChanges
       .pipe(debounceTime(300))
       .subscribe(() => {
@@ -774,20 +771,23 @@ export class AgreementAssetsFormComponent implements OnInit, OnDestroy {
   get identities(): FormArray {
     return this.formGroup.get('identities') as FormArray;
   }
-  get agreementOfficers(): FormArray {
-    return this.formGroup.get('agreementOfficers') as FormArray;
+  viewAgreementDetails() {
+    this.router.navigate(['/agreement/view-agreements']);
   }
-  get agreementContactPersons(): FormArray {
-    return this.formGroup.get('agreementContactPersons') as FormArray;
+  get mandateOfficers(): FormArray {
+    return this.formGroup.get('mandateOfficers') as FormArray;
   }
-  get agreementAssetTypes(): FormArray {
-    return this.formGroup.get('agreementAssetTypes') as FormArray;
+  get mandateContactPersons(): FormArray {
+    return this.formGroup.get('mandateContactPersons') as FormArray;
   }
-  get agreementFees(): FormArray {
-    return this.formGroup.get('agreementFees') as FormArray;
+  get mandateAssetTypes(): FormArray {
+    return this.formGroup.get('mandateAssetTypes') as FormArray;
   }
-  get agreementGracePeriodSettingView(): FormGroup {
-    return this.formGroup.get('agreementGracePeriodSettingView') as FormGroup;
+  get mandateFees(): FormArray {
+    return this.formGroup.get('mandateFees') as FormArray;
+  }
+  get mandateGracePeriodSettingView(): FormGroup {
+    return this.formGroup.get('mandateGracePeriodSettingView') as FormGroup;
   }
   onDownloadClick() {
     this.downloadFile.emit(); // ✅ this is correct
@@ -855,9 +855,9 @@ export class AgreementAssetsFormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/crm/clients/view-address']);
   }
 
-  viewAgreementFees() {
+  viewMandateFees() {
     this.router.navigate([
-      `/crm/leasing-agreements/view-agreement-fees/${this.routeId}/${this.leasingRouteId}`,
+      `/crm/leasing-mandates/view-mandate-fees/${this.routeId}/${this.leasingRouteId}`,
     ]);
   }
   viewCentralBankInfo() {
@@ -912,9 +912,9 @@ export class AgreementAssetsFormComponent implements OnInit, OnDestroy {
     this.router.navigate([`/communication/view-meetings`]);
   }
 
-  viewAgreementAdditionalTerms() {
+  viewMandateAdditionalTerms() {
     this.router.navigate([
-      `/crm/leasing-agreements/view-agreement-additional-terms/${this.routeId}/${this.leasingRouteId}`,
+      `/crm/leasing-mandates/view-mandate-additional-terms/${this.routeId}/${this.leasingRouteId}`,
     ]);
   }
 
@@ -963,8 +963,8 @@ export class AgreementAssetsFormComponent implements OnInit, OnDestroy {
   viewClientDocument() {
     this.router.navigate(['/lookups/view-client-document-types']);
   }
-  viewAgreementValidity() {
-    this.router.navigate(['/lookups/view-agreement-validity-unit']);
+  viewMandateValidity() {
+    this.router.navigate(['/lookups/view-mandate-validity-unit']);
   }
   viewLeasingType() {
     this.router.navigate(['/lookups/view-leasing-types']);
@@ -1009,8 +1009,8 @@ export class AgreementAssetsFormComponent implements OnInit, OnDestroy {
   viewInterestRate() {
     this.router.navigate(['/lookups/view-interest-rate-benchmarks']);
   }
-  viewAgreementStatuses() {
-    this.router.navigate(['/lookups/view-agreement-statuses']);
+  viewMandateStatuses() {
+    this.router.navigate(['/lookups/view-mandate-statuses']);
   }
   viewFeesCalculationType() {
     this.router.navigate(['/lookups/view-fee-calculation-types']);
@@ -1169,8 +1169,8 @@ export class AgreementAssetsFormComponent implements OnInit, OnDestroy {
   viewClientStatusActions() {
     this.router.navigate(['/lookups/view-client-status-actions']);
   }
-  viewAgreementStatusActions() {
-    this.router.navigate(['/lookups/view-agreement-status-actions']);
+  viewMandateStatusActions() {
+    this.router.navigate(['/lookups/view-mandate-status-actions']);
   }
   viewActionAuthorizationGroup() {
     this.router.navigate([
@@ -1182,14 +1182,14 @@ export class AgreementAssetsFormComponent implements OnInit, OnDestroy {
       `/lookups/view-action-notificationGroups/${this.clientStatusActionIdParam}`,
     ]);
   }
-  viewAgreementActionAuthorizationGroup() {
+  viewMandateActionAuthorizationGroup() {
     this.router.navigate([
-      `/lookups/view-agreement-action-authorizationGroups/${this.agreementStatusActionIdParam}`,
+      `/lookups/view-mandate-action-authorizationGroups/${this.mandateStatusActionIdParam}`,
     ]);
   }
-  viewAgreementActionNotificationGroup() {
+  viewMandateActionNotificationGroup() {
     this.router.navigate([
-      `/lookups/view-agreement-action-notificationGroups/${this.agreementStatusActionIdParam}`,
+      `/lookups/view-mandate-action-notificationGroups/${this.mandateStatusActionIdParam}`,
     ]);
   }
   viewSMEClientCode() {
@@ -1296,9 +1296,6 @@ export class AgreementAssetsFormComponent implements OnInit, OnDestroy {
   }
   viewCallActionType() {
     this.router.navigate(['/lookups/view-call-action-types']);
-  }
-  viewAgreementDetails() {
-    this.router.navigate(['/agreement/view-agreements']);
   }
   viewClientOfficerType() {
     this.router.navigate(['/lookups/view-client-officer-types']);

@@ -7,6 +7,7 @@ export interface PaymentsRequest {
   interestRate: number;
   insuranceRate: number;
   tenor: number;
+  firstBookingDate?: Date;
   paymentPeriodId: number;
   rvAmount: number;
   rvPercent: number;
@@ -15,7 +16,7 @@ export interface PaymentsRequest {
   reservePaymentAmount: number;
   gracePeriodInDays: number;
   paymentTimingTermId: number;
-  startDate: string; // ISO
+  startDate?: string; // ISO
   rent: number;
 }
 export interface PaymentRow {

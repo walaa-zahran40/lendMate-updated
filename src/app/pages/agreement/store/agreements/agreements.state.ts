@@ -11,7 +11,7 @@ export interface LeasingAgreementsState extends EntityState<LeasingAgreement> {
 }
 
 export const agreementsAdapter = createEntityAdapter<LeasingAgreement>({
-  selectId: (a) => a.id,
+  selectId: (a) => (a.id != null ? a.id.toString() : ''),
   sortComparer: (a, b) => (b.createdAt ?? '').localeCompare(a.createdAt ?? ''),
 });
 
