@@ -1,1 +1,48 @@
-<p>view-agreement-contact-persons works!</p>
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/MandateAdditionalTerms/Post'"
+    [title]="'Agreement Contact Persons'"
+    [labelBtn]="'Add Agreement Contact Person'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddAgreementContactPerson()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="agreementContactPersons$ | async">
+    <app-table
+      [viewPermission]="[
+        '/MandateAdditionalTerms/Get',
+        '/MandateAdditionalTerms/GetAll',
+        '/MandateAdditionalTerms/GetAllHistory'
+      ]"
+      [editPermission]="'/MandateAdditionalTerms/Put'"
+      [deletePermission]="'/MandateAdditionalTerms/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredAgreementContactPersons"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewAgreementContactPersonsTable]="true"
+      (onDelete)="onDeleteAgreementContactPerson($event)"
+      (onEdit)="onEditAgreementContactPerson($event)"
+      (viewForm)="onViewAgreementContactPerson($event)"
+    ></app-table>
+
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

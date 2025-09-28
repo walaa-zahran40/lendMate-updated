@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, Observable, takeUntil, forkJoin } from 'rxjs';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { LeasingAgreement } from '../../../store/agreements/agreement.model';
@@ -17,6 +17,7 @@ export class ViewAgreementsComponent {
   rows = 10;
   showFilters = false;
   private destroy$ = new Subject<void>();
+  clientId = this.route.snapshot.params['clientId'];
 
   @ViewChild('tableRef') tableRef!: TableComponent;
 
@@ -30,7 +31,8 @@ export class ViewAgreementsComponent {
 
   constructor(
     private router: Router,
-    private facade: LeasingAgreementsFacade
+    private facade: LeasingAgreementsFacade,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -45,12 +47,42 @@ export class ViewAgreementsComponent {
       this.filteredAgreements = [...sorted];
     });
   }
+  private getClientIdFrom(m?: LeasingAgreement | null): number | null {
+    return this.clientId ?? m?.clientId ?? null;
+  }
+  // private setupContactPersonsDropdown(): void {
+  //   const mandate = this.selectedRowForDownload!;
+  //   const realClientId = this.getClientIdFrom(mandate);
+  //   if (!realClientId) {
+  //     this.contactPersonsDropdown = [];
+  //     return;
+  //   }
+
+  //   this.store.dispatch(
+  //     loadClientContactPersonsByClientId({ clientId: realClientId })
+  //   );
+  //   this.facadeContact.items$
+  //     .pipe(
+  //       filter((list) => list.length > 0),
+  //       take(1)
+  //     )
+  //     .subscribe((all) => {
+  //       const saved = mandate.mandateContactPersons ?? [];
+  //       this.contactPersonsDropdown = all.filter((cp) =>
+  //         saved.some((sel) => sel.contactPersonId === cp.id)
+  //       );
+  //     });
+  // }
 
   onAddAgreement() {
     this.router.navigate(['/agreement/add-agreement']);
   }
-  onAddSide(agreementId: any) {
-    this.router.navigate(['/agreement/wizard-agreement', agreementId]);
+  onAddSide(leasingAgreementsId: any) {
+    const realClientId = this.clientId ?? null; // from route if present
+    const cmds = realClientId
+      ? ['/agreement/wizard-agreement', leasingAgreementsId, realClientId]
+      : ['/agreement/wizard-agreement', leasingAgreementsId];
+    this.router.navigate(cmds);
   }
 
   ngOnDestroy() {
@@ -97,9 +129,12 @@ export class ViewAgreementsComponent {
   }
 
   onViewAgreement(agreement: LeasingAgreement) {
-    this.router.navigate(['/agreement/view-agreement', agreement.id], {
-      queryParams: { mode: 'view' },
-    });
+    this.router.navigate(
+      ['/agreement/agreement-contact-persons/view', agreement.id],
+      {
+        queryParams: { mode: 'view' },
+      }
+    );
   }
   selectedIds: number[] = [];
   confirmDelete() {

@@ -12,8 +12,9 @@ import { LeasingAgreementsFacade } from '../../../../store/agreements/agreements
 export class WizardAgreementComponent implements OnInit {
   cards: any[][] = [];
   originalCards: any[] = [];
+  private businessAgreementId!: number;
 
-  routeId = this.route.snapshot.params['agreementId'];
+  routeId = this.route.snapshot.params['leasingAgreementsId'];
   clientId = this.route.snapshot.params['clientId'];
 
   constructor(
@@ -25,53 +26,56 @@ export class WizardAgreementComponent implements OnInit {
   ngOnInit(): void {
     console.log('this.route', this.route.snapshot);
     // 1️⃣ pull the raw DB PK out of the URL
-    const id = +this.route.snapshot.paramMap.get('id')!;
+    const leasingAgreementsId = +this.route.snapshot.paramMap.get(
+      'leasingAgreementsId'
+    )!;
 
     // 2️⃣ tell your facade to load the full agreement (calling LeasingAgreementId under the hood)
-    this.facade.loadById(id);
+    this.facade.loadById(leasingAgreementsId);
 
     // 3️⃣ wait for it, grab the business agreementId, then build cards
     this.facade.selected$
       .pipe(
-        filter((m) => !!m && m.id === id), // make sure it’s the one we asked for
-        take(1)
+        filter((m) => !!m && m.id === leasingAgreementsId), // make sure it’s the one we asked for
+        take(1),
+        tap((m) => (this.businessAgreementId = m?.agreementId!)) // ← this is the one you need
       )
       .subscribe(() => this.buildCards());
   }
 
   private buildCards() {
-    const id = this.route.snapshot.paramMap.get('id');
+    const id = this.businessAgreementId;
     this.originalCards = [
       // {
       //   imgUrl: '/assets/images/shared/card/clone.svg',
       //   imgAlt: 'clone',
-      //   title: 'MANDATE.CLONE',
-      //   content: 'MANDATE.CLONE_DESC',
+      //   title: 'AGREEMENT.CLONE',
+      //   content: 'AGREEMENT.CLONE_DESC',
       //   link: !this.clientId
-      //     ? `/crm/leasing-mandates/add-child-mandate/${id}/${this.routeId}`
-      //     : `/crm/leasing-mandates/add-child-mandate/${id}/${this.routeId}/${this.clientId}`,
+      //     ? `/crm/leasing-agreements/add-child-agreement/${id}/${this.routeId}`
+      //     : `/crm/leasing-agreements/add-child-agreement/${id}/${this.routeId}/${this.clientId}`,
       // },
       // {
-      //   imgUrl: '/assets/images/shared/card/mandate-manage.svg',
-      //   imgAlt: 'mandate',
-      //   title: 'MANDATE.ADDITIONAL_TERMS',
-      //   content: 'MANDATE.ADDITIONAL_TERMS_DESC',
+      //   imgUrl: '/assets/images/shared/card/agreement-manage.svg',
+      //   imgAlt: 'agreement',
+      //   title: 'AGREEMENT.ADDITIONAL_TERMS',
+      //   content: 'AGREEMENT.ADDITIONAL_TERMS_DESC',
       //   link: !this.clientId
-      //     ? `/crm/leasing-mandates/view-mandate-additional-terms/${id}/${this.routeId}`
-      //     : `/crm/leasing-mandates/view-mandate-additional-terms/${id}/${this.routeId}/${this.clientId}`,
+      //     ? `/crm/leasing-agreements/view-agreement-additional-terms/${id}/${this.routeId}`
+      //     : `/crm/leasing-agreements/view-agreement-additional-terms/${id}/${this.routeId}/${this.clientId}`,
       // },
       // {
-      //   imgUrl: '/assets/images/shared/card/mandate-manage.svg',
-      //   imgAlt: 'mandate',
-      //   title: 'MANDATE.MANDATE_OFFICERS',
-      //   content: 'MANDATE.MANDATE_OFFICERS_DESC',
+      //   imgUrl: '/assets/images/shared/card/agreement-manage.svg',
+      //   imgAlt: 'agreement',
+      //   title: 'AGREEMENT.AGREEMENT_OFFICERS',
+      //   content: 'AGREEMENT.AGREEMENT_OFFICERS_DESC',
       //   link: !this.clientId
-      //     ? `/crm/leasing-mandates/view-mandate-officers/${id}/${this.routeId}`
-      //     : `/crm/leasing-mandates/view-mandate-officers/${id}/${this.routeId}/${this.clientId}`,
+      //     ? `/crm/leasing-agreements/view-agreement-officers/${id}/${this.routeId}`
+      //     : `/crm/leasing-agreements/view-agreement-officers/${id}/${this.routeId}/${this.clientId}`,
       // },
       {
         imgUrl: '/assets/images/shared/card/mandate-manage.svg',
-        imgAlt: 'mandate',
+        imgAlt: 'agreement',
         title: 'AGREEMENT.AGREEMENT_CONTACT_PERSONS',
         content: 'AGREEMENT.AGREEMENT_CONTACT_PERSONS_DESC',
         link: !this.clientId
@@ -79,13 +83,13 @@ export class WizardAgreementComponent implements OnInit {
           : `/agreement/view-agreement-contact-persons/${id}/${this.clientId}`,
       },
       // {
-      //   imgUrl: '/assets/images/shared/card/mandate-manage.svg',
-      //   imgAlt: 'mandate',
-      //   title: 'MANDATE.WORKFLOW_HISTORY',
-      //   content: 'MANDATE.WORKFLOW_HISTORY_DESC',
+      //   imgUrl: '/assets/images/shared/card/agreement-manage.svg',
+      //   imgAlt: 'agreement',
+      //   title: 'AGREEMENT.WORKFLOW_HISTORY',
+      //   content: 'AGREEMENT.WORKFLOW_HISTORY_DESC',
       //   link: !this.clientId
-      //     ? `/crm/leasing-mandates/view-mandate-workflow-history/${id}/${this.routeId}`
-      //     : `/crm/leasing-mandates/view-mandate-workflow-history/${id}/${this.routeId}/${this.clientId}`,
+      //     ? `/crm/leasing-agreements/view-agreement-workflow-history/${id}/${this.routeId}`
+      //     : `/crm/leasing-agreements/view-agreement-workflow-history/${id}/${this.routeId}/${this.clientId}`,
       // },
     ];
 

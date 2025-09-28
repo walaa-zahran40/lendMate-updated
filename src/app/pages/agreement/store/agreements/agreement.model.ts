@@ -69,6 +69,7 @@ export interface LeasingAgreement extends CreateLeasingAgreementRequest {
   isManuaExchangeRate: any;
   indicativeRentals: any;
   fixedInterestRate: any;
+  agreementId: any;
   allowedAgreementWorkFlowActions: any;
 }
 
