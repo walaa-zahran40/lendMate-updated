@@ -242,6 +242,31 @@ export class AddAgreementComponent {
     if (Number.isFinite(this.leasingAgreementId)) {
       this.facade.loadById(this.leasingAgreementId!);
     }
+    // Call this when the button looks disabled
+    this.logControlTree(this.addAgreementShowMainInformationForm, 'Step1');
+    this.logControlTree(this.addAgreementShowAssetTypeForm, 'Step2');
+    this.logControlTree(this.addAgreementShowFeeForm, 'Step3');
+    this.logControlTree(this.leasingFinancialBasicForm, 'Step4.Basic');
+    this.logControlTree(this.leasingFinancialRateForm, 'Step4.Rates');
+    this.logControlTree(this.leasingFinancialCurrencyForm, 'Step4.Currency');
+
+    const firstBad =
+      this.findFirstInvalidPath(
+        this.addAgreementShowMainInformationForm,
+        'Step1'
+      ) ||
+      this.findFirstInvalidPath(this.addAgreementShowAssetTypeForm, 'Step2') ||
+      this.findFirstInvalidPath(this.addAgreementShowFeeForm, 'Step3') ||
+      this.findFirstInvalidPath(
+        this.leasingFinancialBasicForm,
+        'Step4.Basic'
+      ) ||
+      this.findFirstInvalidPath(this.leasingFinancialRateForm, 'Step4.Rates') ||
+      this.findFirstInvalidPath(
+        this.leasingFinancialCurrencyForm,
+        'Step4.Currency'
+      );
+    console.warn('First invalid control path:', firstBad);
 
     // subscribe once to selected and patch when it matches
     this.facade.selected$
@@ -1458,7 +1483,7 @@ export class AddAgreementComponent {
 
     // === IMPORTANT: add IDs for update ===
     const leasingAgreementIdFromRoute = Number(
-      this.route.snapshot.paramMap.get('leasingId')
+      this.route.snapshot.paramMap.get('id')
     );
     const leasingAgreementId = Number.isFinite(leasingAgreementIdFromRoute)
       ? leasingAgreementIdFromRoute
@@ -1493,20 +1518,12 @@ export class AddAgreementComponent {
       return;
     }
 
-    const cleanupAndGoHome = () => {
-      this.isSubmitting = false;
-      // let the guard through & tidy forms
-      this.allowLeaveAfterSave = true;
-      this.markAllPristine();
-      this.facade.loadAll();
-      this.navigateToList();
-    };
-
     try {
       const payload = this.buildCreatePayload();
       console.log('[Submit] Payload →', payload);
       if (this.editMode) {
-        const leaseId = +this.route.snapshot.paramMap.get('leasingId')!;
+        const leaseId = +this.route.snapshot.paramMap.get('id')!;
+        console.log('id', leaseId);
         this.facade.update(leaseId, payload);
       } else {
         this.facade.create(payload);
@@ -1998,24 +2015,4 @@ export class AddAgreementComponent {
     const fromForm = v && typeof v === 'object' ? v.id : v;
     return Number.isFinite(Number(fromForm)) ? Number(fromForm) : null;
   } // Normalize "id or {id:...}" → number|null
-  private toNumId(v: any): number | null {
-    const raw = v && typeof v === 'object' ? v.id : v;
-    const n = Number(raw);
-    return Number.isFinite(n) ? n : null;
-  }
-
-  // Reset a FormArray with mapped items
-  private resetArrayWith<T>(
-    fa: FormArray,
-    items: T[] | undefined | null,
-    factory: () => FormGroup,
-    mapItem: (x: T) => any
-  ): void {
-    fa.clear();
-    (items ?? []).forEach((it) => {
-      const fg = factory();
-      fg.patchValue(mapItem(it), { emitEvent: false });
-      fa.push(fg);
-    });
-  }
 }

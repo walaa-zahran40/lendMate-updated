@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ViewAgreementsComponent } from './components/agreements/view-agreements/view-agreements.component';
 import { AddAgreementComponent } from './components/agreements/add-agreement/add-agreement.component';
 import { PendingChangesGuard } from '../../shared/guards/pending-changes.guard';
+import { WizardAgreementComponent } from './components/agreements/activities/wizard-agreement/wizard-agreement.component';
 
 const routes: Routes = [
   //Agreement Contact Persons
@@ -18,6 +19,10 @@ const routes: Routes = [
     path: 'edit-agreement/:id',
     component: AddAgreementComponent,
     canDeactivate: [PendingChangesGuard],
+  },
+  {
+    path: 'wizard-agreement/:id',
+    component: WizardAgreementComponent,
   },
 ];
 

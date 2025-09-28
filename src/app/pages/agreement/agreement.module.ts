@@ -15,9 +15,14 @@ import { AgreementMainInformationFormComponent } from './forms/agreement-main-in
 import { TranslateModule } from '@ngx-translate/core';
 import { TextareaModule } from 'primeng/textarea';
 import { SelectModule } from 'primeng/select';
+import { WizardAgreementComponent } from './components/agreements/activities/wizard-agreement/wizard-agreement.component';
 
 @NgModule({
-  declarations: [ViewAgreementsComponent, AddAgreementComponent],
+  declarations: [
+    ViewAgreementsComponent,
+    AddAgreementComponent,
+    WizardAgreementComponent,
+  ],
   imports: [
     CommonModule,
     ButtonModule,
