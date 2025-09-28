@@ -161,7 +161,6 @@ export class ViewPhoneNumberComponent implements OnInit, OnDestroy {
   }
 
   onViewClientPhoneNumber(clientSales: ClientPhoneNumber) {
-    console.log('route', this.route.snapshot);
     this.router.navigate(['crm/clients/edit-phone-number', clientSales.id], {
       queryParams: {
         mode: 'view',

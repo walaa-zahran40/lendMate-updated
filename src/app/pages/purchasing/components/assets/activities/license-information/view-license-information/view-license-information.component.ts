@@ -41,7 +41,6 @@ export class ViewLicenseInformationComponent {
   ) {}
 
   ngOnInit() {
-    console.log('route', this.route.snapshot);
     this.facade.loadAll();
     this.licenseInformation$ = this.facade.all$;
 

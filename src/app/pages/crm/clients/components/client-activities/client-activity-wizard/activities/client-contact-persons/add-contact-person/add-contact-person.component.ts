@@ -411,7 +411,7 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
         clientContactPhoneNumbers: contactPersonPhoneTypesPayload,
       });
     }
-    console.log('route', this.route.snapshot);
+
     if (this.addClientContactPersonForm.valid) {
       this.addClientContactPersonForm.markAsPristine();
     }

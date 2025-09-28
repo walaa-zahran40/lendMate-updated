@@ -700,10 +700,6 @@ export class AgreementMainInformationFormComponent
   }
 
   ngOnInit() {
-    console.log('route', this.route.snapshot);
-
-    console.log('💡 pageOperationGroups input:', this.pageOperationGroups);
-
     this.minDateOfBirth.setFullYear(this.minDateOfBirth.getFullYear() - 100);
     // 18 years ago:
     this.maxDateOfBirth.setFullYear(this.maxDateOfBirth.getFullYear() - 18);
@@ -1416,7 +1412,6 @@ export class AgreementMainInformationFormComponent
   }
 
   close() {
-    console.log('route', this.route.snapshot);
     this.router.navigate([`/crm/clients/view-upload-documents/${this.id}`]);
   }
   closeNotificationGroups() {

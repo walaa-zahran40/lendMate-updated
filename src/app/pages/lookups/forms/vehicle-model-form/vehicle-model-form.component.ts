@@ -657,10 +657,6 @@ export class VehicleModelFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log('route', this.route.snapshot);
-
-    console.log('💡 pageOperationGroups input:', this.pageOperationGroups);
-
     this.formGroup
       .get('currencyExchangeRateId')
       ?.valueChanges.subscribe((v) =>
@@ -1299,7 +1295,6 @@ export class VehicleModelFormComponent implements OnInit, OnDestroy {
   }
 
   close() {
-    console.log('route', this.route.snapshot);
     this.router.navigate([`/crm/clients/view-upload-documents/${this.id}`]);
   }
   closeNotificationGroups() {

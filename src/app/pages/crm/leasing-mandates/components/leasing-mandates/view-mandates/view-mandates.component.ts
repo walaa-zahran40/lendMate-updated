@@ -66,7 +66,6 @@ export class ViewMandatesComponent {
     private route: ActivatedRoute
   ) {}
   ngOnInit() {
-    console.log('route', this.route.snapshot);
     if (!this.clientId) {
       this.facade.loadAll();
       combineLatest([this.leasingMandates$, this.clients$])

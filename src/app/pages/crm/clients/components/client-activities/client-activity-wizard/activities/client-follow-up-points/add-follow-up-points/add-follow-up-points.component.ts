@@ -181,7 +181,6 @@ export class AddFollowupPointsComponent implements OnInit, OnDestroy {
 
       this.followupFacade.update(this.route.snapshot.params['id'], updateData);
     }
-    console.log('route', this.route.snapshot);
 
     console.log(
       '➡️ Navigating back with PATH param:',

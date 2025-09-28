@@ -139,7 +139,6 @@ export class AddClientOnboardingComponent implements OnInit, OnDestroy {
     console.log('→ idParam:', idParam, 'mode:', mode, 'type:', type);
 
     if (!idParam || (mode !== 'edit' && mode !== 'view')) {
-      console.log('No edit/view mode detected, skipping load.');
       return;
     }
 

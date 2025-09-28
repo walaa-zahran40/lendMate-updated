@@ -23,6 +23,7 @@ import {
   take,
   of,
   forkJoin,
+  shareReplay,
 } from 'rxjs';
 import { FinancialForm } from '../../../../crm/leasing-mandates/store/financial-form/financial-form.model';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
@@ -243,12 +244,6 @@ export class AddAgreementComponent {
       this.facade.loadById(this.leasingAgreementId!);
     }
     // Call this when the button looks disabled
-    this.logControlTree(this.addAgreementShowMainInformationForm, 'Step1');
-    this.logControlTree(this.addAgreementShowAssetTypeForm, 'Step2');
-    this.logControlTree(this.addAgreementShowFeeForm, 'Step3');
-    this.logControlTree(this.leasingFinancialBasicForm, 'Step4.Basic');
-    this.logControlTree(this.leasingFinancialRateForm, 'Step4.Rates');
-    this.logControlTree(this.leasingFinancialCurrencyForm, 'Step4.Currency');
 
     const firstBad =
       this.findFirstInvalidPath(
@@ -299,9 +294,12 @@ export class AddAgreementComponent {
     this.assetTypesFacade.loadAll();
     this.assetTypes$ = this.assetTypesFacade.all$;
     this.feeTypesFacade.loadAll();
+    // when you define feeTypes$
     this.feeTypes$ = this.feeTypesFacade.all$.pipe(
-      map((list) => (list ?? []).map((ft) => ({ ...ft, id: +ft.id })))
+      map((list) => (list ?? []).map((ft) => ({ ...ft, id: +ft.id }))),
+      shareReplay({ bufferSize: 1, refCount: true })
     );
+
     this.paymentPeriodsFacade.loadAll();
     this.paymentPeriods$ = this.paymentPeriodsFacade.all$;
     this.paymentPeriods$
@@ -355,7 +353,6 @@ export class AddAgreementComponent {
 
       const idParam = this.route.snapshot.paramMap.get('leasingId');
       if (!idParam) {
-        console.log('No edit/view mode detected, skipping load.');
         return;
       }
       this.leasingAgreementId = +idParam;
@@ -394,7 +391,6 @@ export class AddAgreementComponent {
 
       const idParam = this.route.snapshot.paramMap.get('leasingId');
       if (!idParam) {
-        console.log('No edit/view mode detected, skipping load.');
         return;
       }
       this.leasingAgreementId = +idParam;
@@ -689,38 +685,54 @@ export class AddAgreementComponent {
             ]
           : []);
 
+      console.log('[FEES:patch] sourceFees', sourceFees);
+      this.logFeesState('before-clear');
+
       feesFa.clear();
       if (Array.isArray(sourceFees) && sourceFees.length) {
-        for (const f of sourceFees) {
+        sourceFees.forEach((f, idx) => {
           const fg = this.createFeeGroup();
-          const feeTypeIdRaw = f?.feeTypeId ?? f?.feeType?.id ?? null; // <- don't fall back to f.id
+          const feeTypeIdRaw = f?.feeTypeId ?? f?.feeType?.id ?? null; // do NOT fall back to f.id
+          const coerced = feeTypeIdRaw != null ? +feeTypeIdRaw : null;
+
+          console.log(
+            `[FEES:patch] row#${idx} raw=`,
+            feeTypeIdRaw,
+            typeof feeTypeIdRaw,
+            '-> coerced=',
+            coerced
+          );
           fg.patchValue(
             {
               id: f?.id ?? null,
-              feeTypeId: feeTypeIdRaw != null ? +feeTypeIdRaw : null,
+              feeTypeId: coerced,
               actualAmount: f?.actualAmount ?? null,
               actualPercentage: f?.actualPercentage ?? null,
             },
             { emitEvent: false }
           );
           feesFa.push(fg);
-        }
+        });
       } else {
         feesFa.push(this.createFeeGroup());
       }
+      this.logFeesState('after-patch');
 
       // 👇 ensure selection sticks even if options arrive later
       this.reapplyFeeTypeSelectionsOnceOptionsArrive();
       this.feeTypes$.pipe(take(1)).subscribe((opts) => {
-        const fa = this.addAgreementShowFeeForm.get(
-          'agreementFees'
-        ) as FormArray;
-        const v = fa.at(0).get('feeTypeId')!.value;
-        console.log('[feeTypeId type]', typeof v, v);
+        const v = (
+          this.addAgreementShowFeeForm.get('agreementFees') as FormArray
+        )
+          .at(0)
+          ?.get('feeTypeId')?.value;
         console.log(
-          '[first option id type]',
-          typeof opts?.[0]?.id,
-          opts?.[0]?.id
+          '[FEES:sanity] first feeTypeId',
+          v,
+          typeof v,
+          'first option id',
+          opts?.[0]?.id,
+          typeof opts?.[0]?.id
         );
       });
     }
@@ -866,16 +878,59 @@ export class AddAgreementComponent {
     this.selectedAction =
       (m as any)?.agreementCurrentWorkFlowAction?.name ?? '';
   }
-  private reapplyFeeTypeSelectionsOnceOptionsArrive() {
-    this.feeTypes$.pipe(take(1)).subscribe(() => {
-      const fa = this.addAgreementShowFeeForm.get('agreementFees') as FormArray;
-      fa.controls.forEach((g) => {
-        const ctrl = g.get('feeTypeId')!;
-        // write the same value again to trigger matching after options exist
-        ctrl.setValue(ctrl.value, { emitEvent: false });
+  /** Pretty-print fee rows + try to match each row's feeTypeId to options */
+  private logFeesState(tag: string) {
+    const fa = this.addAgreementShowFeeForm.get('agreementFees') as FormArray;
+    const rows =
+      fa?.controls?.map((g, i) => {
+        const v = g.get('feeTypeId')?.value;
+        return {
+          index: i,
+          feeTypeId: v,
+          feeTypeIdType: typeof v,
+          actualAmount: g.get('actualAmount')?.value,
+          actualPercentage: g.get('actualPercentage')?.value,
+        };
+      }) ?? [];
+    console.log(`[FEES:${tag}] formArray length=${fa?.length ?? 0}`, rows);
+
+    this.feeTypes$.pipe(take(1)).subscribe((opts) => {
+      console.log(`[FEES:${tag}] options (len=${opts?.length ?? 0})`, opts);
+      rows.forEach((r) => {
+        const match = opts?.find((o) => +o.id === +r.feeTypeId);
+        console.log(
+          `[FEES:${tag}] row#${r.index} value=${r.feeTypeId} (${r.feeTypeIdType}) -> match?`,
+          !!match,
+          match
+        );
       });
     });
   }
+
+  /** Force the select to re-evaluate after options exist, with logs */
+  private reapplyFeeTypeSelectionsOnceOptionsArrive() {
+    this.feeTypes$.pipe(take(1)).subscribe((opts) => {
+      console.log('[FEES:reapply] options arrived len=', opts?.length ?? 0);
+      const fa = this.addAgreementShowFeeForm.get('agreementFees') as FormArray;
+      fa.controls.forEach((g, i) => {
+        const ctrl = g.get('feeTypeId')!;
+        const before = ctrl.value;
+        ctrl.setValue(before != null ? +before : null, { emitEvent: false });
+        console.log(
+          `[FEES:reapply] row#${i} rewrite ${before}(${typeof before}) ->`,
+          ctrl.value,
+          typeof ctrl.value
+        );
+      });
+
+      // log immediately after
+      this.logFeesState('after-reapply');
+
+      // and once more on the next microtask (lets CD flush)
+      queueMicrotask(() => this.logFeesState('after-reapply-microtask'));
+    });
+  }
+
   nextStep(nextCallback: { emit: () => void }, group: FormGroup) {
     if (group?.valid || this.viewOnly) {
       nextCallback?.emit();
@@ -1082,9 +1137,6 @@ export class AddAgreementComponent {
         g.errors
       );
 
-    log('Step1 basic', this.addAgreementShowMainInformationForm);
-    log('Step2 assets', this.addAgreementShowAssetTypeForm);
-    log('Step3 fees', this.addAgreementShowFeeForm);
     console.log(
       'ParentForm -> touched=%s, dirty=%s, valid=%s, status=%s',
       this.parentForm.touched,

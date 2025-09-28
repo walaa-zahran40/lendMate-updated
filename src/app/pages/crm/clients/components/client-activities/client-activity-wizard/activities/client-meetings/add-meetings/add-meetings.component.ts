@@ -426,7 +426,7 @@ export class AddMeetingsComponent implements OnInit, OnDestroy {
         communicationAssetTypes: assetTypesPayload,
       });
     }
-    console.log('route', this.route.snapshot);
+
     if (this.addMeetingForm.valid) {
       this.addMeetingForm.markAsPristine();
     }

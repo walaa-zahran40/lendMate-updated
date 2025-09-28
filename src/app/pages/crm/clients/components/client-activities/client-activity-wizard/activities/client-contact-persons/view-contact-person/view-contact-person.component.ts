@@ -162,7 +162,6 @@ export class ViewContactPersonComponent implements OnInit, OnDestroy {
   }
 
   onViewClientContactPerson(clientSales: ClientContactPerson) {
-    console.log('route', this.route.snapshot);
     this.router.navigate(['/crm/clients/add-contact-person', clientSales.id], {
       queryParams: {
         mode: 'view',

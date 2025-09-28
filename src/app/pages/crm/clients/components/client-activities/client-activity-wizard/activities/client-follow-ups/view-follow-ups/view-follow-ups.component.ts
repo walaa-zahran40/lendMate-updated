@@ -165,7 +165,6 @@ export class ViewFollowupsComponent implements OnInit, OnDestroy {
   }
 
   onViewFollowup(followup: Followup) {
-    console.log('route', this.route.snapshot);
     this.router.navigate(
       ['communication/edit-follow-ups', followup.id, followup.communicationId],
       {

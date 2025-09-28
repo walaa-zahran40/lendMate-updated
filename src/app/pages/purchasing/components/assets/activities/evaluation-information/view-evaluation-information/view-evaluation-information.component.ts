@@ -42,7 +42,6 @@ export class ViewEvaluationInformationComponent {
   ) {}
 
   ngOnInit() {
-    console.log('route', this.route.snapshot);
     this.facade.loadAll();
     this.evaluationInformation$ = this.facade.all$;
 

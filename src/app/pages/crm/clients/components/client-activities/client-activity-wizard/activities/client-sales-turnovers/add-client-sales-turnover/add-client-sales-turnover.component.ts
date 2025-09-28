@@ -134,7 +134,7 @@ export class AddSalesTurnoverComponent implements OnInit, OnDestroy {
 
       this.clientSalesoverFacade.update(this.recordId, updateData);
     }
-    console.log('route', this.route.snapshot);
+
     if (this.addSalesTurnoverForm.valid) {
       this.addSalesTurnoverForm.markAsPristine();
     }

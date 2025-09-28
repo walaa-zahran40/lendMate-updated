@@ -1413,7 +1413,6 @@ export class FormComponent implements OnInit, OnDestroy {
   }
 
   close() {
-    console.log('route', this.route.snapshot);
     this.router.navigate([`/crm/clients/view-upload-documents/${this.id}`]);
   }
   closeNotificationGroups() {

@@ -47,7 +47,6 @@ export class ViewMandateAdditionalTermsComponent {
     private route: ActivatedRoute
   ) {}
   ngOnInit() {
-    console.log('route', this.route.snapshot);
     this.facade.loadById(this.leasingRouteId);
     combineLatest([this.mandateAdditionalTerms$])
       .pipe(

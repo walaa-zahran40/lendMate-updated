@@ -146,7 +146,7 @@ export class AddClientIdentityComponent implements OnInit, OnDestroy {
       console.log('arwaaaaaaaa ', this.recordId);
       this.clientIdentityFacade.update(this.recordId, updateData);
     }
-    console.log('route', this.route.snapshot);
+
     if (this.addClientIdentityForm.valid) {
       this.addClientIdentityForm.markAsPristine();
     }

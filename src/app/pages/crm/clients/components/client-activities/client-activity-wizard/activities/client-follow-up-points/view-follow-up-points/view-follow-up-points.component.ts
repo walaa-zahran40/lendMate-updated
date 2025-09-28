@@ -149,7 +149,6 @@ export class ViewFollowupPointsComponent implements OnInit, OnDestroy {
   }
 
   onViewFollowupPoint(followupPoint: FollowupPoint) {
-    console.log('route', this.route.snapshot);
     console.log('route', this.followupIdParam);
     this.router.navigate(
       [

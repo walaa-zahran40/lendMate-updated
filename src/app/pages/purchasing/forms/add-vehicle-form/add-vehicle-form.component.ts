@@ -1111,7 +1111,6 @@ export class AddVehicleFormComponent implements OnInit, OnDestroy {
   }
 
   close() {
-    console.log('route', this.route.snapshot);
     this.router.navigate([`/crm/assets/view-upload-documents/${this.id}`]);
   }
   closeNotificationGroups() {

@@ -70,7 +70,6 @@ export class ViewMandateWorkFlowHistoryComponent {
   // }
 
   ngOnInit() {
-    console.log('route', this.route.snapshot);
     this.facade.loadWorkflowHistory(this.leasingRouteId);
 
     combineLatest([this.mandateWorkFlowHistoryList$])

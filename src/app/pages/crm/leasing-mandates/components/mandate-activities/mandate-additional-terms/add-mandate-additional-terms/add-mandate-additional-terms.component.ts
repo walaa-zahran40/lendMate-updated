@@ -28,7 +28,6 @@ export class AddMandateAdditionalTermsComponent {
   ) {}
 
   ngOnInit() {
-    console.log('route', this.route.snapshot);
     console.log('routeId (leasingId):', this.routeId);
     console.log('mandateRouteId (leasingMandatesId):', this.mandateRouteId);
 

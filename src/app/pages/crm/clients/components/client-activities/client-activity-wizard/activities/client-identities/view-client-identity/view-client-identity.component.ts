@@ -162,7 +162,6 @@ export class ViewClientIdentityComponent implements OnInit, OnDestroy {
   }
 
   onViewClientIdentity(clientSales: ClientIdentity) {
-    console.log('route', this.route.snapshot);
     this.router.navigate(['crm/clients/edit-client-identity', clientSales.id], {
       queryParams: {
         mode: 'view',

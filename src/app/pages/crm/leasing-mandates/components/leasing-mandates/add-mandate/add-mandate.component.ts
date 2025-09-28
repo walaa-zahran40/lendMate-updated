@@ -301,7 +301,6 @@ export class AddMandateComponent {
 
       const idParam = this.route.snapshot.paramMap.get('leasingId');
       if (!idParam) {
-        console.log('No edit/view mode detected, skipping load.');
         return;
       }
       this.leasingMandateId = +idParam;
@@ -343,7 +342,6 @@ export class AddMandateComponent {
 
       const idParam = this.route.snapshot.paramMap.get('leasingId');
       if (!idParam) {
-        console.log('No edit/view mode detected, skipping load.');
         return;
       }
       this.leasingMandateId = +idParam;

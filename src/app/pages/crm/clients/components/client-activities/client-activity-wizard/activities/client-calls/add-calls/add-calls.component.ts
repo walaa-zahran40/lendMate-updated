@@ -318,7 +318,7 @@ export class AddCallsComponent implements OnInit, OnDestroy {
         communicationContactPersons: contactPersonPayload,
       });
     }
-    console.log('route', this.route.snapshot);
+
     if (this.addCallForm.valid) {
       this.addCallForm.markAsPristine();
     }

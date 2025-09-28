@@ -428,7 +428,7 @@ export class AddMeetingsSideMenuComponent implements OnInit, OnDestroy {
         communicationAssetTypes: assetTypesPayload,
       });
     }
-    console.log('route', this.route.snapshot);
+
     if (this.addMeetingSideMenuForm.valid) {
       this.addMeetingSideMenuForm.markAsPristine();
     }

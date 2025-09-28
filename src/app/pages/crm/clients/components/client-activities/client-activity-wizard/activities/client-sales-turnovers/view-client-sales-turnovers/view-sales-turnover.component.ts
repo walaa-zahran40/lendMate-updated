@@ -130,7 +130,6 @@ export class ViewSalesTurnoverComponent implements OnInit, OnDestroy {
   }
 
   onViewClientSalesTurnover(clientSales: ClientSalesTurnover) {
-    console.log('route', this.route.snapshot);
     this.router.navigate(['crm/clients/edit-sales-turnover', clientSales.id], {
       queryParams: {
         mode: 'view',
