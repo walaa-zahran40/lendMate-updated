@@ -108,6 +108,7 @@ import { AgreementMainInformationFormComponent } from '../../pages/agreement/for
 import { AgreementAssetsFormComponent } from '../../pages/agreement/forms/agreement-assets-form/agreement-assets-form.component';
 import { AgreementFeeFormComponent } from '../../pages/agreement/forms/agreement-fee-form/agreement-fee-form.component';
 import { LeasingFinancialBasicFormComponent } from '../../pages/agreement/forms/leasing-financial-basic-form/leasing-financial-basic-form.component';
+import { LeasingFinancialCurrencyFormComponent } from '../../pages/agreement/forms/leasing-financial-currency-form/leasing-financial-currency-form.component';
 
 @NgModule({
   declarations: [
@@ -135,6 +136,7 @@ import { LeasingFinancialBasicFormComponent } from '../../pages/agreement/forms/
     AddLegalFormsComponent,
     AddAssetFormComponent,
     AddVehicleFormComponent,
+    LeasingFinancialCurrencyFormComponent,
     AddPropertyFormComponent,
     AddEquipmentFormComponent,
     AddCallFormComponent,
@@ -287,6 +289,7 @@ import { LeasingFinancialBasicFormComponent } from '../../pages/agreement/forms/
     AgreementAssetsFormComponent,
     AgreementFeeFormComponent,
     LeasingFinancialBasicFormComponent,
+    LeasingFinancialCurrencyFormComponent,
   ],
 })
 export class ComponentsModule {}

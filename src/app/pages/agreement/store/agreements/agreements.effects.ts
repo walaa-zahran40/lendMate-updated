@@ -112,6 +112,19 @@ export class LeasingAgreementsEffects {
       )
     )
   );
+  navigateAfterSave$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(
+          LeasingAgreementsActions.createSuccess,
+          LeasingAgreementsActions.updateSuccess
+        ),
+        tap(() => {
+          this.router.navigate(['/agreement/view-agreements']);
+        })
+      ),
+    { dispatch: false }
+  );
 
   delete$ = createEffect(() =>
     this.actions$.pipe(

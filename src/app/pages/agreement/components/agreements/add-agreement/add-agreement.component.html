@@ -145,7 +145,7 @@
       </div>
       <div class="col-sm">
         <div class="third-form">
-          <app-form
+          <app-leasing-financial-currency-form
             class="form-currency"
             [title]="'LEASING_FINANCIAL.CURRENCY.TITLE'"
             [description]="'LEASING_FINANCIAL.CURRENCY.DESCRIPTION'"
@@ -176,14 +176,14 @@
             "
             [financialCustom]="true"
             [currencyCustom]="true"
-          ></app-form>
+          ></app-leasing-financial-currency-form>
 
           <div class="buttons">
             <p-button
               label="Calculate"
               class="custom-calculate custom-save m-0"
               (onClick)="onCalculateAll()"
-              [disabled]="!isAllValid()"
+              [disabled]="!canCalculate"
             />
           </div>
         </div>
@@ -214,7 +214,6 @@
       class="btn btn-primary mr-2"
       (click)="next()"
       *ngIf="currentStep < totalSteps"
-      [disabled]="viewOnly"
     >
       Next
     </button>
@@ -223,15 +222,7 @@
     <button
       type="submit"
       class="btn btn-success"
-      [disabled]="
-        addAgreementShowMainInformationForm.invalid ||
-        addAgreementShowAssetTypeForm.invalid ||
-        addAgreementShowFeeForm.invalid ||
-        leasingFinancialBasicForm.invalid ||
-        leasingFinancialRateForm.invalid ||
-        leasingFinancialCurrencyForm.invalid ||
-        isSubmitting
-      "
+      [disabled]="!canSubmit"
       *ngIf="currentStep === totalSteps && !viewOnly"
     >
       {{ editMode ? "Edit Agreement" : "Add Agreement" }}
@@ -240,7 +231,7 @@
     <!-- Close (only on last step, view-only) -->
     <button
       type="button"
-      class="btn btn-secondary"
+      class="btn btn-success"
       *ngIf="currentStep === totalSteps && viewOnly"
       (click)="navigateToView()"
     >

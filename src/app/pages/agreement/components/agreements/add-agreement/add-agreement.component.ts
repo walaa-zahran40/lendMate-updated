@@ -115,6 +115,8 @@ export class AddAgreementComponent {
     'Fees',
     'Financial Activities',
   ];
+  private suppressRecalc = false;
+
   totalSteps = this.steps.length;
   currentStep = 1;
   //leasing financial form
@@ -244,24 +246,6 @@ export class AddAgreementComponent {
       this.facade.loadById(this.leasingAgreementId!);
     }
     // Call this when the button looks disabled
-
-    const firstBad =
-      this.findFirstInvalidPath(
-        this.addAgreementShowMainInformationForm,
-        'Step1'
-      ) ||
-      this.findFirstInvalidPath(this.addAgreementShowAssetTypeForm, 'Step2') ||
-      this.findFirstInvalidPath(this.addAgreementShowFeeForm, 'Step3') ||
-      this.findFirstInvalidPath(
-        this.leasingFinancialBasicForm,
-        'Step4.Basic'
-      ) ||
-      this.findFirstInvalidPath(this.leasingFinancialRateForm, 'Step4.Rates') ||
-      this.findFirstInvalidPath(
-        this.leasingFinancialCurrencyForm,
-        'Step4.Currency'
-      );
-    console.warn('First invalid control path:', firstBad);
 
     // subscribe once to selected and patch when it matches
     this.facade.selected$
@@ -604,21 +588,27 @@ export class AddAgreementComponent {
   }
 
   private patchAgreement(m: LeasingAgreement) {
+    this.suppressRecalc = true;
     this.leasingAgreementId = (m as any)?.id ?? this.leasingAgreementId;
+    console.log('mmmmm', m);
+    this.addAgreementShowMainInformationForm.patchValue(
+      {
+        clientId: this.toNum(
+          this.clientId ?? m.clientId ?? (m as any)?.clientView?.clientId
+        ),
+        leasingTypeId: this.toNum((m as any)?.leasingTypeId),
+        insuredById: this.toNum((m as any)?.insuredById),
+        branchId: this.toNum((m as any)?.branchId),
+        portfolioId: this.toNum((m as any)?.portfolioId),
+        businessSourceId: this.toNum((m as any)?.businessSourceId),
+        date: this.toDateOrNull(m.date),
+        endDate: this.toDateOrNull(m.endDate),
+        deliveryNumber: m.deliveryNumber,
+        notes: m.notes,
+      },
+      { emitEvent: false }
+    );
 
-    this.addAgreementShowMainInformationForm.patchValue({
-      id: m.id,
-      clientId: this.clientId ?? m.clientId ?? (m as any)?.clientView?.clientId,
-      leasingTypeId: (m as any)?.leasingTypeId,
-      insuredById: (m as any)?.insuredById,
-      date: m.date ? new Date(m.date) : null,
-      endDate: m.endDate,
-      branchId: (m as any)?.branchId,
-      portfolioId: (m as any)?.portfolioId,
-      businessSourceId: (m as any)?.businessSourceId,
-      deliveryNumber: (m as any)?.deliveryNumber,
-      notes: (m as any)?.notes,
-    });
     // === STEP 2: Agreement Assets (FormArray) ===
     {
       const assetsFa = this.addAgreementShowAssetTypeForm.get(
@@ -650,12 +640,13 @@ export class AddAgreementComponent {
           fg.patchValue(
             {
               id: a?.id ?? null,
-              assetTypeId: a?.assetTypeId ?? a?.assetType?.id ?? null, // p-select uses optionValue="id"
+              assetTypeId: this.toNum(a?.assetTypeId ?? a?.assetType?.id),
               assetDescription: a?.assetDescription ?? null,
               assetDescriptionAR: a?.assetDescriptionAR ?? null,
             },
             { emitEvent: false }
           );
+
           assetsFa.push(fg);
         }
       } else {
@@ -690,22 +681,14 @@ export class AddAgreementComponent {
 
       feesFa.clear();
       if (Array.isArray(sourceFees) && sourceFees.length) {
-        sourceFees.forEach((f, idx) => {
+        sourceFees.forEach((f) => {
           const fg = this.createFeeGroup();
           const feeTypeIdRaw = f?.feeTypeId ?? f?.feeType?.id ?? null; // do NOT fall back to f.id
-          const coerced = feeTypeIdRaw != null ? +feeTypeIdRaw : null;
 
-          console.log(
-            `[FEES:patch] row#${idx} raw=`,
-            feeTypeIdRaw,
-            typeof feeTypeIdRaw,
-            '-> coerced=',
-            coerced
-          );
           fg.patchValue(
             {
               id: f?.id ?? null,
-              feeTypeId: coerced,
+              feeTypeId: this.toNum(feeTypeIdRaw),
               actualAmount: f?.actualAmount ?? null,
               actualPercentage: f?.actualPercentage ?? null,
             },
@@ -720,7 +703,7 @@ export class AddAgreementComponent {
 
       // 👇 ensure selection sticks even if options arrive later
       this.reapplyFeeTypeSelectionsOnceOptionsArrive();
-      this.feeTypes$.pipe(take(1)).subscribe((opts) => {
+      this.feeTypes$?.pipe(take(1)).subscribe((opts) => {
         const v = (
           this.addAgreementShowFeeForm.get('agreementFees') as FormArray
         )
@@ -777,10 +760,12 @@ export class AddAgreementComponent {
             agreementNode?.interestRateBenchmarkId ?? null,
           paymentTimingTermId: m.paymentTimingTermId ?? null,
           rentStructureTypeId: m.rentStructureTypeId ?? null,
-          indicativeRentals: m.indicativeRentals ?? null,
           referenceRent: m.rent ?? null,
           rvPercent: m.rvPercent ?? null,
           rvAmount: m.rvAmount ?? null,
+          isRentInArrear: m.isRentInArrear,
+          isFixedContractEnd: m.isFixedContractEnd,
+          isFixedRent: m.isFixedRent,
         },
         { emitEvent: false }
       );
@@ -812,13 +797,29 @@ export class AddAgreementComponent {
 
       this.leasingFinancialRateForm.patchValue(
         {
-          paymentPeriodId: pid,
-          gracePeriodInDays:
-            agreementNode?.gracePeriod ?? (m as any)?.gracePeriod ?? null,
-          interestRate: m.interestRate ?? null,
-          insuranceRate: m.insuranceRate ?? null,
-          tenor: m.tenor ?? null,
-          fixedInterestRate: m.fixedInterestRate ?? null,
+          paymentPeriodId: this.toNum(settings?.paymentPeriodId),
+          gracePeriodInDays: this.toNum(
+            agreementNode?.gracePeriod ?? (m as any)?.gracePeriod
+          ),
+          interestRate: m.interestRate,
+          insuranceRate: m.insuranceRate,
+          fixedInterestRate: m.fixedInterestRate,
+          tenor: m.tenor,
+        },
+        { emitEvent: false }
+      );
+
+      this.leasingFinancialCurrencyForm.patchValue(
+        {
+          currencyId: this.toNum(settings?.currencyExchangeRate?.currencyId),
+          currencyExchangeRateId: this.toNum(settings?.currencyExchangeRateId),
+          interestRateBenchmarkId: this.toNum(
+            agreementNode?.interestRateBenchmarkId
+          ),
+          paymentTimingTermId: this.toNum(m.paymentTimingTermId),
+          rentStructureTypeId: this.toNum(m.rentStructureTypeId),
+          paymentMethodId: this.toNum(settings?.paymentMethodId),
+          paymentMonthDayID: this.toNum(settings?.paymentMonthDayId),
         },
         { emitEvent: false }
       );
@@ -840,11 +841,13 @@ export class AddAgreementComponent {
         },
         { emitEvent: false }
       );
+      this.patchedStep4FromAgreement = true;
 
       // recompute any derived field (periodInterestRate) after patching
       this.calculatePeriodInterestRate();
+      this.suppressRecalc = false;
 
-      this.patchedStep4FromAgreement = true;
+      this.markAllPristine();
     }
 
     // ===== TABLE rows from API payments =====
@@ -877,8 +880,14 @@ export class AddAgreementComponent {
     );
     this.selectedAction =
       (m as any)?.agreementCurrentWorkFlowAction?.name ?? '';
+    this.applyViewMode();
   }
-  /** Pretty-print fee rows + try to match each row's feeTypeId to options */
+  private toDateOrNull(v: any): Date | null {
+    if (!v) return null;
+    if (v instanceof Date) return isNaN(v.getTime()) ? null : v;
+    const d = new Date(v);
+    return isNaN(d.getTime()) ? null : d;
+  }
   private logFeesState(tag: string) {
     const fa = this.addAgreementShowFeeForm.get('agreementFees') as FormArray;
     const rows =
@@ -894,7 +903,7 @@ export class AddAgreementComponent {
       }) ?? [];
     console.log(`[FEES:${tag}] formArray length=${fa?.length ?? 0}`, rows);
 
-    this.feeTypes$.pipe(take(1)).subscribe((opts) => {
+    this.feeTypes$?.pipe(take(1)).subscribe((opts) => {
       console.log(`[FEES:${tag}] options (len=${opts?.length ?? 0})`, opts);
       rows.forEach((r) => {
         const match = opts?.find((o) => +o.id === +r.feeTypeId);
@@ -909,7 +918,7 @@ export class AddAgreementComponent {
 
   /** Force the select to re-evaluate after options exist, with logs */
   private reapplyFeeTypeSelectionsOnceOptionsArrive() {
-    this.feeTypes$.pipe(take(1)).subscribe((opts) => {
+    this.feeTypes$?.pipe(take(1)).subscribe((opts) => {
       console.log('[FEES:reapply] options arrived len=', opts?.length ?? 0);
       const fa = this.addAgreementShowFeeForm.get('agreementFees') as FormArray;
       fa.controls.forEach((g, i) => {
@@ -1066,8 +1075,8 @@ export class AddAgreementComponent {
     });
   }
   createAssetTypeGroup(): FormGroup {
-    return this.fb.group({
-      id: [null], // 👈 NEW
+    const fg = this.fb.group({
+      id: [null],
       assetTypeId: ['', Validators.required],
       assetDescription: [null, Validators.required],
       assetDescriptionAR: [
@@ -1078,19 +1087,38 @@ export class AddAgreementComponent {
         ],
       ],
     });
+
+    // If the step or parent is disabled, keep the new group disabled
+    if (
+      this.viewOnly ||
+      this.addAgreementShowAssetTypeForm?.disabled ||
+      this.parentForm?.disabled
+    ) {
+      fg.disable({ emitEvent: false });
+    }
+    return fg;
   }
 
   createFeeGroup(): FormGroup {
-    return this.fb.group({
-      id: [null], // 👈 NEW
+    const fg = this.fb.group({
+      id: [null],
       feeTypeId: [null, Validators.required],
       actualAmount: [null, Validators.required],
       actualPercentage: [null, Validators.required],
     });
+
+    if (
+      this.viewOnly ||
+      this.addAgreementShowFeeForm?.disabled ||
+      this.parentForm?.disabled
+    ) {
+      fg.disable({ emitEvent: false });
+    }
+    return fg;
   }
 
   addAssetType() {
-    console.log('Adding new Asset Type group');
+    if (this.viewOnly) return; // 👈 no-op in view mode
     this.agreementAssetTypes?.push(this.createAssetTypeGroup());
   }
 
@@ -1119,7 +1147,7 @@ export class AddAgreementComponent {
     return this.addAgreementShowFeeForm.get('agreementFees') as FormArray;
   }
   addFee() {
-    console.log('Adding new agreement Fees group');
+    if (this.viewOnly) return; // 👈 no-op in view mode
     this.agreementFees?.push(this.createFeeGroup());
   }
 
@@ -1188,11 +1216,9 @@ export class AddAgreementComponent {
 
   navigateToView() {
     if (!this.clientId) {
-      this.router.navigate(['/crm/leasing-agreements/view-agreements']);
+      this.router.navigate(['/agreement/view-agreements']);
     } else {
-      this.router.navigate([
-        `/crm/leasing-agreements/view-agreements/${this.clientId}`,
-      ]);
+      this.router.navigate([`/agreement/view-agreements/${this.clientId}`]);
     }
   }
 
@@ -1361,10 +1387,17 @@ export class AddAgreementComponent {
       ?.setValue(reservePaymentAmount, { emitEvent: false });
   }
   private setupFormListeners() {
+    const safeSet = (ctrl: AbstractControl | null, value: any) => {
+      if (!ctrl) return;
+      this.suppressRecalc = true;
+      ctrl.setValue(value, { emitEvent: false });
+      this.suppressRecalc = false;
+    };
     // Basic Finance Information Listeners
     this.leasingFinancialBasicForm
       .get('assetCost')
       ?.valueChanges.subscribe(() => {
+        if (this.suppressRecalc) return;
         console.log('AssetCost changed.');
         this.recalculateAndValidateFinancialFields();
         this.updateNfaAndCalculations();
@@ -1374,6 +1407,7 @@ export class AddAgreementComponent {
     this.leasingFinancialBasicForm
       .get('downPayment')
       ?.valueChanges.subscribe(() => {
+        if (this.suppressRecalc) return;
         console.log('DownPayment changed.');
         this.updateNfaAndCalculations();
         this.calculateReservePaymentAmount();
@@ -1383,6 +1417,7 @@ export class AddAgreementComponent {
     this.leasingFinancialCurrencyForm
       .get('rvAmount')
       ?.valueChanges.subscribe(() => {
+        if (this.suppressRecalc) return;
         console.log('RVAmount changed.');
         this.updateRvPercent();
         this.updateProvisionPercent();
@@ -1392,6 +1427,7 @@ export class AddAgreementComponent {
     this.leasingFinancialCurrencyForm
       .get('rvPercent')
       ?.valueChanges.subscribe(() => {
+        if (this.suppressRecalc) return;
         console.log('RVPercent changed.');
         this.recalculateAndValidateFinancialFields();
         this.updateRvAmount();
@@ -1403,6 +1439,7 @@ export class AddAgreementComponent {
     this.leasingFinancialCurrencyForm
       .get('provisionAmount')
       ?.valueChanges.subscribe(() => {
+        if (this.suppressRecalc) return;
         console.log('ProvisionAmount changed.');
         this.updateProvisionPercent();
       });
@@ -1410,6 +1447,7 @@ export class AddAgreementComponent {
     this.leasingFinancialCurrencyForm
       .get('provisionPercent')
       ?.valueChanges.subscribe(() => {
+        if (this.suppressRecalc) return;
         console.log('ProvisionPercent changed.');
         this.recalculateAndValidateFinancialFields();
         this.updateProvisionAmount();
@@ -1419,6 +1457,7 @@ export class AddAgreementComponent {
     this.leasingFinancialCurrencyForm
       .get('isManuaExchangeRate')
       ?.valueChanges.subscribe((isChecked: boolean) => {
+        if (this.suppressRecalc) return;
         const ctrl = this.leasingFinancialCurrencyForm.get(
           'manualSetExchangeRate'
         );
@@ -1435,6 +1474,7 @@ export class AddAgreementComponent {
     this.leasingFinancialCurrencyForm
       .get('referenceRent')
       ?.valueChanges.subscribe(() => {
+        if (this.suppressRecalc) return;
         console.log('Rent changed.');
         this.calculateReservePaymentAmount();
       });
@@ -1442,15 +1482,18 @@ export class AddAgreementComponent {
     this.leasingFinancialRateForm
       .get('insuranceRate')
       ?.valueChanges.subscribe(() => {
+        if (this.suppressRecalc) return;
         this.calculateReservePaymentAmount();
       });
     this.leasingFinancialRateForm
       .get('interestRate')
       ?.valueChanges.subscribe(() => {
+        if (this.suppressRecalc) return;
         console.log('interestRate changed.');
         this.calculatePeriodInterestRate();
       });
     this.leasingFinancialRateForm.get('tenor')?.valueChanges.subscribe(() => {
+      if (this.suppressRecalc) return;
       console.log('tenor changed.');
       this.calculateReservePaymentAmount();
     });
@@ -1458,6 +1501,7 @@ export class AddAgreementComponent {
     this.leasingFinancialCurrencyForm
       .get('reservePaymentAmount')
       ?.valueChanges.subscribe(() => {
+        if (this.suppressRecalc) return;
         console.log('ReservePaymentAmount changed.');
         this.calculateReservePaymentCount();
       });
@@ -1465,6 +1509,7 @@ export class AddAgreementComponent {
     this.leasingFinancialCurrencyForm
       .get('reservePaymentCount')
       ?.valueChanges.subscribe(() => {
+        if (this.suppressRecalc) return;
         console.log('ReservePaymentCount changed.');
         this.calculateReservePaymentAmount();
       });
@@ -1472,6 +1517,7 @@ export class AddAgreementComponent {
     this.leasingFinancialRateForm
       .get('paymentPeriodId')
       ?.valueChanges.subscribe(() => {
+        if (this.suppressRecalc) return;
         console.log('paymentPeriodId');
         this.calculateReservePaymentAmount();
         this.calculateReservePaymentCount();
@@ -1480,6 +1526,7 @@ export class AddAgreementComponent {
     this.leasingFinancialBasicForm
       .get('percentOfFinance')
       ?.valueChanges.subscribe(() => {
+        if (this.suppressRecalc) return;
         this.recalculateAndValidateFinancialFields();
         this.updateNfaAndCalculations();
         this.calculateReservePaymentAmount();
@@ -1487,6 +1534,7 @@ export class AddAgreementComponent {
 
     // NFA Dependencies
     this.leasingFinancialBasicForm.get('nfa')?.valueChanges.subscribe(() => {
+      if (this.suppressRecalc) return;
       console.log('NFA changed.');
       this.updateProvisionPercent();
       this.updateProvisionAmount();
@@ -1531,7 +1579,6 @@ export class AddAgreementComponent {
       branchId: basic.branchId,
       portfolioId: basic.portfolioId,
       businessSourceId: basic.businessSourceId,
-      indicativeRentals: finCurr.indicativeRentals,
       insuredById: idOf(basic.insuredById),
 
       assetCost: finBasic.assetCost,
@@ -1629,8 +1676,17 @@ export class AddAgreementComponent {
       const payload = this.buildCreatePayload();
       console.log('[Submit] Payload →', payload);
       if (this.editMode) {
-        const leaseId = +this.route.snapshot.paramMap.get('id')!;
-        console.log('id', leaseId);
+        const leaseId = +(
+          this.route.snapshot.paramMap.get('leasingId') ??
+          this.route.snapshot.paramMap.get('id') ??
+          NaN
+        );
+
+        if (!Number.isFinite(leaseId)) {
+          console.error('[Submit] Missing leasing id in route params');
+          this.isSubmitting = false;
+          return;
+        }
         this.facade.update(leaseId, payload);
       } else {
         this.facade.create(payload);
@@ -1681,9 +1737,9 @@ export class AddAgreementComponent {
       nfa: [null, Validators.required],
       years: [null, Validators.required],
       firstBookingDate: [null, Validators.required],
-      isRentInArrear: [true, Validators.required],
-      isFixedContractEnd: [true, Validators.required],
-      isFixedRent: [true, Validators.required],
+      isRentInArrear: [true],
+      isFixedContractEnd: [true],
+      isFixedRent: [true],
     });
   }
   private initializeLeasingFinancialRatesForm() {
@@ -1704,14 +1760,13 @@ export class AddAgreementComponent {
       currencyExchangeRateId: [null, Validators.required],
       isManuaExchangeRate: [false],
       manualSetExchangeRate: [{ value: null, disabled: true }],
-      indicativeRentals: [null, Validators.required],
       referenceRent: [null, Validators.required],
-      rvPercent: [null, Validators.required],
-      rvAmount: [null, Validators.required],
-      reservePaymentCount: [null, Validators.required],
-      reservePaymentAmount: [null, Validators.required],
-      provisionPercent: [null, Validators.required],
-      provisionAmount: [null, Validators.required],
+      rvPercent: [null],
+      rvAmount: [null],
+      reservePaymentCount: [null],
+      reservePaymentAmount: [null],
+      provisionPercent: [null],
+      provisionAmount: [null],
       interestRateBenchmarkId: [null, Validators.required],
       paymentTimingTermId: [null, Validators.required],
       rentStructureTypeId: [null, Validators.required],
@@ -1893,6 +1948,7 @@ export class AddAgreementComponent {
       this.leasingFinancialCurrencyForm.invalid ||
       this.leasingFinancialRateForm.invalid
     ) {
+      // mark only calc-related fields as touched (keeps UI sane)
       [
         this.leasingFinancialBasicForm,
         this.leasingFinancialCurrencyForm,
@@ -1902,7 +1958,22 @@ export class AddAgreementComponent {
           form.get(c)?.markAsTouched({ onlySelf: true })
         )
       );
-      console.log('Form is invalid');
+
+      console.group('[Calculate] Form is invalid');
+
+      console.log('— Calc-only invalid summary —');
+      console.table(this.debugInvalidForCalc());
+
+      console.log('— Full tree (basic) —');
+      this.logInvalidControls(this.leasingFinancialBasicForm, 'basic');
+
+      console.log('— Full tree (rates) —');
+      this.logInvalidControls(this.leasingFinancialRateForm, 'rates');
+
+      console.log('— Full tree (currency) —');
+      this.logInvalidControls(this.leasingFinancialCurrencyForm, 'currency');
+
+      console.groupEnd();
       return;
     }
 
@@ -2115,4 +2186,167 @@ export class AddAgreementComponent {
     const fromForm = v && typeof v === 'object' ? v.id : v;
     return Number.isFinite(Number(fromForm)) ? Number(fromForm) : null;
   } // Normalize "id or {id:...}" → number|null
+  get canCalculate(): boolean {
+    const b = this.leasingFinancialBasicForm;
+    const r = this.leasingFinancialRateForm;
+    const c = this.leasingFinancialCurrencyForm;
+
+    // must-have inputs for calc
+    const inputsValid =
+      b.get('assetCost')?.valid &&
+      b.get('downPayment')?.valid && // or percentOfFinance, depending on your rule
+      b.get('nfa')?.valid &&
+      r.get('interestRate')?.valid &&
+      r.get('insuranceRate')?.valid &&
+      r.get('tenor')?.valid &&
+      r.get('paymentPeriodId')?.valid &&
+      r.get('gracePeriodInDays')?.valid &&
+      c.get('referenceRent')?.valid &&
+      c.get('paymentTimingTermId')?.valid;
+
+    // currency selection requirements
+    const currencyValid =
+      c.get('currencyId')?.valid &&
+      c.get('currencyExchangeRateId')?.valid &&
+      // when manual is checked, the textbox must have a value
+      (!c.get('isManuaExchangeRate')?.value ||
+        !!c.get('manualSetExchangeRate')?.value);
+
+    return !!inputsValid && !!currencyValid;
+  }
+  private toNum(v: any): number | null {
+    if (v === null || v === undefined) return null;
+    const n = +v;
+    return Number.isFinite(n) ? n : null;
+  }
+  get canSubmit(): any {
+    return (
+      this.addAgreementShowMainInformationForm.valid &&
+      this.addAgreementShowAssetTypeForm.valid &&
+      this.addAgreementShowFeeForm.valid &&
+      this.leasingFinancialBasicForm.valid &&
+      this.leasingFinancialRateForm.valid &&
+      // currency *inputs* only
+      this.leasingFinancialCurrencyForm.get('currencyId')?.valid &&
+      this.leasingFinancialCurrencyForm.get('currencyExchangeRateId')?.valid &&
+      this.leasingFinancialCurrencyForm.get('referenceRent')?.valid &&
+      this.leasingFinancialCurrencyForm.get('interestRateBenchmarkId')?.valid &&
+      this.leasingFinancialCurrencyForm.get('paymentTimingTermId')?.valid &&
+      this.leasingFinancialCurrencyForm.get('rentStructureTypeId')?.valid &&
+      this.leasingFinancialCurrencyForm.get('paymentMethodId')?.valid &&
+      this.leasingFinancialCurrencyForm.get('paymentMonthDayID')?.valid &&
+      !this.isSubmitting
+    );
+  } /** Recursively logs invalid controls with full path + errors */
+  private logInvalidControls(
+    ctrl: AbstractControl,
+    path: string = 'form'
+  ): void {
+    const print = (p: string, c: AbstractControl) => {
+      if (c.invalid) {
+        console.warn('[INVALID]', {
+          path: p,
+          value: (c as any).value,
+          errors: c.errors,
+          touched: c.touched,
+          dirty: c.dirty,
+          status: c.status,
+        });
+      }
+    };
+
+    if (ctrl instanceof FormGroup) {
+      print(path, ctrl);
+      Object.keys(ctrl.controls).forEach((key) =>
+        this.logInvalidControls(ctrl.controls[key], `${path}.${key}`)
+      );
+    } else if (ctrl instanceof FormArray) {
+      print(path, ctrl);
+      ctrl.controls.forEach((child, i) =>
+        this.logInvalidControls(child, `${path}[${i}]`)
+      );
+    } else {
+      print(path, ctrl);
+    }
+  }
+
+  /** Compact table of calc-only fields (optional) */
+  private debugInvalidForCalc(): any {
+    const pick = (fg: FormGroup, keys: string[]) =>
+      keys
+        .map((k) => ({ k, c: fg.get(k) }))
+        .filter((x) => x.c && x.c.invalid)
+        .map((x) => ({
+          control: x.k,
+          value: x.c!.value,
+          errors: x.c!.errors,
+          touched: x.c!.touched,
+          dirty: x.c!.dirty,
+        }));
+
+    return {
+      basic: pick(this.leasingFinancialBasicForm, [
+        'assetCost',
+        'downPayment',
+        'nfa',
+      ]),
+      rate: pick(this.leasingFinancialRateForm, [
+        'interestRate',
+        'insuranceRate',
+        'tenor',
+        'paymentPeriodId',
+        'gracePeriodInDays',
+      ]),
+      currency: pick(this.leasingFinancialCurrencyForm, [
+        'currencyId',
+        'currencyExchangeRateId',
+        'referenceRent',
+        'paymentTimingTermId',
+        ...(this.leasingFinancialCurrencyForm.get('isManuaExchangeRate')?.value
+          ? ['manualSetExchangeRate']
+          : []),
+      ]),
+    };
+  }
+  private applyViewMode() {
+    if (this.viewOnly) this.disableAllForms();
+    else this.enableAllForms();
+  }
+
+  /** Disable the entire parent tree + any special cases */
+  private disableAllForms() {
+    if (!this.parentForm) return;
+    // Disable parent disables all descendants currently attached
+    this.parentForm.disable({ emitEvent: false });
+    // Keep your derived/always-disabled fields disabled explicitly (idempotent)
+    this.leasingFinancialRateForm
+      ?.get('periodInterestRate')
+      ?.disable({ emitEvent: false });
+
+    // Prevent listeners from toggling things in view mode
+    this.suppressRecalc = true;
+  }
+
+  /** Re-enable for edit mode, then re-apply fields that should stay disabled */
+  private enableAllForms() {
+    if (!this.parentForm) return;
+    this.parentForm.enable({ emitEvent: false });
+
+    // These should remain disabled in edit mode
+    this.leasingFinancialRateForm
+      ?.get('periodInterestRate')
+      ?.disable({ emitEvent: false });
+
+    // Manual rate textbox follows the checkbox
+    const manual = !!this.leasingFinancialCurrencyForm?.get(
+      'isManuaExchangeRate'
+    )?.value;
+    const manualCtrl = this.leasingFinancialCurrencyForm?.get(
+      'manualSetExchangeRate'
+    );
+    if (manual) manualCtrl?.enable({ emitEvent: false });
+    else manualCtrl?.disable({ emitEvent: false });
+
+    this.suppressRecalc = false;
+  }
 }

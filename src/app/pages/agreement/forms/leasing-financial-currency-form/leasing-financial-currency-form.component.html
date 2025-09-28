@@ -1,0 +1,416 @@
+<form
+  [formGroup]="formGroup"
+  *ngIf="leasingFinancialCurrencyForm"
+  id="addManageMandateTermsForm"
+>
+  <div class="row w-100">
+    <div class="col-sm">
+      <label for="currencyId"
+        >{{ "LEASE_CURRENCY.CURRENCY" | translate }}<sup>*</sup></label
+      >
+      <p-select
+        [filter]="true"
+        [filterBy]="filterByField"
+        [showClear]="true"
+        [options]="currencies"
+        [(ngModel)]="selectedCurrency"
+        formControlName="currencyId"
+        [placeholder]="'LEASE_CURRENCY.CURRENCY' | translate"
+        [optionLabel]="optionLabelKey"
+        optionValue="id"
+        name="currencyId"
+        styleClass="w-100"
+        (onChange)="onCurrencyChange($event)"
+      />
+      <small
+        *ngIf="
+          formGroup.get('currencyId')?.invalid &&
+          formGroup.get('currencyId')?.touched
+        "
+        class="p-error"
+      >
+        {{ "LEASE_CURRENCY.CURRENCY_REQUIRED" | translate }}
+      </small>
+    </div>
+    <div class="col-sm">
+      <label for="currencyExchangeRateId"
+        >{{ "LEASE_CURRENCY.CURRENCY_EXCHANGE_RATE" | translate
+        }}<sup>*</sup></label
+      >
+
+      <p-select
+        [filter]="true"
+        [filterBy]="filterByField"
+        [showClear]="true"
+        [options]="currencyExchangeRates"
+        formControlName="currencyExchangeRateId"
+        [placeholder]="'LEASE_CURRENCY.CURRENCY_EXCHANGE_RATE' | translate"
+        optionLabel="exchangeRate"
+        optionValue="id"
+        name="currencyExchangeRateId"
+        styleClass="w-100"
+        (onChange)="onCurrencyExchangeRateChange($event)"
+      />
+      <small
+        *ngIf="
+          formGroup.get('currencyExchangeRateId')?.invalid &&
+          formGroup.get('currencyExchangeRateId')?.touched
+        "
+        class="p-error"
+      >
+        {{ "LEASE_CURRENCY.CURRENCY_EXCHANGE_RATE_REQUIRED" | translate }}
+      </small>
+    </div>
+  </div>
+  <div class="row w-100"></div>
+  <div class="row w-100">
+    <div class="col-sm">
+      <p-checkbox
+        formControlName="isManuaExchangeRate"
+        binary="true"
+        (onChange)="onCheckboxChange.emit($event)"
+      ></p-checkbox
+      >&nbsp;
+      <label for="isManuaExchangeRate" class="label-container"
+        >{{ "LEASE_CURRENCY.IS_MANUAL_EXCHANGE_RATE" | translate }}?<sup
+          >*</sup
+        ></label
+      >
+    </div>
+    <div class="col-sm">
+      <label for="manualSetExchangeRate" class="label-container"
+        >{{ "LEASE_CURRENCY.MANUAL_EXCHANGE_RATE" | translate
+        }}<sup>*</sup></label
+      >
+      <input
+        type="number"
+        formControlName="manualSetExchangeRate"
+        placeholder="{{ 'LEASE_CURRENCY.MANUAL_EXCHANGE_RATE' | translate }}"
+        pInputText
+      />
+      <small
+        *ngIf="
+          formGroup.get('manualSetExchangeRate')?.invalid &&
+          formGroup.get('manualSetExchangeRate')?.touched
+        "
+        class="p-error"
+      >
+        {{ "LEASE_CURRENCY.MANUAL_EXCHANGE_RATE_REQUIRED" | translate }}
+      </small>
+    </div>
+    <div class="col-sm">
+      <label for="referenceRent"
+        >{{ "LEASE_CURRENCY.RENT" | translate }}<sup>*</sup></label
+      ><br />
+      <p-inputNumber
+        id="referenceRent"
+        formControlName="referenceRent"
+        [placeholder]="'LEASE_CURRENCY.RENT' | translate"
+        name="referenceRent"
+        class="w-100"
+      ></p-inputNumber
+      ><br />
+      <small
+        *ngIf="
+          formGroup.get('referenceRent')?.invalid &&
+          formGroup.get('referenceRent')?.touched
+        "
+        class="p-error"
+      >
+        {{ "LEASE_CURRENCY.RENT_REQUIRED" | translate }}
+      </small>
+    </div>
+  </div>
+  <div class="row w-100">
+    <div class="col-sm">
+      <label for="rvPercent"
+        >{{ "LEASE_CURRENCY.RV_PERCENT" | translate }}<sup>*</sup></label
+      ><br />
+      <p-inputNumber
+        formControlName="rvPercent"
+        suffix="%"
+        [min]="0"
+        [max]="85"
+        mode="decimal"
+        [minFractionDigits]="2"
+        [maxFractionDigits]="2"
+        [placeholder]="'LEASE_CURRENCY.RV_PERCENT' | translate"
+        name="rvPercent"
+        class="w-100"
+      ></p-inputNumber
+      ><br />
+      <small
+        *ngIf="
+          formGroup.get('rvPercent')?.invalid &&
+          formGroup.get('rvPercent')?.touched
+        "
+        class="p-error"
+      >
+        {{ "LEASE_CURRENCY.RV_PERCENT_REQUIRED" | translate }}
+      </small>
+    </div>
+    <div class="col-sm">
+      <label for="rvAmount"
+        >{{ "LEASE_CURRENCY.RV_AMOUNT" | translate }}<sup>*</sup></label
+      ><br />
+      <p-inputNumber
+        formControlName="rvAmount"
+        name="rvAmount"
+        [placeholder]="'LEASE_CURRENCY.RV_AMOUNT' | translate"
+        class="w-100"
+      ></p-inputNumber
+      ><br />
+      <small
+        *ngIf="
+          formGroup.get('rvAmount')?.invalid &&
+          formGroup.get('rvAmount')?.touched
+        "
+        class="p-error"
+      >
+        {{ "LEASE_CURRENCY.RV_AMOUNT_REQUIRED" | translate }}
+      </small>
+    </div>
+  </div>
+  <div class="row w-100">
+    <div class="col-sm">
+      <label for="reservePaymentCount"
+        >{{ "LEASE_CURRENCY.RESERVE_PAYMENT_COUNT" | translate }}
+        <sup>*</sup></label
+      ><br />
+      <p-inputNumber
+        id="reservePaymentCount"
+        formControlName="reservePaymentCount"
+        name="reservePaymentCount"
+        [placeholder]="'LEASE_CURRENCY.RESERVE_PAYMENT_COUNT' | translate"
+        class="w-100"
+      ></p-inputNumber
+      ><br />
+      <small
+        *ngIf="
+          formGroup.get('reservePaymentCount')?.invalid &&
+          formGroup.get('reservePaymentCount')?.touched
+        "
+        class="p-error"
+      >
+        {{ "LEASE_CURRENCY.RESERVE_PAYMENT_COUNT_REQUIRED" | translate }}
+      </small>
+    </div>
+    <div class="col-sm">
+      <label for="reservePaymentAmount"
+        >{{ "LEASE_CURRENCY.RESERVE_PAYMENT_AMOUNT" | translate
+        }}<sup>*</sup></label
+      ><br />
+      <p-inputNumber
+        id="reservePaymentAmount"
+        formControlName="reservePaymentAmount"
+        name="reservePaymentAmount"
+        [placeholder]="'LEASE_CURRENCY.RESERVE_PAYMENT_AMOUNT' | translate"
+        class="w-100"
+      ></p-inputNumber
+      ><br />
+      <small
+        *ngIf="
+          formGroup.get('reservePaymentAmount')?.invalid &&
+          formGroup.get('reservePaymentAmount')?.touched
+        "
+        class="p-error"
+      >
+        {{ "LEASE_CURRENCY.RESERVE_PAYMENT_AMOUNT_REQUIRED" | translate }}
+      </small>
+    </div>
+  </div>
+  <div class="row w-100">
+    <div class="col-sm">
+      <label for="provisionPercent"
+        >{{ "LEASE_CURRENCY.PROVISION_PERCENT" | translate }}<sup>*</sup></label
+      ><br />
+      <p-inputNumber
+        formControlName="provisionPercent"
+        suffix="%"
+        mode="decimal"
+        [min]="0"
+        [minFractionDigits]="2"
+        [maxFractionDigits]="2"
+        name="provisionPercent"
+        [placeholder]="'LEASE_CURRENCY.PROVISION_PERCENT' | translate"
+        class="w-100"
+      ></p-inputNumber
+      ><br />
+      <small
+        *ngIf="
+          formGroup.get('provisionPercent')?.invalid &&
+          formGroup.get('provisionPercent')?.touched
+        "
+        class="p-error"
+      >
+        {{ "LEASE_CURRENCY.PROVISION_PERCENT_REQUIRED" | translate }}
+      </small>
+    </div>
+    <div class="col-sm">
+      <label for="provisionAmount"
+        >{{ "LEASE_CURRENCY.PROVISION_AMOUNT" | translate }}<sup>*</sup></label
+      ><br />
+      <p-inputNumber
+        formControlName="provisionAmount"
+        name="provisionAmount"
+        [placeholder]="'LEASE_CURRENCY.PROVISION_AMOUNT' | translate"
+        class="w-100"
+      ></p-inputNumber
+      ><br />
+      <small
+        *ngIf="
+          formGroup.get('provisionAmount')?.invalid &&
+          formGroup.get('provisionAmount')?.touched
+        "
+        class="p-error"
+      >
+        {{ "LEASE_CURRENCY.PROVISION_AMOUNT_REQUIRED" | translate }}
+      </small>
+    </div>
+  </div>
+  <div class="row w-100">
+    <div class="col-sm">
+      <label for="interestRateBenchmarkId"
+        >{{ "LEASE_CURRENCY.INTEREST_RATE_BENCHMARK" | translate
+        }}<sup>*</sup></label
+      >
+
+      <p-select
+        [filter]="true"
+        [filterBy]="filterByField"
+        [showClear]="true"
+        [options]="interestRateBenchMarks"
+        [(ngModel)]="selectedInterestRateBenchMarks"
+        formControlName="interestRateBenchmarkId"
+        [optionLabel]="optionLabelKey"
+        optionValue="id"
+        class="w-100"
+        name="interestRateBenchmarkId"
+        [placeholder]="'LEASE_CURRENCY.INTEREST_RATE_BENCHMARK' | translate"
+        (onChange)="onInterestRateBenchmarkChange($event)"
+      /><br />
+
+      <small
+        *ngIf="
+          formGroup.get('interestRateBenchmarkId')?.invalid &&
+          formGroup.get('interestRateBenchmarkId')?.touched
+        "
+        class="p-error"
+      >
+        {{ "LEASE_CURRENCY.INTEREST_RATE_BENCHMARK_REQUIRED" | translate }}
+      </small>
+    </div>
+    <div class="col-sm">
+      <label for="paymentTimingTermId"
+        >{{ "LEASE_CURRENCY.PAYMENT_TIME_TERM" | translate }}<sup>*</sup></label
+      >
+      <p-select
+        [filter]="true"
+        [filterBy]="filterByField"
+        [showClear]="true"
+        [options]="paymentTimeTerms"
+        [(ngModel)]="selectedPaymentTimingTerm"
+        formControlName="paymentTimingTermId"
+        (onChange)="onPaymentTimingTermChange($event)"
+        [optionLabel]="optionLabelKey"
+        optionValue="id"
+        class="w-100"
+        name="paymentTimingTermId"
+        [placeholder]="'LEASE_CURRENCY.PAYMENT_TIME_TERM' | translate"
+      />
+      <small
+        *ngIf="
+          formGroup.get('paymentTimingTermId')?.invalid &&
+          formGroup.get('paymentTimingTermId')?.touched
+        "
+        class="p-error"
+      >
+        {{ "LEASE_CURRENCY.PAYMENT_TIME_TERM_REQUIRED" | translate }}
+      </small>
+    </div>
+  </div>
+  <div class="row w-100">
+    <div class="col-sm">
+      <label for="rentStructureTypeId"
+        >{{ "LEASE_CURRENCY.RENT_STRUCTURE" | translate }}<sup>*</sup></label
+      >
+      <p-select
+        [filter]="true"
+        [filterBy]="filterByField"
+        [showClear]="true"
+        [options]="rentStructures"
+        formControlName="rentStructureTypeId"
+        [(ngModel)]="selectedRentStructureType"
+        [optionLabel]="optionLabelKey"
+        optionValue="id"
+        class="w-100"
+        name="rentStructureTypeId"
+        (onChange)="onRentStructureTypeChange($event)"
+        [placeholder]="'LEASE_CURRENCY.RENT_STRUCTURE' | translate"
+      /><small
+        *ngIf="
+          formGroup.get('rentStructureTypeId')?.invalid &&
+          formGroup.get('rentStructureTypeId')?.touched
+        "
+        class="p-error"
+      >
+        {{ "LEASE_CURRENCY.RENT_STRUCTURE_REQUIRED" | translate }}
+      </small>
+    </div>
+    <div class="col-sm">
+      <label for="paymentMethodId"
+        >{{ "LEASE_CURRENCY.PAYMENT_METHOD" | translate }}<sup>*</sup></label
+      >
+      <p-select
+        [filter]="true"
+        [filterBy]="filterByField"
+        [showClear]="true"
+        [options]="paymentMethods"
+        formControlName="paymentMethodId"
+        [(ngModel)]="selectedPaymentMethod"
+        [optionLabel]="optionLabelKey"
+        optionValue="id"
+        class="w-100"
+        name="paymentMethodId"
+        [placeholder]="'LEASE_CURRENCY.PAYMENT_METHOD' | translate"
+        (onChange)="onPaymentMethodChange($event)"
+      /><small
+        *ngIf="
+          formGroup.get('paymentMethodId')?.invalid &&
+          formGroup.get('paymentMethodId')?.touched
+        "
+        class="p-error"
+      >
+        {{ "LEASE_CURRENCY.PAYMENT_METHOD_REQUIRED" | translate }}
+      </small>
+    </div>
+  </div>
+  <div class="row w-100">
+    <div class="col-sm-12">
+      <label for="paymentMonthDayID"
+        >{{ "LEASE_CURRENCY.PAYMENT_MONTH_DAY" | translate }}<sup>*</sup></label
+      >
+      <p-select
+        [filter]="true"
+        [filterBy]="filterByField"
+        [showClear]="true"
+        [options]="paymentMonthDays"
+        formControlName="paymentMonthDayID"
+        [optionLabel]="optionLabelKey"
+        optionValue="id"
+        class="w-100"
+        name="paymentMonthDayID"
+        [placeholder]="'LEASE_CURRENCY.PAYMENT_MONTH_DAY' | translate"
+        (onChange)="onPaymentMonthDayChange($event)"
+      /><small
+        *ngIf="
+          formGroup.get('paymentMonthDayID')?.invalid &&
+          formGroup.get('paymentMonthDayID')?.touched
+        "
+        class="p-error"
+      >
+        {{ "LEASE_CURRENCY.PAYMENT_MONTH_DAY_REQUIRED" | translate }}
+      </small>
+    </div>
+  </div>
+</form>

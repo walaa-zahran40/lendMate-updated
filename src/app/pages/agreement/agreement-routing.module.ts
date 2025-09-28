@@ -22,6 +22,10 @@ const routes: Routes = [
     canDeactivate: [PendingChangesGuard],
   },
   {
+    path: 'view-agreement/:id',
+    component: AddAgreementComponent,
+  },
+  {
     path: 'wizard-agreement/:id',
     component: WizardAgreementComponent,
   },
