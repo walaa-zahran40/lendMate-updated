@@ -183,6 +183,33 @@ export class AddAgreementComponent {
     private businessSourcesFacade: BusinessSourcesFacade
   ) {}
   ngOnInit() {
+    //Build all sub-forms
+    this.buildAgreementShowMainForm();
+    this.buildAgreementShowAssetTypeForm();
+    this.buildAgreementShowFeeForm();
+    //Build the three sub-forms
+    this.initializeLeasingFinancialBasicForm();
+    this.initializeLeasingFinancialRatesForm();
+    this.initializeLeasingFinancialCurrencyForm();
+    console.log('Basic', this.leasingFinancialBasicForm);
+    console.log('Rate', this.leasingFinancialRateForm);
+    console.log('Currency', this.leasingFinancialCurrencyForm);
+
+    //Create the parent form
+    this.parentForm = this.fb.group({
+      basic: this.addAgreementShowMainInformationForm,
+      assets: this.addAgreementShowAssetTypeForm,
+      fees: this.addAgreementShowFeeForm,
+
+      financialActivities: this.fb.group({
+        basic: this.leasingFinancialBasicForm,
+        rates: this.leasingFinancialRateForm,
+        currency: this.leasingFinancialCurrencyForm,
+      }),
+    });
+
+    //Set up value-change listeners, etc.
+    this.setupFormListeners();
     console.log('show', this.show);
     if (!this.clientId || (!this.clientId && this.editMode)) {
       console.log("there isn't a client id");
@@ -190,7 +217,45 @@ export class AddAgreementComponent {
     } else {
       console.log('there is a client id');
       this.show = false;
+    } // 1) Parse params once
+    const params = this.route.snapshot.paramMap;
+    const query = this.route.snapshot.queryParamMap;
+
+    // accept either :leasingId or :id
+    const leasingIdStr = params.get('leasingId') ?? params.get('id');
+    this.leasingAgreementId = leasingIdStr ? +leasingIdStr : undefined;
+
+    // accept either /.../:clientId or none
+    const clientIdStr = params.get('clientId');
+    this.clientId = clientIdStr ? +clientIdStr : undefined;
+
+    // set flags ASAP (don’t gate behind an ID)
+    const mode = query.get('mode');
+    this.editMode = mode === 'edit';
+    this.viewOnly = mode === 'view';
+
+    // set `show` once, using the flags you just set
+    this.show = !this.clientId;
+
+    // ... init dropdowns/forms etc. ...
+    // then load by id if present
+    if (Number.isFinite(this.leasingAgreementId)) {
+      this.facade.loadById(this.leasingAgreementId!);
     }
+
+    // subscribe once to selected and patch when it matches
+    this.facade.selected$
+      .pipe(
+        filter(
+          (m) =>
+            !!m &&
+            (!this.leasingAgreementId || m.id === this.leasingAgreementId)
+        ),
+        take(1)
+      )
+      .subscribe((agreement: any) => {
+        this.patchAgreement(this.normalizeAgreement(agreement));
+      });
     //Dropdowns
     this.clientFacade.loadAll();
     this.clientNames$ = this.clientFacade.all$;
@@ -229,33 +294,7 @@ export class AddAgreementComponent {
     this.paymentMethods$ = this.paymentMethodsFacade.all$;
     this.paymentMonthDaysFacade.loadAll();
     this.paymentMonthDays$ = this.paymentMonthDaysFacade.all$;
-    //Build all sub-forms
-    this.buildAgreementShowMainForm();
-    this.buildAgreementShowAssetTypeForm();
-    this.buildAgreementShowFeeForm();
-    //Build the three sub-forms
-    this.initializeLeasingFinancialBasicForm();
-    this.initializeLeasingFinancialRatesForm();
-    this.initializeLeasingFinancialCurrencyForm();
-    console.log('Basic', this.leasingFinancialBasicForm);
-    console.log('Rate', this.leasingFinancialRateForm);
-    console.log('Currency', this.leasingFinancialCurrencyForm);
 
-    //Create the parent form
-    this.parentForm = this.fb.group({
-      basic: this.addAgreementShowMainInformationForm,
-      assets: this.addAgreementShowAssetTypeForm,
-      fees: this.addAgreementShowFeeForm,
-
-      financialActivities: this.fb.group({
-        basic: this.leasingFinancialBasicForm,
-        rates: this.leasingFinancialRateForm,
-        currency: this.leasingFinancialCurrencyForm,
-      }),
-    });
-
-    //Set up value-change listeners, etc.
-    this.setupFormListeners();
     if (!this.clientId) {
       combineLatest({
         params: this.route.paramMap,
@@ -300,30 +339,28 @@ export class AddAgreementComponent {
       })
         .pipe(
           map(({ params, query }) => ({
-            clientId: +params.get('clientId')!,
-            leasingId: +params.get('leasingId')!,
+            id: +(params.get('leasingId') ?? params.get('id') ?? NaN),
+            clientId: +(params.get('clientId') ?? NaN),
             mode: query.get('mode'),
           })),
-          filter(({ leasingId, clientId }) => !!leasingId && !!clientId),
-          tap(({ leasingId, mode, clientId }) => {
-            // flip your flags exactly once, at the same time you load
-            this.show = !clientId;
-            console.log('✅ clientId presence → show =', this.show);
+          tap(({ mode }) => {
             this.editMode = mode === 'edit';
             this.viewOnly = mode === 'view';
-            // now fetch afresh
-            this.facade.loadById(leasingId);
-            this.facade.loadByClient(clientId);
+            this.show = isNaN(this.clientId!);
           }),
-          switchMap(({ leasingId, clientId }) =>
+          filter(({ id }) => Number.isFinite(id)), // only gate loading by id
+          tap(({ id, clientId }) => {
+            if (Number.isFinite(id)) this.facade.loadById(id);
+            if (Number.isFinite(clientId)) this.facade.loadByClient(clientId);
+          }),
+          switchMap(({ id }) =>
             this.facade.selected$.pipe(
-              filter(
-                (m) => !!m && m.id === leasingId && m.clientId === clientId
-              ),
+              filter((m) => !!m && m.id === id),
               take(1)
             )
           )
         )
+
         .subscribe((agreement: any) =>
           this.patchAgreement(this.normalizeAgreement(agreement))
         );
@@ -580,22 +617,27 @@ export class AddAgreementComponent {
     // ===== ARRAYS (already in your code) =====
     const resetArray = (
       fa: FormArray,
-      items: any[],
+      items: any[] | undefined | null,
       factory: () => FormGroup
     ) => {
       fa.clear();
-      (items || []).forEach((item) => {
-        const fg = factory();
-        fg.patchValue(item, { emitEvent: false });
-        fa.push(fg);
-      });
+
+      if (Array.isArray(items) && items.length) {
+        items.forEach((item) => {
+          const fg = factory();
+          fg.patchValue(item, { emitEvent: false });
+          fa.push(fg);
+        });
+      } else {
+        // keep one empty row so the UI shows inputs
+        fa.push(factory());
+      }
     };
-    resetArray(
-      this.agreementAssetTypes,
-      (m as any)?.agreementAssetTypes || [],
-      () => this.createAssetTypeGroup()
+
+    resetArray(this.agreementAssetTypes, (m as any)?.agreementAssetTypes, () =>
+      this.createAssetTypeGroup()
     );
-    resetArray(this.agreementFees, (m as any)?.agreementFees || [], () =>
+    resetArray(this.agreementFees, (m as any)?.agreementFees, () =>
       this.createFeeGroup()
     );
 
