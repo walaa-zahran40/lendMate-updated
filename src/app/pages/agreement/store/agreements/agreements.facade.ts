@@ -33,6 +33,7 @@ export class LeasingAgreementsFacade {
     this.store.dispatch(LeasingAgreementsActions.loadAll());
   }
   loadById(id: number) {
+    console.log('[facade] dispatch loadById', id);
     this.store.dispatch(LeasingAgreementsActions.loadById({ id }));
   }
   loadByClient(clientId: number) {

@@ -38,7 +38,6 @@ export interface FinancialForm {
   fixedInterestRate?: number; // if fixed
   startDate?: string; // ISO string?: e.g. "2025-06-06T11?:55?:07.120Z"
   years?: number; // number of years (if relevant)
-  rent?: number; // calculated rental amount
   paymentPeriodMonthCount?: any;
   payments?: any;
   paymentPeriodDTO?: any;
@@ -47,6 +46,7 @@ export interface FinancialForm {
   isManuaExchangeRate?: any;
   currencyExchangeRateDto?: any;
   referenceRent?: any;
+  rent?: any;
 }
 export interface FeeCalculationType {
   id: number;

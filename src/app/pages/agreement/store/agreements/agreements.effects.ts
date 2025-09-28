@@ -1,14 +1,15 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Injectable, inject } from '@angular/core';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { LeasingAgreementsActions } from './agreements.actions';
 import { LeasingAgreementsService } from './agreements.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class LeasingAgreementsEffects {
   private actions$ = inject(Actions);
   private api = inject(LeasingAgreementsService);
-
+  private router = inject(Router);
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
       ofType(LeasingAgreementsActions.loadAll),
@@ -36,6 +37,42 @@ export class LeasingAgreementsEffects {
         )
       )
     )
+  ); // agreements.effects.ts
+  loadById$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(LeasingAgreementsActions.loadById),
+      tap(({ id }) => console.log('[effect] loadById received', id)),
+      switchMap(({ id }) =>
+        this.api.getById(id).pipe(
+          tap((resp) => console.log('[effect] API result', resp)),
+          map((agreement) =>
+            LeasingAgreementsActions.loadByIdSuccess({
+              agreement,
+            })
+          ),
+          catchError((error) => {
+            console.error('[effect] API error', error);
+            return of(
+              LeasingAgreementsActions.loadByIdFailure({
+                error,
+              })
+            );
+          })
+        )
+      )
+    )
+  );
+
+  navigateAfterCreate$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(LeasingAgreementsActions.createSuccess),
+        tap(() => {
+          // if you need clientId here, inject Router + a service or read from store
+          this.router.navigate(['/agreement/view-agreements']);
+        })
+      ),
+    { dispatch: false }
   );
 
   create$ = createEffect(() =>

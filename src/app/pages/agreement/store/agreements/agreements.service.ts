@@ -28,7 +28,9 @@ export class LeasingAgreementsService {
   getById(id: number) {
     // If the real API is /{id}, change here accordingly.
     // Provided path was "/LeasingAgreementId" — mapping to /{id} below for practicality:
-    return this.http.get<LeasingAgreement>(`${this.base}/${id}`);
+    return this.http.get<LeasingAgreement>(
+      `${this.base}/LeasingAgreementId?leasingAgreement=${id}`
+    );
   }
 
   getByClientId(clientId: number) {

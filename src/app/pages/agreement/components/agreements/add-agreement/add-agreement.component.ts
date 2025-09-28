@@ -278,7 +278,7 @@ export class AddAgreementComponent {
           }),
           switchMap(({ leasingId }) =>
             this.facade.selected$.pipe(
-              filter((m) => m != null && m.id === leasingId),
+              filter((m) => !!m && m.id === leasingId),
               take(1)
             )
           )
@@ -456,26 +456,6 @@ export class AddAgreementComponent {
         manualSetExchangeRateControl.disable({ emitEvent: false });
       }
     }
-    // ⬇️ when create succeeds → go back to View Agreements
-    const navigateToList = () => {
-      const tree = this.clientId
-        ? ['/crm/leasing-agreements/view-agreements', +this.clientId]
-        : ['/crm/leasing-agreements/view-agreements'];
-
-      console.log('[Navigate] Preparing to navigate to:', tree);
-
-      // Important: allow the guard
-      this.allowLeaveAfterSave = true;
-      this.markAllPristine();
-
-      // (optional) ensure latest list from backend
-      console.log('[Navigate] Reloading list before navigation…');
-
-      this.router.navigate(tree).then(
-        (ok) => console.log('[Navigate] router.navigate resolved. ok=', ok),
-        (err) => console.error('[Navigate] router.navigate rejected:', err)
-      );
-    };
 
     // 3) Also log any error$ from agreements slice so we see failures
     this.facade.error$.pipe(takeUntil(this.destroy$)).subscribe((err) => {
@@ -487,20 +467,26 @@ export class AddAgreementComponent {
     this.actions$
       .pipe(
         takeUntil(this.destroy$),
-        ofType(AgreementActions.LeasingAgreementsActions.createSuccess as any)
+        ofType(
+          AgreementActions.LeasingAgreementsActions.createSuccess,
+          AgreementActions.LeasingAgreementsActions.updateSuccess // optional
+        )
       )
       .subscribe(() => {
         this.isSubmitting = false;
-        this.navigateToList();
+        this.navigateToList(); // ✅ go back to view page
       });
 
     this.actions$
       .pipe(
         takeUntil(this.destroy$),
-        ofType(AgreementActions.LeasingAgreementsActions.createFailure as any)
+        ofType(
+          AgreementActions.LeasingAgreementsActions.createFailure,
+          AgreementActions.LeasingAgreementsActions.updateFailure
+        )
       )
       .subscribe((err) => {
-        console.error('[Create] failed:', err);
+        console.error('[Save] failed:', err);
         this.isSubmitting = false;
       });
   }
@@ -1502,23 +1488,15 @@ export class AddAgreementComponent {
     return [base, id];
   }
   private navigateToList = () => {
-    const cmds = this.buildListCommands();
-    const hasClient = cmds.length === 2; // ['/..../view-agreements', clientId]
+    const cmds = this.buildListCommands(); // ['/crm/leasing-agreements/view-agreements', clientId?]
 
-    console.log('[Navigate] commands=', cmds);
-
-    this.allowLeaveAfterSave = true;
+    this.allowLeaveAfterSave = true; // ✅ lets the canDeactivate guard pass
     this.markAllPristine();
 
-    // 🔑 Load only what the destination list needs
-    if (
-      hasClient &&
-      typeof this.clientId === 'number' &&
-      Number.isFinite(this.clientId)
-    ) {
+    // Optional: refresh list for the destination page
+    if (typeof this.clientId === 'number' && Number.isFinite(this.clientId)) {
       this.facade.loadByClient(this.clientId);
     } else {
-      // If your list page loads itself on init, you can remove this line entirely.
       this.facade.loadAll();
     }
 
@@ -1817,7 +1795,7 @@ export class AddAgreementComponent {
 
   // this is what your table actually uses:
   filteredFinancialForms: Array<{
-    referenceRent?: number;
+    rent?: number;
     interest?: number;
     installment?: number;
   }> = [];
@@ -1831,13 +1809,12 @@ export class AddAgreementComponent {
   }
 
   // Sum of rent
-  get sumOfRent(): number {
+  get sumOfRent(): any {
     return this.filteredFinancialForms.reduce(
-      (acc, row) => acc + (row.referenceRent || 0),
+      (acc, row) => acc + (row.rent || 0),
       0
     );
   }
-
   // Sum of installments
   get sumOfInstallments(): number {
     return this.filteredFinancialForms.reduce(

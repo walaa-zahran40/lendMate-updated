@@ -37,7 +37,12 @@ export const leasingAgreementsReducer = createReducer(
     loading: true,
   })),
   on(LeasingAgreementsActions.loadByIdSuccess, (state, { agreement }) => {
-    return agreementsAdapter.upsertOne(agreement, { ...state, loading: false });
+    const next = agreementsAdapter.upsertOne(agreement, state);
+    return {
+      ...next,
+      loading: false,
+      selectedId: agreement.id ?? next.selectedId,
+    };
   }),
   on(LeasingAgreementsActions.loadByIdFailure, (state, { error }) => ({
     ...state,
@@ -119,6 +124,7 @@ export const leasingAgreementsReducer = createReducer(
       loading: false,
     });
   }),
+
   on(LeasingAgreementsActions.workflowActionFailure, (state, { error }) => ({
     ...state,
     loading: false,
