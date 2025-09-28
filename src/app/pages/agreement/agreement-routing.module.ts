@@ -4,6 +4,7 @@ import { ViewAgreementsComponent } from './components/agreements/view-agreements
 import { AddAgreementComponent } from './components/agreements/add-agreement/add-agreement.component';
 import { PendingChangesGuard } from '../../shared/guards/pending-changes.guard';
 import { WizardAgreementComponent } from './components/agreements/activities/wizard-agreement/wizard-agreement.component';
+import { ViewAgreementContactPersonsComponent } from './components/agreements/activities/agreement-contact-persons/view-agreement-contact-persons/view-agreement-contact-persons.component';
 
 const routes: Routes = [
   //Agreement Contact Persons
@@ -23,6 +24,10 @@ const routes: Routes = [
   {
     path: 'wizard-agreement/:id',
     component: WizardAgreementComponent,
+  },
+  {
+    path: 'view-agreement-contact-persons/:id',
+    component: ViewAgreementContactPersonsComponent,
   },
 ];
 

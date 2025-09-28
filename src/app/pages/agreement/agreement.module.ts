@@ -16,12 +16,16 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TextareaModule } from 'primeng/textarea';
 import { SelectModule } from 'primeng/select';
 import { WizardAgreementComponent } from './components/agreements/activities/wizard-agreement/wizard-agreement.component';
+import { ViewAgreementContactPersonsComponent } from './components/agreements/activities/agreement-contact-persons/view-agreement-contact-persons/view-agreement-contact-persons.component';
+import { AddAgreementContactPersonComponent } from './components/agreements/activities/agreement-contact-persons/add-agreement-contact-person/add-agreement-contact-person.component';
 
 @NgModule({
   declarations: [
     ViewAgreementsComponent,
     AddAgreementComponent,
     WizardAgreementComponent,
+    ViewAgreementContactPersonsComponent,
+    AddAgreementContactPersonComponent,
   ],
   imports: [
     CommonModule,
