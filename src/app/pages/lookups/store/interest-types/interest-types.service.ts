@@ -11,15 +11,12 @@ export class InterestTypesService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<InterestType[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: InterestType[]; totalCount: number }>(
         `${this.baseUrl}/GetAllInterestTypes`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
         catchError((err) => {
           console.error('🚀 HTTP error fetching InterestTypes:', err);
           return throwError(() => err);
@@ -49,15 +46,12 @@ export class InterestTypesService {
   }
   //History management
   getAllHistory(): Observable<InterestType[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: InterestType[]; totalCount: number }>(
         `${this.baseUrl}/GetAllInterestTypesHistory`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
         catchError((err) => {
           console.error('🚀 HTTP error fetching InterestTypes:', err);
           return throwError(() => err);

@@ -72,15 +72,13 @@ export class MandateActionAuthorizationGroupsService {
   }
   //History management
   getAllHistory(): Observable<ActionAuthorizationGroup[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: ActionAuthorizationGroup[]; totalCount: number }>(
         `${this.api}/GetAllActionAuthorizationGroupsHistory`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error(
             '🚀 HTTP error fetching ActionAuthorizationGroups:',

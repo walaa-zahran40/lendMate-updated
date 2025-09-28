@@ -698,10 +698,6 @@ export class FormComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log('route', this.route.snapshot);
-
-    console.log('💡 pageOperationGroups input:', this.pageOperationGroups);
-
     this.minDateOfBirth.setFullYear(this.minDateOfBirth.getFullYear() - 100);
     // 18 years ago:
     this.maxDateOfBirth.setFullYear(this.maxDateOfBirth.getFullYear() - 18);

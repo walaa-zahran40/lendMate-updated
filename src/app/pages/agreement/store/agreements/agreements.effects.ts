@@ -41,10 +41,8 @@ export class LeasingAgreementsEffects {
   loadById$ = createEffect(() =>
     this.actions$.pipe(
       ofType(LeasingAgreementsActions.loadById),
-      tap(({ id }) => console.log('[effect] loadById received', id)),
       switchMap(({ id }) =>
         this.api.getById(id).pipe(
-          tap((resp) => console.log('[effect] API result', resp)),
           map((agreement) =>
             LeasingAgreementsActions.loadByIdSuccess({
               agreement,

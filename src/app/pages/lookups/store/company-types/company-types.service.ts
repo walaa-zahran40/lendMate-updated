@@ -11,15 +11,12 @@ export class CompanyTypesService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<CompanyType[]> {
-    console.log('🚀 Service: GET …');
     return this.http
       .get<{ items: CompanyType[]; totalCount: number }>(
         `${this.baseUrl}/GetAllCompanyTypes`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
         catchError((err) => {
           console.error('🚀 HTTP error fetching CompanyTypes:', err);
           return throwError(() => err);
@@ -47,15 +44,12 @@ export class CompanyTypesService {
   }
   //History management
   getAllHistory(): Observable<CompanyType[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: CompanyType[]; totalCount: number }>(
         `${this.baseUrl}/GetAllCompanyTypesHistory`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
         catchError((err) => {
           console.error('🚀 HTTP error fetching CompanyTypes:', err);
           return throwError(() => err);

@@ -11,15 +11,13 @@ export class TaxOfficesService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<TaxOffice[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: TaxOffice[]; totalCount: number }>(
         `${this.baseUrl}/GetAllTaxOffices`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching TaxOffices:', err);
           return throwError(() => err);
@@ -49,15 +47,13 @@ export class TaxOfficesService {
   }
   //History management
   getAllHistory(): Observable<TaxOffice[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: TaxOffice[]; totalCount: number }>(
         `${this.baseUrl}/GetAllTaxOfficesHistory`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching TaxOffices:', err);
           return throwError(() => err);

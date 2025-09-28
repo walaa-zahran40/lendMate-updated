@@ -12,10 +12,9 @@ export class SectorsEffects {
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActionsList.loadAll),
-      tap(() => console.log('✨ Effect: loadAll action caught')),
+
       mergeMap(() =>
         this.svc.getAll().pipe(
-          tap((items) => console.log('✨ Service returned items:', items)),
           map((items) => ActionsList.loadAllSuccess({ result: items })),
           catchError((err) => {
             console.error('⚠️ Error loading sectors', err);

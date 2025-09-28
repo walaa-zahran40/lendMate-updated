@@ -15,10 +15,9 @@ export class PaymentMonthDaysEffects {
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActionsList.loadAll),
-      tap(() => console.log('✨ Effect: loadAll action caught')),
+
       mergeMap(() =>
         this.service.getAll().pipe(
-          tap((res) => console.log('✨ Service.getAll() returned:', res)),
           map((res) => ActionsList.loadAllSuccess({ result: res })),
           catchError((err) => {
             console.error('❌ Effect: loadAllFailure', err);

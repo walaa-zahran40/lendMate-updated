@@ -54,15 +54,12 @@ export class MandateStatusesService {
   }
   //History management
   getAllHistory(): Observable<MandateStatus[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: MandateStatus[]; totalCount: number }>(
         `${this.api}/GetAllMandateStatusesHistory`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
         catchError((err) => {
           console.error('🚀 HTTP error fetching MandateStatuses:', err);
           return throwError(() => err);

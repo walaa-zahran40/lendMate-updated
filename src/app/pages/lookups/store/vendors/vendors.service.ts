@@ -11,15 +11,13 @@ export class VendorsService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<Vendor[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: Vendor[]; totalCount: number }>(
         `${this.baseUrl}/GetAllVendors`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching Vendors:', err);
           return throwError(() => err);
@@ -44,15 +42,13 @@ export class VendorsService {
   }
   //History management
   getAllHistory(): Observable<Vendor[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: Vendor[]; totalCount: number }>(
         `${this.baseUrl}/GetAllVendorsHistory`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching Vendors:', err);
           return throwError(() => err);

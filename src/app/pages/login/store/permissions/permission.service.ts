@@ -17,35 +17,22 @@ export class PermissionService {
   }
 
   public loadPermissions(): void {
-    console.log('[Permissions] Starting to load permissions...');
-
     const stored = sessionStorage.getItem('permissions');
     if (stored) {
-      console.log('[Permissions] Found cached permissions in sessionStorage');
       this.permissions = JSON.parse(stored);
-      console.log('[Permissions] Loaded from session:', this.permissions);
     } else {
-      console.log(
-        '[Permissions] No cached permissions found. Decoding tokens...'
-      );
-
       const backendToken = sessionStorage.getItem('authToken');
       let backendClaims = {};
 
       if (backendToken) {
         try {
           backendClaims = jwtDecode(backendToken) as any;
-          console.log('[Permissions] Decoded backend token:', backendClaims);
-        } catch (error) {
-          console.warn('[Permissions] Failed to decode backend token:', error);
-        }
+        } catch (error) {}
       } else {
-        console.warn('[Permissions] No backend token found in sessionStorage');
       }
 
       const account = this.msal.instance.getAllAccounts()[0];
       const aadClaims = (account?.idTokenClaims as any) || {};
-      console.log('[Permissions] AAD Claims:', aadClaims);
 
       const topLevelPerms = [
         '/Clients/GetAll',
@@ -57,7 +44,6 @@ export class PermissionService {
       const needFallback = topLevelPerms.some(
         (k) => !(backendClaims as any)[k]
       );
-      console.log(`[Permissions] Need fallback to AAD claims? ${needFallback}`);
 
       // Merge logic: backendClaims take priority
       this.permissions = {
@@ -65,14 +51,10 @@ export class PermissionService {
         ...backendClaims,
       };
 
-      console.log('[Permissions] Final merged permissions:', this.permissions);
-
       sessionStorage.setItem('permissions', JSON.stringify(this.permissions));
-      console.log('[Permissions] Saved to sessionStorage');
     }
 
     this.permissionsLoaded$.next();
-    console.log('[Permissions] permissionsLoaded$ emitted');
   }
 
   public hasPermission(key: string): boolean {

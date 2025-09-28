@@ -11,32 +11,26 @@ export class PortfoliosService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<Portfolio[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: Portfolio[]; totalCount: number }>(
         `${this.baseUrl}/GetAllPortfolios`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
         catchError((err) => {
-          console.error('🚀 HTTP error fetching Portfolios:', err);
           return throwError(() => err);
         })
       );
   }
   //History management
   getAllHistory(): Observable<Portfolio[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: Portfolio[]; totalCount: number }>(
         `${this.baseUrl}/GetAllPortfoliosHistory`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching Portfolios:', err);
           return throwError(() => err);

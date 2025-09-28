@@ -11,15 +11,13 @@ export class LicenseInformationService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<LicenseInformation[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: LicenseInformation[]; totalCount: number }>(
         `${this.baseUrl}/GetAllVehicleLicenses`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching LicenseInformation:', err);
           return throwError(() => err);
@@ -28,15 +26,13 @@ export class LicenseInformationService {
   }
   //History management
   getAllHistory(): Observable<LicenseInformation[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: LicenseInformation[]; totalCount: number }>(
         `${this.baseUrl}/GetAllVehicleLicensesHistory`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching LicenseInformation:', err);
           return throwError(() => err);

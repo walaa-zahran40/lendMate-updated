@@ -11,15 +11,13 @@ export class PaymentPeriodsService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<PaymentPeriod[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: PaymentPeriod[]; totalCount: number }>(
         `${this.baseUrl}/GetAllPaymentPeriods`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching PaymentPeriods:', err);
           return throwError(() => err);
@@ -49,15 +47,13 @@ export class PaymentPeriodsService {
   }
   //History management
   getAllHistory(): Observable<PaymentPeriod[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: PaymentPeriod[]; totalCount: number }>(
         `${this.baseUrl}/GetAllPaymentPeriodsHistory`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching PaymentPeriods:', err);
           return throwError(() => err);

@@ -11,15 +11,13 @@ export class GracePeriodUnitsService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<PeriodUnit[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: PeriodUnit[]; totalCount: number }>(
         `${this.baseUrl}/GetAllPeriodUnits`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching GracePeriodUnits:', err);
           return throwError(() => err);
@@ -47,15 +45,13 @@ export class GracePeriodUnitsService {
   }
   //History management
   getAllHistory(): Observable<PeriodUnit[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: PeriodUnit[]; totalCount: number }>(
         `${this.baseUrl}/GetAllPeriodUnitsHistory`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching PeriodUnits:', err);
           return throwError(() => err);

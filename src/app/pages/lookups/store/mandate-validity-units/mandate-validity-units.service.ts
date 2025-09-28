@@ -11,15 +11,13 @@ export class MandateValidityUnitsService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<MandateValidityUnit[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: MandateValidityUnit[]; totalCount: number }>(
         `${this.baseUrl}/GetAllValidityUnits`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching MandateValidityUnits:', err);
           return throwError(() => err);
@@ -51,15 +49,13 @@ export class MandateValidityUnitsService {
   }
   //History management
   getAllHistory(): Observable<MandateValidityUnit[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: MandateValidityUnit[]; totalCount: number }>(
         `${this.baseUrl}/GetAllValidityUnitsHistory`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching MandateValidityUnits:', err);
           return throwError(() => err);

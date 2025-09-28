@@ -11,15 +11,13 @@ export class MandateStatusActionsService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<MandateStatusAction[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: MandateStatusAction[]; totalCount: number }>(
         `${this.baseUrl}/GetAllMandateStatusActions`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching MandateStatusActions:', err);
           return throwError(() => err);
@@ -51,15 +49,13 @@ export class MandateStatusActionsService {
   }
   //History management
   getAllHistory(): Observable<MandateStatusAction[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: MandateStatusAction[]; totalCount: number }>(
         `${this.baseUrl}/GetAllMandateStatusActionsHistory`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching MandateStatusActions:', err);
           return throwError(() => err);

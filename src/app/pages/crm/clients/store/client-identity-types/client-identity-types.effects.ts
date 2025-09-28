@@ -16,7 +16,7 @@ export class ClientIdentityTypesEffects {
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActionsList.loadAll),
-      tap(() => console.log('✨ Effect: loadAll action caught')),
+
       mergeMap(() =>
         this.service.getAll().pipe(
           tap((items) => console.log('✨ Service returned items:', items)),

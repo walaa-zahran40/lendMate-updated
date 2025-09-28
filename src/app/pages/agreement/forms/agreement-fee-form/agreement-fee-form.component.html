@@ -42,13 +42,13 @@
               [filter]="true"
               [filterBy]="filterByField"
               [showClear]="true"
-              [options]="feeTypes"
+              [options]="feeTypes || []"
+              formControlName="feeTypeId"
+              optionValue="id"
               [optionLabel]="optionLabelKey"
               [placeholder]="
                 'FORM.AGREEMENT.PLACEHOLDER_SELECT_FEE_TYPE' | translate
               "
-              formControlName="feeTypeId"
-              optionValue="id"
               required
               [ngClass]="{
                 'ng-invalid':

@@ -11,15 +11,13 @@ export class RentStructureTypesService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<RentStructureType[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: RentStructureType[]; totalCount: number }>(
         `${this.baseUrl}/GetAllRentStructureTypes`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching RentStructureTypes:', err);
           return throwError(() => err);
@@ -51,15 +49,13 @@ export class RentStructureTypesService {
   }
   //History management
   getAllHistory(): Observable<RentStructureType[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: RentStructureType[]; totalCount: number }>(
         `${this.baseUrl}/GetAllRentStructureTypesHistory`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching RentStructureTypes:', err);
           return throwError(() => err);

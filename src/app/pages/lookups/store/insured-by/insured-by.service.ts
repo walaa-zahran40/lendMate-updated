@@ -11,15 +11,12 @@ export class InsuredByService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<InsuredBy[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: InsuredBy[]; totalCount: number }>(
         `${this.baseUrl}/GetAllInsuredBy`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
         catchError((err) => {
           console.error('🚀 HTTP error fetching InsuredBy:', err);
           return throwError(() => err);
@@ -47,15 +44,12 @@ export class InsuredByService {
   }
   //History management
   getAllHistory(): Observable<InsuredBy[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: InsuredBy[]; totalCount: number }>(
         `${this.baseUrl}/GetAllInsuredByHistory`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
         catchError((err) => {
           console.error('🚀 HTTP error fetching InsuredBys:', err);
           return throwError(() => err);

@@ -11,15 +11,13 @@ export class SMEClientCodesService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<SMEClientCode[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: SMEClientCode[]; totalCount: number }>(
         `${this.baseUrl}/GetAllSMEClientCodes`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching SMEClientCodes:', err);
           return throwError(() => err);
@@ -49,15 +47,13 @@ export class SMEClientCodesService {
   }
   //History management
   getAllHistory(): Observable<SMEClientCode[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: SMEClientCode[]; totalCount: number }>(
         `${this.baseUrl}/GetAllSMEClientCodesHistory`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching SMEClientCodes:', err);
           return throwError(() => err);

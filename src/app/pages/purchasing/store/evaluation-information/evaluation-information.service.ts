@@ -11,15 +11,13 @@ export class EvaluationInformationService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<EvaluationInformation[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: EvaluationInformation[]; totalCount: number }>(
         `${this.baseUrl}/GetAllAssetEvaluations`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching EvaluationInformation:', err);
           return throwError(() => err);
@@ -28,15 +26,13 @@ export class EvaluationInformationService {
   }
   //History management
   getAllHistory(): Observable<EvaluationInformation[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: EvaluationInformation[]; totalCount: number }>(
         `${this.baseUrl}/GetAllAssetEvaluationsHistory`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching EvaluationInformation:', err);
           return throwError(() => err);

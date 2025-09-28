@@ -11,15 +11,13 @@ export class VehiclesService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<Vehicle[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: Vehicle[]; totalCount: number }>(
         `${this.baseUrl}/GetAllVehicles`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching Vehicles:', err);
           return throwError(() => err);
@@ -28,15 +26,13 @@ export class VehiclesService {
   }
   //History management
   getAllHistory(): Observable<Vehicle[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: Vehicle[]; totalCount: number }>(
         `${this.baseUrl}/GetAllPassengerVehiclesHistory`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching Vehicles:', err);
           return throwError(() => err);

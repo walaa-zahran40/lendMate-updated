@@ -54,15 +54,12 @@ export class ClientStatusesService {
   }
   //History management
   getAllHistory(): Observable<ClientStatus[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: ClientStatus[]; totalCount: number }>(
         `${this.apiUrl}/GetAllClientStatusesHistory`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
         catchError((err) => {
           console.error('🚀 HTTP error fetching ClientStatuses:', err);
           return throwError(() => err);

@@ -17,9 +17,7 @@ export class CommunicationFlowTypesService {
         `${this.baseUrl}/GetCommunicationFlowTypes`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
         catchError((err) => {
           console.error('🚀 HTTP error fetching CommunicationFlowTypes:', err);
           return throwError(() => err);
@@ -54,15 +52,12 @@ export class CommunicationFlowTypesService {
   }
   //History management
   getAllHistory(): Observable<CommunicationFlowType[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: CommunicationFlowType[]; totalCount: number }>(
         `${this.baseUrl}/GetAllCommunicationFlowTypesHistory`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
         catchError((err) => {
           console.error('🚀 HTTP error fetching CommunicationFlowTypes:', err);
           return throwError(() => err);

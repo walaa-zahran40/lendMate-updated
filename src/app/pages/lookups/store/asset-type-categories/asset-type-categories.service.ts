@@ -11,15 +11,13 @@ export class AssetTypeCategoriesService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<AssetTypeCategory[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: AssetTypeCategory[]; totalCount: number }>(
         `${this.baseUrl}/GetAllAssetTypeCategories`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching AssetTypeCategories:', err);
           return throwError(() => err);
@@ -51,15 +49,13 @@ export class AssetTypeCategoriesService {
   }
   //History management
   getAllHistory(): Observable<AssetTypeCategory[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: AssetTypeCategory[]; totalCount: number }>(
         `${this.baseUrl}/GetAllAssetTypeCategoriesHistory`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching AssetTypeCategories:', err);
           return throwError(() => err);

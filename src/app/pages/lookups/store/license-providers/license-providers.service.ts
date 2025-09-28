@@ -11,15 +11,12 @@ export class LicenseProvidersService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<LicenseProvider[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: LicenseProvider[]; totalCount: number }>(
         `${this.baseUrl}/GetAllLicenseProviders`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
         catchError((err) => {
           console.error('🚀 HTTP error fetching LicenseProviders:', err);
           return throwError(() => err);
@@ -49,15 +46,12 @@ export class LicenseProvidersService {
   }
   //History management
   getAllHistory(): Observable<LicenseProvider[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: LicenseProvider[]; totalCount: number }>(
         `${this.baseUrl}/GetAllLicenseProvidersHistory`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
         catchError((err) => {
           console.error('🚀 HTTP error fetching LicenseProviders:', err);
           return throwError(() => err);

@@ -11,15 +11,13 @@ export class AuthorizationGroupOfficersService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<AuthorizationGroupOfficer[]> {
-    console.log('🚀 Service: GET …');
     return this.http
       .get<{ items: AuthorizationGroupOfficer[]; totalCount: number }>(
         `${this.baseUrl}/GetAllAuthorizationGroupOfficers`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error(
             '🚀 HTTP error fetching AuthorizationGroupOfficers:',
@@ -57,15 +55,13 @@ export class AuthorizationGroupOfficersService {
   }
   //History management
   getAllHistory(): Observable<AuthorizationGroupOfficer[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: AuthorizationGroupOfficer[]; totalCount: number }>(
         `${this.baseUrl}/GetAllAuthorizationGroupOfficersHistory`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error(
             '🚀 HTTP error fetching AuthorizationGroupOfficers:',

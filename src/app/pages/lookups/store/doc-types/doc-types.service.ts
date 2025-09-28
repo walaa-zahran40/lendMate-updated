@@ -11,15 +11,12 @@ export class DocTypesService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<DocType[]> {
-    console.log('🚀 Service: GET …');
     return this.http
       .get<{ items: DocType[]; totalCount: number }>(
         `${this.baseUrl}/GetAllDocumentTypes`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
         catchError((err) => {
           console.error('🚀 HTTP error fetching DocTypes:', err);
           return throwError(() => err);
@@ -47,15 +44,12 @@ export class DocTypesService {
   }
   //History management
   getAllHistory(): Observable<DocType[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: DocType[]; totalCount: number }>(
         `${this.baseUrl}/GetAllDocumentTypesHistory`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
         catchError((err) => {
           console.error('🚀 HTTP error fetching Document Types:', err);
           return throwError(() => err);

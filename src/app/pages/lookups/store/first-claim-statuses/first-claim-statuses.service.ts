@@ -11,15 +11,12 @@ export class FirstClaimStatusesService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<FirstClaimStatus[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: FirstClaimStatus[]; totalCount: number }>(
         `${this.baseUrl}/GetAllFirstClaimStatuses`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
         catchError((err) => {
           console.error('🚀 HTTP error fetching FirstClaimStatuses:', err);
           return throwError(() => err);
@@ -28,15 +25,12 @@ export class FirstClaimStatusesService {
   }
   //History management
   getAllHistory(): Observable<FirstClaimStatus[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: FirstClaimStatus[]; totalCount: number }>(
         `${this.baseUrl}/GetAllFirstClaimStatusesHistory`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
         catchError((err) => {
           console.error('🚀 HTTP error fetching FirstClaimStatuses:', err);
           return throwError(() => err);

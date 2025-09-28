@@ -11,15 +11,13 @@ export class PurchaseOrderFilesService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<PurchaseOrderFile[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: PurchaseOrderFile[]; totalCount: number }>(
         `${this.baseUrl}/GetAllPurchaseOrderFiles`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching PurchaseOrderFiles:', err);
           return throwError(() => err);
@@ -28,15 +26,13 @@ export class PurchaseOrderFilesService {
   }
   //History management
   getAllHistory(): Observable<PurchaseOrderFile[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: PurchaseOrderFile[]; totalCount: number }>(
         `${this.baseUrl}/GetAllPurchaseOrderFilesHistory`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching PurchaseOrderFiles:', err);
           return throwError(() => err);

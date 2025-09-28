@@ -51,7 +51,6 @@ export class SharedDatePickerComponent implements ControlValueAccessor, OnInit {
   private setDateFormat(lang: string) {
     this.dateFormat =
       this.translate.currentLang === 'ar' ? 'yy/mm/dd' : 'dd-mm-yy';
-    console.log('date', this.dateFormat);
   }
 
   ngAfterViewInit() {

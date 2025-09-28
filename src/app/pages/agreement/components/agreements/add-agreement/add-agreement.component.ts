@@ -299,7 +299,9 @@ export class AddAgreementComponent {
     this.assetTypesFacade.loadAll();
     this.assetTypes$ = this.assetTypesFacade.all$;
     this.feeTypesFacade.loadAll();
-    this.feeTypes$ = this.feeTypesFacade.all$;
+    this.feeTypes$ = this.feeTypesFacade.all$.pipe(
+      map((list) => (list ?? []).map((ft) => ({ ...ft, id: +ft.id })))
+    );
     this.paymentPeriodsFacade.loadAll();
     this.paymentPeriods$ = this.paymentPeriodsFacade.all$;
     this.paymentPeriods$
@@ -614,57 +616,121 @@ export class AddAgreementComponent {
       leasingTypeId: (m as any)?.leasingTypeId,
       insuredById: (m as any)?.insuredById,
       date: m.date ? new Date(m.date) : null,
-      endDate: m.endDate ? new Date(m.endDate) : null,
+      endDate: m.endDate,
       branchId: (m as any)?.branchId,
       portfolioId: (m as any)?.portfolioId,
       businessSourceId: (m as any)?.businessSourceId,
       deliveryNumber: (m as any)?.deliveryNumber,
       notes: (m as any)?.notes,
     });
-    this.addAgreementShowAssetTypeForm.patchValue({
-      id: m.id,
-      assetTypeId: (m as any)?.assetTypeId,
-      assetDescription: (m as any)?.assetDescription,
-      assetDescriptionAR: (m as any)?.assetDescriptionAR,
-    });
-    this.addAgreementShowFeeForm.patchValue({
-      id: m.id,
-      feeTypeId: (m as any)?.feeTypeId,
-      actualAmount: (m as any)?.actualAmount,
-      actualPercentage: (m as any)?.actualPercentage,
-    });
+    // === STEP 2: Agreement Assets (FormArray) ===
+    {
+      const assetsFa = this.addAgreementShowAssetTypeForm.get(
+        'agreementAssetTypes'
+      ) as FormArray;
+
+      // Accept a few possible shapes from the API:
+      const sourceAssets =
+        (m as any)?.agreementAssets ??
+        (m as any)?.agreementAssetTypes ??
+        // fallback: build one row from flat fields if present
+        ((m as any)?.assetTypeId ||
+        (m as any)?.assetDescription ||
+        (m as any)?.assetDescriptionAR
+          ? [
+              {
+                id: (m as any)?.assetId ?? null,
+                assetTypeId: (m as any)?.assetTypeId,
+                assetDescription: (m as any)?.assetDescription,
+                assetDescriptionAR: (m as any)?.assetDescriptionAR,
+              },
+            ]
+          : []);
+
+      assetsFa.clear();
+      if (Array.isArray(sourceAssets) && sourceAssets.length) {
+        for (const a of sourceAssets) {
+          const fg = this.createAssetTypeGroup();
+          fg.patchValue(
+            {
+              id: a?.id ?? null,
+              assetTypeId: a?.assetTypeId ?? a?.assetType?.id ?? null, // p-select uses optionValue="id"
+              assetDescription: a?.assetDescription ?? null,
+              assetDescriptionAR: a?.assetDescriptionAR ?? null,
+            },
+            { emitEvent: false }
+          );
+          assetsFa.push(fg);
+        }
+      } else {
+        assetsFa.push(this.createAssetTypeGroup()); // keep one empty row for UI
+      }
+    }
+
+    // === STEP 3: Fees (FormArray) ===
+    {
+      const feesFa = this.addAgreementShowFeeForm.get(
+        'agreementFees'
+      ) as FormArray;
+
+      const sourceFees =
+        (m as any)?.agreementFees ??
+        (m as any)?.fees ??
+        ((m as any)?.feeTypeId ||
+        (m as any)?.actualAmount ||
+        (m as any)?.actualPercentage
+          ? [
+              {
+                id: (m as any)?.feeId ?? null,
+                feeTypeId: (m as any)?.feeTypeId,
+                actualAmount: (m as any)?.actualAmount,
+                actualPercentage: (m as any)?.actualPercentage,
+              },
+            ]
+          : []);
+
+      feesFa.clear();
+      if (Array.isArray(sourceFees) && sourceFees.length) {
+        for (const f of sourceFees) {
+          const fg = this.createFeeGroup();
+          const feeTypeIdRaw = f?.feeTypeId ?? f?.feeType?.id ?? null; // <- don't fall back to f.id
+          fg.patchValue(
+            {
+              id: f?.id ?? null,
+              feeTypeId: feeTypeIdRaw != null ? +feeTypeIdRaw : null,
+              actualAmount: f?.actualAmount ?? null,
+              actualPercentage: f?.actualPercentage ?? null,
+            },
+            { emitEvent: false }
+          );
+          feesFa.push(fg);
+        }
+      } else {
+        feesFa.push(this.createFeeGroup());
+      }
+
+      // 👇 ensure selection sticks even if options arrive later
+      this.reapplyFeeTypeSelectionsOnceOptionsArrive();
+      this.feeTypes$.pipe(take(1)).subscribe((opts) => {
+        const fa = this.addAgreementShowFeeForm.get(
+          'agreementFees'
+        ) as FormArray;
+        const v = fa.at(0).get('feeTypeId')!.value;
+        console.log('[feeTypeId type]', typeof v, v);
+        console.log(
+          '[first option id type]',
+          typeof opts?.[0]?.id,
+          opts?.[0]?.id
+        );
+      });
+    }
+
     const manual = !!m.isManuaExchangeRate;
     const manualCtrl = this.leasingFinancialCurrencyForm.get(
       'manualSetExchangeRate'
     );
     if (manual) manualCtrl?.enable({ emitEvent: false });
     else manualCtrl?.disable({ emitEvent: false });
-    // ===== ARRAYS (already in your code) =====
-    const resetArray = (
-      fa: FormArray,
-      items: any[] | undefined | null,
-      factory: () => FormGroup
-    ) => {
-      fa.clear();
-
-      if (Array.isArray(items) && items.length) {
-        items.forEach((item) => {
-          const fg = factory();
-          fg.patchValue(item, { emitEvent: false });
-          fa.push(fg);
-        });
-      } else {
-        // keep one empty row so the UI shows inputs
-        fa.push(factory());
-      }
-    };
-
-    resetArray(this.agreementAssetTypes, (m as any)?.agreementAssetTypes, () =>
-      this.createAssetTypeGroup()
-    );
-    resetArray(this.agreementFees, (m as any)?.agreementFees, () =>
-      this.createFeeGroup()
-    );
 
     // ===== STEP 4: Patch from agreementPaymentSettings and agreement/leasingAgreement =====
     const settings = Array.isArray((m as any)?.agreementPaymentSettings)
@@ -736,9 +802,7 @@ export class AddAgreementComponent {
         {
           paymentPeriodId: pid,
           gracePeriodInDays:
-            agreementNode?.gracePeriodInDays ??
-            (m as any)?.gracePeriodInDays ??
-            null,
+            agreementNode?.gracePeriod ?? (m as any)?.gracePeriod ?? null,
           interestRate: m.interestRate ?? null,
           insuranceRate: m.insuranceRate ?? null,
           tenor: m.tenor ?? null,
@@ -802,7 +866,16 @@ export class AddAgreementComponent {
     this.selectedAction =
       (m as any)?.agreementCurrentWorkFlowAction?.name ?? '';
   }
-
+  private reapplyFeeTypeSelectionsOnceOptionsArrive() {
+    this.feeTypes$.pipe(take(1)).subscribe(() => {
+      const fa = this.addAgreementShowFeeForm.get('agreementFees') as FormArray;
+      fa.controls.forEach((g) => {
+        const ctrl = g.get('feeTypeId')!;
+        // write the same value again to trigger matching after options exist
+        ctrl.setValue(ctrl.value, { emitEvent: false });
+      });
+    });
+  }
   nextStep(nextCallback: { emit: () => void }, group: FormGroup) {
     if (group?.valid || this.viewOnly) {
       nextCallback?.emit();
@@ -878,14 +951,30 @@ export class AddAgreementComponent {
       });
   }
   endAfterStartValidator(startKey: string, endKey: string) {
+    const toDate = (v: any): Date | null => {
+      if (!v) return null;
+      if (v instanceof Date) return isNaN(v.getTime()) ? null : v;
+      const d = new Date(v);
+      return isNaN(d.getTime()) ? null : d;
+    };
+
     return (group: AbstractControl): ValidationErrors | null => {
       const g = group as FormGroup;
-      const start = g.get(startKey)?.value as Date | null;
-      const end = g.get(endKey)?.value as Date | null;
+      const start = toDate(g.get(startKey)?.value);
+      const end = toDate(g.get(endKey)?.value);
 
-      if (!start || !end) return null; // "required" will handle empties
+      // Don’t block the form here; “required” validators handle empties/invalids
+      if (!start || !end) {
+        // clear our specific error if it exists
+        const endCtrl = g.get(endKey)!;
+        if (endCtrl.hasError('endBeforeStart')) {
+          const { endBeforeStart, ...rest } = endCtrl.errors || {};
+          endCtrl.setErrors(Object.keys(rest).length ? rest : null);
+        }
+        return null;
+      }
 
-      // compare as date-only (ignore time)
+      // compare as date-only
       const startOnly = new Date(
         start.getFullYear(),
         start.getMonth(),
@@ -898,19 +987,19 @@ export class AddAgreementComponent {
       );
 
       const isValid = endOnly.getTime() > startOnly.getTime();
-      // attach the error to endDate control for easier UI display
       const endCtrl = g.get(endKey)!;
+
       if (!isValid) {
         endCtrl.setErrors({ ...(endCtrl.errors || {}), endBeforeStart: true });
-      } else {
-        if (endCtrl.hasError('endBeforeStart')) {
-          const { endBeforeStart, ...rest } = endCtrl.errors || {};
-          endCtrl.setErrors(Object.keys(rest).length ? rest : null);
-        }
+      } else if (endCtrl.hasError('endBeforeStart')) {
+        const { endBeforeStart, ...rest } = endCtrl.errors || {};
+        endCtrl.setErrors(Object.keys(rest).length ? rest : null);
       }
-      return null; // return null so form-level stays valid except for control error
+
+      return null;
     };
   }
+
   buildAgreementShowAssetTypeForm(): void {
     this.addAgreementShowAssetTypeForm = this.fb.group({
       agreementAssetTypes: this.fb.array([this.createAssetTypeGroup()]),
@@ -923,6 +1012,7 @@ export class AddAgreementComponent {
   }
   createAssetTypeGroup(): FormGroup {
     return this.fb.group({
+      id: [null], // 👈 NEW
       assetTypeId: ['', Validators.required],
       assetDescription: [null, Validators.required],
       assetDescriptionAR: [
@@ -935,44 +1025,9 @@ export class AddAgreementComponent {
     });
   }
 
-  // --- tiny helpers ---
-  private toDate(v: any): Date | null {
-    if (!v) return null;
-    return v instanceof Date ? v : new Date(v);
-  }
-  private toInt(v: any): number | null {
-    if (v === '' || v == null) return null;
-    const n = Number(v);
-    return Number.isFinite(n) ? n : null;
-  }
-  private toDateOnlyString(v: Date | string | null): string | null {
-    if (!v) return null;
-    const d = v instanceof Date ? v : new Date(v);
-    const yyyy = d.getFullYear();
-    const mm = String(d.getMonth() + 1).padStart(2, '0');
-    const dd = String(d.getDate()).padStart(2, '0');
-    return `${yyyy}-${mm}-${dd}`;
-  }
-  private addDays(d: Date, days: number): Date {
-    const out = new Date(d.getFullYear(), d.getMonth(), d.getDate());
-    out.setDate(out.getDate() + days);
-    return out;
-  }
-
-  createAgreementOfficerGroup(): FormGroup {
-    return this.fb.group({
-      id: [],
-      officerId: [null, Validators.required],
-    });
-  }
-  createAgreementContactPersonGroup(): FormGroup {
-    return this.fb.group({
-      contactPersonId: ['', Validators.required],
-    });
-  }
-
   createFeeGroup(): FormGroup {
     return this.fb.group({
+      id: [null], // 👈 NEW
       feeTypeId: [null, Validators.required],
       actualAmount: [null, Validators.required],
       actualPercentage: [null, Validators.required],
@@ -1724,16 +1779,9 @@ export class AddAgreementComponent {
     originalEvent: Event;
     value: number;
   }) {
-    console.log('Full selectedCurrencyExchange event:', event);
-
-    // Grab the numeric ID from event.value
-    const id = event;
-    console.log('Exchange-Rate ID from event.value →', id);
-
-    // Update your reactive form control
     this.leasingFinancialCurrencyForm
       .get('currencyExchangeRateId')!
-      .setValue(id, { emitEvent: true });
+      .setValue(event.value, { emitEvent: true });
   }
 
   onInterestRateBenchmarkSelected(

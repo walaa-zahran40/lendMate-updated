@@ -11,15 +11,13 @@ export class ClonesService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<Clone[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: Clone[]; totalCount: number }>(
         `${this.baseUrl}/GetAllLeasingMandates`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching Mandates:', err);
           return throwError(() => err);

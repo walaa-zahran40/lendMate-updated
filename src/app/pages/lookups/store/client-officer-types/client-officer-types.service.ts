@@ -11,15 +11,12 @@ export class ClientOfficerTypesService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<ClientOfficerType[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: ClientOfficerType[]; totalCount: number }>(
         `${this.baseUrl}/GetAllClientOfficerTypes`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
         catchError((err) => {
           console.error('🚀 HTTP error fetching ClientOfficerTypes:', err);
           return throwError(() => err);
@@ -51,15 +48,12 @@ export class ClientOfficerTypesService {
   }
   //History management
   getAllHistory(): Observable<ClientOfficerType[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: ClientOfficerType[]; totalCount: number }>(
         `${this.baseUrl}/GetAllClientOfficerTypesHistory`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
         catchError((err) => {
           console.error('🚀 HTTP error fetching ClientOfficerTypes:', err);
           return throwError(() => err);

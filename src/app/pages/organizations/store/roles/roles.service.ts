@@ -11,15 +11,13 @@ export class RolesService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<Role[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: Role[]; totalCount: number }>(
         `${this.baseUrl}/GetAllApplicationRoles`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching Roles:', err);
           return throwError(() => err);

@@ -11,15 +11,12 @@ export class EvaluatorsService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<Evaluator[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: Evaluator[]; totalCount: number }>(
         `${this.baseUrl}/GetAllEvaluators`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
         catchError((err) => {
           console.error('🚀 HTTP error fetching Evaluators:', err);
           return throwError(() => err);
@@ -47,15 +44,12 @@ export class EvaluatorsService {
   }
   //History management
   getAllHistory(): Observable<Evaluator[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: Evaluator[]; totalCount: number }>(
         `${this.baseUrl}/GetAllEvaluatorsHistory`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
         catchError((err) => {
           console.error('🚀 HTTP error fetching Evaluators:', err);
           return throwError(() => err);

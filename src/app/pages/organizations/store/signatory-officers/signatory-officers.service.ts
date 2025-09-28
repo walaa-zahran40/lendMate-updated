@@ -11,15 +11,13 @@ export class SignatoryOfficersService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<SignatoryOfficer[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: SignatoryOfficer[]; totalCount: number }>(
         `${this.baseUrl}/GetAllSignatoryOfficers`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching SignatoryOfficers:', err);
           return throwError(() => err);

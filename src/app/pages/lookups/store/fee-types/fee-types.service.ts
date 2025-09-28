@@ -11,15 +11,12 @@ export class FeeTypesService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<FeeType[]> {
-    console.log('🚀 Service: GET …');
     return this.http
       .get<{ items: FeeType[]; totalCount: number }>(
         `${this.baseUrl}/GetAllFeeTypes`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
         catchError((err) => {
           console.error('🚀 HTTP error fetching FeeTypes:', err);
           return throwError(() => err);
@@ -44,15 +41,12 @@ export class FeeTypesService {
   }
   //History management
   getAllHistory(): Observable<FeeType[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: FeeType[]; totalCount: number }>(
         `${this.baseUrl}/GetAllFeeTypesHistory`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
         catchError((err) => {
           console.error('🚀 HTTP error fetching FeeTypes:', err);
           return throwError(() => err);

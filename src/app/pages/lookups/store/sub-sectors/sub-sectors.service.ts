@@ -11,15 +11,13 @@ export class SubSectorsService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<SubSector[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: SubSector[]; totalCount: number }>(
         `${this.baseUrl}/GetAllSubSectors`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching SubSectors:', err);
           return throwError(() => err);
@@ -47,15 +45,13 @@ export class SubSectorsService {
   }
   //History management
   getAllHistory(): Observable<SubSector[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: SubSector[]; totalCount: number }>(
         `${this.baseUrl}/GetAllSubSectorsHistory`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching SubSectors:', err);
           return throwError(() => err);

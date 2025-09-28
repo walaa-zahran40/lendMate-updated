@@ -11,13 +11,11 @@ export class AreasService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<Area[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: Area[]; totalCount: number }>(`${this.baseUrl}/GetAllAreas`)
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching Areas:', err);
           return throwError(() => err);
@@ -42,15 +40,13 @@ export class AreasService {
   }
   //History management
   getAllHistory(): Observable<Area[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: Area[]; totalCount: number }>(
         `${this.baseUrl}/GetAllAreasHistory`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching Areas:', err);
           return throwError(() => err);

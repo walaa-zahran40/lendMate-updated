@@ -11,15 +11,12 @@ export class FollowupTypesService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<FollowupType[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: FollowupType[]; totalCount: number }>(
         `${this.baseUrl}/GetAllFollowupTypes`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
         catchError((err) => {
           console.error('🚀 HTTP error fetching FollowupTypes:', err);
           return throwError(() => err);
@@ -49,15 +46,12 @@ export class FollowupTypesService {
   }
   //History management
   getAllHistory(): Observable<FollowupType[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: FollowupType[]; totalCount: number }>(
         `${this.baseUrl}/GetAllFollowUpTypesHistory`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
         catchError((err) => {
           console.error('🚀 HTTP error fetching FollowUpTypes:', err);
           return throwError(() => err);

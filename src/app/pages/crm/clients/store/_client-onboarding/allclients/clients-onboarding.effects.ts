@@ -19,10 +19,9 @@ export class ClientsOnboardingEffects {
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ClientsOnboardingActions.loadAll),
-      tap(() => console.log('✨ Effect: loadAllOnboarding action caught')),
+
       mergeMap(() =>
         this.service.getAll().pipe(
-          tap((items) => console.log('✨ Service returned items:', items)),
           map((items) =>
             ClientsOnboardingActions.loadAllSuccess({ result: items })
           ),
@@ -158,14 +157,21 @@ export class ClientsOnboardingEffects {
       mergeMap(({ id, changes }) =>
         this.service.performWorkflowAction(id, changes).pipe(
           mergeMap(() => [
-            ClientsOnboardingActions.performWorkflowActionEntitySuccess({ id, changes }),
+            ClientsOnboardingActions.performWorkflowActionEntitySuccess({
+              id,
+              changes,
+            }),
             ClientsOnboardingActions.entityOperationSuccess({
               entity: EntityNames.Client,
               operation: 'update',
             }),
           ]),
           catchError((error) =>
-            of(ClientsOnboardingActions.performWorkflowActionEntityFailure({ error }))
+            of(
+              ClientsOnboardingActions.performWorkflowActionEntityFailure({
+                error,
+              })
+            )
           )
         )
       )

@@ -11,15 +11,13 @@ export class BusinessLinesService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<BusinessLine[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: BusinessLine[]; totalCount: number }>(
         `${this.baseUrl}/GetAllBusinessLines`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching BusinessLines:', err);
           return throwError(() => err);
@@ -49,15 +47,13 @@ export class BusinessLinesService {
   }
   //History management
   getAllHistory(): Observable<BusinessLine[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: BusinessLine[]; totalCount: number }>(
         `${this.baseUrl}/GetAllBusinessLinesHistory`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching BusinessLines:', err);
           return throwError(() => err);

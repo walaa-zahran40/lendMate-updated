@@ -11,15 +11,13 @@ export class PropertiesService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<Property[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: Property[]; totalCount: number }>(
         `${this.baseUrl}/GetAllProperties`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching Properties:', err);
           return throwError(() => err);
@@ -28,15 +26,13 @@ export class PropertiesService {
   }
   //History management
   getAllHistory(): Observable<Property[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: Property[]; totalCount: number }>(
         `${this.baseUrl}/GetAllPassengerPropertiesHistory`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching Properties:', err);
           return throwError(() => err);

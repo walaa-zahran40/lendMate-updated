@@ -11,15 +11,12 @@ export class CommunicationTypesService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<CommunicationType[]> {
-    console.log('🚀 Service: GET …');
     return this.http
       .get<{ items: CommunicationType[]; totalCount: number }>(
         `${this.baseUrl}/GetCommunicationTypes`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
         catchError((err) => {
           console.error('🚀 HTTP error fetching CommunicationTypes:', err);
           return throwError(() => err);
@@ -51,15 +48,12 @@ export class CommunicationTypesService {
   }
   //History management
   getAllHistory(): Observable<CommunicationType[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: CommunicationType[]; totalCount: number }>(
         `${this.baseUrl}/GetAllCommunicationTypesHistory`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
         catchError((err) => {
           console.error('🚀 HTTP error fetching CommunicationTypes:', err);
           return throwError(() => err);

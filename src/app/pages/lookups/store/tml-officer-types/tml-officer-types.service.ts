@@ -11,15 +11,13 @@ export class TmlOfficerTypesService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<TmlOfficerType[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: TmlOfficerType[]; totalCount: number }>(
         `${this.baseUrl}/GetAllTmlOfficerTypes`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching TmlOfficerTypes:', err);
           return throwError(() => err);
@@ -49,15 +47,13 @@ export class TmlOfficerTypesService {
   }
   //History management
   getAllHistory(): Observable<TmlOfficerType[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: TmlOfficerType[]; totalCount: number }>(
         `${this.baseUrl}/GetAllTmlOfficerTypesHistory`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error('🚀 HTTP error fetching TmlOfficerTypes:', err);
           return throwError(() => err);

@@ -11,15 +11,13 @@ export class NotificationGroupOfficersService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<NotificationGroupOfficer[]> {
-    console.log('🚀 Service: GET …');
     return this.http
       .get<{ items: NotificationGroupOfficer[]; totalCount: number }>(
         `${this.baseUrl}/GetAllNotificationGroupOfficers`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error(
             '🚀 HTTP error fetching NotificationGroupOfficers:',
@@ -57,15 +55,13 @@ export class NotificationGroupOfficersService {
   }
   //History management
   getAllHistory(): Observable<NotificationGroupOfficer[]> {
-    console.log('🚀 Service: calling GET …');
     return this.http
       .get<{ items: NotificationGroupOfficer[]; totalCount: number }>(
         `${this.baseUrl}/GetAllNotificationGroupOfficersHistroy`
       )
       .pipe(
-        tap((resp) => console.log('🚀 HTTP response wrapper:', resp)),
         map((resp) => resp.items), // ← pull off the `items` array here
-        tap((items) => console.log('🚀 Mapped items:', items)),
+
         catchError((err) => {
           console.error(
             '🚀 HTTP error fetching NotificationGroupOfficers:',
