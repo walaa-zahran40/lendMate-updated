@@ -55,7 +55,9 @@ export class ClientContactPersonsFacade {
       );
       return;
     }
-    this.store.dispatch(Actions.loadClientContactPersonsByClientId({ clientId }));
+    this.store.dispatch(
+      Actions.loadClientContactPersonsByClientId({ clientId })
+    );
   }
 
   /** UPDATED: now expects both id & parent clientId */
@@ -63,6 +65,8 @@ export class ClientContactPersonsFacade {
     this.store.dispatch(Actions.deleteClientContactPerson({ id, clientId }));
   }
   loadByClientId(clientId: number) {
-    this.store.dispatch(Actions.loadClientContactPersonsByClientId({ clientId }));
+    this.store.dispatch(
+      Actions.loadClientContactPersonsByClientId({ clientId })
+    );
   }
 }

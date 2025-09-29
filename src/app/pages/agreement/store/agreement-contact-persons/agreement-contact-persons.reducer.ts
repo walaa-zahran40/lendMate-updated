@@ -5,26 +5,35 @@ import {
   agreementContactPersonsFeatureKey,
 } from './agreement-contact-persons.state';
 import { AgreementContactPersonsActions as A } from './agreement-contact-persons.actions';
+const asArray = <T>(value: T[] | T | null | undefined): T[] =>
+  Array.isArray(value) ? value : value ? [value] : [];
 
 export const agreementContactPersonsReducer = createReducer(
   initialState,
 
   // List
-  on(A.loadAllRequested, (state) => ({
-    ...state,
-    listLoading: true,
-    listError: null,
-  })),
   on(A.loadAllSucceeded, (state, { response, pageNumber }) => {
-    const next = agreementContactPersonAdapter.upsertMany(
-      response.items,
-      state
-    );
+    const items = asArray(response?.items);
+    const next = agreementContactPersonAdapter.upsertMany(items, state);
     return {
       ...next,
       listLoading: false,
-      listTotalCount: response.totalCount,
+      listTotalCount: response?.totalCount ?? 0,
       listPageNumber: pageNumber ?? null,
+    };
+  }),
+
+  // By agreement
+  on(A.loadByAgreementSucceeded, (state, { agreementId, contactPersons }) => {
+    const items = asArray(contactPersons);
+    const next = agreementContactPersonAdapter.upsertMany(items, state);
+    return {
+      ...next,
+      byAgreementLoading: false,
+      byAgreementMap: {
+        ...next.byAgreementMap,
+        [agreementId]: items.map((o) => o.id),
+      },
     };
   }),
   on(A.loadAllFailed, (state, { error }) => ({
@@ -39,20 +48,6 @@ export const agreementContactPersonsReducer = createReducer(
     byAgreementLoading: true,
     byAgreementError: null,
   })),
-  on(A.loadByAgreementSucceeded, (state, { agreementId, contactPersons }) => {
-    const next = agreementContactPersonAdapter.upsertMany(
-      contactPersons,
-      state
-    );
-    return {
-      ...next,
-      byAgreementLoading: false,
-      byAgreementMap: {
-        ...next.byAgreementMap,
-        [agreementId]: contactPersons.map((o) => o.id),
-      },
-    };
-  }),
   on(A.loadByAgreementFailed, (state, { error }) => ({
     ...state,
     byAgreementLoading: false,

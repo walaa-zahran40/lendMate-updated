@@ -40,7 +40,7 @@ export class ViewAgreementContactPersonsComponent {
   // enriched lists used by the table + search
   originalAgreementContactPersons: TableRow[] = [];
   filteredAgreementContactPersons: TableRow[] = [];
-
+  clientIdParam: any;
   // show name in the grid
   readonly colsInside = [
     // { field: 'clientName', header: 'Client' }, // ✅ new
@@ -54,86 +54,11 @@ export class ViewAgreementContactPersonsComponent {
 
   constructor(
     private router: Router,
-    private facade: AgreementContactPersonsFacade,
-    private contactPersonsFacade: ClientContactPersonsFacade,
-    private leasingAgreementsFacade: LeasingAgreementsFacade,
-    private route: ActivatedRoute
+    private facade: AgreementContactPersonsFacade
   ) {}
 
   ngOnInit(): void {
-    // --- read params (support multiple route shapes) ---
-    const params = this.route.snapshot.paramMap;
-    const leasingRaw =
-      params.get('leasingId') ?? // /.../:leasingId
-      params.get('id'); // /.../:id (fallback)
-    const lmsRaw =
-      params.get('agreementId') ?? // /.../:agreementId
-      params.get('leasingAgreementId'); // optional/fallback
-
-    this.leasingIdParam = leasingRaw ? Number(leasingRaw) : undefined;
-    this.agreementIdParam = lmsRaw ? Number(lmsRaw) : undefined;
-
-    // --- safe defaults so template bindings never see undefined ---
-    this.agreementContactPersons$ = of<AgreementContactPerson[]>([]);
-    this.contactPersons$ = of<ClientContactPerson[]>([]);
-
-    // We only need the domain agreement (leasing) id to show the list
-    if (this.leasingIdParam == null || isNaN(this.leasingIdParam)) {
-      console.warn(
-        '[Agreement CP] Missing leasingId in route → nothing to load'
-      );
-      return;
-    }
-
-    // --- dictionaries + data ---
-    this.contactPersonsFacade.loadAll();
-    this.contactPersons$ = this.contactPersonsFacade.items$;
-
-    this.facade.loadByAgreement(this.leasingIdParam);
-    this.agreementContactPersons$ = this.facade.selectContactPersonsByAgreement(
-      this.leasingIdParam
-    );
-
-    // (Optional) load agreements to derive client name if you show it anywhere
-    this.leasingAgreementsFacade.loadAll();
-    const agreement$ = this.leasingAgreementsFacade.all$.pipe(
-      map(
-        (list: any[]) =>
-          list?.find((m) => m.agreementId === this.leasingIdParam) ?? null
-      )
-    );
-
-    // --- enrich table rows with contactPersonName and keep filtered copy ---
-    combineLatest([
-      this.agreementContactPersons$,
-      this.contactPersons$,
-      agreement$,
-    ])
-      .pipe(
-        map(([rows, contactPersons]) => {
-          const dict = new Map<number, ClientContactPerson>(
-            (contactPersons ?? []).map((cp) => [cp.id as number, cp])
-          );
-
-          const enriched: TableRow[] = (rows ?? []).map((r) => ({
-            ...r,
-            contactPersonName:
-              (dict.get(r.contactPersonId)?.name as string) ??
-              (dict.get(r.contactPersonId) as any)?.fullName ??
-              `#${r.contactPersonId}`,
-          }));
-
-          // newest first
-          enriched.sort((a, b) => (b?.id ?? 0) - (a?.id ?? 0));
-          return enriched;
-        }),
-        tap((enriched) => {
-          this.originalAgreementContactPersons = enriched;
-          this.filteredAgreementContactPersons = [...enriched];
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe();
+    this.facade.loadAll();
   }
 
   ngOnDestroy() {

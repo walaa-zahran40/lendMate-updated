@@ -52,15 +52,15 @@ const routes: Routes = [
 
   // Contact-persons list for a agreement (keep)
   {
-    path: 'view-agreement-contact-persons/:leasingId/:leasingAgreementsId',
+    path: 'view-agreement-contact-persons/:agreementId/:leasingAgreementsId',
     component: ViewAgreementContactPersonsComponent,
   },
   {
-    path: 'view-agreement-contact-persons/:leasingId',
+    path: 'view-agreement-contact-persons/:agreementId',
     component: ViewAgreementContactPersonsComponent,
   },
   {
-    path: 'view-agreement-contact-persons/:leasingId/:leasingMandatesId/:mandateContactPersonId',
+    path: 'view-agreement-contact-persons/:agreementId/:clientId/:leasingAgreementsId',
     component: ViewAgreementContactPersonsComponent, // if you ever need deep-link to highlight one
   },
   // ------------------------------

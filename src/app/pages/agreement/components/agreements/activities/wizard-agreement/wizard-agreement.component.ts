@@ -80,7 +80,7 @@ export class WizardAgreementComponent implements OnInit {
         content: 'AGREEMENT.AGREEMENT_CONTACT_PERSONS_DESC',
         link: !this.clientId
           ? `/agreement/view-agreement-contact-persons/${id}`
-          : `/agreement/view-agreement-contact-persons/${id}/${this.clientId}`,
+          : `/agreement/view-agreement-contact-persons/${id}/${this.clientId}/${this.routeId}`,
       },
       // {
       //   imgUrl: '/assets/images/shared/card/agreement-manage.svg',

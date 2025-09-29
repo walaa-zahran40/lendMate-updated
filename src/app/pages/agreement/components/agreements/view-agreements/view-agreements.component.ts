@@ -1,6 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject, Observable, takeUntil, forkJoin } from 'rxjs';
+import {
+  Subject,
+  Observable,
+  takeUntil,
+  forkJoin,
+  firstValueFrom,
+  map,
+} from 'rxjs';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { LeasingAgreement } from '../../../store/agreements/agreement.model';
 import { LeasingAgreementsFacade } from '../../../store/agreements/agreements.facade';
@@ -47,38 +54,18 @@ export class ViewAgreementsComponent {
       this.filteredAgreements = [...sorted];
     });
   }
-  private getClientIdFrom(m?: LeasingAgreement | null): number | null {
-    return this.clientId ?? m?.clientId ?? null;
-  }
-  // private setupContactPersonsDropdown(): void {
-  //   const mandate = this.selectedRowForDownload!;
-  //   const realClientId = this.getClientIdFrom(mandate);
-  //   if (!realClientId) {
-  //     this.contactPersonsDropdown = [];
-  //     return;
-  //   }
-
-  //   this.store.dispatch(
-  //     loadClientContactPersonsByClientId({ clientId: realClientId })
-  //   );
-  //   this.facadeContact.items$
-  //     .pipe(
-  //       filter((list) => list.length > 0),
-  //       take(1)
-  //     )
-  //     .subscribe((all) => {
-  //       const saved = mandate.mandateContactPersons ?? [];
-  //       this.contactPersonsDropdown = all.filter((cp) =>
-  //         saved.some((sel) => sel.contactPersonId === cp.id)
-  //       );
-  //     });
-  // }
 
   onAddAgreement() {
     this.router.navigate(['/agreement/add-agreement']);
   }
-  onAddSide(leasingAgreementsId: any) {
-    const realClientId = this.clientId ?? null; // from route if present
+  async onAddSide(leasingAgreementsId: any) {
+    const realClientId = await firstValueFrom(
+      this.facade.all$.pipe(
+        map((agreements) =>
+          agreements.length > 0 ? agreements[0]?.clientView?.clientId : null
+        )
+      )
+    );
     const cmds = realClientId
       ? ['/agreement/wizard-agreement', leasingAgreementsId, realClientId]
       : ['/agreement/wizard-agreement', leasingAgreementsId];
