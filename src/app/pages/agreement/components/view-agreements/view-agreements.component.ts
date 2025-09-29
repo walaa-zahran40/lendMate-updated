@@ -8,9 +8,9 @@ import {
   firstValueFrom,
   map,
 } from 'rxjs';
-import { TableComponent } from '../../../../../shared/components/table/table.component';
-import { LeasingAgreement } from '../../../store/agreements/agreement.model';
-import { LeasingAgreementsFacade } from '../../../store/agreements/agreements.facade';
+import { TableComponent } from '../../../../shared/components/table/table.component';
+import { LeasingAgreement } from '../../store/agreements/agreement.model';
+import { LeasingAgreementsFacade } from '../../store/agreements/agreements.facade';
 
 @Component({
   selector: 'app-view-agreements',

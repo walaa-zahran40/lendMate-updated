@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { filter, take, tap } from 'rxjs';
-import { LeasingAgreementsFacade } from '../../../../store/agreements/agreements.facade';
+import { LeasingAgreementsFacade } from '../../../store/agreements/agreements.facade';
 
 @Component({
   selector: 'app-wizard-agreement',

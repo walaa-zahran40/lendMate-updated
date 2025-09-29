@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AgreementRoutingModule } from './agreement-routing.module';
 import { SharedModule } from '../../shared/shared.module';
-import { ViewAgreementsComponent } from './components/agreements/view-agreements/view-agreements.component';
-import { AddAgreementComponent } from './components/agreements/add-agreement/add-agreement.component';
+import { ViewAgreementsComponent } from './components/view-agreements/view-agreements.component';
+import { AddAgreementComponent } from './components/add-agreement/add-agreement.component';
 import { leasingAgreementsReducer } from './store/agreements/agreements.reducer';
 import { LeasingAgreementsEffects } from './store/agreements/agreements.effects';
 import { EffectsModule } from '@ngrx/effects';
@@ -15,21 +15,21 @@ import { AgreementMainInformationFormComponent } from './forms/agreement-main-in
 import { TranslateModule } from '@ngx-translate/core';
 import { TextareaModule } from 'primeng/textarea';
 import { SelectModule } from 'primeng/select';
-import { WizardAgreementComponent } from './components/agreements/activities/wizard-agreement/wizard-agreement.component';
-import { ViewAgreementContactPersonsComponent } from './components/agreements/activities/agreement-contact-persons/view-agreement-contact-persons/view-agreement-contact-persons.component';
-import { AddAgreementContactPersonComponent } from './components/agreements/activities/agreement-contact-persons/add-agreement-contact-person/add-agreement-contact-person.component';
 import { AgreementContactPersonsEffects } from './store/agreement-contact-persons/agreement-contact-persons.effects';
 import {
   agreementContactPersonsFeature,
   agreementContactPersonsReducer,
 } from './store/agreement-contact-persons/agreement-contact-persons.reducer';
 import { agreementContactPersonsFeatureKey } from './store/agreement-contact-persons/agreement-contact-persons.state';
-import { ViewAgreementOfficersComponent } from './components/agreements/activities/agreement-officers/view-agreement-officers/view-agreement-officers.component';
-import { AddAgreementOfficerComponent } from './components/agreements/activities/agreement-officers/add-agreement-officer/add-agreement-officer.component';
-import { AddAgreementFileComponent } from './components/agreements/activities/agreement-files/add-agreement-file/add-agreement-file.component';
-import { ViewAgreementFilesComponent } from './components/agreements/activities/agreement-files/view-agreement-files/view-agreement-files.component';
-import { ViewAgreementRegistrationsComponent } from './components/agreements/activities/agreement-registrations/view-agreement-registrations/view-agreement-registrations.component';
-import { AddAgreementRegistrationComponent } from './components/agreements/activities/agreement-registrations/add-agreement-registration/add-agreement-registration.component';
+import { AddAgreementContactPersonComponent } from './components/activities/agreement-contact-persons/add-agreement-contact-person/add-agreement-contact-person.component';
+import { ViewAgreementContactPersonsComponent } from './components/activities/agreement-contact-persons/view-agreement-contact-persons/view-agreement-contact-persons.component';
+import { AddAgreementFileComponent } from './components/activities/agreement-files/add-agreement-file/add-agreement-file.component';
+import { ViewAgreementFilesComponent } from './components/activities/agreement-files/view-agreement-files/view-agreement-files.component';
+import { AddAgreementOfficerComponent } from './components/activities/agreement-officers/add-agreement-officer/add-agreement-officer.component';
+import { ViewAgreementOfficersComponent } from './components/activities/agreement-officers/view-agreement-officers/view-agreement-officers.component';
+import { AddAgreementRegistrationComponent } from './components/activities/agreement-registrations/add-agreement-registration/add-agreement-registration.component';
+import { ViewAgreementRegistrationsComponent } from './components/activities/agreement-registrations/view-agreement-registrations/view-agreement-registrations.component';
+import { WizardAgreementComponent } from './components/activities/wizard-agreement/wizard-agreement.component';
 
 @NgModule({
   declarations: [

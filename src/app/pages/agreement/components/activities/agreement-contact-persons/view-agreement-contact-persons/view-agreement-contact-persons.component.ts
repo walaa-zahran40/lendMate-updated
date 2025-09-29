@@ -9,12 +9,10 @@ import {
   takeUntil,
   of,
 } from 'rxjs';
-import { TableComponent } from '../../../../../../../shared/components/table/table.component';
-import { ClientContactPerson } from '../../../../../../crm/clients/store/client-contact-persons/client-contact-person.model';
-import { ClientContactPersonsFacade } from '../../../../../../crm/clients/store/client-contact-persons/client-contact-persons.facade';
-import { AgreementContactPerson } from '../../../../../store/agreement-contact-persons/agreement-contact-person.model';
-import { AgreementContactPersonsFacade } from '../../../../../store/agreement-contact-persons/agreement-contact-persons.facade';
-import { LeasingAgreementsFacade } from '../../../../../store/agreements/agreements.facade';
+import { TableComponent } from '../../../../../../shared/components/table/table.component';
+import { ClientContactPerson } from '../../../../../crm/clients/store/client-contact-persons/client-contact-person.model';
+import { AgreementContactPerson } from '../../../../store/agreement-contact-persons/agreement-contact-person.model';
+import { AgreementContactPersonsFacade } from '../../../../store/agreement-contact-persons/agreement-contact-persons.facade';
 type TableRow = AgreementContactPerson & { contactPersonName: string }; // 👈 enriched row
 
 @Component({
