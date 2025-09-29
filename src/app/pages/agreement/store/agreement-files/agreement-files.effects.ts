@@ -46,16 +46,27 @@ export class AgreementFilesEffects {
     )
   );
 
+  // agreement-files.effects.ts
   loadById$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActionsList.loadById),
       tap(({ id }) => console.log('[AgreementFilesEffects] loadById', { id })),
       switchMap(({ id }) =>
         this.service.getById(id).pipe(
-          tap((entity) =>
-            console.log('[AgreementFilesEffects] service.getById ->', entity)
+          // returns {items,totalCount}
+          tap((resp) =>
+            console.log('[AgreementFilesEffects] service.getById ->', resp)
           ),
-          map((entity) => ActionsList.loadByIdSuccess({ entity }))
+          map((resp) =>
+            ActionsList.loadAllSuccess({
+              result: (resp?.items ?? []).map((it) => ({
+                ...it,
+                id: Number(it.id),
+                agreementId: Number(it.agreementId),
+              })),
+            })
+          ),
+          catchError((error) => of(ActionsList.loadAllFailure({ error })))
         )
       )
     )
@@ -69,7 +80,7 @@ export class AgreementFilesEffects {
           tap((entity) =>
             console.log('[AgreementFilesEffects] service.getById ->', entity)
           ),
-          map((entity) => ActionsList.loadByIdEditSuccess({ entity }))
+          map((entity) => ActionsList.loadByIdSuccess({ entity }))
         )
       )
     )

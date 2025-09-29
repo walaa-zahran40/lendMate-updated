@@ -40,11 +40,15 @@ export class AgreementFilesService {
       );
   }
 
-  getById(id: number): Observable<AgreementFile> {
-    return this.http.get<AgreementFile>(
+  // agreement-files.service.ts
+  getById(
+    id: number
+  ): Observable<{ items: AgreementFile[]; totalCount: number }> {
+    return this.http.get<{ items: AgreementFile[]; totalCount: number }>(
       `${this.baseUrl}/AgreementId?AgreementId=${id}`
     );
   }
+
   getByIdEdit(id: number): Observable<AgreementFile> {
     return this.http.get<AgreementFile>(
       `${this.baseUrl}/AgreementFileId?id=${id}`

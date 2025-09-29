@@ -13,7 +13,11 @@ import { LeasingAgreement } from '../../../../store/agreements/agreement.model';
 import { AgreementFile } from '../../../../store/agreement-files/agreement-file.model';
 import { LeasingAgreementsFacade } from '../../../../store/agreements/agreements.facade';
 import { AgreementFilesFacade } from '../../../../store/agreement-files/agreement-files.facade';
+type Paged<T> = { items: T[]; totalCount?: number };
 
+function isPaged<T>(x: unknown): x is Paged<T> {
+  return !!x && typeof x === 'object' && 'items' in (x as any);
+}
 @Component({
   selector: 'app-view-agreement-files',
   standalone: false,
@@ -31,7 +35,7 @@ export class ViewAgreementFilesComponent {
 
   readonly colsInside = [
     { field: 'expiryDate', header: 'File Expiry Date' },
-    { field: 'number', header: 'Agreement Number' },
+    { field: 'agreementId', header: 'Agreement Number' },
     // { field: 'isActive', header: 'Is Active' },
   ];
 
@@ -50,48 +54,79 @@ export class ViewAgreementFilesComponent {
   ) {}
 
   ngOnInit() {
-    this.facade.loadById(this.routeId);
-    this.agreementFiles$ = this.facade.selected$.pipe(
-      map((file) => (file ? [file] : []))
-    );
+    const agreementId = Number(this.route.snapshot.paramMap.get('id'));
+    console.log('[Init] agreementId =', agreementId);
 
-    this.facadeAgreements.loadAll();
-    this.agreements$ = this.facadeAgreements.all$.pipe(
-      map((res: any) => (Array.isArray(res) ? res : res?.items ?? []))
+    // Load data
+    this.facade.loadById(agreementId); // files
+    this.facadeAgreements.loadAll(); // agreements
+
+    // Observables
+    this.agreements$ = this.facadeAgreements.all$ as Observable<
+      LeasingAgreement[]
+    >;
+
+    this.agreementFiles$ = (
+      this.facade.all$ as Observable<AgreementFile[] | Paged<AgreementFile>>
+    ).pipe(
+      map((res) => {
+        console.log('[Files raw from facade]', res);
+
+        if (Array.isArray(res)) {
+          console.log('[Files interpreted as array]', res);
+          return res;
+        } else if (isPaged<AgreementFile>(res)) {
+          console.log('[Files interpreted as paged object]', res.items);
+          return res.items ?? [];
+        } else {
+          console.warn('[Files type not recognized]', res);
+          return [];
+        }
+      }),
+      map((items) => {
+        // extra debug to confirm types
+        console.log(
+          '[Types check]',
+          items.map((f) => ({
+            id: f.id,
+            agreementId: f.agreementId,
+            typeofAgreementId: typeof (f as any).agreementId,
+          }))
+        );
+
+        const filtered = items.filter(
+          (f) => Number((f as any).agreementId) === agreementId
+        );
+        console.log('[Files after safe numeric compare]', filtered);
+        return filtered;
+      })
     );
-    this.agreementFiles$ = this.facade.all$;
 
     combineLatest([this.agreementFiles$, this.agreements$])
       .pipe(takeUntil(this.destroy$))
-      .subscribe(([filesRes, orders]) => {
-        const files: AgreementFile[] = Array.isArray(filesRes)
-          ? filesRes
-          : filesRes &&
-            'items' in filesRes &&
-            Array.isArray((filesRes as any).items)
-          ? (filesRes as any).items
-          : [];
+      .subscribe(([files, agreements]) => {
+        console.log('[CombineLatest] files =', files);
+        console.log('[CombineLatest] agreements =', agreements);
 
-        // Build a quick lookup map: id -> poNumber
-        const poNumberMap = new Map<number, string>(
-          orders
-            .filter((o) => typeof o.id === 'number')
-            .map(
-              (o) =>
-                [o.id as number, (o as any).poNumber ?? `#${o.id}`] as [
-                  number,
-                  string
-                ]
-            )
+        const numberById = new Map<number, string>(
+          agreements
+            .filter((a) => typeof a.id === 'number')
+            .map((a) => [
+              a.id as number,
+              (a as any).agreementNumber ?? `#${a.id}`,
+            ])
         );
+        console.log('[numberById map]', numberById);
 
-        // Enrich files with the correct PO number
         const enriched = files.map((f) => ({
           ...f,
-          number: poNumberMap.get(f.agreementId) ?? `#${f.agreementId}`, // ← use agreementId
+          displayAgreementNumber:
+            numberById.get(f.agreementId) ?? `#${f.agreementId}`,
         }));
-        // sort as you like
+        console.log('[Enriched files]', enriched);
+
         const sorted = [...enriched].sort((a, b) => b.id - a.id);
+        console.log('[Sorted files]', sorted);
 
         this.originalAgreementFiles = sorted;
         this.filteredAgreementFiles = [...sorted];

@@ -1,5 +1,6 @@
 export interface AgreementFile {
   id: number;
+  items: any;
   agreementId: number;
   fileId: number;
   fileName?: string;

@@ -30,7 +30,7 @@ export class AddAgreementFileComponent {
   existingFileName?: string;
   existingFileId?: number;
   existingFileUrl?: string;
-  record$!: Observable<AgreementFile | null>;
+  record$!: Observable<AgreementFile | undefined>;
 
   constructor(
     private fb: FormBuilder,
@@ -94,13 +94,13 @@ export class AddAgreementFileComponent {
     });
 
     // 4) Add mode: seed PO id and lock it
-    const poCtrl = this.addAgreementFileForm.get('agreementId')!;
     if (this.mode === 'add') {
-      poCtrl.setValue(this.routeId, { emitEvent: false });
-      poCtrl.disable({ emitEvent: false });
       this.addAgreementFileForm.patchValue({
         agreementId: this.routeId,
       });
+      this.addAgreementFileForm
+        .get('agreementId')!
+        .disable({ emitEvent: false });
     } else if (this.viewOnly) {
       this.addAgreementFileForm.disable({ emitEvent: false });
     }
@@ -111,88 +111,60 @@ export class AddAgreementFileComponent {
       this.facade.loadByIdEdit(this.recordId);
 
       // Prefer a byId$ selector if available
-      this.record$ = (this.facade as any).byId$
-        ? (this.facade as any).byId$(this.recordId)
-        : this.facade.all$.pipe(
-            map((list) => list?.find((x) => x.id === this.recordId) ?? null)
+      this.record$ = this.facade.selected$;
+
+      // When the record arrives, patch immediately.
+      this.record$
+        .pipe(
+          filter((r): r is AgreementFile => !!r),
+          take(1)
+        )
+        .subscribe((ct) => {
+          console.log('✅ record arrived', ct);
+
+          const agreementId =
+            ct.agreementId != null ? Number(ct.agreementId) : null;
+          const documentTypeId =
+            ct.documentTypeId != null ? Number(ct.documentTypeId) : null;
+
+          this.currentRecord = ct;
+          this.existingFileName = ct.fileName ?? undefined;
+          this.existingFileId = ct.fileId ?? undefined;
+          this.existingFileUrl = ct.filePath ?? undefined;
+
+          this.addAgreementFileForm.patchValue(
+            {
+              id: ct.id,
+              agreementId,
+              documentTypeId,
+              expiryDate: ct.expiryDate ? new Date(ct.expiryDate) : null,
+              file: null,
+            },
+            { emitEvent: false }
           );
 
-      // Gate until: record has documentTypeId, and options are loaded
-      const recordReady$ = this.record$.pipe(
-        filter((ct): ct is AgreementFile => !!ct && ct.documentTypeId != null),
-        take(1)
-      );
-      const docTypesReady$ = this.documentTypes$.pipe(
-        filter((arr) => Array.isArray(arr) && arr.length > 0),
-        take(1)
-      );
-      const posReady$ = this.agreements$.pipe(
-        filter((arr) => Array.isArray(arr) && arr.length > 0),
-        take(1)
-      );
-
-      console.log('⏳ waiting for record(with docTypeId) + docTypes + pos…');
-
-      combineLatest([recordReady$, docTypesReady$, posReady$])
-        .pipe(take(1))
-        .subscribe({
-          next: ([ct]) => {
-            this.currentRecord = ct;
-
-            // Coerce IDs to numbers to match optionValue="id"
-            const agreementId =
-              ct.agreementId != null ? Number(ct.agreementId) : null;
-            const documentTypeId =
-              ct.documentTypeId != null ? Number(ct.documentTypeId) : null;
-
-            console.log('✅ ready; ids:', { agreementId, documentTypeId });
-
-            // Patch core fields
-            this.addAgreementFileForm.patchValue(
-              {
-                id: ct.id,
-                agreementId,
-                expiryDate: ct.expiryDate ? new Date(ct.expiryDate) : null,
-                file: null,
-              },
-              { emitEvent: false }
-            );
-
-            // Set documentTypeId explicitly (options are present)
+          if (documentTypeId != null) {
+            console.log('doc', documentTypeId);
+            // set doc type if present; no gating on docTypes load
             const docCtrl = this.addAgreementFileForm.get('documentTypeId')!;
             docCtrl.setValue(documentTypeId, { emitEvent: false });
-            docCtrl.updateValueAndValidity({ emitEvent: false });
+            if (this.editMode) docCtrl.disable({ emitEvent: false });
+          }
 
-            // 🔒 Disable document type in edit mode
-            if (this.editMode) {
-              docCtrl.disable({ emitEvent: false });
-            }
+          // In edit/view file is optional
+          const fileCtrl = this.addAgreementFileForm.get('file')!;
+          fileCtrl.clearValidators();
+          fileCtrl.updateValueAndValidity({ emitEvent: false });
 
-            // Existing file info for child display
-            this.existingFileName = ct.fileName ?? undefined;
-            this.existingFileId = ct.fileId ?? undefined;
-            this.existingFileUrl = ct.filePath ?? undefined;
-
-            // Reset file validators for edit/view
-            const fileCtrl = this.addAgreementFileForm.get('file')!;
-            fileCtrl.setValue(null, { emitEvent: false });
-            fileCtrl.clearValidators();
-            fileCtrl.updateValueAndValidity({ emitEvent: false });
-
-            if (this.viewOnly) {
-              this.addAgreementFileForm.disable({ emitEvent: false });
-            }
-
-            this.cdr.detectChanges();
-          },
-          error: (e) => console.error('❌ combineLatest error:', e),
+          if (this.viewOnly)
+            this.addAgreementFileForm.disable({ emitEvent: false });
+          this.cdr.detectChanges();
         });
     }
 
-    // (Optional) quick status log
-    this.addAgreementFileForm.statusChanges?.subscribe((s) => {
-      console.log('🧭 form status:', s);
-    });
+    this.addAgreementFileForm.statusChanges?.subscribe((s) =>
+      console.log('🧭 form status:', s)
+    );
   }
 
   addOrEditAgreementFile() {
@@ -261,9 +233,9 @@ export class AddAgreementFileComponent {
   }
 
   close() {
-    console.log('Navigating back to view-purchasing-order-files');
+    console.log('Navigating back to view-agreement-files');
     this.router.navigate([
-      `/purchasing/purchasing-orders/activities/view-purchasing-order-files/${this.routeId}`,
+      `/agreement/activities/view-agreement-files/${this.routeId}`,
     ]);
   }
   /** Called by the guard. */
