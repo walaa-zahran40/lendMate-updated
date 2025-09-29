@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { filter, take, tap } from 'rxjs';
-import { LeasingAgreementsFacade } from '../../../store/agreements/agreements.facade';
 
 @Component({
   selector: 'app-wizard-agreement',
@@ -9,88 +7,35 @@ import { LeasingAgreementsFacade } from '../../../store/agreements/agreements.fa
   templateUrl: './wizard-agreement.component.html',
   styleUrl: './wizard-agreement.component.scss',
 })
-export class WizardAgreementComponent implements OnInit {
-  cards: any[][] = [];
+export class WizardAgreementComponent {
+  cards: any[] = [];
   originalCards: any[] = [];
-  private businessAgreementId!: number;
+  assetId = this.route.snapshot.params['id'];
+  evId = this.route.snapshot.params['evId'];
 
-  routeId = this.route.snapshot.params['leasingAgreementsId'];
-  clientId = this.route.snapshot.params['clientId'];
-
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private facade: LeasingAgreementsFacade // ← inject your facade
-  ) {}
-
+  constructor(private router: Router, private route: ActivatedRoute) {}
   ngOnInit(): void {
-    console.log('this.route', this.route.snapshot);
-    // 1️⃣ pull the raw DB PK out of the URL
-    const leasingAgreementsId = +this.route.snapshot.paramMap.get(
-      'leasingAgreementsId'
-    )!;
-
-    // 2️⃣ tell your facade to load the full agreement (calling LeasingAgreementId under the hood)
-    this.facade.loadById(leasingAgreementsId);
-
-    // 3️⃣ wait for it, grab the business agreementId, then build cards
-    this.facade.selected$
-      .pipe(
-        filter((m) => !!m && m.id === leasingAgreementsId), // make sure it’s the one we asked for
-        take(1),
-        tap((m) => (this.businessAgreementId = m?.agreementId!)) // ← this is the one you need
-      )
-      .subscribe(() => this.buildCards());
+    this.buildCards();
   }
-
   private buildCards() {
-    const id = this.businessAgreementId;
     this.originalCards = [
       {
-        imgUrl: '/assets/images/shared/card/mandate-manage.svg',
-        imgAlt: 'agreement',
-        title: 'AGREEMENT.AGREEMENT_CONTACT_PERSONS',
-        content: 'AGREEMENT.AGREEMENT_CONTACT_PERSONS_DESC',
-        link: !this.clientId
-          ? `/agreement/view-agreement-contact-persons/${id}`
-          : `/agreement/view-agreement-contact-persons/${id}/${this.clientId}/${this.routeId}`,
+        imgUrl: '/assets/images/shared/card/upload.svg',
+        imgAlt: 'upload',
+        title: 'Agreement Files',
+        content: 'Agreement Files',
+        link: `agreement/activities/view-agreement-files/${this.assetId}`,
       },
-      {
-        imgUrl: '/assets/images/shared/card/mandate-manage.svg',
-        imgAlt: 'agreement',
-        title: 'AGREEMENT.AGREEMENT_FILES',
-        content: 'AGREEMENT.AGREEMENT_FILES_DESC',
-        link: !this.clientId
-          ? `/agreement/view-agreement-files/${id}`
-          : `/agreement/view-agreement-files/${id}/${this.clientId}/${this.routeId}`,
-      },
-      {
-        imgUrl: '/assets/images/shared/card/mandate-manage.svg',
-        imgAlt: 'agreement',
-        title: 'AGREEMENT.AGREEMENT_OFFICERS',
-        content: 'AGREEMENT.AGREEMENT_OFFICERS_DESC',
-        link: !this.clientId
-          ? `/agreement/view-agreement-officers/${id}`
-          : `/agreement/view-agreement-officers/${id}/${this.clientId}/${this.routeId}`,
-      },
-      {
-        imgUrl: '/assets/images/shared/card/mandate-manage.svg',
-        imgAlt: 'agreement',
-        title: 'AGREEMENT.AGREEMENT_REGISTRATIONS',
-        content: 'AGREEMENT.AGREEMENT_REGISTRATIONS_DESC',
-        link: !this.clientId
-          ? `/agreement/view-agreement-registrations/${id}`
-          : `/agreement/view-agreement-registrations/${id}/${this.clientId}/${this.routeId}`,
-      },
+      // {
+      //   imgUrl: '/assets/images/shared/card/add.svg',
+      //   imgAlt: 'add',
+      //   title: 'Workflow & Status',
+      //   content: 'Workflow & Status',
+      //   link: `purchasing/assets/activities/view-workflow-status/${this.assetId}`,
+      // },
     ];
 
     this.cards = this.chunkArray(this.originalCards, 3);
-    console.log('🧩 Built cards:', this.originalCards);
-    console.log('🔀 Chunked cards:', this.cards);
-  }
-
-  navigateTo(link: string) {
-    this.router.navigate([link]);
   }
   onSearchAgreement(keyword: string) {
     const lower = keyword.toLowerCase();
@@ -100,9 +45,7 @@ export class WizardAgreementComponent implements OnInit {
       )
     );
 
-    this.cards = this.chunkArray(filtered, 3); // 3 per row
-    console.log('Original Cards:', this.originalCards);
-    console.log('Chunked Cards:', this.cards);
+    this.cards = this.chunkArray(filtered, 3);
   }
   chunkArray(arr: any[], chunkSize: number): any[][] {
     const result = [];
@@ -110,5 +53,8 @@ export class WizardAgreementComponent implements OnInit {
       result.push(arr.slice(i, i + chunkSize));
     }
     return result;
+  }
+  navigateTo(link: string) {
+    this.router.navigate([link]);
   }
 }

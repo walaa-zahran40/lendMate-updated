@@ -30,6 +30,8 @@ import { ViewAgreementOfficersComponent } from './components/activities/agreemen
 import { AddAgreementRegistrationComponent } from './components/activities/agreement-registrations/add-agreement-registration/add-agreement-registration.component';
 import { ViewAgreementRegistrationsComponent } from './components/activities/agreement-registrations/view-agreement-registrations/view-agreement-registrations.component';
 import { WizardAgreementComponent } from './components/activities/wizard-agreement/wizard-agreement.component';
+import { AgreementFilesEffects } from './store/agreement-files/agreement-files.effects';
+import { reducer } from './store/agreement-files/agreement-files.reducer';
 
 @NgModule({
   declarations: [
@@ -61,6 +63,8 @@ import { WizardAgreementComponent } from './components/activities/wizard-agreeme
     EffectsModule.forFeature([LeasingAgreementsEffects]),
     StoreModule.forFeature(agreementContactPersonsFeature),
     EffectsModule.forFeature([AgreementContactPersonsEffects]),
+    EffectsModule.forFeature([AgreementFilesEffects]),
+    StoreModule.forFeature('agreementFiles', reducer),
   ],
   providers: [],
 })

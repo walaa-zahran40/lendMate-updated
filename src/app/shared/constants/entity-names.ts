@@ -81,4 +81,5 @@ export enum EntityNames {
   MandateOfficer = 'MandateOfficer',
   Portfolio = 'Portfolio',
   BusinessSource = 'BusinessSource',
+  AgreementFile = 'AgreementFile',
 }

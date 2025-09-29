@@ -38,6 +38,7 @@ export class TableComponent {
   @Input() col2Name!: string;
   @Input() col3Name!: string;
   @Input() col4Name!: string;
+  @Input() viewAgreementFilesTable!: boolean;
   @Input() col5Name!: string;
   @Input() col6Name!: string;
   @Input() col7Name!: string;

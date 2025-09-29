@@ -8,6 +8,7 @@ import { ViewAgreementFilesComponent } from './components/activities/agreement-f
 import { ViewAgreementOfficersComponent } from './components/activities/agreement-officers/view-agreement-officers/view-agreement-officers.component';
 import { ViewAgreementRegistrationsComponent } from './components/activities/agreement-registrations/view-agreement-registrations/view-agreement-registrations.component';
 import { WizardAgreementComponent } from './components/activities/wizard-agreement/wizard-agreement.component';
+import { AddAgreementFileComponent } from './components/activities/agreement-files/add-agreement-file/add-agreement-file.component';
 
 const routes: Routes = [
   //Agreement Contact Persons
@@ -30,12 +31,23 @@ const routes: Routes = [
   },
 
   {
-    path: 'wizard-agreement/:leasingAgreementsId',
+    path: 'wizard-agreement/:id',
     component: WizardAgreementComponent,
   },
+  //Agreement Files
   {
-    path: 'wizard-agreement/:leasingAgreementsId/:clientId',
-    component: WizardAgreementComponent,
+    path: 'activities/view-agreement-files/:id',
+    component: ViewAgreementFilesComponent,
+  },
+
+  {
+    path: 'activities/add-agreement-file/:id',
+    component: AddAgreementFileComponent,
+  },
+
+  {
+    path: 'activities/edit-agreement-file/:id',
+    component: AddAgreementFileComponent,
   },
   // Agreement Contact Persons
   {

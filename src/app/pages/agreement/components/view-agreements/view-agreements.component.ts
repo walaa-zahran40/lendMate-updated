@@ -58,18 +58,8 @@ export class ViewAgreementsComponent {
   onAddAgreement() {
     this.router.navigate(['/agreement/add-agreement']);
   }
-  async onAddSide(leasingAgreementsId: any) {
-    const realClientId = await firstValueFrom(
-      this.facade.all$.pipe(
-        map((agreements) =>
-          agreements.length > 0 ? agreements[0]?.clientView?.clientId : null
-        )
-      )
-    );
-    const cmds = realClientId
-      ? ['/agreement/wizard-agreement', leasingAgreementsId, realClientId]
-      : ['/agreement/wizard-agreement', leasingAgreementsId];
-    this.router.navigate(cmds);
+  onAddSide(event: any) {
+    this.router.navigate(['/agreement/wizard-agreement', event]);
   }
 
   ngOnDestroy() {
