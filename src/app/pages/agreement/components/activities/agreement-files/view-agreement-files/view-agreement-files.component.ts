@@ -31,7 +31,7 @@ export class ViewAgreementFilesComponent {
 
   readonly colsInside = [
     { field: 'expiryDate', header: 'File Expiry Date' },
-    { field: 'number', header: 'PO Number' },
+    { field: 'number', header: 'Agreement Number' },
     // { field: 'isActive', header: 'Is Active' },
   ];
 
@@ -100,7 +100,7 @@ export class ViewAgreementFilesComponent {
 
   onAddAgreementFile() {
     this.router.navigate([
-      `/purchasing/purchasing-orders/activities/add-purchasing-orders-file/${this.routeId}`,
+      `/agreement/activities/add-agreement-file/${this.routeId}`,
     ]);
   }
 
@@ -144,10 +144,7 @@ export class ViewAgreementFilesComponent {
 
   onEditAgreementFile(agreementFile: AgreementFile) {
     this.router.navigate(
-      [
-        '/purchasing/purchasing-orders/activities/edit-purchasing-orders-file/',
-        agreementFile.id,
-      ],
+      ['/agreement/activities/edit-agreement-file/', agreementFile.id],
       {
         queryParams: { mode: 'edit' },
       }
@@ -156,10 +153,7 @@ export class ViewAgreementFilesComponent {
 
   onViewAgreementFile(agreementFile: AgreementFile) {
     this.router.navigate(
-      [
-        '/purchasing/purchasing-orders/activities/edit-purchasing-orders-file/',
-        agreementFile.id,
-      ],
+      ['/agreement/activities/edit-agreement-file/', agreementFile.id],
       {
         queryParams: { mode: 'view' },
       }

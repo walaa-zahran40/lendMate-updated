@@ -35,6 +35,18 @@ export const loadByIdFailure = createAction(
   '[AgreementFiles] Load By Id Failure',
   props<{ error: any }>()
 );
+export const loadByIdEdit = createAction(
+  '[AgreementFiles] Load By Id Edit',
+  props<{ id: number }>()
+);
+export const loadByIdEditSuccess = createAction(
+  '[AgreementFiles] Load By Id Edit Success',
+  props<{ entity: AgreementFile }>()
+);
+export const loadByIdEditFailure = createAction(
+  '[AgreementFiles] Load By Id Edit Failure',
+  props<{ error: any }>()
+);
 
 export const createEntity = createAction(
   '[AgreementFiles] Create',

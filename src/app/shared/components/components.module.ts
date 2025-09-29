@@ -109,6 +109,7 @@ import { AgreementAssetsFormComponent } from '../../pages/agreement/forms/agreem
 import { AgreementFeeFormComponent } from '../../pages/agreement/forms/agreement-fee-form/agreement-fee-form.component';
 import { LeasingFinancialBasicFormComponent } from '../../pages/agreement/forms/leasing-financial-basic-form/leasing-financial-basic-form.component';
 import { LeasingFinancialCurrencyFormComponent } from '../../pages/agreement/forms/leasing-financial-currency-form/leasing-financial-currency-form.component';
+import { AddAgreementFileFormComponent } from '../../pages/agreement/forms/add-agreement-file-form/add-agreement-file-form.component';
 
 @NgModule({
   declarations: [
@@ -174,6 +175,7 @@ import { LeasingFinancialCurrencyFormComponent } from '../../pages/agreement/for
     AgreementAssetsFormComponent,
     AgreementFeeFormComponent,
     LeasingFinancialBasicFormComponent,
+    AddAgreementFileFormComponent,
   ],
   imports: [
     CommonModule,
@@ -228,6 +230,7 @@ import { LeasingFinancialCurrencyFormComponent } from '../../pages/agreement/for
   ],
   providers: [DatePipe, AsyncPipe, MessageService],
   exports: [
+    AddAgreementFileFormComponent,
     AddPurchasingOrderFileComponent,
     LicenseProviderFormComponent,
     AddEvaluatorFormComponent,

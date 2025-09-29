@@ -32,7 +32,9 @@ export class AgreementFilesFacade {
   loadById(id: number) {
     this.store.dispatch(Actions.loadById({ id }));
   }
-
+  loadByIdEdit(id: number) {
+    this.store.dispatch(Actions.loadByIdEdit({ id }));
+  }
   create(payload: Partial<Omit<AgreementFile, 'id'>>) {
     this.store.dispatch(Actions.createEntity({ payload }));
   }

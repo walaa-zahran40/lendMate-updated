@@ -11,16 +11,11 @@ import { StoreModule } from '@ngrx/store';
 import { LEASING_AGREEMENTS_FEATURE_KEY } from './store/agreements/agreements.state';
 import { ButtonModule } from 'primeng/button';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AgreementMainInformationFormComponent } from './forms/agreement-main-information-form/agreement-main-information-form.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { TextareaModule } from 'primeng/textarea';
 import { SelectModule } from 'primeng/select';
 import { AgreementContactPersonsEffects } from './store/agreement-contact-persons/agreement-contact-persons.effects';
-import {
-  agreementContactPersonsFeature,
-  agreementContactPersonsReducer,
-} from './store/agreement-contact-persons/agreement-contact-persons.reducer';
-import { agreementContactPersonsFeatureKey } from './store/agreement-contact-persons/agreement-contact-persons.state';
+import { agreementContactPersonsFeature } from './store/agreement-contact-persons/agreement-contact-persons.reducer';
 import { AddAgreementContactPersonComponent } from './components/activities/agreement-contact-persons/add-agreement-contact-person/add-agreement-contact-person.component';
 import { ViewAgreementContactPersonsComponent } from './components/activities/agreement-contact-persons/view-agreement-contact-persons/view-agreement-contact-persons.component';
 import { AddAgreementFileComponent } from './components/activities/agreement-files/add-agreement-file/add-agreement-file.component';
@@ -32,6 +27,7 @@ import { ViewAgreementRegistrationsComponent } from './components/activities/agr
 import { WizardAgreementComponent } from './components/activities/wizard-agreement/wizard-agreement.component';
 import { AgreementFilesEffects } from './store/agreement-files/agreement-files.effects';
 import { reducer } from './store/agreement-files/agreement-files.reducer';
+import { TabsModule } from 'primeng/tabs';
 
 @NgModule({
   declarations: [
@@ -53,6 +49,7 @@ import { reducer } from './store/agreement-files/agreement-files.reducer';
     AgreementRoutingModule,
     SharedModule,
     SelectModule,
+    TabsModule,
     TextareaModule,
     ReactiveFormsModule,
     TranslateModule,

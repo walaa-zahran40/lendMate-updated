@@ -45,6 +45,11 @@ export class AgreementFilesService {
       `${this.baseUrl}/AgreementId?AgreementId=${id}`
     );
   }
+  getByIdEdit(id: number): Observable<AgreementFile> {
+    return this.http.get<AgreementFile>(
+      `${this.baseUrl}/AgreementFileId?id=${id}`
+    );
+  }
   create(body: FormData | Partial<AgreementFile>) {
     return this.http.post<AgreementFile>(
       `${this.baseUrl}/CreateAgreementFile`,

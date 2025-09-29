@@ -85,7 +85,21 @@ export const reducer = createReducer(
       loadedId: safeId,
     });
   }),
-
+  on(AgreementFileActions.loadByIdEditSuccess, (state, { entity }) => {
+    const safeId = entity?.id;
+    if (safeId == null) {
+      console.warn(
+        '🟡 loadByIdSuccess with missing entity.id. Skipping loadedId update.',
+        entity
+      );
+      return adapter.upsertOne(entity as any, { ...state, loading: false });
+    }
+    return adapter.upsertOne(entity, {
+      ...state,
+      loading: false,
+      loadedId: safeId,
+    });
+  }),
   //History management
   on(AgreementFileActions.loadAgreementFileHistory, (state) => ({
     ...state,

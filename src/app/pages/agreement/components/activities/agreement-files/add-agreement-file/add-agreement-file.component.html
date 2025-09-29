@@ -1,1 +1,54 @@
-<p>add-agreement-file works!</p>
+<app-toolbar-form
+  [backExists]="true"
+  [backIcon]="'back-icon'"
+  [header]="
+    viewOnly
+      ? 'View Agreement File'
+      : editMode
+      ? 'Edit Agreement File'
+      : 'Add Agreement File'
+  "
+  [viewOnly]="viewOnly"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-add-agreement-file-form
+        [title]="'Agreement File'"
+        [description]="'Agreement File Description'"
+        [addAgreementFileForm]="true"
+        [formGroup]="addAgreementFileForm"
+        [existingFileName]="(record$ | async)?.fileName"
+        [existingFileId]="(record$ | async)?.fileId"
+        [existingFileUrl]="(record$ | async)?.filePath"
+        (submitForm)="addOrEditAgreementFile()"
+        [agreements]="agreements$ | async"
+        [documentTypes]="documentTypes$ | async"
+        [editMode]="editMode"
+        [viewOnly]="viewOnly"
+      ></app-add-agreement-file-form>
+
+      <div
+        class="col-sm-6 d-flex mt-5 justify-end float-right margin-top p-0 w-100"
+      >
+        <p-button
+          *ngIf="viewOnly"
+          class="custom-save m-0"
+          label="Close"
+          (click)="close()"
+        >
+        </p-button>
+
+        <!-- Save right away when there is NO step 2 (Property) -->
+        <p-button
+          *ngIf="!viewOnly"
+          class="custom-save m-0"
+          [label]="'BUTTONS.SAVE_INFO' | translate"
+          [disabled]="addAgreementFileForm.invalid"
+          (click)="addOrEditAgreementFile()"
+        >
+        </p-button>
+      </div>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>
