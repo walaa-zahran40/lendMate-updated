@@ -6,6 +6,9 @@ import { PendingChangesGuard } from '../../shared/guards/pending-changes.guard';
 import { WizardAgreementComponent } from './components/agreements/activities/wizard-agreement/wizard-agreement.component';
 import { ViewAgreementContactPersonsComponent } from './components/agreements/activities/agreement-contact-persons/view-agreement-contact-persons/view-agreement-contact-persons.component';
 import { AddAgreementContactPersonComponent } from './components/agreements/activities/agreement-contact-persons/add-agreement-contact-person/add-agreement-contact-person.component';
+import { ViewAgreementOfficersComponent } from './components/agreements/activities/agreement-officers/view-agreement-officers/view-agreement-officers.component';
+import { ViewAgreementFilesComponent } from './components/agreements/activities/agreement-files/view-agreement-files/view-agreement-files.component';
+import { ViewAgreementRegistrationsComponent } from './components/agreements/activities/agreement-registrations/view-agreement-registrations/view-agreement-registrations.component';
 
 const routes: Routes = [
   //Agreement Contact Persons
@@ -37,21 +40,6 @@ const routes: Routes = [
   },
   // Agreement Contact Persons
   {
-    path: 'agreement-contact-persons/add/:leasingId/:leasingAgreementsId',
-    component: AddAgreementContactPersonComponent,
-  },
-  {
-    path: 'agreement-contact-persons/edit/:leasingId/:leasingAgreementsId/:agreementContactPersonId',
-    component: AddAgreementContactPersonComponent,
-    canDeactivate: [PendingChangesGuard],
-  },
-  {
-    path: 'agreement-contact-persons/view/:leasingId/:leasingAgreementsId/:agreementContactPersonId',
-    component: AddAgreementContactPersonComponent,
-  },
-
-  // Contact-persons list for a agreement (keep)
-  {
     path: 'view-agreement-contact-persons/:agreementId/:leasingAgreementsId',
     component: ViewAgreementContactPersonsComponent,
   },
@@ -63,36 +51,44 @@ const routes: Routes = [
     path: 'view-agreement-contact-persons/:agreementId/:clientId/:leasingAgreementsId',
     component: ViewAgreementContactPersonsComponent, // if you ever need deep-link to highlight one
   },
-  // ------------------------------
-  // Backward-compat (optional)
-  // ------------------------------
-
-  // OLD add routes → point to Add component
+  // Agreement Officers
   {
-    path: 'add-agreement-contact-person/:leasingId/:leasingAgreementsId',
-    component: AddAgreementContactPersonComponent,
+    path: 'view-agreement-officers/:agreementId/:leasingAgreementsId',
+    component: ViewAgreementOfficersComponent,
   },
   {
-    path: 'add-agreement-contact-person/:leasingId/:leasingAgreementsId/:agreementContactPersonId',
-    component: AddAgreementContactPersonComponent,
-  },
-
-  // OLD edit routes → point to Add component with guard
-  {
-    path: 'edit-agreement-contact-person/:leasingId/:leasingAgreementsId',
-    component: AddAgreementContactPersonComponent,
-    canDeactivate: [PendingChangesGuard],
+    path: 'view-agreement-officers/:agreementId',
+    component: ViewAgreementOfficersComponent,
   },
   {
-    path: 'edit-agreement-contact-person/:leasingId/:leasingAgreementsId/:agreementContactPersonId',
-    component: AddAgreementContactPersonComponent,
-    canDeactivate: [PendingChangesGuard],
+    path: 'view-agreement-officers/:agreementId/:clientId/:leasingAgreementsId',
+    component: ViewAgreementOfficersComponent,
   },
-
-  // OLD list routes (kept)
+  // Agreement Files
   {
-    path: 'view-agreement-contact-persons/:leasingId/:leasingAgreementsId/:agreementContactPersonId',
-    component: ViewAgreementContactPersonsComponent, // if you ever need deep-link to highlight one
+    path: 'view-agreement-files/:agreementId/:leasingAgreementsId',
+    component: ViewAgreementFilesComponent,
+  },
+  {
+    path: 'view-agreement-files/:agreementId',
+    component: ViewAgreementFilesComponent,
+  },
+  {
+    path: 'view-agreement-files/:agreementId/:clientId/:leasingAgreementsId',
+    component: ViewAgreementFilesComponent,
+  },
+  // Agreement Registrations
+  {
+    path: 'view-agreement-registrations/:agreementId/:leasingAgreementsId',
+    component: ViewAgreementRegistrationsComponent,
+  },
+  {
+    path: 'view-agreement-registrations/:agreementId',
+    component: ViewAgreementRegistrationsComponent,
+  },
+  {
+    path: 'view-agreement-registrations/:agreementId/:clientId/:leasingAgreementsId',
+    component: ViewAgreementRegistrationsComponent,
   },
 ];
 

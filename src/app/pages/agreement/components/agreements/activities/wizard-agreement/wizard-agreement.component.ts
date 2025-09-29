@@ -46,33 +46,6 @@ export class WizardAgreementComponent implements OnInit {
   private buildCards() {
     const id = this.businessAgreementId;
     this.originalCards = [
-      // {
-      //   imgUrl: '/assets/images/shared/card/clone.svg',
-      //   imgAlt: 'clone',
-      //   title: 'AGREEMENT.CLONE',
-      //   content: 'AGREEMENT.CLONE_DESC',
-      //   link: !this.clientId
-      //     ? `/crm/leasing-agreements/add-child-agreement/${id}/${this.routeId}`
-      //     : `/crm/leasing-agreements/add-child-agreement/${id}/${this.routeId}/${this.clientId}`,
-      // },
-      // {
-      //   imgUrl: '/assets/images/shared/card/agreement-manage.svg',
-      //   imgAlt: 'agreement',
-      //   title: 'AGREEMENT.ADDITIONAL_TERMS',
-      //   content: 'AGREEMENT.ADDITIONAL_TERMS_DESC',
-      //   link: !this.clientId
-      //     ? `/crm/leasing-agreements/view-agreement-additional-terms/${id}/${this.routeId}`
-      //     : `/crm/leasing-agreements/view-agreement-additional-terms/${id}/${this.routeId}/${this.clientId}`,
-      // },
-      // {
-      //   imgUrl: '/assets/images/shared/card/agreement-manage.svg',
-      //   imgAlt: 'agreement',
-      //   title: 'AGREEMENT.AGREEMENT_OFFICERS',
-      //   content: 'AGREEMENT.AGREEMENT_OFFICERS_DESC',
-      //   link: !this.clientId
-      //     ? `/crm/leasing-agreements/view-agreement-officers/${id}/${this.routeId}`
-      //     : `/crm/leasing-agreements/view-agreement-officers/${id}/${this.routeId}/${this.clientId}`,
-      // },
       {
         imgUrl: '/assets/images/shared/card/mandate-manage.svg',
         imgAlt: 'agreement',
@@ -82,15 +55,33 @@ export class WizardAgreementComponent implements OnInit {
           ? `/agreement/view-agreement-contact-persons/${id}`
           : `/agreement/view-agreement-contact-persons/${id}/${this.clientId}/${this.routeId}`,
       },
-      // {
-      //   imgUrl: '/assets/images/shared/card/agreement-manage.svg',
-      //   imgAlt: 'agreement',
-      //   title: 'AGREEMENT.WORKFLOW_HISTORY',
-      //   content: 'AGREEMENT.WORKFLOW_HISTORY_DESC',
-      //   link: !this.clientId
-      //     ? `/crm/leasing-agreements/view-agreement-workflow-history/${id}/${this.routeId}`
-      //     : `/crm/leasing-agreements/view-agreement-workflow-history/${id}/${this.routeId}/${this.clientId}`,
-      // },
+      {
+        imgUrl: '/assets/images/shared/card/mandate-manage.svg',
+        imgAlt: 'agreement',
+        title: 'AGREEMENT.AGREEMENT_FILES',
+        content: 'AGREEMENT.AGREEMENT_FILES_DESC',
+        link: !this.clientId
+          ? `/agreement/view-agreement-files/${id}`
+          : `/agreement/view-agreement-files/${id}/${this.clientId}/${this.routeId}`,
+      },
+      {
+        imgUrl: '/assets/images/shared/card/mandate-manage.svg',
+        imgAlt: 'agreement',
+        title: 'AGREEMENT.AGREEMENT_OFFICERS',
+        content: 'AGREEMENT.AGREEMENT_OFFICERS_DESC',
+        link: !this.clientId
+          ? `/agreement/view-agreement-officers/${id}`
+          : `/agreement/view-agreement-officers/${id}/${this.clientId}/${this.routeId}`,
+      },
+      {
+        imgUrl: '/assets/images/shared/card/mandate-manage.svg',
+        imgAlt: 'agreement',
+        title: 'AGREEMENT.AGREEMENT_REGISTRATIONS',
+        content: 'AGREEMENT.AGREEMENT_REGISTRATIONS_DESC',
+        link: !this.clientId
+          ? `/agreement/view-agreement-registrations/${id}`
+          : `/agreement/view-agreement-registrations/${id}/${this.clientId}/${this.routeId}`,
+      },
     ];
 
     this.cards = this.chunkArray(this.originalCards, 3);

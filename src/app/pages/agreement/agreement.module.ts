@@ -24,6 +24,12 @@ import {
   agreementContactPersonsReducer,
 } from './store/agreement-contact-persons/agreement-contact-persons.reducer';
 import { agreementContactPersonsFeatureKey } from './store/agreement-contact-persons/agreement-contact-persons.state';
+import { ViewAgreementOfficersComponent } from './components/agreements/activities/agreement-officers/view-agreement-officers/view-agreement-officers.component';
+import { AddAgreementOfficerComponent } from './components/agreements/activities/agreement-officers/add-agreement-officer/add-agreement-officer.component';
+import { AddAgreementFileComponent } from './components/agreements/activities/agreement-files/add-agreement-file/add-agreement-file.component';
+import { ViewAgreementFilesComponent } from './components/agreements/activities/agreement-files/view-agreement-files/view-agreement-files.component';
+import { ViewAgreementRegistrationsComponent } from './components/agreements/activities/agreement-registrations/view-agreement-registrations/view-agreement-registrations.component';
+import { AddAgreementRegistrationComponent } from './components/agreements/activities/agreement-registrations/add-agreement-registration/add-agreement-registration.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +38,12 @@ import { agreementContactPersonsFeatureKey } from './store/agreement-contact-per
     WizardAgreementComponent,
     ViewAgreementContactPersonsComponent,
     AddAgreementContactPersonComponent,
+    ViewAgreementOfficersComponent,
+    AddAgreementOfficerComponent,
+    AddAgreementFileComponent,
+    ViewAgreementFilesComponent,
+    ViewAgreementRegistrationsComponent,
+    AddAgreementRegistrationComponent,
   ],
   imports: [
     CommonModule,

@@ -14,7 +14,13 @@
     "AGREEMENT_ASSETS_TITLE": "Agreement Assets Title",
     "AGREEMENT_ASSETS_DESCRIPTION": "Fill in the key details that define the agreement asset's core parameters ",
     "AGREEMENT_CONTACT_PERSONS": "Agreement Contact Person",
-    "AGREEMENT_CONTACT_PERSONS_DESC": "Fill in the key details that define the agreement contact person's core parameters "
+    "AGREEMENT_CONTACT_PERSONS_DESC": "Fill in the key details that define the agreement contact person's core parameters ",
+    "AGREEMENT_OFFICERS": "Agreement Officers",
+    "AGREEMENT_OFFICERS_DESC": "Fill in the key details that define the agreement officers' core parameters ",
+    "AGREEMENT_FILES": "Agreement Files",
+    "AGREEMENT_FILES_DESC": "Fill in the key details that define the agreement files' core parameters ",
+    "AGREEMENT_REGISTRATIONS": "Agreement Registrations",
+    "AGREEMENT_REGISTRATIONS_DESC": "Fill in the key details that define the agreement registrations' core parameters "
   },
   "SIDEMENU": { "SEARCH": "Search" },
   "MENU": {
