@@ -203,7 +203,7 @@ export class AddAgreementContactPersonComponent {
 
     const { id, agreementId, contactPersonId } =
       this.addAgreementContactPersonForm.getRawValue() as AgreementContactPerson;
-
+    this.leasingId = +this.route.snapshot.params['id'];
     // Ensure agreementId is leasingId before sending (defensive)
     const payloadAgreementId = this.leasingId ?? agreementId;
 
