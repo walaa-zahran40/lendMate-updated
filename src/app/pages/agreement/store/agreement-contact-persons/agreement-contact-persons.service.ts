@@ -33,13 +33,10 @@ export class AgreementContactPersonsService {
   getByAgreementContactPersonId(
     id: number
   ): Observable<AgreementContactPerson> {
-    const params = new HttpParams().set('leasingAgreement', id); // matches your swagger
-    return this.http.get<AgreementContactPerson>(
-      `${API_BASE}/AgreementContactPersonId`,
-      {
-        params,
-      }
-    );
+    const params = new HttpParams().set('agreementId', id); // matches your swagger
+    return this.http.get<AgreementContactPerson>(`${API_BASE}/AgreementId`, {
+      params,
+    });
   }
 
   // GET /AgreementId?agreementId={agreementId}

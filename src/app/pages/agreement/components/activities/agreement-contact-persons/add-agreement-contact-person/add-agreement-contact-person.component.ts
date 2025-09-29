@@ -67,12 +67,8 @@ export class AddAgreementContactPersonComponent {
 
     // support both ":agreementContactPersonId" and generic ":id"
     const getAgreementCPId = () =>
-      getNum(this.route.snapshot.paramMap.get('agreementContactPersonId')) ??
       getNum(this.route.snapshot.paramMap.get('id'));
-    this.leasingId = getNum(this.route.snapshot.paramMap.get('leasingId'));
-    this.leasingAgreementsId = getNum(
-      this.route.snapshot.paramMap.get('leasingAgreementsId')
-    );
+
     this.agreementContactPersonId = getAgreementCPId();
 
     // ✅ One-time fetch: agreement → clientId → contact persons
