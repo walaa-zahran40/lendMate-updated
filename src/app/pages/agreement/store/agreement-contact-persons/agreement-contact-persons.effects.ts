@@ -22,31 +22,17 @@ export class AgreementContactPersonsEffects {
     )
   );
 
-  // Example effect snippet
   loadByAgreement$ = createEffect(() =>
     this.actions$.pipe(
       ofType(A.loadByAgreementRequested),
       switchMap(({ agreementId }) =>
         this.api.getByAgreementId(agreementId).pipe(
-          map(
-            (
-              res:
-                | AgreementContactPerson[]
-                | { items: AgreementContactPerson[] }
-            ) =>
-              A.loadByAgreementSucceeded({
-                agreementId,
-                contactPersons: Array.isArray(res)
-                  ? res
-                  : (res as { items: AgreementContactPerson[] })?.items ?? [],
-              })
+          map((contactPersons) =>
+            A.loadByAgreementSucceeded({ agreementId, contactPersons })
           ),
-          catchError(({ error, agreementId }) =>
+          catchError((err) =>
             of(
-              A.loadByAgreementFailed({
-                agreementId,
-                error: this.errMsg(error),
-              })
+              A.loadByAgreementFailed({ agreementId, error: this.errMsg(err) })
             )
           )
         )

@@ -1,18 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import {
-  Observable,
-  Subject,
-  map,
-  combineLatest,
-  tap,
-  takeUntil,
-  of,
-} from 'rxjs';
+import { Observable, Subject, map, combineLatest, tap, takeUntil } from 'rxjs';
 import { TableComponent } from '../../../../../../shared/components/table/table.component';
 import { ClientContactPerson } from '../../../../../crm/clients/store/client-contact-persons/client-contact-person.model';
 import { AgreementContactPerson } from '../../../../store/agreement-contact-persons/agreement-contact-person.model';
 import { AgreementContactPersonsFacade } from '../../../../store/agreement-contact-persons/agreement-contact-persons.facade';
+import { LeasingAgreementsFacade } from '../../../../store/agreements/agreements.facade';
+import { ClientContactPersonsFacade } from '../../../../../crm/clients/store/client-contact-persons/client-contact-persons.facade';
 type TableRow = AgreementContactPerson & { contactPersonName: string }; // 👈 enriched row
 
 @Component({
@@ -38,25 +32,80 @@ export class ViewAgreementContactPersonsComponent {
   // enriched lists used by the table + search
   originalAgreementContactPersons: TableRow[] = [];
   filteredAgreementContactPersons: TableRow[] = [];
-  clientIdParam: any;
+
+  // source streams
+  agreementContactPersons$!: Observable<AgreementContactPerson[]>;
+  contactPersons$!: Observable<ClientContactPerson[]>;
+
   // show name in the grid
   readonly colsInside = [
     // { field: 'clientName', header: 'Client' }, // ✅ new
     { field: 'contactPersonName', header: 'ContactPerson' }, // 👈 use contactPersonName
   ];
+  routeId = this.route.snapshot.params['id'];
 
   private destroy$ = new Subject<void>();
-  // source streams
-  agreementContactPersons$ = of<AgreementContactPerson[]>([]);
-  contactPersons$ = of<ClientContactPerson[]>([]);
 
   constructor(
     private router: Router,
-    private facade: AgreementContactPersonsFacade
+    private facade: AgreementContactPersonsFacade,
+    private contactPersonsFacade: ClientContactPersonsFacade,
+    private leasingAgreementsFacade: LeasingAgreementsFacade,
+    private route: ActivatedRoute
   ) {}
 
-  ngOnInit(): void {
-    this.facade.loadAll();
+  ngOnInit() {
+    // load contactPersons list once (for dictionary)
+    this.contactPersonsFacade.loadAll();
+    this.contactPersons$ = this.contactPersonsFacade.items$;
+
+    // load agreement contactPersons by domain agreementId (= leasingId)
+    const agreementIdForApi = this.route.snapshot.params['id'];
+    this.facade.loadByAgreement(agreementIdForApi);
+    this.agreementContactPersons$ =
+      this.facade.selectContactPersonsByAgreement(agreementIdForApi);
+    this.leasingAgreementsFacade.loadAll();
+
+    // JOIN: enrich rows with contactPersonName
+    const agreement$ = this.leasingAgreementsFacade.all$.pipe(
+      map(
+        (list: any[]) =>
+          list.find((m) => m.agreementId === agreementIdForApi) ?? null
+      )
+    );
+    combineLatest([
+      this.agreementContactPersons$,
+      this.contactPersons$,
+      agreement$,
+    ])
+      .pipe(
+        map(([rows, contactPersons, agreement]): TableRow[] => {
+          const contactPersonDict = new Map<number, ClientContactPerson>(
+            contactPersons.map((o) => [o.id as number, o])
+          );
+          const clientName =
+            agreement?.clientView?.clientName ??
+            agreement?.clientView?.clientNameAr ??
+            '';
+
+          return [...rows]
+            .map((r) => ({
+              ...r,
+              contactPersonName:
+                (contactPersonDict.get(r.contactPersonId)?.name as string) ??
+                (contactPersonDict.get(r.contactPersonId) as any)?.fullName ??
+                `#${r.contactPersonId}`,
+              clientName, // ✅ same client for all rows in this agreement
+            }))
+            .sort((a, b) => (b?.id ?? 0) - (a?.id ?? 0));
+        }),
+        tap((sorted) => {
+          this.originalAgreementContactPersons = sorted;
+          this.filteredAgreementContactPersons = [...sorted];
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
   }
 
   ngOnDestroy() {
@@ -66,14 +115,10 @@ export class ViewAgreementContactPersonsComponent {
 
   // ——— navigation (unchanged) ———
   onAddAgreementContactPerson() {
-    if (this.leasingIdParam == null || this.agreementIdParam == null) return;
     this.router.navigate([
-      '/crm/leasing-agreements/agreement-contact-persons/add',
-      this.leasingIdParam,
-      this.agreementIdParam,
+      `/agreement/activities/add-agreement-contact-person/${this.routeId}`,
     ]);
   }
-
   onEditAgreementContactPerson(contactPerson: AgreementContactPerson) {
     if (this.leasingIdParam == null || this.agreementIdParam == null) return;
     this.router.navigate([

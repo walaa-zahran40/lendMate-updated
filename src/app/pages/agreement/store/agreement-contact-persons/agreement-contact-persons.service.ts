@@ -44,13 +44,10 @@ export class AgreementContactPersonsService {
 
   // GET /AgreementId?agreementId={agreementId}
   getByAgreementId(agreementId: number): Observable<AgreementContactPerson[]> {
-    const params = new HttpParams().set('id', agreementId);
-    return this.http.get<AgreementContactPerson[]>(
-      `${API_BASE}/AgreementContactPersonId`,
-      {
-        params,
-      }
-    );
+    const params = new HttpParams().set('agreementId', agreementId);
+    return this.http.get<AgreementContactPerson[]>(`${API_BASE}/AgreementId`, {
+      params,
+    });
   }
 
   // POST /CreateAgreementContactPerson

@@ -19,9 +19,7 @@ import { ClientContactPerson } from '../../../../../clients/store/client-contact
 import { MandateContactPerson } from '../../../../store/mandate-contact-persons/mandate-contact-person.model';
 import { MandateContactPersonsFacade } from '../../../../store/mandate-contact-persons/mandate-contact-persons.facade';
 import { ClientContactPersonsFacade } from '../../../../../clients/store/client-contact-persons/client-contact-persons.facade';
-import { MandatesFacade } from '../../../../store/leasing-mandates/leasing-mandates.facade';
-import { Mandate } from '../../../../store/leasing-mandates/leasing-mandate.model';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-add-mandate-contact-person',

@@ -5,18 +5,17 @@ import { agreementContactPersonsFeature } from './agreement-contact-persons.redu
 const { selectAll, selectEntities, selectIds, selectTotal } =
   agreementContactPersonAdapter.getSelectors();
 
-const selectFeatureState =
+export const selectFeatureState =
   agreementContactPersonsFeature.selectAgreementContactPersonsState;
-// ✅ bind adapter selectors to the slice
-const {
-  selectAll: _selectAll,
-  selectEntities: _selectEntities,
-  selectIds: _selectIds,
-  selectTotal: _selectTotal,
-} = agreementContactPersonAdapter.getSelectors(selectFeatureState);
 
-export const selectAllContactPersons = _selectAll;
-export const selectContactPersonEntities = _selectEntities;
+export const selectAllContactPersons = createSelector(
+  selectFeatureState,
+  selectAll
+);
+export const selectContactPersonEntities = createSelector(
+  selectFeatureState,
+  selectEntities
+);
 
 export const selectListLoading = createSelector(
   selectFeatureState,

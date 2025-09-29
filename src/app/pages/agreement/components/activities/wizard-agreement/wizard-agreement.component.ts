@@ -26,13 +26,27 @@ export class WizardAgreementComponent {
         content: 'Agreement Files',
         link: `agreement/activities/view-agreement-files/${this.assetId}`,
       },
-      // {
-      //   imgUrl: '/assets/images/shared/card/add.svg',
-      //   imgAlt: 'add',
-      //   title: 'Workflow & Status',
-      //   content: 'Workflow & Status',
-      //   link: `purchasing/assets/activities/view-workflow-status/${this.assetId}`,
-      // },
+      {
+        imgUrl: '/assets/images/shared/card/upload.svg',
+        imgAlt: 'upload',
+        title: 'Agreement Contact Persons',
+        content: 'Agreement Contact Persons',
+        link: `agreement/activities/view-agreement-contact-persons/${this.assetId}`,
+      },
+      {
+        imgUrl: '/assets/images/shared/card/upload.svg',
+        imgAlt: 'upload',
+        title: 'Agreement Officers',
+        content: 'Agreement Officers',
+        link: `agreement/activities/view-agreement-officers/${this.assetId}`,
+      },
+      {
+        imgUrl: '/assets/images/shared/card/upload.svg',
+        imgAlt: 'upload',
+        title: 'Agreement Registrations',
+        content: 'Agreement Registrations',
+        link: `agreement/activities/view-agreement-registrations/${this.assetId}`,
+      },
     ];
 
     this.cards = this.chunkArray(this.originalCards, 3);

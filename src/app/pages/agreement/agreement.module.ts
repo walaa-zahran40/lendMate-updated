@@ -15,7 +15,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TextareaModule } from 'primeng/textarea';
 import { SelectModule } from 'primeng/select';
 import { AgreementContactPersonsEffects } from './store/agreement-contact-persons/agreement-contact-persons.effects';
-import { agreementContactPersonsFeature } from './store/agreement-contact-persons/agreement-contact-persons.reducer';
+import {
+  agreementContactPersonsFeature,
+  agreementContactPersonsReducer,
+} from './store/agreement-contact-persons/agreement-contact-persons.reducer';
 import { AddAgreementContactPersonComponent } from './components/activities/agreement-contact-persons/add-agreement-contact-person/add-agreement-contact-person.component';
 import { ViewAgreementContactPersonsComponent } from './components/activities/agreement-contact-persons/view-agreement-contact-persons/view-agreement-contact-persons.component';
 import { AddAgreementFileComponent } from './components/activities/agreement-files/add-agreement-file/add-agreement-file.component';
@@ -28,6 +31,7 @@ import { WizardAgreementComponent } from './components/activities/wizard-agreeme
 import { AgreementFilesEffects } from './store/agreement-files/agreement-files.effects';
 import { reducer } from './store/agreement-files/agreement-files.reducer';
 import { TabsModule } from 'primeng/tabs';
+import { agreementContactPersonsFeatureKey } from './store/agreement-contact-persons/agreement-contact-persons.state';
 
 @NgModule({
   declarations: [
@@ -58,7 +62,10 @@ import { TabsModule } from 'primeng/tabs';
       leasingAgreementsReducer
     ),
     EffectsModule.forFeature([LeasingAgreementsEffects]),
-    StoreModule.forFeature(agreementContactPersonsFeature),
+    StoreModule.forFeature(
+      agreementContactPersonsFeatureKey,
+      agreementContactPersonsReducer
+    ),
     EffectsModule.forFeature([AgreementContactPersonsEffects]),
     EffectsModule.forFeature([AgreementFilesEffects]),
     StoreModule.forFeature('agreementFiles', reducer),

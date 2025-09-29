@@ -9,6 +9,9 @@ import { ViewAgreementOfficersComponent } from './components/activities/agreemen
 import { ViewAgreementRegistrationsComponent } from './components/activities/agreement-registrations/view-agreement-registrations/view-agreement-registrations.component';
 import { WizardAgreementComponent } from './components/activities/wizard-agreement/wizard-agreement.component';
 import { AddAgreementFileComponent } from './components/activities/agreement-files/add-agreement-file/add-agreement-file.component';
+import { AddAgreementContactPersonComponent } from './components/activities/agreement-contact-persons/add-agreement-contact-person/add-agreement-contact-person.component';
+import { AddAgreementOfficerComponent } from './components/activities/agreement-officers/add-agreement-officer/add-agreement-officer.component';
+import { AddAgreementRegistrationComponent } from './components/activities/agreement-registrations/add-agreement-registration/add-agreement-registration.component';
 
 const routes: Routes = [
   //Agreement Contact Persons
@@ -51,55 +54,49 @@ const routes: Routes = [
   },
   // Agreement Contact Persons
   {
-    path: 'view-agreement-contact-persons/:agreementId/:leasingAgreementsId',
+    path: 'activities/view-agreement-contact-persons/:id',
     component: ViewAgreementContactPersonsComponent,
   },
+
   {
-    path: 'view-agreement-contact-persons/:agreementId',
-    component: ViewAgreementContactPersonsComponent,
+    path: 'activities/add-agreement-contact-person/:id',
+    component: AddAgreementContactPersonComponent,
   },
+
   {
-    path: 'view-agreement-contact-persons/:agreementId/:clientId/:leasingAgreementsId',
-    component: ViewAgreementContactPersonsComponent, // if you ever need deep-link to highlight one
+    path: 'activities/edit-agreement-contact-person/:id',
+    component: AddAgreementContactPersonComponent,
   },
   // Agreement Officers
   {
-    path: 'view-agreement-officers/:agreementId/:leasingAgreementsId',
+    path: 'activities/view-agreement-officers/:id',
     component: ViewAgreementOfficersComponent,
   },
+
   {
-    path: 'view-agreement-officers/:agreementId',
-    component: ViewAgreementOfficersComponent,
+    path: 'activities/add-agreement-officer/:id',
+    component: AddAgreementOfficerComponent,
   },
+
   {
-    path: 'view-agreement-officers/:agreementId/:clientId/:leasingAgreementsId',
-    component: ViewAgreementOfficersComponent,
+    path: 'activities/edit-agreement-officer/:id',
+    component: AddAgreementOfficerComponent,
   },
-  // Agreement Files
-  {
-    path: 'view-agreement-files/:agreementId/:leasingAgreementsId',
-    component: ViewAgreementFilesComponent,
-  },
-  {
-    path: 'view-agreement-files/:agreementId',
-    component: ViewAgreementFilesComponent,
-  },
-  {
-    path: 'view-agreement-files/:agreementId/:clientId/:leasingAgreementsId',
-    component: ViewAgreementFilesComponent,
-  },
+
   // Agreement Registrations
   {
-    path: 'view-agreement-registrations/:agreementId/:leasingAgreementsId',
+    path: 'activities/view-agreement-registrations/:id',
     component: ViewAgreementRegistrationsComponent,
   },
+
   {
-    path: 'view-agreement-registrations/:agreementId',
-    component: ViewAgreementRegistrationsComponent,
+    path: 'activities/add-agreement-registration/:id',
+    component: AddAgreementRegistrationComponent,
   },
+
   {
-    path: 'view-agreement-registrations/:agreementId/:clientId/:leasingAgreementsId',
-    component: ViewAgreementRegistrationsComponent,
+    path: 'activities/edit-agreement-registration/:id',
+    component: AddAgreementOfficerComponent,
   },
 ];
 
