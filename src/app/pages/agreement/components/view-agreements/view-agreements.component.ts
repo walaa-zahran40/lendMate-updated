@@ -25,6 +25,9 @@ export class ViewAgreementsComponent {
   showFilters = false;
   private destroy$ = new Subject<void>();
   clientId = this.route.snapshot.params['clientId'];
+  id = this.route.snapshot.params['id'];
+  displayAgreementNumberId =
+    this.route.snapshot.params['displayAgreementNumber'];
 
   @ViewChild('tableRef') tableRef!: TableComponent;
 

@@ -74,17 +74,15 @@ export class AgreementFilesEffects {
   loadByIdEdit$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActionsList.loadByIdEdit),
-      tap(({ id }) => console.log('[AgreementFilesEffects] loadById', { id })),
       switchMap(({ id }) =>
         this.service.getByIdEdit(id).pipe(
-          tap((entity) =>
-            console.log('[AgreementFilesEffects] service.getById ->', entity)
-          ),
-          map((entity) => ActionsList.loadByIdSuccess({ entity }))
+          map((entity) => ActionsList.loadByIdEditSuccess({ entity })), // ⬅ switch to loadByIdEditSuccess
+          catchError((error) => of(ActionsList.loadByIdEditFailure({ error })))
         )
       )
     )
   );
+
   loadByIdSuccess$ = createEffect(
     () =>
       this.actions$.pipe(

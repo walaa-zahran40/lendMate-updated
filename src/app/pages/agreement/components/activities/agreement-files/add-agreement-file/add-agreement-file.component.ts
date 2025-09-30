@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject, map, filter, take, combineLatest } from 'rxjs';
@@ -31,6 +31,9 @@ export class AddAgreementFileComponent {
   existingFileId?: number;
   existingFileUrl?: string;
   record$!: Observable<AgreementFile | undefined>;
+  displayAgreementNumberId = Number(
+    this.route.snapshot.paramMap.get('displayAgreementNumberId')
+  );
 
   constructor(
     private fb: FormBuilder,
@@ -44,6 +47,7 @@ export class AddAgreementFileComponent {
 
   ngOnInit(): void {
     console.log('🟢 ngOnInit start');
+    console.log('rrr', this.route.snapshot);
 
     // 1) Read params + mode
     const routeParamIdRaw = this.route.snapshot.params['id'];
@@ -83,7 +87,6 @@ export class AddAgreementFileComponent {
     this.documentTypes$ = this.facadeDocumentTypes.all$.pipe(
       map((list) => (list ?? []).map((d) => ({ ...d, id: Number(d.id) })))
     );
-
     // 3) Build form
     this.addAgreementFileForm = this.fb.group({
       id: [null],
@@ -101,63 +104,48 @@ export class AddAgreementFileComponent {
       this.addAgreementFileForm
         .get('agreementId')!
         .disable({ emitEvent: false });
-    } else if (this.viewOnly) {
-      this.addAgreementFileForm.disable({ emitEvent: false });
     }
 
     // 5) Edit/View: load record and patch AFTER options are ready
     if (this.editMode || this.viewOnly) {
-      console.log('📡 loading record by id:', this.recordId);
       this.facade.loadByIdEdit(this.recordId);
 
-      // Prefer a byId$ selector if available
-      this.record$ = this.facade.selected$;
+      const record$ = this.facade.selected$.pipe(
+        filter((r): r is AgreementFile => !!r)
+      );
+      const docTypesReady$ = this.documentTypes$.pipe(
+        filter((arr) => Array.isArray(arr) && arr.length > 0),
+        take(1)
+      );
 
-      // When the record arrives, patch immediately.
-      this.record$
-        .pipe(
-          filter((r): r is AgreementFile => !!r),
-          take(1)
-        )
-        .subscribe((ct) => {
-          console.log('✅ record arrived', ct);
-
-          const agreementId =
-            ct.agreementId != null ? Number(ct.agreementId) : null;
-          const documentTypeId =
-            ct.documentTypeId != null ? Number(ct.documentTypeId) : null;
-
-          this.currentRecord = ct;
-          this.existingFileName = ct.fileName ?? undefined;
-          this.existingFileId = ct.fileId ?? undefined;
-          this.existingFileUrl = ct.filePath ?? undefined;
-
+      combineLatest([record$, docTypesReady$])
+        .pipe(take(1))
+        .subscribe(([ct]) => {
+          // Patch basic fields
           this.addAgreementFileForm.patchValue(
             {
               id: ct.id,
-              agreementId,
-              documentTypeId,
+              agreementId:
+                ct.agreementId != null ? Number(ct.agreementId) : null,
+              documentTypeId:
+                ct.documentTypeId != null ? Number(ct.documentTypeId) : null,
               expiryDate: ct.expiryDate ? new Date(ct.expiryDate) : null,
               file: null,
             },
             { emitEvent: false }
           );
 
-          if (documentTypeId != null) {
-            console.log('doc', documentTypeId);
-            // set doc type if present; no gating on docTypes load
-            const docCtrl = this.addAgreementFileForm.get('documentTypeId')!;
-            docCtrl.setValue(documentTypeId, { emitEvent: false });
-            if (this.editMode) docCtrl.disable({ emitEvent: false });
+          // Set documentTypeId explicitly AFTER options are ready
+
+          if (this.editMode) {
+            this.addAgreementFileForm
+              .get('documentTypeId')!
+              .disable({ emitEvent: false });
+          }
+          if (this.viewOnly) {
+            this.addAgreementFileForm.disable({ emitEvent: false });
           }
 
-          // In edit/view file is optional
-          const fileCtrl = this.addAgreementFileForm.get('file')!;
-          fileCtrl.clearValidators();
-          fileCtrl.updateValueAndValidity({ emitEvent: false });
-
-          if (this.viewOnly)
-            this.addAgreementFileForm.disable({ emitEvent: false });
           this.cdr.detectChanges();
         });
     }
@@ -214,14 +202,15 @@ export class AddAgreementFileComponent {
     this.addAgreementFileForm.markAsPristine();
 
     // ✅ Always navigate using the purchase order id
-    const targetPoId =
-      this.mode === 'add'
-        ? this.routeId // was seeded from route in add mode
-        : agreementId ?? this.currentRecord?.agreementId;
 
     this.router.navigate([
-      `/agreement/activities/view-agreement-files/${targetPoId}`,
+      `/agreement/activities/view-agreement-files/${this.routeId}`,
     ]);
+    if (this.mode === 'view') {
+      this.router.navigate([
+        `/agreement/activities/view-agreement-files/${this.displayAgreementNumberId}`,
+      ]);
+    }
   }
 
   private formatDateWithoutTime(date: Date | string): string {
@@ -233,11 +222,11 @@ export class AddAgreementFileComponent {
   }
 
   close() {
-    console.log('Navigating back to view-agreement-files');
     this.router.navigate([
-      `/agreement/activities/view-agreement-files/${this.routeId}`,
+      `/agreement/activities/view-agreement-files/${this.displayAgreementNumberId}`,
     ]);
   }
+
   /** Called by the guard. */
   canDeactivate(): boolean {
     console.log('🛡️ canDeactivate called');

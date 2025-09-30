@@ -46,6 +46,9 @@ export class ViewAgreementFilesComponent {
   agreementFiles$!: Observable<AgreementFile[]>;
   agreements$!: Observable<LeasingAgreement[]>;
   routeId = this.route.snapshot.params['id'];
+  displayAgreementNumberId =
+    this.route.snapshot.params['displayAgreementNumber'];
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -54,6 +57,7 @@ export class ViewAgreementFilesComponent {
   ) {}
 
   ngOnInit() {
+    console.log('rrr', this.route.snapshot);
     const agreementId = Number(this.route.snapshot.paramMap.get('id'));
     console.log('[Init] agreementId =', agreementId);
 
@@ -135,7 +139,8 @@ export class ViewAgreementFilesComponent {
 
   onAddAgreementFile() {
     this.router.navigate([
-      `/agreement/activities/add-agreement-file/${this.routeId}`,
+      '/agreement/activities/add-agreement-file/',
+      this.routeId,
     ]);
   }
 
@@ -179,7 +184,11 @@ export class ViewAgreementFilesComponent {
 
   onEditAgreementFile(agreementFile: AgreementFile) {
     this.router.navigate(
-      ['/agreement/activities/edit-agreement-file/', agreementFile.id],
+      [
+        '/agreement/activities/edit-agreement-file/',
+        agreementFile.id,
+        agreementFile.agreementId,
+      ],
       {
         queryParams: { mode: 'edit' },
       }
@@ -187,8 +196,14 @@ export class ViewAgreementFilesComponent {
   }
 
   onViewAgreementFile(agreementFile: AgreementFile) {
+    console.log('agreementFile', agreementFile);
     this.router.navigate(
-      ['/agreement/activities/edit-agreement-file/', agreementFile.id],
+      [
+        '/agreement/activities/edit-agreement-file/',
+
+        agreementFile.id,
+        agreementFile.agreementId,
+      ],
       {
         queryParams: { mode: 'view' },
       }

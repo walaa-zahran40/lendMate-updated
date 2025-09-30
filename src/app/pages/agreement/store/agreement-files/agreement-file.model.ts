@@ -7,4 +7,5 @@ export interface AgreementFile {
   documentTypeId: number;
   expiryDate: Date;
   filePath?: string;
+  displayAgreementNumber: string;
 }

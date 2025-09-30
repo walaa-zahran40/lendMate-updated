@@ -61,6 +61,8 @@ type PreviewItem = {
 export class AddAgreementFileFormComponent implements OnInit, OnDestroy {
   @Input() formGroup: FormGroup = new FormGroup({});
   @Input() viewOnly = false;
+  compareById = (a: number | string | null, b: number | string | null) =>
+    a != null && b != null ? Number(a) === Number(b) : a === b;
   companyLegalDetail: CompanyLegalDetails = {};
   @Output() addIdentity = new EventEmitter<void>();
   @Output() removeIdentity = new EventEmitter<number>();

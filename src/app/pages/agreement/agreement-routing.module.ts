@@ -49,7 +49,7 @@ const routes: Routes = [
   },
 
   {
-    path: 'activities/edit-agreement-file/:id',
+    path: 'activities/edit-agreement-file/:id/:displayAgreementNumberId',
     component: AddAgreementFileComponent,
   },
   // Agreement Contact Persons

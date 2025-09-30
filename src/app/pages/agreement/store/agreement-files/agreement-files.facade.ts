@@ -11,12 +11,7 @@ export class AgreementFilesFacade {
   loading$ = this.store.select(Selectors.selectAgreementFilesLoading);
   error$ = this.store.select(Selectors.selectAgreementFilesError);
   totalCount$ = this.store.select(Selectors.selectAgreementFilesTotalCount);
-  selected$ = this.store.select(
-    createSelector(
-      Selectors.selectFeature,
-      (state) => state.entities[state.loadedId!] // or however you track it
-    )
-  );
+  selected$ = this.store.select(Selectors.selectCurrent);
   operationSuccess$ = this.store.select(selectLastOperationSuccess);
   workFlowActionSuccess$ = this.store.select(selectLastOperationSuccess);
 

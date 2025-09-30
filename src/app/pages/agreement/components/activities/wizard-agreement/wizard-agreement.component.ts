@@ -11,10 +11,11 @@ export class WizardAgreementComponent {
   cards: any[] = [];
   originalCards: any[] = [];
   assetId = this.route.snapshot.params['id'];
-  evId = this.route.snapshot.params['evId'];
+  evId = this.route.snapshot.params['displayAgreementNumberId'];
 
   constructor(private router: Router, private route: ActivatedRoute) {}
   ngOnInit(): void {
+    console.log('route', this.route.snapshot);
     this.buildCards();
   }
   private buildCards() {
