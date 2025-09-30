@@ -10,23 +10,23 @@ export const AgreementContactPersonsActions = createActionGroup({
   source: 'AgreementContactPersons',
   events: {
     // List (paged)
-    'Load All Requested': props<{ pageNumber?: number }>(),
+    'Load All Requested': props<{ pageNumber?: any }>(),
     'Load All Succeeded': props<{
       response: PagedResponse<AgreementContactPerson>;
-      pageNumber?: number;
+      pageNumber?: any;
     }>(),
     'Load All Failed': props<{ error: string }>(),
 
     // By AgreementId
-    'Load By Agreement Requested': props<{ agreementId: number }>(),
+    'Load By Agreement Requested': props<{ agreementId: any }>(),
     'Load By Agreement Succeeded': props<{
-      agreementId: number;
+      agreementId: any;
       contactPersons: AgreementContactPerson[];
     }>(),
-    'Load By Agreement Failed': props<{ agreementId: number; error: string }>(),
+    'Load By Agreement Failed': props<{ agreementId: any; error: string }>(),
 
     // Get single by AgreementContactPersonId
-    'Load One Requested': props<{ agreementContactPersonId: number }>(),
+    'Load One Requested': props<{ agreementContactPersonId: any }>(),
     'Load One Succeeded': props<{ contactPerson: AgreementContactPerson }>(),
     'Load One Failed': props<{ error: string }>(),
 
@@ -41,8 +41,8 @@ export const AgreementContactPersonsActions = createActionGroup({
     'Update Failed': props<{ error: string }>(),
 
     // Delete
-    'Delete Requested': props<{ id: number }>(),
-    'Delete Succeeded': props<{ id: number }>(),
+    'Delete Requested': props<{ id: any }>(),
+    'Delete Succeeded': props<{ id: any }>(),
     'Delete Failed': props<{ error: string }>(),
 
     // Utility

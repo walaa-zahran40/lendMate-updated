@@ -1,11 +1,13 @@
 import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AgreementContactPersonsActions as A } from './agreement-contact-persons.actions';
+import * as ClientContactPersonActions from '../../../crm/clients/store/client-contact-persons/client-contact-persons.actions';
 import * as Sel from './agreement-contact-persons.selectors';
 import {
   CreateAgreementContactPersonDto,
   UpdateAgreementContactPersonDto,
 } from './agreement-contact-person.model';
+import { filter, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AgreementContactPersonsFacade {
@@ -55,5 +57,35 @@ export class AgreementContactPersonsFacade {
 
   clearErrors() {
     this.store.dispatch(A.clearErrors());
+  }
+  /**
+   * NEW: Select agreement by id AND trigger loading client contact persons by its clientId.
+   * Returns the same agreement stream so component can patch the form.
+   */
+  selectByIdAndLoadClientContacts(id: number) {
+    return this.selectById(id).pipe(
+      // We don't import rxjs operators here to keep snippet short; add them in your file:
+      // import { filter, tap } from 'rxjs/operators';
+      // or from 'rxjs': filter, tap if using RxJS 7+
+      filter(
+        (
+          ag
+        ): ag is {
+          agreementId: number;
+          displayAgreementNumberId: number;
+          clientView: { clientId: number };
+        } => !!ag
+      ),
+      tap((ag) => {
+        const clientId = ag.clientView?.clientId;
+        if (clientId) {
+          this.store.dispatch(
+            ClientContactPersonActions.loadClientContactPersonsByClientId({
+              clientId,
+            })
+          );
+        }
+      })
+    );
   }
 }

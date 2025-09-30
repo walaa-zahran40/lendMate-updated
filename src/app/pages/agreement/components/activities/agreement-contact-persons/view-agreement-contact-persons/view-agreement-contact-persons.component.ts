@@ -92,8 +92,8 @@ export class ViewAgreementContactPersonsComponent {
             .map((r) => ({
               ...r,
               contactPersonName:
-                (contactPersonDict.get(r.contactPersonId)?.name as string) ??
-                (contactPersonDict.get(r.contactPersonId) as any)?.fullName ??
+                (contactPersonDict.get(r.contactPersonId!)?.name as string) ??
+                (contactPersonDict.get(r.contactPersonId!) as any)?.fullName ??
                 `#${r.contactPersonId}`,
               clientName, // ✅ same client for all rows in this agreement
             }))

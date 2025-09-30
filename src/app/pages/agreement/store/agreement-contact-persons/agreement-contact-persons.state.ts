@@ -1,12 +1,24 @@
-// store/agreement-contactPersons.state.ts
 import { EntityState, createEntityAdapter } from '@ngrx/entity';
 import { AgreementContactPerson } from './agreement-contact-person.model';
 
 export const agreementContactPersonsFeatureKey = 'agreementContactPersons';
+function cryptoRandom() {
+  return Math.random().toString(36).slice(2);
+}
 
 export const agreementContactPersonAdapter =
   createEntityAdapter<AgreementContactPerson>({
-    selectId: (o) => o.id,
+    selectId: (o) => {
+      // prefer real id when present
+      if (o.id != null) return String(o.id);
+
+      // fallback (example): use agreementId + contactPersonId if you have them
+      // adjust fields to your actual shape
+      const fallback = `ag:${o['agreementId'] ?? 'na'}-cp:${
+        o['contactPersonId'] ?? cryptoRandom()
+      }`;
+      return fallback;
+    },
     sortComparer: false,
   });
 
@@ -19,9 +31,11 @@ export interface AgreementContactPersonsState
   listTotalCount: number | null;
 
   // by agreement cache: agreementId -> ids
-  byAgreementLoading: boolean;
-  byAgreementError: string | null;
   byAgreementMap: Record<number, number[]>;
+
+  // NEW: per agreement load/error
+  byAgreementLoadingMap: Record<number, boolean>;
+  byAgreementErrorMap: Record<number, string | null>;
 
   // single fetch
   singleLoading: boolean;
@@ -45,9 +59,11 @@ export const initialState: AgreementContactPersonsState =
     listPageNumber: null,
     listTotalCount: null,
 
-    byAgreementLoading: false,
-    byAgreementError: null,
     byAgreementMap: {},
+
+    // NEW maps
+    byAgreementLoadingMap: {},
+    byAgreementErrorMap: {},
 
     singleLoading: false,
     singleError: null,

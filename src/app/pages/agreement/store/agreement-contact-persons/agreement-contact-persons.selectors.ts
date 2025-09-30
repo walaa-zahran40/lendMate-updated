@@ -36,11 +36,11 @@ export const selectListTotalCount = createSelector(
 
 export const selectByAgreementLoading = createSelector(
   selectFeatureState,
-  (s) => s.byAgreementLoading
+  (s) => s.createLoading
 );
 export const selectByAgreementError = createSelector(
   selectFeatureState,
-  (s) => s.byAgreementError
+  (s) => s.createError
 );
 export const selectContactPersonIdsByAgreement = (agreementId: number) =>
   createSelector(

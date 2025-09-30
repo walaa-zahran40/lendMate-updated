@@ -9,7 +9,7 @@ import { AgreementContactPersonsActions as A } from './agreement-contact-persons
 export const agreementContactPersonsReducer = createReducer(
   initialState,
 
-  // List
+  // ---------- List ----------
   on(A.loadAllRequested, (state) => ({
     ...state,
     listLoading: true,
@@ -17,49 +17,91 @@ export const agreementContactPersonsReducer = createReducer(
   })),
   on(A.loadAllSucceeded, (state, { response, pageNumber }) => {
     const next = agreementContactPersonAdapter.upsertMany(
-      response.items,
+      response.items!,
       state
     );
+
+    // Option 1: fallback to items.length (always a number)
+    const total = response.totalCount ?? response.items!.length;
+
+    // Option 2: fallback to null if server doesn't send a count
+    // const total = response.totalCount ?? null;
+
     return {
       ...next,
       listLoading: false,
-      listTotalCount: response.totalCount,
+      listError: null,
+      listTotalCount: total, // now guaranteed number | null
       listPageNumber: pageNumber ?? null,
     };
   }),
+
+  on(A.loadAllFailed, (state, { error }) => ({
+    ...state,
+    listLoading: false,
+    listError: error ?? 'Failed to load',
+    // (optional) keep last known page number; don’t touch total here
+  })),
+
   on(A.loadAllFailed, (state, { error }) => ({
     ...state,
     listLoading: false,
     listError: error,
   })),
 
-  // By agreement
-  on(A.loadByAgreementRequested, (state) => ({
+  // ---------- By Agreement (now per-agreement loading/error maps) ----------
+  on(A.loadByAgreementRequested, (state, { agreementId }) => ({
     ...state,
-    byAgreementLoading: true,
-    byAgreementError: null,
+    byAgreementLoadingMap: {
+      ...state.byAgreementLoadingMap,
+      [agreementId]: true,
+    },
+    byAgreementErrorMap: {
+      ...state.byAgreementErrorMap,
+      [agreementId]: null,
+    },
   })),
   on(A.loadByAgreementSucceeded, (state, { agreementId, contactPersons }) => {
     const next = agreementContactPersonAdapter.upsertMany(
       contactPersons,
       state
     );
+
+    // Narrow (number | undefined)[] -> number[] with a TS type guard
+    const ids = contactPersons
+      .map((cp) => cp.id)
+      .filter((id): id is number => id != null);
+
     return {
       ...next,
-      byAgreementLoading: false,
       byAgreementMap: {
         ...next.byAgreementMap,
-        [agreementId]: contactPersons.map((o) => o.id),
+        [agreementId]: Array.from(new Set(ids)), // optional: dedupe
+      },
+      byAgreementLoadingMap: {
+        ...next.byAgreementLoadingMap,
+        [agreementId]: false,
+      },
+      byAgreementErrorMap: {
+        ...next.byAgreementErrorMap,
+        [agreementId]: null,
       },
     };
   }),
-  on(A.loadByAgreementFailed, (state, { error }) => ({
+
+  on(A.loadByAgreementFailed, (state, { agreementId, error }) => ({
     ...state,
-    byAgreementLoading: false,
-    byAgreementError: error,
+    byAgreementLoadingMap: {
+      ...state.byAgreementLoadingMap,
+      [agreementId]: false,
+    },
+    byAgreementErrorMap: {
+      ...state.byAgreementErrorMap,
+      [agreementId]: error,
+    },
   })),
 
-  // Single
+  // ---------- Single ----------
   on(A.loadOneRequested, (state) => ({
     ...state,
     singleLoading: true,
@@ -75,7 +117,7 @@ export const agreementContactPersonsReducer = createReducer(
     singleError: error,
   })),
 
-  // Create
+  // ---------- Create ----------
   on(A.createRequested, (state) => ({
     ...state,
     createLoading: true,
@@ -84,17 +126,29 @@ export const agreementContactPersonsReducer = createReducer(
   on(A.createSucceeded, (state, { contactPerson }) => {
     const next = agreementContactPersonAdapter.addOne(contactPerson, state);
 
-    const currIds = next.byAgreementMap[contactPerson.agreementId] ?? [];
-    const byAgreementMap = currIds.includes(contactPerson.id)
-      ? next.byAgreementMap
-      : {
-          ...next.byAgreementMap,
-          [contactPerson.agreementId]: [...currIds, contactPerson.id],
-        };
+    const agId = contactPerson.agreementId;
+    const id = contactPerson.id;
+
+    // If we don't have a definite agreementId or id, just end the loading state
+    if (agId == null || id == null) {
+      return {
+        ...next,
+        createLoading: false,
+        createError: null,
+      };
+    }
+
+    const currIds = next.byAgreementMap[agId] ?? [];
+    // ensure number[] and dedupe
+    const byAgreementMap = {
+      ...next.byAgreementMap,
+      [agId]: Array.from(new Set<number>([...currIds, id])),
+    };
 
     return {
       ...next,
       createLoading: false,
+      createError: null,
       byAgreementMap,
     };
   }),
@@ -105,38 +159,48 @@ export const agreementContactPersonsReducer = createReducer(
     createError: error,
   })),
 
-  // Update
+  // ---------- Update ----------
   on(A.updateRequested, (state) => ({
     ...state,
     updateLoading: true,
     updateError: null,
   })),
   on(A.updateSucceeded, (state, { contactPerson }) => {
-    const prev = state.entities[contactPerson.id];
+    const id = contactPerson.id;
     const next = agreementContactPersonAdapter.upsertOne(contactPerson, state);
-    if (!prev) return { ...next, updateLoading: false };
+
+    // if we don't have a definite id, just finish the loading state
+    if (id == null) {
+      return { ...next, updateLoading: false, updateError: null };
+    }
+
+    const prev = state.entities[id];
+
+    // If we didn't have it before, nothing to move between maps
+    if (!prev) {
+      return { ...next, updateLoading: false, updateError: null };
+    }
 
     let byAgreementMap = next.byAgreementMap;
 
-    // remove from old
-    if (prev.agreementId !== contactPerson.agreementId) {
-      const oldList = (byAgreementMap[prev.agreementId] ?? []).filter(
-        (x) => x !== contactPerson.id
+    const prevAgId = prev.agreementId ?? null;
+    const newAgId = contactPerson.agreementId ?? null;
+
+    // Only adjust lists if agreementId actually changed and both ids are known
+    if (prevAgId != null && newAgId != null && prevAgId !== newAgId) {
+      const oldList = (byAgreementMap[prevAgId] ?? []).filter((x) => x !== id);
+      const newList = Array.from(
+        new Set<number>([...(byAgreementMap[newAgId] ?? []), id])
       );
-      // add to new
-      const newList = [
-        ...(byAgreementMap[contactPerson.agreementId] ?? []),
-        contactPerson.id,
-      ];
 
       byAgreementMap = {
         ...byAgreementMap,
-        [prev.agreementId]: oldList,
-        [contactPerson.agreementId]: Array.from(new Set(newList)),
+        [prevAgId]: oldList,
+        [newAgId]: newList,
       };
     }
 
-    return { ...next, updateLoading: false, byAgreementMap };
+    return { ...next, updateLoading: false, updateError: null, byAgreementMap };
   }),
 
   on(A.updateFailed, (state, { error }) => ({
@@ -145,43 +209,48 @@ export const agreementContactPersonsReducer = createReducer(
     updateError: error,
   })),
 
-  // Delete
+  // ---------- Delete ----------
   on(A.deleteRequested, (state) => ({
     ...state,
     deleteLoading: true,
     deleteError: null,
   })),
   on(A.deleteSucceeded, (state, { id }) => {
-    // Find contactPerson to remove from the map
     const contactPerson = state.entities[id];
     const next = agreementContactPersonAdapter.removeOne(id, state);
-    if (!contactPerson) return { ...next, deleteLoading: false };
+    if (!contactPerson)
+      return { ...next, deleteLoading: false, deleteError: null };
 
-    const currIds = next.byAgreementMap[contactPerson.agreementId] ?? [];
+    const agId = contactPerson.agreementId!;
+    const currIds = next.byAgreementMap[agId] ?? [];
     const filtered = currIds.filter((x) => x !== id);
-    const byAgreementMap = {
-      ...next.byAgreementMap,
-      [contactPerson.agreementId]: filtered,
+
+    return {
+      ...next,
+      deleteLoading: false,
+      deleteError: null,
+      byAgreementMap: {
+        ...next.byAgreementMap,
+        [agId]: filtered,
+      },
     };
-
-    return { ...next, deleteLoading: false, byAgreementMap };
   }),
-
   on(A.deleteFailed, (state, { error }) => ({
     ...state,
     deleteLoading: false,
     deleteError: error,
   })),
 
-  // Utility
+  // ---------- Utility ----------
   on(A.clearErrors, (state) => ({
     ...state,
     listError: null,
-    byAgreementError: null,
     singleError: null,
     createError: null,
     updateError: null,
     deleteError: null,
+    // clear per-agreement errors
+    byAgreementErrorMap: {},
   }))
 );
 
