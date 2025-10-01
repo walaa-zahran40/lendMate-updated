@@ -10,9 +10,6 @@ import {
 } from 'rxjs';
 import { TableComponent } from '../../../../../../shared/components/table/table.component';
 import { Area } from '../../../../../lookups/store/areas/area.model';
-import { AreasFacade } from '../../../../../lookups/store/areas/areas.facade';
-import { selectAllAreas } from '../../../../../lookups/store/areas/areas.selectors';
-import { Store } from '@ngrx/store';
 import { AgreementOfficer } from '../../../../store/agreement-officers/agreement-officer.model';
 import { AgreementOfficersFacade } from '../../../../store/agreement-officers/agreement-officers.facade';
 
@@ -28,7 +25,7 @@ export class ViewAgreementOfficersComponent {
   private destroy$ = new Subject<void>();
   rows: number = 10;
   showFilters: boolean = false;
-  clientIdParam!: any;
+  id!: any;
   @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
@@ -46,20 +43,14 @@ export class ViewAgreementOfficersComponent {
   constructor(
     private router: Router,
     private facade: AgreementOfficersFacade,
-    private areaFacade: AreasFacade,
-    private route: ActivatedRoute,
-    private store: Store
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    const raw = this.route.snapshot.paramMap.get('clientId');
-    this.clientIdParam = raw !== null ? Number(raw) : undefined;
+    const raw = this.route.snapshot.paramMap.get('id');
+    this.id = raw !== null ? Number(raw) : undefined;
 
-    this.areaFacade.loadAll();
-    this.AreasList$ = this.store.select(selectAllAreas);
-    this.store.dispatch({ type: '[Areas] Load All' });
-
-    this.facade.loadAgreementOfficersByClientId(this.clientIdParam);
+    this.facade.loadOne(this.id);
     this.agreementOfficers$ = this.facade.items$;
 
     combineLatest([this.agreementOfficers$, this.AreasList$])
@@ -127,7 +118,7 @@ export class ViewAgreementOfficersComponent {
       {
         queryParams: {
           mode: 'edit',
-          clientId: this.clientIdParam,
+          clientId: this.id,
         },
       }
     );
@@ -136,14 +127,14 @@ export class ViewAgreementOfficersComponent {
     this.router.navigate(['/crm/clients/edit-client-addresses', ct.id], {
       queryParams: {
         mode: 'view',
-        clientId: this.clientIdParam,
+        clientId: this.id,
       },
     });
   }
   selectedIds: number[] = [];
   confirmDelete() {
     const deleteCalls = this.selectedIds.map((id) =>
-      this.facade.delete(id, this.clientIdParam)
+      this.facade.delete(id, this.id)
     );
 
     forkJoin(deleteCalls).subscribe({
