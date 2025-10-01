@@ -9,14 +9,12 @@ import {
   map,
 } from 'rxjs';
 import { TableComponent } from '../../../../../../shared/components/table/table.component';
-import { LegalForm } from '../../../../../legals/store/legal-forms/legal-form.model';
-import { LegalFormsFacade } from '../../../../../legals/store/legal-forms/legal-forms.facade';
-import { Store } from '@ngrx/store';
-import { ClientAddress } from '../../../../../crm/clients/store/client-addresses/client-address.model';
-import { ClientAddressesFacade } from '../../../../../crm/clients/store/client-addresses/client-addresses.facade';
 import { Area } from '../../../../../lookups/store/areas/area.model';
 import { AreasFacade } from '../../../../../lookups/store/areas/areas.facade';
 import { selectAllAreas } from '../../../../../lookups/store/areas/areas.selectors';
+import { Store } from '@ngrx/store';
+import { AgreementRegistration } from '../../../../store/agreement-registrations/agreement-registration.model';
+import { AgreementRegistrationsFacade } from '../../../../store/agreement-registrations/agreement-registrations.facade';
 
 @Component({
   selector: 'app-view-agreement-registrations',
@@ -25,7 +23,7 @@ import { selectAllAreas } from '../../../../../lookups/store/areas/areas.selecto
   styleUrl: './view-agreement-registrations.component.scss',
 })
 export class ViewAgreementRegistrationsComponent {
-  tableDataInside: ClientAddress[] = [];
+  tableDataInside: AgreementRegistration[] = [];
   first2: number = 0;
   private destroy$ = new Subject<void>();
   rows: number = 10;
@@ -39,15 +37,15 @@ export class ViewAgreementRegistrationsComponent {
     { field: 'AreaName', header: 'Area Name' },
   ];
   showDeleteModal: boolean = false;
-  selectedClientAddressId: number | null = null;
-  originalClientAddresses: ClientAddress[] = [];
-  filteredClientAddresses: ClientAddress[] = [];
-  clientAddresses$!: Observable<ClientAddress[]>;
+  selectedAgreementRegistrationId: number | null = null;
+  originalAgreementRegistrations: AgreementRegistration[] = [];
+  filteredAgreementRegistrations: AgreementRegistration[] = [];
+  agreementRegistrations$!: Observable<AgreementRegistration[]>;
   AreasList$!: Observable<Area[]>;
 
   constructor(
     private router: Router,
-    private facade: ClientAddressesFacade,
+    private facade: AgreementRegistrationsFacade,
     private areaFacade: AreasFacade,
     private route: ActivatedRoute,
     private store: Store
@@ -61,13 +59,13 @@ export class ViewAgreementRegistrationsComponent {
     this.AreasList$ = this.store.select(selectAllAreas);
     this.store.dispatch({ type: '[Areas] Load All' });
 
-    this.facade.loadClientAddressesByClientId(this.clientIdParam);
-    this.clientAddresses$ = this.facade.items$;
+    this.facade.loadAgreementRegistrationsByClientId(this.clientIdParam);
+    this.agreementRegistrations$ = this.facade.items$;
 
-    combineLatest([this.clientAddresses$, this.AreasList$])
+    combineLatest([this.agreementRegistrations$, this.AreasList$])
       .pipe(
-        map(([clientAddresses, AreasList]) =>
-          clientAddresses
+        map(([agreementRegistrations, AreasList]) =>
+          agreementRegistrations
             .map((address) => ({
               ...address,
               AreaName:
@@ -79,15 +77,15 @@ export class ViewAgreementRegistrationsComponent {
         takeUntil(this.destroy$)
       )
       .subscribe((enriched) => {
-        this.originalClientAddresses = enriched;
-        this.filteredClientAddresses = [...enriched];
+        this.originalAgreementRegistrations = enriched;
+        this.filteredAgreementRegistrations = [...enriched];
       });
   }
 
-  onAddClientAddress() {
+  onAddAgreementRegistration() {
     const clientIdParam = this.route.snapshot.paramMap.get('clientId');
 
-    this.router.navigate(['/crm/clients/add-client-addresses'], {
+    this.router.navigate(['/crm/clients/add-client-registrations'], {
       queryParams: { mode: 'add', clientId: clientIdParam },
     });
   }
@@ -96,12 +94,12 @@ export class ViewAgreementRegistrationsComponent {
     this.destroy$.next();
     this.destroy$.complete();
   }
-  onDeleteClientAddress(clientAddressId: any): void {
+  onDeleteAgreementRegistration(agreementRegistrationId: any): void {
     console.log(
-      '[View] onDeleteClientAddress() – opening modal for id=',
-      clientAddressId
+      '[View] onDeleteAgreementRegistration() – opening modal for id=',
+      agreementRegistrationId
     );
-    this.selectedIds = [clientAddressId];
+    this.selectedIds = [agreementRegistrationId];
     this.showDeleteModal = true;
   }
 
@@ -112,23 +110,23 @@ export class ViewAgreementRegistrationsComponent {
   resetDeleteModal() {
     console.log('[View] resetDeleteModal() – closing modal and clearing id');
     this.showDeleteModal = false;
-    this.selectedClientAddressId = null;
+    this.selectedAgreementRegistrationId = null;
   }
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
-    this.filteredClientAddresses = this.originalClientAddresses.filter(
-      (clientAddress) =>
-        Object.values(clientAddress).some((val) =>
+    this.filteredAgreementRegistrations =
+      this.originalAgreementRegistrations.filter((agreementRegistration) =>
+        Object.values(agreementRegistration).some((val) =>
           val?.toString().toLowerCase().includes(lower)
         )
-    );
+      );
   }
   onToggleFilters(value: boolean) {
     this.showFilters = value;
   }
-  onEditClientAddress(clientAddress: ClientAddress) {
+  onEditAgreementRegistration(agreementRegistration: AgreementRegistration) {
     this.router.navigate(
-      ['/crm/clients/edit-client-addresses', clientAddress.id],
+      ['/crm/clients/edit-client-registrations', agreementRegistration.id],
       {
         queryParams: {
           mode: 'edit',
@@ -137,8 +135,8 @@ export class ViewAgreementRegistrationsComponent {
       }
     );
   }
-  onViewClientAddress(ct: ClientAddress) {
-    this.router.navigate(['/crm/clients/edit-client-addresses', ct.id], {
+  onViewAgreementRegistration(ct: AgreementRegistration) {
+    this.router.navigate(['/crm/clients/edit-client-registrations', ct.id], {
       queryParams: {
         mode: 'view',
         clientId: this.clientIdParam,
@@ -165,7 +163,7 @@ export class ViewAgreementRegistrationsComponent {
 
   refreshCalls() {
     this.facade.loadAll();
-    this.clientAddresses$ = this.facade.items$;
+    this.agreementRegistrations$ = this.facade.items$;
   }
   onBulkDelete(ids: number[]) {
     this.selectedIds = ids;

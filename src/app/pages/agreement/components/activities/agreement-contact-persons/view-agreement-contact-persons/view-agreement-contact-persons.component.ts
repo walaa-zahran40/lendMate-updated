@@ -9,14 +9,12 @@ import {
   map,
 } from 'rxjs';
 import { TableComponent } from '../../../../../../shared/components/table/table.component';
-import { LegalForm } from '../../../../../legals/store/legal-forms/legal-form.model';
-import { LegalFormsFacade } from '../../../../../legals/store/legal-forms/legal-forms.facade';
 import { Store } from '@ngrx/store';
-import { ClientAddress } from '../../../../../crm/clients/store/client-addresses/client-address.model';
-import { ClientAddressesFacade } from '../../../../../crm/clients/store/client-addresses/client-addresses.facade';
 import { Area } from '../../../../../lookups/store/areas/area.model';
 import { AreasFacade } from '../../../../../lookups/store/areas/areas.facade';
 import { selectAllAreas } from '../../../../../lookups/store/areas/areas.selectors';
+import { AgreementContactPerson } from '../../../../store/agreement-contact-persons/agreement-contact-person.model';
+import { AgreementContactPersonsFacade } from '../../../../store/agreement-contact-persons/agreement-contact-persons.facade';
 
 @Component({
   selector: 'app-view-agreement-contact-persons',
@@ -25,7 +23,7 @@ import { selectAllAreas } from '../../../../../lookups/store/areas/areas.selecto
   styleUrl: './view-agreement-contact-persons.component.scss',
 })
 export class ViewAgreementContactPersonsComponent {
-  tableDataInside: ClientAddress[] = [];
+  tableDataInside: AgreementContactPerson[] = [];
   first2: number = 0;
   private destroy$ = new Subject<void>();
   rows: number = 10;
@@ -39,15 +37,15 @@ export class ViewAgreementContactPersonsComponent {
     { field: 'AreaName', header: 'Area Name' },
   ];
   showDeleteModal: boolean = false;
-  selectedClientAddressId: number | null = null;
-  originalClientAddresses: ClientAddress[] = [];
-  filteredClientAddresses: ClientAddress[] = [];
-  clientAddresses$!: Observable<ClientAddress[]>;
+  selectedAgreementContactPersonId: number | null = null;
+  originalAgreementContactPersons: AgreementContactPerson[] = [];
+  filteredAgreementContactPersons: AgreementContactPerson[] = [];
+  agreementContactPersons$!: Observable<AgreementContactPerson[]>;
   AreasList$!: Observable<Area[]>;
 
   constructor(
     private router: Router,
-    private facade: ClientAddressesFacade,
+    private facade: AgreementContactPersonsFacade,
     private areaFacade: AreasFacade,
     private route: ActivatedRoute,
     private store: Store
@@ -61,13 +59,13 @@ export class ViewAgreementContactPersonsComponent {
     this.AreasList$ = this.store.select(selectAllAreas);
     this.store.dispatch({ type: '[Areas] Load All' });
 
-    this.facade.loadClientAddressesByClientId(this.clientIdParam);
-    this.clientAddresses$ = this.facade.items$;
+    this.facade.loadAgreementContactPersonsByClientId(this.clientIdParam);
+    this.agreementContactPersons$ = this.facade.items$;
 
-    combineLatest([this.clientAddresses$, this.AreasList$])
+    combineLatest([this.agreementContactPersons$, this.AreasList$])
       .pipe(
-        map(([clientAddresses, AreasList]) =>
-          clientAddresses
+        map(([agreementContactPersons, AreasList]) =>
+          agreementContactPersons
             .map((address) => ({
               ...address,
               AreaName:
@@ -79,12 +77,12 @@ export class ViewAgreementContactPersonsComponent {
         takeUntil(this.destroy$)
       )
       .subscribe((enriched) => {
-        this.originalClientAddresses = enriched;
-        this.filteredClientAddresses = [...enriched];
+        this.originalAgreementContactPersons = enriched;
+        this.filteredAgreementContactPersons = [...enriched];
       });
   }
 
-  onAddClientAddress() {
+  onAddAgreementContactPerson() {
     const clientIdParam = this.route.snapshot.paramMap.get('clientId');
 
     this.router.navigate(['/crm/clients/add-client-addresses'], {
@@ -96,12 +94,12 @@ export class ViewAgreementContactPersonsComponent {
     this.destroy$.next();
     this.destroy$.complete();
   }
-  onDeleteClientAddress(clientAddressId: any): void {
+  onDeleteAgreementContactPerson(agreementContactPersonId: any): void {
     console.log(
-      '[View] onDeleteClientAddress() – opening modal for id=',
-      clientAddressId
+      '[View] onDeleteAgreementContactPerson() – opening modal for id=',
+      agreementContactPersonId
     );
-    this.selectedIds = [clientAddressId];
+    this.selectedIds = [agreementContactPersonId];
     this.showDeleteModal = true;
   }
 
@@ -112,23 +110,23 @@ export class ViewAgreementContactPersonsComponent {
   resetDeleteModal() {
     console.log('[View] resetDeleteModal() – closing modal and clearing id');
     this.showDeleteModal = false;
-    this.selectedClientAddressId = null;
+    this.selectedAgreementContactPersonId = null;
   }
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
-    this.filteredClientAddresses = this.originalClientAddresses.filter(
-      (clientAddress) =>
-        Object.values(clientAddress).some((val) =>
+    this.filteredAgreementContactPersons =
+      this.originalAgreementContactPersons.filter((agreementContactPerson) =>
+        Object.values(agreementContactPerson).some((val) =>
           val?.toString().toLowerCase().includes(lower)
         )
-    );
+      );
   }
   onToggleFilters(value: boolean) {
     this.showFilters = value;
   }
-  onEditClientAddress(clientAddress: ClientAddress) {
+  onEditAgreementContactPerson(agreementContactPerson: AgreementContactPerson) {
     this.router.navigate(
-      ['/crm/clients/edit-client-addresses', clientAddress.id],
+      ['/crm/clients/edit-client-addresses', agreementContactPerson.id],
       {
         queryParams: {
           mode: 'edit',
@@ -137,7 +135,7 @@ export class ViewAgreementContactPersonsComponent {
       }
     );
   }
-  onViewClientAddress(ct: ClientAddress) {
+  onViewAgreementContactPerson(ct: AgreementContactPerson) {
     this.router.navigate(['/crm/clients/edit-client-addresses', ct.id], {
       queryParams: {
         mode: 'view',
@@ -165,7 +163,7 @@ export class ViewAgreementContactPersonsComponent {
 
   refreshCalls() {
     this.facade.loadAll();
-    this.clientAddresses$ = this.facade.items$;
+    this.agreementContactPersons$ = this.facade.items$;
   }
   onBulkDelete(ids: number[]) {
     this.selectedIds = ids;

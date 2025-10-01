@@ -8,13 +8,15 @@
     [backExists]="true"
     [customSpacing]="'custom-spacing'"
     [exports]="true"
-    (addBtn)="onAddClientAddress()"
+    (addBtn)="onAddAgreementRegistration()"
     (searchChange)="onSearch($event)"
     (toggleFiltersEvent)="onToggleFilters($event)"
     (exportExcel)="tableRef.exportToExcel()"
     (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <ng-container *ngIf="clientAddresses$ | async as clientAddresses">
+  <ng-container
+    *ngIf="agreementRegistrations$ | async as agreementRegistrations"
+  >
     <app-table
       [viewPermission]="[
         '/ClientsAddresses/Get',
@@ -26,16 +28,16 @@
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
-      [tableData]="filteredClientAddresses"
+      [tableData]="filteredAgreementRegistrations"
       [side]="false"
       [first]="first2"
       [checkBox]="true"
       [filters]="showFilters"
       [uppercase]="'uppercase'"
-      [viewClientAddressesTable]="true"
-      (onDelete)="onDeleteClientAddress($event)"
-      (onEdit)="onEditClientAddress($event)"
-      (viewForm)="onViewClientAddress($event)"
+      [viewAgreementRegistrationsTable]="true"
+      (onDelete)="onDeleteAgreementRegistration($event)"
+      (onEdit)="onEditAgreementRegistration($event)"
+      (viewForm)="onViewAgreementRegistration($event)"
     ></app-table>
     <app-delete-module
       [visible]="showDeleteModal"

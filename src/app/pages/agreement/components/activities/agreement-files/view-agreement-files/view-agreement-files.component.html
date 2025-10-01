@@ -1,20 +1,20 @@
 <div class="page-content">
   <app-toolbar-table
     [addPermission]="'/ClientsAddresses/Post'"
-    [title]="'Client Addresses'"
-    [labelBtn]="'Add Client Address'"
+    [title]="'Agreement Files'"
+    [labelBtn]="'Add Agreement File'"
     [iconBtn]="'plus-icon'"
     [backIcon]="'back-icon'"
     [backExists]="true"
     [customSpacing]="'custom-spacing'"
     [exports]="true"
-    (addBtn)="onAddClientAddress()"
+    (addBtn)="onAddAgreementFile()"
     (searchChange)="onSearch($event)"
     (toggleFiltersEvent)="onToggleFilters($event)"
     (exportExcel)="tableRef.exportToExcel()"
     (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <ng-container *ngIf="clientAddresses$ | async as clientAddresses">
+  <ng-container *ngIf="agreementFiles$ | async as agreementFiles">
     <app-table
       [viewPermission]="[
         '/ClientsAddresses/Get',
@@ -26,16 +26,16 @@
       #tableRef
       (onBulkDelete)="onBulkDelete($event)"
       [cols]="colsInside"
-      [tableData]="filteredClientAddresses"
+      [tableData]="filteredAgreementFiles"
       [side]="false"
       [first]="first2"
       [checkBox]="true"
       [filters]="showFilters"
       [uppercase]="'uppercase'"
-      [viewClientAddressesTable]="true"
-      (onDelete)="onDeleteClientAddress($event)"
-      (onEdit)="onEditClientAddress($event)"
-      (viewForm)="onViewClientAddress($event)"
+      [viewAgreementFilesTable]="true"
+      (onDelete)="onDeleteAgreementFile($event)"
+      (onEdit)="onEditAgreementFile($event)"
+      (viewForm)="onViewAgreementFile($event)"
     ></app-table>
     <app-delete-module
       [visible]="showDeleteModal"

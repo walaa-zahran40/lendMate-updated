@@ -29,6 +29,7 @@ import { PermissionService } from '../../../pages/login/store/permissions/permis
 export class TableComponent {
   @Input() editPermission!: string;
   @Input() deletePermission!: string;
+
   @Input() viewPermission!: string | string[];
   @Input() tableData: any;
   @Input() cols: any[] = [];
@@ -39,6 +40,9 @@ export class TableComponent {
   @Input() col3Name!: string;
   @Input() col4Name!: string;
   @Input() viewAgreementFilesTable!: boolean;
+  @Input() viewAgreementOfficersTable!: boolean;
+  @Input() viewAgreementRegistrationsTable!: boolean;
+
   @Input() col5Name!: string;
   @Input() col6Name!: string;
   @Input() col7Name!: string;

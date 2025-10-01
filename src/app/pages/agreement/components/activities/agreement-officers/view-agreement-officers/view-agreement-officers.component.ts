@@ -9,14 +9,12 @@ import {
   map,
 } from 'rxjs';
 import { TableComponent } from '../../../../../../shared/components/table/table.component';
-import { LegalForm } from '../../../../../legals/store/legal-forms/legal-form.model';
-import { LegalFormsFacade } from '../../../../../legals/store/legal-forms/legal-forms.facade';
-import { Store } from '@ngrx/store';
-import { ClientAddress } from '../../../../../crm/clients/store/client-addresses/client-address.model';
-import { ClientAddressesFacade } from '../../../../../crm/clients/store/client-addresses/client-addresses.facade';
 import { Area } from '../../../../../lookups/store/areas/area.model';
 import { AreasFacade } from '../../../../../lookups/store/areas/areas.facade';
 import { selectAllAreas } from '../../../../../lookups/store/areas/areas.selectors';
+import { Store } from '@ngrx/store';
+import { AgreementOfficer } from '../../../../store/agreement-officers/agreement-officer.model';
+import { AgreementOfficersFacade } from '../../../../store/agreement-officers/agreement-officers.facade';
 
 @Component({
   selector: 'app-view-agreement-officers',
@@ -25,7 +23,7 @@ import { selectAllAreas } from '../../../../../lookups/store/areas/areas.selecto
   styleUrl: './view-agreement-officers.component.scss',
 })
 export class ViewAgreementOfficersComponent {
-  tableDataInside: ClientAddress[] = [];
+  tableDataInside: AgreementOfficer[] = [];
   first2: number = 0;
   private destroy$ = new Subject<void>();
   rows: number = 10;
@@ -39,15 +37,15 @@ export class ViewAgreementOfficersComponent {
     { field: 'AreaName', header: 'Area Name' },
   ];
   showDeleteModal: boolean = false;
-  selectedClientAddressId: number | null = null;
-  originalClientAddresses: ClientAddress[] = [];
-  filteredClientAddresses: ClientAddress[] = [];
-  clientAddresses$!: Observable<ClientAddress[]>;
+  selectedAgreementOfficerId: number | null = null;
+  originalAgreementOfficers: AgreementOfficer[] = [];
+  filteredAgreementOfficers: AgreementOfficer[] = [];
+  agreementOfficers$!: Observable<AgreementOfficer[]>;
   AreasList$!: Observable<Area[]>;
 
   constructor(
     private router: Router,
-    private facade: ClientAddressesFacade,
+    private facade: AgreementOfficersFacade,
     private areaFacade: AreasFacade,
     private route: ActivatedRoute,
     private store: Store
@@ -61,13 +59,13 @@ export class ViewAgreementOfficersComponent {
     this.AreasList$ = this.store.select(selectAllAreas);
     this.store.dispatch({ type: '[Areas] Load All' });
 
-    this.facade.loadClientAddressesByClientId(this.clientIdParam);
-    this.clientAddresses$ = this.facade.items$;
+    this.facade.loadAgreementOfficersByClientId(this.clientIdParam);
+    this.agreementOfficers$ = this.facade.items$;
 
-    combineLatest([this.clientAddresses$, this.AreasList$])
+    combineLatest([this.agreementOfficers$, this.AreasList$])
       .pipe(
-        map(([clientAddresses, AreasList]) =>
-          clientAddresses
+        map(([agreementOfficers, AreasList]) =>
+          agreementOfficers
             .map((address) => ({
               ...address,
               AreaName:
@@ -79,12 +77,12 @@ export class ViewAgreementOfficersComponent {
         takeUntil(this.destroy$)
       )
       .subscribe((enriched) => {
-        this.originalClientAddresses = enriched;
-        this.filteredClientAddresses = [...enriched];
+        this.originalAgreementOfficers = enriched;
+        this.filteredAgreementOfficers = [...enriched];
       });
   }
 
-  onAddClientAddress() {
+  onAddAgreementOfficer() {
     const clientIdParam = this.route.snapshot.paramMap.get('clientId');
 
     this.router.navigate(['/crm/clients/add-client-addresses'], {
@@ -96,12 +94,12 @@ export class ViewAgreementOfficersComponent {
     this.destroy$.next();
     this.destroy$.complete();
   }
-  onDeleteClientAddress(clientAddressId: any): void {
+  onDeleteAgreementOfficer(agreementOfficerId: any): void {
     console.log(
-      '[View] onDeleteClientAddress() – opening modal for id=',
-      clientAddressId
+      '[View] onDeleteAgreementOfficer() – opening modal for id=',
+      agreementOfficerId
     );
-    this.selectedIds = [clientAddressId];
+    this.selectedIds = [agreementOfficerId];
     this.showDeleteModal = true;
   }
 
@@ -112,13 +110,13 @@ export class ViewAgreementOfficersComponent {
   resetDeleteModal() {
     console.log('[View] resetDeleteModal() – closing modal and clearing id');
     this.showDeleteModal = false;
-    this.selectedClientAddressId = null;
+    this.selectedAgreementOfficerId = null;
   }
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
-    this.filteredClientAddresses = this.originalClientAddresses.filter(
-      (clientAddress) =>
-        Object.values(clientAddress).some((val) =>
+    this.filteredAgreementOfficers = this.originalAgreementOfficers.filter(
+      (agreementOfficer) =>
+        Object.values(agreementOfficer).some((val) =>
           val?.toString().toLowerCase().includes(lower)
         )
     );
@@ -126,9 +124,9 @@ export class ViewAgreementOfficersComponent {
   onToggleFilters(value: boolean) {
     this.showFilters = value;
   }
-  onEditClientAddress(clientAddress: ClientAddress) {
+  onEditAgreementOfficer(agreementOfficer: AgreementOfficer) {
     this.router.navigate(
-      ['/crm/clients/edit-client-addresses', clientAddress.id],
+      ['/crm/clients/edit-client-addresses', agreementOfficer.id],
       {
         queryParams: {
           mode: 'edit',
@@ -137,7 +135,7 @@ export class ViewAgreementOfficersComponent {
       }
     );
   }
-  onViewClientAddress(ct: ClientAddress) {
+  onViewAgreementOfficer(ct: AgreementOfficer) {
     this.router.navigate(['/crm/clients/edit-client-addresses', ct.id], {
       queryParams: {
         mode: 'view',
@@ -165,7 +163,7 @@ export class ViewAgreementOfficersComponent {
 
   refreshCalls() {
     this.facade.loadAll();
-    this.clientAddresses$ = this.facade.items$;
+    this.agreementOfficers$ = this.facade.items$;
   }
   onBulkDelete(ids: number[]) {
     this.selectedIds = ids;
