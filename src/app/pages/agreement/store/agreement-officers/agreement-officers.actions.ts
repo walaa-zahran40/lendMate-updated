@@ -13,6 +13,22 @@ export const loadAgreementOfficersFailure = createAction(
   '[AgreementOfficers] Load All Failure',
   props<{ error: any }>()
 );
+//load by id
+export const loadAgreementOfficersByAgreementId = createAction(
+  '[AgreementOfficers] Load By AgreementId',
+  props<{ agreementId: number }>()
+);
+
+export const loadAgreementOfficersByAgreementIdSuccess = createAction(
+  '[AgreementOfficers] Load By AgreementId Success',
+  props<{ items: AgreementOfficer[]; totalCount: number }>()
+);
+
+export const loadAgreementOfficersByAgreementIdFailure = createAction(
+  '[AgreementOfficers] Load By AgreementId Failure',
+  props<{ error: any }>()
+);
+
 // Load history
 export const loadAgreementOfficersHistory = createAction(
   '[AgreementOfficers] Load History'
@@ -33,8 +49,9 @@ export const loadAgreementOfficer = createAction(
 );
 export const loadAgreementOfficerSuccess = createAction(
   '[AgreementOfficers] Load One Success',
-  props<{ client: AgreementOfficer }>()
+  props<{ items: AgreementOfficer[]; totalCount: number }>() // ✅ matches API
 );
+
 export const loadAgreementOfficerFailure = createAction(
   '[AgreementOfficers] Load One Failure',
   props<{ error: any }>()
@@ -71,7 +88,7 @@ export const updateAgreementOfficerFailure = createAction(
 // Load by ClientId
 export const loadAgreementOfficersByClientId = createAction(
   '[AgreementOfficers] Load By ClientId',
-  props<{ clientId: number }>()
+  props<{ clientId: number | undefined }>()
 );
 export const loadAgreementOfficersByClientIdSuccess = createAction(
   '[AgreementOfficers] Load By ClientId Success',

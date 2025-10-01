@@ -68,10 +68,7 @@ export class ViewAgreementOfficersComponent {
           agreementOfficers
             .map((address) => ({
               ...address,
-              AreaName:
-                AreasList.find((c) => c.id === address.areaId)?.name || '—',
             }))
-            .filter((address) => address.isActive)
             .sort((a, b) => b.id - a.id)
         ),
         takeUntil(this.destroy$)

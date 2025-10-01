@@ -9,6 +9,9 @@ import { ViewAgreementContactPersonsComponent } from './components/activities/ag
 import { ViewAgreementOfficersComponent } from './components/activities/agreement-officers/view-agreement-officers/view-agreement-officers.component';
 import { ViewAgreementRegistrationsComponent } from './components/activities/agreement-registrations/view-agreement-registrations/view-agreement-registrations.component';
 import { AddAgreementFileComponent } from './components/activities/agreement-files/add-agreement-file/add-agreement-file.component';
+import { AddAgreementContactPersonComponent } from './components/activities/agreement-contact-persons/add-agreement-contact-person/add-agreement-contact-person.component';
+import { AddAgreementOfficerComponent } from './components/activities/agreement-officers/add-agreement-officer/add-agreement-officer.component';
+import { AddAgreementRegistrationComponent } from './components/activities/agreement-registrations/add-agreement-registration/add-agreement-registration.component';
 
 const routes: Routes = [
   //Agreements
@@ -44,17 +47,32 @@ const routes: Routes = [
     path: 'activities/wizard-agreement/add-agreement-file/:id',
     component: AddAgreementFileComponent,
   },
+  //Agreement Contact Persons
   {
     path: 'activities/wizard-agreement/view-agreement-contact-persons/:id',
     component: ViewAgreementContactPersonsComponent,
   },
   {
+    path: 'activities/wizard-agreement/add-agreement-contact-person/:id',
+    component: AddAgreementContactPersonComponent,
+  },
+  //Agreement Officers
+  {
     path: 'activities/wizard-agreement/view-agreement-officers/:id',
     component: ViewAgreementOfficersComponent,
   },
   {
+    path: 'activities/wizard-agreement/add-agreement-officers/:id',
+    component: AddAgreementOfficerComponent,
+  },
+  //Agreement Registrations
+  {
     path: 'activities/wizard-agreement/view-agreement-registrations/:id',
     component: ViewAgreementRegistrationsComponent,
+  },
+  {
+    path: 'activities/wizard-agreement/add-agreement-registration/:id',
+    component: AddAgreementRegistrationComponent,
   },
 ];
 

@@ -46,9 +46,7 @@ export class AgreementContactPersonsEffects {
           catchError((error) =>
             of(
               AgreementContactPersonActions.loadAgreementContactPersonsHistoryFailure(
-                {
-                  error,
-                }
+                { error }
               )
             )
           )
@@ -62,9 +60,11 @@ export class AgreementContactPersonsEffects {
       ofType(AgreementContactPersonActions.loadAgreementContactPerson),
       mergeMap(({ id }) =>
         this.service.getById(id).pipe(
-          map((client) =>
+          // returns { items, totalCount }
+          map((resp) =>
             AgreementContactPersonActions.loadAgreementContactPersonSuccess({
-              client,
+              items: resp.items,
+              totalCount: resp.totalCount,
             })
           ),
           catchError((error) =>
@@ -72,6 +72,36 @@ export class AgreementContactPersonsEffects {
               AgreementContactPersonActions.loadAgreementContactPersonFailure({
                 error,
               })
+            )
+          )
+        )
+      )
+    )
+  );
+
+  loadByAgreementId$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        AgreementContactPersonActions.loadAgreementContactPersonsByAgreementId
+      ),
+      mergeMap(({ agreementId }) =>
+        this.service.getById(agreementId).pipe(
+          // returns { items, totalCount }
+          map((resp: any) =>
+            AgreementContactPersonActions.loadAgreementContactPersonsByAgreementIdSuccess(
+              {
+                items: resp.items,
+                totalCount: resp.totalCount,
+              }
+            )
+          ),
+          catchError((error) =>
+            of(
+              AgreementContactPersonActions.loadAgreementContactPersonsByAgreementIdFailure(
+                {
+                  error,
+                }
+              )
             )
           )
         )
@@ -208,15 +238,13 @@ export class AgreementContactPersonsEffects {
       ),
 
       mergeMap(({ clientId }) =>
-        this.service.getByClientId(clientId).pipe(
+        this.service.getByClientId(clientId!).pipe(
           tap((items) =>
             console.log('[Effect:loadByClientId] response →', items)
           ),
           map((items) =>
             AgreementContactPersonActions.loadAgreementContactPersonsByClientIdSuccess(
-              {
-                items,
-              }
+              { items }
             )
           ),
           catchError((error) =>

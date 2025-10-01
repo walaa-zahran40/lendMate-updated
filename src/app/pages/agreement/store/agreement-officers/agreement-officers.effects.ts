@@ -58,9 +58,11 @@ export class AgreementOfficersEffects {
       ofType(AgreementOfficerActions.loadAgreementOfficer),
       mergeMap(({ id }) =>
         this.service.getById(id).pipe(
-          map((client) =>
+          // returns { items, totalCount }
+          map((resp) =>
             AgreementOfficerActions.loadAgreementOfficerSuccess({
-              client,
+              items: resp.items,
+              totalCount: resp.totalCount,
             })
           ),
           catchError((error) =>
@@ -68,6 +70,32 @@ export class AgreementOfficersEffects {
               AgreementOfficerActions.loadAgreementOfficerFailure({
                 error,
               })
+            )
+          )
+        )
+      )
+    )
+  );
+
+  loadByAgreementId$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AgreementOfficerActions.loadAgreementOfficersByAgreementId),
+      mergeMap(({ agreementId }) =>
+        this.service.getById(agreementId).pipe(
+          // returns { items, totalCount }
+          map((resp: any) =>
+            AgreementOfficerActions.loadAgreementOfficersByAgreementIdSuccess({
+              items: resp.items,
+              totalCount: resp.totalCount,
+            })
+          ),
+          catchError((error) =>
+            of(
+              AgreementOfficerActions.loadAgreementOfficersByAgreementIdFailure(
+                {
+                  error,
+                }
+              )
             )
           )
         )
@@ -194,7 +222,7 @@ export class AgreementOfficersEffects {
       ),
 
       mergeMap(({ clientId }) =>
-        this.service.getByClientId(clientId).pipe(
+        this.service.getByClientId(clientId!).pipe(
           tap((items) =>
             console.log('[Effect:loadByClientId] response →', items)
           ),

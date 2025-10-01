@@ -46,11 +46,16 @@ export const agreementContactPersonsReducer = createReducer(
     ...state,
     loading: true,
   })),
-  on(Actions.loadAgreementContactPersonSuccess, (state, { client }) => ({
-    ...state,
-    current: client,
-    loading: false,
-  })),
+  on(
+    Actions.loadAgreementContactPersonSuccess,
+    (state, { items, totalCount }) => ({
+      ...state,
+      items,
+      totalCount,
+      loading: false,
+      error: null,
+    })
+  ),
   on(Actions.loadAgreementContactPersonFailure, (state, { error }) => ({
     ...state,
     error,

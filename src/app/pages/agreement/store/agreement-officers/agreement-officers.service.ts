@@ -11,7 +11,7 @@ interface PagedResponse<T> {
 
 @Injectable({ providedIn: 'root' })
 export class AgreementOfficersService {
-  private api = `${environment.apiUrl}ClientsAddresses`;
+  private api = `${environment.apiUrl}AgreementOfficers`;
 
   constructor(private http: HttpClient) {}
 
@@ -32,8 +32,13 @@ export class AgreementOfficersService {
     );
   }
 
-  getById(id: number): Observable<AgreementOfficer> {
-    return this.http.get<AgreementOfficer>(`${this.api}/Id?id=${id}`);
+  getById(
+    agreementId: number
+  ): Observable<{ items: AgreementOfficer[]; totalCount: number }> {
+    return this.http.get<{
+      items: AgreementOfficer[];
+      totalCount: number;
+    }>(`${this.api}/AgreementId?agreementId=${agreementId}`);
   }
 
   create(data: Partial<AgreementOfficer>): Observable<AgreementOfficer> {

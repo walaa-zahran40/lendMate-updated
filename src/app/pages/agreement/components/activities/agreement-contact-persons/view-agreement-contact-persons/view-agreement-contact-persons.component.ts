@@ -3,16 +3,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {
   Subject,
   Observable,
-  takeUntil,
   forkJoin,
-  combineLatest,
   map,
+  startWith,
+  takeUntil,
+  tap,
 } from 'rxjs';
 import { TableComponent } from '../../../../../../shared/components/table/table.component';
-import { Store } from '@ngrx/store';
-import { Area } from '../../../../../lookups/store/areas/area.model';
-import { AreasFacade } from '../../../../../lookups/store/areas/areas.facade';
-import { selectAllAreas } from '../../../../../lookups/store/areas/areas.selectors';
 import { AgreementContactPerson } from '../../../../store/agreement-contact-persons/agreement-contact-person.model';
 import { AgreementContactPersonsFacade } from '../../../../store/agreement-contact-persons/agreement-contact-persons.facade';
 
@@ -32,48 +29,40 @@ export class ViewAgreementContactPersonsComponent {
   @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
-    { field: 'details', header: 'Details' },
-    { field: 'detailsAR', header: 'Details AR' },
-    { field: 'AreaName', header: 'Area Name' },
+    { field: 'filePath', header: 'Agreemnt File Path' },
+    { field: 'expiryDate', header: 'Agreement Expiry Date' },
   ];
   showDeleteModal: boolean = false;
   selectedAgreementContactPersonId: number | null = null;
   originalAgreementContactPersons: AgreementContactPerson[] = [];
   filteredAgreementContactPersons: AgreementContactPerson[] = [];
   agreementContactPersons$!: Observable<AgreementContactPerson[]>;
-  AreasList$!: Observable<Area[]>;
-
+  routeId = this.route.snapshot.params['id'];
   constructor(
     private router: Router,
     private facade: AgreementContactPersonsFacade,
-    private areaFacade: AreasFacade,
-    private route: ActivatedRoute,
-    private store: Store
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    const raw = this.route.snapshot.paramMap.get('clientId');
-    this.clientIdParam = raw !== null ? Number(raw) : undefined;
+    // make sure it's a number
+    const agreementId = Number(this.route.snapshot.params['id']);
+    this.facade.loadOne(agreementId);
 
-    this.areaFacade.loadAll();
-    this.AreasList$ = this.store.select(selectAllAreas);
-    this.store.dispatch({ type: '[Areas] Load All' });
+    this.agreementContactPersons$ = this.facade.items$.pipe(
+      // Debug what comes through
+      tap((raw) => console.log('[DEBUG] agreementContactPersons$ raw →', raw)),
 
-    this.facade.loadAgreementContactPersonsByClientId(this.clientIdParam);
-    this.agreementContactPersons$ = this.facade.items$;
+      // Always yield an array, even if the slice is not ready yet
+      startWith([] as AgreementContactPerson[]),
 
-    combineLatest([this.agreementContactPersons$, this.AreasList$])
+      // If the facade sometimes emits a wrapped response { items, totalCount }
+      map((res: any) => (Array.isArray(res) ? res : res?.items ?? []))
+    );
+
+    this.agreementContactPersons$
       .pipe(
-        map(([agreementContactPersons, AreasList]) =>
-          agreementContactPersons
-            .map((address) => ({
-              ...address,
-              AreaName:
-                AreasList.find((c) => c.id === address.areaId)?.name || '—',
-            }))
-            .filter((address) => address.isActive)
-            .sort((a, b) => b.id - a.id)
-        ),
+        map((list) => [...list].sort((a, b) => b.id - a.id)),
         takeUntil(this.destroy$)
       )
       .subscribe((enriched) => {
@@ -83,23 +72,25 @@ export class ViewAgreementContactPersonsComponent {
   }
 
   onAddAgreementContactPerson() {
-    const clientIdParam = this.route.snapshot.paramMap.get('clientId');
+    const id = this.route.snapshot.paramMap.get('id');
 
-    this.router.navigate(['/crm/clients/add-client-addresses'], {
-      queryParams: { mode: 'add', clientId: clientIdParam },
-    });
+    this.router.navigate([
+      `/agreement/activities/wizard-agreement/add-agreement-contact-person/${id}`,
+    ]);
   }
 
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
   }
-  onDeleteAgreementContactPerson(agreementContactPersonId: any): void {
+  onDeleteAgreementContactPerson(
+    agreementContactAgreementContactPersonId: any
+  ): void {
     console.log(
       '[View] onDeleteAgreementContactPerson() – opening modal for id=',
-      agreementContactPersonId
+      agreementContactAgreementContactPersonId
     );
-    this.selectedIds = [agreementContactPersonId];
+    this.selectedIds = [agreementContactAgreementContactPersonId];
     this.showDeleteModal = true;
   }
 
@@ -115,18 +106,24 @@ export class ViewAgreementContactPersonsComponent {
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
     this.filteredAgreementContactPersons =
-      this.originalAgreementContactPersons.filter((agreementContactPerson) =>
-        Object.values(agreementContactPerson).some((val) =>
-          val?.toString().toLowerCase().includes(lower)
-        )
+      this.originalAgreementContactPersons.filter(
+        (agreementContactAgreementContactPerson) =>
+          Object.values(agreementContactAgreementContactPerson).some((val) =>
+            val?.toString().toLowerCase().includes(lower)
+          )
       );
   }
   onToggleFilters(value: boolean) {
     this.showFilters = value;
   }
-  onEditAgreementContactPerson(agreementContactPerson: AgreementContactPerson) {
+  onEditAgreementContactPerson(
+    agreementContactAgreementContactPerson: AgreementContactPerson
+  ) {
     this.router.navigate(
-      ['/crm/clients/edit-client-addresses', agreementContactPerson.id],
+      [
+        '/crm/clients/edit-agreement-files',
+        agreementContactAgreementContactPerson.id,
+      ],
       {
         queryParams: {
           mode: 'edit',
@@ -136,7 +133,7 @@ export class ViewAgreementContactPersonsComponent {
     );
   }
   onViewAgreementContactPerson(ct: AgreementContactPerson) {
-    this.router.navigate(['/crm/clients/edit-client-addresses', ct.id], {
+    this.router.navigate(['/crm/clients/edit-agreement-files', ct.id], {
       queryParams: {
         mode: 'view',
         clientId: this.clientIdParam,

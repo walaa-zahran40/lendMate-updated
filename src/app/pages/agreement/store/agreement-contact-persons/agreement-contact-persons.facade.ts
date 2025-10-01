@@ -46,6 +46,12 @@ export class AgreementContactPersonsFacade {
   update(id: any, data: Partial<AgreementContactPerson>) {
     this.store.dispatch(Actions.updateAgreementContactPerson({ id, data }));
   }
+  loadByAgreementId(id: number) {
+    this.store.dispatch(
+      Actions.loadAgreementContactPersonsByAgreementId({ agreementId: id })
+    );
+  }
+
   /** NEW: dispatch the by-clientId loader */
   loadAgreementContactPersonsByClientId(clientId?: number) {
     if (clientId == null || isNaN(clientId)) {
