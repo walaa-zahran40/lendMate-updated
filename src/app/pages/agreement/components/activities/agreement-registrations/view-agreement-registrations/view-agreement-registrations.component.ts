@@ -36,6 +36,7 @@ export class ViewAgreementRegistrationsComponent {
   readonly colsInside = [
     { field: 'date', header: 'Date' },
     { field: 'ecraAuthentication', header: 'Ecra Authentication' },
+    { field: 'isActive', header: 'is Active' },
   ];
   showDeleteModal: boolean = false;
   selectedAgreementRegistrationId: number | null = null;
