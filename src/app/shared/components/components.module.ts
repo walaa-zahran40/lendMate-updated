@@ -110,6 +110,9 @@ import { AgreementFeeFormComponent } from '../../pages/agreement/forms/agreement
 import { LeasingFinancialBasicFormComponent } from '../../pages/agreement/forms/leasing-financial-basic-form/leasing-financial-basic-form.component';
 import { LeasingFinancialCurrencyFormComponent } from '../../pages/agreement/forms/leasing-financial-currency-form/leasing-financial-currency-form.component';
 import { AddAgreementFileFormComponent } from '../../pages/agreement/forms/add-agreement-file-form/add-agreement-file-form.component';
+import { AddAgreementRegistrationFormComponent } from '../../pages/agreement/forms/add-agreement-registration-form/add-agreement-registration-form.component';
+import { AddAgreementOfficerFormComponent } from '../../pages/agreement/forms/add-agreement-officer-form/add-agreement-officer-form.component';
+import { AddAgreementContactPersonFormComponent } from '../../pages/agreement/forms/add-agreement-contact-person-form/add-agreement-contact-person-form.component';
 
 @NgModule({
   declarations: [
@@ -176,6 +179,9 @@ import { AddAgreementFileFormComponent } from '../../pages/agreement/forms/add-a
     AgreementFeeFormComponent,
     LeasingFinancialBasicFormComponent,
     AddAgreementFileFormComponent,
+    AddAgreementRegistrationFormComponent,
+    AddAgreementOfficerFormComponent,
+    AddAgreementContactPersonFormComponent,
   ],
   imports: [
     CommonModule,
@@ -293,6 +299,10 @@ import { AddAgreementFileFormComponent } from '../../pages/agreement/forms/add-a
     AgreementFeeFormComponent,
     LeasingFinancialBasicFormComponent,
     LeasingFinancialCurrencyFormComponent,
+    AddAgreementFileFormComponent,
+    AddAgreementRegistrationFormComponent,
+    AddAgreementOfficerFormComponent,
+    AddAgreementContactPersonFormComponent,
   ],
 })
 export class ComponentsModule {}

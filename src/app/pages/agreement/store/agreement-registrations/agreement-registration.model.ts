@@ -1,6 +1,8 @@
 export interface AgreementRegistration {
   id: number;
-  agreementId?: number;
-  registrationId?: number;
+  leasingAgreementId?: number;
+  date?: Date;
+  number: string;
+  ecraAuthentication: string;
   clientId?: number;
 }
