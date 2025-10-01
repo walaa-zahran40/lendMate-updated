@@ -1,1 +1,32 @@
-<p>add-agreement-file works!</p>
+<app-toolbar-form
+  [header]="
+    viewOnly
+      ? 'View Agreement File'
+      : editMode
+      ? 'Edit Agreement File'
+      : 'Add Agreement File'
+  "
+  [backExists]="true"
+  [viewOnly]="false"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-add-agreement-file-form
+        *ngIf="addAgreementFilesForm"
+        [title]="'Agreement File'"
+        [description]="
+          'Introduce your Agreement File core info quickly to users by fill up client details'
+        "
+        [formGroup]="addAgreementFilesForm"
+        [addAgreementFilesForm]="true"
+        [editMode]="editMode"
+        (submitForm)="addOrEditAgreementFiles()"
+        [viewOnly]="viewOnly"
+        [docTypes]="docTypes$ | async"
+      ></app-add-agreement-file-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

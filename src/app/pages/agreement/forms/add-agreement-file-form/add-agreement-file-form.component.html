@@ -1,1 +1,168 @@
-<p>add-agreement-file-form works!</p>
+<div class="parent" [ngClass]="{ 'parent-custom': currencyCustom }">
+  <div *ngIf="!contactPersonDetailsView" class="div1">
+    <h2 class="m-0 title" [ngClass]="{ 'title-custom': financialCustom }">
+      {{ title | translate }}
+    </h2>
+    <p
+      class="tab-panel-paragraph"
+      [ngClass]="{
+        'paragraph-custom': financialCustom,
+        'p-custom': currencyCustom
+      }"
+    >
+      {{ description | translate }}
+    </p>
+    <p-button
+      *ngIf="addAgreementFilesForm"
+      [label]="'View Agreement Files Details'"
+      icon="pi pi-cog"
+      (click)="viewAgreementFilesDetails()"
+      class="custom-view m-0 float-right"
+    />
+  </div>
+  <div class="div2" [ngClass]="{ span: applyReusable }">
+    <form
+      [formGroup]="formGroup"
+      *ngIf="addAgreementFilesForm"
+      class="upload-form"
+    >
+      <label
+        >{{ "FORM.UPLOAD_DOCUMENT.DOCUMENT_TYPE" | translate
+        }}<sup>*</sup></label
+      >
+      <p-select
+        [filter]="true"
+        [filterBy]="filterByField"
+        [showClear]="true"
+        [options]="docTypes"
+        [optionLabel]="optionLabelKey"
+        optionValue="id"
+        formControlName="documentTypeId"
+        [placeholder]="
+          'FORM.UPLOAD_DOCUMENT.PLACEHOLDER_DOCUMENT_TYPE' | translate
+        "
+        [disabled]="editMode || viewOnly"
+        [ngClass]="editMode || viewOnly ? 'disabled' : 'enabled'"
+      >
+      </p-select>
+      <label
+        >{{ "FORM.UPLOAD_DOCUMENT.EXPIRY_DATE" | translate }}<sup>*</sup></label
+      >
+
+      <shared-date-picker
+        formControlName="expiryDate"
+        inputId="expiryDate"
+        [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+      >
+      </shared-date-picker>
+      <div class="my-5" [ngClass]="{ 'edit-mode': editMode }">
+        <div *ngIf="(editMode || viewOnly) && existingFileName" class="mb-2">
+          <i class="pi pi-paperclip mr-2"></i>
+
+          <a
+            *ngIf="existingFileSafeUrl; else justName"
+            [href]="existingFileSafeUrl"
+            target="_blank"
+            rel="noopener"
+            (click)="onFileLinkClick($event)"
+          >
+            {{ existingFileName }}
+          </a>
+          <br /><br />
+          <button
+            type="button"
+            pButton
+            label="Copy Path"
+            class="p-button-text py-3 px-4 ml-2"
+            (click)="copyPath()"
+          ></button>
+
+          <ng-template #justName>{{ existingFileName }}</ng-template>
+        </div>
+
+        <!-- You already have this somewhere in the page -->
+        <p-toast></p-toast>
+
+        <p-fileupload
+          *ngIf="!editMode && !viewOnly"
+          #fileUploader
+          name="files[]"
+          [multiple]="true"
+          [showUploadButton]="false"
+          (onSelect)="onSelect($event)"
+          maxFileSize="1000000"
+          mode="basic"
+          [auto]="false"
+          [customUpload]="true"
+          [previewWidth]="100"
+          styleClass="w-full"
+        >
+          <ng-template #empty>
+            <div>Drag and drop files to here to upload.</div>
+          </ng-template> </p-fileupload
+        ><!-- Custom preview list -->
+        <div class="mt-3 grid grid-nogutter gap-3">
+          <div *ngFor="let p of previews" class="p-2 border-round surface-100">
+            <div class="font-medium mb-2">{{ p.name }}</div>
+
+            <!-- Images -->
+            <img
+              *ngIf="p.type.startsWith('image/')"
+              [src]="p.url"
+              alt="{{ p.name }}"
+              style="max-width: 320px; max-height: 240px; display: block"
+            />
+
+            <!-- PDFs -->
+            <iframe
+              *ngIf="p.type === 'application/pdf'"
+              [src]="p.safeUrl"
+              style="width: 100%; height: 420px; border: none"
+            ></iframe>
+
+            <!-- Fallback for other types -->
+            <div
+              *ngIf="
+                !p.type.startsWith('image/') && p.type !== 'application/pdf'
+              "
+            >
+              <i class="pi pi-file mr-2"></i> No inline preview available.
+              <a [href]="p.url" download>Download</a>
+            </div>
+
+            <button
+              pButton
+              type="button"
+              label="Remove"
+              class="p-button-text mt-2"
+              (click)="removePreview(p)"
+            ></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-0 p-0 col-md-6 d-flex justify-end m-0"
+          (click)="submitForm.emit()"
+          *ngIf="!viewOnly"
+        >
+          <p-button
+            [label]="'BUTTONS.SUBMIT' | translate"
+            class="custom-save m-0 float-right"
+          />
+        </div>
+        <div
+          class="col-sm-12 mt-0 p-0 col-md-6 d-flex justify-end m-0"
+          (click)="close()"
+          *ngIf="viewOnly"
+        >
+          <p-button
+            [label]="'BUTTONS.CLOSE' | translate"
+            class="custom-save m-0 float-right"
+          />
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
