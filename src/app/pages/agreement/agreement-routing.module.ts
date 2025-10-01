@@ -8,6 +8,7 @@ import { ViewAgreementFilesComponent } from './components/activities/agreement-f
 import { ViewAgreementContactPersonsComponent } from './components/activities/agreement-contact-persons/view-agreement-contact-persons/view-agreement-contact-persons.component';
 import { ViewAgreementOfficersComponent } from './components/activities/agreement-officers/view-agreement-officers/view-agreement-officers.component';
 import { ViewAgreementRegistrationsComponent } from './components/activities/agreement-registrations/view-agreement-registrations/view-agreement-registrations.component';
+import { AddAgreementFileComponent } from './components/activities/agreement-files/add-agreement-file/add-agreement-file.component';
 
 const routes: Routes = [
   //Agreements
@@ -29,17 +30,19 @@ const routes: Routes = [
     component: AddAgreementComponent,
   },
   //Activities
+  //Wizara
   {
     path: 'activities/wizard-agreement/:id',
     component: WizardAgreementComponent,
   },
-  {
-    path: 'activities/wizard-agreement/:id',
-    component: WizardAgreementComponent,
-  },
+  //Agreement Files
   {
     path: 'activities/wizard-agreement/view-agreement-files/:id',
     component: ViewAgreementFilesComponent,
+  },
+  {
+    path: 'activities/wizard-agreement/add-agreement-file/:id',
+    component: AddAgreementFileComponent,
   },
   {
     path: 'activities/wizard-agreement/view-agreement-contact-persons/:id',

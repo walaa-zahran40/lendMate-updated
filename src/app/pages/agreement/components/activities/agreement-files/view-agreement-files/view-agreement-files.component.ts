@@ -59,11 +59,11 @@ export class ViewAgreementFilesComponent {
   }
 
   onAddAgreementFile() {
-    const clientIdParam = this.route.snapshot.paramMap.get('clientId');
+    const id = this.route.snapshot.paramMap.get('id');
 
-    this.router.navigate(['/crm/clients/add-agreement-files'], {
-      queryParams: { mode: 'add', clientId: clientIdParam },
-    });
+    this.router.navigate([
+      `/agreement/activities/wizard-agreement/add-agreement-file/${id}`,
+    ]);
   }
 
   ngOnDestroy() {

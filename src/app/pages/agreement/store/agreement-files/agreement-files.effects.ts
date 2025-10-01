@@ -54,14 +54,36 @@ export class AgreementFilesEffects {
       ofType(AgreementFileActions.loadAgreementFile),
       mergeMap(({ id }) =>
         this.service.getById(id).pipe(
-          map((client) =>
+          // returns { items, totalCount }
+          map((resp) =>
             AgreementFileActions.loadAgreementFileSuccess({
-              client,
+              items: resp.items,
+              totalCount: resp.totalCount,
+            })
+          ),
+          catchError((error) =>
+            of(AgreementFileActions.loadAgreementFileFailure({ error }))
+          )
+        )
+      )
+    )
+  );
+
+  loadByAgreementId$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AgreementFileActions.loadAgreementFilesByAgreementId),
+      mergeMap(({ agreementId }) =>
+        this.service.getById(agreementId).pipe(
+          // returns { items, totalCount }
+          map((resp: any) =>
+            AgreementFileActions.loadAgreementFilesByAgreementIdSuccess({
+              items: resp.items,
+              totalCount: resp.totalCount,
             })
           ),
           catchError((error) =>
             of(
-              AgreementFileActions.loadAgreementFileFailure({
+              AgreementFileActions.loadAgreementFilesByAgreementIdFailure({
                 error,
               })
             )

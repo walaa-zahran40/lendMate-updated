@@ -32,9 +32,11 @@ export class AgreementFilesService {
     );
   }
 
-  getById(id: number): Observable<AgreementFile> {
-    return this.http.get<AgreementFile>(
-      `${this.api}/AgreementId?AgreementId=${id}`
+  getById(
+    agreementId: number
+  ): Observable<{ items: AgreementFile[]; totalCount: number }> {
+    return this.http.get<{ items: AgreementFile[]; totalCount: number }>(
+      `${this.api}/AgreementId?AgreementId=${agreementId}`
     );
   }
 

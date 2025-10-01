@@ -47,8 +47,9 @@ export const loadAgreementFile = createAction(
 );
 export const loadAgreementFileSuccess = createAction(
   '[AgreementFiles] Load One Success',
-  props<{ client: AgreementFile }>()
+  props<{ items: AgreementFile[]; totalCount: number }>() // ✅ matches API
 );
+
 export const loadAgreementFileFailure = createAction(
   '[AgreementFiles] Load One Failure',
   props<{ error: any }>()

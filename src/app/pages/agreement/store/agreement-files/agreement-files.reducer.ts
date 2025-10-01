@@ -40,10 +40,12 @@ export const agreementFilesReducer = createReducer(
     ...state,
     loading: true,
   })),
-  on(Actions.loadAgreementFileSuccess, (state, { client }) => ({
+  on(Actions.loadAgreementFileSuccess, (state, { items, totalCount }) => ({
     ...state,
-    current: client,
+    items,
+    totalCount,
     loading: false,
+    error: null,
   })),
   on(Actions.loadAgreementFileFailure, (state, { error }) => ({
     ...state,

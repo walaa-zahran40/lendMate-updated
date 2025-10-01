@@ -46,6 +46,12 @@ export class AgreementFilesFacade {
   update(id: any, data: Partial<AgreementFile>) {
     this.store.dispatch(Actions.updateAgreementFile({ id, data }));
   }
+  loadByAgreementId(id: number) {
+    this.store.dispatch(
+      Actions.loadAgreementFilesByAgreementId({ agreementId: id })
+    );
+  }
+
   /** NEW: dispatch the by-clientId loader */
   loadAgreementFilesByClientId(clientId?: number) {
     if (clientId == null || isNaN(clientId)) {
