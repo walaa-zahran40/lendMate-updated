@@ -11,6 +11,22 @@ export const loadAgreementFilesFailure = createAction(
   '[AgreementFiles] Load All Failure',
   props<{ error: any }>()
 );
+//load by id
+export const loadAgreementFilesByAgreementId = createAction(
+  '[AgreementFiles] Load By AgreementId',
+  props<{ agreementId: number }>()
+);
+
+export const loadAgreementFilesByAgreementIdSuccess = createAction(
+  '[AgreementFiles] Load By AgreementId Success',
+  props<{ items: AgreementFile[]; totalCount: number }>()
+);
+
+export const loadAgreementFilesByAgreementIdFailure = createAction(
+  '[AgreementFiles] Load By AgreementId Failure',
+  props<{ error: any }>()
+);
+
 // Load history
 export const loadAgreementFilesHistory = createAction(
   '[AgreementFiles] Load History'
@@ -69,7 +85,7 @@ export const updateAgreementFileFailure = createAction(
 // Load by ClientId
 export const loadAgreementFilesByClientId = createAction(
   '[AgreementFiles] Load By ClientId',
-  props<{ clientId: number }>()
+  props<{ clientId: number | undefined }>()
 );
 export const loadAgreementFilesByClientIdSuccess = createAction(
   '[AgreementFiles] Load By ClientId Success',

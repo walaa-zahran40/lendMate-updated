@@ -9,10 +9,6 @@ import {
   map,
 } from 'rxjs';
 import { TableComponent } from '../../../../../../shared/components/table/table.component';
-import { Area } from '../../../../../lookups/store/areas/area.model';
-import { AreasFacade } from '../../../../../lookups/store/areas/areas.facade';
-import { selectAllAreas } from '../../../../../lookups/store/areas/areas.selectors';
-import { Store } from '@ngrx/store';
 import { AgreementFile } from '../../../../store/agreement-files/agreement-file.model';
 import { AgreementFilesFacade } from '../../../../store/agreement-files/agreement-files.facade';
 
@@ -32,51 +28,31 @@ export class ViewAgreementFilesComponent {
   @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
-    { field: 'details', header: 'Details' },
-    { field: 'detailsAR', header: 'Details AR' },
-    { field: 'AreaName', header: 'Area Name' },
+    { field: 'filePath', header: 'Agreemnt File Path' },
+    { field: 'expiryDate', header: 'Agreement Expiry Date' },
   ];
   showDeleteModal: boolean = false;
   selectedAgreementFileId: number | null = null;
   originalAgreementFiles: AgreementFile[] = [];
   filteredAgreementFiles: AgreementFile[] = [];
   agreementFiles$!: Observable<AgreementFile[]>;
-  AreasList$!: Observable<Area[]>;
-
+  routeId = this.route.snapshot.params['id'];
   constructor(
     private router: Router,
     private facade: AgreementFilesFacade,
-    private areaFacade: AreasFacade,
-    private route: ActivatedRoute,
-    private store: Store
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    const raw = this.route.snapshot.paramMap.get('clientId');
-    this.clientIdParam = raw !== null ? Number(raw) : undefined;
-
-    this.areaFacade.loadAll();
-    this.AreasList$ = this.store.select(selectAllAreas);
-    this.store.dispatch({ type: '[Areas] Load All' });
-
-    this.facade.loadAgreementFilesByClientId(this.clientIdParam);
+    this.facade.loadOne(this.routeId);
     this.agreementFiles$ = this.facade.items$;
 
-    combineLatest([this.agreementFiles$, this.AreasList$])
+    this.agreementFiles$
       .pipe(
-        map(([agreementFiles, AreasList]) =>
-          agreementFiles
-            .map((address) => ({
-              ...address,
-              AreaName:
-                AreasList.find((c) => c.id === address.areaId)?.name || '—',
-            }))
-            .filter((address) => address.isActive)
-            .sort((a, b) => b.id - a.id)
-        ),
-        takeUntil(this.destroy$)
+        map((agreementFiles) => [...agreementFiles].sort((a, b) => b.id - a.id))
       )
       .subscribe((enriched) => {
+        console.log('[DEBUG] Final enriched files for table:', enriched);
         this.originalAgreementFiles = enriched;
         this.filteredAgreementFiles = [...enriched];
       });
@@ -85,7 +61,7 @@ export class ViewAgreementFilesComponent {
   onAddAgreementFile() {
     const clientIdParam = this.route.snapshot.paramMap.get('clientId');
 
-    this.router.navigate(['/crm/clients/add-client-addresses'], {
+    this.router.navigate(['/crm/clients/add-agreement-files'], {
       queryParams: { mode: 'add', clientId: clientIdParam },
     });
   }
@@ -126,7 +102,7 @@ export class ViewAgreementFilesComponent {
   }
   onEditAgreementFile(agreementFile: AgreementFile) {
     this.router.navigate(
-      ['/crm/clients/edit-client-addresses', agreementFile.id],
+      ['/crm/clients/edit-agreement-files', agreementFile.id],
       {
         queryParams: {
           mode: 'edit',
@@ -136,7 +112,7 @@ export class ViewAgreementFilesComponent {
     );
   }
   onViewAgreementFile(ct: AgreementFile) {
-    this.router.navigate(['/crm/clients/edit-client-addresses', ct.id], {
+    this.router.navigate(['/crm/clients/edit-agreement-files', ct.id], {
       queryParams: {
         mode: 'view',
         clientId: this.clientIdParam,

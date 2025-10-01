@@ -11,7 +11,7 @@ interface PagedResponse<T> {
 
 @Injectable({ providedIn: 'root' })
 export class AgreementFilesService {
-  private api = `${environment.apiUrl}ClientsAddresses`;
+  private api = `${environment.apiUrl}AgreementFiles`;
 
   constructor(private http: HttpClient) {}
 
@@ -33,7 +33,9 @@ export class AgreementFilesService {
   }
 
   getById(id: number): Observable<AgreementFile> {
-    return this.http.get<AgreementFile>(`${this.api}/Id?id=${id}`);
+    return this.http.get<AgreementFile>(
+      `${this.api}/AgreementId?AgreementId=${id}`
+    );
   }
 
   create(data: Partial<AgreementFile>): Observable<AgreementFile> {

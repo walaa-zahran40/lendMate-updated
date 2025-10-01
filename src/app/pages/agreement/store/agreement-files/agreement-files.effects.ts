@@ -190,7 +190,7 @@ export class AgreementFilesEffects {
       ),
 
       mergeMap(({ clientId }) =>
-        this.service.getByClientId(clientId).pipe(
+        this.service.getByClientId(clientId!).pipe(
           tap((items) =>
             console.log('[Effect:loadByClientId] response →', items)
           ),

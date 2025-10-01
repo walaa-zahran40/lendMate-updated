@@ -1,13 +1,9 @@
 export interface AgreementFile {
   id: number;
-  details: string;
-  detailsAR: string;
-  areaId: number;
-  governorateId: number;
-  countryId: number;
-  clientId: number;
-  client?: any;
-  addressTypeId: number;
-  isMain: boolean;
-  isActive: boolean;
+  agreementId: number;
+  fileId: number;
+  filePath: string;
+  expiryDate: string; // keep as string if backend sends ISO date
+  fileName: string;
+  clientId?: number; // optional if not always present
 }
