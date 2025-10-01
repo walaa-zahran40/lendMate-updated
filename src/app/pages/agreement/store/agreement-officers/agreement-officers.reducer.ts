@@ -40,10 +40,9 @@ export const agreementOfficersReducer = createReducer(
     ...state,
     loading: true,
   })),
-  on(Actions.loadAgreementOfficerSuccess, (state, { items, totalCount }) => ({
+  on(Actions.loadAgreementOfficerSuccess, (state, { items }) => ({
     ...state,
     items,
-    totalCount,
     loading: false,
     error: null,
   })),

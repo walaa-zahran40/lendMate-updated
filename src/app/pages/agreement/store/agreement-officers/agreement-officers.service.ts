@@ -32,13 +32,11 @@ export class AgreementOfficersService {
     );
   }
 
-  getById(
-    agreementId: number
-  ): Observable<{ items: AgreementOfficer[]; totalCount: number }> {
-    return this.http.get<{
-      items: AgreementOfficer[];
-      totalCount: number;
-    }>(`${this.api}/AgreementId?agreementId=${agreementId}`);
+  // agreement-officers.service.ts
+  getById(agreementId: number): Observable<AgreementOfficer[]> {
+    return this.http.get<AgreementOfficer[]>(
+      `${this.api}/AgreementId?agreementId=${agreementId}`
+    );
   }
 
   create(data: Partial<AgreementOfficer>): Observable<AgreementOfficer> {

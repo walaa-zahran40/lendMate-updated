@@ -62,7 +62,7 @@ const routes: Routes = [
     component: ViewAgreementOfficersComponent,
   },
   {
-    path: 'activities/wizard-agreement/add-agreement-officers/:id',
+    path: 'activities/wizard-agreement/add-agreement-officer/:id',
     component: AddAgreementOfficerComponent,
   },
   //Agreement Registrations

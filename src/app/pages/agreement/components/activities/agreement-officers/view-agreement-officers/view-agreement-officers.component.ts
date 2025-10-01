@@ -7,6 +7,8 @@ import {
   forkJoin,
   combineLatest,
   map,
+  startWith,
+  tap,
 } from 'rxjs';
 import { TableComponent } from '../../../../../../shared/components/table/table.component';
 import { Area } from '../../../../../lookups/store/areas/area.model';
@@ -25,21 +27,20 @@ export class ViewAgreementOfficersComponent {
   private destroy$ = new Subject<void>();
   rows: number = 10;
   showFilters: boolean = false;
-  id!: any;
+  clientIdParam!: any;
   @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
-    { field: 'details', header: 'Details' },
-    { field: 'detailsAR', header: 'Details AR' },
-    { field: 'AreaName', header: 'Area Name' },
+    { field: 'id', header: 'ID' },
+    { field: 'agreementId', header: 'Agreement ID' },
+    { field: 'officerId', header: 'Officer ID' },
   ];
   showDeleteModal: boolean = false;
   selectedAgreementOfficerId: number | null = null;
   originalAgreementOfficers: AgreementOfficer[] = [];
   filteredAgreementOfficers: AgreementOfficer[] = [];
   agreementOfficers$!: Observable<AgreementOfficer[]>;
-  AreasList$!: Observable<Area[]>;
-
+  routeId = this.route.snapshot.params['id'];
   constructor(
     private router: Router,
     private facade: AgreementOfficersFacade,
@@ -47,21 +48,18 @@ export class ViewAgreementOfficersComponent {
   ) {}
 
   ngOnInit() {
-    const raw = this.route.snapshot.paramMap.get('id');
-    this.id = raw !== null ? Number(raw) : undefined;
+    // make sure it's a number
+    const agreementId = Number(this.route.snapshot.params['id']);
+    this.facade.loadOne(agreementId);
 
-    this.facade.loadOne(this.id);
-    this.agreementOfficers$ = this.facade.items$;
+    this.agreementOfficers$ = this.facade.items$.pipe(
+      startWith([] as AgreementOfficer[]),
+      tap((arr) => console.log('[DEBUG] agreementOfficers$ len →', arr.length))
+    );
 
-    combineLatest([this.agreementOfficers$, this.AreasList$])
+    this.agreementOfficers$
       .pipe(
-        map(([agreementOfficers, AreasList]) =>
-          agreementOfficers
-            .map((address) => ({
-              ...address,
-            }))
-            .sort((a, b) => b.id - a.id)
-        ),
+        map((list) => [...list].sort((a, b) => b.id - a.id)),
         takeUntil(this.destroy$)
       )
       .subscribe((enriched) => {
@@ -71,23 +69,23 @@ export class ViewAgreementOfficersComponent {
   }
 
   onAddAgreementOfficer() {
-    const clientIdParam = this.route.snapshot.paramMap.get('clientId');
+    const id = this.route.snapshot.paramMap.get('id');
 
-    this.router.navigate(['/crm/clients/add-client-addresses'], {
-      queryParams: { mode: 'add', clientId: clientIdParam },
-    });
+    this.router.navigate([
+      `/agreement/activities/wizard-agreement/add-agreement-officer/${id}`,
+    ]);
   }
 
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
   }
-  onDeleteAgreementOfficer(agreementOfficerId: any): void {
+  onDeleteAgreementOfficer(agreementContactAgreementOfficerId: any): void {
     console.log(
       '[View] onDeleteAgreementOfficer() – opening modal for id=',
-      agreementOfficerId
+      agreementContactAgreementOfficerId
     );
-    this.selectedIds = [agreementOfficerId];
+    this.selectedIds = [agreementContactAgreementOfficerId];
     this.showDeleteModal = true;
   }
 
@@ -103,8 +101,8 @@ export class ViewAgreementOfficersComponent {
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
     this.filteredAgreementOfficers = this.originalAgreementOfficers.filter(
-      (agreementOfficer) =>
-        Object.values(agreementOfficer).some((val) =>
+      (agreementContactAgreementOfficer) =>
+        Object.values(agreementContactAgreementOfficer).some((val) =>
           val?.toString().toLowerCase().includes(lower)
         )
     );
@@ -112,29 +110,32 @@ export class ViewAgreementOfficersComponent {
   onToggleFilters(value: boolean) {
     this.showFilters = value;
   }
-  onEditAgreementOfficer(agreementOfficer: AgreementOfficer) {
+  onEditAgreementOfficer(agreementContactAgreementOfficer: AgreementOfficer) {
     this.router.navigate(
-      ['/crm/clients/edit-client-addresses', agreementOfficer.id],
+      [
+        '/crm/clients/edit-agreement-files',
+        agreementContactAgreementOfficer.id,
+      ],
       {
         queryParams: {
           mode: 'edit',
-          clientId: this.id,
+          clientId: this.clientIdParam,
         },
       }
     );
   }
   onViewAgreementOfficer(ct: AgreementOfficer) {
-    this.router.navigate(['/crm/clients/edit-client-addresses', ct.id], {
+    this.router.navigate(['/crm/clients/edit-agreement-files', ct.id], {
       queryParams: {
         mode: 'view',
-        clientId: this.id,
+        clientId: this.clientIdParam,
       },
     });
   }
   selectedIds: number[] = [];
   confirmDelete() {
     const deleteCalls = this.selectedIds.map((id) =>
-      this.facade.delete(id, this.id)
+      this.facade.delete(id, this.clientIdParam)
     );
 
     forkJoin(deleteCalls).subscribe({

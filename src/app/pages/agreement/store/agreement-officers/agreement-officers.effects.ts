@@ -61,8 +61,7 @@ export class AgreementOfficersEffects {
           // returns { items, totalCount }
           map((resp) =>
             AgreementOfficerActions.loadAgreementOfficerSuccess({
-              items: resp.items,
-              totalCount: resp.totalCount,
+              items: resp,
             })
           ),
           catchError((error) =>
@@ -186,27 +185,27 @@ export class AgreementOfficersEffects {
         AgreementOfficerActions.updateAgreementOfficerSuccess,
         AgreementOfficerActions.deleteAgreementOfficerSuccess
       ),
-
       map((action) => {
-        if ('clientId' in action) {
-          // for create/update you returned `{ client: AgreementOfficer }`,
-          // so dig into that object’s clientId
-          return action.clientId;
-        } else {
-          // for delete you returned `{ id, clientId }`
-          return action.client.clientId;
+        // create/update success: { client: AgreementOfficer }
+        if ('client' in action && action.client) {
+          return action.client.clientId!;
         }
+        // delete success: { id, clientId }
+        if ('clientId' in action) {
+          return action.clientId;
+        }
+        return undefined as unknown as number;
       }),
-
-      // only continue if it’s a number
-
+      filter(
+        (clientId): clientId is number =>
+          typeof clientId === 'number' && !isNaN(clientId)
+      ),
       map((clientId) =>
-        AgreementOfficerActions.loadAgreementOfficersByClientId({
-          clientId,
-        })
+        AgreementOfficerActions.loadAgreementOfficersByClientId({ clientId })
       )
     )
   );
+
   /**
    * The “by‐clientId” loader
    */
