@@ -34,8 +34,7 @@ export class ViewAgreementRegistrationsComponent {
   @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
-    { field: 'id', header: 'ID' },
-    { field: 'leasingAgreementId', header: 'Leasing Agreement ID' },
+    { field: 'date', header: 'Date' },
     { field: 'ecraAuthentication', header: 'Ecra Authentication' },
   ];
   showDeleteModal: boolean = false;
