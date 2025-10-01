@@ -64,7 +64,7 @@ export class ClientContactPersonsFacade {
   delete(id: number, clientId: number) {
     this.store.dispatch(Actions.deleteClientContactPerson({ id, clientId }));
   }
-  loadByClientId(clientId: number) {
+  loadByClientId(clientId: any) {
     this.store.dispatch(
       Actions.loadClientContactPersonsByClientId({ clientId })
     );
