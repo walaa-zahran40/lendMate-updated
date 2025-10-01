@@ -1,134 +1,113 @@
 import { createReducer, on } from '@ngrx/store';
-import * as AgreementFileActions from './agreement-files.actions';
-import { adapter, initialState } from './agreement-files.state';
+import * as Actions from './agreement-files.actions';
+import { initialAgreementFilesState } from './agreement-files.state';
 
-export const reducer = createReducer(
-  initialState,
-
-  // when you dispatch loadAll()
-  on(AgreementFileActions.loadAll, (state) => ({
+export const agreementFilesReducer = createReducer(
+  initialAgreementFilesState,
+  on(Actions.loadAgreementFiles, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
-
-  // when your effect dispatches loadAllSuccess({ result })
-  on(AgreementFileActions.loadAllSuccess, (state, { result }) =>
-    adapter.setAll(result, {
-      ...state,
-      loading: false,
-      error: null,
-    })
-  ),
-  // on failure
-  on(AgreementFileActions.loadAllFailure, (state, { error }) => ({
+  on(Actions.loadAgreementFilesSuccess, (state, { items, totalCount }) => ({
     ...state,
+    items,
+    totalCount,
     loading: false,
-    error,
   })),
-  // create
-  on(AgreementFileActions.createEntity, (state) => ({
+  on(Actions.loadAgreementFilesFailure, (state, { error }) => ({
+    ...state,
+    error,
+    loading: false,
+  })),
+
+  on(Actions.loadAgreementFilesHistory, (state) => ({
+    ...state,
+    loading: true,
+  })),
+  on(Actions.loadAgreementFilesHistorySuccess, (state, { history }) => ({
+    ...state,
+    history,
+    loading: false,
+  })),
+  on(Actions.loadAgreementFilesHistoryFailure, (state, { error }) => ({
+    ...state,
+    error,
+    loading: false,
+  })),
+
+  on(Actions.loadAgreementFile, (state) => ({
+    ...state,
+    loading: true,
+  })),
+  on(Actions.loadAgreementFileSuccess, (state, { client }) => ({
+    ...state,
+    current: client,
+    loading: false,
+  })),
+  on(Actions.loadAgreementFileFailure, (state, { error }) => ({
+    ...state,
+    error,
+    loading: false,
+  })),
+
+  on(Actions.createAgreementFile, (state) => ({
+    ...state,
+    loading: true,
+  })),
+  on(Actions.createAgreementFileSuccess, (state, { client }) => ({
+    ...state,
+    items: [...state.items, client],
+    loading: false,
+  })),
+  on(Actions.createAgreementFileFailure, (state, { error }) => ({
+    ...state,
+    error,
+    loading: false,
+  })),
+
+  on(Actions.updateAgreementFile, (state) => ({
+    ...state,
+    loading: true,
+  })),
+  on(Actions.updateAgreementFileSuccess, (state, { client }) => ({
+    ...state,
+    items: state.items.map((ct) => (ct.id === client.id ? client : ct)),
+    loading: false,
+  })),
+  on(Actions.updateAgreementFileFailure, (state, { error }) => ({
+    ...state,
+    error,
+    loading: false,
+  })),
+
+  on(Actions.deleteAgreementFile, (state) => ({
+    ...state,
+    loading: true,
+  })),
+  on(Actions.deleteAgreementFileSuccess, (state, { id }) => ({
+    ...state,
+    items: state.items.filter((ct) => ct.id !== id),
+    loading: false,
+  })),
+  on(Actions.deleteAgreementFileFailure, (state, { error }) => ({
+    ...state,
+    error,
+    loading: false,
+  })),
+  on(Actions.loadAgreementFilesByClientId, (state) => ({
     ...state,
     loading: true,
     error: null,
   })),
-  on(AgreementFileActions.createEntitySuccess, (state, { entity }) =>
-    adapter.addOne(entity, { ...state, loading: false })
-  ),
-  on(AgreementFileActions.createEntityFailure, (state, { error }) => ({
+  on(Actions.loadAgreementFilesByClientIdSuccess, (state, { items }) => ({
     ...state,
+    items, // replace with just these rates
     loading: false,
+  })),
+  on(Actions.loadAgreementFilesByClientIdFailure, (state, { error }) => ({
+    ...state,
     error,
-  })),
-
-  // update
-  on(AgreementFileActions.updateEntity, (state) => ({
-    ...state,
-    loading: true,
-    error: null,
-  })),
-  on(AgreementFileActions.updateEntitySuccess, (state, { id, changes }) =>
-    adapter.updateOne({ id, changes }, { ...state, loading: false })
-  ),
-  on(AgreementFileActions.updateEntityFailure, (state, { error }) => ({
-    ...state,
     loading: false,
-    error,
-  })),
-
-  // delete
-  on(AgreementFileActions.deleteEntity, (state) => ({
-    ...state,
-    loading: true,
-    error: null,
-  })),
-  on(AgreementFileActions.deleteEntitySuccess, (state, { id }) =>
-    adapter.removeOne(id, { ...state, loading: false })
-  ),
-  on(AgreementFileActions.deleteEntityFailure, (state, { error }) => ({
-    ...state,
-    loading: false,
-    error,
-  })),
-  on(AgreementFileActions.loadByIdSuccess, (state, { entity }) => {
-    const safeId = entity?.id;
-    if (safeId == null) {
-      console.warn(
-        '🟡 loadByIdSuccess with missing entity.id. Skipping loadedId update.',
-        entity
-      );
-      return adapter.upsertOne(entity as any, { ...state, loading: false });
-    }
-    return adapter.upsertOne(entity, {
-      ...state,
-      loading: false,
-      loadedId: safeId,
-    });
-  }),
-  on(AgreementFileActions.loadByIdEditSuccess, (state, { entity }) => {
-    const safeId = entity?.id;
-    if (safeId == null) {
-      console.warn(
-        '🟡 loadByIdSuccess with missing entity.id. Skipping loadedId update.',
-        entity
-      );
-      return adapter.upsertOne(entity as any, { ...state, loading: false });
-    }
-    return adapter.upsertOne(entity, {
-      ...state,
-      loading: false,
-      loadedId: safeId,
-    });
-  }),
-  //History management
-  on(AgreementFileActions.loadAgreementFileHistory, (state) => ({
-    ...state,
-    historyLoaded: false,
-    historyError: null,
-  })),
-
-  on(
-    AgreementFileActions.loadAgreementFileHistorySuccess,
-    (state, { history }) => ({
-      ...state,
-      history,
-      historyLoaded: true,
-    })
-  ),
-  on(AgreementFileActions.clearSelectedClient, (state) => ({
-    ...state,
-    loadedId: null,
-  })),
-
-  on(
-    AgreementFileActions.loadAgreementFileHistoryFailure,
-    (state, { error }) => ({
-      ...state,
-      historyError: error,
-      historyLoaded: false,
-    })
-  )
+  }))
 );
-
-export const { selectAll, selectEntities, selectIds, selectTotal } =
-  adapter.getSelectors();

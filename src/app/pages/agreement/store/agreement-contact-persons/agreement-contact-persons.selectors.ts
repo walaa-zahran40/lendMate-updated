@@ -1,74 +1,31 @@
-import { createSelector } from '@ngrx/store';
-import { agreementContactPersonAdapter } from './agreement-contact-persons.state';
-import { agreementContactPersonsFeature } from './agreement-contact-persons.reducer';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { AgreementContactPersonsState } from './agreement-contact-persons.state';
 
-const { selectAll, selectEntities, selectIds, selectTotal } =
-  agreementContactPersonAdapter.getSelectors();
-
-export const selectFeatureState =
-  agreementContactPersonsFeature.selectAgreementContactPersonsState;
-
-export const selectAllContactPersons = createSelector(
-  selectFeatureState,
-  selectAll
-);
-export const selectContactPersonEntities = createSelector(
-  selectFeatureState,
-  selectEntities
-);
-
-export const selectListLoading = createSelector(
-  selectFeatureState,
-  (s) => s.listLoading
-);
-export const selectListError = createSelector(
-  selectFeatureState,
-  (s) => s.listError
-);
-export const selectListPageNumber = createSelector(
-  selectFeatureState,
-  (s) => s.listPageNumber
-);
-export const selectListTotalCount = createSelector(
-  selectFeatureState,
-  (s) => s.listTotalCount
-);
-
-export const selectByAgreementLoading = createSelector(
-  selectFeatureState,
-  (s) => s.createLoading
-);
-export const selectByAgreementError = createSelector(
-  selectFeatureState,
-  (s) => s.createError
-);
-export const selectContactPersonIdsByAgreement = (agreementId: number) =>
-  createSelector(
-    selectFeatureState,
-    (s) => s.byAgreementMap[agreementId] ?? []
+export const selectAgreementContactPersonsState =
+  createFeatureSelector<AgreementContactPersonsState>(
+    'agreementContactPersons'
   );
-export const selectContactPersonsByAgreement = (agreementId: number) =>
-  createSelector(
-    selectContactPersonEntities,
-    selectContactPersonIdsByAgreement(agreementId),
-    (entities, ids) => ids.map((id) => entities[id]!).filter(Boolean)
-  );
-
-export const selectSingleLoading = createSelector(
-  selectFeatureState,
-  (s) => s.singleLoading
+export const selectAgreementContactPersons = createSelector(
+  selectAgreementContactPersonsState,
+  (state) => state.items
 );
-export const selectCreateLoading = createSelector(
-  selectFeatureState,
-  (s) => s.createLoading
+export const selectAgreementContactPersonsTotal = createSelector(
+  selectAgreementContactPersonsState,
+  (state) => state.totalCount
 );
-export const selectUpdateLoading = createSelector(
-  selectFeatureState,
-  (s) => s.updateLoading
+export const selectAgreementContactPersonsHistory = createSelector(
+  selectAgreementContactPersonsState,
+  (state) => state.history
 );
-export const selectDeleteLoading = createSelector(
-  selectFeatureState,
-  (s) => s.deleteLoading
+export const selectCurrentAgreementContactPerson = createSelector(
+  selectAgreementContactPersonsState,
+  (state) => state.current
 );
-export const selectContactPersonById = (id: number) =>
-  createSelector(selectContactPersonEntities, (ents) => ents[id] ?? null);
+export const selectAgreementContactPersonsLoading = createSelector(
+  selectAgreementContactPersonsState,
+  (state) => state.loading
+);
+export const selectAgreementContactPersonsError = createSelector(
+  selectAgreementContactPersonsState,
+  (state) => state.error
+);

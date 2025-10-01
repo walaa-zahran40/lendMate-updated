@@ -1,91 +1,72 @@
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AgreementContactPersonsActions as A } from './agreement-contact-persons.actions';
-import * as ClientContactPersonActions from '../../../crm/clients/store/client-contact-persons/client-contact-persons.actions';
-import * as Sel from './agreement-contact-persons.selectors';
-import {
-  CreateAgreementContactPersonDto,
-  UpdateAgreementContactPersonDto,
-} from './agreement-contact-person.model';
-import { filter, tap } from 'rxjs';
+import * as Actions from './agreement-contact-persons.actions';
+import * as Selectors from './agreement-contact-persons.selectors';
+import { Observable } from 'rxjs';
+import { AgreementContactPerson } from './agreement-contact-person.model';
+import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class AgreementContactPersonsFacade {
-  private store = inject(Store);
+  items$: Observable<AgreementContactPerson[]> = this.store.select(
+    Selectors.selectAgreementContactPersons
+  );
+  total$: Observable<number> = this.store.select(
+    Selectors.selectAgreementContactPersonsTotal
+  );
+  history$: Observable<AgreementContactPerson[]> = this.store.select(
+    Selectors.selectAgreementContactPersonsHistory
+  );
+  current$: Observable<AgreementContactPerson | undefined> = this.store.select(
+    Selectors.selectCurrentAgreementContactPerson
+  );
 
-  // selectors
-  all$ = this.store.select(Sel.selectAllContactPersons);
-  listLoading$ = this.store.select(Sel.selectListLoading);
-  listError$ = this.store.select(Sel.selectListError);
-  listPageNumber$ = this.store.select(Sel.selectListPageNumber);
-  listTotalCount$ = this.store.select(Sel.selectListTotalCount);
+  loading$: Observable<boolean> = this.store.select(
+    Selectors.selectAgreementContactPersonsLoading
+  );
+  error$: Observable<any> = this.store.select(
+    Selectors.selectAgreementContactPersonsError
+  );
+  operationSuccess$ = this.store.select(selectLastOperationSuccess);
 
-  byAgreementLoading$ = this.store.select(Sel.selectByAgreementLoading);
-  byAgreementError$ = this.store.select(Sel.selectByAgreementError);
+  constructor(private store: Store) {}
 
-  selectContactPersonsByAgreement(agreementId: number) {
-    return this.store.select(Sel.selectContactPersonsByAgreement(agreementId));
+  loadAll() {
+    this.store.dispatch(Actions.loadAgreementContactPersons());
+  }
+  loadHistory() {
+    this.store.dispatch(Actions.loadAgreementContactPersonsHistory());
+  }
+  loadOne(id: number) {
+    this.store.dispatch(Actions.loadAgreementContactPerson({ id }));
+  }
+  create(data: Partial<AgreementContactPerson>) {
+    this.store.dispatch(Actions.createAgreementContactPerson({ data }));
+  }
+  update(id: any, data: Partial<AgreementContactPerson>) {
+    this.store.dispatch(Actions.updateAgreementContactPerson({ id, data }));
+  }
+  /** NEW: dispatch the by-clientId loader */
+  loadAgreementContactPersonsByClientId(clientId?: number) {
+    if (clientId == null || isNaN(clientId)) {
+      console.error(
+        '❌ Facade.loadAgreementContactPersonsByClientId called with invalid id:',
+        clientId
+      );
+      return;
+    }
+    this.store.dispatch(
+      Actions.loadAgreementContactPersonsByClientId({ clientId })
+    );
   }
 
-  // commands
-  loadAll(pageNumber?: number) {
-    this.store.dispatch(A.loadAllRequested({ pageNumber }));
+  /** UPDATED: now expects both id & parent clientId */
+  delete(id: number, clientId: number) {
+    this.store.dispatch(Actions.deleteAgreementContactPerson({ id, clientId }));
   }
-
-  loadByAgreement(agreementId: number) {
-    this.store.dispatch(A.loadByAgreementRequested({ agreementId }));
-  }
-
-  loadOne(agreementContactPersonId: number) {
-    this.store.dispatch(A.loadOneRequested({ agreementContactPersonId }));
-  }
-
-  create(dto: CreateAgreementContactPersonDto) {
-    this.store.dispatch(A.createRequested({ dto }));
-  }
-
-  update(dto: UpdateAgreementContactPersonDto) {
-    this.store.dispatch(A.updateRequested({ dto }));
-  }
-  selectById(id: number) {
-    return this.store.select(Sel.selectContactPersonById(id));
-  }
-
-  delete(id: number) {
-    this.store.dispatch(A.deleteRequested({ id }));
-  }
-
-  clearErrors() {
-    this.store.dispatch(A.clearErrors());
-  }
-  /**
-   * NEW: Select agreement by id AND trigger loading client contact persons by its clientId.
-   * Returns the same agreement stream so component can patch the form.
-   */
-  selectByIdAndLoadClientContacts(id: number) {
-    return this.selectById(id).pipe(
-      // We don't import rxjs operators here to keep snippet short; add them in your file:
-      // import { filter, tap } from 'rxjs/operators';
-      // or from 'rxjs': filter, tap if using RxJS 7+
-      filter(
-        (
-          ag
-        ): ag is {
-          agreementId: number;
-          displayAgreementNumberId: number;
-          clientView: { clientId: number };
-        } => !!ag
-      ),
-      tap((ag) => {
-        const clientId = ag.clientView?.clientId;
-        if (clientId) {
-          this.store.dispatch(
-            ClientContactPersonActions.loadClientContactPersonsByClientId({
-              clientId,
-            })
-          );
-        }
-      })
+  loadByClientId(clientId: number) {
+    this.store.dispatch(
+      Actions.loadAgreementContactPersonsByClientId({ clientId })
     );
   }
 }

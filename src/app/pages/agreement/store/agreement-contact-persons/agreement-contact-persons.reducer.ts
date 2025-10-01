@@ -1,260 +1,125 @@
-import { createFeature, createReducer, on } from '@ngrx/store';
-import {
-  initialState,
-  agreementContactPersonAdapter,
-  agreementContactPersonsFeatureKey,
-} from './agreement-contact-persons.state';
-import { AgreementContactPersonsActions as A } from './agreement-contact-persons.actions';
+import { createReducer, on } from '@ngrx/store';
+import * as Actions from './agreement-contact-persons.actions';
+import { initialAgreementContactPersonsState } from './agreement-contact-persons.state';
 
 export const agreementContactPersonsReducer = createReducer(
-  initialState,
-
-  // ---------- List ----------
-  on(A.loadAllRequested, (state) => ({
+  initialAgreementContactPersonsState,
+  on(Actions.loadAgreementContactPersons, (state) => ({
     ...state,
-    listLoading: true,
-    listError: null,
+    loading: true,
+    error: null,
   })),
-  on(A.loadAllSucceeded, (state, { response, pageNumber }) => {
-    const next = agreementContactPersonAdapter.upsertMany(
-      response.items!,
-      state
-    );
-
-    // Option 1: fallback to items.length (always a number)
-    const total = response.totalCount ?? response.items!.length;
-
-    // Option 2: fallback to null if server doesn't send a count
-    // const total = response.totalCount ?? null;
-
-    return {
-      ...next,
-      listLoading: false,
-      listError: null,
-      listTotalCount: total, // now guaranteed number | null
-      listPageNumber: pageNumber ?? null,
-    };
-  }),
-
-  on(A.loadAllFailed, (state, { error }) => ({
+  on(
+    Actions.loadAgreementContactPersonsSuccess,
+    (state, { items, totalCount }) => ({
+      ...state,
+      items,
+      totalCount,
+      loading: false,
+    })
+  ),
+  on(Actions.loadAgreementContactPersonsFailure, (state, { error }) => ({
     ...state,
-    listLoading: false,
-    listError: error ?? 'Failed to load',
-    // (optional) keep last known page number; don’t touch total here
+    error,
+    loading: false,
   })),
 
-  on(A.loadAllFailed, (state, { error }) => ({
+  on(Actions.loadAgreementContactPersonsHistory, (state) => ({
     ...state,
-    listLoading: false,
-    listError: error,
+    loading: true,
+  })),
+  on(
+    Actions.loadAgreementContactPersonsHistorySuccess,
+    (state, { history }) => ({
+      ...state,
+      history,
+      loading: false,
+    })
+  ),
+  on(Actions.loadAgreementContactPersonsHistoryFailure, (state, { error }) => ({
+    ...state,
+    error,
+    loading: false,
   })),
 
-  // ---------- By Agreement (now per-agreement loading/error maps) ----------
-  on(A.loadByAgreementRequested, (state, { agreementId }) => ({
+  on(Actions.loadAgreementContactPerson, (state) => ({
     ...state,
-    byAgreementLoadingMap: {
-      ...state.byAgreementLoadingMap,
-      [agreementId]: true,
-    },
-    byAgreementErrorMap: {
-      ...state.byAgreementErrorMap,
-      [agreementId]: null,
-    },
+    loading: true,
   })),
-  on(A.loadByAgreementSucceeded, (state, { agreementId, contactPersons }) => {
-    const next = agreementContactPersonAdapter.upsertMany(
-      contactPersons,
-      state
-    );
-
-    // Narrow (number | undefined)[] -> number[] with a TS type guard
-    const ids = contactPersons
-      .map((cp) => cp.id)
-      .filter((id): id is number => id != null);
-
-    return {
-      ...next,
-      byAgreementMap: {
-        ...next.byAgreementMap,
-        [agreementId]: Array.from(new Set(ids)), // optional: dedupe
-      },
-      byAgreementLoadingMap: {
-        ...next.byAgreementLoadingMap,
-        [agreementId]: false,
-      },
-      byAgreementErrorMap: {
-        ...next.byAgreementErrorMap,
-        [agreementId]: null,
-      },
-    };
-  }),
-
-  on(A.loadByAgreementFailed, (state, { agreementId, error }) => ({
+  on(Actions.loadAgreementContactPersonSuccess, (state, { client }) => ({
     ...state,
-    byAgreementLoadingMap: {
-      ...state.byAgreementLoadingMap,
-      [agreementId]: false,
-    },
-    byAgreementErrorMap: {
-      ...state.byAgreementErrorMap,
-      [agreementId]: error,
-    },
+    current: client,
+    loading: false,
+  })),
+  on(Actions.loadAgreementContactPersonFailure, (state, { error }) => ({
+    ...state,
+    error,
+    loading: false,
   })),
 
-  // ---------- Single ----------
-  on(A.loadOneRequested, (state) => ({
+  on(Actions.createAgreementContactPerson, (state) => ({
     ...state,
-    singleLoading: true,
-    singleError: null,
+    loading: true,
   })),
-  on(A.loadOneSucceeded, (state, { contactPerson }) => ({
-    ...agreementContactPersonAdapter.upsertOne(contactPerson, state),
-    singleLoading: false,
-  })),
-  on(A.loadOneFailed, (state, { error }) => ({
+  on(Actions.createAgreementContactPersonSuccess, (state, { client }) => ({
     ...state,
-    singleLoading: false,
-    singleError: error,
+    items: [...state.items, client],
+    loading: false,
   })),
-
-  // ---------- Create ----------
-  on(A.createRequested, (state) => ({
+  on(Actions.createAgreementContactPersonFailure, (state, { error }) => ({
     ...state,
-    createLoading: true,
-    createError: null,
-  })),
-  on(A.createSucceeded, (state, { contactPerson }) => {
-    const next = agreementContactPersonAdapter.addOne(contactPerson, state);
-
-    const agId = contactPerson.agreementId;
-    const id = contactPerson.id;
-
-    // If we don't have a definite agreementId or id, just end the loading state
-    if (agId == null || id == null) {
-      return {
-        ...next,
-        createLoading: false,
-        createError: null,
-      };
-    }
-
-    const currIds = next.byAgreementMap[agId] ?? [];
-    // ensure number[] and dedupe
-    const byAgreementMap = {
-      ...next.byAgreementMap,
-      [agId]: Array.from(new Set<number>([...currIds, id])),
-    };
-
-    return {
-      ...next,
-      createLoading: false,
-      createError: null,
-      byAgreementMap,
-    };
-  }),
-
-  on(A.createFailed, (state, { error }) => ({
-    ...state,
-    createLoading: false,
-    createError: error,
+    error,
+    loading: false,
   })),
 
-  // ---------- Update ----------
-  on(A.updateRequested, (state) => ({
+  on(Actions.updateAgreementContactPerson, (state) => ({
     ...state,
-    updateLoading: true,
-    updateError: null,
+    loading: true,
   })),
-  on(A.updateSucceeded, (state, { contactPerson }) => {
-    const id = contactPerson.id;
-    const next = agreementContactPersonAdapter.upsertOne(contactPerson, state);
-
-    // if we don't have a definite id, just finish the loading state
-    if (id == null) {
-      return { ...next, updateLoading: false, updateError: null };
-    }
-
-    const prev = state.entities[id];
-
-    // If we didn't have it before, nothing to move between maps
-    if (!prev) {
-      return { ...next, updateLoading: false, updateError: null };
-    }
-
-    let byAgreementMap = next.byAgreementMap;
-
-    const prevAgId = prev.agreementId ?? null;
-    const newAgId = contactPerson.agreementId ?? null;
-
-    // Only adjust lists if agreementId actually changed and both ids are known
-    if (prevAgId != null && newAgId != null && prevAgId !== newAgId) {
-      const oldList = (byAgreementMap[prevAgId] ?? []).filter((x) => x !== id);
-      const newList = Array.from(
-        new Set<number>([...(byAgreementMap[newAgId] ?? []), id])
-      );
-
-      byAgreementMap = {
-        ...byAgreementMap,
-        [prevAgId]: oldList,
-        [newAgId]: newList,
-      };
-    }
-
-    return { ...next, updateLoading: false, updateError: null, byAgreementMap };
-  }),
-
-  on(A.updateFailed, (state, { error }) => ({
+  on(Actions.updateAgreementContactPersonSuccess, (state, { client }) => ({
     ...state,
-    updateLoading: false,
-    updateError: error,
+    items: state.items.map((ct) => (ct.id === client.id ? client : ct)),
+    loading: false,
+  })),
+  on(Actions.updateAgreementContactPersonFailure, (state, { error }) => ({
+    ...state,
+    error,
+    loading: false,
   })),
 
-  // ---------- Delete ----------
-  on(A.deleteRequested, (state) => ({
+  on(Actions.deleteAgreementContactPerson, (state) => ({
     ...state,
-    deleteLoading: true,
-    deleteError: null,
+    loading: true,
   })),
-  on(A.deleteSucceeded, (state, { id }) => {
-    const contactPerson = state.entities[id];
-    const next = agreementContactPersonAdapter.removeOne(id, state);
-    if (!contactPerson)
-      return { ...next, deleteLoading: false, deleteError: null };
-
-    const agId = contactPerson.agreementId!;
-    const currIds = next.byAgreementMap[agId] ?? [];
-    const filtered = currIds.filter((x) => x !== id);
-
-    return {
-      ...next,
-      deleteLoading: false,
-      deleteError: null,
-      byAgreementMap: {
-        ...next.byAgreementMap,
-        [agId]: filtered,
-      },
-    };
-  }),
-  on(A.deleteFailed, (state, { error }) => ({
+  on(Actions.deleteAgreementContactPersonSuccess, (state, { id }) => ({
     ...state,
-    deleteLoading: false,
-    deleteError: error,
+    items: state.items.filter((ct) => ct.id !== id),
+    loading: false,
   })),
-
-  // ---------- Utility ----------
-  on(A.clearErrors, (state) => ({
+  on(Actions.deleteAgreementContactPersonFailure, (state, { error }) => ({
     ...state,
-    listError: null,
-    singleError: null,
-    createError: null,
-    updateError: null,
-    deleteError: null,
-    // clear per-agreement errors
-    byAgreementErrorMap: {},
-  }))
+    error,
+    loading: false,
+  })),
+  on(Actions.loadAgreementContactPersonsByClientId, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
+  on(
+    Actions.loadAgreementContactPersonsByClientIdSuccess,
+    (state, { items }) => ({
+      ...state,
+      items, // replace with just these rates
+      loading: false,
+    })
+  ),
+  on(
+    Actions.loadAgreementContactPersonsByClientIdFailure,
+    (state, { error }) => ({
+      ...state,
+      error,
+      loading: false,
+    })
+  )
 );
-
-export const agreementContactPersonsFeature = createFeature({
-  name: agreementContactPersonsFeatureKey,
-  reducer: agreementContactPersonsReducer,
-});

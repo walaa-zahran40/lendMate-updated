@@ -1,23 +1,13 @@
 export interface AgreementContactPerson {
-  id?: number;
-  agreementId?: number;
-  contactPersonId?: number;
-  clientView?: any;
-  displayAgreementNumberId: any;
-}
-
-export interface PagedResponse<T> {
-  items?: T[];
-  totalCount?: number;
-}
-
-export interface CreateAgreementContactPersonDto {
-  agreementId?: number;
-  contactPersonId?: number;
-}
-
-export interface UpdateAgreementContactPersonDto {
-  id?: number;
-  agreementId?: number;
-  contactPersonId?: number;
+  id: number;
+  details: string;
+  detailsAR: string;
+  areaId: number;
+  governorateId: number;
+  countryId: number;
+  clientId: number;
+  client?: any;
+  addressTypeId: number;
+  isMain: boolean;
+  isActive: boolean;
 }

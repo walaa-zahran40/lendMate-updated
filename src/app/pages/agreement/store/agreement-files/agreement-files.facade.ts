@@ -1,57 +1,68 @@
 import { Injectable } from '@angular/core';
-import { createSelector, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import * as Actions from './agreement-files.actions';
 import * as Selectors from './agreement-files.selectors';
-import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors'; // adjust path if needed
+import { Observable } from 'rxjs';
 import { AgreementFile } from './agreement-file.model';
+import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class AgreementFilesFacade {
-  all$ = this.store.select(Selectors.selectAllAgreementFiles);
-  loading$ = this.store.select(Selectors.selectAgreementFilesLoading);
-  error$ = this.store.select(Selectors.selectAgreementFilesError);
-  totalCount$ = this.store.select(Selectors.selectAgreementFilesTotalCount);
-  selected$ = this.store.select(Selectors.selectCurrent);
+  items$: Observable<AgreementFile[]> = this.store.select(
+    Selectors.selectAgreementFiles
+  );
+  total$: Observable<number> = this.store.select(
+    Selectors.selectAgreementFilesTotal
+  );
+  history$: Observable<AgreementFile[]> = this.store.select(
+    Selectors.selectAgreementFilesHistory
+  );
+  current$: Observable<AgreementFile | undefined> = this.store.select(
+    Selectors.selectCurrentAgreementFile
+  );
+
+  loading$: Observable<boolean> = this.store.select(
+    Selectors.selectAgreementFilesLoading
+  );
+  error$: Observable<any> = this.store.select(
+    Selectors.selectAgreementFilesError
+  );
   operationSuccess$ = this.store.select(selectLastOperationSuccess);
-  workFlowActionSuccess$ = this.store.select(selectLastOperationSuccess);
 
   constructor(private store: Store) {}
 
-  loadAll(pageNumber?: number) {
-    this.store.dispatch(Actions.loadAll({ pageNumber }));
+  loadAll() {
+    this.store.dispatch(Actions.loadAgreementFiles());
   }
-  createBinary(formData: FormData) {
-    this.store.dispatch(Actions.createEntityBinary({ formData }));
+  loadHistory() {
+    this.store.dispatch(Actions.loadAgreementFilesHistory());
+  }
+  loadOne(id: number) {
+    this.store.dispatch(Actions.loadAgreementFile({ id }));
+  }
+  create(data: Partial<AgreementFile>) {
+    this.store.dispatch(Actions.createAgreementFile({ data }));
+  }
+  update(id: any, data: Partial<AgreementFile>) {
+    this.store.dispatch(Actions.updateAgreementFile({ id, data }));
+  }
+  /** NEW: dispatch the by-clientId loader */
+  loadAgreementFilesByClientId(clientId?: number) {
+    if (clientId == null || isNaN(clientId)) {
+      console.error(
+        '❌ Facade.loadAgreementFilesByClientId called with invalid id:',
+        clientId
+      );
+      return;
+    }
+    this.store.dispatch(Actions.loadAgreementFilesByClientId({ clientId }));
   }
 
-  loadById(id: number) {
-    this.store.dispatch(Actions.loadById({ id }));
+  /** UPDATED: now expects both id & parent clientId */
+  delete(id: number, clientId: number) {
+    this.store.dispatch(Actions.deleteAgreementFile({ id, clientId }));
   }
-  loadByIdEdit(id: number) {
-    this.store.dispatch(Actions.loadByIdEdit({ id }));
-  }
-  create(payload: Partial<Omit<AgreementFile, 'id'>>) {
-    this.store.dispatch(Actions.createEntity({ payload }));
-  }
-
-  update(id: number, changes: Partial<AgreementFile>) {
-    this.store.dispatch(Actions.updateEntity({ id, changes }));
-  }
-
-  delete(id: number) {
-    this.store.dispatch(Actions.deleteEntity({ id }));
-  }
-  clearSelected() {
-    this.store.dispatch(Actions.clearSelectedClient());
-  }
-
-  // History management
-  readonly assetHistory$ = this.store.select(Selectors.selectHistory);
-  readonly assetHistoryLoaded$ = this.store.select(
-    Selectors.selectHistoryLoaded
-  );
-
-  loadHistory(): void {
-    this.store.dispatch(Actions.loadAgreementFileHistory());
+  loadByClientId(clientId: number) {
+    this.store.dispatch(Actions.loadAgreementFilesByClientId({ clientId }));
   }
 }

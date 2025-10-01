@@ -2,26 +2,26 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { mergeMap, map, catchError, tap, filter } from 'rxjs/operators';
 import { of } from 'rxjs';
-import * as AgreementContactPersonActions from './agreement-contact-persons.actions';
-import { AgreementContactPerson } from './agreement-contact-person.model';
-import { AgreementContactPersonsService } from './agreement-contact-persons.service';
+import * as AgreementRegistrationActions from './agreement-registrations.actions';
+import { AgreementRegistration } from './agreement-registration.model';
+import { AgreementRegistrationsService } from './agreement-registrations.service';
 
 @Injectable()
-export class AgreementContactPersonsEffects {
+export class AgreementRegistrationsEffects {
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AgreementContactPersonActions.loadAgreementContactPersons),
+      ofType(AgreementRegistrationActions.loadAgreementRegistrations),
       mergeMap(() =>
         this.service.getAll().pipe(
           map((resp) =>
-            AgreementContactPersonActions.loadAgreementContactPersonsSuccess({
+            AgreementRegistrationActions.loadAgreementRegistrationsSuccess({
               items: resp.items,
               totalCount: resp.totalCount,
             })
           ),
           catchError((error) =>
             of(
-              AgreementContactPersonActions.loadAgreementContactPersonsFailure({
+              AgreementRegistrationActions.loadAgreementRegistrationsFailure({
                 error,
               })
             )
@@ -33,11 +33,11 @@ export class AgreementContactPersonsEffects {
 
   loadHistory$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AgreementContactPersonActions.loadAgreementContactPersonsHistory),
+      ofType(AgreementRegistrationActions.loadAgreementRegistrationsHistory),
       mergeMap(() =>
         this.service.getHistory().pipe(
           map((resp) =>
-            AgreementContactPersonActions.loadAgreementContactPersonsHistorySuccess(
+            AgreementRegistrationActions.loadAgreementRegistrationsHistorySuccess(
               {
                 history: resp.items,
               }
@@ -45,10 +45,8 @@ export class AgreementContactPersonsEffects {
           ),
           catchError((error) =>
             of(
-              AgreementContactPersonActions.loadAgreementContactPersonsHistoryFailure(
-                {
-                  error,
-                }
+              AgreementRegistrationActions.loadAgreementRegistrationsHistoryFailure(
+                { error }
               )
             )
           )
@@ -59,17 +57,17 @@ export class AgreementContactPersonsEffects {
 
   loadOne$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AgreementContactPersonActions.loadAgreementContactPerson),
+      ofType(AgreementRegistrationActions.loadAgreementRegistration),
       mergeMap(({ id }) =>
         this.service.getById(id).pipe(
           map((client) =>
-            AgreementContactPersonActions.loadAgreementContactPersonSuccess({
+            AgreementRegistrationActions.loadAgreementRegistrationSuccess({
               client,
             })
           ),
           catchError((error) =>
             of(
-              AgreementContactPersonActions.loadAgreementContactPersonFailure({
+              AgreementRegistrationActions.loadAgreementRegistrationFailure({
                 error,
               })
             )
@@ -81,21 +79,19 @@ export class AgreementContactPersonsEffects {
 
   create$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AgreementContactPersonActions.createAgreementContactPerson),
+      ofType(AgreementRegistrationActions.createAgreementRegistration),
       mergeMap(({ data }) =>
         this.service.create(data).pipe(
           map((client) =>
-            AgreementContactPersonActions.createAgreementContactPersonSuccess({
+            AgreementRegistrationActions.createAgreementRegistrationSuccess({
               client,
             })
           ),
           catchError((error) =>
             of(
-              AgreementContactPersonActions.createAgreementContactPersonFailure(
-                {
-                  error,
-                }
-              )
+              AgreementRegistrationActions.createAgreementRegistrationFailure({
+                error,
+              })
             )
           )
         )
@@ -105,7 +101,7 @@ export class AgreementContactPersonsEffects {
 
   update$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AgreementContactPersonActions.updateAgreementContactPerson),
+      ofType(AgreementRegistrationActions.updateAgreementRegistration),
       tap(({ id, data }) =>
         console.log('[Effect:update] called with id=', id, 'data=', data)
       ),
@@ -113,12 +109,12 @@ export class AgreementContactPersonsEffects {
         this.service.update(id, data).pipe(
           map((serverReturned) => {
             // force-inject clientId if missing
-            const enriched: AgreementContactPerson = {
+            const enriched: AgreementRegistration = {
               ...serverReturned,
               clientId: data.clientId!,
             };
             console.log('[Effect:update] enriched client →', enriched);
-            return AgreementContactPersonActions.updateAgreementContactPersonSuccess(
+            return AgreementRegistrationActions.updateAgreementRegistrationSuccess(
               {
                 client: enriched,
               }
@@ -126,11 +122,9 @@ export class AgreementContactPersonsEffects {
           }),
           catchError((error) =>
             of(
-              AgreementContactPersonActions.updateAgreementContactPersonFailure(
-                {
-                  error,
-                }
-              )
+              AgreementRegistrationActions.updateAgreementRegistrationFailure({
+                error,
+              })
             )
           )
         )
@@ -140,22 +134,20 @@ export class AgreementContactPersonsEffects {
 
   delete$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AgreementContactPersonActions.deleteAgreementContactPerson),
+      ofType(AgreementRegistrationActions.deleteAgreementRegistration),
       mergeMap(({ id, clientId }) =>
         this.service.delete(id).pipe(
           map(() =>
-            AgreementContactPersonActions.deleteAgreementContactPersonSuccess({
+            AgreementRegistrationActions.deleteAgreementRegistrationSuccess({
               id,
               clientId,
             })
           ),
           catchError((error) =>
             of(
-              AgreementContactPersonActions.deleteAgreementContactPersonFailure(
-                {
-                  error,
-                }
-              )
+              AgreementRegistrationActions.deleteAgreementRegistrationFailure({
+                error,
+              })
             )
           )
         )
@@ -166,14 +158,14 @@ export class AgreementContactPersonsEffects {
   refreshList$ = createEffect(() =>
     this.actions$.pipe(
       ofType(
-        AgreementContactPersonActions.createAgreementContactPersonSuccess,
-        AgreementContactPersonActions.updateAgreementContactPersonSuccess,
-        AgreementContactPersonActions.deleteAgreementContactPersonSuccess
+        AgreementRegistrationActions.createAgreementRegistrationSuccess,
+        AgreementRegistrationActions.updateAgreementRegistrationSuccess,
+        AgreementRegistrationActions.deleteAgreementRegistrationSuccess
       ),
 
       map((action) => {
         if ('clientId' in action) {
-          // for create/update you returned `{ client: AgreementContactPerson }`,
+          // for create/update you returned `{ client: AgreementRegistration }`,
           // so dig into that object’s clientId
           return action.clientId;
         } else {
@@ -185,7 +177,7 @@ export class AgreementContactPersonsEffects {
       // only continue if it’s a number
 
       map((clientId) =>
-        AgreementContactPersonActions.loadAgreementContactPersonsByClientId({
+        AgreementRegistrationActions.loadAgreementRegistrationsByClientId({
           clientId,
         })
       )
@@ -196,9 +188,7 @@ export class AgreementContactPersonsEffects {
    */
   loadByClientId$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(
-        AgreementContactPersonActions.loadAgreementContactPersonsByClientId
-      ),
+      ofType(AgreementRegistrationActions.loadAgreementRegistrationsByClientId),
 
       tap((action) =>
         console.log('[Effect:loadByClientId] full action →', action)
@@ -213,15 +203,13 @@ export class AgreementContactPersonsEffects {
             console.log('[Effect:loadByClientId] response →', items)
           ),
           map((items) =>
-            AgreementContactPersonActions.loadAgreementContactPersonsByClientIdSuccess(
-              {
-                items,
-              }
+            AgreementRegistrationActions.loadAgreementRegistrationsByClientIdSuccess(
+              { items }
             )
           ),
           catchError((error) =>
             of(
-              AgreementContactPersonActions.loadAgreementContactPersonsByClientIdFailure(
+              AgreementRegistrationActions.loadAgreementRegistrationsByClientIdFailure(
                 {
                   error,
                 }
@@ -235,6 +223,6 @@ export class AgreementContactPersonsEffects {
 
   constructor(
     private actions$: Actions,
-    private service: AgreementContactPersonsService
+    private service: AgreementRegistrationsService
   ) {}
 }

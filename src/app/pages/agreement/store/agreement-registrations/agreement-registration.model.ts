@@ -1,4 +1,4 @@
-export interface AgreementFile {
+export interface AgreementRegistration {
   id: number;
   details: string;
   detailsAR: string;

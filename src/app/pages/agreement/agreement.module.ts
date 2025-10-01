@@ -14,15 +14,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { TextareaModule } from 'primeng/textarea';
 import { SelectModule } from 'primeng/select';
-import { AgreementContactPersonsEffects } from './store/agreement-contact-persons/agreement-contact-persons.effects';
-import {
-  agreementContactPersonsFeature,
-  agreementContactPersonsReducer,
-} from './store/agreement-contact-persons/agreement-contact-persons.reducer';
-import { AgreementFilesEffects } from './store/agreement-files/agreement-files.effects';
-import { reducer } from './store/agreement-files/agreement-files.reducer';
 import { TabsModule } from 'primeng/tabs';
-import { agreementContactPersonsFeatureKey } from './store/agreement-contact-persons/agreement-contact-persons.state';
 import { WizardAgreementComponent } from './components/activities/wizard-agreement/wizard-agreement.component';
 import { AddAgreementFileComponent } from './components/activities/agreement-files/add-agreement-file/add-agreement-file.component';
 import { ViewAgreementFilesComponent } from './components/activities/agreement-files/view-agreement-files/view-agreement-files.component';
@@ -32,9 +24,29 @@ import { AddAgreementOfficerComponent } from './components/activities/agreement-
 import { ViewAgreementOfficersComponent } from './components/activities/agreement-officers/view-agreement-officers/view-agreement-officers.component';
 import { ViewAgreementRegistrationsComponent } from './components/activities/agreement-registrations/view-agreement-registrations/view-agreement-registrations.component';
 import { AddAgreementRegistrationComponent } from './components/activities/agreement-registrations/add-agreement-registration/add-agreement-registration.component';
+import { AgreementContactPersonsEffects } from './store/agreement-contact-persons/agreement-contact-persons.effects';
+import { agreementContactPersonsReducer } from './store/agreement-contact-persons/agreement-contact-persons.reducer';
+import { AgreementFilesEffects } from './store/agreement-files/agreement-files.effects';
+import { AgreementOfficersEffects } from './store/agreement-officers/agreement-officers.effects';
+import { agreementOfficersReducer } from './store/agreement-officers/agreement-officers.reducer';
+import { AgreementRegistrationsEffects } from './store/agreement-registrations/agreement-registrations.effects';
+import { agreementRegistrationsReducer } from './store/agreement-registrations/agreement-registrations.reducer';
+import { agreementFilesReducer } from './store/agreement-files/agreement-files.reducer';
 
 @NgModule({
-  declarations: [ViewAgreementsComponent, AddAgreementComponent, WizardAgreementComponent, AddAgreementFileComponent, ViewAgreementFilesComponent, ViewAgreementContactPersonsComponent, AddAgreementContactPersonComponent, AddAgreementOfficerComponent, ViewAgreementOfficersComponent, ViewAgreementRegistrationsComponent, AddAgreementRegistrationComponent],
+  declarations: [
+    ViewAgreementsComponent,
+    AddAgreementComponent,
+    WizardAgreementComponent,
+    AddAgreementFileComponent,
+    ViewAgreementFilesComponent,
+    ViewAgreementContactPersonsComponent,
+    AddAgreementContactPersonComponent,
+    AddAgreementOfficerComponent,
+    ViewAgreementOfficersComponent,
+    ViewAgreementRegistrationsComponent,
+    AddAgreementRegistrationComponent,
+  ],
   imports: [
     CommonModule,
     ButtonModule,
@@ -50,13 +62,20 @@ import { AddAgreementRegistrationComponent } from './components/activities/agree
       leasingAgreementsReducer
     ),
     EffectsModule.forFeature([LeasingAgreementsEffects]),
+    StoreModule.forFeature('agreementOfficers', agreementOfficersReducer),
+    EffectsModule.forFeature([AgreementOfficersEffects]),
     StoreModule.forFeature(
-      agreementContactPersonsFeatureKey,
+      'agreementContactPersons',
       agreementContactPersonsReducer
     ),
     EffectsModule.forFeature([AgreementContactPersonsEffects]),
+    StoreModule.forFeature(
+      'agreementRegistrations',
+      agreementRegistrationsReducer
+    ),
+    EffectsModule.forFeature([AgreementRegistrationsEffects]),
+    StoreModule.forFeature('agreementFiles', agreementFilesReducer),
     EffectsModule.forFeature([AgreementFilesEffects]),
-    StoreModule.forFeature('agreementFiles', reducer),
   ],
   providers: [],
 })

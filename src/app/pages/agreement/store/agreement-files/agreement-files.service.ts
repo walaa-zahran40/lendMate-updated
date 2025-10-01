@@ -1,71 +1,58 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { catchError, map, Observable, tap, throwError } from 'rxjs';
-import { environment } from '../../../../../environments/environment';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { AgreementFile } from './agreement-file.model';
+import { environment } from '../../../../../environments/environment';
+
+interface PagedResponse<T> {
+  items: T[];
+  totalCount: number;
+}
 
 @Injectable({ providedIn: 'root' })
 export class AgreementFilesService {
-  private baseUrl = `${environment.apiUrl}AgreementFiles`;
+  private api = `${environment.apiUrl}ClientsAddresses`;
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<AgreementFile[]> {
-    return this.http
-      .get<{ items: AgreementFile[]; totalCount: number }>(
-        `${this.baseUrl}/GetAllAgreementFiles`
-      )
-      .pipe(
-        map((resp) => resp.items), // ← pull off the `items` array here
-
-        catchError((err) => {
-          console.error('🚀 HTTP error fetching AgreementFiles:', err);
-          return throwError(() => err);
-        })
-      );
-  }
-  //History management
-  getAllHistory(): Observable<AgreementFile[]> {
-    return this.http
-      .get<{ items: AgreementFile[]; totalCount: number }>(
-        `${this.baseUrl}/GetAllAgreementFilesHistory`
-      )
-      .pipe(
-        map((resp) => resp.items), // ← pull off the `items` array here
-
-        catchError((err) => {
-          console.error('🚀 HTTP error fetching AgreementFiles:', err);
-          return throwError(() => err);
-        })
-      );
-  }
-
-  // agreement-files.service.ts
-  getById(
-    id: number
-  ): Observable<{ items: AgreementFile[]; totalCount: number }> {
-    return this.http.get<{ items: AgreementFile[]; totalCount: number }>(
-      `${this.baseUrl}/AgreementId?AgreementId=${id}`
+  getAll(pageNumber?: number): Observable<PagedResponse<AgreementFile>> {
+    let params = new HttpParams();
+    if (pageNumber != null) {
+      params = params.set('pageNumber', pageNumber.toString());
+    }
+    return this.http.get<PagedResponse<AgreementFile>>(
+      `${this.api}/GetAllAgreementFiles`,
+      { params }
     );
   }
 
-  getByIdEdit(id: number): Observable<AgreementFile> {
-    return this.http.get<AgreementFile>(
-      `${this.baseUrl}/AgreementFileId?id=${id}`
+  getHistory(): Observable<PagedResponse<AgreementFile>> {
+    return this.http.get<PagedResponse<AgreementFile>>(
+      `${this.api}/GetAllAgreementFilesHistory`
     );
   }
-  create(body: FormData | Partial<AgreementFile>) {
+
+  getById(id: number): Observable<AgreementFile> {
+    return this.http.get<AgreementFile>(`${this.api}/Id?id=${id}`);
+  }
+
+  create(data: Partial<AgreementFile>): Observable<AgreementFile> {
     return this.http.post<AgreementFile>(
-      `${this.baseUrl}/CreateAgreementFile`,
-      body
+      `${this.api}/CreateAgreementFile`,
+      data
     );
   }
 
-  update(id: number, body: FormData | Partial<AgreementFile>) {
-    return this.http.put<void>(`${this.baseUrl}/${id}`, body);
+  update(id: number, data: Partial<AgreementFile>): Observable<AgreementFile> {
+    return this.http.put<AgreementFile>(`${this.api}/${id}`, data);
   }
 
   delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+    return this.http.delete<void>(`${this.api}/${id}`);
+  }
+  getByClientId(clientId: number): Observable<AgreementFile[]> {
+    return this.http.get<AgreementFile[]>(
+      `${this.api}/GetByClientId/${clientId}`
+    );
   }
 }
