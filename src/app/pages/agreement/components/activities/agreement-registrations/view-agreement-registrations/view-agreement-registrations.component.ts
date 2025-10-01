@@ -35,8 +35,8 @@ export class ViewAgreementRegistrationsComponent {
 
   readonly colsInside = [
     { field: 'id', header: 'ID' },
-    { field: 'agreementId', header: 'Agreement ID' },
-    { field: 'registrationId', header: 'Registration ID' },
+    { field: 'leasingAgreementId', header: 'Leasing Agreement ID' },
+    { field: 'ecraAuthentication', header: 'Ecra Authentication' },
   ];
   showDeleteModal: boolean = false;
   selectedAgreementRegistrationId: number | null = null;

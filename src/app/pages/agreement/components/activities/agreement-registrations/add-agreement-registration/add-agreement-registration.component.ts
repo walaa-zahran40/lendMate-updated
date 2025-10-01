@@ -17,6 +17,8 @@ import { Country } from '../../../../../lookups/store/countries/country.model';
 import { Governorate } from '../../../../../lookups/store/governorates/governorate.model';
 import { loadGovernorates } from '../../../../../lookups/store/governorates/governorates.actions';
 import { selectAllGovernorates } from '../../../../../lookups/store/governorates/governorates.selectors';
+import { AgreementRegistration } from '../../../../store/agreement-registrations/agreement-registration.model';
+import { AgreementRegistrationsFacade } from '../../../../store/agreement-registrations/agreement-registrations.facade';
 
 @Component({
   selector: 'app-add-agreement-registration',
@@ -46,7 +48,7 @@ export class AddAgreementRegistrationComponent {
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private facade: ClientAddressesFacade,
+    private facade: AgreementRegistrationsFacade,
     private router: Router,
     private store: Store
   ) {}
@@ -56,6 +58,7 @@ export class AddAgreementRegistrationComponent {
     // 1️⃣ Read route parameters
     console.log(this.route.snapshot, 'route');
     this.clientId = Number(this.route.snapshot.queryParams['clientId']);
+    this.recordId = Number(this.route.snapshot.params['id']);
 
     this.mode =
       (this.route.snapshot.queryParamMap.get('mode') as
@@ -74,6 +77,7 @@ export class AddAgreementRegistrationComponent {
     //  Build the form
     this.addAgreementRegistrationsForm = this.fb.group({
       id: [null],
+      leasingAgreementId: [this.recordId],
       date: [null, [Validators.required]],
       number: [null, [Validators.required]],
       ecraAuthentication: [null, [Validators.required]],
@@ -125,7 +129,7 @@ export class AddAgreementRegistrationComponent {
   }
 
   addOrEditAgreementRegistrations() {
-    const clientParamQP = this.route.snapshot.queryParamMap.get('clientId');
+    const id = this.route.snapshot.paramMap.get('id');
 
     console.log('💥 addClientAddresses() called');
     console.log('  viewOnly:', this.viewOnly);
@@ -144,23 +148,21 @@ export class AddAgreementRegistrationComponent {
     }
 
     this.addAgreementRegistrationsForm.patchValue({
-      clientId: clientParamQP,
+      clientId: id,
     });
 
-    const { details, detailsAR, areaId, clientId, addressTypeId, isActive } =
+    const { date, number, ecraAuthentication, leasingAgreementId } =
       this.addAgreementRegistrationsForm.value;
-    const payload: Partial<ClientAddress> = {
-      details,
-      detailsAR,
-      areaId,
-      clientId,
-      addressTypeId,
-      isActive,
+    const payload: Partial<AgreementRegistration> = {
+      leasingAgreementId,
+      date,
+      number,
+      ecraAuthentication,
     };
     console.log('  → payload object:', payload);
 
     const data = this.addAgreementRegistrationsForm
-      .value as Partial<ClientAddress>;
+      .value as Partial<AgreementRegistration>;
     console.log('📦 Payload going to facade:', data);
 
     const routeId = this.route.snapshot.paramMap.get('id');
@@ -177,19 +179,16 @@ export class AddAgreementRegistrationComponent {
       this.addAgreementRegistrationsForm.markAsPristine();
     }
 
-    if (clientParamQP) {
-      console.log('➡️ Navigating back with PATH param:', clientParamQP);
+    if (id) {
+      console.log('➡️ Navigating back with PATH param:', id);
       this.router.navigate([
-        '/crm/clients/view-client-addresses',
-        clientParamQP,
+        '/agreement/activities/wizard-agreement/view-agreement-registrations',
+        id,
       ]);
-    } else if (clientParamQP) {
-      console.log(
-        '➡️ Navigating back with QUERY param fallback:',
-        clientParamQP
-      );
+    } else if (id) {
+      console.log('➡️ Navigating back with QUERY param fallback:', id);
       this.router.navigate([
-        `/crm/clients/view-client-addresses/${clientParamQP}`,
+        `/agreement/activities/wizard-agreement/view-agreement-registrations/${id}`,
       ]);
     } else {
       console.error('❌ Cannot navigate back: clientId is missing!');

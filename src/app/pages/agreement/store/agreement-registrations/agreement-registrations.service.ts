@@ -45,7 +45,7 @@ export class AgreementRegistrationsService {
     data: Partial<AgreementRegistration>
   ): Observable<AgreementRegistration> {
     return this.http.post<AgreementRegistration>(
-      `${this.api}/CreateAgreementRegistration`,
+      `${this.api}/CreateLeasingAgreementRegistration`,
       data
     );
   }
