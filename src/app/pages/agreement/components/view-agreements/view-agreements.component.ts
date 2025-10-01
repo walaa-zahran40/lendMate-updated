@@ -62,7 +62,7 @@ export class ViewAgreementsComponent {
     this.router.navigate(['/agreement/add-agreement']);
   }
   onAddSide(event: any) {
-    this.router.navigate(['/agreement/wizard-agreement', event]);
+    this.router.navigate(['/agreement/activities/wizard-agreement', event]);
   }
 
   ngOnDestroy() {
