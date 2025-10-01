@@ -109,12 +109,9 @@ export class ViewAgreementsComponent {
   }
 
   onViewAgreement(agreement: LeasingAgreement) {
-    this.router.navigate(
-      ['/agreement/agreement-contact-persons/view', agreement.id],
-      {
-        queryParams: { mode: 'view' },
-      }
-    );
+    this.router.navigate(['/agreement/edit-agreement', agreement.id], {
+      queryParams: { mode: 'view' },
+    });
   }
   selectedIds: number[] = [];
   confirmDelete() {

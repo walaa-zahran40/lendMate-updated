@@ -197,6 +197,9 @@ export class AddAgreementComponent {
     console.log('Basic', this.leasingFinancialBasicForm);
     console.log('Rate', this.leasingFinancialRateForm);
     console.log('Currency', this.leasingFinancialCurrencyForm);
+    console.log('main', this.addAgreementShowMainInformationForm);
+    console.log('assets', this.addAgreementShowAssetTypeForm);
+    console.log('fees', this.addAgreementShowFeeForm);
 
     //Create the parent form
     this.parentForm = this.fb.group({
@@ -1886,9 +1889,16 @@ export class AddAgreementComponent {
     originalEvent: Event;
     value: number;
   }) {
+    console.log('Full selectedCurrencyExchange event:', event);
+
+    // Grab the numeric ID from event.value
+    const id = event;
+    console.log('Exchange-Rate ID from event.value →', id);
+
+    // Update your reactive form control
     this.leasingFinancialCurrencyForm
       .get('currencyExchangeRateId')!
-      .setValue(event.value, { emitEvent: true });
+      .setValue(id, { emitEvent: true });
   }
 
   onInterestRateBenchmarkSelected(
