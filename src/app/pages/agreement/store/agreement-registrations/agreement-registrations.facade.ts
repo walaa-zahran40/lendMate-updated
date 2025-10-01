@@ -11,6 +11,7 @@ export class AgreementRegistrationsFacade {
   items$: Observable<AgreementRegistration[]> = this.store.select(
     Selectors.selectAgreementRegistrations
   );
+
   total$: Observable<number> = this.store.select(
     Selectors.selectAgreementRegistrationsTotal
   );
@@ -46,6 +47,12 @@ export class AgreementRegistrationsFacade {
   update(id: any, data: Partial<AgreementRegistration>) {
     this.store.dispatch(Actions.updateAgreementRegistration({ id, data }));
   }
+  loadByAgreementId(id: number) {
+    this.store.dispatch(
+      Actions.loadAgreementRegistrationsByAgreementId({ agreementId: id })
+    );
+  }
+
   /** NEW: dispatch the by-clientId loader */
   loadAgreementRegistrationsByClientId(clientId?: number) {
     if (clientId == null || isNaN(clientId)) {

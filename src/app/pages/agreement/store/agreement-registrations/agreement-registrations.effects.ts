@@ -46,7 +46,9 @@ export class AgreementRegistrationsEffects {
           catchError((error) =>
             of(
               AgreementRegistrationActions.loadAgreementRegistrationsHistoryFailure(
-                { error }
+                {
+                  error,
+                }
               )
             )
           )
@@ -60,9 +62,10 @@ export class AgreementRegistrationsEffects {
       ofType(AgreementRegistrationActions.loadAgreementRegistration),
       mergeMap(({ id }) =>
         this.service.getById(id).pipe(
-          map((client) =>
+          // returns { items, totalCount }
+          map((resp) =>
             AgreementRegistrationActions.loadAgreementRegistrationSuccess({
-              client,
+              items: resp,
             })
           ),
           catchError((error) =>
@@ -70,6 +73,36 @@ export class AgreementRegistrationsEffects {
               AgreementRegistrationActions.loadAgreementRegistrationFailure({
                 error,
               })
+            )
+          )
+        )
+      )
+    )
+  );
+
+  loadByAgreementId$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        AgreementRegistrationActions.loadAgreementRegistrationsByAgreementId
+      ),
+      mergeMap(({ agreementId }) =>
+        this.service.getById(agreementId).pipe(
+          // returns { items, totalCount }
+          map((resp: any) =>
+            AgreementRegistrationActions.loadAgreementRegistrationsByAgreementIdSuccess(
+              {
+                items: resp.items,
+                totalCount: resp.totalCount,
+              }
+            )
+          ),
+          catchError((error) =>
+            of(
+              AgreementRegistrationActions.loadAgreementRegistrationsByAgreementIdFailure(
+                {
+                  error,
+                }
+              )
             )
           )
         )
@@ -162,20 +195,21 @@ export class AgreementRegistrationsEffects {
         AgreementRegistrationActions.updateAgreementRegistrationSuccess,
         AgreementRegistrationActions.deleteAgreementRegistrationSuccess
       ),
-
       map((action) => {
-        if ('clientId' in action) {
-          // for create/update you returned `{ client: AgreementRegistration }`,
-          // so dig into that object’s clientId
-          return action.clientId;
-        } else {
-          // for delete you returned `{ id, clientId }`
-          return action.client.clientId;
+        // create/update success: { client: AgreementRegistration }
+        if ('client' in action && action.client) {
+          return action.client.clientId!;
         }
+        // delete success: { id, clientId }
+        if ('clientId' in action) {
+          return action.clientId;
+        }
+        return undefined as unknown as number;
       }),
-
-      // only continue if it’s a number
-
+      filter(
+        (clientId): clientId is number =>
+          typeof clientId === 'number' && !isNaN(clientId)
+      ),
       map((clientId) =>
         AgreementRegistrationActions.loadAgreementRegistrationsByClientId({
           clientId,
@@ -183,6 +217,7 @@ export class AgreementRegistrationsEffects {
       )
     )
   );
+
   /**
    * The “by‐clientId” loader
    */
@@ -198,13 +233,15 @@ export class AgreementRegistrationsEffects {
       ),
 
       mergeMap(({ clientId }) =>
-        this.service.getByClientId(clientId).pipe(
+        this.service.getByClientId(clientId!).pipe(
           tap((items) =>
             console.log('[Effect:loadByClientId] response →', items)
           ),
           map((items) =>
             AgreementRegistrationActions.loadAgreementRegistrationsByClientIdSuccess(
-              { items }
+              {
+                items,
+              }
             )
           ),
           catchError((error) =>

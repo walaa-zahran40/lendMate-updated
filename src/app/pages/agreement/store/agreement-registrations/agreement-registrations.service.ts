@@ -11,7 +11,7 @@ interface PagedResponse<T> {
 
 @Injectable({ providedIn: 'root' })
 export class AgreementRegistrationsService {
-  private api = `${environment.apiUrl}ClientsAddresses`;
+  private api = `${environment.apiUrl}LeasingAgreementRegistrations`;
 
   constructor(private http: HttpClient) {}
 
@@ -34,8 +34,11 @@ export class AgreementRegistrationsService {
     );
   }
 
-  getById(id: number): Observable<AgreementRegistration> {
-    return this.http.get<AgreementRegistration>(`${this.api}/Id?id=${id}`);
+  // agreement-registrations.service.ts
+  getById(agreementId: number): Observable<AgreementRegistration[]> {
+    return this.http.get<AgreementRegistration[]>(
+      `${this.api}/LeasingAgreementId?leasingAgreementId=${agreementId}`
+    );
   }
 
   create(

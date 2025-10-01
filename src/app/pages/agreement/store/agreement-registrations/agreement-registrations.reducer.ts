@@ -46,10 +46,11 @@ export const agreementRegistrationsReducer = createReducer(
     ...state,
     loading: true,
   })),
-  on(Actions.loadAgreementRegistrationSuccess, (state, { client }) => ({
+  on(Actions.loadAgreementRegistrationSuccess, (state, { items }) => ({
     ...state,
-    current: client,
+    items,
     loading: false,
+    error: null,
   })),
   on(Actions.loadAgreementRegistrationFailure, (state, { error }) => ({
     ...state,

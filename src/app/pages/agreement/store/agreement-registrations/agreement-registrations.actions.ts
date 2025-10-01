@@ -13,6 +13,22 @@ export const loadAgreementRegistrationsFailure = createAction(
   '[AgreementRegistrations] Load All Failure',
   props<{ error: any }>()
 );
+//load by id
+export const loadAgreementRegistrationsByAgreementId = createAction(
+  '[AgreementRegistrations] Load By AgreementId',
+  props<{ agreementId: number }>()
+);
+
+export const loadAgreementRegistrationsByAgreementIdSuccess = createAction(
+  '[AgreementRegistrations] Load By AgreementId Success',
+  props<{ items: AgreementRegistration[]; totalCount: number }>()
+);
+
+export const loadAgreementRegistrationsByAgreementIdFailure = createAction(
+  '[AgreementRegistrations] Load By AgreementId Failure',
+  props<{ error: any }>()
+);
+
 // Load history
 export const loadAgreementRegistrationsHistory = createAction(
   '[AgreementRegistrations] Load History'
@@ -33,8 +49,9 @@ export const loadAgreementRegistration = createAction(
 );
 export const loadAgreementRegistrationSuccess = createAction(
   '[AgreementRegistrations] Load One Success',
-  props<{ client: AgreementRegistration }>()
+  props<{ items: AgreementRegistration[]; totalCount?: number }>() // ✅ matches API
 );
+
 export const loadAgreementRegistrationFailure = createAction(
   '[AgreementRegistrations] Load One Failure',
   props<{ error: any }>()
@@ -71,7 +88,7 @@ export const updateAgreementRegistrationFailure = createAction(
 // Load by ClientId
 export const loadAgreementRegistrationsByClientId = createAction(
   '[AgreementRegistrations] Load By ClientId',
-  props<{ clientId: number }>()
+  props<{ clientId: number | undefined }>()
 );
 export const loadAgreementRegistrationsByClientIdSuccess = createAction(
   '[AgreementRegistrations] Load By ClientId Success',

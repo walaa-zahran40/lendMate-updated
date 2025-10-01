@@ -5,8 +5,9 @@ export const selectAgreementRegistrationsState =
   createFeatureSelector<AgreementRegistrationsState>('agreementRegistrations');
 export const selectAgreementRegistrations = createSelector(
   selectAgreementRegistrationsState,
-  (state) => state.items
+  (s) => s.items ?? [] // always an array
 );
+
 export const selectAgreementRegistrationsTotal = createSelector(
   selectAgreementRegistrationsState,
   (state) => state.totalCount

@@ -7,6 +7,8 @@ import {
   forkJoin,
   combineLatest,
   map,
+  startWith,
+  tap,
 } from 'rxjs';
 import { TableComponent } from '../../../../../../shared/components/table/table.component';
 import { Area } from '../../../../../lookups/store/areas/area.model';
@@ -32,48 +34,37 @@ export class ViewAgreementRegistrationsComponent {
   @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
-    { field: 'details', header: 'Details' },
-    { field: 'detailsAR', header: 'Details AR' },
-    { field: 'AreaName', header: 'Area Name' },
+    { field: 'id', header: 'ID' },
+    { field: 'agreementId', header: 'Agreement ID' },
+    { field: 'registrationId', header: 'Registration ID' },
   ];
   showDeleteModal: boolean = false;
   selectedAgreementRegistrationId: number | null = null;
   originalAgreementRegistrations: AgreementRegistration[] = [];
   filteredAgreementRegistrations: AgreementRegistration[] = [];
   agreementRegistrations$!: Observable<AgreementRegistration[]>;
-  AreasList$!: Observable<Area[]>;
-
+  routeId = this.route.snapshot.params['id'];
   constructor(
     private router: Router,
     private facade: AgreementRegistrationsFacade,
-    private areaFacade: AreasFacade,
-    private route: ActivatedRoute,
-    private store: Store
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    const raw = this.route.snapshot.paramMap.get('clientId');
-    this.clientIdParam = raw !== null ? Number(raw) : undefined;
+    // make sure it's a number
+    const agreementId = Number(this.route.snapshot.params['id']);
+    this.facade.loadOne(agreementId);
 
-    this.areaFacade.loadAll();
-    this.AreasList$ = this.store.select(selectAllAreas);
-    this.store.dispatch({ type: '[Areas] Load All' });
+    this.agreementRegistrations$ = this.facade.items$.pipe(
+      startWith([] as AgreementRegistration[]),
+      tap((arr) =>
+        console.log('[DEBUG] agreementRegistrations$ len →', arr.length)
+      )
+    );
 
-    this.facade.loadAgreementRegistrationsByClientId(this.clientIdParam);
-    this.agreementRegistrations$ = this.facade.items$;
-
-    combineLatest([this.agreementRegistrations$, this.AreasList$])
+    this.agreementRegistrations$
       .pipe(
-        map(([agreementRegistrations, AreasList]) =>
-          agreementRegistrations
-            .map((address) => ({
-              ...address,
-              AreaName:
-                AreasList.find((c) => c.id === address.areaId)?.name || '—',
-            }))
-            .filter((address) => address.isActive)
-            .sort((a, b) => b.id - a.id)
-        ),
+        map((list) => [...list].sort((a, b) => b.id - a.id)),
         takeUntil(this.destroy$)
       )
       .subscribe((enriched) => {
@@ -83,23 +74,25 @@ export class ViewAgreementRegistrationsComponent {
   }
 
   onAddAgreementRegistration() {
-    const clientIdParam = this.route.snapshot.paramMap.get('clientId');
+    const id = this.route.snapshot.paramMap.get('id');
 
-    this.router.navigate(['/crm/clients/add-client-registrations'], {
-      queryParams: { mode: 'add', clientId: clientIdParam },
-    });
+    this.router.navigate([
+      `/agreement/activities/wizard-agreement/add-agreement-registration/${id}`,
+    ]);
   }
 
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
   }
-  onDeleteAgreementRegistration(agreementRegistrationId: any): void {
+  onDeleteAgreementRegistration(
+    agreementContactAgreementRegistrationId: any
+  ): void {
     console.log(
       '[View] onDeleteAgreementRegistration() – opening modal for id=',
-      agreementRegistrationId
+      agreementContactAgreementRegistrationId
     );
-    this.selectedIds = [agreementRegistrationId];
+    this.selectedIds = [agreementContactAgreementRegistrationId];
     this.showDeleteModal = true;
   }
 
@@ -115,18 +108,24 @@ export class ViewAgreementRegistrationsComponent {
   onSearch(keyword: string) {
     const lower = keyword.toLowerCase();
     this.filteredAgreementRegistrations =
-      this.originalAgreementRegistrations.filter((agreementRegistration) =>
-        Object.values(agreementRegistration).some((val) =>
-          val?.toString().toLowerCase().includes(lower)
-        )
+      this.originalAgreementRegistrations.filter(
+        (agreementContactAgreementRegistration) =>
+          Object.values(agreementContactAgreementRegistration).some((val) =>
+            val?.toString().toLowerCase().includes(lower)
+          )
       );
   }
   onToggleFilters(value: boolean) {
     this.showFilters = value;
   }
-  onEditAgreementRegistration(agreementRegistration: AgreementRegistration) {
+  onEditAgreementRegistration(
+    agreementContactAgreementRegistration: AgreementRegistration
+  ) {
     this.router.navigate(
-      ['/crm/clients/edit-client-registrations', agreementRegistration.id],
+      [
+        '/crm/clients/edit-agreement-files',
+        agreementContactAgreementRegistration.id,
+      ],
       {
         queryParams: {
           mode: 'edit',
@@ -136,7 +135,7 @@ export class ViewAgreementRegistrationsComponent {
     );
   }
   onViewAgreementRegistration(ct: AgreementRegistration) {
-    this.router.navigate(['/crm/clients/edit-client-registrations', ct.id], {
+    this.router.navigate(['/crm/clients/edit-agreement-files', ct.id], {
       queryParams: {
         mode: 'view',
         clientId: this.clientIdParam,
