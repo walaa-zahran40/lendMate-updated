@@ -74,6 +74,10 @@ const routes: Routes = [
     path: 'activities/wizard-agreement/add-agreement-registration/:id',
     component: AddAgreementRegistrationComponent,
   },
+  {
+    path: 'activities/wizard-agreement/edit-agreement-registration/:regId',
+    component: AddAgreementRegistrationComponent,
+  },
 ];
 
 @NgModule({

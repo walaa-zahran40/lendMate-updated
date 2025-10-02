@@ -1,24 +1,9 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { Observable, Subject, forkJoin, filter, take } from 'rxjs';
-import { arabicOnlyValidator } from '../../../../../../shared/validators/arabic-only.validator';
-import { ClientAddress } from '../../../../../crm/clients/store/client-addresses/client-address.model';
-import { ClientAddressesFacade } from '../../../../../crm/clients/store/client-addresses/client-addresses.facade';
-import { AddressType } from '../../../../../lookups/store/address-types/address-type.model';
-import { selectAllAddressTypes } from '../../../../../lookups/store/address-types/address-types.selectors';
-import { Area } from '../../../../../lookups/store/areas/area.model';
-import { loadAreas } from '../../../../../lookups/store/areas/areas.actions';
-import { selectAllAreas } from '../../../../../lookups/store/areas/areas.selectors';
-import { loadCountries } from '../../../../../lookups/store/countries/countries.actions';
-import { selectAllCountries } from '../../../../../lookups/store/countries/countries.selectors';
-import { Country } from '../../../../../lookups/store/countries/country.model';
-import { Governorate } from '../../../../../lookups/store/governorates/governorate.model';
-import { loadGovernorates } from '../../../../../lookups/store/governorates/governorates.actions';
-import { selectAllGovernorates } from '../../../../../lookups/store/governorates/governorates.selectors';
+import { Subject, filter, take, tap } from 'rxjs';
 import { AgreementRegistration } from '../../../../store/agreement-registrations/agreement-registration.model';
-import { AgreementRegistrationsFacade } from '../../../../store/agreement-registrations/agreement-registrations.facade';
+import { LeasingAgreementRegistrationsFacade } from '../../../../store/agreement-registrations/agreement-registrations.facade';
 
 @Component({
   selector: 'app-add-agreement-registration',
@@ -32,25 +17,15 @@ export class AddAgreementRegistrationComponent {
   viewOnly = false;
   addAgreementRegistrationsForm!: FormGroup;
   retrivedId: any;
-  countriesList$!: Observable<Country[]>;
-  governoratesList$!: Observable<Governorate[]>;
-  areasList$!: Observable<Area[]>;
-  addressTypesList$!: Observable<AddressType[]>;
   clientId: any;
   recordId!: number;
   private destroy$ = new Subject<void>();
-  countriesList: Country[] = [];
-  governoratesList: Governorate[] = [];
-  areasList: Area[] = [];
-  filteredGovernorates: Governorate[] = [];
-  filteredAreas: Area[] = [];
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private facade: AgreementRegistrationsFacade,
-    private router: Router,
-    private store: Store
+    private facade: LeasingAgreementRegistrationsFacade,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -81,6 +56,7 @@ export class AddAgreementRegistrationComponent {
       date: [null, [Validators.required]],
       number: [null, [Validators.required]],
       ecraAuthentication: [null, [Validators.required]],
+      isActive: [true],
     });
     console.log(
       '🛠️ Form initialized with defaults:',
@@ -89,6 +65,8 @@ export class AddAgreementRegistrationComponent {
 
     // 6️⃣ If add mode, seed clientId
     if (this.mode === 'add') {
+      this.facade.loadByLeasingAgreementId(this.recordId);
+
       this.addAgreementRegistrationsForm.patchValue({
         clientId: this.clientId,
       });
@@ -98,30 +76,38 @@ export class AddAgreementRegistrationComponent {
     // 8️⃣ If editing or viewing, load & patch
     if (this.editMode || this.viewOnly) {
       console.log('edit ', this.editMode, 'route', this.route.snapshot);
-      this.recordId = Number(this.route.snapshot.paramMap.get('id'));
-      console.log('🔄 Loading existing record id=', this.recordId);
-      this.facade.loadOne(this.recordId);
+      this.recordId = Number(this.route.snapshot.paramMap.get('regId')); // <-- exact name/case
+      if (Number.isNaN(this.recordId)) {
+        console.error('❌ Missing or invalid regId in route params');
+        return;
+      }
+      this.facade.loadById(this.recordId);
 
-      this.facade.current$
+      this.facade.selected$
         .pipe(
-          filter((ct) => !!ct && ct.id === this.recordId),
-          take(1)
+          filter(
+            (ct): ct is AgreementRegistration => !!ct && ct.id === this.recordId
+          ),
+          take(1),
+          tap((ct) => console.log('✅ loaded registration:', ct))
         )
-        .subscribe((ct) => {
-          // patch form
-          this.addAgreementRegistrationsForm.patchValue({
-            id: ct?.id,
-          });
-          console.log(
-            '📝 Form after patchValue:',
-            this.addAgreementRegistrationsForm.value
-          );
-
-          if (this.viewOnly) {
-            console.log('🔐 viewOnly → disabling form');
-            this.addAgreementRegistrationsForm.disable();
+        .subscribe(
+          (ct: {
+            id: any;
+            date: any;
+            ecraAuthentication: any;
+            number: any;
+          }) => {
+            this.addAgreementRegistrationsForm.patchValue({
+              leasingAgreementId: this.route.snapshot.params['id'],
+              id: ct.id,
+              date: ct.date,
+              ecraAuthentication: ct.ecraAuthentication,
+              number: ct.number,
+            });
+            if (this.viewOnly) this.addAgreementRegistrationsForm.disable();
           }
-        });
+        );
     } else if (this.viewOnly) {
       console.log('🔐 viewOnly (no id) → disabling form');
       this.addAgreementRegistrationsForm.disable();

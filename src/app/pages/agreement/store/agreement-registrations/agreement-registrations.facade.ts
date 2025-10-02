@@ -1,79 +1,59 @@
-import { Injectable } from '@angular/core';
+// src/app/features/leasing-agreement-registrations/state/leasing-agreement-registrations.facade.ts
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import * as Actions from './agreement-registrations.actions';
-import * as Selectors from './agreement-registrations.selectors';
+import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AgreementRegistration } from './agreement-registration.model';
-import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
+import { LeasingAgreementRegistrationsActions as A } from './agreement-registrations.actions';
+import * as Sel from './agreement-registrations.selectors';
 
 @Injectable({ providedIn: 'root' })
-export class AgreementRegistrationsFacade {
-  items$: Observable<AgreementRegistration[]> = this.store.select(
-    Selectors.selectAgreementRegistrations
-  );
+export class LeasingAgreementRegistrationsFacade {
+  private store = inject(Store);
 
-  total$: Observable<number> = this.store.select(
-    Selectors.selectAgreementRegistrationsTotal
-  );
-  history$: Observable<AgreementRegistration[]> = this.store.select(
-    Selectors.selectAgreementRegistrationsHistory
-  );
-  current$: Observable<AgreementRegistration | undefined> = this.store.select(
-    Selectors.selectCurrentAgreementRegistration
-  );
+  loading$ = this.store.select(Sel.selectLoading);
+  error$ = this.store.select(Sel.selectError);
+  all$ = this.store.select(Sel.selectAllRegistrations);
+  selected$ = this.store.select(Sel.selectSelected);
 
-  loading$: Observable<boolean> = this.store.select(
-    Selectors.selectAgreementRegistrationsLoading
-  );
-  error$: Observable<any> = this.store.select(
-    Selectors.selectAgreementRegistrationsError
-  );
-  operationSuccess$ = this.store.select(selectLastOperationSuccess);
-
-  constructor(private store: Store) {}
+  byLeasingAgreementId$(
+    leasingAgreementId: number
+  ): Observable<AgreementRegistration[]> {
+    return this.store.select(
+      Sel.selectByLeasingAgreementId(leasingAgreementId)
+    );
+  }
 
   loadAll() {
-    this.store.dispatch(Actions.loadAgreementRegistrations());
+    this.store.dispatch(A.loadAll());
   }
+
   loadHistory() {
-    this.store.dispatch(Actions.loadAgreementRegistrationsHistory());
-  }
-  loadOne(id: number) {
-    this.store.dispatch(Actions.loadAgreementRegistration({ id }));
-  }
-  create(data: Partial<AgreementRegistration>) {
-    this.store.dispatch(Actions.createAgreementRegistration({ data }));
-  }
-  update(id: any, data: Partial<AgreementRegistration>) {
-    this.store.dispatch(Actions.updateAgreementRegistration({ id, data }));
-  }
-  loadByAgreementId(id: number) {
-    this.store.dispatch(
-      Actions.loadAgreementRegistrationsByAgreementId({ agreementId: id })
-    );
+    this.store.dispatch(A.loadHistory());
   }
 
-  /** NEW: dispatch the by-clientId loader */
-  loadAgreementRegistrationsByClientId(clientId?: number) {
-    if (clientId == null || isNaN(clientId)) {
-      console.error(
-        '❌ Facade.loadAgreementRegistrationsByClientId called with invalid id:',
-        clientId
-      );
-      return;
-    }
-    this.store.dispatch(
-      Actions.loadAgreementRegistrationsByClientId({ clientId })
-    );
+  loadById(id: number) {
+    this.store.dispatch(A.loadById({ id }));
   }
 
-  /** UPDATED: now expects both id & parent clientId */
-  delete(id: number, clientId: number) {
-    this.store.dispatch(Actions.deleteAgreementRegistration({ id, clientId }));
+  loadByLeasingAgreementId(leasingAgreementId: number) {
+    this.store.dispatch(A.loadByLeasingAgreementId({ leasingAgreementId }));
   }
-  loadByClientId(clientId: number) {
-    this.store.dispatch(
-      Actions.loadAgreementRegistrationsByClientId({ clientId })
-    );
+
+  create(payload: any) {
+    this.store.dispatch(A.create({ payload }));
+  }
+
+  update(id: number, changes: Partial<AgreementRegistration>) {
+    this.store.dispatch(A.update({ id, changes }));
+  }
+
+  delete(id: number) {
+    this.store.dispatch(A.delete({ id }));
+  }
+
+  // Convenience: returns one-shot selected item by id
+  selectOne$(id: number) {
+    return this.all$.pipe(map((list) => list.find((x) => x.id === id) ?? null));
   }
 }

@@ -16,7 +16,7 @@ import { AreasFacade } from '../../../../../lookups/store/areas/areas.facade';
 import { selectAllAreas } from '../../../../../lookups/store/areas/areas.selectors';
 import { Store } from '@ngrx/store';
 import { AgreementRegistration } from '../../../../store/agreement-registrations/agreement-registration.model';
-import { AgreementRegistrationsFacade } from '../../../../store/agreement-registrations/agreement-registrations.facade';
+import { LeasingAgreementRegistrationsFacade } from '../../../../store/agreement-registrations/agreement-registrations.facade';
 
 @Component({
   selector: 'app-view-agreement-registrations',
@@ -46,20 +46,18 @@ export class ViewAgreementRegistrationsComponent {
   routeId = this.route.snapshot.params['id'];
   constructor(
     private router: Router,
-    private facade: AgreementRegistrationsFacade,
+    private facade: LeasingAgreementRegistrationsFacade,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
     // make sure it's a number
     const agreementId = Number(this.route.snapshot.params['id']);
-    this.facade.loadOne(agreementId);
+    this.facade.loadByLeasingAgreementId(agreementId);
 
-    this.agreementRegistrations$ = this.facade.items$.pipe(
+    this.agreementRegistrations$ = this.facade.all$.pipe(
       startWith([] as AgreementRegistration[]),
-      tap((arr) =>
-        console.log('[DEBUG] agreementRegistrations$ len →', arr.length)
-      )
+      tap((arr) => console.log('[DEBUG] agreementRegistrations$ len →', arr))
     );
 
     this.agreementRegistrations$
@@ -123,7 +121,7 @@ export class ViewAgreementRegistrationsComponent {
   ) {
     this.router.navigate(
       [
-        '/crm/clients/edit-agreement-files',
+        '/agreement/activities/wizard-agreement/edit-agreement-registration',
         agreementContactAgreementRegistration.id,
       ],
       {
@@ -144,9 +142,7 @@ export class ViewAgreementRegistrationsComponent {
   }
   selectedIds: number[] = [];
   confirmDelete() {
-    const deleteCalls = this.selectedIds.map((id) =>
-      this.facade.delete(id, this.clientIdParam)
-    );
+    const deleteCalls = this.selectedIds.map((id) => this.facade.delete(id));
 
     forkJoin(deleteCalls).subscribe({
       next: () => {
@@ -162,7 +158,7 @@ export class ViewAgreementRegistrationsComponent {
 
   refreshCalls() {
     this.facade.loadAll();
-    this.agreementRegistrations$ = this.facade.items$;
+    this.agreementRegistrations$ = this.facade.all$;
   }
   onBulkDelete(ids: number[]) {
     this.selectedIds = ids;

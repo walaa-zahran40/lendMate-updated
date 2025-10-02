@@ -1,31 +1,22 @@
-import { Injectable } from '@angular/core';
+// src/app/features/leasing-agreement-registrations/state/leasing-agreement-registrations.effects.ts
+import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { mergeMap, map, catchError, tap, filter } from 'rxjs/operators';
-import { of } from 'rxjs';
-import * as AgreementRegistrationActions from './agreement-registrations.actions';
-import { AgreementRegistration } from './agreement-registration.model';
-import { AgreementRegistrationsService } from './agreement-registrations.service';
+import { LeasingAgreementRegistrationsService } from './agreement-registrations.service';
+import { LeasingAgreementRegistrationsActions as A } from './agreement-registrations.actions';
+import { catchError, map, mergeMap, of } from 'rxjs';
 
 @Injectable()
-export class AgreementRegistrationsEffects {
+export class LeasingAgreementRegistrationsEffects {
+  private actions$ = inject(Actions);
+  private api = inject(LeasingAgreementRegistrationsService);
+
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AgreementRegistrationActions.loadAgreementRegistrations),
+      ofType(A.loadAll),
       mergeMap(() =>
-        this.service.getAll().pipe(
-          map((resp) =>
-            AgreementRegistrationActions.loadAgreementRegistrationsSuccess({
-              items: resp.items,
-              totalCount: resp.totalCount,
-            })
-          ),
-          catchError((error) =>
-            of(
-              AgreementRegistrationActions.loadAgreementRegistrationsFailure({
-                error,
-              })
-            )
-          )
+        this.api.getAll().pipe(
+          map((items) => A.loadAllSuccess({ items })),
+          catchError((error) => of(A.loadAllFailure({ error })))
         )
       )
     )
@@ -33,77 +24,36 @@ export class AgreementRegistrationsEffects {
 
   loadHistory$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AgreementRegistrationActions.loadAgreementRegistrationsHistory),
+      ofType(A.loadHistory),
       mergeMap(() =>
-        this.service.getHistory().pipe(
-          map((resp) =>
-            AgreementRegistrationActions.loadAgreementRegistrationsHistorySuccess(
-              {
-                history: resp.items,
-              }
-            )
-          ),
-          catchError((error) =>
-            of(
-              AgreementRegistrationActions.loadAgreementRegistrationsHistoryFailure(
-                {
-                  error,
-                }
-              )
-            )
-          )
+        this.api.getAllHistory().pipe(
+          map((items) => A.loadHistorySuccess({ items })),
+          catchError((error) => of(A.loadHistoryFailure({ error })))
         )
       )
     )
   );
 
-  loadOne$ = createEffect(() =>
+  loadById$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AgreementRegistrationActions.loadAgreementRegistration),
+      ofType(A.loadById),
       mergeMap(({ id }) =>
-        this.service.getById(id).pipe(
-          // returns { items, totalCount }
-          map((resp) =>
-            AgreementRegistrationActions.loadAgreementRegistrationSuccess({
-              items: resp,
-            })
-          ),
-          catchError((error) =>
-            of(
-              AgreementRegistrationActions.loadAgreementRegistrationFailure({
-                error,
-              })
-            )
-          )
+        this.api.getById(id).pipe(
+          map((item) => A.loadByIdSuccess({ item })),
+          catchError((error) => of(A.loadByIdFailure({ error })))
         )
       )
     )
   );
 
-  loadByAgreementId$ = createEffect(() =>
+  loadByLeasingAgreementId$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(
-        AgreementRegistrationActions.loadAgreementRegistrationsByAgreementId
-      ),
-      mergeMap(({ agreementId }) =>
-        this.service.getById(agreementId).pipe(
-          // returns { items, totalCount }
-          map((resp: any) =>
-            AgreementRegistrationActions.loadAgreementRegistrationsByAgreementIdSuccess(
-              {
-                items: resp.items,
-                totalCount: resp.totalCount,
-              }
-            )
-          ),
+      ofType(A.loadByLeasingAgreementId),
+      mergeMap(({ leasingAgreementId }) =>
+        this.api.getByLeasingAgreementId(leasingAgreementId).pipe(
+          map((items) => A.loadByLeasingAgreementIdSuccess({ items })),
           catchError((error) =>
-            of(
-              AgreementRegistrationActions.loadAgreementRegistrationsByAgreementIdFailure(
-                {
-                  error,
-                }
-              )
-            )
+            of(A.loadByLeasingAgreementIdFailure({ error }))
           )
         )
       )
@@ -112,21 +62,11 @@ export class AgreementRegistrationsEffects {
 
   create$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AgreementRegistrationActions.createAgreementRegistration),
-      mergeMap(({ data }) =>
-        this.service.create(data).pipe(
-          map((client) =>
-            AgreementRegistrationActions.createAgreementRegistrationSuccess({
-              client,
-            })
-          ),
-          catchError((error) =>
-            of(
-              AgreementRegistrationActions.createAgreementRegistrationFailure({
-                error,
-              })
-            )
-          )
+      ofType(A.create),
+      mergeMap(({ payload }) =>
+        this.api.create(payload).pipe(
+          map((item) => A.createSuccess({ item })),
+          catchError((error) => of(A.createFailure({ error })))
         )
       )
     )
@@ -134,32 +74,11 @@ export class AgreementRegistrationsEffects {
 
   update$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AgreementRegistrationActions.updateAgreementRegistration),
-      tap(({ id, data }) =>
-        console.log('[Effect:update] called with id=', id, 'data=', data)
-      ),
-      mergeMap(({ id, data }) =>
-        this.service.update(id, data).pipe(
-          map((serverReturned) => {
-            // force-inject clientId if missing
-            const enriched: AgreementRegistration = {
-              ...serverReturned,
-              clientId: data.clientId!,
-            };
-            console.log('[Effect:update] enriched client →', enriched);
-            return AgreementRegistrationActions.updateAgreementRegistrationSuccess(
-              {
-                client: enriched,
-              }
-            );
-          }),
-          catchError((error) =>
-            of(
-              AgreementRegistrationActions.updateAgreementRegistrationFailure({
-                error,
-              })
-            )
-          )
+      ofType(A.update),
+      mergeMap(({ id, changes }) =>
+        this.api.update(id, changes).pipe(
+          map((item) => A.updateSuccess({ item })),
+          catchError((error) => of(A.updateFailure({ error })))
         )
       )
     )
@@ -167,99 +86,13 @@ export class AgreementRegistrationsEffects {
 
   delete$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AgreementRegistrationActions.deleteAgreementRegistration),
-      mergeMap(({ id, clientId }) =>
-        this.service.delete(id).pipe(
-          map(() =>
-            AgreementRegistrationActions.deleteAgreementRegistrationSuccess({
-              id,
-              clientId,
-            })
-          ),
-          catchError((error) =>
-            of(
-              AgreementRegistrationActions.deleteAgreementRegistrationFailure({
-                error,
-              })
-            )
-          )
+      ofType(A.delete),
+      mergeMap(({ id }) =>
+        this.api.delete(id).pipe(
+          map(() => A.deleteSuccess({ id })),
+          catchError((error) => of(A.deleteFailure({ error })))
         )
       )
     )
   );
-
-  refreshList$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(
-        AgreementRegistrationActions.createAgreementRegistrationSuccess,
-        AgreementRegistrationActions.updateAgreementRegistrationSuccess,
-        AgreementRegistrationActions.deleteAgreementRegistrationSuccess
-      ),
-      map((action) => {
-        // create/update success: { client: AgreementRegistration }
-        if ('client' in action && action.client) {
-          return action.client.clientId!;
-        }
-        // delete success: { id, clientId }
-        if ('clientId' in action) {
-          return action.clientId;
-        }
-        return undefined as unknown as number;
-      }),
-      filter(
-        (clientId): clientId is number =>
-          typeof clientId === 'number' && !isNaN(clientId)
-      ),
-      map((clientId) =>
-        AgreementRegistrationActions.loadAgreementRegistrationsByClientId({
-          clientId,
-        })
-      )
-    )
-  );
-
-  /**
-   * The “by‐clientId” loader
-   */
-  loadByClientId$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AgreementRegistrationActions.loadAgreementRegistrationsByClientId),
-
-      tap((action) =>
-        console.log('[Effect:loadByClientId] full action →', action)
-      ),
-      tap(({ clientId }) =>
-        console.log('[Effect:loadByClientId] clientId →', clientId)
-      ),
-
-      mergeMap(({ clientId }) =>
-        this.service.getByClientId(clientId!).pipe(
-          tap((items) =>
-            console.log('[Effect:loadByClientId] response →', items)
-          ),
-          map((items) =>
-            AgreementRegistrationActions.loadAgreementRegistrationsByClientIdSuccess(
-              {
-                items,
-              }
-            )
-          ),
-          catchError((error) =>
-            of(
-              AgreementRegistrationActions.loadAgreementRegistrationsByClientIdFailure(
-                {
-                  error,
-                }
-              )
-            )
-          )
-        )
-      )
-    )
-  );
-
-  constructor(
-    private actions$: Actions,
-    private service: AgreementRegistrationsService
-  ) {}
 }

@@ -54,6 +54,26 @@
       >
         Ecra Authentication is required
       </small>
+      <br />
+      <div class="p-field" for="isActive" *ngIf="editMode">
+        <p-toggleSwitch
+          id="isActive"
+          formControlName="isActive"
+        ></p-toggleSwitch
+        >&nbsp;
+        <label for="isActive">
+          {{ "ASSET_CATEGORY.IS_ACTIVE" | translate }}</label
+        >
+      </div>
+      <small
+        *ngIf="
+          formGroup.get('ecraAuthentication')?.invalid &&
+          formGroup.get('ecraAuthentication')?.touched
+        "
+        class="p-error"
+      >
+        Ecra Authentication is required
+      </small>
       <div class="row justify-end">
         <div
           class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"

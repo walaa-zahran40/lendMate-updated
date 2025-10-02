@@ -1,68 +1,71 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AgreementRegistration } from './agreement-registration.model';
-import { environment } from '../../../../../environments/environment';
-
-interface PagedResponse<T> {
-  items: T[];
-  totalCount: number;
-}
+import {
+  AgreementRegistration,
+  LeasingAgreementRegistrationHistory,
+} from './agreement-registration.model';
 
 @Injectable({ providedIn: 'root' })
-export class AgreementRegistrationsService {
-  private api = `${environment.apiUrl}LeasingAgreementRegistrations`;
+export class LeasingAgreementRegistrationsService {
+  private readonly baseUrl =
+    'https://lendmate.corplease.com.eg:7070/api/LeasingAgreementRegistrations';
 
   constructor(private http: HttpClient) {}
 
-  getAll(
-    pageNumber?: number
-  ): Observable<PagedResponse<AgreementRegistration>> {
-    let params = new HttpParams();
-    if (pageNumber != null) {
-      params = params.set('pageNumber', pageNumber.toString());
-    }
-    return this.http.get<PagedResponse<AgreementRegistration>>(
-      `${this.api}/GetAllAgreementRegistrations`,
+  getAll(): Observable<AgreementRegistration[]> {
+    return this.http.get<AgreementRegistration[]>(
+      `${this.baseUrl}/GetAllLeasingAgreementRegistrations`
+    );
+  }
+
+  getAllHistory(): Observable<LeasingAgreementRegistrationHistory[]> {
+    return this.http.get<LeasingAgreementRegistrationHistory[]>(
+      `${this.baseUrl}/GetAllLeasingAgreementRegistrationsHistory`
+    );
+  }
+
+  getById(id: number): Observable<AgreementRegistration> {
+    const params = new HttpParams().set('id', id);
+    return this.http.get<AgreementRegistration>(
+      `${this.baseUrl}/LeasingAgreementRegistrationId`,
       { params }
     );
   }
 
-  getHistory(): Observable<PagedResponse<AgreementRegistration>> {
-    return this.http.get<PagedResponse<AgreementRegistration>>(
-      `${this.api}/GetAllAgreementRegistrationsHistory`
+  getByLeasingAgreementId(
+    leasingAgreementId: number
+  ): Observable<AgreementRegistration[]> {
+    const params = new HttpParams().set(
+      'leasingAgreementId',
+      leasingAgreementId
     );
-  }
-
-  // agreement-registrations.service.ts
-  getById(agreementId: number): Observable<AgreementRegistration[]> {
     return this.http.get<AgreementRegistration[]>(
-      `${this.api}/LeasingAgreementId?leasingAgreementId=${agreementId}`
+      `${this.baseUrl}/LeasingAgreementId`,
+      { params }
     );
   }
 
   create(
-    data: Partial<AgreementRegistration>
+    payload: Omit<AgreementRegistration, 'id'>
   ): Observable<AgreementRegistration> {
     return this.http.post<AgreementRegistration>(
-      `${this.api}/CreateLeasingAgreementRegistration`,
-      data
+      `${this.baseUrl}/CreateLeasingAgreementRegistration`,
+      payload
     );
   }
 
   update(
     id: number,
-    data: Partial<AgreementRegistration>
+    payload: Partial<AgreementRegistration>
   ): Observable<AgreementRegistration> {
-    return this.http.put<AgreementRegistration>(`${this.api}/${id}`, data);
+    return this.http.put<AgreementRegistration>(
+      `${this.baseUrl}/${id}`,
+      payload
+    );
   }
 
   delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.api}/${id}`);
-  }
-  getByClientId(clientId: number): Observable<AgreementRegistration[]> {
-    return this.http.get<AgreementRegistration[]>(
-      `${this.api}/GetByClientId/${clientId}`
-    );
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 }

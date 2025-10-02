@@ -29,8 +29,11 @@ import { agreementContactPersonsReducer } from './store/agreement-contact-person
 import { AgreementFilesEffects } from './store/agreement-files/agreement-files.effects';
 import { AgreementOfficersEffects } from './store/agreement-officers/agreement-officers.effects';
 import { agreementOfficersReducer } from './store/agreement-officers/agreement-officers.reducer';
-import { AgreementRegistrationsEffects } from './store/agreement-registrations/agreement-registrations.effects';
-import { agreementRegistrationsReducer } from './store/agreement-registrations/agreement-registrations.reducer';
+import { LeasingAgreementRegistrationsEffects } from './store/agreement-registrations/agreement-registrations.effects';
+import {
+  FEATURE_KEY,
+  reducer,
+} from './store/agreement-registrations/agreement-registrations.reducer';
 import { agreementFilesReducer } from './store/agreement-files/agreement-files.reducer';
 
 @NgModule({
@@ -69,11 +72,8 @@ import { agreementFilesReducer } from './store/agreement-files/agreement-files.r
       agreementContactPersonsReducer
     ),
     EffectsModule.forFeature([AgreementContactPersonsEffects]),
-    StoreModule.forFeature(
-      'agreementRegistrations',
-      agreementRegistrationsReducer
-    ),
-    EffectsModule.forFeature([AgreementRegistrationsEffects]),
+    StoreModule.forFeature(FEATURE_KEY, reducer),
+    EffectsModule.forFeature([LeasingAgreementRegistrationsEffects]),
     StoreModule.forFeature('agreementFiles', agreementFilesReducer),
     EffectsModule.forFeature([AgreementFilesEffects]),
   ],

@@ -104,7 +104,7 @@ export class AddAgreementFileComponent {
   }
 
   addOrEditAgreementFiles() {
-    const clientParamQP = this.route.snapshot.queryParamMap.get('clientId');
+    const clientParamQP = this.route.snapshot.queryParamMap.get('id');
 
     console.log('💥 addClientAddresses() called');
     console.log('  viewOnly:', this.viewOnly);
