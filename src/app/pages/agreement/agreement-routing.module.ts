@@ -47,6 +47,14 @@ const routes: Routes = [
     path: 'activities/wizard-agreement/add-agreement-file/:id',
     component: AddAgreementFileComponent,
   },
+  {
+    path: 'activities/wizard-agreement/add-agreement-file/:id',
+    component: AddAgreementFileComponent,
+  },
+  {
+    path: 'activities/wizard-agreement/edit-agreement-file/:leasingAgreementId/:regId',
+    component: AddAgreementFileComponent,
+  },
   //Agreement Contact Persons
   {
     path: 'activities/wizard-agreement/view-agreement-contact-persons/:id',

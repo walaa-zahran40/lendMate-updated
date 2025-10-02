@@ -1,69 +1,59 @@
-// app/core/agreement-files/facade/agreement-files.facade.ts
+// src/app/features/leasing-agreement-files/state/leasing-agreement-files.facade.ts
 import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AgreementFilesActions } from './agreement-files.actions';
-import { AgreementFilesSelectors } from './agreement-files.selectors';
+import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AgreementFile } from './agreement-file.model';
+import { LeasingAgreementFilesActions as A } from './agreement-files.actions';
+import * as Sel from './agreement-files.selectors';
 
 @Injectable({ providedIn: 'root' })
-export class AgreementFilesFacade {
-  private readonly store = inject(Store);
+export class LeasingAgreementFilesFacade {
+  private store = inject(Store);
 
-  // Exposed selectors
-  all$: Observable<AgreementFile[]> = this.store.select(
-    AgreementFilesSelectors.selectAll
-  );
-  loading$ = this.store.select(AgreementFilesSelectors.loading);
-  loaded$ = this.store.select(AgreementFilesSelectors.loaded);
-  error$ = this.store.select(AgreementFilesSelectors.error);
-  totalCount$ = this.store.select(AgreementFilesSelectors.totalCount);
-  currentAgreementId$ = this.store.select(
-    AgreementFilesSelectors.currentAgreementId
-  );
-  creating$ = this.store.select(AgreementFilesSelectors.creating);
-  updating$ = this.store.select(AgreementFilesSelectors.updating);
+  loading$ = this.store.select(Sel.selectLoading);
+  error$ = this.store.select(Sel.selectError);
+  all$ = this.store.select(Sel.selectAllFiles);
+  selected$ = this.store.select(Sel.selectSelected);
 
-  byId$(id: number) {
-    return this.store.select(AgreementFilesSelectors.selectById(id));
-  }
-  deleting$(id: number) {
-    return this.store.select(AgreementFilesSelectors.selectDeleting(id));
+  byLeasingAgreementId$(
+    leasingAgreementId: number
+  ): Observable<AgreementFile[]> {
+    return this.store.select(
+      Sel.selectByLeasingAgreementId(leasingAgreementId)
+    );
   }
 
-  // Commands
-  loadPage(pageNumber?: number) {
-    this.store.dispatch(AgreementFilesActions.loadPage({ pageNumber }));
+  loadAll() {
+    this.store.dispatch(A.loadAll());
   }
-  loadByAgreement(agreementId: number) {
-    this.store.dispatch(AgreementFilesActions.loadByAgreement({ agreementId }));
+
+  loadHistory() {
+    this.store.dispatch(A.loadHistory());
   }
-  loadOne(agreementFileId: number) {
-    this.store.dispatch(AgreementFilesActions.loadOne({ agreementFileId }));
+
+  loadById(id: number) {
+    this.store.dispatch(A.loadById({ id }));
   }
-  create(params: {
-    agreementId: number;
-    documentTypeId: number;
-    expiryDate: string;
-    file: File;
-  }) {
-    this.store.dispatch(AgreementFilesActions.create(params));
+
+  loadByLeasingAgreementId(leasingAgreementId: number) {
+    this.store.dispatch(A.loadByLeasingAgreementId({ leasingAgreementId }));
   }
-  update(params: {
-    id: number;
-    payload: {
-      id: number;
-      agreementId: number;
-      fileId: number;
-      expiryDate: string;
-    };
-  }) {
-    this.store.dispatch(AgreementFilesActions.update(params));
+
+  create(payload: any) {
+    this.store.dispatch(A.create({ payload }));
   }
+
+  update(id: number, changes: any) {
+    this.store.dispatch(A.update({ id, changes }));
+  }
+
   delete(id: number) {
-    this.store.dispatch(AgreementFilesActions.delete({ id }));
+    this.store.dispatch(A.delete({ id }));
   }
-  clearError() {
-    this.store.dispatch(AgreementFilesActions.clearError());
+
+  // Convenience: returns one-shot selected item by id
+  selectOne$(id: number) {
+    return this.all$.pipe(map((list) => list.find((x) => x.id === id) ?? null));
   }
 }

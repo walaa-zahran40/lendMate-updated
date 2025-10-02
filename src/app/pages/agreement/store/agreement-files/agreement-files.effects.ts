@@ -1,77 +1,95 @@
-// app/core/agreement-files/data-access/agreement-files.effects.ts
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+// src/app/features/leasing-agreement-files/state/leasing-agreement-files.effects.ts
 import { inject, Injectable } from '@angular/core';
-import { AgreementFilesActions } from './agreement-files.actions';
-import { AgreementFilesService } from './agreement-files.service';
-import { catchError, map, of, switchMap } from 'rxjs';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { LeasingAgreementFilesService } from './agreement-files.service';
+import { LeasingAgreementFilesActions as A } from './agreement-files.actions';
+import { catchError, map, mergeMap, of } from 'rxjs';
+import { AgreementFile } from './agreement-file.model';
 
 @Injectable()
-export class AgreementFilesEffects {
-  private readonly actions$ = inject(Actions);
-  private readonly api = inject(AgreementFilesService);
+export class LeasingAgreementFilesEffects {
+  private actions$ = inject(Actions);
+  private api = inject(LeasingAgreementFilesService);
+  toArray = <T>(res: any): T[] => {
+    if (Array.isArray(res)) return res;
+    if (Array.isArray(res?.items)) return res.items;
+    if (Array.isArray(res?.data)) return res.data;
+    return res ? [res as T] : [];
+  };
 
-  loadPage$ = createEffect(() =>
+  loadAll$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AgreementFilesActions.loadPage),
-      switchMap(({ pageNumber }) =>
-        this.api.getAll(pageNumber).pipe(
-          map((response) =>
-            AgreementFilesActions.loadPageSuccess({ response })
+      ofType(A.loadAll),
+      mergeMap(() =>
+        this.api.getAll().pipe(
+          map((res) =>
+            A.loadAllSuccess({ items: this.toArray<AgreementFile>(res) })
           ),
-          catchError((err) =>
-            of(AgreementFilesActions.loadPageFailure({ error: this.msg(err) }))
-          )
+          catchError((error) => of(A.loadAllFailure({ error })))
         )
       )
     )
   );
 
-  loadByAgreement$ = createEffect(() =>
+  loadHistory$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AgreementFilesActions.loadByAgreement),
-      switchMap(({ agreementId }) =>
-        this.api.getByAgreementId(agreementId).pipe(
-          map((response) =>
-            AgreementFilesActions.loadByAgreementSuccess({
-              response,
-              agreementId,
+      ofType(A.loadHistory),
+      mergeMap(() =>
+        this.api.getAllHistory().pipe(
+          map((res) =>
+            A.loadHistorySuccess({ items: this.toArray<AgreementFile>(res) })
+          ),
+          catchError((error) => of(A.loadHistoryFailure({ error })))
+        )
+      )
+    )
+  );
+
+  loadById$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(A.loadById),
+      mergeMap(({ id }) =>
+        this.api.getById(id).pipe(
+          map((item) => A.loadByIdSuccess({ item })),
+          catchError((error) => of(A.loadByIdFailure({ error })))
+        )
+      )
+    )
+  );
+
+  loadByLeasingAgreementId$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(A.loadByLeasingAgreementId),
+      mergeMap(({ leasingAgreementId }) =>
+        this.api.getByLeasingAgreementId(leasingAgreementId).pipe(
+          map((res) =>
+            A.loadByLeasingAgreementIdSuccess({
+              items: this.toArray<AgreementFile>(res),
             })
           ),
-          catchError((err) =>
-            of(
-              AgreementFilesActions.loadByAgreementFailure({
-                error: this.msg(err),
-              })
-            )
+          catchError((error) =>
+            of(A.loadByLeasingAgreementIdFailure({ error }))
           )
         )
       )
     )
   );
 
-  loadOne$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AgreementFilesActions.loadOne),
-      switchMap(({ agreementFileId }) =>
-        this.api.getByAgreementFileId(agreementFileId).pipe(
-          map((entity) => AgreementFilesActions.loadOneSuccess({ entity })),
-          catchError((err) =>
-            of(AgreementFilesActions.loadOneFailure({ error: this.msg(err) }))
-          )
-        )
-      )
-    )
-  );
-
+  // leasing-agreement-files.effects.ts
   create$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AgreementFilesActions.create),
-      switchMap(({ agreementId, documentTypeId, expiryDate, file }) =>
-        this.api.create({ agreementId, documentTypeId, expiryDate, file }).pipe(
-          map((entity) => AgreementFilesActions.createSuccess({ entity })),
-          catchError((err) =>
-            of(AgreementFilesActions.createFailure({ error: this.msg(err) }))
-          )
+      ofType(A.create),
+      mergeMap(({ payload }) =>
+        this.api.create(payload).pipe(
+          map((item) => {
+            const normalized: AgreementFile = {
+              ...item,
+              leasingAgreementId:
+                (item as any).leasingAgreementId ?? (item as any).agreementId,
+            };
+            return A.createSuccess({ item: normalized });
+          }),
+          catchError((error) => of(A.createFailure({ error })))
         )
       )
     )
@@ -79,13 +97,20 @@ export class AgreementFilesEffects {
 
   update$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AgreementFilesActions.update),
-      switchMap(({ id, payload }) =>
-        this.api.update(id, payload).pipe(
-          map((entity) => AgreementFilesActions.updateSuccess({ entity })),
-          catchError((err) =>
-            of(AgreementFilesActions.updateFailure({ error: this.msg(err) }))
-          )
+      ofType(A.update),
+      mergeMap(({ id, changes }) =>
+        this.api.update(id, changes).pipe(
+          // If API returns the updated entity:
+          mergeMap((item) => {
+            if (!item || item.id == null) {
+              // Safety fallback: refetch exact row if backend didn’t return entity
+              return this.api
+                .getById(id)
+                .pipe(map((fresh) => A.updateSuccess({ item: fresh })));
+            }
+            return of(A.updateSuccess({ item }));
+          }),
+          catchError((error) => of(A.updateFailure({ error })))
         )
       )
     )
@@ -93,21 +118,13 @@ export class AgreementFilesEffects {
 
   delete$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AgreementFilesActions.delete),
-      switchMap(({ id }) =>
+      ofType(A.delete),
+      mergeMap(({ id }) =>
         this.api.delete(id).pipe(
-          map(() => AgreementFilesActions.deleteSuccess({ id })),
-          catchError((err) =>
-            of(AgreementFilesActions.deleteFailure({ error: this.msg(err) }))
-          )
+          map(() => A.deleteSuccess({ id })),
+          catchError((error) => of(A.deleteFailure({ error })))
         )
       )
     )
   );
-
-  private msg(err: unknown): string {
-    if (typeof err === 'string') return err;
-    const anyErr = err as any;
-    return anyErr?.error?.message ?? anyErr?.message ?? 'Unexpected error';
-  }
 }

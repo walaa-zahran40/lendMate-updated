@@ -1,44 +1,34 @@
-// app/core/agreement-files/data-access/agreement-files.selectors.ts
-import { createSelector } from '@ngrx/store';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 import {
-  selectAgreementFilesState,
+  FEATURE_KEY,
+  State,
   selectAll,
   selectEntities,
-  selectIds,
-  selectTotal,
-  selectLoaded,
-  selectLoading,
-  selectError,
-  selectTotalCount,
-  selectCurrentAgreementId,
-  selectCurrentPage,
-  selectCreating,
-  selectUpdating,
-  selectDeletingIds,
 } from './agreement-files.reducer';
 
-export const AgreementFilesSelectors = {
-  // entity
-  selectAll,
-  selectEntities,
-  selectIds,
-  selectCountInStore: selectTotal,
+export const selectFeature = createFeatureSelector<State>(FEATURE_KEY);
 
-  // ui
-  loaded: selectLoaded,
-  loading: selectLoading,
-  error: selectError,
-  totalCount: selectTotalCount,
-  currentAgreementId: selectCurrentAgreementId,
-  currentPage: selectCurrentPage,
-  creating: selectCreating,
-  updating: selectUpdating,
-  deletingIds: selectDeletingIds,
+export const selectAllFiles = createSelector(selectFeature, selectAll);
+export const selectEntitiesMap = createSelector(selectFeature, selectEntities);
 
-  // derived
-  selectById: (id: number) =>
-    createSelector(selectEntities, (entities) => entities[id] ?? null),
+export const selectLoading = createSelector(selectFeature, (s) => s.loading);
+export const selectError = createSelector(selectFeature, (s) => s.error);
+export const selectSelectedId = createSelector(
+  selectFeature,
+  (s) => s.selectedId
+);
 
-  selectDeleting: (id: number) =>
-    createSelector(selectDeletingIds, (ids) => ids.includes(id)),
-};
+export const selectSelected = createSelector(
+  selectEntitiesMap,
+  selectSelectedId,
+  (entities, id) => (id ? entities[id] ?? null : null)
+);
+
+export const selectByLeasingAgreementId = (leasingAgreementId: number) =>
+  createSelector(selectAllFiles, (items) =>
+    items.filter(
+      (i) =>
+        i.leasingAgreementId === leasingAgreementId ||
+        (i as any).agreementId === leasingAgreementId
+    )
+  );

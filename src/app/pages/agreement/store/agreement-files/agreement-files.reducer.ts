@@ -1,236 +1,123 @@
-// agreement-files.reducer.ts
-import { createEntityAdapter, EntityState } from '@ngrx/entity';
-import { createFeature, createReducer, on, createSelector } from '@ngrx/store';
-import { AgreementFilesActions } from './agreement-files.actions';
+// src/app/features/leasing-agreement-files/state/leasing-agreement-files.reducer.ts
+import { createReducer, on } from '@ngrx/store';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { AgreementFile } from './agreement-file.model';
+import { LeasingAgreementFilesActions as A } from './agreement-files.actions';
 
-export const AGREEMENT_FILES_FEATURE_KEY = 'agreementFiles';
+export const FEATURE_KEY = 'leasingAgreementFiles';
 
-export interface AgreementFilesState extends EntityState<AgreementFile> {
-  // 🔧 remove all "?" optionals
-  loaded: boolean;
+export interface State extends EntityState<AgreementFile> {
   loading: boolean;
-  error: string | null;
-  totalCount: number;
-  currentPage: number;
-  currentAgreementId: number | null;
-  creating: boolean;
-  updating: boolean;
-  deletingIds: number[];
+  error?: unknown;
+  // Optional: keep last loaded details & filters
+  selectedId?: number | null;
+  // If you want to retain history separately (not required)
+  historyLoaded: boolean;
 }
 
-export const agreementFilesAdapter = createEntityAdapter<AgreementFile>({
-  selectId: (e) => e.id,
-  sortComparer: (a, b) => b.id - a.id,
+export const adapter: EntityAdapter<AgreementFile> =
+  createEntityAdapter<AgreementFile>({
+    selectId: (r) => r.id,
+    sortComparer: (a, b) => (a.id ?? 0) - (b.id ?? 0),
+  });
+
+export const initialState: State = adapter.getInitialState({
+  loading: false,
+  error: undefined,
+  selectedId: null,
+  historyLoaded: false,
 });
 
-const initialState: AgreementFilesState = agreementFilesAdapter.getInitialState(
-  {
-    loaded: false,
-    loading: false,
-    error: null,
-    totalCount: 0,
-    currentPage: 1,
-    currentAgreementId: null,
-    creating: false,
-    updating: false,
-    deletingIds: [],
-  }
-);
-
-const reducer = createReducer(
+export const reducer = createReducer(
   initialState,
-  on(AgreementFilesActions.clearError, (state) => ({ ...state, error: null })),
-  on(AgreementFilesActions.loadPage, (state, { pageNumber }) => ({
-    ...state,
-    loading: true,
-    error: null,
-    currentPage: pageNumber ?? 1,
-    currentAgreementId: null,
-  })),
-  on(AgreementFilesActions.loadPageSuccess, (state, { response }) => {
-    const next = agreementFilesAdapter.setAll(response.items, state);
-    return {
-      ...next,
-      loaded: true,
-      loading: false,
-      totalCount: response.totalCount,
-    };
-  }),
-  on(AgreementFilesActions.loadPageFailure, (state, { error }) => ({
-    ...state,
-    loading: false,
-    error,
-  })),
 
-  on(AgreementFilesActions.loadByAgreement, (state, { agreementId }) => ({
-    ...state,
-    loading: true,
-    error: null,
-    currentAgreementId: agreementId,
-  })),
-  on(
-    AgreementFilesActions.loadByAgreementSuccess,
-    (state, { response, agreementId }) => {
-      const next = agreementFilesAdapter.setAll(response.items, state);
-      return {
-        ...next,
-        loaded: true,
-        loading: false,
-        totalCount: response.totalCount,
-        currentAgreementId: agreementId,
-      };
-    }
+  // Load All
+  on(A.loadAll, (state) => ({ ...state, loading: true, error: undefined })),
+  on(A.loadAllSuccess, (state, { items }) =>
+    adapter.setAll(items, { ...state, loading: false })
   ),
-  on(AgreementFilesActions.loadByAgreementFailure, (state, { error }) => ({
+  on(A.loadAllFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
 
-  on(AgreementFilesActions.loadOne, (state) => ({
+  // History (we’ll just merge them in; you can also keep separate slice if needed)
+  on(A.loadHistory, (state) => ({ ...state, loading: true, error: undefined })),
+  on(A.loadHistorySuccess, (state, { items }) =>
+    adapter.upsertMany(items, { ...state, loading: false, historyLoaded: true })
+  ),
+  on(A.loadHistoryFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
+  })),
+
+  // Load by Id
+  on(A.loadById, (state, { id }) => ({
     ...state,
     loading: true,
-    error: null,
+    error: undefined,
+    selectedId: id,
   })),
-  on(AgreementFilesActions.loadOneSuccess, (state, { entity }) => {
-    const next = agreementFilesAdapter.upsertOne(entity, state);
-    return { ...next, loading: false, loaded: true };
-  }),
-  on(AgreementFilesActions.loadOneFailure, (state, { error }) => ({
+  on(A.loadByIdSuccess, (state, { item }) =>
+    adapter.upsertOne(item, { ...state, loading: false })
+  ),
+  on(A.loadByIdFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
 
-  on(AgreementFilesActions.create, (state) => ({
+  // Load by LeasingAgreementId (replace or upsert based on preference)
+  on(A.loadByLeasingAgreementId, (state) => ({
     ...state,
-    creating: true,
-    error: null,
+    loading: true,
+    error: undefined,
   })),
-  on(AgreementFilesActions.createSuccess, (state, { entity }) => {
-    const next = agreementFilesAdapter.addOne(entity, state);
-    return { ...next, creating: false, totalCount: state.totalCount + 1 };
-  }),
-  on(AgreementFilesActions.createFailure, (state, { error }) => ({
+  on(A.loadByLeasingAgreementIdSuccess, (state, { items }) =>
+    adapter.upsertMany(items, { ...state, loading: false })
+  ),
+  on(A.loadByLeasingAgreementIdFailure, (state, { error }) => ({
     ...state,
-    creating: false,
+    loading: false,
     error,
   })),
 
-  on(AgreementFilesActions.update, (state) => ({
+  // Create
+  on(A.create, (state) => ({ ...state, loading: true, error: undefined })),
+  on(A.createSuccess, (state, { item }) =>
+    adapter.addOne(item, { ...state, loading: false })
+  ),
+  on(A.createFailure, (state, { error }) => ({
     ...state,
-    updating: true,
-    error: null,
-  })),
-  on(AgreementFilesActions.updateSuccess, (state, { entity }) => {
-    const next = agreementFilesAdapter.upsertOne(entity, state);
-    return { ...next, updating: false };
-  }),
-  on(AgreementFilesActions.updateFailure, (state, { error }) => ({
-    ...state,
-    updating: false,
+    loading: false,
     error,
   })),
 
-  on(AgreementFilesActions.delete, (state, { id }) => ({
+  // Update
+  on(A.update, (state) => ({ ...state, loading: true, error: undefined })),
+  on(A.updateSuccess, (state, { item }) =>
+    adapter.upsertOne(item, { ...state, loading: false })
+  ),
+  on(A.updateFailure, (state, { error }) => ({
     ...state,
-    deletingIds: [...state.deletingIds, id],
-    error: null,
-  })),
-  on(AgreementFilesActions.deleteSuccess, (state, { id }) => {
-    const next = agreementFilesAdapter.removeOne(id, state);
-    return {
-      ...next,
-      deletingIds: next.deletingIds.filter((x) => x !== id),
-      totalCount: Math.max(0, state.totalCount - 1),
-    };
-  }),
-  on(AgreementFilesActions.deleteFailure, (state, { error }) => ({
-    ...state,
+    loading: false,
     error,
-    deletingIds: state.deletingIds.filter((x) => !!x),
+  })),
+
+  // Delete
+  on(A.delete, (state) => ({ ...state, loading: true, error: undefined })),
+  on(A.deleteSuccess, (state, { id }) =>
+    adapter.removeOne(id, { ...state, loading: false })
+  ),
+  on(A.deleteFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
   }))
 );
 
-// ✅ extraSelectors must return memoized selectors
-export const agreementFilesFeature = createFeature({
-  name: AGREEMENT_FILES_FEATURE_KEY,
-  reducer,
-  extraSelectors: ({ selectAgreementFilesState }) => {
-    const { selectAll, selectEntities, selectIds, selectTotal } =
-      agreementFilesAdapter.getSelectors(selectAgreementFilesState);
-
-    const selectLoaded = createSelector(
-      selectAgreementFilesState,
-      (s) => s.loaded
-    );
-    const selectLoading = createSelector(
-      selectAgreementFilesState,
-      (s) => s.loading
-    );
-    const selectError = createSelector(
-      selectAgreementFilesState,
-      (s) => s.error
-    );
-    const selectTotalCount = createSelector(
-      selectAgreementFilesState,
-      (s) => s.totalCount
-    );
-    const selectCurrentAgreementId = createSelector(
-      selectAgreementFilesState,
-      (s) => s.currentAgreementId
-    );
-    const selectCurrentPage = createSelector(
-      selectAgreementFilesState,
-      (s) => s.currentPage
-    );
-    const selectCreating = createSelector(
-      selectAgreementFilesState,
-      (s) => s.creating
-    );
-    const selectUpdating = createSelector(
-      selectAgreementFilesState,
-      (s) => s.updating
-    );
-    const selectDeletingIds = createSelector(
-      selectAgreementFilesState,
-      (s) => s.deletingIds
-    );
-
-    return {
-      selectAll,
-      selectEntities,
-      selectIds,
-      selectTotal,
-      selectLoaded,
-      selectLoading,
-      selectError,
-      selectTotalCount,
-      selectCurrentAgreementId,
-      selectCurrentPage,
-      selectCreating,
-      selectUpdating,
-      selectDeletingIds,
-    };
-  },
-});
-
-export const {
-  name: agreementFilesFeatureKey,
-  reducer: agreementFilesReducer,
-  selectAgreementFilesState,
-  selectAll,
-  selectEntities,
-  selectIds,
-  selectTotal,
-  selectLoaded,
-  selectLoading,
-  selectError,
-  selectTotalCount,
-  selectCurrentAgreementId,
-  selectCurrentPage,
-  selectCreating,
-  selectUpdating,
-  selectDeletingIds,
-} = agreementFilesFeature;
+// Adapter selectors base (used in selectors.ts)
+export const { selectAll, selectEntities, selectIds, selectTotal } =
+  adapter.getSelectors();

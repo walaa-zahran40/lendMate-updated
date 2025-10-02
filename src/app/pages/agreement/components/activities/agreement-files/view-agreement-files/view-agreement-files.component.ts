@@ -10,7 +10,7 @@ import {
 } from 'rxjs';
 import { TableComponent } from '../../../../../../shared/components/table/table.component';
 import { AgreementFile } from '../../../../store/agreement-files/agreement-file.model';
-import { AgreementFilesFacade } from '../../../../store/agreement-files/agreement-files.facade';
+import { LeasingAgreementFilesFacade } from '../../../../store/agreement-files/agreement-files.facade';
 
 @Component({
   selector: 'app-view-agreement-files',
@@ -39,25 +39,23 @@ export class ViewAgreementFilesComponent {
   routeId = this.route.snapshot.params['id'];
   constructor(
     private router: Router,
-    private facade: AgreementFilesFacade,
+    private facade: LeasingAgreementFilesFacade,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    this.facade.loadByAgreement(this.routeId);
-    this.agreementFiles$ = this.facade.all$;
+    const agreementId = Number(this.route.snapshot.params['id']);
+    this.facade.loadByLeasingAgreementId(agreementId);
+
+    this.agreementFiles$ = this.facade.byLeasingAgreementId$(agreementId);
 
     this.agreementFiles$
-      .pipe(
-        map((agreementFiles) => [...agreementFiles].sort((a, b) => b.id - a.id))
-      )
+      .pipe(map((files) => [...files].sort((a, b) => b.id - a.id)))
       .subscribe((enriched) => {
-        console.log('[DEBUG] Final enriched files for table:', enriched);
         this.originalAgreementFiles = enriched;
         this.filteredAgreementFiles = [...enriched];
       });
   }
-
   onAddAgreementFile() {
     const id = this.route.snapshot.paramMap.get('id');
 
@@ -100,25 +98,55 @@ export class ViewAgreementFilesComponent {
   onToggleFilters(value: boolean) {
     this.showFilters = value;
   }
+  // view-agreement-files.component.ts
   onEditAgreementFile(agreementFile: AgreementFile) {
+    const leasingId = Number(
+      agreementFile.leasingAgreementId ?? agreementFile.agreementId
+    );
+    const fileId = Number(agreementFile.id);
+
+    if (!Number.isFinite(leasingId) || !Number.isFinite(fileId)) {
+      console.warn('[Edit] missing ids', { leasingId, fileId, agreementFile });
+      return;
+    }
+
     this.router.navigate(
-      ['/crm/clients/edit-agreement-files', agreementFile.id],
-      {
-        queryParams: {
-          mode: 'edit',
-          clientId: this.clientIdParam,
-        },
-      }
+      [
+        '/agreement',
+        'activities',
+        'wizard-agreement',
+        'edit-agreement-file',
+        leasingId,
+        fileId,
+      ],
+      { queryParams: { mode: 'edit', clientId: this.clientIdParam } }
     );
   }
-  onViewAgreementFile(ct: AgreementFile) {
-    this.router.navigate(['/crm/clients/edit-agreement-files', ct.id], {
-      queryParams: {
-        mode: 'view',
-        clientId: this.clientIdParam,
-      },
-    });
+
+  onViewAgreementFile(agreementFile: AgreementFile) {
+    const leasingId = Number(
+      agreementFile.leasingAgreementId ?? agreementFile.agreementId
+    );
+    const fileId = Number(agreementFile.id);
+
+    if (!Number.isFinite(leasingId) || !Number.isFinite(fileId)) {
+      console.warn('[View] missing ids', { leasingId, fileId, agreementFile });
+      return;
+    }
+
+    this.router.navigate(
+      [
+        '/agreement',
+        'activities',
+        'wizard-agreement',
+        'edit-agreement-file',
+        leasingId,
+        fileId,
+      ],
+      { queryParams: { mode: 'view', clientId: this.clientIdParam } }
+    );
   }
+
   selectedIds: number[] = [];
   confirmDelete() {
     const deleteCalls = this.selectedIds.map((id) => this.facade.delete(id));
@@ -136,7 +164,7 @@ export class ViewAgreementFilesComponent {
   }
 
   refreshCalls() {
-    this.facade.loadPage();
+    this.facade.loadAll();
     this.agreementFiles$ = this.facade.all$;
   }
   onBulkDelete(ids: number[]) {
