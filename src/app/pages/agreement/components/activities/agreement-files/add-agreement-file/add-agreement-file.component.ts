@@ -262,7 +262,6 @@ export class AddAgreementFileComponent implements OnInit {
     const agreementId = Number(
       this.route.snapshot.params['leasingAgreementId'] ?? this.agreementId ?? 0
     );
-
     // Temporarily enable docType to read value if disabled
     const docTypeCtrl = this.addAgreementFilesForm.get('documentTypeId');
     const wasDocTypeDisabled = !!docTypeCtrl?.disabled;
