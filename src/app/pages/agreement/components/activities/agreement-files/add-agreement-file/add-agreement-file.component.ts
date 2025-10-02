@@ -69,7 +69,7 @@ export class AddAgreementFileComponent implements OnInit {
         | 'view') ?? 'add';
 
     // If there is an explicit :documentId param, prefer it in edit/view paths
-    const documentIdParam = this.route.snapshot.paramMap.get('documentId');
+    const documentIdParam = this.route.snapshot.paramMap.get('regId');
     const docIdCandidate = documentIdParam
       ? Number(documentIdParam)
       : routeIdParam;
@@ -260,7 +260,7 @@ export class AddAgreementFileComponent implements OnInit {
     if (this.viewMode) return;
 
     const agreementId = Number(
-      this.route.snapshot.params['id'] ?? this.agreementId ?? 0
+      this.route.snapshot.params['leasingAgreementId'] ?? this.agreementId ?? 0
     );
 
     // Temporarily enable docType to read value if disabled

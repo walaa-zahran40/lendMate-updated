@@ -27,10 +27,9 @@ export class LeasingAgreementFilesService {
 
   getById(id: number): Observable<AgreementFile> {
     const params = new HttpParams().set('id', id);
-    return this.http.get<AgreementFile>(
-      `${this.baseUrl}/LeasingAgreementFileId`,
-      { params }
-    );
+    return this.http.get<AgreementFile>(`${this.baseUrl}/AgreementFileId`, {
+      params,
+    });
   }
 
   getByLeasingAgreementId(
