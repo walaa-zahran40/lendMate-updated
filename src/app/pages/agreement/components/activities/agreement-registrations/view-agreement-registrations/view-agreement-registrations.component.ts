@@ -35,6 +35,7 @@ export class ViewAgreementRegistrationsComponent {
 
   readonly colsInside = [
     { field: 'date', header: 'Date' },
+    { field: 'number', header: 'Number' },
     { field: 'ecraAuthentication', header: 'Ecra Authentication' },
     { field: 'isActive', header: 'is Active' },
   ];
@@ -122,6 +123,7 @@ export class ViewAgreementRegistrationsComponent {
     this.router.navigate(
       [
         '/agreement/activities/wizard-agreement/edit-agreement-registration',
+        agreementContactAgreementRegistration.leasingAgreementId,
         agreementContactAgreementRegistration.id,
       ],
       {
@@ -133,12 +135,19 @@ export class ViewAgreementRegistrationsComponent {
     );
   }
   onViewAgreementRegistration(ct: AgreementRegistration) {
-    this.router.navigate(['/crm/clients/edit-agreement-files', ct.id], {
-      queryParams: {
-        mode: 'view',
-        clientId: this.clientIdParam,
-      },
-    });
+    this.router.navigate(
+      [
+        '/agreement/activities/wizard-agreement/edit-agreement-registration',
+        ct.leasingAgreementId,
+        ct.id,
+      ],
+      {
+        queryParams: {
+          mode: 'view',
+          clientId: this.clientIdParam,
+        },
+      }
+    );
   }
   selectedIds: number[] = [];
   confirmDelete() {

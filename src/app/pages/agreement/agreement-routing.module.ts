@@ -75,7 +75,7 @@ const routes: Routes = [
     component: AddAgreementRegistrationComponent,
   },
   {
-    path: 'activities/wizard-agreement/edit-agreement-registration/:regId',
+    path: 'activities/wizard-agreement/edit-agreement-registration/:leasingAgreementId/:regId',
     component: AddAgreementRegistrationComponent,
   },
 ];

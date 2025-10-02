@@ -36,6 +36,10 @@
       font-size: var(--custom-font-size-13);
       line-height: var(--custom-font-size-24);
     }
+    .disabled .p-date-picker {
+      background: grey;
+    }
+
     .p-tabs {
       padding: var(--custom-padding-right-10);
       zoom: 80%;

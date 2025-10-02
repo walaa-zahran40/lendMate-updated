@@ -602,7 +602,8 @@ export class AddAgreementRegistrationFormComponent
   mandateStatusIdParam!: any;
   legalFormLaws$: Observable<LegalFormLaw[]> = this.facade.legalFormLaws$;
   legalForms$ = this.facadeLegalForms.items$;
-
+  idReg: any;
+  leasingAgreementIdReg: any;
   // legalForms$ = this.facadeLegalForms.legalForms$;
   @Input() identityIndividual: {
     name: string;
@@ -638,6 +639,7 @@ export class AddAgreementRegistrationFormComponent
   ) {}
 
   ngOnInit() {
+    console.log('dddd', this.route.snapshot);
     this.minDateOfBirth.setFullYear(this.minDateOfBirth.getFullYear() - 100);
     // 18 years ago:
     this.maxDateOfBirth.setFullYear(this.maxDateOfBirth.getFullYear() - 18);
@@ -658,6 +660,9 @@ export class AddAgreementRegistrationFormComponent
     this.mandateStatusIdParam = this.route.snapshot.params['id'];
     this.mandateStatusActionIdParam =
       this.route.snapshot.queryParams['mandateStatusActionId'];
+    this.idReg = this.route.snapshot.params['id'];
+    this.leasingAgreementIdReg =
+      this.route.snapshot.params['leasingAgreementId'];
     this.sub = this.formGroup?.valueChanges
       .pipe(debounceTime(300))
       .subscribe(() => {

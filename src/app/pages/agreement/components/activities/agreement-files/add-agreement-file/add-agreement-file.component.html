@@ -25,7 +25,7 @@
         [editMode]="editMode"
         (submitForm)="addOrEditAgreementFiles()"
         [viewOnly]="viewOnly"
-        [docTypes]="docTypes$ | async"
+        [docTypes]="documentTypes$ | async"
       ></app-add-agreement-file-form>
     </p-tabpanel>
   </p-tabpanels>

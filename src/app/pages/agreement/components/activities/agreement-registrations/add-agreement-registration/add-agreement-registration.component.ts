@@ -93,13 +93,14 @@ export class AddAgreementRegistrationComponent {
         )
         .subscribe(
           (ct: {
+            leasingAgreementId: any;
             id: any;
             date: any;
             ecraAuthentication: any;
             number: any;
           }) => {
             this.addAgreementRegistrationsForm.patchValue({
-              leasingAgreementId: this.route.snapshot.params['id'],
+              leasingAgreementId: ct?.leasingAgreementId,
               id: ct.id,
               date: ct.date,
               ecraAuthentication: ct.ecraAuthentication,
@@ -116,7 +117,7 @@ export class AddAgreementRegistrationComponent {
 
   addOrEditAgreementRegistrations() {
     const id = this.route.snapshot.paramMap.get('id');
-
+    console.log('thisss', this.route.snapshot);
     console.log('💥 addClientAddresses() called');
     console.log('  viewOnly:', this.viewOnly);
     console.log('  editMode:', this.editMode);
@@ -133,17 +134,14 @@ export class AddAgreementRegistrationComponent {
       return;
     }
 
-    this.addAgreementRegistrationsForm.patchValue({
-      clientId: id,
-    });
-
-    const { date, number, ecraAuthentication, leasingAgreementId } =
+    const { date, number, ecraAuthentication, leasingAgreementId, isActive } =
       this.addAgreementRegistrationsForm.value;
     const payload: Partial<AgreementRegistration> = {
       leasingAgreementId,
       date,
       number,
       ecraAuthentication,
+      isActive,
     };
     console.log('  → payload object:', payload);
 
@@ -151,33 +149,31 @@ export class AddAgreementRegistrationComponent {
       .value as Partial<AgreementRegistration>;
     console.log('📦 Payload going to facade:', data);
 
-    const routeId = this.route.snapshot.paramMap.get('id');
+    const routeId = this.route.snapshot.paramMap.get('regId');
     console.log('  route.snapshot.paramMap.get(retrivedId):', routeId);
 
     if (this.mode === 'add') {
       console.log('➕ Dispatching CREATE');
       this.facade.create(payload);
+      const leasingAgreementId$ = +this.route.snapshot.params['id'];
+      if (leasingAgreementId$) {
+        this.router.navigate([
+          `/agreement/activities/wizard-agreement/view-agreement-registrations/${leasingAgreementId$}`,
+        ]);
+      }
     } else {
       console.log('✏️ Dispatching UPDATE id=', data.id);
       this.facade.update(data.id!, data);
+      const leasingAgreementId$ =
+        +this.route.snapshot.params['leasingAgreementId'];
+      if (leasingAgreementId$) {
+        this.router.navigate([
+          `/agreement/activities/wizard-agreement/view-agreement-registrations/${leasingAgreementId$}`,
+        ]);
+      }
     }
     if (this.addAgreementRegistrationsForm.valid) {
       this.addAgreementRegistrationsForm.markAsPristine();
-    }
-
-    if (id) {
-      console.log('➡️ Navigating back with PATH param:', id);
-      this.router.navigate([
-        '/agreement/activities/wizard-agreement/view-agreement-registrations',
-        id,
-      ]);
-    } else if (id) {
-      console.log('➡️ Navigating back with QUERY param fallback:', id);
-      this.router.navigate([
-        `/agreement/activities/wizard-agreement/view-agreement-registrations/${id}`,
-      ]);
-    } else {
-      console.error('❌ Cannot navigate back: clientId is missing!');
     }
   }
 

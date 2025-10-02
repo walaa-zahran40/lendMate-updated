@@ -44,8 +44,8 @@ export class ViewAgreementFilesComponent {
   ) {}
 
   ngOnInit() {
-    this.facade.loadOne(this.routeId);
-    this.agreementFiles$ = this.facade.items$;
+    this.facade.loadByAgreement(this.routeId);
+    this.agreementFiles$ = this.facade.all$;
 
     this.agreementFiles$
       .pipe(
@@ -121,9 +121,7 @@ export class ViewAgreementFilesComponent {
   }
   selectedIds: number[] = [];
   confirmDelete() {
-    const deleteCalls = this.selectedIds.map((id) =>
-      this.facade.delete(id, this.clientIdParam)
-    );
+    const deleteCalls = this.selectedIds.map((id) => this.facade.delete(id));
 
     forkJoin(deleteCalls).subscribe({
       next: () => {
@@ -138,8 +136,8 @@ export class ViewAgreementFilesComponent {
   }
 
   refreshCalls() {
-    this.facade.loadAll();
-    this.agreementFiles$ = this.facade.items$;
+    this.facade.loadPage();
+    this.agreementFiles$ = this.facade.all$;
   }
   onBulkDelete(ids: number[]) {
     this.selectedIds = ids;

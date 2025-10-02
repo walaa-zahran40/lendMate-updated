@@ -1,62 +1,89 @@
-import { Injectable } from '@angular/core';
+// app/core/agreement-files/services/agreement-files.service.ts
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { AgreementFile } from './agreement-file.model';
+import { Injectable } from '@angular/core';
+import {
+  AgreementFile,
+  PagedAgreementFilesResponse,
+} from './agreement-file.model';
 import { environment } from '../../../../../environments/environment';
-
-interface PagedResponse<T> {
-  items: T[];
-  totalCount: number;
-}
 
 @Injectable({ providedIn: 'root' })
 export class AgreementFilesService {
-  private api = `${environment.apiUrl}AgreementFiles`;
+  private readonly baseUrl = `${environment.apiUrl}AgreementFiles`;
 
   constructor(private http: HttpClient) {}
 
-  getAll(pageNumber?: number): Observable<PagedResponse<AgreementFile>> {
+  getAll(pageNumber?: number) {
     let params = new HttpParams();
-    if (pageNumber != null) {
-      params = params.set('pageNumber', pageNumber.toString());
-    }
-    return this.http.get<PagedResponse<AgreementFile>>(
-      `${this.api}/GetAllAgreementFiles`,
+    if (pageNumber != null) params = params.set('pageNumber', pageNumber);
+    return this.http.get<PagedAgreementFilesResponse>(
+      `${this.baseUrl}/GetAllAgreementFiles`,
       { params }
     );
   }
 
-  getHistory(): Observable<PagedResponse<AgreementFile>> {
-    return this.http.get<PagedResponse<AgreementFile>>(
-      `${this.api}/GetAllAgreementFilesHistory`
+  // If you’ll use it:
+  getAllHistory(pageNumber?: number) {
+    let params = new HttpParams();
+    if (pageNumber != null) params = params.set('pageNumber', pageNumber);
+    return this.http.get<PagedAgreementFilesResponse>(
+      `${this.baseUrl}/GetAllAgreementFilesHistory`,
+      { params }
     );
   }
 
-  getById(
-    agreementId: number
-  ): Observable<{ items: AgreementFile[]; totalCount: number }> {
-    return this.http.get<{ items: AgreementFile[]; totalCount: number }>(
-      `${this.api}/AgreementId?AgreementId=${agreementId}`
+  getByAgreementId(agreementId: number) {
+    const params = new HttpParams().set('AgreementId', agreementId);
+    return this.http.get<PagedAgreementFilesResponse>(
+      `${this.baseUrl}/AgreementId`,
+      { params }
     );
   }
 
-  create(data: Partial<AgreementFile>): Observable<AgreementFile> {
+  getByAgreementFileId(agreementFileId: number) {
+    const params = new HttpParams().set('AgreementFileId', agreementFileId);
+    return this.http.get<AgreementFile>(`${this.baseUrl}/AgreementFileId`, {
+      params,
+    });
+  }
+
+  create(args: {
+    agreementId: number;
+    documentTypeId: number;
+    expiryDate: string;
+    file: File;
+  }) {
+    console.log('agre', args);
+    const params = new HttpParams()
+      .set('AgreementId', args.agreementId)
+      .set('DocumentTypeId', args.documentTypeId)
+      .set('ExpiryDate', args.expiryDate);
+
+    const form = new FormData();
+    form.append('File', args.file);
+
     return this.http.post<AgreementFile>(
-      `${this.api}/CreateAgreementFile`,
-      data
+      `${this.baseUrl}/CreateAgreementFile`,
+      form,
+      {
+        params,
+      }
     );
   }
 
-  update(id: number, data: Partial<AgreementFile>): Observable<AgreementFile> {
-    return this.http.put<AgreementFile>(`${this.api}/${id}`, data);
+  update(
+    id: number,
+    payload: {
+      id: number;
+      agreementId: number;
+      fileId: number;
+      expiryDate: string;
+    }
+  ) {
+    return this.http.put<AgreementFile>(`${this.baseUrl}/${id}`, payload);
   }
 
-  delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.api}/${id}`);
-  }
-  getByClientId(clientId: number): Observable<AgreementFile[]> {
-    return this.http.get<AgreementFile[]>(
-      `${this.api}/GetByClientId/${clientId}`
-    );
+  delete(id: number) {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 }

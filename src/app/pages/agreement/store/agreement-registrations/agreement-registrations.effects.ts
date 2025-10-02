@@ -77,7 +77,16 @@ export class LeasingAgreementRegistrationsEffects {
       ofType(A.update),
       mergeMap(({ id, changes }) =>
         this.api.update(id, changes).pipe(
-          map((item) => A.updateSuccess({ item })),
+          // If API returns the updated entity:
+          mergeMap((item) => {
+            if (!item || item.id == null) {
+              // Safety fallback: refetch exact row if backend didn’t return entity
+              return this.api
+                .getById(id)
+                .pipe(map((fresh) => A.updateSuccess({ item: fresh })));
+            }
+            return of(A.updateSuccess({ item }));
+          }),
           catchError((error) => of(A.updateFailure({ error })))
         )
       )

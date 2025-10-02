@@ -1,115 +1,53 @@
-import { createAction, props } from '@ngrx/store';
-import { AgreementFile } from './agreement-file.model';
+// app/core/agreement-files/data-access/agreement-files.actions.ts
+import { createActionGroup, emptyProps, props } from '@ngrx/store';
+import {
+  AgreementFile,
+  PagedAgreementFilesResponse,
+} from './agreement-file.model';
 
-// Load all
-export const loadAgreementFiles = createAction('[AgreementFiles] Load All');
-export const loadAgreementFilesSuccess = createAction(
-  '[AgreementFiles] Load All Success',
-  props<{ items: AgreementFile[]; totalCount: number }>()
-);
-export const loadAgreementFilesFailure = createAction(
-  '[AgreementFiles] Load All Failure',
-  props<{ error: any }>()
-);
-//load by id
-export const loadAgreementFilesByAgreementId = createAction(
-  '[AgreementFiles] Load By AgreementId',
-  props<{ agreementId: number }>()
-);
+export const AgreementFilesActions = createActionGroup({
+  source: 'AgreementFiles',
+  events: {
+    'Load Page': props<{ pageNumber?: number }>(),
+    'Load Page Success': props<{ response: PagedAgreementFilesResponse }>(),
+    'Load Page Failure': props<{ error: string }>(),
 
-export const loadAgreementFilesByAgreementIdSuccess = createAction(
-  '[AgreementFiles] Load By AgreementId Success',
-  props<{ items: AgreementFile[]; totalCount: number }>()
-);
+    'Load By Agreement': props<{ agreementId: number }>(),
+    'Load By Agreement Success': props<{
+      response: PagedAgreementFilesResponse;
+      agreementId: number;
+    }>(),
+    'Load By Agreement Failure': props<{ error: string }>(),
 
-export const loadAgreementFilesByAgreementIdFailure = createAction(
-  '[AgreementFiles] Load By AgreementId Failure',
-  props<{ error: any }>()
-);
+    'Load One': props<{ agreementFileId: number }>(),
+    'Load One Success': props<{ entity: AgreementFile }>(),
+    'Load One Failure': props<{ error: string }>(),
 
-// Load history
-export const loadAgreementFilesHistory = createAction(
-  '[AgreementFiles] Load History'
-);
-export const loadAgreementFilesHistorySuccess = createAction(
-  '[AgreementFiles] Load History Success',
-  props<{ history: AgreementFile[] }>()
-);
-export const loadAgreementFilesHistoryFailure = createAction(
-  '[AgreementFiles] Load History Failure',
-  props<{ error: any }>()
-);
+    Create: props<{
+      agreementId: number;
+      documentTypeId: number;
+      expiryDate: string;
+      file: File;
+    }>(),
+    'Create Success': props<{ entity: AgreementFile }>(),
+    'Create Failure': props<{ error: string }>(),
 
-// Load by ID
-export const loadAgreementFile = createAction(
-  '[AgreementFiles] Load One',
-  props<{ id: number }>()
-);
-export const loadAgreementFileSuccess = createAction(
-  '[AgreementFiles] Load One Success',
-  props<{ items: AgreementFile[]; totalCount: number }>() // ✅ matches API
-);
+    Update: props<{
+      id: number;
+      payload: {
+        id: number;
+        agreementId: number;
+        fileId: number;
+        expiryDate: string;
+      };
+    }>(),
+    'Update Success': props<{ entity: AgreementFile }>(),
+    'Update Failure': props<{ error: string }>(),
 
-export const loadAgreementFileFailure = createAction(
-  '[AgreementFiles] Load One Failure',
-  props<{ error: any }>()
-);
+    Delete: props<{ id: number }>(),
+    'Delete Success': props<{ id: number }>(),
+    'Delete Failure': props<{ error: string }>(),
 
-// Create
-export const createAgreementFile = createAction(
-  '[AgreementFiles] Create',
-  props<{ data: Partial<AgreementFile> }>()
-);
-export const createAgreementFileSuccess = createAction(
-  '[AgreementFiles] Create Success',
-  props<{ client: AgreementFile }>()
-);
-export const createAgreementFileFailure = createAction(
-  '[AgreementFiles] Create Failure',
-  props<{ error: any }>()
-);
-
-// Update
-export const updateAgreementFile = createAction(
-  '[AgreementFiles] Update',
-  props<{ id: number; data: Partial<AgreementFile> }>()
-);
-export const updateAgreementFileSuccess = createAction(
-  '[AgreementFiles] Update Success',
-  props<{ client: AgreementFile }>()
-);
-export const updateAgreementFileFailure = createAction(
-  '[AgreementFiles] Update Failure',
-  props<{ error: any }>()
-);
-
-// Load by ClientId
-export const loadAgreementFilesByClientId = createAction(
-  '[AgreementFiles] Load By ClientId',
-  props<{ clientId: number | undefined }>()
-);
-export const loadAgreementFilesByClientIdSuccess = createAction(
-  '[AgreementFiles] Load By ClientId Success',
-  props<{ items: any }>()
-);
-export const loadAgreementFilesByClientIdFailure = createAction(
-  '[AgreementFiles] Load By ClientId Failure',
-  props<{ error: any }>()
-);
-//Delete
-export const deleteAgreementFile = createAction(
-  '[AgreementFiles] Delete',
-  props<{ id: number; clientId: number }>()
-);
-export const deleteAgreementFileSuccess = createAction(
-  '[AgreementFiles] Delete Success',
-  props<{ id: number; clientId: number }>()
-);
-export const deleteAgreementFileFailure = createAction(
-  '[AgreementFiles] Delete Failure',
-  props<{ error: any }>()
-);
-export const entityOperationSuccess = createAction(
-  '[Entity] Operation Success',
-  props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
-);
+    'Clear Error': emptyProps(),
+  },
+});

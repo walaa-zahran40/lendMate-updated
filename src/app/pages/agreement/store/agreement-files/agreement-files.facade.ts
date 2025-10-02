@@ -1,74 +1,69 @@
-import { Injectable } from '@angular/core';
+// app/core/agreement-files/facade/agreement-files.facade.ts
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import * as Actions from './agreement-files.actions';
-import * as Selectors from './agreement-files.selectors';
+import { AgreementFilesActions } from './agreement-files.actions';
+import { AgreementFilesSelectors } from './agreement-files.selectors';
 import { Observable } from 'rxjs';
 import { AgreementFile } from './agreement-file.model';
-import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class AgreementFilesFacade {
-  items$: Observable<AgreementFile[]> = this.store.select(
-    Selectors.selectAgreementFiles
-  );
-  total$: Observable<number> = this.store.select(
-    Selectors.selectAgreementFilesTotal
-  );
-  history$: Observable<AgreementFile[]> = this.store.select(
-    Selectors.selectAgreementFilesHistory
-  );
-  current$: Observable<AgreementFile | undefined> = this.store.select(
-    Selectors.selectCurrentAgreementFile
-  );
+  private readonly store = inject(Store);
 
-  loading$: Observable<boolean> = this.store.select(
-    Selectors.selectAgreementFilesLoading
+  // Exposed selectors
+  all$: Observable<AgreementFile[]> = this.store.select(
+    AgreementFilesSelectors.selectAll
   );
-  error$: Observable<any> = this.store.select(
-    Selectors.selectAgreementFilesError
+  loading$ = this.store.select(AgreementFilesSelectors.loading);
+  loaded$ = this.store.select(AgreementFilesSelectors.loaded);
+  error$ = this.store.select(AgreementFilesSelectors.error);
+  totalCount$ = this.store.select(AgreementFilesSelectors.totalCount);
+  currentAgreementId$ = this.store.select(
+    AgreementFilesSelectors.currentAgreementId
   );
-  operationSuccess$ = this.store.select(selectLastOperationSuccess);
+  creating$ = this.store.select(AgreementFilesSelectors.creating);
+  updating$ = this.store.select(AgreementFilesSelectors.updating);
 
-  constructor(private store: Store) {}
-
-  loadAll() {
-    this.store.dispatch(Actions.loadAgreementFiles());
+  byId$(id: number) {
+    return this.store.select(AgreementFilesSelectors.selectById(id));
   }
-  loadHistory() {
-    this.store.dispatch(Actions.loadAgreementFilesHistory());
-  }
-  loadOne(id: number) {
-    this.store.dispatch(Actions.loadAgreementFile({ id }));
-  }
-  create(data: Partial<AgreementFile>) {
-    this.store.dispatch(Actions.createAgreementFile({ data }));
-  }
-  update(id: any, data: Partial<AgreementFile>) {
-    this.store.dispatch(Actions.updateAgreementFile({ id, data }));
-  }
-  loadByAgreementId(id: number) {
-    this.store.dispatch(
-      Actions.loadAgreementFilesByAgreementId({ agreementId: id })
-    );
+  deleting$(id: number) {
+    return this.store.select(AgreementFilesSelectors.selectDeleting(id));
   }
 
-  /** NEW: dispatch the by-clientId loader */
-  loadAgreementFilesByClientId(clientId?: number) {
-    if (clientId == null || isNaN(clientId)) {
-      console.error(
-        '❌ Facade.loadAgreementFilesByClientId called with invalid id:',
-        clientId
-      );
-      return;
-    }
-    this.store.dispatch(Actions.loadAgreementFilesByClientId({ clientId }));
+  // Commands
+  loadPage(pageNumber?: number) {
+    this.store.dispatch(AgreementFilesActions.loadPage({ pageNumber }));
   }
-
-  /** UPDATED: now expects both id & parent clientId */
-  delete(id: number, clientId: number) {
-    this.store.dispatch(Actions.deleteAgreementFile({ id, clientId }));
+  loadByAgreement(agreementId: number) {
+    this.store.dispatch(AgreementFilesActions.loadByAgreement({ agreementId }));
   }
-  loadByClientId(clientId: number) {
-    this.store.dispatch(Actions.loadAgreementFilesByClientId({ clientId }));
+  loadOne(agreementFileId: number) {
+    this.store.dispatch(AgreementFilesActions.loadOne({ agreementFileId }));
+  }
+  create(params: {
+    agreementId: number;
+    documentTypeId: number;
+    expiryDate: string;
+    file: File;
+  }) {
+    this.store.dispatch(AgreementFilesActions.create(params));
+  }
+  update(params: {
+    id: number;
+    payload: {
+      id: number;
+      agreementId: number;
+      fileId: number;
+      expiryDate: string;
+    };
+  }) {
+    this.store.dispatch(AgreementFilesActions.update(params));
+  }
+  delete(id: number) {
+    this.store.dispatch(AgreementFilesActions.delete({ id }));
+  }
+  clearError() {
+    this.store.dispatch(AgreementFilesActions.clearError());
   }
 }

@@ -60,6 +60,9 @@
       width: max-content;
       color: #0a69bb;
     }
+    .disabled .p-date-picker {
+      background: grey;
+    }
     .upload-delete .p-button {
       background: transparent !important;
     }

@@ -723,6 +723,9 @@ form {
     .p-multiselect {
       position: relative;
     }
+    .disabled .p-date-picker {
+      background: grey;
+    }
     .p-select-overlay {
       left: revert-layer !important;
     }

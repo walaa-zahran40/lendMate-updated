@@ -1,48 +1,48 @@
-import { Injectable } from '@angular/core';
+// app/core/agreement-files/data-access/agreement-files.effects.ts
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { mergeMap, map, catchError, tap, filter } from 'rxjs/operators';
-import { of } from 'rxjs';
-import * as AgreementFileActions from './agreement-files.actions';
-import { AgreementFile } from './agreement-file.model';
+import { inject, Injectable } from '@angular/core';
+import { AgreementFilesActions } from './agreement-files.actions';
 import { AgreementFilesService } from './agreement-files.service';
+import { catchError, map, of, switchMap } from 'rxjs';
 
 @Injectable()
 export class AgreementFilesEffects {
-  loadAll$ = createEffect(() =>
+  private readonly actions$ = inject(Actions);
+  private readonly api = inject(AgreementFilesService);
+
+  loadPage$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AgreementFileActions.loadAgreementFiles),
-      mergeMap(() =>
-        this.service.getAll().pipe(
-          map((resp) =>
-            AgreementFileActions.loadAgreementFilesSuccess({
-              items: resp.items,
-              totalCount: resp.totalCount,
-            })
+      ofType(AgreementFilesActions.loadPage),
+      switchMap(({ pageNumber }) =>
+        this.api.getAll(pageNumber).pipe(
+          map((response) =>
+            AgreementFilesActions.loadPageSuccess({ response })
           ),
-          catchError((error) =>
-            of(
-              AgreementFileActions.loadAgreementFilesFailure({
-                error,
-              })
-            )
+          catchError((err) =>
+            of(AgreementFilesActions.loadPageFailure({ error: this.msg(err) }))
           )
         )
       )
     )
   );
 
-  loadHistory$ = createEffect(() =>
+  loadByAgreement$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AgreementFileActions.loadAgreementFilesHistory),
-      mergeMap(() =>
-        this.service.getHistory().pipe(
-          map((resp) =>
-            AgreementFileActions.loadAgreementFilesHistorySuccess({
-              history: resp.items,
+      ofType(AgreementFilesActions.loadByAgreement),
+      switchMap(({ agreementId }) =>
+        this.api.getByAgreementId(agreementId).pipe(
+          map((response) =>
+            AgreementFilesActions.loadByAgreementSuccess({
+              response,
+              agreementId,
             })
           ),
-          catchError((error) =>
-            of(AgreementFileActions.loadAgreementFilesHistoryFailure({ error }))
+          catchError((err) =>
+            of(
+              AgreementFilesActions.loadByAgreementFailure({
+                error: this.msg(err),
+              })
+            )
           )
         )
       )
@@ -51,42 +51,12 @@ export class AgreementFilesEffects {
 
   loadOne$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AgreementFileActions.loadAgreementFile),
-      mergeMap(({ id }) =>
-        this.service.getById(id).pipe(
-          // returns { items, totalCount }
-          map((resp) =>
-            AgreementFileActions.loadAgreementFileSuccess({
-              items: resp.items,
-              totalCount: resp.totalCount,
-            })
-          ),
-          catchError((error) =>
-            of(AgreementFileActions.loadAgreementFileFailure({ error }))
-          )
-        )
-      )
-    )
-  );
-
-  loadByAgreementId$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AgreementFileActions.loadAgreementFilesByAgreementId),
-      mergeMap(({ agreementId }) =>
-        this.service.getById(agreementId).pipe(
-          // returns { items, totalCount }
-          map((resp: any) =>
-            AgreementFileActions.loadAgreementFilesByAgreementIdSuccess({
-              items: resp.items,
-              totalCount: resp.totalCount,
-            })
-          ),
-          catchError((error) =>
-            of(
-              AgreementFileActions.loadAgreementFilesByAgreementIdFailure({
-                error,
-              })
-            )
+      ofType(AgreementFilesActions.loadOne),
+      switchMap(({ agreementFileId }) =>
+        this.api.getByAgreementFileId(agreementFileId).pipe(
+          map((entity) => AgreementFilesActions.loadOneSuccess({ entity })),
+          catchError((err) =>
+            of(AgreementFilesActions.loadOneFailure({ error: this.msg(err) }))
           )
         )
       )
@@ -95,20 +65,12 @@ export class AgreementFilesEffects {
 
   create$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AgreementFileActions.createAgreementFile),
-      mergeMap(({ data }) =>
-        this.service.create(data).pipe(
-          map((client) =>
-            AgreementFileActions.createAgreementFileSuccess({
-              client,
-            })
-          ),
-          catchError((error) =>
-            of(
-              AgreementFileActions.createAgreementFileFailure({
-                error,
-              })
-            )
+      ofType(AgreementFilesActions.create),
+      switchMap(({ agreementId, documentTypeId, expiryDate, file }) =>
+        this.api.create({ agreementId, documentTypeId, expiryDate, file }).pipe(
+          map((entity) => AgreementFilesActions.createSuccess({ entity })),
+          catchError((err) =>
+            of(AgreementFilesActions.createFailure({ error: this.msg(err) }))
           )
         )
       )
@@ -117,29 +79,12 @@ export class AgreementFilesEffects {
 
   update$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AgreementFileActions.updateAgreementFile),
-      tap(({ id, data }) =>
-        console.log('[Effect:update] called with id=', id, 'data=', data)
-      ),
-      mergeMap(({ id, data }) =>
-        this.service.update(id, data).pipe(
-          map((serverReturned) => {
-            // force-inject clientId if missing
-            const enriched: AgreementFile = {
-              ...serverReturned,
-              clientId: data.clientId!,
-            };
-            console.log('[Effect:update] enriched client →', enriched);
-            return AgreementFileActions.updateAgreementFileSuccess({
-              client: enriched,
-            });
-          }),
-          catchError((error) =>
-            of(
-              AgreementFileActions.updateAgreementFileFailure({
-                error,
-              })
-            )
+      ofType(AgreementFilesActions.update),
+      switchMap(({ id, payload }) =>
+        this.api.update(id, payload).pipe(
+          map((entity) => AgreementFilesActions.updateSuccess({ entity })),
+          catchError((err) =>
+            of(AgreementFilesActions.updateFailure({ error: this.msg(err) }))
           )
         )
       )
@@ -148,91 +93,21 @@ export class AgreementFilesEffects {
 
   delete$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AgreementFileActions.deleteAgreementFile),
-      mergeMap(({ id, clientId }) =>
-        this.service.delete(id).pipe(
-          map(() =>
-            AgreementFileActions.deleteAgreementFileSuccess({
-              id,
-              clientId,
-            })
-          ),
-          catchError((error) =>
-            of(
-              AgreementFileActions.deleteAgreementFileFailure({
-                error,
-              })
-            )
+      ofType(AgreementFilesActions.delete),
+      switchMap(({ id }) =>
+        this.api.delete(id).pipe(
+          map(() => AgreementFilesActions.deleteSuccess({ id })),
+          catchError((err) =>
+            of(AgreementFilesActions.deleteFailure({ error: this.msg(err) }))
           )
         )
       )
     )
   );
 
-  refreshList$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(
-        AgreementFileActions.createAgreementFileSuccess,
-        AgreementFileActions.updateAgreementFileSuccess,
-        AgreementFileActions.deleteAgreementFileSuccess
-      ),
-
-      map((action) => {
-        if ('clientId' in action) {
-          // for create/update you returned `{ client: AgreementFile }`,
-          // so dig into that object’s clientId
-          return action.clientId;
-        } else {
-          // for delete you returned `{ id, clientId }`
-          return action.client.clientId;
-        }
-      }),
-
-      // only continue if it’s a number
-
-      map((clientId) =>
-        AgreementFileActions.loadAgreementFilesByClientId({
-          clientId,
-        })
-      )
-    )
-  );
-  /**
-   * The “by‐clientId” loader
-   */
-  loadByClientId$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AgreementFileActions.loadAgreementFilesByClientId),
-
-      tap((action) =>
-        console.log('[Effect:loadByClientId] full action →', action)
-      ),
-      tap(({ clientId }) =>
-        console.log('[Effect:loadByClientId] clientId →', clientId)
-      ),
-
-      mergeMap(({ clientId }) =>
-        this.service.getByClientId(clientId!).pipe(
-          tap((items) =>
-            console.log('[Effect:loadByClientId] response →', items)
-          ),
-          map((items) =>
-            AgreementFileActions.loadAgreementFilesByClientIdSuccess({ items })
-          ),
-          catchError((error) =>
-            of(
-              AgreementFileActions.loadAgreementFilesByClientIdFailure({
-                error,
-              })
-            )
-          )
-        )
-      )
-    )
-  );
-
-  constructor(
-    private actions$: Actions,
-    private service: AgreementFilesService
-  ) {}
+  private msg(err: unknown): string {
+    if (typeof err === 'string') return err;
+    const anyErr = err as any;
+    return anyErr?.error?.message ?? anyErr?.message ?? 'Unexpected error';
+  }
 }
