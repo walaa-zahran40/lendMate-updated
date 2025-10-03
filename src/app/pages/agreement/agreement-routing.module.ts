@@ -33,16 +33,14 @@ const routes: Routes = [
     component: AddAgreementComponent,
   },
   //Activities
-  //Wizara
-  {
-    path: 'activities/wizard-agreement/:id',
-    component: WizardAgreementComponent,
-  },
+  //Wizard
+
   //Agreement Files
   {
     path: 'activities/wizard-agreement/view-agreement-files/:id',
     component: ViewAgreementFilesComponent,
   },
+
   {
     path: 'activities/wizard-agreement/add-agreement-file/:id',
     component: AddAgreementFileComponent,
@@ -57,18 +55,20 @@ const routes: Routes = [
   },
   //Agreement Contact Persons
   {
-    path: 'activities/wizard-agreement/view-agreement-contact-persons/:id',
+    path: 'activities/wizard-agreement/view-agreement-contact-persons/:id/:agreementId/:clientId',
     component: ViewAgreementContactPersonsComponent,
   },
+
   {
     path: 'activities/wizard-agreement/add-agreement-contact-person/:id',
     component: AddAgreementContactPersonComponent,
   },
   //Agreement Officers
   {
-    path: 'activities/wizard-agreement/view-agreement-officers/:id',
+    path: 'activities/wizard-agreement/view-agreement-officers/:id/:agreementId/:clientId',
     component: ViewAgreementOfficersComponent,
   },
+
   {
     path: 'activities/wizard-agreement/add-agreement-officer/:id',
     component: AddAgreementOfficerComponent,
@@ -78,6 +78,7 @@ const routes: Routes = [
     path: 'activities/wizard-agreement/view-agreement-registrations/:id',
     component: ViewAgreementRegistrationsComponent,
   },
+
   {
     path: 'activities/wizard-agreement/add-agreement-registration/:id',
     component: AddAgreementRegistrationComponent,
@@ -85,6 +86,10 @@ const routes: Routes = [
   {
     path: 'activities/wizard-agreement/edit-agreement-registration/:leasingAgreementId/:regId',
     component: AddAgreementRegistrationComponent,
+  },
+  {
+    path: 'activities/wizard-agreement/:id/:agreementId/:clientId',
+    component: WizardAgreementComponent,
   },
 ];
 

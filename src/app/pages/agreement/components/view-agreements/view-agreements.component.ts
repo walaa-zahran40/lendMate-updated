@@ -61,8 +61,27 @@ export class ViewAgreementsComponent {
   onAddAgreement() {
     this.router.navigate(['/agreement/add-agreement']);
   }
-  onAddSide(event: any) {
-    this.router.navigate(['/agreement/activities/wizard-agreement', event]);
+  // view-agreements.component.ts
+  onAddSide(arg: any) {
+    // arg is the numeric id coming from the table
+    const agreement = this.originalAgreements.find((x) => x.id === arg);
+
+    if (!agreement?.id || !agreement?.agreementId) {
+      console.error('Missing navigation params', {
+        id: agreement?.id ?? null,
+        agreementId: agreement?.agreementId ?? null,
+        arg,
+      });
+      return;
+    }
+
+    // Go to wizard with both params
+    this.router.navigate([
+      '/agreement/activities/wizard-agreement',
+      agreement.id,
+      agreement.agreementId,
+      agreement.clientView?.clientId,
+    ]);
   }
 
   ngOnDestroy() {

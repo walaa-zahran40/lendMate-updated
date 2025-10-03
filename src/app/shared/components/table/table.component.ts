@@ -197,7 +197,7 @@ export class TableComponent {
   @Input() viewMandateActionAuthorizationGroupTable!: boolean;
   @Input() viewMandateActionNotificationGroupTable!: boolean;
   @Input() paginator: boolean = true;
-  @Output() wizardBtn = new EventEmitter<void>();
+  @Output() wizardBtn = new EventEmitter<number | void>();
   @Output() onEdit = new EventEmitter<any>();
   @Output() onDelete = new EventEmitter<number>();
   @Output() onDownload = new EventEmitter<number>();
