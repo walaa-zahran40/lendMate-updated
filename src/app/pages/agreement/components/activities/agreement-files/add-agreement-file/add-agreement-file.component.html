@@ -23,8 +23,11 @@
         [addAgreementFilesForm]="true"
         [editMode]="editMode"
         (submitForm)="addOrEditAgreementFiles()"
-        [viewOnly]="viewOnly"
+        [viewOnly]="viewMode"
         [docTypes]="documentTypes$ | async"
+        [existingFileName]="existingFileName"
+        [existingFileUrl]="existingFileUrl"
+        [existingFileId]="existingFileId"
       ></app-add-agreement-file-form>
     </p-tabpanel>
   </p-tabpanels>

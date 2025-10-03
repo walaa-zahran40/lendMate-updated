@@ -1,4 +1,19 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  Sanitizer,
+  OnChanges,
+  SimpleChanges,
+  OnDestroy,
+  Input,
+} from '@angular/core';
+import {
+  DomSanitizer,
+  SafeUrl,
+  SafeResourceUrl, // ✅ correct types
+} from '@angular/platform-browser';
+
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -24,7 +39,7 @@ import * as A from '../../../../store/agreement-files/agreement-files.actions';
   templateUrl: './add-agreement-file.component.html',
   styleUrl: './add-agreement-file.component.scss',
 })
-export class AddAgreementFileComponent implements OnInit {
+export class AddAgreementFileComponent implements OnInit, OnChanges {
   agreementId!: number;
   selectedFile!: File;
   selectedDocuments: any[] = [];
@@ -47,6 +62,7 @@ export class AddAgreementFileComponent implements OnInit {
   existingFileName?: string;
   existingFileId?: number;
   existingFileUrl?: string;
+  existingFileSafeUrl?: SafeUrl; // ✅ add this
 
   constructor(
     private fb: FormBuilder,
@@ -56,7 +72,8 @@ export class AddAgreementFileComponent implements OnInit {
     private facadeDocumentTypes: DocTypesFacade,
     private messageService: MessageService,
     private cdr: ChangeDetectorRef,
-    private actions$: Actions
+    private actions$: Actions,
+    private sanitizer: DomSanitizer // ✅ inject correct type
   ) {}
 
   ngOnInit() {
@@ -118,50 +135,55 @@ export class AddAgreementFileComponent implements OnInit {
     }
 
     // ===== 5) EDIT / VIEW: fetch record, then patch once docTypes are ready =====
+    // ===== 5) EDIT / VIEW: fetch record, then patch immediately =====
     this.facade.loadById(this.documentId!);
-    this.record$ = this.facade.selectOne$(this.documentId!); // ✅ entity stream
+    this.record$ = this.facade.selectOne$(this.documentId!);
 
-    const recordReady$ = this.record$.pipe(
-      filter((ct): ct is AgreementFile => !!ct && ct != null)
-    );
-    const docTypesReady$ = this.documentTypes$.pipe(
-      filter((arr) => Array.isArray(arr) && arr.length > 0)
-    );
-
-    combineLatest([recordReady$, docTypesReady$])
-      .pipe(take(1))
+    this.record$
+      .pipe(
+        filter((ct): ct is AgreementFile => !!ct),
+        take(1)
+      )
       .subscribe({
-        next: ([ct]) => {
+        next: (ct) => {
           this.currentRecord = ct;
 
-          // Coerce to expected types for controls/components
+          // Coerce to control types
           const documentTypeId = Number(ct.documentTypeId);
           const expiry = ct.expiryDate
             ? new Date(ct.expiryDate as string)
             : null;
 
-          // 1) Patch BEFORE disabling any control
+          // 1) Patch BEFORE any enable/disable
           this.addAgreementFilesForm.patchValue(
             {
-              id: ct?.id,
-              documentTypeId, // number to match optionValue="id"
+              // id: not a control; safe to ignore if not present
+              documentTypeId,
               expiryDate: expiry,
               file: null, // never prefill file input
             },
             { emitEvent: false }
           );
 
-          // 2) Help PrimeNG resolve selected option
+          // 2) Ensure dropdown control holds the raw id (matches [optionValue]="id")
           const docCtrl = this.addAgreementFilesForm.get('documentTypeId')!;
           docCtrl.setValue(documentTypeId, { emitEvent: false });
           docCtrl.updateValueAndValidity({ emitEvent: false });
 
-          // 3) Populate existing file info for child preview/links
+          // 3) Populate existing file info for your template
           this.existingFileName = ct.fileName ?? undefined;
           this.existingFileId = ct.fileId ?? undefined;
           this.existingFileUrl = ct.filePath ?? undefined;
 
-          // 4) Adjust enable/disable AFTER patching
+          if (this.viewMode && this.existingFileUrl) {
+            this.previewUrl = this.existingFileUrl;
+          }
+
+          // 4) Validators and enable/disable based on mode
+          const fileCtrl = this.addAgreementFilesForm.get('file')!;
+          fileCtrl.clearValidators();
+          fileCtrl.updateValueAndValidity({ emitEvent: false });
+
           if (this.viewMode) {
             this.addAgreementFilesForm.disable({ emitEvent: false });
           } else {
@@ -175,16 +197,43 @@ export class AddAgreementFileComponent implements OnInit {
               ?.enable({ emitEvent: false });
           }
 
-          // 5) File control has no validators in edit/view
-          const fileCtrl = this.addAgreementFilesForm.get('file')!;
-          fileCtrl.clearValidators();
-          fileCtrl.updateValueAndValidity({ emitEvent: false });
-
-          // mark for change detection (OnPush safety)
           this.cdr.markForCheck();
         },
         error: (e) => console.error('❌ Failed to patch edit/view form:', e),
       });
+
+    // Keep loading doc types in parallel; they’ll populate when ready
+    this.facadeDocumentTypes.loadAll();
+    this.documentTypes$ = this.facadeDocumentTypes.all$.pipe(
+      map((arr) =>
+        Array.isArray(arr) ? arr.map((d) => ({ ...d, id: Number(d.id) })) : []
+      )
+    );
+    this.documentTypes$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((types) => (this.documentTypes = types));
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    // ✅ correct signature
+    if (changes['existingFileUrl']) {
+      const raw = changes['existingFileUrl'].currentValue as string | undefined;
+      const unc = this.toUncFileUrl(raw); // you must copy this from child or re-implement
+      const encoded = this.encodeUrl(unc); // you must add this
+      this.existingFileSafeUrl = this.sanitizer.bypassSecurityTrustUrl(encoded);
+    }
+  }
+  private encodeUrl(u: string): string {
+    return u ? encodeURI(u) : '';
+  }
+
+  private toUncFileUrl(input?: string | null): string {
+    if (!input) return '';
+    if (input.startsWith('file:///'))
+      return 'file://srvhqtest02/' + input.replace(/^file:\/\/\//, '');
+    let p = input.replace(/\\/g, '/');
+    p = p.replace(/^[A-Za-z]:/, '');
+    if (!p.startsWith('/')) p = '/' + p;
+    return 'file://srvhqtest02' + p;
   }
 
   encodePathToHex(path: string | undefined | null): string {

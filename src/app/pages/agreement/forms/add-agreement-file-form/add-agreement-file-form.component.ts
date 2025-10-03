@@ -1310,13 +1310,6 @@ export class AddAgreementFileFormComponent implements OnInit, OnDestroy {
     this.subSectorList.markAsTouched();
   }
 
-  // updateValue(value: LegalFormLaw, value1: LegalForm): void {
-  //   this.selectedLegalFormLaw = value;
-  //   this.selectedLegalForm = value1;
-  //   this.onChange(value);
-  //   this.onTouched();
-  //   this.selectionChanged.emit(value);
-  // }
   onFileSelected(event: any) {
     const file: File = event.files?.[0] ?? event.target?.files?.[0];
     if (!file) {
@@ -1403,7 +1396,10 @@ export class AddAgreementFileFormComponent implements OnInit, OnDestroy {
   }
 
   close() {
-    this.router.navigate([`/crm/clients/view-upload-documents/${this.id}`]);
+    const id = this.route.snapshot.params['leasingAgreementId'];
+    this.router.navigate([
+      `/agreement/activities/wizard-agreement/view-agreement-files/${id}`,
+    ]);
   }
   closeNotificationGroups() {
     this.router.navigate(['/lookups/view-notification-group-officers']);
