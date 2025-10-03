@@ -18,6 +18,7 @@ import { ClientContactPersonsFacade } from '../../../../../crm/clients/store/cli
 import { AgreementContactPersonsFacade } from '../../../../store/agreement-contact-persons/agreement-contact-persons.facade';
 import { ClientContactPerson } from '../../../../../crm/clients/store/client-contact-persons/client-contact-person.model';
 import { LeasingAgreementsFacade } from '../../../../store/agreements/agreements.facade';
+import { AgreementContactPerson } from '../../../../store/agreement-contact-persons/agreement-contact-person.model';
 
 @Component({
   selector: 'app-add-agreement-contact-person',
@@ -143,7 +144,8 @@ export class AddAgreementContactPersonComponent {
   }
 
   addOrEditAgreementContactPersons() {
-    const clientParamQP = this.route.snapshot.queryParamMap.get('clientId');
+    const clientParamQP = this.route.snapshot.paramMap.get('clientId');
+    const agreementId = this.route.snapshot.paramMap.get('agreementId');
 
     console.log('💥 addClientAddresses() called');
     console.log('  viewOnly:', this.viewOnly);
@@ -163,17 +165,15 @@ export class AddAgreementContactPersonComponent {
 
     this.addAgreementContactPersonsForm.patchValue({
       clientId: clientParamQP,
+      agreementId: agreementId,
     });
 
-    const { details, detailsAR, areaId, clientId, addressTypeId, isActive } =
+    const { id, clientId, contactPersonId } =
       this.addAgreementContactPersonsForm.value;
-    const payload: Partial<ClientAddress> = {
-      details,
-      detailsAR,
-      areaId,
+    const payload: Partial<AgreementContactPerson> = {
+      id,
       clientId,
-      addressTypeId,
-      isActive,
+      contactPersonId,
     };
     console.log('  → payload object:', payload);
 

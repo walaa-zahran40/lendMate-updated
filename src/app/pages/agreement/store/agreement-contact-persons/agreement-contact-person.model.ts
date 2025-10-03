@@ -1,6 +1,6 @@
 export interface AgreementContactPerson {
   id: number;
-  agreementId?: number;
+  agreementId?: number | string;
   contactPersonId?: number;
   clientId?: number;
 }

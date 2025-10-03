@@ -63,9 +63,10 @@ export class ViewAgreementsComponent {
   }
   // view-agreements.component.ts
   onAddSide(arg: any) {
+    console.log('argh', arg);
     // arg is the numeric id coming from the table
     const agreement = this.originalAgreements.find((x) => x.id === arg);
-
+    console.log('agreement', agreement);
     if (!agreement?.id || !agreement?.agreementId) {
       console.error('Missing navigation params', {
         id: agreement?.id ?? null,

@@ -23,8 +23,7 @@ export class AgreementContactPersonsService {
       params = params.set('pageNumber', pageNumber.toString());
     }
     return this.http.get<PagedResponse<AgreementContactPerson>>(
-      `${this.api}/GetAllAgreementContactPersons`,
-      { params }
+      `${this.api}/GetAllAgreementContactPersons`
     );
   }
 

@@ -8,10 +8,12 @@ import {
   startWith,
   takeUntil,
   tap,
+  combineLatest,
 } from 'rxjs';
 import { TableComponent } from '../../../../../../shared/components/table/table.component';
 import { AgreementContactPerson } from '../../../../store/agreement-contact-persons/agreement-contact-person.model';
 import { AgreementContactPersonsFacade } from '../../../../store/agreement-contact-persons/agreement-contact-persons.facade';
+import { ClientContactPersonsFacade } from '../../../../../crm/clients/store/client-contact-persons/client-contact-persons.facade';
 
 @Component({
   selector: 'app-view-agreement-contact-persons',
@@ -21,48 +23,69 @@ import { AgreementContactPersonsFacade } from '../../../../store/agreement-conta
 })
 export class ViewAgreementContactPersonsComponent {
   tableDataInside: AgreementContactPerson[] = [];
-  first2: number = 0;
+  first2 = 0;
+  rows = 10;
+  showFilters = false;
+
   private destroy$ = new Subject<void>();
-  rows: number = 10;
-  showFilters: boolean = false;
-  clientIdParam!: any;
+
   @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
-    { field: 'filePath', header: 'Agreemnt File Path' },
-    { field: 'expiryDate', header: 'Agreement Expiry Date' },
+    { field: 'id', header: 'ID' },
+    { field: 'agreementId', header: 'Agreement ID' },
+    { field: 'contactPersonName', header: 'Contact Person' }, // <— use the derived field
   ];
-  showDeleteModal: boolean = false;
+
+  showDeleteModal = false;
   selectedAgreementContactPersonId: number | null = null;
+
   originalAgreementContactPersons: AgreementContactPerson[] = [];
   filteredAgreementContactPersons: AgreementContactPerson[] = [];
+  clientIdParam!: number;
   agreementContactPersons$!: Observable<AgreementContactPerson[]>;
-  routeId = this.route.snapshot.params['id'];
+
   constructor(
     private router: Router,
     private facade: AgreementContactPersonsFacade,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private contactPersonsFacade: ClientContactPersonsFacade
   ) {}
 
   ngOnInit() {
-    // make sure it's a number
-    const agreementId = Number(this.route.snapshot.params['id']);
-    this.facade.loadOne(agreementId);
+    this.clientIdParam = +this.route.snapshot.params['clientId'];
+    const agreementId = Number(this.route.snapshot.paramMap.get('agreementId'));
+    // 1) Wire the stream FIRST
+    //    Use whichever your facade exposes: all$ or items$
+    this.agreementContactPersons$ = this.facade.items$; // or: this.facade.items$
+    const clientContacts$ = this.contactPersonsFacade.items$; // Client contacts list
+    this.facade.loadAll();
+    this.contactPersonsFacade.loadByClientId(this.clientIdParam); // or loadByClientId(...) if you have clientId
 
-    this.agreementContactPersons$ = this.facade.items$.pipe(
-      // Debug what comes through
-      tap((raw) => console.log('[DEBUG] agreementContactPersons$ raw →', raw)),
-
-      // Always yield an array, even if the slice is not ready yet
-      startWith([] as AgreementContactPerson[]),
-
-      // If the facade sometimes emits a wrapped response { items, totalCount }
-      map((res: any) => (Array.isArray(res) ? res : res?.items ?? []))
-    );
-
-    this.agreementContactPersons$
+    // 3) Join and enrich rows with contact person names
+    combineLatest([this.agreementContactPersons$, clientContacts$])
       .pipe(
-        map((list) => [...list].sort((a, b) => b.id - a.id)),
+        map(([acpRows, contacts]) => {
+          // Build a name map: id -> display name
+          const nameMap = new Map<number, string>(
+            contacts.map((c: any) => {
+              // adapt to your model; try common fields and fall back
+              const name = c.name ?? String(c.id);
+              return [c.id, name];
+            })
+          );
+
+          // Filter rows by agreementId, then project contactPersonName
+          const enriched = acpRows
+            .filter((r) => r.agreementId === agreementId)
+            .map((r) => ({
+              ...r,
+              contactPersonName:
+                nameMap.get(r.contactPersonId!) ?? String(r.contactPersonId),
+            }));
+
+          return enriched;
+        }),
         takeUntil(this.destroy$)
       )
       .subscribe((enriched) => {
@@ -73,9 +96,9 @@ export class ViewAgreementContactPersonsComponent {
 
   onAddAgreementContactPerson() {
     const id = this.route.snapshot.paramMap.get('id');
-
+    const agreementId = this.route.snapshot.paramMap.get('agreementId');
     this.router.navigate([
-      `/agreement/activities/wizard-agreement/add-agreement-contact-person/${id}`,
+      `/agreement/activities/wizard-agreement/add-agreement-contact-person/${id}/${agreementId}`,
     ]);
   }
 
