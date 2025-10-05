@@ -146,7 +146,7 @@ export class AddAgreementContactPersonComponent {
   addOrEditAgreementContactPersons() {
     const clientParamQP = this.route.snapshot.paramMap.get('clientId');
     const agreementId = this.route.snapshot.paramMap.get('agreementId');
-
+    const routeId = this.route.snapshot.params['id'];
     console.log('💥 addClientAddresses() called');
     console.log('  viewOnly:', this.viewOnly);
     console.log('  editMode:', this.editMode);
@@ -181,7 +181,6 @@ export class AddAgreementContactPersonComponent {
       .value as Partial<ClientAddress>;
     console.log('📦 Payload going to facade:', data);
 
-    const routeId = this.route.snapshot.paramMap.get('id');
     console.log('  route.snapshot.paramMap.get(retrivedId):', routeId);
 
     if (this.mode === 'add') {
@@ -199,15 +198,17 @@ export class AddAgreementContactPersonComponent {
       console.log('➡️ Navigating back with PATH param:', clientParamQP);
       this.router.navigate([
         '/agreement/activities/wizard-agreement/view-agreement-contactPersons',
+        routeId,
+        agreementId,
         clientParamQP,
       ]);
-    } else if (clientParamQP) {
       console.log(
         '➡️ Navigating back with QUERY param fallback:',
         clientParamQP
       );
+    } else if (!clientParamQP) {
       this.router.navigate([
-        `/agreement/activities/wizard-agreement/view-agreement-contactPersons/${clientParamQP}`,
+        `/agreement/activities/wizard-agreement/view-agreement-contactPersons/${id}/${agreementId}`,
       ]);
     } else {
       console.error('❌ Cannot navigate back: clientId is missing!');

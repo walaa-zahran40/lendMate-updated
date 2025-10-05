@@ -5,9 +5,7 @@ import {
   Observable,
   forkJoin,
   map,
-  startWith,
   takeUntil,
-  tap,
   combineLatest,
 } from 'rxjs';
 import { TableComponent } from '../../../../../../shared/components/table/table.component';
@@ -97,8 +95,9 @@ export class ViewAgreementContactPersonsComponent {
   onAddAgreementContactPerson() {
     const id = this.route.snapshot.paramMap.get('id');
     const agreementId = this.route.snapshot.paramMap.get('agreementId');
+    const clientId = this.route.snapshot.params['clientId'];
     this.router.navigate([
-      `/agreement/activities/wizard-agreement/add-agreement-contact-person/${id}/${agreementId}`,
+      `/agreement/activities/wizard-agreement/add-agreement-contact-person/${id}/${agreementId}/${clientId}`,
     ]);
   }
 
