@@ -13,7 +13,7 @@ import { ButtonModule } from 'primeng/button';
 // export function MSALInstanceFactory(): IPublicClientApplication {
 //   return new PublicClientApplication({
 //     auth: {
-//       clientId: '34d975ae-71fa-4b39-90d4-7140cbb4ed69',
+//       clientId: '9bf2342f-7264-41bd-9a17-9ab852d3c906',
 //       authority:
 //         'https://login.microsoftonline.com/018f98f9-fb07-4f3f-88ff-dc93c2807a98',
 //       redirectUri: environment.redirectUri,

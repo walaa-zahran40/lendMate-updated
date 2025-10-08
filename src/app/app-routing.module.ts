@@ -1,14 +1,16 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { MsalGuard } from '@azure/msal-angular';
+import { LoginComponent } from './pages/login/login/login.component';
+import { ViewClientsOnboardingComponent } from './pages/crm/clients/components/clients/client-onboarding/view-clients-onboarding/view-clients-onboarding.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '', pathMatch: 'full' },
-
+  { path: '', component: LoginComponent },
   {
-    path: '',
-    loadChildren: () =>
-      import('./pages/login/login.module').then((m) => m.LoginModule),
+    path: 'crm/clients/view-clients-onboarding',
+    component: ViewClientsOnboardingComponent,
+    canActivate: [MsalGuard],
   },
   {
     path: 'crm',

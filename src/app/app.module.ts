@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -34,75 +34,27 @@ import {
   MSAL_INTERCEPTOR_CONFIG,
   MsalBroadcastService,
   MsalGuard,
-  MsalGuardConfiguration,
   MsalInterceptor,
-  MsalInterceptorConfiguration,
   MsalModule,
   MsalRedirectComponent,
   MsalService,
 } from '@azure/msal-angular';
 import { PermissionService } from './pages/login/store/permissions/permission.service';
-import {
-  BrowserCacheLocation,
-  InteractionType,
-  IPublicClientApplication,
-  LogLevel,
-  PublicClientApplication,
-} from '@azure/msal-browser';
-import { environment } from '../environments/environment';
+import { IPublicClientApplication } from '@azure/msal-browser';
 import { ConfirmLeaveEffects } from './shared/store/confirm-leave.effects';
+import {
+  MSALInstanceFactory,
+  MSALGuardConfigFactory,
+  MSALInterceptorConfigFactory,
+} from '../../msal.config';
 
-const isIE =
-  window.navigator.userAgent.indexOf('MSIE ') > -1 ||
-  window.navigator.userAgent.indexOf('Trident/') > -1;
-
-export function MSALInstanceFactory(): IPublicClientApplication {
-  return new PublicClientApplication({
-    auth: {
-      clientId: '34d975ae-71fa-4b39-90d4-7140cbb4ed69',
-      authority:
-        'https://login.microsoftonline.com/018f98f9-fb07-4f3f-88ff-dc93c2807a98',
-      redirectUri: environment.redirectUri,
-    },
-    cache: {
-      cacheLocation: BrowserCacheLocation.SessionStorage,
-      storeAuthStateInCookie: isIE,
-    },
-    system: {
-      allowPlatformBroker: false,
-      loggerOptions: {
-        loggerCallback: (containsPii) => {
-          if (containsPii) return;
-        },
-        logLevel: LogLevel.Verbose,
-        piiLoggingEnabled: false,
-      },
-    },
-  });
-}
-
-export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
-  const protectedResourceMap = new Map<string, Array<string>>();
-  protectedResourceMap.set('https://graph.microsoft.com/v1.0/me', [
-    'user.read',
-  ]);
-
-  return {
-    interactionType: InteractionType.Redirect,
-    protectedResourceMap,
-  };
-}
-
-export function MSALGuardConfigFactory(): MsalGuardConfiguration {
-  return {
-    interactionType: InteractionType.Redirect,
-    authRequest: {
-      scopes: ['user.read'],
-    },
-  };
-}
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
+// 👇 add this helper function
+export function initMsal(msalInstance: IPublicClientApplication) {
+  // Angular will wait for this Promise before continuing bootstrap
+  return () => msalInstance.initialize();
 }
 
 @NgModule({
@@ -157,10 +109,17 @@ export function HttpLoaderFactory(http: HttpClient) {
       provide: MSAL_INTERCEPTOR_CONFIG,
       useFactory: MSALInterceptorConfigFactory,
     },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initMsal,
+      deps: [MSAL_INSTANCE],
+      multi: true,
+    },
     MsalService,
     MsalGuard,
     MsalBroadcastService,
     provideHttpClient(),
+
     providePrimeNG({
       theme: {
         preset: Aura,
