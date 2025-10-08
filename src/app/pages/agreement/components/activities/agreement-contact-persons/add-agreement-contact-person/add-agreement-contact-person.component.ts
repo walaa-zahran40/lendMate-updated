@@ -48,6 +48,9 @@ export class AddAgreementContactPersonComponent {
   ngOnInit(): void {
     this.recordId = Number(this.route.snapshot.paramMap.get('id'));
     this.clientId = Number(this.route.snapshot.queryParams['clientId']);
+    const agreementIdParam = Number(
+      this.route.snapshot.queryParams['agreementId']
+    );
 
     this.mode =
       (this.route.snapshot.queryParamMap.get('mode') as
@@ -95,8 +98,9 @@ export class AddAgreementContactPersonComponent {
     //  Build the form
     this.addAgreementContactPersonsForm = this.fb.group({
       id: [null],
-      leasingAgreementId: [this.recordId],
+      agreementId: [agreementIdParam, [Validators.required]], // <-- REQUIRED by backend
       contactPersonId: [null, [Validators.required]],
+      clientId: [this.clientId], // <-- include if backend wants it
     });
     console.log(
       '🛠️ Form initialized with defaults:',
@@ -144,75 +148,51 @@ export class AddAgreementContactPersonComponent {
   }
 
   addOrEditAgreementContactPersons() {
-    const clientParamQP = this.route.snapshot.paramMap.get('clientId');
-    const agreementId = this.route.snapshot.paramMap.get('agreementId');
-    const routeId = this.route.snapshot.params['id'];
-    console.log('💥 addClientAddresses() called');
-    console.log('  viewOnly:', this.viewOnly);
-    console.log('  editMode:', this.editMode);
-    console.log('  form valid:', this.addAgreementContactPersonsForm.valid);
-    console.log('  form touched:', this.addAgreementContactPersonsForm.touched);
-    console.log(
-      '  form raw value:',
-      this.addAgreementContactPersonsForm.getRawValue()
-    );
+    const agreementId = Number(this.route.snapshot.paramMap.get('agreementId'));
+    const clientId = Number(this.route.snapshot.paramMap.get('clientId'));
+    const routeId = Number(this.route.snapshot.paramMap.get('id'));
 
     if (this.addAgreementContactPersonsForm.invalid) {
-      console.warn('❌ Form is invalid — marking touched and aborting');
       this.addAgreementContactPersonsForm.markAllAsTouched();
       return;
     }
 
+    // Ensure the form has the latest params
     this.addAgreementContactPersonsForm.patchValue({
-      clientId: clientParamQP,
-      agreementId: agreementId,
+      agreementId,
+      clientId,
     });
 
-    const { id, clientId, contactPersonId } =
-      this.addAgreementContactPersonsForm.value;
+    const {
+      id,
+      agreementId: formAgreementId,
+      clientId: formClientId,
+      contactPersonId,
+    } = this.addAgreementContactPersonsForm.getRawValue();
+
     const payload: Partial<AgreementContactPerson> = {
       id,
-      clientId,
+      agreementId: formAgreementId, // <-- SEND IT
       contactPersonId,
+      clientId: formClientId, // optional if backend needs it
     };
-    console.log('  → payload object:', payload);
-
-    const data = this.addAgreementContactPersonsForm
-      .value as Partial<ClientAddress>;
-    console.log('📦 Payload going to facade:', data);
-
-    console.log('  route.snapshot.paramMap.get(retrivedId):', routeId);
 
     if (this.mode === 'add') {
-      console.log('➕ Dispatching CREATE');
       this.facade.create(payload);
     } else {
-      console.log('✏️ Dispatching UPDATE id=', data.id);
-      this.facade.update(data.id!, data);
+      this.facade.update(id!, payload);
     }
+
     if (this.addAgreementContactPersonsForm.valid) {
       this.addAgreementContactPersonsForm.markAsPristine();
     }
 
-    if (clientParamQP) {
-      console.log('➡️ Navigating back with PATH param:', clientParamQP);
-      this.router.navigate([
-        '/agreement/activities/wizard-agreement/view-agreement-contactPersons',
-        routeId,
-        agreementId,
-        clientParamQP,
-      ]);
-      console.log(
-        '➡️ Navigating back with QUERY param fallback:',
-        clientParamQP
-      );
-    } else if (!clientParamQP) {
-      this.router.navigate([
-        `/agreement/activities/wizard-agreement/view-agreement-contactPersons/${id}/${agreementId}`,
-      ]);
-    } else {
-      console.error('❌ Cannot navigate back: clientId is missing!');
-    }
+    this.router.navigate([
+      '/agreement/activities/wizard-agreement/view-agreement-contact-persons',
+      routeId,
+      agreementId,
+      clientId,
+    ]);
   }
 
   /** Called by the guard. */
