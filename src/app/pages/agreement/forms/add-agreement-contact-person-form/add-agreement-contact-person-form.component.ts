@@ -399,7 +399,9 @@ export class AddAgreementContactPersonFormComponent
         'Must attend to hold and run the meeting with other team members',
     },
   ];
-
+  agreementId: any;
+  idParamId: any;
+  clientIdAgreement: any;
   //dates
   date: Date | undefined;
   date1: Date | undefined;
@@ -653,6 +655,10 @@ export class AddAgreementContactPersonFormComponent
       this.route.snapshot.queryParams['clientStatusActionId'];
     this.clientStatusIdParam = this.route.snapshot.params['id'];
     this.mandateStatusIdParam = this.route.snapshot.params['id'];
+    this.agreementId = this.route.snapshot.params['agreementId'];
+    this.idParamId = this.route.snapshot.params['id'];
+    this.clientIdAgreement = this.route.snapshot.params['clientId'];
+
     this.mandateStatusActionIdParam =
       this.route.snapshot.queryParams['mandateStatusActionId'];
     this.sub = this.formGroup?.valueChanges
@@ -1031,7 +1037,7 @@ export class AddAgreementContactPersonFormComponent
   }
   viewAgreementContactPersonsDetails() {
     this.router.navigate([
-      `/agreement/activities/wizard-agreement/view-agreement-contact-persons/${this.clientStatusIdParam}`,
+      `/agreement/activities/wizard-agreement/view-agreement-contact-persons/${this.idParamId}/${this.agreementId}/${this.clientIdAgreement}`,
     ]);
   }
 

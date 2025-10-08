@@ -46,152 +46,109 @@ export class AddAgreementContactPersonComponent {
   ) {}
 
   ngOnInit(): void {
+    // parent id (whatever your first :id is)
     this.recordId = Number(this.route.snapshot.paramMap.get('id'));
-    this.clientId = Number(this.route.snapshot.queryParams['clientId']);
-    const agreementIdParam = Number(
-      this.route.snapshot.queryParams['agreementId']
-    );
 
-    this.mode =
-      (this.route.snapshot.queryParamMap.get('mode') as
-        | 'add'
-        | 'edit'
-        | 'view') ?? 'add';
+    // read from path OR query (whichever exists)
+    const contactPersonId = this.getNumParam('contactPersonId'); // for edit/view routes
+    let agreementIdInit = this.getNumParam('agreementId');
+    let clientIdInit = this.getNumParam('clientId');
+
+    // If your first :id is actually the agreement id, fall back to it
+    if (agreementIdInit == null) agreementIdInit = this.recordId;
+
+    // derive mode: query ? query : contactPersonId ? edit : add
+    const qpMode = this.route.snapshot.queryParamMap.get('mode') as
+      | 'add'
+      | 'edit'
+      | 'view'
+      | null;
+    this.mode = qpMode ?? (contactPersonId ? 'edit' : 'add');
     this.editMode = this.mode === 'edit';
     this.viewOnly = this.mode === 'view';
-    console.log('🔍 Params:', {
-      clientId: this.clientId,
-      mode: this.mode,
-      editMode: this.editMode,
-      viewOnly: this.viewOnly,
+    console.log('[mode]', this.mode, {
+      contactPersonId,
+      agreementIdInit,
+      clientIdInit,
     });
-    console.log('[agreements] dispatching loadById →', this.recordId);
-    this.leasingAgreementsFacade.loadById(this.recordId);
 
-    // 1) Resolve clientId from agreement OR query param fallback
-    const clientId$ = this.leasingAgreementsFacade.selected$.pipe(
-      tap((item) => console.log('[selected$] emission →', item)),
-      map(
-        (item) =>
-          item?.clientId ?? item?.clientView?.clientId ?? this.clientId ?? null
-      ),
-      tap((id) => console.log('[selected$] mapped clientId →', id)),
-      filter((id): id is number => Number.isFinite(id)),
-      distinctUntilChanged(),
-      shareReplay({ bufferSize: 1, refCount: true })
-    );
-
-    // 2) contactPersons$ = (trigger load) -> stream items from the store
-    this.contactPersons$ = clientId$.pipe(
-      tap((id) => {
-        console.log('[contactPersons] loadByClientId →', id);
-        this.contactPersonsFacade.loadByClientId(id);
-      }),
-      switchMap(() => this.contactPersonsFacade.items$), // adjust to your facade's selector name
-      startWith([] as ClientContactPerson[]),
-      tap((list) =>
-        console.log('[contactPersons] items len →', list?.length ?? 0)
-      ),
-      shareReplay({ bufferSize: 1, refCount: true })
-    );
-
-    //  Build the form
     this.addAgreementContactPersonsForm = this.fb.group({
       id: [null],
-      agreementId: [agreementIdParam, [Validators.required]], // <-- REQUIRED by backend
-      contactPersonId: [null, [Validators.required]],
-      clientId: [this.clientId], // <-- include if backend wants it
+      agreementId: [agreementIdInit, Validators.required],
+      contactPersonId: [null, Validators.required],
+      clientId: [clientIdInit],
     });
-    console.log(
-      '🛠️ Form initialized with defaults:',
-      this.addAgreementContactPersonsForm.value
-    );
 
-    // 6️⃣ If add mode, seed clientId
-    if (this.mode === 'add') {
-      this.addAgreementContactPersonsForm.patchValue({
-        clientId: this.clientId,
-      });
-      console.log('✏️ Add mode → patched clientId:', this.clientId);
+    // load list of contact persons if we have clientId
+    if (clientIdInit != null && Number.isFinite(clientIdInit)) {
+      this.contactPersonsFacade.loadByClientId(clientIdInit);
+      this.contactPersons$ = this.contactPersonsFacade.items$.pipe(
+        startWith([] as ClientContactPerson[])
+      );
     }
 
-    // 8️⃣ If editing or viewing, load & patch
-    if (this.editMode || this.viewOnly) {
-      console.log('edit ', this.editMode, 'route', this.route.snapshot);
-      console.log('🔄 Loading existing record id=', this.recordId);
-      this.facade.loadOne(this.recordId);
-
+    // EDIT/VIEW: load current and patch form (sets id so submit uses PUT)
+    if ((this.editMode || this.viewOnly) && contactPersonId) {
+      this.facade.loadOne(contactPersonId);
       this.facade.current$
         .pipe(
-          filter((ct) => !!ct && ct.id === this.recordId),
+          filter(
+            (ct): ct is AgreementContactPerson =>
+              !!ct && ct.id === contactPersonId
+          ),
           take(1)
         )
         .subscribe((ct) => {
-          // patch form
           this.addAgreementContactPersonsForm.patchValue({
-            id: ct?.id,
+            id: ct.id, // <-- ensures PUT path has a real id
+            agreementId: Number(ct.agreementId ?? agreementIdInit),
+            contactPersonId: ct.contactPersonId,
+            clientId: ct.clientId ?? clientIdInit,
           });
-          console.log(
-            '📝 Form after patchValue:',
-            this.addAgreementContactPersonsForm.value
-          );
-
-          if (this.viewOnly) {
-            console.log('🔐 viewOnly → disabling form');
-            this.addAgreementContactPersonsForm.disable();
-          }
+          if (this.viewOnly) this.addAgreementContactPersonsForm.disable();
         });
-    } else if (this.viewOnly) {
-      console.log('🔐 viewOnly (no id) → disabling form');
-      this.addAgreementContactPersonsForm.disable();
     }
   }
 
-  addOrEditAgreementContactPersons() {
-    const agreementId = Number(this.route.snapshot.paramMap.get('agreementId'));
-    const clientId = Number(this.route.snapshot.paramMap.get('clientId'));
-    const routeId = Number(this.route.snapshot.paramMap.get('id'));
+  private getNumParam(name: string): number | undefined {
+    const fromPath = this.route.snapshot.paramMap.get(name);
+    const fromQuery = this.route.snapshot.queryParamMap.get(name);
+    const v = fromPath ?? fromQuery;
+    return v != null && v !== '' ? Number(v) : undefined;
+  }
 
+  addOrEditAgreementContactPersons() {
     if (this.addAgreementContactPersonsForm.invalid) {
       this.addAgreementContactPersonsForm.markAllAsTouched();
       return;
     }
 
-    // Ensure the form has the latest params
-    this.addAgreementContactPersonsForm.patchValue({
-      agreementId,
-      clientId,
-    });
-
-    const {
-      id,
-      agreementId: formAgreementId,
-      clientId: formClientId,
-      contactPersonId,
-    } = this.addAgreementContactPersonsForm.getRawValue();
+    const { id, agreementId, clientId, contactPersonId } =
+      this.addAgreementContactPersonsForm.getRawValue();
 
     const payload: Partial<AgreementContactPerson> = {
       id,
-      agreementId: formAgreementId, // <-- SEND IT
+      agreementId,
       contactPersonId,
-      clientId: formClientId, // optional if backend needs it
+      clientId,
     };
 
-    if (this.mode === 'add') {
-      this.facade.create(payload);
+    const isAdd = !id || this.mode === 'add';
+    if (isAdd) {
+      this.facade.create(payload); // POST
     } else {
-      this.facade.update(id!, payload);
+      this.facade.update(id!, payload); // PUT /AgreementContactPersons/{id}
     }
 
-    if (this.addAgreementContactPersonsForm.valid) {
-      this.addAgreementContactPersonsForm.markAsPristine();
-    }
-
+    const recId = this.recordId; // already a number
     this.router.navigate([
-      '/agreement/activities/wizard-agreement/view-agreement-contact-persons',
-      routeId,
-      agreementId,
-      clientId,
+      '/agreement',
+      'activities',
+      'wizard-agreement',
+      'view-agreement-contact-persons',
+      String(recId),
+      String(agreementId ?? ''),
+      String(clientId ?? ''),
     ]);
   }
 

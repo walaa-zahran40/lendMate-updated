@@ -66,6 +66,10 @@ const routes: Routes = [
     path: 'activities/wizard-agreement/add-agreement-contact-person/:id/:agreementId/:clientId',
     component: AddAgreementContactPersonComponent,
   },
+  {
+    path: 'activities/wizard-agreement/add-agreement-contact-person/:contactPersonId/:id/:agreementId/:clientId',
+    component: AddAgreementContactPersonComponent,
+  },
   //Agreement Officers
   {
     path: 'activities/wizard-agreement/view-agreement-officers/:id/:agreementId/:clientId',

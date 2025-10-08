@@ -34,13 +34,10 @@ export class AgreementContactPersonsService {
     );
   }
 
-  getById(
-    agreementId: number
-  ): Observable<{ items: AgreementContactPerson[]; totalCount: number }> {
-    return this.http.get<{
-      items: AgreementContactPerson[];
-      totalCount: number;
-    }>(`${this.api}/AgreementId?agreementId=${agreementId}`);
+  getById(agreementId: number): Observable<AgreementContactPerson> {
+    return this.http.get<AgreementContactPerson>(
+      `${this.api}/AgreementContactPersonId?id=${agreementId}`
+    );
   }
 
   getByAgreementId(agreementId: number): Observable<AgreementContactPerson[]> {

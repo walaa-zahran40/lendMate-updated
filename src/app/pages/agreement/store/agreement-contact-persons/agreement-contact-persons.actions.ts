@@ -49,7 +49,7 @@ export const loadAgreementContactPerson = createAction(
 );
 export const loadAgreementContactPersonSuccess = createAction(
   '[AgreementContactPersons] Load One Success',
-  props<{ items: AgreementContactPerson[]; totalCount: number }>() // ✅ matches API
+  props<{ item: AgreementContactPerson }>()
 );
 
 export const loadAgreementContactPersonFailure = createAction(

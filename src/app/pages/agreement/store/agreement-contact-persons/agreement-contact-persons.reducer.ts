@@ -68,23 +68,20 @@ export const agreementContactPersonsReducer = createReducer(
   on(Actions.loadAgreementContactPerson, (state) => ({
     ...state,
     loading: true,
+    error: null,
   })),
-  on(
-    Actions.loadAgreementContactPersonSuccess,
-    (state, { items, totalCount }) => ({
-      ...state,
-      items,
-      totalCount,
-      loading: false,
-      error: null,
-    })
-  ),
+  on(Actions.loadAgreementContactPersonSuccess, (state, { item }) => ({
+    ...state,
+    current: item,
+    loading: false,
+    error: null,
+  })),
+
   on(Actions.loadAgreementContactPersonFailure, (state, { error }) => ({
     ...state,
     error,
     loading: false,
   })),
-
   on(Actions.createAgreementContactPerson, (state) => ({
     ...state,
     loading: true,
@@ -149,5 +146,21 @@ export const agreementContactPersonsReducer = createReducer(
       error,
       loading: false,
     })
-  )
+  ),
+  on(Actions.loadAgreementContactPerson, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
+  on(Actions.loadAgreementContactPersonSuccess, (state, { item }) => ({
+    ...state,
+    current: item,
+    loading: false,
+    error: null,
+  })),
+  on(Actions.loadAgreementContactPersonFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
+  }))
 );

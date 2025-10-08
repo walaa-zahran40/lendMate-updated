@@ -130,10 +130,16 @@ export class ViewAgreementContactPersonsComponent {
   onEditAgreementContactPerson(
     agreementContactAgreementContactPerson: AgreementContactPerson
   ) {
+    const id = this.route.snapshot.paramMap.get('id');
+    const agreementId = this.route.snapshot.paramMap.get('agreementId');
+    const clientId = this.route.snapshot.params['clientId'];
     this.router.navigate(
       [
-        '/crm/clients/edit-agreement-files',
+        '/agreement/activities/wizard-agreement/add-agreement-contact-person',
         agreementContactAgreementContactPerson.id,
+        id,
+        agreementId,
+        clientId,
       ],
       {
         queryParams: {
@@ -144,12 +150,24 @@ export class ViewAgreementContactPersonsComponent {
     );
   }
   onViewAgreementContactPerson(ct: AgreementContactPerson) {
-    this.router.navigate(['/crm/clients/edit-agreement-files', ct.id], {
-      queryParams: {
-        mode: 'view',
-        clientId: this.clientIdParam,
-      },
-    });
+    const id = this.route.snapshot.paramMap.get('id');
+    const agreementId = this.route.snapshot.paramMap.get('agreementId');
+    const clientId = this.route.snapshot.params['clientId'];
+    this.router.navigate(
+      [
+        '/agreement/activities/wizard-agreement/add-agreement-contact-person',
+        ct.id,
+        id,
+        agreementId,
+        clientId,
+      ],
+      {
+        queryParams: {
+          mode: 'view',
+          clientId: this.clientIdParam,
+        },
+      }
+    );
   }
   selectedIds: number[] = [];
   confirmDelete() {

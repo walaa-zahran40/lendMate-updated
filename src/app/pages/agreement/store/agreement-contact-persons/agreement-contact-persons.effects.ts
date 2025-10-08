@@ -60,11 +60,9 @@ export class AgreementContactPersonsEffects {
       ofType(AgreementContactPersonActions.loadAgreementContactPerson),
       mergeMap(({ id }) =>
         this.service.getById(id).pipe(
-          // returns { items, totalCount }
-          map((resp) =>
+          map((item) =>
             AgreementContactPersonActions.loadAgreementContactPersonSuccess({
-              items: resp.items,
-              totalCount: resp.totalCount,
+              item,
             })
           ),
           catchError((error) =>
