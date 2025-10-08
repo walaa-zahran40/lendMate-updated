@@ -7,11 +7,14 @@ import {
   map,
   takeUntil,
   combineLatest,
+  tap,
+  filter,
 } from 'rxjs';
 import { TableComponent } from '../../../../../../shared/components/table/table.component';
 import { AgreementContactPerson } from '../../../../store/agreement-contact-persons/agreement-contact-person.model';
 import { AgreementContactPersonsFacade } from '../../../../store/agreement-contact-persons/agreement-contact-persons.facade';
 import { ClientContactPersonsFacade } from '../../../../../crm/clients/store/client-contact-persons/client-contact-persons.facade';
+import { AgreementContactPersonsService } from '../../../../store/agreement-contact-persons/agreement-contact-persons.service';
 
 @Component({
   selector: 'app-view-agreement-contact-persons',
@@ -32,7 +35,7 @@ export class ViewAgreementContactPersonsComponent {
   readonly colsInside = [
     { field: 'id', header: 'ID' },
     { field: 'agreementId', header: 'Agreement ID' },
-    { field: 'contactPersonName', header: 'Contact Person' }, // <— use the derived field
+    { field: 'contactPersonId', header: 'Contact Person ID' },
   ];
 
   showDeleteModal = false;
@@ -47,48 +50,34 @@ export class ViewAgreementContactPersonsComponent {
     private router: Router,
     private facade: AgreementContactPersonsFacade,
     private route: ActivatedRoute,
-    private contactPersonsFacade: ClientContactPersonsFacade
+    private svc: AgreementContactPersonsService
   ) {}
 
   ngOnInit() {
     this.clientIdParam = +this.route.snapshot.params['clientId'];
-    const agreementId = Number(this.route.snapshot.paramMap.get('agreementId'));
-    // 1) Wire the stream FIRST
-    //    Use whichever your facade exposes: all$ or items$
-    this.agreementContactPersons$ = this.facade.items$; // or: this.facade.items$
-    const clientContacts$ = this.contactPersonsFacade.items$; // Client contacts list
-    this.facade.loadAll();
-    this.contactPersonsFacade.loadByClientId(this.clientIdParam); // or loadByClientId(...) if you have clientId
+    const agreementIdStr = this.route.snapshot.paramMap.get('agreementId');
+    console.log('agreementId raw:', agreementIdStr);
+    const agreementId = Number(agreementIdStr);
+    console.log(
+      'agreementId parsed:',
+      agreementId,
+      'isNaN?',
+      Number.isNaN(agreementId)
+    );
 
-    // 3) Join and enrich rows with contact person names
-    combineLatest([this.agreementContactPersons$, clientContacts$])
+    this.facade.loadByAgreementId(agreementId);
+    this.agreementContactPersons$ = this.facade.items$;
+
+    this.agreementContactPersons$
       .pipe(
-        map(([acpRows, contacts]) => {
-          // Build a name map: id -> display name
-          const nameMap = new Map<number, string>(
-            contacts.map((c: any) => {
-              // adapt to your model; try common fields and fall back
-              const name = c.name ?? String(c.id);
-              return [c.id, name];
-            })
-          );
-
-          // Filter rows by agreementId, then project contactPersonName
-          const enriched = acpRows
-            .filter((r) => r.agreementId === agreementId)
-            .map((r) => ({
-              ...r,
-              contactPersonName:
-                nameMap.get(r.contactPersonId!) ?? String(r.contactPersonId),
-            }));
-
-          return enriched;
-        }),
+        map((rows: any) => (Array.isArray(rows) ? rows : rows?.items ?? [])),
+        tap((rows) => console.log('rows by agreementId', rows)),
         takeUntil(this.destroy$)
       )
-      .subscribe((enriched) => {
-        this.originalAgreementContactPersons = enriched;
-        this.filteredAgreementContactPersons = [...enriched];
+      .subscribe((rows) => {
+        // filtered = exactly what the API returned
+        this.originalAgreementContactPersons = rows;
+        this.filteredAgreementContactPersons = [...rows];
       });
   }
 

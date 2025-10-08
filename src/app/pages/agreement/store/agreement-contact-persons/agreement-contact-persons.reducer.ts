@@ -23,6 +23,29 @@ export const agreementContactPersonsReducer = createReducer(
     error,
     loading: false,
   })),
+  on(Actions.loadAgreementContactPersonsByAgreementId, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
+  on(
+    Actions.loadAgreementContactPersonsByAgreementIdSuccess,
+    (state, { items, totalCount }) => ({
+      ...state,
+      items,
+      totalCount,
+      loading: false,
+      error: null,
+    })
+  ),
+  on(
+    Actions.loadAgreementContactPersonsByAgreementIdFailure,
+    (state, { error }) => ({
+      ...state,
+      error,
+      loading: false,
+    })
+  ),
 
   on(Actions.loadAgreementContactPersonsHistory, (state) => ({
     ...state,

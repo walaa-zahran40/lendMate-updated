@@ -85,22 +85,31 @@ export class AgreementContactPersonsEffects {
         AgreementContactPersonActions.loadAgreementContactPersonsByAgreementId
       ),
       mergeMap(({ agreementId }) =>
-        this.service.getById(agreementId).pipe(
-          // returns { items, totalCount }
-          map((resp: any) =>
-            AgreementContactPersonActions.loadAgreementContactPersonsByAgreementIdSuccess(
-              {
-                items: resp.items,
-                totalCount: resp.totalCount,
-              }
+        this.service.getByAgreementId(agreementId).pipe(
+          tap((resp: any) =>
+            console.log(
+              '[Effect] API resp length=',
+              Array.isArray(resp) ? resp.length : resp?.items?.length
             )
           ),
+          map((resp: any) => {
+            const items: AgreementContactPerson[] = Array.isArray(resp)
+              ? resp
+              : resp?.items ?? [];
+            const totalCount = Array.isArray(resp)
+              ? resp.length
+              : resp?.totalCount ?? items.length;
+            return AgreementContactPersonActions.loadAgreementContactPersonsByAgreementIdSuccess(
+              {
+                items,
+                totalCount,
+              }
+            );
+          }),
           catchError((error) =>
             of(
               AgreementContactPersonActions.loadAgreementContactPersonsByAgreementIdFailure(
-                {
-                  error,
-                }
+                { error }
               )
             )
           )
@@ -193,37 +202,6 @@ export class AgreementContactPersonsEffects {
     )
   );
 
-  refreshList$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(
-        AgreementContactPersonActions.createAgreementContactPersonSuccess,
-        AgreementContactPersonActions.updateAgreementContactPersonSuccess,
-        AgreementContactPersonActions.deleteAgreementContactPersonSuccess
-      ),
-
-      map((action) => {
-        if ('clientId' in action) {
-          // for create/update you returned `{ client: AgreementContactPerson }`,
-          // so dig into that object’s clientId
-          return action.clientId;
-        } else {
-          // for delete you returned `{ id, clientId }`
-          return action.client.clientId;
-        }
-      }),
-
-      // only continue if it’s a number
-
-      map((clientId) =>
-        AgreementContactPersonActions.loadAgreementContactPersonsByClientId({
-          clientId,
-        })
-      )
-    )
-  );
-  /**
-   * The “by‐clientId” loader
-   */
   loadByClientId$ = createEffect(() =>
     this.actions$.pipe(
       ofType(

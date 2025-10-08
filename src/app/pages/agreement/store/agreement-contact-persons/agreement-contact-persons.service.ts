@@ -23,7 +23,8 @@ export class AgreementContactPersonsService {
       params = params.set('pageNumber', pageNumber.toString());
     }
     return this.http.get<PagedResponse<AgreementContactPerson>>(
-      `${this.api}/GetAllAgreementContactPersons`
+      `${this.api}/GetAllAgreementContactPersons`,
+      { params }
     );
   }
 
@@ -40,6 +41,12 @@ export class AgreementContactPersonsService {
       items: AgreementContactPerson[];
       totalCount: number;
     }>(`${this.api}/AgreementId?agreementId=${agreementId}`);
+  }
+
+  getByAgreementId(agreementId: number): Observable<AgreementContactPerson[]> {
+    return this.http.get<AgreementContactPerson[]>(
+      `${this.api}/AgreementId?agreementId=${agreementId}`
+    );
   }
 
   create(
