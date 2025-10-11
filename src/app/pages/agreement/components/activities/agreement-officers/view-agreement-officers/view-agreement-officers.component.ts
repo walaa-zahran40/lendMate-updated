@@ -1,19 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  Subject,
-  Observable,
-  takeUntil,
-  forkJoin,
-  combineLatest,
-  map,
-  startWith,
-  tap,
-} from 'rxjs';
+import { Subject, Observable, takeUntil, forkJoin, map, tap } from 'rxjs';
 import { TableComponent } from '../../../../../../shared/components/table/table.component';
-import { Area } from '../../../../../lookups/store/areas/area.model';
 import { AgreementOfficer } from '../../../../store/agreement-officers/agreement-officer.model';
 import { AgreementOfficersFacade } from '../../../../store/agreement-officers/agreement-officers.facade';
+import { AgreementOfficersService } from '../../../../store/agreement-officers/agreement-officers.service';
 
 @Component({
   selector: 'app-view-agreement-officers',
@@ -23,56 +14,69 @@ import { AgreementOfficersFacade } from '../../../../store/agreement-officers/ag
 })
 export class ViewAgreementOfficersComponent {
   tableDataInside: AgreementOfficer[] = [];
-  first2: number = 0;
+  first2 = 0;
+  rows = 10;
+  showFilters = false;
+
   private destroy$ = new Subject<void>();
-  rows: number = 10;
-  showFilters: boolean = false;
-  clientIdParam!: any;
+
   @ViewChild('tableRef') tableRef!: TableComponent;
 
   readonly colsInside = [
     { field: 'id', header: 'ID' },
     { field: 'agreementId', header: 'Agreement ID' },
-    { field: 'officerId', header: 'Officer ID' },
+    { field: 'officerId', header: 'Contact Person ID' },
   ];
-  showDeleteModal: boolean = false;
+
+  showDeleteModal = false;
   selectedAgreementOfficerId: number | null = null;
+
   originalAgreementOfficers: AgreementOfficer[] = [];
   filteredAgreementOfficers: AgreementOfficer[] = [];
+  clientIdParam!: number;
   agreementOfficers$!: Observable<AgreementOfficer[]>;
-  routeId = this.route.snapshot.params['id'];
+
   constructor(
     private router: Router,
     private facade: AgreementOfficersFacade,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private svc: AgreementOfficersService
   ) {}
 
   ngOnInit() {
-    // make sure it's a number
-    const agreementId = Number(this.route.snapshot.params['id']);
-    this.facade.loadOne(agreementId);
-
-    this.agreementOfficers$ = this.facade.items$.pipe(
-      startWith([] as AgreementOfficer[]),
-      tap((arr) => console.log('[DEBUG] agreementOfficers$ len →', arr.length))
+    this.clientIdParam = +this.route.snapshot.params['clientId'];
+    const agreementIdStr = this.route.snapshot.paramMap.get('agreementId');
+    console.log('agreementId raw:', agreementIdStr);
+    const agreementId = Number(agreementIdStr);
+    console.log(
+      'agreementId parsed:',
+      agreementId,
+      'isNaN?',
+      Number.isNaN(agreementId)
     );
+
+    this.facade.loadByAgreementId(agreementId);
+    this.agreementOfficers$ = this.facade.items$;
 
     this.agreementOfficers$
       .pipe(
-        map((list) => [...list].sort((a, b) => b.id - a.id)),
+        map((rows: any) => (Array.isArray(rows) ? rows : rows?.items ?? [])),
+        tap((rows) => console.log('rows by agreementId', rows)),
         takeUntil(this.destroy$)
       )
-      .subscribe((enriched) => {
-        this.originalAgreementOfficers = enriched;
-        this.filteredAgreementOfficers = [...enriched];
+      .subscribe((rows) => {
+        // filtered = exactly what the API returned
+        this.originalAgreementOfficers = rows;
+        this.filteredAgreementOfficers = [...rows];
       });
   }
 
   onAddAgreementOfficer() {
     const id = this.route.snapshot.paramMap.get('id');
-
+    const agreementId = this.route.snapshot.paramMap.get('agreementId');
+    const clientId = this.route.snapshot.params['clientId'];
     this.router.navigate([
-      `/agreement/activities/wizard-agreement/add-agreement-officer/${id}`,
+      `/agreement/activities/wizard-agreement/add-agreement-officer/${id}/${agreementId}/${clientId}`,
     ]);
   }
 
@@ -111,10 +115,16 @@ export class ViewAgreementOfficersComponent {
     this.showFilters = value;
   }
   onEditAgreementOfficer(agreementContactAgreementOfficer: AgreementOfficer) {
+    const id = this.route.snapshot.paramMap.get('id');
+    const agreementId = this.route.snapshot.paramMap.get('agreementId');
+    const clientId = this.route.snapshot.params['clientId'];
     this.router.navigate(
       [
-        '/crm/clients/edit-agreement-files',
+        '/agreement/activities/wizard-agreement/add-agreement-officer',
         agreementContactAgreementOfficer.id,
+        id,
+        agreementId,
+        clientId,
       ],
       {
         queryParams: {
@@ -125,12 +135,24 @@ export class ViewAgreementOfficersComponent {
     );
   }
   onViewAgreementOfficer(ct: AgreementOfficer) {
-    this.router.navigate(['/crm/clients/edit-agreement-files', ct.id], {
-      queryParams: {
-        mode: 'view',
-        clientId: this.clientIdParam,
-      },
-    });
+    const id = this.route.snapshot.paramMap.get('id');
+    const agreementId = this.route.snapshot.paramMap.get('agreementId');
+    const clientId = this.route.snapshot.params['clientId'];
+    this.router.navigate(
+      [
+        '/agreement/activities/wizard-agreement/add-agreement-officer',
+        ct.id,
+        id,
+        agreementId,
+        clientId,
+      ],
+      {
+        queryParams: {
+          mode: 'view',
+          clientId: this.clientIdParam,
+        },
+      }
+    );
   }
   selectedIds: number[] = [];
   confirmDelete() {

@@ -58,10 +58,9 @@ export class AgreementOfficersEffects {
       ofType(AgreementOfficerActions.loadAgreementOfficer),
       mergeMap(({ id }) =>
         this.service.getById(id).pipe(
-          // returns { items, totalCount }
-          map((resp) =>
+          map((item) =>
             AgreementOfficerActions.loadAgreementOfficerSuccess({
-              items: resp,
+              item,
             })
           ),
           catchError((error) =>
@@ -80,20 +79,31 @@ export class AgreementOfficersEffects {
     this.actions$.pipe(
       ofType(AgreementOfficerActions.loadAgreementOfficersByAgreementId),
       mergeMap(({ agreementId }) =>
-        this.service.getById(agreementId).pipe(
-          // returns { items, totalCount }
-          map((resp: any) =>
-            AgreementOfficerActions.loadAgreementOfficersByAgreementIdSuccess({
-              items: resp.items,
-              totalCount: resp.totalCount,
-            })
+        this.service.getByAgreementId(agreementId).pipe(
+          tap((resp: any) =>
+            console.log(
+              '[Effect] API resp length=',
+              Array.isArray(resp) ? resp.length : resp?.items?.length
+            )
           ),
+          map((resp: any) => {
+            const items: AgreementOfficer[] = Array.isArray(resp)
+              ? resp
+              : resp?.items ?? [];
+            const totalCount = Array.isArray(resp)
+              ? resp.length
+              : resp?.totalCount ?? items.length;
+            return AgreementOfficerActions.loadAgreementOfficersByAgreementIdSuccess(
+              {
+                items,
+                totalCount,
+              }
+            );
+          }),
           catchError((error) =>
             of(
               AgreementOfficerActions.loadAgreementOfficersByAgreementIdFailure(
-                {
-                  error,
-                }
+                { error }
               )
             )
           )
@@ -178,37 +188,6 @@ export class AgreementOfficersEffects {
     )
   );
 
-  refreshList$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(
-        AgreementOfficerActions.createAgreementOfficerSuccess,
-        AgreementOfficerActions.updateAgreementOfficerSuccess,
-        AgreementOfficerActions.deleteAgreementOfficerSuccess
-      ),
-      map((action) => {
-        // create/update success: { client: AgreementOfficer }
-        if ('client' in action && action.client) {
-          return action.client.clientId!;
-        }
-        // delete success: { id, clientId }
-        if ('clientId' in action) {
-          return action.clientId;
-        }
-        return undefined as unknown as number;
-      }),
-      filter(
-        (clientId): clientId is number =>
-          typeof clientId === 'number' && !isNaN(clientId)
-      ),
-      map((clientId) =>
-        AgreementOfficerActions.loadAgreementOfficersByClientId({ clientId })
-      )
-    )
-  );
-
-  /**
-   * The “by‐clientId” loader
-   */
   loadByClientId$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AgreementOfficerActions.loadAgreementOfficersByClientId),

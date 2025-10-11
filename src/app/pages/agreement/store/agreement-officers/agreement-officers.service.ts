@@ -32,8 +32,13 @@ export class AgreementOfficersService {
     );
   }
 
-  // agreement-officers.service.ts
-  getById(agreementId: number): Observable<AgreementOfficer[]> {
+  getById(agreementId: number): Observable<AgreementOfficer> {
+    return this.http.get<AgreementOfficer>(
+      `${this.api}/AgreementOfficerId?id=${agreementId}`
+    );
+  }
+
+  getByAgreementId(agreementId: number): Observable<AgreementOfficer[]> {
     return this.http.get<AgreementOfficer[]>(
       `${this.api}/AgreementId?agreementId=${agreementId}`
     );

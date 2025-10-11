@@ -1,19 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  Subject,
-  Observable,
-  filter,
-  take,
-  map,
-  tap,
-  shareReplay,
-  startWith,
-  switchMap,
-  distinctUntilChanged,
-} from 'rxjs';
-import { ClientAddress } from '../../../../../crm/clients/store/client-addresses/client-address.model';
+import { Subject, Observable, filter, take, startWith } from 'rxjs';
 import { ClientContactPersonsFacade } from '../../../../../crm/clients/store/client-contact-persons/client-contact-persons.facade';
 import { AgreementContactPersonsFacade } from '../../../../store/agreement-contact-persons/agreement-contact-persons.facade';
 import { ClientContactPerson } from '../../../../../crm/clients/store/client-contact-persons/client-contact-person.model';

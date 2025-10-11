@@ -11,7 +11,6 @@ export class AgreementOfficersFacade {
   items$: Observable<AgreementOfficer[]> = this.store.select(
     Selectors.selectAgreementOfficers
   );
-
   total$: Observable<number> = this.store.select(
     Selectors.selectAgreementOfficersTotal
   );

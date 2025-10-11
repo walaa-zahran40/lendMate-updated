@@ -1,17 +1,22 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { Observable, Subject, filter, take } from 'rxjs';
-import { ClientAddress } from '../../../../../crm/clients/store/client-addresses/client-address.model';
-import { ClientAddressesFacade } from '../../../../../crm/clients/store/client-addresses/client-addresses.facade';
-import { AddressType } from '../../../../../lookups/store/address-types/address-type.model';
-import { Area } from '../../../../../lookups/store/areas/area.model';
-import { Country } from '../../../../../lookups/store/countries/country.model';
-import { Governorate } from '../../../../../lookups/store/governorates/governorate.model';
-import { Officer } from '../../../../../organizations/store/officers/officer.model';
-import { OfficersFacade } from '../../../../../organizations/store/officers/officers.facade';
+import {
+  Observable,
+  Subject,
+  combineLatest,
+  filter,
+  map,
+  startWith,
+  take,
+  tap,
+} from 'rxjs';
 import { AgreementOfficersFacade } from '../../../../store/agreement-officers/agreement-officers.facade';
+import { ClientOfficersFacade } from '../../../../../crm/clients/store/client-officers/client-officers.facade';
+import { ClientOfficer } from '../../../../../crm/clients/store/client-officers/client-officer.model';
+import { LeasingAgreementsFacade } from '../../../../store/agreements/agreements.facade';
+import { AgreementOfficer } from '../../../../store/agreement-officers/agreement-officer.model';
+import { OfficersFacade } from '../../../../../organizations/store/officers/officers.facade';
 
 @Component({
   selector: 'app-add-agreement-officer',
@@ -28,154 +33,123 @@ export class AddAgreementOfficerComponent {
   clientId: any;
   recordId!: number;
   private destroy$ = new Subject<void>();
-  officers$!: Observable<Officer[]>;
+  officers$!: Observable<AgreementOfficer[]>;
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private facade: AgreementOfficersFacade,
-    private router: Router,
-    private officersFacade: OfficersFacade
+    private officersFacade: OfficersFacade,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
+    // parent id (whatever your first :id is)
     this.recordId = Number(this.route.snapshot.paramMap.get('id'));
-    this.clientId = Number(this.route.snapshot.queryParams['clientId']);
 
-    this.mode =
-      (this.route.snapshot.queryParamMap.get('mode') as
-        | 'add'
-        | 'edit'
-        | 'view') ?? 'add';
+    // read from path OR query (whichever exists)
+    const officerId = this.getNumParam('officerId'); // for edit/view routes
+    let agreementIdInit = this.getNumParam('agreementId');
+    let clientIdInit = this.getNumParam('clientId');
+
+    // If your first :id is actually the agreement id, fall back to it
+    if (agreementIdInit == null) agreementIdInit = this.recordId;
+
+    // derive mode: query ? query : officerId ? edit : add
+    const qpMode = this.route.snapshot.queryParamMap.get('mode') as
+      | 'add'
+      | 'edit'
+      | 'view'
+      | null;
+    this.mode = qpMode ?? (officerId ? 'edit' : 'add');
     this.editMode = this.mode === 'edit';
     this.viewOnly = this.mode === 'view';
-    console.log('🔍 Params:', {
-      clientId: this.clientId,
-      mode: this.mode,
-      editMode: this.editMode,
-      viewOnly: this.viewOnly,
+    console.log('[mode]', this.mode, {
+      officerId,
+      agreementIdInit,
+      clientIdInit,
     });
-    this.officersFacade.loadAll();
-    this.officers$ = this.officersFacade.items$;
-    //  Build the form
+
     this.addAgreementOfficersForm = this.fb.group({
       id: [null],
-      leasingAgreementId: [this.recordId],
-      officerId: [null, [Validators.required]],
+      agreementId: [agreementIdInit, Validators.required],
+      officerId: [null, Validators.required], // <-- use client officer row id
+      clientId: [clientIdInit],
     });
-    console.log(
-      '🛠️ Form initialized with defaults:',
-      this.addAgreementOfficersForm.value
+    this.officersFacade.loadAll?.(); // or whatever your facade method is (loadList/getAll)
+    const selectedOfficerId$ = this.facade.items$.pipe(
+      map((rows) => rows?.[0]?.officerId), // adjust if you can have multiple
+      filter((id): id is number => !!id)
     );
 
-    // 6️⃣ If add mode, seed clientId
-    if (this.mode === 'add') {
-      this.addAgreementOfficersForm.patchValue({
-        clientId: this.clientId,
-      });
-      console.log('✏️ Add mode → patched clientId:', this.clientId);
-    }
+    this.officers$ = combineLatest([
+      this.officersFacade.items$,
+      selectedOfficerId$,
+    ]).pipe(
+      map(([all, id]) => all.filter((o: any) => o.id === id)),
+      startWith([])
+    );
 
-    // 8️⃣ If editing or viewing, load & patch
-    if (this.editMode || this.viewOnly) {
-      console.log('edit ', this.editMode, 'route', this.route.snapshot);
-      console.log('🔄 Loading existing record id=', this.recordId);
-      this.facade.loadOne(this.recordId);
-
+    this.facade.loadByAgreementId(agreementIdInit);
+    // EDIT/VIEW: patch the selected officerId
+    if ((this.editMode || this.viewOnly) && officerId) {
+      this.facade.loadOne(officerId);
       this.facade.current$
         .pipe(
-          filter((ct) => !!ct && ct.id === this.recordId),
+          filter((ct): ct is AgreementOfficer => !!ct && ct.id === officerId),
           take(1)
         )
         .subscribe((ct) => {
-          // patch form
           this.addAgreementOfficersForm.patchValue({
-            id: ct?.id,
+            id: ct.id,
+            agreementId: Number(ct.agreementId ?? agreementIdInit),
+            officerId: Number(ct.officerId), // 👈 this selects the officer in the dropdown
+            clientId: Number(ct.clientId ?? clientIdInit),
           });
-          console.log(
-            '📝 Form after patchValue:',
-            this.addAgreementOfficersForm.value
-          );
-
-          if (this.viewOnly) {
-            console.log('🔐 viewOnly → disabling form');
-            this.addAgreementOfficersForm.disable();
-          }
+          if (this.viewOnly) this.addAgreementOfficersForm.disable();
         });
-    } else if (this.viewOnly) {
-      console.log('🔐 viewOnly (no id) → disabling form');
-      this.addAgreementOfficersForm.disable();
     }
   }
 
+  private getNumParam(name: string): number | undefined {
+    const fromPath = this.route.snapshot.paramMap.get(name);
+    const fromQuery = this.route.snapshot.queryParamMap.get(name);
+    const v = fromPath ?? fromQuery;
+    return v != null && v !== '' ? Number(v) : undefined;
+  }
+
   addOrEditAgreementOfficers() {
-    const clientParamQP = this.route.snapshot.queryParamMap.get('clientId');
-
-    console.log('💥 addClientAddresses() called');
-    console.log('  viewOnly:', this.viewOnly);
-    console.log('  editMode:', this.editMode);
-    console.log('  form valid:', this.addAgreementOfficersForm.valid);
-    console.log('  form touched:', this.addAgreementOfficersForm.touched);
-    console.log(
-      '  form raw value:',
-      this.addAgreementOfficersForm.getRawValue()
-    );
-
     if (this.addAgreementOfficersForm.invalid) {
-      console.warn('❌ Form is invalid — marking touched and aborting');
       this.addAgreementOfficersForm.markAllAsTouched();
       return;
     }
 
-    this.addAgreementOfficersForm.patchValue({
-      clientId: clientParamQP,
-    });
+    const { id, agreementId, clientId, officerId } =
+      this.addAgreementOfficersForm.getRawValue();
 
-    const { details, detailsAR, areaId, clientId, addressTypeId, isActive } =
-      this.addAgreementOfficersForm.value;
-    const payload: Partial<ClientAddress> = {
-      details,
-      detailsAR,
-      areaId,
+    const payload: Partial<AgreementOfficer> = {
+      id,
+      agreementId,
+      officerId,
       clientId,
-      addressTypeId,
-      isActive,
     };
-    console.log('  → payload object:', payload);
 
-    const data = this.addAgreementOfficersForm.value as Partial<ClientAddress>;
-    console.log('📦 Payload going to facade:', data);
-
-    const routeId = this.route.snapshot.paramMap.get('id');
-    console.log('  route.snapshot.paramMap.get(retrivedId):', routeId);
-
-    if (this.mode === 'add') {
-      console.log('➕ Dispatching CREATE');
-      this.facade.create(payload);
+    const isAdd = !id || this.mode === 'add';
+    if (isAdd) {
+      this.facade.create(payload); // POST
     } else {
-      console.log('✏️ Dispatching UPDATE id=', data.id);
-      this.facade.update(data.id!, data);
-    }
-    if (this.addAgreementOfficersForm.valid) {
-      this.addAgreementOfficersForm.markAsPristine();
+      this.facade.update(id!, payload); // PUT /AgreementOfficers/{id}
     }
 
-    if (clientParamQP) {
-      console.log('➡️ Navigating back with PATH param:', clientParamQP);
-      this.router.navigate([
-        '/agreement/activities/wizard-agreement/view-agreement-officers',
-        clientParamQP,
-      ]);
-    } else if (clientParamQP) {
-      console.log(
-        '➡️ Navigating back with QUERY param fallback:',
-        clientParamQP
-      );
-      this.router.navigate([
-        `/agreement/activities/wizard-agreement/view-agreement-officers/${clientParamQP}`,
-      ]);
-    } else {
-      console.error('❌ Cannot navigate back: clientId is missing!');
-    }
+    const recId = this.recordId; // already a number
+    this.router.navigate([
+      '/agreement',
+      'activities',
+      'wizard-agreement',
+      'view-agreement-officers',
+      String(recId),
+      String(agreementId ?? ''),
+      String(clientId ?? ''),
+    ]);
   }
 
   /** Called by the guard. */

@@ -13,7 +13,6 @@ import {
 import { TableComponent } from '../../../../../../shared/components/table/table.component';
 import { AgreementContactPerson } from '../../../../store/agreement-contact-persons/agreement-contact-person.model';
 import { AgreementContactPersonsFacade } from '../../../../store/agreement-contact-persons/agreement-contact-persons.facade';
-import { ClientContactPersonsFacade } from '../../../../../crm/clients/store/client-contact-persons/client-contact-persons.facade';
 import { AgreementContactPersonsService } from '../../../../store/agreement-contact-persons/agreement-contact-persons.service';
 
 @Component({

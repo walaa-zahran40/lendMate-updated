@@ -20,6 +20,26 @@ export const agreementOfficersReducer = createReducer(
     error,
     loading: false,
   })),
+  on(Actions.loadAgreementOfficersByAgreementId, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
+  on(
+    Actions.loadAgreementOfficersByAgreementIdSuccess,
+    (state, { items, totalCount }) => ({
+      ...state,
+      items,
+      totalCount,
+      loading: false,
+      error: null,
+    })
+  ),
+  on(Actions.loadAgreementOfficersByAgreementIdFailure, (state, { error }) => ({
+    ...state,
+    error,
+    loading: false,
+  })),
 
   on(Actions.loadAgreementOfficersHistory, (state) => ({
     ...state,
@@ -39,19 +59,20 @@ export const agreementOfficersReducer = createReducer(
   on(Actions.loadAgreementOfficer, (state) => ({
     ...state,
     loading: true,
+    error: null,
   })),
-  on(Actions.loadAgreementOfficerSuccess, (state, { items }) => ({
+  on(Actions.loadAgreementOfficerSuccess, (state, { item }) => ({
     ...state,
-    items,
+    current: item,
     loading: false,
     error: null,
   })),
+
   on(Actions.loadAgreementOfficerFailure, (state, { error }) => ({
     ...state,
     error,
     loading: false,
   })),
-
   on(Actions.createAgreementOfficer, (state) => ({
     ...state,
     loading: true,
@@ -110,5 +131,21 @@ export const agreementOfficersReducer = createReducer(
     ...state,
     error,
     loading: false,
+  })),
+  on(Actions.loadAgreementOfficer, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
+  on(Actions.loadAgreementOfficerSuccess, (state, { item }) => ({
+    ...state,
+    current: item,
+    loading: false,
+    error: null,
+  })),
+  on(Actions.loadAgreementOfficerFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
   }))
 );

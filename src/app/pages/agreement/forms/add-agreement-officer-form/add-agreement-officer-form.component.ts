@@ -57,17 +57,12 @@ export class AddAgreementOfficerFormComponent implements OnInit, OnDestroy {
   @Input() identityTypeOptions!: IdentificationType[];
   @Output() addPhoneType = new EventEmitter<void>();
   @Output() removePhoneType = new EventEmitter<number>();
-  @Output() addCommunicationOfficer = new EventEmitter<void>();
-  @Output() removeCommunicationOfficer = new EventEmitter<number>();
+  @Output() addCommunicationContactPerson = new EventEmitter<void>();
+  @Output() removeCommunicationContactPerson = new EventEmitter<number>();
 
   @Output() addCommunicationAssetType = new EventEmitter<void>();
   @Output() removeCommunicationAssetType = new EventEmitter<number>();
 
-  @Output() addCommunicationContactPerson = new EventEmitter<void>();
-  @Output() removeCommunicationContactPerson = new EventEmitter<number>();
-
-  @Output() addOfficer = new EventEmitter<void>();
-  @Output() removeOfficer = new EventEmitter<number>();
   @Output() addContactPerson = new EventEmitter<void>();
   @Output() removeContactPerson = new EventEmitter<number>();
   @Output() addAssetType = new EventEmitter<void>();
@@ -76,7 +71,6 @@ export class AddAgreementOfficerFormComponent implements OnInit, OnDestroy {
   @Output() removeFee = new EventEmitter<number>();
   @Output() addGracePeriod = new EventEmitter<void>();
   @Output() removeGracePeriod = new EventEmitter<number>();
-  @Output() viewContactPersons = new EventEmitter<number>();
 
   id!: string;
   @Input() applyReusable: boolean = false;
@@ -131,8 +125,8 @@ export class AddAgreementOfficerFormComponent implements OnInit, OnDestroy {
   @Input() conditionExpressions: any;
   @Input() officersList: any;
   @Input() clientsList: any;
-  @Input() tmlOfficerTypesList: any;
-  @Input() clientOfficerTypesList: any;
+  @Input() tmlContactPersonTypesList: any;
+  @Input() clientContactPersonTypesList: any;
   @Input() legalFormsList: any;
   @Input() legalFormLawsList: any;
   @Input() pageIds: any;
@@ -300,18 +294,14 @@ export class AddAgreementOfficerFormComponent implements OnInit, OnDestroy {
   selectedIsActive!: any;
   companyTypes!: any;
   shareHolderTypes!: any;
-  officerNames!: any;
-  officerTypes!: any;
+  contactPersonNames!: any;
+  contactPersonTypes!: any;
   @Input() clientNames!: any;
   @Input() validityUnits!: any;
   @Input() products!: any;
   @Input() leasingTypes!: any;
   @Input() insuredBy!: any;
   @Input() officers!: any;
-  @Input() contactPersonsList!: any;
-  @Input() assetTypesList!: any;
-  @Input() feesList!: any;
-  @Input() contactPersons!: any;
   @Input() callTypes!: any;
   @Input() gracePeriodUnitsList!: any;
   selectedClientNames!: any;
@@ -323,12 +313,10 @@ export class AddAgreementOfficerFormComponent implements OnInit, OnDestroy {
   selectedLeasingTypes!: any;
   actions!: any;
   selectedActions!: any;
-  officerTypesMandates!: any;
-  selectedOfficerTypesMandate!: any;
+  contactPersonTypesMandates!: any;
+  selectedContactPersonTypesMandate!: any;
   selectedAssestTypesMandate!: any;
   assestTypesMandates!: any;
-  selectedContactPersonTypesMandate!: any;
-  contactPersonTypesMandates!: any;
   selectedGracePeriodUnits!: any;
   selectedPaymentPeriods!: any;
   currencyExchangeRate!: any;
@@ -355,9 +343,8 @@ export class AddAgreementOfficerFormComponent implements OnInit, OnDestroy {
   selectedGovernorateAddMeeting!: any;
   areaAddMeeting!: any;
   selectedAreaAddMeeting!: any;
-  officerAddMeeting!: any;
-  selectedOfficerAddMeeting!: any;
-  contactPersonsFollowupsPoints!: any;
+  contactPersonAddMeeting!: any;
+  selectedContactPersonAddMeeting!: any;
   officersFollowupsPoints!: any;
   communicationFlowAddCall!: any;
   selectedCommunicationFlowAddCall!: any;
@@ -372,7 +359,6 @@ export class AddAgreementOfficerFormComponent implements OnInit, OnDestroy {
   selectedCompanyTypes!: any;
   //checkboxes
   selectedOfficers: any[] = [];
-  selectedContactPersons = [];
   selectedAssestTypes = [];
   size: any = true;
   size1: any = true;
@@ -411,7 +397,9 @@ export class AddAgreementOfficerFormComponent implements OnInit, OnDestroy {
         'Must attend to hold and run the meeting with other team members',
     },
   ];
-
+  agreementId: any;
+  idParamId: any;
+  clientIdAgreement: any;
   //dates
   date: Date | undefined;
   date1: Date | undefined;
@@ -449,13 +437,13 @@ export class AddAgreementOfficerFormComponent implements OnInit, OnDestroy {
   @Input() addClientPhoneNumberForm!: boolean;
   @Input() addClientIdentityForm!: boolean;
   @Input() addClientContactPersonForm!: boolean;
-  @Input() addContactPersonShowMain!: boolean;
+  @Input() addOfficershowMain!: boolean;
   @Input() clientOnboarding!: boolean;
   @Input() clientOnboardingShowIndividual!: boolean;
   @Input() addTaxAuthorityOfficeShowMain!: boolean;
   @Input() addCentralBankInfoShowMain!: boolean;
   @Input() addShareHolderShowMain!: boolean;
-  @Input() addTMLOfficerShowMain!: boolean;
+  @Input() addTMLOfficershowMain!: boolean;
   @Input() statusList: any;
   @Input() communicationFlowTypes: any;
   @Input() workflowActionTypeList: any;
@@ -467,12 +455,10 @@ export class AddAgreementOfficerFormComponent implements OnInit, OnDestroy {
   //Leasing Mandates
   @Input() addMandateShowMoreInformationForm!: boolean;
   @Input() addMandateShowAssetTypeForm!: boolean;
-  @Input() addMandateShowContactPersonsForm!: boolean;
   @Input() addMandateShowOfficersForm!: boolean;
   @Input() addMandateShowBasicForm!: boolean;
   //Child Leasing Mandates
   @Input() addChildMandateShowBasicForm!: boolean;
-  @Input() addChildMandateShowContactPersonsForm!: boolean;
   @Input() addChildMandateShowOfficersForm!: boolean;
   @Input() addChildMandateShowMoreInformationForm!: boolean;
   @Input() addChildMandateShowAssetTypeForm!: boolean;
@@ -489,11 +475,9 @@ export class AddAgreementOfficerFormComponent implements OnInit, OnDestroy {
   @Input() addCompanyTypesLookupsForm!: boolean;
   @Input() addMeetingShowBusinessInformationForm!: boolean;
   @Input() addMeetingShowAssetTypeForm!: boolean;
-  @Input() addMeetingShowContactPersonsForm!: boolean;
   @Input() addMeetingShowOfficersForm!: boolean;
   @Input() addMeetingShowBasicForm!: boolean;
   @Input() addCallShowBusinessInformationForm!: boolean;
-  @Input() addCallShowContactPersonsForm!: boolean;
   @Input() addCallShowOfficersForm!: boolean;
   @Input() addCallShowBasicForm!: boolean;
   @Input() addFollowupsForm!: boolean;
@@ -507,16 +491,17 @@ export class AddAgreementOfficerFormComponent implements OnInit, OnDestroy {
   @Input() addTeamORGForm!: boolean;
   @Input() addAgreementOfficersForm!: boolean;
   optionLabelKey = 'name';
+  optionLabelKeyOfficer = 'detailes';
   filterByField = 'name';
 
   @Input() addRoleClaimORGForm!: boolean;
   @Input() addCommunicationFlowTypesLookupsForm!: boolean;
-  @Input() addTeamOfficerORGForm!: boolean;
+  @Input() addTeamContactPersonORGForm!: boolean;
   @Input() addRoleORGForm!: boolean;
   @Input() addOperationsORGForm!: boolean;
   @Input() addPageOperationORGForm!: boolean;
-  @Input() addOfficerORGForm!: boolean;
-  @Input() addSignatoryOfficerORGForm!: boolean;
+  @Input() addContactPersonORGForm!: boolean;
+  @Input() addSignatoryContactPersonORGForm!: boolean;
   @Input() addFeeCalculationTypesLookupsForm!: boolean;
   @Input() addMandateStatusesLookupsForm!: boolean;
   @Input() addMandateStatusActionsLookupsForm!: boolean;
@@ -580,18 +565,18 @@ export class AddAgreementOfficerFormComponent implements OnInit, OnDestroy {
   @Input() addIdentificationTypesLookupsForm!: boolean;
   @Input() addAreasLookupsForm!: boolean;
   @Input() addTaxOfficesLookupsForm!: boolean;
-  @Input() addTmlOfficerTypeLookupsForm!: boolean;
+  @Input() addTmlContactPersonTypeLookupsForm!: boolean;
   @Input() addcallTypesLookupsForm!: boolean;
   @Input() addCommunicationTypesLookupsForm!: boolean;
   @Input() addCallActionTypeLookupsForm!: boolean;
-  @Input() addClientOfficerTypeLookupsForm!: boolean;
+  @Input() addClientContactPersonTypeLookupsForm!: boolean;
   @Input() addClientGuarantorsShowIndividual!: boolean;
   @Input() addClientIdentities!: boolean;
   @Input() addWorkFlowActionTypesLookupsForm!: boolean;
   @Input() addLegalFormLawsForm!: boolean;
   @Input() addLegalFormsForm!: boolean;
   @Input() addOfficersForm!: boolean;
-  @Input() addClientOfficerShowMain!: boolean;
+  @Input() addClientOfficershowMain!: boolean;
   @Input() addClientLegalShowMain!: boolean;
   @Input() addDepartmentsForm!: boolean;
   @Input() addMandateActionAuthorizationGroupForm!: boolean;
@@ -641,10 +626,12 @@ export class AddAgreementOfficerFormComponent implements OnInit, OnDestroy {
     public router: Router
   ) {
     this.setOptionLabelKey(this.translate.currentLang);
+    this.setOptionLabelKeyOfficer(this.translate.currentLang);
     this.setFilterByBasedOnLanguage();
     this.setOperationBasedOnLanguage();
     this.translate.onLangChange.subscribe((event) => {
       this.setOptionLabelKey(event.lang);
+      this.setOptionLabelKeyOfficer(event.lang);
       this.setFilterByBasedOnLanguage();
       this.setOperationBasedOnLanguage();
     });
@@ -669,6 +656,10 @@ export class AddAgreementOfficerFormComponent implements OnInit, OnDestroy {
       this.route.snapshot.queryParams['clientStatusActionId'];
     this.clientStatusIdParam = this.route.snapshot.params['id'];
     this.mandateStatusIdParam = this.route.snapshot.params['id'];
+    this.agreementId = this.route.snapshot.params['agreementId'];
+    this.idParamId = this.route.snapshot.params['id'];
+    this.clientIdAgreement = this.route.snapshot.params['clientId'];
+
     this.mandateStatusActionIdParam =
       this.route.snapshot.queryParams['mandateStatusActionId'];
     this.sub = this.formGroup?.valueChanges
@@ -709,6 +700,9 @@ export class AddAgreementOfficerFormComponent implements OnInit, OnDestroy {
   private setOptionLabelKey(lang: string) {
     this.optionLabelKey = lang === 'ar' ? 'nameAR' : 'name';
   }
+  private setOptionLabelKeyOfficer(lang: string) {
+    this.optionLabelKeyOfficer = lang === 'ar' ? 'detailesAR' : 'detailes';
+  }
   private setFilterByBasedOnLanguage(): void {
     this.filterByField =
       this.translate.currentLang === 'ar' ? 'nameAR' : 'name';
@@ -720,12 +714,7 @@ export class AddAgreementOfficerFormComponent implements OnInit, OnDestroy {
   get identities(): FormArray {
     return this.formGroup.get('identities') as FormArray;
   }
-  get mandateOfficers(): FormArray {
-    return this.formGroup.get('mandateOfficers') as FormArray;
-  }
-  get mandateContactPersons(): FormArray {
-    return this.formGroup.get('mandateContactPersons') as FormArray;
-  }
+
   get mandateAssetTypes(): FormArray {
     return this.formGroup.get('mandateAssetTypes') as FormArray;
   }
@@ -949,10 +938,10 @@ export class AddAgreementOfficerFormComponent implements OnInit, OnDestroy {
   viewFeesCalculationType() {
     this.router.navigate(['/lookups/view-fee-calculation-types']);
   }
-  viewSignatoryOfficer() {
+  viewSignatoryContactPerson() {
     this.router.navigate(['/organizations/view-signatory-officers']);
   }
-  viewOfficer() {
+  viewContactPerson() {
     this.router.navigate(['/organizations/view-officers']);
   }
   viewPageOperation() {
@@ -993,12 +982,7 @@ export class AddAgreementOfficerFormComponent implements OnInit, OnDestroy {
   viewOfficers() {
     this.router.navigate(['/organizations/view-officers']);
   }
-  onViewContactPersonsClick() {
-    console.log('Client ID:', this.currentClientId);
-    if (this.currentClientId) {
-      this.viewContactPersons.emit(this.currentClientId);
-    }
-  }
+
   viewFollowUpsPoint() {
     this.router.navigate(['/communication/view-followup-points']);
   }
@@ -1020,12 +1004,12 @@ export class AddAgreementOfficerFormComponent implements OnInit, OnDestroy {
   viewLegalForm() {
     this.router.navigate(['/legals/view-legal-forms']);
   }
-  viewTMLOfficer() {
+  viewTMLContactPerson() {
     this.router.navigate([
       `/crm/clients/view-client-tml-officers/${this.clientId}`,
     ]);
   }
-  viewClientOfficer() {
+  viewClientContactPerson() {
     this.router.navigate([
       `/crm/clients/view-client-officers/${this.clientId}`,
     ]);
@@ -1057,7 +1041,7 @@ export class AddAgreementOfficerFormComponent implements OnInit, OnDestroy {
   }
   viewAgreementOfficersDetails() {
     this.router.navigate([
-      `/agreement/activities/wizard-agreement/view-agreement-officers/${this.clientStatusIdParam}`,
+      `/agreement/activities/wizard-agreement/view-agreement-officers/${this.idParamId}/${this.agreementId}/${this.clientIdAgreement}`,
     ]);
   }
 
@@ -1084,8 +1068,8 @@ export class AddAgreementOfficerFormComponent implements OnInit, OnDestroy {
   viewProducts() {
     this.router.navigate(['/lookups/view-products']);
   }
-  viewOfficerORG() {
-    this.router.navigate(['/organizations/view-officer']);
+  viewContactPersonORG() {
+    this.router.navigate(['/organizations/view-contactPerson']);
   }
   viewSectors() {
     this.router.navigate(['/lookups/view-sectors']);
@@ -1161,8 +1145,8 @@ export class AddAgreementOfficerFormComponent implements OnInit, OnDestroy {
   viewDocTypes() {
     this.router.navigate(['/lookups/view-document-types']);
   }
-  viewTMLOfficerType() {
-    this.router.navigate(['/lookups/view-tml-officer-types']);
+  viewTMLContactPersonType() {
+    this.router.navigate(['/lookups/view-tml-contactPerson-types']);
   }
   viewCommunicationTypes() {
     this.router.navigate(['/lookups/view-communication-types']);
@@ -1170,8 +1154,8 @@ export class AddAgreementOfficerFormComponent implements OnInit, OnDestroy {
   viewCallActionType() {
     this.router.navigate(['/lookups/view-call-action-types']);
   }
-  viewClientOfficerType() {
-    this.router.navigate(['/lookups/view-client-officer-types']);
+  viewClientContactPersonType() {
+    this.router.navigate(['/lookups/view-client-contactPerson-types']);
   }
   viewCommunicationFlowType() {
     this.router.navigate(['/lookups/view-communication-flow-types']);
@@ -1236,14 +1220,6 @@ export class AddAgreementOfficerFormComponent implements OnInit, OnDestroy {
     }
     // bubble up to the parent
     this.submitForm.emit();
-  }
-
-  get communicationOfficersArray(): FormArray {
-    return this.formGroup.get('communicationOfficers') as FormArray;
-  }
-
-  get communicationContactPersonsArray(): FormArray {
-    return this.formGroup.get('communicationContactPersons') as FormArray;
   }
 
   get communicationAssetTypesArray(): FormArray {
