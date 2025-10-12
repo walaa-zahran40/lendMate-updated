@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   BehaviorSubject,
-  catchError,
   combineLatest,
   distinctUntilChanged,
   filter,
@@ -11,12 +10,10 @@ import {
   map,
   merge,
   Observable,
-  of,
   race,
   startWith,
   take,
   tap,
-  timeout,
   timer,
 } from 'rxjs';
 import { AssetsFacade } from '../../../store/assets/assets.facade';
@@ -557,7 +554,6 @@ export class AddAssetComponent {
         description: x.description,
         descriptionAr: x.descriptionAr,
         dateAcquired: toDate(x.dateAcquired), // 👈 ensure Date
-        leasingAgreementId: toNum(x.leasingAgreementId), // 👈 ensure number
         assetTypeId: toNum(x.assetTypeId), // 👈 ensure number
       },
       { emitEvent: false } // 👈 prevent valueChanges side effects
@@ -576,7 +572,6 @@ export class AddAssetComponent {
         description: v.description,
         descriptionAr: v.descriptionAr,
         dateAcquired: v.dateAcquired, // 👈 ensure Date
-        leasingAgreementId: v.leasingAgreementId, // 👈 ensure number
         assetTypeId: v.assetTypeId, // 👈 ensure number
       },
       { emitEvent: false } // 👈 prevent valueChanges side effects
@@ -652,7 +647,6 @@ export class AddAssetComponent {
       ],
       dateAcquired: [null, Validators.required],
       assetTypeId: ['', Validators.required],
-      leasingAgreementId: ['', Validators.required],
     });
   }
   buildEquipmentForm(): void {
@@ -676,7 +670,6 @@ export class AddAssetComponent {
       ],
       dateAcquired: [null, Validators.required],
       assetTypeId: ['', Validators.required],
-      leasingAgreementId: ['', Validators.required],
     });
   }
   buildVehicleForm(): void {
