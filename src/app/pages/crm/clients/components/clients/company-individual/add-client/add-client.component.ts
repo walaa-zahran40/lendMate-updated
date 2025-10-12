@@ -140,61 +140,28 @@ export class AddClientComponent implements OnInit, OnDestroy {
     this.viewOnly = mode === 'view';
     console.log(`Mode = ${mode}, clientId = ${this.clientId}`);
 
-    if (type === 'Company') {
-      // Company path
-      this.clientsFacade.loadById(this.clientId);
-      this.clientsFacade.selected$
-        .pipe(
-          filter((c): c is Client => !!c && c.id === this.clientId),
-          take(1)
-        )
-        .subscribe({
-          next: (client) => {
-            console.log('Loaded client:', client);
-            this.disableIndividualTab = true;
-            this.activeTabIndex = 0;
-            this.patchForm(client);
+    // 3) ✅ Use resolver outputs
+    this.route.data.pipe(take(1)).subscribe(({ client, individual }) => {
+      if (type === 'Company' && client) {
+        this.disableIndividualTab = true;
+        this.activeTabIndex = 0;
+        this.patchForm(client);
+        if (this.viewOnly) this.addClientForm.disable();
+        return;
+      }
 
-            if (this.viewOnly) {
-              console.log('⮕ View-only, disabling company form');
-              this.addClientForm.disable();
-            }
-          },
-          error: (err) =>
-            console.error('❌ clientsFacade.selected$ error:', err),
-          complete: () => console.log('✔️ clientsFacade.selected$ complete'),
-        });
-    }
+      if (type === 'Individual' && individual) {
+        this.disableCompanyTab = true;
+        this.activeTabIndex = 1;
+        this.individualBusinessId = individual.id;
+        this.patchFormIndividual(individual);
+        if (this.viewOnly) this.addClientFormIndividual.disable();
+        return;
+      }
 
-    if (type === 'Individual') {
-      // Individual path
-      console.log('⮕ Individual, patching individual form');
-      this.disableCompanyTab = true;
-      this.activeTabIndex = 1;
-
-      this.individualFacade.loadById(this.clientId);
-      this.individualFacade.selected$
-        .pipe(
-          filter((i): i is Individual => !!i && i.clientId === this.clientId),
-          take(1)
-        )
-        .subscribe({
-          next: (ind) => {
-            this.individualBusinessId = ind.id;
-
-            console.log('Loaded individual:', ind);
-            this.patchFormIndividual(ind);
-
-            if (this.viewOnly) {
-              console.log('⮕ View-only, disabling individual form');
-              this.addClientFormIndividual.disable();
-            }
-          },
-          error: (err) =>
-            console.error('❌ individualFacade.selected$ error:', err),
-          complete: () => console.log('✔️ individualFacade.selected$ complete'),
-        });
-    }
+      // Optional: handle unexpected cases (no data returned)
+      console.warn('[AddClientComponent] No resolved data for type:', type);
+    });
   }
 
   ngOnDestroy(): void {

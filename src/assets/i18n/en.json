@@ -871,7 +871,10 @@
       "DOB": "Date of Birth",
       "IDENTITY_NUMBER": "Identification Number",
       "IDENTITY_TYPE": "Select Identity",
-      "GENDER": "Select Gender"
+      "GENDER": "Select Gender",
+      "SHORT_NAME": "Select Short Name",
+      "SECTOR": "Select Sector",
+      "SUB_SECTOR": "Select Sub Sector"
     },
     "ERRORS": {
       "DATE_REQUIRED": "Date is required.",

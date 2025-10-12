@@ -46,6 +46,10 @@ import { AddMandateOfficerComponent } from './leasing-mandates/components/mandat
 import { ViewMandateOfficersComponent } from './leasing-mandates/components/mandate-activities/mandate-officers/view-mandate-officers/view-mandate-officers.component';
 import { AddMandateContactPersonComponent } from './leasing-mandates/components/mandate-activities/mandate-contact-persons/add-mandate-contact-person/add-mandate-contact-person.component';
 import { ViewMandateContactPersonsComponent } from './leasing-mandates/components/mandate-activities/mandate-contact-persons/view-mandate-contact-persons/view-mandate-contact-persons.component';
+import { clientOnboardingResolver } from './resolvers/client-onboarding.resolver';
+import { individualOnboardingResolver } from './resolvers/individual-onboarding.resolver';
+import { clientResolver } from './resolvers/client.resolver';
+import { individualResolver } from './resolvers/individual.resolver';
 
 const routes: Routes = [
   /*Clients , Client Onboarding Routing*/
@@ -57,6 +61,11 @@ const routes: Routes = [
     path: 'clients/edit-client-onboarding/:clientId',
     component: AddClientOnboardingComponent,
     canDeactivate: [PendingChangesGuard],
+    resolve: {
+      clientOnboarding: clientOnboardingResolver, // for Company
+      individualOnboarding: individualOnboardingResolver, // for Individual
+    },
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange',
   },
   {
     path: 'clients/view-clients-onboarding',
@@ -70,6 +79,11 @@ const routes: Routes = [
     path: 'clients/edit-client/:clientId',
     component: AddClientComponent,
     canDeactivate: [PendingChangesGuard],
+    resolve: {
+      client: clientResolver, // for Company
+      individual: individualResolver, // for Individual
+    },
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange',
   },
   {
     path: 'clients/view-clients',
