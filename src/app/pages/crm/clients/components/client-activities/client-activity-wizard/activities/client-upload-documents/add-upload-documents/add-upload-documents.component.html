@@ -14,15 +14,16 @@
         [title]="'FORM.UPLOAD_DOCUMENTS.TITLE'"
         [description]="'FORM.UPLOAD_DOCUMENTS.DESCRIPTION'"
         [uploadDocumentsShowMain]="true"
-        [selectedFile]="selectedFile"
         [formGroup]="uploadForm"
-        [existingFileName]="(record$ | async)?.fileName"
-        [existingFileId]="(record$ | async)?.fileId"
-        [existingFileUrl]="(record$ | async)?.filePath"
-        (submitForm)="addDocument()"
-        [documents]="documentTypes"
+        [existingFileName]="existingFileName"
+        [existingFileId]="existingFileId"
+        [existingFileUrl]="existingFileUrl"
+        [documents]="docTypes"
         [editMode]="editMode"
+        [lockDocType]="editMode"
         [viewOnly]="viewMode"
+        (submitForm)="addDocument()"
+        (fileSelected)="onFileSelected($event)"
       ></app-form>
     </p-tabpanel>
   </p-tabpanels>

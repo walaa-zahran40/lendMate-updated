@@ -78,6 +78,7 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() existingFileName?: string;
   @Input() existingFileUrl?: string; // optional, only if you have a download endpoint
   @Input() existingFileId?: number;
+  @Input() lockDocType = false;
 
   @Output() removeIdentity = new EventEmitter<number>();
   @Output() onCheckboxChange = new EventEmitter<any>();

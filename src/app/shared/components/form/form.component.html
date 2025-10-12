@@ -696,12 +696,12 @@ icon="pi pi-cog"
         [options]="documents"
         [optionLabel]="optionLabelKey"
         optionValue="id"
+        [disabled]="viewOnly || lockDocType"
         formControlName="documentTypeId"
         [placeholder]="
           'FORM.UPLOAD_DOCUMENT.PLACEHOLDER_DOCUMENT_TYPE' | translate
         "
-        [disabled]="editMode || viewOnly"
-        [ngClass]="editMode || viewOnly ? 'disabled' : 'enabled'"
+        [ngClass]="lockDocType || viewOnly ? 'disabled' : 'enabled'"
       >
       </p-select>
       <label

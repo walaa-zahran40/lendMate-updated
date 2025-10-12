@@ -56,7 +56,7 @@
       pointer-events: none;
     }
     .p-select.disabled {
-      background-color: #f8f8fd !important;
+      background-color: rgb(227, 227, 227) !important;
     }
     .p-multiselect-chip-item {
       background-color: #f8f8fd;
@@ -507,7 +507,7 @@
 :host ::ng-deep input[disabled],
 :host ::ng-deep select[disabled],
 :host ::ng-deep textarea[disabled] {
-  background-color: #f8f8fd !important;
+  background-color: rgb(227, 227, 227) !important;
   color: #555; /* optional: make text slightly darker for contrast */
   cursor: not-allowed;
 }

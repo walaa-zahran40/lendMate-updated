@@ -51,6 +51,8 @@ import { individualOnboardingResolver } from './resolvers/individual-onboarding.
 import { clientResolver } from './resolvers/client.resolver';
 import { individualResolver } from './resolvers/individual.resolver';
 import { clientActivityWizardResolver } from './resolvers/client-activity-wizard.resolver';
+import { uploadDocumentResolver } from './resolvers/upload-document.resolver';
+import { docTypesResolver } from './resolvers/doc-types.resolver';
 
 const routes: Routes = [
   /*Clients , Client Onboarding Routing*/
@@ -105,19 +107,27 @@ const routes: Routes = [
   {
     path: 'clients/add-upload-documents/:clientId',
     component: AddUploadDocumentsComponent,
+    resolve: { data: uploadDocumentResolver },
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange',
   },
   {
     path: 'clients/edit-upload-documents/:clientId/:documentId',
     component: AddUploadDocumentsComponent,
     canDeactivate: [PendingChangesGuard],
+    resolve: { data: uploadDocumentResolver },
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange',
   },
   {
     path: 'clients/view-documents/:clientId/:documentId',
     component: AddUploadDocumentsComponent,
+    resolve: { data: uploadDocumentResolver },
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange',
   },
   {
     path: 'clients/view-upload-documents/:clientId',
     component: ViewUploadDocumentsComponent,
+    resolve: { docTypes: docTypesResolver },
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange',
   },
   //Client Addresses
   {

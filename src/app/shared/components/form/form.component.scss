@@ -50,7 +50,7 @@
   --custom-flex-direction-row-reverse: row-reverse;
   &::ng-deep {
     #purchaseOrderId {
-      background-color: #f8f8fd !important;
+      background-color: rgb(227, 227, 227) !important;
       color: var(--p-select-disabled-color) !important;
     }
     .p-fileupload-filename {
@@ -62,7 +62,6 @@
     }
     .disabled {
       pointer-events: none;
-      background: rgb(227 227 227) !important;
     }
     .p-multiselect-chip-item {
       background-color: #f8f8fd;
@@ -527,7 +526,7 @@
 :host ::ng-deep input[disabled],
 :host ::ng-deep select[disabled],
 :host ::ng-deep textarea[disabled] {
-  background-color: #f8f8fd !important;
+  background-color: rgb(227, 227, 227) !important;
   color: #555; /* optional: make text slightly darker for contrast */
   cursor: not-allowed;
 }
@@ -615,7 +614,7 @@ p.client {
 .p-inputtext:disabled,
 .p-multiselect.p-disabled,
 .p-select.p-disabled {
-  background: #f8f8fd;
+  background-color: rgb(227, 227, 227) !important;
 }
 form {
   label {
@@ -727,6 +726,11 @@ form {
   &::ng-deep {
     .p-select {
       position: relative;
+    }
+    .p-select.disabled {
+      background-color: rgb(227, 227, 227) !important;
+      color: #555; /* optional: make text slightly darker for contrast */
+      cursor: not-allowed;
     }
     .p-select-overlay {
       left: revert-layer !important;

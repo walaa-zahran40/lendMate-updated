@@ -52,34 +52,31 @@ export class ViewUploadDocumentsComponent implements OnInit, OnDestroy {
     this.facade.loadByClientId(this.clientId);
     console.log('[ngOnInit] facade.loadOne called for', this.clientId);
 
-    this.documentTypeFacade.loadAll();
-    console.log('[ngOnInit] documentTypeFacade.loadDocumentTypes()');
-
-    combineLatest([this.facade.files$, this.documentTypeFacade.all$])
+    this.documentTypes = this.route.snapshot.data['docTypes'] ?? [];
+    console.log('[ngOnInit] resolved docTypes=', this.documentTypes);
+    // Normalize ids to number
+    this.documentTypes = (this.documentTypes ?? []).map((t) => ({
+      ...t,
+      id: Number((t as any).id), // force numeric
+    }));
+    console.log(
+      '[view-upload] normalized docTypes ids =',
+      this.documentTypes.map((t) => t.id)
+    );
+    combineLatest([this.facade.files$])
       .pipe(takeUntil(this.destroy$))
-      .subscribe(([docs, types]) => {
-        console.log('[subscribe] docs=', docs);
-        console.log('[subscribe] types=', types);
-
-        this.documentTypes = types;
+      .subscribe(([docs]) => {
         const sorted = [...docs].sort((a, b) => b.id! - a.id!);
-        console.log('[subscribe] sorted docs=', sorted);
-
         this.filteredDocuments = sorted.map((doc) => {
-          const fileTypeName = this.getFileTypeName(doc.documentTypeId);
-          console.log(`[map] doc.id=${doc.id} → fileTypeName=${fileTypeName}`);
+          const typeId = (doc as any).documentTypeId ?? (doc as any).docTypeId; // be forgiving
           return {
             ...doc,
-            fileType: fileTypeName,
+            fileType: this.getFileTypeName(typeId),
             expiryDate: doc.expiryDate ?? '',
           };
         });
 
         this.originalDocuments = [...this.filteredDocuments];
-        console.log(
-          '[subscribe] filteredDocuments ready=',
-          this.filteredDocuments
-        );
       });
   }
   ngOnDestroy() {
@@ -88,19 +85,20 @@ export class ViewUploadDocumentsComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
   getFileTypeName(fileTypeId: any): string {
-    console.log('[getFileTypeName] looking for ID=', fileTypeId);
-    const matchedType = this.documentTypes.find((t) => t.id === fileTypeId);
-    if (matchedType) {
-      console.log(
-        `[getFileTypeName] Found: id=${matchedType.id}, name=${matchedType.name}`
-      );
-      return matchedType.name;
-    } else {
-      console.warn(
-        `[getFileTypeName] No match for ID=${fileTypeId}, returning N/A`
-      );
+    const idNum = Number(fileTypeId);
+    const match = this.documentTypes.find(
+      (t) => Number((t as any).id) === idNum
+    );
+
+    if (!match) {
+      console.warn('[getFileTypeName] no match', {
+        fileTypeId,
+        idNum,
+        docTypesIds: this.documentTypes.map((t) => t.id),
+      });
       return 'N/A';
     }
+    return (match as any).name ?? 'N/A';
   }
 
   onAddDocument() {
