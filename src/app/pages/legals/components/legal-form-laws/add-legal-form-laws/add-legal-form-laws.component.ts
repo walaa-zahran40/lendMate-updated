@@ -17,6 +17,7 @@ export class AddLegalFormLawsComponent {
   viewOnly = false;
   addLegalFormLawsForm!: FormGroup;
   clientId: any;
+  entityId?: number;
 
   constructor(
     private fb: FormBuilder,
@@ -33,76 +34,47 @@ export class AddLegalFormLawsComponent {
       isActive: [true],
     });
 
-    this.route.paramMap.subscribe((params) => {
-      const id = params.get('id');
-      if (id) {
-        this.editMode = true;
-        this.clientId = +id;
+    // mode=view → disable form
+    this.viewOnly = this.route.snapshot.queryParamMap.get('mode') === 'view';
+    if (this.viewOnly) this.addLegalFormLawsForm.disable();
 
-        console.log(this.viewOnly);
-
-        this.viewOnly = this.route.snapshot.queryParams['mode'] === 'view';
-        if (this.viewOnly) {
-          this.addLegalFormLawsForm.disable();
-        }
-
-        this.facade.loadOne(this.clientId);
-        this.facade.current$
-          .pipe(
-            filter((ct): ct is LegalFormLaw => !!ct && ct.id === this.clientId),
-            take(1)
-          )
-          .subscribe((ct) => {
-            this.addLegalFormLawsForm.patchValue({
-              id: ct!.id,
-              name: ct!.name,
-              nameAR: ct!.nameAR,
-              isActive: ct!.isActive,
-            });
-          });
-      } else {
-        this.viewOnly = this.route.snapshot.queryParams['mode'] === 'view';
-        if (this.viewOnly) {
-          this.addLegalFormLawsForm.disable();
-        }
-      }
-    });
+    // If resolver delivered an entity → edit mode
+    const resolved = this.route.snapshot.data[
+      'legalFormLaw'
+    ] as LegalFormLaw | null;
+    if (resolved) {
+      this.editMode = true;
+      this.entityId = resolved.id;
+      this.addLegalFormLawsForm.patchValue({
+        id: resolved.id,
+        name: resolved.name,
+        nameAR: resolved.nameAR,
+        isActive: resolved.isActive,
+      });
+    }
   }
 
   addOrEditLegalFormLaw() {
-    if (this.viewOnly) {
-      return;
-    }
+    if (this.viewOnly) return;
 
     if (this.addLegalFormLawsForm.invalid) {
       this.addLegalFormLawsForm.markAllAsTouched();
       return;
     }
 
-    const { name, nameAR } = this.addLegalFormLawsForm.value;
-    const payload: Partial<LegalFormLaw> = { name, nameAR };
-    console.log('  → payload object:', payload);
-
-    if (this.editMode) {
+    if (this.editMode && this.entityId != null) {
       const { id, name, nameAR, isActive } = this.addLegalFormLawsForm.value;
-      const payload: LegalFormLaw = {
-        id,
-        name,
-        nameAR,
-        isActive,
-        code: '',
-      };
-
+      const payload: LegalFormLaw = { id, name, nameAR, isActive, code: '' };
       this.facade.update(id, payload);
     } else {
-      this.facade.create(payload);
-    }
-    if (this.addLegalFormLawsForm.valid) {
-      this.addLegalFormLawsForm.markAsPristine();
+      const { name, nameAR } = this.addLegalFormLawsForm.value;
+      this.facade.create({ name, nameAR });
     }
 
+    this.addLegalFormLawsForm.markAsPristine();
     this.router.navigate(['/legals/view-legal-form-laws']);
   }
+
   /** Called by the guard. */
   canDeactivate(): boolean {
     return !this.addLegalFormLawsForm.dirty;
