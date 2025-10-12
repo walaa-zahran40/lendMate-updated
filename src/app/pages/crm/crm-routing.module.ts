@@ -50,6 +50,7 @@ import { clientOnboardingResolver } from './resolvers/client-onboarding.resolver
 import { individualOnboardingResolver } from './resolvers/individual-onboarding.resolver';
 import { clientResolver } from './resolvers/client.resolver';
 import { individualResolver } from './resolvers/individual.resolver';
+import { clientActivityWizardResolver } from './resolvers/client-activity-wizard.resolver';
 
 const routes: Routes = [
   /*Clients , Client Onboarding Routing*/
@@ -97,8 +98,9 @@ const routes: Routes = [
   {
     path: 'clients/client-activity-wizard/:clientId',
     component: ClientActivityWizardComponent,
+    resolve: { wizard: clientActivityWizardResolver },
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange',
   },
-
   /*Upload Documents*/
   {
     path: 'clients/add-upload-documents/:clientId',
