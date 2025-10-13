@@ -6,7 +6,7 @@ export interface ClientAddress {
   governorateId: number;
   countryId: number;
   clientId: number;
-  client?:any;
+  client?: any;
   addressTypeId: number;
   isMain: boolean;
   isActive: boolean;

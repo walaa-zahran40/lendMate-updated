@@ -1,20 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Store } from '@ngrx/store';
-import {
-  Subject,
-  Observable,
-  combineLatest,
-  map,
-  takeUntil,
-  forkJoin,
-} from 'rxjs';
+import { Subject, Observable, forkJoin, of, map } from 'rxjs';
 import { TableComponent } from '../../../../../../../../../shared/components/table/table.component';
 import { Area } from '../../../../../../../../lookups/store/areas/area.model';
-import { AreasFacade } from '../../../../../../../../lookups/store/areas/areas.facade';
-import { selectAllAreas } from '../../../../../../../../lookups/store/areas/areas.selectors';
 import { ClientAddress } from '../../../../../../store/client-addresses/client-address.model';
 import { ClientAddressesFacade } from '../../../../../../store/client-addresses/client-addresses.facade';
+import { ClientAddressesListData } from '../../../../../../../resolvers/client-addresses-list.resolver';
 
 @Component({
   selector: 'app-view-client-address',
@@ -46,35 +37,40 @@ export class ViewClientAddressesComponent {
   constructor(
     private router: Router,
     private facade: ClientAddressesFacade,
-    private areaFacade: AreasFacade,
-    private route: ActivatedRoute,
-    private store: Store
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    const raw = this.route.snapshot.paramMap.get('clientId');
-    this.clientIdParam = raw !== null ? Number(raw) : undefined;
+    const data = this.route.snapshot.data[
+      'list'
+    ] as ClientAddressesListData | null;
+    if (!data) return;
 
-    this.areaFacade.loadAll();
-    this.AreasList$ = this.store.select(selectAllAreas);
-    this.store.dispatch({ type: '[Areas] Load All' });
+    this.clientIdParam = data.clientId;
 
-    this.facade.loadClientAddressesByClientId(this.clientIdParam);
-    this.clientAddresses$ = this.facade.items$;
+    // one-time lookup map
+    const idToArea = new Map(data.areas.map((a) => [a.id, a.name]));
 
-    combineLatest([this.clientAddresses$, this.AreasList$])
+    // 1) seed initial rows from resolver (fast paint)
+    const initial = (data.addresses ?? [])
+      .map((a) => ({ ...a, AreaName: idToArea.get(a.areaId) ?? '—' }))
+      .filter((a) => a.isActive)
+      .sort((a, b) => b.id - a.id);
+    this.originalClientAddresses = initial;
+    this.filteredClientAddresses = [...initial];
+
+    // 2) subscribe to store for live updates after create/update/delete
+    this.facade.loadClientAddressesByClientId(this.clientIdParam); // idempotent
+    this.facade.items$
       .pipe(
-        map(([clientAddresses, AreasList]) =>
-          clientAddresses
-            .map((address) => ({
-              ...address,
-              AreaName:
-                AreasList.find((c) => c.id === address.areaId)?.name || '—',
-            }))
-            .filter((address) => address.isActive)
+        // if you have a selector by clientId, use that instead
+        map((list) => list.filter((a) => a.clientId === this.clientIdParam)),
+        map((list) =>
+          list
+            .map((a) => ({ ...a, AreaName: idToArea.get(a.areaId) ?? '—' }))
+            .filter((a) => a.isActive)
             .sort((a, b) => b.id - a.id)
-        ),
-        takeUntil(this.destroy$)
+        )
       )
       .subscribe((enriched) => {
         this.originalClientAddresses = enriched;
@@ -84,9 +80,8 @@ export class ViewClientAddressesComponent {
 
   onAddClientAddress() {
     const clientIdParam = this.route.snapshot.paramMap.get('clientId');
-
-    this.router.navigate(['/crm/clients/add-client-addresses'], {
-      queryParams: { mode: 'add', clientId: clientIdParam },
+    this.router.navigate(['/crm/clients/add-client-addresses', clientIdParam], {
+      queryParams: { mode: 'add' },
     });
   }
 

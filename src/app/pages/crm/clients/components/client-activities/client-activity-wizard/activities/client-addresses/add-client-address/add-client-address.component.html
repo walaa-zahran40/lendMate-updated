@@ -25,10 +25,10 @@
         [editMode]="editMode"
         (submitForm)="addOrEditClientAddresses()"
         [viewOnly]="viewOnly"
-        [countriesList]="countriesList$ | async"
+        [countriesList]="countriesList"
         [governoratesList]="filteredGovernorates"
         [areasList]="filteredAreas"
-        [addressTypesList]="addressTypesList$ | async"
+        [addressTypesList]="addressTypesList"
       ></app-add-client-addresses-form>
     </p-tabpanel>
   </p-tabpanels>

@@ -71,9 +71,10 @@ export const loadClientAddressesByClientId = createAction(
   '[ClientAddresses] Load By ClientId',
   props<{ clientId: number }>()
 );
+
 export const loadClientAddressesByClientIdSuccess = createAction(
   '[ClientAddresses] Load By ClientId Success',
-  props<{ items: any }>()
+  props<{ clientId: number; items: ClientAddress[] }>() // 👈 add clientId
 );
 export const loadClientAddressesByClientIdFailure = createAction(
   '[ClientAddresses] Load By ClientId Failure',

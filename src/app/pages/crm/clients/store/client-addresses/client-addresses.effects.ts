@@ -73,22 +73,23 @@ export class ClientAddressesEffects {
     )
   );
 
+  // create$ — ensure the created entity has clientId
   create$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ClientAddressActions.createClientAddress),
       mergeMap(({ data }) =>
         this.service.create(data).pipe(
-          map((client) =>
-            ClientAddressActions.createClientAddressSuccess({
-              client,
-            })
-          ),
+          map((serverReturned) => {
+            const enriched: ClientAddress = {
+              ...serverReturned,
+              clientId: data.clientId!, // <-- inject if API omits it
+            };
+            return ClientAddressActions.createClientAddressSuccess({
+              client: enriched,
+            });
+          }),
           catchError((error) =>
-            of(
-              ClientAddressActions.createClientAddressFailure({
-                error,
-              })
-            )
+            of(ClientAddressActions.createClientAddressFailure({ error }))
           )
         )
       )
@@ -156,48 +157,61 @@ export class ClientAddressesEffects {
         ClientAddressActions.updateClientAddressSuccess,
         ClientAddressActions.deleteClientAddressSuccess
       ),
- 
-      map(action => {
-      if ('clientId' in action) {
-        // for create/update you returned `{ client: ClientAddress }`,
-        // so dig into that object’s clientId
-        return action.clientId;
-      } else {
-        // for delete you returned `{ id, clientId }`
-        return action.client.clientId;
-      }
-    }),
- 
-      // only continue if it’s a number
- 
+      map((action) => {
+        if (
+          action.type === ClientAddressActions.deleteClientAddressSuccess.type
+        ) {
+          // { id, clientId }
+          return (
+            action as ReturnType<
+              typeof ClientAddressActions.deleteClientAddressSuccess
+            >
+          ).clientId;
+        }
+        if (
+          action.type ===
+            ClientAddressActions.createClientAddressSuccess.type ||
+          action.type === ClientAddressActions.updateClientAddressSuccess.type
+        ) {
+          // { client: ClientAddress }
+          return (
+            action as
+              | ReturnType<
+                  typeof ClientAddressActions.createClientAddressSuccess
+                >
+              | ReturnType<
+                  typeof ClientAddressActions.updateClientAddressSuccess
+                >
+          ).client.clientId!;
+        }
+        return null;
+      }),
+      filter((clientId): clientId is number => typeof clientId === 'number'),
       map((clientId) =>
-        ClientAddressActions.loadClientAddressesByClientId({
-          clientId,
-        })
+        ClientAddressActions.loadClientAddressesByClientId({ clientId })
       )
     )
   );
+
   /**
    * The “by‐clientId” loader
    */
   loadByClientId$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ClientAddressActions.loadClientAddressesByClientId),
-
-      tap((action) =>
-        console.log('[Effect:loadByClientId] full action →', action)
-      ),
       tap(({ clientId }) =>
         console.log('[Effect:loadByClientId] clientId →', clientId)
       ),
-
       mergeMap(({ clientId }) =>
         this.service.getByClientId(clientId).pipe(
           tap((items) =>
             console.log('[Effect:loadByClientId] response →', items)
           ),
           map((items) =>
-            ClientAddressActions.loadClientAddressesByClientIdSuccess({ items })
+            ClientAddressActions.loadClientAddressesByClientIdSuccess({
+              clientId,
+              items,
+            })
           ),
           catchError((error) =>
             of(

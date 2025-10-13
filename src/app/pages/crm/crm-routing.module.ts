@@ -53,6 +53,8 @@ import { individualResolver } from './resolvers/individual.resolver';
 import { clientActivityWizardResolver } from './resolvers/client-activity-wizard.resolver';
 import { uploadDocumentResolver } from './resolvers/upload-document.resolver';
 import { docTypesResolver } from './resolvers/doc-types.resolver';
+import { clientAddressBundleResolver } from './resolvers/client-address-bundle.resolver';
+import { clientAddressesListResolver } from './resolvers/client-addresses-list.resolver';
 
 const routes: Routes = [
   /*Clients , Client Onboarding Routing*/
@@ -130,22 +132,25 @@ const routes: Routes = [
     runGuardsAndResolvers: 'paramsOrQueryParamsChange',
   },
   //Client Addresses
-  {
-    path: 'clients/add-client-addresses',
-    component: AddClientAddressesComponent,
-  },
+
   {
     path: 'clients/add-client-addresses/:clientId',
     component: AddClientAddressesComponent,
+    resolve: { bundle: clientAddressBundleResolver },
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange',
   },
   {
     path: 'clients/edit-client-addresses/:id',
     component: AddClientAddressesComponent,
     canDeactivate: [PendingChangesGuard],
+    resolve: { bundle: clientAddressBundleResolver },
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange',
   },
   {
     path: 'clients/view-client-addresses/:clientId',
     component: ViewClientAddressesComponent,
+    resolve: { list: clientAddressesListResolver },
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange',
   },
   // Client Sales Turn Overs
   {
