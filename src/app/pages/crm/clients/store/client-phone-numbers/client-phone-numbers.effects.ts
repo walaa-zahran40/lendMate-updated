@@ -75,21 +75,24 @@ export class ClientPhoneNumbersEffects {
     )
   );
 
+  // create$ – enrich with clientId so refresh selector can read it
   create$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ClientPhoneNumberActions.createClientPhoneNumber),
       mergeMap(({ data }) =>
         this.service.create(data).pipe(
-          map((client) =>
+          map((server) =>
             ClientPhoneNumberActions.createClientPhoneNumberSuccess({
-              client,
+              client: {
+                ...server,
+                clientId:
+                  data.createClientPhoneNumbers?.[0]?.clientId ?? data.clientId,
+              } as ClientPhoneNumber,
             })
           ),
           catchError((error) =>
             of(
-              ClientPhoneNumberActions.createClientPhoneNumberFailure({
-                error,
-              })
+              ClientPhoneNumberActions.createClientPhoneNumberFailure({ error })
             )
           )
         )
@@ -97,53 +100,23 @@ export class ClientPhoneNumbersEffects {
     )
   );
 
+  // update$ – ensure clientId present
   update$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ClientPhoneNumberActions.updateClientPhoneNumber),
-      tap(({ id, data }) =>
-        console.log('[Effect:update] called with id=', id, 'data=', data)
-      ),
       mergeMap(({ id, data }) =>
         this.service.update(id, data).pipe(
-          map((serverReturned) => {
-            // force-inject clientId if missing
-            const enriched: ClientPhoneNumber = {
-              ...serverReturned,
-              clientId: data.clientId!,
-            };
-            console.log('[Effect:update] enriched client →', enriched);
-            return ClientPhoneNumberActions.updateClientPhoneNumberSuccess({
-              client: enriched,
-            });
-          }),
-          catchError((error) =>
-            of(
-              ClientPhoneNumberActions.updateClientPhoneNumberFailure({
-                error,
-              })
-            )
-          )
-        )
-      )
-    )
-  );
-
-  delete$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ClientPhoneNumberActions.deleteClientPhoneNumber),
-      mergeMap(({ id, clientId }) =>
-        this.service.delete(id).pipe(
-          map(() =>
-            ClientPhoneNumberActions.deleteClientPhoneNumberSuccess({
-              id,
-              clientId,
+          map((server) =>
+            ClientPhoneNumberActions.updateClientPhoneNumberSuccess({
+              client: {
+                ...server,
+                clientId: (data as any).clientId,
+              } as ClientPhoneNumber,
             })
           ),
           catchError((error) =>
             of(
-              ClientPhoneNumberActions.deleteClientPhoneNumberFailure({
-                error,
-              })
+              ClientPhoneNumberActions.updateClientPhoneNumberFailure({ error })
             )
           )
         )
@@ -151,67 +124,15 @@ export class ClientPhoneNumbersEffects {
     )
   );
 
-  // After any create/update/delete success: reload by clientId
-  refreshList$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(
-        ClientPhoneNumberActions.createClientPhoneNumberSuccess,
-        ClientPhoneNumberActions.updateClientPhoneNumberSuccess,
-        ClientPhoneNumberActions.deleteClientPhoneNumberSuccess
-      ),
-
-      tap((action) =>
-        console.log('[RefreshList] triggered by action:', action)
-      ),
-
-      // pull out the right number
-      map((action) => {
-        // handle both the array and single-object cases
-        let clientId: number;
-        const payload = (action as any).client;
-
-        if (Array.isArray(payload)) {
-          clientId = payload[0]?.clientId;
-        } else {
-          clientId = payload?.clientId;
-        }
-
-        console.log('[RefreshList] extracted clientId →', clientId);
-        return clientId;
-      }),
-
-      // only continue if it’s a number
-      filter((clientId): clientId is number => typeof clientId === 'number'),
-
-      map((clientId) =>
-        ClientPhoneNumberActions.loadClientPhoneNumbersByClientId({
-          clientId,
-        })
-      )
-    )
-  );
-
-  /**
-   * The “by‐clientId” loader
-   */
+  // load by clientId
   loadByClientId$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ClientPhoneNumberActions.loadClientPhoneNumbersByClientId),
-
-      tap((action) =>
-        console.log('[Effect:loadByClientId] full action →', action)
-      ),
-      tap(({ clientId }) =>
-        console.log('[Effect:loadByClientId] clientId →', clientId)
-      ),
-
       mergeMap(({ clientId }) =>
         this.service.getByClientId(clientId).pipe(
-          tap((items) =>
-            console.log('[Effect:loadByClientId] response →', items)
-          ),
           map((items) =>
             ClientPhoneNumberActions.loadClientPhoneNumbersByClientIdSuccess({
+              clientId,
               items,
             })
           ),
@@ -226,6 +147,53 @@ export class ClientPhoneNumbersEffects {
       )
     )
   );
+  delete$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClientPhoneNumberActions.deleteClientPhoneNumber),
+      tap(({ id, clientId }) =>
+        console.log('[Effect][delete] action →', { id, clientId })
+      ),
+      mergeMap(({ id, clientId }) =>
+        this.service.delete(id).pipe(
+          tap(() => console.log('[Effect][delete] API OK for id=', id)),
+          map(() =>
+            ClientPhoneNumberActions.deleteClientPhoneNumberSuccess({
+              id,
+              clientId,
+            })
+          ),
+          catchError((error) => {
+            console.error('[Effect][delete] API ERROR for id=', id, error);
+            return of(
+              ClientPhoneNumberActions.deleteClientPhoneNumberFailure({ error })
+            );
+          })
+        )
+      )
+    )
+  );
+
+  // refresh after create/update/delete
+  refreshList$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        ClientPhoneNumberActions.createClientPhoneNumberSuccess,
+        ClientPhoneNumberActions.updateClientPhoneNumberSuccess,
+        ClientPhoneNumberActions.deleteClientPhoneNumberSuccess
+      ),
+      map((action) =>
+        'client' in action ? action.client.clientId : action.clientId
+      ),
+      filter((clientId): clientId is number => typeof clientId === 'number'),
+      map((clientId) =>
+        ClientPhoneNumberActions.loadClientPhoneNumbersByClientId({ clientId })
+      )
+    )
+  );
+
+  /**
+   * The “by‐clientId” loader
+   */
 
   constructor(
     private actions$: Actions,

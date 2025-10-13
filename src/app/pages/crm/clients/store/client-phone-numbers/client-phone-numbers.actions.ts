@@ -76,8 +76,9 @@ export const loadClientPhoneNumbersByClientId = createAction(
 );
 export const loadClientPhoneNumbersByClientIdSuccess = createAction(
   '[ClientPhoneNumbers] Load By ClientId Success',
-  props<{ items: ClientPhoneNumber[] }>()
+  props<{ clientId: number; items: ClientPhoneNumber[] }>()
 );
+
 export const loadClientPhoneNumbersByClientIdFailure = createAction(
   '[ClientPhoneNumbers] Load By ClientId Failure',
   props<{ error: any }>()

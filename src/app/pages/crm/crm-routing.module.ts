@@ -57,6 +57,8 @@ import { clientAddressBundleResolver } from './resolvers/client-address-bundle.r
 import { clientAddressesListResolver } from './resolvers/client-addresses-list.resolver';
 import { clientSalesTurnoverListResolver } from './resolvers/client-sales-turnovers-list.resolver';
 import { clientSalesTurnoverBundleResolver } from './resolvers/client-sales-turnover-bundle.resolver';
+import { clientPhoneNumberBundleResolver } from './resolvers/client-phone-number-bundle.resolver';
+import { clientPhoneNumbersListResolver } from './resolvers/client-phone-numbers-list.resolver';
 
 const routes: Routes = [
   /*Clients , Client Onboarding Routing*/
@@ -178,19 +180,23 @@ const routes: Routes = [
 
   // Client Phone numbers
   {
-    path: 'clients/add-phone-number/:clientId',
-    component: AddPhoneNumberComponent,
-  },
-
-  {
-    path: 'clients/edit-phone-number/:clientId',
-    component: AddPhoneNumberComponent,
-    canDeactivate: [PendingChangesGuard],
-  },
-
-  {
     path: 'clients/view-phone-numbers/:clientId',
     component: ViewPhoneNumberComponent,
+    resolve: { list: clientPhoneNumbersListResolver },
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange',
+  },
+  {
+    path: 'clients/add-phone-number/:clientId',
+    component: AddPhoneNumberComponent,
+    resolve: { bundle: clientPhoneNumberBundleResolver },
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange',
+  },
+  {
+    path: 'clients/edit-phone-number/:clientId', // param is RECORD id
+    component: AddPhoneNumberComponent,
+    canDeactivate: [PendingChangesGuard],
+    resolve: { bundle: clientPhoneNumberBundleResolver },
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange',
   },
 
   // Client Identity

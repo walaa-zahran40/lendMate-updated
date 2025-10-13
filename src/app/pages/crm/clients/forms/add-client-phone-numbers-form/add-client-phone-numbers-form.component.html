@@ -23,7 +23,8 @@
         <div
           *ngFor="
             let group of createClientPhoneNumbers?.controls;
-            let i = index
+            let i = index;
+            trackBy: trackByIndex
           "
           [formGroupName]="i"
           class="parent2-individual2 mt-2 flex items-start gap-2 align-items-center flex-wrap"
@@ -48,8 +49,8 @@
 
           <div
             *ngIf="
-              formGroup.get('phoneTypeId')?.hasError('required') &&
-              formGroup.get('phoneTypeId')?.touched
+              group?.get('phoneTypeId')?.hasError('required') &&
+              group?.get('phoneTypeId')?.touched
             "
             class="p-error"
           >
@@ -84,9 +85,16 @@
             type="button"
             icon="pi pi-trash"
             class="p-button-danger p-button-sm p-remove"
-            *ngIf="phoneTypes.length > 1 && !viewOnly && !editMode"
-            (click)="removePhoneNumber.emit(i)"
-            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+            *ngIf="
+              (createClientPhoneNumbers?.length ?? 0) > 1 &&
+              !viewOnly &&
+              !editMode
+            "
+            (click)="
+              removePhoneNumber.emit(i);
+              $event.stopPropagation();
+              $event.preventDefault()
+            "
           ></button>
         </div>
       </div>

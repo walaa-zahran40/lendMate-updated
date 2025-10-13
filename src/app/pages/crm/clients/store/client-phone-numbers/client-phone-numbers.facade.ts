@@ -57,11 +57,11 @@ export class ClientPhoneNumbersFacade {
     }
     this.store.dispatch(Actions.loadClientPhoneNumbersByClientId({ clientId }));
   }
-
-  /** UPDATED: now expects both id & parent clientId */
   delete(id: number, clientId: number) {
+    console.log('[Facade] dispatch delete →', { id, clientId });
     this.store.dispatch(Actions.deleteClientPhoneNumber({ id, clientId }));
   }
+
   loadByClientId(clientId: number) {
     this.store.dispatch(Actions.loadClientPhoneNumbersByClientId({ clientId }));
   }

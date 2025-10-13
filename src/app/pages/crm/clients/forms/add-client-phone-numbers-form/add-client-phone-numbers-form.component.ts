@@ -77,6 +77,7 @@ export class AddClientPhoneNumbersFormComponent implements OnInit, OnDestroy {
   @Output() removeCommunicationContactPerson = new EventEmitter<number>();
   @Output() addPhoneNumber = new EventEmitter<void>();
   @Output() removePhoneNumber = new EventEmitter<number>();
+  trackByIndex = (_: number, __: unknown) => _;
 
   @Output() addOfficer = new EventEmitter<void>();
   @Output() removeOfficer = new EventEmitter<number>();

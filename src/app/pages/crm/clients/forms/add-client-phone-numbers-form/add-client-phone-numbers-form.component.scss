@@ -52,6 +52,9 @@
     .p-tabs {
       padding: var(--custom-padding-right-10);
     }
+    .p-button-sm .p-button-icon {
+      color: #fff !important;
+    }
     .disabled {
       pointer-events: none;
       background: rgb(227 227 227) !important;

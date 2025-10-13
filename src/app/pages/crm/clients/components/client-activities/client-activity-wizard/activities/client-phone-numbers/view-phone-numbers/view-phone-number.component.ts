@@ -14,6 +14,7 @@ import { PhoneType } from '../../../../../../../../lookups/store/phone-types/pho
 import { PhoneTypesFacade } from '../../../../../../../../lookups/store/phone-types/phone-types.facade';
 import { ClientPhoneNumber } from '../../../../../../store/client-phone-numbers/client-phone-number.model';
 import { ClientPhoneNumbersFacade } from '../../../../../../store/client-phone-numbers/client-phone-numbers.facade';
+import { ClientPhoneNumbersListData } from '../../../../../../../resolvers/client-phone-numbers-list.resolver';
 
 @Component({
   selector: 'app-view-phone-number',
@@ -52,53 +53,56 @@ export class ViewPhoneNumberComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    // 1) grab the param
-    const raw = this.route.snapshot.paramMap.get('clientId');
-    this.clientIdParam = raw !== null ? Number(raw) : undefined;
-    console.log('[View] ngOnInit → clientIdParam =', this.clientIdParam);
+    const data = this.route.snapshot.data[
+      'list'
+    ] as ClientPhoneNumbersListData | null;
+
+    // ✅ clientId — resolver first, then fallback to param
+    const rawParam = this.route.snapshot.paramMap.get('clientId');
+    this.clientIdParam =
+      data?.clientId ?? (rawParam !== null ? Number(rawParam) : undefined);
+
+    if (!Number.isFinite(this.clientIdParam)) {
+      console.error('[View] Missing/invalid clientId');
+      return;
+    }
+
+    // … now safe to use clientIdParam below
+    const idToType = new Map(
+      (data?.phoneTypes ?? []).map((pt) => [pt.id, pt.name])
+    );
+    const firstRender = (data?.items ?? [])
+      .map((it) => ({
+        ...it,
+        phoneTypeName: idToType.get(it.phoneTypeId) ?? '—',
+      }))
+      .filter((it) => it.isActive)
+      .sort((a, b) => b.id - a.id);
+
+    this.originalClientPhoneNumbers = firstRender;
+    this.filteredClientPhoneNumbers = [...firstRender];
 
     this.facade.loadByClientId(this.clientIdParam);
     this.clientPhoneNumbers$ = this.facade.items$;
 
-    this.phoneNumberTypesFacade.loadAll();
-    this.phoneTypes$ = this.phoneNumberTypesFacade.all$;
-
-    if (this.clientIdParam == null || isNaN(this.clientIdParam)) {
-      console.error(
-        '❌ Missing or invalid clientIdParam! Cannot load exchange rates.'
-      );
-      return;
-    }
-
-    combineLatest([
-      this.clientPhoneNumbers$ ?? of([]),
-      this.phoneTypes$ ?? of([]),
-    ])
+    combineLatest([this.clientPhoneNumbers$, of(data?.phoneTypes ?? [])])
       .pipe(
-        map(([clientPhoneNumbers, phoneTypes]) => {
-          console.log('📦 Raw clientPhoneNumbers:', clientPhoneNumbers);
-          console.log('📦 Raw phoneTypes:', phoneTypes);
-
-          return clientPhoneNumbers
-            .map((ss) => {
-              const matchedPhoneType = phoneTypes.find(
-                (pt) => pt.id === ss.phoneTypeId
-              );
-
-              return {
-                ...ss,
-                phoneTypeName: matchedPhoneType?.name ?? '—',
-              };
-            })
-            .filter((ft) => ft.isActive)
-            .sort((a, b) => (b?.id ?? 0) - (a?.id ?? 0));
+        map(([items, phoneTypes]) => {
+          const idToType2 = new Map(phoneTypes.map((pt) => [pt.id, pt.name]));
+          return (items ?? [])
+            .filter((it) => it.clientId === this.clientIdParam)
+            .map((it) => ({
+              ...it,
+              phoneTypeName: idToType2.get(it.phoneTypeId!) ?? '—',
+            }))
+            .filter((it) => it.isActive)
+            .sort((a, b) => b.id! - a.id!);
         }),
         takeUntil(this.destroy$)
       )
-      .subscribe((result) => {
-        console.log('✅ Final result:', result);
-        this.filteredClientPhoneNumbers = result;
-        this.originalClientPhoneNumbers = result;
+      .subscribe((enriched) => {
+        this.originalClientPhoneNumbers = enriched;
+        this.filteredClientPhoneNumbers = [...enriched];
       });
   }
 
@@ -118,12 +122,16 @@ export class ViewPhoneNumberComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  onDeleteClientPhoneNumber(clientPhoneNumberId: number): void {
+  onDeleteClientPhoneNumber(payload: number | ClientPhoneNumber) {
+    const id = typeof payload === 'number' ? payload : payload?.id;
     console.log(
-      '[View] onDeleteClientPhoneNumber() – opening modal for id=',
-      clientPhoneNumberId
+      '[View] onDelete click → payload:',
+      payload,
+      'resolved id:',
+      id
     );
-    this.selectedIds = [clientPhoneNumberId];
+    if (!id) return;
+    this.selectedIds = [id];
     this.showDeleteModal = true;
   }
 
@@ -170,20 +178,25 @@ export class ViewPhoneNumberComponent implements OnInit, OnDestroy {
   }
   selectedIds: number[] = [];
   confirmDelete() {
-    const deleteCalls = this.selectedIds.map((id) =>
-      this.facade.delete(id, this.clientIdParam)
+    if (!this.selectedIds.length || !Number.isFinite(this.clientIdParam))
+      return;
+
+    console.log(
+      '[View] confirmDelete() → ids:',
+      this.selectedIds,
+      'clientId:',
+      this.clientIdParam
     );
 
-    forkJoin(deleteCalls).subscribe({
-      next: () => {
-        this.selectedIds = [];
-        this.showDeleteModal = false; // CLOSE MODAL HERE
-        this.refreshCalls();
-      },
-      error: (err) => {
-        this.showDeleteModal = false; // STILL CLOSE IT
-      },
+    // Dispatch one action per id (or make a bulk action if your API supports it)
+    this.selectedIds.forEach((id) => {
+      console.log('[View] dispatch delete for id=', id);
+      this.facade.delete(id, this.clientIdParam);
     });
+
+    // UX: close modal immediately; list will refresh via effects
+    this.showDeleteModal = false;
+    this.selectedIds = [];
   }
 
   refreshCalls() {
