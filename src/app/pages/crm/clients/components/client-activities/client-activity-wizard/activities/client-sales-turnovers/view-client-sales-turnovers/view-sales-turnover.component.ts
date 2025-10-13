@@ -4,6 +4,7 @@ import { Subject, Observable, takeUntil, tap, map, forkJoin } from 'rxjs';
 import { TableComponent } from '../../../../../../../../../shared/components/table/table.component';
 import { ClientSalesTurnoversFacade } from '../../../../../../store/client-sales-turnovers/client-sales-turnovers.facade';
 import { ClientSalesTurnover } from '../../../../../../store/client-sales-turnovers/client-sales-turnovers.model';
+import { ClientSalesTurnoversListData } from '../../../../../../../resolvers/client-sales-turnovers-list.resolver';
 
 @Component({
   selector: 'app-view-sales-turnover',
@@ -40,37 +41,27 @@ export class ViewSalesTurnoverComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    // 1) grab the param
     const raw = this.route.snapshot.paramMap.get('clientId');
     this.clientIdParam = raw !== null ? Number(raw) : undefined;
-    console.log('[View] ngOnInit → clientIdParam =', this.clientIdParam);
 
+    // kick initial load
     this.facade.loadByClientId(this.clientIdParam);
+
+    // react to store updates (after create/update/delete refresh)
     this.clientSalesTurnovers$ = this.facade.items$;
 
-    if (this.clientIdParam == null || isNaN(this.clientIdParam)) {
-      console.error(
-        '❌ Missing or invalid clientIdParam! Cannot load exchange rates.'
-      );
-      return;
-    }
-
     this.clientSalesTurnovers$
-      .pipe(
-        takeUntil(this.destroy$),
-        tap((list) => console.log('🧾 list before map:', list)),
-        map((list) => list)
-      )
+      .pipe(takeUntil(this.destroy$))
       .subscribe((sales) => {
-        console.log('📦 Raw sales data:', sales);
+        // sort / filter here, every time items$ changes
+        const sorted = [...(sales ?? [])]
+          .filter((s) => s.clientId === this.clientIdParam) // keep only current client
+          .sort((a, b) => b.id - a.id);
 
-        const sorted = [...sales].sort((a, b) => b?.id - a?.id);
         this.originalClientSalesTurnovers = sorted;
         this.filteredClientSalesTurnovers = [...sorted];
-        console.log('filtered', this.filteredClientSalesTurnovers);
       });
   }
-
   onAddClientSalesTurnover() {
     console.log('edioyt', this.clientIdParam);
     const routeId = this.route.snapshot.paramMap.get('clientId');

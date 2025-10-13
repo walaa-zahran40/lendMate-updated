@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil, filter } from 'rxjs';
 import { ClientSalesTurnoversFacade } from '../../../../../../store/client-sales-turnovers/client-sales-turnovers.facade';
 import { ClientSalesTurnover } from '../../../../../../store/client-sales-turnovers/client-sales-turnovers.model';
+import { ClientSalesTurnoverBundle } from '../../../../../../../resolvers/client-sales-turnover-bundle.resolver';
 
 @Component({
   selector: 'app-add-client-sales-turnover',
@@ -34,121 +35,69 @@ export class AddSalesTurnoverComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    // Read mode and set flags
-    this.mode = (this.route.snapshot.queryParamMap.get('mode') as any) ?? 'add';
+    const bundle = this.route.snapshot.data[
+      'bundle'
+    ] as ClientSalesTurnoverBundle;
+
+    this.mode = bundle.mode;
     this.editMode = this.mode === 'edit';
     this.viewOnly = this.mode === 'view';
 
-    // Read IDs
-    this.parentClientId = Number(
-      this.route.snapshot.queryParamMap.get('clientId')
-    );
-    if (this.editMode || this.viewOnly) {
-      console.log('route add', this.route.snapshot);
-      this.recordId = Number(this.route.snapshot.params['clientId']);
-      this.clientSalesoverFacade.loadOne(this.recordId);
-    }
+    // parent client id for add, or from the record in edit/view
+    this.parentClientId =
+      bundle.parentClientId ??
+      Number(this.route.snapshot.paramMap.get('clientId'));
 
-    // Build form with clientId
+    // build form
     this.addSalesTurnoverForm = this.fb.group({
       amount: [null, [Validators.required, Validators.min(0.01)]],
       date: [null, Validators.required],
     });
 
-    this.addSalesTurnoverForm.patchValue({
-      clientId: this.route.snapshot.queryParamMap.get('clientId'),
-    });
+    // patch in edit/view
+    if (bundle.record) {
+      this.recordId = bundle.record.id;
+      this.addSalesTurnoverForm.patchValue({
+        amount: bundle.record.amount,
+        date: new Date(bundle.record.date),
+      });
+    }
 
-    // Patch for edit/view mode
-    if (this.editMode || this.viewOnly) {
-      this.clientSalesoverFacade.current$
-        .pipe(
-          takeUntil(this.destroy$),
-          filter((rec) => !!rec)
-        )
-        .subscribe((rec) => {
-          this.addSalesTurnoverForm.patchValue({
-            id: rec.id,
-            clientId: this.route.snapshot.queryParamMap.get('clientId'),
-            amount: rec.amount,
-            date: new Date(rec.date),
-          });
-        });
+    if (this.viewOnly) {
+      this.addSalesTurnoverForm.disable();
     }
   }
 
   addOrEditClientSalesTurnover() {
-    console.log('🛣️ Route snapshot:', this.route.snapshot);
-    const clientIdParam = this.route.snapshot.queryParamMap.get('clientId');
-    console.log(`🔍 QueryParams → clientId = ${clientIdParam}`);
-    console.log(
-      `⚙️ mode = ${this.mode}, editMode = ${this.editMode}, viewOnly = ${this.viewOnly}`
-    );
-
-    // 4) Early return in view-only
-    if (this.viewOnly) {
-      console.warn('🚫 viewOnly mode — aborting submit');
-      return;
-    }
-
-    // 5) Form validity
+    if (this.viewOnly) return;
     if (this.addSalesTurnoverForm.invalid) {
       this.addSalesTurnoverForm.markAllAsTouched();
       return;
     }
 
-    // 6) The actual payload
     const formValue = this.addSalesTurnoverForm.value;
-
     const data: Partial<ClientSalesTurnover> = {
-      clientId: Number(this.route.snapshot.paramMap.get('clientId')),
+      clientId: this.parentClientId,
       amount: formValue.amount,
       date: formValue.date,
     };
 
-    console.log(
-      '🔄 Dispatching UPDATE id=',
-      this.recordId,
-      ' created  payload=',
-      data
-    );
-
     if (this.mode === 'add') {
       this.clientSalesoverFacade.create(data);
     } else {
-      const formValue = this.addSalesTurnoverForm.value;
-
-      const updateData: ClientSalesTurnover = {
+      this.clientSalesoverFacade.update(this.recordId, {
         id: this.recordId,
-        clientId: this.parentClientId,
-        amount: formValue.amount,
-        date: formValue.date,
-      };
-
-      console.log(
-        '🔄 Dispatching UPDATE id=',
-        this.recordId,
-        ' UPDATED payload=',
-        updateData
-      );
-
-      this.clientSalesoverFacade.update(this.recordId, updateData);
+        ...data,
+      });
     }
 
-    if (this.addSalesTurnoverForm.valid) {
-      this.addSalesTurnoverForm.markAsPristine();
-    }
-
-    if (clientIdParam) {
-      console.log('➡️ Navigating back with PATH param:', clientIdParam);
-      this.router.navigate([
-        '/crm/clients/view-sales-turnovers',
-        clientIdParam,
-      ]);
-    } else {
-      console.error('❌ Cannot navigate back: clientId is missing!');
-    }
+    this.addSalesTurnoverForm.markAsPristine();
+    this.router.navigate([
+      '/crm/clients/view-sales-turnovers',
+      this.parentClientId,
+    ]);
   }
+
   /** Called by the guard. */
   canDeactivate(): boolean {
     return !this.addSalesTurnoverForm.dirty;

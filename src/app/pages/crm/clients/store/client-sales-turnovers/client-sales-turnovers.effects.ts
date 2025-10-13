@@ -37,11 +37,9 @@ export class ClientSalesTurnoversEffects {
       mergeMap(() =>
         this.service.getHistory().pipe(
           map((resp) =>
-            ClientSalesTurnoverActions.loadClientSalesTurnoversHistorySuccess(
-              {
-                history: resp.items,
-              }
-            )
+            ClientSalesTurnoverActions.loadClientSalesTurnoversHistorySuccess({
+              history: resp.items,
+            })
           ),
           catchError((error) =>
             of(
@@ -77,16 +75,22 @@ export class ClientSalesTurnoversEffects {
     )
   );
 
+  // effects: client-sales-turnovers.effects.ts
   create$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ClientSalesTurnoverActions.createClientSalesTurnover),
       mergeMap(({ data }) =>
         this.service.create(data).pipe(
-          map((client) =>
-            ClientSalesTurnoverActions.createClientSalesTurnoverSuccess({
-              client,
-            })
-          ),
+          map((serverReturned) => {
+            // Make sure clientId is present on the success payload
+            const enriched: ClientSalesTurnover = {
+              ...serverReturned,
+              clientId: data.clientId!, // ← inject it if API omits it
+            };
+            return ClientSalesTurnoverActions.createClientSalesTurnoverSuccess({
+              client: enriched,
+            });
+          }),
           catchError((error) =>
             of(
               ClientSalesTurnoverActions.createClientSalesTurnoverFailure({
@@ -114,9 +118,9 @@ export class ClientSalesTurnoversEffects {
               clientId: data.clientId!,
             };
             console.log('[Effect:update] enriched client →', enriched);
-            return ClientSalesTurnoverActions.updateClientSalesTurnoverSuccess(
-              { client: enriched }
-            );
+            return ClientSalesTurnoverActions.updateClientSalesTurnoverSuccess({
+              client: enriched,
+            });
           }),
           catchError((error) =>
             of(
@@ -153,7 +157,6 @@ export class ClientSalesTurnoversEffects {
     )
   );
 
-  // After any create/update/delete success: reload by clientId
   refreshList$ = createEffect(() =>
     this.actions$.pipe(
       ofType(
@@ -161,24 +164,10 @@ export class ClientSalesTurnoversEffects {
         ClientSalesTurnoverActions.updateClientSalesTurnoverSuccess,
         ClientSalesTurnoverActions.deleteClientSalesTurnoverSuccess
       ),
-
-      tap((action) =>
-        console.log('[RefreshList] triggered by action:', action)
+      map((action) =>
+        'client' in action ? action.client.clientId : action.clientId
       ),
-
-      // pull out the right number
-      map((action) => {
-        const clientId =
-          'client' in action ? action.client.clientId : action.clientId;
-        console.log('[RefreshList] extracted clientId →', clientId);
-        return clientId;
-      }),
-
-      // only continue if it’s a number
-      filter(
-        (clientId): clientId is number => typeof clientId === 'number'
-      ),
-
+      filter((clientId): clientId is number => typeof clientId === 'number'),
       map((clientId) =>
         ClientSalesTurnoverActions.loadClientSalesTurnoversByClientId({
           clientId,

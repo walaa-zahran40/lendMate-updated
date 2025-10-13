@@ -55,6 +55,8 @@ import { uploadDocumentResolver } from './resolvers/upload-document.resolver';
 import { docTypesResolver } from './resolvers/doc-types.resolver';
 import { clientAddressBundleResolver } from './resolvers/client-address-bundle.resolver';
 import { clientAddressesListResolver } from './resolvers/client-addresses-list.resolver';
+import { clientSalesTurnoverListResolver } from './resolvers/client-sales-turnovers-list.resolver';
+import { clientSalesTurnoverBundleResolver } from './resolvers/client-sales-turnover-bundle.resolver';
 
 const routes: Routes = [
   /*Clients , Client Onboarding Routing*/
@@ -153,21 +155,27 @@ const routes: Routes = [
     runGuardsAndResolvers: 'paramsOrQueryParamsChange',
   },
   // Client Sales Turn Overs
+  // ✅ final routes
   {
     path: 'clients/add-sales-turnover/:clientId',
     component: AddSalesTurnoverComponent,
+    resolve: { bundle: clientSalesTurnoverBundleResolver },
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange',
   },
-
   {
-    path: 'clients/edit-sales-turnover/:clientId',
+    path: 'clients/edit-sales-turnover/:id', // <-- changed to :id
     component: AddSalesTurnoverComponent,
     canDeactivate: [PendingChangesGuard],
+    resolve: { bundle: clientSalesTurnoverBundleResolver },
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange',
   },
-
   {
     path: 'clients/view-sales-turnovers/:clientId',
     component: ViewSalesTurnoverComponent,
+    resolve: { list: clientSalesTurnoverListResolver },
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange',
   },
+
   // Client Phone numbers
   {
     path: 'clients/add-phone-number/:clientId',
