@@ -1,7 +1,16 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject, Observable, forkJoin, filter, take, takeUntil } from 'rxjs';
+import {
+  Subject,
+  Observable,
+  forkJoin,
+  filter,
+  take,
+  takeUntil,
+  of,
+  tap,
+} from 'rxjs';
 import { AddressTypesFacade } from '../../../../../../../../lookups/store/address-types/address-types.facade';
 import { Area } from '../../../../../../../../lookups/store/areas/area.model';
 import { AreasFacade } from '../../../../../../../../lookups/store/areas/areas.facade';
@@ -55,11 +64,12 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
     private governoratesFacade: GovernoratesFacade,
     private areasFacade: AreasFacade,
     private phoneTypesFacade: PhoneTypesFacade,
-    private identityTypesFacade: IdentificationTypesFacade,
+    private cdr: ChangeDetectorRef,
     private router: Router
   ) {}
 
   ngOnInit() {
+    // 1) Build the form
     this.addClientContactPersonForm = this.fb.group({
       name: [null, Validators.required],
       nameAR: [null, Validators.required],
@@ -68,7 +78,7 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
       countryId: [null],
       title: [null, Validators.required],
       titleAR: [null, Validators.required],
-      email: [null, Validators.required],
+      email: [null, [Validators.required, Validators.email]],
       isAuthorizedSign: [true, Validators.required],
       isKeyManager: [true, Validators.required],
       isFinance: [true, Validators.required],
@@ -79,184 +89,225 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
       identities: this.fb.array([this.createIdentityGroup()]),
       phoneTypes: this.fb.array([this.createPhoneTypeGroup()]),
     });
-    this.setupCascadingDropdowns();
 
-    this.addressTypesFacade.loadAll();
-    this.addressTypes$ = this.addressTypesFacade.all$;
+    // 2) Pull resolver bundle
+    const bundle = this.route.snapshot.data['bundle'] as {
+      mode: 'add' | 'edit' | 'view';
+      record?: ClientContactPerson;
+      clientIdFromQP?: number;
+      addressTypes: any[];
+      countries: any[];
+      governorates: any[];
+      areas: any[];
+      phoneTypes: any[];
+      identityTypes: any[];
+    };
 
-    this.countriesFacade.loadAll();
-    this.countries$ = this.countriesFacade.all$;
-
-    this.governoratesFacade.loadAll();
-    this.governorates$ = this.governoratesFacade.all$;
-
-    this.areasFacade.loadAll();
-    this.areas$ = this.areasFacade.all$;
-
-    this.phoneTypesFacade.loadAll();
-    this.phoneTypes$ = this.phoneTypesFacade.all$;
-
-    this.identityTypesFacade.loadAll();
-    this.identityTypes$ = this.identityTypesFacade.all$;
-
-    forkJoin({
-      countries: this.countries$.pipe(
-        filter((l) => l.length > 0),
-        take(1)
-      ),
-      governorates: this.governorates$.pipe(
-        filter((l) => l.length > 0),
-        take(1)
-      ),
-      areas: this.areas$.pipe(
-        filter((l) => l.length > 0),
-        take(1)
-      ),
-    }).subscribe(({ countries, governorates, areas }) => {
-      this.countriesList = countries;
-      this.governoratesList = governorates;
-      this.areasList = areas;
-      const selCountry =
-        this.addClientContactPersonForm.get('countryId')!.value;
-      this.filteredGovernorates = selCountry
-        ? governorates.filter((g) => g.countryId === selCountry)
-        : governorates;
-
-      const selGov =
-        this.addClientContactPersonForm.get('governorateId')!.value;
-      this.filteredAreas = selGov
-        ? areas.filter((a) => a.governorate.id === selGov)
-        : areas;
-    });
-
-    this.mode = (this.route.snapshot.queryParamMap.get('mode') as any) ?? 'add';
+    this.mode = bundle.mode;
     this.editMode = this.mode === 'edit';
     this.viewOnly = this.mode === 'view';
+    this.parentClientId =
+      bundle.clientIdFromQP ??
+      Number(this.route.snapshot.paramMap.get('clientId'));
 
-    this.parentClientId = Number(
-      this.route.snapshot.queryParamMap.get('clientId')
-    );
-    if (this.editMode || this.viewOnly) {
-      console.log('route add', this.route.snapshot);
-      this.recordId = Number(this.route.snapshot.params['clientId']);
-      this.clientContactPersonFacade.loadOne(this.recordId);
-    }
+    // 3) Wire lookups (observable for templates)
+    this.addressTypes$ = of(bundle.addressTypes);
+    this.countries$ = of(bundle.countries);
+    this.governorates$ = of(bundle.governorates);
+    this.areas$ = of(bundle.areas);
+    this.phoneTypes$ = of(bundle.phoneTypes);
+    this.identityTypes$ = of(bundle.identityTypes);
 
+    // 4) Keep raw arrays for cascading filters
+    this.countriesList = bundle.countries;
+    this.governoratesList = bundle.governorates;
+    this.areasList = bundle.areas;
+
+    // 5) Cascades
+    this.setupCascadingDropdowns();
+
+    // 6) Default clientId (useful for add)
     this.addClientContactPersonForm.patchValue({
-      clientId: this.route.snapshot.queryParamMap.get('clientId'),
+      clientId: this.parentClientId,
     });
 
-    if (this.editMode || this.viewOnly) {
-      this.clientContactPersonFacade.current$
-        .pipe(
-          takeUntil(this.destroy$),
-          filter((rec) => !!rec)
-        )
-        .subscribe({
-          next: (rec) => {
-            const form = this.addClientContactPersonForm;
+    // 7) Edit / View: patch record safely
+    const rec = bundle.record;
+    if ((this.editMode || this.viewOnly) && rec) {
+      this.recordId = rec.id!;
+      this.ignoreCascades = true;
 
-            this.ignoreCascades = true;
+      // Build filtered lists first (so p-select has the options ready)
+      this.filteredGovernorates = this.governoratesList.filter(
+        (g: any) => g.countryId === Number(rec.countryId)
+      );
+      this.filteredAreas = this.areasList.filter(
+        (a: any) => a.governorate.id === Number(rec.governorateId)
+      );
 
-            form
-              .get('countryId')!
-              .patchValue(rec.countryId, { emitEvent: false });
-            this.filteredGovernorates = this.governoratesList.filter(
-              (g) => g.countryId === rec.countryId
-            );
+      // Defer value patching so child dropdowns render with options already set
+      Promise.resolve().then(() => {
+        // Patch cascading selects (emitEvent:false prevents valueChanges loops)
+        this.addClientContactPersonForm
+          .get('countryId')!
+          .setValue(Number(rec.countryId), { emitEvent: false });
+        this.addClientContactPersonForm
+          .get('governorateId')!
+          .setValue(Number(rec.governorateId), { emitEvent: false });
+        this.addClientContactPersonForm
+          .get('areaId')!
+          .setValue(Number(rec.areaId), { emitEvent: false });
 
-            form
-              .get('governorateId')!
-              .patchValue(rec.governorateId, { emitEvent: false });
-            this.filteredAreas = this.areasList.filter(
-              (a) => a.governorate.id === rec.governorateId
-            );
-
-            form.get('areaId')!.patchValue(rec.areaId, { emitEvent: false });
-
-            form.patchValue(
-              {
-                id: rec.id,
-                clientId: this.parentClientId,
-                name: rec.name,
-                nameAR: rec.nameAR,
-                genderId: rec.genderId,
-                title: rec.title,
-                titleAR: rec.titleAR,
-                email: rec.email,
-                isAuthorizedSign: rec.isAuthorizedSign,
-                isKeyManager: rec.isKeyManager,
-                isFinance: rec.isFinance,
-                addressTypeId: rec.addressTypeId,
-                addressDetails: rec.addressDetails,
-                addressDetailsAr: rec.addressDetailsAr,
-              },
-              { emitEvent: false }
-            );
-
-            this.ignoreCascades = false;
-
-            const idArr = form.get('identities') as FormArray;
-            idArr.clear();
-            rec.contactPersonIdentities?.forEach((ci) => {
-              idArr.push(
-                this.fb.group({
-                  id: [ci.id],
-                  identificationNumber: [
-                    ci.identificationNumber,
-                    Validators.required,
-                  ],
-                  selectedIdentities: [
-                    ci.identificationTypeId,
-                    Validators.required,
-                  ],
-                  isMain: [ci.isMain, Validators.required],
-                })
-              );
-            });
-
-            const phArr = form.get('phoneTypes') as FormArray;
-            phArr.clear();
-            rec.contactPersonPhoneNumbers?.forEach((pp) => {
-              phArr.push(
-                this.fb.group({
-                  id: [pp.id],
-                  phoneNumber: [
-                    pp.phoneNumber,
-                    [Validators.required, Validators.pattern(/^[0-9]+$/)],
-                  ],
-                  phoneTypeId: [pp.phoneTypeId, Validators.required],
-                })
-              );
-            });
+        // Patch scalar fields
+        this.addClientContactPersonForm.patchValue(
+          {
+            id: rec.id,
+            clientId: this.parentClientId,
+            name: rec.name,
+            nameAR: rec.nameAR,
+            genderId: rec.genderId,
+            title: rec.title,
+            titleAR: rec.titleAR,
+            email: rec.email,
+            isAuthorizedSign: rec.isAuthorizedSign,
+            isKeyManager: rec.isKeyManager,
+            isFinance: rec.isFinance,
+            addressTypeId: rec.addressTypeId,
+            addressDetails: rec.addressDetails,
+            addressDetailsAr: rec.addressDetailsAr,
           },
-          error: (err) => console.error(err),
-        });
+          { emitEvent: false }
+        );
+
+        // --- Rebuild FormArrays from record ---
+
+        // Identities (API could use either naming; support both)
+        const idsFA = this.addClientContactPersonForm.get(
+          'identities'
+        ) as FormArray;
+        idsFA.clear();
+        const recIdentities =
+          rec.contactPersonIdentities ??
+          rec.clientContactPersonIdentities ??
+          [];
+        if (recIdentities.length) {
+          recIdentities.forEach((ci) => {
+            const group = this.fb.group({
+              id: [ci.id],
+              identificationNumber: [
+                ci.identificationNumber,
+                Validators.required,
+              ],
+              selectedIdentities: [
+                ci.identificationTypeId,
+                Validators.required,
+              ],
+              isMain: [!!ci.isMain],
+            });
+            if (this.viewOnly) group.disable({ emitEvent: false });
+            idsFA.push(group);
+          });
+        } else {
+          const g = this.createIdentityGroup();
+          if (this.viewOnly) g.disable({ emitEvent: false });
+          idsFA.push(g);
+        }
+
+        // Phone numbers (API could use either naming; support both)
+        const phFA = this.addClientContactPersonForm.get(
+          'phoneTypes'
+        ) as FormArray;
+        phFA.clear();
+        const recPhones =
+          rec.contactPersonPhoneNumbers ?? rec.clientContactPhoneNumbers ?? [];
+        if (recPhones.length) {
+          recPhones.forEach((pp) => {
+            const group = this.fb.group({
+              id: [pp.id],
+              phoneNumber: [
+                pp.phoneNumber,
+                [Validators.required, Validators.pattern(/^[0-9]+$/)],
+              ],
+              phoneTypeId: [pp.phoneTypeId, Validators.required],
+            });
+            if (this.viewOnly) group.disable({ emitEvent: false });
+            phFA.push(group);
+          });
+        } else {
+          const g = this.createPhoneTypeGroup();
+          if (this.viewOnly) g.disable({ emitEvent: false });
+          phFA.push(g);
+        }
+
+        // Re-enable cascades & finally lock the whole form in view mode
+        this.ignoreCascades = false;
+        if (this.viewOnly) {
+          this.addClientContactPersonForm.disable({ emitEvent: false });
+        }
+
+        // Let Angular/PrimeNG pick up changes
+        this.cdr.detectChanges();
+      });
     }
   }
 
   get identities(): FormArray {
     return this.addClientContactPersonForm.get('identities') as FormArray;
   }
+  createIdentityGroup(): FormGroup {
+    return this.fb.group({
+      id: [],
+      identificationNumber: ['', Validators.required],
+      selectedIdentities: [[], Validators.required],
+      isMain: [false],
+    });
+  }
+  get phoneTypes(): FormArray {
+    return this.addClientContactPersonForm.get('phoneTypes') as FormArray;
+  }
+  createPhoneTypeGroup(): FormGroup {
+    return this.fb.group({
+      id: [],
+      phoneNumber: ['', Validators.required],
+      phoneTypeId: [[], Validators.required],
+    });
+  }
   private setupCascadingDropdowns(): void {
     this.addClientContactPersonForm
       .get('countryId')!
-      .valueChanges.subscribe((countryId: number) => {
+      .valueChanges.pipe(takeUntil(this.destroy$))
+      .subscribe((countryId: any) => {
+        if (this.ignoreCascades) return;
+        const id = Number(countryId);
+
         this.filteredGovernorates = this.governoratesList.filter(
-          (g) => g.countryId === countryId
+          (g: any) => g.countryId === id
         );
-        this.addClientContactPersonForm.get('governorateId')!.reset();
+
+        // reset downstreams without triggering valueChanges again
+        this.addClientContactPersonForm
+          .get('governorateId')!
+          .setValue(null, { emitEvent: false });
         this.filteredAreas = [];
-        this.addClientContactPersonForm.get('areaId')!.reset();
+        this.addClientContactPersonForm
+          .get('areaId')!
+          .setValue(null, { emitEvent: false });
       });
 
     this.addClientContactPersonForm
       .get('governorateId')!
-      .valueChanges.subscribe((govId: number) => {
+      .valueChanges.pipe(takeUntil(this.destroy$))
+      .subscribe((govId: any) => {
+        if (this.ignoreCascades) return;
+        const id = Number(govId);
+
         this.filteredAreas = this.areasList.filter(
-          (a) => a.governorate.id === govId
+          (a: any) => a.governorate.id === id
         );
-        this.addClientContactPersonForm.get('areaId')!.reset();
+
+        this.addClientContactPersonForm
+          .get('areaId')!
+          .setValue(null, { emitEvent: false });
       });
   }
 
@@ -271,18 +322,6 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
       this.identities.removeAt(i);
     }
   }
-  createIdentityGroup(): FormGroup {
-    return this.fb.group({
-      id: [],
-      identificationNumber: ['', Validators.required],
-      selectedIdentities: [[], Validators.required],
-      isMain: [false, Validators.required],
-    });
-  }
-
-  get phoneTypes(): FormArray {
-    return this.addClientContactPersonForm.get('phoneTypes') as FormArray;
-  }
 
   addPhoneType() {
     console.log('Adding new identity group');
@@ -294,14 +333,6 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
     if (this.phoneTypes.length > 1) {
       this.phoneTypes.removeAt(i);
     }
-  }
-
-  createPhoneTypeGroup(): FormGroup {
-    return this.fb.group({
-      id: [],
-      phoneNumber: ['', Validators.required],
-      phoneTypeId: [[], Validators.required],
-    });
   }
 
   addOrEditClientContactPerson() {
@@ -321,6 +352,7 @@ export class AddContactPersonComponent implements OnInit, OnDestroy {
     const formValue = this.addClientContactPersonForm.value;
     const contactPersonIdentitiesPayload = formValue.identities?.map(
       (i: any) => {
+        console.log('i', i);
         const entry: any = {
           identificationNumber: i.identificationNumber,
           identificationTypeId: i.selectedIdentities,

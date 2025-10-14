@@ -75,6 +75,8 @@ import { ClientOfficersBundleResolver } from './resolvers/client-officers-bundle
 import { ClientOfficersListResolver } from './resolvers/client-officers-list.resolver';
 import { ClientLegalsBundleResolver } from './resolvers/client-legals-bundle.resolver';
 import { ClientLegalsListResolver } from './resolvers/client-legals-list.resolver';
+import { ContactPersonsBundleResolver } from './resolvers/contact-persons-bundle.resolver';
+import { ContactPersonsListResolver } from './resolvers/contact-persons-list.resolver';
 
 const routes: Routes = [
   /*Clients , Client Onboarding Routing*/
@@ -395,19 +397,22 @@ const routes: Routes = [
 
   // Client Contact Persons
   {
+    path: 'clients/view-contact-persons/:clientId',
+    component: ViewContactPersonComponent,
+    resolve: { list: ContactPersonsListResolver },
+  },
+  {
     path: 'clients/add-contact-person/:clientId',
     component: AddContactPersonComponent,
+    canDeactivate: [PendingChangesGuard],
+    resolve: { bundle: ContactPersonsBundleResolver },
   },
-
   {
+    // NOTE: this route uses ":clientId" as the *record id* in your code
     path: 'clients/edit-contact-person/:clientId',
     component: AddContactPersonComponent,
     canDeactivate: [PendingChangesGuard],
-  },
-
-  {
-    path: 'clients/view-contact-persons/:clientId',
-    component: ViewContactPersonComponent,
+    resolve: { bundle: ContactPersonsBundleResolver },
   },
 
   //Client Guarantors

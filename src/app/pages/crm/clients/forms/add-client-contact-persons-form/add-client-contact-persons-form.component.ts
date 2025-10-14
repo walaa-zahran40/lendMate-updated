@@ -990,12 +990,7 @@ export class AddClientContactPersonsFormComponent implements OnInit, OnDestroy {
   viewOfficers() {
     this.router.navigate(['/organizations/view-officers']);
   }
-  onViewContactPersonsClick() {
-    console.log('Client ID:', this.currentClientId);
-    if (this.currentClientId) {
-      this.viewContactPersons.emit(this.currentClientId);
-    }
-  }
+
   viewFollowUpsPoint() {
     this.router.navigate(['/communication/view-followup-points']);
   }
@@ -1020,6 +1015,11 @@ export class AddClientContactPersonsFormComponent implements OnInit, OnDestroy {
   viewTMLOfficer() {
     this.router.navigate([
       `/crm/clients/view-client-tml-officers/${this.clientId}`,
+    ]);
+  }
+  onViewContactPersonsClick() {
+    this.router.navigate([
+      `/crm/clients/view-contact-persons/${this.clientId}`,
     ]);
   }
   viewClientOfficer() {

@@ -59,47 +59,56 @@ export class ViewContactPersonComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    const raw = this.route.snapshot.paramMap.get('clientId');
-    this.clientIdParam = raw !== null ? Number(raw) : undefined;
-    console.log('[View] ngOnInit → clientIdParam =', this.clientIdParam);
+    const data = this.route.snapshot.data['list'] as {
+      clientId: number;
+      items: ClientContactPerson[];
+      phoneTypes: PhoneType[];
+    };
 
+    this.clientIdParam = data.clientId;
+
+    const phoneMap = new Map(data.phoneTypes.map((pt) => [pt.id, pt.name]));
+
+    // 1) First render from resolver
+    const first = (data.items ?? [])
+      .map((cp) => {
+        const phoneNumber = cp.contactPersonPhoneNumbers
+          ?.map((p) => p.phoneNumber)
+          .join(', ');
+        // The table shows "Gender" & phoneNumber; keep simple mapping here
+        return { ...cp, phoneNumber };
+      })
+      .sort((a, b) => (b.id ?? 0) - (a.id ?? 0));
+
+    this.originalClientContactPersons = first;
+    this.filteredClientContactPersons = [...first];
+
+    // 2) Store-driven refresh after CRUD
     this.facade.loadByClientId(this.clientIdParam);
     this.clientContactPersons$ = this.facade.items$;
 
-    this.phoneTypes$ = this.addressTypesFacade.all$;
-
-    if (this.clientIdParam == null || isNaN(this.clientIdParam)) {
-      console.error(
-        '❌ Missing or invalid clientIdParam! Cannot load exchange rates.'
-      );
-      return;
-    }
-
-    combineLatest([this.clientContactPersons$!, this.phoneTypes$!])
+    combineLatest([this.clientContactPersons$, of(data.phoneTypes)])
       .pipe(
-        map(([clientContactPersons, phoneTypes]) =>
-          clientContactPersons
-            .map((ss) => {
-              const numbers = ss.contactPersonPhoneNumbers
+        map(([items, pts]) => {
+          const mapPT = new Map(pts.map((p) => [p.id, p.name]));
+          return (items ?? [])
+            .filter((x) => x.clientId === this.clientIdParam)
+            .map((x) => ({
+              ...x,
+              phoneNumber: x.contactPersonPhoneNumbers
                 ?.map((p) => p.phoneNumber)
-                .join(', ');
-              const matchedPhoneType = phoneTypes.find(
-                (pt) => pt.id === ss.addressTypeId
-              );
-
-              return {
-                ...ss,
-                phoneNumber: numbers,
-                phoneTypeName: matchedPhoneType?.name ?? '—',
-              };
-            })
-            .sort((a, b) => b.id - a.id)
-        ),
+                .join(', '),
+              phoneTypeName: x.contactPersonPhoneNumbers
+                ?.map((p) => mapPT.get(p.phoneTypeId) ?? '—')
+                .join(', '),
+            }))
+            .sort((a, b) => (b.id ?? 0) - (a.id ?? 0));
+        }),
         takeUntil(this.destroy$)
       )
-      .subscribe((result) => {
-        this.filteredClientContactPersons = result;
-        this.originalClientContactPersons = result;
+      .subscribe((res) => {
+        this.originalClientContactPersons = res;
+        this.filteredClientContactPersons = [...res];
       });
   }
 

@@ -29,6 +29,7 @@ export interface ClientContactPerson {
   governorateId?: number;
   addressDetails?: string;
   addressDetailsAr: string;
+  isActive?: boolean;
   contactPersonPhoneNumbers?: ContactPersonPhoneNumber[];
   clientContactPhoneNumbers?: ContactPersonPhoneNumber[];
   clientContactPersonIdentities?: ContactPersonIdentity[];
