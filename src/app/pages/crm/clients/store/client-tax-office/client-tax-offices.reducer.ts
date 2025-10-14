@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
-import * as Actions from './client-tax-office.actions';
-import { initialClientTaxOfficesState } from './client-tax-office.state';
+import * as Actions from './client-tax-offices.actions';
+import { initialClientTaxOfficesState } from './client-tax-offices.state';
 
 export const clientTaxOfficesReducer = createReducer(
   initialClientTaxOfficesState,

@@ -13,8 +13,9 @@ import { TableComponent } from '../../../../../../../../../shared/components/tab
 import { TaxOffice } from '../../../../../../../../lookups/store/tax-offices/tax-office.model';
 import { selectAllTaxOffices } from '../../../../../../../../lookups/store/tax-offices/tax-offices.selectors';
 import { loadAll } from '../../../../../../store/client-identity-types/client-identity-types.actions';
-import { ClientTaxOfficesFacade } from '../../../../../../store/client-tax-office/client-tax-office.facade';
+import { ClientTaxOfficesFacade } from '../../../../../../store/client-tax-office/client-tax-offices.facade';
 import { ClientTaxOffice } from '../../../../../../store/client-tax-office/client-tax-office.model';
+import { ClientTaxOfficesListData } from '../../../../../../../resolvers/client-tax-offices-list.resolver';
 
 @Component({
   selector: 'app-view-tax-authority-office',
@@ -52,9 +53,24 @@ export class ViewTaxAuthorityOfficesComponent {
   ) {}
 
   ngOnInit() {
-    const raw = this.route.snapshot.paramMap.get('clientId');
-    this.clientIdParam = raw !== null ? Number(raw) : undefined;
-    this.facade.loadClientTaxOfficesByClientId(this.clientIdParam);
+    const data = this.route.snapshot.data['list'] as ClientTaxOfficesListData;
+    this.clientIdParam = data.clientId;
+
+    // first paint (no flicker)
+    const idToName = new Map(data.taxOffices.map((t) => [t.id, t.name]));
+    const firstRender = (data.items ?? [])
+      .map((it) => ({
+        ...it,
+        taxOffice: idToName.get(it.taxOfficeId) ?? '—',
+      }))
+      .filter((it) => it.isActive) // keep if needed
+      .sort((a, b) => (b.id ?? 0) - (a.id ?? 0));
+
+    this.originalTaxOffices = firstRender;
+    this.filteredTaxOffices = [...firstRender];
+
+    // live updates after create/update/delete
+    this.facade.loadByClientId(this.clientIdParam);
     this.taxOffices$ = this.facade.items$;
 
     this.store.dispatch(loadAll({}));
@@ -67,10 +83,10 @@ export class ViewTaxAuthorityOfficesComponent {
           taxOffices
             .map((taxOffice) => ({
               ...taxOffice,
-              taxOffice:
-                taxOfficesList.find((c) => c.id === taxOffice.id)?.name || '—',
+              taxOffice: taxOfficesList.find(
+                (c) => c.id === taxOffice.taxOfficeId
+              )?.name,
             }))
-            .filter((taxOffice) => taxOffice.isActive)
             .sort((a, b) => b.id - a.id)
         ),
         takeUntil(this.destroy$)

@@ -6,9 +6,10 @@ import { Observable, Subject, takeUntil, filter } from 'rxjs';
 import { TaxOffice } from '../../../../../../../../lookups/store/tax-offices/tax-office.model';
 import { selectAllTaxOffices } from '../../../../../../../../lookups/store/tax-offices/tax-offices.selectors';
 import { loadAll } from '../../../../../../store/client-identity-types/client-identity-types.actions';
-import { ClientTaxOfficesFacade } from '../../../../../../store/client-tax-office/client-tax-office.facade';
+import { ClientTaxOfficesFacade } from '../../../../../../store/client-tax-office/client-tax-offices.facade';
 import { ClientTaxOffice } from '../../../../../../store/client-tax-office/client-tax-office.model';
 import { TaxOfficesFacade } from '../../../../../../../../lookups/store/tax-offices/tax-offices.facade';
+import { ClientTaxOfficeBundle } from '../../../../../../../resolvers/client-tax-office-bundle.resolver';
 
 @Component({
   selector: 'app-add-tax-authority-office',
@@ -37,24 +38,16 @@ export class AddClientTaxAuthorityOfficesComponent {
   ) {}
 
   ngOnInit(): void {
-    console.log('🟢 ngOnInit start');
-    // 1️⃣ Read route parameters
-    console.log(this.route.snapshot, 'route');
-    this.clientId = Number(this.route.snapshot.queryParams['clientId']);
+    const bundle = this.route.snapshot.data['bundle'] as ClientTaxOfficeBundle;
 
-    this.mode =
-      (this.route.snapshot.queryParamMap.get('mode') as
-        | 'add'
-        | 'edit'
-        | 'view') ?? 'add';
+    this.mode = bundle.mode;
     this.editMode = this.mode === 'edit';
     this.viewOnly = this.mode === 'view';
-    console.log('🔍 Params:', {
-      clientId: this.clientId,
-      mode: this.mode,
-      editMode: this.editMode,
-      viewOnly: this.viewOnly,
-    });
+
+    // clientId: query param first, else optional :clientId path
+    this.clientId =
+      bundle.clientIdFromQP ??
+      Number(this.route.snapshot.paramMap.get('clientId'));
 
     this.addClientTaxAuthorityOfficesLookupsForm = this.fb.group({
       id: [null],
@@ -64,46 +57,35 @@ export class AddClientTaxAuthorityOfficesComponent {
       taxCardNumber: [null, [Validators.required]],
       isActive: [true],
     });
-    console.log(
-      '🛠️ Form initialized with defaults:',
-      this.addClientTaxAuthorityOfficesLookupsForm.value
+
+    // expose resolver lookup directly to the template
+    this.taxOfficesList$ = new Observable((sub) =>
+      sub.next(
+        bundle.taxOffices.map((office: any) => ({
+          id: office.id,
+          name: office.name,
+          nameAR: office.nameAR ?? '',
+          isActive: office.isActive ?? true,
+        }))
+      )
     );
-    // 2️⃣ Dispatch actions to load lookup data
-    console.log('🚀 Dispatching lookup loads');
-    this.store.dispatch(loadAll({}));
 
-    this.taxOfficesFacade.loadAll();
-    this.taxOfficesList$ = this.taxOfficesFacade.all$;
-
-    // Patch for add mode
     if (this.mode === 'add') {
       this.addClientTaxAuthorityOfficesLookupsForm.patchValue({
         clientId: this.clientId,
       });
-      console.log('✏️ Add mode → patched clientId:', this.clientId);
-    }
-
-    // Patch for edit/view mode
-    if (this.editMode || this.viewOnly) {
-      this.recordId = Number(this.route.snapshot.paramMap.get('id'));
-      this.facade.loadOne(this.recordId);
-
-      this.facade.current$
-        .pipe(
-          takeUntil(this.destroy$),
-          filter((rec) => !!rec)
-        )
-        .subscribe((ct) => {
-          console.log('red', ct);
-          this.addClientTaxAuthorityOfficesLookupsForm.patchValue({
-            id: ct?.id,
-            clientId: this.clientId,
-            expiryDate: new Date(ct.expiryDate),
-            taxOfficeId: ct.taxOfficeId,
-            taxCardNumber: ct.taxCardNumber,
-            isActive: ct?.isActive,
-          });
-        });
+    } else if (bundle.record) {
+      const r = bundle.record;
+      this.recordId = r.id;
+      this.addClientTaxAuthorityOfficesLookupsForm.patchValue({
+        id: r.id,
+        clientId: this.clientId,
+        taxOfficeId: r.taxOfficeId,
+        taxCardNumber: r.taxCardNumber,
+        expiryDate: r.expiryDate ? new Date(r.expiryDate) : null,
+        isActive: r.isActive ?? true,
+      });
+      if (this.viewOnly) this.addClientTaxAuthorityOfficesLookupsForm.disable();
     }
   }
 

@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { mergeMap, map, catchError, tap, filter } from 'rxjs/operators';
 import { of } from 'rxjs';
-import * as ClientTaxOfficeActions from './client-tax-office.actions';
-import { ClientTaxOfficesService } from './client-tax-office.service';
+import * as ClientTaxOfficeActions from './client-tax-offices.actions';
+import { ClientTaxOfficesService } from './client-tax-offices.service';
 import { ClientTaxOffice } from './client-tax-office.model';
 
 @Injectable()
@@ -43,7 +43,9 @@ export class ClientTaxOfficesEffects {
           ),
           catchError((error) =>
             of(
-              ClientTaxOfficeActions.loadClientTaxOfficesHistoryFailure({ error })
+              ClientTaxOfficeActions.loadClientTaxOfficesHistoryFailure({
+                error,
+              })
             )
           )
         )
@@ -156,27 +158,17 @@ export class ClientTaxOfficesEffects {
         ClientTaxOfficeActions.updateClientTaxOfficeSuccess,
         ClientTaxOfficeActions.deleteClientTaxOfficeSuccess
       ),
- 
-      map(action => {
-      if ('clientId' in action) {
-        // for create/update you returned `{ client: ClientTaxOffice }`,
-        // so dig into that object’s clientId
-        return action.clientId;
-      } else {
-        // for delete you returned `{ id, clientId }`
-        return action.client.clientId;
-      }
-    }),
- 
-      // only continue if it’s a number
- 
+      map((action) =>
+        // create/update carry { client }, delete carries { id, clientId }
+        'client' in action ? action.client.clientId : action.clientId
+      ),
+      filter((clientId): clientId is number => typeof clientId === 'number'),
       map((clientId) =>
-        ClientTaxOfficeActions.loadClientTaxOfficesByClientId({
-          clientId,
-        })
+        ClientTaxOfficeActions.loadClientTaxOfficesByClientId({ clientId })
       )
     )
   );
+
   /**
    * The “by‐clientId” loader
    */
@@ -197,7 +189,9 @@ export class ClientTaxOfficesEffects {
             console.log('[Effect:loadByClientId] response →', items)
           ),
           map((items) =>
-            ClientTaxOfficeActions.loadClientTaxOfficesByClientIdSuccess({ items })
+            ClientTaxOfficeActions.loadClientTaxOfficesByClientIdSuccess({
+              items,
+            })
           ),
           catchError((error) =>
             of(

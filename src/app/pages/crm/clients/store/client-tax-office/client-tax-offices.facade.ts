@@ -3,8 +3,8 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { selectLastOperationSuccess } from '../../../../../shared/store/ui.selectors';
 import { ClientTaxOffice } from './client-tax-office.model';
-import * as Selectors from './client-tax-office.selectors';
-import * as Actions from './client-tax-office.actions';
+import * as Selectors from './client-tax-offices.selectors';
+import * as Actions from './client-tax-offices.actions';
 
 @Injectable({ providedIn: 'root' })
 export class ClientTaxOfficesFacade {

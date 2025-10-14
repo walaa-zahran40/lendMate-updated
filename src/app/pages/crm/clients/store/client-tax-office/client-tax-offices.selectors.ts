@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { ClientTaxOfficesState } from './client-tax-office.state';
+import { ClientTaxOfficesState } from './client-tax-offices.state';
 
 export const selectClientTaxOfficesState =
   createFeatureSelector<ClientTaxOfficesState>('clientTaxOffices');

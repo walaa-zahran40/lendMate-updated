@@ -63,6 +63,8 @@ import { ClientIdentitiesListResolver } from './resolvers/client-identities-list
 import { ClientIdentityBundleResolver } from './resolvers/client-identity-bundle.resolver';
 import { ClientCRAuthorityOfficeBundleResolver } from './resolvers/client-cr-authority-office-bundle.resolver';
 import { ClientCRAuthorityOfficesListResolver } from './resolvers/client-cr-authority-offices-list.resolver';
+import { ClientTaxOfficeBundleResolver } from './resolvers/client-tax-office-bundle.resolver';
+import { ClientTaxOfficesListResolver } from './resolvers/client-tax-offices-list.resolver';
 
 const routes: Routes = [
   /*Clients , Client Onboarding Routing*/
@@ -247,20 +249,25 @@ const routes: Routes = [
   {
     path: 'clients/add-client-tax-authority-offices',
     component: AddClientTaxAuthorityOfficesComponent,
+    resolve: { bundle: ClientTaxOfficeBundleResolver },
   },
   {
     path: 'clients/add-client-tax-authority-offices/:clientId',
     component: AddClientTaxAuthorityOfficesComponent,
+    resolve: { bundle: ClientTaxOfficeBundleResolver },
   },
   {
     path: 'clients/edit-client-tax-authority-offices/:id',
     component: AddClientTaxAuthorityOfficesComponent,
     canDeactivate: [PendingChangesGuard],
+    resolve: { bundle: ClientTaxOfficeBundleResolver },
   },
   {
     path: 'clients/view-client-tax-authority-offices/:clientId',
     component: ViewTaxAuthorityOfficesComponent,
+    resolve: { list: ClientTaxOfficesListResolver },
   },
+
   //Client Central Bank Info
   {
     path: 'clients/add-client-central-bank-info',
