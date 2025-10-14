@@ -8,6 +8,7 @@ import {
   map,
   takeUntil,
   forkJoin,
+  of,
 } from 'rxjs';
 import { TableComponent } from '../../../../../../../../../shared/components/table/table.component';
 import { ClientLegal } from '../../../../../../store/client-legals/client-legal.model';
@@ -58,38 +59,55 @@ export class ViewClientLegalsComponent {
   ) {}
 
   ngOnInit() {
-    const raw = this.route.snapshot.paramMap.get('clientId');
-    this.clientIdParam = raw !== null ? Number(raw) : undefined;
-    this.facade.loadClientLegalsByClientId(this.clientIdParam);
+    const data = this.route.snapshot.data['list'] as {
+      clientId: number;
+      items: ClientLegal[];
+      legalForms: LegalForm[];
+      legalFormLaws: LegalFormLaw[];
+    };
+
+    this.clientIdParam = data.clientId;
+
+    // 1) First render from resolver (no spinner flicker)
+    const idToForm = new Map(data.legalForms.map((f) => [f.id, f.name]));
+    const idToLaw = new Map(data.legalFormLaws.map((l) => [l.id, l.name]));
+
+    const firstRender = (data.items ?? [])
+      .map((it) => ({
+        ...it,
+        legalForm: idToForm.get(it.legalFormId) ?? '—',
+        legalFormLaw: idToLaw.get(it.legalFormLawId) ?? '—',
+      }))
+      .filter((it) => it.isActive)
+      .sort((a, b) => (b.id ?? 0) - (a.id ?? 0));
+
+    this.originalLegals = firstRender;
+    this.filteredLegals = [...firstRender];
+
+    // 2) Subscribe to store for post-CRUD refresh
+    this.facade.loadByClientId(this.clientIdParam);
     this.clientLegals$ = this.facade.items$;
 
-    this.store.dispatch(loadLegalForms());
-    this.store.dispatch(loadLegalFormLaws());
-
-    this.legalFormsList$ = this.store.select(selectLegalForms);
-    this.legalFormLawsList$ = this.store.select(selectLegalFormLaws);
-
+    // If you want live mapping as items change, use resolver lookups:
     combineLatest([
       this.clientLegals$,
-      this.legalFormsList$,
-      this.legalFormLawsList$,
+      of(data.legalForms),
+      of(data.legalFormLaws),
     ])
       .pipe(
-        map(([clientLegals, legalFormsList, legalFormLawsList]) =>
-          clientLegals
-            .map((clientLegal) => ({
-              ...clientLegal,
-              legalForm:
-                legalFormsList.find((c) => c.id === clientLegal.legalFormId)
-                  ?.name || '—',
-              legalFormLaw:
-                legalFormLawsList.find(
-                  (c) => c.id === clientLegal.legalFormLawId
-                )?.name || '—',
+        map(([items, forms, laws]) => {
+          const mapForm = new Map(forms.map((f) => [f.id, f.name]));
+          const mapLaw = new Map(laws.map((l) => [l.id, l.name]));
+          return (items ?? [])
+            .filter((it) => it.clientId === this.clientIdParam)
+            .map((it) => ({
+              ...it,
+              legalForm: mapForm.get(it.legalFormId) ?? '—',
+              legalFormLaw: mapLaw.get(it.legalFormLawId) ?? '—',
             }))
-            .filter((clientLegal) => clientLegal.isActive)
-            .sort((a, b) => b.id - a.id)
-        ),
+            .filter((it) => it.isActive)
+            .sort((a, b) => (b.id ?? 0) - (a.id ?? 0));
+        }),
         takeUntil(this.destroy$)
       )
       .subscribe((enriched) => {

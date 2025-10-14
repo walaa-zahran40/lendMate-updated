@@ -158,27 +158,17 @@ export class ClientLegalsEffects {
         ClientLegalActions.updateClientLegalSuccess,
         ClientLegalActions.deleteClientLegalSuccess
       ),
-
-      map((action) => {
-        if ('clientId' in action) {
-          // for create/update you returned `{ client: ClientLegal }`,
-          // so dig into that object’s clientId
-          return action.clientId;
-        } else {
-          // for delete you returned `{ id, clientId }`
-          return action.client.clientId;
-        }
-      }),
-
-      // only continue if it’s a number
-
+      // If action has `.client` (create/update), take its clientId
+      // If it's delete success, it has { id, clientId }
+      map((action) =>
+        'client' in action ? action.client.clientId : action.clientId
+      ),
       map((clientId) =>
-        ClientLegalActions.loadClientLegalsByClientId({
-          clientId,
-        })
+        ClientLegalActions.loadClientLegalsByClientId({ clientId })
       )
     )
   );
+
   /**
    * The “by‐clientId” loader
    */

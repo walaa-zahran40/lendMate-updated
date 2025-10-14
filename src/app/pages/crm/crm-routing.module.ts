@@ -73,6 +73,8 @@ import { ClientTMLOfficersBundleResolver } from './resolvers/client-tml-officers
 import { ClientTMLOfficersListResolver } from './resolvers/client-tml-officers-list.resolver';
 import { ClientOfficersBundleResolver } from './resolvers/client-officers-bundle.resolver';
 import { ClientOfficersListResolver } from './resolvers/client-officers-list.resolver';
+import { ClientLegalsBundleResolver } from './resolvers/client-legals-bundle.resolver';
+import { ClientLegalsListResolver } from './resolvers/client-legals-list.resolver';
 
 const routes: Routes = [
   /*Clients , Client Onboarding Routing*/
@@ -370,22 +372,27 @@ const routes: Routes = [
 
   //Client legal
   {
+    path: 'clients/view-client-legals/:clientId',
+    component: ViewClientLegalsComponent,
+    resolve: { list: ClientLegalsListResolver },
+  },
+  {
     path: 'clients/add-client-legals',
     component: AddClientLegalsComponent,
+    resolve: { bundle: ClientLegalsBundleResolver },
   },
   {
     path: 'clients/add-client-legals/:clientId',
     component: AddClientLegalsComponent,
+    resolve: { bundle: ClientLegalsBundleResolver },
   },
   {
     path: 'clients/edit-client-legals/:id',
     component: AddClientLegalsComponent,
     canDeactivate: [PendingChangesGuard],
+    resolve: { bundle: ClientLegalsBundleResolver },
   },
-  {
-    path: 'clients/view-client-legals/:clientId',
-    component: ViewClientLegalsComponent,
-  },
+
   // Client Contact Persons
   {
     path: 'clients/add-contact-person/:clientId',

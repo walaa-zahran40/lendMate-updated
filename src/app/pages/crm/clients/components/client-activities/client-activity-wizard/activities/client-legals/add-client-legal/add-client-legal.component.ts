@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, Subject, takeUntil, filter } from 'rxjs';
+import { Observable, Subject, takeUntil, filter, of } from 'rxjs';
 import { LegalForm } from '../../../../../../../../legals/store/legal-forms/legal-form.model';
 import { LegalFormLaw } from '../../../../../../../../legals/store/legal-form-laws/legal-form-law.model';
 import { ClientLegalsFacade } from '../../../../../../store/client-legals/client-legals.facade';
@@ -39,24 +39,20 @@ export class AddClientLegalsComponent {
   ) {}
 
   ngOnInit(): void {
-    console.log('🟢 ngOnInit start');
-    // 1️⃣ Read route parameters
-    console.log(this.route.snapshot, 'route');
-    this.clientId = Number(this.route.snapshot.queryParams['clientId']);
+    const bundle = this.route.snapshot.data['bundle'] as {
+      mode: 'add' | 'edit' | 'view';
+      record?: ClientLegal;
+      legalForms: LegalForm[];
+      legalFormLaws: LegalFormLaw[];
+      clientIdFromQP?: number;
+    };
 
-    this.mode =
-      (this.route.snapshot.queryParamMap.get('mode') as
-        | 'add'
-        | 'edit'
-        | 'view') ?? 'add';
+    this.mode = bundle.mode;
     this.editMode = this.mode === 'edit';
     this.viewOnly = this.mode === 'view';
-    console.log('🔍 Params:', {
-      clientId: this.clientId,
-      mode: this.mode,
-      editMode: this.editMode,
-      viewOnly: this.viewOnly,
-    });
+    this.clientId =
+      bundle.clientIdFromQP ??
+      Number(this.route.snapshot.paramMap.get('clientId'));
 
     this.addClientLegalsLookupsForm = this.fb.group({
       id: [null],
@@ -66,47 +62,25 @@ export class AddClientLegalsComponent {
       isActive: [true],
       isStampDuty: [true],
     });
-    console.log(
-      '🛠️ Form initialized with defaults:',
-      this.addClientLegalsLookupsForm.value
-    );
-    // 2️⃣ Dispatch actions to load lookup data
-    console.log('🚀 Dispatching lookup loads');
-    this.store.dispatch(loadLegalForms());
-    this.store.dispatch(loadLegalFormLaws());
 
-    this.legalFormsList$ = this.store.select(selectLegalForms);
-    this.legalFormLawsList$ = this.store.select(selectLegalFormLaws);
+    // Resolver-fed lookups:
+    this.legalFormsList$ = of(bundle.legalForms);
+    this.legalFormLawsList$ = of(bundle.legalFormLaws);
 
-    // Patch for add mode
     if (this.mode === 'add') {
+      this.addClientLegalsLookupsForm.patchValue({ clientId: this.clientId });
+    } else if (bundle.record) {
+      const r = bundle.record;
+      this.retrivedId = r.id;
       this.addClientLegalsLookupsForm.patchValue({
+        id: r.id,
         clientId: this.clientId,
+        legalFormId: r.legalFormId,
+        legalFormLawId: r.legalFormLawId,
+        isActive: r.isActive ?? true,
+        isStampDuty: r.isStampDuty ?? true,
       });
-      console.log('✏️ Add mode → patched clientId:', this.clientId);
-    }
-
-    // Patch for edit/view mode
-    if (this.editMode || this.viewOnly) {
-      this.recordId = Number(this.route.snapshot.paramMap.get('id'));
-      this.facade.loadOne(this.recordId);
-
-      this.facade.current$
-        .pipe(
-          takeUntil(this.destroy$),
-          filter((rec) => !!rec)
-        )
-        .subscribe((ct) => {
-          console.log('red', ct);
-          this.addClientLegalsLookupsForm.patchValue({
-            id: ct?.id,
-            legalFormId: ct?.legalFormId,
-            legalFormLawId: ct?.legalFormLawId,
-            clientId: this.clientId,
-            isActive: ct?.isActive,
-            isStampDuty: ct?.isStampDuty,
-          });
-        });
+      if (this.viewOnly) this.addClientLegalsLookupsForm.disable();
     }
   }
 
