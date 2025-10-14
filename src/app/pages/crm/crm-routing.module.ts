@@ -59,6 +59,8 @@ import { clientSalesTurnoverListResolver } from './resolvers/client-sales-turnov
 import { clientSalesTurnoverBundleResolver } from './resolvers/client-sales-turnover-bundle.resolver';
 import { clientPhoneNumberBundleResolver } from './resolvers/client-phone-number-bundle.resolver';
 import { clientPhoneNumbersListResolver } from './resolvers/client-phone-numbers-list.resolver';
+import { ClientIdentitiesListResolver } from './resolvers/client-identities-list.resolver';
+import { ClientIdentityBundleResolver } from './resolvers/client-identity-bundle.resolver';
 
 const routes: Routes = [
   /*Clients , Client Onboarding Routing*/
@@ -203,19 +205,19 @@ const routes: Routes = [
   {
     path: 'clients/add-client-identity/:clientId',
     component: AddClientIdentityComponent,
+    resolve: { bundle: ClientIdentityBundleResolver },
   },
-
   {
-    path: 'clients/edit-client-Identity/:clientId',
+    path: 'clients/edit-client-identity/:id', // 👈 use :id here
     component: AddClientIdentityComponent,
     canDeactivate: [PendingChangesGuard],
+    resolve: { bundle: ClientIdentityBundleResolver },
   },
-
   {
     path: 'clients/view-client-identity/:clientId',
     component: ViewClientIdentityComponent,
+    resolve: { list: ClientIdentitiesListResolver },
   },
-
   //Client CR Authority offices
   {
     path: 'clients/add-client-cr-authority-offices',

@@ -14,6 +14,7 @@ import { ClientIdentitiesFacade } from '../../../../../../store/client-identitie
 import { ClientIdentity } from '../../../../../../store/client-identities/client-identity.model';
 import { IdentificationTypesFacade } from '../../../../../../../../lookups/store/identification-types/identification-types.facade';
 import { IdentificationType } from '../../../../../../../../lookups/store/identification-types/identification-type.model';
+import { ClientIdentitiesListData } from '../../../../../../../resolvers/client-identities-list.resolver';
 
 @Component({
   selector: 'app-view-client-identity',
@@ -30,6 +31,7 @@ export class ViewClientIdentityComponent implements OnInit, OnDestroy {
   clientIdParam!: any;
 
   @ViewChild('tableRef') tableRef!: TableComponent;
+  selectedIds: number[] = [];
 
   readonly colsInside = [
     { field: 'identificationTypeName', header: 'Identification Type' },
@@ -53,53 +55,81 @@ export class ViewClientIdentityComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    // 1) grab the param
+    const data = this.route.snapshot.data[
+      'list'
+    ] as ClientIdentitiesListData | null;
+
+    // Fallback: if resolver didn't run or returned null, still grab the param
     const raw = this.route.snapshot.paramMap.get('clientId');
-    this.clientIdParam = raw !== null ? Number(raw) : undefined;
-    console.log('[View] ngOnInit → clientIdParam =', this.clientIdParam);
+    const fallbackClientId = raw !== null ? Number(raw) : undefined;
 
-    this.facade.loadByClientId(this.clientIdParam);
-    this.clientIdentities$ = this.facade.items$;
+    this.clientIdParam = data?.clientId ?? fallbackClientId;
+    console.log('[ViewIdentity] clientIdParam =', this.clientIdParam);
 
-    this.identificationTypesFacade.loadAll();
-    this.identificationTypes$ = this.identificationTypesFacade.all$;
+    // Build first paint from resolver if available
+    const items = data?.items ?? [];
+    const types = data?.identificationTypes ?? [];
+    console.log('[ViewIdentity] resolver items:', items);
+    console.log('[ViewIdentity] resolver types:', types);
 
-    if (this.clientIdParam == null || isNaN(this.clientIdParam)) {
-      console.error(
-        '❌ Missing or invalid clientIdParam! Cannot load exchange rates.'
+    const idToName = new Map(types.map((t) => [t.id, t.name]));
+    const firstRender = items
+      .map((it) => ({
+        ...it,
+        identificationTypeName: idToName.get(it.identificationTypeId) ?? '—',
+      }))
+      // TEMP: don't filter by isActive to confirm data flow
+      // .filter((it) => it.isActive)
+      .sort((a, b) => (b.id ?? 0) - (a.id ?? 0));
+
+    console.log(
+      '[ViewIdentity] firstRender count =',
+      firstRender.length,
+      firstRender
+    );
+    this.originalClientIdentities = firstRender;
+    this.filteredClientIdentities = [...firstRender];
+
+    // Keep reacting to store after create/update/delete
+    if (this.clientIdParam != null && !Number.isNaN(this.clientIdParam)) {
+      this.facade.loadByClientId(this.clientIdParam);
+    } else {
+      console.warn(
+        '[ViewIdentity] Missing/invalid clientIdParam; skipping loadByClientId'
       );
-      return;
     }
 
-    combineLatest([
-      this.clientIdentities$ ?? of([]),
-      this.identificationTypes$ ?? of([]),
-    ])
+    this.clientIdentities$ = this.facade.items$;
+
+    combineLatest([this.clientIdentities$, of(types)])
       .pipe(
-        map(([clientIdentities, identificationTypes]) => {
-          console.log('📦 Raw clientIdentities:', clientIdentities);
-          console.log('📦 Raw phoneTypes:', identificationTypes);
+        map(([itemsFromStore, typesList]) => {
+          console.log('[ViewIdentity] store items:', itemsFromStore);
+          const idToName2 = new Map(typesList.map((t) => [t.id, t.name]));
+          const enriched = (itemsFromStore ?? [])
+            // TEMP: if API returns clientId as string, normalize both sides
+            .filter((it) => Number(it.clientId) === Number(this.clientIdParam))
+            .map((it) => ({
+              ...it,
+              identificationTypeName:
+                idToName2.get(it.identificationTypeId) ?? '—',
+            }))
+            // TEMP: comment out isActive filter to validate data path
+            // .filter((it) => it.isActive)
+            .sort((a, b) => (b.id ?? 0) - (a.id ?? 0));
 
-          return clientIdentities
-            .map((ss) => {
-              const matchedIdentificationType = identificationTypes.find(
-                (pt) => pt.id === ss.identificationTypeId
-              );
-
-              return {
-                ...ss,
-                identificationTypeName: matchedIdentificationType?.name ?? '—',
-              };
-            })
-            .filter((ft) => ft.isActive)
-            .sort((a, b) => b.id - a.id);
+          console.log(
+            '[ViewIdentity] enriched count =',
+            enriched.length,
+            enriched
+          );
+          return enriched;
         }),
         takeUntil(this.destroy$)
       )
-      .subscribe((result) => {
-        console.log('✅ Final result:', result);
-        this.filteredClientIdentities = result;
-        this.originalClientIdentities = result;
+      .subscribe((enriched) => {
+        this.originalClientIdentities = enriched;
+        this.filteredClientIdentities = [...enriched];
       });
   }
 
@@ -119,13 +149,20 @@ export class ViewClientIdentityComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  onDeleteClientIdentity(clientIdentityId: number): void {
-    console.log(
-      '[View] onDeleteClientIdentity() – opening modal for id=',
-      clientIdentityId
-    );
-    this.selectedIds = [clientIdentityId];
+  onDeleteClientIdentity(payload: number | ClientIdentity) {
+    const id = typeof payload === 'number' ? payload : payload?.id;
+    if (!id) return;
+    this.selectedIds = [id];
     this.showDeleteModal = true;
+  }
+
+  confirmDelete() {
+    if (!this.selectedIds.length) return;
+    const clientId = this.clientIdParam;
+
+    this.selectedIds.forEach((id) => this.facade.delete(id, clientId));
+    this.showDeleteModal = false;
+    this.selectedIds = [];
   }
 
   cancelDelete() {
@@ -166,23 +203,6 @@ export class ViewClientIdentityComponent implements OnInit, OnDestroy {
       queryParams: {
         mode: 'view',
         clientId: this.clientIdParam, // <-- and here
-      },
-    });
-  }
-  selectedIds: number[] = [];
-  confirmDelete() {
-    const deleteCalls = this.selectedIds.map((id) =>
-      this.facade.delete(id, this.clientIdParam)
-    );
-
-    forkJoin(deleteCalls).subscribe({
-      next: () => {
-        this.selectedIds = [];
-        this.showDeleteModal = false; // CLOSE MODAL HERE
-        this.refreshCalls();
-      },
-      error: (err) => {
-        this.showDeleteModal = false; // STILL CLOSE IT
       },
     });
   }

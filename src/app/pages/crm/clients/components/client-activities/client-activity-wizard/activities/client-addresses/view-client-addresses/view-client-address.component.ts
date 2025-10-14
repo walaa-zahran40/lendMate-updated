@@ -54,7 +54,6 @@ export class ViewClientAddressesComponent {
     // 1) seed initial rows from resolver (fast paint)
     const initial = (data.addresses ?? [])
       .map((a) => ({ ...a, AreaName: idToArea.get(a.areaId) ?? '—' }))
-      .filter((a) => a.isActive)
       .sort((a, b) => b.id - a.id);
     this.originalClientAddresses = initial;
     this.filteredClientAddresses = [...initial];
