@@ -1,8 +1,10 @@
 import { createAction, props } from '@ngrx/store';
-import { ClientShareHolder } from './client-share-holders.model';
+import { ClientShareHolder } from './client-share-holder.model';
 
 // Load all
-export const loadClientShareHolders = createAction('[ClientShareHolders] Load All');
+export const loadClientShareHolders = createAction(
+  '[ClientShareHolders] Load All'
+);
 export const loadClientShareHoldersSuccess = createAction(
   '[ClientShareHolders] Load All Success',
   props<{ items: ClientShareHolder[]; totalCount: number }>()

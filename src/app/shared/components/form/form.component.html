@@ -5045,8 +5045,38 @@ icon="pi pi-cog"
         pInputText
         id="percentage"
         formControlName="percentage"
-        [placeholder]="'FORM.SHARE_HOLDER.PLACEHOLDER_PERCENTAGE' | translate"
+        inputmode="decimal"
+        placeholder="{{
+          'FORM.SHARE_HOLDER.PLACEHOLDER_PERCENTAGE' | translate
+        }}"
       />
+
+      <!-- Errors -->
+      <div
+        *ngIf="
+          formGroup.get('percentage')?.touched &&
+          formGroup.get('percentage')?.errors
+        "
+        class="p-error"
+      >
+        <div *ngIf="formGroup.get('percentage')?.errors?.['required']">
+          {{ "VALIDATION.REQUIRED" | translate }}
+        </div>
+        <div *ngIf="formGroup.get('percentage')?.errors?.['pattern']">
+          {{ "VALIDATION.DECIMAL_UP_TO_2" | translate }}
+          <!-- e.g., 0, 10, 10.5, 10.55 -->
+        </div>
+        <div *ngIf="formGroup.get('percentage')?.errors?.['min']">
+          {{ "VALIDATION.MIN" | translate : { min: 1 } }}
+        </div>
+        <div *ngIf="formGroup.get('percentage')?.errors?.['max']">
+          {{ "VALIDATION.MAX" | translate : { max: 100 } }}
+        </div>
+        <div *ngIf="formGroup.get('percentage')?.errors?.['range']">
+          {{ "VALIDATION.RANGE" | translate : { min: 1, max: 100 } }}
+        </div>
+      </div>
+
       <div class="row justify-end">
         <div
           class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"

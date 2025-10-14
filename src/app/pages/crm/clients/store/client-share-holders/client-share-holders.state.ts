@@ -1,4 +1,4 @@
-import { ClientShareHolder } from './client-share-holders.model';
+import { ClientShareHolder } from './client-share-holder.model';
 
 export interface ClientShareHoldersState {
   items: ClientShareHolder[];

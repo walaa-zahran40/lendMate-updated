@@ -756,7 +756,12 @@
     "MAX_PLACEHOLDER": "Enter Validation Max Value",
     "MIN_REQUIRED": "Validation Min Value is required.",
     "MAX_REQUIRED": "Validation Max Value is required.",
-    "MIN_VALUE_IS": "Minimum value is {{value}}"
+    "MIN_VALUE_IS": "Minimum value is {{value}}",
+    "REQUIRED": "This field is required.",
+    "DECIMAL_UP_TO_2": "Enter a number with up to 2 decimals.",
+    "MIN": "Minimum allowed value is {{min}}.",
+    "MAX": "Maximum allowed value is {{max}}.",
+    "RANGE": "Value must be between {{min}} and {{max}}."
   },
   "CURRENCY_EXCHANGE": {
     "EXCHANGE_RATE": "Exchange Rate",

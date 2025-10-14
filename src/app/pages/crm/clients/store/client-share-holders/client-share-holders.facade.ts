@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { selectLastOperationSuccess } from '../../../../../shared/store/ui.selectors';
-import { ClientShareHolder } from './client-share-holders.model';
+import { ClientShareHolder } from './client-share-holder.model';
 import * as Selectors from './client-share-holders.selectors';
 import * as Actions from './client-share-holders.actions';
 

@@ -4,7 +4,7 @@ import { mergeMap, map, catchError, tap, filter } from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as ClientShareHolderActions from './client-share-holders.actions';
 import { ClientShareHoldersService } from './client-share-holders.service';
-import { ClientShareHolder } from './client-share-holders.model';
+import { ClientShareHolder } from './client-share-holder.model';
 
 @Injectable()
 export class ClientShareHoldersEffects {
@@ -43,7 +43,9 @@ export class ClientShareHoldersEffects {
           ),
           catchError((error) =>
             of(
-              ClientShareHolderActions.loadClientShareHoldersHistoryFailure({ error })
+              ClientShareHolderActions.loadClientShareHoldersHistoryFailure({
+                error,
+              })
             )
           )
         )
@@ -156,27 +158,15 @@ export class ClientShareHoldersEffects {
         ClientShareHolderActions.updateClientShareHolderSuccess,
         ClientShareHolderActions.deleteClientShareHolderSuccess
       ),
- 
-      map(action => {
-      if ('clientId' in action) {
-        // for create/update you returned `{ client: ClientShareHolder }`,
-        // so dig into that object’s clientId
-        return action.clientId;
-      } else {
-        // for delete you returned `{ id, clientId }`
-        return action.client.clientId;
-      }
-    }),
- 
-      // only continue if it’s a number
- 
+      map((action) =>
+        'client' in action ? action.client.clientId : action.clientId
+      ),
       map((clientId) =>
-        ClientShareHolderActions.loadClientShareHoldersByClientId({
-          clientId,
-        })
+        ClientShareHolderActions.loadClientShareHoldersByClientId({ clientId })
       )
     )
   );
+
   /**
    * The “by‐clientId” loader
    */
@@ -197,7 +187,9 @@ export class ClientShareHoldersEffects {
             console.log('[Effect:loadByClientId] response →', items)
           ),
           map((items) =>
-            ClientShareHolderActions.loadClientShareHoldersByClientIdSuccess({ items })
+            ClientShareHolderActions.loadClientShareHoldersByClientIdSuccess({
+              items,
+            })
           ),
           catchError((error) =>
             of(

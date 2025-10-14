@@ -2,12 +2,13 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, Subject, takeUntil, filter } from 'rxjs';
+import { Observable, Subject, takeUntil, filter, of } from 'rxjs';
 import { Client } from '../../../../../../store/_clients/allclients/client.model';
 import { selectAllClients } from '../../../../../../store/_clients/allclients/clients.selectors';
 import { loadAll } from '../../../../../../store/client-identity-types/client-identity-types.actions';
 import { ClientShareHoldersFacade } from '../../../../../../store/client-share-holders/client-share-holders.facade';
-import { ClientShareHolder } from '../../../../../../store/client-share-holders/client-share-holders.model';
+import { ClientShareHolder } from '../../../../../../store/client-share-holders/client-share-holder.model';
+import { ClientShareHoldersBundle } from '../../../../../../../resolvers/client-share-holders-bundle.resolver';
 
 @Component({
   selector: 'app-add-share-holders',
@@ -35,71 +36,50 @@ export class AddClientShareHoldersComponent {
   ) {}
 
   ngOnInit(): void {
-    console.log('🟢 ngOnInit start');
-    // 1️⃣ Read route parameters
-    console.log(this.route.snapshot, 'route');
-    this.clientId = Number(this.route.snapshot.queryParams['clientId']);
+    const bundle = this.route.snapshot.data[
+      'bundle'
+    ] as ClientShareHoldersBundle;
 
-    this.mode =
-      (this.route.snapshot.queryParamMap.get('mode') as
-        | 'add'
-        | 'edit'
-        | 'view') ?? 'add';
+    this.mode = bundle.mode;
     this.editMode = this.mode === 'edit';
     this.viewOnly = this.mode === 'view';
-    console.log('🔍 Params:', {
-      clientId: this.clientId,
-      mode: this.mode,
-      editMode: this.editMode,
-      viewOnly: this.viewOnly,
-    });
+    this.clientId =
+      bundle.clientIdFromQP ??
+      Number(this.route.snapshot.paramMap.get('clientId'));
 
     this.addClientShareHoldersLookupsForm = this.fb.group({
       id: [null],
       clientId: [null, [Validators.required]],
       shareHolderId: [null, [Validators.required]],
-      percentage: [null, [Validators.required]],
+      percentage: [
+        null,
+        [
+          Validators.required,
+          Validators.pattern(/^\d+(\.\d{1,2})?$/), // digits with up to 2 decimals
+          Validators.min(1),
+          Validators.max(100),
+        ],
+      ],
       isActive: [true],
     });
-    console.log(
-      '🛠️ Form initialized with defaults:',
-      this.addClientShareHoldersLookupsForm.value
-    );
-    // 2️⃣ Dispatch actions to load lookup data
-    console.log('🚀 Dispatching lookup loads');
-    this.store.dispatch(loadAll({}));
+    // expose lookup list from resolver (no store dance)
+    this.clientsList$ = of(bundle.clients);
 
-    this.clientsList$ = this.store.select(selectAllClients);
-
-    // Patch for add mode
     if (this.mode === 'add') {
       this.addClientShareHoldersLookupsForm.patchValue({
         clientId: this.clientId,
       });
-      console.log('✏️ Add mode → patched clientId:', this.clientId);
-    }
-
-    // Patch for edit/view mode
-    if (this.editMode || this.viewOnly) {
-      this.recordId = Number(this.route.snapshot.paramMap.get('id'));
-      console.log('Ddddddddddd', this.route.snapshot.paramMap);
-      this.facade.loadOne(this.recordId);
-
-      this.facade.current$
-        .pipe(
-          takeUntil(this.destroy$),
-          filter((rec) => !!rec)
-        )
-        .subscribe((ct) => {
-          console.log('red', ct);
-          this.addClientShareHoldersLookupsForm.patchValue({
-            id: ct?.id,
-            clientId: this.clientId,
-            shareHolderId: ct.shareHolderId,
-            percentage: ct.percentage,
-            isActive: ct?.isActive,
-          });
-        });
+    } else if (bundle.record) {
+      const r = bundle.record;
+      this.retrivedId = r.id;
+      this.addClientShareHoldersLookupsForm.patchValue({
+        id: r.id,
+        clientId: this.clientId,
+        shareHolderId: r.shareHolderId,
+        percentage: r.percentage,
+        isActive: r.isActive ?? true,
+      });
+      if (this.viewOnly) this.addClientShareHoldersLookupsForm.disable();
     }
   }
 
@@ -131,9 +111,22 @@ export class AddClientShareHoldersComponent {
 
     const { shareHolderId, percentage, clientId, isActive } =
       this.addClientShareHoldersLookupsForm.value;
+
+    // extra safety guard
+    const pct = Number(percentage);
+    if (!isFinite(pct) || pct < 0 || pct > 100) {
+      this.addClientShareHoldersLookupsForm.get('percentage')!.setErrors({
+        ...(this.addClientShareHoldersLookupsForm.get('percentage')!.errors ??
+          {}),
+        range: true,
+      });
+      this.addClientShareHoldersLookupsForm.markAllAsTouched();
+      return;
+    }
+
     const payload: Partial<ClientShareHolder> = {
       shareHolderId,
-      percentage,
+      percentage: pct, // coerce to number for API
       clientId,
       isActive,
     };

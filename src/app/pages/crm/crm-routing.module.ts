@@ -67,6 +67,8 @@ import { ClientTaxOfficeBundleResolver } from './resolvers/client-tax-office-bun
 import { ClientTaxOfficesListResolver } from './resolvers/client-tax-offices-list.resolver';
 import { ClientCentralBankInfoBundleResolver } from './resolvers/client-central-bank-info-bundle.resolver';
 import { ClientCentralBankInfoListResolver } from './resolvers/client-central-bank-info-list.resolver';
+import { ClientShareHoldersBundleResolver } from './resolvers/client-share-holders-bundle.resolver';
+import { ClientShareHoldersListResolver } from './resolvers/client-share-holders-list.resolver';
 
 const routes: Routes = [
   /*Clients , Client Onboarding Routing*/
@@ -295,22 +297,27 @@ const routes: Routes = [
 
   //Client Share Holders
   {
+    path: 'clients/view-client-share-holders/:clientId',
+    component: ViewShareHoldersComponent,
+    resolve: { list: ClientShareHoldersListResolver },
+  },
+  {
     path: 'clients/add-client-share-holder',
     component: AddClientShareHoldersComponent,
+    resolve: { bundle: ClientShareHoldersBundleResolver },
   },
   {
     path: 'clients/add-client-share-holder/:id',
     component: AddClientShareHoldersComponent,
+    resolve: { bundle: ClientShareHoldersBundleResolver },
   },
   {
     path: 'clients/edit-client-share-holder/:id',
     component: AddClientShareHoldersComponent,
     canDeactivate: [PendingChangesGuard],
+    resolve: { bundle: ClientShareHoldersBundleResolver },
   },
-  {
-    path: 'clients/view-client-share-holders/:clientId',
-    component: ViewShareHoldersComponent,
-  },
+
   //Client TML Officers
   {
     path: 'clients/add-client-tml-officers',

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ClientShareHolder } from './client-share-holders.model';
+import { ClientShareHolder } from './client-share-holder.model';
 import { environment } from '../../../../../../environments/environment';
 
 interface PagedResponse<T> {
@@ -33,9 +33,7 @@ export class ClientShareHoldersService {
   }
 
   getById(id: number): Observable<ClientShareHolder> {
-    return this.http.get<ClientShareHolder>(
-      `${this.api}/Id?id=${id}`
-    );
+    return this.http.get<ClientShareHolder>(`${this.api}/Id?id=${id}`);
   }
 
   create(data: Partial<ClientShareHolder>): Observable<ClientShareHolder> {
@@ -45,7 +43,10 @@ export class ClientShareHoldersService {
     );
   }
 
-  update(id: number, data: Partial<ClientShareHolder>): Observable<ClientShareHolder> {
+  update(
+    id: number,
+    data: Partial<ClientShareHolder>
+  ): Observable<ClientShareHolder> {
     return this.http.put<ClientShareHolder>(`${this.api}/${id}`, data);
   }
 

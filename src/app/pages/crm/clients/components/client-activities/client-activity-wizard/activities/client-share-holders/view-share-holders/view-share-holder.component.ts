@@ -8,13 +8,15 @@ import {
   map,
   takeUntil,
   forkJoin,
+  of,
 } from 'rxjs';
 import { TableComponent } from '../../../../../../../../../shared/components/table/table.component';
 import { Client } from '../../../../../../store/_clients/allclients/client.model';
 import { selectAllClients } from '../../../../../../store/_clients/allclients/clients.selectors';
 import { loadAll } from '../../../../../../store/client-identity-types/client-identity-types.actions';
 import { ClientShareHoldersFacade } from '../../../../../../store/client-share-holders/client-share-holders.facade';
-import { ClientShareHolder } from '../../../../../../store/client-share-holders/client-share-holders.model';
+import { ClientShareHolder } from '../../../../../../store/client-share-holders/client-share-holder.model';
+import { ClientShareHoldersListData } from '../../../../../../../resolvers/client-share-holders-list.resolver';
 
 @Component({
   selector: 'app-view-share-holder',
@@ -51,28 +53,38 @@ export class ViewShareHoldersComponent {
   ) {}
 
   ngOnInit() {
-    const raw = this.route.snapshot.paramMap.get('clientId');
-    this.clientIdParam = raw !== null ? Number(raw) : undefined;
-    this.facade.loadClientShareHoldersByClientId(this.clientIdParam);
+    const data = this.route.snapshot.data['list'] as ClientShareHoldersListData;
+    this.clientIdParam = data.clientId;
+
+    // 1) First render from resolver
+    const idToClientName = new Map(data.clients.map((c) => [c.id, c.name]));
+    const firstRender = (data.items ?? [])
+      .map((it) => ({
+        ...it,
+        shareHolderName: idToClientName.get(it.shareHolderId) ?? '—',
+      }))
+      .filter((it) => it.isActive)
+      .sort((a, b) => (b.id ?? 0) - (a.id ?? 0));
+
+    this.originalShareHolders = firstRender;
+    this.filteredShareHolders = [...firstRender];
+
+    // 2) Live updates after CRUD
+    this.facade.loadByClientId(this.clientIdParam);
     this.shareHolders$ = this.facade.items$;
-
-    this.store.dispatch(loadAll({}));
-
-    this.clientsList$ = this.store.select(selectAllClients);
-
-    combineLatest([this.shareHolders$, this.clientsList$])
+    combineLatest([this.shareHolders$, of(data.clients)])
       .pipe(
-        map(([shareHolders, clientsList]) =>
-          shareHolders
-            .map((shareHolder) => ({
-              ...shareHolder,
-              shareHolderName:
-                clientsList.find((c) => c.id === shareHolder.shareHolderId)
-                  ?.name || '—',
+        map(([items, clients]) => {
+          const mapName = new Map(clients.map((c) => [c.id, c.name]));
+          return (items ?? [])
+            .filter((it) => it.clientId === this.clientIdParam)
+            .map((it) => ({
+              ...it,
+              shareHolderName: mapName.get(it.shareHolderId) ?? '—',
             }))
-            .filter((shareHolder) => shareHolder.isActive)
-            .sort((a, b) => b.id - a.id)
-        ),
+            .filter((it) => it.isActive)
+            .sort((a, b) => (b.id ?? 0) - (a.id ?? 0));
+        }),
         takeUntil(this.destroy$)
       )
       .subscribe((enriched) => {
