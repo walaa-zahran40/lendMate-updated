@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, Subject, takeUntil, filter } from 'rxjs';
+import { Observable, Subject, takeUntil, filter, of } from 'rxjs';
 import { TmlOfficerType } from '../../../../../../../../lookups/store/tml-officer-types/tml-officer-type.model';
 import { selectAllTmlOfficerTypes } from '../../../../../../../../lookups/store/tml-officer-types/tml-officer-types.selectors';
 import { loadOfficers } from '../../../../../../../../organizations/store/officers/officers.actions';
@@ -39,24 +39,21 @@ export class AddClientTMLOfficersComponent {
   ) {}
 
   ngOnInit(): void {
-    console.log('🟢 ngOnInit start');
-    // 1️⃣ Read route parameters
-    console.log(this.route.snapshot, 'route');
-    this.clientId = Number(this.route.snapshot.queryParams['clientId']);
+    const bundle = this.route.snapshot.data['bundle'] as {
+      mode: 'add' | 'edit' | 'view';
+      record?: ClientTMLOfficer;
+      officers: Officer[];
+      tmlOfficerTypes: TmlOfficerType[];
+      clientIdFromQP?: number;
+    };
 
-    this.mode =
-      (this.route.snapshot.queryParamMap.get('mode') as
-        | 'add'
-        | 'edit'
-        | 'view') ?? 'add';
+    this.mode = bundle.mode;
     this.editMode = this.mode === 'edit';
     this.viewOnly = this.mode === 'view';
-    console.log('🔍 Params:', {
-      clientId: this.clientId,
-      mode: this.mode,
-      editMode: this.editMode,
-      viewOnly: this.viewOnly,
-    });
+
+    this.clientId =
+      bundle.clientIdFromQP ??
+      Number(this.route.snapshot.paramMap.get('clientId'));
 
     this.addClientTMLOfficersLookupsForm = this.fb.group({
       id: [null],
@@ -65,46 +62,26 @@ export class AddClientTMLOfficersComponent {
       tmlOfficerTypeId: [null, [Validators.required]],
       isActive: [true],
     });
-    console.log(
-      '🛠️ Form initialized with defaults:',
-      this.addClientTMLOfficersLookupsForm.value
-    );
-    // 2️⃣ Dispatch actions to load lookup data
-    console.log('🚀 Dispatching lookup loads');
-    this.store.dispatch(loadOfficers());
-    this.store.dispatch(loadAllTMLOfficerTypes({}));
 
-    this.officersList$ = this.store.select(selectOfficers);
-    this.tmlOfficerTypesList$ = this.store.select(selectAllTmlOfficerTypes);
+    // expose lookups to template (async pipe)
+    this.officersList$ = of(bundle.officers);
+    this.tmlOfficerTypesList$ = of(bundle.tmlOfficerTypes);
 
-    // Patch for add mode
     if (this.mode === 'add') {
       this.addClientTMLOfficersLookupsForm.patchValue({
         clientId: this.clientId,
       });
-      console.log('✏️ Add mode → patched clientId:', this.clientId);
-    }
-
-    // Patch for edit/view mode
-    if (this.editMode || this.viewOnly) {
-      this.recordId = Number(this.route.snapshot.paramMap.get('id'));
-      this.facade.loadOne(this.recordId);
-
-      this.facade.current$
-        .pipe(
-          takeUntil(this.destroy$),
-          filter((rec) => !!rec)
-        )
-        .subscribe((ct) => {
-          console.log('red', ct);
-          this.addClientTMLOfficersLookupsForm.patchValue({
-            id: ct?.id,
-            clientId: this.clientId,
-            officerId: ct?.officerId,
-            tmlOfficerTypeId: ct?.tmlOfficerTypeId,
-            isActive: ct?.isActive,
-          });
-        });
+    } else if (bundle.record) {
+      const r = bundle.record;
+      this.retrivedId = r.id;
+      this.addClientTMLOfficersLookupsForm.patchValue({
+        id: r.id,
+        clientId: this.clientId,
+        officerId: r.officerId,
+        tmlOfficerTypeId: r.tmlOfficerTypeId,
+        isActive: r.isActive ?? true,
+      });
+      if (this.viewOnly) this.addClientTMLOfficersLookupsForm.disable();
     }
   }
 

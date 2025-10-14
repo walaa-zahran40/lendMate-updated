@@ -69,6 +69,8 @@ import { ClientCentralBankInfoBundleResolver } from './resolvers/client-central-
 import { ClientCentralBankInfoListResolver } from './resolvers/client-central-bank-info-list.resolver';
 import { ClientShareHoldersBundleResolver } from './resolvers/client-share-holders-bundle.resolver';
 import { ClientShareHoldersListResolver } from './resolvers/client-share-holders-list.resolver';
+import { ClientTMLOfficersBundleResolver } from './resolvers/client-tml-officers-bundle.resolver';
+import { ClientTMLOfficersListResolver } from './resolvers/client-tml-officers-list.resolver';
 
 const routes: Routes = [
   /*Clients , Client Onboarding Routing*/
@@ -320,22 +322,27 @@ const routes: Routes = [
 
   //Client TML Officers
   {
+    path: 'clients/view-client-tml-officers/:clientId',
+    component: ViewTMLOfficersComponent,
+    resolve: { list: ClientTMLOfficersListResolver },
+  },
+  {
     path: 'clients/add-client-tml-officers',
     component: AddClientTMLOfficersComponent,
+    resolve: { bundle: ClientTMLOfficersBundleResolver },
   },
   {
     path: 'clients/add-client-tml-officers/:clientId',
     component: AddClientTMLOfficersComponent,
+    resolve: { bundle: ClientTMLOfficersBundleResolver },
   },
   {
     path: 'clients/edit-client-tml-officers/:id',
     component: AddClientTMLOfficersComponent,
     canDeactivate: [PendingChangesGuard],
+    resolve: { bundle: ClientTMLOfficersBundleResolver },
   },
-  {
-    path: 'clients/view-client-tml-officers/:clientId',
-    component: ViewTMLOfficersComponent,
-  },
+
   //Client Officers
   {
     path: 'clients/add-client-officers',

@@ -8,6 +8,7 @@ import {
   map,
   takeUntil,
   forkJoin,
+  of,
 } from 'rxjs';
 import { TableComponent } from '../../../../../../../../../shared/components/table/table.component';
 import { TmlOfficerType } from '../../../../../../../../lookups/store/tml-officer-types/tml-officer-type.model';
@@ -54,38 +55,54 @@ export class ViewTMLOfficersComponent {
   ) {}
 
   ngOnInit() {
-    const raw = this.route.snapshot.paramMap.get('clientId');
-    this.clientIdParam = raw !== null ? Number(raw) : undefined;
-    this.facade.loadClientTMLOfficersByClientId(this.clientIdParam);
+    const data = this.route.snapshot.data['list'] as {
+      clientId: number;
+      items: ClientTMLOfficer[];
+      officers: Officer[];
+      tmlOfficerTypes: TmlOfficerType[];
+    };
+
+    this.clientIdParam = data.clientId;
+
+    // 1) first paint from resolver (no flicker)
+    const idToOfficer = new Map(data.officers.map((o) => [o.id, o.name]));
+    const idToType = new Map(data.tmlOfficerTypes.map((t) => [t.id, t.name]));
+
+    const firstRender = (data.items ?? [])
+      .map((it) => ({
+        ...it,
+        officer: idToOfficer.get(it.officerId) ?? '—',
+        tmlOfficerType: idToType.get(it.tmlOfficerTypeId) ?? '—',
+      }))
+      .filter((it) => it.isActive)
+      .sort((a, b) => (b.id ?? 0) - (a.id ?? 0));
+
+    this.originalTMLOfficers = firstRender;
+    this.filteredTMLOfficers = [...firstRender];
+
+    // 2) subscribe for live updates after CRUD
+    this.facade.loadByClientId(this.clientIdParam);
     this.tmlOfficers$ = this.facade.items$;
-
-    this.store.dispatch(loadOfficers());
-    this.store.dispatch(loadAllTMLOfficerTypes({}));
-
-    this.officersList$ = this.store.select(selectOfficers);
-    this.tmlOfficerTypesList$ = this.store.select(selectAllTmlOfficerTypes);
 
     combineLatest([
       this.tmlOfficers$,
-      this.officersList$,
-      this.tmlOfficerTypesList$,
+      of(data.officers),
+      of(data.tmlOfficerTypes),
     ])
       .pipe(
-        map(([tmlOfficers, officersList, tmlOfficerTypesList]) =>
-          tmlOfficers
-            .map((tmlOfficer) => ({
-              ...tmlOfficer,
-              officer:
-                officersList.find((c) => c.id === tmlOfficer.officerId)?.name ||
-                '—',
-              tmlOfficerType:
-                tmlOfficerTypesList.find(
-                  (c) => c.id === tmlOfficer.tmlOfficerTypeId
-                )?.name || '—',
+        map(([items, officers, types]) => {
+          const mapOfficer = new Map(officers.map((o) => [o.id, o.name]));
+          const mapType = new Map(types.map((t) => [t.id, t.name]));
+          return (items ?? [])
+            .filter((it) => it.clientId === this.clientIdParam)
+            .map((it) => ({
+              ...it,
+              officer: mapOfficer.get(it.officerId) ?? '—',
+              tmlOfficerType: mapType.get(it.tmlOfficerTypeId) ?? '—',
             }))
-            .filter((tmlOfficer) => tmlOfficer.isActive)
-            .sort((a, b) => b.id - a.id)
-        ),
+            .filter((it) => it.isActive)
+            .sort((a, b) => (b.id ?? 0) - (a.id ?? 0));
+        }),
         takeUntil(this.destroy$)
       )
       .subscribe((enriched) => {
