@@ -53,49 +53,35 @@ export class ViewGuarantorsComponent {
   ngOnInit() {
     this.clientIdParam = Number(this.route.snapshot.paramMap.get('clientId'));
 
+    // --- initial render from resolvers (so the page paints immediately)
     const clients = this.route.snapshot.data['clients'] as Client[];
     const guarantors = this.route.snapshot.data[
       'guarantors'
     ] as ClientGuarantor[];
+    this.rebuildTable(clients, guarantors);
 
-    console.log(
-      '[view] resolved clients=',
-      clients.length,
-      'guarantors=',
-      guarantors.length
-    );
-    const clientsById = new Map(
-      clients.map((c, i) => {
-        console.log('[clientsById] idx=', i, 'client=', c); // ← log c here
-        return [c.id, c] as const; // tuple
+    // --- live updates: re-render whenever items$ changes
+    this.facade.items$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((items) => this.rebuildTable(clients, items)); // reuse same clients lookup
+  }
+
+  private rebuildTable(clients: Client[], guarantors: ClientGuarantor[]) {
+    const clientsById = new Map(clients.map((c) => [c.id, c]));
+    const withNames = guarantors
+      .filter((g) => g.clientId === this.clientIdParam) // ensure same client
+      .map((g) => {
+        const c = clientsById.get(g.guarantorId);
+        return {
+          ...g,
+          guarantorName: c?.name ?? g.guarantorName ?? '—',
+          guarantorNameAR: c?.nameAR ?? g.guarantorNameAR ?? '—',
+        };
       })
-    );
+      .sort((a, b) => b.id - a.id);
 
-    // map + log each guarantor "g"
-    const withNames = guarantors.map((g) => {
-      console.log('[guarantor]', g); // ← log g here
-
-      const client = clientsById.get(g.guarantorId);
-      console.log('client', client);
-      if (!client) {
-        console.warn(
-          '[guarantor] no matching client for guarantorId=',
-          g.guarantorId,
-          'full g=',
-          g
-        );
-      }
-
-      return {
-        ...g,
-        guarantorName: client?.name ?? '—',
-        guarantorNameAR: client?.nameAR ?? '—',
-      };
-    });
-    const finalList = withNames.sort((a, b) => b.id - a.id);
-
-    this.originalGuarantors = finalList;
-    this.filteredGuarantors = [...finalList];
+    this.originalGuarantors = withNames;
+    this.filteredGuarantors = [...withNames];
   }
 
   onAddGuarantor() {
@@ -173,9 +159,9 @@ export class ViewGuarantorsComponent {
   }
 
   refreshCalls() {
-    this.facade.loadAll();
-    this.guarantors$ = this.facade.items$;
+    this.facade.loadClientGuarantorsByClientId(this.clientIdParam);
   }
+
   onBulkDelete(ids: number[]) {
     // Optionally confirm first
     this.selectedIds = ids;
