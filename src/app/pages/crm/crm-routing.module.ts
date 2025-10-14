@@ -71,6 +71,8 @@ import { ClientShareHoldersBundleResolver } from './resolvers/client-share-holde
 import { ClientShareHoldersListResolver } from './resolvers/client-share-holders-list.resolver';
 import { ClientTMLOfficersBundleResolver } from './resolvers/client-tml-officers-bundle.resolver';
 import { ClientTMLOfficersListResolver } from './resolvers/client-tml-officers-list.resolver';
+import { ClientOfficersBundleResolver } from './resolvers/client-officers-bundle.resolver';
+import { ClientOfficersListResolver } from './resolvers/client-officers-list.resolver';
 
 const routes: Routes = [
   /*Clients , Client Onboarding Routing*/
@@ -345,22 +347,27 @@ const routes: Routes = [
 
   //Client Officers
   {
+    path: 'clients/view-client-officers/:clientId',
+    component: ViewClientOfficersComponent,
+    resolve: { list: ClientOfficersListResolver },
+  },
+  {
     path: 'clients/add-client-officers',
     component: AddClientOfficersComponent,
+    resolve: { bundle: ClientOfficersBundleResolver },
   },
   {
     path: 'clients/add-client-officers/:clientId',
     component: AddClientOfficersComponent,
+    resolve: { bundle: ClientOfficersBundleResolver },
   },
   {
     path: 'clients/edit-client-officers/:id',
     component: AddClientOfficersComponent,
     canDeactivate: [PendingChangesGuard],
+    resolve: { bundle: ClientOfficersBundleResolver },
   },
-  {
-    path: 'clients/view-client-officers/:clientId',
-    component: ViewClientOfficersComponent,
-  },
+
   //Client legal
   {
     path: 'clients/add-client-legals',

@@ -8,6 +8,7 @@ import {
   map,
   takeUntil,
   forkJoin,
+  of,
 } from 'rxjs';
 import { TableComponent } from '../../../../../../../../../shared/components/table/table.component';
 import { loadOfficers } from '../../../../../../../../organizations/store/officers/officers.actions';
@@ -15,6 +16,7 @@ import { selectOfficers } from '../../../../../../../../organizations/store/offi
 import { ClientOfficer } from '../../../../../../store/client-officers/client-officer.model';
 import { ClientOfficersFacade } from '../../../../../../store/client-officers/client-officers.facade';
 import { Officer } from '../../../../../../../../organizations/store/officers/officer.model';
+import { ClientOfficerType } from '../../../../../../../../lookups/store/client-officer-types/client-officer-type.model';
 
 @Component({
   selector: 'app-view-client-officer',
@@ -52,28 +54,56 @@ export class ViewClientOfficersComponent {
   ) {}
 
   ngOnInit() {
-    const raw = this.route.snapshot.paramMap.get('clientId');
-    this.clientIdParam = raw !== null ? Number(raw) : undefined;
-    this.facade.loadClientOfficersByClientId(this.clientIdParam);
+    const data = this.route.snapshot.data['list'] as {
+      clientId: number;
+      items: ClientOfficer[];
+      officers: Officer[];
+      clientOfficerTypes: ClientOfficerType[];
+    };
+
+    this.clientIdParam = data.clientId;
+
+    // 1) First render from resolver (no flicker)
+    const idToOfficer = new Map(data.officers.map((o) => [o.id, o.name]));
+    const idToType = new Map(
+      data.clientOfficerTypes.map((t) => [t.id, t.name])
+    );
+
+    const firstRender = (data.items ?? [])
+      .map((it) => ({
+        ...it,
+        officer: idToOfficer.get(it.officerId) ?? '—',
+        clientOfficerType: idToType.get(it.clientOfficerTypeId) ?? '—',
+      }))
+      .filter((it) => it.isActive)
+      .sort((a, b) => (b.id ?? 0) - (a.id ?? 0));
+
+    this.originalOfficers = firstRender;
+    this.filteredOfficers = [...firstRender];
+
+    // 2) Subscribe to store for post-CRUD refresh
+    this.facade.loadByClientId(this.clientIdParam);
     this.clientOfficers$ = this.facade.items$;
 
-    this.store.dispatch(loadOfficers());
-
-    this.officersList$ = this.store.select(selectOfficers);
-
-    combineLatest([this.clientOfficers$, this.officersList$])
+    combineLatest([
+      this.clientOfficers$,
+      of(data.officers),
+      of(data.clientOfficerTypes),
+    ])
       .pipe(
-        map(([clientOfficers, officersList]) =>
-          clientOfficers
-            .map((clientOfficer) => ({
-              ...clientOfficer,
-              officer:
-                officersList.find((c) => c.id === clientOfficer.officerId)
-                  ?.name || '—',
+        map(([items, officers, types]) => {
+          const mapOfficer = new Map(officers.map((o) => [o.id, o.name]));
+          const mapType = new Map(types.map((t) => [t.id, t.name]));
+          return (items ?? [])
+            .filter((it) => it.clientId === this.clientIdParam)
+            .map((it) => ({
+              ...it,
+              officer: mapOfficer.get(it.officerId) ?? '—',
+              clientOfficerType: mapType.get(it.clientOfficerTypeId) ?? '—',
             }))
-            .filter((clientOfficer) => clientOfficer.isActive)
-            .sort((a, b) => b.id - a.id)
-        ),
+            .filter((it) => it.isActive)
+            .sort((a, b) => (b.id ?? 0) - (a.id ?? 0));
+        }),
         takeUntil(this.destroy$)
       )
       .subscribe((enriched) => {
