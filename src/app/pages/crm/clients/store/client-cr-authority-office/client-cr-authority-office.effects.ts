@@ -21,9 +21,11 @@ export class ClientCRAuthorityOfficesEffects {
           ),
           catchError((error) =>
             of(
-              ClientCRAuthorityOfficeActions.loadClientCRAuthorityOfficesFailure({
-                error,
-              })
+              ClientCRAuthorityOfficeActions.loadClientCRAuthorityOfficesFailure(
+                {
+                  error,
+                }
+              )
             )
           )
         )
@@ -33,17 +35,23 @@ export class ClientCRAuthorityOfficesEffects {
 
   loadHistory$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ClientCRAuthorityOfficeActions.loadClientCRAuthorityOfficesHistory),
+      ofType(
+        ClientCRAuthorityOfficeActions.loadClientCRAuthorityOfficesHistory
+      ),
       mergeMap(() =>
         this.service.getHistory().pipe(
           map((resp) =>
-            ClientCRAuthorityOfficeActions.loadClientCRAuthorityOfficesHistorySuccess({
-              history: resp.items,
-            })
+            ClientCRAuthorityOfficeActions.loadClientCRAuthorityOfficesHistorySuccess(
+              {
+                history: resp.items,
+              }
+            )
           ),
           catchError((error) =>
             of(
-              ClientCRAuthorityOfficeActions.loadClientCRAuthorityOfficesHistoryFailure({ error })
+              ClientCRAuthorityOfficeActions.loadClientCRAuthorityOfficesHistoryFailure(
+                { error }
+              )
             )
           )
         )
@@ -63,9 +71,11 @@ export class ClientCRAuthorityOfficesEffects {
           ),
           catchError((error) =>
             of(
-              ClientCRAuthorityOfficeActions.loadClientCRAuthorityOfficeFailure({
-                error,
-              })
+              ClientCRAuthorityOfficeActions.loadClientCRAuthorityOfficeFailure(
+                {
+                  error,
+                }
+              )
             )
           )
         )
@@ -79,15 +89,19 @@ export class ClientCRAuthorityOfficesEffects {
       mergeMap(({ data }) =>
         this.service.create(data).pipe(
           map((client) =>
-            ClientCRAuthorityOfficeActions.createClientCRAuthorityOfficeSuccess({
-              client,
-            })
+            ClientCRAuthorityOfficeActions.createClientCRAuthorityOfficeSuccess(
+              {
+                client,
+              }
+            )
           ),
           catchError((error) =>
             of(
-              ClientCRAuthorityOfficeActions.createClientCRAuthorityOfficeFailure({
-                error,
-              })
+              ClientCRAuthorityOfficeActions.createClientCRAuthorityOfficeFailure(
+                {
+                  error,
+                }
+              )
             )
           )
         )
@@ -110,15 +124,19 @@ export class ClientCRAuthorityOfficesEffects {
               clientId: data.clientId!,
             };
             console.log('[Effect:update] enriched client →', enriched);
-            return ClientCRAuthorityOfficeActions.updateClientCRAuthorityOfficeSuccess({
-              client: enriched,
-            });
+            return ClientCRAuthorityOfficeActions.updateClientCRAuthorityOfficeSuccess(
+              {
+                client: enriched,
+              }
+            );
           }),
           catchError((error) =>
             of(
-              ClientCRAuthorityOfficeActions.updateClientCRAuthorityOfficeFailure({
-                error,
-              })
+              ClientCRAuthorityOfficeActions.updateClientCRAuthorityOfficeFailure(
+                {
+                  error,
+                }
+              )
             )
           )
         )
@@ -132,16 +150,20 @@ export class ClientCRAuthorityOfficesEffects {
       mergeMap(({ id, clientId }) =>
         this.service.delete(id).pipe(
           map(() =>
-            ClientCRAuthorityOfficeActions.deleteClientCRAuthorityOfficeSuccess({
-              id,
-              clientId,
-            })
+            ClientCRAuthorityOfficeActions.deleteClientCRAuthorityOfficeSuccess(
+              {
+                id,
+                clientId,
+              }
+            )
           ),
           catchError((error) =>
             of(
-              ClientCRAuthorityOfficeActions.deleteClientCRAuthorityOfficeFailure({
-                error,
-              })
+              ClientCRAuthorityOfficeActions.deleteClientCRAuthorityOfficeFailure(
+                {
+                  error,
+                }
+              )
             )
           )
         )
@@ -156,20 +178,10 @@ export class ClientCRAuthorityOfficesEffects {
         ClientCRAuthorityOfficeActions.updateClientCRAuthorityOfficeSuccess,
         ClientCRAuthorityOfficeActions.deleteClientCRAuthorityOfficeSuccess
       ),
- 
-      map(action => {
-      if ('clientId' in action) {
-        // for create/update you returned `{ client: ClientCRAuthorityOffice }`,
-        // so dig into that object’s clientId
-        return action.clientId;
-      } else {
-        // for delete you returned `{ id, clientId }`
-        return action.client.clientId;
-      }
-    }),
- 
-      // only continue if it’s a number
- 
+      map((action) =>
+        'client' in action ? action.client.clientId : action.clientId
+      ),
+      filter((clientId): clientId is number => typeof clientId === 'number'),
       map((clientId) =>
         ClientCRAuthorityOfficeActions.loadClientCRAuthorityOfficesByClientId({
           clientId,
@@ -177,12 +189,15 @@ export class ClientCRAuthorityOfficesEffects {
       )
     )
   );
+
   /**
    * The “by‐clientId” loader
    */
   loadByClientId$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ClientCRAuthorityOfficeActions.loadClientCRAuthorityOfficesByClientId),
+      ofType(
+        ClientCRAuthorityOfficeActions.loadClientCRAuthorityOfficesByClientId
+      ),
 
       tap((action) =>
         console.log('[Effect:loadByClientId] full action →', action)
@@ -197,13 +212,17 @@ export class ClientCRAuthorityOfficesEffects {
             console.log('[Effect:loadByClientId] response →', items)
           ),
           map((items) =>
-            ClientCRAuthorityOfficeActions.loadClientCRAuthorityOfficesByClientIdSuccess({ items })
+            ClientCRAuthorityOfficeActions.loadClientCRAuthorityOfficesByClientIdSuccess(
+              { items }
+            )
           ),
           catchError((error) =>
             of(
-              ClientCRAuthorityOfficeActions.loadClientCRAuthorityOfficesByClientIdFailure({
-                error,
-              })
+              ClientCRAuthorityOfficeActions.loadClientCRAuthorityOfficesByClientIdFailure(
+                {
+                  error,
+                }
+              )
             )
           )
         )

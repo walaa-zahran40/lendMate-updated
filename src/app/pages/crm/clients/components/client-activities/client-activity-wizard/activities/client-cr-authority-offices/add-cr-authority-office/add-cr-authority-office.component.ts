@@ -8,6 +8,7 @@ import { selectAllAuthorityOffices } from '../../../../../../../../lookups/store
 import { ClientCRAuthorityOfficesFacade } from '../../../../../../store/client-cr-authority-office/client-cr-authority-office.facade';
 import { ClientCRAuthorityOffice } from '../../../../../../store/client-cr-authority-office/client-cr-authority-office.model';
 import { loadAll as loadAllAuthorityOffice } from '../../../../../../../../lookups/store/authority-offices/authority-offices.actions';
+import { ClientCRAuthorityOfficeBundle } from '../../../../../../../resolvers/client-cr-authority-office-bundle.resolver';
 
 @Component({
   selector: 'app-add-cr-authority-office',
@@ -35,23 +36,15 @@ export class AddClientCRAuthorityOfficesComponent {
   ) {}
 
   ngOnInit(): void {
-    console.log('🟢 ngOnInit start');
-    console.log(this.route.snapshot, 'route');
-    this.clientId = Number(this.route.snapshot.queryParams['clientId']);
-
-    this.mode =
-      (this.route.snapshot.queryParamMap.get('mode') as
-        | 'add'
-        | 'edit'
-        | 'view') ?? 'add';
+    const bundle = this.route.snapshot.data[
+      'bundle'
+    ] as ClientCRAuthorityOfficeBundle;
+    this.mode = bundle.mode;
     this.editMode = this.mode === 'edit';
     this.viewOnly = this.mode === 'view';
-    console.log('🔍 Params:', {
-      clientId: this.clientId,
-      mode: this.mode,
-      editMode: this.editMode,
-      viewOnly: this.viewOnly,
-    });
+    this.clientId =
+      bundle.clientIdFromQP ??
+      Number(this.route.snapshot.paramMap.get('clientId'));
 
     this.addClientCRAuthorityOfficesLookupsForm = this.fb.group({
       id: [null],
@@ -61,45 +54,37 @@ export class AddClientCRAuthorityOfficesComponent {
       crNumber: [null, [Validators.required]],
       isActive: [true],
     });
-    console.log(
-      '🛠️ Form initialized with defaults:',
-      this.addClientCRAuthorityOfficesLookupsForm.value
-    );
-    console.log('🚀 Dispatching lookup loads');
-    this.store.dispatch(loadAllAuthorityOffice({}));
 
-    this.authorityOfficesList$ = this.store.select(selectAllAuthorityOffices);
+    // pass lookups to the form component
+    this.authorityOfficesList$ = new Observable((sub) =>
+      sub.next(
+        bundle.authorityOffices.map((office: any) => ({
+          id: office.id,
+          name: office.name,
+          nameAR: office.nameAR ?? '',
+          isActive: office.isActive ?? true,
+        }))
+      )
+    );
 
     if (this.mode === 'add') {
       this.addClientCRAuthorityOfficesLookupsForm.patchValue({
         clientId: this.clientId,
       });
-      console.log('✏️ Add mode → patched clientId:', this.clientId);
-    }
-
-    if (this.editMode || this.viewOnly) {
-      this.recordId = Number(this.route.snapshot.paramMap.get('id'));
-      this.facade.loadOne(this.recordId);
-
-      this.facade.current$
-        .pipe(
-          takeUntil(this.destroy$),
-          filter((rec) => !!rec)
-        )
-        .subscribe((ct) => {
-          console.log('red', ct);
-          this.addClientCRAuthorityOfficesLookupsForm.patchValue({
-            id: ct?.id,
-            clientId: this.clientId,
-            expiryDate: new Date(ct.expiryDate),
-            crAuthorityOfficeId: ct.crAuthorityOfficeId,
-            crNumber: ct.crNumber,
-            isActive: ct?.isActive,
-          });
-        });
+    } else if (bundle.record) {
+      const r = bundle.record;
+      this.recordId = r.id;
+      this.addClientCRAuthorityOfficesLookupsForm.patchValue({
+        id: r.id,
+        clientId: this.clientId,
+        crAuthorityOfficeId: r.crAuthorityOfficeId,
+        crNumber: r.crNumber,
+        expiryDate: r.expiryDate ? new Date(r.expiryDate) : null,
+        isActive: r.isActive ?? true,
+      });
+      if (this.viewOnly) this.addClientCRAuthorityOfficesLookupsForm.disable();
     }
   }
-
   addOrEditClientCRAuthorityOffices() {
     const clientParamQP = this.route.snapshot.queryParamMap.get('clientId');
 

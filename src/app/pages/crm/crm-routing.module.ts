@@ -61,6 +61,8 @@ import { clientPhoneNumberBundleResolver } from './resolvers/client-phone-number
 import { clientPhoneNumbersListResolver } from './resolvers/client-phone-numbers-list.resolver';
 import { ClientIdentitiesListResolver } from './resolvers/client-identities-list.resolver';
 import { ClientIdentityBundleResolver } from './resolvers/client-identity-bundle.resolver';
+import { ClientCRAuthorityOfficeBundleResolver } from './resolvers/client-cr-authority-office-bundle.resolver';
+import { ClientCRAuthorityOfficesListResolver } from './resolvers/client-cr-authority-offices-list.resolver';
 
 const routes: Routes = [
   /*Clients , Client Onboarding Routing*/
@@ -222,20 +224,25 @@ const routes: Routes = [
   {
     path: 'clients/add-client-cr-authority-offices',
     component: AddClientCRAuthorityOfficesComponent,
+    resolve: { bundle: ClientCRAuthorityOfficeBundleResolver },
   },
   {
     path: 'clients/add-client-cr-authority-offices/:clientId',
     component: AddClientCRAuthorityOfficesComponent,
+    resolve: { bundle: ClientCRAuthorityOfficeBundleResolver },
   },
   {
     path: 'clients/edit-client-cr-authority-offices/:id',
     component: AddClientCRAuthorityOfficesComponent,
     canDeactivate: [PendingChangesGuard],
+    resolve: { bundle: ClientCRAuthorityOfficeBundleResolver },
   },
   {
     path: 'clients/view-client-cr-authority-offices/:clientId',
     component: ViewCRAuthorityOfficesComponent,
+    resolve: { list: ClientCRAuthorityOfficesListResolver },
   },
+
   //Client Tax Authority Offices
   {
     path: 'clients/add-client-tax-authority-offices',

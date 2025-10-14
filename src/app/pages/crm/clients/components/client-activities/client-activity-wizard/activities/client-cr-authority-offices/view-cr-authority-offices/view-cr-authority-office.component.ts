@@ -8,6 +8,7 @@ import {
   map,
   takeUntil,
   forkJoin,
+  of,
 } from 'rxjs';
 import { TableComponent } from '../../../../../../../../../shared/components/table/table.component';
 import { AuthorityOffice } from '../../../../../../../../lookups/store/authority-offices/authority-office.model';
@@ -15,6 +16,7 @@ import { selectAllAuthorityOffices } from '../../../../../../../../lookups/store
 import { ClientCRAuthorityOfficesFacade } from '../../../../../../store/client-cr-authority-office/client-cr-authority-office.facade';
 import { ClientCRAuthorityOffice } from '../../../../../../store/client-cr-authority-office/client-cr-authority-office.model';
 import { loadAll as loadAllAuthorityOffice } from '../../../../../../../../lookups/store/authority-offices/authority-offices.actions';
+import { ClientCRAuthorityOfficesListData } from '../../../../../../../resolvers/client-cr-authority-offices-list.resolver';
 
 @Component({
   selector: 'app-view-cr-authority-office',
@@ -52,28 +54,43 @@ export class ViewCRAuthorityOfficesComponent {
   ) {}
 
   ngOnInit() {
-    const raw = this.route.snapshot.paramMap.get('clientId');
-    this.clientIdParam = raw !== null ? Number(raw) : undefined;
-    this.facade.loadClientCRAuthorityOfficesByClientId(this.clientIdParam);
+    const data = this.route.snapshot.data[
+      'list'
+    ] as ClientCRAuthorityOfficesListData;
+    this.clientIdParam = data.clientId;
+
+    // first paint
+    const idToName = new Map(data.authorityOffices.map((o) => [o.id, o.name]));
+    const firstRender = (data.items ?? [])
+      .map((it) => ({
+        ...it,
+        crAuthorityOffice: idToName.get(it.crAuthorityOfficeId) ?? '—',
+      }))
+      .sort((a, b) => (b.id ?? 0) - (a.id ?? 0));
+
+    this.originalCRAuthorityOffices = firstRender;
+    this.filteredCRAuthorityOffices = [...firstRender];
+
+    // keep reacting to store for live refresh (after create/update/delete)
+    this.facade.loadByClientId(this.clientIdParam);
     this.cRAuthorityOffices$ = this.facade.items$;
 
-    this.store.dispatch(loadAllAuthorityOffice({}));
-
-    this.authorityOfficesList$ = this.store.select(selectAllAuthorityOffices);
-
-    combineLatest([this.cRAuthorityOffices$, this.authorityOfficesList$])
+    combineLatest([
+      this.cRAuthorityOffices$,
+      // reuse the resolver’s lookup set so we don't depend on another async stream
+      of(data.authorityOffices),
+    ])
       .pipe(
-        map(([cRAuthorityOffices, authorityOfficesList]) =>
-          cRAuthorityOffices
-            .map((authorityOffice) => ({
-              ...authorityOffice,
-              crAuthorityOffice:
-                authorityOfficesList.find(
-                  (c) => c.id === authorityOffice.crAuthorityOfficeId
-                )?.name || '—',
+        map(([items, authorityOffices]) => {
+          const idToName = new Map(authorityOffices.map((o) => [o.id, o.name]));
+          return (items ?? [])
+            .filter((it) => Number(it.clientId) === Number(this.clientIdParam))
+            .map((it) => ({
+              ...it,
+              crAuthorityOffice: idToName.get(it.crAuthorityOfficeId) ?? '—',
             }))
-            .sort((a, b) => b.id - a.id)
-        ),
+            .sort((a, b) => (b.id ?? 0) - (a.id ?? 0));
+        }),
         takeUntil(this.destroy$)
       )
       .subscribe((enriched) => {
