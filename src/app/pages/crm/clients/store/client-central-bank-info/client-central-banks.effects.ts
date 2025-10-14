@@ -2,15 +2,15 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { mergeMap, map, catchError, tap, filter } from 'rxjs/operators';
 import { of } from 'rxjs';
-import * as ClientCentralBankInfoActions from './client-central-bank.actions';
+import * as ClientCentralBankInfoActions from './client-central-banks.actions';
 import { ClientCentralBankInfo } from './client-central-bank.model';
-import { ClientCentralBankInfoService } from './client-central-bank.service';
+import { ClientCentralBankInfoService } from './client-central-banks.service';
 
 @Injectable()
 export class ClientCentralBankInfoEffects {
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ClientCentralBankInfoActions.loadClientCentralBankInfo),
+      ofType(ClientCentralBankInfoActions.loadAllClientCentralBankInfo),
       mergeMap(() =>
         this.service.getAll().pipe(
           map((resp) =>
@@ -21,7 +21,7 @@ export class ClientCentralBankInfoEffects {
           ),
           catchError((error) =>
             of(
-              ClientCentralBankInfoActions.loadClientCentralBankInfoFailure({
+              ClientCentralBankInfoActions.loadAllClientCentralBankInfoFailure({
                 error,
               })
             )
@@ -37,13 +37,17 @@ export class ClientCentralBankInfoEffects {
       mergeMap(() =>
         this.service.getHistory().pipe(
           map((resp) =>
-            ClientCentralBankInfoActions.loadClientCentralBankInfoHistorySuccess({
-              history: resp.items,
-            })
+            ClientCentralBankInfoActions.loadClientCentralBankInfoHistorySuccess(
+              {
+                history: resp.items,
+              }
+            )
           ),
           catchError((error) =>
             of(
-              ClientCentralBankInfoActions.loadClientCentralBankInfoHistoryFailure({ error })
+              ClientCentralBankInfoActions.loadClientCentralBankInfoHistoryFailure(
+                { error }
+              )
             )
           )
         )
@@ -110,9 +114,11 @@ export class ClientCentralBankInfoEffects {
               clientId: data.clientId!,
             };
             console.log('[Effect:update] enriched client →', enriched);
-            return ClientCentralBankInfoActions.updateClientCentralBankInfoSuccess({
-              client: enriched,
-            });
+            return ClientCentralBankInfoActions.updateClientCentralBankInfoSuccess(
+              {
+                client: enriched,
+              }
+            );
           }),
           catchError((error) =>
             of(
@@ -156,20 +162,9 @@ export class ClientCentralBankInfoEffects {
         ClientCentralBankInfoActions.updateClientCentralBankInfoSuccess,
         ClientCentralBankInfoActions.deleteClientCentralBankInfoSuccess
       ),
- 
-      map(action => {
-      if ('clientId' in action) {
-        // for create/update you returned `{ client: ClientCentralBankInfo }`,
-        // so dig into that object’s clientId
-        return action.clientId;
-      } else {
-        // for delete you returned `{ id, clientId }`
-        return action.client.clientId;
-      }
-    }),
- 
-      // only continue if it’s a number
- 
+      map((action) =>
+        'client' in action ? action.client.clientId : action.clientId
+      ),
       map((clientId) =>
         ClientCentralBankInfoActions.loadClientCentralBankInfoByClientId({
           clientId,
@@ -177,6 +172,7 @@ export class ClientCentralBankInfoEffects {
       )
     )
   );
+
   /**
    * The “by‐clientId” loader
    */
@@ -197,13 +193,17 @@ export class ClientCentralBankInfoEffects {
             console.log('[Effect:loadByClientId] response →', items)
           ),
           map((items) =>
-            ClientCentralBankInfoActions.loadClientCentralBankInfoByClientIdSuccess({ items })
+            ClientCentralBankInfoActions.loadClientCentralBankInfoByClientIdSuccess(
+              { items }
+            )
           ),
           catchError((error) =>
             of(
-              ClientCentralBankInfoActions.loadClientCentralBankInfoByClientIdFailure({
-                error,
-              })
+              ClientCentralBankInfoActions.loadClientCentralBankInfoByClientIdFailure(
+                {
+                  error,
+                }
+              )
             )
           )
         )

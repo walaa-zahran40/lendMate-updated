@@ -37,6 +37,8 @@ import { LegalFormsFacade } from '../../../../legals/store/legal-forms/legal-for
 import { IdentificationType } from '../../../../lookups/store/identification-types/identification-type.model';
 import { Currency } from '../../../../lookups/store/currencies/currency.model';
 import { PageOperation } from '../../../../organizations/store/page-operations/page-operation.model';
+import { CompanyType } from '../../../../lookups/store/company-types/company-type.model';
+import { SMEClientCode } from '../../../../lookups/store/sme-client-codes/sme-client-code.model';
 export interface IdentityEntry {
   identificationNumber: string;
   selectedIdentities: any[];
@@ -111,8 +113,8 @@ export class AddClientCentralBankInfoFormComponent
   @Input() addressTypesList: any;
   @Input() addressTypes: any;
   @Input() authorityOfficesList: any;
-  @Input() companyTypesList: any;
-  @Input() smeClientCodesList: any;
+  @Input() companyTypesList: CompanyType[] | null = null;
+  @Input() smeClientCodesList: SMEClientCode[] | null = null;
   @Input() taxOfficesList: any;
   @Input() assetTypeCategories: any;
   @Input() feeCalculationTypes: any;
@@ -1226,6 +1228,11 @@ export class AddClientCentralBankInfoFormComponent
         this.formGroup.enable();
       }
     }
+    console.log('👶 child received companyTypesList:', this.companyTypesList);
+    console.log(
+      '👶 child received smeClientCodesList:',
+      this.smeClientCodesList
+    );
   }
   onSubmit(): void {
     if (this.formGroup.invalid) {
@@ -1235,6 +1242,13 @@ export class AddClientCentralBankInfoFormComponent
     }
     // bubble up to the parent
     this.submitForm.emit();
+  }
+  onSelectOpen(which: 'companyTypes' | 'smeCodes', list: any) {
+    console.log(
+      `📂 ${which} dropdown opened; items length:`,
+      Array.isArray(list) ? list.length : 'not array',
+      list
+    );
   }
 
   get communicationOfficersArray(): FormArray {

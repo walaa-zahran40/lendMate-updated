@@ -65,6 +65,8 @@ import { ClientCRAuthorityOfficeBundleResolver } from './resolvers/client-cr-aut
 import { ClientCRAuthorityOfficesListResolver } from './resolvers/client-cr-authority-offices-list.resolver';
 import { ClientTaxOfficeBundleResolver } from './resolvers/client-tax-office-bundle.resolver';
 import { ClientTaxOfficesListResolver } from './resolvers/client-tax-offices-list.resolver';
+import { ClientCentralBankInfoBundleResolver } from './resolvers/client-central-bank-info-bundle.resolver';
+import { ClientCentralBankInfoListResolver } from './resolvers/client-central-bank-info-list.resolver';
 
 const routes: Routes = [
   /*Clients , Client Onboarding Routing*/
@@ -272,20 +274,25 @@ const routes: Routes = [
   {
     path: 'clients/add-client-central-bank-info',
     component: AddClientCentralBankInfoComponent,
+    resolve: { bundle: ClientCentralBankInfoBundleResolver },
   },
   {
     path: 'clients/add-client-central-bank-info/:clientId',
     component: AddClientCentralBankInfoComponent,
+    resolve: { bundle: ClientCentralBankInfoBundleResolver },
   },
   {
     path: 'clients/edit-client-central-bank-info/:id',
     component: AddClientCentralBankInfoComponent,
     canDeactivate: [PendingChangesGuard],
+    resolve: { bundle: ClientCentralBankInfoBundleResolver },
   },
   {
     path: 'clients/view-client-central-bank-info/:clientId',
     component: ViewClientCentralBankInfoComponent,
+    resolve: { list: ClientCentralBankInfoListResolver },
   },
+
   //Client Share Holders
   {
     path: 'clients/add-client-share-holder',

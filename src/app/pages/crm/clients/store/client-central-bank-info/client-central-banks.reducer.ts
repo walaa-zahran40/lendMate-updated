@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
-import * as Actions from './client-central-bank.actions';
-import { initialClientCentralBankInfoState } from './client-central-bank.state';
+import * as Actions from './client-central-banks.actions';
+import { initialClientCentralBankInfoState } from './client-central-banks.state';
 
 export const clientCentralBankInfoReducer = createReducer(
   initialClientCentralBankInfoState,
@@ -9,12 +9,15 @@ export const clientCentralBankInfoReducer = createReducer(
     loading: true,
     error: null,
   })),
-  on(Actions.loadAllClientCentralBankInfoSuccess, (state, { items, totalCount }) => ({
-    ...state,
-    items,
-    totalCount,
-    loading: false,
-  })),
+  on(
+    Actions.loadAllClientCentralBankInfoSuccess,
+    (state, { items, totalCount }) => ({
+      ...state,
+      items,
+      totalCount,
+      loading: false,
+    })
+  ),
   on(Actions.loadAllClientCentralBankInfoFailure, (state, { error }) => ({
     ...state,
     error,
@@ -100,14 +103,20 @@ export const clientCentralBankInfoReducer = createReducer(
     loading: true,
     error: null,
   })),
-  on(Actions.loadClientCentralBankInfoByClientIdSuccess, (state, { items }) => ({
-    ...state,
-    items, // replace with just these rates
-    loading: false,
-  })),
-  on(Actions.loadClientCentralBankInfoByClientIdFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
-  }))
+  on(
+    Actions.loadClientCentralBankInfoByClientIdSuccess,
+    (state, { items }) => ({
+      ...state,
+      items, // replace with just these rates
+      loading: false,
+    })
+  ),
+  on(
+    Actions.loadClientCentralBankInfoByClientIdFailure,
+    (state, { error }) => ({
+      ...state,
+      error,
+      loading: false,
+    })
+  )
 );

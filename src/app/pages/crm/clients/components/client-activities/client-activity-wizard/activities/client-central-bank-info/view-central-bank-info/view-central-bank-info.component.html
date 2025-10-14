@@ -14,33 +14,31 @@
     (exportExcel)="tableRef.exportToExcel()"
     (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <ng-container *ngIf="clientCentralBankInfo$ | async as clientCentralBankInfo">
-    <app-table
-      [viewPermission]="[
-        '/ClientCentralBanks/Get',
-        '/ClientCentralBanks/GetAll',
-        '/ClientCentralBanks/GetAllHistory'
-      ]"
-      [editPermission]="'/ClientCentralBanks/Put'"
-      [deletePermission]="'/ClientCentralBanks/Delete'"
-      #tableRef
-      (onBulkDelete)="onBulkDelete($event)"
-      [cols]="colsInside"
-      [tableData]="filteredClientCentralBankInfo"
-      [side]="false"
-      [first]="first2"
-      [checkBox]="true"
-      [filters]="showFilters"
-      [uppercase]="'uppercase'"
-      [viewCentralBankInfoTable]="true"
-      (onDelete)="onDeleteClientCentralBankInfo($event)"
-      (onEdit)="onEditClientCentralBankInfo($event)"
-      (viewForm)="onViewClientCentralBankInfo($event)"
-    ></app-table>
-    <app-delete-module
-      [visible]="showDeleteModal"
-      (confirm)="confirmDelete()"
-      (cancel)="cancelDelete()"
-    ></app-delete-module>
-  </ng-container>
+  <app-table
+    [viewPermission]="[
+      '/ClientCentralBanks/Get',
+      '/ClientCentralBanks/GetAll',
+      '/ClientCentralBanks/GetAllHistory'
+    ]"
+    [editPermission]="'/ClientCentralBanks/Put'"
+    [deletePermission]="'/ClientCentralBanks/Delete'"
+    #tableRef
+    (onBulkDelete)="onBulkDelete($event)"
+    [cols]="colsInside"
+    [tableData]="filteredClientCentralBankInfo"
+    [side]="false"
+    [first]="first2"
+    [checkBox]="true"
+    [filters]="showFilters"
+    [uppercase]="'uppercase'"
+    [viewCentralBankInfoTable]="true"
+    (onDelete)="onDeleteClientCentralBankInfo($event)"
+    (onEdit)="onEditClientCentralBankInfo($event)"
+    (viewForm)="onViewClientCentralBankInfo($event)"
+  ></app-table>
+  <app-delete-module
+    [visible]="showDeleteModal"
+    (confirm)="confirmDelete()"
+    (cancel)="cancelDelete()"
+  ></app-delete-module>
 </div>

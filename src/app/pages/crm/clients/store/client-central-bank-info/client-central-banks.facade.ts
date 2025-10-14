@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import * as Actions from './client-central-bank.actions';
-import * as Selectors from './client-central-bank.selectors';
+import * as Actions from './client-central-banks.actions';
+import * as Selectors from './client-central-banks.selectors';
 import { Observable } from 'rxjs';
 import { selectLastOperationSuccess } from '../../../../../shared/store/ui.selectors';
 import { ClientCentralBankInfo } from './client-central-bank.model';
@@ -55,7 +55,9 @@ export class ClientCentralBankInfoFacade {
       );
       return;
     }
-    this.store.dispatch(Actions.loadClientCentralBankInfoByClientId({ clientId }));
+    this.store.dispatch(
+      Actions.loadClientCentralBankInfoByClientId({ clientId })
+    );
   }
 
   /** UPDATED: now expects both id & parent clientId */
@@ -63,6 +65,8 @@ export class ClientCentralBankInfoFacade {
     this.store.dispatch(Actions.deleteClientCentralBankInfo({ id, clientId }));
   }
   loadByClientId(clientId: number) {
-    this.store.dispatch(Actions.loadClientCentralBankInfoByClientId({ clientId }));
+    this.store.dispatch(
+      Actions.loadClientCentralBankInfoByClientId({ clientId })
+    );
   }
 }

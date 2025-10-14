@@ -27,10 +27,11 @@
 
       <label for="companyTypeId">Company Type<sup>*</sup></label>
       <p-select
+        (onShow)="onSelectOpen('companyTypes', companyTypesList)"
         [filter]="true"
         filterBy="name"
         [showClear]="true"
-        [options]="companyTypesList"
+        [options]="companyTypesList ?? []"
         optionLabel="name"
         placeholder="Select Company Type"
         formControlName="companyTypeId"
@@ -51,23 +52,30 @@
         formControlName="capital"
         placeholder="Capital"
       />
+      <!-- inside child template near the capital input -->
       <div
         *ngIf="
-          formGroup.get('capital')?.hasError('required') &&
-          formGroup.get('capital')?.touched
+          formGroup.get('capital')?.touched && formGroup.get('capital')?.errors
         "
-        class="p-error"
+        class="text-red-600 text-sm"
       >
-        Capital is required.
-      </div>
-      <div
-        *ngIf="
-          formGroup.get('capital')?.hasError('pattern') &&
-          formGroup.get('capital')?.touched
-        "
-        class="p-error"
-      >
-        Please enter only Numbers.
+        <div *ngIf="formGroup.get('capital')?.errors?.['required']">
+          Capital is required.
+        </div>
+        <div *ngIf="formGroup.get('capital')?.errors?.['pattern']">
+          Digits only.
+        </div>
+        <div *ngIf="formGroup.get('capital')?.errors?.['min']">
+          Capital must be ≥
+          {{ formGroup.get('capital')?.errors?.['min']?.min | number }}
+        </div>
+        <div *ngIf="formGroup.get('capital')?.errors?.['max']">
+          Capital must be ≤
+          {{ formGroup.get('capital')?.errors?.['max']?.max | number }}
+        </div>
+        <div *ngIf="formGroup.get('capital')?.errors?.['range']">
+          Capital must be between the selected SME code’s lower & upper limits.
+        </div>
       </div>
 
       <label for="iScoreSectore">Iscore Sector</label>
@@ -100,10 +108,11 @@
         [filter]="true"
         filterBy="name"
         [showClear]="true"
-        [options]="smeClientCodesList"
+        [options]="smeClientCodesList ?? []"
         optionLabel="name"
         placeholder="Select SME Client Code"
         formControlName="smeClientCodeId"
+        (onShow)="onSelectOpen('smeCodes', smeClientCodesList)"
         optionValue="id"
         required
         [ngClass]="{

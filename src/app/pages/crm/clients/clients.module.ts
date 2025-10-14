@@ -34,7 +34,7 @@ import { ClientTaxOfficesEffects } from './store/client-tax-office/client-tax-of
 import { AddClientOnboardingComponent } from './components/clients/client-onboarding/add-client-onboarding/add-client-onboarding.component';
 import { ViewClientsOnboardingComponent } from './components/clients/client-onboarding/view-clients-onboarding/view-clients-onboarding.component';
 import { ClientsOnboardingEffects } from './store/_client-onboarding/allclients/clients-onboarding.effects';
-import { clientCentralBankInfoReducer } from './store/client-central-bank-info/client-central-bank.reducer';
+import { clientCentralBankInfoReducer } from './store/client-central-bank-info/client-central-banks.reducer';
 
 import { reducer as individualOnboardingReducer } from './store/_client-onboarding/individuals/individuals-onboarding.reducer';
 import { clientContactPersonsReducer } from './store/client-contact-persons/client-contact-persons.reducer';
@@ -69,7 +69,7 @@ import { ViewUploadDocumentsComponent } from './components/client-activities/cli
 import { ClientActivityWizardComponent } from './components/client-activities/client-activity-wizard/client-activity-wizard.component';
 import { AddClientComponent } from './components/clients/company-individual/add-client/add-client.component';
 import { ViewClientsComponent } from './components/clients/company-individual/view-clients/view-clients.component';
-import { ClientCentralBankInfoEffects } from './store/client-central-bank-info/client-central-bank.effects';
+import { ClientCentralBankInfoEffects } from './store/client-central-bank-info/client-central-banks.effects';
 import { ClientFilesEffects } from './store/client-file/client-files.effects';
 import { clientFilesReducer } from './store/client-file/client-files.reducer';
 import { LeaveEffects } from './store/client-form/client-form.effects';

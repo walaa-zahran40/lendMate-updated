@@ -16,8 +16,9 @@ import { selectAllCompanyTypes } from '../../../../../../../../lookups/store/com
 import { SMEClientCodesFacade } from '../../../../../../../../lookups/store/sme-client-codes/sme-client-codes.facade';
 import { SMEClientCode } from '../../../../../../../../lookups/store/sme-client-codes/sme-client-code.model';
 import { selectAllSMEClientCodes } from '../../../../../../../../lookups/store/sme-client-codes/sme-client-codes.selectors';
-import { ClientCentralBankInfoFacade } from '../../../../../../store/client-central-bank-info/client-central-bank.facade';
+import { ClientCentralBankInfoFacade } from '../../../../../../store/client-central-bank-info/client-central-banks.facade';
 import { ClientCentralBankInfo } from '../../../../../../store/client-central-bank-info/client-central-bank.model';
+import { ClientCentralBankInfoListData } from '../../../../../../../resolvers/client-central-bank-info-list.resolver';
 
 @Component({
   selector: 'app-view-central-bank-info',
@@ -59,41 +60,44 @@ export class ViewClientCentralBankInfoComponent {
   ) {}
 
   ngOnInit() {
-    const raw = this.route.snapshot.paramMap.get('clientId');
-    this.clientIdParam = raw !== null ? Number(raw) : undefined;
+    const data = this.route.snapshot.data[
+      'list'
+    ] as ClientCentralBankInfoListData;
+    this.clientIdParam = data.clientId;
 
-    this.companyTypesFacade.loadAll();
-    this.companyTypesList$ = this.store.select(selectAllCompanyTypes);
-    this.store.dispatch({ type: '[CompanyTypes] Load All' });
+    // Build lookup maps once from resolver
+    const idToCompany = new Map(data.companyTypes.map((t) => [t.id, t.name]));
+    const idToSME = new Map(data.smeClientCodes.map((t) => [t.id, t.name]));
 
-    this.smeClientCodesFacade.loadAll();
-    this.smeClientCodesList$ = this.store.select(selectAllSMEClientCodes);
-    this.store.dispatch({ type: '[SMEClientCodes] Load All' });
+    // First paint (no flicker)
+    const firstRender = (data.items ?? [])
+      .map((it) => ({
+        ...it,
+        CompanyType: idToCompany.get(it.companyTypeId) ?? '—',
+        SMEClientCode: idToSME.get(it.smeClientCodeId) ?? '—',
+      }))
+      .filter((it) => it.isActive)
+      .sort((a, b) => (b.id ?? 0) - (a.id ?? 0));
 
-    this.facade.loadClientCentralBankInfoByClientId(this.clientIdParam);
+    this.originalClientCentralBankInfo = firstRender;
+    this.filteredClientCentralBankInfo = [...firstRender];
+
+    // Subscribe to store and keep the table in sync (re-enrich with maps)
+    this.facade.loadByClientId(this.clientIdParam);
     this.clientCentralBankInfo$ = this.facade.items$;
 
-    combineLatest([
-      this.clientCentralBankInfo$,
-      this.companyTypesList$,
-      this.smeClientCodesList$,
-    ])
+    this.clientCentralBankInfo$
       .pipe(
-        map(([clientCentralBankInfo, companyTypesList, smeClientCodesList]) =>
-          clientCentralBankInfo
-            .map((centralBankinfo) => ({
-              ...centralBankinfo,
-              CompanyType:
-                companyTypesList.find(
-                  (c) => c.id === centralBankinfo.companyTypeId
-                )?.name || '—',
-              SMEClientCode:
-                smeClientCodesList.find(
-                  (c) => c.id === centralBankinfo.smeClientCodeId
-                )?.name || '—',
+        map((items) =>
+          (items ?? [])
+            .filter((it) => it.clientId === this.clientIdParam)
+            .map((it) => ({
+              ...it,
+              CompanyType: idToCompany.get(it.companyTypeId) ?? '—',
+              SMEClientCode: idToSME.get(it.smeClientCodeId) ?? '—',
             }))
-            .filter((centralBankinfo) => centralBankinfo.isActive)
-            .sort((a, b) => b.id - a.id)
+            .filter((it) => it.isActive)
+            .sort((a, b) => (b.id ?? 0) - (a.id ?? 0))
         ),
         takeUntil(this.destroy$)
       )

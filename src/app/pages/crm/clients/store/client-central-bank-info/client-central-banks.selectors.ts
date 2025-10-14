@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { ClientCentralBankInfoState } from './client-central-bank.state';
+import { ClientCentralBankInfoState } from './client-central-banks.state';
 
 export const selectClientCentralBankInfoState =
   createFeatureSelector<ClientCentralBankInfoState>('clientCentralBankInfo');
