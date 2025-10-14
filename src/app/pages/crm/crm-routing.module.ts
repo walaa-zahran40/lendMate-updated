@@ -443,20 +443,7 @@ const routes: Routes = [
     },
     runGuardsAndResolvers: 'paramsOrQueryParamsChange',
   },
-  //Client Identities
-  {
-    path: 'clients/add-client-identity',
-    component: AddClientIdentityComponent,
-  },
-  {
-    path: 'clients/edit-client-identity/:id',
-    component: AddClientIdentityComponent,
-    canDeactivate: [PendingChangesGuard],
-  },
-  {
-    path: 'clients/view-client-identities/:clientId',
-    component: ViewClientIdentityComponent,
-  },
+  //=====================================\\
   /*Leasing Mandates Routing*/
   {
     path: 'leasing-mandates/view-mandates',
