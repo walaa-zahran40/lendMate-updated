@@ -77,6 +77,9 @@ import { ClientLegalsBundleResolver } from './resolvers/client-legals-bundle.res
 import { ClientLegalsListResolver } from './resolvers/client-legals-list.resolver';
 import { ContactPersonsBundleResolver } from './resolvers/contact-persons-bundle.resolver';
 import { ContactPersonsListResolver } from './resolvers/contact-persons-list.resolver';
+import { clientGuarantorResolver } from './resolvers/client-guarantor.resolver';
+import { clientGuarantorsByClientResolver } from './resolvers/client-guarantors-by-client.resolver';
+import { clientsLookupResolver } from './resolvers/clients-lookup.resolver';
 
 const routes: Routes = [
   /*Clients , Client Onboarding Routing*/
@@ -419,15 +422,26 @@ const routes: Routes = [
   {
     path: 'clients/add-client-guarantor',
     component: AddClientGuarantorComponent,
+    resolve: { clients: clientsLookupResolver },
   },
   {
     path: 'clients/edit-client-guarantor/:id',
     component: AddClientGuarantorComponent,
+    resolve: {
+      clients: clientsLookupResolver,
+      guarantor: clientGuarantorResolver,
+    },
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange',
     canDeactivate: [PendingChangesGuard],
   },
   {
     path: 'clients/view-client-guarantors/:clientId',
     component: ViewGuarantorsComponent,
+    resolve: {
+      clients: clientsLookupResolver,
+      guarantors: clientGuarantorsByClientResolver,
+    },
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange',
   },
   //Client Identities
   {

@@ -51,65 +51,51 @@ export class ViewGuarantorsComponent {
     private store: Store
   ) {}
   ngOnInit() {
-    const raw = this.route.snapshot.paramMap.get('clientId');
-    this.clientIdParam = raw !== null ? Number(raw) : undefined;
-    // 1) ensure clients are loaded into the store
-    this.store.dispatch(loadAll({}));
-    // 2) load this client’s guarantors
+    this.clientIdParam = Number(this.route.snapshot.paramMap.get('clientId'));
 
-    this.facade.loadClientGuarantorsByClientId(this.clientIdParam);
-    this.guarantors$ = this.facade.items$;
+    const clients = this.route.snapshot.data['clients'] as Client[];
+    const guarantors = this.route.snapshot.data[
+      'guarantors'
+    ] as ClientGuarantor[];
 
-    this.clientsList$ = this.store.select(selectAllClients);
+    console.log(
+      '[view] resolved clients=',
+      clients.length,
+      'guarantors=',
+      guarantors.length
+    );
+    const clientsById = new Map(
+      clients.map((c, i) => {
+        console.log('[clientsById] idx=', i, 'client=', c); // ← log c here
+        return [c.id, c] as const; // tuple
+      })
+    );
 
-    combineLatest([this.guarantors$, this.clientsList$])
-      .pipe(
-        // 1) log the raw inputs
-        tap(([guarantors, clientsList]) =>
-          console.log(
-            '⏺ combineLatest • guarantors:',
-            guarantors,
-            'clientsList:',
-            clientsList
-          )
-        ),
+    // map + log each guarantor "g"
+    const withNames = guarantors.map((g) => {
+      console.log('[guarantor]', g); // ← log g here
 
-        // 2) map in the names, no logging here
-        map(([guarantors, clientsList]) =>
-          guarantors.map((g) => ({
-            ...g,
-            guarantorName:
-              clientsList.find((c) => c.id === g.guarantorId)?.name ?? '—',
-            guarantorNameAR:
-              clientsList.find((c) => c.id === g.guarantorId)?.nameAR ?? '—',
-          }))
-        ),
+      const client = clientsById.get(g.guarantorId);
+      console.log('client', client);
+      if (!client) {
+        console.warn(
+          '[guarantor] no matching client for guarantorId=',
+          g.guarantorId,
+          'full g=',
+          g
+        );
+      }
 
-        // 3) log right after that mapping
-        tap((mapped) => console.log('📝 after map (with names):', mapped)),
+      return {
+        ...g,
+        guarantorName: client?.name ?? '—',
+        guarantorNameAR: client?.nameAR ?? '—',
+      };
+    });
+    const finalList = withNames.sort((a, b) => b.id - a.id);
 
-        // 4) filter out inactive
-        map((mapped) => mapped.filter((g) => g.isActive)),
-
-        // 5) log the filtered result
-        tap((filtered) =>
-          console.log('✅ after filter (active only):', filtered)
-        ),
-
-        // 6) sort descending by id
-        map((filtered) => filtered.sort((a, b) => b.id - a.id)),
-
-        // 7) final log
-        tap((sorted) => console.log('🔢 after sort (by id desc):', sorted)),
-
-        takeUntil(this.destroy$)
-      )
-      .subscribe((finalList) => {
-        console.log('🎯 final output:', finalList);
-        console.log('🎯 final output:', finalList);
-        this.originalGuarantors = finalList;
-        this.filteredGuarantors = [...finalList];
-      });
+    this.originalGuarantors = finalList;
+    this.filteredGuarantors = [...finalList];
   }
 
   onAddGuarantor() {

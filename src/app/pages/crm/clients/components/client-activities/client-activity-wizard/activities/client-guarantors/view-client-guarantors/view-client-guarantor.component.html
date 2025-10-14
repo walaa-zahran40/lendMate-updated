@@ -14,33 +14,31 @@
     (exportExcel)="tableRef.exportToExcel()"
     (exportPDF)="tableRef.generatePdf()"
   ></app-toolbar-table>
-  <ng-container *ngIf="guarantors$ | async as guarantors">
-    <app-table
-      [viewPermission]="[
-        '/ClientGuarantors/Get',
-        '/ClientGuarantors/GetAll',
-        '/ClientGuarantors/GetAllHistory'
-      ]"
-      [editPermission]="'/ClientGuarantors/Put'"
-      [deletePermission]="'/ClientGuarantors/Delete'"
-      #tableRef
-      (onBulkDelete)="onBulkDelete($event)"
-      [cols]="colsInside"
-      [tableData]="filteredGuarantors"
-      [side]="false"
-      [first]="first2"
-      [checkBox]="true"
-      [filters]="showFilters"
-      [uppercase]="'uppercase'"
-      [viewGuarantorTable]="true"
-      (onDelete)="onDeleteGuarantor($event)"
-      (onEdit)="onEditGuarantor($event)"
-      (viewForm)="onViewGuarantor($event)"
-    ></app-table>
-    <app-delete-module
-      [visible]="showDeleteModal"
-      (confirm)="confirmDelete()"
-      (cancel)="cancelDelete()"
-    ></app-delete-module>
-  </ng-container>
+  <app-table
+    [viewPermission]="[
+      '/ClientGuarantors/Get',
+      '/ClientGuarantors/GetAll',
+      '/ClientGuarantors/GetAllHistory'
+    ]"
+    [editPermission]="'/ClientGuarantors/Put'"
+    [deletePermission]="'/ClientGuarantors/Delete'"
+    #tableRef
+    (onBulkDelete)="onBulkDelete($event)"
+    [cols]="colsInside"
+    [tableData]="filteredGuarantors"
+    [side]="false"
+    [first]="first2"
+    [checkBox]="true"
+    [filters]="showFilters"
+    [uppercase]="'uppercase'"
+    [viewGuarantorTable]="true"
+    (onDelete)="onDeleteGuarantor($event)"
+    (onEdit)="onEditGuarantor($event)"
+    (viewForm)="onViewGuarantor($event)"
+  ></app-table>
+  <app-delete-module
+    [visible]="showDeleteModal"
+    (confirm)="confirmDelete()"
+    (cancel)="cancelDelete()"
+  ></app-delete-module>
 </div>
