@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil, filter } from 'rxjs';
 import { ClientSalesTurnoversFacade } from '../../../../../../store/client-sales-turnovers/client-sales-turnovers.facade';
 import { ClientSalesTurnover } from '../../../../../../store/client-sales-turnovers/client-sales-turnovers.model';
-import { ClientSalesTurnoverBundle } from '../../../../../../../resolvers/client-sales-turnover-bundle.resolver';
+import { ClientSalesTurnoverBundle } from '../../../../../../resolvers/client-sales-turnover-bundle.resolver';
 
 @Component({
   selector: 'app-add-client-sales-turnover',

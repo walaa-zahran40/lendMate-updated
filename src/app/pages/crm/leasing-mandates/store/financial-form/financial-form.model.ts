@@ -35,7 +35,6 @@ export interface FinancialForm {
   rentStructureTypeId?: number; // lookup key
   paymentTimingTermId?: number; // lookup key
   interestRateBenchmarkId?: number; // lookup key
-  fixedInterestRate?: number; // if fixed
   startDate?: string; // ISO string?: e.g. "2025-06-06T11?:55?:07.120Z"
   years?: number; // number of years (if relevant)
   paymentPeriodMonthCount?: any;

@@ -4,7 +4,6 @@ import { Subject, Observable, takeUntil, tap, map, forkJoin } from 'rxjs';
 import { TableComponent } from '../../../../../../../../../shared/components/table/table.component';
 import { ClientSalesTurnoversFacade } from '../../../../../../store/client-sales-turnovers/client-sales-turnovers.facade';
 import { ClientSalesTurnover } from '../../../../../../store/client-sales-turnovers/client-sales-turnovers.model';
-import { ClientSalesTurnoversListData } from '../../../../../../../resolvers/client-sales-turnovers-list.resolver';
 
 @Component({
   selector: 'app-view-sales-turnover',

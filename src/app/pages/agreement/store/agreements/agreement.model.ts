@@ -70,7 +70,6 @@ export interface LeasingAgreement extends CreateLeasingAgreementRequest {
   clientView: any;
 
   indicativeRentals: any;
-  fixedInterestRate: any;
   agreementId: any;
   allowedAgreementWorkFlowActions: any;
 }

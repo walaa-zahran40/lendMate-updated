@@ -9,7 +9,6 @@ import { Country } from '../../../../../../../../lookups/store/countries/country
 import { Governorate } from '../../../../../../../../lookups/store/governorates/governorate.model';
 import { ClientAddress } from '../../../../../../store/client-addresses/client-address.model';
 import { ClientAddressesFacade } from '../../../../../../store/client-addresses/client-addresses.facade';
-import { ClientAddressBundle } from '../../../../../../../resolvers/client-address-bundle.resolver';
 
 @Component({
   selector: 'app-add-client-address',

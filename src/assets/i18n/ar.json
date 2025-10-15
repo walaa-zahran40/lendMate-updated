@@ -308,7 +308,13 @@
     "PLACEHOLDER_CONTACT": "اختر جهة الاتصال",
     "PLACEHOLDER_OFFICER": "اختر الموظف",
     "PLACEHOLDER_PURCHASING_ORDER": "اختر أمر الشراء",
-    "BUTTON": "تنزيل"
+    "BUTTON": "تنزيل",
+    "CONTACT_PERSONS": "مسؤولو الاتصال",
+    "SELECT_CONTACT_PERSONS": "اختر مسؤولي الاتصال",
+    "CONTACT_PERSONS_REQUIRED": "يرجى اختيار مسؤول اتصال واحد على الأقل.",
+    "OFFICERS": "المسؤولون",
+    "SELECT_OFFICERS": "اختر المسؤولين",
+    "OFFICERS_REQUIRED": "يرجى اختيار مسؤول واحد على الأقل."
   },
   "CONTACT_PERSON": {
     "TITLE": "تفاصيل جهة الاتصال"

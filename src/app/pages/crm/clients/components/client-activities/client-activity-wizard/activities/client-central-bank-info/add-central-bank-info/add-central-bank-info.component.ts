@@ -6,7 +6,7 @@ import { CompanyType } from '../../../../../../../../lookups/store/company-types
 import { SMEClientCode } from '../../../../../../../../lookups/store/sme-client-codes/sme-client-code.model';
 import { ClientCentralBankInfoFacade } from '../../../../../../store/client-central-bank-info/client-central-banks.facade';
 import { ClientCentralBankInfo } from '../../../../../../store/client-central-bank-info/client-central-bank.model';
-import { ClientCentralBankInfoBundle } from '../../../../../../../resolvers/client-central-bank-info-bundle.resolver';
+import { ClientCentralBankInfoBundle } from '../../../../../../resolvers/client-central-bank-info-bundle.resolver';
 
 @Component({
   selector: 'app-add-central-bank-info',

@@ -1,5 +1,5 @@
 <div class="overlay">
-  <div class="popup">
+  <div class="popup" [formGroup]="downloadForm">
     <div class="header">
       <h3>{{ "DOWNLOAD.TITLE" | translate }}</h3>
       <button class="close-btn" (click)="onClose()">
@@ -7,8 +7,63 @@
       </button>
     </div>
 
-    <div class="actions">
-      <button class="btn btn-primary w-100" (click)="onDownload()">
+    <!-- NEW: fields -->
+    <div class="fields p-2">
+      <!-- Contact Persons -->
+      <label class="d-block mb-1">
+        {{ "DOWNLOAD.CONTACT_PERSONS" | translate }} <sup>*</sup>
+      </label>
+      <p-select
+        [options]="contactPersons || []"
+        formControlName="contactPersons"
+        [optionLabel]="optionLabelKey"
+        optionValue="id"
+        [filter]="true"
+        [showClear]="true"
+        styleClass="w-100"
+        [placeholder]="'DOWNLOAD.SELECT_CONTACT_PERSONS' | translate"
+      ></p-select>
+      <small
+        class="p-error d-block mt-1"
+        *ngIf="
+          downloadForm.get('contactPersons')?.invalid &&
+          downloadForm.get('contactPersons')?.touched
+        "
+      >
+        {{ "DOWNLOAD.CONTACT_PERSONS_REQUIRED" | translate }}
+      </small>
+
+      <!-- Officers -->
+      <label class="d-block mt-3 mb-1">
+        {{ "DOWNLOAD.OFFICERS" | translate }} <sup>*</sup>
+      </label>
+      <p-select
+        [options]="officers || []"
+        formControlName="officers"
+        [optionLabel]="optionLabelKey"
+        optionValue="id"
+        [filter]="true"
+        [showClear]="true"
+        styleClass="w-100"
+        [placeholder]="'DOWNLOAD.SELECT_OFFICERS' | translate"
+      ></p-select>
+      <small
+        class="p-error d-block mt-1"
+        *ngIf="
+          downloadForm.get('officers')?.invalid &&
+          downloadForm.get('officers')?.touched
+        "
+      >
+        {{ "DOWNLOAD.OFFICERS_REQUIRED" | translate }}
+      </small>
+    </div>
+
+    <div class="actions mt-4">
+      <button
+        class="btn btn-primary w-100"
+        (click)="onDownload()"
+        [disabled]="downloadForm.invalid || !leasingMandates.length"
+      >
         {{ "DOWNLOAD.BUTTON" | translate }}
       </button>
     </div>

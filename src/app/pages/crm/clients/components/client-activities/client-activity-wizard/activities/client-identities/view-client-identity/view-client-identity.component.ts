@@ -14,7 +14,7 @@ import { ClientIdentitiesFacade } from '../../../../../../store/client-identitie
 import { ClientIdentity } from '../../../../../../store/client-identities/client-identity.model';
 import { IdentificationTypesFacade } from '../../../../../../../../lookups/store/identification-types/identification-types.facade';
 import { IdentificationType } from '../../../../../../../../lookups/store/identification-types/identification-type.model';
-import { ClientIdentitiesListData } from '../../../../../../../resolvers/client-identities-list.resolver';
+import { ClientIdentitiesListData } from '../../../../../../resolvers/client-identities-list.resolver';
 
 @Component({
   selector: 'app-view-client-identity',

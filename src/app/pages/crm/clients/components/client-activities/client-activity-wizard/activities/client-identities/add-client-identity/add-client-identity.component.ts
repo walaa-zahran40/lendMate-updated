@@ -1,11 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject, takeUntil, filter, of } from 'rxjs';
+import { Subject, of } from 'rxjs';
 import { ClientIdentitiesFacade } from '../../../../../../store/client-identities/client-identities.facade';
 import { ClientIdentity } from '../../../../../../store/client-identities/client-identity.model';
-import { IdentificationTypesFacade } from '../../../../../../../../lookups/store/identification-types/identification-types.facade';
-import { ClientIdentityBundle } from '../../../../../../../resolvers/client-identity-bundle.resolver';
+import { ClientIdentityBundle } from '../../../../../../resolvers/client-identity-bundle.resolver';
 
 @Component({
   selector: 'app-add-client-identity',
@@ -32,7 +31,6 @@ export class AddClientIdentityComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private clientIdentityFacade: ClientIdentitiesFacade,
-    private identificationTypesFacade: IdentificationTypesFacade,
     private router: Router
   ) {}
 

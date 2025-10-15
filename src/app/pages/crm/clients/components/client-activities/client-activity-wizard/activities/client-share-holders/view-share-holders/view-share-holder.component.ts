@@ -12,11 +12,9 @@ import {
 } from 'rxjs';
 import { TableComponent } from '../../../../../../../../../shared/components/table/table.component';
 import { Client } from '../../../../../../store/_clients/allclients/client.model';
-import { selectAllClients } from '../../../../../../store/_clients/allclients/clients.selectors';
-import { loadAll } from '../../../../../../store/client-identity-types/client-identity-types.actions';
 import { ClientShareHoldersFacade } from '../../../../../../store/client-share-holders/client-share-holders.facade';
 import { ClientShareHolder } from '../../../../../../store/client-share-holders/client-share-holder.model';
-import { ClientShareHoldersListData } from '../../../../../../../resolvers/client-share-holders-list.resolver';
+import { ClientShareHoldersListData } from '../../../../../../resolvers/client-share-holders-list.resolver';
 
 @Component({
   selector: 'app-view-share-holder',

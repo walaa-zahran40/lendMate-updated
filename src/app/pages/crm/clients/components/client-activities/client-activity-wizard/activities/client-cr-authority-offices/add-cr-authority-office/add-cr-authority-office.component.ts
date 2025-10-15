@@ -1,14 +1,11 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { Observable, Subject, takeUntil, filter } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { AuthorityOffice } from '../../../../../../../../lookups/store/authority-offices/authority-office.model';
-import { selectAllAuthorityOffices } from '../../../../../../../../lookups/store/authority-offices/authority-offices.selectors';
 import { ClientCRAuthorityOfficesFacade } from '../../../../../../store/client-cr-authority-office/client-cr-authority-office.facade';
 import { ClientCRAuthorityOffice } from '../../../../../../store/client-cr-authority-office/client-cr-authority-office.model';
-import { loadAll as loadAllAuthorityOffice } from '../../../../../../../../lookups/store/authority-offices/authority-offices.actions';
-import { ClientCRAuthorityOfficeBundle } from '../../../../../../../resolvers/client-cr-authority-office-bundle.resolver';
+import { ClientCRAuthorityOfficeBundle } from '../../../../../../resolvers/client-cr-authority-office-bundle.resolver';
 
 @Component({
   selector: 'app-add-cr-authority-office',
@@ -31,8 +28,7 @@ export class AddClientCRAuthorityOfficesComponent {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private facade: ClientCRAuthorityOfficesFacade,
-    private router: Router,
-    private store: Store
+    private router: Router
   ) {}
 
   ngOnInit(): void {

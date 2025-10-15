@@ -1,24 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Store } from '@ngrx/store';
-import {
-  Subject,
-  Observable,
-  combineLatest,
-  map,
-  takeUntil,
-  forkJoin,
-} from 'rxjs';
+import { Subject, Observable, map, takeUntil, forkJoin } from 'rxjs';
 import { TableComponent } from '../../../../../../../../../shared/components/table/table.component';
 import { CompanyType } from '../../../../../../../../lookups/store/company-types/company-type.model';
-import { CompanyTypesFacade } from '../../../../../../../../lookups/store/company-types/company-types.facade';
-import { selectAllCompanyTypes } from '../../../../../../../../lookups/store/company-types/company-types.selectors';
-import { SMEClientCodesFacade } from '../../../../../../../../lookups/store/sme-client-codes/sme-client-codes.facade';
 import { SMEClientCode } from '../../../../../../../../lookups/store/sme-client-codes/sme-client-code.model';
-import { selectAllSMEClientCodes } from '../../../../../../../../lookups/store/sme-client-codes/sme-client-codes.selectors';
 import { ClientCentralBankInfoFacade } from '../../../../../../store/client-central-bank-info/client-central-banks.facade';
 import { ClientCentralBankInfo } from '../../../../../../store/client-central-bank-info/client-central-bank.model';
-import { ClientCentralBankInfoListData } from '../../../../../../../resolvers/client-central-bank-info-list.resolver';
+import { ClientCentralBankInfoListData } from '../../../../../../resolvers/client-central-bank-info-list.resolver';
 
 @Component({
   selector: 'app-view-central-bank-info',
@@ -53,10 +41,7 @@ export class ViewClientCentralBankInfoComponent {
   constructor(
     private router: Router,
     private facade: ClientCentralBankInfoFacade,
-    private companyTypesFacade: CompanyTypesFacade,
-    private smeClientCodesFacade: SMEClientCodesFacade,
-    private route: ActivatedRoute,
-    private store: Store
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {

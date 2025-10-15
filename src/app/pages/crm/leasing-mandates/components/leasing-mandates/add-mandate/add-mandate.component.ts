@@ -179,20 +179,18 @@ export class AddMandateComponent {
     private actions$: Actions
   ) {}
   ngOnInit() {
-    console.log('show', this.show);
-    if (!this.clientId || (!this.clientId && this.editMode)) {
-      console.log("there isn't a client id");
-      this.show = true;
-    } else {
-      console.log('there is a client id');
-      this.show = false;
-    }
-
-    //Build all sub-forms
+    // ✅ FIRST: read resolver flags to lock client context + visibility
+    const flags = this.route.snapshot.data['flags'] as {
+      hasClientInRoute: boolean;
+      clientId?: number;
+    };
+    this.clientId = flags?.clientId ?? this.clientId;
+    this.show = !flags?.hasClientInRoute; // true -> show client dropdown
+    // 1) Build all sub-forms (you already do this)
     this.buildMandateShowBasicForm();
     this.buildMandateShowAssetTypeForm();
     this.buildMandateShowFeeForm();
-    //Build the three sub-forms
+    // 2) Build Step-4 forms (you already do this)
     this.initializeLeasingFinancialBasicForm();
     this.initializeLeasingFinancialRatesForm();
     this.initializeLeasingFinancialCurrencyForm();
@@ -200,7 +198,7 @@ export class AddMandateComponent {
     console.log('Rate', this.leasingFinancialRateForm);
     console.log('Currency', this.leasingFinancialCurrencyForm);
 
-    //Create the parent form
+    // 3) Create the parent form (you already do this)
     this.parentForm = this.fb.group({
       basic: this.addMandateShowBasicForm,
       assets: this.addMandateShowAssetTypeForm,
@@ -212,6 +210,22 @@ export class AddMandateComponent {
         currency: this.leasingFinancialCurrencyForm,
       }),
     });
+    // ✅ 4) ⬇️ INSERT THE RESOLVER PATCH **RIGHT HERE** ⬇️
+    const resolvedMandate = this.route.snapshot.data['mandate'];
+    if (resolvedMandate) {
+      this.patchMandate(this.normalizeMandate(resolvedMandate));
+    }
+
+    const resolvedFinancial = this.route.snapshot.data['financialForm'];
+    if (
+      resolvedFinancial?.payments?.length &&
+      !this.originalFinancialForms?.length
+    ) {
+      this.tableDataInside = [...resolvedFinancial.payments];
+      this.originalFinancialForms = [...resolvedFinancial.payments];
+      this.filteredFinancialForms = [...resolvedFinancial.payments];
+    }
+    // ✅ 4) ⬆️ END OF INSERT ⬆️
 
     //All your other setup (lookups, route handling, patching…)
     //no early returns that skip the clientId subscription
@@ -725,7 +739,6 @@ export class AddMandateComponent {
           interestRate: m.interestRate ?? null,
           insuranceRate: m.insuranceRate ?? null,
           tenor: m.tenor ?? null,
-          fixedInterestRate: m.fixedInterestRate ?? null,
         },
         { emitEvent: false }
       );
@@ -1621,7 +1634,6 @@ export class AddMandateComponent {
       paymentPeriodMonthCount: [null],
       gracePeriodInDays: [null, Validators.required],
       periodInterestRate: [{ value: null, disabled: true }],
-      fixedInterestRate: [null, Validators.required],
     });
   }
   private initializeLeasingFinancialCurrencyForm() {

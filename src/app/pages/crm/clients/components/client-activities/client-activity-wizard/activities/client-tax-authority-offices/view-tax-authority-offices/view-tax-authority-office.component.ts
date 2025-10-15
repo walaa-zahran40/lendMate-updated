@@ -15,7 +15,7 @@ import { selectAllTaxOffices } from '../../../../../../../../lookups/store/tax-o
 import { loadAll } from '../../../../../../store/client-identity-types/client-identity-types.actions';
 import { ClientTaxOfficesFacade } from '../../../../../../store/client-tax-office/client-tax-offices.facade';
 import { ClientTaxOffice } from '../../../../../../store/client-tax-office/client-tax-office.model';
-import { ClientTaxOfficesListData } from '../../../../../../../resolvers/client-tax-offices-list.resolver';
+import { ClientTaxOfficesListData } from '../../../../../../resolvers/client-tax-offices-list.resolver';
 
 @Component({
   selector: 'app-view-tax-authority-office',

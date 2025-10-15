@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, of } from 'rxjs';
 import { ClientPhoneNumbersFacade } from '../../../../../../store/client-phone-numbers/client-phone-numbers.facade';
-import { ClientPhoneNumberBundle } from '../../../../../../../resolvers/client-phone-number-bundle.resolver';
+import { ClientPhoneNumberBundle } from '../../../../../../resolvers/client-phone-number-bundle.resolver';
 
 @Component({
   selector: 'app-add-phone-number',

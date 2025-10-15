@@ -23,7 +23,6 @@ export interface Mandate {
   moreInfo?: any;
   nfa?: number;
   interestRate: number;
-  fixedInterestRate: number;
   insuranceRate: number;
   tenor?: number;
   paymentPeriodId?: number;

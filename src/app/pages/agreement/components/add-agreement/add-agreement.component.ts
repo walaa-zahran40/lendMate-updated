@@ -806,7 +806,6 @@ export class AddAgreementComponent {
           ),
           interestRate: m.interestRate,
           insuranceRate: m.insuranceRate,
-          fixedInterestRate: m.fixedInterestRate,
           tenor: m.tenor,
         },
         { emitEvent: false }
@@ -1754,7 +1753,6 @@ export class AddAgreementComponent {
       paymentPeriodMonthCount: [null],
       gracePeriodInDays: [null, Validators.required],
       periodInterestRate: [{ value: null, disabled: true }],
-      fixedInterestRate: [null, Validators.required],
     });
   }
   private initializeLeasingFinancialCurrencyForm() {

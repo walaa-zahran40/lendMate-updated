@@ -1,20 +1,12 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import {
-  Subject,
-  Observable,
-  combineLatest,
-  of,
-  map,
-  takeUntil,
-  forkJoin,
-} from 'rxjs';
+import { Subject, Observable, combineLatest, of, map, takeUntil } from 'rxjs';
 import { TableComponent } from '../../../../../../../../../shared/components/table/table.component';
 import { PhoneType } from '../../../../../../../../lookups/store/phone-types/phone-type.model';
 import { PhoneTypesFacade } from '../../../../../../../../lookups/store/phone-types/phone-types.facade';
 import { ClientPhoneNumber } from '../../../../../../store/client-phone-numbers/client-phone-number.model';
 import { ClientPhoneNumbersFacade } from '../../../../../../store/client-phone-numbers/client-phone-numbers.facade';
-import { ClientPhoneNumbersListData } from '../../../../../../../resolvers/client-phone-numbers-list.resolver';
+import { ClientPhoneNumbersListData } from '../../../../../../resolvers/client-phone-numbers-list.resolver';
 
 @Component({
   selector: 'app-view-phone-number',

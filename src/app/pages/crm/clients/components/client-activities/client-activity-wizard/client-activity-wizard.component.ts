@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { WizardData } from '../../../../resolvers/client-activity-wizard.resolver';
+import { WizardData } from '../../../resolvers/client-activity-wizard.resolver';
 
 @Component({
   selector: 'app-client-activity-wizard',

@@ -1,6 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Store } from '@ngrx/store';
 import {
   Subject,
   Observable,
@@ -12,11 +11,9 @@ import {
 } from 'rxjs';
 import { TableComponent } from '../../../../../../../../../shared/components/table/table.component';
 import { AuthorityOffice } from '../../../../../../../../lookups/store/authority-offices/authority-office.model';
-import { selectAllAuthorityOffices } from '../../../../../../../../lookups/store/authority-offices/authority-offices.selectors';
 import { ClientCRAuthorityOfficesFacade } from '../../../../../../store/client-cr-authority-office/client-cr-authority-office.facade';
 import { ClientCRAuthorityOffice } from '../../../../../../store/client-cr-authority-office/client-cr-authority-office.model';
-import { loadAll as loadAllAuthorityOffice } from '../../../../../../../../lookups/store/authority-offices/authority-offices.actions';
-import { ClientCRAuthorityOfficesListData } from '../../../../../../../resolvers/client-cr-authority-offices-list.resolver';
+import { ClientCRAuthorityOfficesListData } from '../../../../../../resolvers/client-cr-authority-offices-list.resolver';
 
 @Component({
   selector: 'app-view-cr-authority-office',
@@ -49,8 +46,7 @@ export class ViewCRAuthorityOfficesComponent {
   constructor(
     private router: Router,
     private facade: ClientCRAuthorityOfficesFacade,
-    private route: ActivatedRoute,
-    private store: Store
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {

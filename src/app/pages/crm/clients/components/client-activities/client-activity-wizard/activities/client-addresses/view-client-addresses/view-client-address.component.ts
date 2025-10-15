@@ -5,7 +5,7 @@ import { TableComponent } from '../../../../../../../../../shared/components/tab
 import { Area } from '../../../../../../../../lookups/store/areas/area.model';
 import { ClientAddress } from '../../../../../../store/client-addresses/client-address.model';
 import { ClientAddressesFacade } from '../../../../../../store/client-addresses/client-addresses.facade';
-import { ClientAddressesListData } from '../../../../../../../resolvers/client-addresses-list.resolver';
+import { ClientAddressesListData } from '../../../../../../resolvers/client-addresses-list.resolver';
 
 @Component({
   selector: 'app-view-client-address',

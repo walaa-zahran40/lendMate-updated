@@ -1,15 +1,11 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { Observable, Subject, takeUntil, filter } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { TaxOffice } from '../../../../../../../../lookups/store/tax-offices/tax-office.model';
-import { selectAllTaxOffices } from '../../../../../../../../lookups/store/tax-offices/tax-offices.selectors';
-import { loadAll } from '../../../../../../store/client-identity-types/client-identity-types.actions';
 import { ClientTaxOfficesFacade } from '../../../../../../store/client-tax-office/client-tax-offices.facade';
 import { ClientTaxOffice } from '../../../../../../store/client-tax-office/client-tax-office.model';
-import { TaxOfficesFacade } from '../../../../../../../../lookups/store/tax-offices/tax-offices.facade';
-import { ClientTaxOfficeBundle } from '../../../../../../../resolvers/client-tax-office-bundle.resolver';
+import { ClientTaxOfficeBundle } from '../../../../../../resolvers/client-tax-office-bundle.resolver';
 
 @Component({
   selector: 'app-add-tax-authority-office',
@@ -32,9 +28,7 @@ export class AddClientTaxAuthorityOfficesComponent {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private facade: ClientTaxOfficesFacade,
-    private taxOfficesFacade: TaxOfficesFacade,
-    private router: Router,
-    private store: Store
+    private router: Router
   ) {}
 
   ngOnInit(): void {

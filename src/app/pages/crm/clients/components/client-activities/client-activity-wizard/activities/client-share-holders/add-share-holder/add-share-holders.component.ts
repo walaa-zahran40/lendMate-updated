@@ -2,13 +2,11 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, Subject, takeUntil, filter, of } from 'rxjs';
+import { Observable, Subject, of } from 'rxjs';
 import { Client } from '../../../../../../store/_clients/allclients/client.model';
-import { selectAllClients } from '../../../../../../store/_clients/allclients/clients.selectors';
-import { loadAll } from '../../../../../../store/client-identity-types/client-identity-types.actions';
 import { ClientShareHoldersFacade } from '../../../../../../store/client-share-holders/client-share-holders.facade';
 import { ClientShareHolder } from '../../../../../../store/client-share-holders/client-share-holder.model';
-import { ClientShareHoldersBundle } from '../../../../../../../resolvers/client-share-holders-bundle.resolver';
+import { ClientShareHoldersBundle } from '../../../../../../resolvers/client-share-holders-bundle.resolver';
 
 @Component({
   selector: 'app-add-share-holders',

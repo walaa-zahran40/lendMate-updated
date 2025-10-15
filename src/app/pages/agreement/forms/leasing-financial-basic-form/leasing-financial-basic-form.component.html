@@ -231,31 +231,6 @@
       </div>
       <div class="row w-100">
         <div class="col-sm">
-          <label for="fixedInterestRate"
-            >{{ "LEASE.FIXED_INTEREST_RATE" | translate }}<sup>*</sup></label
-          ><br />
-          <p-inputNumber
-            formControlName="fixedInterestRate"
-            [placeholder]="'LEASE.FIXED_INTEREST_RATE' | translate"
-            suffix="%"
-            class="w-100"
-            mode="decimal"
-            [min]="0"
-            [minFractionDigits]="2"
-            [maxFractionDigits]="2"
-          ></p-inputNumber
-          ><br />
-          <small
-            *ngIf="
-              formGroup.get('fixedInterestRate')?.invalid &&
-              formGroup.get('fixedInterestRate')?.touched
-            "
-            class="p-error"
-          >
-            {{ "LEASE.FIXED_INTEREST_RATE_REQUIRED" | translate }}
-          </small>
-        </div>
-        <div class="col-sm">
           <label for="paymentPeriodId"
             >{{ "LEASE.PAYMENT_PERIOD" | translate }}<sup>*</sup></label
           >
@@ -283,8 +258,6 @@
             {{ "LEASE.PAYMENT_PERIOD_REQUIRED" | translate }}
           </small>
         </div>
-      </div>
-      <div class="row w-100">
         <div class="col-sm">
           <label for="gracePeriodInDays" class="label-container"
             >{{ "FORM.MANDATE.LABEL_GRACE_PERIOD_DAYS" | translate
@@ -310,6 +283,8 @@
             {{ "FORM.MANDATE.ERROR_GRACE_PERIOD_DAYS_REQUIRED" | translate }}
           </small>
         </div>
+      </div>
+      <div class="row w-100">
         <div class="col-sm">
           <div class="col-sm">
             <label for="tenor"

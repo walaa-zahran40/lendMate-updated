@@ -5,7 +5,7 @@ import { MessageService } from 'primeng/api';
 import { DocType } from '../../../../../../../../lookups/store/doc-types/doc-type.model';
 import { ClientFile } from '../../../../../../store/client-file/client-file.model';
 import { ClientFilesFacade } from '../../../../../../store/client-file/client-files.facade';
-import { UploadDocBundle } from '../../../../../../../resolvers/upload-document.resolver';
+import { UploadDocBundle } from '../../../../../../resolvers/upload-document.resolver';
 
 @Component({
   selector: 'app-add-upload-documents',

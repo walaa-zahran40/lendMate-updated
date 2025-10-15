@@ -315,7 +315,13 @@
     "PLACEHOLDER_CONTACT": "Choose Contact Person",
     "PLACEHOLDER_OFFICER": "Choose Officer",
     "PLACEHOLDER_PURCHASING_ORDER": "Choose Purchasing Order",
-    "BUTTON": "Download"
+    "BUTTON": "Download",
+    "CONTACT_PERSONS": "Contact persons",
+    "SELECT_CONTACT_PERSONS": "Select contact persons",
+    "CONTACT_PERSONS_REQUIRED": "Please choose at least one contact person.",
+    "OFFICERS": "Officers",
+    "SELECT_OFFICERS": "Select officers",
+    "OFFICERS_REQUIRED": "Please choose at least one officer."
   },
   "CONTACT_PERSON": {
     "TITLE": "Contact Person Details"

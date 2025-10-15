@@ -726,7 +726,6 @@ export class AddChildMandateComponent {
           interestRate: m.interestRate ?? null,
           insuranceRate: m.insuranceRate ?? null,
           tenor: m.tenor ?? null,
-          fixedInterestRate: m.fixedInterestRate ?? null,
         },
         { emitEvent: false }
       );
@@ -1707,7 +1706,6 @@ export class AddChildMandateComponent {
       paymentPeriodMonthCount: [null],
       gracePeriodInDays: [null, Validators.required],
       periodInterestRate: [{ value: null, disabled: true }],
-      fixedInterestRate: [null, Validators.required],
     });
   }
   private initializeLeasingFinancialCurrencyForm() {

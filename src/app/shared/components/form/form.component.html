@@ -6948,28 +6948,28 @@ icon="pi pi-cog"
       </div>
       <div class="row w-100">
         <div class="col-sm">
-          <label for="fixedInterestRate"
-            >{{ "LEASE.FIXED_INTEREST_RATE" | translate }}<sup>*</sup></label
-          ><br />
-          <p-inputNumber
-            formControlName="fixedInterestRate"
-            [placeholder]="'LEASE.FIXED_INTEREST_RATE' | translate"
-            suffix="%"
-            class="w-100"
-            mode="decimal"
-            [min]="0"
-            [minFractionDigits]="2"
-            [maxFractionDigits]="2"
-          ></p-inputNumber
-          ><br />
-          <small
-            *ngIf="
-              formGroup.get('fixedInterestRate')?.invalid &&
-              formGroup.get('fixedInterestRate')?.touched
-            "
-            class="p-error"
+          <label for="gracePeriodInDays" class="label-container"
+            >{{ "FORM.MANDATE.LABEL_GRACE_PERIOD_DAYS" | translate
+            }}<sup>*</sup></label
           >
-            {{ "LEASE.FIXED_INTEREST_RATE_REQUIRED" | translate }}
+
+          <input
+            type="number"
+            formControlName="gracePeriodInDays"
+            placeholder="{{
+              'FORM.MANDATE.PLACEHOLDER_GRACE_PERIOD_DAYS' | translate
+            }}"
+            pInputText
+          />
+
+          <small
+            class="p-error d-block"
+            *ngIf="
+              formGroup.get('gracePeriodInDays')?.invalid &&
+              formGroup.get('gracePeriodInDays')?.touched
+            "
+          >
+            {{ "FORM.MANDATE.ERROR_GRACE_PERIOD_DAYS_REQUIRED" | translate }}
           </small>
         </div>
         <div class="col-sm">
@@ -7002,31 +7002,6 @@ icon="pi pi-cog"
         </div>
       </div>
       <div class="row w-100">
-        <div class="col-sm">
-          <label for="gracePeriodInDays" class="label-container"
-            >{{ "FORM.MANDATE.LABEL_GRACE_PERIOD_DAYS" | translate
-            }}<sup>*</sup></label
-          >
-
-          <input
-            type="number"
-            formControlName="gracePeriodInDays"
-            placeholder="{{
-              'FORM.MANDATE.PLACEHOLDER_GRACE_PERIOD_DAYS' | translate
-            }}"
-            pInputText
-          />
-
-          <small
-            class="p-error d-block"
-            *ngIf="
-              formGroup.get('gracePeriodInDays')?.invalid &&
-              formGroup.get('gracePeriodInDays')?.touched
-            "
-          >
-            {{ "FORM.MANDATE.ERROR_GRACE_PERIOD_DAYS_REQUIRED" | translate }}
-          </small>
-        </div>
         <div class="col-sm">
           <div class="col-sm">
             <label for="tenor"

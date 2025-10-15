@@ -46,40 +46,49 @@ import { AddMandateOfficerComponent } from './leasing-mandates/components/mandat
 import { ViewMandateOfficersComponent } from './leasing-mandates/components/mandate-activities/mandate-officers/view-mandate-officers/view-mandate-officers.component';
 import { AddMandateContactPersonComponent } from './leasing-mandates/components/mandate-activities/mandate-contact-persons/add-mandate-contact-person/add-mandate-contact-person.component';
 import { ViewMandateContactPersonsComponent } from './leasing-mandates/components/mandate-activities/mandate-contact-persons/view-mandate-contact-persons/view-mandate-contact-persons.component';
-import { clientOnboardingResolver } from './resolvers/client-onboarding.resolver';
-import { individualOnboardingResolver } from './resolvers/individual-onboarding.resolver';
-import { clientResolver } from './resolvers/client.resolver';
-import { individualResolver } from './resolvers/individual.resolver';
-import { clientActivityWizardResolver } from './resolvers/client-activity-wizard.resolver';
-import { uploadDocumentResolver } from './resolvers/upload-document.resolver';
-import { docTypesResolver } from './resolvers/doc-types.resolver';
-import { clientAddressBundleResolver } from './resolvers/client-address-bundle.resolver';
-import { clientAddressesListResolver } from './resolvers/client-addresses-list.resolver';
-import { clientSalesTurnoverListResolver } from './resolvers/client-sales-turnovers-list.resolver';
-import { clientSalesTurnoverBundleResolver } from './resolvers/client-sales-turnover-bundle.resolver';
-import { clientPhoneNumberBundleResolver } from './resolvers/client-phone-number-bundle.resolver';
-import { clientPhoneNumbersListResolver } from './resolvers/client-phone-numbers-list.resolver';
-import { ClientIdentitiesListResolver } from './resolvers/client-identities-list.resolver';
-import { ClientIdentityBundleResolver } from './resolvers/client-identity-bundle.resolver';
-import { ClientCRAuthorityOfficeBundleResolver } from './resolvers/client-cr-authority-office-bundle.resolver';
-import { ClientCRAuthorityOfficesListResolver } from './resolvers/client-cr-authority-offices-list.resolver';
-import { ClientTaxOfficeBundleResolver } from './resolvers/client-tax-office-bundle.resolver';
-import { ClientTaxOfficesListResolver } from './resolvers/client-tax-offices-list.resolver';
-import { ClientCentralBankInfoBundleResolver } from './resolvers/client-central-bank-info-bundle.resolver';
-import { ClientCentralBankInfoListResolver } from './resolvers/client-central-bank-info-list.resolver';
-import { ClientShareHoldersBundleResolver } from './resolvers/client-share-holders-bundle.resolver';
-import { ClientShareHoldersListResolver } from './resolvers/client-share-holders-list.resolver';
-import { ClientTMLOfficersBundleResolver } from './resolvers/client-tml-officers-bundle.resolver';
-import { ClientTMLOfficersListResolver } from './resolvers/client-tml-officers-list.resolver';
-import { ClientOfficersBundleResolver } from './resolvers/client-officers-bundle.resolver';
-import { ClientOfficersListResolver } from './resolvers/client-officers-list.resolver';
-import { ClientLegalsBundleResolver } from './resolvers/client-legals-bundle.resolver';
-import { ClientLegalsListResolver } from './resolvers/client-legals-list.resolver';
-import { ContactPersonsBundleResolver } from './resolvers/contact-persons-bundle.resolver';
-import { ContactPersonsListResolver } from './resolvers/contact-persons-list.resolver';
-import { clientGuarantorResolver } from './resolvers/client-guarantor.resolver';
-import { clientGuarantorsByClientResolver } from './resolvers/client-guarantors-by-client.resolver';
-import { clientsLookupResolver } from './resolvers/clients-lookup.resolver';
+import {
+  AllLookupsResolver,
+  MandatesListResolver,
+  ClientPresenceFlagResolver,
+  AllLookupsExceptClientsResolver,
+  MandatesByClientResolver,
+  MandateDetailResolver,
+  FinancialFormByMandateResolver,
+} from './leasing-mandates/resolvers';
+import { clientActivityWizardResolver } from './clients/resolvers/client-activity-wizard.resolver';
+import { clientAddressBundleResolver } from './clients/resolvers/client-address-bundle.resolver';
+import { clientAddressesListResolver } from './clients/resolvers/client-addresses-list.resolver';
+import { ClientCentralBankInfoBundleResolver } from './clients/resolvers/client-central-bank-info-bundle.resolver';
+import { ClientCentralBankInfoListResolver } from './clients/resolvers/client-central-bank-info-list.resolver';
+import { ClientCRAuthorityOfficeBundleResolver } from './clients/resolvers/client-cr-authority-office-bundle.resolver';
+import { ClientCRAuthorityOfficesListResolver } from './clients/resolvers/client-cr-authority-offices-list.resolver';
+import { clientGuarantorResolver } from './clients/resolvers/client-guarantor.resolver';
+import { clientGuarantorsByClientResolver } from './clients/resolvers/client-guarantors-by-client.resolver';
+import { ClientIdentitiesListResolver } from './clients/resolvers/client-identities-list.resolver';
+import { ClientIdentityBundleResolver } from './clients/resolvers/client-identity-bundle.resolver';
+import { ClientLegalsBundleResolver } from './clients/resolvers/client-legals-bundle.resolver';
+import { ClientLegalsListResolver } from './clients/resolvers/client-legals-list.resolver';
+import { ClientOfficersBundleResolver } from './clients/resolvers/client-officers-bundle.resolver';
+import { ClientOfficersListResolver } from './clients/resolvers/client-officers-list.resolver';
+import { clientOnboardingResolver } from './clients/resolvers/client-onboarding.resolver';
+import { clientPhoneNumberBundleResolver } from './clients/resolvers/client-phone-number-bundle.resolver';
+import { clientPhoneNumbersListResolver } from './clients/resolvers/client-phone-numbers-list.resolver';
+import { clientSalesTurnoverBundleResolver } from './clients/resolvers/client-sales-turnover-bundle.resolver';
+import { clientSalesTurnoverListResolver } from './clients/resolvers/client-sales-turnovers-list.resolver';
+import { ClientShareHoldersBundleResolver } from './clients/resolvers/client-share-holders-bundle.resolver';
+import { ClientShareHoldersListResolver } from './clients/resolvers/client-share-holders-list.resolver';
+import { ClientTaxOfficeBundleResolver } from './clients/resolvers/client-tax-office-bundle.resolver';
+import { ClientTaxOfficesListResolver } from './clients/resolvers/client-tax-offices-list.resolver';
+import { ClientTMLOfficersBundleResolver } from './clients/resolvers/client-tml-officers-bundle.resolver';
+import { ClientTMLOfficersListResolver } from './clients/resolvers/client-tml-officers-list.resolver';
+import { clientResolver } from './clients/resolvers/client.resolver';
+import { clientsLookupResolver } from './clients/resolvers/clients-lookup.resolver';
+import { ContactPersonsBundleResolver } from './clients/resolvers/contact-persons-bundle.resolver';
+import { ContactPersonsListResolver } from './clients/resolvers/contact-persons-list.resolver';
+import { docTypesResolver } from './clients/resolvers/doc-types.resolver';
+import { individualOnboardingResolver } from './clients/resolvers/individual-onboarding.resolver';
+import { individualResolver } from './clients/resolvers/individual.resolver';
+import { uploadDocumentResolver } from './clients/resolvers/upload-document.resolver';
 
 const routes: Routes = [
   /*Clients , Client Onboarding Routing*/
@@ -445,36 +454,88 @@ const routes: Routes = [
   },
   //=====================================\\
   /*Leasing Mandates Routing*/
+  // View list (no client context)
   {
     path: 'leasing-mandates/view-mandates',
     component: ViewMandatesComponent,
+    resolve: {
+      // preload everything needed for table filters/labels
+      lookups: AllLookupsResolver,
+      // make sure the table data exists
+      mandates: MandatesListResolver,
+      // helper flag for client select visibility in child nav actions
+      flags: ClientPresenceFlagResolver,
+    },
   },
+
+  // View list for a specific client
   {
     path: 'leasing-mandates/view-mandates/:clientId',
     component: ViewMandatesComponent,
+    resolve: {
+      // same lookups, but we don’t need clients list in this route
+      lookups: AllLookupsExceptClientsResolver,
+      mandates: MandatesByClientResolver,
+      flags: ClientPresenceFlagResolver,
+    },
   },
+
+  // (optional) View list but with a focused row (e.g., deep-link)
   {
     path: 'leasing-mandates/view-mandates/:clientId/:leasingId',
     component: ViewMandatesComponent,
+    resolve: {
+      lookups: AllLookupsExceptClientsResolver,
+      mandates: MandatesByClientResolver,
+      mandate: MandateDetailResolver,
+      flags: ClientPresenceFlagResolver,
+    },
   },
+
+  // Create (no client in route → show client selector)
   {
     path: 'leasing-mandates/add-mandate',
     component: AddMandateComponent,
+    resolve: {
+      lookups: AllLookupsResolver, // includes clients list
+      flags: ClientPresenceFlagResolver, // { hasClientInRoute:false }
+    },
   },
+
+  // Create under client (client fixed → hide client selector)
   {
     path: 'leasing-mandates/add-mandate/:clientId',
     component: AddMandateComponent,
+    resolve: {
+      lookups: AllLookupsExceptClientsResolver, // client is fixed by route
+      flags: ClientPresenceFlagResolver, // { hasClientInRoute:true, clientId }
+    },
   },
 
+  // Edit (no client in route)
   {
     path: 'leasing-mandates/edit-mandate/:leasingId',
     component: AddMandateComponent,
     canDeactivate: [PendingChangesGuard],
+    resolve: {
+      lookups: AllLookupsResolver, // safe to include clients list
+      mandate: MandateDetailResolver, // mandate body
+      financialForm: FinancialFormByMandateResolver, // step 4 payments
+      flags: ClientPresenceFlagResolver,
+    },
   },
+
+  // Edit under client (client fixed by route)
   {
     path: 'leasing-mandates/edit-mandate/:leasingId/:clientId',
     component: AddMandateComponent,
     canDeactivate: [PendingChangesGuard],
+    resolve: {
+      lookups: AllLookupsExceptClientsResolver, // no client dropdown needed
+      mandate: MandateDetailResolver,
+      financialForm: FinancialFormByMandateResolver,
+      flags: ClientPresenceFlagResolver, // { hasClientInRoute:true, clientId }
+    },
   },
 
   //Mandate Activities
