@@ -87,8 +87,8 @@ export class WizardComponent implements OnInit {
         title: 'MANDATE.WORKFLOW_HISTORY',
         content: 'MANDATE.WORKFLOW_HISTORY_DESC',
         link: !this.clientId
-          ? `/crm/leasing-mandates/view-mandate-workflow-history/${id}/${this.routeId}`
-          : `/crm/leasing-mandates/view-mandate-workflow-history/${id}/${this.routeId}/${this.clientId}`,
+          ? `/crm/leasing-mandates/view-mandate-work-flow-history/${id}/${this.routeId}`
+          : `/crm/leasing-mandates/view-mandate-work-flow-history/${id}/${this.routeId}/${this.clientId}`,
       },
     ];
 

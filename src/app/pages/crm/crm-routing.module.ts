@@ -711,6 +711,10 @@ const routes: Routes = [
     path: 'leasing-mandates/view-mandate-work-flow-history/:leasingId/:leasingMandatesId',
     component: ViewMandateWorkFlowHistoryComponent,
   },
+  {
+    path: 'leasing-mandates/view-mandate-work-flow-history/:leasingId/:leasingMandatesId/:clientId',
+    component: ViewMandateWorkFlowHistoryComponent,
+  },
 ];
 
 @NgModule({
