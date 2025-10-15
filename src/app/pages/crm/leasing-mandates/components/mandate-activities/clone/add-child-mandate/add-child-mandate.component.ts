@@ -332,7 +332,7 @@ export class AddChildMandateComponent {
             this.viewOnly = mode === 'view';
             this.facade.clearSelected();
             // now fetch afresh
-            this.facade.loadById(leasingId);
+            // this.facade.loadById(leasingId);
             this.facade.loadByClientId(clientId);
           }),
           switchMap(({ leasingId, clientId }) =>

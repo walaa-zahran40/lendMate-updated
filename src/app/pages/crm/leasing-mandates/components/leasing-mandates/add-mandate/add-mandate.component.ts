@@ -511,37 +511,6 @@ export class AddMandateComponent {
       );
     };
 
-    // 1) Success via createEntitySuccess
-    this.facade.createSuccess$.pipe(takeUntil(this.destroy$)).subscribe({
-      next: (entity) => {
-        console.log('[Create Success] entity:', entity);
-        this.isSubmitting = false;
-        navigateToList();
-      },
-      error: (e) => {
-        console.error('[Create Success] stream error:', e);
-        this.isSubmitting = false;
-      },
-    });
-
-    // 2) Generic operation success (create/update)
-    this.facade.operationSuccess$
-      .pipe(
-        takeUntil(this.destroy$),
-        tap((s) => console.log('[Op Success] lastOperation:', s)),
-        filter(
-          (s) =>
-            !!s &&
-            s.entity === 'Mandate' &&
-            (s.operation === 'create' || s.operation === 'update')
-        )
-      )
-      .subscribe(() => {
-        console.log('[Op Success] Matched Mandate create/update. Navigating…');
-        this.isSubmitting = false;
-        navigateToList();
-      });
-
     // 3) Also log any error$ from mandates slice so we see failures
     this.facade.error$.pipe(takeUntil(this.destroy$)).subscribe((err) => {
       if (err) {
@@ -549,25 +518,6 @@ export class AddMandateComponent {
         this.isSubmitting = false;
       }
     });
-    this.actions$
-      .pipe(
-        takeUntil(this.destroy$),
-        ofType(MandateActions.createEntitySuccess as any)
-      )
-      .subscribe(() => {
-        this.isSubmitting = false;
-        this.navigateToList();
-      });
-
-    this.actions$
-      .pipe(
-        takeUntil(this.destroy$),
-        ofType(MandateActions.createEntityFailure as any)
-      )
-      .subscribe((err) => {
-        console.error('[Create] failed:', err);
-        this.isSubmitting = false;
-      });
   }
   ngOnDestroy() {
     this.destroy$.next();
