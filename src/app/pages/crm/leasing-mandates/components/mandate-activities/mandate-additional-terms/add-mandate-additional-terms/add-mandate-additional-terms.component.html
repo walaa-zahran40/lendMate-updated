@@ -1,0 +1,27 @@
+<app-toolbar-form
+  [backExists]="true"
+  [backIcon]="'back-icon'"
+  [header]="
+    viewOnly
+      ? 'View Mandate Additional Term'
+      : editMode
+      ? 'Edit Mandate Additional Term'
+      : 'Add Mandate Additional Term'
+  "
+  [viewOnly]="viewOnly || editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-form
+        [title]="'MANDATE.MANDATE_ADDITIONAL_TERMS.TITLE'"
+        [description]="'MANDATE.MANDATE_ADDITIONAL_TERMS.DESCRIPTION'"
+        [formGroup]="addMandateAdditionalTermForm"
+        [addMandateAdditionalTermForm]="true"
+        [editMode]="editMode"
+        (submitForm)="onSubmit()"
+        [viewOnly]="viewOnly"
+      ></app-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

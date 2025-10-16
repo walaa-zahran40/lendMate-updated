@@ -1,0 +1,28 @@
+<app-toolbar-form
+  [header]="
+    viewOnly
+      ? 'View Interest Rate Benchmark'
+      : editMode
+      ? 'Edit Interest Rate Benchmark'
+      : 'Add Interest Rate Benchmark'
+  "
+  [backExists]="true"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-form
+        *ngIf="addInterestRateBenchmarkLookupsForm"
+        [title]="'FORM.INTEREST_RATE_BENCHMARK.TITLE'"
+        [description]="'FORM.INTEREST_RATE_BENCHMARK.DESCRIPTION'"
+        [formGroup]="addInterestRateBenchmarkLookupsForm"
+        [addInterestRateBenchmarksLookupsForm]="true"
+        [editMode]="editMode"
+        (submitForm)="addOrEditInterestRateBenchmark()"
+        [viewOnly]="viewOnly"
+      ></app-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

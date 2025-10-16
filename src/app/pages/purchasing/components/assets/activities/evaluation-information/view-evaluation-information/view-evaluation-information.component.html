@@ -1,0 +1,47 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/Meetings/Post'"
+    [title]="'Evaluation Information'"
+    [labelBtn]="'Add Evaluation Information'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddEvaluationInformation()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="evaluationInformation$ | async as evaluationInformation">
+    <app-table
+      [viewPermission]="[
+        '/LegalFormLaws/Get',
+        '/LegalFormLaws/GetAll',
+        '/LegalFormLaws/GetAllHistory'
+      ]"
+      [editPermission]="'/LegalFormLaws/Put'"
+      [deletePermission]="'/LegalFormLaws/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredEvaluationInformation"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewEvaluationInformationTable]="true"
+      (onDelete)="onDeleteEvaluationInformation($event)"
+      (onEdit)="onEditEvaluationInformation($event)"
+      (viewForm)="onViewEvaluationInformation($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

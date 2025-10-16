@@ -1,0 +1,47 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/AuthorizationGroups/Post'"
+    [title]="'Authorization Groups'"
+    [labelBtn]="'Add Authorization Group'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddAuthorizationGroup()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="authorizationGroups$ | async as authorizationGroups">
+    <app-table
+      [viewPermission]="[
+        '/AuthorizationGroups/Get',
+        '/AuthorizationGroups/GetAll',
+        '/AuthorizationGroups/GetAllHistory'
+      ]"
+      [editPermission]="'/AuthorizationGroups/Put'"
+      [deletePermission]="'/AuthorizationGroups/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredAuthorizationGroups"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewauthorizationGroupsTable]="true"
+      (onDelete)="onDeleteAuthorizationGroup($event)"
+      (onEdit)="onEditAuthorizationGroup($event)"
+      (viewForm)="onViewAuthorizationGroup($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

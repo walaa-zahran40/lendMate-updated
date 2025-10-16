@@ -1,0 +1,47 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/SMEClientCodes/Post'"
+    [title]="'SME Client Codes'"
+    [labelBtn]="'Add SME Client Code'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddSMEClientCode()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="sMEClientCodes$ | async as sMEClientCodes">
+    <app-table
+      [viewPermission]="[
+        '/SMEClientCodes/Get',
+        '/SMEClientCodes/GetAll',
+        '/SMEClientCodes/GetAllHistory'
+      ]"
+      [editPermission]="'/SMEClientCodes/Put'"
+      [deletePermission]="'/SMEClientCodes/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredSMEClientCodes"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewSMEClientCodesTable]="true"
+      (onDelete)="onDeleteSMEClientCode($event)"
+      (onEdit)="onEditSMEClientCode($event)"
+      (viewForm)="onViewSMEClientCode($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

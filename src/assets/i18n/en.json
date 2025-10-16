@@ -1,0 +1,1589 @@
+{
+  "UNSAVED_CHANGES_HEADER": "Unsaved Changes",
+  "CONFIRM_LEAVE_MESSAGE": "You have unsaved changes. Leave without saving?",
+  "CONFIRM_LEAVE_HEADER": "Unsaved Changes",
+  "CONFIRM_LEAVE_ACCEPT": "Yes, Leave",
+  "CONFIRM_LEAVE_REJECT": "No, Stay",
+  "CLIENT_STATUS": {
+    "ADD": "Add Client Status",
+    "EDIT": "Edit Client Status"
+  },
+  "AGREEMENT": {
+    "MAIN_INFORMATION_TITLE": "Main Information Title",
+    "MAIN_INFORMATION_DESC": "Fill in the key details that define the agreement's core parameters including client, product, validity period, leasing type, and insurance information.",
+    "AGREEMENT_ASSETS_TITLE": "Agreement Assets Title",
+    "AGREEMENT_ASSETS_DESCRIPTION": "Fill in the key details that define the agreement asset's core parameters ",
+    "AGREEMENT_CONTACT_PERSONS": "Agreement Contact Person",
+    "AGREEMENT_CONTACT_PERSONS_DESC": "Fill in the key details that define the agreement contact person's core parameters ",
+    "AGREEMENT_OFFICERS": "Agreement Officers",
+    "AGREEMENT_OFFICERS_DESC": "Fill in the key details that define the agreement officers' core parameters ",
+    "AGREEMENT_FILES": "Agreement Files",
+    "AGREEMENT_FILES_DESC": "Fill in the key details that define the agreement files' core parameters ",
+    "AGREEMENT_REGISTRATIONS": "Agreement Registrations",
+    "AGREEMENT_REGISTRATIONS_DESC": "Fill in the key details that define the agreement registrations' core parameters "
+  },
+  "SIDEMENU": { "SEARCH": "Search" },
+  "MENU": {
+    "CRM": "CRM",
+    "PURCHASING": "Purchasing",
+    "BUSINESS": "Business",
+    "ASSETS": "Assets",
+    "SETTINGS": "Settings",
+    "AGREEMENT": "Agreement"
+  },
+  "CRM": {
+    "CLIENT_OPERATIONS": "Client Operations",
+    "QUICK_ONBOARDING": "Quick Onboarding",
+    "CLIENTS": "Clients"
+  },
+  "COMMUNICATION": {
+    "_ROOT": "Communication",
+    "MEETINGS": "Meetings",
+    "CALENDAR": "Calendar",
+    "FOLLOW_UPS": "Follow Ups",
+    "FOLLOW_UPS_DESC": "Track and manage communication follow-up activities",
+    "FOLLOW_UP_POINTS": "Follow Up Points",
+    "FOLLOW_UP_POINTS_DESC": "Detailed action points related to follow-ups"
+  },
+  "PURCHASING": {
+    "ASSETS": "Assets",
+    "PURCHASING_ORDERS": "Purchasing Orders"
+  },
+
+  "CONTRACTS": { "CONTRACTS": "Contracts" },
+  "ASSETS": { "ASSETS": "Assets" },
+  "SETTINGS": {
+    "GENERAL": "General",
+    "ORGANIZATIONS": "Organizations",
+    "LEGALS": "Legals",
+    "SECURITY": "Security",
+    "CLIENT_WORKFLOW": "Client Workflow",
+    "MANDATE_WORKFLOW": "Mandate Workflow",
+    "FEES": "Fees",
+    "LOOKUPS": "Lookups"
+  },
+  "FEES": {
+    "FEE_RANGES": "Fees Range",
+    "FEE_CALC_TYPES": "Fee Calculation Type",
+    "FEE_TYPES": "Fee Type"
+  },
+  "SECURITY": {
+    "APPLICATION_ROLES": "Application Roles",
+    "PAGE_OPERATIONS": "Page Operations",
+    "OPERATIONS": "Operations",
+    "PAGES": "Pages"
+  },
+  "CLIENT_WORKFLOW": {
+    "CLIENT_STATUS": "Client Status",
+    "CLIENT_STATUS_ACTION": "Client Status Action"
+  },
+  "MANDATE_WORKFLOW": {
+    "MANDATE_STATUS": "Mandate Status",
+    "MANDATE_STATUS_ACTION": "Mandate Status Action"
+  },
+  "LEGALS": {
+    "LEGAL_FORMS": "Legal Form",
+    "LEGAL_FORM_LAWS": "Legal Form Law",
+    "CR_OFFICES": "CR Authority Office",
+    "TAX_OFFICES": "Tax Office",
+    "SME_CLIENT_CODES": "SME Client Code"
+  },
+  "LOOKUPS": {
+    "BUSINESS_LINES": "Business Lines",
+    "PRODUCTS": "Products",
+    "VENDORS": "Vendors",
+    "SECTORS": "Sectors",
+    "SUB_SECTORS": "Sub Sectors",
+    "ADDRESS_TYPES": "Address Types",
+    "AREAS": "Areas",
+    "ASSET_TYPES": "Asset Types",
+    "ASSET_TYPE_CATEGORIES": "Asset Type Categories",
+    "AUTHORIZATION_GROUPS": "Authorization Groups",
+    "AUTHORIZATION_GROUP_OFFICERS": "Authorization Group Officers",
+    "CALL_ACTION_TYPES": "Call Action Types",
+    "CALL_TYPES": "Call Types",
+    "CLIENT_TYPES": "Client Types",
+    "CLIENT_OFFICER_TYPES": "Client Officer Types",
+    "COMM_TYPES": "Communication Types",
+    "COMM_FLOW_TYPES": "Communication Flow Types",
+    "COMPANY_TYPES": "Company Types",
+    "CONDITIONS": "Conditions",
+    "CONDITION_EXPRESSIONS": "Condition Expressions",
+    "COUNTRIES": "Countries",
+    "CURRENCIES": "Currencies",
+    "DOCUMENT_TYPES": "Document Types",
+    "EVALUATORS": "Evaluators",
+    "FIRST_CLAIM_STATUSES": "First Claim Statuses",
+    "FOLLOWUP_TYPES": "Follow Up Types",
+    "GOVERNORATES": "Governorates",
+    "ID_TYPES": "Identification Types",
+    "INSURED_BY": "Insured By",
+    "IR_BENCHMARKS": "Interest Rate Benchmarks",
+    "INTEREST_TYPES": "Interest Types",
+    "LEASING_TYPES": "Leasing Types",
+    "LICENSE_TYPES": "License Types",
+    "LICENSE_PROVIDERS": "License Providers",
+    "VALIDITY_UNIT": "Mandate Validity Unit",
+    "MEETING_TYPES": "Meeting Types",
+    "NOTIFICATION_GROUPS": "Notification Groups",
+    "NOTIFICATION_GROUP_OFFICERS": "Notification Group Officers",
+    "PAYMENT_METHODS": "Payment Methods",
+    "PAYMENT_MONTH_DAYS": "Payment Month Days",
+    "PAYMENT_TYPES": "Payment Types",
+    "PAYMENT_PERIODS": "Payment Periods",
+    "PAYMENT_TIMING_TERMS": "Payment Timing Terms",
+    "PERIOD_UNITS": "Period Units",
+    "PHONE_TYPES": "Phone Types",
+    "RENT_STRUCTURE_TYPES": "Rent Structure Types",
+    "SME_CLIENT_CODES": "SME Client Codes",
+    "TAX_OFFICES": "Tax Offices",
+    "TML_OFFICER_TYPES": "TML Officer Types",
+    "VEHICLE_MODELS": "Vehicle Models",
+    "VEHICLE_MANUFACTURERS": "Vehicle Manufacturers",
+    "WORKFLOW_ACTION_TYPES": "Workflow Action Types"
+  },
+
+  "NAVBAR": {
+    "WELCOME": "Welcome",
+    "DARK": "Dark",
+    "LIGHT": "Light",
+    "ENGLISH": "English",
+    "ARABIC": "Arabic",
+    "SIGN_OUT": "Sign Out"
+  },
+  "WORKFLOW": {
+    "ACTIONS": "Workflow Actions"
+  },
+  "CALL": {
+    "HEADER_ADD": "Add Call",
+    "HEADER_EDIT": "Edit Call",
+    "HEADER_VIEW": "View Call",
+    "DESCRIPTION": "Call"
+  },
+  "BUSINESS_LINE": {
+    "BUSINESS_LINE": "Business Line",
+    "SELECT_BUSINESS_LINE": "Select Business Line"
+  },
+  "ASSET_CATEGORY": {
+    "LIMIT": "Limit",
+    "IS_ACTIVE": "Is Active",
+    "ACTIVE": "Active",
+    "ADD": "Add Asset Type Category",
+    "EDIT": "Edit Asset Type Category"
+  },
+  "PRODUCT": {
+    "ADD_PRODUCT": "Add Product",
+    "EDIT_PRODUCT": "Edit Product"
+  },
+  "COMMON": {
+    "DATE_OF_BIRTH": "Date of Birth"
+  },
+  "AUTH_GROUP": {
+    "AUTHORIZATION_GROUP": "Authorization Group",
+    "SELECT_AUTHORIZATION_GROUP": "Select Authorization Group",
+    "START_DATE": "Start Date",
+    "ADD": "Add Action Authorization Group",
+    "EDIT": "Edit Action Authorization Group"
+  },
+  "NOTIF_GROUP": {
+    "NOTIFICATION_GROUP": "Notification Group",
+    "SELECT_NOTIFICATION_GROUP": "Select Notification Group",
+    "START_DATE": "Start Date",
+    "PLACEHOLDER": "Select Notification Group",
+    "REQUIRED": "Notification Group is required.",
+    "ADD": "Add Action Notification Group",
+    "EDIT": "Edit Action Notification Group"
+  },
+
+  "STATUS_ACTION": {
+    "STATUS_IN": "Status In",
+    "SELECT_STATUS_IN": "Select Status In",
+    "STATUS_OUT": "Status Out",
+    "SELECT_STATUS_OUT": "Select Status Out",
+    "WORKFLOW_ACTION_TYPE": "Workflow Action Type",
+    "SELECT_WORKFLOW_ACTION_TYPE": "Select Workflow Action Type",
+    "IS_INITIAL": "Is Initial",
+    "INITIAL_LABEL": "Initial",
+    "ADD": "Add Status Action",
+    "EDIT": "Edit Status Action"
+  },
+  "CARD": {
+    "UPLOAD_DOCUMENTS": "Upload Documents",
+    "ADD_ADDRESS": "Add Address",
+    "SALES_TURNOVER": "Sales Turnover",
+    "PHONE_NUMBER": "Phone Number",
+    "CR_AUTHORITY": "CR Authority Office",
+    "TAX_AUTHORITY": "TAX Authority Office",
+    "CENTRAL_BANK_INFO": "Central Bank Info",
+    "SHARE_HOLDERS": "Share Holders",
+    "TML_OFFICER": "TML Officer",
+    "CONTACT_PERSON": "Contact Person",
+    "CLIENT_GUARANTORS": "Client Guarantors",
+    "CLIENT_IDENTITIES": "Client Identities",
+    "CLIENT_OFFICERS": "Client Officers",
+    "CLIENT_LEGALS": "Client Legals",
+    "MEETINGS": "Meetings",
+    "CALLS": "Calls",
+    "LEASING_MANDATES": "Leasing Mandates",
+    "CONTRACTS": "Contracts"
+  },
+  "MANDATE": {
+    "CLONE": "Clone",
+    "CLONE_DESC": "Quickly spin up a copy of this mandate…",
+    "ADDITIONAL_TERMS": "Mandate Additional Terms",
+    "ADDITIONAL_TERMS_DESC": "Edit or review your mandate’s T&Cs…",
+    "FINANCIAL_FORM": "Leasing Financial Form",
+    "MANDATE_OFFICERS": "Mandate Officers",
+    "MANDATE_CONTACT_PERSONS": "Mandate Contact Persons",
+    "MANDATE_OFFICERS_DESC": "Mandate Officers Description",
+    "MANDATE_CONTACT_PERSONS_DESC": "Mandate Contact Persons Description",
+
+    "FINANCIAL_FORM_DESC": "Edit or review your Leasing Financial Form",
+    "FEES": "Mandate Fees",
+    "FEES_DESC": "Edit or review your Mandate Fees",
+    "WORKFLOW_HISTORY": "Mandate Work Flow History",
+    "WORKFLOW_HISTORY_DESC": "Edit or review your Mandate Work Flow History",
+    "ADD_AUTHORIZATION_GROUP": "Add Authorization Group",
+    "ADD_AUTHORIZATION_GROUP_DESC": "Assign or manage authorization groups for this mandate action",
+    "ADD_NOTIFICATION_GROUP": "Add Notification Group",
+    "ADD_NOTIFICATION_GROUP_DESC": "Assign or manage notification groups for this mandate action",
+    "BASIC_INFO": {
+      "TITLE": "Basic Information",
+      "DESCRIPTION": "Fill in the key details that define the mandate's core parameters including client, product, validity period, leasing type, and insurance information."
+    },
+    "OFFICERS": {
+      "TITLE": "Officers",
+      "DESCRIPTION": "This information will be displayed publicly and should reflect accurate officer records assigned to this mandate."
+    },
+    "CONTACT_PERSONS": {
+      "TITLE": "Contact Persons",
+      "DESCRIPTION": "This information will be displayed publicly and should reflect the correct client contact persons involved in the mandate."
+    },
+    "ASSET_TYPE": {
+      "TITLE": "Asset Type",
+      "DESCRIPTION": "This information will be displayed publicly and should represent the types of assets relevant to this mandate."
+    },
+    "MORE_INFO": {
+      "TITLE": "More Information",
+      "DESCRIPTION": "Provide additional configuration such as grace period settings and other optional mandate details."
+    },
+    "MANDATE_ADDITIONAL_TERMS": {
+      "TITLE": "Mandate Additional Terms",
+      "DESCRIPTION": "Specify additional mandate terms and conditions such as regulatory, procedural, or special requirements associated with the leasing mandate."
+    }
+  },
+  "LOOKUP": {
+    "CURRENCY_EXCHANGE": "Currency Exchange",
+    "CURRENCY_EXCHANGE_DESC": "View or manage currency exchange rates",
+    "ADD_AUTHORIZATION_GROUP": "Add Authorization Group",
+    "ADD_AUTHORIZATION_GROUP_DESC": "Assign or manage authorization groups for this action",
+    "ADD_NOTIFICATION_GROUP": "Add Notification Group",
+    "ADD_NOTIFICATION_GROUP_DESC": "Assign or manage notification groups for this action"
+  },
+  "ORGANIZATION": {
+    "BRANCHES": "Branches",
+    "DEPARTMENTS": "Departments",
+    "OFFICERS": "Officers",
+    "TEAMS": "Teams",
+    "SIGNATORY": "Signatory Officers",
+
+    "DEPARTMENT_MANAGERS": "Department Managers",
+    "DEPARTMENT_MANAGERS_DESC": "View and manage managers assigned to this department",
+    "TEAM_LEADS": "Team Leads",
+    "TEAM_LEADS_DESC": "View and manage team leaders assigned to this team",
+    "TEAM_MEMBERS": "Team Members",
+    "TEAM_MEMBERS_DESC": "View and manage members of this team",
+    "BRANCH_MANAGERS": "Branch Managers",
+    "BRANCH_MANAGERS_DESC": "View and manage managers assigned to this branch",
+    "BRANCH_OFFICERS": "Branch Officers",
+    "BRANCH_OFFICERS_DESC": "View and manage officers of this branch",
+    "BRANCH_ADDRESS": "Branch Address",
+    "BRANCH_ADDRESS_DESC": "View and manage the address of this branch",
+    "ROLE_CLAIMS": "Role Claims",
+    "ROLE_CLAIMS_DESC": "Introduce your role core info quickly to users by filling out role details"
+  },
+  "DIALOG": {
+    "DELETE_CONFIRMATION": "Are you sure to delete?",
+    "YES": "Yes",
+    "NO": "No"
+  },
+  "DOWNLOAD": {
+    "TITLE": "Download",
+    "SELECT_CONTACT_PERSON": "Select Contact Person",
+    "SELECT_OFFICER": "Select Officer",
+    "SELECT_PURCHASING_ORDER": "Select Purchasing Order",
+    "PLACEHOLDER_CONTACT": "Choose Contact Person",
+    "PLACEHOLDER_OFFICER": "Choose Officer",
+    "PLACEHOLDER_PURCHASING_ORDER": "Choose Purchasing Order",
+    "BUTTON": "Download",
+    "CONTACT_PERSONS": "Contact persons",
+    "SELECT_CONTACT_PERSONS": "Select contact persons",
+    "CONTACT_PERSONS_REQUIRED": "Please choose at least one contact person.",
+    "OFFICERS": "Officers",
+    "SELECT_OFFICERS": "Select officers",
+    "OFFICERS_REQUIRED": "Please choose at least one officer."
+  },
+  "CONTACT_PERSON": {
+    "TITLE": "Contact Person Details"
+  },
+  "CLIENT_TAX_AUTHORITY": {
+    "TITLE": "Client Tax Authority Office",
+    "DESCRIPTION": "Introduce your Client Tax Authority Office core info quickly to users by filling in client details"
+  },
+  "CLIENT_TML_OFFICER": {
+    "TITLE": "Client TML Officer",
+    "DESCRIPTION": "Introduce your Client TML Officer core info quickly to users by filling in client details"
+  },
+  "LEASING_FINANCIAL": {
+    "BASIC": {
+      "TITLE": "Basic Finance Information",
+      "DESCRIPTION": "Enter the essential financial parameters such as lease amount, duration, and type for this mandate."
+    },
+    "RATES": {
+      "TITLE": "Rates and Periods",
+      "DESCRIPTION": "Configure financial rates, payment intervals, and grace period settings related to the leasing mandate."
+    },
+    "CURRENCY": {
+      "TITLE": "Currency Information",
+      "DESCRIPTION": "Specify financial settings including currency, exchange rate, interest benchmarks, and payment structure for the leasing mandate."
+    }
+  },
+  "ASSET_TYPE_CATEGORIES": {
+    "TITLE": "Asset Type Categories",
+    "DESCRIPTION": "Manage and classify asset types by grouping them into logical categories for easier organization and processing."
+  },
+  "AUTHORIZATION_GROUP": {
+    "TITLE": "Authorization Group",
+    "DESCRIPTION": "Introduce your Authorization Group core info quickly to users by filling in the necessary client-related details."
+  },
+  "NOTIFICATION_GROUP": {
+    "TITLE": "Notification Group",
+    "DESCRIPTION": "Introduce your Notification Group core info quickly to users by filling in the necessary client-related details."
+  },
+  "SHARE_HOLDER": {
+    "TITLE": "Client Share Holder",
+    "DESCRIPTION": "Introduce your Client Share Holder core info quickly to users by filling in the necessary client-related details."
+  },
+  "MANDATE_AUTH_GROUP": {
+    "TITLE": "Authorization Group",
+    "DESCRIPTION": "Introduce your Authorization Group core info quickly to users by filling in the mandate-related details."
+  },
+  "MANDATE_NOTIFICATION_GROUP": {
+    "TITLE": "Notification Group",
+    "DESCRIPTION": "Introduce your Notification Group core info quickly to users by filling in the mandate-related details."
+  },
+  "BRANCH_ADDRESS": {
+    "TITLE": "Branch Address",
+    "DESCRIPTION": "Introduce your Branch Address core info quickly to users by filling in branch details.",
+    "COUNTRY": "Country",
+    "GOVERNORATE": "Governorate",
+    "AREA": "Area",
+    "DETAILS_EN": "Details in English",
+    "DETAILS_AR": "Details in Arabic",
+    "PLACEHOLDER_COUNTRY": "Select Country",
+    "PLACEHOLDER_GOVERNORATE": "Select Governorate",
+    "PLACEHOLDER_AREA": "Select Area",
+    "PLACEHOLDER_DETAILS_EN": "Enter address in English",
+    "PLACEHOLDER_DETAILS_AR": "Enter address in Arabic",
+    "VALIDATION": {
+      "DETAILS_EN_REQUIRED": "Details in English is required.",
+      "DETAILS_AR_REQUIRED": "Details in Arabic is required."
+    }
+  },
+  "ROLE_CLAIM": {
+    "TITLE": "Role Claim",
+    "DESCRIPTION": "Introduce your Role Claim core info quickly to users by filling in the role details."
+  },
+  "LEASE": {
+    "ASSET_COST": "Asset Cost",
+    "ASSET_COST_REQUIRED": "Asset Cost is required.",
+    "DOWN_PAYMENT": "Down Payment",
+    "DOWN_PAYMENT_REQUIRED": "Down Payment is required.",
+    "PERCENT_FINANCE": "Percent of Finance",
+    "FIXED_INTEREST_RATE": "Fixed Interest Rate",
+    "PERCENT_FINANCE_REQUIRED": "Percent of Finance is required.",
+    "NFA": "NFA",
+    "NFA_REQUIRED": "NFA is required.",
+    "FIXED_INTEREST_RATE_REQUIRED": "Fixed Interest Rate is required.",
+    "YEARS": "Years",
+    "YEARS_REQUIRED": "Years is required.",
+    "START_DATE": "Start Date",
+    "INTEREST_RATE": "Interest Rate",
+    "INTEREST_RATE_REQUIRED": "Interest Rate is required.",
+    "INSURANCE_RATE": "Insurance Rate",
+    "INSURANCE_RATE_REQUIRED": "Insurance Rate is required.",
+    "TENOR": "Tenor",
+    "TENOR_REQUIRED": "Tenor is required.",
+    "PAYMENT_PERIOD": "Payment Period",
+    "PAYMENT_PERIOD_REQUIRED": "Payment Period is required.",
+    "GRACE_PERIOD": "Grace Period Count",
+    "GRACE_PERIOD_REQUIRED": "Grace Period Count is required.",
+    "GRACE_PERIOD_UNIT": "Grace Period Unit",
+    "GRACE_PERIOD_UNIT_REQUIRED": "Grace Period Unit is required."
+  },
+  "LEASE_CURRENCY": {
+    "CURRENCY": "Currency",
+    "CURRENCY_REQUIRED": "Currency is required.",
+    "CURRENCY_EXCHANGE_RATE": "Currency Exchange Rate",
+    "CURRENCY_EXCHANGE_RATE_REQUIRED": "Currency Exchange Rate is required.",
+    "IS_MANUAL_EXCHANGE_RATE": "Is Manual Exchange Rate",
+    "MANUAL_EXCHANGE_RATE": "Manual Exchange Rate",
+    "MANUAL_EXCHANGE_RATE_REQUIRED": "Manual Exchange Rate is required.",
+    "INDICATIVE_RENTALS": "Indicative Rentals",
+    "INDICATIVE_RENTALS_REQUIRED": "Indicative Rentals is required.",
+    "RENT": "Rent",
+    "RENT_REQUIRED": "Rent is required.",
+    "RV_PERCENT": "RV Percent",
+    "RV_PERCENT_REQUIRED": "RV Percent is required.",
+    "RV_AMOUNT": "RV Amount",
+    "RV_AMOUNT_REQUIRED": "RV Amount is required.",
+    "RESERVE_PAYMENT_COUNT": "Reserve Payment Count",
+    "RESERVE_PAYMENT_COUNT_REQUIRED": "Reserve Payment Count is required.",
+    "RESERVE_PAYMENT_AMOUNT": "Reserve Payment Amount",
+    "RESERVE_PAYMENT_AMOUNT_REQUIRED": "Reserve Payment Amount is required.",
+    "PROVISION_PERCENT": "Provision Percent",
+    "PROVISION_PERCENT_REQUIRED": "Provision Percent is required.",
+    "PROVISION_AMOUNT": "Provision Amount",
+    "PROVISION_AMOUNT_REQUIRED": "Provision Amount is required.",
+    "INTEREST_RATE_BENCHMARK": "Interest Rate Benchmark",
+    "INTEREST_RATE_BENCHMARK_REQUIRED": "Interest Rate Benchmark is required.",
+    "PAYMENT_TIME_TERM": "Payment Timing Term",
+    "PAYMENT_TIME_TERM_REQUIRED": "Payment Timing Term is required.",
+    "RENT_STRUCTURE": "Rent Structure Type",
+    "RENT_STRUCTURE_REQUIRED": "Rent Structure Type is required.",
+    "PAYMENT_METHOD": "Payment Method",
+    "PAYMENT_METHOD_REQUIRED": "Payment Method is required.",
+    "PAYMENT_MONTH_DAY": "Payment Month Day",
+    "PAYMENT_MONTH_DAY_REQUIRED": "Payment Month Day is required."
+  },
+  "COUNTRY": {
+    "COUNTRY_ID": "Country ID",
+    "SELECT_COUNTRY": "Select Country",
+    "COUNTRY_REQUIRED": "Country is required"
+  },
+  "GOVERNORATE": {
+    "ARAMEX": "Aramex",
+    "ARAMEX_PLACEHOLDER": "Type",
+    "ARAMEX_REQUIRED": "Aramex in English is required.",
+    "ADD": "Add Governorate",
+    "EDIT": "Edit Governorate"
+  },
+  "FEE": {
+    "FEE_CALCULATION_TYPE": "Select Fee Calculation Type",
+    "SELECT_CALC_TYPE": "Select Fee Calculation Type",
+    "CALC_TYPE_REQUIRED": "Fee Calculation Type is required.",
+    "DESCRIPTION": "Description",
+    "DESCRIPTION_PLACEHOLDER": "Enter Description",
+    "DESCRIPTION_AR": "Arabic Description",
+    "DESCRIPTION_AR_PLACEHOLDER": "Enter Arabic Description",
+    "DEFAULT_AMOUNT": "Default Amount",
+    "DEFAULT_AMOUNT_PLACEHOLDER": "Enter Default Amount",
+    "DEFAULT_PERCENTAGE": "Default Percentage",
+    "DEFAULT_PERCENTAGE_PLACEHOLDER": "Enter Default Percentage"
+  },
+  "ASSET_TYPE": {
+    "SELECT_CATEGORY": "Select Asset Type Category",
+    "PLACEHOLDER_CATEGORY": "Select Asset Category",
+    "REQUIRED_CATEGORY": "Asset Type Category is required.",
+    "ADD": "Add Asset Type",
+    "EDIT": "Edit Asset Type"
+  },
+  "MANDATE_FEES": {
+    "FEE_TYPE": "Fee Type",
+    "SELECT_FEE_TYPE": "Select Fee Type",
+    "ACTUAL_AMOUNT": "Actual Amount",
+    "ACTUAL_PERCENTAGE": "Actual Percentage",
+    "ADD": "Add Mandate Fee",
+    "EDIT": "Edit Mandate Fee"
+  },
+  "FEE_TYPE": {
+    "SELECT_FEE_TYPE": "Select Fee Type"
+  },
+  "SME_CODE": {
+    "LOWER_LIMIT": "Lower Limit",
+    "UPPER_LIMIT": "Upper Limit",
+    "PLACEHOLDER_LOWER_LIMIT": "Enter Lower Limit",
+    "PLACEHOLDER_UPPER_LIMIT": "Enter Upper Limit",
+    "VALIDATION": {
+      "LOWER_LIMIT_REQUIRED": "Lower Limit is required.",
+      "UPPER_LIMIT_REQUIRED": "Upper Limit is required.",
+      "UPPER_LIMIT_MIN": "Minimum value is"
+    }
+  },
+  "BRANCH_OFFICER": {
+    "OFFICER": "Officer",
+    "PLACEHOLDER_OFFICER": "Select Officer",
+    "IS_CURRENT": "Current",
+    "VALIDATION": {
+      "OFFICER_REQUIRED": "Officer is required."
+    }
+  },
+
+  "BUTTONS": {
+    "SUBMIT": "Submit",
+    "CLOSE": "Close",
+    "ADD_OFFICER": "Add Officer",
+    "EDIT_OFFICER": "Edit Officer",
+    "ADD_CONTACT_PERSON": "Add Contact Person",
+    "EDIT_CONTACT_PERSON": "Edit Contact Person",
+
+    "ADD_BRANCH_OFFICER": "Add Branch Officer",
+    "EDIT_BRANCH_OFFICER": "Edit Branch Officer",
+    "VIEW_FIRST_CLAIM_STATUSES": "View First Claim Statuses",
+    "ADD_NOTIFICATION_GROUP_OFFICER": "Add Notification Group Officer",
+    "EDIT_NOTIFICATION_GROUP_OFFICER": "Edit Notification Group Officer",
+    "ADD_SME_CLIENT_CODE": "Add SME Client Code",
+    "EDIT_SME_CLIENT_CODE": "Edit SME Client Code",
+    "ADD_ACTION_NOTIFICATION_GROUP": "Add Action Notification Group",
+    "EDIT_ACTION_NOTIFICATION_GROUP": "Edit Action Notification Group",
+    "ADD_FEE_TYPE": "Add Fee Type",
+    "EDIT_FEE_TYPE": "Edit Fee Type",
+    "ADD_COUNTRY": "Add Country",
+    "EDIT_COUNTRY": "Edit Country",
+    "ADD_TAX_OFFICE": "Add Tax Office",
+    "EDIT_TAX_OFFICE": "Edit Tax Office",
+    "ADD_SHARE_HOLDER": "Add Share Holder",
+    "EDIT_SHARE_HOLDER": "Edit Share Holder",
+    "ADD_TAX_AUTHORITY_OFFICE": "Add Tax Authority Office",
+    "EDIT_TAX_AUTHORITY_OFFICE": "Edit Tax Authority Office",
+    "ADD_MANDATE_TERM": "Add Mandate Term",
+    "EDIT_MANDATE_TERM": "Edit Mandate Term",
+    "ADD_SALES_TURNOVER": "Add Sales Turnover",
+    "EDIT_SALES_TURNOVER": "Edit Sales Turnover",
+    "ADD_ROLE_CLAIM": "Add Role Claim",
+    "EDIT_ROLE_CLAIM": "Edit Role Claim",
+    "ADD_ROLE": "Add Role",
+    "EDIT_ROLE": "Edit Role",
+    "ADD_OPERATION": "Add Operation",
+    "EDIT_OPERATION": "Edit Operation",
+    "ADD_AREA": "Add Area",
+    "ADD_DOCUMENT_TYPE": "Add Document Type",
+    "EDIT_DOCUMENT_TYPE": "Edit Document Type",
+    "EDIT_AREA": "Edit Area",
+    "ADD_SUB_SECTOR": "Add Sub Sector",
+    "EDIT_SUB_SECTOR": "Edit Sub Sector",
+    "VIEW_DOCUMENT_DETAILS": "View Document Details",
+    "VIEW_SALES_TURNOVERS": "View Sales Turnovers",
+    "VIEW_DOCUMENT_TYPES": "View Document Types",
+    "VIEW_MANDATE_TERMS_DETAILS": "View Mandate Terms Details",
+    "VIEW_PAGE_DETAILS": "View Page Details",
+    "VIEW_AGREEMENT_DETAILS": "View Agreement Details",
+    "VIEW_COMPANY_TYPES": "View Company Types",
+    "VIEW_MANDATE_FEES": "View Mandate Fees",
+    "VIEW_FEES_CALCULATION_TYPE": "View Fees Calculation Type",
+    "VIEW_CLIENT_GUARANTORS": "View Client Guarantors",
+    "VIEW_CLIENT_IDENTITIES": "View Client Identities",
+    "VIEW_COMMUNICATION_FLOW_TYPE": "View Communication Flow Type",
+    "VIEW_CALL_ACTION_TYPE": "View Call Action Type",
+    "VIEW_CLIENT_OFFICER_TYPE": "View Client Officer Type",
+    "VIEW_COMMUNICATION_TYPES": "View Communication Types",
+    "VIEW_CALL_TYPES": "View Call Types",
+    "VIEW_TML_OFFICER_TYPE": "View TML Officer Type",
+    "VIEW_TAX_OFFICES": "View Tax Offices",
+    "VIEW_AREAS": "View Areas",
+    "VIEW_IDENTIFICATION_TYPES": "View Identification Types",
+    "VIEW_COUNTRIES": "View Countries",
+    "VIEW_WORKFLOW_ACTION_TYPES": "View Workflow Action Types",
+    "VIEW_CONDITIONS": "View Conditions",
+    "VIEW_GOVERNORATES": "View Governorates",
+    "VIEW_ADDRESS_TYPES": "View Address Types",
+    "VIEW_CONDITION_EXPRESSION": "View Condition Expression",
+    "VIEW_INTEREST_TYPES": "View Interest Types",
+    "VIEW_AUTHORIZATION_GROUPS": "View Authorization Groups",
+    "VIEW_PHONE_TYPES": "View Phone Types",
+    "VIEW_AUTHORITY_OFFICES": "View Authority Offices",
+    "VIEW_CLIENT_TYPES": "View Client Types",
+    "VIEW_SUB_SECTORS": "View Sub Sectors",
+    "VIEW_SME_CLIENT_CODE": "View SME Client Code",
+    "VIEW_CLIENT_STATUS_ACTIONS": "View Client Status Actions",
+    "VIEW_MANDATE_STATUS_ACTIONS": "View Mandate Status Actions",
+    "VIEW_CLIENT_STATUSES": "View Client Statuses",
+    "VIEW_ACTION_AUTHORIZATION_GROUPS": "View Action Authorization Groups",
+    "VIEW_ACTION_NOTIFICATION_GROUPS": "View Action Notification Groups",
+    "VIEW_SECTORS": "View Sectors",
+    "VIEW_PRODUCTS": "View Products",
+    "VIEW_ASSET_TYPE_CATEGORIES": "View Asset Type Categories",
+    "VIEW_ASSET_TYPES": "View Asset Types",
+    "VIEW_PAYMENT_TYPES": "View Payment Types",
+    "VIEW_AUTHORIZATION_GROUP_OFFICERS": "View Authorization Group Officers",
+    "VIEW_NOTIFICATION_GROUP_OFFICERS": "View Notification Group Officers",
+    "VIEW_NOTIFICATION_GROUPS": "View Notification Groups",
+    "VIEW_PAYMENT_TIMING_TERMS": "View Payment Timing Terms",
+    "VIEW_PAYMENT_PERIODS": "View Payment Periods",
+    "VIEW_PHONE_NUMBERS": "View Phone Numbers",
+    "VIEW_TAX_AUTHORITY": "View Tax Authority",
+    "VIEW_CLIENT_SHARE_HOLDERS": "View Client Share Holders",
+    "VIEW_CLIENT_TML_OFFICERS": "View Client TML Officers",
+    "VIEW_CONTACT_PERSONS": "View Contact Persons",
+    "VIEW_MEETING_TYPES": "View Meeting Types",
+    "VIEW_MEETING_OFFICERS": "View Officers",
+    "VIEW_MEETING_CONTACT_PERSONS": "View Contact Persons",
+    "VIEW_MEETING_ASSET_TYPE": "View Asset Type",
+    "VIEW_FOLLOWUP_TYPES": "View Followup Types",
+    "VIEW_DEPARTMENT": "View Department",
+    "VIEW_MANAGER": "View Manager",
+    "VIEW_TEAMS": "View Teams",
+    "VIEW_ASSETS": "View Assets",
+    "VIEW_TEAM_LEADS": "View Team Leads",
+    "VIEW_TEAM_MEMBERS": "View Team Members",
+    "VIEW_ROLES": "View Roles",
+    "VIEW_OPERATIONS": "View Operations",
+    "VIEW_PAGE_OPERATION": "View Page Operation",
+    "VIEW_OFFICER": "View Officer",
+    "VIEW_SIGNATORY_OFFICER": "View Signatory Officer",
+    "ADD_CONDITION": "Add Condition",
+    "EDIT_CONDITION": "Edit Condition",
+    "ADD_MANDATE_VALIDITY_UNIT": "Add Mandate Validity Unit",
+    "EDIT_MANDATE_VALIDITY_UNIT": "Edit Mandate Validity Unit",
+
+    "VIEW_MANDATE_STATUSES": "View Mandate Statuses",
+    "VIEW_INTEREST_RATE_BENCHMARKS": "View Interest Rate Benchmarks",
+    "VIEW_FEES_TYPES": "View Fees Types",
+    "VIEW_FEES_RANGES": "View Fees Ranges",
+    "VIEW_GRACE_PERIOD": "View Grace Period",
+    "VIEW_RENT_STRUCTURE": "View Rent Structure",
+    "VIEW_CURRENCIES": "View Currencies",
+    "VIEW_CURRENCY_EXCHANGE_RATES": "View Currency Exchange Rates",
+    "VIEW_PAYMENT_METHODS": "View Payment Methods",
+    "VIEW_PAYMENT_MONTH_DAYS": "View Payment Month Days",
+    "VIEW_INSURED_BY": "View Insured By",
+    "VIEW_LEASING_TYPE": "View Leasing Type",
+    "VIEW_MANDATE_VALIDITY": "View Mandate Validity",
+    "VIEW_CLIENT_DOCUMENT": "View Client Document",
+    "VIEW_BRANCHES": "View Branches",
+    "VIEW_BRANCH_ADDRESSES": "View Branch Addresses",
+    "VIEW_BRANCH_OFFICERS": "View Branch Officers",
+    "VIEW_BRANCH_MANAGERS": "View Branch Managers",
+    "VIEW_BUSINESS_LINES": "View Business Lines",
+    "ADD_FEE_RANGE": "Add Fee Range",
+    "EDIT_FEE_RANGE": "Edit Fee Range",
+    "ADD_BRANCH_ADDRESS": "Add Branch Address",
+    "EDIT_BRANCH_ADDRESS": "Edit Branch Address",
+    "NEXT": "Next",
+    "PREVIOUS": "Previous",
+    "SAVE_INFO": "Save Information"
+  },
+  "CLIENT_FORM": {
+    "BUSINESS_INFORMATION": {
+      "TITLE": "Business Information",
+      "DESCRIPTION": "This information will be displayed publicly"
+    },
+    "INDIVIDUAL_CORE_INFO": {
+      "DESCRIPTION": "Introduce your individual core info quickly to users by filling up individual details"
+    },
+    "LEGAL_INFORMATION": {
+      "TITLE": "Legal Information",
+      "DESCRIPTION": "This information will be displayed publicly"
+    }
+  },
+  "LEGAL": {
+    "LEGAL_FORM_LAW": "Legal Form Law",
+    "LEGAL_FORM": "Legal Form",
+    "IS_STAMP_DUTY": "Is Stamp Duty",
+    "PLACEHOLDERS": {
+      "LEGAL_FORM_LAW": "Select Legal Form Law",
+      "LEGAL_FORM": "Select Legal Form"
+    },
+    "ERRORS": {
+      "LEGAL_FORM_LAW_REQUIRED": "Legal Form Law is required.",
+      "LEGAL_FORM_REQUIRED": "Legal Form is required."
+    }
+  },
+  "BUSINESS": {
+    "MAIN_SHARE": "Main Share",
+    "ESTABLISHED_YEAR": "Established Year",
+    "WEBSITE": "Website",
+    "MARKET_SHARE": "Market Share %",
+    "MARKET_SIZE": "Market Size",
+    "LEASING": "Leasing",
+    "MANDATE": "Mandate",
+    "EMPLOYEES_NO": "Number of Employees",
+    "PLACEHOLDERS": {
+      "MAIN_SHARE": "Main Share",
+      "ESTABLISHED_YEAR": "Established Year",
+      "WEBSITE": "Website",
+      "MARKET_SHARE": "Market Share",
+      "MARKET_SIZE": "Market Size",
+      "EMPLOYEES_NO": "Number of Employees"
+    },
+    "ERRORS": {
+      "NON_NEGATIVE": "Value cannot be negative.",
+      "YEAR_PATTERN": "Enter a valid year (e.g. 2005).",
+      "URL_PATTERN": "Enter a valid website URL.",
+      "MAX_100": "Cannot exceed 100%.",
+      "MARKET_SIZE_NEG": "Market size cannot be negative.",
+      "EMPLOYEES_NEG": "Number of employees cannot be negative."
+    }
+  },
+  "CLIENT": {
+    "COMPANY": "Company",
+    "INDIVIDUAL": "Individual",
+    "FORM": {
+      "DESCRIPTION_INDIVIDUAL": "Quickly introduce your core personal information by filling out your individual details.",
+      "DESCRIPTION_COMPANY": "Introduce your company core info quickly to users by fill up company details"
+    }
+  },
+  "CONDITION": {
+    "DESCRIPTION": "Description",
+    "CONDITION_TYPE": "Condition Type",
+    "SELECT_CONDITION_TYPE": "Select a condition type",
+    "REQUIRED_CONDITION_TYPE": "Condition Type is required.",
+    "CONDITION_EXPRESSION": "Select Condition Expression",
+    "SELECT_CONDITION_EXPRESSION": "Select Condition Expression",
+    "REQUIRED_CONDITION_EXPRESSION": "Condition Expression is required.",
+    "FUNCTION_NAME": "Function Name"
+  },
+
+  "MANDATE_STATUS": {
+    "ADD": "Add Mandate Status",
+    "EDIT": "Edit Mandate Status"
+  },
+  "MANDATE_STATUS_ACTION": {
+    "ADD": "Add Mandate Status Action",
+    "EDIT": "Edit Mandate Status Action"
+  },
+  "AUTH_GROUP_OFFICER": {
+    "ADD": "Add Authorization Group Officer",
+    "EDIT": "Edit Authorization Group Officer"
+  },
+  "CURRENCY": {
+    "ISO": "ISO Code",
+    "ISO_PLACEHOLDER": "Enter ISO Code",
+    "DEFAULT": "Default Currency",
+    "DEFAULT_PLACEHOLDER": "Select Default Currency",
+    "ADD": "Add Currency",
+    "EDIT": "Edit Currency",
+    "EXCHANGE_DATE": "Exchange Date"
+  },
+  "VALIDATION": {
+    "MIN_VALUE": "Validation Min Value",
+    "MAX_VALUE": "Validation Max Value",
+    "MIN_PLACEHOLDER": "Enter Validation Min Value",
+    "MAX_PLACEHOLDER": "Enter Validation Max Value",
+    "MIN_REQUIRED": "Validation Min Value is required.",
+    "MAX_REQUIRED": "Validation Max Value is required.",
+    "MIN_VALUE_IS": "Minimum value is {{value}}",
+    "REQUIRED": "This field is required.",
+    "DECIMAL_UP_TO_2": "Enter a number with up to 2 decimals.",
+    "MIN": "Minimum allowed value is {{min}}.",
+    "MAX": "Maximum allowed value is {{max}}.",
+    "RANGE": "Value must be between {{min}} and {{max}}."
+  },
+  "CURRENCY_EXCHANGE": {
+    "EXCHANGE_RATE": "Exchange Rate",
+    "EXCHANGE_RATE_REQUIRED": "Exchange Rate is required.",
+    "IS_CURRENT": "Current",
+    "ADD_BUTTON": "Add Currency Exchange Rate",
+    "EDIT_BUTTON": "Edit Currency Exchange Rate"
+  },
+
+  "FORM": {
+    "LABELS": {
+      "DATE": "Select Date",
+      "SHORT_NAME": "Short Name",
+      "SECTOR": "Select Sector",
+      "SUB_SECTOR": "Select Sub Sector",
+      "EMAIL": "Email",
+      "JOB_TITLE": "Job Title",
+      "DOB": "Date of Birth",
+      "GENDER": "Gender",
+      "IDENTITY_NUMBER": "Identification Number",
+      "IDENTITY_TYPE": "Select Identity",
+      "IS_MAIN": "Is Main",
+      "BUSINESS_ACTIVITY": "Business Activity",
+      "TAX_ID": "Tax ID",
+      "OFFICER_NAME": "Officer Name",
+      "CONTACT_PERSON_NAME": "Contact Person Name"
+    },
+    "CODE2": "Code2",
+    "FEE_TYPE_REQUIRED": "Fee Type is required.",
+    "VEHICLES": {
+      "TITLE": "Vehicles",
+      "DESCRIPTION": "Introduce your vehicles core info quickly to users by filling in vehicle  details"
+    },
+    "AGREEMENT": {
+      "LABEL_END_DATE": "End Date",
+      "LABEL_DATE": "Date",
+      "PLACEHOLDER_BRANCH": "Enter Branch",
+      "LABEL_BRANCH": "Branch",
+      "ERROR_BRANCH_REQUIRED": "Branch is required",
+      "LABEL_PORTFOLIO": "Portfolio",
+      "ERROR_PORTFOLIO_REQUIRED": "Portfolio is required",
+      "PLACEHOLDER_PORTFOLIO": "Enter Portfolio",
+      "LABEL_BUSINESS_SOURCE": "Business Source",
+      "ERROR_BUSINESS_SOURCE_REQUIRED": "Business Source is required",
+      "PLACEHOLDER_BUSINESS_SOURCE": "Enter Business Source",
+      "LABEL_DELIVERY_NUMBER": "Delivery Number",
+      "ERROR_DELIVERY_NUMBER_REQUIRED": "Delivery Number is required",
+      "PLACEHOLDER_DELIVERY_NUMBER": "Enter Delivery Number",
+      "LABEL_DELIVERY_TIME": "Delivery Time",
+      "ERROR_DELIVERY_TIME_REQUIRED": "Delivery Time is required",
+      "PLACEHOLDER_DELIVERY_TIME": "Enter Delivery Time",
+      "FEES": "Fees Title",
+      "FEES_DESCRIPTION": "Fill in document details",
+
+      "LABEL_ASSET_TYPE": "Asset Type",
+      "ERROR_ASSET_TYPE_REQUIRED": "Asset Type is required",
+      "PLACEHOLDER_ASSET_TYPE": "Enter Asset Type",
+      "LABEL_ASSET_DESCRIPTION": "Asset Description",
+      "ERROR_ASSET_DESCRIPTION_REQUIRED": "Asset Description is required",
+      "PLACEHOLDER_ASSET_DESCRIPTION": "Enter Asset Description",
+      "LABEL_ASSET_DESCRIPTION_AR": "Asset Description AR",
+      "ERROR_ASSET_DESCRIPTION_AR_REQUIRED": "Asset Description AR is required",
+      "PLACEHOLDER_ASSET_DESCRIPTION_AR": "Enter Asset Description AR",
+
+      "LABEL_FEE_TYPE": "Fee Type",
+      "ERROR_FEE_TYPE_REQUIRED": "Fee Type is required",
+      "PLACEHOLDER_SELECT_FEE_TYPE": "Enter Fee Type",
+      "LABEL_ACTUAL_AMOUNT": "Actual Amount",
+      "ERROR_ACTUAL_AMOUNT_REQUIRED": "Actual Amount is required",
+      "PLACEHOLDER_ACTUAL_AMOUNT": "Enter Actual Amount",
+      "LABEL_ACTUAL_PERCENTAGE": "Actual Percentage",
+      "ERROR_ACTUAL_PERCENTAGE_REQUIRED": "Actual Percentage is required",
+      "PLACEHOLDER_ACTUAL_PERCENTAGE": "Enter Actual Percentage"
+    },
+    "BUSINESS_ACTIVITY": "Business Activity",
+    "TAX_ID": "Tax ID",
+    "SHORT_NAME": "Short Name",
+    "SECTOR": "Select Sector",
+    "SUB_SECTOR": "Select Sub Sector",
+    "ISCORE": "Is Iscore?",
+    "LEGAL_FORM_LAW": "Legal Form Law",
+    "LEGAL_FORM": "Legal Form",
+    "STAMP_DUTY": "Is Stamp Duty",
+    "MAIN_SHARE": "Main Share",
+    "ESTABLISHED_YEAR": "Established Year",
+    "WEBSITE": "Website",
+    "MARKET_SHARE": "Market Share %",
+    "MARKET_SIZE": "Market Size",
+    "EMPLOYEES_NO": "Number of Employees",
+    "NAME_EN": "Name in English",
+    "NAME_AR": "Name in Arabic",
+    "EMAIL": "Email",
+    "JOB_TITLE": "Job Title",
+    "DOB": "Date of Birth",
+    "GENDER": "Gender",
+    "IDENTITY_NUMBER": "Identification Number",
+    "SELECT_IDENTITY": "Select Identity",
+    "IS_MAIN": "Is Main",
+    "VALIDATIONS": {
+      "REQUIRED": "is required.",
+      "TAX_ID_PATTERN": "Only positive numbers and dashes are allowed. Format must be 123-456-789.",
+      "NEGATIVE": "Value cannot be negative.",
+      "MAX_100": "Cannot exceed 100%.",
+      "YEAR_PATTERN": "Enter a valid year (e.g. 2005).",
+      "URL_PATTERN": "Enter a valid website URL."
+    },
+    "PLACEHOLDERS": {
+      "BUSINESS_ACTIVITY": "Business Activity",
+      "TAX_ID": "Tax ID",
+      "EMAIL": "Email",
+      "JOB_TITLE": "Job Title",
+      "DOB": "Date of Birth",
+      "IDENTITY_NUMBER": "Identification Number",
+      "IDENTITY_TYPE": "Select Identity",
+      "GENDER": "Select Gender",
+      "SHORT_NAME": "Select Short Name",
+      "SECTOR": "Select Sector",
+      "SUB_SECTOR": "Select Sub Sector"
+    },
+    "ERRORS": {
+      "DATE_REQUIRED": "Date is required.",
+      "TAX_ID_REQUIRED": "Tax ID is required.",
+      "TAX_ID_PATTERN": "Only positive numbers and dashes are allowed. Format must be 3 digits, dash, 3 digits, dash, 3 digits (e.g. 123-435-678).",
+      "SECTOR_REQUIRED": "Sector is required.",
+      "SUB_SECTOR_REQUIRED": "Sub Sector is required.",
+      "IDENTITY_REQUIRED": "Identification Number is required.",
+      "IDENTITY_TYPE_REQUIRED": "Identity is required.",
+      "IS_MAIN_REQUIRED": "You must choose if this is main.",
+      "OFFICER_REQUIRED": "Officer is required."
+    },
+    "LOWER_BOUND": "LowerBound Amount",
+    "UPPER_BOUND": "UpperBound Amount",
+    "CRITERIA_FIELD": "Criteria Field",
+    "CRITERIA_FIELD_REQUIRED": "Criteria Field is required.",
+    "DEFAULT_AMOUNT": "Default Amount",
+    "DEFAULT_PERCENTAGE": "Default Percentage",
+
+    "PLACEHOLDER_LOWER_BOUND": "Enter LowerBound",
+    "PLACEHOLDER_UPPER_BOUND": "Enter UpperBound Amount",
+    "PLACEHOLDER_CRITERIA_FIELD": "Enter Criteria Field",
+    "PLACEHOLDER_DEFAULT_AMOUNT": "Enter Default Amount",
+    "PLACEHOLDER_DEFAULT_PERCENTAGE": "Enter Default Percentage",
+    "CODE2_REQUIRED": "Code2 in Arabic is required.",
+    "CODE3": "Code3",
+    "CODE3_REQUIRED": "Code3 in Arabic is required.",
+    "ADDRESS": "Address",
+    "ADDRESS_REQUIRED": "Address is required.",
+    "MANDATE_TERM": {
+      "LABEL_TERM_KEY": "Term Key",
+      "PLACEHOLDER_TERM_KEY": "Enter Term Key",
+      "LABEL_DESCRIPTION": "Description",
+      "PLACEHOLDER_DESCRIPTION": "Enter Description"
+    },
+    "MANDATE": {
+      "LABEL_OFFICER_NAME": "Officer Name",
+      "LABEL_ASSET_TYPE": "Asset Type",
+
+      "FINANCIAL_ACTIVITIES.TITLE": "Financial Activities",
+      "FINANCIAL_ACTIVITIES.DESCRIPTION": "Define the financial parameters for this mandate",
+      "PLACEHOLDER_SELECT_ASSET_TYPE": "Select Asset Type",
+      "LABEL_DATE": "Date",
+      "LABEL_EXPIRATION_DATE": "Expiration Date",
+      "FEES": "Fees",
+      "FEES_DESCRIPTION": "Define fees associated with this mandate",
+      "LABEL_NOTES": "Notes",
+      "LABEL_DESCRIPTION": "Description",
+      "LABEL_VALIDITY_COUNT": "Validity Count",
+      "LABEL_INDICATIVE_RENTALS": "Indicative Rentals",
+      "LABEL_GRACE_PERIOD_COUNT": "Grace Period Count",
+      "LABEL_GRACE_PERIOD_UNIT": "Grace Period Unit",
+      "LABEL_VALIDITY_DAYS": "Validity Days",
+      "LABEL_ASSET_COST": "Asset Cost",
+      "LABEL_DOWN_PAYMENT": "Down Payment",
+      "LABEL_PERCENT_FINANCE": "Percent of Finance",
+      "LABEL_NFA": "NFA",
+
+      "LABEL_YEARS": "Years",
+      "LABEL_START_DATE": "Start Date",
+      "LABEL_INTEREST_RATE": "Interest Rate",
+      "LABEL_INSURANCE_RATE": "Insurance Rate",
+      "LABEL_TENOR": "Tenor",
+      "LABEL_PAYMENT_PERIOD": "Payment Period",
+      "LABEL_GRACE_PERIOD": "Grace Period Count",
+      "LABEL_CURRENCY": "Currency",
+      "LABEL_CURRENCY_EXCHANGE_RATE": "Currency Exchange Rate",
+      "LABEL_IS_MANUAL_EXCHANGE_RATE": "Is Manual Exchange Rate",
+      "LABEL_MANUAL_EXCHANGE_RATE": "Manual Exchange Rate",
+      "LABEL_RENT": "Rent",
+      "LABEL_RV_PERCENT": "RV Percent",
+      "LABEL_RV_AMOUNT": "RV Amount",
+      "LABEL_RESERVE_PAYMENT_COUNT": "Reserve Payment Count",
+      "LABEL_RESERVE_PAYMENT_AMOUNT": "Reserve Payment Amount",
+      "LABEL_PROVISION_PERCENT": "Provision Percent",
+      "LABEL_PROVISION_AMOUNT": "Provision Amount",
+      "LABEL_INTEREST_RATE_BENCHMARK": "Interest Rate Benchmark",
+      "LABEL_PAYMENT_TIME_TERM": "Payment Time Term",
+      "LABEL_RENT_STRUCTURE": "Rent Structure",
+      "LABEL_PAYMENT_METHOD": "Payment Method",
+      "LABEL_PAYMENT_MONTH_DAY": "Payment Month Day",
+      "LABEL_PERCENT_OF_FINANCE": "Percent of Finance",
+      "LABEL_GRACE_PERIOD_DAYS": "Grace Period",
+      "LABEL_PAYMENT_TIMING_TERM": "Payment Timing Term",
+      "LABEL_RENT_STRUCTURE_TYPE": "Rent Structure Type",
+      "LABEL_IS_CURRENT": "Is Current",
+      "PLACEHOLDER_NOTES": "Enter notes",
+      "PLACEHOLDER_DESCRIPTION": "Enter description",
+      "PLACEHOLDER_VALIDITY_COUNT": "Enter validity count",
+      "PLACEHOLDER_INDICATIVE_RENTALS": "Enter indicative rentals",
+      "PLACEHOLDER_GRACE_PERIOD_COUNT": "Enter grace period count",
+      "PLACEHOLDER_GRACE_PERIOD_UNIT": "Select grace period unit",
+      "PLACEHOLDER_VALIDITY_DAYS": " Enter validity days",
+      "PLACEHOLDER_ASSET_COST": "Enter Asset Cost",
+      "PLACEHOLDER_DOWN_PAYMENT": "Enter Down Payment",
+      "PLACEHOLDER_PERCENT_FINANCE": "Enter Percent of Finance",
+      "PLACEHOLDER_NFA": "Enter NFA",
+      "PLACEHOLDER_YEARS": "Enter Years",
+      "PLACEHOLDER_START_DATE": "Select Start Date",
+      "PLACEHOLDER_INTEREST_RATE": "Enter Interest Rate",
+      "PLACEHOLDER_INSURANCE_RATE": "Enter Insurance Rate",
+      "PLACEHOLDER_TENOR": "Enter Tenor",
+      "PLACEHOLDER_SELECT_PAYMENT_TIMING_TERM": "Select Payment Timing Term",
+      "PLACEHOLDER_SELECT_RENT_STRUCTURE_TYPE": "Select Rent Structure Type",
+
+      "PLACEHOLDER_PAYMENT_PERIOD": "Select Payment Period",
+      "PLACEHOLDER_GRACE_PERIOD": "Enter Grace Period Count",
+      "PLACEHOLDER_CURRENCY": "Select Currency",
+      "PLACEHOLDER_CURRENCY_EXCHANGE_RATE": "Enter Currency Exchange Rate",
+      "PLACEHOLDER_MANUAL_EXCHANGE_RATE": "Enter Manual Exchange Rate",
+      "PLACEHOLDER_RENT": "Enter Rent",
+      "PLACEHOLDER_RV_PERCENT": "Enter RV Percent",
+      "PLACEHOLDER_RV_AMOUNT": "Enter RV Amount",
+      "PLACEHOLDER_RESERVE_PAYMENT_COUNT": "Enter Reserve Payment Count",
+      "PLACEHOLDER_RESERVE_PAYMENT_AMOUNT": "Enter Reserve Payment Amount",
+      "PLACEHOLDER_PROVISION_PERCENT": "Enter Provision Percent",
+      "PLACEHOLDER_PROVISION_AMOUNT": "Enter Provision Amount",
+      "PLACEHOLDER_INTEREST_RATE_BENCHMARK": "Select Interest Rate Benchmark",
+      "PLACEHOLDER_PAYMENT_TIME_TERM": "Select Payment Time Term",
+      "PLACEHOLDER_RENT_STRUCTURE": "Select Rent Structure",
+      "PLACEHOLDER_PAYMENT_METHOD": "Select Payment Method",
+      "PLACEHOLDER_PAYMENT_MONTH_DAY": "Select Payment Month Day",
+      "PLACEHOLDER_PERCENT_OF_FINANCE": "Enter Percent of Finance",
+      "PLACEHOLDER_GRACE_PERIOD_DAYS": "Enter Grace Period",
+      "PLACEHOLDER_SELECT_CURRENCY": "Select Currency",
+      "PLACEHOLDER_SELECT_CURRENCY_EXCHANGE_RATE": "Select Currency Exchange Rate",
+      "ERROR_PAYMENT_TIMING_TERM_REQUIRED": "Payment Timing Term is required.",
+      "ERROR_RENT_STRUCTURE_TYPE_REQUIRED": "Rent Structure Type is required.",
+      "ERROR_FEE_TYPE_REQUIRED": "Fee Type is required.",
+      "ERROR_ACTUAL_AMOUNT_REQUIRED": "Actual Amount  is required.",
+      "ERROR_ACTUAL_PERCENTAGE_REQUIRED": "Actual Percentage  is required.",
+      "ERROR_GRACE_PERIOD_DAYS_REQUIRED": "Grace Period Days are required.",
+      "ERROR_DATE_REQUIRED": "Date is required.",
+      "ERROR_EXPIRATION_DATE_REQUIRED": "Expiration Date is required.",
+      "ERROR_VALIDITY_DAYS_REQUIRED": " Validity days are required.",
+      "ERROR_NOTES_REQUIRED": "Notes are required.",
+      "ERROR_DESCRIPTION_REQUIRED": "Description is required.",
+      "ERROR_VALIDITY_COUNT_REQUIRED": "Validity count is required.",
+      "ERROR_INDICATIVE_RENTALS_REQUIRED": "Indicative rentals are required.",
+      "ERROR_GRACE_PERIOD_COUNT_REQUIRED": "Grace period count is required.",
+      "ERROR_ASSET_TYPE_REQUIRED": "Asset Type is required.",
+      "ERROR_DOWN_PAYMENT_REQUIRED": "Down Payment is required.",
+      "ERROR_ASSET_COST_REQUIRED": "Asset Cost is required.",
+      "ERROR_ASSET_COST_MIN": "Asset Cost must be positive.",
+      "LABEL_ASSET_TYPE_DESCRIPTION": "Asset Type Description",
+      "PLACEHOLDER_ASSET_TYPE_DESCRIPTION": "Enter Asset Type Description",
+      "ERROR_ASSET_TYPE_DESCRIPTION_REQUIRED": "Asset Type Description is required.",
+      "ERROR_PERCENT_OF_FINANCE_REQUIRED": "Percent of Finance is required.",
+      "ERROR_NFA_REQUIRED": "NFA is required.",
+      "ERROR_YEARS_REQUIRED": "Years is required.",
+      "ERROR_INSURANCE_RATE_REQUIRED": "Insurance Rate is required.",
+      "ERROR_INTEREST_RATE_REQUIRED": "Interest Rate is required.",
+      "PLACEHOLDER_SELECT_OFFICER": "Select Officer",
+      "ERROR_OFFICER_REQUIRED": "Officer Name is required.",
+      "LABEL_CLIENT_NAME": "Client Name",
+      "PLACEHOLDER_CLIENT_NAME": "Select Client Name",
+      "LABEL_CONTACT_PERSON": "Contact Person",
+      "PLACEHOLDER_SELECT_CONTACT_PERSON": "Select Contact Person",
+      "ERROR_CONTACT_PERSON_REQUIRED": "Contact Person is required.",
+      "ERROR_CLIENT_REQUIRED": "Client is required.",
+      "LABEL_VALIDITY_UNIT": "Mandate Validity Unit",
+      "PLACEHOLDER_VALIDITY_UNIT": "Select Mandate Validity Unit",
+      "ERROR_VALIDITY_UNIT_REQUIRED": "Mandate Validity Unit is required.",
+      "LABEL_PRODUCT": "Product",
+      "PLACEHOLDER_PRODUCT": "Select Product",
+      "ERROR_PRODUCT_REQUIRED": "Product is required.",
+      "LABEL_LEASING_TYPE": "Leasing Type",
+      "PLACEHOLDER_LEASING_TYPE": "Select Leasing Type",
+      "ERROR_LEASING_TYPE_REQUIRED": "Leasing Type is required.",
+      "LABEL_INSURED_BY": "Insured By",
+      "PLACEHOLDER_INSURED_BY": "Select Insured By",
+      "ERROR_INSURED_BY_REQUIRED": "Insured By is required.",
+      "ERROR_TENOR_REQUIRED": "Tenor is required.",
+      "ERROR_TENOR_MIN": "Tenor must be positive.",
+      "ERROR_INTEREST_RATE_MIN": "Interest Rate must be positive.",
+      "ERROR_INSURANCE_RATE_MIN": "Insurance Rate must be positive.",
+      "ERROR_DOWN_PAYMENT_MIN": "Down Payment must be positive.",
+      "ERROR_PERCENT_OF_FINANCE_MIN": "Percent of Finance must be positive.",
+      "ERROR_NFA_MIN": "NFA must be positive.",
+      "ERROR_YEARS_MIN": "Years must be positive.",
+      "ERROR_CURRENCY_REQUIRED": "Currency is required.",
+      "ERROR_CURRENCY_EXCHANGE_RATE_REQUIRED": "Currency Exchange Rate is required.",
+      "ERROR_CURRENCY_EXCHANGE_RATE_MIN": "Currency Exchange Rate must be positive.",
+      "ERROR_MANUAL_EXCHANGE_RATE_REQUIRED": "Manual Exchange Rate is required.",
+      "ERROR_MANUAL_EXCHANGE_RATE_MIN": "Manual Exchange Rate must be positive.",
+      "ERROR_RENT_REQUIRED": "Rent is required.",
+      "ERROR_RENT_MIN": "Rent must be positive.",
+      "ERROR_RV_PERCENT_REQUIRED": "RV Percent is required.",
+      "ERROR_RV_PERCENT_MIN": "RV Percent must be positive.",
+      "ERROR_RV_AMOUNT_REQUIRED": "RV Amount is required.",
+      "ERROR_RV_AMOUNT_MIN": "RV Amount must be positive.",
+      "ERROR_RESERVE_PAYMENT_COUNT_REQUIRED": "Reserve Payment Count is required.",
+      "ERROR_RESERVE_PAYMENT_COUNT_MIN": "Reserve Payment Count must be positive.",
+      "ERROR_RESERVE_PAYMENT_AMOUNT_REQUIRED": "Reserve Payment Amount is required.",
+      "ERROR_RESERVE_PAYMENT_AMOUNT_MIN": "Reserve Payment Amount must be positive.",
+      "ERROR_PROVISION_PERCENT_REQUIRED": "Provision Percent is required.",
+      "ERROR_PROVISION_PERCENT_MIN": "Provision Percent must be positive.",
+      "ERROR_PROVISION_AMOUNT_REQUIRED": "Provision Amount is required.",
+      "ERROR_PROVISION_AMOUNT_MIN": "Provision Amount must be positive.",
+      "ERROR_INDICATIVE_RENTALS_MIN": "Indicative Rentals must be positive.",
+      "ERROR_PAYMENT_PERIOD_REQUIRED": "Payment Period is required.",
+      "ERROR_GRACE_PERIOD_REQUIRED": "Grace Period Count is required.",
+      "ERROR_INTEREST_RATE_BENCHMARK_REQUIRED": "Interest Rate Benchmark is required.",
+      "ERROR_PAYMENT_TIME_TERM_REQUIRED": "Payment Time Term is required.",
+      "ERROR_RENT_STRUCTURE_REQUIRED": "Rent Structure is required.",
+      "ERROR_PAYMENT_METHOD_REQUIRED": "Payment Method is required.",
+      "ERROR_PAYMENT_MONTH_DAY_REQUIRED": "Payment Month Day is required."
+    },
+    "FIRST_CLAIM_STATUSES": {
+      "BUTTON_ADD": "Add First Claim Status",
+      "BUTTON_EDIT": "Edit First Claim Status"
+    },
+    "SHARE_HOLDER": {
+      "LABEL_NAME": "Share Holder Name",
+      "PLACEHOLDER_SELECT_NAME": "Select Share Holder",
+      "LABEL_PERCENTAGE": "Share Holder Percentage",
+      "PLACEHOLDER_PERCENTAGE": "Enter Percentage"
+    },
+    "TAX_AUTHORITY": {
+      "LABEL_CR_EXPIRY_DATE": "CR Expiry Date",
+      "LABEL_TAX_NUMBER": "Tax Number",
+      "PLACEHOLDER_TAX_NUMBER": "Enter Tax Number",
+      "LABEL_TAX_OFFICE": "Tax Office",
+      "PLACEHOLDER_TAX_OFFICE": "Select Tax Office"
+    },
+    "OPERATION_PAGE": {
+      "LABEL_OPERATION": "Operation",
+      "PLACEHOLDER_OPERATION": "Select Operation",
+      "ERROR_OPERATION_REQUIRED": "Operation is required.",
+      "LABEL_PAGE": "Page",
+      "PLACEHOLDER_PAGE": "Select Page",
+      "ERROR_PAGE_REQUIRED": "Page is required.",
+      "LABEL_IS_ACTIVE": "Active"
+    },
+    "SALES_TURNOVER": {
+      "LABEL_AMOUNT": "Amount",
+      "PLACEHOLDER_AMOUNT": "Enter amount",
+      "ERROR_REQUIRED_AMOUNT": "Amount is required.",
+      "ERROR_MIN_AMOUNT": "Amount must be positive.",
+      "LABEL_DATE": "Date"
+    },
+    "SHARED": {
+      "LABEL_VALUE": "Value",
+      "PLACEHOLDER_DAY_RANGE": "Enter a value between 1 and 31",
+      "ERRORS": {
+        "VALUE_REQUIRED": "Value is required."
+      }
+    },
+    "RELATED_FILE_PATH": {
+      "LABEL": "Related File Path",
+      "PLACEHOLDER": "Enter related file path",
+      "ERROR_REQUIRED": "Related File Path is required."
+    },
+    "PAYMENT_MONTH_DAY": {
+      "ADD": "Add Payment Month Day",
+      "EDIT": "Edit Payment Month Day"
+    },
+
+    "COMPANY_TYPES": {
+      "NAME_EN": "Name in English",
+      "PLACEHOLDER_NAME_EN": "Enter Name",
+      "LABEL_NAME_AR": "Name in Arabic",
+      "PLACEHOLDER_NAME_AR": "Enter Name in Arabic",
+      "LABEL_IS_ACTIVE": "Active",
+      "BUTTON_ADD": "Add Company Type",
+      "BUTTON_EDIT": "Edit Company Type",
+      "ERRORS": {
+        "NAME_EN_REQUIRED": "Name in English is required.",
+        "NAME_AR_REQUIRED": "Name in Arabic is required.",
+        "NAME_AR_PATTERN": "Please enter only Arabic letters."
+      }
+    },
+    "DOCUMENT_TYPE": {
+      "LABEL_NORMALIZED_NAME": "Normalized Name",
+      "PLACEHOLDER_NORMALIZED_NAME": "Enter Normalized Name",
+      "VALIDATION_REQUIRED_NORMALIZED_NAME": "Normalized Name is required."
+    },
+    "UPLOAD_DOCUMENT": {
+      "DOCUMENT_TYPE": "Document Type",
+      "EXPIRY_DATE": "Expiry Date",
+      "UPLOAD_FILE": "Upload File",
+      "UPLOADED": "Uploaded",
+      "PLACEHOLDER_DOCUMENT_TYPE": "Select document type"
+    },
+    "UPLOAD_DOCUMENTS": {
+      "TITLE": "Upload Documents",
+      "DESCRIPTION": "Fill in document details"
+    },
+    "FOLLOWUP_POINT": {
+      "TITLE": "Follow-up Point",
+      "DESCRIPTION": "Fill in the follow-up point details"
+    },
+    "CLIENT_SALES_TURNOVER": {
+      "TITLE": "Client Sales Turnover",
+      "DESCRIPTION": "Fill in client sales turnover details"
+    },
+    "MANDATE_FEE": {
+      "TITLE": "Mandate Fee",
+      "DESCRIPTION": "Fill in the fee structure for the mandate"
+    },
+    "ADDRESS_TYPE": {
+      "TITLE": "Address Type",
+      "DESCRIPTION": "Introduce your address core info quickly to users by filling in the address details",
+      "ADD": "Add Address Type",
+      "EDIT": "Edit Address Type"
+    },
+    "AREA": {
+      "TITLE": "Area",
+      "DESCRIPTION": "Introduce your area core info quickly to users by filling in area details"
+    },
+    "ASSET_TYPES": {
+      "TITLE": "Asset Types",
+      "DESCRIPTION": "Introduce your asset types core info quickly to users by filling in asset type details"
+    },
+    "ASSETS": {
+      "TITLE": "Assets",
+      "DESCRIPTION": "Introduce your assets core info quickly to users by filling in asset  details"
+    },
+    "AUTHORITY_OFFICES": {
+      "TITLE": "Authority Office",
+      "DESCRIPTION": "Introduce your authority office core info quickly to users by filling in authority office details"
+    },
+    "AUTH_GROUP_OFFICERS": {
+      "TITLE": "Authorization Group Officers",
+      "DESCRIPTION": "Assign officers to specific authorization groups to define access control and responsibilities"
+    },
+    "AUTHORIZATION_GROUP": {
+      "TITLE": "Authorization Group",
+      "DESCRIPTION": "Define and manage access control groups for streamlined permissions and workflows",
+      "ADD": "Add Authorization Group",
+      "EDIT": "Edit Authorization Group",
+      "ERROR_REQUIRED": "Authorization Group is required."
+    },
+    "BUSINESS_LINE": {
+      "TITLE": "Business Line",
+      "DESCRIPTION": "Provide and manage core business line information"
+    },
+    "CALL_ACTION_TYPE": {
+      "TITLE": "Call Action Type",
+      "DESCRIPTION": "Introduce your Call Action Type core info quickly to users by filling in the details",
+      "BUTTON_ADD": "Add Call Action Type",
+      "BUTTON_EDIT": "Edit Call Action Type"
+    },
+    "CALL_TYPE": {
+      "TITLE": "Call Type",
+      "DESCRIPTION": "Introduce your Call Type core info quickly to users by filling in the call type details",
+      "BUTTON_ADD": "Add Call Type",
+      "BUTTON_EDIT": "Edit Call Type"
+    },
+    "CLIENT_OFFICER_TYPE": {
+      "TITLE": "Client Officer Type",
+      "DESCRIPTION": "Introduce your Client Officer Type core info quickly to users by filling in the officer type details",
+      "BUTTON_ADD": "Add Client Officer Type",
+      "BUTTON_EDIT": "Edit Client Officer Type"
+    },
+    "CLIENT_STATUSES": {
+      "TITLE": "Client Statuses",
+      "DESCRIPTION": "Introduce your Client Statuses info quickly to users"
+    },
+    "CLIENT_STATUS_ACTIONS": {
+      "TITLE": "Client Status Actions",
+      "DESCRIPTION": "Introduce your Client Status Actions core info quickly to users by filling in the details"
+    },
+    "CLIENT_TYPE": {
+      "TITLE": "Client Type",
+      "DESCRIPTION": "Introduce your Client Type core info quickly to users by filling in the client type details",
+      "BUTTON_ADD": "Add Client Type",
+      "BUTTON_EDIT": "Edit Client Type"
+    },
+    "COMM_FLOW_TYPE": {
+      "TITLE": "Communication Flow Type",
+      "DESCRIPTION": "Introduce your Communication Flow Type core info quickly to users by filling in the communication flow type details",
+      "BUTTON_ADD": "Add Communication Flow Type",
+      "BUTTON_EDIT": "Edit Communication Flow Type"
+    },
+    "COMM_TYPE": {
+      "TITLE": "Communication Type",
+      "DESCRIPTION": "Introduce your Communication Type core info quickly to users by filling in the communication type details",
+      "BUTTON_ADD": "Add Communication Type",
+      "BUTTON_EDIT": "Edit Communication Type"
+    },
+    "COMPANY_TYPE": {
+      "TITLE": "Company Type",
+      "DESCRIPTION": "Introduce your Company Type core info quickly to users by filling in the company type details"
+    },
+    "CONDITION_EXPRESSION": {
+      "TITLE": "Condition Expression",
+      "DESCRIPTION": "Introduce your Condition Expression core info quickly to users by filling in the condition expression details",
+      "LABEL_OPERATOR": "Operator",
+      "PLACEHOLDER_OPERATOR": "Enter operator",
+      "VALIDATION_OPERATOR_REQUIRED": "Operator is required.",
+      "BUTTON_ADD": "Add Condition Expression",
+      "BUTTON_EDIT": "Edit Condition Expression"
+    },
+    "CONDITION": {
+      "TITLE": "Condition",
+      "DESCRIPTION": "Introduce your Condition core info quickly to users by filling in the details"
+    },
+    "COUNTRY": {
+      "TITLE": "Country",
+      "DESCRIPTION": "Introduce your country core info quickly to users by filling in the details"
+    },
+    "CURRENCY": {
+      "TITLE": "Currency",
+      "DESCRIPTION": "Introduce your currency core info quickly to users by filling in currency details"
+    },
+    "CURRENCY_EXCHANGE": {
+      "TITLE": "Currency Exchange",
+      "DESCRIPTION": "Provide the currency exchange details for accurate financial tracking and conversion"
+    },
+    "DOC_TYPES": {
+      "TITLE": "Document Types",
+      "DESCRIPTION": "Define the types of documents required for this workflow or entity"
+    },
+    "FEE_CALCULATION_TYPES": {
+      "TITLE": "Fee Calculation Types",
+      "DESCRIPTION": "Define the available methods used to calculate various fees"
+    },
+    "FEE_RANGES": {
+      "TITLE": "Fee Ranges",
+      "DESCRIPTION": "Specify minimum and maximum ranges for applicable fees"
+    },
+    "FEE_TYPES": {
+      "TITLE": "Fee Types",
+      "DESCRIPTION": "Define the various types of fees applicable in your workflow"
+    },
+    "FOLLOWUP_TYPES": {
+      "TITLE": "Follow-up Types",
+      "DESCRIPTION": "Introduce your follow-up type core info quickly to users by filling in the follow-up details"
+    },
+    "GOVERNORATES": {
+      "TITLE": "Governorates",
+      "DESCRIPTION": "Introduce Governorate info quickly to users by filling in the governorate details"
+    },
+    "GOVERNORATE": {
+      "LABEL_SELECT": "Select Governorate",
+      "PLACEHOLDER_SELECT": "Select Governorate",
+      "ERROR_REQUIRED": "Governorate is required."
+    },
+    "FEE_CALCULATION_TYPE": {
+      "ADD": "Add Fee Calculation Type",
+      "EDIT": "Edit Fee Calculation Type"
+    },
+    "IDENTIFICATION_TYPE": {
+      "BUTTON_ADD": "Add Identification Type",
+      "BUTTON_EDIT": "Edit Identification Type"
+    },
+    "IDENTIFICATION_TYPES": {
+      "TITLE": "Identification Types",
+      "DESCRIPTION": "Introduce your identification type core info quickly to users by filling in identification type details"
+    },
+    "INSURED_BY": {
+      "TITLE": "Insured By",
+      "DESCRIPTION": "Introduce your insured by core info quickly to users by filling in insured by details",
+      "BUTTON_ADD": "Add Insured By",
+      "BUTTON_EDIT": "Edit Insured By"
+    },
+    "INTEREST_RATE_BENCHMARK": {
+      "TITLE": "Interest Rate Benchmark",
+      "DESCRIPTION": "Introduce your interest rate benchmark core info quickly to users by filling in the details",
+      "BUTTON_ADD": "Add Interest Rate Benchmark",
+      "BUTTON_EDIT": "Edit Interest Rate Benchmark"
+    },
+    "INTEREST_TYPE": {
+      "TITLE": "Interest Type",
+      "DESCRIPTION": "Introduce your interest type core info quickly to users by filling in the details",
+      "BUTTON_ADD": "Add Interest Type",
+      "BUTTON_EDIT": "Edit Interest Type"
+    },
+    "LEASING_TYPE": {
+      "TITLE": "Leasing Type",
+      "DESCRIPTION": "Introduce your leasing type core info quickly to users by filling in the leasing type details",
+      "BUTTON_ADD": "Add Leasing Type",
+      "BUTTON_EDIT": "Edit Leasing Type"
+    },
+    "MANDATE_STATUSES": {
+      "TITLE": "Mandate Statuses",
+      "DESCRIPTION": "Introduce your mandate statuses info quickly to users by filling in the relevant details"
+    },
+    "MANDATE_STATUS_ACTIONS": {
+      "TITLE": "Mandate Status Actions",
+      "DESCRIPTION": "Introduce your mandate status action info quickly to users by filling in the relevant details"
+    },
+    "MANDATE_VALIDITY_UNIT": {
+      "TITLE": "Mandate Validity Unit",
+      "DESCRIPTION": "Introduce your mandate validity unit information quickly to users by filling in the required details"
+    },
+    "MEETING_TYPES": {
+      "TITLE": "Meeting Type",
+      "DESCRIPTION": "Introduce your meeting type core info quickly to users by filling up meeting type details"
+    },
+    "MEETING_TYPE": {
+      "BUTTON_ADD": "Add Meeting Type",
+      "BUTTON_EDIT": "Edit Meeting Type"
+    },
+    "NOTIFICATION_GROUP_OFFICERS": {
+      "TITLE": "Notification Group Officers",
+      "DESCRIPTION": "Introduce your notification group officer details quickly by filling up the required officer and group information"
+    },
+    "NOTIFICATION_GROUPS": {
+      "TITLE": "Notification Groups",
+      "DESCRIPTION": "Introduce your notification group core info quickly by filling in the group details"
+    },
+    "NOTIFICATION_GROUP": {
+      "ADD": "Add Notification Group",
+      "EDIT": "Edit Notification Group",
+      "LABEL": "Select Notification Group",
+      "PLACEHOLDER": "Select Notification Group",
+      "ERROR_REQUIRED": "Notification Group is required."
+    },
+    "FOLLOWUP_TYPE": {
+      "ADD": "Add Followup Type",
+      "EDIT": "Edit Followup Type"
+    },
+
+    "AUTHORITY_OFFICE": {
+      "ADD": "Add Authority Office",
+      "EDIT": "Edit Authority Office"
+    },
+    "PAYMENT_METHODS": {
+      "TITLE": "Payment Methods",
+      "DESCRIPTION": "Introduce your payment method core info quickly by filling in the method details"
+    },
+    "PAYMENT_METHOD": {
+      "BUTTON_ADD": "Add Payment Method",
+      "BUTTON_EDIT": "Edit Payment Method"
+    },
+    "PAYMENT_MONTH_DAYS": {
+      "TITLE": "Payment Month Days",
+      "DESCRIPTION": "Introduce your payment month day core info quickly to users by filling in the details"
+    },
+    "PAYMENT_PERIODS": {
+      "TITLE": "Payment Periods",
+      "DESCRIPTION": "Introduce your payment period core info quickly to users by filling in the details"
+    },
+    "PAYMENT_PERIOD": {
+      "BUTTON_ADD": "Add Payment Period",
+      "BUTTON_EDIT": "Edit Payment Period"
+    },
+    "PAYMENT_TIMING_TERMS": {
+      "TITLE": "Payment Timing Terms",
+      "DESCRIPTION": "Introduce your payment timing term details clearly by filling in the required information"
+    },
+    "PAYMENT_TIMING_TERM": {
+      "BUTTON_ADD": "Add Payment Timing Term",
+      "BUTTON_EDIT": "Edit Payment Timing Term",
+      "LABEL_MONTH_COUNT": "Month count",
+      "PLACEHOLDER_MONTH_COUNT": "Enter Month Count"
+    },
+    "PAYMENT_TYPES": {
+      "TITLE": "Payment Types",
+      "DESCRIPTION": "Introduce your payment type core information by filling in the payment type details"
+    },
+    "PAYMENT_TYPE": {
+      "BUTTON_ADD": "Add Payment Type",
+      "BUTTON_EDIT": "Edit Payment Type"
+    },
+    "GRACE_PERIOD_UNITS": {
+      "TITLE": "Grace Period Units",
+      "DESCRIPTION": "Introduce your grace period unit core information by filling in the grace period unit details"
+    },
+    "GRACE_PERIOD_UNIT": {
+      "BUTTON_ADD": "Add Grace Period Unit",
+      "BUTTON_EDIT": "Edit Grace Period Unit"
+    },
+    "PHONE_TYPES": {
+      "TITLE": "Phone Types",
+      "DESCRIPTION": "Introduce your phone type core information by filling in the phone type details"
+    },
+    "PHONE_TYPE": {
+      "BUTTON_ADD": "Add Phone Type",
+      "BUTTON_EDIT": "Edit Phone Type"
+    },
+    "PRODUCTS": {
+      "TITLE": "Products",
+      "DESCRIPTION": "Introduce your product core information quickly by filling in product details"
+    },
+    "RENT_STRUCTURE_TYPES": {
+      "TITLE": "Rent Structure Types",
+      "DESCRIPTION": "Introduce your Rent Structure Type core info quickly by filling in rent structure type details"
+    },
+    "RENT_STRUCTURE_TYPE": {
+      "BUTTON_ADD": "Add Rent Structure Type",
+      "BUTTON_EDIT": "Edit Rent Structure Type"
+    },
+    "SECTORS": {
+      "TITLE": "Sectors",
+      "DESCRIPTION": "Introduce your sector core info quickly by filling in sector details",
+      "BUTTON_ADD": "Add Sector",
+      "BUTTON_EDIT": "Edit Sector"
+    },
+    "TML_OFFICER_TYPES": {
+      "BUTTON_ADD": "Add Tml Officer Type",
+      "BUTTON_EDIT": "Edit Tml Officer Type"
+    },
+    "SME_CLIENT_CODES": {
+      "TITLE": "SME Client Code",
+      "DESCRIPTION": "Introduce your SME Client Code core info quickly by filling in the details"
+    },
+    "SUB_SECTORS": {
+      "TITLE": "Sub Sector",
+      "DESCRIPTION": "Introduce your sub sector core info quickly by filling in sub sector details",
+      "LABEL_SECTOR": "Select Sector",
+      "PLACEHOLDER_SECTOR": "Select Sector",
+      "ERROR_SECTOR_REQUIRED": "Sector Id is required."
+    },
+    "TAX_OFFICES": {
+      "TITLE": "Tax Office",
+      "DESCRIPTION": "Introduce your tax office core info quickly by filling in tax office details"
+    },
+    "TML_OFFICER_TYPE": {
+      "TITLE": "TML Officer Type",
+      "DESCRIPTION": "Introduce your TML Officer Type core info quickly by filling in the details"
+    },
+    "WORKFLOW_ACTION_TYPE": {
+      "TITLE": "Workflow Action Type",
+      "DESCRIPTION": "Introduce your Workflow Action Type core info quickly by filling in the details",
+      "ADD": "Add Workflow Action Type",
+      "EDIT": "Edit Workflow Action Type"
+    },
+    "BRANCH_MANAGER": {
+      "TITLE": "Branch Manager",
+      "DESCRIPTION": "Add or update branch manager information quickly by filling in the required details"
+    },
+    "BRANCH_OFFICER": {
+      "TITLE": "Branch Officer",
+      "DESCRIPTION": "Add or update branch officer information quickly by filling in the required details"
+    },
+    "BRANCH": {
+      "TITLE": "Branch",
+      "DESCRIPTION": "Introduce your branch core info quickly to users by filling in branch details",
+      "ADD": "Add Branch",
+      "EDIT": "Edit Branch"
+    },
+    "COMMON": {
+      "FIELD_NAME": "Field Name",
+      "PLACEHOLDER_FIELD_NAME": "Enter Field Name",
+      "VALIDATION_FIELD_NAME_REQUIRED": "Field name is required.",
+      "PLACEHOLDER_VALUE": "Enter value"
+    },
+    "DEPARTMENT_MANAGER": {
+      "TITLE": "Department Manager",
+      "DESCRIPTION": "Introduce your department manager info quickly to users by filling in manager details"
+    },
+    "DEPARTMENT": {
+      "TITLE": "Department",
+      "DESCRIPTION": "Introduce your department info quickly to users by filling in department details"
+    },
+    "OFFICER": {
+      "TITLE": "Officer",
+      "DESCRIPTION": "Introduce your officer information quickly by filling in officer details",
+      "LABEL": "Select Officer",
+      "PLACEHOLDER": "Select Officer",
+      "ERROR_REQUIRED": "Officer is required."
+    },
+    "SIGNATORY_OFFICER": {
+      "TITLE": "Signatory Officer",
+      "DESCRIPTION": "Introduce your signatory officer information quickly by filling in the officer's details"
+    },
+    "OPERATION": {
+      "TITLE": "Operation",
+      "DESCRIPTION": "Introduce your operation core info quickly to users by filling in operation details"
+    },
+    "PAGE_OPERATION": {
+      "TITLE": "Page Operation",
+      "DESCRIPTION": "Introduce your page operation core info quickly to users by filling in page operation details"
+    },
+    "TEAM_MEMBER": {
+      "TITLE": "Team Member",
+      "DESCRIPTION": "Introduce your team member's core info quickly to users by filling in the necessary details"
+    },
+    "TEAM_LEAD": {
+      "TITLE": "Team Lead Officer",
+      "DESCRIPTION": "Introduce your team lead officer's core info quickly to users by filling in relevant details"
+    },
+    "TEAM": {
+      "TITLE": "Team",
+      "DESCRIPTION": "Introduce your team's core info quickly to users by filling in company details"
+    },
+    "ROLE": {
+      "TITLE": "Role",
+      "DESCRIPTION": "Introduce your role core info quickly to users by filling in role details"
+    },
+    "PAGE": {
+      "TITLE": "Page",
+      "DESCRIPTION": "Introduce your page core info quickly to users by filling in page details",
+      "LABEL_URL": "URL",
+      "PLACEHOLDER_URL": "Enter URL",
+      "ERROR_REQUIRED_URL": "URL is required.",
+      "ADD_PAGE": "Add Page",
+      "EDIT_PAGE": "Edit Page",
+      "LABEL_DESCRIPTION": "Description",
+      "PLACEHOLDER_DESCRIPTION": "Enter Description",
+      "ERROR_DESCRIPTION_REQUIRED": "Description is required."
+    }
+  },
+  "GENDER": {
+    "MALE": "Male",
+    "FEMALE": "Female"
+  }
+}

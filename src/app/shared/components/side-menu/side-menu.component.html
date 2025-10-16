@@ -1,38 +1,43 @@
-<div class="side-menu-container" *ngIf="isVisible">
-  <div class="side-menu">
-    <img class="logoS" src="/assets/logoS.svg" />
-    <button
-      class="menuItem"
-      *ngFor="let item of menuItems"
-      pButton
-      style="color: #7c8493"
-      icon="{{ item.icon }}"
-      class="menu-button"
-      (click)="toggleMenu(item)"
-      [ngClass]="{ active: activeMenu === item.id }"
-      [pTooltip]="item.label"
-      tooltipPosition="right"
-    ></button>
+<ng-container *ngIf="isVisible">
+  <div class="side-menu-container">
+    <div class="side-menu">
+      <img class="logoS" src="/assets/images/shared/favico/svg_1.svg" />
+      <ng-container *ngFor="let item of menuItems">
+        <button
+          *ngIf="hasPermission(item.permission)"
+          pButton
+          type="button"
+          class="menu-item menu-button"
+          [icon]="item.icon"
+          (click)="toggleMenu(item)"
+          [ngClass]="{ active: activeMenu === item.id }"
+          [pTooltip]="item.i18nKey | translate"
+          tooltipPosition="right"
+        ></button>
+      </ng-container>
+    </div>
+
+    <div
+      class="toggle-menu"
+      *ngIf="activeMenu && (filteredMenuData[activeMenu]?.length || 0) > 0"
+    >
+      <img class="logo" src="/assets/images/shared/favico/svg_1.svg" />
+      <p-iconfield>
+        <p-inputicon styleClass="pi pi-search" />
+        <input
+          type="text"
+          pInputText
+          [placeholder]="'SIDEMENU.SEARCH' | translate"
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="onSearchChange($event)"
+          class="search-input"
+        />
+      </p-iconfield>
+      <p-panelmenu
+        [model]="displayModel"
+        [multiple]="false"
+        (onNodeSelect)="setActiveMenuItem($event)"
+      ></p-panelmenu>
+    </div>
   </div>
-  <div class="toggle-menu" *ngIf="activeMenu">
-    <img class="logo" src="/assets/logo.svg" />
-    <p-iconfield>
-      <p-inputicon styleClass="pi pi-search" />
-      <input
-        type="text"
-        pInputText
-        placeholder="Search"
-        [(ngModel)]="searchTerm"
-        (input)="filterMenuItems()"
-        class="search-input"
-      />
-    </p-iconfield>
-    <p-panelmenu
-      [model]="
-        filteredMenuItems.length > 0 ? filteredMenuItems : getActiveMenuItems()
-      "
-      [multiple]="false"
-      (onNodeSelect)="setActiveMenuItem($event)"
-    ></p-panelmenu>
-  </div>
-</div>
+</ng-container>

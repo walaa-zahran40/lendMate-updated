@@ -15,13 +15,27 @@
 :host {
   --custom-red: #fc1e1e;
   &::ng-deep {
+    td {
+      max-width: 300px; /* don’t let the box grow past 300px */
+      white-space: normal; /* allow lines to wrap */
+      overflow-wrap: break-word; /* break long words if they exceed the width */
+    }
     img[alt="side"],
     img[alt="delete"],
-    img[alt="edit"] {
+    img[alt="edit"],
+    img[alt="download"] {
       cursor: pointer;
     }
     .p-datatable-popover-filter {
       background: transparent;
+    }
+    .p-checkbox-input:checked {
+      background: #33bd9d !important;
+    }
+    .p-datatable-hoverable
+      .p-datatable-tbody
+      > tr:not(.p-datatable-row-selected):hover {
+      background: var(--bg-transparent);
     }
     .p-paginator-page.p-paginator-page-selected {
       background-color: #007ad9 !important; /* Example: Corplease blue */
@@ -76,6 +90,9 @@
       background: var(--bg-odd);
       border: 1px solid var(--border-table);
     }
+    .p-dialog {
+      background: var(--white-color-add);
+    }
 
     .p-datatable-tbody {
       position: relative;
@@ -84,7 +101,7 @@
 
     .p-datatable-thead > tr > th {
       color: #7c8493;
-      font-family: "poppins", sans-serif;
+
       font-size: 16px;
       font-style: normal;
       font-weight: 400;
@@ -116,7 +133,7 @@
       background-color: #0a69bb !important;
     }
     .p-button-label {
-      font-weight: 700;
+      font-weight: 500;
     }
     .custom-icon {
       content: url("/assets/images/shared/table/filter.svg");
@@ -130,7 +147,7 @@
       font-family: "poppins-bold";
       font-size: 16px;
       font-style: normal;
-      font-weight: 700;
+      font-weight: 500;
       line-height: 160%; /* 25.6px */
     }
     .filter,
@@ -139,7 +156,7 @@
       font-family: "poppins-bold";
       font-size: 16px;
       font-style: normal;
-      font-weight: 700;
+      font-weight: 500;
       line-height: 160%; /* 25.6px */
       background-color: transparent !important;
       border-radius: 0px;
@@ -158,7 +175,7 @@
       font-family: "poppins-bold";
       font-size: 16px;
       font-style: normal;
-      font-weight: 700;
+      font-weight: 500;
       line-height: 160%;
     }
     .excel-icon-btn:not(:disabled):hover,
@@ -171,18 +188,19 @@
       font-family: "poppins-bold";
       font-size: 16px;
       font-style: normal;
-      font-weight: 700;
+      font-weight: 500;
       line-height: 160%;
     }
     .p-datatable-tbody > tr > td {
       color: var(--table-text);
-      font-family: "poppins", sans-serif;
+
       font-size: 16px;
       font-style: normal;
       font-weight: 500;
       line-height: 160%;
       text-align: start;
       border: none;
+      padding: 20px;
     }
     .p-datatable-table > tr {
       background: var(--bg-transparent);
@@ -193,7 +211,7 @@
     .p-datatable-tbody > tr > td > .text-success {
       text-transform: capitalize;
       color: #3cb091;
-      font-family: "poppins", sans-serif;
+
       font-size: 14px;
       font-style: normal;
       font-weight: 600;
@@ -205,7 +223,7 @@
     .p-datatable-tbody > tr > td > .text-danger {
       text-transform: capitalize;
       color: var(--custom-red);
-      font-family: "poppins", sans-serif;
+
       font-size: 14px;
       font-style: normal;
       font-weight: 600;
@@ -329,4 +347,15 @@
       }
     }
   }
+}
+.page-content-custom {
+  padding: 0;
+}
+img[alt="no data"] {
+  display: block;
+  margin: 260px auto 0px auto;
+  width: 30%;
+}
+.no-data {
+  margin: 0 auto !important;
 }

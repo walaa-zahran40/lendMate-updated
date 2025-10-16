@@ -1,0 +1,46 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/BranchesAddresses/Post'"
+    [title]="'Branch Address'"
+    [labelBtn]="'Add Branch Address'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddBranchAddress()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+  <ng-container *ngIf="branchAddresses$ | async as branchAddresses">
+    <app-table
+      [viewPermission]="[
+        '/BranchesAddresses/Get',
+        '/BranchesAddresses/GetAll',
+        '/BranchesAddresses/GetAllHistory'
+      ]"
+      [editPermission]="'/BranchesAddresses/Put'"
+      [deletePermission]="'/BranchesAddresses/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredBranchAddresses"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewBranchAddressesTable]="true"
+      (onDelete)="onDeleteBranchAddress($event)"
+      (onEdit)="onEditBranchAddress($event)"
+      (viewForm)="onViewBranchAddress($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

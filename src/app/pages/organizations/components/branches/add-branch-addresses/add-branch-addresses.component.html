@@ -1,0 +1,32 @@
+<app-toolbar-form
+  [header]="
+    viewOnly
+      ? 'View Branch Address'
+      : editMode
+      ? 'Edit Branch Address'
+      : 'Add Branch Address'
+  "
+  [backExists]="true"
+  [viewOnly]="false"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-form
+        *ngIf="addBranchAddressesLookupsForm"
+        [title]="'BRANCH_ADDRESS.TITLE'"
+        [description]="'BRANCH_ADDRESS.DESCRIPTION'"
+        [formGroup]="addBranchAddressesLookupsForm"
+        [addBranchAddressesLookupsForm]="true"
+        [editMode]="editMode"
+        (submitForm)="addOrEditBranchAddresses()"
+        [viewOnly]="viewOnly"
+        [countriesList]="countriesList$ | async"
+        [governoratesList]="filteredGovernorates"
+        [areasList]="filteredAreas"
+      ></app-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

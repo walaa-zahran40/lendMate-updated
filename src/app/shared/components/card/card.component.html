@@ -1,9 +1,9 @@
-<p-card (click)="navigation.emit()">
+<p-card (click)="navigation.emit()" class="mb-2">
   <ng-template pTemplate="header">
-    <img src="{{ imgUrl }}" alt="{{ imgAlt }}" />
+    <img [src]="imgUrl" [alt]="imgAlt" />
     <img alt="arrow" src="/assets/images/shared/card/arrow.svg" />
   </ng-template>
 
-  <ng-template pTemplate="title"> {{ title }} </ng-template>
-  <ng-template pTemplate="content"> {{ content }} </ng-template>
+  <ng-template pTemplate="title"> {{ translatedTitle }} </ng-template>
+  <ng-template pTemplate="content"> {{ translatedContent }} </ng-template>
 </p-card>

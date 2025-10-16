@@ -1,82 +1,87 @@
 import { createAction, props } from '@ngrx/store';
 import { CompanyType } from './company-type.model';
 
-// Load all
-export const loadCompanyTypes = createAction('[CompanyTypes] Load All');
-export const loadCompanyTypesSuccess = createAction(
-  '[CompanyTypes] Load All Success',
-  props<{ items: CompanyType[]; totalCount: number }>()
+export const loadAll = createAction(
+  '[CompanyTypes] Load All',
+  props<{ pageNumber?: number }>()
 );
-export const loadCompanyTypesFailure = createAction(
+export const loadAllSuccess = createAction(
+  '[CompanyTypes] Load All Success',
+  props<{ result: CompanyType[] }>()
+);
+
+export const loadAllFailure = createAction(
   '[CompanyTypes] Load All Failure',
   props<{ error: any }>()
 );
 
-// Load history
-export const loadCompanyTypesHistory = createAction(
-  '[CompanyTypes] Load History'
-);
-export const loadCompanyTypesHistorySuccess = createAction(
-  '[CompanyTypes] Load History Success',
-  props<{ history: CompanyType[] }>()
-);
-export const loadCompanyTypesHistoryFailure = createAction(
-  '[CompanyTypes] Load History Failure',
-  props<{ error: any }>()
-);
-
-// Load by ID
-export const loadCompanyType = createAction(
-  '[CompanyTypes] Load One',
+export const loadById = createAction(
+  '[CompanyTypes] Load By Id',
   props<{ id: number }>()
 );
-export const loadCompanyTypeSuccess = createAction(
-  '[CompanyTypes] Load One Success',
-  props<{ companyType: CompanyType }>()
+export const loadByIdSuccess = createAction(
+  '[CompanyTypes] Load By Id Success',
+  props<{ entity: CompanyType }>()
 );
-export const loadCompanyTypeFailure = createAction(
-  '[CompanyTypes] Load One Failure',
+export const loadByIdFailure = createAction(
+  '[CompanyTypes] Load By Id Failure',
   props<{ error: any }>()
 );
 
-// Create
-export const createCompanyType = createAction(
+export const createEntity = createAction(
   '[CompanyTypes] Create',
-  props<{ data: Partial<CompanyType> }>()
+  // allow all fields except id, but all optional
+  props<{ payload: Partial<Omit<CompanyType, 'id'>> }>()
 );
-export const createCompanyTypeSuccess = createAction(
+export const createEntitySuccess = createAction(
   '[CompanyTypes] Create Success',
-  props<{ companyType: CompanyType }>()
+  props<{ entity: CompanyType }>()
 );
-export const createCompanyTypeFailure = createAction(
+export const createEntityFailure = createAction(
   '[CompanyTypes] Create Failure',
   props<{ error: any }>()
 );
 
-// Update
-export const updateCompanyType = createAction(
+export const updateEntity = createAction(
   '[CompanyTypes] Update',
-  props<{ id: number; data: Partial<CompanyType> }>()
+  props<{ id: number; changes: Partial<CompanyType> }>()
 );
-export const updateCompanyTypeSuccess = createAction(
+export const updateEntitySuccess = createAction(
   '[CompanyTypes] Update Success',
-  props<{ companyType: CompanyType }>()
+  props<{ id: number; changes: Partial<CompanyType> }>()
 );
-export const updateCompanyTypeFailure = createAction(
+export const updateEntityFailure = createAction(
   '[CompanyTypes] Update Failure',
   props<{ error: any }>()
 );
 
-// Delete
-export const deleteCompanyType = createAction(
+export const deleteEntity = createAction(
   '[CompanyTypes] Delete',
   props<{ id: number }>()
 );
-export const deleteCompanyTypeSuccess = createAction(
+export const deleteEntitySuccess = createAction(
   '[CompanyTypes] Delete Success',
   props<{ id: number }>()
 );
-export const deleteCompanyTypeFailure = createAction(
+export const deleteEntityFailure = createAction(
   '[CompanyTypes] Delete Failure',
+  props<{ error: any }>()
+);
+export const entityOperationSuccess = createAction(
+  '[Entity] Operation Success',
+  props<{ entity: string; operation: 'create' | 'update' | 'delete' }>()
+);
+//History actions
+export const loadCompanyTypeHistory = createAction(
+  '[CompanyType/API] Load CompanyType History'
+);
+
+export const loadCompanyTypeHistorySuccess = createAction(
+  '[CompanyType/API] Load CompanyType History Success',
+  props<{ history: CompanyType[] }>()
+);
+
+export const loadCompanyTypeHistoryFailure = createAction(
+  '[CompanyType/API] Load CompanyFlowType History Failure',
   props<{ error: any }>()
 );

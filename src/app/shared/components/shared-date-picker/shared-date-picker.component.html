@@ -1,0 +1,21 @@
+<p-datepicker
+  [(ngModel)]="value"
+  [disabled]="disabled"
+  [showIcon]="showIcon"
+  (onSelect)="onSelect($event)"
+  (onBlur)="onTouched()"
+  [inputId]="inputId"
+  [minDate]="minDate"
+  [maxDate]="maxDate"
+  [dateFormat]="dateFormat"
+  [placeholder]="'FORM.LABELS.DATE' | translate"
+  [ngClass]="{ disabled: disabled }"
+  [inputStyleClass]="disabled ? 'disabled' : ''"
+></p-datepicker>
+
+<small
+  *ngIf="control?.hasError('required') && control?.touched"
+  class="p-error"
+>
+  {{ "FORM.ERRORS.DATE_REQUIRED" | translate }}
+</small>

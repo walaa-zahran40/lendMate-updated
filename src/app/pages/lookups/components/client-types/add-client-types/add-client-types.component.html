@@ -1,0 +1,28 @@
+<app-toolbar-form
+  [header]="
+    viewOnly
+      ? 'View Client Type'
+      : editMode
+      ? 'Edit Client Type'
+      : 'Add Client Type'
+  "
+  [backExists]="true"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-form
+        *ngIf="addClientTypeForm"
+        [title]="'FORM.CLIENT_TYPE.TITLE'"
+        [description]="'FORM.CLIENT_TYPE.DESCRIPTION'"
+        [formGroup]="addClientTypeForm"
+        [addClientTypesLookupsForm]="true"
+        [editMode]="editMode"
+        (submitForm)="addOrEditClientType()"
+        [viewOnly]="viewOnly"
+      ></app-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

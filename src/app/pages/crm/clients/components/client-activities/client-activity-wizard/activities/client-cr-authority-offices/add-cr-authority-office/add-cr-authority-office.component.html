@@ -1,0 +1,32 @@
+<app-toolbar-form
+  [header]="
+    viewOnly
+      ? 'View Client CR Authority Office'
+      : editMode
+      ? 'Edit Client CR Authority Office'
+      : 'Add Client CR Authority Office'
+  "
+  [backExists]="true"
+  [viewOnly]="false"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-add-client-cr-authority-offices-form
+        *ngIf="addClientCRAuthorityOfficesLookupsForm"
+        [title]="'Client CR Authority Office'"
+        [description]="
+          'Introduce your Client CR Authority Office core info quickly to users by fill up client details'
+        "
+        [formGroup]="addClientCRAuthorityOfficesLookupsForm"
+        [addCRAuthorityOfficeShowMain]="true"
+        [editMode]="editMode"
+        (submitForm)="addOrEditClientCRAuthorityOffices()"
+        [viewOnly]="viewOnly"
+        [authorityOfficesList]="authorityOfficesList$ | async"
+      ></app-add-client-cr-authority-offices-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

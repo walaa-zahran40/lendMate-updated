@@ -1,0 +1,47 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/LegalFormLaws/Post'"
+    [title]="'Legal Form Laws'"
+    [labelBtn]="'Add Legal Form Law'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddLegalFormLaw()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="legalFormLaws$ | async as legalFormLaws">
+    <app-table
+      [viewPermission]="[
+        '/LegalFormLaws/Get',
+        '/LegalFormLaws/GetAll',
+        '/LegalFormLaws/GetAllHistory'
+      ]"
+      [editPermission]="'/LegalFormLaws/Put'"
+      [deletePermission]="'/LegalFormLaws/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredLegalFormLaws"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewLegalFormLawsTable]="true"
+      (onDelete)="onDeleteLegalFormLaw($event)"
+      (onEdit)="onEditLegalFormLaw($event)"
+      (viewForm)="onViewLegalFormLaw($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

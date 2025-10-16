@@ -17,7 +17,7 @@
   --custom-border: none;
   --custom-background-transparent: transparent;
   --custom-flex-direction: row-reverse;
-  --custom-font-weight: 700;
+  --custom-font-weight: 500;
   --custom-font-weight-600: 600;
   --custom-font-weight-400: 400;
   --custom-font-size-24: 24px;
@@ -49,10 +49,20 @@
   --custom-justify-content-between: space-between;
   --custom-flex-direction-row-reverse: row-reverse;
   &::ng-deep {
+    #purchaseOrderId {
+      background-color: rgb(227, 227, 227) !important;
+      color: var(--p-select-disabled-color) !important;
+    }
+    .p-fileupload-filename {
+      display: none !important;
+    }
+
     .p-tabs {
       padding: var(--custom-padding-right-10);
     }
-
+    .disabled {
+      pointer-events: none;
+    }
     .p-multiselect-chip-item {
       background-color: #f8f8fd;
       width: max-content;
@@ -61,19 +71,7 @@
     .upload-delete .p-button {
       background: transparent !important;
     }
-    // .p-fileupload-header {
-    //   background: url(/assets/images/shared/forms/Logo.svg) !important;
-    //   background-repeat: no-repeat !important;
-    //   background-position: center center;
-    //   height: 50vh;
-    // }
 
-    .p-fileupload-choose-button {
-      visibility: hidden;
-    }
-    .p-fileupload-advanced {
-      border: none !important;
-    }
     .p-multiselect-label.p-placeholder {
       background: var(--bg-transparent);
       color: inherit;
@@ -87,6 +85,16 @@
     }
     .p-toggleswitch {
       top: 7px;
+    }
+
+    .p-button-danger,
+    .p-button-danger:hover,
+    .p-button-danger:not(:disabled):hover {
+      background: transparent !important;
+      color: red !important;
+    }
+    .p-button-text:not(:disabled) {
+      color: #fff !important;
     }
     .p-toggleswitch.p-toggleswitch-checked .p-toggleswitch-slider,
     .p-toggleswitch.p-toggleswitch-checked .p-toggleswitch-slider:hover,
@@ -110,7 +118,7 @@
     }
     .officers-check {
       color: #25324b;
-      font-family: "epilogue";
+
       font-size: 16px;
       font-style: normal;
       font-weight: 500;
@@ -132,7 +140,11 @@
       width: 26px;
       height: 26px;
     }
-
+    .p-plus,
+    .p-remove {
+      margin-top: 45px !important;
+      padding: 12px 30px !important;
+    }
     .p-button {
       background: var(--p-tabs-active-bar-background);
       border-radius: var(--custom-size-8);
@@ -141,7 +153,7 @@
       padding-bottom: var(--custom-size-8);
       padding-left: var(--custom-size-16);
       border: var(--custom-border);
-      font-family: var(--custom-font-family-regular);
+
       font-weight: var(--custom-font-weight);
       font-size: var(--custom-font-size-13);
       line-height: var(--custom-font-size-24);
@@ -159,6 +171,7 @@
     .p-button:not(:disabled):hover {
       background-color: var(--p-tabs-active-bar-background);
       border: var(--p-tabs-active-bar-background) !important;
+      color: white;
     }
     .row-spacing {
       gap: 60px;
@@ -199,7 +212,6 @@
       border: 1px solid var(--custom-color);
       font-family: var(--custom-font-family-epilogue);
       font-size: var(--custom-font-size-14);
-      font-weight: var(--custom-font-weight-600);
       margin-bottom: var(--custom-margin-bottom-5);
       line-height: var(--custom-line-height-25);
       border-width: var(--custom-border-width);
@@ -213,8 +225,6 @@
     }
 
     .p-tab {
-      font-family: var(--custom-font-family);
-      font-weight: var(--custom-font-weight-600);
       font-size: var(--custom-size-16);
       line-height: var(--custom-line-height-25);
       color: var(--custom-grey);
@@ -259,7 +269,9 @@
       border-radius: var(--custom-margin-0);
       border: 1px solid var(--custom-color-grey-light);
       background: var(--bg-transparent);
+      margin-bottom: 0px !important;
     }
+
     #mandateOfficersForm .add-btn .p-button,
     #mandateContactPersonsForm .add-btn .p-button,
     #mandateAssetTypeForm .add-btn .p-button {
@@ -282,6 +294,7 @@
     #addManageMandateTermsForm {
       display: flex;
       flex-direction: column;
+      align-items: anchor-center;
     }
     #leasing {
       padding: 6px;
@@ -293,8 +306,8 @@
       background: var(--custom-color-white);
       padding-left: var(--custom-size-12);
       border-radius: var(--custom-margin-0);
-      font-family: var(--custom-font-family-regular);
-      font-weight: var(--custom-font-weight-400);
+
+      font-weight: var(--custom-font-weight-600);
       font-size: var(--custom-size-16);
       line-height: var(--custom-line-height-25);
       color: var(--p-tabs-active-bar-background);
@@ -381,8 +394,8 @@
       background: transparent;
       color: var(--p-tabs-active-bar-background);
       border: 1px solid #ccccf5;
-      font-family: "epilogue";
-      font-weight: 700;
+
+      font-weight: 500;
       font-size: 16px;
       line-height: 25.6px;
       text-align: center;
@@ -411,6 +424,7 @@
     .add-btn .p-button:not(:disabled):hover {
       background: var(--p-tabs-active-bar-background) !important;
     }
+
     /*responsiveness*/
     @media only screen and (max-width: 1541px) and (min-width: 981px) {
       .div-contact-person {
@@ -512,13 +526,16 @@
 :host ::ng-deep input[disabled],
 :host ::ng-deep select[disabled],
 :host ::ng-deep textarea[disabled] {
-  background-color: #f5f5f5 !important;
+  background-color: rgb(227, 227, 227) !important;
   color: #555; /* optional: make text slightly darker for contrast */
   cursor: not-allowed;
 }
-.div1 .custom-view {
-  float: left;
+.custom-view {
+  display: block;
+  margin-inline-start: auto;
+  float: inline-start;
 }
+
 .upload-div {
   padding: 40px 10px;
 }
@@ -542,8 +559,6 @@
   text-align: center;
 }
 h2 {
-  font-family: var(--custom-font-family-regular);
-  font-weight: var(--custom-font-weight-600);
   font-size: var(--custom-size-16);
 }
 
@@ -551,7 +566,6 @@ h2 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(1, 1fr);
-  gap: 119px;
 }
 .parent-phone {
   display: grid;
@@ -563,7 +577,7 @@ h2 {
   color: var(--custom-red);
 }
 .div1 {
-  padding-top: 24px;
+  padding: 24px 0;
 }
 .div2 {
   grid-column: span 2 / span 2;
@@ -573,7 +587,6 @@ h2 {
   flex-direction: column;
 }
 p.client {
-  font-family: var(--custom-font-family);
   font-weight: var(--custom-font-weight);
   font-size: var(--custom-font-size-24);
   line-height: var(--custom-line-height);
@@ -591,8 +604,9 @@ p.client {
   padding-left: 0;
 }
 .tab-panel-paragraph {
-  font-family: var(--custom-font-family-regular);
-  font-weight: var(--custom-font-weight-400);
+  width: 80%;
+
+  font-weight: var(--custom-font-weight-600);
   font-size: var(--custom-size-16);
   line-height: var(--custom-line-height-25);
   color: var(--custom-grey);
@@ -600,12 +614,10 @@ p.client {
 .p-inputtext:disabled,
 .p-multiselect.p-disabled,
 .p-select.p-disabled {
-  background: #f8f8fd;
+  background-color: rgb(227, 227, 227) !important;
 }
 form {
   label {
-    font-family: var(--custom-font-family-regular);
-    font-weight: var(--custom-font-weight-600);
     font-size: var(--custom-size-16);
     color: var(--custom-grey-bold);
     white-space: nowrap;
@@ -625,6 +637,18 @@ form {
     margin-bottom: 15px;
   }
 }
+
+.label-container {
+  font-size: var(--custom-size-16);
+  color: var(--custom-grey-bold);
+  white-space: nowrap;
+  padding-bottom: 4px;
+  padding-top: 20px;
+  sup {
+    color: var(--custom-red);
+  }
+}
+
 .roles {
   display: flex;
   align-items: center;
@@ -681,7 +705,7 @@ form {
   }
 
   .div2-individual {
-    flex: 1; // this makes the multiselect take full width
+    flex: 1;
   }
 
   .div3-individual {
@@ -702,6 +726,11 @@ form {
   &::ng-deep {
     .p-select {
       position: relative;
+    }
+    .p-select.disabled {
+      background-color: rgb(227, 227, 227) !important;
+      color: #555; /* optional: make text slightly darker for contrast */
+      cursor: not-allowed;
     }
     .p-select-overlay {
       left: revert-layer !important;
@@ -726,4 +755,33 @@ form {
       left: 0px !important;
     }
   }
+}
+.title-custom {
+  font-size: 20px;
+  font-weight: 600;
+  font-family: "poppins-bold";
+}
+.paragraph-custom {
+  width: 90%;
+  font-weight: 400;
+  font-size: var(--custom-size-16);
+  line-height: var(--custom-line-height-25);
+  color: var(--custom-grey);
+  font-size: 16px;
+  font-family: "poppins", sans-serif;
+  margin-top: 10px;
+}
+.p-custom {
+  width: 50%;
+  font-weight: 400;
+  font-size: var(--custom-size-16);
+  line-height: var(--custom-line-height-25);
+  color: var(--custom-grey);
+  font-size: 16px;
+  font-family: "poppins", sans-serif;
+  margin-top: 10px;
+}
+.parent-custom {
+  flex-direction: column;
+  display: flex;
 }

@@ -1,12 +1,15 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SharedService } from '../../services/shared.service';
-import { Router } from '@angular/router';
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
 import pdfMake from 'pdfmake/build/pdfmake';
-import type { ContentText, TDocumentDefinitions } from 'pdfmake/interfaces';
+import type { TDocumentDefinitions } from 'pdfmake/interfaces';
 import { pdfMakeVfs } from '../../../../../scripts/pdfmake-vfs';
-import { Client } from '../../interfaces/client.interface';
+import { Store } from '@ngrx/store';
+import { loadAll } from '../../../pages/lookups/store/sectors/sectors.actions';
+import { selectAllSectors } from '../../../pages/lookups/store/sectors/sectors.selectors';
+import { RouteReuseStrategy } from '@angular/router';
+import { PermissionService } from '../../../pages/login/store/permissions/permission.service';
 // Attach the VFS and font definitions
 (pdfMake as any).vfs = pdfMakeVfs;
 (pdfMake as any).fonts = {
@@ -24,21 +27,33 @@ import { Client } from '../../interfaces/client.interface';
   styleUrl: './table.component.scss',
 })
 export class TableComponent {
+  @Input() editPermission!: string;
+  @Input() deletePermission!: string;
+
+  @Input() viewPermission!: string | string[];
   @Input() tableData: any;
   @Input() cols: any[] = [];
   public selectedRows: any[] = [];
+  @Input() viewVendorsTable!: any;
   @Input() col1Name!: string;
   @Input() col2Name!: string;
   @Input() col3Name!: string;
   @Input() col4Name!: string;
+  @Input() viewAgreementFilesTable!: boolean;
+  @Input() viewAgreementOfficersTable!: boolean;
+  @Input() viewAgreementRegistrationsTable!: boolean;
+
   @Input() col5Name!: string;
   @Input() col6Name!: string;
   @Input() col7Name!: string;
   @Input() col8Name!: string;
   @Input() col9Name!: string;
   @Input() col10Name!: string;
+  @Input() viewAgreementContactPersonsTable!: boolean;
+  @Input() viewVendorAddressesLookupsTable!: boolean;
   @Input() edit!: boolean;
   @Input() delete!: boolean;
+  @Input() customTable!: boolean;
   @Input() side!: boolean;
   @Input() download!: boolean;
   @Input() checkBox!: boolean;
@@ -49,70 +64,144 @@ export class TableComponent {
   @Input() uppercase!: string;
   @Input() viewClientIdentityTable!: boolean;
   @Input() viewClientTable!: boolean;
+  @Input() viewSalesTurnoverTable!: boolean;
   @Input() viewUploadDocumentsTable!: boolean;
-  @Input() viewAddressTable!: boolean;
+  @Input() viewLicenseTypesLookupTable!: boolean;
+  @Input() viewClientAddressesTable!: boolean;
+  @Input() viewClientsOnboardingTable!: boolean;
+  @Input() viewRoleClaimsTable!: boolean;
+  @Input() viewMandateWorkFlowHistoryTable!: boolean;
+  @Input() viewEvaluatorsTable!: boolean;
+  @Input() viewLicenseInformationTable!: boolean;
+  @Input() viewMandateContactPersonsTable!: boolean;
   @Input() viewTurnOverTable!: boolean;
+  @Input() viewMandateOfficersTable!: boolean;
+  @Input() viewAgreementsTable!: boolean;
+  @Input() viewCommunicationFlowTypesTable!: boolean;
+  @Input() viewPurchasingOrderFilesTable!: boolean;
+  @Input() viewCommunicationTypesTable!: boolean;
+  @Input() viewAddressTypesTable!: boolean;
+  @Input() ViewAuthorizationGroupsComponent!: boolean;
+  @Input() viewFeeRangesTable!: boolean;
+  @Input() viewInterestTypesTable!: boolean;
+  @Input() viewFollowUpTypesTable!: boolean;
+  @Input() viewPhoneTypesTable!: boolean;
   @Input() viewPhoneNumberTable!: boolean;
   @Input() viewContactPersonTable!: boolean;
+  @Input() viewSubSectorsLookupsTable!: boolean;
   @Input() viewCRAuthorityOfficeTable!: boolean;
   @Input() viewTaxAuthorityOfficeTable!: boolean;
+  @Input() viewAuthorityOfficesTable!: boolean;
+  @Input() viewMandateFeesTable!: boolean;
+  @Input() viewVehicleModelLookupsTable!: boolean;
+  @Input() viewVehicleManufacturerLookupsTable!: boolean;
   @Input() viewCentralBankInfoTable!: boolean;
   @Input() viewShareHolderTable!: boolean;
   @Input() viewTMLOfficerTable!: boolean;
+  @Input() viewTMLOfficerTypeLookupsTable!: boolean;
+  @Input() viewLeasingMandateTable!: boolean;
   @Input() viewLeasingMandatesTable!: boolean;
+  @Input() viewLeasingTypesLookupTable!: boolean;
+  @Input() viewChildLeasingMandateTable!: boolean;
   @Input() viewOfficersTable!: boolean;
+  @Input() viewClientStatusActionsTable!: boolean;
   @Input() viewContactPersonsTable!: boolean;
   @Input() viewAssestTypeTable!: boolean;
+  @Input() viewGuarantorTable!: boolean;
+  @Input() viewauthorizationGroupsTable!: boolean;
+  @Input() viewNotificationGroupsTable!: boolean;
+  @Input() viewFinancialFormTable!: boolean;
   @Input() viewCalculationsTable!: boolean;
   @Input() viewManageMandateTermsTable!: boolean;
-  @Input() viewLegalFormTable!: boolean;
-  @Input() viewLegalFormLawTable!: boolean;
+  @Input() viewClientTypesTable!: boolean;
+  @Input() viewLegalFormLawsTable!: boolean;
+  @Input() viewLegalFormsTable!: boolean;
+  @Input() viewFeeCalculationTypesTable!: boolean;
   @Input() viewBranchOfficersTable!: boolean;
   @Input() viewCompanyTypesTable!: boolean;
+  @Input() viewPagesTable!: boolean;
   @Input() viewMandateStatusesTypesTable!: boolean;
   @Input() viewFeelTypesTable!: boolean;
+  @Input() viewNotificationGroupOfficersTable!: boolean;
+  @Input() viewAuthorizationGroupOfficersTable!: boolean;
+  @Input() ViewInterestRateBenchmarksTable!: boolean;
   @Input() viewCurrenciesTable!: boolean;
+  @Input() viewDepartmentsTable!: boolean;
   @Input() viewCurrencyExchangeTable!: boolean;
+  @Input() viewMandateStatusesTable!: boolean;
   @Input() viewPaymentMethodsTable!: boolean;
+  @Input() viewPaymentMonthDaysTable!: boolean;
+  @Input() viewPaymentTypesTable!: boolean;
+  @Input() viewPaymentTimingTermsTable!: boolean;
+  @Input() viewPaymentPeriodsTable!: boolean;
   @Input() viewMandateValidityUnitTable!: boolean;
-  @Input() viewBranchTable!: boolean;
+  @Input() viewBranchesTable!: boolean;
   @Input() viewBranchManagersTable!: boolean;
   @Input() viewBranchAddressesTable!: boolean;
   @Input() viewBusinessLinesTable!: boolean;
-  @Input() viewAssestTypesTable!: boolean;
-  @Input() viewAssestTypeCategoriesTable!: boolean;
+  @Input() viewAssetTypesTable!: boolean;
+  @Input() viewConditionsTable!: boolean;
+  @Input() viewLicenseProvidersLookupTable!: boolean;
+  @Input() viewConditionExpressionsTable!: boolean;
+  @Input() viewAssetTypeCategoriesTable!: boolean;
   @Input() viewSectorsTable!: boolean;
   @Input() viewClientStatusesTable!: boolean;
   @Input() viewClientStatusTable!: boolean;
-  @Input() viewSMEClientCodeTable!: boolean;
+  @Input() viewSMEClientCodesTable!: boolean;
   @Input() viewSubSectorTable!: boolean;
+  @Input() viewFollowupPointTable!: boolean;
   @Input() viewGovernerateTable!: boolean;
+  @Input() viewRentStructureTypesTable!: boolean;
+  @Input() viewCallActionTypesTable!: boolean;
+  @Input() viewFollowupTable!: boolean;
   @Input() viewCountriesTable!: boolean;
   @Input() viewAreasTable!: boolean;
+  @Input() viewCallsTable!: boolean;
+  @Input() viewMandateAdditionalTermsTable!: boolean;
   @Input() viewTaxOfficeTable!: boolean;
   @Input() viewAddDepartmentManagerTable!: boolean;
-  @Input() viewTeamTable!: boolean;
+  @Input() viewTeamsTable!: boolean;
   @Input() viewTeamLeadTable!: boolean;
   @Input() viewRolesTable!: boolean;
-  @Input() viewTeamMemberTable!: boolean;
+  @Input() viewTeamOfficersTable!: boolean;
   @Input() viewFeesRangeTable!: boolean;
   @Input() viewOperationsTable!: boolean;
   @Input() viewPageOperationsTable!: boolean;
+  @Input() viewEvaluationInformationTable!: boolean;
   @Input() viewOfficersLookupsTable!: boolean;
   @Input() viewSignatoryOfficersTable!: boolean;
   @Input() viewMeetingsTable!: boolean;
+  @Input() viewCallTypesTable!: boolean;
   @Input() viewOfficersCommunicationTable!: boolean;
   @Input() viewContactPersonCommunicationTable!: boolean;
   @Input() viewAssestTypeCommunicationTable!: boolean;
+  @Input() viewInsuredByTable!: boolean;
+  @Input() viewPurchasingOrdersTable!: boolean;
+  @Input() viewIdentificationTypesTable!: boolean;
   @Input() viewFollowUpsCommunicationTable!: boolean;
+  @Input() viewGracePeriodUnitsTable!: boolean;
   @Input() viewFollowUpPointsCommunicationTable!: boolean;
   @Input() viewMeetingTypesCommunicationTable!: boolean;
+  @Input() viewMeetingTypesLookupTable!: boolean;
   @Input() viewCallsCommunicationTable!: boolean;
   @Input() viewClientGuarantorTable!: boolean;
+  @Input() viewWorkFlowActionTypesLookupsTable!: boolean;
+  @Input() viewClientOfficerTypesTable!: boolean;
+  @Input() viewDocTypesTable!: boolean;
+  @Input() viewProductsTable!: boolean;
+  @Input() viewClientOfficerTable!: boolean;
+  @Input() viewClientLegalTable!: boolean;
+  @Input() viewActionAuthorizationGroupTable!: boolean;
+  @Input() viewActionNotificationGroupTable!: boolean;
+  @Input() viewMandateStatusActionsTable!: boolean;
+  @Input() viewMandateActionAuthorizationGroupTable!: boolean;
+  @Input() viewMandateActionNotificationGroupTable!: boolean;
   @Input() paginator: boolean = true;
-  @Output() wizardBtn = new EventEmitter<void>();
+  @Output() wizardBtn = new EventEmitter<number | void>();
   @Output() onEdit = new EventEmitter<any>();
   @Output() onDelete = new EventEmitter<number>();
+  @Output() onDownload = new EventEmitter<number>();
+  @Output() onBulkDelete = new EventEmitter<number[]>();
 
   checked: boolean = false;
   first2: number = 0;
@@ -131,14 +220,30 @@ export class TableComponent {
   showDownload = false;
   event: any;
   globalFilterFields: string[] = [];
-
-  constructor(private sharedService: SharedService, private router: Router) {}
+  allSectors: any;
+  allGovernorates: any;
+  constructor(
+    private sharedService: SharedService,
+    _reuseStrategy: RouteReuseStrategy,
+    public perms: PermissionService
+  ) {
+    _reuseStrategy.shouldReuseRoute = () => false;
+  }
 
   ngOnInit() {
     if (this.cols?.length) {
       this.globalFilterFields = this.cols.map((c) => c.field);
     }
     this.totalRecords = this.tableData.length;
+  }
+
+  getSectorName(sectorId: number): string {
+    const sector = this.allSectors.find((s: any) => s.id === sectorId);
+    return sector ? sector.name : 'Unknown Sector';
+  }
+  getGovernorateName(id: number): string {
+    const governorate = this.allGovernorates.find((s: any) => s.id === id);
+    return governorate ? governorate.name : 'Unknown Governorate';
   }
   openPopup() {
     this.sharedService.showPopup();
@@ -233,6 +338,16 @@ export class TableComponent {
 
     this.saveAsExcelFile(excelBuffer, 'ExportedData');
   }
+  getGenderLabel(id: number): string {
+    switch (id) {
+      case 1:
+        return 'Male';
+      case 2:
+        return 'Female';
+      default:
+        return '—';
+    }
+  }
   private saveAsExcelFile(buffer: any, fileName: string): void {
     const data: Blob = new Blob([buffer], {
       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8',
@@ -258,5 +373,14 @@ export class TableComponent {
   /*View*/
   onView(rowData: any) {
     this.viewForm.emit(rowData);
+  }
+  handleBulkDelete() {
+    if (this.selectedRows.length <= 1) {
+      return;
+    }
+    const idsToDelete = this.selectedRows.map((row) => row.id);
+    this.onBulkDelete.emit(idsToDelete);
+    // ✅ Immediately clear the selection to remove the button
+    this.selectedRows = [];
   }
 }

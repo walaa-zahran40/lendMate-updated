@@ -1,0 +1,47 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/ConditionExpressions/Post'"
+    [title]="'Condition Expressions'"
+    [labelBtn]="'Add Condition Expression'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddConditionExpression()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="conditionExpressions$ | async as conditionExpressions">
+    <app-table
+      [viewPermission]="[
+        '/ConditionExpressions/Get',
+        '/ConditionExpressions/GetAll',
+        '/ConditionExpressions/GetAllHistory'
+      ]"
+      [editPermission]="'/ConditionExpressions/Put'"
+      [deletePermission]="'/ConditionExpressions/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredConditionExpressions"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewConditionExpressionsTable]="true"
+      (onDelete)="onDeleteConditionExpression($event)"
+      (onEdit)="onEditConditionExpression($event)"
+      (viewForm)="onViewConditionExpression($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

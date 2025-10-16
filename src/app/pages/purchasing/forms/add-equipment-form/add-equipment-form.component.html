@@ -1,0 +1,143 @@
+<div class="parent">
+  <div *ngIf="!contactPersonDetailsView" class="div1">
+    <h2 class="m-0 title">{{ title | translate }}</h2>
+    <p class="tab-panel-paragraph">
+      {{ description | translate }}
+    </p>
+  </div>
+  <div class="div2" [ngClass]="{ span: applyReusable }">
+    <form
+      class="div2"
+      [ngClass]="{ span: applyReusable }"
+      [formGroup]="formGroup"
+    >
+      <ng-container *ngIf="addAssetShowInfo">
+        <label for="machineManufacture"
+          >Machine Manufacturer<sup class="danger">*</sup></label
+        >
+        <input
+          pInputText
+          name="machineManufacture"
+          formControlName="machineManufacture"
+          placeholder="Machine Manufacturer"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              formGroup.get('machineManufacture')?.invalid &&
+              formGroup.get('machineManufacture')?.touched
+          }"
+        />
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('machineManufacture')?.hasError('required') &&
+            formGroup.get('machineManufacture')?.touched
+          "
+        >
+          Machine Manufacturer is required.
+        </small>
+        <br />
+        <label for="modelDescription"
+          >Model Description<sup class="danger">*</sup></label
+        >
+        <input
+          pInputText
+          name="modelDescription"
+          formControlName="modelDescription"
+          placeholder="Model Description"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              formGroup.get('modelDescription')?.invalid &&
+              formGroup.get('modelDescription')?.touched
+          }"
+        />
+
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('modelDescription')?.hasError('required') &&
+            formGroup.get('modelDescription')?.touched
+          "
+        >
+          Model Description is required.
+        </small>
+        <br />
+        <label for="manufactureYear"
+          >Manufacture Year <sup class="danger">*</sup></label
+        >
+        <input
+          pInputText
+          name="manufactureYear"
+          formControlName="manufactureYear"
+          placeholder="Manufacture Year"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              formGroup.get('manufactureYear')?.invalid &&
+              formGroup.get('manufactureYear')?.touched
+          }"
+        />
+
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('manufactureYear')?.hasError('required') &&
+            formGroup.get('manufactureYear')?.touched
+          "
+        >
+          Manufacture Year is required.
+        </small>
+        <br />
+        <label for="serialNumber"
+          >Serial Number <sup class="danger">*</sup></label
+        >
+        <input
+          pInputText
+          name="serialNumber"
+          formControlName="serialNumber"
+          placeholder="SerialNumber"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              formGroup.get('serialNumber')?.invalid &&
+              formGroup.get('serialNumber')?.touched
+          }"
+        />
+
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('serialNumber')?.hasError('required') &&
+            formGroup.get('serialNumber')?.touched
+          "
+        >
+          Serial Number is required.
+        </small>
+        <br />
+        <label for="currentValue"
+          >Current Value <sup class="danger">*</sup></label
+        >
+        <input
+          pInputText
+          name="currentValue"
+          formControlName="currentValue"
+          placeholder="Current Value"
+          type="number"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              formGroup.get('currentValue')?.invalid &&
+              formGroup.get('currentValue')?.touched
+          }"
+        />
+
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('currentValue')?.hasError('required') &&
+            formGroup.get('currentValue')?.touched
+          "
+        >
+          Current Value is required.
+        </small>
+        <br />
+      </ng-container>
+    </form>
+  </div>
+</div>

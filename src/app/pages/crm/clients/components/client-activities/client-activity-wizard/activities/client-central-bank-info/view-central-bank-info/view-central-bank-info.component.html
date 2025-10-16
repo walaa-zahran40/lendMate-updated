@@ -1,0 +1,44 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/ClientCentralBanks/Post'"
+    [title]="'Client Central Bank Information'"
+    [labelBtn]="'Add Client Central Bank Information'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddClientCentralBankInfo()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+  <app-table
+    [viewPermission]="[
+      '/ClientCentralBanks/Get',
+      '/ClientCentralBanks/GetAll',
+      '/ClientCentralBanks/GetAllHistory'
+    ]"
+    [editPermission]="'/ClientCentralBanks/Put'"
+    [deletePermission]="'/ClientCentralBanks/Delete'"
+    #tableRef
+    (onBulkDelete)="onBulkDelete($event)"
+    [cols]="colsInside"
+    [tableData]="filteredClientCentralBankInfo"
+    [side]="false"
+    [first]="first2"
+    [checkBox]="true"
+    [filters]="showFilters"
+    [uppercase]="'uppercase'"
+    [viewCentralBankInfoTable]="true"
+    (onDelete)="onDeleteClientCentralBankInfo($event)"
+    (onEdit)="onEditClientCentralBankInfo($event)"
+    (viewForm)="onViewClientCentralBankInfo($event)"
+  ></app-table>
+  <app-delete-module
+    [visible]="showDeleteModal"
+    (confirm)="confirmDelete()"
+    (cancel)="cancelDelete()"
+  ></app-delete-module>
+</div>

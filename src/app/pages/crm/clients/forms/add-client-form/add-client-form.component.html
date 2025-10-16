@@ -1,0 +1,819 @@
+<div class="parent">
+  <div *ngIf="!contactPersonDetailsView" class="div1">
+    <h2 class="m-0 title">{{ title | translate }}</h2>
+    <p class="tab-panel-paragraph">
+      {{ description | translate }}
+    </p>
+  </div>
+  <div class="div2" [ngClass]="{ span: applyReusable }">
+    <form
+      class="div2"
+      [ngClass]="{ span: applyReusable }"
+      [formGroup]="formGroup"
+    >
+      <!-- Main Info -->
+      <ng-container *ngIf="addClientShowMain">
+        <!-- Name in English -->
+        <label for="name"
+          >{{ "FORM.COMPANY_TYPES.NAME_EN" | translate }}<sup>*</sup></label
+        >
+        <input
+          pInputText
+          id="name"
+          formControlName="name"
+          [placeholder]="'FORM.COMPANY_TYPES.PLACEHOLDER_NAME_EN' | translate"
+        />
+        <div
+          *ngIf="
+            formGroup.get('name')?.hasError('required') &&
+            formGroup.get('name')?.touched
+          "
+          class="p-error"
+        >
+          {{ "FORM.COMPANY_TYPES.ERRORS.NAME_EN_REQUIRED" | translate }}
+        </div>
+
+        <label for="nameAR"
+          >{{ "FORM.COMPANY_TYPES.LABEL_NAME_AR" | translate
+          }}<sup>*</sup></label
+        >
+        <input
+          pInputText
+          id="nameAR"
+          formControlName="nameAR"
+          [placeholder]="'FORM.COMPANY_TYPES.PLACEHOLDER_NAME_AR' | translate"
+        />
+        <div
+          *ngIf="
+            formGroup.get('nameAR')?.hasError('required') &&
+            formGroup.get('nameAR')?.touched
+          "
+          class="p-error"
+        >
+          {{ "FORM.COMPANY_TYPES.ERRORS.NAME_AR_REQUIRED" | translate }}
+        </div>
+        <div
+          *ngIf="
+            formGroup.get('nameAR')?.hasError('pattern') &&
+            formGroup.get('nameAR')?.touched
+          "
+          class="p-error"
+        >
+          {{ "FORM.COMPANY_TYPES.ERRORS.NAME_AR_PATTERN" | translate }}
+        </div>
+
+        <!-- Business Activity -->
+        <label for="businessActivity">{{
+          "FORM.BUSINESS_ACTIVITY" | translate
+        }}</label>
+
+        <input
+          pInputText
+          name="businessActivity"
+          formControlName="businessActivity"
+          [placeholder]="'FORM.BUSINESS_ACTIVITY' | translate"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              formGroup.get('businessActivity')?.invalid &&
+              formGroup.get('businessActivity')?.touched
+          }"
+        />
+        <!-- <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('businessActivity')?.hasError('required') &&
+            formGroup.get('businessActivity')?.touched
+          "
+        >
+          Business Activity is required.
+        </small> -->
+        <br />
+
+        <!-- Tax ID -->
+        <label for="taxId"
+          >{{ "FORM.TAX_ID" | translate }} <sup class="danger">*</sup></label
+        >
+        <input
+          pInputText
+          name="taxId"
+          formControlName="taxId"
+          [placeholder]="'FORM.TAX_ID' | translate"
+          type="text"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              formGroup.get('taxId')?.invalid && formGroup.get('taxId')?.touched
+          }"
+        />
+        <div
+          *ngIf="
+            formGroup.get('taxId')?.invalid && formGroup.get('taxId')?.touched
+          "
+        >
+          <small
+            class="p-error"
+            *ngIf="
+              formGroup.get('taxId')?.hasError('required') &&
+              formGroup.get('taxId')?.touched
+            "
+          >
+            {{ "FORM.VALIDATIONS.REQUIRED" | translate }}
+          </small>
+
+          <br />
+          <small
+            class="p-error"
+            *ngIf="
+              formGroup.get('taxId')?.hasError('pattern') &&
+              formGroup.get('taxId')?.touched
+            "
+          >
+            {{ "FORM.VALIDATIONS.TAX_ID_PATTERN" | translate }}
+          </small>
+        </div>
+
+        <!-- Short Name -->
+        <label for="shortName"> {{ "FORM.SHORT_NAME" | translate }} </label>
+        <input
+          pInputText
+          name="shortName"
+          formControlName="shortName"
+          [placeholder]="'FORM.PLACEHOLDERS.SHORT_NAME' | translate"
+        />
+        <!-- <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('shortName')?.hasError('required') &&
+            formGroup.get('shortName')?.touched
+          "
+        >
+          Short Name is required.
+        </small> -->
+        <br />
+        <ng-container *ngIf="sectorsSafe$ | async as sectors">
+          <!-- Sector Dropdown -->
+          <label for="sectorDropdown">
+            {{ "FORM.LABELS.SECTOR" | translate }} <sup class="danger">*</sup>
+          </label>
+
+          <p-select
+            [filter]="true"
+            filterBy="name"
+            [showClear]="true"
+            [options]="sectors"
+            [optionLabel]="optionLabelKey"
+            [placeholder]="'FORM.PLACEHOLDERS.SECTOR' | translate"
+            formControlName="sectorId"
+            optionValue="id"
+            (onChange)="onSectorChange($event)"
+            required
+            [ngClass]="{
+              'ng-invalid':
+                formGroup.get('sectorId')?.invalid &&
+                (formGroup.get('sectorId')?.dirty ||
+                  formGroup.get('sectorId')?.touched)
+            }"
+          >
+          </p-select>
+
+          <!-- Validation message -->
+          <small
+            class="p-error"
+            style="color: var(--custom-red)"
+            *ngIf="
+              formGroup.get('sectorId')?.invalid &&
+              (formGroup.get('sectorId')?.dirty ||
+                formGroup.get('sectorId')?.touched)
+            "
+          >
+            {{ "FORM.ERRORS.SECTOR_REQUIRED" | translate }}
+          </small>
+        </ng-container>
+        <br />
+        <!-- Sub Sector Dropdown -->
+        <label for="subSectorDropdown">
+          {{ "FORM.LABELS.SUB_SECTOR" | translate }} <sup class="danger">*</sup>
+        </label>
+        <p-multiSelect
+          [options]="subSectorsList"
+          formControlName="subSectorIdList"
+          [optionLabel]="optionLabelKey"
+          optionValue="id"
+          [placeholder]="'FORM.PLACEHOLDERS.SUB_SECTOR' | translate"
+          display="chip"
+          (onChange)="onSubSectorChange($event)"
+        ></p-multiSelect>
+
+        <div
+          class="p-error"
+          *ngIf="
+            formGroup.get('subSectorIdList')?.invalid &&
+            (formGroup.get('subSectorIdList')?.touched ||
+              formGroup.get('subSectorIdList')?.dirty)
+          "
+        >
+          {{ "FORM.ERRORS.SUB_SECTOR_REQUIRED" | translate }}
+        </div>
+
+        <br />
+        <p-toggleswitch formControlName="isIscore" name="isIscore" />&nbsp;
+        <label for="isIscore">{{ "FORM.ISCORE" | translate }}</label
+        ><br />
+      </ng-container>
+      <!-- Legal Info -->
+      <ng-container *ngIf="addClientShowLegal">
+        <label for="legalFormLawId">
+          {{ "LEGAL.LEGAL_FORM_LAW" | translate }}
+        </label>
+        <ng-container *ngIf="legalFormLaws$ | async as laws">
+          <p-select
+            [filter]="true"
+            filterBy="name"
+            [showClear]="true"
+            [options]="laws"
+            [optionLabel]="optionLabelKey"
+            optionValue="id"
+            formControlName="legalFormLawId"
+            [placeholder]="'LEGAL.PLACEHOLDERS.LEGAL_FORM_LAW' | translate"
+            (onChange)="onLegalFormLawSelectionChange($event)"
+            [ngClass]="{
+              'ng-invalid':
+                formGroup.get('legalFormLawId')?.invalid &&
+                (formGroup.get('legalFormLawId')?.dirty ||
+                  formGroup.get('legalFormLawId')?.touched)
+            }"
+          ></p-select>
+        </ng-container>
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('legalFormLawId')?.invalid &&
+            (formGroup.get('legalFormLawId')?.dirty ||
+              formGroup.get('legalFormLawId')?.touched)
+          "
+        >
+          {{ "LEGAL.ERRORS.LEGAL_FORM_LAW_REQUIRED" | translate }}
+        </small>
+        <label for="legalFormId"> {{ "LEGAL.LEGAL_FORM" | translate }} </label>
+        <ng-container *ngIf="legalForms$ | async as forms">
+          <p-select
+            [filter]="true"
+            filterBy="name"
+            [showClear]="true"
+            [options]="forms"
+            [optionLabel]="optionLabelKey"
+            optionValue="id"
+            formControlName="legalFormId"
+            [placeholder]="'LEGAL.PLACEHOLDERS.LEGAL_FORM' | translate"
+            [ngClass]="{
+              'ng-invalid':
+                formGroup.get('legalFormId')?.invalid &&
+                (formGroup.get('legalFormId')?.dirty ||
+                  formGroup.get('legalFormId')?.touched)
+            }"
+          ></p-select>
+        </ng-container>
+        <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('legalFormId')?.invalid &&
+            (formGroup.get('legalFormId')?.dirty ||
+              formGroup.get('legalFormId')?.touched)
+          "
+        >
+          {{ "LEGAL.ERRORS.LEGAL_FORM_REQUIRED" | translate }}
+        </small>
+
+        <p-toggleswitch
+          formControlName="isStampDuty"
+          name="isStampDuty"
+        />&nbsp;
+        <label for="isStampDuty">
+          {{ "LEGAL.IS_STAMP_DUTY" | translate }}
+        </label>
+      </ng-container>
+      <!-- Business Info -->
+      <ng-container *ngIf="addClientShowBusiness">
+        <!-- Main Share -->
+        <label for="mainShare"> {{ "BUSINESS.MAIN_SHARE" | translate }} </label>
+        <input
+          pInputText
+          id="mainShare"
+          formControlName="mainShare"
+          [placeholder]="'BUSINESS.PLACEHOLDERS.MAIN_SHARE' | translate"
+          appNoNegative
+          type="number"
+        />
+        <div
+          *ngIf="
+            formGroup.get('mainShare')?.touched &&
+            formGroup.get('mainShare')?.invalid
+          "
+          class="error-msg"
+        >
+          <small
+            class="p-error"
+            *ngIf="formGroup.get('mainShare')?.errors?.['min']"
+          >
+            {{ "BUSINESS.ERRORS.NON_NEGATIVE" | translate }}
+          </small>
+        </div>
+
+        <!-- Established Year -->
+        <label for="establishedYear">
+          {{ "BUSINESS.ESTABLISHED_YEAR" | translate }}
+        </label>
+        <input
+          pInputText
+          id="establishedYear"
+          formControlName="establishedYear"
+          [placeholder]="'BUSINESS.PLACEHOLDERS.ESTABLISHED_YEAR' | translate"
+          appNoNegative
+          type="number"
+        />
+        <div
+          *ngIf="
+            formGroup.get('establishedYear')?.touched &&
+            formGroup.get('establishedYear')?.invalid
+          "
+          class="error-msg"
+        >
+          <small
+            class="p-error"
+            *ngIf="formGroup.get('establishedYear')?.errors?.['min']"
+          >
+            {{ "BUSINESS.ERRORS.NON_NEGATIVE" | translate }} </small
+          ><br />
+          <small
+            class="p-error"
+            *ngIf="formGroup.get('establishedYear')?.errors?.['pattern']"
+          >
+            {{ "BUSINESS.ERRORS.YEAR_PATTERN" | translate }}
+          </small>
+        </div>
+
+        <!-- Website -->
+        <label for="website"> {{ "BUSINESS.WEBSITE" | translate }} </label>
+        <input
+          pInputText
+          type="url"
+          id="website"
+          formControlName="website"
+          [placeholder]="'BUSINESS.PLACEHOLDERS.WEBSITE' | translate"
+        />
+
+        <div
+          *ngIf="
+            formGroup.get('website')?.touched &&
+            formGroup.get('website')?.invalid
+          "
+          class="error-msg"
+        >
+          <small
+            class="p-error"
+            *ngIf="formGroup.get('website')?.errors?.['pattern']"
+          >
+            {{ "BUSINESS.ERRORS.URL_PATTERN" | translate }}
+          </small>
+        </div>
+
+        <!-- Market Share -->
+        <label for="marketShare">
+          {{ "BUSINESS.MARKET_SHARE" | translate }}
+        </label>
+        <input
+          pInputText
+          min="0"
+          type="number"
+          id="marketShare"
+          formControlName="marketShare"
+          [placeholder]="'BUSINESS.PLACEHOLDERS.MARKET_SHARE' | translate"
+          appNoNegative
+        />
+        <div
+          *ngIf="
+            formGroup.get('marketShare')?.touched &&
+            formGroup.get('marketShare')?.invalid
+          "
+          class="error-msg"
+        >
+          <small
+            class="p-error"
+            *ngIf="formGroup.get('marketShare')?.errors?.['min']"
+          >
+            {{ "BUSINESS.ERRORS.NON_NEGATIVE" | translate }} </small
+          ><br />
+
+          <small
+            class="p-error"
+            *ngIf="formGroup.get('marketShare')?.errors?.['max']"
+          >
+            {{ "BUSINESS.ERRORS.MAX_100" | translate }}
+          </small>
+        </div>
+
+        <!-- Market Size -->
+        <label for="marketSize">
+          {{ "BUSINESS.MARKET_SIZE" | translate }}
+        </label>
+        <input
+          pInputText
+          min="0"
+          type="number"
+          id="marketSize"
+          formControlName="marketSize"
+          [placeholder]="'BUSINESS.PLACEHOLDERS.MARKET_SIZE' | translate"
+          appNoNegative
+        />
+        <div
+          *ngIf="
+            formGroup.get('marketSize')?.touched &&
+            formGroup.get('marketSize')?.invalid
+          "
+          class="error-msg"
+        >
+          <small
+            class="p-error"
+            *ngIf="formGroup.get('marketSize')?.errors?.['min']"
+            >{{ "BUSINESS.ERRORS.MARKET_SIZE_NEG" | translate }}</small
+          >
+        </div>
+
+        <!-- Number of Employees -->
+        <label for="employeesNo">
+          {{ "BUSINESS.EMPLOYEES_NO" | translate }}
+        </label>
+        <input
+          pInputText
+          min="0"
+          type="number"
+          id="employeesNo"
+          formControlName="employeesNo"
+          [placeholder]="'BUSINESS.PLACEHOLDERS.EMPLOYEES_NO' | translate"
+          appNoNegative
+        />
+        <div
+          *ngIf="
+            formGroup.get('employeesNo')?.touched &&
+            formGroup.get('employeesNo')?.invalid
+          "
+          class="error-msg"
+        >
+          <small
+            class="p-error"
+            *ngIf="formGroup.get('employeesNo')?.errors?.['min']"
+            >{{ "BUSINESS.ERRORS.EMPLOYEES_NEG" | translate }}</small
+          >
+        </div>
+      </ng-container>
+    </form>
+    <form class="div2" [formGroup]="formGroup" *ngIf="addClientShowIndividual">
+      <!-- Name in English -->
+      <label for="nameEnglishIndividual"
+        >{{ "FORM.COMPANY_TYPES.NAME_EN" | translate }}<sup>*</sup></label
+      >
+      <input
+        pInputText
+        id="nameEnglishIndividual"
+        formControlName="nameEnglishIndividual"
+        [placeholder]="'FORM.COMPANY_TYPES.PLACEHOLDER_NAME_EN' | translate"
+      />
+      <div
+        *ngIf="
+          formGroup.get('nameEnglishIndividual')?.hasError('required') &&
+          formGroup.get('nameEnglishIndividual')?.touched
+        "
+        class="p-error"
+      >
+        {{ "FORM.COMPANY_TYPES.ERRORS.NAME_EN_REQUIRED" | translate }}
+      </div>
+
+      <label for="nameArabicIndividual"
+        >{{ "FORM.COMPANY_TYPES.LABEL_NAME_AR" | translate }}<sup>*</sup></label
+      >
+      <input
+        pInputText
+        id="nameArabicIndividual"
+        formControlName="nameArabicIndividual"
+        [placeholder]="'FORM.COMPANY_TYPES.PLACEHOLDER_NAME_AR' | translate"
+      />
+      <div
+        *ngIf="
+          formGroup.get('nameArabicIndividual')?.hasError('required') &&
+          formGroup.get('nameArabicIndividual')?.touched
+        "
+        class="p-error"
+      >
+        {{ "FORM.COMPANY_TYPES.ERRORS.NAME_AR_REQUIRED" | translate }}
+      </div>
+      <div
+        *ngIf="
+          formGroup.get('nameArabicIndividual')?.hasError('pattern') &&
+          formGroup.get('nameArabicIndividual')?.touched
+        "
+        class="p-error"
+      >
+        {{ "FORM.COMPANY_TYPES.ERRORS.NAME_AR_PATTERN" | translate }}
+      </div>
+
+      <!-- Business Activity -->
+      <label for="businessActivityIndividual">{{
+        "FORM.BUSINESS_ACTIVITY" | translate
+      }}</label>
+
+      <input
+        pInputText
+        name="businessActivityIndividual"
+        formControlName="businessActivityIndividual"
+        [placeholder]="'FORM.BUSINESS_ACTIVITY' | translate"
+        [ngClass]="{
+          'ng-invalid ng-dirty':
+            formGroup.get('businessActivityIndividual')?.invalid &&
+            formGroup.get('businessActivityIndividual')?.touched
+        }"
+      />
+      <!-- <small
+          class="p-error"
+          *ngIf="
+            formGroup.get('businessActivity')?.hasError('required') &&
+            formGroup.get('businessActivity')?.touched
+          "
+        >
+          Business Activity is required.
+        </small> -->
+      <br />
+
+      <!--Short Name-->
+      <label for="shortNameIndividual">{{
+        "FORM.LABELS.SHORT_NAME" | translate
+      }}</label>
+      <input
+        pInputText
+        name="shortNameIndividual"
+        formControlName="shortNameIndividual"
+        [placeholder]="'FORM.PLACEHOLDERS.SHORT_NAME' | translate"
+      />
+      <!-- <small
+        class="p-error"
+        *ngIf="
+          formGroup.get('shortNameIndividual')?.hasError('required') &&
+          formGroup.get('shortNameIndividual')?.touched
+        "
+      >
+        Short Name is required.
+      </small> -->
+      <br />
+      <!-- Sector  -->
+      <ng-container *ngIf="sectorsSafe$ | async as sectors">
+        <!-- Sector Dropdown -->
+        <label for="sectorDropdown">{{
+          "FORM.LABELS.SECTOR" | translate
+        }}</label>
+
+        <p-select
+          [filter]="true"
+          filterBy="name"
+          [showClear]="true"
+          [options]="sectors"
+          [optionLabel]="optionLabelKey"
+          [placeholder]="'FORM.PLACEHOLDERS.SECTOR' | translate"
+          formControlName="sectorId"
+          optionValue="id"
+          (onChange)="onSectorChange($event)"
+        >
+        </p-select>
+
+        <!-- Validation message -->
+        <!-- <small
+          class="p-error"
+          style="color: var(--custom-red)"
+          *ngIf="
+            formGroup.get('sectorId')?.invalid &&
+            (formGroup.get('sectorId')?.dirty ||
+              formGroup.get('sectorId')?.touched)
+          "
+        >
+          Sector is required.
+        </small> -->
+      </ng-container>
+
+      <br />
+      <!-- Sub Sector -->
+      <ng-container *ngIf="filteredSubSectors$ | async as subSectors">
+        <label for="subSectorDropdown">{{
+          "FORM.LABELS.SUB_SECTOR" | translate
+        }}</label>
+
+        <p-multiSelect
+          [options]="subSectorsList"
+          formControlName="subSectorIdList"
+          [optionLabel]="optionLabelKey"
+          optionValue="id"
+          [placeholder]="'FORM.PLACEHOLDERS.SUB_SECTOR' | translate"
+          display="chip"
+          (onChange)="onSubSectorChange($event)"
+        ></p-multiSelect>
+
+        <!-- <div
+          class="p-error"
+          style="color: var(--custom-red)"
+          *ngIf="
+            subSectorList?.invalid &&
+            (subSectorList?.touched || subSectorList?.dirty)
+          "
+        >
+          Sub Sector is required.
+        </div> -->
+      </ng-container>
+
+      <br />
+      <!-- Email -->
+      <label for="emailIndividual">{{ "FORM.LABELS.EMAIL" | translate }}</label>
+      <input
+        pInputText
+        name="emailIndividual"
+        formControlName="emailIndividual"
+        [placeholder]="'FORM.PLACEHOLDERS.EMAIL' | translate"
+      />
+      <!-- <small
+        class="p-error"
+        *ngIf="
+          formGroup.get('emailIndividual')?.invalid &&
+          formGroup.get('emailIndividual')?.touched
+        "
+      >
+        Email is required.
+      </small> -->
+      <br />
+      <!--Job Title-->
+      <label for="jobTitleIndividual">{{
+        "FORM.LABELS.JOB_TITLE" | translate
+      }}</label>
+      <input
+        pInputText
+        name="jobTitleIndividual"
+        formControlName="jobTitleIndividual"
+        [placeholder]="'FORM.PLACEHOLDERS.JOB_TITLE' | translate"
+      />
+      <!-- <small
+        class="p-error"
+        *ngIf="
+          formGroup.get('jobTitleIndividual')?.invalid &&
+          formGroup.get('jobTitleIndividual')?.touched
+        "
+      >
+        Job Title is required.
+      </small> -->
+      <br />
+      <!-- Date of Birth -->
+      <label for="dateOfBirthIndividual">{{
+        "FORM.LABELS.DOB" | translate
+      }}</label>
+
+      <shared-date-picker
+        formControlName="dateOfBirthIndividual"
+        inputId="dateOfBirthIndividual"
+        [minDate]="minDateOfBirth"
+        [maxDate]="maxDateOfBirth"
+      >
+      </shared-date-picker>
+
+      <br />
+      <!-- Gender -->
+      <label for="genderIndividual">{{
+        "FORM.LABELS.GENDER" | translate
+      }}</label>
+      <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
+        [options]="genders"
+        name="genderIndividual"
+        formControlName="genderIndividual"
+        optionLabel="value"
+        optionValue="id"
+        [placeholder]="'FORM.PLACEHOLDERS.GENDER' | translate"
+        class="w-full md:w-56"
+      ></p-select>
+
+      <br />
+      <!-- Identification Number -->
+      <!-- Dynamic Identification Entries -->
+      <div formArrayName="identities">
+        <div
+          *ngFor="let group of identities?.controls; let i = index"
+          [formGroupName]="i"
+          class="parent2-individual2 mt-2 flex items-start gap-4 align-items-center flex-wrap"
+        >
+          <!-- 1) Identification Number -->
+          <div class="div-number flex-1 min-w-0">
+            <label for="identificationNumber" class="p-0">
+              {{ "FORM.LABELS.IDENTITY_NUMBER" | translate
+              }}<sup class="danger">*</sup>
+            </label>
+            <input
+              pInputText
+              formControlName="identificationNumber"
+              required
+              [placeholder]="'FORM.PLACEHOLDERS.IDENTITY_NUMBER' | translate"
+              [ngClass]="{
+                'ng-invalid ng-dirty':
+                  group.get('identificationNumber')?.invalid &&
+                  group.get('identificationNumber')?.touched
+              }"
+            />
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('identificationNumber')?.invalid &&
+                group.get('identificationNumber')?.touched
+              "
+            >
+              {{ "FORM.ERRORS.IDENTITY_REQUIRED" | translate }}
+            </small>
+          </div>
+
+          <!-- 2) Select Identity -->
+          <div class="div-select flex-1 min-w-0">
+            <label for="identityType" class="p-0">
+              {{ "FORM.LABELS.IDENTITY_TYPE" | translate
+              }}<sup class="danger">*</sup>
+            </label>
+            <p-select
+              [filter]="true"
+              filterBy="name"
+              [showClear]="true"
+              [options]="identityIndividual"
+              formControlName="selectedIdentities"
+              name="identityType"
+              [placeholder]="'FORM.PLACEHOLDERS.IDENTITY_TYPE' | translate"
+              [optionLabel]="optionLabelKey"
+              optionValue="id"
+              required
+              class="m-0"
+              [ngClass]="{
+                'ng-invalid ng-dirty':
+                  group.get('selectedIdentities')?.invalid &&
+                  group.get('selectedIdentities')?.touched
+              }"
+            ></p-select>
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('selectedIdentities')?.invalid &&
+                group.get('selectedIdentities')?.touched
+              "
+            >
+              {{ "FORM.ERRORS.IDENTITY_TYPE_REQUIRED" | translate }}
+            </small>
+          </div>
+
+          <!-- 3) Is Main toggle -->
+          <!-- 3) Is Main toggle -->
+          <div class="div-main flex items-center flex-column">
+            <label for="isMain" class="p-0">
+              {{ "FORM.LABELS.IS_MAIN" | translate }}
+            </label>
+            <p-toggleswitch
+              formControlName="isMain"
+              name="isMain"
+              required
+              [ngClass]="{
+                'ng-invalid ng-dirty':
+                  group.get('isMain')?.invalid && group.get('isMain')?.touched
+              }"
+            ></p-toggleswitch
+            ><br />
+            <small
+              class="p-error"
+              *ngIf="
+                group.get('isMain')?.invalid && group.get('isMain')?.touched
+              "
+            >
+              {{ "FORM.ERRORS.IS_MAIN_REQUIRED" | translate }}
+            </small>
+          </div>
+
+          <!-- 4) Add another identity -->
+          <button
+            pButton
+            type="button"
+            icon="pi pi-plus"
+            *ngIf="!viewOnly"
+            class="p-button-outlined p-button-sm"
+            (click)="addIdentity.emit()"
+          ></button>
+
+          <!-- 5) Remove this identity -->
+          <button
+            pButton
+            type="button"
+            icon="pi pi-trash"
+            class="p-button-danger p-button-sm"
+            (click)="removeIdentity.emit(i)"
+            *ngIf="identities.length > 1"
+          ></button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<app-toolbar-form
+  [header]="
+    viewOnly
+      ? 'View Client Identity'
+      : editMode
+      ? 'Edit Client Identity'
+      : 'Add Client Identity'
+  "
+  [backExists]="true"
+  [viewOnly]="false"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-add-client-identities-form
+        [description]="'Client Identity '"
+        [addClientIdentityForm]="true"
+        [identificationTypes]="identificationTypes$ | async"
+        [formGroup]="addClientIdentityForm"
+        (submitForm)="addOrEditClientIdentity()"
+        [editMode]="editMode"
+        [viewOnly]="viewOnly"
+      ></app-add-client-identities-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

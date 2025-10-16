@@ -1,0 +1,78 @@
+.meeting-details {
+  margin-left: 10px;
+  font-size: 24px;
+  font-weight: 700;
+  color: #25324b;
+  font-family: "poppins-semibold", sans-serif;
+}
+.text-right .view {
+  padding: 0px 20px;
+  font-size: 16px;
+
+  color: #7c8493;
+  font-weight: 600;
+}
+.text-right .selected {
+  color: #25324b;
+  border-bottom: 4px solid #4640de;
+  font-size: 16px;
+  font-family: "epilogue", sans-serif;
+  padding-bottom: 20px;
+  font-weight: 600;
+}
+.current-month {
+  font-size: 16px;
+  padding-left: 120px;
+  font-weight: 700;
+  color: #000000;
+}
+:host {
+  &::ng-deep {
+    .fc-day-number {
+      color: #7c8493;
+      text-decoration: none !important;
+      font-family: "inter";
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .fc-day-name {
+      color: #25324b;
+      text-decoration: none !important;
+
+      font-size: 18px;
+      font-weight: 600;
+    }
+    .fc-day-today .fc-day-name {
+      background-color: #0a69bb;
+      color: #fff;
+      border-radius: 50%;
+      padding: 7px 10px;
+    }
+    .fc-v-event {
+      background-color: #0a69bb;
+    }
+    .custom-event-title,
+    .custom-event-time {
+      font-size: 10px;
+    }
+    .fc-day-today.fc-timegrid-col,
+    .fc-day-today .fc-daygrid-day-frame.fc-scrollgrid-sync-inner {
+      background-color: rgba($color: #0a69bb, $alpha: 0.5);
+    }
+    a:hover {
+      background-color: var(--fc-event-bg-color);
+    }
+    .fc-col-header-cell-cushion:hover {
+      background-color: transparent;
+    }
+    .fc-col-header-cell-cushion {
+      text-decoration: none !important;
+    }
+    th .fc-scrollgrid-sync-inner {
+      padding: 20px;
+    }
+    tr {
+      font-size: 12px;
+    }
+  }
+}

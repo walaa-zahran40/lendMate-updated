@@ -60,8 +60,25 @@
   box-sizing: border-box;
   border: none;
 }
+html[dir="rtl"] {
+  body {
+    direction: rtl;
+    text-align: right;
+    font-family: "almarai", sans-serif;
+  }
+  button.menu-button.p-button.p-component.p-button-icon-only.active::before {
+    left: auto;
+    right: -0.7px;
+  }
+  button.menu-button.p-button.p-component.p-button-icon-only.active
+    span.p-button-icon.pi::after {
+    right: auto;
+    left: 10px;
+  }
+}
 body {
   font-family: "poppins", sans-serif;
+  height: 100vh;
 }
 .page-content {
   padding: 20px 20px;
@@ -193,12 +210,97 @@ body {
 }
 :host {
   &::ng-deep {
+    .p-tab {
+      font-weight: 500 !important;
+    }
+
     .p-dialog-content {
       flex-direction: column;
     }
+    .p-inputnumber {
+      width: 100%;
+    }
+    .p-select-option,
+    .p-multiselect-option {
+      color: var(--black-color) !important;
+    }
+    .p-checkbox-checked:not(.p-disabled) .p-checkbox-box {
+      background: #059669 !important;
+    }
+    .p-checkbox:not(.p-disabled) .p-checkbox-box {
+      background: #fff !important;
+    }
+    .p-multiselect-overlay {
+      background: #fff !important;
+      .p-multiselect-header {
+        background: #fff !important;
+      }
+    }
   }
 }
+/* global styles.scss */
+html[dir="rtl"] .back-icon {
+  transform: rotate(180deg);
+  display: inline-block; /* needed for transform to work on pseudo-element */
+}
+[dir="rtl"] .pi-chevron-right,
+[dir="rtl"] .pi-angle-right {
+  transform: rotate(180deg);
+}
 
+.p-panelmenu-header:not(.p-panelmenu-header-active)
+  .p-panelmenu-header-content
+  .p-panelmenu-submenu-icon:dir(rtl) {
+  transform: none !important; /* reset global flip */
+}
+html[dir="rtl"].p-panelmenu-header-link .p-iconwrapper {
+  margin-right: auto;
+}
+html[dir="rtl"] .p-splitbutton-button.p-button {
+  flex-direction: row;
+  padding: 12px 16px;
+}
+.btn-yes {
+  background-color: #28a745 !important; /* bootstrap-green */
+  border-color: #28a745 !important;
+  color: #fff !important;
+  float: left;
+}
+.value-true {
+  color: #28a745 !important;
+  text-transform: uppercase;
+  span {
+    border: 1px solid #28a745 !important;
+    border-radius: 20px;
+    padding: 4px 10px;
+  }
+}
+.value-false {
+  color: #dc3545 !important;
+  text-transform: uppercase;
+  span {
+    border: 1px solid #dc3545 !important;
+    border-radius: 20px;
+    padding: 4px 10px;
+  }
+}
+.btn-no {
+  background-color: #dc3545 !important; /* bootstrap-red */
+  border-color: #dc3545 !important;
+  color: #fff !important;
+}
+.p-dialog {
+  background: var(--border-white) !important;
+  color: #000 !important;
+}
+.p-dialog-footer {
+  justify-content: space-between !important;
+  flex-direction: row-reverse;
+}
+.p-multiselect-list-container,
+.p-multiselect-option-selected {
+  background: var(--border-white) !important;
+}
 .p-dialog .p-dialog-close-button {
   float: right;
 }
@@ -210,14 +312,63 @@ body {
   flex-direction: column;
 }
 .p-datatable-filter-overlay-popover,
-.p-select:not(.p-disabled) {
+.p-select:not(.p-disabled),
+.p-datatable-filter-overlay-popover,
+.p-select:not(.p-disabled):hover,
+.p-paginator .p-select {
   background: var(--white-color-add) !important;
   color: var(--black-color) !important;
 }
-.p-check-box,
+.p-tieredmenu-root-list,
+.p-tieredmenu-submenu {
+  font-size: 13px !important;
+}
 .p-inputtext,
+.p-select-list,
 .p-select:not(.p-disabled),
-.p-paginator .p-select-label {
+.p-paginator .p-select-label,
+.p-select-option:not(.p-select-option-selected):not(.p-disabled).p-focus,
+.p-tab:not(.p-tab-active):not(.p-disabled):hover {
   background: var(--white-color-add) !important;
   color: var(--black-color) !important;
+}
+.p-paginator-rpp-dropdown {
+  background: #fff !important;
+}
+.p-select-label {
+  background: transparent !important;
+}
+.p-multiselect-option:not(.p-multiselect-option-selected):not(
+    .p-disabled
+  ).p-focus {
+  background-color: var(--white-color-add) !important;
+}
+.p-tieredmenu {
+  min-width: auto !important;
+  top: 106.725px !important;
+}
+[dir="ltr"] .custom-view .p-button {
+  flex-direction: row !important;
+}
+
+[dir="rtl"] .custom-view .p-button {
+  flex-direction: row-reverse !important;
+}
+.unsaved-changes-dialog {
+  .p-dialog-header {
+    text-align: center;
+  }
+
+  .p-dialog-footer .p-confirmdialog-accept-button,
+  .p-dialog-footer .p-confirmdialog-accept-button:hover {
+    background-color: green !important;
+    border: none !important;
+    width: 130px !important;
+  }
+  .p-dialog-footer .p-confirmdialog-reject-button,
+  .p-dialog-footer .p-confirmdialog-reject-button:hover {
+    background-color: #dc2626 !important;
+    border: none !important;
+    width: 130px !important;
+  }
 }

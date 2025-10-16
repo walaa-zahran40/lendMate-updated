@@ -1,0 +1,30 @@
+<app-toolbar-form
+  [header]="
+    viewMode ? 'View Document' : editMode ? 'Edit Document' : 'Add Document'
+  "
+  [backExists]="true"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-form
+        *ngIf="uploadForm"
+        [title]="'FORM.UPLOAD_DOCUMENTS.TITLE'"
+        [description]="'FORM.UPLOAD_DOCUMENTS.DESCRIPTION'"
+        [uploadDocumentsShowMain]="true"
+        [formGroup]="uploadForm"
+        [existingFileName]="existingFileName"
+        [existingFileId]="existingFileId"
+        [existingFileUrl]="existingFileUrl"
+        [documents]="docTypes"
+        [editMode]="editMode"
+        [lockDocType]="editMode"
+        [viewOnly]="viewMode"
+        (submitForm)="addDocument()"
+        (fileSelected)="onFileSelected($event)"
+      ></app-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

@@ -1,0 +1,47 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="' Follow Up Point'"
+    [labelBtn]="'Add Follow Up Point'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [addPermission]="'/FollowUpPoints/Post'"
+    [exports]="true"
+    (addBtn)="onAddFollowupPoint()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="followups$ | async as followups">
+    <app-table
+      [viewPermission]="[
+        '/FollowUpPoints/Get',
+        '/FollowUpPoints/GetAll',
+        '/FollowUpPoints/GetAllHistory'
+      ]"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredFollowupPoints"
+      [side]="false"
+      [first]="first2"
+      [editPermission]="'/FollowUpPoints/Put'"
+      [deletePermission]="'/FollowUpPoints/Delete'"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewFollowupPointTable]="true"
+      (onDelete)="onDeleteFollowupPoint($event)"
+      (onEdit)="onEditFollowupPoint($event)"
+      (viewForm)="onViewFollowupPoint($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { AsyncPipe, DecimalPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgbHighlight, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToolbarModule } from 'primeng/toolbar';
@@ -56,10 +56,69 @@ import { TooltipModule } from 'primeng/tooltip';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { GlobalSpinnerComponent } from './global-spinner/global-spinner.component';
+import { SharedDatePickerComponent } from './shared-date-picker/shared-date-picker.component';
+import { DownloadPopupMandateComponent } from './download-popup-mandate/download-popup-mandate.component';
+import { WorkflowDialogComponent } from './workflow-dialog/workflow-dialog.component';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { AddLegalFormLawsComponent } from '../../pages/legals/forms/add-legal-form-laws/add-legal-form-laws.component';
+import { AddLegalFormsComponent } from '../../pages/legals/forms/add-legal-forms/add-legal-forms.component';
+import { AddCallFormComponent } from '../../pages/crm/clients/forms/add-call-form/add-call-form.component';
+import { AddFollowupsFormComponent } from '../../pages/crm/clients/forms/add-client-followups-form/add-followups-form/add-followups-form.component';
+import { AddMeetingsFormComponent } from '../../pages/crm/clients/forms/add-client-meetings-form/add-meetings-form/add-meetings-form.component';
+import { AddClientAddressesFormComponent } from '../../pages/crm/clients/forms/add-client-addresses-form/add-client-addresses-form.component';
+import { AddClientCentralBankInfoFormComponent } from '../../pages/crm/clients/forms/add-client-central-bank-info-form/add-client-central-bank-info-form.component';
+import { AddClientContactPersonsFormComponent } from '../../pages/crm/clients/forms/add-client-contact-persons-form/add-client-contact-persons-form.component';
+import { AddClientCrAuthorityOfficesFormComponent } from '../../pages/crm/clients/forms/add-client-cr-authority-offices-form/add-client-cr-authority-offices-form.component';
+import { AddClientGuarantorsFormComponent } from '../../pages/crm/clients/forms/add-client-guarantors-form/add-client-guarantors-form.component';
+import { AddClientIdentitiesFormComponent } from '../../pages/crm/clients/forms/add-client-identities-form/add-client-identities-form.component';
+import { AddClientLegalsFormComponent } from '../../pages/crm/clients/forms/add-client-legals-form/add-client-legals-form.component';
+import { AddClientOfficersFormComponent } from '../../pages/crm/clients/forms/add-client-officers-form/add-client-officers-form.component';
+import { AddClientPhoneNumbersFormComponent } from '../../pages/crm/clients/forms/add-client-phone-numbers-form/add-client-phone-numbers-form.component';
+import { AddClientSalesTurnoversFormComponent } from '../../pages/crm/clients/forms/add-client-sales-turnovers-form/add-client-sales-turnovers-form.component';
+import { AddClientShareHoldersFormComponent } from '../../pages/crm/clients/forms/add-client-share-holders-form/add-client-share-holders-form.component';
+import { AddClientTaxAuthorityOfficesFormComponent } from '../../pages/crm/clients/forms/add-client-tax-authority-offices-form/add-client-tax-authority-offices-form.component';
+import { AddClientTmlOfficersFormComponent } from '../../pages/crm/clients/forms/add-client-tml-officers-form/add-client-tml-officers-form.component';
+import { AddClientUploadDocumentsFormComponent } from '../../pages/crm/clients/forms/add-client-upload-documents-form/add-client-upload-documents-form.component';
+import { AddClientFormComponent } from '../../pages/crm/clients/forms/add-client-form/add-client-form.component';
+import { AddClientOnboardingFormComponent } from '../../pages/crm/clients/forms/add-client-onboarding-form/add-client-onboarding-form.component';
+import { DirectivesModule } from '../directives/directives.module';
+import { AddMeetingsSideMenuFormComponent } from '../../pages/communication/forms/add-client-meetings-form/add-meetings-form/add-meetings-sidemenu-form.component';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { AddAssetFormComponent } from '../../pages/purchasing/forms/add-asset-form/add-asset-form.component';
+import { AddVehicleFormComponent } from '../../pages/purchasing/forms/add-vehicle-form/add-vehicle-form.component';
+import { AddPropertyFormComponent } from '../../pages/purchasing/forms/add-property-form/add-property-form.component';
+import { AddEquipmentFormComponent } from '../../pages/purchasing/forms/add-equipment-form/add-equipment-form.component';
+import { VehicleManufacturerFormComponent } from '../../pages/lookups/forms/vehicle-manufacturer-form/vehicle-manufacturer-form.component';
+import { VehicleModelFormComponent } from '../../pages/lookups/forms/vehicle-model-form/vehicle-model-form.component';
+import { AddLicenseInfoFormComponent } from '../../pages/purchasing/forms/add-license-info-form/add-license-info-form.component';
+import { LicenseTypeFormComponent } from '../../pages/lookups/forms/license-type-form/license-type-form.component';
+import { LicenseProviderFormComponent } from '../../pages/lookups/forms/license-provider-form/license-provider-form.component';
+import { AddEvaluationInfoFormComponent } from '../../pages/purchasing/forms/add-evaluation-info-form/add-evaluation-info-form.component';
+import { AddEvaluatorFormComponent } from '../../pages/lookups/forms/add-evaluator-form/add-evaluator-form.component';
+import { AddPurchasingOrderComponent } from '../../pages/purchasing/forms/add-purchasing-order-form/add-purchasing-order-form.component';
+import { FirstClaimStatusFormComponent } from '../../pages/lookups/forms/first-claim-status-form/first-claim-status-form.component';
+import { VendorFormComponent } from '../../pages/lookups/forms/vendor-form/vendor-form.component';
+import { VendorAddressFormComponent } from '../../pages/lookups/forms/vendor-address-form/vendor-address-form.component';
+import { AddPOInformationFormComponent } from '../../pages/purchasing/forms/add-po-information-form/add-po-information-form.component';
+import { AddSignatoryFormComponent } from '../../pages/purchasing/forms/add-signatory-form/add-signatory-form.component';
+import { AddPurchasingOrderFileComponent } from '../../pages/purchasing/forms/add-purchasing-order-file-form/add-purchasing-order-file-form.component';
+import { DownloadPopupPurchasingOrdersComponent } from './download-popup-purchasing-orders/download-popup-purchasing-orders.component';
+import { FormSignatoryOfficerComponent } from '../../pages/organizations/forms/form-signatory-officer/form-signatory-officer.component';
+import { AgreementMainInformationFormComponent } from '../../pages/agreement/forms/agreement-main-information-form/agreement-main-information-form.component';
+import { AgreementAssetsFormComponent } from '../../pages/agreement/forms/agreement-assets-form/agreement-assets-form.component';
+import { AgreementFeeFormComponent } from '../../pages/agreement/forms/agreement-fee-form/agreement-fee-form.component';
+import { LeasingFinancialBasicFormComponent } from '../../pages/agreement/forms/leasing-financial-basic-form/leasing-financial-basic-form.component';
+import { LeasingFinancialCurrencyFormComponent } from '../../pages/agreement/forms/leasing-financial-currency-form/leasing-financial-currency-form.component';
+import { AddAgreementFileFormComponent } from '../../pages/agreement/forms/add-agreement-file-form/add-agreement-file-form.component';
+import { AddAgreementRegistrationFormComponent } from '../../pages/agreement/forms/add-agreement-registration-form/add-agreement-registration-form.component';
+import { AddAgreementOfficerFormComponent } from '../../pages/agreement/forms/add-agreement-officer-form/add-agreement-officer-form.component';
+import { AddAgreementContactPersonFormComponent } from '../../pages/agreement/forms/add-agreement-contact-person-form/add-agreement-contact-person-form.component';
 
 @NgModule({
   declarations: [
     TableComponent,
+    AddPurchasingOrderFileComponent,
+    AddPOInformationFormComponent,
     SideMenuComponent,
     NavBarComponent,
     DeleteModuleComponent,
@@ -71,6 +130,58 @@ import { GlobalSpinnerComponent } from './global-spinner/global-spinner.componen
     ToolbarCardComponent,
     ToolbarCompoundComponent,
     GlobalSpinnerComponent,
+    AddSignatoryFormComponent,
+    SharedDatePickerComponent,
+    DownloadPopupMandateComponent,
+    VendorFormComponent,
+    AgreementMainInformationFormComponent,
+    WorkflowDialogComponent,
+    AddLegalFormLawsComponent,
+    AddLegalFormsComponent,
+    AddAssetFormComponent,
+    AddVehicleFormComponent,
+    LeasingFinancialCurrencyFormComponent,
+    AddPropertyFormComponent,
+    AddEquipmentFormComponent,
+    AddCallFormComponent,
+    AddFollowupsFormComponent,
+    AddMeetingsFormComponent,
+    AddMeetingsSideMenuFormComponent,
+    AddClientAddressesFormComponent,
+    AddClientCentralBankInfoFormComponent,
+    AddClientContactPersonsFormComponent,
+    AddClientCrAuthorityOfficesFormComponent,
+    AddClientGuarantorsFormComponent,
+    AddClientIdentitiesFormComponent,
+    AddClientLegalsFormComponent,
+    AddClientOfficersFormComponent,
+    AddClientPhoneNumbersFormComponent,
+    AddClientSalesTurnoversFormComponent,
+    AddClientShareHoldersFormComponent,
+    AddClientTaxAuthorityOfficesFormComponent,
+    AddClientTmlOfficersFormComponent,
+    AddClientUploadDocumentsFormComponent,
+    AddClientFormComponent,
+    VendorAddressFormComponent,
+    AddClientOnboardingFormComponent,
+    VehicleManufacturerFormComponent,
+    VehicleModelFormComponent,
+    AddLicenseInfoFormComponent,
+    LicenseTypeFormComponent,
+    LicenseProviderFormComponent,
+    AddEvaluationInfoFormComponent,
+    AddEvaluatorFormComponent,
+    AddPurchasingOrderComponent,
+    FirstClaimStatusFormComponent,
+    FormSignatoryOfficerComponent,
+    DownloadPopupPurchasingOrdersComponent,
+    AgreementAssetsFormComponent,
+    AgreementFeeFormComponent,
+    LeasingFinancialBasicFormComponent,
+    AddAgreementFileFormComponent,
+    AddAgreementRegistrationFormComponent,
+    AddAgreementOfficerFormComponent,
+    AddAgreementContactPersonFormComponent,
   ],
   imports: [
     CommonModule,
@@ -80,6 +191,7 @@ import { GlobalSpinnerComponent } from './global-spinner/global-spinner.componen
     AvatarGroupModule,
     SelectModule,
     CalendarModule,
+    DirectivesModule,
     PaginatorModule,
     StepperModule,
     DatePickerModule,
@@ -90,6 +202,7 @@ import { GlobalSpinnerComponent } from './global-spinner/global-spinner.componen
     ButtonModule,
     MultiSelectModule,
     DropdownModule,
+    InputNumberModule,
     ProgressBarModule,
     PanelMenuModule,
     AutoCompleteModule,
@@ -119,13 +232,26 @@ import { GlobalSpinnerComponent } from './global-spinner/global-spinner.componen
     TieredMenuModule,
     PanelMenuModule,
     ReactiveFormsModule,
+    TranslateModule,
   ],
   providers: [DatePipe, AsyncPipe, MessageService],
   exports: [
+    AddAgreementFileFormComponent,
+    AddPurchasingOrderFileComponent,
+    LicenseProviderFormComponent,
+    AddEvaluatorFormComponent,
     TableComponent,
+    VendorAddressFormComponent,
     ToolbarFormComponent,
+    AddEvaluationInfoFormComponent,
+    AddAssetFormComponent,
+    AddVehicleFormComponent,
+    AddPropertyFormComponent,
+    AddEquipmentFormComponent,
     SideMenuComponent,
     NavBarComponent,
+    VehicleManufacturerFormComponent,
+    VehicleModelFormComponent,
     NotificationComponent,
     DeleteModuleComponent,
     FormComponent,
@@ -133,9 +259,50 @@ import { GlobalSpinnerComponent } from './global-spinner/global-spinner.componen
     CardComponent,
     ToastModule,
     GlobalSpinnerComponent,
-
+    DownloadPopupMandateComponent,
     ToolbarCardComponent,
     ToolbarCompoundComponent,
+    WorkflowDialogComponent,
+    AddLegalFormLawsComponent,
+    AddLegalFormsComponent,
+    AddCallFormComponent,
+    AddFollowupsFormComponent,
+    AddMeetingsFormComponent,
+    AddMeetingsSideMenuFormComponent,
+    LicenseTypeFormComponent,
+    AddClientAddressesFormComponent,
+    AddClientCentralBankInfoFormComponent,
+    AddClientContactPersonsFormComponent,
+    AddClientCrAuthorityOfficesFormComponent,
+    AddClientGuarantorsFormComponent,
+    AddClientIdentitiesFormComponent,
+    AddClientLegalsFormComponent,
+    AddClientOfficersFormComponent,
+    AddClientPhoneNumbersFormComponent,
+    AddClientSalesTurnoversFormComponent,
+    AddClientShareHoldersFormComponent,
+    AddClientTaxAuthorityOfficesFormComponent,
+    AddClientTmlOfficersFormComponent,
+    AddClientUploadDocumentsFormComponent,
+    AddClientFormComponent,
+    AddClientOnboardingFormComponent,
+    AddLicenseInfoFormComponent,
+    AddPurchasingOrderComponent,
+    FirstClaimStatusFormComponent,
+    VendorFormComponent,
+    AddPOInformationFormComponent,
+    AddSignatoryFormComponent,
+    FormSignatoryOfficerComponent,
+    DownloadPopupPurchasingOrdersComponent,
+    AgreementMainInformationFormComponent,
+    AgreementAssetsFormComponent,
+    AgreementFeeFormComponent,
+    LeasingFinancialBasicFormComponent,
+    LeasingFinancialCurrencyFormComponent,
+    AddAgreementFileFormComponent,
+    AddAgreementRegistrationFormComponent,
+    AddAgreementOfficerFormComponent,
+    AddAgreementContactPersonFormComponent,
   ],
 })
 export class ComponentsModule {}

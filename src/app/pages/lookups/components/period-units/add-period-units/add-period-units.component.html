@@ -1,0 +1,28 @@
+<app-toolbar-form
+  [header]="
+    viewOnly
+      ? 'View Grace Period Unit'
+      : editMode
+      ? 'Edit Grace Period Unit'
+      : 'Add Grace Period Unit'
+  "
+  [backExists]="true"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-form
+        *ngIf="addGracePeriodUnitsLookupsForm"
+        [title]="'FORM.GRACE_PERIOD_UNITS.TITLE'"
+        [description]="'FORM.GRACE_PERIOD_UNITS.DESCRIPTION'"
+        [formGroup]="addGracePeriodUnitsLookupsForm"
+        [addGracePeriodUnitsLookupsForm]="true"
+        [editMode]="editMode"
+        (submitForm)="addOrEditGracePeriodUnits()"
+        [viewOnly]="viewOnly"
+      ></app-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

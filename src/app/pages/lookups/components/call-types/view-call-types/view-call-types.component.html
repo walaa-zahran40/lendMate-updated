@@ -1,0 +1,49 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/CallTypes/Post'"
+    [title]="'Call Types'"
+    [labelBtn]="'Add Call Type'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddCallType()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <!-- subscribe once to callTypes$ -->
+  <ng-container *ngIf="callTypes$ | async as callTypes">
+    <app-table
+      [viewPermission]="[
+        '/CallTypes/Get',
+        '/CallTypes/GetAll',
+        '/CallTypes/GetAllHistory'
+      ]"
+      [editPermission]="'/CallTypes/Put'"
+      [deletePermission]="'/CallTypes/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredCallTypes"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewCallTypesTable]="true"
+      (onDelete)="onDeleteCallTypeId($event)"
+      (onEdit)="onEditCallType($event)"
+      (viewForm)="onViewCallType($event)"
+    ></app-table>
+
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

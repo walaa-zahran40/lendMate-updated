@@ -1,0 +1,28 @@
+<app-toolbar-form
+  [header]="
+    viewOnly
+      ? 'View SME Client Code'
+      : editMode
+      ? 'Edit SME Client Code'
+      : 'Add SME Client Code'
+  "
+  [backExists]="true"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-form
+        *ngIf="addSMEClientCodesLookupsForm"
+        [title]="'FORM.SME_CLIENT_CODES.TITLE'"
+        [description]="'FORM.SME_CLIENT_CODES.DESCRIPTION'"
+        [formGroup]="addSMEClientCodesLookupsForm"
+        [addSMEClientCodeLookupsForm]="true"
+        [editMode]="editMode"
+        (submitForm)="addOrEditSMEClientCode()"
+        [viewOnly]="viewOnly"
+      ></app-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

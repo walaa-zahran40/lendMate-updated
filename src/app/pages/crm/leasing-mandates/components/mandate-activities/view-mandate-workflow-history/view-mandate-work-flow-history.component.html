@@ -1,0 +1,33 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Mandate Work Flow History'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  >
+  </app-toolbar-table>
+
+  <ng-container
+    *ngIf="mandateWorkFlowHistoryList$ | async as mandateWorkFlowHistoryList"
+  >
+    <app-table
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredMandateWorkFlowHistory"
+      [side]="false"
+      [download]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewMandateWorkFlowHistoryTable]="true"
+    ></app-table>
+  </ng-container>
+</div>

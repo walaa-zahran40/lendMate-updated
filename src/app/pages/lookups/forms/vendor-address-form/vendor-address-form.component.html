@@ -1,0 +1,204 @@
+<div class="parent">
+  <div *ngIf="!contactPersonDetailsView" class="div1">
+    <h2 class="m-0 title">{{ title | translate }}</h2>
+    <p class="tab-panel-paragraph">
+      {{ description | translate }}
+    </p>
+    <p-button
+      *ngIf="addVendorAddressesLookupsForm"
+      [label]="'View Vendor Addresses'"
+      icon="pi pi-cog"
+      (click)="viewVendorAddressDetails()"
+      class="custom-view m-0 float-right"
+    />
+  </div>
+  <div class="div2" [ngClass]="{ span: applyReusable }">
+    <form
+      [formGroup]="formGroup"
+      *ngIf="addVendorAddressesLookupsForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="details">Details<sup>*</sup></label>
+      <input
+        pInputText
+        id="details"
+        formControlName="details"
+        placeholder="Enter Details"
+      />
+      <div
+        *ngIf="
+          formGroup.get('details')?.hasError('required') &&
+          formGroup.get('details')?.touched
+        "
+        class="p-error"
+      >
+        Details are required.
+      </div>
+
+      <label for="detailsAR">Details in Arabic<sup>*</sup></label>
+      <input
+        pInputText
+        id="detailsAR"
+        formControlName="detailsAR"
+        placeholder="Enter Details AR"
+      />
+      <div
+        *ngIf="
+          formGroup.get('detailsAR')?.hasError('required') &&
+          formGroup.get('detailsAR')?.touched
+        "
+        class="p-error"
+      >
+        Details AR are required
+      </div>
+      <div
+        *ngIf="
+          formGroup.get('detailsAR')?.hasError('pattern') &&
+          formGroup.get('detailsAR')?.touched
+        "
+        class="p-error"
+      >
+        {{ "FORM.COMPANY_TYPES.ERRORS.NAME_AR_PATTERN" | translate }}
+      </div>
+      <label for="name">Vendor<sup>*</sup></label>
+      <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
+        id="vendorId"
+        [options]="vendors"
+        optionLabel="name"
+        placeholder="Select Vendor"
+        formControlName="vendorId"
+        optionValue="id"
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('vendorId')?.invalid &&
+            (formGroup.get('vendorId')?.dirty ||
+              formGroup.get('vendorId')?.touched)
+        }"
+      ></p-select>
+      <div
+        *ngIf="
+          formGroup.get('vendorId')?.hasError('required') &&
+          formGroup.get('vendorId')?.touched
+        "
+        class="p-error"
+      >
+        Vendor is required.
+      </div>
+      <label for="name">Address Type<sup>*</sup></label>
+      <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
+        id="addressTypeId"
+        [options]="addressTypes"
+        optionLabel="name"
+        placeholder="Select Address Type"
+        formControlName="addressTypeId"
+        optionValue="id"
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('addressTypeId')?.invalid &&
+            (formGroup.get('addressTypeId')?.dirty ||
+              formGroup.get('addressTypeId')?.touched)
+        }"
+      ></p-select>
+      <div
+        *ngIf="
+          formGroup.get('addressTypeId')?.hasError('required') &&
+          formGroup.get('addressTypeId')?.touched
+        "
+        class="p-error"
+      >
+        Address Type is required.
+      </div>
+      <label for="name">Area<sup>*</sup></label>
+      <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
+        id="areaId"
+        [options]="areas"
+        optionLabel="name"
+        placeholder="Select Area"
+        formControlName="areaId"
+        optionValue="id"
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('areaId')?.invalid &&
+            (formGroup.get('areaId')?.dirty || formGroup.get('areaId')?.touched)
+        }"
+      ></p-select>
+      <div
+        *ngIf="
+          formGroup.get('areaId')?.hasError('required') &&
+          formGroup.get('areaId')?.touched
+        "
+        class="p-error"
+      >
+        Area is required.
+      </div>
+      <p-toggleSwitch
+        id="isMain"
+        formControlName="isMain"
+        [ngClass]="{ disabled: viewOnly }"
+      ></p-toggleSwitch
+      >&nbsp;<label for="isMain">is Main<sup>*</sup></label>
+
+      <div
+        *ngIf="
+          formGroup.get('isMain')?.hasError('required') &&
+          formGroup.get('isMain')?.touched
+        "
+        class="p-error"
+      >
+        is Main is required.
+      </div>
+      <div class="p-field" *ngIf="editMode">
+        <p-toggleSwitch
+          id="isActive"
+          formControlName="isActive"
+          [ngClass]="{ disabled: viewOnly }"
+        ></p-toggleSwitch>
+        <label for="isActive">{{
+          "FORM.COMPANY_TYPES.LABEL_IS_ACTIVE" | translate
+        }}</label>
+      </div>
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
+          *ngIf="!editMode"
+        >
+          <p-button
+            type="submit"
+            [label]="'Add Vendor Address'"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            [label]="'Edit Vendor Address'"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
+        >
+          <p-button
+            [label]="'BUTTONS.CLOSE' | translate"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate(['/lookups/view-vendor-addresses'])"
+          />
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

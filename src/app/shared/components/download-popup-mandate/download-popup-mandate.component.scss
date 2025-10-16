@@ -1,0 +1,128 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  zoom: 80%;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 160%;
+  [dir="ltr"] & {
+  }
+
+  // flipped RTL layout
+  [dir="rtl"] & {
+    font-family: "almarai", sans-serif;
+  }
+}
+
+.popup {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  max-width: 400px;
+  width: 100%;
+  [dir="ltr"] & {
+  }
+
+  // flipped RTL layout
+  [dir="rtl"] & {
+    font-family: "almarai", sans-serif;
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+
+  h3 {
+    margin: 0;
+    font-size: 16px;
+    font-style: normal;
+    color: #1a1d1f;
+    font-weight: 500;
+    line-height: 160%;
+  }
+
+  .close-btn {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+}
+
+.content {
+  padding: 1rem;
+  overflow: visible;
+
+  label {
+    margin: 0.5rem 0;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 160%;
+    color: #6f767e;
+  }
+}
+
+.actions {
+  padding: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+
+  .btn {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+  }
+
+  .btn-primary {
+    background-color: #0a69bb;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+  }
+
+  .btn-secondary {
+    background: #eee;
+    color: #333;
+    border: none;
+    border-radius: 4px;
+  }
+}
+:host-context([dir="rtl"]) {
+  .overlay,
+  .popup,
+  .header h3,
+  .content,
+  .content label,
+  .actions,
+  .btn-primary,
+  .btn-secondary {
+    font-family: "almarai", sans-serif;
+  }
+}
+
+:host-context([dir="ltr"]) {
+  .overlay,
+  .popup,
+  .header h3,
+  .content,
+  .content label,
+  .actions,
+  .btn-primary,
+  .btn-secondary {
+    font-family: "poppins-bold", sans-serif;
+  }
+}

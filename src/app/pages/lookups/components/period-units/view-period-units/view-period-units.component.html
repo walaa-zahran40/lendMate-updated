@@ -1,0 +1,47 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/PeriodUnits/Post'"
+    [title]="'Grace Period Units'"
+    [labelBtn]="'Add Grace Period Unit'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddGracePeriodUnit()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="gracePeriodUnits$ | async as gracePeriodUnits">
+    <app-table
+      [viewPermission]="[
+        '/PeriodUnits/Get',
+        '/PeriodUnits/GetAll',
+        '/PeriodUnits/GetAllHistory'
+      ]"
+      [editPermission]="'/PeriodUnits/Put'"
+      [deletePermission]="'/PeriodUnits/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredGracePeriodUnit"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewGracePeriodUnitsTable]="true"
+      (onDelete)="onDeleteGracePeriodUnit($event)"
+      (onEdit)="onEditGracePeriodUnit($event)"
+      (viewForm)="onViewGracePeriodUnit($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

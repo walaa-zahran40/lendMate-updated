@@ -1,0 +1,42 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/Teams/Post'"
+    [title]="'Teams'"
+    [labelBtn]="'Add Team'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddTeam()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+  <app-table
+    [viewPermission]="['/Teams/Get', '/Teams/GetAll', '/Teams/GetAllHistory']"
+    [editPermission]="'/Teams/Put'"
+    [deletePermission]="'/Teams/Delete'"
+    #tableRef
+    (onBulkDelete)="onBulkDelete($event)"
+    [cols]="colsInside"
+    [tableData]="filteredTeams"
+    [side]="true"
+    [first]="first2"
+    [checkBox]="true"
+    [filters]="showFilters"
+    [uppercase]="'uppercase'"
+    [viewTeamsTable]="true"
+    (onDelete)="onDeleteTeam($event)"
+    (onEdit)="onEditTeam($event)"
+    (viewForm)="onViewTeam($event)"
+    (wizardBtn)="onAddSide($event)"
+  ></app-table>
+
+  <app-delete-module
+    [visible]="showDeleteModal"
+    (confirm)="confirmDelete()"
+    (cancel)="cancelDelete()"
+  />
+</div>

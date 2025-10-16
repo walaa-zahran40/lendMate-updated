@@ -1,0 +1,151 @@
+<div class="parent" [ngClass]="{ 'parent-custom': currencyCustom }">
+  <div *ngIf="!contactPersonDetailsView" class="div1">
+    <h2 class="m-0 title" [ngClass]="{ 'title-custom': financialCustom }">
+      {{ title | translate }}
+    </h2>
+    <p
+      class="tab-panel-paragraph"
+      [ngClass]="{
+        'paragraph-custom': financialCustom,
+        'p-custom': currencyCustom
+      }"
+    >
+      {{ description | translate }}
+    </p>
+    <p-button
+      *ngIf="addAgreementShowAssetsForm"
+      [label]="'BUTTONS.VIEW_AGREEMENT_DETAILS' | translate"
+      icon="pi pi-cog"
+      (click)="viewAgreementDetails()"
+      class="custom-view m-0 float-right"
+    />
+  </div>
+  <div class="div2" [ngClass]="{ span: applyReusable }">
+    <ng-container
+      *ngIf="addAgreementShowAssetsForm"
+      id="agreementAssetTypeForm"
+      [formGroup]="formGroup"
+    >
+      <div formArrayName="agreementAssetTypes">
+        <div
+          *ngFor="let group of agreementAssetTypes?.controls; let i = index"
+          [formGroupName]="i"
+          class="parent2-individual2 mt-2 flex items-start gap-4 align-items-center flex-wrap"
+        >
+          <!-- 1) Asset Type -->
+          <div class="div-number flex-1 min-w-0">
+            <label for="assetTypeId" class="label-container">
+              {{ "FORM.AGREEMENT.LABEL_ASSET_TYPE" | translate
+              }}<sup class="danger">*</sup>
+            </label>
+            <p-select
+              [filter]="true"
+              [filterBy]="filterByField"
+              [showClear]="true"
+              [options]="assetTypesList"
+              formControlName="assetTypeId"
+              [placeholder]="
+                'FORM.AGREEMENT.PLACEHOLDER_ASSET_TYPE' | translate
+              "
+              [optionLabel]="optionLabelKey"
+              optionValue="id"
+              name="assetTypeId"
+              styleClass="w-full md:w-80"
+            />
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('assetTypeId')?.invalid &&
+                group.get('assetTypeId')?.touched
+              "
+            >
+              {{ "FORM.AGREEMENT.ERROR_ASSET_TYPE_REQUIRED" | translate }}
+            </small>
+            <label for="assetDescription" class="label-container">
+              {{ "FORM.AGREEMENT.LABEL_ASSET_DESCRIPTION" | translate }}
+              <sup class="danger">*</sup>
+            </label>
+            <input
+              pInputText
+              id="assetDescription"
+              aria-describedby="assetDescription-help"
+              name="assetDescription"
+              formControlName="assetDescription"
+              [placeholder]="
+                'FORM.AGREEMENT.PLACEHOLDER_ASSET_DESCRIPTION' | translate
+              "
+              class="d-block w-100"
+            />
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('assetDescription')?.invalid &&
+                group.get('assetDescription')?.touched
+              "
+            >
+              {{
+                "FORM.AGREEMENT.ERROR_ASSET_DESCRIPTION_REQUIRED" | translate
+              }}
+            </small>
+            <label for="assetDescriptionAR" class="label-container">
+              {{ "FORM.AGREEMENT.LABEL_ASSET_DESCRIPTION_AR" | translate }}
+              <sup class="danger">*</sup>
+            </label>
+            <input
+              pInputText
+              id="assetDescriptionAR"
+              aria-describedby="assetDescriptionAR-help"
+              name="assetDescriptionAR"
+              formControlName="assetDescriptionAR"
+              [placeholder]="
+                'FORM.AGREEMENT.PLACEHOLDER_ASSET_DESCRIPTION_AR' | translate
+              "
+              class="d-block w-100"
+            />
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('assetDescriptionAR')?.invalid &&
+                group.get('assetDescriptionAR')?.touched
+              "
+            >
+              {{
+                "FORM.AGREEMENT.ERROR_ASSET_DESCRIPTION_AR_REQUIRED" | translate
+              }}
+            </small>
+            <small
+              *ngIf="
+                formGroup.get('assetDescriptionAR')?.hasError('pattern') &&
+                formGroup.get('assetDescriptionAR')?.touched
+              "
+              class="p-error"
+            >
+              {{ "FORM.COMPANY_TYPES.ERRORS.NAME_AR_PATTERN" | translate }}
+            </small>
+          </div>
+          <!-- 4) Add another Asset Type -->
+          <button
+            pButton
+            type="button"
+            icon="pi pi-plus"
+            class="p-button-outlined p-button-sm p-plus"
+            (click)="addAssetType.emit()"
+            *ngIf="!viewOnly"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+          ></button>
+
+          <!-- 5) Remove this Asset Type -->
+          <button
+            pButton
+            type="button"
+            icon="pi pi-trash"
+            class="p-button-danger p-button-sm p-remove"
+            *ngIf="agreementAssetTypes.length > 1 && !viewOnly"
+            (click)="removeAssetType.emit(i)"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+          ></button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/InsuredBy/Post'"
+    [title]="'Insured By'"
+    [labelBtn]="'Add Insured By'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddInsuredBy()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="InsuredBy$ | async as InsuredBy">
+    <app-table
+      [viewPermission]="[
+        '/InsuredBy/Get',
+        '/InsuredBy/GetAll',
+        '/InsuredBy/GetAllHistory'
+      ]"
+      [editPermission]="'/InsuredBy/Put'"
+      [deletePermission]="'/InsuredBy/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredInsuredBy"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewInsuredByTable]="true"
+      (onDelete)="onDeleteInsuredBy($event)"
+      (onEdit)="onEditInsuredBy($event)"
+      (viewForm)="onViewInsuredBy($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

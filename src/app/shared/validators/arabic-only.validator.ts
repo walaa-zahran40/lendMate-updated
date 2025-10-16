@@ -5,7 +5,6 @@ export function arabicOnlyValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const value = control.value as string;
     if (!value) {
-      // don’t validate empty (let required() handle that)
       return null;
     }
     return arabicRegex.test(value)

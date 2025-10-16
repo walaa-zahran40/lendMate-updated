@@ -1,0 +1,28 @@
+<app-toolbar-form
+  [backExists]="true"
+  [backIcon]="'back-icon'"
+  [header]="
+    viewOnly
+      ? 'View Mandate Officer'
+      : editMode
+      ? 'Edit Mandate Officer'
+      : 'Add Mandate Officer'
+  "
+  [viewOnly]="viewOnly || editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-form
+        [title]="'MANDATE.MANDATE_OFFICERS'"
+        [description]="'MANDATE.MANDATE_OFFICERS_DESC'"
+        [formGroup]="addMandateOfficerForm"
+        [addMandateOfficerForm]="true"
+        [editMode]="editMode"
+        (submitForm)="onSubmit()"
+        [viewOnly]="viewOnly"
+        [officersList]="officers$ | async"
+      ></app-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

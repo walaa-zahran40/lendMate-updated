@@ -1,0 +1,80 @@
+<div class="parent">
+  <div *ngIf="!contactPersonDetailsView" class="div1">
+    <h2 class="m-0 title">{{ title }}</h2>
+    <p class="tab-panel-paragraph">
+      {{ description }}
+    </p>
+    <p-button
+      *ngIf="addFollowupsForm"
+      icon="pi pi-cog"
+      label="View Follow Ups"
+      (click)="viewFollowUps()"
+      icon="pi pi-cog"
+      class="custom-view m-0 float-right"
+    />
+  </div>
+  <div class="div2" [ngClass]="{ span: applyReusable }">
+    <form
+      *ngIf="addFollowupsForm"
+      (ngSubmit)="onSubmit()"
+      [formGroup]="formGroup"
+    >
+      <!-- Topic -->
+      <label for="topic">Topic <sup class="danger">*</sup></label>
+      <input
+        pInputText
+        id="topic"
+        placeholder="Topic"
+        formControlName="topic"
+      />
+
+      <div class="d-flex flex-column">
+        <label for="details">Follow Up Details</label>
+        <div>
+          <textarea
+            pInputText
+            id="details"
+            formControlName="details"
+            placeholder="Enter details"
+          ></textarea>
+        </div>
+      </div>
+      <label for="date">Date<sup>*</sup></label>
+      <shared-date-picker formControlName="date" inputId="date">
+      </shared-date-picker>
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 addressTypesDiv"
+          *ngIf="!editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Add Follow up"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 addressTypesDiv"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Follow up"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 addressTypesDiv"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="viewFollowUps()"
+          />
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

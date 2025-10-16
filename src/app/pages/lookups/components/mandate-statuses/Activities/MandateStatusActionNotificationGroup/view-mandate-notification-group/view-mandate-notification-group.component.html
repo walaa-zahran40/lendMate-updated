@@ -1,0 +1,48 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/MandateStatusActionNotificationGroups/Post'"
+    [title]="'Action Notification Group'"
+    [labelBtn]="'Add Action Notification Group'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddActionNotificationGroup()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+  <ng-container
+    *ngIf="actionNotificationGroups$ | async as actionNotificationGroups"
+  >
+    <app-table
+      [viewPermission]="[
+        '/MandateStatusActionNotificationGroups/Get',
+        '/MandateStatusActionNotificationGroups/GetAll',
+        '/MandateStatusActionNotificationGroups/GetAllHistory'
+      ]"
+      [editPermission]="'/MandateStatusActionNotificationGroups/Put'"
+      [deletePermission]="'/MandateStatusActionNotificationGroups/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredActionNotificationGroups"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewMandateActionNotificationGroupTable]="true"
+      (onDelete)="onDeleteActionNotificationGroup($event)"
+      (onEdit)="onEditActionNotificationGroup($event)"
+      (viewForm)="onViewActionNotificationGroup($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

@@ -1,1 +1,20 @@
-<p>login works!</p>
+<form class="loginComp">
+  <div class="loginComp">
+    <img
+      src="/assets/images/shared/favico/svg_1.svg"
+      alt="logo"
+      width="350px"
+    />
+    <button
+      *ngIf="!loginDisplay"
+      class="btn btn-primary mt-5"
+      (click)="login()"
+    >
+      Sign In
+    </button>
+  </div>
+</form>
+
+<div class="loginFooter" style="color: white">
+  <p><span>2025 </span> CorpLease. All Rights Reserved.</p>
+</div>

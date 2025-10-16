@@ -1,0 +1,51 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/CommunicationFlowTypes/Post'"
+    [title]="'Communication Flow Types'"
+    [labelBtn]="'Add Communication Flow Type'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddCommunicationFlowType()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <!-- subscribe once to communicationFlowTypes$ -->
+  <ng-container
+    *ngIf="communicationFlowTypes$ | async as communicationFlowTypes"
+  >
+    <app-table
+      [viewPermission]="[
+        '/CommunicationFlowTypes/Get',
+        '/CommunicationFlowTypes/GetAll',
+        '/CommunicationFlowTypes/GetAllHistory'
+      ]"
+      [editPermission]="'/CommunicationFlowTypes/Put'"
+      [deletePermission]="'/CommunicationFlowTypes/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredCommunicationFlowTypes"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewCommunicationFlowTypesTable]="true"
+      (onDelete)="onDeleteCommunicationFlowTypeId($event)"
+      (onEdit)="onEditCommunicationFlowType($event)"
+      (viewForm)="onViewCommunicationFlowType($event)"
+    ></app-table>
+
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

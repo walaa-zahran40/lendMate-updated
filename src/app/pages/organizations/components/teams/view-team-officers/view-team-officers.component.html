@@ -1,0 +1,47 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/TeamOfficers/Post'"
+    [title]="'Team  Member'"
+    [labelBtn]="'Add Team Member'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddTeamOfficer()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="teamOfficers$ | async as teamOfficers">
+    <app-table
+      [viewPermission]="[
+        '/TeamOfficers/Get',
+        '/TeamOfficers/GetAll',
+        '/TeamOfficers/GetAllHistory'
+      ]"
+      [editPermission]="'/TeamOfficers/Put'"
+      [deletePermission]="'/TeamOfficers/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredTeamOfficers"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewTeamOfficersTable]="true"
+      (onDelete)="onDeleteTeamOfficer($event)"
+      (onEdit)="onEditTeamOfficer($event)"
+      (viewForm)="onViewTeamOfficer($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

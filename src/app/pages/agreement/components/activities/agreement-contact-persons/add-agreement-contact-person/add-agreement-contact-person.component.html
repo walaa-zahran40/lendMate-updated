@@ -1,0 +1,32 @@
+<app-toolbar-form
+  [header]="
+    viewOnly
+      ? 'View Agreement Contact Person'
+      : editMode
+      ? 'Edit Agreement Contact Person'
+      : 'Add Agreement Contact Person'
+  "
+  [backExists]="true"
+  [viewOnly]="false"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-add-agreement-contact-person-form
+        *ngIf="addAgreementContactPersonsForm"
+        [title]="'Agreement Contact Person'"
+        [description]="
+          'Introduce your Agreement Contact Person core info quickly to users by fill up client details'
+        "
+        [formGroup]="addAgreementContactPersonsForm"
+        [addAgreementContactPersonsForm]="true"
+        [editMode]="editMode"
+        (submitForm)="addOrEditAgreementContactPersons()"
+        [viewOnly]="viewOnly"
+        [contactPersonsList]="contactPersons$ | async"
+      ></app-add-agreement-contact-person-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

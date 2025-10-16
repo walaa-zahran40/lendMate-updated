@@ -1,13 +1,16 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { MsalGuard } from '@azure/msal-angular';
+import { LoginComponent } from './pages/login/login/login.component';
+import { ViewClientsOnboardingComponent } from './pages/crm/clients/components/clients/client-onboarding/view-clients-onboarding/view-clients-onboarding.component';
 
-const routes: Routes = [
-  { path: '', redirectTo: '/crm/clients/view-clients', pathMatch: 'full' },
+export const routes: Routes = [
+  { path: '', component: LoginComponent },
   {
-    path: 'login',
-    loadChildren: () =>
-      import('./pages/login/login.module').then((m) => m.LoginModule),
+    path: 'crm/clients/view-clients-onboarding',
+    component: ViewClientsOnboardingComponent,
+    canActivate: [MsalGuard],
   },
   {
     path: 'crm',
@@ -38,14 +41,31 @@ const routes: Routes = [
         (m) => m.CommunicationModule
       ),
   },
+  {
+    path: 'purchasing',
+    loadChildren: () =>
+      import('./pages/purchasing/purchasing.module').then(
+        (m) => m.PurchasingModule
+      ),
+  },
+  {
+    path: 'agreement',
+    loadChildren: () =>
+      import('./pages/agreement/agreement.module').then(
+        (m) => m.AgreementModule
+      ),
+  },
   { path: 'not-found', component: NotFoundComponent },
   { path: '**', redirectTo: '/not-found' },
 ];
-//for tracing purposes
-//  [RouterModule.forRoot(routes, { enableTracing: true })],
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes, {
+      preloadingStrategy: PreloadAllModules,
+      useHash: false,
+    }),
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

@@ -1,98 +1,111 @@
 import { createReducer, on } from '@ngrx/store';
-import * as ShareholderActions from './client-share-holders.actions';
-import { initialShareholdersState } from './client-share-holders.state';
+import * as Actions from './client-share-holders.actions';
+import { initialClientShareHoldersState } from './client-share-holders.state';
 
-export const clientShareholdersReducer = createReducer(
-  initialShareholdersState,
-  on(ShareholderActions.loadShareholders, (state) => ({
+export const clientShareHoldersReducer = createReducer(
+  initialClientShareHoldersState,
+  on(Actions.loadClientShareHolders, (state) => ({
     ...state,
     loading: true,
+    error: null,
   })),
-  on(ShareholderActions.loadShareholdersSuccess, (state, { shareholders }) => ({
+  on(Actions.loadClientShareHoldersSuccess, (state, { items, totalCount }) => ({
     ...state,
-    shareholders,
+    items,
+    totalCount,
     loading: false,
   })),
-  on(ShareholderActions.loadShareholdersFailure, (state, { error }) => ({
+  on(Actions.loadClientShareHoldersFailure, (state, { error }) => ({
     ...state,
     error,
     loading: false,
   })),
 
-  on(ShareholderActions.loadAllShareholders, (state) => ({
+  on(Actions.loadClientShareHoldersHistory, (state) => ({
     ...state,
     loading: true,
   })),
-  on(
-    ShareholderActions.loadAllShareholdersSuccess,
-    (state, { shareholders }) => ({
-      ...state,
-      allShareholders: shareholders,
-      loading: false,
-    })
-  ),
-  on(ShareholderActions.loadAllShareholdersFailure, (state, { error }) => ({
+  on(Actions.loadClientShareHoldersHistorySuccess, (state, { history }) => ({
+    ...state,
+    history,
+    loading: false,
+  })),
+  on(Actions.loadClientShareHoldersHistoryFailure, (state, { error }) => ({
     ...state,
     error,
     loading: false,
   })),
 
-  on(ShareholderActions.createShareholder, (state) => ({
+  on(Actions.loadClientShareHolder, (state) => ({
     ...state,
     loading: true,
   })),
-  on(ShareholderActions.createShareholderSuccess, (state, { shareholder }) => ({
+  on(Actions.loadClientShareHolderSuccess, (state, { client }) => ({
     ...state,
-    shareholders: [...state.shareholders, shareholder],
+    current: client,
     loading: false,
   })),
-  on(ShareholderActions.createShareholderFailure, (state, { error }) => ({
+  on(Actions.loadClientShareHolderFailure, (state, { error }) => ({
     ...state,
     error,
     loading: false,
   })),
 
-  on(ShareholderActions.updateShareholder, (state) => ({
+  on(Actions.createClientShareHolder, (state) => ({
     ...state,
     loading: true,
   })),
-  on(ShareholderActions.updateShareholderSuccess, (state, { shareholder }) => ({
+  on(Actions.createClientShareHolderSuccess, (state, { client }) => ({
     ...state,
-    shareholders: state.shareholders.map((s) =>
-      s.id === shareholder.id ? shareholder : s
-    ),
+    items: [...state.items, client],
     loading: false,
   })),
-  on(ShareholderActions.updateShareholderFailure, (state, { error }) => ({
+  on(Actions.createClientShareHolderFailure, (state, { error }) => ({
     ...state,
     error,
     loading: false,
   })),
 
-  on(ShareholderActions.deleteShareholder, (state) => ({
+  on(Actions.updateClientShareHolder, (state) => ({
     ...state,
     loading: true,
   })),
-  on(ShareholderActions.deleteShareholderSuccess, (state, { id }) => ({
+  on(Actions.updateClientShareHolderSuccess, (state, { client }) => ({
     ...state,
-    shareholders: state.shareholders.filter((s) => s.id !== id),
+    items: state.items.map((ct) => (ct.id === client.id ? client : ct)),
     loading: false,
   })),
-  on(ShareholderActions.deleteShareholderFailure, (state, { error }) => ({
+  on(Actions.updateClientShareHolderFailure, (state, { error }) => ({
     ...state,
     error,
     loading: false,
   })),
 
-  on(ShareholderActions.loadShareholdersHistory, (state) => ({
+  on(Actions.deleteClientShareHolder, (state) => ({
     ...state,
     loading: true,
   })),
-  on(
-    ShareholderActions.loadShareholdersHistorySuccess,
-    (state, { history }) => ({ ...state, history, loading: false })
-  ),
-  on(ShareholderActions.loadShareholdersHistoryFailure, (state, { error }) => ({
+  on(Actions.deleteClientShareHolderSuccess, (state, { id }) => ({
+    ...state,
+    items: state.items.filter((ct) => ct.id !== id),
+    loading: false,
+  })),
+  on(Actions.deleteClientShareHolderFailure, (state, { error }) => ({
+    ...state,
+    error,
+    loading: false,
+  })),
+  on(Actions.loadClientShareHoldersByClientId, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
+  on(Actions.loadClientShareHoldersByClientIdSuccess, (state, { items }) => ({
+    ...state,
+    items, // replace with just these rates
+    loading: false,
+  })),
+  on(Actions.loadClientShareHoldersByClientIdFailure, (state, { error }) => ({
     ...state,
     error,
     loading: false,

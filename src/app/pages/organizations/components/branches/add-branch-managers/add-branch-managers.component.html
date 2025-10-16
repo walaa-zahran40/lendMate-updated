@@ -1,0 +1,29 @@
+<app-toolbar-form
+  [header]="
+    viewOnly
+      ? 'View Branch Manager'
+      : editMode
+      ? 'Edit Branch Manager'
+      : 'Add Branch Manager'
+  "
+  [backExists]="true"
+  [viewOnly]="false"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form
+><p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-form
+        [title]="'FORM.BRANCH_MANAGER.TITLE'"
+        [description]="'FORM.BRANCH_MANAGER.DESCRIPTION'"
+        [addBranchManagersLookupsForm]="true"
+        [officersList]="officers"
+        [formGroup]="addBranchManagerForm"
+        (submitForm)="addOrEditBranchManager()"
+        [editMode]="editMode"
+        [viewOnly]="viewOnly"
+      ></app-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

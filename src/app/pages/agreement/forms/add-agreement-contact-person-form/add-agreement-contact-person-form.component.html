@@ -1,0 +1,79 @@
+<div class="parent">
+  <div *ngIf="!contactPersonDetailsView" class="div1">
+    <h2 class="m-0 title">{{ title }}</h2>
+    <p class="tab-panel-paragraph">
+      {{ description }}
+    </p>
+    <p-button
+      *ngIf="addAgreementContactPersonsForm"
+      icon="pi pi-cog"
+      label="View Agreement Contact Persons Details"
+      icon="pi pi-cog"
+      (click)="viewAgreementContactPersonsDetails()"
+      class="custom-view m-0 float-right"
+    />
+  </div>
+  <div class="div2" [ngClass]="{ span: applyReusable }">
+    <form
+      [formGroup]="formGroup"
+      *ngIf="addAgreementContactPersonsForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="contactPersonId">Contact Persons<sup>*</sup></label>
+      <p-select
+        [filter]="true"
+        [filterBy]="filterByField"
+        [showClear]="true"
+        [options]="contactPersonsList"
+        formControlName="contactPersonId"
+        [placeholder]="'Select Contact Person'"
+        [optionLabel]="optionLabelKey"
+        optionValue="id"
+        name="contactPersonId"
+        styleClass="w-full md:w-80"
+      />
+      <small
+        class="p-error d-block"
+        *ngIf="
+          formGroup.get('contactPersonId')?.invalid &&
+          formGroup.get('contactPersonId')?.touched
+        "
+      >
+        Contact Person is required
+      </small>
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
+          *ngIf="!editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Add Agreement Contact Person"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Agreement Contact Person"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly && !editMode"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 companyTypesDiv"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate([`/agreement/activities/wizard-agreement/view-agreement-contact-persons/${idParamId}/${this.agreementId}/${clientIdAgreement}`])"
+          />
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

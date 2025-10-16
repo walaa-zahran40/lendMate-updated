@@ -1,21 +1,29 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { GuarantorsState } from './client-guarantors.model';
+import { ClientGuarantorsState } from './client-guarantors.state';
 
-export const selectGuarantorsState =
-  createFeatureSelector<GuarantorsState>('clientGuarantors');
-export const selectGuarantorList = createSelector(
-  selectGuarantorsState,
-  (state) => state.list
+export const selectClientGuarantorsState =
+  createFeatureSelector<ClientGuarantorsState>('clientGuarantors');
+export const selectClientGuarantors = createSelector(
+  selectClientGuarantorsState,
+  (state) => state.items
 );
-export const selectGuarantorsHistory = createSelector(
-  selectGuarantorsState,
+export const selectClientGuarantorsTotal = createSelector(
+  selectClientGuarantorsState,
+  (state) => state.totalCount
+);
+export const selectClientGuarantorsHistory = createSelector(
+  selectClientGuarantorsState,
   (state) => state.history
 );
-export const selectGuarantorsLoading = createSelector(
-  selectGuarantorsState,
+export const selectCurrentClientGuarantor = createSelector(
+  selectClientGuarantorsState,
+  (state) => state.current
+);
+export const selectClientGuarantorsLoading = createSelector(
+  selectClientGuarantorsState,
   (state) => state.loading
 );
-export const selectGuarantorsError = createSelector(
-  selectGuarantorsState,
+export const selectClientGuarantorsError = createSelector(
+  selectClientGuarantorsState,
   (state) => state.error
 );

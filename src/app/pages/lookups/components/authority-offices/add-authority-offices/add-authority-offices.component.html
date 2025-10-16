@@ -1,0 +1,28 @@
+<app-toolbar-form
+  [header]="
+    viewOnly
+      ? 'View Authority Office'
+      : editMode
+      ? 'Edit Authority Office'
+      : 'Add Authority Office'
+  "
+  [backExists]="true"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-form
+        *ngIf="addAuthorityOfficesLookupsForm"
+        [title]="'FORM.AUTHORITY_OFFICES.TITLE'"
+        [description]="'FORM.AUTHORITY_OFFICES.DESCRIPTION'"
+        [formGroup]="addAuthorityOfficesLookupsForm"
+        [addAuthorityOfficesLookupsForm]="true"
+        [editMode]="editMode"
+        (submitForm)="addOrEditAuthorityOffice()"
+        [viewOnly]="viewOnly"
+      ></app-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

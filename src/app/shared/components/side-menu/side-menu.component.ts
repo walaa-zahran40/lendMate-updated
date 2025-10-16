@@ -1,7 +1,41 @@
 import { Component } from '@angular/core';
-import { MenuToggleService } from '../../services/menu-toggle.service';
-import { Subscription } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  Subject,
+  Subscription,
+  takeUntil,
+} from 'rxjs';
 import { MenuItem } from '../../interfaces/menu-item.interface';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
+import { InteractionStatus } from '@azure/msal-browser';
+import { PermissionService } from '../../../pages/login/store/permissions/permission.service';
+import { TranslateService } from '@ngx-translate/core';
+import { MenuToggleService } from '../../services/menu-toggle.service';
+type MenuLeaf = {
+  i18nKey: string;
+  icon?: string;
+  routerLink?: string | string[];
+  permission?: string;
+};
+
+type MenuGroup = {
+  i18nKey: string;
+  icon?: string;
+  permission?: string;
+  items?: MenuLeaf[];
+  // leaf support:
+  routerLink?: string | string[];
+};
+
+type TopButton = {
+  id: string;
+  icon: string;
+  i18nKey: string;
+  permission?: string;
+};
 
 @Component({
   selector: 'app-side-menu',
@@ -10,912 +44,1329 @@ import { MenuItem } from '../../interfaces/menu-item.interface';
   styleUrl: './side-menu.component.scss',
 })
 export class SideMenuComponent {
-  menuItems = [
-    { id: 'crm', icon: 'pi pi-ico1', label: 'crm' },
-    { id: 'business', icon: 'pi pi-ico2', label: 'business' },
-    { id: 'assets', icon: 'pi pi-ico3', label: 'assets' },
-    { id: 'orders', icon: 'pi pi-ico4', label: 'orders' },
-    { id: 'settings', icon: 'pi pi-cog', label: 'Settings' },
-  ];
+  isLoggedIn = false;
+  private permsSub!: Subscription;
+  private destroyed$ = new Subject<void>();
+  private activeLocalized: any[] = []; // localized model for current section (no search)
+  filteredMenuItemsLocalized: any[] = []; // localized filtered results
+  displayModel: any[] = []; // what the template binds to
 
-  menuData: Record<string, MenuItem[]> = {
-    crm: [
+  private search$ = new Subject<string>(); // debounced search stream
+
+  menuItems: TopButton[] = [
+    {
+      id: 'CRM',
+      icon: 'pi pi-ico1',
+      i18nKey: 'MENU.CRM',
+      permission: '/Clients/GetAll',
+    },
+
+    {
+      id: 'Purchasing',
+      icon: 'pi pi-ico4',
+      i18nKey: 'MENU.PURCHASING',
+      permission: '/Clients/GetAll',
+    },
+
+    {
+      id: 'Business',
+      icon: 'pi pi-ico3',
+      i18nKey: 'MENU.BUSINESS',
+      permission: '/LeasingMandates/GetAll',
+    },
+
+    {
+      id: 'Agreement',
+      icon: 'pi pi-ico6',
+      i18nKey: 'MENU.AGREEMENT',
+      permission: '/LeasingMandates/GetAll',
+    },
+
+    {
+      id: 'Settings',
+      icon: 'pi pi-ico5',
+      i18nKey: 'MENU.SETTINGS',
+      permission: '/ApplicationRoles/GetAll',
+    },
+  ];
+  raw = this.route.snapshot.paramMap.get('teamId');
+  private destroy$ = new Subject<void>();
+  claims: Record<string, any> = {};
+
+  activeMenuItem: string | null = null;
+  filteredMenuItems: MenuItem[] = [];
+  isVisible = true;
+  private toggleSub!: Subscription;
+  clientId: string | null = null;
+  rawTeamId: string | null = null;
+  menuData: Record<string, MenuGroup[]> = {
+    CRM: [
       {
-        label: 'Client Operations',
-        icon: 'pi pi-users',
+        i18nKey: 'CRM.CLIENT_OPERATIONS',
+
+        permission: '/Clients/GetAll', // show this group if user can read clients
         items: [
           {
-            label: 'Quick Onboarding',
+            i18nKey: 'CRM.QUICK_ONBOARDING',
             icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/client-onboarding',
+            routerLink: '/crm/clients/view-clients-onboarding',
+            permission: '/Clients/GetAll',
           },
           {
-            label: 'Clients',
+            i18nKey: 'CRM.CLIENTS',
             icon: 'pi pi-user-plus',
             routerLink: '/crm/clients/view-clients',
+            permission: '/Clients/GetAll',
+          },
+        ],
+      },
+      {
+        i18nKey: 'COMMUNICATION._ROOT',
+
+        items: [
+          {
+            i18nKey: 'COMMUNICATION.MEETINGS',
+
+            routerLink: '/communication/view-meetings',
+            permission: '/Meetings/GetAll',
           },
           {
-            label: 'Client Address',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-address',
+            i18nKey: 'COMMUNICATION.CALENDAR',
+
+            routerLink: '/communication/save-meeting',
+            permission: '/Meetings/GetAll',
           },
+        ],
+      },
+      // {
+      //   label: 'Communication',
+      //
+      //   items: [
+      //     {
+      //       label: 'Call',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-calls',
+      //     },
+      //     {
+      //       label: 'Meeting',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-meetings',
+      //     },
+      // {
+      //   label: 'FollowUp',
+      //   icon: 'pi pi-user-plus',
+      //   routerLink: '/communication/view-followups',
+      // },
+      // {
+      //   label: 'FollowUpPoints',
+      //   icon: 'pi pi-user-plus',
+      //   routerLink: '/communication/view-followup-points',
+      // },
+      // {
+      //   label: 'CommunicationFollowUp',
+      //   icon: 'pi pi-user-plus',
+      //   routerLink: '/communication/view-followups',
+      // },
+      // {
+      //   label: 'MonitorFollowUps',
+      //   icon: 'pi pi-user-plus',
+      //   routerLink: '/communication/view-monitor-followups',
+      // },
+      //   ],
+      // },
+      // {
+      //   label: 'Vendors',
+      //
+      //   items: [
+      //     {
+      //       label: 'Vendors',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorAddress',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorCompanyBusinessDetails',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorCRAuthorityOffice',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorDocumentType',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorIdentity',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorLegal',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorOfficer',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorPhoneNumber',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorShareHolder',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorFile',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorTaxOffice',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'ContactPerson',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //   ],
+      // },
+      // {
+      //   label: 'Guarantors',
+      //
+      //   items: [
+      //     {
+      //       label: 'Guarantors',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorAddress',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorCompanyBusinessDetails',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorCRAuthorityOffice',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorDocumentType',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorIdentity',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorLegal',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorOfficer',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorPhoneNumber',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorShareHolder',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorFile',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorTaxOffice',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'ContactPerson',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //   ],
+      // },
+    ],
+    Purchasing: [
+      {
+        i18nKey: 'PURCHASING.ASSETS',
+
+        routerLink: '/purchasing/assets/view-assets',
+      },
+      {
+        i18nKey: 'PURCHASING.PURCHASING_ORDERS',
+
+        routerLink: '/purchasing/purchasing-orders/view-purchasing-orders',
+      },
+
+      // {
+      //   label: 'Communication',
+      //
+      //   items: [
+      //     {
+      //       label: 'Call',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-calls',
+      //     },
+      //     {
+      //       label: 'Meeting',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-meetings',
+      //     },
+      // {
+      //   label: 'FollowUp',
+      //   icon: 'pi pi-user-plus',
+      //   routerLink: '/communication/view-followups',
+      // },
+      // {
+      //   label: 'FollowUpPoints',
+      //   icon: 'pi pi-user-plus',
+      //   routerLink: '/communication/view-followup-points',
+      // },
+      // {
+      //   label: 'CommunicationFollowUp',
+      //   icon: 'pi pi-user-plus',
+      //   routerLink: '/communication/view-followups',
+      // },
+      // {
+      //   label: 'MonitorFollowUps',
+      //   icon: 'pi pi-user-plus',
+      //   routerLink: '/communication/view-monitor-followups',
+      // },
+      //   ],
+      // },
+      // {
+      //   label: 'Vendors',
+      //
+      //   items: [
+      //     {
+      //       label: 'Vendors',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorAddress',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorCompanyBusinessDetails',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorCRAuthorityOffice',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorDocumentType',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorIdentity',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorLegal',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorOfficer',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorPhoneNumber',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorShareHolder',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorFile',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'VendorTaxOffice',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'ContactPerson',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //   ],
+      // },
+      // {
+      //   label: 'Guarantors',
+      //
+      //   items: [
+      //     {
+      //       label: 'Guarantors',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorAddress',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorCompanyBusinessDetails',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorCRAuthorityOffice',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorDocumentType',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorIdentity',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorLegal',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorOfficer',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorPhoneNumber',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorShareHolder',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorFile',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'GuarantorTaxOffice',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //     {
+      //       label: 'ContactPerson',
+      //       icon: 'pi pi-user-plus',
+      //       routerLink: '/communication/view-callss',
+      //     },
+      //   ],
+      // },
+    ],
+    Business: [
+      {
+        i18nKey: 'BUSINESS.LEASING',
+
+        items: [
           {
-            label: 'ClientCentralBank',
+            i18nKey: 'BUSINESS.MANDATE',
             icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-central-bank-info',
-          },
-          // {
-          //   label: 'ClientCompanyBusinessDetails',
-          //   icon: 'pi pi-user-plus',
-          //   routerLink: '/crm/clients/company-view-only',
-          // },
-          {
-            label: 'ClientCRAuthorityOffice',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-cr-authority-office',
+            routerLink: '/crm/leasing-mandates/view-mandates',
+            permission: '/LeasingMandates/GetAll',
           },
 
-          {
-            label: 'ClientGuarantor',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-client-guarantor',
-          },
-          {
-            label: 'ClientIdentity',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-client-identity',
-          },
-          // {
-          //   label: 'ClientIndividualBusinessDetail',
-          //   icon: 'pi pi-user-plus',
-          //   routerLink: '/crm/clients/view-client-individual-business-detail',
-          // },
-          // {
-          //   label: 'ClientLegal',
-          //   icon: 'pi pi-user-plus',
-          //   routerLink: '/crm/clients/view-client-legal',
-          // },
-          // {
-          //   label: 'ClientOfficer',
-          //   icon: 'pi pi-user-plus',
-          //   routerLink: '/crm/clients/view-client-officer',
-          // },
-          {
-            label: 'ClientPhoneNumber',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-phone-number',
-          },
-          {
-            label: 'ClientSalesTurnovers',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-sales-turnover',
-          },
-          {
-            label: 'ClientShareHolder',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-share-holder',
-          },
-          {
-            label: 'ClientFile',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-upload-documents',
-          },
-          {
-            label: 'ClientTaxOffice',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-tax-authority-office',
-          },
-          {
-            label: 'ClientTMLOfficer',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-tml-officer',
-          },
-          {
-            label: 'ContactPerson',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-contact-person',
-          },
-        ],
-      },
-      {
-        label: 'Communication',
-        icon: 'pi pi-users',
-        items: [
-          {
-            label: 'Call',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-call',
-          },
-          {
-            label: 'Meeting',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-meetings',
-          },
-          {
-            label: 'FollowUp',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-followups',
-          },
-          {
-            label: 'FollowUpPoints',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-followup-points',
-          },
-          {
-            label: 'CommunicationFollowUp',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-followups',
-          },
-          // {
-          //   label: 'MonitorFollowUps',
-          //   icon: 'pi pi-user-plus',
-          //   routerLink: '/communication/view-callss',
-          // },
-        ],
-      },
-      {
-        label: 'Vendors',
-        icon: 'pi pi-users',
-        items: [
-          {
-            label: 'Vendors',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'VendorAddress',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'VendorCompanyBusinessDetails',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'VendorCRAuthorityOffice',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'VendorDocumentType',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'VendorIdentity',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'VendorLegal',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'VendorOfficer',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'VendorPhoneNumber',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'VendorShareHolder',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'VendorFile',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'VendorTaxOffice',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'ContactPerson',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-        ],
-      },
-      {
-        label: 'Guarantors',
-        icon: 'pi pi-users',
-        items: [
-          {
-            label: 'Guarantors',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'GuarantorAddress',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'GuarantorCompanyBusinessDetails',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'GuarantorCRAuthorityOffice',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'GuarantorDocumentType',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'GuarantorIdentity',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'GuarantorLegal',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'GuarantorOfficer',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'GuarantorPhoneNumber',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'GuarantorShareHolder',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'GuarantorFile',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'GuarantorTaxOffice',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-          {
-            label: 'ContactPerson',
-            icon: 'pi pi-user-plus',
-            routerLink: '/communication/view-callss',
-          },
-        ],
-      },
-    ],
-    business: [
-      {
-        label: 'Leasing',
-        icon: 'pi pi-users',
-        items: [
-          {
-            label: 'Mandate',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/leasing-mandates/view-mandate',
-          },
           // {
           //   label: 'MandateAdditionalTerm',
           //   icon: 'pi pi-user-plus',
           //   routerLink: '/crm/leasing-mandates/view-manage-mandate-terms',
           // },
-          {
-            label: 'MandateFees',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/leasing-mandates/view-manage-mandate-termss',
-          },
-          {
-            label: 'MandateFinancialActivity',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/leasing-mandates/leasing-financial-form-compound',
-          },
+          // {
+          //   label: 'MandateFees',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/crm/leasing-mandates/view-manage-mandate-termss',
+          // },
+          // {
+          //   label: 'MandateFinancialActivity',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/crm/leasing-mandates/leasing-financial-form-compound',
+          // },
         ],
       },
     ],
-    assets: [
+    Contracts: [
       {
-        label: 'Leasing',
-        icon: 'pi pi-users',
-        items: [
-          {
-            label: 'Vehicle',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/leasing-mandates/view-manage-mandate-termss',
-          },
-          {
-            label: 'Machinery and Equipments',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/leasing-mandates/view-manage-mandate-termss',
-          },
-          {
-            label: 'Real Estate',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/leasing-mandates/view-manage-mandate-termss',
-          },
-        ],
-      },
-      {
-        label: 'Insurance Policies',
-        icon: 'pi pi-users',
-        routerLink: '/crm/leasing-mandates/view-manage-mandate-termss',
+        i18nKey: 'CONTRACTS.CONTRACTS',
+
+        routerLink: '/contracts/view-contracts',
       },
     ],
-    orders: [
+    // Assets: [
+    //   {
+    //     i18nKey: 'ASSETS.ASSETS',
+    //
+    //     routerLink: '/purchasing/assets/view-assets',
+    //   },
+    // ],
+    // Orders: [
+    //   {
+    //     label: 'Leasing',
+    //
+    //     items: [
+    //       {
+    //         label: 'Purchasing Order',
+    //         icon: 'pi pi-user-plus',
+    //         routerLink: '/crm/leasing-mandates/view-manage-mandate-termss',
+    //       },
+    //     ],
+    //   },
+    // ],
+    Settings: [
       {
-        label: 'Leasing',
-        icon: 'pi pi-users',
+        i18nKey: 'SETTINGS.GENERAL',
+
         items: [
+          // {
+          //   label: 'AppSettings',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/crm/leasing-mandates/view-manage-mandate-termss',
+          // },
           {
-            label: 'Purchasing Order',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/leasing-mandates/view-manage-mandate-termss',
-          },
-        ],
-      },
-    ],
-    settings: [
-      {
-        label: 'General',
-        icon: 'pi pi-users',
-        items: [
-          {
-            label: 'AppSettings',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/leasing-mandates/view-manage-mandate-termss',
-          },
-          {
-            label: 'BusinessLine',
+            i18nKey: 'LOOKUPS.BUSINESS_LINES',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-business-lines',
+            permission: '/BusinessLines/GetAll',
           },
           {
-            label: 'Product',
+            i18nKey: 'LOOKUPS.PRODUCTS',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-products',
+            permission: '/Products/GetAll',
           },
           {
-            label: 'Sector',
+            i18nKey: 'LOOKUPS.SECTORS',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-sectors',
+            permission: '/Sectors/GetAll',
           },
           {
-            label: 'SubSector',
+            i18nKey: 'LOOKUPS.SUB_SECTORS',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-sub-sector',
+            routerLink: '/lookups/view-sub-sectors',
+            permission: '/SubSectors/GetAll',
           },
-          {
-            label: 'Tenants CRUD',
-            icon: 'pi pi-user-plus',
-            routerLink: '/crm/leasing-mandates/view-manage-mandate-termss',
-          },
+
+          // {
+          //   label: 'Tenants ',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/crm/leasing-mandates/view-manage-mandate-termss',
+          // },
         ],
       },
       {
-        label: 'Organization',
-        icon: 'pi pi-users',
+        i18nKey: 'SETTINGS.ORGANIZATIONS',
+
         items: [
           {
-            label: 'Officer',
+            i18nKey: 'ORGANIZATION.BRANCHES',
             icon: 'pi pi-user-plus',
-            routerLink: '/organizations/view-officers',
+            routerLink: '/organizations/view-branches',
+            permission: '/Branches/GetAll',
           },
           {
-            label: 'BranchesManagers',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-branch-managers',
-          },
-          {
-            label: 'BranchesOfficers',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-branch-officers',
-          },
-          {
-            label: 'DepartmentManager',
-            icon: 'pi pi-user-plus',
-            routerLink: '/organizations/view-department-manager',
-          },
-          {
-            label: 'SignatoryOfficer',
-            icon: 'pi pi-user-plus',
-            routerLink: '/organizations/view-signatory-officers',
-          },
-          {
-            label: 'TeamLeadOfficer',
-            icon: 'pi pi-user-plus',
-            routerLink: '/organizations/view-team-lead',
-          },
-          {
-            label: 'TeamOfficer',
-            icon: 'pi pi-user-plus',
-            routerLink: '/organizations/view-team-member',
-          },
-          {
-            label: 'Department',
+            i18nKey: 'ORGANIZATION.DEPARTMENTS',
             icon: 'pi pi-user-plus',
             routerLink: '/organizations/view-departments',
+            permission: '/Departments/GetAll',
           },
           {
-            label: 'Team',
+            i18nKey: 'ORGANIZATION.OFFICERS',
+            icon: 'pi pi-user-plus',
+            routerLink: '/organizations/view-officers',
+            permission: '/Officers/GetAll',
+          },
+
+          {
+            i18nKey: 'ORGANIZATION.SIGNATORY',
+            icon: 'pi pi-user-plus',
+            routerLink: '/organizations/view-signatory-officers',
+            permission: '/SignatoryOfficers/GetAll',
+          },
+
+          // {
+          //   label: 'TeamLeadOfficer',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: `/organizations/view-team-lead-officers/${this.raw}`,
+          // },
+          // {
+          //   label: 'TeamOfficer',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: `/organizations/view-team-officers/${this.raw}`,
+          // },
+
+          {
+            i18nKey: 'ORGANIZATION.TEAMS',
             icon: 'pi pi-user-plus',
             routerLink: '/organizations/view-teams',
-          },
-          {
-            label: 'Branch',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-branch',
+            permission: '/Teams/GetAll',
           },
         ],
       },
       {
-        label: 'Legal',
-        icon: 'pi pi-users',
+        i18nKey: 'SETTINGS.LEGALS',
+
         items: [
           {
-            label: 'LegalForm',
+            i18nKey: 'LEGALS.LEGAL_FORMS',
             icon: 'pi pi-user-plus',
-            routerLink: '/legals/view-legal-form',
+            routerLink: '/legals/view-legal-forms',
+            permission: '/LegalForms/GetAll',
           },
           {
-            label: 'LegalFormLaw',
+            i18nKey: 'LEGALS.LEGAL_FORM_LAWS',
             icon: 'pi pi-user-plus',
-            routerLink: '/legals/view-legal-form-law',
+            routerLink: '/legals/view-legal-form-laws',
+            permission: '/LegalFormLaws/GetAll',
           },
           {
-            label: 'CRAuthorityOffice',
+            i18nKey: 'LEGALS.CR_OFFICES',
             icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-cr-authority-office',
+            routerLink: '/lookups/view-authority-offices',
+            permission: '/CRAuthorityOffices/GetAll',
           },
           {
-            label: 'TaxOffice',
+            i18nKey: 'LEGALS.TAX_OFFICES',
             icon: 'pi pi-user-plus',
-            routerLink: '/crm/clients/view-tax-authority-office',
+            routerLink: '/lookups/view-tax-offices',
+            permission: '/TaxOffices/GetAll',
           },
           {
-            label: 'SMEClientCode',
+            i18nKey: 'LEGALS.SME_CLIENT_CODES',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-sme-client-code',
+            routerLink: '/lookups/view-sme-client-codes',
+            permission: '/SMEClientCodes/GetAll',
           },
         ],
       },
       {
-        label: 'Security',
-        icon: 'pi pi-users',
+        i18nKey: 'SETTINGS.SECURITY',
+
         items: [
           {
-            label: 'ApplicationRole',
+            i18nKey: 'SECURITY.APPLICATION_ROLES',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-sme-client-codee',
+            routerLink: '/organizations/view-roles',
+            permission: '/ApplicationRoles/GetAll',
           },
+
+          // {
+          //   label: 'Application Role Claims',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/organizations/view-role-claims',
+          // },
+          // {
+          //   label: 'ApplicationUserRole',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/lookups/view-sme-client-codes',
+          // },
+          // {
+          //   label: 'Users',
+          //   icon: 'pi pi-user-plus',
+          //   routerLink: '/lookups/view-sme-client-codes',
+          // },
           {
-            label: 'ApplicationRoleClaim',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-sme-client-codee',
-          },
-          {
-            label: 'ApplicationUserRole',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-sme-client-codee',
-          },
-          {
-            label: 'Users',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-sme-client-codee',
-          },
-          {
-            label: 'PageOperations',
+            i18nKey: 'SECURITY.PAGE_OPERATIONS',
             icon: 'pi pi-user-plus',
             routerLink: '/organizations/view-page-operations',
+            permission: '/PageOperations/GetAll',
           },
           {
-            label: 'Operations CRUD',
+            i18nKey: 'SECURITY.OPERATIONS',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-sme-client-codee',
+            routerLink: '/organizations/view-operations',
+            permission: '/Operations/GetAll',
           },
           {
-            label: 'Pages CRUD',
+            i18nKey: 'SECURITY.PAGES',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-sme-client-codee',
+            routerLink: '/organizations/view-pages',
+            permission: '/Pages/GetAll',
           },
         ],
       },
       {
-        label: 'Client WorkFlow',
-        icon: 'pi pi-users',
+        i18nKey: 'SETTINGS.CLIENT_WORKFLOW',
+
         items: [
           {
-            label: 'ClientStatus',
+            i18nKey: 'CLIENT_WORKFLOW.CLIENT_STATUS',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-client-statuses',
+            permission: '/ClientStatuses/GetAll',
           },
           {
-            label: 'ClientStatusAction',
+            i18nKey: 'CLIENT_WORKFLOW.CLIENT_STATUS_ACTION',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/add-client-status-actions',
+            routerLink: '/lookups/view-client-status-actions',
+            permission: '/ClientStatusActions/GetAll',
           },
+        ],
+      },
+      {
+        i18nKey: 'SETTINGS.MANDATE_WORKFLOW',
+
+        items: [
           {
-            label: 'ClientStatusActionAuthorizationGroup',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-client-statusess',
-          },
-          {
-            label: 'MandateStatusActionCondition',
+            i18nKey: 'MANDATE_WORKFLOW.MANDATE_STATUS',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-mandate-statuses',
+            permission: '/MandateStatuses/GetAll',
           },
           {
-            label: 'ClientStatusActionNotificationGroup',
+            i18nKey: 'MANDATE_WORKFLOW.MANDATE_STATUS_ACTION',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-client-statuses',
-          },
-          {
-            label: 'MandateWorkFlowActions',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-client-statusess',
-          },
-          {
-            label: 'ClientNotificationGroupOfficer',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-client-statusess',
-          },
-          {
-            label: 'ClientAuthorizationGroup',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-client-statusess',
+            routerLink: '/lookups/view-mandate-status-actions',
+            permission: '/MandateStatusActions/GetAll',
           },
         ],
       },
       {
-        label: 'Mandate WorkFlow',
-        icon: 'pi pi-users',
+        i18nKey: 'SETTINGS.FEES',
+
         items: [
           {
-            label: 'MandateStatus',
+            i18nKey: 'FEES.FEE_RANGES',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-mandate-statuses',
+            routerLink: '/lookups/view-fee-ranges',
+            permission: '/FeesRanges/GetAll',
           },
           {
-            label: 'MandateStatusAction',
+            i18nKey: 'FEES.FEE_CALC_TYPES',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/add-client-status-actions',
+            routerLink: '/lookups/view-fee-calculation-types',
+            permission: '/FeeCalculationTypes/GetAll',
           },
           {
-            label: 'MandateStatusActionAuthorizationGroup',
+            i18nKey: 'FEES.FEE_TYPES',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/add-client-status-actionss',
-          },
-          {
-            label: 'MandateStatusActionCondition',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/add-client-status-actionss',
-          },
-          {
-            label: 'MandateStatusActionNotificationGroup',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/add-client-status-actionss',
-          },
-          {
-            label: 'MandateWorkFlowActions',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/add-client-status-actionss',
-          },
-          {
-            label: 'MandateNotificationGroupOfficer',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/add-client-status-actionss',
-          },
-          {
-            label: 'MandateAuthorizationGroup',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/add-client-status-actionss',
+            routerLink: '/lookups/view-fee-types',
+            permission: '/FeeTypes/GetAll',
           },
         ],
       },
       {
-        label: 'Fees',
-        icon: 'pi pi-users',
+        i18nKey: 'SETTINGS.LOOKUPS',
+
         items: [
           {
-            label: 'FeesRange',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-fees-range',
-          },
-          {
-            label: 'FeeCalculationType',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-fees-calculation-types',
-          },
-          {
-            label: 'FeeType',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-feel-types',
-          },
-        ],
-      },
-      {
-        label: 'Lookups',
-        icon: 'pi pi-users',
-        items: [
-          {
-            label: 'ClientOfficerType',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-client-types',
-          },
-          {
-            label: 'ClientDocumentType',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-client-document-types',
-          },
-          {
-            label: 'MandatePaymentSetting',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-client-typess',
-          },
-          {
-            label: 'AddressType',
+            i18nKey: 'LOOKUPS.ADDRESS_TYPES',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-address-types',
+            permission: '/AddressTypes/GetAll',
           },
           {
-            label: 'Area',
+            i18nKey: 'LOOKUPS.AREAS',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-areas',
+            permission: '/Areas/GetAll',
           },
           {
-            label: 'AssetType',
+            i18nKey: 'LOOKUPS.ASSET_TYPES',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-assest-types',
+            routerLink: '/lookups/view-asset-types',
+            permission: '/AssetTypes/GetAll',
           },
           {
-            label: 'AssetTypeCategory',
+            i18nKey: 'LOOKUPS.ASSET_TYPE_CATEGORIES',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-assest-type-categories',
+            routerLink: '/lookups/view-asset-type-categories',
+            permission: '/AssetTypeCategories/GetAll',
           },
           {
-            label: 'AuthorizationGroup',
+            i18nKey: 'LOOKUPS.AUTHORIZATION_GROUPS',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-assest-type-categoriesss',
+            routerLink: '/lookups/view-authorization-groups',
+            permission: '/AuthorizationGroups/GetAll',
           },
           {
-            label: 'CallActionType',
+            i18nKey: 'LOOKUPS.AUTHORIZATION_GROUP_OFFICERS',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-call-action-type',
+            routerLink: '/lookups/view-authorization-group-officers',
+            permission: '/AuthorizationGroupOfficers/GetAll',
           },
           {
-            label: 'CallType',
+            i18nKey: 'LOOKUPS.CALL_ACTION_TYPES',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-call-action-types',
+            permission: '/CallActionTypes/GetAll',
+          },
+          {
+            i18nKey: 'LOOKUPS.CALL_TYPES',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-call-types',
+            permission: '/CallTypes/GetAll',
           },
           {
-            label: 'ClientIdentityType',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-calls-types',
-          },
-          {
-            label: 'ClientType',
+            i18nKey: 'LOOKUPS.CLIENT_TYPES',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-client-types',
+            permission: '/ClientTypes/GetAll',
           },
           {
-            label: 'CommunicationFlowType',
+            i18nKey: 'LOOKUPS.CLIENT_OFFICER_TYPES',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-communication-flow-type',
+            routerLink: '/lookups/view-client-officer-types',
+            permission: '/ClientOfficerTypes/GetAll',
           },
           {
-            label: 'CommunicationType',
+            i18nKey: 'LOOKUPS.COMM_TYPES',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-communication-types',
+            permission: '/CommunicationTypes/GetAll',
           },
           {
-            label: 'CompanyType',
+            i18nKey: 'LOOKUPS.COMM_FLOW_TYPES',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-communication-flow-types',
+            permission: '/CommunicationFlowTypes/GetAll',
+          },
+          {
+            i18nKey: 'LOOKUPS.COMPANY_TYPES',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-company-types',
+            permission: '/CompanyTypes/GetAll',
           },
           {
-            label: 'Condition',
+            i18nKey: 'LOOKUPS.CONDITIONS',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-commsunication-types',
+            routerLink: '/lookups/view-conditions',
+            permission: '/Conditions/GetAll',
           },
           {
-            label: 'ConditionExpression',
+            i18nKey: 'LOOKUPS.CONDITION_EXPRESSIONS',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-commsunication-types',
+            routerLink: '/lookups/view-condition-expressions',
+            permission: '/ConditionExpressions/GetAll',
           },
           {
-            label: 'Country',
+            i18nKey: 'LOOKUPS.COUNTRIES',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-countries',
+            permission: '/Countries/GetAll',
           },
           {
-            label: 'Currency',
+            i18nKey: 'LOOKUPS.CURRENCIES',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-currencies',
+            permission: '/Currencies/GetAll',
           },
           {
-            label: 'CurrencyExchangeRate',
+            i18nKey: 'LOOKUPS.DOCUMENT_TYPES',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-currency-exchange-rate',
+            routerLink: '/lookups/view-document-types',
+            permission: '/DocumentTypes/GetAll',
           },
           {
-            label: 'FollowUpType',
+            i18nKey: 'LOOKUPS.EVALUATORS',
             icon: 'pi pi-user-plus',
-            routerLink: '/communication/add-followup-types',
+            routerLink: '/lookups/view-evaluators',
           },
           {
-            label: 'Governorate',
+            i18nKey: 'LOOKUPS.FIRST_CLAIM_STATUSES',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-first-claim-statuses',
+            permission: '/FollowUpTypes/GetAll',
+          },
+          {
+            i18nKey: 'LOOKUPS.FOLLOWUP_TYPES',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-followup-types',
+            permission: '/FollowUpTypes/GetAll',
+          },
+          {
+            i18nKey: 'LOOKUPS.GOVERNORATES',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-governorates',
+            permission: '/Governorates/GetAll',
           },
           {
-            label: 'GracePeriodUnit',
-            icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-grace-period-units',
-          },
-          {
-            label: 'IdentificationType',
+            i18nKey: 'LOOKUPS.ID_TYPES',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-identification-types',
+            permission: '/IdentificationTypes/GetAll',
           },
           {
-            label: 'InsuredBy',
+            i18nKey: 'LOOKUPS.INSURED_BY',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-insured-by',
+            permission: '/InsuredBy/GetAll',
           },
           {
-            label: 'InterestRateBenchmark',
+            i18nKey: 'LOOKUPS.IR_BENCHMARKS',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-interest-rate-benchmarks',
+            permission: '/InterestRateBenchmarks/GetAll',
           },
-          { label: 'InterestType', icon: 'pi pi-user-plus', routerLink: '' },
           {
-            label: 'LeasingType',
+            i18nKey: 'LOOKUPS.INTEREST_TYPES',
             icon: 'pi pi-user-plus',
-            routerLink: '/lookups/view-leasing-type',
+            routerLink: '/lookups/view-interest-types',
+            permission: '/InterestTypes/GetAll',
           },
           {
-            label: 'MandateValidityUnit',
+            i18nKey: 'LOOKUPS.LEASING_TYPES',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-leasing-types',
+            permission: '/LeasingTypes/GetAll',
+          },
+          {
+            i18nKey: 'LOOKUPS.LICENSE_TYPES',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-license-types',
+          },
+          {
+            i18nKey: 'LOOKUPS.LICENSE_PROVIDERS',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-license-providers',
+          },
+          {
+            i18nKey: 'LOOKUPS.VALIDITY_UNIT',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-mandate-validity-unit',
+            permission: '/ValidityUnits/GetAll',
           },
           {
-            label: 'MeetingTypes',
+            i18nKey: 'LOOKUPS.MEETING_TYPES',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-meeting-types',
+            permission: '/MeetingTypes/GetAll',
           },
           {
-            label: 'NotificationGroup',
+            i18nKey: 'LOOKUPS.NOTIFICATION_GROUPS',
             icon: 'pi pi-user-plus',
-            routerLink: '/ssss',
+            routerLink: '/lookups/view-notification-groups',
+            permission: '/NotificationGroups/GetAll',
           },
           {
-            label: 'PaymentMethod',
+            i18nKey: 'LOOKUPS.NOTIFICATION_GROUP_OFFICERS',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-notification-group-officers',
+            permission: '/NotificationGroupOfficers/GetAll',
+          },
+          {
+            i18nKey: 'LOOKUPS.PAYMENT_METHODS',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-payment-methods',
+            permission: '/PaymentMethods/GetAll',
           },
           {
-            label: 'PaymentMonthDay',
+            i18nKey: 'LOOKUPS.PAYMENT_MONTH_DAYS',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-payment-month-days',
+            permission: '/PaymentMonthDays/GetAll',
           },
           {
-            label: 'PaymentPeriod',
-            icon: 'pi pi-user-plus',
-            routerLink: '/ssss',
-          },
-          {
-            label: 'PaymentTimingTerm',
-            icon: 'pi pi-user-plus',
-            routerLink: '/sss',
-          },
-          {
-            label: 'PaymentType',
+            i18nKey: 'LOOKUPS.PAYMENT_TYPES',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-payment-types',
+            permission: '/PaymentTypes/GetAll',
           },
           {
-            label: 'PhoneType',
+            i18nKey: 'LOOKUPS.PAYMENT_PERIODS',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-payment-periods',
+            permission: '/PaymentPeriods/GetAll',
+          },
+          {
+            i18nKey: 'LOOKUPS.PAYMENT_TIMING_TERMS',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-payment-timing-terms',
+            permission: '/PaymentTimingTerms/GetAll',
+          },
+          {
+            i18nKey: 'LOOKUPS.PERIOD_UNITS',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-period-units',
+            permission: '/PeriodUnits/GetAll',
+          },
+          {
+            i18nKey: 'LOOKUPS.PHONE_TYPES',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-phone-types',
+            permission: '/PhoneTypes/GetAll',
           },
           {
-            label: 'Property',
+            i18nKey: 'LOOKUPS.PRODUCTS',
             icon: 'pi pi-user-plus',
-            routerLink: '/sssssss',
+            routerLink: '/lookups/view-products',
+            permission: '/Products/GetAll',
           },
           {
-            label: 'PropertyType',
-            icon: 'pi pi-user-plus',
-            routerLink: '/sssss',
-          },
-          {
-            label: 'RentStructureType',
+            i18nKey: 'LOOKUPS.RENT_STRUCTURE_TYPES',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-rent-structure-types',
+            permission: '/RentStructureTypes/GetAll',
           },
           {
-            label: 'TMLOfficerType',
+            i18nKey: 'LOOKUPS.SECTORS',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-sectors',
+            permission: '/Sectors/GetAll',
+          },
+          {
+            i18nKey: 'LOOKUPS.SME_CLIENT_CODES',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-sme-client-codes',
+            permission: '/SMEClientCodes/GetAll',
+          },
+          {
+            i18nKey: 'LOOKUPS.SUB_SECTORS',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-sub-sectors',
+            permission: '/SubSectors/GetAll',
+          },
+          {
+            i18nKey: 'LOOKUPS.TAX_OFFICES',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-tax-offices',
+            permission: '/AssetTypes/GetAll',
+          },
+          {
+            i18nKey: 'LOOKUPS.TML_OFFICER_TYPES',
             icon: 'pi pi-user-plus',
             routerLink: '/lookups/view-tml-officer-types',
+            permission: '/TMLOfficerTypes/GetAll',
           },
           {
-            label: 'WorkflowActionType',
+            i18nKey: 'LOOKUPS.VEHICLE_MODELS',
             icon: 'pi pi-user-plus',
-            routerLink: '',
+            routerLink: '/lookups/view-vehicle-models',
+            permission: '/CRAuthorityOffices/GetAll',
+          },
+          {
+            i18nKey: 'LOOKUPS.VEHICLE_MANUFACTURERS',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-vehicle-manufacturers',
+            permission: '/CRAuthorityOffices/GetAll',
+          },
+          {
+            i18nKey: 'LOOKUPS.VENDORS',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-vendors',
+            permission: '/FollowUpTypes/GetAll',
+          },
+          {
+            i18nKey: 'Vendor Addresses',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-vendor-addresses',
+            permission: '/FollowUpTypes/GetAll',
+          },
+          {
+            i18nKey: 'LOOKUPS.WORKFLOW_ACTION_TYPES',
+            icon: 'pi pi-user-plus',
+            routerLink: '/lookups/view-workflow-action-types',
+            permission: '/WorkflowActionTypes/GetAll',
           },
         ],
+      },
+    ],
+    Agreement: [
+      {
+        i18nKey: 'MENU.AGREEMENT',
+        routerLink: '/agreement/view-agreements',
       },
     ],
   };
+  filteredTopLevel: TopButton[] = [];
+  filteredMenuData: Record<string, MenuGroup[]> = {};
 
+  searchTerm = '';
+  localizedMenuItems: any[] = []; // final, translated model for PanelMenu
   activeMenu: string | null = null;
-  activeMenuItem: string | null = null;
-  searchTerm: string = '';
-  filteredMenuItems: MenuItem[] = [];
-  isVisible = true;
-  subscription!: Subscription;
 
-  constructor(private menuToggleService: MenuToggleService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private translate: TranslateService,
+    private msalBroadcastService: MsalBroadcastService,
+    private permissionService: PermissionService,
+    private menuToggleService: MenuToggleService,
+    private router: Router
+  ) {
+    // Rebuild localized model on language change
+    this.translate.onLangChange
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe(() => {
+        this.rebuildActiveLocalized();
+        this.applySearch(this.searchTerm);
+      });
+    // Debounce search input
+    this.search$
+      .pipe(
+        takeUntil(this.destroyed$),
+        debounceTime(150),
+        distinctUntilChanged()
+      )
+      .subscribe((term) => this.applySearch(term));
+  }
 
   ngOnInit() {
-    this.subscription = this.menuToggleService.toggle$.subscribe(
-      (isVisible) => (this.isVisible = isVisible)
-    );
+    // this.toggleSub = this.menuToggleService.toggle$.subscribe(
+    //   (isVisible) => (this.isVisible = isVisible)
+    // );
+
+    // this.route.paramMap.subscribe((pm) => {
+    //   this.raw = pm.get('teamId');
+    //   this.clientId = pm.get('clientId');
+    // });
+    // 1) First, always re‐run applyPermissionFilter as soon as permissionsLoaded$ ever emits.
+    this.menuToggleService.visible$
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((v) => (this.isVisible = v));
+    this.permissionService.permissionsLoaded$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.applyPermissionFilter();
+        // console.log('[SideMenu] filteredTopLevel:', this.filteredTopLevel);
+      });
+
+    this.msalBroadcastService.inProgress$
+      .pipe(
+        filter((status) => status === InteractionStatus.None),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => this.applyPermissionFilter());
+
+    // NEW: whenever backend perms are loaded (or reloaded), rebuild menu
+    this.applyPermissionFilter();
+    this.onSectionChanged(); // compute activeLocalized + displayModel
+  }
+  ngOnDestroy() {
+    this.destroyed$.next();
+    this.destroyed$.complete();
+    this.toggleSub.unsubscribe();
+    this.permsSub?.unsubscribe();
+  }
+  /** call this whenever activeMenu or permissions/language changes */
+  private rebuildActiveLocalized() {
+    const raw = this.getActiveMenuItems(); // raw with i18nKey
+    this.activeLocalized = this.localizeModel(raw); // once
+  }
+  /** maintain the final model for the template */
+  private updateDisplayModel() {
+    // show filtered results if present, else full active section
+    this.displayModel =
+      this.filteredMenuItemsLocalized.length > 0
+        ? this.filteredMenuItemsLocalized
+        : this.activeLocalized;
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+  localizeModel(groups: any[] = []) {
+    const t = (k: string) => this.translate.instant(k);
+    return groups.map((g) => {
+      if (g.routerLink) {
+        return { label: t(g.i18nKey), icon: g.icon, routerLink: g.routerLink };
+      }
+      return {
+        label: t(g.i18nKey),
+        icon: g.icon,
+        items: (g.items || []).map((i: any) => ({
+          label: t(i.i18nKey),
+          icon: i.icon,
+          routerLink: i.routerLink,
+        })),
+      };
+    });
   }
-  toggleMenu(item: any) {
-    this.activeMenu = this.activeMenu === item.id ? null : item.id;
-    this.activeMenuItem = null;
+
+  applyPermissionFilter() {
+    this.filteredTopLevel = this.menuItems.filter((i) =>
+      this.hasPermission(i.permission)
+    );
+    this.filteredMenuData = {};
+
+    for (const section of this.filteredTopLevel) {
+      const rawGroups = this.menuData[section.id] || [];
+      const kept: MenuGroup[] = [];
+
+      for (const grp of rawGroups) {
+        // leaf
+        if (grp.routerLink) {
+          if (this.hasPermission(grp.permission)) kept.push(grp);
+          continue;
+        }
+        // group
+        if (!this.hasPermission(grp.permission)) continue;
+
+        const children = (grp.items || []).filter((i) =>
+          this.hasPermission(i.permission)
+        );
+        if (children.length) kept.push({ ...grp, items: children });
+      }
+
+      this.filteredMenuData[section.id] = kept;
+      this.rebuildActiveLocalized();
+      this.updateDisplayModel();
+    }
+
+    // refresh localized list for the currently active menu
     this.filterMenuItems();
+  }
+  toggleSection(item: TopButton) {
+    this.activeMenu = this.activeMenu === item.id ? null : item.id;
+    this.onSectionChanged();
+  }
+
+  filterMenuItems() {
+    const active = this.getActiveMenuItems(); // raw (with i18nKey)
+    if (!this.searchTerm) {
+      this.filteredMenuItemsLocalized = this.localizeModel(active);
+      return;
+    }
+
+    const t = (k: string) => this.translate.instant(k).toLowerCase();
+    const term = this.searchTerm.toLowerCase();
+
+    const filtered = (active || [])
+      .map((section) => {
+        const sectionLabel = t(section.i18nKey);
+        // leaf group
+        if (section.routerLink) {
+          return sectionLabel.includes(term) ? section : null;
+        }
+        // grouped items
+        const kids = (section.items || []).filter((it: any) =>
+          t(it.i18nKey).includes(term)
+        );
+        if (sectionLabel.includes(term) || kids.length) {
+          return { ...section, items: kids };
+        }
+        return null;
+      })
+      .filter(Boolean) as any[];
+
+    this.filteredMenuItemsLocalized = this.localizeModel(filtered);
+  }
+
+  getActiveMenuItems(): MenuGroup[] {
+    return (
+      this.filteredMenuData[
+        this.activeMenu as keyof typeof this.filteredMenuData
+      ] || []
+    );
+  }
+  /** when user switches top section */
+  toggleMenu(item: TopButton) {
+    this.activeMenu = this.activeMenu === item.id ? null : item.id;
+    this.onSectionChanged();
+  }
+  private onSectionChanged() {
+    this.rebuildActiveLocalized();
+    this.applySearch(this.searchTerm); // reuse current term
+  }
+  onSearchChange(value: string) {
+    this.search$.next(value ?? '');
+  }
+  private applySearch(term: string) {
+    this.searchTerm = term ?? '';
+    const searchLower = this.searchTerm.toLowerCase().trim();
+
+    if (!searchLower) {
+      this.filteredMenuItemsLocalized = [];
+      this.updateDisplayModel();
+      return;
+    }
+
+    // We filter against already localized (translated) labels!
+    const filterNode = (node: any): any | null => {
+      // leaf
+      if (!node.items) {
+        return node.label.toLowerCase().includes(searchLower) ? node : null;
+      }
+      // group
+      const kids = (node.items || []).map(filterNode).filter(Boolean);
+      if (node.label.toLowerCase().includes(searchLower) || kids.length) {
+        return { ...node, items: kids };
+      }
+      return null;
+    };
+
+    this.filteredMenuItemsLocalized = this.activeLocalized
+      .map(filterNode)
+      .filter(Boolean) as any[];
+
+    this.updateDisplayModel();
   }
 
   getActiveLabel(): string {
-    return (
-      this.menuItems.find((item) => item.id === this.activeMenu)?.label || ''
-    );
+    const key =
+      this.menuItems.find((i) => i.id === this.activeMenu)?.i18nKey || '';
+    return this.translate.instant(key);
   }
-
-  getActiveMenuItems(): MenuItem[] {
-    return this.menuData[this.activeMenu as keyof typeof this.menuData] || [];
+  hasPermission(key?: string): boolean {
+    if (!key) return true;
+    const ok = this.permissionService.hasPermission(key);
+    // console.log(`[SideMenu] hasPermission(${key}) →`, ok);
+    return ok;
   }
-
   setActiveMenuItem(event: any) {
-    this.activeMenuItem = event.node.label;
-  }
-  filterMenuItems() {
-    const activeItems = this.getActiveMenuItems();
-    if (!this.searchTerm) {
-      this.filteredMenuItems = activeItems;
-      return;
+    const node = event.node;
+    // console.log('[SideMenu] Panel node selected:', node);
+    this.activeMenuItem = node.label;
+
+    if (node.routerLink) {
+      // routerLink in your model is a string; wrap it as an array
+      const link = Array.isArray(node.routerLink)
+        ? node.routerLink
+        : [node.routerLink];
+      // console.log('[SideMenu] Navigating to', link);
+      this.router.navigate(link);
     }
-    const searchLower = this.searchTerm.toLowerCase();
-    this.filteredMenuItems = activeItems
-      .map((section) => ({
-        ...section,
-        items:
-          section.items?.filter((item) =>
-            item.label.toLowerCase().includes(searchLower)
-          ) || [],
-      }))
-      .filter(
-        (section) =>
-          section.label.toLowerCase().includes(searchLower) ||
-          section.items.length > 0
-      );
   }
+
   isMenuActive(): boolean {
     return this.activeMenu !== null;
   }

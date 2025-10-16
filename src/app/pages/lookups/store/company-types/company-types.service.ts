@@ -1,53 +1,59 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { catchError, map, Observable, tap, throwError } from 'rxjs';
 import { CompanyType } from './company-type.model';
-
-interface PagedResponse<T> {
-  items: T[];
-  totalCount: number;
-}
+import { environment } from '../../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class CompanyTypesService {
-  private baseUrl = 'https://192.168.10.67:7070/api';
-
-  private apiUrl = this.baseUrl + '/CompanyTypes';
+  private baseUrl = `${environment.apiUrl}CompanyTypes`;
 
   constructor(private http: HttpClient) {}
 
-  getAll(pageNumber?: number): Observable<PagedResponse<CompanyType>> {
-    let params = new HttpParams();
-    if (pageNumber != null)
-      params = params.set('pageNumber', pageNumber.toString());
-    return this.http.get<PagedResponse<CompanyType>>(
-      `${this.apiUrl}/GetAllCompanyTypes`,
-      { params }
-    );
-  }
-
-  getHistory(): Observable<PagedResponse<CompanyType>> {
-    return this.http.get<PagedResponse<CompanyType>>(
-      `${this.apiUrl}/GetAllCompanyTypesHistory`
-    );
+  getAll(): Observable<CompanyType[]> {
+    return this.http
+      .get<{ items: CompanyType[]; totalCount: number }>(
+        `${this.baseUrl}/GetAllCompanyTypes`
+      )
+      .pipe(
+        map((resp) => resp.items), // ← pull off the `items` array here
+        catchError((err) => {
+          console.error('🚀 HTTP error fetching CompanyTypes:', err);
+          return throwError(() => err);
+        })
+      );
   }
 
   getById(id: number): Observable<CompanyType> {
-    return this.http.get<CompanyType>(`${this.apiUrl}/CompanyTypeId?id=${id}`);
+    return this.http.get<CompanyType>(`${this.baseUrl}/CompanyTypeId?id=${id}`);
   }
 
-  create(data: Partial<CompanyType>): Observable<CompanyType> {
+  create(payload: Omit<CompanyType, 'id'>): Observable<CompanyType> {
     return this.http.post<CompanyType>(
-      `${this.apiUrl}/CreateCompanyType`,
-      data
+      `${this.baseUrl}/CreateCompanyType`,
+      payload
     );
   }
 
-  update(id: number, data: Partial<CompanyType>): Observable<CompanyType> {
-    return this.http.put<CompanyType>(`${this.apiUrl}/${id}`, data);
+  update(id: number, changes: Partial<CompanyType>): Observable<void> {
+    return this.http.put<void>(`${this.baseUrl}/${id}`, changes);
   }
 
   delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+  //History management
+  getAllHistory(): Observable<CompanyType[]> {
+    return this.http
+      .get<{ items: CompanyType[]; totalCount: number }>(
+        `${this.baseUrl}/GetAllCompanyTypesHistory`
+      )
+      .pipe(
+        map((resp) => resp.items), // ← pull off the `items` array here
+        catchError((err) => {
+          console.error('🚀 HTTP error fetching CompanyTypes:', err);
+          return throwError(() => err);
+        })
+      );
   }
 }

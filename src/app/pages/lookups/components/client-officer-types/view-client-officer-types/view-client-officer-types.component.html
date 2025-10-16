@@ -1,0 +1,49 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/ClientOfficerTypes/Post'"
+    [title]="'ClientOfficerTypes'"
+    [labelBtn]="'Add Client Officer Type'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddClientOfficerType()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <!-- subscribe once to clientOfficerTypes$ -->
+  <ng-container *ngIf="clientOfficerTypes$ | async as clientOfficerTypes">
+    <app-table
+      [viewPermission]="[
+        '/ClientOfficerTypes/Get',
+        '/ClientOfficerTypes/GetAll',
+        '/ClientOfficerTypes/GetAllHistory'
+      ]"
+      [editPermission]="'/ClientOfficerTypes/Put'"
+      [deletePermission]="'/ClientOfficerTypes/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredClientOfficerTypes"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewClientOfficerTypesTable]="true"
+      (onDelete)="onDeleteClientOfficerTypeId($event)"
+      (onEdit)="onEditClientOfficerType($event)"
+      (viewForm)="onViewClientOfficerType($event)"
+    ></app-table>
+
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

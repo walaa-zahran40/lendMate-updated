@@ -1,0 +1,24 @@
+<app-toolbar-form
+  [header]="
+    viewOnly ? 'View Currency ' : editMode ? 'Edit Currency ' : 'Add Currency '
+  "
+  [backExists]="true"
+  [viewOnly]="false"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-form
+        [title]="'FORM.CURRENCY.TITLE'"
+        [description]="'FORM.CURRENCY.DESCRIPTION'"
+        [addCurrenciesLookupsForm]="true"
+        [formGroup]="addCurrenciesLookupsForm"
+        (submitForm)="addOrEditCurrency()"
+        [editMode]="editMode"
+        [viewOnly]="viewOnly"
+      ></app-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

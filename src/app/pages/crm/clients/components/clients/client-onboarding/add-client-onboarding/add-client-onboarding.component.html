@@ -1,0 +1,110 @@
+<app-toolbar-form
+  [header]="
+    viewOnly
+      ? 'View Clients Onboarding'
+      : editMode
+      ? 'Edit Client Onboarding'
+      : 'Add Client Onboarding'
+  "
+  [backExists]="true"
+  [backIcon]="'back-icon'"
+  [viewOnly]="false"
+  [selectedAction]="selectedAction"
+  [workFlowItems]="workFlowActionList"
+  (saveAction)="handleWorkflowAction($event)"
+  [editMode]="editMode ? false : true"
+></app-toolbar-form>
+
+<p-tabs [value]="tabValue" styleClass="p-3">
+  <p-tablist>
+    <p-tab [value]="0" [disabled]="disableCompanyTab">
+      {{ "CLIENT.COMPANY" | translate }}
+    </p-tab>
+
+    <p-tab [value]="1" [disabled]="disableIndividualTab">
+      {{ "CLIENT.INDIVIDUAL" | translate }}
+    </p-tab>
+  </p-tablist>
+
+  <p-tabpanels>
+    <p-tabpanel [value]="0">
+      <p-stepper [value]="1" class="basis-[50rem] mb-2">
+        <p-step-panels>
+          <!-- Step 1: Main Info -->
+          <p-step-panel [value]="1">
+            <ng-template #content let-activateCallback="activateCallback">
+              <div class="flex flex-col">
+                <app-add-client-onboarding-form
+                  [formGroup]="addClientForm"
+                  [description]="'CLIENT.FORM.DESCRIPTION_COMPANY' | translate"
+                  [addClientOnboardingForm]="true"
+                  [addClient]="true"
+                  [sectorsList]="sectorsList"
+                  [subSectorsList]="subSectorsList"
+                  [selectedSectorId]="selectedSectorId"
+                  [selectedSubSectorId]="selectedSubSectorId"
+                  (sectorChanged)="onSectorChanged($event)"
+                  [viewOnly]="viewOnly && tabValue === 0"
+                ></app-add-client-onboarding-form>
+                <div
+                  class="col-sm-6 d-flex justify-end float-right margin-top p-0 w-100"
+                >
+                  <p-button
+                    *ngIf="!viewOnly"
+                    [label]="'BUTTONS.SAVE_INFO' | translate"
+                    (click)="saveInfo()"
+                    [disabled]="this.addClientForm.invalid"
+                    class="custom-save2 m-0 float-right"
+                  ></p-button>
+                  <p-button
+                    *ngIf="viewOnly"
+                    (click)="close()"
+                    [label]="'BUTTONS.CLOSE' | translate"
+                    class="custom-save m-0 float-right"
+                  ></p-button>
+                </div>
+              </div>
+            </ng-template>
+          </p-step-panel>
+        </p-step-panels>
+      </p-stepper>
+    </p-tabpanel>
+
+    <!-- Individual Tab -->
+    <p-tabpanel [value]="1">
+      <app-add-client-form
+        [formGroup]="addClientFormIndividual"
+        [description]="'CLIENT.FORM.DESCRIPTION_INDIVIDUAL' | translate"
+        [addClientShowIndividual]="true"
+        [addClient]="true"
+        [sectorsList]="sectorsList"
+        [subSectorsList]="subSectorsList"
+        [selectedSectorId]="selectedSectorId"
+        (sectorChanged)="onSectorChanged($event)"
+        (removeIdentity)="removeIdentity($event)"
+        (addIdentity)="addIdentity()"
+        [identityIndividual]="identityOptions"
+        [viewOnly]="viewOnly && tabValue === 1"
+        [editMode]="editMode"
+      ></app-add-client-form>
+
+      <div class="row justify-end">
+        <div class="col-sm-12 col-md-6 d-flex justify-end margin-top">
+          <p-button
+            *ngIf="!viewOnly"
+            (click)="saveInfoIndividual()"
+            [label]="'BUTTONS.SAVE_INFO' | translate"
+            class="custom-save m-0 float-right"
+            [disabled]="this.addClientFormIndividual.invalid"
+          ></p-button>
+          <p-button
+            *ngIf="viewOnly"
+            (click)="close()"
+            [label]="'BUTTONS.CLOSE' | translate"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+      </div>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

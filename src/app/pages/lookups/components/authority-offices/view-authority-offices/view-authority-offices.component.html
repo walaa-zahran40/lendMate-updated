@@ -1,0 +1,47 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/CRAuthorityOffices/Post'"
+    [title]="'Authority Offices'"
+    [labelBtn]="'Add Authority Office'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddAuthorityOffice()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="authorityOffices$ | async as authorityOffices">
+    <app-table
+      [viewPermission]="[
+        '/CRAuthorityOffices/Get',
+        '/CRAuthorityOffices/GetAll',
+        '/CRAuthorityOffices/GetAllHistory'
+      ]"
+      [editPermission]="'/CRAuthorityOffices/Put'"
+      [deletePermission]="'/CRAuthorityOffices/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredAuthorityOffices"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewAuthorityOfficesTable]="true"
+      (onDelete)="onDeleteAuthorityOfficeId($event)"
+      (onEdit)="onEditAuthorityOffice($event)"
+      (viewForm)="onViewAuthorityOffice($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

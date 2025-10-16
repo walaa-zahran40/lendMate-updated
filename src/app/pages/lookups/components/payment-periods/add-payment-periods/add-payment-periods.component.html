@@ -1,0 +1,28 @@
+<app-toolbar-form
+  [header]="
+    viewOnly
+      ? 'View Payment Period'
+      : editMode
+      ? 'Edit Payment Period'
+      : 'Add Payment Period'
+  "
+  [backExists]="true"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-form
+        *ngIf="addPaymentPeriodsLookupsForm"
+        [title]="'FORM.PAYMENT_PERIODS.TITLE'"
+        [description]="'FORM.PAYMENT_PERIODS.DESCRIPTION'"
+        [formGroup]="addPaymentPeriodsLookupsForm"
+        [addPaymentPeriodsLookupsForm]="true"
+        [editMode]="editMode"
+        (submitForm)="addOrEditPaymentPeriods()"
+        [viewOnly]="viewOnly"
+      ></app-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

@@ -1,0 +1,49 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/NotificationGroupOfficers/Post'"
+    [title]="'NotificationGroupOfficers'"
+    [labelBtn]="'Add Notification Group Officer'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddNotificationGroupOfficer()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container
+    *ngIf="notificationGroupOfficers$ | async as notificationGroupOfficers"
+  >
+    <app-table
+      [viewPermission]="[
+        '/NotificationGroupOfficers/Get',
+        '/NotificationGroupOfficers/GetAll',
+        '/NotificationGroupOfficers/GetAllHistory'
+      ]"
+      [editPermission]="'/NotificationGroupOfficers/Put'"
+      [deletePermission]="'/NotificationGroupOfficers/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredNotificationGroupOfficers"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewNotificationGroupOfficersTable]="true"
+      (onDelete)="onDeleteNotificationGroupOfficer($event)"
+      (onEdit)="onEditNotificationGroupOfficer($event)"
+      (viewForm)="onViewNotificationGroupOfficer($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

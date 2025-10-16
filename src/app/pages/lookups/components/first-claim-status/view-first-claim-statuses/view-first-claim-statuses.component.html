@@ -1,0 +1,47 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/FeeTypes/Post'"
+    [title]="'First Claim Statuses'"
+    [labelBtn]="'Add First Claim Status'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddFirstClaimStatus()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="firstClaimStatuses$ | async as firstClaimStatuses">
+    <app-table
+      [viewPermission]="[
+        '/FeeTypes/Get',
+        '/FeeTypes/GetAll',
+        '/FeeTypes/GetAllHistory'
+      ]"
+      [editPermission]="'/FeeTypes/Put'"
+      [deletePermission]="'/FeeTypes/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredFirstClaimStatuses"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewFeelTypesTable]="true"
+      (onDelete)="onDeleteFirstClaimStatus($event)"
+      (onEdit)="onEditFirstClaimStatus($event)"
+      (viewForm)="onViewFirstClaimStatus($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

@@ -1,5 +1,4 @@
 section.notification {
-  font-family: "poppins", sans-serif;
   display: flex;
   align-items: center;
   .container-fluid {
@@ -30,7 +29,7 @@ section.notification {
       .client {
         font-size: 16px;
         line-height: 25.6px;
-        font-family: "epilogue";
+
         color: #515b6f;
         margin: 0;
         padding-top: 20px;
@@ -46,7 +45,7 @@ section.notification {
         border: 1px solid #ffb836;
         border-radius: 80px;
         padding: 7px 15px;
-        font-family: "epilogue";
+
         font-size: 16px;
         font-weight: 600;
         margin-bottom: 5px;
@@ -57,7 +56,6 @@ section.notification {
         border: 1px solid #56cdad;
       }
       .time {
-        font-family: "epilogue";
         font-size: 16px;
         font-weight: 400;
         line-height: 25.6px;
@@ -78,13 +76,12 @@ section.notification {
         }
         .header {
           color: #4640de;
-          font-family: "epilogue", sans-serif;
+
           font-weight: 600;
           font-size: 20px;
           line-height: 24px;
         }
         .title {
-          font-family: "epilogue", sans-serif;
           color: #7c8493;
           font-weight: 400;
           line-height: 25.6px;
@@ -97,7 +94,6 @@ section.notification {
         }
         .title-date,
         .title-time {
-          font-family: "epilogue";
           font-weight: 500;
           font-size: 16px;
           line-height: 25.6px;
@@ -107,7 +103,6 @@ section.notification {
 
         .content-time,
         .content-date {
-          font-family: "epilogue";
           font-weight: 500;
           font-size: 16px;
           line-height: 25.6px;
@@ -115,7 +110,6 @@ section.notification {
           letter-spacing: 0%;
         }
         .name {
-          font-family: "epilogue";
           font-weight: 500;
           font-size: 16px;
           line-height: 25.6px;
@@ -124,7 +118,6 @@ section.notification {
           margin-top: 20px;
         }
         .mail {
-          font-family: "epilogue";
           font-weight: 400;
           font-size: 16px;
           line-height: 25.6px;
@@ -133,7 +126,6 @@ section.notification {
         }
       }
       .caption-date {
-        font-family: "epilogue";
         font-weight: 400;
         font-size: 16px;
         line-height: 25.6px;

@@ -1,0 +1,58 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/LeasingMandates/Post'"
+    [title]="'Leasing Mandates'"
+    [labelBtn]="'Add Leasing Mandate'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddLeasingMandate()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="leasingMandates$ | async as leasingMandates">
+    <app-table
+      [viewPermission]="[
+        '/communication/view-calls/Get',
+        '/communication/view-calls/GetAll',
+        '/communication/view-calls/GetAllHistory'
+      ]"
+      [editPermission]="'/LeasingMandates/Put'"
+      [deletePermission]="'/LeasingMandates/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredLeasingMandates"
+      [side]="true"
+      [download]="true"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewLeasingMandateTable]="true"
+      (onDelete)="onDeleteLeasingMandate($event)"
+      (onEdit)="onEditLeasingMandate($event)"
+      (wizardBtn)="onAddSide($event)"
+      (viewForm)="onViewLeasingMandates($event)"
+      (onDownload)="onDownloadClick($event)"
+    ></app-table
+    ><app-download-popup-mandate
+      *ngIf="showDownloadPopup"
+      [contactPersons]="contactPersonsDropdown"
+      [officers]="officersDropdown"
+      [leasingMandates]="(leasingMandates$ | async) || []"
+      (close)="onPopupClose()"
+      (download)="onPopupDownload($event)"
+    ></app-download-popup-mandate>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

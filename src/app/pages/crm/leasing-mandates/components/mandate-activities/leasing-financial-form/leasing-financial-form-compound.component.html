@@ -1,0 +1,115 @@
+<app-toolbar-form
+  [backExists]="true"
+  [backIcon]="'back-icon'"
+  [viewOnly]="true"
+  [header]="'Leasing Financial Form'"
+  [selectedAction]="selectedAction"
+  [workFlowItems]="workFlowActionList"
+  (saveAction)="handleWorkflowAction($event)"
+></app-toolbar-form>
+<!-- [totalRent]="sumOfRent" -->
+
+<app-toolbar-compound
+  [totalInstallments]="sumOfInstallments"
+  [totalInterest]="sumOfInterest"
+></app-toolbar-compound>
+<div class="parent" style="zoom: 70%">
+  <div class="first-form">
+    <app-form
+      [title]="'LEASING_FINANCIAL.BASIC.TITLE'"
+      [description]="'LEASING_FINANCIAL.BASIC.DESCRIPTION'"
+      [leasingFinancialBasicForm]="true"
+      [formGroup]="leasingFinancialBasicForm"
+    ></app-form>
+  </div>
+  <div class="second-form">
+    <app-form
+      [title]="'LEASING_FINANCIAL.RATES.TITLE'"
+      [description]="'LEASING_FINANCIAL.RATES.DESCRIPTION'"
+      [leasingFinancialRateForm]="true"
+      [formGroup]="leasingFinancialRateForm"
+      [paymentPeriods]="paymentPeriods$ | async"
+      [gracePeriodUnits]="gracePeriodUnits$ | async"
+      (selectionChangedPaymentPeriod)="onPaymentPeriodSelected($event)"
+      (selectionChangedGracePeriod)="onGracePeriodUnitSelected($event)"
+    ></app-form>
+  </div>
+  <div class="third-form">
+    <app-form
+      class="form-currency"
+      [title]="'LEASING_FINANCIAL.CURRENCY.TITLE'"
+      [description]="'LEASING_FINANCIAL.CURRENCY.DESCRIPTION'"
+      [leasingFinancialCurrencyForm]="true"
+      [formGroup]="leasingFinancialCurrencyForm"
+      [currencies]="currencies$ | async"
+      [currencyExchangeRates]="currencyExchangeRates$ | async"
+      (onCheckboxChange)="onCheckboxChange($event)"
+      [interestRateBenchMarks]="interestRateBenchMarks$ | async"
+      [paymentTimeTerms]="paymentTimeTerms$ | async"
+      [rentStructures]="rentStructures$ | async"
+      [paymentMethods]="paymentMethods$ | async"
+      [paymentMonthDays]="paymentMonthDays$ | async"
+      (selectionChangedCurrency)="onCurrencySelected($event)"
+      (selectionChangedCurrencyExchange)="
+        onCurrencyExchangeRateSelected($event)
+      "
+      (selectionChangedRateBenchmark)="onInterestRateBenchmarkSelected($event)"
+      (selectionChangedPaymentTimingTerm)="onPaymentTimingTermSelected($event)"
+      (selectionChangedRentStructure)="onRentStructureSelected($event)"
+      (selectionChangedPaymentMethod)="onPaymentMethodSelected($event)"
+      (selectionChangedPaymentMonthDay)="onPaymentMonthDaySelected($event)"
+    ></app-form>
+
+    <div class="buttons">
+      <p-button
+        label="Submit"
+        class="custom-submit custom-save m-0"
+        (onClick)="onSubmitAll()"
+        [disabled]="!isAllValid()"
+      />
+      <p-button
+        label="Calculate"
+        class="custom-calculate custom-save m-0"
+        (onClick)="onCalculateAll()"
+        [disabled]="!isAllValid()"
+      />
+    </div>
+  </div>
+  <div class="table">
+    <div class="page-content">
+      <app-toolbar-table
+        [title]="'Leasing Financial Table'"
+        [customSpacing]="'custom-spacing'"
+        [exports]="true"
+        (searchChange)="onSearch($event)"
+        (toggleFiltersEvent)="onToggleFilters($event)"
+        (exportExcel)="tableRef.exportToExcel()"
+        (exportPDF)="tableRef.generatePdf()"
+        [btnAdd]="false"
+      ></app-toolbar-table>
+
+      <app-table
+        #tableRef
+        [cols]="colsInside"
+        [tableData]="filteredFinancialForms"
+        [edit]="false"
+        [view]="false"
+        [delete]="false"
+        [side]="false"
+        [download]="false"
+        [checkBox]="true"
+        [filters]="showFilters"
+        [uppercase]="'uppercase'"
+        [viewFinancialFormTable]="true"
+        (onDelete)="onDeleteFinancialForm($event)"
+        (onEdit)="onEditFinancialForm($event)"
+        (viewForm)="onViewFinancialForms($event)"
+      ></app-table>
+      <app-delete-module
+        [visible]="showDeleteModal"
+        (confirm)="confirmDelete()"
+        (cancel)="cancelDelete()"
+      ></app-delete-module>
+    </div>
+  </div>
+</div>

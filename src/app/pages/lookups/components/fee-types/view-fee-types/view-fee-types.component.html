@@ -1,0 +1,47 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/FeeTypes/Post'"
+    [title]="'FeeTypes'"
+    [labelBtn]="'Add FeeType'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddFeeType()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="feeTypes$ | async as feeTypes">
+    <app-table
+      [viewPermission]="[
+        '/FeeTypes/Get',
+        '/FeeTypes/GetAll',
+        '/FeeTypes/GetAllHistory'
+      ]"
+      [editPermission]="'/FeeTypes/Put'"
+      [deletePermission]="'/FeeTypes/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredFeeTypes"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewFeelTypesTable]="true"
+      (onDelete)="onDeleteFeeType($event)"
+      (onEdit)="onEditFeeType($event)"
+      (viewForm)="onViewFeeType($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

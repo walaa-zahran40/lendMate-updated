@@ -1,0 +1,46 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/WorkflowActionTypes/Post'"
+    [title]="'Workflow Action Types'"
+    [labelBtn]="'Add Workflow Action Type'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddWorkflowActionType()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="WorkflowActionTypes$ | async as WorkflowActionTypes">
+    <app-table
+      [viewPermission]="[
+        '/WorkflowActionTypes/Get',
+        '/WorkflowActionTypes/GetAll',
+        '/WorkflowActionTypes/GetAllHistory'
+      ]"
+      [editPermission]="'/WorkflowActionTypes/Put'"
+      [deletePermission]="'/WorkflowActionTypes/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="WorkflowActionTypes$ | async"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewWorkFlowActionTypesLookupsTable]="true"
+      (onDelete)="onDeleteWorkflowActionType($event)"
+      (onEdit)="onEditWorkflowActionType($event)"
+      (viewForm)="onViewWorkflowActionType($event)"
+    ></app-table>
+
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

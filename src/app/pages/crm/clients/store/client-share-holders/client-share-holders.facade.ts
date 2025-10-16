@@ -1,51 +1,68 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import * as ShareholderActions from './client-share-holders.actions';
-import * as ShareholderSelectors from './client-share-holders.selectors';
 import { Observable } from 'rxjs';
-import { Shareholder } from './client-share-holders.model';
+import { selectLastOperationSuccess } from '../../../../../shared/store/ui.selectors';
+import { ClientShareHolder } from './client-share-holder.model';
+import * as Selectors from './client-share-holders.selectors';
+import * as Actions from './client-share-holders.actions';
 
 @Injectable({ providedIn: 'root' })
-export class ClientShareholdersFacade {
-  shareholders$: Observable<Shareholder[]> = this.store.select(
-    ShareholderSelectors.selectShareholders
+export class ClientShareHoldersFacade {
+  items$: Observable<ClientShareHolder[]> = this.store.select(
+    Selectors.selectClientShareHolders
   );
-  allShareholders$: Observable<Shareholder[]> = this.store.select(
-    ShareholderSelectors.selectAllShareholders
+  total$: Observable<number> = this.store.select(
+    Selectors.selectClientShareHoldersTotal
   );
-  history$: Observable<any[]> = this.store.select(
-    ShareholderSelectors.selectShareholdersHistory
+  history$: Observable<ClientShareHolder[]> = this.store.select(
+    Selectors.selectClientShareHoldersHistory
   );
+  current$: Observable<ClientShareHolder | undefined> = this.store.select(
+    Selectors.selectCurrentClientShareHolder
+  );
+
   loading$: Observable<boolean> = this.store.select(
-    ShareholderSelectors.selectLoading
+    Selectors.selectClientShareHoldersLoading
   );
-  error$: Observable<any> = this.store.select(ShareholderSelectors.selectError);
+  error$: Observable<any> = this.store.select(
+    Selectors.selectClientShareHoldersError
+  );
+  operationSuccess$ = this.store.select(selectLastOperationSuccess);
 
   constructor(private store: Store) {}
 
-  loadShareholders(clientId: number) {
-    this.store.dispatch(ShareholderActions.loadShareholders({ clientId }));
+  loadAll() {
+    this.store.dispatch(Actions.loadClientShareHolders());
   }
-
-  loadAllShareholders() {
-    this.store.dispatch(ShareholderActions.loadAllShareholders());
-  }
-
-  createShareholder(shareholder: Shareholder) {
-    this.store.dispatch(ShareholderActions.createShareholder({ shareholder }));
-  }
-
-  updateShareholder(id: number, shareholder: Shareholder) {
-    this.store.dispatch(
-      ShareholderActions.updateShareholder({ id, shareholder })
-    );
-  }
-
-  deleteShareholder(id: number) {
-    this.store.dispatch(ShareholderActions.deleteShareholder({ id }));
-  }
-
   loadHistory() {
-    this.store.dispatch(ShareholderActions.loadShareholdersHistory());
+    this.store.dispatch(Actions.loadClientShareHoldersHistory());
+  }
+  loadOne(id: number) {
+    this.store.dispatch(Actions.loadClientShareHolder({ id }));
+  }
+  create(data: Partial<ClientShareHolder>) {
+    this.store.dispatch(Actions.createClientShareHolder({ data }));
+  }
+  update(id: any, data: Partial<ClientShareHolder>) {
+    this.store.dispatch(Actions.updateClientShareHolder({ id, data }));
+  }
+  /** NEW: dispatch the by-clientId loader */
+  loadClientShareHoldersByClientId(clientId?: number) {
+    if (clientId == null || isNaN(clientId)) {
+      console.error(
+        '❌ Facade.loadClientShareHoldersByClientId called with invalid id:',
+        clientId
+      );
+      return;
+    }
+    this.store.dispatch(Actions.loadClientShareHoldersByClientId({ clientId }));
+  }
+
+  /** UPDATED: now expects both id & parent clientId */
+  delete(id: number, clientId: number) {
+    this.store.dispatch(Actions.deleteClientShareHolder({ id, clientId }));
+  }
+  loadByClientId(clientId: number) {
+    this.store.dispatch(Actions.loadClientShareHoldersByClientId({ clientId }));
   }
 }

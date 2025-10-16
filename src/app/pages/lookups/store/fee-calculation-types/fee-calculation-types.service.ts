@@ -1,53 +1,63 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { CompanyType } from './fee-calculation-types.model';
-
-interface PagedResponse<T> {
-  items: T[];
-  totalCount: number;
-}
+import { HttpClient } from '@angular/common/http';
+import { catchError, map, Observable, tap, throwError } from 'rxjs';
+import { FeeCalculationType } from './fee-calculation-type.model';
+import { environment } from '../../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
-export class CompanyTypesService {
-  private baseUrl = 'https://192.168.10.67:7070/api';
-
-  private apiUrl = this.baseUrl + '/CompanyTypes';
+export class FeeCalculationTypesService {
+  private baseUrl = `${environment.apiUrl}FeeCalculationTypes`;
 
   constructor(private http: HttpClient) {}
 
-  getAll(pageNumber?: number): Observable<PagedResponse<CompanyType>> {
-    let params = new HttpParams();
-    if (pageNumber != null)
-      params = params.set('pageNumber', pageNumber.toString());
-    return this.http.get<PagedResponse<CompanyType>>(
-      `${this.apiUrl}/GetAllCompanyTypes`,
-      { params }
+  getAll(): Observable<FeeCalculationType[]> {
+    return this.http
+      .get<{ items: FeeCalculationType[]; totalCount: number }>(
+        `${this.baseUrl}/GetAllFeeCalculationTypes`
+      )
+      .pipe(
+        map((resp) => resp.items), // ← pull off the `items` array here
+        catchError((err) => {
+          console.error('🚀 HTTP error fetching FeeCalculationTypes:', err);
+          return throwError(() => err);
+        })
+      );
+  }
+
+  getById(id: number): Observable<FeeCalculationType> {
+    return this.http.get<FeeCalculationType>(
+      `${this.baseUrl}/FeeCalculationTypeId?id=${id}`
     );
   }
 
-  getHistory(): Observable<PagedResponse<CompanyType>> {
-    return this.http.get<PagedResponse<CompanyType>>(
-      `${this.apiUrl}/GetAllCompanyTypesHistory`
+  create(
+    payload: Omit<FeeCalculationType, 'id'>
+  ): Observable<FeeCalculationType> {
+    return this.http.post<FeeCalculationType>(
+      `${this.baseUrl}/CreateFeeCalculationType`,
+      payload
     );
   }
 
-  getById(id: number): Observable<CompanyType> {
-    return this.http.get<CompanyType>(`${this.apiUrl}/CompanyTypeId?id=${id}`);
-  }
-
-  create(data: Partial<CompanyType>): Observable<CompanyType> {
-    return this.http.post<CompanyType>(
-      `${this.apiUrl}/CreateCompanyType`,
-      data
-    );
-  }
-
-  update(id: number, data: Partial<CompanyType>): Observable<CompanyType> {
-    return this.http.put<CompanyType>(`${this.apiUrl}/${id}`, data);
+  update(id: number, changes: Partial<FeeCalculationType>): Observable<void> {
+    return this.http.put<void>(`${this.baseUrl}/${id}`, changes);
   }
 
   delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+  //History management
+  getAllHistory(): Observable<FeeCalculationType[]> {
+    return this.http
+      .get<{ items: FeeCalculationType[]; totalCount: number }>(
+        `${this.baseUrl}/GetAllFeeCalculationTypesHistory`
+      )
+      .pipe(
+        map((resp) => resp.items), // ← pull off the `items` array here
+        catchError((err) => {
+          console.error('🚀 HTTP error fetching FeeCalculation Types:', err);
+          return throwError(() => err);
+        })
+      );
   }
 }

@@ -1,49 +1,55 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { createSelector, Store } from '@ngrx/store';
 import * as Actions from './company-types.actions';
 import * as Selectors from './company-types.selectors';
-import { Observable } from 'rxjs';
 import { CompanyType } from './company-type.model';
+import { selectLastOperationSuccess } from '../../../../shared/store/ui.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class CompanyTypesFacade {
-  items$: Observable<CompanyType[]> = this.store.select(
-    Selectors.selectCompanyTypes
+  all$ = this.store.select(Selectors.selectAllCompanyTypes);
+  loading$ = this.store.select(Selectors.selectCompanyTypesLoading);
+  error$ = this.store.select(Selectors.selectCompanyTypesError);
+  totalCount$ = this.store.select(Selectors.selectCompanyTypesTotalCount);
+  selected$ = this.store.select(
+    createSelector(
+      Selectors.selectFeature,
+      (state) => state.entities[state.loadedId!] // or however you track it
+    )
   );
-  total$: Observable<number> = this.store.select(
-    Selectors.selectCompanyTypesTotal
-  );
-  history$: Observable<CompanyType[]> = this.store.select(
-    Selectors.selectCompanyTypesHistory
-  );
-  current$: Observable<CompanyType | undefined> = this.store.select(
-    Selectors.selectCurrentCompanyType
-  );
-  loading$: Observable<boolean> = this.store.select(
-    Selectors.selectCompanyTypesLoading
-  );
-  error$: Observable<any> = this.store.select(
-    Selectors.selectCompanyTypesError
-  );
-
+  operationSuccess$ = this.store.select(selectLastOperationSuccess);
   constructor(private store: Store) {}
 
-  loadAll() {
-    this.store.dispatch(Actions.loadCompanyTypes());
+  loadAll(pageNumber?: number) {
+    this.store.dispatch(Actions.loadAll({ pageNumber }));
   }
-  loadHistory() {
-    this.store.dispatch(Actions.loadCompanyTypesHistory());
+
+  loadById(id: number) {
+    this.store.dispatch(Actions.loadById({ id }));
   }
-  loadOne(id: number) {
-    this.store.dispatch(Actions.loadCompanyType({ id }));
+
+  create(payload: Partial<Omit<CompanyType, 'id'>>) {
+    this.store.dispatch(Actions.createEntity({ payload }));
   }
-  create(data: Partial<CompanyType>) {
-    this.store.dispatch(Actions.createCompanyType({ data }));
+
+  update(id: number, changes: Partial<CompanyType>) {
+    this.store.dispatch(Actions.updateEntity({ id, changes }));
   }
-  update(id: any, data: Partial<CompanyType>) {
-    this.store.dispatch(Actions.updateCompanyType({ id, data }));
-  }
+
   delete(id: number) {
-    this.store.dispatch(Actions.deleteCompanyType({ id }));
+    this.store.dispatch(Actions.deleteEntity({ id }));
+  }
+  //History management
+  history$ = this.store.select(Selectors.selectCompanyTypeHistory);
+
+  readonly companyTypeHistory$ = this.store.select(
+    Selectors.selectCompanyTypeHistory
+  );
+  readonly companyTypeHistoryLoaded$ = this.store.select(
+    Selectors.selectHistoryLoaded
+  );
+
+  loadHistory(): void {
+    this.store.dispatch(Actions.loadCompanyTypeHistory());
   }
 }

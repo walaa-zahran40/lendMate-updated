@@ -1,0 +1,47 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/MeetingTypes/Post'"
+    [title]="'Meeting Types'"
+    [labelBtn]="'Add Meeting Type'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddMeetingType()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="MeetingTypes$ | async as MeetingTypes">
+    <app-table
+      [viewPermission]="[
+        '/MeetingTypes/Get',
+        '/MeetingTypes/GetAll',
+        '/MeetingTypes/GetAllHistory'
+      ]"
+      [editPermission]="'/MeetingTypes/Put'"
+      [deletePermission]="'/MeetingTypes/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredMeetingType"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewMeetingTypesLookupTable]="true"
+      (onDelete)="onDeleteMeetingType($event)"
+      (onEdit)="onEditMeetingType($event)"
+      (viewForm)="onViewMeetingType($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

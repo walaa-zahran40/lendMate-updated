@@ -1,64 +1,30 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import * as TMLActions from './client-tml-officers.actions';
-import { ClientTMLOfficersService } from './client-tml-officers.service';
-import { mergeMap, map, catchError } from 'rxjs/operators';
+import { mergeMap, map, catchError, tap, filter } from 'rxjs/operators';
 import { of } from 'rxjs';
+import * as ClientTMLOfficerActions from './client-tml-officers.actions';
+import { ClientTMLOfficersService } from './client-tml-officers.service';
+import { ClientTMLOfficer } from './client-tml-officer.model';
 
 @Injectable()
 export class ClientTMLOfficersEffects {
-  loadTMLOfficers$ = createEffect(() =>
+  loadAll$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(TMLActions.loadTMLOfficers),
-      mergeMap((action) =>
-        this.service.getTMLOfficers(action.clientId).pipe(
-          map((response) =>
-            TMLActions.loadTMLOfficersSuccess({ items: response.items })
+      ofType(ClientTMLOfficerActions.loadClientTMLOfficers),
+      mergeMap(() =>
+        this.service.getAll().pipe(
+          map((resp) =>
+            ClientTMLOfficerActions.loadClientTMLOfficersSuccess({
+              items: resp.items,
+              totalCount: resp.totalCount,
+            })
           ),
           catchError((error) =>
-            of(TMLActions.loadTMLOfficersFailure({ error }))
-          )
-        )
-      )
-    )
-  );
-
-  createTMLOfficer$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(TMLActions.createTMLOfficer),
-      mergeMap((action) =>
-        this.service.createTMLOfficer(action.officer).pipe(
-          map((officer) => TMLActions.createTMLOfficerSuccess({ officer })),
-          catchError((error) =>
-            of(TMLActions.createTMLOfficerFailure({ error }))
-          )
-        )
-      )
-    )
-  );
-
-  updateTMLOfficer$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(TMLActions.updateTMLOfficer),
-      mergeMap((action) =>
-        this.service.updateTMLOfficer(action.id, action.officer).pipe(
-          map((officer) => TMLActions.updateTMLOfficerSuccess({ officer })),
-          catchError((error) =>
-            of(TMLActions.updateTMLOfficerFailure({ error }))
-          )
-        )
-      )
-    )
-  );
-
-  deleteTMLOfficer$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(TMLActions.deleteTMLOfficer),
-      mergeMap((action) =>
-        this.service.deleteTMLOfficer(action.id).pipe(
-          map(() => TMLActions.deleteTMLOfficerSuccess({ id: action.id })),
-          catchError((error) =>
-            of(TMLActions.deleteTMLOfficerFailure({ error }))
+            of(
+              ClientTMLOfficerActions.loadClientTMLOfficersFailure({
+                error,
+              })
+            )
           )
         )
       )
@@ -67,14 +33,170 @@ export class ClientTMLOfficersEffects {
 
   loadHistory$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(TMLActions.loadTMLOfficersHistory),
+      ofType(ClientTMLOfficerActions.loadClientTMLOfficersHistory),
       mergeMap(() =>
-        this.service.getTMLOfficersHistory().pipe(
-          map((history) =>
-            TMLActions.loadTMLOfficersHistorySuccess({ history })
+        this.service.getHistory().pipe(
+          map((resp) =>
+            ClientTMLOfficerActions.loadClientTMLOfficersHistorySuccess({
+              history: resp.items,
+            })
           ),
           catchError((error) =>
-            of(TMLActions.loadTMLOfficersHistoryFailure({ error }))
+            of(
+              ClientTMLOfficerActions.loadClientTMLOfficersHistoryFailure({
+                error,
+              })
+            )
+          )
+        )
+      )
+    )
+  );
+
+  loadOne$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClientTMLOfficerActions.loadClientTMLOfficer),
+      mergeMap(({ id }) =>
+        this.service.getById(id).pipe(
+          map((client) =>
+            ClientTMLOfficerActions.loadClientTMLOfficerSuccess({
+              client,
+            })
+          ),
+          catchError((error) =>
+            of(
+              ClientTMLOfficerActions.loadClientTMLOfficerFailure({
+                error,
+              })
+            )
+          )
+        )
+      )
+    )
+  );
+
+  create$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClientTMLOfficerActions.createClientTMLOfficer),
+      mergeMap(({ data }) =>
+        this.service.create(data).pipe(
+          map((client) =>
+            ClientTMLOfficerActions.createClientTMLOfficerSuccess({
+              client,
+            })
+          ),
+          catchError((error) =>
+            of(
+              ClientTMLOfficerActions.createClientTMLOfficerFailure({
+                error,
+              })
+            )
+          )
+        )
+      )
+    )
+  );
+
+  update$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClientTMLOfficerActions.updateClientTMLOfficer),
+      tap(({ id, data }) =>
+        console.log('[Effect:update] called with id=', id, 'data=', data)
+      ),
+      mergeMap(({ id, data }) =>
+        this.service.update(id, data).pipe(
+          map((serverReturned) => {
+            // force-inject clientId if missing
+            const enriched: ClientTMLOfficer = {
+              ...serverReturned,
+              clientId: data.clientId!,
+            };
+            console.log('[Effect:update] enriched client →', enriched);
+            return ClientTMLOfficerActions.updateClientTMLOfficerSuccess({
+              client: enriched,
+            });
+          }),
+          catchError((error) =>
+            of(
+              ClientTMLOfficerActions.updateClientTMLOfficerFailure({
+                error,
+              })
+            )
+          )
+        )
+      )
+    )
+  );
+
+  delete$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClientTMLOfficerActions.deleteClientTMLOfficer),
+      mergeMap(({ id, clientId }) =>
+        this.service.delete(id).pipe(
+          map(() =>
+            ClientTMLOfficerActions.deleteClientTMLOfficerSuccess({
+              id,
+              clientId,
+            })
+          ),
+          catchError((error) =>
+            of(
+              ClientTMLOfficerActions.deleteClientTMLOfficerFailure({
+                error,
+              })
+            )
+          )
+        )
+      )
+    )
+  );
+
+  refreshList$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        ClientTMLOfficerActions.createClientTMLOfficerSuccess,
+        ClientTMLOfficerActions.updateClientTMLOfficerSuccess,
+        ClientTMLOfficerActions.deleteClientTMLOfficerSuccess
+      ),
+      map((action) =>
+        'client' in action ? action.client.clientId : action.clientId
+      ),
+      map((clientId) =>
+        ClientTMLOfficerActions.loadClientTMLOfficersByClientId({ clientId })
+      )
+    )
+  );
+
+  /**
+   * The “by‐clientId” loader
+   */
+  loadByClientId$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClientTMLOfficerActions.loadClientTMLOfficersByClientId),
+
+      tap((action) =>
+        console.log('[Effect:loadByClientId] full action →', action)
+      ),
+      tap(({ clientId }) =>
+        console.log('[Effect:loadByClientId] clientId →', clientId)
+      ),
+
+      mergeMap(({ clientId }) =>
+        this.service.getByClientId(clientId).pipe(
+          tap((items) =>
+            console.log('[Effect:loadByClientId] response →', items)
+          ),
+          map((items) =>
+            ClientTMLOfficerActions.loadClientTMLOfficersByClientIdSuccess({
+              items,
+            })
+          ),
+          catchError((error) =>
+            of(
+              ClientTMLOfficerActions.loadClientTMLOfficersByClientIdFailure({
+                error,
+              })
+            )
           )
         )
       )

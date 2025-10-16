@@ -1,0 +1,47 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/TeamLeadOfficers/Post'"
+    [title]="'Team Lead Officer'"
+    [labelBtn]="'Add Team Lead Officer'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddTeamLeadOfficer()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="teamLeadOfficers$ | async as teamLeadOfficers">
+    <app-table
+      [viewPermission]="[
+        '/TeamLeadOfficers/Get',
+        '/TeamLeadOfficers/GetAll',
+        '/TeamLeadOfficers/GetAllHistory'
+      ]"
+      [editPermission]="'/TeamLeadOfficers/Put'"
+      [deletePermission]="'/TeamLeadOfficers/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredTeamLeadOfficers"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewTeamLeadTable]="true"
+      (onDelete)="onDeleteTeamLeadOfficer($event)"
+      (onEdit)="onEditTeamLeadOfficer($event)"
+      (viewForm)="onViewTeamLeadOfficer($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

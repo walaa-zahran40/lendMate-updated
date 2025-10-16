@@ -1,0 +1,46 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/ClientLegals/Post'"
+    [title]="'Client  Legals'"
+    [labelBtn]="'Add Client  Legal'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddLegal()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+  <ng-container *ngIf="clientLegals$ | async as clientLegals">
+    <app-table
+      [viewPermission]="[
+        '/ClientLegals/Get',
+        '/ClientLegals/GetAll',
+        '/ClientLegals/GetAllHistory'
+      ]"
+      [editPermission]="'/ClientLegals/Put'"
+      [deletePermission]="'/ClientLegals/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredLegals"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewClientLegalTable]="true"
+      (onDelete)="onDeleteLegal($event)"
+      (onEdit)="onEditLegal($event)"
+      (viewForm)="onViewLegal($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

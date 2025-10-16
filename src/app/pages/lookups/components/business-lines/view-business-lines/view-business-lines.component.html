@@ -1,0 +1,47 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/BusinessLines/Post'"
+    [title]="'Business Lines'"
+    [labelBtn]="'Add Business Line'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddBusinessLine()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="businessLines$ | async as businessLines">
+    <app-table
+      [viewPermission]="[
+        '/BusinessLines/Get',
+        '/BusinessLines/GetAll',
+        '/BusinessLines/GetAllHistory'
+      ]"
+      [editPermission]="'/BusinessLines/Put'"
+      [deletePermission]="'/BusinessLines/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredBusinessLines"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewBusinessLinesTable]="true"
+      (onDelete)="onDeleteBusinessLine($event)"
+      (onEdit)="onEditBusinessLine($event)"
+      (viewForm)="onViewBusinessLine($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

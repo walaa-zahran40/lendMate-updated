@@ -1,0 +1,47 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/ValidityUnits/Post'"
+    [title]="'Mandate Validity Units'"
+    [labelBtn]="'Add Mandate Validity Unit'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddMandateValidityUnit()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="mandateValidityUnits$ | async as mandateValidityUnits">
+    <app-table
+      [viewPermission]="[
+        '/ValidityUnits/Get',
+        '/ValidityUnits/GetAll',
+        '/ValidityUnits/GetAllHistory'
+      ]"
+      [editPermission]="'/ValidityUnits/Put'"
+      [deletePermission]="'/ValidityUnits/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredMandateValidityUnits"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewMandateValidityUnitTable]="true"
+      (onDelete)="onDeleteMandateValidityUnit($event)"
+      (onEdit)="onEditMandateValidityUnit($event)"
+      (viewForm)="onViewMandateValidityUnit($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

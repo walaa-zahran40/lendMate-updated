@@ -1,0 +1,44 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Calls'"
+    [labelBtn]="'Add Call'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddCall()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+    [addPermission]="'/Calls/Post'"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="calls$ | async as calls">
+    <app-table
+      [viewPermission]="['/Calls/Get', '/Calls/GetAll', '/Calls/GetAllHistory']"
+      [editPermission]="'/Calls/Put'"
+      [deletePermission]="'/Calls/Delete'"
+      #tableRef
+      [cols]="colsInside"
+      [tableData]="filteredCalls"
+      [side]="true"
+      [first]="first2"
+      [checkBox]="true"
+      (onBulkDelete)="onBulkDelete($event)"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewCallsTable]="true"
+      (wizardBtn)="onAddSide($event)"
+      (onDelete)="onDeleteCall($event)"
+      (onEdit)="onEditCall($event)"
+      (viewForm)="onViewCall($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

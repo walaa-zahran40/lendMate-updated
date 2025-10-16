@@ -1,0 +1,49 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/AuthorizationGroupOfficers/Post'"
+    [title]="'AuthorizationGroupOfficers'"
+    [labelBtn]="'Add Authorization Group Officer'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddAuthorizationGroupOfficer()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container
+    *ngIf="authorizationGroupOfficers$ | async as authorizationGroupOfficers"
+  >
+    <app-table
+      [viewPermission]="[
+        '/AuthorizationGroupOfficers/Get',
+        '/AuthorizationGroupOfficers/GetAll',
+        '/AuthorizationGroupOfficers/GetAllHistory'
+      ]"
+      [editPermission]="'/AuthorizationGroupOfficers/Put'"
+      [deletePermission]="'/AuthorizationGroupOfficers/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredAuthorizationGroupOfficers"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewAuthorizationGroupOfficersTable]="true"
+      (onDelete)="onDeleteAuthorizationGroupOfficer($event)"
+      (onEdit)="onEditAuthorizationGroupOfficer($event)"
+      (viewForm)="onViewAuthorizationGroupOfficer($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

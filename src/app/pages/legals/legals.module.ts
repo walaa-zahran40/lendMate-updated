@@ -1,22 +1,28 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LegalFormsComponent } from './legal-forms/legal-forms.component';
-import { LegalFormsLawComponent } from './legal-forms-law/legal-forms-law.component';
+import { AddLegalFormsComponent } from './components/legal-forms/add-legal-forms/add-legal-forms.component';
 import { LegalsRoutingModule } from './legals-routing.module';
 import { SharedModule } from '../../shared/shared.module';
 import { ButtonModule } from 'primeng/button';
 import { FileUploadModule } from 'primeng/fileupload';
 import { StepperModule } from 'primeng/stepper';
 import { TabsModule } from 'primeng/tabs';
-import { ViewLegalFormComponent } from './view-legal-form/view-legal-form.component';
-import { ViewLegalFormLawComponent } from './view-legal-form-law/view-legal-form-law.component';
+import { ViewLegalFormLawsComponent } from './components/legal-form-laws/view-legal-form-laws/view-legal-form-laws.component';
+import { AddLegalFormLawsComponent } from './components/legal-form-laws/add-legal-form-laws/add-legal-form-laws.component';
+import { StoreModule } from '@ngrx/store';
+import { legalFormLawsReducer } from './store/legal-form-laws/legal-form-laws.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { LegalFormLawsEffects } from './store/legal-form-laws/legal-form-laws.effects';
+import { legalFormsReducer } from './store/legal-forms/legal-forms.reducer';
+import { LegalFormsEffects } from './store/legal-forms/legal-forms.effects';
+import { ViewLegalFormsComponent } from './components/legal-forms/view-legal-forms/view-legal-forms.component';
 
 @NgModule({
   declarations: [
-    LegalFormsComponent,
-    LegalFormsLawComponent,
-    ViewLegalFormComponent,
-    ViewLegalFormLawComponent,
+    AddLegalFormsComponent,
+    AddLegalFormLawsComponent,
+    ViewLegalFormLawsComponent,
+    ViewLegalFormsComponent,
   ],
   imports: [
     CommonModule,
@@ -26,6 +32,10 @@ import { ViewLegalFormLawComponent } from './view-legal-form-law/view-legal-form
     ButtonModule,
     TabsModule,
     FileUploadModule,
+    StoreModule.forFeature('legalFormLaws', legalFormLawsReducer),
+    EffectsModule.forFeature([LegalFormLawsEffects]),
+    StoreModule.forFeature('legalForms', legalFormsReducer),
+    EffectsModule.forFeature([LegalFormsEffects]),
   ],
 })
 export class LegalsModule {}

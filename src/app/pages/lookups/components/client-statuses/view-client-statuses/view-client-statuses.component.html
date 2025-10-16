@@ -1,0 +1,46 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/ClientStatuses/Post'"
+    [title]="'Client Statuses'"
+    [labelBtn]="'Add Client Status'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddClientStatus()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+  <ng-container *ngIf="clientStatuses$ | async as clientStatuses">
+    <app-table
+      [viewPermission]="[
+        '/ClientStatuses/Get',
+        '/ClientStatuses/GetAll',
+        '/ClientStatuses/GetAllHistory'
+      ]"
+      [editPermission]="'/ClientStatuses/Put'"
+      [deletePermission]="'/ClientStatuses/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredClientStatuses"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewClientStatusesTable]="true"
+      (onDelete)="onDeleteClientStatus($event)"
+      (onEdit)="onEditClientStatus($event)"
+      (viewForm)="onViewClientStatus($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

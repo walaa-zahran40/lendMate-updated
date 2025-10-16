@@ -1,0 +1,49 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/ClientTypes/Post'"
+    [title]="'Client Types'"
+    [labelBtn]="'Add Client Type'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddClientType()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <!-- subscribe once to clientTypes$ -->
+  <ng-container *ngIf="clientTypes$ | async as clientTypes">
+    <app-table
+      [viewPermission]="[
+        '/ClientTypes/Get',
+        '/ClientTypes/GetAll',
+        '/ClientTypes/GetAllHistory'
+      ]"
+      [editPermission]="'/ClientTypes/Put'"
+      [deletePermission]="'/ClientTypes/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredClientTypes"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewClientTypesTable]="true"
+      (onDelete)="onDeleteClientTypeId($event)"
+      (onEdit)="onEditClientType($event)"
+      (viewForm)="onViewClientType($event)"
+    ></app-table>
+
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

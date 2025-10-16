@@ -1,0 +1,44 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/ClientGuarantors/Post'"
+    [title]="'Client Guarantors'"
+    [labelBtn]="'Add Client Guarantor'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddGuarantor()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+  <app-table
+    [viewPermission]="[
+      '/ClientGuarantors/Get',
+      '/ClientGuarantors/GetAll',
+      '/ClientGuarantors/GetAllHistory'
+    ]"
+    [editPermission]="'/ClientGuarantors/Put'"
+    [deletePermission]="'/ClientGuarantors/Delete'"
+    #tableRef
+    (onBulkDelete)="onBulkDelete($event)"
+    [cols]="colsInside"
+    [tableData]="filteredGuarantors"
+    [side]="false"
+    [first]="first2"
+    [checkBox]="true"
+    [filters]="showFilters"
+    [uppercase]="'uppercase'"
+    [viewGuarantorTable]="true"
+    (onDelete)="onDeleteGuarantor($event)"
+    (onEdit)="onEditGuarantor($event)"
+    (viewForm)="onViewGuarantor($event)"
+  ></app-table>
+  <app-delete-module
+    [visible]="showDeleteModal"
+    (confirm)="confirmDelete()"
+    (cancel)="cancelDelete()"
+  ></app-delete-module>
+</div>

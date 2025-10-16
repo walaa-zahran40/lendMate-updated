@@ -1,0 +1,31 @@
+<app-toolbar-form
+  [header]="
+    viewOnly
+      ? 'View Client TML Officer'
+      : editMode
+      ? 'Edit Client TML Officer'
+      : 'Add Client TML Officer'
+  "
+  [backExists]="true"
+  [viewOnly]="false"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-form
+        *ngIf="addClientTMLOfficersLookupsForm"
+        [title]="'CLIENT_TML_OFFICER.TITLE'"
+        [description]="'CLIENT_TML_OFFICER.DESCRIPTION'"
+        [formGroup]="addClientTMLOfficersLookupsForm"
+        [addTMLOfficerShowMain]="true"
+        [editMode]="editMode"
+        (submitForm)="addOrEditClientTMLOfficers()"
+        [viewOnly]="viewOnly"
+        [officersList]="officersList$ | async"
+        [tmlOfficerTypesList]="tmlOfficerTypesList$ | async"
+      ></app-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

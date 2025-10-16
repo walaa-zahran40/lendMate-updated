@@ -1,0 +1,46 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/Officers/Post'"
+    [title]="'Officers'"
+    [labelBtn]="'Add Officer'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddOfficer()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="officers$ | async as officers">
+    <app-table
+      [viewPermission]="[
+        '/Officers/Get',
+        '/Officers/GetAll',
+        '/Officers/GetAllHistory'
+      ]"
+      [editPermission]="'/Officers/Put'"
+      [deletePermission]="'/Officers/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredOfficers"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewOfficersTable]="true"
+      (onDelete)="onDeleteOfficer($event)"
+      (onEdit)="onEditOfficer($event)"
+      (viewForm)="onViewOfficer($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

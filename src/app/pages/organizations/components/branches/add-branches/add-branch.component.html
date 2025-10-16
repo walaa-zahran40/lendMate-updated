@@ -1,0 +1,22 @@
+<app-toolbar-form
+  [header]="viewOnly ? 'View Branch' : editMode ? 'Edit Branch' : 'Add Branch'"
+  [backExists]="true"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-form
+        *ngIf="addBranchLookupsForm"
+        [title]="'FORM.BRANCH.TITLE'"
+        [description]="'FORM.BRANCH.DESCRIPTION'"
+        [formGroup]="addBranchLookupsForm"
+        [addBranchLookupsForm]="true"
+        [editMode]="editMode"
+        (submitForm)="addOrEditBranch()"
+        [viewOnly]="viewOnly"
+      ></app-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

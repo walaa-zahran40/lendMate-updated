@@ -1,0 +1,209 @@
+<div class="parent">
+  <div *ngIf="!contactPersonDetailsView" class="div1">
+    <h2 class="m-0 title">{{ title | translate }}</h2>
+    <p class="tab-panel-paragraph">
+      {{ description | translate }}
+    </p>
+  </div>
+  <div class="div2" [ngClass]="{ span: applyReusable }">
+    <form
+      class="div2"
+      [ngClass]="{ span: applyReusable }"
+      [formGroup]="formGroup"
+    >
+      <!-- Main Info -->
+      <ng-container *ngIf="addClientOnboardingForm">
+        <!-- Name in English -->
+        <label for="name"
+          >{{ "FORM.COMPANY_TYPES.NAME_EN" | translate }}<sup>*</sup></label
+        >
+        <input
+          pInputText
+          id="name"
+          formControlName="name"
+          [placeholder]="'FORM.COMPANY_TYPES.PLACEHOLDER_NAME_EN' | translate"
+        />
+        <div
+          *ngIf="
+            formGroup.get('name')?.hasError('required') &&
+            formGroup.get('name')?.touched
+          "
+          class="p-error"
+        >
+          {{ "FORM.COMPANY_TYPES.ERRORS.NAME_EN_REQUIRED" | translate }}
+        </div>
+
+        <label for="nameAR"
+          >{{ "FORM.COMPANY_TYPES.LABEL_NAME_AR" | translate
+          }}<sup>*</sup></label
+        >
+        <input
+          pInputText
+          id="nameAR"
+          formControlName="nameAR"
+          [placeholder]="'FORM.COMPANY_TYPES.PLACEHOLDER_NAME_AR' | translate"
+        />
+        <div
+          *ngIf="
+            formGroup.get('nameAR')?.hasError('required') &&
+            formGroup.get('nameAR')?.touched
+          "
+          class="p-error"
+        >
+          {{ "FORM.COMPANY_TYPES.ERRORS.NAME_AR_REQUIRED" | translate }}
+        </div>
+        <div
+          *ngIf="
+            formGroup.get('nameAR')?.hasError('pattern') &&
+            formGroup.get('nameAR')?.touched
+          "
+          class="p-error"
+        >
+          {{ "FORM.COMPANY_TYPES.ERRORS.NAME_AR_PATTERN" | translate }}
+        </div>
+        <!-- Business Activity -->
+        <label for="businessActivity">{{
+          "FORM.LABELS.BUSINESS_ACTIVITY" | translate
+        }}</label>
+        <input
+          pInputText
+          name="businessActivity"
+          formControlName="businessActivity"
+          [placeholder]="'FORM.PLACEHOLDERS.BUSINESS_ACTIVITY' | translate"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              formGroup.get('businessActivity')?.invalid &&
+              formGroup.get('businessActivity')?.touched
+          }"
+        />
+        <br />
+
+        <!-- Tax ID -->
+        <label for="taxId">
+          {{ "FORM.LABELS.TAX_ID" | translate }} <sup class="danger">*</sup>
+        </label>
+        <input
+          pInputText
+          name="taxId"
+          formControlName="taxId"
+          [placeholder]="'FORM.PLACEHOLDERS.TAX_ID' | translate"
+          type="text"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              formGroup.get('taxId')?.invalid && formGroup.get('taxId')?.touched
+          }"
+        />
+        <div
+          *ngIf="
+            formGroup.get('taxId')?.invalid && formGroup.get('taxId')?.touched
+          "
+        >
+          <small
+            class="p-error"
+            *ngIf="
+              formGroup.get('taxId')?.hasError('required') &&
+              formGroup.get('taxId')?.touched
+            "
+          >
+            {{ "FORM.ERRORS.TAX_ID_REQUIRED" | translate }}
+          </small>
+
+          <br />
+          <small
+            class="p-error"
+            *ngIf="
+              formGroup.get('taxId')?.hasError('pattern') &&
+              formGroup.get('taxId')?.touched
+            "
+          >
+            {{ "FORM.ERRORS.TAX_ID_PATTERN" | translate }}
+          </small>
+        </div>
+
+        <!-- Short Name -->
+        <label for="shortName">{{
+          "FORM.LABELS.SHORT_NAME" | translate
+        }}</label>
+        <input
+          pInputText
+          name="shortName"
+          formControlName="shortName"
+          [placeholder]="'FORM.PLACEHOLDERS.SHORT_NAME' | translate"
+          [ngClass]="{
+            'ng-invalid ng-dirty':
+              formGroup.get('shortName')?.invalid &&
+              formGroup.get('shortName')?.touched
+          }"
+        />
+
+        <br />
+        <ng-container *ngIf="sectorsSafe$ | async as sectors">
+          <!-- Sector Dropdown -->
+          <label for="sectorDropdown">
+            {{ "FORM.LABELS.SECTOR" | translate }} <sup class="danger">*</sup>
+          </label>
+
+          <p-select
+            [filter]="true"
+            filterBy="name"
+            [showClear]="true"
+            [options]="sectors"
+            [optionLabel]="optionLabelKey"
+            [placeholder]="'FORM.PLACEHOLDERS.SECTOR' | translate"
+            formControlName="sectorId"
+            optionValue="id"
+            (onChange)="onSectorChange($event)"
+            required
+            [ngClass]="{
+              'ng-invalid':
+                formGroup.get('sectorId')?.invalid &&
+                (formGroup.get('sectorId')?.dirty ||
+                  formGroup.get('sectorId')?.touched)
+            }"
+          >
+          </p-select>
+
+          <!-- Validation message -->
+          <small
+            class="p-error"
+            style="color: var(--custom-red)"
+            *ngIf="
+              formGroup.get('sectorId')?.invalid &&
+              (formGroup.get('sectorId')?.dirty ||
+                formGroup.get('sectorId')?.touched)
+            "
+          >
+            {{ "FORM.ERRORS.SECTOR_REQUIRED" | translate }}
+          </small>
+        </ng-container>
+        <br />
+        <!-- Sub Sector Dropdown -->
+        <label for="subSectorDropdown">
+          {{ "FORM.LABELS.SUB_SECTOR" | translate }} <sup class="danger">*</sup>
+        </label>
+        <p-multiSelect
+          [options]="subSectorsList"
+          formControlName="subSectorIdList"
+          [optionLabel]="optionLabelKey"
+          optionValue="id"
+          [placeholder]="'FORM.PLACEHOLDERS.SUB_SECTOR' | translate"
+          display="chip"
+          (onChange)="onSubSectorChange($event)"
+        ></p-multiSelect>
+
+        <div
+          class="p-error"
+          *ngIf="
+            formGroup.get('subSectorIdList')?.invalid &&
+            (formGroup.get('subSectorIdList')?.touched ||
+              formGroup.get('subSectorIdList')?.dirty)
+          "
+        >
+          {{ "FORM.ERRORS.SUB_SECTOR_REQUIRED" | translate }}
+        </div>
+
+        <br />
+      </ng-container>
+    </form>
+  </div>
+</div>

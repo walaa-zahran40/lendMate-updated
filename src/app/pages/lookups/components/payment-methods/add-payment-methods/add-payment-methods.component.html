@@ -1,0 +1,28 @@
+<app-toolbar-form
+  [header]="
+    viewOnly
+      ? 'View Payment Method'
+      : editMode
+      ? 'Edit Payment Method'
+      : 'Add Payment Method'
+  "
+  [backExists]="true"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-form
+        *ngIf="addPaymentMethodsLookupsForm"
+        [title]="'FORM.PAYMENT_METHODS.TITLE'"
+        [description]="'FORM.PAYMENT_METHODS.DESCRIPTION'"
+        [formGroup]="addPaymentMethodsLookupsForm"
+        [addPaymentMethodsLookupsForm]="true"
+        [editMode]="editMode"
+        (submitForm)="addOrEditPaymentMethods()"
+        [viewOnly]="viewOnly"
+      ></app-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

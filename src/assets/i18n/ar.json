@@ -1,0 +1,1461 @@
+{
+  "UNSAVED_CHANGES_HEADER": "تغييرات غير محفوظة",
+  "CONFIRM_LEAVE_MESSAGE": "لديك تغييرات غير محفوظة. هل تريد المغادرة دون حفظ؟",
+  "CONFIRM_LEAVE_HEADER": "تغييرات غير محفوظة",
+  "CONFIRM_LEAVE_ACCEPT": "نعم، غادر",
+  "CONFIRM_LEAVE_REJECT": "لا، ابقَ",
+  "AUTH_GROUP": {
+    "AUTHORIZATION_GROUP": "مجموعة التفويض",
+    "SELECT_AUTHORIZATION_GROUP": "اختر مجموعة التفويض",
+    "START_DATE": "تاريخ البدء",
+    "ADD": "إضافة مجموعة التفويض الإجرائية",
+    "EDIT": "تعديل مجموعة التفويض الإجرائية"
+  },
+  "NAVBAR": {
+    "WELCOME": "مرحبا",
+    "DARK": "داكن",
+    "LIGHT": "فاتح",
+    "ENGLISH": "الإنجليزية",
+    "ARABIC": "العربية",
+    "SIGN_OUT": "تسجيل الخروج"
+  },
+  "WORKFLOW": {
+    "ACTIONS": "إجراءات سير العمل"
+  },
+  "CALL": {
+    "HEADER_ADD": "إضافة مكالمة",
+    "HEADER_EDIT": "تعديل مكالمة",
+    "HEADER_VIEW": "عرض مكالمة",
+    "DESCRIPTION": "مكالمة"
+  },
+  "NOTIF_GROUP": {
+    "NOTIFICATION_GROUP": "مجموعة الإشعارات",
+    "SELECT_NOTIFICATION_GROUP": "اختر مجموعة الإشعارات",
+    "START_DATE": "تاريخ البدء",
+    "PLACEHOLDER": "اختر مجموعة الإشعارات",
+    "REQUIRED": "مجموعة الإشعارات مطلوبة.",
+    "ADD": "إضافة مجموعة الإشعارات الإجرائية",
+    "EDIT": "تعديل مجموعة الإشعارات الإجرائية"
+  },
+  "BUSINESS_LINE": {
+    "BUSINESS_LINE": "قطاع الأعمال",
+    "SELECT_BUSINESS_LINE": "اختر قطاع الأعمال"
+  },
+  "COMMON": {
+    "DATE_OF_BIRTH": "تاريخ الميلاد"
+  },
+  "PRODUCT": {
+    "ADD_PRODUCT": "إضافة منتج",
+    "EDIT_PRODUCT": "تعديل المنتج"
+  },
+  "ASSET_CATEGORY": {
+    "LIMIT": "الحد",
+    "IS_ACTIVE": "نشط",
+    "ACTIVE": "نشط",
+    "ADD": "إضافة فئة نوع الأصل",
+    "EDIT": "تعديل فئة نوع الأصل"
+  },
+  "STATUS_ACTION": {
+    "STATUS_IN": "الحالة المدخلة",
+    "SELECT_STATUS_IN": "اختر الحالة المدخلة",
+    "STATUS_OUT": "الحالة المخرجة",
+    "SELECT_STATUS_OUT": "اختر الحالة المخرجة",
+    "WORKFLOW_ACTION_TYPE": "نوع إجراء سير العمل",
+    "SELECT_WORKFLOW_ACTION_TYPE": "اختر نوع الإجراء",
+    "IS_INITIAL": "هل هو ابتدائي؟",
+    "INITIAL_LABEL": "ابتدائي",
+    "ADD": "إضافة إجراء حالة",
+    "EDIT": "تعديل إجراء حالة"
+  },
+  "CLIENT_STATUS": {
+    "ADD": "إضافة حالة عميل",
+    "EDIT": "تعديل حالة عميل"
+  },
+  "MANDATE_FEES": {
+    "FEE_TYPE": "نوع الرسوم",
+    "SELECT_FEE_TYPE": "اختر نوع الرسوم",
+    "ACTUAL_AMOUNT": "المبلغ الفعلي",
+    "ACTUAL_PERCENTAGE": "النسبة الفعلية",
+    "ADD": "إضافة رسوم التفويض",
+    "EDIT": "تعديل رسوم التفويض"
+  },
+  "CARD": {
+    "UPLOAD_DOCUMENTS": "تحميل المستندات",
+    "ADD_ADDRESS": "إضافة العنوان",
+    "SALES_TURNOVER": "حجم المبيعات",
+    "PHONE_NUMBER": "رقم الهاتف",
+    "CR_AUTHORITY": "مكتب السجل التجاري",
+    "TAX_AUTHORITY": "مكتب الضرائب",
+    "CENTRAL_BANK_INFO": "معلومات البنك المركزي",
+    "SHARE_HOLDERS": "المساهمون",
+    "TML_OFFICER": "مسؤول TML",
+    "CONTACT_PERSON": "جهة الاتصال",
+    "CLIENT_GUARANTORS": "ضامني العميل",
+    "CLIENT_IDENTITIES": "هويات العميل",
+    "CLIENT_OFFICERS": "موظفو العميل",
+    "CLIENT_LEGALS": "الشؤون القانونية للعميل",
+    "MEETINGS": "الاجتماعات",
+    "CALLS": "المكالمات",
+    "LEASING_MANDATES": "تفويضات التأجير",
+    "CONTRACTS": "العقود"
+  },
+  "MANDATE": {
+    "CLONE": "نسخ التفويض",
+    "MANDATE_OFFICERS": "ضباط التفويض",
+    "MANDATE_OFFICERS_DESC": " وصف ضباط التفويض",
+
+    "MANDATE_CONTACT_PERSONS": "جهات اتصال التفويض",
+    "MANDATE_CONTACT_PERSONS_DESC": " وصف جهات اتصال التفويض ",
+
+    "CLONE_DESC": "إنشاء نسخة من هذا التفويض بسرعة…",
+    "ADDITIONAL_TERMS": "الشروط الإضافية للتفويض",
+    "ADDITIONAL_TERMS_DESC": "تعديل أو مراجعة الشروط والأحكام الخاصة بالتفويض…",
+    "FINANCIAL_FORM": "النموذج المالي للتأجير",
+    "FINANCIAL_FORM_DESC": "تعديل أو مراجعة النموذج المالي للتأجير",
+    "FEES": "رسوم التفويض",
+    "FEES_DESC": "تعديل أو مراجعة رسوم التفويض",
+    "WORKFLOW_HISTORY": "سجل سير عمل التفويض",
+    "WORKFLOW_HISTORY_DESC": "تعديل أو مراجعة سجل سير عمل التفويض",
+    "ADD_AUTHORIZATION_GROUP": "إضافة مجموعة تفويض",
+    "ADD_AUTHORIZATION_GROUP_DESC": "تعيين أو إدارة مجموعات التفويض لإجراء هذا التفويض",
+    "ADD_NOTIFICATION_GROUP": "إضافة مجموعة إشعارات",
+    "ADD_NOTIFICATION_GROUP_DESC": "تعيين أو إدارة مجموعات الإشعارات لإجراء هذا التفويض",
+    "BASIC_INFO": {
+      "TITLE": "المعلومات الأساسية",
+      "DESCRIPTION": "أدخل التفاصيل الأساسية التي تحدد معايير النموذج الرئيسية، بما في ذلك العميل، المنتج، فترة الصلاحية، نوع التأجير، ومعلومات التأمين."
+    },
+    "OFFICERS": {
+      "TITLE": "المسؤولون",
+      "DESCRIPTION": "ستُعرض هذه المعلومات بشكل علني ويجب أن تعكس سجلات المسؤولين المعينين بدقة لهذا التفويض."
+    },
+    "CONTACT_PERSONS": {
+      "TITLE": "جهات الاتصال",
+      "DESCRIPTION": "ستُعرض هذه المعلومات بشكل علني ويجب أن تعكس جهات الاتصال الصحيحة للعميل المشاركين في هذا التفويض."
+    },
+    "ASSET_TYPE": {
+      "TITLE": "نوع الأصل",
+      "DESCRIPTION": "ستُعرض هذه المعلومات بشكل علني ويجب أن تمثل أنواع الأصول المرتبطة بهذا التفويض."
+    },
+    "MORE_INFO": {
+      "TITLE": "معلومات إضافية",
+      "DESCRIPTION": "قدّم إعدادات إضافية مثل فترة السماح وتفاصيل أخرى اختيارية خاصة بالتفويض."
+    },
+    "MANDATE_ADDITIONAL_TERMS": {
+      "TITLE": "شروط إضافية للتفويض",
+      "DESCRIPTION": "حدد الشروط والأحكام الإضافية المتعلقة بالتفويض مثل المتطلبات التنظيمية أو الإجرائية أو الخاصة المرتبطة بالتأجير."
+    }
+  },
+  "SIDEMENU": { "SEARCH": "بحث" },
+  "MENU": {
+    "CRM": "إدارة العملاء",
+    "PURCHASING": "المشتريات",
+    "BUSINESS": "الأعمال",
+    "ASSETS": "الأصول",
+    "SETTINGS": "الإعدادات"
+  },
+  "CRM": {
+    "CLIENT_OPERATIONS": "عمليات العملاء",
+    "QUICK_ONBOARDING": "إنهاء إجراءات سريعة",
+    "CLIENTS": "العملاء"
+  },
+  "COMMUNICATION": {
+    "_ROOT": "التواصل",
+    "MEETINGS": "الاجتماعات",
+    "CALENDAR": "التقويم",
+    "FOLLOW_UPS": "المتابعات",
+    "FOLLOW_UPS_DESC": "تتبع وإدارة أنشطة المتابعة الخاصة بالتواصل",
+    "FOLLOW_UP_POINTS": "نقاط المتابعة",
+    "FOLLOW_UP_POINTS_DESC": "نقاط الإجراءات التفصيلية المتعلقة بالمتابعة"
+  },
+  "PURCHASING": {
+    "ASSETS": "الأصول",
+    "PURCHASING_ORDERS": "أوامر الشراء"
+  },
+  "CONTRACTS": { "CONTRACTS": "العقود" },
+  "ASSETS": { "ASSETS": "الأصول" },
+  "SETTINGS": {
+    "GENERAL": "عام",
+    "ORGANIZATIONS": "الهيكل التنظيمي",
+    "LEGALS": "الشؤون القانونية",
+    "SECURITY": "الأمان",
+    "CLIENT_WORKFLOW": "سير عمل العميل",
+    "MANDATE_WORKFLOW": "سير عمل التفويض",
+    "FEES": "الرسوم",
+    "LOOKUPS": "المعاجم"
+  },
+  "LOOKUPS": {
+    "BUSINESS_LINES": "خطوط الأعمال",
+    "PRODUCTS": "المنتجات",
+    "VENDORS": "البائعين",
+
+    "FIRST_CLAIM_STATUSES": "حالات المطالبة الأولى",
+    "SECTORS": "القطاعات",
+    "SUB_SECTORS": "القطاعات الفرعية",
+    "ADDRESS_TYPES": "أنواع العناوين",
+    "AREAS": "المناطق",
+    "ASSET_TYPES": "أنواع الأصول",
+    "ASSET_TYPE_CATEGORIES": "فئات أنواع الأصول",
+    "AUTHORIZATION_GROUPS": "مجموعات التفويض",
+    "AUTHORIZATION_GROUP_OFFICERS": "موظفو مجموعة التفويض",
+    "CALL_ACTION_TYPES": "أنواع إجراءات المكالمات",
+    "CALL_TYPES": "أنواع المكالمات",
+    "CLIENT_TYPES": "أنواع العملاء",
+    "CLIENT_OFFICER_TYPES": "أنواع موظفي العميل",
+    "COMM_TYPES": "أنواع التواصل",
+    "COMM_FLOW_TYPES": "أنواع تدفق التواصل",
+    "COMPANY_TYPES": "أنواع الشركات",
+    "CONDITIONS": "الشروط",
+    "CONDITION_EXPRESSIONS": "تعابير الشروط",
+    "COUNTRIES": "الدول",
+    "CURRENCIES": "العملات",
+    "DOCUMENT_TYPES": "أنواع المستندات",
+    "EVALUATORS": "المقيمون",
+    "FOLLOWUP_TYPES": "أنواع المتابعة",
+    "GOVERNORATES": "المحافظات",
+    "ID_TYPES": "أنواع الهوية",
+    "INSURED_BY": "مؤمّن بواسطة",
+    "IR_BENCHMARKS": "مؤشرات سعر الفائدة",
+    "INTEREST_TYPES": "أنواع الفائدة",
+    "LEASING_TYPES": "أنواع التأجير",
+    "LICENSE_TYPES": "أنواع التراخيص",
+    "LICENSE_PROVIDERS": "مزودو التراخيص",
+    "VALIDITY_UNIT": "وحدة صلاحية التفويض",
+    "MEETING_TYPES": "أنواع الاجتماعات",
+    "NOTIFICATION_GROUPS": "مجموعات الإشعارات",
+    "NOTIFICATION_GROUP_OFFICERS": "موظفو مجموعة الإشعارات",
+    "PAYMENT_METHODS": "طرق الدفع",
+    "PAYMENT_MONTH_DAYS": "أيام الشهر للدفع",
+    "PAYMENT_TYPES": "أنواع الدفع",
+    "PAYMENT_PERIODS": "فترات الدفع",
+    "PAYMENT_TIMING_TERMS": "شروط توقيت الدفع",
+    "PERIOD_UNITS": "وحدات المدة",
+    "PHONE_TYPES": "أنواع الهواتف",
+    "RENT_STRUCTURE_TYPES": "أنواع هيكل الإيجار",
+    "SME_CLIENT_CODES": "أكواد عملاء المشروعات الصغيرة",
+    "TAX_OFFICES": "مكاتب الضرائب",
+    "TML_OFFICER_TYPES": "أنواع موظفي TML",
+    "VEHICLE_MODELS": "طرز المركبات",
+    "VEHICLE_MANUFACTURERS": "مصنّعو المركبات",
+    "WORKFLOW_ACTION_TYPES": "أنواع إجراءات سير العمل"
+  },
+  "LOOKUP": {
+    "CURRENCY_EXCHANGE": "تحويل العملات",
+    "CURRENCY_EXCHANGE_DESC": "عرض أو إدارة أسعار صرف العملات",
+    "ADD_AUTHORIZATION_GROUP": "إضافة مجموعة تفويض",
+    "ADD_AUTHORIZATION_GROUP_DESC": "تعيين أو إدارة مجموعات التفويض لهذا الإجراء",
+    "ADD_NOTIFICATION_GROUP": "إضافة مجموعة إشعارات",
+    "ADD_NOTIFICATION_GROUP_DESC": "تعيين أو إدارة مجموعات الإشعارات لهذا الإجراء"
+  },
+  "LEGALS": {
+    "LEGAL_FORMS": "النموذج القانوني",
+    "LEGAL_FORM_LAWS": "قانون النموذج القانوني",
+    "CR_OFFICES": "مكاتب السجل التجاري",
+    "TAX_OFFICES": "مكاتب الضرائب",
+    "SME_CLIENT_CODES": "أكواد عملاء المشروعات الصغيرة"
+  },
+  "SECURITY": {
+    "APPLICATION_ROLES": "أدوار التطبيق",
+    "PAGE_OPERATIONS": "عمليات الصفحات",
+    "OPERATIONS": "العمليات",
+    "PAGES": "الصفحات"
+  },
+  "CLIENT_WORKFLOW": {
+    "CLIENT_STATUS": "حالة العميل",
+    "CLIENT_STATUS_ACTION": "إجراء حالة العميل"
+  },
+  "MANDATE_WORKFLOW": {
+    "MANDATE_STATUS": "حالة التفويض",
+    "MANDATE_STATUS_ACTION": "إجراء حالة التفويض"
+  },
+  "FEES": {
+    "FEE_RANGES": "نطاقات الرسوم",
+    "FEE_CALC_TYPES": "أنواع احتساب الرسوم",
+    "FEE_TYPES": "أنواع الرسوم"
+  },
+
+  "ORGANIZATION": {
+    "BRANCHES": "الفروع",
+    "DEPARTMENTS": "الأقسام",
+    "OFFICERS": "الموظفون",
+    "SIGNATORY": "الموظفون المخولون بالتوقيع",
+
+    "TEAMS": "الفرق",
+    "DEPARTMENT_MANAGERS": "مديرو الأقسام",
+    "DEPARTMENT_MANAGERS_DESC": "عرض وإدارة المديرين المعيّنين لهذا القسم",
+    "TEAM_LEADS": "قادة الفريق",
+    "TEAM_LEADS_DESC": "عرض وإدارة قادة الفريق المعيّنين لهذا الفريق",
+    "TEAM_MEMBERS": "أعضاء الفريق",
+    "TEAM_MEMBERS_DESC": "عرض وإدارة أعضاء هذا الفريق",
+    "BRANCH_MANAGERS": "مديرو الفرع",
+    "BRANCH_MANAGERS_DESC": "عرض وإدارة المديرين المعيّنين لهذا الفرع",
+    "BRANCH_OFFICERS": "موظفو الفرع",
+    "BRANCH_OFFICERS_DESC": "عرض وإدارة موظفي هذا الفرع",
+    "BRANCH_ADDRESS": "عنوان الفرع",
+    "BRANCH_ADDRESS_DESC": "عرض وإدارة عنوان هذا الفرع",
+    "ROLE_CLAIMS": "صلاحيات الدور",
+    "ROLE_CLAIMS_DESC": "عرّف معلومات الدور الأساسية للمستخدمين بسرعة من خلال تعبئة تفاصيل الدور"
+  },
+  "DIALOG": {
+    "DELETE_CONFIRMATION": "هل أنت متأكد أنك تريد الحذف؟",
+    "YES": "نعم",
+    "NO": "لا"
+  },
+  "DOWNLOAD": {
+    "TITLE": "تنزيل",
+    "SELECT_CONTACT_PERSON": "اختر جهة الاتصال",
+    "SELECT_OFFICER": "اختر الموظف",
+    "SELECT_PURCHASING_ORDER": "اختر أمر الشراء",
+    "PLACEHOLDER_CONTACT": "اختر جهة الاتصال",
+    "PLACEHOLDER_OFFICER": "اختر الموظف",
+    "PLACEHOLDER_PURCHASING_ORDER": "اختر أمر الشراء",
+    "BUTTON": "تنزيل",
+    "CONTACT_PERSONS": "مسؤولو الاتصال",
+    "SELECT_CONTACT_PERSONS": "اختر مسؤولي الاتصال",
+    "CONTACT_PERSONS_REQUIRED": "يرجى اختيار مسؤول اتصال واحد على الأقل.",
+    "OFFICERS": "المسؤولون",
+    "SELECT_OFFICERS": "اختر المسؤولين",
+    "OFFICERS_REQUIRED": "يرجى اختيار مسؤول واحد على الأقل."
+  },
+  "CONTACT_PERSON": {
+    "TITLE": "تفاصيل جهة الاتصال"
+  },
+  "CLIENT_TAX_AUTHORITY": {
+    "TITLE": "مكتب مصلحة الضرائب للعميل",
+    "DESCRIPTION": "قم بإدخال معلومات مكتب مصلحة الضرائب الأساسية للعميل بسرعة من خلال تعبئة البيانات"
+  },
+  "CLIENT_TML_OFFICER": {
+    "TITLE": "مسؤول TML للعميل",
+    "DESCRIPTION": "أدخل المعلومات الأساسية لمسؤول TML للعميل بسرعة من خلال تعبئة التفاصيل"
+  },
+  "LEASING_FINANCIAL": {
+    "BASIC": {
+      "TITLE": "المعلومات المالية الأساسية",
+      "DESCRIPTION": "أدخل المعايير المالية الأساسية مثل مبلغ التأجير، المدة، ونوع التأجير لهذا التفويض."
+    },
+    "RATES": {
+      "TITLE": "الأسعار والفترات",
+      "DESCRIPTION": "قم بإعداد أسعار التمويل، وفترات الدفع، وإعدادات فترة السماح المتعلقة بتفويض التأجير."
+    },
+    "CURRENCY": {
+      "TITLE": "معلومات العملة",
+      "DESCRIPTION": "حدد الإعدادات المالية مثل العملة، وسعر الصرف، ومؤشرات الفائدة، وهيكل الدفع الخاص بتفويض التأجير."
+    }
+  },
+  "ASSET_TYPE_CATEGORIES": {
+    "TITLE": "فئات نوع الأصل",
+    "DESCRIPTION": "قم بإدارة وتصنيف أنواع الأصول من خلال تجميعها ضمن فئات منطقية لتسهيل التنظيم والمعالجة."
+  },
+  "AUTHORIZATION_GROUP": {
+    "TITLE": "مجموعة التفويض",
+    "DESCRIPTION": "قدّم معلومات مجموعة التفويض الأساسية للمستخدمين بسرعة عن طريق تعبئة التفاصيل المتعلقة بالعميل."
+  },
+  "NOTIFICATION_GROUP": {
+    "TITLE": "مجموعة الإشعارات",
+    "DESCRIPTION": "قدّم معلومات مجموعة الإشعارات الأساسية للمستخدمين بسرعة عن طريق تعبئة التفاصيل المتعلقة بالعميل."
+  },
+  "SHARE_HOLDER": {
+    "TITLE": "مساهم العميل",
+    "DESCRIPTION": "قدّم معلومات المساهم الخاصة بالعميل بسرعة للمستخدمين عن طريق تعبئة التفاصيل ذات الصلة بالعميل."
+  },
+  "MANDATE_AUTH_GROUP": {
+    "TITLE": "مجموعة التفويض",
+    "DESCRIPTION": "قدّم معلومات مجموعة التفويض بسرعة للمستخدمين عن طريق تعبئة التفاصيل المتعلقة بالتفويض."
+  },
+  "MANDATE_NOTIFICATION_GROUP": {
+    "TITLE": "مجموعة الإشعارات",
+    "DESCRIPTION": "قدّم معلومات مجموعة الإشعارات بسرعة للمستخدمين عن طريق تعبئة التفاصيل المتعلقة بالتفويض."
+  },
+  "BRANCH_ADDRESS": {
+    "TITLE": "عنوان الفرع",
+    "DESCRIPTION": "قدّم معلومات عنوان الفرع الأساسية بسرعة للمستخدمين عن طريق تعبئة تفاصيل الفرع.",
+    "COUNTRY": "الدولة",
+    "GOVERNORATE": "المحافظة",
+    "AREA": "المنطقة",
+    "DETAILS_EN": "العنوان باللغة الإنجليزية",
+    "DETAILS_AR": "العنوان باللغة العربية",
+    "PLACEHOLDER_COUNTRY": "اختر الدولة",
+    "PLACEHOLDER_GOVERNORATE": "اختر المحافظة",
+    "PLACEHOLDER_AREA": "اختر المنطقة",
+    "PLACEHOLDER_DETAILS_EN": "أدخل العنوان بالإنجليزية",
+    "PLACEHOLDER_DETAILS_AR": "أدخل العنوان بالعربية",
+    "VALIDATION": {
+      "DETAILS_EN_REQUIRED": "العنوان بالإنجليزية مطلوب.",
+      "DETAILS_AR_REQUIRED": "العنوان بالعربية مطلوب."
+    }
+  },
+  "ROLE_CLAIM": {
+    "TITLE": "صلاحيات الدور",
+    "DESCRIPTION": "قدّم معلومات صلاحيات الدور الأساسية بسرعة للمستخدمين عن طريق تعبئة تفاصيل الدور."
+  },
+  "MANDATE_STATUS": {
+    "ADD": "إضافة حالة التفويض",
+    "EDIT": "تعديل حالة التفويض"
+  },
+  "MANDATE_STATUS_ACTION": {
+    "ADD": "إضافة إجراء حالة تفويض",
+    "EDIT": "تعديل إجراء حالة تفويض"
+  },
+  "LEASE": {
+    "ASSET_COST": "تكلفة الأصل",
+    "ASSET_COST_REQUIRED": "تكلفة الأصل مطلوبة.",
+    "DOWN_PAYMENT": "الدفعة المقدمة",
+    "DOWN_PAYMENT_REQUIRED": "الدفعة المقدمة مطلوبة.",
+    "FIXED_INTEREST_RATE": "معدل الفائدة الثابت",
+    "PERCENT_FINANCE": "نسبة التمويل",
+    "PERCENT_FINANCE_REQUIRED": "نسبة التمويل مطلوبة.",
+    "FIXED_INTEREST_RATE_REQUIRED": "معدل الفائدة الثابت مطلوب.",
+    "NFA": "صافي الأصول",
+    "NFA_REQUIRED": "صافي الأصول مطلوب.",
+    "YEARS": "عدد السنوات",
+    "YEARS_REQUIRED": "عدد السنوات مطلوب.",
+    "START_DATE": "تاريخ البدء",
+    "INTEREST_RATE": "معدل الفائدة",
+    "INTEREST_RATE_REQUIRED": "معدل الفائدة مطلوب.",
+    "INSURANCE_RATE": "معدل التأمين",
+    "INSURANCE_RATE_REQUIRED": "معدل التأمين مطلوب.",
+    "TENOR": "مدة التمويل",
+    "TENOR_REQUIRED": "مدة التمويل مطلوبة.",
+    "PAYMENT_PERIOD": "فترة السداد",
+    "PAYMENT_PERIOD_REQUIRED": "فترة السداد مطلوبة.",
+    "GRACE_PERIOD": "فترة السماح",
+    "GRACE_PERIOD_REQUIRED": "فترة السماح مطلوبة.",
+    "GRACE_PERIOD_UNIT": "وحدة فترة السماح",
+    "GRACE_PERIOD_UNIT_REQUIRED": "وحدة فترة السماح مطلوبة."
+  },
+  "LEASE_CURRENCY": {
+    "CURRENCY": "العملة",
+    "CURRENCY_REQUIRED": "العملة مطلوبة.",
+    "CURRENCY_EXCHANGE_RATE": "سعر صرف العملة",
+    "CURRENCY_EXCHANGE_RATE_REQUIRED": "سعر صرف العملة مطلوب.",
+    "IS_MANUAL_EXCHANGE_RATE": "هل سعر الصرف يدوي؟",
+    "MANUAL_EXCHANGE_RATE": "سعر الصرف اليدوي",
+    "MANUAL_EXCHANGE_RATE_REQUIRED": "سعر الصرف اليدوي مطلوب.",
+    "INDICATIVE_RENTALS": "الإيجارات التقديرية",
+    "INDICATIVE_RENTALS_REQUIRED": "الإيجارات التقديرية مطلوبة.",
+    "RENT": "الإيجار",
+    "RENT_REQUIRED": "الإيجار مطلوب.",
+    "RV_PERCENT": "نسبة القيمة المتبقية",
+    "RV_PERCENT_REQUIRED": "نسبة القيمة المتبقية مطلوبة.",
+    "RV_AMOUNT": "قيمة القيمة المتبقية",
+    "RV_AMOUNT_REQUIRED": "قيمة القيمة المتبقية مطلوبة.",
+    "RESERVE_PAYMENT_COUNT": "عدد دفعات الاحتياطي",
+    "RESERVE_PAYMENT_COUNT_REQUIRED": "عدد دفعات الاحتياطي مطلوب.",
+    "RESERVE_PAYMENT_AMOUNT": "مبلغ دفعات الاحتياطي",
+    "RESERVE_PAYMENT_AMOUNT_REQUIRED": "مبلغ دفعات الاحتياطي مطلوب.",
+    "PROVISION_PERCENT": "نسبة المخصص",
+    "PROVISION_PERCENT_REQUIRED": "نسبة المخصص مطلوبة.",
+    "PROVISION_AMOUNT": "مبلغ المخصص",
+    "PROVISION_AMOUNT_REQUIRED": "مبلغ المخصص مطلوب.",
+    "INTEREST_RATE_BENCHMARK": "مرجع سعر الفائدة",
+    "INTEREST_RATE_BENCHMARK_REQUIRED": "مرجع سعر الفائدة مطلوب.",
+    "PAYMENT_TIME_TERM": "مصطلح توقيت الدفع",
+    "PAYMENT_TIME_TERM_REQUIRED": "مصطلح توقيت الدفع مطلوب.",
+    "RENT_STRUCTURE": "نوع هيكل الإيجار",
+    "RENT_STRUCTURE_REQUIRED": "نوع هيكل الإيجار مطلوب",
+    "PAYMENT_METHOD": "طريقة الدفع",
+    "PAYMENT_METHOD_REQUIRED": "طريقة الدفع مطلوبة.",
+    "PAYMENT_MONTH_DAY": "يوم الدفع في الشهر",
+    "PAYMENT_MONTH_DAY_REQUIRED": "يوم الدفع في الشهر مطلوب."
+  },
+  "CONDITION": {
+    "DESCRIPTION": "الوصف",
+    "CONDITION_TYPE": "نوع الشرط",
+    "SELECT_CONDITION_TYPE": "اختر نوع الشرط",
+    "REQUIRED_CONDITION_TYPE": "نوع الشرط مطلوب.",
+    "CONDITION_EXPRESSION": "تعبير الشرط",
+    "SELECT_CONDITION_EXPRESSION": "اختر تعبير الشرط",
+    "REQUIRED_CONDITION_EXPRESSION": "تعبير الشرط مطلوب.",
+    "FUNCTION_NAME": "اسم الدالة"
+  },
+  "FEE": {
+    "FEE_CALCULATION_TYPE": "اختر نوع حساب الرسوم",
+    "SELECT_CALC_TYPE": "اختر نوع حساب الرسوم",
+    "CALC_TYPE_REQUIRED": "نوع حساب الرسوم مطلوب.",
+    "DESCRIPTION": "الوصف",
+    "DESCRIPTION_PLACEHOLDER": "ادخل الوصف",
+    "DESCRIPTION_AR": "الوصف بالعربية",
+    "DESCRIPTION_AR_PLACEHOLDER": "ادخل الوصف بالعربية",
+    "DEFAULT_AMOUNT": "القيمة الافتراضية",
+    "DEFAULT_AMOUNT_PLACEHOLDER": "ادخل القيمة الافتراضية",
+    "DEFAULT_PERCENTAGE": "النسبة الافتراضية",
+    "DEFAULT_PERCENTAGE_PLACEHOLDER": "ادخل النسبة الافتراضية"
+  },
+  "FEE_TYPE": {
+    "SELECT_FEE_TYPE": "اختر نوع الرسوم"
+  },
+  "SME_CODE": {
+    "LOWER_LIMIT": "الحد الأدنى",
+    "UPPER_LIMIT": "الحد الأقصى",
+    "PLACEHOLDER_LOWER_LIMIT": "أدخل الحد الأدنى",
+    "PLACEHOLDER_UPPER_LIMIT": "أدخل الحد الأقصى",
+    "VALIDATION": {
+      "LOWER_LIMIT_REQUIRED": "الحد الأدنى مطلوب.",
+      "UPPER_LIMIT_REQUIRED": "الحد الأقصى مطلوب.",
+      "UPPER_LIMIT_MIN": "القيمة الدنيا هي"
+    }
+  },
+  "BRANCH_OFFICER": {
+    "OFFICER": "الضابط",
+    "PLACEHOLDER_OFFICER": "اختر الضابط",
+    "IS_CURRENT": "نشط",
+    "VALIDATION": {
+      "OFFICER_REQUIRED": "الضابط مطلوب."
+    }
+  },
+  "CLIENT": {
+    "FORM": {
+      "DESCRIPTION_INDIVIDUAL": "قدّم معلوماتك الشخصية الأساسية للمستخدمين بسرعة من خلال تعبئة التفاصيل الفردية.",
+      "DESCRIPTION_COMPANY": "قدّم معلومات شركتك الأساسية للمستخدمين بسرعة من خلال تعبئة تفاصيل الشركة"
+    },
+    "COMPANY": "شركة",
+    "INDIVIDUAL": "فرد"
+  },
+  "BUTTONS": {
+    "SUBMIT": "إرسال",
+    "SAVE_INFO": "حفظ المعلومات",
+    "ADD_BRANCH_OFFICER": "إضافة ضابط فرع",
+    "EDIT_BRANCH_OFFICER": "تعديل ضابط فرع",
+    "ADD_IDENTITY": "إضافة هوية",
+    "REMOVE_IDENTITY": "حذف الهوية",
+    "CLOSE": "إغلاق",
+    "ADD_SME_CLIENT_CODE": "إضافة كود عميل SME",
+    "EDIT_SME_CLIENT_CODE": "تعديل كود عميل SME",
+    "NEXT": "التالي",
+    "PREVIOUS": "السابق",
+    "ADD_CONDITION": "إضافة شرط",
+    "EDIT_CONDITION": "تعديل شرط",
+    "ADD_FEE_TYPE": "إضافة نوع الرسوم",
+    "ADD_NOTIFICATION_GROUP_OFFICER": "إضافة ضابط مجموعة الإشعارات",
+    "EDIT_NOTIFICATION_GROUP_OFFICER": "تعديل ضابط مجموعة الإشعارات",
+    "EDIT_FEE_TYPE": "تعديل نوع الرسوم",
+    "ADD_FEE_RANGE": "إضافة نطاق رسوم",
+    "EDIT_FEE_RANGE": "تعديل نطاق رسوم",
+    "ADD_ACTION_NOTIFICATION_GROUP": "إضافة مجموعة إشعار الإجراء",
+    "EDIT_ACTION_NOTIFICATION_GROUP": "تعديل مجموعة إشعار الإجراء",
+    "ADD_COUNTRY": "إضافة دولة",
+    "EDIT_COUNTRY": "تعديل الدولة",
+    "ADD_TAX_OFFICE": "إضافة مكتب ضرائب",
+    "EDIT_TAX_OFFICE": "تعديل مكتب الضرائب",
+    "ADD_SHARE_HOLDER": "إضافة مساهم",
+    "EDIT_SHARE_HOLDER": "تعديل المساهم",
+    "ADD_MANDATE_TERM": "إضافة بند تفويض",
+    "EDIT_MANDATE_TERM": "تعديل بند تفويض",
+    "ADD_TAX_AUTHORITY_OFFICE": "إضافة مكتب ضرائب",
+    "EDIT_TAX_AUTHORITY_OFFICE": "تعديل مكتب ضرائب",
+    "ADD_SALES_TURNOVER": "إضافة حجم المبيعات",
+    "EDIT_SALES_TURNOVER": "تعديل حجم المبيعات",
+    "ADD_OPERATION": "إضافة عملية",
+    "EDIT_OPERATION": "تعديل العملية",
+    "ADD_ROLE_CLAIM": "إضافة مطالبة الدور",
+    "EDIT_ROLE_CLAIM": "تعديل مطالبة الدور",
+    "ADD_ROLE": "إضافة دور",
+    "EDIT_ROLE": "تعديل الدور",
+    "ADD_PAGE": "إضافة صفحة",
+    "ADD_MANDATE_VALIDITY_UNIT": "إضافة وحدة صلاحية التفويض",
+    "EDIT_MANDATE_VALIDITY_UNIT": "تعديل وحدة صلاحية التفويض",
+
+    "EDIT_PAGE": "تعديل الصفحة",
+    "ADD_DOCUMENT_TYPE": "إضافة نوع المستند",
+    "EDIT_DOCUMENT_TYPE": "تعديل نوع المستند",
+    "ADD_AREA": "إضافة منطقة",
+    "EDIT_AREA": "تعديل المنطقة",
+    "ADD_SUB_SECTOR": "إضافة قطاع فرعي",
+    "EDIT_SUB_SECTOR": "تعديل القطاع الفرعي",
+    "VIEW_DOCUMENT_DETAILS": "عرض تفاصيل المستند",
+    "VIEW_SALES_TURNOVERS": "عرض حجم المبيعات",
+    "VIEW_DOCUMENT_TYPES": "عرض أنواع المستندات",
+    "VIEW_MANDATE_TERMS_DETAILS": "عرض تفاصيل شروط التفويض",
+    "VIEW_PAGE_DETAILS": "عرض تفاصيل الصفحة",
+    "VIEW_COMPANY_TYPES": "عرض أنواع الشركات",
+    "VIEW_MANDATE_FEES": "عرض رسوم التفويض",
+    "VIEW_FEES_CALCULATION_TYPE": "عرض نوع حساب الرسوم",
+    "VIEW_CLIENT_GUARANTORS": "عرض ضامني العميل",
+    "VIEW_CLIENT_IDENTITIES": "عرض هويات العميل",
+    "VIEW_COMMUNICATION_FLOW_TYPE": "عرض نوع سير الاتصال",
+    "VIEW_CALL_ACTION_TYPE": "عرض نوع إجراء المكالمة",
+    "VIEW_CLIENT_OFFICER_TYPE": "عرض نوع موظف العميل",
+    "VIEW_COMMUNICATION_TYPES": "عرض أنواع الاتصالات",
+    "VIEW_CALL_TYPES": "عرض أنواع المكالمات",
+    "VIEW_TML_OFFICER_TYPE": "عرض نوع موظف TML",
+    "VIEW_TAX_OFFICES": "عرض مكاتب الضرائب",
+    "VIEW_AREAS": "عرض المناطق",
+    "VIEW_IDENTIFICATION_TYPES": "عرض أنواع التعريف",
+    "VIEW_COUNTRIES": "عرض الدول",
+    "VIEW_WORKFLOW_ACTION_TYPES": "عرض أنواع إجراءات سير العمل",
+    "VIEW_CONDITIONS": "عرض الشروط",
+    "VIEW_GOVERNORATES": "عرض المحافظات",
+    "VIEW_ADDRESS_TYPES": "عرض أنواع العناوين",
+    "VIEW_CONDITION_EXPRESSION": "عرض تعبير الشرط",
+    "VIEW_INTEREST_TYPES": "عرض أنواع الفائدة",
+    "VIEW_AUTHORIZATION_GROUPS": "عرض مجموعات التفويض",
+    "VIEW_PHONE_TYPES": "عرض أنواع أرقام الهاتف",
+    "VIEW_AUTHORITY_OFFICES": "عرض مكاتب الهيئات",
+    "VIEW_CLIENT_TYPES": "عرض أنواع العملاء",
+    "VIEW_SUB_SECTORS": "عرض القطاعات الفرعية",
+    "VIEW_SME_CLIENT_CODE": "عرض رمز العميل للمشروعات الصغيرة",
+    "VIEW_CLIENT_STATUS_ACTIONS": "عرض إجراءات حالة العميل",
+    "VIEW_MANDATE_STATUS_ACTIONS": "عرض إجراءات حالة التفويض",
+    "VIEW_CLIENT_STATUSES": "عرض حالات العميل",
+    "VIEW_ACTION_AUTHORIZATION_GROUPS": "عرض مجموعات تفويض الإجراء",
+    "VIEW_ACTION_NOTIFICATION_GROUPS": "عرض مجموعات إشعارات الإجراء",
+    "VIEW_SECTORS": "عرض القطاعات",
+    "VIEW_PRODUCTS": "عرض المنتجات",
+    "VIEW_ASSET_TYPE_CATEGORIES": "عرض فئات نوع الأصل",
+    "VIEW_ASSET_TYPES": "عرض أنواع الأصول",
+    "VIEW_PAYMENT_TYPES": "عرض أنواع الدفع",
+    "VIEW_AUTHORIZATION_GROUP_OFFICERS": "عرض موظفي مجموعة التفويض",
+    "VIEW_NOTIFICATION_GROUP_OFFICERS": "عرض موظفي مجموعة الإشعارات",
+    "VIEW_NOTIFICATION_GROUPS": "عرض مجموعات الإشعارات",
+    "VIEW_PAYMENT_TIMING_TERMS": "عرض شروط توقيت الدفع",
+    "VIEW_PAYMENT_PERIODS": "عرض فترات الدفع",
+    "VIEW_PHONE_NUMBERS": "عرض أرقام الهاتف",
+    "VIEW_TAX_AUTHORITY": "عرض مصلحة الضرائب",
+    "VIEW_CLIENT_SHARE_HOLDERS": "عرض مساهمي العميل",
+    "VIEW_CLIENT_TML_OFFICERS": "عرض موظفي TML للعميل",
+    "VIEW_OFFICERS": "عرض الموظفين",
+    "VIEW_CONTACT_PERSONS": "عرض جهات الاتصال",
+    "VIEW_DEPARTMENT": "عرض القسم",
+    "VIEW_MANAGER": "عرض المدير",
+    "VIEW_TEAMS": "عرض الفرق",
+    "VIEW_TEAM_LEADS": "عرض قادة الفريق",
+    "VIEW_TEAM_MEMBERS": "عرض أعضاء الفريق",
+    "VIEW_ROLES": "عرض الأدوار",
+    "VIEW_OPERATIONS": "عرض العمليات",
+    "VIEW_PAGE_OPERATION": "عرض عمليات الصفحة",
+    "VIEW_OFFICER": "عرض الموظف",
+    "VIEW_SIGNATORY_OFFICER": "عرض الموظف المفوض بالتوقيع",
+    "VIEW_MANDATE_STATUSES": "عرض حالات التفويض",
+    "VIEW_INTEREST_RATE_BENCHMARKS": "عرض معايير سعر الفائدة",
+    "VIEW_FEES_TYPES": "عرض أنواع الرسوم",
+    "VIEW_FEES_RANGES": "عرض نطاقات الرسوم",
+    "ADD_BRANCH_ADDRESS": "إضافة عنوان فرع",
+    "EDIT_BRANCH_ADDRESS": "تعديل عنوان فرع",
+
+    "VIEW_GRACE_PERIOD": "عرض فترة السماح",
+    "VIEW_RENT_STRUCTURE": "عرض هيكل الإيجار",
+    "VIEW_CURRENCIES": "عرض العملات",
+    "VIEW_CURRENCY_EXCHANGE_RATES": "عرض أسعار صرف العملات",
+    "VIEW_PAYMENT_METHODS": "عرض طرق الدفع",
+    "VIEW_PAYMENT_MONTH_DAYS": "عرض أيام الشهر للدفع",
+    "VIEW_MEETING_TYPES": "عرض أنواع الاجتماعات",
+    "VIEW_INSURED_BY": "عرض الجهة المؤمنة",
+    "VIEW_LEASING_TYPE": "عرض نوع التأجير",
+    "VIEW_MANDATE_VALIDITY": "عرض صلاحية التفويض",
+    "VIEW_CLIENT_DOCUMENT": "عرض مستندات العميل",
+    "VIEW_BRANCHES": "عرض الفروع",
+    "VIEW_BRANCH_ADDRESSES": "عرض عناوين الفروع",
+    "VIEW_BRANCH_OFFICERS": "عرض موظفي الفروع",
+    "VIEW_BRANCH_MANAGERS": "عرض مديري الفروع",
+    "VIEW_BUSINESS_LINES": "عرض خطوط الأعمال",
+    "VIEW_ASSETS": "عرض الأصول"
+  },
+  "CLIENT_FORM": {
+    "BUSINESS_INFORMATION": {
+      "TITLE": "المعلومات التجارية",
+      "DESCRIPTION": "سيتم عرض هذه المعلومات علنًا"
+    },
+    "INDIVIDUAL_CORE_INFO": {
+      "DESCRIPTION": "قدم معلوماتك الأساسية الفردية بسرعة للمستخدمين عن طريق إدخال التفاصيل الفردية"
+    },
+    "LEGAL_INFORMATION": {
+      "TITLE": "المعلومات القانونية",
+      "DESCRIPTION": "سيتم عرض هذه المعلومات علنًا"
+    }
+  },
+  "LEGAL": {
+    "LEGAL_FORM_LAW": "قانون الشكل القانوني",
+    "LEGAL_FORM": "الشكل القانوني",
+    "IS_STAMP_DUTY": "رسوم دمغة؟",
+    "PLACEHOLDERS": {
+      "LEGAL_FORM_LAW": "اختر قانون الشكل القانوني",
+      "LEGAL_FORM": "اختر الشكل القانوني"
+    },
+    "ERRORS": {
+      "LEGAL_FORM_LAW_REQUIRED": "قانون الشكل القانوني مطلوب.",
+      "LEGAL_FORM_REQUIRED": "الشكل القانوني مطلوب."
+    }
+  },
+  "BUSINESS": {
+    "MAIN_SHARE": "الحصة الرئيسية",
+    "ESTABLISHED_YEAR": "سنة التأسيس",
+    "WEBSITE": "الموقع الإلكتروني",
+    "MARKET_SHARE": "الحصة السوقية ٪",
+    "LEASING": "التأجير",
+    "MANDATE": "تفويض",
+    "MARKET_SIZE": "حجم السوق",
+    "EMPLOYEES_NO": "عدد الموظفين",
+    "PLACEHOLDERS": {
+      "MAIN_SHARE": "أدخل الحصة الرئيسية",
+      "ESTABLISHED_YEAR": "أدخل سنة التأسيس",
+      "WEBSITE": "أدخل الموقع الإلكتروني",
+      "MARKET_SHARE": "أدخل الحصة السوقية",
+      "MARKET_SIZE": "أدخل حجم السوق",
+      "EMPLOYEES_NO": "أدخل عدد الموظفين"
+    },
+    "ERRORS": {
+      "NON_NEGATIVE": "لا يمكن أن تكون القيمة سالبة.",
+      "YEAR_PATTERN": "أدخل سنة صحيحة (مثال: 2005).",
+      "URL_PATTERN": "أدخل رابط موقع صحيح.",
+      "MAX_100": "لا يمكن أن تتجاوز 100٪.",
+      "MARKET_SIZE_NEG": "لا يمكن أن يكون حجم السوق سالبًا.",
+      "EMPLOYEES_NEG": "لا يمكن أن يكون عدد الموظفين سالبًا."
+    }
+  },
+  "ASSET_TYPE": {
+    "SELECT_CATEGORY": "اختر فئة نوع الأصل",
+    "PLACEHOLDER_CATEGORY": "اختر فئة الأصل",
+    "REQUIRED_CATEGORY": "فئة نوع الأصل مطلوبة.",
+    "ADD": "إضافة نوع أصل",
+    "EDIT": "تعديل نوع الأصل"
+  },
+  "COUNTRY": {
+    "COUNTRY_ID": "رمز الدولة",
+    "SELECT_COUNTRY": "اختر الدولة",
+    "COUNTRY_REQUIRED": "الدولة مطلوبة"
+  },
+  "GOVERNORATE": {
+    "ARAMEX": "أرامكس",
+    "ARAMEX_PLACEHOLDER": "اكتب",
+    "ARAMEX_REQUIRED": "أرامكس بالإنجليزية مطلوب.",
+    "ADD": "إضافة محافظة",
+    "EDIT": "تعديل المحافظة"
+  },
+  "AUTH_GROUP_OFFICER": {
+    "ADD": "إضافة مسؤول مجموعة التفويض",
+    "EDIT": "تعديل مسؤول مجموعة التفويض"
+  },
+  "CURRENCY_EXCHANGE": {
+    "EXCHANGE_RATE": "سعر الصرف",
+    "EXCHANGE_RATE_REQUIRED": "سعر الصرف مطلوب.",
+    "IS_CURRENT": "الحالي",
+    "ADD_BUTTON": "إضافة سعر صرف العملة",
+    "EDIT_BUTTON": "تعديل سعر صرف العملة"
+  },
+  "VALIDATION": {
+    "MIN_VALUE": "القيمة الدنيا للتحقق",
+    "MAX_VALUE": "القيمة القصوى للتحقق",
+    "MIN_PLACEHOLDER": "أدخل القيمة الدنيا للتحقق",
+    "MAX_PLACEHOLDER": "أدخل القيمة القصوى للتحقق",
+    "MIN_REQUIRED": "القيمة الدنيا للتحقق مطلوبة.",
+    "MAX_REQUIRED": "القيمة القصوى للتحقق مطلوبة.",
+    "MIN_VALUE_IS": "القيمة الدنيا هي {{value}}",
+    "REQUIRED": "هذا الحقل مطلوب.",
+    "DECIMAL_UP_TO_2": "أدخل رقمًا حتى خانتين عشريتين.",
+    "MIN": "الحد الأدنى المسموح هو {{min}}.",
+    "MAX": "الحد الأقصى المسموح هو {{max}}.",
+    "RANGE": "يجب أن تكون القيمة بين {{min}} و {{max}}."
+  },
+  "CURRENCY": {
+    "ISO": "رمز ISO",
+    "ISO_PLACEHOLDER": "أدخل رمز ISO",
+    "DEFAULT": "العملة الافتراضية",
+    "DEFAULT_PLACEHOLDER": "اختر العملة الافتراضية",
+    "ADD": "إضافة عملة",
+    "EDIT": "تعديل العملة",
+    "EXCHANGE_DATE": "تاريخ الصرف"
+  },
+  "FORM": {
+    "BUSINESS_ACTIVITY": "النشاط التجاري",
+    "TAX_ID": "الرقم الضريبي",
+    "SHORT_NAME": "الاسم المختصر",
+    "SECTOR": "اختر القطاع",
+    "SUB_SECTOR": "اختر القطاع الفرعي",
+    "ISCORE": "هل يوجد iScore؟",
+    "LEGAL_FORM_LAW": "قانون الشكل القانوني",
+    "LEGAL_FORM": "الشكل القانوني",
+    "STAMP_DUTY": "هل يوجد رسم دمغة؟",
+    "MAIN_SHARE": "النسبة الرئيسية",
+    "ESTABLISHED_YEAR": "سنة التأسيس",
+    "PLACEHOLDERS": {
+      "BUSINESS_ACTIVITY": "النشاط التجاري",
+      "TAX_ID": "الرقم الضريبي",
+      "SHORT_NAME": "الاسم المختصر",
+      "SECTOR": "اختر القطاع",
+      "SUB_SECTOR": "اختر القطاع الفرعي",
+      "EMAIL": "البريد الإلكتروني",
+      "JOB_TITLE": "المسمى الوظيفي",
+      "DOB": "تاريخ الميلاد",
+      "IDENTITY_NUMBER": "رقم الهوية",
+      "IDENTITY_TYPE": "اختر نوع الهوية",
+      "GENDER": "اختر النوع"
+    },
+    "ERRORS": {
+      "DATE_REQUIRED": "التاريخ مطلوب",
+      "IDENTITY_REQUIRED": "رقم الهوية مطلوب.",
+      "IDENTITY_TYPE_REQUIRED": "نوع الهوية مطلوب.",
+      "IS_MAIN_REQUIRED": "يجب تحديد ما إذا كانت الهوية رئيسية.",
+      "TAX_ID_REQUIRED": "الرقم الضريبي مطلوب.",
+      "TAX_ID_PATTERN": "يسمح فقط بالأرقام الموجبة والشرطات. التنسيق: 123-435-678.",
+      "SECTOR_REQUIRED": "القطاع مطلوب.",
+      "SUB_SECTOR_REQUIRED": "القطاع الفرعي مطلوب."
+    },
+    "WEBSITE": "الموقع الإلكتروني",
+    "MARKET_SHARE": "الحصة السوقية %",
+    "MARKET_SIZE": "حجم السوق",
+    "EMPLOYEES_NO": "عدد الموظفين",
+    "NAME_EN": "الاسم باللغة الإنجليزية",
+    "NAME_AR": "الاسم باللغة العربية",
+    "EMAIL": "البريد الإلكتروني",
+    "JOB_TITLE": "المسمى الوظيفي",
+    "DOB": "تاريخ الميلاد",
+    "GENDER": "الجنس",
+    "IDENTITY_NUMBER": "رقم الهوية",
+    "SELECT_IDENTITY": "اختر نوع الهوية",
+    "IS_MAIN": "رئيسي؟",
+    "VALIDATIONS": {
+      "REQUIRED": "مطلوب.",
+      "TAX_ID_PATTERN": "مسموح فقط بالأرقام الموجبة والشرطات. يجب أن يكون التنسيق 123-456-789.",
+      "NEGATIVE": "القيمة لا يمكن أن تكون سالبة.",
+      "MAX_100": "لا يمكن أن تتجاوز 100٪.",
+      "YEAR_PATTERN": "أدخل سنة صحيحة (مثال: 2005).",
+      "URL_PATTERN": "أدخل رابط موقع إلكتروني صحيح."
+    },
+    "LABELS": {
+      "BUSINESS_ACTIVITY": "النشاط التجاري",
+      "TAX_ID": "الرقم الضريبي",
+      "EMAIL": "البريد الإلكتروني",
+      "JOB_TITLE": "المسمى الوظيفي",
+      "DOB": "تاريخ الميلاد",
+      "GENDER": "النوع",
+      "SHORT_NAME": "الاسم المختصر",
+      "IDENTITY_NUMBER": "رقم الهوية",
+      "IDENTITY_TYPE": "اختر نوع الهوية",
+      "IS_MAIN": "رئيسي",
+      "SECTOR": "اختر القطاع",
+      "SUB_SECTOR": "اختر القطاع الفرعي",
+      "DATE": "اختر التاريخ"
+    },
+
+    "CODE2": "الرمز 2",
+    "CODE2_REQUIRED": "الرمز 2 باللغة العربية مطلوب.",
+    "CODE3": "الرمز 3",
+    "FEE_TYPE_REQUIRED": "نوع الرسوم مطلوب.",
+    "LOWER_BOUND": "الحد الأدنى",
+    "UPPER_BOUND": "الحد الأقصى",
+    "CRITERIA_FIELD": "حقل المعايير",
+    "CRITERIA_FIELD_REQUIRED": "حقل المعايير مطلوب.",
+    "DEFAULT_AMOUNT": "القيمة الافتراضية",
+    "DEFAULT_PERCENTAGE": "النسبة الافتراضية",
+
+    "PLACEHOLDER_LOWER_BOUND": "أدخل الحد الأدنى",
+    "PLACEHOLDER_UPPER_BOUND": "أدخل الحد الأقصى",
+    "PLACEHOLDER_CRITERIA_FIELD": "أدخل حقل المعايير",
+    "PLACEHOLDER_DEFAULT_AMOUNT": "أدخل القيمة الافتراضية",
+    "PLACEHOLDER_DEFAULT_PERCENTAGE": "أدخل النسبة الافتراضية",
+    "CODE3_REQUIRED": "الرمز 3 باللغة العربية مطلوب.",
+    "ADDRESS": "العنوان",
+    "ADDRESS_REQUIRED": "العنوان مطلوب.",
+    "SHARED": {
+      "LABEL_VALUE": "القيمة",
+      "PLACEHOLDER_DAY_RANGE": "أدخل قيمة بين 1 و 31",
+      "ERRORS": {
+        "VALUE_REQUIRED": "القيمة مطلوبة"
+      }
+    },
+    "MANDATE": {
+      "LABEL_CLIENT_NAME": "اسم العميل",
+
+      "PLACEHOLDER_CLIENT_NAME": "اختر اسم العميل",
+      "ERROR_CLIENT_REQUIRED": "اسم العميل مطلوب.",
+      "LABEL_VALIDITY_UNIT": "وحدة صلاحية التفويض",
+      "PLACEHOLDER_VALIDITY_UNIT": "اختر وحدة الصلاحية",
+      "ERROR_VALIDITY_UNIT_REQUIRED": "وحدة صلاحية التفويض مطلوبة.",
+      "LABEL_PRODUCT": "المنتج",
+      "PLACEHOLDER_PRODUCT": "اختر المنتج",
+      "LABEL_DATE": "التاريخ",
+      "LABEL_EXPIRATION_DATE": "تاريخ الانتهاء",
+      "LABEL_NOTES": "ملاحظات",
+      "LABEL_DESCRIPTION": "الوصف",
+      "LABEL_VALIDITY_COUNT": "مدة الصلاحية",
+      "LABEL_INDICATIVE_RENTALS": "الإيجارات الاسترشادية",
+      "LABEL_GRACE_PERIOD_COUNT": "مدة السماح",
+      "LABEL_GRACE_PERIOD_UNIT": "وحدة مدة السماح",
+      "LABEL_VALIDITY_DAYS": "مدة الصلاحية بالأيام",
+      "LABEL_PERCENT_OF_FINANCE": "نسبة التمويل",
+      "LABEL_GRACE_PERIOD_DAYS": "مدة السماح بالأيام",
+      "LABEL_PAYMENT_TIMING_TERM": "مصطلح توقيت الدفع",
+      "LABEL_RENT_STRUCTURE_TYPE": "نوع هيكل الإيجار",
+
+      "PLACEHOLDER_NOTES": "أدخل الملاحظات",
+      "PLACEHOLDER_DESCRIPTION": "أدخل الوصف",
+      "PLACEHOLDER_VALIDITY_COUNT": "أدخل مدة الصلاحية",
+      "PLACEHOLDER_INDICATIVE_RENTALS": "أدخل الإيجارات الاسترشادية",
+      "PLACEHOLDER_GRACE_PERIOD_COUNT": "أدخل مدة السماح",
+      "PLACEHOLDER_GRACE_PERIOD_UNIT": "اختر وحدة مدة السماح",
+      "PLACEHOLDER_VALIDITY_DAYS": "أدخل مدة الصلاحية بالأيام",
+      "PLACEHOLDER_PERCENT_OF_FINANCE": "أدخل نسبة التمويل",
+      "PLACEHOLDER_GRACE_PERIOD_DAYS": "أدخل مدة السماح بالأيام",
+      "PLACEHOLDER_SELECT_CURRENCY": "اختر العملة",
+      "PLACEHOLDER_SELECT_CURRENCY_EXCHANGE_RATE": "اختر سعر صرف العملة",
+      "PLACEHOLDER_SELECT_PAYMENT_TIMING_TERM": "اختر مصطلح توقيت الدفع",
+      "PLACEHOLDER_SELECT_RENT_STRUCTURE_TYPE": "اختر نوع هيكل الإيجار",
+      "FINANCIAL_ACTIVITIES.TITLE": "الأنشطة المالية",
+      "FINANCIAL_ACTIVITIES.DESCRIPTION": "حدد المعلمات المالية لهذا التفويض",
+      "FEES": "الرسوم",
+      "FEES_DESCRIPTION": "حدد الرسوم المرتبطة بهذا التفويض",
+
+      "ERROR_GRACE_PERIOD_DAYS_REQUIRED": "مدة السماح بالأيام مطلوبة.",
+      "ERROR_DATE_REQUIRED": "التاريخ مطلوب.",
+      "ERROR_EXPIRATION_DATE_REQUIRED": "تاريخ الانتهاء مطلوب.",
+      "ERROR_VALIDITY_DAYS_REQUIRED": "مدة الصلاحية بالأيام مطلوبة.",
+      "ERROR_NOTES_REQUIRED": "الملاحظات مطلوبة.",
+      "ERROR_DESCRIPTION_REQUIRED": "الوصف مطلوب.",
+      "ERROR_INTEREST_RATE_REQUIRED": "معدل الفائدة مطلوب.",
+      "ERROR_VALIDITY_COUNT_REQUIRED": "مدة الصلاحية مطلوبة.",
+      "ERROR_INSURANCE_RATE_REQUIRED": "معدل التأمين مطلوب.",
+      "ERROR_PAYMENT_TIMING_TERM_REQUIRED": "مصطلح توقيت الدفع مطلوب.",
+      "ERROR_RENT_STRUCTURE_TYPE_REQUIRED": "نوع هيكل الإيجار مطلوب.",
+      "ERROR_INDICATIVE_RENTALS_REQUIRED": "الإيجارات الاسترشادية مطلوبة.",
+      "ERROR_GRACE_PERIOD_COUNT_REQUIRED": "مدة السماح مطلوبة.",
+      "ERROR_DOWN_PAYMENT_REQUIRED": "الدفعة المقدمة مطلوبة.",
+      "ERROR_PERCENT_OF_FINANCE_REQUIRED": "نسبة التمويل مطلوبة.",
+      "ERROR_NFA_REQUIRED": " صافي الأصول مطلوب.",
+      "ERROR_YEARS_REQUIRED": "عدد السنوات مطلوب.",
+      "LABEL_ASSET_TYPE": "نوع الأصل",
+      "PLACEHOLDER_SELECT_ASSET_TYPE": "اختر نوع الأصل",
+      "ERROR_ASSET_TYPE_REQUIRED": "نوع الأصل مطلوب.",
+      "LABEL_ASSET_TYPE_DESCRIPTION": "وصف نوع الأصل",
+      "PLACEHOLDER_ASSET_TYPE_DESCRIPTION": "ادخل وصف نوع الأصل",
+      "ERROR_ASSET_TYPE_DESCRIPTION_REQUIRED": "وصف نوع الأصل مطلوب.",
+      "LABEL_OFFICER_NAME": "اسم المسؤول",
+      "PLACEHOLDER_SELECT_OFFICER": "اختر المسؤول",
+      "ERROR_OFFICER_REQUIRED": "اسم المسؤول مطلوب.",
+      "ERROR_PRODUCT_REQUIRED": "المنتج مطلوب.",
+      "LABEL_CONTACT_PERSON": "جهة الاتصال",
+      "PLACEHOLDER_SELECT_CONTACT_PERSON": "اختر جهة الاتصال",
+      "ERROR_CONTACT_PERSON_REQUIRED": "جهة الاتصال مطلوبة.",
+      "LABEL_LEASING_TYPE": "نوع التأجير",
+      "PLACEHOLDER_LEASING_TYPE": "اختر نوع التأجير",
+      "ERROR_LEASING_TYPE_REQUIRED": "نوع التأجير مطلوب.",
+      "LABEL_INSURED_BY": "الجهة المؤمنة",
+      "PLACEHOLDER_INSURED_BY": "اختر الجهة المؤمنة",
+      "ERROR_INSURED_BY_REQUIRED": "الجهة المؤمنة مطلوبة.",
+      "ERROR_TENOR_REQUIRED": "مدة السداد مطلوبة.",
+      "ERROR_TENOR_MIN": "مدة السداد يجب أن تكون إيجابية.",
+      "ERROR_INTEREST_RATE_MIN": "معدل الفائدة يجب أن يكون إيجابياً.",
+      "ERROR_INSURANCE_RATE_MIN": "معدل التأمين يجب أن يكون إيجابياً.",
+      "ERROR_DOWN_PAYMENT_MIN": "الدفعة المقدمة يجب أن تكون إيجابية.",
+      "ERROR_PERCENT_OF_FINANCE_MIN": "نسبة التمويل يجب أن تكون إيجابية.",
+      "ERROR_NFA_MIN": "صافي الأصول يجب أن يكون إيجابياً.",
+      "ERROR_YEARS_MIN": "عدد السنوات يجب أن يكون إيجابياً.",
+      "ERROR_CURRENCY_REQUIRED": "العملة مطلوبة.",
+      "ERROR_CURRENCY_EXCHANGE_RATE_REQUIRED": "سعر صرف العملة مطلوب.",
+      "ERROR_CURRENCY_EXCHANGE_RATE_MIN": "سعر صرف العملة يجب أن يكون إيجابياً.",
+      "ERROR_MANUAL_EXCHANGE_RATE_REQUIRED": "سعر الصرف اليدوي مطلوب.",
+      "ERROR_MANUAL_EXCHANGE_RATE_MIN": "سعر الصرف اليدوي يجب أن يكون إيجابياً.",
+      "ERROR_RENT_REQUIRED": "الإيجار مطلوب.",
+      "ERROR_RENT_MIN": "الإيجار يجب أن يكون إيجابياً.",
+      "ERROR_RV_PERCENT_REQUIRED": "نسبة RV مطلوبة.",
+      "ERROR_RV_PERCENT_MIN": "نسبة RV يجب أن تكون إيجابية.",
+      "ERROR_RV_AMOUNT_REQUIRED": "مبلغ RV مطلوب.",
+      "ERROR_RV_AMOUNT_MIN": "مبلغ RV يجب أن يكون إيجابياً.",
+      "ERROR_RESERVE_PAYMENT_COUNT_REQUIRED": "عدد دفعات الاحتياطي مطلوب.",
+      "ERROR_RESERVE_PAYMENT_COUNT_MIN": "عدد دفعات الاحتياطي يجب أن يكون إيجابياً.",
+      "ERROR_RESERVE_PAYMENT_AMOUNT_REQUIRED": "مبلغ دفعة الاحتياطي مطلوب.",
+      "ERROR_RESERVE_PAYMENT_AMOUNT_MIN": "مبلغ دفعة الاحتياطي يجب أن يكون إيجابياً.",
+      "ERROR_PROVISION_PERCENT_REQUIRED": "نسبة المخصص مطلوبة.",
+      "ERROR_PROVISION_PERCENT_MIN": "نسبة المخصص يجب أن تكون إيجابية.",
+      "ERROR_PROVISION_AMOUNT_REQUIRED": "مبلغ المخصص مطلوب.",
+      "ERROR_PROVISION_AMOUNT_MIN": "مبلغ المخصص يجب أن يكون إيجابياً.",
+      "ERROR_INDICATIVE_RENTALS_MIN": "الإيجارات الاسترشادية يجب أن تكون إيجابية.",
+      "ERROR_PAYMENT_PERIOD_REQUIRED": "مدة الدفع مطلوبة.",
+      "ERROR_GRACE_PERIOD_REQUIRED": "مدة السماح مطلوبة.",
+      "ERROR_INTEREST_RATE_BENCHMARK_REQUIRED": "مؤشر سعر الفائدة مطلوب.",
+      "ERROR_PAYMENT_TIME_TERM_REQUIRED": "مدة وقت الدفع مطلوبة.",
+      "ERROR_RENT_STRUCTURE_REQUIRED": "هيكل الإيجار مطلوب.",
+      "ERROR_PAYMENT_METHOD_REQUIRED": "طريقة الدفع مطلوبة.",
+      "ERROR_PAYMENT_MONTH_DAY_REQUIRED": "يوم شهر الدفع مطلوب.",
+      "ERROR_FEE_TYPE_REQUIRED": "نوع الرسوم مطلوب.",
+      "ERROR_ACTUAL_AMOUNT_REQUIRED": " المبلغ الفعلي مطلوب.",
+      "ERROR_ACTUAL_PERCENTAGE_REQUIRED": " النسبة المئوية الفعلية مطلوب."
+    },
+
+    "SHARE_HOLDER": {
+      "LABEL_NAME": "اسم المساهم",
+      "PLACEHOLDER_SELECT_NAME": "اختر المساهم",
+      "LABEL_PERCENTAGE": "نسبة المساهمة",
+      "PLACEHOLDER_PERCENTAGE": "أدخل النسبة"
+    },
+    "TAX_AUTHORITY": {
+      "LABEL_CR_EXPIRY_DATE": "تاريخ انتهاء السجل التجاري",
+      "LABEL_TAX_NUMBER": "الرقم الضريبي",
+      "PLACEHOLDER_TAX_NUMBER": "أدخل الرقم الضريبي",
+      "LABEL_TAX_OFFICE": "مكتب الضرائب",
+      "PLACEHOLDER_TAX_OFFICE": "اختر مكتب الضرائب"
+    },
+    "MANDATE_TERM": {
+      "LABEL_TERM_KEY": "رمز البند",
+      "PLACEHOLDER_TERM_KEY": "أدخل رمز البند",
+      "LABEL_DESCRIPTION": "الوصف",
+      "PLACEHOLDER_DESCRIPTION": "أدخل الوصف"
+    },
+    "OPERATION_PAGE": {
+      "LABEL_OPERATION": "العملية",
+      "PLACEHOLDER_OPERATION": "اختر العملية",
+      "ERROR_OPERATION_REQUIRED": "العملية مطلوبة.",
+      "LABEL_PAGE": "الصفحة",
+      "PLACEHOLDER_PAGE": "اختر الصفحة",
+      "ERROR_PAGE_REQUIRED": "الصفحة مطلوبة.",
+      "LABEL_IS_ACTIVE": "نشط"
+    },
+    "SALES_TURNOVER": {
+      "LABEL_AMOUNT": "المبلغ",
+      "PLACEHOLDER_AMOUNT": "أدخل المبلغ",
+      "ERROR_REQUIRED_AMOUNT": "المبلغ مطلوب.",
+      "ERROR_MIN_AMOUNT": "يجب أن يكون المبلغ موجبًا.",
+      "LABEL_DATE": "التاريخ"
+    },
+    "DOCUMENT_TYPE": {
+      "LABEL_NORMALIZED_NAME": "الاسم الموحد",
+      "PLACEHOLDER_NORMALIZED_NAME": "أدخل الاسم الموحد",
+      "VALIDATION_REQUIRED_NORMALIZED_NAME": "الاسم الموحد مطلوب."
+    },
+    "RELATED_FILE_PATH": {
+      "LABEL": "مسار الملف المرتبط",
+      "PLACEHOLDER": "أدخل مسار الملف المرتبط",
+      "ERROR_REQUIRED": "مسار الملف المرتبط مطلوب."
+    },
+    "PAYMENT_MONTH_DAY": {
+      "ADD": "إضافة يوم الدفع",
+      "EDIT": "تعديل يوم الدفع"
+    },
+    "COMPANY_TYPES": {
+      "NAME_EN": "الاسم بالإنجليزية",
+      "PLACEHOLDER_NAME_EN": "ادخل الاسم بالإنجليزية",
+      "LABEL_NAME_AR": "الاسم باللغة العربية",
+      "PLACEHOLDER_NAME_AR": "ادخل الاسم باللغة العربية",
+      "LABEL_IS_ACTIVE": "نشط",
+      "BUTTON_ADD": "إضافة نوع الشركة",
+      "BUTTON_EDIT": "تعديل نوع الشركة",
+      "ERRORS": {
+        "NAME_EN_REQUIRED": "الاسم بالإنجليزية مطلوب",
+        "NAME_AR_REQUIRED": "الاسم باللغة العربية مطلوب",
+        "NAME_AR_PATTERN": "يرجى إدخال أحرف عربية فقط"
+      }
+    },
+    "UPLOAD_DOCUMENT": {
+      "DOCUMENT_TYPE": "نوع المستند",
+      "EXPIRY_DATE": "تاريخ الانتهاء",
+      "UPLOAD_FILE": "رفع الملف",
+      "UPLOADED": "تم الرفع",
+      "PLACEHOLDER_DOCUMENT_TYPE": "اختر نوع المستند"
+    },
+    "UPLOAD_DOCUMENTS": {
+      "TITLE": "رفع المستندات",
+      "DESCRIPTION": "قم بملء تفاصيل المستند"
+    },
+    "FOLLOWUP_POINT": {
+      "TITLE": "نقطة المتابعة",
+      "DESCRIPTION": "قم بملء تفاصيل نقطة المتابعة"
+    },
+    "CLIENT_SALES_TURNOVER": {
+      "TITLE": "حجم مبيعات العميل",
+      "DESCRIPTION": "قم بملء تفاصيل حجم مبيعات العميل"
+    },
+    "MANDATE_FEE": {
+      "TITLE": "رسوم التفويض",
+      "DESCRIPTION": "قم بملء هيكل الرسوم الخاصة بالتفويض"
+    },
+    "ADDRESS_TYPE": {
+      "TITLE": "نوع العنوان",
+      "DESCRIPTION": "أدخل معلومات العنوان الأساسية بسرعة عن طريق ملء تفاصيل العنوان",
+      "ADD": "إضافة نوع عنوان",
+      "EDIT": "تعديل نوع العنوان"
+    },
+    "AREA": {
+      "TITLE": "المنطقة",
+      "DESCRIPTION": "أدخل معلومات المنطقة الأساسية بسرعة عن طريق ملء تفاصيل المنطقة"
+    },
+    "ASSET_TYPES": {
+      "TITLE": "أنواع الأصول",
+      "DESCRIPTION": "أدخل معلومات أنواع الأصول الأساسية بسرعة عن طريق ملء تفاصيل نوع الأصل"
+    },
+    "ASSETS": {
+      "TITLE": "الأصول",
+      "DESCRIPTION": "أدخل معلومات  الأصول الأساسية بسرعة عن طريق ملء تفاصيل  الأصل"
+    },
+    "VEHICLES": {
+      "TITLE": "المركبات",
+      "DESCRIPTION": "أدخل معلومات  المركبات الأساسية بسرعة عن طريق ملء تفاصيل  المركبة"
+    },
+    "AUTHORITY_OFFICES": {
+      "TITLE": "مكتب الجهة المختصة",
+      "DESCRIPTION": "أدخل معلومات مكتب الجهة المختصة الأساسية بسرعة عن طريق ملء تفاصيل المكتب"
+    },
+    "AUTH_GROUP_OFFICERS": {
+      "TITLE": "مسؤولو مجموعة التفويض",
+      "DESCRIPTION": "قم بتعيين المسؤولين إلى مجموعات تفويض محددة لتحديد صلاحيات الوصول والمسؤوليات"
+    },
+    "AUTHORIZATION_GROUP": {
+      "TITLE": "مجموعة التفويض",
+      "ERROR_REQUIRED": "مجموعة التفويض مطلوبة.",
+      "DESCRIPTION": "قم بتعريف وإدارة مجموعات التحكم في الوصول لتسهيل الصلاحيات وتدفق العمل",
+      "ADD": "إضافة مجموعة التفويض",
+      "EDIT": "تعديل مجموعة التفويض"
+    },
+    "NOTIFICATION_GROUP": {
+      "ADD": "إضافة مجموعة الإشعارات",
+      "EDIT": "تعديل مجموعة الإشعارات",
+      "LABEL": "اختر مجموعة الإشعارات",
+      "PLACEHOLDER": "اختر مجموعة الإشعارات",
+      "ERROR_REQUIRED": "مجموعة الإشعارات مطلوبة."
+    },
+    "FOLLOWUP_TYPE": {
+      "ADD": "إضافة نوع المتابعة",
+      "EDIT": "تعديل نوع المتابعة"
+    },
+    "AUTHORITY_OFFICE": {
+      "ADD": "إضافة مكتب الجهة المختصة",
+      "EDIT": "تعديل مكتب الجهة المختصة"
+    },
+    "BUSINESS_LINE": {
+      "TITLE": "خط الأعمال",
+      "DESCRIPTION": "قم بإدخال وإدارة معلومات خط الأعمال الأساسية"
+    },
+    "CALL_ACTION_TYPE": {
+      "TITLE": "نوع إجراء المكالمة",
+      "DESCRIPTION": "قم بإدخال معلومات نوع إجراء المكالمة الأساسية بسرعة عن طريق ملء التفاصيل",
+      "BUTTON_ADD": "Add Call Action Type",
+      "BUTTON_EDIT": "Edit Call Action Type"
+    },
+    "CALL_TYPE": {
+      "TITLE": "نوع المكالمة",
+      "DESCRIPTION": "قم بإدخال المعلومات الأساسية لنوع المكالمة بسرعة عن طريق ملء تفاصيل النوع",
+      "BUTTON_ADD": "إضافة نوع الاتصال",
+      "BUTTON_EDIT": "تعديل نوع الاتصال"
+    },
+    "CLIENT_OFFICER_TYPE": {
+      "TITLE": "نوع موظف العميل",
+      "DESCRIPTION": "قم بإدخال المعلومات الأساسية لنوع موظف العميل بسرعة عن طريق ملء تفاصيل النوع",
+      "BUTTON_ADD": "إضافة نوع مسؤول العميل",
+      "BUTTON_EDIT": "تعديل نوع مسؤول العميل"
+    },
+    "CLIENT_STATUSES": {
+      "TITLE": "حالات العميل",
+      "DESCRIPTION": "أدخل معلومات حالات العميل بسرعة للمستخدمين"
+    },
+    "CLIENT_STATUS_ACTIONS": {
+      "TITLE": "إجراءات حالة العميل",
+      "DESCRIPTION": "أدخل معلومات إجراءات حالة العميل الأساسية بسرعة للمستخدمين عن طريق ملء التفاصيل"
+    },
+    "CLIENT_TYPE": {
+      "TITLE": "نوع العميل",
+      "DESCRIPTION": "قم بإدخال معلومات نوع العميل الأساسية بسرعة للمستخدمين من خلال تعبئة تفاصيل نوع العميل",
+      "BUTTON_ADD": "إضافة نوع العميل",
+      "BUTTON_EDIT": "تعديل نوع العميل"
+    },
+    "COMM_FLOW_TYPE": {
+      "TITLE": "نوع تدفق الاتصال",
+      "DESCRIPTION": "قم بإدخال معلومات نوع تدفق الاتصال الأساسية بسرعة للمستخدمين من خلال تعبئة تفاصيل نوع تدفق الاتصال",
+      "BUTTON_ADD": "إضافة نوع تدفق الاتصال",
+      "BUTTON_EDIT": "تعديل نوع تدفق الاتصال"
+    },
+    "COMM_TYPE": {
+      "TITLE": "نوع الاتصال",
+      "DESCRIPTION": "قم بإدخال معلومات نوع الاتصال الأساسية بسرعة للمستخدمين من خلال تعبئة تفاصيل نوع الاتصال",
+      "BUTTON_ADD": "إضافة نوع الاتصال",
+      "BUTTON_EDIT": "تعديل نوع الاتصال"
+    },
+    "GRACE_PERIOD_UNIT": {
+      "BUTTON_ADD": "إضافة وحدة فترة السماح",
+      "BUTTON_EDIT": "تعديل وحدة فترة السماح"
+    },
+    "IDENTIFICATION_TYPE": {
+      "BUTTON_ADD": "إضافة نوع إثبات الهوية",
+      "BUTTON_EDIT": "تعديل نوع إثبات الهوية"
+    },
+    "COMPANY_TYPE": {
+      "TITLE": "نوع الشركة",
+      "DESCRIPTION": "قم بإدخال معلومات نوع الشركة الأساسية بسرعة للمستخدمين من خلال تعبئة تفاصيل نوع الشركة"
+    },
+    "CONDITION_EXPRESSION": {
+      "TITLE": "تعبير الشرط",
+      "DESCRIPTION": "قم بإدخال معلومات تعبير الشرط الأساسية بسرعة للمستخدمين من خلال تعبئة تفاصيل تعبير الشرط",
+      "LABEL_OPERATOR": "المُعامل",
+      "PLACEHOLDER_OPERATOR": "أدخل المُعامل",
+      "VALIDATION_OPERATOR_REQUIRED": "المُعامل مطلوب.",
+      "BUTTON_ADD": "إضافة تعبير الشرط",
+      "BUTTON_EDIT": "تعديل تعبير الشرط"
+    },
+    "CONDITION": {
+      "TITLE": "الشرط",
+      "DESCRIPTION": "قم بإدخال المعلومات الأساسية للشرط بسرعة للمستخدمين عن طريق تعبئة التفاصيل"
+    },
+    "COUNTRY": {
+      "TITLE": "الدولة",
+      "DESCRIPTION": "قم بإدخال المعلومات الأساسية للدولة بسرعة للمستخدمين عن طريق تعبئة التفاصيل"
+    },
+    "CURRENCY": {
+      "TITLE": "العملة",
+      "DESCRIPTION": "قم بإدخال المعلومات الأساسية للعملة بسرعة للمستخدمين عن طريق تعبئة تفاصيل العملة"
+    },
+    "CURRENCY_EXCHANGE": {
+      "TITLE": "سعر صرف العملة",
+      "DESCRIPTION": "قدّم تفاصيل سعر صرف العملة لتتبع مالي دقيق وتحويل صحيح"
+    },
+    "DOC_TYPES": {
+      "TITLE": "أنواع المستندات",
+      "DESCRIPTION": "حدد أنواع المستندات المطلوبة لهذا الإجراء أو الكيان"
+    },
+    "FEE_CALCULATION_TYPES": {
+      "TITLE": "أنواع حساب الرسوم",
+      "DESCRIPTION": "قم بتعريف طرق حساب الرسوم المختلفة"
+    },
+    "FEE_RANGES": {
+      "TITLE": "نطاقات الرسوم",
+      "DESCRIPTION": "قم بتحديد الحدود الدنيا والعليا للرسوم المطبقة"
+    },
+    "FEE_TYPES": {
+      "TITLE": "أنواع الرسوم",
+      "DESCRIPTION": "قم بتحديد أنواع الرسوم المختلفة المطبقة في سير العمل"
+    },
+    "FOLLOWUP_TYPES": {
+      "TITLE": "أنواع المتابعة",
+      "DESCRIPTION": "قم بإدخال معلومات نوع المتابعة بسرعة من خلال تعبئة تفاصيل المتابعة"
+    },
+    "GOVERNORATES": {
+      "TITLE": "المحافظات",
+      "DESCRIPTION": "قم بإدخال معلومات المحافظة بسرعة من خلال تعبئة تفاصيل المحافظة"
+    },
+    "GOVERNORATE": {
+      "LABEL_SELECT": "اختر المحافظة",
+      "PLACEHOLDER_SELECT": "اختر المحافظة",
+      "ERROR_REQUIRED": "المحافظة مطلوبة"
+    },
+    "IDENTIFICATION_TYPES": {
+      "TITLE": "أنواع الهوية",
+      "DESCRIPTION": "قم بإدخال معلومات نوع الهوية بسرعة من خلال تعبئة تفاصيل نوع الهوية"
+    },
+    "INSURED_BY": {
+      "TITLE": "جهة التأمين",
+      "DESCRIPTION": "قم بإدخال معلومات جهة التأمين بسرعة من خلال تعبئة تفاصيل جهة التأمين",
+      "BUTTON_ADD": "إضافة جهة التأمين",
+      "BUTTON_EDIT": "تعديل جهة التأمين"
+    },
+    "INTEREST_RATE_BENCHMARK": {
+      "TITLE": "المؤشر المرجعي لسعر الفائدة",
+      "DESCRIPTION": "قم بإدخال معلومات المؤشر المرجعي لسعر الفائدة بسرعة من خلال تعبئة التفاصيل",
+      "BUTTON_ADD": "إضافة معيار سعر الفائدة",
+      "BUTTON_EDIT": "تعديل معيار سعر الفائدة"
+    },
+    "INTEREST_TYPE": {
+      "TITLE": "نوع الفائدة",
+      "DESCRIPTION": "قم بإدخال معلومات نوع الفائدة بسرعة من خلال تعبئة التفاصيل",
+      "BUTTON_ADD": "إضافة نوع الفائدة",
+      "BUTTON_EDIT": "تعديل نوع الفائدة"
+    },
+    "LEASING_TYPE": {
+      "TITLE": "نوع التأجير",
+      "DESCRIPTION": "قم بإدخال معلومات نوع التأجير الأساسية بسرعة من خلال تعبئة تفاصيل النوع",
+      "BUTTON_ADD": "إضافة نوع التأجير",
+      "BUTTON_EDIT": "تعديل نوع التأجير"
+    },
+    "MANDATE_STATUSES": {
+      "TITLE": "حالات التفويض",
+      "DESCRIPTION": "أدخل معلومات حالات التفويض الخاصة بك بسرعة عن طريق تعبئة التفاصيل اللازمة"
+    },
+    "MANDATE_STATUS_ACTIONS": {
+      "TITLE": "إجراءات حالة التفويض",
+      "DESCRIPTION": "أدخل معلومات إجراءات حالة التفويض الخاصة بك بسرعة عن طريق تعبئة التفاصيل المطلوبة"
+    },
+    "MANDATE_VALIDITY_UNIT": {
+      "TITLE": "وحدة صلاحية التفويض",
+      "DESCRIPTION": "أدخل معلومات وحدة صلاحية التفويض الخاصة بك بسرعة عن طريق تعبئة التفاصيل المطلوبة"
+    },
+    "MEETING_TYPES": {
+      "TITLE": "نوع الاجتماع",
+      "DESCRIPTION": "أدخل معلومات نوع الاجتماع الأساسية بسرعة للمستخدمين عن طريق تعبئة تفاصيل نوع الاجتماع"
+    },
+    "MEETING_TYPE": {
+      "BUTTON_ADD": "إضافة نوع الاجتماع",
+      "BUTTON_EDIT": "تعديل نوع الاجتماع"
+    },
+    "NOTIFICATION_GROUP_OFFICERS": {
+      "TITLE": "ضباط مجموعة الإشعارات",
+      "DESCRIPTION": "قم بإدخال معلومات ضباط مجموعة الإشعارات بسرعة عن طريق تعبئة البيانات المطلوبة للضابط والمجموعة"
+    },
+    "NOTIFICATION_GROUPS": {
+      "TITLE": "مجموعات الإشعارات",
+      "DESCRIPTION": "قم بإدخال معلومات مجموعة الإشعارات بسرعة عن طريق تعبئة تفاصيل المجموعة"
+    },
+    "PAYMENT_METHODS": {
+      "TITLE": "طرق الدفع",
+      "DESCRIPTION": "قم بإدخال معلومات طريقة الدفع بسرعة عن طريق تعبئة تفاصيل الطريقة"
+    },
+    "PAYMENT_METHOD": {
+      "BUTTON_ADD": "إضافة وسيلة دفع",
+      "BUTTON_EDIT": "تعديل وسيلة الدفع"
+    },
+    "PAYMENT_MONTH_DAYS": {
+      "TITLE": "أيام دفع الشهر",
+      "DESCRIPTION": "قم بإدخال معلومات أيام الدفع في الشهر بسرعة عن طريق تعبئة التفاصيل"
+    },
+    "PAYMENT_PERIODS": {
+      "TITLE": "فترات الدفع",
+      "DESCRIPTION": "قم بإدخال معلومات فترة الدفع بسرعة عن طريق تعبئة التفاصيل"
+    },
+    "PAYMENT_TIMING_TERMS": {
+      "TITLE": "شروط توقيت الدفع",
+      "DESCRIPTION": "أدخل معلومات شروط توقيت الدفع بوضوح عن طريق تعبئة البيانات المطلوبة"
+    },
+    "PAYMENT_TIMING_TERM": {
+      "BUTTON_ADD": "إضافة شرط توقيت الدفع",
+      "BUTTON_EDIT": "تعديل شرط توقيت الدفع",
+      "LABEL_MONTH_COUNT": "عدد الأشهر",
+      "PLACEHOLDER_MONTH_COUNT": "أدخل عدد الأشهر"
+    },
+    "PAYMENT_PERIOD": {
+      "BUTTON_ADD": "إضافة فترة السداد",
+      "BUTTON_EDIT": "تعديل فترة السداد"
+    },
+    "PAYMENT_TYPES": {
+      "TITLE": "أنواع الدفع",
+      "DESCRIPTION": "قم بإدخال المعلومات الأساسية لنوع الدفع من خلال تعبئة تفاصيل نوع الدفع"
+    },
+    "PAYMENT_TYPE": {
+      "BUTTON_ADD": "إضافة نوع الدفع",
+      "BUTTON_EDIT": "تعديل نوع الدفع"
+    },
+    "GRACE_PERIOD_UNITS": {
+      "TITLE": "وحدات فترة السماح",
+      "DESCRIPTION": "قم بإدخال المعلومات الأساسية لوحدة فترة السماح من خلال تعبئة تفاصيل الوحدة"
+    },
+    "PHONE_TYPES": {
+      "TITLE": "أنواع أرقام الهاتف",
+      "DESCRIPTION": "قم بإدخال المعلومات الأساسية لنوع الهاتف من خلال تعبئة تفاصيل النوع"
+    },
+    "PHONE_TYPE": {
+      "BUTTON_ADD": "إضافة نوع الهاتف",
+      "BUTTON_EDIT": "تعديل نوع الهاتف"
+    },
+    "PRODUCTS": {
+      "TITLE": "المنتجات",
+      "DESCRIPTION": "قم بإدخال المعلومات الأساسية للمنتج بسرعة عن طريق تعبئة تفاصيل المنتج"
+    },
+    "RENT_STRUCTURE_TYPES": {
+      "TITLE": "أنواع هيكل الإيجار",
+      "DESCRIPTION": "قم بإدخال المعلومات الأساسية لنوع هيكل الإيجار بسرعة عن طريق تعبئة التفاصيل"
+    },
+    "RENT_STRUCTURE_TYPE": {
+      "BUTTON_ADD": "إضافة نوع هيكل الإيجار",
+      "BUTTON_EDIT": "تعديل نوع هيكل الإيجار"
+    },
+    "SECTORS": {
+      "TITLE": "القطاعات",
+      "DESCRIPTION": "قم بإدخال المعلومات الأساسية للقطاع بسرعة عن طريق تعبئة التفاصيل",
+      "BUTTON_ADD": "إضافة قطاع",
+      "BUTTON_EDIT": "تعديل القطاع"
+    },
+    "TML_OFFICER_TYPES": {
+      "BUTTON_ADD": "إضافة نوع موظف TML",
+      "BUTTON_EDIT": "تعديل نوع موظف TML"
+    },
+    "SME_CLIENT_CODES": {
+      "TITLE": "رمز العميل للمشروعات الصغيرة",
+      "DESCRIPTION": "قم بإدخال المعلومات الأساسية لرمز العميل للمشروعات الصغيرة عن طريق تعبئة التفاصيل"
+    },
+    "SUB_SECTORS": {
+      "TITLE": "القطاع الفرعي",
+      "DESCRIPTION": "قم بإدخال المعلومات الأساسية للقطاع الفرعي عن طريق تعبئة التفاصيل",
+      "LABEL_SECTOR": "اختر القطاع",
+      "PLACEHOLDER_SECTOR": "اختر القطاع",
+      "ERROR_SECTOR_REQUIRED": "حقل القطاع مطلوب"
+    },
+    "TAX_OFFICES": {
+      "TITLE": "مكتب الضرائب",
+      "DESCRIPTION": "قم بإدخال المعلومات الأساسية لمكتب الضرائب عن طريق تعبئة التفاصيل"
+    },
+    "TML_OFFICER_TYPE": {
+      "TITLE": "نوع موظف TML",
+      "DESCRIPTION": "أدخل المعلومات الأساسية لنوع موظف TML من خلال تعبئة التفاصيل"
+    },
+    "WORKFLOW_ACTION_TYPE": {
+      "TITLE": "نوع إجراء سير العمل",
+      "DESCRIPTION": "أدخل المعلومات الأساسية لنوع إجراء سير العمل من خلال تعبئة التفاصيل",
+      "ADD": "إضافة نوع إجراء سير العمل",
+      "EDIT": "تعديل نوع إجراء سير العمل"
+    },
+    "FEE_CALCULATION_TYPE": {
+      "ADD": "إضافة نوع حساب الرسوم",
+      "EDIT": "تعديل نوع حساب الرسوم"
+    },
+    "BRANCH_MANAGER": {
+      "TITLE": "مدير الفرع",
+      "DESCRIPTION": "قم بإضافة أو تعديل بيانات مدير الفرع من خلال تعبئة التفاصيل المطلوبة"
+    },
+    "BRANCH_OFFICER": {
+      "TITLE": "موظف الفرع",
+      "DESCRIPTION": "قم بإضافة أو تعديل بيانات موظف الفرع من خلال تعبئة التفاصيل المطلوبة"
+    },
+    "BRANCH": {
+      "TITLE": "الفرع",
+      "DESCRIPTION": "قم بإدخال معلومات الفرع الأساسية بسرعة من خلال تعبئة تفاصيل الفرع",
+      "ADD": "إضافة فرع",
+      "EDIT": "تعديل الفرع"
+    },
+    "COMMON": {
+      "FIELD_NAME": "اسم الحقل",
+      "PLACEHOLDER_FIELD_NAME": "أدخل اسم الحقل",
+      "VALIDATION_FIELD_NAME_REQUIRED": "اسم الحقل مطلوب.",
+      "PLACEHOLDER_VALUE": "أدخل القيمة"
+    },
+    "DEPARTMENT_MANAGER": {
+      "TITLE": "مدير الإدارة",
+      "DESCRIPTION": "قم بإدخال معلومات مدير الإدارة بسرعة من خلال تعبئة تفاصيل المدير"
+    },
+    "DEPARTMENT": {
+      "TITLE": "الإدارة",
+      "DESCRIPTION": "قم بإدخال معلومات الإدارة بسرعة من خلال تعبئة تفاصيل الإدارة"
+    },
+    "OFFICER": {
+      "TITLE": "الموظف",
+      "DESCRIPTION": "قم بإدخال معلومات الموظف بسرعة من خلال تعبئة تفاصيل الموظف",
+      "LABEL": "اختر الموظف",
+      "PLACEHOLDER": "اختر الموظف",
+      "ERROR_REQUIRED": "الموظف مطلوب."
+    },
+    "SIGNATORY_OFFICER": {
+      "TITLE": "الموظف المخول بالتوقيع",
+      "DESCRIPTION": "قم بإدخال معلومات الموظف المخول بالتوقيع بسرعة من خلال تعبئة تفاصيله"
+    },
+    "OPERATION": {
+      "TITLE": "العملية",
+      "DESCRIPTION": "قم بإدخال المعلومات الأساسية للعملية بسرعة من خلال تعبئة تفاصيل العملية"
+    },
+    "PAGE_OPERATION": {
+      "TITLE": "عملية الصفحة",
+      "DESCRIPTION": "قم بإدخال المعلومات الأساسية لعملية الصفحة بسرعة من خلال تعبئة تفاصيلها"
+    },
+    "TEAM_MEMBER": {
+      "TITLE": "عضو الفريق",
+      "DESCRIPTION": "قم بإدخال المعلومات الأساسية لعضو الفريق بسرعة من خلال تعبئة التفاصيل اللازمة"
+    },
+    "TEAM_LEAD": {
+      "TITLE": "مسؤول قائد الفريق",
+      "DESCRIPTION": "قم بإدخال المعلومات الأساسية لمسؤول قائد الفريق بسرعة من خلال تعبئة التفاصيل اللازمة"
+    },
+    "TEAM": {
+      "TITLE": "الفريق",
+      "DESCRIPTION": "قم بإدخال المعلومات الأساسية للفريق بسرعة من خلال تعبئة تفاصيل الشركة"
+    },
+    "ROLE": {
+      "TITLE": "الدور",
+      "DESCRIPTION": "قم بإدخال المعلومات الأساسية للدور بسرعة من خلال تعبئة تفاصيله"
+    },
+    "PAGE": {
+      "TITLE": "الصفحة",
+      "DESCRIPTION": "قم بإدخال المعلومات الأساسية للصفحة بسرعة من خلال تعبئة تفاصيلها",
+      "LABEL_URL": "الرابط",
+      "PLACEHOLDER_URL": "أدخل الرابط",
+      "ERROR_REQUIRED_URL": "الرابط مطلوب.",
+
+      "LABEL_DESCRIPTION": "الوصف",
+      "PLACEHOLDER_DESCRIPTION": "أدخل الوصف",
+      "ERROR_DESCRIPTION_REQUIRED": "الوصف مطلوب."
+    }
+  },
+  "GENDER": {
+    "MALE": "ذكر",
+    "FEMALE": "أنثى"
+  }
+}

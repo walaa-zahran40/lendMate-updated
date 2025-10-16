@@ -1,29 +1,59 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { CompanyTypesState } from './fee-calculation-types.state';
+import * as fromSlice from './fee-calculation-types.reducer';
+import { adapter, State } from './fee-calculation-types.state';
 
-export const selectCompanyTypesState =
-  createFeatureSelector<CompanyTypesState>('companyTypes');
-export const selectCompanyTypes = createSelector(
-  selectCompanyTypesState,
-  (state) => state.items
+export const selectFeature = createFeatureSelector<State>(
+  'feeCalculationTypes'
 );
-export const selectCompanyTypesTotal = createSelector(
-  selectCompanyTypesState,
-  (state) => state.totalCount
+export const selectFeeCalculationTypesFeature = createFeatureSelector<State>(
+  'feeCalculationTypes'
 );
-export const selectCompanyTypesHistory = createSelector(
-  selectCompanyTypesState,
-  (state) => state.history
+
+// these come from your EntityAdapter
+const { selectEntities } = adapter.getSelectors(
+  selectFeeCalculationTypesFeature
 );
-export const selectCurrentCompanyType = createSelector(
-  selectCompanyTypesState,
-  (state) => state.current
+
+export const selectAllFeeCalculationTypes = createSelector(
+  selectFeature,
+  fromSlice.selectAll
 );
-export const selectCompanyTypesLoading = createSelector(
-  selectCompanyTypesState,
+export const selectAreaEntities = createSelector(
+  selectFeature,
+  fromSlice.selectEntities
+);
+export const selectFeeCalculationTypesLoading = createSelector(
+  selectFeature,
   (state) => state.loading
 );
-export const selectCompanyTypesError = createSelector(
-  selectCompanyTypesState,
+export const selectFeeCalculationTypesError = createSelector(
+  selectFeature,
   (state) => state.error
+);
+
+export const selectLoadedId = createSelector(
+  selectFeature,
+  (state) => state.loadedId
+);
+
+export const selectCurrent = createSelector(
+  selectEntities,
+  selectLoadedId,
+  (entities, id) => (id != null ? entities[id] : null)
+);
+export const selectFeeCalculationTypesTotalCount = createSelector(
+  selectFeeCalculationTypesFeature,
+  (state) => state
+);
+// History management selectors
+export const selectFeeCalculationTypeHistoryState =
+  createFeatureSelector<State>('feeCalculationTypes');
+
+export const selectFeeCalculationTypeHistory = createSelector(
+  selectFeeCalculationTypeHistoryState,
+  (state) => state.history
+);
+export const selectHistoryLoaded = createSelector(
+  selectFeeCalculationTypeHistoryState,
+  (state) => state.historyLoaded
 );

@@ -1,0 +1,194 @@
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subject, combineLatest, takeUntil, forkJoin } from 'rxjs';
+import { TableComponent } from '../../../../../../../../../shared/components/table/table.component';
+import { DocTypesFacade } from '../../../../../../../../lookups/store/doc-types/doc-types.facade';
+import { ClientFile } from '../../../../../../store/client-file/client-file.model';
+import { ClientFilesFacade } from '../../../../../../store/client-file/client-files.facade';
+
+@Component({
+  selector: 'app-view-upload-documents',
+  standalone: false,
+  templateUrl: './view-upload-documents.component.html',
+  styleUrl: './view-upload-documents.component.scss',
+})
+export class ViewUploadDocumentsComponent implements OnInit, OnDestroy {
+  @ViewChild('tableRef') tableRef!: TableComponent;
+  documents$ = this.facade.files$;
+  private destroy$ = new Subject<void>();
+
+  clientId = this.route.snapshot.params['clientId'];
+  originalDocuments: ClientFile[] = [];
+  filteredDocuments: any[] = [];
+  first2 = 0;
+  showFilters = false;
+  showDeleteModal = false;
+  selectedDocumentId: number | null = null;
+
+  readonly colsInside = [
+    { field: 'fileName', header: 'File Name' },
+    { field: 'fileType', header: 'File Type' },
+    { field: 'expiryDate', header: 'Expiry Date', pipe: 'date:"YYYY-MM-DD"' },
+  ];
+  documentTypes: any[] = [];
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private facade: ClientFilesFacade,
+    private documentTypeFacade: DocTypesFacade
+  ) {
+    console.log('[ctor] raw queryParams id=', this.clientId);
+  }
+
+  ngOnInit(): void {
+    console.log('[ngOnInit] snapshot.params=', this.route.snapshot.params);
+
+    this.clientId =
+      this.route.snapshot.params['clientId'] ??
+      this.route.snapshot.queryParams['id'];
+    console.log('[ngOnInit] resolved clientId=', this.clientId);
+
+    this.facade.loadByClientId(this.clientId);
+    console.log('[ngOnInit] facade.loadOne called for', this.clientId);
+
+    this.documentTypes = this.route.snapshot.data['docTypes'] ?? [];
+    console.log('[ngOnInit] resolved docTypes=', this.documentTypes);
+    // Normalize ids to number
+    this.documentTypes = (this.documentTypes ?? []).map((t) => ({
+      ...t,
+      id: Number((t as any).id), // force numeric
+    }));
+    console.log(
+      '[view-upload] normalized docTypes ids =',
+      this.documentTypes.map((t) => t.id)
+    );
+    combineLatest([this.facade.files$])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(([docs]) => {
+        const sorted = [...docs].sort((a, b) => b.id! - a.id!);
+        this.filteredDocuments = sorted.map((doc) => {
+          const typeId = (doc as any).documentTypeId ?? (doc as any).docTypeId; // be forgiving
+          return {
+            ...doc,
+            fileType: this.getFileTypeName(typeId),
+            expiryDate: doc.expiryDate ?? '',
+          };
+        });
+
+        this.originalDocuments = [...this.filteredDocuments];
+      });
+  }
+  ngOnDestroy() {
+    console.log('[ngOnDestroy] cleaning up');
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+  getFileTypeName(fileTypeId: any): string {
+    const idNum = Number(fileTypeId);
+    const match = this.documentTypes.find(
+      (t) => Number((t as any).id) === idNum
+    );
+
+    if (!match) {
+      console.warn('[getFileTypeName] no match', {
+        fileTypeId,
+        idNum,
+        docTypesIds: this.documentTypes.map((t) => t.id),
+      });
+      return 'N/A';
+    }
+    return (match as any).name ?? 'N/A';
+  }
+
+  onAddDocument() {
+    console.log(
+      '[onAddDocument] navigating to add-upload-documents',
+      this.clientId
+    );
+    this.router.navigate(['/crm/clients/add-upload-documents', this.clientId]);
+  }
+
+  onDeleteDocument(documentId: number): void {
+    console.log('[onDeleteDocument] documentId=', documentId);
+    this.selectedIds = [documentId];
+    this.showDeleteModal = true;
+  }
+
+  cancelDelete() {
+    console.log('[cancelDelete]');
+    this.resetDeleteModal();
+  }
+
+  resetDeleteModal() {
+    console.log(
+      '[resetDeleteModal] hiding modal and clearing selectedDocumentId'
+    );
+    this.showDeleteModal = false;
+    this.selectedDocumentId = null;
+  }
+
+  onEditDocument(doc: any) {
+    console.log('[onEditDocument] doc=', doc);
+    this.router.navigate(
+      ['/crm/clients/edit-upload-documents', this.clientId, doc.id],
+      { queryParams: { mode: 'edit' } }
+    );
+  }
+
+  onSearch(keyword: string) {
+    console.log('[onSearch] keyword=', keyword);
+    const lower = keyword.toLowerCase();
+    this.filteredDocuments = this.originalDocuments.filter((d) =>
+      Object.values(d).some((v) => v?.toString().toLowerCase().includes(lower))
+    );
+    console.log('[onSearch] filteredDocuments=', this.filteredDocuments);
+  }
+
+  onToggleFilters(val: boolean) {
+    console.log('[onToggleFilters] showFilters=', val);
+    this.showFilters = val;
+  }
+
+  onAddSide(_documentId: any) {
+    console.log('[onAddSide] reopening client wizard for', this.clientId);
+    this.router.navigate([
+      '/crm/clients/client-activity-wizard',
+      this.clientId,
+    ]);
+  }
+  onViewDocument(doc: any) {
+    console.log('[onViewDocument] doc=', doc);
+    this.router.navigate(
+      ['/crm/clients/view-documents', this.clientId, doc.id],
+      { queryParams: { mode: 'view' } }
+    );
+  }
+  selectedIds: number[] = [];
+  confirmDelete() {
+    const deleteCalls = this.selectedIds.map((id) =>
+      this.facade.delete(id, this.clientId)
+    );
+
+    forkJoin(deleteCalls).subscribe({
+      next: () => {
+        this.selectedIds = [];
+        this.showDeleteModal = false; // CLOSE MODAL HERE
+        this.refreshCalls();
+      },
+      error: (err) => {
+        this.showDeleteModal = false; // STILL CLOSE IT
+      },
+    });
+  }
+
+  refreshCalls() {
+    this.facade.loadAll();
+    this.documents$ = this.facade.files$;
+  }
+  onBulkDelete(ids: number[]) {
+    // Optionally confirm first
+    this.selectedIds = ids;
+    this.showDeleteModal = true;
+  }
+}

@@ -1,0 +1,28 @@
+<app-toolbar-form
+  [header]="
+    viewOnly
+      ? 'View TML Officer Type'
+      : editMode
+      ? 'Edit TML Officer Type'
+      : 'Add TML Officer Type'
+  "
+  [backExists]="true"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-form
+        *ngIf="addTmlOfficerTypesLookupsForm"
+        [title]="'FORM.TML_OFFICER_TYPE.TITLE'"
+        [description]="'FORM.TML_OFFICER_TYPE.DESCRIPTION'"
+        [formGroup]="addTmlOfficerTypesLookupsForm"
+        [addTmlOfficerTypeLookupsForm]="true"
+        [editMode]="editMode"
+        (submitForm)="addOrEditTmlOfficerTypes()"
+        [viewOnly]="viewOnly"
+      ></app-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

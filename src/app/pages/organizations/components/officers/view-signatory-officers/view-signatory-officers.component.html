@@ -1,0 +1,49 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/SignatoryOfficers/Post'"
+    [title]="'Signatory Officers'"
+    [labelBtn]="'Add Signatory Officer'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddSignatoryOfficer()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <!-- subscribe once to branches$ -->
+  <ng-container *ngIf="signatoryOfficers$ | async as signatoryOfficers">
+    <app-table
+      [viewPermission]="[
+        '/SignatoryOfficers/Get',
+        '/SignatoryOfficers/GetAll',
+        '/SignatoryOfficers/GetAllHistory'
+      ]"
+      [editPermission]="'/SignatoryOfficers/Put'"
+      [deletePermission]="'/SignatoryOfficers/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredSignatoryOfficers"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewSignatoryOfficersTable]="true"
+      (onDelete)="onDeleteSignatoryOfficerId($event)"
+      (onEdit)="onEditSignatoryOfficer($event)"
+      (viewForm)="onViewSignatoryOfficer($event)"
+    ></app-table>
+
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

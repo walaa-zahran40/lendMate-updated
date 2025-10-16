@@ -1,0 +1,49 @@
+<app-toolbar-form
+  [backExists]="true"
+  [backIcon]="'back-icon'"
+  [viewOnly]="false"
+  [header]="
+    viewOnly
+      ? 'View Evaluation Information'
+      : editMode
+      ? 'Edit Evaluation Information'
+      : 'Add Evaluation Information'
+  "
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-add-evaluation-info-form
+        [description]="'Evaluation Info'"
+        [addEvaluationInfoForm]="true"
+        [formGroup]="addEvaluationInformationForm"
+        (submitForm)="addOrEditEvaluationInformation()"
+        [evaluators]="evaluators$ | async"
+        [editMode]="editMode"
+        [viewOnly]="viewOnly"
+      ></app-add-evaluation-info-form>
+      <div
+        class="col-sm-6 d-flex mt-5 justify-end float-right margin-top p-0 w-100"
+      >
+        <p-button
+          *ngIf="viewOnly"
+          class="custom-save m-0"
+          label="Close"
+          (click)="close()"
+        >
+        </p-button>
+
+        <!-- Save right away when there is NO step 2 (Property) -->
+        <p-button
+          *ngIf="!viewOnly"
+          class="custom-save m-0"
+          [label]="'BUTTONS.SAVE_INFO' | translate"
+          [disabled]="addEvaluationInformationForm.invalid"
+          (click)="addOrEditEvaluationInformation()"
+        >
+        </p-button>
+      </div>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

@@ -1,0 +1,48 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/ApplicationRoles/Post'"
+    [title]="'Roles'"
+    [labelBtn]="'Add Role'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddRole()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="roles$ | async as roles">
+    <app-table
+      [viewPermission]="[
+        '/ApplicationRoles/Get',
+        '/ApplicationRoles/GetAll',
+        '/ApplicationRoles/GetAllHistory'
+      ]"
+      [editPermission]="'/ApplicationRoles/Put'"
+      [deletePermission]="'/ApplicationRoles/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredRoles"
+      [side]="true"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewRolesTable]="true"
+      (onDelete)="onDeleteRole($event)"
+      (onEdit)="onEditRole($event)"
+      (viewForm)="onViewRole($event)"
+      (wizardBtn)="onAddSide($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

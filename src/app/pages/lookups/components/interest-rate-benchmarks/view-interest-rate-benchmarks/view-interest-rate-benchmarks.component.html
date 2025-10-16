@@ -1,0 +1,49 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/InterestRateBenchmarks/Post'"
+    [title]="'Interest Rate Benchmarks'"
+    [labelBtn]="'Add Interest Rate Benchmark'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddInterestRateBenchmark()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container
+    *ngIf="InterestRateBenchmarks$ | async as InterestRateBenchmarks"
+  >
+    <app-table
+      [viewPermission]="[
+        '/InterestRateBenchmarks/Get',
+        '/InterestRateBenchmarks/GetAll',
+        '/InterestRateBenchmarks/GetAllHistory'
+      ]"
+      [editPermission]="'/InterestRateBenchmarks/Put'"
+      [deletePermission]="'/InterestRateBenchmarks/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredInterestRateBenchmarks"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [ViewInterestRateBenchmarksTable]="true"
+      (onDelete)="onDeleteInterestRateBenchmark($event)"
+      (onEdit)="onEditInterestRateBenchmark($event)"
+      (viewForm)="onViewInterestRateBenchmark($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

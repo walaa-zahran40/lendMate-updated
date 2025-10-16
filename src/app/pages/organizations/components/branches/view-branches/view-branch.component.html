@@ -1,0 +1,50 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/Branches/Post'"
+    [title]="'Branches'"
+    [labelBtn]="'Add Branch'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddBranch()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <!-- subscribe once to branches$ -->
+  <ng-container *ngIf="branches$ | async as branches">
+    <app-table
+      [viewPermission]="[
+        '/Branches/Get',
+        '/Branches/GetAll',
+        '/Branches/GetAllHistory'
+      ]"
+      [editPermission]="'/Branches/Put'"
+      [deletePermission]="'/Branches/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredBranches"
+      [side]="true"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewBranchesTable]="true"
+      (onDelete)="onDeleteBranchId($event)"
+      (onEdit)="onEditBranch($event)"
+      (viewForm)="onViewBranch($event)"
+      (wizardBtn)="onAddSide($event)"
+    ></app-table>
+
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

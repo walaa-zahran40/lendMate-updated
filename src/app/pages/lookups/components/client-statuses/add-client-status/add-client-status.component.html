@@ -1,0 +1,28 @@
+<app-toolbar-form
+  [header]="
+    viewOnly
+      ? 'View Client Status'
+      : editMode
+      ? 'Edit Client Status'
+      : 'Add Client Status'
+  "
+  [backExists]="true"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-form
+        *ngIf="addClientStatusesLookupsForm"
+        [title]="'FORM.CLIENT_STATUSES.TITLE'"
+        [description]="'FORM.CLIENT_STATUSES.DESCRIPTION'"
+        [formGroup]="addClientStatusesLookupsForm"
+        [addClientStatusesLookupsForm]="true"
+        [editMode]="editMode"
+        (submitForm)="addOrEditClientStatuses()"
+        [viewOnly]="viewOnly"
+      ></app-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

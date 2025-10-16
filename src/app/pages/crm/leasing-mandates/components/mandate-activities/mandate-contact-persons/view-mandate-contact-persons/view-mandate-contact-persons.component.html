@@ -1,0 +1,48 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/MandateAdditionalTerms/Post'"
+    [title]="'Mandate Contact Persons'"
+    [labelBtn]="'Add Mandate Contact Person'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddMandateContactPerson()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="mandateContactPersons$ | async">
+    <app-table
+      [viewPermission]="[
+        '/MandateAdditionalTerms/Get',
+        '/MandateAdditionalTerms/GetAll',
+        '/MandateAdditionalTerms/GetAllHistory'
+      ]"
+      [editPermission]="'/MandateAdditionalTerms/Put'"
+      [deletePermission]="'/MandateAdditionalTerms/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredMandateContactPersons"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewMandateContactPersonsTable]="true"
+      (onDelete)="onDeleteMandateContactPerson($event)"
+      (onEdit)="onEditMandateContactPerson($event)"
+      (viewForm)="onViewMandateContactPerson($event)"
+    ></app-table>
+
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

@@ -1,0 +1,46 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/ClientTMLOfficer/Post'"
+    [title]="'Client TML Officers'"
+    [labelBtn]="'Add Client TML Officer'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddTMLOfficer()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+  <ng-container *ngIf="tmlOfficers$ | async as tmlOfficers">
+    <app-table
+      [viewPermission]="[
+        '/ClientTMLOfficer/Get',
+        '/ClientTMLOfficer/GetAll',
+        '/ClientTMLOfficer/GetAllHistory'
+      ]"
+      [editPermission]="'/ClientTMLOfficer/Put'"
+      [deletePermission]="'/ClientTMLOfficer/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredTMLOfficers"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewTMLOfficerTable]="true"
+      (onDelete)="onDeleteTMLOfficer($event)"
+      (onEdit)="onEditTMLOfficer($event)"
+      (viewForm)="onViewTMLOfficer($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

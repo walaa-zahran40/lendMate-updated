@@ -1,0 +1,46 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/Currencies/Post'"
+    [title]="'Currencies'"
+    [labelBtn]="'Add Currency'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddCurrency()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+  <app-table
+    [viewPermission]="[
+      '/Currencies/Get',
+      '/Currencies/GetAll',
+      '/Currencies/GetAllHistory'
+    ]"
+    [editPermission]="'/Currencies/Put'"
+    [deletePermission]="'/Currencies/Delete'"
+    #tableRef
+    (onBulkDelete)="onBulkDelete($event)"
+    [cols]="colsInside"
+    [tableData]="filteredCurrencies"
+    [side]="true"
+    [first]="first2"
+    [checkBox]="true"
+    [filters]="showFilters"
+    [uppercase]="'uppercase'"
+    [viewCurrenciesTable]="true"
+    (onDelete)="onDeleteCurrency($event)"
+    (onEdit)="onEditCurrency($event)"
+    (viewForm)="onViewCurrency($event)"
+    (wizardBtn)="onAddSide($event)"
+  ></app-table>
+
+  <app-delete-module
+    [visible]="showDeleteModal"
+    (confirm)="confirmDelete()"
+    (cancel)="cancelDelete()"
+  />
+</div>

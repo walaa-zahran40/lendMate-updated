@@ -1,0 +1,47 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/IdentificationTypes/Post'"
+    [title]="'Identification Types'"
+    [labelBtn]="'Add Identification Type'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddIdentificationType()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="IdentificationTypes$ | async as IdentificationTypes">
+    <app-table
+      [viewPermission]="[
+        '/IdentificationTypes/Get',
+        '/IdentificationTypes/GetAll',
+        '/IdentificationTypes/GetAllHistory'
+      ]"
+      [editPermission]="'/IdentificationTypes/Put'"
+      [deletePermission]="'/IdentificationTypes/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredIdentificationType"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewIdentificationTypesTable]="true"
+      (onDelete)="onDeleteIdentificationType($event)"
+      (onEdit)="onEditIdentificationType($event)"
+      (viewForm)="onViewIdentificationType($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

@@ -1,0 +1,241 @@
+<form [formGroup]="parentForm" (ngSubmit)="onSubmit()" class="zoom">
+  <!-- Progress bar -->
+  <div class="step-progress mb-4">
+    <div
+      class="step-progress__thumb"
+      [style.width.%]="segmentWidth"
+      [style.left.%]="thumbLeft"
+    ></div>
+  </div>
+  <!-- Step indicators (discrete "stepper" look) -->
+  <div class="mb-3">
+    <ul class="stepper d-flex justify-content-between list-unstyled px-1">
+      <li
+        *ngFor="let s of steps"
+        [class.active]="s <= currentStep"
+        class="text-center flex-fill"
+      >
+        <!-- <div class="circle mx-auto">{{ s }}</div> -->
+        <p class="d-block">
+          {{ stepTitles[s - 1] }}
+        </p>
+      </li>
+    </ul>
+  </div>
+  <!-- STEP 1: Basic -->
+  <div [hidden]="currentStep !== 1">
+    <app-agreement-main-information-form
+      [title]="'AGREEMENT.MAIN_INFORMATION_TITLE'"
+      [description]="'AGREEMENT.MAIN_INFORMATION_DESC'"
+      [addAgreementShowMainInformationForm]="true"
+      [formGroup]="addAgreementShowMainInformationForm"
+      [show]="show"
+      [editShow]="editShow"
+      [editMode]="editMode"
+      [viewOnly]="viewOnly"
+      [clientNames]="clientNames$ | async"
+      [leasingTypes]="leasingTypes$ | async"
+      [insuredBy]="insuredBy$ | async"
+      [branches]="branches$ | async"
+      [portfolios]="portfolios$ | async"
+      [businessSources]="businessSources$ | async"
+    ></app-agreement-main-information-form>
+  </div>
+
+  <!-- STEP 2: Agreement Assets -->
+  <div [hidden]="currentStep !== 2">
+    <app-agreement-assets-form
+      [title]="'AGREEMENT.AGREEMENT_ASSETS_TITLE'"
+      [description]="'AGREEMENT.AGREEMENT_ASSETS_DESCRIPTION'"
+      [addAgreementShowAssetsForm]="true"
+      [formGroup]="assetsForm"
+      [editMode]="editMode"
+      [viewOnly]="viewOnly"
+      [assetTypesList]="assetTypes$ | async"
+      (removeAssetType)="removeAssetType($event)"
+      (addAssetType)="addAssetType()"
+    ></app-agreement-assets-form>
+  </div>
+
+  <!-- STEP 3: Fees -->
+  <div [hidden]="currentStep !== 3">
+    <app-agreement-fee-form
+      [title]="'FORM.AGREEMENT.FEES'"
+      [description]="'FORM.AGREEMENT.FEES_DESCRIPTION'"
+      [addAgreementShowFeeForm]="true"
+      [formGroup]="addAgreementShowFeeForm"
+      [feeTypes]="feeTypes$ | async"
+      [editMode]="editMode"
+      [viewOnly]="viewOnly"
+      (removeFee)="removeFee($event)"
+      (addFee)="addFee()"
+    ></app-agreement-fee-form>
+  </div>
+
+  <!-- STEP 4: Financial Activities  -->
+  <div [hidden]="currentStep !== 4">
+    <app-toolbar-compound
+      [totalInstallments]="sumOfInstallments"
+      [totalInterest]="sumOfInterest"
+      [totalRent]="sumOfRent"
+    ></app-toolbar-compound>
+    <div class="row parent">
+      <div class="col-sm">
+        <div class="first-form">
+          <app-leasing-financial-basic-form
+            [title]="'LEASING_FINANCIAL.BASIC.TITLE'"
+            [description]="'LEASING_FINANCIAL.BASIC.DESCRIPTION'"
+            [leasingFinancialBasicForm]="true"
+            [formGroup]="leasingFinancialBasicForm"
+            [financialCustom]="true"
+          ></app-leasing-financial-basic-form>
+        </div>
+        <div class="second-form">
+          <app-form
+            [title]="'LEASING_FINANCIAL.RATES.TITLE'"
+            [description]="'LEASING_FINANCIAL.RATES.DESCRIPTION'"
+            [leasingFinancialRateForm]="true"
+            [formGroup]="leasingFinancialRateForm"
+            [paymentPeriods]="paymentPeriods$ | async"
+            [gracePeriodUnits]="gracePeriodUnits$ | async"
+            [financialCustom]="true"
+            (selectionChangedPaymentPeriod)="onPaymentPeriodSelected($event)"
+            (selectionChangedGracePeriod)="onGracePeriodUnitSelected($event)"
+          ></app-form>
+        </div>
+        <div class="table">
+          <div class="page-content p-0">
+            <app-toolbar-table
+              [title]="'Leasing Financial Table'"
+              [customSpacing]="'custom-spacing'"
+              [exports]="true"
+              (searchChange)="onSearch($event)"
+              (toggleFiltersEvent)="onToggleFilters($event)"
+              (exportExcel)="tableRef.exportToExcel()"
+              (exportPDF)="tableRef.generatePdf()"
+              [btnAdd]="false"
+            ></app-toolbar-table>
+
+            <app-table
+              #tableRef
+              [cols]="colsInside"
+              [tableData]="filteredFinancialForms"
+              [edit]="false"
+              [view]="false"
+              [delete]="false"
+              [side]="false"
+              [download]="false"
+              [checkBox]="true"
+              [filters]="showFilters"
+              [paginator]="false"
+              [uppercase]="'uppercase'"
+              [viewFinancialFormTable]="true"
+              (onDelete)="onDeleteFinancialForm($event)"
+              (onEdit)="onEditFinancialForm($event)"
+              (viewForm)="onViewFinancialForms($event)"
+              [customTable]="true"
+            ></app-table>
+            <app-delete-module
+              [visible]="showDeleteModal"
+              (confirm)="confirmDelete()"
+              (cancel)="cancelDelete()"
+            ></app-delete-module>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm">
+        <div class="third-form">
+          <app-leasing-financial-currency-form
+            class="form-currency"
+            [title]="'LEASING_FINANCIAL.CURRENCY.TITLE'"
+            [description]="'LEASING_FINANCIAL.CURRENCY.DESCRIPTION'"
+            [leasingFinancialCurrencyForm]="true"
+            [formGroup]="leasingFinancialCurrencyForm"
+            [currencies]="currencies$ | async"
+            [currencyExchangeRates]="currencyExchangeRates$ | async"
+            (onCheckboxChange)="onCheckboxChange($event)"
+            [interestRateBenchMarks]="interestRateBenchMarks$ | async"
+            [paymentTimeTerms]="paymentTimingTerms$ | async"
+            [rentStructures]="rentStructures$ | async"
+            [paymentMethods]="paymentMethods$ | async"
+            [paymentMonthDays]="paymentMonthDays$ | async"
+            (selectionChangedCurrency)="onCurrencySelected($event)"
+            (selectionChangedCurrencyExchange)="
+              onCurrencyExchangeRateSelected($event)
+            "
+            (selectionChangedRateBenchmark)="
+              onInterestRateBenchmarkSelected($event)
+            "
+            (selectionChangedPaymentTimingTerm)="
+              onPaymentTimingTermSelected($event)
+            "
+            (selectionChangedRentStructure)="onRentStructureSelected($event)"
+            (selectionChangedPaymentMethod)="onPaymentMethodSelected($event)"
+            (selectionChangedPaymentMonthDay)="
+              onPaymentMonthDaySelected($event)
+            "
+            [financialCustom]="true"
+            [currencyCustom]="true"
+          ></app-leasing-financial-currency-form>
+
+          <div class="buttons">
+            <p-button
+              label="Calculate"
+              class="custom-calculate custom-save m-0"
+              (onClick)="onCalculateAll()"
+              [disabled]="!canCalculate"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <div
+    class="d-flex my-4"
+    [ngClass]="{
+      'justify-content-end': currentStep === 1,
+      'justify-content-between': currentStep > 1
+    }"
+  >
+    <button
+      type="button"
+      class="btn btn-outline-primary"
+      (click)="previous()"
+      [hidden]="currentStep === 1"
+    >
+      Back
+    </button>
+
+    <!-- Next (hidden on last step) -->
+    <button
+      type="button"
+      class="btn btn-primary mr-2"
+      (click)="next()"
+      *ngIf="currentStep < totalSteps"
+    >
+      Next
+    </button>
+
+    <!-- Submit -->
+    <button
+      type="submit"
+      class="btn btn-success"
+      [disabled]="!canSubmit"
+      *ngIf="currentStep === totalSteps && !viewOnly"
+    >
+      {{ editMode ? "Edit Agreement" : "Add Agreement" }}
+    </button>
+
+    <!-- Close (only on last step, view-only) -->
+    <button
+      type="button"
+      class="btn btn-success"
+      *ngIf="currentStep === totalSteps && viewOnly"
+      (click)="navigateToView()"
+    >
+      Close
+    </button>
+  </div>
+</form>

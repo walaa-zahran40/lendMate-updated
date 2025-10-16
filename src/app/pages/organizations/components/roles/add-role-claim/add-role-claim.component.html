@@ -1,0 +1,40 @@
+<app-toolbar-form
+  [header]="
+    viewOnly
+      ? 'View Role Claim'
+      : editMode
+      ? 'Edit Role Claim'
+      : 'Add Role Claim'
+  "
+  [backExists]="true"
+  [viewOnly]="false"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-form
+        *ngIf="addRoleClaimORGForm"
+        [title]="'ROLE_CLAIM.TITLE'"
+        [description]="'ROLE_CLAIM.DESCRIPTION'"
+        [operationsList]="(operationsList$ | async) ?? []"
+        [formGroup]="addRoleClaimORGForm"
+        [addRoleClaimORGForm]="true"
+        [pageIds]="selectedPageIds"
+        [pageOperationGroups]="paginatedGroups"
+        (submitForm)="addOrEditRoleClaim()"
+        [viewOnly]="viewOnly"
+      ></app-form>
+      <!-- BOTTOM paginator (optional) -->
+      <p-paginator
+        [first]="first"
+        [rows]="rows"
+        [totalRecords]="totalGroups"
+        [rowsPerPageOptions]="[5, 10, 20]"
+        (onPageChange)="onPageChange($event)"
+        styleClass="mt-3"
+      ></p-paginator>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

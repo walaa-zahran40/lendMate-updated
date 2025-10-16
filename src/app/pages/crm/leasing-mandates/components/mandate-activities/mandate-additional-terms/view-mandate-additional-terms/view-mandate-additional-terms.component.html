@@ -1,0 +1,50 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/MandateAdditionalTerms/Post'"
+    [title]="'Mandate Additional Terms'"
+    [labelBtn]="'Add Mandate Additional Term'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddMandateAdditionalTerm()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container
+    *ngIf="mandateAdditionalTerms$ | async as mandateAdditionalTerms"
+  >
+    <app-table
+      [viewPermission]="[
+        '/MandateAdditionalTerms/Get',
+        '/MandateAdditionalTerms/GetAll',
+        '/MandateAdditionalTerms/GetAllHistory'
+      ]"
+      [editPermission]="'/MandateAdditionalTerms/Put'"
+      [deletePermission]="'/MandateAdditionalTerms/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredMandateAdditionalTerms"
+      [side]="false"
+      [download]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewMandateAdditionalTermsTable]="true"
+      (onDelete)="onDeleteMandateAdditionalTerm($event)"
+      (onEdit)="onEditMandateAdditionalTerm($event)"
+      (viewForm)="onViewMandateAdditionalTerms($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

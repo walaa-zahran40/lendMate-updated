@@ -1,0 +1,48 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/ClientsAddresses/Post'"
+    [title]="'Agreement Registrations'"
+    [labelBtn]="'Add Agreement Registration'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddAgreementRegistration()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+  <ng-container
+    *ngIf="agreementRegistrations$ | async as agreementRegistrations"
+  >
+    <app-table
+      [viewPermission]="[
+        '/ClientsAddresses/Get',
+        '/ClientsAddresses/GetAll',
+        '/ClientsAddresses/GetAllHistory'
+      ]"
+      [editPermission]="'/ClientsAddresses/Put'"
+      [deletePermission]="'/ClientsAddresses/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredAgreementRegistrations"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewAgreementRegistrationsTable]="true"
+      (onDelete)="onDeleteAgreementRegistration($event)"
+      (onEdit)="onEditAgreementRegistration($event)"
+      (viewForm)="onViewAgreementRegistration($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

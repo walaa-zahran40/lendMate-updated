@@ -1,0 +1,257 @@
+<div class="parent" [ngClass]="{ 'parent-custom': currencyCustom }">
+  <div *ngIf="!contactPersonDetailsView" class="div1">
+    <h2 class="m-0 title" [ngClass]="{ 'title-custom': financialCustom }">
+      {{ title | translate }}
+    </h2>
+    <p
+      class="tab-panel-paragraph"
+      [ngClass]="{
+        'paragraph-custom': financialCustom,
+        'p-custom': currencyCustom
+      }"
+    >
+      {{ description | translate }}
+    </p>
+    <p-button
+      *ngIf="addAgreementShowMainInformationForm"
+      [label]="'BUTTONS.VIEW_AGREEMENT_DETAILS' | translate"
+      icon="pi pi-cog"
+      (click)="viewAgreementDetails()"
+      class="custom-view m-0 float-right"
+    />
+  </div>
+  <div class="div2" [ngClass]="{ span: applyReusable }">
+    <ng-container
+      *ngIf="addAgreementShowMainInformationForm"
+      [formGroup]="formGroup"
+      class="form-container"
+    >
+      <div class="row">
+        <div class="col-sm-6">
+          <label
+            for="clientNameAddAgreementMain"
+            class="label-container"
+            *ngIf="show"
+          >
+            {{ "FORM.MANDATE.LABEL_CLIENT_NAME" | translate }}<sup>*</sup>
+          </label>
+          <p-select
+            [filter]="true"
+            [filterBy]="filterByField"
+            [showClear]="true"
+            [options]="clientNames"
+            formControlName="clientId"
+            [placeholder]="'FORM.MANDATE.PLACEHOLDER_CLIENT_NAME' | translate"
+            [optionLabel]="optionLabelKey"
+            optionValue="id"
+            *ngIf="show"
+            name="clientNameAddAgreementMain"
+            styleClass="w-full md:w-80"
+          />
+          <div
+            *ngIf="
+              formGroup.get('clientId')?.hasError('required') &&
+              formGroup.get('clientId')?.touched
+            "
+            class="p-error"
+          >
+            {{ "FORM.MANDATE.ERROR_CLIENT_REQUIRED" | translate }}
+          </div>
+        </div>
+        <div [ngClass]="{ 'col-sm-12': !show, 'col-sm-6': show }">
+          <label for="leasingTypesAddAgreementMain" class="label-container">
+            {{ "FORM.MANDATE.LABEL_LEASING_TYPE" | translate }}<sup>*</sup>
+          </label>
+          <p-select
+            [filter]="true"
+            [filterBy]="filterByField"
+            [showClear]="true"
+            [options]="leasingTypes"
+            formControlName="leasingTypeId"
+            [placeholder]="'FORM.MANDATE.PLACEHOLDER_LEASING_TYPE' | translate"
+            [optionLabel]="optionLabelKey"
+            name="leasingTypesAddAgreementMain"
+            styleClass="w-full md:w-80"
+            optionValue="id"
+          />
+          <div
+            *ngIf="
+              formGroup.get('leasingTypeId')?.hasError('required') &&
+              formGroup.get('leasingTypeId')?.touched
+            "
+            class="p-error"
+          >
+            {{ "FORM.MANDATE.ERROR_LEASING_TYPE_REQUIRED" | translate }}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <label for="insuredByAddAgreementMain" class="label-container">
+            {{ "FORM.MANDATE.LABEL_INSURED_BY" | translate }}<sup>*</sup></label
+          >
+          <p-select
+            [filter]="true"
+            [filterBy]="filterByField"
+            [showClear]="true"
+            [options]="insuredBy"
+            formControlName="insuredById"
+            [placeholder]="'FORM.MANDATE.PLACEHOLDER_INSURED_BY' | translate"
+            [optionLabel]="optionLabelKey"
+            optionValue="id"
+            name="insuredByAddAgreementMain"
+            styleClass="w-full md:w-80"
+          />
+          <div
+            *ngIf="
+              formGroup.get('insuredById')?.hasError('required') &&
+              formGroup.get('insuredById')?.touched
+            "
+            class="p-error"
+          >
+            {{ "FORM.MANDATE.ERROR_INSURED_BY_REQUIRED" | translate }}
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <label for="date" class="label-container">
+            {{ "FORM.AGREEMENT.LABEL_DATE" | translate }} <sup>*</sup>
+          </label>
+          <shared-date-picker inputId="date" formControlName="date">
+          </shared-date-picker>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <label for="endDate" class="label-container">
+            {{ "FORM.AGREEMENT.LABEL_END_DATE" | translate }} <sup>*</sup>
+          </label>
+          <shared-date-picker
+            inputId="date"
+            formControlName="endDate"
+            [minDate]="formGroup.get('date')?.value || null"
+          ></shared-date-picker>
+        </div>
+        <div class="col-sm-6">
+          <label for="branchId" class="label-container">
+            {{ "FORM.AGREEMENT.LABEL_BRANCH" | translate }} <sup>*</sup>
+          </label>
+          <p-select
+            [filter]="true"
+            [filterBy]="filterByField"
+            [showClear]="true"
+            [options]="branches"
+            formControlName="branchId"
+            [placeholder]="'FORM.AGREEMENT.PLACEHOLDER_BRANCH' | translate"
+            [optionLabel]="optionLabelKey"
+            optionValue="id"
+            *ngIf="show"
+            styleClass="w-full md:w-80"
+          />
+          <div
+            *ngIf="
+              formGroup.get('branchId')?.hasError('required') &&
+              formGroup.get('branchId')?.touched
+            "
+            class="p-error"
+          >
+            {{ "FORM.AGREEMENT.ERROR_BRANCH_REQUIRED" | translate }}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <label for="portfolioId" class="label-container">
+            {{ "FORM.AGREEMENT.LABEL_PORTFOLIO" | translate }} <sup>*</sup>
+          </label>
+          <p-select
+            [filter]="true"
+            [filterBy]="filterByField"
+            [showClear]="true"
+            [options]="portfolios"
+            formControlName="portfolioId"
+            [placeholder]="'FORM.AGREEMENT.PLACEHOLDER_PORTFOLIO' | translate"
+            [optionLabel]="optionLabelKey"
+            optionValue="id"
+            *ngIf="show"
+            styleClass="w-full md:w-80"
+          />
+          <div
+            *ngIf="
+              formGroup.get('portfolioId')?.hasError('required') &&
+              formGroup.get('portfolioId')?.touched
+            "
+            class="p-error"
+          >
+            {{ "FORM.AGREEMENT.ERROR_PORTFOLIO_REQUIRED" | translate }}
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <label for="businessSourceId" class="label-container">
+            {{ "FORM.AGREEMENT.LABEL_BUSINESS_SOURCE" | translate }}
+            <sup>*</sup>
+          </label>
+          <p-select
+            [filter]="true"
+            [filterBy]="filterByField"
+            [showClear]="true"
+            [options]="businessSources"
+            formControlName="businessSourceId"
+            [placeholder]="
+              'FORM.AGREEMENT.PLACEHOLDER_BUSINESS_SOURCE' | translate
+            "
+            [optionLabel]="optionLabelKey"
+            optionValue="id"
+            *ngIf="show"
+            styleClass="w-full md:w-80"
+          />
+          <div
+            *ngIf="
+              formGroup.get('businessSourceId')?.hasError('required') &&
+              formGroup.get('businessSourceId')?.touched
+            "
+            class="p-error"
+          >
+            {{ "FORM.AGREEMENT.ERROR_BUSINESS_SOURCE_REQUIRED" | translate }}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <label for="deliveryNumber" class="label-container">
+            {{ "FORM.AGREEMENT.LABEL_DELIVERY_NUMBER" | translate }}
+            <sup>*</sup>
+          </label>
+          <input
+            pInputText
+            id="deliveryNumber"
+            formControlName="deliveryNumber"
+            [placeholder]="
+              'FORM.AGREEMENT.PLACEHOLDER_DELIVERY_NUMBER' | translate
+            "
+          />
+          <div
+            *ngIf="
+              formGroup.get('deliveryNumber')?.hasError('required') &&
+              formGroup.get('deliveryNumber')?.touched
+            "
+            class="p-error"
+          >
+            {{ "FORM.AGREEMENT.ERROR_DELIVERY_NUMBER_REQUIRED" | translate }}
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <label for="notes" class="label-container">
+            {{ "FORM.MANDATE.LABEL_NOTES" | translate }}</label
+          ><br /><textarea
+            rows="2"
+            pTextarea
+            [autoResize]="true"
+            formControlName="notes"
+            class="w-100"
+            placeholder="{{ 'FORM.MANDATE.PLACEHOLDER_NOTES' | translate }}"
+          ></textarea>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

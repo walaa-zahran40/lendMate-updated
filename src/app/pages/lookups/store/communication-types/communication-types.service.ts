@@ -1,0 +1,63 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { catchError, map, Observable, tap, throwError } from 'rxjs';
+import { CommunicationType } from './communication-type.model';
+import { environment } from '../../../../../environments/environment';
+
+@Injectable({ providedIn: 'root' })
+export class CommunicationTypesService {
+  private baseUrl = `${environment.apiUrl}CommunicationTypes`;
+
+  constructor(private http: HttpClient) {}
+
+  getAll(): Observable<CommunicationType[]> {
+    return this.http
+      .get<{ items: CommunicationType[]; totalCount: number }>(
+        `${this.baseUrl}/GetCommunicationTypes`
+      )
+      .pipe(
+        map((resp) => resp.items), // ← pull off the `items` array here
+        catchError((err) => {
+          console.error('🚀 HTTP error fetching CommunicationTypes:', err);
+          return throwError(() => err);
+        })
+      );
+  }
+
+  getById(id: number): Observable<CommunicationType> {
+    return this.http.get<CommunicationType>(
+      `${this.baseUrl}/CommunicationTypeId?id=${id}`
+    );
+  }
+
+  create(
+    payload: Omit<CommunicationType, 'id'>
+  ): Observable<CommunicationType> {
+    return this.http.post<CommunicationType>(
+      `${this.baseUrl}/CreateCommunicationType`,
+      payload
+    );
+  }
+
+  update(id: number, changes: Partial<CommunicationType>): Observable<void> {
+    return this.http.put<void>(`${this.baseUrl}/${id}`, changes);
+  }
+
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+  //History management
+  getAllHistory(): Observable<CommunicationType[]> {
+    return this.http
+      .get<{ items: CommunicationType[]; totalCount: number }>(
+        `${this.baseUrl}/GetAllCommunicationTypesHistory`
+      )
+      .pipe(
+        map((resp) => resp.items), // ← pull off the `items` array here
+        catchError((err) => {
+          console.error('🚀 HTTP error fetching CommunicationTypes:', err);
+          return throwError(() => err);
+        })
+      );
+  }
+}

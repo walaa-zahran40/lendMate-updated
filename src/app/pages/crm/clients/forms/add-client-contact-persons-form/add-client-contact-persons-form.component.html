@@ -1,0 +1,448 @@
+<div class="parent">
+  <div *ngIf="!contactPersonDetailsView" class="div1">
+    <h2 class="m-0 title">{{ title }}</h2>
+    <p class="tab-panel-paragraph">
+      {{ description }}
+    </p>
+    <p-button
+      *ngIf="addClientContactPersonForm"
+      icon="pi pi-cog"
+      label="View Contact Persons"
+      icon="pi pi-cog"
+      (click)="onViewContactPersonsClick()"
+      class="custom-view m-0 float-right"
+    />
+  </div>
+  <div class="div2" [ngClass]="{ span: applyReusable }">
+    <form
+      *ngIf="addClientContactPersonForm"
+      (ngSubmit)="onSubmit()"
+      [formGroup]="formGroup"
+    >
+      <label for="name">Name in English<sup class="danger">*</sup></label>
+      <input
+        pInputText
+        id="name"
+        aria-describedby="name-help"
+        name="name"
+        placeholder="Name"
+        formControlName="name"
+      />
+      <label for="nameAR">Name in Arabic<sup class="danger">*</sup></label>
+      <input
+        pInputText
+        id="nameAR"
+        aria-describedby="nameAR-help"
+        placeholder="Name in Arabic"
+        formControlName="nameAR"
+        name="nameAR"
+      />
+      <label for="TitleInEnglishContactPerson"
+        >Title in English<sup class="danger">*</sup></label
+      >
+      <input
+        pInputText
+        id="TitleInEnglishContactPerson"
+        aria-describedby="TitleInEnglishContactPerson-help"
+        placeholder="Title in English"
+        formControlName="title"
+        name="TitleInEnglishContactPerson"
+      />
+      <label for="TitleInArabicContactPerson"
+        >Title in Arabic<sup class="danger">*</sup></label
+      >
+      <input
+        pInputText
+        id="TitleInArabicContactPerson"
+        aria-describedby="TitleInArabicContactPerson-help"
+        placeholder="Title in Arabic"
+        formControlName="titleAR"
+        name="TitleInArabicContactPerson"
+      />
+      <label for="genderContactPerson">Gender<sup class="danger">*</sup></label>
+      <p-select
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
+        [options]="genders"
+        optionLabel="value"
+        optionValue="id"
+        placeholder="Select a Gender"
+        formControlName="genderId"
+        class="w-full md:w-56"
+        name="gender"
+      />
+
+      <label for="emailAddressContactPerson">Email Address<sup>*</sup></label>
+      <input
+        pInputText
+        id="emailAddressContactPerson"
+        aria-describedby="emailAddressContactPerson-help"
+        formControlName="email"
+        placeholder="name@corplease.com.eg"
+        name="emailAddressContactPerson"
+      />
+      <!-- Here is phone numbers multiselect  -->
+
+      <div formArrayName="phoneTypes" class="my-4">
+        <div
+          *ngFor="let group of phoneTypesArray.controls; let i = index"
+          [formGroupName]="i"
+          class="parent2-individual2 mt-2 flex items-start gap-4 align-items-center flex-wrap"
+        >
+          <!-- 1) Identification Number -->
+          <div class="div-number flex-1 min-w-0">
+            <label for="phoneNumber" class="p-0">
+              Phone Number<sup class="danger">*</sup>
+            </label>
+            <input
+              pInputText
+              formControlName="phoneNumber"
+              required
+              placeholder="Phone Number"
+              required
+              inputmode="numeric"
+              pattern="[0-9]*"
+              [ngClass]="{
+                'ng-invalid ng-dirty':
+                  group.get('phoneNumber')?.invalid &&
+                  group.get('phoneNumber')?.touched
+              }"
+            />
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('phoneNumber')?.hasError('required') &&
+                group.get('phoneNumber')?.touched
+              "
+            >
+              Phone Number is required.
+            </small>
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('phoneNumber')?.hasError('pattern') &&
+                group.get('phoneNumber')?.touched
+              "
+            >
+              Only digits are allowed.
+            </small>
+          </div>
+
+          <!-- 2) Select Identity -->
+          <div class="div-select flex-1 min-w-0">
+            <label for="phoneType" class="p-0">
+              Select Phone Type<sup class="danger">*</sup>
+            </label>
+            <p-select
+              [filter]="true"
+              filterBy="name"
+              [showClear]="true"
+              [options]="phoneTypeOptions"
+              formControlName="phoneTypeId"
+              name="phoneType"
+              placeholder="Select Phone Type"
+              optionLabel="name"
+              optionValue="id"
+              required
+              class="m-0"
+              [ngClass]="{
+                'ng-invalid ng-dirty':
+                  group.get('phoneTypeId')?.invalid &&
+                  group.get('phoneTypeId')?.touched
+              }"
+              [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+            ></p-select>
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('phoneTypeId')?.invalid &&
+                group.get('phoneTypeId')?.touched
+              "
+            >
+              Phone Type is required.
+            </small>
+          </div>
+
+          <!-- 4) Add another identity -->
+          <button
+            pButton
+            type="button"
+            icon="pi pi-plus"
+            class="p-button-outlined p-button-sm"
+            (click)="addPhoneType.emit()"
+            *ngIf="!viewOnly"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+          ></button>
+
+          <!-- 5) Remove this identity -->
+          <button
+            pButton
+            type="button"
+            icon="pi pi-trash"
+            class="p-button-danger p-button-sm"
+            *ngIf="phoneTypesArray.length > 1 && !viewOnly"
+            (click)="removePhoneType.emit(i)"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+          ></button>
+        </div>
+      </div>
+
+      <div formArrayName="identities">
+        <div
+          *ngFor="let group of identities?.controls; let i = index"
+          [formGroupName]="i"
+          class="parent2-individual2 mt-2 flex items-start gap-4 align-items-center flex-wrap"
+        >
+          <!-- 1) Identification Number -->
+          <div class="div-number flex-1 min-w-0">
+            <label for="identificationNumber" class="p-0">
+              Identification Number<sup class="danger">*</sup>
+            </label>
+            <input
+              pInputText
+              formControlName="identificationNumber"
+              required
+              placeholder="Identification Number"
+              [ngClass]="{
+                'ng-invalid ng-dirty':
+                  group.get('identificationNumber')?.invalid &&
+                  group.get('identificationNumber')?.touched
+              }"
+              [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+            />
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('identificationNumber')?.invalid &&
+                group.get('identificationNumber')?.touched
+              "
+            >
+              Identification Number is required.
+            </small>
+          </div>
+
+          <!-- 2) Select Identity -->
+          <div class="div-select flex-1 min-w-0">
+            <label for="identityType" class="p-0">
+              Select Identity<sup class="danger">*</sup>
+            </label>
+            <p-select
+              [filter]="true"
+              filterBy="name"
+              [showClear]="true"
+              [options]="identityTypes"
+              formControlName="selectedIdentities"
+              name="identityType"
+              placeholder="Select Identity"
+              optionLabel="name"
+              optionValue="id"
+              required
+              class="m-0"
+              [ngClass]="{
+                'ng-invalid ng-dirty':
+                  group.get('selectedIdentities')?.invalid &&
+                  group.get('selectedIdentities')?.touched
+              }"
+              [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+            ></p-select>
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('selectedIdentities')?.invalid &&
+                group.get('selectedIdentities')?.touched
+              "
+            >
+              Identity is required.
+            </small>
+          </div>
+
+          <!-- 3) Is Main toggle -->
+          <!-- 3) Is Main toggle -->
+          <div class="div-main flex items-center flex-column" *ngIf="!viewOnly">
+            <label for="isMain" class="p-0"> Is Main </label>
+            <p-toggleswitch
+              formControlName="isMain"
+              name="isMain"
+              required
+              [ngClass]="{
+                'ng-invalid ng-dirty':
+                  group.get('isMain')?.invalid && group.get('isMain')?.touched
+              }"
+              [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+            ></p-toggleswitch
+            ><br />
+            <small
+              class="p-error"
+              *ngIf="
+                group.get('isMain')?.invalid && group.get('isMain')?.touched
+              "
+            >
+              You must choose if this is main.
+            </small>
+          </div>
+
+          <!-- 4) Add another identity -->
+          <button
+            pButton
+            type="button"
+            icon="pi pi-plus"
+            *ngIf="!viewOnly"
+            class="p-button-outlined p-button-sm"
+            (click)="addIdentity.emit()"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+          ></button>
+
+          <!-- 5) Remove this identity -->
+          <button
+            pButton
+            type="button"
+            icon="pi pi-trash"
+            class="p-button-danger p-button-sm"
+            (click)="removeIdentity.emit(i)"
+            *ngIf="identities.length > 1 && !viewOnly"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+          ></button>
+        </div>
+      </div>
+
+      <div>
+        <div>
+          <label for="addressTypeContactPerson"
+            >Address Type<sup class="danger">*</sup></label
+          >
+          <p-select
+            [filter]="true"
+            filterBy="name"
+            [showClear]="true"
+            [options]="addressTypes"
+            placeholder="Select Address Type"
+            optionValue="id"
+            display="chip"
+            optionLabel="name"
+            icon="pi pi-times"
+            name="addressTypeContactPerson"
+            formControlName="addressTypeId"
+            chipIcon="pi pi-times"
+          />
+        </div>
+        <div>
+          <label class="p-0" for="countryContactPerson"
+            >Country<sup class="danger">*</sup></label
+          >
+          <p-select
+            [filter]="true"
+            filterBy="name"
+            [showClear]="true"
+            [options]="countries"
+            optionValue="id"
+            placeholder="Select country"
+            optionLabel="name"
+            display="chip"
+            icon="pi pi-times"
+            name="countryContactPerson"
+            styleClass="w-full md:w-80"
+            formControlName="countryId"
+            chipIcon="pi pi-times"
+          />
+        </div>
+        <div>
+          <label class="p-0" for="governmentContactPerson"
+            >Governorate <sup class="danger">*</sup></label
+          >
+
+          <p-select
+            [filter]="true"
+            filterBy="name"
+            [showClear]="true"
+            [options]="governorates"
+            optionValue="id"
+            placeholder="Select governorate"
+            optionLabel="name"
+            display="chip"
+            icon="pi pi-times"
+            name="governmentContactPerson"
+            styleClass="w-full md:w-80"
+            formControlName="governorateId"
+            chipIcon="pi pi-times"
+          />
+        </div>
+        <div>
+          <label class="p-0" for="areasContactPerson"
+            >Area<sup class="danger">*</sup></label
+          >
+          <p-select
+            [filter]="true"
+            filterBy="name"
+            [showClear]="true"
+            [options]="areas"
+            optionValue="id"
+            placeholder="Select Area"
+            optionLabel="name"
+            display="chip"
+            icon="pi pi-times"
+            name="areasContactPerson"
+            styleClass="w-full md:w-80"
+            formControlName="areaId"
+            chipIcon="pi pi-times"
+          />
+        </div>
+      </div>
+
+      <label class="p-0" for="detailsEnglishContactPerson"
+        >Details in English</label
+      >
+      <input
+        pInputText
+        id="detailsEnglishContactPerson"
+        aria-describedby="detailsEnglishContactPerson-help"
+        placeholder="Details in English"
+        formControlName="addressDetails"
+        name="detailsEnglishContactPerson"
+      />
+      <label for="detailsArabicContactPerson">Details in Arabic</label>
+      <input
+        pInputText
+        id="detailsArabicContactPerson"
+        aria-describedby="detailsArabicContactPerson-help"
+        placeholder="Details in Arabic"
+        formControlName="addressDetailsAr"
+        name="detailsArabicContactPerson"
+      />
+
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 currenciesDiv"
+          *ngIf="!editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Add Contact Person"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Contact Person "
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate([`/crm/clients/view-contact-persons/${clientId}`])"
+          />
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-form
+        [title]="'FORM.NOTIFICATION_GROUP_OFFICERS.TITLE'"
+        [description]="'FORM.NOTIFICATION_GROUP_OFFICERS.DESCRIPTION'"
+        [addNotificationGroupOfficersLookupsForm]="true"
+        [notificationGroups]="notificationGroups$ | async"
+        [officers]="officers$ | async"
+        [formGroup]="addNotificationGroupOfficersLookupsForm"
+        (submitForm)="addOrEditNotificationGroupOfficer()"
+        [editMode]="editMode"
+        [viewOnly]="viewOnly"
+      ></app-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

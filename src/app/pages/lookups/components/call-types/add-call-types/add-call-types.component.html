@@ -1,0 +1,28 @@
+<app-toolbar-form
+  [header]="
+    viewOnly
+      ? 'View Call  Type'
+      : editMode
+      ? 'Edit Call  Type'
+      : 'Add Call  Type'
+  "
+  [backExists]="true"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-form
+        *ngIf="addCallTypeForm"
+        [title]="'FORM.CALL_TYPE.TITLE'"
+        [description]="'FORM.CALL_TYPE.DESCRIPTION'"
+        [formGroup]="addCallTypeForm"
+        [addcallTypesLookupsForm]="true"
+        [editMode]="editMode"
+        (submitForm)="addOrEditCallType()"
+        [viewOnly]="viewOnly"
+      ></app-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

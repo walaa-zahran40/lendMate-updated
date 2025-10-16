@@ -1,0 +1,45 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/Products/Post'"
+    [title]="'Products'"
+    [labelBtn]="'Add Product'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddProduct()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <app-table
+    [viewPermission]="[
+      '/Products/Get',
+      '/Products/GetAll',
+      '/Products/GetAllHistory'
+    ]"
+    [editPermission]="'/Products/Put'"
+    [deletePermission]="'/Products/Delete'"
+    #tableRef
+    (onBulkDelete)="onBulkDelete($event)"
+    [cols]="colsInside"
+    [tableData]="filteredProducts"
+    [side]="false"
+    [first]="first2"
+    [checkBox]="true"
+    [filters]="showFilters"
+    [uppercase]="'uppercase'"
+    [viewProductsTable]="true"
+    (onDelete)="onDeleteProduct($event)"
+    (onEdit)="onEditProduct($event)"
+    (viewForm)="onViewProduct($event)"
+  ></app-table>
+  <app-delete-module
+    [visible]="showDeleteModal"
+    (confirm)="confirmDelete()"
+    (cancel)="cancelDelete()"
+  ></app-delete-module>
+</div>

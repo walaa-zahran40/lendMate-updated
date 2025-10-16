@@ -7,17 +7,19 @@
     /><br />
     <img src="/assets/images/shared/delete-module/delete.svg" alt="delete" />
   </ng-template>
-  <p>Are you sure to delete?</p>
+
+  <p>{{ "DIALOG.DELETE_CONFIRMATION" | translate }}</p>
+
   <ng-template pTemplate="footer">
     <button
       pButton
-      label="Yes"
+      [label]="'DIALOG.YES' | translate"
       class="p-button-danger"
       (click)="onConfirm()"
     ></button>
     <button
       pButton
-      label="No"
+      [label]="'DIALOG.NO' | translate"
       class="p-button-success"
       (click)="onCancel()"
     ></button>

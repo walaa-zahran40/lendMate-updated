@@ -23,13 +23,22 @@
   align-items: center;
 }
 /*language*/
-.language {
+.language-ar {
   font-family: "almarai", sans-serif;
   color: rgba(0, 0, 0, 1);
-  font-weight: 700;
+  font-weight: 500;
   font-size: 16px;
   line-height: 17.86px;
   margin-bottom: 0;
+  cursor: pointer;
+}
+.language-en {
+  color: rgba(0, 0, 0, 1);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 17.86px;
+  margin-bottom: 0;
+  cursor: pointer;
 }
 .language {
   color: var(--filter-text);
@@ -69,6 +78,7 @@
       border-bottom: none;
       background: var(--nav-background);
       zoom: 70%;
+      display: flex !important;
       border-radius: 0;
     }
     .p-dialog-content {

@@ -1,0 +1,47 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/ClientFiles/Post'"
+    [title]="'Documents'"
+    [labelBtn]="'Add Document'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddDocument()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="documents$ | async as documents">
+    <app-table
+      [viewPermission]="[
+        '/ClientFiles/Get',
+        '/ClientFiles/GetAll',
+        '/ClientFiles/GetAllHistory'
+      ]"
+      [editPermission]="'/ClientFiles/Put'"
+      [deletePermission]="'/ClientFiles/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredDocuments"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewUploadDocumentsTable]="true"
+      (onDelete)="onDeleteDocument($event)"
+      (onEdit)="onEditDocument($event)"
+      (wizardBtn)="onAddSide($event)"
+      (viewForm)="onViewDocument($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

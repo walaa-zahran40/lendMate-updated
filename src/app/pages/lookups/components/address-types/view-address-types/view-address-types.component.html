@@ -1,0 +1,47 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/AddressTypes/Post'"
+    [title]="'Address Types'"
+    [labelBtn]="'Add Address Type'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddAddressType()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="addressTypes$ | async as addressTypes">
+    <app-table
+      [viewPermission]="[
+        '/AddressTypes/Get',
+        '/AddressTypes/GetAll',
+        '/AddressTypes/GetAllHistory'
+      ]"
+      [editPermission]="'/AddressTypes/Put'"
+      [deletePermission]="'/AddressTypes/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredAddressTypes"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewAddressTypesTable]="true"
+      (onDelete)="onDeleteAddressType($event)"
+      (onEdit)="onEditAddressType($event)"
+      (viewForm)="onViewAddressType($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

@@ -22,7 +22,7 @@
     </p-iconfield>
     <p-button
       icon="custom-icon"
-      label="Show Filters"
+      [label]="showFilters ? 'Hide Filters' : 'Show Filters'"
       styleClass="filter"
       (click)="toggleFilters()"
       *ngIf="exports"
@@ -48,14 +48,14 @@
       styleClass="pdf-icon-btn"
       (click)="onExportPDF()"
     />
-
-    <p-button
-      label="{{ labelBtn }}"
-      icon="{{ iconBtn }}"
-      iconPos="left"
-      *ngIf="btnAdd"
-      styleClass="add"
-      (click)="addBtn.emit()"
-    />
+    <ng-container *appHasPermission="addPermission">
+      <p-button
+        label="{{ labelBtn }}"
+        icon="{{ iconBtn }}"
+        iconPos="left"
+        styleClass="add"
+        (click)="addBtn.emit()"
+      />
+    </ng-container>
   </div>
 </p-toolbar>

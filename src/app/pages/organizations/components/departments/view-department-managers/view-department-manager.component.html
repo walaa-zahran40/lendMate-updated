@@ -1,0 +1,47 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/DepartmentManagers/Post'"
+    [title]="'Department Manager'"
+    [labelBtn]="'Add Department Manager'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddDepartmentManager()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="departmentManagers$ | async as departmentManagers">
+    <app-table
+      [viewPermission]="[
+        '/DepartmentManagers/Get',
+        '/DepartmentManagers/GetAll',
+        '/DepartmentManagers/GetAllHistory'
+      ]"
+      [editPermission]="'/DepartmentManagers/Put'"
+      [deletePermission]="'/DepartmentManagers/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredDepartmentManagers"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewCurrencyExchangeTable]="true"
+      (onDelete)="onDeleteDepartmentManager($event)"
+      (onEdit)="onEditDepartmentManager($event)"
+      (viewForm)="onViewDepartmentManager($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

@@ -1,0 +1,47 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/TMLOfficerTypes/Post'"
+    [title]="'Tml Officer Types'"
+    [labelBtn]="'Add Tml Officer Type'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddTmlOfficerType()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="TmlOfficerTypes$ | async as TmlOfficerTypes">
+    <app-table
+      [viewPermission]="[
+        '/TMLOfficerTypes/Get',
+        '/TMLOfficerTypes/GetAll',
+        '/TMLOfficerTypes/GetAllHistory'
+      ]"
+      [editPermission]="'/TMLOfficerTypes/Put'"
+      [deletePermission]="'/TMLOfficerTypes/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredTmlOfficerType"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewTMLOfficerTypeLookupsTable]="true"
+      (onDelete)="onDeleteTmlOfficerType($event)"
+      (onEdit)="onEditTmlOfficerType($event)"
+      (viewForm)="onViewTmlOfficerType($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

@@ -8,9 +8,17 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
+import {
+  DomSanitizer,
+  SafeResourceUrl,
+  SafeUrl,
+} from '@angular/platform-browser';
+import { FileSelectEvent } from 'primeng/fileupload';
+
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CompanyLegalDetails } from '../../interfaces/company-legal-details.interface';
+import { TranslateService } from '@ngx-translate/core';
 import {
   take,
   map,
@@ -21,24 +29,38 @@ import {
   Subscription,
   debounceTime,
 } from 'rxjs';
-import { Sectors } from '../../interfaces/sectors.interface';
 import { Store } from '@ngrx/store';
-import { selectAllSectors } from '../../store/sector-drop-down/sector.selectors';
-import { SubSectors } from '../../interfaces/sub-sector.interface';
-import { selectAllSubSectors } from '../../store/sub-sector-drop-down/sub-sector.selectors';
-import { LegalFormLaw } from '../../interfaces/legal-form-law.interface';
-import { LegalFormFacade } from '../../store/legal-forms/legal-form.facade';
-import { LegalForm } from '../../interfaces/legal-form.interface';
-import * as sectorsActions from '../../store/sector-drop-down/sector.actions';
-import * as subSectorsActions from '../../store/sub-sector-drop-down/sub-sector.actions';
+import * as sectorsActions from '../../../pages/lookups/store/sectors/sectors.actions';
+import * as subSectorsActions from '../../../pages/lookups/store/sub-sectors/sub-sectors.actions';
 import { setFormDirty } from '../../../pages/crm/clients/store/client-form/client-form.actions';
 import { FileUpload } from 'primeng/fileupload';
-import { LegalFormLawFacade } from '../../../pages/crm/clients/store/legal-form-law/legal-form-law.facade';
+import { LegalFormLawFacade } from '../../../pages/legals/store/legal-form-law/legal-form-law.facade';
+import { LegalFormsFacade } from '../../../pages/legals/store/legal-forms/legal-forms.facade';
+import { PageOperation } from '../../../pages/organizations/store/page-operations/page-operation.model';
+import { IdentificationType } from '../../../pages/lookups/store/identification-types/identification-type.model';
+import { Currency } from '../../../pages/lookups/store/currencies/currency.model';
+import { Sector } from '../../../pages/lookups/store/sectors/sector.model';
+import { SubSector } from '../../../pages/lookups/store/sub-sectors/sub-sector.model';
+import { selectAllSectors } from '../../../pages/lookups/store/sectors/sectors.selectors';
+import { selectAllSubSectors } from '../../../pages/lookups/store/sub-sectors/sub-sectors.selectors';
+import { MessageService } from 'primeng/api';
 export interface IdentityEntry {
   identificationNumber: string;
   selectedIdentities: any[];
   isMain: boolean;
 }
+export interface PageOperationGroup {
+  pageName: string;
+  pageOperations: PageOperation[];
+}
+type PreviewItem = {
+  name: string;
+  type: string;
+  url: string;
+  file: File;
+  safeUrl?: SafeResourceUrl;
+};
+
 @Component({
   selector: 'app-form',
   standalone: false,
@@ -46,36 +68,128 @@ export interface IdentityEntry {
   styleUrl: './form.component.scss',
 })
 export class FormComponent implements OnInit, OnDestroy {
-  @Input() formGroup!: FormGroup;
+  @Input() formGroup: FormGroup = new FormGroup({});
   @Input() viewOnly = false;
   companyLegalDetail: CompanyLegalDetails = {};
   @Output() addIdentity = new EventEmitter<void>();
+  @Output() downloadFile = new EventEmitter<any>();
+  optionLabelKey = 'name';
+  filterByField = 'name';
+  @Input() existingFileName?: string;
+  @Input() existingFileUrl?: string; // optional, only if you have a download endpoint
+  @Input() existingFileId?: number;
+  @Input() lockDocType = false;
+
   @Output() removeIdentity = new EventEmitter<number>();
+  @Output() onCheckboxChange = new EventEmitter<any>();
+  selectedPaymentPeriod: any;
+  selectedGracePeriodUnit: any;
+  @Input() addAgreementShowFeeForm!: boolean;
+  @Input() phoneTypeOptions!: any;
+  @Input() identityTypeOptions!: IdentificationType[];
+  @Output() addPhoneType = new EventEmitter<void>();
+  @Output() removePhoneType = new EventEmitter<number>();
+  @Output() addCommunicationOfficer = new EventEmitter<void>();
+  @Output() removeCommunicationOfficer = new EventEmitter<number>();
+  @Input() addMandateContactPersonForm!: boolean;
+  @Output() addCommunicationAssetType = new EventEmitter<void>();
+  @Output() removeCommunicationAssetType = new EventEmitter<number>();
+
+  @Output() addCommunicationContactPerson = new EventEmitter<void>();
+  @Output() removeCommunicationContactPerson = new EventEmitter<number>();
+
+  @Output() addOfficer = new EventEmitter<void>();
+  @Output() removeOfficer = new EventEmitter<number>();
+  @Output() addContactPerson = new EventEmitter<void>();
+  @Output() removeContactPerson = new EventEmitter<number>();
+  @Output() addAssetType = new EventEmitter<void>();
+  @Output() removeAssetType = new EventEmitter<number>();
+  @Output() addFee = new EventEmitter<void>();
+  @Output() removeFee = new EventEmitter<number>();
+  @Output() addGracePeriod = new EventEmitter<void>();
+  @Output() removeGracePeriod = new EventEmitter<number>();
+  @Output() viewContactPersons = new EventEmitter<number>();
+
   id!: string;
   @Input() applyReusable: boolean = false;
   @Input() selectedFile!: any;
   @Input() title: string = '';
+  @Input() pageOperationGroups!: PageOperationGroup[];
+
   @Input() description: string = '';
   @Input() addClientShowMain?: boolean;
   @Input() addClientShowLegal?: boolean;
   @Input() addClientShowBusiness?: boolean;
+  @Input() addClientOnboardingForm?: boolean;
   @Input() addClientShowIndividual?: boolean;
   @Input() addClient?: boolean;
-  @Input() sectorsList: any[] = [];
+  //Select Box
+  @Input() sectorsList: any;
+  @Input() businessLinesList: any;
+  @Input() departments: any;
+  @Input() subSectorsData: any;
   @Input() subSectorsList: any[] = [];
-
+  @Input() countriesList: any;
+  @Input() addressTypesList: any;
+  @Input() addressTypes: any;
+  @Input() authorityOfficesList: any;
+  @Input() companyTypesList: any;
+  @Input() smeClientCodesList: any;
+  @Input() taxOfficesList: any;
+  @Input() assetTypeCategories: any;
+  @Input() feeCalculationTypes: any;
+  @Input() notificationGroups: any;
+  @Input() phoneTypes: any;
+  @Input() identityTypes: any;
+  @Input() areas: any;
+  @Input() identificationTypes: any;
+  @Input() countries: any;
+  @Input() callActionTypes: any;
+  @Input() governorates: any;
+  @Input() teamDepartments: any;
+  @Input() governoratesList: any;
+  @Input() feeTypes: any;
+  @Input() assetTypes: any;
+  @Input() meetingTypes: any;
+  @Input() authorizationGroups: any;
+  @Input() areasList: any;
+  @Input() currencies: any;
+  @Input() currencyExchangeRates: any;
+  @Input() manualExchangeRates: any;
   @Input() selectedSectorId: number | null = null;
+  @Input() selectedSubSectorId: number | null = null;
   @Input() legalFormLawIdControl!: number;
   selectedLegalFormLawId: number | null = null;
   @Input() legalFormId: number | null = null;
+  @Input() conditionExpressions: any;
+  @Input() officersList: any;
+  @Input() clientsList: any;
+  @Input() tmlOfficerTypesList: any;
+  @Input() clientOfficerTypesList: any;
+  @Input() legalFormsList: any;
+  @Input() legalFormLawsList: any;
+  @Input() pageIds: any;
+  @Input() authorizationGroupsList: any;
+  @Input() notificationGroupsList: any;
+  @Input() paymentPeriods: any;
+  @Input() gracePeriodUnits: any;
   selectedLegalForm: any;
   @Output() sectorChanged = new EventEmitter<number>();
-
-  sectorsSafe$!: Observable<Sectors[]>;
+  selectedCurrency: Currency | null = null;
+  @Input() addMandateShowFinancialActivityForm!: boolean;
+  sectorsSafe$!: Observable<Sector[]>;
   onChange: (value: any) => void = () => {};
   onTouched: () => void = () => {};
   @Output() selectionChanged = new EventEmitter<any>();
-
+  @Output() selectionChangedPaymentPeriod = new EventEmitter<any>();
+  @Output() selectionChangedGracePeriod = new EventEmitter<any>();
+  @Output() selectionChangedCurrency = new EventEmitter<any>();
+  @Output() selectionChangedCurrencyExchange = new EventEmitter<any>();
+  @Output() selectionChangedRateBenchmark = new EventEmitter<any>();
+  @Output() selectionChangedPaymentTimingTerm = new EventEmitter<any>();
+  @Output() selectionChangedRentStructure = new EventEmitter<any>();
+  @Output() selectionChangedPaymentMethod = new EventEmitter<any>();
+  @Output() selectionChangedPaymentMonthDay = new EventEmitter<any>();
   //ngModel Values
   value: string | undefined;
   value1: string | undefined;
@@ -162,8 +276,8 @@ export class FormComponent implements OnInit, OnDestroy {
   selectedDocuments!: any;
   @Input() documents: any[] = [];
   @ViewChild('fileUploader') fileUploader!: FileUpload;
+  operationField: 'name' | 'nameAR' = 'name';
 
-  areas!: any;
   selectedAreas!: any;
   codes!: any;
   selectedCodes!: any;
@@ -189,34 +303,61 @@ export class FormComponent implements OnInit, OnDestroy {
   selectedLegalFormLawCompanyViewOnly!: any;
   selectedLegalFormCompanyViewOnly!: any;
   selectedIsStampCompanyViewOnly!: any;
+  @Input() paymentTimingTerms!: any;
+  @Input() interestRateBenchmarks!: any;
+
   stamps!: any;
-  genders!: any;
+  genders = [
+    { id: 1, value: 'Male' },
+    { id: 2, value: 'Female' },
+  ];
+
+  conditionTypes = [
+    { id: 1, value: 'Expression' },
+    { id: 2, value: 'Function' },
+    { id: 3, value: 'Both' },
+  ];
+
   expiryDate!: Date;
   selectedGenders!: any;
-  countries!: any;
   selectedCountries!: any;
-  phoneTypes!: any;
   selectedPhoneTypes!: any;
   legalForm!: any;
   selectedDocumentTypes!: any;
   isMain!: any;
+  maxDateOfBirth = new Date(); // today
+  minDateOfBirth = new Date();
   selectedIsMain!: any;
   isActive!: any;
+  @Input() rentStructureTypes!: any;
+  selectedPaymentTimingTerm: any;
+  selectedRentStructureType: any;
+  selectedPaymentMethod: any;
+  selectedPaymentMonthDay: any;
+  existingFileSafeUrl?: SafeUrl;
   selectedIsActive!: any;
   companyTypes!: any;
   shareHolderTypes!: any;
   officerNames!: any;
   officerTypes!: any;
-  clientNames!: any;
+  @Input() clientNames!: any;
+  @Input() validityUnits!: any;
+  @Input() products!: any;
+  @Input() leasingTypes!: any;
+  @Input() insuredBy!: any;
+  @Input() officers!: any;
+  @Input() contactPersonsList!: any;
+  @Input() assetTypesList!: any;
+  @Input() feesList!: any;
+  @Input() contactPersons!: any;
+  @Input() callTypes!: any;
+  @Input() gracePeriodUnitsList!: any;
   selectedClientNames!: any;
   selectedMandateValidityUnit!: any;
-  products!: any;
   selectedProducts!: any;
   exchangeRateCurrencies!: any;
   selectedExchangeRateCurrencies!: any;
-  insuredBy!: any;
   selectedInsuredBy!: any;
-  leasingTypes!: any;
   selectedLeasingTypes!: any;
   actions!: any;
   selectedActions!: any;
@@ -226,21 +367,20 @@ export class FormComponent implements OnInit, OnDestroy {
   assestTypesMandates!: any;
   selectedContactPersonTypesMandate!: any;
   contactPersonTypesMandates!: any;
-  gracePeriodUnits!: any;
   selectedGracePeriodUnits!: any;
-  paymentPeriods!: any;
   selectedPaymentPeriods!: any;
   currencyExchangeRate!: any;
   selectedCurrencyExchangeRate!: any;
-  paymentMonthDays!: any;
+  @Input() paymentMonthDays!: any;
   selectedPaymentMonthDays!: any;
-  paymentMethods!: any;
+  @Input() paymentMethods!: any;
+  @Input() previewUrl: any;
   selectedPaymentMethods!: any;
-  rentStructures!: any;
+  @Input() rentStructures!: any;
   selectedRentStructures!: any;
-  paymentTimeTerms!: any;
+  @Input() paymentTimeTerms!: any;
   selectedPaymentTimeTerms!: any;
-  interestRateBenchMarks!: any;
+  @Input() interestRateBenchMarks!: any;
   selectedInterestRateBenchMarks!: any;
   isManualExchangeRates!: any;
   selectedIsManualExchangeRates!: any;
@@ -261,10 +401,10 @@ export class FormComponent implements OnInit, OnDestroy {
   communicationFlowAddCall!: any;
   selectedCommunicationFlowAddCall!: any;
   callActionTypeAddCall!: any;
+
   selectedCallActionTypeAddCall!: any;
   callTypeAddCall!: any;
   selectedCallTypeAddCall!: any;
-  departments!: any;
   teams!: any;
   pages!: any;
   selectedStamps!: any;
@@ -276,20 +416,6 @@ export class FormComponent implements OnInit, OnDestroy {
   size: any = true;
   size1: any = true;
 
-  officers: any[] = [
-    {
-      name: 'Is Responsible',
-      key: 'IR',
-      description:
-        'Is responsible to hold and run the meeting with other team members',
-    },
-    {
-      name: 'Must Attend',
-      key: 'MA',
-      description:
-        'Must attend to hold and run the meeting with other team members',
-    },
-  ];
   roles: any[] = [
     {
       name: 'Active',
@@ -309,6 +435,7 @@ export class FormComponent implements OnInit, OnDestroy {
       key: 'A',
     },
   ];
+
   selectedOperations: any[] = [
     {
       name: 'Active',
@@ -323,14 +450,7 @@ export class FormComponent implements OnInit, OnDestroy {
         'Must attend to hold and run the meeting with other team members',
     },
   ];
-  contactPersons: any[] = [
-    {
-      name: 'Must Attend',
-      key: 'MA',
-      description:
-        'Must attend to hold and run the meeting with other team members',
-    },
-  ];
+
   //dates
   date: Date | undefined;
   date1: Date | undefined;
@@ -358,13 +478,16 @@ export class FormComponent implements OnInit, OnDestroy {
   //inputs
   @Input() titleIndividual!: string;
   @Input() descriptionIndividual!: string;
-  @Input() addAddressShowMain!: boolean;
+  @Input() addClientAddressesLookupsForm!: boolean;
   @Input() clientOnboardingCompanyShowMain!: boolean;
   @Input() clientOnboardingIndividualShowMain!: boolean;
   @Input() addCRAuthorityOfficeShowMain!: boolean;
-  @Input() uploadDocumentsShowMain!: boolean;
+  @Input() uploadDocumentsShowMain!: any;
   @Input() addSalesShowMain!: boolean;
   @Input() addPhoneNumbersShowMain!: boolean;
+  @Input() addClientPhoneNumberForm!: boolean;
+  @Input() addClientIdentityForm!: boolean;
+  @Input() addClientContactPersonForm!: boolean;
   @Input() addContactPersonShowMain!: boolean;
   @Input() clientOnboarding!: boolean;
   @Input() clientOnboardingShowIndividual!: boolean;
@@ -372,28 +495,36 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addCentralBankInfoShowMain!: boolean;
   @Input() addShareHolderShowMain!: boolean;
   @Input() addTMLOfficerShowMain!: boolean;
+  @Input() statusList: any;
+  @Input() communicationFlowTypes: any;
+  @Input() workflowActionTypeList: any;
   @Input() addClientCompanyViewShowMain!: boolean;
   @Input() addClientCompanyViewShowLegal!: boolean;
   @Input() addClientCompanyViewShowBusiness!: boolean;
   @Input() contactPersonDetailsView!: boolean;
-  @Input() addFeesRangesLookupsForm!: boolean;
   @Input() contactPersonDetailsViewShowForm!: boolean;
+  //Leasing Mandates
   @Input() addMandateShowMoreInformationForm!: boolean;
   @Input() addMandateShowAssetTypeForm!: boolean;
   @Input() addMandateShowContactPersonsForm!: boolean;
   @Input() addMandateShowOfficersForm!: boolean;
   @Input() addMandateShowBasicForm!: boolean;
-  @Input() addChildMandateShowMoreInformationForm!: boolean;
-  @Input() addChildMandateShowAssetTypeForm!: boolean;
+  //Child Leasing Mandates
+  @Input() addChildMandateShowBasicForm!: boolean;
   @Input() addChildMandateShowContactPersonsForm!: boolean;
   @Input() addChildMandateShowOfficersForm!: boolean;
-  @Input() addChildMandateShowBasicForm!: boolean;
+  @Input() addChildMandateShowMoreInformationForm!: boolean;
+  @Input() addChildMandateShowAssetTypeForm!: boolean;
+  //----
+  @Input() addConditionsLookupsForm!: boolean;
+  @Input() addCallActionTypeForm!: boolean;
+  @Input() addMandateAdditionalTermForm!: boolean;
+  @Input() addConditionExpressionsLookupsForm!: boolean;
   @Input() addManageMandateTermsForm!: boolean;
-  @Input() leasingFinancialFormShowCurrencyForm!: boolean;
-  @Input() leasingFinancialFormShowRatesForm!: boolean;
-  @Input() leasingFinancialFormShowBasicForm!: boolean;
-  @Input() addLegalsLegalForm!: boolean;
-  @Input() addLegalsLegalFormLaw!: boolean;
+  @Input() leasingFinancialCurrencyForm!: boolean;
+  @Input() leasingFinancialRateForm!: boolean;
+  @Input() leasingFinancialBasicForm!: boolean;
+  @Input() addMeetingForm!: boolean;
   @Input() addCompanyTypesLookupsForm!: boolean;
   @Input() addMeetingShowBusinessInformationForm!: boolean;
   @Input() addMeetingShowAssetTypeForm!: boolean;
@@ -401,26 +532,33 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addMeetingShowOfficersForm!: boolean;
   @Input() addMeetingShowBasicForm!: boolean;
   @Input() addCallShowBusinessInformationForm!: boolean;
+  @Input() addMandateFeeForm!: boolean;
   @Input() addCallShowContactPersonsForm!: boolean;
   @Input() addCallShowOfficersForm!: boolean;
   @Input() addCallShowBasicForm!: boolean;
-  @Input() addFollowUpsCommunicationForm!: boolean;
-  @Input() addFollowUpsPointsCommunicationForm!: boolean;
+  @Input() addFollowupsForm!: boolean;
+  @Input() addFollowupPointsForm!: boolean;
   @Input() addMeetingTypesCommunicationForm!: boolean;
   @Input() addFollowUpTypesCommunicationForm!: boolean;
   @Input() addCallTypesCommunicationForm!: boolean;
   @Input() addDepartmentsORGForm!: boolean;
+  @Input() addDocTypesForm!: boolean;
   @Input() addDepartmentManagerORGForm!: boolean;
   @Input() addTeamORGForm!: boolean;
   @Input() addTeamLeadORGForm!: boolean;
-  @Input() addTeamMemberORGForm!: boolean;
+  @Input() addMandateShowFeeForm!: boolean;
+  @Input() addRoleClaimORGForm!: boolean;
+  @Input() addCommunicationFlowTypesLookupsForm!: boolean;
+  @Input() addTeamOfficerORGForm!: boolean;
   @Input() addRoleORGForm!: boolean;
-  @Input() addOperationORGForm!: boolean;
+  @Input() addMandateOfficerForm!: boolean;
+  @Input() addOperationsORGForm!: boolean;
   @Input() addPageOperationORGForm!: boolean;
   @Input() addOfficerORGForm!: boolean;
   @Input() addSignatoryOfficerORGForm!: boolean;
   @Input() addFeeCalculationTypesLookupsForm!: boolean;
   @Input() addMandateStatusesLookupsForm!: boolean;
+  @Input() addMandateStatusActionsLookupsForm!: boolean;
   @Input() addInterestRateBenchmarksLookupsForm!: boolean;
   @Input() addFeesTypesLookupsForm!: boolean;
   @Input() addGracePeriodUnitsLookupsForm!: boolean;
@@ -428,11 +566,28 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addCurrenciesLookupsForm!: boolean;
   @Input() addCurrenciesExchangeLookupsForm!: boolean;
   @Input() addPaymentMethodsLookupsForm!: boolean;
+  @Input() addPageORGForm!: boolean;
+  @Input() addActionAuthorizationGroupForm!: boolean;
+  @Input() addActionNotificationGroupForm!: boolean;
+  @Input() addCallForm!: boolean;
+  @Input() show: boolean = false;
+  @Input() editShow: boolean = false;
+  currencyIdParam: any;
+  branchIdParam: any;
+  departmentIdParam: any;
+  teamIdParam: any;
+  clientIdParam: any;
+  communicationIdParam: any;
+  followupIdParam: any;
+  clientStatusActionIdParam: any;
+  mandateStatusActionIdParam: any;
   @Input() addPaymentTypesLookupsForm!: boolean;
+  @Input() addPaymentTimingTermsLookupsForm!: boolean;
+  @Input() addPaymentPeriodsLookupsForm!: boolean;
   @Input() addPaymentMonthDaysLookupsForm!: boolean;
   @Input() addMeetingTypesLookupsForm!: boolean;
   @Input() addInsuredByLookupsForm!: boolean;
-  @Input() addLeasingTypeLookupsForm!: boolean;
+  @Input() addLeasingTypesLookupsForm!: boolean;
   @Input() addMandateValidityUnitLookupsForm!: boolean;
   @Input() addClientDocumentTypesLookupsForm!: boolean;
   @Input() addBranchLookupsForm!: boolean;
@@ -440,8 +595,8 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addBusinessLinesLookupsForm!: boolean;
   @Input() addBranchAddressesLookupsForm!: boolean;
   @Input() addBranchOfficersLookupsForm!: boolean;
-  @Input() addAssestTypesLookupsForm!: boolean;
-  @Input() addAssestTypeCategoriesLookupsForm!: boolean;
+  @Input() addAssetTypesLookupsForm!: boolean;
+  @Input() addAssetTypeCategoriesLookupsForm!: boolean;
   @Input() addProductsLookupsForm!: boolean;
   @Input() addSectorsLookupsForm!: boolean;
   @Input() addClientStatusesLookupsForm!: boolean;
@@ -452,6 +607,15 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addAuthorityOfficesLookupsForm!: boolean;
   @Input() addPhoneTypesLookupsForm!: boolean;
   @Input() addAddressTypesLookupsForm!: boolean;
+  @Input() addAuthorizationGroupsLookupsForm!: boolean;
+  @Input() addNotificationGroupsLookupsForm!: boolean;
+  @Input() addNotificationGroupOfficersLookupsForm!: boolean;
+  @Input() addAuthorizationGroupOfficersLookupsForm!: boolean;
+  @Input() addInterestTypesLookupsForm!: boolean;
+  @Input() addFollowupTypesLookupsForm!: boolean;
+  @Input() addFeeRangesForm!: boolean;
+  @Input() addSalesTurnoverForm!: boolean;
+  @Input() addFollowupTypesCommunicationForm!: boolean;
   @Input() addGovernoratesLookupsForm!: boolean;
   @Input() addCountriesLookupsForm!: boolean;
   @Input() addIdentificationTypesLookupsForm!: boolean;
@@ -461,20 +625,34 @@ export class FormComponent implements OnInit, OnDestroy {
   @Input() addcallTypesLookupsForm!: boolean;
   @Input() addCommunicationTypesLookupsForm!: boolean;
   @Input() addCallActionTypeLookupsForm!: boolean;
-  @Input() addCommunicationFlowTypeLookupsForm!: boolean;
+  @Input() addClientOfficerTypeLookupsForm!: boolean;
   @Input() addClientGuarantorsShowIndividual!: boolean;
-  @Input() addClientIdentitiesShowIndividual!: boolean;
-  filteredSubSectors$!: Observable<SubSectors[]>;
-  legalFormLaws$: Observable<LegalFormLaw[]> = this.facade.legalFormLaws$;
-  legalForms$ = this.facadeLegalForms.legalForms$;
-  private sub!: Subscription;
+  @Input() addClientIdentities!: boolean;
+  @Input() addWorkFlowActionTypesLookupsForm!: boolean;
+  @Input() addLegalFormLawsForm!: boolean;
+  @Input() addLegalFormsForm!: boolean;
+  @Input() addOfficersForm!: boolean;
+  @Input() addClientOfficerShowMain!: boolean;
+  @Input() addClientLegalShowMain!: boolean;
+  @Input() addDepartmentsForm!: boolean;
+  @Input() addMandateActionAuthorizationGroupForm!: boolean;
+  @Input() addMandateActionNotificationGroupForm!: boolean;
+
+  @Input() currentClientId?: number;
+
+  filteredSubSectors$!: Observable<SubSector[]>;
+  @Input() operationName!: string;
+  clientStatusIdParam!: any;
+  mandateStatusIdParam!: any;
+  legalFormLaws$: Observable<any[]> = this.facade.legalFormLaws$;
+  legalForms$ = this.facadeLegalForms.items$;
+
+  // legalForms$ = this.facadeLegalForms.legalForms$;
   @Input() identityIndividual: {
-    id: number;
     name: string;
     nameAR: string;
     isActive: boolean;
   }[] = [];
-  @Input() maxDateOfBirth: Date = new Date(2006, 11, 31);
   @Output() submitDocument = new EventEmitter<{
     expiryDate: Date;
     documentTypeIds: number[];
@@ -483,18 +661,65 @@ export class FormComponent implements OnInit, OnDestroy {
   @Output() onFileSelect = new EventEmitter<any>();
   @Output() submitForm = new EventEmitter<void>();
   @Input() editMode: boolean = false;
-
+  private sub!: Subscription;
+  roleIdParam: any;
+  @Input() pagesList: any;
+  @Input() operationsList: any;
+  @Input() operationsList$!: any;
+  @Input() addClientGuarantorsLookupsForm!: boolean;
+  routeId = this.route.snapshot.params['leasingId'];
+  leasingRouteId = this.route.snapshot.params['leasingMandatesId'];
+  communicationId = this.route.snapshot.params['communicationId'];
+  previews: PreviewItem[] = [];
+  @Input() operationIdValue!: any;
+  clientDocId!: any;
+  clientId: any;
+  @Input() submitAttempted = false;
+  @Input() financialCustom!: boolean;
+  @Input() currencyCustom!: boolean;
   constructor(
     private store: Store,
     private facade: LegalFormLawFacade,
-    private facadeLegalForms: LegalFormFacade,
-    private route: ActivatedRoute,
-    public router: Router
-  ) {}
+    private facadeLegalForms: LegalFormsFacade,
+    public route: ActivatedRoute,
+    public router: Router,
+    private messageService: MessageService,
+    private sanitizer: DomSanitizer,
+
+    private translate: TranslateService
+  ) {
+    this.setOptionLabelKey(this.translate.currentLang);
+    this.setFilterByBasedOnLanguage();
+    this.setOperationBasedOnLanguage();
+    this.translate.onLangChange.subscribe((event) => {
+      this.setOptionLabelKey(event.lang);
+      this.setFilterByBasedOnLanguage();
+      this.setOperationBasedOnLanguage();
+    });
+  }
 
   ngOnInit() {
+    this.minDateOfBirth.setFullYear(this.minDateOfBirth.getFullYear() - 100);
+    // 18 years ago:
+    this.maxDateOfBirth.setFullYear(this.maxDateOfBirth.getFullYear() - 18);
     this.id = this.route.snapshot.paramMap.get('clientId')!;
-    console.log('Extracted ID:', this.id); // 🔍 debug
+    this.communicationIdParam = this.route.snapshot.params['communicationId'];
+    this.followupIdParam = this.route.snapshot.queryParams['followupId'];
+
+    this.clientDocId = this.route.snapshot.params['clientId'];
+    this.clientId = this.route.snapshot.queryParams['clientId']!;
+    this.currencyIdParam = this.route.snapshot.queryParams['currencyId'];
+    this.branchIdParam = this.route.snapshot.queryParams['branchId'];
+    this.departmentIdParam = this.route.snapshot.queryParams['departmentId'];
+    this.teamIdParam = this.route.snapshot.queryParams['teamId'];
+    this.roleIdParam = this.route.snapshot.queryParams['roleId'];
+    this.clientIdParam = this.route.snapshot.queryParams['clientId'];
+    this.clientStatusActionIdParam =
+      this.route.snapshot.queryParams['clientStatusActionId'];
+    this.clientStatusIdParam = this.route.snapshot.params['id'];
+    this.mandateStatusIdParam = this.route.snapshot.params['id'];
+    this.mandateStatusActionIdParam =
+      this.route.snapshot.queryParams['mandateStatusActionId'];
     this.sub = this.formGroup?.valueChanges
       .pipe(debounceTime(300))
       .subscribe(() => {
@@ -505,8 +730,12 @@ export class FormComponent implements OnInit, OnDestroy {
       this.addClientShowMain ||
       this.addClientShowBusiness ||
       this.addClientShowLegal ||
-      this.addClientShowIndividual
+      this.addClientShowIndividual ||
+      this.addClientOnboardingForm
     ) {
+      this.store.dispatch(sectorsActions.loadAll({}));
+      this.store.dispatch(subSectorsActions.loadAll({}));
+
       this.sectorsSafe$ = this.store.select(selectAllSectors);
       const sectorCtrl = this.formGroup.get('sectorId');
       if (sectorCtrl) {
@@ -524,277 +753,59 @@ export class FormComponent implements OnInit, OnDestroy {
         );
       }
       if (this.addClientShowMain) {
-        this.store.dispatch(sectorsActions.loadSectors());
-        this.store.dispatch(subSectorsActions.loadSubSectors());
+        this.store.dispatch(sectorsActions.loadAll({}));
+        this.store.dispatch(subSectorsActions.loadAll({}));
       }
       if (this.addClientShowLegal) {
         this.facade.loadLegalFormLaws();
-        this.facadeLegalForms.loadLegalForms();
+        this.facadeLegalForms.loadAll();
       }
     }
+
     // Combine sectorId changes with all sub-sectors
-
-    this.selectedSectorsShowCompanyOnly = [
-      { name: 'Technology', code: 'T' },
-      { name: 'Programming', code: 'P' },
-      { name: 'Machine Learning', code: 'ML' },
-    ];
-    this.selectedSubSectorsShowCompanyOnly = [
-      { name: 'AI', code: 'AI' },
-      { name: 'Marketing Field', code: 'MF' },
-    ];
-    this.sectorsIndividual = [
-      { name: 'Technology', code: 'T' },
-      { name: 'Programming', code: 'P' },
-      { name: 'Machine Learning', code: 'ML' },
-    ];
-    this.subSectors = [
-      { name: 'AI', code: 'AI' },
-      { name: 'Marketing Field', code: 'MF' },
-    ];
-
-    this.subSectorsIndividual = [
-      { name: 'AI', code: 'AI' },
-      { name: 'Marketing Field', code: 'MF' },
-    ];
-    this.legalFormLaw = [{ name: 'Form Law 206', code: '206' }];
-    this.currencyExchangeRate = [{ name: 'USD', code: 'USD' }];
-    this.selectedCurrencyExchangeRate = { name: 'USD', code: 'USD' };
-    this.isManualExchangeRates = [{ name: 'YES', code: 'yes' }];
-    this.selectedIsManualExchangeRates = { name: 'YES', code: 'yes' };
-    this.interestRateBenchMarks = [{ name: 'Corridor', code: 'corridor' }];
-    this.selectedInterestRateBenchMarks = {
-      name: 'Corridor',
-      code: 'corridor',
-    };
-    this.paymentTimeTerms = [{ name: 'In Arrear', code: 'inArrear' }];
-    this.selectedPaymentTimeTerms = {
-      name: 'In Arrear',
-      code: 'inArrear',
-    };
-    this.paymentMethods = [{ name: 'BSO', code: 'bso' }];
-    this.selectedPaymentMethods = {
-      name: 'BSO',
-      code: 'bso',
-    };
-    this.rentStructures = [{ name: 'FixedRent', code: 'fixedRent' }];
-    this.selectedRentStructures = {
-      name: 'FixedRent',
-      code: 'fixedRent',
-    };
-    this.paymentMonthDays = [{ name: 'May', code: 'may' }];
-    this.selectedPaymentMonthDays = { name: 'May', code: 'may' };
-    this.selectedLegalFormLawCompanyViewOnly = [
-      { name: 'Form Law 206', code: '206' },
-    ];
-    this.legalForm = [{ name: 'Form Law 105', code: '105' }];
-    this.selectedLegalFormCompanyViewOnly = [
-      { name: 'Form Law 105', code: '105' },
-    ];
-    this.selectedIsStampCompanyViewOnly = [{ name: 'Yes', code: '1' }];
-    this.stamps = [
-      { name: 'Yes', code: '1' },
-      { name: 'No', code: '0' },
-    ];
-    this.selectedStamps = { name: 'Yes', code: '1' };
-    this.phoneTypes = [{ name: 'Phone Type', code: 'pt' }];
-    this.companyTypes = [{ name: 'Type', code: 'type' }];
-    this.selectedCompanyTypes = { name: 'Type', code: 'type' };
-
-    this.areas = [
-      { name: 'Haram', code: 'haram' },
-      { name: 'Andalus', code: 'andalus' },
-    ];
-    this.governments = [
-      { name: 'Giza', code: 'giza' },
-      { name: 'New Cairo', code: 'nc' },
-    ];
-    this.selectedGovernments = [{ name: 'Giza', code: 'giza' }];
-    this.selectedAreas = [{ name: 'Haram', code: 'haram' }];
-    this.genders = [
-      { name: 'Male', id: 1 },
-      { name: 'Female', id: 2 },
-    ];
-    this.addresses = [{ name: 'Address Type', code: 'adType' }];
-    this.selectedAddresses = [{ name: 'Address Type', code: 'adType' }];
-    this.countries = [
-      { name: 'Egypt', code: 'egypt' },
-      { name: 'UAE', code: 'uae' },
-    ];
-    this.selectedCountries = [{ name: 'Egypt', code: 'egypt' }];
-    this.codes = [{ name: 'Office', code: 'office' }];
-    this.selectedCodes = [{ name: 'Office', code: 'office' }];
-
-    this.isActive = [
-      { name: 'Yes', code: 'yes' },
-      { name: 'NO', code: 'no' },
-    ];
-    this.isMain = [
-      { name: 'Yes', code: 'yes' },
-      { name: 'NO', code: 'no' },
-    ];
-    this.crAuthorityOffices = [
-      {
-        name: 'CENTRAL BANK OF EGYPT - CUSTOMER CODE',
-        code: 'CC',
-      },
-    ];
-    this.shareHolderNames = [
-      {
-        name: 'Name',
-        code: 'name',
-      },
-    ];
-    this.shareHolderTypes = [
-      {
-        name: 'Type',
-        code: 'type',
-      },
-    ];
-    this.officerNames = [
-      {
-        name: 'Name',
-        code: 'name',
-      },
-    ];
-    this.officerTypes = [
-      {
-        name: 'Type',
-        code: 'type',
-      },
-    ];
-    this.clientNames = [
-      {
-        name: 'Google.com',
-        code: 'google',
-      },
-    ];
-    this.selectedClientNames = [
-      {
-        name: 'Google.com',
-        code: 'google',
-      },
-    ];
-    this.products = [
-      {
-        name: 'Software',
-        code: 'software',
-      },
-    ];
-    this.selectedProducts = [
-      {
-        name: 'Software',
-        code: 'software',
-      },
-    ];
-    this.selectedMandateValidityUnit = [{ name: 'Technology', code: 'T' }];
-    this.officerTypesMandates = [{ name: 'Officer', code: 'o' }];
-    this.selectedOfficerTypesMandate = [{ name: 'Officer', code: 'o' }];
-    this.actions = [{ name: 'Identity', code: 'id' }];
-    this.selectedActions = [{ name: 'Identity', code: 'id' }];
-
-    this.insuredBy = [{ name: 'Microsoft', code: 'M' }];
-    this.selectedInsuredBy = [{ name: 'Microsoft', code: 'M' }];
-    this.leasingTypes = [{ name: 'LeasingType', code: 'LT' }];
-    this.selectedLeasingTypes = [{ name: 'LeasingType', code: 'LT' }];
-    this.selectedGracePeriodUnits = [{ name: '100', code: '100' }];
-    this.gracePeriodUnits = [{ name: '100', code: '100' }];
-    this.paymentPeriods = [{ name: '50', code: '50' }];
-
-    this.selectedPaymentPeriods = { name: '50', code: '50' };
-    this.gracePeriodUnits = [{ name: '100', code: '100' }];
-
-    this.selectedGracePeriodUnits = { name: '100', code: '100' };
-    this.meetingTypeAddMeeting = [{ name: 'Business', code: 'Business' }];
-    this.selectedMeetingTypeAddMeeting = [
-      { name: 'Business', code: 'Business' },
-    ];
-    this.communicationFlowAddMeeting = [
-      { name: 'Technology', code: 'Technology' },
-      { name: 'Programming', code: 'Programming' },
-      { name: 'Machine Learning', code: 'MachineLearning' },
-    ];
-    this.selectedCommunicationFlowAddMeeting = [
-      { name: 'Technology', code: 'Technology' },
-      { name: 'Programming', code: 'Programming' },
-      { name: 'Machine Learning', code: 'MachineLearning' },
-    ];
-    this.countryAddMeeting = [{ name: 'Egypt', code: 'Egypt' }];
-    this.selectedCountryAddMeeting = [{ name: 'Egypt', code: 'Egypt' }];
-    this.governorateAddMeeting = [{ name: 'Cairo', code: 'Cairo' }];
-    this.selectedGovernorateAddMeeting = [{ name: 'Cairo', code: 'Cairo' }];
-    this.areaAddMeeting = [{ name: 'New Cairo', code: 'New Cairo' }];
-    this.selectedAreaAddMeeting = [{ name: 'New Cairo', code: 'New Cairo' }];
-    this.officerAddMeeting = [{ name: 'Form Law 206', code: 'Form Law 206' }];
-    this.selectedOfficerAddMeeting = [
-      { name: 'Form Law 206', code: 'Form Law 206' },
-    ];
-    this.selectedOfficers = [this.officers[0]];
-
-    this.contactPersonsFollowupsPoints = [{ name: 'Officer', code: 'Officer' }];
-    this.officersFollowupsPoints = [{ name: 'Officer', code: 'Officer' }];
-    this.callTypeAddCall = [{ name: 'Business', code: 'Business' }];
-    this.selectedCallTypeAddCall = [{ name: 'Business', code: 'Business' }];
-    this.callActionTypeAddCall = [{ name: 'Egypt', code: 'Egypt' }];
-    this.selectedCallActionTypeAddCall = [{ name: 'Egypt', code: 'Egypt' }];
-    this.communicationFlowAddCall = [
-      { name: 'Technology', code: 'Technology' },
-      { name: 'Programming', code: 'Programming' },
-      { name: 'Machine Learning', code: 'MachineLearning' },
-    ];
-    this.selectedCommunicationFlowAddCall = [
-      { name: 'Technology', code: 'Technology' },
-      { name: 'Programming', code: 'Programming' },
-      { name: 'Machine Learning', code: 'MachineLearning' },
-    ];
-    this.departments = [{ name: 'Department', code: 'Department' }];
-    this.teams = [{ name: 'Team', code: 'Team' }];
-    this.pages = [
-      {
-        name: 'Page',
-        key: 'page',
-      },
-    ];
-    this.selectedCurrencyExchangeLookups = [
-      {
-        name: 'EGP',
-        key: 'eGP',
-      },
-    ];
-    this.currencyExchangeLookups = [
-      {
-        name: 'EGP',
-        key: 'eGP',
-      },
-    ];
-    this.exchangeRateCurrencies = [
-      {
-        name: '50%',
-        key: '50%',
-      },
-    ];
-    this.selectedExchangeRateCurrencies = [
-      {
-        name: '50%',
-        key: '50%',
-      },
-    ];
   }
   ngOnDestroy() {
+    // cleanup any remaining URLs
+    for (const p of this.previews) URL.revokeObjectURL(p.url);
+
     this.sub.unsubscribe();
+  }
+  private setFilterByBasedOnLanguage(): void {
+    this.filterByField =
+      this.translate.currentLang === 'ar' ? 'nameAR' : 'name';
   }
 
   get identities(): FormArray {
     return this.formGroup.get('identities') as FormArray;
   }
-
+  get mandateOfficers(): FormArray {
+    return this.formGroup.get('mandateOfficers') as FormArray;
+  }
+  get mandateContactPersons(): FormArray {
+    return this.formGroup.get('mandateContactPersons') as FormArray;
+  }
+  get mandateAssetTypes(): FormArray {
+    return this.formGroup.get('mandateAssetTypes') as FormArray;
+  }
+  get mandateFees(): FormArray {
+    return this.formGroup.get('mandateFees') as FormArray;
+  }
+  get mandateGracePeriodSettingView(): FormGroup {
+    return this.formGroup.get('mandateGracePeriodSettingView') as FormGroup;
+  }
+  onDownloadClick() {
+    this.downloadFile.emit(); // ✅ this is correct
+  }
+  private setOptionLabelKey(lang: string) {
+    this.optionLabelKey = lang === 'ar' ? 'nameAR' : 'name';
+  }
   onSectorChange(event: any) {
     const selectedId = event.value;
     this.sectorsSafe$
-      .pipe(
+      ?.pipe(
         take(1),
         map((sectors) => sectors.find((s) => s.id === selectedId)),
-        filter((sector): sector is Sectors => !!sector)
+        filter((sector): sector is Sector => !!sector)
       )
       .subscribe((sector) => {
         this.value = selectedId;
@@ -802,9 +813,24 @@ export class FormComponent implements OnInit, OnDestroy {
         this.onTouched();
         this.selectionChanged.emit(sector);
         this.sectorChanged.emit(selectedId);
+        // ← add this block to clear sub-sector selections:
+        const subCtrl = this.formGroup.get('subSectorIdList');
+        if (subCtrl) {
+          subCtrl.setValue([]); // remove all IDs
+          subCtrl.markAsUntouched(); // reset touched state if you like
+          subCtrl.updateValueAndValidity();
+        }
       });
   }
-
+  get operationsLabel(): string {
+    if (!this.operationsList || this.operationsList.length === 0) {
+      return 'Select an operation';
+    }
+    return this.operationsList.map((po: any) => po.operation.name).join(', ');
+  }
+  get phoneTypesArray(): FormArray {
+    return this.formGroup.get('phoneTypes') as FormArray;
+  }
   get subSectorList(): FormControl {
     return this.formGroup.get('subSectorIdList') as FormControl;
   }
@@ -832,71 +858,166 @@ export class FormComponent implements OnInit, OnDestroy {
   viewAddress() {
     this.router.navigate(['/crm/clients/view-address']);
   }
+
+  viewMandateFees() {
+    this.router.navigate([
+      `/crm/leasing-mandates/view-mandate-fees/${this.routeId}/${this.leasingRouteId}`,
+    ]);
+  }
   viewCentralBankInfo() {
-    this.router.navigate(['/crm/clients/view-central-bank-info']);
+    this.router.navigate([
+      `/crm/clients/view-client-central-bank-info/${this.clientId}`,
+    ]);
   }
   viewCRAuthority() {
-    this.router.navigate(['/crm/clients/view-cr-authority-office']);
+    this.router.navigate([
+      `/crm/clients/view-client-cr-authority-offices/${this.clientId}`,
+    ]);
   }
   viewBusinessLines() {
     this.router.navigate(['/lookups/view-business-lines']);
   }
-  viewBranchManagers() {
-    this.router.navigate(['/lookups/view-branch-managers']);
+
+  viewConditions() {
+    this.router.navigate(['/lookups/view-conditions']);
   }
+
+  viewAuthorizationOfficersGroup() {
+    this.router.navigate(['/lookups/view-authorization-group-officers']);
+  }
+
+  viewConditionExpressions() {
+    this.router.navigate(['/lookups/view-condition-expressions']);
+  }
+
+  viewNotificationOfficersGroup() {
+    this.router.navigate(['/lookups/view-notification-group-officers']);
+  }
+
+  viewInterestTypes() {
+    this.router.navigate(['/lookups/view-interest-types']);
+  }
+
+  viewFeesRnages() {
+    this.router.navigate(['/lookups/view-fee-ranges']);
+  }
+
+  viewPaymentPeriods() {
+    this.router.navigate(['/lookups/view-payment-periods']);
+  }
+
+  viewBranchManagers() {
+    this.router.navigate([
+      `/organizations/view-branch-managers/${this.branchIdParam}`,
+    ]);
+  }
+
+  viewMeetings() {
+    this.router.navigate([`/communication/view-meetings`]);
+  }
+
+  viewMandateAdditionalTerms() {
+    this.router.navigate([
+      `/crm/leasing-mandates/view-mandate-additional-terms/${this.routeId}/${this.leasingRouteId}`,
+    ]);
+  }
+
+  viewDepartmentManager() {
+    this.router.navigate([]);
+  }
+
+  viewTeamLeadOfficers() {
+    this.router.navigate([
+      `/organizations/view-team-lead-officers/${this.teamIdParam}`,
+    ]);
+  }
+
+  viewCalls() {
+    this.router.navigate([`/communication/view-calls`]);
+  }
+
+  viewTeamOfficers() {
+    this.router.navigate([
+      `/organizations/view-team-officers/${this.teamIdParam}`,
+    ]);
+  }
+  onOpToggle(opId: number, checked: any) {
+    const ctrl = this.formGroup.get('operationIds')!;
+    const selected: number[] = [...ctrl.value];
+    if (checked) {
+      if (!selected.includes(opId)) selected.push(opId);
+    } else {
+      const idx = selected.indexOf(opId);
+      if (idx >= 0) selected.splice(idx, 1);
+    }
+    ctrl.setValue(selected);
+  }
+
   viewBranchOfficers() {
-    this.router.navigate(['/lookups/view-branch-officers']);
+    this.router.navigate([]);
   }
   viewBranchAddress() {
-    this.router.navigate(['/crm/clients/view-branch-address']);
+    this.router.navigate([
+      `/organizations/view-branch-addresses/${this.branchIdParam}`,
+    ]);
   }
   viewBranch() {
-    this.router.navigate(['/lookups/view-branch']);
+    this.router.navigate(['/organizations/view-branches']);
   }
   viewClientDocument() {
     this.router.navigate(['/lookups/view-client-document-types']);
   }
   viewMandateValidity() {
-    this.router.navigate(['/crm/clients/view-mandate-validity']);
+    this.router.navigate(['/lookups/view-mandate-validity-unit']);
   }
   viewLeasingType() {
-    this.router.navigate(['/crm/clients/view-leasing-type']);
+    this.router.navigate(['/lookups/view-leasing-types']);
   }
   viewInsuredBy() {
-    this.router.navigate(['/crm/clients/view-insured-by']);
+    this.router.navigate(['/lookups/view-insured-by']);
   }
   viewMeetingTypes() {
-    this.router.navigate(['/crm/clients/view-meeting-types']);
+    this.router.navigate(['/lookups/view-meeting-types']);
   }
   viewPaymentMonthDays() {
-    this.router.navigate(['/crm/clients/view-payment-month-days']);
+    this.router.navigate(['/lookups/view-payment-month-days']);
   }
   viewPaymentMethod() {
-    this.router.navigate(['/crm/clients/view-payment-method']);
+    this.router.navigate(['/lookups/view-payment-methods']);
   }
+
+  viewPaymentTimingTerms() {
+    this.router.navigate(['/lookups/view-payment-timing-terms']);
+  }
+
   viewCurrencyExchange() {
-    this.router.navigate(['/crm/clients/view-currency-exchange']);
+    this.router.navigate([
+      `/lookups/view-currency-exchange-rates/${this.currencyIdParam}`,
+    ]);
   }
   viewCurrencies() {
-    this.router.navigate(['/crm/clients/view-currencies']);
+    this.router.navigate(['/lookups/view-currencies']);
   }
   viewRentStructure() {
     this.router.navigate(['/lookups/view-rent-structure-types']);
   }
   viewGracePeriod() {
-    this.router.navigate(['/crm/clients/view-grace-period']);
+    this.router.navigate(['/lookups/view-period-units']);
   }
   viewFeesTypes() {
-    this.router.navigate(['/crm/clients/view-fees-types']);
+    this.router.navigate(['/lookups/view-fee-types']);
+  }
+  viewNotificationGroup() {
+    this.router.navigate(['/lookups/view-notification-groups']);
   }
   viewInterestRate() {
-    this.router.navigate(['/crm/clients/view-interest-rate']);
+    this.router.navigate(['/lookups/view-interest-rate-benchmarks']);
   }
   viewMandateStatuses() {
     this.router.navigate(['/lookups/view-mandate-statuses']);
   }
-  viewFeesCalculation() {
-    this.router.navigate(['/crm/clients/view-fee-calculation']);
+  viewFeesCalculationType() {
+    this.router.navigate(['/lookups/view-fee-calculation-types']);
   }
   viewSignatoryOfficer() {
     this.router.navigate(['/organizations/view-signatory-officers']);
@@ -907,11 +1028,16 @@ export class FormComponent implements OnInit, OnDestroy {
   viewPageOperation() {
     this.router.navigate(['/organizations/view-page-operations']);
   }
-  viewOperation() {
-    this.router.navigate(['/crm/clients/view-operation']);
+  viewOperations() {
+    this.router.navigate(['/organizations/view-operations']);
   }
-  viewRole() {
-    this.router.navigate(['/crm/clients/view-role']);
+  viewRoles() {
+    this.router.navigate(['/organizations/view-roles']);
+  }
+  viewRoleClaims() {
+    this.router.navigate([
+      `/organizations/view-role-claims/${this.roleIdParam}`,
+    ]);
   }
   viewTeamMember() {
     this.router.navigate(['/crm/clients/view-team-member']);
@@ -919,8 +1045,8 @@ export class FormComponent implements OnInit, OnDestroy {
   viewTeamLead() {
     this.router.navigate(['/crm/clients/view-team-lead']);
   }
-  viewTeam() {
-    this.router.navigate(['/crm/clients/view-team']);
+  viewTeams() {
+    this.router.navigate(['organizations/view-teams']);
   }
   viewManager() {
     this.router.navigate(['/crm/clients/view-manager']);
@@ -929,22 +1055,35 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/organizations/view-departments']);
   }
   viewCallTypes() {
-    this.router.navigate(['/crm/clients/view-call-types']);
+    this.router.navigate(['/lookups/view-call-types']);
   }
   viewFollowupTypes() {
-    this.router.navigate(['/crm/clients/view-followup-types']);
+    this.router.navigate(['/lookups/view-followup-types']);
   }
+
   viewOfficers() {
-    this.router.navigate(['/crm/clients/view-officers']);
+    this.router.navigate(['/organizations/view-officers']);
   }
-  viewContactPersons() {
-    this.router.navigate(['/crm/clients/view-contact-person']);
+  onViewContactPersonsClick() {
+    console.log('Client ID:', this.currentClientId);
+    if (this.currentClientId) {
+      this.viewContactPersons.emit(this.currentClientId);
+    }
   }
-  viewFollowUpsPoint() {
-    this.router.navigate(['/communication/view-followup-points']);
-  }
+
   viewFollowUps() {
-    this.router.navigate(['/communication/view-followups']);
+    console.log('follow up clicked   ', this.communicationIdParam);
+    this.router.navigate([
+      `/communication/view-follow-ups/${this.communicationIdParam}`,
+    ]);
+  }
+
+  viewFollowUpPoints() {
+    console.log('follow up clicked   ', this.communicationIdParam);
+    console.log('follow up clicked   ', this.followupIdParam);
+    this.router.navigate([
+      `/communication/view-follow-up-points/${this.followupIdParam}/${this.communicationIdParam}`,
+    ]);
   }
   viewAssestType() {
     this.router.navigate(['/crm/clients/view-assest-type']);
@@ -953,47 +1092,71 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-company-types']);
   }
   viewLegalFormLaw() {
-    this.router.navigate(['/legals/view-legal-form-law']);
+    this.router.navigate(['/legals/view-legal-form-laws']);
   }
   viewLegalForm() {
-    this.router.navigate(['/legals/view-legal-form']);
+    this.router.navigate(['/legals/view-legal-forms']);
   }
   viewTMLOfficer() {
-    this.router.navigate(['/crm/clients/view-tml-officer']);
+    this.router.navigate([
+      `/crm/clients/view-client-tml-officers/${this.clientId}`,
+    ]);
+  }
+  viewClientOfficer() {
+    this.router.navigate([
+      `/crm/clients/view-client-officers/${this.clientId}`,
+    ]);
+  }
+  viewClientLegal() {
+    this.router.navigate([`/crm/clients/view-client-legals/${this.clientId}`]);
   }
   viewShareHolder() {
-    this.router.navigate(['/crm/clients/view-share-holder']);
+    this.router.navigate([
+      `/crm/clients/view-client-share-holders/${this.clientId}`,
+    ]);
   }
   viewTaxAuthority() {
-    this.router.navigate(['/crm/clients/view-tax-authority-office']);
+    this.router.navigate([
+      `/crm/clients/view-client-tax-authority-offices/${this.clientId}`,
+    ]);
   }
   viewContactDetails() {
-    this.router.navigate(['/crm/clients/view-contact-person']);
+    this.router.navigate([
+      `/crm/clients/view-contact-persons/${this.clientId}`,
+    ]);
   }
   viewPhoneNumber() {
-    this.router.navigate(['/crm/clients/view-phone-number']);
+    this.router.navigate([`/crm/clients/view-phone-numbers/${this.clientId}`]);
   }
   viewSalesTurnover() {
-    this.router.navigate(['/crm/clients/view-sales-turnover']);
+    console.log('hello from arwa ', this.clientId);
+    this.router.navigate(['/crm/clients/view-sales-turnovers/', this.clientId]);
   }
-  viewAddressDetails() {
-    this.router.navigate(['/crm/clients/view-address'], {
-      queryParams: { id: this.id },
-    });
+  viewClientAddressDetails() {
+    this.router.navigate([
+      `/crm/clients/view-client-addresses/${this.clientIdParam}`,
+    ]);
   }
+
+  viewClientIdentity() {
+    this.router.navigate([
+      `/crm/clients/view-client-identity/${this.clientIdParam}`,
+    ]);
+  }
+
   viewPaymentTypes() {
     this.router.navigate(['/lookups/view-payment-types']);
   }
   viewDocumentDetails(): void {
-    this.router.navigate(['/crm/clients/view-upload-documents'], {
-      queryParams: { id: this.id },
-    });
+    this.router.navigate([
+      `/crm/clients/view-upload-documents/${this.clientDocId}`,
+    ]);
   }
-  viewAssestTypes() {
-    this.router.navigate(['/crm/clients/view-assest-types']);
+  viewAssetTypes() {
+    this.router.navigate(['/lookups/view-asset-types']);
   }
-  viewAssestTypeCategories() {
-    this.router.navigate(['/crm/clients/view-assest-type-categories']);
+  viewAssetTypeCategories() {
+    this.router.navigate(['/lookups/view-asset-type-categories']);
   }
   viewProducts() {
     this.router.navigate(['/lookups/view-products']);
@@ -1008,75 +1171,179 @@ export class FormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/lookups/view-client-statuses']);
   }
   viewClientStatusActions() {
-    this.router.navigate(['/crm/clients/view-client-status-actions']);
+    this.router.navigate(['/lookups/view-client-status-actions']);
+  }
+  viewMandateStatusActions() {
+    this.router.navigate(['/lookups/view-mandate-status-actions']);
+  }
+  viewActionAuthorizationGroup() {
+    this.router.navigate([
+      `/lookups/view-action-authorizationGroups/${this.clientStatusActionIdParam}`,
+    ]);
+  }
+  viewActionNotificationGroup() {
+    this.router.navigate([
+      `/lookups/view-action-notificationGroups/${this.clientStatusActionIdParam}`,
+    ]);
+  }
+  viewMandateActionAuthorizationGroup() {
+    this.router.navigate([
+      `/lookups/view-mandate-action-authorizationGroups/${this.mandateStatusActionIdParam}`,
+    ]);
+  }
+  viewMandateActionNotificationGroup() {
+    this.router.navigate([
+      `/lookups/view-mandate-action-notificationGroups/${this.mandateStatusActionIdParam}`,
+    ]);
   }
   viewSMEClientCode() {
-    this.router.navigate(['/lookups/view-sme-client-code']);
+    this.router.navigate(['/lookups/view-sme-client-codes']);
   }
   viewSubSectors() {
-    this.router.navigate(['/lookups/view-sub-sector']);
+    this.router.navigate(['/lookups/view-sub-sectors']);
   }
   viewClientTypes() {
-    this.router.navigate(['/crm/clients/view-client-types']);
+    this.router.navigate(['/lookups/view-client-types']);
   }
   viewAuthorityOffices() {
-    this.router.navigate(['/crm/clients/view-authority-offices']);
+    this.router.navigate(['/lookups/view-authority-offices']);
   }
   viewPhoneTypes() {
     this.router.navigate(['/lookups/view-phone-types']);
   }
   viewAddressTypes() {
-    this.router.navigate(['/crm/clients/view-address-types']);
+    this.router.navigate(['/lookups/view-address-types']);
+  }
+  viewAuthorizationGroups() {
+    this.router.navigate(['/lookups/view-authorization-groups']);
   }
   viewGovernorates() {
-    this.router.navigate(['/crm/clients/view-governorates']);
+    this.router.navigate(['/lookups/view-governorates']);
   }
   viewCountries() {
-    this.router.navigate(['/crm/clients/view-countries']);
+    this.router.navigate(['/lookups/view-countries']);
+  }
+  /** Copies a Windows UNC path so the user can paste it in File Explorer. */
+  copyPath() {
+    const raw = this.existingFileUrl || ''; // e.g. "file://srvhqtest02/uploads/..." OR "D:\\uploads\\...\\file.pdf" OR "/uploads/..."
+    const unc = this.toWindowsUncPath(raw);
+    if (!unc) return;
+
+    navigator.clipboard.writeText(unc).then(
+      () =>
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Path copied',
+          detail: 'Paste into New Tab ',
+          life: 4000,
+        }),
+      () =>
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Could not copy',
+          detail: 'Select and copy the path manually.',
+          life: 4000,
+        })
+    );
+  }
+  /** Converts stored paths to a Windows UNC path like: \\srvhqtest02\uploads\...\file.pdf */
+  private toWindowsUncPath(input: string): string {
+    if (!input) return '';
+
+    // 1) Remove scheme/host if present
+    let rest = input;
+
+    // file://srvhqtest02/...  -> keep only the path part
+    rest = rest.replace(/^file:\/\/srvhqtest02\/?/i, '');
+
+    // file:///D:/... or file:///uploads/... -> strip "file:///"
+    rest = rest.replace(/^file:\/\/\//i, '');
+
+    // generic file://something/... -> strip "file://something/"
+    rest = rest.replace(/^file:\/\/[^/]+\/?/i, '');
+
+    // 2) Normalize slashes
+    rest = rest.replace(/\\/g, '/');
+
+    // 3) Strip any leading drive letter like "D:" or "/D:"
+    rest = rest.replace(/^\/?[A-Za-z]:/, '');
+
+    // 4) Ensure single leading slash
+    if (!rest.startsWith('/')) rest = '/' + rest;
+
+    // 5) Collapse duplicate slashes (just in case)
+    rest = rest.replace(/\/{2,}/g, '/'); // remove trailing slash if any
+    rest = rest.replace(/D:/g, '');
+    // 6) Return canonical UNC file URL (no drive)
+    return `file://srvhqtest02${rest}`;
   }
   viewIdentificationTypes() {
-    this.router.navigate(['/crm/clients/view-identification-types']);
+    this.router.navigate(['/lookups/view-identification-types']);
   }
   viewAreas() {
-    this.router.navigate(['/crm/clients/view-areas']);
+    this.router.navigate(['/lookups/view-areas']);
   }
   viewTaxOffices() {
-    this.router.navigate(['/crm/clients/view-tax-offices']);
+    this.router.navigate(['/lookups/view-tax-offices']);
+  }
+  viewPageDetails() {
+    this.router.navigate(['/organizations/view-pages']);
+  }
+  viewDocTypes() {
+    this.router.navigate(['/lookups/view-document-types']);
   }
   viewTMLOfficerType() {
     this.router.navigate(['/lookups/view-tml-officer-types']);
   }
   viewCommunicationTypes() {
-    this.router.navigate(['/crm/clients/view-communication-types']);
+    this.router.navigate(['/lookups/view-communication-types']);
   }
   viewCallActionType() {
-    this.router.navigate(['/crm/clients/view-call-action-type']);
+    this.router.navigate(['/lookups/view-call-action-types']);
+  }
+  viewClientOfficerType() {
+    this.router.navigate(['/lookups/view-client-officer-types']);
   }
   viewCommunicationFlowType() {
-    this.router.navigate(['/crm/clients/view-communication-flow-type']);
+    this.router.navigate(['/lookups/view-communication-flow-types']);
+  }
+  viewWorkFlowActionTypes() {
+    this.router.navigate(['/lookups/view-workflow-action-types']);
   }
   viewClientGuarantors() {
-    this.router.navigate(['/crm/clients/view-client-guarantor']);
+    this.router.navigate([
+      `/crm/clients/view-client-guarantors/${this.clientIdParam}`,
+    ]);
   }
   onSubSectorChange(event: any): void {
     const selectedIds: number[] = event.value;
     this.subSectorList.setValue(selectedIds);
     this.subSectorList.markAsTouched();
   }
-  updateValue(value: LegalFormLaw, value1: LegalForm): void {
-    this.selectedLegalFormLaw = value;
-    this.selectedLegalForm = value1;
-    this.onChange(value);
-    this.onTouched();
-    this.selectionChanged.emit(value);
-  }
-  onFileSelected(event: any): void {
-    const file = event.files?.[0];
-    if (file) {
-      console.log('[FormComponent] File selected:', file);
-      this.formGroup.patchValue({ file });
-      this.formGroup.get('file')?.updateValueAndValidity();
+
+  // updateValue(value: LegalFormLaw, value1: LegalForm): void {
+  //   this.selectedLegalFormLaw = value;
+  //   this.selectedLegalForm = value1;
+  //   this.onChange(value);
+  //   this.onTouched();
+  //   this.selectionChanged.emit(value);
+  // }
+  onFileSelected(event: any) {
+    const file: File = event.files?.[0] ?? event.target?.files?.[0];
+    if (!file) {
+      this.formGroup.patchValue({ file: null });
+      this.onFileSelect.emit(null);
+      return;
     }
+
+    this.formGroup.patchValue({ file });
+    this.onFileSelect.emit(file);
+  }
+
+  onFileRemoved(event: any): void {
+    // reset the form control
+    this.formGroup.patchValue({ file: null });
+    this.formGroup.get('file')!.updateValueAndValidity();
   }
   onAddClick() {
     if (
@@ -1100,7 +1367,30 @@ export class FormComponent implements OnInit, OnDestroy {
         this.formGroup.enable();
       }
     }
+    if (changes['existingFileUrl']) {
+      const raw = changes['existingFileUrl'].currentValue as string | undefined;
+      const unc = this.toUncFileUrl(raw);
+      const encoded = this.encodeUrl(unc);
+      this.existingFileSafeUrl = this.sanitizer.bypassSecurityTrustUrl(encoded);
+    }
   }
+  private toUncFileUrl(input?: string | null): string {
+    if (!input) return '';
+
+    if (input.startsWith('file:///')) {
+      return 'file://srvhqtest02/' + input.replace(/^file:\/\/\//, '');
+    }
+
+    let p = input.replace(/\\/g, '/'); // D:\uploads\... -> D:/uploads/...
+    p = p.replace(/^[A-Za-z]:/, ''); // strip drive letter
+    if (!p.startsWith('/')) p = '/' + p; // ensure leading slash
+    return 'file://srvhqtest02' + p; // file://srvhqtest02/uploads/...
+  }
+
+  private encodeUrl(u: string): string {
+    return u ? encodeURI(u) : '';
+  }
+
   onSubmit(): void {
     if (this.formGroup.invalid) {
       // mark everything so the errors become visible
@@ -1109,5 +1399,222 @@ export class FormComponent implements OnInit, OnDestroy {
     }
     // bubble up to the parent
     this.submitForm.emit();
+  }
+
+  get communicationOfficersArray(): FormArray {
+    return this.formGroup.get('communicationOfficers') as FormArray;
+  }
+
+  get communicationContactPersonsArray(): FormArray {
+    return this.formGroup.get('communicationContactPersons') as FormArray;
+  }
+
+  get communicationAssetTypesArray(): FormArray {
+    return this.formGroup.get('communicationAssetTypes') as FormArray;
+  }
+
+  close() {
+    this.router.navigate([`/crm/clients/view-upload-documents/${this.id}`]);
+  }
+  closeNotificationGroups() {
+    this.router.navigate(['/lookups/view-notification-group-officers']);
+  }
+  navigateAssetCat() {
+    this.router.navigate(['/lookups/view-asset-type-categories']);
+  }
+  navigateCurrencies() {
+    this.router.navigate(['/lookups/view-currencies']);
+  }
+  navigateActionNGroup() {
+    this.router.navigate([
+      `/lookups/view-action-notificationGroups/${this.clientStatusActionIdParam}`,
+    ]);
+  }
+  removePreview(item: PreviewItem) {
+    // 1) UI list: remove only this item
+    const idxPrev = this.previews.findIndex((p) => p === item);
+    if (idxPrev > -1) {
+      URL.revokeObjectURL(this.previews[idxPrev].url);
+      this.previews.splice(idxPrev, 1);
+    }
+
+    // 2) Form control (File[])
+    const current: File[] = this.formGroup.get('file')?.value ?? [];
+    const next = current.filter((f) => f !== item.file);
+    this.formGroup.get('file')?.setValue(next);
+    this.formGroup.get('file')?.markAsDirty();
+    this.formGroup.get('file')?.updateValueAndValidity();
+
+    // 3) PrimeNG internal queue
+    if (this.fileUploader?.files) {
+      const i = this.fileUploader.files.findIndex(
+        (f) =>
+          f === item.file ||
+          (f.name === item.name &&
+            f.size === item.file.size &&
+            f.type === item.file.type)
+      );
+      if (i > -1) {
+        this.fileUploader.files.splice(i, 1);
+      }
+
+      // When nothing left, clear the native input and internal state
+      if (this.fileUploader.files.length === 0) {
+        this.fileUploader.clear(); // clears the input value & queue
+      }
+    }
+  }
+  onFileLinkClick(e: MouseEvent) {
+    // let the default <a> click happen; if the browser blocks it, we show a tip
+    window.setTimeout(() => {
+      this.messageService.add({
+        severity: 'info',
+        summary: 'If the file didn’t open',
+        detail:
+          'Your browser may block file:// links from a web app. Click "Copy path" and paste it in File Explorer.',
+        life: 8000,
+      });
+    }, 700);
+  }
+  navigateSign() {
+    this.router.navigate(['/organizations/view-signatory-officers']);
+  }
+  navigateAuthorization() {
+    this.router.navigate(['/lookups/view-authorization-group-officers']);
+  }
+  onPaymentPeriodChange(event: { originalEvent: Event; value: any }) {
+    // Because we removed optionValue, `event.value` is the full PaymentPeriod object
+    this.selectedPaymentPeriod = event.value;
+    this.selectionChangedPaymentPeriod.emit(this.selectedPaymentPeriod);
+    this.onChange(this.selectedPaymentPeriod);
+    console.log('Selected Payment Period:', this.selectedPaymentPeriod);
+  }
+  onGracePeriodUnitChange(event: { originalEvent: Event; value: any }) {
+    // event.value is the full object (has name, id, etc.)
+    this.selectedGracePeriodUnit = event.value;
+    this.selectionChangedGracePeriod.emit(this.selectedGracePeriodUnit);
+    this.onChange(this.selectedGracePeriodUnit);
+    console.log('Selected Grace Period Unit:', this.selectedGracePeriodUnit);
+  }
+  onCurrencyChange(event: { originalEvent: Event; value: any }) {
+    this.selectedCurrency = event.value;
+    this.selectionChangedCurrency.emit(this.selectedCurrency);
+    this.onChange(this.selectedCurrency);
+    console.log('Selected Currency:', this.selectedCurrency);
+  }
+  onCurrencyExchangeRateChange(event: { originalEvent: Event; value: any }) {
+    this.selectedCurrencyExchangeRate = event.value;
+    this.selectionChangedCurrencyExchange.emit(
+      this.selectedCurrencyExchangeRate
+    );
+    this.onChange(this.selectedCurrencyExchangeRate);
+    console.log('Selected Currency:', this.selectedCurrencyExchangeRate);
+  }
+
+  onInterestRateBenchmarkChange(event: { originalEvent: Event; value: any }) {
+    // event.value === the primitive ID (e.g. 10)
+    const selectedId = event.value;
+
+    // Find the full object from the array you passed in
+    const fullObj = this.interestRateBenchMarks?.find(
+      (b: any) => b.id === selectedId
+    );
+
+    // If you need to keep a local “selected” for template display,
+    // you could store the full object here:
+    this.selectedInterestRateBenchMarks = fullObj;
+
+    // Now emit the full object up to the parent
+    if (fullObj) {
+      this.selectionChangedRateBenchmark.emit(fullObj);
+      this.onChange(fullObj);
+    }
+
+    console.log('Selected Benchmark object:', fullObj);
+  }
+
+  onPaymentTimingTermChange(event: { originalEvent: Event; value: any }) {
+    // event.value === the primitive ID (e.g. 10)
+    const selectedId = event.value;
+    const fullObj = this.paymentTimeTerms?.find(
+      (b: any) => b.id === selectedId
+    );
+
+    this.selectedPaymentTimingTerm = fullObj;
+    if (fullObj) {
+      this.selectionChangedPaymentTimingTerm.emit(fullObj);
+      this.onChange(fullObj);
+    }
+    console.log('Selected Payment Term:', fullObj);
+  }
+  onRentStructureTypeChange(event: { originalEvent: Event; value: any }) {
+    // event.value === the primitive ID (e.g. 10)
+    const selectedId = event.value;
+    const fullObj = this.rentStructures?.find((b: any) => b.id === selectedId);
+
+    this.selectedRentStructureType = fullObj;
+    if (fullObj) {
+      this.selectionChangedRentStructure.emit(fullObj);
+      this.onChange(fullObj);
+    }
+    console.log('Selected selectionChangedRentStructure:', fullObj);
+  }
+  onPaymentMethodChange(event: { originalEvent: Event; value: any }) {
+    // event.value === the primitive ID (e.g. 10)
+    const selectedId = event.value;
+    const fullObj = this.paymentMethods?.find((b: any) => b.id === selectedId);
+
+    this.selectedPaymentMethod = fullObj;
+    if (fullObj) {
+      this.selectionChangedPaymentMethod.emit(fullObj);
+      this.onChange(fullObj);
+    }
+    console.log('Selected selectionChangedPaymentMethod:', fullObj);
+  }
+  onPaymentMonthDayChange(event: { originalEvent: Event; value: any }) {
+    // event.value === the primitive ID (e.g. 10)
+    const selectedId = event.value;
+    const fullObj = this.paymentMonthDays?.find(
+      (b: any) => b.id === selectedId
+    );
+
+    this.selectedPaymentMonthDay = fullObj;
+    if (fullObj) {
+      this.selectionChangedPaymentMonthDay.emit(fullObj);
+      this.onChange(fullObj);
+    }
+    console.log('Selected selectionChangedPaymentMonthDay:', fullObj);
+  }
+  onSelect(event: FileSelectEvent) {
+    const files: File[] = event.files ?? [];
+    const current: File[] = [...(this.formGroup.get('file')?.value ?? [])];
+
+    for (const file of files) {
+      const url = URL.createObjectURL(file);
+      const item: PreviewItem = { name: file.name, type: file.type, url, file };
+      if (file.type === 'application/pdf') {
+        item.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+      }
+      this.previews.push(item);
+      current.push(file);
+    }
+
+    this.formGroup.get('file')?.setValue(current);
+    this.formGroup.get('file')?.markAsDirty();
+    this.formGroup.get('file')?.updateValueAndValidity();
+  }
+
+  private setOperationBasedOnLanguage(): void {
+    this.operationField =
+      this.translate.currentLang === 'ar' ? 'nameAR' : 'name';
+  }
+  getLocalizedName(obj?: any): string {
+    if (!obj) return '';
+    return this.translate.currentLang === 'ar'
+      ? obj.nameAR ?? obj.name
+      : obj.name;
+  }
+  onNgModelChange(value: number) {
+    console.log('📊 [ngModelChange] selectedCurrencyExchangeRate →', value);
   }
 }

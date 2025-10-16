@@ -1,0 +1,30 @@
+<app-toolbar-form
+  [header]="
+    viewOnly
+      ? 'View Page Operation'
+      : editMode
+      ? 'Edit Page Operation'
+      : 'Add Page Operation'
+  "
+  [backExists]="true"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-form
+        *ngIf="addPageOperationORGForm"
+        [title]="'FORM.PAGE_OPERATION.TITLE'"
+        [description]="'FORM.PAGE_OPERATION.DESCRIPTION'"
+        [formGroup]="addPageOperationORGForm"
+        [addPageOperationORGForm]="true"
+        [editMode]="editMode"
+        [operationsList]="operationsList$ | async"
+        [pagesList]="pagesList$ | async"
+        (submitForm)="addOrEditPageOperation()"
+        [viewOnly]="viewOnly"
+      ></app-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

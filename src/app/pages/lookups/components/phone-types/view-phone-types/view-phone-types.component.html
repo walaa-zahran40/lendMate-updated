@@ -1,0 +1,47 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/PhoneTypes/Post'"
+    [title]="'Phone Types'"
+    [labelBtn]="'Add Phone Type'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddPhoneType()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="PhoneTypes$ | async as PhoneTypes">
+    <app-table
+      [viewPermission]="[
+        '/PhoneTypes/Get',
+        '/PhoneTypes/GetAll',
+        '/PhoneTypes/GetAllHistory'
+      ]"
+      [editPermission]="'/PhoneTypes/Put'"
+      [deletePermission]="'/PhoneTypes/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredPhoneType"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewPhoneTypesTable]="true"
+      (onDelete)="onDeletePhoneType($event)"
+      (onEdit)="onEditPhoneType($event)"
+      (viewForm)="onViewPhoneType($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

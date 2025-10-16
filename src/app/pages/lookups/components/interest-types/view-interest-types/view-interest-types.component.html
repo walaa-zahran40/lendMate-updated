@@ -1,0 +1,47 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/InterestTypes/Post'"
+    [title]="'Interest Types'"
+    [labelBtn]="'Add Interest Type'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddInterestType()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="interestTypes$ | async as interestTypes">
+    <app-table
+      [viewPermission]="[
+        '/InterestTypes/Get',
+        '/InterestTypes/GetAll',
+        '/InterestTypes/GetAllHistory'
+      ]"
+      [editPermission]="'/InterestTypes/Put'"
+      [deletePermission]="'/InterestTypes/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredInterestTypes"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewInterestTypesTable]="true"
+      (onDelete)="onDeleteInterestType($event)"
+      (onEdit)="onEditInterestType($event)"
+      (viewForm)="onViewInterestType($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

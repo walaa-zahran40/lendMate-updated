@@ -1,25 +1,29 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { ShareholdersState } from './client-share-holders.state';
+import { ClientShareHoldersState } from './client-share-holders.state';
 
-export const selectShareholdersState =
-  createFeatureSelector<ShareholdersState>('clientShareholders');
-export const selectShareholders = createSelector(
-  selectShareholdersState,
-  (state) => state.shareholders
+export const selectClientShareHoldersState =
+  createFeatureSelector<ClientShareHoldersState>('clientShareHolders');
+export const selectClientShareHolders = createSelector(
+  selectClientShareHoldersState,
+  (state) => state.items
 );
-export const selectAllShareholders = createSelector(
-  selectShareholdersState,
-  (state) => state.allShareholders
+export const selectClientShareHoldersTotal = createSelector(
+  selectClientShareHoldersState,
+  (state) => state.totalCount
 );
-export const selectShareholdersHistory = createSelector(
-  selectShareholdersState,
+export const selectClientShareHoldersHistory = createSelector(
+  selectClientShareHoldersState,
   (state) => state.history
 );
-export const selectLoading = createSelector(
-  selectShareholdersState,
+export const selectCurrentClientShareHolder = createSelector(
+  selectClientShareHoldersState,
+  (state) => state.current
+);
+export const selectClientShareHoldersLoading = createSelector(
+  selectClientShareHoldersState,
   (state) => state.loading
 );
-export const selectError = createSelector(
-  selectShareholdersState,
+export const selectClientShareHoldersError = createSelector(
+  selectClientShareHoldersState,
   (state) => state.error
 );

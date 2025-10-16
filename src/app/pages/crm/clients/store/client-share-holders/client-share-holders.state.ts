@@ -1,17 +1,19 @@
-import { Shareholder } from './client-share-holders.model';
+import { ClientShareHolder } from './client-share-holder.model';
 
-export interface ShareholdersState {
-  shareholders: Shareholder[];
-  allShareholders: Shareholder[];
-  history: any[];
+export interface ClientShareHoldersState {
+  items: ClientShareHolder[];
+  history: ClientShareHolder[];
+  current?: ClientShareHolder;
   loading: boolean;
   error: any;
+  totalCount: number;
 }
 
-export const initialShareholdersState: ShareholdersState = {
-  shareholders: [],
-  allShareholders: [],
+export const initialClientShareHoldersState: ClientShareHoldersState = {
+  items: [],
   history: [],
+  current: undefined,
   loading: false,
   error: null,
+  totalCount: 0,
 };

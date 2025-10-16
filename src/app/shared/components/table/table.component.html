@@ -1,3 +1,9 @@
+<div class="text-right mb-2" *ngIf="(selectedRows?.length || 0) > 1">
+  <button class="btn btn-danger" (click)="handleBulkDelete()">
+    Delete Selected
+    <!-- ({{ selectedRows.length }}) -->
+  </button>
+</div>
 <p-table
   selectionMode="multiple"
   responsiveLayout="stack"
@@ -6,10 +12,10 @@
   scrollHeight="flex"
   [paginator]="paginator"
   dataKey="id"
-  [rows]="20"
+  [rows]="110"
   [showCurrentPageReport]="true"
   [(selection)]="selectedRows"
-  [rowsPerPageOptions]="[5, 10, 15, 20]"
+  [rowsPerPageOptions]="[10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110]"
   [first]="first"
   filterMode="menu"
   [globalFilterFields]="globalFilterFields"
@@ -38,13 +44,23 @@
       <td *ngIf="checkBox" class="pt-0">
         <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
       </td>
-      <td *ngFor="let col of cols" class="pt-0">
+      <td
+        *ngFor="let col of cols"
+        class="pt-0 break-at-100"
+        [ngClass]="{
+          'value-true':
+            rowData[col.field] === true || rowData[col.field] === 'yes',
+          'value-false':
+            rowData[col.field] === false || rowData[col.field] === 'no'
+        }"
+      >
         <span class="p-column-title">{{ col.header }}</span>
         <ng-container [ngSwitch]="col.field">
           <!-- when it's your “Type” column, call getTypeLabel() -->
-          <span *ngSwitchCase="'clientTypeCode'">
+          <span *ngSwitchCase="'clientTypeCode'" class="label-table">
             {{ getTypeLabel(rowData.clientTypeCode) }}
           </span>
+
           <!-- otherwise just print the raw value -->
           <span *ngSwitchDefault>
             {{ rowData[col.field] }}
@@ -52,39 +68,96 @@
           <span *ngSwitchCase="'expiryDate'">
             {{ rowData[col.field] | date : "yyyy-MM-dd" }}
           </span>
+          <span *ngSwitchCase="'evaluationDate'">
+            {{ rowData[col.field] | date : "yyyy-MM-dd" }}
+          </span>
+          <span *ngSwitchCase="'lisenceStartDate'">
+            {{ rowData[col.field] | date : "yyyy-MM-dd" }}
+          </span>
+          <span *ngSwitchCase="'exchangeDate'">
+            {{ rowData[col.field] | date : "yyyy-MM-dd" }}
+          </span>
+          <span *ngSwitchCase="'startDate'">
+            {{ rowData[col.field] | date : "yyyy-MM-dd" }}
+          </span>
+          <span *ngSwitchCase="'actualDate'">
+            {{ rowData[col.field] | date : "yyyy-MM-dd" }}
+          </span>
+          <span *ngSwitchCase="'endDate'">
+            {{ rowData[col.field] | date : "yyyy-MM-dd" }}
+          </span>
+          <span *ngSwitchCase="'dueDate'">
+            {{ rowData[col.field] | date : "yyyy-MM-dd" }}</span
+          >
+          <span *ngSwitchCase="'isinitial'">
+            {{ rowData.isInitial ? "Yes" : "No" }}
+          </span>
+          <span *ngSwitchCase="'date'">
+            {{ rowData[col.field] | date : "yyyy-MM-dd" }}
+          </span>
+          <span *ngSwitchCase="'balanceSheetdate'">
+            {{ rowData[col.field] | date : "yyyy-MM-dd" }}
+          </span>
+          <span *ngSwitchCase="'dateAcquired'">
+            {{ rowData[col.field] | date : "yyyy-MM-dd" }}
+          </span>
+          <span *ngSwitchCase="'expireDate'">
+            {{ rowData[col.field] | date : "yyyy-MM-dd" }}
+          </span>
+          <span *ngSwitchCase="'genderId'">
+            {{ getGenderLabel(rowData.genderId) }}
+          </span>
         </ng-container>
       </td>
-      <!-- <td>{{ getTypeLabel(rowData.clientTypeCode) }}</td> -->
 
-      <td class="imgs pt-0">
+      <td class="imgs pt-0 break-at-100">
         <img
-          src="/assets/images/shared/table/edit.svg"
-          alt="edit"
+          src="/assets/images/shared/table/download.svg"
+          alt="download"
+          title="download"
           class="d-inline-block mx-2 my-2"
-          *ngIf="edit"
-          (click)="onEdit.emit(rowData)"
+          *ngIf="download"
+          (click)="onDownload.emit(rowData)"
         />
-        <img
-          src="/assets/images/shared/table/view.svg"
-          alt="view"
-          class="d-inline-block m-0"
-          *ngIf="view"
-          width="30px"
-          height="20px"
-          (click)="onView(rowData)"
-        />
-        <img
-          src="/assets/images/shared/table/delete.svg"
-          class="d-inline-block mx-2 my-2"
-          alt="delete"
-          *ngIf="delete"
-          (click)="logAndDelete(rowData.id)"
-        />
+        <ng-container *appHasPermission="editPermission">
+          <img
+            src="/assets/images/shared/table/edit.svg"
+            alt="edit"
+            title="edit"
+            class="d-inline-block mx-2 my-2"
+            (click)="onEdit.emit(rowData)"
+          />
+        </ng-container>
+        <ng-container *appHasPermission="viewPermission">
+          <img
+            src="/assets/images/shared/table/view.svg"
+            alt="view"
+            class="d-inline-block m-0"
+            width="30px"
+            title="view"
+            style="cursor: pointer"
+            height="20px"
+            (click)="onView(rowData)"
+          />
+        </ng-container>
+        <ng-container *appHasPermission="deletePermission">
+          <img
+            src="/assets/images/shared/table/delete.svg"
+            class="d-inline-block mx-2 my-2"
+            alt="delete"
+            title="delete"
+            (click)="logAndDelete(rowData.id)"
+          />
+        </ng-container>
         <img
           src="/assets/images/shared/table/side.svg"
           alt="side"
           class="d-inline-block mx-2 my-2"
-          *ngIf="side"
+          *ngIf="
+            side &&
+            (!viewLeasingMandateTable || rowData?.parentMandateId == null)
+          "
+          title="activities"
           (click)="wizardBtn.emit(rowData.id)"
         />
       </td>
@@ -96,6 +169,7 @@
     <div class="p-paginator-left"></div>
   </ng-template>
 </p-table>
+
 <div
   *ngIf="tableData?.length === 0 || !tableData"
   class="flex justify-content-center align-items-center"
@@ -105,8 +179,7 @@
     <img
       src="/assets/images/shared/table/notfound.jpg"
       alt="no data"
-      width="30%"
-      style="margin: 260px auto 0px auto"
+      [ngClass]="{ 'no-data': customTable }"
     />
     <h4 style="margin: 0">No Data Found</h4>
   </div>

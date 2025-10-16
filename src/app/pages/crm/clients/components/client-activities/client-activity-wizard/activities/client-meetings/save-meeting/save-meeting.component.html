@@ -1,0 +1,52 @@
+<div class="row row-toolbar w-100" style="zoom: 80%">
+  <div class="col-sm align-items-center d-flex back-col">
+    <img
+      src="/assets/images/shared/table/back.svg"
+      alt="back"
+      style="padding-left: 20px"
+      (click)="goBack()"
+    />
+    <span class="meeting-details">Meeting Details</span>
+  </div>
+  <div class="col-sm">
+    <h3 class="current-month">
+      <button class="btn" (click)="goPrev()">
+        <img src="/assets/images/calendar/prev.svg" alt="prev" />
+      </button>
+      {{ (currentMonth | monthYear) || "" }}
+      <button class="btn" (click)="goNext()">
+        <img src="/assets/images/calendar/next.svg" alt="next" />
+      </button>
+    </h3>
+  </div>
+  <div class="col-sm text-right">
+    <button
+      class="view"
+      (click)="changeView('day')"
+      [ngClass]="selectedView === 'day' ? 'selected' : 'view'"
+    >
+      Day
+    </button>
+    <button
+      class="view default"
+      (click)="changeView('week')"
+      [ngClass]="selectedView === 'week' ? 'selected' : 'view'"
+    >
+      Week
+    </button>
+    <button
+      class="view"
+      (click)="changeView('month')"
+      [ngClass]="selectedView === 'month' ? 'selected' : 'view'"
+    >
+      Month
+    </button>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 col-xl-12">
+      <full-calendar #calendar [options]="calendarOptions"></full-calendar>
+    </div>
+  </div>
+</div>

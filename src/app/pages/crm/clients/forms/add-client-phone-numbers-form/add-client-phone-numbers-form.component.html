@@ -1,0 +1,136 @@
+<div class="parent">
+  <div *ngIf="!contactPersonDetailsView" class="div1">
+    <h2 class="m-0 title">{{ title }}</h2>
+    <p class="tab-panel-paragraph">
+      {{ description }}
+    </p>
+    <p-button
+      *ngIf="addClientPhoneNumberForm"
+      icon="pi pi-cog"
+      label="View Phone Numbers"
+      icon="pi pi-cog"
+      (click)="viewPhoneNumber()"
+      class="custom-view m-0 float-right"
+    />
+  </div>
+  <div class="div2" [ngClass]="{ span: applyReusable }">
+    <form
+      *ngIf="addClientPhoneNumberForm"
+      (ngSubmit)="onSubmit()"
+      [formGroup]="formGroup"
+    >
+      <div formArrayName="createClientPhoneNumbers" class="mt-4">
+        <div
+          *ngFor="
+            let group of createClientPhoneNumbers?.controls;
+            let i = index;
+            trackBy: trackByIndex
+          "
+          [formGroupName]="i"
+          class="parent2-individual2 mt-2 flex items-start gap-2 align-items-center flex-wrap"
+        >
+          <label for="phoneTypeId"
+            >Select Phone Type<sup class="danger">*</sup></label
+          >
+          <!--Select Box-->
+          <p-select
+            [filter]="true"
+            filterBy="name"
+            [showClear]="true"
+            [options]="phoneTypes"
+            optionLabel="name"
+            placeholder="Select Phone type"
+            formControlName="phoneTypeId"
+            optionValue="id"
+            required
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+          >
+          </p-select>
+
+          <div
+            *ngIf="
+              group?.get('phoneTypeId')?.hasError('required') &&
+              group?.get('phoneTypeId')?.touched
+            "
+            class="p-error"
+          >
+            Phone Type is required.
+          </div>
+
+          <label for="phoneNumber"
+            >Phone Number <sup class="danger">*</sup></label
+          >
+          <input
+            pInputText
+            name="phoneNumber"
+            formControlName="phoneNumber"
+            placeholder="phoneNumber"
+            type="string"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+          />
+          <!-- 4) Add another Phone Number -->
+          <button
+            pButton
+            type="button"
+            icon="pi pi-plus"
+            class="p-button-outlined p-button-sm p-plus"
+            (click)="addPhoneNumber.emit()"
+            *ngIf="!viewOnly && !editMode"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+          ></button>
+
+          <!-- 5) Remove this Phone Number -->
+          <button
+            pButton
+            type="button"
+            icon="pi pi-trash"
+            class="p-button-danger p-button-sm p-remove"
+            *ngIf="
+              (createClientPhoneNumbers?.length ?? 0) > 1 &&
+              !viewOnly &&
+              !editMode
+            "
+            (click)="
+              removePhoneNumber.emit(i);
+              $event.stopPropagation();
+              $event.preventDefault()
+            "
+          ></button>
+        </div>
+      </div>
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 currenciesDiv"
+          *ngIf="!editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Add Phone Number"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Phone Number "
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0"
+        >
+          <p-button
+            label="Close"
+            class="custom-save m-0 float-right"
+            (click)="router.navigate([`/crm/clients/view-phone-numbers/${clientId}`])"
+          />
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

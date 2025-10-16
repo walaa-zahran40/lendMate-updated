@@ -1,0 +1,28 @@
+<app-toolbar-form
+  [header]="
+    viewOnly
+      ? 'View Leasing Type'
+      : editMode
+      ? 'Edit Leasing Type'
+      : 'Add Leasing Type'
+  "
+  [backExists]="true"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-form
+        *ngIf="addLeasingTypesLookupsForm"
+        [title]="'FORM.LEASING_TYPE.TITLE'"
+        [description]="'FORM.LEASING_TYPE.DESCRIPTION'"
+        [formGroup]="addLeasingTypesLookupsForm"
+        [addLeasingTypesLookupsForm]="true"
+        [editMode]="editMode"
+        (submitForm)="addOrEditLeasingTypes()"
+        [viewOnly]="viewOnly"
+      ></app-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

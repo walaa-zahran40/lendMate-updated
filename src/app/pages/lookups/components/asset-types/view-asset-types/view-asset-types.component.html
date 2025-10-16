@@ -1,0 +1,45 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/AssetTypes/Post'"
+    [title]="'Asset Types'"
+    [labelBtn]="'Add Asset Types'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddAssetType()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <app-table
+    [viewPermission]="[
+      '/AssetTypes/Get',
+      '/AssetTypes/GetAll',
+      '/AssetTypes/GetAllHistory'
+    ]"
+    [editPermission]="'/AssetTypes/Put'"
+    [deletePermission]="'/AssetTypes/Delete'"
+    #tableRef
+    (onBulkDelete)="onBulkDelete($event)"
+    [cols]="colsInside"
+    [tableData]="filteredAssetTypes"
+    [side]="false"
+    [first]="first2"
+    [checkBox]="true"
+    [filters]="showFilters"
+    [uppercase]="'uppercase'"
+    [viewAssetTypesTable]="true"
+    (onDelete)="onDeleteAssetType($event)"
+    (onEdit)="onEditAssetType($event)"
+    (viewForm)="onViewAssetType($event)"
+  ></app-table>
+  <app-delete-module
+    [visible]="showDeleteModal"
+    (confirm)="confirmDelete()"
+    (cancel)="cancelDelete()"
+  ></app-delete-module>
+</div>

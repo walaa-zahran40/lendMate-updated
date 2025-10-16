@@ -1,0 +1,47 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/SubSectors/Post'"
+    [title]="'Sub Sectors'"
+    [labelBtn]="'Add Sub Sector'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddSubSector()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="SubSectors$ | async as SubSectors">
+    <app-table
+      [viewPermission]="[
+        '/SubSectors/Get',
+        '/SubSectors/GetAll',
+        '/SubSectors/GetAllHistory'
+      ]"
+      [editPermission]="'/SubSectors/Put'"
+      [deletePermission]="'/SubSectors/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredSubSector"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewSubSectorsLookupsTable]="true"
+      (onDelete)="onDeleteSubSector($event)"
+      (onEdit)="onEditSubSector($event)"
+      (viewForm)="onViewSubSector($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

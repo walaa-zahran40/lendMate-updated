@@ -1,0 +1,27 @@
+<app-toolbar-form
+  [header]="
+    viewOnly
+      ? 'View Sales Turnover'
+      : editMode
+      ? 'Edit Sales Turnover'
+      : 'Add Sales Turnover'
+  "
+  [backExists]="true"
+  [backIcon]="'back-icon'"
+  [viewOnly]="false"
+></app-toolbar-form
+><p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-form
+        [title]="'FORM.CLIENT_SALES_TURNOVER.TITLE'"
+        [description]="'FORM.CLIENT_SALES_TURNOVER.DESCRIPTION'"
+        [addSalesTurnoverForm]="true"
+        [formGroup]="addSalesTurnoverForm"
+        (submitForm)="addOrEditClientSalesTurnover()"
+        [editMode]="editMode"
+        [viewOnly]="viewOnly"
+      ></app-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

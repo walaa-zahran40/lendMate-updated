@@ -1,0 +1,146 @@
+<div class="parent" [ngClass]="{ 'parent-custom': currencyCustom }">
+  <div *ngIf="!contactPersonDetailsView" class="div1">
+    <h2 class="m-0 title" [ngClass]="{ 'title-custom': financialCustom }">
+      {{ title | translate }}
+    </h2>
+    <p
+      class="tab-panel-paragraph"
+      [ngClass]="{
+        'paragraph-custom': financialCustom,
+        'p-custom': currencyCustom
+      }"
+    >
+      {{ description | translate }}
+    </p>
+    <p-button
+      *ngIf="addAgreementShowFeeForm"
+      [label]="'BUTTONS.VIEW_AGREEMENT_DETAILS' | translate"
+      icon="pi pi-cog"
+      (click)="viewAgreementDetails()"
+      class="custom-view m-0 float-right"
+    />
+  </div>
+  <div class="div2" [ngClass]="{ span: applyReusable }">
+    <form
+      [formGroup]="formGroup"
+      *ngIf="addAgreementShowFeeForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <div formArrayName="agreementFees">
+        <div
+          *ngFor="let group of agreementFees?.controls; let i = index"
+          [formGroupName]="i"
+          class="parent2-individual2 mt-2 flex items-start gap-4 align-items-center flex-wrap"
+        >
+          <!-- 1) Fee Type -->
+          <div class="div-number flex-1 min-w-0">
+            <label for="feeTypeId"
+              >{{ "FORM.AGREEMENT.LABEL_FEE_TYPE" | translate
+              }}<sup>*</sup></label
+            >
+            <p-select
+              [filter]="true"
+              [filterBy]="filterByField"
+              [showClear]="true"
+              [options]="feeTypes || []"
+              formControlName="feeTypeId"
+              optionValue="id"
+              [optionLabel]="optionLabelKey"
+              [placeholder]="
+                'FORM.AGREEMENT.PLACEHOLDER_SELECT_FEE_TYPE' | translate
+              "
+              required
+              [ngClass]="{
+                'ng-invalid':
+                  formGroup.get('feeTypeId')?.invalid &&
+                  (formGroup.get('feeTypeId')?.dirty ||
+                    formGroup.get('feeTypeId')?.touched)
+              }"
+            />
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('feeTypeId')?.invalid &&
+                group.get('feeTypeId')?.touched
+              "
+            >
+              {{ "FORM.AGREEMENT.ERROR_FEE_TYPE_REQUIRED" | translate }}
+            </small>
+            <label for="actualAmount"
+              >{{ "FORM.AGREEMENT.LABEL_ACTUAL_AMOUNT" | translate
+              }}<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="actualAmount"
+              aria-describedby="actualAmount-help"
+              name="actualAmount"
+              [placeholder]="
+                'FORM.AGREEMENT.PLACEHOLDER_ACTUAL_AMOUNT' | translate
+              "
+              type="number"
+              formControlName="actualAmount"
+            />
+
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('actualAmount')?.invalid &&
+                group.get('actualAmount')?.touched
+              "
+            >
+              {{ "FORM.AGREEMENT.ERROR_ACTUAL_AMOUNT_REQUIRED" | translate }}
+            </small>
+            <label for="actualPercentage"
+              >{{ "FORM.AGREEMENT.LABEL_ACTUAL_PERCENTAGE" | translate
+              }}<sup>*</sup></label
+            >
+            <input
+              pInputText
+              id="actualPercentage"
+              aria-describedby="actualPercentage-help"
+              name="actualPercentage"
+              [placeholder]="
+                'FORM.AGREEMENT.PLACEHOLDER_ACTUAL_PERCENTAGE' | translate
+              "
+              type="number"
+              formControlName="actualPercentage"
+            />
+            <small
+              class="p-error d-block"
+              *ngIf="
+                group.get('actualPercentage')?.invalid &&
+                group.get('actualPercentage')?.touched
+              "
+            >
+              {{
+                "FORM.AGREEMENT.ERROR_ACTUAL_PERCENTAGE_REQUIRED" | translate
+              }}
+            </small>
+          </div>
+          <!-- 4) Add another Fee  -->
+          <button
+            pButton
+            type="button"
+            icon="pi pi-plus"
+            class="p-button-outlined p-button-sm p-plus"
+            (click)="addFee.emit()"
+            *ngIf="!viewOnly"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+          ></button>
+
+          <!-- 5) Remove this Fee  -->
+          <button
+            pButton
+            type="button"
+            icon="pi pi-trash"
+            class="p-button-danger p-button-sm p-remove"
+            *ngIf="agreementFees.length > 1 && !viewOnly"
+            (click)="removeFee.emit(i)"
+            [ngClass]="viewOnly ? 'disabled' : 'enabled'"
+          ></button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

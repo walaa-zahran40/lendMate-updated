@@ -4,16 +4,12 @@
       <p-avatar
         image="/assets/images/shared/navbar/toggle.svg"
         (click)="toggleMenu()"
+        *ngIf="username"
       />
-      <div>
-        <p class="welcome">Welcome</p>
+      <div *ngIf="username">
+        <p class="welcome">{{ "NAVBAR.WELCOME" | translate }}</p>
         <p class="name">
-          <span>Mohamed Yasser</span>
-          <img
-            src="/assets/images/shared/navbar/arrow-bottom.svg"
-            alt="arrow-bottom"
-            class="d-inline-block"
-          />
+          <span>{{ username }}</span>
         </p>
       </div>
     </div>
@@ -27,16 +23,34 @@
       >
         <ng-template #handle let-checked="checked">
           <i [ngClass]="['!text-xs', 'pi', checked ? 'moon' : 'sun']"></i>
-          <span class="text-toggle">{{ checked ? "Dark" : "Light" }}</span>
+          <span class="text-toggle">{{
+            checked ? ("NAVBAR.DARK" | translate) : ("NAVBAR.LIGHT" | translate)
+          }}</span>
         </ng-template>
       </p-toggleswitch>
     </div>
-    <p class="language">العربيه</p>
-    <p-avatar
+    <p
+      class="language-ar"
+      *ngIf="currentLang !== 'en'"
+      (click)="switchLang('en')"
+    >
+      &nbsp;&nbsp;&nbsp;{{ "NAVBAR.ENGLISH" | translate }}&nbsp;&nbsp;&nbsp;
+    </p>
+
+    <p
+      class="language-en"
+      *ngIf="currentLang !== 'ar'"
+      (click)="switchLang('ar')"
+    >
+      &nbsp;&nbsp;&nbsp;{{ "NAVBAR.ARABIC" | translate }}&nbsp;&nbsp;&nbsp;
+    </p>
+    <!-- <p-avatar
+      *ngIf="loginDisplay"
       image="/assets/images/shared/navbar/notification-selected.svg"
       (click)="showDialog()"
     />
     <p-dialog
+      *ngIf="loginDisplay"
       [(visible)]="displayPopup"
       [modal]="true"
       [closable]="true"
@@ -45,6 +59,12 @@
       (onHide)="hideDialog()"
     >
       <app-notification></app-notification>
-    </p-dialog>
+    </p-dialog> -->
+    <span *ngIf="loginDisplay" class="btn btn-secondary" (click)="logout()"
+      ><i
+        class="pi pi-sign-out"
+        pTooltip="{{ 'NAVBAR.SIGN_OUT' | translate }}"
+      ></i
+    ></span>
   </ng-template>
 </p-toolbar>

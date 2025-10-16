@@ -1,0 +1,38 @@
+<app-toolbar-form
+  [header]="
+    viewOnly
+      ? ('CALL.HEADER_VIEW' | translate)
+      : editMode
+      ? ('CALL.HEADER_EDIT' | translate)
+      : ('CALL.HEADER_ADD' | translate)
+  "
+  [backExists]="true"
+  [backIcon]="'back-icon'"
+  [viewOnly]="false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-add-call-form
+        [description]="'CALL.DESCRIPTION' | translate"
+        [addCallForm]="true"
+        [clientsList]="clients$ | async"
+        [callTypes]="callTypes$ | async"
+        [callActionTypes]="callActionTypes$ | async"
+        [communicationFlowTypes]="communicationFlowTypes$ | async"
+        [formGroup]="addCallForm"
+        (submitForm)="addOrEditCall()"
+        [editMode]="editMode"
+        [contactPersons]="contactPersons$ | async"
+        [officersList]="officers$ | async"
+        [viewOnly]="viewOnly"
+        (removeCommunicationContactPerson)="
+          removeCommunicationContactPerson($event)
+        "
+        (addCommunicationContactPerson)="addCommunicationContactPerson()"
+        (removeCommunicationOfficer)="removeCommunicationOfficer($event)"
+        (addCommunicationOfficer)="addCommunicationOfficer()"
+      ></app-add-call-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

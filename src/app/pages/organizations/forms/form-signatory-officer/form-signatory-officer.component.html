@@ -1,0 +1,97 @@
+<div class="parent" [ngClass]="{ 'parent-custom': currencyCustom }">
+  <div *ngIf="!contactPersonDetailsView" class="div1">
+    <h2 class="m-0 title" [ngClass]="{ 'title-custom': financialCustom }">
+      {{ title | translate }}
+    </h2>
+    <p
+      class="tab-panel-paragraph"
+      [ngClass]="{
+        'paragraph-custom': financialCustom,
+        'p-custom': currencyCustom
+      }"
+    >
+      {{ description | translate }}
+    </p>
+    <p-button
+      *ngIf="addSignatoryOfficerORGForm"
+      icon="pi pi-cog"
+      [label]="'BUTTONS.VIEW_SIGNATORY_OFFICER' | translate"
+      (click)="viewSignatoryOfficer()"
+      class="custom-view m-0 float-right"
+    />
+  </div>
+  <div class="div2" [ngClass]="{ span: applyReusable }">
+    <form
+      [formGroup]="formGroup"
+      *ngIf="addSignatoryOfficerORGForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="startDate">
+        {{ "AUTH_GROUP.START_DATE" | translate }}<sup class="danger">*</sup>
+      </label>
+      <shared-date-picker formControlName="startDate" inputId="startDate">
+      </shared-date-picker>
+      <br />
+      <label for="officerId">Officer<sup>*</sup></label>
+      <p-select
+        [filter]="true"
+        [filterBy]="filterByField"
+        [showClear]="true"
+        [options]="officersList"
+        [optionLabel]="optionLabelKey"
+        placeholder="Select officer"
+        formControlName="officerId"
+        optionValue="id"
+        (onChange)="onSectorChange($event)"
+        required
+        [ngClass]="{
+          'ng-invalid':
+            formGroup.get('officerId')?.invalid &&
+            (formGroup.get('officerId')?.dirty ||
+              formGroup.get('officerId')?.touched)
+        }"
+      />
+      <div class="p-field" for="isActive" *ngIf="editMode">
+        <p-toggleSwitch
+          id="isActive"
+          formControlName="isActive"
+          label="is Active"
+        ></p-toggleSwitch>
+        <label for="isActive"> Current</label>
+      </div>
+      <div class="row justify-end">
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 subSectorsDiv"
+          *ngIf="!editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Add Signatory Officer"
+            [disabled]="formGroup.invalid"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 subSectorsDiv"
+          *ngIf="editMode && !viewOnly"
+        >
+          <p-button
+            type="submit"
+            label="Edit Signatory Officer"
+            class="custom-save m-0 float-right"
+          ></p-button>
+        </div>
+        <div
+          *ngIf="viewOnly"
+          class="col-sm-12 mt-4 col-md-6 d-flex justify-end m-0 sectorsDiv"
+        >
+          <p-button
+            [label]="'BUTTONS.CLOSE' | translate"
+            class="custom-save m-0 float-right"
+            (click)="navigateSign()"
+          ></p-button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<app-toolbar-form
+  [header]="
+    viewOnly
+      ? 'View Company Type'
+      : editMode
+      ? 'Edit Company Type'
+      : 'Add Company Type'
+  "
+  [backExists]="true"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-form
+        *ngIf="addCompanyTypesLookupsForm"
+        [title]="'FORM.COMPANY_TYPE.TITLE'"
+        [description]="'FORM.COMPANY_TYPE.DESCRIPTION'"
+        [formGroup]="addCompanyTypesLookupsForm"
+        [addCompanyTypesLookupsForm]="true"
+        [editMode]="editMode"
+        (submitForm)="addOrEditCompanyTypes()"
+        [viewOnly]="viewOnly"
+      ></app-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

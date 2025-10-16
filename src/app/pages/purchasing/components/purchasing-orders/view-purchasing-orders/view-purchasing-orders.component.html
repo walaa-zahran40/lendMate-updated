@@ -1,0 +1,59 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/Meetings/Post'"
+    [title]="'Purchasing Orders'"
+    [labelBtn]="'Add Purchasing Order'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddPurchasingOrder()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="purchasingOrders$ | async as purchasingOrders">
+    <app-table
+      [viewPermission]="[
+        '/Meetings/Get',
+        '/Meetings/GetAll',
+        '/Meetings/GetAllHistory'
+      ]"
+      [editPermission]="'/Meetings/Put'"
+      [deletePermission]="'/Meetings/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredPurchasingOrders"
+      [side]="true"
+      [first]="first2"
+      [download]="true"
+      (onDownload)="onDownloadClick($event)"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewPurchasingOrdersTable]="true"
+      (onDelete)="onDeletePurchasingOrder($event)"
+      (onEdit)="onEditPurchasingOrder($event)"
+      (viewForm)="onViewPurchasingOrder($event)"
+      (wizardBtn)="onAddSide($event)"
+    ></app-table>
+    <app-download-popup-purchasing-orders
+      *ngIf="showDownloadPopup"
+      (close)="onPopupClose()"
+      (download)="onPopupDownload($event)"
+      [purchaseOrderId]="selectedRowForDownload?.id ?? 0"
+      [purchaseOrderNumber]="selectedRowForDownload?.number ?? undefined"
+    >
+      ></app-download-popup-purchasing-orders
+    >
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

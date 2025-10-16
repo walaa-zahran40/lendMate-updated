@@ -1,0 +1,28 @@
+<app-toolbar-form
+  [header]="
+    viewOnly
+      ? 'View Department Manager'
+      : editMode
+      ? 'Edit Department Manager'
+      : 'Add Department Manager'
+  "
+  [backExists]="true"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-form
+        [title]="'FORM.DEPARTMENT_MANAGER.TITLE'"
+        [description]="'FORM.DEPARTMENT_MANAGER.DESCRIPTION'"
+        [addDepartmentManagerORGForm]="true"
+        [officersList]="officers"
+        [formGroup]="addDepartmentManagerForm"
+        (submitForm)="addOrEditDepartmentManager()"
+        [editMode]="editMode"
+        [viewOnly]="viewOnly"
+      ></app-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

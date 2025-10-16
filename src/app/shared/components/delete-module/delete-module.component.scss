@@ -18,7 +18,7 @@
     .p-dialog {
       width: 25%;
       zoom: 70%;
-      background: var(--white-color-add);
+      background: var(--white-color-add) !important;
     }
     button {
       width: 50%;
@@ -33,7 +33,7 @@
       font-family: "jakarta";
       font-size: 27.077px;
       font-style: normal;
-      font-weight: 700;
+      font-weight: 500;
       line-height: 150%; /* 40.615px */
     }
     .p-button-success,
@@ -47,8 +47,20 @@
       font-family: "jakarta";
       font-size: 27.077px;
       font-style: normal;
-      font-weight: 700;
+      font-weight: 500;
       line-height: 150%; /* 40.615px */
+    }
+    .p-dialog-footer {
+      [dir="ltr"] & {
+        display: flex;
+        flex-direction: row;
+      }
+
+      // flipped RTL layout
+      [dir="rtl"] & {
+        display: flex;
+        flex-direction: row;
+      }
     }
   }
 }

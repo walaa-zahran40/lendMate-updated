@@ -1,0 +1,47 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Operations'"
+    [addPermission]="'/Operations/Post'"
+    [labelBtn]="'Add Operation'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddOperation()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="operations$ | async as operations">
+    <app-table
+      [viewPermission]="[
+        '/Operations/Get',
+        '/Operations/GetAll',
+        '/Operations/GetAllHistory'
+      ]"
+      [editPermission]="'/Operations/Put'"
+      [deletePermission]="'/Operations/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredOperations"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewOperationsTable]="true"
+      (onDelete)="onDeleteOperation($event)"
+      (onEdit)="onEditOperation($event)"
+      (viewForm)="onViewOperation($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

@@ -1,0 +1,47 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/PaymentTypes/Post'"
+    [title]="'Payment Types'"
+    [labelBtn]="'Add Payment Type'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddPaymentType()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="PaymentTypes$ | async as PaymentTypes">
+    <app-table
+      [viewPermission]="[
+        '/PaymentTypes/Get',
+        '/PaymentTypes/GetAll',
+        '/PaymentTypes/GetAllHistory'
+      ]"
+      [editPermission]="'/PaymentTypes/Put'"
+      [deletePermission]="'/PaymentTypes/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredPaymentType"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewPaymentTypesTable]="true"
+      (onDelete)="onDeletePaymentType($event)"
+      (onEdit)="onEditPaymentType($event)"
+      (viewForm)="onViewPaymentType($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

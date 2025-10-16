@@ -1,0 +1,47 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/Governorates/Post'"
+    [title]="'Governorates'"
+    [labelBtn]="'Add Governorate'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddGovernorate()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="governorates$ | async as governorates">
+    <app-table
+      [viewPermission]="[
+        '/Governorates/Get',
+        '/Governorates/GetAll',
+        '/Governorates/GetAllHistory'
+      ]"
+      [editPermission]="'/Governorates/Put'"
+      [deletePermission]="'/Governorates/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredGovernorates"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewGovernerateTable]="true"
+      (onDelete)="onDeleteGovernorate($event)"
+      (onEdit)="onEditGovernorate($event)"
+      (viewForm)="onViewGovernorate($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

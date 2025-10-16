@@ -1,19 +1,24 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { ComponentsModule } from './components/components.module';
-import { DirectivesModule } from './directives/directives.module';
 import { ServicesModule } from './services/services.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { DirectivesModule } from './directives/directives.module';
+import { MonthYearPipe } from './components/pipes/month-year.pipe';
 
 @NgModule({
+  declarations: [],
+
   imports: [
     CommonModule,
     ComponentsModule,
-    DirectivesModule,
     ServicesModule,
-
     ReactiveFormsModule,
+    MonthYearPipe,
+    DirectivesModule,
   ],
-  exports: [ComponentsModule, DirectivesModule, ServicesModule],
+  providers: [DatePipe],
+
+  exports: [ComponentsModule, ServicesModule, DirectivesModule, MonthYearPipe],
 })
 export class SharedModule {}

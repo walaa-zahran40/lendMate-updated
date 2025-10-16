@@ -1,0 +1,29 @@
+<app-toolbar-form
+  [header]="
+    viewOnly
+      ? 'View Phone Number'
+      : editMode
+      ? 'Edit Phone Number'
+      : 'Add Phone Number'
+  "
+  [backExists]="true"
+  [viewOnly]="false"
+  [backIcon]="'back-icon'"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-add-client-phone-numbers-form
+        [description]="'Client Phone Number'"
+        [addClientPhoneNumberForm]="true"
+        [phoneTypes]="phoneTypes$ | async"
+        [formGroup]="addClientPhoneNumberForm"
+        (submitForm)="addOrEditClientPhoneNumber()"
+        [editMode]="editMode"
+        [viewOnly]="viewOnly"
+        (removePhoneNumber)="removePhoneNumber($event)"
+        (addPhoneNumber)="addPhoneNumber()"
+      ></app-add-client-phone-numbers-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

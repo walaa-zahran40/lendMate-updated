@@ -1,0 +1,43 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Pages'"
+    [addPermission]="'/Pages/Post'"
+    [labelBtn]="'Add Page'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddPage()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="pages$ | async as pages">
+    <app-table
+      [viewPermission]="['/Pages/Get', '/Pages/GetAll', '/Pages/GetAllHistory']"
+      [editPermission]="'/Pages/Put'"
+      [deletePermission]="'/Pages/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredPages"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewPagesTable]="true"
+      (onDelete)="onDeletePage($event)"
+      (onEdit)="onEditPage($event)"
+      (viewForm)="onViewPage($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

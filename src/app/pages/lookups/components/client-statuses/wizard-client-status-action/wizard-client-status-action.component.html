@@ -1,0 +1,32 @@
+<div class="container-fluid my-4">
+  <app-toolbar-card
+    [title]="'Client Statue Actions Activity'"
+    [backExists]="true"
+    [backIcon]="'back-icon'"
+    [btnExists]="false"
+    (searchKeyword)="onSearchClientStatusAction($event)"
+  ></app-toolbar-card>
+  <div
+    class="row w-100 gap-5 mx-auto"
+    [ngClass]="{
+        'gap-4': row.length === 1||row.length === 2,
+      }"
+    *ngFor="let row of cards"
+  >
+    <div
+      class="col-sm p-0 width-auto"
+      *ngFor="let card of row"
+      [ngClass]="{
+            'col-sm-4': row.length === 1||row.length === 2,
+          }"
+    >
+      <app-card
+        [imgUrl]="card.imgUrl"
+        [imgAlt]="card.imgAlt"
+        [title]="card.title"
+        (navigation)="navigateTo(card.link)"
+        [content]="card.content"
+      ></app-card>
+    </div>
+  </div>
+</div>

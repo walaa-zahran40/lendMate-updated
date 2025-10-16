@@ -17,6 +17,12 @@
   .pi-ico6:before {
     content: url(/assets/icons/Ico6.svg);
   }
+  .menu-item:not(:disabled) {
+    color: #7c8493;
+  }
+  .menu-item:not(:disabled):hover {
+    color: #7c8493;
+  }
   .pi-settings:before {
     content: url(/assets/icons/settings.svg);
   }
@@ -31,6 +37,9 @@
   }
   .pi-lookUps:before {
     content: url(/assets/icons/lookUps.svg);
+  }
+  .p-panelmenu-item:read-write {
+    background: var(--side-internal);
   }
   .pi-organizations:before {
     content: url(/assets/icons/organizations.svg);
@@ -52,7 +61,7 @@
     width: fit-content;
     display: flex;
     align-self: center;
-    margin-left: -20px;
+    margin-left: 0;
     top: 30px;
     position: absolute;
   }
@@ -61,7 +70,7 @@
     border: 0;
     width: 100%;
     display: flex;
-    justify-content: left;
+    justify-content: center;
     padding: 10px;
     margin: 0;
     overflow: visible;
@@ -91,7 +100,7 @@
   .p-button:not(:disabled):hover {
     background: #e9ebfd !important;
     border: 0 !important;
-    color: inherit;
+    color: inherit !important;
   }
   button.menu-button.p-button.p-component.p-button-icon-only.active {
     background: var(--hover-side);

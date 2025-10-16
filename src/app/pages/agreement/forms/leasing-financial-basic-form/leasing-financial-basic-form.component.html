@@ -1,0 +1,315 @@
+<div class="parent" [ngClass]="{ 'parent-custom': currencyCustom }">
+  <div *ngIf="!contactPersonDetailsView" class="div1">
+    <h2 class="m-0 title" [ngClass]="{ 'title-custom': financialCustom }">
+      {{ title | translate }}
+    </h2>
+    <p
+      class="tab-panel-paragraph"
+      [ngClass]="{
+        'paragraph-custom': financialCustom,
+        'p-custom': currencyCustom
+      }"
+    >
+      {{ description | translate }}
+    </p>
+  </div>
+  <div class="div2" [ngClass]="{ span: applyReusable }">
+    <form
+      [formGroup]="formGroup"
+      *ngIf="leasingFinancialBasicForm"
+      id="leasingFinancialBasicForm"
+    >
+      <div class="row w-100">
+        <div class="col-sm">
+          <label for="assetCost">
+            {{ "LEASE.ASSET_COST" | translate }}<sup>*</sup>
+          </label>
+          <br />
+          <p-inputNumber
+            formControlName="assetCost"
+            [placeholder]="'LEASE.ASSET_COST' | translate"
+            class="w-100"
+            name="assetCost"
+          ></p-inputNumber
+          ><br />
+          <small
+            *ngIf="
+              formGroup.get('assetCost')?.invalid &&
+              formGroup.get('assetCost')?.touched
+            "
+            class="p-error"
+          >
+            {{ "LEASE.ASSET_COST_REQUIRED" | translate }}
+          </small>
+        </div>
+        <div class="col-sm">
+          <label for="downPayment"
+            >{{ "LEASE.DOWN_PAYMENT" | translate }}<sup>*</sup></label
+          >
+          <br />
+          <p-inputNumber
+            formControlName="downPayment"
+            name="downPayment"
+            class="w-100"
+            [placeholder]="'LEASE.DOWN_PAYMENT' | translate"
+          ></p-inputNumber
+          ><br />
+
+          <small
+            *ngIf="
+              formGroup.get('downPayment')?.invalid &&
+              formGroup.get('downPayment')?.touched
+            "
+            class="p-error"
+          >
+            {{ "LEASE.DOWN_PAYMENT_REQUIRED" | translate }}
+          </small>
+        </div>
+      </div>
+      <div class="row w-100">
+        <div class="col-sm">
+          <label for="percentOfFinance"
+            >{{ "LEASE.PERCENT_FINANCE" | translate }}<sup>*</sup>
+          </label>
+          <br />
+          <p-inputNumber
+            formControlName="percentOfFinance"
+            suffix="%"
+            mode="decimal"
+            class="w-100"
+            [min]="10"
+            [max]="100"
+            [minFractionDigits]="2"
+            [maxFractionDigits]="2"
+            name="percentOfFinance"
+            [placeholder]="'LEASE.PERCENT_FINANCE' | translate"
+          ></p-inputNumber
+          ><br />
+          <small
+            *ngIf="
+              formGroup.get('percentOfFinance')?.invalid &&
+              formGroup.get('percentOfFinance')?.touched
+            "
+            class="p-error"
+          >
+            {{ "LEASE.PERCENT_FINANCE_REQUIRED" | translate }}
+          </small>
+        </div>
+        <div class="col-sm">
+          <label for="nfa">{{ "LEASE.NFA" | translate }}<sup>*</sup></label>
+          <br />
+          <p-inputNumber
+            formControlName="nfa"
+            [placeholder]="'LEASE.NFA' | translate"
+            class="w-100"
+            name="nfa"
+          ></p-inputNumber
+          ><br />
+          <small
+            *ngIf="
+              formGroup.get('nfa')?.invalid && formGroup.get('nfa')?.touched
+            "
+            class="p-error"
+          >
+            {{ "LEASE.NFA_REQUIRED" | translate }}
+          </small>
+        </div>
+      </div>
+      <div class="row w-100">
+        <div class="col-sm">
+          <label for="years">{{ "LEASE.YEARS" | translate }}<sup>*</sup></label
+          ><br />
+          <p-inputNumber
+            formControlName="years"
+            class="w-100"
+            name="years"
+            [placeholder]="'LEASE.YEARS' | translate"
+          ></p-inputNumber
+          ><br />
+          <small
+            *ngIf="
+              formGroup.get('years')?.invalid && formGroup.get('years')?.touched
+            "
+            class="p-error"
+          >
+            {{ "LEASE.YEARS_REQUIRED" | translate }}
+          </small>
+        </div>
+        <div class="col-sm">
+          <label for="firstBookingDate">First Booking Date<sup>*</sup></label>
+          <shared-date-picker formControlName="firstBookingDate" inputId="date">
+          </shared-date-picker>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm">
+          <p-toggleSwitch
+            id="isRentInArrear"
+            formControlName="isRentInArrear"
+            label="is Rent in Arrear?"
+          ></p-toggleSwitch>
+          &nbsp;<label for="isRentInArrear"> Is Rent in Arrear?</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm">
+          <p-toggleSwitch
+            id="isFixedContractEnd"
+            formControlName="isFixedContractEnd"
+            label="is Fixed Contract End?"
+          ></p-toggleSwitch>
+          &nbsp;<label for="isFixedContractEnd"> Is Fixed Contract End?</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm">
+          <p-toggleSwitch
+            id="isFixedRent"
+            formControlName="isFixedRent"
+            label="is Fixed Rent?"
+          ></p-toggleSwitch>
+          &nbsp;<label for="isFixedRent"> Is Fixed Rent?</label>
+        </div>
+      </div>
+    </form>
+    <form
+      *ngIf="leasingFinancialRateForm"
+      id="leasingFinancialRateForm"
+      [formGroup]="formGroup"
+    >
+      <div class="row w-100">
+        <div class="col-sm">
+          <label for="interestRate"
+            >{{ "LEASE.INTEREST_RATE" | translate }}<sup>*</sup></label
+          ><br />
+          <p-inputNumber
+            formControlName="interestRate"
+            [placeholder]="'LEASE.INTEREST_RATE' | translate"
+            suffix="%"
+            class="w-100"
+            mode="decimal"
+            [min]="0"
+            [minFractionDigits]="2"
+            [maxFractionDigits]="2"
+          ></p-inputNumber
+          ><br />
+          <small
+            *ngIf="
+              formGroup.get('interestRate')?.invalid &&
+              formGroup.get('interestRate')?.touched
+            "
+            class="p-error"
+          >
+            {{ "LEASE.INTEREST_RATE_REQUIRED" | translate }}
+          </small>
+        </div>
+        <div class="col-sm">
+          <label for="insuranceRate"
+            >{{ "LEASE.INSURANCE_RATE" | translate }}<sup>*</sup></label
+          ><br />
+          <p-inputNumber
+            formControlName="insuranceRate"
+            suffix="%"
+            mode="decimal"
+            [min]="0"
+            [minFractionDigits]="2"
+            [maxFractionDigits]="2"
+            [placeholder]="'LEASE.INSURANCE_RATE' | translate"
+            class="w-100"
+          ></p-inputNumber
+          ><br />
+          <small
+            *ngIf="
+              formGroup.get('insuranceRate')?.invalid &&
+              formGroup.get('insuranceRate')?.touched
+            "
+            class="p-error"
+          >
+            {{ "LEASE.INSURANCE_RATE_REQUIRED" | translate }}
+          </small>
+        </div>
+      </div>
+      <div class="row w-100">
+        <div class="col-sm">
+          <label for="paymentPeriodId"
+            >{{ "LEASE.PAYMENT_PERIOD" | translate }}<sup>*</sup></label
+          >
+          <p-select
+            [filter]="true"
+            [filterBy]="filterByField"
+            [showClear]="true"
+            [options]="paymentPeriods"
+            [(ngModel)]="selectedPaymentPeriod"
+            formControlName="paymentPeriodId"
+            optionValue="id"
+            [optionLabel]="optionLabelKey"
+            class="w-100"
+            name="paymentPeriodId"
+            [placeholder]="'LEASE.PAYMENT_PERIOD' | translate"
+            (onChange)="onPaymentPeriodChange($event)"
+          /><br />
+          <small
+            *ngIf="
+              formGroup.get('paymentPeriodId')?.invalid &&
+              formGroup.get('paymentPeriodId')?.touched
+            "
+            class="p-error"
+          >
+            {{ "LEASE.PAYMENT_PERIOD_REQUIRED" | translate }}
+          </small>
+        </div>
+        <div class="col-sm">
+          <label for="gracePeriodInDays" class="label-container"
+            >{{ "FORM.MANDATE.LABEL_GRACE_PERIOD_DAYS" | translate
+            }}<sup>*</sup></label
+          >
+
+          <input
+            type="number"
+            formControlName="gracePeriodInDays"
+            placeholder="{{
+              'FORM.MANDATE.PLACEHOLDER_GRACE_PERIOD_DAYS' | translate
+            }}"
+            pInputText
+          />
+
+          <small
+            class="p-error d-block"
+            *ngIf="
+              formGroup.get('gracePeriodInDays')?.invalid &&
+              formGroup.get('gracePeriodInDays')?.touched
+            "
+          >
+            {{ "FORM.MANDATE.ERROR_GRACE_PERIOD_DAYS_REQUIRED" | translate }}
+          </small>
+        </div>
+      </div>
+      <div class="row w-100">
+        <div class="col-sm">
+          <div class="col-sm">
+            <label for="tenor"
+              >{{ "LEASE.TENOR" | translate }} <sup>*</sup></label
+            ><br />
+            <p-inputNumber
+              formControlName="tenor"
+              [min]="1"
+              class="w-100"
+              [placeholder]="'LEASE.TENOR' | translate"
+              name="tenor"
+            ></p-inputNumber
+            ><br />
+            <small
+              *ngIf="
+                formGroup.get('tenor')?.invalid &&
+                formGroup.get('tenor')?.touched
+              "
+              class="p-error"
+            >
+              {{ "LEASE.TENOR_REQUIRED" | translate }}
+            </small>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

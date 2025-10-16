@@ -1,0 +1,47 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/ClientStatusActions/Post'"
+    [title]="'Client Status Actions'"
+    [labelBtn]="'Add Client Status Action'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddClientStatusAction()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+  <ng-container *ngIf="clientStatusActions$ | async as clientStatusActions">
+    <app-table
+      [viewPermission]="[
+        '/ClientStatusActions/Get',
+        '/ClientStatusActions/GetAll',
+        '/ClientStatusActions/GetAllHistory'
+      ]"
+      [editPermission]="'/ClientStatusActions/Put'"
+      [deletePermission]="'/ClientStatusActions/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredClientStatusActions"
+      [side]="true"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewClientStatusActionsTable]="true"
+      (onDelete)="onDeleteClientStatusActionId($event)"
+      (onEdit)="onEditClientStatusAction($event)"
+      (wizardBtn)="onAddSide($event)"
+      (viewForm)="onViewClientStatusAction($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

@@ -1,0 +1,27 @@
+<app-toolbar-form
+  [backExists]="true"
+  [backIcon]="'back-icon'"
+  [viewOnly]="false"
+  [header]="
+    viewOnly
+      ? 'View Legal Form Law'
+      : editMode
+      ? 'Edit Legal Form Law'
+      : 'Add Legal Form Law'
+  "
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-add-legal-form-laws
+        [description]="'Legal Form Laws'"
+        [addLegalFormLawsForm]="true"
+        [formGroup]="addLegalFormLawsForm"
+        (submitForm)="addOrEditLegalFormLaw()"
+        [editMode]="editMode"
+        [viewOnly]="viewOnly"
+      ></app-add-legal-form-laws>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

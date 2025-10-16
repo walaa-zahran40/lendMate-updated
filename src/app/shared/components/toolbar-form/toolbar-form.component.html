@@ -1,5 +1,3 @@
-<!--toolbar-->
-
 <p-toolbar styleClass="mb-6  p-3">
   <ng-template #start>
     <p class="client">
@@ -15,17 +13,43 @@
         *ngIf="closeExists"
         (click)="onCloseClick()"
       ></p-button>
-      {{ header }}
-      <span class="badge badge-warning" *ngIf="!viewOnly">Pending</span>
+      <p-button
+        icon="{{ closeIcon }}"
+        styleClass="closeIcon"
+        *ngIf="close2Exists"
+        (click)="onClose2Click()"
+      ></p-button>
+      {{ header | translate }}
+      <!-- <span class="badge badge-warning" *ngIf="!viewOnly && !editMode"
+        >Pending</span
+      > -->
     </p>
   </ng-template>
 
   <ng-template #end>
+    <!-- ✅ Correct -->
     <p-splitButton
+      [label]="selectedActionLabel || ('WORKFLOW.ACTIONS' | translate)"
+      icon="pi pi-cog"
+      [model]="workFlowItems"
+      appendTo="body"
+    >
+      <!-- *ngIf="!viewOnly" -->
+    </p-splitButton>
+
+    <!-- <p-splitButton
       label="Workflow Actions"
-      [model]="items"
+      [model]="items2"
       class="work-actions"
       *ngIf="!viewOnly"
-    />
+    /> -->
   </ng-template>
 </p-toolbar>
+<app-workflow-dialog
+  [selectedActionLabel]="selectedActionLabel"
+  [selectedActionId]="selectedActionId"
+  [comment]="comment"
+  [(visible)]="showCommentDialog"
+  (onSaveAction)="submitWorkflowAction($event)"
+>
+</app-workflow-dialog>

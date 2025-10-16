@@ -1,0 +1,47 @@
+<div class="page-content">
+  <app-toolbar-table
+    [addPermission]="'/ContactPersons/Post'"
+    [title]="'Client Contact Persons'"
+    [labelBtn]="'Add Contact Person'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddClientContactPerson()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="clientContactPersons$ | async as clientContactPersons">
+    <app-table
+      [viewPermission]="[
+        '/ContactPersons/Get',
+        '/ContactPersons/GetAll',
+        '/ContactPersons/GetAllHistory'
+      ]"
+      [editPermission]="'/ContactPersons/Put'"
+      [deletePermission]="'/ContactPersons/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredClientContactPersons"
+      [side]="false"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewSalesTurnoverTable]="true"
+      (onDelete)="onDeleteClientContactPerson($event)"
+      (onEdit)="onEditClientContactPerson($event)"
+      (viewForm)="onViewClientContactPerson($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

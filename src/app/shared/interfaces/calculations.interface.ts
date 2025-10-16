@@ -1,13 +1,14 @@
 export interface Calculation {
-  code: number;
+  code?: any;
   paymentNumber?: number;
-  dueDate?: Date;
+  dueDate?: any;
   balanceBefore?: number;
   balanceAfter?: number;
   insuranceOutcome?: number;
   principal?: number;
   installment?: number;
   interest?: number;
-  nameEN: string;
-  nameAR: string;
+  nameEN?: string;
+  nameAR?: string;
+  insuranceRate?: any;
 }

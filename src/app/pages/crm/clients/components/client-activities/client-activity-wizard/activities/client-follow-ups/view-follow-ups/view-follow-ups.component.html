@@ -1,0 +1,48 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="' Followup'"
+    [labelBtn]="'Add  Followup'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [addPermission]="'/Followups/Post'"
+    [exports]="true"
+    (addBtn)="onAddFollowup()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="followups$ | async as followups">
+    <app-table
+      [viewPermission]="[
+        '/Followups/Get',
+        '/Followups/GetAll',
+        '/Followups/GetAllHistory'
+      ]"
+      [editPermission]="'/Followups/Put'"
+      [deletePermission]="'/Followups/Delete'"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredFollowups"
+      [side]="true"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewFollowupTable]="true"
+      (wizardBtn)="onAddSide($event)"
+      (onDelete)="onDeleteFollowup($event)"
+      (onEdit)="onEditFollowup($event)"
+      (viewForm)="onViewFollowup($event)"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

@@ -1,0 +1,48 @@
+<div class="page-content">
+  <app-toolbar-table
+    [title]="'Meetings'"
+    [labelBtn]="'Add Meeting'"
+    [iconBtn]="'plus-icon'"
+    [backIcon]="'back-icon'"
+    [backExists]="true"
+    [customSpacing]="'custom-spacing'"
+    [exports]="true"
+    (addBtn)="onAddMeeting()"
+    (searchChange)="onSearch($event)"
+    (toggleFiltersEvent)="onToggleFilters($event)"
+    (exportExcel)="tableRef.exportToExcel()"
+    (exportPDF)="tableRef.generatePdf()"
+    [addPermission]="'/Meetings/Post'"
+  ></app-toolbar-table>
+
+  <ng-container *ngIf="meetings$ | async as meetings">
+    <app-table
+      [viewPermission]="[
+        '/Meetings/Get',
+        '/Meetings/GetAll',
+        '/Meetings/GetAllHistory'
+      ]"
+      #tableRef
+      (onBulkDelete)="onBulkDelete($event)"
+      [cols]="colsInside"
+      [tableData]="filteredMeetings"
+      [side]="true"
+      [first]="first2"
+      [checkBox]="true"
+      [filters]="showFilters"
+      [uppercase]="'uppercase'"
+      [viewMeetingsTable]="true"
+      (wizardBtn)="onAddSide($event)"
+      (onDelete)="onDeleteMeeting($event)"
+      (onEdit)="onEditMeeting($event)"
+      (viewForm)="onViewMeeting($event)"
+      [editPermission]="'/Meetings/Put'"
+      [deletePermission]="'/Meetings/Delete'"
+    ></app-table>
+    <app-delete-module
+      [visible]="showDeleteModal"
+      (confirm)="confirmDelete()"
+      (cancel)="cancelDelete()"
+    ></app-delete-module>
+  </ng-container>
+</div>

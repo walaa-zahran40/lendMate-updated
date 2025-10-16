@@ -1,59 +1,70 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CommunicationRoutingModule } from './communication-routing.module';
-import { AddMeetingComponent } from './add-meeting/add-meeting.component';
 import { ButtonModule } from 'primeng/button';
 import { TabsModule } from 'primeng/tabs';
 import { SharedModule } from '../../shared/shared.module';
-import { AddFollowUpsComponent } from './add-follow-ups/add-follow-ups.component';
-import { AddFollowUpsPointsComponent } from './add-follow-ups-points/add-follow-ups-points.component';
-import { AddMeetingTypesComponent } from './add-meeting-types/add-meeting-types.component';
-import { AddCallComponent } from './add-call/add-call.component';
-import { AddCallTypesComponent } from './add-call-types/add-call-types.component';
-import { AddFollowupTypesComponent } from './add-followup-types/add-followup-types.component';
-import { ViewMeetingsComponent } from './view-meetings/view-meetings.component';
-import { WizardComponent } from './wizard/wizard.component';
-import { ViewOfficersComponent } from './view-officers/view-officers.component';
-import { ViewContactPersonsComponent } from './view-contact-persons/view-contact-persons.component';
-import { ViewAssestTypeComponent } from './view-assest-type/view-assest-type.component';
-import { ViewFollowUpsComponent } from './view-follow-ups/view-follow-ups.component';
-import { ViewFollowUpPointsComponent } from './view-follow-up-points/view-follow-up-points.component';
-import { ViewMeetingTypesComponent } from './view-meeting-types/view-meeting-types.component';
-import { ViewCallComponent } from './view-call/view-call.component';
-import { ViewCallTypesComponent } from './view-call-types/view-call-types.component';
-import { SaveMeetingComponent } from './save-meeting/save-meeting.component';
+import { AddFollowupsComponent } from '../crm/clients/components/client-activities/client-activity-wizard/activities/client-follow-ups/add-follow-ups/add-follow-ups.component';
+import { ViewFollowupsComponent } from '../crm/clients/components/client-activities/client-activity-wizard/activities/client-follow-ups/view-follow-ups/view-follow-ups.component';
+import { SaveMeetingComponent } from '../crm/clients/components/client-activities/client-activity-wizard/activities/client-meetings/save-meeting/save-meeting.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarModule } from 'primeng/calendar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DialogModule } from 'primeng/dialog';
+import { AddCallsComponent } from '../crm/clients/components/client-activities/client-activity-wizard/activities/client-calls/add-calls/add-calls.component';
+import { ViewCallsComponent } from '../crm/clients/components/client-activities/client-activity-wizard/activities/client-calls/view-calls/view-calls.component';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { CallsEffects } from './store/calls/calls.effects';
+import { callsReducer } from './store/calls/calls.reducer';
+import { WizardCommunicationComponent } from './components/wizard-communication/wizard-communication.component';
+import { meetingsReducer } from './store/meetings/meetings.reducer';
+import { MeetingsEffects } from './store/meetings/meetings.effects';
+import { AddMeetingsComponent } from '../crm/clients/components/client-activities/client-activity-wizard/activities/client-meetings/add-meetings/add-meetings.component';
+import { ViewMeetingsComponent } from '../crm/clients/components/client-activities/client-activity-wizard/activities/client-meetings/view-meetings/view-meetings.component';
+import { followupsReducer } from './store/followups/followups.reducer';
+import { FollowupsEffects } from './store/followups/followups.effects';
+import { AddFollowupPointsComponent } from '../crm/clients/components/client-activities/client-activity-wizard/activities/client-follow-up-points/add-follow-up-points/add-follow-up-points.component';
+import { ViewFollowupPointsComponent } from '../crm/clients/components/client-activities/client-activity-wizard/activities/client-follow-up-points/view-follow-up-points/view-follow-up-points.component';
+import { followupPointsReducer } from './store/followup-points/followup-points.reducer';
+import { FollowupPointsEffects } from './store/followup-points/followup-points.effects';
+import { WizardFollowupsComponent } from './components/wizard-followups/wizard-followups.component';
+import { WizardMeetingComponent } from '../crm/clients/components/client-activities/client-activity-wizard/activities/client-meetings/wizard-meeting/wizard-meeting.component';
+import { meetingsCalendarReducer } from './store/meetings/calendar/meetings.reducer';
+import { MeetingsCalendarEffects } from './store/meetings/calendar/meetings.effects';
+import { ViewMeetingsSideMenuComponent } from './components/meetings/view-meetings/view-meetings-sidemenu.component';
+import { SelectModule } from 'primeng/select';
+import { DatePickerModule } from 'primeng/datepicker';
+import { DebugControlDirective } from '../../shared/directives/debug-control.directive';
+import { AddMeetingsSideMenuComponent } from './components/meetings/add-meetings/add-meetings-sidemenu.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
-    AddMeetingComponent,
-    AddFollowUpsComponent,
-    AddFollowUpsPointsComponent,
-    AddMeetingTypesComponent,
-    AddCallComponent,
-    AddCallTypesComponent,
-    AddFollowupTypesComponent,
+    AddFollowupsComponent,
+    AddFollowupPointsComponent,
+    DebugControlDirective,
+    AddCallsComponent,
+    AddMeetingsComponent,
     ViewMeetingsComponent,
-    WizardComponent,
-    ViewOfficersComponent,
-    ViewContactPersonsComponent,
-    ViewAssestTypeComponent,
-    ViewFollowUpsComponent,
-    ViewFollowUpPointsComponent,
-    ViewMeetingTypesComponent,
-    ViewCallComponent,
-    ViewCallTypesComponent,
+    ViewFollowupsComponent,
+    ViewFollowupPointsComponent,
+    ViewCallsComponent,
+    ViewMeetingsComponent,
     SaveMeetingComponent,
+    WizardCommunicationComponent,
+    WizardMeetingComponent,
+    WizardFollowupsComponent,
+    AddMeetingsSideMenuComponent,
+    ViewMeetingsSideMenuComponent,
   ],
   imports: [
     CommonModule,
     CommunicationRoutingModule,
     SharedModule,
     TabsModule,
+    TranslateModule,
     ButtonModule,
     FullCalendarModule,
     CheckboxModule,
@@ -61,15 +72,31 @@ import { DialogModule } from 'primeng/dialog';
     FormsModule,
     ReactiveFormsModule,
     DialogModule,
+    SelectModule,
+    DatePickerModule,
+    StoreModule.forFeature('calls', callsReducer),
+    EffectsModule.forFeature([CallsEffects]),
+
+    StoreModule.forFeature('meetings', meetingsReducer),
+    EffectsModule.forFeature([MeetingsEffects]),
+
+    StoreModule.forFeature('meetingsCalendar', meetingsCalendarReducer),
+    EffectsModule.forFeature([MeetingsCalendarEffects]),
+
+    StoreModule.forFeature('followups', followupsReducer),
+    EffectsModule.forFeature([FollowupsEffects]),
+
+    StoreModule.forFeature('followupPoints', followupPointsReducer),
+    EffectsModule.forFeature([FollowupPointsEffects]),
   ],
   exports: [
-    AddMeetingComponent,
-    AddFollowUpsComponent,
-    AddFollowUpsPointsComponent,
-    AddMeetingTypesComponent,
-    AddCallComponent,
-    AddCallTypesComponent,
-    AddFollowupTypesComponent,
+    AddFollowupsComponent,
+    AddFollowupPointsComponent,
+    AddCallsComponent,
+    AddMeetingsComponent,
+    AddMeetingsSideMenuComponent,
+    ViewMeetingsSideMenuComponent,
+    DebugControlDirective,
   ],
 })
 export class CommunicationModule {}

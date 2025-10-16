@@ -17,7 +17,7 @@
   --custom-border: none;
   --custom-background-transparent: transparent;
   --custom-flex-direction: row-reverse;
-  --custom-font-weight: 700;
+  --custom-font-weight: 500;
   --custom-font-weight-600: 600;
   --custom-font-weight-400: 400;
   --custom-font-size-24: 24px;
@@ -50,13 +50,10 @@
   --custom-justify-content-between: space-between;
   --custom-flex-direction-row-reverse: row-reverse;
   h2 {
-    font-family: var(--custom-font-family-regular);
-    font-weight: var(--custom-font-weight-600);
     font-size: var(--custom-size-16);
     line-height: var(--custom-line-height-25);
   }
   p.client {
-    font-family: var(--custom-font-family);
     font-weight: var(--custom-font-weight);
     color: var(--filter-text);
     font-size: var(--custom-font-size-24);
@@ -69,8 +66,9 @@
     font-size: 30px;
   }
   .tab-panel-paragraph {
-    font-family: var(--custom-font-family-regular);
-    font-weight: var(--custom-font-weight-400);
+    font-weight: 600;
+
+    font-weight: var(--custom-font-weight-600);
     font-size: var(--custom-size-16);
     line-height: var(--custom-line-height-25);
     color: var(--custom-grey);
@@ -79,8 +77,6 @@
     display: var(--custom-display);
     flex-direction: var(--custom-flex-direction);
     label {
-      font-family: var(--custom-font-family-regular);
-      font-weight: var(--custom-font-weight-600);
       font-size: var(--custom-size-16);
       line-height: var(--custom-line-height-25);
       color: var(--custom-grey-bold);
@@ -101,6 +97,9 @@
     .p-tabs {
       padding: var(--custom-padding-right-10);
     }
+    .p-splitbutton:hover {
+      background: transparent !important;
+    }
     .p-button {
       background: var(--p-tabs-active-bar-background);
       border-radius: var(--custom-size-8);
@@ -109,7 +108,7 @@
       padding-bottom: var(--custom-size-8);
       padding-left: var(--custom-size-16);
       border: var(--custom-border);
-      font-family: var(--custom-font-family-regular);
+
       font-weight: var(--custom-font-weight);
       font-size: var(--custom-font-size-13);
       line-height: var(--custom-font-size-24);
@@ -163,7 +162,6 @@
       border: 1px solid var(--custom-color);
       font-family: var(--custom-font-family-epilogue);
       font-size: var(--custom-font-size-14);
-      font-weight: var(--custom-font-weight-600);
       margin-bottom: var(--custom-margin-bottom-5);
       line-height: var(--custom-line-height-25);
       border-width: var(--custom-border-width);
@@ -185,6 +183,7 @@
     .backIcon {
       border: none !important;
     }
+
     .backIcon {
       border-radius: 0 !important;
       border: none !important;
@@ -201,11 +200,9 @@
       background: transparent !important;
     }
     .p-button:not(:disabled):hover {
-      background-color: var(--bg-transparent) !important;
+      background-color: var(--border-white) !important;
     }
     .p-tab {
-      font-family: var(--custom-font-family);
-      font-weight: var(--custom-font-weight-600);
       font-size: var(--custom-size-16);
       line-height: var(--custom-line-height-25);
       color: var(--custom-grey);
@@ -213,6 +210,11 @@
     .p-tab-active {
       border-color: var(--p-tabs-active-bar-background);
       color: var(--p-tabs-active-bar-background);
+    }
+    .p-splitbutton-button.p-button,
+    .p-button:not(:disabled) {
+      background: var(--border-white) !important;
+      color: #000 !important;
     }
     .p-inputtext {
       color: var(--custom-grey-bold);
@@ -242,8 +244,8 @@
       background: var(--custom-color-white);
       padding-left: var(--custom-size-12);
       border-radius: var(--custom-margin-0);
-      font-family: var(--custom-font-family-regular);
-      font-weight: var(--custom-font-weight-400);
+
+      font-weight: var(--custom-font-weight-600);
       font-size: var(--custom-size-16);
       line-height: var(--custom-line-height-25);
       color: var(--p-tabs-active-bar-background);
@@ -269,7 +271,10 @@
       color: var(--p-tabs-active-bar-background);
       border: none;
       border-radius: 0px;
+      margin-top: 0 !important;
+      padding: 12px 10px 12px 16px !important;
     }
+
     .work-actions .p-button:not(:disabled):hover {
       background: transparent !important;
       color: var(--p-tabs-active-bar-background);
@@ -296,7 +301,7 @@
         font-family: "poppins-bold", sans-serif;
         font-size: 24px;
         font-style: normal;
-        font-weight: 700;
+        font-weight: 500;
         line-height: 120%; /* 28.8px */
         margin-top: 10px;
       }
@@ -351,5 +356,11 @@
         padding: 10px !important;
       }
     }
+  }
+}
+:host::ng-deep {
+  html[dir="rtl"] .back-icon {
+    transform: rotate(180deg);
+    display: inline-block; /* needed for transform to work on pseudo-element */
   }
 }

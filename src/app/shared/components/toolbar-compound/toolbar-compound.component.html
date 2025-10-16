@@ -2,25 +2,24 @@
   <div class="row">
     <div class="col-sm">
       <p class="purple">
-        <strong>76</strong> <span>Total Installments</span>
-        <img src="/assets/images/shared/toolbar-compound/side.svg" alt="side" />
+        <strong>{{ totalInstallments | number : "1.0-0" }}</strong>
+        <span>Total Installments</span>
       </p>
     </div>
     <div class="col-sm">
       <p class="green">
-        <strong>3</strong>
+        <strong>{{ totalInterest | number : "1.0-0" }}</strong>
         <span>Total Interest </span>
-        <img src="/assets/images/shared/toolbar-compound/side.svg" alt="side" />
       </p>
     </div>
     <div class="col-sm">
       <p class="blue">
-        <strong>24</strong> <span>Total Rent</span>
-        <img src="/assets/images/shared/toolbar-compound/side.svg" alt="side" />
+        <strong>{{ totalRent | number : "1.0-0" }}</strong>
+        <span>Total Rent</span>
       </p>
     </div>
     <div class="col-sm-5 d-flex justify-content-end">
-      <p-floatlabel variant="in">
+      <!-- <p-floatlabel variant="in">
         <p-datepicker
           [(ngModel)]="dateRange"
           inputId="dateRange"
@@ -31,7 +30,7 @@
           (onSelect)="updateLabel()"
         ></p-datepicker>
         <label for="dateRange">{{ dateRangeLabel }}</label>
-      </p-floatlabel>
+      </p-floatlabel> -->
     </div>
   </div>
 </div>

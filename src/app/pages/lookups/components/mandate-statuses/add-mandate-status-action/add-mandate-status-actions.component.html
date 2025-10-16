@@ -1,0 +1,30 @@
+<app-toolbar-form
+  [header]="
+    viewOnly
+      ? 'View Mandate Status Action'
+      : editMode
+      ? 'Edit Mandate Status Action'
+      : 'Add Mandate Status Action'
+  "
+  [backExists]="true"
+  [backIcon]="'back-icon'"
+  [viewOnly]="editMode ? true : false"
+></app-toolbar-form>
+<p-tabs value="0" styleClass="p-3">
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <app-form
+        *ngIf="addMandateStatusActionsLookupsForm"
+        [title]="'FORM.MANDATE_STATUS_ACTIONS.TITLE'"
+        [description]="'FORM.MANDATE_STATUS_ACTIONS.DESCRIPTION'"
+        [formGroup]="addMandateStatusActionsLookupsForm"
+        [addMandateStatusActionsLookupsForm]="true"
+        [editMode]="editMode"
+        [statusList]="statusList$ | async"
+        [workflowActionTypeList]="workflowActionTypeList$ | async"
+        (submitForm)="addOrEditMandateStatusActions()"
+        [viewOnly]="viewOnly"
+      ></app-form>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>
